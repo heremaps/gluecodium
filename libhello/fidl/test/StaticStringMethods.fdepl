@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./StaticStringMethods.fidl"
 
-define navigation.BaseApiSpec for interface test.StaticStringMethods
+define TranspilerExtensions for interface test.StaticStringMethods
 {
     method returnInputString {
         Static = true

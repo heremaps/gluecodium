@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./StaticTypedef.fidl"
 
-define navigation.BaseApiSpec for interface test.StaticTypedef
+define TranspilerExtensions for interface test.StaticTypedef
 {
     method returnIntTypedef {
         Static = true

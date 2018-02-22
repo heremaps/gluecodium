@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./HelloWorldListeners.fidl"
 
-define navigation.BaseApiSpec for interface hello.CalculatorFactory
+define TranspilerExtensions for interface hello.CalculatorFactory
 {
     method createCalculator {
         Static = true

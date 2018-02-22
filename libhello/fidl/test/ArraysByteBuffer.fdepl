@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./ArraysByteBuffer.fidl"
 
-define navigation.BaseApiSpec for interface test.ArraysByteBuffer
+define TranspilerExtensions for interface test.ArraysByteBuffer
 {
     method methodWithByteBuffer {
         Static = true

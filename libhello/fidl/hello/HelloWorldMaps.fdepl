@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./HelloWorldMaps.fidl"
 
-define navigation.BaseApiSpec for interface hello.HelloWorldMaps
+define TranspilerExtensions for interface hello.HelloWorldMaps
 {
     method methodWithMap {
         Static = true

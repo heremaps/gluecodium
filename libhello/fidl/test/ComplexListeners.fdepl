@@ -9,15 +9,15 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./ComplexListeners.fidl"
 
-define navigation.BaseApiSpec for interface test.ComplexListener
+define TranspilerExtensions for interface test.ComplexListener
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface test.ComplexListenerFactory
+define TranspilerExtensions for interface test.ComplexListenerFactory
 {
     method createComplexNotifier {
         Static = true

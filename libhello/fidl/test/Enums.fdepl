@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Enums.fidl"
 
-define navigation.BaseApiSpec for interface test.Enums
+define TranspilerExtensions for interface test.Enums
 {
     method flipEnumValue {
         Static = true

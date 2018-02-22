@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./HelloWorldStaticLogger.fidl"
 
-define navigation.BaseApiSpec for interface hello.HelloWorldStaticLogger
+define TranspilerExtensions for interface hello.HelloWorldStaticLogger
 {
     method getLog {
         Static = true

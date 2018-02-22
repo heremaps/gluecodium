@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./StaticByteArrayMethods.fidl"
 
-define navigation.BaseApiSpec for interface test.StaticByteArrayMethods
+define TranspilerExtensions for interface test.StaticByteArrayMethods
 {
     method returnInputByteBuffer {
         Static = true

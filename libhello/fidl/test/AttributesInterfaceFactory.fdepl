@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./AttributesInterfaceFactory.fidl"
 
-define navigation.BaseApiSpec for interface test.AttributesInterfaceFactory
+define TranspilerExtensions for interface test.AttributesInterfaceFactory
 {
     method createAttributesInterface {
         Static = true

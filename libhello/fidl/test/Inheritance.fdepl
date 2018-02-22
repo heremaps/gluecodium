@@ -9,44 +9,44 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Inheritance.fidl"
 
-define navigation.BaseApiSpec for interface test.ParentInterface
+define TranspilerExtensions for interface test.ParentInterface
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface test.ChildClass
+define TranspilerExtensions for interface test.ChildClass
 {
     method createChildClass {
         Static = true
     }
 }
 
-define navigation.BaseApiSpec for interface test.GrandchildClass
+define TranspilerExtensions for interface test.GrandchildClass
 {
     method createGrandchildClass {
         Static = true
     }
 }
 
-define navigation.BaseApiSpec for interface test.RootInterface
+define TranspilerExtensions for interface test.RootInterface
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface test.ChildInterface
+define TranspilerExtensions for interface test.ChildInterface
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface test.AnotherChildInterface
+define TranspilerExtensions for interface test.AnotherChildInterface
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface test.InheritanceTestHelper
+define TranspilerExtensions for interface test.InheritanceTestHelper
 {
     method callRootMethod {
         Static = true

@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./HelloWorldPlainDataStructures.fidl"
 
-define navigation.BaseApiSpec for interface hello.HelloWorldPlainDataStructures
+define TranspilerExtensions for interface hello.HelloWorldPlainDataStructures
 {
     method methodWithNonNestedType {
         Static = true

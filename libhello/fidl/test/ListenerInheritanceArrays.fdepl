@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./ListenerInheritanceArrays.fidl"
 
-define navigation.BaseApiSpec for interface test.Teacher
+define TranspilerExtensions for interface test.Teacher
 {
     method talkToParents {
         Static = true

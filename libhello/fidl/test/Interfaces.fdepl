@@ -9,25 +9,25 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Interfaces.fidl"
 
-define navigation.BaseApiSpec for interface test.SimpleInterfaceOne
+define TranspilerExtensions for interface test.SimpleInterfaceOne
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface test.SimpleInterfaceTwo
+define TranspilerExtensions for interface test.SimpleInterfaceTwo
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface test.NestedInterfaceOne
+define TranspilerExtensions for interface test.NestedInterfaceOne
 {
     IsInterface = true
 }
 
-define navigation.BaseApiSpec for interface test.NestedInterfaceTwo
+define TranspilerExtensions for interface test.NestedInterfaceTwo
 {
     IsInterface = true
 }

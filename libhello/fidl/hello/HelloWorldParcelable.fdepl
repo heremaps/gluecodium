@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./HelloWorldParcelable.fidl"
 
-define navigation.BaseApiSpec for typeCollection hello.HelloWorldParcelable
+define TranspilerExtensions for typeCollection hello.HelloWorldParcelable
 {
     struct State {
         Serializable = true

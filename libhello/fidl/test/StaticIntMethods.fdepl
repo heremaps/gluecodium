@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./StaticIntMethods.fidl"
 
-define navigation.BaseApiSpec for interface test.StaticIntMethods
+define TranspilerExtensions for interface test.StaticIntMethods
 {
     method returnNextNumberInt8 {
         Static = true
