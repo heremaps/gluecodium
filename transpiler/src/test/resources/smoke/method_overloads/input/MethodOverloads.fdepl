@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./MethodOverloads.fidl"
 
-define navigation.BaseApiSpec for interface smoke.MethodOverloads
+define TranspilerExtensions for interface smoke.MethodOverloads
 {
     method isBoolean:constOverload {
         Const = true

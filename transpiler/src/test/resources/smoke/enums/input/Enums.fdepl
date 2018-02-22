@@ -2,10 +2,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Enums.fidl"
 
-define navigation.BaseApiSpec for interface smoke.Enums
+define TranspilerExtensions for interface smoke.Enums
 {
     method methodWithEnumeration {
         Static = true
@@ -24,7 +24,7 @@ define navigation.BaseApiSpec for interface smoke.Enums
     }
 }
 
-define navigation.BaseApiSpec for interface smoke.EnumsInTypeCollectionInterface
+define TranspilerExtensions for interface smoke.EnumsInTypeCollectionInterface
 {
     method flipEnumValue {
         Static = true

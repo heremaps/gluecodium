@@ -44,7 +44,7 @@ public abstract class GeneratorSuite {
       FrancaDeploymentModel deploymentModel, List<FTypeCollection> typeCollections);
 
   public static String getSpecPath() {
-    return "classpath:/franca/spec/BaseApiSpec.fdepl";
+    return "classpath:/TranspilerExtensions.fdepl";
   }
 
   /** Creates a new instance of a generator suite by its short identifier */

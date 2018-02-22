@@ -9,7 +9,7 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Defaults.fidl"
 
 define Defaults for interface smoke.DefaultValues
@@ -33,7 +33,7 @@ define Defaults for interface smoke.DefaultValues
     }
 }
 
-define navigation.BaseApiSpec for interface smoke.DefaultValues
+define TranspilerExtensions for interface smoke.DefaultValues
 {
     method processStructWithDefaults {
         Static = true

@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Arrays.fidl"
 
-define navigation.BaseApiSpec for interface examples.Arrays
+define TranspilerExtensions for interface examples.Arrays
 {
     method explicitArrayMethod {
         Static = true

@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Instance.fidl"
 
-define navigation.BaseApiSpec for interface foo.Bar
+define TranspilerExtensions for interface foo.Bar
 {
   IsInterface = true
 }

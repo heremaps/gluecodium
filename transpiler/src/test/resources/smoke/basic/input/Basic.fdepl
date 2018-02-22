@@ -9,10 +9,10 @@
  *
  */
 
-import "classpath:/franca/spec/BaseApiSpec.fdepl"
+import "classpath:/TranspilerExtensions.fdepl"
 import "./Basic.fidl"
 
-define navigation.BaseApiSpec for interface smoke.Basic
+define TranspilerExtensions for interface smoke.Basic
 {
     method basicMethod {
         Static = true
