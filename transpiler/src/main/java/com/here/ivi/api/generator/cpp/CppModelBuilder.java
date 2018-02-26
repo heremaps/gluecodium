@@ -77,7 +77,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     String returnTypeComment = outputParameter != null ? outputParameter.comment : null;
 
     CppTypeRef errorEnumTypeRef = getPreviousResult(CppTypeRef.class);
-    CppTypeRef errorType = errorEnumTypeRef != null ? CppTypeMapper.HF_ERROR_TYPE : null;
+    CppTypeRef errorType = errorEnumTypeRef != null ? CppTypeMapper.STD_ERROR_CODE_TYPE : null;
     CppTypeRef returnType = mapMethodReturnType(outputParameter, errorType);
     CppMethod cppMethod = buildCppMethod(francaMethod, returnType, returnTypeComment);
 

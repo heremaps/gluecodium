@@ -12,16 +12,21 @@
 
 #pragma once
 
-#include "ErrorCode.h"
-
 #include <initializer_list>
 #include <ostream>
 #include <type_traits>
 #include <utility>
 #include <sstream>
+#include <system_error>
 
 namespace hf
 {
+
+namespace errors
+{
+const std::error_code NULL_VALUE;
+}
+
 /**
  * Adapter to allow functions to return values or error conditions at the same time.
  *
@@ -61,7 +66,7 @@ namespace hf
  * }
  * @endcode
  */
-template < class Value, class Error = hf::ErrorCode >
+template < class Value, class Error = std::error_code >
 class Return
 {
 private:
@@ -642,7 +647,7 @@ operator<<( std::ostream& out, const Return< Value, Error >& value ) -> decltype
 template < class Value, class Error >
 constexpr Return< Value, Error >::Return( ) noexcept
     : m_has_value( false )
-    , m_error( ErrorCode{errors::NULL_VALUE} )
+    , m_error( errors::NULL_VALUE )
 {
 }
 
@@ -993,10 +998,10 @@ Return< Value, Error >::emplace( std::initializer_list< OtherValue > ilist, Args
 }
 
 template < class Value >
-Return< typename std::decay< Value >::type, hf::ErrorCode >
+Return< typename std::decay< Value >::type, std::error_code >
 make_value( Value&& value )
 {
-    return Return< typename std::decay< Value >::type, hf::ErrorCode >( value );
+    return Return< typename std::decay< Value >::type, std::error_code >( value );
 }
 
 }  // hf

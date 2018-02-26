@@ -1,5 +1,9 @@
 # API Transpiler Release Notes
 
+## Unreleased
+- Breaking changes:
+  + Replacing hf::ErrorCode with std::error_code
+
 ## 1.4.0
 - Breaking changes:
   + Replacing hf:Error with uint32_t

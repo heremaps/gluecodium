@@ -42,7 +42,6 @@ public final class BaseApiGeneratorSuiteTest {
         generatedFiles.size());
 
     assertEquals("cpp/include/enum_hash.h", getTargetFile(0));
-    assertEquals("cpp/include/ErrorCode.h", getTargetFile(1));
-    assertEquals("cpp/include/Return.h", getTargetFile(2));
+    assertEquals("cpp/include/Return.h", getTargetFile(1));
   }
 }

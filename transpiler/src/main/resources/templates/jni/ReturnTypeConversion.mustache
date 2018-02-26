@@ -1,9 +1,9 @@
     {{#exception}}
     auto nativeCallResult = {{>jni/CppMethodCall}}
     auto errorCode = nativeCallResult{{#if returnType}}.error(){{/if}};
-    if ({{#if returnType}}!nativeCallResult.has_value(){{/if}}{{#unless returnType}}errorCode != hf::errors::NONE{{/unless}})
+    if ({{#if returnType}}!nativeCallResult.has_value(){{/if}}{{#unless returnType}}errorCode{{/unless}})
     {
-        auto nEnumValue = static_cast<{{jniEnum.cppFullyQualifiedName}}>(errorCode);
+        auto nEnumValue = static_cast<{{jniEnum.cppFullyQualifiedName}}>(errorCode.value());
         auto jEnumValue = here::internal::convert_to_jni(_jenv, nEnumValue);
         auto exceptionClass = _jenv->FindClass("{{javaClassName}}");
         auto theConstructor = _jenv->GetMethodID(exceptionClass, "<init>", "({{jniEnum.jniTypeSignature}})V");

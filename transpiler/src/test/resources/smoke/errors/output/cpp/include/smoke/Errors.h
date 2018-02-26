@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "ErrorCode.h"
+#include <system_error>
 
 namespace smoke {
 
@@ -23,7 +23,7 @@ enum class InternalError {
 };
 
 public:
-static ::hf::ErrorCode method_with_errors(  );
+static ::std::error_code method_with_errors(  );
 };
 
 }
