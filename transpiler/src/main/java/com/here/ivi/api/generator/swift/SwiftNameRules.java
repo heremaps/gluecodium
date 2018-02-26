@@ -113,4 +113,9 @@ public final class SwiftNameRules {
       final FModelElement francaModelElement, final FrancaDeploymentModel deploymentModel) {
     return getTypeName(francaModelElement, deploymentModel);
   }
+
+  public static String getMapName(
+      final FModelElement francaModelElement, final FrancaDeploymentModel deploymentModel) {
+    return getTypeName(francaModelElement, deploymentModel).replace('.', '_');
+  }
 }

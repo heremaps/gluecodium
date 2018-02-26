@@ -48,10 +48,13 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FTypeCollection typeCollection) {
+
     SwiftFile file = new SwiftFile();
     file.structs.addAll(getPreviousResults(SwiftContainerType.class));
     file.enums.addAll(getPreviousResults(SwiftEnum.class));
     file.typeDefs.addAll(getPreviousResults(SwiftTypeDef.class));
+    file.dictionaries.addAll(getPreviousResults(SwiftDictionary.class));
+
     storeResult(file);
     super.finishBuilding(typeCollection);
   }
@@ -93,6 +96,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     SwiftFile file = new SwiftFile();
     file.classes.add(clazz);
+    file.dictionaries.addAll(getPreviousResults(SwiftDictionary.class));
+
     if (isInterface) {
       file.structs.addAll(getPreviousResults(SwiftContainerType.class));
       file.enums.addAll(getPreviousResults(SwiftEnum.class));
@@ -322,12 +327,20 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(final FMapType francaMapType) {
 
+    String typeDefName = SwiftNameRules.getTypeDefName(francaMapType, deploymentModel);
+    String mapName = SwiftNameRules.getMapName(francaMapType, deploymentModel);
     List<SwiftType> typeRefs = getPreviousResults(SwiftType.class);
     SwiftType swiftDictionary =
-        SwiftDictionary.builder(null).keyType(typeRefs.get(0)).valueType(typeRefs.get(1)).build();
+        SwiftDictionary.builder(mapName)
+            .publicName(typeDefName)
+            .cPrefix(CBridgeNameRules.getStructBaseName(francaMapType))
+            .keyType(typeRefs.get(0))
+            .valueType(typeRefs.get(1))
+            .build();
+    storeResult(swiftDictionary);
 
-    String typeDefName = SwiftNameRules.getTypeName(francaMapType, deploymentModel);
-    SwiftTypeDef swiftTypeDef = new SwiftTypeDef(typeDefName, swiftDictionary);
+    SwiftType namelessDictionary = new SwiftType(swiftDictionary.implementingClass);
+    SwiftTypeDef swiftTypeDef = new SwiftTypeDef(typeDefName, namelessDictionary);
     swiftTypeDef.comment = CommentHelper.getDescription(francaMapType);
 
     storeResult(swiftTypeDef);

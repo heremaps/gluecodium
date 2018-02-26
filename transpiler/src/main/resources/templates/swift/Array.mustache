@@ -27,6 +27,7 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType}}> {
         }}{{#case "ARRAY"}}{{prefixPartial 'arraySubscript'   '        '}}{{/case}}{{!!
         }}{{#case "ENUM"}}{{prefixPartial 'enumSubscript'   '        '}}{{/case}}{{!!
         }}{{#case "BUILTIN_STRING"}}{{prefixPartial 'stringSubscript'  '        '}}{{/case}}{{!!
+        }}{{#case "DICTIONARY"}}{{prefixPartial 'dictionarySubscript'   '        '}}{{/case}}{{!!
         }}{{#default}}{{prefixPartial 'defaultSubscript'  '        '}}{{/default}}{{!!
         }}{{/switch}}
     }
@@ -41,6 +42,7 @@ extension Collection {{>GenericConstraintsRule}}  {
                 }}{{#case "CLASS"}}{{prefixPartial 'classConversion' '            '}}{{/case}}{{!!
                 }}{{#case "ARRAY"}}{{prefixPartial 'arrayConversion'   '            '}}{{/case}}{{!!
                 }}{{#case "ENUM"}}{{prefixPartial 'enumConversion'   '            '}}{{/case}}{{!!
+                }}{{#case "DICTIONARY"}}{{prefixPartial 'dictionaryConversion'   '            '}}{{/case}}{{!!
                 }}{{#default}}{{prefixPartial 'defaultConversion' '            '}}{{/default}}{{!!
             }}{{/switch}}
         }
@@ -80,9 +82,12 @@ guard let result = {{underlyingType.implementingClass}}(c{{underlyingType.simple
 return result{{/classSubscript}}
 
 {{+arraySubscript}}
-return {{underlyingType.implementingClass}}(handle){{/arraySubscript}}
+return {{underlyingType.implementingClass}}(handle){{/arraySubscript}}{{!!
 
-{{+stringSubscript}}
+}}{{+dictionarySubscript}}
+return convert{{underlyingType.name}}FromCType(handle){{/dictionarySubscript}}{{!!
+
+}}{{+stringSubscript}}
 defer {
     std_string_release(handle)
 }
@@ -101,7 +106,12 @@ defer {
 
 {{+arrayConversion}}let conversion = item.c_conversion()
 {{refName}}_append(handle, conversion.c_type)
-conversion.cleanup(){{/arrayConversion}}
+conversion.cleanup(){{/arrayConversion}}{{!!
 
+}}{{+dictionaryConversion}}let conversion = convert{{underlyingType.name}}ToCType(item)
+defer {
+    {{underlyingType.cPrefix}}_release(conversion)
+}
+{{refName}}_append(handle, conversion){{/dictionaryConversion}}{{!!
 
-{{+defaultConversion}}{{refName}}_append(handle, item){{/defaultConversion}}
+}}{{+defaultConversion}}{{refName}}_append(handle, item){{/defaultConversion}}

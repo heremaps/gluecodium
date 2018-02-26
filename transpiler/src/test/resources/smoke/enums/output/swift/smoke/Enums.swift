@@ -98,3 +98,28 @@ public class Enums {
 extension Enums: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+
+func convertEnums_ExampleMapToCType(_ swiftDict: Enums.ExampleMap) -> _baseRef {
+    let cHandle = smoke_Enums_ExampleMap_create()
+    for (swift_key, swift_value) in swiftDict {
+        let c_key = swift_key.rawValue
+        let c_value = swift_value
+        smoke_Enums_ExampleMap_put(cHandle, c_key, c_value)
+    }
+    return cHandle
+}
+
+func convertEnums_ExampleMapFromCType(_ cHandle: _baseRef) -> Enums.ExampleMap {
+    var swiftDict: Enums.ExampleMap = [:]
+    let iteratorHandle = smoke_Enums_ExampleMap_iterator(cHandle)
+    while smoke_Enums_ExampleMap_iterator_is_valid(cHandle, iteratorHandle) {
+        let c_key = smoke_Enums_ExampleMap_iterator_key(iteratorHandle)
+        let swift_key = Enums.SimpleEnum(rawValue: c_key)!
+        let c_value = smoke_Enums_ExampleMap_iterator_value(iteratorHandle)
+        let swift_value = c_value
+        swiftDict[swift_key] = swift_value
+        smoke_Enums_ExampleMap_iterator_increment(iteratorHandle)
+    }
+    smoke_Enums_ExampleMap_iterator_release(iteratorHandle)
+    return swiftDict
+}

@@ -17,6 +17,9 @@ internal func fillFunction(_ c{{simpleName}}: _baseRef) -> Void {
 {{#case "ARRAY"}}
     {{>fillArray}}
 {{/case}}
+{{#case "DICTIONARY"}}
+    {{>fillDictionary}}
+{{/case}}
 {{#case "BUILTIN_STRING" break="false"}}{{/case}}
 {{#default}}
     {{>fillBasicType}}
@@ -47,4 +50,9 @@ internal func fillFunction(_ c{{simpleName}}: _baseRef) -> Void {
 {{+fillArray}}let {{name}}Conversion = {{name}}.c_conversion()
 {{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}Conversion.c_type)
 {{name}}Conversion.cleanup()
-{{/fillArray}}
+{{/fillArray}}{{!!
+
+}}{{+fillDictionary}}let {{name}}Conversion = convert{{type.name}}ToCType({{name}})
+{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}Conversion)
+{{type.cPrefix}}_release({{name}}Conversion)
+{{/fillDictionary}}
