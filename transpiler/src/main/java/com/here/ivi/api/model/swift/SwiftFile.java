@@ -21,12 +21,17 @@ public final class SwiftFile extends SwiftModelElement {
   public final List<SwiftEnum> enums = new LinkedList<>();
   public final List<SwiftTypeDef> typeDefs = new LinkedList<>();
   public final List<SwiftArray> arrays = new LinkedList<>();
+  public final List<SwiftDictionary> dictionaries = new LinkedList<>();
 
   public SwiftFile() {
     super("");
   }
 
   public boolean isEmpty() {
-    return classes.isEmpty() && structs.isEmpty() && enums.isEmpty() && arrays.isEmpty();
+    return classes.isEmpty()
+        && structs.isEmpty()
+        && enums.isEmpty()
+        && arrays.isEmpty()
+        && dictionaries.isEmpty();
   }
 }

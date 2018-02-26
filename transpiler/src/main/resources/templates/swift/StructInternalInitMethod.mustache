@@ -8,6 +8,7 @@ internal init?(c{{simpleName}}: _baseRef) {
     {{#case "CLASS"}}{{>assignClass}}{{/case}}
     {{#case "ENUM"}}{{>assignEnum}}{{/case}}
     {{#case "ARRAY"}}{{>assignArray}}{{/case}}
+    {{#case "DICTIONARY"}}{{>assignDictionary}}{{/case}}
     {{#default}}{{>assignBasicType}}{{/default}}
     {{/switch}}
 {{/fields}}
@@ -62,4 +63,7 @@ internal init?(c{{simpleName}}: _baseRef) {
     {{name}} = {{name}}Unwrapped{{!!
 }}{{/type.optional}}
 }
-{{/assignClass}}
+{{/assignClass}}{{!!
+
+}}{{+assignDictionary}}{{name}} = convert{{type.name}}FromCType({{cPrefix}}_{{name}}_get(c{{structName}}))
+{{/assignDictionary}}

@@ -9,6 +9,7 @@
       }}{{#case "STRUCT"}}{{>structConversion}}{{/case}}{{!!
       }}{{#case "CLASS"}}{{>classConversion}}{{/case}}{{!!
       }}{{#case "ARRAY"}}{{>arrayConversion}}{{/case}}{{!!
+      }}{{#case "DICTIONARY"}}{{>dictionaryConversion}}{{/case}}{{!!
       }}{{#default}}{{>swift/ConversionRecursion}}{{/default}}{{!!
     }}{{/switch}}{{!!
   }}{{/iterator.next}}{{!!
@@ -53,6 +54,7 @@ if (RESULT.has_value) {
     }}{{#case "CLASS"}}{{>MethodReturnClass}}{{/case}}{{!!
     }}{{#case "ENUM"}}{{>MethodReturnEnum}}{{/case}}{{!!
     }}{{#case "ARRAY"}}{{>MethodReturnArray}}{{/case}}{{!!
+    }}{{#case "DICTIONARY"}}{{>MethodReturnDictionary}}{{/case}}{{!!
     }}{{#default}}{{>swift/MethodReturn}}{{/default}}{{!!
   }}{{/switch}}{{!!
 }}{{/returnValueConversion}}{{!!
@@ -69,9 +71,17 @@ defer {
 {{+classConversion}}{{!!
 }}let {{name}}Handle = getRef({{name}})
 {{>swift/ConversionRecursion}}
-{{/classConversion}}
+{{/classConversion}}{{!!
 
-{{+MethodReturnStruct}}{{!!
+}}{{+dictionaryConversion}}{{!!
+}}let {{name}}Handle = convert{{type.name}}ToCType({{name}})
+defer {
+    {{type.cPrefix}}_release({{name}}Handle)
+}
+{{>swift/ConversionRecursion}}
+{{/dictionaryConversion}}{{!!
+
+}}{{+MethodReturnStruct}}{{!!
 }}let cResult = {{include delegateToCall}}
 defer {
     {{method.returnType.cPrefix}}_release(cResult)
@@ -106,9 +116,17 @@ defer {
 {{+MethodReturnArray}}
 let handle = {{include delegateToCall}}
 return {{method.returnType.implementingClass}}(handle)
-{{/MethodReturnArray}}
+{{/MethodReturnArray}}{{!!
 
-{{+returnType}}{{!!
+}}{{+MethodReturnDictionary}}{{!!
+}}let resultHandle = {{include delegateToCall}}
+defer {
+    {{returnType.cPrefix}}_release(resultHandle)
+}
+return convert{{type.name}}FromCType(resultHandle)
+{{/MethodReturnDictionary}}{{!!
+
+}}{{+returnType}}{{!!
 }}{{method.returnType.implementingClass}}{{!!
 }}{{^method.returnType.implementingClass}}{{!!
     }}{{method.returnType}}{{!!

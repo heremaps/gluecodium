@@ -13,25 +13,29 @@ package com.here.ivi.api.model.swift;
 
 public final class SwiftDictionary extends SwiftType {
 
+  public final String cPrefix;
   public final SwiftType keyType;
   public final SwiftType valueType;
-  public final String cPrefix;
 
   @lombok.Builder(builderClassName = "Builder")
   private SwiftDictionary(
-      final String name, final SwiftType keyType, final SwiftType valueType, final String cPrefix) {
-    super(name, TypeCategory.DICTIONARY, null, createPublicName(name, keyType, valueType), false);
+      final String name,
+      final String publicName,
+      final String cPrefix,
+      final SwiftType keyType,
+      final SwiftType valueType) {
+    super(
+        name,
+        TypeCategory.DICTIONARY,
+        "[" + keyType.publicName + ": " + valueType.publicName + "]",
+        publicName,
+        false);
+    this.cPrefix = cPrefix;
     this.keyType = keyType;
     this.valueType = valueType;
-    this.cPrefix = cPrefix;
   }
 
   public static Builder builder(final String name) {
     return new Builder().name(name);
-  }
-
-  private static String createPublicName(
-      final String name, final SwiftType keyType, final SwiftType valueType) {
-    return name != null ? name : "[" + keyType.name + ": " + valueType.name + "]";
   }
 }

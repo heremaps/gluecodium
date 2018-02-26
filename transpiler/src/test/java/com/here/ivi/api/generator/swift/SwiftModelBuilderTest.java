@@ -639,23 +639,45 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaMapType() {
-    when(SwiftNameRules.getTypeName(any(), any())).thenReturn("SomeMap");
+  public void finishBuildingFrancaMapTypeCreatesDictionary() {
+    when(SwiftNameRules.getMapName(any(), any())).thenReturn("SomeMapFoo");
+    when(SwiftNameRules.getTypeDefName(any(), any())).thenReturn("SomeMapBar");
+    when(CBridgeNameRules.getStructBaseName(any())).thenReturn("SomeMapBaz");
+    contextStack.injectResult(SwiftType.STRING);
+    contextStack.injectResult(swiftType);
+
+    modelBuilder.finishBuilding(francaMap);
+
+    SwiftDictionary swiftDictionary = modelBuilder.getFinalResult(SwiftDictionary.class);
+    assertNotNull(swiftDictionary);
+    assertEquals("SomeMapFoo", swiftDictionary.name);
+    assertEquals("SomeMapBar", swiftDictionary.publicName);
+    assertEquals("SomeMapBaz", swiftDictionary.cPrefix);
+    assertEquals(SwiftType.STRING, swiftDictionary.keyType);
+    assertEquals(swiftType, swiftDictionary.valueType);
+
+    PowerMockito.verifyStatic();
+    SwiftNameRules.getMapName(francaMap, deploymentModel);
+    PowerMockito.verifyStatic();
+    SwiftNameRules.getTypeDefName(francaMap, deploymentModel);
+    PowerMockito.verifyStatic();
+    CBridgeNameRules.getStructBaseName(francaMap);
+  }
+
+  @Test
+  public void finishBuildingFrancaMapTypeCreatesTypeDef() {
+    when(SwiftNameRules.getTypeDefName(any(), any())).thenReturn("SomeMap");
     contextStack.injectResult(SwiftType.STRING);
     contextStack.injectResult(swiftType);
 
     modelBuilder.finishBuilding(francaMap);
 
     SwiftTypeDef swiftTypeDef = modelBuilder.getFinalResult(SwiftTypeDef.class);
-
     assertNotNull(swiftTypeDef);
     assertEquals("SomeMap", swiftTypeDef.name);
-    assertTrue(swiftTypeDef.type instanceof SwiftDictionary);
-    SwiftDictionary swiftDictionary = (SwiftDictionary) swiftTypeDef.type;
-    assertEquals(SwiftType.STRING, swiftDictionary.keyType);
-    assertEquals(swiftType, swiftDictionary.valueType);
+    assertEquals("[String: VerySwiftType]", swiftTypeDef.type.name);
 
     PowerMockito.verifyStatic();
-    SwiftNameRules.getTypeName(francaMap, deploymentModel);
+    SwiftNameRules.getTypeDefName(francaMap, deploymentModel);
   }
 }

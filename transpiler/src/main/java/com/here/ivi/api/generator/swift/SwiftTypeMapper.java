@@ -63,10 +63,10 @@ public class SwiftTypeMapper {
   private static SwiftType mapMapType(
       final FMapType francaMapType, final FrancaDeploymentModel deploymentModel) {
 
-    return SwiftDictionary.builder(SwiftNameRules.getTypeName(francaMapType, deploymentModel))
-        .keyType(mapType(francaMapType.getKeyType(), deploymentModel))
-        .valueType(mapType(francaMapType.getValueType(), deploymentModel))
+    return SwiftContainerType.builder(SwiftNameRules.getMapName(francaMapType, deploymentModel))
+        .publicName(SwiftNameRules.getTypeName(francaMapType, deploymentModel))
         .cPrefix(CBridgeNameRules.getStructBaseName(francaMapType))
+        .category(SwiftType.TypeCategory.DICTIONARY)
         .build();
   }
 
