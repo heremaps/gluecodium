@@ -14,26 +14,33 @@
 #include "another/AdditionalErrors.h"
 #include "another/TypeCollectionWithEnums.h"
 
+#include <system_error>
+
 namespace
 {
 template <typename T>
-hf::ErrorCode make_error_code(const T& error)
+std::error_code make_error_code(const T& error)
 {
-   return static_cast< hf::ErrorCode >( error );
+   return {static_cast< int >( error ), std::system_category()};
 }
 }
 
 namespace test
 {
-hf::ErrorCode
+std::error_code
 Errors::method_with_error( const bool error_flag )
 {
-    return error_flag
-           ? make_error_code( Errors::InternalErrors::CRASHED )
-           : hf::errors::NONE;
+    if ( error_flag )
+    {
+        return make_error_code( Errors::InternalErrors::CRASHED );
+    }
+    else
+    {
+        return {};
+    }
 }
 
-hf::Return< std::string, hf::ErrorCode >
+hf::Return< std::string, std::error_code >
 Errors::method_with_error_and_string( const bool error_flag )
 {
     if ( error_flag )
@@ -46,7 +53,7 @@ Errors::method_with_error_and_string( const bool error_flag )
     }
 }
 
-hf::Return< std::vector< uint8_t >, hf::ErrorCode >
+hf::Return< std::vector< uint8_t >, std::error_code >
 Errors::method_that_explodes( const bool error_flag )
 {
     if ( error_flag )
@@ -59,7 +66,7 @@ Errors::method_that_explodes( const bool error_flag )
     }
 }
 
-hf::Return< another::SomeEnum, hf::ErrorCode >
+hf::Return< another::SomeEnum, std::error_code >
 Errors::method_with_good_and_bad( const bool error_flag )
 {
     if ( error_flag )
