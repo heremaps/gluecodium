@@ -22,9 +22,9 @@ public final class CppLibraryIncludes {
   public static final Include STRING = Include.createSystemInclude("string");
   public static final Include VECTOR = Include.createSystemInclude("vector");
   public static final Include NEW = Include.createSystemInclude("new");
+  public static final Include SYSTEM_ERROR = Include.createSystemInclude("system_error");
 
   // Custom
   public static final Include RETURN = Include.createInternalInclude("Return.h");
   public static final Include ENUM_HASH = Include.createInternalInclude("enum_hash.h");
-  public static final Include HF_ERROR = Include.createInternalInclude("ErrorCode.h");
 }

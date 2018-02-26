@@ -17,7 +17,8 @@ import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 
 /**
- * Validate that methods don't use inline error enums since these are not usable with hf::ErrorCode.
+ * Validate that methods don't use inline error enums since these are not usable with
+ * std::error_code.
  */
 public final class ErrorEnumsValidatorPredicate implements ValidatorPredicate<FMethod> {
 

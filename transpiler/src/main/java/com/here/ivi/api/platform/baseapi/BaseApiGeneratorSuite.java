@@ -42,8 +42,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   public static final String GENERATOR_NAME = "cpp";
 
   @VisibleForTesting
-  static final List<String> ADDITIONAL_HEADERS =
-      Arrays.asList("enum_hash.h", "ErrorCode.h", "Return.h");
+  static final List<String> ADDITIONAL_HEADERS = Arrays.asList("enum_hash.h", "Return.h");
 
   private final CppIncludeResolver includeResolver;
 

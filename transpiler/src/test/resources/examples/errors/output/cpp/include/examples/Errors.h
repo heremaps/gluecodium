@@ -9,9 +9,9 @@
 
 #pragma once
 
-#include "ErrorCode.h"
 #include "Return.h"
 #include <string>
+#include <system_error>
 
 namespace examples {
 
@@ -27,8 +27,8 @@ enum class InternalErrors {
 };
 
 public:
-static ::hf::ErrorCode start_something_or_fail(  );
-static ::hf::Return< ::std::string, ::hf::ErrorCode > get_something_or_fail(  );
+static ::std::error_code start_something_or_fail(  );
+static ::hf::Return< ::std::string, ::std::error_code > get_something_or_fail(  );
 };
 
 }

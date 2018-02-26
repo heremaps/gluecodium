@@ -259,7 +259,7 @@ public class CppModelBuilderTest {
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
-    assertEquals(CppTypeMapper.HF_ERROR_TYPE, resultMethod.returnType);
+    assertEquals(CppTypeMapper.STD_ERROR_CODE_TYPE, resultMethod.returnType);
   }
 
   @Test

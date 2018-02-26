@@ -4,12 +4,12 @@
 
 {{+FunctionBody}}{{!!
 }}{{#if error}}{{!!
-}}{{#if isReturningVoid}}    return {{>callBaseApi}};{{/if}}{{!!
+}}{{#if isReturningVoid}}    return {{>callBaseApi}}.value();{{/if}}{{!!
 }}{{#unless isReturningVoid}}    auto&& RESULT = {{>callBaseApi}};
     if (RESULT.has_value()) {
         return {true, .returned_value = {{#set delegateToCall="safe_value"}}{{>ReturnConversion}}{{/set}}};
     } else {
-        return {false, .error_code = RESULT.error()};
+        return {false, .error_code = static_cast< {{error.functionReturnType}} >(RESULT.error().value())};
     }{{!!
 }}{{/unless}}{{!!
 }}{{/if}}{{!!
