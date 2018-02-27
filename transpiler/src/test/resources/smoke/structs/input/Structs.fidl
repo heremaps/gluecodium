@@ -11,7 +11,7 @@
 
 package smoke
 
-import smoke.TypeCollection.* from "./TypeCollection.fidl"
+import smoke.* from "./TypeCollection.fidl"
 
 interface Structs {
     version {
@@ -19,7 +19,7 @@ interface Structs {
         minor 1
     }
 
-    struct Point {
+    public struct Point {
         Double x
         Double y
     }
@@ -131,7 +131,7 @@ interface StructsInheritance {
     }
 
     struct ColoredLineInherited extends Structs.Line {
-        Color color
+        TypeCollection.Color color
     }
 
     method methodWithInheritedType {
@@ -156,45 +156,45 @@ interface StructsFromTypeCollection {
             Double y
         }
         out {
-            Point point
+            TypeCollection.Point point
         }
     }
 
     method swapPointCoordinates {
         in {
-            Point input
+            TypeCollection.Point input
         }
         out {
-            Point output
+            TypeCollection.Point output
         }
     }
 
     method createLine {
         in {
-            Point pointA
-            Point pointB
+            TypeCollection.Point pointA
+            TypeCollection.Point pointB
         }
         out {
-            Line output
+            TypeCollection.Line output
         }
     }
 
     method createColoredLine {
         in {
-            Line line
-            Color color
+            TypeCollection.Line line
+            TypeCollection.Color color
         }
         out {
-            ColoredLine output
+            TypeCollection.ColoredLine output
         }
     }
 
     method modifyAllTypesStruct {
         in {
-            AllTypesStruct input
+            TypeCollection.AllTypesStruct input
         }
         out {
-            AllTypesStruct output
+            TypeCollection.AllTypesStruct output
         }
     }
 }

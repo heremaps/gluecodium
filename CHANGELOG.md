@@ -1,5 +1,9 @@
 # API Transpiler Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed JNI type conversion for foreign packages (APIGEN-1222)
+
 ## 1.5.0
 - Breaking changes:
   + Use std::error_code for error codes

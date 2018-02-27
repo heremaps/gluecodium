@@ -1,0 +1,32 @@
+/*
+ * Copyright (C) 2018 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package fire
+
+import smoke.* from "./TypeCollection.fidl"
+import smoke.* from "./Structs.fidl"
+import smoke.* from "./StructsInstance.fidl"
+
+interface StructsQualifiedType {
+
+    array TypeCollectionPointsArray of TypeCollection.Point
+    array InterfacePointsArray of Structs.Point
+
+    struct QualifiedType {
+        TypeCollection.Point typeCollectionPoint
+        Structs.Point interfacePoint
+        TypeCollectionPointsArray typeCollectionExplicitPoints
+        InterfacePointsArray interfaceExplicitPoints
+        TypeCollection.Point[] typeCollectionImplicitPoints
+        Structs.Point[] interfaceImplicitPoints
+        StructsInstance.StructsInstance structsInstance
+    }
+}

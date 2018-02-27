@@ -5,17 +5,7 @@
   {{#hasCustomType}}
   auto j{{cppField.name}} = convert_to_jni{{#if type.isJavaArray}}_array{{/if}}(_jenv, _ninput.{{cppField.name}});
   set_object_field(_jenv, javaClass, _jresult, "{{javaField.name}}",
-  {{#hasTemplateType}}
-  "L{{#javaField.type.packageNames}}{{.}}/{{/javaField.type.packageNames}}{{#javaField.type.classNames}}{{.}}{{/javaField.type.classNames}};", j{{cppField.name}});
-  {{/hasTemplateType}}
-  {{^hasTemplateType}}
-  {{#javaField.type.isInterface}}
-  "L{{#javaField.type.packageNames}}{{.}}/{{/javaField.type.packageNames}}{{javaField.type.name}};", j{{cppField.name}});
-  {{/javaField.type.isInterface}}
-  {{^javaField.type.isInterface}}
-  "L{{>jni/JavaClassSignaturePrefix}}{{#javaField.type.classNames}}{{#iter.isLast}}{{.}}{{/iter.isLast}}{{/javaField.type.classNames}};", j{{cppField.name}});
-  {{/javaField.type.isInterface}}
-  {{/hasTemplateType}}
+  "L{{join javaField.type.packageNames delimiter="/"}}/{{join javaField.type.classNames delimiter="$"}};", j{{cppField.name}});
   _jenv->DeleteLocalRef(j{{cppField.name}});
   {{/hasCustomType}}
   {{^hasCustomType}}
