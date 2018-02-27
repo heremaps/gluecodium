@@ -14,9 +14,7 @@ package com.here.ivi.api.generator.cpp;
 import static org.junit.Assert.assertEquals;
 
 import com.here.ivi.api.model.cpp.*;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -33,6 +31,9 @@ public class TopologicalSortTest {
   private static final String ENUM_NAME = "Kind";
   private static final CppEnum ENUM = CppEnum.create(ENUM_NAME);
   private static final String TYPE_DEF_NAME = "shortcut";
+
+  private static final CppStruct PARENT_STRUCT = createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B);
+  private static final CppStruct CHILD_STRUCT = createChild();
 
   private final List<CppElement> elements;
   private final List<Integer> expectedOrder;
@@ -145,6 +146,10 @@ public class TopologicalSortTest {
             Arrays.asList(createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B), createUsing(TYPE_C)),
             Arrays.asList(0, 1)
           },
+          // child struct followed by the parent struct the order is inverted
+          {Arrays.asList(CHILD_STRUCT, PARENT_STRUCT), Arrays.asList(1, 0)},
+          // parent struct followed by the child struct the order is maintained
+          {Arrays.asList(PARENT_STRUCT, CHILD_STRUCT), Arrays.asList(0, 1)}
         });
   }
 
@@ -179,6 +184,14 @@ public class TopologicalSortTest {
     String name = "fixed";
     return new CppConstant(
         name, new CppTypeDefRef(typeName, createComplex("nonsense")), new CppValue());
+  }
+
+  private static CppStruct createChild() {
+    CppStruct cppStruct = createCppStruct(SECOND_STRUCT_NAME, TYPE_A, TYPE_B);
+    CppInheritance inheritance =
+        new CppInheritance(createComplex(FIRST_STRUCT_NAME), CppInheritance.Type.Public);
+    cppStruct.inheritances.add(inheritance);
+    return cppStruct;
   }
 
   @Test
