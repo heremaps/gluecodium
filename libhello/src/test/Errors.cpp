@@ -40,7 +40,7 @@ Errors::method_with_error( const bool error_flag )
     }
 }
 
-hf::Return< std::string, std::error_code >
+transpiler::Return< std::string, std::error_code >
 Errors::method_with_error_and_string( const bool error_flag )
 {
     if ( error_flag )
@@ -53,7 +53,7 @@ Errors::method_with_error_and_string( const bool error_flag )
     }
 }
 
-hf::Return< std::vector< uint8_t >, std::error_code >
+transpiler::Return< std::vector< uint8_t >, std::error_code >
 Errors::method_that_explodes( const bool error_flag )
 {
     if ( error_flag )
@@ -66,7 +66,7 @@ Errors::method_that_explodes( const bool error_flag )
     }
 }
 
-hf::Return< another::SomeEnum, std::error_code >
+transpiler::Return< another::SomeEnum, std::error_code >
 Errors::method_with_good_and_bad( const bool error_flag )
 {
     if ( error_flag )
