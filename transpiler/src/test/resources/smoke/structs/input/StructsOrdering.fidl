@@ -1,0 +1,16 @@
+package smoke
+
+typeCollection InheritedStructsOrder {
+
+    struct GrandChildStruct extends ChildStruct {
+        String grandChildField
+    }
+
+    struct ChildStruct extends ParentStruct {
+        Int32 childField
+    }
+
+    struct ParentStruct {
+        Float parentField
+    }
+}

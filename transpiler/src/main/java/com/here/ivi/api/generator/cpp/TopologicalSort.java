@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class TopologicalSort {
 
@@ -118,10 +119,16 @@ public final class TopologicalSort {
 
   private Set<String> getStructDependencies(CppStruct cppStruct) {
 
-    return cppStruct
-        .fields
-        .stream()
-        .flatMap(cppField -> getElementDependencies(cppField).stream())
+    return Stream.concat(
+            cppStruct
+                .inheritances
+                .stream()
+                .map(cppInheritance -> cppInheritance.parent.fullyQualifiedName)
+                .filter(fullyQualifiedNames::contains),
+            cppStruct
+                .fields
+                .stream()
+                .flatMap(cppField -> getElementDependencies(cppField).stream()))
         .collect(Collectors.toSet());
   }
 
