@@ -2,7 +2,7 @@
 
 ## 1.5.0
 - Breaking changes:
-  + Replacing hf::ErrorCode with std::error_code
+  + Use std::error_code for error codes
   + Renaming navigation.BaseApiSpec to TranspilerExtensions which should be imported with:
     import "classpath:/TranspilerExtensions.fdepl"
     instead of:
@@ -10,8 +10,8 @@
 
 ## 1.4.0
 - Breaking changes:
-  + Replacing hf:Error with uint32_t
-  + EnumHash moved from hf:: to ::transpiler namespace
+  + Use uint32_t as ErrorCode
+  + EnumHash moved to ::transpiler namespace
 - Features:
   + Add support for Interface Inheritance for iOS generator
 
@@ -25,15 +25,15 @@
 
 ## 1.2.3
 - Bug fixes:
-  + Fixed circular dependency compilation issues for C++ (APIGEN-1164)
+  + Fixed circular dependency compilation issues for C++
 
 ## 1.2.2
 - Bug fixes:
-  + Fixed compilation error for arrays in Swift generated code (APIGEN-1151)
+  + Fixed compilation error for arrays in Swift generated code
 
 ## 1.2.1
 - Bug fixes:
-  + Removed validation against multiple output parameters (APIGEN-1138)
+  + Removed validation against multiple output parameters
 
 ## 1.2.0
 - Features:
@@ -44,8 +44,8 @@
 
 ## 1.1.1
 - Bug fixes:
-  + Android fields of structs declared within interfaces cannot be instantiated (APIGEN-1069)
-  + Swift struct that contain interfaces will cause premature memory release (APIGEN-1038)
+  + Android fields of structs declared within interfaces cannot be instantiated
+  + Swift struct that contain interfaces will cause premature memory release
 
 ## 1.1.0
 - Features:
@@ -53,13 +53,11 @@
   + Add support for Default values to iOS generators
 
 ## 1.0.0
-Bumping version to mark ES4 feature completeness
+Bumping version to 1.0.0 to mark Q4 2017 feature completeness
 
 ## 0.15.0
 - Features:
   + Add support for Errors to iOS generators
-- Behavior changes:
-  + Changed namespace of EnumHash class from "here" to "hf"
 
 ## 0.14.0
 - Features:
@@ -90,7 +88,6 @@ Bumping version to mark ES4 feature completeness
   + Add support for Enums to Android generators
   + Add support for Listeners to Android generators
   + Add support for Attributes to iOS generators
-  + Generated cpp APIs are IVI code-style compliant
 
 ## 0.0.8
 - Features:
@@ -115,23 +112,23 @@ Bumping version to mark ES4 feature completeness
 - Behavior changes:
   + Change BaseApiGeneratorSuite name to "cpp"
   + Remove 'Stub' suffix from generated base_api classes
-  + Generate virtual destructor in C++ (APIGEN-584)
-  + Throw Transpiler exception for malformed .fdepl (APIGEN-645)
+  + Generate virtual destructor in C++
+  + Throw Transpiler exception for malformed .fdepl
 - Features:
-  + Implement struct inheritance for C++ generator (APIGEN-587)
-  + Adds inheritance from NativeBase to non-POD, non-factory classes (APIGEN-195)
-  + Adds instance support to java generator (APIGEN-592)
-  + Add support for structs as function parameters (APIGEN-267)
-  + Add support for referencing Map<> types in C++ (APIGEN-591)
-  + Enable mapping of non-inline Arrays for Cpp (APIGEN-533)
-  + Implement unions for C++ generator (APIGEN-581)
+  + Implement struct inheritance for C++ generator
+  + Adds inheritance from NativeBase to non-POD, non-factory classes
+  + Adds instance support to java generator
+  + Add support for structs as function parameters
+  + Add support for referencing Map<> types in C++
+  + Enable mapping of non-inline Arrays for Cpp
+  + Implement unions for C++ generator
   + Remove Xtend dependency
 - Bugs:
   + Bugfix for order of 'get_pointer' helper in CBridge
-  + Fix for template generating struct internal constructor (APIGEN-267)
-  + Bugfix - Remove stub prefix and change to cpp (APIGEN-253)
-  + Fix cpp type mapper instance referencing (APIGEN-614)
-  + Fix handling of xxxRef in cBridge (APIGEN-267)
+  + Fix for template generating struct internal constructor
+  + Bugfix - Remove stub prefix and change to cpp
+  + Fix cpp type mapper instance referencing
+  + Fix handling of xxxRef in cBridge
 
 ## 0.0.4
 - Bug fixes and performance improvement
