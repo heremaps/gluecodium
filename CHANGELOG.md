@@ -1,8 +1,12 @@
 # API Transpiler Release Notes
 
-## Unreleased
+## 1.5.0
 - Breaking changes:
   + Replacing hf::ErrorCode with std::error_code
+  + Renaming navigation.BaseApiSpec to TranspilerExtensions which should be imported with:
+    import "classpath:/TranspilerExtensions.fdepl"
+    instead of:
+    import "classpath:/franca/spec/BaseApiSpec.fdepl"
 
 ## 1.4.0
 - Breaking changes:
