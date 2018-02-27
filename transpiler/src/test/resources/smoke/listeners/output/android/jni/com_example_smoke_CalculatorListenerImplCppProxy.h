@@ -8,10 +8,10 @@
 #include <jni.h>
 #include "smoke/CalculatorListener.h"
 #include "android/jni/com_example_smoke_CalculatorListenerImpl.h"
-#include "android/jni/JniCppConversionUtils.h"
-#include "android/jni/FieldAccessMethods.h"
 #include "android/jni/CppProxyBase.h"
+#include "android/jni/FieldAccessMethods.h"
 #include "android/jni/JniBase.h"
+#include "android/jni/JniCppConversionUtils.h"
 
 #ifdef __cplusplus
 extern "C" {

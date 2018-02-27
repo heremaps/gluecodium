@@ -19,7 +19,7 @@ import java.util.List;
 
 public final class JniNameRules {
 
-  private static final String JNI_HEADER_FILE_SUFFIX = ".h";
+  public static final String JNI_HEADER_FILE_SUFFIX = ".h";
   private static final String JNI_IMPLEMENTATION_FILE_SUFFIX = ".cpp";
   private static final String JNI_ENUM_CONVERSION_NAME = "EnumConversion";
   private static final String JNI_STRUCT_CONVERSION_NAME = "StructConversion";
@@ -42,32 +42,40 @@ public final class JniNameRules {
     return getJniClassFileName(jniContainer) + JNI_IMPLEMENTATION_FILE_SUFFIX;
   }
 
+  public static String getHeaderFilePath(final String fileName) {
+    return getJniPathPrefix() + fileName + JNI_HEADER_FILE_SUFFIX;
+  }
+
+  public static String getImplementationFilePath(final String fileName) {
+    return getJniPathPrefix() + fileName + JNI_IMPLEMENTATION_FILE_SUFFIX;
+  }
+
   public static String getStructConversionHeaderFileName() {
-    return getJniPathPrefix() + JNI_STRUCT_CONVERSION_NAME + JNI_HEADER_FILE_SUFFIX;
+    return getHeaderFilePath(JNI_STRUCT_CONVERSION_NAME);
   }
 
   public static String getProxyConversionHeaderFileName() {
-    return getJniPathPrefix() + JNI_PROXY_CONVERSION_NAME + JNI_HEADER_FILE_SUFFIX;
+    return getHeaderFilePath(JNI_PROXY_CONVERSION_NAME);
   }
 
   public static String getEnumConversionHeaderFileName() {
-    return getJniPathPrefix() + JNI_ENUM_CONVERSION_NAME + JNI_HEADER_FILE_SUFFIX;
+    return getHeaderFilePath(JNI_ENUM_CONVERSION_NAME);
   }
 
   public static String getEnumConversionImplementationFileName() {
-    return getJniPathPrefix() + JNI_ENUM_CONVERSION_NAME + JNI_IMPLEMENTATION_FILE_SUFFIX;
+    return getImplementationFilePath(JNI_ENUM_CONVERSION_NAME);
   }
 
   public static String getStructConversionImplementationFileName() {
-    return getJniPathPrefix() + JNI_STRUCT_CONVERSION_NAME + JNI_IMPLEMENTATION_FILE_SUFFIX;
+    return getImplementationFilePath(JNI_STRUCT_CONVERSION_NAME);
   }
 
   public static String getInstanceConversionHeaderFileName() {
-    return getJniPathPrefix() + JNI_INSTANCE_CONVERSION_NAME + JNI_HEADER_FILE_SUFFIX;
+    return getHeaderFilePath(JNI_INSTANCE_CONVERSION_NAME);
   }
 
   public static String getInstanceConversionImplementationFileName() {
-    return getJniPathPrefix() + JNI_INSTANCE_CONVERSION_NAME + JNI_IMPLEMENTATION_FILE_SUFFIX;
+    return getImplementationFilePath(JNI_INSTANCE_CONVERSION_NAME);
   }
 
   public static String getNativeParameterName(final String javaParameterName) {
@@ -104,7 +112,7 @@ public final class JniNameRules {
         + jniContainer.javaName;
   }
 
-  private static String getJniPathPrefix() {
+  public static String getJniPathPrefix() {
     return AndroidGeneratorSuite.GENERATOR_NAME + File.separator + "jni" + File.separator;
   }
 }

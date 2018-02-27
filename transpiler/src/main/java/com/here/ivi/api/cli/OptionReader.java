@@ -15,8 +15,6 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.here.ivi.api.platform.common.GeneratorSuite;
 import java.util.*;
-import lombok.Builder;
-import lombok.Value;
 import org.apache.commons.cli.*;
 import org.eclipse.xtext.util.Files;
 
@@ -28,8 +26,8 @@ public final class OptionReader {
 
   private final Options options;
 
-  @Value
-  @Builder(builderClassName = "Builder")
+  @lombok.Value
+  @lombok.Builder(builderClassName = "Builder")
   public static class TranspilerOptions {
     private String[] inputDirs;
     private String outputDir;

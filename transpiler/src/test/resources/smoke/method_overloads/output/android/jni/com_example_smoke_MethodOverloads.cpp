@@ -4,10 +4,10 @@
  */
 #include "smoke/MethodOverloads.h"
 #include "android/jni/com_example_smoke_MethodOverloads.h"
-#include "android/jni/JniCppConversionUtils.h"
-#include "android/jni/FieldAccessMethods.h"
 #include "android/jni/CppProxyBase.h"
+#include "android/jni/FieldAccessMethods.h"
 #include "android/jni/JniBase.h"
+#include "android/jni/JniCppConversionUtils.h"
 #include "android/jni/InstanceConversion.h"
 #include "android/jni/StructConversion.h"
 #include "android/jni/ProxyConversion.h"

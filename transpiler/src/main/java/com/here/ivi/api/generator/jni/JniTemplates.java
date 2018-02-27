@@ -27,6 +27,10 @@ public final class JniTemplates {
   @VisibleForTesting public static final String MODELS_NAME = "models";
   private static final String BASE_PACKAGES_NAME = "basePackages";
 
+  private static final String JNI_UTILS_TEMPLATE_PREFIX = "jni/utils/";
+  private static final String HEADER_TEMPLATE_SUFFIX = "Header";
+  private static final String IMPL_TEMPLATE_SUFFIX = "Implementation";
+
   private final List<String> basePackages;
 
   public JniTemplates(final List<String> basePackages) {
@@ -65,6 +69,20 @@ public final class JniTemplates {
     return results;
   }
 
+  public GeneratedFile generateConversionUtilsHeaderFile(final String fileName) {
+    return generateFile(
+        JNI_UTILS_TEMPLATE_PREFIX + fileName + HEADER_TEMPLATE_SUFFIX,
+        null,
+        JniNameRules.getHeaderFilePath(fileName));
+  }
+
+  public GeneratedFile generateConversionUtilsImplementationFile(final String fileName) {
+    return generateFile(
+        JNI_UTILS_TEMPLATE_PREFIX + fileName + IMPL_TEMPLATE_SUFFIX,
+        null,
+        JniNameRules.getImplementationFilePath(fileName));
+  }
+
   private void addStructConversionFiles(
       List<JniContainer> jniContainers, List<GeneratedFile> results) {
     final Set<Include> includes = new LinkedHashSet<>();
@@ -86,7 +104,8 @@ public final class JniTemplates {
             Include.createInternalInclude(JniNameRules.getStructConversionHeaderFileName()),
             CppLibraryIncludes.INT_TYPES,
             CppLibraryIncludes.VECTOR,
-            Include.createInternalInclude(AndroidGeneratorSuite.FIELD_ACCESS_UTILS_HEADER),
+            Include.createInternalInclude(
+                JniNameRules.getHeaderFilePath(AndroidGeneratorSuite.FIELD_ACCESS_UTILS)),
             Include.createInternalInclude(JniNameRules.getEnumConversionHeaderFileName())));
 
     results.add(

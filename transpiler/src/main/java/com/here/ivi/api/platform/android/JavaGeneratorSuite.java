@@ -17,6 +17,7 @@ import com.here.ivi.api.generator.androidmanifest.AndroidManifestGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.java.JavaTemplates;
 import com.here.ivi.api.generator.jni.JniGenerator;
+import com.here.ivi.api.generator.jni.JniNameRules;
 import com.here.ivi.api.generator.jni.JniTemplates;
 import com.here.ivi.api.model.common.ModelElement;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
@@ -38,22 +39,25 @@ public class JavaGeneratorSuite extends GeneratorSuite {
 
   public static final String GENERATOR_NAME = "java";
 
-  private static final String CONVERSION_UTILS_HEADER = "android/jni/JniCppConversionUtils.h";
-  private static final String CONVERSION_UTILS_CPP = "android/jni/JniCppConversionUtils.cpp";
+  private static final String ARRAY_CONVERSION_UTILS = "ArrayConversionUtils";
+  private static final String CPP_PROXY_BASE = "CppProxyBase";
+  public static final String FIELD_ACCESS_UTILS = "FieldAccessMethods";
+  private static final String JNI_BASE = "JniBase";
+  private static final String JNI_CPP_CONVERSION_UTILS = "JniCppConversionUtils";
 
-  private static final String CPP_PROXY_BASE_HEADER = "android/jni/CppProxyBase.h";
-  private static final String CPP_PROXY_BASE_IMPLEMENTATION = "android/jni/CppProxyBase.cpp";
-
-  private static final String JNI_BASE_HEADER = "android/jni/JniBase.h";
-  private static final String JNI_BASE_IMPLEMENTATION = "android/jni/JniBase.cpp";
+  private static final List<String> UTILS_IMPL_FILES =
+      Arrays.asList(ARRAY_CONVERSION_UTILS, CPP_PROXY_BASE, JNI_BASE, JNI_CPP_CONVERSION_UTILS);
+  private static final List<String> UTILS_HEADER_FILES =
+      Arrays.asList(
+          ARRAY_CONVERSION_UTILS,
+          CPP_PROXY_BASE,
+          FIELD_ACCESS_UTILS,
+          JNI_BASE,
+          JNI_CPP_CONVERSION_UTILS);
+  private static final List<String> UTILS_HEADER_INCLUDES =
+      Arrays.asList(CPP_PROXY_BASE, FIELD_ACCESS_UTILS, JNI_BASE, JNI_CPP_CONVERSION_UTILS);
 
   private static final String NATIVE_BASE_JAVA = "NativeBase.java";
-  public static final String FIELD_ACCESS_UTILS_HEADER = "android/jni/FieldAccessMethods.h";
-
-  private static final String ARRAY_UTILS_HEADER = "android/jni/ArrayConversionUtils.h";
-  private static final String ARRAY_UTILS_IMPLEMENTATION = "android/jni/ArrayConversionUtils.cpp";
-
-  private static final String CONVERSION_UTILS_TARGET_DIR = "";
 
   private final OptionReader.TranspilerOptions transpilerOptions;
   private final boolean enableAndroidFeatures;
@@ -92,11 +96,10 @@ public class JavaGeneratorSuite extends GeneratorSuite {
         new JniGenerator(
             deploymentModel,
             javaPackageList,
-            Arrays.asList(
-                CONVERSION_UTILS_HEADER,
-                FIELD_ACCESS_UTILS_HEADER,
-                CPP_PROXY_BASE_HEADER,
-                JNI_BASE_HEADER),
+            UTILS_HEADER_INCLUDES
+                .stream()
+                .map(JniNameRules::getHeaderFilePath)
+                .collect(Collectors.toList()),
             enableAndroidFeatures,
             internalNamespace);
 
@@ -138,15 +141,17 @@ public class JavaGeneratorSuite extends GeneratorSuite {
       results.add(androidManifestGenerator.generate());
     }
 
-    results.add(copyTarget(ARRAY_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(ARRAY_UTILS_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(CONVERSION_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(CONVERSION_UTILS_CPP, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(CPP_PROXY_BASE_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(CPP_PROXY_BASE_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(FIELD_ACCESS_UTILS_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(JNI_BASE_HEADER, CONVERSION_UTILS_TARGET_DIR));
-    results.add(copyTarget(JNI_BASE_IMPLEMENTATION, CONVERSION_UTILS_TARGET_DIR));
+    results.addAll(
+        UTILS_HEADER_FILES
+            .stream()
+            .map(jniTemplates::generateConversionUtilsHeaderFile)
+            .collect(Collectors.toList()));
+    results.addAll(
+        UTILS_IMPL_FILES
+            .stream()
+            .map(jniTemplates::generateConversionUtilsImplementationFile)
+            .collect(Collectors.toList()));
+
     results.addAll(javaFiles);
     results.addAll(jniFilesStream.flatMap(Collection::stream).collect(Collectors.toList()));
 
