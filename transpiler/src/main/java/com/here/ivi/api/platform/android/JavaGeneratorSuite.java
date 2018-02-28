@@ -45,9 +45,7 @@ public class JavaGeneratorSuite extends GeneratorSuite {
   private static final String JNI_BASE = "JniBase";
   private static final String JNI_CPP_CONVERSION_UTILS = "JniCppConversionUtils";
 
-  private static final List<String> UTILS_IMPL_FILES =
-      Arrays.asList(ARRAY_CONVERSION_UTILS, CPP_PROXY_BASE, JNI_BASE, JNI_CPP_CONVERSION_UTILS);
-  private static final List<String> UTILS_HEADER_FILES =
+  private static final List<String> UTILS_FILES =
       Arrays.asList(
           ARRAY_CONVERSION_UTILS,
           CPP_PROXY_BASE,
@@ -141,16 +139,10 @@ public class JavaGeneratorSuite extends GeneratorSuite {
       results.add(androidManifestGenerator.generate());
     }
 
-    results.addAll(
-        UTILS_HEADER_FILES
-            .stream()
-            .map(jniTemplates::generateConversionUtilsHeaderFile)
-            .collect(Collectors.toList()));
-    results.addAll(
-        UTILS_IMPL_FILES
-            .stream()
-            .map(jniTemplates::generateConversionUtilsImplementationFile)
-            .collect(Collectors.toList()));
+    for (final String fileName : UTILS_FILES) {
+      results.add(jniTemplates.generateConversionUtilsHeaderFile(fileName));
+      results.add(jniTemplates.generateConversionUtilsImplementationFile(fileName));
+    }
 
     results.addAll(javaFiles);
     results.addAll(jniFilesStream.flatMap(Collection::stream).collect(Collectors.toList()));

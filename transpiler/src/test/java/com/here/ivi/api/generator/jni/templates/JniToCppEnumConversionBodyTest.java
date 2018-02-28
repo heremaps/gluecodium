@@ -57,7 +57,7 @@ public final class JniToCppEnumConversionBodyTest {
     String expected =
         "{\n"
             + "    jclass javaClass = _jenv->GetObjectClass(_jinput);\n"
-            + "    jint enumValue = get_int_field(_jenv,javaClass, _jinput, \"value\" );\n"
+            + "    jint enumValue = here::internal::get_int_field(_jenv,javaClass, _jinput, \"value\" );\n"
             + "    _nout = ::a::superfancy::namespace::CppOuter::MyCppEnum( enumValue );\n"
             + "}";
     assertEquals(expected, generated);
@@ -73,7 +73,7 @@ public final class JniToCppEnumConversionBodyTest {
     String expected =
         "{\n"
             + "    jclass javaClass = _jenv->GetObjectClass(_jinput);\n"
-            + "    jint enumValue = get_int_field(_jenv,javaClass, _jinput, \"value\" );\n"
+            + "    jint enumValue = here::internal::get_int_field(_jenv,javaClass, _jinput, \"value\" );\n"
             + "    _nout = ::a::superfancy::namespace::MyCppEnum( enumValue );\n"
             + "}";
     assertEquals(expected, generated);

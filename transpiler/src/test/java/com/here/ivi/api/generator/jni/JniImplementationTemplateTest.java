@@ -54,7 +54,7 @@ public final class JniImplementationTemplateTest {
   private static final String CALL_STATIC = "::com::example::test::CppClass::";
   private static final String CALL_SHARED_POINTER = "(*pInstanceSharedPointer)->";
   private static final String RETRIEVE_LONG_PTR =
-      "    auto pointerAsLong = get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, \"nativeHandle\");\n";
+      "    auto pointerAsLong = here::internal::get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, \"nativeHandle\");\n";
   private static final String CAST_LONG_TO_SHARED_PTR =
       "    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::com::example::test::CppClass>*> (pointerAsLong);\n";
   private static final String CONVERSION_HEADER_INCLUDE =
