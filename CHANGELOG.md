@@ -1,8 +1,8 @@
 # API Transpiler Release Notes
 
-## Unreleased
+## 1.5.1
 - Bug fixes:
-  + Fixed JNI type conversion for foreign packages (APIGEN-1222)
+  + Fixed JNI type conversion for foreign packages
 
 ## 1.5.0
 - Breaking changes:
