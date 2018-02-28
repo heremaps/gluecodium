@@ -1,0 +1,61 @@
+/*
+ * Copyright (C) 2018 HERE Global B.V. and its affiliate(s). All rights reserved.
+ *
+ * This software, including documentation, is protected by copyright controlled by
+ * HERE Global B.V. All rights are reserved. Copying, including reproducing, storing,
+ * adapting or translating, any or all of this material requires the prior written
+ * consent of HERE Global B.V. This material also contains confidential information,
+ * which may not be disclosed to others without prior written consent of HERE Global B.V.
+ *
+ */
+
+package test
+
+typeCollection Forecast {
+
+    struct ForecastData {
+        Int32 lowestDegree
+        Int32 highestDegree
+    }
+
+    map CityDataMap { String to ForecastData }
+}
+
+interface ForecastFactory {
+
+    method createProvider {
+        out {
+          ForecastProvider.ForecastProvider provider
+        }
+    }
+
+    method createListener {
+        out {
+          ForecastListener.ForecastListener listener
+        }
+    }
+}
+
+interface ForecastProvider {
+
+    public typedef ForecastProvider is undefined
+
+    method inform {
+
+       in {
+           ForecastListener.ForecastListener listener
+       }
+    }
+}
+
+interface ForecastListener {
+
+    public typedef ForecastListener is undefined
+
+    method onForecastDataProvided {
+        in {
+            Forecast.CityDataMap data
+        }
+    }
+}
+
