@@ -19,7 +19,7 @@ extern "C" {
 
 namespace smoke {
 
-class InheritanceChildCppProxy : public here::internal::CppProxyBase, public InheritanceChild {
+class InheritanceChildCppProxy : public transpiler::jni::CppProxyBase, public InheritanceChild {
 public:
     InheritanceChildCppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode );
     void root_method(  ) override;

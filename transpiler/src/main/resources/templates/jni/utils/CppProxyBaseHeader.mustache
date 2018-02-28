@@ -10,9 +10,9 @@
 #include <string>
 #include <unordered_map>
 
-namespace here
+namespace {{.}}
 {
-namespace internal
+namespace jni
 {
 class CppProxyBase
 {
@@ -95,5 +95,5 @@ protected:
     static ::std::mutex sCacheMutex;
 };
 
-}  // namespace internal
-}  // namespace here
+}
+}

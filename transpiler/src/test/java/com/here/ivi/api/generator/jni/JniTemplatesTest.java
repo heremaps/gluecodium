@@ -55,7 +55,7 @@ public final class JniTemplatesTest {
           .isFrancaInterface(true)
           .build();
 
-  private final JniTemplates templates = new JniTemplates(null);
+  private final JniTemplates templates = new JniTemplates(null, null);
 
   @Before
   public void setUp() {
@@ -130,9 +130,9 @@ public final class JniTemplatesTest {
     assertEquals(MAIN_FILES_COUNT, result.size());
 
     PowerMockito.verifyStatic();
-    TemplateEngine.render("jni/Header", jniContainer);
+    TemplateEngine.render(eq("jni/Header"), any());
     PowerMockito.verifyStatic();
-    TemplateEngine.render("jni/Implementation", jniContainer);
+    TemplateEngine.render(eq("jni/Implementation"), any());
   }
 
   @Test

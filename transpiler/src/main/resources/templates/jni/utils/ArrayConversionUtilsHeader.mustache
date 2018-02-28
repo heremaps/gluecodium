@@ -11,9 +11,9 @@
 #include <unordered_map>
 #include <vector>
 
-namespace here
+namespace {{.}}
 {
-namespace internal
+namespace jni
 {
 // The following functions are converting and boxing primitive values into the corresponding
 // java boxing object so that they can be added to java list.
@@ -207,6 +207,5 @@ convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V
     _env->DeleteLocalRef( javaMapEntryClass );
 }
 
-}  // internal
-
-}  // here
+}
+}

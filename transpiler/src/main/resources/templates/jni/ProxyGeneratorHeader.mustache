@@ -11,6 +11,6 @@ inline void createCppProxy(JNIEnv* env, jobject obj, ::std::shared_ptr<T>& resul
 {{#models}}
 template<>
 inline void createCppProxy(JNIEnv* env, jobject obj, ::std::shared_ptr<{{#cppNameSpaces}}::{{.}}{{/cppNameSpaces}}{{#cppName}}::{{.}}{{/cppName}}>& result) {
-    ::here::internal::CppProxyBase::createProxy<{{#cppNameSpaces}}::{{.}}{{/cppNameSpaces}}{{#cppName}}::{{.}}{{/cppName}}, {{#cppNameSpaces}}::{{.}}{{/cppNameSpaces}}{{#cppName}}::{{.}}{{/cppName}}CppProxy>(env, obj, result);
+    ::{{internalNamespace}}::jni::CppProxyBase::createProxy<{{#cppNameSpaces}}::{{.}}{{/cppNameSpaces}}{{#cppName}}::{{.}}{{/cppName}}, {{#cppNameSpaces}}::{{.}}{{/cppNameSpaces}}{{#cppName}}::{{.}}{{/cppName}}CppProxy>(env, obj, result);
 }
 {{/models}}

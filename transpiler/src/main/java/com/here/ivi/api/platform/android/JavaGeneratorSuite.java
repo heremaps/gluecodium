@@ -128,13 +128,13 @@ public class JavaGeneratorSuite extends GeneratorSuite {
     javaFiles.add(
         JavaTemplates.generateNativeBase(String.join("/", nativeBasePath), javaPackageList));
 
-    JniTemplates jniTemplates = new JniTemplates(javaPackageList);
+    JniTemplates jniTemplates = new JniTemplates(javaPackageList, internalNamespace);
     Stream<List<GeneratedFile>> jniFilesStream =
         Stream.concat(
             jniModel
                 .stream()
                 .filter(jniContainer -> jniContainer.isFrancaInterface)
-                .map(JniTemplates::generateFiles),
+                .map(jniTemplates::generateFiles),
             Stream.of(jniTemplates.generateConversionFiles(jniModel)));
 
     List<GeneratedFile> results = new LinkedList<>();

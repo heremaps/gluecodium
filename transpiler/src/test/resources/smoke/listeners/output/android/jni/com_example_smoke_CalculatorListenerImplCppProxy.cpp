@@ -9,7 +9,7 @@
 namespace smoke {
 
 
-using namespace ::here::internal;
+using namespace ::transpiler::jni;
 
 CalculatorListenerCppProxy::CalculatorListenerCppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode )
     : CppProxyBase( _jenv, _jobj, _jHashCode ) {
@@ -29,13 +29,13 @@ void CalculatorListenerCppProxy::on_calculation_result_const( const double ncalc
 
 void CalculatorListenerCppProxy::on_calculation_result_struct( const ::smoke::CalculatorListener::ResultStruct& ncalculationResult ) {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto jcalculationResult = ::here::internal::convert_to_jni( jniEnv, ncalculationResult );
+    auto jcalculationResult = convert_to_jni( jniEnv, ncalculationResult );
     callJavaMethod( "onCalculationResultStruct", "(Lcom/example/smoke/CalculatorListener$ResultStruct;)V", jniEnv , jcalculationResult);
 }
 
 void CalculatorListenerCppProxy::on_calculation_result_array( const ::std::vector< double >& ncalculationResult ) {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto jcalculationResult = ::here::internal::convert_to_jni( jniEnv, ncalculationResult );
+    auto jcalculationResult = convert_to_jni( jniEnv, ncalculationResult );
     callJavaMethod( "onCalculationResultArray", "(Ljava/util/List;)V", jniEnv , jcalculationResult);
 }
 

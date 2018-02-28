@@ -2,9 +2,9 @@
 
 #include "ArrayConversionUtils.h"
 
-namespace here
+namespace {{.}}
 {
-namespace internal
+namespace jni
 {
 jobject
 convert_to_jni( JNIEnv* env, const bool nvalue )
@@ -173,6 +173,5 @@ unbox_long_value( JNIEnv* env, const jobject& jvalue )
     return jresult;
 }
 
-}  // internal
-
-}  // here
+}
+}

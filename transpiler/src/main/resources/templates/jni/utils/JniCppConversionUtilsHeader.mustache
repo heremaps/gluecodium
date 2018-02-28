@@ -8,10 +8,11 @@
 #include <string>
 #include <vector>
 
-namespace here
+namespace {{.}}
 {
-namespace internal
+namespace jni
 {
+
 // ------------------- JNI to C++ conversion functions ---------------------------------------------
 
 /**
@@ -38,6 +39,5 @@ jstring convert_to_jni( JNIEnv* env, const std::string& nvalue );
  */
 jbyteArray convert_to_jni_array( JNIEnv* env, const std::vector< uint8_t >& nvalue );
 
-}  // internal
-
-}  // here
+}
+}

@@ -1,6 +1,6 @@
-{{#if includes}}
 {{>java/CopyrightHeader}}
-{{#includes}}
+
+{{#container}}{{#includes}}
 {{>common/Include}}
 {{/includes}}
 #include "android/jni/InstanceConversion.h"
@@ -19,7 +19,7 @@ extern "C" {
 {{#parameters}}
 {{#if type.isComplex}}
     {{type.cppName}} {{name}};
-    here::internal::convert_from_jni( _jenv, j{{name}}, {{name}} );
+    {{internalNamespace}}::jni::convert_from_jni( _jenv, j{{name}}, {{name}} );
     _jenv->DeleteLocalRef(j{{name}});
 {{/if}}
 {{#unless type.isComplex}}
@@ -27,7 +27,7 @@ extern "C" {
 {{/unless}}
 {{/parameters}}
 {{#unless isStatic}}
-    auto pointerAsLong = here::internal::get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
+    auto pointerAsLong = {{internalNamespace}}::jni::get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<{{>jni/FullyQualifiedCppName}}>*> (pointerAsLong);
 {{/unless}}
 {{>jni/ReturnTypeConversion}}
@@ -40,4 +40,4 @@ Java_{{#javaPackages}}{{.}}_{{/javaPackages}}{{javaName}}_disposeNativeHandle(JN
     delete reinterpret_cast<std::shared_ptr<::{{#cppNameSpaces}}{{.}}::{{/cppNameSpaces}}{{cppName}}>*> (_jpointerRef);
 }
 }
-{{/if}}
+{{/container}}

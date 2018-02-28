@@ -3,7 +3,7 @@
 #pragma once
 
 #include <jni.h>
-{{#includes}}
+{{#container}}{{#includes}}
 {{>common/Include}}
 {{/includes}}
 
@@ -16,7 +16,7 @@ namespace {{.}} {
 
 {{/cppNameSpaces}}
 
-class {{cppName}}CppProxy : public here::internal::CppProxyBase, public {{cppName}} {
+class {{cppName}}CppProxy : public {{internalNamespace}}::jni::CppProxyBase, public {{cppName}} {
 
 public:
 
@@ -32,7 +32,7 @@ public:
 
 {{#cppNameSpaces}}
 }
-{{/cppNameSpaces}}
+{{/cppNameSpaces}}{{/container}}
 
 #ifdef __cplusplus
 }
