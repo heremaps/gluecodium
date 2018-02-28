@@ -171,6 +171,14 @@ feature(Maps cpp android swift SOURCES
     fidl/test/Maps.fidl
 )
 
+#TODO APIGEN-1207: Enable for swift
+feature(ListenerWithMaps cpp android SOURCES
+    src/test/ListenerWithMaps.cpp
+
+    fidl/test/ListenerWithMaps.fidl
+    fidl/test/ListenerWithMaps.fdepl
+)
+
 feature(Attributes cpp android swift SOURCES
     src/hello/HelloWorldAttributesImpl.h
     src/hello/HelloWorldAttributesImpl.cpp
