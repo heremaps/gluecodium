@@ -25,6 +25,7 @@ import com.here.ivi.api.model.java.*;
 import com.here.ivi.api.test.ArrayEList;
 import com.here.ivi.api.test.MockContextStack;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.*;
@@ -399,6 +400,25 @@ public class JavaModelBuilderTest {
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertEquals(javaCustomType, javaClass.extendedClass);
+  }
+
+  @Test
+  public void finishBuildingFrancaStructTypeReadsParentFields() {
+    JavaClass parentClass = JavaClass.builder("Foo").build();
+    JavaField grandParentField = new JavaField(javaCustomType, "BarField");
+    parentClass.parentFields.add(grandParentField);
+    parentClass.fields.add(javaField);
+    contextStack.injectResult(parentClass);
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertEquals(2, javaClass.parentFields.size());
+
+    Iterator<JavaField> iterator = javaClass.parentFields.iterator();
+    assertEquals(grandParentField, iterator.next());
+    assertEquals(javaField, iterator.next());
   }
 
   @Test

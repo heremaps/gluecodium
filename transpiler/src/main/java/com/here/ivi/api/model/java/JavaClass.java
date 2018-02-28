@@ -11,15 +11,14 @@
 
 package com.here.ivi.api.model.java;
 
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 public final class JavaClass extends JavaTopLevelElement {
 
   public final Set<JavaField> fields = new LinkedHashSet<>();
+  public final Set<JavaField> parentFields = new LinkedHashSet<>();
   public final JavaType extendedClass;
   public final boolean isImplClass;
   public final boolean needsDisposer;
@@ -44,8 +43,16 @@ public final class JavaClass extends JavaTopLevelElement {
   }
 
   @SuppressWarnings("unused")
-  public boolean tooManyFields() {
-    return fields.size() > 2;
+  public boolean needsBuilder() {
+    return parentFields.size() + fields.size() > 2;
+  }
+
+  @SuppressWarnings("unused")
+  public Collection<JavaField> getAllVisibleFields() {
+    List<JavaField> result = new LinkedList<>();
+    result.addAll(parentFields);
+    result.addAll(fields);
+    return result;
   }
 
   @Override

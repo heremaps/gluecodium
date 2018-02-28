@@ -33,40 +33,41 @@
 
     private static native void disposeNativeHandle(long nativeHandle);{{/if}}
 {{/if}}
-{{#if fields}}
+{{#if allVisibleFields}}
     public {{name}}() {}
 
-    public {{name}}({{#fields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
-    {{#fields}}
-        this.{{name}} = {{name}};
-    {{/fields}}
+    public {{name}}({{#allVisibleFields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/allVisibleFields}}) {
+{{#if parentFields}}        super({{#parentFields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/parentFields}});
+{{/if}}{{!!
+}}{{#fields}}        this.{{name}} = {{name}};
+{{/fields}}
     }
 {{/if}}
 {{#if isParcelable}}
 
 {{prefixPartial "java/ParcelableImpl" "    "}}
 {{/if}}
-{{#if fields}}{{#if tooManyFields}}
+{{#if needsBuilder}}
 
     public static class Builder {
-    {{#fields}}
+    {{#allVisibleFields}}
         private {{type.name}} {{name}}{{#initial}} = {{#isNew}}new {{/isNew}}{{name}}{{#isNew}}(){{/isNew}}{{/initial}};
-    {{/fields}}
+    {{/allVisibleFields}}
 
         public Builder() {
         }
 
-        {{#fields}}
+        {{#allVisibleFields}}
         public Builder set{{capitalize name}}({{type}} {{name}}) {
             this.{{name}} = {{name}};
             return this;
         }
-        {{/fields}}
+        {{/allVisibleFields}}
         public {{name}} build() {
-            return new {{name}}({{#fields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+            return new {{name}}({{#allVisibleFields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/allVisibleFields}});
         }
     }
-{{/if}}{{/if}}
+{{/if}}
 {{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
 {{/methods}}
 }
