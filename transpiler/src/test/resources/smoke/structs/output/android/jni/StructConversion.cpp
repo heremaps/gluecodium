@@ -212,6 +212,48 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::StructsInheritance::Colored
   _jenv->DeleteLocalRef(jcolor);
   return _jresult;
 }
+void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::GrandChildStruct& _nout ){
+  jclass javaClass = _jenv->GetObjectClass(_jinput);
+  _nout.parent_field = get_float_field(_jenv, javaClass, _jinput, "parentField");
+  _nout.child_field = get_int_field(_jenv, javaClass, _jinput, "childField");
+  _nout.grand_child_field = get_string_field(_jenv, javaClass, _jinput, "grandChildField");
+}
+jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::GrandChildStruct& _ninput){
+  auto javaClass = _jenv->FindClass("com/example/smoke/GrandChildStruct");
+  auto _jresult = create_object(_jenv, javaClass);
+  auto jparent_field = _ninput.parent_field;
+  set_float_field(_jenv, javaClass, _jresult, "parentField", jparent_field);
+  auto jchild_field = _ninput.child_field;
+  set_int_field(_jenv, javaClass, _jresult, "childField", jchild_field);
+  auto jgrand_child_field = _ninput.grand_child_field;
+  set_string_field(_jenv, javaClass, _jresult, "grandChildField", jgrand_child_field);
+  return _jresult;
+}
+void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ChildStruct& _nout ){
+  jclass javaClass = _jenv->GetObjectClass(_jinput);
+  _nout.parent_field = get_float_field(_jenv, javaClass, _jinput, "parentField");
+  _nout.child_field = get_int_field(_jenv, javaClass, _jinput, "childField");
+}
+jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::ChildStruct& _ninput){
+  auto javaClass = _jenv->FindClass("com/example/smoke/ChildStruct");
+  auto _jresult = create_object(_jenv, javaClass);
+  auto jparent_field = _ninput.parent_field;
+  set_float_field(_jenv, javaClass, _jresult, "parentField", jparent_field);
+  auto jchild_field = _ninput.child_field;
+  set_int_field(_jenv, javaClass, _jresult, "childField", jchild_field);
+  return _jresult;
+}
+void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ParentStruct& _nout ){
+  jclass javaClass = _jenv->GetObjectClass(_jinput);
+  _nout.parent_field = get_float_field(_jenv, javaClass, _jinput, "parentField");
+}
+jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::ParentStruct& _ninput){
+  auto javaClass = _jenv->FindClass("com/example/smoke/ParentStruct");
+  auto _jresult = create_object(_jenv, javaClass);
+  auto jparent_field = _ninput.parent_field;
+  set_float_field(_jenv, javaClass, _jresult, "parentField", jparent_field);
+  return _jresult;
+}
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::StructsQualifiedType::QualifiedType& _nout ){
   jclass javaClass = _jenv->GetObjectClass(_jinput);
   convert_from_jni(
