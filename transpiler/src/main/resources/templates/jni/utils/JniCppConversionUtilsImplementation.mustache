@@ -2,10 +2,11 @@
 
 #include "JniCppConversionUtils.h"
 
-namespace here
+namespace {{.}}
 {
-namespace internal
+namespace jni
 {
+
 // ------------------- JNI to C++ conversion functions ---------------------------------------------
 
 void
@@ -55,6 +56,5 @@ convert_to_jni_array( JNIEnv* env, const std::vector< uint8_t >& nvalue )
     return jresult;
 }
 
-}  // internal
-
-}  // here
+}
+}

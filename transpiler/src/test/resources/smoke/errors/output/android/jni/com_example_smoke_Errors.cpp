@@ -22,7 +22,7 @@ Java_com_example_smoke_Errors_methodWithErrors(JNIEnv* _jenv, jobject _jinstance
     if (errorCode)
     {
         auto nEnumValue = static_cast<::smoke::Errors::InternalError>(errorCode.value());
-        auto jEnumValue = here::internal::convert_to_jni(_jenv, nEnumValue);
+        auto jEnumValue = transpiler::jni::convert_to_jni(_jenv, nEnumValue);
         auto exceptionClass = _jenv->FindClass("com/example/smoke/InternalErrorException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass, "<init>", "(Lcom/example/smoke/Errors$InternalError;)V");
         auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);

@@ -8,11 +8,11 @@
 extern "C" {
 #endif
 
-{{#methods}}
+{{#container}}{{#methods}}
 JNIEXPORT {{#returnType}}{{name}}{{/returnType}}{{^returnType}}void{{/returnType}} JNICALL
 {{>jni/FunctionSignature}};
 
-{{/methods}}
+{{/methods}}{{/container}}
 
 #ifdef __cplusplus
 }

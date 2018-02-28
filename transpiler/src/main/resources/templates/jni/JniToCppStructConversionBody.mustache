@@ -5,7 +5,7 @@
 
   convert_from_jni(
     _jenv,
-    here::internal::get_object_field(
+    {{internalNamespace}}::jni::get_object_field(
     _jenv,
     javaClass,
     _jinput,
@@ -15,7 +15,7 @@
   {{/hasCustomType}}
   {{^hasCustomType}}
 
-  _nout.{{cppField.name}} = here::internal::get_{{javaField.type.literalName}}_field(_jenv, javaClass, _jinput, "{{javaField.name}}");
+  _nout.{{cppField.name}} = {{internalNamespace}}::jni::get_{{javaField.type.literalName}}_field(_jenv, javaClass, _jinput, "{{javaField.name}}");
   {{/hasCustomType}}
 {{/fields}}
 }

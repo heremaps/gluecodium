@@ -12,7 +12,7 @@ JNIEnv*
 attach_current_thread( )
 {
     JNIEnv* jniEnv;
-    JavaVM* jvm = here::internal::jni::get_java_vm( );
+    JavaVM* jvm = {{.}}::jni::get_java_vm( );
     int envState = jvm->GetEnv( reinterpret_cast< void** >( &jniEnv ), JNI_VERSION_1_6 );
     if ( envState == JNI_EDETACHED )
     {
@@ -29,7 +29,7 @@ attach_current_thread( )
 void
 detach_current_thread( void* )
 {
-    here::internal::jni::get_java_vm( )->DetachCurrentThread( );
+    {{.}}::jni::get_java_vm( )->DetachCurrentThread( );
 }
 
 inline void
@@ -44,11 +44,11 @@ make_key_once( )
     pthread_key_create( &s_thread_key, NULL );
 }
 
-}  // namespace
+}
 
-namespace here
+namespace {{.}}
 {
-namespace internal
+namespace jni
 {
 CppProxyBase::ProxyCache CppProxyBase::sProxyCache{};
 ::std::mutex CppProxyBase::sCacheMutex{};
@@ -119,5 +119,6 @@ CppProxyBase::getHashCode( JNIEnv* jniEnv, jobject jObj )
     jniEnv->DeleteLocalRef( jClass );
     return jResult;
 }
-}  // namespace internal
-}  // namespace here
+
+}
+}

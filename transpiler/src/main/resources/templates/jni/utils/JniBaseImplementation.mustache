@@ -4,9 +4,10 @@
 
 namespace
 {
+
 static JavaVM* jvm;
 
-}  // namespace
+}
 
 // JNI_OnLoad() gets automatically called by java vm while loading the library.
 // To make this work neither 'static' keyword (causes "static declaration of 'JNI_OnLoad' follows
@@ -25,18 +26,16 @@ JNI_OnLoad( JavaVM* vm, void* )
     return JNI_VERSION_1_6;
 }
 
-namespace here
-{
-namespace internal
+namespace {{.}}
 {
 namespace jni
 {
+
 JavaVM*
 get_java_vm( )
 {
     return jvm;
 }
 
-}  // namespace jni
-}  // namespace internal
-}  // namespace here
+}
+}

@@ -6,7 +6,7 @@
 
 namespace smoke {
 
-using namespace ::here::internal;
+using namespace ::transpiler::jni;
 InheritanceChildCppProxy::InheritanceChildCppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode )
     : CppProxyBase( _jenv, _jobj, _jHashCode ) {
 }
@@ -23,7 +23,7 @@ void InheritanceChildCppProxy::root_method(  ) {
 
 void InheritanceChildCppProxy::set_root_attribute( const ::std::string& nvalue ) {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto jvalue = ::here::internal::convert_to_jni( jniEnv, nvalue );
+    auto jvalue = convert_to_jni( jniEnv, nvalue );
     callJavaMethod( "setRootAttribute", "(Ljava/lang/String;)V", jniEnv , jvalue);
 }
 

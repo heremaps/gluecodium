@@ -34,30 +34,38 @@ public final class JniTemplates {
   @VisibleForTesting public static final String INCLUDES_NAME = "includes";
   @VisibleForTesting public static final String MODELS_NAME = "models";
   private static final String BASE_PACKAGES_NAME = "basePackages";
+  private static final String CONTAINER_NAME = "container";
+  private static final String INTERNAL_NAMESPACE_NAME = "internalNamespace";
 
   private static final String JNI_UTILS_TEMPLATE_PREFIX = "jni/utils/";
   private static final String HEADER_TEMPLATE_SUFFIX = "Header";
   private static final String IMPL_TEMPLATE_SUFFIX = "Implementation";
 
   private final List<String> basePackages;
+  private final String internalNamespace;
 
-  public JniTemplates(final List<String> basePackages) {
+  public JniTemplates(final List<String> basePackages, final String internalNamespace) {
     this.basePackages = basePackages;
+    this.internalNamespace = internalNamespace;
   }
 
-  public static List<GeneratedFile> generateFiles(final JniContainer jniContainer) {
+  public List<GeneratedFile> generateFiles(final JniContainer jniContainer) {
 
     List<GeneratedFile> results = new LinkedList<>();
     if (jniContainer == null) {
       return results;
     }
 
+    Map<String, Object> containerData = new HashMap<>();
+    containerData.put(CONTAINER_NAME, jniContainer);
+    containerData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
+
     results.add(
-        generateFile("jni/Header", jniContainer, JniNameRules.getHeaderFileName(jniContainer)));
+        generateFile("jni/Header", containerData, JniNameRules.getHeaderFileName(jniContainer)));
     results.add(
         generateFile(
             "jni/Implementation",
-            jniContainer,
+            containerData,
             JniNameRules.getImplementationFileName(jniContainer)));
 
     return results;
@@ -80,25 +88,27 @@ public final class JniTemplates {
   public GeneratedFile generateConversionUtilsHeaderFile(final String fileName) {
     return generateFile(
         JNI_UTILS_TEMPLATE_PREFIX + fileName + HEADER_TEMPLATE_SUFFIX,
-        null,
+        internalNamespace,
         JniNameRules.getHeaderFilePath(fileName));
   }
 
   public GeneratedFile generateConversionUtilsImplementationFile(final String fileName) {
     return generateFile(
         JNI_UTILS_TEMPLATE_PREFIX + fileName + IMPL_TEMPLATE_SUFFIX,
-        null,
+        internalNamespace,
         JniNameRules.getImplementationFilePath(fileName));
   }
 
   private void addStructConversionFiles(
       List<JniContainer> jniContainers, List<GeneratedFile> results) {
+
     final Set<Include> includes = new LinkedHashSet<>();
     jniContainers.forEach(model -> includes.addAll(model.includes));
 
-    Map<String, Iterable<?>> mustacheData = new HashMap<>();
+    Map<String, Object> mustacheData = new HashMap<>();
     mustacheData.put(INCLUDES_NAME, includes);
     mustacheData.put(MODELS_NAME, jniContainers);
+    mustacheData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
 
     results.add(
         generateFile(
@@ -128,9 +138,10 @@ public final class JniTemplates {
     final Set<Include> includes = new LinkedHashSet<>();
     jniContainers.forEach(model -> includes.addAll(model.includes));
 
-    Map<String, Iterable<?>> mustacheData = new HashMap<>();
+    Map<String, Object> mustacheData = new HashMap<>();
     mustacheData.put(INCLUDES_NAME, includes);
     mustacheData.put(MODELS_NAME, jniContainers);
+    mustacheData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
 
     results.add(
         generateFile(
@@ -159,7 +170,7 @@ public final class JniTemplates {
             .filter(container -> container.isFrancaInterface)
             .collect(Collectors.toList());
 
-    Map<String, Iterable<?>> instanceData = new HashMap<>();
+    Map<String, Object> instanceData = new HashMap<>();
     final Set<Include> instanceIncludes = new LinkedHashSet<>();
     instanceIncludes.add(CppLibraryIncludes.MEMORY);
     instanceIncludes.add(CppLibraryIncludes.NEW);
@@ -167,6 +178,7 @@ public final class JniTemplates {
     instanceData.put(INCLUDES_NAME, instanceIncludes);
     instanceData.put(MODELS_NAME, instanceContainers);
     instanceData.put(BASE_PACKAGES_NAME, basePackages);
+    instanceData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
 
     results.add(
         generateFile(
@@ -194,10 +206,14 @@ public final class JniTemplates {
 
     for (JniContainer jniContainer : listeners) {
 
+      Map<String, Object> containerData = new HashMap<>();
+      containerData.put(CONTAINER_NAME, jniContainer);
+      containerData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
+
       results.add(
           generateFile(
               "jni/CppProxyHeader",
-              jniContainer,
+              containerData,
               JniNameRules.getCppProxyHeaderFileName(jniContainer)));
 
       Include headerInclude =
@@ -205,9 +221,7 @@ public final class JniTemplates {
 
       proxyIncludes.add(headerInclude);
 
-      Map<String, Object> containerData = new HashMap<>();
       containerData.put("headerInclude", headerInclude);
-      containerData.put("container", jniContainer);
 
       results.add(
           generateFile(
@@ -216,9 +230,10 @@ public final class JniTemplates {
               JniNameRules.getCppProxyImplementationFileName(jniContainer)));
     }
 
-    Map<String, Iterable<?>> mustacheData = new HashMap<>();
+    Map<String, Object> mustacheData = new HashMap<>();
     mustacheData.put(INCLUDES_NAME, proxyIncludes);
     mustacheData.put(MODELS_NAME, listeners);
+    mustacheData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
 
     results.add(
         generateFile(

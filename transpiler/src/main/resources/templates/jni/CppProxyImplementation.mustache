@@ -11,7 +11,7 @@ namespace {{.}} {
 
 {{/cppNameSpaces}}
 
-using namespace ::here::internal;
+using namespace ::{{internalNamespace}}::jni;
 
 {{cppName}}CppProxy::{{cppName}}CppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode )
     : CppProxyBase( _jenv, _jobj, _jHashCode ) {
@@ -34,7 +34,7 @@ using namespace ::here::internal;
     JNIEnv* jniEnv = getJniEnvironment( );{{!!
 }}{{#parameters}}{{!!
 }}{{#if type.isComplex}}
-    auto j{{name}} = ::here::internal::convert_to_jni{{#if type.isJavaArray}}_array{{/if}}( jniEnv, n{{name}} );{{!!
+    auto j{{name}} = convert_to_jni{{#if type.isJavaArray}}_array{{/if}}( jniEnv, n{{name}} );{{!!
 }}{{/if}}{{!!
 }}{{#unless type.isComplex}}
     j{{type.javaName}} j{{name}} = n{{name}};{{!!

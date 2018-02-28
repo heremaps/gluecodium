@@ -2,9 +2,9 @@
 
 #include "FieldAccessMethods.h"
 
-namespace here
+namespace {{.}}
 {
-namespace internal
+namespace jni
 {
 
 // -------------------- JNI object field getters --------------------------------------------------
@@ -74,7 +74,7 @@ get_string_field( JNIEnv* env, const jclass javaClass, const jobject object, con
     std::string result;
     auto fieldId = env->GetFieldID( javaClass, fieldName, "Ljava/lang/String;" );
 
-    here::internal::convert_from_jni(
+    {{.}}::jni::convert_from_jni(
         env, static_cast< jstring >( env->GetObjectField( object, fieldId ) ), result );
     return result;
 }
@@ -88,7 +88,7 @@ get_byte_array_field( JNIEnv* env,
     std::vector< uint8_t > result;
     auto fieldId = env->GetFieldID( javaClass, fieldName, "[B" );
 
-    here::internal::convert_from_jni(
+    {{.}}::jni::convert_from_jni(
         env, static_cast< jbyteArray >( env->GetObjectField( object, fieldId ) ), result );
     return result;
 }
@@ -192,7 +192,7 @@ set_string_field( JNIEnv* env,
                   const std::string& fieldValue )
 {
     auto fieldId = env->GetFieldID( javaClass, fieldName, "Ljava/lang/String;" );
-    jstring jValue = here::internal::convert_to_jni( env, fieldValue );
+    jstring jValue = {{.}}::jni::convert_to_jni( env, fieldValue );
     env->SetObjectField( object, fieldId, jValue );
     env->DeleteLocalRef( jValue );
 }
@@ -205,7 +205,7 @@ set_byte_array_field( JNIEnv* env,
                       const std::vector< uint8_t >& fieldValue )
 {
     auto fieldId = env->GetFieldID( javaClass, fieldName, "[B" );
-    jbyteArray jValue = here::internal::convert_to_jni_array( env, fieldValue );
+    jbyteArray jValue = {{.}}::jni::convert_to_jni_array( env, fieldValue );
     env->SetObjectField( object, fieldId, jValue );
     env->DeleteLocalRef( jValue );
 }

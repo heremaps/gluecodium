@@ -11,7 +11,7 @@
         _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
         _jenv->DeleteLocalRef( exceptionClass );
     }
-    jobject jResult = create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+    jobject jResult = {{internalNamespace}}::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
     _jenv->DeleteLocalRef( javaClass );
     return jResult;
 }
