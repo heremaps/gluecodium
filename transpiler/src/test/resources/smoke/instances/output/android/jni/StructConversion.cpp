@@ -12,14 +12,14 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InstanceWi
 
   jclass javaClass = _jenv->GetObjectClass(_jinput);
 
-  _nout.value = get_byte_field(_jenv, javaClass, _jinput, "value");
+  _nout.value = here::internal::get_byte_field(_jenv, javaClass, _jinput, "value");
 }
 
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::InnerStruct& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/InstanceWithStruct$InnerStruct");
-  auto _jresult = create_object(_jenv, javaClass);
+  auto _jresult = here::internal::create_object(_jenv, javaClass);
   auto jvalue = _ninput.value;
-  set_byte_field(_jenv, javaClass, _jresult, "value", jvalue);
+  here::internal::set_byte_field(_jenv, javaClass, _jresult, "value", jvalue);
   return _jresult;
 }
 
@@ -27,7 +27,7 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InstanceWi
   jclass javaClass = _jenv->GetObjectClass(_jinput);
   convert_from_jni(
     _jenv,
-    get_object_field(
+    here::internal::get_object_field(
     _jenv,
     javaClass,
     _jinput,
@@ -36,7 +36,7 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InstanceWi
     _nout.instance );
   convert_from_jni(
     _jenv,
-    get_object_field(
+    here::internal::get_object_field(
     _jenv,
     javaClass,
     _jinput,
@@ -47,13 +47,13 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InstanceWi
 
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::StructWithInstance& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/InstanceWithStruct$StructWithInstance");
-  auto _jresult = create_object(_jenv, javaClass);
+  auto _jresult = here::internal::create_object(_jenv, javaClass);
   auto jinstance = convert_to_jni(_jenv, _ninput.instance);
-  set_object_field(_jenv, javaClass, _jresult, "instance",
+  here::internal::set_object_field(_jenv, javaClass, _jresult, "instance",
   "Lcom/example/smoke/SimpleInstantiableOne;", jinstance);
   _jenv->DeleteLocalRef(jinstance);
   auto jinstance_not_null = convert_to_jni(_jenv, _ninput.instance_not_null);
-  set_object_field(_jenv, javaClass, _jresult, "instanceNotNull",
+  here::internal::set_object_field(_jenv, javaClass, _jresult, "instanceNotNull",
   "Lcom/example/smoke/SimpleInstantiableOne;", jinstance_not_null);
   _jenv->DeleteLocalRef(jinstance_not_null);
   return _jresult;

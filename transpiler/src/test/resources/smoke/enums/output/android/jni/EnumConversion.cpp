@@ -5,7 +5,7 @@ namespace internal {
 
     void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::SimpleEnum& _nout )    {
         jclass javaClass = _jenv->GetObjectClass(_jinput);
-        jint enumValue = get_int_field(_jenv,javaClass, _jinput, "value" );
+        jint enumValue = here::internal::get_int_field(_jenv,javaClass, _jinput, "value" );
         _nout = ::smoke::Enums::SimpleEnum( enumValue );
     }
 
@@ -26,7 +26,7 @@ namespace internal {
 
     void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::InternalError& _nout )    {
         jclass javaClass = _jenv->GetObjectClass(_jinput);
-        jint enumValue = get_int_field(_jenv,javaClass, _jinput, "value" );
+        jint enumValue = here::internal::get_int_field(_jenv,javaClass, _jinput, "value" );
         _nout = ::smoke::Enums::InternalError( enumValue );
     }
 
@@ -47,7 +47,7 @@ namespace internal {
 
     void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::TCEnum& _nout )    {
         jclass javaClass = _jenv->GetObjectClass(_jinput);
-        jint enumValue = get_int_field(_jenv,javaClass, _jinput, "value" );
+        jint enumValue = here::internal::get_int_field(_jenv,javaClass, _jinput, "value" );
         _nout = ::smoke::TCEnum( enumValue );
     }
 
