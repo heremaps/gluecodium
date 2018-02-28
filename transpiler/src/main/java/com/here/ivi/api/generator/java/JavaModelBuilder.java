@@ -228,6 +228,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaClass.comment = CommentHelper.getDescription(francaStructType);
     javaClass.fields.addAll(getPreviousResults(JavaField.class));
 
+    JavaClass parentClass = getPreviousResult(JavaClass.class);
+    if (parentClass != null) {
+      javaClass.parentFields.addAll(parentClass.parentFields);
+      javaClass.parentFields.addAll(parentClass.fields);
+    }
+
     if (isSerializable) {
       javaClass.parentInterfaces.add(serializationBase);
     }

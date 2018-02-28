@@ -11,8 +11,31 @@ public class StructsInheritance extends NativeBase {
     public static class SyncResultInherited extends Structs.SyncResult {
         public int id;
         public SyncResultInherited() {}
-        public SyncResultInherited(int id) {
+        public SyncResultInherited(long lastUpdatedTimeStamp, long numberOfChanges, int id) {
+            super(lastUpdatedTimeStamp, numberOfChanges);
             this.id = id;
+        }
+        public static class Builder {
+            private long lastUpdatedTimeStamp;
+            private long numberOfChanges;
+            private int id;
+            public Builder() {
+            }
+            public Builder setLastUpdatedTimeStamp(long lastUpdatedTimeStamp) {
+                this.lastUpdatedTimeStamp = lastUpdatedTimeStamp;
+                return this;
+            }
+            public Builder setNumberOfChanges(long numberOfChanges) {
+                this.numberOfChanges = numberOfChanges;
+                return this;
+            }
+            public Builder setId(int id) {
+                this.id = id;
+                return this;
+            }
+            public SyncResultInherited build() {
+                return new SyncResultInherited(lastUpdatedTimeStamp, numberOfChanges, id);
+            }
         }
     }
     /** For internal use only */
