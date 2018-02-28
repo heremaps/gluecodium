@@ -77,11 +77,7 @@ system cannot be guaranteed).
 inconsistent cache).
 
 ## License
-    Copyright (C) 2018 HERE Global B.V. and its affiliate(s). All rights reserved.
 
-    This software and other materials contain proprietary information of HERE
-    and are protected by applicable copyright legislation. Any use and
-    utilization of this software and other materials and disclosure to any
-    third parties is conditional upon having a separate agreement with HERE
-    for the use, utilization or disclosure of this software. In the absence of
-    such agreement, the use of the software is not allowed.
+Copyright (c) 2016-2018 HERE Europe B.V.
+
+See the [LICENSE](./LICENSE) file in the root of this project for license details.
