@@ -86,8 +86,13 @@ function(apigen_swift_compile target architecture)
         ${swift_target_flag}
         -emit-module
         -emit-library
-        -embed-bitcode
         -module-name ${target})
+
+    if (SIMULATOR)
+        message(STATUS "[Swift] Building for simulator")
+    else ()
+        set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -embed-bitcode)
+    endif ()
 
     string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
     if (uppercase_CMAKE_BUILD_TYPE MATCHES "^(DEBUG|RELWITHDEBINFO)$")
