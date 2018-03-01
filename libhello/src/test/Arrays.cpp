@@ -171,8 +171,14 @@ Arrays::reverse_array_of_aliases( const Arrays::ProfileIdList& input )
     return { input.rbegin(), input.rend() };
 }
 
-std::vector< ::test::Arrays::ArrayEnum >
-Arrays::reverse_enums_array( const std::vector< ::test::Arrays::ArrayEnum >& input )
+Arrays::ArrayEnumArray
+Arrays::reverse_enums_array( const Arrays::ArrayEnumArray& input )
+{
+    return { input.rbegin( ), input.rend( ) };
+}
+
+Arrays::ArrayOfMaps
+Arrays::reverse_maps_array( const Arrays::ArrayOfMaps& input )
 {
     return { input.rbegin( ), input.rend( ) };
 }
