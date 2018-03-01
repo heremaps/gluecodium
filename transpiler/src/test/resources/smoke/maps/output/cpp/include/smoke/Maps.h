@@ -18,6 +18,10 @@ public:
     virtual ~Maps() = 0;
 public:
 using ErrorCodeToMessageMap = ::std::unordered_map< int32_t, ::std::string >;
+using SomeId = ::std::string;
+using NumberToTypeDef = ::std::unordered_map< uint8_t, ::smoke::Maps::SomeId >;
+using TypeDefToNumber = ::std::unordered_map< ::smoke::Maps::SomeId, uint8_t >;
+
 struct SomeStruct {
     ::std::string value;
 };

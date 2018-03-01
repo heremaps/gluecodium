@@ -12,6 +12,9 @@ public class Maps {
     public typealias ErrorCodeToMessageMap = [Int32: String]
     public typealias NumberToStruct = [UInt8: Maps.SomeStruct]
     public typealias NestedMap = [UInt8: Maps.NumberToStruct]
+    public typealias NumberToTypeDef = [UInt8: Maps.SomeId]
+    public typealias TypeDefToNumber = [Maps.SomeId: UInt8]
+    public typealias SomeId = String
 
     let c_instance : _baseRef
 
@@ -212,5 +215,68 @@ func convertMaps_NestedMapFromCType(_ cHandle: _baseRef) -> Maps.NestedMap {
         smoke_Maps_NestedMap_iterator_increment(iteratorHandle)
     }
     smoke_Maps_NestedMap_iterator_release(iteratorHandle)
+    return swiftDict
+}
+
+func convertMaps_NumberToTypeDefToCType(_ swiftDict: Maps.NumberToTypeDef) -> _baseRef {
+    let cHandle = smoke_Maps_NumberToTypeDef_create()
+    for (swift_key, swift_value) in swiftDict {
+        let c_key = swift_key
+        let c_value = swift_value.convertToCType()
+        defer {
+            std_string_release(c_value)
+        }
+        smoke_Maps_NumberToTypeDef_put(cHandle, c_key, c_value)
+    }
+    return cHandle
+}
+func convertMaps_NumberToTypeDefFromCType(_ cHandle: _baseRef) -> Maps.NumberToTypeDef {
+    var swiftDict: Maps.NumberToTypeDef = [:]
+    let iteratorHandle = smoke_Maps_NumberToTypeDef_iterator(cHandle)
+    while smoke_Maps_NumberToTypeDef_iterator_is_valid(cHandle, iteratorHandle) {
+        let c_key = smoke_Maps_NumberToTypeDef_iterator_key(iteratorHandle)
+        let swift_key = c_key
+        let c_value = smoke_Maps_NumberToTypeDef_iterator_value(iteratorHandle)
+        defer {
+            std_string_release(c_value)
+        }
+        let swift_value = String(data: Data(bytes: std_string_data_get(c_value),
+                                            count: Int(std_string_size_get(c_value))),
+                                            encoding: .utf8)
+        swiftDict[swift_key] = swift_value
+        smoke_Maps_NumberToTypeDef_iterator_increment(iteratorHandle)
+    }
+    smoke_Maps_NumberToTypeDef_iterator_release(iteratorHandle)
+    return swiftDict
+}
+func convertMaps_TypeDefToNumberToCType(_ swiftDict: Maps.TypeDefToNumber) -> _baseRef {
+    let cHandle = smoke_Maps_TypeDefToNumber_create()
+    for (swift_key, swift_value) in swiftDict {
+        let c_key = swift_key.convertToCType()
+        defer {
+            std_string_release(c_key)
+        }
+        let c_value = swift_value
+        smoke_Maps_TypeDefToNumber_put(cHandle, c_key, c_value)
+    }
+    return cHandle
+}
+func convertMaps_TypeDefToNumberFromCType(_ cHandle: _baseRef) -> Maps.TypeDefToNumber {
+    var swiftDict: Maps.TypeDefToNumber = [:]
+    let iteratorHandle = smoke_Maps_TypeDefToNumber_iterator(cHandle)
+    while smoke_Maps_TypeDefToNumber_iterator_is_valid(cHandle, iteratorHandle) {
+        let c_key = smoke_Maps_TypeDefToNumber_iterator_key(iteratorHandle)
+        defer {
+            std_string_release(c_key)
+        }
+        let swift_key = String(data: Data(bytes: std_string_data_get(c_key),
+                                            count: Int(std_string_size_get(c_key))),
+                                            encoding: .utf8)
+        let c_value = smoke_Maps_TypeDefToNumber_iterator_value(iteratorHandle)
+        let swift_value = c_value
+        swiftDict[swift_key] = swift_value
+        smoke_Maps_TypeDefToNumber_iterator_increment(iteratorHandle)
+    }
+    smoke_Maps_TypeDefToNumber_iterator_release(iteratorHandle)
     return swiftDict
 }

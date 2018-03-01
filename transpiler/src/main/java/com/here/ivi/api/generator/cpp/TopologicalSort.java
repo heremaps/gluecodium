@@ -86,7 +86,9 @@ public final class TopologicalSort {
     } else if (typeRef instanceof CppTypeDefRef) {
       CppTypeDefRef typeDefRef = (CppTypeDefRef) typeRef;
       dependencies.addAll(getTypeDependencies(typeDefRef.actualType));
-    } else if (fullyQualifiedNames.contains(typeRef.name)) {
+    }
+
+    if (fullyQualifiedNames.contains(typeRef.name)) {
       dependencies.add(typeRef.name);
     }
 

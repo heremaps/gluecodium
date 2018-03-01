@@ -133,15 +133,14 @@ public class TopologicalSortTest {
             Arrays.asList(createConstant(TYPE_B), CPP_USING),
             Arrays.asList(0, 1)
           },
-          // TODO: APIGEN-1226: uncomment after the typedef-to-typdef issue is fixed
-          //          {
-          //            "usingDependingOnUsing",
-          //            Arrays.asList(
-          //                createUsing(
-          //                    "anotherShortcut", new CppTypeDefRef(TYPE_DEF_NAME, createComplex(TYPE_A))),
-          //                CPP_USING),
-          //            Arrays.asList(1, 0)
-          //          },
+          {
+            "usingDependingOnUsing",
+            Arrays.asList(
+                createUsing(
+                    "anotherShortcut", new CppTypeDefRef(TYPE_DEF_NAME, createComplex(TYPE_A))),
+                CPP_USING),
+            Arrays.asList(1, 0)
+          },
           {
             "usingNotDependingOnUsingKeepsSameOrder",
             Arrays.asList(CPP_USING, createUsing("anotherShortcut", createComplex(TYPE_B))),
