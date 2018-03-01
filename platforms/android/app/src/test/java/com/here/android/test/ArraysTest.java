@@ -229,12 +229,13 @@ public class ArraysTest {
 
   @Test
   public void reverseMapArray() {
-    Map<Integer, String> map0 = Collections.emptyMap();
-    Map<Integer, String> map1 = new HashMap<>();
+    Map<Long, String> map0 = Collections.emptyMap();
+    Map<Long, String> map1 = new HashMap<>();
+    map1.put(42L, STRING_LIST_ITEM_1);
 
-    List<Map<Integer, String>> input = java.util.Arrays.asList(map0, map1);
+    List<Map<Long, String>> input = java.util.Arrays.asList(map0, map1);
 
-    List<Map<Integer, String>> result = ArraysMaps.reverseMapArray(input);
+    List<Map<Long, String>> result = Arrays.reverseMapsArray(input);
     assertNotNull(result);
     assertEquals(2, result.size());
     assertEquals(map1, result.get(0));

@@ -102,6 +102,10 @@ define TranspilerExtensions for interface test.Arrays
         Static = true
     }
 
+    method reverseMapsArray {
+        Static = true
+    }
+
     method createFancyStruct {
         Static = true
     }

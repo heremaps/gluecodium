@@ -219,6 +219,16 @@ class ArraysTests: XCTestCase {
         XCTAssertEqual(messages[1], "World")
     }
 
+    func testArrayOfMaps() {
+        let inputArray: [Arrays.NumberToIdMap] = [[1: "Hello"], [2: "test", 3: "world"]]
+
+        let resultArray = Arrays.reverseMapsArray(input: inputArray)
+
+        XCTAssertEqual(resultArray.count, 2)
+        XCTAssertEqual(resultArray[0], inputArray[1])
+        XCTAssertEqual(resultArray[1], inputArray[0])
+    }
+
     static var allTests = [
         ("testArrayString", testArrayString),
         ("testArrayInt8", testArrayInt8),
@@ -240,6 +250,7 @@ class ArraysTests: XCTestCase {
         ("testMergeArraysOfStructsWithArrays", testMergeArraysOfStructsWithArrays),
         ("testEnumsArray", testEnumsArray),
         ("testArrayOfAliases", testArrayOfAliases),
-        ("testArrayInStructOutlivesStruct", testArrayInStructOutlivesStruct)
+        ("testArrayInStructOutlivesStruct", testArrayInStructOutlivesStruct),
+        ("testArrayOfMaps", testArrayOfMaps)
         ]
 }

@@ -61,6 +61,9 @@ interface Arrays {
     typedef ProfileId is String
     array ProfileIdList of ProfileId
 
+    array ArrayOfMaps of NumberToIdMap
+    map NumberToIdMap { UInt8 to ProfileId }
+
     <** @description:
     Static method which takes a string array and returns an array of same type in reversed order.
     **>
@@ -364,6 +367,20 @@ interface Arrays {
         out {
             <** @description: Output array **>
             ArrayEnumArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes an array and returns an array of same type in reversed order.
+    **>
+    method reverseMapsArray {
+        in {
+            <** @description: Input array **>
+            ArrayOfMaps input
+        }
+        out {
+            <** @description: Output array **>
+            ArrayOfMaps output
         }
     }
 
