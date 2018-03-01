@@ -77,6 +77,9 @@ public final class CArrayMapper {
     } else if (object instanceof FArrayType) {
       FTypeRef francaRef = ((FArrayType) object).getElementType();
       elementName = getName(francaRef);
+    } else if (object instanceof FMapType) {
+      FMapType francaMap = (FMapType) object;
+      elementName = getName(francaMap.getKeyType()) + getName(francaMap.getValueType()) + "Map";
     } else if (object instanceof FEnumerationType) {
       elementName = "Enums";
     }

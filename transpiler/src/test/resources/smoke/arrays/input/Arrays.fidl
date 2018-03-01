@@ -43,6 +43,9 @@ interface Arrays {
     array ProfileIdList of ProfileId
     typedef ProfileId is String
 
+    array ArrayOfMaps of ErrorCodeToMessageMap
+    map ErrorCodeToMessageMap { Int32 to String }
+
     method methodWithArray {
         in {
             StringArray input
@@ -95,6 +98,15 @@ interface Arrays {
         }
         out {
             ProfileIdList output
+        }
+    }
+
+    method methodWithArrayOfMaps {
+        in {
+            ArrayOfMaps input
+        }
+        out {
+            ArrayOfMaps output
         }
     }
 }

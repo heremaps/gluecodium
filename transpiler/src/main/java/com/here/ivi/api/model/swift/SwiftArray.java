@@ -67,7 +67,7 @@ public final class SwiftArray extends SwiftType {
   }
 
   private static String getImplName(SwiftType underlyingType) {
-    return "CollectionOf<" + underlyingType.name + ">";
+    return "CollectionOf<" + underlyingType.publicName + ">";
   }
 
   private String swiftRecursiveTransformation(final SwiftType type) {

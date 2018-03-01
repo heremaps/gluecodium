@@ -11,6 +11,7 @@ extern "C" {
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/StringHandle.h"
 #include <stdint.h>
+#include <stdbool.h>
 
 _baseRef smoke_Maps_SomeStruct_create();
 void smoke_Maps_SomeStruct_release(_baseRef handle);

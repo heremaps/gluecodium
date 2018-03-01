@@ -67,7 +67,7 @@ public final class SwiftGenericParameter extends SwiftModelElement {
       return result;
     } else {
       return Collections.singletonList(
-          new SwiftGenericParameter.Constraint(name, elementType.name, false));
+          new SwiftGenericParameter.Constraint(name, elementType.publicName, false));
     }
   }
 }

@@ -45,4 +45,8 @@ define TranspilerExtensions for interface smoke.Arrays
     method methodWithArrayOfAliases {
         Static = true
     }
+
+    method methodWithArrayOfMaps {
+        Static = true
+    }
 }
