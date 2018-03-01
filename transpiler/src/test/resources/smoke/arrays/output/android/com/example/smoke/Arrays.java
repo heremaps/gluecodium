@@ -4,9 +4,12 @@
  */
 
 package com.example.smoke;
+
 import com.example.NativeBase;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 public class Arrays extends NativeBase {
     public static class BasicStruct {
         public double value;
@@ -40,4 +43,5 @@ public class Arrays extends NativeBase {
     public static native List<List<Long>> methodWithArrayOfArrays(final List<List<Long>> input);
     public static native List<Arrays.FancyStruct> mergeArraysOfStructsWithArrays(final List<Arrays.FancyStruct> inlineFancyArray, final List<Arrays.FancyStruct> fancyArray);
     public static native List<String> methodWithArrayOfAliases(final List<String> input);
+    public static native List<Map<Integer, String>> methodWithArrayOfMaps(final List<Map<Integer, String>> input);
 }

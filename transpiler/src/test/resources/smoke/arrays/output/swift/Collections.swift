@@ -78,6 +78,38 @@ extension Collection where Element == Arrays.FancyStruct  {
         return (handle, cleanup_function)
     }
 }
+internal class ArraysErrorCodeToMessageMapList: CollectionOf<Arrays.ErrorCodeToMessageMap> {
+    let c_element: _baseRef
+    init(_ c_element: _baseRef) {
+        self.c_element = c_element
+        super.init(nil)
+        self.startIndex = 0
+        self.endIndex = Int(arrayCollection_Int32StringMap_count(c_element))
+    }
+    deinit {
+        arrayCollection_Int32StringMap_release(c_element)
+    }
+    public override subscript(index: Int) -> Arrays.ErrorCodeToMessageMap {
+        let handle = arrayCollection_Int32StringMap_get(c_element, UInt64(index))
+        return convertArrays_ErrorCodeToMessageMapFromCType(handle)
+    }
+}
+extension Collection where Element == Arrays.ErrorCodeToMessageMap  {
+    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
+        let handle = arrayCollection_Int32StringMap_create()
+        for item in self {
+            let conversion = convertArrays_ErrorCodeToMessageMapToCType(item)
+            defer {
+                smoke_Arrays_ErrorCodeToMessageMap_release(conversion)
+            }
+            arrayCollection_Int32StringMap_append(handle, conversion)
+        }
+        let cleanup_function = { () -> Void in
+            arrayCollection_Int32StringMap_release(handle)
+        }
+        return (handle, cleanup_function)
+    }
+}
 internal class UInt8ListList: CollectionOf<CollectionOf<UInt8>> {
     let c_element: _baseRef
     init(_ c_element: _baseRef) {
@@ -108,7 +140,7 @@ extension Collection where Element: Collection, Element.Element == UInt8  {
         return (handle, cleanup_function)
     }
 }
-internal class StringList: CollectionOf<String> {
+internal class StringList: CollectionOf<Arrays.ProfileId> {
     let c_element: _baseRef
     init(_ c_element: _baseRef) {
         self.c_element = c_element
@@ -119,7 +151,7 @@ internal class StringList: CollectionOf<String> {
     deinit {
         arrayCollection_String_release(c_element)
     }
-    public override subscript(index: Int) -> String {
+    public override subscript(index: Int) -> Arrays.ProfileId {
         let handle = arrayCollection_String_get(c_element, UInt64(index))
         defer {
             std_string_release(handle)
@@ -128,7 +160,7 @@ internal class StringList: CollectionOf<String> {
                       count: Int(std_string_size_get(handle))), encoding: .utf8)!
     }
 }
-extension Collection where Element == String  {
+extension Collection where Element == Arrays.ProfileId  {
     public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_String_create()
         for item in self {

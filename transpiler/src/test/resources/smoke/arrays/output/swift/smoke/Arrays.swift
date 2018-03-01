@@ -12,6 +12,7 @@ internal func getRef(_ ref: Arrays?) -> RefHolder {
 public class Arrays {
 
     public typealias ProfileId = String
+    public typealias ErrorCodeToMessageMap = [Int32: String]
     let c_instance : _baseRef
 
     public init?(cArrays: _baseRef) {
@@ -136,7 +137,7 @@ public class Arrays {
         return FancyStructList(handle)
     }
 
-    public static func methodWithArrayOfAliases<Tinput: Collection>(input: Tinput) -> CollectionOf<String> where Tinput.Element == String {
+    public static func methodWithArrayOfAliases<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.ProfileId> where Tinput.Element == Arrays.ProfileId {
 
         let inputHandle = input.c_conversion()
         defer {
@@ -147,8 +148,48 @@ public class Arrays {
         return StringList(handle)
     }
 
+    public static func methodWithArrayOfMaps<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.ErrorCodeToMessageMap> where Tinput.Element == Arrays.ErrorCodeToMessageMap {
+        let inputHandle = input.c_conversion()
+        defer {
+            inputHandle.cleanup()
+        }
+        let handle = smoke_Arrays_methodWithArrayOfMaps(inputHandle.c_type)
+        return ArraysErrorCodeToMessageMapList(handle)
+    }
 }
 
 extension Arrays: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+
+func convertArrays_ErrorCodeToMessageMapToCType(_ swiftDict: Arrays.ErrorCodeToMessageMap) -> _baseRef {
+    let cHandle = smoke_Arrays_ErrorCodeToMessageMap_create()
+    for (swift_key, swift_value) in swiftDict {
+        let c_key = swift_key
+        let c_value = swift_value.convertToCType()
+        defer {
+            std_string_release(c_value)
+        }
+        smoke_Arrays_ErrorCodeToMessageMap_put(cHandle, c_key, c_value)
+    }
+    return cHandle
+}
+func convertArrays_ErrorCodeToMessageMapFromCType(_ cHandle: _baseRef) -> Arrays.ErrorCodeToMessageMap {
+    var swiftDict: Arrays.ErrorCodeToMessageMap = [:]
+    let iteratorHandle = smoke_Arrays_ErrorCodeToMessageMap_iterator(cHandle)
+    while smoke_Arrays_ErrorCodeToMessageMap_iterator_is_valid(cHandle, iteratorHandle) {
+        let c_key = smoke_Arrays_ErrorCodeToMessageMap_iterator_key(iteratorHandle)
+        let swift_key = c_key
+        let c_value = smoke_Arrays_ErrorCodeToMessageMap_iterator_value(iteratorHandle)
+        defer {
+            std_string_release(c_value)
+        }
+        let swift_value = String(data: Data(bytes: std_string_data_get(c_value),
+                                            count: Int(std_string_size_get(c_value))),
+                                            encoding: .utf8)
+        swiftDict[swift_key] = swift_value
+        smoke_Arrays_ErrorCodeToMessageMap_iterator_increment(iteratorHandle)
+    }
+    smoke_Arrays_ErrorCodeToMessageMap_iterator_release(iteratorHandle)
+    return swiftDict
 }

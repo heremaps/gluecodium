@@ -15,7 +15,7 @@ uint64_t {{name}}_count(_baseRef handle) {
     }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
     }}{{#case "STRUCT"}}{{prefixPartial 'structGetConversion' '    '}}{{/case}}{{!!
     }}{{#case "CLASS"}}{{prefixPartial 'classGetConversion' '    '}}{{/case}}{{!!
-    }}{{#case "MAP" break=false}}{{/case}}{{!!
+    }}{{#case "MAP"}}{{prefixPartial 'mapGetConversion' '    '}}{{/case}}{{!!
     }}{{#case "ARRAY"}}{{prefixPartial 'arrayGetConversion' '    '}}{{/case}}{{!!
     }}{{#case "ENUM"}}{{prefixPartial 'enumGetConversion' '    '}}{{/case}}{{!!
     }}{{#default}}{{prefixPartial 'defaultGetConversion' '    '}}{{/default}}{{!!
@@ -52,6 +52,10 @@ return reinterpret_cast<_baseRef>(
         (*get_pointer<{{arrayType.baseApi}}>(handle))[index]
     }
 );{{/arrayGetConversion}}
+
+{{+mapGetConversion}}
+return reinterpret_cast<_baseRef>( &(*get_pointer<{{arrayType.baseApi}}>(handle))[index] );
+{{/mapGetConversion}}
 
 {{+enumGetConversion}}
 return static_cast<{{innerType}}>((*get_pointer<{{arrayType.baseApi}}>(handle))[index]);{{/enumGetConversion}}

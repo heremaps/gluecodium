@@ -17,7 +17,7 @@ public class TypeDefs {
     public typealias TestStructTypeDef = TypeDefs.TestStruct
     public typealias NestedStructTypeDef = TypeDefs.TestStructTypeDef
 
-    public var primitiveTypeAttribute: CollectionOf<Double> {
+    public var primitiveTypeAttribute: CollectionOf<TypeDefs.PrimitiveTypeDef> {
         get {
 
             let handle = smoke_TypeDefs_primitiveTypeAttribute_get(c_instance)
