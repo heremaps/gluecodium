@@ -52,6 +52,24 @@ bool smoke_Maps_NestedMap_iterator_is_valid(_baseRef handle, _baseRef iterator_h
 void smoke_Maps_NestedMap_iterator_increment(_baseRef iterator_handle);
 uint8_t smoke_Maps_NestedMap_iterator_key(_baseRef iterator_handle);
 _baseRef smoke_Maps_NestedMap_iterator_value(_baseRef iterator_handle);
+_baseRef smoke_Maps_NumberToTypeDef_create();
+void smoke_Maps_NumberToTypeDef_release(_baseRef handle);
+_baseRef smoke_Maps_NumberToTypeDef_iterator(_baseRef handle);
+void smoke_Maps_NumberToTypeDef_iterator_release(_baseRef iterator_handle);
+void smoke_Maps_NumberToTypeDef_put(_baseRef handle, uint8_t key, _baseRef value);
+bool smoke_Maps_NumberToTypeDef_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
+void smoke_Maps_NumberToTypeDef_iterator_increment(_baseRef iterator_handle);
+uint8_t smoke_Maps_NumberToTypeDef_iterator_key(_baseRef iterator_handle);
+_baseRef smoke_Maps_NumberToTypeDef_iterator_value(_baseRef iterator_handle);
+_baseRef smoke_Maps_TypeDefToNumber_create();
+void smoke_Maps_TypeDefToNumber_release(_baseRef handle);
+_baseRef smoke_Maps_TypeDefToNumber_iterator(_baseRef handle);
+void smoke_Maps_TypeDefToNumber_iterator_release(_baseRef iterator_handle);
+void smoke_Maps_TypeDefToNumber_put(_baseRef handle, _baseRef key, uint8_t value);
+bool smoke_Maps_TypeDefToNumber_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
+void smoke_Maps_TypeDefToNumber_iterator_increment(_baseRef iterator_handle);
+_baseRef smoke_Maps_TypeDefToNumber_iterator_key(_baseRef iterator_handle);
+uint8_t smoke_Maps_TypeDefToNumber_iterator_value(_baseRef iterator_handle);
 
 #ifdef __cplusplus
 }

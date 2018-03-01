@@ -32,8 +32,8 @@ interface Arrays {
     array StringArray of String
     array FancyArray of FancyStruct
 
-    typedef ProfileId is String
     array ProfileIdList of ProfileId
+    typedef ProfileId is String
 
     method methodWithArray {
         in {

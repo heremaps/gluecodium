@@ -25,6 +25,7 @@ interface TypeDefs {
         PrimitiveTypeDef field
     }
 
+    typedef NestedIntTypeDef is PrimitiveTypeDef
     typedef PrimitiveTypeDef is Double
 
     method methodWithPrimitiveTypeDef {
@@ -52,7 +53,6 @@ interface TypeDefs {
         }
     }
 
-    typedef NestedIntTypeDef is PrimitiveTypeDef
     typedef TestStructTypeDef is TestStruct
     typedef NestedStructTypeDef is TestStructTypeDef
 

@@ -11,14 +11,10 @@ internal func getRef(_ ref: TypeDefs?) -> RefHolder {
 }
 public class TypeDefs {
 
-    public typealias PrimitiveTypeDef = Double
-
-    public typealias ComplexTypeDef = CollectionOf<TypeDefs.TestStruct>
-
     public typealias NestedIntTypeDef = TypeDefs.PrimitiveTypeDef
-
+    public typealias PrimitiveTypeDef = Double
+    public typealias ComplexTypeDef = CollectionOf<TypeDefs.TestStruct>
     public typealias TestStructTypeDef = TypeDefs.TestStruct
-
     public typealias NestedStructTypeDef = TypeDefs.TestStructTypeDef
 
     public var primitiveTypeAttribute: CollectionOf<Double> {

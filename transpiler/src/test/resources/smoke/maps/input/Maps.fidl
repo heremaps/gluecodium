@@ -31,6 +31,12 @@ interface Maps {
         ErrorCodeToMessageMap errorMapping
     }
 
+    map NumberToTypeDef {UInt8 to SomeId}
+
+    map TypeDefToNumber {SomeId to UInt8}
+
+    typedef SomeId is String
+
     method methodWithMap {
         in {
             ErrorCodeToMessageMap input
