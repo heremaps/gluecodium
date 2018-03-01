@@ -1,0 +1,16 @@
+#!/bin/bash -ex
+#
+# Build Transpiler with project's Gradle wrapper
+#
+# Usage: build-transpiler <tasks and parameters>
+#
+
+SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+PROJECT_ROOT=$( cd "${SCRIPT_DIR}/.." && pwd )
+
+GRADLE_PARAMS="--console=plain --no-daemon --build-cache"
+
+cd "$PROJECT_ROOT"
+java -version
+./gradlew $GRADLE_PARAMS --version
+./gradlew $GRADLE_PARAMS "$@"
