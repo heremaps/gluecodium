@@ -56,6 +56,6 @@ function(apigen_swift_fat_library target)
         WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR}
         COMMENT "[Swift] Creating Swift fat library ${libs}...")
 
-    message(INFO "[Swift] Fat lib: ${framework_lib}. Output path: ${SWIFT_OUTPUT_DIR}")
+    message(STATUS "[Swift] Fat lib: ${framework_lib}. Output path: ${SWIFT_OUTPUT_DIR}")
 
 endfunction(apigen_swift_fat_library)

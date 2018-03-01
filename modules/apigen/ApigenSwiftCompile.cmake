@@ -66,18 +66,18 @@ function(apigen_swift_compile target architecture)
             set(XCODE_PLATFORM_SUFFIX "ios")
         endif()
         set(full_target ${TARGET_ARCHITECTURE}-apple-${XCODE_PLATFORM_SUFFIX}${IOS_DEPLOYMENT_TARGET})
-        message(INFO "[Swift] Cross compiling for target ${full_target} for ${CMAKE_OSX_SYSROOT}")
+        message(STATUS "[Swift] Cross compiling for target ${full_target} for ${CMAKE_OSX_SYSROOT}")
         set(swift_target_flag -target ${full_target} -sdk ${CMAKE_OSX_SYSROOT})
     else()
-        message(INFO "[Swift] Compiling for target ${TARGET_ARCHITECTURE})")
+        message(STATUS "[Swift] Compiling for target ${TARGET_ARCHITECTURE})")
         set(swift_target_flag -target-cpu ${TARGET_ARCHITECTURE})
     endif()
 
     # Determine libraries to pass to swiftc
     get_link_libraries(${target} swift_libraries)
     set(APIGEN_SWIFT_LINK_LIBRARIES ${swift_libraries})
-    message(INFO "Swift enabled ${target} has the following link dependencies: ${swift_libraries}")
-    
+    message(STATUS "Swift enabled ${target} has the following link dependencies: ${swift_libraries}")
+
     set(BUILD_ARGUMENTS
         -I${OUTPUT_DIR}
         -import-underlying-module
