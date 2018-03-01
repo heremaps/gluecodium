@@ -17,12 +17,12 @@ interface HelloWorldTypedefs {
         minor 1
     }
 
+    typedef RenamedTwiceStruct is RenamedStruct
+    typedef RenamedStruct is SomeStruct
+
     struct SomeStruct {
         String text
     }
-
-    typedef RenamedStruct is SomeStruct
-    typedef RenamedTwiceStruct is RenamedStruct
 
     <** @description:
     Example static method which takes a type definition of an struct and returns same type.
