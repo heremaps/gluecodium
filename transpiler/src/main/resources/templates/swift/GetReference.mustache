@@ -15,11 +15,18 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
     {{#methods}}
     functions.{{cBaseName}} = {(swiftClass_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
         let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! {{className}}
-        {{#parameters}}{{#switch type.category.toString}}{{#case "BUILTIN_STRING"}}
+        {{#parameters}}{{#switch type.category.toString}}{{!!
+        }}{{#case "BUILTIN_STRING"}}
         defer {
             std_string_release({{name}})
         }
-        {{/case}}{{/switch}}{{/parameters}}
+        {{/case}}{{!!
+        }}{{#case "DICTIONARY"}}
+        defer {
+            {{type.cPrefix}}_release({{name}})
+        }
+        {{/case}}{{!!
+        }}{{/switch}}{{/parameters}}
         return {{>swiftReturn}}
     }
     {{/methods}}
@@ -41,6 +48,7 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
 {{+swiftParameter2}}{{name}}: {{#switch type.category.toString}}{{!!
     }}{{#case "CLASS"}}{{#type.implementingClass}}{{.}}{{/type.implementingClass}}{{^type.implementingClass}}{{type}}{{/type.implementingClass}}(c{{type}}: {{name}})!{{/case}}{{!!
     }}{{#case "STRUCT"}}{{type}}(c{{type}}: {{name}})!{{/case}}{{!!
+    }}{{#case "DICTIONARY"}}convert{{type}}FromCType({{name}}){{/case}}{{!!
     }}{{#case "ARRAY"}}{{type.implementingClass}}({{name}}){{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER"}}Data(bytes: {{name}}_ptr!, count: Int({{name}}_size)){{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}String(data: Data(bytes: std_string_data_get({{name}}),

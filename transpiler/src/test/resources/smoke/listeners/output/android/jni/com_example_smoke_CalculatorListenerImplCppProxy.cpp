@@ -39,4 +39,10 @@ void CalculatorListenerCppProxy::on_calculation_result_array( const ::std::vecto
     callJavaMethod( "onCalculationResultArray", "(Ljava/util/List;)V", jniEnv , jcalculationResult);
 }
 
+void CalculatorListenerCppProxy::on_calculation_result_map( const ::smoke::CalculatorListener::NamedCalculationResults& ncalculationResults ) {
+    JNIEnv* jniEnv = getJniEnvironment( );
+    auto jcalculationResults = convert_to_jni( jniEnv, ncalculationResults );
+    callJavaMethod( "onCalculationResultMap", "(Ljava/util/Map;)V", jniEnv , jcalculationResults);
+}
+
 }

@@ -114,7 +114,7 @@ func convertComments_SomeMapFromCType(_ cHandle: _baseRef) -> Comments.SomeMap {
                                             encoding: .utf8)
         let c_value = examples_Comments_SomeMap_iterator_value(iteratorHandle)
         let swift_value = c_value
-        swiftDict[swift_key] = swift_value
+        swiftDict[swift_key!] = swift_value
         examples_Comments_SomeMap_iterator_increment(iteratorHandle)
     }
     examples_Comments_SomeMap_iterator_release(iteratorHandle)

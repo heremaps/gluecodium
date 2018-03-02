@@ -22,6 +22,7 @@ package smoke
 interface CalculatorListener {
 
     public typedef CalculatorListener is undefined
+    map NamedCalculationResults { String to Double }
 
     struct ResultStruct {
         Double result
@@ -48,6 +49,12 @@ interface CalculatorListener {
     method onCalculationResultArray {
         in {
             Double[] calculationResult
+        }
+    }
+
+    method onCalculationResultMap {
+        in {
+            NamedCalculationResults calculationResults
         }
     }
  }
