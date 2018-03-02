@@ -18,8 +18,10 @@ import android.os.Build;
 import android.support.compat.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -223,6 +225,20 @@ public class ArraysTest {
     assertEquals(2, resultsList.size());
     assertEquals(DOUBLE_VALUE_2, resultsList.get(0).value);
     assertEquals(DOUBLE_VALUE_1, resultsList.get(1).value);
+  }
+
+  @Test
+  public void reverseMapArray() {
+    Map<Integer, String> map0 = Collections.emptyMap();
+    Map<Integer, String> map1 = new HashMap<>();
+
+    List<Map<Integer, String>> input = java.util.Arrays.asList(map0, map1);
+
+    List<Map<Integer, String>> result = ArraysMaps.reverseMapArray(input);
+    assertNotNull(result);
+    assertEquals(2, result.size());
+    assertEquals(map1, result.get(0));
+    assertEquals(map0, result.get(1));
   }
 
   @Test
