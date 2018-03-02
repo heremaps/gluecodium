@@ -9,6 +9,7 @@
         auto theConstructor = _jenv->GetMethodID(exceptionClass, "<init>", "({{jniEnum.jniTypeSignature}})V");
         auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);
         _jenv->Throw(static_cast<jthrowable>(exception));{{#if returnType}}
+        _jenv->DeleteLocalRef( exceptionClass );
         return {{#if returnType.isComplex}}nullptr{{/if}}{{#unless returnType.isComplex}}nativeCallResult.safe_value(){{/unless}};{{/if}}
     }{{#if returnType}}
     auto result = nativeCallResult.safe_value();{{/if}}

@@ -20,6 +20,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::InnerSt
   auto _jresult = here::internal::create_object(_jenv, javaClass);
   auto jvalue = _ninput.value;
   here::internal::set_byte_field(_jenv, javaClass, _jresult, "value", jvalue);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 
@@ -56,6 +57,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::StructW
   here::internal::set_object_field(_jenv, javaClass, _jresult, "instanceNotNull",
   "Lcom/example/smoke/SimpleInstantiableOne;", jinstance_not_null);
   _jenv->DeleteLocalRef(jinstance_not_null);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 

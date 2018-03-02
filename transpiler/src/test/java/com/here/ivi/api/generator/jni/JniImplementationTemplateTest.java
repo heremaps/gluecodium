@@ -385,6 +385,7 @@ public final class JniImplementationTemplateTest {
             + " \"(Lcom/example/test/TestClass$JavaFooEnum;)V\");\n"
             + "        auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);\n"
             + "        _jenv->Throw(static_cast<jthrowable>(exception));\n"
+            + "        _jenv->DeleteLocalRef( exceptionClass );\n"
             + "        return nativeCallResult.safe_value();\n"
             + "    }\n"
             + "    auto result = nativeCallResult.safe_value();\n\n"

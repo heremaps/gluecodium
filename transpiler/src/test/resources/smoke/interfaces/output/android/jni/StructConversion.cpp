@@ -20,6 +20,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InterfaceWithStruct::InnerS
   auto _jresult = here::internal::create_object(_jenv, javaClass);
   auto jvalue = _ninput.value;
   here::internal::set_byte_field(_jenv, javaClass, _jresult, "value", jvalue);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 

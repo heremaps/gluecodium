@@ -21,7 +21,9 @@ namespace internal {
             break;
     }
         jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "Lcom/example/smoke/Enums$SimpleEnum;");
-        return _jenv->GetStaticObjectField(javaClass, fieldID);
+        jobject jResult = _jenv->GetStaticObjectField(javaClass, fieldID);
+        _jenv->DeleteLocalRef( javaClass );
+        return jResult;
     }
 
     void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::InternalError& _nout )    {
@@ -42,7 +44,9 @@ namespace internal {
             break;
     }
         jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "Lcom/example/smoke/Enums$InternalError;");
-        return _jenv->GetStaticObjectField(javaClass, fieldID);
+        jobject jResult = _jenv->GetStaticObjectField(javaClass, fieldID);
+        _jenv->DeleteLocalRef( javaClass );
+        return jResult;
     }
 
     void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::TCEnum& _nout )    {
@@ -63,7 +67,9 @@ namespace internal {
             break;
     }
         jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "Lcom/example/smoke/TCEnum;");
-        return _jenv->GetStaticObjectField(javaClass, fieldID);
+        jobject jResult = _jenv->GetStaticObjectField(javaClass, fieldID);
+        _jenv->DeleteLocalRef( javaClass );
+        return jResult;
     }
 }
 }

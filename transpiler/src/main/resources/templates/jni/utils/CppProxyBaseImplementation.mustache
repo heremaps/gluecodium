@@ -115,7 +115,9 @@ CppProxyBase::getHashCode( JNIEnv* jniEnv, jobject jObj )
     jmethodID jMethodId
         = jniEnv->GetStaticMethodID( jClass, "identityHashCode", "(Ljava/lang/Object;)I" );
 
-    return jniEnv->CallStaticIntMethod( jClass, jMethodId, jObj );
+    jint jResult = jniEnv->CallStaticIntMethod( jClass, jMethodId, jObj );
+    jniEnv->DeleteLocalRef( jClass );
+    return jResult;
 }
 }  // namespace internal
 }  // namespace here

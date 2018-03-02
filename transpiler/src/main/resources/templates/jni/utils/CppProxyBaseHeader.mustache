@@ -44,6 +44,7 @@ public:
         {
             jclass exceptionClass = jenv->FindClass( "java/lang/RuntimeException" );
             jenv->ThrowNew( exceptionClass, "Cannot allocate native memory." );
+            jenv->DeleteLocalRef( exceptionClass );
         }
         auto newProxy = ::std::shared_ptr< ImplType >( newProxyInstance );
         result = newProxy;

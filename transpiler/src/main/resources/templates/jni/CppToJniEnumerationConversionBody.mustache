@@ -9,5 +9,7 @@
 {{/enumerators}}
     }
     jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "L{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}};");
-    return _jenv->GetStaticObjectField(javaClass, fieldID);
+    jobject jResult = _jenv->GetStaticObjectField(javaClass, fieldID);
+    _jenv->DeleteLocalRef( javaClass );
+    return jResult;
 }

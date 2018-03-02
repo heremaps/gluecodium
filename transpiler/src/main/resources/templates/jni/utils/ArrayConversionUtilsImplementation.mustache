@@ -78,6 +78,7 @@ convert_from_jni( JNIEnv* env, const jobject& jvalue, bool& nvalue )
     auto javaBooleanClass = env->FindClass( "java/lang/Boolean" );
     auto booleanValueMethodId = env->GetMethodID( javaBooleanClass, "booleanValue", "()Z" );
     nvalue = env->CallBooleanMethod( jvalue, booleanValueMethodId );
+    env->DeleteLocalRef( javaBooleanClass );
 }
 
 void
@@ -86,6 +87,7 @@ convert_from_jni( JNIEnv* env, const jobject& jvalue, double& nvalue )
     auto javaDoubleClass = env->FindClass( "java/lang/Double" );
     auto doubleValueMethodId = env->GetMethodID( javaDoubleClass, "doubleValue", "()D" );
     nvalue = env->CallDoubleMethod( jvalue, doubleValueMethodId );
+    env->DeleteLocalRef( javaDoubleClass );
 }
 
 void
@@ -94,6 +96,7 @@ convert_from_jni( JNIEnv* env, const jobject& jvalue, float& nvalue )
     auto javaFloatClass = env->FindClass( "java/lang/Float" );
     auto floatValueMethodId = env->GetMethodID( javaFloatClass, "floatValue", "()F" );
     nvalue = env->CallFloatMethod( jvalue, floatValueMethodId );
+    env->DeleteLocalRef( javaFloatClass );
 }
 
 void
@@ -102,6 +105,7 @@ convert_from_jni( JNIEnv* env, const jobject& jvalue, int8_t& nvalue )
     auto javaByteClass = env->FindClass( "java/lang/Byte" );
     auto byteValueMethodId = env->GetMethodID( javaByteClass, "byteValue", "()B" );
     nvalue = env->CallByteMethod( jvalue, byteValueMethodId );
+    env->DeleteLocalRef( javaByteClass );
 }
 
 void
@@ -110,6 +114,7 @@ convert_from_jni( JNIEnv* env, const jobject& jvalue, int16_t& nvalue )
     auto javaShortClass = env->FindClass( "java/lang/Short" );
     auto shortValueMethodId = env->GetMethodID( javaShortClass, "shortValue", "()S" );
     nvalue = env->CallShortMethod( jvalue, shortValueMethodId );
+    env->DeleteLocalRef( javaShortClass );
 }
 
 void
@@ -153,7 +158,9 @@ unbox_int_value( JNIEnv* env, const jobject& jvalue )
 {
     auto javaIntegerClass = env->FindClass( "java/lang/Integer" );
     auto intValueMethodId = env->GetMethodID( javaIntegerClass, "intValue", "()I" );
-    return env->CallIntMethod( jvalue, intValueMethodId );
+    jint jresult = env->CallIntMethod( jvalue, intValueMethodId );
+    env->DeleteLocalRef( javaIntegerClass );
+    return jresult;
 }
 
 jlong
@@ -161,7 +168,9 @@ unbox_long_value( JNIEnv* env, const jobject& jvalue )
 {
     auto javaLongClass = env->FindClass( "java/lang/Long" );
     auto longValueMethodId = env->GetMethodID( javaLongClass, "longValue", "()J" );
-    return env->CallLongMethod( jvalue, longValueMethodId );
+    jlong jresult = env->CallLongMethod( jvalue, longValueMethodId );
+    env->DeleteLocalRef( javaLongClass );
+    return jresult;
 }
 
 }  // internal

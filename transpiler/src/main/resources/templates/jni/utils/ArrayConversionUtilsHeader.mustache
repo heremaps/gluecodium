@@ -96,6 +96,8 @@ convert_to_jni( JNIEnv* _env, const std::vector< T >& _ninput )
         _env->CallBooleanMethod( result, addMethodId, jElement );
         _env->DeleteLocalRef( jElement );
     }
+
+    _env->DeleteLocalRef( javaClass );
     return result;
 }
 
@@ -123,6 +125,8 @@ convert_from_jni( JNIEnv* _env, const jobject& _arrayList, std::vector< T >& _nr
         _nresult.push_back( resultItem );
         _env->DeleteLocalRef( javaListItem );
     }
+
+    _env->DeleteLocalRef( javaArrayListClass );
 }
 
 // Templated functions to create HashMaps from C++ unordered_maps and vice versa
@@ -146,6 +150,8 @@ convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput )
         _env->DeleteLocalRef( jKey );
         _env->DeleteLocalRef( jValue );
     }
+
+    _env->DeleteLocalRef( javaClass );
     return result;
 }
 
@@ -194,6 +200,11 @@ convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V
         _env->DeleteLocalRef( jKey );
         _env->DeleteLocalRef( jValue );
     }
+
+    _env->DeleteLocalRef( javaMapClass );
+    _env->DeleteLocalRef( javaSetClass );
+    _env->DeleteLocalRef( javaIteratorClass );
+    _env->DeleteLocalRef( javaMapEntryClass );
 }
 
 }  // internal

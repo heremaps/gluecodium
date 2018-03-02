@@ -14,5 +14,6 @@
   _jenv->DeleteLocalRef(j{{cppField.name}});{{/if}}
   {{/hasCustomType}}
 {{/fields}}
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
