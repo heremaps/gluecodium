@@ -171,6 +171,14 @@ feature(Maps cpp android swift SOURCES
     fidl/test/Maps.fidl
 )
 
+#TODO: enable for swift (APIGEN-1208)
+feature(MapsArrays cpp android SOURCES
+    src/test/MapsArrays.cpp
+
+    fidl/test/MapsArrays.fdepl
+    fidl/test/MapsArrays.fidl
+)
+
 feature(Attributes cpp android swift SOURCES
     src/hello/HelloWorldAttributesImpl.h
     src/hello/HelloWorldAttributesImpl.cpp
