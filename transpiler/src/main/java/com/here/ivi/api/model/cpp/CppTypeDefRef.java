@@ -44,4 +44,9 @@ public final class CppTypeDefRef extends CppTypeRef {
   public String getShortName() {
     return actualType.getShortName();
   }
+
+  @Override
+  public CppTypeRef getActualType() {
+    return actualType;
+  }
 }

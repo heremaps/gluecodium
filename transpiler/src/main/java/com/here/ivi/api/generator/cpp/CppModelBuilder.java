@@ -294,7 +294,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     String francaComment = CommentHelper.getDescription(francaAttribute);
 
-    String getterName = CppNameRules.getGetterName(francaAttribute.getName());
+    String getterName = CppNameRules.getGetterName(francaAttribute.getName(), cppTypeRef);
     CppMethod getterMethod = buildAccessorMethod(getterName, cppTypeRef, francaComment);
     storeResult(getterMethod);
 

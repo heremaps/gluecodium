@@ -310,7 +310,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaType javaType = getPreviousResult(JavaType.class);
     String comment = CommentHelper.getDescription(francaAttribute);
 
-    String getterName = JavaNameRules.getGetterName(francaAttribute.getName());
+    String getterName = JavaNameRules.getGetterName(francaAttribute.getName(), javaType);
 
     JavaMethod getterMethod = JavaMethod.builder(getterName).returnType(javaType).build();
     getterMethod.visibility = JavaVisibility.PUBLIC;

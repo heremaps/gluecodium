@@ -13,6 +13,8 @@ package com.here.ivi.api.generator.cpp;
 
 import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.common.InstanceRules;
+import com.here.ivi.api.model.cpp.CppPrimitiveTypeRef;
+import com.here.ivi.api.model.cpp.CppTypeRef;
 import com.here.ivi.api.model.franca.DefinedBy;
 import java.io.File;
 import java.util.List;
@@ -30,8 +32,12 @@ public final class CppNameRules {
     return NameHelper.toLowerSnakeCase(base); // do_my_stuff
   }
 
-  public static String getGetterName(String base) {
-    return "get_" + NameHelper.toLowerSnakeCase(base); // get_my_value
+  public static String getGetterName(final String base, final CppTypeRef cppTypeRef) {
+    final String prefix =
+        cppTypeRef != null && cppTypeRef.getActualType() == CppPrimitiveTypeRef.BOOL
+            ? "is_"
+            : "get_";
+    return prefix + NameHelper.toLowerSnakeCase(base); // get_my_value
   }
 
   public static String getSetterName(String base) {

@@ -61,7 +61,7 @@ public class Comments extends NativeBase {
     /**
      * This is some very useful attribute.
      */
-    public native boolean getSomeAttribute();
+    public native boolean isSomeAttribute();
     /**
      * This is some very useful attribute.
      */

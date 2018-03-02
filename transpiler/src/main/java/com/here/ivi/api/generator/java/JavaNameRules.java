@@ -12,7 +12,9 @@
 package com.here.ivi.api.generator.java;
 
 import com.here.ivi.api.generator.common.NameHelper;
+import com.here.ivi.api.model.java.JavaPrimitiveType;
 import com.here.ivi.api.model.java.JavaTopLevelElement;
+import com.here.ivi.api.model.java.JavaType;
 import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
 import java.io.File;
 import java.util.List;
@@ -46,8 +48,9 @@ public final class JavaNameRules {
     return NameHelper.toLowerCamelCase(base) + NameHelper.toUpperCamelCase(selector);
   }
 
-  public static String getGetterName(final String base) {
-    return "get" + NameHelper.toUpperCamelCase(base);
+  public static String getGetterName(final String base, final JavaType javaType) {
+    final String prefix = javaType == JavaPrimitiveType.BOOL ? "is" : "get";
+    return prefix + NameHelper.toUpperCamelCase(base);
   }
 
   public static String getSetterName(final String base) {

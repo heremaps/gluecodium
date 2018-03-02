@@ -41,4 +41,8 @@ public abstract class CppTypeRef extends CppElementWithIncludes {
     String[] splitName = name.split("::");
     return splitName[splitName.length - 1];
   }
+
+  public CppTypeRef getActualType() {
+    return this;
+  }
 }
