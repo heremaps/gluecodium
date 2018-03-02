@@ -529,6 +529,17 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaBooleanAttributeCreatesGetter() {
+    contextStack.injectResult(JavaPrimitiveType.BOOL);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
+    assertNotNull(javaMethod);
+    assertEquals("is" + ATTRIBUTE_NAME, javaMethod.name.toLowerCase());
+  }
+
+  @Test
   public void finishBuildingFrancaArrayMapsArrayType() {
     JavaTemplateType templateType = JavaTemplateType.wrapInList(javaCustomType);
     when(typeMapper.mapArray(any())).thenReturn(templateType);
