@@ -69,6 +69,17 @@ jint unbox_int_value( JNIEnv* env, const jobject& jvalue );
 
 jlong unbox_long_value( JNIEnv* env, const jobject& jvalue );
 
+// Forward declare map conversion routines
+
+template < typename K, typename V, typename Hash >
+void
+convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V, Hash >&
+    _nresult );
+
+template < typename K, typename V, typename Hash >
+jobject
+convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput );
+
 // Templated functions to create ArrayLists from C++ vectors and vice versa
 
 template < typename T >
