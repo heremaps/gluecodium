@@ -239,6 +239,14 @@ feature(Arrays cpp android swift SOURCES
     fidl/test/ArraysByteBuffer.fidl
 )
 
+#TODO: activate for swift (APIGEN-1208)
+feature(ArraysMaps cpp android SOURCES
+    src/test/ArraysMaps.cpp
+
+    fidl/test/ArraysMaps.fdepl
+    fidl/test/ArraysMaps.fidl
+)
+
 feature(Errors cpp android swift SOURCES
     src/hello/HelloWorldErrors.cpp
     src/test/Errors.cpp
