@@ -16,8 +16,7 @@ import static junit.framework.Assert.assertNotNull;
 import android.os.Build;
 import android.support.compat.BuildConfig;
 import com.here.android.RobolectricApplication;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -63,6 +62,33 @@ public class MapsTest {
     assertEquals(UPPERCASE_VALUE_1, resultsMap.get(11));
     assertEquals(UPPERCASE_VALUE_2, resultsMap.get(42));
     assertEquals(UPPERCASE_VALUE_3, resultsMap.get(199));
+  }
+
+  @Test
+  public void methodWithMapToArray_emptyMap() {
+    Map<String, List<Long>> arrayMap = new HashMap<>();
+
+    Map<String, List<Long>> resultsMap = MapsArrays.methodWithStringToArrayMap(arrayMap);
+
+    assertNotNull(resultsMap);
+    assertEquals(0, resultsMap.size());
+  }
+
+  @Test
+  public void methodWithMapToArray_multipleItems() {
+    Map<String, List<Long>> arrayMap = new HashMap<>();
+
+    arrayMap.put("one", new ArrayList<>(java.util.Arrays.asList(2L, 3L, 4L, 5L)));
+    arrayMap.put("two", new ArrayList<>(java.util.Arrays.asList(0L, 120L)));
+    arrayMap.put("three", Collections.emptyList());
+
+    Map<String, List<Long>> resultsMap = MapsArrays.methodWithStringToArrayMap(arrayMap);
+
+    assertNotNull(resultsMap);
+    assertEquals(3, resultsMap.size());
+    assertEquals(new ArrayList<>(java.util.Arrays.asList(3L, 4L, 5L, 6L)), resultsMap.get("one"));
+    assertEquals(new ArrayList<>(java.util.Arrays.asList(1L, 121L)), resultsMap.get("two"));
+    assertEquals(Collections.emptyList(), resultsMap.get("three"));
   }
 
   @Test
