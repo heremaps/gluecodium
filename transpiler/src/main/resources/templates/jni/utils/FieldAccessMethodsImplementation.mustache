@@ -192,9 +192,9 @@ set_string_field( JNIEnv* env,
                   const std::string& fieldValue )
 {
     auto fieldId = env->GetFieldID( javaClass, fieldName, "Ljava/lang/String;" );
-
-    return env->SetObjectField( object, fieldId,
-                                here::internal::convert_to_jni( env, fieldValue ) );
+    jstring jValue = here::internal::convert_to_jni( env, fieldValue );
+    env->SetObjectField( object, fieldId, jValue );
+    env->DeleteLocalRef( jValue );
 }
 
 void
@@ -205,8 +205,9 @@ set_byte_array_field( JNIEnv* env,
                       const std::vector< uint8_t >& fieldValue )
 {
     auto fieldId = env->GetFieldID( javaClass, fieldName, "[B" );
-    return env->SetObjectField( object, fieldId,
-                                here::internal::convert_to_jni_array( env, fieldValue ) );
+    jbyteArray jValue = here::internal::convert_to_jni_array( env, fieldValue );
+    env->SetObjectField( object, fieldId, jValue );
+    env->DeleteLocalRef( jValue );
 }
 
 void

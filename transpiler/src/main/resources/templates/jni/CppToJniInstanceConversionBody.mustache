@@ -9,6 +9,9 @@
     {
         jclass exceptionClass = _jenv->FindClass("java/lang/RuntimeException");
         _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
+        _jenv->DeleteLocalRef( exceptionClass );
     }
-    return create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+    jobject jResult = create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+    _jenv->DeleteLocalRef( javaClass );
+    return jResult;
 }

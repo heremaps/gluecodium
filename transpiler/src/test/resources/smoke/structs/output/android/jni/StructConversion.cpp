@@ -18,6 +18,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Point& _ninput){
   here::internal::set_double_field(_jenv, javaClass, _jresult, "x", jx);
   auto jy = _ninput.y;
   here::internal::set_double_field(_jenv, javaClass, _jresult, "y", jy);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::Color& _nout ){
@@ -35,6 +36,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Color& _ninput){
   here::internal::set_long_field(_jenv, javaClass, _jresult, "green", jgreen);
   auto jblue = _ninput.blue;
   here::internal::set_long_field(_jenv, javaClass, _jresult, "blue", jblue);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::Line& _nout ){
@@ -69,6 +71,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Line& _ninput){
   here::internal::set_object_field(_jenv, javaClass, _jresult, "b",
   "Lcom/example/smoke/Structs$Point;", jb);
   _jenv->DeleteLocalRef(jb);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::ColoredLine& _nout ){
@@ -103,6 +106,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ColoredLine& _ninp
   here::internal::set_object_field(_jenv, javaClass, _jresult, "color",
   "Lcom/example/smoke/Structs$Color;", jcolor);
   _jenv->DeleteLocalRef(jcolor);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::AllTypesStruct& _nout ){
@@ -163,6 +167,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AllTypesStruct& _n
   here::internal::set_object_field(_jenv, javaClass, _jresult, "pointField",
   "Lcom/example/smoke/Structs$Point;", jpoint_field);
   _jenv->DeleteLocalRef(jpoint_field);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::StructsInheritance::ColoredLineInherited& _nout ){
@@ -210,6 +215,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::StructsInheritance::Colored
   here::internal::set_object_field(_jenv, javaClass, _jresult, "color",
   "Lcom/example/smoke/Color;", jcolor);
   _jenv->DeleteLocalRef(jcolor);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::GrandChildStruct& _nout ){
@@ -227,6 +233,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::GrandChildStruct& _ninput){
   here::internal::set_int_field(_jenv, javaClass, _jresult, "childField", jchild_field);
   auto jgrand_child_field = _ninput.grand_child_field;
   here::internal::set_string_field(_jenv, javaClass, _jresult, "grandChildField", jgrand_child_field);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ChildStruct& _nout ){
@@ -241,6 +248,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::ChildStruct& _ninput){
   here::internal::set_float_field(_jenv, javaClass, _jresult, "parentField", jparent_field);
   auto jchild_field = _ninput.child_field;
   here::internal::set_int_field(_jenv, javaClass, _jresult, "childField", jchild_field);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ParentStruct& _nout ){
@@ -252,6 +260,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::ParentStruct& _ninput){
   auto _jresult = here::internal::create_object(_jenv, javaClass);
   auto jparent_field = _ninput.parent_field;
   here::internal::set_float_field(_jenv, javaClass, _jresult, "parentField", jparent_field);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::StructsQualifiedType::QualifiedType& _nout ){
@@ -351,6 +360,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::fire::StructsQualifiedType::Qualif
   here::internal::set_object_field(_jenv, javaClass, _jresult, "structsInstance",
   "Lcom/example/smoke/StructsInstance;", jstructs_instance);
   _jenv->DeleteLocalRef(jstructs_instance);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Point& _nout ){
@@ -365,6 +375,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Point& _ninput){
   here::internal::set_double_field(_jenv, javaClass, _jresult, "x", jx);
   auto jy = _ninput.y;
   here::internal::set_double_field(_jenv, javaClass, _jresult, "y", jy);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Color& _nout ){
@@ -382,6 +393,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Color& _ninput){
   here::internal::set_long_field(_jenv, javaClass, _jresult, "green", jgreen);
   auto jblue = _ninput.blue;
   here::internal::set_long_field(_jenv, javaClass, _jresult, "blue", jblue);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Line& _nout ){
@@ -416,6 +428,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Line& _ninput){
   here::internal::set_object_field(_jenv, javaClass, _jresult, "b",
   "Lcom/example/smoke/Point;", jb);
   _jenv->DeleteLocalRef(jb);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ColoredLine& _nout ){
@@ -450,6 +463,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::ColoredLine& _ninput){
   here::internal::set_object_field(_jenv, javaClass, _jresult, "color",
   "Lcom/example/smoke/Color;", jcolor);
   _jenv->DeleteLocalRef(jcolor);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::AllTypesStruct& _nout ){
@@ -510,6 +524,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::AllTypesStruct& _ninput){
   here::internal::set_object_field(_jenv, javaClass, _jresult, "pointField",
   "Lcom/example/smoke/Point;", jpoint_field);
   _jenv->DeleteLocalRef(jpoint_field);
+  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
 }
