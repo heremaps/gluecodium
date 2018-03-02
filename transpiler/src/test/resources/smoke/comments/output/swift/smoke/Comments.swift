@@ -138,11 +138,9 @@ public class Comments {
         return smoke_Comments_someMethodWithoutReturnTypeOrInputParameters(c_instance)
     }
 }
-
 extension Comments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-
 func convertComments_SomeMapToCType(_ swiftDict: Comments.SomeMap) -> _baseRef {
     let cHandle = smoke_Comments_SomeMap_create()
     for (swift_key, swift_value) in swiftDict {
@@ -155,7 +153,6 @@ func convertComments_SomeMapToCType(_ swiftDict: Comments.SomeMap) -> _baseRef {
     }
     return cHandle
 }
-
 func convertComments_SomeMapFromCType(_ cHandle: _baseRef) -> Comments.SomeMap {
     var swiftDict: Comments.SomeMap = [:]
     let iteratorHandle = smoke_Comments_SomeMap_iterator(cHandle)
@@ -169,7 +166,7 @@ func convertComments_SomeMapFromCType(_ cHandle: _baseRef) -> Comments.SomeMap {
                                             encoding: .utf8)
         let c_value = smoke_Comments_SomeMap_iterator_value(iteratorHandle)
         let swift_value = c_value
-        swiftDict[swift_key] = swift_value
+        swiftDict[swift_key!] = swift_value
         smoke_Comments_SomeMap_iterator_increment(iteratorHandle)
     }
     smoke_Comments_SomeMap_iterator_release(iteratorHandle)

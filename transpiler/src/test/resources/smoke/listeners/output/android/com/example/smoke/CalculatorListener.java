@@ -6,6 +6,7 @@
 package com.example.smoke;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CalculatorListener {
     public static class ResultStruct {
@@ -19,4 +20,5 @@ public interface CalculatorListener {
     void onCalculationResultConst(final double calculationResult);
     void onCalculationResultStruct(final CalculatorListener.ResultStruct calculationResult);
     void onCalculationResultArray(final List<Double> calculationResult);
+    void onCalculationResultMap(final Map<String, Double> calculationResults);
 }

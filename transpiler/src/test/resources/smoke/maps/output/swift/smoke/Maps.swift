@@ -287,7 +287,7 @@ func convertMaps_TypeDefToNumberFromCType(_ cHandle: _baseRef) -> Maps.TypeDefTo
                                             encoding: .utf8)
         let c_value = smoke_Maps_TypeDefToNumber_iterator_value(iteratorHandle)
         let swift_value = c_value
-        swiftDict[swift_key] = swift_value
+        swiftDict[swift_key!] = swift_value
         smoke_Maps_TypeDefToNumber_iterator_increment(iteratorHandle)
     }
     smoke_Maps_TypeDefToNumber_iterator_release(iteratorHandle)
@@ -322,7 +322,7 @@ func convertMaps_StringToArrayFromCType(_ cHandle: _baseRef) -> Maps.StringToArr
                                             encoding: .utf8)
         let c_value = smoke_Maps_StringToArray_iterator_value(iteratorHandle)
         let swift_value = Int32List(c_value)
-        swiftDict[swift_key] = swift_value
+        swiftDict[swift_key!] = swift_value
         smoke_Maps_StringToArray_iterator_increment(iteratorHandle)
     }
     smoke_Maps_StringToArray_iterator_release(iteratorHandle)

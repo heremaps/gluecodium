@@ -14,7 +14,7 @@ func convert{{name}}FromCType(_ cHandle: _baseRef) -> {{publicName}} {
     while {{cPrefix}}_iterator_is_valid(cHandle, iteratorHandle) {
 {{#set variableName="key" variableType=keyType}}{{prefixPartial "ConvertToSwift" "        "}}{{/set}}
 {{#set variableName="value" variableType=valueType}}{{prefixPartial "ConvertToSwift" "        "}}{{/set}}
-        swiftDict[swift_key] = swift_value
+        swiftDict[swift_key{{#isEq keyType.category.toString "BUILTIN_STRING"}}!{{/isEq}}] = swift_value
         {{cPrefix}}_iterator_increment(iteratorHandle)
     }
     {{cPrefix}}_iterator_release(iteratorHandle)

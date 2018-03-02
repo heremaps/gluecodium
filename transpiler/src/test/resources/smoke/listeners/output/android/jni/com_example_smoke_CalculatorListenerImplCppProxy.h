@@ -27,6 +27,7 @@ public:
     void on_calculation_result_const( const double ncalculationResult ) const override;
     void on_calculation_result_struct( const ::smoke::CalculatorListener::ResultStruct& ncalculationResult ) override;
     void on_calculation_result_array( const ::std::vector< double >& ncalculationResult ) override;
+    void on_calculation_result_map( const ::smoke::CalculatorListener::NamedCalculationResults& ncalculationResults ) override;
 };
 
 }
