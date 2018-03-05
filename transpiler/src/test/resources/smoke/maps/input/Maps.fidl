@@ -37,6 +37,10 @@ interface Maps {
 
     typedef SomeId is String
 
+    map StringToArray {String to ArrayOfInts}
+
+    array ArrayOfInts of Int32
+
     method methodWithMap {
         in {
             ErrorCodeToMessageMap input
@@ -70,6 +74,15 @@ interface Maps {
         }
         out {
             StructWithMap output
+        }
+    }
+
+    method methodWithMapOfArrays {
+        in {
+            StringToArray input
+        }
+        out {
+            StringToArray output
         }
     }
 }

@@ -10,6 +10,7 @@
 #include <cstdint>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 namespace smoke {
 
@@ -21,6 +22,8 @@ using ErrorCodeToMessageMap = ::std::unordered_map< int32_t, ::std::string >;
 using SomeId = ::std::string;
 using NumberToTypeDef = ::std::unordered_map< uint8_t, ::smoke::Maps::SomeId >;
 using TypeDefToNumber = ::std::unordered_map< ::smoke::Maps::SomeId, uint8_t >;
+using ArrayOfInts = ::std::vector< int32_t >;
+using StringToArray = ::std::unordered_map< ::std::string, ::smoke::Maps::ArrayOfInts >;
 
 struct SomeStruct {
     ::std::string value;
@@ -38,5 +41,6 @@ static ::smoke::Maps::ErrorCodeToMessageMap method_with_map( const ::smoke::Maps
 static ::smoke::Maps::NumberToStruct method_with_map_to_struct( const ::smoke::Maps::NumberToStruct& input );
 static ::smoke::Maps::NestedMap method_with_nested_map( const ::smoke::Maps::NestedMap& input );
 static ::smoke::Maps::StructWithMap method_with_struct_with_map( const ::smoke::Maps::StructWithMap& input );
+static ::smoke::Maps::StringToArray method_with_map_of_arrays( const ::smoke::Maps::StringToArray& input );
 };
 }

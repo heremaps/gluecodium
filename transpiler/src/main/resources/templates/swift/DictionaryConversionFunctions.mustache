@@ -64,9 +64,11 @@ defer {
 {{/ConvertFromSwiftClass}}{{!!
 
 }}{{+ConvertFromSwiftArray}}{{!!
-}}let c_conversion = item.c_conversion()
+}}let c_conversion = swift_{{variableName}}.c_conversion()
+defer {
+    c_conversion.cleanup()
+}
 let c_{{variableName}} = c_conversion.c_type
-c_conversion.cleanup()
 {{/ConvertFromSwiftArray}}{{!!
 
 
