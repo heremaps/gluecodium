@@ -25,7 +25,13 @@ struct InnerStruct {
 };
 struct StructWithInstance {
     ::std::shared_ptr< ::smoke::SimpleInstantiableOne > instance;
+    /// \warning @NotNull
     ::std::shared_ptr< ::smoke::SimpleInstantiableOne > instance_not_null;
+    /**
+     * This is some very useful field.
+     * \warning @NotNull
+     */
+    ::std::shared_ptr< ::smoke::SimpleInstantiableOne > instance_not_null_with_comment;
 };
 public:
 virtual ::smoke::InstanceWithStruct::InnerStruct inner_struct_method( const ::smoke::InstanceWithStruct::InnerStruct& input_struct ) = 0;

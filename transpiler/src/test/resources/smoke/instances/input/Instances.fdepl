@@ -26,5 +26,8 @@ define TranspilerExtensions for interface smoke.InstanceWithStruct
         instanceNotNull {
             NotNull = true
         }
+        instanceNotNullWithComment {
+            NotNull = true
+        }
     }
 }

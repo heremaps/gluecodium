@@ -159,7 +159,11 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             ? CppValueMapper.mapDeploymentDefaultValue(cppTypeRef, deploymentDefaultValue)
             : null;
 
-    CppField cppField = new CppField(cppTypeRef, fieldName, cppValue);
+    CppField cppField =
+        CppField.builder(fieldName, cppTypeRef)
+            .initializer(cppValue)
+            .isNotNull(deploymentModel.isNotNull(francaField))
+            .build();
     cppField.comment = CommentHelper.getDescription(francaField);
 
     storeResult(cppField);

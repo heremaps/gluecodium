@@ -200,8 +200,8 @@ public class TopologicalSortTest {
   private static CppStruct createCppStruct(String name, String firstType, String secondType) {
     CppStruct cppStruct = new CppStruct(name);
 
-    cppStruct.fields.add(new CppField(createComplex(firstType), "x"));
-    cppStruct.fields.add(new CppField(createComplex(secondType), "y"));
+    cppStruct.fields.add(new CppField("x", createComplex(firstType)));
+    cppStruct.fields.add(new CppField("y", createComplex(secondType)));
 
     return cppStruct;
   }

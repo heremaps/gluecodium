@@ -58,7 +58,7 @@ public final class CppClassTemplateTest {
   private final CppUsing cppUsing = CppUsing.builder("Useful", cppPrimitiveTypeRef).build();
   private final CppMethod cppMethod =
       new CppMethod.Builder("methodical").specifier(CppMethod.Specifier.STATIC).build();
-  private final CppField cppField = new CppField(cppPrimitiveTypeRef, "flowers");
+  private final CppField cppField = new CppField("flowers", cppPrimitiveTypeRef);
 
   private final CppClass cppClass = new CppClass("Classy");
 
@@ -235,7 +235,7 @@ public final class CppClassTemplateTest {
   @Test
   public void classWithTwoFields() {
     cppClass.fields.add(cppField);
-    cppClass.fields.add(new CppField(cppComplexTypeRef, "canola"));
+    cppClass.fields.add(new CppField("canola", cppComplexTypeRef));
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppClass);
 

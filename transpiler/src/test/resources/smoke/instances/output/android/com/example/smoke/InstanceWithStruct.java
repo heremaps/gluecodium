@@ -18,10 +18,37 @@ public class InstanceWithStruct extends NativeBase {
     public static class StructWithInstance {
         public SimpleInstantiableOne instance;
         public SimpleInstantiableOne instanceNotNull;
+        /**
+         * This is some very useful field.
+         */
+        public SimpleInstantiableOne instanceNotNullWithComment;
         public StructWithInstance() {}
-        public StructWithInstance(SimpleInstantiableOne instance, SimpleInstantiableOne instanceNotNull) {
+        public StructWithInstance(SimpleInstantiableOne instance, SimpleInstantiableOne instanceNotNull, SimpleInstantiableOne instanceNotNullWithComment) {
             this.instance = instance;
             this.instanceNotNull = instanceNotNull;
+            this.instanceNotNullWithComment = instanceNotNullWithComment;
+        }
+        public static class Builder {
+            private SimpleInstantiableOne instance;
+            private SimpleInstantiableOne instanceNotNull;
+            private SimpleInstantiableOne instanceNotNullWithComment;
+            public Builder() {
+            }
+            public Builder setInstance(SimpleInstantiableOne instance) {
+                this.instance = instance;
+                return this;
+            }
+            public Builder setInstanceNotNull(SimpleInstantiableOne instanceNotNull) {
+                this.instanceNotNull = instanceNotNull;
+                return this;
+            }
+            public Builder setInstanceNotNullWithComment(SimpleInstantiableOne instanceNotNullWithComment) {
+                this.instanceNotNullWithComment = instanceNotNullWithComment;
+                return this;
+            }
+            public StructWithInstance build() {
+                return new StructWithInstance(instance, instanceNotNull, instanceNotNullWithComment);
+            }
         }
     }
     /** For internal use only */
