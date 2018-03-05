@@ -403,7 +403,7 @@ public class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsName() {
-    when(cppModelbuilder.getFinalResult(any())).thenReturn(new CppField(null, CPP_FIELD_NAME));
+    when(cppModelbuilder.getFinalResult(any())).thenReturn(new CppField(CPP_FIELD_NAME, null));
     when(swiftModelBuilder.getFinalResult(any()))
         .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null, null));
 
@@ -417,7 +417,7 @@ public class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsTypeInfo() {
-    when(cppModelbuilder.getFinalResult(any())).thenReturn(new CppField(null, CPP_FIELD_NAME));
+    when(cppModelbuilder.getFinalResult(any())).thenReturn(new CppField(CPP_FIELD_NAME, null));
     when(swiftModelBuilder.getFinalResult(any()))
         .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null, null));
     contextStack.injectResult(cppTypeInfo);

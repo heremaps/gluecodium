@@ -455,7 +455,7 @@ public class JniModelBuilderTest {
     JniField jniField =
         new JniField(
             new JavaField(javaCustomType, BASE_NAME_PARAMETER, new JavaValue(javaCustomType)),
-            new CppField(cppCustomType, BASE_NAME_PARAMETER),
+            new CppField(BASE_NAME_PARAMETER, cppCustomType),
             null);
     contextStack.injectResult(jniField);
     when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
@@ -474,7 +474,7 @@ public class JniModelBuilderTest {
     JniField jniParentField =
         new JniField(
             new JavaField(javaCustomType, "ancient_nonsense", new JavaValue(javaCustomType)),
-            new CppField(cppCustomType, "ancient_nonsense"),
+            new CppField("ancient_nonsense", cppCustomType),
             null);
     JniStruct jniParentStruct =
         new JniStruct(javaClass, null, Collections.singletonList(jniParentField));
@@ -482,7 +482,7 @@ public class JniModelBuilderTest {
     JniField jniField =
         new JniField(
             new JavaField(javaCustomType, BASE_NAME_PARAMETER, new JavaValue(javaCustomType)),
-            new CppField(cppCustomType, BASE_NAME_PARAMETER),
+            new CppField(BASE_NAME_PARAMETER, cppCustomType),
             null);
     contextStack.injectResult(jniField);
     when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
@@ -501,7 +501,7 @@ public class JniModelBuilderTest {
   public void finishBuildingFrancaFieldReadsJavaCppFields() {
     JavaField javaField =
         new JavaField(javaCustomType, BASE_NAME_PARAMETER, new JavaValue(javaCustomType));
-    CppField cppField = new CppField(cppCustomType, CPP_CLASS_NAME);
+    CppField cppField = new CppField(CPP_CLASS_NAME, cppCustomType);
     when(javaBuilder.getFinalResult(any())).thenReturn(javaField);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppField);
 
@@ -517,7 +517,7 @@ public class JniModelBuilderTest {
   public void finishBuildingFrancaFieldReadsJniType() {
     JavaField javaField =
         new JavaField(javaCustomType, BASE_NAME_PARAMETER, new JavaValue(javaCustomType));
-    CppField cppField = new CppField(cppCustomType, CPP_CLASS_NAME);
+    CppField cppField = new CppField(CPP_CLASS_NAME, cppCustomType);
     when(javaBuilder.getFinalResult(any())).thenReturn(javaField);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppField);
     contextStack.injectResult(jniType);

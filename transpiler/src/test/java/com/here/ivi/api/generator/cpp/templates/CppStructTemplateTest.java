@@ -41,7 +41,7 @@ public final class CppStructTemplateTest {
   private final CppPrimitiveTypeRef cppPrimitiveTypeRef = CppPrimitiveTypeRef.INT32;
   private final CppComplexTypeRef cppComplexTypeRef =
       new CppComplexTypeRef.Builder("Typical").build();
-  private final CppField cppField = new CppField(cppComplexTypeRef, "flowers");
+  private final CppField cppField = new CppField("flowers", cppComplexTypeRef);
   private final CppInheritance cppInheritance =
       new CppInheritance(cppPrimitiveTypeRef, CppInheritance.Type.Protected);
 
@@ -79,7 +79,10 @@ public final class CppStructTemplateTest {
 
   @Test
   public void structWithFieldWithInitializer() {
-    CppField resultField = new CppField(cppComplexTypeRef, "flowers", new CppValue("valuable"));
+    CppField resultField =
+        CppField.builder("flowers", cppComplexTypeRef)
+            .initializer(new CppValue("valuable"))
+            .build();
     cppStruct.fields.add(resultField);
 
     String result = TemplateEngine.render(TEMPLATE_NAME, cppStruct);
@@ -93,7 +96,7 @@ public final class CppStructTemplateTest {
   @Test
   public void structWithTwoFields() {
     CppField anotherCppField =
-        new CppField(new CppComplexTypeRef.Builder("Also").build(), "canola");
+        new CppField("canola", new CppComplexTypeRef.Builder("Also").build());
     cppStruct.fields.add(cppField);
     cppStruct.fields.add(anotherCppField);
 

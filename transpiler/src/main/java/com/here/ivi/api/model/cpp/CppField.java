@@ -19,23 +19,40 @@
 
 package com.here.ivi.api.model.cpp;
 
+import com.google.common.base.Strings;
 import java.util.stream.Stream;
 
 public final class CppField extends CppTypedElement {
 
   public final CppValue initializer;
+  public final boolean isNotNull;
 
-  public CppField(final CppTypeRef type, final String name) {
-    this(type, name, null);
+  public CppField(final String name, final CppTypeRef type) {
+    this(name, type, null, false);
   }
 
-  public CppField(final CppTypeRef type, final String name, final CppValue initializer) {
+  @lombok.Builder(builderClassName = "Builder")
+  private CppField(
+      final String name,
+      final CppTypeRef type,
+      final CppValue initializer,
+      final boolean isNotNull) {
     super(name, type);
     this.initializer = initializer;
+    this.isNotNull = isNotNull;
+  }
+
+  public static Builder builder(final String name, final CppTypeRef type) {
+    return new Builder().name(name).type(type);
   }
 
   @Override
   public Stream<? extends CppElement> stream() {
     return Stream.of(type, initializer);
+  }
+
+  @SuppressWarnings("unused")
+  public boolean hasComment() {
+    return !Strings.isNullOrEmpty(comment) || isNotNull;
   }
 }

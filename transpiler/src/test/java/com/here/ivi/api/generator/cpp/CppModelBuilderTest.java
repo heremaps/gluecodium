@@ -430,7 +430,7 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaStructTypeReadsFields() {
-    final CppField cppField = new CppField(cppComplexTypeRef, FIELD_NAME);
+    final CppField cppField = new CppField(FIELD_NAME, cppComplexTypeRef);
     contextStack.injectResult(cppField);
 
     modelBuilder.finishBuilding(francaStructType);

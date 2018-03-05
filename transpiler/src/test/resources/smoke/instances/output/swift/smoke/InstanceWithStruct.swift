@@ -47,10 +47,15 @@ public class InstanceWithStruct {
     public struct StructWithInstance {
         public var instance: SimpleInstantiableOne?
         public var instanceNotNull: SimpleInstantiableOne
+        /**
+         This is some very useful field.
+         */
+        public var instanceNotNullWithComment: SimpleInstantiableOne
 
-        public init(instance: SimpleInstantiableOne?, instanceNotNull: SimpleInstantiableOne) {
+        public init(instance: SimpleInstantiableOne?, instanceNotNull: SimpleInstantiableOne, instanceNotNullWithComment: SimpleInstantiableOne) {
             self.instance = instance
             self.instanceNotNull = instanceNotNull
+            self.instanceNotNullWithComment = instanceNotNullWithComment
         }
 
         internal init?(cStructWithInstance: _baseRef) {
@@ -64,6 +69,13 @@ public class InstanceWithStruct {
             }
             instanceNotNull = instanceNotNullUnwrapped
             }
+            do {
+                guard let instanceNotNullWithCommentUnwrapped = SimpleInstantiableOne(cSimpleInstantiableOne: smoke_InstanceWithStruct_StructWithInstance_instanceNotNullWithComment_get(cStructWithInstance))
+            else {
+                return nil
+            }
+            instanceNotNullWithComment = instanceNotNullWithCommentUnwrapped
+            }
         }
 
         internal func convertToCType() -> _baseRef {
@@ -75,6 +87,7 @@ public class InstanceWithStruct {
         internal func fillFunction(_ cStructWithInstance: _baseRef) -> Void {
             smoke_InstanceWithStruct_StructWithInstance_instance_set(cStructWithInstance, getRef(instance).ref)
             smoke_InstanceWithStruct_StructWithInstance_instanceNotNull_set(cStructWithInstance, getRef(instanceNotNull).ref)
+            smoke_InstanceWithStruct_StructWithInstance_instanceNotNullWithComment_set(cStructWithInstance, getRef(instanceNotNullWithComment).ref)
         }
     }
 

@@ -145,6 +145,8 @@ interface InstanceWithStruct {
     struct StructWithInstance {
         SimpleInstantiableOne.SimpleInstantiableOne instance
         SimpleInstantiableOne.SimpleInstantiableOne instanceNotNull
+        <** @description: This is some very useful field. **>
+        SimpleInstantiableOne.SimpleInstantiableOne instanceNotNullWithComment
     }
 
     method structWithInstanceMethod {
