@@ -1,2 +1,5 @@
 {{#if hasComment}}{{>java/FieldComment}}{{/if}}
+{{#annotations}}
+@{{name}}
+{{/annotations}}
 {{#if visibility.toString}}{{visibility}} {{/if}}{{type.name}} {{name}}{{#initial}} = {{#isNew}}new {{/isNew}}{{name}}{{#isNew}}(){{/isNew}}{{/initial}};

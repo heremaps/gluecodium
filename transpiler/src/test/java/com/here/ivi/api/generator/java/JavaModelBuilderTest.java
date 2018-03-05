@@ -400,6 +400,30 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaFieldReadsNotNull() {
+    when(deploymentModel.isNotNull(francaField)).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaField);
+
+    JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
+    assertNotNull(resultField);
+    assertTrue(resultField.isNonNull);
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldAddsNonNullAnnotation() {
+    when(deploymentModel.isNotNull(francaField)).thenReturn(true);
+    when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
+
+    modelBuilder.finishBuilding(francaField);
+
+    JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
+    assertNotNull(resultField);
+    assertEquals(1, resultField.annotations.size());
+    assertEquals(javaCustomType, resultField.annotations.iterator().next());
+  }
+
+  @Test
   public void finishBuildingFrancaStructType() {
     modelBuilder.finishBuilding(francaStructType);
 

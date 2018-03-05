@@ -5,6 +5,7 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 
 public class InstanceWithStruct extends NativeBase {
@@ -18,11 +19,13 @@ public class InstanceWithStruct extends NativeBase {
     public static class StructWithInstance {
         public SimpleInstantiableOne instance;
         /** @nonNull */
+        @NonNull
         public SimpleInstantiableOne instanceNotNull;
         /**
          * This is some very useful field.
          * @nonNull
          */
+        @NonNull
         public SimpleInstantiableOne instanceNotNullWithComment;
         public StructWithInstance() {}
         public StructWithInstance(SimpleInstantiableOne instance, SimpleInstantiableOne instanceNotNull, SimpleInstantiableOne instanceNotNullWithComment) {

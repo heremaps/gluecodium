@@ -25,6 +25,7 @@ import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.java.*;
 import java.util.LinkedList;
 import java.util.List;
+import lombok.Getter;
 import org.franca.core.franca.*;
 
 /**
@@ -36,13 +37,18 @@ public class JavaTypeMapper {
   private static final String NATIVE_BASE_NAME = "NativeBase";
 
   private final JavaPackage basePackage;
-  private final JavaType nativeBase;
-  private final JavaType serializationBase;
+  @Getter private final JavaType nativeBase;
+  @Getter private final JavaType serializationBase;
+  @Getter private final JavaType notNullAnnotation;
 
-  public JavaTypeMapper(final JavaPackage basePackage, final JavaType serializationBase) {
+  public JavaTypeMapper(
+      final JavaPackage basePackage,
+      final JavaType serializationBase,
+      final JavaType notNullAnnotation) {
     this.basePackage = basePackage;
     this.nativeBase = new JavaCustomType(NATIVE_BASE_NAME, basePackage);
     this.serializationBase = serializationBase;
+    this.notNullAnnotation = notNullAnnotation;
   }
 
   public JavaType map(final FTypeRef fTypeRef) {
@@ -176,14 +182,6 @@ public class JavaTypeMapper {
           .javaImport(javaImport)
           .build();
     }
-  }
-
-  public JavaType getNativeBase() {
-    return nativeBase;
-  }
-
-  public JavaType getSerializationBase() {
-    return serializationBase;
   }
 
   private JavaType mapTypeDef(final FTypeDef typeDef) {
