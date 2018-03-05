@@ -1,8 +1,14 @@
 # API Transpiler Release Notes
 
+## 1.5.2
+- Breaking changes:
+  + Names for getter functions for Boolean attributes are now named with "is" instead of "get".
+- Bug fixes:
+  + Fixed JNI local references leak for struct fields of String type.
+
 ## 1.5.1
 - Bug fixes:
-  + Fixed JNI type conversion for foreign packages
+  + Fixed JNI type conversion for foreign packages.
 
 ## 1.5.0
 - Breaking changes:
