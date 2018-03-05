@@ -41,12 +41,16 @@ public final class JniGenerator extends AbstractGenerator {
 
   private static final JavaPackage ANDROID_OS_PACKAGE =
       new JavaPackage(Arrays.asList("android", "os"));
+  private static final JavaPackage ANDROID_SUPPORT_ANNOTATION_PACKAGE =
+      new JavaPackage(Arrays.asList("android", "support", "annotation"));
   private static final JavaType PARCELABLE =
       JavaCustomType.builder("Parcelable")
           .packageNames(ANDROID_OS_PACKAGE.packageNames)
           .javaImport(new JavaImport("Parcelable", ANDROID_OS_PACKAGE))
           .javaImport(new JavaImport("Parcel", ANDROID_OS_PACKAGE))
           .build();
+  private static final JavaType NON_NULL =
+      new JavaCustomType("NonNull", ANDROID_SUPPORT_ANNOTATION_PACKAGE);
 
   private final FrancaDeploymentModel deploymentModel;
   private final List<String> additionalIncludes;
@@ -75,7 +79,10 @@ public final class JniGenerator extends AbstractGenerator {
         new JavaModelBuilder(
             deploymentModel,
             basePackage.createChildPackage(DefinedBy.getPackages(francaTypeCollection)),
-            new JavaTypeMapper(basePackage, enableAndroidFeatures ? PARCELABLE : null));
+            new JavaTypeMapper(
+                basePackage,
+                enableAndroidFeatures ? PARCELABLE : null,
+                enableAndroidFeatures ? NON_NULL : null));
 
     CppTypeMapper typeMapper = new CppTypeMapper(new CppIncludeResolver(), internalNamespace);
     CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, typeMapper);

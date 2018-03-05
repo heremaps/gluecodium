@@ -200,21 +200,26 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FField francaField) {
 
+    String fieldName = JavaNameRules.getFieldName(francaField.getName());
     JavaType javaType = getPreviousResult(JavaType.class);
     String defaultValue = deploymentModel.getDefaultValue(francaField);
     JavaValue initialValue =
         defaultValue != null
             ? JavaValueMapper.mapDefaultValue(javaType, defaultValue)
             : JavaValueMapper.mapDefaultValue(javaType);
+    boolean isNonNull = deploymentModel.isNotNull(francaField);
 
-    String fieldName = JavaNameRules.getFieldName(francaField.getName());
     JavaField javaField =
-        JavaField.builder(fieldName, javaType)
-            .initial(initialValue)
-            .isNonNull(deploymentModel.isNotNull(francaField))
-            .build();
+        JavaField.builder(fieldName, javaType).initial(initialValue).isNonNull(isNonNull).build();
     javaField.visibility = getVisibility(francaField);
     javaField.comment = CommentHelper.getDescription(francaField);
+
+    if (isNonNull) {
+      JavaType notNullAnnotation = typeMapper.getNotNullAnnotation();
+      if (notNullAnnotation != null) {
+        javaField.annotations.add(notNullAnnotation);
+      }
+    }
 
     storeResult(javaField);
     closeContext();

@@ -43,7 +43,7 @@ public class JavaTypeMapperTest {
 
   @Mock private FTypeRef francaTypeRef;
 
-  private final JavaTypeMapper typeMapper = new JavaTypeMapper(JavaPackage.DEFAULT, null);
+  private final JavaTypeMapper typeMapper = new JavaTypeMapper(JavaPackage.DEFAULT, null, null);
 
   public JavaTypeMapperTest(final FBasicTypeId francaBasicType, final String expectedJavaTypeName) {
     this.francaBasicType = francaBasicType;

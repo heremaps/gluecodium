@@ -70,7 +70,7 @@ public class JavaTypeMapperCustomTypeTest {
   @Mock private FMapType francaMapType;
 
   private final JavaTypeMapper typeMapper =
-      new JavaTypeMapper(new JavaPackage(Collections.emptyList()), null);
+      new JavaTypeMapper(new JavaPackage(Collections.emptyList()), null, null);
 
   @Before
   public void setUp() {

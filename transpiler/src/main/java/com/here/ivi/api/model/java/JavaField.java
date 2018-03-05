@@ -20,6 +20,8 @@
 package com.here.ivi.api.model.java;
 
 import com.google.common.base.Strings;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.stream.Stream;
 
 public final class JavaField extends JavaElement {
@@ -27,6 +29,7 @@ public final class JavaField extends JavaElement {
   public final JavaType type;
   public final JavaValue initial;
   public final boolean isNonNull;
+  public final Collection<JavaType> annotations = new LinkedHashSet<>();
 
   @lombok.Builder(builderClassName = "Builder")
   private JavaField(
@@ -43,7 +46,7 @@ public final class JavaField extends JavaElement {
 
   @Override
   public Stream<JavaElement> stream() {
-    return Stream.of(type, initial);
+    return Stream.concat(Stream.of(type, initial), annotations.stream());
   }
 
   @SuppressWarnings("unused")
