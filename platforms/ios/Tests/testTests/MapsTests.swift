@@ -117,6 +117,27 @@ class MapsTests: XCTestCase {
         XCTAssertEqual(resultsDict[Maps.SomeEnum.barValue], outputValue2)
     }
 
+    func testMethodWithMapToArrayEmpty() {
+        let inputDict: [UInt8: CollectionOf<String>] = [:]
+
+        let resultsDict = Maps.methodWithMapOfArrays(input: inputDict)
+
+        XCTAssertEqual(resultsDict.count, 0)
+    }
+
+    func testMethodWithMapToArrayMultipleItems() {
+        let inputDict: [UInt8: CollectionOf<String>] = [11: CollectionOf<String>([inputValue1]),
+                                                        42: CollectionOf<String>([inputValue2,
+                                                                                  inputValue3])]
+
+        let resultsDict = Maps.methodWithMapOfArrays(input: inputDict)
+
+        XCTAssertEqual(resultsDict.count, 2)
+        XCTAssertEqual(resultsDict[11]![0], outputValue1)
+        XCTAssertEqual(resultsDict[42]![0], outputValue2)
+        XCTAssertEqual(resultsDict[42]![1], outputValue3)
+    }
+
     static var allTests = [
         ("testMethodWithMapsEmpty", testMethodWithMapsEmpty),
         ("testMethodWithMapsMultipleItems", testMethodWithMapsMultipleItems),
@@ -127,6 +148,8 @@ class MapsTests: XCTestCase {
         ("testMethodWithStructWithMapEmpty", testMethodWithStructWithMapEmpty),
         ("testMethodWithStructWithMapMultipleItems", testMethodWithStructWithMapMultipleItems),
         ("testMethodWithEnumToStringEmpty", testMethodWithEnumToStringEmpty),
-        ("testMethodWithEnumToStringMapMultipleItems", testMethodWithEnumToStringMapMultipleItems)
+        ("testMethodWithEnumToStringMapMultipleItems", testMethodWithEnumToStringMapMultipleItems),
+        ("testMethodWithMapToArrayEmpty", testMethodWithMapToArrayEmpty),
+        ("testMethodWithMapToArrayMultipleItems", testMethodWithMapToArrayMultipleItems)
     ]
 }
