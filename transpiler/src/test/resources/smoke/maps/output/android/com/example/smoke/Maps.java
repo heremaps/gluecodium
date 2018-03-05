@@ -2,10 +2,14 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
+
 package com.example.smoke;
+
 import com.example.NativeBase;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 public class Maps extends NativeBase {
     public static class SomeStruct {
         public String value;
@@ -35,4 +39,5 @@ public class Maps extends NativeBase {
     public static native Map<Long, Maps.SomeStruct> methodWithMapToStruct(final Map<Long, Maps.SomeStruct> input);
     public static native Map<Long, Map<Long, Maps.SomeStruct>> methodWithNestedMap(final Map<Long, Map<Long, Maps.SomeStruct>> input);
     public static native Maps.StructWithMap methodWithStructWithMap(final Maps.StructWithMap input);
+    public static native Map<String, List<Integer>> methodWithMapOfArrays(final Map<String, List<Integer>> input);
 }

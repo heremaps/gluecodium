@@ -15,6 +15,7 @@ public class Maps {
     public typealias NumberToTypeDef = [UInt8: Maps.SomeId]
     public typealias TypeDefToNumber = [Maps.SomeId: UInt8]
     public typealias SomeId = String
+    public typealias StringToArray = [String: CollectionOf<Int32>]
 
     let c_instance : _baseRef
 
@@ -116,6 +117,18 @@ public class Maps {
             smoke_Maps_StructWithMap_release(cResult)
         }
         return Maps.StructWithMap(cStructWithMap: cResult)
+    }
+
+    public static func methodWithMapOfArrays(input: Maps.StringToArray) -> Maps.StringToArray {
+        let inputHandle = convertMaps_StringToArrayToCType(input)
+        defer {
+            smoke_Maps_StringToArray_release(inputHandle)
+        }
+        let resultHandle = smoke_Maps_methodWithMapOfArrays(inputHandle)
+        defer {
+            smoke_Maps_StringToArray_release(resultHandle)
+        }
+        return convertMaps_StringToArrayFromCType(resultHandle)
     }
 }
 
@@ -278,5 +291,40 @@ func convertMaps_TypeDefToNumberFromCType(_ cHandle: _baseRef) -> Maps.TypeDefTo
         smoke_Maps_TypeDefToNumber_iterator_increment(iteratorHandle)
     }
     smoke_Maps_TypeDefToNumber_iterator_release(iteratorHandle)
+    return swiftDict
+}
+func convertMaps_StringToArrayToCType(_ swiftDict: Maps.StringToArray) -> _baseRef {
+    let cHandle = smoke_Maps_StringToArray_create()
+    for (swift_key, swift_value) in swiftDict {
+        let c_key = swift_key.convertToCType()
+        defer {
+            std_string_release(c_key)
+        }
+        let c_conversion = swift_value.c_conversion()
+        defer {
+            c_conversion.cleanup()
+        }
+        let c_value = c_conversion.c_type
+        smoke_Maps_StringToArray_put(cHandle, c_key, c_value)
+    }
+    return cHandle
+}
+func convertMaps_StringToArrayFromCType(_ cHandle: _baseRef) -> Maps.StringToArray {
+    var swiftDict: Maps.StringToArray = [:]
+    let iteratorHandle = smoke_Maps_StringToArray_iterator(cHandle)
+    while smoke_Maps_StringToArray_iterator_is_valid(cHandle, iteratorHandle) {
+        let c_key = smoke_Maps_StringToArray_iterator_key(iteratorHandle)
+        defer {
+            std_string_release(c_key)
+        }
+        let swift_key = String(data: Data(bytes: std_string_data_get(c_key),
+                                            count: Int(std_string_size_get(c_key))),
+                                            encoding: .utf8)
+        let c_value = smoke_Maps_StringToArray_iterator_value(iteratorHandle)
+        let swift_value = Int32List(c_value)
+        swiftDict[swift_key] = swift_value
+        smoke_Maps_StringToArray_iterator_increment(iteratorHandle)
+    }
+    smoke_Maps_StringToArray_iterator_release(iteratorHandle)
     return swiftDict
 }

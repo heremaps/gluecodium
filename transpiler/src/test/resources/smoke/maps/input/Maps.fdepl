@@ -29,4 +29,8 @@ define TranspilerExtensions for interface smoke.Maps
     method methodWithStructWithMap {
         Static = true
     }
+
+    method methodWithMapOfArrays {
+        Static = true
+    }
 }
