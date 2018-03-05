@@ -66,9 +66,9 @@ public class MapsTest {
 
   @Test
   public void methodWithMapToArray_emptyMap() {
-    Map<String, List<Long>> arrayMap = new HashMap<>();
+    Map<Long, List<String>> arrayMap = new HashMap<>();
 
-    Map<String, List<Long>> resultsMap = MapsArrays.methodWithStringToArrayMap(arrayMap);
+    Map<Long, List<String>> resultsMap = Maps.methodWithMapOfArrays(arrayMap);
 
     assertNotNull(resultsMap);
     assertEquals(0, resultsMap.size());
@@ -76,19 +76,20 @@ public class MapsTest {
 
   @Test
   public void methodWithMapToArray_multipleItems() {
-    Map<String, List<Long>> arrayMap = new HashMap<>();
+    Map<Long, List<String>> arrayMap = new HashMap<>();
 
-    arrayMap.put("one", new ArrayList<>(java.util.Arrays.asList(2L, 3L, 4L, 5L)));
-    arrayMap.put("two", new ArrayList<>(java.util.Arrays.asList(0L, 120L)));
-    arrayMap.put("three", Collections.emptyList());
+    arrayMap.put(11L, Collections.singletonList(LOWERCASE_VALUE_1));
+    arrayMap.put(42L, java.util.Arrays.asList(LOWERCASE_VALUE_2, LOWERCASE_VALUE_3));
+    arrayMap.put(199L, Collections.emptyList());
 
-    Map<String, List<Long>> resultsMap = MapsArrays.methodWithStringToArrayMap(arrayMap);
+    Map<Long, List<String>> resultsMap = Maps.methodWithMapOfArrays(arrayMap);
 
     assertNotNull(resultsMap);
     assertEquals(3, resultsMap.size());
-    assertEquals(new ArrayList<>(java.util.Arrays.asList(3L, 4L, 5L, 6L)), resultsMap.get("one"));
-    assertEquals(new ArrayList<>(java.util.Arrays.asList(1L, 121L)), resultsMap.get("two"));
-    assertEquals(Collections.emptyList(), resultsMap.get("three"));
+    assertEquals(Collections.singletonList(UPPERCASE_VALUE_1), resultsMap.get(11L));
+    assertEquals(
+        java.util.Arrays.asList(UPPERCASE_VALUE_2, UPPERCASE_VALUE_3), resultsMap.get(42L));
+    assertEquals(Collections.emptyList(), resultsMap.get(199L));
   }
 
   @Test
