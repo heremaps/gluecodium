@@ -31,6 +31,10 @@ interface Maps {
         ErrorCodeToMessageMap errorMapping
     }
 
+    map NumberToArray {UInt8 to ArrayOfStrings}
+
+    array ArrayOfStrings of String
+
     enumeration SomeEnum {
         FooValue
         BarValue
@@ -110,6 +114,19 @@ interface Maps {
         out {
             <** @description: Output map **>
             EnumToString output
+        }
+    }
+
+    <** @description:
+    Example static method which takes a map and returns a map of same type & having the same keys
+    but values converted to uppercase.
+    **>
+    method methodWithMapOfArrays {
+        in {
+            NumberToArray input
+        }
+        out {
+            NumberToArray output
         }
     }
 }

@@ -33,4 +33,8 @@ define TranspilerExtensions for interface test.Maps
     method methodWithEnumToStringMap {
         Static = true
     }
+
+    method methodWithMapOfArrays {
+        Static = true
+    }
 }

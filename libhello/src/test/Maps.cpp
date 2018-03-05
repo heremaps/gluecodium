@@ -87,4 +87,21 @@ Maps::method_with_enum_to_string_map( const Maps::EnumToString& input )
     return result;
 }
 
+Maps::NumberToArray
+Maps::method_with_map_of_arrays( const Maps::NumberToArray& input )
+{
+    Maps::NumberToArray result;
+    for ( const auto& entry : input )
+    {
+        Maps::ArrayOfStrings string_array( entry.second );
+        for ( auto& input_string : string_array )
+        {
+            std::transform( input_string.begin( ), input_string.end( ),
+                            input_string.begin( ), ::toupper );
+        }
+        result.emplace( entry.first, string_array );
+    }
+    return result;
+}
+
 }
