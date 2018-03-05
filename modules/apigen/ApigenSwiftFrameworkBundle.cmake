@@ -49,9 +49,11 @@ function(apigen_swift_framework_bundle)
 
     message(STATUS "Assets ${apigen_swift_framework_bundle_ASSETS}")
 
+    add_custom_command(TARGET ${apigen_swift_framework_bundle_TARGET} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:${apigen_swift_framework_bundle_TARGET}>/Resources/")
     # Copy the folders that need to be in the bundle.
     set(SWIFT_ASSETS_DIRECTORY
-        "${SWIFT_OUTPUT_DIR}/${apigen_swift_framework_bundle_TARGET}.framework/Versions/Current/Resources/")
+        "$<TARGET_FILE_DIR:${apigen_swift_framework_bundle_TARGET}>/Resources/")
     foreach(FOLDER ${apigen_swift_framework_bundle_ASSETS})
         # NOTE: Resources are symlinked, but some links will be invalid because the targets that
         # build the assets haven't been built. Use tar to transfer the links that are valid to

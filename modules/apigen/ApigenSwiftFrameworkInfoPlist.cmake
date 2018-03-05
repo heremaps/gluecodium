@@ -44,8 +44,15 @@ function(apigen_swift_framework_info_plist target)
     set(MACOSX_FRAMEWORK_IDENTIFIER com.here.ivi.${target})
     set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${SWIFT_FRAMEWORK_VERSION})
     set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${SWIFT_FRAMEWORK_VERSION})
-    configure_file(${SWIFT_RESOURCES_DIR}/MacOSXFrameworkInfo.plist.in
-        ${SWIFT_OUTPUT_DIR}/${target}.framework/Versions/${SWIFT_FRAMEWORK_VERSION}/Resources/Info.plist)
+
+    # using CMakes builtin Info.plist generation does not work properly, work around this by removing
+    # and replacing the generated one
+    configure_file(${SWIFT_RESOURCES_DIR}/MacOSXFrameworkInfo.plist.in ${SWIFT_OUTPUT_DIR}/Info.plist.${target})
+    add_custom_command(TARGET ${target} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E remove "$<TARGET_FILE_DIR:${target}>/Info.plist"
+        COMMAND ${CMAKE_COMMAND} -E copy ${SWIFT_OUTPUT_DIR}/Info.plist.${target} "$<TARGET_FILE_DIR:${target}>/Info.plist"
+        COMMAND ${CMAKE_COMMAND} -E copy ${SWIFT_OUTPUT_DIR}/Info.plist.${target} "$<TARGET_FILE_DIR:${target}>/Resources/Info.plist"
+        )
     message(STATUS "[Swift] Creating Mac OS configuration...")
 
 endfunction(apigen_swift_framework_info_plist)

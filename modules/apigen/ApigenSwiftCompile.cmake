@@ -97,12 +97,6 @@ function(apigen_swift_compile target architecture)
         -emit-library
         -module-name ${target})
 
-    if (SIMULATOR)
-        message(STATUS "[Swift] Building for simulator")
-    else ()
-        set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -embed-bitcode)
-    endif ()
-
     string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
     if (uppercase_CMAKE_BUILD_TYPE MATCHES "^(DEBUG|RELWITHDEBINFO)$")
         set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
@@ -124,25 +118,31 @@ function(apigen_swift_compile target architecture)
         set(build_swift_native_frameworks -lz -framework AppKit -framework OpenGL)
     endif()
 
-    set(MODULE_NAME ${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>)
-
-    if(NOT APPLE)
-        set(MODULE_NAME ${MODULE_NAME}swift)
-        list(APPEND BUILD_ARGUMENTS -o "lib${MODULE_NAME}.so")
-    endif()
-
     file(GLOB_RECURSE SOURCES ${OUTPUT_DIR}/swift/*.swift)
-    add_custom_command(TARGET ${target} POST_BUILD
-    COMMENT "Compiling generated Swift sources -> ${BUILD_ARGUMENTS} ${build_swift_native_frameworks}"
-    COMMAND swiftc ${BUILD_ARGUMENTS} ${build_swift_native_frameworks} ${SOURCES} ${ADDITIONAL_SOURCES}
-    WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR})
 
-    apigen_swift_test(${target} "${swift_target_flag}" ${MODULE_NAME})
+    set(MODULE_NAME ${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>)
+    if(APPLE)
+        set(CMAKE_Swift_LANGUAGE_VERSION "4.0")
+        # CMakes compiler check is outdated and fails for Swift 4.0, force it to pass.
+        set(CMAKE_Swift_COMPILER_FORCED TRUE)
+        enable_language(Swift)
 
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-        install(DIRECTORY ${SWIFT_OUTPUT_DIR}/${target}.framework
-                DESTINATION .)
+        set_target_properties(${target} PROPERTIES
+            FRAMEWORK TRUE
+            FRAMEWORK_VERSION ${SWIFT_FRAMEWORK_VERSION}
+            XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS "-import-underlying-module -I${OUTPUT_DIR} -module-name=${target}"
+            )
+        install(TARGETS ${target} FRAMEWORK DESTINATION .)
     else()
+        set(MODULE_NAME ${MODULE_NAME}swift)
+        list(APPEND BUILD_ARGUMENTS -o "lib${MODULE_NAME}.so" "-embed-bitcode")
+
+        add_custom_command(TARGET ${target} POST_BUILD
+            COMMENT "Compiling generated Swift sources -> ${BUILD_ARGUMENTS} ${build_swift_native_frameworks}"
+            COMMAND swiftc ${BUILD_ARGUMENTS} ${build_swift_native_frameworks} ${SOURCES} ${ADDITIONAL_SOURCES}
+            WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR})
+
+
         install(
             FILES
                 "${SWIFT_OUTPUT_DIR}/lib${MODULE_NAME}.so"
@@ -152,5 +152,6 @@ function(apigen_swift_compile target architecture)
             DESTINATION .)
     endif()
 
+    apigen_swift_test(${target} "${swift_target_flag}" ${MODULE_NAME})
 
 endfunction(apigen_swift_compile)

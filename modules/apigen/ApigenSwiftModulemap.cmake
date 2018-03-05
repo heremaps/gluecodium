@@ -18,7 +18,10 @@ cmake_minimum_required(VERSION 3.5)
 # ApigenSwiftModulemap
 # -------------------
 #
-# This module builds Swift modulemap needed for the framework creation
+# This module builds Swift modulemap needed for the framework creation.
+# The modulemap is used to get the Swift compiler into loading the header files and linking
+# against the CBridge library without exposing the C bindings in the framework.
+# The modulemap itself is not part of the framework.
 #
 # .. command:: apigen_swift_modulemap
 #
@@ -64,5 +67,13 @@ function(apigen_swift_modulemap target)
         "module ${target} {\n}")
 
     message(STATUS "[Swift] Creating modulemap files: ${MODULEMAP_FRAMEWORK_PATH} and ${MODULEMAP_CBRIDGE_PATH}")
+
+    if (APPLE)
+        # Clean up the modulemap after building to avoid double definition conflicts with the generated framework
+        # in case it ends up in the module search path for some reason
+        # TODO reference app should really not search in the build path for random mobulemaps
+        add_custom_command(TARGET "${target}" POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E remove "${MODULEMAP_CBRIDGE_PATH}")
+    endif()
 
 endfunction(apigen_swift_modulemap)
