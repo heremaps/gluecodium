@@ -58,14 +58,3 @@ git push origin HEAD:refs/for/master
 ```
 
 And add the *TranspilerReviewers* group manually on Gerrit's web interface.
-
-
-## License
-    Copyright 2017 HERE Europe B.V.
-
-    This software and other materials contain proprietary information of HERE
-    and are protected by applicable copyright legislation. Any use and
-    utilization of this software and other materials and disclosure to any
-    third parties is conditional upon having a separate agreement with HERE
-    for the use, utilization or disclosure of this software. In the absence of
-    such agreement, the use of the software is not allowed.
