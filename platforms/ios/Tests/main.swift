@@ -27,6 +27,7 @@ let allTests = [
     testCase(HelloWorldTests.allTests),
     testCase(ListenersReturnValuesTests.allTests),
     testCase(ListenersTests.allTests),
+    testCase(ListenersWithDictionaries.allTests),
     testCase(StructWithInstanceTests.allTests),
     testCase(MethodOverloadsTests.allTests),
     testCase(PlainDataStructuresFromTypeCollectionTests.allTests),

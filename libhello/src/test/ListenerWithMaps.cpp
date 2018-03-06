@@ -32,6 +32,9 @@
 
 namespace
 {
+const ::test::CityDataMap data{
+    {"Berlin", {-2, 26}}, {"Marrakesh", {8, 40}}, {"Madrid", {1, 33}}};
+
 class MyForecastProvider : public ::test::ForecastProvider
 {
 public:
@@ -41,9 +44,6 @@ public:
     void
     inform( const ::std::shared_ptr< ::test::ForecastListener >& listener )
     {
-        const ::test::CityDataMap data{
-            {"Berlin", {-2, 26}}, {"Marrakesh", {8, 40}}, {"Madrid", {1, 33}}};
-
         listener->on_forecast_data_provided( data );
     }
 };
