@@ -64,10 +64,11 @@ public final class SerializationTest {
             .build();
 
     Parcel parcel = Parcel.obtain();
-    serializableStruct.writeToParcel(parcel, 0);
+    parcel.writeParcelable(serializableStruct, 0);
     parcel.setDataPosition(0);
 
-    SerializableStruct resultStruct = SerializableStruct.CREATOR.createFromParcel(parcel);
+    SerializableStruct resultStruct =
+        parcel.readParcelable(Thread.currentThread().getContextClassLoader());
 
     assertNotNull(resultStruct);
     assertEquals(serializableStruct.boolField, resultStruct.boolField);
