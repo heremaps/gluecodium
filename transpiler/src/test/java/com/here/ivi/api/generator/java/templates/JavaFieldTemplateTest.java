@@ -38,7 +38,7 @@ public final class JavaFieldTemplateTest {
   @Test
   public void generate_simple() {
     // Arrange
-    JavaField javaField = new JavaField(JavaPrimitiveType.INT, "intField");
+    JavaField javaField = JavaField.builder("intField", JavaPrimitiveType.INT).build();
 
     // Act
     String generated = TemplateEngine.render("java/Field", javaField);
@@ -50,7 +50,8 @@ public final class JavaFieldTemplateTest {
   @Test
   public void generate_fieldWithInitialValueAndVisibility() {
     // Arrange
-    JavaField javaField = new JavaField(JavaPrimitiveType.INT, "intField", new JavaValue("1"));
+    JavaField javaField =
+        JavaField.builder("intField", JavaPrimitiveType.INT).initial(new JavaValue("1")).build();
     javaField.visibility = JavaVisibility.PRIVATE;
 
     // Act
@@ -64,7 +65,8 @@ public final class JavaFieldTemplateTest {
   public void generate_stringFieldWithComment() {
     // Arrange
     JavaField javaField =
-        new JavaField(new JavaReferenceType(JavaReferenceType.Type.STRING), "stringField");
+        JavaField.builder("stringField", new JavaReferenceType(JavaReferenceType.Type.STRING))
+            .build();
     javaField.visibility = JavaVisibility.PUBLIC;
     javaField.comment = "Field comment";
     String expected = "/**\n" + " * Field comment\n" + " */\n" + "public String stringField;";
@@ -80,7 +82,8 @@ public final class JavaFieldTemplateTest {
   public void generate_customTypeWithInitializer() {
     // Arrange
     JavaCustomType customType = new JavaCustomType("CustomType");
-    JavaField javaField = new JavaField(customType, "customField", new JavaValue(customType));
+    JavaField javaField =
+        JavaField.builder("customField", customType).initial(new JavaValue(customType)).build();
     String expected = "CustomType customField = new CustomType();";
 
     // Act

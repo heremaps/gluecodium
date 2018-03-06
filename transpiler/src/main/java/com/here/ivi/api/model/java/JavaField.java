@@ -19,25 +19,35 @@
 
 package com.here.ivi.api.model.java;
 
+import com.google.common.base.Strings;
 import java.util.stream.Stream;
 
 public final class JavaField extends JavaElement {
 
   public final JavaType type;
   public final JavaValue initial;
+  public final boolean isNonNull;
 
-  public JavaField(final JavaType type, final String name) {
-    this(type, name, null);
-  }
-
-  public JavaField(final JavaType type, final String name, final JavaValue initial) {
+  @lombok.Builder(builderClassName = "Builder")
+  private JavaField(
+      final String name, final JavaType type, final JavaValue initial, final boolean isNonNull) {
     super(name);
     this.type = type;
     this.initial = initial;
+    this.isNonNull = isNonNull;
+  }
+
+  public static Builder builder(final String name, final JavaType type) {
+    return new Builder().name(name).type(type);
   }
 
   @Override
   public Stream<JavaElement> stream() {
     return Stream.of(type, initial);
+  }
+
+  @SuppressWarnings("unused")
+  public boolean hasComment() {
+    return !Strings.isNullOrEmpty(comment) || isNonNull;
   }
 }

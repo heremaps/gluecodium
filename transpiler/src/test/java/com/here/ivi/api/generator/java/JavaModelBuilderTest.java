@@ -88,7 +88,7 @@ public class JavaModelBuilderTest {
   private final JavaCustomType javaCustomType = new JavaCustomType("typical");
   private final JavaTemplateType javaTemplateType =
       JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaCustomType);
-  private final JavaField javaField = new JavaField(javaCustomType, FIELD_NAME);
+  private final JavaField javaField = JavaField.builder(FIELD_NAME, javaCustomType).build();
   private final JavaEnum javaEnum = new JavaEnum(ENUMERATION_NAME);
   private final EList<FEnumerator> francaEnumerators = new ArrayEList<>();
   private final JavaEnumType javaEnumType =
@@ -413,7 +413,7 @@ public class JavaModelBuilderTest {
   @Test
   public void finishBuildingFrancaStructTypeReadsParentFields() {
     JavaClass parentClass = JavaClass.builder("Foo").build();
-    JavaField grandParentField = new JavaField(javaCustomType, "BarField");
+    JavaField grandParentField = JavaField.builder("BarField", javaCustomType).build();
     parentClass.parentFields.add(grandParentField);
     parentClass.fields.add(javaField);
     contextStack.injectResult(parentClass);
