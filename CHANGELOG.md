@@ -1,5 +1,9 @@
 # API Transpiler Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed Parcelable deserialization for structs and arrays.
+
 ## 1.5.2
 - Breaking changes:
   + Names for getter functions for Boolean attributes are now named with "is" instead of "get".

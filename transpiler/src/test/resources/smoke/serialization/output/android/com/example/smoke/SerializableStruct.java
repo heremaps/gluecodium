@@ -66,14 +66,14 @@ public class SerializableStruct implements Parcelable {
         this.floatField = in_parcel.readFloat();
         this.doubleField = in_parcel.readDouble();
         this.stringField = in_parcel.readString();
-        this.structField = in_parcel.readParcelable(null);
+        this.structField = in_parcel.readParcelable(Thread.currentThread().getContextClassLoader());
         this.byteBufferField = in_parcel.createByteArray();
         this.arrayField = new ArrayList<>();
-        in_parcel.readList(this.arrayField, null);
+        in_parcel.readList(this.arrayField, Thread.currentThread().getContextClassLoader());
         this.structArrayField = new ArrayList<>();
-        in_parcel.readList(this.structArrayField, null);
+        in_parcel.readList(this.structArrayField, Thread.currentThread().getContextClassLoader());
         this.mapField = new HashMap<>();
-        in_parcel.readMap(this.mapField, null);
+        in_parcel.readMap(this.mapField, Thread.currentThread().getContextClassLoader());
         this.enumField = SomeEnum.values()[in_parcel.readInt()];
     }
 

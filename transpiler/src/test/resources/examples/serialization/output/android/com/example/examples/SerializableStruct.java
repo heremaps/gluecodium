@@ -39,9 +39,9 @@ public class SerializableStruct implements Parcelable {
     private SerializableStruct(final Parcel in_parcel) {
         this.intField = in_parcel.readInt();
         this.stringField = in_parcel.readString();
-        this.structField = in_parcel.readParcelable(null);
+        this.structField = in_parcel.readParcelable(Thread.currentThread().getContextClassLoader());
         this.arrayField = new ArrayList<>();
-        in_parcel.readList(this.arrayField, null);
+        in_parcel.readList(this.arrayField, Thread.currentThread().getContextClassLoader());
     }
 
     @Override
