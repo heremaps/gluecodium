@@ -1,0 +1,11 @@
+{{#if comment}}
+/**
+{{prefix comment " * "}}
+{{#if isNonNull}}
+ * @nonNull
+{{/if}}
+ */
+{{/if}}
+{{#unless comment}}{{#if isNonNull}}
+/** @nonNull */
+{{/if}}{{/unless}}

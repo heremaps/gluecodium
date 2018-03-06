@@ -208,9 +208,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
             : JavaValueMapper.mapDefaultValue(javaType);
 
     String fieldName = JavaNameRules.getFieldName(francaField.getName());
-    JavaField javaField = new JavaField(javaType, fieldName, initialValue);
+    JavaField javaField =
+        JavaField.builder(fieldName, javaType)
+            .initial(initialValue)
+            .isNonNull(deploymentModel.isNotNull(francaField))
+            .build();
     javaField.visibility = JavaVisibility.PUBLIC;
-
     javaField.comment = CommentHelper.getDescription(francaField);
 
     storeResult(javaField);

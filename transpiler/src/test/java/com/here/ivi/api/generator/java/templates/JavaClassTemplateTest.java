@@ -210,7 +210,8 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_withInnerClass() {
     // Arrange
-    JavaField intField = new JavaField(JavaPrimitiveType.INT, "intField", new JavaValue("1"));
+    JavaField intField =
+        JavaField.builder("intField", JavaPrimitiveType.INT).initial(new JavaValue("1")).build();
     JavaClass innerClass = new JavaClass("InnerClass");
     innerClass.comment = "Inner class comment";
     innerClass.fields.add(intField);
@@ -248,7 +249,8 @@ public final class JavaClassTemplateTest {
   @Test
   public void generate_staticInnerClass() {
     // Arrange
-    JavaField intField = new JavaField(JavaPrimitiveType.INT, "intField", new JavaValue("1"));
+    JavaField intField =
+        JavaField.builder("intField", JavaPrimitiveType.INT).initial(new JavaValue("1")).build();
     JavaClass innerClass = new JavaClass("StaticInnerClass");
     innerClass.comment = "Inner class comment";
     innerClass.fields.add(intField);
@@ -313,7 +315,9 @@ public final class JavaClassTemplateTest {
     // Arrange
     JavaCustomType javaCustomType = new JavaCustomType("Foo");
     JavaField fieldWithImports =
-        new JavaField(javaCustomType, "someField", new JavaValue(javaCustomType));
+        JavaField.builder("someField", javaCustomType)
+            .initial(new JavaValue(javaCustomType))
+            .build();
     fieldWithImports.type.imports.add(
         new JavaImport("Foo", new JavaPackage(Arrays.asList("com", "test"))));
     javaClass.qualifiers.add(Qualifier.FINAL);
