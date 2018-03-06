@@ -103,7 +103,7 @@ public final class JniGenerator extends AbstractGenerator {
 
     List<String> includes = new LinkedList<>(Collections.singletonList(baseApiHeaderInclude));
     if (jniContainer.isFrancaInterface) {
-      includes.add(JniNameRules.getHeaderFileName(jniContainer));
+      includes.add(JniNameRules.getHeaderFileName(JniNameRules.getJniClassFileName(jniContainer)));
     }
 
     includes.addAll(additionalIncludes);

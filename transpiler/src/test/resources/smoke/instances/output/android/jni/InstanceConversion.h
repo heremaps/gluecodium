@@ -4,19 +4,19 @@
 #include <memory>
 #include <new>
 #include "smoke/SimpleInstantiableOne.h"
-#include "android/jni/com_example_smoke_SimpleInstantiableOne.h"
-#include "android/jni/CppProxyBase.h"
-#include "android/jni/FieldAccessMethods.h"
-#include "android/jni/JniBase.h"
-#include "android/jni/JniCppConversionUtils.h"
+#include "com_example_smoke_SimpleInstantiableOne.h"
+#include "CppProxyBase.h"
+#include "FieldAccessMethods.h"
+#include "JniBase.h"
+#include "JniCppConversionUtils.h"
 #include "smoke/SimpleInstantiableTwo.h"
-#include "android/jni/com_example_smoke_SimpleInstantiableTwo.h"
+#include "com_example_smoke_SimpleInstantiableTwo.h"
 #include "smoke/NestedInstantiableOne.h"
-#include "android/jni/com_example_smoke_NestedInstantiableOne.h"
+#include "com_example_smoke_NestedInstantiableOne.h"
 #include "smoke/NestedInstantiableTwo.h"
-#include "android/jni/com_example_smoke_NestedInstantiableTwo.h"
+#include "com_example_smoke_NestedInstantiableTwo.h"
 #include "smoke/InstanceWithStruct.h"
-#include "android/jni/com_example_smoke_InstanceWithStruct.h"
+#include "com_example_smoke_InstanceWithStruct.h"
 #include "ProxyConversion.h"
 
 namespace transpiler {

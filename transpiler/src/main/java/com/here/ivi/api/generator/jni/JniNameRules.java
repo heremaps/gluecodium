@@ -27,71 +27,24 @@ import java.util.List;
 
 public final class JniNameRules {
 
-  public static final String JNI_HEADER_FILE_SUFFIX = ".h";
+  private static final String JNI_HEADER_FILE_SUFFIX = ".h";
   private static final String JNI_IMPLEMENTATION_FILE_SUFFIX = ".cpp";
-  private static final String JNI_ENUM_CONVERSION_NAME = "EnumConversion";
-  private static final String JNI_STRUCT_CONVERSION_NAME = "StructConversion";
-  private static final String JNI_INSTANCE_CONVERSION_NAME = "InstanceConversion";
-  private static final String JNI_PROXY_CONVERSION_NAME = "ProxyConversion";
-
-  public static String getHeaderFileName(JniContainer jniContainer) {
-    return getJniClassFileName(jniContainer) + JNI_HEADER_FILE_SUFFIX;
-  }
-
-  public static String getCppProxyHeaderFileName(JniContainer jniContainer) {
-    return getJniClassFileName(jniContainer) + "CppProxy" + JNI_HEADER_FILE_SUFFIX;
-  }
-
-  public static String getCppProxyImplementationFileName(JniContainer jniContainer) {
-    return getJniClassFileName(jniContainer) + "CppProxy" + JNI_IMPLEMENTATION_FILE_SUFFIX;
-  }
-
-  public static String getImplementationFileName(JniContainer jniContainer) {
-    return getJniClassFileName(jniContainer) + JNI_IMPLEMENTATION_FILE_SUFFIX;
-  }
+  public static final String JNI_ENUM_CONVERSION_NAME = "EnumConversion";
+  public static final String JNI_STRUCT_CONVERSION_NAME = "StructConversion";
+  public static final String JNI_INSTANCE_CONVERSION_NAME = "InstanceConversion";
+  public static final String JNI_PROXY_CONVERSION_NAME = "ProxyConversion";
+  public static final String JNI_CPP_PROXY_SUFFIX = "CppProxy";
 
   public static String getHeaderFilePath(final String fileName) {
-    return getJniPathPrefix() + fileName + JNI_HEADER_FILE_SUFFIX;
+    return getJniPathPrefix() + getHeaderFileName(fileName);
+  }
+
+  public static String getHeaderFileName(final String fileName) {
+    return fileName + JNI_HEADER_FILE_SUFFIX;
   }
 
   public static String getImplementationFilePath(final String fileName) {
     return getJniPathPrefix() + fileName + JNI_IMPLEMENTATION_FILE_SUFFIX;
-  }
-
-  public static String getStructConversionHeaderFileName() {
-    return getHeaderFilePath(JNI_STRUCT_CONVERSION_NAME);
-  }
-
-  public static String getProxyConversionHeaderFileName() {
-    return getHeaderFilePath(JNI_PROXY_CONVERSION_NAME);
-  }
-
-  public static String getEnumConversionHeaderFileName() {
-    return getHeaderFilePath(JNI_ENUM_CONVERSION_NAME);
-  }
-
-  public static String getEnumConversionImplementationFileName() {
-    return getImplementationFilePath(JNI_ENUM_CONVERSION_NAME);
-  }
-
-  public static String getStructConversionImplementationFileName() {
-    return getImplementationFilePath(JNI_STRUCT_CONVERSION_NAME);
-  }
-
-  public static String getInstanceConversionHeaderFileName() {
-    return getHeaderFilePath(JNI_INSTANCE_CONVERSION_NAME);
-  }
-
-  public static String getInstanceConversionImplementationFileName() {
-    return getImplementationFilePath(JNI_INSTANCE_CONVERSION_NAME);
-  }
-
-  public static String getNativeParameterName(final String javaParameterName) {
-    if (javaParameterName == null || javaParameterName.isEmpty()) {
-      return "";
-    }
-
-    return "n" + javaParameterName;
   }
 
   /**
@@ -114,13 +67,11 @@ public final class JniNameRules {
     return packageNames.isEmpty() ? "" : String.join("_", packageNames) + "_";
   }
 
-  private static String getJniClassFileName(final JniContainer jniContainer) {
-    return getJniPathPrefix()
-        + formatPackageName(jniContainer.javaPackages)
-        + jniContainer.javaName;
+  public static String getJniClassFileName(final JniContainer jniContainer) {
+    return formatPackageName(jniContainer.javaPackages) + jniContainer.javaName;
   }
 
-  public static String getJniPathPrefix() {
+  private static String getJniPathPrefix() {
     return AndroidGeneratorSuite.GENERATOR_NAME + File.separator + "jni" + File.separator;
   }
 }

@@ -1,9 +1,9 @@
-#include "android/jni/StructConversion.h"
+#include "StructConversion.h"
 #include <cstdint>
 #include <vector>
-#include "android/jni/FieldAccessMethods.h"
-#include "android/jni/EnumConversion.h"
-#include "android/jni/ArrayConversionUtils.h"
+#include "FieldAccessMethods.h"
+#include "EnumConversion.h"
+#include "ArrayConversionUtils.h"
 namespace transpiler {
 namespace jni {
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::Point& _nout ){

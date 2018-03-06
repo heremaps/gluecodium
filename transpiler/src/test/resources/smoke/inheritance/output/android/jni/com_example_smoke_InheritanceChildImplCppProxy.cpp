@@ -1,8 +1,8 @@
-#include "android/jni/com_example_smoke_InheritanceChildImplCppProxy.h"
-#include "android/jni/InstanceConversion.h"
-#include "android/jni/StructConversion.h"
-#include "android/jni/ArrayConversionUtils.h"
-#include "android/jni/EnumConversion.h"
+#include "com_example_smoke_InheritanceChildImplCppProxy.h"
+#include "InstanceConversion.h"
+#include "StructConversion.h"
+#include "ArrayConversionUtils.h"
+#include "EnumConversion.h"
 
 namespace smoke {
 
