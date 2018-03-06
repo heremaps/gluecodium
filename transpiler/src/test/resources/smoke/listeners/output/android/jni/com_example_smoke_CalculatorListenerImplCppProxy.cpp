@@ -1,10 +1,10 @@
 
-#include "android/jni/com_example_smoke_CalculatorListenerImplCppProxy.h"
+#include "com_example_smoke_CalculatorListenerImplCppProxy.h"
 
-#include "android/jni/InstanceConversion.h"
-#include "android/jni/StructConversion.h"
-#include "android/jni/ArrayConversionUtils.h"
-#include "android/jni/EnumConversion.h"
+#include "InstanceConversion.h"
+#include "StructConversion.h"
+#include "ArrayConversionUtils.h"
+#include "EnumConversion.h"
 
 namespace smoke {
 

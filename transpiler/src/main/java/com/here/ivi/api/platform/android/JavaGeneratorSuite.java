@@ -104,7 +104,7 @@ public class JavaGeneratorSuite extends GeneratorSuite {
             javaPackageList,
             UTILS_HEADER_INCLUDES
                 .stream()
-                .map(JniNameRules::getHeaderFilePath)
+                .map(JniNameRules::getHeaderFileName)
                 .collect(Collectors.toList()),
             enableAndroidFeatures,
             internalNamespace);

@@ -1,4 +1,4 @@
-#include "android/jni/EnumConversion.h"
+#include "EnumConversion.h"
 
 namespace transpiler {
 namespace jni {

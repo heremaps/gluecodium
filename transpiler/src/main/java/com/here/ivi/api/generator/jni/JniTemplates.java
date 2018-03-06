@@ -60,13 +60,12 @@ public final class JniTemplates {
     containerData.put(CONTAINER_NAME, jniContainer);
     containerData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
 
+    String fileName = JniNameRules.getJniClassFileName(jniContainer);
     results.add(
-        generateFile("jni/Header", containerData, JniNameRules.getHeaderFileName(jniContainer)));
+        generateFile("jni/Header", containerData, JniNameRules.getHeaderFilePath(fileName)));
     results.add(
         generateFile(
-            "jni/Implementation",
-            containerData,
-            JniNameRules.getImplementationFileName(jniContainer)));
+            "jni/Implementation", containerData, JniNameRules.getImplementationFilePath(fileName)));
 
     return results;
   }
@@ -114,23 +113,25 @@ public final class JniTemplates {
         generateFile(
             "jni/StructConversionHeader",
             mustacheData,
-            JniNameRules.getStructConversionHeaderFileName()));
+            JniNameRules.getHeaderFilePath(JniNameRules.JNI_STRUCT_CONVERSION_NAME)));
 
     mustacheData.put(
         INCLUDES_NAME,
         Arrays.asList(
-            Include.createInternalInclude(JniNameRules.getStructConversionHeaderFileName()),
+            Include.createInternalInclude(
+                JniNameRules.getHeaderFileName(JniNameRules.JNI_STRUCT_CONVERSION_NAME)),
             CppLibraryIncludes.INT_TYPES,
             CppLibraryIncludes.VECTOR,
             Include.createInternalInclude(
-                JniNameRules.getHeaderFilePath(AndroidGeneratorSuite.FIELD_ACCESS_UTILS)),
-            Include.createInternalInclude(JniNameRules.getEnumConversionHeaderFileName())));
+                JniNameRules.getHeaderFileName(AndroidGeneratorSuite.FIELD_ACCESS_UTILS)),
+            Include.createInternalInclude(
+                JniNameRules.getHeaderFileName(JniNameRules.JNI_ENUM_CONVERSION_NAME))));
 
     results.add(
         generateFile(
             "jni/StructConversionImplementation",
             mustacheData,
-            JniNameRules.getStructConversionImplementationFileName()));
+            JniNameRules.getImplementationFilePath(JniNameRules.JNI_STRUCT_CONVERSION_NAME)));
   }
 
   private void addEnumConversionFiles(
@@ -147,18 +148,19 @@ public final class JniTemplates {
         generateFile(
             "jni/EnumConversionHeader",
             mustacheData,
-            JniNameRules.getEnumConversionHeaderFileName()));
+            JniNameRules.getHeaderFilePath(JniNameRules.JNI_ENUM_CONVERSION_NAME)));
 
     mustacheData.put(
         INCLUDES_NAME,
         Collections.singletonList(
-            Include.createInternalInclude(JniNameRules.getEnumConversionHeaderFileName())));
+            Include.createInternalInclude(
+                JniNameRules.getHeaderFileName(JniNameRules.JNI_ENUM_CONVERSION_NAME))));
 
     results.add(
         generateFile(
             "jni/EnumConversionImplementation",
             mustacheData,
-            JniNameRules.getEnumConversionImplementationFileName()));
+            JniNameRules.getImplementationFilePath(JniNameRules.JNI_ENUM_CONVERSION_NAME)));
   }
 
   private void addInstanceConversionFiles(
@@ -184,16 +186,17 @@ public final class JniTemplates {
         generateFile(
             "jni/InstanceConversionHeader",
             instanceData,
-            JniNameRules.getInstanceConversionHeaderFileName()));
+            JniNameRules.getHeaderFilePath(JniNameRules.JNI_INSTANCE_CONVERSION_NAME)));
 
     instanceIncludes.add(
-        Include.createInternalInclude(JniNameRules.getInstanceConversionHeaderFileName()));
+        Include.createInternalInclude(
+            JniNameRules.getHeaderFileName(JniNameRules.JNI_INSTANCE_CONVERSION_NAME)));
 
     results.add(
         generateFile(
             "jni/InstanceConversionImplementation",
             instanceData,
-            JniNameRules.getInstanceConversionImplementationFileName()));
+            JniNameRules.getImplementationFilePath(JniNameRules.JNI_INSTANCE_CONVERSION_NAME)));
   }
 
   private void addCppProxyFiles(
@@ -210,14 +213,14 @@ public final class JniTemplates {
       containerData.put(CONTAINER_NAME, jniContainer);
       containerData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
 
+      String fileName =
+          JniNameRules.getJniClassFileName(jniContainer) + JniNameRules.JNI_CPP_PROXY_SUFFIX;
       results.add(
           generateFile(
-              "jni/CppProxyHeader",
-              containerData,
-              JniNameRules.getCppProxyHeaderFileName(jniContainer)));
+              "jni/CppProxyHeader", containerData, JniNameRules.getHeaderFilePath(fileName)));
 
       Include headerInclude =
-          Include.createInternalInclude(JniNameRules.getCppProxyHeaderFileName(jniContainer));
+          Include.createInternalInclude(JniNameRules.getHeaderFileName(fileName));
 
       proxyIncludes.add(headerInclude);
 
@@ -227,7 +230,7 @@ public final class JniTemplates {
           generateFile(
               "jni/CppProxyImplementation",
               containerData,
-              JniNameRules.getCppProxyImplementationFileName(jniContainer)));
+              JniNameRules.getImplementationFilePath(fileName)));
     }
 
     Map<String, Object> mustacheData = new HashMap<>();
@@ -239,7 +242,7 @@ public final class JniTemplates {
         generateFile(
             "jni/ProxyGeneratorHeader",
             mustacheData,
-            JniNameRules.getProxyConversionHeaderFileName()));
+            JniNameRules.getHeaderFilePath(JniNameRules.JNI_PROXY_CONVERSION_NAME)));
   }
 
   private static boolean isListener(final JniContainer jniContainer) {

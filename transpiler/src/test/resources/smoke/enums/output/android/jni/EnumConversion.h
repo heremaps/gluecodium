@@ -2,13 +2,13 @@
 
 #include <jni.h>
 #include "smoke/Enums.h"
-#include "android/jni/com_example_smoke_Enums.h"
-#include "android/jni/CppProxyBase.h"
-#include "android/jni/FieldAccessMethods.h"
-#include "android/jni/JniBase.h"
-#include "android/jni/JniCppConversionUtils.h"
+#include "com_example_smoke_Enums.h"
+#include "CppProxyBase.h"
+#include "FieldAccessMethods.h"
+#include "JniBase.h"
+#include "JniCppConversionUtils.h"
 #include "smoke/EnumsInTypeCollectionInterface.h"
-#include "android/jni/com_example_smoke_EnumsInTypeCollectionInterface.h"
+#include "com_example_smoke_EnumsInTypeCollectionInterface.h"
 #include "smoke/EnumsInTypeCollection.h"
 
 namespace transpiler {

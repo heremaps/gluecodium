@@ -31,6 +31,7 @@ import com.here.ivi.api.generator.common.TemplateEngine;
 import com.here.ivi.api.model.jni.JniContainer;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,18 +62,14 @@ public final class JniTemplatesTest {
   public void setUp() {
     PowerMockito.mockStatic(JniNameRules.class, TemplateEngine.class);
 
+    when(JniNameRules.getHeaderFilePath(any())).thenReturn("");
     when(JniNameRules.getHeaderFileName(any())).thenReturn("");
-    when(JniNameRules.getImplementationFileName(any())).thenReturn("");
-    when(JniNameRules.getStructConversionHeaderFileName()).thenReturn("");
-    when(JniNameRules.getStructConversionImplementationFileName()).thenReturn("");
-    when(JniNameRules.getInstanceConversionHeaderFileName()).thenReturn("");
-    when(JniNameRules.getInstanceConversionImplementationFileName()).thenReturn("");
-    when(JniNameRules.getCppProxyHeaderFileName(any())).thenReturn(PROXY_HEADER_NAME);
-    when(JniNameRules.getCppProxyImplementationFileName(any()))
+    when(JniNameRules.getImplementationFilePath(any())).thenReturn("");
+    when(JniNameRules.getJniClassFileName(any())).thenReturn("");
+    when(JniNameRules.getHeaderFilePath(JniNameRules.JNI_CPP_PROXY_SUFFIX))
+        .thenReturn(PROXY_HEADER_NAME);
+    when(JniNameRules.getImplementationFilePath(JniNameRules.JNI_CPP_PROXY_SUFFIX))
         .thenReturn(PROXY_IMPLEMENTATION_NAME);
-    when(JniNameRules.getProxyConversionHeaderFileName()).thenReturn("");
-    when(JniNameRules.getEnumConversionHeaderFileName()).thenReturn("");
-    when(JniNameRules.getEnumConversionImplementationFileName()).thenReturn("");
   }
 
   @Test
@@ -90,10 +87,15 @@ public final class JniTemplatesTest {
         templates.generateConversionFiles(Collections.singletonList(instantiableJniContainer));
     assertTrue(
         "Must generate proxy header file",
-        files.stream().anyMatch(file -> file.targetFile.getName() == PROXY_HEADER_NAME));
+        files
+            .stream()
+            .anyMatch(file -> Objects.equals(file.targetFile.getName(), PROXY_HEADER_NAME)));
     assertTrue(
         "Must generate proxy implementation file",
-        files.stream().anyMatch(file -> file.targetFile.getName() == PROXY_IMPLEMENTATION_NAME));
+        files
+            .stream()
+            .anyMatch(
+                file -> Objects.equals(file.targetFile.getName(), PROXY_IMPLEMENTATION_NAME)));
   }
 
   @Test
@@ -111,10 +113,15 @@ public final class JniTemplatesTest {
         templates.generateConversionFiles(Collections.singletonList(instantiableJniContainer));
     assertFalse(
         "Must not generate proxy header file",
-        files.stream().anyMatch(file -> file.targetFile.getName() == PROXY_HEADER_NAME));
+        files
+            .stream()
+            .anyMatch(file -> Objects.equals(file.targetFile.getName(), PROXY_HEADER_NAME)));
     assertFalse(
         "Must not generate proxy implementation file",
-        files.stream().anyMatch(file -> file.targetFile.getName() == PROXY_IMPLEMENTATION_NAME));
+        files
+            .stream()
+            .anyMatch(
+                file -> Objects.equals(file.targetFile.getName(), PROXY_IMPLEMENTATION_NAME)));
   }
 
   @Test
