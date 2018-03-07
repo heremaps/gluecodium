@@ -118,8 +118,9 @@ public class JavaGeneratorSuite extends GeneratorSuite {
     List<JavaElement> javaModel = CollectionsHelper.getAllOfType(model, JavaElement.class);
     List<JniContainer> jniModel = CollectionsHelper.getAllOfType(model, JniContainer.class);
 
-    List<GeneratedFile> javaFiles = JavaTemplates.generateFiles(javaModel);
-    javaFiles.addAll(JavaTemplates.generateFilesForExceptions(exceptionsCollector.values()));
+    JavaTemplates javaTemplates = new JavaTemplates(getGeneratorName());
+    List<GeneratedFile> javaFiles = javaTemplates.generateFiles(javaModel);
+    javaFiles.addAll(javaTemplates.generateFilesForExceptions(exceptionsCollector.values()));
 
     List<String> nativeBasePath = new LinkedList<>();
     nativeBasePath.add(getGeneratorName());
@@ -128,7 +129,8 @@ public class JavaGeneratorSuite extends GeneratorSuite {
     javaFiles.add(
         JavaTemplates.generateNativeBase(String.join("/", nativeBasePath), javaPackageList));
 
-    JniTemplates jniTemplates = new JniTemplates(javaPackageList, internalNamespace);
+    JniTemplates jniTemplates =
+        new JniTemplates(javaPackageList, internalNamespace, getGeneratorName());
     Stream<List<GeneratedFile>> jniFilesStream =
         Stream.concat(
             jniModel

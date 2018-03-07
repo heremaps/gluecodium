@@ -21,7 +21,6 @@ package com.here.ivi.api.generator.jni;
 
 import com.here.ivi.api.model.java.JavaCustomType;
 import com.here.ivi.api.model.jni.JniContainer;
-import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
 import java.io.File;
 import java.util.List;
 
@@ -35,7 +34,13 @@ public final class JniNameRules {
   public static final String JNI_PROXY_CONVERSION_NAME = "ProxyConversion";
   public static final String JNI_CPP_PROXY_SUFFIX = "CppProxy";
 
-  public static String getHeaderFilePath(final String fileName) {
+  private final String generatorName;
+
+  public JniNameRules(final String generatorName) {
+    this.generatorName = generatorName;
+  }
+
+  public String getHeaderFilePath(final String fileName) {
     return getJniPathPrefix() + getHeaderFileName(fileName);
   }
 
@@ -43,7 +48,7 @@ public final class JniNameRules {
     return fileName + JNI_HEADER_FILE_SUFFIX;
   }
 
-  public static String getImplementationFilePath(final String fileName) {
+  public String getImplementationFilePath(final String fileName) {
     return getJniPathPrefix() + fileName + JNI_IMPLEMENTATION_FILE_SUFFIX;
   }
 
@@ -71,7 +76,7 @@ public final class JniNameRules {
     return formatPackageName(jniContainer.javaPackages) + jniContainer.javaName;
   }
 
-  private static String getJniPathPrefix() {
-    return AndroidGeneratorSuite.GENERATOR_NAME + File.separator + "jni" + File.separator;
+  private String getJniPathPrefix() {
+    return generatorName + File.separator + "jni" + File.separator;
   }
 }
