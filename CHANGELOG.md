@@ -1,6 +1,6 @@
 # API Transpiler Release Notes
 
-## Unreleased
+## 1.5.3
 - Bug fixes:
   + Fixed Parcelable deserialization for structs and arrays.
 
