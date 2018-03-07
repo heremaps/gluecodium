@@ -24,7 +24,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
 
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.common.TemplateEngine;
@@ -40,13 +39,13 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({JniNameRules.class, TemplateEngine.class})
+@PrepareForTest(TemplateEngine.class)
 public final class JniTemplatesTest {
 
   private static final int MAIN_FILES_COUNT = 2;
   private static final int MAIN_FILES_WITH_INSTANCES_COUNT = 9;
-  private static final String PROXY_HEADER_NAME = "ProxyHeader";
-  private static final String PROXY_IMPLEMENTATION_NAME = "ProxyImplementation";
+  private static final String PROXY_HEADER_NAME = "classyCppProxy.h";
+  private static final String PROXY_IMPLEMENTATION_NAME = "classyCppProxy.cpp";
 
   private final JniContainer jniContainer =
       JniContainer.builder(Collections.emptyList(), Collections.emptyList())
@@ -56,20 +55,11 @@ public final class JniTemplatesTest {
           .isFrancaInterface(true)
           .build();
 
-  private final JniTemplates templates = new JniTemplates(null, null);
+  private final JniTemplates templates = new JniTemplates(null, null, "");
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(JniNameRules.class, TemplateEngine.class);
-
-    when(JniNameRules.getHeaderFilePath(any())).thenReturn("");
-    when(JniNameRules.getHeaderFileName(any())).thenReturn("");
-    when(JniNameRules.getImplementationFilePath(any())).thenReturn("");
-    when(JniNameRules.getJniClassFileName(any())).thenReturn("");
-    when(JniNameRules.getHeaderFilePath(JniNameRules.JNI_CPP_PROXY_SUFFIX))
-        .thenReturn(PROXY_HEADER_NAME);
-    when(JniNameRules.getImplementationFilePath(JniNameRules.JNI_CPP_PROXY_SUFFIX))
-        .thenReturn(PROXY_IMPLEMENTATION_NAME);
+    PowerMockito.mockStatic(TemplateEngine.class);
   }
 
   @Test

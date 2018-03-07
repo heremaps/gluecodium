@@ -30,7 +30,13 @@ import java.util.stream.Stream;
 
 public final class JavaTemplates {
 
-  public static List<GeneratedFile> generateFiles(final List<JavaElement> javaModel) {
+  private final JavaNameRules javaNameRules;
+
+  public JavaTemplates(final String generatorName) {
+    this.javaNameRules = new JavaNameRules(generatorName);
+  }
+
+  public List<GeneratedFile> generateFiles(final List<JavaElement> javaModel) {
 
     Stream<GeneratedFile> classFiles =
         CollectionsHelper.getStreamOfType(javaModel, JavaClass.class)
@@ -47,7 +53,7 @@ public final class JavaTemplates {
         .collect(Collectors.toList());
   }
 
-  public static List<GeneratedFile> generateFilesForExceptions(
+  public List<GeneratedFile> generateFilesForExceptions(
       final Collection<JavaExceptionClass> exceptions) {
     return exceptions
         .stream()
@@ -55,7 +61,7 @@ public final class JavaTemplates {
             exceptionClass ->
                 new GeneratedFile(
                     TemplateEngine.render("java/ExceptionDefinition", exceptionClass),
-                    JavaNameRules.getFileName(exceptionClass)))
+                    javaNameRules.getFileName(exceptionClass)))
         .collect(Collectors.toList());
   }
 
@@ -65,11 +71,11 @@ public final class JavaTemplates {
     return new GeneratedFile(fileContent, fileName);
   }
 
-  private static GeneratedFile generateFileForElement(
+  private GeneratedFile generateFileForElement(
       final String templateName, final JavaTopLevelElement javaElement) {
 
     String fileContent = TemplateEngine.render(templateName, javaElement);
-    String fileName = JavaNameRules.getFileName(javaElement);
+    String fileName = javaNameRules.getFileName(javaElement);
 
     return new GeneratedFile(fileContent, fileName);
   }

@@ -23,25 +23,29 @@ import com.here.ivi.api.generator.common.NameHelper;
 import com.here.ivi.api.model.java.JavaPrimitiveType;
 import com.here.ivi.api.model.java.JavaTopLevelElement;
 import com.here.ivi.api.model.java.JavaType;
-import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
 import java.io.File;
 import java.util.List;
 
 public final class JavaNameRules {
-  public static final String JAVA_FILE_ENDING = ".java";
 
-  private JavaNameRules() {}
+  private static final String JAVA_FILE_SUFFIX = ".java";
+
+  private final String generatorName;
+
+  public JavaNameRules(final String generatorName) {
+    this.generatorName = generatorName;
+  }
 
   private static String formatPackageName(List<String> packageNames) {
     return packageNames.isEmpty() ? "" : String.join(File.separator, packageNames) + File.separator;
   }
 
-  public static String getFileName(final JavaTopLevelElement javaElement) {
-    return AndroidGeneratorSuite.GENERATOR_NAME
+  public String getFileName(final JavaTopLevelElement javaElement) {
+    return generatorName
         + File.separator
         + formatPackageName(javaElement.javaPackage.packageNames)
         + javaElement.name
-        + JAVA_FILE_ENDING;
+        + JAVA_FILE_SUFFIX;
   }
 
   public static String getClassName(String base) {
