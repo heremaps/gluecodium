@@ -34,6 +34,10 @@ function(apigen_target_sources target)
 
     get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
     get_target_property(OUTPUT_DIR ${target} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
+    get_target_property(ADDITIONAL_SOURCES ${target} APIGEN_TRANSPILER_GENERATOR_ADDITIONAL_SOURCES)
+    if(NOT ADDITIONAL_SOURCES)
+        set(ADDITIONAL_SOURCES "")
+    endif()
     file(GLOB_RECURSE GENERATED_CPP_SOURCES ${OUTPUT_DIR}/cpp/*.cpp)
     file(GLOB_RECURSE GENERATED_CPP_HEADERS ${OUTPUT_DIR}/cpp/*.h)
     source_group("Generated BaseApi\\Header Files" FILES ${GENERATED_CPP_HEADERS})
@@ -67,10 +71,12 @@ function(apigen_target_sources target)
                 ${CBRIDGE_HEADERS}
                 ${GENERATED_CPP_SOURCES}
                 ${GENERATED_CPP_HEADERS}
-                ${SWIFT_SOURCES})
+                ${SWIFT_SOURCES}
+                ${ADDITIONAL_SOURCES})
         source_group("Generated cBridge\\Header Files" FILES ${CBRIDGE_HEADERS})
         source_group("Generated cBridge\\Source Files" FILES ${CBRIDGE_SOURCES})
         source_group("Generated Swift Source Files" FILES ${SWIFT_SOURCES})
+        source_group("Additional Sources" FILES ${ADDITIONAL_SOURCES})
         target_include_directories(${target} PRIVATE ${OUTPUT_DIR}/cbridge)
     else()
         message(FATAL_ERROR "apigen_target_sources() cannot match the generator '${GENERATOR}'")

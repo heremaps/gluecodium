@@ -51,9 +51,13 @@ function(apigen_swift_compile target architecture)
     # TODO APIGEN-849 remove the framework references from this function
     get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
     get_target_property(OUTPUT_DIR ${target} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
+    get_target_property(ADDITIONAL_SOURCES ${target} APIGEN_TRANSPILER_GENERATOR_ADDITIONAL_SOURCES)
     get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
     get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
 
+    if(NOT ADDITIONAL_SOURCES)
+        set(ADDITIONAL_SOURCES "")
+    endif()
     if(NOT ${GENERATOR} MATCHES "swift")
         message(FATAL_ERROR "apigen_swift_compile() depends on apigen_transpiler() configured with generator 'swift'")
     endif()
@@ -70,7 +74,12 @@ function(apigen_swift_compile target architecture)
         set(swift_target_flag -target ${full_target} -sdk ${CMAKE_OSX_SYSROOT})
     else()
         message(STATUS "[Swift] Compiling for target ${TARGET_ARCHITECTURE})")
-        set(swift_target_flag -target-cpu ${TARGET_ARCHITECTURE})
+        if (APPLE)
+            set(full_target ${TARGET_ARCHITECTURE}-apple-apple-macosx10.12)
+            set(swift_target_flag -target ${full_target} -sdk ${CMAKE_OSX_SYSROOT})
+        else()
+            set(swift_target_flag -target-cpu ${TARGET_ARCHITECTURE})
+        endif()
     endif()
 
     # Determine libraries to pass to swiftc
@@ -118,7 +127,7 @@ function(apigen_swift_compile target architecture)
     file(GLOB_RECURSE SOURCES ${OUTPUT_DIR}/swift/*.swift)
     add_custom_command(TARGET ${target} POST_BUILD
     COMMENT "Compiling generated Swift sources -> ${BUILD_ARGUMENTS} ${build_swift_native_frameworks}"
-    COMMAND swiftc ${BUILD_ARGUMENTS} ${build_swift_native_frameworks} ${SOURCES}
+    COMMAND swiftc ${BUILD_ARGUMENTS} ${build_swift_native_frameworks} ${SOURCES} ${ADDITIONAL_SOURCES}
     WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR})
 
     apigen_swift_test(${target} ${swift_target_flag})
