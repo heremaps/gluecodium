@@ -18,6 +18,9 @@
 		832CC3701FE7EB0B00D1769F /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832CC36F1FE7EB0B00D1769F /* Defaults.swift */; };
 		832CC3721FE7EB1500D1769F /* Defaults.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 832CC3711FE7EB1500D1769F /* Defaults.storyboard */; };
 		8376A53F203318A000A72DAB /* Inheritance.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8376A53E203318A000A72DAB /* Inheritance.storyboard */; };
+		83866F6F20502F3B00020778 /* MapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83866F6E20502F3B00020778 /* MapsViewController.swift */; };
+		83866F7220502F4D00020778 /* Maps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83866F7020502F4C00020778 /* Maps.storyboard */; };
+		83866F7320502F4D00020778 /* MapsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83866F7120502F4C00020778 /* MapsTableViewCell.swift */; };
 		839203E61F7E931D00799587 /* EnumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839203E51F7E931D00799587 /* EnumsViewController.swift */; };
 		8394336D1F18A820009D5914 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8394336C1F18A820009D5914 /* BaseViewController.swift */; };
 		8394336F1F18BABC009D5914 /* BuiltinTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8394336E1F18BABC009D5914 /* BuiltinTypesViewController.swift */; };
@@ -75,6 +78,9 @@
 		832CC36F1FE7EB0B00D1769F /* Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		832CC3711FE7EB1500D1769F /* Defaults.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Defaults.storyboard; sourceTree = "<group>"; };
 		8376A53E203318A000A72DAB /* Inheritance.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Inheritance.storyboard; sourceTree = "<group>"; };
+		83866F6E20502F3B00020778 /* MapsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsViewController.swift; sourceTree = "<group>"; };
+		83866F7020502F4C00020778 /* Maps.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Maps.storyboard; sourceTree = "<group>"; };
+		83866F7120502F4C00020778 /* MapsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsTableViewCell.swift; sourceTree = "<group>"; };
 		839203E51F7E931D00799587 /* EnumsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumsViewController.swift; sourceTree = "<group>"; };
 		8394336C1F18A820009D5914 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		8394336E1F18BABC009D5914 /* BuiltinTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuiltinTypesViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +154,8 @@
 		C49F95841F8E57A30069AB1C /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				83866F7020502F4C00020778 /* Maps.storyboard */,
+				83866F7120502F4C00020778 /* MapsTableViewCell.swift */,
 				832CC3711FE7EB1500D1769F /* Defaults.storyboard */,
 				83E266051FD822B400C2B1C7 /* Errors.storyboard */,
 				C448B98D1FBAF1C600AFD6CE /* Arrays.storyboard */,
@@ -170,6 +178,7 @@
 		C49F95921F8E58FA0069AB1C /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				83866F6E20502F3B00020778 /* MapsViewController.swift */,
 				83BBDEC5203635B4004C4706 /* InheritanceViewController.swift */,
 				832CC36F1FE7EB0B00D1769F /* Defaults.swift */,
 				83E266031FD822AD00C2B1C7 /* ErrorsViewController.swift */,
@@ -279,6 +288,7 @@
 				C477F4961F8FBE200073F27A /* Main.storyboard in Resources */,
 				C477F4971F8FBE200073F27A /* Structs.storyboard in Resources */,
 				C477F4981F8FBE200073F27A /* Instances.storyboard in Resources */,
+				83866F7220502F4D00020778 /* Maps.storyboard in Resources */,
 				832CC3721FE7EB1500D1769F /* Defaults.storyboard in Resources */,
 				C477F4991F8FBE200073F27A /* Enums.storyboard in Resources */,
 				C477F49A1F8FBE200073F27A /* BuiltinTypes.storyboard in Resources */,
@@ -331,6 +341,7 @@
 				83BBDEC6203635B4004C4706 /* InheritanceViewController.swift in Sources */,
 				8394336F1F18BABC009D5914 /* BuiltinTypesViewController.swift in Sources */,
 				C477F49D1F8FBF8D0073F27A /* UIViewController+Keyboard.swift in Sources */,
+				83866F7320502F4D00020778 /* MapsTableViewCell.swift in Sources */,
 				577E024A1FBC9E2F00F0CA64 /* ListenersTableViewCell.swift in Sources */,
 				839203E61F7E931D00799587 /* EnumsViewController.swift in Sources */,
 				839B320A1F9E3193002E04A6 /* AttributesViewController+HTML.swift in Sources */,
@@ -344,6 +355,7 @@
 				C49F959A1F8E626C0069AB1C /* MenuTableViewController.swift in Sources */,
 				C49F95981F8E59EC0069AB1C /* Storyboard+Utils.swift in Sources */,
 				57DD66961FC6DCBB0032B29A /* SynchronousListenersViewController.swift in Sources */,
+				83866F6F20502F3B00020778 /* MapsViewController.swift in Sources */,
 				C42139131F8FA8220019AF14 /* TypedefsViewController.swift in Sources */,
 				3484FFBE1F0D37EB00986A69 /* AppDelegate.swift in Sources */,
 				832CC3701FE7EB0B00D1769F /* Defaults.swift in Sources */,
