@@ -130,7 +130,7 @@ function(apigen_swift_compile target architecture)
     COMMAND swiftc ${BUILD_ARGUMENTS} ${build_swift_native_frameworks} ${SOURCES} ${ADDITIONAL_SOURCES}
     WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR})
 
-    apigen_swift_test(${target} ${swift_target_flag})
+    apigen_swift_test(${target} "${swift_target_flag}")
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         install(DIRECTORY ${SWIFT_OUTPUT_DIR}/${target}.framework
