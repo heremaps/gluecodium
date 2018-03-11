@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hello Transpiler</string>
+    <string name="app_name">Hello Genium!</string>
     <string name="fragment_base_title">Base</string>
     <string name="fragment_builtin_title">BuiltIn Types</string>
     <string name="fragment_attributes">Attributes</string>
@@ -14,6 +14,7 @@
     <string name="fragment_defaults_title">Default values</string>
     <string name="fragment_inheritance_title">Inheritance</string>
     <string name="fragment_parcelable_title">Parcelable</string>
+    <string name="fragment_maps_title">Maps</string>
     <string name="number_of_usages_input">Insert numberOfUsages</string>
     <string name="profile_name_input">Insert new profile name</string>
     <string name="parameter_value">Value</string>
@@ -61,4 +62,14 @@
         Rotate screen to display current and previous states.\n
         At first this displays only the current state.\n
     </string>
+    <string name="maps_input_label">Input map of type { Int32 => String }</string>
+    <string name="maps_description">
+        Showcase for maps that create from map\n{ Int32 => String } another map with the same
+        type and keys but with corresponding values converted to upper case.
+    </string>
+    <string name="process_map_btn_txt">Process map in C++</string>
+    <string name="map_key_hint">code</string>
+    <string name="map_value_hint">message</string>
+    <string name="add_button_description">Add map entry</string>
+    <string name="delete_button_description">Remove map entry</string>
 </resources>
