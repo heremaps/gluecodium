@@ -27,7 +27,7 @@ cmake_minimum_required(VERSION 3.5)
 #     apigen_swift_test(target)
 #
 
-function(apigen_swift_test target swift_target_flag)
+function(apigen_swift_test target swift_target_flag module_name)
 
     get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
     get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
@@ -66,7 +66,7 @@ function(apigen_swift_test target swift_target_flag)
         list(APPEND BUILD_ARGUMENTS
             -L${SWIFT_OUTPUT_DIR}
             -I${SWIFT_OUTPUT_DIR}
-            -l${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>
+            -l${module_name}
             -Xlinker -rpath -Xlinker "'$$ORIGIN'")
     endif()
 

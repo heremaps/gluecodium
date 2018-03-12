@@ -124,13 +124,20 @@ function(apigen_swift_compile target architecture)
         set(build_swift_native_frameworks -lz -framework AppKit -framework OpenGL)
     endif()
 
+    set(MODULE_NAME ${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>)
+
+    if(NOT APPLE)
+        set(MODULE_NAME ${MODULE_NAME}swift)
+        list(APPEND BUILD_ARGUMENTS -o "lib${MODULE_NAME}.so")
+    endif()
+
     file(GLOB_RECURSE SOURCES ${OUTPUT_DIR}/swift/*.swift)
     add_custom_command(TARGET ${target} POST_BUILD
     COMMENT "Compiling generated Swift sources -> ${BUILD_ARGUMENTS} ${build_swift_native_frameworks}"
     COMMAND swiftc ${BUILD_ARGUMENTS} ${build_swift_native_frameworks} ${SOURCES} ${ADDITIONAL_SOURCES}
     WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR})
 
-    apigen_swift_test(${target} "${swift_target_flag}")
+    apigen_swift_test(${target} "${swift_target_flag}" ${MODULE_NAME})
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         install(DIRECTORY ${SWIFT_OUTPUT_DIR}/${target}.framework
@@ -138,7 +145,7 @@ function(apigen_swift_compile target architecture)
     else()
         install(
             FILES
-                "${SWIFT_OUTPUT_DIR}/lib${target}.so"
+                "${SWIFT_OUTPUT_DIR}/lib${MODULE_NAME}.so"
                 "${SWIFT_OUTPUT_DIR}/${target}.swiftmodule"
                 "${SWIFT_OUTPUT_DIR}/${target}.swiftdoc"
                 "${SWIFT_OUTPUT_DIR}/module.modulemap"
