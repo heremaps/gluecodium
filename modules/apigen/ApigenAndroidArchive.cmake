@@ -60,8 +60,15 @@ function(apigen_android_archive)
         COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/assets/
         COMMENT "Assembling Android Archive contents...")
     foreach(asset ${apigen_android_archive_ASSETS})
+        # NOTE: Resources are symlinked, but some links will be invalid because the targets that
+        # build the assets haven't been built. Use tar to transfer the links that are valid to
+        # the build directory and preserve the directory hierarchy.
+        get_filename_component(asset_parent ${asset} DIRECTORY)
+        get_filename_component(asset_name ${asset} NAME)
         add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
-            COMMAND cp -fR ${asset} ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/assets/)
+            COMMAND sh -c
+                "(cd ${asset_parent} && find ${asset_name} -exec test -e {} \; -print0 | xargs -0 tar cvfh - | (cd ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/assets; tar xvf -))"
+            VERBATIM)
     endforeach()
 
     get_target_property(APIGEN_JAVA_JAR ${apigen_android_archive_TARGET} APIGEN_JAVA_JAR)

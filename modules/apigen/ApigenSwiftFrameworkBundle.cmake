@@ -50,10 +50,18 @@ function(apigen_swift_framework_bundle)
     message(STATUS "Assets ${apigen_swift_framework_bundle_ASSETS}")
 
     # Copy the folders that need to be in the bundle.
+    set(SWIFT_ASSETS_DIRECTORY
+        "${SWIFT_OUTPUT_DIR}/${apigen_swift_framework_bundle_TARGET}.framework/Versions/Current/Resources/")
     foreach(FOLDER ${apigen_swift_framework_bundle_ASSETS})
+        # NOTE: Resources are symlinked, but some links will be invalid because the targets that
+        # build the assets haven't been built. Use tar to transfer the links that are valid to
+        # the build directory and preserve the directory hierarchy.
+        get_filename_component(FOLDER_PARENT ${FOLDER} DIRECTORY)
+        get_filename_component(FOLDER_NAME ${FOLDER} NAME)
         add_custom_command(TARGET ${apigen_swift_framework_bundle_TARGET} POST_BUILD
-            COMMAND cp -fR ${FOLDER}
-                "${SWIFT_OUTPUT_DIR}/${apigen_swift_framework_bundle_TARGET}.framework/Versions/Current/Resources/")
+            COMMAND sh -c
+                "(cd ${FOLDER_PARENT} && find ${FOLDER_NAME} -exec test -e {} \; -print0 | xargs -0 tar cvfh - | (cd ${SWIFT_ASSETS_DIRECTORY}; tar xvf -))"
+            VERBATIM)
     endforeach()
 
 endfunction(apigen_swift_framework_bundle)
