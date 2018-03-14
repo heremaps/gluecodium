@@ -35,6 +35,7 @@ import com.here.ivi.api.output.FileOutput;
 import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
 import com.here.ivi.api.platform.common.GeneratorSuite;
 import com.here.ivi.api.validator.*;
+import com.here.ivi.api.validator.visibility.*;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;
@@ -290,7 +291,13 @@ public class Transpiler {
                 new ErrorEnumsValidatorPredicate(),
                 new InheritanceValidatorPredicate(),
                 new UnionsValidatorPredicate(),
-                new SerializationValidatorPredicate()));
+                new SerializationValidatorPredicate(),
+                new InterfaceVisibilityValidatorPredicate(),
+                new AttributeVisibilityValidatorPredicate(),
+                new MethodVisibilityValidatorPredicate(),
+                new StructVisibilityValidatorPredicate(),
+                new FieldVisibilityValidatorPredicate(),
+                new ArrayVisibilityValidatorPredicate()));
 
     boolean nameValidationResult = NameValidator.validate(typeCollections);
     boolean modelValidationResult = modelValidator.validate(deploymentModel, typeCollections);

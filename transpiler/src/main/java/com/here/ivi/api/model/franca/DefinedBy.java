@@ -53,4 +53,8 @@ public final class DefinedBy {
   public static String getModelName(final FTypeCollection typeCollection) {
     return ((FModel) typeCollection.eContainer()).getName();
   }
+
+  public static String getModelName(final FModelElement francaModeElement) {
+    return getModelName(findDefiningTypeCollection(francaModeElement));
+  }
 }

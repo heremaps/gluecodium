@@ -17,8 +17,8 @@
  * License-Filename: LICENSE
  */
 
-specification TranspilerExtensions
-{
+specification TranspilerExtensions {
+
     for interfaces {
         IsInterface: Boolean (optional, default: false);
     }
@@ -40,5 +40,36 @@ specification TranspilerExtensions
 specification Defaults {
     for struct_fields {
         DefaultValue: String (optional);
+    }
+}
+
+specification Visibility {
+
+    for interfaces {
+        Internal: Boolean (optional, default: false);
+    }
+
+    for attributes {
+        Internal: Boolean (optional, default: false);
+    }
+
+    for methods {
+        Internal: Boolean (optional, default: false);
+    }
+
+    for structs {
+        Internal: Boolean (optional, default: false);
+    }
+
+    for struct_fields {
+        Internal: Boolean (optional, default: false);
+    }
+
+    for enumerations {
+        Internal: Boolean (optional, default: false);
+    }
+
+    for arrays {
+        Internal: Boolean (optional, default: false);
     }
 }

@@ -21,6 +21,7 @@ package com.here.ivi.api.model.franca;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 import org.franca.deploymodel.core.FDModelExtender;
 import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
@@ -61,13 +62,36 @@ public class FrancaDeploymentModel {
     return getBoolean(francaMethod, "Const");
   }
 
-  @SuppressWarnings("unused")
   public boolean isSerializable(final FStructType francaStruct) {
     return getBoolean(francaStruct, "Serializable");
   }
 
   public boolean isNotNull(final FField francaField) {
     return getBoolean(francaField, "NotNull");
+  }
+
+  public boolean isInternal(final EObject francaElement) {
+
+    if (francaElement == null) {
+      return false;
+    }
+
+    if (francaElement instanceof FTypeRef) {
+      return isInternal(((FTypeRef) francaElement).getDerived());
+    }
+    if (francaElement instanceof FTypeDef) {
+      return isInternal(((FTypeDef) francaElement).getActualType());
+    }
+    if (francaElement instanceof FConstantDef || francaElement instanceof FArgument) {
+      return isInternal(((FTypedElement) francaElement).getType());
+    }
+    if (francaElement instanceof FMapType) {
+      FMapType francaMap = (FMapType) francaElement;
+      return isInternal(francaMap.getKeyType()) || isInternal(francaMap.getValueType());
+    }
+
+    return francaElement instanceof FModelElement
+        && getBoolean((FModelElement) francaElement, "Internal");
   }
 
   public String getDefaultValue(final FField francaField) {
