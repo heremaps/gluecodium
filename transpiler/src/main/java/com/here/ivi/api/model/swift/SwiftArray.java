@@ -26,21 +26,28 @@ public final class SwiftArray extends SwiftType {
   public final String refName;
 
   public SwiftArray(final SwiftType underlyingType) {
-    this(null, getImplName(underlyingType), false, underlyingType, null);
+    this(null, null, getImplName(underlyingType), false, underlyingType, null);
   }
 
   public SwiftArray(
       final SwiftType underlyingType, final String implementingClass, final String refName) {
-    this(implementingClass, getImplName(underlyingType), false, underlyingType, refName);
+    this(implementingClass, null, getImplName(underlyingType), false, underlyingType, refName);
   }
 
   private SwiftArray(
       final String implementingClass,
+      final SwiftVisibility visibility,
       final String publicName,
       final boolean optional,
       final SwiftType underlyingType,
       final String refName) {
-    super(getImplName(underlyingType), TypeCategory.ARRAY, implementingClass, publicName, optional);
+    super(
+        getImplName(underlyingType),
+        visibility,
+        TypeCategory.ARRAY,
+        implementingClass,
+        publicName,
+        optional);
     this.underlyingType = underlyingType;
     this.genericParameter = new SwiftGenericParameter(null, this);
     this.refName = refName;
@@ -63,7 +70,8 @@ public final class SwiftArray extends SwiftType {
 
   @Override
   public SwiftType withAlias(String aliasName) {
-    return new SwiftArray(implementingClass, aliasName, optional, underlyingType, refName);
+    return new SwiftArray(
+        implementingClass, visibility, aliasName, optional, underlyingType, refName);
   }
 
   private static String getImplName(SwiftType underlyingType) {

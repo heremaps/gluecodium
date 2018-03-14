@@ -84,13 +84,15 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .useParentCInstance(parentIsClass && !isInterface)
             .functionTableName(
                 isInterface ? CBridgeNameRules.getFunctionTableName(francaInterface) : null)
+            .visibility(getVisibility(francaInterface))
             .build();
 
     if (parentIsInterface) {
       clazz.implementsProtocols.add(parentClass.name);
       clazz.methods.addAll(parentClass.methods);
       for (final SwiftProperty parentProperty : parentClass.properties) {
-        SwiftProperty swiftProperty = new SwiftProperty(parentProperty.name, parentProperty.type);
+        SwiftProperty swiftProperty =
+            new SwiftProperty(parentProperty.name, parentProperty.visibility, parentProperty.type);
         swiftProperty.propertyAccessors.addAll(parentProperty.propertyAccessors);
         clazz.properties.add(swiftProperty);
       }
@@ -128,6 +130,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
         SwiftContainerType.builder(SwiftNameRules.getStructName(francaStruct, deploymentModel))
             .parent(parent)
             .cPrefix(CBridgeNameRules.getStructBaseName(francaStruct))
+            .visibility(getVisibility(francaStruct))
             .build();
     String comment = CommentHelper.getDescription(francaStruct);
     swiftStruct.comment = comment != null ? comment : "";
@@ -143,14 +146,18 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FEnumerationType francaEnumerationType) {
-    String comment = CommentHelper.getDescription(francaEnumerationType);
+
     List<SwiftEnumItem> enumItems =
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, SwiftEnumItem.class);
-    storeResult(
+
+    SwiftEnum swiftEnum =
         SwiftEnum.builder(SwiftNameRules.getEnumTypeName(francaEnumerationType, deploymentModel))
-            .comment(comment)
+            .comment(CommentHelper.getDescription(francaEnumerationType))
             .items(enumItems)
-            .build());
+            .visibility(getVisibility(francaEnumerationType))
+            .build();
+
+    storeResult(swiftEnum);
     super.finishBuilding(francaEnumerationType);
   }
 
@@ -187,7 +194,9 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
         deploymentDefaultValue != null
             ? SwiftValueMapper.mapDefaultValue(fieldType, deploymentDefaultValue)
             : null;
-    SwiftField structField = new SwiftField(fieldName, fieldType, defaultValue);
+    SwiftVisibility visibility = getVisibility(francaField);
+
+    SwiftField structField = new SwiftField(fieldName, visibility, fieldType, defaultValue);
     structField.comment = CommentHelper.getDescription(francaField);
 
     storeResult(structField);
@@ -228,9 +237,11 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   public void finishBuilding(FTypeDef francaTypeDef) {
 
     if (!InstanceRules.isInstanceId(francaTypeDef)) {
+
       SwiftTypeDef typedefValue =
           new SwiftTypeDef(
               SwiftNameRules.getTypeDefName(francaTypeDef, deploymentModel),
+              getVisibility(francaTypeDef),
               getPreviousResult(SwiftType.class));
       typedefValue.comment = CommentHelper.getDescription(francaTypeDef);
       storeResult(typedefValue);
@@ -260,6 +271,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .cNestedSpecifier(CBridgeNameRules.getNestedSpecifierString(francaMethod))
             .cShortName(CBridgeNameRules.getShortMethodName(francaMethod))
             .error(createErrorIfNeeded(francaMethod))
+            .visibility(getVisibility(francaMethod))
             .build();
     method.parameters.addAll(inParams);
     method.genericParameters.addAll(getPreviousResults(SwiftGenericParameter.class));
@@ -292,28 +304,30 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   }
 
   @Override
-  public void finishBuilding(FAttribute attribute) {
+  public void finishBuilding(FAttribute francaAttribute) {
 
     SwiftProperty property =
         new SwiftProperty(
-            SwiftNameRules.getPropertyName(attribute), getPreviousResult(SwiftType.class));
-    property.comment = CommentHelper.getDescription(attribute);
+            SwiftNameRules.getPropertyName(francaAttribute),
+            getVisibility(francaAttribute),
+            getPreviousResult(SwiftType.class));
+    property.comment = CommentHelper.getDescription(francaAttribute);
 
-    String nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(attribute);
+    String nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(francaAttribute);
     SwiftMethod getterMethod =
         SwiftMethod.builder("")
             .cNestedSpecifier(nestedSpecifier)
-            .cShortName(CBridgeNameRules.getPropertyGetterName(attribute))
+            .cShortName(CBridgeNameRules.getPropertyGetterName(francaAttribute))
             .returnType(property.type)
             .forceReturnValueUnwrapping(true)
             .build();
     property.propertyAccessors.add(getterMethod);
 
-    if (!attribute.isReadonly()) {
+    if (!francaAttribute.isReadonly()) {
       SwiftMethod setterMethod =
           SwiftMethod.builder("")
               .cNestedSpecifier(nestedSpecifier)
-              .cShortName(CBridgeNameRules.getPropertySetterName(attribute))
+              .cShortName(CBridgeNameRules.getPropertySetterName(francaAttribute))
               .returnType(SwiftType.VOID)
               .build();
       setterMethod.parameters.add(new SwiftParameter("newValue", property.type));
@@ -321,7 +335,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     }
 
     storeResult(property);
-    super.finishBuilding(attribute);
+    super.finishBuilding(francaAttribute);
   }
 
   @Override
@@ -347,11 +361,19 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .build();
     storeResult(swiftDictionary);
 
+    SwiftVisibility visibility = getVisibility(francaMapType);
     SwiftType namelessDictionary = new SwiftType(swiftDictionary.implementingClass);
-    SwiftTypeDef swiftTypeDef = new SwiftTypeDef(typeDefName, namelessDictionary);
+
+    SwiftTypeDef swiftTypeDef = new SwiftTypeDef(typeDefName, visibility, namelessDictionary);
     swiftTypeDef.comment = CommentHelper.getDescription(francaMapType);
 
     storeResult(swiftTypeDef);
     super.finishBuilding(francaMapType);
+  }
+
+  private SwiftVisibility getVisibility(final FModelElement francaModelElement) {
+    return deploymentModel.isInternal(francaModelElement)
+        ? SwiftVisibility.INTERNAL
+        : SwiftVisibility.PUBLIC;
   }
 }

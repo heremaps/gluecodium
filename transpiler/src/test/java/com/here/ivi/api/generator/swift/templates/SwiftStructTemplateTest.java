@@ -66,7 +66,7 @@ public class SwiftStructTemplateTest {
 
   @Test
   public void generateBasicStruct() {
-    swiftStruct.fields.add(new SwiftField("counter", new SwiftType("Integer"), null));
+    swiftStruct.fields.add(new SwiftField("counter", null, new SwiftType("Integer"), null));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var counter: Integer\n"
@@ -95,9 +95,9 @@ public class SwiftStructTemplateTest {
 
   @Test
   public void generateStructWithThreeFields() {
-    swiftStruct.fields.add(new SwiftField("latitude", new SwiftType("Double"), null));
-    swiftStruct.fields.add(new SwiftField("longitude", new SwiftType("Double"), null));
-    swiftStruct.fields.add(new SwiftField("altitude", new SwiftType("Double"), null));
+    swiftStruct.fields.add(new SwiftField("latitude", null, new SwiftType("Double"), null));
+    swiftStruct.fields.add(new SwiftField("longitude", null, new SwiftType("Double"), null));
+    swiftStruct.fields.add(new SwiftField("altitude", null, new SwiftType("Double"), null));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var latitude: Double\n"
@@ -136,7 +136,7 @@ public class SwiftStructTemplateTest {
   public void generateStructWithStringField() {
     swiftStruct.fields.add(
         new SwiftField(
-            "name", new SwiftType("String", SwiftType.TypeCategory.BUILTIN_STRING), null));
+            "name", null, new SwiftType("String", SwiftType.TypeCategory.BUILTIN_STRING), null));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var name: String\n"
@@ -170,7 +170,7 @@ public class SwiftStructTemplateTest {
   public void generateStructWithDataField() {
     swiftStruct.fields.add(
         new SwiftField(
-            "icon", new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER), null));
+            "icon", null, new SwiftType("Data", SwiftType.TypeCategory.BUILTIN_BYTEBUFFER), null));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var icon: Data\n"
@@ -210,7 +210,7 @@ public class SwiftStructTemplateTest {
   @Test
   public void generateStructWithStructField() {
     swiftStruct.fields.add(
-        new SwiftField("nested", SwiftContainerType.builder("NestedStruct").build(), null));
+        new SwiftField("nested", null, SwiftContainerType.builder("NestedStruct").build(), null));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var nested: NestedStruct\n"
@@ -250,6 +250,7 @@ public class SwiftStructTemplateTest {
     swiftStruct.fields.add(
         new SwiftField(
             "instanceField",
+            null,
             SwiftContainerType.builder("SomeClass")
                 .category(SwiftType.TypeCategory.CLASS)
                 .optional(true)
@@ -287,7 +288,8 @@ public class SwiftStructTemplateTest {
 
   @Test
   public void generateStructWithStringFieldWithDefault() {
-    swiftStruct.fields.add(new SwiftField("name", SwiftType.STRING, new SwiftValue("\"foo\"")));
+    swiftStruct.fields.add(
+        new SwiftField("name", null, SwiftType.STRING, new SwiftValue("\"foo\"")));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var name: String\n"

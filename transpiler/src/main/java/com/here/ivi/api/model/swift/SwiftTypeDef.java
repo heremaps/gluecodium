@@ -21,7 +21,7 @@ package com.here.ivi.api.model.swift;
 
 public final class SwiftTypeDef extends SwiftTypedModelElement {
 
-  public SwiftTypeDef(final String name, final SwiftType type) {
-    super(name, type);
+  public SwiftTypeDef(final String name, final SwiftVisibility visibility, final SwiftType type) {
+    super(name, visibility, type);
   }
 }

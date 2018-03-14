@@ -26,8 +26,9 @@ public final class SwiftProperty extends SwiftTypedModelElement {
 
   public final List<SwiftMethod> propertyAccessors = new LinkedList<>();
 
-  public SwiftProperty(String propertyName, SwiftType type) {
-    super(propertyName, type);
+  public SwiftProperty(
+      final String propertyName, final SwiftVisibility visibility, final SwiftType type) {
+    super(propertyName, visibility, type);
   }
 
   public boolean isReadonly() {

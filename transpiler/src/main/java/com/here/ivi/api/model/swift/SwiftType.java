@@ -42,20 +42,21 @@ public class SwiftType extends SwiftModelElement {
   public final boolean optional;
 
   public SwiftType(final String name) {
-    this(name, TypeCategory.BUILTIN_SIMPLE, null, name, false);
+    this(name, TypeCategory.BUILTIN_SIMPLE);
   }
 
   public SwiftType(final String name, final TypeCategory category) {
-    this(name, category, null, name, false);
+    this(name, null, category, null, name, false);
   }
 
   protected SwiftType(
       final String name,
+      final SwiftVisibility visibility,
       final TypeCategory category,
       final String implementingClass,
       final String publicName,
       final boolean optional) {
-    super(name);
+    super(name, visibility);
     this.optional = optional;
     this.category = category;
     this.implementingClass = implementingClass;
@@ -63,10 +64,10 @@ public class SwiftType extends SwiftModelElement {
   }
 
   public SwiftType withAlias(final String aliasName) {
-    return new SwiftType(name, category, implementingClass, aliasName, optional);
+    return new SwiftType(name, visibility, category, implementingClass, aliasName, optional);
   }
 
   public SwiftType withOptional(final boolean optionalValue) {
-    return new SwiftType(name, category, implementingClass, publicName, optionalValue);
+    return new SwiftType(name, visibility, category, implementingClass, publicName, optionalValue);
   }
 }

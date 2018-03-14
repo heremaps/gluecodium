@@ -28,12 +28,14 @@ public final class SwiftDictionary extends SwiftType {
   @lombok.Builder(builderClassName = "Builder")
   private SwiftDictionary(
       final String name,
+      final SwiftVisibility visibility,
       final String publicName,
       final String cPrefix,
       final SwiftType keyType,
       final SwiftType valueType) {
     super(
         name,
+        visibility,
         TypeCategory.DICTIONARY,
         "[" + keyType.publicName + ": " + valueType.publicName + "]",
         publicName,
