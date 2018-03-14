@@ -75,10 +75,11 @@ public class SwiftModelBuilderTest {
   @Mock private FArrayType francaArray;
   @Mock private FStructType francaStruct;
   @Mock private FMapType francaMap;
+  @Mock private FEnumerationType francaEnum;
 
   private final SwiftType swiftType = new SwiftType("VerySwiftType");
   private final SwiftValue swiftValue = new SwiftValue("");
-  private final SwiftField swiftField = new SwiftField("flowers", swiftType, swiftValue);
+  private final SwiftField swiftField = new SwiftField("flowers", null, swiftType, swiftValue);
 
   private SwiftModelBuilder modelBuilder;
 
@@ -320,6 +321,17 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaMethodCreatesInternalMethod() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    SwiftMethod swiftMethod = modelBuilder.getFinalResult(SwiftMethod.class);
+    assertNotNull(swiftMethod);
+    assertEquals(SwiftVisibility.INTERNAL, swiftMethod.visibility);
+  }
+
+  @Test
   public void finishBuildingCreatesTypesFromTypeCollection() {
     SwiftContainerType struct = SwiftContainerType.builder(STRUCT_NAME).build();
     SwiftEnum swiftEnum = SwiftEnum.builder("").build();
@@ -376,10 +388,9 @@ public class SwiftModelBuilderTest {
   public void finishBuildingCreatesSwiftEnum() {
     SwiftEnumItem swiftEnumItem = SwiftEnumItem.builder("").build();
     contextStack.injectResult(swiftEnumItem);
-    FEnumerationType enumerationType = mock(FEnumerationType.class);
     when(SwiftNameRules.getEnumTypeName(any(), eq(deploymentModel))).thenReturn("SWIFT_NAME");
 
-    modelBuilder.finishBuilding(enumerationType);
+    modelBuilder.finishBuilding(francaEnum);
 
     SwiftEnum enumType = modelBuilder.getFinalResult(SwiftEnum.class);
     assertNotNull("Should be 1 enum created", enumType);
@@ -389,6 +400,17 @@ public class SwiftModelBuilderTest {
         "Enum item inside enum type should be on injected into model",
         swiftEnumItem,
         enumType.items.get(0));
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationTypeCreatesInternalEnum() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaEnum);
+
+    SwiftEnum swiftEnum = modelBuilder.getFinalResult(SwiftEnum.class);
+    assertNotNull(swiftEnum);
+    assertEquals(SwiftVisibility.INTERNAL, swiftEnum.visibility);
   }
 
   @Test
@@ -445,6 +467,18 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaFieldCreatesInternalField() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+    contextStack.injectResult(swiftType);
+
+    modelBuilder.finishBuilding(francaField);
+
+    SwiftField resultField = modelBuilder.getFinalResult(SwiftField.class);
+    assertNotNull(resultField);
+    assertEquals(SwiftVisibility.INTERNAL, resultField.visibility);
+  }
+
+  @Test
   public void finishBuildingFrancaTypeDefDoesNotReadInstance() {
     when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
 
@@ -475,6 +509,17 @@ public class SwiftModelBuilderTest {
     SwiftTypeDef swiftTypeDef = modelBuilder.getFinalResult(SwiftTypeDef.class);
     assertNotNull("Should be 1 field item created", swiftTypeDef);
     assertSame(swiftType, swiftTypeDef.type);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeDefCreatesInternalTypeDef() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaTypeDef);
+
+    SwiftTypeDef swiftTypeDef = modelBuilder.getFinalResult(SwiftTypeDef.class);
+    assertNotNull(swiftTypeDef);
+    assertEquals(SwiftVisibility.INTERNAL, swiftTypeDef.visibility);
   }
 
   @Test
@@ -571,6 +616,17 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaAttributeCreatesInternalProperty() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    SwiftProperty swiftProperty = modelBuilder.getFinalResult(SwiftProperty.class);
+    assertNotNull(swiftProperty);
+    assertEquals(SwiftVisibility.INTERNAL, swiftProperty.visibility);
+  }
+
+  @Test
   public void finishBuildingOutputArgumentDoesNotChangeStringType() {
     contextStack.injectResult(SwiftType.STRING);
 
@@ -631,7 +687,7 @@ public class SwiftModelBuilderTest {
   @Test
   public void finishBuildingFrancaStructTypeReadsParent() {
     SwiftContainerType parentStruct = SwiftContainerType.builder("FooStruct").build();
-    SwiftField parentField = new SwiftField("foo", swiftType, null);
+    SwiftField parentField = new SwiftField("foo", null, swiftType, null);
     parentStruct.fields.add(parentField);
     contextStack.injectResult(parentStruct);
     contextStack.injectResult(swiftField);
@@ -644,6 +700,17 @@ public class SwiftModelBuilderTest {
     assertEquals(2, swiftStruct.fields.size());
     assertEquals(parentField, swiftStruct.fields.get(0));
     assertEquals(swiftField, swiftStruct.fields.get(1));
+  }
+
+  @Test
+  public void finishBuildingFrancaStructTypeCreatesInternalStruct() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    SwiftContainerType swiftStruct = modelBuilder.getFinalResult(SwiftContainerType.class);
+    assertNotNull(swiftStruct);
+    assertEquals(SwiftVisibility.INTERNAL, swiftStruct.visibility);
   }
 
   @Test
@@ -687,5 +754,18 @@ public class SwiftModelBuilderTest {
 
     PowerMockito.verifyStatic();
     SwiftNameRules.getTypeDefName(francaMap, deploymentModel);
+  }
+
+  @Test
+  public void finishBuildingFrancaMapTypeCreatesInternalTypeDef() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+    contextStack.injectResult(SwiftType.STRING);
+    contextStack.injectResult(swiftType);
+
+    modelBuilder.finishBuilding(francaMap);
+
+    SwiftTypeDef swiftTypeDef = modelBuilder.getFinalResult(SwiftTypeDef.class);
+    assertNotNull(swiftTypeDef);
+    assertEquals(SwiftVisibility.INTERNAL, swiftTypeDef.visibility);
   }
 }

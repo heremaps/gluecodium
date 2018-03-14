@@ -41,13 +41,14 @@ public final class SwiftClass extends SwiftType {
   @lombok.Builder(builderClassName = "Builder")
   private SwiftClass(
       final String name,
+      final SwiftVisibility visibility,
       final boolean isInterface,
       final String parentClass,
       final String nameSpace,
       final String cInstance,
       final String functionTableName,
       final boolean useParentCInstance) {
-    super(name, TypeCategory.CLASS);
+    super(name, visibility, TypeCategory.CLASS, null, name, false);
     this.isInterface = isInterface;
     this.parentClass = parentClass;
     this.nameSpace = nameSpace;

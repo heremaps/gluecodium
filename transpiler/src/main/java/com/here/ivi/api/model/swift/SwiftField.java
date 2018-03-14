@@ -23,8 +23,12 @@ public final class SwiftField extends SwiftTypedModelElement {
 
   public final SwiftValue defaultValue;
 
-  public SwiftField(final String name, final SwiftType type, final SwiftValue defaultValue) {
-    super(name, type);
+  public SwiftField(
+      final String name,
+      final SwiftVisibility visibility,
+      final SwiftType type,
+      final SwiftValue defaultValue) {
+    super(name, visibility, type);
     this.defaultValue = defaultValue;
   }
 }

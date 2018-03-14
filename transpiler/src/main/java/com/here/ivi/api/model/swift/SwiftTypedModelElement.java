@@ -23,8 +23,9 @@ public abstract class SwiftTypedModelElement extends SwiftModelElement {
 
   public final SwiftType type;
 
-  protected SwiftTypedModelElement(final String name, final SwiftType type) {
-    super(name);
+  protected SwiftTypedModelElement(
+      final String name, final SwiftVisibility visibility, final SwiftType type) {
+    super(name, visibility);
     this.type = type;
   }
 }

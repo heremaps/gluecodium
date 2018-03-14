@@ -31,7 +31,7 @@ public class SwiftParameter extends SwiftTypedModelElement {
   }
 
   public SwiftParameter(String interfaceName, SwiftType type, String variableName) {
-    super(interfaceName, type);
+    super(interfaceName, null, type);
     this.variableName = variableName != null ? variableName : interfaceName;
     this.differentInterfaceAndVariableName =
         variableName != null && !Objects.equals(interfaceName, variableName);

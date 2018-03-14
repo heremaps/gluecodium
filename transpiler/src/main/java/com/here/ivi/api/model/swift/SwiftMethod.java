@@ -41,6 +41,7 @@ public final class SwiftMethod extends SwiftModelElement {
   @lombok.Builder(builderClassName = "Builder")
   private SwiftMethod(
       final String name,
+      final SwiftVisibility visibility,
       final String comment,
       final SwiftType returnType,
       final String returnComment,
@@ -51,7 +52,7 @@ public final class SwiftMethod extends SwiftModelElement {
       final SwiftEnum error,
       final List<SwiftParameter> parameters,
       final List<SwiftGenericParameter> genericParameters) {
-    super(name);
+    super(name, visibility);
     this.comment = comment;
     this.returnType = returnType != null ? returnType : SwiftType.VOID;
     this.returnComment = returnComment != null ? returnComment : "";

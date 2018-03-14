@@ -19,26 +19,15 @@
 
 package com.here.ivi.api.model.swift;
 
-import java.util.List;
-import lombok.Builder;
-import lombok.Singular;
+public enum SwiftVisibility {
+  OPEN,
+  PUBLIC,
+  INTERNAL,
+  FILEPRIVATE,
+  PRIVATE;
 
-public final class SwiftEnum extends SwiftType {
-
-  public final List<SwiftEnumItem> items;
-
-  @Builder
-  private SwiftEnum(
-      final String name,
-      final SwiftVisibility visibility,
-      final String comment,
-      @Singular final List<SwiftEnumItem> items) {
-    super(name, visibility, TypeCategory.ENUM, null, name, false);
-    this.comment = comment;
-    this.items = items;
-  }
-
-  public static SwiftEnum.SwiftEnumBuilder builder(String name) {
-    return new SwiftEnum.SwiftEnumBuilder().name(name);
+  @Override
+  public String toString() {
+    return super.toString().toLowerCase();
   }
 }

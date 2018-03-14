@@ -33,6 +33,7 @@ public final class SwiftContainerType extends SwiftType {
   @lombok.Builder(builderClassName = "Builder")
   private SwiftContainerType(
       final String name,
+      final SwiftVisibility visibility,
       final TypeCategory category,
       final String implementingClass,
       final String publicName,
@@ -41,6 +42,7 @@ public final class SwiftContainerType extends SwiftType {
       final String cPrefix) {
     super(
         name,
+        visibility,
         category != null ? category : TypeCategory.STRUCT,
         implementingClass,
         publicName != null ? publicName : name,
@@ -58,7 +60,7 @@ public final class SwiftContainerType extends SwiftType {
   public SwiftType withAlias(final String aliasName) {
     SwiftContainerType container =
         new SwiftContainerType(
-            name, category, implementingClass, aliasName, optional, parent, cPrefix);
+            name, visibility, category, implementingClass, aliasName, optional, parent, cPrefix);
     container.comment = this.comment;
     container.fields.addAll(fields);
     return container;
@@ -68,7 +70,7 @@ public final class SwiftContainerType extends SwiftType {
   public SwiftType withOptional(final boolean optional) {
     SwiftContainerType container =
         new SwiftContainerType(
-            name, category, implementingClass, publicName, optional, parent, cPrefix);
+            name, visibility, category, implementingClass, publicName, optional, parent, cPrefix);
     container.comment = this.comment;
     container.fields.addAll(fields);
     return container;

@@ -202,10 +202,10 @@ public class SwiftModelBuilderInterfaceTest {
   @Test
   public void finishBuildingFrancaInterfaceReadsParentProperties() {
     SwiftClass parentClass = SwiftClass.builder("SomeParent").isInterface(true).build();
-    SwiftProperty parentProperty = new SwiftProperty("ParentProperty", null);
+    SwiftProperty parentProperty = new SwiftProperty("ParentProperty", null, null);
     parentClass.properties.add(parentProperty);
     SwiftMethod parentMethod = SwiftMethod.builder("ParentMethod").cNestedSpecifier("foo").build();
-    SwiftProperty childProperty = new SwiftProperty("", null);
+    SwiftProperty childProperty = new SwiftProperty("", null, null);
 
     parentProperty.propertyAccessors.add(parentMethod);
     contextStack.injectResult(parentClass);
@@ -223,6 +223,19 @@ public class SwiftModelBuilderInterfaceTest {
     assertEquals("ParentProperty", swiftProperty.name);
     assertEquals(1, swiftProperty.propertyAccessors.size());
     assertEquals("foo", swiftProperty.propertyAccessors.get(0).cNestedSpecifier);
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceCreatesInternalClass() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    SwiftFile swiftFile = modelBuilder.getFinalResult(SwiftFile.class);
+    assertNotNull(swiftFile);
+    assertEquals(1, swiftFile.classes.size());
+    SwiftClass swiftClass = swiftFile.classes.get(0);
+    assertEquals(SwiftVisibility.INTERNAL, swiftClass.visibility);
   }
 
   // Creates instantiable Swift interface

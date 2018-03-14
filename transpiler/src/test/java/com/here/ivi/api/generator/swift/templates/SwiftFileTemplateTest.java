@@ -787,7 +787,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void typedefGenerationInProtocol() {
     SwiftClass swiftClass = SwiftClass.builder("HelloWorldFactory").isInterface(true).build();
-    SwiftTypeDef typedef = new SwiftTypeDef("MyTypeDef", new SwiftType("Int"));
+    SwiftTypeDef typedef = new SwiftTypeDef("MyTypeDef", null, new SwiftType("Int"));
     swiftClass.typedefs.add(typedef);
 
     TemplateComparator.expect(
@@ -802,7 +802,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void typedeGenerationInClass() {
     SwiftClass swiftClass = SwiftClass.builder("HellowWorldFactory").build();
-    SwiftTypeDef typedef = new SwiftTypeDef("MyTypeDef", new SwiftType("Int"));
+    SwiftTypeDef typedef = new SwiftTypeDef("MyTypeDef", null, new SwiftType("Int"));
     swiftClass.typedefs.add(typedef);
     SwiftContainerType mappedType =
         SwiftContainerType.builder("HelloWorld")
@@ -839,8 +839,11 @@ public class SwiftFileTemplateTest {
     SwiftClass swiftClass = SwiftClass.builder("HellowWorldFactory").build();
     SwiftTypeDef typedef =
         new SwiftTypeDef(
-            "HellowWorldFactory.MyNestedTypeDef", new SwiftType("HellowWorldFactory.MyTypeDef"));
-    SwiftTypeDef typedef2 = new SwiftTypeDef("HellowWorldFactory.MyTypeDef", new SwiftType("Int"));
+            "HellowWorldFactory.MyNestedTypeDef",
+            null,
+            new SwiftType("HellowWorldFactory.MyTypeDef"));
+    SwiftTypeDef typedef2 =
+        new SwiftTypeDef("HellowWorldFactory.MyTypeDef", null, new SwiftType("Int"));
     swiftClass.typedefs.add(typedef);
     swiftClass.typedefs.add(typedef2);
 
@@ -869,7 +872,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void protocolWithPropertyOfDataType() {
     SwiftClass swiftClass = SwiftClass.builder("SomeClassWithProperty").isInterface(true).build();
-    SwiftProperty someProperty = new SwiftProperty("someAttributeName", SwiftType.DATA);
+    SwiftProperty someProperty = new SwiftProperty("someAttributeName", null, SwiftType.DATA);
     someProperty.propertyAccessors.add(
         SwiftMethod.builder("").cShortName("CBRIDGE_DELEGATE").build());
     someProperty.propertyAccessors.add(
@@ -910,7 +913,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void classWithPropertyOfDataType() {
     SwiftClass swiftClass = SwiftClass.builder("SomeClassWithProperty").build();
-    SwiftProperty someProperty = new SwiftProperty("someAttributeName", SwiftType.DATA);
+    SwiftProperty someProperty = new SwiftProperty("someAttributeName", null, SwiftType.DATA);
     someProperty.propertyAccessors.add(
         SwiftMethod.builder("").cShortName("CBRIDGE_DELEGATE").build());
     someProperty.propertyAccessors.add(
@@ -953,7 +956,7 @@ public class SwiftFileTemplateTest {
   @Test
   public void classWithReadonlyProperty() {
     SwiftClass swiftClass = SwiftClass.builder("SomeClassWithProperty").isInterface(true).build();
-    SwiftProperty someProperty = new SwiftProperty("someStringAttribute", SwiftType.STRING);
+    SwiftProperty someProperty = new SwiftProperty("someStringAttribute", null, SwiftType.STRING);
     someProperty.propertyAccessors.add(
         SwiftMethod.builder("").cShortName("CBRIDGE_DELEGATE").build());
     swiftClass.properties.add(someProperty);
@@ -1070,7 +1073,7 @@ public class SwiftFileTemplateTest {
         SwiftContainerType.builder("SomeClass.FirstStruct").cPrefix("CPrefix").build();
     SwiftContainerType secondStruct =
         SwiftContainerType.builder("SomeClass.SecondStruct").cPrefix("CPrefix").build();
-    swiftClass.typedefs.add(new SwiftTypeDef("SomeClass.RenamedStruct", secondStruct));
+    swiftClass.typedefs.add(new SwiftTypeDef("SomeClass.RenamedStruct", null, secondStruct));
     SwiftMethod method =
         SwiftMethod.builder("SomeMethod")
             .returnType(secondStruct.withAlias("SomeClass.RenamedStruct"))

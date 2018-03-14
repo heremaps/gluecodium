@@ -1,12 +1,12 @@
 {{>swift/Comment}}
-public struct {{simpleName}} {
+{{visibility}} struct {{simpleName}} {
 {{#fields}}
 {{#if this.comment}}
     /**
 {{prefix this.comment '     '}}
      */
 {{/if}}
-    public var {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}
+    {{visibility}} var {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}
 {{/fields}}
 
 {{prefixPartial "swift/StructPublicInitMethod" "    "}}{{#if parent}}

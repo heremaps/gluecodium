@@ -23,11 +23,18 @@ import java.util.List;
 import org.trimou.util.Strings;
 
 public abstract class SwiftModelElement {
+
   public final String name;
+  public final SwiftVisibility visibility;
   public String comment = "";
 
-  public SwiftModelElement(String name) {
+  public SwiftModelElement(final String name) {
+    this(name, null);
+  }
+
+  public SwiftModelElement(final String name, final SwiftVisibility visibility) {
     this.name = name;
+    this.visibility = visibility != null ? visibility : SwiftVisibility.PUBLIC;
   }
 
   @Override
