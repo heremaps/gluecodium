@@ -19,7 +19,9 @@
 
 package com.here.ivi.api.common;
 
+import com.here.ivi.api.model.franca.DefinedBy;
 import java.util.Collection;
+import java.util.Objects;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
@@ -56,6 +58,12 @@ public final class FrancaTypeHelper {
     } else {
       return elementName;
     }
+  }
+
+  public static boolean haveSamePackage(
+      final FModelElement francaModeElement1, final FModelElement francaModeElement2) {
+    return Objects.equals(
+        DefinedBy.getModelName(francaModeElement1), DefinedBy.getModelName(francaModeElement2));
   }
 
   private static boolean isArray(final FTypedElement francaTypedElement) {
