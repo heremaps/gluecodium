@@ -141,7 +141,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     if (deploymentModel.isStatic(francaMethod)) {
       javaMethod.qualifiers.add(MethodQualifier.STATIC);
     }
-    javaMethod.visibility = JavaVisibility.PUBLIC;
+    javaMethod.visibility = getVisibility(francaMethod);
 
     List<JavaParameter> inputParameters =
         CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaParameter.class)
@@ -213,7 +213,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
             .initial(initialValue)
             .isNonNull(deploymentModel.isNotNull(francaField))
             .build();
-    javaField.visibility = JavaVisibility.PUBLIC;
+    javaField.visibility = getVisibility(francaField);
     javaField.comment = CommentHelper.getDescription(francaField);
 
     storeResult(javaField);
@@ -233,7 +233,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
             .extendedClass(getPreviousResult(JavaCustomType.class))
             .isParcelable(isSerializable)
             .build();
-    javaClass.visibility = JavaVisibility.PUBLIC;
+    javaClass.visibility = getVisibility(francaStructType);
     javaClass.javaPackage = rootPackage;
 
     javaClass.comment = CommentHelper.getDescription(francaStructType);
@@ -268,7 +268,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     // Type definition
     JavaEnum javaEnum = new JavaEnum(JavaNameRules.getClassName(francaEnumType.getName()));
-    javaEnum.visibility = JavaVisibility.PUBLIC;
+    javaEnum.visibility = getVisibility(francaEnumType);
     javaEnum.javaPackage = rootPackage;
 
     javaEnum.comment = CommentHelper.getDescription(francaEnumType);
@@ -321,10 +321,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaType javaType = getPreviousResult(JavaType.class);
     String comment = CommentHelper.getDescription(francaAttribute);
 
+    JavaVisibility visibility = getVisibility(francaAttribute);
+
     String getterName = JavaNameRules.getGetterName(francaAttribute.getName(), javaType);
 
     JavaMethod getterMethod = JavaMethod.builder(getterName).returnType(javaType).build();
-    getterMethod.visibility = JavaVisibility.PUBLIC;
+    getterMethod.visibility = visibility;
     getterMethod.comment = comment;
 
     storeResult(getterMethod);
@@ -333,7 +335,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       String setterName = JavaNameRules.getSetterName(francaAttribute.getName());
 
       JavaMethod setterMethod = JavaMethod.builder(setterName).build();
-      setterMethod.visibility = JavaVisibility.PUBLIC;
+      setterMethod.visibility = visibility;
       setterMethod.comment = comment;
 
       setterMethod.parameters.add(new JavaParameter(javaType, "value"));
@@ -354,7 +356,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
             .isImplClass(true)
             .needsDisposer(nativeBase.equals(extendedClass))
             .build();
-    javaClass.visibility = JavaVisibility.PUBLIC;
+    javaClass.visibility = getVisibility(francaInterface);
     javaClass.javaPackage = rootPackage;
 
     javaClass.comment = CommentHelper.getDescription(francaInterface);
@@ -374,7 +376,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaInterface javaInterface =
         new JavaInterface(JavaNameRules.getClassName(francaInterface.getName()));
-    javaInterface.visibility = JavaVisibility.PUBLIC;
+    javaInterface.visibility = getVisibility(francaInterface);
     javaInterface.javaPackage = rootPackage;
 
     javaInterface.comment = CommentHelper.getDescription(francaInterface);
@@ -467,5 +469,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     storeResult(javaInterface);
     storeResult(javaImplementationClass);
+  }
+
+  private JavaVisibility getVisibility(final FModelElement francaModelElement) {
+    return deploymentModel.isInternal(francaModelElement)
+        ? JavaVisibility.PACKAGE
+        : JavaVisibility.PUBLIC;
   }
 }
