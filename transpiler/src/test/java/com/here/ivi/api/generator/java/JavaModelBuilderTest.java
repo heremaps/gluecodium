@@ -236,6 +236,17 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaMethodCreatesInternalMethod() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
+    assertNotNull(javaMethod);
+    assertEquals(JavaVisibility.PACKAGE, javaMethod.visibility);
+  }
+
+  @Test
   public void finishBuildingFrancaInputArgument() {
     contextStack.injectResult(javaCustomType);
 
@@ -378,6 +389,17 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaFieldCreatesInternalField() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaField);
+
+    JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
+    assertNotNull(resultField);
+    assertEquals(JavaVisibility.PACKAGE, resultField.visibility);
+  }
+
+  @Test
   public void finishBuildingFrancaStructType() {
     modelBuilder.finishBuilding(francaStructType);
 
@@ -468,6 +490,17 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaStructTypeCreatesInternalStruct() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertEquals(JavaVisibility.PACKAGE, javaClass.visibility);
+  }
+
+  @Test
   public void finishBuildingFrancaTypeRef() {
     modelBuilder.finishBuilding(francaTypeRef);
 
@@ -548,6 +581,29 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaAttributeCreatesInternalGetter() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
+    assertNotNull(javaMethod);
+    assertEquals(JavaVisibility.PACKAGE, javaMethod.visibility);
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeCreatesInternalSetter() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<JavaMethod> methods =
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JavaMethod.class);
+    assertEquals(2, methods.size());
+    assertEquals(JavaVisibility.PACKAGE, methods.get(1).visibility);
+  }
+
+  @Test
   public void finishBuildingFrancaArrayMapsArrayType() {
     JavaTemplateType templateType = JavaTemplateType.wrapInList(javaCustomType);
     when(typeMapper.mapArray(any())).thenReturn(templateType);
@@ -618,6 +674,17 @@ public class JavaModelBuilderTest {
     assertEquals(javaCustomType, resultTypeRef);
 
     verify(typeMapper).mapCustomType(francaEnumerationType);
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationTypeCreatesInternalEnum() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaEnumerationType);
+
+    JavaEnum resultEnum = modelBuilder.getFinalResult(JavaEnum.class);
+    assertNotNull(resultEnum);
+    assertEquals(JavaVisibility.PACKAGE, resultEnum.visibility);
   }
 
   @Test

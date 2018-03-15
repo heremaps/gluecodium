@@ -187,6 +187,17 @@ public class JavaModelBuilderInterfaceTest {
     assertTrue(javaClass.innerClasses.isEmpty());
   }
 
+  @Test
+  public void finishBuildingFrancaInterfaceCreatesInternalClass() {
+    when(deploymentModel.isInternal(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertEquals(JavaVisibility.PACKAGE, javaClass.visibility);
+  }
+
   // Creates: Interface implemented as Java interface
 
   @Test
@@ -279,6 +290,18 @@ public class JavaModelBuilderInterfaceTest {
     assertFalse(javaInterface.parentInterfaces.isEmpty());
     assertEquals(javaCustomType, javaInterface.parentInterfaces.iterator().next());
     assertTrue(javaInterface.innerClasses.isEmpty());
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceCreatesInternalInterface() {
+    when(deploymentModel.isInterface(any())).thenReturn(true);
+    when(deploymentModel.isInternal(any(FInterface.class))).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
+    assertNotNull(javaInterface);
+    assertEquals(JavaVisibility.PACKAGE, javaInterface.visibility);
   }
 
   // Creates: Implementation class for Java interface
