@@ -49,7 +49,8 @@ function(apigen_transpile)
     set(oneValueArgs TARGET GENERATOR VERSION
             ANDROID_MERGE_MANIFEST
             JAVA_PACKAGE
-            COPYRIGHT_HEADER)
+            COPYRIGHT_HEADER
+            CPP_INTERNAL_NAMESPACE)
     set(multiValueArgs FRANCA_SOURCES)
     cmake_parse_arguments(apigen_transpile "${options}" "${oneValueArgs}"
                                            "${multiValueArgs}" ${ARGN})
@@ -113,8 +114,11 @@ function(apigen_transpile)
     if(apigen_transpile_JAVA_PACKAGE)
         string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -javapackage ${apigen_transpile_JAVA_PACKAGE}")
     endif()
-    if (apigen_transpile_COPYRIGHT_HEADER)
+    if(apigen_transpile_COPYRIGHT_HEADER)
         string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -copyrightHeader ${apigen_transpile_COPYRIGHT_HEADER}")
+    endif()
+    if(apigen_transpile_CPP_INTERNAL_NAMESPACE)
+        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -cppInternalNamespace ${apigen_transpile_CPP_INTERNAL_NAMESPACE}")
     endif()
 
     execute_process(
