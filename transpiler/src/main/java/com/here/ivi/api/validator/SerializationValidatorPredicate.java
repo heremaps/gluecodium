@@ -19,7 +19,7 @@
 
 package com.here.ivi.api.validator;
 
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.*;
 
@@ -34,11 +34,10 @@ import org.franca.core.franca.*;
 public class SerializationValidatorPredicate implements ValidatorPredicate<FField> {
 
   private static final String INSTANCE_MESSAGE =
-      "Instance fields are not supported for serializable structs: "
-          + "field '%s' in struct '%s.%s.%s'.";
+      "Instance fields are not supported for serializable structs: " + "field '%s' in struct '%s'.";
   private static final String NON_SERIALIZABLE_MESSAGE =
       "Fields of non-serializable struct types are not supported for serializable structs: "
-          + "field '%s' in struct '%s.%s.%s'.";
+          + "field '%s' in struct '%s'.";
 
   @Override
   public Class<FField> getElementClass() {
@@ -65,17 +64,12 @@ public class SerializationValidatorPredicate implements ValidatorPredicate<FFiel
       messageFormat = NON_SERIALIZABLE_MESSAGE;
     }
 
-    if (messageFormat != null) {
-      FTypeCollection francaTypeCollection = (FTypeCollection) francaStruct.eContainer();
-      return String.format(
-          messageFormat,
-          francaField.getName(),
-          DefinedBy.getModelName(francaTypeCollection),
-          francaTypeCollection.getName(),
-          francaStruct.getName());
+    if (messageFormat == null) {
+      return null;
     }
 
-    return null;
+    return String.format(
+        messageFormat, francaField.getName(), FrancaTypeHelper.getFullName(francaStruct));
   }
 
   private static FTypeRef getUnderlyingType(final FTypeRef declaredType) {

@@ -19,7 +19,7 @@
 
 package com.here.ivi.api.validator;
 
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
@@ -28,7 +28,7 @@ import org.franca.core.franca.FMethod;
 public final class StaticMethodsValidatorPredicate implements ValidatorPredicate<FMethod> {
 
   private static final String STATIC_METHOD_MESSAGE =
-      "Static methods in interfaces are not allowed: method '%s' in interface '%s.%s'.";
+      "Static methods in interfaces are not allowed: method '%s' in interface '%s'.";
 
   @Override
   public Class<FMethod> getElementClass() {
@@ -43,14 +43,13 @@ public final class StaticMethodsValidatorPredicate implements ValidatorPredicate
     }
 
     FInterface francaInterface = (FInterface) francaMethod.eContainer();
-    if (deploymentModel.isInterface(francaInterface)) {
-      return String.format(
-          STATIC_METHOD_MESSAGE,
-          francaMethod.getName(),
-          DefinedBy.getModelName(francaInterface),
-          francaInterface.getName());
+    if (!deploymentModel.isInterface(francaInterface)) {
+      return null;
     }
 
-    return null;
+    return String.format(
+        STATIC_METHOD_MESSAGE,
+        francaMethod.getName(),
+        FrancaTypeHelper.getFullName(francaInterface));
   }
 }

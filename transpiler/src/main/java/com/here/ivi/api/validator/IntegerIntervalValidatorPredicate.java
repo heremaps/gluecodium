@@ -19,7 +19,7 @@
 
 package com.here.ivi.api.validator;
 
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.*;
 
@@ -28,7 +28,7 @@ public final class IntegerIntervalValidatorPredicate
     implements ValidatorPredicate<FIntegerInterval> {
 
   private static final String INTEGER_INTERVAL_MESSAGE =
-      "Integer ranges are not supported: element '%s' in type collection '%s.%s'.";
+      "Integer ranges are not supported: element '%s'.";
 
   @Override
   public Class<FIntegerInterval> getElementClass() {
@@ -39,13 +39,8 @@ public final class IntegerIntervalValidatorPredicate
   public String validate(
       final FrancaDeploymentModel deploymentModel, final FIntegerInterval francaIntegerInterval) {
 
-    FModelElement parentElement = (FModelElement) francaIntegerInterval.eContainer();
-    FTypeCollection francaTypeCollection = DefinedBy.findDefiningTypeCollection(parentElement);
-
     return String.format(
         INTEGER_INTERVAL_MESSAGE,
-        parentElement.getName(),
-        DefinedBy.getModelName(francaTypeCollection),
-        francaTypeCollection.getName());
+        FrancaTypeHelper.getFullName((FModelElement) francaIntegerInterval.eContainer()));
   }
 }

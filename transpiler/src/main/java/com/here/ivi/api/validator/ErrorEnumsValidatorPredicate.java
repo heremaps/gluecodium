@@ -19,7 +19,7 @@
 
 package com.here.ivi.api.validator;
 
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
@@ -31,7 +31,7 @@ import org.franca.core.franca.FMethod;
 public final class ErrorEnumsValidatorPredicate implements ValidatorPredicate<FMethod> {
 
   private static final String ENUMS_METHOD_MESSAGE =
-      "Inline error enums in methods are not allowed: method '%s' in interface '%s.%s'.";
+      "Inline error enums in methods are not allowed: method '%s' in interface '%s'.";
 
   @Override
   public Class<FMethod> getElementClass() {
@@ -41,15 +41,13 @@ public final class ErrorEnumsValidatorPredicate implements ValidatorPredicate<FM
   @Override
   public String validate(final FrancaDeploymentModel deploymentModel, final FMethod francaMethod) {
 
-    if (francaMethod.getErrors() != null) {
-      FInterface francaInterface = (FInterface) francaMethod.eContainer();
-      return String.format(
-          ENUMS_METHOD_MESSAGE,
-          francaMethod.getName(),
-          DefinedBy.getModelName(francaInterface),
-          francaInterface.getName());
+    if (francaMethod.getErrors() == null) {
+      return null;
     }
 
-    return null;
+    return String.format(
+        ENUMS_METHOD_MESSAGE,
+        francaMethod.getName(),
+        FrancaTypeHelper.getFullName((FInterface) francaMethod.eContainer()));
   }
 }

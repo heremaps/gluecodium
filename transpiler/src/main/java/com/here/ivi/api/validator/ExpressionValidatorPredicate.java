@@ -19,6 +19,7 @@
 
 package com.here.ivi.api.validator;
 
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import java.util.*;
@@ -62,9 +63,7 @@ public final class ExpressionValidatorPredicate
     FTypeCollection parentTypeCollection = DefinedBy.findDefiningTypeCollection(parentElement);
     builder
         .append(" in '")
-        .append(((FModel) parentTypeCollection.eContainer()).getName())
-        .append('.')
-        .append(parentTypeCollection.getName())
+        .append(FrancaTypeHelper.getFullName(parentTypeCollection))
         .append("' is not a constant expression.");
 
     return builder.toString();

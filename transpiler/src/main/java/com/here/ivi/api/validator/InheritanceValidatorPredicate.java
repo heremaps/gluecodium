@@ -19,7 +19,7 @@
 
 package com.here.ivi.api.validator;
 
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.FInterface;
 
@@ -30,7 +30,7 @@ import org.franca.core.franca.FInterface;
 public final class InheritanceValidatorPredicate implements ValidatorPredicate<FInterface> {
 
   private static final String INVALID_INHERITANCE_MESSAGE =
-      "Interface '%s.%s' is not allowed to inherit from class '%s.%s'.";
+      "Interface '%s' is not allowed to inherit from class '%s'.";
 
   @Override
   public Class<FInterface> getElementClass() {
@@ -46,15 +46,13 @@ public final class InheritanceValidatorPredicate implements ValidatorPredicate<F
     }
 
     FInterface parentInterface = francaInterface.getBase();
-    if (parentInterface != null && !deploymentModel.isInterface(parentInterface)) {
-      return String.format(
-          INVALID_INHERITANCE_MESSAGE,
-          DefinedBy.getModelName(francaInterface),
-          francaInterface.getName(),
-          DefinedBy.getModelName(parentInterface),
-          parentInterface.getName());
+    if (parentInterface == null || deploymentModel.isInterface(parentInterface)) {
+      return null;
     }
 
-    return null;
+    return String.format(
+        INVALID_INHERITANCE_MESSAGE,
+        FrancaTypeHelper.getFullName(francaInterface),
+        FrancaTypeHelper.getFullName(parentInterface));
   }
 }

@@ -19,7 +19,7 @@
 
 package com.here.ivi.api.validator;
 
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import java.util.*;
 import java.util.function.Predicate;
@@ -31,8 +31,7 @@ import org.franca.core.franca.*;
  */
 public final class DefaultsValidatorPredicate implements ValidatorPredicate<FField> {
 
-  private static final String ERROR_MESSAGE_FORMAT =
-      "Invalid %s default value '%s' for %s.%s.%s.%s field.";
+  private static final String ERROR_MESSAGE_FORMAT = "Invalid %s default value '%s' for %s field.";
   private static final Set<String> BOOLEAN_VALUES = new HashSet<>(Arrays.asList("true", "false"));
 
   @Override
@@ -96,16 +95,8 @@ public final class DefaultsValidatorPredicate implements ValidatorPredicate<FFie
   private static String formatErrorMessage(
       final FField francaField, final String typeName, final String stringValue) {
 
-    FStructType francaStructType = (FStructType) francaField.eContainer();
-    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(francaStructType);
     return String.format(
-        ERROR_MESSAGE_FORMAT,
-        typeName,
-        stringValue,
-        DefinedBy.getModelName(typeCollection),
-        typeCollection.getName(),
-        francaStructType.getName(),
-        francaField.getName());
+        ERROR_MESSAGE_FORMAT, typeName, stringValue, FrancaTypeHelper.getFullName(francaField));
   }
 
   @SuppressWarnings("ResultOfMethodCallIgnored")
