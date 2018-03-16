@@ -40,10 +40,10 @@ import java.util.Map;
 
 class MapEntry {
 
-  String key;
+  Integer key;
   String value;
 
-  MapEntry(String key, String value) {
+  MapEntry(Integer key, String value) {
     this.key = key;
     this.value = value;
   }
@@ -84,8 +84,7 @@ class MapAdapter extends ArrayAdapter<MapEntry> {
     }
 
     MapEntry entry = getItem(position);
-    entryView.setText(
-        String.format(Locale.getDefault(), "%12d => %s", Integer.parseInt(entry.key), entry.value));
+    entryView.setText(String.format(Locale.getDefault(), "%12d => %s", entry.key, entry.value));
 
     return convertView;
   }
@@ -117,9 +116,12 @@ public class MapsFragment extends Fragment {
     addEntryBtn = rootView.findViewById(R.id.add_entry_btn);
     addEntryBtn.setOnClickListener(
         (View v) -> {
-          String key = entryKey.getText().toString();
-          String value = entryValue.getText().toString();
-          adapter.add(new MapEntry(key, value));
+          try {
+            Integer key = Integer.valueOf(entryKey.getText().toString());
+            String value = entryValue.getText().toString();
+            adapter.add(new MapEntry(key, value));
+          } catch (NumberFormatException e) {
+          }
           entryKey.setText("");
           entryValue.setText("");
           entryKey.requestFocus();
@@ -133,7 +135,7 @@ public class MapsFragment extends Fragment {
           Map<Integer, String> map = new HashMap<>();
           for (int i = 0; i < adapter.getCount(); ++i) {
             MapEntry entry = adapter.getItem(i);
-            map.put(Integer.valueOf(entry.key), entry.value);
+            map.put(entry.key, entry.value);
           }
 
           Map<Integer, String> resultMap = HelloWorldMaps.methodWithMap(map);
