@@ -18,6 +18,10 @@
  */
 package com.example.here.hello.app;
 
+import static android.graphics.Color.BLACK;
+import static android.graphics.Color.GREEN;
+import static android.graphics.Color.RED;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,14 +30,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.example.here.hello.R;
 import com.here.android.hello.HelloWorldStaticLogger;
 import com.here.android.hello.InheritanceHelper;
 import com.here.android.hello.Shape;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class InheritanceFragment extends Fragment {
@@ -50,8 +57,100 @@ public class InheritanceFragment extends Fragment {
   private Spinner spinner;
   private TextView description;
   private String[] descriptionsText;
+  private TextView header0;
+  private TextView header1;
+  private TextView header2;
+  private TextView header3;
+  private TextView header4;
+  private ListView inheritanceTable;
+
+  private static final String CORRECT = "\u2713";
+  private static final String INCORRECT = "\u2717";
+  private static final String UNKNOWN = "?";
 
   public InheritanceFragment() {}
+
+  private String makeVertical(String s) {
+    StringBuilder builder = new StringBuilder();
+
+    for (int i = 0; i < s.length(); ++i) {
+      builder.append(s.charAt(i));
+      builder.append('\n');
+    }
+
+    return builder.toString();
+  }
+
+  private static class InheritanceCheckData {
+    String instance;
+    String shapeCheckResult;
+    String circleCheckResult;
+    String rectangleCheckResult;
+    String squareCheckResult;
+
+    InheritanceCheckData(String instance) {
+      this.instance = instance;
+      shapeCheckResult = UNKNOWN;
+      circleCheckResult = UNKNOWN;
+      rectangleCheckResult = UNKNOWN;
+      squareCheckResult = UNKNOWN;
+    }
+
+    InheritanceCheckData(
+        String instance,
+        String shapeCheckResult,
+        String circleCheckResult,
+        String rectangleCheckResult,
+        String squareCheckResult) {
+      this.instance = instance;
+      this.shapeCheckResult = shapeCheckResult;
+      this.circleCheckResult = circleCheckResult;
+      this.rectangleCheckResult = rectangleCheckResult;
+      this.squareCheckResult = squareCheckResult;
+    }
+  }
+
+  private static class InheritanceAdapter extends ArrayAdapter<InheritanceCheckData> {
+    Fragment fragment;
+    int resource;
+
+    InheritanceAdapter(Fragment fragment, int resource, ArrayList<InheritanceCheckData> data) {
+      super(fragment.getActivity(), resource, data);
+
+      this.fragment = fragment;
+      this.resource = resource;
+    }
+
+    private static void colorifyTextView(TextView textView, String text) {
+      textView.setText(text);
+      if (text.equals(CORRECT)) {
+        textView.setTextColor(GREEN);
+      } else if (text.equals(INCORRECT)) {
+        textView.setTextColor(RED);
+      } else {
+        textView.setTextColor(BLACK);
+      }
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+      if (convertView == null) {
+        LayoutInflater inflater = fragment.getLayoutInflater();
+        convertView = inflater.inflate(resource, parent, false);
+      }
+
+      TextView instance = convertView.findViewById(R.id.instance_type);
+      InheritanceCheckData data = getItem(position);
+      instance.setText(data.instance);
+
+      colorifyTextView(convertView.findViewById(R.id.check1), data.shapeCheckResult);
+      colorifyTextView(convertView.findViewById(R.id.check2), data.circleCheckResult);
+      colorifyTextView(convertView.findViewById(R.id.check3), data.rectangleCheckResult);
+      colorifyTextView(convertView.findViewById(R.id.check4), data.squareCheckResult);
+
+      return convertView;
+    }
+  }
 
   @Override
   public View onCreateView(
@@ -71,6 +170,27 @@ public class InheritanceFragment extends Fragment {
     childJavaImplRectangle = new ChildJavaImplRectangle();
     nativeImplSquare = InheritanceHelper.createSquare();
 
+    header0 = rootView.findViewById(R.id.header0);
+    header1 = rootView.findViewById(R.id.header1);
+    header1.setText(makeVertical("Shape"));
+    header2 = rootView.findViewById(R.id.header2);
+    header2.setText(makeVertical("Circle"));
+    header3 = rootView.findViewById(R.id.header3);
+    header3.setText(makeVertical("Rectangle"));
+    header4 = rootView.findViewById(R.id.header4);
+    header4.setText(makeVertical("Square"));
+
+    inheritanceTable = rootView.findViewById(R.id.inheritance_table);
+    InheritanceAdapter adapter =
+        new InheritanceAdapter(this, R.layout.inheritance_row, new ArrayList<>());
+    String[] instances =
+        new String[] {"javaCircle", "nativeImplCircle", "nativeImplRectangle", "nativeImplSquare"};
+
+    for (String instance : instances) {
+      adapter.add(new InheritanceCheckData(instance));
+    }
+    inheritanceTable.setAdapter(adapter);
+
     return rootView;
   }
 
@@ -83,8 +203,27 @@ public class InheritanceFragment extends Fragment {
           @Override
           public void onItemSelected(
               AdapterView<?> parentView, View selectedItemView, int position, long id) {
-            description.setText(descriptionsText[position]);
-            result.setText("");
+
+            if (position == 0) {
+              description.setText(descriptionsText[position]);
+              header0.setVisibility(View.VISIBLE);
+              header1.setVisibility(View.VISIBLE);
+              header2.setVisibility(View.VISIBLE);
+              header3.setVisibility(View.VISIBLE);
+              header4.setVisibility(View.VISIBLE);
+              inheritanceTable.setVisibility(View.VISIBLE);
+              result.setVisibility(View.GONE);
+            } else {
+              description.setText("");
+              header0.setVisibility(View.GONE);
+              header1.setVisibility(View.GONE);
+              header2.setVisibility(View.GONE);
+              header3.setVisibility(View.GONE);
+              header4.setVisibility(View.GONE);
+              inheritanceTable.setVisibility(View.GONE);
+              result.setVisibility(View.VISIBLE);
+              result.setText(descriptionsText[position]);
+            }
           }
 
           @Override
@@ -97,35 +236,31 @@ public class InheritanceFragment extends Fragment {
     submitButton.setOnClickListener((View v) -> handleSelected(spinner.getSelectedItemPosition()));
   }
 
-  private static String inheritanceCheckResult(Class<?> c, Class<?> d) {
-    return d.getSimpleName()
-        + " is "
-        + (c.isAssignableFrom(d) ? "a" : "not a")
-        + " "
-        + c.getSimpleName()
-        + "\n";
+  private static String inheritanceCheckResult(Class<?> parent, Class<?> child) {
+    return parent.isAssignableFrom(child) ? CORRECT : INCORRECT;
+  }
+
+  private InheritanceCheckData createInheritanceCheckData(String type, Object instance) {
+    return new InheritanceCheckData(
+        type,
+        inheritanceCheckResult(com.here.android.hello.Shape.class, instance.getClass()),
+        inheritanceCheckResult(com.here.android.hello.Circle.class, instance.getClass()),
+        inheritanceCheckResult(com.here.android.hello.Rectangle.class, instance.getClass()),
+        inheritanceCheckResult(com.here.android.hello.Square.class, instance.getClass()));
   }
 
   private void handleSelected(int selectedItem) {
     switch (selectedItem) {
       case 0:
         {
-          StringBuilder builder = new StringBuilder();
+          InheritanceAdapter adapter = (InheritanceAdapter) inheritanceTable.getAdapter();
 
-          Class<?> classes[] = {
-            com.here.android.hello.Shape.class,
-            com.here.android.hello.Circle.class,
-            com.here.android.hello.Rectangle.class,
-            com.here.android.hello.Square.class
-          };
+          adapter.clear();
 
-          for (int i = 0; i < classes.length; ++i) {
-            for (int j = i + 1; j < classes.length; ++j) {
-              builder.append(inheritanceCheckResult(classes[i], classes[j]));
-            }
-          }
-
-          result.setText(builder.toString());
+          adapter.add(createInheritanceCheckData("javaCircle", javaImplCircle));
+          adapter.add(createInheritanceCheckData("nativeImplCircle", nativeImplCircle));
+          adapter.add(createInheritanceCheckData("nativeImplRectangle", nativeImplRectangle));
+          adapter.add(createInheritanceCheckData("nativeImplSquare", nativeImplSquare));
         }
         break;
 
@@ -133,14 +268,14 @@ public class InheritanceFragment extends Fragment {
         {
           HelloWorldStaticLogger.clearLog();
 
-          List<Shape> shapes = new LinkedList<>();
-
-          shapes.add(javaImplCircle);
-          shapes.add(nativeImplCircle);
-          shapes.add(nativeImplRectangle);
-          shapes.add(parentJavaImplRectangle);
-          shapes.add(childJavaImplRectangle);
-          shapes.add(nativeImplSquare);
+          List<Shape> shapes =
+              Arrays.asList(
+                  javaImplCircle,
+                  nativeImplCircle,
+                  nativeImplRectangle,
+                  parentJavaImplRectangle,
+                  childJavaImplRectangle,
+                  nativeImplSquare);
 
           InheritanceHelper.applyScaleOn(2.0, shapes);
 

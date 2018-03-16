@@ -109,24 +109,22 @@
     </string-array>
 
     <string-array name="inheritance_methods_description">
-        <item>Check inheritances between geometric forms (Circle, Rectangle and Square)</item>
-        <item>Returns a string log content after calling InheritanceHelper.scale method with:\n
-              - Java implementation of Circle interface\n
-              - Native implementation of Circle interface\n
-              - Native implementation of Rectangle interface\n
-              - Java implemetation of Rectangle interface\n
-              - Extended class from the Java implementation of\n
-                Rectangle interface.\n
-              - Native implementation of Square concrete class\n\n
+        <item>
+            Do a cross inheritance check for each variable against interfaces:\n
+            Shape, Circle, Rectangle and Square.
         </item>
-        <item>Returns a string log content after calling scale method with following shapes:\n
-              - Java implementation of Circle interface\n
-              - Native implementation of Circle interface\n
-              - Native implementation of Rectangle interface\n
-              - Java implemetation of Rectangle interface\n
-              - Extended class from the Java implementation of\n
-                Rectangle interface.\n
-              - Native implementation of Square concrete class\n\n
+        <item>
+            Returns static logger content after executing:\n
+            List &lt;Shape&gt; shapes =\n
+              Arrays.asList(\n
+                  javaImplCircle,\n
+                  nativeImplCircle,\n
+                  nativeImplRectangle,\n
+                  parentJavaImplRectangle,\n
+                  childJavaImplRectangle,\n
+                  nativeImplSquare);\n
+            \n
+            InheritanceHelper.applyScaleOn(2.0, shapes);
         </item>
     </string-array>
 </resources>
