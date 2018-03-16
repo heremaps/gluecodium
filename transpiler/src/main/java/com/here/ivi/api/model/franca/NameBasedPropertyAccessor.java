@@ -55,6 +55,12 @@ public final class NameBasedPropertyAccessor extends MappingGenericPropertyAcces
     return elem != null ? elem : createDummyFDEelement(obj);
   }
 
+  @Override
+  public FDElement createDummyFDEelement(EObject obj) {
+    FDElement dummy = super.createDummyFDEelement(obj);
+    return dummy != null ? dummy : FDeployFactory.eINSTANCE.createFDElement();
+  }
+
   private void initMapping(final FDInterface fdInterface) {
 
     mapping.put(getFullName(fdInterface.getTarget()), fdInterface);
