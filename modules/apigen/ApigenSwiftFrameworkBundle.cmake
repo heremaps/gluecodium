@@ -65,5 +65,9 @@ function(apigen_swift_framework_bundle)
                 "(cd ${FOLDER_PARENT} && find ${FOLDER_NAME} -exec test -e {} \; -print0 | xargs -0 tar cvfh - | (cd ${SWIFT_ASSETS_DIRECTORY}; tar xvf -))"
             VERBATIM)
     endforeach()
+    # Remove any dead links from the above copy. This can happen for generated files that weren't
+    # built as part of the dependencies for project, such as the  shaders.
+    add_custom_command(TARGET ${apigen_swift_framework_bundle_TARGET} POST_BUILD
+        COMMAND find ${SWIFT_ASSETS_DIRECTORY} -type l -delete )
 
 endfunction(apigen_swift_framework_bundle)

@@ -71,6 +71,11 @@ function(apigen_android_archive)
             VERBATIM)
     endforeach()
 
+    # Remove any dead links from the above copy. This can happen for generated files that weren't
+    # built as part of the dependencies for project, such as the  shaders.
+    add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
+        COMMAND find ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/assets/ -type l -delete )
+
     get_target_property(APIGEN_JAVA_JAR ${apigen_android_archive_TARGET} APIGEN_JAVA_JAR)
     if(apigen_android_archive_ADD_JAR)
       # Copy all jar content into one folder and create a new jar from there
