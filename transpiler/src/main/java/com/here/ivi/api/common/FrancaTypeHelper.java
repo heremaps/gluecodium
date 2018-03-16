@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
 public final class FrancaTypeHelper {
+
   public static boolean isImplicitArray(final FTypeRef typeRef) {
     EObject container = typeRef.eContainer();
     return (container instanceof FTypedElement) && ((FTypedElement) container).isArray();
@@ -39,6 +40,22 @@ public final class FrancaTypeHelper {
     return francaArguments != null
         && !francaArguments.isEmpty()
         && francaArguments.stream().anyMatch(FrancaTypeHelper::isArray);
+  }
+
+  public static String getFullName(final FModelElement modelElement) {
+
+    String suffix = modelElement instanceof FMethod ? ((FMethod) modelElement).getSelector() : null;
+    String elementName =
+        suffix != null ? modelElement.getName() + ":" + suffix : modelElement.getName();
+
+    EObject parent = modelElement.eContainer();
+    if (parent instanceof FModelElement) {
+      return getFullName((FModelElement) parent) + "." + elementName;
+    } else if (parent instanceof FModel) {
+      return ((FModel) parent).getName() + "." + elementName;
+    } else {
+      return elementName;
+    }
   }
 
   private static boolean isArray(final FTypedElement francaTypedElement) {

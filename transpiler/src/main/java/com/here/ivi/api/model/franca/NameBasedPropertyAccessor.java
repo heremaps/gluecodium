@@ -19,11 +19,11 @@
 
 package com.here.ivi.api.model.franca;
 
+import static com.here.ivi.api.common.FrancaTypeHelper.getFullName;
+
 import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FModel;
 import org.franca.core.franca.FModelElement;
 import org.franca.deploymodel.core.MappingGenericPropertyAccessor;
 import org.franca.deploymodel.dsl.fDeploy.*;
@@ -50,43 +50,27 @@ public final class NameBasedPropertyAccessor extends MappingGenericPropertyAcces
   public FDElement getFDElement(final EObject obj) {
     FDElement elem = null;
     if (obj instanceof FModelElement) {
-      elem = mapping.get(buildKey((FModelElement) obj));
+      elem = mapping.get(getFullName((FModelElement) obj));
     }
     return elem != null ? elem : createDummyFDEelement(obj);
   }
 
-  private static String buildKey(final FModelElement modelElement) {
-
-    String suffix = modelElement instanceof FMethod ? ((FMethod) modelElement).getSelector() : null;
-    String elementName =
-        suffix != null ? modelElement.getName() + ":" + suffix : modelElement.getName();
-
-    EObject parent = modelElement.eContainer();
-    if (parent instanceof FModelElement) {
-      return buildKey((FModelElement) parent) + "." + elementName;
-    } else if (parent instanceof FModel) {
-      return ((FModel) parent).getName() + "." + elementName;
-    } else {
-      return elementName;
-    }
-  }
-
   private void initMapping(final FDInterface fdInterface) {
 
-    mapping.put(buildKey(fdInterface.getTarget()), fdInterface);
+    mapping.put(getFullName(fdInterface.getTarget()), fdInterface);
 
     for (FDAttribute fdAttribute : fdInterface.getAttributes()) {
-      mapping.put(buildKey(fdAttribute.getTarget()), fdAttribute);
+      mapping.put(getFullName(fdAttribute.getTarget()), fdAttribute);
     }
 
     for (FDMethod fdMethod : fdInterface.getMethods()) {
-      mapping.put(buildKey(fdMethod.getTarget()), fdMethod);
+      mapping.put(getFullName(fdMethod.getTarget()), fdMethod);
       initArguments(fdMethod.getInArguments());
       initArguments(fdMethod.getOutArguments());
     }
 
     for (FDBroadcast fdBroadcast : fdInterface.getBroadcasts()) {
-      mapping.put(buildKey(fdBroadcast.getTarget()), fdBroadcast);
+      mapping.put(getFullName(fdBroadcast.getTarget()), fdBroadcast);
       initArguments(fdBroadcast.getOutArguments());
     }
 
@@ -94,14 +78,14 @@ public final class NameBasedPropertyAccessor extends MappingGenericPropertyAcces
   }
 
   private void initMapping(final FDTypes fdTypeCollection) {
-    mapping.put(buildKey(fdTypeCollection.getTarget()), fdTypeCollection);
+    mapping.put(getFullName(fdTypeCollection.getTarget()), fdTypeCollection);
     fdTypeCollection.getTypes().forEach(this::initType);
   }
 
   private void initArguments(final FDArgumentList fdArguments) {
     if (fdArguments != null) {
       for (FDArgument arg : fdArguments.getArguments()) {
-        this.mapping.put(buildKey(arg.getTarget()), arg);
+        this.mapping.put(getFullName(arg.getTarget()), arg);
       }
     }
   }
@@ -109,27 +93,27 @@ public final class NameBasedPropertyAccessor extends MappingGenericPropertyAcces
   private void initType(final FDTypeDefinition fdType) {
 
     if (fdType instanceof FDArray) {
-      mapping.put(buildKey(((FDArray) fdType).getTarget()), fdType);
+      mapping.put(getFullName(((FDArray) fdType).getTarget()), fdType);
     } else if (fdType instanceof FDStruct) {
       final FDStruct fdStruct = (FDStruct) fdType;
-      mapping.put(buildKey(fdStruct.getTarget()), fdType);
+      mapping.put(getFullName(fdStruct.getTarget()), fdType);
       for (FDField fdField : fdStruct.getFields()) {
-        mapping.put(buildKey(fdField.getTarget()), fdField);
+        mapping.put(getFullName(fdField.getTarget()), fdField);
       }
     } else if (fdType instanceof FDUnion) {
       final FDUnion fdUnion = (FDUnion) fdType;
-      mapping.put(buildKey(fdUnion.getTarget()), fdType);
+      mapping.put(getFullName(fdUnion.getTarget()), fdType);
       for (FDField fdField : fdUnion.getFields()) {
-        mapping.put(buildKey(fdField.getTarget()), fdField);
+        mapping.put(getFullName(fdField.getTarget()), fdField);
       }
     } else if (fdType instanceof FDEnumeration) {
       final FDEnumeration fdEnumeration = (FDEnumeration) fdType;
-      mapping.put(buildKey(fdEnumeration.getTarget()), fdType);
+      mapping.put(getFullName(fdEnumeration.getTarget()), fdType);
       for (FDEnumValue fdEnumValue : fdEnumeration.getEnumerators()) {
-        mapping.put(buildKey(fdEnumValue.getTarget()), fdEnumValue);
+        mapping.put(getFullName(fdEnumValue.getTarget()), fdEnumValue);
       }
     } else if (fdType instanceof FDTypedef) {
-      mapping.put(buildKey(((FDTypedef) fdType).getTarget()), fdType);
+      mapping.put(getFullName(((FDTypedef) fdType).getTarget()), fdType);
     }
   }
 }

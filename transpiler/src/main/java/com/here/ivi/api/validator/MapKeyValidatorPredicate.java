@@ -19,21 +19,19 @@
 
 package com.here.ivi.api.validator;
 
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 
 /** Validates that the Map types have either Primitive or Enum keys. */
 public final class MapKeyValidatorPredicate implements ValidatorPredicate<FMapType> {
 
-  private static final String INVALID_KEY_TYPE_MESSAGE =
-      "Complex keys are not allowed: map '%s' in type collection '%s.%s'.";
+  private static final String INVALID_KEY_TYPE_MESSAGE = "Complex keys are not allowed: map '%s'.";
 
   @Override
   public Class<FMapType> getElementClass() {
@@ -44,16 +42,11 @@ public final class MapKeyValidatorPredicate implements ValidatorPredicate<FMapTy
   public String validate(
       final FrancaDeploymentModel deploymentModel, final FMapType francaMapType) {
 
-    if (isComplexType(francaMapType.getKeyType())) {
-      FTypeCollection francaTypeCollection = DefinedBy.findDefiningTypeCollection(francaMapType);
-      return String.format(
-          INVALID_KEY_TYPE_MESSAGE,
-          francaMapType.getName(),
-          DefinedBy.getModelName(francaTypeCollection),
-          francaTypeCollection.getName());
-    } else {
+    if (!isComplexType(francaMapType.getKeyType())) {
       return null;
     }
+
+    return String.format(INVALID_KEY_TYPE_MESSAGE, FrancaTypeHelper.getFullName(francaMapType));
   }
 
   private static boolean isComplexType(final FTypeRef francaTypeRef) {

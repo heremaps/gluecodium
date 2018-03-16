@@ -19,7 +19,7 @@
 
 package com.here.ivi.api.validator;
 
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.*;
 
@@ -27,7 +27,7 @@ import org.franca.core.franca.*;
 public final class UnionsValidatorPredicate implements ValidatorPredicate<FUnionType> {
 
   private static final String UNION_MESSAGE =
-      "Unions are not supported: union '%s' in type collection '%s.%s'.";
+      "Unions are not supported: union '%s' in type collection '%s'.";
 
   @Override
   public Class<FUnionType> getElementClass() {
@@ -38,12 +38,9 @@ public final class UnionsValidatorPredicate implements ValidatorPredicate<FUnion
   public String validate(
       final FrancaDeploymentModel deploymentModel, final FUnionType francaUnion) {
 
-    FTypeCollection francaTypeCollection = (FTypeCollection) francaUnion.eContainer();
-
     return String.format(
         UNION_MESSAGE,
         francaUnion.getName(),
-        DefinedBy.getModelName(francaTypeCollection),
-        francaTypeCollection.getName());
+        FrancaTypeHelper.getFullName((FTypeCollection) francaUnion.eContainer()));
   }
 }
