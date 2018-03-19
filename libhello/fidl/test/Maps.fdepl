@@ -45,4 +45,8 @@ define TranspilerExtensions for interface test.Maps
     method methodWithMapOfArrays {
         Static = true
     }
+
+    method methodWithMapOfInstances {
+        Static = true
+    }
 }

@@ -18,6 +18,8 @@
  */
 
 package test
+import test.SimpleInterfaceOne.* from "./Interfaces.fidl"
+
 
 interface Maps {
     version {
@@ -49,6 +51,8 @@ interface Maps {
     }
 
     map EnumToString { SomeEnum to String }
+
+    map StringToInstance {String to SimpleInterfaceOne}
 
     <** @description:
     Example static method which takes a map and returns a map of same type & having the same keys
@@ -135,6 +139,19 @@ interface Maps {
         }
         out {
             NumberToArray output
+        }
+    }
+
+    <** @description:
+    Example static method which takes a map and returns a map of same type & reads values
+    stored in each instance, append to it ' <key>' and stores back in map under same key.
+    **>
+    method methodWithMapOfInstances {
+        in {
+            StringToInstance input
+        }
+        out {
+            StringToInstance output
         }
     }
 }
