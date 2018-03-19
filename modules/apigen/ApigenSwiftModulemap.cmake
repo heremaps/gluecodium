@@ -42,7 +42,6 @@ function(apigen_swift_modulemap target)
     endif()
 
     set(MODULEMAP_FRAMEWORK_PATH "${SWIFT_OUTPUT_DIR}/${target}.framework/Versions/${SWIFT_FRAMEWORK_VERSION}/Modules/module.modulemap")
-    set(MODULEMAP_CBRIDGE_PATH "${OUTPUT_DIR}/module.modulemap")
 
     # Module map generation
     ## Top level:
@@ -56,7 +55,7 @@ function(apigen_swift_modulemap target)
 
     set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n}\n")
 
-    file(WRITE ${MODULEMAP_CBRIDGE_PATH} "${CBRIDGE_MODULE_MAP}")
+    file(WRITE "${OUTPUT_DIR}/module.modulemap.generated" "${CBRIDGE_MODULE_MAP}")
 
     file(WRITE
         ${MODULEMAP_FRAMEWORK_PATH}
@@ -66,14 +65,15 @@ function(apigen_swift_modulemap target)
         ${SWIFT_OUTPUT_DIR}/module.modulemap
         "module ${target} {\n}")
 
-    message(STATUS "[Swift] Creating modulemap files: ${MODULEMAP_FRAMEWORK_PATH} and ${MODULEMAP_CBRIDGE_PATH}")
-
-    if (APPLE)
-        # Clean up the modulemap after building to avoid double definition conflicts with the generated framework
-        # in case it ends up in the module search path for some reason
-        # TODO reference app should really not search in the build path for random mobulemaps
+    # Clean up the modulemap after building to avoid double definition conflicts with the generated
+    # framework - this is caused by using internally the same name as the final Xcode project
+    # and Xcode will follow those caches
+    add_custom_command(TARGET "${target}" PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy "${OUTPUT_DIR}/module.modulemap.generated" "${OUTPUT_DIR}/module.modulemap")
+    if(APPLE)
         add_custom_command(TARGET "${target}" POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E remove "${MODULEMAP_CBRIDGE_PATH}")
+            COMMAND ${CMAKE_COMMAND} -E remove "${OUTPUT_DIR}/module.modulemap")
     endif()
+
 
 endfunction(apigen_swift_modulemap)
