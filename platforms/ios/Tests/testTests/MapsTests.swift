@@ -158,6 +158,20 @@ class MapsTests: XCTestCase {
         XCTAssertEqual(resultsDict[42]![1], outputValue3)
     }
 
+    func testMethodWithMapToInstance() {
+        let inputDict: [String: SimpleInterfaceOne] = [
+            "One": InstancesFactory.createSimpleInterfaceOne()!,
+            "Two": InstancesFactory.createSimpleInterfaceOne()!
+        ]
+        inputDict["One"]?.setStringValue(stringValue: "Hello")
+        inputDict["Two"]?.setStringValue(stringValue: "Hello")
+
+        let resultDict = Maps.methodWithMapOfInstances(input: inputDict)
+        XCTAssertEqual(resultDict.count, 2)
+        XCTAssertEqual(inputDict["One"]?.getStringValue(), "Hello One")
+        XCTAssertEqual(inputDict["Two"]?.getStringValue(), "Hello Two")
+    }
+
     static var allTests = [
         ("testMethodWithMapsEmpty", testMethodWithMapsEmpty),
         ("testMethodWithMapsMultipleItems", testMethodWithMapsMultipleItems),
@@ -170,6 +184,7 @@ class MapsTests: XCTestCase {
         ("testMethodWithEnumToStringEmpty", testMethodWithEnumToStringEmpty),
         ("testMethodWithEnumToStringMapMultipleItems", testMethodWithEnumToStringMapMultipleItems),
         ("testMethodWithMapToArrayEmpty", testMethodWithMapToArrayEmpty),
-        ("testMethodWithMapToArrayMultipleItems", testMethodWithMapToArrayMultipleItems)
+        ("testMethodWithMapToArrayMultipleItems", testMethodWithMapToArrayMultipleItems),
+        ("testMethodWithMapToInstance", testMethodWithMapToInstance)
     ]
 }

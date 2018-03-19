@@ -112,4 +112,17 @@ Maps::method_with_map_of_arrays( const Maps::NumberToArray& input )
     return result;
 }
 
+Maps::StringToInstance
+Maps::method_with_map_of_instances( const Maps::StringToInstance& input )
+{
+    Maps::StringToInstance result = input;
+    for_each( std::begin( input ),
+              std::end( input ),
+              []( const Maps::StringToInstance::value_type& value ) {
+                  auto str = value.second->get_string_value( );
+                  str += " " + value.first;
+                  value.second->set_string_value( str );
+              } );
+    return result;
+}
 }
