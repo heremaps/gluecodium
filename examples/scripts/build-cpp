@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# Script to build the "hello" library for a C++ consumer. This is demonstrated
+# by the base_api application.
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+. "${SCRIPT_DIR}/inc.functions"
+
+if [ "$1" == "--publish" ]; then
+    publish_local
+fi
+
+TRANSPILER_VERSION="${TRANSPILER_VERSION:-+}"
+BUILD_DIR=${PWD}/build-cpp
+INSTALL_DIR=${PWD}/dist/cpp
+
+[ -d ${BUILD_DIR} ] || mkdir -p ${BUILD_DIR}
+[ -d ${INSTALL_DIR} ] || mkdir -p ${INSTALL_DIR}
+
+CMAKE_EXTRA_PARAMETERS=
+# Chose platform-native CMake generator
+if [ "$(cmake_generator)" ] ; then
+CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
+    -G $(cmake_generator)"
+fi
+
+set -o pipefail
+
+pushd ${BUILD_DIR}
+safe cmake \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+    -DCMAKE_VERBOSE_MAKEFILE=ON \
+    -DHELLO_APIGEN_TRANSPILER_GENERATOR=cpp \
+    -DHELLO_APIGEN_TRANSPILER_VERSION=${TRANSPILER_VERSION} \
+    -DHELLO_BUILD_CPP_APP=ON \
+    ${CMAKE_EXTRA_PARAMETERS} \
+    .. | tee cmake_output.log
+popd
+
+safe cmake \
+    --build ${BUILD_DIR} \
+    --target install

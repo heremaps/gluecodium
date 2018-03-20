@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <Spinner
+    android:id="@+id/errors_spinner"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:entries="@array/errors_methods"/>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <Button
+      android:id="@+id/errors_submit_success"
+      style="@style/AppTheme.ShowCaseButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="#ff99cc00"
+      android:text="@string/text_success"/>
+
+    <Button
+      android:id="@+id/errors_submit_error"
+      style="@style/AppTheme.ShowCaseButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="#ffff4444"
+      android:text="@string/text_error"/>
+
+  </LinearLayout>
+
+  <TextView
+    android:id="@+id/errors_result"
+    style="@style/AppTheme.ShowCaseResult"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="@string/text_result"/>
+
+</LinearLayout>

@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+
+    defaultConfig {
+        applicationId 'com.here.helloapplication'
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 150001
+        versionName '0.0.1'
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        warningsAsErrors true
+        disable 'GradleDependency'
+    }
+
+    testOptions {
+        unitTests.all {
+            environment 'MALLOC_CONF', 'prof_leak:true,lg_prof_sample:0,prof_final:true'
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    // Runtime dependencies from local libs/ folder
+    implementation 'com.here.ivi.example:hello@aar'
+
+    // Runtime dependencies from Maven repositories
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:design:27.0.2'
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.powermock:powermock-reflect:1.7.1"
+    testImplementation 'org.robolectric:robolectric:3.4.2'
+}

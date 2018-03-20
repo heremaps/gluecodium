@@ -1,0 +1,58 @@
+#!/bin/bash -x
+#
+# Collection of shared functions
+#
+
+function die {
+    echo -e "$@"
+    exit 1
+}
+
+function safe {
+    "$@"
+    local status=$?
+    if [ $status -ne 0 ]; then
+        die "\nBUILD FAILED\nAfter invoking \"$@\"\n" >&2
+    fi
+    return $status
+}
+
+# Returns preferred CMake generator:
+#  Ninja on Linux
+#  XCode on Darwin
+function cmake_generator {
+    case $(uname) in
+        'Linux')
+            echo "Ninja"
+            ;;
+        'Darwin')
+            echo "Xcode"
+            ;;
+    esac
+}
+
+function publish_local {
+    TRANSPILER_DIRECTORY=${SCRIPT_DIR}/../../../api-transpiler/
+
+    pushd "${TRANSPILER_DIRECTORY}"
+    safe ./gradlew publishToMavenLocal
+    TRANSPILER_VERSION=$(sed 's/version[ \t]*=[ \t]*//' transpiler/src/main/resources/version.properties)
+    popd
+
+    export TRANSPILER_VERSION
+}
+
+function transpilation_time_to_carbon() {
+    local cmake_log="$1"
+    local carbon_key="$2"
+    local output_file="$3"
+
+    set -o pipefail
+
+    run_time=$(grep -m1 -E '.+ ms[[:space:]]+:run' "$cmake_log" | grep -oE '[[:digit:]]+')
+    if [ -z "$run_time" ]; then
+        echo "WARNING: Transpiler run time was not found in $cmake_log"
+        return 1
+    fi
+    echo "$carbon_key $run_time $(date +'%s')" > "$output_file"
+}
