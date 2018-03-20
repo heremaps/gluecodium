@@ -356,9 +356,4 @@ elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
     apigen_swift_configuration(hello)
     apigen_swift_build(hello)
     apigen_swift_framework_info_plist(hello)
-
-    #TODO: Investigate ways to separate debug host-builds (no cross toolchain)
-    # for testing from debug/release cross-builds for iOS targets.
-    #apigen_swift_test(hello test/folder)
-    #apigen_ios_framework(hello)
 endif()
