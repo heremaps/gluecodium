@@ -1,0 +1,4 @@
+*.aar
+*.dylib
+*.so
+host-*/

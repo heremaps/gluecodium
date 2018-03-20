@@ -1,0 +1,68 @@
+#!/bin/bash
+#
+# Usage: ./scripts/build-ios-on-mac [--publish] [framework_output_path]
+#
+# Script to build the "hello" library for an iOS consumer. This is demonstrated
+# by the apps/swift application.
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+. "${SCRIPT_DIR}/inc.functions"
+
+if [ "$1" == "--publish" ]; then
+    publish_local
+    shift
+fi
+
+TRANSPILER_VERSION="${TRANSPILER_VERSION:-+}"
+BUILD_DIR=build-ios
+INSTALL_DIR=dist
+if [ -n "${1}" ]; then
+    INSTALL_DIR="$1"
+fi
+
+CWD="$PWD"
+
+CMAKE_EXTRA_PARAMETERS=
+# Chose platform-native CMake generator
+if [ "$(cmake_generator)" ] ; then
+CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
+    -G $(cmake_generator)"
+fi
+
+function build {
+    local build_dir="$1"
+    local target="$2"
+    if [ ! -f "${build_dir}/build.ninja" ] ; then
+        mkdir -p "${build_dir}"
+        pushd "${build_dir}"
+        safe cmake \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DCMAKE_TOOLCHAIN_FILE="${SCRIPT_DIR}/../../../cmake/toolchains/iOS.cmake" \
+            -DIOS_PLATFORM="${target}" \
+            -DIOS_DEPLOYMENT_TARGET=9.3 \
+            -DCMAKE_INSTALL_PREFIX="${build_dir}/dist" \
+            -DHELLO_APIGEN_TRANSPILER_GENERATOR=swift \
+            -DHELLO_APIGEN_TRANSPILER_VERSION=${TRANSPILER_VERSION} \
+            -DHELLO_BUILD_IOS_APP=ON \
+            ${CMAKE_EXTRA_PARAMETERS} \
+            "${SCRIPT_DIR}/.."
+        popd
+    fi
+    safe cmake --build "${build_dir}" --target install
+}
+
+BUILD_DIR_IPHONE="${CWD}/${BUILD_DIR}/iphone"
+BUILD_DIR_SIMULATOR="${CWD}/${BUILD_DIR}/simulator"
+
+build "${BUILD_DIR_IPHONE}" OS
+build "${BUILD_DIR_SIMULATOR}" SIMULATOR
+
+mkdir -p ${INSTALL_DIR}
+cp -R "${BUILD_DIR_SIMULATOR}/dist/hello.framework" "${INSTALL_DIR}"
+cp -R "${BUILD_DIR_IPHONE}/dist/hello.framework" "${INSTALL_DIR}"
+lipo \
+    "${BUILD_DIR_IPHONE}/dist/hello.framework/hello" \
+    "${BUILD_DIR_SIMULATOR}/dist/hello.framework/hello" \
+    -create \
+    -output "${INSTALL_DIR}/hello.framework/Versions/Current/hello"
+
