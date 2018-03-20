@@ -229,4 +229,22 @@ public class MapsTest {
     assertEquals(UPPERCASE_VALUE_1, resultsMap.get(Maps.SomeEnum.FOO_VALUE));
     assertEquals(UPPERCASE_VALUE_2, resultsMap.get(Maps.SomeEnum.BAR_VALUE));
   }
+
+  @Test
+  public void methodWithMapOfInstances() {
+    Map<String, SimpleInterfaceOne> inputMap = new HashMap<>();
+    inputMap.put("One", InstancesFactory.createSimpleInterfaceOne());
+    inputMap.put("Two", InstancesFactory.createSimpleInterfaceOne());
+    inputMap.get("One").setStringValue("Hello");
+    inputMap.get("Two").setStringValue("Hello");
+
+    Map<String, SimpleInterfaceOne> resultsMap = Maps.methodWithMapOfInstances(inputMap);
+
+    assertNotNull(resultsMap);
+    assertEquals(2, resultsMap.size());
+    assertNotNull(resultsMap.get("One"));
+    assertEquals("Hello One", resultsMap.get("One").getStringValue());
+    assertNotNull(resultsMap.get("Two"));
+    assertEquals("Hello Two", resultsMap.get("Two").getStringValue());
+  }
 }
