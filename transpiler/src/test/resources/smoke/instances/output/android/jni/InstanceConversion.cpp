@@ -17,7 +17,7 @@
 #include "InstanceConversion.h"
 #include "ArrayConversionUtils.h"
 
-namespace transpiler {
+namespace genium {
 namespace jni {
 
 jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiableOne> & _ninput)
@@ -34,7 +34,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleIns
         _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
         _jenv->DeleteLocalRef( exceptionClass );
     }
-    jobject jResult = transpiler::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+    jobject jResult = genium::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
     _jenv->DeleteLocalRef( javaClass );
     return jResult;
 }
@@ -52,7 +52,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleIns
         _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
         _jenv->DeleteLocalRef( exceptionClass );
     }
-    jobject jResult = transpiler::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+    jobject jResult = genium::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
     _jenv->DeleteLocalRef( javaClass );
     return jResult;
 }
@@ -70,7 +70,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedIns
         _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
         _jenv->DeleteLocalRef( exceptionClass );
     }
-    jobject jResult = transpiler::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+    jobject jResult = genium::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
     _jenv->DeleteLocalRef( javaClass );
     return jResult;
 }
@@ -88,7 +88,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedIns
         _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
         _jenv->DeleteLocalRef( exceptionClass );
     }
-    jobject jResult = transpiler::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+    jobject jResult = genium::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
     _jenv->DeleteLocalRef( javaClass );
     return jResult;
 }
@@ -106,7 +106,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceW
         _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
         _jenv->DeleteLocalRef( exceptionClass );
     }
-    jobject jResult = transpiler::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+    jobject jResult = genium::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
     _jenv->DeleteLocalRef( javaClass );
     return jResult;
 }

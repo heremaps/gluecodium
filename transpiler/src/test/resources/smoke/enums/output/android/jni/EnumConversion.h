@@ -11,7 +11,7 @@
 #include "com_example_smoke_EnumsInTypeCollectionInterface.h"
 #include "smoke/EnumsInTypeCollection.h"
 
-namespace transpiler {
+namespace genium {
 namespace jni {
     void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::SimpleEnum& _nout );
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::SimpleEnum _ninput );

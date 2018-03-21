@@ -10,5 +10,5 @@ inline void createCppProxy(JNIEnv* env, jobject obj, ::std::shared_ptr<T>& resul
 
 template<>
 inline void createCppProxy(JNIEnv* env, jobject obj, ::std::shared_ptr<::smoke::CalculatorListener>& result) {
-    ::transpiler::jni::CppProxyBase::createProxy<::smoke::CalculatorListener, ::smoke::CalculatorListenerCppProxy>(env, obj, result);
+    ::genium::jni::CppProxyBase::createProxy<::smoke::CalculatorListener, ::smoke::CalculatorListenerCppProxy>(env, obj, result);
 }

@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 namespace smoke {
-class InheritanceGrandchildCppProxy : public transpiler::jni::CppProxyBase, public InheritanceGrandchild {
+class InheritanceGrandchildCppProxy : public genium::jni::CppProxyBase, public InheritanceGrandchild {
 public:
     InheritanceGrandchildCppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode );
     void root_method(  ) override;
