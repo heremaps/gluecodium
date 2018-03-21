@@ -28,7 +28,7 @@ enum class InternalErrors {
 
 public:
 static ::std::error_code start_something_or_fail(  );
-static ::transpiler::Return< ::std::string, ::std::error_code > get_something_or_fail(  );
+static ::genium::Return< ::std::string, ::std::error_code > get_something_or_fail(  );
 };
 
 }

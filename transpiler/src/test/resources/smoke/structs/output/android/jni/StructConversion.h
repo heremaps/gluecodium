@@ -18,7 +18,7 @@
 #include "com_example_fire_StructsQualifiedType.h"
 #include "smoke/TypeCollection.h"
 
-namespace transpiler {
+namespace genium {
 namespace jni {
 
     void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::Point& _nout );

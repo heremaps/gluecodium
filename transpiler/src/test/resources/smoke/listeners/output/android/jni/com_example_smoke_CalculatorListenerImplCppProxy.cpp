@@ -9,7 +9,7 @@
 namespace smoke {
 
 
-using namespace ::transpiler::jni;
+using namespace ::genium::jni;
 
 CalculatorListenerCppProxy::CalculatorListenerCppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode )
     : CppProxyBase( _jenv, _jobj, _jHashCode ) {

@@ -19,7 +19,7 @@ extern "C" {
 
 namespace smoke {
 
-class CalculatorListenerCppProxy : public transpiler::jni::CppProxyBase, public CalculatorListener {
+class CalculatorListenerCppProxy : public genium::jni::CppProxyBase, public CalculatorListener {
 public:
     CalculatorListenerCppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode );
 

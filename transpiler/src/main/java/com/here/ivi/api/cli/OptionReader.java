@@ -28,7 +28,7 @@ import org.eclipse.xtext.util.Files;
 
 public final class OptionReader {
 
-  private static final String DEFAULT_INTERNAL_NAMESPACE = "transpiler";
+  private static final String DEFAULT_INTERNAL_NAMESPACE = "genium";
   public static final TranspilerOptions DEFAULT_OPTIONS =
       TranspilerOptions.builder().cppInternalNamespace(DEFAULT_INTERNAL_NAMESPACE).build();
 

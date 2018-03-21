@@ -19,7 +19,7 @@
 #include "com_example_smoke_InstanceWithStruct.h"
 #include "ProxyConversion.h"
 
-namespace transpiler {
+namespace genium {
 namespace jni {
 
 template < typename T >
@@ -28,7 +28,7 @@ convert_from_jni( JNIEnv* _env, jobject _jobj, ::std::shared_ptr< T >& _nresult 
     jclass nativeBaseClass = _env->FindClass("com/example/NativeBase");
     if (_env->IsInstanceOf(_jobj, nativeBaseClass)) {
         if (_jobj != nullptr) {
-            auto long_ptr = transpiler::jni::get_long_field(_env, _env->GetObjectClass(_jobj), _jobj, "nativeHandle");
+            auto long_ptr = genium::jni::get_long_field(_env, _env->GetObjectClass(_jobj), _jobj, "nativeHandle");
             _nresult = *reinterpret_cast<::std::shared_ptr< T >*> (long_ptr);
         }
     } else {

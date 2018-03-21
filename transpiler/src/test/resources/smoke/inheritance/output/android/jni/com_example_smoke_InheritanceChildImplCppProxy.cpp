@@ -6,7 +6,7 @@
 
 namespace smoke {
 
-using namespace ::transpiler::jni;
+using namespace ::genium::jni;
 InheritanceChildCppProxy::InheritanceChildCppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode )
     : CppProxyBase( _jenv, _jobj, _jHashCode ) {
 }
