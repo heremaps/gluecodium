@@ -6,9 +6,9 @@
 _INC_CONSTANTS_SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 . "${_INC_CONSTANTS_SCRIPT_DIR}/inc.functions"
 
-TRANSPILER_VERSION_FILE="${_INC_CONSTANTS_SCRIPT_DIR}/../transpiler/src/main/resources/version.properties"
-TRANSPILER_PUBLISH_GRADLE="${_INC_CONSTANTS_SCRIPT_DIR}/../gradle/publish.gradle"
+GENIUM_VERSION_FILE="${_INC_CONSTANTS_SCRIPT_DIR}/../transpiler/src/main/resources/version.properties"
+GENIUM_PUBLISH_GRADLE="${_INC_CONSTANTS_SCRIPT_DIR}/../gradle/publish.gradle"
 
 DOCKER_IMAGE=transpiler
-DOCKER_IMAGE_VERSION=$(get_version "${TRANSPILER_VERSION_FILE}")
+DOCKER_IMAGE_VERSION=$(get_version "${GENIUM_VERSION_FILE}")
 DOCKER_REPOSITORY=docker.example.com
