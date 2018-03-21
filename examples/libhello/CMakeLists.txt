@@ -322,6 +322,7 @@ apigen_transpile(TARGET hello
         GENERATOR ${HELLO_APIGEN_TRANSPILER_GENERATOR}
         VERSION ${HELLO_APIGEN_TRANSPILER_VERSION}
         JAVA_PACKAGE com.here.android
+        CPP_INTERNAL_NAMESPACE lorem_ipsum
         COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT")
 apigen_target_include_directories(hello)
 apigen_target_sources(hello)
