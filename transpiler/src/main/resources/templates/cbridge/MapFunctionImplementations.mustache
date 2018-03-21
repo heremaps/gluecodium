@@ -37,7 +37,7 @@ void {{name}}_iterator_increment(_baseRef iterator_handle) {
     return {{#set variableName="value" variableType=valueType}}{{>ConvertFromCpp}}{{/set}};
 }{{!!
 
-}}{{+baseApi}}std::unordered_map<{{keyType.name}}, {{valueType.name}}{{#isEq keyType.typeCategory.toString "ENUM"}}, ::transpiler::EnumHash{{/isEq}}>{{/baseApi}}{{!!
+}}{{+baseApi}}std::unordered_map<{{keyType.name}}, {{valueType.name}}{{#enumHashType}}, {{.}}{{/enumHashType}}>{{/baseApi}}{{!!
 
 }}{{+ConvertToCpp}}{{!!
 }}{{#switch variableType.typeCategory.toString}}{{!!

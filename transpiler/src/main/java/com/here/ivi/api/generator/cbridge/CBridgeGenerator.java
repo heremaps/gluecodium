@@ -98,8 +98,10 @@ public class CBridgeGenerator {
     CppTypeMapper typeMapper = new CppTypeMapper(new CppIncludeResolver(), internalNamespace);
     CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, typeMapper);
     SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(deploymentModel);
+    CTypeMapper cTypeMapper = new CTypeMapper(resolver, typeMapper.getEnumHashType().name);
+
     CBridgeModelBuilder modelBuilder =
-        new CBridgeModelBuilder(deploymentModel, resolver, cppBuilder, swiftBuilder);
+        new CBridgeModelBuilder(deploymentModel, resolver, cppBuilder, swiftBuilder, cTypeMapper);
     FrancaTreeWalker treeWalker =
         new FrancaTreeWalker(Arrays.asList(cppBuilder, swiftBuilder, modelBuilder));
 

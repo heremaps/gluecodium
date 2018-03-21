@@ -57,7 +57,7 @@ public class CBridgeTypeMapperTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FMapType francaMap;
 
-  @Mock private IncludeResolver resolver;
+  private final CTypeMapper typeMapper = new CTypeMapper(mock(IncludeResolver.class), "::FooHash");
 
   @Before
   public void setUp() {
@@ -75,7 +75,7 @@ public class CBridgeTypeMapperTest {
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef2);
     when(francaTypeRef2.getDerived()).thenReturn(francaStructType);
 
-    CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
+    CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
 
     assertEquals("SomeStruct", mapped.name);
   }
@@ -86,7 +86,7 @@ public class CBridgeTypeMapperTest {
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef2);
     when(francaTypeRef2.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
 
-    CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
+    CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
 
     assertEquals(CType.BOOL.name, mapped.name);
   }
@@ -94,7 +94,7 @@ public class CBridgeTypeMapperTest {
   public void mapStructType() {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
-    CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
+    CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
 
     assertEquals("Foo", mapped.name);
   }
@@ -103,7 +103,7 @@ public class CBridgeTypeMapperTest {
   public void mapPredefinedType() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
 
-    CppTypeInfo mapped = CTypeMapper.mapType(resolver, francaTypeRef);
+    CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
     assertEquals(CType.BOOL.name, mapped.name);
   }
 
@@ -113,7 +113,7 @@ public class CBridgeTypeMapperTest {
     when(enumerationType.getName()).thenReturn("foo");
     when(francaTypeRef.getDerived()).thenReturn(enumerationType);
 
-    CppTypeInfo actualType = CTypeMapper.mapType(resolver, francaTypeRef);
+    CppTypeInfo actualType = typeMapper.mapType(francaTypeRef);
 
     assertEquals("Foo", actualType.name);
   }
@@ -123,7 +123,7 @@ public class CBridgeTypeMapperTest {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UINT64);
     when(FrancaTypeHelper.isImplicitArray(any())).thenReturn(true);
 
-    CppTypeInfo actualType = CTypeMapper.mapType(resolver, francaTypeRef);
+    CppTypeInfo actualType = typeMapper.mapType(francaTypeRef);
 
     assertEquals(CppTypeInfo.TypeCategory.ARRAY, actualType.typeCategory);
     assertTrue(actualType instanceof CppArrayTypeInfo);
@@ -141,7 +141,7 @@ public class CBridgeTypeMapperTest {
     when(francaMap.getValueType().getDerived()).thenReturn(francaStructType);
     when(francaMap.getName()).thenReturn("FooMap");
 
-    CppTypeInfo result = CTypeMapper.mapType(resolver, francaTypeRef);
+    CppTypeInfo result = typeMapper.mapType(francaTypeRef);
 
     assertEquals(CppTypeInfo.TypeCategory.MAP, result.typeCategory);
     assertTrue(result instanceof CppMapTypeInfo);
@@ -163,14 +163,13 @@ public class CBridgeTypeMapperTest {
     when(francaMap.getValueType().getDerived()).thenReturn(francaStructType);
     when(francaEnum.getName()).thenReturn("BarEnum");
 
-    CppTypeInfo result = CTypeMapper.mapType(resolver, francaTypeRef);
+    CppTypeInfo result = typeMapper.mapType(francaTypeRef);
 
     assertEquals(CppTypeInfo.TypeCategory.MAP, result.typeCategory);
     assertTrue(result instanceof CppMapTypeInfo);
 
     CppMapTypeInfo resultMapType = (CppMapTypeInfo) result;
-    assertEquals(
-        "std::unordered_map<BarEnum, SomeStruct, ::transpiler::EnumHash>", resultMapType.baseApi);
+    assertEquals("std::unordered_map<BarEnum, SomeStruct, ::FooHash>", resultMapType.baseApi);
     assertEquals(3, resultMapType.includes.size());
     assertEquals(CppLibraryIncludes.ENUM_HASH, resultMapType.includes.get(2));
   }

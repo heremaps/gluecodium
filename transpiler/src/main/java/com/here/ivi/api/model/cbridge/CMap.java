@@ -26,16 +26,19 @@ public final class CMap extends CElement {
 
   public final CppTypeInfo keyType;
   public final CppTypeInfo valueType;
+  public final String enumHashType;
   public final Include include;
 
   public CMap(
       final String name,
       final CppTypeInfo keyType,
       final CppTypeInfo valueType,
+      final String enumHashType,
       final Include include) {
     super(name);
     this.keyType = keyType;
     this.valueType = valueType;
+    this.enumHashType = enumHashType;
     this.include = include;
   }
 }

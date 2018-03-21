@@ -43,8 +43,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class CBridgeImplementationTemplateTest {
+public final class CBridgeImplementationTemplateTest {
+
   @Rule public final TemporaryFolder tempFolder = new TemporaryFolder();
+
+  private final CTypeMapper typeMapper = new CTypeMapper(mock(IncludeResolver.class), null);
 
   public String generate(final CInterface iface) {
     return CBridgeGenerator.generateImplementationContent(iface);
@@ -273,7 +276,7 @@ public class CBridgeImplementationTemplateTest {
             .build();
     final CFunction inhertitedEnumFunction =
         CFunction.builder("enumFunction")
-            .parameters(Arrays.asList(third))
+            .parameters(Collections.singletonList(third))
             .selfParameter(new CInParameter("self", null))
             .functionName("full_function_name")
             .build();
@@ -330,7 +333,7 @@ public class CBridgeImplementationTemplateTest {
         CFunction.builder("doubleFunction")
             .functionName("full_function_name")
             .selfParameter(new CInParameter("_instance", selfType))
-            .parameters(Arrays.asList(first))
+            .parameters(Collections.singletonList(first))
             .delegateCall("namespacy::classy::arrayFunction")
             .build();
     cInterface.functions.add(doubleFunction);
@@ -352,14 +355,12 @@ public class CBridgeImplementationTemplateTest {
   }
 
   private CppTypeInfo mockSelfType() {
-    IncludeResolver resolver = mock(IncludeResolver.class);
     FModelElement francaInterface = mock(FInterface.class);
     FModel francaParent = mock(FModel.class);
     when(francaInterface.getName()).thenReturn("SomeClass");
     when(francaInterface.eContainer()).thenReturn(francaParent);
     when(francaParent.getName()).thenReturn("some.package");
-    return CTypeMapper.createCustomTypeInfo(
-        resolver, francaInterface, CppTypeInfo.TypeCategory.CLASS);
+    return typeMapper.createCustomTypeInfo(francaInterface, CppTypeInfo.TypeCategory.CLASS);
   }
 
   @Test

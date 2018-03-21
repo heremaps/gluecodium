@@ -74,7 +74,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({
-  CTypeMapper.class,
   CppNameRules.class,
   CArrayMapper.class,
   CBridgeNameRules.class,
@@ -104,6 +103,7 @@ public class CBridgeModelBuilderTest {
   @Mock private CppModelBuilder cppModelbuilder;
   @Mock private SwiftModelBuilder swiftModelBuilder;
   @Mock private IncludeResolver resolver;
+  @Mock private CTypeMapper typeMapper;
 
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
@@ -129,11 +129,7 @@ public class CBridgeModelBuilderTest {
   @Before
   public void setUp() {
     mockStatic(
-        CTypeMapper.class,
-        CppNameRules.class,
-        CBridgeNameRules.class,
-        CArrayMapper.class,
-        SwiftNameRules.class);
+        CppNameRules.class, CBridgeNameRules.class, CArrayMapper.class, SwiftNameRules.class);
     initMocks(this);
 
     CppTypeInfo typeInfo = new CppTypeInfo(new CType(""));
@@ -144,7 +140,7 @@ public class CBridgeModelBuilderTest {
     when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(CppMethod.builder().build());
     when(swiftModelBuilder.getFinalResult(SwiftMethod.class)).thenReturn(swiftMethod);
 
-    when(CTypeMapper.createCustomTypeInfo(any(), any(), any())).thenReturn(typeInfo);
+    when(typeMapper.createCustomTypeInfo(any(), any())).thenReturn(typeInfo);
 
     when(deploymentModel.isStatic(any())).thenReturn(true);
 
@@ -155,7 +151,12 @@ public class CBridgeModelBuilderTest {
 
     modelBuilder =
         new CBridgeModelBuilder(
-            contextStack, deploymentModel, resolver, cppModelbuilder, swiftModelBuilder);
+            contextStack,
+            deploymentModel,
+            resolver,
+            cppModelbuilder,
+            swiftModelBuilder,
+            typeMapper);
   }
 
   @Test
@@ -441,7 +442,7 @@ public class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesCppTypeInfo() {
-    when(CTypeMapper.mapType(any(), any())).thenReturn(cppTypeInfo);
+    when(typeMapper.mapType(any())).thenReturn(cppTypeInfo);
 
     modelBuilder.finishBuilding(francaTypeRef);
 
@@ -523,7 +524,7 @@ public class CBridgeModelBuilderTest {
             .functionReturnType(new CType("ArrayTest"))
             .build();
     arrayType.typeCategory = CppTypeInfo.TypeCategory.ARRAY;
-    when(CTypeMapper.mapType(any(), any())).thenReturn(arrayType);
+    when(typeMapper.mapType(any())).thenReturn(arrayType);
     CArray cArray = new CArray("FooArray", cppArrayTypeInfo);
     when(CArrayMapper.createArrayDefinition(any(), any(), any())).thenReturn(cArray);
 

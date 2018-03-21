@@ -46,19 +46,23 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
   private final IncludeResolver resolver;
   private final CppModelBuilder cppBuilder;
   private final SwiftModelBuilder swiftBuilder;
+  private final CTypeMapper typeMapper;
+
   public final Map<String, CArray> arraysCollector = new HashMap<>();
 
   public CBridgeModelBuilder(
       final FrancaDeploymentModel deploymentModel,
-      IncludeResolver includeResolver,
-      CppModelBuilder cppBuilder,
-      SwiftModelBuilder swiftBuilder) {
+      final IncludeResolver includeResolver,
+      final CppModelBuilder cppBuilder,
+      final SwiftModelBuilder swiftBuilder,
+      final CTypeMapper typeMapper) {
     this(
         new ModelBuilderContextStack<>(),
         deploymentModel,
         includeResolver,
         cppBuilder,
-        swiftBuilder);
+        swiftBuilder,
+        typeMapper);
   }
 
   @VisibleForTesting
@@ -67,18 +71,20 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
       final FrancaDeploymentModel deploymentModel,
       final IncludeResolver includeResolver,
       final CppModelBuilder cppBuilder,
-      final SwiftModelBuilder swiftBuilder) {
+      final SwiftModelBuilder swiftBuilder,
+      final CTypeMapper typeMapper) {
     super(contextStack);
     this.deploymentModel = deploymentModel;
     this.resolver = includeResolver;
     this.cppBuilder = cppBuilder;
     this.swiftBuilder = swiftBuilder;
+    this.typeMapper = typeMapper;
   }
 
   @Override
   public void startBuilding(FInterface francaInterface) {
     super.startBuilding(francaInterface);
-    storeResult(CTypeMapper.createCustomTypeInfo(resolver, francaInterface, CLASS));
+    storeResult(typeMapper.createCustomTypeInfo(francaInterface, CLASS));
   }
 
   @Override
@@ -157,7 +163,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
             .returnType(returnParam.mappedType)
             .error(
                 francaMethod.getErrorEnum() != null
-                    ? CTypeMapper.createErrorTypeInfo(resolver, francaMethod.getErrorEnum())
+                    ? typeMapper.createErrorTypeInfo(francaMethod.getErrorEnum())
                     : null)
             .delegateCallIncludes(
                 Collections.singleton(
@@ -196,7 +202,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
         new CStruct(
             CBridgeNameRules.getStructBaseName(francaStruct),
             CBridgeNameRules.getBaseApiStructName(francaStruct),
-            CTypeMapper.createCustomTypeInfo(resolver, francaStruct, STRUCT));
+            typeMapper.createCustomTypeInfo(francaStruct, STRUCT));
 
     CStruct parentStruct = getPreviousResult(CStruct.class);
     if (parentStruct != null) {
@@ -211,7 +217,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
   @Override
   public void finishBuilding(FArrayType francaArray) {
 
-    CppTypeInfo innerType = CTypeMapper.mapType(resolver, francaArray.getElementType());
+    CppTypeInfo innerType = typeMapper.mapType(francaArray.getElementType());
     CArray cArray = CArrayMapper.createArrayDefinition(francaArray, innerType);
     arraysCollector.put(cArray.name, cArray);
 
@@ -228,7 +234,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FTypeRef typeRef) {
-    CppTypeInfo type = CTypeMapper.mapType(resolver, typeRef);
+    CppTypeInfo type = typeMapper.mapType(typeRef);
     if (type instanceof CppArrayTypeInfo) {
       CppArrayTypeInfo arrayTypeInfo = (CppArrayTypeInfo) type;
       CArray cArray =
@@ -282,10 +288,17 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
 
     String name = CBridgeNameRules.getMapName(francaMapType);
     List<CppTypeInfo> typeInfos = getPreviousResults(CppTypeInfo.class);
+    CppTypeInfo keyType = typeInfos.get(0);
+    CppTypeInfo valueType = typeInfos.get(1);
     Include baseApiInclude =
         resolver.resolveInclude(francaMapType, IncludeResolver.HeaderType.BASE_API_HEADER);
 
-    CMap cMap = new CMap(name, typeInfos.get(0), typeInfos.get(1), baseApiInclude);
+    String enumHashType = null;
+    if (keyType.typeCategory == CppTypeInfo.TypeCategory.ENUM) {
+      enumHashType = typeMapper.getEnumHashType();
+    }
+
+    CMap cMap = new CMap(name, keyType, valueType, enumHashType, baseApiInclude);
 
     storeResult(cMap);
     super.finishBuilding(francaMapType);
