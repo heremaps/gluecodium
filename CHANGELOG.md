@@ -1,5 +1,10 @@
 # API Transpiler Release Notes
 
+## 2.0.0
+- Features:
+  + Add support for Maps for iOS generator
+  + Add support for Maps for Android generator
+
 ## 1.5.3
 - Bug fixes:
   + Fixed Parcelable deserialization for structs and arrays.
