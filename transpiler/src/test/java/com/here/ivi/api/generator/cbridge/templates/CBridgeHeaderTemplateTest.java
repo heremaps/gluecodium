@@ -39,7 +39,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class CBridgeHeaderTemplateTest {
+public final class CBridgeHeaderTemplateTest {
+
+  private final CTypeMapper typeMapper = new CTypeMapper(mock(IncludeResolver.class), null);
 
   private String generate(final CInterface iface) {
     return CBridgeGenerator.generateHeaderContent(iface);
@@ -122,14 +124,13 @@ public class CBridgeHeaderTemplateTest {
 
   @Test
   public void instanceStructAndReleaseFunctionAreCreated() {
-    IncludeResolver resolver = mock(IncludeResolver.class);
     FModelElement francaInterface = mock(FInterface.class);
     FModel francaParent = mock(FModel.class);
     when(francaInterface.getName()).thenReturn("SomeClass");
     when(francaInterface.eContainer()).thenReturn(francaParent);
     when(francaParent.getName()).thenReturn("some.package");
     CppTypeInfo classType =
-        CTypeMapper.createCustomTypeInfo(resolver, francaInterface, CppTypeInfo.TypeCategory.CLASS);
+        typeMapper.createCustomTypeInfo(francaInterface, CppTypeInfo.TypeCategory.CLASS);
     CInterface cInterface = new CInterface("InstantiableInterface", classType);
     CFunction instanceFunction =
         CFunction.builder("instanceMethod")

@@ -37,7 +37,8 @@ public final class CppMapTypeInfo extends CppTypeInfo {
       final CType functionReturnType,
       @Singular final List<Include> includes,
       final CppTypeInfo keyType,
-      final CppTypeInfo valueType) {
+      final CppTypeInfo valueType,
+      final String enumHashType) {
     super(
         name,
         Collections.singletonList(constructFromCType),
@@ -45,7 +46,7 @@ public final class CppMapTypeInfo extends CppTypeInfo {
         functionReturnType,
         TypeCategory.MAP,
         includes);
-    baseApi = createBaseApiTypeString(keyType, valueType);
+    baseApi = createBaseApiTypeString(keyType, valueType, enumHashType);
   }
 
   public static Builder mapTypeBuilder(final String name) {
@@ -53,7 +54,7 @@ public final class CppMapTypeInfo extends CppTypeInfo {
   }
 
   private static String createBaseApiTypeString(
-      final CppTypeInfo keyType, final CppTypeInfo valueType) {
+      final CppTypeInfo keyType, final CppTypeInfo valueType, final String enumHashType) {
 
     StringBuilder stringBuilder = new StringBuilder();
 
@@ -62,8 +63,8 @@ public final class CppMapTypeInfo extends CppTypeInfo {
         .append(keyType.name)
         .append(", ")
         .append(valueType.name);
-    if (keyType.typeCategory == TypeCategory.ENUM) {
-      stringBuilder.append(", ::transpiler::EnumHash");
+    if (enumHashType != null) {
+      stringBuilder.append(", ").append(enumHashType);
     }
     stringBuilder.append('>');
 
