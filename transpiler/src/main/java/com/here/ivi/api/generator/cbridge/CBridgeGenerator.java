@@ -30,8 +30,8 @@ import com.here.ivi.api.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
+import com.here.ivi.api.model.cbridge.CBridgeIncludeResolver;
 import com.here.ivi.api.model.cbridge.CInterface;
-import com.here.ivi.api.model.cbridge.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cpp.CppIncludeResolver;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
@@ -44,7 +44,8 @@ import org.franca.core.franca.FTypeCollection;
 public class CBridgeGenerator {
 
   private final FrancaDeploymentModel deploymentModel;
-  private final IncludeResolver resolver;
+  private final CppIncludeResolver cppIncludeResolver;
+  private final CBridgeIncludeResolver includeResolver;
   private final String internalNamespace;
 
   public final CArrayGenerator arrayGenerator = new CArrayGenerator();
@@ -64,10 +65,12 @@ public class CBridgeGenerator {
 
   public CBridgeGenerator(
       final FrancaDeploymentModel deploymentModel,
-      final IncludeResolver includeResolver,
+      final CppIncludeResolver cppIncludeResolver,
+      final CBridgeIncludeResolver includeResolver,
       final String internalNamespace) {
     this.deploymentModel = deploymentModel;
-    this.resolver = includeResolver;
+    this.cppIncludeResolver = cppIncludeResolver;
+    this.includeResolver = includeResolver;
     this.internalNamespace = internalNamespace;
   }
 
@@ -95,13 +98,20 @@ public class CBridgeGenerator {
 
   public CInterface buildCBridgeModel(final FTypeCollection francaTypeCollection) {
 
-    CppTypeMapper typeMapper = new CppTypeMapper(new CppIncludeResolver(), internalNamespace);
-    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, typeMapper);
+    CppTypeMapper cppTypeMapper = new CppTypeMapper(cppIncludeResolver, internalNamespace);
+    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, cppTypeMapper);
     SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(deploymentModel);
-    CTypeMapper cTypeMapper = new CTypeMapper(resolver, typeMapper.getEnumHashType().name);
+    CTypeMapper cTypeMapper =
+        new CTypeMapper(cppIncludeResolver, includeResolver, cppTypeMapper.getEnumHashType().name);
 
     CBridgeModelBuilder modelBuilder =
-        new CBridgeModelBuilder(deploymentModel, resolver, cppBuilder, swiftBuilder, cTypeMapper);
+        new CBridgeModelBuilder(
+            deploymentModel,
+            cppIncludeResolver,
+            includeResolver,
+            cppBuilder,
+            swiftBuilder,
+            cTypeMapper);
     FrancaTreeWalker treeWalker =
         new FrancaTreeWalker(Arrays.asList(cppBuilder, swiftBuilder, modelBuilder));
 
