@@ -29,9 +29,9 @@ import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
 import com.here.ivi.api.model.cbridge.*;
-import com.here.ivi.api.model.cbridge.IncludeResolver.HeaderType;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cpp.CppField;
+import com.here.ivi.api.model.cpp.CppIncludeResolver;
 import com.here.ivi.api.model.cpp.CppMethod;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.SwiftField;
@@ -43,7 +43,8 @@ import org.franca.core.franca.*;
 public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
 
   private final FrancaDeploymentModel deploymentModel;
-  private final IncludeResolver resolver;
+  private final CppIncludeResolver cppIncludeResolver;
+  private final CBridgeIncludeResolver includeResolver;
   private final CppModelBuilder cppBuilder;
   private final SwiftModelBuilder swiftBuilder;
   private final CTypeMapper typeMapper;
@@ -52,13 +53,15 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
 
   public CBridgeModelBuilder(
       final FrancaDeploymentModel deploymentModel,
-      final IncludeResolver includeResolver,
+      final CppIncludeResolver cppIncludeResolver,
+      final CBridgeIncludeResolver includeResolver,
       final CppModelBuilder cppBuilder,
       final SwiftModelBuilder swiftBuilder,
       final CTypeMapper typeMapper) {
     this(
         new ModelBuilderContextStack<>(),
         deploymentModel,
+        cppIncludeResolver,
         includeResolver,
         cppBuilder,
         swiftBuilder,
@@ -69,13 +72,15 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
   CBridgeModelBuilder(
       final ModelBuilderContextStack<CElement> contextStack,
       final FrancaDeploymentModel deploymentModel,
-      final IncludeResolver includeResolver,
+      final CppIncludeResolver cppIncludeResolver,
+      final CBridgeIncludeResolver includeResolver,
       final CppModelBuilder cppBuilder,
       final SwiftModelBuilder swiftBuilder,
       final CTypeMapper typeMapper) {
     super(contextStack);
     this.deploymentModel = deploymentModel;
-    this.resolver = includeResolver;
+    this.cppIncludeResolver = cppIncludeResolver;
+    this.includeResolver = includeResolver;
     this.cppBuilder = cppBuilder;
     this.swiftBuilder = swiftBuilder;
     this.typeMapper = typeMapper;
@@ -138,8 +143,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     cInterface.implementationIncludes.addAll(
         CBridgeComponents.collectImplementationIncludes(cInterface));
 
-    cInterface.implementationIncludes.add(
-        resolver.resolveInclude(francaTypeCollection, HeaderType.CBRIDGE_PUBLIC_HEADER));
+    cInterface.implementationIncludes.add(includeResolver.resolveInclude(francaTypeCollection));
     cInterface.privateHeaderIncludes.addAll(
         CBridgeComponents.collectPrivateHeaderIncludes(cInterface));
     return cInterface;
@@ -166,8 +170,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
                     ? typeMapper.createErrorTypeInfo(francaMethod.getErrorEnum())
                     : null)
             .delegateCallIncludes(
-                Collections.singleton(
-                    resolver.resolveInclude(francaMethod, HeaderType.BASE_API_HEADER)))
+                Collections.singleton(cppIncludeResolver.resolveInclude(francaMethod)))
             .functionName(cppMethod.name);
 
     if (!deploymentModel.isStatic(francaMethod)) {
@@ -290,8 +293,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     List<CppTypeInfo> typeInfos = getPreviousResults(CppTypeInfo.class);
     CppTypeInfo keyType = typeInfos.get(0);
     CppTypeInfo valueType = typeInfos.get(1);
-    Include baseApiInclude =
-        resolver.resolveInclude(francaMapType, IncludeResolver.HeaderType.BASE_API_HEADER);
+    Include baseApiInclude = cppIncludeResolver.resolveInclude(francaMapType);
 
     String enumHashType = null;
     if (keyType.typeCategory == CppTypeInfo.TypeCategory.ENUM) {

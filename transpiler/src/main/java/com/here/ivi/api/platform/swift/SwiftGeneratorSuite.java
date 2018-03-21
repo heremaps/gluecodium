@@ -25,7 +25,8 @@ import com.here.ivi.api.cli.OptionReader;
 import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
 import com.here.ivi.api.generator.common.GeneratedFile;
 import com.here.ivi.api.generator.swift.SwiftGenerator;
-import com.here.ivi.api.model.cbridge.IncludeResolver;
+import com.here.ivi.api.model.cbridge.CBridgeIncludeResolver;
+import com.here.ivi.api.model.cpp.CppIncludeResolver;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.platform.common.GeneratorSuite;
 import java.util.List;
@@ -58,7 +59,11 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
 
     SwiftGenerator swiftGenerator = new SwiftGenerator(deploymentModel);
     CBridgeGenerator cBridgeGenerator =
-        new CBridgeGenerator(deploymentModel, new IncludeResolver(), internalNamespace);
+        new CBridgeGenerator(
+            deploymentModel,
+            new CppIncludeResolver(),
+            new CBridgeIncludeResolver(),
+            internalNamespace);
 
     Stream<GeneratedFile> swiftStream = typeCollections.stream().map(swiftGenerator::generate);
     Stream<GeneratedFile> cBridgeStream =

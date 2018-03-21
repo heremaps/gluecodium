@@ -30,6 +30,7 @@ import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory;
 import com.here.ivi.api.model.cbridge.*;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.cpp.CppIncludeResolver;
 import com.here.ivi.api.test.TemplateComparator;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.*;
@@ -47,9 +48,10 @@ public final class CBridgeImplementationTemplateTest {
 
   @Rule public final TemporaryFolder tempFolder = new TemporaryFolder();
 
-  private final CTypeMapper typeMapper = new CTypeMapper(mock(IncludeResolver.class), null);
+  private final CTypeMapper typeMapper =
+      new CTypeMapper(mock(CppIncludeResolver.class), mock(CBridgeIncludeResolver.class), null);
 
-  public String generate(final CInterface iface) {
+  private String generate(final CInterface iface) {
     return CBridgeGenerator.generateImplementationContent(iface);
   }
 

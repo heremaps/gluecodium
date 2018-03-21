@@ -26,8 +26,9 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.swift.SwiftNameRules;
-import com.here.ivi.api.model.cbridge.IncludeResolver;
+import com.here.ivi.api.model.cbridge.CBridgeIncludeResolver;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.cpp.CppIncludeResolver;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.test.ArrayEList;
@@ -45,14 +46,7 @@ abstract class CBridgeGeneratorTestBase {
   protected static final String INTERFACE_NAME = "TestInterface";
   protected static final String TYPE_COLLECTION_NAME = "TestTypeCollection";
   protected static final String FUNCTION_NAME = "functionName";
-  protected static final String PRIVATE_HEADER_NAME = "CBRIDGE_PRIVATE_HEADER of TestInterface";
-  protected static final String PRIVATE_HEADER_INCLUDE =
-      "#include \"" + PRIVATE_HEADER_NAME + "\"\n";
   protected static final String PUBLIC_HEADER_NAME = "CBRIDGE_PUBLIC_HEADER of TestInterface";
-  protected static final String CBRIDGE_HEADER_INCLUDE =
-      "#include \"" + PUBLIC_HEADER_NAME + "\"\n";
-  protected static final String BASEAPI_HEADER_INCLUDE =
-      "#include \"BASE_API_HEADER of TestInterface\"\n";
   protected static final String STD_INT_INCLUDE = "#include <stdint.h>\n";
   protected static final String STD_STRING_INCLUDE = "#include <string>\n";
   protected static final String STD_NEW_INCLUDE = "#include <new>\n";
@@ -73,7 +67,9 @@ abstract class CBridgeGeneratorTestBase {
   @Mock protected FArgument francaArgument2;
   @Mock protected FTypeRef francaTypeRef2;
 
-  @Mock protected IncludeResolver resolver;
+  @Mock protected CppIncludeResolver cppIncludeResolver;
+  @Mock protected CBridgeIncludeResolver includeResolver;
+
   protected final ArrayEList<FType> interfaceTypes = new ArrayEList<>();
   protected final ArrayEList<FMethod> methods = new ArrayEList<>();
   protected final ArrayEList<FArgument> inputArguments = new ArrayEList<>();
@@ -100,15 +96,19 @@ abstract class CBridgeGeneratorTestBase {
     methods.add(francaMethod);
 
     when(francaModel.getName()).thenReturn(String.join(".", PACKAGES));
-    when(resolver.resolveInclude(any(), any()))
+    when(cppIncludeResolver.resolveInclude(any()))
         .then(
             invocation -> {
-              IncludeResolver.HeaderType type =
-                  (IncludeResolver.HeaderType) (invocation.getArguments()[1]);
               FModelElement modelElement = (FModelElement) (invocation.getArguments()[0]);
               return Include.createInternalInclude(
-                  type.toString()
-                      + " of "
+                  "C++ include of " + DefinedBy.findDefiningTypeCollection(modelElement).getName());
+            });
+    when(includeResolver.resolveInclude(any()))
+        .then(
+            invocation -> {
+              FModelElement modelElement = (FModelElement) (invocation.getArguments()[0]);
+              return Include.createInternalInclude(
+                  "CBridge include of "
                       + DefinedBy.findDefiningTypeCollection(modelElement).getName());
             });
 
@@ -120,6 +120,6 @@ abstract class CBridgeGeneratorTestBase {
     PowerMockito.doReturn("")
         .when(CBridgeNameRules.class, "getImplementationFileNameWithPath", any());
 
-    generator = new CBridgeGenerator(deploymentModel, resolver, null);
+    generator = new CBridgeGenerator(deploymentModel, cppIncludeResolver, includeResolver, null);
   }
 }

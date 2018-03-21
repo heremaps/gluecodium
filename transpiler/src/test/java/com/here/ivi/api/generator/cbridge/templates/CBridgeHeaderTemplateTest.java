@@ -28,6 +28,7 @@ import com.here.ivi.api.generator.cbridge.CTypeMapper;
 import com.here.ivi.api.generator.cbridge.CppTypeInfo;
 import com.here.ivi.api.model.cbridge.*;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.cpp.CppIncludeResolver;
 import com.here.ivi.api.test.TemplateComparator;
 import com.here.ivi.api.test.TemplateComparison;
 import java.util.Arrays;
@@ -41,7 +42,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class CBridgeHeaderTemplateTest {
 
-  private final CTypeMapper typeMapper = new CTypeMapper(mock(IncludeResolver.class), null);
+  private final CTypeMapper typeMapper =
+      new CTypeMapper(mock(CppIncludeResolver.class), mock(CBridgeIncludeResolver.class), null);
 
   private String generate(final CInterface iface) {
     return CBridgeGenerator.generateHeaderContent(iface);

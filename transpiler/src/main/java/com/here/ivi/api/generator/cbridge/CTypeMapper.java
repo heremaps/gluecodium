@@ -27,19 +27,28 @@ import static com.here.ivi.api.model.common.InstanceRules.isInstanceId;
 
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
+import com.here.ivi.api.model.cbridge.CBridgeIncludeResolver;
 import com.here.ivi.api.model.cbridge.CType;
-import com.here.ivi.api.model.cbridge.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
+import com.here.ivi.api.model.cpp.CppIncludeResolver;
 import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.*;
 
 public class CTypeMapper {
 
-  private final IncludeResolver includeResolver;
+  private static final Include BASE_HANDLE_IMPL_INCLUDE =
+      Include.createInternalInclude(CBridgeNameRules.BASE_HANDLE_IMPL_FILE);
+
+  private final CppIncludeResolver cppIncludeResolver;
+  private final CBridgeIncludeResolver includeResolver;
   private final String enumHashType;
 
-  public CTypeMapper(final IncludeResolver includeResolver, final String enumHashType) {
+  public CTypeMapper(
+      final CppIncludeResolver cppIncludeResolver,
+      final CBridgeIncludeResolver includeResolver,
+      final String enumHashType) {
+    this.cppIncludeResolver = cppIncludeResolver;
     this.includeResolver = includeResolver;
     this.enumHashType = enumHashType;
   }
@@ -59,7 +68,7 @@ public class CTypeMapper {
     return typeResult;
   }
 
-  private CppTypeInfo mapType(FType derived) {
+  private CppTypeInfo mapType(final FType derived) {
     if (derived instanceof FStructType) {
       return createCustomTypeInfo(derived, STRUCT);
     } else if (derived instanceof FTypeDef) {
@@ -120,19 +129,13 @@ public class CTypeMapper {
   }
 
   public CppTypeInfo createCustomTypeInfo(
-      final FModelElement elementType, final CppTypeInfo.TypeCategory category) {
+      final FModelElement modelElement, final CppTypeInfo.TypeCategory category) {
 
-    String baseApiName = CBridgeNameRules.getBaseApiName(elementType, category);
+    String baseApiName = CBridgeNameRules.getBaseApiName(modelElement, category);
     String baseApiCall = CBridgeNameRules.getBaseApiCall(category, baseApiName);
 
-    Include publicInclude =
-        includeResolver.resolveInclude(
-            elementType, IncludeResolver.HeaderType.CBRIDGE_PUBLIC_HEADER);
-    Include privateInclude =
-        includeResolver.resolveInclude(
-            elementType, IncludeResolver.HeaderType.CBRIDGE_PRIVATE_HEADER);
-    Include baseApiInclude =
-        includeResolver.resolveInclude(elementType, IncludeResolver.HeaderType.BASE_API_HEADER);
+    Include publicInclude = includeResolver.resolveInclude(modelElement);
+    Include baseApiInclude = cppIncludeResolver.resolveInclude(modelElement);
 
     CType structCType = new CType(BASE_REF_NAME, publicInclude);
 
@@ -141,8 +144,8 @@ public class CTypeMapper {
         .functionReturnType(structCType)
         .category(category)
         .include(publicInclude)
-        .include(privateInclude)
         .include(baseApiInclude)
+        .include(BASE_HANDLE_IMPL_INCLUDE)
         .include(CppLibraryIncludes.MEMORY)
         .include(CppLibraryIncludes.NEW)
         .build();
@@ -152,9 +155,7 @@ public class CTypeMapper {
 
     CType enumCType =
         new CType(
-            CBridgeNameRules.getEnumName(francaEnum),
-            includeResolver.resolveInclude(
-                francaEnum, IncludeResolver.HeaderType.CBRIDGE_PUBLIC_HEADER));
+            CBridgeNameRules.getEnumName(francaEnum), includeResolver.resolveInclude(francaEnum));
 
     return CppTypeInfo.builder(CBridgeNameRules.getBaseApiEnumName(francaEnum))
         .constructFromCType(enumCType)

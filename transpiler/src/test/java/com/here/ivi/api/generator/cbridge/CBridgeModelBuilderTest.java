@@ -35,6 +35,7 @@ import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.swift.SwiftModelBuilder;
 import com.here.ivi.api.generator.swift.SwiftNameRules;
 import com.here.ivi.api.model.cbridge.*;
+import com.here.ivi.api.model.cbridge.CBridgeIncludeResolver;
 import com.here.ivi.api.model.cbridge.CElement;
 import com.here.ivi.api.model.cbridge.CEnum;
 import com.here.ivi.api.model.cbridge.CField;
@@ -45,10 +46,10 @@ import com.here.ivi.api.model.cbridge.COutParameter;
 import com.here.ivi.api.model.cbridge.CParameter;
 import com.here.ivi.api.model.cbridge.CStruct;
 import com.here.ivi.api.model.cbridge.CType;
-import com.here.ivi.api.model.cbridge.IncludeResolver;
 import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cpp.CppElement;
 import com.here.ivi.api.model.cpp.CppField;
+import com.here.ivi.api.model.cpp.CppIncludeResolver;
 import com.here.ivi.api.model.cpp.CppMethod;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.swift.SwiftField;
@@ -102,7 +103,8 @@ public class CBridgeModelBuilderTest {
 
   @Mock private CppModelBuilder cppModelbuilder;
   @Mock private SwiftModelBuilder swiftModelBuilder;
-  @Mock private IncludeResolver resolver;
+  @Mock private CppIncludeResolver cppIncludeResolver;
+  @Mock private CBridgeIncludeResolver includeResolver;
   @Mock private CTypeMapper typeMapper;
 
   @Mock private FInterface francaInterface;
@@ -124,6 +126,7 @@ public class CBridgeModelBuilderTest {
           .cNestedSpecifier(NESTED_SPECIFIER_NAME)
           .cShortName(SHORT_FUNCTION_NAME)
           .build();
+
   private CBridgeModelBuilder modelBuilder;
 
   @Before
@@ -147,13 +150,14 @@ public class CBridgeModelBuilderTest {
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
-    when(resolver.resolveInclude(any(), any())).thenReturn(Include.createInternalInclude(""));
+    when(includeResolver.resolveInclude(any())).thenReturn(Include.createInternalInclude(""));
 
     modelBuilder =
         new CBridgeModelBuilder(
             contextStack,
             deploymentModel,
-            resolver,
+            cppIncludeResolver,
+            includeResolver,
             cppModelbuilder,
             swiftModelBuilder,
             typeMapper);
@@ -583,7 +587,7 @@ public class CBridgeModelBuilderTest {
     contextStack.injectResult(CppTypeInfo.STRING);
     contextStack.injectResult(cppTypeInfo);
     Include fooInclude = Include.createInternalInclude("Foo");
-    when(resolver.resolveInclude(any(), any())).thenReturn(fooInclude);
+    when(cppIncludeResolver.resolveInclude(any())).thenReturn(fooInclude);
 
     modelBuilder.finishBuilding(francaMap);
 

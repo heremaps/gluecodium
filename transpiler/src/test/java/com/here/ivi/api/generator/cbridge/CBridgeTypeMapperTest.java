@@ -31,8 +31,9 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.ivi.api.common.FrancaTypeHelper;
 import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
+import com.here.ivi.api.model.cbridge.CBridgeIncludeResolver;
 import com.here.ivi.api.model.cbridge.CType;
-import com.here.ivi.api.model.cbridge.IncludeResolver;
+import com.here.ivi.api.model.cpp.CppIncludeResolver;
 import com.here.ivi.api.model.franca.DefinedBy;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -57,7 +58,9 @@ public class CBridgeTypeMapperTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FMapType francaMap;
 
-  private final CTypeMapper typeMapper = new CTypeMapper(mock(IncludeResolver.class), "::FooHash");
+  private final CTypeMapper typeMapper =
+      new CTypeMapper(
+          mock(CppIncludeResolver.class), mock(CBridgeIncludeResolver.class), "::FooHash");
 
   @Before
   public void setUp() {

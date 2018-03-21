@@ -80,7 +80,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     when(deploymentModel.isStatic(any())).thenReturn(false);
 
     TemplateComparator expectedImplementation =
-        TemplateComparator.expect(PRIVATE_HEADER_INCLUDE).build();
+        TemplateComparator.expect("CBridge include of TestInterface").build();
 
     CInterface cModel = generator.buildCBridgeModel(francaInterface);
 
@@ -509,7 +509,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     when(struct.getElements()).thenReturn(fields);
 
     TemplateComparator expectedHeader =
-        TemplateComparator.expect("#include \"CBRIDGE_PUBLIC_HEADER of TestTypeCollection\"\n")
+        TemplateComparator.expect("#include \"CBridge include of TestTypeCollection\"\n")
             .expect(
                 "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_SomeStruct_swiftFieldName_get(_baseRef handle);\n")
             .expect(
@@ -551,7 +551,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     outputArguments.add(francaArgument2);
 
     TemplateComparator expectedHeader =
-        TemplateComparator.expect("#include \"CBRIDGE_PUBLIC_HEADER of TestTypeCollection\"\n")
+        TemplateComparator.expect("#include \"CBridge include of TestTypeCollection\"\n")
             .expect(
                 "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_functionName(cbridge_test_TestTypeCollection_TestEnum input);\n")
             .build();
