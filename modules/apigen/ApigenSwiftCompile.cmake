@@ -131,6 +131,7 @@ function(apigen_swift_compile target architecture)
             FRAMEWORK TRUE
             FRAMEWORK_VERSION ${SWIFT_FRAMEWORK_VERSION}
             XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS "-import-underlying-module -I${OUTPUT_DIR} -module-name=${target}"
+            XCODE_ATTRIBUTE_SWIFT_VERSION "4.0"
             )
         install(TARGETS ${target} FRAMEWORK DESTINATION .)
     else()

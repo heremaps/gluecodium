@@ -54,33 +54,35 @@ function(apigen_swift_test target swift_target_flag module_name)
         set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
     endif ()
 
+    file(GLOB_RECURSE SOURCES ${SWIFT_TEST}/*.swift)
+
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-        execute_process(COMMAND xcrun --show-sdk-platform-path
-            OUTPUT_VARIABLE XCODE_PLATFORM_PATH OUTPUT_STRIP_TRAILING_WHITESPACE)
-        list(APPEND BUILD_ARGUMENTS
-            -F${SWIFT_OUTPUT_DIR}
-            -Fsystem "${XCODE_PLATFORM_PATH}/Developer/Library/Frameworks/"
-            -Xlinker -rpath -Xlinker "${XCODE_PLATFORM_PATH}/Developer/Library/Frameworks/"
-            -Xlinker -rpath -Xlinker "@executable_path")
+        find_package(XCTest REQUIRED)
+        xctest_add_bundle(xctest${target} ${target}
+        ${SOURCES})
+        set_target_properties(xctest${target} PROPERTIES
+          XCODE_ATTRIBUTE_OTHER_LDFLAGS "-rpath @loader_path/../Frameworks"
+          XCODE_ATTRIBUTE_SWIFT_VERSION "4.0")
+
+        add_executable(test${target} ${SOURCES})
+        target_link_libraries(test${target} ${target})
+        set_target_properties(test${target} PROPERTIES
+          XCODE_ATTRIBUTE_FRAMEWORK_SEARCH_PATHS "$(PLATFORM_DEVELOPER_SDK_DIR)/../Library/Frameworks/"
+          XCODE_ATTRIBUTE_SWIFT_VERSION "4.0"
+          XCODE_ATTRIBUTE_OTHER_LDFLAGS "-rpath $(PLATFORM_DEVELOPER_SDK_DIR)/../Library/Frameworks/")
+        install(TARGETS test${target} DESTINATION .)
     else()
         list(APPEND BUILD_ARGUMENTS
             -L${SWIFT_OUTPUT_DIR}
             -I${SWIFT_OUTPUT_DIR}
             -l${module_name}
             -Xlinker -rpath -Xlinker "'$$ORIGIN'")
+        add_custom_target(test${target} ALL DEPENDS ${target}
+            COMMAND swiftc ${BUILD_ARGUMENTS} ${SOURCES}
+            WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR}
+            COMMENT "Running Swift test for target '${target}'...")
+            install(PROGRAMS "${SWIFT_OUTPUT_DIR}/test${target}" DESTINATION .)
     endif()
-
-    file(GLOB_RECURSE SOURCES ${SWIFT_TEST}/*.swift)
-
-    add_custom_target(test${target} ALL DEPENDS ${target}
-        COMMAND swiftc ${BUILD_ARGUMENTS} ${SOURCES}
-        WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR}
-        COMMENT "Running Swift test for target '${target}'...")
-
-    add_test(NAME SwiftFunctional COMMAND "${SWIFT_OUTPUT_DIR}/test${target}"
-        WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR})
-
-    install(PROGRAMS "${SWIFT_OUTPUT_DIR}/test${target}" DESTINATION .)
 
     message(STATUS "[Swift] Creating Test executable...")
 
