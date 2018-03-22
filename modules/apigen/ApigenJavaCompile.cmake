@@ -25,7 +25,16 @@ cmake_minimum_required(VERSION 3.5)
 #
 # The general form of the command is::
 #
-#     apigen_java_compile(TARGET target)
+#     apigen_java_compile(TARGET target
+#        LOCAL_DEPENDENCIES jar_name
+#        LOCAL_DEPENDENCIES_DIRS dir_path
+#        REMOTE_DEPENDENCIES package_name )
+#
+# LOCAL_DEPENDENCIES specifies name(s) of the local JAR file(s) to include as dependencies.
+# LOCAL_DEPENDENCIES_DIRS specifies paths(s) of the local directories where to look for those JARs.
+# REMOTE_DEPENDENCIES specifies name(s) of the Gradle packages to include as dependencies through
+# the regular dependency resolution process (i.e. fetching them from the remote repository unless
+# an up-to-date version is present in the local Gradle cache).
 #
 
 find_package(Java COMPONENTS Development REQUIRED)
@@ -33,7 +42,7 @@ find_package(Java COMPONENTS Development REQUIRED)
 function(apigen_java_compile)
     set(options)
     set(oneValueArgs TARGET)
-    set(multiValueArgs CLASS_PATH)
+    set(multiValueArgs LOCAL_DEPENDENCIES LOCAL_DEPENDENCIES_DIRS REMOTE_DEPENDENCIES)
     cmake_parse_arguments(apigen_java_compile
       "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
@@ -53,12 +62,26 @@ function(apigen_java_compile)
     set_target_properties(${apigen_java_compile_TARGET} PROPERTIES
         APIGEN_JAVA_COMPILE_OUTPUT_DIR ${APIGEN_JAVA_COMPILE_OUTPUT_DIR})
 
-    set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.7" "-target" "1.7")
-    foreach(class_path ${apigen_java_compile_CLASS_PATH})
-      list(APPEND CMAKE_JAVA_COMPILE_FLAGS "-cp" "${class_path}")
+    foreach(local_dependencies ${apigen_java_compile_LOCAL_DEPENDENCIES})
+      list(APPEND APIGEN_JAVA_LOCAL_DEPENDENCIES "${local_dependencies}")
     endforeach()
+    foreach(local_dependencies_dirs ${apigen_java_compile_LOCAL_DEPENDENCIES_DIRS})
+      list(APPEND APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS "${local_dependencies_dirs}")
+    endforeach()
+    foreach(remote_dependencies ${apigen_java_compile_REMOTE_DEPENDENCIES})
+      list(APPEND APIGEN_JAVA_REMOTE_DEPENDENCIES "${remote_dependencies}")
+    endforeach()
+
     add_custom_command(TARGET ${apigen_java_compile_TARGET} POST_BUILD
         COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
-        COMMAND find ${APIGEN_TRANSPILER_JAVA_SOURCE_DIR} -name *.java | xargs "${Java_JAVAC_EXECUTABLE}" ${CMAKE_JAVA_COMPILE_FLAGS} -d ${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
+        COMMAND ${APIGEN_TRANSPILER_GRADLE_WRAPPER}
+            -b=compileJava.gradle
+            -PsrcDir=${APIGEN_TRANSPILER_JAVA_SOURCE_DIR}
+            -PoutputDir=${APIGEN_JAVA_COMPILE_OUTPUT_DIR}
+            -PlocalDependencies=${APIGEN_JAVA_LOCAL_DEPENDENCIES}
+            -PlocalDependenciesDirs=${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}
+            -PremoteDependencies=${APIGEN_JAVA_REMOTE_DEPENDENCIES}
+             compileJava
+        WORKING_DIRECTORY ${APIGEN_TRANSPILER_DIR}
         COMMENT "Compiling generated Java sources into class files...")
 endfunction()
