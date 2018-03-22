@@ -36,10 +36,10 @@ function build {
         mkdir -p "${build_dir}"
         pushd "${build_dir}"
         safe cmake \
-            -DBUILD_SHARED_LIBS=OFF \
+            -DBUILD_SHARED_LIBS=ON \
             -DCMAKE_TOOLCHAIN_FILE="${SCRIPT_DIR}/../../../cmake/toolchains/iOS.cmake" \
             -DIOS_PLATFORM="${target}" \
-            -DIOS_DEPLOYMENT_TARGET=9.3 \
+            -DCMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET=9.3 \
             -DCMAKE_INSTALL_PREFIX="${build_dir}/dist" \
             -DHELLO_APIGEN_TRANSPILER_GENERATOR=swift \
             -DHELLO_APIGEN_TRANSPILER_VERSION=${TRANSPILER_VERSION} \
@@ -51,18 +51,9 @@ function build {
     safe cmake --build "${build_dir}" --target install
 }
 
-BUILD_DIR_IPHONE="${CWD}/${BUILD_DIR}/iphone"
 BUILD_DIR_SIMULATOR="${CWD}/${BUILD_DIR}/simulator"
 
-build "${BUILD_DIR_IPHONE}" OS
 build "${BUILD_DIR_SIMULATOR}" SIMULATOR
 
 mkdir -p ${INSTALL_DIR}
 cp -R "${BUILD_DIR_SIMULATOR}/dist/hello.framework" "${INSTALL_DIR}"
-cp -R "${BUILD_DIR_IPHONE}/dist/hello.framework" "${INSTALL_DIR}"
-lipo \
-    "${BUILD_DIR_IPHONE}/dist/hello.framework/hello" \
-    "${BUILD_DIR_SIMULATOR}/dist/hello.framework/hello" \
-    -create \
-    -output "${INSTALL_DIR}/hello.framework/Versions/Current/hello"
-
