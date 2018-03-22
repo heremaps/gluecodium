@@ -133,6 +133,8 @@ function(apigen_swift_compile target architecture)
             XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS "-import-underlying-module -I${OUTPUT_DIR} -module-name=${target}"
             XCODE_ATTRIBUTE_OTHER_LDFLAGS "-lc++"
             XCODE_ATTRIBUTE_SWIFT_VERSION "4.0"
+            XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
+            XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=RelWithDebInfo] "YES"
             )
         install(TARGETS ${target} FRAMEWORK DESTINATION .)
     else()
