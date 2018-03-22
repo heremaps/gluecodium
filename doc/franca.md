@@ -179,6 +179,51 @@ FDEPL:
         }
     }
 
+### Most elements: Internal
+
+This FDEPL property controls the access modifier of the given element. Default value is `false`,
+i.e. by default all elements are generated as `public`. The `true` value corresponds to `internal`
+for generated Swift code code and to "package-private" (i.e. empty access modifier) for generated
+Java code. This property currently has no effect on generated code for C++
+
+**Note:** This property can be applied explicitly (by specifying it in the FDEPL file) to any of the
+following Franca element types:
+* attribute
+* interface
+* method
+* struct
+* struct field
+* enumeration
+* array
+
+**Note:** This property is applied implicitly (automatically) to Franca typedefs and Franca maps if
+one of the types referenced by those is itself "internal" (it is not possible to mark these
+explicitly due to FDEPL syntax restrictions).
+
+FIDL:
+
+    package example
+
+    interface ExampleInterface {
+        struct exampleStruct {
+            Float floatField
+            String stringField
+        }
+    }
+
+FDEPL:
+
+    define Visibility for interface example.ExampleInterface {
+        Internal = true
+
+        struct exampleStruct {
+            Internal = true
+
+            floatField {
+                Internal = true
+            }
+        }
+    }
 
 [franca]: http://franca.github.io/franca/
 [userguide]: https://drive.google.com/file/d/0B7JseVbR6jvhMXhNb1VMRWM0Z3M/view?usp=sharing
