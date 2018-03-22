@@ -31,8 +31,6 @@ function(apigen_swift_test target swift_target_flag module_name)
 
     get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
     get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
-    get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
-    get_target_property(SWIFT_RESOURCES_DIR ${target} APIGEN_SWIFT_RESOURCES_DIR)
     get_target_property(SWIFT_TEST ${target} APIGEN_SWIFT_TESTS)
 
     if(NOT SWIFT_TEST)
@@ -43,17 +41,6 @@ function(apigen_swift_test target swift_target_flag module_name)
         message(FATAL_ERROR "apigen_swift_test() depends on apigen_transpiler() configured with generator 'swift'")
     endif()
 
-    set(BUILD_ARGUMENTS
-        ${swift_target_flag}
-        -emit-executable
-        -o "test${target}"
-        -embed-bitcode)
-
-    string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
-    if (uppercase_CMAKE_BUILD_TYPE MATCHES "^(DEBUG|RELWITHDEBINFO)$")
-        set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
-    endif ()
-
     file(GLOB_RECURSE SOURCES ${SWIFT_TEST}/*.swift)
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -61,31 +48,43 @@ function(apigen_swift_test target swift_target_flag module_name)
         xctest_add_bundle(xctest${target} ${target}
         ${SOURCES})
         set_target_properties(xctest${target} PROPERTIES
-          XCODE_ATTRIBUTE_OTHER_LDFLAGS "-rpath @loader_path/../Frameworks"
-          XCODE_ATTRIBUTE_SWIFT_VERSION "4.0"
-          XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
-          XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=RelWithDebInfo] "YES")
+            XCODE_ATTRIBUTE_SWIFT_VERSION "4.0"
+            XCODE_ATTRIBUTE_OTHER_LDFLAGS "-rpath @loader_path/../Frameworks"
+            XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
+            XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=RelWithDebInfo] "YES"
+            )
 
         add_executable(test${target} ${SOURCES})
         target_link_libraries(test${target} ${target})
         set_target_properties(test${target} PROPERTIES
-          XCODE_ATTRIBUTE_FRAMEWORK_SEARCH_PATHS "$(PLATFORM_DEVELOPER_SDK_DIR)/../Library/Frameworks/"
-          XCODE_ATTRIBUTE_SWIFT_VERSION "4.0"
-          XCODE_ATTRIBUTE_OTHER_LDFLAGS "-rpath $(PLATFORM_DEVELOPER_SDK_DIR)/../Library/Frameworks/")
+            XCODE_ATTRIBUTE_SWIFT_VERSION "4.0"
+            # Add the path for XCTest
+            XCODE_ATTRIBUTE_FRAMEWORK_SEARCH_PATHS "$(PLATFORM_DEVELOPER_SDK_DIR)/../Library/Frameworks/"
+            XCODE_ATTRIBUTE_OTHER_LDFLAGS "-rpath $(PLATFORM_DEVELOPER_SDK_DIR)/../Library/Frameworks/"
+            )
+
         install(TARGETS test${target} DESTINATION .)
     else()
-        list(APPEND BUILD_ARGUMENTS
+        set(BUILD_ARGUMENTS
+            ${swift_target_flag}
+            -emit-executable
+            -o "test${target}"
+            -embed-bitcode
             -L${SWIFT_OUTPUT_DIR}
             -I${SWIFT_OUTPUT_DIR}
             -l${module_name}
-            -Xlinker -rpath -Xlinker "'$$ORIGIN'")
+            -Xlinker -rpath -Xlinker "'$$ORIGIN'"
+            )
+
+        string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
+        if (uppercase_CMAKE_BUILD_TYPE MATCHES "^(DEBUG|RELWITHDEBINFO)$")
+            set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
+        endif ()
+
         add_custom_target(test${target} ALL DEPENDS ${target}
             COMMAND swiftc ${BUILD_ARGUMENTS} ${SOURCES}
-            WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR}
-            COMMENT "Running Swift test for target '${target}'...")
-            install(PROGRAMS "${SWIFT_OUTPUT_DIR}/test${target}" DESTINATION .)
+            WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR})
+
+        install(PROGRAMS "${SWIFT_OUTPUT_DIR}/test${target}" DESTINATION .)
     endif()
-
-    message(STATUS "[Swift] Creating Test executable...")
-
 endfunction(apigen_swift_test)

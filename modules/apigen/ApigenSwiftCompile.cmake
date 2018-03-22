@@ -82,47 +82,10 @@ function(apigen_swift_compile target architecture)
         endif()
     endif()
 
-    # Determine libraries to pass to swiftc
-    get_link_libraries(${target} swift_libraries)
-    set(APIGEN_SWIFT_LINK_LIBRARIES ${swift_libraries})
-    message(STATUS "Swift enabled ${target} has the following link dependencies: ${swift_libraries}")
-
-    set(BUILD_ARGUMENTS
-        -I${OUTPUT_DIR}
-        -import-underlying-module
-        -L\$<TARGET_FILE_DIR:${target}>
-        -l${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>
-        ${swift_target_flag}
-        -emit-module
-        -emit-library
-        -module-name ${target})
-
-    string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
-    if (uppercase_CMAKE_BUILD_TYPE MATCHES "^(DEBUG|RELWITHDEBINFO)$")
-        set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
-    endif ()
-
-    # OSX needs additional -lc++ and additional paths to assemble the framework
-    if(APPLE)
-        set(module_file_path "${target}.framework/Modules/${target}.swiftmodule/${TARGET_ARCHITECTURE}.swiftmodule")
-        list(APPEND BUILD_ARGUMENTS
-            -lc++
-            -o "lib${target}.${TARGET_ARCHITECTURE}"
-            -emit-module-path "${module_file_path}"
-            )
-    endif()
-    if(IOS)
-        #Todo: This should be properly injected into the function and not hardcoded
-        set(build_swift_native_frameworks -lz -framework GLKit -framework OpenGLES)
-    elseif(APPLE)
-        set(build_swift_native_frameworks -lz -framework AppKit -framework OpenGL)
-    endif()
-
     file(GLOB_RECURSE SOURCES ${OUTPUT_DIR}/swift/*.swift)
 
     set(MODULE_NAME ${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>)
     if(APPLE)
-        set(CMAKE_Swift_LANGUAGE_VERSION "4.0")
         # CMakes compiler check is outdated and fails for Swift 4.0, force it to pass.
         set(CMAKE_Swift_COMPILER_FORCED TRUE)
         enable_language(Swift)
@@ -139,13 +102,28 @@ function(apigen_swift_compile target architecture)
         install(TARGETS ${target} FRAMEWORK DESTINATION .)
     else()
         set(MODULE_NAME ${MODULE_NAME}swift)
-        list(APPEND BUILD_ARGUMENTS -o "lib${MODULE_NAME}.so" "-embed-bitcode")
+        set(BUILD_ARGUMENTS
+            -I${OUTPUT_DIR}
+            -import-underlying-module
+            -L\$<TARGET_FILE_DIR:${target}>
+            -l${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>
+            ${swift_target_flag}
+            -emit-module
+            -emit-library
+            -module-name ${target}
+            -o "lib${MODULE_NAME}.so"
+            -embed-bitcode
+            )
+
+        string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
+        if (uppercase_CMAKE_BUILD_TYPE MATCHES "^(DEBUG|RELWITHDEBINFO)$")
+            set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
+        endif ()
 
         add_custom_command(TARGET ${target} POST_BUILD
-            COMMENT "Compiling generated Swift sources -> ${BUILD_ARGUMENTS} ${build_swift_native_frameworks}"
-            COMMAND swiftc ${BUILD_ARGUMENTS} ${build_swift_native_frameworks} ${SOURCES} ${ADDITIONAL_SOURCES}
+            COMMENT "Compiling generated Swift sources -> ${BUILD_ARGUMENTS}"
+            COMMAND swiftc ${BUILD_ARGUMENTS} ${SOURCES} ${ADDITIONAL_SOURCES}
             WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR})
-
 
         install(
             FILES
