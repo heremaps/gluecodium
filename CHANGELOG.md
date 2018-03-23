@@ -1,9 +1,9 @@
 # API Transpiler Release Notes
 
-## Unreleased
+## 2.1.0
 - Features:
-  + Added FDEPL flag "Internal" for marking classes, methods and fields as package-private in Java
-  + Added FDEPL flag "Internal" for marking classes, methods and fields as internal in Swift
+  + Added FDEPL flag "Internal" for marking classes, methods and fields as "internal" in Swift or
+   package-private in Java.
 - Bug fixes:
   + Fixed compilation issues for Maps with Enums as keys in iOS generator when a non-default value
     is specified for "C++ internal namespace" command line parameter.
