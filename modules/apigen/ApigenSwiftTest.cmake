@@ -52,6 +52,7 @@ function(apigen_swift_test target swift_target_flag module_name)
             XCODE_ATTRIBUTE_OTHER_LDFLAGS "-rpath @loader_path/../Frameworks"
             XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
             XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=RelWithDebInfo] "YES"
+            XCODE_ATTRIBUTE_SWIFT_OPTIMIZATION_LEVEL "-Onone"
             )
 
         add_executable(test${target} ${SOURCES})
@@ -59,8 +60,9 @@ function(apigen_swift_test target swift_target_flag module_name)
         set_target_properties(test${target} PROPERTIES
             XCODE_ATTRIBUTE_SWIFT_VERSION "4.0"
             # Add the path for XCTest
-            XCODE_ATTRIBUTE_FRAMEWORK_SEARCH_PATHS "$(PLATFORM_DEVELOPER_SDK_DIR)/../Library/Frameworks/"
-            XCODE_ATTRIBUTE_OTHER_LDFLAGS "-rpath $(PLATFORM_DEVELOPER_SDK_DIR)/../Library/Frameworks/"
+            XCODE_ATTRIBUTE_FRAMEWORK_SEARCH_PATHS "$(PLATFORM_DIR)/Developer/Library/Frameworks/"
+            XCODE_ATTRIBUTE_OTHER_LDFLAGS "-rpath $(PLATFORM_DIR)/Developer/Library/Frameworks/"
+            XCODE_ATTRIBUTE_SWIFT_OPTIMIZATION_LEVEL "-Onone"
             )
 
         install(TARGETS test${target} DESTINATION .)
