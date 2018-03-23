@@ -90,10 +90,14 @@ function(apigen_swift_compile target architecture)
         set(CMAKE_Swift_COMPILER_FORCED TRUE)
         enable_language(Swift)
 
+        set(SWIFT_FLAGS "-import-underlying-module -I${OUTPUT_DIR} -module-name=${target}")
+        set(SWIFT_DEBUG_FLAG "-D DEBUG")
+
         set_target_properties(${target} PROPERTIES
             FRAMEWORK TRUE
             FRAMEWORK_VERSION ${SWIFT_FRAMEWORK_VERSION}
-            XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS "-import-underlying-module -I${OUTPUT_DIR} -module-name=${target}"
+            XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS "${SWIFT_FLAGS}"
+            XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS[variant=Debug] "${SWIFT_FLAGS} ${SWIFT_DEBUG_FLAG}"
             XCODE_ATTRIBUTE_OTHER_LDFLAGS "-lc++"
             XCODE_ATTRIBUTE_SWIFT_VERSION "4.0"
             XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
