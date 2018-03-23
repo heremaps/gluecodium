@@ -69,7 +69,6 @@ function(apigen_swift_test target swift_target_flag module_name)
             ${swift_target_flag}
             -emit-executable
             -o "test${target}"
-            -embed-bitcode
             -L${SWIFT_OUTPUT_DIR}
             -I${SWIFT_OUTPUT_DIR}
             -l${module_name}

@@ -112,7 +112,6 @@ function(apigen_swift_compile target architecture)
             -emit-library
             -module-name ${target}
             -o "lib${MODULE_NAME}.so"
-            -embed-bitcode
             )
 
         string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
