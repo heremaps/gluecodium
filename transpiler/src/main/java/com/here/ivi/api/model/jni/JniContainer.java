@@ -20,8 +20,10 @@
 package com.here.ivi.api.model.jni;
 
 import com.here.ivi.api.model.common.Include;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * JniContainer is a container for classes, fields and methods.
@@ -44,7 +46,7 @@ public final class JniContainer implements JniElement {
   public final List<JniMethod> parentMethods = new LinkedList<>();
   public final List<JniStruct> structs = new LinkedList<>();
   public final List<JniEnum> enums = new LinkedList<>();
-  public final List<Include> includes = new LinkedList<>();
+  public final Set<Include> includes = new LinkedHashSet<>();
 
   @SuppressWarnings("ParameterNumber")
   @lombok.Builder(builderClassName = "Builder")
