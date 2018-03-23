@@ -32,6 +32,7 @@ import static org.mockito.Mockito.when;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.common.InstanceRules;
 import com.here.ivi.api.model.cpp.*;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
@@ -89,6 +90,7 @@ public class JniModelBuilderTest {
 
   @Mock private JavaModelBuilder javaBuilder;
   @Mock private CppModelBuilder cppBuilder;
+  @Mock private CppIncludeResolver cppIncludeResolver;
 
   private final JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
   private final CppClass cppClass = new CppClass(CPP_CLASS_NAME);
@@ -112,17 +114,21 @@ public class JniModelBuilderTest {
   private final JavaMethod javaSetter = JavaMethod.builder("setFoo").build();
   private final CppMethod cppSetter = new CppMethod.Builder("shootBothFeet").build();
   private final JniType jniType = JniType.createType(javaCustomType, cppCustomType);
+  private final Include cppInclude = Include.createInternalInclude("Foo.h");
 
   private JniModelBuilder modelBuilder;
 
   private final EList<FArgument> arguments = new ArrayEList<>();
+  private final EList<FType> types = new ArrayEList<>();
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(InstanceRules.class);
 
-    modelBuilder = new JniModelBuilder(contextStack, deploymentModel, javaBuilder, cppBuilder);
+    modelBuilder =
+        new JniModelBuilder(
+            contextStack, deploymentModel, javaBuilder, cppBuilder, cppIncludeResolver);
 
     javaSetter.parameters.add(new JavaParameter(JavaPrimitiveType.INT, "value"));
     cppSetter.parameters.add(new CppParameter("value", CppPrimitiveTypeRef.INT8));
@@ -130,11 +136,14 @@ public class JniModelBuilderTest {
 
     when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppClass);
-    when(francaMethod.getOutArgs()).thenReturn(arguments);
+    when(cppIncludeResolver.resolveInclude(any())).thenReturn(cppInclude);
 
     when(francaInterface.eContainer()).thenReturn(fModel);
+    when(francaInterface.getTypes()).thenReturn(types);
     when(francaTypeCollection.eContainer()).thenReturn(fModel);
+    when(francaTypeCollection.getTypes()).thenReturn(types);
     when(fModel.getName()).thenReturn(String.join(".", CPP_NAMESPACE_MEMBERS));
+    when(francaMethod.getOutArgs()).thenReturn(arguments);
   }
 
   private static JavaMethod createJavaMethod() {
@@ -355,7 +364,7 @@ public class JniModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaInterface() {
+  public void finishBuildingFrancaInterfaceReadsIsInterface() {
     //arrange
     when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
 
@@ -420,6 +429,30 @@ public class JniModelBuilderTest {
     assertEquals(2, jniContainer.parentMethods.size());
     assertEquals(jniContainer, jniContainer.parentMethods.get(0).owningContainer);
     assertEquals(jniContainer, jniContainer.parentMethods.get(1).owningContainer);
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsInterfaceInclude() {
+    modelBuilder.finishBuilding(francaInterface);
+
+    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
+    assertNotNull(jniContainer);
+    assertEquals(1, jniContainer.includes.size());
+    verify(cppIncludeResolver).resolveInclude(francaInterface);
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsTypeIncludes() {
+    types.add(francaStructType);
+    when(cppIncludeResolver.resolveInclude(any(FType.class)))
+        .thenReturn(Include.createInternalInclude("Bar.h"));
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
+    assertNotNull(jniContainer);
+    assertEquals(2, jniContainer.includes.size());
+    verify(cppIncludeResolver).resolveInclude(francaStructType);
   }
 
   @Test
@@ -556,6 +589,20 @@ public class JniModelBuilderTest {
     assertEquals("my.cpp.stuffs.namespace", String.join(".", jniContainer.cppNameSpaces));
     assertNull(jniContainer.javaName);
     assertNull(jniContainer.cppName);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeCollectionReadsTypeIncludes() {
+    types.add(francaStructType);
+    when(cppIncludeResolver.resolveInclude(any(FType.class)))
+        .thenReturn(Include.createInternalInclude("Bar.h"));
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+
+    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
+    assertNotNull(jniContainer);
+    assertEquals(1, jniContainer.includes.size());
+    verify(cppIncludeResolver).resolveInclude(francaStructType);
   }
 
   @Test

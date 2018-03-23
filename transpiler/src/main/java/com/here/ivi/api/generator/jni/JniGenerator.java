@@ -22,7 +22,6 @@ package com.here.ivi.api.generator.jni;
 import com.here.ivi.api.generator.common.AbstractGenerator;
 import com.here.ivi.api.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
-import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.cpp.CppTypeMapper;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
 import com.here.ivi.api.generator.java.JavaTypeMapper;
@@ -56,6 +55,7 @@ public final class JniGenerator extends AbstractGenerator {
   private final List<String> additionalIncludes;
   private final boolean enableAndroidFeatures;
   private final String internalNamespace;
+  private final CppIncludeResolver cppIncludeResolver;
 
   public JniGenerator(
       final FrancaDeploymentModel deploymentModel,
@@ -68,6 +68,7 @@ public final class JniGenerator extends AbstractGenerator {
     this.additionalIncludes = additionalIncludes;
     this.enableAndroidFeatures = enableAndroidFeatures;
     this.internalNamespace = internalNamespace;
+    this.cppIncludeResolver = new CppIncludeResolver();
   }
 
   public Collection<ModelElement> generateModel(
@@ -84,16 +85,17 @@ public final class JniGenerator extends AbstractGenerator {
                 enableAndroidFeatures ? PARCELABLE : null,
                 enableAndroidFeatures ? NON_NULL : null));
 
-    CppTypeMapper typeMapper = new CppTypeMapper(new CppIncludeResolver(), internalNamespace);
+    CppTypeMapper typeMapper = new CppTypeMapper(cppIncludeResolver, internalNamespace);
     CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, typeMapper);
-    JniModelBuilder jniBuilder = new JniModelBuilder(deploymentModel, javaBuilder, cppBuilder);
+    JniModelBuilder jniBuilder =
+        new JniModelBuilder(deploymentModel, javaBuilder, cppBuilder, cppIncludeResolver);
 
     FrancaTreeWalker treeWalker =
         new FrancaTreeWalker(Arrays.asList(javaBuilder, cppBuilder, jniBuilder));
     treeWalker.walkTree(francaTypeCollection);
 
     JniContainer jniContainer = jniBuilder.getFinalResult(JniContainer.class);
-    jniContainer.includes.addAll(getIncludes(francaTypeCollection, jniContainer));
+    jniContainer.includes.addAll(getIncludes(jniContainer));
 
     exceptionsCollector.putAll(javaBuilder.exceptionClasses);
 
@@ -103,12 +105,9 @@ public final class JniGenerator extends AbstractGenerator {
     return results;
   }
 
-  private List<Include> getIncludes(
-      final FTypeCollection francaTypeCollection, final JniContainer jniContainer) {
+  private List<Include> getIncludes(final JniContainer jniContainer) {
 
-    String baseApiHeaderInclude = CppNameRules.getHeaderPath(francaTypeCollection);
-
-    List<String> includes = new LinkedList<>(Collections.singletonList(baseApiHeaderInclude));
+    List<String> includes = new LinkedList<>();
     if (jniContainer.isFrancaInterface) {
       includes.add(JniNameRules.getHeaderFileName(JniNameRules.getJniClassFileName(jniContainer)));
     }

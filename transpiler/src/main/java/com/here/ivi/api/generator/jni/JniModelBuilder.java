@@ -19,20 +19,21 @@
 
 package com.here.ivi.api.generator.jni;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.here.ivi.api.common.CollectionsHelper;
 import com.here.ivi.api.generator.common.modelbuilder.AbstractModelBuilder;
 import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContextStack;
 import com.here.ivi.api.generator.cpp.CppModelBuilder;
 import com.here.ivi.api.generator.cpp.CppNameRules;
 import com.here.ivi.api.generator.java.JavaModelBuilder;
+import com.here.ivi.api.model.common.Include;
 import com.here.ivi.api.model.cpp.*;
 import com.here.ivi.api.model.franca.DefinedBy;
 import com.here.ivi.api.model.franca.FrancaDeploymentModel;
 import com.here.ivi.api.model.java.*;
 import com.here.ivi.api.model.jni.*;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.franca.core.franca.*;
 
 /**
@@ -54,24 +55,34 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
   private final FrancaDeploymentModel deploymentModel;
   private final JavaModelBuilder javaBuilder;
   private final CppModelBuilder cppBuilder;
+  private final CppIncludeResolver cppIncludeResolver;
 
-  public JniModelBuilder(
+  @VisibleForTesting
+  JniModelBuilder(
       final ModelBuilderContextStack<JniElement> contextStack,
       final FrancaDeploymentModel deploymentModel,
       final JavaModelBuilder javaBuilder,
-      final CppModelBuilder cppBuilder) {
+      final CppModelBuilder cppBuilder,
+      final CppIncludeResolver cppIncludeResolver) {
 
     super(contextStack);
     this.deploymentModel = deploymentModel;
     this.javaBuilder = javaBuilder;
     this.cppBuilder = cppBuilder;
+    this.cppIncludeResolver = cppIncludeResolver;
   }
 
   public JniModelBuilder(
       final FrancaDeploymentModel deploymentModel,
       final JavaModelBuilder javaBuilder,
-      final CppModelBuilder cppBuilder) {
-    this(new ModelBuilderContextStack<>(), deploymentModel, javaBuilder, cppBuilder);
+      final CppModelBuilder cppBuilder,
+      final CppIncludeResolver cppIncludeResolver) {
+    this(
+        new ModelBuilderContextStack<>(),
+        deploymentModel,
+        javaBuilder,
+        cppBuilder,
+        cppIncludeResolver);
   }
 
   @Override
@@ -101,6 +112,9 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     getPreviousResults(JniMethod.class).forEach(jniContainer::add);
     getPreviousResults(JniStruct.class).forEach(jniContainer::add);
     getPreviousResults(JniEnum.class).forEach(jniContainer::add);
+
+    jniContainer.includes.add(cppIncludeResolver.resolveInclude(francaInterface));
+    jniContainer.includes.addAll(getIncludes(francaInterface));
 
     storeResult(jniContainer);
     closeContext();
@@ -218,6 +232,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniEnum.class)
         .forEach(jniContainer::add);
 
+    jniContainer.includes.addAll(getIncludes(francaTypeCollection));
+
     storeResult(jniContainer);
     closeContext();
   }
@@ -249,5 +265,13 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     }
 
     closeContext();
+  }
+
+  private Collection<Include> getIncludes(final FTypeCollection francaTypeCollection) {
+    return francaTypeCollection
+        .getTypes()
+        .stream()
+        .map(cppIncludeResolver::resolveInclude)
+        .collect(Collectors.toList());
   }
 }
