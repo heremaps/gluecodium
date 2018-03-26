@@ -65,7 +65,7 @@ FIDL:
 
 FDEPL:
 
-    define navigation.BaseApiSpec for interface example.ExampleInterface
+    define TranspilerExtensions for interface example.ExampleInterface
     {
         IsInterface = true
     }
@@ -87,7 +87,7 @@ FIDL:
 
 FDEPL:
 
-    define navigation.BaseApiSpec for interface example.ExampleInterface
+    define TranspilerExtensions for interface example.ExampleInterface
     {
         method exampleMethod {
             Const = true
@@ -112,7 +112,7 @@ FIDL:
 
 FDEPL:
 
-    define navigation.BaseApiSpec for interface example.ExampleInterface
+    define TranspilerExtensions for interface example.ExampleInterface
     {
         method exampleMethod {
             Static = true
@@ -137,7 +137,7 @@ FIDL:
 
 FDEPL:
 
-    define navigation.BaseApiSpec for typeCollection example.ExampleTypeCollection
+    define TranspilerExtensions for typeCollection example.ExampleTypeCollection
     {
         struct exampleStruct {
             Serializable = true
@@ -175,6 +175,43 @@ FDEPL:
             }
             stringField {
                 DefaultValue = "some string"
+            }
+        }
+    }
+
+### Struct field: NotNull
+
+This FDEPL property controls whether the given field in the given Franca struct can have a `null`
+value (`nil` in Swift). Default value is `false`, i.e. the field is nullable.
+
+**Note:** In generated Swift code this property controls whether the field has an "optional" type or
+not, therefore enforcing (non-)nullability on compile time. For Java and C++ generated code the
+non-nullability is expressed as documentation comments, thus not being enforced by compiler.
+
+**Note:** For Android-enabled Java generated code the non-nullability is also expressed through a
+@NonNull annotation, thus enabling compile time enforcing when used with Kotlin language.
+
+FIDL:
+
+    package example
+
+    typeCollection ExampleTypeCollection {
+        struct exampleStruct {
+            Float floatField
+            exampleNestedStruct structField
+        }
+        struct exampleNestedStruct {
+            String stringField
+        }
+    }
+
+FDEPL:
+
+    define TranspilerExtensions for typeCollection example.ExampleTypeCollection
+    {
+        struct exampleStruct {
+            structField {
+                NotNull = true
             }
         }
     }
