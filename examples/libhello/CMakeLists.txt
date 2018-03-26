@@ -346,7 +346,8 @@ elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     endif()
     apigen_java_compile(TARGET hello
         LOCAL_DEPENDENCIES "android"
-        LOCAL_DEPENDENCIES_DIRS "$ENV{ANDROID_HOME}/platforms/${ANDROID_PLATFORM}")
+        LOCAL_DEPENDENCIES_DIRS "$ENV{ANDROID_HOME}/platforms/${ANDROID_PLATFORM}"
+        REMOTE_DEPENDENCIES "com.android.support:support-annotations:27.1.0")
     apigen_java_jar(hello)
     apigen_android_archive(TARGET hello)
 elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
