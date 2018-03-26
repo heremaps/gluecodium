@@ -1,5 +1,10 @@
 # API Transpiler Release Notes
 
+## 2.2.0
+- Features:
+  + Added FDEPL flag "NotNull" for marking struct fields as optional/non-optional in Swift or
+   annotating them with @NonNull annotation in Java.
+
 ## 2.1.0
 - Features:
   + Added FDEPL flag "Internal" for marking classes, methods and fields as "internal" in Swift or
