@@ -344,7 +344,9 @@ elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
     if(NOT DEFINED ANDROID_PLATFORM)
         set(ANDROID_PLATFORM "android-${ANDROID_NATIVE_API_LEVEL}")
     endif()
-    apigen_java_compile(TARGET hello CLASS_PATH "$ENV{ANDROID_HOME}/platforms/${ANDROID_PLATFORM}/android.jar")
+    apigen_java_compile(TARGET hello
+        LOCAL_DEPENDENCIES "android"
+        LOCAL_DEPENDENCIES_DIRS "$ENV{ANDROID_HOME}/platforms/${ANDROID_PLATFORM}")
     apigen_java_jar(hello)
     apigen_android_archive(TARGET hello)
 elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
