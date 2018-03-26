@@ -32,7 +32,7 @@ function cmake_generator {
 }
 
 function publish_local {
-    TRANSPILER_DIRECTORY=${SCRIPT_DIR}/../../../api-transpiler/
+    TRANSPILER_DIRECTORY=${SCRIPT_DIR}/../../
 
     pushd "${TRANSPILER_DIRECTORY}"
     safe ./gradlew publishToMavenLocal
