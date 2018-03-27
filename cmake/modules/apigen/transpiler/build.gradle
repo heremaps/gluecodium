@@ -66,4 +66,3 @@ class TimingsListener implements TaskExecutionListener, BuildListener {
 }
 
 gradle.addListener new TimingsListener()
-
