@@ -86,8 +86,6 @@ function(apigen_generate)
         set(apigen_generate_GENERATOR "cpp,${apigen_generate_GENERATOR}")
     endif()
 
-    # Trigger a re-configure if there are any changes to the franca sources. This will run the Genium. Only works if files were specified individually.
-    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${apigen_generate_FRANCA_SOURCES})
 
     # Build Genium tool command-line
     set(APIGEN_TRANSPILER_ARGS "\
@@ -101,6 +99,8 @@ function(apigen_generate)
         file(GLOB_RECURSE inputFrancaSources ${input}/*.fidl ${input}/*.fdepl)
         if(inputFrancaSources)
             target_sources(${apigen_generate_TARGET} PRIVATE ${inputFrancaSources})
+            # Trigger a re-configure if there are any changes to the franca sources.
+            set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${inputFrancaSources})
         endif()
 
         if (NOT IS_ABSOLUTE ${input})
