@@ -137,7 +137,6 @@ LD_PRELOAD=$JEMALLOC_LIB safe ./gradlew build
 if [ "$USE_JEMALLOC" = true ]; then
     REPORTS_DIR=app/build/reports/
     mkdir -p $REPORTS_DIR
-    HOST_ARCH=$(uname -m)
-    jeprof --show_bytes ../../build-android-host-$HOST_ARCH/libhello/libhello.so app/jeprof.*.heap --text --lines >$REPORTS_DIR/android_tests_jeprof
+    jeprof --show_bytes ../../build-android-$HOST_ARCH/libhello/libhello.so app/jeprof.*.heap --text --lines >$REPORTS_DIR/android_tests_jeprof
 fi
 popd
