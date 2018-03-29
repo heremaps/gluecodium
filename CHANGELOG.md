@@ -1,5 +1,9 @@
 # API Transpiler Release Notes
 
+## 2.2.1
+- Bug fixes:
+  + Fixed missing HERE license for artifactory publish
+
 ## 2.2.0
 - Features:
   + Added FDEPL flag "NotNull" for marking struct fields as optional/non-optional in Swift or
