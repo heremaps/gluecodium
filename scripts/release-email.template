@@ -1,0 +1,9 @@
+Hi,
+
+Please find the ${PRODUCT} release artifacts here:
+
+  ${RELEASE_URL}
+
+Release notes:
+
+${RELEASE_NOTES}
