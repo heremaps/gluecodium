@@ -72,4 +72,8 @@
     <string name="map_value_hint">message</string>
     <string name="add_button_description">Add map entry</string>
     <string name="delete_button_description">Remove map entry</string>
+    <string name="inheritance_table_header_shape">Shape</string>
+    <string name="inheritance_table_header_circle">Circle</string>
+    <string name="inheritance_table_header_rectangle">Rectangle</string>
+    <string name="inheritance_table_header_square">Square</string>
 </resources>
