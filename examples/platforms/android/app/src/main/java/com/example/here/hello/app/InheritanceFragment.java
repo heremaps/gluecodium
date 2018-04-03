@@ -32,6 +32,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -57,29 +58,14 @@ public class InheritanceFragment extends Fragment {
   private Spinner spinner;
   private TextView description;
   private String[] descriptionsText;
-  private TextView header0;
-  private TextView header1;
-  private TextView header2;
-  private TextView header3;
-  private TextView header4;
+  private LinearLayout headers;
   private ListView inheritanceTable;
 
-  private static final String CORRECT = "\u2713";
-  private static final String INCORRECT = "\u2717";
-  private static final String UNKNOWN = "?";
+  private static final String CORRECT = "\u2714";
+  private static final String INCORRECT = "\u2715";
+  private static final String UNKNOWN = "\uFF1F";
 
   public InheritanceFragment() {}
-
-  private String makeVertical(String s) {
-    StringBuilder builder = new StringBuilder();
-
-    for (int i = 0; i < s.length(); ++i) {
-      builder.append(s.charAt(i));
-      builder.append('\n');
-    }
-
-    return builder.toString();
-  }
 
   private static class InheritanceCheckData {
     String instance;
@@ -170,21 +156,19 @@ public class InheritanceFragment extends Fragment {
     childJavaImplRectangle = new ChildJavaImplRectangle();
     nativeImplSquare = InheritanceHelper.createSquare();
 
-    header0 = rootView.findViewById(R.id.header0);
-    header1 = rootView.findViewById(R.id.header1);
-    header1.setText(makeVertical("Shape"));
-    header2 = rootView.findViewById(R.id.header2);
-    header2.setText(makeVertical("Circle"));
-    header3 = rootView.findViewById(R.id.header3);
-    header3.setText(makeVertical("Rectangle"));
-    header4 = rootView.findViewById(R.id.header4);
-    header4.setText(makeVertical("Square"));
-
+    headers = rootView.findViewById(R.id.headers);
     inheritanceTable = rootView.findViewById(R.id.inheritance_table);
     InheritanceAdapter adapter =
         new InheritanceAdapter(this, R.layout.inheritance_row, new ArrayList<>());
     String[] instances =
-        new String[] {"javaCircle", "nativeImplCircle", "nativeImplRectangle", "nativeImplSquare"};
+        new String[] {
+          "javaCircle",
+          "nativeImplCircle",
+          "nativeImplRectangle",
+          "parentJavaImplRectangle",
+          "childJavaImplRectangle",
+          "nativeImplSquare"
+        };
 
     for (String instance : instances) {
       adapter.add(new InheritanceCheckData(instance));
@@ -206,20 +190,12 @@ public class InheritanceFragment extends Fragment {
 
             if (position == 0) {
               description.setText(descriptionsText[position]);
-              header0.setVisibility(View.VISIBLE);
-              header1.setVisibility(View.VISIBLE);
-              header2.setVisibility(View.VISIBLE);
-              header3.setVisibility(View.VISIBLE);
-              header4.setVisibility(View.VISIBLE);
+              headers.setVisibility(View.VISIBLE);
               inheritanceTable.setVisibility(View.VISIBLE);
               result.setVisibility(View.GONE);
             } else {
               description.setText("");
-              header0.setVisibility(View.GONE);
-              header1.setVisibility(View.GONE);
-              header2.setVisibility(View.GONE);
-              header3.setVisibility(View.GONE);
-              header4.setVisibility(View.GONE);
+              headers.setVisibility(View.GONE);
               inheritanceTable.setVisibility(View.GONE);
               result.setVisibility(View.VISIBLE);
               result.setText(descriptionsText[position]);
@@ -260,6 +236,9 @@ public class InheritanceFragment extends Fragment {
           adapter.add(createInheritanceCheckData("javaCircle", javaImplCircle));
           adapter.add(createInheritanceCheckData("nativeImplCircle", nativeImplCircle));
           adapter.add(createInheritanceCheckData("nativeImplRectangle", nativeImplRectangle));
+          adapter.add(
+              createInheritanceCheckData("parentJavaImplRectangle", parentJavaImplRectangle));
+          adapter.add(createInheritanceCheckData("childJavaImplRectangle", childJavaImplRectangle));
           adapter.add(createInheritanceCheckData("nativeImplSquare", nativeImplSquare));
         }
         break;
