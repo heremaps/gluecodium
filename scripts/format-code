@@ -4,4 +4,4 @@
 #
 
 # C++ code with clang-format
-find transpiler/src/main/resources \( -name *.h -o -name *.cpp \) -exec clang-format -i {} \;
+find genium/src/main/resources \( -name *.h -o -name *.cpp \) -exec clang-format -i {} \;

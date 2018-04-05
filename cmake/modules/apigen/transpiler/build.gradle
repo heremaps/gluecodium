@@ -9,7 +9,7 @@ repositories {
 apply plugin: 'application'
 
 dependencies {
-    runtime "com.here.ivi.api:transpiler:$version"
+    runtime "com.here.ivi.api:genium:$version"
 }
 
 mainClassName = 'com.here.ivi.api.Transpiler'
