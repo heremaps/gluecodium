@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.java;
+package com.here.genium.generator.java;
 
-import com.here.ivi.api.common.FrancaTypeHelper;
-import com.here.ivi.api.model.common.InstanceRules;
-import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.java.*;
+import com.here.genium.common.FrancaTypeHelper;
+import com.here.genium.model.common.InstanceRules;
+import com.here.genium.model.franca.DefinedBy;
+import com.here.genium.model.java.*;
 import java.util.LinkedList;
 import java.util.List;
 import lombok.Getter;

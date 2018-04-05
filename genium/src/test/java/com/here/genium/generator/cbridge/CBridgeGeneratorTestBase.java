@@ -17,21 +17,21 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cbridge;
+package com.here.genium.generator.cbridge;
 
 import static java.util.Arrays.asList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import com.here.ivi.api.generator.cpp.CppNameRules;
-import com.here.ivi.api.generator.swift.SwiftNameRules;
-import com.here.ivi.api.model.cbridge.CBridgeIncludeResolver;
-import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cpp.CppIncludeResolver;
-import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.test.ArrayEList;
+import com.here.genium.generator.cpp.CppNameRules;
+import com.here.genium.generator.swift.SwiftNameRules;
+import com.here.genium.model.cbridge.CBridgeIncludeResolver;
+import com.here.genium.model.common.Include;
+import com.here.genium.model.cpp.CppIncludeResolver;
+import com.here.genium.model.franca.DefinedBy;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.test.ArrayEList;
 import java.util.List;
 import org.franca.core.franca.*;
 import org.mockito.Mock;

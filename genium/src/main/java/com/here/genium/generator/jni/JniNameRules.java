@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.jni;
+package com.here.genium.generator.jni;
 
-import com.here.ivi.api.model.java.JavaCustomType;
-import com.here.ivi.api.model.jni.JniContainer;
+import com.here.genium.model.java.JavaCustomType;
+import com.here.genium.model.jni.JniContainer;
 import java.io.File;
 import java.util.List;
 

@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.androidmanifest;
+package com.here.genium.generator.androidmanifest;
 
-import com.here.ivi.api.generator.common.AbstractGenerator;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.TemplateEngine;
+import com.here.genium.generator.common.AbstractGenerator;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.generator.common.TemplateEngine;
 import java.util.List;
 
 public final class AndroidManifestGenerator extends AbstractGenerator {

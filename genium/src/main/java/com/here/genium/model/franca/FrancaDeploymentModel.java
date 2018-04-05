@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.franca;
+package com.here.genium.model.franca;
 
 import java.util.*;
 import java.util.stream.Collectors;

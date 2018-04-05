@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.validator.visibility;
+package com.here.genium.validator.visibility;
 
-import com.here.ivi.api.common.FrancaTypeHelper;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.validator.ValidatorPredicate;
+import com.here.genium.common.FrancaTypeHelper;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.validator.ValidatorPredicate;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

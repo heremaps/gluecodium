@@ -17,25 +17,25 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api;
+package com.here.genium;
 
 import com.android.manifmerger.Merger;
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.cache.CachingStrategy;
-import com.here.ivi.api.cache.CachingStrategyCreator;
-import com.here.ivi.api.cli.*;
-import com.here.ivi.api.common.TimeLogger;
-import com.here.ivi.api.generator.common.*;
-import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.logger.TranspilerLogger;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.franca.ModelHelper;
-import com.here.ivi.api.output.ConsoleOutput;
-import com.here.ivi.api.output.FileOutput;
-import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
-import com.here.ivi.api.platform.common.GeneratorSuite;
-import com.here.ivi.api.validator.*;
-import com.here.ivi.api.validator.visibility.*;
+import com.here.genium.cache.CachingStrategy;
+import com.here.genium.cache.CachingStrategyCreator;
+import com.here.genium.cli.*;
+import com.here.genium.common.TimeLogger;
+import com.here.genium.generator.common.*;
+import com.here.genium.loader.FrancaModelLoader;
+import com.here.genium.logger.TranspilerLogger;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.model.franca.ModelHelper;
+import com.here.genium.output.ConsoleOutput;
+import com.here.genium.output.FileOutput;
+import com.here.genium.platform.android.AndroidGeneratorSuite;
+import com.here.genium.platform.common.GeneratorSuite;
+import com.here.genium.validator.*;
+import com.here.genium.validator.visibility.*;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;

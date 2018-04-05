@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cbridge;
+package com.here.genium.generator.cbridge;
 
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
+import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
+import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -29,12 +29,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
-import com.here.ivi.api.common.FrancaTypeHelper;
-import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
-import com.here.ivi.api.model.cbridge.CBridgeIncludeResolver;
-import com.here.ivi.api.model.cbridge.CType;
-import com.here.ivi.api.model.cpp.CppIncludeResolver;
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.genium.common.FrancaTypeHelper;
+import com.here.genium.generator.cpp.CppLibraryIncludes;
+import com.here.genium.model.cbridge.CBridgeIncludeResolver;
+import com.here.genium.model.cbridge.CType;
+import com.here.genium.model.cpp.CppIncludeResolver;
+import com.here.genium.model.franca.DefinedBy;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;

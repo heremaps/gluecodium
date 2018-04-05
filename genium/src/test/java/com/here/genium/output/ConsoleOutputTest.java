@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.output;
+package com.here.genium.output;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.common.modelbuilder;
+package com.here.genium.generator.common.modelbuilder;
 
 import java.util.Collection;
 import java.util.HashMap;

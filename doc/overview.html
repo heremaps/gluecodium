@@ -9,7 +9,7 @@ final output.
 
 <div align="center"><object type="image/svg+xml" data="transpiler_flow.svg"></object></div>
 
-<h2>{@linkplain com.here.ivi.api.loader.FrancaModelLoader Loader}</h2>
+<h2>{@linkplain com.here.genium.loader.FrancaModelLoader Loader}</h2>
 These components take care of loading the IDL and Deploy files. All imports are resolved by the Franca framework, and we
 make sure default SpecAccessors (BaseApiSpec.fidl) are available for all Model elements.
 
@@ -17,13 +17,13 @@ make sure default SpecAccessors (BaseApiSpec.fidl) are available for all Model e
 These components are mostly based directly on Franca framework types, and contain little additional structure. During
 this step some meta data for the Generators is prepared.
 
-<h2>{@linkplain com.here.ivi.api.platform.common.GeneratorSuite Generator Suites}</h2>
+<h2>{@linkplain com.here.genium.platform.common.GeneratorSuite Generator Suites}</h2>
 The Model is passed to all selected/available Generator Suites. These will combine multiple Generators to build a API
 layer. The current suites are
 <ul>
-    <li>{@link com.here.ivi.api.platform.baseapi.BaseApiGeneratorSuite}</li>
-    <li>{@link com.here.ivi.api.platform.android.AndroidGeneratorSuite}</li>
-    <li>{@link com.here.ivi.api.platform.swift.SwiftGeneratorSuite}</li>
+    <li>{@link com.here.genium.platform.baseapi.BaseApiGeneratorSuite}</li>
+    <li>{@link com.here.genium.platform.android.AndroidGeneratorSuite}</li>
+    <li>{@link com.here.genium.platform.swift.SwiftGeneratorSuite}</li>
 </ul>
 
 <h2><a href="{@docRoot}/com/here/ivi/api/validator/package-summary.html">Validator</a></h2>
@@ -41,7 +41,7 @@ conversions etc.
 
 <h2>Templates</h2>
 The templates are written in Trimou and used to convert the model into source files of the target language. This is done
-by the {@link com.here.ivi.api.generator.common.TemplateEngine TemplateEngine}.
+by the {@link com.here.genium.generator.common.TemplateEngine TemplateEngine}.
 
 <h2>Output</h2>
 Finally the produced instance of the templates is put through an

@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.jni;
+package com.here.genium.model.jni;
 
-import com.here.ivi.api.model.cpp.CppStruct;
-import com.here.ivi.api.model.java.JavaClass;
+import com.here.genium.model.cpp.CppStruct;
+import com.here.genium.model.java.JavaClass;
 import java.util.List;
 
 public class JniStruct extends JniTopLevelElement {

@@ -17,16 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.platform.common;
+package com.here.genium.platform.common;
 
-import com.here.ivi.api.cli.OptionReader;
-import com.here.ivi.api.cli.TranspilerExecutionException;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
-import com.here.ivi.api.platform.android.JavaGeneratorSuite;
-import com.here.ivi.api.platform.baseapi.BaseApiGeneratorSuite;
-import com.here.ivi.api.platform.swift.SwiftGeneratorSuite;
+import com.here.genium.cli.OptionReader;
+import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.platform.android.AndroidGeneratorSuite;
+import com.here.genium.platform.android.JavaGeneratorSuite;
+import com.here.genium.platform.baseapi.BaseApiGeneratorSuite;
+import com.here.genium.platform.swift.SwiftGeneratorSuite;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

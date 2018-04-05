@@ -17,23 +17,23 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.platform.android;
+package com.here.genium.platform.android;
 
-import com.here.ivi.api.cli.OptionReader;
-import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.androidmanifest.AndroidManifestGenerator;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.java.JavaTemplates;
-import com.here.ivi.api.generator.jni.JniGenerator;
-import com.here.ivi.api.generator.jni.JniNameRules;
-import com.here.ivi.api.generator.jni.JniTemplates;
-import com.here.ivi.api.model.common.ModelElement;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.java.JavaElement;
-import com.here.ivi.api.model.java.JavaExceptionClass;
-import com.here.ivi.api.model.java.JavaPackage;
-import com.here.ivi.api.model.jni.JniContainer;
-import com.here.ivi.api.platform.common.GeneratorSuite;
+import com.here.genium.cli.OptionReader;
+import com.here.genium.common.CollectionsHelper;
+import com.here.genium.generator.androidmanifest.AndroidManifestGenerator;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.generator.java.JavaTemplates;
+import com.here.genium.generator.jni.JniGenerator;
+import com.here.genium.generator.jni.JniNameRules;
+import com.here.genium.generator.jni.JniTemplates;
+import com.here.genium.model.common.ModelElement;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.model.java.JavaElement;
+import com.here.genium.model.java.JavaExceptionClass;
+import com.here.genium.model.java.JavaPackage;
+import com.here.genium.model.jni.JniContainer;
+import com.here.genium.platform.common.GeneratorSuite;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

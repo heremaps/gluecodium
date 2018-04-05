@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.platform.baseapi;
+package com.here.genium.platform.baseapi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import com.here.ivi.api.cli.OptionReader;
-import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.genium.cli.OptionReader;
+import com.here.genium.generator.common.GeneratedFile;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;

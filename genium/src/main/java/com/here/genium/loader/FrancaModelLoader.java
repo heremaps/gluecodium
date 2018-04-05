@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.loader;
+package com.here.genium.loader;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.here.ivi.api.cli.TranspilerExecutionException;
-import com.here.ivi.api.model.franca.*;
+import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.model.franca.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;

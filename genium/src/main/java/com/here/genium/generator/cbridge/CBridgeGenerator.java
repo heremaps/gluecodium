@@ -17,25 +17,25 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cbridge;
+package com.here.genium.generator.cbridge;
 
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC;
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.SRC_DIR;
+import static com.here.genium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC;
+import static com.here.genium.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
+import static com.here.genium.generator.cbridge.CBridgeNameRules.SRC_DIR;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.generator.common.modelbuilder.FrancaTreeWalker;
-import com.here.ivi.api.generator.cpp.CppModelBuilder;
-import com.here.ivi.api.generator.cpp.CppTypeMapper;
-import com.here.ivi.api.generator.swift.SwiftModelBuilder;
-import com.here.ivi.api.model.cbridge.CBridgeIncludeResolver;
-import com.here.ivi.api.model.cbridge.CInterface;
-import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cpp.CppIncludeResolver;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.platform.common.GeneratorSuite;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
+import com.here.genium.generator.cpp.CppModelBuilder;
+import com.here.genium.generator.cpp.CppTypeMapper;
+import com.here.genium.generator.swift.SwiftModelBuilder;
+import com.here.genium.model.cbridge.CBridgeIncludeResolver;
+import com.here.genium.model.cbridge.CInterface;
+import com.here.genium.model.common.Include;
+import com.here.genium.model.cpp.CppIncludeResolver;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.platform.common.GeneratorSuite;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;

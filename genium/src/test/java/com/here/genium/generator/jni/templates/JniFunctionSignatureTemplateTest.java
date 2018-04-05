@@ -17,21 +17,21 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.jni.templates;
+package com.here.genium.generator.jni.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cpp.CppComplexTypeRef;
-import com.here.ivi.api.model.cpp.CppPrimitiveTypeRef;
-import com.here.ivi.api.model.java.JavaCustomType;
-import com.here.ivi.api.model.java.JavaPackage;
-import com.here.ivi.api.model.java.JavaPrimitiveType;
-import com.here.ivi.api.model.java.JavaReferenceType;
-import com.here.ivi.api.model.jni.JniContainer;
-import com.here.ivi.api.model.jni.JniMethod;
-import com.here.ivi.api.model.jni.JniParameter;
-import com.here.ivi.api.model.jni.JniType;
+import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.model.cpp.CppComplexTypeRef;
+import com.here.genium.model.cpp.CppPrimitiveTypeRef;
+import com.here.genium.model.java.JavaCustomType;
+import com.here.genium.model.java.JavaPackage;
+import com.here.genium.model.java.JavaPrimitiveType;
+import com.here.genium.model.java.JavaReferenceType;
+import com.here.genium.model.jni.JniContainer;
+import com.here.genium.model.jni.JniMethod;
+import com.here.genium.model.jni.JniParameter;
+import com.here.genium.model.jni.JniType;
 import java.util.Arrays;
 import java.util.Collections;
 import org.junit.Test;

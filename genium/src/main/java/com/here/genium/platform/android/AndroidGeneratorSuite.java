@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.platform.android;
+package com.here.genium.platform.android;
 
-import com.here.ivi.api.cli.OptionReader;
-import com.here.ivi.api.generator.androidmanifest.AndroidManifestGenerator;
-import com.here.ivi.api.generator.jni.JniGenerator;
-import com.here.ivi.api.model.java.*;
+import com.here.genium.cli.OptionReader;
+import com.here.genium.generator.androidmanifest.AndroidManifestGenerator;
+import com.here.genium.generator.jni.JniGenerator;
+import com.here.genium.model.java.*;
 import java.util.*;
 
 /**

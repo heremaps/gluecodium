@@ -17,22 +17,22 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cbridge.templates;
+package com.here.genium.generator.cbridge.templates;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.generator.cbridge.CArrayMapper;
-import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
-import com.here.ivi.api.generator.cbridge.CTypeMapper;
-import com.here.ivi.api.generator.cbridge.CppTypeInfo;
-import com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory;
-import com.here.ivi.api.model.cbridge.*;
-import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cpp.CppIncludeResolver;
-import com.here.ivi.api.test.TemplateComparator;
-import com.here.ivi.api.test.TemplateComparison;
+import com.here.genium.generator.cbridge.CArrayMapper;
+import com.here.genium.generator.cbridge.CBridgeGenerator;
+import com.here.genium.generator.cbridge.CTypeMapper;
+import com.here.genium.generator.cbridge.CppTypeInfo;
+import com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory;
+import com.here.genium.model.cbridge.*;
+import com.here.genium.model.common.Include;
+import com.here.genium.model.cpp.CppIncludeResolver;
+import com.here.genium.test.TemplateComparator;
+import com.here.genium.test.TemplateComparison;
 import java.util.*;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;

@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cpp;
+package com.here.genium.model.cpp;
 
 import static org.junit.Assert.*;
 
-import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.model.common.Include;
+import com.here.genium.common.CollectionsHelper;
+import com.here.genium.model.common.Include;
 import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;

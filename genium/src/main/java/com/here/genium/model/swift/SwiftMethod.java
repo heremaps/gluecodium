@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.swift;
+package com.here.genium.model.swift;
 
-import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
-import com.here.ivi.api.generator.common.NameHelper;
+import com.here.genium.generator.cbridge.CBridgeNameRules;
+import com.here.genium.generator.common.NameHelper;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;

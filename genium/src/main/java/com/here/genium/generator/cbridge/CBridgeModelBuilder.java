@@ -17,26 +17,26 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cbridge;
+package com.here.genium.generator.cbridge;
 
-import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.*;
+import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.*;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.common.modelbuilder.AbstractModelBuilder;
-import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContextStack;
-import com.here.ivi.api.generator.cpp.CppModelBuilder;
-import com.here.ivi.api.generator.cpp.CppNameRules;
-import com.here.ivi.api.generator.swift.SwiftModelBuilder;
-import com.here.ivi.api.model.cbridge.*;
-import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cpp.CppField;
-import com.here.ivi.api.model.cpp.CppIncludeResolver;
-import com.here.ivi.api.model.cpp.CppMethod;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.swift.SwiftField;
-import com.here.ivi.api.model.swift.SwiftMethod;
-import com.here.ivi.api.model.swift.SwiftProperty;
+import com.here.genium.common.CollectionsHelper;
+import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
+import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
+import com.here.genium.generator.cpp.CppModelBuilder;
+import com.here.genium.generator.cpp.CppNameRules;
+import com.here.genium.generator.swift.SwiftModelBuilder;
+import com.here.genium.model.cbridge.*;
+import com.here.genium.model.common.Include;
+import com.here.genium.model.cpp.CppField;
+import com.here.genium.model.cpp.CppIncludeResolver;
+import com.here.genium.model.cpp.CppMethod;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.model.swift.SwiftField;
+import com.here.genium.model.swift.SwiftMethod;
+import com.here.genium.model.swift.SwiftProperty;
 import java.util.*;
 import org.franca.core.franca.*;
 

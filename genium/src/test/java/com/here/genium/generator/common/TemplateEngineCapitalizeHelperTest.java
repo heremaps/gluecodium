@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.common;
+package com.here.genium.generator.common;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;

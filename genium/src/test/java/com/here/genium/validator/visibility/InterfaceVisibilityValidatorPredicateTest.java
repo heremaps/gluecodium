@@ -17,15 +17,15 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.validator.visibility;
+package com.here.genium.validator.visibility;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.common.FrancaTypeHelper;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
+import com.here.genium.common.FrancaTypeHelper;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.FInterface;
 import org.junit.Before;
 import org.junit.Test;

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cbridge;
+package com.here.genium.generator.cbridge;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
@@ -25,12 +25,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.cpp.CppNameRules;
-import com.here.ivi.api.generator.swift.SwiftNameRules;
-import com.here.ivi.api.model.cbridge.CInterface;
-import com.here.ivi.api.test.ArrayEList;
-import com.here.ivi.api.test.TemplateComparator;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.generator.cpp.CppNameRules;
+import com.here.genium.generator.swift.SwiftNameRules;
+import com.here.genium.model.cbridge.CInterface;
+import com.here.genium.test.ArrayEList;
+import com.here.genium.test.TemplateComparator;
 import java.math.BigInteger;
 import java.util.stream.Stream;
 import org.eclipse.emf.common.util.EList;

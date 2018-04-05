@@ -17,16 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.swift;
+package com.here.genium.generator.swift;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.test.ArrayEList;
+import com.here.genium.generator.common.NameHelper;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.test.ArrayEList;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;

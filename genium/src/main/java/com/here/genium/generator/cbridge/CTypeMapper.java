@@ -17,20 +17,20 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cbridge;
+package com.here.genium.generator.cbridge;
 
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
-import static com.here.ivi.api.generator.cbridge.CppTypeInfo.TypeCategory.*;
-import static com.here.ivi.api.model.cbridge.CType.VOID;
-import static com.here.ivi.api.model.common.InstanceRules.isInstanceId;
+import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
+import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
+import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.*;
+import static com.here.genium.model.cbridge.CType.VOID;
+import static com.here.genium.model.common.InstanceRules.isInstanceId;
 
-import com.here.ivi.api.common.FrancaTypeHelper;
-import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
-import com.here.ivi.api.model.cbridge.CBridgeIncludeResolver;
-import com.here.ivi.api.model.cbridge.CType;
-import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cpp.CppIncludeResolver;
+import com.here.genium.common.FrancaTypeHelper;
+import com.here.genium.generator.cpp.CppLibraryIncludes;
+import com.here.genium.model.cbridge.CBridgeIncludeResolver;
+import com.here.genium.model.cbridge.CType;
+import com.here.genium.model.common.Include;
+import com.here.genium.model.cpp.CppIncludeResolver;
 import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.*;

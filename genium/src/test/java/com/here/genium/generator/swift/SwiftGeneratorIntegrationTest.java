@@ -17,19 +17,19 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.swift;
+package com.here.genium.generator.swift;
 
-import static com.here.ivi.api.test.LoadModelHelper.readInFrancaModel;
+import static com.here.genium.test.LoadModelHelper.readInFrancaModel;
 import static org.junit.Assert.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.swift.SwiftClass;
-import com.here.ivi.api.model.swift.SwiftContainerType;
-import com.here.ivi.api.model.swift.SwiftFile;
-import com.here.ivi.api.model.swift.SwiftMethod;
-import com.here.ivi.api.model.swift.SwiftParameter;
-import com.here.ivi.api.test.LoadModelHelper;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.model.swift.SwiftClass;
+import com.here.genium.model.swift.SwiftContainerType;
+import com.here.genium.model.swift.SwiftFile;
+import com.here.genium.model.swift.SwiftMethod;
+import com.here.genium.model.swift.SwiftParameter;
+import com.here.genium.test.LoadModelHelper;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;

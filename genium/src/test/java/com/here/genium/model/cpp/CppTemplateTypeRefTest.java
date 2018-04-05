@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cpp;
+package com.here.genium.model.cpp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
-import com.here.ivi.api.model.common.Include;
+import com.here.genium.generator.cpp.CppLibraryIncludes;
+import com.here.genium.model.common.Include;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

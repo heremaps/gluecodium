@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cpp;
+package com.here.genium.generator.cpp;
 
-import com.here.ivi.api.model.cpp.*;
+import com.here.genium.model.cpp.*;
 import java.math.BigInteger;
 import org.apache.commons.text.StringEscapeUtils;
 import org.franca.core.franca.*;

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.swift;
+package com.here.genium.model.swift;
 
 public abstract class SwiftTypedModelElement extends SwiftModelElement {
 

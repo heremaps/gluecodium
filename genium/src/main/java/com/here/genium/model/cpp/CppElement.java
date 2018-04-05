@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cpp;
+package com.here.genium.model.cpp;
 
-import com.here.ivi.api.model.common.Streamable;
+import com.here.genium.model.common.Streamable;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = false)

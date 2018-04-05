@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.java;
+package com.here.genium.generator.java;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.java.JavaPackage;
-import com.here.ivi.api.model.java.JavaType;
+import com.here.genium.model.java.JavaPackage;
+import com.here.genium.model.java.JavaType;
 import java.util.Arrays;
 import java.util.Collection;
 import org.franca.core.franca.FBasicTypeId;

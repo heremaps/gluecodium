@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cpp;
+package com.here.genium.model.cpp;
 
-import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
-import com.here.ivi.api.generator.cpp.CppNameRules;
-import com.here.ivi.api.model.common.Include;
+import com.here.genium.generator.cpp.CppLibraryIncludes;
+import com.here.genium.generator.cpp.CppNameRules;
+import com.here.genium.model.common.Include;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

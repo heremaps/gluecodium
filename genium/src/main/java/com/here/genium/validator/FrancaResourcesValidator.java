@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.validator;
+package com.here.genium.validator;
 
 import java.io.File;
 import java.util.Collection;

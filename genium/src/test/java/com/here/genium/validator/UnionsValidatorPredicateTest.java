@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.validator;
+package com.here.genium.validator;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;

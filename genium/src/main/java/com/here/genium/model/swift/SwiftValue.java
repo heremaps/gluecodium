@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.swift;
+package com.here.genium.model.swift;
 
 public final class SwiftValue extends SwiftModelElement {
   public SwiftValue(String value) {

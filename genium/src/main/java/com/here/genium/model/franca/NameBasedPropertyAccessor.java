@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.franca;
+package com.here.genium.model.franca;
 
-import static com.here.ivi.api.common.FrancaTypeHelper.getFullName;
+import static com.here.genium.common.FrancaTypeHelper.getFullName;
 
 import java.util.HashMap;
 import java.util.Map;

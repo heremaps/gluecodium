@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.androidmanifest;
+package com.here.genium.generator.androidmanifest;
 
-import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
+import com.here.genium.platform.android.AndroidGeneratorSuite;
 import java.io.File;
 
 public final class AndroidManifestNameRules {

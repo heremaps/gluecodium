@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.validator;
+package com.here.genium.validator;
 
-import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
+import com.here.genium.common.CollectionsHelper;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;

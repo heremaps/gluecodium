@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.swift;
+package com.here.genium.generator.swift;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
@@ -26,11 +26,11 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
-import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
-import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.swift.*;
-import com.here.ivi.api.test.MockContextStack;
+import com.here.genium.generator.cbridge.CBridgeNameRules;
+import com.here.genium.model.franca.DefinedBy;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.model.swift.*;
+import com.here.genium.test.MockContextStack;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;

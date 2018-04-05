@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.java;
+package com.here.genium.model.java;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.model.java.JavaReferenceType.Type;
+import com.here.genium.model.java.JavaReferenceType.Type;
 import java.util.Collection;
 import org.junit.Test;
 import org.junit.runner.RunWith;

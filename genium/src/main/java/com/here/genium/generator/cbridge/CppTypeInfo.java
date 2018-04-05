@@ -17,19 +17,19 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cbridge;
+package com.here.genium.generator.cbridge;
 
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.STRING_HANDLE_FILE;
-import static com.here.ivi.api.model.cbridge.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
+import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
+import static com.here.genium.generator.cbridge.CBridgeNameRules.STRING_HANDLE_FILE;
+import static com.here.genium.model.cbridge.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
-import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
-import com.here.ivi.api.model.cbridge.CElement;
-import com.here.ivi.api.model.cbridge.CPointerType;
-import com.here.ivi.api.model.cbridge.CType;
-import com.here.ivi.api.model.common.Include;
+import com.here.genium.generator.cpp.CppLibraryIncludes;
+import com.here.genium.model.cbridge.CElement;
+import com.here.genium.model.cbridge.CPointerType;
+import com.here.genium.model.cbridge.CType;
+import com.here.genium.model.common.Include;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;

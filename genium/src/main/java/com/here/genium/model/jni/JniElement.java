@@ -17,8 +17,8 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.jni;
+package com.here.genium.model.jni;
 
-import com.here.ivi.api.model.common.ModelElement;
+import com.here.genium.model.common.ModelElement;
 
 public interface JniElement extends ModelElement {}

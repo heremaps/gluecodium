@@ -10,4 +10,4 @@
  *
  * For options reader, the output is an object that contains Transpiler options in parsed form.
  */
-package com.here.ivi.api.cli;
+package com.here.genium.cli;

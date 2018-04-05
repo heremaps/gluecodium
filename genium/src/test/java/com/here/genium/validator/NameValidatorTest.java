@@ -17,14 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.validator;
+package com.here.genium.validator;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.test.ArrayEList;
+import com.here.genium.test.ArrayEList;
 import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.FInterface;

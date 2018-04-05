@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cbridge;
+package com.here.genium.model.cbridge;
 
-import com.here.ivi.api.generator.cbridge.CppTypeInfo;
+import com.here.genium.generator.cbridge.CppTypeInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Field of a com.here.ivi.api.model.cbridge.CStruct */
+/** Field of a com.here.genium.model.cbridge.CStruct */
 public final class CField extends CElement {
 
   public final String baseLayerName;

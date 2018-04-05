@@ -17,15 +17,15 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.jni;
+package com.here.genium.generator.jni;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.generator.cpp.CppLibraryIncludes;
-import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.jni.JniContainer;
-import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.generator.cpp.CppLibraryIncludes;
+import com.here.genium.model.common.Include;
+import com.here.genium.model.jni.JniContainer;
+import com.here.genium.platform.android.AndroidGeneratorSuite;
 import java.util.*;
 import java.util.stream.Collectors;
 

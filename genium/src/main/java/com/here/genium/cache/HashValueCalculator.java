@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.cache;
+package com.here.genium.cache;
 
-import com.here.ivi.api.cli.TranspilerExecutionException;
+import com.here.genium.cli.TranspilerExecutionException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 

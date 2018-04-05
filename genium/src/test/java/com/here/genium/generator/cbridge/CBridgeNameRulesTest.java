@@ -17,16 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cbridge;
+package com.here.genium.generator.cbridge;
 
-import static com.here.ivi.api.generator.common.NameHelper.toUpperCamelCase;
+import static com.here.genium.generator.common.NameHelper.toUpperCamelCase;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
-import com.here.ivi.api.generator.cpp.CppNameRules;
+import com.here.genium.generator.cpp.CppNameRules;
 import java.util.ArrayList;
 import java.util.List;
 import org.franca.core.franca.FAttribute;

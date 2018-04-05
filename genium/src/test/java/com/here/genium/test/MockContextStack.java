@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.test;
+package com.here.genium.test;
 
-import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContext;
-import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContextStack;
+import com.here.genium.generator.common.modelbuilder.ModelBuilderContext;
+import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
 
 public class MockContextStack<E> extends ModelBuilderContextStack<E> {
 

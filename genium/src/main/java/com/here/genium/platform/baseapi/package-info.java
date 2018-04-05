@@ -12,4 +12,4 @@
  *
  * List of generated C++ .h and .cpp files.
  */
-package com.here.ivi.api.platform.baseapi;
+package com.here.genium.platform.baseapi;

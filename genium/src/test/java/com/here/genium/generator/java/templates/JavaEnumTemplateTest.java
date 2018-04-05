@@ -17,16 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.java.templates;
+package com.here.genium.generator.java.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.java.JavaEnum;
-import com.here.ivi.api.model.java.JavaEnumItem;
-import com.here.ivi.api.model.java.JavaPackage;
-import com.here.ivi.api.model.java.JavaValue;
-import com.here.ivi.api.model.java.JavaVisibility;
+import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.model.java.JavaEnum;
+import com.here.genium.model.java.JavaEnumItem;
+import com.here.genium.model.java.JavaPackage;
+import com.here.genium.model.java.JavaValue;
+import com.here.genium.model.java.JavaVisibility;
 import java.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;

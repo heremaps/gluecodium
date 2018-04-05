@@ -17,23 +17,23 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.platform.baseapi;
+package com.here.genium.platform.baseapi;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.cli.OptionReader;
-import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.modelbuilder.FrancaTreeWalker;
-import com.here.ivi.api.generator.cpp.CppGenerator;
-import com.here.ivi.api.generator.cpp.CppModelBuilder;
-import com.here.ivi.api.generator.cpp.CppNameRules;
-import com.here.ivi.api.generator.cpp.CppTypeMapper;
-import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.common.Streamable;
-import com.here.ivi.api.model.cpp.*;
-import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.platform.common.GeneratorSuite;
+import com.here.genium.cli.OptionReader;
+import com.here.genium.common.CollectionsHelper;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
+import com.here.genium.generator.cpp.CppGenerator;
+import com.here.genium.generator.cpp.CppModelBuilder;
+import com.here.genium.generator.cpp.CppNameRules;
+import com.here.genium.generator.cpp.CppTypeMapper;
+import com.here.genium.model.common.Include;
+import com.here.genium.model.common.Streamable;
+import com.here.genium.model.cpp.*;
+import com.here.genium.model.franca.DefinedBy;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.platform.common.GeneratorSuite;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

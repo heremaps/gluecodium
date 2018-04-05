@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.platform.swift;
+package com.here.genium.platform.swift;
 
 import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.swift.SwiftGenerator;
+import com.here.genium.generator.cbridge.CBridgeGenerator;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.generator.swift.SwiftGenerator;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
