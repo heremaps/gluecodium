@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cbridge;
+package com.here.genium.model.cbridge;
 
-import com.here.ivi.api.generator.cbridge.CppTypeInfo;
-import com.here.ivi.api.model.common.Include;
+import com.here.genium.generator.cbridge.CppTypeInfo;
+import com.here.genium.model.common.Include;
 import java.util.*;
 
 /** Collection of related methods and structs forming an interface (like a C header file) */

@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.common;
+package com.here.genium.model.common;
 
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.genium.model.franca.DefinedBy;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeDef;

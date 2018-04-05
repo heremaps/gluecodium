@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.test;
+package com.here.genium.test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;

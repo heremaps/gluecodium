@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.common;
+package com.here.genium.common;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

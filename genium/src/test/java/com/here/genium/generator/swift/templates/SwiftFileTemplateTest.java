@@ -17,16 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.swift.templates;
+package com.here.genium.generator.swift.templates;
 
 import static java.util.Collections.singletonList;
 
-import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.swift.*;
-import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
-import com.here.ivi.api.model.swift.SwiftValue;
-import com.here.ivi.api.test.TemplateComparator;
-import com.here.ivi.api.test.TemplateComparison;
+import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.model.swift.*;
+import com.here.genium.model.swift.SwiftType.TypeCategory;
+import com.here.genium.model.swift.SwiftValue;
+import com.here.genium.test.TemplateComparator;
+import com.here.genium.test.TemplateComparison;
 import java.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,2 +1,2 @@
 /** Swift model for API generation. */
-package com.here.ivi.api.model.swift;
+package com.here.genium.model.swift;

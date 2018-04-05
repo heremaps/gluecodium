@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.validator;
+package com.here.genium.validator;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.genium.common.CollectionsHelper;
+import com.here.genium.model.franca.DefinedBy;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;

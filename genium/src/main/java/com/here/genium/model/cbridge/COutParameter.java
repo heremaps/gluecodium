@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cbridge;
+package com.here.genium.model.cbridge;
 
-import com.here.ivi.api.generator.cbridge.CppTypeInfo;
+import com.here.genium.generator.cbridge.CppTypeInfo;
 
 public final class COutParameter extends CParameter {
   public COutParameter(String name, CppTypeInfo cppType) {

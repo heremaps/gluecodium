@@ -12,4 +12,4 @@
  *
  * List of generated files
  */
-package com.here.ivi.api.generator.cpp;
+package com.here.genium.generator.cpp;

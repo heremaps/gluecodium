@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cbridge;
+package com.here.genium.generator.cbridge;
 
-import com.here.ivi.api.model.cbridge.CType;
-import com.here.ivi.api.model.common.Include;
+import com.here.genium.model.cbridge.CType;
+import com.here.genium.model.common.Include;
 import java.util.Collections;
 import java.util.List;
 import lombok.Singular;

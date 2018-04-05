@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.output;
+package com.here.genium.output;
 
 import java.io.File;
 import java.io.FileNotFoundException;

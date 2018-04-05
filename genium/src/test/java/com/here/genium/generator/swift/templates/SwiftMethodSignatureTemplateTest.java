@@ -17,16 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.swift.templates;
+package com.here.genium.generator.swift.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.swift.SwiftEnum;
-import com.here.ivi.api.model.swift.SwiftGenericParameter;
-import com.here.ivi.api.model.swift.SwiftMethod;
-import com.here.ivi.api.model.swift.SwiftParameter;
-import com.here.ivi.api.model.swift.SwiftType;
+import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.model.swift.SwiftEnum;
+import com.here.genium.model.swift.SwiftGenericParameter;
+import com.here.genium.model.swift.SwiftMethod;
+import com.here.genium.model.swift.SwiftParameter;
+import com.here.genium.model.swift.SwiftType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

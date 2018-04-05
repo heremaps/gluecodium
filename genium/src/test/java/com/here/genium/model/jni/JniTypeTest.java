@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.jni;
+package com.here.genium.model.jni;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import com.here.ivi.api.model.cpp.CppComplexTypeRef;
-import com.here.ivi.api.model.java.JavaArrayType;
-import com.here.ivi.api.model.java.JavaCustomType;
-import com.here.ivi.api.model.java.JavaPrimitiveType;
-import com.here.ivi.api.model.java.JavaReferenceType;
-import com.here.ivi.api.model.java.JavaType;
+import com.here.genium.model.cpp.CppComplexTypeRef;
+import com.here.genium.model.java.JavaArrayType;
+import com.here.genium.model.java.JavaCustomType;
+import com.here.genium.model.java.JavaPrimitiveType;
+import com.here.genium.model.java.JavaReferenceType;
+import com.here.genium.model.java.JavaType;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.Test;

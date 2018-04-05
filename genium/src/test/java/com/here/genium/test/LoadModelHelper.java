@@ -17,14 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.test;
+package com.here.genium.test;
 
 import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.model.franca.*;
-import com.here.ivi.api.platform.common.GeneratorSuite;
+import com.here.genium.common.CollectionsHelper;
+import com.here.genium.loader.FrancaModelLoader;
+import com.here.genium.model.franca.*;
+import com.here.genium.platform.common.GeneratorSuite;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Collection;

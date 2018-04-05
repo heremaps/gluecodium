@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cpp;
+package com.here.genium.generator.cpp;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.common.FrancaTypeHelper;
-import com.here.ivi.api.generator.common.modelbuilder.AbstractModelBuilder;
-import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContextStack;
-import com.here.ivi.api.model.common.InstanceRules;
-import com.here.ivi.api.model.cpp.*;
-import com.here.ivi.api.model.franca.CommentHelper;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
+import com.here.genium.common.CollectionsHelper;
+import com.here.genium.common.FrancaTypeHelper;
+import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
+import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
+import com.here.genium.model.common.InstanceRules;
+import com.here.genium.model.cpp.*;
+import com.here.genium.model.franca.CommentHelper;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.*;
 import org.franca.core.franca.*;
 

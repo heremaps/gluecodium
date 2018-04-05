@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cpp;
+package com.here.genium.model.cpp;
 
 import static java.util.Arrays.asList;
 
-import com.here.ivi.api.model.common.Include;
+import com.here.genium.model.common.Include;
 import java.util.Collection;
 
 public final class CppValue extends CppElementWithIncludes {

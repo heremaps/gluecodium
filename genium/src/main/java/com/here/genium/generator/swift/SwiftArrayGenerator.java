@@ -17,14 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.swift;
+package com.here.genium.generator.swift;
 
 import static java.util.Collections.emptyList;
 
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.swift.SwiftArray;
-import com.here.ivi.api.model.swift.SwiftFile;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.model.swift.SwiftArray;
+import com.here.genium.model.swift.SwiftFile;
 import java.util.*;
 
 public final class SwiftArrayGenerator {

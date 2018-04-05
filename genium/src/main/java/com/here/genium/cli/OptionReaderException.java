@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.cli;
+package com.here.genium.cli;
 
 public class OptionReaderException extends Exception {
 

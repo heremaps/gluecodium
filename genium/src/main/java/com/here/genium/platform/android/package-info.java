@@ -9,4 +9,4 @@
  *
  * Generated code: Java public API, JNI bindings and Android manifest file.
  */
-package com.here.ivi.api.platform.android;
+package com.here.genium.platform.android;

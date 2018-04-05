@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.test;
+package com.here.genium.test;
 
 import org.hamcrest.core.IsNot;
 import org.hamcrest.core.StringContains;

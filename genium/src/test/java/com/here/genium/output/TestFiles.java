@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.output;
+package com.here.genium.output;
 
-import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.genium.generator.common.GeneratedFile;
 import java.util.Arrays;
 import java.util.List;
 

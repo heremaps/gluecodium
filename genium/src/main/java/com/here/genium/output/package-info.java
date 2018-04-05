@@ -9,4 +9,4 @@
  *
  * Redirection to file or console output.
  */
-package com.here.ivi.api.output;
+package com.here.genium.output;

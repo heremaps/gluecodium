@@ -9,4 +9,4 @@
  *
  * It will produce logging messages at different levels.
  */
-package com.here.ivi.api.logger;
+package com.here.genium.logger;

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.test;
+package com.here.genium.test;
 
 /** This annotation allows adding an issue number to tests */
 public @interface Issue {

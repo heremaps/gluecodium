@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.java;
+package com.here.genium.model.java;
 
-import static com.here.ivi.api.model.java.JavaPrimitiveType.Type;
+import static com.here.genium.model.java.JavaPrimitiveType.Type;
 
 import java.util.stream.Stream;
 

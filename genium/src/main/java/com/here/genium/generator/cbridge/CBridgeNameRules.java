@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cbridge;
+package com.here.genium.generator.cbridge;
 
-import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.generator.cpp.CppNameRules;
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.genium.generator.common.NameHelper;
+import com.here.genium.generator.cpp.CppNameRules;
+import com.here.genium.model.franca.DefinedBy;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;

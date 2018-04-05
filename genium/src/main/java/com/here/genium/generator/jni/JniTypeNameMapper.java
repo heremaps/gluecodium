@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.jni;
+package com.here.genium.generator.jni;
 
-import com.here.ivi.api.model.java.*;
-import com.here.ivi.api.model.java.JavaPrimitiveType.Type;
+import com.here.genium.model.java.*;
+import com.here.genium.model.java.JavaPrimitiveType.Type;
 
 public final class JniTypeNameMapper {
 

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.cli;
+package com.here.genium.cli;
 
 public class TranspilerExecutionException extends RuntimeException {
   public TranspilerExecutionException(String message) {

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.cache;
+package com.here.genium.cache;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
-import com.here.ivi.api.cli.TranspilerExecutionException;
+import com.here.genium.cli.TranspilerExecutionException;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;

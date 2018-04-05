@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.swift;
+package com.here.genium.generator.swift;
 
-import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.swift.SwiftType;
+import com.here.genium.generator.common.NameHelper;
+import com.here.genium.model.franca.DefinedBy;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.model.swift.SwiftType;
 import java.io.File;
 import org.franca.core.franca.*;
 

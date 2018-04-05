@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.cache;
+package com.here.genium.cache;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
@@ -26,7 +26,7 @@ import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-import com.here.ivi.api.output.FileRemove;
+import com.here.genium.output.FileRemove;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;

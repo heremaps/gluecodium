@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.common;
+package com.here.genium.common;
 
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.genium.model.franca.DefinedBy;
 import java.util.Collection;
 import java.util.Objects;
 import org.eclipse.emf.ecore.EObject;

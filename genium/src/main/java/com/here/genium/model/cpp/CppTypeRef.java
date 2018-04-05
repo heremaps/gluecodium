@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cpp;
+package com.here.genium.model.cpp;
 
-import com.here.ivi.api.model.common.Include;
+import com.here.genium.model.common.Include;
 import java.util.Arrays;
 import java.util.Collection;
 

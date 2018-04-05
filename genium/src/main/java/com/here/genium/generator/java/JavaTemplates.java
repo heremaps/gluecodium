@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.java;
+package com.here.genium.generator.java;
 
-import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.java.*;
+import com.here.genium.common.CollectionsHelper;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.model.java.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;

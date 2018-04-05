@@ -36,7 +36,7 @@ dependencies {
 }
 
 apply plugin: 'application'
-mainClassName = 'com.here.ivi.api.Transpiler'
+mainClassName = 'com.here.genium.Transpiler'
 run {
     /* By default gradle doesn't forward the command line arguments to main.
      This allows to provide a -Dexec.args="args" when the user calls gradle
@@ -57,7 +57,7 @@ run {
 
 jar {
     manifest {
-        attributes ('Main-Class': 'com.here.ivi.api.Transpiler',
+        attributes ('Main-Class': 'com.here.genium.Transpiler',
                     'Class-Path': configurations.runtime.files.collect { it.getName() }.join(' '))
     }
 }
@@ -65,7 +65,7 @@ jar {
 task transpilerStandaloneJar(type: Jar) {
     baseName = project.name + '-standalone'
     manifest {
-        attributes('Main-Class': 'com.here.ivi.api.Transpiler',
+        attributes('Main-Class': 'com.here.genium.Transpiler',
                    'Class-Path': configurations.runtime.files.collect { it.getName() }.join(' '))
     }
     from {

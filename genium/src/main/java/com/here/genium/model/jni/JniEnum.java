@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.jni;
+package com.here.genium.model.jni;
 
-import com.here.ivi.api.model.java.JavaPackage;
+import com.here.genium.model.java.JavaPackage;
 import java.util.List;
 
 @SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")

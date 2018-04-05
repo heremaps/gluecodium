@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api;
+package com.here.genium;
 
 import java.io.File;
 import java.util.Collection;

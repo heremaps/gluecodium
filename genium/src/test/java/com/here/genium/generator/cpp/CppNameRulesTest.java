@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cpp;
+package com.here.genium.generator.cpp;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -27,8 +27,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.model.common.InstanceRules;
+import com.here.genium.generator.common.NameHelper;
+import com.here.genium.model.common.InstanceRules;
 import java.util.List;
 import org.franca.core.franca.FCompoundType;
 import org.franca.core.franca.FConstantDef;

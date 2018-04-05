@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.logger;
+package com.here.genium.logger;
 
 import java.io.IOException;
 import java.io.InputStream;

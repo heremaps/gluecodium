@@ -9,4 +9,4 @@
  *
  * List of generated files
  */
-package com.here.ivi.api.generator.cbridge;
+package com.here.genium.generator.cbridge;

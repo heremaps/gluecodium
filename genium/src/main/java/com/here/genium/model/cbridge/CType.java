@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cbridge;
+package com.here.genium.model.cbridge;
 
-import static com.here.ivi.api.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
+import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 import static java.util.Collections.emptyList;
 
-import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
-import com.here.ivi.api.model.common.Include;
+import com.here.genium.generator.cbridge.CBridgeNameRules;
+import com.here.genium.model.common.Include;
 import java.nio.file.Paths;
 import java.util.*;
 import lombok.EqualsAndHashCode;

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.output;
+package com.here.genium.output;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Mockito.never;

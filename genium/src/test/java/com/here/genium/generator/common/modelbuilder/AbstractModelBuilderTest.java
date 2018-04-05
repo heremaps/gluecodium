@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.common.modelbuilder;
+package com.here.genium.generator.common.modelbuilder;
 
 import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.test.MockContextStack;
+import com.here.genium.test.MockContextStack;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

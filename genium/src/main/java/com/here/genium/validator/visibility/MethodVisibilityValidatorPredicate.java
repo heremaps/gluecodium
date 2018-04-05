@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.validator.visibility;
+package com.here.genium.validator.visibility;
 
-import com.here.ivi.api.common.FrancaTypeHelper;
+import com.here.genium.common.FrancaTypeHelper;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.stream.Collectors;

@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.swift;
+package com.here.genium.generator.swift;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.model.swift.SwiftType;
-import com.here.ivi.api.model.swift.SwiftValue;
+import com.here.genium.model.swift.SwiftType;
+import com.here.genium.model.swift.SwiftValue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

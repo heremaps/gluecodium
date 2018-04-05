@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cpp;
+package com.here.genium.generator.cpp;
 
-import com.here.ivi.api.model.common.Include;
+import com.here.genium.model.common.Include;
 
 public final class CppLibraryIncludes {
   // Standard

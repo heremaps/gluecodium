@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.common.modelbuilder;
+package com.here.genium.generator.common.modelbuilder;
 
-import com.here.ivi.api.common.CollectionsHelper;
+import com.here.genium.common.CollectionsHelper;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.emf.ecore.EObject;

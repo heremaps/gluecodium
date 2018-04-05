@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.jni;
+package com.here.genium.model.jni;
 
-import com.here.ivi.api.cli.TranspilerExecutionException;
-import com.here.ivi.api.generator.jni.JniNameRules;
-import com.here.ivi.api.generator.jni.JniTypeNameMapper;
-import com.here.ivi.api.model.cpp.CppComplexTypeRef;
-import com.here.ivi.api.model.cpp.CppTypeRef;
-import com.here.ivi.api.model.java.JavaArrayType;
-import com.here.ivi.api.model.java.JavaComplexType;
-import com.here.ivi.api.model.java.JavaPrimitiveType;
-import com.here.ivi.api.model.java.JavaType;
+import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.generator.jni.JniNameRules;
+import com.here.genium.generator.jni.JniTypeNameMapper;
+import com.here.genium.model.cpp.CppComplexTypeRef;
+import com.here.genium.model.cpp.CppTypeRef;
+import com.here.genium.model.java.JavaArrayType;
+import com.here.genium.model.java.JavaComplexType;
+import com.here.genium.model.java.JavaPrimitiveType;
+import com.here.genium.model.java.JavaType;
 import java.util.List;
 
 public final class JniType implements JniElement {

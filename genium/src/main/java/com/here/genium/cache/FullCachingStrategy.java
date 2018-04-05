@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.cache;
+package com.here.genium.cache;
 
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.output.FileRemove;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.output.FileRemove;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;

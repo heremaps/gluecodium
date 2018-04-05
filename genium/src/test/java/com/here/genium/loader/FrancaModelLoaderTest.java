@@ -17,14 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.loader;
+package com.here.genium.loader;
 
 import static org.junit.Assert.*;
 
-import com.here.ivi.api.cli.TranspilerExecutionException;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.franca.ModelHelper;
-import com.here.ivi.api.platform.common.GeneratorSuite;
+import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.model.franca.ModelHelper;
+import com.here.genium.platform.common.GeneratorSuite;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;

@@ -17,6 +17,6 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.common;
+package com.here.genium.model.common;
 
 public interface ModelElement {}

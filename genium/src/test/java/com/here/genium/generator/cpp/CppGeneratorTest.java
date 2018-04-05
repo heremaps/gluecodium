@@ -17,15 +17,15 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cpp;
+package com.here.genium.generator.cpp;
 
 import static org.junit.Assert.*;
 
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.cpp.CppClass;
-import com.here.ivi.api.model.cpp.CppFile;
-import com.here.ivi.api.model.cpp.CppMethod;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.model.common.Include;
+import com.here.genium.model.cpp.CppClass;
+import com.here.genium.model.cpp.CppFile;
+import com.here.genium.model.cpp.CppMethod;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;

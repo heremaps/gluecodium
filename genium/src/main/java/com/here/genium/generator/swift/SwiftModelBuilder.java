@@ -17,21 +17,21 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.swift;
+package com.here.genium.generator.swift;
 
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
-import com.here.ivi.api.generator.common.modelbuilder.AbstractModelBuilder;
-import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContextStack;
-import com.here.ivi.api.model.common.InstanceRules;
-import com.here.ivi.api.model.franca.CommentHelper;
-import com.here.ivi.api.model.franca.DefinedBy;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.swift.*;
-import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
+import com.here.genium.common.CollectionsHelper;
+import com.here.genium.generator.cbridge.CBridgeNameRules;
+import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
+import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
+import com.here.genium.model.common.InstanceRules;
+import com.here.genium.model.franca.CommentHelper;
+import com.here.genium.model.franca.DefinedBy;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.model.swift.*;
+import com.here.genium.model.swift.SwiftType.TypeCategory;
 import java.util.*;
 import org.franca.core.franca.*;
 

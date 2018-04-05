@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.swift;
+package com.here.genium.generator.swift;
 
-import com.here.ivi.api.generator.cbridge.CArrayMapper;
-import com.here.ivi.api.model.swift.*;
+import com.here.genium.generator.cbridge.CArrayMapper;
+import com.here.genium.model.swift.*;
 import org.eclipse.emf.ecore.EObject;
 
 public final class SwiftArrayMapper {

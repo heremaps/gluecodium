@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.androidmanifest.templates;
+package com.here.genium.generator.androidmanifest.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.java.JavaPackage;
+import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.model.java.JavaPackage;
 import java.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.jni;
+package com.here.genium.model.jni;
 
-import com.here.ivi.api.model.cpp.CppField;
-import com.here.ivi.api.model.java.JavaCustomType;
-import com.here.ivi.api.model.java.JavaField;
-import com.here.ivi.api.model.java.JavaTemplateType;
+import com.here.genium.model.cpp.CppField;
+import com.here.genium.model.java.JavaCustomType;
+import com.here.genium.model.java.JavaField;
+import com.here.genium.model.java.JavaTemplateType;
 
 public class JniField implements JniElement {
 

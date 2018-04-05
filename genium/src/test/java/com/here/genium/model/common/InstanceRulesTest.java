@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.common;
+package com.here.genium.model.common;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.genium.model.franca.DefinedBy;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;

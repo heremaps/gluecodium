@@ -17,18 +17,18 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cbridge.templates;
+package com.here.genium.generator.cbridge.templates;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.generator.cbridge.CArrayGenerator;
-import com.here.ivi.api.generator.cbridge.CArrayMapper;
-import com.here.ivi.api.generator.cbridge.CppArrayTypeInfo;
-import com.here.ivi.api.generator.cbridge.CppTypeInfo;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.model.cbridge.*;
-import com.here.ivi.api.test.TemplateComparison;
+import com.here.genium.generator.cbridge.CArrayGenerator;
+import com.here.genium.generator.cbridge.CArrayMapper;
+import com.here.genium.generator.cbridge.CppArrayTypeInfo;
+import com.here.genium.generator.cbridge.CppTypeInfo;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.model.cbridge.*;
+import com.here.genium.test.TemplateComparison;
 import java.util.*;
 import org.franca.core.franca.*;
 import org.junit.Test;

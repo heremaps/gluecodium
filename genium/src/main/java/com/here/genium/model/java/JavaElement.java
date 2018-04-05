@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.java;
+package com.here.genium.model.java;
 
-import com.here.ivi.api.model.common.ModelElement;
-import com.here.ivi.api.model.common.Streamable;
+import com.here.genium.model.common.ModelElement;
+import com.here.genium.model.common.Streamable;
 
 public abstract class JavaElement extends Streamable<JavaElement> implements ModelElement {
 

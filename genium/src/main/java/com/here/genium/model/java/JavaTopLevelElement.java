@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.java;
+package com.here.genium.model.java;
 
-import com.here.ivi.api.common.CollectionsHelper;
+import com.here.genium.common.CollectionsHelper;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;

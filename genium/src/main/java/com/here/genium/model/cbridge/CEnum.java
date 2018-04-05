@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cbridge;
+package com.here.genium.model.cbridge;
 
 public final class CEnum extends CType {
   public CEnum(String enumName) {

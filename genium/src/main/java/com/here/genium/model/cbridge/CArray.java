@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cbridge;
+package com.here.genium.model.cbridge;
 
-import com.here.ivi.api.generator.cbridge.CppArrayTypeInfo;
-import com.here.ivi.api.generator.cbridge.CppTypeInfo;
-import com.here.ivi.api.model.common.Include;
+import com.here.genium.generator.cbridge.CppArrayTypeInfo;
+import com.here.genium.generator.cbridge.CppTypeInfo;
+import com.here.genium.model.common.Include;
 import java.util.ArrayList;
 import java.util.List;
 

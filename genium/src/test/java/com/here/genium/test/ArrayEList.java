@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.test;
+package com.here.genium.test;
 
 import java.util.ArrayList;
 import java.util.Collection;

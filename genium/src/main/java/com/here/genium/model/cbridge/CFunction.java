@@ -17,14 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cbridge;
+package com.here.genium.model.cbridge;
 
 import static java.util.Collections.emptyList;
 
-import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
-import com.here.ivi.api.generator.cbridge.CppTypeInfo;
-import com.here.ivi.api.generator.common.NameHelper;
-import com.here.ivi.api.model.common.Include;
+import com.here.genium.generator.cbridge.CBridgeNameRules;
+import com.here.genium.generator.cbridge.CppTypeInfo;
+import com.here.genium.generator.common.NameHelper;
+import com.here.genium.model.common.Include;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api;
+package com.here.genium;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -26,13 +26,13 @@ import static org.junit.Assume.assumeFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.spy;
 
-import com.here.ivi.api.cli.OptionReader;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.platform.android.AndroidGeneratorSuite;
-import com.here.ivi.api.platform.baseapi.BaseApiGeneratorSuite;
-import com.here.ivi.api.platform.swift.SwiftGeneratorSuite;
-import com.here.ivi.api.test.NiceErrorCollector;
+import com.here.genium.cli.OptionReader;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.platform.android.AndroidGeneratorSuite;
+import com.here.genium.platform.baseapi.BaseApiGeneratorSuite;
+import com.here.genium.platform.swift.SwiftGeneratorSuite;
+import com.here.genium.test.NiceErrorCollector;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;

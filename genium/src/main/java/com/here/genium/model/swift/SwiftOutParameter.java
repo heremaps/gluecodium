@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.swift;
+package com.here.genium.model.swift;
 
 public final class SwiftOutParameter extends SwiftParameter {
   public SwiftOutParameter(String interfaceName, SwiftType type) {

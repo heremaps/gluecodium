@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.java;
+package com.here.genium.model.java;
 
-import com.here.ivi.api.cli.TranspilerExecutionException;
+import com.here.genium.cli.TranspilerExecutionException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

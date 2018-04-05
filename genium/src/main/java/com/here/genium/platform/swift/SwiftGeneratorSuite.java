@@ -17,18 +17,18 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.platform.swift;
+package com.here.genium.platform.swift;
 
 import static java.util.stream.Collectors.toList;
 
-import com.here.ivi.api.cli.OptionReader;
-import com.here.ivi.api.generator.cbridge.CBridgeGenerator;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.generator.swift.SwiftGenerator;
-import com.here.ivi.api.model.cbridge.CBridgeIncludeResolver;
-import com.here.ivi.api.model.cpp.CppIncludeResolver;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.platform.common.GeneratorSuite;
+import com.here.genium.cli.OptionReader;
+import com.here.genium.generator.cbridge.CBridgeGenerator;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.generator.swift.SwiftGenerator;
+import com.here.genium.model.cbridge.CBridgeIncludeResolver;
+import com.here.genium.model.cpp.CppIncludeResolver;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.platform.common.GeneratorSuite;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;

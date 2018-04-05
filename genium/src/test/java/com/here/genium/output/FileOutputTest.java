@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.output;
+package com.here.genium.output;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.genium.generator.common.GeneratedFile;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;

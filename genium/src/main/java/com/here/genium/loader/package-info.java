@@ -9,4 +9,4 @@
  *
  * Language independent Franca model.
  */
-package com.here.ivi.api.loader;
+package com.here.genium.loader;

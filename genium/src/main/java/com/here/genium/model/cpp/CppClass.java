@@ -17,9 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cpp;
+package com.here.genium.model.cpp;
 
-import com.here.ivi.api.generator.cpp.TopologicalSort;
+import com.here.genium.generator.cpp.TopologicalSort;
 import java.util.*;
 import java.util.stream.Stream;
 

@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cbridge;
+package com.here.genium.model.cbridge;
 
-import com.here.ivi.api.generator.cbridge.CBridgeNameRules;
-import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.genium.generator.cbridge.CBridgeNameRules;
+import com.here.genium.model.common.Include;
+import com.here.genium.model.franca.DefinedBy;
 import java.util.HashMap;
 import java.util.Map;
 import org.franca.core.franca.FModelElement;

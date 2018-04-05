@@ -9,10 +9,10 @@ repositories {
 apply plugin: 'application'
 
 dependencies {
-    runtime "com.here.ivi.api:genium:$version"
+    runtime "com.here.genium:genium:$version"
 }
 
-mainClassName = 'com.here.ivi.api.Transpiler'
+mainClassName = 'com.here.genium.Transpiler'
 run {
     if (System.getProperty("exec.args") != null) {
         List<String> splitArgs = new ArrayList<String>();

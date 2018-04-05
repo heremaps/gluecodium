@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cpp;
+package com.here.genium.generator.cpp;
 
-import com.here.ivi.api.cli.TranspilerExecutionException;
-import com.here.ivi.api.model.common.InstanceRules;
-import com.here.ivi.api.model.cpp.*;
+import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.model.common.InstanceRules;
+import com.here.genium.model.cpp.*;
 import java.util.Collections;
 import org.franca.core.franca.*;
 

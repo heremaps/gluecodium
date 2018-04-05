@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api;
+package com.here.genium;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,15 +26,15 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.anyList;
 
-import com.here.ivi.api.cache.CachingStrategy;
-import com.here.ivi.api.cache.CachingStrategyCreator;
-import com.here.ivi.api.cli.OptionReader.TranspilerOptions;
-import com.here.ivi.api.generator.common.GeneratedFile;
-import com.here.ivi.api.loader.FrancaModelLoader;
-import com.here.ivi.api.output.ConsoleOutput;
-import com.here.ivi.api.output.FileOutput;
-import com.here.ivi.api.platform.common.GeneratorSuite;
-import com.here.ivi.api.validator.FrancaResourcesValidator;
+import com.here.genium.cache.CachingStrategy;
+import com.here.genium.cache.CachingStrategyCreator;
+import com.here.genium.cli.OptionReader.TranspilerOptions;
+import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.loader.FrancaModelLoader;
+import com.here.genium.output.ConsoleOutput;
+import com.here.genium.output.FileOutput;
+import com.here.genium.platform.common.GeneratorSuite;
+import com.here.genium.validator.FrancaResourcesValidator;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;

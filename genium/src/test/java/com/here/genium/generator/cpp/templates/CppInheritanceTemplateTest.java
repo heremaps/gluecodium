@@ -17,14 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cpp.templates;
+package com.here.genium.generator.cpp.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.ivi.api.generator.common.TemplateEngine;
-import com.here.ivi.api.model.cpp.CppClass;
-import com.here.ivi.api.model.cpp.CppComplexTypeRef;
-import com.here.ivi.api.model.cpp.CppInheritance;
+import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.model.cpp.CppClass;
+import com.here.genium.model.cpp.CppComplexTypeRef;
+import com.here.genium.model.cpp.CppInheritance;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

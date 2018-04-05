@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.swift.templates;
+package com.here.genium.generator.swift.templates;
 
 import static java.util.Collections.singletonList;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-import com.here.ivi.api.generator.swift.SwiftArrayGenerator;
-import com.here.ivi.api.generator.swift.SwiftArrayMapper;
-import com.here.ivi.api.model.swift.*;
-import com.here.ivi.api.model.swift.SwiftType.TypeCategory;
-import com.here.ivi.api.test.TemplateComparator;
-import com.here.ivi.api.test.TemplateComparison;
+import com.here.genium.generator.swift.SwiftArrayGenerator;
+import com.here.genium.generator.swift.SwiftArrayMapper;
+import com.here.genium.model.swift.*;
+import com.here.genium.model.swift.SwiftType.TypeCategory;
+import com.here.genium.test.TemplateComparator;
+import com.here.genium.test.TemplateComparison;
 import java.util.Collections;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FTypeRef;

@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.common.modelbuilder;
+package com.here.genium.generator.common.modelbuilder;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.test.ArrayEList;
+import com.here.genium.test.ArrayEList;
 import java.util.Collections;
 import org.franca.core.franca.*;
 import org.junit.Before;

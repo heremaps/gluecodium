@@ -17,19 +17,19 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.java;
+package com.here.genium.generator.java;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.model.franca.CommentHelper;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.java.*;
-import com.here.ivi.api.model.java.JavaElement;
-import com.here.ivi.api.test.MockContextStack;
+import com.here.genium.common.CollectionsHelper;
+import com.here.genium.model.franca.CommentHelper;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.model.java.*;
+import com.here.genium.model.java.JavaElement;
+import com.here.genium.test.MockContextStack;
 import java.util.Arrays;
 import java.util.List;
 import org.franca.core.franca.*;

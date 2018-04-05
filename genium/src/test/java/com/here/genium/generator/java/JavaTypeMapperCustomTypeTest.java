@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.java;
+package com.here.genium.generator.java;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -25,8 +25,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.common.InstanceRules;
-import com.here.ivi.api.model.java.*;
+import com.here.genium.model.common.InstanceRules;
+import com.here.genium.model.java.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

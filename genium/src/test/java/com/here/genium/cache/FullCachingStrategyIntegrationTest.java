@@ -17,17 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.cache;
+package com.here.genium.cache;
 
-import static com.here.ivi.api.cache.IntegrationTestFiles.FIRSTRUN;
-import static com.here.ivi.api.cache.IntegrationTestFiles.MY_GENERATORS;
-import static com.here.ivi.api.cache.IntegrationTestFiles.SECONDRUN;
-import static com.here.ivi.api.cache.IntegrationTestFiles.THIRDRUN;
+import static com.here.genium.cache.IntegrationTestFiles.FIRSTRUN;
+import static com.here.genium.cache.IntegrationTestFiles.MY_GENERATORS;
+import static com.here.genium.cache.IntegrationTestFiles.SECONDRUN;
+import static com.here.genium.cache.IntegrationTestFiles.THIRDRUN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.genium.generator.common.GeneratedFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

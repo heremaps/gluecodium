@@ -17,12 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cbridge;
+package com.here.genium.generator.cbridge;
 
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.cbridge.CInterface;
-import com.here.ivi.api.test.TemplateComparator;
+import com.here.genium.model.cbridge.CInterface;
+import com.here.genium.test.TemplateComparator;
 import org.franca.core.franca.FBasicTypeId;
 import org.junit.Before;
 import org.junit.Test;

@@ -17,18 +17,18 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.java;
+package com.here.genium.generator.java;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Iterables;
-import com.here.ivi.api.common.CollectionsHelper;
-import com.here.ivi.api.common.FrancaTypeHelper;
-import com.here.ivi.api.generator.common.modelbuilder.AbstractModelBuilder;
-import com.here.ivi.api.generator.common.modelbuilder.ModelBuilderContextStack;
-import com.here.ivi.api.model.franca.CommentHelper;
-import com.here.ivi.api.model.franca.FrancaDeploymentModel;
-import com.here.ivi.api.model.java.*;
-import com.here.ivi.api.model.java.JavaMethod.MethodQualifier;
+import com.here.genium.common.CollectionsHelper;
+import com.here.genium.common.FrancaTypeHelper;
+import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
+import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
+import com.here.genium.model.franca.CommentHelper;
+import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.model.java.*;
+import com.here.genium.model.java.JavaMethod.MethodQualifier;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

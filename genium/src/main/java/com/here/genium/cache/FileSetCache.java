@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.cache;
+package com.here.genium.cache;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.ivi.api.cli.TranspilerExecutionException;
-import com.here.ivi.api.generator.common.GeneratedFile;
+import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.generator.common.GeneratedFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

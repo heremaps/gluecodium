@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.cli;
+package com.here.genium.cli;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-import com.here.ivi.api.platform.common.GeneratorSuite;
+import com.here.genium.platform.common.GeneratorSuite;
 import java.util.*;
 import org.apache.commons.cli.*;
 import org.eclipse.xtext.util.Files;

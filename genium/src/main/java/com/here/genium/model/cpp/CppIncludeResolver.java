@@ -17,11 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.model.cpp;
+package com.here.genium.model.cpp;
 
-import com.here.ivi.api.generator.cpp.CppNameRules;
-import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.genium.generator.cpp.CppNameRules;
+import com.here.genium.model.common.Include;
+import com.here.genium.model.franca.DefinedBy;
 import java.util.HashMap;
 import java.util.Map;
 import org.franca.core.franca.FModelElement;

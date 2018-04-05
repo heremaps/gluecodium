@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.ivi.api.generator.cpp;
+package com.here.genium.generator.cpp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -25,10 +25,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.here.ivi.api.model.common.Include;
-import com.here.ivi.api.model.common.InstanceRules;
-import com.here.ivi.api.model.cpp.*;
-import com.here.ivi.api.model.franca.DefinedBy;
+import com.here.genium.model.common.Include;
+import com.here.genium.model.common.InstanceRules;
+import com.here.genium.model.cpp.*;
+import com.here.genium.model.franca.DefinedBy;
 import java.util.Collections;
 import org.franca.core.franca.*;
 import org.junit.Before;
