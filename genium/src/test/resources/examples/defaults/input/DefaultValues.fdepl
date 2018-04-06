@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./DefaultValues.fidl"
 
 define Defaults for interface examples.DefaultValues

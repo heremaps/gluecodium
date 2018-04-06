@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./AttributesInterface.fidl"
 
-define TranspilerExtensions for interface test.AttributesInterface
+define GeniumExtensions for interface test.AttributesInterface
 {
     IsInterface = true
 }

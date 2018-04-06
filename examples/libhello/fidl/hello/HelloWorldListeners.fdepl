@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./HelloWorldListeners.fidl"
 
-define TranspilerExtensions for interface hello.CalculatorFactory
+define GeniumExtensions for interface hello.CalculatorFactory
 {
     method createCalculator {
         Static = true

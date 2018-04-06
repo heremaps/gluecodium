@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./HelloWorldArrays.fidl"
 
-define TranspilerExtensions for interface hello.HelloWorldArrays
+define GeniumExtensions for interface hello.HelloWorldArrays
 {
     method methodWithArray {
         Static = true

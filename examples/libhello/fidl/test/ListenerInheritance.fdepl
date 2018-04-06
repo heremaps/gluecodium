@@ -17,20 +17,20 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./ListenerInheritance.fidl"
 
-define TranspilerExtensions for interface test.ParentListener
+define GeniumExtensions for interface test.ParentListener
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface test.ChildListener
+define GeniumExtensions for interface test.ChildListener
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface test.Talker
+define GeniumExtensions for interface test.Talker
 {
     method talkToParent {
         Static = true

@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./StructWithInstance.fidl"
 
-define TranspilerExtensions for interface test.InstanceInStruct
+define GeniumExtensions for interface test.InstanceInStruct
 {
     struct NotNullSelfHolder {
         mySelf {

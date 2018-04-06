@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Listeners.fidl"
 
-define TranspilerExtensions for interface smoke.CalculatorListener
+define GeniumExtensions for interface smoke.CalculatorListener
 {
     IsInterface = true
 
@@ -29,7 +29,7 @@ define TranspilerExtensions for interface smoke.CalculatorListener
     }
 }
 
-define TranspilerExtensions for interface smoke.Calculator
+define GeniumExtensions for interface smoke.Calculator
 {
     method registerListener {
         Static = true

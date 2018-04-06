@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./HelloWorldProfileManagerFactory.fidl"
 
-define TranspilerExtensions for interface hello.HelloWorldProfileManagerFactory
+define GeniumExtensions for interface hello.HelloWorldProfileManagerFactory
 {
     method createProfileManagerInstance {
         Static = true

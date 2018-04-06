@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Structs.fidl"
 
-define TranspilerExtensions for interface examples.Structs
+define GeniumExtensions for interface examples.Structs
 {
     method methodWithNonNestedType {
         Static = true

@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./HelloWorld.fidl"
 
-define TranspilerExtensions for interface hello.HelloWorld
+define GeniumExtensions for interface hello.HelloWorld
 {
     method helloWorldMethod {
         Static = true

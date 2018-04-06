@@ -17,15 +17,15 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Listeners.fidl"
 
-define TranspilerExtensions for interface examples.CalculatorListener
+define GeniumExtensions for interface examples.CalculatorListener
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface examples.Calculator
+define GeniumExtensions for interface examples.Calculator
 {
     method registerListener {
         Static = true

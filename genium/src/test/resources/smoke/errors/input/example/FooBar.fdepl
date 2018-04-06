@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./FooBar.fidl"
 
-define TranspilerExtensions for interface example.FooBar
+define GeniumExtensions for interface example.FooBar
 {
     method methodWithInternalError {
         Static = true

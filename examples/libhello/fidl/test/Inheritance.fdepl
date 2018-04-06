@@ -17,44 +17,44 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Inheritance.fidl"
 
-define TranspilerExtensions for interface test.ParentInterface
+define GeniumExtensions for interface test.ParentInterface
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface test.ChildClass
+define GeniumExtensions for interface test.ChildClass
 {
     method createChildClass {
         Static = true
     }
 }
 
-define TranspilerExtensions for interface test.GrandchildClass
+define GeniumExtensions for interface test.GrandchildClass
 {
     method createGrandchildClass {
         Static = true
     }
 }
 
-define TranspilerExtensions for interface test.RootInterface
+define GeniumExtensions for interface test.RootInterface
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface test.ChildInterface
+define GeniumExtensions for interface test.ChildInterface
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface test.AnotherChildInterface
+define GeniumExtensions for interface test.AnotherChildInterface
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface test.InheritanceTestHelper
+define GeniumExtensions for interface test.InheritanceTestHelper
 {
     method callRootMethod {
         Static = true

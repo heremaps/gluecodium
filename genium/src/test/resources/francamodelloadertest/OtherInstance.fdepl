@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./OtherInstance.fidl"
 
-define TranspilerExtensions for interface wee.Bar
+define GeniumExtensions for interface wee.Bar
 {
   IsInterface = false
 }

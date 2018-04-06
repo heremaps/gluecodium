@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Simple.fidl"
 
-define TranspilerExtensions for interface navigation.Simple
+define GeniumExtensions for interface navigation.Simple
 {
   method sing {
     Const = true

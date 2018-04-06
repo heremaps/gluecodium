@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Defaults.fidl"
 
 define Defaults for interface smoke.DefaultValues
@@ -41,7 +41,7 @@ define Defaults for interface smoke.DefaultValues
     }
 }
 
-define TranspilerExtensions for interface smoke.DefaultValues
+define GeniumExtensions for interface smoke.DefaultValues
 {
     method processStructWithDefaults {
         Static = true

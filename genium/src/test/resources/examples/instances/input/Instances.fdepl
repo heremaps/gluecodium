@@ -17,15 +17,15 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Instances.fidl"
 
-define TranspilerExtensions for interface examples.ProfileManagerInterface
+define GeniumExtensions for interface examples.ProfileManagerInterface
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface examples.ProfileManagerFactory
+define GeniumExtensions for interface examples.ProfileManagerFactory
 {
     method createProfileManager {
         Static = true

@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./ArraysByteBuffer.fidl"
 
-define TranspilerExtensions for interface test.ArraysByteBuffer
+define GeniumExtensions for interface test.ArraysByteBuffer
 {
     method methodWithByteBuffer {
         Static = true

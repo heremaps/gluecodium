@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Visibility.fidl"
 
-define TranspilerExtensions for interface smoke.InternalInterface
+define GeniumExtensions for interface smoke.InternalInterface
 {
     IsInterface = true
 }
@@ -30,7 +30,7 @@ define Visibility for interface smoke.InternalInterface
     Internal = true
 }
 
-define TranspilerExtensions for interface smoke.InternalClass
+define GeniumExtensions for interface smoke.InternalClass
 {
     IsInterface = false
 }
@@ -40,7 +40,7 @@ define Visibility for interface smoke.InternalClass
     Internal = true
 }
 
-define TranspilerExtensions for interface smoke.PublicInterface
+define GeniumExtensions for interface smoke.PublicInterface
 {
     IsInterface = true
 }
@@ -52,7 +52,7 @@ define Visibility for interface smoke.PublicInterface
     }
 }
 
-define TranspilerExtensions for interface smoke.PublicClass
+define GeniumExtensions for interface smoke.PublicClass
 {
     IsInterface = false
 }

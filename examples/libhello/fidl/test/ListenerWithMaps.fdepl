@@ -17,15 +17,15 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./ListenerWithMaps.fidl"
 
-define TranspilerExtensions for interface test.ForecastListener
+define GeniumExtensions for interface test.ForecastListener
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface test.ForecastFactory
+define GeniumExtensions for interface test.ForecastFactory
 {
     method createProvider {
         Static = true
