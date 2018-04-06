@@ -29,14 +29,14 @@ import org.eclipse.xtext.util.Files;
 public final class OptionReader {
 
   private static final String DEFAULT_INTERNAL_NAMESPACE = "genium";
-  public static final TranspilerOptions DEFAULT_OPTIONS =
-      TranspilerOptions.builder().cppInternalNamespace(DEFAULT_INTERNAL_NAMESPACE).build();
+  public static final GeniumOptions DEFAULT_OPTIONS =
+      GeniumOptions.builder().cppInternalNamespace(DEFAULT_INTERNAL_NAMESPACE).build();
 
   private final Options allOptions;
 
   @lombok.Value
   @lombok.Builder(builderClassName = "Builder")
-  public static class TranspilerOptions {
+  public static class GeniumOptions {
     private String[] inputDirs;
     private String outputDir;
     private List<String> javaPackageList;
@@ -98,8 +98,8 @@ public final class OptionReader {
   }
 
   @SuppressWarnings("PMD.ModifiedCyclomaticComplexity")
-  public TranspilerOptions read(final String[] args) throws OptionReaderException {
-    TranspilerOptions.Builder builder = TranspilerOptions.builder();
+  public GeniumOptions read(final String[] args) throws OptionReaderException {
+    GeniumOptions.Builder builder = GeniumOptions.builder();
     CommandLineParser parser = new BasicParser();
 
     try {
@@ -153,7 +153,7 @@ public final class OptionReader {
     }
 
     // Validation
-    TranspilerOptions options = builder.build();
+    GeniumOptions options = builder.build();
     if (options.getInputDirs() == null || options.getInputDirs().length == 0) {
       throw new OptionReaderException("input option required");
     }

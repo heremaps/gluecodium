@@ -19,7 +19,7 @@
 
 package com.here.genium.generator.cpp;
 
-import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.model.cpp.*;
 import java.util.Collections;
 import java.util.HashSet;
@@ -69,7 +69,7 @@ public final class TopologicalSort {
               .orElse(null);
 
       if (nextElement == null) {
-        throw new TranspilerExecutionException("Cycle detected in CPP elements dependencies.");
+        throw new GeniumExecutionException("Cycle detected in CPP elements dependencies.");
       }
 
       sortedElements.add(nextElement);

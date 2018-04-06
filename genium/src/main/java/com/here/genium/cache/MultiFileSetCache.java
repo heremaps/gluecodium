@@ -19,7 +19,7 @@
 
 package com.here.genium.cache;
 
-import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.generator.common.GeneratedFile;
 import java.io.File;
 import java.io.IOException;
@@ -90,7 +90,7 @@ class MultiFileSetCache {
     FileSetCache cache = singleSetCaches.get(fileSetName);
 
     if (cache == null) {
-      throw new TranspilerExecutionException("No cache found of given name: " + fileSetName);
+      throw new GeniumExecutionException("No cache found of given name: " + fileSetName);
     }
     return cache.updateCache(files);
   }
@@ -130,7 +130,7 @@ class MultiFileSetCache {
           .map(path -> source.resolve(path))
           .collect(Collectors.toList());
     } catch (IOException e) {
-      throw new TranspilerExecutionException("Retrieval of non cached files failed", e);
+      throw new GeniumExecutionException("Retrieval of non cached files failed", e);
     }
   }
 

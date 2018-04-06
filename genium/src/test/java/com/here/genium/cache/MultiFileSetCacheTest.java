@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
-import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.cli.GeniumExecutionException;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -118,7 +118,7 @@ public class MultiFileSetCacheTest {
   @Test
   public void updateCacheFileSetNotFound() {
 
-    expectedException.expect(TranspilerExecutionException.class);
+    expectedException.expect(GeniumExecutionException.class);
 
     multiCache.updateCache(FILE_SET_A_NAME + "_X", Collections.EMPTY_LIST);
   }
@@ -149,7 +149,7 @@ public class MultiFileSetCacheTest {
         .thenReturn(
             path -> {
               if (path.isAbsolute()) {
-                throw new TranspilerExecutionException("this should never happen");
+                throw new GeniumExecutionException("this should never happen");
               }
               return !path.equals(Paths.get(TestFiles.PATH3).normalize());
             });
@@ -158,7 +158,7 @@ public class MultiFileSetCacheTest {
         .thenReturn(
             path -> {
               if (path.isAbsolute()) {
-                throw new TranspilerExecutionException("this should never happen");
+                throw new GeniumExecutionException("this should never happen");
               }
               return !path.equals(Paths.get(TestFiles.PATH4).normalize());
             });

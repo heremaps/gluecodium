@@ -19,7 +19,7 @@
 
 package com.here.genium.cache;
 
-import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.cli.GeniumExecutionException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -32,7 +32,7 @@ final class HashValueCalculator {
       messageDigest.update(content.getBytes());
       return messageDigest.digest();
     } catch (NoSuchAlgorithmException e) {
-      throw new TranspilerExecutionException("Hash value algorithm is not available", e);
+      throw new GeniumExecutionException("Hash value algorithm is not available", e);
     }
   }
 }

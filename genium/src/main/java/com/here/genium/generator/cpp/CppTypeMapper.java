@@ -19,7 +19,7 @@
 
 package com.here.genium.generator.cpp;
 
-import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
 import java.util.Collections;
@@ -86,7 +86,7 @@ public class CppTypeMapper {
     if (derived instanceof FEnumerationType) {
       return mapEnum((FEnumerationType) derived);
     }
-    throw new TranspilerExecutionException("Unmapped derived type: " + derived.getName());
+    throw new GeniumExecutionException("Unmapped derived type: " + derived.getName());
   }
 
   private CppTypeRef mapTypeDef(FTypeDef typedef) {
@@ -203,7 +203,7 @@ public class CppTypeMapper {
         return CppPrimitiveTypeRef.VOID;
 
       default:
-        throw new TranspilerExecutionException(
+        throw new GeniumExecutionException(
             "unmapped predefined [" + type.getPredefined().getName() + "]");
     }
   }

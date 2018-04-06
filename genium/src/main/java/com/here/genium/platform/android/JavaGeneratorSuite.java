@@ -65,16 +65,16 @@ public class JavaGeneratorSuite extends GeneratorSuite {
 
   private static final String NATIVE_BASE_JAVA = "NativeBase.java";
 
-  private final OptionReader.TranspilerOptions options;
+  private final OptionReader.GeniumOptions options;
   private final boolean enableAndroidFeatures;
   private final String internalNamespace;
 
-  public JavaGeneratorSuite(final OptionReader.TranspilerOptions options) {
+  public JavaGeneratorSuite(final OptionReader.GeniumOptions options) {
     this(options, false);
   }
 
   protected JavaGeneratorSuite(
-      final OptionReader.TranspilerOptions options, final boolean enableAndroidFeatures) {
+      final OptionReader.GeniumOptions options, final boolean enableAndroidFeatures) {
     super();
     this.options = options;
     this.enableAndroidFeatures = enableAndroidFeatures;
