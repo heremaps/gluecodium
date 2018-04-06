@@ -19,8 +19,8 @@
 
 package com.here.genium.platform.common;
 
+import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.cli.OptionReader;
-import com.here.genium.cli.TranspilerExecutionException;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.platform.android.AndroidGeneratorSuite;
@@ -57,7 +57,7 @@ public abstract class GeneratorSuite {
 
   /** Creates a new instance of a generator suite by its short identifier */
   public static GeneratorSuite instantiateByShortName(
-      String shortName, OptionReader.TranspilerOptions options) {
+      String shortName, OptionReader.GeniumOptions options) {
 
     switch (shortName) {
       case AndroidGeneratorSuite.GENERATOR_NAME:
@@ -92,10 +92,10 @@ public abstract class GeneratorSuite {
         return new GeneratedFile(
             content, targetDir.isEmpty() ? fileName : targetDir + File.separator + fileName);
       } catch (IOException e) {
-        throw new TranspilerExecutionException("Copying resource file failed with error:", e);
+        throw new GeniumExecutionException("Copying resource file failed with error:", e);
       }
     }
 
-    throw new TranspilerExecutionException(String.format("Failed loading resource %s.", fileName));
+    throw new GeniumExecutionException(String.format("Failed loading resource %s.", fileName));
   }
 }

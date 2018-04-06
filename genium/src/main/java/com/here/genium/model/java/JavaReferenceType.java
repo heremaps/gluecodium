@@ -19,7 +19,7 @@
 
 package com.here.genium.model.java;
 
-import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.cli.GeniumExecutionException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -99,7 +99,7 @@ public final class JavaReferenceType extends JavaComplexType {
       return new JavaReferenceType(JavaReferenceType.Type.LONG);
     } else {
       // No array for void type
-      throw new TranspilerExecutionException("Can not wrap primitive type " + primitiveType.name);
+      throw new GeniumExecutionException("Can not wrap primitive type " + primitiveType.name);
     }
   }
 }

@@ -27,7 +27,7 @@ import com.here.genium.cli.*;
 import com.here.genium.common.TimeLogger;
 import com.here.genium.generator.common.*;
 import com.here.genium.loader.FrancaModelLoader;
-import com.here.genium.logger.TranspilerLogger;
+import com.here.genium.logger.GeniumLogger;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.franca.ModelHelper;
 import com.here.genium.output.ConsoleOutput;
@@ -46,18 +46,18 @@ import java.util.stream.Collectors;
 import org.franca.core.franca.FTypeCollection;
 import org.jetbrains.annotations.NotNull;
 
-public class Transpiler {
+public class Genium {
 
-  private static final Logger LOGGER = Logger.getLogger(Transpiler.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(Genium.class.getName());
 
-  private final OptionReader.TranspilerOptions options;
+  private final OptionReader.GeniumOptions options;
   private final Version version;
   private final CachingStrategy cacheStrategy;
 
   @VisibleForTesting
-  Transpiler(final OptionReader.TranspilerOptions options) {
+  Genium(final OptionReader.GeniumOptions options) {
     this.options = options;
-    TranspilerLogger.initialize("logging.properties");
+    GeniumLogger.initialize("logging.properties");
     version = parseVersion();
     cacheStrategy =
         CachingStrategyCreator.initializeCaching(
@@ -70,8 +70,7 @@ public class Transpiler {
 
     Properties prop = new Properties();
     try {
-      InputStream stream =
-          Transpiler.class.getClassLoader().getResourceAsStream("version.properties");
+      InputStream stream = Genium.class.getClassLoader().getResourceAsStream("version.properties");
       prop.load(stream);
     } catch (IOException ex) {
       ex.printStackTrace();
@@ -309,9 +308,9 @@ public class Transpiler {
     OptionReader or = new OptionReader();
     int status = 1;
     try {
-      OptionReader.TranspilerOptions options = or.read(args);
-      status = (options == null || new Transpiler(options).execute()) ? 0 : 1;
-    } catch (TranspilerExecutionException e) {
+      OptionReader.GeniumOptions options = or.read(args);
+      status = (options == null || new Genium(options).execute()) ? 0 : 1;
+    } catch (GeniumExecutionException e) {
       LOGGER.log(Level.SEVERE, "Running Genium failed!", e);
     } catch (OptionReaderException e) {
       LOGGER.severe("Failed reading options: " + e.getMessage());

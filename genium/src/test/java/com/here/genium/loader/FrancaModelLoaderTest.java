@@ -21,7 +21,7 @@ package com.here.genium.loader;
 
 import static org.junit.Assert.*;
 
-import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.franca.ModelHelper;
 import com.here.genium.platform.common.GeneratorSuite;
@@ -99,7 +99,7 @@ public class FrancaModelLoaderTest {
 
   @Test
   public void loadMalformedDeploymentModelWithPackage() throws URISyntaxException {
-    exception.expect(TranspilerExecutionException.class);
+    exception.expect(GeniumExecutionException.class);
 
     URL malformedFdepl =
         ClassLoader.getSystemClassLoader()

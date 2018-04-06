@@ -21,7 +21,7 @@ package com.here.genium.loader;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.model.franca.*;
 import java.io.File;
 import java.io.IOException;
@@ -118,7 +118,7 @@ public class FrancaModelLoader {
                     return f.getCanonicalFile();
                   } catch (IOException e) {
                     // this throws, which is not supported by the streams APIs
-                    throw new TranspilerExecutionException(
+                    throw new GeniumExecutionException(
                         "getCanonicalFile() failed for file " + f.toString(), e);
                   }
                 })
@@ -137,7 +137,7 @@ public class FrancaModelLoader {
     FDModel model = fdeplLoader.loadModel(URI.createURI(uri), ROOT_URI);
 
     if (model.getSpecifications().isEmpty()) {
-      throw new TranspilerExecutionException("Could not load spec: " + uri + ".");
+      throw new GeniumExecutionException("Could not load spec: " + uri + ".");
     }
 
     return model.getSpecifications().get(0);
@@ -189,7 +189,7 @@ public class FrancaModelLoader {
     try {
       deploymentModel = fdeplLoader.loadModel(fileURI, ROOT_URI);
     } catch (IndexOutOfBoundsException e) {
-      throw new TranspilerExecutionException("Loading fdepl failed: " + fileURI, e);
+      throw new GeniumExecutionException("Loading fdepl failed: " + fileURI, e);
     }
 
     return deploymentModel;

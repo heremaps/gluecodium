@@ -20,7 +20,7 @@
 package com.here.genium.cache;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.generator.common.GeneratedFile;
 import java.io.File;
 import java.io.FileInputStream;
@@ -67,9 +67,9 @@ class FileSetCache {
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream); ) {
       return (HashMap<String, CacheEntry>) objectInputStream.readObject();
     } catch (IOException e) {
-      throw new TranspilerExecutionException("Reading cache index from file system failed", e);
+      throw new GeniumExecutionException("Reading cache index from file system failed", e);
     } catch (ClassNotFoundException e) {
-      throw new TranspilerExecutionException("Casting cache index contents failed", e);
+      throw new GeniumExecutionException("Casting cache index contents failed", e);
     }
   }
 
@@ -81,9 +81,9 @@ class FileSetCache {
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream); ) {
       objectOutputStream.writeObject(cacheEntries);
     } catch (FileNotFoundException e) {
-      throw new TranspilerExecutionException("Opening the cache index file for writing failed", e);
+      throw new GeniumExecutionException("Opening the cache index file for writing failed", e);
     } catch (IOException e) {
-      throw new TranspilerExecutionException("Writing stream header of cache index file failed", e);
+      throw new GeniumExecutionException("Writing stream header of cache index file failed", e);
     }
   }
 

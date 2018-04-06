@@ -28,7 +28,7 @@ import static org.mockito.Mockito.anyList;
 
 import com.here.genium.cache.CachingStrategy;
 import com.here.genium.cache.CachingStrategyCreator;
-import com.here.genium.cli.OptionReader.TranspilerOptions;
+import com.here.genium.cli.OptionReader.GeniumOptions;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.loader.FrancaModelLoader;
 import com.here.genium.output.ConsoleOutput;
@@ -64,7 +64,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
   FrancaResourcesValidator.class,
   CachingStrategyCreator.class
 })
-public class TranspilerTest {
+public class GeniumTest {
 
   private static final String SHORT_NAME = "android";
   private static final String FILE_NAME = "fileName";
@@ -96,61 +96,60 @@ public class TranspilerTest {
 
     when(FrancaResourcesValidator.validate(any(), any())).thenReturn(true);
     when(generator.getName()).thenReturn("");
-    when(GeneratorSuite.instantiateByShortName(anyString(), any(TranspilerOptions.class)))
+    when(GeneratorSuite.instantiateByShortName(anyString(), any(GeniumOptions.class)))
         .thenReturn(generator);
   }
 
   @Test
   public void defaultGeneratorsAreUsed() {
     // Arrange
-    TranspilerOptions options = TranspilerOptions.builder().build();
+    GeniumOptions options = GeniumOptions.builder().build();
 
     // Act, Assert
-    assertEquals(
-        GeneratorSuite.generatorShortNames(), createTranspiler(options).discoverGenerators());
+    assertEquals(GeneratorSuite.generatorShortNames(), createGenium(options).discoverGenerators());
   }
 
   @Test
   public void failedInstantiationOfGenerator() {
     // Arrange
-    when(GeneratorSuite.instantiateByShortName(anyString(), any(TranspilerOptions.class)))
+    when(GeneratorSuite.instantiateByShortName(anyString(), any(GeniumOptions.class)))
         .thenReturn(null);
-    TranspilerOptions options =
-        TranspilerOptions.builder()
+    GeniumOptions options =
+        GeniumOptions.builder()
             .inputDirs(new String[] {""})
             .generators(Collections.singleton("invalidGenerator"))
             .build();
 
     // Act, Assert
-    assertFalse(createTranspiler(options).execute());
+    assertFalse(createGenium(options).execute());
   }
 
   @Test
   public void fileNameCollisionsResolved() {
     // Arrange
     when(generator.generate(any(), any())).thenReturn(Arrays.asList(FILE, FILE, FILE));
-    TranspilerOptions options =
-        TranspilerOptions.builder()
+    GeniumOptions options =
+        GeniumOptions.builder()
             .inputDirs(new String[] {""})
             .generators(Collections.singleton(SHORT_NAME))
             .validatingOnly(false)
             .build();
 
-    assertFalse(createTranspiler(options).execute());
+    assertFalse(createGenium(options).execute());
   }
 
   @Test
   public void executeValidateOnly() {
     // Arrange
-    TranspilerOptions options =
-        TranspilerOptions.builder()
+    GeniumOptions options =
+        GeniumOptions.builder()
             .inputDirs(new String[] {""})
             .generators(Collections.singleton(SHORT_NAME))
             .validatingOnly(true)
             .build();
 
     // Act
-    createTranspiler(options).execute();
+    createGenium(options).execute();
 
     // Assert
     verify(generator, never()).generate(any(), any());
@@ -160,8 +159,8 @@ public class TranspilerTest {
   public void useCachingInExecute() {
 
     // Arrange
-    TranspilerOptions options =
-        TranspilerOptions.builder()
+    GeniumOptions options =
+        GeniumOptions.builder()
             .inputDirs(new String[] {""})
             .outputDir(temporaryFolder.getRoot().getPath())
             .generators(Collections.singleton(SHORT_NAME))
@@ -169,7 +168,7 @@ public class TranspilerTest {
             .build();
 
     // Act
-    createTranspiler(options).execute();
+    createGenium(options).execute();
 
     //Verify
     InOrder order = Mockito.inOrder(cache);
@@ -180,14 +179,14 @@ public class TranspilerTest {
   @Test
   public void ableToOutputConsole() throws IOException {
     // Arrange
-    TranspilerOptions.builder().dumpingToStdout(true).build();
+    GeniumOptions.builder().dumpingToStdout(true).build();
     GeneratedFile generatedFile = new GeneratedFile(CONTENT, FILE_NAME);
     ByteArrayOutputStream bo = new ByteArrayOutputStream();
     System.setOut(new PrintStream(bo));
-    TranspilerOptions options = TranspilerOptions.builder().dumpingToStdout(true).build();
+    GeniumOptions options = GeniumOptions.builder().dumpingToStdout(true).build();
 
     // Act
-    new Transpiler(options).output(null, Collections.singletonList(generatedFile));
+    new Genium(options).output(null, Collections.singletonList(generatedFile));
     bo.flush();
     String consoleOutput = new String(bo.toByteArray());
 
@@ -197,7 +196,7 @@ public class TranspilerTest {
 
   @Test
   @PrepareForTest({
-    Transpiler.class,
+    Genium.class,
     FileOutput.class,
     GeneratorSuite.class,
     FrancaResourcesValidator.class,
@@ -207,18 +206,18 @@ public class TranspilerTest {
     // Arrange
     FileOutput mockFileOutput = mock(FileOutput.class);
     PowerMockito.whenNew(FileOutput.class).withAnyArguments().thenReturn(mockFileOutput);
-    TranspilerOptions options = TranspilerOptions.builder().outputDir(OUTPUT_DIR).build();
+    GeniumOptions options = GeniumOptions.builder().outputDir(OUTPUT_DIR).build();
     File mockFile = mock(File.class);
     PowerMockito.whenNew(File.class).withAnyArguments().thenReturn(mockFile);
 
     // Act, Assert
-    assertTrue(new Transpiler(options).output(null, GENERATED_FILES));
+    assertTrue(new Genium(options).output(null, GENERATED_FILES));
     verify(mockFileOutput, times(1)).output(anyList());
     verify(cache).updateCache(any(), any());
   }
 
   @PrepareForTest({
-    Transpiler.class,
+    Genium.class,
     GeneratorSuite.class,
     FrancaResourcesValidator.class,
     CachingStrategyCreator.class
@@ -228,10 +227,10 @@ public class TranspilerTest {
     ConsoleOutput mockConsoleOutput = mock(ConsoleOutput.class);
     PowerMockito.whenNew(ConsoleOutput.class).withNoArguments().thenReturn(mockConsoleOutput);
     Mockito.doThrow(new IOException()).when(mockConsoleOutput).output(anyList());
-    TranspilerOptions options = TranspilerOptions.builder().dumpingToStdout(true).build();
+    GeniumOptions options = GeniumOptions.builder().dumpingToStdout(true).build();
 
     // Act, Assert
-    assertFalse(new Transpiler(options).output(null, GENERATED_FILES));
+    assertFalse(new Genium(options).output(null, GENERATED_FILES));
   }
 
   @Test
@@ -240,10 +239,10 @@ public class TranspilerTest {
     FileOutput mockFileOutput = mock(FileOutput.class);
     PowerMockito.whenNew(FileOutput.class).withAnyArguments().thenReturn(mockFileOutput);
     Mockito.doThrow(new IOException()).when(mockFileOutput).output(GENERATED_FILES);
-    TranspilerOptions options = TranspilerOptions.builder().outputDir("").build();
+    GeniumOptions options = GeniumOptions.builder().outputDir("").build();
 
     // Act, Assert
-    assertFalse(new Transpiler(options).output(null, GENERATED_FILES));
+    assertFalse(new Genium(options).output(null, GENERATED_FILES));
   }
 
   @Test
@@ -258,7 +257,7 @@ public class TranspilerTest {
 
     // Act
     boolean result =
-        Transpiler.mergeAndroidManifests(
+        Genium.mergeAndroidManifests(
             baseManifestPath, appendManifestPath, mergedManifestPath.toString());
 
     // Assert
@@ -279,7 +278,7 @@ public class TranspilerTest {
 
     // Act
     boolean result =
-        Transpiler.mergeAndroidManifests(
+        Genium.mergeAndroidManifests(
             baseManifestPath, appendManifestPath, mergedManifestPath.toString());
 
     // Assert
@@ -297,7 +296,7 @@ public class TranspilerTest {
 
     // Act
     boolean result =
-        Transpiler.mergeAndroidManifests(
+        Genium.mergeAndroidManifests(
             baseManifestPath, appendManifestPath, mergedManifestPath.toString());
 
     // Assert
@@ -305,10 +304,10 @@ public class TranspilerTest {
   }
 
   @NotNull
-  private Transpiler createTranspiler(TranspilerOptions options) {
-    Transpiler transpiler = spy(new Transpiler(options));
-    doReturn(francaModelLoader).when(transpiler).getFrancaModelLoader();
-    doReturn(true).when(transpiler).validateFrancaModel(any(), any());
-    return transpiler;
+  private Genium createGenium(final GeniumOptions options) {
+    Genium genium = spy(new Genium(options));
+    doReturn(francaModelLoader).when(genium).getFrancaModelLoader();
+    doReturn(true).when(genium).validateFrancaModel(any(), any());
+    return genium;
   }
 }

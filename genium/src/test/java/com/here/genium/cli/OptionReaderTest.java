@@ -24,7 +24,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.here.genium.cli.OptionReader.TranspilerOptions;
+import com.here.genium.cli.OptionReader.GeniumOptions;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -53,7 +53,7 @@ public final class OptionReaderTest {
   @Test
   public void listGeneratorsOptionIsRecognised() throws OptionReaderException {
     // Arrange, Act
-    TranspilerOptions options = optionReader.read(new String[] {"-listGenerators"});
+    GeniumOptions options = optionReader.read(new String[] {"-listGenerators"});
 
     // Assert
     assertNull(options);
@@ -62,7 +62,7 @@ public final class OptionReaderTest {
   @Test
   public void helpOptionIsRecognised() throws OptionReaderException {
     // Arrange, Act
-    TranspilerOptions options = optionReader.read(new String[] {"-help"});
+    GeniumOptions options = optionReader.read(new String[] {"-help"});
 
     // Assert
     assertNull(options);
@@ -101,8 +101,7 @@ public final class OptionReaderTest {
   @Test
   public void inputOptionSingleFolder() throws OptionReaderException {
     // Arrange, Act
-    TranspilerOptions options =
-        optionReader.read(new String[] {"-input", TEST_INPUT_SINGLE_FOLDER[0]});
+    GeniumOptions options = optionReader.read(new String[] {"-input", TEST_INPUT_SINGLE_FOLDER[0]});
 
     // Assert
     assertNotNull(options.getInputDirs());
@@ -113,7 +112,7 @@ public final class OptionReaderTest {
   @Test
   public void inputOptionTwoFolders() throws OptionReaderException {
     // Arrange, Act
-    TranspilerOptions options =
+    GeniumOptions options =
         optionReader.read(
             new String[] {
               "-input", TEST_INPUT_TWO_FOLDERS[0],
@@ -133,7 +132,7 @@ public final class OptionReaderTest {
     String[] toRead = prepareToRead("-output", TEST_OUTPUT);
 
     // Act
-    TranspilerOptions options = optionReader.read(toRead);
+    GeniumOptions options = optionReader.read(toRead);
 
     // Assert
     assertEquals(TEST_OUTPUT, options.getOutputDir());
@@ -145,7 +144,7 @@ public final class OptionReaderTest {
     String[] toRead = prepareToRead("-generators", TEST_GENERATORS);
 
     // Act
-    TranspilerOptions options = optionReader.read(toRead);
+    GeniumOptions options = optionReader.read(toRead);
 
     // Assert
     Set<String> generators = options.getGenerators();
@@ -159,7 +158,7 @@ public final class OptionReaderTest {
     String[] toRead = prepareToRead("-javapackage", TEST_JAVA_PACKAGE_LIST);
 
     // Act
-    TranspilerOptions options = optionReader.read(toRead);
+    GeniumOptions options = optionReader.read(toRead);
 
     // Assert
     assertEquals(Arrays.asList(TEST_JAVA_PACKAGE_LIST), options.getJavaPackageList());
@@ -178,7 +177,7 @@ public final class OptionReaderTest {
   @Test
   public void androidMergeManifestPathIsRecognised() throws OptionReaderException {
     String[] toRead = prepareToRead("-androidMergeManifest", TEST_ADDITIONAL_ANDROID_MANIFEST);
-    TranspilerOptions options = optionReader.read(toRead);
+    GeniumOptions options = optionReader.read(toRead);
     assertEquals(TEST_ADDITIONAL_ANDROID_MANIFEST, options.getAndroidMergeManifestPath());
   }
 

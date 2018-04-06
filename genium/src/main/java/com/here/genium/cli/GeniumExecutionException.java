@@ -19,12 +19,12 @@
 
 package com.here.genium.cli;
 
-public class TranspilerExecutionException extends RuntimeException {
-  public TranspilerExecutionException(String message) {
+public class GeniumExecutionException extends RuntimeException {
+  public GeniumExecutionException(String message) {
     super(message);
   }
 
-  public TranspilerExecutionException(String message, Throwable cause) {
+  public GeniumExecutionException(String message, Throwable cause) {
     super(message, cause);
   }
 }

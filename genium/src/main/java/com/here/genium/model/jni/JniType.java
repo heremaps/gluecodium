@@ -19,7 +19,7 @@
 
 package com.here.genium.model.jni;
 
-import com.here.genium.cli.TranspilerExecutionException;
+import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.generator.jni.JniNameRules;
 import com.here.genium.generator.jni.JniTypeNameMapper;
 import com.here.genium.model.cpp.CppComplexTypeRef;
@@ -78,7 +78,7 @@ public final class JniType implements JniElement {
     if (type instanceof JavaComplexType) {
       return createJniSignature((JavaComplexType) type);
     }
-    throw new TranspilerExecutionException("invalid java type: " + type);
+    throw new GeniumExecutionException("invalid java type: " + type);
   }
 
   private static String createJniSignature(JavaPrimitiveType primitiveType) {
@@ -102,8 +102,7 @@ public final class JniType implements JniElement {
       case DOUBLE:
         return "D";
       default:
-        throw new TranspilerExecutionException(
-            "invalid java primitive type: " + primitiveType.type);
+        throw new GeniumExecutionException("invalid java primitive type: " + primitiveType.type);
     }
   }
 
@@ -126,7 +125,7 @@ public final class JniType implements JniElement {
       case DOUBLE:
         return "[D";
       default:
-        throw new TranspilerExecutionException("invalid java primitive type: " + arrayType.type);
+        throw new GeniumExecutionException("invalid java primitive type: " + arrayType.type);
     }
   }
 

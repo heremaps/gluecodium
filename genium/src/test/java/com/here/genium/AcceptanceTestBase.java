@@ -70,7 +70,7 @@ public abstract class AcceptanceTestBase {
 
   @Rule public final NiceErrorCollector errorCollector = new NiceErrorCollector();
 
-  private final Transpiler transpiler = spy(new Transpiler(OptionReader.DEFAULT_OPTIONS));
+  private final Genium genium = spy(new Genium(OptionReader.DEFAULT_OPTIONS));
 
   private final File featureDirectory;
   private final String generatorName;
@@ -92,7 +92,7 @@ public abstract class AcceptanceTestBase {
               results.addAll(generatedFiles);
               return true;
             })
-        .when(transpiler)
+        .when(genium)
         .output(any(), any());
   }
 
@@ -149,11 +149,10 @@ public abstract class AcceptanceTestBase {
 
     List<FTypeCollection> typeCollections = new LinkedList<>();
     FrancaDeploymentModel deploymentModel =
-        transpiler.loadModel(Collections.singletonList(inputDirectory), typeCollections);
+        genium.loadModel(Collections.singletonList(inputDirectory), typeCollections);
     assertNotNull(deploymentModel);
     assertTrue(
-        transpiler.executeGenerator(
-            generatorName, deploymentModel, typeCollections, new HashMap<>()));
+        genium.executeGenerator(generatorName, deploymentModel, typeCollections, new HashMap<>()));
 
     Map<String, String> generatedContents =
         results

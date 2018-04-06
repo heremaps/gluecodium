@@ -27,12 +27,11 @@ import org.apache.log4j.Logger;
 import org.eclipse.xtext.linking.impl.ImportedNamesAdapter;
 
 /** Initialize logging framework with logging.properties file. */
-public class TranspilerLogger {
+public class GeniumLogger {
 
   public static void initialize(String propertiesFile) {
     try {
-      InputStream stream =
-          TranspilerLogger.class.getClassLoader().getResourceAsStream(propertiesFile);
+      InputStream stream = GeniumLogger.class.getClassLoader().getResourceAsStream(propertiesFile);
       LogManager.getLogManager().readConfiguration(stream);
       // Disable Xtext info messages
       Logger.getLogger(ImportedNamesAdapter.class).setLevel(Level.WARN);
