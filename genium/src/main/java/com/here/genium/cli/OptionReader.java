@@ -179,7 +179,7 @@ public final class OptionReader {
   }
 
   public void printUsage() {
-    String header = "Transpiler - Generate APIs for franca files\n\n";
+    String header = "Genium - Generate APIs from Franca IDL files\n\n";
     String footer = "\nPlease report issues at /dev/null";
 
     HelpFormatter formatter = new HelpFormatter();

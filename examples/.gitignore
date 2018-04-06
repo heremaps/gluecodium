@@ -1,4 +1,4 @@
-### API-Transpiler custom rules on top of github .gitignore templates
+### Genium custom rules on top of github .gitignore templates
 #
 # Update .gitignore with github.com/simonwhitaker/gibo like this:
 #
@@ -172,7 +172,8 @@ tags
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*

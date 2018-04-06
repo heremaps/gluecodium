@@ -312,7 +312,7 @@ public class Transpiler {
       OptionReader.TranspilerOptions options = or.read(args);
       status = (options == null || new Transpiler(options).execute()) ? 0 : 1;
     } catch (TranspilerExecutionException e) {
-      LOGGER.log(Level.SEVERE, "Running Transpiler failed!", e);
+      LOGGER.log(Level.SEVERE, "Running Genium failed!", e);
     } catch (OptionReaderException e) {
       LOGGER.severe("Failed reading options: " + e.getMessage());
       or.printUsage();

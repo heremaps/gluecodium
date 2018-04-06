@@ -1,5 +1,5 @@
-# API Transpiler
-This repository contains the HERE API Transpiler.
+# Genium
+This repository contains the HERE Genium project.
 
 ## Setup
 Ensure that you got this repository by using the api-transpiler repo manifest:
@@ -45,7 +45,7 @@ git push origin HEAD:refs/for/master
 And add the *TranspilerReviewers* group manually on Gerrit's web interface.
 
 ## Command line parameters
-For information on Transpiler command line parameters run it with "-help":
+For information on Genium command line parameters run it with "-help":
 
 ```bash
 ./transpile -help

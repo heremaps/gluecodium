@@ -70,7 +70,7 @@ function(apigen_transpile)
     message(STATUS "${operationVerb} '${apigen_transpile_TARGET}' with '${apigen_transpile_GENERATOR}' generator using transpiler version '${apigen_transpile_VERSION}'
     Input: '${apigen_transpile_FRANCA_SOURCES}'")
 
-    # Transpiler invocations for different generators need different output directories
+    # Genium invocations for different generators need different output directories
     # as the transpiler currently wipes the directory upon start.
     set(TRANSPILER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_transpile_GENERATOR}-transpile)
 
@@ -86,7 +86,7 @@ function(apigen_transpile)
         set(apigen_transpile_GENERATOR "cpp,${apigen_transpile_GENERATOR}")
     endif()
 
-    # Trigger a re-configure if there are any changes to the franca sources. This will run the Transpiler. Only works if files were specified individually.
+    # Trigger a re-configure if there are any changes to the franca sources. This will run the Genium. Only works if files were specified individually.
     set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${apigen_transpile_FRANCA_SOURCES})
 
     # Build transpiler command-line

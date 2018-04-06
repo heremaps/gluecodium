@@ -2,7 +2,7 @@
 #
 USAGE=$(cat <<EOF
 $0 [options]
-    --publish    Build and publish the Transpiler locally and use it for code generation
+    --publish    Build and publish Genium locally and use it for code generation
     --debug      Build with debug symbols
     --valgrind   Run with valgrind
     --junit      Generate junit xml test report (requires ocunit2junit)

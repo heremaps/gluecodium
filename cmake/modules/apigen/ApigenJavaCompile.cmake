@@ -53,7 +53,7 @@ function(apigen_java_compile)
         message(FATAL_ERROR "apigen_java_compile() depends on apigen_transpiler() configured with generator 'android'")
     endif()
 
-    # Transpiler invocations for different generators need different output directories
+    # Genium invocations for different generators need different output directories
     # as the transpiler currently wipes the directory upon start.
     set(APIGEN_JAVA_COMPILE_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-java-compile)
     set(APIGEN_TRANSPILER_JAVA_SOURCE_DIR ${OUTPUT_DIR}/android)
