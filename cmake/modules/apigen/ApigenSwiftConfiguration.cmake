@@ -43,7 +43,7 @@ function(apigen_swift_configuration target)
     endif()
 
     # Genium invocations for different generators need different output directories
-    # as the transpiler currently wipes the directory upon start.
+    # as Genium currently wipes the directory upon start.
     set(SWIFT_BUILD_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-swift-build)
     set(FRAMEWORK_VERSION A)
 

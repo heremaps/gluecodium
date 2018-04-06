@@ -33,7 +33,7 @@ cmake_minimum_required(VERSION 3.5)
 #
 #     apigen_transpile(target inputDir generator)
 #
-# This function invokes the API transpiler based on a set of of input *.fidl
+# This function invokes the Genium tool based on a set of of input *.fidl
 # files with a specific target language generator.
 
 find_package(Java COMPONENTS Runtime REQUIRED)
@@ -71,7 +71,7 @@ function(apigen_transpile)
     Input: '${apigen_transpile_FRANCA_SOURCES}'")
 
     # Genium invocations for different generators need different output directories
-    # as the transpiler currently wipes the directory upon start.
+    # as Genium currently wipes the directory upon start.
     set(TRANSPILER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_transpile_GENERATOR}-transpile)
 
     # Attach properties to target for re-use in other modules
@@ -82,14 +82,14 @@ function(apigen_transpile)
     if(NOT apigen_transpile_GENERATOR MATCHES cpp)
         # This can be optimized. If a previous invocation of this function already
         # transpiled 'cpp', it should be re-used. At the moment this is not possible
-        # because the transpiler cleans it's output directory in the beginning
+        # because Genium cleans it's output directory in the beginning
         set(apigen_transpile_GENERATOR "cpp,${apigen_transpile_GENERATOR}")
     endif()
 
     # Trigger a re-configure if there are any changes to the franca sources. This will run the Genium. Only works if files were specified individually.
     set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${apigen_transpile_FRANCA_SOURCES})
 
-    # Build transpiler command-line
+    # Build Genium tool command-line
     set(APIGEN_TRANSPILER_ARGS "\
  -output \"${TRANSPILER_OUTPUT_DIR}\"\
  -generators ${apigen_transpile_GENERATOR}\

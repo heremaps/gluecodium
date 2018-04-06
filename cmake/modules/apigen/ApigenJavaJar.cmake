@@ -40,7 +40,7 @@ function(apigen_java_jar target)
     endif()
 
     # Genium invocations for different generators need different output directories
-    # as the transpiler currently wipes the directory upon start.
+    # as Genium currently wipes the directory upon start.
     set(APIGEN_JAVA_JAR_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-java-jar)
     set(APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR_OUTPUT_DIR}/${target}.jar)
 

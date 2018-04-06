@@ -1,5 +1,5 @@
 # Genium Hello World project
-Serves as a working prototype used to showcase and extend the API transpiler.
+Serves as a working prototype used to showcase the Genium tool.
 The project is structured as follows:
 
     .
@@ -11,7 +11,7 @@ The project is structured as follows:
     │   └── ios             iOS example app
     ├── cmake
     │   └── modules         Custom CMake modules, includes Transpiler.cmake
-    ├── libhello            Example library that provides transpiler-generated public API
+    ├── libhello            Example library that provides Genium-generated public API
     │   ├── fidl            Franca interface definitions for the public API
     │   └── src             Example library implementation
     └── scripts             Usefule scripts
