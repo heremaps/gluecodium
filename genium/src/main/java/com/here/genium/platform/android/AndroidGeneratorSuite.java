@@ -33,8 +33,8 @@ public final class AndroidGeneratorSuite extends JavaGeneratorSuite {
 
   public static final String GENERATOR_NAME = "android";
 
-  public AndroidGeneratorSuite(final OptionReader.TranspilerOptions transpilerOptions) {
-    super(transpilerOptions, true);
+  public AndroidGeneratorSuite(final OptionReader.TranspilerOptions options) {
+    super(options, true);
   }
 
   @Override

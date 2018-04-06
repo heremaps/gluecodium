@@ -53,19 +53,19 @@ public final class OptionReaderTest {
   @Test
   public void listGeneratorsOptionIsRecognised() throws OptionReaderException {
     // Arrange, Act
-    TranspilerOptions transpilerOptions = optionReader.read(new String[] {"-listGenerators"});
+    TranspilerOptions options = optionReader.read(new String[] {"-listGenerators"});
 
     // Assert
-    assertNull(transpilerOptions);
+    assertNull(options);
   }
 
   @Test
   public void helpOptionIsRecognised() throws OptionReaderException {
     // Arrange, Act
-    TranspilerOptions transpilerOptions = optionReader.read(new String[] {"-help"});
+    TranspilerOptions options = optionReader.read(new String[] {"-help"});
 
     // Assert
-    assertNull(transpilerOptions);
+    assertNull(options);
   }
 
   @Test
@@ -133,10 +133,10 @@ public final class OptionReaderTest {
     String[] toRead = prepareToRead("-output", TEST_OUTPUT);
 
     // Act
-    TranspilerOptions transpilerOptions = optionReader.read(toRead);
+    TranspilerOptions options = optionReader.read(toRead);
 
     // Assert
-    assertEquals(TEST_OUTPUT, transpilerOptions.getOutputDir());
+    assertEquals(TEST_OUTPUT, options.getOutputDir());
   }
 
   @Test
@@ -145,10 +145,10 @@ public final class OptionReaderTest {
     String[] toRead = prepareToRead("-generators", TEST_GENERATORS);
 
     // Act
-    TranspilerOptions transpilerOptions = optionReader.read(toRead);
+    TranspilerOptions options = optionReader.read(toRead);
 
     // Assert
-    Set<String> generators = transpilerOptions.getGenerators();
+    Set<String> generators = options.getGenerators();
     assertTrue(generators.contains("cpp"));
     assertTrue(generators.contains("java"));
   }
@@ -159,10 +159,10 @@ public final class OptionReaderTest {
     String[] toRead = prepareToRead("-javapackage", TEST_JAVA_PACKAGE_LIST);
 
     // Act
-    TranspilerOptions transpilerOptions = optionReader.read(toRead);
+    TranspilerOptions options = optionReader.read(toRead);
 
     // Assert
-    assertEquals(Arrays.asList(TEST_JAVA_PACKAGE_LIST), transpilerOptions.getJavaPackageList());
+    assertEquals(Arrays.asList(TEST_JAVA_PACKAGE_LIST), options.getJavaPackageList());
   }
 
   @Test
@@ -178,8 +178,8 @@ public final class OptionReaderTest {
   @Test
   public void androidMergeManifestPathIsRecognised() throws OptionReaderException {
     String[] toRead = prepareToRead("-androidMergeManifest", TEST_ADDITIONAL_ANDROID_MANIFEST);
-    TranspilerOptions transpilerOptions = optionReader.read(toRead);
-    assertEquals(TEST_ADDITIONAL_ANDROID_MANIFEST, transpilerOptions.getAndroidMergeManifestPath());
+    TranspilerOptions options = optionReader.read(toRead);
+    assertEquals(TEST_ADDITIONAL_ANDROID_MANIFEST, options.getAndroidMergeManifestPath());
   }
 
   private String[] prepareToRead(String optionName, String optionValue) {

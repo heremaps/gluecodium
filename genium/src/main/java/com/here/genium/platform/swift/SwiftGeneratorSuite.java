@@ -47,10 +47,9 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
 
   private final String internalNamespace;
 
-  public SwiftGeneratorSuite(final OptionReader.TranspilerOptions transpilerOptions) {
+  public SwiftGeneratorSuite(final OptionReader.TranspilerOptions options) {
     super();
-    internalNamespace =
-        transpilerOptions != null ? transpilerOptions.getCppInternalNamespace() : null;
+    internalNamespace = options != null ? options.getCppInternalNamespace() : null;
   }
 
   @Override

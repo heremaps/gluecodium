@@ -65,21 +65,20 @@ public class JavaGeneratorSuite extends GeneratorSuite {
 
   private static final String NATIVE_BASE_JAVA = "NativeBase.java";
 
-  private final OptionReader.TranspilerOptions transpilerOptions;
+  private final OptionReader.TranspilerOptions options;
   private final boolean enableAndroidFeatures;
   private final String internalNamespace;
 
-  public JavaGeneratorSuite(final OptionReader.TranspilerOptions transpilerOptions) {
-    this(transpilerOptions, false);
+  public JavaGeneratorSuite(final OptionReader.TranspilerOptions options) {
+    this(options, false);
   }
 
   protected JavaGeneratorSuite(
-      final OptionReader.TranspilerOptions transpilerOptions, final boolean enableAndroidFeatures) {
+      final OptionReader.TranspilerOptions options, final boolean enableAndroidFeatures) {
     super();
-    this.transpilerOptions = transpilerOptions;
+    this.options = options;
     this.enableAndroidFeatures = enableAndroidFeatures;
-    internalNamespace =
-        transpilerOptions != null ? transpilerOptions.getCppInternalNamespace() : null;
+    internalNamespace = options != null ? options.getCppInternalNamespace() : null;
   }
 
   @Override
@@ -91,7 +90,7 @@ public class JavaGeneratorSuite extends GeneratorSuite {
   public List<GeneratedFile> generate(
       final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
 
-    List<String> rootPackage = transpilerOptions.getJavaPackageList();
+    List<String> rootPackage = options.getJavaPackageList();
     List<String> javaPackageList =
         rootPackage != null && !rootPackage.isEmpty()
             ? rootPackage
