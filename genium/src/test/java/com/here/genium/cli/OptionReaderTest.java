@@ -95,7 +95,7 @@ public final class OptionReaderTest {
     String consoleOutput = new String(bo.toByteArray());
 
     // Assert
-    assertTrue(consoleOutput.contains("Transpiler - Generate APIs for franca files"));
+    assertTrue(consoleOutput.contains("Genium - Generate APIs from Franca IDL files"));
   }
 
   @Test

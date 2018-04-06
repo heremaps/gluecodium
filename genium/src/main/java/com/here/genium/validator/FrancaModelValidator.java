@@ -31,7 +31,7 @@ import java.util.stream.StreamSupport;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
-/** Validates the Franca model against Transpiler's own restrictions. */
+/** Validates the Franca model against Genium's own restrictions. */
 public final class FrancaModelValidator {
 
   private static final Logger LOGGER = Logger.getLogger(FrancaModelValidator.class.getName());

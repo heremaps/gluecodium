@@ -1,10 +1,10 @@
-Transpiler FIDL and FDEPL syntax
+Genium FIDL and FDEPL syntax
 ================================
 
-Transpiler uses [Franca][franca] to define APIs. A full guide on the Franca IDL can be found in the
+Genium uses [Franca][franca] to define APIs. A full guide on the Franca IDL can be found in the
 [franca user guide][userguide].
 
-This file describes additional FIDL and FDEPL syntax used by Transpiler.
+This file describes additional FIDL and FDEPL syntax used by Genium.
 
 
 FIDL and FDEPL files
@@ -25,7 +25,7 @@ Custom FIDL syntax
 
 ### Instance reference
 
-Transpiler extends the concept of Franca interface by allowing creation of instances of those
+Genium extends the concept of Franca interface by allowing creation of instances of those
 interfaces. There is a special FIDL syntax that makes referencing such interfaces possible (e.g. as
 struct field types, method parameters types, etc.).
 

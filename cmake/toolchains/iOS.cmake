@@ -289,6 +289,6 @@ macro(find_host_package)
   set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 endmacro(find_host_package)
 
-# Search for Java on the host so Transpiler doesn't search for it in the cross compiling sysroot
+# Search for Java on the host so Genium doesn't search for it in the cross compiling sysroot
 find_host_package(Java REQUIRED)
 

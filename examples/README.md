@@ -1,4 +1,4 @@
-# API Transpiler Hello World project
+# Genium Hello World project
 Serves as a working prototype used to showcase and extend the API transpiler.
 The project is structured as follows:
 
