@@ -56,10 +56,10 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   private final CppIncludeResolver includeResolver;
   private final String internalNamespace;
 
-  public BaseApiGeneratorSuite(final OptionReader.TranspilerOptions transpilerOptions) {
+  public BaseApiGeneratorSuite(final OptionReader.TranspilerOptions options) {
     super();
     includeResolver = new CppIncludeResolver();
-    internalNamespace = transpilerOptions.getCppInternalNamespace();
+    internalNamespace = options.getCppInternalNamespace();
   }
 
   @Override

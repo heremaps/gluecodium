@@ -32,7 +32,7 @@ public final class OptionReader {
   public static final TranspilerOptions DEFAULT_OPTIONS =
       TranspilerOptions.builder().cppInternalNamespace(DEFAULT_INTERNAL_NAMESPACE).build();
 
-  private final Options options;
+  private final Options allOptions;
 
   @lombok.Value
   @lombok.Builder(builderClassName = "Builder")
@@ -51,23 +51,23 @@ public final class OptionReader {
   }
 
   public OptionReader() {
-    this.options = new Options();
+    this.allOptions = new Options();
 
-    options.addOption("input", true, "The path or the file to use for generation");
-    options.addOption("output", true, "Generated files output destination");
-    options.addOption("javapackage", true, "Java package name");
-    options.addOption(
+    allOptions.addOption("input", true, "The path or the file to use for generation");
+    allOptions.addOption("output", true, "Generated files output destination");
+    allOptions.addOption("javapackage", true, "Java package name");
+    allOptions.addOption(
         "androidMergeManifest",
         true,
         "A second AndroidManifest.xml that will be merged with the generated AndroidManifest.xml");
-    options.addOption("nostdout", false, "Don't dump generated files to stdout");
-    options.addOption("help", false, "Shows this help and exits.");
-    options.addOption("listGenerators", false, "Prints out all available generators and exits.");
-    options.addOption(
+    allOptions.addOption("nostdout", false, "Don't dump generated files to stdout");
+    allOptions.addOption("help", false, "Shows this help and exits.");
+    allOptions.addOption("listGenerators", false, "Prints out all available generators and exits.");
+    allOptions.addOption(
         "validateOnly",
         false,
         "Perform fidl and fdepl files validation without generating any code.");
-    options.addOption(
+    allOptions.addOption(
         "enableCaching",
         false,
         "enable caching of output files, only available if output destination is set");
@@ -83,17 +83,17 @@ public final class OptionReader {
     generatorsOpt.setValueSeparator(',');
     generatorsOpt.setOptionalArg(true);
     generatorsOpt.setArgs(Option.UNLIMITED_VALUES);
-    options.addOption(generatorsOpt);
-    options.addOption(
+    allOptions.addOption(generatorsOpt);
+    allOptions.addOption(
         "timeLogging",
         false,
         "Enables logging of transpilation- and franca model loading-times at INFO level.");
-    options.addOption(
+    allOptions.addOption(
         "copyrightHeader",
         true,
         "Specify the path for the file containing the copyright header that will be appended to"
             + " all the generated files.");
-    options.addOption(
+    allOptions.addOption(
         "cppInternalNamespace", true, "C++ namespace for internal (non-API) headers.");
   }
 
@@ -103,7 +103,7 @@ public final class OptionReader {
     CommandLineParser parser = new BasicParser();
 
     try {
-      CommandLine cmd = parser.parse(options, args);
+      CommandLine cmd = parser.parse(allOptions, args);
 
       if (cmd.hasOption("listGenerators")) {
         printGenerators();
@@ -153,12 +153,12 @@ public final class OptionReader {
     }
 
     // Validation
-    TranspilerOptions transpilerOptions = builder.build();
-    if (transpilerOptions.getInputDirs() == null || transpilerOptions.getInputDirs().length == 0) {
+    TranspilerOptions options = builder.build();
+    if (options.getInputDirs() == null || options.getInputDirs().length == 0) {
       throw new OptionReaderException("input option required");
     }
 
-    return transpilerOptions;
+    return options;
   }
 
   private void printGenerators() {
@@ -183,7 +183,7 @@ public final class OptionReader {
     String footer = "\nPlease report issues at /dev/null";
 
     HelpFormatter formatter = new HelpFormatter();
-    formatter.printHelp("transpiler [input]", header, options, footer, true);
+    formatter.printHelp("transpiler [input]", header, allOptions, footer, true);
   }
 
   private static String getSingleOptionValue(final CommandLine cmd, final String option)
