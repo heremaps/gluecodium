@@ -3,7 +3,7 @@ MAINTAINER Sascha Peilicke <sascha.peilicke@here.com>
 
 ARG TRANSPILER_VERSION=+
 
-ENV TRANSPILER_HOME=/opt/transpiler
+ENV TRANSPILER_HOME=/opt/genium
 ENV TRANSPILER_VERSION=$TRANSPILER_VERSION
 
 RUN apk add --no-cache bash openjdk8-jre
