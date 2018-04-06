@@ -93,7 +93,7 @@ function(apigen_android_archive)
       add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
         COMMAND ${Java_JAR_EXECUTABLE} -cfM ${APIGEN_ANDROID_ARCHIVE_CLASSES_JAR} -C ${JAR_MERGE_DIR} .)
     else()
-      # Just copy the transpiler-generated jar file as there are no others
+      # Just copy the Genium-generated jar file as there are no others
       add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
         COMMAND ${CMAKE_COMMAND} ARGS -E copy ${APIGEN_JAVA_JAR} ${APIGEN_ANDROID_ARCHIVE_CLASSES_JAR})
     endif()

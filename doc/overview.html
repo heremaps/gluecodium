@@ -7,7 +7,7 @@
 The generation starts with a list of Franca files, and streams the data through multiple steps before producing the
 final output.
 
-<div align="center"><object type="image/svg+xml" data="transpiler_flow.svg"></object></div>
+<div align="center"><object type="image/svg+xml" data="genium_flow.svg"></object></div>
 
 <h2>{@linkplain com.here.genium.loader.FrancaModelLoader Loader}</h2>
 These components take care of loading the IDL and Deploy files. All imports are resolved by the Franca framework, and we
@@ -47,8 +47,8 @@ by the {@link com.here.genium.generator.common.TemplateEngine TemplateEngine}.
 Finally the produced instance of the templates is put through an
 <a href="{@docRoot}/com/here/ivi/api/output/package-summary.html">output layer</a>, to e.g. save it on the file system.
 
-@startuml transpiler_flow.svg
-digraph TranspilerFlow {
+@startuml genium_flow.svg
+digraph GeniumFlow {
     rankdir = LR
     colorscheme = SVG
     node [

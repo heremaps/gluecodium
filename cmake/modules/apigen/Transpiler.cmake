@@ -7,10 +7,10 @@
 # material also contains confidential information which may not be
 # disclosed to others without the prior written consent of HERE.
 
-if(DEFINED includeguard_apigen_Transpiler)
+if(DEFINED includeguard_apigen_Genium)
   return()
 endif()
-set(includeguard_apigen_Transpiler ON)
+set(includeguard_apigen_Genium ON)
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -18,7 +18,7 @@ cmake_minimum_required(VERSION 3.5)
 # The main Apigen module
 # ----------------------
 #
-# Includes transpiler modules.
+# Includes Genium modules.
 
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenTargetIncludeDirectories.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenTargetSources.cmake)

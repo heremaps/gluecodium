@@ -40,7 +40,7 @@ mainClassName = 'com.here.genium.Genium'
 run {
     /* By default gradle doesn't forward the command line arguments to main.
      This allows to provide a -Dexec.args="args" when the user calls gradle
-     :transpiler:run. This way args will map to the args in main. */
+     :genium:run. This way args will map to the args in main. */
     if (System.getProperty("exec.args") != null) {
         List<String> splitArgs = new ArrayList<String>();
         java.util.regex.Matcher matcher = java.util.regex.Pattern
