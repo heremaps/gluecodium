@@ -17,25 +17,25 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./HelloWorldInheritance.fidl"
 
-define TranspilerExtensions for interface hello.Shape
+define GeniumExtensions for interface hello.Shape
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface hello.Circle
+define GeniumExtensions for interface hello.Circle
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface hello.Rectangle
+define GeniumExtensions for interface hello.Rectangle
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface hello.InheritanceHelper
+define GeniumExtensions for interface hello.InheritanceHelper
 {
     method createCircle {
         Static = true

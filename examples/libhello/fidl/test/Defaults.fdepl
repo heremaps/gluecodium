@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Defaults.fidl"
 
-define TranspilerExtensions for interface test.Defaults
+define GeniumExtensions for interface test.Defaults
 {
     method getDefault {
         Static = true

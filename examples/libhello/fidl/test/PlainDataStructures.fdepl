@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./PlainDataStructures.fidl"
 
-define TranspilerExtensions for interface test.PlainDataStructures
+define GeniumExtensions for interface test.PlainDataStructures
 {
     method createPoint {
         Static = true

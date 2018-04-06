@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Serialization.fidl"
 
-define TranspilerExtensions for typeCollection test.Serialization
+define GeniumExtensions for typeCollection test.Serialization
 {
     struct SerializableStruct {
         Serializable = true

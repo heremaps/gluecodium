@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Typedefs.fidl"
 
-define TranspilerExtensions for interface examples.Typedefs
+define GeniumExtensions for interface examples.Typedefs
 {
     method typedefMethod {
         Static = true

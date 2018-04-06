@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Arrays.fidl"
 
-define TranspilerExtensions for interface test.Arrays
+define GeniumExtensions for interface test.Arrays
 {
     method reverseStringArray {
         Static = true

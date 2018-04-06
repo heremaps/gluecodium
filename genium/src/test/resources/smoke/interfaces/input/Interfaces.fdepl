@@ -17,20 +17,20 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Interfaces.fidl"
 
-define TranspilerExtensions for interface smoke.SimpleInterface
+define GeniumExtensions for interface smoke.SimpleInterface
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface smoke.NestedInterface
+define GeniumExtensions for interface smoke.NestedInterface
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface smoke.InterfaceWithStruct
+define GeniumExtensions for interface smoke.InterfaceWithStruct
 {
     IsInterface = true
 }

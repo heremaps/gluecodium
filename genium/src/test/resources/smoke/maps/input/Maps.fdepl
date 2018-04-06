@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Maps.fidl"
 
-define TranspilerExtensions for interface smoke.Maps
+define GeniumExtensions for interface smoke.Maps
 {
     method methodWithMap {
         Static = true

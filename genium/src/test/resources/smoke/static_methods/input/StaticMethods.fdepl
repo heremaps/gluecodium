@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./StaticMethods.fidl"
 
-define TranspilerExtensions for interface smoke.StaticMethods
+define GeniumExtensions for interface smoke.StaticMethods
 {
     method returnInvertedBoolean {
         Static = true

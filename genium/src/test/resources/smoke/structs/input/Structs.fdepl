@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Structs.fidl"
 
-define TranspilerExtensions for interface smoke.Structs
+define GeniumExtensions for interface smoke.Structs
 {
     method createPoint {
         Static = true
@@ -51,14 +51,14 @@ define TranspilerExtensions for interface smoke.Structs
     }
 }
 
-define TranspilerExtensions for interface smoke.StructsInheritance
+define GeniumExtensions for interface smoke.StructsInheritance
 {
     method methodWithInheritedType {
         Static = true
     }
 }
 
-define TranspilerExtensions for interface smoke.StructsFromTypeCollection
+define GeniumExtensions for interface smoke.StructsFromTypeCollection
 {
     method createPoint {
         Static = true

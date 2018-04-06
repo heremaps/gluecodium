@@ -17,15 +17,15 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Inheritance.fidl"
 
-define TranspilerExtensions for interface examples.InheritanceParent
+define GeniumExtensions for interface examples.InheritanceParent
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface examples.InheritanceChild
+define GeniumExtensions for interface examples.InheritanceChild
 {
     IsInterface = true
 }

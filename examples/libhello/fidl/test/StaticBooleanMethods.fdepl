@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./StaticBooleanMethods.fidl"
 
-define TranspilerExtensions for interface test.StaticBooleanMethods
+define GeniumExtensions for interface test.StaticBooleanMethods
 {
     method returnInvertedBoolean {
         Static = true

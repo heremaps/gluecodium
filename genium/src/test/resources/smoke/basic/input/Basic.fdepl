@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Basic.fidl"
 
-define TranspilerExtensions for interface smoke.Basic
+define GeniumExtensions for interface smoke.Basic
 {
     method basicMethod {
         Static = true

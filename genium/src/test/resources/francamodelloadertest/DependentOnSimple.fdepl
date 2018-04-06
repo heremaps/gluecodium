@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Simple.fidl"
 
 // This simulates a deployment rule for a different Interface than Simple which needs to include it because it has some

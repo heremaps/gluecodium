@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./EnumsTypeCollection.fidl"
 
-define TranspilerExtensions for interface test.EnumsTypeCollectionMethods
+define GeniumExtensions for interface test.EnumsTypeCollectionMethods
 {
     method flipEnumValue {
         Static = true

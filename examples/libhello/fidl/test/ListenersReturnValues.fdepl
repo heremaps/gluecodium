@@ -17,15 +17,15 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./ListenersReturnValues.fidl"
 
-define TranspilerExtensions for interface test.ListenerWithReturn
+define GeniumExtensions for interface test.ListenerWithReturn
 {
     IsInterface = true
 }
 
-define TranspilerExtensions for interface test.MessageDelivery
+define GeniumExtensions for interface test.MessageDelivery
 {
     method createMe {
         Static = true

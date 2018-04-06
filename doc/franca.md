@@ -65,7 +65,7 @@ FIDL:
 
 FDEPL:
 
-    define TranspilerExtensions for interface example.ExampleInterface
+    define GeniumExtensions for interface example.ExampleInterface
     {
         IsInterface = true
     }
@@ -87,7 +87,7 @@ FIDL:
 
 FDEPL:
 
-    define TranspilerExtensions for interface example.ExampleInterface
+    define GeniumExtensions for interface example.ExampleInterface
     {
         method exampleMethod {
             Const = true
@@ -112,7 +112,7 @@ FIDL:
 
 FDEPL:
 
-    define TranspilerExtensions for interface example.ExampleInterface
+    define GeniumExtensions for interface example.ExampleInterface
     {
         method exampleMethod {
             Static = true
@@ -137,7 +137,7 @@ FIDL:
 
 FDEPL:
 
-    define TranspilerExtensions for typeCollection example.ExampleTypeCollection
+    define GeniumExtensions for typeCollection example.ExampleTypeCollection
     {
         struct exampleStruct {
             Serializable = true
@@ -207,7 +207,7 @@ FIDL:
 
 FDEPL:
 
-    define TranspilerExtensions for typeCollection example.ExampleTypeCollection
+    define GeniumExtensions for typeCollection example.ExampleTypeCollection
     {
         struct exampleStruct {
             structField {

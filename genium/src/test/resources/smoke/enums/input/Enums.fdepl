@@ -2,10 +2,10 @@
  *
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./Enums.fidl"
 
-define TranspilerExtensions for interface smoke.Enums
+define GeniumExtensions for interface smoke.Enums
 {
     method methodWithEnumeration {
         Static = true
@@ -24,7 +24,7 @@ define TranspilerExtensions for interface smoke.Enums
     }
 }
 
-define TranspilerExtensions for interface smoke.EnumsInTypeCollectionInterface
+define GeniumExtensions for interface smoke.EnumsInTypeCollectionInterface
 {
     method flipEnumValue {
         Static = true

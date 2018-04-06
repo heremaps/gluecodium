@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./HelloWorldPlainDataStructures.fidl"
 
-define TranspilerExtensions for interface hello.HelloWorldPlainDataStructures
+define GeniumExtensions for interface hello.HelloWorldPlainDataStructures
 {
     method methodWithNonNestedType {
         Static = true

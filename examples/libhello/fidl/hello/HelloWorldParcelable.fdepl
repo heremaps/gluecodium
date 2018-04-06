@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./HelloWorldParcelable.fidl"
 
-define TranspilerExtensions for typeCollection hello.HelloWorldParcelable
+define GeniumExtensions for typeCollection hello.HelloWorldParcelable
 {
     struct State {
         Serializable = true

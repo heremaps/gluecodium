@@ -17,10 +17,10 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/TranspilerExtensions.fdepl"
+import "classpath:/GeniumExtensions.fdepl"
 import "./StaticTypedef.fidl"
 
-define TranspilerExtensions for interface test.StaticTypedef
+define GeniumExtensions for interface test.StaticTypedef
 {
     method returnIntTypedef {
         Static = true

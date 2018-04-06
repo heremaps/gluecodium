@@ -52,7 +52,7 @@ public abstract class GeneratorSuite {
       FrancaDeploymentModel deploymentModel, List<FTypeCollection> typeCollections);
 
   public static String getSpecPath() {
-    return "classpath:/TranspilerExtensions.fdepl";
+    return "classpath:/GeniumExtensions.fdepl";
   }
 
   /** Creates a new instance of a generator suite by its short identifier */
