@@ -49,7 +49,7 @@ function(apigen_swift_test target swift_target_flag module_name)
         ${SOURCES})
         set_target_properties(xctest${target} PROPERTIES
             XCODE_ATTRIBUTE_SWIFT_VERSION "4.0"
-            XCODE_ATTRIBUTE_OTHER_LDFLAGS "-rpath @loader_path/../Frameworks"
+            XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Frameworks"
             XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
             XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=RelWithDebInfo] "YES"
             XCODE_ATTRIBUTE_SWIFT_OPTIMIZATION_LEVEL "-Onone"
