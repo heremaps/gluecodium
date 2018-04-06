@@ -71,6 +71,9 @@ function(apigen_android_archive)
             VERBATIM)
     endforeach()
 
+    set_target_properties(${apigen_android_archive_TARGET} PROPERTIES
+        APIGEN_ANDROID_ARCHIVE_JNI_OUTPUT_DIR ${APIGEN_ANDROID_ARCHIVE_JNI_OUTPUT_DIR})
+
     # Remove any dead links from the above copy. This can happen for generated files that weren't
     # built as part of the dependencies for project.
     add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
