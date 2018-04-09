@@ -36,7 +36,7 @@ function(apigen_swift_framework_structure target)
     get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
 
     if(NOT ${GENERATOR} MATCHES "swift")
-        message(FATAL_ERROR "apigen_swift_framework_structure() depends on apigen_transpiler() configured with generator 'swift'")
+        message(FATAL_ERROR "apigen_swift_framework_structure() depends on apigen_generate() configured with generator 'swift'")
     endif()
 
     add_custom_command(TARGET ${target} POST_BUILD

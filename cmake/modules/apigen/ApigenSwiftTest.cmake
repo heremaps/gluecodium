@@ -38,7 +38,7 @@ function(apigen_swift_test target swift_target_flag module_name)
     endif()
 
     if(NOT ${GENERATOR} MATCHES "swift")
-        message(FATAL_ERROR "apigen_swift_test() depends on apigen_transpiler() configured with generator 'swift'")
+        message(FATAL_ERROR "apigen_swift_test() depends on apigen_generate() configured with generator 'swift'")
     endif()
 
     file(GLOB_RECURSE SOURCES ${SWIFT_TEST}/*.swift)

@@ -38,7 +38,7 @@ function(apigen_swift_modulemap target)
     get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
 
     if(NOT ${GENERATOR} MATCHES "swift")
-        message(FATAL_ERROR "apigen_swift_modulemap() depends on apigen_transpiler() configured with generator 'swift'")
+        message(FATAL_ERROR "apigen_swift_modulemap() depends on apigen_generate() configured with generator 'swift'")
     endif()
 
     set(MODULEMAP_FRAMEWORK_PATH "${SWIFT_OUTPUT_DIR}/${target}.framework/Versions/${SWIFT_FRAMEWORK_VERSION}/Modules/module.modulemap")

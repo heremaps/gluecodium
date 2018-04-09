@@ -317,7 +317,7 @@ set_target_properties(hello PROPERTIES
         VERSION ${HELLO_VERSION})
 
 include(apigen/Transpiler)
-apigen_transpile(TARGET hello
+apigen_generate(TARGET hello
         FRANCA_SOURCES ${HELLO_FRANCA_SOURCES}
         GENERATOR ${HELLO_APIGEN_TRANSPILER_GENERATOR}
         VERSION ${HELLO_APIGEN_TRANSPILER_VERSION}

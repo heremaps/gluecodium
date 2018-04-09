@@ -35,7 +35,7 @@ function(apigen_swift_framework_info_plist target)
     get_target_property(SWIFT_RESOURCES_DIR ${target} APIGEN_SWIFT_RESOURCES_DIR)
 
     if(NOT ${GENERATOR} MATCHES "swift")
-        message(FATAL_ERROR "apigen_swift_framework_info_plist() depends on apigen_transpiler() configured with generator 'swift'")
+        message(FATAL_ERROR "apigen_swift_framework_info_plist() depends on apigen_generate() configured with generator 'swift'")
     endif()
 
     set(MACOSX_FRAMEWORK_NAME ${target})

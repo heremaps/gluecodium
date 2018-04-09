@@ -40,7 +40,7 @@ function(apigen_swift_fat_library target)
     get_target_property(SWIFT_ARCH ${target} APIGEN_SWIFT_BUILD_ARCH)
 
     if(NOT ${GENERATOR} MATCHES "swift")
-        message(FATAL_ERROR "apigen_swift_fat_library() depends on apigen_transpiler() configured with generator 'swift'")
+        message(FATAL_ERROR "apigen_swift_fat_library() depends on apigen_generate() configured with generator 'swift'")
     endif()
 
     set(framework_lib_dir "${target}.framework/Versions/${SWIFT_FRAMEWORK_VERSION}")

@@ -36,7 +36,7 @@ function(apigen_java_jar target)
     get_target_property(APIGEN_JAVA_OUTPUT_DIR ${target} APIGEN_JAVA_COMPILE_OUTPUT_DIR)
 
     if(NOT ${GENERATOR} MATCHES "android")
-        message(FATAL_ERROR "apigen_java_jar() depends on apigen_transpiler() configured with generator 'android'")
+        message(FATAL_ERROR "apigen_java_jar() depends on apigen_generate() configured with generator 'android'")
     endif()
 
     # Genium invocations for different generators need different output directories
