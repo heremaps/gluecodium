@@ -1,18 +1,6 @@
 # Genium
 This repository contains the HERE Genium project.
 
-## Setup
-Ensure that you got this repository by using the api-transpiler repo manifest:
-
-```bash
-repo init \
-    -u ssh://user@example.com:29418/prime/manifest \
-    -m api-transpiler.xml
-```
-
-You can build the project on the command-line or through IntelliJ /
-Android Studio.
-
 ## Building and testing
 Outside of IntelliJ you can invoke the following Gradle tasks to build
 the entire project:

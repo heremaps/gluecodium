@@ -3,7 +3,7 @@ Serves as a working prototype used to showcase the Genium tool.
 The project is structured as follows:
 
     .
-    ├── platforms           Example apps using transpiled sources and functional tests
+    ├── platforms           Example apps using generated sources and functional tests
     │   ├── android         Android related projects
     │   │   ├── app         Android example app
     │   │   └── test        Functional tests for generated Android library
