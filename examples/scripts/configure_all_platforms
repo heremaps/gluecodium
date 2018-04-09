@@ -9,7 +9,7 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 . "${SCRIPT_DIR}/inc.functions"
 
-# Transpile and configure HelloWorld for Cpp
+# Generate and configure HelloWorld for Cpp
 BUILD_DIR=${PWD}/build-cpp
 [ -d ${BUILD_DIR} ] || mkdir -p ${BUILD_DIR}
 
@@ -24,7 +24,7 @@ pushd ${BUILD_DIR}
         ..
 popd
 
-# Transpile and configure HelloWorld for Swift
+# Generate and configure HelloWorld for Swift
 BUILD_DIR=${PWD}/build-swift
 [ -d ${BUILD_DIR} ] || mkdir -p ${BUILD_DIR}
 
@@ -39,7 +39,7 @@ pushd ${BUILD_DIR}
         ..
 popd
 
-# Transpile and configure HelloWorld for Android
+# Generate and configure HelloWorld for Android
 [ $NDK_ROOT ] || die "NDK_ROOT environment variable is mandatory (NDK can be installed from within Android Studio)"
 
 BUILD_DIR=${PWD}/build-android-x86
