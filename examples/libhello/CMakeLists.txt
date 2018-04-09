@@ -316,7 +316,7 @@ set_target_properties(hello PROPERTIES
         SOVERSION ${HELLO_VERSION_MAJOR}
         VERSION ${HELLO_VERSION})
 
-include(apigen/Transpiler)
+include(apigen/Genium)
 apigen_generate(TARGET hello
         FRANCA_SOURCES ${HELLO_FRANCA_SOURCES}
         GENERATOR ${HELLO_APIGEN_TRANSPILER_GENERATOR}

@@ -22,4 +22,4 @@ cmake_minimum_required(VERSION 3.5)
 
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenTargetIncludeDirectories.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenTargetSources.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenTranspile.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/ApigenGenerate.cmake)
