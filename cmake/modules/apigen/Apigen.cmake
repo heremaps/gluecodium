@@ -21,7 +21,7 @@ cmake_minimum_required(VERSION 3.5)
 # Includes all other Apigen modules for convenience.
 
 # Generic modules
-include(${CMAKE_CURRENT_LIST_DIR}/Transpiler.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/Genium.cmake)
 
 # Android modules
 include(${CMAKE_CURRENT_LIST_DIR}/Android.cmake)

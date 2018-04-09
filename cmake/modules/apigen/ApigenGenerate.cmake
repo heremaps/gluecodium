@@ -7,15 +7,15 @@
 # material also contains confidential information which may not be
 # disclosed to others without the prior written consent of HERE.
 
-if(DEFINED includeguard_ApigenTranspile)
+if(DEFINED includeguard_ApigenGenerate)
     return()
 endif()
-set(includeguard_ApigenTranspile ON)
+set(includeguard_ApigenGenerate ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# ApigenTranspile
+# ApigenGenerate
 # ---------------
 #
 # This module provides functions to generate API interfaces specified
