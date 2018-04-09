@@ -18,7 +18,7 @@ cmake_minimum_required(VERSION 3.5)
 # ApigenTranspile
 # ---------------
 #
-# This module provides functions to transpile API interfaces specified
+# This module provides functions to generate API interfaces specified
 # in the Franca language into target source code as provided by the
 # specified generator(s). Valid generators are:
 #
@@ -127,7 +127,7 @@ function(apigen_transpile)
         WORKING_DIRECTORY ${APIGEN_TRANSPILER_DIR}
         RESULT_VARIABLE TRANSPILE_RESULT)
     if(NOT "${TRANSPILE_RESULT}" STREQUAL "0")
-        message(FATAL_ERROR "Failed to transpile given FIDL files.")
+        message(FATAL_ERROR "Failed to generate from given FIDL files.")
     endif()
 
 endfunction(apigen_transpile)

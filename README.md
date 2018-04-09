@@ -25,7 +25,7 @@ To run the Genium tool and generate some output based on the current set of
 HelloWorld project's \*.fidl files:
 
 ```bash
-./transpile -input ../../projects/hello_world/libhello/fidl -output ../generated -nostdout
+./generate -input ../../projects/hello_world/libhello/fidl -output ../generated -nostdout
 ```
 
 ## Contributing
@@ -46,14 +46,14 @@ git push origin HEAD:refs/for/master
 For information on Genium command line parameters run it with "-help":
 
 ```bash
-./transpile -help
+./generate -help
 ```
 
 ## Caching of output files
 Activation of caching feature in Genium tool is done by passing the command line option, like:
 
 ```bash
-./transpile -enableCaching -input <input folder> -output <output folder>
+./generate -enableCaching -input <input folder> -output <output folder>
 ```
 
 Running Genium tool with this option will generate a directory called *.cache* inside *output folder*

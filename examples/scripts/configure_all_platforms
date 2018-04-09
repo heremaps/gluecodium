@@ -1,6 +1,6 @@
 #!/bin/bash -e
 #
-# Script to transpile HelloWorld FIDL files in every platform and configure
+# Script to generate source code from HelloWorld FIDL files for every platform and configure
 # them in the correct directories structure.
 #
 
