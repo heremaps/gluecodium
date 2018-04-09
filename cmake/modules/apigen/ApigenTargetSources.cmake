@@ -20,7 +20,7 @@ cmake_minimum_required(VERSION 3.5)
 #
 # This module attaches additional source files to the provided target.
 # These might differ depending on the previously used generator (cpp, android,
-# swift, etc.). This module depends on apigen_transpile() to have been run on
+# swift, etc.). This module depends on apigen_generate() to have been run on
 # the target first.
 #
 # .. command:: apigen_target_sources

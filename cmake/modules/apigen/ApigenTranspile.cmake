@@ -27,11 +27,11 @@ cmake_minimum_required(VERSION 3.5)
 #  * cpp
 #  * swift
 #
-# .. command:: apigen_transpile
+# .. command:: apigen_generate
 #
 # The general form of the command is::
 #
-#     apigen_transpile(target inputDir generator)
+#     apigen_generate(target inputDir generator)
 #
 # This function invokes the Genium tool based on a set of of input *.fidl
 # files with a specific target language generator.
@@ -44,7 +44,7 @@ else()
     set(APIGEN_TRANSPILER_GRADLE_WRAPPER ./gradlew)
 endif()
 
-function(apigen_transpile)
+function(apigen_generate)
     set(options VALIDATE_ONLY)
     set(oneValueArgs TARGET GENERATOR VERSION
             ANDROID_MERGE_MANIFEST
@@ -52,55 +52,55 @@ function(apigen_transpile)
             COPYRIGHT_HEADER
             CPP_INTERNAL_NAMESPACE)
     set(multiValueArgs FRANCA_SOURCES)
-    cmake_parse_arguments(apigen_transpile "${options}" "${oneValueArgs}"
-                                           "${multiValueArgs}" ${ARGN})
+    cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
+                                          "${multiValueArgs}" ${ARGN})
 
-    set(operationVerb "Transpile")
+    set(operationVerb "Generate")
     set(validateParam "")
-    if(${apigen_transpile_VALIDATE_ONLY})
+    if(${apigen_generate_VALIDATE_ONLY})
         set(operationVerb "Validate")
         set(validateParam "-validateOnly")
     endif()
 
     # If version is not specified explicitly, use latest-greatest
-    if(NOT apigen_transpile_VERSION)
-        set(apigen_transpile_VERSION +)
+    if(NOT apigen_generate_VERSION)
+        set(apigen_generate_VERSION +)
     endif()
 
-    message(STATUS "${operationVerb} '${apigen_transpile_TARGET}' with '${apigen_transpile_GENERATOR}' generator using transpiler version '${apigen_transpile_VERSION}'
-    Input: '${apigen_transpile_FRANCA_SOURCES}'")
+    message(STATUS "${operationVerb} '${apigen_generate_TARGET}' with '${apigen_generate_GENERATOR}' generator using Genium version '${apigen_generate_VERSION}'
+    Input: '${apigen_generate_FRANCA_SOURCES}'")
 
     # Genium invocations for different generators need different output directories
     # as Genium currently wipes the directory upon start.
-    set(TRANSPILER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_transpile_GENERATOR}-transpile)
+    set(TRANSPILER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_generate_GENERATOR}-transpile)
 
     # Attach properties to target for re-use in other modules
-    set_target_properties(${apigen_transpile_TARGET} PROPERTIES
-        APIGEN_TRANSPILER_GENERATOR ${apigen_transpile_GENERATOR}
+    set_target_properties(${apigen_generate_TARGET} PROPERTIES
+        APIGEN_TRANSPILER_GENERATOR ${apigen_generate_GENERATOR}
         APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR ${TRANSPILER_OUTPUT_DIR})
 
-    if(NOT apigen_transpile_GENERATOR MATCHES cpp)
+    if(NOT apigen_generate_GENERATOR MATCHES cpp)
         # This can be optimized. If a previous invocation of this function already
-        # transpiled 'cpp', it should be re-used. At the moment this is not possible
+        # generated 'cpp', it should be re-used. At the moment this is not possible
         # because Genium cleans it's output directory in the beginning
-        set(apigen_transpile_GENERATOR "cpp,${apigen_transpile_GENERATOR}")
+        set(apigen_generate_GENERATOR "cpp,${apigen_generate_GENERATOR}")
     endif()
 
     # Trigger a re-configure if there are any changes to the franca sources. This will run the Genium. Only works if files were specified individually.
-    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${apigen_transpile_FRANCA_SOURCES})
+    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${apigen_generate_FRANCA_SOURCES})
 
     # Build Genium tool command-line
     set(APIGEN_TRANSPILER_ARGS "\
  -output \"${TRANSPILER_OUTPUT_DIR}\"\
- -generators ${apigen_transpile_GENERATOR}\
+ -generators ${apigen_generate_GENERATOR}\
  ${validateParam}\
  ${mergeManifest}\
  -nostdout -enableCaching -timeLogging")
-    foreach(input ${apigen_transpile_FRANCA_SOURCES})
+    foreach(input ${apigen_generate_FRANCA_SOURCES})
         # Attach sources to target for IDEs to display them properly in their projects
         file(GLOB_RECURSE inputFrancaSources ${input}/*.fidl ${input}/*.fdepl)
         if(inputFrancaSources)
-            target_sources(${apigen_transpile_TARGET} PRIVATE ${inputFrancaSources})
+            target_sources(${apigen_generate_TARGET} PRIVATE ${inputFrancaSources})
         endif()
 
         if (NOT IS_ABSOLUTE ${input})
@@ -108,26 +108,26 @@ function(apigen_transpile)
         endif()
         string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -input \"${input}\"")
     endforeach()
-    if(apigen_transpile_ANDROID_MERGE_MANIFEST)
-        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -androidMergeManifest ${apigen_transpile_ANDROID_MERGE_MANIFEST}")
+    if(apigen_generate_ANDROID_MERGE_MANIFEST)
+        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -androidMergeManifest ${apigen_generate_ANDROID_MERGE_MANIFEST}")
     endif()
-    if(apigen_transpile_JAVA_PACKAGE)
-        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -javapackage ${apigen_transpile_JAVA_PACKAGE}")
+    if(apigen_generate_JAVA_PACKAGE)
+        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -javapackage ${apigen_generate_JAVA_PACKAGE}")
     endif()
-    if(apigen_transpile_COPYRIGHT_HEADER)
-        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -copyrightHeader ${apigen_transpile_COPYRIGHT_HEADER}")
+    if(apigen_generate_COPYRIGHT_HEADER)
+        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -copyrightHeader ${apigen_generate_COPYRIGHT_HEADER}")
     endif()
-    if(apigen_transpile_CPP_INTERNAL_NAMESPACE)
-        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -cppInternalNamespace ${apigen_transpile_CPP_INTERNAL_NAMESPACE}")
+    if(apigen_generate_CPP_INTERNAL_NAMESPACE)
+        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -cppInternalNamespace ${apigen_generate_CPP_INTERNAL_NAMESPACE}")
     endif()
 
     execute_process(
         COMMAND ${CMAKE_COMMAND} -E make_directory ${TRANSPILER_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
-        COMMAND ${APIGEN_TRANSPILER_GRADLE_WRAPPER} -Pversion=${apigen_transpile_VERSION} run -Dexec.args=${APIGEN_TRANSPILER_ARGS}
+        COMMAND ${APIGEN_TRANSPILER_GRADLE_WRAPPER} -Pversion=${apigen_generate_VERSION} run -Dexec.args=${APIGEN_TRANSPILER_ARGS}
         WORKING_DIRECTORY ${APIGEN_TRANSPILER_DIR}
         RESULT_VARIABLE TRANSPILE_RESULT)
     if(NOT "${TRANSPILE_RESULT}" STREQUAL "0")
         message(FATAL_ERROR "Failed to generate from given FIDL files.")
     endif()
 
-endfunction(apigen_transpile)
+endfunction(apigen_generate)

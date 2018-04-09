@@ -59,7 +59,7 @@ function(apigen_swift_compile target architecture)
         set(ADDITIONAL_SOURCES "")
     endif()
     if(NOT ${GENERATOR} MATCHES "swift")
-        message(FATAL_ERROR "apigen_swift_compile() depends on apigen_transpiler() configured with generator 'swift'")
+        message(FATAL_ERROR "apigen_swift_compile() depends on apigen_generate() configured with generator 'swift'")
     endif()
 
     set(TARGET_ARCHITECTURE ${architecture})

@@ -37,7 +37,7 @@ function(apigen_swift_build target)
     get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
 
     if(NOT ${GENERATOR} MATCHES "swift")
-        message(FATAL_ERROR "apigen_swift_build() depends on apigen_transpiler() configured with generator 'swift'")
+        message(FATAL_ERROR "apigen_swift_build() depends on apigen_generate() configured with generator 'swift'")
     endif()
 
     apigen_swift_modulemap(${target})

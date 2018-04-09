@@ -19,7 +19,7 @@ cmake_minimum_required(VERSION 3.5)
 # -------------------
 #
 # This module compiles Java code into *.class files for a target for which
-# apigen_transpile($target ... android) was run.
+# apigen_generate($target ... android) was run.
 #
 # .. command:: apigen_java_compile
 #
@@ -50,7 +50,7 @@ function(apigen_java_compile)
     get_target_property(OUTPUT_DIR ${apigen_java_compile_TARGET} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
 
     if(NOT ${GENERATOR} MATCHES "android")
-        message(FATAL_ERROR "apigen_java_compile() depends on apigen_transpiler() configured with generator 'android'")
+        message(FATAL_ERROR "apigen_java_compile() depends on apigen_generate() configured with generator 'android'")
     endif()
 
     # Genium invocations for different generators need different output directories

@@ -44,7 +44,7 @@ function(apigen_swift_framework_bundle)
     get_target_property(SWIFT_RESOURCES_DIR ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_RESOURCES_DIR)
 
     if(NOT ${GENERATOR} MATCHES "swift")
-        message(FATAL_ERROR "apigen_swift_framework_bundle() depends on apigen_transpiler() configured with generator 'swift'")
+        message(FATAL_ERROR "apigen_swift_framework_bundle() depends on apigen_generate() configured with generator 'swift'")
     endif()
 
     message(STATUS "Assets ${apigen_swift_framework_bundle_ASSETS}")
