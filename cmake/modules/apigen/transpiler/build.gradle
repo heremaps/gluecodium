@@ -12,15 +12,7 @@ dependencies {
     runtime "com.here.genium:genium:$version"
 }
 
-try {
-    // HACK: try new class name, use old one if that fails.
-    // Needed to get this patch in, has to be removed afterwards.
-    Class.forName("com.here.genium.Genium");
-    mainClassName = 'com.here.genium.Genium'
-} catch (ClassNotFoundException) {
-    mainClassName = 'com.here.genium.Transpiler'
-}
-
+mainClassName = 'com.here.genium.Genium'
 run {
     if (System.getProperty("exec.args") != null) {
         List<String> splitArgs = new ArrayList<String>();
