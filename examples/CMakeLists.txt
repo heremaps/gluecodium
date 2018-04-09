@@ -22,7 +22,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/modules/")
 
 option(HELLO_BUILD_CPP_APP "Build example C++ apps" OFF)
 option(HELLO_BUILD_IOS_APP "Build example iOS apps" OFF)
-set(HELLO_APIGEN_TRANSPILER_GENERATOR "cpp,android,swift" CACHE STRING "Transpiler generator(s) to use [defaults to: cpp,android,swift]")
+set(HELLO_APIGEN_TRANSPILER_GENERATOR "cpp,android,swift" CACHE STRING "Genium generator(s) to use [defaults to: cpp,android,swift]")
 
 enable_testing()
 add_subdirectory(libhello)

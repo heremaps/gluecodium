@@ -1,4 +1,8 @@
-# API Transpiler Release Notes
+# HERE Genium project Release Notes
+
+## Unreleased
+- Breaking changes:
+  + Renamed Transpiler to Genium.
 
 ## 2.2.1
 - Bug fixes:

@@ -34,21 +34,7 @@ Work on your stuff locally, branch, commit and modify to your heart's content.
 As soon as you're ready either do (assuming you have git-review installed):
 
 ```bash
-git review --reviewers \
-    abdessamad.elkasimi@here.com \
-    alexander.lehmann@here.com \
-    daniel.kamkha@here.com \
-    dario.limongi@here.com \
-    eva.effertz@here.com \
-    francisco.cortes@here.com \
-    georg.bremer@here.com \
-    manuel.klahn@here.com \
-    rafal.parzych@here.com \
-    sascha.ebel@here.com \
-    sascha.peilicke@here.com \
-    sayuri.oshima@here.com \
-    teemu.kahkonen@here.com \
-    master
+git review -R
 ```
 
 Or, just:
@@ -56,5 +42,3 @@ Or, just:
 ```bash
 git push origin HEAD:refs/for/master
 ```
-
-And add the *TranspilerReviewers* group manually on Gerrit's web interface.

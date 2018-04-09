@@ -42,8 +42,6 @@ Or, just:
 git push origin HEAD:refs/for/master
 ```
 
-And add the *TranspilerReviewers* group manually on Gerrit's web interface.
-
 ## Command line parameters
 For information on Genium command line parameters run it with "-help":
 
