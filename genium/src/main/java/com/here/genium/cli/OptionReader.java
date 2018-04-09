@@ -183,7 +183,7 @@ public final class OptionReader {
     String footer = "\nPlease report issues at /dev/null";
 
     HelpFormatter formatter = new HelpFormatter();
-    formatter.printHelp("transpiler [input]", header, allOptions, footer, true);
+    formatter.printHelp("generate [input]", header, allOptions, footer, true);
   }
 
   private static String getSingleOptionValue(final CommandLine cmd, final String option)
