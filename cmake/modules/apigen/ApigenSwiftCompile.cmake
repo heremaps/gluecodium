@@ -26,7 +26,6 @@ if (NOT (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUA
 endif()
 
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftTest.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFrameworkStructure.cmake)
 
 
 #.rst:
@@ -45,9 +44,6 @@ include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFrameworkStructure.cmake)
 
 function(apigen_swift_compile target architecture)
 
-    apigen_swift_framework_structure(${target})
-
-    # TODO APIGEN-849 remove the framework references from this function
     get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
     get_target_property(OUTPUT_DIR ${target} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
     get_target_property(ADDITIONAL_SOURCES ${target} APIGEN_TRANSPILER_GENERATOR_ADDITIONAL_SOURCES)
