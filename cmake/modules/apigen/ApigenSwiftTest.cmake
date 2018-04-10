@@ -29,7 +29,7 @@ cmake_minimum_required(VERSION 3.5)
 
 function(apigen_swift_test target swift_target_flag module_name)
 
-    get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
+    get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
     get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
     get_target_property(SWIFT_TEST ${target} APIGEN_SWIFT_TESTS)
 

@@ -40,8 +40,8 @@ function(apigen_android_archive)
     cmake_parse_arguments(apigen_android_archive "${options}" "${oneValueArgs}"
                                                  "${multiValueArgs}" ${ARGN})
 
-    get_target_property(GENERATOR ${apigen_android_archive_TARGET} APIGEN_TRANSPILER_GENERATOR)
-    get_target_property(OUTPUT_DIR ${apigen_android_archive_TARGET} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
+    get_target_property(GENERATOR ${apigen_android_archive_TARGET} APIGEN_GENIUM_GENERATOR)
+    get_target_property(OUTPUT_DIR ${apigen_android_archive_TARGET} APIGEN_GENIUM_GENERATOR_OUTPUT_DIR)
 
     if(NOT ${GENERATOR} MATCHES "android")
         message(FATAL_ERROR "apigen_android_archive() depends on apigen_android_archiver() configured with generator 'android'")

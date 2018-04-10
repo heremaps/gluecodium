@@ -32,14 +32,14 @@ function cmake_generator {
 }
 
 function publish_local {
-    TRANSPILER_DIRECTORY=${SCRIPT_DIR}/../../
+    GENIUM_DIRECTORY=${SCRIPT_DIR}/../../
 
-    pushd "${TRANSPILER_DIRECTORY}"
+    pushd "${GENIUM_DIRECTORY}"
     safe ./gradlew publishToMavenLocal
-    TRANSPILER_VERSION=$(sed 's/version[ \t]*=[ \t]*//' genium/src/main/resources/version.properties)
+    GENIUM_VERSION=$(sed 's/version[ \t]*=[ \t]*//' genium/src/main/resources/version.properties)
     popd
 
-    export TRANSPILER_VERSION
+    export GENIUM_VERSION
 }
 
 function transpilation_time_to_carbon() {

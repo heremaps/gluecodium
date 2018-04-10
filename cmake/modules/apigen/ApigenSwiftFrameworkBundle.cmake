@@ -38,7 +38,7 @@ function(apigen_swift_framework_bundle)
     cmake_parse_arguments(apigen_swift_framework_bundle "${options}" "${oneValueArgs}"
                                            "${multiValueArgs}" ${ARGN})
 
-    get_target_property(GENERATOR ${apigen_swift_framework_bundle_TARGET} APIGEN_TRANSPILER_GENERATOR)
+    get_target_property(GENERATOR ${apigen_swift_framework_bundle_TARGET} APIGEN_GENIUM_GENERATOR)
     get_target_property(SWIFT_OUTPUT_DIR ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
     get_target_property(SWIFT_FRAMEWORK_VERSION ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_FRAMEWORK_VERSION)
     get_target_property(SWIFT_RESOURCES_DIR ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_RESOURCES_DIR)

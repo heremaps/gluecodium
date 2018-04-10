@@ -35,8 +35,8 @@ set(SWIFT_RESOURCES_DIR ${CMAKE_CURRENT_LIST_DIR}/swift)
 
 function(apigen_swift_configuration target)
 
-    get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
-    get_target_property(OUTPUT_DIR ${target} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
+    get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
+    get_target_property(OUTPUT_DIR ${target} APIGEN_GENIUM_GENERATOR_OUTPUT_DIR)
 
     if(NOT ${GENERATOR} MATCHES "swift")
         message(FATAL_ERROR "apigen_swift_configuration() depends on apigen_generate() configured with generator 'swift'")

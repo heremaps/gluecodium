@@ -40,7 +40,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-TRANSPILER_VERSION="${TRANSPILER_VERSION:-+}"
+GENIUM_VERSION="${GENIUM_VERSION:-+}"
 BUILD_DIR=${PWD}/build-swift
 INSTALL_DIR=${PWD}/dist/swift
 
@@ -65,8 +65,8 @@ safe cmake \
     -DCMAKE_CXX_COMPILER="$(which clang++)" \
     -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DHELLO_APIGEN_TRANSPILER_GENERATOR=swift \
-    -DHELLO_APIGEN_TRANSPILER_VERSION="${TRANSPILER_VERSION}" \
+    -DHELLO_APIGEN_GENIUM_GENERATOR=swift \
+    -DHELLO_APIGEN_GENIUM_VERSION="${GENIUM_VERSION}" \
     -DHELLO_SWIFT_TESTS="${CWD}/platforms/ios/Tests" \
     ${CMAKE_EXTRA_PARAMETERS} \
     .. > "$tmppipe"
