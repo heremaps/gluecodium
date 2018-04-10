@@ -65,6 +65,10 @@ interface Structs {
         Point pointField
     }
 
+    struct ExternalStruct {
+        String stringField
+    }
+
     method createPoint {
         in {
             Double x
@@ -128,6 +132,12 @@ interface Structs {
         }
         out {
             AllTypesStruct output
+        }
+    }
+
+    method getExternalStruct {
+        out {
+            ExternalStruct output
         }
     }
 }

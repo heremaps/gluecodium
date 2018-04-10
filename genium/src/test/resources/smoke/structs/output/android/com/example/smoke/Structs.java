@@ -186,6 +186,15 @@ public class Structs extends NativeBase {
             }
         }
     }
+
+    public static class ExternalStruct {
+        public String stringField;
+        public ExternalStruct() {}
+        public ExternalStruct(String stringField) {
+            this.stringField = stringField;
+        }
+    }
+
     /** For internal use only */
     protected Structs(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
@@ -203,4 +212,5 @@ public class Structs extends NativeBase {
     public static native Structs.ColoredLine returnColoredLine(final Structs.ColoredLine input);
     public static native Structs.AllTypesStruct returnAllTypesStruct(final Structs.AllTypesStruct input);
     public static native Structs.AllTypesStruct modifyAllTypesStruct(final Structs.AllTypesStruct input);
+    public static native Structs.ExternalStruct getExternalStruct();
 }

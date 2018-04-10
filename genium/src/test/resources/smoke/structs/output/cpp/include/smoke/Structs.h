@@ -9,8 +9,8 @@
 
 #pragma once
 
+#include "foo/Bar.h"
 #include <cstdint>
-
 #include <string>
 #include <vector>
 
@@ -62,6 +62,7 @@ static ::smoke::Structs::ColoredLine create_colored_line( const ::smoke::Structs
 static ::smoke::Structs::ColoredLine return_colored_line( const ::smoke::Structs::ColoredLine& input );
 static ::smoke::Structs::AllTypesStruct return_all_types_struct( const ::smoke::Structs::AllTypesStruct& input );
 static ::smoke::Structs::AllTypesStruct modify_all_types_struct( const ::smoke::Structs::AllTypesStruct& input );
+static ::smoke::Structs::ExternalStruct get_external_struct(  );
 
 };
 

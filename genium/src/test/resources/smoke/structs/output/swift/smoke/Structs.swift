@@ -257,6 +257,27 @@ public class Structs {
         }
     }
 
+    public struct ExternalStruct {
+        public var stringField: String
+        public init(stringField: String) {
+            self.stringField = stringField
+        }
+        internal init?(cExternalStruct: _baseRef) {
+            do {
+                let stringFieldHandle = smoke_Structs_ExternalStruct_stringField_get(cExternalStruct)
+                stringField = String(cString:std_string_data_get(stringFieldHandle))
+            }
+        }
+        internal func convertToCType() -> _baseRef {
+            let result = smoke_Structs_ExternalStruct_create()
+            fillFunction(result)
+            return result
+        }
+        internal func fillFunction(_ cExternalStruct: _baseRef) -> Void {
+            smoke_Structs_ExternalStruct_stringField_set(cExternalStruct, stringField)
+        }
+    }
+
     public static func createPoint(x: Double, y: Double) -> Structs.Point? {
         let cResult = smoke_Structs_createPoint(x, y)
         defer {
@@ -345,6 +366,13 @@ public class Structs {
         return Structs.AllTypesStruct(cAllTypesStruct: cResult)
     }
 
+    public static func getExternalStruct() -> Structs.ExternalStruct? {
+        let cResult = smoke_Structs_getExternalStruct()
+        defer {
+            smoke_Structs_ExternalStruct_release(cResult)
+        }
+        return Structs.ExternalStruct(cExternalStruct: cResult)
+    }
 }
 
 extension Structs: NativeBase {
