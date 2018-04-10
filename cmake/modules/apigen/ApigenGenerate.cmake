@@ -72,7 +72,7 @@ function(apigen_generate)
 
     # Genium invocations for different generators need different output directories
     # as Genium currently wipes the directory upon start.
-    set(TRANSPILER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_generate_GENERATOR}-transpile)
+    set(TRANSPILER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_generate_GENERATOR}-generated)
 
     # Attach properties to target for re-use in other modules
     set_target_properties(${apigen_generate_TARGET} PROPERTIES
