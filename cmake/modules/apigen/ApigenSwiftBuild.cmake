@@ -14,7 +14,6 @@ set(includeguard_ApigenSwiftBuild ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFrameworkStructure.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftCompile.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftModulemap.cmake)
 
