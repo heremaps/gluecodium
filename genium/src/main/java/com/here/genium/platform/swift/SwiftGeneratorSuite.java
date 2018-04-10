@@ -60,7 +60,7 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
     CBridgeGenerator cBridgeGenerator =
         new CBridgeGenerator(
             deploymentModel,
-            new CppIncludeResolver(),
+            new CppIncludeResolver(deploymentModel),
             new CBridgeIncludeResolver(),
             internalNamespace);
 

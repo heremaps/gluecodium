@@ -98,6 +98,10 @@ public class FrancaDeploymentModel {
     return getString(francaField, "DefaultValue");
   }
 
+  public String getExternalType(final FStructType francaStruct) {
+    return getString(francaStruct, "ExternalType");
+  }
+
   private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {
 
     List<MappingGenericPropertyAccessor> propertyAccessorsForModelElement =

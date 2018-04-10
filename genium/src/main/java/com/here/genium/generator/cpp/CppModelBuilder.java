@@ -174,11 +174,11 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FStructType francaStructType) {
 
     // Type definition
-
     String name = CppNameRules.getStructName(francaStructType.getName());
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaStructType);
-    String comment = CommentHelper.getDescription(francaStructType);
-    CppStruct cppStruct = new CppStruct(name, fullyQualifiedName, comment);
+    boolean isExternal = deploymentModel.getExternalType(francaStructType) != null;
+    CppStruct cppStruct = new CppStruct(name, fullyQualifiedName, isExternal);
+    cppStruct.comment = CommentHelper.getDescription(francaStructType);
 
     cppStruct.fields.addAll(getPreviousResults(CppField.class));
 

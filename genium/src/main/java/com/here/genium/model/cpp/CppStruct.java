@@ -30,13 +30,15 @@ public final class CppStruct extends CppElementWithComment {
 
   public final List<CppField> fields = new LinkedList<>();
   public final Set<CppInheritance> inheritances = new LinkedHashSet<>();
+  public final boolean isExternal;
 
   public CppStruct(final String name) {
-    this(name, name, null);
+    this(name, name, false);
   }
 
-  public CppStruct(final String name, final String fullyQualifiedName, final String comment) {
-    super(name, fullyQualifiedName, comment);
+  public CppStruct(final String name, final String fullyQualifiedName, final boolean isExternal) {
+    super(name, fullyQualifiedName, null);
+    this.isExternal = isExternal;
   }
 
   @Override

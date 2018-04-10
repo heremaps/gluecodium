@@ -1,3 +1,4 @@
+{{#unless isExternal}}
 struct {{name}}{{>cpp/CppInheritance}} {
 {{#fields}}
 {{#if hasComment}}
@@ -6,3 +7,4 @@ struct {{name}}{{>cpp/CppInheritance}} {
     {{type.name}} {{name}}{{#initializer}} = {{name}}{{/initializer}};
 {{/fields}}
 };
+{{/unless}}

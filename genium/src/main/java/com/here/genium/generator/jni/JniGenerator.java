@@ -68,7 +68,7 @@ public final class JniGenerator extends AbstractGenerator {
     this.additionalIncludes = additionalIncludes;
     this.enableAndroidFeatures = enableAndroidFeatures;
     this.internalNamespace = internalNamespace;
-    this.cppIncludeResolver = new CppIncludeResolver();
+    this.cppIncludeResolver = new CppIncludeResolver(deploymentModel);
   }
 
   public Collection<ModelElement> generateModel(
