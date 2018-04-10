@@ -308,6 +308,13 @@ feature(CircularDependencies cpp android swift SOURCES
     fidl/test/Circular.fidl
 )
 
+feature(ExternalTypes cpp android swift SOURCES
+    src/test/include/ExternalTypes.h
+
+    fidl/test/ExternalTypes.fidl
+    fidl/test/ExternalTypes.fdepl
+    fidl/test/UseExternalTypes.fidl
+)
 
 add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
 source_group("Franca files" FILES ${HELLO_FRANCA_SOURCES})
@@ -315,6 +322,7 @@ set_target_properties(hello PROPERTIES
         POSITION_INDEPENDENT_CODE ON
         SOVERSION ${HELLO_VERSION_MAJOR}
         VERSION ${HELLO_VERSION})
+target_include_directories(hello PRIVATE "src/test/")
 
 include(apigen/Genium)
 apigen_generate(TARGET hello
