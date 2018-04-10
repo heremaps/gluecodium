@@ -30,15 +30,9 @@ android {
     }
 }
 
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
-
 dependencies {
     // Runtime dependencies from local libs/ folder
-    implementation 'com.here.ivi.example:hello@aar'
+    implementation files('libs/hello.aar')
 
     // Runtime dependencies from Maven repositories
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
