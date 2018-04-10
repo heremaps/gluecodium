@@ -32,8 +32,8 @@ cmake_minimum_required(VERSION 3.5)
 
 function(apigen_target_include_directories target)
 
-    get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
-    get_target_property(OUTPUT_DIR ${target} APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR)
+    get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
+    get_target_property(OUTPUT_DIR ${target} APIGEN_GENIUM_GENERATOR_OUTPUT_DIR)
 
     if(${GENERATOR} STREQUAL cpp)
 

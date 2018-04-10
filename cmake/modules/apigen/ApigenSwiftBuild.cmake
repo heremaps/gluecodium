@@ -33,7 +33,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftModulemap.cmake)
 
 function(apigen_swift_build target)
 
-    get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
+    get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
 
     if(NOT ${GENERATOR} MATCHES "swift")
         message(FATAL_ERROR "apigen_swift_build() depends on apigen_generate() configured with generator 'swift'")

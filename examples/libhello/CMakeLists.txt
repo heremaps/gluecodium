@@ -41,7 +41,7 @@ function(feature feature_name)
     set(franca_sources)
 
     foreach(generator ${feature_GENERATORS} ${feature_UNPARSED_ARGUMENTS})
-        if (HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL ${generator})
+        if (HELLO_APIGEN_GENIUM_GENERATOR STREQUAL ${generator})
             message("Enabling feature ${feature_name} for ${generator}")
             foreach(source ${feature_SOURCES})
                 get_filename_component(extension "${source}" EXT)
@@ -319,8 +319,8 @@ set_target_properties(hello PROPERTIES
 include(apigen/Genium)
 apigen_generate(TARGET hello
         FRANCA_SOURCES ${HELLO_FRANCA_SOURCES}
-        GENERATOR ${HELLO_APIGEN_TRANSPILER_GENERATOR}
-        VERSION ${HELLO_APIGEN_TRANSPILER_VERSION}
+        GENERATOR ${HELLO_APIGEN_GENIUM_GENERATOR}
+        VERSION ${HELLO_APIGEN_GENIUM_VERSION}
         JAVA_PACKAGE com.here.android
         CPP_INTERNAL_NAMESPACE lorem_ipsum
         COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT")
@@ -329,13 +329,13 @@ apigen_target_sources(hello)
 
 
 # Target platform specific rules to follow...
-if(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL cpp)
+if(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL cpp)
     # Only install the shared library for C++ customers, others don't care...
     install(TARGETS hello EXPORT helloTargets
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
         INCLUDES DESTINATION hello)
-elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
+elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL android)
     # Android customers want an Android Archive and it's pre-requirements...
     include(apigen/Android)
     if(NOT DEFINED ANDROID_NATIVE_API_LEVEL)
@@ -350,7 +350,7 @@ elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL android)
         REMOTE_DEPENDENCIES "com.android.support:support-annotations:27.1.0")
     apigen_java_jar(hello)
     apigen_android_archive(TARGET hello)
-elseif(HELLO_APIGEN_TRANSPILER_GENERATOR STREQUAL swift)
+elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL swift)
     # Swift customers want a module...
     include(apigen/iOS)
     if(HELLO_SWIFT_TESTS)

@@ -29,7 +29,7 @@ cmake_minimum_required(VERSION 3.5)
 
 function(apigen_swift_framework_info_plist target)
 
-    get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
+    get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
     get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
     get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
     get_target_property(SWIFT_RESOURCES_DIR ${target} APIGEN_SWIFT_RESOURCES_DIR)

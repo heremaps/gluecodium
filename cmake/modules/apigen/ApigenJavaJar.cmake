@@ -32,7 +32,7 @@ find_package(Java COMPONENTS Development REQUIRED)
 
 function(apigen_java_jar target)
 
-    get_target_property(GENERATOR ${target} APIGEN_TRANSPILER_GENERATOR)
+    get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
     get_target_property(APIGEN_JAVA_OUTPUT_DIR ${target} APIGEN_JAVA_COMPILE_OUTPUT_DIR)
 
     if(NOT ${GENERATOR} MATCHES "android")

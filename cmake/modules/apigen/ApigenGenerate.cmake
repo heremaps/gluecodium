@@ -37,11 +37,11 @@ cmake_minimum_required(VERSION 3.5)
 # files with a specific target language generator.
 
 find_package(Java COMPONENTS Runtime REQUIRED)
-set(APIGEN_TRANSPILER_DIR ${CMAKE_CURRENT_LIST_DIR}/genium)
+set(APIGEN_GENIUM_DIR ${CMAKE_CURRENT_LIST_DIR}/genium)
 if (WIN32)
-    set(APIGEN_TRANSPILER_GRADLE_WRAPPER ./gradlew.bat)
+    set(APIGEN_GENIUM_GRADLE_WRAPPER ./gradlew.bat)
 else()
-    set(APIGEN_TRANSPILER_GRADLE_WRAPPER ./gradlew)
+    set(APIGEN_GENIUM_GRADLE_WRAPPER ./gradlew)
 endif()
 
 function(apigen_generate)
@@ -72,12 +72,12 @@ function(apigen_generate)
 
     # Genium invocations for different generators need different output directories
     # as Genium currently wipes the directory upon start.
-    set(TRANSPILER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_generate_GENERATOR}-generated)
+    set(GENIUM_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_generate_GENERATOR}-generated)
 
     # Attach properties to target for re-use in other modules
     set_target_properties(${apigen_generate_TARGET} PROPERTIES
-        APIGEN_TRANSPILER_GENERATOR ${apigen_generate_GENERATOR}
-        APIGEN_TRANSPILER_GENERATOR_OUTPUT_DIR ${TRANSPILER_OUTPUT_DIR})
+        APIGEN_GENIUM_GENERATOR ${apigen_generate_GENERATOR}
+        APIGEN_GENIUM_GENERATOR_OUTPUT_DIR ${GENIUM_OUTPUT_DIR})
 
     if(NOT apigen_generate_GENERATOR MATCHES cpp)
         # This can be optimized. If a previous invocation of this function already
@@ -88,8 +88,8 @@ function(apigen_generate)
 
 
     # Build Genium tool command-line
-    set(APIGEN_TRANSPILER_ARGS "\
- -output \"${TRANSPILER_OUTPUT_DIR}\"\
+    set(APIGEN_GENIUM_ARGS "\
+ -output \"${GENIUM_OUTPUT_DIR}\"\
  -generators ${apigen_generate_GENERATOR}\
  ${validateParam}\
  ${mergeManifest}\
@@ -106,27 +106,27 @@ function(apigen_generate)
         if (NOT IS_ABSOLUTE ${input})
             set(input "${CMAKE_CURRENT_SOURCE_DIR}/${input}")
         endif()
-        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -input \"${input}\"")
+        string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -input \"${input}\"")
     endforeach()
     if(apigen_generate_ANDROID_MERGE_MANIFEST)
-        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -androidMergeManifest ${apigen_generate_ANDROID_MERGE_MANIFEST}")
+        string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -androidMergeManifest ${apigen_generate_ANDROID_MERGE_MANIFEST}")
     endif()
     if(apigen_generate_JAVA_PACKAGE)
-        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -javapackage ${apigen_generate_JAVA_PACKAGE}")
+        string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -javapackage ${apigen_generate_JAVA_PACKAGE}")
     endif()
     if(apigen_generate_COPYRIGHT_HEADER)
-        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -copyrightHeader ${apigen_generate_COPYRIGHT_HEADER}")
+        string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -copyrightHeader ${apigen_generate_COPYRIGHT_HEADER}")
     endif()
     if(apigen_generate_CPP_INTERNAL_NAMESPACE)
-        string(CONCAT APIGEN_TRANSPILER_ARGS ${APIGEN_TRANSPILER_ARGS} " -cppInternalNamespace ${apigen_generate_CPP_INTERNAL_NAMESPACE}")
+        string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -cppInternalNamespace ${apigen_generate_CPP_INTERNAL_NAMESPACE}")
     endif()
 
     execute_process(
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${TRANSPILER_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
-        COMMAND ${APIGEN_TRANSPILER_GRADLE_WRAPPER} -Pversion=${apigen_generate_VERSION} run -Dexec.args=${APIGEN_TRANSPILER_ARGS}
-        WORKING_DIRECTORY ${APIGEN_TRANSPILER_DIR}
-        RESULT_VARIABLE TRANSPILE_RESULT)
-    if(NOT "${TRANSPILE_RESULT}" STREQUAL "0")
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${GENIUM_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
+        COMMAND ${APIGEN_GENIUM_GRADLE_WRAPPER} -Pversion=${apigen_generate_VERSION} run -Dexec.args=${APIGEN_GENIUM_ARGS}
+        WORKING_DIRECTORY ${APIGEN_GENIUM_DIR}
+        RESULT_VARIABLE GENERATE_RESULT)
+    if(NOT "${GENERATE_RESULT}" STREQUAL "0")
         message(FATAL_ERROR "Failed to generate from given FIDL files.")
     endif()
 
