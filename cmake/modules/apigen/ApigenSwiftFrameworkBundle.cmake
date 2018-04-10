@@ -1,4 +1,4 @@
-# Copyright (c) 2017 HERE Europe B.V.
+# Copyright (c) 2018 HERE Europe B.V.
 #
 # All rights reserved.  This software, including documentation, is protected
 # by copyright controlled by HERE.  All rights are reserved.  Copying,
@@ -66,7 +66,7 @@ function(apigen_swift_framework_bundle)
             VERBATIM)
     endforeach()
     # Remove any dead links from the above copy. This can happen for generated files that weren't
-    # built as part of the dependencies for project, such as the  shaders.
+    # built as part of the dependencies for project.
     add_custom_command(TARGET ${apigen_swift_framework_bundle_TARGET} POST_BUILD
         COMMAND find ${SWIFT_ASSETS_DIRECTORY} -type l -delete )
 

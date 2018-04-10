@@ -25,7 +25,6 @@ if (NOT (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUA
     and then do a clean rebuild")
 endif()
 
-include(${CMAKE_CURRENT_LIST_DIR}/GetLinkLibraries.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftTest.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFrameworkStructure.cmake)
 
