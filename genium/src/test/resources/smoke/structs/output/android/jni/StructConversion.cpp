@@ -170,6 +170,18 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AllTypesStruct& _n
   _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
+void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::ExternalStruct& _nout ){
+  jclass javaClass = _jenv->GetObjectClass(_jinput);
+  _nout.string_field = genium::jni::get_string_field(_jenv, javaClass, _jinput, "stringField");
+}
+jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ExternalStruct& _ninput){
+  auto javaClass = _jenv->FindClass("com/example/smoke/Structs$ExternalStruct");
+  auto _jresult = genium::jni::create_object(_jenv, javaClass);
+  auto jstring_field = _ninput.string_field;
+  genium::jni::set_string_field(_jenv, javaClass, _jresult, "stringField", jstring_field);
+  _jenv->DeleteLocalRef(javaClass);
+  return _jresult;
+}
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::StructsInheritance::ColoredLineInherited& _nout ){
   jclass javaClass = _jenv->GetObjectClass(_jinput);
   convert_from_jni(
