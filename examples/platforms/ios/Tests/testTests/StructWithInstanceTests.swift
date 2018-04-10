@@ -31,21 +31,21 @@ class StructWithInstanceTests: XCTestCase {
     }
 
     func testCopyInstanceInStruct() {
-        let a = hello.InstanceInStruct.SelfHolder(mySelf: hello.InstanceInStruct.create())
+        let one = hello.InstanceInStruct.SelfHolder(mySelf: hello.InstanceInStruct.create())
         do {
-           let b = a
-           b.mySelf?.setStringValue(stringValue: "Hello")
+           let other = one
+           other.mySelf?.setStringValue(stringValue: "Hello")
         }
-        XCTAssertEqual(a.mySelf?.getStringValue(), "Hello")
+        XCTAssertEqual(one.mySelf?.getStringValue(), "Hello")
     }
 
     func testCopyInstanceInStructFromMethod() {
-        let a = hello.InstanceInStruct.createInStruct()!
+        let one = hello.InstanceInStruct.createInStruct()!
         do {
-           let b = a
-           b.mySelf?.setStringValue(stringValue: "Hello")
+           let other = one
+           other.mySelf?.setStringValue(stringValue: "Hello")
         }
-        XCTAssertEqual(a.mySelf?.getStringValue(), "Hello")
+        XCTAssertEqual(one.mySelf?.getStringValue(), "Hello")
     }
 
     func testNullInstanceInStruct() {
