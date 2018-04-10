@@ -469,6 +469,16 @@ public class CppModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaStructTypeReadsExternalType() {
+    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
+    assertTrue(resultStruct.isExternal);
+  }
+
+  @Test
   public void finishBuildingFrancaTypeDefInstanceId() {
     when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
 

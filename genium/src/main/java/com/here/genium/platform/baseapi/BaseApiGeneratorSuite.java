@@ -53,12 +53,10 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   @VisibleForTesting
   static final List<String> ADDITIONAL_HEADERS = Arrays.asList("EnumHash", "Return");
 
-  private final CppIncludeResolver includeResolver;
   private final String internalNamespace;
 
   public BaseApiGeneratorSuite(final OptionReader.GeniumOptions options) {
     super();
-    includeResolver = new CppIncludeResolver();
     internalNamespace = options.getCppInternalNamespace();
   }
 
@@ -69,17 +67,24 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
   public List<GeneratedFile> generate(
       final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
+
+    CppIncludeResolver includeResolver = new CppIncludeResolver(deploymentModel);
+    CppTypeMapper typeMapper = new CppTypeMapper(includeResolver, internalNamespace);
+
     CppGenerator generator =
         new CppGenerator(BaseApiGeneratorSuite.GENERATOR_NAME, internalNamespace);
 
-    List<GeneratedFile> generatedFiles =
-        typeCollections
-            .stream()
-            .flatMap(
-                francaTypeCollection ->
-                    generateFromFrancaTypeCollection(
-                        deploymentModel, francaTypeCollection, generator))
-            .collect(Collectors.toList());
+    List<GeneratedFile> generatedFiles = new LinkedList<>();
+    for (final FTypeCollection francaTypeCollection : typeCollections) {
+
+      CppFile cppModel =
+          mapFrancaTypeCollectionToCppModel(deploymentModel, typeMapper, francaTypeCollection);
+      String outputFilePathHeader = CppNameRules.getOutputFilePath(francaTypeCollection);
+      String outputFilePathImpl = CppNameRules.getOutputFilePath(francaTypeCollection);
+
+      generatedFiles.addAll(
+          generator.generateCode(cppModel, outputFilePathHeader, outputFilePathImpl));
+    }
 
     for (String header : ADDITIONAL_HEADERS) {
       generatedFiles.add(generator.generateHelperHeader(header));
@@ -88,23 +93,12 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     return generatedFiles;
   }
 
-  private Stream<GeneratedFile> generateFromFrancaTypeCollection(
+  private static CppFile mapFrancaTypeCollectionToCppModel(
       final FrancaDeploymentModel deploymentModel,
-      final FTypeCollection francaTypeCollection,
-      final CppGenerator generator) {
+      final CppTypeMapper typeMapper,
+      final FTypeCollection francaTypeCollection) {
 
-    CppFile cppModel = mapFrancaTypeCollectionToCppModel(deploymentModel, francaTypeCollection);
-    String outputFilePathHeader = CppNameRules.getOutputFilePath(francaTypeCollection);
-    String outputFilePathImpl = CppNameRules.getOutputFilePath(francaTypeCollection);
-
-    return generator.generateCode(cppModel, outputFilePathHeader, outputFilePathImpl).stream();
-  }
-
-  private CppFile mapFrancaTypeCollectionToCppModel(
-      final FrancaDeploymentModel deploymentModel, final FTypeCollection francaTypeCollection) {
-
-    CppModelBuilder builder =
-        new CppModelBuilder(deploymentModel, new CppTypeMapper(includeResolver, internalNamespace));
+    CppModelBuilder builder = new CppModelBuilder(deploymentModel, typeMapper);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walkTree(francaTypeCollection);

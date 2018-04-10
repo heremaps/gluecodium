@@ -30,6 +30,7 @@ specification GeniumExtensions {
 
     for structs {
         Serializable: Boolean (optional, default: false);
+        ExternalType: String (optional);
     }
 
     for struct_fields {
