@@ -108,7 +108,7 @@ class AsynchronousListenersViewController: UIViewController, UITableViewDataSour
         addListener(hello.HelloWorldCalculatorListenerFactory.createCalculatorListener()!)
     }
 
-    private func getPositions() -> (from: Calculator.Position, to: Calculator.Position)? {
+    private func getPositions() -> (from: Calculator.Position, destination: Calculator.Position)? {
         guard
             let x1float = Float(x1label.text!),
             let y1float = Float(y1label.text!),
@@ -120,9 +120,9 @@ class AsynchronousListenersViewController: UIViewController, UITableViewDataSour
             return nil
         }
         let from = Calculator.Position(x: x1float, y: y1float, z: z1float)
-        let to = Calculator.Position(x: x2float, y: y2float, z: z2float)
+        let destination = Calculator.Position(x: x2float, y: y2float, z: z2float)
 
-        return (from: from, to: to)
+        return (from: from, destination: destination)
     }
 
     @IBAction func calculateTriggered(_: Any) {
@@ -130,7 +130,7 @@ class AsynchronousListenersViewController: UIViewController, UITableViewDataSour
             return
         }
         hello.HelloWorldStaticLogger.clearLog()
-        calculator.calculateInBackground(fromPosition: positions.from, toPosition: positions.to)
+        calculator.calculateInBackground(fromPosition: positions.from, toPosition: positions.destination)
         listenersTable.reloadData()
         cppResults.text = hello.HelloWorldStaticLogger.getLog()
     }
