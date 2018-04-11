@@ -46,7 +46,6 @@ function(apigen_target_include_directories target)
 
         # Android library targets need the cpp and JNI headers to compile
         # but should not expose those to the public.
-        #TODO(ATEAM-44): Remove compat locations
         target_include_directories(${target}
             PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}/cpp/include>
             PRIVATE $<BUILD_INTERFACE:${OUTPUT_DIR}>) # JNI headers and sources

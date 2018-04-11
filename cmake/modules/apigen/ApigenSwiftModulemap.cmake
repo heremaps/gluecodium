@@ -46,7 +46,6 @@ function(apigen_swift_modulemap target)
     # Module map generation
     ## Top level:
     set(CBRIDGE_MODULE_MAP "module ${target} {\n")
-    #TODO(ATEAM-44): Remove compat locations
     file(GLOB_RECURSE cbridge_headers ${OUTPUT_DIR}/cbridge/*.h)
 
     foreach(header IN LISTS cbridge_headers)
