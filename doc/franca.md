@@ -144,6 +144,32 @@ FDEPL:
         }
     }
 
+### Struct: ExternalType
+
+This FDEPL property controls whether the C++ header file is generated for the given Franca struct.
+Default value is `null`, i.e. the struct type is not external and thus a header file is generated.
+If a non-empty value is given, no header file is generated, but the given String value is used as a
+path to a pre-existing header file instead. This property has no effect on generated code for Java
+or Swift.
+
+FIDL:
+
+    package example
+
+    typeCollection ExampleTypeCollection {
+        struct exampleStruct {
+        }
+    }
+
+FDEPL:
+
+    define GeniumExtensions for typeCollection example.ExampleTypeCollection
+    {
+        struct exampleStruct {
+            ExternalType = "example/ExampleStruct.h"
+        }
+    }
+
 ### Struct field: DefaultValue
 
 This FDEPL property controls whether a default value initializer is generated for the given

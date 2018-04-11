@@ -3,6 +3,9 @@
 ## Unreleased
 - Breaking changes:
   + Renamed Transpiler to Genium.
+- Features:
+  + Added FDEPL property "ExternalType" for marking struct types as "external" in C++ and providing
+    a path to a pre-existing C++ header file for that struct type.
 
 ## 2.2.1
 - Bug fixes:
@@ -11,12 +14,12 @@
 ## 2.2.0
 - Features:
   + Added FDEPL flag "NotNull" for marking struct fields as optional/non-optional in Swift or
-   annotating them with @NonNull annotation in Java.
+    annotating them with @NonNull annotation in Java.
 
 ## 2.1.0
 - Features:
   + Added FDEPL flag "Internal" for marking classes, methods and fields as "internal" in Swift or
-   package-private in Java.
+    package-private in Java.
 - Bug fixes:
   + Fixed compilation issues for Maps with Enums as keys in iOS generator when a non-default value
     is specified for "C++ internal namespace" command line parameter.
