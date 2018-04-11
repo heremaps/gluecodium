@@ -173,12 +173,53 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AllTypesStruct& _n
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::ExternalStruct& _nout ){
   jclass javaClass = _jenv->GetObjectClass(_jinput);
   _nout.string_field = genium::jni::get_string_field(_jenv, javaClass, _jinput, "stringField");
+  _nout.external_string_field = genium::jni::get_string_field(_jenv, javaClass, _jinput, "externalStringField");
+  convert_from_jni(
+    _jenv,
+    genium::jni::get_object_field(
+    _jenv,
+    javaClass,
+    _jinput,
+    "externalArrayField",
+    "Ljava/util/List;"),
+    _nout.external_array_field );
+  convert_from_jni(
+    _jenv,
+    genium::jni::get_object_field(
+    _jenv,
+    javaClass,
+    _jinput,
+    "externalStructField",
+    "Lcom/example/smoke/Structs$AnotherExternalStruct;"),
+    _nout.external_struct_field );
 }
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ExternalStruct& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/Structs$ExternalStruct");
   auto _jresult = genium::jni::create_object(_jenv, javaClass);
   auto jstring_field = _ninput.string_field;
   genium::jni::set_string_field(_jenv, javaClass, _jresult, "stringField", jstring_field);
+  auto jexternal_string_field = _ninput.external_string_field;
+  genium::jni::set_string_field(_jenv, javaClass, _jresult, "externalStringField", jexternal_string_field);
+  auto jexternal_array_field = convert_to_jni(_jenv, _ninput.external_array_field);
+  genium::jni::set_object_field(_jenv, javaClass, _jresult, "externalArrayField",
+  "Ljava/util/List;", jexternal_array_field);
+  _jenv->DeleteLocalRef(jexternal_array_field);
+  auto jexternal_struct_field = convert_to_jni(_jenv, _ninput.external_struct_field);
+  genium::jni::set_object_field(_jenv, javaClass, _jresult, "externalStructField",
+  "Lcom/example/smoke/Structs$AnotherExternalStruct;", jexternal_struct_field);
+  _jenv->DeleteLocalRef(jexternal_struct_field);
+  _jenv->DeleteLocalRef(javaClass);
+  return _jresult;
+}
+void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::AnotherExternalStruct& _nout ){
+  jclass javaClass = _jenv->GetObjectClass(_jinput);
+  _nout.int_field = genium::jni::get_byte_field(_jenv, javaClass, _jinput, "intField");
+}
+jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AnotherExternalStruct& _ninput){
+  auto javaClass = _jenv->FindClass("com/example/smoke/Structs$AnotherExternalStruct");
+  auto _jresult = genium::jni::create_object(_jenv, javaClass);
+  auto jint_field = _ninput.int_field;
+  genium::jni::set_byte_field(_jenv, javaClass, _jresult, "intField", jint_field);
   _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
