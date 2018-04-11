@@ -6,8 +6,18 @@
 package com.example.smoke;
 
 import com.example.NativeBase;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Structs extends NativeBase {
+    public enum FooBar {
+        FOO(0),
+        BAR(1);
+        public final int value;
+        FooBar(final int value) {
+            this.value = value;
+        }
+    }
     public static class Point {
         public double x;
         public double y;
@@ -189,11 +199,52 @@ public class Structs extends NativeBase {
 
     public static class ExternalStruct {
         public String stringField;
+        public String externalStringField;
+        public List<Byte> externalArrayField = new ArrayList<>();
+        public Structs.AnotherExternalStruct externalStructField = new Structs.AnotherExternalStruct();
         public ExternalStruct() {}
-        public ExternalStruct(String stringField) {
+        public ExternalStruct(String stringField, String externalStringField, List<Byte> externalArrayField, Structs.AnotherExternalStruct externalStructField) {
             this.stringField = stringField;
+            this.externalStringField = externalStringField;
+            this.externalArrayField = externalArrayField;
+            this.externalStructField = externalStructField;
+        }
+        public static class Builder {
+            private String stringField;
+            private String externalStringField;
+            private List<Byte> externalArrayField = new ArrayList<>();
+            private Structs.AnotherExternalStruct externalStructField = new Structs.AnotherExternalStruct();
+            public Builder() {
+            }
+            public Builder setStringField(String stringField) {
+                this.stringField = stringField;
+                return this;
+            }
+            public Builder setExternalStringField(String externalStringField) {
+                this.externalStringField = externalStringField;
+                return this;
+            }
+            public Builder setExternalArrayField(List<Byte> externalArrayField) {
+                this.externalArrayField = externalArrayField;
+                return this;
+            }
+            public Builder setExternalStructField(Structs.AnotherExternalStruct externalStructField) {
+                this.externalStructField = externalStructField;
+                return this;
+            }
+            public ExternalStruct build() {
+                return new ExternalStruct(stringField, externalStringField, externalArrayField, externalStructField);
+            }
         }
     }
+    public static class AnotherExternalStruct {
+        public byte intField;
+        public AnotherExternalStruct() {}
+        public AnotherExternalStruct(byte intField) {
+            this.intField = intField;
+        }
+    }
+
 
     /** For internal use only */
     protected Structs(final long nativeHandle) {

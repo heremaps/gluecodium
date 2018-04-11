@@ -22,6 +22,12 @@ public class Structs {
     deinit {
         smoke_Structs_release(c_instance)
     }
+
+    public enum FooBar : UInt32 {
+        case foo
+        case bar
+    }
+
     public struct Point {
         public var x: Double
         public var y: Double
@@ -259,13 +265,32 @@ public class Structs {
 
     public struct ExternalStruct {
         public var stringField: String
-        public init(stringField: String) {
+        public var externalStringField: String
+        public var externalArrayField: CollectionOf<Int8>
+        public var externalStructField: Structs.AnotherExternalStruct
+        public init(stringField: String, externalStringField: String, externalArrayField: CollectionOf<Int8>, externalStructField: Structs.AnotherExternalStruct) {
             self.stringField = stringField
+            self.externalStringField = externalStringField
+            self.externalArrayField = externalArrayField
+            self.externalStructField = externalStructField
         }
         internal init?(cExternalStruct: _baseRef) {
             do {
                 let stringFieldHandle = smoke_Structs_ExternalStruct_stringField_get(cExternalStruct)
                 stringField = String(cString:std_string_data_get(stringFieldHandle))
+            }
+            do {
+                let externalStringFieldHandle = smoke_Structs_ExternalStruct_externalStringField_get(cExternalStruct)
+                externalStringField = String(cString:std_string_data_get(externalStringFieldHandle))
+            }
+            externalArrayField = Int8List(smoke_Structs_ExternalStruct_externalArrayField_get(cExternalStruct))
+            do {
+                guard
+                    let externalStructFieldUnwrapped = Structs.AnotherExternalStruct(cAnotherExternalStruct: smoke_Structs_ExternalStruct_externalStructField_get(cExternalStruct))
+                else {
+                    return nil
+                }
+                externalStructField = externalStructFieldUnwrapped
             }
         }
         internal func convertToCType() -> _baseRef {
@@ -275,6 +300,30 @@ public class Structs {
         }
         internal func fillFunction(_ cExternalStruct: _baseRef) -> Void {
             smoke_Structs_ExternalStruct_stringField_set(cExternalStruct, stringField)
+            smoke_Structs_ExternalStruct_externalStringField_set(cExternalStruct, externalStringField)
+            let externalArrayFieldConversion = externalArrayField.c_conversion()
+            smoke_Structs_ExternalStruct_externalArrayField_set(cExternalStruct, externalArrayFieldConversion.c_type)
+            externalArrayFieldConversion.cleanup()
+            let externalStructFieldHandle = smoke_Structs_ExternalStruct_externalStructField_get(cExternalStruct)
+            externalStructField.fillFunction(externalStructFieldHandle)
+        }
+    }
+
+    public struct AnotherExternalStruct {
+        public var intField: Int8
+        public init(intField: Int8) {
+            self.intField = intField
+        }
+        internal init?(cAnotherExternalStruct: _baseRef) {
+            intField = smoke_Structs_AnotherExternalStruct_intField_get(cAnotherExternalStruct)
+        }
+        internal func convertToCType() -> _baseRef {
+            let result = smoke_Structs_AnotherExternalStruct_create()
+            fillFunction(result)
+            return result
+        }
+        internal func fillFunction(_ cAnotherExternalStruct: _baseRef) -> Void {
+            smoke_Structs_AnotherExternalStruct_intField_set(cAnotherExternalStruct, intField)
         }
     }
 

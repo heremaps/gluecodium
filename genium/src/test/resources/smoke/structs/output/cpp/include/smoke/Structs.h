@@ -10,16 +10,19 @@
 #pragma once
 
 #include "foo/Bar.h"
+#include "foo/Bazz.h"
 #include <cstdint>
 #include <string>
 #include <vector>
-
 namespace smoke {
-
 class Structs {
 public:
     virtual ~Structs() = 0;
 public:
+enum class FooBar {
+    FOO,
+    BAR
+};
 struct Point {
     double x;
     double y;
