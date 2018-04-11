@@ -102,6 +102,14 @@ public class FrancaDeploymentModel {
     return getString(francaStruct, "ExternalType");
   }
 
+  public String getExternalGetter(final FField francaField) {
+    return getString(francaField, "ExternalGetter");
+  }
+
+  public String getExternalSetter(final FField francaField) {
+    return getString(francaField, "ExternalSetter");
+  }
+
   private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {
 
     List<MappingGenericPropertyAccessor> propertyAccessorsForModelElement =

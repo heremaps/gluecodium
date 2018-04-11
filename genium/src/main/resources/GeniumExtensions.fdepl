@@ -35,6 +35,8 @@ specification GeniumExtensions {
 
     for struct_fields {
         NotNull: Boolean (optional, default: false);
+        ExternalGetter: String (optional);
+        ExternalSetter: String (optional);
     }
 }
 
