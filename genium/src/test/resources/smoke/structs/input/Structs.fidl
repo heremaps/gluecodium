@@ -20,6 +20,7 @@
 package smoke
 
 import smoke.* from "./TypeCollection.fidl"
+import smoke.* from "./StructsInstance.fidl"
 
 interface Structs {
     version {
@@ -67,6 +68,18 @@ interface Structs {
 
     struct ExternalStruct {
         String stringField
+        String externalStringField
+        Int8[] externalArrayField
+        AnotherExternalStruct externalStructField
+    }
+
+    struct AnotherExternalStruct {
+        Int8 intField
+    }
+
+    enumeration FooBar {
+        FOO
+        BAR
     }
 
     method createPoint {
