@@ -29,13 +29,21 @@ public final class CField extends CElement {
 
   public final String baseLayerName;
   public final CppTypeInfo type;
+  public final String baseLayerGetterName;
+  public final String baseLayerSetterName;
 
   @lombok.Builder(builderClassName = "Builder")
   private CField(
-      final String swiftLayerName, final String baseLayerName, final CppTypeInfo cppTypeInfo) {
+      final String swiftLayerName,
+      final String baseLayerName,
+      final CppTypeInfo cppTypeInfo,
+      final String baseLayerGetterName,
+      final String baseLayerSetterName) {
     super(swiftLayerName);
     this.baseLayerName = baseLayerName;
     this.type = cppTypeInfo;
+    this.baseLayerGetterName = baseLayerGetterName;
+    this.baseLayerSetterName = baseLayerSetterName;
   }
 
   @SuppressWarnings("unused")
