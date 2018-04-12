@@ -80,7 +80,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
   CBridgeNameRules.class,
   SwiftNameRules.class
 })
-public class CBridgeModelBuilderTest {
+public final class CBridgeModelBuilderTest {
 
   private static final String FULL_FUNCTION_NAME = "NOT_SHORT_FUNCTION_NAME";
   private static final String NESTED_SPECIFIER_NAME = "NOT";
@@ -452,6 +452,22 @@ public class CBridgeModelBuilderTest {
     CField field = modelBuilder.getFinalResult(CField.class);
     assertNotNull(field);
     assertEquals(cppTypeInfo, field.type);
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldReadsExternalAccessors() {
+    when(cppModelbuilder.getFinalResult(any())).thenReturn(new CppField(CPP_FIELD_NAME, null));
+    when(swiftModelBuilder.getFinalResult(any()))
+        .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null, null, null));
+    when(deploymentModel.getExternalGetter(any())).thenReturn("get_foo");
+    when(deploymentModel.getExternalSetter(any())).thenReturn("setFoo");
+
+    modelBuilder.finishBuilding(francaField);
+
+    CField field = modelBuilder.getFinalResult(CField.class);
+    assertNotNull(field);
+    assertEquals("get_foo", field.baseLayerGetterName);
+    assertEquals("setFoo", field.baseLayerSetterName);
   }
 
   @Test
