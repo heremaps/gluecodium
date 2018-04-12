@@ -195,7 +195,7 @@ _baseRef smoke_Structs_AllTypesStruct_bytesField_get(_baseRef handle) {
     return reinterpret_cast<_baseRef>( new std::vector<uint8_t>(struct_pointer->bytes_field) );
 }
 void smoke_Structs_AllTypesStruct_bytesField_set(_baseRef handle, const uint8_t* bytesField_ptr, int64_t bytesField_size) {
-    get_pointer<smoke::Structs::AllTypesStruct>(handle)->bytes_field.assign(bytesField_ptr, bytesField_ptr + bytesField_size);
+    get_pointer<smoke::Structs::AllTypesStruct>(handle)->bytes_field = std::vector<uint8_t>(bytesField_ptr, bytesField_ptr + bytesField_size);
 }
 _baseRef smoke_Structs_AllTypesStruct_pointField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::AllTypesStruct>(handle);
@@ -219,24 +219,24 @@ void smoke_Structs_ExternalStruct_stringField_set(_baseRef handle, const char* s
 }
 _baseRef smoke_Structs_ExternalStruct_externalStringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::ExternalStruct>(handle);
-    return reinterpret_cast<_baseRef>( new std::string(struct_pointer->external_string_field) );
+    return reinterpret_cast<_baseRef>( new std::string(struct_pointer->get_some_string()) );
 }
 void smoke_Structs_ExternalStruct_externalStringField_set(_baseRef handle, const char* externalStringField) {
-    get_pointer<smoke::Structs::ExternalStruct>(handle)->external_string_field = externalStringField;
+    get_pointer<smoke::Structs::ExternalStruct>(handle)->set_some_string(externalStringField);
 }
 _baseRef smoke_Structs_ExternalStruct_externalArrayField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::ExternalStruct>(handle);
-    return reinterpret_cast<_baseRef>( new std::vector<int8_t>(struct_pointer->external_array_field) );
+    return reinterpret_cast<_baseRef>( new std::vector<int8_t>(struct_pointer->get_some_array()) );
 }
 void smoke_Structs_ExternalStruct_externalArrayField_set(_baseRef handle, _baseRef externalArrayField) {
-    get_pointer<smoke::Structs::ExternalStruct>(handle)->external_array_field = *get_pointer<std::vector<int8_t>>(externalArrayField);
+    get_pointer<smoke::Structs::ExternalStruct>(handle)->set_some_array(*get_pointer<std::vector<int8_t>>(externalArrayField));
 }
 _baseRef smoke_Structs_ExternalStruct_externalStructField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::ExternalStruct>(handle);
-    return reinterpret_cast<_baseRef>( new smoke::Structs::AnotherExternalStruct(struct_pointer->external_struct_field) );
+    return reinterpret_cast<_baseRef>( new smoke::Structs::AnotherExternalStruct(struct_pointer->get_some_struct()) );
 }
 void smoke_Structs_ExternalStruct_externalStructField_set(_baseRef handle, _baseRef externalStructField) {
-    get_pointer<smoke::Structs::ExternalStruct>(handle)->external_struct_field = *get_pointer<smoke::Structs::AnotherExternalStruct>(externalStructField);
+    get_pointer<smoke::Structs::ExternalStruct>(handle)->set_some_struct(*get_pointer<smoke::Structs::AnotherExternalStruct>(externalStructField));
 }
 _baseRef smoke_Structs_AnotherExternalStruct_create() {
     return reinterpret_cast<_baseRef>( new smoke::Structs::AnotherExternalStruct() );

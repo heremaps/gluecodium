@@ -31,27 +31,33 @@ void {{name}}_release(_baseRef handle) {
 {{type.functionReturnType}} {{structname}}_{{name}}_get(_baseRef handle) {
     auto struct_pointer = get_pointer<{{mappedType.name}}>(handle);
 {{#switch type.typeCategory.toString}}
-    {{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>(struct_pointer->{{baseLayerName}});{{/case}}{{!!
+    {{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>({{>getBaseLayerFieldValue}});{{/case}}{{!!
     }}{{#case "MAP" break=false}}{{/case}}{{!!
-    }}{{#case "ARRAY"}}return reinterpret_cast<_baseRef>( new {{type.baseApi}}(struct_pointer->{{baseLayerName}}) );{{/case}}{{!!
+    }}{{#case "ARRAY"}}return reinterpret_cast<_baseRef>( new {{type.baseApi}}({{>getBaseLayerFieldValue}}) );{{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
     }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}return reinterpret_cast<_baseRef>( new {{type.name}}(struct_pointer->{{baseLayerName}}) );{{/case}}{{!!
-    }}{{#case "CLASS"}}return reinterpret_cast<_baseRef>( checked_pointer_copy(struct_pointer->{{baseLayerName}}) );{{/case}}{{!!
-    }}{{#default}}return struct_pointer->{{baseLayerName}};{{/default}}
+    }}{{#case "STRUCT"}}return reinterpret_cast<_baseRef>( new {{type.name}}({{>getBaseLayerFieldValue}}) );{{/case}}{{!!
+    }}{{#case "CLASS"}}return reinterpret_cast<_baseRef>( checked_pointer_copy({{>getBaseLayerFieldValue}}) );{{/case}}{{!!
+    }}{{#default}}return {{>getBaseLayerFieldValue}};{{/default}}
 {{/switch}}
 }
 
 void {{structname}}_{{name}}_set(_baseRef handle, {{join setterParameters delimiter=", "}}) {
-    get_pointer<{{mappedType.name}}>(handle)->{{baseLayerName}}{{#switch type.typeCategory.toString}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER"}}.assign({{setterParameters.0.name}}, {{setterParameters.0.name}} + {{setterParameters.1.name}}){{/case}}{{!!
-    }}{{#case "ENUM"}} = static_cast<{{type.name}}>({{setterParameters.0.name}}){{/case}}{{!!
+    {{>setBaseLayerFieldValue}}{{#switch type.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER"}}{{type.name}}({{setterParameters.0.name}}, {{setterParameters.0.name}} + {{setterParameters.1.name}}){{/case}}{{!!
+    }}{{#case "ENUM"}}static_cast<{{type.name}}>({{setterParameters.0.name}}){{/case}}{{!!
     }}{{#case "MAP" break=false}}{{/case}}{{!!
-    }}{{#case "ARRAY"}} = *get_pointer<{{type.baseApi}}>({{setterParameters.0.name}}){{/case}}{{!!
+    }}{{#case "ARRAY"}}*get_pointer<{{type.baseApi}}>({{setterParameters.0.name}}){{/case}}{{!!
     }}{{#case "STRUCT" break=false}}{{/case}}{{!!
-    }}{{#case "CLASS"}} = *get_pointer<{{type.name}}>({{setterParameters.0.name}}){{/case}}{{!!
-    }}{{#default}} = {{setterParameters.0.name}}{{/default}}{{!!
-}}{{/switch}};
+    }}{{#case "CLASS"}}*get_pointer<{{type.name}}>({{setterParameters.0.name}}){{/case}}{{!!
+    }}{{#default}}{{setterParameters.0.name}}{{/default}}{{!!
+}}{{/switch}}{{#if baseLayerSetterName}}){{/if}};
 }
 {{/fields}}
-{{/set}}
+{{/set}}{{!!
+
+}}{{+getBaseLayerFieldValue}}struct_pointer->{{#if baseLayerGetterName}}{{baseLayerGetterName}}(){{/if}}{{!!
+}}{{#unless baseLayerGetterName}}{{baseLayerName}}{{/unless}}{{/getBaseLayerFieldValue}}{{!!
+
+}}{{+setBaseLayerFieldValue}}get_pointer<{{mappedType.name}}>(handle)->{{#if baseLayerSetterName}}{{baseLayerSetterName}}({{/if}}{{!!
+}}{{#unless baseLayerSetterName}}{{baseLayerName}} = {{/unless}}{{/setBaseLayerFieldValue}}

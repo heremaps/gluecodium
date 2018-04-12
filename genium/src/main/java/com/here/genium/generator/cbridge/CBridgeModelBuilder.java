@@ -237,6 +237,8 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
             .swiftLayerName(swiftField.name)
             .baseLayerName(cppField.name)
             .cppTypeInfo(getPreviousResult(CppTypeInfo.class))
+            .baseLayerGetterName(deploymentModel.getExternalGetter(francaField))
+            .baseLayerSetterName(deploymentModel.getExternalSetter(francaField))
             .build();
 
     storeResult(cField);

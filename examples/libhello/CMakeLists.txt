@@ -308,7 +308,7 @@ feature(CircularDependencies cpp android swift SOURCES
     fidl/test/Circular.fidl
 )
 
-feature(ExternalTypes cpp android SOURCES
+feature(ExternalTypes cpp android swift SOURCES
     src/test/include/ExternalTypes.h
     src/test/src/ExternalTypes.cpp
     src/test/UseExternalTypes.cpp
