@@ -308,12 +308,15 @@ feature(CircularDependencies cpp android swift SOURCES
     fidl/test/Circular.fidl
 )
 
-feature(ExternalTypes cpp android swift SOURCES
+feature(ExternalTypes cpp android SOURCES
     src/test/include/ExternalTypes.h
+    src/test/src/ExternalTypes.cpp
+    src/test/UseExternalTypes.cpp
 
     fidl/test/ExternalTypes.fidl
     fidl/test/ExternalTypes.fdepl
     fidl/test/UseExternalTypes.fidl
+    fidl/test/UseExternalTypes.fdepl
 )
 
 add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})

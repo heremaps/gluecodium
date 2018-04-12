@@ -103,6 +103,7 @@ public class JniModelBuilderTest {
           .build();
   private final CppComplexTypeRef cppCustomType =
       new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build();
+  private final CppField cppField = new CppField(CPP_CLASS_NAME, cppCustomType);
 
   private final MockContextStack<JniElement> contextStack = new MockContextStack<>();
 
@@ -489,11 +490,7 @@ public class JniModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaStructReadsFields() {
-    JniField jniField =
-        JniField.builder()
-            .javaField(javaField)
-            .cppField(new CppField(BASE_NAME_PARAMETER, cppCustomType))
-            .build();
+    JniField jniField = JniField.builder().javaField(javaField).cppField(cppField).build();
     contextStack.injectResult(jniField);
     when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
     when(cppBuilder.getFinalResult(any())).thenReturn(null);
@@ -520,11 +517,7 @@ public class JniModelBuilderTest {
     JniStruct jniParentStruct =
         new JniStruct(javaClass, null, Collections.singletonList(jniParentField));
     contextStack.injectResult(jniParentStruct);
-    JniField jniField =
-        JniField.builder()
-            .javaField(javaParentField)
-            .cppField(new CppField(BASE_NAME_PARAMETER, cppCustomType))
-            .build();
+    JniField jniField = JniField.builder().javaField(javaParentField).cppField(cppField).build();
     contextStack.injectResult(jniField);
     when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
     when(cppBuilder.getFinalResult(any())).thenReturn(null);
@@ -540,7 +533,6 @@ public class JniModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsJavaCppFields() {
-    CppField cppField = new CppField(CPP_CLASS_NAME, cppCustomType);
     when(javaBuilder.getFinalResult(any())).thenReturn(javaField);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppField);
 
@@ -554,7 +546,6 @@ public class JniModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsJniType() {
-    CppField cppField = new CppField(CPP_CLASS_NAME, cppCustomType);
     when(javaBuilder.getFinalResult(any())).thenReturn(javaField);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppField);
     contextStack.injectResult(jniType);
@@ -564,6 +555,21 @@ public class JniModelBuilderTest {
     JniField jniField = modelBuilder.getFinalResult(JniField.class);
     assertNotNull(jniField);
     assertEquals(jniType, jniField.type);
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldReadsExternalAccessors() {
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaField);
+    when(cppBuilder.getFinalResult(any())).thenReturn(cppField);
+    when(deploymentModel.getExternalGetter(any())).thenReturn("get_foo");
+    when(deploymentModel.getExternalSetter(any())).thenReturn("setFoo");
+
+    modelBuilder.finishBuilding(francaField);
+
+    JniField jniField = modelBuilder.getFinalResult(JniField.class);
+    assertNotNull(jniField);
+    assertEquals("get_foo", jniField.cppGetterName);
+    assertEquals("setFoo", jniField.cppSetterName);
   }
 
   @Test
