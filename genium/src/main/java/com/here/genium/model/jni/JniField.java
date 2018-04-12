@@ -24,7 +24,8 @@ import com.here.genium.model.java.JavaCustomType;
 import com.here.genium.model.java.JavaField;
 import com.here.genium.model.java.JavaTemplateType;
 
-public class JniField implements JniElement {
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
+public final class JniField implements JniElement {
 
   public final JavaField javaField;
   public final CppField cppField;
@@ -33,7 +34,8 @@ public class JniField implements JniElement {
   public final boolean hasCustomType;
   public final boolean hasTemplateType;
 
-  public JniField(final JavaField javaField, final CppField cppField, final JniType type) {
+  @lombok.Builder(builderClassName = "Builder")
+  private JniField(final JavaField javaField, final CppField cppField, final JniType type) {
     this.javaField = javaField;
     this.cppField = cppField;
     this.type = type;
