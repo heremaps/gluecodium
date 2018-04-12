@@ -23,7 +23,8 @@
 namespace test
 {
 external::ExternalStruct
-UseExternalTypes::extractExternalStruct( const StructWithExternalStruct& nested_struct )
+UseExternalTypes::extract_external_struct(
+    const UseExternalTypes::StructWithExternalStruct& nested_struct )
 {
     return nested_struct.struct_field;
 }
