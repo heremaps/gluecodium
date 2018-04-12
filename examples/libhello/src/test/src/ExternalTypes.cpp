@@ -18,14 +18,42 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/UseExternalTypes.h"
+#include "include/ExternalTypes.h"
 
-namespace test
+namespace external
 {
-external::ExternalStruct
-UseExternalTypes::extract_external_struct(
-    const UseExternalTypes::StructWithExternalStruct& nested_struct )
+
+std::string
+ExternalStruct::get_some_string( ) const
 {
-    return nested_struct.struct_field;
+    return m_some_string;
 }
+
+void
+ExternalStruct::set_some_string( const std::string& value )
+{
+    m_some_string = value;
+}
+
+std::vector< int32_t >
+ExternalStruct::getSomeArray( ) const
+{
+    return m_some_array;
+}
+
+void ExternalStruct::setSomeArray( const std::vector< int32_t >& value )
+{
+    m_some_array = value;
+}
+
+AnotherExternalStruct ExternalStruct::madnessEnsues( ) const
+{
+    return m_some_struct;
+}
+
+void ExternalStruct::madnessEnsues( const AnotherExternalStruct& value )
+{
+    m_some_struct = value;
+}
+
 }

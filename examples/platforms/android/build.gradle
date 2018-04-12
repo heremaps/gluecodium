@@ -43,5 +43,6 @@ spotless {
         licenseHeaderFile rootProject.file('config/here_java.license')
         trimTrailingWhitespace()
         endWithNewline()
+        paddedCell()
     }
 }

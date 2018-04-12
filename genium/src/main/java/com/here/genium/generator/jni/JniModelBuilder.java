@@ -212,7 +212,13 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     CppField cppField = cppBuilder.getFinalResult(CppField.class);
     JniType jniType = getPreviousResult(JniType.class);
     JniField jniField =
-        JniField.builder().javaField(javaField).cppField(cppField).type(jniType).build();
+        JniField.builder()
+            .javaField(javaField)
+            .cppField(cppField)
+            .type(jniType)
+            .cppGetterName(deploymentModel.getExternalGetter(francaField))
+            .cppSetterName(deploymentModel.getExternalSetter(francaField))
+            .build();
 
     storeResult(jniField);
     closeContext();
