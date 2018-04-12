@@ -182,7 +182,11 @@ public final class CBridgeHeaderTemplateTest {
     final CInterface cOuterInterface = new CInterface("OuterCInterfaceName", cppTypeInfo);
 
     final CField innerStructField =
-        new CField("swiftLayerFieldName", "BaseLayerFieldName", cppTypeInfo);
+        CField.builder()
+            .swiftLayerName("swiftLayerFieldName")
+            .baseLayerName("BaseLayerFieldName")
+            .cppTypeInfo(cppTypeInfo)
+            .build();
     cInnerStruct.fields.add(innerStructField);
 
     cOuterInterface.structs.add(cInnerStruct);
