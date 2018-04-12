@@ -336,8 +336,18 @@ public class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingStructContainsFields() {
-    contextStack.injectResult(new CField("SwiftName1", "CppName1", cppTypeInfo));
-    contextStack.injectResult(new CField("SwiftName2", "CppName2", cppTypeInfo));
+    contextStack.injectResult(
+        CField.builder()
+            .swiftLayerName("SwiftName1")
+            .baseLayerName("CppName1")
+            .cppTypeInfo(cppTypeInfo)
+            .build());
+    contextStack.injectResult(
+        CField.builder()
+            .swiftLayerName("SwiftName2")
+            .baseLayerName("CppName2")
+            .cppTypeInfo(cppTypeInfo)
+            .build());
 
     modelBuilder.finishBuilding(francaStruct);
 
@@ -362,10 +372,20 @@ public class CBridgeModelBuilderTest {
   @Test
   public void finishBuildingStructReadsParentFields() {
     CStruct parentStruct = new CStruct("Foo", null, null);
-    CField parentField = new CField("ParentField", "CppName2", cppTypeInfo);
+    CField parentField =
+        CField.builder()
+            .swiftLayerName("ParentField")
+            .baseLayerName("CppName1")
+            .cppTypeInfo(cppTypeInfo)
+            .build();
     parentStruct.fields.add(parentField);
     contextStack.injectResult(parentStruct);
-    CField cField = new CField("SwiftName1", "CppName1", cppTypeInfo);
+    CField cField =
+        CField.builder()
+            .swiftLayerName("SwiftName1")
+            .baseLayerName("CppName1")
+            .cppTypeInfo(cppTypeInfo)
+            .build();
     contextStack.injectResult(cField);
 
     modelBuilder.finishBuilding(francaStruct);

@@ -24,15 +24,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Field of a com.here.genium.model.cbridge.CStruct */
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class CField extends CElement {
 
   public final String baseLayerName;
   public final CppTypeInfo type;
 
-  public CField(String swiftLayerName, String baseLayerName, CppTypeInfo cppTypeInfo) {
+  @lombok.Builder(builderClassName = "Builder")
+  private CField(
+      final String swiftLayerName, final String baseLayerName, final CppTypeInfo cppTypeInfo) {
     super(swiftLayerName);
     this.baseLayerName = baseLayerName;
-    type = cppTypeInfo;
+    this.type = cppTypeInfo;
   }
 
   @SuppressWarnings("unused")

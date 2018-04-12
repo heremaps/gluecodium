@@ -136,10 +136,11 @@ public final class CBridgeImplementationTemplateTest {
     final CType type = new CType("nameRef");
     CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(type));
     CField field =
-        new CField(
-            "structField",
-            "baseApiFieldName",
-            new CppTypeInfo(new CType("NestedRef"), TypeCategory.STRUCT));
+        CField.builder()
+            .swiftLayerName("structField")
+            .baseLayerName("baseApiFieldName")
+            .cppTypeInfo(new CppTypeInfo(new CType("NestedRef"), TypeCategory.STRUCT))
+            .build();
     struct.fields.add(field);
     cInterface.structs.add(struct);
 
@@ -163,7 +164,12 @@ public final class CBridgeImplementationTemplateTest {
     CInterface cInterface = new CInterface("");
     CType type = new CType("nameRef");
     CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(type));
-    CField field = new CField("stringField", "baseApiFieldName", CppTypeInfo.STRING);
+    CField field =
+        CField.builder()
+            .swiftLayerName("stringField")
+            .baseLayerName("baseApiFieldName")
+            .cppTypeInfo(CppTypeInfo.STRING)
+            .build();
     struct.fields.add(field);
     cInterface.structs.add(struct);
 
@@ -190,7 +196,12 @@ public final class CBridgeImplementationTemplateTest {
     CInterface cInterface = new CInterface("");
     CType type = new CType("nameRef");
     CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(type));
-    CField field = new CField("floatField", "baseApiFieldName", new CppTypeInfo(CType.FLOAT));
+    CField field =
+        CField.builder()
+            .swiftLayerName("floatField")
+            .baseLayerName("baseApiFieldName")
+            .cppTypeInfo(new CppTypeInfo(CType.FLOAT))
+            .build();
     struct.fields.add(field);
     cInterface.structs.add(struct);
 
@@ -237,10 +248,11 @@ public final class CBridgeImplementationTemplateTest {
     CType type = new CType("SomeStructRef");
     CStruct struct = new CStruct("memberStruct", "baseName", new CppTypeInfo(type));
     CField field =
-        new CField(
-            "instanceField",
-            "baseApiFieldName",
-            new CppTypeInfo(new CType("SomeClassRef"), TypeCategory.CLASS));
+        CField.builder()
+            .swiftLayerName("instanceField")
+            .baseLayerName("baseApiFieldName")
+            .cppTypeInfo(new CppTypeInfo(new CType("SomeClassRef"), TypeCategory.CLASS))
+            .build();
     struct.fields.add(field);
     cInterface.structs.add(struct);
 

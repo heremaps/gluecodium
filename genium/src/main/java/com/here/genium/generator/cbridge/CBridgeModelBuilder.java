@@ -229,9 +229,17 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FField francaField) {
+
     CppField cppField = cppBuilder.getFinalResult(CppField.class);
     SwiftField swiftField = swiftBuilder.getFinalResult(SwiftField.class);
-    storeResult(new CField(swiftField.name, cppField.name, getPreviousResult(CppTypeInfo.class)));
+    CField cField =
+        CField.builder()
+            .swiftLayerName(swiftField.name)
+            .baseLayerName(cppField.name)
+            .cppTypeInfo(getPreviousResult(CppTypeInfo.class))
+            .build();
+
+    storeResult(cField);
     super.finishBuilding(francaField);
   }
 
