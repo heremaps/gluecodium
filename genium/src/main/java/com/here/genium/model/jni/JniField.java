@@ -30,15 +30,24 @@ public final class JniField implements JniElement {
   public final JavaField javaField;
   public final CppField cppField;
   public final JniType type;
+  public final String cppGetterName;
+  public final String cppSetterName;
 
   public final boolean hasCustomType;
   public final boolean hasTemplateType;
 
   @lombok.Builder(builderClassName = "Builder")
-  private JniField(final JavaField javaField, final CppField cppField, final JniType type) {
+  private JniField(
+      final JavaField javaField,
+      final CppField cppField,
+      final JniType type,
+      final String cppGetterName,
+      final String cppSetterName) {
     this.javaField = javaField;
     this.cppField = cppField;
     this.type = type;
+    this.cppGetterName = cppGetterName;
+    this.cppSetterName = cppSetterName;
     this.hasCustomType = javaField.type instanceof JavaCustomType;
     this.hasTemplateType = javaField.type instanceof JavaTemplateType;
   }

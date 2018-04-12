@@ -26,6 +26,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::InnerSt
 
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InstanceWithStruct::StructWithInstance& _nout ){
   jclass javaClass = _jenv->GetObjectClass(_jinput);
+  ::std::shared_ptr< ::smoke::SimpleInstantiableOne > n_instance{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -34,7 +35,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InstanceWi
     _jinput,
     "instance",
     "Lcom/example/smoke/SimpleInstantiableOne;"),
-    _nout.instance );
+    n_instance );
+  _nout.instance = n_instance;
+  ::std::shared_ptr< ::smoke::SimpleInstantiableOne > n_instance_not_null{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -43,7 +46,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InstanceWi
     _jinput,
     "instanceNotNull",
     "Lcom/example/smoke/SimpleInstantiableOne;"),
-    _nout.instance_not_null );
+    n_instance_not_null );
+  _nout.instance_not_null = n_instance_not_null;
+  ::std::shared_ptr< ::smoke::SimpleInstantiableOne > n_instance_not_null_with_comment{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -52,7 +57,8 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InstanceWi
     _jinput,
     "instanceNotNullWithComment",
     "Lcom/example/smoke/SimpleInstantiableOne;"),
-    _nout.instance_not_null_with_comment );
+    n_instance_not_null_with_comment );
+  _nout.instance_not_null_with_comment = n_instance_not_null_with_comment;
 }
 
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::StructWithInstance& _ninput){

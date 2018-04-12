@@ -23,17 +23,19 @@
   auto _jresult = {{internalNamespace}}::jni::create_object(_jenv, javaClass);
 {{#fields}}
   {{#hasCustomType}}
-  auto j{{cppField.name}} = convert_to_jni{{#if type.isJavaArray}}_array{{/if}}(_jenv, _ninput.{{cppField.name}});
+  auto j{{cppField.name}} = convert_to_jni{{#if type.isJavaArray}}_array{{/if}}(_jenv, {{>getCppFieldValue}});
   {{internalNamespace}}::jni::set_object_field(_jenv, javaClass, _jresult, "{{javaField.name}}",
   "L{{join javaField.type.packageNames delimiter="/"}}/{{join javaField.type.classNames delimiter="$"}};", j{{cppField.name}});
   _jenv->DeleteLocalRef(j{{cppField.name}});
   {{/hasCustomType}}
   {{^hasCustomType}}
-  auto j{{cppField.name}} = {{#if type.isJavaArray}}convert_to_jni_array(_jenv, {{/if}}_ninput.{{cppField.name}}{{#if type.isJavaArray}}){{/if}};
+  auto j{{cppField.name}} = {{#if type.isJavaArray}}convert_to_jni_array(_jenv, {{/if}}{{>getCppFieldValue}}{{#if type.isJavaArray}}){{/if}};
   {{internalNamespace}}::jni::set_{{javaField.type.literalName}}_field(_jenv, javaClass, _jresult, "{{javaField.name}}", j{{cppField.name}});{{#if type.isJavaArray}}
   _jenv->DeleteLocalRef(j{{cppField.name}});{{/if}}
   {{/hasCustomType}}
 {{/fields}}
   _jenv->DeleteLocalRef(javaClass);
   return _jresult;
-}
+}{{!!
+
+}}{{+getCppFieldValue}}_ninput.{{#if cppGetterName}}{{cppGetterName}}(){{/if}}{{#unless cppGetterName}}{{cppField.name}}{{/unless}}{{/getCppFieldValue}}

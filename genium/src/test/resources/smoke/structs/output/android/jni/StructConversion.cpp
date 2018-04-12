@@ -41,6 +41,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Color& _ninput){
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::Line& _nout ){
   jclass javaClass = _jenv->GetObjectClass(_jinput);
+  ::smoke::Structs::Point n_a{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -49,7 +50,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::L
     _jinput,
     "a",
     "Lcom/example/smoke/Structs$Point;"),
-    _nout.a );
+    n_a );
+  _nout.a = n_a;
+  ::smoke::Structs::Point n_b{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -58,7 +61,8 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::L
     _jinput,
     "b",
     "Lcom/example/smoke/Structs$Point;"),
-    _nout.b );
+    n_b );
+  _nout.b = n_b;
 }
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Line& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/Structs$Line");
@@ -76,6 +80,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Line& _ninput){
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::ColoredLine& _nout ){
   jclass javaClass = _jenv->GetObjectClass(_jinput);
+  ::smoke::Structs::Line n_line{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -84,7 +89,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::C
     _jinput,
     "line",
     "Lcom/example/smoke/Structs$Line;"),
-    _nout.line );
+    n_line );
+  _nout.line = n_line;
+  ::smoke::Structs::Color n_color{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -93,7 +100,8 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::C
     _jinput,
     "color",
     "Lcom/example/smoke/Structs$Color;"),
-    _nout.color );
+    n_color );
+  _nout.color = n_color;
 }
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ColoredLine& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/Structs$ColoredLine");
@@ -124,6 +132,7 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::A
   _nout.string_field = genium::jni::get_string_field(_jenv, javaClass, _jinput, "stringField");
   _nout.boolean_field = genium::jni::get_boolean_field(_jenv, javaClass, _jinput, "booleanField");
   _nout.bytes_field = genium::jni::get_byte_array_field(_jenv, javaClass, _jinput, "bytesField");
+  ::smoke::Structs::Point n_point_field{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -132,7 +141,8 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::A
     _jinput,
     "pointField",
     "Lcom/example/smoke/Structs$Point;"),
-    _nout.point_field );
+    n_point_field );
+  _nout.point_field = n_point_field;
 }
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AllTypesStruct& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/Structs$AllTypesStruct");
@@ -173,7 +183,8 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AllTypesStruct& _n
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::ExternalStruct& _nout ){
   jclass javaClass = _jenv->GetObjectClass(_jinput);
   _nout.string_field = genium::jni::get_string_field(_jenv, javaClass, _jinput, "stringField");
-  _nout.external_string_field = genium::jni::get_string_field(_jenv, javaClass, _jinput, "externalStringField");
+  _nout.set_some_string(genium::jni::get_string_field(_jenv, javaClass, _jinput, "externalStringField"));
+  ::std::vector< int8_t > n_external_array_field{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -182,7 +193,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::E
     _jinput,
     "externalArrayField",
     "Ljava/util/List;"),
-    _nout.external_array_field );
+    n_external_array_field );
+  _nout.set_some_array(n_external_array_field);
+  ::smoke::Structs::AnotherExternalStruct n_external_struct_field{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -191,20 +204,21 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::E
     _jinput,
     "externalStructField",
     "Lcom/example/smoke/Structs$AnotherExternalStruct;"),
-    _nout.external_struct_field );
+    n_external_struct_field );
+  _nout.set_some_struct(n_external_struct_field);
 }
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ExternalStruct& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/Structs$ExternalStruct");
   auto _jresult = genium::jni::create_object(_jenv, javaClass);
   auto jstring_field = _ninput.string_field;
   genium::jni::set_string_field(_jenv, javaClass, _jresult, "stringField", jstring_field);
-  auto jexternal_string_field = _ninput.external_string_field;
+  auto jexternal_string_field = _ninput.get_some_string();
   genium::jni::set_string_field(_jenv, javaClass, _jresult, "externalStringField", jexternal_string_field);
-  auto jexternal_array_field = convert_to_jni(_jenv, _ninput.external_array_field);
+  auto jexternal_array_field = convert_to_jni(_jenv, _ninput.get_some_array());
   genium::jni::set_object_field(_jenv, javaClass, _jresult, "externalArrayField",
   "Ljava/util/List;", jexternal_array_field);
   _jenv->DeleteLocalRef(jexternal_array_field);
-  auto jexternal_struct_field = convert_to_jni(_jenv, _ninput.external_struct_field);
+  auto jexternal_struct_field = convert_to_jni(_jenv, _ninput.get_some_struct());
   genium::jni::set_object_field(_jenv, javaClass, _jresult, "externalStructField",
   "Lcom/example/smoke/Structs$AnotherExternalStruct;", jexternal_struct_field);
   _jenv->DeleteLocalRef(jexternal_struct_field);
@@ -225,6 +239,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AnotherExternalStr
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::StructsInheritance::ColoredLineInherited& _nout ){
   jclass javaClass = _jenv->GetObjectClass(_jinput);
+  ::smoke::Structs::Point n_a{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -233,7 +248,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::StructsInh
     _jinput,
     "a",
     "Lcom/example/smoke/Structs$Point;"),
-    _nout.a );
+    n_a );
+  _nout.a = n_a;
+  ::smoke::Structs::Point n_b{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -242,7 +259,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::StructsInh
     _jinput,
     "b",
     "Lcom/example/smoke/Structs$Point;"),
-    _nout.b );
+    n_b );
+  _nout.b = n_b;
+  ::smoke::Color n_color{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -251,7 +270,8 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::StructsInh
     _jinput,
     "color",
     "Lcom/example/smoke/Color;"),
-    _nout.color );
+    n_color );
+  _nout.color = n_color;
 }
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::StructsInheritance::ColoredLineInherited& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/StructsInheritance$ColoredLineInherited");
@@ -318,6 +338,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::ParentStruct& _ninput){
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::StructsQualifiedType::QualifiedType& _nout ){
   jclass javaClass = _jenv->GetObjectClass(_jinput);
+  ::smoke::Point n_type_collection_point{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -326,7 +347,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::StructsQual
     _jinput,
     "typeCollectionPoint",
     "Lcom/example/smoke/Point;"),
-    _nout.type_collection_point );
+    n_type_collection_point );
+  _nout.type_collection_point = n_type_collection_point;
+  ::smoke::Structs::Point n_interface_point{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -335,7 +358,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::StructsQual
     _jinput,
     "interfacePoint",
     "Lcom/example/smoke/Structs$Point;"),
-    _nout.interface_point );
+    n_interface_point );
+  _nout.interface_point = n_interface_point;
+  ::fire::StructsQualifiedType::TypeCollectionPointsArray n_type_collection_explicit_points{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -344,7 +369,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::StructsQual
     _jinput,
     "typeCollectionExplicitPoints",
     "Ljava/util/List;"),
-    _nout.type_collection_explicit_points );
+    n_type_collection_explicit_points );
+  _nout.type_collection_explicit_points = n_type_collection_explicit_points;
+  ::fire::StructsQualifiedType::InterfacePointsArray n_interface_explicit_points{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -353,7 +380,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::StructsQual
     _jinput,
     "interfaceExplicitPoints",
     "Ljava/util/List;"),
-    _nout.interface_explicit_points );
+    n_interface_explicit_points );
+  _nout.interface_explicit_points = n_interface_explicit_points;
+  ::std::vector< ::smoke::Point > n_type_collection_implicit_points{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -362,7 +391,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::StructsQual
     _jinput,
     "typeCollectionImplicitPoints",
     "Ljava/util/List;"),
-    _nout.type_collection_implicit_points );
+    n_type_collection_implicit_points );
+  _nout.type_collection_implicit_points = n_type_collection_implicit_points;
+  ::std::vector< ::smoke::Structs::Point > n_interface_implicit_points{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -371,7 +402,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::StructsQual
     _jinput,
     "interfaceImplicitPoints",
     "Ljava/util/List;"),
-    _nout.interface_implicit_points );
+    n_interface_implicit_points );
+  _nout.interface_implicit_points = n_interface_implicit_points;
+  ::std::shared_ptr< ::smoke::StructsInstance > n_structs_instance{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -380,7 +413,8 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::StructsQual
     _jinput,
     "structsInstance",
     "Lcom/example/smoke/StructsInstance;"),
-    _nout.structs_instance );
+    n_structs_instance );
+  _nout.structs_instance = n_structs_instance;
 }
 jobject convert_to_jni(JNIEnv* _jenv, const ::fire::StructsQualifiedType::QualifiedType& _ninput){
   auto javaClass = _jenv->FindClass("com/example/fire/StructsQualifiedType$QualifiedType");
@@ -451,6 +485,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Color& _ninput){
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Line& _nout ){
   jclass javaClass = _jenv->GetObjectClass(_jinput);
+  ::smoke::Point n_a{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -459,7 +494,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Line& _nou
     _jinput,
     "a",
     "Lcom/example/smoke/Point;"),
-    _nout.a );
+    n_a );
+  _nout.a = n_a;
+  ::smoke::Point n_b{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -468,7 +505,8 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Line& _nou
     _jinput,
     "b",
     "Lcom/example/smoke/Point;"),
-    _nout.b );
+    n_b );
+  _nout.b = n_b;
 }
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Line& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/Line");
@@ -486,6 +524,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Line& _ninput){
 }
 void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ColoredLine& _nout ){
   jclass javaClass = _jenv->GetObjectClass(_jinput);
+  ::smoke::Line n_line{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -494,7 +533,9 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ColoredLin
     _jinput,
     "line",
     "Lcom/example/smoke/Line;"),
-    _nout.line );
+    n_line );
+  _nout.line = n_line;
+  ::smoke::Color n_color{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -503,7 +544,8 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ColoredLin
     _jinput,
     "color",
     "Lcom/example/smoke/Color;"),
-    _nout.color );
+    n_color );
+  _nout.color = n_color;
 }
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::ColoredLine& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/ColoredLine");
@@ -534,6 +576,7 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::AllTypesSt
   _nout.string_field = genium::jni::get_string_field(_jenv, javaClass, _jinput, "stringField");
   _nout.boolean_field = genium::jni::get_boolean_field(_jenv, javaClass, _jinput, "booleanField");
   _nout.bytes_field = genium::jni::get_byte_array_field(_jenv, javaClass, _jinput, "bytesField");
+  ::smoke::Point n_point_field{};
   convert_from_jni(
     _jenv,
     genium::jni::get_object_field(
@@ -542,7 +585,8 @@ void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::AllTypesSt
     _jinput,
     "pointField",
     "Lcom/example/smoke/Point;"),
-    _nout.point_field );
+    n_point_field );
+  _nout.point_field = n_point_field;
 }
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::AllTypesStruct& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/AllTypesStruct");

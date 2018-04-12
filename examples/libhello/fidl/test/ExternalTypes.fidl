@@ -28,5 +28,12 @@ typeCollection ExternalTypes {
 
     struct ExternalStruct {
         String stringField
+        String externalStringField
+        Int32[] externalArrayField
+        AnotherExternalStruct externalStructField
+    }
+
+    struct AnotherExternalStruct {
+        Int32 intField
     }
 }

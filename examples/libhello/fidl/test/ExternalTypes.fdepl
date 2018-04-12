@@ -24,5 +24,21 @@ define GeniumExtensions for typeCollection external.ExternalTypes
 {
     struct ExternalStruct {
         ExternalType = "include/ExternalTypes.h"
+        externalStringField {
+            ExternalGetter = "get_some_string"
+            ExternalSetter = "set_some_string"
+        }
+        externalArrayField {
+            ExternalGetter = "getSomeArray"
+            ExternalSetter = "setSomeArray"
+        }
+        externalStructField {
+            ExternalGetter = "madnessEnsues"
+            ExternalSetter = "madnessEnsues"
+        }
+    }
+
+    struct AnotherExternalStruct {
+        ExternalType = "include/ExternalTypes.h"
     }
 }

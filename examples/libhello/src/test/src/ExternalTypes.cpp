@@ -18,36 +18,42 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#pragma once
-
-#include <string>
-#include <vector>
+#include "include/ExternalTypes.h"
 
 namespace external
 {
 
-struct AnotherExternalStruct
+std::string
+ExternalStruct::get_some_string( ) const
 {
-   int32_t int_field;
-};
+    return m_some_string;
+}
 
-class ExternalStruct
+void
+ExternalStruct::set_some_string( const std::string& value )
 {
-public:
-    std::string get_some_string( ) const;
-    void set_some_string( const std::string& value );
-    std::vector< int32_t > getSomeArray( ) const;
-    void setSomeArray( const std::vector< int32_t >& value );
-    AnotherExternalStruct madnessEnsues( ) const;
-    void madnessEnsues( const AnotherExternalStruct& value );
+    m_some_string = value;
+}
 
-public:
-    std::string string_field;
+std::vector< int32_t >
+ExternalStruct::getSomeArray( ) const
+{
+    return m_some_array;
+}
 
-private:
-    std::string m_some_string;
-    std::vector< int32_t > m_some_array;
-    AnotherExternalStruct m_some_struct;
-};
+void ExternalStruct::setSomeArray( const std::vector< int32_t >& value )
+{
+    m_some_array = value;
+}
+
+AnotherExternalStruct ExternalStruct::madnessEnsues( ) const
+{
+    return m_some_struct;
+}
+
+void ExternalStruct::madnessEnsues( const AnotherExternalStruct& value )
+{
+    m_some_struct = value;
+}
 
 }
