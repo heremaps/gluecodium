@@ -213,7 +213,11 @@ public class SwiftStructTemplateTest {
   @Test
   public void generateStructWithStructField() {
     swiftStruct.fields.add(
-        new SwiftField("nested", null, SwiftContainerType.builder("NestedStruct").build(), null));
+        new SwiftField(
+            "nested",
+            null,
+            SwiftContainerType.builder("NestedStruct").cPrefix("C_PREFIX").build(),
+            null));
     String expected =
         "public struct SomeStruct {\n"
             + "    public var nested: NestedStruct\n"
@@ -224,8 +228,12 @@ public class SwiftStructTemplateTest {
             + "\n"
             + "    internal init?(cSomeStruct: _baseRef) {\n"
             + "        do {\n"
+            + "            let nestedHandle = C_PREFIX_nested_get(cSomeStruct)\n"
+            + "            defer {\n"
+            + "                C_PREFIX_release(nestedHandle)\n"
+            + "            }\n"
             + "            guard\n"
-            + "                let nestedUnwrapped = NestedStruct(cNestedStruct: C_PREFIX_nested_get(cSomeStruct))\n"
+            + "                let nestedUnwrapped = NestedStruct(cNestedStruct: nestedHandle)\n"
             + "            else {\n"
             + "                return nil\n"
             + "            }\n"
@@ -240,10 +248,13 @@ public class SwiftStructTemplateTest {
             + "    }\n"
             + "\n"
             + "    internal func fillFunction(_ cSomeStruct: _baseRef) -> Void {\n"
-            + "        let nestedHandle = C_PREFIX_nested_get(cSomeStruct)\n"
-            + "        nested.fillFunction(nestedHandle)\n"
+            + "        let nestedHandle = nested.convertToCType()\n"
+            + "        defer {\n"
+            + "            C_PREFIX_release(nestedHandle)\n"
+            + "        }\n"
+            + "        C_PREFIX_nested_set(cSomeStruct, nestedHandle)\n"
             + "    }\n"
-            + "}";
+            + "}\n";
     String actual = generate(swiftStruct);
     assertEqualsTrimmed("it should generate a struct with field of type String", expected, actual);
   }
