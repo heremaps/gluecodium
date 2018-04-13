@@ -182,10 +182,10 @@ public final class CBridgeImplementationTemplateTest {
             + "}\n"
             + "_baseRef name_stringField_get(_baseRef handle) {\n"
             + "    auto struct_pointer = get_pointer<nameRef>(handle);\n"
-            + "    return reinterpret_cast<_baseRef>( &struct_pointer->baseApiFieldName );\n"
+            + "    return reinterpret_cast<_baseRef>( new std::string(struct_pointer->baseApiFieldName) );\n"
             + "}\n"
             + "void name_stringField_set(_baseRef handle, const char* stringField) {\n"
-            + "    get_pointer<nameRef>(handle)->baseApiFieldName.assign(stringField);\n"
+            + "    get_pointer<nameRef>(handle)->baseApiFieldName = stringField;\n"
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);

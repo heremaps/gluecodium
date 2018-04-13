@@ -38,7 +38,10 @@ public class Maps {
         internal init?(cSomeStruct: _baseRef) {
             do {
                 let valueHandle = smoke_Maps_SomeStruct_value_get(cSomeStruct)
-                value = String(cString:std_string_data_get(valueHandle))
+                defer {
+                    std_string_release(valueHandle)
+                }
+                value = String(cString: std_string_data_get(valueHandle))
             }
         }
         internal func convertToCType() -> _baseRef {

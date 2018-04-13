@@ -50,7 +50,10 @@ public class Enums {
             type = Enums.InternalError.init(rawValue: smoke_Enums_ErrorStruct_type_get(cErrorStruct))!
             do {
                 let messageHandle = smoke_Enums_ErrorStruct_message_get(cErrorStruct)
-                message = String(cString:std_string_data_get(messageHandle))
+                defer {
+                    std_string_release(messageHandle)
+                }
+                message = String(cString: std_string_data_get(messageHandle))
             }
         }
 

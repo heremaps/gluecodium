@@ -21,10 +21,10 @@ void smoke_Maps_SomeStruct_release(_baseRef handle) {
 }
 _baseRef smoke_Maps_SomeStruct_value_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Maps::SomeStruct>(handle);
-    return reinterpret_cast<_baseRef>( &struct_pointer->value );
+    return reinterpret_cast<_baseRef>( new std::string(struct_pointer->value) );
 }
 void smoke_Maps_SomeStruct_value_set(_baseRef handle, const char* value) {
-    get_pointer<smoke::Maps::SomeStruct>(handle)->value.assign(value);
+    get_pointer<smoke::Maps::SomeStruct>(handle)->value = value;
 }
 _baseRef smoke_Maps_StructWithMap_create() {
     return reinterpret_cast<_baseRef>( new smoke::Maps::StructWithMap() );

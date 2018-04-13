@@ -166,10 +166,10 @@ void smoke_Structs_AllTypesStruct_doubleField_set(_baseRef handle, double double
 }
 _baseRef smoke_Structs_AllTypesStruct_stringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::AllTypesStruct>(handle);
-    return reinterpret_cast<_baseRef>( &struct_pointer->string_field );
+    return reinterpret_cast<_baseRef>( new std::string(struct_pointer->string_field) );
 }
 void smoke_Structs_AllTypesStruct_stringField_set(_baseRef handle, const char* stringField) {
-    get_pointer<smoke::Structs::AllTypesStruct>(handle)->string_field.assign(stringField);
+    get_pointer<smoke::Structs::AllTypesStruct>(handle)->string_field = stringField;
 }
 bool smoke_Structs_AllTypesStruct_booleanField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::AllTypesStruct>(handle);
@@ -197,17 +197,17 @@ void smoke_Structs_ExternalStruct_release(_baseRef handle) {
 }
 _baseRef smoke_Structs_ExternalStruct_stringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::ExternalStruct>(handle);
-    return reinterpret_cast<_baseRef>( &struct_pointer->string_field );
+    return reinterpret_cast<_baseRef>( new std::string(struct_pointer->string_field) );
 }
 void smoke_Structs_ExternalStruct_stringField_set(_baseRef handle, const char* stringField) {
-    get_pointer<smoke::Structs::ExternalStruct>(handle)->string_field.assign(stringField);
+    get_pointer<smoke::Structs::ExternalStruct>(handle)->string_field = stringField;
 }
 _baseRef smoke_Structs_ExternalStruct_externalStringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::ExternalStruct>(handle);
-    return reinterpret_cast<_baseRef>( &struct_pointer->external_string_field );
+    return reinterpret_cast<_baseRef>( new std::string(struct_pointer->external_string_field) );
 }
 void smoke_Structs_ExternalStruct_externalStringField_set(_baseRef handle, const char* externalStringField) {
-    get_pointer<smoke::Structs::ExternalStruct>(handle)->external_string_field.assign(externalStringField);
+    get_pointer<smoke::Structs::ExternalStruct>(handle)->external_string_field = externalStringField;
 }
 _baseRef smoke_Structs_ExternalStruct_externalArrayField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::ExternalStruct>(handle);

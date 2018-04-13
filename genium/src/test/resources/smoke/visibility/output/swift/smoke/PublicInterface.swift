@@ -47,7 +47,10 @@ internal struct InternalStruct {
     internal init?(cInternalStruct: _baseRef) {
         do {
             let stringFieldHandle = smoke_PublicInterface_InternalStruct_stringField_get(cInternalStruct)
-            stringField = String(cString:std_string_data_get(stringFieldHandle))
+            defer {
+                std_string_release(stringFieldHandle)
+            }
+            stringField = String(cString: std_string_data_get(stringFieldHandle))
         }
     }
     internal func convertToCType() -> _baseRef {

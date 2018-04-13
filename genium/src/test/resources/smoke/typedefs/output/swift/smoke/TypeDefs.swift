@@ -76,7 +76,10 @@ public class TypeDefs {
         internal init?(cTestStruct: _baseRef) {
             do {
                 let somethingHandle = smoke_TypeDefs_TestStruct_something_get(cTestStruct)
-                something = String(cString:std_string_data_get(somethingHandle))
+                defer {
+                    std_string_release(somethingHandle)
+                }
+                something = String(cString: std_string_data_get(somethingHandle))
             }
         }
 
