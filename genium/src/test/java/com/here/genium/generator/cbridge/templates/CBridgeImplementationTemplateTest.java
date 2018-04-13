@@ -131,7 +131,7 @@ public final class CBridgeImplementationTemplateTest {
   }
 
   @Test
-  public void nestedStructFieldCreatesGetterOnly() {
+  public void nestedStructFieldCreatesGetterAndSetter() {
     CInterface cInterface = new CInterface("");
     final CType type = new CType("nameRef");
     CStruct struct = new CStruct("name", "baseName", new CppTypeInfo(type));
@@ -153,7 +153,10 @@ public final class CBridgeImplementationTemplateTest {
             + "}\n"
             + "NestedRef name_structField_get(_baseRef handle) {\n"
             + "    auto struct_pointer = get_pointer<nameRef>(handle);\n"
-            + "    return reinterpret_cast<_baseRef>( &struct_pointer->baseApiFieldName );\n"
+            + "    return reinterpret_cast<_baseRef>( new NestedRef(struct_pointer->baseApiFieldName) );\n"
+            + "}\n"
+            + "void name_structField_set(_baseRef handle, NestedRef structField) {\n"
+            + "    get_pointer<nameRef>(handle)->baseApiFieldName = *get_pointer<NestedRef>(structField);\n"
             + "}\n";
     final String generated = this.generate(cInterface);
     TemplateComparison.assertEqualImplementationContent(expected, generated);

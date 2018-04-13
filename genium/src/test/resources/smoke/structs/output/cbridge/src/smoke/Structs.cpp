@@ -68,11 +68,17 @@ void smoke_Structs_Line_release(_baseRef handle) {
 }
 _baseRef smoke_Structs_Line_a_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::Line>(handle);
-    return reinterpret_cast<_baseRef>( &struct_pointer->a );
+    return reinterpret_cast<_baseRef>( new smoke::Structs::Point(struct_pointer->a) );
+}
+void smoke_Structs_Line_a_set(_baseRef handle, _baseRef a) {
+    get_pointer<smoke::Structs::Line>(handle)->a = *get_pointer<smoke::Structs::Point>(a);
 }
 _baseRef smoke_Structs_Line_b_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::Line>(handle);
-    return reinterpret_cast<_baseRef>( &struct_pointer->b );
+    return reinterpret_cast<_baseRef>( new smoke::Structs::Point(struct_pointer->b) );
+}
+void smoke_Structs_Line_b_set(_baseRef handle, _baseRef b) {
+    get_pointer<smoke::Structs::Line>(handle)->b = *get_pointer<smoke::Structs::Point>(b);
 }
 _baseRef smoke_Structs_ColoredLine_create() {
     return reinterpret_cast<_baseRef>( new smoke::Structs::ColoredLine() );
@@ -82,11 +88,17 @@ void smoke_Structs_ColoredLine_release(_baseRef handle) {
 }
 _baseRef smoke_Structs_ColoredLine_line_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::ColoredLine>(handle);
-    return reinterpret_cast<_baseRef>( &struct_pointer->line );
+    return reinterpret_cast<_baseRef>( new smoke::Structs::Line(struct_pointer->line) );
+}
+void smoke_Structs_ColoredLine_line_set(_baseRef handle, _baseRef line) {
+    get_pointer<smoke::Structs::ColoredLine>(handle)->line = *get_pointer<smoke::Structs::Line>(line);
 }
 _baseRef smoke_Structs_ColoredLine_color_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::ColoredLine>(handle);
-    return reinterpret_cast<_baseRef>( &struct_pointer->color );
+    return reinterpret_cast<_baseRef>( new smoke::Structs::Color(struct_pointer->color) );
+}
+void smoke_Structs_ColoredLine_color_set(_baseRef handle, _baseRef color) {
+    get_pointer<smoke::Structs::ColoredLine>(handle)->color = *get_pointer<smoke::Structs::Color>(color);
 }
 _baseRef smoke_Structs_AllTypesStruct_create() {
     return reinterpret_cast<_baseRef>( new smoke::Structs::AllTypesStruct() );
@@ -187,7 +199,10 @@ void smoke_Structs_AllTypesStruct_bytesField_set(_baseRef handle, const uint8_t*
 }
 _baseRef smoke_Structs_AllTypesStruct_pointField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::AllTypesStruct>(handle);
-    return reinterpret_cast<_baseRef>( &struct_pointer->point_field );
+    return reinterpret_cast<_baseRef>( new smoke::Structs::Point(struct_pointer->point_field) );
+}
+void smoke_Structs_AllTypesStruct_pointField_set(_baseRef handle, _baseRef pointField) {
+    get_pointer<smoke::Structs::AllTypesStruct>(handle)->point_field = *get_pointer<smoke::Structs::Point>(pointField);
 }
 _baseRef smoke_Structs_ExternalStruct_create() {
     return reinterpret_cast<_baseRef>( new smoke::Structs::ExternalStruct() );
@@ -218,7 +233,10 @@ void smoke_Structs_ExternalStruct_externalArrayField_set(_baseRef handle, _baseR
 }
 _baseRef smoke_Structs_ExternalStruct_externalStructField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Structs::ExternalStruct>(handle);
-    return reinterpret_cast<_baseRef>( &struct_pointer->external_struct_field );
+    return reinterpret_cast<_baseRef>( new smoke::Structs::AnotherExternalStruct(struct_pointer->external_struct_field) );
+}
+void smoke_Structs_ExternalStruct_externalStructField_set(_baseRef handle, _baseRef externalStructField) {
+    get_pointer<smoke::Structs::ExternalStruct>(handle)->external_struct_field = *get_pointer<smoke::Structs::AnotherExternalStruct>(externalStructField);
 }
 _baseRef smoke_Structs_AnotherExternalStruct_create() {
     return reinterpret_cast<_baseRef>( new smoke::Structs::AnotherExternalStruct() );
