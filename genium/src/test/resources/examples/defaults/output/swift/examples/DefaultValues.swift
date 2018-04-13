@@ -50,7 +50,10 @@ public class DefaultValues {
             boolField = examples_DefaultValues_StructWithDefaults_boolField_get(cStructWithDefaults)
             do {
                 let stringFieldHandle = examples_DefaultValues_StructWithDefaults_stringField_get(cStructWithDefaults)
-                stringField = String(cString:std_string_data_get(stringFieldHandle))
+                defer {
+                    std_string_release(stringFieldHandle)
+                }
+                stringField = String(cString: std_string_data_get(stringFieldHandle))
             }
             enumField = DefaultValues.SomeEnum.init(rawValue: examples_DefaultValues_StructWithDefaults_enumField_get(cStructWithDefaults))!
         }

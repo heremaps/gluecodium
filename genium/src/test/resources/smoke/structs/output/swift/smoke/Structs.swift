@@ -214,7 +214,10 @@ public class Structs {
             doubleField = smoke_Structs_AllTypesStruct_doubleField_get(cAllTypesStruct)
             do {
                 let stringFieldHandle = smoke_Structs_AllTypesStruct_stringField_get(cAllTypesStruct)
-                stringField = String(cString:std_string_data_get(stringFieldHandle))
+                defer {
+                    std_string_release(stringFieldHandle)
+                }
+                stringField = String(cString: std_string_data_get(stringFieldHandle))
             }
             booleanField = smoke_Structs_AllTypesStruct_booleanField_get(cAllTypesStruct)
             do {
@@ -277,11 +280,17 @@ public class Structs {
         internal init?(cExternalStruct: _baseRef) {
             do {
                 let stringFieldHandle = smoke_Structs_ExternalStruct_stringField_get(cExternalStruct)
-                stringField = String(cString:std_string_data_get(stringFieldHandle))
+                defer {
+                    std_string_release(stringFieldHandle)
+                }
+                stringField = String(cString: std_string_data_get(stringFieldHandle))
             }
             do {
                 let externalStringFieldHandle = smoke_Structs_ExternalStruct_externalStringField_get(cExternalStruct)
-                externalStringField = String(cString:std_string_data_get(externalStringFieldHandle))
+                defer {
+                    std_string_release(externalStringFieldHandle)
+                }
+                externalStringField = String(cString: std_string_data_get(externalStringFieldHandle))
             }
             externalArrayField = Int8List(smoke_Structs_ExternalStruct_externalArrayField_get(cExternalStruct))
             do {

@@ -187,7 +187,10 @@ public struct AllTypesStruct {
         doubleField = smoke_TypeCollection_AllTypesStruct_doubleField_get(cAllTypesStruct)
         do {
             let stringFieldHandle = smoke_TypeCollection_AllTypesStruct_stringField_get(cAllTypesStruct)
-            stringField = String(cString:std_string_data_get(stringFieldHandle))
+            defer {
+                std_string_release(stringFieldHandle)
+            }
+            stringField = String(cString: std_string_data_get(stringFieldHandle))
         }
         booleanField = smoke_TypeCollection_AllTypesStruct_booleanField_get(cAllTypesStruct)
         do {
