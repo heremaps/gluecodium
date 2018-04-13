@@ -65,8 +65,12 @@ internal init?(c{{simpleName}}: _baseRef) {
 {{/assignDataType}}
 
 {{+assignStruct}}do {
+    let {{name}}Handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    defer {
+        {{type.cPrefix}}_release({{name}}Handle)
+    }
     guard
-        let {{name}}Unwrapped = {{type}}(c{{type.simpleName}}: {{cPrefix}}_{{name}}_get(c{{structName}}))
+        let {{name}}Unwrapped = {{type}}(c{{type.simpleName}}: {{name}}Handle)
     else {
         return nil
     }

@@ -77,8 +77,12 @@ public class PublicClass {
         }
         internal init?(cPublicStruct: _baseRef) {
             do {
+                let internalFieldHandle = smoke_PublicClass_PublicStruct_internalField_get(cPublicStruct)
+                defer {
+                    smoke_PublicClass_InternalStruct_release(internalFieldHandle)
+                }
                 guard
-                    let internalFieldUnwrapped = PublicClass.InternalStruct(cInternalStruct: smoke_PublicClass_PublicStruct_internalField_get(cPublicStruct))
+                    let internalFieldUnwrapped = PublicClass.InternalStruct(cInternalStruct: internalFieldHandle)
                 else {
                     return nil
                 }
@@ -91,8 +95,11 @@ public class PublicClass {
             return result
         }
         internal func fillFunction(_ cPublicStruct: _baseRef) -> Void {
-            let internalFieldHandle = smoke_PublicClass_PublicStruct_internalField_get(cPublicStruct)
-            internalField.fillFunction(internalFieldHandle)
+            let internalFieldHandle = internalField.convertToCType()
+            defer {
+                smoke_PublicClass_InternalStruct_release(internalFieldHandle)
+            }
+            smoke_PublicClass_PublicStruct_internalField_set(cPublicStruct, internalFieldHandle)
         }
     }
 

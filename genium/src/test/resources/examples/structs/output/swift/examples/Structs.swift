@@ -51,34 +51,37 @@ public class Structs {
     public struct IdentifiableSyncResult {
         public var id: Int32
         public var syncResult: Structs.SyncResult
-
         public init(id: Int32, syncResult: Structs.SyncResult) {
             self.id = id
             self.syncResult = syncResult
         }
-
         internal init?(cIdentifiableSyncResult: _baseRef) {
             id = examples_Structs_IdentifiableSyncResult_id_get(cIdentifiableSyncResult)
             do {
+                let syncResultHandle = examples_Structs_IdentifiableSyncResult_syncResult_get(cIdentifiableSyncResult)
+                defer {
+                    examples_Structs_SyncResult_release(syncResultHandle)
+                }
                 guard
-                    let syncResultUnwrapped = Structs.SyncResult(cSyncResult: examples_Structs_IdentifiableSyncResult_syncResult_get(cIdentifiableSyncResult))
+                    let syncResultUnwrapped = Structs.SyncResult(cSyncResult: syncResultHandle)
                 else {
                     return nil
                 }
                 syncResult = syncResultUnwrapped
             }
         }
-
         internal func convertToCType() -> _baseRef {
             let result = examples_Structs_IdentifiableSyncResult_create()
             fillFunction(result)
             return result
         }
-
         internal func fillFunction(_ cIdentifiableSyncResult: _baseRef) -> Void {
             examples_Structs_IdentifiableSyncResult_id_set(cIdentifiableSyncResult, id)
-            let syncResultHandle = examples_Structs_IdentifiableSyncResult_syncResult_get(cIdentifiableSyncResult)
-            syncResult.fillFunction(syncResultHandle)
+            let syncResultHandle = syncResult.convertToCType()
+            defer {
+                examples_Structs_SyncResult_release(syncResultHandle)
+            }
+            examples_Structs_IdentifiableSyncResult_syncResult_set(cIdentifiableSyncResult, syncResultHandle)
         }
     }
 
