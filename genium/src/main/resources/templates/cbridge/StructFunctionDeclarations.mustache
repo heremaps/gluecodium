@@ -24,6 +24,6 @@ void {{name}}_release(_baseRef handle);
 {{#set structname=name}}
 {{#fields}}
 {{type.functionReturnType}} {{structname}}_{{name}}_get(_baseRef handle);
-{{^type.isStruct}}void {{structname}}_{{name}}_set(_baseRef handle, {{join setterParameters delimiter=", "}});{{/type.isStruct}}
+void {{structname}}_{{name}}_set(_baseRef handle, {{join setterParameters delimiter=", "}});
 {{/fields}}
 {{/set}}

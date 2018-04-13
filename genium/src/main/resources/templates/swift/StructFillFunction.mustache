@@ -57,8 +57,11 @@ internal func fillFunction(_ c{{simpleName}}: _baseRef) -> Void {
 }
 {{/fillDataType}}
 
-{{+fillStruct}}let {{name}}Handle = {{cPrefix}}_{{name}}_get(c{{structName}})
-{{name}}.fillFunction({{name}}Handle)
+{{+fillStruct}}let {{name}}Handle = {{name}}.convertToCType()
+defer {
+    {{type.cPrefix}}_release({{name}}Handle)
+}
+{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}Handle)
 {{/fillStruct}}
 
 {{+fillClass}}{{cPrefix}}_{{name}}_set(c{{structName}}, getRef({{name}}).ref)
