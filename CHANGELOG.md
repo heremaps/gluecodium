@@ -1,6 +1,6 @@
 # HERE Genium project Release Notes
 
-## Unreleased
+## 3.0.0
 - Breaking changes:
   + Renamed Transpiler to Genium.
 - Features:
