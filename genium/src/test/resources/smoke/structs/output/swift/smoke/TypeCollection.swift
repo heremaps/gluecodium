@@ -202,13 +202,16 @@ public struct AllTypesStruct {
         }
         booleanField = smoke_TypeCollection_AllTypesStruct_booleanField_get(cAllTypesStruct)
         do {
-            let bytesFieldFieldHandle = smoke_TypeCollection_AllTypesStruct_bytesField_get(cAllTypesStruct)
+            let bytesFieldHandle = smoke_TypeCollection_AllTypesStruct_bytesField_get(cAllTypesStruct)
+            defer {
+                byteArray_release(bytesFieldHandle)
+            }
             guard
-                let dataHandle = byteArray_data_get(bytesFieldFieldHandle)
+                let dataHandle = byteArray_data_get(bytesFieldHandle)
             else {
                 return nil
             }
-            bytesField = Data(bytes: dataHandle, count: Int(byteArray_size_get(bytesFieldFieldHandle)))
+            bytesField = Data(bytes: dataHandle, count: Int(byteArray_size_get(bytesFieldHandle)))
         }
         do {
             let pointFieldHandle = smoke_TypeCollection_AllTypesStruct_pointField_get(cAllTypesStruct)
