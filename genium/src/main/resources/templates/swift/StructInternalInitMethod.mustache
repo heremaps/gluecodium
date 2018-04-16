@@ -92,5 +92,11 @@ internal init?(c{{simpleName}}: _baseRef) {
 }
 {{/assignClass}}{{!!
 
-}}{{+assignDictionary}}{{name}} = convert{{type.name}}FromCType({{cPrefix}}_{{name}}_get(c{{structName}}))
+}}{{+assignDictionary}}do {
+    let {{name}}Handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    defer {
+        {{type.cPrefix}}_release({{name}}Handle)
+    }
+    {{name}} = convert{{type.name}}FromCType({{name}}Handle)
+}
 {{/assignDictionary}}

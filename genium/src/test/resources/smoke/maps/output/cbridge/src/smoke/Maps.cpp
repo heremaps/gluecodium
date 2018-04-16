@@ -34,7 +34,7 @@ void smoke_Maps_StructWithMap_release(_baseRef handle) {
 }
 _baseRef smoke_Maps_StructWithMap_errorMapping_get(_baseRef handle) {
     auto struct_pointer = get_pointer<smoke::Maps::StructWithMap>(handle);
-    return reinterpret_cast<_baseRef>( &struct_pointer->error_mapping );
+    return reinterpret_cast<_baseRef>( new std::unordered_map<int32_t, std::string>(struct_pointer->error_mapping) );
 }
 void smoke_Maps_StructWithMap_errorMapping_set(_baseRef handle, _baseRef errorMapping) {
     get_pointer<smoke::Maps::StructWithMap>(handle)->error_mapping = *get_pointer<std::unordered_map<int32_t, std::string>>(errorMapping);

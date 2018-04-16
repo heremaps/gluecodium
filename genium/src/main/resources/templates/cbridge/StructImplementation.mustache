@@ -33,6 +33,7 @@ void {{name}}_release(_baseRef handle) {
 {{#switch type.typeCategory.toString}}
     {{#case "BUILTIN_SIMPLE"}}return struct_pointer->{{baseLayerName}};{{/case}}{{!!
     }}{{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>(struct_pointer->{{baseLayerName}});{{/case}}{{!!
+    }}{{#case "MAP" break=false}}{{/case}}{{!!
     }}{{#case "ARRAY"}}return reinterpret_cast<_baseRef>( new {{type.baseApi}}(struct_pointer->{{baseLayerName}}) );{{/case}}{{!!
     }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
     }}{{#case "STRUCT"}}return reinterpret_cast<_baseRef>( new {{type.name}}(struct_pointer->{{baseLayerName}}) );{{/case}}{{!!

@@ -60,7 +60,13 @@ public class Maps {
             self.errorMapping = errorMapping
         }
         internal init?(cStructWithMap: _baseRef) {
-            errorMapping = convertMaps_ErrorCodeToMessageMapFromCType(smoke_Maps_StructWithMap_errorMapping_get(cStructWithMap))
+            do {
+                let errorMappingHandle = smoke_Maps_StructWithMap_errorMapping_get(cStructWithMap)
+                defer {
+                    smoke_Maps_ErrorCodeToMessageMap_release(errorMappingHandle)
+                }
+                errorMapping = convertMaps_ErrorCodeToMessageMapFromCType(errorMappingHandle)
+            }
         }
         internal func convertToCType() -> _baseRef {
             let result = smoke_Maps_StructWithMap_create()
