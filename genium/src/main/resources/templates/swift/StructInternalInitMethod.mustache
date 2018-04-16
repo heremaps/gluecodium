@@ -54,13 +54,16 @@ internal init?(c{{simpleName}}: _baseRef) {
 {{/assignStringType}}
 
 {{+assignDataType}}do {
-    let {{name}}FieldHandle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    let {{name}}Handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    defer {
+        byteArray_release({{name}}Handle)
+    }
     guard
-        let dataHandle = byteArray_data_get({{name}}FieldHandle)
+        let dataHandle = byteArray_data_get({{name}}Handle)
     else {
         return nil
     }
-    {{name}} = Data(bytes: dataHandle, count: Int(byteArray_size_get({{name}}FieldHandle)))
+    {{name}} = Data(bytes: dataHandle, count: Int(byteArray_size_get({{name}}Handle)))
 }
 {{/assignDataType}}
 
