@@ -219,13 +219,16 @@ public class Structs {
             }
             booleanField = smoke_Structs_AllTypesStruct_booleanField_get(cAllTypesStruct)
             do {
-                let bytesFieldFieldHandle = smoke_Structs_AllTypesStruct_bytesField_get(cAllTypesStruct)
+                let bytesFieldHandle = smoke_Structs_AllTypesStruct_bytesField_get(cAllTypesStruct)
+                defer {
+                    byteArray_release(bytesFieldHandle)
+                }
                 guard
-                    let dataHandle = byteArray_data_get(bytesFieldFieldHandle)
+                    let dataHandle = byteArray_data_get(bytesFieldHandle)
                 else {
                     return nil
                 }
-                bytesField = Data(bytes: dataHandle, count: Int(byteArray_size_get(bytesFieldFieldHandle)))
+                bytesField = Data(bytes: dataHandle, count: Int(byteArray_size_get(bytesFieldHandle)))
             }
             do {
                 let pointFieldHandle = smoke_Structs_AllTypesStruct_pointField_get(cAllTypesStruct)
