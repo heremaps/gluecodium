@@ -170,6 +170,41 @@ FDEPL:
         }
     }
 
+### Struct field: ExternalGetter/ExternalSetter
+
+These FDEPL properties control whether the accessor methods are used as a source of data for the
+given Franca struct. Default value is `null`, i.e. the struct field is used as a data source by the
+"glue layer" generated code (i.e. JNI and CBridge). If a non-empty values are given, the given
+getter and setter function are used instead. This property has no effect on generated code for
+public APIs (i.e. C++, Java, and Swift).
+
+**Note:** The Franca struct which contains the field should be marked with "ExternalType" property
+(see above). Both "ExternalGetter" and "ExternalSetter" properties have to be specified at the same
+time (or not at all).
+
+FIDL:
+
+    package example
+
+    typeCollection ExampleTypeCollection {
+        struct exampleStruct {
+            String exampleField
+        }
+    }
+
+FDEPL:
+
+    define GeniumExtensions for typeCollection example.ExampleTypeCollection
+    {
+        struct exampleStruct {
+            ExternalType = "example/ExampleStruct.h"
+            exampleField {
+                ExternalGetter = "get_example_field"
+                ExternalSetter = "set_example_field"
+            }
+        }
+    }
+
 ### Struct field: DefaultValue
 
 This FDEPL property controls whether a default value initializer is generated for the given
