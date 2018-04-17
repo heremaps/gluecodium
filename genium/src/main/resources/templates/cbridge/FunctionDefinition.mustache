@@ -56,7 +56,7 @@
 
 
 }}{{+delegateConversion}}{{#switch mappedType.typeCategory.toString}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER"}}std::vector<uint8_t>({{name}}_ptr, {{name}}_ptr + {{name}}_size){{/case}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER"}}std::make_shared< std::vector< uint8_t > >({{name}}_ptr, {{name}}_ptr + {{name}}_size){{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}std::string({{name}}){{/case}}{{!!
     }}{{#case "STRUCT" break=false}}{{/case}}{{!!
     }}{{#case "CLASS"}}*get_pointer<{{mappedType.name}}>({{name}}){{/case}}{{!!
