@@ -28,4 +28,11 @@ UseExternalTypes::extract_external_struct(
 {
     return nested_struct.struct_field;
 }
+
+external::even_more_external::AlienStructure
+UseExternalTypes::extract_another_external_struct(
+    const UseExternalTypes::StructWithExternalStruct& nested_struct )
+{
+    return nested_struct.struct_field.madnessEnsues( );
+}
 }
