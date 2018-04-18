@@ -60,7 +60,7 @@ public class CBridgeTypeMapperTest {
 
   private final CTypeMapper typeMapper =
       new CTypeMapper(
-          mock(CppIncludeResolver.class), mock(CBridgeIncludeResolver.class), "::FooHash");
+          mock(CppIncludeResolver.class), mock(CBridgeIncludeResolver.class), "::FooHash", null);
 
   @Before
   public void setUp() {
