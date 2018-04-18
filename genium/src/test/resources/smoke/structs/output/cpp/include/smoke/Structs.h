@@ -68,7 +68,7 @@ static ::smoke::Structs::ColoredLine return_colored_line( const ::smoke::Structs
 static ::smoke::Structs::AllTypesStruct return_all_types_struct( const ::smoke::Structs::AllTypesStruct& input );
 static ::smoke::Structs::AllTypesStruct modify_all_types_struct( const ::smoke::Structs::AllTypesStruct& input );
 static ::smoke::Structs::ExternalStruct get_external_struct(  );
-
+static ::fire::SomeVeryExternalStruct get_another_external_struct(  );
 };
 
 }

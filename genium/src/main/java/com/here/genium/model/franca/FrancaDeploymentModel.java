@@ -102,6 +102,10 @@ public class FrancaDeploymentModel {
     return getString(francaStruct, "ExternalType");
   }
 
+  public String getExternalName(final FStructType francaStruct) {
+    return getString(francaStruct, "ExternalName");
+  }
+
   public String getExternalGetter(final FField francaField) {
     return getString(francaField, "ExternalGetter");
   }
