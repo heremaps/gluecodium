@@ -457,11 +457,11 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
         TemplateComparator.expect(STD_NEW_INCLUDE)
             .expect(
                 "_baseRef cbridge_test_TestInterface_SomeStruct_create() {\n"
-                    + "    return reinterpret_cast<_baseRef>( new cbridge::test::TestInterface::SomeStruct() );\n"
+                    + "    return reinterpret_cast<_baseRef>( new ::cbridge::test::TestInterface::SomeStruct() );\n"
                     + "}\n")
             .expect(
                 "void cbridge_test_TestInterface_SomeStruct_release(_baseRef handle) {\n"
-                    + "    delete get_pointer<cbridge::test::TestInterface::SomeStruct>(handle);\n"
+                    + "    delete get_pointer<::cbridge::test::TestInterface::SomeStruct>(handle);\n"
                     + "}\n")
             .build();
 
@@ -519,12 +519,12 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(
                 "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_SomeStruct_swiftFieldName_get(_baseRef handle) {\n"
-                    + "    auto struct_pointer = get_pointer<cbridge::test::TestInterface::SomeStruct>(handle);\n"
+                    + "    auto struct_pointer = get_pointer<::cbridge::test::TestInterface::SomeStruct>(handle);\n"
                     + "    return static_cast<cbridge_test_TestTypeCollection_TestEnum>(struct_pointer->cppFieldName);\n"
                     + "}\n")
             .expect(
                 "void cbridge_test_TestInterface_SomeStruct_swiftFieldName_set(_baseRef handle, cbridge_test_TestTypeCollection_TestEnum swiftFieldName) {\n"
-                    + "    get_pointer<cbridge::test::TestInterface::SomeStruct>(handle)->cppFieldName = static_cast<cbridge::test::TestEnum>(swiftFieldName);\n"
+                    + "    get_pointer<::cbridge::test::TestInterface::SomeStruct>(handle)->cppFieldName = static_cast<::cbridge::test::TestEnum>(swiftFieldName);\n"
                     + "}\n")
             .build();
 
@@ -559,7 +559,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     TemplateComparator expectedImplementation =
         TemplateComparator.expect(
                 "cbridge_test_TestTypeCollection_TestEnum cbridge_test_TestInterface_functionName(cbridge_test_TestTypeCollection_TestEnum input) {\n"
-                    + "    return static_cast<cbridge_test_TestTypeCollection_TestEnum>(::cbridge::test::TestInterface::function_name(static_cast<cbridge::test::TestEnum>(input)));\n"
+                    + "    return static_cast<cbridge_test_TestTypeCollection_TestEnum>(::cbridge::test::TestInterface::function_name(static_cast<::cbridge::test::TestEnum>(input)));\n"
                     + "}\n")
             .build();
 
