@@ -41,17 +41,20 @@ ExternalStruct::getSomeArray( ) const
     return m_some_array;
 }
 
-void ExternalStruct::setSomeArray( const std::vector< int32_t >& value )
+void
+ExternalStruct::setSomeArray( const std::vector< int32_t >& value )
 {
     m_some_array = value;
 }
 
-AnotherExternalStruct ExternalStruct::madnessEnsues( ) const
+even_more_external::AlienStructure
+ExternalStruct::madnessEnsues( ) const
 {
     return m_some_struct;
 }
 
-void ExternalStruct::madnessEnsues( const AnotherExternalStruct& value )
+void
+ExternalStruct::madnessEnsues( const even_more_external::AlienStructure& value )
 {
     m_some_struct = value;
 }
