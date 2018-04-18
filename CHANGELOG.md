@@ -4,6 +4,8 @@
 - Features:
   + Added FDEPL properties "ExternalGetter" and "ExternalSetter" for enabling the usage of accessor
     methods as a JNI/CBridge data source for struct fields of a struct marked with "ExternalType".
+  + Added FDEPL property "ExternalName" for "renaming" struct types marked with "ExternalType" in
+    C++, i.e. allowing the C++ name to differ from what is specified in the FIDL file.
 
 ## 3.0.1
 - Bug fixes:

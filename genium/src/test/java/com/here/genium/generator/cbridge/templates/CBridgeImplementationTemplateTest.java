@@ -50,7 +50,7 @@ public final class CBridgeImplementationTemplateTest {
 
   private final CTypeMapper typeMapper =
       new CTypeMapper(
-          mock(CppIncludeResolver.class), mock(CBridgeIncludeResolver.class), null, null);
+          mock(CppIncludeResolver.class), mock(CBridgeIncludeResolver.class), null, null, null);
 
   private String generate(final CInterface iface) {
     return CBridgeGenerator.generateImplementationContent(iface);

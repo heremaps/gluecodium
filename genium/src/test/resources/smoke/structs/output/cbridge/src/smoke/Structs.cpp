@@ -233,23 +233,23 @@ void smoke_Structs_ExternalStruct_externalArrayField_set(_baseRef handle, _baseR
 }
 _baseRef smoke_Structs_ExternalStruct_externalStructField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::ExternalStruct>(handle);
-    return reinterpret_cast<_baseRef>( new ::smoke::Structs::AnotherExternalStruct(struct_pointer->get_some_struct()) );
+    return reinterpret_cast<_baseRef>( new ::fire::SomeVeryExternalStruct(struct_pointer->get_some_struct()) );
 }
 void smoke_Structs_ExternalStruct_externalStructField_set(_baseRef handle, _baseRef externalStructField) {
-    get_pointer<::smoke::Structs::ExternalStruct>(handle)->set_some_struct(*get_pointer<::smoke::Structs::AnotherExternalStruct>(externalStructField));
+    get_pointer<::smoke::Structs::ExternalStruct>(handle)->set_some_struct(*get_pointer<::fire::SomeVeryExternalStruct>(externalStructField));
 }
 _baseRef smoke_Structs_AnotherExternalStruct_create() {
-    return reinterpret_cast<_baseRef>( new ::smoke::Structs::AnotherExternalStruct() );
+    return reinterpret_cast<_baseRef>( new ::fire::SomeVeryExternalStruct() );
 }
 void smoke_Structs_AnotherExternalStruct_release(_baseRef handle) {
-    delete get_pointer<::smoke::Structs::AnotherExternalStruct>(handle);
+    delete get_pointer<::fire::SomeVeryExternalStruct>(handle);
 }
 int8_t smoke_Structs_AnotherExternalStruct_intField_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::AnotherExternalStruct>(handle);
+    auto struct_pointer = get_pointer<::fire::SomeVeryExternalStruct>(handle);
     return struct_pointer->int_field;
 }
 void smoke_Structs_AnotherExternalStruct_intField_set(_baseRef handle, int8_t intField) {
-    get_pointer<::smoke::Structs::AnotherExternalStruct>(handle)->int_field = intField;
+    get_pointer<::fire::SomeVeryExternalStruct>(handle)->int_field = intField;
 }
 _baseRef smoke_Structs_createPoint(double x, double y) {
     return reinterpret_cast<_baseRef>( new ::smoke::Structs::Point(::smoke::Structs::create_point(x, y)) );
@@ -274,4 +274,7 @@ _baseRef smoke_Structs_modifyAllTypesStruct(_baseRef input) {
 }
 _baseRef smoke_Structs_getExternalStruct() {
     return reinterpret_cast<_baseRef>( new ::smoke::Structs::ExternalStruct(::smoke::Structs::get_external_struct()) );
+}
+_baseRef smoke_Structs_getAnotherExternalStruct() {
+    return reinterpret_cast<_baseRef>( new ::fire::SomeVeryExternalStruct(::smoke::Structs::get_another_external_struct()) );
 }

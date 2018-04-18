@@ -434,6 +434,13 @@ public class Structs {
         }
         return Structs.ExternalStruct(cExternalStruct: cResult)
     }
+    public static func getAnotherExternalStruct() -> Structs.AnotherExternalStruct? {
+        let cResult = smoke_Structs_getAnotherExternalStruct()
+        defer {
+            smoke_Structs_AnotherExternalStruct_release(cResult)
+        }
+        return Structs.AnotherExternalStruct(cAnotherExternalStruct: cResult)
+    }
 }
 extension Structs: NativeBase {
     var c_handle: _baseRef { return c_instance }

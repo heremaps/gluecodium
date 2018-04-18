@@ -40,6 +40,7 @@ define GeniumExtensions for interface smoke.Structs
 
     struct AnotherExternalStruct {
         ExternalType = "foo/Bazz.h"
+        ExternalName = "::fire::SomeVeryExternalStruct"
     }
 
     method createPoint {
@@ -71,6 +72,10 @@ define GeniumExtensions for interface smoke.Structs
     }
 
     method getExternalStruct {
+        Static = true
+    }
+
+    method getAnotherExternalStruct {
         Static = true
     }
 }

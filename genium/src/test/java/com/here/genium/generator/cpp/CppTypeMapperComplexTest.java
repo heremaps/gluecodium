@@ -29,6 +29,7 @@ import com.here.genium.model.common.Include;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
 import com.here.genium.model.franca.DefinedBy;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.Collections;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -70,6 +71,7 @@ public class CppTypeMapperComplexTest {
   @Mock private FTypeCollection francaTypeCollection;
 
   @Mock private CppIncludeResolver includeResolver;
+  @Mock private FrancaDeploymentModel deploymentModel;
 
   private final Include internalInclude = Include.createInternalInclude("nonsense");
 
@@ -80,7 +82,7 @@ public class CppTypeMapperComplexTest {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(InstanceRules.class, DefinedBy.class);
 
-    typeMapper = new CppTypeMapper(includeResolver, "lorem_ipsum");
+    typeMapper = new CppTypeMapper(includeResolver, deploymentModel, "lorem_ipsum");
 
     when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
         .thenReturn(francaTypeCollection);
@@ -135,6 +137,16 @@ public class CppTypeMapperComplexTest {
     assertEquals("::" + STRUCT_NAME, complexResult.name);
     assertEquals(1, complexResult.includes.size());
     assertTrue(complexResult.includes.contains(internalInclude));
+  }
+
+  @Test
+  public void mapStructWithExternalName() {
+    when(francaTypeRef.getDerived()).thenReturn(structType);
+    when(deploymentModel.getExternalName(any())).thenReturn("::very::External");
+
+    CppTypeRef result = typeMapper.map(francaTypeRef);
+
+    assertEquals("::very::External", result.name);
   }
 
   @Test

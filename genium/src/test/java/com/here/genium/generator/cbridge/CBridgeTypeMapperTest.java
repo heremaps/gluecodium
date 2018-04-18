@@ -35,6 +35,7 @@ import com.here.genium.model.cbridge.CBridgeIncludeResolver;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.cpp.CppIncludeResolver;
 import com.here.genium.model.franca.DefinedBy;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,13 +59,21 @@ public class CBridgeTypeMapperTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FMapType francaMap;
 
-  private final CTypeMapper typeMapper =
-      new CTypeMapper(
-          mock(CppIncludeResolver.class), mock(CBridgeIncludeResolver.class), "::FooHash", null);
+  @Mock private FrancaDeploymentModel deploymentModel;
+
+  private CTypeMapper typeMapper;
 
   @Before
   public void setUp() {
     mockStatic(FrancaTypeHelper.class, DefinedBy.class);
+
+    typeMapper =
+        new CTypeMapper(
+            mock(CppIncludeResolver.class),
+            mock(CBridgeIncludeResolver.class),
+            deploymentModel,
+            "::FooHash",
+            null);
 
     when(francaStructType.getName()).thenReturn("SomeStruct");
 
@@ -100,6 +109,15 @@ public class CBridgeTypeMapperTest {
     CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
 
     assertEquals("Foo", mapped.name);
+  }
+
+  public void mapStructTypeWithExternalName() {
+    when(francaTypeRef.getDerived()).thenReturn(francaStructType);
+    when(deploymentModel.getExternalName(any())).thenReturn("::bar::Baz");
+
+    CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
+
+    assertEquals("::bar::Baz", mapped.name);
   }
 
   @Test

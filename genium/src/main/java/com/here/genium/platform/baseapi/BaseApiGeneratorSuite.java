@@ -69,7 +69,8 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
       final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
 
     CppIncludeResolver includeResolver = new CppIncludeResolver(deploymentModel);
-    CppTypeMapper typeMapper = new CppTypeMapper(includeResolver, internalNamespace);
+    CppTypeMapper typeMapper =
+        new CppTypeMapper(includeResolver, deploymentModel, internalNamespace);
 
     CppGenerator generator =
         new CppGenerator(BaseApiGeneratorSuite.GENERATOR_NAME, internalNamespace);

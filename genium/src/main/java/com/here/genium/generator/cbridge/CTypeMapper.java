@@ -34,6 +34,7 @@ import com.here.genium.model.cbridge.CPointerType;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.CppIncludeResolver;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.LinkedList;
 import java.util.List;
 import lombok.Getter;
@@ -46,16 +47,19 @@ public class CTypeMapper {
 
   private final CppIncludeResolver cppIncludeResolver;
   private final CBridgeIncludeResolver includeResolver;
+  private final FrancaDeploymentModel deploymentModel;
   @Getter private final String enumHashType;
   private final CppTypeInfo byteBufferTypeInfo;
 
   public CTypeMapper(
       final CppIncludeResolver cppIncludeResolver,
       final CBridgeIncludeResolver includeResolver,
+      final FrancaDeploymentModel deploymentModel,
       final String enumHashType,
       final String byteBufferType) {
     this.cppIncludeResolver = cppIncludeResolver;
     this.includeResolver = includeResolver;
+    this.deploymentModel = deploymentModel;
     this.enumHashType = enumHashType;
     this.byteBufferTypeInfo =
         CppTypeInfo.builder(byteBufferType)
@@ -150,8 +154,14 @@ public class CTypeMapper {
   public CppTypeInfo createCustomTypeInfo(
       final FModelElement modelElement, final CppTypeInfo.TypeCategory category) {
 
-    String baseApiName = CBridgeNameRules.getBaseApiName(modelElement, category);
-    String baseApiCall = CBridgeNameRules.getBaseApiCall(category, baseApiName);
+    String baseApiCall = null;
+    if (modelElement instanceof FStructType) {
+      baseApiCall = deploymentModel.getExternalName((FStructType) modelElement);
+    }
+    if (baseApiCall == null) {
+      String baseApiName = CBridgeNameRules.getBaseApiName(modelElement, category);
+      baseApiCall = CBridgeNameRules.getBaseApiCall(category, baseApiName);
+    }
 
     Include publicInclude = includeResolver.resolveInclude(modelElement);
     Include baseApiInclude = cppIncludeResolver.resolveInclude(modelElement);

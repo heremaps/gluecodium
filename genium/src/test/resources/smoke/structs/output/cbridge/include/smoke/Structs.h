@@ -90,6 +90,7 @@ _baseRef smoke_Structs_returnColoredLine(_baseRef input);
 _baseRef smoke_Structs_returnAllTypesStruct(_baseRef input);
 _baseRef smoke_Structs_modifyAllTypesStruct(_baseRef input);
 _baseRef smoke_Structs_getExternalStruct();
+_baseRef smoke_Structs_getAnotherExternalStruct();
 #ifdef __cplusplus
 }
 #endif
