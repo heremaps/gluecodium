@@ -65,6 +65,11 @@ public class CppTypeMapper {
         internalNamespace, CppTemplateTypeRef.TemplateClass.RETURN, outArgType, errorType);
   }
 
+  public CppTypeRef getByteBufferType() {
+    return CppTemplateTypeRef.create(
+        CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8);
+  }
+
   public CppTypeRef map(FTypeRef type) {
 
     return type.getDerived() != null ? mapDerived(type.getDerived()) : mapPredefined(type);
@@ -156,7 +161,7 @@ public class CppTypeMapper {
         .build();
   }
 
-  private static CppTypeRef mapPredefined(final FTypeRef type) {
+  private CppTypeRef mapPredefined(final FTypeRef type) {
 
     switch (type.getPredefined().getValue()) {
       case FBasicTypeId.BOOLEAN_VALUE:
@@ -196,8 +201,7 @@ public class CppTypeMapper {
         return STRING_TYPE;
 
       case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return CppTemplateTypeRef.create(
-            CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8);
+        return getByteBufferType();
 
       case FBasicTypeId.UNDEFINED_VALUE:
         return CppPrimitiveTypeRef.VOID;

@@ -400,7 +400,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
             .expect(STD_NEW_INCLUDE)
             .expect(
                 "_baseRef cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size) {\n"
-                    + "    return reinterpret_cast<_baseRef>( new std::vector<uint8_t>(::cbridge::test::TestInterface::function_name(std::vector<uint8_t>(input_ptr, input_ptr + input_size))) );\n"
+                    + "    return reinterpret_cast<_baseRef>( new ::std::vector< uint8_t >(::cbridge::test::TestInterface::function_name(std::vector<uint8_t>(input_ptr, input_ptr + input_size))) );\n"
                     + "}\n")
             .build();
 
@@ -610,7 +610,7 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
         TemplateComparator.expect(STD_NEW_INCLUDE)
             .expect(
                 "_baseRef cbridge_test_TestInterface_attributeName_get(_baseRef _instance) {\n"
-                    + "    return reinterpret_cast<_baseRef>( new std::vector<uint8_t>(get_pointer<std::shared_ptr<cbridge::test::TestInterface>>(_instance)->get()->get_attribute_name()) );\n"
+                    + "    return reinterpret_cast<_baseRef>( new ::std::vector< uint8_t >(get_pointer<std::shared_ptr<cbridge::test::TestInterface>>(_instance)->get()->get_attribute_name()) );\n"
                     + "}\n")
             .expect(
                 "void cbridge_test_TestInterface_attributeName_set(_baseRef _instance, const uint8_t* newValue_ptr, int64_t newValue_size) {\n"
