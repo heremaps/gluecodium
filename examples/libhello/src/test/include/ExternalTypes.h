@@ -25,11 +25,13 @@
 
 namespace external
 {
-
-struct AnotherExternalStruct
+namespace even_more_external
+{
+struct AlienStructure
 {
    int32_t int_field;
 };
+}
 
 class ExternalStruct
 {
@@ -38,8 +40,8 @@ public:
     void set_some_string( const std::string& value );
     std::vector< int32_t > getSomeArray( ) const;
     void setSomeArray( const std::vector< int32_t >& value );
-    AnotherExternalStruct madnessEnsues( ) const;
-    void madnessEnsues( const AnotherExternalStruct& value );
+    even_more_external::AlienStructure madnessEnsues( ) const;
+    void madnessEnsues( const even_more_external::AlienStructure& value );
 
 public:
     std::string string_field;
@@ -47,7 +49,7 @@ public:
 private:
     std::string m_some_string;
     std::vector< int32_t > m_some_array;
-    AnotherExternalStruct m_some_struct;
+    even_more_external::AlienStructure m_some_struct;
 };
 
 }
