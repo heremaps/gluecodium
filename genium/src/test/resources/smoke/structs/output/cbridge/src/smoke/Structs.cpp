@@ -192,10 +192,10 @@ void smoke_Structs_AllTypesStruct_booleanField_set(_baseRef handle, bool boolean
 }
 _baseRef smoke_Structs_AllTypesStruct_bytesField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
-    return reinterpret_cast<_baseRef>( new std::vector<uint8_t>(struct_pointer->bytes_field) );
+    return reinterpret_cast<_baseRef>( new ::std::vector< uint8_t >(struct_pointer->bytes_field) );
 }
 void smoke_Structs_AllTypesStruct_bytesField_set(_baseRef handle, const uint8_t* bytesField_ptr, int64_t bytesField_size) {
-    get_pointer<::smoke::Structs::AllTypesStruct>(handle)->bytes_field = std::vector<uint8_t>(bytesField_ptr, bytesField_ptr + bytesField_size);
+    get_pointer<::smoke::Structs::AllTypesStruct>(handle)->bytes_field = ::std::vector< uint8_t >(bytesField_ptr, bytesField_ptr + bytesField_size);
 }
 _baseRef smoke_Structs_AllTypesStruct_pointField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);

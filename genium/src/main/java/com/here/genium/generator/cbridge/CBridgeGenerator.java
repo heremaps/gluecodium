@@ -102,7 +102,11 @@ public class CBridgeGenerator {
     CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, cppTypeMapper);
     SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(deploymentModel);
     CTypeMapper cTypeMapper =
-        new CTypeMapper(cppIncludeResolver, includeResolver, cppTypeMapper.getEnumHashType().name);
+        new CTypeMapper(
+            cppIncludeResolver,
+            includeResolver,
+            cppTypeMapper.getEnumHashType().name,
+            cppTypeMapper.getByteBufferType().name);
 
     CBridgeModelBuilder modelBuilder =
         new CBridgeModelBuilder(

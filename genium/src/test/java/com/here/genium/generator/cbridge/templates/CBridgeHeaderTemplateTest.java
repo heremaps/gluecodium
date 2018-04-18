@@ -43,7 +43,8 @@ import org.junit.runners.JUnit4;
 public final class CBridgeHeaderTemplateTest {
 
   private final CTypeMapper typeMapper =
-      new CTypeMapper(mock(CppIncludeResolver.class), mock(CBridgeIncludeResolver.class), null);
+      new CTypeMapper(
+          mock(CppIncludeResolver.class), mock(CBridgeIncludeResolver.class), null, null);
 
   private String generate(final CInterface iface) {
     return CBridgeGenerator.generateHeaderContent(iface);
@@ -269,9 +270,17 @@ public final class CBridgeHeaderTemplateTest {
 
   @Test
   public void functionTableForFunctionTakingByteBuffer() {
+    CppTypeInfo cppTypeInfo =
+        CppTypeInfo.builder("foo")
+            .constructFromCType(CPointerType.makeConstPointer(CType.UINT8))
+            .constructFromCType(CType.INT64)
+            .paramSuffix("_ptr")
+            .paramSuffix("_size")
+            .category(CppTypeInfo.TypeCategory.BUILTIN_BYTEBUFFER)
+            .build();
     CFunction function =
         CFunction.builder("functionTakingByteBuffer")
-            .parameters(singletonList(new CParameter("buffer", CppTypeInfo.BYTE_VECTOR)))
+            .parameters(singletonList(new CParameter("buffer", cppTypeInfo)))
             .build();
     CInterface cInterface = new CInterface("", new CppTypeInfo(CType.BOOL));
     cInterface.functionTableName = "functionTable";

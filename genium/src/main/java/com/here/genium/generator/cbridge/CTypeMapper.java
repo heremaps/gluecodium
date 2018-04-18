@@ -22,6 +22,7 @@ package com.here.genium.generator.cbridge;
 import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
 import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.*;
+import static com.here.genium.model.cbridge.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
 import static com.here.genium.model.cbridge.CType.VOID;
 import static com.here.genium.model.common.InstanceRules.isInstanceId;
 
@@ -29,11 +30,13 @@ import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.cpp.CppLibraryIncludes;
 import com.here.genium.generator.cpp.CppNameRules;
 import com.here.genium.model.cbridge.CBridgeIncludeResolver;
+import com.here.genium.model.cbridge.CPointerType;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.CppIncludeResolver;
 import java.util.LinkedList;
 import java.util.List;
+import lombok.Getter;
 import org.franca.core.franca.*;
 
 public class CTypeMapper {
@@ -43,15 +46,30 @@ public class CTypeMapper {
 
   private final CppIncludeResolver cppIncludeResolver;
   private final CBridgeIncludeResolver includeResolver;
-  private final String enumHashType;
+  @Getter private final String enumHashType;
+  private final CppTypeInfo byteBufferTypeInfo;
 
   public CTypeMapper(
       final CppIncludeResolver cppIncludeResolver,
       final CBridgeIncludeResolver includeResolver,
-      final String enumHashType) {
+      final String enumHashType,
+      final String byteBufferType) {
     this.cppIncludeResolver = cppIncludeResolver;
     this.includeResolver = includeResolver;
     this.enumHashType = enumHashType;
+    this.byteBufferTypeInfo =
+        CppTypeInfo.builder(byteBufferType)
+            .constructFromCType(CPointerType.makeConstPointer(CType.UINT8))
+            .constructFromCType(CType.INT64)
+            .paramSuffix("_ptr")
+            .paramSuffix("_size")
+            .functionReturnType(CType.BYTE_ARRAY_REF)
+            .category(BUILTIN_BYTEBUFFER)
+            .include(CppLibraryIncludes.NEW)
+            .include(CppLibraryIncludes.VECTOR)
+            .include(FIXED_WIDTH_INTEGERS_INCLUDE)
+            .include(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
+            .build();
   }
 
   public CppTypeInfo mapType(final FTypeRef typeRef) {
@@ -94,7 +112,7 @@ public class CTypeMapper {
     }
   }
 
-  public static CppTypeInfo mapPredefined(final FTypeRef type) {
+  private CppTypeInfo mapPredefined(final FTypeRef type) {
     FBasicTypeId typeId = type.getPredefined();
     switch (typeId.getValue()) {
       case FBasicTypeId.UNDEFINED_VALUE:
@@ -124,7 +142,7 @@ public class CTypeMapper {
       case FBasicTypeId.STRING_VALUE:
         return CppTypeInfo.STRING;
       case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return CppTypeInfo.BYTE_VECTOR;
+        return byteBufferTypeInfo;
     }
     return new CppTypeInfo(VOID);
   }
@@ -169,10 +187,6 @@ public class CTypeMapper {
     CppTypeInfo errorEnumInfo = createEnumTypeInfo(francaEnum);
     errorEnumInfo.functionReturnType.includes.add(CType.BOOL_INCLUDE);
     return errorEnumInfo;
-  }
-
-  public String getEnumHashType() {
-    return enumHashType;
   }
 
   private CppTypeInfo mapMapType(final FMapType francaMapType) {

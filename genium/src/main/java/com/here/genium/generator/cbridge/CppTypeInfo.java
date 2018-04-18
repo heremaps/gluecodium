@@ -21,7 +21,6 @@ package com.here.genium.generator.cbridge;
 
 import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
 import static com.here.genium.generator.cbridge.CBridgeNameRules.STRING_HANDLE_FILE;
-import static com.here.genium.model.cbridge.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
@@ -63,20 +62,6 @@ public class CppTypeInfo extends CElement {
           .include(CppLibraryIncludes.NEW)
           .include(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
           .include(Include.createInternalInclude(STRING_HANDLE_FILE))
-          .build();
-
-  public static final CppTypeInfo BYTE_VECTOR =
-      CppTypeInfo.builder("std::vector<uint8_t>")
-          .constructFromCType(CPointerType.makeConstPointer(CType.UINT8))
-          .constructFromCType(CType.INT64)
-          .paramSuffix("_ptr")
-          .paramSuffix("_size")
-          .functionReturnType(CType.BYTE_ARRAY_REF)
-          .category(TypeCategory.BUILTIN_BYTEBUFFER)
-          .include(CppLibraryIncludes.NEW)
-          .include(CppLibraryIncludes.VECTOR)
-          .include(FIXED_WIDTH_INTEGERS_INCLUDE)
-          .include(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
           .build();
 
   @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterNumber"})

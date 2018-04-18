@@ -49,7 +49,8 @@ public final class CBridgeImplementationTemplateTest {
   @Rule public final TemporaryFolder tempFolder = new TemporaryFolder();
 
   private final CTypeMapper typeMapper =
-      new CTypeMapper(mock(CppIncludeResolver.class), mock(CBridgeIncludeResolver.class), null);
+      new CTypeMapper(
+          mock(CppIncludeResolver.class), mock(CBridgeIncludeResolver.class), null, null);
 
   private String generate(final CInterface iface) {
     return CBridgeGenerator.generateImplementationContent(iface);
