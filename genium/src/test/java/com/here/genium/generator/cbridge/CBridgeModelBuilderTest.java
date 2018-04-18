@@ -108,7 +108,7 @@ public final class CBridgeModelBuilderTest {
   @Mock private FArrayType francaArray;
   @Mock private FMapType francaMap;
 
-  private final CppTypeInfo cppTypeInfo = CppTypeInfo.BYTE_VECTOR;
+  private final CppTypeInfo cppTypeInfo = new CppTypeInfo(CType.FLOAT);
   private final CppArrayTypeInfo cppArrayTypeInfo =
       CppArrayTypeInfo.arrayTypeBuilder("FooArrayType").build();
   private final SwiftMethod swiftMethod =
@@ -154,7 +154,14 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingInputArgumentReturnsCreatedParams() {
-    contextStack.injectResult(cppTypeInfo);
+    CppTypeInfo cppTypeInfoByteBuffer =
+        CppTypeInfo.builder("foo")
+            .constructFromCType(CPointerType.makeConstPointer(CType.UINT8))
+            .constructFromCType(CType.INT64)
+            .paramSuffix("_ptr")
+            .paramSuffix("_size")
+            .build();
+    contextStack.injectResult(cppTypeInfoByteBuffer);
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
@@ -165,8 +172,8 @@ public final class CBridgeModelBuilderTest {
     assertEquals(2, param.getSignatureParameters().size());
     for (int i = 0; i < 2; i++) {
       CParameter.SimpleParameter simpleParameter = param.getSignatureParameters().get(i);
-      assertEquals(PARAM_NAME + cppTypeInfo.paramSuffixes.get(i), simpleParameter.name);
-      assertEquals(cppTypeInfo.cTypesNeededByConstructor.get(i), simpleParameter.type);
+      assertEquals(PARAM_NAME + cppTypeInfoByteBuffer.paramSuffixes.get(i), simpleParameter.name);
+      assertEquals(cppTypeInfoByteBuffer.cTypesNeededByConstructor.get(i), simpleParameter.type);
     }
   }
 
