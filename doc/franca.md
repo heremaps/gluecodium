@@ -170,6 +170,36 @@ FDEPL:
         }
     }
 
+### Struct: ExternalName
+
+This FDEPL property controls whether the C++ fully-qualified name for the given Franca struct
+differs from the name specified in the FIDL file. Default value is `null`, i.e. the struct name is
+governed by what is specified in the FIDL file. If a non-empty value is given, then this value is
+used verbatim as a fully-qualified name in C++ generated code and in "glue layer" generated code
+(i.e. JNI and CBridge). This property has no effect on generated code for Java or Swift.
+
+**Note:** This property is intended for usage in combination with "ExternalType" property (see
+above) and thus only applies to structs already marked with "ExternalType".
+
+FIDL:
+
+    package example
+
+    typeCollection ExampleTypeCollection {
+        struct exampleStruct {
+        }
+    }
+
+FDEPL:
+
+    define GeniumExtensions for typeCollection example.ExampleTypeCollection
+    {
+        struct exampleStruct {
+            ExternalType = "example/ExampleStruct.h"
+            ExternalName = "::external::SomeStruct"
+        }
+    }
+
 ### Struct field: ExternalGetter/ExternalSetter
 
 These FDEPL properties control whether the accessor methods are used as a source of data for the
