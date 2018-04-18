@@ -153,6 +153,12 @@ interface Structs {
             ExternalStruct output
         }
     }
+
+    method getAnotherExternalStruct {
+        out {
+            AnotherExternalStruct output
+        }
+    }
 }
 
 interface StructsInheritance {

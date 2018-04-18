@@ -85,7 +85,8 @@ public final class JniGenerator extends AbstractGenerator {
                 enableAndroidFeatures ? PARCELABLE : null,
                 enableAndroidFeatures ? NON_NULL : null));
 
-    CppTypeMapper typeMapper = new CppTypeMapper(cppIncludeResolver, internalNamespace);
+    CppTypeMapper typeMapper =
+        new CppTypeMapper(cppIncludeResolver, deploymentModel, internalNamespace);
     CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, typeMapper);
     JniModelBuilder jniBuilder =
         new JniModelBuilder(deploymentModel, javaBuilder, cppBuilder, cppIncludeResolver);

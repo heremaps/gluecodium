@@ -22,6 +22,7 @@ package com.here.genium.generator.cpp;
 import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.Collections;
 import org.franca.core.franca.*;
 
@@ -46,10 +47,15 @@ public class CppTypeMapper {
   private static final String ENUM_HASH_CLASS_NAME = "EnumHash";
 
   private final CppIncludeResolver includeResolver;
+  private final FrancaDeploymentModel deploymentModel;
   private final String internalNamespace;
 
-  public CppTypeMapper(final CppIncludeResolver includeResolver, final String internalNamespace) {
+  public CppTypeMapper(
+      final CppIncludeResolver includeResolver,
+      final FrancaDeploymentModel deploymentModel,
+      final String internalNamespace) {
     this.includeResolver = includeResolver;
+    this.deploymentModel = deploymentModel;
     this.internalNamespace = internalNamespace;
   }
 
@@ -147,7 +153,13 @@ public class CppTypeMapper {
 
   public CppTypeRef mapComplexType(final FModelElement francaElement) {
 
-    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaElement);
+    String fullyQualifiedName = null;
+    if (francaElement instanceof FStructType) {
+      fullyQualifiedName = deploymentModel.getExternalName((FStructType) francaElement);
+    }
+    if (fullyQualifiedName == null) {
+      fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaElement);
+    }
 
     return new CppComplexTypeRef.Builder(fullyQualifiedName)
         .include(includeResolver.resolveInclude(francaElement))

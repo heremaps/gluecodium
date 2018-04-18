@@ -264,4 +264,5 @@ public class Structs extends NativeBase {
     public static native Structs.AllTypesStruct returnAllTypesStruct(final Structs.AllTypesStruct input);
     public static native Structs.AllTypesStruct modifyAllTypesStruct(final Structs.AllTypesStruct input);
     public static native Structs.ExternalStruct getExternalStruct();
+    public static native Structs.AnotherExternalStruct getAnotherExternalStruct();
 }
