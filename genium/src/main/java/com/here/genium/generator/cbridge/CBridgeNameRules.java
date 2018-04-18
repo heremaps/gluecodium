@@ -112,20 +112,6 @@ public final class CBridgeNameRules {
     return String.join(CPP_NAMESPACE_DELIMITER, getNestedNameSpecifier(francaModel));
   }
 
-  public static String getBaseApiStructName(FModelElement struct) {
-    return fullyQualifiedName(
-        CppNameRules.getNestedNameSpecifier(struct),
-        CppNameRules.getStructName(struct.getName()),
-        CPP_NAMESPACE_DELIMITER);
-  }
-
-  public static String getBaseApiEnumName(FEnumerationType francaEnum) {
-    return fullyQualifiedName(
-        CppNameRules.getNestedNameSpecifier(francaEnum),
-        CppNameRules.getEnumName(francaEnum.getName()),
-        CPP_NAMESPACE_DELIMITER);
-  }
-
   public static String fullyQualifiedName(
       List<String> nameSpecifier, String name, String delimiter) {
     List<String> names = new LinkedList<>(nameSpecifier);
@@ -177,7 +163,7 @@ public final class CBridgeNameRules {
     if (category == CppTypeInfo.TypeCategory.CLASS) {
       return CBridgeNameRules.getBaseApiInstanceName(elementType);
     } else {
-      return CBridgeNameRules.getBaseApiStructName(elementType);
+      return CppNameRules.getFullyQualifiedName(elementType);
     }
   }
 

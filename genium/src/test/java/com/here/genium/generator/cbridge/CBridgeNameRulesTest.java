@@ -22,7 +22,6 @@ package com.here.genium.generator.cbridge;
 import static com.here.genium.generator.common.NameHelper.toUpperCamelCase;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -120,34 +119,6 @@ public final class CBridgeNameRulesTest {
     String expected = "cbridge/src/PKG1/PKG2/TestInterface.cpp";
 
     String actual = CBridgeNameRules.getImplementationFileNameWithPath(francaInterface);
-
-    assertEquals(expected, actual);
-  }
-
-  @Test
-  public void getBaseApiStructNameReturnsCorrectValue() {
-    List<String> packagesWithInterface = new ArrayList<>(PACKAGES);
-    packagesWithInterface.add(INTERFACE_NAME);
-    when(CppNameRules.getNestedNameSpecifier(any())).thenReturn(packagesWithInterface);
-    when(CppNameRules.getStructName(any())).thenReturn(STRUCT_NAME);
-
-    String expected = prependNameWithPackageAndInterface(STRUCT_NAME, "::");
-
-    String actual = CBridgeNameRules.getBaseApiStructName(francaStruct);
-
-    assertEquals(expected, actual);
-  }
-
-  @Test
-  public void getBaseApiEnumNameReturnsCorrectValue() {
-    List<String> packagesWithInterface = new ArrayList<>(PACKAGES);
-    packagesWithInterface.add(INTERFACE_NAME);
-    when(CppNameRules.getNestedNameSpecifier(any())).thenReturn(packagesWithInterface);
-    when(CppNameRules.getEnumName(any())).thenReturn("ENUM_NAME");
-
-    String expected = prependNameWithPackageAndInterface("ENUM_NAME", "::");
-
-    String actual = CBridgeNameRules.getBaseApiEnumName(francaEnum);
 
     assertEquals(expected, actual);
   }
