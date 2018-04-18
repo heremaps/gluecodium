@@ -41,4 +41,17 @@ interface UseExternalTypes {
             ExternalTypes.ExternalStruct result
         }
     }
+
+    <**
+    @description: Returns AnotherExternalStruct extracted from ExternalStruct extracted from
+    StructWithExternalStruct.
+    **>
+    method extractAnotherExternalStruct {
+        in {
+            StructWithExternalStruct nestedStruct
+        }
+        out {
+            ExternalTypes.AnotherExternalStruct result
+        }
+    }
 }
