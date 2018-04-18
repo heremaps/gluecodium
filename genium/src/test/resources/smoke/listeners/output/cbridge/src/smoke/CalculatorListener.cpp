@@ -15,17 +15,17 @@ void smoke_CalculatorListener_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<smoke::CalculatorListener>>(handle);
 }
 _baseRef smoke_CalculatorListener_ResultStruct_create() {
-    return reinterpret_cast<_baseRef>( new smoke::CalculatorListener::ResultStruct() );
+    return reinterpret_cast<_baseRef>( new ::smoke::CalculatorListener::ResultStruct() );
 }
 void smoke_CalculatorListener_ResultStruct_release(_baseRef handle) {
-    delete get_pointer<smoke::CalculatorListener::ResultStruct>(handle);
+    delete get_pointer<::smoke::CalculatorListener::ResultStruct>(handle);
 }
 double smoke_CalculatorListener_ResultStruct_result_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<smoke::CalculatorListener::ResultStruct>(handle);
+    auto struct_pointer = get_pointer<::smoke::CalculatorListener::ResultStruct>(handle);
     return struct_pointer->result;
 }
 void smoke_CalculatorListener_ResultStruct_result_set(_baseRef handle, double result) {
-    get_pointer<smoke::CalculatorListener::ResultStruct>(handle)->result = result;
+    get_pointer<::smoke::CalculatorListener::ResultStruct>(handle)->result = result;
 }
 void smoke_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {
     return get_pointer<std::shared_ptr<smoke::CalculatorListener>>(_instance)->get()->on_calculation_result(calculationResult);
@@ -34,7 +34,7 @@ void smoke_CalculatorListener_onCalculationResultConst(_baseRef _instance, doubl
     return get_pointer<std::shared_ptr<smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_const(calculationResult);
 }
 void smoke_CalculatorListener_onCalculationResultStruct(_baseRef _instance, _baseRef calculationResult) {
-    return get_pointer<std::shared_ptr<smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_struct(*get_pointer<smoke::CalculatorListener::ResultStruct>(calculationResult));
+    return get_pointer<std::shared_ptr<smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_struct(*get_pointer<::smoke::CalculatorListener::ResultStruct>(calculationResult));
 }
 void smoke_CalculatorListener_onCalculationResultArray(_baseRef _instance, _baseRef calculationResult) {
     return get_pointer<std::shared_ptr<smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_array(*get_pointer<std::vector<double>>(calculationResult));
@@ -59,14 +59,14 @@ public:
     void on_calculation_result_const(double calculationResult) override {
         return mFunctions.smoke_CalculatorListener_onCalculationResultConst(mFunctions.swift_pointer, calculationResult);
     }
-    void on_calculation_result_struct(const smoke::CalculatorListener::ResultStruct& calculationResult) override {
-        return mFunctions.smoke_CalculatorListener_onCalculationResultStruct(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new smoke::CalculatorListener::ResultStruct(calculationResult) ));
+    void on_calculation_result_struct(const ::smoke::CalculatorListener::ResultStruct& calculationResult) override {
+        return mFunctions.smoke_CalculatorListener_onCalculationResultStruct(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new ::smoke::CalculatorListener::ResultStruct(calculationResult) ));
     }
     void on_calculation_result_array(const std::vector<double>& calculationResult) override {
         return mFunctions.smoke_CalculatorListener_onCalculationResultArray(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new std::vector<double>(calculationResult) ));
     }
-    void on_calculation_result_map(const smoke::CalculatorListener::NamedCalculationResults& calculationResults) override {
-        return mFunctions.smoke_CalculatorListener_onCalculationResultMap(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new smoke::CalculatorListener::NamedCalculationResults(calculationResults) ));
+    void on_calculation_result_map(const ::smoke::CalculatorListener::NamedCalculationResults& calculationResults) override {
+        return mFunctions.smoke_CalculatorListener_onCalculationResultMap(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new ::smoke::CalculatorListener::NamedCalculationResults(calculationResults) ));
     }
 private:
     function_table_t mFunctions;

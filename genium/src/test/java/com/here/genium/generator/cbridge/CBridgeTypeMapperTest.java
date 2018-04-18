@@ -80,7 +80,7 @@ public class CBridgeTypeMapperTest {
 
     CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
 
-    assertEquals("SomeStruct", mapped.name);
+    assertEquals("::SomeStruct", mapped.name);
   }
 
   @Test
@@ -118,7 +118,7 @@ public class CBridgeTypeMapperTest {
 
     CppTypeInfo actualType = typeMapper.mapType(francaTypeRef);
 
-    assertEquals("Foo", actualType.name);
+    assertEquals("::Foo", actualType.name);
   }
 
   @Test
@@ -150,10 +150,10 @@ public class CBridgeTypeMapperTest {
     assertTrue(result instanceof CppMapTypeInfo);
 
     CppMapTypeInfo resultMapType = (CppMapTypeInfo) result;
-    assertEquals("FooMap", resultMapType.name);
+    assertEquals("::FooMap", resultMapType.name);
     assertEquals(BASE_REF_NAME, resultMapType.cTypesNeededByConstructor.get(0).name);
     assertEquals(BASE_REF_NAME, resultMapType.functionReturnType.name);
-    assertEquals("std::unordered_map<std::string, SomeStruct>", resultMapType.baseApi);
+    assertEquals("std::unordered_map<std::string, ::SomeStruct>", resultMapType.baseApi);
     assertEquals(2, resultMapType.includes.size());
     assertEquals(BASE_HANDLE_IMPL_FILE, resultMapType.includes.get(0).fileName);
     assertEquals(CppLibraryIncludes.MAP, resultMapType.includes.get(1));
@@ -172,7 +172,7 @@ public class CBridgeTypeMapperTest {
     assertTrue(result instanceof CppMapTypeInfo);
 
     CppMapTypeInfo resultMapType = (CppMapTypeInfo) result;
-    assertEquals("std::unordered_map<BarEnum, SomeStruct, ::FooHash>", resultMapType.baseApi);
+    assertEquals("std::unordered_map<::BarEnum, ::SomeStruct, ::FooHash>", resultMapType.baseApi);
     assertEquals(3, resultMapType.includes.size());
     assertEquals(CppLibraryIncludes.ENUM_HASH, resultMapType.includes.get(2));
   }

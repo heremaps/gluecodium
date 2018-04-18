@@ -27,6 +27,7 @@ import static com.here.genium.model.common.InstanceRules.isInstanceId;
 
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.cpp.CppLibraryIncludes;
+import com.here.genium.generator.cpp.CppNameRules;
 import com.here.genium.model.cbridge.CBridgeIncludeResolver;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
@@ -157,7 +158,7 @@ public class CTypeMapper {
         new CType(
             CBridgeNameRules.getEnumName(francaEnum), includeResolver.resolveInclude(francaEnum));
 
-    return CppTypeInfo.builder(CBridgeNameRules.getBaseApiEnumName(francaEnum))
+    return CppTypeInfo.builder(CppNameRules.getFullyQualifiedName(francaEnum))
         .constructFromCType(enumCType)
         .functionReturnType(enumCType)
         .category(ENUM)

@@ -26,13 +26,13 @@ import com.here.genium.common.CollectionsHelper;
 import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
 import com.here.genium.generator.cpp.CppModelBuilder;
-import com.here.genium.generator.cpp.CppNameRules;
 import com.here.genium.generator.swift.SwiftModelBuilder;
 import com.here.genium.model.cbridge.*;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.CppField;
 import com.here.genium.model.cpp.CppIncludeResolver;
 import com.here.genium.model.cpp.CppMethod;
+import com.here.genium.model.cpp.CppStruct;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.swift.SwiftField;
 import com.here.genium.model.swift.SwiftMethod;
@@ -179,7 +179,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
       CInParameter parameterSelf = new CInParameter("_instance", classInfo);
       methodBuilder
           .selfParameter(parameterSelf)
-          .functionName(CppNameRules.getMethodName(francaMethod.getName()));
+          .functionName(cppBuilder.getFinalResult(CppMethod.class).name);
     }
 
     storeResult(methodBuilder.build());
@@ -204,7 +204,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     CStruct cStruct =
         new CStruct(
             CBridgeNameRules.getStructBaseName(francaStruct),
-            CBridgeNameRules.getBaseApiStructName(francaStruct),
+            cppBuilder.getFinalResult(CppStruct.class).fullyQualifiedName,
             typeMapper.createCustomTypeInfo(francaStruct, STRUCT));
 
     CStruct parentStruct = getPreviousResult(CStruct.class);
