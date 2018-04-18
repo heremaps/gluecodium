@@ -31,7 +31,6 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.genium.common.CollectionsHelper;
 import com.here.genium.generator.cpp.CppModelBuilder;
-import com.here.genium.generator.cpp.CppNameRules;
 import com.here.genium.generator.swift.SwiftModelBuilder;
 import com.here.genium.generator.swift.SwiftNameRules;
 import com.here.genium.model.cbridge.*;
@@ -47,10 +46,7 @@ import com.here.genium.model.cbridge.CParameter;
 import com.here.genium.model.cbridge.CStruct;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
-import com.here.genium.model.cpp.CppElement;
-import com.here.genium.model.cpp.CppField;
-import com.here.genium.model.cpp.CppIncludeResolver;
-import com.here.genium.model.cpp.CppMethod;
+import com.here.genium.model.cpp.*;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.swift.SwiftField;
 import com.here.genium.model.swift.SwiftMethod;
@@ -74,12 +70,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({
-  CppNameRules.class,
-  CArrayMapper.class,
-  CBridgeNameRules.class,
-  SwiftNameRules.class
-})
+@PrepareForTest({CArrayMapper.class, CBridgeNameRules.class, SwiftNameRules.class})
 public final class CBridgeModelBuilderTest {
 
   private static final String FULL_FUNCTION_NAME = "NOT_SHORT_FUNCTION_NAME";
@@ -88,14 +79,13 @@ public final class CBridgeModelBuilderTest {
   private static final String DELEGATE_NAME = "DELEGATE_NAME";
   private static final String PARAM_NAME = "inputParam";
   private static final String STRUCT_NAME = "SomeStruct";
-  private static final String STRUCT_BASEAPI_NAME = "BaseAPI::" + STRUCT_NAME;
   private static final String ATTRIBUTE_NAME = "someAttributeName";
   private static final String CBRIDGE_ATTR_GETTER_NAME = "C_ATTR_GETTER";
   private static final String CBRIDGE_ATTR_SETTER_NAME = "C_ATTR_SETTER";
   private static final String CPP_ATTR_GETTER_NAME = "CPP_ATTR_GETTER";
   private static final String CPP_ATTR_SETTER_NAME = "CPP_ATTR_SETTER";
-  public static final String CPP_FIELD_NAME = "CppFieldName";
-  public static final String SWIFT_FIELD_NAME = "SwiftFieldName";
+  private static final String CPP_FIELD_NAME = "CppFieldName";
+  private static final String SWIFT_FIELD_NAME = "SwiftFieldName";
 
   private final MockContextStack<CElement> contextStack = new MockContextStack<>();
 
@@ -131,16 +121,15 @@ public final class CBridgeModelBuilderTest {
 
   @Before
   public void setUp() {
-    mockStatic(
-        CppNameRules.class, CBridgeNameRules.class, CArrayMapper.class, SwiftNameRules.class);
+    mockStatic(CBridgeNameRules.class, CArrayMapper.class, SwiftNameRules.class);
     initMocks(this);
 
     CppTypeInfo typeInfo = new CppTypeInfo(new CType(""));
 
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
-    when(CBridgeNameRules.getBaseApiStructName(any())).thenReturn(STRUCT_BASEAPI_NAME);
 
     when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(CppMethod.builder().build());
+    when(cppModelbuilder.getFinalResult(CppStruct.class)).thenReturn(new CppStruct(STRUCT_NAME));
     when(swiftModelBuilder.getFinalResult(SwiftMethod.class)).thenReturn(swiftMethod);
 
     when(typeMapper.createCustomTypeInfo(any(), any())).thenReturn(typeInfo);
