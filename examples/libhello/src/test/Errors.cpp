@@ -61,7 +61,7 @@ Errors::method_with_error_and_string( const bool error_flag )
     }
 }
 
-lorem_ipsum::Return< std::vector< uint8_t >, std::error_code >
+lorem_ipsum::Return< std::shared_ptr< std::vector< uint8_t > >, std::error_code >
 Errors::method_that_explodes( const bool error_flag )
 {
     if ( error_flag )
@@ -70,7 +70,8 @@ Errors::method_that_explodes( const bool error_flag )
     }
     else
     {
-        return std::vector< uint8_t >{0x00, 0x01, 0x02};
+        return std::make_shared< std::vector< uint8_t > >(
+            std::vector< uint8_t >{0x00, 0x01, 0x02} );
     }
 }
 

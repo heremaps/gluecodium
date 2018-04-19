@@ -44,13 +44,13 @@ ComplexNotifierImpl::trajectory_completed(
 
     const ::std::vector< ::test::NamedPoint3D >& trajectory,
     const ::test::TrajectoryQuality quality,
-    const ::std::vector< uint8_t >& image,
+    const ::std::shared_ptr< ::std::vector< uint8_t > >& image,
     const ::std::shared_ptr< ::test::ComplexListener >& listener )
 {
     listener->on_trajectory_completed( ComplexListenerFactory::create_distance_metric( ),
-                                     trajectory,
-                                     quality,
-                                     image );
+                                       trajectory,
+                                       quality,
+                                       image );
 }
 
 ::std::shared_ptr< ::test::ComplexNotifier >
