@@ -302,33 +302,6 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
   }
 
   @Test
-  public void createFunctionTakingByteArray() {
-    when(francaArgument1.getName()).thenReturn("input");
-    when(francaArgument1.getType()).thenReturn(francaTypeRef1);
-    when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
-    inputArguments.add(francaArgument1);
-
-    TemplateComparator expectedHeader =
-        TemplateComparator.expect(STD_INT_INCLUDE)
-            .expect(
-                "void cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size);\n")
-            .build();
-
-    TemplateComparator expectedImplementation =
-        TemplateComparator.expect(STD_VECTOR_INCLUDE)
-            .expect(
-                "void cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size) {\n"
-                    + "    return ::cbridge::test::TestInterface::function_name(std::vector<uint8_t>(input_ptr, input_ptr + input_size));\n"
-                    + "}\n")
-            .build();
-
-    CInterface cModel = generator.buildCBridgeModel(francaInterface);
-
-    expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
-    expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
-  }
-
-  @Test
   public void functionOverloadsHaveDifferentName() {
     ArrayEList<FArgument> inputArguments1 = new ArrayEList<>();
     when(francaArgument1.getName()).thenReturn("input");
@@ -368,39 +341,6 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
             .expect(
                 "void cbridge_test_TestInterface_functionName_other(bool input) {\n"
                     + "    return ::cbridge::test::TestInterface::function_name(input);\n"
-                    + "}\n")
-            .build();
-
-    CInterface cModel = generator.buildCBridgeModel(francaInterface);
-
-    expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
-    expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
-  }
-
-  @Test
-  public void createFunctionTakingAndReturningByteBuffer() {
-    when(francaArgument1.getName()).thenReturn("input");
-    when(francaArgument1.getType()).thenReturn(francaTypeRef1);
-    when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
-    inputArguments.add(francaArgument1);
-
-    when(francaArgument2.getName()).thenReturn("output");
-    when(francaArgument2.getType()).thenReturn(francaTypeRef2);
-    when(francaTypeRef2.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
-    outputArguments.add(francaArgument2);
-
-    TemplateComparator expectedHeader =
-        TemplateComparator.expect(BYTE_ARRAY_INCLUDE)
-            .expect(
-                "_baseRef cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size);\n")
-            .build();
-
-    TemplateComparator expectedImplementation =
-        TemplateComparator.expect(STD_VECTOR_INCLUDE)
-            .expect(STD_NEW_INCLUDE)
-            .expect(
-                "_baseRef cbridge_test_TestInterface_functionName(const uint8_t* input_ptr, int64_t input_size) {\n"
-                    + "    return reinterpret_cast<_baseRef>( new ::std::vector< uint8_t >(::cbridge::test::TestInterface::function_name(std::vector<uint8_t>(input_ptr, input_ptr + input_size))) );\n"
                     + "}\n")
             .build();
 
@@ -584,43 +524,5 @@ public class CBridgeGeneratorTest extends CBridgeGeneratorTestBase {
     enumItems.add(enumItem);
     enumItems.add(enumItem);
     return francaEnum;
-  }
-
-  @Test
-  public void createAttributeAccessors() {
-    methods.clear();
-    FAttribute francaAttribute = mock(FAttribute.class);
-    ArrayEList<FAttribute> attributes = new ArrayEList<>();
-    attributes.add(francaAttribute);
-    when(francaInterface.getAttributes()).thenReturn(attributes);
-    when(francaAttribute.eContainer()).thenReturn(francaInterface);
-    when(francaAttribute.getName()).thenReturn("ATTRIBUTE_NAME");
-    when(francaAttribute.getType()).thenReturn(francaTypeRef1);
-    when(francaTypeRef1.getPredefined()).thenReturn(FBasicTypeId.BYTE_BUFFER);
-
-    TemplateComparator expectedHeader =
-        TemplateComparator.expect(BYTE_ARRAY_INCLUDE)
-            .expect(STD_INT_INCLUDE)
-            .expect("_baseRef cbridge_test_TestInterface_attributeName_get(_baseRef _instance);\n")
-            .expect(
-                "void cbridge_test_TestInterface_attributeName_set(_baseRef _instance, const uint8_t* newValue_ptr, int64_t newValue_size);\n")
-            .build();
-
-    TemplateComparator expectedImplementation =
-        TemplateComparator.expect(STD_NEW_INCLUDE)
-            .expect(
-                "_baseRef cbridge_test_TestInterface_attributeName_get(_baseRef _instance) {\n"
-                    + "    return reinterpret_cast<_baseRef>( new ::std::vector< uint8_t >(get_pointer<std::shared_ptr<cbridge::test::TestInterface>>(_instance)->get()->get_attribute_name()) );\n"
-                    + "}\n")
-            .expect(
-                "void cbridge_test_TestInterface_attributeName_set(_baseRef _instance, const uint8_t* newValue_ptr, int64_t newValue_size) {\n"
-                    + "    return get_pointer<std::shared_ptr<cbridge::test::TestInterface>>(_instance)->get()->set_attribute_name(std::vector<uint8_t>(newValue_ptr, newValue_ptr + newValue_size));\n"
-                    + "}\n")
-            .build();
-
-    CInterface cModel = generator.buildCBridgeModel(francaInterface);
-
-    expectedHeader.assertMatches(CBridgeGenerator.generateHeaderContent(cModel));
-    expectedImplementation.assertMatches(CBridgeGenerator.generateImplementationContent(cModel));
   }
 }

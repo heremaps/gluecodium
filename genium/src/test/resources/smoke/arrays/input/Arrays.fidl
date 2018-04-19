@@ -32,6 +32,7 @@ interface Arrays {
     struct FancyStruct {
         StringArray messages
         UInt8[] numbers
+        ByteBuffer image
     }
 
     array StructArray of BasicStruct
@@ -107,6 +108,15 @@ interface Arrays {
         }
         out {
             ArrayOfMaps output
+        }
+    }
+
+    method methodWithByteBuffer {
+        in {
+            ByteBuffer input
+        }
+        out {
+            ByteBuffer output
         }
     }
 }

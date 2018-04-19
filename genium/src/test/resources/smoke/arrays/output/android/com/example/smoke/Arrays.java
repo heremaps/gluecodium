@@ -21,10 +21,34 @@ public class Arrays extends NativeBase {
     public static class FancyStruct {
         public List<String> messages = new ArrayList<>();
         public List<Long> numbers = new ArrayList<>();
+        public byte[] image;
         public FancyStruct() {}
-        public FancyStruct(List<String> messages, List<Long> numbers) {
+        public FancyStruct(List<String> messages, List<Long> numbers, byte[] image) {
             this.messages = messages;
             this.numbers = numbers;
+            this.image = image;
+        }
+        public static class Builder {
+            private List<String> messages = new ArrayList<>();
+            private List<Long> numbers = new ArrayList<>();
+            private byte[] image;
+            public Builder() {
+            }
+            public Builder setMessages(List<String> messages) {
+                this.messages = messages;
+                return this;
+            }
+            public Builder setNumbers(List<Long> numbers) {
+                this.numbers = numbers;
+                return this;
+            }
+            public Builder setImage(byte[] image) {
+                this.image = image;
+                return this;
+            }
+            public FancyStruct build() {
+                return new FancyStruct(messages, numbers, image);
+            }
         }
     }
     /** For internal use only */
@@ -44,4 +68,5 @@ public class Arrays extends NativeBase {
     public static native List<Arrays.FancyStruct> mergeArraysOfStructsWithArrays(final List<Arrays.FancyStruct> inlineFancyArray, final List<Arrays.FancyStruct> fancyArray);
     public static native List<String> methodWithArrayOfAliases(final List<String> input);
     public static native List<Map<Integer, String>> methodWithArrayOfMaps(final List<Map<Integer, String>> input);
+    public static native byte[] methodWithByteBuffer(final byte[] input);
 }

@@ -7,7 +7,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -32,6 +34,7 @@ using StructArray = ::std::vector< ::smoke::Arrays::BasicStruct >;
 struct FancyStruct {
     ::smoke::Arrays::StringArray messages;
     ::std::vector< uint8_t > numbers;
+    ::std::shared_ptr< ::std::vector< uint8_t > > image;
 };
 using FancyArray = ::std::vector< ::smoke::Arrays::FancyStruct >;
 public:
@@ -42,5 +45,6 @@ static ::std::vector< ::smoke::Arrays::UIntArray > method_with_array_of_arrays( 
 static ::smoke::Arrays::FancyArray merge_arrays_of_structs_with_arrays( const ::std::vector< ::smoke::Arrays::FancyStruct >& inline_fancy_array, const ::smoke::Arrays::FancyArray& fancy_array );
 static ::smoke::Arrays::ProfileIdList method_with_array_of_aliases( const ::smoke::Arrays::ProfileIdList& input );
 static ::smoke::Arrays::ArrayOfMaps method_with_array_of_maps( const ::smoke::Arrays::ArrayOfMaps& input );
+static ::std::shared_ptr< ::std::vector< uint8_t > > method_with_byte_buffer( const ::std::shared_ptr< ::std::vector< uint8_t > >& input );
 };
 }

@@ -1,72 +1,70 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
-
-
 internal func getRef(_ ref: Arrays?) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
 public class Arrays {
-
     public typealias ProfileId = String
     public typealias ErrorCodeToMessageMap = [Int32: String]
     let c_instance : _baseRef
-
     public init?(cArrays: _baseRef) {
         guard cArrays != 0 else {
             return nil
         }
         c_instance = cArrays
     }
-
     deinit {
         smoke_Arrays_release(c_instance)
     }
     public struct BasicStruct {
         public var value: Double
-
         public init(value: Double) {
             self.value = value
         }
-
         internal init?(cBasicStruct: _baseRef) {
             value = smoke_Arrays_BasicStruct_value_get(cBasicStruct)
         }
-
         internal func convertToCType() -> _baseRef {
             let result = smoke_Arrays_BasicStruct_create()
             fillFunction(result)
             return result
         }
-
         internal func fillFunction(_ cBasicStruct: _baseRef) -> Void {
             smoke_Arrays_BasicStruct_value_set(cBasicStruct, value)
         }
     }
-
     public struct FancyStruct {
         public var messages: CollectionOf<String>
         public var numbers: CollectionOf<UInt8>
-
-        public init(messages: CollectionOf<String>, numbers: CollectionOf<UInt8>) {
+        public var image: Data
+        public init(messages: CollectionOf<String>, numbers: CollectionOf<UInt8>, image: Data) {
             self.messages = messages
             self.numbers = numbers
+            self.image = image
         }
-
         internal init?(cFancyStruct: _baseRef) {
             messages = StringList(smoke_Arrays_FancyStruct_messages_get(cFancyStruct))
             numbers = UInt8List(smoke_Arrays_FancyStruct_numbers_get(cFancyStruct))
+            do {
+                let image_handle = smoke_Arrays_FancyStruct_image_get(cFancyStruct)
+                defer {
+                    byteArray_release(image_handle)
+                }
+                guard
+                    let array_data_handle = byteArray_data_get(image_handle)
+                else {
+                    return nil
+                }
+                image = Data(bytes: array_data_handle, count: Int(byteArray_size_get(image_handle)))
+            }
         }
-
         internal func convertToCType() -> _baseRef {
             let result = smoke_Arrays_FancyStruct_create()
             fillFunction(result)
             return result
         }
-
         internal func fillFunction(_ cFancyStruct: _baseRef) -> Void {
             let messages_conversion = messages.c_conversion()
             smoke_Arrays_FancyStruct_messages_set(cFancyStruct, messages_conversion.c_type)
@@ -74,80 +72,63 @@ public class Arrays {
             let numbers_conversion = numbers.c_conversion()
             smoke_Arrays_FancyStruct_numbers_set(cFancyStruct, numbers_conversion.c_type)
             numbers_conversion.cleanup()
+            image.withUnsafeBytes { (image_ptr: UnsafePointer<UInt8>) in
+                smoke_Arrays_FancyStruct_image_set(cFancyStruct, image_ptr, Int64(image.count))
+            }
         }
     }
-
     public static func methodWithArray<Tinput: Collection>(input: Tinput) -> CollectionOf<String> where Tinput.Element == String {
-
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-
         let result_handle = smoke_Arrays_methodWithArray(input_handle.c_type)
         return StringList(result_handle)
     }
-
     public static func methodWithArrayInline<Tinput: Collection>(input: Tinput) -> CollectionOf<UInt8> where Tinput.Element == UInt8 {
-
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-
         let result_handle = smoke_Arrays_methodWithArrayInline(input_handle.c_type)
         return UInt8List(result_handle)
     }
-
     public static func methodWithStructArray<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.BasicStruct> where Tinput.Element == Arrays.BasicStruct {
-
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-
         let result_handle = smoke_Arrays_methodWithStructArray(input_handle.c_type)
         return BasicStructList(result_handle)
     }
-
     public static func methodWithArrayOfArrays<Tinput: Collection>(input: Tinput) -> CollectionOf<CollectionOf<UInt8>> where Tinput.Element: Collection, Tinput.Element.Element == UInt8 {
-
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-
         let result_handle = smoke_Arrays_methodWithArrayOfArrays(input_handle.c_type)
         return UInt8ListList(result_handle)
     }
-
     public static func mergeArraysOfStructsWithArrays<TinlineFancyArray: Collection, TfancyArray: Collection>(inlineFancyArray: TinlineFancyArray, fancyArray: TfancyArray) -> CollectionOf<Arrays.FancyStruct> where TinlineFancyArray.Element == Arrays.FancyStruct, TfancyArray.Element == Arrays.FancyStruct {
-
         let inlineFancyArray_handle = inlineFancyArray.c_conversion()
         defer {
             inlineFancyArray_handle.cleanup()
         }
-
         let fancyArray_handle = fancyArray.c_conversion()
         defer {
             fancyArray_handle.cleanup()
         }
-
         let result_handle = smoke_Arrays_mergeArraysOfStructsWithArrays(inlineFancyArray_handle.c_type, fancyArray_handle.c_type)
         return FancyStructList(result_handle)
     }
-
     public static func methodWithArrayOfAliases<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.ProfileId> where Tinput.Element == Arrays.ProfileId {
-
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-
         let result_handle = smoke_Arrays_methodWithArrayOfAliases(input_handle.c_type)
         return StringList(result_handle)
     }
-
     public static func methodWithArrayOfMaps<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.ErrorCodeToMessageMap> where Tinput.Element == Arrays.ErrorCodeToMessageMap {
         let input_handle = input.c_conversion()
         defer {
@@ -156,12 +137,19 @@ public class Arrays {
         let result_handle = smoke_Arrays_methodWithArrayOfMaps(input_handle.c_type)
         return ArraysErrorCodeToMessageMapList(result_handle)
     }
+    public static func methodWithByteBuffer(input: Data) -> Data {
+        return input.withUnsafeBytes { (input_ptr: UnsafePointer<UInt8>) -> Data in
+            let result_data_handle = smoke_Arrays_methodWithByteBuffer(input_ptr, Int64(input.count))
+            defer {
+                byteArray_release(result_data_handle)
+            }
+            return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
+        }
+    }
 }
-
 extension Arrays: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-
 func convertArrays_ErrorCodeToMessageMapToCType(_ swiftDict: Arrays.ErrorCodeToMessageMap) -> _baseRef {
     let c_handle = smoke_Arrays_ErrorCodeToMessageMap_create()
     for (swift_key, swift_value) in swiftDict {
