@@ -16,7 +16,7 @@
 # License-Filename: LICENSE
 
 if(DEFINED includeguard_ApigenTargetSources)
-    return()
+  return()
 endif()
 set(includeguard_ApigenTargetSources ON)
 
@@ -35,59 +35,59 @@ cmake_minimum_required(VERSION 3.5)
 #
 # The general form of the command is::
 #
-#     apigen_target_sources(target)
+#   apigen_target_sources(target)
 #
 
 function(apigen_target_sources target)
 
-    get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
-    get_target_property(OUTPUT_DIR ${target} APIGEN_GENIUM_GENERATOR_OUTPUT_DIR)
-    get_target_property(ADDITIONAL_SOURCES ${target} APIGEN_GENIUM_GENERATOR_ADDITIONAL_SOURCES)
-    if(NOT ADDITIONAL_SOURCES)
-        set(ADDITIONAL_SOURCES "")
-    endif()
-    file(GLOB_RECURSE GENERATED_CPP_SOURCES ${OUTPUT_DIR}/cpp/*.cpp)
-    file(GLOB_RECURSE GENERATED_CPP_HEADERS ${OUTPUT_DIR}/cpp/*.h)
-    source_group("Generated BaseApi\\Header Files" FILES ${GENERATED_CPP_HEADERS})
-    source_group("Generated BaseApi\\Source Files" FILES ${GENERATED_CPP_SOURCES})
+  get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
+  get_target_property(OUTPUT_DIR ${target} APIGEN_GENIUM_GENERATOR_OUTPUT_DIR)
+  get_target_property(ADDITIONAL_SOURCES ${target} APIGEN_GENIUM_GENERATOR_ADDITIONAL_SOURCES)
+  if(NOT ADDITIONAL_SOURCES)
+    set(ADDITIONAL_SOURCES "")
+  endif()
+  file(GLOB_RECURSE GENERATED_CPP_SOURCES ${OUTPUT_DIR}/cpp/*.cpp)
+  file(GLOB_RECURSE GENERATED_CPP_HEADERS ${OUTPUT_DIR}/cpp/*.h)
+  source_group("Generated BaseApi\\Header Files" FILES ${GENERATED_CPP_HEADERS})
+  source_group("Generated BaseApi\\Source Files" FILES ${GENERATED_CPP_SOURCES})
 
-    if(${GENERATOR} STREQUAL cpp)
+  if(${GENERATOR} STREQUAL cpp)
 
-        target_sources(${target}
-            PRIVATE
-                ${GENERATED_CPP_SOURCES}
-                ${GENERATED_CPP_HEADERS})
+    target_sources(${target}
+      PRIVATE
+        ${GENERATED_CPP_SOURCES}
+        ${GENERATED_CPP_HEADERS})
 
 
-    elseif(${GENERATOR} MATCHES android)
+  elseif(${GENERATOR} MATCHES android)
 
-        file(GLOB_RECURSE JNI_SOURCES ${OUTPUT_DIR}/android/jni/*.cpp)
-        target_sources(${target}
-            PRIVATE
-                ${GENERATED_CPP_SOURCES}
-                ${GENERATED_CPP_HEADERS}
-                ${JNI_SOURCES})
+    file(GLOB_RECURSE JNI_SOURCES ${OUTPUT_DIR}/android/jni/*.cpp)
+    target_sources(${target}
+      PRIVATE
+        ${GENERATED_CPP_SOURCES}
+        ${GENERATED_CPP_HEADERS}
+        ${JNI_SOURCES})
 
-    elseif(${GENERATOR} MATCHES swift)
+  elseif(${GENERATOR} MATCHES swift)
 
-        file(GLOB_RECURSE CBRIDGE_SOURCES ${OUTPUT_DIR}/cbridge/*.cpp)
-        file(GLOB_RECURSE CBRIDGE_HEADERS ${OUTPUT_DIR}/cbridge/*.h)
-        file(GLOB_RECURSE SWIFT_SOURCES ${OUTPUT_DIR}/swift/*.swift)
-        target_sources(${target}
-            PRIVATE
-                ${CBRIDGE_SOURCES}
-                ${CBRIDGE_HEADERS}
-                ${GENERATED_CPP_SOURCES}
-                ${GENERATED_CPP_HEADERS}
-                ${SWIFT_SOURCES}
-                ${ADDITIONAL_SOURCES})
-        source_group("Generated cBridge\\Header Files" FILES ${CBRIDGE_HEADERS})
-        source_group("Generated cBridge\\Source Files" FILES ${CBRIDGE_SOURCES})
-        source_group("Generated Swift Source Files" FILES ${SWIFT_SOURCES})
-        source_group("Swift Source Files" FILES ${ADDITIONAL_SOURCES})
-        target_include_directories(${target} PRIVATE ${OUTPUT_DIR}/cbridge)
-    else()
-        message(FATAL_ERROR "apigen_target_sources() cannot match the generator '${GENERATOR}'")
-    endif()
+    file(GLOB_RECURSE CBRIDGE_SOURCES ${OUTPUT_DIR}/cbridge/*.cpp)
+    file(GLOB_RECURSE CBRIDGE_HEADERS ${OUTPUT_DIR}/cbridge/*.h)
+    file(GLOB_RECURSE SWIFT_SOURCES ${OUTPUT_DIR}/swift/*.swift)
+    target_sources(${target}
+      PRIVATE
+        ${CBRIDGE_SOURCES}
+        ${CBRIDGE_HEADERS}
+        ${GENERATED_CPP_SOURCES}
+        ${GENERATED_CPP_HEADERS}
+        ${SWIFT_SOURCES}
+        ${ADDITIONAL_SOURCES})
+    source_group("Generated cBridge\\Header Files" FILES ${CBRIDGE_HEADERS})
+    source_group("Generated cBridge\\Source Files" FILES ${CBRIDGE_SOURCES})
+    source_group("Generated Swift Source Files" FILES ${SWIFT_SOURCES})
+    source_group("Swift Source Files" FILES ${ADDITIONAL_SOURCES})
+    target_include_directories(${target} PRIVATE ${OUTPUT_DIR}/cbridge)
+  else()
+    message(FATAL_ERROR "apigen_target_sources() cannot match the generator '${GENERATOR}'")
+  endif()
 
 endfunction()
