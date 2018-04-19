@@ -10,7 +10,7 @@
 #pragma once
 
 #include <cstdint>
-
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -47,7 +47,7 @@ struct AllTypesStruct {
     double double_field;
     ::std::string string_field;
     bool boolean_field;
-    ::std::vector< uint8_t > bytes_field;
+    ::std::shared_ptr< ::std::vector< uint8_t > > bytes_field;
     ::smoke::Point point_field;
 };
 

@@ -93,10 +93,12 @@ HelloWorldBuiltinTypes::method_with_double( const double input_number )
     return 2.0 * input_number;
 }
 
-std::vector< uint8_t >
-HelloWorldBuiltinTypes::method_with_byte_buffer( const std::vector< uint8_t >& input_buffer )
+std::shared_ptr< std::vector< uint8_t > >
+HelloWorldBuiltinTypes::method_with_byte_buffer(
+    const std::shared_ptr< std::vector< uint8_t > >& input_buffer )
 {
-    return {input_buffer.rbegin(), input_buffer.rend()};
+    return std::make_shared< std::vector< uint8_t > >(
+        input_buffer->rbegin( ), input_buffer->rend( ) );
 }
 
 double

@@ -80,7 +80,7 @@ public class CppTypeMapperComplexTest {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(InstanceRules.class, DefinedBy.class);
 
-    typeMapper = new CppTypeMapper(includeResolver, "");
+    typeMapper = new CppTypeMapper(includeResolver, "lorem_ipsum");
 
     when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
         .thenReturn(francaTypeCollection);
@@ -112,10 +112,11 @@ public class CppTypeMapperComplexTest {
     //assert
     assertTrue(cppType instanceof CppTemplateTypeRef);
     CppComplexTypeRef expectedTypeRef = (CppTemplateTypeRef) cppType;
-    assertEquals("::std::vector< uint8_t >", expectedTypeRef.name);
-    assertEquals(2, expectedTypeRef.includes.size());
-    assertTrue(expectedTypeRef.includes.contains(CppLibraryIncludes.INT_TYPES));
+    assertEquals("::std::shared_ptr< ::std::vector< uint8_t > >", expectedTypeRef.name);
+    assertEquals(3, expectedTypeRef.includes.size());
     assertTrue(expectedTypeRef.includes.contains(CppLibraryIncludes.VECTOR));
+    assertTrue(expectedTypeRef.includes.contains(CppLibraryIncludes.MEMORY));
+    assertTrue(expectedTypeRef.includes.contains(CppLibraryIncludes.INT_TYPES));
   }
 
   @Test

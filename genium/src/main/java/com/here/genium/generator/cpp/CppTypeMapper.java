@@ -66,8 +66,11 @@ public class CppTypeMapper {
   }
 
   public CppTypeRef getByteBufferType() {
+    CppTypeRef byteBufferType =
+        CppTemplateTypeRef.create(
+            CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8);
     return CppTemplateTypeRef.create(
-        CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8);
+        CppTemplateTypeRef.TemplateClass.SHARED_POINTER, byteBufferType);
   }
 
   public CppTypeRef map(FTypeRef type) {

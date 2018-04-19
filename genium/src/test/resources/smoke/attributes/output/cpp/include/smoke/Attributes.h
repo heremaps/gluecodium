@@ -10,7 +10,7 @@
 #pragma once
 
 #include <cstdint>
-
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -40,8 +40,8 @@ virtual ::std::vector< ::std::string > get_array_attribute(  ) = 0;
 virtual void set_array_attribute( const ::std::vector< ::std::string >& value ) = 0;
 virtual ::smoke::Attributes::InternalError get_complex_type_attribute(  ) = 0;
 virtual void set_complex_type_attribute( const ::smoke::Attributes::InternalError value ) = 0;
-virtual ::std::vector< uint8_t > get_byte_buffer_attribute(  ) = 0;
-virtual void set_byte_buffer_attribute( const ::std::vector< uint8_t >& value ) = 0;
+virtual ::std::shared_ptr< ::std::vector< uint8_t > > get_byte_buffer_attribute(  ) = 0;
+virtual void set_byte_buffer_attribute( const ::std::shared_ptr< ::std::vector< uint8_t > >& value ) = 0;
 
 };
 

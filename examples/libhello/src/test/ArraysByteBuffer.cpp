@@ -22,10 +22,10 @@
 
 namespace test {
 
-::std::vector< uint8_t >
-ArraysByteBuffer::method_with_byte_buffer( const ::std::vector< uint8_t >& input )
+std::shared_ptr< std::vector< uint8_t > >
+ArraysByteBuffer::method_with_byte_buffer( const std::shared_ptr< std::vector< uint8_t > >& input )
 {
-    return { input.rbegin(), input.rend() };
+    return std::make_shared< std::vector< uint8_t > >( input->rbegin( ), input->rend( ) );
 }
 
 ::std::vector< uint8_t >
@@ -45,7 +45,8 @@ ArraysByteBuffer::method_with_byte_buffer_in_struct(
     const ArraysByteBuffer::StructWithByteBuffer& input )
 {
     ArraysByteBuffer::StructWithByteBuffer result;
-    result.image = { input.image.rbegin(), input.image.rend() };
+    result.image = std::make_shared< std::vector< uint8_t > >(
+        input.image->rbegin( ), input.image->rend( ) );
     return result;
 }
 
