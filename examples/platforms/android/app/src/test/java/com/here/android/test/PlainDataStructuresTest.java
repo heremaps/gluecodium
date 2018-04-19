@@ -20,6 +20,7 @@ package com.here.android.test;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
@@ -151,9 +152,7 @@ public final class PlainDataStructuresTest {
 
     assertEquals(
         "Strings set to null are converted and returned as empty strings", "", result.stringField);
-    assertTrue(
-        "Byte arrays set to null are converted and returned as empty byte arrays",
-        Arrays.equals(new byte[] {}, result.bytesField));
+    assertNull("Byte arrays set to null are returned as null", result.bytesField);
   }
 
   @Test

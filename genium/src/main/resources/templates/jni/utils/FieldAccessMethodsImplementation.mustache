@@ -117,13 +117,13 @@ get_string_field( JNIEnv* env, const jclass javaClass, const jobject object, con
     return result;
 }
 
-std::vector< uint8_t >
+std::shared_ptr< std::vector< uint8_t > >
 get_byte_array_field( JNIEnv* env,
                       const jclass javaClass,
                       const jobject object,
                       const char* fieldName )
 {
-    std::vector< uint8_t > result;
+    std::shared_ptr< std::vector< uint8_t > > result;
     auto fieldId = env->GetFieldID( javaClass, fieldName, "[B" );
 
     {{.}}::jni::convert_from_jni(
@@ -240,10 +240,10 @@ set_byte_array_field( JNIEnv* env,
                       const jclass javaClass,
                       const jobject object,
                       const char* fieldName,
-                      const std::vector< uint8_t >& fieldValue )
+                      const std::shared_ptr< std::vector< uint8_t > >& fieldValue )
 {
     auto fieldId = env->GetFieldID( javaClass, fieldName, "[B" );
-    jbyteArray jValue = {{.}}::jni::convert_to_jni_array( env, fieldValue );
+    jbyteArray jValue = {{.}}::jni::convert_to_jni( env, fieldValue );
     env->SetObjectField( object, fieldId, jValue );
     env->DeleteLocalRef( jValue );
 }

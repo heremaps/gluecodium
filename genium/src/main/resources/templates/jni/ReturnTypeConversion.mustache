@@ -35,4 +35,4 @@
     auto result = nativeCallResult.safe_value();{{/if}}
     {{/exception}}
 {{^exception}}    {{#if returnType}}auto result = {{/if}}{{>jni/CppMethodCall}}{{/exception}}{{#if returnType}}
-    return {{#if returnType.isComplex}}{{internalNamespace}}::jni::convert_to_jni{{#if returnType.isJavaArray}}_array{{/if}}(_jenv, result){{/if}}{{#unless returnType.isComplex}}result{{/unless}};{{/if}}
+    return {{#if returnType.isComplex}}{{internalNamespace}}::jni::convert_to_jni(_jenv, result){{/if}}{{#unless returnType.isComplex}}result{{/unless}};{{/if}}

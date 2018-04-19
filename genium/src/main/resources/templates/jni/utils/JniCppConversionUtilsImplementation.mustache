@@ -62,16 +62,17 @@ convert_from_jni( JNIEnv* env, const jobject jvalue, std::string& nresult )
 }
 
 void
-convert_from_jni( JNIEnv* env, const jbyteArray& jvalue, std::vector< uint8_t >& nresult )
+convert_from_jni( JNIEnv* env, const jbyteArray& jvalue,
+                  std::shared_ptr< std::vector< uint8_t > >& nresult )
 {
     if ( env->IsSameObject( jvalue, nullptr ) )
     {
-        nresult.clear( );
+        nresult.reset( );
         return;
     }
     size_t size = static_cast< size_t >( env->GetArrayLength( jvalue ) );
-    nresult = std::vector< uint8_t >( size );
-    jbyte* jbuffer = reinterpret_cast< jbyte* >( nresult.data( ) );
+    nresult = std::make_shared< std::vector< uint8_t > >( size );
+    jbyte* jbuffer = reinterpret_cast< jbyte* >( nresult->data( ) );
     env->GetByteArrayRegion( jvalue, 0, size, jbuffer );
 }
 
@@ -84,11 +85,16 @@ convert_to_jni( JNIEnv* env, const std::string& nvalue )
 }
 
 jbyteArray
-convert_to_jni_array( JNIEnv* env, const std::vector< uint8_t >& nvalue )
+convert_to_jni( JNIEnv* env, const std::shared_ptr< std::vector< uint8_t > >& nvalue )
 {
-    jsize size = static_cast< jsize >( nvalue.size( ) );
+    if ( !nvalue )
+    {
+        return nullptr;
+    }
+
+    jsize size = static_cast< jsize >( nvalue->size( ) );
     jbyteArray jresult = env->NewByteArray( size );
-    const jbyte* jbuffer = reinterpret_cast< const jbyte* >( nvalue.data( ) );
+    const jbyte* jbuffer = reinterpret_cast< const jbyte* >( nvalue->data( ) );
     env->SetByteArrayRegion( jresult, 0, size, jbuffer );
 
     return jresult;

@@ -54,7 +54,7 @@ using namespace ::{{internalNamespace}}::jni;
     JNIEnv* jniEnv = getJniEnvironment( );{{!!
 }}{{#parameters}}{{!!
 }}{{#if type.isComplex}}
-    auto j{{name}} = convert_to_jni{{#if type.isJavaArray}}_array{{/if}}( jniEnv, n{{name}} );{{!!
+    auto j{{name}} = convert_to_jni( jniEnv, n{{name}} );{{!!
 }}{{/if}}{{!!
 }}{{#unless type.isComplex}}
     j{{type.javaName}} j{{name}} = n{{name}};{{!!
