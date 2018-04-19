@@ -49,4 +49,8 @@ define GeniumExtensions for interface smoke.Arrays
     method methodWithArrayOfMaps {
         Static = true
     }
+
+    method methodWithByteBuffer {
+        Static = true
+    }
 }
