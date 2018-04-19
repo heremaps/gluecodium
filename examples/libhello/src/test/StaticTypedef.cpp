@@ -45,7 +45,7 @@ StaticTypedef::return_string_typedef( const ::test::StaticTypedef::StringTypedef
 StaticTypedef::ByteArrayTypedef
 StaticTypedef::return_byte_buffer_typedef( const ::test::StaticTypedef::ByteArrayTypedef& input )
 {
-    return { input.rbegin(), input.rend() };
+    return std::make_shared< std::vector< uint8_t > >( input->rbegin( ), input->rend( ) );
 }
 
 StaticTypedef::ExampleStructTypedef

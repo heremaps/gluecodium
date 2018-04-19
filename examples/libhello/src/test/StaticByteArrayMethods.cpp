@@ -24,24 +24,29 @@
 
 namespace test {
 
-std::vector< uint8_t >
-StaticByteArrayMethods::return_input_byte_buffer( const std::vector< uint8_t >& input_buffer )
+std::shared_ptr< std::vector< uint8_t > >
+StaticByteArrayMethods::return_input_byte_buffer(
+    const std::shared_ptr< std::vector< uint8_t > >& input_buffer )
 {
     return input_buffer;
 }
 
-std::vector< uint8_t >
-StaticByteArrayMethods::return_reverse_byte_buffer( const std::vector< uint8_t >& input_buffer )
+std::shared_ptr< std::vector< uint8_t > >
+StaticByteArrayMethods::return_reverse_byte_buffer(
+    const std::shared_ptr< std::vector< uint8_t > >& input_buffer )
 {
-    return {input_buffer.rbegin(), input_buffer.rend()};
+    return std::make_shared< std::vector< uint8_t > >(
+        input_buffer->rbegin( ), input_buffer->rend( ) );
 }
 
-std::vector< uint8_t >
-StaticByteArrayMethods::concatenate_byte_buffers( const std::vector< uint8_t >& input1,
-                                                  const std::vector< uint8_t >& input2 )
+std::shared_ptr< std::vector< uint8_t > >
+StaticByteArrayMethods::concatenate_byte_buffers(
+    const std::shared_ptr< std::vector< uint8_t > >& input1,
+    const std::shared_ptr< std::vector< uint8_t > >& input2 )
 {
-    std::vector< uint8_t > output( input1 );
-    output.insert( output.end(), input2.begin(), input2.end() );
+    std::shared_ptr< std::vector< uint8_t > > output
+        = std::make_shared< std::vector< uint8_t > >( *input1 );
+    output->insert( output->end(), input2->begin(), input2->end() );
     return output;
 }
 
