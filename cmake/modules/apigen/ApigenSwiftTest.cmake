@@ -51,7 +51,7 @@ function(apigen_swift_test target swift_target_flag module_name)
 
     file(GLOB_RECURSE SOURCES ${SWIFT_TEST}/*.swift)
 
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         find_package(XCTest REQUIRED)
         xctest_add_bundle(xctest${target} ${target}
         ${SOURCES})
@@ -86,9 +86,9 @@ function(apigen_swift_test target swift_target_flag module_name)
             )
 
         string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
-        if (uppercase_CMAKE_BUILD_TYPE MATCHES "^(DEBUG|RELWITHDEBINFO)$")
+        if(uppercase_CMAKE_BUILD_TYPE MATCHES "^(DEBUG|RELWITHDEBINFO)$")
             set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
-        endif ()
+        endif()
 
         add_custom_target(test${target} ALL DEPENDS ${target}
             COMMAND swiftc ${BUILD_ARGUMENTS} ${SOURCES}
@@ -96,4 +96,4 @@ function(apigen_swift_test target swift_target_flag module_name)
 
         install(PROGRAMS "${SWIFT_OUTPUT_DIR}/test${target}" DESTINATION .)
     endif()
-endfunction(apigen_swift_test)
+endfunction()

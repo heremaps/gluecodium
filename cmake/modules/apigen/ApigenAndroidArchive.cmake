@@ -45,8 +45,8 @@ function(apigen_android_archive)
     set(options)
     set(oneValueArgs TARGET)
     set(multiValueArgs ASSETS ADD_JAR)
-    cmake_parse_arguments(apigen_android_archive "${options}" "${oneValueArgs}"
-                                                 "${multiValueArgs}" ${ARGN})
+    cmake_parse_arguments(apigen_android_archive
+      "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     get_target_property(GENERATOR ${apigen_android_archive_TARGET} APIGEN_GENIUM_GENERATOR)
     get_target_property(OUTPUT_DIR ${apigen_android_archive_TARGET} APIGEN_GENIUM_GENERATOR_OUTPUT_DIR)
@@ -85,7 +85,7 @@ function(apigen_android_archive)
     # Remove any dead links from the above copy. This can happen for generated files that weren't
     # built as part of the dependencies for project.
     add_custom_command(TARGET ${apigen_android_archive_TARGET} POST_BUILD
-        COMMAND find ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/assets/ -type l -delete )
+        COMMAND find ${APIGEN_ANDROID_ARCHIVE_OUTPUT_DIR}/assets/ -type l -delete)
 
     get_target_property(APIGEN_JAVA_JAR ${apigen_android_archive_TARGET} APIGEN_JAVA_JAR)
     if(apigen_android_archive_ADD_JAR)
@@ -116,4 +116,4 @@ function(apigen_android_archive)
     install(FILES ${APIGEN_ANDROID_ARCHIVE}
         DESTINATION lib)
 
-endfunction(apigen_android_archive)
+endfunction()

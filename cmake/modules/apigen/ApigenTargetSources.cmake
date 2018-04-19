@@ -90,4 +90,4 @@ function(apigen_target_sources target)
         message(FATAL_ERROR "apigen_target_sources() cannot match the generator '${GENERATOR}'")
     endif()
 
-endfunction(apigen_target_sources)
+endfunction()

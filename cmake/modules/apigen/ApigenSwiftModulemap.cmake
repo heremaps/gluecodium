@@ -83,4 +83,4 @@ function(apigen_swift_modulemap target)
     endif()
 
 
-endfunction(apigen_swift_modulemap)
+endfunction()

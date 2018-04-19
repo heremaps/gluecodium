@@ -89,7 +89,7 @@ function(apigen_java_compile)
             -PlocalDependencies=${APIGEN_JAVA_LOCAL_DEPENDENCIES}
             -PlocalDependenciesDirs=${APIGEN_JAVA_LOCAL_DEPENDENCIES_DIRS}
             -PremoteDependencies=${APIGEN_JAVA_REMOTE_DEPENDENCIES}
-             compileJava
+            compileJava
         WORKING_DIRECTORY ${APIGEN_GENIUM_DIR}
         COMMENT "Compiling generated Java sources into class files...")
 endfunction()

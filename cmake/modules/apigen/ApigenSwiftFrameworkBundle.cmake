@@ -43,8 +43,8 @@ cmake_minimum_required(VERSION 3.5)
 function(apigen_swift_framework_bundle)
     set(oneValueArgs TARGET)
     set(multiValueArgs ASSETS)
-    cmake_parse_arguments(apigen_swift_framework_bundle "${options}" "${oneValueArgs}"
-                                           "${multiValueArgs}" ${ARGN})
+    cmake_parse_arguments(apigen_swift_framework_bundle
+      "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     get_target_property(GENERATOR ${apigen_swift_framework_bundle_TARGET} APIGEN_GENIUM_GENERATOR)
     get_target_property(SWIFT_OUTPUT_DIR ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
@@ -76,6 +76,6 @@ function(apigen_swift_framework_bundle)
     # Remove any dead links from the above copy. This can happen for generated files that weren't
     # built as part of the dependencies for project.
     add_custom_command(TARGET ${apigen_swift_framework_bundle_TARGET} POST_BUILD
-        COMMAND find ${SWIFT_ASSETS_DIRECTORY} -type l -delete )
+        COMMAND find ${SWIFT_ASSETS_DIRECTORY} -type l -delete)
 
-endfunction(apigen_swift_framework_bundle)
+endfunction()
