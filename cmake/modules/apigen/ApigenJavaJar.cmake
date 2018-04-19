@@ -33,35 +33,35 @@ cmake_minimum_required(VERSION 3.5)
 #
 # The general form of the command is::
 #
-#     apigen_java_jar(target)
+#   apigen_java_jar(target)
 #
 
 find_package(Java COMPONENTS Development REQUIRED)
 
 function(apigen_java_jar target)
 
-    get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
-    get_target_property(APIGEN_JAVA_OUTPUT_DIR ${target} APIGEN_JAVA_COMPILE_OUTPUT_DIR)
+  get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
+  get_target_property(APIGEN_JAVA_OUTPUT_DIR ${target} APIGEN_JAVA_COMPILE_OUTPUT_DIR)
 
-    if(NOT ${GENERATOR} MATCHES "android")
-        message(FATAL_ERROR "apigen_java_jar() depends on apigen_generate() configured with generator 'android'")
-    endif()
+  if(NOT ${GENERATOR} MATCHES "android")
+    message(FATAL_ERROR "apigen_java_jar() depends on apigen_generate() configured with generator 'android'")
+  endif()
 
-    # Genium invocations for different generators need different output directories
-    # as Genium currently wipes the directory upon start.
-    set(APIGEN_JAVA_JAR_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-java-jar)
-    set(APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR_OUTPUT_DIR}/${target}.jar)
+  # Genium invocations for different generators need different output directories
+  # as Genium currently wipes the directory upon start.
+  set(APIGEN_JAVA_JAR_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-java-jar)
+  set(APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR_OUTPUT_DIR}/${target}.jar)
 
-    # Attach properties to target for re-use in other modules
-    set_target_properties(${target} PROPERTIES
-        APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR})
+  # Attach properties to target for re-use in other modules
+  set_target_properties(${target} PROPERTIES
+    APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR})
 
-    add_custom_command(TARGET ${target} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_JAR_OUTPUT_DIR}
-        COMMAND ${Java_JAR_EXECUTABLE} -cfM ${APIGEN_JAVA_JAR} -C ${APIGEN_JAVA_OUTPUT_DIR} .
-        COMMENT "Creating Java JAR from class files...")
-    # TODO: Installs unconditionally, allow to configure the module:
-    #install(FILES ${APIGEN_JAVA_JAR}
-    #    DESTINATION lib)
+  add_custom_command(TARGET ${target} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${APIGEN_JAVA_JAR_OUTPUT_DIR}
+    COMMAND ${Java_JAR_EXECUTABLE} -cfM ${APIGEN_JAVA_JAR} -C ${APIGEN_JAVA_OUTPUT_DIR} .
+    COMMENT "Creating Java JAR from class files...")
+  # TODO: Installs unconditionally, allow to configure the module:
+  #install(FILES ${APIGEN_JAVA_JAR}
+  #  DESTINATION lib)
 
 endfunction()
