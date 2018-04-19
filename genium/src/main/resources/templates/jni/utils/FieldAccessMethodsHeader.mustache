@@ -44,6 +44,8 @@
 
 #include "JniCppConversionUtils.h"
 #include <cstdint>
+#include <memory>
+#include <vector>
 
 namespace {{.}}
 {
@@ -76,7 +78,7 @@ jdouble get_double_field(
 std::string get_string_field(
     JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName );
 
-std::vector< uint8_t > get_byte_array_field(
+std::shared_ptr< ::std::vector< uint8_t > > get_byte_array_field(
     JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName );
 
 jobject get_object_field( JNIEnv* env,
@@ -148,7 +150,7 @@ void set_byte_array_field( JNIEnv* env,
                            const jclass javaClass,
                            const jobject object,
                            const char* fieldName,
-                           const std::vector< uint8_t >& fieldValue );
+                           const std::shared_ptr< ::std::vector< uint8_t > >& fieldValue );
 
 void set_object_field( JNIEnv* env,
                        jclass javaClass,
