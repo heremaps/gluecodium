@@ -55,4 +55,4 @@ function(apigen_swift_framework_info_plist target)
         )
     message(STATUS "[Swift] Creating Mac OS configuration...")
 
-endfunction(apigen_swift_framework_info_plist)
+endfunction()

@@ -56,4 +56,4 @@ function(apigen_java_jar target)
     #install(FILES ${APIGEN_JAVA_JAR}
     #    DESTINATION lib)
 
-endfunction(apigen_java_jar)
+endfunction()
