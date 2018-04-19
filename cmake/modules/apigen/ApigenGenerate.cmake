@@ -46,7 +46,7 @@ cmake_minimum_required(VERSION 3.5)
 
 find_package(Java COMPONENTS Runtime REQUIRED)
 set(APIGEN_GENIUM_DIR ${CMAKE_CURRENT_LIST_DIR}/genium)
-if (WIN32)
+if(WIN32)
     set(APIGEN_GENIUM_GRADLE_WRAPPER ./gradlew.bat)
 else()
     set(APIGEN_GENIUM_GRADLE_WRAPPER ./gradlew)
@@ -97,11 +97,11 @@ function(apigen_generate)
 
     # Build Genium tool command-line
     set(APIGEN_GENIUM_ARGS "\
- -output \"${GENIUM_OUTPUT_DIR}\"\
- -generators ${apigen_generate_GENERATOR}\
- ${validateParam}\
- ${mergeManifest}\
- -nostdout -enableCaching -timeLogging")
+      -output \"${GENIUM_OUTPUT_DIR}\"\
+      -generators ${apigen_generate_GENERATOR}\
+      ${validateParam}\
+      ${mergeManifest}\
+      -nostdout -enableCaching -timeLogging")
     foreach(input ${apigen_generate_FRANCA_SOURCES})
         # Attach sources to target for IDEs to display them properly in their projects
         file(GLOB_RECURSE inputFrancaSources ${input}/*.fidl ${input}/*.fdepl)
@@ -111,7 +111,7 @@ function(apigen_generate)
             set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${inputFrancaSources})
         endif()
 
-        if (NOT IS_ABSOLUTE ${input})
+        if(NOT IS_ABSOLUTE ${input})
             set(input "${CMAKE_CURRENT_SOURCE_DIR}/${input}")
         endif()
         string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -input \"${input}\"")
@@ -138,4 +138,4 @@ function(apigen_generate)
         message(FATAL_ERROR "Failed to generate from given FIDL files.")
     endif()
 
-endfunction(apigen_generate)
+endfunction()

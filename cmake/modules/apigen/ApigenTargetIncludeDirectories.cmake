@@ -78,4 +78,4 @@ function(apigen_target_include_directories target)
         message(FATAL_ERROR "apigen_target_include_directories() cannot match the generator '${GENERATOR}'")
     endif()
 
-endfunction(apigen_target_include_directories)
+endfunction()

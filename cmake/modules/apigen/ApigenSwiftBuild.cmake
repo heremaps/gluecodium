@@ -49,7 +49,7 @@ function(apigen_swift_build target)
 
     apigen_swift_modulemap(${target})
 
-    if (CMAKE_CROSSCOMPILING)
+    if(CMAKE_CROSSCOMPILING)
         foreach(TARGET_ARCH IN LISTS CMAKE_OSX_ARCHITECTURES)
             message(STATUS "[Swift] COMPILING ${target} ${TARGET_ARCH}")
             apigen_swift_compile(${target} "${TARGET_ARCH}")
@@ -63,4 +63,4 @@ function(apigen_swift_build target)
         set_target_properties(${target} PROPERTIES APIGEN_SWIFT_BUILD_ARCH ${CMAKE_SYSTEM_PROCESSOR})
     endif()
 
-endfunction(apigen_swift_build)
+endfunction()

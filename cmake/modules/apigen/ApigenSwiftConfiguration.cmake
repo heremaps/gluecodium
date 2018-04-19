@@ -62,4 +62,4 @@ function(apigen_swift_configuration target)
 
     message(STATUS "[Swift] Framework version ${FRAMEWORK_VERSION} will be generated in path ${SWIFT_BUILD_OUTPUT_DIR}")
 
-endfunction(apigen_swift_configuration)
+endfunction()

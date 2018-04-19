@@ -23,7 +23,7 @@ set(includeguard_ApigenSwiftCompile ON)
 cmake_minimum_required(VERSION 3.5)
 
 set(MINIMAL_CLANG_VERSION 5.0)
-if (NOT (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang") OR CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
+if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang") OR CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
     message(FATAL_ERROR "Clang compiler version > ${MINIMAL_CLANG_VERSION} is required,"
     "your compiler is ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}\n"
     "On Ubuntu 16.04 you can run\n"
@@ -69,7 +69,7 @@ function(apigen_swift_compile target architecture)
 
     if(IOS_DEPLOYMENT_TARGET)
         # If the toolchain does not specify the platform, it uses 'iphone' by default.
-        if (NOT XCODE_PLATFORM_SUFFIX)
+        if(NOT XCODE_PLATFORM_SUFFIX)
             set(XCODE_PLATFORM_SUFFIX "ios")
         endif()
         set(full_target ${TARGET_ARCHITECTURE}-apple-${XCODE_PLATFORM_SUFFIX}${IOS_DEPLOYMENT_TARGET})
@@ -77,7 +77,7 @@ function(apigen_swift_compile target architecture)
         set(swift_target_flag -target ${full_target} -sdk ${CMAKE_OSX_SYSROOT})
     else()
         message(STATUS "[Swift] Compiling for target ${TARGET_ARCHITECTURE})")
-        if (APPLE)
+        if(APPLE)
             set(full_target ${TARGET_ARCHITECTURE}-apple-apple-macosx10.12)
             set(swift_target_flag -target ${full_target} -sdk ${CMAKE_OSX_SYSROOT})
         else()
@@ -122,9 +122,9 @@ function(apigen_swift_compile target architecture)
             )
 
         string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
-        if (uppercase_CMAKE_BUILD_TYPE MATCHES "^(DEBUG|RELWITHDEBINFO)$")
+        if(uppercase_CMAKE_BUILD_TYPE MATCHES "^(DEBUG|RELWITHDEBINFO)$")
             set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
-        endif ()
+        endif()
 
         add_custom_command(TARGET ${target} POST_BUILD
             COMMENT "Compiling generated Swift sources -> ${BUILD_ARGUMENTS}"
@@ -142,4 +142,4 @@ function(apigen_swift_compile target architecture)
 
     apigen_swift_test(${target} "${swift_target_flag}" ${MODULE_NAME})
 
-endfunction(apigen_swift_compile)
+endfunction()
