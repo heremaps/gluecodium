@@ -10,6 +10,7 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <vector>
 
 namespace examples {
@@ -29,9 +30,8 @@ static uint64_t method_with_u_int64( const uint64_t input_number );
 static bool method_with_boolean( const bool input_condition );
 static float method_with_float( const float input_number );
 static double method_with_double( const double input_number );
-static ::std::vector< uint8_t > method_with_byte_buffer( const ::std::vector< uint8_t >& input_buffer );
+static ::std::shared_ptr< ::std::vector< uint8_t > > method_with_byte_buffer( const ::std::shared_ptr< ::std::vector< uint8_t > >& input_buffer );
 static double method_with_float_and_integer( const float input_float, const int32_t input_integer );
-
 };
 
 }

@@ -7,7 +7,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -19,9 +21,9 @@ public:
 public:
 static bool return_inverted_boolean( const bool input );
 static bool return_and_boolean( const bool input1, const bool input2 );
-static ::std::vector< uint8_t > return_input_byte_buffer( const ::std::vector< uint8_t >& input_buffer );
-static ::std::vector< uint8_t > return_reverse_byte_buffer( const ::std::vector< uint8_t >& input_buffer );
-static ::std::vector< uint8_t > concatenate_byte_buffers( const ::std::vector< uint8_t >& input1, const ::std::vector< uint8_t >& input2 );
+static ::std::shared_ptr< ::std::vector< uint8_t > > return_input_byte_buffer( const ::std::shared_ptr< ::std::vector< uint8_t > >& input_buffer );
+static ::std::shared_ptr< ::std::vector< uint8_t > > return_reverse_byte_buffer( const ::std::shared_ptr< ::std::vector< uint8_t > >& input_buffer );
+static ::std::shared_ptr< ::std::vector< uint8_t > > concatenate_byte_buffers( const ::std::shared_ptr< ::std::vector< uint8_t > >& input1, const ::std::shared_ptr< ::std::vector< uint8_t > >& input2 );
 static float return_float( const float input_number );
 static float return_incremented_float( const float input_number );
 static float sum_two_floats( const float input_number1, const float input_number2 );
