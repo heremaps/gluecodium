@@ -10,9 +10,9 @@ internal func getRef(_ ref: PublicInterface) -> RefHolder {
     }
     var functions = smoke_PublicInterface_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
-    functions.release = {swiftClass_pointer in
-        if let swiftClass = swiftClass_pointer {
-            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+    functions.release = {swift_class_pointer in
+        if let swift_class = swift_class_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
     let proxy = smoke_PublicInterface_createProxy(functions)
@@ -46,11 +46,11 @@ internal struct InternalStruct {
     }
     internal init?(cInternalStruct: _baseRef) {
         do {
-            let stringFieldHandle = smoke_PublicInterface_InternalStruct_stringField_get(cInternalStruct)
+            let stringField_handle = smoke_PublicInterface_InternalStruct_stringField_get(cInternalStruct)
             defer {
-                std_string_release(stringFieldHandle)
+                std_string_release(stringField_handle)
             }
-            stringField = String(cString: std_string_data_get(stringFieldHandle))
+            stringField = String(cString: std_string_data_get(stringField_handle))
         }
     }
     internal func convertToCType() -> _baseRef {

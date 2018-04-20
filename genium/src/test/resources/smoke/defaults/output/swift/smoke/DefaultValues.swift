@@ -49,11 +49,11 @@ public class DefaultValues {
             floatField = smoke_DefaultValues_StructWithDefaults_floatField_get(cStructWithDefaults)
             boolField = smoke_DefaultValues_StructWithDefaults_boolField_get(cStructWithDefaults)
             do {
-                let stringFieldHandle = smoke_DefaultValues_StructWithDefaults_stringField_get(cStructWithDefaults)
+                let stringField_handle = smoke_DefaultValues_StructWithDefaults_stringField_get(cStructWithDefaults)
                 defer {
-                    std_string_release(stringFieldHandle)
+                    std_string_release(stringField_handle)
                 }
-                stringField = String(cString: std_string_data_get(stringFieldHandle))
+                stringField = String(cString: std_string_data_get(stringField_handle))
             }
             enumField = DefaultValues.SomeEnum.init(rawValue: smoke_DefaultValues_StructWithDefaults_enumField_get(cStructWithDefaults))!
         }
@@ -74,11 +74,11 @@ public class DefaultValues {
     }
 
     public static func processStructWithDefaults(input: DefaultValues.StructWithDefaults) -> DefaultValues.StructWithDefaults? {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            smoke_DefaultValues_StructWithDefaults_release(inputHandle)
+            smoke_DefaultValues_StructWithDefaults_release(input_handle)
         }
-        let cResult = smoke_DefaultValues_processStructWithDefaults(inputHandle)
+        let cResult = smoke_DefaultValues_processStructWithDefaults(input_handle)
         defer {
             smoke_DefaultValues_StructWithDefaults_release(cResult)
         }

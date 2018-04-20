@@ -114,11 +114,11 @@ defer {
 return String(data: Data(bytes: std_string_data_get(handle),
               count: Int(std_string_size_get(handle))), encoding: .utf8)!{{/stringSubscript}}
 
-{{+structConversion}}let itemHandle = item.convertToCType();
+{{+structConversion}}let item_handle = item.convertToCType();
 defer {
-    {{underlyingType.cPrefix}}_release(itemHandle)
+    {{underlyingType.cPrefix}}_release(item_handle)
 }
-{{refName}}_append(handle, itemHandle){{/structConversion}}
+{{refName}}_append(handle, item_handle){{/structConversion}}
 
 {{+enumConversion}}{{refName}}_append(handle, item.rawValue){{/enumConversion}}
 

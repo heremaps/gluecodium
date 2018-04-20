@@ -36,27 +36,27 @@ public class Attributes {
             return Attributes.ExampleStruct(cExampleStruct: cResult)!
         }
         set {
-            let newValueHandle = newValue.convertToCType()
+            let newValue_handle = newValue.convertToCType()
             defer {
-                smoke_Attributes_ExampleStruct_release(newValueHandle)
+                smoke_Attributes_ExampleStruct_release(newValue_handle)
             }
-            return smoke_Attributes_structAttribute_set(c_instance, newValueHandle)
+            return smoke_Attributes_structAttribute_set(c_instance, newValue_handle)
         }
     }
 
     public var arrayAttribute: CollectionOf<String> {
         get {
 
-            let handle = smoke_Attributes_arrayAttribute_get(c_instance)
-            return StringList(handle)
+            let result_handle = smoke_Attributes_arrayAttribute_get(c_instance)
+            return StringList(result_handle)
         }
         set {
 
-            let newValueHandle = newValue.c_conversion()
+            let newValue_handle = newValue.c_conversion()
             defer {
-                newValueHandle.cleanup()
+                newValue_handle.cleanup()
             }
-            return smoke_Attributes_arrayAttribute_set(c_instance, newValueHandle.c_type)
+            return smoke_Attributes_arrayAttribute_set(c_instance, newValue_handle.c_type)
         }
     }
 

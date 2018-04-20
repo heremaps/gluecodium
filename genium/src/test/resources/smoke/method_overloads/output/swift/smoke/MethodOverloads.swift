@@ -61,37 +61,37 @@ public class MethodOverloads {
     }
 
     public func isBoolean(input: MethodOverloads.Point) -> Bool {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            smoke_MethodOverloads_Point_release(inputHandle)
+            smoke_MethodOverloads_Point_release(input_handle)
         }
-        return smoke_MethodOverloads_isBoolean_structOverload(c_instance, inputHandle)
+        return smoke_MethodOverloads_isBoolean_structOverload(c_instance, input_handle)
     }
 
     public func isBoolean(input1: Bool, input2: Int8, input3: String, input4: MethodOverloads.Point) -> Bool {
-        let input4Handle = input4.convertToCType()
+        let input4_handle = input4.convertToCType()
         defer {
-            smoke_MethodOverloads_Point_release(input4Handle)
+            smoke_MethodOverloads_Point_release(input4_handle)
         }
-        return smoke_MethodOverloads_isBoolean_everythingOverload(c_instance, input1, input2, input3, input4Handle)
+        return smoke_MethodOverloads_isBoolean_everythingOverload(c_instance, input1, input2, input3, input4_handle)
     }
 
     public func isBoolean<Tinput: Collection>(input: Tinput) -> Bool where Tinput.Element == String {
 
-        let inputHandle = input.c_conversion()
+        let input_handle = input.c_conversion()
         defer {
-            inputHandle.cleanup()
+            input_handle.cleanup()
         }
-        return smoke_MethodOverloads_isBoolean_stringArrayOverload(c_instance, inputHandle.c_type)
+        return smoke_MethodOverloads_isBoolean_stringArrayOverload(c_instance, input_handle.c_type)
     }
 
     public func isBoolean<Tinput: Collection>(input: Tinput) -> Bool where Tinput.Element == Int8 {
 
-        let inputHandle = input.c_conversion()
+        let input_handle = input.c_conversion()
         defer {
-            inputHandle.cleanup()
+            input_handle.cleanup()
         }
-        return smoke_MethodOverloads_isBoolean_intArrayOverload(c_instance, inputHandle.c_type)
+        return smoke_MethodOverloads_isBoolean_intArrayOverload(c_instance, input_handle.c_type)
     }
 
     public func isBoolean() -> Bool {

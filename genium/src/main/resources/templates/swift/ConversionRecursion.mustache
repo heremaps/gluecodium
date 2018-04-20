@@ -81,22 +81,22 @@ if (RESULT.has_value) {
 
 
 }}{{+structConversion}}{{!!
-}}let {{name}}Handle = {{name}}.convertToCType()
+}}let {{name}}_handle = {{name}}.convertToCType()
 defer {
-    {{type.cPrefix}}_release({{name}}Handle)
+    {{type.cPrefix}}_release({{name}}_handle)
 }
 {{>swift/ConversionRecursion}}
 {{/structConversion}}
 
 {{+classConversion}}{{!!
-}}let {{name}}Handle = getRef({{name}})
+}}let {{name}}_handle = getRef({{name}})
 {{>swift/ConversionRecursion}}
 {{/classConversion}}{{!!
 
 }}{{+dictionaryConversion}}{{!!
-}}let {{name}}Handle = convert{{type.name}}ToCType({{name}})
+}}let {{name}}_handle = convert{{type.name}}ToCType({{name}})
 defer {
-    {{type.cPrefix}}_release({{name}}Handle)
+    {{type.cPrefix}}_release({{name}}_handle)
 }
 {{>swift/ConversionRecursion}}
 {{/dictionaryConversion}}{{!!
@@ -114,8 +114,8 @@ return {{>returnType}}(c{{method.returnType.simpleName}}: cResult){{#if method.f
 }}{{#if method.returnType.isInterface}}
 
 if let swift_pointer = {{method.returnType.cPrefix}}_get_swift_object_from_cache(cResult),
-        let reconstructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{method.returnType.publicName}} {
-    return reconstructed
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{method.returnType.publicName}} {
+    return re_constructed
 }{{/if}}
 return {{>returnType}}(c{{method.returnType}}: cResult){{#if method.forceReturnValueUnwrapping}}!{{/if}}
 {{/MethodReturnClass}}
@@ -126,24 +126,24 @@ return {{method.returnType}}(rawValue: cResult)!
 {{/MethodReturnEnum}}
 
 {{+arrayConversion}}
-let {{name}}Handle = {{name}}.c_conversion()
+let {{name}}_handle = {{name}}.c_conversion()
 defer {
-    {{name}}Handle.cleanup()
+    {{name}}_handle.cleanup()
 }
 {{>swift/ConversionRecursion}}
 {{/arrayConversion}}
 
 {{+MethodReturnArray}}
-let handle = {{include delegateToCall}}
-return {{method.returnType.implementingClass}}(handle)
+let result_handle = {{include delegateToCall}}
+return {{method.returnType.implementingClass}}(result_handle)
 {{/MethodReturnArray}}{{!!
 
 }}{{+MethodReturnDictionary}}{{!!
-}}let resultHandle = {{include delegateToCall}}
+}}let result_handle = {{include delegateToCall}}
 defer {
-    {{returnType.cPrefix}}_release(resultHandle)
+    {{returnType.cPrefix}}_release(result_handle)
 }
-return convert{{type.name}}FromCType(resultHandle)
+return convert{{type.name}}FromCType(result_handle)
 {{/MethodReturnDictionary}}{{!!
 
 }}{{+returnType}}{{!!

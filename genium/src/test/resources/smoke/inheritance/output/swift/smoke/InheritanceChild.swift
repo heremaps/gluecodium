@@ -10,18 +10,18 @@ internal func getRef(_ ref: InheritanceChild) -> RefHolder {
     }
     var functions = smoke_InheritanceChild_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
-    functions.release = {swiftClass_pointer in
-        if let swiftClass = swiftClass_pointer {
-            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+    functions.release = {swift_class_pointer in
+        if let swift_class = swift_class_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-    functions.smoke_InheritanceRoot_rootMethod = {(swiftClass_pointer) in
-        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! InheritanceChild
-        return swiftClass.rootMethod()
+    functions.smoke_InheritanceRoot_rootMethod = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceChild
+        return swift_class.rootMethod()
     }
-    functions.smoke_InheritanceChild_childMethod = {(swiftClass_pointer) in
-        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! InheritanceChild
-        return swiftClass.childMethod()
+    functions.smoke_InheritanceChild_childMethod = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceChild
+        return swift_class.childMethod()
     }
     let proxy = smoke_InheritanceChild_createProxy(functions)
     return RefHolder(ref: proxy, release: smoke_InheritanceChild_release)

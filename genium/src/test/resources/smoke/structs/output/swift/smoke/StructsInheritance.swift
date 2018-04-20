@@ -30,40 +30,40 @@ public class StructsInheritance {
         }
         internal init?(cColoredLineInherited: _baseRef) {
             do {
-                let aHandle = smoke_StructsInheritance_ColoredLineInherited_a_get(cColoredLineInherited)
+                let a_handle = smoke_StructsInheritance_ColoredLineInherited_a_get(cColoredLineInherited)
                 defer {
-                    smoke_Structs_Point_release(aHandle)
+                    smoke_Structs_Point_release(a_handle)
                 }
                 guard
-                    let aUnwrapped = Structs.Point(cPoint: aHandle)
+                    let a_unwrapped = Structs.Point(cPoint: a_handle)
                 else {
                     return nil
                 }
-                a = aUnwrapped
+                a = a_unwrapped
             }
             do {
-                let bHandle = smoke_StructsInheritance_ColoredLineInherited_b_get(cColoredLineInherited)
+                let b_handle = smoke_StructsInheritance_ColoredLineInherited_b_get(cColoredLineInherited)
                 defer {
-                    smoke_Structs_Point_release(bHandle)
+                    smoke_Structs_Point_release(b_handle)
                 }
                 guard
-                    let bUnwrapped = Structs.Point(cPoint: bHandle)
+                    let b_unwrapped = Structs.Point(cPoint: b_handle)
                 else {
                     return nil
                 }
-                b = bUnwrapped
+                b = b_unwrapped
             }
             do {
-                let colorHandle = smoke_StructsInheritance_ColoredLineInherited_color_get(cColoredLineInherited)
+                let color_handle = smoke_StructsInheritance_ColoredLineInherited_color_get(cColoredLineInherited)
                 defer {
-                    smoke_TypeCollection_Color_release(colorHandle)
+                    smoke_TypeCollection_Color_release(color_handle)
                 }
                 guard
-                    let colorUnwrapped = Color(cColor: colorHandle)
+                    let color_unwrapped = Color(cColor: color_handle)
                 else {
                     return nil
                 }
-                color = colorUnwrapped
+                color = color_unwrapped
             }
         }
         internal func convertToCType() -> _baseRef {
@@ -72,29 +72,29 @@ public class StructsInheritance {
             return result
         }
         internal func fillFunction(_ cColoredLineInherited: _baseRef) -> Void {
-            let aHandle = a.convertToCType()
+            let a_handle = a.convertToCType()
             defer {
-                smoke_Structs_Point_release(aHandle)
+                smoke_Structs_Point_release(a_handle)
             }
-            smoke_StructsInheritance_ColoredLineInherited_a_set(cColoredLineInherited, aHandle)
-            let bHandle = b.convertToCType()
+            smoke_StructsInheritance_ColoredLineInherited_a_set(cColoredLineInherited, a_handle)
+            let b_handle = b.convertToCType()
             defer {
-                smoke_Structs_Point_release(bHandle)
+                smoke_Structs_Point_release(b_handle)
             }
-            smoke_StructsInheritance_ColoredLineInherited_b_set(cColoredLineInherited, bHandle)
-            let colorHandle = color.convertToCType()
+            smoke_StructsInheritance_ColoredLineInherited_b_set(cColoredLineInherited, b_handle)
+            let color_handle = color.convertToCType()
             defer {
-                smoke_TypeCollection_Color_release(colorHandle)
+                smoke_TypeCollection_Color_release(color_handle)
             }
-            smoke_StructsInheritance_ColoredLineInherited_color_set(cColoredLineInherited, colorHandle)
+            smoke_StructsInheritance_ColoredLineInherited_color_set(cColoredLineInherited, color_handle)
         }
     }
     public static func methodWithInheritedType(input: StructsInheritance.ColoredLineInherited) -> StructsInheritance.ColoredLineInherited? {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            smoke_StructsInheritance_ColoredLineInherited_release(inputHandle)
+            smoke_StructsInheritance_ColoredLineInherited_release(input_handle)
         }
-        let cResult = smoke_StructsInheritance_methodWithInheritedType(inputHandle)
+        let cResult = smoke_StructsInheritance_methodWithInheritedType(input_handle)
         defer {
             smoke_StructsInheritance_ColoredLineInherited_release(cResult)
         }

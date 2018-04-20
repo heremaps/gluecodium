@@ -12,15 +12,15 @@ internal func getRef(_ ref: InterfaceWithStruct) -> RefHolder {
 
     var functions = smoke_InterfaceWithStruct_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
-    functions.release = {swiftClass_pointer in
-        if let swiftClass = swiftClass_pointer {
-            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+    functions.release = {swift_class_pointer in
+        if let swift_class = swift_class_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
 
-    functions.smoke_InterfaceWithStruct_innerStructMethod = {(swiftClass_pointer, inputStruct) in
-        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! InterfaceWithStruct
-        return get_pointer((swiftClass.innerStructMethod(inputStruct: InnerStruct(cInnerStruct: inputStruct)!)!).convertToCType())
+    functions.smoke_InterfaceWithStruct_innerStructMethod = {(swift_class_pointer, inputStruct) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InterfaceWithStruct
+        return get_pointer((swift_class.innerStructMethod(inputStruct: InnerStruct(cInnerStruct: inputStruct)!)!).convertToCType())
     }
     let proxy = smoke_InterfaceWithStruct_createProxy(functions)
     return RefHolder(ref: proxy, release: smoke_InterfaceWithStruct_release)
@@ -54,11 +54,11 @@ internal class _InterfaceWithStruct: InterfaceWithStruct {
         smoke_InterfaceWithStruct_release(c_instance)
     }
     public func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct? {
-        let inputStructHandle = inputStruct.convertToCType()
+        let inputStruct_handle = inputStruct.convertToCType()
         defer {
-            smoke_InterfaceWithStruct_InnerStruct_release(inputStructHandle)
+            smoke_InterfaceWithStruct_InnerStruct_release(inputStruct_handle)
         }
-        let cResult = smoke_InterfaceWithStruct_innerStructMethod(c_instance, inputStructHandle)
+        let cResult = smoke_InterfaceWithStruct_innerStructMethod(c_instance, inputStruct_handle)
         defer {
             smoke_InterfaceWithStruct_InnerStruct_release(cResult)
         }

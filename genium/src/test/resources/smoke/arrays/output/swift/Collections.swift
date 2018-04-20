@@ -28,11 +28,11 @@ extension Collection where Element == Arrays.BasicStruct  {
     public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_BasicStruct_create()
         for item in self {
-            let itemHandle = item.convertToCType();
+            let item_handle = item.convertToCType();
             defer {
-                smoke_Arrays_BasicStruct_release(itemHandle)
+                smoke_Arrays_BasicStruct_release(item_handle)
             }
-            arrayCollection_BasicStruct_append(handle, itemHandle)
+            arrayCollection_BasicStruct_append(handle, item_handle)
         }
         let cleanup_function = { () -> Void in
             arrayCollection_BasicStruct_release(handle)
@@ -66,11 +66,11 @@ extension Collection where Element == Arrays.FancyStruct  {
     public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_FancyStruct_create()
         for item in self {
-            let itemHandle = item.convertToCType();
+            let item_handle = item.convertToCType();
             defer {
-                smoke_Arrays_FancyStruct_release(itemHandle)
+                smoke_Arrays_FancyStruct_release(item_handle)
             }
-            arrayCollection_FancyStruct_append(handle, itemHandle)
+            arrayCollection_FancyStruct_append(handle, item_handle)
         }
         let cleanup_function = { () -> Void in
             arrayCollection_FancyStruct_release(handle)

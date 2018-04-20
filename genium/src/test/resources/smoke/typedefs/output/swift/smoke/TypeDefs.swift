@@ -20,16 +20,16 @@ public class TypeDefs {
     public var primitiveTypeAttribute: CollectionOf<TypeDefs.PrimitiveTypeDef> {
         get {
 
-            let handle = smoke_TypeDefs_primitiveTypeAttribute_get(c_instance)
-            return DoubleList(handle)
+            let result_handle = smoke_TypeDefs_primitiveTypeAttribute_get(c_instance)
+            return DoubleList(result_handle)
         }
         set {
 
-            let newValueHandle = newValue.c_conversion()
+            let newValue_handle = newValue.c_conversion()
             defer {
-                newValueHandle.cleanup()
+                newValue_handle.cleanup()
             }
-            return smoke_TypeDefs_primitiveTypeAttribute_set(c_instance, newValueHandle.c_type)
+            return smoke_TypeDefs_primitiveTypeAttribute_set(c_instance, newValue_handle.c_type)
         }
     }
     let c_instance : _baseRef
@@ -75,11 +75,11 @@ public class TypeDefs {
 
         internal init?(cTestStruct: _baseRef) {
             do {
-                let somethingHandle = smoke_TypeDefs_TestStruct_something_get(cTestStruct)
+                let something_handle = smoke_TypeDefs_TestStruct_something_get(cTestStruct)
                 defer {
-                    std_string_release(somethingHandle)
+                    std_string_release(something_handle)
                 }
-                something = String(cString: std_string_data_get(somethingHandle))
+                something = String(cString: std_string_data_get(something_handle))
             }
         }
 
@@ -100,13 +100,13 @@ public class TypeDefs {
 
     public static func methodWithComplexTypeDef<Tinput: Collection>(input: Tinput) -> TypeDefs.ComplexTypeDef where Tinput.Element == TypeDefs.TestStruct {
 
-        let inputHandle = input.c_conversion()
+        let input_handle = input.c_conversion()
         defer {
-            inputHandle.cleanup()
+            input_handle.cleanup()
         }
 
-        let handle = smoke_TypeDefs_methodWithComplexTypeDef(inputHandle.c_type)
-        return TestStructList(handle)
+        let result_handle = smoke_TypeDefs_methodWithComplexTypeDef(input_handle.c_type)
+        return TestStructList(result_handle)
     }
 
     public static func returnNestedIntTypeDef(input: TypeDefs.NestedIntTypeDef) -> TypeDefs.NestedIntTypeDef {
@@ -114,11 +114,11 @@ public class TypeDefs {
     }
 
     public static func returnTestStructTypeDef(input: TypeDefs.TestStructTypeDef) -> TypeDefs.TestStructTypeDef? {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            smoke_TypeDefs_TestStruct_release(inputHandle)
+            smoke_TypeDefs_TestStruct_release(input_handle)
         }
-        let cResult = smoke_TypeDefs_returnTestStructTypeDef(inputHandle)
+        let cResult = smoke_TypeDefs_returnTestStructTypeDef(input_handle)
         defer {
             smoke_TypeDefs_TestStruct_release(cResult)
         }
@@ -126,11 +126,11 @@ public class TypeDefs {
     }
 
     public static func returnNestedStructTypeDef(input: TypeDefs.NestedStructTypeDef) -> TypeDefs.NestedStructTypeDef? {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            smoke_TypeDefs_TestStruct_release(inputHandle)
+            smoke_TypeDefs_TestStruct_release(input_handle)
         }
-        let cResult = smoke_TypeDefs_returnNestedStructTypeDef(inputHandle)
+        let cResult = smoke_TypeDefs_returnNestedStructTypeDef(input_handle)
         defer {
             smoke_TypeDefs_TestStruct_release(cResult)
         }
@@ -138,11 +138,11 @@ public class TypeDefs {
     }
 
     public static func returnTypeDefPointFromTypeCollection(input: PointTypeDef) -> PointTypeDef? {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            smoke_TypeCollection_Point_release(inputHandle)
+            smoke_TypeCollection_Point_release(input_handle)
         }
-        let cResult = smoke_TypeDefs_returnTypeDefPointFromTypeCollection(inputHandle)
+        let cResult = smoke_TypeDefs_returnTypeDefPointFromTypeCollection(input_handle)
         defer {
             smoke_TypeCollection_Point_release(cResult)
         }

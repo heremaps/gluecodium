@@ -68,93 +68,93 @@ public class Arrays {
         }
 
         internal func fillFunction(_ cFancyStruct: _baseRef) -> Void {
-            let messagesConversion = messages.c_conversion()
-            smoke_Arrays_FancyStruct_messages_set(cFancyStruct, messagesConversion.c_type)
-            messagesConversion.cleanup()
-            let numbersConversion = numbers.c_conversion()
-            smoke_Arrays_FancyStruct_numbers_set(cFancyStruct, numbersConversion.c_type)
-            numbersConversion.cleanup()
+            let messages_conversion = messages.c_conversion()
+            smoke_Arrays_FancyStruct_messages_set(cFancyStruct, messages_conversion.c_type)
+            messages_conversion.cleanup()
+            let numbers_conversion = numbers.c_conversion()
+            smoke_Arrays_FancyStruct_numbers_set(cFancyStruct, numbers_conversion.c_type)
+            numbers_conversion.cleanup()
         }
     }
 
     public static func methodWithArray<Tinput: Collection>(input: Tinput) -> CollectionOf<String> where Tinput.Element == String {
 
-        let inputHandle = input.c_conversion()
+        let input_handle = input.c_conversion()
         defer {
-            inputHandle.cleanup()
+            input_handle.cleanup()
         }
 
-        let handle = smoke_Arrays_methodWithArray(inputHandle.c_type)
-        return StringList(handle)
+        let result_handle = smoke_Arrays_methodWithArray(input_handle.c_type)
+        return StringList(result_handle)
     }
 
     public static func methodWithArrayInline<Tinput: Collection>(input: Tinput) -> CollectionOf<UInt8> where Tinput.Element == UInt8 {
 
-        let inputHandle = input.c_conversion()
+        let input_handle = input.c_conversion()
         defer {
-            inputHandle.cleanup()
+            input_handle.cleanup()
         }
 
-        let handle = smoke_Arrays_methodWithArrayInline(inputHandle.c_type)
-        return UInt8List(handle)
+        let result_handle = smoke_Arrays_methodWithArrayInline(input_handle.c_type)
+        return UInt8List(result_handle)
     }
 
     public static func methodWithStructArray<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.BasicStruct> where Tinput.Element == Arrays.BasicStruct {
 
-        let inputHandle = input.c_conversion()
+        let input_handle = input.c_conversion()
         defer {
-            inputHandle.cleanup()
+            input_handle.cleanup()
         }
 
-        let handle = smoke_Arrays_methodWithStructArray(inputHandle.c_type)
-        return BasicStructList(handle)
+        let result_handle = smoke_Arrays_methodWithStructArray(input_handle.c_type)
+        return BasicStructList(result_handle)
     }
 
     public static func methodWithArrayOfArrays<Tinput: Collection>(input: Tinput) -> CollectionOf<CollectionOf<UInt8>> where Tinput.Element: Collection, Tinput.Element.Element == UInt8 {
 
-        let inputHandle = input.c_conversion()
+        let input_handle = input.c_conversion()
         defer {
-            inputHandle.cleanup()
+            input_handle.cleanup()
         }
 
-        let handle = smoke_Arrays_methodWithArrayOfArrays(inputHandle.c_type)
-        return UInt8ListList(handle)
+        let result_handle = smoke_Arrays_methodWithArrayOfArrays(input_handle.c_type)
+        return UInt8ListList(result_handle)
     }
 
     public static func mergeArraysOfStructsWithArrays<TinlineFancyArray: Collection, TfancyArray: Collection>(inlineFancyArray: TinlineFancyArray, fancyArray: TfancyArray) -> CollectionOf<Arrays.FancyStruct> where TinlineFancyArray.Element == Arrays.FancyStruct, TfancyArray.Element == Arrays.FancyStruct {
 
-        let inlineFancyArrayHandle = inlineFancyArray.c_conversion()
+        let inlineFancyArray_handle = inlineFancyArray.c_conversion()
         defer {
-            inlineFancyArrayHandle.cleanup()
+            inlineFancyArray_handle.cleanup()
         }
 
-        let fancyArrayHandle = fancyArray.c_conversion()
+        let fancyArray_handle = fancyArray.c_conversion()
         defer {
-            fancyArrayHandle.cleanup()
+            fancyArray_handle.cleanup()
         }
 
-        let handle = smoke_Arrays_mergeArraysOfStructsWithArrays(inlineFancyArrayHandle.c_type, fancyArrayHandle.c_type)
-        return FancyStructList(handle)
+        let result_handle = smoke_Arrays_mergeArraysOfStructsWithArrays(inlineFancyArray_handle.c_type, fancyArray_handle.c_type)
+        return FancyStructList(result_handle)
     }
 
     public static func methodWithArrayOfAliases<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.ProfileId> where Tinput.Element == Arrays.ProfileId {
 
-        let inputHandle = input.c_conversion()
+        let input_handle = input.c_conversion()
         defer {
-            inputHandle.cleanup()
+            input_handle.cleanup()
         }
 
-        let handle = smoke_Arrays_methodWithArrayOfAliases(inputHandle.c_type)
-        return StringList(handle)
+        let result_handle = smoke_Arrays_methodWithArrayOfAliases(input_handle.c_type)
+        return StringList(result_handle)
     }
 
     public static func methodWithArrayOfMaps<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.ErrorCodeToMessageMap> where Tinput.Element == Arrays.ErrorCodeToMessageMap {
-        let inputHandle = input.c_conversion()
+        let input_handle = input.c_conversion()
         defer {
-            inputHandle.cleanup()
+            input_handle.cleanup()
         }
-        let handle = smoke_Arrays_methodWithArrayOfMaps(inputHandle.c_type)
-        return ArraysErrorCodeToMessageMapList(handle)
+        let result_handle = smoke_Arrays_methodWithArrayOfMaps(input_handle.c_type)
+        return ArraysErrorCodeToMessageMapList(result_handle)
     }
 }
 
@@ -163,24 +163,24 @@ extension Arrays: NativeBase {
 }
 
 func convertArrays_ErrorCodeToMessageMapToCType(_ swiftDict: Arrays.ErrorCodeToMessageMap) -> _baseRef {
-    let cHandle = smoke_Arrays_ErrorCodeToMessageMap_create()
+    let c_handle = smoke_Arrays_ErrorCodeToMessageMap_create()
     for (swift_key, swift_value) in swiftDict {
         let c_key = swift_key
         let c_value = swift_value.convertToCType()
         defer {
             std_string_release(c_value)
         }
-        smoke_Arrays_ErrorCodeToMessageMap_put(cHandle, c_key, c_value)
+        smoke_Arrays_ErrorCodeToMessageMap_put(c_handle, c_key, c_value)
     }
-    return cHandle
+    return c_handle
 }
-func convertArrays_ErrorCodeToMessageMapFromCType(_ cHandle: _baseRef) -> Arrays.ErrorCodeToMessageMap {
+func convertArrays_ErrorCodeToMessageMapFromCType(_ c_handle: _baseRef) -> Arrays.ErrorCodeToMessageMap {
     var swiftDict: Arrays.ErrorCodeToMessageMap = [:]
-    let iteratorHandle = smoke_Arrays_ErrorCodeToMessageMap_iterator(cHandle)
-    while smoke_Arrays_ErrorCodeToMessageMap_iterator_is_valid(cHandle, iteratorHandle) {
-        let c_key = smoke_Arrays_ErrorCodeToMessageMap_iterator_key(iteratorHandle)
+    let iterator_handle = smoke_Arrays_ErrorCodeToMessageMap_iterator(c_handle)
+    while smoke_Arrays_ErrorCodeToMessageMap_iterator_is_valid(c_handle, iterator_handle) {
+        let c_key = smoke_Arrays_ErrorCodeToMessageMap_iterator_key(iterator_handle)
         let swift_key = c_key
-        let c_value = smoke_Arrays_ErrorCodeToMessageMap_iterator_value(iteratorHandle)
+        let c_value = smoke_Arrays_ErrorCodeToMessageMap_iterator_value(iterator_handle)
         defer {
             std_string_release(c_value)
         }
@@ -188,8 +188,8 @@ func convertArrays_ErrorCodeToMessageMapFromCType(_ cHandle: _baseRef) -> Arrays
                                             count: Int(std_string_size_get(c_value))),
                                             encoding: .utf8)
         swiftDict[swift_key] = swift_value
-        smoke_Arrays_ErrorCodeToMessageMap_iterator_increment(iteratorHandle)
+        smoke_Arrays_ErrorCodeToMessageMap_iterator_increment(iterator_handle)
     }
-    smoke_Arrays_ErrorCodeToMessageMap_iterator_release(iteratorHandle)
+    smoke_Arrays_ErrorCodeToMessageMap_iterator_release(iterator_handle)
     return swiftDict
 }

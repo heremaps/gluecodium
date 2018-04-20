@@ -75,28 +75,28 @@ public class Structs {
         }
         internal init?(cLine: _baseRef) {
             do {
-                let aHandle = smoke_Structs_Line_a_get(cLine)
+                let a_handle = smoke_Structs_Line_a_get(cLine)
                 defer {
-                    smoke_Structs_Point_release(aHandle)
+                    smoke_Structs_Point_release(a_handle)
                 }
                 guard
-                    let aUnwrapped = Structs.Point(cPoint: aHandle)
+                    let a_unwrapped = Structs.Point(cPoint: a_handle)
                 else {
                     return nil
                 }
-                a = aUnwrapped
+                a = a_unwrapped
             }
             do {
-                let bHandle = smoke_Structs_Line_b_get(cLine)
+                let b_handle = smoke_Structs_Line_b_get(cLine)
                 defer {
-                    smoke_Structs_Point_release(bHandle)
+                    smoke_Structs_Point_release(b_handle)
                 }
                 guard
-                    let bUnwrapped = Structs.Point(cPoint: bHandle)
+                    let b_unwrapped = Structs.Point(cPoint: b_handle)
                 else {
                     return nil
                 }
-                b = bUnwrapped
+                b = b_unwrapped
             }
         }
         internal func convertToCType() -> _baseRef {
@@ -105,16 +105,16 @@ public class Structs {
             return result
         }
         internal func fillFunction(_ cLine: _baseRef) -> Void {
-            let aHandle = a.convertToCType()
+            let a_handle = a.convertToCType()
             defer {
-                smoke_Structs_Point_release(aHandle)
+                smoke_Structs_Point_release(a_handle)
             }
-            smoke_Structs_Line_a_set(cLine, aHandle)
-            let bHandle = b.convertToCType()
+            smoke_Structs_Line_a_set(cLine, a_handle)
+            let b_handle = b.convertToCType()
             defer {
-                smoke_Structs_Point_release(bHandle)
+                smoke_Structs_Point_release(b_handle)
             }
-            smoke_Structs_Line_b_set(cLine, bHandle)
+            smoke_Structs_Line_b_set(cLine, b_handle)
         }
     }
     public struct ColoredLine {
@@ -126,28 +126,28 @@ public class Structs {
         }
         internal init?(cColoredLine: _baseRef) {
             do {
-                let lineHandle = smoke_Structs_ColoredLine_line_get(cColoredLine)
+                let line_handle = smoke_Structs_ColoredLine_line_get(cColoredLine)
                 defer {
-                    smoke_Structs_Line_release(lineHandle)
+                    smoke_Structs_Line_release(line_handle)
                 }
                 guard
-                    let lineUnwrapped = Structs.Line(cLine: lineHandle)
+                    let line_unwrapped = Structs.Line(cLine: line_handle)
                 else {
                     return nil
                 }
-                line = lineUnwrapped
+                line = line_unwrapped
             }
             do {
-                let colorHandle = smoke_Structs_ColoredLine_color_get(cColoredLine)
+                let color_handle = smoke_Structs_ColoredLine_color_get(cColoredLine)
                 defer {
-                    smoke_Structs_Color_release(colorHandle)
+                    smoke_Structs_Color_release(color_handle)
                 }
                 guard
-                    let colorUnwrapped = Structs.Color(cColor: colorHandle)
+                    let color_unwrapped = Structs.Color(cColor: color_handle)
                 else {
                     return nil
                 }
-                color = colorUnwrapped
+                color = color_unwrapped
             }
         }
         internal func convertToCType() -> _baseRef {
@@ -156,16 +156,16 @@ public class Structs {
             return result
         }
         internal func fillFunction(_ cColoredLine: _baseRef) -> Void {
-            let lineHandle = line.convertToCType()
+            let line_handle = line.convertToCType()
             defer {
-                smoke_Structs_Line_release(lineHandle)
+                smoke_Structs_Line_release(line_handle)
             }
-            smoke_Structs_ColoredLine_line_set(cColoredLine, lineHandle)
-            let colorHandle = color.convertToCType()
+            smoke_Structs_ColoredLine_line_set(cColoredLine, line_handle)
+            let color_handle = color.convertToCType()
             defer {
-                smoke_Structs_Color_release(colorHandle)
+                smoke_Structs_Color_release(color_handle)
             }
-            smoke_Structs_ColoredLine_color_set(cColoredLine, colorHandle)
+            smoke_Structs_ColoredLine_color_set(cColoredLine, color_handle)
         }
     }
     public struct AllTypesStruct {
@@ -211,36 +211,36 @@ public class Structs {
             floatField = smoke_Structs_AllTypesStruct_floatField_get(cAllTypesStruct)
             doubleField = smoke_Structs_AllTypesStruct_doubleField_get(cAllTypesStruct)
             do {
-                let stringFieldHandle = smoke_Structs_AllTypesStruct_stringField_get(cAllTypesStruct)
+                let stringField_handle = smoke_Structs_AllTypesStruct_stringField_get(cAllTypesStruct)
                 defer {
-                    std_string_release(stringFieldHandle)
+                    std_string_release(stringField_handle)
                 }
-                stringField = String(cString: std_string_data_get(stringFieldHandle))
+                stringField = String(cString: std_string_data_get(stringField_handle))
             }
             booleanField = smoke_Structs_AllTypesStruct_booleanField_get(cAllTypesStruct)
             do {
-                let bytesFieldHandle = smoke_Structs_AllTypesStruct_bytesField_get(cAllTypesStruct)
+                let bytesField_handle = smoke_Structs_AllTypesStruct_bytesField_get(cAllTypesStruct)
                 defer {
-                    byteArray_release(bytesFieldHandle)
+                    byteArray_release(bytesField_handle)
                 }
                 guard
-                    let dataHandle = byteArray_data_get(bytesFieldHandle)
+                    let array_data_handle = byteArray_data_get(bytesField_handle)
                 else {
                     return nil
                 }
-                bytesField = Data(bytes: dataHandle, count: Int(byteArray_size_get(bytesFieldHandle)))
+                bytesField = Data(bytes: array_data_handle, count: Int(byteArray_size_get(bytesField_handle)))
             }
             do {
-                let pointFieldHandle = smoke_Structs_AllTypesStruct_pointField_get(cAllTypesStruct)
+                let pointField_handle = smoke_Structs_AllTypesStruct_pointField_get(cAllTypesStruct)
                 defer {
-                    smoke_Structs_Point_release(pointFieldHandle)
+                    smoke_Structs_Point_release(pointField_handle)
                 }
                 guard
-                    let pointFieldUnwrapped = Structs.Point(cPoint: pointFieldHandle)
+                    let pointField_unwrapped = Structs.Point(cPoint: pointField_handle)
                 else {
                     return nil
                 }
-                pointField = pointFieldUnwrapped
+                pointField = pointField_unwrapped
             }
         }
         internal func convertToCType() -> _baseRef {
@@ -264,11 +264,11 @@ public class Structs {
             bytesField.withUnsafeBytes { (bytesField_ptr: UnsafePointer<UInt8>) in
                 smoke_Structs_AllTypesStruct_bytesField_set(cAllTypesStruct, bytesField_ptr, Int64(bytesField.count))
             }
-            let pointFieldHandle = pointField.convertToCType()
+            let pointField_handle = pointField.convertToCType()
             defer {
-                smoke_Structs_Point_release(pointFieldHandle)
+                smoke_Structs_Point_release(pointField_handle)
             }
-            smoke_Structs_AllTypesStruct_pointField_set(cAllTypesStruct, pointFieldHandle)
+            smoke_Structs_AllTypesStruct_pointField_set(cAllTypesStruct, pointField_handle)
         }
     }
     public struct ExternalStruct {
@@ -284,31 +284,31 @@ public class Structs {
         }
         internal init?(cExternalStruct: _baseRef) {
             do {
-                let stringFieldHandle = smoke_Structs_ExternalStruct_stringField_get(cExternalStruct)
+                let stringField_handle = smoke_Structs_ExternalStruct_stringField_get(cExternalStruct)
                 defer {
-                    std_string_release(stringFieldHandle)
+                    std_string_release(stringField_handle)
                 }
-                stringField = String(cString: std_string_data_get(stringFieldHandle))
+                stringField = String(cString: std_string_data_get(stringField_handle))
             }
             do {
-                let externalStringFieldHandle = smoke_Structs_ExternalStruct_externalStringField_get(cExternalStruct)
+                let externalStringField_handle = smoke_Structs_ExternalStruct_externalStringField_get(cExternalStruct)
                 defer {
-                    std_string_release(externalStringFieldHandle)
+                    std_string_release(externalStringField_handle)
                 }
-                externalStringField = String(cString: std_string_data_get(externalStringFieldHandle))
+                externalStringField = String(cString: std_string_data_get(externalStringField_handle))
             }
             externalArrayField = Int8List(smoke_Structs_ExternalStruct_externalArrayField_get(cExternalStruct))
             do {
-                let externalStructFieldHandle = smoke_Structs_ExternalStruct_externalStructField_get(cExternalStruct)
+                let externalStructField_handle = smoke_Structs_ExternalStruct_externalStructField_get(cExternalStruct)
                 defer {
-                    smoke_Structs_AnotherExternalStruct_release(externalStructFieldHandle)
+                    smoke_Structs_AnotherExternalStruct_release(externalStructField_handle)
                 }
                 guard
-                    let externalStructFieldUnwrapped = Structs.AnotherExternalStruct(cAnotherExternalStruct: externalStructFieldHandle)
+                    let externalStructField_unwrapped = Structs.AnotherExternalStruct(cAnotherExternalStruct: externalStructField_handle)
                 else {
                     return nil
                 }
-                externalStructField = externalStructFieldUnwrapped
+                externalStructField = externalStructField_unwrapped
             }
         }
         internal func convertToCType() -> _baseRef {
@@ -319,14 +319,14 @@ public class Structs {
         internal func fillFunction(_ cExternalStruct: _baseRef) -> Void {
             smoke_Structs_ExternalStruct_stringField_set(cExternalStruct, stringField)
             smoke_Structs_ExternalStruct_externalStringField_set(cExternalStruct, externalStringField)
-            let externalArrayFieldConversion = externalArrayField.c_conversion()
-            smoke_Structs_ExternalStruct_externalArrayField_set(cExternalStruct, externalArrayFieldConversion.c_type)
-            externalArrayFieldConversion.cleanup()
-            let externalStructFieldHandle = externalStructField.convertToCType()
+            let externalArrayField_conversion = externalArrayField.c_conversion()
+            smoke_Structs_ExternalStruct_externalArrayField_set(cExternalStruct, externalArrayField_conversion.c_type)
+            externalArrayField_conversion.cleanup()
+            let externalStructField_handle = externalStructField.convertToCType()
             defer {
-                smoke_Structs_AnotherExternalStruct_release(externalStructFieldHandle)
+                smoke_Structs_AnotherExternalStruct_release(externalStructField_handle)
             }
-            smoke_Structs_ExternalStruct_externalStructField_set(cExternalStruct, externalStructFieldHandle)
+            smoke_Structs_ExternalStruct_externalStructField_set(cExternalStruct, externalStructField_handle)
         }
     }
     public struct AnotherExternalStruct {
@@ -354,74 +354,74 @@ public class Structs {
         return Structs.Point(cPoint: cResult)
     }
     public static func swapPointCoordinates(input: Structs.Point) -> Structs.Point? {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            smoke_Structs_Point_release(inputHandle)
+            smoke_Structs_Point_release(input_handle)
         }
-        let cResult = smoke_Structs_swapPointCoordinates(inputHandle)
+        let cResult = smoke_Structs_swapPointCoordinates(input_handle)
         defer {
             smoke_Structs_Point_release(cResult)
         }
         return Structs.Point(cPoint: cResult)
     }
     public static func createLine(pointA: Structs.Point, pointB: Structs.Point) -> Structs.Line? {
-        let pointAHandle = pointA.convertToCType()
+        let pointA_handle = pointA.convertToCType()
         defer {
-            smoke_Structs_Point_release(pointAHandle)
+            smoke_Structs_Point_release(pointA_handle)
         }
-        let pointBHandle = pointB.convertToCType()
+        let pointB_handle = pointB.convertToCType()
         defer {
-            smoke_Structs_Point_release(pointBHandle)
+            smoke_Structs_Point_release(pointB_handle)
         }
-        let cResult = smoke_Structs_createLine(pointAHandle, pointBHandle)
+        let cResult = smoke_Structs_createLine(pointA_handle, pointB_handle)
         defer {
             smoke_Structs_Line_release(cResult)
         }
         return Structs.Line(cLine: cResult)
     }
     public static func createColoredLine(line: Structs.Line, color: Structs.Color) -> Structs.ColoredLine? {
-        let lineHandle = line.convertToCType()
+        let line_handle = line.convertToCType()
         defer {
-            smoke_Structs_Line_release(lineHandle)
+            smoke_Structs_Line_release(line_handle)
         }
-        let colorHandle = color.convertToCType()
+        let color_handle = color.convertToCType()
         defer {
-            smoke_Structs_Color_release(colorHandle)
+            smoke_Structs_Color_release(color_handle)
         }
-        let cResult = smoke_Structs_createColoredLine(lineHandle, colorHandle)
+        let cResult = smoke_Structs_createColoredLine(line_handle, color_handle)
         defer {
             smoke_Structs_ColoredLine_release(cResult)
         }
         return Structs.ColoredLine(cColoredLine: cResult)
     }
     public static func returnColoredLine(input: Structs.ColoredLine) -> Structs.ColoredLine? {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            smoke_Structs_ColoredLine_release(inputHandle)
+            smoke_Structs_ColoredLine_release(input_handle)
         }
-        let cResult = smoke_Structs_returnColoredLine(inputHandle)
+        let cResult = smoke_Structs_returnColoredLine(input_handle)
         defer {
             smoke_Structs_ColoredLine_release(cResult)
         }
         return Structs.ColoredLine(cColoredLine: cResult)
     }
     public static func returnAllTypesStruct(input: Structs.AllTypesStruct) -> Structs.AllTypesStruct? {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            smoke_Structs_AllTypesStruct_release(inputHandle)
+            smoke_Structs_AllTypesStruct_release(input_handle)
         }
-        let cResult = smoke_Structs_returnAllTypesStruct(inputHandle)
+        let cResult = smoke_Structs_returnAllTypesStruct(input_handle)
         defer {
             smoke_Structs_AllTypesStruct_release(cResult)
         }
         return Structs.AllTypesStruct(cAllTypesStruct: cResult)
     }
     public static func modifyAllTypesStruct(input: Structs.AllTypesStruct) -> Structs.AllTypesStruct? {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            smoke_Structs_AllTypesStruct_release(inputHandle)
+            smoke_Structs_AllTypesStruct_release(input_handle)
         }
-        let cResult = smoke_Structs_modifyAllTypesStruct(inputHandle)
+        let cResult = smoke_Structs_modifyAllTypesStruct(input_handle)
         defer {
             smoke_Structs_AllTypesStruct_release(cResult)
         }

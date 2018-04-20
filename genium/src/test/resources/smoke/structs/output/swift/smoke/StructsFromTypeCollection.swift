@@ -31,11 +31,11 @@ public class StructsFromTypeCollection {
     }
 
     public static func swapPointCoordinates(input: Point) -> Point? {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            smoke_TypeCollection_Point_release(inputHandle)
+            smoke_TypeCollection_Point_release(input_handle)
         }
-        let cResult = smoke_StructsFromTypeCollection_swapPointCoordinates(inputHandle)
+        let cResult = smoke_StructsFromTypeCollection_swapPointCoordinates(input_handle)
         defer {
             smoke_TypeCollection_Point_release(cResult)
         }
@@ -43,15 +43,15 @@ public class StructsFromTypeCollection {
     }
 
     public static func createLine(pointA: Point, pointB: Point) -> Line? {
-        let pointAHandle = pointA.convertToCType()
+        let pointA_handle = pointA.convertToCType()
         defer {
-            smoke_TypeCollection_Point_release(pointAHandle)
+            smoke_TypeCollection_Point_release(pointA_handle)
         }
-        let pointBHandle = pointB.convertToCType()
+        let pointB_handle = pointB.convertToCType()
         defer {
-            smoke_TypeCollection_Point_release(pointBHandle)
+            smoke_TypeCollection_Point_release(pointB_handle)
         }
-        let cResult = smoke_StructsFromTypeCollection_createLine(pointAHandle, pointBHandle)
+        let cResult = smoke_StructsFromTypeCollection_createLine(pointA_handle, pointB_handle)
         defer {
             smoke_TypeCollection_Line_release(cResult)
         }
@@ -59,15 +59,15 @@ public class StructsFromTypeCollection {
     }
 
     public static func createColoredLine(line: Line, color: Color) -> ColoredLine? {
-        let lineHandle = line.convertToCType()
+        let line_handle = line.convertToCType()
         defer {
-            smoke_TypeCollection_Line_release(lineHandle)
+            smoke_TypeCollection_Line_release(line_handle)
         }
-        let colorHandle = color.convertToCType()
+        let color_handle = color.convertToCType()
         defer {
-            smoke_TypeCollection_Color_release(colorHandle)
+            smoke_TypeCollection_Color_release(color_handle)
         }
-        let cResult = smoke_StructsFromTypeCollection_createColoredLine(lineHandle, colorHandle)
+        let cResult = smoke_StructsFromTypeCollection_createColoredLine(line_handle, color_handle)
         defer {
             smoke_TypeCollection_ColoredLine_release(cResult)
         }
@@ -75,11 +75,11 @@ public class StructsFromTypeCollection {
     }
 
     public static func modifyAllTypesStruct(input: AllTypesStruct) -> AllTypesStruct? {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            smoke_TypeCollection_AllTypesStruct_release(inputHandle)
+            smoke_TypeCollection_AllTypesStruct_release(input_handle)
         }
-        let cResult = smoke_StructsFromTypeCollection_modifyAllTypesStruct(inputHandle)
+        let cResult = smoke_StructsFromTypeCollection_modifyAllTypesStruct(input_handle)
         defer {
             smoke_TypeCollection_AllTypesStruct_release(cResult)
         }

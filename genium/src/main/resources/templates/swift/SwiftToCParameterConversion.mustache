@@ -26,20 +26,20 @@
       }}{{#default}}{{type.name}}{{/default}}{{!!
     }}{{/switch}}
 
-{{+structConversion}}let {{name}}Handle = {{name}}.convertToCType()
+{{+structConversion}}let {{name}}_handle = {{name}}.convertToCType()
 defer {
-{{type.cPrefix}}_release({{name}}Handle)
+{{type.cPrefix}}_release({{name}}_handle)
 }
 {{>swift/ConversionRecursion}}
 {{/structConversion}}
 
-{{+classConversion}}let {{name}}Handle = getRef({{name}})
+{{+classConversion}}let {{name}}_handle = getRef({{name}})
 {{>swift/ConversionRecursion}}
 {{/classConversion}}
 
-{{+arrayConversion}}let {{name}}Handle = input.c_conversion()
+{{+arrayConversion}}let {{name}}_handle = input.c_conversion()
 defer {
-{{name}}Handle.cleanup()
+{{name}}_handle.cleanup()
 }
 {{>swift/ConversionRecursion}}
 {{/arrayConversion}}

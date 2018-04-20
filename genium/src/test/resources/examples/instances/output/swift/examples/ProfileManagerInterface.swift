@@ -12,18 +12,18 @@ internal func getRef(_ ref: ProfileManagerInterface) -> RefHolder {
 
     var functions = examples_ProfileManagerInterface_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
-    functions.release = {swiftClass_pointer in
-        if let swiftClass = swiftClass_pointer {
-            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+    functions.release = {swift_class_pointer in
+        if let swift_class = swift_class_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
 
-    functions.examples_ProfileManagerInterface_createProfile = {(swiftClass_pointer, username) in
-        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! ProfileManagerInterface
+    functions.examples_ProfileManagerInterface_createProfile = {(swift_class_pointer, username) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ProfileManagerInterface
         defer {
             std_string_release(username)
         }
-        return swiftClass.createProfile(username: String(data: Data(bytes: std_string_data_get(username),
+        return swift_class.createProfile(username: String(data: Data(bytes: std_string_data_get(username),
                                                 count: Int(std_string_size_get(username))), encoding: .utf8)!)
     }
     let proxy = examples_ProfileManagerInterface_createProxy(functions)
