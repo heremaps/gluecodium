@@ -26,15 +26,15 @@ public class Maps {
     }
 
     public static func mapMethod(input: Maps.NameMap) -> Maps.NameMap {
-        let inputHandle = convertMaps_NameMapToCType(input)
+        let input_handle = convertMaps_NameMapToCType(input)
         defer {
-            examples_Maps_NameMap_release(inputHandle)
+            examples_Maps_NameMap_release(input_handle)
         }
-        let resultHandle = examples_Maps_mapMethod(inputHandle)
+        let result_handle = examples_Maps_mapMethod(input_handle)
         defer {
-            examples_Maps_NameMap_release(resultHandle)
+            examples_Maps_NameMap_release(result_handle)
         }
-        return convertMaps_NameMapFromCType(resultHandle)
+        return convertMaps_NameMapFromCType(result_handle)
     }
 }
 
@@ -43,25 +43,25 @@ extension Maps: NativeBase {
 }
 
 func convertMaps_NameMapToCType(_ swiftDict: Maps.NameMap) -> _baseRef {
-    let cHandle = examples_Maps_NameMap_create()
+    let c_handle = examples_Maps_NameMap_create()
     for (swift_key, swift_value) in swiftDict {
         let c_key = swift_key
         let c_value = swift_value.convertToCType()
         defer {
             std_string_release(c_value)
         }
-        examples_Maps_NameMap_put(cHandle, c_key, c_value)
+        examples_Maps_NameMap_put(c_handle, c_key, c_value)
     }
-    return cHandle
+    return c_handle
 }
 
-func convertMaps_NameMapFromCType(_ cHandle: _baseRef) -> Maps.NameMap {
+func convertMaps_NameMapFromCType(_ c_handle: _baseRef) -> Maps.NameMap {
     var swiftDict: Maps.NameMap = [:]
-    let iteratorHandle = examples_Maps_NameMap_iterator(cHandle)
-    while examples_Maps_NameMap_iterator_is_valid(cHandle, iteratorHandle) {
-        let c_key = examples_Maps_NameMap_iterator_key(iteratorHandle)
+    let iterator_handle = examples_Maps_NameMap_iterator(c_handle)
+    while examples_Maps_NameMap_iterator_is_valid(c_handle, iterator_handle) {
+        let c_key = examples_Maps_NameMap_iterator_key(iterator_handle)
         let swift_key = c_key
-        let c_value = examples_Maps_NameMap_iterator_value(iteratorHandle)
+        let c_value = examples_Maps_NameMap_iterator_value(iterator_handle)
         defer {
             std_string_release(c_value)
         }
@@ -69,8 +69,8 @@ func convertMaps_NameMapFromCType(_ cHandle: _baseRef) -> Maps.NameMap {
                                             count: Int(std_string_size_get(c_value))),
                                             encoding: .utf8)
         swiftDict[swift_key] = swift_value
-        examples_Maps_NameMap_iterator_increment(iteratorHandle)
+        examples_Maps_NameMap_iterator_increment(iterator_handle)
     }
-    examples_Maps_NameMap_iterator_release(iteratorHandle)
+    examples_Maps_NameMap_iterator_release(iterator_handle)
     return swiftDict
 }

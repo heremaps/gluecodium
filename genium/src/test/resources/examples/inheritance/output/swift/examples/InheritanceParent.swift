@@ -12,18 +12,18 @@ internal func getRef(_ ref: InheritanceParent) -> RefHolder {
 
     var functions = examples_InheritanceParent_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
-    functions.release = {swiftClass_pointer in
-        if let swiftClass = swiftClass_pointer {
-            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+    functions.release = {swift_class_pointer in
+        if let swift_class = swift_class_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
 
-    functions.examples_InheritanceParent_parentMethod = {(swiftClass_pointer, input) in
-        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! InheritanceParent
+    functions.examples_InheritanceParent_parentMethod = {(swift_class_pointer, input) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceParent
         defer {
             std_string_release(input)
         }
-        return (swiftClass.parentMethod(input: String(data: Data(bytes: std_string_data_get(input),
+        return (swift_class.parentMethod(input: String(data: Data(bytes: std_string_data_get(input),
                                                 count: Int(std_string_size_get(input))), encoding: .utf8)!)!).convertToCType()
     }
     let proxy = examples_InheritanceParent_createProxy(functions)

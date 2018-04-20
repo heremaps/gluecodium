@@ -12,15 +12,15 @@ internal func getRef(_ ref: CalculatorListener) -> RefHolder {
 
     var functions = examples_CalculatorListener_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
-    functions.release = {swiftClass_pointer in
-        if let swiftClass = swiftClass_pointer {
-            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+    functions.release = {swift_class_pointer in
+        if let swift_class = swift_class_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
 
-    functions.examples_CalculatorListener_onCalculationResult = {(swiftClass_pointer, calculationResult) in
-        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! CalculatorListener
-        return swiftClass.onCalculationResult(calculationResult: calculationResult)
+    functions.examples_CalculatorListener_onCalculationResult = {(swift_class_pointer, calculationResult) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
+        return swift_class.onCalculationResult(calculationResult: calculationResult)
     }
     let proxy = examples_CalculatorListener_createProxy(functions)
     return RefHolder(ref: proxy, release: examples_CalculatorListener_release)

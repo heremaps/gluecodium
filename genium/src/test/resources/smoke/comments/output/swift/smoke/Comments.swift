@@ -142,33 +142,33 @@ extension Comments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 func convertComments_SomeMapToCType(_ swiftDict: Comments.SomeMap) -> _baseRef {
-    let cHandle = smoke_Comments_SomeMap_create()
+    let c_handle = smoke_Comments_SomeMap_create()
     for (swift_key, swift_value) in swiftDict {
         let c_key = swift_key.convertToCType()
         defer {
             std_string_release(c_key)
         }
         let c_value = swift_value
-        smoke_Comments_SomeMap_put(cHandle, c_key, c_value)
+        smoke_Comments_SomeMap_put(c_handle, c_key, c_value)
     }
-    return cHandle
+    return c_handle
 }
-func convertComments_SomeMapFromCType(_ cHandle: _baseRef) -> Comments.SomeMap {
+func convertComments_SomeMapFromCType(_ c_handle: _baseRef) -> Comments.SomeMap {
     var swiftDict: Comments.SomeMap = [:]
-    let iteratorHandle = smoke_Comments_SomeMap_iterator(cHandle)
-    while smoke_Comments_SomeMap_iterator_is_valid(cHandle, iteratorHandle) {
-        let c_key = smoke_Comments_SomeMap_iterator_key(iteratorHandle)
+    let iterator_handle = smoke_Comments_SomeMap_iterator(c_handle)
+    while smoke_Comments_SomeMap_iterator_is_valid(c_handle, iterator_handle) {
+        let c_key = smoke_Comments_SomeMap_iterator_key(iterator_handle)
         defer {
             std_string_release(c_key)
         }
         let swift_key = String(data: Data(bytes: std_string_data_get(c_key),
                                             count: Int(std_string_size_get(c_key))),
                                             encoding: .utf8)
-        let c_value = smoke_Comments_SomeMap_iterator_value(iteratorHandle)
+        let c_value = smoke_Comments_SomeMap_iterator_value(iterator_handle)
         let swift_value = c_value
         swiftDict[swift_key!] = swift_value
-        smoke_Comments_SomeMap_iterator_increment(iteratorHandle)
+        smoke_Comments_SomeMap_iterator_increment(iterator_handle)
     }
-    smoke_Comments_SomeMap_iterator_release(iteratorHandle)
+    smoke_Comments_SomeMap_iterator_release(iterator_handle)
     return swiftDict
 }
