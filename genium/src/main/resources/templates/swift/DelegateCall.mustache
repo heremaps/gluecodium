@@ -21,9 +21,9 @@
 {{method.cBaseName}}({{^method.isStatic}}c_instance{{#if method.parameters}}, {{/if}}{{/method.isStatic}}{{#method.parameters}}{{#switch type.category.toString}}{{!!
   }}{{#case "BUILTIN_BYTEBUFFER"}}{{variableName}}_ptr, Int64({{variableName}}.count){{/case}}{{!!
   }}{{#case "DICTIONARY" break=false}}{{/case}}{{!!
-  }}{{#case "STRUCT"}}{{variableName}}Handle{{/case}}{{!!
-  }}{{#case "CLASS"}}{{variableName}}Handle.ref{{/case}}{{!!
+  }}{{#case "STRUCT"}}{{variableName}}_handle{{/case}}{{!!
+  }}{{#case "CLASS"}}{{variableName}}_handle.ref{{/case}}{{!!
   }}{{#case "ENUM"}}{{variableName}}.rawValue{{/case}}{{!!
-  }}{{#case "ARRAY"}}{{variableName}}Handle.c_type{{/case}}{{!!
+  }}{{#case "ARRAY"}}{{variableName}}_handle.c_type{{/case}}{{!!
   }}{{#default}}{{variableName}}{{/default}}{{!!
 }}{{/switch}}{{#if iter.hasNext}}, {{/if}}{{/method.parameters}})

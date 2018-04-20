@@ -19,25 +19,25 @@
   !
   !}}
 func convert{{name}}ToCType(_ swiftDict: {{publicName}}) -> _baseRef {
-    let cHandle = {{cPrefix}}_create()
+    let c_handle = {{cPrefix}}_create()
     for (swift_key, swift_value) in swiftDict {
 {{#set variableName="key" variableType=keyType}}{{prefixPartial "ConvertFromSwift" "        "}}{{/set}}
 {{#set variableName="value" variableType=valueType}}{{prefixPartial "ConvertFromSwift" "        "}}{{/set}}
-        {{cPrefix}}_put(cHandle, c_key, c_value)
+        {{cPrefix}}_put(c_handle, c_key, c_value)
     }
-    return cHandle
+    return c_handle
 }
 
-func convert{{name}}FromCType(_ cHandle: _baseRef) -> {{publicName}} {
+func convert{{name}}FromCType(_ c_handle: _baseRef) -> {{publicName}} {
     var swiftDict: {{publicName}} = [:]
-    let iteratorHandle = {{cPrefix}}_iterator(cHandle)
-    while {{cPrefix}}_iterator_is_valid(cHandle, iteratorHandle) {
+    let iterator_handle = {{cPrefix}}_iterator(c_handle)
+    while {{cPrefix}}_iterator_is_valid(c_handle, iterator_handle) {
 {{#set variableName="key" variableType=keyType}}{{prefixPartial "ConvertToSwift" "        "}}{{/set}}
 {{#set variableName="value" variableType=valueType}}{{prefixPartial "ConvertToSwift" "        "}}{{/set}}
         swiftDict[swift_key{{#isEq keyType.category.toString "BUILTIN_STRING"}}!{{/isEq}}] = swift_value
-        {{cPrefix}}_iterator_increment(iteratorHandle)
+        {{cPrefix}}_iterator_increment(iterator_handle)
     }
-    {{cPrefix}}_iterator_release(iteratorHandle)
+    {{cPrefix}}_iterator_release(iterator_handle)
     return swiftDict
 }{{!!
 
@@ -94,7 +94,7 @@ let c_{{variableName}} = c_conversion.c_type
 
 
 }}{{+ConvertToSwift}}{{!!
-}}let c_{{variableName}} = {{cPrefix}}_iterator_{{variableName}}(iteratorHandle)
+}}let c_{{variableName}} = {{cPrefix}}_iterator_{{variableName}}(iterator_handle)
 {{#switch variableType.category.toString}}{{!!
     }}{{#case "BUILTIN_STRING"}}{{>ConvertToSwiftString}}{{/case}}{{!!
     }}{{#case "STRUCT"}}{{>ConvertToSwiftStruct}}{{/case}}{{!!

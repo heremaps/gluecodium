@@ -12,23 +12,23 @@ internal func getRef(_ ref: SimpleInterface) -> RefHolder {
 
     var functions = smoke_SimpleInterface_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
-    functions.release = {swiftClass_pointer in
-        if let swiftClass = swiftClass_pointer {
-            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+    functions.release = {swift_class_pointer in
+        if let swift_class = swift_class_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
 
-    functions.smoke_SimpleInterface_setStringValue = {(swiftClass_pointer, stringValue) in
-        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! SimpleInterface
+    functions.smoke_SimpleInterface_setStringValue = {(swift_class_pointer, stringValue) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! SimpleInterface
         defer {
             std_string_release(stringValue)
         }
-        return swiftClass.setStringValue(stringValue: String(data: Data(bytes: std_string_data_get(stringValue),
+        return swift_class.setStringValue(stringValue: String(data: Data(bytes: std_string_data_get(stringValue),
                                                 count: Int(std_string_size_get(stringValue))), encoding: .utf8)!)
     }
-    functions.smoke_SimpleInterface_getStringValue = {(swiftClass_pointer) in
-        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! SimpleInterface
-        return (swiftClass.getStringValue()!).convertToCType()
+    functions.smoke_SimpleInterface_getStringValue = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! SimpleInterface
+        return (swift_class.getStringValue()!).convertToCType()
     }
     let proxy = smoke_SimpleInterface_createProxy(functions)
     return RefHolder(ref: proxy, release: smoke_SimpleInterface_release)

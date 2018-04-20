@@ -25,16 +25,16 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
 
     var functions = {{functionTableName}}()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
-    functions.release = {swiftClass_pointer in
-        if let swiftClass = swiftClass_pointer {
-            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+    functions.release = {swift_class_pointer in
+        if let swift_class = swift_class_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
 
 {{#set className=name}}
     {{#methods}}
-    functions.{{cBaseName}} = {(swiftClass_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
-        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! {{className}}
+    functions.{{cBaseName}} = {(swift_class_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! {{className}}
         {{#parameters}}{{#switch type.category.toString}}{{!!
         }}{{#case "BUILTIN_STRING"}}
         defer {
@@ -64,7 +64,7 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
     }}{{#case "CLASS"}}getRef({{>delegateCall2}}!).ref{{/case}}{{!!
     }}{{#default}}{{>delegateCall2}}{{/default}}{{!!
 }}{{/switch}}{{/swiftReturn}}
-{{+delegateCall2}}swiftClass.{{name}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}
+{{+delegateCall2}}swift_class.{{name}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}
 {{+swiftParameter2}}{{name}}: {{#switch type.category.toString}}{{!!
     }}{{#case "CLASS"}}{{#type.implementingClass}}{{.}}{{/type.implementingClass}}{{^type.implementingClass}}{{type}}{{/type.implementingClass}}(c{{type}}: {{name}})!{{/case}}{{!!
     }}{{#case "STRUCT"}}{{type}}(c{{type}}: {{name}})!{{/case}}{{!!

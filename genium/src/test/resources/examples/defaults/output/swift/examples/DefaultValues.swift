@@ -49,11 +49,11 @@ public class DefaultValues {
             floatField = examples_DefaultValues_StructWithDefaults_floatField_get(cStructWithDefaults)
             boolField = examples_DefaultValues_StructWithDefaults_boolField_get(cStructWithDefaults)
             do {
-                let stringFieldHandle = examples_DefaultValues_StructWithDefaults_stringField_get(cStructWithDefaults)
+                let stringField_handle = examples_DefaultValues_StructWithDefaults_stringField_get(cStructWithDefaults)
                 defer {
-                    std_string_release(stringFieldHandle)
+                    std_string_release(stringField_handle)
                 }
-                stringField = String(cString: std_string_data_get(stringFieldHandle))
+                stringField = String(cString: std_string_data_get(stringField_handle))
             }
             enumField = DefaultValues.SomeEnum.init(rawValue: examples_DefaultValues_StructWithDefaults_enumField_get(cStructWithDefaults))!
         }

@@ -50,24 +50,24 @@ public class Arrays {
 
     public static func explicitArrayMethod<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SyncResult> where Tinput.Element == Arrays.SyncResult {
 
-        let inputHandle = input.c_conversion()
+        let input_handle = input.c_conversion()
         defer {
-            inputHandle.cleanup()
+            input_handle.cleanup()
         }
 
-        let handle = examples_Arrays_explicitArrayMethod(inputHandle.c_type)
-        return SyncResultList(handle)
+        let result_handle = examples_Arrays_explicitArrayMethod(input_handle.c_type)
+        return SyncResultList(result_handle)
     }
 
     public static func implicitArrayMethod<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SyncResult> where Tinput.Element == Arrays.SyncResult {
 
-        let inputHandle = input.c_conversion()
+        let input_handle = input.c_conversion()
         defer {
-            inputHandle.cleanup()
+            input_handle.cleanup()
         }
 
-        let handle = examples_Arrays_implicitArrayMethod(inputHandle.c_type)
-        return SyncResultList(handle)
+        let result_handle = examples_Arrays_implicitArrayMethod(input_handle.c_type)
+        return SyncResultList(result_handle)
     }
 
 }

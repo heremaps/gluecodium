@@ -57,11 +57,11 @@ public class StructsInheritance {
     }
 
     public func methodWithInheritedType(input: StructsInheritance.SyncResultInherited) -> StructsInheritance.SyncResultInherited? {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            examples_StructsInheritance_SyncResultInherited_release(inputHandle)
+            examples_StructsInheritance_SyncResultInherited_release(input_handle)
         }
-        let cResult = examples_StructsInheritance_methodWithInheritedType(c_instance, inputHandle)
+        let cResult = examples_StructsInheritance_methodWithInheritedType(c_instance, input_handle)
         defer {
             examples_StructsInheritance_SyncResultInherited_release(cResult)
         }

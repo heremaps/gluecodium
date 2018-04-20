@@ -57,11 +57,11 @@ internal func fillFunction(_ c{{simpleName}}: _baseRef) -> Void {
 }
 {{/fillDataType}}
 
-{{+fillStruct}}let {{name}}Handle = {{name}}.convertToCType()
+{{+fillStruct}}let {{name}}_handle = {{name}}.convertToCType()
 defer {
-    {{type.cPrefix}}_release({{name}}Handle)
+    {{type.cPrefix}}_release({{name}}_handle)
 }
-{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}Handle)
+{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}_handle)
 {{/fillStruct}}
 
 {{+fillClass}}{{cPrefix}}_{{name}}_set(c{{structName}}, getRef({{name}}).ref)
@@ -70,12 +70,12 @@ defer {
 {{+fillEnum}}{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}.rawValue)
 {{/fillEnum}}
 
-{{+fillArray}}let {{name}}Conversion = {{name}}.c_conversion()
-{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}Conversion.c_type)
-{{name}}Conversion.cleanup()
+{{+fillArray}}let {{name}}_conversion = {{name}}.c_conversion()
+{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}_conversion.c_type)
+{{name}}_conversion.cleanup()
 {{/fillArray}}{{!!
 
-}}{{+fillDictionary}}let {{name}}Conversion = convert{{type.name}}ToCType({{name}})
-{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}Conversion)
-{{type.cPrefix}}_release({{name}}Conversion)
+}}{{+fillDictionary}}let {{name}}_conversion = convert{{type.name}}ToCType({{name}})
+{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}_conversion)
+{{type.cPrefix}}_release({{name}}_conversion)
 {{/fillDictionary}}

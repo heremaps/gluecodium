@@ -23,10 +23,10 @@ public class NestedInstantiableTwo {
         smoke_NestedInstantiableTwo_release(c_instance)
     }
     public func setMultipleTypeInstances(instanceOne: SimpleInstantiableOne, instanceTwo: SimpleInstantiableTwo, nestedInstantiable: NestedInstantiableOne) -> Void {
-        let instanceOneHandle = getRef(instanceOne)
-        let instanceTwoHandle = getRef(instanceTwo)
-        let nestedInstantiableHandle = getRef(nestedInstantiable)
-        return smoke_NestedInstantiableTwo_setMultipleTypeInstances(c_instance, instanceOneHandle.ref, instanceTwoHandle.ref, nestedInstantiableHandle.ref)
+        let instanceOne_handle = getRef(instanceOne)
+        let instanceTwo_handle = getRef(instanceTwo)
+        let nestedInstantiable_handle = getRef(nestedInstantiable)
+        return smoke_NestedInstantiableTwo_setMultipleTypeInstances(c_instance, instanceOne_handle.ref, instanceTwo_handle.ref, nestedInstantiable_handle.ref)
     }
 
     public func getInstantiableOne() -> SimpleInstantiableOne? {
@@ -45,8 +45,8 @@ public class NestedInstantiableTwo {
     }
 
     public func setSelfInstantiable(selfInstance: NestedInstantiableTwo) -> Void {
-        let selfInstanceHandle = getRef(selfInstance)
-        return smoke_NestedInstantiableTwo_setSelfInstantiable(c_instance, selfInstanceHandle.ref)
+        let selfInstance_handle = getRef(selfInstance)
+        return smoke_NestedInstantiableTwo_setSelfInstantiable(c_instance, selfInstance_handle.ref)
     }
 
     public func getSelfInstantiable() -> NestedInstantiableTwo? {

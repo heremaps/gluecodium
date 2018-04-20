@@ -13,11 +13,11 @@ internal struct InternalStruct {
 
     internal init?(cInternalStruct: _baseRef) {
         do {
-            let stringFieldHandle = smoke_PublicTypeCollection_InternalStruct_stringField_get(cInternalStruct)
+            let stringField_handle = smoke_PublicTypeCollection_InternalStruct_stringField_get(cInternalStruct)
             defer {
-                std_string_release(stringFieldHandle)
+                std_string_release(stringField_handle)
             }
-            stringField = String(cString: std_string_data_get(stringFieldHandle))
+            stringField = String(cString: std_string_data_get(stringField_handle))
         }
     }
 

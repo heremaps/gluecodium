@@ -10,9 +10,9 @@ internal func getRef(_ ref: InternalInterface) -> RefHolder {
     }
     var functions = smoke_InternalInterface_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
-    functions.release = {swiftClass_pointer in
-        if let swiftClass = swiftClass_pointer {
-            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+    functions.release = {swift_class_pointer in
+        if let swift_class = swift_class_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
     let proxy = smoke_InternalInterface_createProxy(functions)

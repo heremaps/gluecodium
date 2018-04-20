@@ -58,16 +58,16 @@ public class Structs {
         internal init?(cIdentifiableSyncResult: _baseRef) {
             id = examples_Structs_IdentifiableSyncResult_id_get(cIdentifiableSyncResult)
             do {
-                let syncResultHandle = examples_Structs_IdentifiableSyncResult_syncResult_get(cIdentifiableSyncResult)
+                let syncResult_handle = examples_Structs_IdentifiableSyncResult_syncResult_get(cIdentifiableSyncResult)
                 defer {
-                    examples_Structs_SyncResult_release(syncResultHandle)
+                    examples_Structs_SyncResult_release(syncResult_handle)
                 }
                 guard
-                    let syncResultUnwrapped = Structs.SyncResult(cSyncResult: syncResultHandle)
+                    let syncResult_unwrapped = Structs.SyncResult(cSyncResult: syncResult_handle)
                 else {
                     return nil
                 }
-                syncResult = syncResultUnwrapped
+                syncResult = syncResult_unwrapped
             }
         }
         internal func convertToCType() -> _baseRef {
@@ -77,20 +77,20 @@ public class Structs {
         }
         internal func fillFunction(_ cIdentifiableSyncResult: _baseRef) -> Void {
             examples_Structs_IdentifiableSyncResult_id_set(cIdentifiableSyncResult, id)
-            let syncResultHandle = syncResult.convertToCType()
+            let syncResult_handle = syncResult.convertToCType()
             defer {
-                examples_Structs_SyncResult_release(syncResultHandle)
+                examples_Structs_SyncResult_release(syncResult_handle)
             }
-            examples_Structs_IdentifiableSyncResult_syncResult_set(cIdentifiableSyncResult, syncResultHandle)
+            examples_Structs_IdentifiableSyncResult_syncResult_set(cIdentifiableSyncResult, syncResult_handle)
         }
     }
 
     public static func methodWithNonNestedType(input: Structs.SyncResult) -> Structs.SyncResult? {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            examples_Structs_SyncResult_release(inputHandle)
+            examples_Structs_SyncResult_release(input_handle)
         }
-        let cResult = examples_Structs_methodWithNonNestedType(inputHandle)
+        let cResult = examples_Structs_methodWithNonNestedType(input_handle)
         defer {
             examples_Structs_SyncResult_release(cResult)
         }
@@ -98,11 +98,11 @@ public class Structs {
     }
 
     public static func methodWithNestedType(input: Structs.IdentifiableSyncResult) -> Structs.IdentifiableSyncResult? {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            examples_Structs_IdentifiableSyncResult_release(inputHandle)
+            examples_Structs_IdentifiableSyncResult_release(input_handle)
         }
-        let cResult = examples_Structs_methodWithNestedType(inputHandle)
+        let cResult = examples_Structs_methodWithNestedType(input_handle)
         defer {
             examples_Structs_IdentifiableSyncResult_release(cResult)
         }

@@ -45,39 +45,39 @@ internal init?(c{{simpleName}}: _baseRef) {
 {{/assignEnum}}
 
 {{+assignStringType}}do {
-    let {{name}}Handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    let {{name}}_handle = {{cPrefix}}_{{name}}_get(c{{structName}})
     defer {
-        std_string_release({{name}}Handle)
+        std_string_release({{name}}_handle)
     }
-    {{name}} = String(cString: std_string_data_get({{name}}Handle))
+    {{name}} = String(cString: std_string_data_get({{name}}_handle))
 }
 {{/assignStringType}}
 
 {{+assignDataType}}do {
-    let {{name}}Handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    let {{name}}_handle = {{cPrefix}}_{{name}}_get(c{{structName}})
     defer {
-        byteArray_release({{name}}Handle)
+        byteArray_release({{name}}_handle)
     }
     guard
-        let dataHandle = byteArray_data_get({{name}}Handle)
+        let array_data_handle = byteArray_data_get({{name}}_handle)
     else {
         return nil
     }
-    {{name}} = Data(bytes: dataHandle, count: Int(byteArray_size_get({{name}}Handle)))
+    {{name}} = Data(bytes: array_data_handle, count: Int(byteArray_size_get({{name}}_handle)))
 }
 {{/assignDataType}}
 
 {{+assignStruct}}do {
-    let {{name}}Handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    let {{name}}_handle = {{cPrefix}}_{{name}}_get(c{{structName}})
     defer {
-        {{type.cPrefix}}_release({{name}}Handle)
+        {{type.cPrefix}}_release({{name}}_handle)
     }
     guard
-        let {{name}}Unwrapped = {{type}}(c{{type.simpleName}}: {{name}}Handle)
+        let {{name}}_unwrapped = {{type}}(c{{type.simpleName}}: {{name}}_handle)
     else {
         return nil
     }
-    {{name}} = {{name}}Unwrapped
+    {{name}} = {{name}}_unwrapped
 }
 {{/assignStruct}}
 
@@ -86,20 +86,20 @@ internal init?(c{{simpleName}}: _baseRef) {
 }}    {{name}} = {{type}}(c{{type}}: {{cPrefix}}_{{name}}_get(c{{structName}})){{!!
 }}{{/type.optional}}{{!!
 }}{{^type.optional}}{{!!
-}}    guard let {{name}}Unwrapped = {{type}}(c{{type}}: {{cPrefix}}_{{name}}_get(c{{structName}}))
+}}    guard let {{name}}_unwrapped = {{type}}(c{{type}}: {{cPrefix}}_{{name}}_get(c{{structName}}))
     else {
         return nil
     }
-    {{name}} = {{name}}Unwrapped{{!!
+    {{name}} = {{name}}_unwrapped{{!!
 }}{{/type.optional}}
 }
 {{/assignClass}}{{!!
 
 }}{{+assignDictionary}}do {
-    let {{name}}Handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    let {{name}}_handle = {{cPrefix}}_{{name}}_get(c{{structName}})
     defer {
-        {{type.cPrefix}}_release({{name}}Handle)
+        {{type.cPrefix}}_release({{name}}_handle)
     }
-    {{name}} = convert{{type.name}}FromCType({{name}}Handle)
+    {{name}} = convert{{type.name}}FromCType({{name}}_handle)
 }
 {{/assignDictionary}}
