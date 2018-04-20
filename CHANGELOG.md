@@ -5,6 +5,10 @@
   + Added FDEPL properties "ExternalGetter" and "ExternalSetter" for enabling the usage of accessor
     methods as a JNI/CBridge data source for struct fields of a struct marked with "ExternalType".
 
+## 3.0.1
+- Bug fixes:
+  + Fixed name collisions in Swift generated code.
+
 ## 3.0.0
 - Breaking changes:
   + Renamed Transpiler to Genium.
