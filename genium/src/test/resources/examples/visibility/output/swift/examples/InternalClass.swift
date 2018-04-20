@@ -30,11 +30,11 @@ internal class InternalClass {
         }
         internal init?(cInternalStruct: _baseRef) {
             do {
-                let stringFieldHandle = examples_InternalClass_InternalStruct_stringField_get(cInternalStruct)
+                let stringField_handle = examples_InternalClass_InternalStruct_stringField_get(cInternalStruct)
                 defer {
-                    std_string_release(stringFieldHandle)
+                    std_string_release(stringField_handle)
                 }
-                stringField = String(cString: std_string_data_get(stringFieldHandle))
+                stringField = String(cString: std_string_data_get(stringField_handle))
             }
         }
         internal func convertToCType() -> _baseRef {
@@ -48,11 +48,11 @@ internal class InternalClass {
     }
 
     internal func internalMethod(input: InternalClass.InternalStruct) -> Void {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            examples_InternalClass_InternalStruct_release(inputHandle)
+            examples_InternalClass_InternalStruct_release(input_handle)
         }
-        return examples_InternalClass_internalMethod(c_instance, inputHandle)
+        return examples_InternalClass_internalMethod(c_instance, input_handle)
     }
 }
 

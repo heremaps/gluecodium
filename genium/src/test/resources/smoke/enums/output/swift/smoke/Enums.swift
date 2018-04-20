@@ -49,11 +49,11 @@ public class Enums {
         internal init?(cErrorStruct: _baseRef) {
             type = Enums.InternalError.init(rawValue: smoke_Enums_ErrorStruct_type_get(cErrorStruct))!
             do {
-                let messageHandle = smoke_Enums_ErrorStruct_message_get(cErrorStruct)
+                let message_handle = smoke_Enums_ErrorStruct_message_get(cErrorStruct)
                 defer {
-                    std_string_release(messageHandle)
+                    std_string_release(message_handle)
                 }
-                message = String(cString: std_string_data_get(messageHandle))
+                message = String(cString: std_string_data_get(message_handle))
             }
         }
 
@@ -80,11 +80,11 @@ public class Enums {
     }
 
     public static func extractEnumFromStruct(input: Enums.ErrorStruct) -> Enums.InternalError {
-        let inputHandle = input.convertToCType()
+        let input_handle = input.convertToCType()
         defer {
-            smoke_Enums_ErrorStruct_release(inputHandle)
+            smoke_Enums_ErrorStruct_release(input_handle)
         }
-        let cResult = smoke_Enums_extractEnumFromStruct(inputHandle)
+        let cResult = smoke_Enums_extractEnumFromStruct(input_handle)
         return Enums.InternalError(rawValue: cResult)!
     }
 
@@ -103,26 +103,26 @@ extension Enums: NativeBase {
 }
 
 func convertEnums_ExampleMapToCType(_ swiftDict: Enums.ExampleMap) -> _baseRef {
-    let cHandle = smoke_Enums_ExampleMap_create()
+    let c_handle = smoke_Enums_ExampleMap_create()
     for (swift_key, swift_value) in swiftDict {
         let c_key = swift_key.rawValue
         let c_value = swift_value
-        smoke_Enums_ExampleMap_put(cHandle, c_key, c_value)
+        smoke_Enums_ExampleMap_put(c_handle, c_key, c_value)
     }
-    return cHandle
+    return c_handle
 }
 
-func convertEnums_ExampleMapFromCType(_ cHandle: _baseRef) -> Enums.ExampleMap {
+func convertEnums_ExampleMapFromCType(_ c_handle: _baseRef) -> Enums.ExampleMap {
     var swiftDict: Enums.ExampleMap = [:]
-    let iteratorHandle = smoke_Enums_ExampleMap_iterator(cHandle)
-    while smoke_Enums_ExampleMap_iterator_is_valid(cHandle, iteratorHandle) {
-        let c_key = smoke_Enums_ExampleMap_iterator_key(iteratorHandle)
+    let iterator_handle = smoke_Enums_ExampleMap_iterator(c_handle)
+    while smoke_Enums_ExampleMap_iterator_is_valid(c_handle, iterator_handle) {
+        let c_key = smoke_Enums_ExampleMap_iterator_key(iterator_handle)
         let swift_key = Enums.SimpleEnum(rawValue: c_key)!
-        let c_value = smoke_Enums_ExampleMap_iterator_value(iteratorHandle)
+        let c_value = smoke_Enums_ExampleMap_iterator_value(iterator_handle)
         let swift_value = c_value
         swiftDict[swift_key] = swift_value
-        smoke_Enums_ExampleMap_iterator_increment(iteratorHandle)
+        smoke_Enums_ExampleMap_iterator_increment(iterator_handle)
     }
-    smoke_Enums_ExampleMap_iterator_release(iteratorHandle)
+    smoke_Enums_ExampleMap_iterator_release(iterator_handle)
     return swiftDict
 }

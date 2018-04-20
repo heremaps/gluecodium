@@ -10,22 +10,22 @@ internal func getRef(_ ref: InheritanceChild) -> RefHolder {
     }
     var functions = examples_InheritanceChild_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
-    functions.release = {swiftClass_pointer in
-        if let swiftClass = swiftClass_pointer {
-            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+    functions.release = {swift_class_pointer in
+        if let swift_class = swift_class_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-    functions.examples_InheritanceParent_parentMethod = {(swiftClass_pointer, input) in
-        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! InheritanceChild
+    functions.examples_InheritanceParent_parentMethod = {(swift_class_pointer, input) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceChild
         defer {
             std_string_release(input)
         }
-        return (swiftClass.parentMethod(input: String(data: Data(bytes: std_string_data_get(input),
+        return (swift_class.parentMethod(input: String(data: Data(bytes: std_string_data_get(input),
                                                 count: Int(std_string_size_get(input))), encoding: .utf8)!)!).convertToCType()
     }
-    functions.examples_InheritanceChild_childMethod = {(swiftClass_pointer, input) in
-        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! InheritanceChild
-        return swiftClass.childMethod(input: input)
+    functions.examples_InheritanceChild_childMethod = {(swift_class_pointer, input) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceChild
+        return swift_class.childMethod(input: input)
     }
     let proxy = examples_InheritanceChild_createProxy(functions)
     return RefHolder(ref: proxy, release: examples_InheritanceChild_release)

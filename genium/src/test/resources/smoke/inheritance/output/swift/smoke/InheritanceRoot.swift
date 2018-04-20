@@ -10,14 +10,14 @@ internal func getRef(_ ref: InheritanceRoot) -> RefHolder {
     }
     var functions = smoke_InheritanceRoot_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
-    functions.release = {swiftClass_pointer in
-        if let swiftClass = swiftClass_pointer {
-            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+    functions.release = {swift_class_pointer in
+        if let swift_class = swift_class_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-    functions.smoke_InheritanceRoot_rootMethod = {(swiftClass_pointer) in
-        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! InheritanceRoot
-        return swiftClass.rootMethod()
+    functions.smoke_InheritanceRoot_rootMethod = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceRoot
+        return swift_class.rootMethod()
     }
     let proxy = smoke_InheritanceRoot_createProxy(functions)
     return RefHolder(ref: proxy, release: smoke_InheritanceRoot_release)
