@@ -30,6 +30,14 @@ namespace {{.}} {
 {{name}}::~{{name}}() = default;
 
 {{/classes}}
+{{#errorEnums}}
+std::error_code
+make_error_code( {{.}} value ) noexcept
+{
+    return std::error_code( static_cast<int>( value ), std::generic_category( ) );
+}
+
+{{/errorEnums}}
 {{#namespace}}
 }
 {{/namespace}}

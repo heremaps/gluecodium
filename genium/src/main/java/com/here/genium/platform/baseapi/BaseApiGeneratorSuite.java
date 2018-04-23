@@ -22,12 +22,10 @@ package com.here.genium.platform.baseapi;
 import com.google.common.annotations.VisibleForTesting;
 import com.here.genium.cli.OptionReader;
 import com.here.genium.common.CollectionsHelper;
+import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
-import com.here.genium.generator.cpp.CppGenerator;
-import com.here.genium.generator.cpp.CppModelBuilder;
-import com.here.genium.generator.cpp.CppNameRules;
-import com.here.genium.generator.cpp.CppTypeMapper;
+import com.here.genium.generator.cpp.*;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.common.Streamable;
 import com.here.genium.model.cpp.*;
@@ -37,6 +35,8 @@ import com.here.genium.platform.common.GeneratorSuite;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.eclipse.emf.ecore.EObject;
+import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeCollection;
 
 /**
@@ -75,11 +75,18 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     CppGenerator generator =
         new CppGenerator(BaseApiGeneratorSuite.GENERATOR_NAME, internalNamespace);
 
+    Set<String> errorEnums =
+        typeCollections
+            .stream()
+            .flatMap(BaseApiGeneratorSuite::collectErrorEnums)
+            .collect(Collectors.toSet());
+
     List<GeneratedFile> generatedFiles = new LinkedList<>();
     for (final FTypeCollection francaTypeCollection : typeCollections) {
 
       CppFile cppModel =
-          mapFrancaTypeCollectionToCppModel(deploymentModel, typeMapper, francaTypeCollection);
+          mapFrancaTypeCollectionToCppModel(
+              deploymentModel, typeMapper, francaTypeCollection, errorEnums);
       String outputFilePathHeader = CppNameRules.getOutputFilePath(francaTypeCollection);
       String outputFilePathImpl = CppNameRules.getOutputFilePath(francaTypeCollection);
 
@@ -97,7 +104,8 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   private static CppFile mapFrancaTypeCollectionToCppModel(
       final FrancaDeploymentModel deploymentModel,
       final CppTypeMapper typeMapper,
-      final FTypeCollection francaTypeCollection) {
+      final FTypeCollection francaTypeCollection,
+      final Set<String> allErrorEnums) {
 
     CppModelBuilder builder = new CppModelBuilder(deploymentModel, typeMapper);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
@@ -108,6 +116,12 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     cppModel.members.addAll(builder.getFinalResults());
     cppModel.includes.addAll(collectIncludes(cppModel));
     cppModel.forwardDeclarations.addAll(collectForwardDeclarations(cppModel));
+
+    cppModel.errorEnums.addAll(collectEnums(cppModel));
+    cppModel.errorEnums.retainAll(allErrorEnums);
+    if (!cppModel.errorEnums.isEmpty()) {
+      cppModel.includes.add(CppLibraryIncludes.SYSTEM_ERROR);
+    }
 
     return cppModel;
   }
@@ -128,5 +142,21 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
         .map(instanceTypeRef -> instanceTypeRef.name)
         .map(CppForwardDeclaration::new)
         .collect(Collectors.toList());
+  }
+
+  private static Set<String> collectEnums(final CppFile cppModel) {
+    Stream<Streamable> allElementsStream =
+        cppModel.members.stream().flatMap(CppElement::streamRecursive);
+    return CollectionsHelper.getStreamOfType(allElementsStream, CppEnum.class)
+        .map(cppEnum -> cppEnum.fullyQualifiedName)
+        .collect(Collectors.toSet());
+  }
+
+  private static Stream<String> collectErrorEnums(final FTypeCollection francaTypeCollection) {
+    Stream<EObject> allElementsStream = FrancaTypeHelper.getAllElements(francaTypeCollection);
+    return CollectionsHelper.getStreamOfType(allElementsStream, FMethod.class)
+        .map(FMethod::getErrorEnum)
+        .filter(Objects::nonNull)
+        .map(CppNameRules::getFullyQualifiedName);
   }
 }
