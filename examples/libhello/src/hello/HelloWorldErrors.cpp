@@ -20,43 +20,32 @@
 
 #include "hello/HelloWorldErrors.h"
 
-#include <system_error>
-
-namespace
-{
-template <typename T>
-std::error_code make_error_code(const T& error)
-{
-   return {static_cast< int >( error ), std::system_category()};
-}
-}
-
 namespace hello
 {
-    std::error_code
-    HelloWorldErrors::hello_world_method_with_error( const bool error_flag )
+std::error_code
+HelloWorldErrors::hello_world_method_with_error( const bool error_flag )
+{
+    if ( error_flag )
     {
-        if ( error_flag )
-        {
-            return make_error_code( HelloWorldErrors::InternalErrors::CRASHED );
-        }
-        else
-        {
-            return {};
-        }
+        return std::error_code( HelloWorldErrors::InternalErrors::CRASHED );
     }
-
-    lorem_ipsum::Return< std::string, std::error_code >
-    HelloWorldErrors::hello_world_method_with_error_and_string( const bool error_flag )
+    else
     {
-        if ( error_flag )
-        {
-            return make_error_code( HelloWorldErrors::InternalErrors::CRASHED );
-        }
-        else
-        {
-            return std::string{"Hello!"};
-        }
+        return {};
+    }
+}
+
+lorem_ipsum::Return< std::string, std::error_code >
+HelloWorldErrors::hello_world_method_with_error_and_string( const bool error_flag )
+{
+    if ( error_flag )
+    {
+        return std::error_code( HelloWorldErrors::InternalErrors::CRASHED );
+    }
+    else
+    {
+        return std::string{"Hello!"};
+    }
     }
 }
 

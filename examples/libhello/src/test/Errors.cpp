@@ -22,17 +22,6 @@
 #include "another/AdditionalErrors.h"
 #include "another/TypeCollectionWithEnums.h"
 
-#include <system_error>
-
-namespace
-{
-template <typename T>
-std::error_code make_error_code(const T& error)
-{
-   return {static_cast< int >( error ), std::system_category()};
-}
-}
-
 namespace test
 {
 std::error_code
@@ -40,7 +29,7 @@ Errors::method_with_error( const bool error_flag )
 {
     if ( error_flag )
     {
-        return make_error_code( Errors::InternalErrors::CRASHED );
+        return std::error_code( Errors::InternalErrors::CRASHED );
     }
     else
     {
@@ -53,7 +42,7 @@ Errors::method_with_error_and_string( const bool error_flag )
 {
     if ( error_flag )
     {
-        return make_error_code( another::AdditionalErrors::ExternalErrors::FAILED );
+        return std::error_code( another::AdditionalErrors::ExternalErrors::FAILED );
     }
     else
     {
@@ -66,7 +55,7 @@ Errors::method_that_explodes( const bool error_flag )
 {
     if ( error_flag )
     {
-        return make_error_code( another::ExplosiveErrors::EXPLODED );
+        return std::error_code( another::ExplosiveErrors::EXPLODED );
     }
     else
     {
@@ -80,7 +69,7 @@ Errors::method_with_good_and_bad( const bool error_flag )
 {
     if ( error_flag )
     {
-        return make_error_code( another::YetAnotherErrors::BAD );
+        return std::error_code( another::YetAnotherErrors::BAD );
     }
     else
     {

@@ -22,6 +22,8 @@ package com.here.genium.common;
 import com.here.genium.model.franca.DefinedBy;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
@@ -64,6 +66,12 @@ public final class FrancaTypeHelper {
       final FModelElement francaModeElement1, final FModelElement francaModeElement2) {
     return Objects.equals(
         DefinedBy.getModelName(francaModeElement1), DefinedBy.getModelName(francaModeElement2));
+  }
+
+  public static Stream<EObject> getAllElements(final FTypeCollection francaTypeCollection) {
+    @SuppressWarnings("NullableProblems")
+    Iterable<EObject> iterable = francaTypeCollection::eAllContents;
+    return StreamSupport.stream(iterable.spliterator(), false);
   }
 
   private static boolean isArray(final FTypedElement francaTypedElement) {

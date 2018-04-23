@@ -28,6 +28,7 @@
 {{/includes}}
 
 {{/if}}
+{{#if forwardDeclarations}}
 {{#forwardDeclarations}}
 {{#namespaces}}
 namespace {{.}} {
@@ -37,6 +38,8 @@ namespace {{.}} {
 }
 {{/namespaces}}
 {{/forwardDeclarations}}
+
+{{/if}}
 {{#namespace}}
 namespace {{.}} {
 
@@ -58,6 +61,22 @@ namespace {{.}} {
 {{#if members}}
 
 {{/if}}
+
+{{#errorEnums}}
+::std::error_code make_error_code( {{.}} value ) noexcept;
+
+{{/errorEnums}}
 {{#namespace}}
 }
 {{/namespace}}
+{{#if errorEnums}}
+
+namespace std
+{
+{{#errorEnums}}
+template <>
+struct is_error_code_enum <{{.}}> : public std::true_type { };
+
+{{/errorEnums}}
+}
+{{/if}}

@@ -20,6 +20,7 @@
 package com.here.genium.validator;
 
 import com.here.genium.common.CollectionsHelper;
+import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.Collection;
 import java.util.List;
@@ -27,7 +28,6 @@ import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
@@ -48,7 +48,7 @@ public final class FrancaModelValidator {
     Collection<EObject> allElements =
         typeCollections
             .stream()
-            .flatMap(FrancaModelValidator::getAllElements)
+            .flatMap(FrancaTypeHelper::getAllElements)
             .collect(Collectors.toList());
 
     return predicates
@@ -58,12 +58,6 @@ public final class FrancaModelValidator {
             .peek(LOGGER::severe)
             .count()
         == 0;
-  }
-
-  private static Stream<EObject> getAllElements(final FTypeCollection francaTypeCollection) {
-    @SuppressWarnings("NullableProblems")
-    Iterable<EObject> iterable = francaTypeCollection::eAllContents;
-    return StreamSupport.stream(iterable.spliterator(), false);
   }
 
   private static <T extends EObject> Stream<String> validateAllElements(
