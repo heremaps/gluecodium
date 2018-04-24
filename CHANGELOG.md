@@ -1,6 +1,6 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.1.0
 - Features:
   + Added FDEPL properties "ExternalGetter" and "ExternalSetter" for enabling the usage of accessor
     methods as a JNI/CBridge data source for struct fields of a struct marked with "ExternalType".
