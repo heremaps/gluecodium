@@ -1,6 +1,6 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.1.1
 - Features:
   + Added generation of is_error_code_enum<> type trait for error enums in C++. This way they can be
     passed to std::error_code() constructor directly, without any additional static casts.
