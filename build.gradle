@@ -39,6 +39,10 @@ allprojects {
     apply plugin: 'java'
 
     compileJava {
+        if (JavaVersion.current().isJava9Compatible()) {
+            throw new StopActionException("Genium is incompatible with Java 9 or above. Please use Java 8 instead.")
+        }
+
         options.encoding = "UTF-8"
     }
 
