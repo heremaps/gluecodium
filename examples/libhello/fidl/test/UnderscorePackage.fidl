@@ -17,12 +17,16 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/GeniumExtensions.fdepl"
-import "./Basic.fidl"
+package test_off
 
-define GeniumExtensions for interface smoke_off.Basic
-{
-    method basicMethod {
-        Static = true
+interface OffInterface {
+
+    public typedef OffInterface is undefined
+}
+
+typeCollection OffTypeCollection {
+
+    struct OffStruct {
+        String structField
     }
 }
