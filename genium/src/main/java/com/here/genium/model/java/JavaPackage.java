@@ -19,9 +19,11 @@
 
 package com.here.genium.model.java;
 
+import com.here.genium.generator.java.JavaNameRules;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
@@ -33,7 +35,8 @@ public final class JavaPackage {
   public final List<String> packageNames;
 
   public JavaPackage(final List<String> packageList) {
-    packageNames = packageList;
+    packageNames =
+        packageList.stream().map(JavaNameRules::getPackageName).collect(Collectors.toList());
   }
 
   public String flatten() {

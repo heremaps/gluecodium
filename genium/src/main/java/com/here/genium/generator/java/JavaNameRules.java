@@ -84,4 +84,8 @@ public final class JavaNameRules {
   public static String getExceptionName(final String base) {
     return base + "Exception";
   }
+
+  public static String getPackageName(final String base) {
+    return base.replace("_", "");
+  }
 }
