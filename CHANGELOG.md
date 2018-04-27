@@ -1,6 +1,6 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.1.2
 - Bug fixes:
   + Fixed package names with "_" underscore in Java/JNI.
 
