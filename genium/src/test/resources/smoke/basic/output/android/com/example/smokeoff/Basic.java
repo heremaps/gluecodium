@@ -2,7 +2,7 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-package com.example.smoke;
+package com.example.smokeoff;
 import com.example.NativeBase;
 public class Basic extends NativeBase {
     /** For internal use only */

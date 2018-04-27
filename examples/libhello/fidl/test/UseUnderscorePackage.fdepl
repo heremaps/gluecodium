@@ -18,11 +18,15 @@
  */
 
 import "classpath:/GeniumExtensions.fdepl"
-import "./Basic.fidl"
+import "./UseUnderscorePackage.fidl"
 
-define GeniumExtensions for interface smoke_off.Basic
+define GeniumExtensions for interface test.UseUnderscorePackage
 {
-    method basicMethod {
+    method methodWithUnderscoreInstance {
+        Static = true
+    }
+
+    method methodWithUnderscoreStruct {
         Static = true
     }
 }

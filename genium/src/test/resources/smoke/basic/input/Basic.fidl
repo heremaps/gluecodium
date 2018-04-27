@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package smoke
+package smoke_off
 
 interface Basic {
 

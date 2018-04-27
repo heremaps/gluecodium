@@ -42,7 +42,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.trimou.util.Strings;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({JavaNameRules.class, InstanceRules.class, JavaValueMapper.class})
+@PrepareForTest({InstanceRules.class, JavaValueMapper.class})
 public class JavaTypeMapperCustomTypeTest {
 
   private static final String TYPECOLLECTION_NAME = "typeC0Ll3ction";
@@ -52,9 +52,9 @@ public class JavaTypeMapperCustomTypeTest {
   private static final JavaPackage JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME =
       new JavaPackage(Strings.split(FMODEL_NAME, "."));
 
-  private static final String INTERFACE_NAME = "iNt3RfacE";
-  private static final String STRUCT_NAME_INTERFACE = "structDefinedIn_Iface";
-  private static final String STRUCT_NAME_TYPECOLLECTION = "structDefinedIn_tC";
+  private static final String INTERFACE_NAME = "INt3RfacE";
+  private static final String STRUCT_NAME_INTERFACE = "StructDefinedInIface";
+  private static final String STRUCT_NAME_TYPECOLLECTION = "StructDefinedIntC";
   private static final String ENUMERATION_NAME = "MyEnumName";
   private static final String ENUMERATION_NAME_INTERFACE = "MyEnumDefinedInInterface";
   private static final String ENUMERATION_NAME_TYPECOLLECTION = "MyEnumDefinedInTypeCollection";
@@ -74,7 +74,7 @@ public class JavaTypeMapperCustomTypeTest {
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(JavaNameRules.class, InstanceRules.class, JavaValueMapper.class);
+    PowerMockito.mockStatic(InstanceRules.class, JavaValueMapper.class);
 
     MockitoAnnotations.initMocks(this);
 
@@ -91,8 +91,6 @@ public class JavaTypeMapperCustomTypeTest {
 
   @Test
   public void mapFStructTypeToJavaTypeInTypeCollection() {
-    when(JavaNameRules.getClassName(STRUCT_NAME_TYPECOLLECTION))
-        .thenReturn(STRUCT_NAME_TYPECOLLECTION);
     when(structType.getName()).thenReturn(STRUCT_NAME_TYPECOLLECTION);
     when(structType.eContainer()).thenReturn(fTypeCollection);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
@@ -108,14 +106,10 @@ public class JavaTypeMapperCustomTypeTest {
         JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME, customReturn.imports.iterator().next().javaPackage);
     assertEquals(STRUCT_NAME_TYPECOLLECTION, customReturn.imports.iterator().next().className);
     assertFalse(customReturn.isInterface);
-    PowerMockito.verifyStatic();
-    JavaNameRules.getClassName(STRUCT_NAME_TYPECOLLECTION);
   }
 
   @Test
   public void mapFStructTypeToJavaTypeInInterface() {
-    when(JavaNameRules.getClassName(STRUCT_NAME_INTERFACE)).thenReturn(STRUCT_NAME_INTERFACE);
-    when(JavaNameRules.getClassName(INTERFACE_NAME)).thenReturn(INTERFACE_NAME);
     when(structType.getName()).thenReturn(STRUCT_NAME_INTERFACE);
     when(structType.eContainer()).thenReturn(fInterface);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
@@ -132,10 +126,6 @@ public class JavaTypeMapperCustomTypeTest {
     assertEquals(JAVA_PACKAGE, customReturn.imports.iterator().next().javaPackage);
     assertEquals(INTERFACE_NAME, customReturn.imports.iterator().next().className);
     assertFalse(customReturn.isInterface);
-    PowerMockito.verifyStatic();
-    JavaNameRules.getClassName(STRUCT_NAME_INTERFACE);
-    PowerMockito.verifyStatic();
-    JavaNameRules.getClassName(INTERFACE_NAME);
   }
 
   @Test
@@ -167,7 +157,6 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
     when(theModel.getName()).thenReturn(String.join(".", packageNames));
     when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
-    when(JavaNameRules.getClassName(INTERFACE_NAME)).thenReturn(INTERFACE_NAME);
 
     JavaType result = typeMapper.map(francaTypeRef);
 
@@ -177,8 +166,7 @@ public class JavaTypeMapperCustomTypeTest {
     assertEquals(1, customResult.imports.size());
     assertEquals(packageNames, customResult.imports.iterator().next().javaPackage.packageNames);
     assertTrue(customResult.isInterface);
-    PowerMockito.verifyStatic();
-    JavaNameRules.getClassName(INTERFACE_NAME);
+
     PowerMockito.verifyStatic();
     InstanceRules.isInstanceId(francaTypeDef);
   }
@@ -218,9 +206,6 @@ public class JavaTypeMapperCustomTypeTest {
   @Test
   public void mapFrancaEnumerationTypeInTypeCollection() {
     // arrange
-    when(JavaNameRules.getClassName(ENUMERATION_NAME_TYPECOLLECTION))
-        .thenReturn(ENUMERATION_NAME_TYPECOLLECTION);
-
     when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME_TYPECOLLECTION);
     when(francaEnumerationType.eContainer()).thenReturn(fTypeCollection);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
@@ -238,18 +223,11 @@ public class JavaTypeMapperCustomTypeTest {
     assertEquals(
         JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME, enumReturn.imports.iterator().next().javaPackage);
     assertEquals(ENUMERATION_NAME_TYPECOLLECTION, enumReturn.imports.iterator().next().className);
-
-    PowerMockito.verifyStatic();
-    JavaNameRules.getClassName(ENUMERATION_NAME_TYPECOLLECTION);
   }
 
   @Test
   public void mapFrancaEnumerationTypeToJavaTypeInInterface() {
     // arrange
-    when(JavaNameRules.getClassName(ENUMERATION_NAME_INTERFACE))
-        .thenReturn(ENUMERATION_NAME_INTERFACE);
-    when(JavaNameRules.getClassName(INTERFACE_NAME)).thenReturn(INTERFACE_NAME);
-
     when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME_INTERFACE);
     when(francaEnumerationType.eContainer()).thenReturn(fInterface);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
@@ -266,11 +244,6 @@ public class JavaTypeMapperCustomTypeTest {
     assertEquals(INTERFACE_NAME + "." + ENUMERATION_NAME_INTERFACE, enumReturn.name);
     assertEquals(JAVA_PACKAGE, enumReturn.imports.iterator().next().javaPackage);
     assertEquals(INTERFACE_NAME, enumReturn.imports.iterator().next().className);
-
-    PowerMockito.verifyStatic();
-    JavaNameRules.getClassName(ENUMERATION_NAME_INTERFACE);
-    PowerMockito.verifyStatic();
-    JavaNameRules.getClassName(INTERFACE_NAME);
   }
 
   @Test

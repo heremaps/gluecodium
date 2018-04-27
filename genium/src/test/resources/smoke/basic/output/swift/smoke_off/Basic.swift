@@ -20,7 +20,7 @@ public class Basic {
     }
 
     deinit {
-        smoke_Basic_release(c_instance)
+        smoke_off_Basic_release(c_instance)
     }
     /**
      Example static method for Basic feature which takes a String and returns a String
@@ -28,7 +28,7 @@ public class Basic {
      - Returns: Output string
      */
     public static func basicMethod(inputString: String) -> String? {
-        let result_string_handle = smoke_Basic_basicMethod(inputString)
+        let result_string_handle = smoke_off_Basic_basicMethod(inputString)
         defer {
             std_string_release(result_string_handle)
         }

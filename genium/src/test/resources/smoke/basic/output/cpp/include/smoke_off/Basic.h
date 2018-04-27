@@ -11,7 +11,7 @@
 
 #include <string>
 
-namespace smoke {
+namespace smoke_off {
 
 class Basic {
 public:

@@ -319,6 +319,14 @@ feature(ExternalTypes cpp android swift SOURCES
     fidl/test/UseExternalTypes.fdepl
 )
 
+feature(UnderscorePackage cpp android swift SOURCES
+    src/test/UseUnderscorePackage.cpp
+
+    fidl/test/UnderscorePackage.fidl
+    fidl/test/UseUnderscorePackage.fidl
+    fidl/test/UseUnderscorePackage.fdepl
+)
+
 add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
 source_group("Franca files" FILES ${HELLO_FRANCA_SOURCES})
 set_target_properties(hello PROPERTIES

@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed package names with "_" underscore in Java/JNI.
+
 ## 3.1.1
 - Features:
   + Added generation of is_error_code_enum<> type trait for error enums in C++. This way they can be

@@ -17,12 +17,27 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/GeniumExtensions.fdepl"
-import "./Basic.fidl"
+package test
 
-define GeniumExtensions for interface smoke_off.Basic
-{
-    method basicMethod {
-        Static = true
+import test_off.* from "./UnderscorePackage.fidl"
+
+interface UseUnderscorePackage {
+
+    method methodWithUnderscoreInstance {
+        in {
+            test_off.OffInterface.OffInterface input
+        }
+        out {
+            test_off.OffInterface.OffInterface output
+        }
+    }
+
+    method methodWithUnderscoreStruct {
+        in {
+            test_off.OffTypeCollection.OffStruct input
+        }
+        out {
+            test_off.OffTypeCollection.OffStruct output
+        }
     }
 }
