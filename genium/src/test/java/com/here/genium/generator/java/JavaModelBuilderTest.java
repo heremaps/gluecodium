@@ -301,6 +301,7 @@ public class JavaModelBuilderTest {
     assertNotNull(resultConstant);
     assertEquals("permanent", resultConstant.name.toLowerCase());
     assertEquals(javaCustomType, resultConstant.type);
+    assertEquals(JavaVisibility.PUBLIC, resultConstant.visibility);
   }
 
   @Test

@@ -190,6 +190,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaValue value = JavaValueMapper.map(javaType, francaConstant.getRhs());
     JavaConstant javaConstant =
         new JavaConstant(javaType, JavaNameRules.getConstantName(francaConstant.getName()), value);
+    javaConstant.visibility = JavaVisibility.PUBLIC;
 
     javaConstant.comment = CommentHelper.getDescription(francaConstant);
 

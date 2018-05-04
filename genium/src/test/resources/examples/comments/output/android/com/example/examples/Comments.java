@@ -11,7 +11,7 @@ public class Comments extends NativeBase {
     /**
      * This is some very useful constant.
      */
-    static final boolean VERY_USEFUL = true;
+    public static final boolean VERY_USEFUL = true;
     /**
      * This is some very useful enum.
      */

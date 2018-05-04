@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased:
+- Bug fixes:
+  + Fixed handling of Java constants to generate those as "public".
+
 ## 3.1.2
 - Bug fixes:
   + Fixed package names with "_" underscore in Java/JNI.
