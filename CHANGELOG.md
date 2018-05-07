@@ -1,6 +1,6 @@
 # Genium project Release Notes
 
-## Unreleased:
+## 3.1.3
 - Bug fixes:
   + Fixed handling of Java constants to generate those as "public".
 
