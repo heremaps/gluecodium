@@ -22,7 +22,6 @@ package com.here.genium.generator.cbridge;
 import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
 import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.*;
-import static com.here.genium.model.cbridge.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
 import static com.here.genium.model.cbridge.CType.VOID;
 import static com.here.genium.model.common.InstanceRules.isInstanceId;
 
@@ -30,7 +29,6 @@ import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.cpp.CppLibraryIncludes;
 import com.here.genium.generator.cpp.CppNameRules;
 import com.here.genium.model.cbridge.CBridgeIncludeResolver;
-import com.here.genium.model.cbridge.CPointerType;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.CppIncludeResolver;
@@ -63,15 +61,9 @@ public class CTypeMapper {
     this.enumHashType = enumHashType;
     this.byteBufferTypeInfo =
         CppTypeInfo.builder(byteBufferType)
-            .constructFromCType(CPointerType.makeConstPointer(CType.UINT8))
-            .constructFromCType(CType.INT64)
-            .paramSuffix("_ptr")
-            .paramSuffix("_size")
+            .constructFromCType(new CType(BASE_REF_NAME))
             .functionReturnType(CType.BYTE_ARRAY_REF)
             .category(BUILTIN_BYTEBUFFER)
-            .include(CppLibraryIncludes.NEW)
-            .include(CppLibraryIncludes.VECTOR)
-            .include(FIXED_WIDTH_INTEGERS_INCLUDE)
             .include(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
             .build();
   }

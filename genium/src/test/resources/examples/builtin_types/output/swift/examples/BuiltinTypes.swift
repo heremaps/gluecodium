@@ -67,13 +67,18 @@ public class BuiltinTypes {
     }
 
     public static func methodWithByteBuffer(inputBuffer: Data) -> Data {
-        return inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) -> Data in
-            let result_data_handle = examples_BuiltinTypes_methodWithByteBuffer(inputBuffer_ptr, Int64(inputBuffer.count))
-            defer {
-                byteArray_release(result_data_handle)
-            }
-            return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
+        let inputBuffer_handle = byteArray_create()
+        defer {
+            byteArray_release(inputBuffer_handle)
         }
+        inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) in
+            byteArray_assign(inputBuffer_handle, inputBuffer_ptr, inputBuffer.count)
+        }
+        let result_data_handle = examples_BuiltinTypes_methodWithByteBuffer(inputBuffer_handle)
+        defer {
+            byteArray_release(result_data_handle)
+        }
+        return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
     }
 
     public static func methodWithFloatAndInteger(inputFloat: Float, inputInteger: Int32) -> Double {

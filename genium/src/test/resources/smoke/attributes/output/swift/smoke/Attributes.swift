@@ -79,9 +79,14 @@ public class Attributes {
             return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
         }
         set {
-            return newValue.withUnsafeBytes { (newValue_ptr: UnsafePointer<UInt8>) -> Void in
-                return smoke_Attributes_byteBufferAttribute_set(c_instance, newValue_ptr, Int64(newValue.count))
+            let newValue_handle = byteArray_create()
+            defer {
+                byteArray_release(newValue_handle)
             }
+            newValue.withUnsafeBytes { (newValue_ptr: UnsafePointer<UInt8>) in
+                byteArray_assign(newValue_handle, newValue_ptr, newValue.count)
+            }
+            return smoke_Attributes_byteBufferAttribute_set(c_instance, newValue_handle)
         }
     }
     let c_instance : _baseRef

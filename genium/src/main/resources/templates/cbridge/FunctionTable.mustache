@@ -25,7 +25,4 @@ typedef struct {
     {{returnType.functionReturnType}}(*{{name}})(void* swift_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "pars" ", "}});
 {{/each}}
 } {{functionTableName}};
-{{+pars}}{{#switch mappedType.typeCategory.toString}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER"}}const uint8_t* {{name}}_ptr, int64_t {{name}}_size{{/case}}{{!!
-    }}{{#default}}{{mappedType.functionReturnType}} {{name}}{{/default}}{{!!
-}}{{/switch}}{{/pars}}
+{{+pars}}{{mappedType.functionReturnType}} {{name}}{{/pars}}

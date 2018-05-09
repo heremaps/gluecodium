@@ -47,8 +47,8 @@ _baseRef smoke_Arrays_FancyStruct_image_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Arrays::FancyStruct>(handle);
     return reinterpret_cast<_baseRef>( checked_pointer_copy(struct_pointer->image) );
 }
-void smoke_Arrays_FancyStruct_image_set(_baseRef handle, const uint8_t* image_ptr, int64_t image_size) {
-    get_pointer<::smoke::Arrays::FancyStruct>(handle)->image = std::make_shared< std::vector< uint8_t > >(image_ptr, image_ptr + image_size);
+void smoke_Arrays_FancyStruct_image_set(_baseRef handle, _baseRef image) {
+    get_pointer<::smoke::Arrays::FancyStruct>(handle)->image = *get_pointer<::std::shared_ptr< ::std::vector< uint8_t > >>(image);
 }
 _baseRef smoke_Arrays_methodWithArray(_baseRef input) {
     return reinterpret_cast<_baseRef>( new std::vector<std::string>(::smoke::Arrays::method_with_array(*get_pointer<std::vector<std::string>>(input))) );
@@ -71,8 +71,8 @@ _baseRef smoke_Arrays_methodWithArrayOfAliases(_baseRef input) {
 _baseRef smoke_Arrays_methodWithArrayOfMaps(_baseRef input) {
     return reinterpret_cast<_baseRef>( new std::vector<::smoke::Arrays::ErrorCodeToMessageMap>(::smoke::Arrays::method_with_array_of_maps(*get_pointer<std::vector<::smoke::Arrays::ErrorCodeToMessageMap>>(input))) );
 }
-_baseRef smoke_Arrays_methodWithByteBuffer(const uint8_t* input_ptr, int64_t input_size) {
-    return reinterpret_cast<_baseRef>( new ::std::shared_ptr< ::std::vector< uint8_t > >(::smoke::Arrays::method_with_byte_buffer(std::make_shared< std::vector< uint8_t > >(input_ptr, input_ptr + input_size))) );
+_baseRef smoke_Arrays_methodWithByteBuffer(_baseRef input) {
+    return reinterpret_cast<_baseRef>( new ::std::shared_ptr< ::std::vector< uint8_t > >(::smoke::Arrays::method_with_byte_buffer(*get_pointer<::std::shared_ptr< ::std::vector< uint8_t > >>(input))) );
 }
 _baseRef smoke_Arrays_ErrorCodeToMessageMap_create() {
     return reinterpret_cast<_baseRef>( new std::unordered_map<int32_t, std::string>() );

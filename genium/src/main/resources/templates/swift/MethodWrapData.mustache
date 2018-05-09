@@ -18,6 +18,11 @@
   ! License-Filename: LICENSE
   !
   !}}
-return {{variableName}}.withUnsafeBytes { ({{variableName}}_ptr: UnsafePointer<UInt8>) -> {{method.returnType}}{{#if method.returnType.optional}}?{{/if}} in
-{{prefixPartial 'swift/ConversionRecursion' '    '}}
+let {{variableName}}_handle = byteArray_create()
+defer {
+    byteArray_release({{variableName}}_handle)
 }
+{{variableName}}.withUnsafeBytes { ({{variableName}}_ptr: UnsafePointer<UInt8>) in
+    byteArray_assign({{variableName}}_handle, {{variableName}}_ptr, {{variableName}}.count)
+}
+{{>swift/ConversionRecursion}}

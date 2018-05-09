@@ -44,10 +44,10 @@ void {{name}}_release(_baseRef handle) {
 
 void {{structname}}_{{name}}_set(_baseRef handle, {{join setterParameters delimiter=", "}}) {
     {{>setBaseLayerFieldValue}}{{#switch type.typeCategory.toString}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER"}}std::make_shared< std::vector< uint8_t > >({{setterParameters.0.name}}, {{setterParameters.0.name}} + {{setterParameters.1.name}}){{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<{{type.name}}>({{setterParameters.0.name}}){{/case}}{{!!
     }}{{#case "MAP" break=false}}{{/case}}{{!!
     }}{{#case "ARRAY"}}*get_pointer<{{type.baseApi}}>({{setterParameters.0.name}}){{/case}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
     }}{{#case "STRUCT" break=false}}{{/case}}{{!!
     }}{{#case "CLASS"}}*get_pointer<{{type.name}}>({{setterParameters.0.name}}){{/case}}{{!!
     }}{{#default}}{{setterParameters.0.name}}{{/default}}{{!!

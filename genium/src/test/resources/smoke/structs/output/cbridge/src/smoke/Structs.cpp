@@ -194,8 +194,8 @@ _baseRef smoke_Structs_AllTypesStruct_bytesField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
     return reinterpret_cast<_baseRef>( checked_pointer_copy(struct_pointer->bytes_field) );
 }
-void smoke_Structs_AllTypesStruct_bytesField_set(_baseRef handle, const uint8_t* bytesField_ptr, int64_t bytesField_size) {
-    get_pointer<::smoke::Structs::AllTypesStruct>(handle)->bytes_field = std::make_shared< std::vector< uint8_t > >(bytesField_ptr, bytesField_ptr + bytesField_size);
+void smoke_Structs_AllTypesStruct_bytesField_set(_baseRef handle, _baseRef bytesField) {
+    get_pointer<::smoke::Structs::AllTypesStruct>(handle)->bytes_field = *get_pointer<::std::shared_ptr< ::std::vector< uint8_t > >>(bytesField);
 }
 _baseRef smoke_Structs_AllTypesStruct_pointField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);

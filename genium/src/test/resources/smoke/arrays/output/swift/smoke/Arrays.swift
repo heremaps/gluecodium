@@ -72,9 +72,14 @@ public class Arrays {
             let numbers_conversion = numbers.c_conversion()
             smoke_Arrays_FancyStruct_numbers_set(cFancyStruct, numbers_conversion.c_type)
             numbers_conversion.cleanup()
-            image.withUnsafeBytes { (image_ptr: UnsafePointer<UInt8>) in
-                smoke_Arrays_FancyStruct_image_set(cFancyStruct, image_ptr, Int64(image.count))
+            let image_handle = byteArray_create()
+            defer {
+                byteArray_release(image_handle)
             }
+            image.withUnsafeBytes { (image_ptr: UnsafePointer<UInt8>) in
+                byteArray_assign(image_handle, image_ptr, image.count)
+            }
+            smoke_Arrays_FancyStruct_image_set(cFancyStruct, image_handle)
         }
     }
     public static func methodWithArray<Tinput: Collection>(input: Tinput) -> CollectionOf<String> where Tinput.Element == String {
@@ -138,13 +143,18 @@ public class Arrays {
         return ArraysErrorCodeToMessageMapList(result_handle)
     }
     public static func methodWithByteBuffer(input: Data) -> Data {
-        return input.withUnsafeBytes { (input_ptr: UnsafePointer<UInt8>) -> Data in
-            let result_data_handle = smoke_Arrays_methodWithByteBuffer(input_ptr, Int64(input.count))
-            defer {
-                byteArray_release(result_data_handle)
-            }
-            return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
+        let input_handle = byteArray_create()
+        defer {
+            byteArray_release(input_handle)
         }
+        input.withUnsafeBytes { (input_ptr: UnsafePointer<UInt8>) in
+            byteArray_assign(input_handle, input_ptr, input.count)
+        }
+        let result_data_handle = smoke_Arrays_methodWithByteBuffer(input_handle)
+        defer {
+            byteArray_release(result_data_handle)
+        }
+        return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
     }
 }
 extension Arrays: NativeBase {

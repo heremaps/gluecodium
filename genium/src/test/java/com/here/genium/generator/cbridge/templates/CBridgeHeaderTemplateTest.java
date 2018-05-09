@@ -24,6 +24,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.genium.generator.cbridge.CBridgeGenerator;
+import com.here.genium.generator.cbridge.CBridgeNameRules;
 import com.here.genium.generator.cbridge.CTypeMapper;
 import com.here.genium.generator.cbridge.CppTypeInfo;
 import com.here.genium.model.cbridge.*;
@@ -272,10 +273,8 @@ public final class CBridgeHeaderTemplateTest {
   public void functionTableForFunctionTakingByteBuffer() {
     CppTypeInfo cppTypeInfo =
         CppTypeInfo.builder("foo")
+            .functionReturnType(new CType(CBridgeNameRules.BASE_REF_NAME))
             .constructFromCType(CPointerType.makeConstPointer(CType.UINT8))
-            .constructFromCType(CType.INT64)
-            .paramSuffix("_ptr")
-            .paramSuffix("_size")
             .category(CppTypeInfo.TypeCategory.BUILTIN_BYTEBUFFER)
             .build();
     CFunction function =
@@ -293,7 +292,7 @@ public final class CBridgeHeaderTemplateTest {
                 "typedef struct {\n"
                     + "    void* swift_pointer;\n"
                     + "    void(*release)(void* swift_pointer);\n"
-                    + "    void(*functionTakingByteBuffer)(void* swift_pointer, const uint8_t* buffer_ptr, int64_t buffer_size);\n"
+                    + "    void(*functionTakingByteBuffer)(void* swift_pointer, _baseRef buffer);\n"
                     + "} functionTable;\n")
             .build();
 

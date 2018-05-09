@@ -46,6 +46,11 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
             {{type.cPrefix}}_release({{name}})
         }
         {{/case}}{{!!
+        }}{{#case "BUILTIN_BYTEBUFFER"}}
+        defer {
+            byteArray_release({{name}})
+        }
+        {{/case}}{{!!
         }}{{/switch}}{{/parameters}}
         return {{>swiftReturn}}
     }
@@ -54,10 +59,7 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
     return RefHolder(ref: proxy, release: {{cInstance}}_release)
 }
 {{/set}}
-{{+swiftParameter}}{{#switch type.category.toString}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER"}}{{name}}_ptr, {{name}}_size{{/case}}{{!!
-    }}{{#default}}{{name}}{{/default}}{{!!
-}}{{/switch}}{{/swiftParameter}}
+{{+swiftParameter}}{{name}}{{/swiftParameter}}
 {{+swiftReturn}}{{#switch returnType.category.toString}}{{!!
     }}{{#case "BUILTIN_STRING"}}({{>delegateCall2}}!).convertToCType(){{/case}}{{!!
     }}{{#case "STRUCT"}}get_pointer(({{>delegateCall2}}!).convertToCType()){{/case}}{{!!
@@ -70,7 +72,7 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
     }}{{#case "STRUCT"}}{{type}}(c{{type}}: {{name}})!{{/case}}{{!!
     }}{{#case "DICTIONARY"}}convert{{type}}FromCType({{name}}){{/case}}{{!!
     }}{{#case "ARRAY"}}{{type.implementingClass}}({{name}}){{/case}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER"}}Data(bytes: {{name}}_ptr!, count: Int({{name}}_size)){{/case}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER"}}Data(bytes: byteArray_data_get({{name}}), count: byteArray_size_get({{name}})){{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}String(data: Data(bytes: std_string_data_get({{name}}),
                                                 count: Int(std_string_size_get({{name}}))), encoding: .utf8)!{{/case}}{{!!
     }}{{#case "ENUM"}}{{type}}(rawValue: {{name}})!{{/case}}{{!!
