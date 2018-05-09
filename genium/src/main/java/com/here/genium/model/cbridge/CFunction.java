@@ -26,8 +26,6 @@ import com.here.genium.generator.cbridge.CppTypeInfo;
 import com.here.genium.generator.common.NameHelper;
 import com.here.genium.model.common.Include;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public final class CFunction extends CElement {
 
@@ -40,16 +38,6 @@ public final class CFunction extends CElement {
   public final CppTypeInfo error;
   public final String nestedSpecifier;
   public final String shortName;
-
-  public List<CParameter.SimpleParameter> getSignatureParameters() {
-    Stream<? extends CParameter> stream =
-        selfParameter == null
-            ? parameters.stream()
-            : Stream.concat(Stream.of(selfParameter), parameters.stream());
-    return stream
-        .flatMap(parameter -> parameter.getSignatureParameters().stream())
-        .collect(Collectors.toList());
-  }
 
   public boolean isReturningVoid() {
     return returnType.functionReturnType.equals(CType.VOID);

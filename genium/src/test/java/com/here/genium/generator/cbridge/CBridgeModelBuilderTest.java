@@ -42,7 +42,6 @@ import com.here.genium.model.cbridge.CFunction;
 import com.here.genium.model.cbridge.CInParameter;
 import com.here.genium.model.cbridge.CInterface;
 import com.here.genium.model.cbridge.COutParameter;
-import com.here.genium.model.cbridge.CParameter;
 import com.here.genium.model.cbridge.CStruct;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
@@ -153,31 +152,6 @@ public final class CBridgeModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingInputArgumentReturnsCreatedParams() {
-    CppTypeInfo cppTypeInfoByteBuffer =
-        CppTypeInfo.builder("foo")
-            .constructFromCType(CPointerType.makeConstPointer(CType.UINT8))
-            .constructFromCType(CType.INT64)
-            .paramSuffix("_ptr")
-            .paramSuffix("_size")
-            .build();
-    contextStack.injectResult(cppTypeInfoByteBuffer);
-
-    modelBuilder.finishBuildingInputArgument(francaArgument);
-
-    CInParameter param = modelBuilder.getFinalResult(CInParameter.class);
-
-    assertNotNull(param);
-    assertEquals(francaArgument.getName(), param.name);
-    assertEquals(2, param.getSignatureParameters().size());
-    for (int i = 0; i < 2; i++) {
-      CParameter.SimpleParameter simpleParameter = param.getSignatureParameters().get(i);
-      assertEquals(PARAM_NAME + cppTypeInfoByteBuffer.paramSuffixes.get(i), simpleParameter.name);
-      assertEquals(cppTypeInfoByteBuffer.cTypesNeededByConstructor.get(i), simpleParameter.type);
-    }
-  }
-
-  @Test
   public void finishBuildingOutputArgumentReturnsCreatedParam() {
     contextStack.injectResult(cppTypeInfo);
 
@@ -203,10 +177,8 @@ public final class CBridgeModelBuilderTest {
         "Instance parameter should not be part of normal parameters",
         0,
         interfaceFunction.parameters.size());
-    assertEquals(
-        "Instance should be part of C signature parameters",
-        1,
-        interfaceFunction.getSignatureParameters().size());
+    assertNotNull(
+        "Instance should be part of C signature parameters", interfaceFunction.selfParameter);
   }
 
   @Test
@@ -222,10 +194,8 @@ public final class CBridgeModelBuilderTest {
         "Instance function should only take normal parameters",
         1,
         interfaceFunction.parameters.size());
-    assertEquals(
-        "Instance parameter should be part of signature",
-        2,
-        interfaceFunction.getSignatureParameters().size());
+    assertNotNull(
+        "Instance parameter should be part of signature", interfaceFunction.selfParameter);
   }
 
   @Test
