@@ -61,7 +61,7 @@ public class CTypeMapper {
     this.enumHashType = enumHashType;
     this.byteBufferTypeInfo =
         CppTypeInfo.builder(byteBufferType)
-            .constructFromCType(new CType(BASE_REF_NAME))
+            .cType(new CType(BASE_REF_NAME))
             .functionReturnType(CType.BYTE_ARRAY_REF)
             .category(BUILTIN_BYTEBUFFER)
             .include(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
@@ -161,7 +161,7 @@ public class CTypeMapper {
     CType structCType = new CType(BASE_REF_NAME, publicInclude);
 
     return CppTypeInfo.builder(baseApiCall)
-        .constructFromCType(structCType)
+        .cType(structCType)
         .functionReturnType(structCType)
         .category(category)
         .include(publicInclude)
@@ -179,7 +179,7 @@ public class CTypeMapper {
             CBridgeNameRules.getEnumName(francaEnum), includeResolver.resolveInclude(francaEnum));
 
     return CppTypeInfo.builder(CppNameRules.getFullyQualifiedName(francaEnum))
-        .constructFromCType(enumCType)
+        .cType(enumCType)
         .functionReturnType(enumCType)
         .category(ENUM)
         .build();
@@ -210,7 +210,7 @@ public class CTypeMapper {
     }
 
     return CppMapTypeInfo.mapTypeBuilder(baseApiName)
-        .constructFromCType(cType)
+        .cType(cType)
         .functionReturnType(cType)
         .includes(includes)
         .keyType(keyType)
