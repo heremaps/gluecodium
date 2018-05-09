@@ -22,22 +22,18 @@ package com.here.genium.generator.cbridge;
 import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
 import static com.here.genium.generator.cbridge.CBridgeNameRules.STRING_HANDLE_FILE;
 import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 
 import com.here.genium.generator.cpp.CppLibraryIncludes;
 import com.here.genium.model.cbridge.CElement;
 import com.here.genium.model.cbridge.CPointerType;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import lombok.Singular;
 
 public class CppTypeInfo extends CElement {
 
-  public final List<CType> cTypesNeededByConstructor;
-  public final List<String> paramSuffixes;
+  public final CType cType;
   public CType functionReturnType;
   public TypeCategory typeCategory;
   public final List<Include> includes;
@@ -55,7 +51,7 @@ public class CppTypeInfo extends CElement {
 
   public static final CppTypeInfo STRING =
       CppTypeInfo.builder("std::string")
-          .constructFromCType(CPointerType.CONST_CHAR_PTR)
+          .cType(CPointerType.CONST_CHAR_PTR)
           .functionReturnType(CType.STRING_REF)
           .category(TypeCategory.BUILTIN_STRING)
           .include(CppLibraryIncludes.STRING)
@@ -68,24 +64,19 @@ public class CppTypeInfo extends CElement {
   @lombok.Builder(builderClassName = "Builder")
   protected CppTypeInfo(
       final String name,
-      @Singular final List<CType> constructFromCTypes,
-      @Singular final List<String> paramSuffixes,
+      final CType cType,
       final CType functionReturnType,
       final TypeCategory category,
       @Singular final List<Include> includes) {
     super(name);
-    this.cTypesNeededByConstructor = constructFromCTypes;
-    this.paramSuffixes =
-        paramSuffixes != null && !paramSuffixes.isEmpty()
-            ? paramSuffixes
-            : new LinkedList<>(Collections.singletonList(""));
+    this.cType = cType;
     this.functionReturnType = functionReturnType;
     this.typeCategory = category;
     this.includes = includes;
   }
 
   public CppTypeInfo(CType type, TypeCategory category) {
-    this(type.name, singletonList(type), singletonList(""), type, category, emptyList());
+    this(type.name, type, type, category, emptyList());
   }
 
   public CppTypeInfo(CType type) {

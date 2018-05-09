@@ -526,7 +526,7 @@ public final class CBridgeModelBuilderTest {
   public void finishBuildingFrancaTypeRefCreatesInlineArray() {
     CppArrayTypeInfo arrayType =
         CppArrayTypeInfo.arrayTypeBuilder("ArrayTest")
-            .constructFromCType(new CType("ArrayTest"))
+            .cType(new CType("ArrayTest"))
             .functionReturnType(new CType("ArrayTest"))
             .build();
     arrayType.typeCategory = CppTypeInfo.TypeCategory.ARRAY;

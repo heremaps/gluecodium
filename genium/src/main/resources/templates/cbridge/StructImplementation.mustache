@@ -42,7 +42,7 @@ void {{name}}_release(_baseRef handle) {
 {{/switch}}
 }
 
-void {{structname}}_{{name}}_set(_baseRef handle, {{type.cTypesNeededByConstructor.0.toString}} {{name}}) {
+void {{structname}}_{{name}}_set(_baseRef handle, {{type.cType}} {{name}}) {
     {{>setBaseLayerFieldValue}}{{#switch type.typeCategory.toString}}{{!!
     }}{{#case "ENUM"}}static_cast<{{type.name}}>({{name}}){{/case}}{{!!
     }}{{#case "MAP" break=false}}{{/case}}{{!!
