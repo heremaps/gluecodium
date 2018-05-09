@@ -28,43 +28,17 @@ public class CParameter extends CElement {
 
   public final CppTypeInfo mappedType;
 
-  public static class SimpleParameter {
-    public final String name;
-    public final CType type;
-
-    public SimpleParameter(String name, CType type) {
-      this.name = name;
-      this.type = type;
-    }
-
-    @Override
-    public String toString() {
-      return type + " " + name;
-    }
-  }
-
   public CParameter(final String name, final CppTypeInfo mappedType) {
     super(name);
     this.mappedType = mappedType;
   }
 
   public List<Include> getSignatureIncludes() {
-    List<Include> includes = new ArrayList<>();
-    includes.addAll(mappedType.functionReturnType.includes);
+    List<Include> includes = new ArrayList<>(mappedType.functionReturnType.includes);
     for (CType signatureType : mappedType.cTypesNeededByConstructor) {
       includes.addAll(signatureType.includes);
     }
     return includes;
-  }
-
-  public List<SimpleParameter> getSignatureParameters() {
-    List<SimpleParameter> parameters = new ArrayList<>();
-    for (int i = 0; i < mappedType.cTypesNeededByConstructor.size(); ++i) {
-      parameters.add(
-          new SimpleParameter(
-              name + mappedType.paramSuffixes.get(i), mappedType.cTypesNeededByConstructor.get(i)));
-    }
-    return parameters;
   }
 
   @Override
