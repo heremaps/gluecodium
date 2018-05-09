@@ -244,9 +244,14 @@ public struct AllTypesStruct {
         smoke_TypeCollection_AllTypesStruct_doubleField_set(cAllTypesStruct, doubleField)
         smoke_TypeCollection_AllTypesStruct_stringField_set(cAllTypesStruct, stringField)
         smoke_TypeCollection_AllTypesStruct_booleanField_set(cAllTypesStruct, booleanField)
-        bytesField.withUnsafeBytes { (bytesField_ptr: UnsafePointer<UInt8>) in
-            smoke_TypeCollection_AllTypesStruct_bytesField_set(cAllTypesStruct, bytesField_ptr, Int64(bytesField.count))
+        let bytesField_handle = byteArray_create()
+        defer {
+            byteArray_release(bytesField_handle)
         }
+        bytesField.withUnsafeBytes { (bytesField_ptr: UnsafePointer<UInt8>) in
+            byteArray_assign(bytesField_handle, bytesField_ptr, bytesField.count)
+        }
+        smoke_TypeCollection_AllTypesStruct_bytesField_set(cAllTypesStruct, bytesField_handle)
         let pointField_handle = pointField.convertToCType()
         defer {
             smoke_TypeCollection_Point_release(pointField_handle)

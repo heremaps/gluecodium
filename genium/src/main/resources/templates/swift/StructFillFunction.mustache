@@ -52,9 +52,14 @@ internal func fillFunction(_ c{{simpleName}}: _baseRef) -> Void {
 {{+fillBasicType}}{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}})
 {{/fillBasicType}}
 
-{{+fillDataType}}{{name}}.withUnsafeBytes { ({{name}}_ptr: UnsafePointer<UInt8>) in
-    {{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}_ptr, Int64({{name}}.count))
+{{+fillDataType}}let {{name}}_handle = byteArray_create()
+defer {
+    byteArray_release({{name}}_handle)
 }
+{{name}}.withUnsafeBytes { ({{name}}_ptr: UnsafePointer<UInt8>) in
+    byteArray_assign({{name}}_handle, {{name}}_ptr, {{name}}.count)
+}
+{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}_handle)
 {{/fillDataType}}
 
 {{+fillStruct}}let {{name}}_handle = {{name}}.convertToCType()

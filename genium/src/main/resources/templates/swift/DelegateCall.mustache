@@ -19,7 +19,7 @@
   !
   !}}
 {{method.cBaseName}}({{^method.isStatic}}c_instance{{#if method.parameters}}, {{/if}}{{/method.isStatic}}{{#method.parameters}}{{#switch type.category.toString}}{{!!
-  }}{{#case "BUILTIN_BYTEBUFFER"}}{{variableName}}_ptr, Int64({{variableName}}.count){{/case}}{{!!
+  }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
   }}{{#case "DICTIONARY" break=false}}{{/case}}{{!!
   }}{{#case "STRUCT"}}{{variableName}}_handle{{/case}}{{!!
   }}{{#case "CLASS"}}{{variableName}}_handle.ref{{/case}}{{!!
