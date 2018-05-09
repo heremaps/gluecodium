@@ -80,9 +80,7 @@ public final class CBridgeComponents {
     for (CStruct struct : cInterface.structs) {
       for (CField field : struct.fields) {
         includes.addAll(field.type.functionReturnType.includes);
-        for (CType type : field.type.cTypesNeededByConstructor) {
-          includes.addAll(type.includes);
-        }
+        includes.addAll(field.type.cType.includes);
       }
     }
     for (CEnum enumType : cInterface.enumerators) {
