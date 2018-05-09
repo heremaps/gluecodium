@@ -21,11 +21,11 @@
 {{>swift/Comment}}
 {{^isInterface}}{{visibility}} {{/isInterface}}var {{name}}: {{type.publicName}} {
     get {
-{{#set method=propertyAccessors.0}}
-{{prefixPartial 'swift/ConversionRecursion' '        '}}
-{{/set}}
+{{#propertyAccessors.0}}
+{{prefixPartial 'swift/ParametersConversion' '        '}}
+{{/propertyAccessors.0}}
     }
 {{^readonly}}    set {
-{{#set parameters=propertyAccessors.1.parameters method=propertyAccessors.1}}{{prefixPartial 'swift/ConversionRecursion' '        '}}{{/set}}
+{{#propertyAccessors.1}}{{prefixPartial 'swift/ParametersConversion' '        '}}{{/propertyAccessors.1}}
     }{{/readonly}}
 }
