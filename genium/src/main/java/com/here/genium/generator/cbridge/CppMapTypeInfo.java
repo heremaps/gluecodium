@@ -21,7 +21,6 @@ package com.here.genium.generator.cbridge;
 
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
-import java.util.Collections;
 import java.util.List;
 import lombok.Singular;
 
@@ -33,19 +32,13 @@ public final class CppMapTypeInfo extends CppTypeInfo {
   @lombok.Builder(builderClassName = "Builder", builderMethodName = "mapTypeBuilder")
   private CppMapTypeInfo(
       final String name,
-      final CType constructFromCType,
+      final CType cType,
       final CType functionReturnType,
       @Singular final List<Include> includes,
       final CppTypeInfo keyType,
       final CppTypeInfo valueType,
       final String enumHashType) {
-    super(
-        name,
-        Collections.singletonList(constructFromCType),
-        null,
-        functionReturnType,
-        TypeCategory.MAP,
-        includes);
+    super(name, cType, functionReturnType, TypeCategory.MAP, includes);
     baseApi = createBaseApiTypeString(keyType, valueType, enumHashType);
   }
 

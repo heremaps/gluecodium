@@ -24,6 +24,6 @@ void {{name}}_release(_baseRef handle);
 {{#set structname=name}}
 {{#fields}}
 {{type.functionReturnType}} {{structname}}_{{name}}_get(_baseRef handle);
-void {{structname}}_{{name}}_set(_baseRef handle, {{type.cTypesNeededByConstructor.0.toString}} {{name}});
+void {{structname}}_{{name}}_set(_baseRef handle, {{type.cType}} {{name}});
 {{/fields}}
 {{/set}}

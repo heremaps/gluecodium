@@ -274,7 +274,7 @@ public final class CBridgeHeaderTemplateTest {
     CppTypeInfo cppTypeInfo =
         CppTypeInfo.builder("foo")
             .functionReturnType(new CType(CBridgeNameRules.BASE_REF_NAME))
-            .constructFromCType(CPointerType.makeConstPointer(CType.UINT8))
+            .cType(CPointerType.makeConstPointer(CType.UINT8))
             .category(CppTypeInfo.TypeCategory.BUILTIN_BYTEBUFFER)
             .build();
     CFunction function =

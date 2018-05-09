@@ -21,7 +21,6 @@ package com.here.genium.generator.cbridge;
 
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
-import java.util.Collections;
 import java.util.List;
 import lombok.Singular;
 
@@ -33,17 +32,11 @@ public final class CppArrayTypeInfo extends CppTypeInfo {
   @lombok.Builder(builderClassName = "Builder", builderMethodName = "arrayTypeBuilder")
   private CppArrayTypeInfo(
       final String name,
-      final CType constructFromCType,
+      final CType cType,
       final CType functionReturnType,
       @Singular final List<Include> includes,
       final CppTypeInfo innerType) {
-    super(
-        name,
-        Collections.singletonList(constructFromCType),
-        null,
-        functionReturnType,
-        TypeCategory.ARRAY,
-        includes);
+    super(name, cType, functionReturnType, TypeCategory.ARRAY, includes);
     this.innerType = innerType;
   }
 

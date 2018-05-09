@@ -51,7 +51,7 @@ public final class CArray extends CElement {
 
   @SuppressWarnings("unused")
   public String getArgument() {
-    return underlyingType.cTypesNeededByConstructor.get(0).toString();
+    return underlyingType.cType.toString();
   }
 
   public List<Include> returnTypeIncludes() {

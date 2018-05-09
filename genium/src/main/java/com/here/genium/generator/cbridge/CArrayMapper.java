@@ -37,7 +37,7 @@ public final class CArrayMapper {
     CType arrayType = new CType(BASE_REF_NAME);
 
     return CppArrayTypeInfo.arrayTypeBuilder("std::vector<" + innerType.name + ">")
-        .constructFromCType(arrayType)
+        .cType(arrayType)
         .functionReturnType(arrayType)
         .include(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
         .include(CppLibraryIncludes.VECTOR)
