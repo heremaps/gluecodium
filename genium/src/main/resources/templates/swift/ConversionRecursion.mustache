@@ -18,25 +18,18 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{! recurse through all the parameters and at the end call the actual function
-}}{{#unless iterator.hasNext}}{{!!
-  }}{{>wrapErrorIfNeeded}}
-{{/unless}}
-{{#iterator.hasNext}}{{!!
-  }}{{#iterator.next}}{{!!
-    }}{{#switch type.category.toString}}{{!!
-      }}{{#case "BUILTIN_BYTEBUFFER"}}{{>swift/MethodWrapData}}{{/case}}{{!!
-      }}{{#case "STRUCT"}}{{>structConversion}}{{/case}}{{!!
-      }}{{#case "CLASS"}}{{>classConversion}}{{/case}}{{!!
-      }}{{#case "ARRAY"}}{{>arrayConversion}}{{/case}}{{!!
-      }}{{#case "DICTIONARY"}}{{>dictionaryConversion}}{{/case}}{{!!
-      }}{{#default}}{{>swift/ConversionRecursion}}{{/default}}{{!!
-    }}{{/switch}}{{!!
-  }}{{/iterator.next}}{{!!
-}}{{/iterator.hasNext}}{{!!
+{{#parameters}}{{!!
+}}{{#switch type.category.toString}}{{!!
+  }}{{#case "BUILTIN_BYTEBUFFER"}}{{>byteBufferConversion}}{{/case}}{{!!
+  }}{{#case "STRUCT"}}{{>structConversion}}{{/case}}{{!!
+  }}{{#case "CLASS"}}{{>classConversion}}{{/case}}{{!!
+  }}{{#case "ARRAY"}}{{>arrayConversion}}{{/case}}{{!!
+  }}{{#case "DICTIONARY"}}{{>dictionaryConversion}}{{/case}}{{!!
+  }}{{#default}}{{/default}}{{!!
+}}{{/switch}}{{!!
+}}{{/parameters}}{{!!
 
 
-}}{{+wrapErrorIfNeeded}}{{!!
 }}{{#if error}}{{!!
     }}{{#if isReturningVoid}}{{!!
         }}{{>WrapError}}{{!!
@@ -48,7 +41,6 @@
 }}{{#unless error}}{{!!
     }}{{#set delegateToCall="swift/DelegateCall"}}{{>returnValueConversion}}{{/set}}{{!!
 }}{{/unless}}{{!!
-}}{{/wrapErrorIfNeeded}}{{!!
 
 
 }}{{+WrapError}}let ERROR_CODE = {{>swift/DelegateCall}}
@@ -80,25 +72,39 @@ if (RESULT.has_value) {
 }}{{/returnValueConversion}}{{!!
 
 
+}}{{+byteBufferConversion}}{{!!
+}}let {{variableName}}_handle = byteArray_create()
+defer {
+    byteArray_release({{variableName}}_handle)
+}
+{{variableName}}.withUnsafeBytes { ({{variableName}}_ptr: UnsafePointer<UInt8>) in
+    byteArray_assign({{variableName}}_handle, {{variableName}}_ptr, {{variableName}}.count)
+}
+{{/byteBufferConversion}}{{!!
+
 }}{{+structConversion}}{{!!
 }}let {{name}}_handle = {{name}}.convertToCType()
 defer {
     {{type.cPrefix}}_release({{name}}_handle)
 }
-{{>swift/ConversionRecursion}}
-{{/structConversion}}
+{{/structConversion}}{{!!
 
-{{+classConversion}}{{!!
+}}{{+classConversion}}{{!!
 }}let {{name}}_handle = getRef({{name}})
-{{>swift/ConversionRecursion}}
 {{/classConversion}}{{!!
+
+}}{{+arrayConversion}}
+let {{name}}_handle = {{name}}.c_conversion()
+defer {
+    {{name}}_handle.cleanup()
+}
+{{/arrayConversion}}{{!!
 
 }}{{+dictionaryConversion}}{{!!
 }}let {{name}}_handle = convert{{type.name}}ToCType({{name}})
 defer {
     {{type.cPrefix}}_release({{name}}_handle)
 }
-{{>swift/ConversionRecursion}}
 {{/dictionaryConversion}}{{!!
 
 }}{{+MethodReturnStruct}}{{!!
@@ -123,17 +129,9 @@ return {{>returnType}}(c{{method.returnType}}: cResult){{#if method.forceReturnV
 {{+MethodReturnEnum}}{{!!
 }}let cResult = {{include delegateToCall}}
 return {{method.returnType}}(rawValue: cResult)!
-{{/MethodReturnEnum}}
+{{/MethodReturnEnum}}{{!!
 
-{{+arrayConversion}}
-let {{name}}_handle = {{name}}.c_conversion()
-defer {
-    {{name}}_handle.cleanup()
-}
-{{>swift/ConversionRecursion}}
-{{/arrayConversion}}
-
-{{+MethodReturnArray}}
+}}{{+MethodReturnArray}}
 let result_handle = {{include delegateToCall}}
 return {{method.returnType.implementingClass}}(result_handle)
 {{/MethodReturnArray}}{{!!
@@ -141,9 +139,9 @@ return {{method.returnType.implementingClass}}(result_handle)
 }}{{+MethodReturnDictionary}}{{!!
 }}let result_handle = {{include delegateToCall}}
 defer {
-    {{returnType.cPrefix}}_release(result_handle)
+    {{method.returnType.cPrefix}}_release(result_handle)
 }
-return convert{{type.name}}FromCType(result_handle)
+return convert{{method.returnType.name}}FromCType(result_handle)
 {{/MethodReturnDictionary}}{{!!
 
 }}{{+returnType}}{{!!

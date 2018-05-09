@@ -26,6 +26,6 @@
 {{/set}}
     }
 {{^readonly}}    set {
-{{#set iterator=propertyAccessors.1.parameters.iterator method=propertyAccessors.1}}{{prefixPartial 'swift/ConversionRecursion' '        '}}{{/set}}
+{{#set parameters=propertyAccessors.1.parameters method=propertyAccessors.1}}{{prefixPartial 'swift/ConversionRecursion' '        '}}{{/set}}
     }{{/readonly}}
 }
