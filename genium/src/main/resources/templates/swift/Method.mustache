@@ -19,5 +19,5 @@
   !
   !}}
 {{#set visibilityPrefix=visibility}}{{>swift/MethodSignature}}{{/set}} {
-{{#set iterator=parameters.iterator method=.}}{{prefixPartial 'swift/ConversionRecursion' '    '}}{{/set}}
+{{#set method=.}}{{prefixPartial 'swift/ConversionRecursion' '    '}}{{/set}}
 }
