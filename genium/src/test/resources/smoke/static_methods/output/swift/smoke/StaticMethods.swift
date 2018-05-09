@@ -31,37 +31,56 @@ public class StaticMethods {
     }
 
     public static func returnInputByteBuffer(inputBuffer: Data) -> Data {
-        return inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) -> Data in
-            let result_data_handle = smoke_StaticMethods_returnInputByteBuffer(inputBuffer_ptr, Int64(inputBuffer.count))
-            defer {
-                byteArray_release(result_data_handle)
-            }
-            return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
+        let inputBuffer_handle = byteArray_create()
+        defer {
+            byteArray_release(inputBuffer_handle)
         }
+        inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) in
+            byteArray_assign(inputBuffer_handle, inputBuffer_ptr, inputBuffer.count)
+        }
+        let result_data_handle = smoke_StaticMethods_returnInputByteBuffer(inputBuffer_handle)
+        defer {
+            byteArray_release(result_data_handle)
+        }
+        return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
     }
 
     public static func returnReverseByteBuffer(inputBuffer: Data) -> Data {
-        return inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) -> Data in
-            let result_data_handle = smoke_StaticMethods_returnReverseByteBuffer(inputBuffer_ptr, Int64(inputBuffer.count))
-            defer {
-                byteArray_release(result_data_handle)
-            }
-            return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
+        let inputBuffer_handle = byteArray_create()
+        defer {
+            byteArray_release(inputBuffer_handle)
         }
+        inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) in
+            byteArray_assign(inputBuffer_handle, inputBuffer_ptr, inputBuffer.count)
+        }
+        let result_data_handle = smoke_StaticMethods_returnReverseByteBuffer(inputBuffer_handle)
+        defer {
+            byteArray_release(result_data_handle)
+        }
+        return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
     }
 
     public static func concatenateByteBuffers(input1: Data, input2: Data) -> Data {
-        return input1.withUnsafeBytes { (input1_ptr: UnsafePointer<UInt8>) -> Data in
-            return input2.withUnsafeBytes { (input2_ptr: UnsafePointer<UInt8>) -> Data in
-                let result_data_handle = smoke_StaticMethods_concatenateByteBuffers(input1_ptr, Int64(input1.count), input2_ptr, Int64(input2.count))
-                defer {
-                    byteArray_release(result_data_handle)
-                }
-                return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
-            }
+        let input1_handle = byteArray_create()
+        defer {
+            byteArray_release(input1_handle)
         }
+        input1.withUnsafeBytes { (input1_ptr: UnsafePointer<UInt8>) in
+            byteArray_assign(input1_handle, input1_ptr, input1.count)
+        }
+        let input2_handle = byteArray_create()
+        defer {
+            byteArray_release(input2_handle)
+        }
+        input2.withUnsafeBytes { (input2_ptr: UnsafePointer<UInt8>) in
+            byteArray_assign(input2_handle, input2_ptr, input2.count)
+        }
+        let result_data_handle = smoke_StaticMethods_concatenateByteBuffers(input1_handle, input2_handle)
+        defer {
+            byteArray_release(result_data_handle)
+        }
+        return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
     }
-
     public static func returnFloat(inputNumber: Float) -> Float {
         return smoke_StaticMethods_returnFloat(inputNumber)
     }

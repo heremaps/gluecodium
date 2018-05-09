@@ -64,7 +64,7 @@ void smoke_Structs_AllTypesStruct_stringField_set(_baseRef handle, const char* s
 bool smoke_Structs_AllTypesStruct_booleanField_get(_baseRef handle);
 void smoke_Structs_AllTypesStruct_booleanField_set(_baseRef handle, bool booleanField);
 _baseRef smoke_Structs_AllTypesStruct_bytesField_get(_baseRef handle);
-void smoke_Structs_AllTypesStruct_bytesField_set(_baseRef handle, const uint8_t* bytesField_ptr, int64_t bytesField_size);
+void smoke_Structs_AllTypesStruct_bytesField_set(_baseRef handle, _baseRef bytesField);
 _baseRef smoke_Structs_AllTypesStruct_pointField_get(_baseRef handle);
 void smoke_Structs_AllTypesStruct_pointField_set(_baseRef handle, _baseRef pointField);
 _baseRef smoke_Structs_ExternalStruct_create();
