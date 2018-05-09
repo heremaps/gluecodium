@@ -42,15 +42,15 @@ void {{name}}_release(_baseRef handle) {
 {{/switch}}
 }
 
-void {{structname}}_{{name}}_set(_baseRef handle, {{join setterParameters delimiter=", "}}) {
+void {{structname}}_{{name}}_set(_baseRef handle, {{type.cTypesNeededByConstructor.0.toString}} {{name}}) {
     {{>setBaseLayerFieldValue}}{{#switch type.typeCategory.toString}}{{!!
-    }}{{#case "ENUM"}}static_cast<{{type.name}}>({{setterParameters.0.name}}){{/case}}{{!!
+    }}{{#case "ENUM"}}static_cast<{{type.name}}>({{name}}){{/case}}{{!!
     }}{{#case "MAP" break=false}}{{/case}}{{!!
-    }}{{#case "ARRAY"}}*get_pointer<{{type.baseApi}}>({{setterParameters.0.name}}){{/case}}{{!!
+    }}{{#case "ARRAY"}}*get_pointer<{{type.baseApi}}>({{name}}){{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
     }}{{#case "STRUCT" break=false}}{{/case}}{{!!
-    }}{{#case "CLASS"}}*get_pointer<{{type.name}}>({{setterParameters.0.name}}){{/case}}{{!!
-    }}{{#default}}{{setterParameters.0.name}}{{/default}}{{!!
+    }}{{#case "CLASS"}}*get_pointer<{{type.name}}>({{name}}){{/case}}{{!!
+    }}{{#default}}{{name}}{{/default}}{{!!
 }}{{/switch}}{{#if baseLayerSetterName}}){{/if}};
 }
 {{/fields}}
