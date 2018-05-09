@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{method.cBaseName}}({{^method.isStatic}}c_instance{{#if method.parameters}}, {{/if}}{{/method.isStatic}}{{#method.parameters}}{{#switch type.category.toString}}{{!!
+{{cBaseName}}({{^isStatic}}c_instance{{#if parameters}}, {{/if}}{{/isStatic}}{{#parameters}}{{#switch type.category.toString}}{{!!
   }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
   }}{{#case "DICTIONARY" break=false}}{{/case}}{{!!
   }}{{#case "STRUCT"}}{{variableName}}_handle{{/case}}{{!!
@@ -26,4 +26,4 @@
   }}{{#case "ENUM"}}{{variableName}}.rawValue{{/case}}{{!!
   }}{{#case "ARRAY"}}{{variableName}}_handle.c_type{{/case}}{{!!
   }}{{#default}}{{variableName}}{{/default}}{{!!
-}}{{/switch}}{{#if iter.hasNext}}, {{/if}}{{/method.parameters}})
+}}{{/switch}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
