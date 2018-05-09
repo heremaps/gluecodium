@@ -21,15 +21,18 @@
 #pragma once
 
 #include "BaseHandle.h"
+#include <stddef.h>
 #include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-const uint8_t* byteArray_data_get( _baseRef handle );
-int64_t byteArray_size_get( _baseRef handle );
+_baseRef byteArray_create( );
 void byteArray_release( _baseRef handle );
+void byteArray_assign( _baseRef handle, const uint8_t* data, const size_t size );
+const uint8_t* byteArray_data_get( _baseRef handle );
+size_t byteArray_size_get( _baseRef handle );
 
 #ifdef __cplusplus
 }
