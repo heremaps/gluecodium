@@ -20,8 +20,6 @@
 package com.here.genium.model.cbridge;
 
 import com.here.genium.generator.cbridge.CppTypeInfo;
-import java.util.ArrayList;
-import java.util.List;
 
 /** Field of a com.here.genium.model.cbridge.CStruct */
 @SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
@@ -44,17 +42,6 @@ public final class CField extends CElement {
     this.type = cppTypeInfo;
     this.baseLayerGetterName = baseLayerGetterName;
     this.baseLayerSetterName = baseLayerSetterName;
-  }
-
-  @SuppressWarnings("unused")
-  public List<CParameter.SimpleParameter> getSetterParameters() {
-    List<CParameter.SimpleParameter> inParameters = new ArrayList<>();
-    for (int i = 0; i < type.cTypesNeededByConstructor.size(); ++i) {
-      inParameters.add(
-          new CParameter.SimpleParameter(
-              name + type.paramSuffixes.get(i), type.cTypesNeededByConstructor.get(i)));
-    }
-    return inParameters;
   }
 
   @Override

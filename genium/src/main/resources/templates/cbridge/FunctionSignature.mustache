@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>functionReturnType}}{{$functionName}} {{name}}{{/functionName}}({{join getSignatureParameters delimiter=", "}}){{!!
+{{>functionReturnType}}{{$functionName}} {{name}}{{/functionName}}({{#selfParameter}}{{>signatureParameter}}{{#if parameters}}, {{/if}}{{/selfParameter}}{{joinPartial parameters "signatureParameter" ", "}}){{!!
 
 
 }}{{+functionReturnType}}{{!!
@@ -27,4 +27,6 @@
         }}{{#unless isReturningVoid}}{{name}}_result{{/unless}}{{!!
     }}{{/if}}{{!!
     }}{{#unless error}}{{returnType.functionReturnType}}{{/unless}}{{!!
-}}{{/functionReturnType}}
+}}{{/functionReturnType}}{{!!
+
+}}{{+signatureParameter}}{{mappedType.cTypesNeededByConstructor.0.toString}} {{name}}{{/signatureParameter}}
