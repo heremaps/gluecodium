@@ -43,8 +43,9 @@ public class HelloWorldErrorsTest {
   @Rule public ExpectedException expectedException = ExpectedException.none();
 
   @Test
-  public void helloWorldMethodWithError_throwsCrashed() throws InternalErrorsException {
-    expectedException.expect(InternalErrorsException.class);
+  public void helloWorldMethodWithError_throwsCrashed()
+      throws HelloWorldErrors.InternalErrorsException {
+    expectedException.expect(HelloWorldErrors.InternalErrorsException.class);
     expectedException.expectMessage(Integer.toString(InternalErrors.CRASHED.value));
     expectedException.expect(FieldMatcher.hasFieldWithValue("error", InternalErrors.CRASHED));
 
@@ -52,13 +53,15 @@ public class HelloWorldErrorsTest {
   }
 
   @Test
-  public void helloWorldMethodWithError_doesNotThrow() throws InternalErrorsException {
+  public void helloWorldMethodWithError_doesNotThrow()
+      throws HelloWorldErrors.InternalErrorsException {
     HelloWorldErrors.helloWorldMethodWithError(false);
   }
 
   @Test
-  public void helloWorldMethodWithErrorAndString_throwsCrashed() throws InternalErrorsException {
-    expectedException.expect(InternalErrorsException.class);
+  public void helloWorldMethodWithErrorAndString_throwsCrashed()
+      throws HelloWorldErrors.InternalErrorsException {
+    expectedException.expect(HelloWorldErrors.InternalErrorsException.class);
     expectedException.expectMessage(Integer.toString(InternalErrors.CRASHED.value));
     expectedException.expect(FieldMatcher.hasFieldWithValue("error", InternalErrors.CRASHED));
 
@@ -66,7 +69,8 @@ public class HelloWorldErrorsTest {
   }
 
   @Test
-  public void helloWorldMethodWithErrorAndString_doesNotThrow() throws InternalErrorsException {
+  public void helloWorldMethodWithErrorAndString_doesNotThrow()
+      throws HelloWorldErrors.InternalErrorsException {
     String result = HelloWorldErrors.helloWorldMethodWithErrorAndString(false);
 
     assertEquals("Hello!", result);

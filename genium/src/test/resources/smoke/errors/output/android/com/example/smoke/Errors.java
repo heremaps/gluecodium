@@ -2,21 +2,23 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.smoke;
-
 import com.example.NativeBase;
-
 public class Errors extends NativeBase {
     public enum InternalError {
         ERROR_NONE(0),
         ERROR_FATAL(1);
-
         public final int value;
-
         InternalError(final int value) {
             this.value = value;
         }
+    }
+    public static class InternalErrorException extends Exception {
+        InternalErrorException(final Errors.InternalError error) {
+            super(Integer.toString(error.value));
+            this.error = error;
+        }
+        public final Errors.InternalError error;
     }
     /** For internal use only */
     protected Errors(final long nativeHandle) {
@@ -27,7 +29,6 @@ public class Errors extends NativeBase {
             }
         });
     }
-
     private static native void disposeNativeHandle(long nativeHandle);
-    public static native void methodWithErrors() throws InternalErrorException;
+    public static native void methodWithErrors() throws Errors.InternalErrorException;
 }
