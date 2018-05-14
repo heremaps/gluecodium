@@ -43,8 +43,8 @@ public class ErrorsTest {
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
   @Test
-  public void methodWithError_throws() throws InternalErrorsException {
-    expectedException.expect(InternalErrorsException.class);
+  public void methodWithError_throws() throws Errors.InternalErrorsException {
+    expectedException.expect(Errors.InternalErrorsException.class);
     expectedException.expect(
         FieldMatcher.hasFieldWithValue("error", Errors.InternalErrors.CRASHED));
 
@@ -52,13 +52,29 @@ public class ErrorsTest {
   }
 
   @Test
-  public void methodWithError_doesNotThrow() throws InternalErrorsException {
+  public void methodWithError_doesNotThrow() throws Errors.InternalErrorsException {
     Errors.methodWithError(false);
   }
 
   @Test
-  public void methodWithErrorAndString_throws() throws ExternalErrorsException {
-    expectedException.expect(ExternalErrorsException.class);
+  public void otherMethodWithError_throws() throws OtherErrors.InternalErrorsException {
+    expectedException.expect(OtherErrors.InternalErrorsException.class);
+    expectedException.expect(
+        FieldMatcher.hasFieldWithValue("error", OtherErrors.InternalErrors.CRASHED));
+
+    OtherErrors.methodWithError(true);
+  }
+
+  @Test
+  public void otherMethodWithError_doesNotThrow()
+      throws OtherErrors.InternalErrorsException {
+    OtherErrors.methodWithError(false);
+  }
+
+  @Test
+  public void methodWithErrorAndString_throws()
+      throws AdditionalErrors.ExternalErrorsException {
+    expectedException.expect(AdditionalErrors.ExternalErrorsException.class);
     expectedException.expect(
         FieldMatcher.hasFieldWithValue("error", AdditionalErrors.ExternalErrors.FAILED));
 
@@ -66,7 +82,8 @@ public class ErrorsTest {
   }
 
   @Test
-  public void methodWithErrorAndString_doesNotThrow() throws ExternalErrorsException {
+  public void methodWithErrorAndString_doesNotThrow()
+      throws AdditionalErrors.ExternalErrorsException {
     String result = Errors.methodWithErrorAndString(false);
 
     assertEquals("SUCCEEDED", result);

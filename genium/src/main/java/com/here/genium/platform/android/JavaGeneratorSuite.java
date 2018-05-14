@@ -21,6 +21,7 @@ package com.here.genium.platform.android;
 
 import com.here.genium.cli.OptionReader;
 import com.here.genium.common.CollectionsHelper;
+import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.androidmanifest.AndroidManifestGenerator;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.generator.java.JavaTemplates;
@@ -30,7 +31,6 @@ import com.here.genium.generator.jni.JniTemplates;
 import com.here.genium.model.common.ModelElement;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.java.JavaElement;
-import com.here.genium.model.java.JavaExceptionClass;
 import com.here.genium.model.java.JavaPackage;
 import com.here.genium.model.jni.JniContainer;
 import com.here.genium.platform.common.GeneratorSuite;
@@ -96,7 +96,9 @@ public class JavaGeneratorSuite extends GeneratorSuite {
             ? rootPackage
             : JavaPackage.DEFAULT_PACKAGE_NAMES;
 
-    Map<String, JavaExceptionClass> exceptionsCollector = new HashMap<>();
+    FrancaTypeHelper.ErrorEnumFilter errorEnumFilter =
+        FrancaTypeHelper.getErrorEnumFilter(typeCollections);
+
     JniGenerator jniGenerator =
         new JniGenerator(
             deploymentModel,
@@ -105,13 +107,14 @@ public class JavaGeneratorSuite extends GeneratorSuite {
                 .stream()
                 .map(JniNameRules::getHeaderFileName)
                 .collect(Collectors.toList()),
+            errorEnumFilter,
             enableAndroidFeatures,
             internalNamespace);
 
     Collection<ModelElement> model =
         typeCollections
             .stream()
-            .map(typeCollection -> jniGenerator.generateModel(typeCollection, exceptionsCollector))
+            .map(typeCollection -> jniGenerator.generateModel(typeCollection))
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
     List<JavaElement> javaModel = CollectionsHelper.getAllOfType(model, JavaElement.class);
@@ -119,7 +122,6 @@ public class JavaGeneratorSuite extends GeneratorSuite {
 
     JavaTemplates javaTemplates = new JavaTemplates(getGeneratorName());
     List<GeneratedFile> javaFiles = javaTemplates.generateFiles(javaModel);
-    javaFiles.addAll(javaTemplates.generateFilesForExceptions(exceptionsCollector.values()));
 
     List<String> nativeBasePath = new LinkedList<>();
     nativeBasePath.add(getGeneratorName());

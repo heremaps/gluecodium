@@ -20,7 +20,6 @@
 package com.here.genium.generator.java;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.Iterables;
 import com.here.genium.common.CollectionsHelper;
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
@@ -29,43 +28,39 @@ import com.here.genium.model.franca.CommentHelper;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.java.*;
 import com.here.genium.model.java.JavaMethod.MethodQualifier;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import org.franca.core.franca.*;
 
 public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
-  /**
-   * Used to store a unique JavaExceptionClass element of every method that throws. They will be
-   * later generated in a dedicated Java file from JavaGenerator
-   */
-  public final Map<String, JavaExceptionClass> exceptionClasses = new HashMap<>();
-
   private final FrancaDeploymentModel deploymentModel;
   private final JavaPackage rootPackage;
   private final JavaTypeMapper typeMapper;
   private final JavaType nativeBase;
+  private final FrancaTypeHelper.ErrorEnumFilter errorEnums;
 
   @VisibleForTesting
   JavaModelBuilder(
       final ModelBuilderContextStack<JavaElement> contextStack,
       final FrancaDeploymentModel deploymentModel,
       final JavaPackage rootPackage,
-      final JavaTypeMapper typeMapper) {
+      final JavaTypeMapper typeMapper,
+      final FrancaTypeHelper.ErrorEnumFilter errorEnums) {
     super(contextStack);
     this.deploymentModel = deploymentModel;
     this.rootPackage = rootPackage;
     this.typeMapper = typeMapper;
     this.nativeBase = typeMapper.getNativeBase();
+    this.errorEnums = errorEnums;
   }
 
   public JavaModelBuilder(
       final FrancaDeploymentModel deploymentModel,
       final JavaPackage rootPackage,
-      final JavaTypeMapper typeMapper) {
-    this(new ModelBuilderContextStack<>(), deploymentModel, rootPackage, typeMapper);
+      final JavaTypeMapper typeMapper,
+      final FrancaTypeHelper.ErrorEnumFilter errorEnums) {
+    this(new ModelBuilderContextStack<>(), deploymentModel, rootPackage, typeMapper, errorEnums);
   }
 
   @Override
@@ -83,10 +78,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FTypeCollection francaTypeCollection) {
 
-    CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaClass.class)
-        .forEach(this::storeResult);
-    CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaEnum.class)
-        .forEach(this::storeResult);
+    getPreviousResults(JavaTopLevelElement.class).forEach(this::storeResult);
     closeContext();
   }
 
@@ -115,20 +107,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       returnComment = outputParameter.comment;
     }
 
-    JavaCustomType javaExceptionTypeRef = null;
-    JavaEnumType exceptionEnumTypeRef = getPreviousResult(JavaEnumType.class);
-    if (exceptionEnumTypeRef != null) {
-
-      String exceptionName =
-          JavaNameRules.getExceptionName(Iterables.getLast(exceptionEnumTypeRef.classNames));
-      JavaPackage exceptionPackage = new JavaPackage(exceptionEnumTypeRef.packageNames);
-      JavaExceptionClass javaExceptionClass =
-          new JavaExceptionClass(exceptionName, exceptionEnumTypeRef, exceptionPackage);
-      String mapKey = exceptionPackage.packageNames + "." + exceptionName;
-      exceptionClasses.put(mapKey, javaExceptionClass);
-
-      javaExceptionTypeRef = new JavaCustomType(exceptionName, exceptionPackage);
-    }
+    JavaExceptionType javaExceptionTypeRef = getPreviousResult(JavaExceptionType.class);
 
     JavaMethod javaMethod =
         JavaMethod.builder(javaMethodName)
@@ -283,8 +262,18 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     storeResult(javaEnum);
 
     // Type reference
-    storeResult(typeMapper.mapCustomType(francaEnumType));
+    JavaEnumType javaEnumType = (JavaEnumType) typeMapper.mapCustomType(francaEnumType);
+    storeResult(javaEnumType);
 
+    if (errorEnums.isErrorEnum(francaEnumType)) {
+      //Exception definition & reference
+      JavaExceptionClass javaException =
+          new JavaExceptionClass(JavaNameRules.getExceptionName(javaEnum.name), javaEnumType);
+      javaException.visibility = getVisibility(francaEnumType);
+
+      storeResult(javaException);
+      storeResult(typeMapper.mapExceptionType(francaEnumType));
+    }
     closeContext();
   }
 
@@ -372,6 +361,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaClass.methods.addAll(methods);
     javaClass.methods.forEach(method -> method.qualifiers.add(MethodQualifier.NATIVE));
     javaClass.enums.addAll(getPreviousResults(JavaEnum.class));
+    javaClass.exceptions.addAll(getPreviousResults(JavaExceptionClass.class));
 
     addInnerClasses(javaClass);
 
@@ -388,6 +378,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaInterface.comment = CommentHelper.getDescription(francaInterface);
     javaInterface.constants.addAll(getPreviousResults(JavaConstant.class));
     javaInterface.enums.addAll(getPreviousResults(JavaEnum.class));
+    javaInterface.exceptions.addAll(getPreviousResults(JavaExceptionClass.class));
 
     List<JavaMethod> interfaceMethods =
         getPreviousResults(JavaMethod.class)

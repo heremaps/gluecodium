@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Errors.h"
+#include "test/OtherErrors.h"
 #include "another/AdditionalErrors.h"
 #include "another/TypeCollectionWithEnums.h"
 
@@ -30,6 +31,19 @@ Errors::method_with_error( const bool error_flag )
     if ( error_flag )
     {
         return std::error_code( Errors::InternalErrors::CRASHED );
+    }
+    else
+    {
+        return {};
+    }
+}
+
+std::error_code
+OtherErrors::method_with_error( const bool error_flag )
+{
+    if ( error_flag )
+    {
+        return std::error_code( OtherErrors::InternalErrors::CRASHED );
     }
     else
     {

@@ -17,31 +17,20 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/GeniumExtensions.fdepl"
-import "./Errors.fidl"
+package com.here.genium.model.java;
 
-define GeniumExtensions for interface test.Errors
-{
-    method methodWithError {
-        Static = true
-    }
+import java.util.Collections;
+import java.util.List;
 
-    method methodWithErrorAndString {
-        Static = true
-    }
+public final class JavaExceptionType extends JavaCustomType {
 
-    method methodThatExplodes {
-        Static = true
-    }
-
-    method methodWithGoodAndBad {
-        Static = true
-    }
-}
-
-define GeniumExtensions for interface test.OtherErrors
-{
-    method methodWithError {
-        Static = true
-    }
+  public JavaExceptionType(
+      final String fullName, final List<String> classNames, final JavaImport anImport) {
+    super(
+        fullName,
+        classNames,
+        anImport.javaPackage.packageNames,
+        Collections.singletonList(anImport),
+        false);
+  }
 }

@@ -2,13 +2,10 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.example;
-
 import com.example.NativeBase;
-import com.example.smoke.InternalErrorException;
+import com.example.smoke.Errors;
 import com.example.smoke.SomeTypeCollectionErrorException;
-
 public class FooBar extends NativeBase {
     /** For internal use only */
     protected FooBar(final long nativeHandle) {
@@ -19,8 +16,7 @@ public class FooBar extends NativeBase {
             }
         });
     }
-
     private static native void disposeNativeHandle(long nativeHandle);
-    public static native void methodWithInternalError() throws InternalErrorException;
+    public static native void methodWithInternalError() throws Errors.InternalErrorException;
     public static native void methodWithTypeCollectionError() throws SomeTypeCollectionErrorException;
 }

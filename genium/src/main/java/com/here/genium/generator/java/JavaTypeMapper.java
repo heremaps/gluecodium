@@ -184,6 +184,29 @@ public class JavaTypeMapper {
     }
   }
 
+  public JavaExceptionType mapExceptionType(final FEnumerationType francaEnum) {
+
+    String exceptionName = JavaNameRules.getExceptionName(francaEnum.getName());
+    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(francaEnum);
+    JavaPackage javaPackage =
+        new JavaPackage(
+            basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).packageNames);
+
+    String importClassName;
+    List<String> classNames = new LinkedList<>();
+    classNames.add(exceptionName);
+    // type is nested inside defining class
+    if (typeCollection instanceof FInterface) {
+      importClassName = JavaNameRules.getClassName(typeCollection.getName());
+      classNames.add(0, importClassName);
+    } else { // non-nested type
+      importClassName = exceptionName;
+    }
+
+    JavaImport javaImport = new JavaImport(importClassName, javaPackage);
+    return new JavaExceptionType(String.join(".", classNames), classNames, javaImport);
+  }
+
   private JavaType mapTypeDef(final FTypeDef typeDef) {
 
     if (InstanceRules.isInstanceId(typeDef)) {

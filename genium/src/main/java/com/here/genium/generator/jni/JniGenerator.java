@@ -19,6 +19,7 @@
 
 package com.here.genium.generator.jni;
 
+import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.common.AbstractGenerator;
 import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.genium.generator.cpp.CppModelBuilder;
@@ -53,6 +54,7 @@ public final class JniGenerator extends AbstractGenerator {
 
   private final FrancaDeploymentModel deploymentModel;
   private final List<String> additionalIncludes;
+  private final FrancaTypeHelper.ErrorEnumFilter errorEnumFilter;
   private final boolean enableAndroidFeatures;
   private final String internalNamespace;
   private final CppIncludeResolver cppIncludeResolver;
@@ -61,6 +63,7 @@ public final class JniGenerator extends AbstractGenerator {
       final FrancaDeploymentModel deploymentModel,
       final List<String> packageList,
       final List<String> additionalIncludes,
+      final FrancaTypeHelper.ErrorEnumFilter errorEnumFilter,
       final boolean enableAndroidFeatures,
       final String internalNamespace) {
     super(packageList);
@@ -69,11 +72,10 @@ public final class JniGenerator extends AbstractGenerator {
     this.enableAndroidFeatures = enableAndroidFeatures;
     this.internalNamespace = internalNamespace;
     this.cppIncludeResolver = new CppIncludeResolver(deploymentModel);
+    this.errorEnumFilter = errorEnumFilter;
   }
 
-  public Collection<ModelElement> generateModel(
-      final FTypeCollection francaTypeCollection,
-      final Map<String, JavaExceptionClass> exceptionsCollector) {
+  public Collection<ModelElement> generateModel(final FTypeCollection francaTypeCollection) {
 
     JavaPackage basePackage = new JavaPackage(basePackages);
     JavaModelBuilder javaBuilder =
@@ -83,7 +85,8 @@ public final class JniGenerator extends AbstractGenerator {
             new JavaTypeMapper(
                 basePackage,
                 enableAndroidFeatures ? PARCELABLE : null,
-                enableAndroidFeatures ? NON_NULL : null));
+                enableAndroidFeatures ? NON_NULL : null),
+            errorEnumFilter);
 
     CppTypeMapper typeMapper =
         new CppTypeMapper(cppIncludeResolver, deploymentModel, internalNamespace);
@@ -97,8 +100,6 @@ public final class JniGenerator extends AbstractGenerator {
 
     JniContainer jniContainer = jniBuilder.getFinalResult(JniContainer.class);
     jniContainer.includes.addAll(getIncludes(jniContainer));
-
-    exceptionsCollector.putAll(javaBuilder.exceptionClasses);
 
     List<ModelElement> results = new LinkedList<>(javaBuilder.getFinalResults());
     results.add(jniContainer);

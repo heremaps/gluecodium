@@ -33,6 +33,7 @@ import com.here.genium.model.java.*;
 import com.here.genium.test.ArrayEList;
 import com.here.genium.test.MockContextStack;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
@@ -78,6 +79,7 @@ public class JavaModelBuilderTest {
   @Mock private FAttribute francaAttribute;
   @Mock private FArrayType francaArrayType;
   @Mock private FEnumerationType francaEnumerationType;
+  @Mock private FEnumerationType francaEnumerationTypeError;
   @Mock private FEnumerator francaEnumerator1;
   @Mock private FEnumerator francaEnumerator2;
   @Mock private FMapType francaMapType;
@@ -90,9 +92,12 @@ public class JavaModelBuilderTest {
       JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaCustomType);
   private final JavaField javaField = JavaField.builder(FIELD_NAME, javaCustomType).build();
   private final JavaEnum javaEnum = new JavaEnum(ENUMERATION_NAME);
+  private final JavaEnumType enumType =
+      new JavaEnumType("myEnum", null, JavaPackage.DEFAULT_PACKAGE_NAMES, null);
   private final EList<FEnumerator> francaEnumerators = new ArrayEList<>();
-  private final JavaEnumType javaEnumType =
-      new JavaEnumType("Foo", null, JavaPackage.DEFAULT_PACKAGE_NAMES, null);
+  private final JavaExceptionType javaExceptionType =
+      new JavaExceptionType(
+          "FooEx", null, new JavaImport(null, new JavaPackage(JavaPackage.DEFAULT_PACKAGE_NAMES)));
 
   private JavaModelBuilder modelBuilder;
 
@@ -104,7 +109,11 @@ public class JavaModelBuilderTest {
     when(typeMapper.getNativeBase()).thenReturn(nativeBase);
     modelBuilder =
         new JavaModelBuilder(
-            contextStack, deploymentModel, new JavaPackage(BASE_PACKAGE_NAMES), typeMapper);
+            contextStack,
+            deploymentModel,
+            new JavaPackage(BASE_PACKAGE_NAMES),
+            typeMapper,
+            e -> e == francaEnumerationTypeError);
 
     when(typeMapper.map(any())).thenReturn(javaCustomType);
 
@@ -212,27 +221,13 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodCreatesExceptionTypeRef() {
-    contextStack.injectResult(javaEnumType);
+    contextStack.injectResult(javaExceptionType);
 
     modelBuilder.finishBuilding(francaMethod);
 
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
-    assertEquals(javaEnumType.name + "Exception", javaMethod.exception.name);
-    assertEquals(javaEnumType.packageNames, javaMethod.exception.packageNames);
-  }
-
-  @Test
-  public void finishBuildingFrancaMethodCreatesExceptionClass() {
-    contextStack.injectResult(javaEnumType);
-
-    modelBuilder.finishBuilding(francaMethod);
-
-    assertEquals(1, modelBuilder.exceptionClasses.size());
-    JavaExceptionClass javaExceptionClass =
-        modelBuilder.exceptionClasses.values().iterator().next();
-    assertEquals(javaEnumType.name + "Exception", javaExceptionClass.name);
-    assertEquals(javaEnumType.packageNames, javaExceptionClass.javaPackage.packageNames);
+    assertEquals(javaExceptionType, javaMethod.exception);
   }
 
   @Test
@@ -289,6 +284,29 @@ public class JavaModelBuilderTest {
 
     assertEquals(firstInnerClass, firstJavaClass);
     assertEquals(secondInnerClass, secondJavaClass);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeCollectionReadsExceptions() {
+    when(francaTypeCollection.getName()).thenReturn("TestTypeCollection");
+    final JavaClass innerClass = new JavaClass(CLASS_NAME);
+    final JavaExceptionClass exceptionClass =
+        new JavaExceptionClass(
+            CLASS_NAME + "EX", new JavaEnumType(null, null, Collections.EMPTY_LIST, null));
+    contextStack.injectResult(innerClass);
+    contextStack.injectResult(exceptionClass);
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+    List<JavaElement> javaElements = modelBuilder.getFinalResults();
+
+    assertNotNull(javaElements);
+    assertEquals(2, javaElements.size());
+
+    JavaTopLevelElement firstJavaClass = (JavaTopLevelElement) javaElements.get(0);
+    JavaTopLevelElement secondJavaClass = (JavaTopLevelElement) javaElements.get(1);
+
+    assertEquals(innerClass, firstJavaClass);
+    assertEquals(exceptionClass, secondJavaClass);
   }
 
   @Test
@@ -653,6 +671,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationType() {
+    when(typeMapper.mapCustomType(any())).thenReturn(enumType);
     modelBuilder.finishBuilding(francaEnumerationType);
 
     JavaEnum result = modelBuilder.getFinalResult(JavaEnum.class);
@@ -665,6 +684,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeReadsEnumItems() {
+    when(typeMapper.mapCustomType(any())).thenReturn(enumType);
     JavaEnumItem javaEnumItem = new JavaEnumItem("enumerated");
     contextStack.injectResult(javaEnumItem);
     contextStack.injectResult(javaEnumItem);
@@ -682,6 +702,7 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaEnumerationTypeCallsCompletePartialEnumeratorValues() {
     PowerMockito.doNothing().when(JavaValueMapper.class);
     JavaValueMapper.completePartialEnumeratorValues(any());
+    when(typeMapper.mapCustomType(any())).thenReturn(enumType);
 
     modelBuilder.finishBuilding(francaEnumerationType);
 
@@ -691,12 +712,12 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeCreatesTypeRef() {
-    when(typeMapper.mapCustomType(any())).thenReturn(javaCustomType);
+    when(typeMapper.mapCustomType(any())).thenReturn(enumType);
 
     modelBuilder.finishBuilding(francaEnumerationType);
 
     JavaCustomType resultTypeRef = modelBuilder.getFinalResult(JavaCustomType.class);
-    assertEquals(javaCustomType, resultTypeRef);
+    assertEquals(enumType, resultTypeRef);
 
     verify(typeMapper).mapCustomType(francaEnumerationType);
   }
@@ -704,12 +725,25 @@ public class JavaModelBuilderTest {
   @Test
   public void finishBuildingFrancaEnumerationTypeCreatesInternalEnum() {
     when(deploymentModel.isInternal(any())).thenReturn(true);
+    when(typeMapper.mapCustomType(any())).thenReturn(enumType);
 
     modelBuilder.finishBuilding(francaEnumerationType);
 
     JavaEnum resultEnum = modelBuilder.getFinalResult(JavaEnum.class);
     assertNotNull(resultEnum);
     assertEquals(JavaVisibility.PACKAGE, resultEnum.visibility);
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationTypeCreatesExceptionClass() {
+    when(typeMapper.mapCustomType(any())).thenReturn(enumType);
+    when(francaEnumerationTypeError.getName()).thenReturn("MyEnum");
+
+    modelBuilder.finishBuilding(francaEnumerationTypeError);
+
+    JavaExceptionClass result = modelBuilder.getFinalResult(JavaExceptionClass.class);
+    assertEquals("MyEnumException", result.name);
+    assertEquals(enumType.packageNames, result.javaPackage.packageNames);
   }
 
   @Test

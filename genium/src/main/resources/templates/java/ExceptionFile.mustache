@@ -18,11 +18,10 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if visibility.toString}}{{visibility}} {{/if}}{{#if static}}static {{/if}}class {{name}} extends Exception {
-    {{name}}(final {{enumTypeRef.name}} error) {
-        super(Integer.toString(error.value));
-        this.error = error;
-    }
+{{>java/CopyrightHeader}}
 
-    public final {{enumTypeRef.name}} error;
-}
+{{#javaPackage}}
+{{>java/Package}}
+{{/javaPackage}}
+
+{{>java/ExceptionDefinition}}

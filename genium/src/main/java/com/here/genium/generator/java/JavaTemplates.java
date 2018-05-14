@@ -47,21 +47,12 @@ public final class JavaTemplates {
     Stream<GeneratedFile> enumFiles =
         CollectionsHelper.getStreamOfType(javaModel, JavaEnum.class)
             .map(javaEnum -> generateFileForElement("java/EnumHeader", javaEnum));
+    Stream<GeneratedFile> exceptionFiles =
+        CollectionsHelper.getStreamOfType(javaModel, JavaExceptionClass.class)
+            .map(javaException -> generateFileForElement("java/ExceptionFile", javaException));
 
-    return Stream.of(classFiles, interfaceFiles, enumFiles)
+    return Stream.of(classFiles, interfaceFiles, enumFiles, exceptionFiles)
         .flatMap(Function.identity())
-        .collect(Collectors.toList());
-  }
-
-  public List<GeneratedFile> generateFilesForExceptions(
-      final Collection<JavaExceptionClass> exceptions) {
-    return exceptions
-        .stream()
-        .map(
-            exceptionClass ->
-                new GeneratedFile(
-                    TemplateEngine.render("java/ExceptionDefinition", exceptionClass),
-                    javaNameRules.getFileName(exceptionClass)))
         .collect(Collectors.toList());
   }
 
