@@ -65,7 +65,7 @@ public final class JniNameRules {
   }
 
   public static String getFullClassName(final JavaCustomType javaType) {
-    return String.join("/", javaType.packageNames) + "/" + javaType.name;
+    return String.join("/", javaType.packageNames) + "/" + String.join("$", javaType.classNames);
   }
 
   private static String formatPackageName(List<String> packageNames) {

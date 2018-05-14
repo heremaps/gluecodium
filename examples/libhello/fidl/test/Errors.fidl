@@ -82,3 +82,22 @@ interface Errors {
       error another.TypeCollectionWithEnums.YetAnotherErrors
     }
 }
+
+interface OtherErrors {
+
+    enumeration InternalErrors {
+        NONE
+        CRASHED
+    }
+
+    <** @description:
+    Example static method with an error enum that raises "CRASHED" error if errorFlag is true
+    **>
+    method methodWithError {
+        in {
+            Boolean errorFlag
+        }
+        error InternalErrors
+    }
+}
+

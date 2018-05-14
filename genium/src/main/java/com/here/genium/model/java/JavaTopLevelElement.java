@@ -36,6 +36,8 @@ public abstract class JavaTopLevelElement extends JavaElement {
 
   public final Set<JavaConstant> constants = new LinkedHashSet<>();
   public final Set<JavaEnum> enums = new LinkedHashSet<>();
+  public final Set<JavaExceptionClass> exceptions = new LinkedHashSet<>();
+
   public final Set<JavaClass> innerClasses = new LinkedHashSet<>();
   public final Set<Qualifier> qualifiers = new LinkedHashSet<>();
 

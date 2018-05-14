@@ -31,6 +31,7 @@ import com.here.genium.model.java.*;
 import com.here.genium.model.java.JavaElement;
 import com.here.genium.test.MockContextStack;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -80,7 +81,11 @@ public class JavaModelBuilderCommentsTest {
 
     modelBuilder =
         new JavaModelBuilder(
-            contextStack, deploymentModel, new JavaPackage(BASE_PACKAGE_NAMES), typeMapper);
+            contextStack,
+            deploymentModel,
+            new JavaPackage(BASE_PACKAGE_NAMES),
+            typeMapper,
+            e -> false);
 
     when(CommentHelper.getDescription(any())).thenReturn(COMMENT);
   }
@@ -184,6 +189,10 @@ public class JavaModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeReadsComment() {
+    JavaEnumType enumType =
+        new JavaEnumType(null, null, Collections.singletonList("package"), null);
+    when(typeMapper.mapCustomType(any())).thenReturn(enumType);
+
     modelBuilder.finishBuilding(francaEnumerationType);
 
     JavaEnum javaEnum = modelBuilder.getFinalResult(JavaEnum.class);

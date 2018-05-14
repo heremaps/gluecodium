@@ -19,24 +19,13 @@
 
 package com.here.genium.model.java;
 
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
-
 public class JavaExceptionClass extends JavaTopLevelElement {
   public final JavaEnumType enumTypeRef;
 
-  public JavaExceptionClass(
-      final String exceptionName, final JavaEnumType enumTypeRef, final JavaPackage javaPackage) {
+  public JavaExceptionClass(final String exceptionName, final JavaEnumType enumTypeRef) {
     super(exceptionName);
-    super.javaPackage = javaPackage;
-    this.enumTypeRef = enumTypeRef;
-  }
 
-  @Override
-  public Set<JavaImport> getImports() {
-    Set<JavaImport> imports = new LinkedHashSet<>(enumTypeRef.imports);
-    imports.removeIf(anImport -> Objects.equals(anImport.javaPackage, this.javaPackage));
-    return imports;
+    super.javaPackage = new JavaPackage(enumTypeRef.packageNames);
+    this.enumTypeRef = enumTypeRef;
   }
 }
