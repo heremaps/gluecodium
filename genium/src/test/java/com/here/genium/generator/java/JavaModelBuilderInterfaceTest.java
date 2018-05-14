@@ -68,7 +68,8 @@ public class JavaModelBuilderInterfaceTest {
     PowerMockito.mockStatic(JavaModelBuilder.class);
 
     when(typeMapper.getNativeBase()).thenReturn(nativeBase);
-    modelBuilder = new JavaModelBuilder(contextStack, deploymentModel, BASE_PACKAGE, typeMapper);
+    modelBuilder =
+        new JavaModelBuilder(contextStack, deploymentModel, BASE_PACKAGE, typeMapper, e -> false);
 
     when(francaInterface.getName()).thenReturn("classy");
   }

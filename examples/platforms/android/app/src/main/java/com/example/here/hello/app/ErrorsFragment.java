@@ -33,7 +33,6 @@ import android.widget.TextView;
 import com.example.here.hello.R;
 import com.example.here.hello.utils.InputMethodHelper;
 import com.here.android.hello.HelloWorldErrors;
-import com.here.android.hello.InternalErrorsException;
 
 public final class ErrorsFragment extends Fragment {
 
@@ -87,7 +86,7 @@ public final class ErrorsFragment extends Fragment {
       case 0:
         try {
           HelloWorldErrors.helloWorldMethodWithError(flag);
-        } catch (InternalErrorsException exception) {
+        } catch (HelloWorldErrors.InternalErrorsException exception) {
           result.setText(
               String.format(
                   EXCEPTION_TEXT,
@@ -103,7 +102,7 @@ public final class ErrorsFragment extends Fragment {
 
         try {
           resultString = HelloWorldErrors.helloWorldMethodWithErrorAndString(flag);
-        } catch (InternalErrorsException exception) {
+        } catch (HelloWorldErrors.InternalErrorsException exception) {
           result.setText(
               String.format(
                   EXCEPTION_TEXT,
