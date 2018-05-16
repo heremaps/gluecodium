@@ -68,9 +68,12 @@ public final class CppNameRules {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
     List<String> result = DefinedBy.getPackages(typeCollection);
-    // special type for types defined in interfaces ...
+
     if (typeCollection instanceof FInterface) {
       result.add(getClassName(typeCollection.getName()));
+    }
+    if (modelElement instanceof FEnumerator) {
+      result.add(getEnumName(((FEnumerationType) modelElement.eContainer()).getName()));
     }
 
     return result;
@@ -80,13 +83,6 @@ public final class CppNameRules {
     return nestedNameSpecifier.isEmpty()
         ? "::" + name
         : "::" + String.join("::", nestedNameSpecifier) + (name.isEmpty() ? "" : "::" + name);
-  }
-
-  public static String getConstantFullyQualifiedName(FConstantDef francaConstant) {
-    List<String> nestedNameSpecifier = getNestedNameSpecifier(francaConstant);
-    String constantName = getConstantName(francaConstant.getName());
-
-    return getFullyQualifiedName(nestedNameSpecifier, constantName);
   }
 
   public static String getFullyQualifiedName(final FModelElement francaElement) {

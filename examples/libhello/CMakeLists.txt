@@ -327,6 +327,13 @@ feature(UnderscorePackage cpp android swift SOURCES
     fidl/test/UseUnderscorePackage.fdepl
 )
 
+feature(Constants cpp SOURCES
+    src/test/Constants.cpp
+
+    fidl/test/Constants.fidl
+    fidl/test/Constants.fdepl
+)
+
 add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
 source_group("Franca files" FILES ${HELLO_FRANCA_SOURCES})
 set_target_properties(hello PROPERTIES

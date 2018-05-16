@@ -47,7 +47,7 @@ namespace {{.}} {
 {{#if hasSortedMembers}}
 {{#sortedMembers}}
 {{#instanceOf this "CppEnum"}}{{>cpp/CppEnum}}{{/instanceOf}}
-{{#instanceOf this "CppConstant"}}{{>cpp/CppConstant}}{{/instanceOf}}
+{{#instanceOf this "CppConstant"}}{{#set storageQualifier="extern"}}{{>cpp/CppConstant}}{{/set}}{{/instanceOf}}
 {{#instanceOf this "CppUsing"}}{{>cpp/CppUsing}}{{/instanceOf}}
 {{#instanceOf this "CppStruct"}}
 {{>common/DocComment}}

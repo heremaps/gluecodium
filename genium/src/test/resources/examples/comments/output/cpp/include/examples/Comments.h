@@ -55,6 +55,10 @@ struct SomeStruct {
      */
     ::examples::Comments::Usefulness some_field;
 };
+/**
+ * This is some very useful constant.
+ */
+static const ::examples::Comments::Usefulness VERY_USEFUL;
 
 public:
 /**

@@ -10,20 +10,21 @@
 #pragma once
 
 #include <cstdint>
-
+#include <string>
 
 namespace smoke {
 
-struct Point {
-    double x;
-    double y;
-};
-using PointTypeDef = ::smoke::Point;
+extern const bool BOOL_CONSTANT;
+extern const int32_t INT_CONSTANT;
+extern const uint32_t UINT_CONSTANT;
+extern const float FLOAT_CONSTANT;
+extern const double DOUBLE_CONSTANT;
+extern const ::std::string STRING_CONSTANT;
 
-using StorageId = uint64_t;
-extern const ::smoke::StorageId INVALID_STORAGE_ID;
-
-struct StructHavingAliasFieldDefinedBelow {
-    ::smoke::StorageId field;
+enum class StateEnum {
+    OFF,
+    ON
 };
+extern const ::smoke::StateEnum ENUM_CONSTANT;
+
 }
