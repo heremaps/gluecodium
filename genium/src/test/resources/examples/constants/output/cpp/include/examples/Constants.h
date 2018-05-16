@@ -14,16 +14,16 @@
 
 namespace examples {
 
-static const bool BOOL_CONSTANT;
-static const int32_t INT_CONSTANT;
-static const float FLOAT_CONSTANT;
-static const ::std::string STRING_CONSTANT;
+extern const bool BOOL_CONSTANT;
+extern const int32_t INT_CONSTANT;
+extern const float FLOAT_CONSTANT;
+extern const ::std::string STRING_CONSTANT;
 
 enum class StateEnum {
     OFF,
     ON
 };
 
-static const ::examples::StateEnum ENUM_CONSTANT;
+extern const ::examples::StateEnum ENUM_CONSTANT;
 
 }

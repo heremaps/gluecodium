@@ -29,7 +29,13 @@ namespace {{.}} {
 {{#classes}}
 {{name}}::~{{name}}() = default;
 
+{{#set className=name}}{{#members}}
+{{#instanceOf this "CppConstant"}}const {{type.name}} {{className}}::{{name}} = {{value.name}};{{/instanceOf}}
+{{/members}}{{/set}}
 {{/classes}}
+{{#members}}
+{{#instanceOf this "CppConstant"}}const {{type.name}} {{name}} = {{value.name}};{{/instanceOf}}
+{{/members}}
 {{#errorEnums}}
 std::error_code
 make_error_code( {{.}} value ) noexcept

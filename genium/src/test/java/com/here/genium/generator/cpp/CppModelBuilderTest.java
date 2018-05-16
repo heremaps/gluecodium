@@ -88,6 +88,7 @@ public class CppModelBuilderTest {
   private final CppTypeRef cppTypeRef = CppPrimitiveTypeRef.INT64;
   private final CppUsing cppUsing =
       CppUsing.builder("useful", new CppTypeDefRef("useful", cppTypeRef)).build();
+  private final CppConstant cppConstant = new CppConstant(CONSTANT_NAME, cppTypeRef, cppValue);
 
   @Before
   public void setUp() {
@@ -178,6 +179,18 @@ public class CppModelBuilderTest {
     assertNotNull(cppClass);
     assertEquals(1, cppClass.members.size());
     assertEquals(cppUsing, cppClass.members.iterator().next());
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceReadsConstants() {
+    contextStack.injectResult(cppConstant);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
+    assertNotNull(cppClass);
+    assertEquals(1, cppClass.members.size());
+    assertEquals(cppConstant, cppClass.members.iterator().next());
   }
 
   @Test
@@ -343,7 +356,6 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeCollectionReadsConstants() {
-    final CppConstant cppConstant = new CppConstant(CONSTANT_NAME, cppComplexTypeRef, cppValue);
     contextStack.injectResult(cppConstant);
 
     modelBuilder.finishBuilding(francaTypeCollection);
@@ -359,10 +371,10 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaConstant);
 
-    CppConstant cppConstant = modelBuilder.getFinalResult(CppConstant.class);
-    assertNotNull(cppConstant);
-    assertEquals("::nonsense::" + CONSTANT_NAME, cppConstant.fullyQualifiedName.toLowerCase());
-    assertEquals(cppValue, cppConstant.value);
+    CppConstant result = modelBuilder.getFinalResult(CppConstant.class);
+    assertNotNull(result);
+    assertEquals("::nonsense::" + CONSTANT_NAME, result.fullyQualifiedName.toLowerCase());
+    assertEquals(cppValue, result.value);
 
     PowerMockito.verifyStatic();
     CppValueMapper.map(francaInitializerExpression);
@@ -374,9 +386,9 @@ public class CppModelBuilderTest {
 
     modelBuilder.finishBuilding(francaConstant);
 
-    CppConstant cppConstant = modelBuilder.getFinalResult(CppConstant.class);
-    assertNotNull(cppConstant);
-    assertEquals(cppComplexTypeRef, cppConstant.type);
+    CppConstant result = modelBuilder.getFinalResult(CppConstant.class);
+    assertNotNull(result);
+    assertEquals(cppComplexTypeRef, result.type);
   }
 
   @Test

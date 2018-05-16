@@ -21,6 +21,7 @@ package com.here.genium.generator.cpp;
 
 import com.here.genium.generator.common.StringValueMapper;
 import com.here.genium.model.cpp.*;
+import java.util.List;
 import org.apache.commons.text.StringEscapeUtils;
 import org.franca.core.franca.*;
 
@@ -31,6 +32,8 @@ public final class CppValueMapper {
     if (francaExpression instanceof FConstant || francaExpression instanceof FUnaryOperation) {
       String stringValue = StringValueMapper.map(francaExpression);
       return stringValue != null ? new CppValue(stringValue) : null;
+    } else if (francaExpression instanceof FQualifiedElementRef) {
+      return map((FQualifiedElementRef) francaExpression);
     }
 
     return null;
@@ -47,5 +50,17 @@ public final class CppValueMapper {
     } else {
       return new CppValue(deploymentDefaultValue);
     }
+  }
+
+  private static CppValue map(final FQualifiedElementRef francaElementRef) {
+
+    FEvaluableElement value = francaElementRef.getElement();
+    if (!(value instanceof FEnumerator)) {
+      return null;
+    }
+
+    List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(value);
+    String enumEntryName = CppNameRules.getEnumEntryName(value.getName());
+    return new CppValue(CppNameRules.getFullyQualifiedName(nestedNameSpecifier, enumEntryName));
   }
 }

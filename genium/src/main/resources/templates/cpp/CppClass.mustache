@@ -27,6 +27,7 @@ public:
 public:
 {{#sortedMembers}}
 {{#instanceOf this "CppEnum"}}{{>cpp/CppEnum}}{{/instanceOf}}
+{{#instanceOf this "CppConstant"}}{{#set storageQualifier="static"}}{{>cpp/CppConstant}}{{/set}}{{/instanceOf}}
 {{#instanceOf this "CppUsing"}}{{>cpp/CppUsing}}{{/instanceOf}}
 {{#instanceOf this "CppStruct"}}
 {{>common/DocComment}}

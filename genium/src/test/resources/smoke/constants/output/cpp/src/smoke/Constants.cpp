@@ -7,23 +7,16 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#pragma once
-
-#include <cstdint>
-
+#include "smoke/Constants.h"
 
 namespace smoke {
 
-struct Point {
-    double x;
-    double y;
-};
-using PointTypeDef = ::smoke::Point;
+const bool BOOL_CONSTANT = true;
+const int32_t INT_CONSTANT = -11;
+const uint32_t UINT_CONSTANT = 42;
+const float FLOAT_CONSTANT = 2.71f;
+const double DOUBLE_CONSTANT = -3.14;
+const ::std::string STRING_CONSTANT = "Foo bar";
+const ::smoke::StateEnum ENUM_CONSTANT = ::smoke::StateEnum::ON;
 
-using StorageId = uint64_t;
-extern const ::smoke::StorageId INVALID_STORAGE_ID;
-
-struct StructHavingAliasFieldDefinedBelow {
-    ::smoke::StorageId field;
-};
 }

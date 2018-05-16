@@ -21,7 +21,6 @@ package com.here.genium.generator.cpp;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.genium.model.common.Include;
@@ -37,6 +36,12 @@ import org.mockito.MockitoAnnotations;
 @RunWith(JUnit4.class)
 public final class CppValueMapperTest {
 
+  @Mock private FModel francaModel;
+  @Mock private FTypeCollection francaTypeCollection;
+  @Mock private FEnumerationType francaEnumerationType;
+  @Mock private FEnumerator francaEnumerator;
+  @Mock private FQualifiedElementRef francaElementRef;
+
   @Mock private CppIncludeResolver includeResolver;
 
   private final Include internalInclude = Include.createInternalInclude("nonsense");
@@ -46,15 +51,28 @@ public final class CppValueMapperTest {
     MockitoAnnotations.initMocks(this);
 
     when(includeResolver.resolveInclude(any())).thenReturn(internalInclude);
+
+    when(francaTypeCollection.eContainer()).thenReturn(francaModel);
+    when(francaEnumerationType.eContainer()).thenReturn(francaTypeCollection);
+    when(francaEnumerator.eContainer()).thenReturn(francaEnumerationType);
+
+    when(francaModel.getName()).thenReturn("");
   }
 
   @Test
   public void mapNonConstantValue() {
-    FQualifiedElementRef qualifiedElementRef = mock(FQualifiedElementRef.class);
-
-    CppValue mappedValue = CppValueMapper.map(qualifiedElementRef);
+    CppValue mappedValue = CppValueMapper.map(francaElementRef);
 
     assertNull(mappedValue);
+  }
+
+  @Test
+  public void mapEnumValue() {
+    when(francaElementRef.getElement()).thenReturn(francaEnumerator);
+
+    CppValue mappedValue = CppValueMapper.map(francaElementRef);
+
+    assertNotNull(mappedValue);
   }
 
   @Test
