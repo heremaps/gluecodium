@@ -25,7 +25,15 @@ import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.*;
 import org.franca.core.franca.*;
 
-/** Validates that the Franca expression is a constant expression or an enum value reference. */
+/**
+ * Validates that the Franca expression is one of the following:
+ *
+ * <ul>
+ *   <li>A constant expression
+ *   <li>An unary operation (Franca expresses negative numbers this way)
+ *   <li>An enum value reference
+ * </ul>
+ */
 public final class ExpressionValidatorPredicate
     implements ValidatorPredicate<FInitializerExpression> {
 
@@ -46,6 +54,7 @@ public final class ExpressionValidatorPredicate
 
   private boolean isSupportedExpression(final FInitializerExpression francaExpression) {
     return francaExpression instanceof FConstant
+        || francaExpression instanceof FUnaryOperation
         || (francaExpression instanceof FQualifiedElementRef
             && ((FQualifiedElementRef) francaExpression).getElement() instanceof FEnumerator);
   }
