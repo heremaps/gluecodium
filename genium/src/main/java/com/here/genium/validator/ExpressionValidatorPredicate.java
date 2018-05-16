@@ -25,7 +25,7 @@ import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.*;
 import org.franca.core.franca.*;
 
-/** Validates that the Franca expression is a constant expression. */
+/** Validates that the Franca expression is a constant expression or an enum value reference. */
 public final class ExpressionValidatorPredicate
     implements ValidatorPredicate<FInitializerExpression> {
 
@@ -37,11 +37,17 @@ public final class ExpressionValidatorPredicate
   @Override
   public String validate(
       final FrancaDeploymentModel deploymentModel, final FInitializerExpression francaExpression) {
-    if (francaExpression instanceof FConstant) {
+    if (isSupportedExpression(francaExpression)) {
       return null;
     } else {
       return createErrorMessage(francaExpression);
     }
+  }
+
+  private boolean isSupportedExpression(final FInitializerExpression francaExpression) {
+    return francaExpression instanceof FConstant
+        || (francaExpression instanceof FQualifiedElementRef
+            && ((FQualifiedElementRef) francaExpression).getElement() instanceof FEnumerator);
   }
 
   private static String createErrorMessage(final FInitializerExpression expression) {
