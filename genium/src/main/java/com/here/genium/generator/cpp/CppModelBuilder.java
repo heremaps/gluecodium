@@ -66,9 +66,11 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     }
 
     cppClass.methods.addAll(getPreviousResults(CppMethod.class));
+
     cppClass.members.addAll(getPreviousResults(CppEnum.class));
     cppClass.members.addAll(getPreviousResults(CppUsing.class));
     cppClass.members.addAll(getPreviousResults(CppStruct.class));
+    cppClass.members.addAll(getPreviousResults(CppConstant.class));
 
     storeResult(cppClass);
     closeContext();
@@ -138,8 +140,10 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     CppValue value = CppValueMapper.map(francaConstant.getRhs());
 
+    List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(francaConstant);
     String name = CppNameRules.getConstantName(francaConstant.getName());
-    String fullyQualifiedName = CppNameRules.getConstantFullyQualifiedName(francaConstant);
+    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(nestedNameSpecifier, name);
+
     CppConstant cppConstant = new CppConstant(name, fullyQualifiedName, cppTypeRef, value);
     cppConstant.comment = CommentHelper.getDescription(francaConstant);
 

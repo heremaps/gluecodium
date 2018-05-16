@@ -54,6 +54,10 @@ struct SomeStruct {
      */
     ::smoke::Comments::Usefulness some_field;
 };
+/**
+ * This is some very useful constant.
+ */
+static const ::smoke::Comments::Usefulness VERY_USEFUL;
 
 public:
 /**
