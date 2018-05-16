@@ -42,6 +42,7 @@ public final class ExpressionValidatorPredicateTest {
   @Mock private FConstantDef francaConstantDef;
   @Mock private FConstant francaConstantExpression;
   @Mock private FOperation francaCompoundExpression;
+  @Mock private FQualifiedElementRef francaEnumeratorRef;
 
   private final ExpressionValidatorPredicate validatorPredicate =
       new ExpressionValidatorPredicate();
@@ -60,6 +61,8 @@ public final class ExpressionValidatorPredicateTest {
     when(francaEnumerationType.eContainer()).thenReturn(francaTypeCollection);
     when(francaEnumerator.eContainer()).thenReturn(francaEnumerationType);
     when(francaConstantDef.eContainer()).thenReturn(francaTypeCollection);
+
+    when(francaEnumeratorRef.getElement()).thenReturn(francaEnumerator);
   }
 
   @Test
@@ -79,5 +82,12 @@ public final class ExpressionValidatorPredicateTest {
     when(francaCompoundExpression.eContainer()).thenReturn(francaConstantDef);
 
     assertNotNull(validatorPredicate.validate(null, francaCompoundExpression));
+  }
+
+  @Test
+  public void validateWithEnumeratorReferenceExpressionInConstant() {
+    when(francaEnumeratorRef.eContainer()).thenReturn(francaConstantDef);
+
+    assertNull(validatorPredicate.validate(null, francaEnumeratorRef));
   }
 }
