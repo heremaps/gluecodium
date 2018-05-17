@@ -19,6 +19,7 @@
 
 package com.here.genium.generator.java;
 
+import com.here.genium.generator.common.StringValueMapper;
 import com.here.genium.model.java.JavaCustomType;
 import com.here.genium.model.java.JavaEnumItem;
 import com.here.genium.model.java.JavaEnumType;
@@ -27,12 +28,12 @@ import com.here.genium.model.java.JavaReferenceType;
 import com.here.genium.model.java.JavaTemplateType;
 import com.here.genium.model.java.JavaType;
 import com.here.genium.model.java.JavaValue;
-import java.math.BigInteger;
 import java.util.List;
 import org.apache.commons.text.StringEscapeUtils;
 import org.franca.core.franca.*;
 
-public class JavaValueMapper {
+public final class JavaValueMapper {
+
   public static JavaValue map(JavaType type, FInitializerExpression rhs) {
     if (rhs instanceof FCompoundInitializer) {
       return map(type, (FCompoundInitializer) rhs);
@@ -57,52 +58,14 @@ public class JavaValueMapper {
     }
   }
 
-  public static JavaValue map(FInitializerExpression rhs) {
-    if (rhs instanceof FBooleanConstant) {
-      return map((FBooleanConstant) rhs);
-    } else if (rhs instanceof FIntegerConstant) {
-      return map((FIntegerConstant) rhs);
-    } else if (rhs instanceof FStringConstant) {
-      return map((FStringConstant) rhs);
-    } else if (rhs instanceof FFloatConstant) {
-      return map((FFloatConstant) rhs);
-    } else if (rhs instanceof FDoubleConstant) {
-      return map((FDoubleConstant) rhs);
-    } else if (rhs instanceof FUnaryOperation) {
-      return map((FUnaryOperation) rhs);
+  public static JavaValue map(final FInitializerExpression francaExpression) {
+
+    if (francaExpression instanceof FConstant || francaExpression instanceof FUnaryOperation) {
+      String stringValue = StringValueMapper.map(francaExpression);
+      return stringValue != null ? new JavaValue(stringValue) : null;
     }
 
     return null;
-  }
-
-  private static JavaValue map(FUnaryOperation rhs) {
-    JavaValue base = map(rhs.getOperand());
-    return new JavaValue(rhs.getOp().getLiteral() + base.name);
-  }
-
-  public static JavaValue map(FBooleanConstant bc) {
-    final String value = bc.isVal() ? "true" : "false";
-    return new JavaValue(value);
-  }
-
-  public static JavaValue map(FStringConstant sc) {
-    final String value = sc.getVal();
-    return new JavaValue('"' + value + '"');
-  }
-
-  public static JavaValue map(FIntegerConstant ic) {
-    final BigInteger value = ic.getVal();
-    return new JavaValue(String.valueOf(value));
-  }
-
-  public static JavaValue map(FFloatConstant fc) {
-    final Float value = fc.getVal();
-    return new JavaValue(String.valueOf(value) + 'f');
-  }
-
-  public static JavaValue map(FDoubleConstant dc) {
-    final Double value = dc.getVal();
-    return new JavaValue(String.valueOf(value));
   }
 
   public static JavaValue mapDefaultValue(

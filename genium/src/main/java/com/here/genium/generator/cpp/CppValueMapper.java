@@ -19,26 +19,18 @@
 
 package com.here.genium.generator.cpp;
 
+import com.here.genium.generator.common.StringValueMapper;
 import com.here.genium.model.cpp.*;
-import java.math.BigInteger;
 import org.apache.commons.text.StringEscapeUtils;
 import org.franca.core.franca.*;
 
 public final class CppValueMapper {
 
-  public static CppValue map(FInitializerExpression rhs) {
-    if (rhs instanceof FBooleanConstant) {
-      return map((FBooleanConstant) rhs);
-    } else if (rhs instanceof FIntegerConstant) {
-      return map((FIntegerConstant) rhs);
-    } else if (rhs instanceof FStringConstant) {
-      return map((FStringConstant) rhs);
-    } else if (rhs instanceof FFloatConstant) {
-      return map((FFloatConstant) rhs);
-    } else if (rhs instanceof FDoubleConstant) {
-      return map((FDoubleConstant) rhs);
-    } else if (rhs instanceof FUnaryOperation) {
-      return map((FUnaryOperation) rhs);
+  public static CppValue map(final FInitializerExpression francaExpression) {
+
+    if (francaExpression instanceof FConstant || francaExpression instanceof FUnaryOperation) {
+      String stringValue = StringValueMapper.map(francaExpression);
+      return stringValue != null ? new CppValue(stringValue) : null;
     }
 
     return null;
@@ -55,36 +47,5 @@ public final class CppValueMapper {
     } else {
       return new CppValue(deploymentDefaultValue);
     }
-  }
-
-  private static CppValue map(FUnaryOperation rhs) {
-    CppValue base = map(rhs.getOperand());
-    // luckily all the operators look the same as in cpp, still 90% do not make much sense
-    return new CppValue(rhs.getOp().getLiteral() + base.name);
-  }
-
-  private static CppValue map(FBooleanConstant bc) {
-    final String value = bc.isVal() ? "true" : "false";
-    return new CppValue(value);
-  }
-
-  private static CppValue map(FStringConstant sc) {
-    final String value = sc.getVal();
-    return new CppValue('"' + value + '"');
-  }
-
-  private static CppValue map(FIntegerConstant ic) {
-    final BigInteger value = ic.getVal();
-    return new CppValue(String.valueOf(value));
-  }
-
-  private static CppValue map(FFloatConstant fc) {
-    final Float value = fc.getVal();
-    return new CppValue(String.valueOf(value) + 'f');
-  }
-
-  private static CppValue map(FDoubleConstant dc) {
-    final Double value = dc.getVal();
-    return new CppValue(String.valueOf(value));
   }
 }
