@@ -267,13 +267,13 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeCollectionReadsClasses() {
-    when(francaTypeCollection.getName()).thenReturn("TestTypeCollection");
     final JavaClass firstInnerClass = new JavaClass(CLASS_NAME);
     final JavaClass secondInnerClass = new JavaClass(CLASS_NAME + "Sibling");
     contextStack.injectResult(firstInnerClass);
     contextStack.injectResult(secondInnerClass);
 
     modelBuilder.finishBuilding(francaTypeCollection);
+
     List<JavaElement> javaElements = modelBuilder.getFinalResults();
 
     assertNotNull(javaElements);
@@ -284,6 +284,33 @@ public class JavaModelBuilderTest {
 
     assertEquals(firstInnerClass, firstJavaClass);
     assertEquals(secondInnerClass, secondJavaClass);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeCollectionReadsEnums() {
+    contextStack.injectResult(javaEnum);
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+
+    JavaEnum result = modelBuilder.getFinalResult(JavaEnum.class);
+    assertEquals(javaEnum, result);
+  }
+
+  @Test
+  public void finishBuildingFrancaTypeCollectionReadsConstants() {
+    when(francaTypeCollection.getName()).thenReturn("TestTypeCollection");
+    JavaConstant javaConstant = new JavaConstant(javaCustomType, "Foo", new JavaValue("bar"));
+    contextStack.injectResult(javaConstant);
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+
+    JavaClass result = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(result);
+    assertEquals("TestTypeCollection", result.name);
+    assertTrue(result.qualifiers.contains(JavaTopLevelElement.Qualifier.FINAL));
+
+    assertEquals(1, result.constants.size());
+    assertEquals(javaConstant, result.constants.iterator().next());
   }
 
   @Test
