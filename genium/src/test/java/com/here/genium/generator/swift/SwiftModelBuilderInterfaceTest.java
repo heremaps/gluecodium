@@ -161,6 +161,23 @@ public class SwiftModelBuilderInterfaceTest {
   }
 
   @Test
+  public void finishBuildingFrancaInterfaceReadsConstants() {
+    SwiftConstant swiftConstant =
+        new SwiftConstant("Foo", SwiftVisibility.PUBLIC, new SwiftType("Bar"), swiftValue);
+    contextStack.injectResult(swiftConstant);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    SwiftFile result = modelBuilder.getFinalResult(SwiftFile.class);
+    assertNotNull(result);
+    assertEquals(1, result.classes.size());
+
+    SwiftClass resultClass = result.classes.get(0);
+    assertEquals(1, resultClass.constants.size());
+    assertEquals(swiftConstant, resultClass.constants.get(0));
+  }
+
+  @Test
   public void finishBuildingFrancaInstantiableInterfaceReadsInterfaceParent() {
     SwiftClass parentClass = SwiftClass.builder("SomeParent").isInterface(true).build();
     contextStack.injectResult(parentClass);
