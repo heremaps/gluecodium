@@ -25,6 +25,7 @@ import java.util.List;
 public final class SwiftContainerType extends SwiftType {
 
   public final List<SwiftField> fields = new LinkedList<>();
+  public final List<SwiftConstant> constants = new LinkedList<>();
   public final SwiftContainerType parent;
   public final String cPrefix;
   public final boolean isInterface;

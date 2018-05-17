@@ -104,6 +104,10 @@ public final class SwiftNameRules {
     return NameHelper.toLowerCamelCase(enumItemName);
   }
 
+  public static String getConstantName(final String name) {
+    return NameHelper.toLowerCamelCase(name);
+  }
+
   public static String getPropertyName(FAttribute name) {
     return NameHelper.toLowerCamelCase(name.getName());
   }
