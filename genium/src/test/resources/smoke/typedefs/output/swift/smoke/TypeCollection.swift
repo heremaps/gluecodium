@@ -52,3 +52,6 @@ public struct StructHavingAliasFieldDefinedBelow {
         smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_field_set(cStructHavingAliasFieldDefinedBelow, field)
     }
 }
+public struct TypeCollection {
+    public static let invalidStorageId: StorageId = 0
+}

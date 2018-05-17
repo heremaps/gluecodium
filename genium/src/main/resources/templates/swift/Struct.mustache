@@ -1,6 +1,9 @@
 {{>swift/Comment}}
 {{visibility}} struct {{simpleName}} {
-{{#fields}}
+{{#constants}}
+{{prefixPartial "swift/Constant" "    "}}
+{{/constants}}{{!!
+}}{{#if fields}}{{#fields}}
 {{#if this.comment}}
     /**
 {{prefix this.comment '     '}}
@@ -9,13 +12,13 @@
     {{visibility}} var {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}
 {{/fields}}
 
-{{prefixPartial "swift/StructPublicInitMethod" "    "}}{{#if parent}}
+{{prefixPartial "swift/StructPublicInitMethod" "    "}}{{/if}}{{#if parent}}
 
-{{prefixPartial "swift/StructParentConversionFunction" "    "}}{{/if}}
+{{prefixPartial "swift/StructParentConversionFunction" "    "}}{{/if}}{{#if fields}}
 
 {{prefixPartial "swift/StructInternalInitMethod" "    "}}
 
 {{prefixPartial "swift/StructCBaseCreationMethod" "    "}}
 
-{{prefixPartial "swift/StructFillFunction" "    "}}
+{{prefixPartial "swift/StructFillFunction" "    "}}{{/if}}
 }

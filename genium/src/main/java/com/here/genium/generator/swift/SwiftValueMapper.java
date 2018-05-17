@@ -19,20 +19,25 @@
 
 package com.here.genium.generator.swift;
 
+import com.here.genium.generator.common.StringValueMapper;
 import com.here.genium.model.swift.SwiftType;
 import com.here.genium.model.swift.SwiftValue;
+import java.util.LinkedList;
 import org.apache.commons.text.StringEscapeUtils;
-import org.franca.core.franca.FExpression;
-import org.franca.core.franca.FIntegerConstant;
+import org.franca.core.franca.*;
 
 public final class SwiftValueMapper {
 
-  public static SwiftValue mapExpression(final FExpression expression) {
-    if (expression instanceof FIntegerConstant) {
-      return new SwiftValue(String.valueOf(((FIntegerConstant) expression).getVal()));
-    } else {
-      return null;
+  public static SwiftValue map(final FInitializerExpression francaExpression) {
+
+    if (francaExpression instanceof FConstant || francaExpression instanceof FUnaryOperation) {
+      String stringValue = StringValueMapper.map(francaExpression);
+      return stringValue != null ? new SwiftValue(stringValue) : null;
+    } else if (francaExpression instanceof FQualifiedElementRef) {
+      return map((FQualifiedElementRef) francaExpression);
     }
+
+    return null;
   }
 
   public static SwiftValue mapDefaultValue(
@@ -47,5 +52,24 @@ public final class SwiftValueMapper {
       default:
         return new SwiftValue(deploymentDefaultValue);
     }
+  }
+
+  private static SwiftValue map(final FQualifiedElementRef francaElementRef) {
+
+    FEvaluableElement value = francaElementRef.getElement();
+    if (!(value instanceof FEnumerator)) {
+      return null;
+    }
+
+    LinkedList<String> names = new LinkedList<>();
+    names.add(SwiftNameRules.getConstantName(value.getName()));
+    FEnumerationType enumerationType = (FEnumerationType) value.eContainer();
+    names.addFirst(SwiftNameRules.getClassName(enumerationType.getName()));
+    FTypeCollection typeCollection = (FTypeCollection) enumerationType.eContainer();
+    if (typeCollection instanceof FInterface) {
+      names.addFirst(SwiftNameRules.getClassName(typeCollection.getName()));
+    }
+
+    return new SwiftValue(String.join(".", names));
   }
 }

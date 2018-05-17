@@ -31,7 +31,12 @@ public final class CppValueMapper {
 
     if (francaExpression instanceof FConstant || francaExpression instanceof FUnaryOperation) {
       String stringValue = StringValueMapper.map(francaExpression);
-      return stringValue != null ? new CppValue(stringValue) : null;
+      if (stringValue == null) {
+        return null;
+      }
+
+      return new CppValue(
+          francaExpression instanceof FFloatConstant ? stringValue + "f" : stringValue);
     } else if (francaExpression instanceof FQualifiedElementRef) {
       return map((FQualifiedElementRef) francaExpression);
     }
