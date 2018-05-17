@@ -55,7 +55,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   }
 
   @Override
-  public void finishBuilding(FTypeCollection typeCollection) {
+  public void finishBuilding(FTypeCollection francaTypeCollection) {
 
     SwiftFile file = new SwiftFile();
     file.structs.addAll(getPreviousResults(SwiftContainerType.class));
@@ -63,8 +63,18 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     file.typeDefs.addAll(getPreviousResults(SwiftTypeDef.class));
     file.dictionaries.addAll(getPreviousResults(SwiftDictionary.class));
 
+    List<SwiftConstant> constants = getPreviousResults(SwiftConstant.class);
+    if (!constants.isEmpty()) {
+      SwiftContainerType swiftStruct =
+          SwiftContainerType.builder(SwiftNameRules.getClassName(francaTypeCollection.getName()))
+              .visibility(getVisibility(francaTypeCollection))
+              .build();
+      swiftStruct.constants.addAll(constants);
+      file.structs.add(swiftStruct);
+    }
+
     storeResult(file);
-    super.finishBuilding(typeCollection);
+    super.finishBuilding(francaTypeCollection);
   }
 
   @Override
@@ -100,6 +110,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     clazz.methods.addAll(getPreviousResults(SwiftMethod.class));
     clazz.properties.addAll(getPreviousResults(SwiftProperty.class));
     clazz.typedefs.addAll(getPreviousResults(SwiftTypeDef.class));
+    clazz.constants.addAll(getPreviousResults(SwiftConstant.class));
 
     String comment = CommentHelper.getDescription(francaInterface);
     clazz.comment = comment != null ? comment : "";
@@ -176,7 +187,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FExpression expression) {
-    storeResult(SwiftValueMapper.mapExpression(expression));
+    storeResult(SwiftValueMapper.map(expression));
     super.finishBuilding(expression);
   }
 
@@ -369,6 +380,21 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     storeResult(swiftTypeDef);
     super.finishBuilding(francaMapType);
+  }
+
+  @Override
+  public void finishBuilding(final FConstantDef francaConstant) {
+
+    String name = SwiftNameRules.getConstantName(francaConstant.getName());
+    SwiftType type = getPreviousResult(SwiftType.class);
+    SwiftVisibility visibility = getVisibility(francaConstant);
+    SwiftValue value = SwiftValueMapper.map(francaConstant.getRhs());
+
+    SwiftConstant swiftConstant = new SwiftConstant(name, visibility, type, value);
+    swiftConstant.comment = CommentHelper.getDescription(francaConstant);
+
+    storeResult(swiftConstant);
+    super.finishBuilding(francaConstant);
   }
 
   private SwiftVisibility getVisibility(final FModelElement francaModelElement) {

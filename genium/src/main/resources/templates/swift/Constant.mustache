@@ -18,27 +18,9 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>swift/Comment}}
-{{visibility}} struct {{simpleName}} {
-{{#constants}}
-{{prefixPartial "swift/Constant" "    "}}
-{{/constants}}{{!!
-}}{{#if fields}}{{#fields}}
 {{#if this.comment}}
-    /**
-{{prefix this.comment '     '}}
-     */
+/**
+{{prefix this.comment ' '}}
+*/
 {{/if}}
-    {{visibility}} var {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}
-{{/fields}}
-
-{{prefixPartial "swift/StructPublicInitMethod" "    "}}{{/if}}{{#if parent}}
-
-{{prefixPartial "swift/StructParentConversionFunction" "    "}}{{/if}}{{#if fields}}
-
-{{prefixPartial "swift/StructInternalInitMethod" "    "}}
-
-{{prefixPartial "swift/StructCBaseCreationMethod" "    "}}
-
-{{prefixPartial "swift/StructFillFunction" "    "}}{{/if}}
-}
+{{visibility}} static let {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}} = {{value}}

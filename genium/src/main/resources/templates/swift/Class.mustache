@@ -67,6 +67,9 @@ internal class _{{name}}: {{name}} {
 
 
 }}{{+CommonClassParts}}{{!!
+}}{{#constants}}
+{{prefixPartial "swift/Constant" "    "}}
+{{/constants}}{{!!
 }}{{#properties}}
 {{prefixPartial 'swift/Property' '    '}}
 {{/properties}}{{!!

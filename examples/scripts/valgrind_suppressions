@@ -23,7 +23,7 @@
    match-leak-kinds: possible
    fun:_Znam
    fun:_ZN5swift17MetadataAllocator8AllocateEmm
-   fun:_ZL20allocateWitnessTablePN5swift25TargetGenericWitnessTableINS_9InProcessEEERNS_17MetadataAllocatorEPPKvm
+   ...
    fun:swift_getGenericWitnessTable
    fun:*
 }

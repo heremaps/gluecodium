@@ -34,6 +34,7 @@ public final class SwiftClass extends SwiftType {
   public final String nameSpace;
   public final String cInstance;
   public final List<SwiftTypeDef> typedefs = new LinkedList<>();
+  public final List<SwiftConstant> constants = new LinkedList<>();
   public final String functionTableName;
   public final boolean useParentCInstance;
 

@@ -21,11 +21,9 @@ package com.here.genium.generator.swift;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 import com.here.genium.generator.cbridge.CBridgeNameRules;
 import com.here.genium.model.common.InstanceRules;
@@ -45,7 +43,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({
   SwiftTypeMapper.class,
-  SwiftNameRules.class,
   CBridgeNameRules.class,
   InstanceRules.class,
   DefinedBy.class,
@@ -76,6 +73,8 @@ public class SwiftModelBuilderTest {
   @Mock private FStructType francaStruct;
   @Mock private FMapType francaMap;
   @Mock private FEnumerationType francaEnum;
+  @Mock private FConstantDef francaConstant;
+  @Mock private FInitializerExpression francaInitializer;
 
   private final SwiftType swiftType = new SwiftType("VerySwiftType");
   private final SwiftValue swiftValue = new SwiftValue("");
@@ -87,7 +86,6 @@ public class SwiftModelBuilderTest {
   public void setUp() {
     mockStatic(
         SwiftTypeMapper.class,
-        SwiftNameRules.class,
         CBridgeNameRules.class,
         InstanceRules.class,
         DefinedBy.class,
@@ -96,9 +94,8 @@ public class SwiftModelBuilderTest {
 
     when(francaArgument.getType()).thenReturn(francaTypeRef);
 
-    when(SwiftNameRules.getParameterName(any())).thenReturn(PARAM_NAME);
-    when(SwiftNameRules.getMethodName(any())).thenReturn(FUNCTION_NAME);
-    when(SwiftNameRules.getStructName(any(), any())).thenReturn("");
+    when(francaArgument.getName()).thenReturn(PARAM_NAME);
+    when(francaMethod.getName()).thenReturn(FUNCTION_NAME);
     when(CBridgeNameRules.getPropertyGetterName(any())).thenReturn(CBRIDGE_GETTER_NAME);
     when(CBridgeNameRules.getPropertySetterName(any())).thenReturn(CBRIDGE_SETTER_NAME);
 
@@ -246,9 +243,6 @@ public class SwiftModelBuilderTest {
     SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
     assertNotNull(method);
     assertEquals(FUNCTION_NAME, method.name);
-
-    verifyStatic();
-    SwiftNameRules.getMethodName(francaMethod);
   }
 
   @Test
@@ -350,9 +344,26 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaTypeCollectionReadsConstants() {
+    SwiftConstant swiftConstant =
+        new SwiftConstant("Foo", SwiftVisibility.PUBLIC, swiftType, swiftValue);
+    contextStack.injectResult(swiftConstant);
+
+    modelBuilder.finishBuilding(francaTypeCollection);
+
+    SwiftFile result = modelBuilder.getFinalResult(SwiftFile.class);
+    assertNotNull(result);
+    assertEquals(1, result.structs.size());
+
+    SwiftContainerType resultStruct = result.structs.get(0);
+    assertEquals(1, resultStruct.constants.size());
+    assertEquals(swiftConstant, resultStruct.constants.get(0));
+  }
+
+  @Test
   public void finishBuildingCreatesCValuesOutOfExpressions() {
     FExpression francaExpression = mock(FExpression.class);
-    when(SwiftValueMapper.mapExpression(any(FExpression.class))).thenReturn(swiftValue);
+    when(SwiftValueMapper.map(any(FExpression.class))).thenReturn(swiftValue);
 
     modelBuilder.finishBuilding(francaExpression);
 
@@ -388,13 +399,13 @@ public class SwiftModelBuilderTest {
   public void finishBuildingCreatesSwiftEnum() {
     SwiftEnumItem swiftEnumItem = SwiftEnumItem.builder("").build();
     contextStack.injectResult(swiftEnumItem);
-    when(SwiftNameRules.getEnumTypeName(any(), eq(deploymentModel))).thenReturn("SWIFT_NAME");
+    when(francaEnum.getName()).thenReturn("SWIFT_NAME");
 
     modelBuilder.finishBuilding(francaEnum);
 
     SwiftEnum enumType = modelBuilder.getFinalResult(SwiftEnum.class);
     assertNotNull("Should be 1 enum created", enumType);
-    assertEquals("SWIFT_NAME", enumType.name);
+    assertEquals("SwiftName", enumType.name);
     assertEquals("should be 1 enum item created", 1, enumType.items.size());
     assertSame(
         "Enum item inside enum type should be on injected into model",
@@ -415,13 +426,13 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsName() {
-    when(SwiftNameRules.getFieldName(eq(FIELD_NAME))).thenReturn("SwiftFieldName");
+    when(francaField.getName()).thenReturn("SwiftFieldName");
     contextStack.injectResult(swiftType);
     modelBuilder.finishBuilding(francaField);
 
     SwiftField resultField = modelBuilder.getFinalResult(SwiftField.class);
     assertNotNull("Should be 1 field item created", resultField);
-    assertEquals("SwiftFieldName", resultField.name);
+    assertEquals("swiftFieldName", resultField.name);
   }
 
   @Test
@@ -491,13 +502,13 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaTypeDefReadsName() {
-    when(SwiftNameRules.getTypeDefName(eq(francaTypeDef), any())).thenReturn("definite");
+    when(francaTypeDef.getName()).thenReturn("definite");
 
     modelBuilder.finishBuilding(francaTypeDef);
 
     SwiftTypeDef swiftTypeDef = modelBuilder.getFinalResult(SwiftTypeDef.class);
     assertNotNull("Should be 1 field item created", swiftTypeDef);
-    assertEquals("definite", swiftTypeDef.name);
+    assertEquals("Definite", swiftTypeDef.name);
   }
 
   @Test
@@ -572,7 +583,7 @@ public class SwiftModelBuilderTest {
   @Test
   public void finishBuildingCreatesWritableAttribute() {
     contextStack.injectResult(swiftType);
-    when(SwiftNameRules.getPropertyName(any())).thenReturn(ATTRIBUTE_NAME);
+    when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
     modelBuilder.finishBuilding(francaAttribute);
 
@@ -599,7 +610,7 @@ public class SwiftModelBuilderTest {
   @Test
   public void finishBuildingCreatesReadonlyAttribute() {
     contextStack.injectResult(swiftType);
-    when(SwiftNameRules.getPropertyName(any())).thenReturn(ATTRIBUTE_NAME);
+    when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
     when(francaAttribute.isReadonly()).thenReturn(true);
 
     modelBuilder.finishBuilding(francaAttribute);
@@ -647,18 +658,18 @@ public class SwiftModelBuilderTest {
   public void finishBuildingMethodProcessErrors() {
     FEnumerationType enumerationType = mock(FEnumerationType.class);
     when(francaMethod.getErrorEnum()).thenReturn(enumerationType);
-    when(SwiftNameRules.getEnumTypeName(any(), any())).thenReturn("SOME_ERROR");
+    when(enumerationType.getName()).thenReturn("SOME_ERROR");
 
     modelBuilder.finishBuilding(francaMethod);
 
     SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
     assertNotNull(method.error);
-    assertEquals("SOME_ERROR", method.error.name);
+    assertEquals("SomeError", method.error.name);
   }
 
   @Test
   public void finishBuildingFrancaStructTypeReadsName() {
-    when(SwiftNameRules.getStructName(any(), any())).thenReturn("Structural");
+    when(francaStruct.getName()).thenReturn("Structural");
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn("CBase");
 
     modelBuilder.finishBuilding(francaStruct);
@@ -667,9 +678,6 @@ public class SwiftModelBuilderTest {
     assertNotNull(swiftStruct);
     assertEquals("Structural", swiftStruct.name);
     assertEquals("CBase", swiftStruct.cPrefix);
-
-    PowerMockito.verifyStatic();
-    SwiftNameRules.getStructName(francaStruct, deploymentModel);
   }
 
   @Test
@@ -715,8 +723,7 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMapTypeCreatesDictionary() {
-    when(SwiftNameRules.getMapName(any(), any())).thenReturn("SomeMapFoo");
-    when(SwiftNameRules.getTypeDefName(any(), any())).thenReturn("SomeMapBar");
+    when(francaMap.getName()).thenReturn("SomeMap");
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn("SomeMapBaz");
     contextStack.injectResult(SwiftType.STRING);
     contextStack.injectResult(swiftType);
@@ -725,23 +732,19 @@ public class SwiftModelBuilderTest {
 
     SwiftDictionary swiftDictionary = modelBuilder.getFinalResult(SwiftDictionary.class);
     assertNotNull(swiftDictionary);
-    assertEquals("SomeMapFoo", swiftDictionary.name);
-    assertEquals("SomeMapBar", swiftDictionary.publicName);
+    assertEquals("SomeMap", swiftDictionary.name);
+    assertEquals("SomeMap", swiftDictionary.publicName);
     assertEquals("SomeMapBaz", swiftDictionary.cPrefix);
     assertEquals(SwiftType.STRING, swiftDictionary.keyType);
     assertEquals(swiftType, swiftDictionary.valueType);
 
-    PowerMockito.verifyStatic();
-    SwiftNameRules.getMapName(francaMap, deploymentModel);
-    PowerMockito.verifyStatic();
-    SwiftNameRules.getTypeDefName(francaMap, deploymentModel);
     PowerMockito.verifyStatic();
     CBridgeNameRules.getStructBaseName(francaMap);
   }
 
   @Test
   public void finishBuildingFrancaMapTypeCreatesTypeDef() {
-    when(SwiftNameRules.getTypeDefName(any(), any())).thenReturn("SomeMap");
+    when(francaMap.getName()).thenReturn("SomeMap");
     contextStack.injectResult(SwiftType.STRING);
     contextStack.injectResult(swiftType);
 
@@ -751,9 +754,6 @@ public class SwiftModelBuilderTest {
     assertNotNull(swiftTypeDef);
     assertEquals("SomeMap", swiftTypeDef.name);
     assertEquals("[String: VerySwiftType]", swiftTypeDef.type.name);
-
-    PowerMockito.verifyStatic();
-    SwiftNameRules.getTypeDefName(francaMap, deploymentModel);
   }
 
   @Test
@@ -767,5 +767,21 @@ public class SwiftModelBuilderTest {
     SwiftTypeDef swiftTypeDef = modelBuilder.getFinalResult(SwiftTypeDef.class);
     assertNotNull(swiftTypeDef);
     assertEquals(SwiftVisibility.INTERNAL, swiftTypeDef.visibility);
+  }
+
+  @Test
+  public void finishBuildingFrancaConstant() {
+    when(francaConstant.getRhs()).thenReturn(francaInitializer);
+    when(francaConstant.getName()).thenReturn("FooConst");
+    when(SwiftValueMapper.map(any())).thenReturn(swiftValue);
+    contextStack.injectResult(swiftType);
+
+    modelBuilder.finishBuilding(francaConstant);
+
+    SwiftConstant swiftConstant = modelBuilder.getFinalResult(SwiftConstant.class);
+    assertNotNull(swiftConstant);
+    assertEquals("fooConst", swiftConstant.name);
+    assertEquals(swiftType, swiftConstant.type);
+    assertEquals(swiftValue, swiftConstant.value);
   }
 }
