@@ -28,22 +28,12 @@ import com.here.genium.model.java.JavaReferenceType;
 import com.here.genium.model.java.JavaTemplateType;
 import com.here.genium.model.java.JavaType;
 import com.here.genium.model.java.JavaValue;
+import java.util.LinkedList;
 import java.util.List;
 import org.apache.commons.text.StringEscapeUtils;
 import org.franca.core.franca.*;
 
 public final class JavaValueMapper {
-
-  public static JavaValue map(JavaType type, FInitializerExpression rhs) {
-    if (rhs instanceof FCompoundInitializer) {
-      return map(type, (FCompoundInitializer) rhs);
-    }
-    if (rhs instanceof FQualifiedElementRef) {
-      return map(type, (FQualifiedElementRef) rhs);
-    }
-
-    return map(rhs);
-  }
 
   public static void completePartialEnumeratorValues(List<JavaEnumItem> javaEnumItems) {
 
@@ -63,9 +53,30 @@ public final class JavaValueMapper {
     if (francaExpression instanceof FConstant || francaExpression instanceof FUnaryOperation) {
       String stringValue = StringValueMapper.map(francaExpression);
       return stringValue != null ? new JavaValue(stringValue) : null;
+    } else if (francaExpression instanceof FQualifiedElementRef) {
+      return map((FQualifiedElementRef) francaExpression);
     }
 
     return null;
+  }
+
+  private static JavaValue map(final FQualifiedElementRef francaElementRef) {
+
+    FEvaluableElement value = francaElementRef.getElement();
+    if (!(value instanceof FEnumerator)) {
+      return null;
+    }
+
+    LinkedList<String> names = new LinkedList<>();
+    names.add(JavaNameRules.getConstantName(value.getName()));
+    FEnumerationType enumerationType = (FEnumerationType) value.eContainer();
+    names.addFirst(JavaNameRules.getClassName(enumerationType.getName()));
+    FTypeCollection typeCollection = (FTypeCollection) enumerationType.eContainer();
+    if (typeCollection instanceof FInterface) {
+      names.addFirst(JavaNameRules.getClassName(typeCollection.getName()));
+    }
+
+    return new JavaValue(String.join(".", names));
   }
 
   public static JavaValue mapDefaultValue(
@@ -95,17 +106,5 @@ public final class JavaValueMapper {
       return new JavaValue(javaType);
     }
     return null;
-  }
-
-  @SuppressWarnings("PMD.UnusedFormalParameter")
-  private static JavaValue map(JavaType type, FCompoundInitializer rhs) {
-    // TODO APIGEN-484 handle this case
-    return new JavaValue("TODO");
-  }
-
-  @SuppressWarnings("PMD.UnusedFormalParameter")
-  private static JavaValue map(JavaType type, FQualifiedElementRef rhs) {
-    // TODO APIGEN-484 handle this case
-    return new JavaValue("TODO");
   }
 }
