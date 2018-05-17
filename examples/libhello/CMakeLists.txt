@@ -327,7 +327,7 @@ feature(UnderscorePackage cpp android swift SOURCES
     fidl/test/UseUnderscorePackage.fdepl
 )
 
-feature(Constants cpp SOURCES
+feature(Constants cpp android SOURCES
     src/test/Constants.cpp
 
     fidl/test/Constants.fidl

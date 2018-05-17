@@ -79,6 +79,20 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   public void finishBuilding(FTypeCollection francaTypeCollection) {
 
     getPreviousResults(JavaTopLevelElement.class).forEach(this::storeResult);
+
+    List<JavaConstant> constants = getPreviousResults(JavaConstant.class);
+    if (!constants.isEmpty()) {
+      String name = JavaNameRules.getClassName(francaTypeCollection.getName());
+      JavaClass javaClass = JavaClass.builder(name).build();
+      javaClass.visibility = getVisibility(francaTypeCollection);
+      javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL);
+      javaClass.javaPackage = rootPackage;
+      javaClass.comment = CommentHelper.getDescription(francaTypeCollection);
+      javaClass.constants.addAll(constants);
+
+      storeResult(javaClass);
+    }
+
     closeContext();
   }
 
@@ -149,8 +163,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
 
-    JavaType javaArgumentType =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
+    JavaType javaArgumentType = getPreviousResult(JavaType.class);
 
     JavaParameter javaParameter =
         new JavaParameter(
@@ -164,13 +177,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FConstantDef francaConstant) {
 
-    JavaType javaType =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, JavaType.class);
-    JavaValue value = JavaValueMapper.map(javaType, francaConstant.getRhs());
-    JavaConstant javaConstant =
-        new JavaConstant(javaType, JavaNameRules.getConstantName(francaConstant.getName()), value);
-    javaConstant.visibility = JavaVisibility.PUBLIC;
+    JavaType javaType = getPreviousResult(JavaType.class);
+    String name = JavaNameRules.getConstantName(francaConstant.getName());
+    JavaValue value = JavaValueMapper.map(francaConstant.getRhs());
 
+    JavaConstant javaConstant = new JavaConstant(javaType, name, value);
+    javaConstant.visibility = getVisibility(francaConstant);
     javaConstant.comment = CommentHelper.getDescription(francaConstant);
 
     storeResult(javaConstant);

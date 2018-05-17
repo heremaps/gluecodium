@@ -20,6 +20,8 @@
 package com.here.genium.generator.java;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.here.genium.model.java.JavaCustomType;
 import com.here.genium.model.java.JavaEnumItem;
@@ -31,12 +33,29 @@ import com.here.genium.model.java.JavaValue;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import org.franca.core.franca.*;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
-public class JavaValueMapperTest {
+public final class JavaValueMapperTest {
+
+  @Mock private FEnumerationType francaEnumerationType;
+  @Mock private FEnumerator francaEnumerator;
+  @Mock private FQualifiedElementRef francaElementRef;
+
+  @Before
+  public void setUp() {
+    MockitoAnnotations.initMocks(this);
+
+    when(francaEnumerator.eContainer()).thenReturn(francaEnumerationType);
+    when(francaEnumerator.getName()).thenReturn("Foo");
+    when(francaEnumerationType.getName()).thenReturn("Bar");
+  }
 
   @Test
   public void completePartialEnumeratorValuesEmptyEnumerators() {
@@ -178,5 +197,36 @@ public class JavaValueMapperTest {
     JavaValue result = JavaValueMapper.mapDefaultValue(JavaPrimitiveType.FLOAT, defaultValue);
 
     assertEquals("23.5f", result.name);
+  }
+
+  @Test
+  public void mapNonConstantValue() {
+    JavaValue mappedValue = JavaValueMapper.map(francaElementRef);
+
+    assertNull(mappedValue);
+  }
+
+  @Test
+  public void mapEnumValueInTypeCollection() {
+    when(francaEnumerationType.eContainer()).thenReturn(mock(FTypeCollection.class));
+    when(francaElementRef.getElement()).thenReturn(francaEnumerator);
+
+    JavaValue mappedValue = JavaValueMapper.map(francaElementRef);
+
+    assertNotNull(mappedValue);
+    assertEquals("Bar.FOO", mappedValue.name);
+  }
+
+  @Test
+  public void mapEnumValueInInterface() {
+    FInterface francaInterface = mock(FInterface.class);
+    when(francaInterface.getName()).thenReturn("Baz");
+    when(francaEnumerationType.eContainer()).thenReturn(francaInterface);
+    when(francaElementRef.getElement()).thenReturn(francaEnumerator);
+
+    JavaValue mappedValue = JavaValueMapper.map(francaElementRef);
+
+    assertNotNull(mappedValue);
+    assertEquals("Baz.Bar.FOO", mappedValue.name);
   }
 }
