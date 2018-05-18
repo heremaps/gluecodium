@@ -34,7 +34,7 @@ class SynchronousListenersViewController: UIViewController, CalculatorListener {
     let calculator = hello.CalculatorFactory.createCalculator()!
     let cppListener = hello.HelloWorldCalculatorListenerFactory.createCalculatorListener()!
 
-    private func getPositions() -> (from: Calculator.Position, to: Calculator.Position)? {
+    private func getPositions() -> (start: Calculator.Position, finish: Calculator.Position)? {
         guard
             let x1float = Float(x1label.text!),
             let y1float = Float(y1label.text!),
@@ -45,10 +45,10 @@ class SynchronousListenersViewController: UIViewController, CalculatorListener {
             else {
                 return nil
         }
-        let from = Calculator.Position(x: x1float, y: y1float, z: z1float)
-        let to = Calculator.Position(x: x2float, y: y2float, z: z2float)
+        let start = Calculator.Position(x: x1float, y: y1float, z: z1float)
+        let finish = Calculator.Position(x: x2float, y: y2float, z: z2float)
 
-        return (from: from, to: to)
+        return (start: start, finish: finish)
     }
 
     func onCalculationResult(calculationResult: Double) {
