@@ -92,7 +92,6 @@ public class FrancaTreeWalkerTest {
 
     when(francaMethod.getInArgs()).thenReturn(arguments);
     when(francaEnumerationType.getEnumerators()).thenReturn(enumerators);
-    when(francaEnumerator.getValue()).thenReturn(francaExpression);
   }
 
   @Test
@@ -497,7 +496,17 @@ public class FrancaTreeWalkerTest {
   }
 
   @Test
-  public void walkWithExpression() {
+  public void walkWithExpressionInEnumerator() {
+    when(francaEnumerator.getValue()).thenReturn(francaExpression);
+    treeWalker.walkTree(francaInterface);
+
+    verify(modelBuilder).startBuilding(francaExpression);
+    verify(modelBuilder).finishBuilding(francaExpression);
+  }
+
+  @Test
+  public void walkWithExpressionInConstant() {
+    when(francaConstant.getRhs()).thenReturn(francaExpression);
     treeWalker.walkTree(francaInterface);
 
     verify(modelBuilder).startBuilding(francaExpression);
