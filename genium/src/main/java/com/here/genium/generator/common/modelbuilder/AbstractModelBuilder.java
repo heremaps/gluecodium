@@ -131,7 +131,7 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
-  public void finishBuilding(FExpression francaExpression) {
+  public void finishBuilding(FInitializerExpression francaExpression) {
     closeContext();
   }
 
