@@ -1,5 +1,12 @@
 # Genium project Release Notes
 
+## 3.2.0
+- Breaking changes:
+  + Exceptions are now error-enum specific and are generated as nested classes (nested on the same
+    level as the corresponding error-enums).
+- Bug fixes:
+  + Fixed runtime crash in case of non-unique error-enum names inside the same package.
+
 ## 3.1.3
 - Bug fixes:
   + Fixed handling of Java constants to generate those as "public".
