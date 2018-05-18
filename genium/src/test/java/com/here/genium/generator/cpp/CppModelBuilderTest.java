@@ -366,8 +366,8 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaConstantMapsValue() {
-    when(CppValueMapper.map(any())).thenReturn(cppValue);
     contextStack.injectResult(cppComplexTypeRef);
+    contextStack.injectResult(cppValue);
 
     modelBuilder.finishBuilding(francaConstant);
 
@@ -375,9 +375,6 @@ public class CppModelBuilderTest {
     assertNotNull(result);
     assertEquals("::nonsense::" + CONSTANT_NAME, result.fullyQualifiedName.toLowerCase());
     assertEquals(cppValue, result.value);
-
-    PowerMockito.verifyStatic();
-    CppValueMapper.map(francaInitializerExpression);
   }
 
   @Test

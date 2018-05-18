@@ -179,7 +179,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaType javaType = getPreviousResult(JavaType.class);
     String name = JavaNameRules.getConstantName(francaConstant.getName());
-    JavaValue value = JavaValueMapper.map(francaConstant.getRhs());
+    JavaValue value = getPreviousResult(JavaValue.class);
 
     JavaConstant javaConstant = new JavaConstant(javaType, name, value);
     javaConstant.visibility = getVisibility(francaConstant);
@@ -290,7 +290,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   }
 
   @Override
-  public void finishBuilding(FExpression francaExpression) {
+  public void finishBuilding(FInitializerExpression francaExpression) {
     storeResult(JavaValueMapper.map(francaExpression));
     closeContext();
   }
