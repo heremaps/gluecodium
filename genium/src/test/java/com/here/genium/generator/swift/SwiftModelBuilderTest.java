@@ -773,7 +773,7 @@ public class SwiftModelBuilderTest {
   public void finishBuildingFrancaConstant() {
     when(francaConstant.getRhs()).thenReturn(francaInitializer);
     when(francaConstant.getName()).thenReturn("FooConst");
-    when(SwiftValueMapper.map(any())).thenReturn(swiftValue);
+    contextStack.injectResult(swiftValue);
     contextStack.injectResult(swiftType);
 
     modelBuilder.finishBuilding(francaConstant);

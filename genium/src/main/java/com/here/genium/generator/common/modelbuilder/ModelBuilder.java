@@ -64,7 +64,7 @@ public interface ModelBuilder {
 
   void finishBuilding(FEnumerator francaEnumerator);
 
-  void finishBuilding(FExpression francaExpression);
+  void finishBuilding(FInitializerExpression francaExpression);
 
   void finishBuilding(FAttribute francaAttribute);
 }

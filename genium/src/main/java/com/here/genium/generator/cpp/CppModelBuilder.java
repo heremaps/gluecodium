@@ -137,12 +137,11 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FConstantDef francaConstant) {
 
-    CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
-    CppValue value = CppValueMapper.map(francaConstant.getRhs());
-
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(francaConstant);
     String name = CppNameRules.getConstantName(francaConstant.getName());
     String fullyQualifiedName = CppNameRules.getFullyQualifiedName(nestedNameSpecifier, name);
+    CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
+    CppValue value = getPreviousResult(CppValue.class);
 
     CppConstant cppConstant = new CppConstant(name, fullyQualifiedName, cppTypeRef, value);
     cppConstant.comment = CommentHelper.getDescription(francaConstant);
@@ -293,7 +292,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   }
 
   @Override
-  public void finishBuilding(FExpression francaExpression) {
+  public void finishBuilding(FInitializerExpression francaExpression) {
 
     storeResult(CppValueMapper.map(francaExpression));
     closeContext();

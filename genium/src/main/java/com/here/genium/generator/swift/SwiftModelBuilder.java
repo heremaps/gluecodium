@@ -186,7 +186,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   }
 
   @Override
-  public void finishBuilding(FExpression expression) {
+  public void finishBuilding(FInitializerExpression expression) {
     storeResult(SwiftValueMapper.map(expression));
     super.finishBuilding(expression);
   }
@@ -388,7 +388,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     String name = SwiftNameRules.getConstantName(francaConstant.getName());
     SwiftType type = getPreviousResult(SwiftType.class);
     SwiftVisibility visibility = getVisibility(francaConstant);
-    SwiftValue value = SwiftValueMapper.map(francaConstant.getRhs());
+    SwiftValue value = getPreviousResult(SwiftValue.class);
 
     SwiftConstant swiftConstant = new SwiftConstant(name, visibility, type, value);
     swiftConstant.comment = CommentHelper.getDescription(francaConstant);

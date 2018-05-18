@@ -98,6 +98,7 @@ public class JavaModelBuilderTest {
   private final JavaExceptionType javaExceptionType =
       new JavaExceptionType(
           "FooEx", null, new JavaImport(null, new JavaPackage(JavaPackage.DEFAULT_PACKAGE_NAMES)));
+  private final JavaValue javaValue = new JavaValue("Foo");
 
   private JavaModelBuilder modelBuilder;
 
@@ -317,9 +318,9 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaTypeCollectionReadsExceptions() {
     when(francaTypeCollection.getName()).thenReturn("TestTypeCollection");
     final JavaClass innerClass = new JavaClass(CLASS_NAME);
+    final JavaEnumType javaEnumType = new JavaEnumType(null, null, Collections.emptyList(), null);
     final JavaExceptionClass exceptionClass =
-        new JavaExceptionClass(
-            CLASS_NAME + "EX", new JavaEnumType(null, null, Collections.EMPTY_LIST, null));
+        new JavaExceptionClass(CLASS_NAME + "EX", javaEnumType);
     contextStack.injectResult(innerClass);
     contextStack.injectResult(exceptionClass);
 
@@ -339,6 +340,7 @@ public class JavaModelBuilderTest {
   @Test
   public void finishBuildingFrancaConstant() {
     contextStack.injectResult(javaCustomType);
+    contextStack.injectResult(javaValue);
 
     modelBuilder.finishBuilding(francaConstant);
 
@@ -346,6 +348,7 @@ public class JavaModelBuilderTest {
     assertNotNull(resultConstant);
     assertEquals("permanent", resultConstant.name.toLowerCase());
     assertEquals(javaCustomType, resultConstant.type);
+    assertEquals(javaValue, resultConstant.value);
     assertEquals(JavaVisibility.PUBLIC, resultConstant.visibility);
   }
 
@@ -787,28 +790,25 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFEnumeratorWithValueReadsEnumItem() {
-
-    JavaValue value = new JavaValue("foo");
-    contextStack.injectResult(value);
+    contextStack.injectResult(javaValue);
 
     modelBuilder.finishBuilding(francaEnumerator1);
 
     JavaEnumItem result = modelBuilder.getFinalResult(JavaEnumItem.class);
     assertNotNull(result);
     assertEquals(ENUMERATOR_1_NAME, result.name);
-    assertEquals(value, result.value);
+    assertEquals(javaValue, result.value);
   }
 
   @Test
   public void finishBuildingFExpressionReadsJavaValue() {
     FExpression francaExpression = mock(FExpression.class);
-    JavaValue value = new JavaValue("foo");
-    when(JavaValueMapper.map(francaExpression)).thenReturn(value);
+    when(JavaValueMapper.map(francaExpression)).thenReturn(javaValue);
 
     modelBuilder.finishBuilding(francaExpression);
 
     JavaValue result = modelBuilder.getFinalResult(JavaValue.class);
-    assertSame(value, result);
+    assertSame(javaValue, result);
   }
 
   @Test

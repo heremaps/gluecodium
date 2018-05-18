@@ -191,4 +191,9 @@ public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
     walk(francaMapType.getKeyType());
     walk(francaMapType.getValueType());
   }
+
+  private void walkChildNodes(FConstantDef francaConstant) {
+    walk(francaConstant.getType());
+    walk(francaConstant.getRhs());
+  }
 }
