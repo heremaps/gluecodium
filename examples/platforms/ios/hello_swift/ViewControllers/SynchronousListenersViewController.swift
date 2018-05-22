@@ -64,7 +64,7 @@ class SynchronousListenersViewController: UIViewController, CalculatorListener {
             return
         }
         hello.HelloWorldStaticLogger.clearLog()
-        calculator.calculate(fromPosition: positions.from, toPosition: positions.to, listener: listener)
+        calculator.calculate(fromPosition: positions.start, toPosition: positions.finish, listener: listener)
         cppResult.text = hello.HelloWorldStaticLogger.getLog()
     }
 
