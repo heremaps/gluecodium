@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed integer constants in Java to be generated with "L" suffix when needed.
+
 ## 3.3.0
 - Features:
   + Added generation of simple constants in C++, Java, and Swift. Supported types for constants are:

@@ -26,6 +26,9 @@ define Defaults for interface smoke.DefaultValues
         intField {
             DefaultValue = "42"
         }
+        uintField {
+            DefaultValue = "4294967295"
+        }
         floatField {
             DefaultValue = "3.14"
         }
@@ -53,6 +56,9 @@ define Defaults for typeCollection smoke.TypesWithDefaults
     struct StructWithDefaults {
         intField {
             DefaultValue = "42"
+        }
+        uintField {
+            DefaultValue = "4294967295"
         }
         floatField {
             DefaultValue = "3.14"

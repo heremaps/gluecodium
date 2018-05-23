@@ -37,6 +37,9 @@ define Defaults for interface test.Defaults
         intField {
             DefaultValue = "42"
         }
+        uintField {
+            DefaultValue = "4294967295"
+        }
         floatField {
             DefaultValue = "3.14"
         }
