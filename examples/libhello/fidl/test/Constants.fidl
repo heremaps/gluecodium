@@ -22,7 +22,7 @@ package test
 typeCollection Constants {
 
     const Int32 intConstant = -11
-    const UInt32 uintConstant = 42
+    const UInt32 uintConstant = 0xFFFFFFFF
     const Float floatConstant = 2.71f
     const Double doubleConstant = -3.14d
     const String stringConstant = "Foo bar"

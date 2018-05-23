@@ -28,6 +28,7 @@ interface DefaultValues {
 
     struct StructWithDefaults {
         Int32 intField
+        UInt32 uintField
         Float floatField
         Boolean boolField
         String stringField
@@ -53,6 +54,7 @@ typeCollection TypesWithDefaults {
 
     struct StructWithDefaults {
         Int32 intField
+        UInt32 uintField
         Float floatField
         Boolean boolField
         String stringField

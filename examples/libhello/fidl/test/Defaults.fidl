@@ -33,6 +33,7 @@ interface Defaults {
 
     struct StructWithDefaults {
         Int32 intField
+        UInt32 uintField
         Float floatField
         Boolean boolField
         String stringField
