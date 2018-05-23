@@ -26,6 +26,7 @@ enum class SomeEnum {
 
 struct StructWithDefaults {
     int32_t int_field = 42;
+    uint32_t uint_field = 4294967295;
     float float_field = 3.14;
     bool bool_field = true;
     ::std::string string_field = "\\Jonny \"Magic\" Smith\n";

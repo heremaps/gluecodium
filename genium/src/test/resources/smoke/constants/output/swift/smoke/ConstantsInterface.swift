@@ -12,7 +12,7 @@ public class ConstantsInterface {
 
     public static let boolConstant: Bool = true
     public static let intConstant: Int32 = -11
-    public static let uintConstant: UInt32 = 42
+    public static let uintConstant: UInt32 = 4294967295
     public static let floatConstant: Float = 2.71
     public static let doubleConstant: Double = -3.14
     public static let stringConstant: String = "Foo bar"

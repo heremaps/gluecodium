@@ -167,9 +167,31 @@ public class DefaultsValidatorPredicateTest {
   }
 
   @Test
+  public void validateForIntegerValidBig() {
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UINT32);
+    when(deploymentModel.getDefaultValue(any())).thenReturn("4294967295");
+
+    String result = validatorPredicate.validate(deploymentModel, francaField);
+
+    assertNull(result);
+    verify(deploymentModel).getDefaultValue(francaField);
+  }
+
+  @Test
   public void validateForIntegerInvalid() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT8);
     when(deploymentModel.getDefaultValue(any())).thenReturn("nonsense");
+
+    String result = validatorPredicate.validate(deploymentModel, francaField);
+
+    assertNotNull(result);
+    verify(deploymentModel).getDefaultValue(francaField);
+  }
+
+  @Test
+  public void validateForIntegerInvalidBig() {
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UINT32);
+    when(deploymentModel.getDefaultValue(any())).thenReturn("109223372036854775807");
 
     String result = validatorPredicate.validate(deploymentModel, francaField);
 

@@ -5,28 +5,25 @@
 package com.example.smoke;
 import com.example.NativeBase;
 public class DefaultValues extends NativeBase {
-
     public enum SomeEnum {
         FOO_VALUE(0),
         BAR_VALUE(1);
-
         public final int value;
-
         SomeEnum(final int value) {
             this.value = value;
         }
     }
-
     public static class StructWithDefaults {
         public int intField = 42;
+        public long uintField = 4294967295L;
         public float floatField = 3.14f;
         public boolean boolField = true;
         public String stringField = "\\Jonny \"Magic\" Smith\n";
         public DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
-
         public StructWithDefaults() {}
-        public StructWithDefaults(int intField, float floatField, boolean boolField, String stringField, DefaultValues.SomeEnum enumField) {
+        public StructWithDefaults(int intField, long uintField, float floatField, boolean boolField, String stringField, DefaultValues.SomeEnum enumField) {
             this.intField = intField;
+            this.uintField = uintField;
             this.floatField = floatField;
             this.boolField = boolField;
             this.stringField = stringField;
@@ -34,6 +31,7 @@ public class DefaultValues extends NativeBase {
         }
         public static class Builder {
             private int intField = 42;
+            private long uintField = 4294967295L;
             private float floatField = 3.14f;
             private boolean boolField = true;
             private String stringField = "\\Jonny \"Magic\" Smith\n";
@@ -42,6 +40,10 @@ public class DefaultValues extends NativeBase {
             }
             public Builder setIntField(int intField) {
                 this.intField = intField;
+                return this;
+            }
+            public Builder setUintField(long uintField) {
+                this.uintField = uintField;
                 return this;
             }
             public Builder setFloatField(float floatField) {
@@ -61,7 +63,7 @@ public class DefaultValues extends NativeBase {
                 return this;
             }
             public StructWithDefaults build() {
-                return new StructWithDefaults(intField, floatField, boolField, stringField, enumField);
+                return new StructWithDefaults(intField, uintField, floatField, boolField, stringField, enumField);
             }
         }
     }

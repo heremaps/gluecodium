@@ -21,6 +21,7 @@ package com.here.genium.validator;
 
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.model.franca.FrancaDeploymentModel;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Predicate;
 import org.franca.core.franca.*;
@@ -102,9 +103,9 @@ public final class DefaultsValidatorPredicate implements ValidatorPredicate<FFie
   @SuppressWarnings("ResultOfMethodCallIgnored")
   private static boolean checkIntegerValue(final String stringValue) {
     try {
-      Integer.parseInt(stringValue);
+      new BigInteger(stringValue).longValueExact();
       return true;
-    } catch (NumberFormatException e) {
+    } catch (NumberFormatException | ArithmeticException e) {
       return false;
     }
   }
