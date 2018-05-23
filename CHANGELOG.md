@@ -1,5 +1,10 @@
 # Genium project Release Notes
 
+## 3.3.0
+- Features:
+  + Added generation of simple constants in C++, Java, and Swift. Supported types for constants are:
+    Boolean, string, enumeration, and all numeric types.
+
 ## 3.2.0
 - Breaking changes:
   + Exceptions are now error-enum specific and are generated as nested classes (nested on the same
