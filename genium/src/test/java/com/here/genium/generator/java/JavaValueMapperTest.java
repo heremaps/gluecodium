@@ -30,6 +30,7 @@ import com.here.genium.model.java.JavaPrimitiveType;
 import com.here.genium.model.java.JavaReferenceType;
 import com.here.genium.model.java.JavaTemplateType;
 import com.here.genium.model.java.JavaValue;
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -200,6 +201,15 @@ public final class JavaValueMapperTest {
   }
 
   @Test
+  public void mapDefaultValueDeploymentValueLongType() {
+    String defaultValue = "42";
+
+    JavaValue result = JavaValueMapper.mapDefaultValue(JavaPrimitiveType.LONG, defaultValue);
+
+    assertEquals("42L", result.name);
+  }
+
+  @Test
   public void mapNonConstantValue() {
     JavaValue mappedValue = JavaValueMapper.map(francaElementRef);
 
@@ -228,5 +238,28 @@ public final class JavaValueMapperTest {
 
     assertNotNull(mappedValue);
     assertEquals("Baz.Bar.FOO", mappedValue.name);
+  }
+
+  @Test
+  public void mapFloatConstantValue() {
+    FFloatConstant francaFloatConstant = mock(FFloatConstant.class);
+    final float tenPi = 31.4f;
+    when(francaFloatConstant.getVal()).thenReturn(tenPi);
+
+    JavaValue mappedValue = JavaValueMapper.map(francaFloatConstant);
+
+    assertNotNull(mappedValue);
+    assertEquals("31.4f", mappedValue.name);
+  }
+
+  @Test
+  public void mapLongConstantValue() {
+    FIntegerConstant francaIntegerConstant = mock(FIntegerConstant.class);
+    when(francaIntegerConstant.getVal()).thenReturn(new BigInteger("FFFFFFFF", 16));
+
+    JavaValue mappedValue = JavaValueMapper.map(francaIntegerConstant);
+
+    assertNotNull(mappedValue);
+    assertEquals("4294967295L", mappedValue.name);
   }
 }

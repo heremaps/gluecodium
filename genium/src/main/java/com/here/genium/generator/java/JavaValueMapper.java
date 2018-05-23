@@ -28,6 +28,7 @@ import com.here.genium.model.java.JavaReferenceType;
 import com.here.genium.model.java.JavaTemplateType;
 import com.here.genium.model.java.JavaType;
 import com.here.genium.model.java.JavaValue;
+import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.commons.text.StringEscapeUtils;
@@ -56,8 +57,15 @@ public final class JavaValueMapper {
         return null;
       }
 
-      return new JavaValue(
-          francaExpression instanceof FFloatConstant ? stringValue + "f" : stringValue);
+      String suffix = "";
+      if (francaExpression instanceof FFloatConstant) {
+        suffix = "f";
+      } else if (francaExpression instanceof FIntegerConstant
+          && !fitsIntoInteger(((FIntegerConstant) francaExpression).getVal())) {
+        suffix = "L";
+      }
+
+      return new JavaValue(stringValue + suffix);
     } else if (francaExpression instanceof FQualifiedElementRef) {
       return map((FQualifiedElementRef) francaExpression);
     }
@@ -90,6 +98,9 @@ public final class JavaValueMapper {
     if (JavaPrimitiveType.FLOAT.equals(javaType)) {
       return new JavaValue(deploymentDefaultValue + "f");
     }
+    if (JavaPrimitiveType.LONG.equals(javaType)) {
+      return new JavaValue(deploymentDefaultValue + "L");
+    }
 
     if (javaType instanceof JavaReferenceType
         && ((JavaReferenceType) javaType).type == JavaReferenceType.Type.STRING) {
@@ -111,5 +122,10 @@ public final class JavaValueMapper {
       return new JavaValue(javaType);
     }
     return null;
+  }
+
+  private static boolean fitsIntoInteger(final BigInteger bigInteger) {
+    long longValue = bigInteger.longValue();
+    return longValue <= Integer.MAX_VALUE && longValue >= Integer.MIN_VALUE;
   }
 }
