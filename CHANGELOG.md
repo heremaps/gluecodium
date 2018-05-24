@@ -1,6 +1,6 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.3.1
 - Bug fixes:
   + Fixed integer constants in Java to be generated with "L" suffix when needed.
 
