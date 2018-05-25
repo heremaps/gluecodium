@@ -23,4 +23,4 @@ defer {
     std_string_release(result_string_handle)
 }
 return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                         count: Int(std_string_size_get(result_string_handle))), encoding: .utf8){{#if forceReturnValueUnwrapping}}!{{/if}}
+                         count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!

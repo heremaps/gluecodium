@@ -232,8 +232,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
     SwiftType swiftType = getPreviousResult(SwiftType.class);
-    if (swiftType.category == TypeCategory.STRUCT
-        || swiftType.category == TypeCategory.BUILTIN_STRING) {
+    if (swiftType.category == TypeCategory.STRUCT) {
       swiftType = swiftType.withOptional(true);
     }
 

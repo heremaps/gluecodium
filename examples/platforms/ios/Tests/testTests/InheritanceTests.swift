@@ -131,13 +131,13 @@ class InheritanceTests: XCTestCase {
             self.data = data
         }
 
-        func getData() -> String? {
+        func getData() -> String {
             return "Swift Child data is '" + data + "'"
         }
     }
 
     class SwiftGrandChild: SwiftChild {
-        override func getData() -> String? {
+        override func getData() -> String {
             return "Swift GrandChild data is '" + data + "'"
         }
     }
@@ -149,7 +149,7 @@ class InheritanceTests: XCTestCase {
             self.data = data
         }
 
-        func getData() -> String? {
+        func getData() -> String {
             return "Swift AnotherChild data is '" + data + "'"
         }
     }
@@ -192,9 +192,9 @@ class InheritanceTests: XCTestCase {
 
     private func getData(_ object: RootInterface) -> String {
         if let object = object as? ChildInterface {
-            return object.getData() ?? ""
+            return object.getData()
         } else if let object = object as? AnotherChildInterface {
-            return object.getData() ?? ""
+            return object.getData()
         }
         XCTFail("Unexpected type of object: " + String(describing: type(of: object)))
         return ""

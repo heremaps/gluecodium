@@ -33,7 +33,7 @@ class ListenersWithDictionaries: XCTestCase {
 
     provider.inform(listener: listener)
 
-    let log = HelloWorldStaticLogger.getLog()!
+    let log = HelloWorldStaticLogger.getLog()
     XCTAssertEqual(expectedData, log)
   }
 

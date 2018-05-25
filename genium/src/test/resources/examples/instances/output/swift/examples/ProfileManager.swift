@@ -26,13 +26,13 @@ public class ProfileManager {
         return examples_ProfileManager_createProfile(c_instance, username)
     }
 
-    public func changeProfile(username: String) -> String? {
+    public func changeProfile(username: String) -> String {
         let result_string_handle = examples_ProfileManager_changeProfile(c_instance, username)
         defer {
             std_string_release(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
     }
 
     public func deleteProfile(username: String) -> Void {
