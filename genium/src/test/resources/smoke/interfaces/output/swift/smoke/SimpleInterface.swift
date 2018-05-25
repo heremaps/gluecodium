@@ -28,7 +28,7 @@ internal func getRef(_ ref: SimpleInterface) -> RefHolder {
     }
     functions.smoke_SimpleInterface_getStringValue = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! SimpleInterface
-        return (swift_class.getStringValue()!).convertToCType()
+        return swift_class.getStringValue().convertToCType()
     }
     let proxy = smoke_SimpleInterface_createProxy(functions)
     return RefHolder(ref: proxy, release: smoke_SimpleInterface_release)
@@ -43,7 +43,7 @@ public protocol SimpleInterface : AnyObject {
 
 
     func setStringValue(stringValue: String) -> Void
-    func getStringValue() -> String?
+    func getStringValue() -> String
 
 }
 
@@ -66,13 +66,13 @@ internal class _SimpleInterface: SimpleInterface {
         return smoke_SimpleInterface_setStringValue(c_instance, stringValue)
     }
 
-    public func getStringValue() -> String? {
+    public func getStringValue() -> String {
         let result_string_handle = smoke_SimpleInterface_getStringValue(c_instance)
         defer {
             std_string_release(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
     }
 
 }

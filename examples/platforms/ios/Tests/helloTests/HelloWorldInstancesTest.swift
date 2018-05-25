@@ -31,7 +31,7 @@ class HelloWorldInstancesTests: XCTestCase {
     func testInstanceMethod() {
         let simple = HelloWorldFactory.createSimple()
         simple!.setStringValue(stringValue: "HelloSimple")
-        let stringReturned = simple!.getStringValue()!
+        let stringReturned = simple!.getStringValue()
         XCTAssertEqual(stringReturned, "HelloSimple")
     }
 

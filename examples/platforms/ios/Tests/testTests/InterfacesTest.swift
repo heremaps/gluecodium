@@ -41,8 +41,7 @@ class InterfacesTests: XCTestCase {
 
         let stringReturned = simple!.getStringValue()
 
-        XCTAssertNotNil(stringReturned)
-        XCTAssertEqual(stringReturned!, "HelloSimple")
+        XCTAssertEqual(stringReturned, "HelloSimple")
     }
 
     func testInterfaceGetInterfaceMethod() {
@@ -56,7 +55,7 @@ class InterfacesTests: XCTestCase {
         let result = complex.getInterfaceOne()
 
         XCTAssertNotNil(result)
-        XCTAssertEqual(result!.getStringValue()!, "Hello")
+        XCTAssertEqual(result!.getStringValue(), "Hello")
     }
 
     func testSetSameTypeInterfaces() {

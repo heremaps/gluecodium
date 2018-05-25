@@ -1,5 +1,10 @@
 # Genium project Release Notes
 
+## Unreleased
+- Breaking changes:
+  + Generated functions returning optional "String?" in Swift are now returning a non-optional
+    "String" instead.
+
 ## 3.3.1
 - Bug fixes:
   + Fixed integer constants in Java to be generated with "L" suffix when needed.

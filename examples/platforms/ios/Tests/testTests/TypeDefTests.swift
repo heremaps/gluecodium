@@ -63,7 +63,7 @@ class TypeDefTests: XCTestCase {
 
     func testStringTypedef() {
         let typedef: StaticTypedef.StringTypedef = "Test"
-        let stringTypeDef =  StaticTypedef.returnStringTypedef(input: typedef)!
+        let stringTypeDef =  StaticTypedef.returnStringTypedef(input: typedef)
         let stringMirror = Mirror(reflecting: stringTypeDef)
         XCTAssertEqual(stringTypeDef, "Hello Test")
         XCTAssertTrue(stringMirror.subjectType == String.self)

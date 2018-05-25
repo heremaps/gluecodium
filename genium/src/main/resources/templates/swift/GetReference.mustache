@@ -61,7 +61,7 @@ internal func getRef(_ ref: {{name}}) -> RefHolder {
 {{/set}}
 {{+swiftParameter}}{{name}}{{/swiftParameter}}
 {{+swiftReturn}}{{#switch returnType.category.toString}}{{!!
-    }}{{#case "BUILTIN_STRING"}}({{>delegateCall2}}!).convertToCType(){{/case}}{{!!
+    }}{{#case "BUILTIN_STRING"}}{{>delegateCall2}}.convertToCType(){{/case}}{{!!
     }}{{#case "STRUCT"}}get_pointer(({{>delegateCall2}}!).convertToCType()){{/case}}{{!!
     }}{{#case "CLASS"}}getRef({{>delegateCall2}}!).ref{{/case}}{{!!
     }}{{#default}}{{>delegateCall2}}{{/default}}{{!!
