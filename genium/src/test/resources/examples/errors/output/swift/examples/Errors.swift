@@ -38,7 +38,7 @@ public class Errors {
         }
     }
 
-    public static func getSomethingOrFail() throws -> String? {
+    public static func getSomethingOrFail() throws -> String {
         let RESULT = examples_Errors_getSomethingOrFail()
         if (RESULT.has_value) {
             let result_string_handle = RESULT.returned_value
@@ -46,7 +46,7 @@ public class Errors {
                 std_string_release(result_string_handle)
             }
             return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                     count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
+                                     count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
         } else {
             throw Errors.InternalErrors(rawValue: RESULT.error_code)!
         }

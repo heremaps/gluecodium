@@ -20,8 +20,8 @@ internal func getRef(_ ref: InheritanceChild) -> RefHolder {
         defer {
             std_string_release(input)
         }
-        return (swift_class.parentMethod(input: String(data: Data(bytes: std_string_data_get(input),
-                                                count: Int(std_string_size_get(input))), encoding: .utf8)!)!).convertToCType()
+        return swift_class.parentMethod(input: String(data: Data(bytes: std_string_data_get(input),
+                                                count: Int(std_string_size_get(input))), encoding: .utf8)!).convertToCType()
     }
     functions.examples_InheritanceChild_childMethod = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceChild
@@ -32,7 +32,7 @@ internal func getRef(_ ref: InheritanceChild) -> RefHolder {
 }
 
 public protocol InheritanceChild : InheritanceParent {
-    func parentMethod(input: String) -> String?
+    func parentMethod(input: String) -> String
     func childMethod(input: UInt8) -> Int16
 }
 
@@ -47,13 +47,13 @@ internal class _InheritanceChild: InheritanceChild {
     deinit {
         examples_InheritanceChild_release(c_instance)
     }
-    public func parentMethod(input: String) -> String? {
+    public func parentMethod(input: String) -> String {
         let result_string_handle = examples_InheritanceParent_parentMethod(c_instance, input)
         defer {
             std_string_release(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
     }
     public func childMethod(input: UInt8) -> Int16 {
         return examples_InheritanceChild_childMethod(c_instance, input)

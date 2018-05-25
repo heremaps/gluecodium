@@ -27,13 +27,13 @@ public class Basic {
      - Parameter inputString: Input string
      - Returns: Output string
      */
-    public static func basicMethod(inputString: String) -> String? {
+    public static func basicMethod(inputString: String) -> String {
         let result_string_handle = smoke_off_Basic_basicMethod(inputString)
         defer {
             std_string_release(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
     }
 
 }
