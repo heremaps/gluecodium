@@ -226,17 +226,6 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingOutputArgumentMarksStringAsOptional() {
-    contextStack.injectResult(new SwiftType("Foo", SwiftType.TypeCategory.BUILTIN_STRING));
-
-    modelBuilder.finishBuildingOutputArgument(francaArgument);
-
-    SwiftParameter param = modelBuilder.getFinalResult(SwiftParameter.class);
-    assertNotNull(param);
-    assertTrue(param.type.optional);
-  }
-
-  @Test
   public void finishBuildingMethodReadsName() {
     modelBuilder.finishBuilding(francaMethod);
 

@@ -23,8 +23,8 @@ internal func getRef(_ ref: InheritanceParent) -> RefHolder {
         defer {
             std_string_release(input)
         }
-        return (swift_class.parentMethod(input: String(data: Data(bytes: std_string_data_get(input),
-                                                count: Int(std_string_size_get(input))), encoding: .utf8)!)!).convertToCType()
+        return swift_class.parentMethod(input: String(data: Data(bytes: std_string_data_get(input),
+                                                count: Int(std_string_size_get(input))), encoding: .utf8)!).convertToCType()
     }
     let proxy = examples_InheritanceParent_createProxy(functions)
     return RefHolder(ref: proxy, release: examples_InheritanceParent_release)
@@ -33,7 +33,7 @@ internal func getRef(_ ref: InheritanceParent) -> RefHolder {
 public protocol InheritanceParent : AnyObject {
 
 
-    func parentMethod(input: String) -> String?
+    func parentMethod(input: String) -> String
 
 }
 
@@ -52,13 +52,13 @@ internal class _InheritanceParent: InheritanceParent {
     deinit {
         examples_InheritanceParent_release(c_instance)
     }
-    public func parentMethod(input: String) -> String? {
+    public func parentMethod(input: String) -> String {
         let result_string_handle = examples_InheritanceParent_parentMethod(c_instance, input)
         defer {
             std_string_release(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
     }
 
 }

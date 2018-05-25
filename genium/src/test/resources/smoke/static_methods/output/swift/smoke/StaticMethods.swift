@@ -201,40 +201,40 @@ public class StaticMethods {
         return smoke_StaticMethods_returnPrimeUINT64()
     }
 
-    public static func returnInputString(inputString: String) -> String? {
+    public static func returnInputString(inputString: String) -> String {
         let result_string_handle = smoke_StaticMethods_returnInputString(inputString)
         defer {
             std_string_release(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
     }
 
-    public static func concatenateStrings(inputString1: String, inputString2: String) -> String? {
+    public static func concatenateStrings(inputString1: String, inputString2: String) -> String {
         let result_string_handle = smoke_StaticMethods_concatenateStrings(inputString1, inputString2)
         defer {
             std_string_release(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
     }
 
-    public static func returnHelloString() -> String? {
+    public static func returnHelloString() -> String {
         let result_string_handle = smoke_StaticMethods_returnHelloString()
         defer {
             std_string_release(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
     }
 
-    public static func returnEmpty() -> String? {
+    public static func returnEmpty() -> String {
         let result_string_handle = smoke_StaticMethods_returnEmpty()
         defer {
             std_string_release(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)
+                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
     }
 
 }
