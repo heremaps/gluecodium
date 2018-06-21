@@ -144,6 +144,30 @@ FDEPL:
         }
     }
 
+### Struct: Equatable
+
+This FDEPL property controls whether any equality comparison helpers are generated for the given
+Franca struct. Default value is `false`, i.e. no equality helpers are generated. This affects C++,
+Java and Swift generated code.
+
+FIDL:
+
+    package example
+
+    typeCollection ExampleTypeCollection {
+        struct exampleStruct {
+        }
+    }
+
+FDEPL:
+
+    define GeniumExtensions for typeCollection example.ExampleTypeCollection
+    {
+        struct exampleStruct {
+            Equatable = true
+        }
+    }
+
 ### Struct: ExternalType
 
 This FDEPL property controls whether the C++ header file is generated for the given Franca struct.

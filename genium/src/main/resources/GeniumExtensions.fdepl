@@ -30,6 +30,7 @@ specification GeniumExtensions {
 
     for structs {
         Serializable: Boolean (optional, default: false);
+        Equatable: Boolean (optional, default: false);
         ExternalType: String (optional);
         ExternalName: String (optional);
     }
