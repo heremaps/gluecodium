@@ -66,6 +66,10 @@ public class FrancaDeploymentModel {
     return getBoolean(francaStruct, "Serializable");
   }
 
+  public boolean isEquatable(final FStructType francaStruct) {
+    return getBoolean(francaStruct, "Equatable");
+  }
+
   public boolean isNotNull(final FField francaField) {
     return getBoolean(francaField, "NotNull");
   }

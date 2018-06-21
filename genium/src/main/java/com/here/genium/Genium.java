@@ -291,6 +291,7 @@ public class Genium {
                 new InheritanceValidatorPredicate(),
                 new UnionsValidatorPredicate(),
                 new SerializationValidatorPredicate(),
+                new EquatableValidatorPredicate(),
                 new InterfaceVisibilityValidatorPredicate(),
                 new AttributeVisibilityValidatorPredicate(),
                 new MethodVisibilityValidatorPredicate(),

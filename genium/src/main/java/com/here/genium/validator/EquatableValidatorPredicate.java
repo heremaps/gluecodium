@@ -20,29 +20,29 @@
 package com.here.genium.validator;
 
 import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FStructType;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Validate each field in "Serializable" structs against the following conditions:
+ * Validate each field in "Equatable" structs against the following conditions:
  *
  * <ul>
  *   <li>Should not contain Instance type fields.
- *   <li>All Struct type fields should be of some "Serializable" Struct type.
+ *   <li>All Struct type fields should be of some "Equatable" Struct type.
  * </ul>
  */
-public class SerializationValidatorPredicate extends FieldValidatorPredicate {
+public class EquatableValidatorPredicate extends FieldValidatorPredicate {
 
   private static final String INSTANCE_MESSAGE =
-      "Instance fields are not supported for serializable structs: " + "field '%s' in struct '%s'.";
-  private static final String NON_SERIALIZABLE_MESSAGE =
-      "Fields of non-serializable struct types are not supported for serializable structs: "
+      "Instance fields are not supported for equatable structs: " + "field '%s' in struct '%s'.";
+  private static final String NON_EQUATABLE_MESSAGE =
+      "Fields of non-serializable struct types are not supported for equatable structs: "
           + "field '%s' in struct '%s'.";
 
   @Override
   protected boolean hasDeploymentProperty(
       final FrancaDeploymentModel deploymentModel, final FStructType francaStruct) {
-    return deploymentModel.isSerializable(francaStruct);
+    return deploymentModel.isEquatable(francaStruct);
   }
 
   @NotNull
@@ -54,6 +54,6 @@ public class SerializationValidatorPredicate extends FieldValidatorPredicate {
   @NotNull
   @Override
   protected String getMismatchErrorMessageFormat() {
-    return NON_SERIALIZABLE_MESSAGE;
+    return NON_EQUATABLE_MESSAGE;
   }
 }
