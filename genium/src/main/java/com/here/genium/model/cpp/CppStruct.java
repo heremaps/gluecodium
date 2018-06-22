@@ -31,14 +31,20 @@ public final class CppStruct extends CppElementWithComment {
   public final List<CppField> fields = new LinkedList<>();
   public final Set<CppInheritance> inheritances = new LinkedHashSet<>();
   public final boolean isExternal;
+  public final boolean isEquatable;
 
   public CppStruct(final String name) {
-    this(name, name, false);
+    this(name, name, false, false);
   }
 
-  public CppStruct(final String name, final String fullyQualifiedName, final boolean isExternal) {
+  public CppStruct(
+      final String name,
+      final String fullyQualifiedName,
+      final boolean isExternal,
+      final boolean isEquatable) {
     super(name, fullyQualifiedName, null);
     this.isExternal = isExternal;
+    this.isEquatable = isEquatable;
   }
 
   @Override
