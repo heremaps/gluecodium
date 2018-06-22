@@ -500,6 +500,16 @@ public class CppModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaStructTypeReadsEquatable() {
+    when(deploymentModel.isEquatable(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
+    assertTrue(resultStruct.isEquatable);
+  }
+
+  @Test
   public void finishBuildingFrancaTypeDefInstanceId() {
     when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
 

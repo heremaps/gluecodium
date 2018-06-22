@@ -12,22 +12,20 @@
 #include <cstdint>
 #include <string>
 
-namespace examples {
+namespace smoke {
 
-struct NestedEquatableStruct {
-    bool operator==( const NestedEquatableStruct& rhs ) const override;
-    bool operator!=( const NestedEquatableStruct& rhs ) const override;
-
-    ::std::string foo_field;
-};
-
+class EquatableInterface {
+public:
+    virtual ~EquatableInterface() = 0;
+public:
 struct EquatableStruct {
-    bool operator==( const EquatableStruct& rhs ) const override;
-    bool operator!=( const EquatableStruct& rhs ) const override;
+    bool operator==( const EquatableStruct& rhs ) const;
+    bool operator!=( const EquatableStruct& rhs ) const;
 
     int32_t int_field;
     ::std::string string_field;
-    ::examples::NestedEquatableStruct struct_field;
+};
+
 };
 
 }
