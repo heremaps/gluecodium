@@ -20,7 +20,12 @@
   !}}
 {{#unless isExternal}}
 struct {{name}}{{>cpp/CppInheritance}} {
-{{#fields}}
+{{#if isEquatable}}
+    bool operator==( const {{name}}& rhs ) const;
+    bool operator!=( const {{name}}& rhs ) const;
+
+{{/if}}{{!!
+}}{{#fields}}
 {{#if hasComment}}
 {{prefixPartial "cpp/CppFieldComment" "    "}}
 {{/if}}

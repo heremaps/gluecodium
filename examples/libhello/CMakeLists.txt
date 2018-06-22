@@ -334,6 +334,13 @@ feature(Constants cpp android swift SOURCES
     fidl/test/Constants.fdepl
 )
 
+feature(Equatable cpp SOURCES
+    src/test/EquatableImpl.cpp
+
+    fidl/test/Equatable.fidl
+    fidl/test/Equatable.fdepl
+)
+
 add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
 source_group("Franca files" FILES ${HELLO_FRANCA_SOURCES})
 set_target_properties(hello PROPERTIES

@@ -189,7 +189,9 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     }
 
     boolean isExternal = deploymentModel.getExternalType(francaStructType) != null;
-    CppStruct cppStruct = new CppStruct(name, fullyQualifiedName, isExternal);
+    boolean isEquatable = deploymentModel.isEquatable(francaStructType);
+
+    CppStruct cppStruct = new CppStruct(name, fullyQualifiedName, isExternal, isEquatable);
     cppStruct.comment = CommentHelper.getDescription(francaStructType);
     cppStruct.fields.addAll(getPreviousResults(CppField.class));
 
