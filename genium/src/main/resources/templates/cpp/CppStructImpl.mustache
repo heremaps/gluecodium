@@ -1,0 +1,13 @@
+{{#if isEquatable}}
+bool {{#className}}{{.}}::{{/className}}{{name}}::operator==( const {{name}}& rhs ) const
+{
+    return {{joinPartial fields "fieldEq" " &&
+        " }};
+}
+
+bool {{#className}}{{.}}::{{/className}}{{name}}::operator!=( const {{name}}& rhs ) const
+{
+    return !( *this == rhs );
+}
+
+{{/if}}{{+fieldEq}}{{name}} == rhs.{{name}}{{/fieldEq}}
