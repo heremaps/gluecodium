@@ -574,6 +574,17 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaStructTypeWithEquatable() {
+    when(deploymentModel.isEquatable(francaStructType)).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertTrue(javaClass.isEquatable);
+  }
+
+  @Test
   public void finishBuildingFrancaTypeRef() {
     modelBuilder.finishBuilding(francaTypeRef);
 

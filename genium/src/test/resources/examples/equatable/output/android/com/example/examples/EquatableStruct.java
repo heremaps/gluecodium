@@ -5,8 +5,6 @@
 
 package com.example.examples;
 
-import java.util.Objects;
-
 public class EquatableStruct {
 
     public int intField;
@@ -27,16 +25,16 @@ public class EquatableStruct {
         if (!(obj instanceof EquatableStruct)) return false;
         final EquatableStruct other = (EquatableStruct) obj;
         return this.intField == other.intField &&
-                Objects.equals(this.stringField, other.stringField) &&
-                Objects.equals(this.structField, other.structField);
+                java.util.Objects.equals(this.stringField, other.stringField) &&
+                java.util.Objects.equals(this.structField, other.structField);
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + (int) (intField ^ (intField >>> 32));
-        hash = 31 * hash + (stringField != null ? stringField.hashCode() : 0);
-        hash = 31 * hash + (structField != null ? structField.hashCode() : 0);
+        hash = 31 * hash + this.intField;
+        hash = 31 * hash + (this.stringField != null ? this.stringField.hashCode() : 0);
+        hash = 31 * hash + (this.structField != null ? this.structField.hashCode() : 0);
         return hash;
     }
 

@@ -229,6 +229,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
         JavaClass.builder(JavaNameRules.getClassName(francaStructType.getName()))
             .extendedClass(getPreviousResult(JavaCustomType.class))
             .isParcelable(isSerializable)
+            .isEquatable(deploymentModel.isEquatable(francaStructType))
             .build();
     javaClass.visibility = getVisibility(francaStructType);
     javaClass.javaPackage = rootPackage;

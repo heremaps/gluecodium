@@ -34,7 +34,11 @@ struct EquatableStruct {
     bool operator==( const EquatableStruct& rhs ) const;
     bool operator!=( const EquatableStruct& rhs ) const;
 
+    bool bool_field;
     int32_t int_field;
+    int64_t long_field;
+    float float_field;
+    double double_field;
     ::std::string string_field;
     ::smoke::NestedEquatableStruct struct_field;
     ::smoke::SomeEnum enum_field;

@@ -13,7 +13,11 @@ namespace smoke {
 
 bool EquatableStruct::operator==( const EquatableStruct& rhs ) const
 {
-    return int_field == rhs.int_field &&
+    return bool_field == rhs.bool_field &&
+        int_field == rhs.int_field &&
+        long_field == rhs.long_field &&
+        float_field == rhs.float_field &&
+        double_field == rhs.double_field &&
         string_field == rhs.string_field &&
         struct_field == rhs.struct_field &&
         enum_field == rhs.enum_field &&
