@@ -1,0 +1,10 @@
+public static final Parcelable.Creator<{{name}}> CREATOR = new Parcelable.Creator<{{name}}>() {
+
+    public {{name}} createFromParcel(final Parcel in_parcel) {
+        return new {{name}}(in_parcel);
+    }
+
+    public {{name}}[] newArray(final int size) {
+        return new {{name}}[size];
+    }
+};

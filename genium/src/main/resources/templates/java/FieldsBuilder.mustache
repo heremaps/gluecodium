@@ -1,0 +1,20 @@
+
+public static class Builder {
+{{#allVisibleFields}}
+    private {{type.name}} {{name}}{{#initial}} = {{#isNew}}new {{/isNew}}{{name}}{{#isNew}}(){{/isNew}}{{/initial}};
+{{/allVisibleFields}}
+
+    public Builder() {
+    }
+
+    {{#allVisibleFields}}
+    public Builder set{{capitalize name}}({{type}} {{name}}) {
+        this.{{name}} = {{name}};
+        return this;
+    }
+    {{/allVisibleFields}}
+
+    public {{name}} build() {
+        return new {{name}}({{#allVisibleFields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/allVisibleFields}});
+    }
+}
