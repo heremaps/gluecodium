@@ -334,7 +334,7 @@ feature(Constants cpp android swift SOURCES
     fidl/test/Constants.fdepl
 )
 
-feature(Equatable cpp android SOURCES
+feature(Equatable cpp android swift SOURCES
     src/test/EquatableImpl.cpp
 
     fidl/test/Equatable.fidl

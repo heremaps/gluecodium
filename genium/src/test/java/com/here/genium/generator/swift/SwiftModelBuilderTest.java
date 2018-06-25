@@ -711,6 +711,17 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaStructTypeReadsEquatable() {
+    when(deploymentModel.isEquatable(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    SwiftContainerType swiftStruct = modelBuilder.getFinalResult(SwiftContainerType.class);
+    assertNotNull(swiftStruct);
+    assertTrue(swiftStruct.isEquatable);
+  }
+
+  @Test
   public void finishBuildingFrancaMapTypeCreatesDictionary() {
     when(francaMap.getName()).thenReturn("SomeMap");
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn("SomeMapBaz");

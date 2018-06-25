@@ -142,6 +142,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .parent(parent)
             .cPrefix(CBridgeNameRules.getStructBaseName(francaStruct))
             .visibility(getVisibility(francaStruct))
+            .isEquatable(deploymentModel.isEquatable(francaStruct))
             .build();
     String comment = CommentHelper.getDescription(francaStruct);
     swiftStruct.comment = comment != null ? comment : "";

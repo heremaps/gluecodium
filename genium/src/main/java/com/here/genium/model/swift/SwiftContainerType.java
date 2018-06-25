@@ -29,6 +29,7 @@ public final class SwiftContainerType extends SwiftType {
   public final SwiftContainerType parent;
   public final String cPrefix;
   public final boolean isInterface;
+  public final boolean isEquatable;
 
   @SuppressWarnings("ParameterNumber")
   @lombok.Builder(builderClassName = "Builder")
@@ -40,7 +41,8 @@ public final class SwiftContainerType extends SwiftType {
       final String publicName,
       final boolean optional,
       final SwiftContainerType parent,
-      final String cPrefix) {
+      final String cPrefix,
+      final boolean isEquatable) {
     super(
         name,
         visibility,
@@ -50,6 +52,7 @@ public final class SwiftContainerType extends SwiftType {
         optional);
     this.parent = parent;
     this.cPrefix = cPrefix;
+    this.isEquatable = isEquatable;
     this.isInterface = !name.equals(implementingClass);
   }
 
@@ -61,7 +64,15 @@ public final class SwiftContainerType extends SwiftType {
   public SwiftType withAlias(final String aliasName) {
     SwiftContainerType container =
         new SwiftContainerType(
-            name, visibility, category, implementingClass, aliasName, optional, parent, cPrefix);
+            name,
+            visibility,
+            category,
+            implementingClass,
+            aliasName,
+            optional,
+            parent,
+            cPrefix,
+            isEquatable);
     container.comment = this.comment;
     container.fields.addAll(fields);
     return container;
@@ -71,7 +82,15 @@ public final class SwiftContainerType extends SwiftType {
   public SwiftType withOptional(final boolean optional) {
     SwiftContainerType container =
         new SwiftContainerType(
-            name, visibility, category, implementingClass, publicName, optional, parent, cPrefix);
+            name,
+            visibility,
+            category,
+            implementingClass,
+            publicName,
+            optional,
+            parent,
+            cPrefix,
+            isEquatable);
     container.comment = this.comment;
     container.fields.addAll(fields);
     return container;

@@ -19,7 +19,7 @@
   !
   !}}
 {{>swift/Comment}}
-{{visibility}} struct {{simpleName}} {
+{{visibility}} struct {{simpleName}}{{#isEquatable}}: Equatable{{/isEquatable}} {
 {{#constants}}
 {{prefixPartial "swift/Constant" "    "}}
 {{/constants}}{{!!
