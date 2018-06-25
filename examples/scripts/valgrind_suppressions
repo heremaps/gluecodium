@@ -76,3 +76,15 @@
    fun:swift_addNewDSOImage
    fun:*
 }
+{
+   Swift getDynamicType
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:_Znam
+   fun:_ZN5swift17MetadataAllocator8AllocateEmm
+   fun:swift_getMetatypeMetadata
+   fun:_ZL23findDynamicValueAndTypePN5swift11OpaqueValueEPKNS_14TargetMetadataINS_9InProcessEEERS1_RS6_Rbbb
+   fun:swift_getDynamicType
+   fun:*
+}
