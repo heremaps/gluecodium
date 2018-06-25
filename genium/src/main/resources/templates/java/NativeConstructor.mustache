@@ -18,16 +18,15 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isEquatable}}
-bool {{#className}}{{.}}::{{/className}}{{name}}::operator==( const {{name}}& rhs ) const
-{
-    return {{joinPartial fields "fieldEq" " &&
-        " }};
-}
+{{#if visibility.toString}}
+/** For internal use only */
+{{/if}}protected {{name}}(final long nativeHandle) {
+    super(nativeHandle{{#if needsDisposer}}, new Disposer() {
+        @Override
+        public void disposeNative(long handle) {
+            disposeNativeHandle(handle);
+        }
+    }{{/if}});
+}{{#if needsDisposer}}
 
-bool {{#className}}{{.}}::{{/className}}{{name}}::operator!=( const {{name}}& rhs ) const
-{
-    return !( *this == rhs );
-}
-
-{{/if}}{{+fieldEq}}{{name}} == rhs.{{name}}{{/fieldEq}}
+private static native void disposeNativeHandle(long nativeHandle);{{/if}}

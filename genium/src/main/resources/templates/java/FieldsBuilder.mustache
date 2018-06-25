@@ -18,16 +18,23 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isEquatable}}
-bool {{#className}}{{.}}::{{/className}}{{name}}::operator==( const {{name}}& rhs ) const
-{
-    return {{joinPartial fields "fieldEq" " &&
-        " }};
-}
 
-bool {{#className}}{{.}}::{{/className}}{{name}}::operator!=( const {{name}}& rhs ) const
-{
-    return !( *this == rhs );
-}
+public static class Builder {
+{{#allVisibleFields}}
+    private {{type.name}} {{name}}{{#initial}} = {{#isNew}}new {{/isNew}}{{name}}{{#isNew}}(){{/isNew}}{{/initial}};
+{{/allVisibleFields}}
 
-{{/if}}{{+fieldEq}}{{name}} == rhs.{{name}}{{/fieldEq}}
+    public Builder() {
+    }
+
+    {{#allVisibleFields}}
+    public Builder set{{capitalize name}}({{type}} {{name}}) {
+        this.{{name}} = {{name}};
+        return this;
+    }
+    {{/allVisibleFields}}
+
+    public {{name}} build() {
+        return new {{name}}({{#allVisibleFields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/allVisibleFields}});
+    }
+}

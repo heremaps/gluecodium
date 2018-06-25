@@ -18,16 +18,13 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isEquatable}}
-bool {{#className}}{{.}}::{{/className}}{{name}}::operator==( const {{name}}& rhs ) const
-{
-    return {{joinPartial fields "fieldEq" " &&
-        " }};
-}
+public static final Parcelable.Creator<{{name}}> CREATOR = new Parcelable.Creator<{{name}}>() {
 
-bool {{#className}}{{.}}::{{/className}}{{name}}::operator!=( const {{name}}& rhs ) const
-{
-    return !( *this == rhs );
-}
+    public {{name}} createFromParcel(final Parcel in_parcel) {
+        return new {{name}}(in_parcel);
+    }
 
-{{/if}}{{+fieldEq}}{{name}} == rhs.{{name}}{{/fieldEq}}
+    public {{name}}[] newArray(final int size) {
+        return new {{name}}[size];
+    }
+};
