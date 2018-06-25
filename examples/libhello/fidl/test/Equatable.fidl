@@ -22,24 +22,28 @@ package test
 typeCollection Equatable {
 
     struct EquatableStruct {
+        Boolean boolField
         Int32 intField
+        Int64 longField
+        Float floatField
+        Double doubleField
         String stringField
         NestedEquatableStruct structField
-        SomeEnum enumField
+        SomeSomeEnum enumField
         String[] arrayField
-        ErrorCodeToMessageMap mapField
+        SomeMap mapField
     }
 
     struct NestedEquatableStruct {
         String fooField
     }
 
-    enumeration SomeEnum {
+    enumeration SomeSomeEnum {
         FOO
         BAR
     }
 
-    map ErrorCodeToMessageMap { Int32 to String }
+    map SomeMap { Int32 to String }
 }
 
 interface EquatableInterface {

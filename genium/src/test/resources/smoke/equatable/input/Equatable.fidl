@@ -22,7 +22,11 @@ package smoke
 typeCollection Equatable {
 
     struct EquatableStruct {
+        Boolean boolField
         Int32 intField
+        Int64 longField
+        Float floatField
+        Double doubleField
         String stringField
         NestedEquatableStruct structField
         SomeEnum enumField

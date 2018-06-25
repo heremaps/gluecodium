@@ -48,6 +48,8 @@
 {{#if isParcelable}}{{prefixPartial "java/ParcelableImpl" "    "}}
 
 {{/if}}
+{{#if isEquatable}}{{prefixPartial "java/EqualsAndHashCode" "    "}}
+{{/if}}
 {{#if needsBuilder}}{{prefixPartial "java/FieldsBuilder" "    "}}
 
 {{/if}}
