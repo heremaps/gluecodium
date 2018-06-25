@@ -20,17 +20,8 @@
   !}}
 {{>common/DocComment}}
 {{#if visibility.toString}}{{visibility}} {{/if}}{{#qualifiers}}{{.}} {{/qualifiers}}class {{name}} {{#if this.extendedClass}}extends {{extendedClass.name}} {{/if}}{{#if parentInterfaces}}implements {{join parentInterfaces delimiter=", " }} {{/if}}{
-{{#if isParcelable}}
-    public static final Parcelable.Creator<{{name}}> CREATOR = new Parcelable.Creator<{{name}}>() {
+{{#if isParcelable}}{{prefixPartial "java/ParcelableCreator" "    "}}
 
-        public {{name}} createFromParcel(final Parcel in_parcel) {
-            return new {{name}}(in_parcel);
-        }
-
-        public {{name}}[] newArray(final int size) {
-            return new {{name}}[size];
-        }
-    };
 {{/if}}
 {{#constants}}{{prefixPartial "java/Constant" "    "}}
 {{/constants}}
@@ -42,18 +33,7 @@
 {{/exceptions}}
 {{#innerClasses}}{{prefixPartial "java/Class" "    "}}
 {{/innerClasses}}
-{{#if isImplClass}}{{#if visibility.toString}}
-    /** For internal use only */
-{{/if}}    protected {{name}}(final long nativeHandle) {
-        super(nativeHandle{{#if needsDisposer}}, new Disposer() {
-            @Override
-            public void disposeNative(long handle) {
-                disposeNativeHandle(handle);
-            }
-        }{{/if}});
-    }{{#if needsDisposer}}
-
-    private static native void disposeNativeHandle(long nativeHandle);{{/if}}
+{{#if isImplClass}}{{prefixPartial "java/NativeConstructor" "    "}}
 {{/if}}
 {{#if allVisibleFields}}
     public {{name}}() {}
@@ -65,30 +45,11 @@
 {{/fields}}
     }
 {{/if}}
-{{#if isParcelable}}
+{{#if isParcelable}}{{prefixPartial "java/ParcelableImpl" "    "}}
 
-{{prefixPartial "java/ParcelableImpl" "    "}}
 {{/if}}
-{{#if needsBuilder}}
+{{#if needsBuilder}}{{prefixPartial "java/FieldsBuilder" "    "}}
 
-    public static class Builder {
-    {{#allVisibleFields}}
-        private {{type.name}} {{name}}{{#initial}} = {{#isNew}}new {{/isNew}}{{name}}{{#isNew}}(){{/isNew}}{{/initial}};
-    {{/allVisibleFields}}
-
-        public Builder() {
-        }
-
-        {{#allVisibleFields}}
-        public Builder set{{capitalize name}}({{type}} {{name}}) {
-            this.{{name}} = {{name}};
-            return this;
-        }
-        {{/allVisibleFields}}
-        public {{name}} build() {
-            return new {{name}}({{#allVisibleFields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/allVisibleFields}});
-        }
-    }
 {{/if}}
 {{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
 {{/methods}}
