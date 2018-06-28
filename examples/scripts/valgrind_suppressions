@@ -8,7 +8,6 @@
    fun:_ZN6icu_5513UnicodeString8copyFromERKS0_a
    fun:udat_applyPattern_55
    fun:CFDateFormatterSetFormat
-   fun:_T010Foundation13DateFormatterC9_cfObject33_66CE11EE7A5521424C6DC1071C50CDCFLLSo06CFDateC0Cfg
    fun:*
 }
 {
