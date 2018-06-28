@@ -129,11 +129,24 @@ public final class EquatableTest {
     assertNotEquals(mainStruct.hashCode(), otherStruct.hashCode());
   }
 
+  @Test
+  public void equatableStructNotEqualsArrayField() {
+    EquatableStruct otherStruct = createEquatableStruct();
+    otherStruct.arrayField.add("foo");
+
+    assertNotEquals(mainStruct, otherStruct);
+    assertNotEquals(mainStruct.hashCode(), otherStruct.hashCode());
+  }
+
   private static EquatableStruct createEquatableStruct() {
 
     Map<Integer, String> someMap = new HashMap<>();
     someMap.put(0, "one");
     someMap.put(1, "two");
+
+    List<String> someArray = new LinkedList<>();
+    someArray.add("one");
+    someArray.add("two");
 
     return new EquatableStruct.Builder()
         .setBoolField(true)
@@ -145,6 +158,7 @@ public final class EquatableTest {
         .setStructField(new NestedEquatableStruct("foo"))
         .setEnumField(SomeSomeEnum.BAR)
         .setMapField(someMap)
+        .setArrayField(someArray)
         .build();
   }
 }

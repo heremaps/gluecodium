@@ -346,12 +346,6 @@ feature(Equatable cpp android swift SOURCES
     fidl/test/Equatable.fdepl
 )
 
-#TODO: enable for swift and merge into Equatable when APIGEN-1325 is fixed
-feature(EquatableArrays cpp android SOURCES
-    fidl/test/EquatableArrays.fidl
-    fidl/test/EquatableArrays.fdepl
-)
-
 if(APPLE)
     #This feature is intended for Swift only. It also does not compile outside of Apple platforms.
     feature(ObjcInterface swift SOURCES

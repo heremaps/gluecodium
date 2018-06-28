@@ -1,5 +1,13 @@
 # Genium project Release Notes
 
+## Unreleased
+- Breaking changes:
+  + Generated Swift code now fully supports Swift 4.2. It is not compatible with Swift 4.1 anymore.
+- Features:
+  + "Equatable" FDEPL property for structs is now fully supported in Swift.
+- Bug fixes:
+  + Fixed array fields handling for "Equatable" structs in Swift.
+
 ## 3.11.1
 - Release date: 2018-10-10
 - Bug fixes:
