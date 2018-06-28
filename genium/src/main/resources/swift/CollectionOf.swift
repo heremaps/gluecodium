@@ -48,3 +48,9 @@ extension CollectionOf: CustomDebugStringConvertible {
         return self.compactMap{String(describing: $0)}.joined(separator:" ")
     }
 }
+
+extension CollectionOf: Equatable where T: Equatable  {
+    public static func == (lhs: CollectionOf<T>, rhs: CollectionOf<T>) -> Bool {
+        return lhs.elements == rhs.elements
+    }
+}

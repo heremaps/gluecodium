@@ -94,12 +94,19 @@ class EquatableTests: XCTestCase {
         XCTAssertNotEqual(mainStruct, otherStruct)
     }
 
+    func testStructNotEqualsArrayField() {
+        var otherStruct = EquatableTests.createEquatableStruct()
+        otherStruct.arrayField = CollectionOf<String>(["one", "two", "foo"])
+
+        XCTAssertNotEqual(mainStruct, otherStruct)
+    }
+
     static func createEquatableStruct() -> EquatableStruct {
 
         return EquatableStruct(boolField: true, intField: 65542, longField: 2147484000,
             floatField: 1.0, doubleField: 2.0, stringField: "nonsense",
             structField: NestedEquatableStruct(fooField: "foo"), enumField: .bar,
-            mapField: [0: "one", 1: "two"])
+            mapField: [0: "one", 1: "two"], arrayField: CollectionOf<String>(["one", "two"]))
     }
 
     static var allTests = [
@@ -112,6 +119,7 @@ class EquatableTests: XCTestCase {
         ("testStructNotEqualsStringField", testStructNotEqualsStringField),
         ("testStructNotEqualsStructField", testStructNotEqualsStructField),
         ("testStructNotEqualsEnumField", testStructNotEqualsBooleanField),
-        ("testStructNotEqualsMapField", testStructNotEqualsMapField)
+        ("testStructNotEqualsMapField", testStructNotEqualsMapField),
+        ("testStructNotEqualsArrayField", testStructNotEqualsArrayField)
     ]
 }
