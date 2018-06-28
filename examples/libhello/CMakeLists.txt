@@ -341,6 +341,12 @@ feature(Equatable cpp android SOURCES
     fidl/test/Equatable.fdepl
 )
 
+#TODO: enable for swift and merge into Equatable when APIGEN-1325 is fixed
+feature(EquatableArrays cpp android SOURCES
+    fidl/test/EquatableArrays.fidl
+    fidl/test/EquatableArrays.fdepl
+)
+
 add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
 source_group("Franca files" FILES ${HELLO_FRANCA_SOURCES})
 set_target_properties(hello PROPERTIES
