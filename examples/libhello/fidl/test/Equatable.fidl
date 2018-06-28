@@ -30,7 +30,6 @@ typeCollection Equatable {
         String stringField
         NestedEquatableStruct structField
         SomeSomeEnum enumField
-        String[] arrayField
         SomeMap mapField
     }
 
