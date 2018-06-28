@@ -121,15 +121,6 @@ public final class EquatableTest {
   }
 
   @Test
-  public void equatableStructNotEqualsArrayField() {
-    EquatableStruct otherStruct = createEquatableStruct();
-    otherStruct.arrayField.add("foo");
-
-    assertNotEquals(mainStruct, otherStruct);
-    assertNotEquals(mainStruct.hashCode(), otherStruct.hashCode());
-  }
-
-  @Test
   public void equatableStructNotEqualsMapField() {
     EquatableStruct otherStruct = createEquatableStruct();
     otherStruct.mapField.put(2, "foo");
@@ -153,7 +144,6 @@ public final class EquatableTest {
         .setStringField("nonsense")
         .setStructField(new NestedEquatableStruct("foo"))
         .setEnumField(SomeSomeEnum.BAR)
-        .setArrayField(new ArrayList<>(java.util.Arrays.asList("bar", "baz")))
         .setMapField(someMap)
         .build();
   }
