@@ -9,12 +9,7 @@
    fun:udat_applyPattern_55
    fun:CFDateFormatterSetFormat
    fun:_T010Foundation13DateFormatterC9_cfObject33_66CE11EE7A5521424C6DC1071C50CDCFLLSo06CFDateC0Cfg
-   fun:_T010Foundation13DateFormatterC6stringSSAA0B0V4from_tF
-   fun:_T06XCTest13PrintObserverC18testSuiteWillStartyAA0aE0CFTf4gn_n
-   fun:_T06XCTest13PrintObserverCAA0A11ObservationA2aDP18testSuiteWillStartyAA0aF0CFTW
-   fun:_T06XCTest0A5SuiteC7performyAA0A3RunCFTf4gn_n
-   fun:_T06XCTest7XCTMains5NeverOSayAA0A4CaseCm04testD5Class_SaySS_yAFKctG8allTeststGF
-   fun:main
+   fun:*
 }
 {
    getGenericWitnessTable
@@ -47,5 +42,38 @@
    fun:_ZN5swift17MetadataAllocator8AllocateEmm
    fun:swift_getTupleTypeMetadata
    fun:swift_getTupleTypeMetadata2
+   fun:*
+}
+{
+   NSURL lastPathComponent
+
+   Memcheck:Cond
+   fun:_T0s11_StringCoreV6appendyx10contentsOf_ts8SequenceRzs6UInt16V7ElementRtzlFAB_Tgq5Tf4gXn_n
+   fun:_T0S2Ss9SubstringVcfCTf4gd_n
+   fun:_T010Foundation5NSURLC17lastPathComponentSSSgvg
+   fun:*
+}
+{
+   XCTest PrintObserver
+
+   Memcheck:Param
+   write(buf)
+   fun:__write_nocancel
+   fun:_IO_file_write@@GLIBC_2.2.5
+   fun:new_do_write
+   fun:_IO_do_write@@GLIBC_2.2.5
+   fun:_IO_file_sync@@GLIBC_2.2.5
+   fun:fflush
+   fun:_T06XCTest13PrintObserverC18testSuiteWillStartyAA0aE0CFTf4gn_n
+   fun:*
+}
+{
+   registerProtocolConformances
+
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:_Znwm
+   fun:_ZL29_registerProtocolConformancesR16ConformanceStatePKN5swift31TargetProtocolConformanceRecordINS1_9InProcessEEES6_
+   fun:swift_addNewDSOImage
    fun:*
 }
