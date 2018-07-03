@@ -13,8 +13,9 @@ To run the Genium tool and generate some output based on the current set of
 HelloWorld project's \*.fidl files:
 
 ```bash
-./generate -input ../../projects/hello_world/libhello/fidl -output ../generated -nostdout
+./generate -input ${PWD}/examples/libhello/fidl -output ${PWD}/generated -nostdout
 ```
+If the paths are not absolute, they will be interpreted relative to the genium source directory.
 
 ## Contributing
 Work on your stuff locally, branch, commit and modify to your heart's content.
