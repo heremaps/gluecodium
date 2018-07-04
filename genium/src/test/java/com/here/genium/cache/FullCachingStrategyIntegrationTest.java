@@ -65,10 +65,10 @@ public final class FullCachingStrategyIntegrationTest {
   @Test
   public void writeEmptyCacheValid() {
 
-    //act
+    // act
     myStrategy.write(true);
 
-    //assert
+    // assert
     for (String generatorName : MY_GENERATORS) {
       assertTrue(Files.isRegularFile(Paths.get(buildFolderPath, "/.cache/" + generatorName)));
       Map<String, CacheEntry> result =
@@ -80,10 +80,10 @@ public final class FullCachingStrategyIntegrationTest {
   @Test
   public void writeEmptyCacheInvalid() {
 
-    //act
+    // act
     myStrategy.write(false);
 
-    //assert
+    // assert
     for (String generatorName : MY_GENERATORS) {
       assertTrue(Files.isRegularFile(Paths.get(buildFolderPath, "/.cache/" + generatorName)));
       Map<String, CacheEntry> result =
@@ -96,9 +96,9 @@ public final class FullCachingStrategyIntegrationTest {
   public void updateEmptyCache() {
 
     for (IntegrationTestFiles.CacheInputOutputPair entry : FIRSTRUN) {
-      //act
+      // act
       List<GeneratedFile> result = myStrategy.updateCache(entry.name, entry.inputFiles);
-      //assert
+      // assert
       assertEquals(entry.outputFiles.size(), result.size());
       assertTrue(entry.outputFiles.stream().allMatch(file -> result.contains(file)));
     }
@@ -107,13 +107,13 @@ public final class FullCachingStrategyIntegrationTest {
   @Test
   public void updateNonEmptyCache() {
 
-    //arrange
+    // arrange
     for (IntegrationTestFiles.CacheInputOutputPair entry : FIRSTRUN) {
       myStrategy.updateCache(entry.name, entry.inputFiles);
     }
     myStrategy.write(true);
 
-    //act & assert
+    // act & assert
     for (IntegrationTestFiles.CacheInputOutputPair entry : SECONDRUN) {
       List<GeneratedFile> result = myStrategy.updateCache(entry.name, entry.inputFiles);
 
@@ -122,7 +122,7 @@ public final class FullCachingStrategyIntegrationTest {
     }
     myStrategy.write(true);
 
-    //act & assert
+    // act & assert
     for (IntegrationTestFiles.CacheInputOutputPair entry : THIRDRUN) {
       List<GeneratedFile> result = myStrategy.updateCache(entry.name, entry.inputFiles);
 
@@ -134,20 +134,20 @@ public final class FullCachingStrategyIntegrationTest {
   @Test
   public void writeNonEmptyCache() {
 
-    //arrange
+    // arrange
     for (IntegrationTestFiles.CacheInputOutputPair entry : FIRSTRUN) {
       myStrategy.updateCache(entry.name, entry.inputFiles);
     }
 
-    //act
+    // act
     myStrategy.write(true);
 
-    //assert
+    // assert
     for (IntegrationTestFiles.CacheInputOutputPair entry : FIRSTRUN) {
       Map<String, CacheEntry> result =
           loadCacheFile(Paths.get(buildFolderPath, "/.cache/" + entry.name).toFile());
 
-      //check that we have entries for all files
+      // check that we have entries for all files
       assertNotNull(result);
       assertEquals(result.size(), entry.inputFiles.size());
 
@@ -158,15 +158,15 @@ public final class FullCachingStrategyIntegrationTest {
   @Test
   public void writeNonEmptyCacheInvalid() {
 
-    //arrange
+    // arrange
     for (IntegrationTestFiles.CacheInputOutputPair entry : FIRSTRUN) {
       myStrategy.updateCache(entry.name, entry.inputFiles);
     }
 
-    //act
+    // act
     myStrategy.write(false);
 
-    //assert
+    // assert
     for (IntegrationTestFiles.CacheInputOutputPair entry : FIRSTRUN) {
       Map<String, CacheEntry> result =
           loadCacheFile(Paths.get(buildFolderPath, "/.cache/" + entry.name).toFile());

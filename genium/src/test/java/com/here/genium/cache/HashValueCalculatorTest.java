@@ -55,10 +55,10 @@ public class HashValueCalculatorTest {
   @Test
   public void calculateHashValue() {
 
-    //act
+    // act
     byte[] result = HashValueCalculator.calculateHashValue(TEST_INPUT);
 
-    //assert
+    // assert
     assertEquals(TEST_OUTPUT, result);
     verify(md).update(TEST_INPUT.getBytes());
     verify(md).digest();

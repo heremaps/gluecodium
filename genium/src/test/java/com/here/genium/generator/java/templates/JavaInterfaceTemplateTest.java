@@ -60,7 +60,7 @@ public final class JavaInterfaceTemplateTest {
 
   @Test
   public void generateEmptyInterface() {
-    //Arrange
+    // Arrange
     javaInterface.javaPackage = JavaPackage.DEFAULT;
 
     // Act

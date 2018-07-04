@@ -31,8 +31,8 @@ public final class TestFiles {
   public static final String CONTENT4 = "CONTENT4";
 
   public static final String PATH1 = "PATH1_1/PATH1_2/FILE1";
-  //leading dot is important, as it will be tested whether path strings get normalized before
-  //storing them inside cache
+  // leading dot is important, as it will be tested whether path strings get normalized before
+  // storing them inside cache
   public static final String PATH2 = "./PATH2/FILE2";
   public static final String PATH3 = "FILE3";
   public static final String PATH4 = "FILE4";
@@ -50,7 +50,7 @@ public final class TestFiles {
   public static final List<GeneratedFile> UPDATED_FILES =
       Arrays.asList(
           new GeneratedFile(CONTENT1 + "xtra", PATH1),
-          //following entry should be considered unchanged file as path's will be normalized
+          // following entry should be considered unchanged file as path's will be normalized
           new GeneratedFile(CONTENT3, "./" + PATH3),
           new GeneratedFile(CONTENT4, PATH4));
 

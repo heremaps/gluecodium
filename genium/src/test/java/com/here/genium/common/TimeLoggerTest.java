@@ -63,52 +63,52 @@ public final class TimeLoggerTest {
 
   @Test
   public void startMultipleTimes() {
-    //arrange
+    // arrange
     exception.expect(IllegalStateException.class);
     timeLogger.start();
 
-    //act
+    // act
     timeLogger.start();
   }
 
   @Test
   public void addEntryNoStart() {
-    //arrange
+    // arrange
     exception.expect(IllegalStateException.class);
 
-    //act
+    // act
     timeLogger.addLogEntry("someString");
   }
 
   @Test
   public void addEntryNullString() {
-    //arrange
+    // arrange
     timeLogger.start();
 
-    //act
+    // act
     timeLogger.addLogEntry(null);
 
-    //verify
+    // verify
     verifyStatic(times(2));
     System.nanoTime();
   }
 
   @Test
   public void addEntryEmptyString() {
-    //arrange
+    // arrange
     timeLogger.start();
 
-    //act
+    // act
     timeLogger.addLogEntry("");
 
-    //verify
+    // verify
     verifyStatic(times(2));
     System.nanoTime();
   }
 
   @Test
   public void logNoStartNoEntries() {
-    //act
+    // act
     timeLogger.log();
 
     verifyStatic(never());
@@ -118,10 +118,10 @@ public final class TimeLoggerTest {
 
   @Test
   public void logStartNoEntries() {
-    //arrange
+    // arrange
     timeLogger.start();
 
-    //act
+    // act
     timeLogger.log();
 
     verifyStatic();
@@ -132,16 +132,16 @@ public final class TimeLoggerTest {
   @SuppressWarnings("checkstyle:MagicNumber")
   @Test
   public void logOneEntry() {
-    //arrange
+    // arrange
     when(System.nanoTime()).thenReturn(0L);
     timeLogger.start();
     when(System.nanoTime()).thenReturn(3000L);
     timeLogger.addLogEntry("someString");
 
-    //act
+    // act
     timeLogger.log();
 
-    //verify
+    // verify
     verifyStatic(times(2));
     System.nanoTime();
     verify(logger).log(eq(Level.INFO), eq("3,000 ns <someString>"));
@@ -150,7 +150,7 @@ public final class TimeLoggerTest {
   @SuppressWarnings("checkstyle:MagicNumber")
   @Test
   public void logMultipleEntries() {
-    //arrange
+    // arrange
     when(System.nanoTime()).thenReturn(-100L);
     timeLogger.start();
     when(System.nanoTime()).thenReturn(-1L);
@@ -162,10 +162,10 @@ public final class TimeLoggerTest {
     when(System.nanoTime()).thenReturn(999999L);
     timeLogger.addLogEntry("");
 
-    //act
+    // act
     timeLogger.log();
 
-    //verify
+    // verify
     verifyStatic(times(5));
     System.nanoTime();
     InOrder orderVerifier = Mockito.inOrder(logger);

@@ -92,7 +92,7 @@ public class MultiFileSetCacheTest {
     PowerMockito.mockStatic(Files.class);
     when(Files.isRegularFile(cacheFileSetA.toPath())).thenReturn(true);
 
-    //act
+    // act
     List<Path> cacheFiles =
         MultiFileSetCache.retrieveExistingCacheFiles(
             rootDir.getAbsolutePath(),
@@ -108,7 +108,7 @@ public class MultiFileSetCacheTest {
   @Test
   public void constructMultiSetCache() throws Exception {
 
-    //arrange & act is done in setUp
+    // arrange & act is done in setUp
 
     PowerMockito.verifyNew(FileSetCache.class).withArguments(cacheFileSetA);
 
@@ -144,7 +144,7 @@ public class MultiFileSetCacheTest {
   @Test
   public void getNonCachedFiles() throws Exception {
 
-    //arrange
+    // arrange
     when(cacheA.filterOutCachedFiles())
         .thenReturn(
             path -> {
@@ -174,10 +174,10 @@ public class MultiFileSetCacheTest {
     File nonCachedFile = new File(rootDir.getAbsolutePath(), TestFiles.PATH_UNCACHED);
     nonCachedFile.createNewFile();
 
-    //act
+    // act
     List<Path> result = multiCache.getNonCachedFiles();
 
-    //assert
+    // assert
     assertEquals(1, result.size());
     assertEquals(
         Paths.get(rootDir.getAbsolutePath(), TestFiles.PATH_UNCACHED).normalize(), result.get(0));

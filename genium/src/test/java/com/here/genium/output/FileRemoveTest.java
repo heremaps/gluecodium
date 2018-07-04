@@ -45,8 +45,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-//FileRemove needs to be prepared for test in order to make mocking of Files.class work
-//see: https://github.com/powermock/powermock/wiki/Mock-System
+// FileRemove needs to be prepared for test in order to make mocking of Files.class work
+// see: https://github.com/powermock/powermock/wiki/Mock-System
 @PrepareForTest({FileRemove.class})
 public final class FileRemoveTest {
 
@@ -65,33 +65,33 @@ public final class FileRemoveTest {
   @Test
   public void removeFilesNonExisting() throws FileNotFoundException {
 
-    //arrange
+    // arrange
     when(rootFile.exists()).thenReturn(false);
     when(rootFile.isDirectory()).thenReturn(true);
 
     exception.expect(FileNotFoundException.class);
 
-    //act
+    // act
     new FileRemove(rootFile).removeFiles(Collections.emptyList());
   }
 
   @Test
   public void removeFilesNoDirectory() throws FileNotFoundException {
 
-    //arrange
+    // arrange
     when(rootFile.exists()).thenReturn(true);
     when(rootFile.isDirectory()).thenReturn(false);
 
     exception.expect(FileNotFoundException.class);
 
-    //act
+    // act
     new FileRemove(rootFile).removeFiles(Collections.emptyList());
   }
 
   @Test
   public void removeFilesSuccess() throws IOException {
 
-    //arrange
+    // arrange
     when(rootFile.exists()).thenReturn(true);
     when(rootFile.isDirectory()).thenReturn(true);
     when(rootFile.getCanonicalPath()).thenReturn(ROOT_DIR);
@@ -107,10 +107,10 @@ public final class FileRemoveTest {
 
     FileRemove remover = new FileRemove(rootFile);
 
-    //act
+    // act
     boolean success = remover.removeFiles(filesToRemove);
 
-    //assert
+    // assert
     assertTrue(success);
 
     verifyStatic();

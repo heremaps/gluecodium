@@ -170,7 +170,7 @@ public class GeniumTest {
     // Act
     createGenium(options).execute();
 
-    //Verify
+    // Verify
     InOrder order = Mockito.inOrder(cache);
     order.verify(cache).updateCache(any(), any());
     order.verify(cache).write(true);
