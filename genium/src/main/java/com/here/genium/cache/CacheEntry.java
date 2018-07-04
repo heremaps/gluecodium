@@ -20,10 +20,8 @@
 package com.here.genium.cache;
 
 import java.io.Serializable;
-import lombok.EqualsAndHashCode;
 
 /** This class represents a cache entry. EqualsAndHashCode is for tests only. */
-@EqualsAndHashCode
 final class CacheEntry implements Serializable {
   public final byte[] cachedFileHashValue;
   public transient boolean touched;
