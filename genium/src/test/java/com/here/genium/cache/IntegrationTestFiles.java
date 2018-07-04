@@ -55,14 +55,14 @@ public final class IntegrationTestFiles {
   }
 
   static {
-    //input/ output for first cache
+    // input/ output for first cache
     List<GeneratedFile> firstFiles =
         Arrays.asList(
             new GeneratedFile("contentA", "FILE1.1"),
             new GeneratedFile("contentB", "FILE1.2"),
             new GeneratedFile("contentC", "FILE1.3"));
     CacheInputOutputPair firstRunCacheA = new CacheInputOutputPair("Fancy", firstFiles, firstFiles);
-    //one unchanged, one deletion, one update, one addition
+    // one unchanged, one deletion, one update, one addition
     CacheInputOutputPair secondRunCacheA =
         new CacheInputOutputPair(
             "Fancy",
@@ -73,7 +73,7 @@ public final class IntegrationTestFiles {
             Arrays.asList(
                 new GeneratedFile("contentC*", "FILE1.3"),
                 new GeneratedFile("contentD", "FILE1.4")));
-    //all files renamed
+    // all files renamed
     CacheInputOutputPair thirdRunCacheA =
         new CacheInputOutputPair(
             "Fancy",
@@ -86,11 +86,11 @@ public final class IntegrationTestFiles {
                 new GeneratedFile("contentC*", "FILE1.6"),
                 new GeneratedFile("contentD", "FILE1.7")));
 
-    //input output for second cache
+    // input output for second cache
     CacheInputOutputPair firstRunCacheB =
         new CacheInputOutputPair("SuperFancy", Collections.emptyList(), Collections.emptyList());
 
-    //three additions, (contents match first generator's output)
+    // three additions, (contents match first generator's output)
     CacheInputOutputPair secondRunCacheB =
         new CacheInputOutputPair(
             "SuperFancy",
@@ -102,7 +102,7 @@ public final class IntegrationTestFiles {
                 new GeneratedFile("contentA", "FILE2.1"),
                 new GeneratedFile("contentC*", "FILE2.2"),
                 new GeneratedFile("contentD", "FILE2.3")));
-    //all contents changed
+    // all contents changed
     CacheInputOutputPair thirdRunCacheB =
         new CacheInputOutputPair(
             "SuperFancy",
@@ -115,7 +115,7 @@ public final class IntegrationTestFiles {
                 new GeneratedFile("contentC**", "FILE2.2"),
                 new GeneratedFile("contentD*", "FILE2.3")));
 
-    //input/ output for third cache
+    // input/ output for third cache
     firstFiles =
         Arrays.asList(
             new GeneratedFile("contentI", "FILE3.1"),
@@ -123,10 +123,10 @@ public final class IntegrationTestFiles {
             new GeneratedFile("contentIII", "FILE3.3"));
     CacheInputOutputPair firstRunCacheC =
         new CacheInputOutputPair("NotSoFancy", firstFiles, firstFiles);
-    //remove everything
+    // remove everything
     CacheInputOutputPair secondRunCacheC =
         new CacheInputOutputPair("NotSoFancy", Collections.emptyList(), Collections.emptyList());
-    //same as in first run
+    // same as in first run
     CacheInputOutputPair thirdRunCacheC =
         new CacheInputOutputPair(
             "NotSoFancy",

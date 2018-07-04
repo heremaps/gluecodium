@@ -104,7 +104,7 @@ public final class MapKeyValidatorPredicateTest {
     when(keyTypeRef.getDerived()).thenReturn(derivedType);
     when(mapType.getKeyType()).thenReturn(keyTypeRef);
 
-    //act & assert
+    // act & assert
     if (expectNull) {
       assertNull(new MapKeyValidatorPredicate().validate(null, mapType));
     } else {
@@ -117,14 +117,14 @@ public final class MapKeyValidatorPredicateTest {
     when(keyTypeRef.getPredefined()).thenReturn(typeId);
     when(keyTypeRef.getDerived()).thenReturn(derivedType);
 
-    //map typedef
+    // map typedef
     FTypeDef typeDef = mock(FTypeDef.class);
     FTypeRef typeDefRef = mock(FTypeRef.class);
     when(typeDefRef.getDerived()).thenReturn(typeDef);
     when(typeDef.getActualType()).thenReturn(keyTypeRef);
     when(mapType.getKeyType()).thenReturn(typeDefRef);
 
-    //act & assert
+    // act & assert
     if (expectNull) {
       assertNull(new MapKeyValidatorPredicate().validate(null, mapType));
     } else {

@@ -93,25 +93,25 @@ public class CppTypeMapperComplexTest {
 
   @Test
   public void mapStringType() {
-    //arrange
+    // arrange
     FTypeRef typeRef = mockPredefinedType(FBasicTypeId.STRING);
 
-    //act
+    // act
     CppTypeRef cppType = typeMapper.map(typeRef);
 
-    //assert
+    // assert
     assertEquals(CppTypeMapper.STRING_TYPE, cppType);
   }
 
   @Test
   public void mapByteBufferType() {
-    //arrange
+    // arrange
     FTypeRef typeRef = mockPredefinedType(FBasicTypeId.BYTE_BUFFER);
 
-    //act
+    // act
     CppTypeRef cppType = typeMapper.map(typeRef);
 
-    //assert
+    // assert
     assertTrue(cppType instanceof CppTemplateTypeRef);
     CppComplexTypeRef expectedTypeRef = (CppTemplateTypeRef) cppType;
     assertEquals("::std::shared_ptr< ::std::vector< uint8_t > >", expectedTypeRef.name);
@@ -123,15 +123,15 @@ public class CppTypeMapperComplexTest {
 
   @Test
   public void mapNonEmptyStruct() {
-    //mock franca related stuff
+    // mock franca related stuff
     when(francaTypeRef.getDerived()).thenReturn(structType);
     when(structType.getName()).thenReturn(STRUCT_NAME);
     when(structType.getElements().isEmpty()).thenReturn(false);
 
-    //act
+    // act
     CppTypeRef result = typeMapper.map(francaTypeRef);
 
-    //assert
+    // assert
     assertTrue(result instanceof CppComplexTypeRef);
     CppComplexTypeRef complexResult = (CppComplexTypeRef) result;
     assertEquals("::" + STRUCT_NAME, complexResult.name);
@@ -151,14 +151,14 @@ public class CppTypeMapperComplexTest {
 
   @Test
   public void mapNonEmptyEnum() {
-    //mock type reference
+    // mock type reference
     when(francaTypeRef.getDerived()).thenReturn(enumType);
     when(enumType.getName()).thenReturn(ENUM_NAME);
     when(enumType.getEnumerators().isEmpty()).thenReturn(false);
 
     CppTypeRef result = typeMapper.map(francaTypeRef);
 
-    //assert
+    // assert
     assertTrue(result instanceof CppComplexTypeRef);
     CppComplexTypeRef complexResult = (CppComplexTypeRef) result;
     assertEquals("::" + ENUM_NAME, complexResult.name);
