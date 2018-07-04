@@ -19,10 +19,7 @@
 
 package com.here.genium.cache;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
@@ -141,9 +138,16 @@ public final class FileSetCacheTest {
     assertTrue(cacheFile.exists());
     FileInputStream fileInput = new FileInputStream(cacheFile);
     ObjectInputStream objectInputStream = new ObjectInputStream(fileInput);
-    HashMap<String, CacheEntry> fileDirectory =
-        (HashMap<String, CacheEntry>) objectInputStream.readObject();
-    assertEquals(cache.getCacheEntries(), fileDirectory);
+    Map<String, CacheEntry> fileDirectory =
+        (Map<String, CacheEntry>) objectInputStream.readObject();
+    Map<String, CacheEntry> cacheEntries = cache.getCacheEntries();
+
+    assertEquals(cacheEntries.size(), fileDirectory.size());
+    assertEquals(cacheEntries.keySet(), fileDirectory.keySet());
+    for (String key : cacheEntries.keySet()) {
+      assertArrayEquals(
+          cacheEntries.get(key).cachedFileHashValue, fileDirectory.get(key).cachedFileHashValue);
+    }
   }
 
   @Test
@@ -157,7 +161,14 @@ public final class FileSetCacheTest {
 
     // assert
     Map<String, CacheEntry> loadedEntries = loadedCache.getCacheEntries();
-    assertEquals(cache.getCacheEntries(), loadedEntries);
+    Map<String, CacheEntry> cacheEntries = cache.getCacheEntries();
+
+    assertEquals(cacheEntries.size(), loadedEntries.size());
+    assertEquals(cacheEntries.keySet(), loadedEntries.keySet());
+    for (String key : cacheEntries.keySet()) {
+      assertArrayEquals(
+          cacheEntries.get(key).cachedFileHashValue, loadedEntries.get(key).cachedFileHashValue);
+    }
     assertTrue(loadedEntries.entrySet().stream().noneMatch(entry -> entry.getValue().touched));
   }
 
