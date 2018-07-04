@@ -47,7 +47,7 @@ public class FileRemove {
     for (Path absolutePath : absolutePaths) {
 
       try {
-        //only remove regular files located below root dir
+        // only remove regular files located below root dir
         if (Files.isRegularFile(absolutePath)
             && absolutePath
                 .toFile()

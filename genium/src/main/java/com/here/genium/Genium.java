@@ -130,7 +130,7 @@ public class Genium {
                       executeGenerator(
                           generatorName, deploymentModel, typeCollections, fileNamesCache));
     } finally {
-      //cache has to be updated in any case
+      // cache has to be updated in any case
       executionSucceeded = cacheStrategy.write(executionSucceeded);
 
       times.addLogEntry("code generation (including file output)");

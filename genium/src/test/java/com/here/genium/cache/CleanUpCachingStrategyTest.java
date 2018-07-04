@@ -59,14 +59,14 @@ public class CleanUpCachingStrategyTest {
   @Test
   public void writeRootDirectoryNull() throws IOException {
 
-    //arrange
+    // arrange
     CleanUpCachingStrategy nullStrategy =
         new CleanUpCachingStrategy(null, new HashSet<>(Arrays.asList("SetA")));
 
-    //act
+    // act
     nullStrategy.write(true);
 
-    //verify
+    // verify
     verifyStatic(never());
     MultiFileSetCache.retrieveExistingCacheFiles(ROOTDIRNAME, new HashSet<>(Arrays.asList("SetA")));
     verify(remover, never()).removeFiles(any());
@@ -75,14 +75,14 @@ public class CleanUpCachingStrategyTest {
   @Test
   public void writeExistingCacheFiles() throws IOException {
 
-    //arrange
+    // arrange
     when(MultiFileSetCache.retrieveExistingCacheFiles(any(), any()))
         .thenReturn(Arrays.asList(Paths.get("1"), Paths.get("2"), Paths.get("3")));
 
-    //act
+    // act
     myStrategy.write(true);
 
-    //verify
+    // verify
     verifyStatic();
     MultiFileSetCache.retrieveExistingCacheFiles(ROOTDIRNAME, new HashSet<>(Arrays.asList("SetA")));
     verify(remover).removeFiles(Arrays.asList(Paths.get("1"), Paths.get("2"), Paths.get("3")));
@@ -91,13 +91,13 @@ public class CleanUpCachingStrategyTest {
   @Test
   public void writeNonExistingCacheFiles() throws IOException {
 
-    //arrange
+    // arrange
     when(MultiFileSetCache.retrieveExistingCacheFiles(any(), any())).thenReturn(new LinkedList<>());
 
-    //act
+    // act
     myStrategy.write(true);
 
-    //verify
+    // verify
     verifyStatic();
     MultiFileSetCache.retrieveExistingCacheFiles(ROOTDIRNAME, new HashSet<>(Arrays.asList("SetA")));
     verify(remover, never()).removeFiles(any());

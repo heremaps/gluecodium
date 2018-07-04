@@ -71,24 +71,24 @@ public final class FileSetCacheTest {
 
     PowerMockito.mockStatic(HashValueCalculator.class);
 
-    //we need valid hash values
+    // we need valid hash values
     when(HashValueCalculator.calculateHashValue(anyString()))
         .thenAnswer(invocation -> ((String) invocation.getArguments()[0]).getBytes());
   }
 
   @Test
   public void createEmptyCache() {
-    //assert
+    // assert
     assertEquals(new HashMap<String, CacheEntry>(), cache.getCacheEntries());
   }
 
   @Test
   public void writeEmptyCache() throws IOException, ClassNotFoundException {
 
-    //act
+    // act
     cache.writeCache();
 
-    //assert
+    // assert
     assertTrue(cacheFile.exists());
     FileInputStream fileInput = new FileInputStream(cacheFile);
     ObjectInputStream objectInputStream = new ObjectInputStream(fileInput);
@@ -101,20 +101,20 @@ public final class FileSetCacheTest {
   public void loadEmptyCache() throws IOException, ClassNotFoundException {
     cache.writeCache();
 
-    //act
+    // act
     FileSetCache loadedCache = new FileSetCache(cacheFile);
 
-    //assert
+    // assert
     assertEquals(cache.getCacheEntries(), loadedCache.getCacheEntries());
   }
 
   @Test
   public void updateEmptyCache() throws IOException, ClassNotFoundException {
 
-    //act
+    // act
     List<GeneratedFile> result = cache.updateCache(TestFiles.INITIAL_FILES);
 
-    //assert
+    // assert
     assertTrue(
         cache.getCacheEntries().entrySet().stream().allMatch(entry -> entry.getValue().touched));
 
@@ -134,10 +134,10 @@ public final class FileSetCacheTest {
 
     cache.updateCache(TestFiles.INITIAL_FILES);
 
-    //act
+    // act
     cache.writeCache();
 
-    //assert
+    // assert
     assertTrue(cacheFile.exists());
     FileInputStream fileInput = new FileInputStream(cacheFile);
     ObjectInputStream objectInputStream = new ObjectInputStream(fileInput);
@@ -152,10 +152,10 @@ public final class FileSetCacheTest {
     cache.updateCache(TestFiles.INITIAL_FILES);
     cache.writeCache();
 
-    //act
+    // act
     FileSetCache loadedCache = new FileSetCache(cacheFile);
 
-    //assert
+    // assert
     Map<String, CacheEntry> loadedEntries = loadedCache.getCacheEntries();
     assertEquals(cache.getCacheEntries(), loadedEntries);
     assertTrue(loadedEntries.entrySet().stream().noneMatch(entry -> entry.getValue().touched));
@@ -163,21 +163,21 @@ public final class FileSetCacheTest {
 
   @Test
   public void updateNonEmptyCache() {
-    //arrange
+    // arrange
     cache.updateCache(TestFiles.INITIAL_FILES);
     cache.finalizeUpdates();
 
-    //act (changes: one file removed, one added, one changed, one unchanged)
+    // act (changes: one file removed, one added, one changed, one unchanged)
     List<GeneratedFile> result = cache.updateCache(TestFiles.UPDATED_FILES);
 
-    //assert
+    // assert
     assertEquals(4, cache.getCacheEntries().size());
     List<String> allFilePaths =
         Stream.concat(TestFiles.INITIAL_FILES.stream(), TestFiles.UPDATED_FILES.stream())
             .map(entry -> entry.targetFile.toPath().normalize().toString())
             .collect(Collectors.toList());
 
-    //check that all files are in and have correct touched flag
+    // check that all files are in and have correct touched flag
     for (String path : allFilePaths) {
       CacheEntry value = cache.getCacheEntries().get(path);
       assertNotNull(value);
@@ -214,7 +214,7 @@ public final class FileSetCacheTest {
 
   @Test
   public void finalizeUpdateTest() {
-    //arrange
+    // arrange
     CacheEntry first = new CacheEntry("firstHash".getBytes());
     first.touched = false;
     cache.getCacheEntries().put("first", first);
@@ -225,10 +225,10 @@ public final class FileSetCacheTest {
     third.touched = true;
     cache.getCacheEntries().put("third", third);
 
-    //act
+    // act
     cache.finalizeUpdates();
 
-    //assert
+    // assert
     assertEquals(2, cache.getCacheEntries().size());
     assertTrue(cache.getCacheEntries().values().stream().allMatch(entry -> !entry.touched));
     CacheEntry secondFromCache = cache.getCacheEntries().get("second");
@@ -240,13 +240,13 @@ public final class FileSetCacheTest {
   @Test
   public void predicateTest() {
 
-    //arrange
+    // arrange
     cache.updateCache(TestFiles.UPDATED_FILES);
 
-    //act
+    // act
     Predicate<Path> checker = cache.filterOutCachedFiles();
 
-    //assert
+    // assert
     assertTrue(checker.test(Paths.get(TestFiles.PATH2)));
     assertTrue(checker.test(Paths.get(RELATIVE_CACHE_PATH)));
     assertFalse(checker.test(Paths.get(TestFiles.PATH3)));

@@ -72,10 +72,10 @@ public class FullCachingStrategyTest {
 
     // arrange is done in setUp
 
-    //act
+    // act
     boolean result = cacheStrategy.write(false);
 
-    //assert
+    // assert
     assertFalse(result);
 
     InOrder myOrder = Mockito.inOrder(cache);
@@ -88,10 +88,10 @@ public class FullCachingStrategyTest {
 
     // arrange is done in setUp
 
-    //act
+    // act
     boolean result = cacheStrategy.write(true);
 
-    //assert
+    // assert
     assertTrue(result);
 
     InOrder myOrder = Mockito.inOrder(cache, fileRemover);
@@ -107,10 +107,10 @@ public class FullCachingStrategyTest {
     // arrange
     when(fileRemover.removeFiles(any())).thenReturn(false);
 
-    //act
+    // act
     boolean result = cacheStrategy.write(true);
 
-    //assert
+    // assert
     assertFalse(result);
 
     InOrder myOrder = Mockito.inOrder(cache, fileRemover);
@@ -127,10 +127,10 @@ public class FullCachingStrategyTest {
     List<GeneratedFile> fileList =
         Collections.singletonList(new GeneratedFile("content", "fileName"));
 
-    //act
+    // act
     List<GeneratedFile> result = cacheStrategy.updateCache("myGeneratorName", fileList);
 
-    //assert
+    // assert
     assertEquals(new LinkedList<>(), result);
     verify(cache).updateCache("myGeneratorName", fileList);
   }

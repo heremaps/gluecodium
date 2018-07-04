@@ -279,7 +279,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     storeResult(javaEnumType);
 
     if (errorEnums.isErrorEnum(francaEnumType)) {
-      //Exception definition & reference
+      // Exception definition & reference
       JavaExceptionClass javaException =
           new JavaExceptionClass(JavaNameRules.getExceptionName(javaEnum.name), javaEnumType);
       javaException.visibility = getVisibility(francaEnumType);
