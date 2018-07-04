@@ -75,10 +75,10 @@ public class CppNameRulesTest {
     when(fModel.getName()).thenReturn("my.fancy.package");
     when(fType.eContainer()).thenReturn(francaInterface);
 
-    //act
+    // act
     List<String> qualifier = CppNameRules.getNestedNameSpecifier(fType);
 
-    //assert
+    // assert
     assertEquals(asList("my", "fancy", "package", "Iface"), qualifier);
   }
 
@@ -88,10 +88,10 @@ public class CppNameRulesTest {
     when(fModel.getName()).thenReturn("my.fancy.package");
     when(fType.eContainer()).thenReturn(francaTypeCollection);
 
-    //act
+    // act
     List<String> qualifier = CppNameRules.getNestedNameSpecifier(fType);
 
-    //assert
+    // assert
     assertEquals(asList("my", "fancy", "package"), qualifier);
   }
 
@@ -101,10 +101,10 @@ public class CppNameRulesTest {
     when(fModel.getName()).thenReturn("my.fancy.package");
     when(enumeration.eContainer()).thenReturn(francaInterface);
 
-    //act
+    // act
     List<String> qualifier = CppNameRules.getNestedNameSpecifier(francaEnumerator);
 
-    //assert
+    // assert
     assertEquals(asList("my", "fancy", "package", "Iface", "TestEnumeration"), qualifier);
   }
 
@@ -114,10 +114,10 @@ public class CppNameRulesTest {
     when(fModel.getName()).thenReturn("my.fancy.package");
     when(enumeration.eContainer()).thenReturn(francaTypeCollection);
 
-    //act
+    // act
     List<String> qualifier = CppNameRules.getNestedNameSpecifier(francaEnumerator);
 
-    //assert
+    // assert
     assertEquals(asList("my", "fancy", "package", "TestEnumeration"), qualifier);
   }
 

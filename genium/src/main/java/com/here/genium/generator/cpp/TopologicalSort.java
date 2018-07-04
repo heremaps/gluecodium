@@ -74,7 +74,8 @@ public final class TopologicalSort {
 
       sortedElements.add(nextElement);
 
-      // as dependency to "nextElement" is now fulfilled we must remove it from elements dependencies
+      // as dependency to "nextElement" is now fulfilled we must remove it from elements
+      // dependencies
       for (String name : fullyQualifiedNames) {
         dependencies.get(name).remove(nextElement.fullyQualifiedName);
       }
