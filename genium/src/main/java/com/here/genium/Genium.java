@@ -26,6 +26,7 @@ import com.here.genium.cache.CachingStrategyCreator;
 import com.here.genium.cli.*;
 import com.here.genium.common.TimeLogger;
 import com.here.genium.generator.common.*;
+import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.loader.FrancaModelLoader;
 import com.here.genium.logger.GeniumLogger;
 import com.here.genium.model.franca.FrancaDeploymentModel;
