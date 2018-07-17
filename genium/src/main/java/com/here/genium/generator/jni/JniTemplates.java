@@ -21,7 +21,7 @@ package com.here.genium.generator.jni;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.generator.cpp.CppLibraryIncludes;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.jni.JniContainer;

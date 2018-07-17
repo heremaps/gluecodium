@@ -17,11 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common;
+package com.here.genium.generator.common.templates;
 
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,14 +32,14 @@ import org.mockito.MockitoAnnotations;
 import org.trimou.handlebars.Options;
 
 @RunWith(JUnit4.class)
-public class TemplateEngineInstanceOfHelperTest {
+public class TemplateEngineNotInstanceOfHelperTest {
 
   private final Object object = new Object();
   private final List<Object> parameters = new LinkedList<>();
 
   @Mock private Options options;
 
-  private final TemplateEngine.InstanceOfHelper helper = new TemplateEngine.InstanceOfHelper(true);
+  private final TemplateEngine.InstanceOfHelper helper = new TemplateEngine.InstanceOfHelper(false);
 
   @Before
   public void setUp() {
@@ -74,7 +72,7 @@ public class TemplateEngineInstanceOfHelperTest {
 
     helper.execute(options);
 
-    verify(options).fn();
+    verify(options, never()).fn();
   }
 
   @Test
@@ -83,6 +81,6 @@ public class TemplateEngineInstanceOfHelperTest {
 
     helper.execute(options);
 
-    verify(options, never()).fn();
+    verify(options).fn();
   }
 }

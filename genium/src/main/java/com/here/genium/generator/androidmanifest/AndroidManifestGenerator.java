@@ -21,7 +21,7 @@ package com.here.genium.generator.androidmanifest;
 
 import com.here.genium.generator.common.AbstractGenerator;
 import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.generator.common.templates.TemplateEngine;
 import java.util.List;
 
 public final class AndroidManifestGenerator extends AbstractGenerator {
