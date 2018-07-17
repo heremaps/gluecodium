@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common;
+package com.here.genium.generator.common.templates;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
@@ -35,13 +35,18 @@ import org.mockito.MockitoAnnotations;
 import org.trimou.handlebars.Options;
 
 @RunWith(JUnit4.class)
-public class TemplateEngineCapitalizeHelperTest {
+public class TemplateEnginePrefixHelperTest {
+
+  private static final String PREFIX = " <!-- ";
+  private static final String FIRST_LINE = "complete";
+  private static final String SECOND_LINE = "nonsense";
+  private static final String MULTI_LINE = FIRST_LINE + "\n" + SECOND_LINE;
 
   private final List<Object> parameters = new LinkedList<>();
 
   @Mock private Options options;
 
-  private final TemplateEngine.CapitalizeHelper helper = new TemplateEngine.CapitalizeHelper();
+  private final TemplateEngine.PrefixHelper helper = new TemplateEngine.PrefixHelper();
 
   @Before
   public void setUp() {
@@ -58,11 +63,52 @@ public class TemplateEngineCapitalizeHelperTest {
   }
 
   @Test
-  public void executeCapitalize() {
-    parameters.add("someString");
+  public void executeSingleLineNoPrefix() {
+    parameters.add(FIRST_LINE);
 
     helper.execute(options);
 
-    verify(options).append("SomeString");
+    verify(options).append(FIRST_LINE);
+  }
+
+  @Test
+  public void executeSingleLineWithPrefix() {
+    parameters.add(FIRST_LINE);
+    parameters.add(PREFIX);
+
+    helper.execute(options);
+
+    verify(options).append(PREFIX + FIRST_LINE);
+  }
+
+  @Test
+  public void executeMultiLineNoPrefix() {
+    parameters.add(MULTI_LINE);
+
+    helper.execute(options);
+
+    verify(options).append(MULTI_LINE);
+  }
+
+  @Test
+  public void executeMultiLineWithPrefix() {
+    parameters.add(MULTI_LINE);
+    parameters.add(PREFIX);
+
+    helper.execute(options);
+
+    verify(options).append(PREFIX + FIRST_LINE + "\n" + PREFIX + SECOND_LINE);
+  }
+
+  @Test
+  public void executeMultiLineWithTrim() {
+    parameters.add(FIRST_LINE + "\n\n" + SECOND_LINE);
+    parameters.add(PREFIX);
+
+    helper.execute(options);
+
+    final String trimmedPrefix = " <!--";
+    verify(options)
+        .append(PREFIX + FIRST_LINE + "\n" + trimmedPrefix + "\n" + PREFIX + SECOND_LINE);
   }
 }

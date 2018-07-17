@@ -21,7 +21,7 @@ package com.here.genium.generator.java.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.model.java.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;

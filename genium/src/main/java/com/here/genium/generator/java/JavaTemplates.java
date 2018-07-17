@@ -21,7 +21,7 @@ package com.here.genium.generator.java;
 
 import com.here.genium.common.CollectionsHelper;
 import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.model.java.*;
 import java.util.*;
 import java.util.function.Function;

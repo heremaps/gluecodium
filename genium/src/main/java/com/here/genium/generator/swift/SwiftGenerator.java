@@ -23,8 +23,8 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.TemplateEngine;
 import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
+import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.swift.SwiftFile;
 import com.here.genium.platform.common.GeneratorSuite;

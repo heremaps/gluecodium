@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common;
+package com.here.genium.generator.common.templates;
 
 import java.util.HashSet;
 import java.util.Map;

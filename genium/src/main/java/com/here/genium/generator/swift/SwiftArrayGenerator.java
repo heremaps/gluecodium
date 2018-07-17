@@ -22,7 +22,7 @@ package com.here.genium.generator.swift;
 import static java.util.Collections.emptyList;
 
 import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.model.swift.SwiftArray;
 import com.here.genium.model.swift.SwiftFile;
 import java.util.*;

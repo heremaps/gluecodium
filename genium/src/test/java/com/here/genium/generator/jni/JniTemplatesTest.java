@@ -26,7 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
 import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.model.jni.JniContainer;
 import java.util.Collections;
 import java.util.List;
