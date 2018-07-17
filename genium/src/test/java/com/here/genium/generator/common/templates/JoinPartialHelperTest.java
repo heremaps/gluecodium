@@ -36,7 +36,7 @@ import org.mockito.MockitoAnnotations;
 import org.trimou.handlebars.Options;
 
 @RunWith(JUnit4.class)
-public class TemplateEngineJoinPartialHelperTest {
+public class JoinPartialHelperTest {
 
   private static final String TEMPLATE_NAME = "glorious";
   private static final String SEPARATOR = " \\o/ ";
@@ -48,7 +48,7 @@ public class TemplateEngineJoinPartialHelperTest {
 
   @Mock private Options options;
 
-  private final TemplateEngine.JoinPartialHelper helper = new TemplateEngine.JoinPartialHelper();
+  private final JoinPartialHelper helper = new JoinPartialHelper();
 
   @Before
   public void setUp() {
