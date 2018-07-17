@@ -17,22 +17,5 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.androidmanifest;
-
-import com.here.genium.generator.common.AbstractGenerator;
-import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.templates.TemplateEngine;
-import java.util.List;
-
-public final class AndroidManifestGenerator extends AbstractGenerator {
-
-  public AndroidManifestGenerator(final List<String> packageList) {
-    super(packageList);
-  }
-
-  public GeneratedFile generate() {
-    String fileContent =
-        TemplateEngine.render("android/AndroidManifest", String.join(".", basePackages));
-    return new GeneratedFile(fileContent, AndroidManifestNameRules.getManifestFilename());
-  }
-}
+/** Template engine and its helper classes. */
+package com.here.genium.generator.common.templates;

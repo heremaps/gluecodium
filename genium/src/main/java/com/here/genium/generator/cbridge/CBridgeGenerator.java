@@ -25,8 +25,8 @@ import static com.here.genium.generator.cbridge.CBridgeNameRules.SRC_DIR;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.TemplateEngine;
 import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
+import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.generator.cpp.CppModelBuilder;
 import com.here.genium.generator.cpp.CppTypeMapper;
 import com.here.genium.generator.swift.SwiftModelBuilder;

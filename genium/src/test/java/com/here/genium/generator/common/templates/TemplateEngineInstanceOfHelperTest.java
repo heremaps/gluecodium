@@ -17,9 +17,8 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common;
+package com.here.genium.generator.common.templates;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,80 +34,55 @@ import org.mockito.MockitoAnnotations;
 import org.trimou.handlebars.Options;
 
 @RunWith(JUnit4.class)
-public class TemplateEnginePrefixHelperTest {
+public class TemplateEngineInstanceOfHelperTest {
 
-  private static final String PREFIX = " <!-- ";
-  private static final String FIRST_LINE = "complete";
-  private static final String SECOND_LINE = "nonsense";
-  private static final String MULTI_LINE = FIRST_LINE + "\n" + SECOND_LINE;
-
+  private final Object object = new Object();
   private final List<Object> parameters = new LinkedList<>();
 
   @Mock private Options options;
 
-  private final TemplateEngine.PrefixHelper helper = new TemplateEngine.PrefixHelper();
+  private final TemplateEngine.InstanceOfHelper helper = new TemplateEngine.InstanceOfHelper(true);
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
+
+    parameters.add(object);
 
     when(options.getParameters()).thenReturn(parameters);
   }
 
   @Test
   public void executeNoParameters() {
+    parameters.clear();
+
     helper.execute(options);
 
-    verify(options, never()).append(any());
+    verify(options, never()).fn();
   }
 
   @Test
-  public void executeSingleLineNoPrefix() {
-    parameters.add(FIRST_LINE);
-
+  public void executeOneParameter() {
     helper.execute(options);
 
-    verify(options).append(FIRST_LINE);
+    verify(options, never()).fn();
   }
 
   @Test
-  public void executeSingleLineWithPrefix() {
-    parameters.add(FIRST_LINE);
-    parameters.add(PREFIX);
+  public void executeTrue() {
+    parameters.add("Object");
 
     helper.execute(options);
 
-    verify(options).append(PREFIX + FIRST_LINE);
+    verify(options).fn();
   }
 
   @Test
-  public void executeMultiLineNoPrefix() {
-    parameters.add(MULTI_LINE);
+  public void executeFalse() {
+    parameters.add("String");
 
     helper.execute(options);
 
-    verify(options).append(MULTI_LINE);
-  }
-
-  @Test
-  public void executeMultiLineWithPrefix() {
-    parameters.add(MULTI_LINE);
-    parameters.add(PREFIX);
-
-    helper.execute(options);
-
-    verify(options).append(PREFIX + FIRST_LINE + "\n" + PREFIX + SECOND_LINE);
-  }
-
-  @Test
-  public void executeMultiLineWithTrim() {
-    parameters.add(FIRST_LINE + "\n\n" + SECOND_LINE);
-    parameters.add(PREFIX);
-
-    helper.execute(options);
-
-    final String trimmedPrefix = " <!--";
-    verify(options)
-        .append(PREFIX + FIRST_LINE + "\n" + trimmedPrefix + "\n" + PREFIX + SECOND_LINE);
+    verify(options, never()).fn();
   }
 }

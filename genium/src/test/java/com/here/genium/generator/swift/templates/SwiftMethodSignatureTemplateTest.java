@@ -21,7 +21,7 @@ package com.here.genium.generator.swift.templates;
 
 import static org.junit.Assert.assertEquals;
 
-import com.here.genium.generator.common.TemplateEngine;
+import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.model.swift.SwiftEnum;
 import com.here.genium.model.swift.SwiftGenericParameter;
 import com.here.genium.model.swift.SwiftMethod;

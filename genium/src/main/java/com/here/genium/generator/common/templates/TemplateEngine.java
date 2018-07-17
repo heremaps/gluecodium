@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common;
+package com.here.genium.generator.common.templates;
 
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Arrays;

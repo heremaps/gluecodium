@@ -17,9 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common;
+package com.here.genium.generator.common.templates;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -32,55 +35,34 @@ import org.mockito.MockitoAnnotations;
 import org.trimou.handlebars.Options;
 
 @RunWith(JUnit4.class)
-public class TemplateEngineNotInstanceOfHelperTest {
+public class TemplateEngineCapitalizeHelperTest {
 
-  private final Object object = new Object();
   private final List<Object> parameters = new LinkedList<>();
 
   @Mock private Options options;
 
-  private final TemplateEngine.InstanceOfHelper helper = new TemplateEngine.InstanceOfHelper(false);
+  private final TemplateEngine.CapitalizeHelper helper = new TemplateEngine.CapitalizeHelper();
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-
-    parameters.add(object);
 
     when(options.getParameters()).thenReturn(parameters);
   }
 
   @Test
   public void executeNoParameters() {
-    parameters.clear();
-
     helper.execute(options);
 
-    verify(options, never()).fn();
+    verify(options, never()).append(any());
   }
 
   @Test
-  public void executeOneParameter() {
-    helper.execute(options);
-
-    verify(options, never()).fn();
-  }
-
-  @Test
-  public void executeTrue() {
-    parameters.add("Object");
+  public void executeCapitalize() {
+    parameters.add("someString");
 
     helper.execute(options);
 
-    verify(options, never()).fn();
-  }
-
-  @Test
-  public void executeFalse() {
-    parameters.add("String");
-
-    helper.execute(options);
-
-    verify(options).fn();
+    verify(options).append("SomeString");
   }
 }
