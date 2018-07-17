@@ -32,14 +32,14 @@ import org.mockito.MockitoAnnotations;
 import org.trimou.handlebars.Options;
 
 @RunWith(JUnit4.class)
-public class TemplateEngineNotInstanceOfHelperTest {
+public class NotInstanceOfHelperTest {
 
   private final Object object = new Object();
   private final List<Object> parameters = new LinkedList<>();
 
   @Mock private Options options;
 
-  private final TemplateEngine.InstanceOfHelper helper = new TemplateEngine.InstanceOfHelper(false);
+  private final InstanceOfHelper helper = new InstanceOfHelper(false);
 
   @Before
   public void setUp() {

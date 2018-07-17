@@ -20,12 +20,10 @@
 package com.here.genium.generator.common.templates;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Before;
@@ -37,9 +35,8 @@ import org.mockito.MockitoAnnotations;
 import org.trimou.handlebars.Options;
 
 @RunWith(JUnit4.class)
-public class TemplateEnginePrefixPartialHelperTest {
+public class PrefixHelperTest {
 
-  private static final String TEMPLATE_NAME = "glorious";
   private static final String PREFIX = " <!-- ";
   private static final String FIRST_LINE = "complete";
   private static final String SECOND_LINE = "nonsense";
@@ -49,37 +46,17 @@ public class TemplateEnginePrefixPartialHelperTest {
 
   @Mock private Options options;
 
-  private final TemplateEngine.PrefixPartialHelper helper =
-      new TemplateEngine.PrefixPartialHelper();
-
-  private void mockPartial(final String returnValue) {
-    doAnswer(
-            invocation -> {
-              Appendable appendable = (Appendable) invocation.getArguments()[1];
-              try {
-                appendable.append(returnValue);
-              } catch (IOException exception) {
-                exception.printStackTrace();
-              }
-              return null;
-            })
-        .when(options)
-        .partial(any(), any());
-  }
+  private final PrefixHelper helper = new PrefixHelper();
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-
-    parameters.add(TEMPLATE_NAME);
 
     when(options.getParameters()).thenReturn(parameters);
   }
 
   @Test
   public void executeNoParameters() {
-    parameters.clear();
-
     helper.execute(options);
 
     verify(options, never()).append(any());
@@ -87,7 +64,7 @@ public class TemplateEnginePrefixPartialHelperTest {
 
   @Test
   public void executeSingleLineNoPrefix() {
-    mockPartial(FIRST_LINE);
+    parameters.add(FIRST_LINE);
 
     helper.execute(options);
 
@@ -96,7 +73,7 @@ public class TemplateEnginePrefixPartialHelperTest {
 
   @Test
   public void executeSingleLineWithPrefix() {
-    mockPartial(FIRST_LINE);
+    parameters.add(FIRST_LINE);
     parameters.add(PREFIX);
 
     helper.execute(options);
@@ -106,7 +83,7 @@ public class TemplateEnginePrefixPartialHelperTest {
 
   @Test
   public void executeMultiLineNoPrefix() {
-    mockPartial(MULTI_LINE);
+    parameters.add(MULTI_LINE);
 
     helper.execute(options);
 
@@ -114,8 +91,8 @@ public class TemplateEnginePrefixPartialHelperTest {
   }
 
   @Test
-  public void prefixHelperMultiLineWithPrefix() {
-    mockPartial(MULTI_LINE);
+  public void executeMultiLineWithPrefix() {
+    parameters.add(MULTI_LINE);
     parameters.add(PREFIX);
 
     helper.execute(options);
@@ -125,7 +102,7 @@ public class TemplateEnginePrefixPartialHelperTest {
 
   @Test
   public void executeMultiLineWithTrim() {
-    mockPartial(FIRST_LINE + "\n\n" + SECOND_LINE);
+    parameters.add(FIRST_LINE + "\n\n" + SECOND_LINE);
     parameters.add(PREFIX);
 
     helper.execute(options);
