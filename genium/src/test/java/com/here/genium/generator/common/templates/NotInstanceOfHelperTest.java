@@ -19,10 +19,7 @@
 
 package com.here.genium.generator.common.templates;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -35,34 +32,55 @@ import org.mockito.MockitoAnnotations;
 import org.trimou.handlebars.Options;
 
 @RunWith(JUnit4.class)
-public class TemplateEngineCapitalizeHelperTest {
+public class NotInstanceOfHelperTest {
 
+  private final Object object = new Object();
   private final List<Object> parameters = new LinkedList<>();
 
   @Mock private Options options;
 
-  private final TemplateEngine.CapitalizeHelper helper = new TemplateEngine.CapitalizeHelper();
+  private final InstanceOfHelper helper = new InstanceOfHelper(false);
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
+
+    parameters.add(object);
 
     when(options.getParameters()).thenReturn(parameters);
   }
 
   @Test
   public void executeNoParameters() {
+    parameters.clear();
+
     helper.execute(options);
 
-    verify(options, never()).append(any());
+    verify(options, never()).fn();
   }
 
   @Test
-  public void executeCapitalize() {
-    parameters.add("someString");
+  public void executeOneParameter() {
+    helper.execute(options);
+
+    verify(options, never()).fn();
+  }
+
+  @Test
+  public void executeTrue() {
+    parameters.add("Object");
 
     helper.execute(options);
 
-    verify(options).append("SomeString");
+    verify(options, never()).fn();
+  }
+
+  @Test
+  public void executeFalse() {
+    parameters.add("String");
+
+    helper.execute(options);
+
+    verify(options).fn();
   }
 }
