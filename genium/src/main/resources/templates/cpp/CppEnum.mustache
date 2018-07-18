@@ -20,6 +20,13 @@
   !}}
 {{>common/DocComment}}
 enum {{#isScoped}}class {{/isScoped}}{{name}} {
-{{joinPartial items "cpp/CppEnumItem" ",
+{{joinPartial items "enumItem" ",
 "}}
-};
+};{{!!
+
+}}{{+enumItem}}
+{{#if comment}}
+{{prefixPartial "common/DocComment" "    "}}
+{{/if}}
+    {{name}}{{#value}} = {{name}}{{/value}}{{!!
+}}{{/enumItem}}
