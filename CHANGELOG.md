@@ -1,6 +1,6 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.4.0
 - Breaking changes:
   + Generated functions returning optional "String?" in Swift are now returning a non-optional
     "String" instead.
