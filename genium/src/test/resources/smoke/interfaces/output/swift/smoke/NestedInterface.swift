@@ -4,20 +4,20 @@
 
 import Foundation
 
-
-internal func getRef(_ ref: NestedInterface) -> RefHolder {
-    if let instanceReference = ref as? NativeBase {
+internal func getRef(_ ref: NestedInterface?) -> RefHolder {
+    guard let reference = ref else {
+        return RefHolder(0)
+    }
+    if let instanceReference = reference as? NativeBase {
         return RefHolder(instanceReference.c_handle)
     }
-
     var functions = smoke_NestedInterface_FunctionTable()
-    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
     functions.release = {swift_class_pointer in
         if let swift_class = swift_class_pointer {
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-
     functions.smoke_NestedInterface_setSameTypeInstances = {(swift_class_pointer, interfaceOne, interfaceTwo) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
         return swift_class.setSameTypeInstances(interfaceOne: _SimpleInterface(cSimpleInterface: interfaceOne)!, interfaceTwo: _SimpleInterface(cSimpleInterface: interfaceTwo)!)
@@ -34,22 +34,14 @@ internal func getRef(_ ref: NestedInterface) -> RefHolder {
     return RefHolder(ref: proxy, release: smoke_NestedInterface_release)
 }
 
-
-
-
-
-
 public protocol NestedInterface : AnyObject {
 
-
-    func setSameTypeInstances(interfaceOne: SimpleInterface, interfaceTwo: SimpleInterface) -> Void
+    func setSameTypeInstances(interfaceOne: SimpleInterface?, interfaceTwo: SimpleInterface?) -> Void
     func getInstanceOne() -> SimpleInterface?
     func getInstanceTwo() -> SimpleInterface?
-
 }
 
 internal class _NestedInterface: NestedInterface {
-
 
     let c_instance : _baseRef
 
@@ -63,7 +55,7 @@ internal class _NestedInterface: NestedInterface {
     deinit {
         smoke_NestedInterface_release(c_instance)
     }
-    public func setSameTypeInstances(interfaceOne: SimpleInterface, interfaceTwo: SimpleInterface) -> Void {
+    public func setSameTypeInstances(interfaceOne: SimpleInterface?, interfaceTwo: SimpleInterface?) -> Void {
         let interfaceOne_handle = getRef(interfaceOne)
         let interfaceTwo_handle = getRef(interfaceTwo)
         return smoke_NestedInterface_setSameTypeInstances(c_instance, interfaceOne_handle.ref, interfaceTwo_handle.ref)

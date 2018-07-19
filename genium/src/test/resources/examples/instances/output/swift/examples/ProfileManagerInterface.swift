@@ -5,19 +5,20 @@
 import Foundation
 
 
-internal func getRef(_ ref: ProfileManagerInterface) -> RefHolder {
-    if let instanceReference = ref as? NativeBase {
+internal func getRef(_ ref: ProfileManagerInterface?) -> RefHolder {
+    guard let reference = ref else {
+        return RefHolder(0)
+    }
+    if let instanceReference = reference as? NativeBase {
         return RefHolder(instanceReference.c_handle)
     }
-
     var functions = examples_ProfileManagerInterface_FunctionTable()
-    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
     functions.release = {swift_class_pointer in
         if let swift_class = swift_class_pointer {
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-
     functions.examples_ProfileManagerInterface_createProfile = {(swift_class_pointer, username) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ProfileManagerInterface
         defer {
@@ -30,20 +31,12 @@ internal func getRef(_ ref: ProfileManagerInterface) -> RefHolder {
     return RefHolder(ref: proxy, release: examples_ProfileManagerInterface_release)
 }
 
-
-
-
-
-
 public protocol ProfileManagerInterface : AnyObject {
 
-
     func createProfile(username: String) -> Void
-
 }
 
 internal class _ProfileManagerInterface: ProfileManagerInterface {
-
 
     let c_instance : _baseRef
 

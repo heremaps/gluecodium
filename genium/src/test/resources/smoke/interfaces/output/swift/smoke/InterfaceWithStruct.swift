@@ -4,20 +4,20 @@
 
 import Foundation
 
-
-internal func getRef(_ ref: InterfaceWithStruct) -> RefHolder {
-    if let instanceReference = ref as? NativeBase {
+internal func getRef(_ ref: InterfaceWithStruct?) -> RefHolder {
+    guard let reference = ref else {
+        return RefHolder(0)
+    }
+    if let instanceReference = reference as? NativeBase {
         return RefHolder(instanceReference.c_handle)
     }
-
     var functions = smoke_InterfaceWithStruct_FunctionTable()
-    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
     functions.release = {swift_class_pointer in
         if let swift_class = swift_class_pointer {
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-
     functions.smoke_InterfaceWithStruct_innerStructMethod = {(swift_class_pointer, inputStruct) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InterfaceWithStruct
         return get_pointer((swift_class.innerStructMethod(inputStruct: InnerStruct(cInnerStruct: inputStruct)!)!).convertToCType())
@@ -26,20 +26,12 @@ internal func getRef(_ ref: InterfaceWithStruct) -> RefHolder {
     return RefHolder(ref: proxy, release: smoke_InterfaceWithStruct_release)
 }
 
-
-
-
-
-
 public protocol InterfaceWithStruct : AnyObject {
 
-
     func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct?
-
 }
 
 internal class _InterfaceWithStruct: InterfaceWithStruct {
-
 
     let c_instance : _baseRef
 

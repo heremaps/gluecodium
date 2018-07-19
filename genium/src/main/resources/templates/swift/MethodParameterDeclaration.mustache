@@ -28,5 +28,5 @@
 }}{{+argumentName}}{{!!
 }}{{#switch type.category.toString}}{{!!
 }}{{#case "ARRAY"}}T{{variableName}}{{/case}}{{!!
-}}{{#default}}{{type.publicName}}{{/default}}{{!!
+}}{{#default}}{{type.publicName}}{{#if type.optional}}?{{/if}}{{/default}}{{!!
 }}{{/switch}}{{/argumentName}}
