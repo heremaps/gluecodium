@@ -5,19 +5,20 @@
 import Foundation
 
 
-internal func getRef(_ ref: SimpleInterface) -> RefHolder {
-    if let instanceReference = ref as? NativeBase {
+internal func getRef(_ ref: SimpleInterface?) -> RefHolder {
+    guard let reference = ref else {
+        return RefHolder(0)
+    }
+    if let instanceReference = reference as? NativeBase {
         return RefHolder(instanceReference.c_handle)
     }
-
     var functions = smoke_SimpleInterface_FunctionTable()
-    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
     functions.release = {swift_class_pointer in
         if let swift_class = swift_class_pointer {
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-
     functions.smoke_SimpleInterface_setStringValue = {(swift_class_pointer, stringValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! SimpleInterface
         defer {
@@ -34,21 +35,13 @@ internal func getRef(_ ref: SimpleInterface) -> RefHolder {
     return RefHolder(ref: proxy, release: smoke_SimpleInterface_release)
 }
 
-
-
-
-
-
 public protocol SimpleInterface : AnyObject {
-
 
     func setStringValue(stringValue: String) -> Void
     func getStringValue() -> String
-
 }
 
 internal class _SimpleInterface: SimpleInterface {
-
 
     let c_instance : _baseRef
 
