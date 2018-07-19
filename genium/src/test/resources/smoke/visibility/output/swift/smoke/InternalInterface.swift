@@ -4,12 +4,15 @@
 
 import Foundation
 
-internal func getRef(_ ref: InternalInterface) -> RefHolder {
-    if let instanceReference = ref as? NativeBase {
+internal func getRef(_ ref: InternalInterface?) -> RefHolder {
+    guard let reference = ref else {
+        return RefHolder(0)
+    }
+    if let instanceReference = reference as? NativeBase {
         return RefHolder(instanceReference.c_handle)
     }
     var functions = smoke_InternalInterface_FunctionTable()
-    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
     functions.release = {swift_class_pointer in
         if let swift_class = swift_class_pointer {
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
