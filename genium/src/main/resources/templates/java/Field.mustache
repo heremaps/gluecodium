@@ -18,7 +18,17 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if hasComment}}{{>java/FieldComment}}{{/if}}
+{{#if hasComment}}{{#if comment}}
+/**
+{{prefix comment " * "}}
+{{#if isNonNull}}
+ * @nonNull
+{{/if}}
+ */
+{{/if}}
+{{#unless comment}}{{#if isNonNull}}
+/** @nonNull */
+{{/if}}{{/unless}}{{/if}}
 {{#annotations}}
 @{{name}}
 {{/annotations}}
