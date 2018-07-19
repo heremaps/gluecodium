@@ -22,12 +22,12 @@ public class Calculator {
     deinit {
         examples_Calculator_release(c_instance)
     }
-    public static func registerListener(listener: CalculatorListener) -> Void {
+    public static func registerListener(listener: CalculatorListener?) -> Void {
         let listener_handle = getRef(listener)
         return examples_Calculator_registerListener(listener_handle.ref)
     }
 
-    public static func unregisterListener(listener: CalculatorListener) -> Void {
+    public static func unregisterListener(listener: CalculatorListener?) -> Void {
         let listener_handle = getRef(listener)
         return examples_Calculator_unregisterListener(listener_handle.ref)
     }

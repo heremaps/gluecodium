@@ -4,6 +4,7 @@
 - Breaking changes:
   + Generated functions returning optional "String?" in Swift are now returning a non-optional
     "String" instead.
+  + Function parameters of "instance" types in generated Swift code are now using optional types.
 
 ## 3.3.1
 - Bug fixes:

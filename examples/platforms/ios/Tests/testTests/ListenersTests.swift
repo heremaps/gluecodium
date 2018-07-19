@@ -183,11 +183,11 @@ class ListenersTests: XCTestCase {
             var image = Data()
 
             func onTrajectoryCompleted<Ttrajectory>(
-                    distanceMetric: DistanceMetric, trajectory: Ttrajectory,
+                    distanceMetric: DistanceMetric?, trajectory: Ttrajectory,
                     quality: TrajectoryQuality, image: Data)
                     where Ttrajectory: Collection, Ttrajectory.Element == NamedPoint3D {
 
-                self.length = distanceMetric.getLength(input: trajectory)
+                self.length = distanceMetric?.getLength(input: trajectory) ?? 0
                 self.trajectory = Array(trajectory)
                 self.trajectoryQuality = quality
                 self.image = image
