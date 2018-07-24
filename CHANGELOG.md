@@ -1,6 +1,6 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.5.0
 - Features:
   + Added support for "ExternalType" and "ExternalName" FDEPL properties for enumerations.
 
