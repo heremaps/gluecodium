@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include <system_error>
 #include <string>
 #include <vector>
 
@@ -27,10 +28,22 @@ namespace external
 {
 namespace even_more_external
 {
+enum class AlienEnum {
+    FOO,
+    BAR
+};
+
+enum class AlienErrors {
+    NONE,
+    BOOM
+};
+
 struct AlienStructure
 {
    int32_t int_field;
 };
+
+std::error_code make_error_code( AlienErrors value ) noexcept;
 }
 
 class ExternalStruct
@@ -52,4 +65,10 @@ private:
     even_more_external::AlienStructure m_some_struct;
 };
 
+}
+
+namespace std
+{
+template <>
+struct is_error_code_enum < external::even_more_external::AlienErrors > : public std::true_type { };
 }

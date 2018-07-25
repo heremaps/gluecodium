@@ -19,9 +19,11 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Errors.h"
-#include "test/OtherErrors.h"
+
 #include "another/AdditionalErrors.h"
 #include "another/TypeCollectionWithEnums.h"
+#include "include/ExternalTypes.h"
+#include "test/OtherErrors.h"
 
 namespace test
 {
@@ -88,6 +90,19 @@ Errors::method_with_good_and_bad( const bool error_flag )
     else
     {
         return another::SomeEnum::ANOTHER_RESULT;
+    }
+}
+
+std::error_code
+Errors::method_with_external_error( const bool error_flag )
+{
+    if ( error_flag )
+    {
+        return external::even_more_external::AlienErrors::BOOM;
+    }
+    else
+    {
+        return {};
     }
 }
 }

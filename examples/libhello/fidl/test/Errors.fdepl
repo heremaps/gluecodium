@@ -22,6 +22,11 @@ import "./Errors.fidl"
 
 define GeniumExtensions for interface test.Errors
 {
+    enumeration ExternalErrors {
+        ExternalType = "include/ExternalTypes.h"
+        ExternalName = "::external::even_more_external::AlienErrors"
+    }
+
     method methodWithError {
         Static = true
     }
@@ -35,6 +40,10 @@ define GeniumExtensions for interface test.Errors
     }
 
     method methodWithGoodAndBad {
+        Static = true
+    }
+
+    method methodWithExternalError {
         Static = true
     }
 }

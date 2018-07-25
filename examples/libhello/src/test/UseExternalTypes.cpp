@@ -24,15 +24,22 @@ namespace test
 {
 external::ExternalStruct
 UseExternalTypes::extract_external_struct(
-    const UseExternalTypes::StructWithExternalStruct& nested_struct )
+    const UseExternalTypes::StructWithExternalTypes& nested_struct )
 {
     return nested_struct.struct_field;
 }
 
 external::even_more_external::AlienStructure
 UseExternalTypes::extract_another_external_struct(
-    const UseExternalTypes::StructWithExternalStruct& nested_struct )
+    const UseExternalTypes::StructWithExternalTypes& nested_struct )
 {
     return nested_struct.struct_field.madnessEnsues( );
+}
+
+external::even_more_external::AlienEnum
+UseExternalTypes::extract_external_enum(
+    const UseExternalTypes::StructWithExternalTypes& nested_struct )
+{
+    return nested_struct.enum_field;
 }
 }

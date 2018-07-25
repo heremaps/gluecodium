@@ -28,6 +28,11 @@ interface Errors {
         CRASHED
     }
 
+    enumeration ExternalErrors {
+        NONE
+        BOOM
+    }
+
     <** @description:
     Example static method with an error enum that raises "CRASHED" error if errorFlag is true
     **>
@@ -80,6 +85,16 @@ interface Errors {
           another.TypeCollectionWithEnums.SomeEnum output
       }
       error another.TypeCollectionWithEnums.YetAnotherErrors
+    }
+
+    <** @description:
+    Example static method with an external error enum that raises "BOOM" error if errorFlag is true
+    **>
+    method methodWithExternalError {
+        in {
+            Boolean errorFlag
+        }
+        error ExternalErrors
     }
 }
 
