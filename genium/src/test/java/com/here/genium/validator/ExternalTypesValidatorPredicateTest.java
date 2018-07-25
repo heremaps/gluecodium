@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.FModel;
-import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,16 +36,16 @@ import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
 @SuppressWarnings("MethodName")
-public class ExternalStructsValidatorPredicateTest {
+public class ExternalTypesValidatorPredicateTest {
 
   @Mock private FModel fModel;
   @Mock private FTypeCollection francaTypeCollection;
-  @Mock private FStructType francaStructType;
+  @Mock private FType francaType;
 
   @Mock private FrancaDeploymentModel deploymentModel;
 
-  private final ExternalStructsValidatorPredicate validatorPredicate =
-      new ExternalStructsValidatorPredicate();
+  private final ExternalTypesValidatorPredicate validatorPredicate =
+      new ExternalTypesValidatorPredicate();
 
   @Before
   public void setUp() {
@@ -53,36 +53,36 @@ public class ExternalStructsValidatorPredicateTest {
 
     when(fModel.getName()).thenReturn("");
     when(francaTypeCollection.getName()).thenReturn("");
-    when(francaStructType.getName()).thenReturn("");
+    when(francaType.getName()).thenReturn("");
 
     when(francaTypeCollection.eContainer()).thenReturn(fModel);
-    when(francaStructType.eContainer()).thenReturn(francaTypeCollection);
+    when(francaType.eContainer()).thenReturn(francaTypeCollection);
   }
 
   @Test
   public void validateWithExternalNameAndWithExternalType() {
-    when(deploymentModel.getExternalName(francaStructType)).thenReturn("Bar");
-    when(deploymentModel.getExternalType(francaStructType)).thenReturn("Baz");
+    when(deploymentModel.getExternalName(francaType)).thenReturn("Bar");
+    when(deploymentModel.getExternalType(francaType)).thenReturn("Baz");
 
-    assertNull(validatorPredicate.validate(deploymentModel, francaStructType));
+    assertNull(validatorPredicate.validate(deploymentModel, francaType));
   }
 
   @Test
   public void validateWithExternalNameAndWithoutExternalType() {
-    when(deploymentModel.getExternalName(francaStructType)).thenReturn("Bar");
+    when(deploymentModel.getExternalName(francaType)).thenReturn("Bar");
 
-    assertNotNull(validatorPredicate.validate(deploymentModel, francaStructType));
+    assertNotNull(validatorPredicate.validate(deploymentModel, francaType));
   }
 
   @Test
   public void validateWithoutExternalNameAndWithExternalType() {
-    when(deploymentModel.getExternalType(francaStructType)).thenReturn("Baz");
+    when(deploymentModel.getExternalType(francaType)).thenReturn("Baz");
 
-    assertNull(validatorPredicate.validate(deploymentModel, francaStructType));
+    assertNull(validatorPredicate.validate(deploymentModel, francaType));
   }
 
   @Test
   public void validateWithoutExternalNameAndWithoutExternalType() {
-    assertNull(validatorPredicate.validate(deploymentModel, francaStructType));
+    assertNull(validatorPredicate.validate(deploymentModel, francaType));
   }
 }
