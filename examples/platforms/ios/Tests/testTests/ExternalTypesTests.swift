@@ -23,13 +23,14 @@ import hello
 
 class ExternalTypesTests: XCTestCase {
 
-    func testUseExternalTypes() {
-        let externalStruct = ExternalStruct(stringField: "foo",
-                                            externalStringField: "bar",
-                                            externalArrayField: CollectionOf<Int32>([7, 11]),
-                                            externalStructField:
-                                                AnotherExternalStruct(intField: 42))
-        let inputStruct = UseExternalTypes.StructWithExternalStruct(structField: externalStruct)
+    let externalStruct = ExternalStruct(stringField: "foo",
+                                        externalStringField: "bar",
+                                        externalArrayField: CollectionOf<Int32>([7, 11]),
+                                        externalStructField: AnotherExternalStruct(intField: 42))
+
+    func testUseExternalTypesExternalStruct() {
+        let inputStruct = UseExternalTypes.StructWithExternalTypes(structField: externalStruct,
+                                                                   enumField: .foo)
 
         let resultStruct = UseExternalTypes.extractExternalStruct(nestedStruct: inputStruct)!
 
@@ -42,7 +43,18 @@ class ExternalTypesTests: XCTestCase {
         XCTAssertEqual(42, resultStruct.externalStructField.intField)
     }
 
+    func testUseExternalTypesExternalEnum() {
+        let externalEnum = ExternalEnum.bar
+        let inputStruct = UseExternalTypes.StructWithExternalTypes(structField: externalStruct,
+                                                                   enumField: externalEnum)
+
+        let resultEnum = UseExternalTypes.extractExternalEnum(nestedStruct: inputStruct)
+
+        XCTAssertEqual(ExternalEnum.bar, resultEnum)
+    }
+
     static var allTests = [
-        ("testUseExternalTypes", testUseExternalTypes)
+        ("testUseExternalTypesExternalStruct", testUseExternalTypesExternalStruct),
+        ("testUseExternalTypesExternalEnum", testUseExternalTypesExternalEnum)
     ]
 }

@@ -28,14 +28,15 @@ interface UseExternalTypes {
         minor 1
     }
 
-    struct StructWithExternalStruct {
+    struct StructWithExternalTypes {
         ExternalTypes.ExternalStruct structField
+        ExternalTypes.ExternalEnum enumField
     }
 
-    <** @description: Returns ExternalStruct extracted from StructWithExternalStruct. **>
+    <** @description: Returns ExternalStruct extracted from StructWithExternalTypes. **>
     method extractExternalStruct {
         in {
-            StructWithExternalStruct nestedStruct
+            StructWithExternalTypes nestedStruct
         }
         out {
             ExternalTypes.ExternalStruct result
@@ -44,14 +45,24 @@ interface UseExternalTypes {
 
     <**
     @description: Returns AnotherExternalStruct extracted from ExternalStruct extracted from
-    StructWithExternalStruct.
+    StructWithExternalTypes.
     **>
     method extractAnotherExternalStruct {
         in {
-            StructWithExternalStruct nestedStruct
+            StructWithExternalTypes nestedStruct
         }
         out {
             ExternalTypes.AnotherExternalStruct result
+        }
+    }
+
+    <** @description: Returns ExternalEnum extracted from StructWithExternalTypes. **>
+    method extractExternalEnum {
+        in {
+            StructWithExternalTypes nestedStruct
+        }
+        out {
+            ExternalTypes.ExternalEnum result
         }
     }
 }

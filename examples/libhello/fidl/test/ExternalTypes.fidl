@@ -36,4 +36,9 @@ typeCollection ExternalTypes {
     struct AnotherExternalStruct {
         Int32 intField
     }
+
+    enumeration ExternalEnum {
+        Foo
+        Bar
+    }
 }
