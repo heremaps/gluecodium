@@ -40,6 +40,11 @@ specification GeniumExtensions {
         ExternalGetter: String (optional);
         ExternalSetter: String (optional);
     }
+
+    for enumerations {
+        ExternalType: String (optional);
+        ExternalName: String (optional);
+    }
 }
 
 specification Defaults {

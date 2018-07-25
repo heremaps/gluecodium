@@ -168,13 +168,13 @@ FDEPL:
         }
     }
 
-### Struct: ExternalType
+### Struct, Enumeration: ExternalType
 
-This FDEPL property controls whether the C++ header file is generated for the given Franca struct.
-Default value is `null`, i.e. the struct type is not external and thus a header file is generated.
-If a non-empty value is given, no header file is generated, but the given String value is used as a
-path to a pre-existing header file instead. This property has no effect on generated code for Java
-or Swift.
+This FDEPL property controls whether the C++ header file is generated for the given Franca struct or
+enumeration. Default value is `null`, i.e. the type is not external and thus a header file is
+generated. If a non-empty value is given, no header file is generated, but the given String value is
+used as a path to a pre-existing header file instead. This property has no effect on generated code
+for Java or Swift.
 
 FIDL:
 
@@ -182,6 +182,9 @@ FIDL:
 
     typeCollection ExampleTypeCollection {
         struct exampleStruct {
+        }
+
+        enum exampleEnum {
         }
     }
 
@@ -192,18 +195,22 @@ FDEPL:
         struct exampleStruct {
             ExternalType = "example/ExampleStruct.h"
         }
+
+        enum exampleEnum {
+            ExternalType = "example/ExampleEnum.h"
+        }
     }
 
-### Struct: ExternalName
+### Struct, Enumeration: ExternalName
 
-This FDEPL property controls whether the C++ fully-qualified name for the given Franca struct
-differs from the name specified in the FIDL file. Default value is `null`, i.e. the struct name is
-governed by what is specified in the FIDL file. If a non-empty value is given, then this value is
-used verbatim as a fully-qualified name in C++ generated code and in "glue layer" generated code
-(i.e. JNI and CBridge). This property has no effect on generated code for Java or Swift.
+This FDEPL property controls whether the C++ fully-qualified name for the given Franca struct or
+enumeration differs from the name specified in the FIDL file. Default value is `null`, i.e. the type
+name is governed by what is specified in the FIDL file. If a non-empty value is given, then this
+value is used verbatim as a fully-qualified name in C++ generated code and in "glue layer" generated
+code (i.e. JNI and CBridge). This property has no effect on generated code for Java or Swift.
 
 **Note:** This property is intended for usage in combination with "ExternalType" property (see
-above) and thus only applies to structs already marked with "ExternalType".
+above) and thus only applies to types already marked with "ExternalType".
 
 FIDL:
 
@@ -211,6 +218,9 @@ FIDL:
 
     typeCollection ExampleTypeCollection {
         struct exampleStruct {
+        }
+
+        enum exampleEnum {
         }
     }
 
@@ -221,6 +231,11 @@ FDEPL:
         struct exampleStruct {
             ExternalType = "example/ExampleStruct.h"
             ExternalName = "::external::SomeStruct"
+        }
+
+        enum exampleEnum {
+            ExternalType = "example/ExampleEnum.h"
+            ExternalName = "::external::SomeEnum"
         }
     }
 
