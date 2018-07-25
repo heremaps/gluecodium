@@ -21,34 +21,33 @@ package com.here.genium.validator;
 
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FType;
 
 /**
- * Validate each struct with "ExternalName" property set against the following conditions:
+ * Validate each type with "ExternalName" property set against the following conditions:
  *
  * <ul>
  *   <li>Should have "ExternalType" property set.
  * </ul>
  */
-public class ExternalStructsValidatorPredicate implements ValidatorPredicate<FStructType> {
+public class ExternalTypesValidatorPredicate implements ValidatorPredicate<FType> {
 
-  private static final String NON_EXTERNAL_STRUCT_MESSAGE =
-      "The struct with 'ExternalName' should have 'ExternalType' property set: struct '%s'.";
+  private static final String NON_EXTERNAL_TYPE_MESSAGE =
+      "The type with 'ExternalName' should have 'ExternalType' property set: type '%s'.";
 
   @Override
-  public Class<FStructType> getElementClass() {
-    return FStructType.class;
+  public Class<FType> getElementClass() {
+    return FType.class;
   }
 
   @Override
-  public String validate(
-      final FrancaDeploymentModel deploymentModel, final FStructType francaStruct) {
+  public String validate(final FrancaDeploymentModel deploymentModel, final FType francaType) {
 
-    boolean hasExternalName = deploymentModel.getExternalName(francaStruct) != null;
-    boolean hasExternalType = deploymentModel.getExternalType(francaStruct) != null;
+    boolean hasExternalName = deploymentModel.getExternalName(francaType) != null;
+    boolean hasExternalType = deploymentModel.getExternalType(francaType) != null;
 
     return hasExternalName && !hasExternalType
-        ? String.format(NON_EXTERNAL_STRUCT_MESSAGE, FrancaTypeHelper.getFullName(francaStruct))
+        ? String.format(NON_EXTERNAL_TYPE_MESSAGE, FrancaTypeHelper.getFullName(francaType))
         : null;
   }
 }

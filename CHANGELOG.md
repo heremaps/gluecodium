@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features:
+  + Added support for "ExternalType" and "ExternalName" FDEPL properties for enumerations.
+
 ## 3.4.0
 - Breaking changes:
   + Generated functions returning optional "String?" in Swift are now returning a non-optional
