@@ -183,7 +183,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
     JavaEnum javaEnum = javaBuilder.getFinalResult(JavaEnum.class);
     CppEnum cppEnum = cppBuilder.getFinalResult(CppEnum.class);
     storeResult(
-        new JniEnum.Builder(javaEnum.name, cppEnum.name)
+        new JniEnum.Builder(javaEnum.name, cppEnum.fullyQualifiedName)
             .javaPackage(javaEnum.javaPackage)
             .enumerators(getPreviousResults(JniEnumerator.class))
             .build());

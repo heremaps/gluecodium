@@ -23,7 +23,7 @@
     ::std::string enumeratorName;
     switch(_ninput) {
 {{#enumerators}}
-        case({{>jni/FullyQualifiedCppName}}::{{cppEnumName}}::{{cppName}}):
+        case({{cppEnumName}}::{{cppName}}):
             enumeratorName = "{{javaName}}";
             break;
 {{/enumerators}}
