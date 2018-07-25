@@ -22,6 +22,14 @@
 
 namespace external
 {
+namespace even_more_external
+{
+std::error_code
+make_error_code( AlienErrors value ) noexcept
+{
+    return std::error_code( static_cast<int>( value ), std::generic_category( ) );
+}
+}
 
 std::string
 ExternalStruct::get_some_string( ) const

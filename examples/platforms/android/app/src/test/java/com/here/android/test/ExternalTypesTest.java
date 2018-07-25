@@ -23,6 +23,7 @@ import static junit.framework.Assert.assertNotNull;
 
 import android.os.Build;
 import android.support.compat.BuildConfig;
+import com.here.android.external.ExternalEnum;
 import com.here.android.external.ExternalStruct;
 import com.here.android.RobolectricApplication;
 import org.junit.Test;
@@ -37,10 +38,11 @@ import org.robolectric.annotation.Config;
   constants = BuildConfig.class
 )
 public final class ExternalTypesTest {
+
   @Test
-  public void useExternalTypes() {
-    UseExternalTypes.StructWithExternalStruct inputStruct =
-        new UseExternalTypes.StructWithExternalStruct();
+  public void useExternalTypesExternalStruct() {
+    UseExternalTypes.StructWithExternalTypes inputStruct =
+        new UseExternalTypes.StructWithExternalTypes();
     inputStruct.structField.stringField = "foo";
     inputStruct.structField.externalStringField = "bar";
     inputStruct.structField.externalArrayField = java.util.Arrays.asList(7, 11);
@@ -55,5 +57,17 @@ public final class ExternalTypesTest {
     assertEquals(7, resultStruct.externalArrayField.get(0).longValue());
     assertEquals(11, resultStruct.externalArrayField.get(1).longValue());
     assertEquals(42, resultStruct.externalStructField.intField);
+  }
+
+  @Test
+  public void useExternalTypesExternalEnum() {
+    UseExternalTypes.StructWithExternalTypes inputStruct =
+        new UseExternalTypes.StructWithExternalTypes();
+    inputStruct.enumField = ExternalEnum.BAR;
+
+    ExternalEnum resultEnum = UseExternalTypes.extractExternalEnum(inputStruct);
+
+    assertNotNull(resultEnum);
+    assertEquals(ExternalEnum.BAR, resultEnum);
   }
 }
