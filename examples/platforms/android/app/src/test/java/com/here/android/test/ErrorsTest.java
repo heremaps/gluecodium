@@ -120,4 +120,18 @@ public class ErrorsTest {
 
     assertEquals(SomeEnum.ANOTHER_RESULT, result);
   }
+
+  @Test
+  public void methodWithExternalError_throws() throws Errors.ExternalErrorsException {
+    expectedException.expect(Errors.ExternalErrorsException.class);
+    expectedException.expect(
+        FieldMatcher.hasFieldWithValue("error", Errors.ExternalErrors.BOOM));
+
+    Errors.methodWithExternalError(true);
+  }
+
+  @Test
+  public void methodWithExternalError_doesNotThrow() throws Errors.ExternalErrorsException {
+    Errors.methodWithExternalError(false);
+  }
 }

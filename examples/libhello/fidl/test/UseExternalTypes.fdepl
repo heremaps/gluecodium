@@ -29,4 +29,8 @@ define GeniumExtensions for interface test.UseExternalTypes
     method extractAnotherExternalStruct {
         Static = true
     }
+
+    method extractExternalEnum {
+        Static = true
+    }
 }

@@ -22,6 +22,7 @@ import XCTest
 import hello
 
 class ErrorsTests: XCTestCase {
+
     func testMethodWithErrorThrows() {
       XCTAssertThrowsError(try Errors.methodWithError(errorFlag: true)) { error in
         XCTAssertEqual(error as? Errors.InternalErrors, Errors.InternalErrors.crashed)
@@ -62,6 +63,16 @@ class ErrorsTests: XCTestCase {
       XCTAssertEqual(try Errors.methodWithGoodAndBad(errorFlag: false), SomeEnum.anotherResult)
     }
 
+    func testMethodWithExternalErrorThrows() {
+      XCTAssertThrowsError(try Errors.methodWithExternalError(errorFlag: true)) { error in
+        XCTAssertEqual(error as? Errors.ExternalErrors, Errors.ExternalErrors.boom)
+      }
+    }
+
+    func testMethodWithExternalErrorFinishes() {
+      XCTAssertNoThrow(try Errors.methodWithExternalError(errorFlag: false))
+    }
+
     static var allTests = [
         ("testMethodWithErrorThrows", testMethodWithErrorThrows),
         ("testMethodWithErrorFinishes", testMethodWithErrorFinishes),
@@ -70,6 +81,8 @@ class ErrorsTests: XCTestCase {
         ("testMethodThatExplodesThrows", testMethodThatExplodesThrows),
         ("testMethodThatExplodesFinishes", testMethodThatExplodesFinishes),
         ("testMethodWithGoodAndBadThrows", testMethodWithGoodAndBadThrows),
-        ("testMethodWithGoodAndBadFinishes", testMethodWithGoodAndBadFinishes)
+        ("testMethodWithGoodAndBadFinishes", testMethodWithGoodAndBadFinishes),
+        ("testMethodWithExternalErrorThrows", testMethodWithExternalErrorThrows),
+        ("testMethodWithExternalErrorFinishes", testMethodWithExternalErrorFinishes)
     ]
 }
