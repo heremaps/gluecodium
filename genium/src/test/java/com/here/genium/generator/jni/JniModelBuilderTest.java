@@ -693,6 +693,19 @@ public class JniModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaEnumerationsReadsNames() {
+    when(cppBuilder.getFinalResult(any())).thenReturn(cppEnum, cppCustomType);
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaEnum, javaCustomType);
+
+    modelBuilder.finishBuilding(francaEnumType);
+
+    JniEnum jniEnum = modelBuilder.getFinalResult(JniEnum.class);
+    assertNotNull(jniEnum);
+    assertEquals(javaEnum.name, jniEnum.javaEnumName);
+    assertEquals(cppEnum.fullyQualifiedName, jniEnum.cppEnumName);
+  }
+
+  @Test
   public void finishBuildingFrancaEnumerationsReadsEnumerators() {
     // arrange
     when(cppBuilder.getFinalResult(any())).thenReturn(cppEnum, cppCustomType);
@@ -707,8 +720,6 @@ public class JniModelBuilderTest {
     // assert
     JniEnum jniEnum = modelBuilder.getFinalResult(JniEnum.class);
     assertNotNull(jniEnum);
-    assertEquals(javaEnum.name, jniEnum.javaEnumName);
-    assertEquals(cppEnum.name, jniEnum.cppEnumName);
     assertNotNull(jniEnum.enumerators);
     assertEquals(3, jniEnum.enumerators.size());
     assertEquals("oneC", jniEnum.enumerators.get(0).cppName);
