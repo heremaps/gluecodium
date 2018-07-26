@@ -29,10 +29,23 @@ public class Errors {
         case errorFatal
     }
 
+    public enum ExternalErrors : UInt32 {
+        case none
+        case boom
+        case bust
+    }
+
     public static func methodWithErrors() throws -> Void {
         let ERROR_CODE = smoke_Errors_methodWithErrors()
         if (ERROR_CODE != 0) {
             throw Errors.InternalError(rawValue: ERROR_CODE)!
+        }
+    }
+
+    public static func methodWithExternalErrors() throws -> Void {
+        let ERROR_CODE = smoke_Errors_methodWithExternalErrors()
+        if (ERROR_CODE != 0) {
+            throw Errors.ExternalErrors(rawValue: ERROR_CODE)!
         }
     }
 

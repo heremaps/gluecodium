@@ -3,6 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 #include "smoke/Errors.h"
+#include "foo/Bar.h"
 #include "com_example_smoke_Errors.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
@@ -25,6 +26,21 @@ Java_com_example_smoke_Errors_methodWithErrors(JNIEnv* _jenv, jobject _jinstance
         auto jEnumValue = genium::jni::convert_to_jni(_jenv, nEnumValue);
         auto exceptionClass = _jenv->FindClass("com/example/smoke/Errors$InternalErrorException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass, "<init>", "(Lcom/example/smoke/Errors$InternalError;)V");
+        auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);
+        _jenv->Throw(static_cast<jthrowable>(exception));
+    }
+}
+void
+Java_com_example_smoke_Errors_methodWithExternalErrors(JNIEnv* _jenv, jobject _jinstance)
+{
+    auto nativeCallResult = ::smoke::Errors::method_with_external_errors();
+    auto errorCode = nativeCallResult;
+    if (errorCode)
+    {
+        auto nEnumValue = static_cast<::fire::SomeEnum>(errorCode.value());
+        auto jEnumValue = genium::jni::convert_to_jni(_jenv, nEnumValue);
+        auto exceptionClass = _jenv->FindClass("com/example/smoke/Errors$ExternalErrorsException");
+        auto theConstructor = _jenv->GetMethodID(exceptionClass, "<init>", "(Lcom/example/smoke/Errors$ExternalErrors;)V");
         auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);
         _jenv->Throw(static_cast<jthrowable>(exception));
     }

@@ -30,8 +30,18 @@ interface Errors {
         ERROR_FATAL
     }
 
+    enumeration ExternalErrors {
+        NONE
+        BOOM
+        BUST
+    }
+
     method methodWithErrors {
         error InternalError
+    }
+
+    method methodWithExternalErrors {
+        error ExternalErrors
     }
 }
 

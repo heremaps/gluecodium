@@ -1,3 +1,6 @@
+extension Errors.ExternalErrors : Error {
+}
+
 extension Errors.InternalError : Error {
 }
 

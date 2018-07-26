@@ -49,6 +49,29 @@ namespace jni {
         return jResult;
     }
 
+    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::SomeVeryExternalEnum& _nout )    {
+        jclass javaClass = _jenv->GetObjectClass(_jinput);
+        jint enumValue = genium::jni::get_int_field(_jenv,javaClass, _jinput, "value" );
+        _nout = ::fire::SomeVeryExternalEnum( enumValue );
+    }
+
+    jobject convert_to_jni( JNIEnv* _jenv, const ::fire::SomeVeryExternalEnum _ninput )    {
+        auto javaClass = _jenv->FindClass( "com/example/smoke/Enums$ExternalEnum" );
+        ::std::string enumeratorName;
+        switch(_ninput) {
+            case(::fire::SomeVeryExternalEnum::FOO):
+            enumeratorName = "FOO";
+            break;
+        case(::fire::SomeVeryExternalEnum::BAR):
+            enumeratorName = "BAR";
+            break;
+    }
+        jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "Lcom/example/smoke/Enums$ExternalEnum;");
+        jobject jResult = _jenv->GetStaticObjectField(javaClass, fieldID);
+        _jenv->DeleteLocalRef( javaClass );
+        return jResult;
+    }
+
     void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::TCEnum& _nout )    {
         jclass javaClass = _jenv->GetObjectClass(_jinput);
         jint enumValue = genium::jni::get_int_field(_jenv,javaClass, _jinput, "value" );
