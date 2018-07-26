@@ -31,6 +31,15 @@ public class Enums extends NativeBase {
         }
     }
 
+    public enum ExternalEnum {
+        FOO(0),
+        BAR(1);
+        public final int value;
+        ExternalEnum(final int value) {
+            this.value = value;
+        }
+    }
+
     public static class ErrorStruct {
         public Enums.InternalError type = Enums.InternalError.values()[0];
         public String message;
@@ -56,4 +65,5 @@ public class Enums extends NativeBase {
     public static native Enums.InternalError flipEnumValue(final Enums.InternalError input);
     public static native Enums.InternalError extractEnumFromStruct(final Enums.ErrorStruct input);
     public static native Enums.ErrorStruct createStructWithEnumInside(final Enums.InternalError type, final String message);
+    public static native void methodWithExternalEnum(final Enums.ExternalEnum input);
 }

@@ -7,6 +7,11 @@ import "./Enums.fidl"
 
 define GeniumExtensions for interface smoke.Enums
 {
+    enumeration ExternalEnum {
+        ExternalType = "foo/Bar.h"
+        ExternalName = "::fire::SomeVeryExternalEnum"
+    }
+
     method methodWithEnumeration {
         Static = true
     }
@@ -20,6 +25,10 @@ define GeniumExtensions for interface smoke.Enums
     }
 
     method createStructWithEnumInside {
+        Static = true
+    }
+
+    method methodWithExternalEnum {
         Static = true
     }
 }
