@@ -19,30 +19,29 @@
 
 package com.here.genium.model.cpp;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
 public final class CppEnum extends CppElementWithComment {
 
   public final boolean isScoped;
-  public final List<CppEnumItem> items = new ArrayList<>();
+  public final boolean isExternal;
+  public final List<CppEnumItem> items = new LinkedList<>();
 
-  public static CppEnum create(final String name) {
-    return new CppEnum(name, name, false);
-  }
-
-  public static CppEnum createScoped(final String name) {
-    return createScoped(name, name);
-  }
-
-  public static CppEnum createScoped(final String name, final String fullyQualifiedName) {
-    return new CppEnum(name, fullyQualifiedName, true);
-  }
-
-  private CppEnum(final String name, final String fullyQualifiedName, final boolean isScoped) {
+  @lombok.Builder(builderClassName = "Builder")
+  private CppEnum(
+      final String name,
+      final String fullyQualifiedName,
+      final boolean isScoped,
+      final boolean isExternal) {
     super(name, fullyQualifiedName);
     this.isScoped = isScoped;
+    this.isExternal = isExternal;
+  }
+
+  public static Builder builder(final String name) {
+    return new Builder().name(name);
   }
 
   @Override
