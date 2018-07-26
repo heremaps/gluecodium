@@ -167,6 +167,16 @@ public class CppTypeMapperComplexTest {
   }
 
   @Test
+  public void mapEnumtWithExternalName() {
+    when(francaTypeRef.getDerived()).thenReturn(enumType);
+    when(deploymentModel.getExternalName(any())).thenReturn("::very::External");
+
+    CppTypeRef result = typeMapper.map(francaTypeRef);
+
+    assertEquals("::very::External", result.name);
+  }
+
+  @Test
   public void mapArrayTypeRef() {
     // Arrange
     FTypeRef fTypeRefDouble = mockPredefinedType(FBasicTypeId.DOUBLE);

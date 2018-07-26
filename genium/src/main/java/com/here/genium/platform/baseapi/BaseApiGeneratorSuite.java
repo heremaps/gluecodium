@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.emf.ecore.EObject;
+import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeCollection;
 
@@ -78,7 +79,8 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     Set<String> errorEnums =
         typeCollections
             .stream()
-            .flatMap(BaseApiGeneratorSuite::collectErrorEnums)
+            .flatMap(
+                francaTypeCollection -> collectErrorEnums(francaTypeCollection, deploymentModel))
             .collect(Collectors.toSet());
 
     List<GeneratedFile> generatedFiles = new LinkedList<>();
@@ -148,15 +150,23 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     Stream<Streamable> allElementsStream =
         cppModel.members.stream().flatMap(CppElement::streamRecursive);
     return CollectionsHelper.getStreamOfType(allElementsStream, CppEnum.class)
+        .filter(cppEnum -> !cppEnum.isExternal)
         .map(cppEnum -> cppEnum.fullyQualifiedName)
         .collect(Collectors.toSet());
   }
 
-  private static Stream<String> collectErrorEnums(final FTypeCollection francaTypeCollection) {
+  private static Stream<String> collectErrorEnums(
+      final FTypeCollection francaTypeCollection, final FrancaDeploymentModel deploymentModel) {
     Stream<EObject> allElementsStream = FrancaTypeHelper.getAllElements(francaTypeCollection);
     return CollectionsHelper.getStreamOfType(allElementsStream, FMethod.class)
         .map(FMethod::getErrorEnum)
         .filter(Objects::nonNull)
-        .map(CppNameRules::getFullyQualifiedName);
+        .map(francaEnum -> getEnumName(francaEnum, deploymentModel));
+  }
+
+  private static String getEnumName(
+      final FEnumerationType francaEnum, final FrancaDeploymentModel deploymentModel) {
+    String externalName = deploymentModel.getExternalName(francaEnum);
+    return externalName != null ? externalName : CppNameRules.getFullyQualifiedName(francaEnum);
   }
 }

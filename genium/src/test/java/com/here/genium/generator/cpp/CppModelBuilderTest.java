@@ -83,7 +83,7 @@ public class CppModelBuilderTest {
 
   private final CppMethod cppMethod = new CppMethod.Builder("classical").build();
   private final CppValue cppValue = new CppValue("valuable");
-  private final CppEnum cppEnum = CppEnum.create(ENUM_NAME);
+  private final CppEnum cppEnum = CppEnum.builder(ENUM_NAME).fullyQualifiedName(ENUM_NAME).build();
   private final CppStruct cppStruct = new CppStruct(STRUCT_NAME);
   private final CppTypeRef cppTypeRef = CppPrimitiveTypeRef.INT64;
   private final CppUsing cppUsing =
@@ -637,6 +637,28 @@ public class CppModelBuilderTest {
     assertEquals(cppComplexTypeRef, resultTypeRef);
 
     verify(typeMapper).mapEnum(francaEnumerationType);
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationTypeReadsExternalType() {
+    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+
+    modelBuilder.finishBuilding(francaEnumerationType);
+
+    CppEnum resultEnum = modelBuilder.getFinalResult(CppEnum.class);
+    assertTrue(resultEnum.isExternal);
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumerationTypeReadsExternalName() {
+    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+    when(deploymentModel.getExternalName(any())).thenReturn("::very::External");
+
+    modelBuilder.finishBuilding(francaEnumerationType);
+
+    CppEnum resultEnum = modelBuilder.getFinalResult(CppEnum.class);
+    assertEquals("::very::External", resultEnum.name);
+    assertEquals("::very::External", resultEnum.fullyQualifiedName);
   }
 
   @Test

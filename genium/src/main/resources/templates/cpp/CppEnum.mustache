@@ -18,11 +18,13 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{#unless isExternal}}
 {{>common/DocComment}}
 enum {{#isScoped}}class {{/isScoped}}{{name}} {
 {{joinPartial items "enumItem" ",
 "}}
-};{{!!
+};
+{{/unless}}{{!!
 
 }}{{+enumItem}}
 {{#if comment}}

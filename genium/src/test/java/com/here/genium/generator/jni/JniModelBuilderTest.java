@@ -95,7 +95,8 @@ public class JniModelBuilderTest {
   private final JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
   private final CppClass cppClass = new CppClass(CPP_CLASS_NAME);
   private final JavaEnum javaEnum = new JavaEnum(JAVA_CLASS_NAME);
-  private final CppEnum cppEnum = CppEnum.create(CPP_CLASS_NAME);
+  private final CppEnum cppEnum =
+      CppEnum.builder(CPP_CLASS_NAME).fullyQualifiedName("::" + CPP_CLASS_NAME).build();
   private final JavaCustomType javaCustomType = new JavaCustomType(JAVA_CLASS_NAME);
   private final JavaField javaField =
       JavaField.builder(BASE_NAME_PARAMETER, javaCustomType)

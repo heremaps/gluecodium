@@ -166,13 +166,16 @@ public class CppTypeMapper {
         .build();
   }
 
-  public CppTypeRef mapEnum(FEnumerationType enumeration) {
+  public CppTypeRef mapEnum(final FEnumerationType francaEnum) {
 
-    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(enumeration);
+    String fullyQualifiedName = deploymentModel.getExternalName(francaEnum);
+    if (fullyQualifiedName == null) {
+      fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaEnum);
+    }
 
     return new CppComplexTypeRef.Builder(fullyQualifiedName)
         .refersToEnum(true)
-        .include(includeResolver.resolveInclude(enumeration))
+        .include(includeResolver.resolveInclude(francaEnum))
         .build();
   }
 

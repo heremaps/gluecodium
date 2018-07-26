@@ -130,13 +130,21 @@ public class CBridgeTypeMapperTest {
 
   @Test
   public void mapEnumerationType() {
-    FEnumerationType enumerationType = mock(FEnumerationType.class);
-    when(enumerationType.getName()).thenReturn("foo");
-    when(francaTypeRef.getDerived()).thenReturn(enumerationType);
+    when(francaEnum.getName()).thenReturn("foo");
+    when(francaTypeRef.getDerived()).thenReturn(francaEnum);
 
     CppTypeInfo actualType = typeMapper.mapType(francaTypeRef);
 
     assertEquals("::Foo", actualType.name);
+  }
+
+  public void mapEnumerationTypeWithExternalName() {
+    when(francaTypeRef.getDerived()).thenReturn(francaEnum);
+    when(deploymentModel.getExternalName(any())).thenReturn("::bar::Baz");
+
+    CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
+
+    assertEquals("::bar::Baz", mapped.name);
   }
 
   @Test
