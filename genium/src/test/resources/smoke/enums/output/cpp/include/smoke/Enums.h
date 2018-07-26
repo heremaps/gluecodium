@@ -10,6 +10,7 @@
 #pragma once
 
 #include "EnumHash.h"
+#include "foo/Bar.h"
 #include <cstdint>
 #include <string>
 #include <unordered_map>
@@ -39,5 +40,6 @@ static ::smoke::Enums::SimpleEnum method_with_enumeration( const ::smoke::Enums:
 static ::smoke::Enums::InternalError flip_enum_value( const ::smoke::Enums::InternalError input );
 static ::smoke::Enums::InternalError extract_enum_from_struct( const ::smoke::Enums::ErrorStruct& input );
 static ::smoke::Enums::ErrorStruct create_struct_with_enum_inside( const ::smoke::Enums::InternalError type, const ::std::string& message );
+static void method_with_external_enum( const ::fire::SomeVeryExternalEnum input );
 };
 }

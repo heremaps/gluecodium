@@ -39,6 +39,11 @@ interface Enums {
         String message
     }
 
+    enumeration ExternalEnum {
+        FOO
+        BAR
+    }
+
     method flipEnumValue {
         in {
             InternalError input
@@ -64,6 +69,12 @@ interface Enums {
         }
         out {
             ErrorStruct output
+        }
+    }
+
+    method methodWithExternalEnum {
+        in {
+            ExternalEnum input
         }
     }
 }

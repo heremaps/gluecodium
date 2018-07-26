@@ -37,6 +37,11 @@ public class Enums {
         case errorFatal = 999
     }
 
+    public enum ExternalEnum : UInt32 {
+        case foo
+        case bar
+    }
+
     public struct ErrorStruct {
         public var type: Enums.InternalError
         public var message: String
@@ -96,6 +101,9 @@ public class Enums {
         return Enums.ErrorStruct(cErrorStruct: cResult)
     }
 
+    public static func methodWithExternalEnum(input: Enums.ExternalEnum) -> Void {
+        return smoke_Enums_methodWithExternalEnum(input.rawValue)
+    }
 }
 
 extension Enums: NativeBase {
