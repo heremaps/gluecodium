@@ -174,11 +174,16 @@ public class CTypeMapper {
 
   public CppTypeInfo createEnumTypeInfo(final FEnumerationType francaEnum) {
 
+    String fullyQualifiedName = deploymentModel.getExternalName(francaEnum);
+    if (fullyQualifiedName == null) {
+      fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaEnum);
+    }
+
     CType enumCType =
         new CType(
             CBridgeNameRules.getEnumName(francaEnum), includeResolver.resolveInclude(francaEnum));
 
-    return CppTypeInfo.builder(CppNameRules.getFullyQualifiedName(francaEnum))
+    return CppTypeInfo.builder(fullyQualifiedName)
         .cType(enumCType)
         .functionReturnType(enumCType)
         .category(ENUM)
