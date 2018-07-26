@@ -24,6 +24,7 @@ enum class InternalError {
 
 public:
 static ::std::error_code method_with_errors(  );
+static ::std::error_code method_with_external_errors(  );
 };
 
 ::std::error_code make_error_code( ::smoke::Errors::InternalError value ) noexcept;

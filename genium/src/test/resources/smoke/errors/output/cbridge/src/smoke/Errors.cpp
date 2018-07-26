@@ -12,7 +12,10 @@ void smoke_Errors_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<smoke::Errors>>(handle);
 }
 
-
 smoke_Errors_InternalError smoke_Errors_methodWithErrors() {
     return ::smoke::Errors::method_with_errors().value();
+}
+
+smoke_Errors_ExternalErrors smoke_Errors_methodWithExternalErrors() {
+    return ::smoke::Errors::method_with_external_errors().value();
 }
