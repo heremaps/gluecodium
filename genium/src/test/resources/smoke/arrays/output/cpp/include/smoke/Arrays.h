@@ -20,12 +20,19 @@ public:
     virtual ~Arrays() = 0;
 
 public:
+enum class SomeEnum {
+    FOO,
+    BAR
+};
+
 using UIntArray = ::std::vector< uint8_t >;
 using StringArray = ::std::vector< ::std::string >;
 using ProfileId = ::std::string;
 using ProfileIdList = ::std::vector< ::smoke::Arrays::ProfileId >;
 using ErrorCodeToMessageMap = ::std::unordered_map< int32_t, ::std::string >;
 using ArrayOfMaps = ::std::vector< ::smoke::Arrays::ErrorCodeToMessageMap >;
+using ArrayOfArrays = ::std::vector< ::smoke::Arrays::StringArray >;
+using ArrayOfEnums = ::std::vector< ::smoke::Arrays::SomeEnum >;
 
 struct BasicStruct {
     double value;
