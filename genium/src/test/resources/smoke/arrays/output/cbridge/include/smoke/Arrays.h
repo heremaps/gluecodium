@@ -10,6 +10,7 @@ extern "C" {
 #include "cbridge/include/StringHandle.h"
 #include <stdint.h>
 #include <stdbool.h>
+typedef uint32_t smoke_Arrays_SomeEnum;
 _baseRef smoke_Arrays_BasicStruct_create();
 void smoke_Arrays_BasicStruct_release(_baseRef handle);
 double smoke_Arrays_BasicStruct_value_get(_baseRef handle);

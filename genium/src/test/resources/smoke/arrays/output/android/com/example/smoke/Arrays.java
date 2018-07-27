@@ -11,6 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 public class Arrays extends NativeBase {
+    public enum SomeEnum {
+        FOO(0),
+        BAR(1);
+        public final int value;
+        SomeEnum(final int value) {
+            this.value = value;
+        }
+    }
     public static class BasicStruct {
         public double value;
         public BasicStruct() {}

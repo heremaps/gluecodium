@@ -78,6 +78,34 @@ extension Collection where Element == Arrays.FancyStruct  {
         return (handle, cleanup_function)
     }
 }
+internal class SomeEnumList: CollectionOf<Arrays.SomeEnum> {
+    let c_element: _baseRef
+    init(_ c_element: _baseRef) {
+        self.c_element = c_element
+        super.init(nil)
+        self.startIndex = 0
+        self.endIndex = Int(arrayCollection_Enums_count(c_element))
+    }
+    deinit {
+        arrayCollection_Enums_release(c_element)
+    }
+    public override subscript(index: Int) -> Arrays.SomeEnum {
+        let handle = arrayCollection_Enums_get(c_element, UInt64(index))
+        return Arrays.SomeEnum(rawValue: handle)!
+    }
+}
+extension Collection where Element == Arrays.SomeEnum  {
+    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
+        let handle = arrayCollection_Enums_create()
+        for item in self {
+            arrayCollection_Enums_append(handle, item.rawValue)
+        }
+        let cleanup_function = { () -> Void in
+            arrayCollection_Enums_release(handle)
+        }
+        return (handle, cleanup_function)
+    }
+}
 internal class ArraysErrorCodeToMessageMapList: CollectionOf<Arrays.ErrorCodeToMessageMap> {
     let c_element: _baseRef
     init(_ c_element: _baseRef) {
@@ -106,6 +134,36 @@ extension Collection where Element == Arrays.ErrorCodeToMessageMap  {
         }
         let cleanup_function = { () -> Void in
             arrayCollection_Int32StringMap_release(handle)
+        }
+        return (handle, cleanup_function)
+    }
+}
+internal class StringListList: CollectionOf<CollectionOf<String>> {
+    let c_element: _baseRef
+    init(_ c_element: _baseRef) {
+        self.c_element = c_element
+        super.init(nil)
+        self.startIndex = 0
+        self.endIndex = Int(arrayCollection_StringArray_count(c_element))
+    }
+    deinit {
+        arrayCollection_StringArray_release(c_element)
+    }
+    public override subscript(index: Int) -> CollectionOf<String> {
+        let handle = arrayCollection_StringArray_get(c_element, UInt64(index))
+        return StringList(handle)
+    }
+}
+extension Collection where Element: Collection, Element.Element == String  {
+    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
+        let handle = arrayCollection_StringArray_create()
+        for item in self {
+            let conversion = item.c_conversion()
+            arrayCollection_StringArray_append(handle, conversion.c_type)
+            conversion.cleanup()
+        }
+        let cleanup_function = { () -> Void in
+            arrayCollection_StringArray_release(handle)
         }
         return (handle, cleanup_function)
     }
@@ -140,7 +198,7 @@ extension Collection where Element: Collection, Element.Element == UInt8  {
         return (handle, cleanup_function)
     }
 }
-internal class StringList: CollectionOf<Arrays.ProfileId> {
+internal class StringList: CollectionOf<String> {
     let c_element: _baseRef
     init(_ c_element: _baseRef) {
         self.c_element = c_element
@@ -151,7 +209,7 @@ internal class StringList: CollectionOf<Arrays.ProfileId> {
     deinit {
         arrayCollection_String_release(c_element)
     }
-    public override subscript(index: Int) -> Arrays.ProfileId {
+    public override subscript(index: Int) -> String {
         let handle = arrayCollection_String_get(c_element, UInt64(index))
         defer {
             std_string_release(handle)
@@ -160,7 +218,7 @@ internal class StringList: CollectionOf<Arrays.ProfileId> {
                       count: Int(std_string_size_get(handle))), encoding: .utf8)!
     }
 }
-extension Collection where Element == Arrays.ProfileId  {
+extension Collection where Element == String  {
     public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_String_create()
         for item in self {

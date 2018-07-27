@@ -18,6 +18,10 @@ public class Arrays {
     deinit {
         smoke_Arrays_release(c_instance)
     }
+    public enum SomeEnum : UInt32 {
+        case foo
+        case bar
+    }
     public struct BasicStruct {
         public var value: Double
         public init(value: Double) {
