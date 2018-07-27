@@ -49,8 +49,6 @@ public final class InstanceRules {
   public static boolean isInstanceId(FTypeRef typeRef) {
     FType derived = typeRef.getDerived();
 
-    return derived != null
-        && derived instanceof FTypeDef
-        && InstanceRules.isInstanceId((FTypeDef) derived);
+    return derived instanceof FTypeDef && InstanceRules.isInstanceId((FTypeDef) derived);
   }
 }

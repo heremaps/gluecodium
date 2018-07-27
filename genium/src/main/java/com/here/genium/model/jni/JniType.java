@@ -28,7 +28,6 @@ import com.here.genium.model.java.JavaArrayType;
 import com.here.genium.model.java.JavaComplexType;
 import com.here.genium.model.java.JavaPrimitiveType;
 import com.here.genium.model.java.JavaType;
-import java.util.List;
 
 public final class JniType implements JniElement {
 
@@ -130,14 +129,11 @@ public final class JniType implements JniElement {
   }
 
   private static String createJniSignature(final JavaComplexType complexType) {
-
-    List<String> packageNames = complexType.packageNames;
-    List<String> classNames = complexType.classNames;
-
-    if (classNames == null || packageNames == null) {
-      return "";
-    }
-    return "L" + String.join("/", packageNames) + "/" + String.join("$", classNames) + ";";
+    return "L"
+        + String.join("/", complexType.packageNames)
+        + "/"
+        + String.join("$", complexType.classNames)
+        + ";";
   }
 
   private static String getCppFullyQualifiedName(final CppTypeRef cppTypeRef) {

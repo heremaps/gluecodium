@@ -25,7 +25,7 @@ import com.here.genium.generator.jni.JniGenerator;
 
 /**
  * Combines generators {@link AndroidManifestGenerator}, {@link JniGenerator} and {@link
- * JavaGenerator} to generate Java code and bindings to BaseAPI layer for Android.
+ * JavaGeneratorSuite} to generate Java code and bindings to BaseAPI layer for Android.
  */
 public final class AndroidGeneratorSuite extends JavaGeneratorSuite {
 
