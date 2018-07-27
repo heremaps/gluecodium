@@ -84,7 +84,7 @@ public class FrancaModelLoaderTest {
             new File(additionalFdepl.toURI()));
     List<FTypeCollection> typeCollections = new LinkedList<>();
     FrancaDeploymentModel deploymentModel =
-        loader.load(GeneratorSuite.getSpecPath(), currentFiles, typeCollections);
+        loader.load(GeneratorSuite.SPEC_PATH, currentFiles, typeCollections);
 
     assertEquals(1, typeCollections.size());
     assertTrue(typeCollections.get(0) instanceof FInterface);
@@ -106,7 +106,7 @@ public class FrancaModelLoaderTest {
             .getResource("francamodelloadertest/MalformedWithPackage.fdepl");
 
     Collection<File> currentFiles = Collections.singletonList(new File(malformedFdepl.toURI()));
-    loader.load(GeneratorSuite.getSpecPath(), currentFiles, new LinkedList<>());
+    loader.load(GeneratorSuite.SPEC_PATH, currentFiles, new LinkedList<>());
   }
 
   @Test
@@ -126,7 +126,7 @@ public class FrancaModelLoaderTest {
             new File(refersToInstanceFidl.toURI()));
     List<FTypeCollection> typeCollections = new LinkedList<>();
     FrancaDeploymentModel deploymentModel =
-        loader.load(GeneratorSuite.getSpecPath(), currentFiles, typeCollections);
+        loader.load(GeneratorSuite.SPEC_PATH, currentFiles, typeCollections);
 
     assertEquals(2, typeCollections.size());
 
@@ -169,7 +169,7 @@ public class FrancaModelLoaderTest {
             new File(otherInstanceFdepl.toURI()));
     List<FTypeCollection> typeCollections = new LinkedList<>();
     FrancaDeploymentModel deploymentModel =
-        loader.load(GeneratorSuite.getSpecPath(), currentFiles, typeCollections);
+        loader.load(GeneratorSuite.SPEC_PATH, currentFiles, typeCollections);
 
     assertEquals(2, typeCollections.size());
 

@@ -49,8 +49,8 @@ public final class CArrayGenerator {
 
     Collection<CArray> arrays = arrayCollector.values();
 
-    Collection<Include> headerIncludes = new TreeSet<>();
-    headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(arrays));
+    Collection<Include> headerIncludes =
+        new TreeSet<>(CBridgeComponents.collectHeaderIncludes(arrays));
     headerIncludes.add(FIXED_WIDTH_INTEGERS_INCLUDE);
 
     Map<String, Object> headerData = new HashMap<>();
@@ -61,8 +61,8 @@ public final class CArrayGenerator {
         new GeneratedFile(
             TemplateEngine.render("cbridge/ArraysHeader", headerData), CBRIDGE_ARRAY_HEADER);
 
-    Collection<Include> implementationIncludes = new TreeSet<>();
-    implementationIncludes.addAll(CBridgeComponents.collectImplementationIncludes(arrays));
+    Collection<Include> implementationIncludes =
+        new TreeSet<>(CBridgeComponents.collectImplementationIncludes(arrays));
     implementationIncludes.add(Include.createInternalInclude(CBRIDGE_ARRAY_HEADER));
 
     Map<String, Object> implementationData = new HashMap<>();

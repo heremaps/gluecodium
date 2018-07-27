@@ -124,10 +124,10 @@ class MultiFileSetCache {
     try {
       return Files.walk(source)
           .filter(Files::isRegularFile)
-          .map(path -> source.relativize(path))
+          .map(source::relativize)
           .filter(filterOutCachedFiles())
           .filter(filterOutCacheIndexFiles())
-          .map(path -> source.resolve(path))
+          .map(source::resolve)
           .collect(Collectors.toList());
     } catch (IOException e) {
       throw new GeniumExecutionException("Retrieval of non cached files failed", e);
