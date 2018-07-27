@@ -35,6 +35,11 @@ interface Arrays {
         ByteBuffer image
     }
 
+    enumeration SomeEnum {
+        FOO
+        BAR
+    }
+
     array StructArray of BasicStruct
 
     array UIntArray of UInt8
@@ -46,6 +51,9 @@ interface Arrays {
 
     array ArrayOfMaps of ErrorCodeToMessageMap
     map ErrorCodeToMessageMap { Int32 to String }
+
+    array ArrayOfArrays of StringArray
+    array ArrayOfEnums of SomeEnum
 
     method methodWithArray {
         in {

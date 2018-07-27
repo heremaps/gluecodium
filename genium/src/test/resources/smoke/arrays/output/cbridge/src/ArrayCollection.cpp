@@ -13,6 +13,21 @@
 #include <unordered_map>
 #include <vector>
 
+_baseRef arrayCollection_Enums_create() {
+    return reinterpret_cast<_baseRef>( new std::vector<::smoke::Arrays::SomeEnum>() );
+}
+void arrayCollection_Enums_release(_baseRef handle) {
+    delete get_pointer<std::vector<::smoke::Arrays::SomeEnum>>(handle);
+}
+uint64_t arrayCollection_Enums_count(_baseRef handle) {
+    return get_pointer<std::vector<::smoke::Arrays::SomeEnum>>(handle)->size();
+}
+smoke_Arrays_SomeEnum arrayCollection_Enums_get(_baseRef handle, uint64_t index) {
+    return static_cast<smoke_Arrays_SomeEnum>((*get_pointer<std::vector<::smoke::Arrays::SomeEnum>>(handle))[index]);
+}
+void arrayCollection_Enums_append(_baseRef handle, smoke_Arrays_SomeEnum item) {
+    get_pointer<std::vector<::smoke::Arrays::SomeEnum>>(handle)->push_back(static_cast<::smoke::Arrays::SomeEnum>(item));
+}
 _baseRef arrayCollection_FancyStruct_create() {
     return reinterpret_cast<_baseRef>( new std::vector<::smoke::Arrays::FancyStruct>() );
 }
@@ -103,6 +118,25 @@ _baseRef arrayCollection_String_get(_baseRef handle, uint64_t index) {
 }
 void arrayCollection_String_append(_baseRef handle, const char* item) {
     get_pointer<std::vector<std::string>>(handle)->push_back(std::string(item));
+}
+_baseRef arrayCollection_StringArray_create() {
+    return reinterpret_cast<_baseRef>( new std::vector<std::vector<std::string>>() );
+}
+void arrayCollection_StringArray_release(_baseRef handle) {
+    delete get_pointer<std::vector<std::vector<std::string>>>(handle);
+}
+uint64_t arrayCollection_StringArray_count(_baseRef handle) {
+    return get_pointer<std::vector<std::vector<std::string>>>(handle)->size();
+}
+_baseRef arrayCollection_StringArray_get(_baseRef handle, uint64_t index) {
+    return reinterpret_cast<_baseRef>(
+        new std::vector<std::string> {
+            (*get_pointer<std::vector<std::vector<std::string>>>(handle))[index]
+        }
+    );
+}
+void arrayCollection_StringArray_append(_baseRef handle, _baseRef item) {
+    get_pointer<std::vector<std::vector<std::string>>>(handle)->push_back(*get_pointer<std::vector<std::string>>(item));
 }
 _baseRef arrayCollection_UInt8_create() {
     return reinterpret_cast<_baseRef>( new std::vector<uint8_t>() );
