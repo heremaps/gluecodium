@@ -20,7 +20,6 @@
 package com.here.genium.output;
 
 import com.here.genium.generator.common.GeneratedFile;
-import java.io.IOException;
 import java.util.List;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
@@ -28,7 +27,7 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 public class ConsoleOutput implements GeneratorOutput {
 
   @Override
-  public void output(List<GeneratedFile> files) throws IOException {
+  public void output(List<GeneratedFile> files) {
     files.forEach(
         file -> {
           StringConcatenation builder = new StringConcatenation();

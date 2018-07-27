@@ -26,7 +26,6 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.genium.generator.cpp.CppNameRules;
-import java.util.ArrayList;
 import java.util.List;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FEnumerationType;
@@ -98,8 +97,12 @@ public final class CBridgeNameRulesTest {
   public void getStructBaseNameCreatesProperNameForStructInTypeCollection() {
     when(francaStruct.eContainer()).thenReturn(francaTypeCollection);
     String expectedName =
-        prependNameWithPackageAndContainer(
-            toUpperCamelCase(STRUCT_NAME), "_", TYPE_COLLECTION_NAME);
+        String.join(
+            "_",
+            PACKAGES.get(0),
+            PACKAGES.get(1),
+            TYPE_COLLECTION_NAME,
+            toUpperCamelCase(STRUCT_NAME));
 
     String actualName = CBridgeNameRules.getStructBaseName(francaStruct);
     assertEquals(expectedName, actualName);
@@ -125,11 +128,10 @@ public final class CBridgeNameRulesTest {
 
   @Test
   public void getEnumNameReturnsCorrectValue() {
-    List<String> packagesWithInterface = new ArrayList<>(PACKAGES);
-    packagesWithInterface.add(INTERFACE_NAME);
     when(francaEnum.getName()).thenReturn("enumName");
 
-    String expected = prependNameWithPackageAndInterface("EnumName", "_");
+    String expected =
+        String.join("_", PACKAGES.get(0), PACKAGES.get(1), INTERFACE_NAME, "EnumName");
 
     String actual = CBridgeNameRules.getEnumName(francaEnum);
 
@@ -138,11 +140,10 @@ public final class CBridgeNameRulesTest {
 
   @Test
   public void getEnumItemNameReturnsCorrectValue() {
-    List<String> packagesWithInterface = new ArrayList<>(PACKAGES);
-    packagesWithInterface.add(INTERFACE_NAME);
     when(francaEnumItem.getName()).thenReturn("ENUM_ITEM_NAME");
 
-    String expected = prependNameWithPackageAndInterface("enum_item_name", "_");
+    String expected =
+        String.join("_", PACKAGES.get(0), PACKAGES.get(1), INTERFACE_NAME, "enum_item_name");
 
     String actual = CBridgeNameRules.getEnumItemName(francaEnumItem);
 
@@ -150,15 +151,6 @@ public final class CBridgeNameRulesTest {
   }
 
   private String prependNameWithPackageAndInterface(String name) {
-    return prependNameWithPackageAndInterface(name, "_");
-  }
-
-  private String prependNameWithPackageAndInterface(String name, String delimiter) {
-    return prependNameWithPackageAndContainer(name, delimiter, INTERFACE_NAME);
-  }
-
-  private String prependNameWithPackageAndContainer(
-      String name, String delimiter, String container) {
-    return String.join(delimiter, PACKAGES.get(0), PACKAGES.get(1), container, name);
+    return String.join("_", PACKAGES.get(0), PACKAGES.get(1), INTERFACE_NAME, name);
   }
 }

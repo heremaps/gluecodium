@@ -112,7 +112,6 @@ public class SwiftTypeMapperTest {
 
     assertTrue(resultType instanceof SwiftContainerType);
     SwiftContainerType containerType = (SwiftContainerType) resultType;
-    final String expectedCName = INTERFACE_NAME;
-    assertEquals(expectedCName, containerType.cPrefix);
+    assertEquals(INTERFACE_NAME, containerType.cPrefix);
   }
 }

@@ -174,7 +174,7 @@ public final class OptionReader {
       } else {
         System.err.println("   Instantiation failed!");
       }
-      System.out.println("");
+      System.out.println();
     }
   }
 

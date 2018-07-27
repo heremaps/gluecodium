@@ -39,7 +39,7 @@ public final class JniContainer implements JniElement {
   public final String javaName;
   public final String javaInterfaceName;
   public final String cppName;
-  public boolean isFrancaInterface;
+  public final boolean isFrancaInterface;
   public boolean isInterface;
 
   public final List<JniMethod> methods = new LinkedList<>();

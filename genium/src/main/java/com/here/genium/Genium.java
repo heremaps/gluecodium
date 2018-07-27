@@ -156,7 +156,7 @@ public class Genium {
     }
 
     FrancaDeploymentModel deploymentModel =
-        francaModelLoader.load(GeneratorSuite.getSpecPath(), inputFiles, typeCollections);
+        francaModelLoader.load(GeneratorSuite.SPEC_PATH, inputFiles, typeCollections);
     LOGGER.fine("Built franca model");
 
     if (!validateFrancaModel(deploymentModel, typeCollections)) {
@@ -244,13 +244,8 @@ public class Genium {
 
     // handle output options
     if (options.isDumpingToStdout()) {
-      try {
-        ConsoleOutput co = new ConsoleOutput();
-        co.output(files);
-      } catch (IOException ignored) {
-        LOGGER.severe("Cannot open console for output");
-        return false;
-      }
+      ConsoleOutput co = new ConsoleOutput();
+      co.output(files);
     }
     List<GeneratedFile> filesToBeWritten = cacheStrategy.updateCache(generatorName, files);
     return saveToDirectory(options.getOutputDir(), filesToBeWritten);
