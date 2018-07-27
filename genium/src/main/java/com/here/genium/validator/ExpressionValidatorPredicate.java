@@ -22,7 +22,6 @@ package com.here.genium.validator;
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.model.franca.DefinedBy;
 import com.here.genium.model.franca.FrancaDeploymentModel;
-import java.util.*;
 import org.franca.core.franca.*;
 
 /**

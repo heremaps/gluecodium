@@ -53,22 +53,18 @@ public final class CBridgeNameRules {
   private CBridgeNameRules() {}
 
   public static String getHeaderFileNameWithPath(final FTypeCollection francaTypeCollection) {
-    return getPathComponents(
-        francaTypeCollection, CBRIDGE_PUBLIC, INCLUDE_DIR, PUBLIC_HEADER_SUFFIX);
+    return getPathComponents(francaTypeCollection, INCLUDE_DIR, PUBLIC_HEADER_SUFFIX);
   }
 
   public static String getImplementationFileNameWithPath(
       final FTypeCollection francaTypeCollection) {
-    return getPathComponents(francaTypeCollection, CBRIDGE_PUBLIC, SRC_DIR, IMPL_SUFFIX);
+    return getPathComponents(francaTypeCollection, SRC_DIR, IMPL_SUFFIX);
   }
 
   private static String getPathComponents(
-      final FTypeCollection francaTypeCollection,
-      final String prefix,
-      final String subfolder,
-      final String suffix) {
+      final FTypeCollection francaTypeCollection, final String subfolder, final String suffix) {
     ArrayList<String> pathComponents = new ArrayList<>();
-    pathComponents.add(prefix);
+    pathComponents.add(CBridgeNameRules.CBRIDGE_PUBLIC);
     pathComponents.add(subfolder);
     pathComponents.addAll(DefinedBy.getPackages(francaTypeCollection));
     pathComponents.add(getName(francaTypeCollection) + suffix);

@@ -20,6 +20,7 @@
 package com.here.genium.model.common;
 
 import lombok.EqualsAndHashCode;
+import org.jetbrains.annotations.NotNull;
 
 @EqualsAndHashCode
 public final class Include implements Comparable<Include> {
@@ -41,7 +42,7 @@ public final class Include implements Comparable<Include> {
   }
 
   @Override
-  public int compareTo(final Include include) {
+  public int compareTo(@NotNull final Include include) {
     if (this.isSystem && !include.isSystem) {
       return 1;
     }

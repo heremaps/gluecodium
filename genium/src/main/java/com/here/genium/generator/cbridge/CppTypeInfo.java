@@ -34,7 +34,7 @@ import lombok.Singular;
 public class CppTypeInfo extends CElement {
 
   public final CType cType;
-  public CType functionReturnType;
+  public final CType functionReturnType;
   public TypeCategory typeCategory;
   public final List<Include> includes;
 

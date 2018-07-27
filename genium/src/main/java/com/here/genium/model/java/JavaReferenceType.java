@@ -58,7 +58,7 @@ public final class JavaReferenceType extends JavaComplexType {
   public JavaReferenceType(final Type type) {
     super(
         type.getValue(),
-        Arrays.asList(type.getValue()),
+        Collections.singletonList(type.getValue()),
         JAVA_PACKAGE_NAMES,
         Collections.emptyList());
     this.type = type;

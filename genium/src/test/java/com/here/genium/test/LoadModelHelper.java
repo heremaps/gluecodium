@@ -44,7 +44,7 @@ public final class LoadModelHelper {
     Collection<File> testFiles =
         fileNames.stream().map(LoadModelHelper::getTestFile).collect(Collectors.toList());
 
-    return francaModelLoader.load(GeneratorSuite.getSpecPath(), testFiles, typeCollections);
+    return francaModelLoader.load(GeneratorSuite.SPEC_PATH, testFiles, typeCollections);
   }
 
   private static File getTestFile(final String fileName) {

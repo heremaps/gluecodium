@@ -38,6 +38,8 @@ import org.franca.core.franca.FTypeCollection;
 /** The base interface for all the generators. */
 public abstract class GeneratorSuite {
 
+  public static final String SPEC_PATH = "classpath:/GeniumExtensions.fdepl";
+
   /** @return the human readable name of this generator */
   public abstract String getName();
 
@@ -50,10 +52,6 @@ public abstract class GeneratorSuite {
    */
   public abstract List<GeneratedFile> generate(
       FrancaDeploymentModel deploymentModel, List<FTypeCollection> typeCollections);
-
-  public static String getSpecPath() {
-    return "classpath:/GeniumExtensions.fdepl";
-  }
 
   /** Creates a new instance of a generator suite by its short identifier */
   public static GeneratorSuite instantiateByShortName(

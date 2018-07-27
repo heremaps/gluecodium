@@ -64,7 +64,7 @@ class FileSetCache {
   private static Map<String, CacheEntry> loadCache(File cacheFile) {
 
     try (InputStream fileInputStream = new FileInputStream(cacheFile);
-        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream); ) {
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
       return (HashMap<String, CacheEntry>) objectInputStream.readObject();
     } catch (IOException e) {
       throw new GeniumExecutionException("Reading cache index from file system failed", e);
@@ -78,7 +78,7 @@ class FileSetCache {
 
     cacheIndexFile.getParentFile().mkdirs();
     try (OutputStream outputStream = new FileOutputStream(cacheIndexFile);
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream); ) {
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream)) {
       objectOutputStream.writeObject(cacheEntries);
     } catch (FileNotFoundException e) {
       throw new GeniumExecutionException("Opening the cache index file for writing failed", e);

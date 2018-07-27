@@ -126,8 +126,8 @@ public class FrancaModelLoader {
             .collect(Collectors.groupingBy(fileSuffix));
 
     // ensure null lists are replaced by empty lists
-    map.computeIfAbsent(FIDL_SUFFIX, key -> Collections.emptyList());
-    map.computeIfAbsent(FDEPL_SUFFIX, key -> Collections.emptyList());
+    map.putIfAbsent(FIDL_SUFFIX, Collections.emptyList());
+    map.putIfAbsent(FDEPL_SUFFIX, Collections.emptyList());
 
     return map;
   }

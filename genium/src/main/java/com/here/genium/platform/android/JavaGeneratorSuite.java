@@ -114,7 +114,7 @@ public class JavaGeneratorSuite extends GeneratorSuite {
     Collection<ModelElement> model =
         typeCollections
             .stream()
-            .map(typeCollection -> jniGenerator.generateModel(typeCollection))
+            .map(jniGenerator::generateModel)
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
     List<JavaElement> javaModel = CollectionsHelper.getAllOfType(model, JavaElement.class);
