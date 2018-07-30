@@ -23,6 +23,10 @@ import java.io.Serializable;
 
 /** This class represents a cache entry. EqualsAndHashCode is for tests only. */
 final class CacheEntry implements Serializable {
+
+  // DO NOT CHANGE! Value obtained with "serialver" tool for Genium release v3.4.0
+  private static final long serialVersionUID = 1149358075297866146L;
+
   public final byte[] cachedFileHashValue;
   public transient boolean touched;
 
