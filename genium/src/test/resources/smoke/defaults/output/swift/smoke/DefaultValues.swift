@@ -20,6 +20,10 @@ public class DefaultValues {
         case fooValue
         case barValue
     }
+    public enum ExternalEnum : UInt32 {
+        case oneValue
+        case anotherValue
+    }
     public struct StructWithDefaults {
         public var intField: Int32
         public var uintField: UInt32
@@ -27,13 +31,15 @@ public class DefaultValues {
         public var boolField: Bool
         public var stringField: String
         public var enumField: DefaultValues.SomeEnum
-        public init(intField: Int32 = 42, uintField: UInt32 = 4294967295, floatField: Float = 3.14, boolField: Bool = true, stringField: String = "\\Jonny \"Magic\" Smith\n", enumField: DefaultValues.SomeEnum = DefaultValues.SomeEnum.barValue) {
+        public var externalEnumField: DefaultValues.ExternalEnum
+        public init(intField: Int32 = 42, uintField: UInt32 = 4294967295, floatField: Float = 3.14, boolField: Bool = true, stringField: String = "\\Jonny \"Magic\" Smith\n", enumField: DefaultValues.SomeEnum = DefaultValues.SomeEnum.barValue, externalEnumField: DefaultValues.ExternalEnum = DefaultValues.ExternalEnum.anotherValue) {
             self.intField = intField
             self.uintField = uintField
             self.floatField = floatField
             self.boolField = boolField
             self.stringField = stringField
             self.enumField = enumField
+            self.externalEnumField = externalEnumField
         }
         internal init?(cStructWithDefaults: _baseRef) {
             intField = smoke_DefaultValues_StructWithDefaults_intField_get(cStructWithDefaults)
@@ -48,6 +54,7 @@ public class DefaultValues {
                 stringField = String(cString: std_string_data_get(stringField_handle))
             }
             enumField = DefaultValues.SomeEnum.init(rawValue: smoke_DefaultValues_StructWithDefaults_enumField_get(cStructWithDefaults))!
+            externalEnumField = DefaultValues.ExternalEnum.init(rawValue: smoke_DefaultValues_StructWithDefaults_externalEnumField_get(cStructWithDefaults))!
         }
         internal func convertToCType() -> _baseRef {
             let result = smoke_DefaultValues_StructWithDefaults_create()
@@ -61,6 +68,7 @@ public class DefaultValues {
             smoke_DefaultValues_StructWithDefaults_boolField_set(cStructWithDefaults, boolField)
             smoke_DefaultValues_StructWithDefaults_stringField_set(cStructWithDefaults, stringField)
             smoke_DefaultValues_StructWithDefaults_enumField_set(cStructWithDefaults, enumField.rawValue)
+            smoke_DefaultValues_StructWithDefaults_externalEnumField_set(cStructWithDefaults, externalEnumField.rawValue)
         }
     }
     public static func processStructWithDefaults(input: DefaultValues.StructWithDefaults) -> DefaultValues.StructWithDefaults? {

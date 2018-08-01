@@ -161,15 +161,9 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     String fieldName = CppNameRules.getFieldName(francaField.getName());
 
-    String deploymentDefaultValue = deploymentModel.getDefaultValue(francaField);
-    CppValue cppValue =
-        deploymentDefaultValue != null
-            ? valueMapper.mapDeploymentDefaultValue(cppTypeRef, deploymentDefaultValue)
-            : null;
-
     CppField cppField =
         CppField.builder(fieldName, cppTypeRef)
-            .initializer(cppValue)
+            .initializer(valueMapper.mapDeploymentDefaultValue(cppTypeRef, francaField))
             .isNotNull(deploymentModel.isNotNull(francaField))
             .build();
     cppField.comment = CommentHelper.getDescription(francaField);
@@ -304,8 +298,12 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FEnumerator francaEnumerator) {
 
-    String enumItemName = CppNameRules.getEnumEntryName(francaEnumerator.getName());
+    String enumItemName = francaEnumerator.getName();
+    if (deploymentModel.getExternalType((FType) francaEnumerator.eContainer()) == null) {
+      enumItemName = CppNameRules.getEnumEntryName(enumItemName);
+    }
     CppValue cppValue = getPreviousResult(CppValue.class);
+
     CppEnumItem cppEnumItem = new CppEnumItem(enumItemName, cppValue);
     cppEnumItem.comment = CommentHelper.getDescription(francaEnumerator);
 
