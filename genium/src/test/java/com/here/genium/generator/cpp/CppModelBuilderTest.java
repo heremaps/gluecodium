@@ -420,8 +420,6 @@ public class CppModelBuilderTest {
     CppField cppField = modelBuilder.getFinalResult(CppField.class);
     assertNotNull(cppField);
     assertEquals(cppValue, cppField.initializer);
-
-    verify(deploymentModel).getDefaultValue(francaField);
   }
 
   @Test
@@ -666,7 +664,18 @@ public class CppModelBuilderTest {
 
     CppEnumItem cppEnumItem = modelBuilder.getFinalResult(CppEnumItem.class);
     assertNotNull(cppEnumItem);
-    assertEquals("enumerated", cppEnumItem.name.toLowerCase());
+    assertEquals("ENUMERATED", cppEnumItem.name);
+  }
+
+  @Test
+  public void finishBuildingFrancaEnumeratorExternalEnum() {
+    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+
+    modelBuilder.finishBuilding(francaEnumerator);
+
+    CppEnumItem cppEnumItem = modelBuilder.getFinalResult(CppEnumItem.class);
+    assertNotNull(cppEnumItem);
+    assertEquals("enumerated", cppEnumItem.name);
   }
 
   @Test
