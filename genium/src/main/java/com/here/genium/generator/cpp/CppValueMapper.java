@@ -28,7 +28,6 @@ import org.franca.core.franca.*;
 
 public class CppValueMapper {
 
-  @SuppressWarnings({"FieldCanBeLocal", "PMD.UnusedPrivateField", "PMD.SingularField", "unused"})
   private final FrancaDeploymentModel deploymentModel;
 
   public CppValueMapper(final FrancaDeploymentModel deploymentModel) {
@@ -52,13 +51,20 @@ public class CppValueMapper {
     return null;
   }
 
-  public CppValue mapDeploymentDefaultValue(
-      final CppTypeRef cppTypeRef, final String deploymentDefaultValue) {
+  public CppValue mapDeploymentDefaultValue(final CppTypeRef cppTypeRef, final FField francaField) {
+
+    String deploymentDefaultValue = deploymentModel.getDefaultValue(francaField);
+    if (deploymentDefaultValue == null) {
+      return null;
+    }
 
     if (cppTypeRef == CppTypeMapper.STRING_TYPE) {
       return new CppValue("\"" + StringEscapeUtils.escapeJava(deploymentDefaultValue) + "\"");
     } else if (cppTypeRef.refersToEnumType()) {
-      String enumEntryName = CppNameRules.getEnumEntryName(deploymentDefaultValue);
+      String enumEntryName =
+          deploymentModel.getExternalType(francaField.getType().getDerived()) != null
+              ? deploymentDefaultValue
+              : CppNameRules.getEnumEntryName(deploymentDefaultValue);
       return new CppValue(cppTypeRef.name + "::" + enumEntryName);
     } else {
       return new CppValue(deploymentDefaultValue);
@@ -74,7 +80,10 @@ public class CppValueMapper {
 
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(value);
     String enumeratorName = value.getName();
-    String enumEntryName = CppNameRules.getEnumEntryName(enumeratorName);
+    String enumEntryName =
+        deploymentModel.getExternalType((FType) value.eContainer()) != null
+            ? enumeratorName
+            : CppNameRules.getEnumEntryName(enumeratorName);
     return new CppValue(CppNameRules.getFullyQualifiedName(nestedNameSpecifier, enumEntryName));
   }
 }
