@@ -55,8 +55,8 @@ interface Enums {
     }
 
     enumeration ExternalEnum {
-        FOO
-        BAR
+        Foo_Value
+        Bar_Value
     }
 
     method flipEnumValue {

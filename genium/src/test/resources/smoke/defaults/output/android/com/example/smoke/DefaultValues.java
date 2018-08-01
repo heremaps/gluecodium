@@ -13,6 +13,14 @@ public class DefaultValues extends NativeBase {
             this.value = value;
         }
     }
+    public enum ExternalEnum {
+        ONE_VALUE(0),
+        ANOTHER_VALUE(1);
+        public final int value;
+        ExternalEnum(final int value) {
+            this.value = value;
+        }
+    }
     public static class StructWithDefaults {
         public int intField = 42;
         public long uintField = 4294967295L;
@@ -20,14 +28,16 @@ public class DefaultValues extends NativeBase {
         public boolean boolField = true;
         public String stringField = "\\Jonny \"Magic\" Smith\n";
         public DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
+        public DefaultValues.ExternalEnum externalEnumField = DefaultValues.ExternalEnum.ANOTHER_VALUE;
         public StructWithDefaults() {}
-        public StructWithDefaults(int intField, long uintField, float floatField, boolean boolField, String stringField, DefaultValues.SomeEnum enumField) {
+        public StructWithDefaults(int intField, long uintField, float floatField, boolean boolField, String stringField, DefaultValues.SomeEnum enumField, DefaultValues.ExternalEnum externalEnumField) {
             this.intField = intField;
             this.uintField = uintField;
             this.floatField = floatField;
             this.boolField = boolField;
             this.stringField = stringField;
             this.enumField = enumField;
+            this.externalEnumField = externalEnumField;
         }
         public static class Builder {
             private int intField = 42;
@@ -36,6 +46,7 @@ public class DefaultValues extends NativeBase {
             private boolean boolField = true;
             private String stringField = "\\Jonny \"Magic\" Smith\n";
             private DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
+            private DefaultValues.ExternalEnum externalEnumField = DefaultValues.ExternalEnum.ANOTHER_VALUE;
             public Builder() {
             }
             public Builder setIntField(int intField) {
@@ -62,8 +73,12 @@ public class DefaultValues extends NativeBase {
                 this.enumField = enumField;
                 return this;
             }
+            public Builder setExternalEnumField(DefaultValues.ExternalEnum externalEnumField) {
+                this.externalEnumField = externalEnumField;
+                return this;
+            }
             public StructWithDefaults build() {
-                return new StructWithDefaults(intField, uintField, floatField, boolField, stringField, enumField);
+                return new StructWithDefaults(intField, uintField, floatField, boolField, stringField, enumField, externalEnumField);
             }
         }
     }

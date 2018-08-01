@@ -32,8 +32,8 @@ public class Enums extends NativeBase {
     }
 
     public enum ExternalEnum {
-        FOO(0),
-        BAR(1);
+        FOO_VALUE(0),
+        BAR_VALUE(1);
         public final int value;
         ExternalEnum(final int value) {
             this.value = value;

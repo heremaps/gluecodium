@@ -59,11 +59,11 @@ namespace jni {
         auto javaClass = _jenv->FindClass( "com/example/smoke/Enums$ExternalEnum" );
         ::std::string enumeratorName;
         switch(_ninput) {
-            case(::fire::SomeVeryExternalEnum::FOO):
-            enumeratorName = "FOO";
+            case(::fire::SomeVeryExternalEnum::Foo_Value):
+            enumeratorName = "FOO_VALUE";
             break;
-        case(::fire::SomeVeryExternalEnum::BAR):
-            enumeratorName = "BAR";
+        case(::fire::SomeVeryExternalEnum::Bar_Value):
+            enumeratorName = "BAR_VALUE";
             break;
     }
         jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "Lcom/example/smoke/Enums$ExternalEnum;");

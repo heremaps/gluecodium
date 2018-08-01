@@ -38,8 +38,8 @@ public class Enums {
     }
 
     public enum ExternalEnum : UInt32 {
-        case foo
-        case bar
+        case fooValue
+        case barValue
     }
 
     public struct ErrorStruct {

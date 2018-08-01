@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "foo/Bar.h"
 #include <cstdint>
 #include <string>
 
@@ -31,6 +32,7 @@ struct StructWithDefaults {
     bool bool_field = true;
     ::std::string string_field = "\\Jonny \"Magic\" Smith\n";
     ::smoke::DefaultValues::SomeEnum enum_field = ::smoke::DefaultValues::SomeEnum::BAR_VALUE;
+    ::fire::SomeVeryExternalEnum external_enum_field = ::fire::SomeVeryExternalEnum::Another_Value;
 };
 public:
 static ::smoke::DefaultValues::StructWithDefaults process_struct_with_defaults( const ::smoke::DefaultValues::StructWithDefaults& input );

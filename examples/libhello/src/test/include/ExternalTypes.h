@@ -29,8 +29,8 @@ namespace external
 namespace even_more_external
 {
 enum class AlienEnum {
-    FOO,
-    BAR
+    Foo,
+    Bar
 };
 
 enum class AlienErrors {
