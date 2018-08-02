@@ -109,7 +109,8 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
       final FTypeCollection francaTypeCollection,
       final Set<String> allErrorEnums) {
 
-    CppModelBuilder builder = new CppModelBuilder(deploymentModel, typeMapper);
+    CppModelBuilder builder =
+        new CppModelBuilder(deploymentModel, typeMapper, new CppValueMapper(deploymentModel));
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walkTree(francaTypeCollection);
