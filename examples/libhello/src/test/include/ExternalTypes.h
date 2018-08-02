@@ -38,6 +38,12 @@ enum class AlienErrors {
     BOOM
 };
 
+/// An enum that intentionally violates naming conventions for its values.
+enum class VeryAlienEnum {
+    One_Value,
+    Another_Value
+};
+
 struct AlienStructure
 {
    int32_t int_field;
