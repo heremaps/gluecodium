@@ -25,6 +25,7 @@ import static org.mockito.Mockito.when;
 
 import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.*;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,13 +43,18 @@ public final class CppValueMapperTest {
   @Mock private FEnumerator francaEnumerator;
   @Mock private FQualifiedElementRef francaElementRef;
 
+  @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private CppIncludeResolver includeResolver;
 
   private final Include internalInclude = Include.createInternalInclude("nonsense");
 
+  private CppValueMapper valueMapper;
+
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
+
+    valueMapper = new CppValueMapper(deploymentModel);
 
     when(includeResolver.resolveInclude(any())).thenReturn(internalInclude);
 
@@ -61,7 +67,7 @@ public final class CppValueMapperTest {
 
   @Test
   public void mapNonConstantValue() {
-    CppValue mappedValue = CppValueMapper.map(francaElementRef);
+    CppValue mappedValue = valueMapper.map(francaElementRef);
 
     assertNull(mappedValue);
   }
@@ -70,7 +76,7 @@ public final class CppValueMapperTest {
   public void mapEnumValue() {
     when(francaElementRef.getElement()).thenReturn(francaEnumerator);
 
-    CppValue mappedValue = CppValueMapper.map(francaElementRef);
+    CppValue mappedValue = valueMapper.map(francaElementRef);
 
     assertNotNull(mappedValue);
   }
@@ -80,7 +86,7 @@ public final class CppValueMapperTest {
     CppTypeRef cppTypeRef = CppTypeMapper.STRING_TYPE;
 
     CppValue result =
-        CppValueMapper.mapDeploymentDefaultValue(cppTypeRef, "\\Jonny \"Magic\" Smith\n");
+        valueMapper.mapDeploymentDefaultValue(cppTypeRef, "\\Jonny \"Magic\" Smith\n");
 
     assertEquals("\"\\\\Jonny \\\"Magic\\\" Smith\\n\"", result.name);
   }
@@ -89,7 +95,7 @@ public final class CppValueMapperTest {
   public void mapDeploymentDefaultValueForEnum() {
     CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("SomeType").refersToEnum(true).build();
 
-    CppValue result = CppValueMapper.mapDeploymentDefaultValue(cppTypeRef, "SomeString");
+    CppValue result = valueMapper.mapDeploymentDefaultValue(cppTypeRef, "SomeString");
 
     assertEquals("SomeType::SOME_STRING", result.name);
   }
@@ -98,7 +104,7 @@ public final class CppValueMapperTest {
   public void mapDeploymentDefaultValueForInteger() {
     CppTypeRef cppTypeRef = CppPrimitiveTypeRef.UINT64;
 
-    CppValue result = CppValueMapper.mapDeploymentDefaultValue(cppTypeRef, "SomeString");
+    CppValue result = valueMapper.mapDeploymentDefaultValue(cppTypeRef, "SomeString");
 
     assertEquals("SomeString", result.name);
   }
