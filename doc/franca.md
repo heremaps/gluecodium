@@ -183,9 +183,10 @@ generated. If a non-empty value is given, no header file is generated, but the g
 used as a path to a pre-existing header file instead. This property has no effect on generated code
 for Java or Swift.
 
-For an external enumeration the names of the enumerators (individual enumeration values) are assumed
-to match their "external" counterparts in the source file and thus are used verbatim in generated
-C++ and conversion code (i.e. without any naming convention being applied to the names).
+For an external enumeration its name and the names of the enumerators (individual enumeration
+values) are assumed to match their "external" counterparts in the source file, and thus are used
+verbatim in generated C++ and conversion code (i.e. without any naming convention being applied to
+the names).
 
 FIDL:
 

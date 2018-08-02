@@ -22,7 +22,11 @@ import "./Enums.fidl"
 
 define GeniumExtensions for interface smoke.Enums
 {
-    enumeration ExternalEnum {
+    enumeration External_Enum {
+        ExternalType = "foo/Bar.h"
+    }
+
+    enumeration VeryExternalEnum {
         ExternalType = "foo/Bar.h"
         ExternalName = "::fire::SomeVeryExternalEnum"
     }

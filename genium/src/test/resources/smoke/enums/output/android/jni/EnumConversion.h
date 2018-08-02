@@ -18,6 +18,8 @@ namespace jni {
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::SimpleEnum _ninput );
     void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::InternalError& _nout );
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::InternalError _ninput );
+    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::External_Enum& _nout );
+    jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::External_Enum _ninput );
     void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::SomeVeryExternalEnum& _nout );
     jobject convert_to_jni( JNIEnv* _jenv, const ::fire::SomeVeryExternalEnum _ninput );
     void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::TCEnum& _nout );

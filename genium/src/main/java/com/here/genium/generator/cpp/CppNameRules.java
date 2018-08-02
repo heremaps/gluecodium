@@ -108,6 +108,31 @@ public final class CppNameRules {
     return getFullyQualifiedName(nestedNameSpecifier, typeName);
   }
 
+  public static String getFullyQualifiedName(
+      final FType francaType, boolean isExternal, final String externalName) {
+
+    if (!isExternal) {
+      return getFullyQualifiedName(francaType);
+    } else if (externalName == null) {
+      List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(francaType);
+      return getFullyQualifiedName(nestedNameSpecifier, francaType.getName());
+    } else {
+      return externalName;
+    }
+  }
+
+  public static String getTypeName(
+      final String typeName, boolean isExternal, final String externalName) {
+
+    if (!isExternal) {
+      return getStructName(typeName);
+    } else if (externalName == null) {
+      return typeName;
+    } else {
+      return externalName;
+    }
+  }
+
   public static String getClassName(String typeCollectionName) {
     return NameHelper.toUpperCamelCase(typeCollectionName);
   }

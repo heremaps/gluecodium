@@ -42,6 +42,11 @@ public class Enums {
         case barValue
     }
 
+    public enum VeryExternalEnum : UInt32 {
+        case foo
+        case bar
+    }
+
     public struct ErrorStruct {
         public var type: Enums.InternalError
         public var message: String
