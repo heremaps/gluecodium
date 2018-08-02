@@ -31,6 +31,11 @@ interface Defaults {
         BarValue
     }
 
+    enumeration ExternalEnum {
+        One_Value
+        Another_Value
+    }
+
     struct StructWithDefaults {
         Int32 intField
         UInt32 uintField
@@ -38,6 +43,10 @@ interface Defaults {
         Boolean boolField
         String stringField
         SomeEnum enumField
+    }
+
+    struct StructWithExternalDefaults {
+        ExternalEnum enumField
     }
 
     <** @description: Get a default-initialized StructWithDefaults object. **>
