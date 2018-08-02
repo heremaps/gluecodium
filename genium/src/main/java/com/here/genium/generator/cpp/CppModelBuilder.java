@@ -35,20 +35,25 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
   private final FrancaDeploymentModel deploymentModel;
   private final CppTypeMapper typeMapper;
+  private final CppValueMapper valueMapper;
 
   @VisibleForTesting
   CppModelBuilder(
       final ModelBuilderContextStack<CppElement> contextStack,
       final FrancaDeploymentModel deploymentModel,
-      final CppTypeMapper typeMapper) {
+      final CppTypeMapper typeMapper,
+      final CppValueMapper valueMapper) {
     super(contextStack);
     this.deploymentModel = deploymentModel;
     this.typeMapper = typeMapper;
+    this.valueMapper = valueMapper;
   }
 
   public CppModelBuilder(
-      final FrancaDeploymentModel deploymentModel, final CppTypeMapper typeMapper) {
-    this(new ModelBuilderContextStack<>(), deploymentModel, typeMapper);
+      final FrancaDeploymentModel deploymentModel,
+      final CppTypeMapper typeMapper,
+      final CppValueMapper valueMapper) {
+    this(new ModelBuilderContextStack<>(), deploymentModel, typeMapper, valueMapper);
   }
 
   @Override
@@ -159,7 +164,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     String deploymentDefaultValue = deploymentModel.getDefaultValue(francaField);
     CppValue cppValue =
         deploymentDefaultValue != null
-            ? CppValueMapper.mapDeploymentDefaultValue(cppTypeRef, deploymentDefaultValue)
+            ? valueMapper.mapDeploymentDefaultValue(cppTypeRef, deploymentDefaultValue)
             : null;
 
     CppField cppField =
@@ -311,7 +316,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FInitializerExpression francaExpression) {
 
-    storeResult(CppValueMapper.map(francaExpression));
+    storeResult(valueMapper.map(francaExpression));
     closeContext();
   }
 

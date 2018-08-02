@@ -24,6 +24,7 @@ import com.here.genium.generator.common.AbstractGenerator;
 import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.genium.generator.cpp.CppModelBuilder;
 import com.here.genium.generator.cpp.CppTypeMapper;
+import com.here.genium.generator.cpp.CppValueMapper;
 import com.here.genium.generator.java.JavaModelBuilder;
 import com.here.genium.generator.java.JavaTypeMapper;
 import com.here.genium.model.common.Include;
@@ -90,7 +91,8 @@ public final class JniGenerator extends AbstractGenerator {
 
     CppTypeMapper typeMapper =
         new CppTypeMapper(cppIncludeResolver, deploymentModel, internalNamespace);
-    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, typeMapper);
+    CppValueMapper valueMapper = new CppValueMapper(deploymentModel);
+    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, typeMapper, valueMapper);
     JniModelBuilder jniBuilder =
         new JniModelBuilder(deploymentModel, javaBuilder, cppBuilder, cppIncludeResolver);
 

@@ -42,7 +42,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({CommentHelper.class, DefinedBy.class, CppValueMapper.class, InstanceRules.class})
+@PrepareForTest({CommentHelper.class, DefinedBy.class, InstanceRules.class})
 public class CppModelBuilderCommentsTest {
 
   private static final String COMMENT = "nonsense";
@@ -73,10 +73,9 @@ public class CppModelBuilderCommentsTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    PowerMockito.mockStatic(
-        CommentHelper.class, DefinedBy.class, CppValueMapper.class, InstanceRules.class);
+    PowerMockito.mockStatic(CommentHelper.class, DefinedBy.class, InstanceRules.class);
 
-    modelBuilder = new CppModelBuilder(contextStack, deploymentModel, typeMapper);
+    modelBuilder = new CppModelBuilder(contextStack, deploymentModel, typeMapper, null);
 
     when(CommentHelper.getDescription(any())).thenReturn(COMMENT);
   }

@@ -43,7 +43,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({InstanceRules.class, CppValueMapper.class, DefinedBy.class})
+@PrepareForTest({InstanceRules.class, DefinedBy.class})
 public class CppModelBuilderTest {
 
   private static final String STRUCT_NAME = "structural";
@@ -57,6 +57,7 @@ public class CppModelBuilderTest {
 
   @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private CppTypeMapper typeMapper;
+  @Mock private CppValueMapper valueMapper;
 
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
@@ -92,11 +93,11 @@ public class CppModelBuilderTest {
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(InstanceRules.class, CppValueMapper.class, DefinedBy.class);
+    PowerMockito.mockStatic(InstanceRules.class, DefinedBy.class);
 
     MockitoAnnotations.initMocks(this);
 
-    modelBuilder = new CppModelBuilder(contextStack, deploymentModel, typeMapper);
+    modelBuilder = new CppModelBuilder(contextStack, deploymentModel, typeMapper, valueMapper);
 
     when(francaInterface.getName()).thenReturn("classy");
     when(francaArgument.getName()).thenReturn("flowers");
@@ -411,7 +412,7 @@ public class CppModelBuilderTest {
   @Test
   public void finishBuildingFrancaFieldReadsDefaultValue() {
     when(deploymentModel.getDefaultValue(any())).thenReturn("SomeDefault");
-    when(CppValueMapper.mapDeploymentDefaultValue(any(), any())).thenReturn(cppValue);
+    when(valueMapper.mapDeploymentDefaultValue(any(), any())).thenReturn(cppValue);
     contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaField);
@@ -421,8 +422,6 @@ public class CppModelBuilderTest {
     assertEquals(cppValue, cppField.initializer);
 
     verify(deploymentModel).getDefaultValue(francaField);
-    PowerMockito.verifyStatic();
-    CppValueMapper.mapDeploymentDefaultValue(cppComplexTypeRef, "SomeDefault");
   }
 
   @Test
@@ -672,15 +671,12 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaExpression() {
-    when(CppValueMapper.map(any(FExpression.class))).thenReturn(cppValue);
+    when(valueMapper.map(any(FExpression.class))).thenReturn(cppValue);
 
     modelBuilder.finishBuilding(francaExpression);
 
     CppValue result = modelBuilder.getFinalResult(CppValue.class);
     assertEquals(cppValue, result);
-
-    PowerMockito.verifyStatic();
-    CppValueMapper.map(francaExpression);
   }
 
   @Test
