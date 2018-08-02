@@ -167,8 +167,9 @@ public class CppTypeMapperComplexTest {
   }
 
   @Test
-  public void mapEnumtWithExternalName() {
+  public void mapEnumWithExternalName() {
     when(francaTypeRef.getDerived()).thenReturn(enumType);
+    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
     when(deploymentModel.getExternalName(any())).thenReturn("::very::External");
 
     CppTypeRef result = typeMapper.map(francaTypeRef);
