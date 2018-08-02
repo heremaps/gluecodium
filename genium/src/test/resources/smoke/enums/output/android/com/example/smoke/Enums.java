@@ -40,6 +40,15 @@ public class Enums extends NativeBase {
         }
     }
 
+    public enum VeryExternalEnum {
+        FOO(0),
+        BAR(1);
+        public final int value;
+        VeryExternalEnum(final int value) {
+            this.value = value;
+        }
+    }
+
     public static class ErrorStruct {
         public Enums.InternalError type = Enums.InternalError.values()[0];
         public String message;

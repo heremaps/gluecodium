@@ -52,6 +52,11 @@ struct AlienStructure
 std::error_code make_error_code( AlienErrors value ) noexcept;
 }
 
+enum class Very_External_Enum {
+    FOO,
+    BAR
+};
+
 class ExternalStruct
 {
 public:
