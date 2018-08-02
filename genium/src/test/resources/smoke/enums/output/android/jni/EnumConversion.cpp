@@ -49,6 +49,29 @@ namespace jni {
         return jResult;
     }
 
+    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::External_Enum& _nout )    {
+        jclass javaClass = _jenv->GetObjectClass(_jinput);
+        jint enumValue = genium::jni::get_int_field(_jenv,javaClass, _jinput, "value" );
+        _nout = ::smoke::Enums::External_Enum( enumValue );
+    }
+
+    jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::External_Enum _ninput )    {
+        auto javaClass = _jenv->FindClass( "com/example/smoke/Enums$ExternalEnum" );
+        ::std::string enumeratorName;
+        switch(_ninput) {
+            case(::smoke::Enums::External_Enum::Foo_Value):
+            enumeratorName = "FOO_VALUE";
+            break;
+        case(::smoke::Enums::External_Enum::Bar_Value):
+            enumeratorName = "BAR_VALUE";
+            break;
+    }
+        jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "Lcom/example/smoke/Enums$ExternalEnum;");
+        jobject jResult = _jenv->GetStaticObjectField(javaClass, fieldID);
+        _jenv->DeleteLocalRef( javaClass );
+        return jResult;
+    }
+
     void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::SomeVeryExternalEnum& _nout )    {
         jclass javaClass = _jenv->GetObjectClass(_jinput);
         jint enumValue = genium::jni::get_int_field(_jenv,javaClass, _jinput, "value" );
@@ -56,17 +79,17 @@ namespace jni {
     }
 
     jobject convert_to_jni( JNIEnv* _jenv, const ::fire::SomeVeryExternalEnum _ninput )    {
-        auto javaClass = _jenv->FindClass( "com/example/smoke/Enums$ExternalEnum" );
+        auto javaClass = _jenv->FindClass( "com/example/smoke/Enums$VeryExternalEnum" );
         ::std::string enumeratorName;
         switch(_ninput) {
-            case(::fire::SomeVeryExternalEnum::Foo_Value):
-            enumeratorName = "FOO_VALUE";
+            case(::fire::SomeVeryExternalEnum::FOO):
+            enumeratorName = "FOO";
             break;
-        case(::fire::SomeVeryExternalEnum::Bar_Value):
-            enumeratorName = "BAR_VALUE";
+        case(::fire::SomeVeryExternalEnum::BAR):
+            enumeratorName = "BAR";
             break;
     }
-        jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "Lcom/example/smoke/Enums$ExternalEnum;");
+        jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "Lcom/example/smoke/Enums$VeryExternalEnum;");
         jobject jResult = _jenv->GetStaticObjectField(javaClass, fieldID);
         _jenv->DeleteLocalRef( javaClass );
         return jResult;

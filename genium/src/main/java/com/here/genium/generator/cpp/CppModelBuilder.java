@@ -267,18 +267,13 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FEnumerationType francaEnumerationType) {
 
     // Type definition
-    String enumName;
-    String fullyQualifiedName;
-    String externalName = deploymentModel.getExternalName(francaEnumerationType);
-    if (externalName == null) {
-      enumName = CppNameRules.getStructName(francaEnumerationType.getName());
-      fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaEnumerationType);
-    } else {
-      enumName = externalName;
-      fullyQualifiedName = externalName;
-    }
-
     boolean isExternal = deploymentModel.getExternalType(francaEnumerationType) != null;
+    String externalName = deploymentModel.getExternalName(francaEnumerationType);
+    String enumName =
+        CppNameRules.getTypeName(francaEnumerationType.getName(), isExternal, externalName);
+    String fullyQualifiedName =
+        CppNameRules.getFullyQualifiedName(francaEnumerationType, isExternal, externalName);
+
     CppEnum cppEnum =
         CppEnum.builder(enumName)
             .fullyQualifiedName(fullyQualifiedName)

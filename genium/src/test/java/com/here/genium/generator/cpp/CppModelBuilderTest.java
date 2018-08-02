@@ -608,7 +608,7 @@ public class CppModelBuilderTest {
 
     CppEnum resultEnum = modelBuilder.getFinalResult(CppEnum.class);
     assertNotNull(resultEnum);
-    assertEquals(ENUM_NAME, resultEnum.name.toLowerCase());
+    assertEquals("Innumerable", resultEnum.name);
   }
 
   @Test
@@ -644,6 +644,7 @@ public class CppModelBuilderTest {
 
     CppEnum resultEnum = modelBuilder.getFinalResult(CppEnum.class);
     assertTrue(resultEnum.isExternal);
+    assertEquals(ENUM_NAME, resultEnum.name);
   }
 
   @Test

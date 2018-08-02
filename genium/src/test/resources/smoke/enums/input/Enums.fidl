@@ -54,9 +54,14 @@ interface Enums {
         String message
     }
 
-    enumeration ExternalEnum {
+    enumeration External_Enum {
         Foo_Value
         Bar_Value
+    }
+
+    enumeration VeryExternalEnum {
+        FOO
+        BAR
     }
 
     method flipEnumValue {
@@ -89,7 +94,7 @@ interface Enums {
 
     method methodWithExternalEnum {
         in {
-            ExternalEnum input
+            External_Enum input
         }
     }
 }

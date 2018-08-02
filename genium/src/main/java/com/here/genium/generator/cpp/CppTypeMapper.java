@@ -168,10 +168,10 @@ public class CppTypeMapper {
 
   public CppTypeRef mapEnum(final FEnumerationType francaEnum) {
 
-    String fullyQualifiedName = deploymentModel.getExternalName(francaEnum);
-    if (fullyQualifiedName == null) {
-      fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaEnum);
-    }
+    boolean isExternal = deploymentModel.getExternalType(francaEnum) != null;
+    String externalName = deploymentModel.getExternalName(francaEnum);
+    String fullyQualifiedName =
+        CppNameRules.getFullyQualifiedName(francaEnum, isExternal, externalName);
 
     return new CppComplexTypeRef.Builder(fullyQualifiedName)
         .refersToEnum(true)

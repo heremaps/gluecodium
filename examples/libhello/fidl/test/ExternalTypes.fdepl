@@ -47,4 +47,8 @@ define GeniumExtensions for typeCollection external.ExternalTypes
         ExternalType = "include/ExternalTypes.h"
         ExternalName = "::external::even_more_external::AlienEnum"
     }
+
+    enumeration Very_External_Enum {
+        ExternalType = "include/ExternalTypes.h"
+    }
 }
