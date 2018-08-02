@@ -21,13 +21,21 @@ package com.here.genium.generator.cpp;
 
 import com.here.genium.generator.common.StringValueMapper;
 import com.here.genium.model.cpp.*;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.List;
 import org.apache.commons.text.StringEscapeUtils;
 import org.franca.core.franca.*;
 
-public final class CppValueMapper {
+public class CppValueMapper {
 
-  public static CppValue map(final FInitializerExpression francaExpression) {
+  @SuppressWarnings({"FieldCanBeLocal", "PMD.UnusedPrivateField", "PMD.SingularField", "unused"})
+  private final FrancaDeploymentModel deploymentModel;
+
+  public CppValueMapper(final FrancaDeploymentModel deploymentModel) {
+    this.deploymentModel = deploymentModel;
+  }
+
+  public CppValue map(final FInitializerExpression francaExpression) {
 
     if (francaExpression instanceof FConstant || francaExpression instanceof FUnaryOperation) {
       String stringValue = StringValueMapper.map(francaExpression);
@@ -44,7 +52,7 @@ public final class CppValueMapper {
     return null;
   }
 
-  public static CppValue mapDeploymentDefaultValue(
+  public CppValue mapDeploymentDefaultValue(
       final CppTypeRef cppTypeRef, final String deploymentDefaultValue) {
 
     if (cppTypeRef == CppTypeMapper.STRING_TYPE) {
@@ -57,7 +65,7 @@ public final class CppValueMapper {
     }
   }
 
-  private static CppValue map(final FQualifiedElementRef francaElementRef) {
+  private CppValue map(final FQualifiedElementRef francaElementRef) {
 
     FEvaluableElement value = francaElementRef.getElement();
     if (!(value instanceof FEnumerator)) {
@@ -65,7 +73,8 @@ public final class CppValueMapper {
     }
 
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(value);
-    String enumEntryName = CppNameRules.getEnumEntryName(value.getName());
+    String enumeratorName = value.getName();
+    String enumEntryName = CppNameRules.getEnumEntryName(enumeratorName);
     return new CppValue(CppNameRules.getFullyQualifiedName(nestedNameSpecifier, enumEntryName));
   }
 }

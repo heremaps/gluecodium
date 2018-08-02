@@ -29,6 +29,7 @@ import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.generator.cpp.CppModelBuilder;
 import com.here.genium.generator.cpp.CppTypeMapper;
+import com.here.genium.generator.cpp.CppValueMapper;
 import com.here.genium.generator.swift.SwiftModelBuilder;
 import com.here.genium.model.cbridge.CBridgeIncludeResolver;
 import com.here.genium.model.cbridge.CInterface;
@@ -100,7 +101,8 @@ public class CBridgeGenerator {
 
     CppTypeMapper cppTypeMapper =
         new CppTypeMapper(cppIncludeResolver, deploymentModel, internalNamespace);
-    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, cppTypeMapper);
+    CppValueMapper valueMapper = new CppValueMapper(deploymentModel);
+    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, cppTypeMapper, valueMapper);
     SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(deploymentModel);
     CTypeMapper cTypeMapper =
         new CTypeMapper(
