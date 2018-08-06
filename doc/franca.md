@@ -185,8 +185,9 @@ for Java or Swift.
 
 For an external type, the name is assumed to match its "external" counterpart in the source file,
 and thus is taken verbatim in generated C++ and conversion code (i.e. without any naming convention
-being done to the name). Same "verbatim" logic applies to the names of the enumerators (individual
-enumeration values) of an external enumeration.
+being applied to the name). Same "verbatim" logic applies to the names of the fields of an external
+struct and to the names of the enumerators (individual enumeration values) of an external
+enumeration.
 
 FIDL:
 
