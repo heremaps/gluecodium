@@ -81,6 +81,10 @@ _baseRef smoke_Structs_AnotherExternalStruct_create();
 void smoke_Structs_AnotherExternalStruct_release(_baseRef handle);
 int8_t smoke_Structs_AnotherExternalStruct_intField_get(_baseRef handle);
 void smoke_Structs_AnotherExternalStruct_intField_set(_baseRef handle, int8_t intField);
+_baseRef smoke_Structs_YetAnotherExternalStruct_create();
+void smoke_Structs_YetAnotherExternalStruct_release(_baseRef handle);
+_baseRef smoke_Structs_YetAnotherExternalStruct_stringField_get(_baseRef handle);
+void smoke_Structs_YetAnotherExternalStruct_stringField_set(_baseRef handle, const char* stringField);
 void smoke_Structs_release(_baseRef handle);
 _baseRef smoke_Structs_createPoint(double x, double y);
 _baseRef smoke_Structs_swapPointCoordinates(_baseRef input);
@@ -91,6 +95,7 @@ _baseRef smoke_Structs_returnAllTypesStruct(_baseRef input);
 _baseRef smoke_Structs_modifyAllTypesStruct(_baseRef input);
 _baseRef smoke_Structs_getExternalStruct();
 _baseRef smoke_Structs_getAnotherExternalStruct();
+_baseRef smoke_Structs_getYetAnotherExternalStruct();
 #ifdef __cplusplus
 }
 #endif

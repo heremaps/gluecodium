@@ -142,6 +142,7 @@ public class CppTypeMapperComplexTest {
   @Test
   public void mapStructWithExternalName() {
     when(francaTypeRef.getDerived()).thenReturn(structType);
+    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
     when(deploymentModel.getExternalName(any())).thenReturn("::very::External");
 
     CppTypeRef result = typeMapper.map(francaTypeRef);

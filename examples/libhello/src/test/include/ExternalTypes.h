@@ -76,6 +76,12 @@ private:
     even_more_external::AlienStructure m_some_struct;
 };
 
+struct Yet_Another_External_Struct
+{
+public:
+    std::string string_field;
+};
+
 }
 
 namespace std

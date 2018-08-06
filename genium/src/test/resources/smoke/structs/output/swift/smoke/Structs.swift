@@ -351,6 +351,29 @@ public class Structs {
             smoke_Structs_AnotherExternalStruct_intField_set(cAnotherExternalStruct, intField)
         }
     }
+    public struct YetAnotherExternalStruct {
+        public var stringField: String
+        public init(stringField: String) {
+            self.stringField = stringField
+        }
+        internal init?(cYetAnotherExternalStruct: _baseRef) {
+            do {
+                let stringField_handle = smoke_Structs_YetAnotherExternalStruct_stringField_get(cYetAnotherExternalStruct)
+                defer {
+                    std_string_release(stringField_handle)
+                }
+                stringField = String(cString: std_string_data_get(stringField_handle))
+            }
+        }
+        internal func convertToCType() -> _baseRef {
+            let result = smoke_Structs_YetAnotherExternalStruct_create()
+            fillFunction(result)
+            return result
+        }
+        internal func fillFunction(_ cYetAnotherExternalStruct: _baseRef) -> Void {
+            smoke_Structs_YetAnotherExternalStruct_stringField_set(cYetAnotherExternalStruct, stringField)
+        }
+    }
     public static func createPoint(x: Double, y: Double) -> Structs.Point? {
         let cResult = smoke_Structs_createPoint(x, y)
         defer {
@@ -445,6 +468,13 @@ public class Structs {
             smoke_Structs_AnotherExternalStruct_release(cResult)
         }
         return Structs.AnotherExternalStruct(cAnotherExternalStruct: cResult)
+    }
+    public static func getYetAnotherExternalStruct() -> Structs.YetAnotherExternalStruct? {
+        let cResult = smoke_Structs_getYetAnotherExternalStruct()
+        defer {
+            smoke_Structs_YetAnotherExternalStruct_release(cResult)
+        }
+        return Structs.YetAnotherExternalStruct(cYetAnotherExternalStruct: cResult)
     }
 }
 extension Structs: NativeBase {

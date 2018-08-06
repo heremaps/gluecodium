@@ -47,7 +47,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({FrancaTypeHelper.class, DefinedBy.class})
-public class CBridgeTypeMapperTest {
+public final class CBridgeTypeMapperTest {
 
   @Mock private FTypeRef francaTypeRef;
   @Mock private FTypeRef francaTypeRef2;
@@ -75,7 +75,7 @@ public class CBridgeTypeMapperTest {
             "::FooHash",
             null);
 
-    when(francaStructType.getName()).thenReturn("SomeStruct");
+    when(francaStructType.getName()).thenReturn("someStruct");
 
     when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
         .thenReturn(francaTypeCollection);
@@ -103,16 +103,29 @@ public class CBridgeTypeMapperTest {
     assertEquals(CType.BOOL.name, mapped.name);
   }
 
+  @Test
   public void mapStructType() {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
     CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
 
-    assertEquals("Foo", mapped.name);
+    assertEquals("::SomeStruct", mapped.name);
   }
 
+  @Test
+  public void mapStructTypeWithExternalType() {
+    when(francaTypeRef.getDerived()).thenReturn(francaStructType);
+    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+
+    CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
+
+    assertEquals("::someStruct", mapped.name);
+  }
+
+  @Test
   public void mapStructTypeWithExternalName() {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
+    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
     when(deploymentModel.getExternalName(any())).thenReturn("::bar::Baz");
 
     CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
@@ -138,6 +151,7 @@ public class CBridgeTypeMapperTest {
     assertEquals("::Foo", actualType.name);
   }
 
+  @Test
   public void mapEnumerationTypeWithExternalName() {
     when(francaTypeRef.getDerived()).thenReturn(francaEnum);
     when(deploymentModel.getExternalName(any())).thenReturn("::bar::Baz");

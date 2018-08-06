@@ -245,6 +245,13 @@ public class Structs extends NativeBase {
         }
     }
 
+    public static class YetAnotherExternalStruct {
+        public String stringField;
+        public YetAnotherExternalStruct() {}
+        public YetAnotherExternalStruct(String stringField) {
+            this.stringField = stringField;
+        }
+    }
 
     /** For internal use only */
     protected Structs(final long nativeHandle) {
@@ -265,4 +272,5 @@ public class Structs extends NativeBase {
     public static native Structs.AllTypesStruct modifyAllTypesStruct(final Structs.AllTypesStruct input);
     public static native Structs.ExternalStruct getExternalStruct();
     public static native Structs.AnotherExternalStruct getAnotherExternalStruct();
+    public static native Structs.YetAnotherExternalStruct getYetAnotherExternalStruct();
 }

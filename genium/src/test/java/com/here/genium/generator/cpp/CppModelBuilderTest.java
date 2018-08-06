@@ -428,8 +428,8 @@ public class CppModelBuilderTest {
 
     CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
     assertNotNull(resultStruct);
-    assertEquals(STRUCT_NAME, resultStruct.name.toLowerCase());
-    assertEquals("::nonsense::" + STRUCT_NAME, resultStruct.fullyQualifiedName.toLowerCase());
+    assertEquals("Structural", resultStruct.name);
+    assertEquals("::nonsense::Structural", resultStruct.fullyQualifiedName);
 
     verify(francaStructType, atLeastOnce()).getName();
   }
@@ -482,6 +482,8 @@ public class CppModelBuilderTest {
 
     CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
     assertTrue(resultStruct.isExternal);
+    assertEquals(STRUCT_NAME, resultStruct.name);
+    assertEquals("::nonsense::" + STRUCT_NAME, resultStruct.fullyQualifiedName);
   }
 
   @Test
@@ -626,14 +628,14 @@ public class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeCreatesTypeRef() {
-    when(typeMapper.mapEnum(any())).thenReturn(cppComplexTypeRef);
+    when(typeMapper.mapComplexType(any())).thenReturn(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaEnumerationType);
 
     CppComplexTypeRef resultTypeRef = modelBuilder.getFinalResult(CppComplexTypeRef.class);
     assertEquals(cppComplexTypeRef, resultTypeRef);
 
-    verify(typeMapper).mapEnum(francaEnumerationType);
+    verify(typeMapper).mapComplexType(francaEnumerationType);
   }
 
   @Test

@@ -147,8 +147,13 @@ public class CTypeMapper {
       final FModelElement modelElement, final CppTypeInfo.TypeCategory category) {
 
     String baseApiCall = null;
-    if (modelElement instanceof FStructType) {
-      baseApiCall = deploymentModel.getExternalName((FStructType) modelElement);
+    if (modelElement instanceof FType) {
+      FType francaType = (FType) modelElement;
+      boolean isExternal = deploymentModel.getExternalType(francaType) != null;
+      if (isExternal) {
+        String externalName = deploymentModel.getExternalName(francaType);
+        baseApiCall = CppNameRules.getFullyQualifiedName(francaType, true, externalName);
+      }
     }
     if (baseApiCall == null) {
       String baseApiName = CBridgeNameRules.getBaseApiName(modelElement, category);

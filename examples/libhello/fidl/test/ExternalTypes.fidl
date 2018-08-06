@@ -37,6 +37,10 @@ typeCollection ExternalTypes {
         Int32 intField
     }
 
+    struct Yet_Another_External_Struct {
+        String stringField
+    }
+
     enumeration ExternalEnum {
         Foo
         Bar

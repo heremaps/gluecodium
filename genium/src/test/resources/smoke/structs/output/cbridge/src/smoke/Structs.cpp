@@ -251,6 +251,19 @@ int8_t smoke_Structs_AnotherExternalStruct_intField_get(_baseRef handle) {
 void smoke_Structs_AnotherExternalStruct_intField_set(_baseRef handle, int8_t intField) {
     get_pointer<::fire::SomeVeryExternalStruct>(handle)->int_field = intField;
 }
+_baseRef smoke_Structs_YetAnotherExternalStruct_create() {
+    return reinterpret_cast<_baseRef>( new ::smoke::Structs::Yet_Another_External_Struct() );
+}
+void smoke_Structs_YetAnotherExternalStruct_release(_baseRef handle) {
+    delete get_pointer<::smoke::Structs::Yet_Another_External_Struct>(handle);
+}
+_baseRef smoke_Structs_YetAnotherExternalStruct_stringField_get(_baseRef handle) {
+    auto struct_pointer = get_pointer<::smoke::Structs::Yet_Another_External_Struct>(handle);
+    return reinterpret_cast<_baseRef>( new std::string(struct_pointer->string_field) );
+}
+void smoke_Structs_YetAnotherExternalStruct_stringField_set(_baseRef handle, const char* stringField) {
+    get_pointer<::smoke::Structs::Yet_Another_External_Struct>(handle)->string_field = stringField;
+}
 _baseRef smoke_Structs_createPoint(double x, double y) {
     return reinterpret_cast<_baseRef>( new ::smoke::Structs::Point(::smoke::Structs::create_point(x, y)) );
 }
@@ -277,4 +290,7 @@ _baseRef smoke_Structs_getExternalStruct() {
 }
 _baseRef smoke_Structs_getAnotherExternalStruct() {
     return reinterpret_cast<_baseRef>( new ::fire::SomeVeryExternalStruct(::smoke::Structs::get_another_external_struct()) );
+}
+_baseRef smoke_Structs_getYetAnotherExternalStruct() {
+    return reinterpret_cast<_baseRef>( new ::smoke::Structs::Yet_Another_External_Struct(::smoke::Structs::get_yet_another_external_struct()) );
 }
