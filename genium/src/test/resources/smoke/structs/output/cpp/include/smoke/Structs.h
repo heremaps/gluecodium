@@ -69,6 +69,7 @@ static ::smoke::Structs::AllTypesStruct return_all_types_struct( const ::smoke::
 static ::smoke::Structs::AllTypesStruct modify_all_types_struct( const ::smoke::Structs::AllTypesStruct& input );
 static ::smoke::Structs::ExternalStruct get_external_struct(  );
 static ::fire::SomeVeryExternalStruct get_another_external_struct(  );
+static ::smoke::Structs::Yet_Another_External_Struct get_yet_another_external_struct(  );
 };
 
 }

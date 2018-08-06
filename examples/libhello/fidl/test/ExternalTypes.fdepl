@@ -43,6 +43,10 @@ define GeniumExtensions for typeCollection external.ExternalTypes
         ExternalName = "::external::even_more_external::AlienStructure"
     }
 
+    struct Yet_Another_External_Struct {
+        ExternalType = "include/ExternalTypes.h"
+    }
+
     enumeration ExternalEnum {
         ExternalType = "include/ExternalTypes.h"
         ExternalName = "::external::even_more_external::AlienEnum"

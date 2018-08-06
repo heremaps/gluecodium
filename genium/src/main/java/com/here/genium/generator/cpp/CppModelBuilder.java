@@ -176,20 +176,13 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FStructType francaStructType) {
 
     // Type definition
-    String name;
-    String fullyQualifiedName;
-    String externalName = deploymentModel.getExternalName(francaStructType);
-    if (externalName == null) {
-      name = CppNameRules.getStructName(francaStructType.getName());
-      fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaStructType);
-    } else {
-      name = externalName;
-      fullyQualifiedName = externalName;
-    }
-
     boolean isExternal = deploymentModel.getExternalType(francaStructType) != null;
-    boolean isEquatable = deploymentModel.isEquatable(francaStructType);
+    String externalName = deploymentModel.getExternalName(francaStructType);
+    String name = CppNameRules.getTypeName(francaStructType.getName(), isExternal, externalName);
+    String fullyQualifiedName =
+        CppNameRules.getFullyQualifiedName(francaStructType, isExternal, externalName);
 
+    boolean isEquatable = deploymentModel.isEquatable(francaStructType);
     CppStruct cppStruct = new CppStruct(name, fullyQualifiedName, isExternal, isEquatable);
     cppStruct.comment = CommentHelper.getDescription(francaStructType);
     cppStruct.fields.addAll(getPreviousResults(CppField.class));
@@ -285,7 +278,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     storeResult(cppEnum);
 
     // Type reference
-    storeResult(typeMapper.mapEnum(francaEnumerationType));
+    storeResult(typeMapper.mapComplexType(francaEnumerationType));
 
     closeContext();
   }
