@@ -77,6 +77,10 @@ interface Structs {
         Int8 intField
     }
 
+    struct Yet_Another_External_Struct {
+        String stringField
+    }
+
     enumeration FooBar {
         FOO
         BAR
@@ -157,6 +161,12 @@ interface Structs {
     method getAnotherExternalStruct {
         out {
             AnotherExternalStruct output
+        }
+    }
+
+    method getYetAnotherExternalStruct {
+        out {
+            Yet_Another_External_Struct output
         }
     }
 }

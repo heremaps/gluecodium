@@ -94,11 +94,8 @@ public class CppTypeMapper {
     if (derived instanceof FMapType) {
       return mapMapType((FMapType) derived);
     }
-    if (derived instanceof FCompoundType) {
+    if (derived instanceof FCompoundType || derived instanceof FEnumerationType) {
       return mapComplexType(derived);
-    }
-    if (derived instanceof FEnumerationType) {
-      return mapEnum((FEnumerationType) derived);
     }
     throw new GeniumExecutionException("Unmapped derived type: " + derived.getName());
   }
@@ -153,29 +150,19 @@ public class CppTypeMapper {
 
   public CppTypeRef mapComplexType(final FModelElement francaElement) {
 
-    String fullyQualifiedName = null;
-    if (francaElement instanceof FStructType) {
-      fullyQualifiedName = deploymentModel.getExternalName((FStructType) francaElement);
-    }
-    if (fullyQualifiedName == null) {
+    String fullyQualifiedName;
+    if (francaElement instanceof FType) {
+      FType francaType = (FType) francaElement;
+      boolean isExternal = deploymentModel.getExternalType(francaType) != null;
+      String externalName = deploymentModel.getExternalName(francaType);
+      fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaType, isExternal, externalName);
+    } else {
       fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaElement);
     }
 
     return new CppComplexTypeRef.Builder(fullyQualifiedName)
+        .refersToEnum(francaElement instanceof FEnumerationType)
         .include(includeResolver.resolveInclude(francaElement))
-        .build();
-  }
-
-  public CppTypeRef mapEnum(final FEnumerationType francaEnum) {
-
-    boolean isExternal = deploymentModel.getExternalType(francaEnum) != null;
-    String externalName = deploymentModel.getExternalName(francaEnum);
-    String fullyQualifiedName =
-        CppNameRules.getFullyQualifiedName(francaEnum, isExternal, externalName);
-
-    return new CppComplexTypeRef.Builder(fullyQualifiedName)
-        .refersToEnum(true)
-        .include(includeResolver.resolveInclude(francaEnum))
         .build();
   }
 
