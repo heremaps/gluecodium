@@ -79,7 +79,7 @@ private:
 struct Yet_Another_External_Struct
 {
 public:
-    std::string string_field;
+    std::string string_Field;
 };
 
 }

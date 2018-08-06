@@ -44,10 +44,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({InstanceRules.class, DefinedBy.class})
-public class CppModelBuilderTest {
+public final class CppModelBuilderTest {
 
   private static final String STRUCT_NAME = "structural";
-  private static final String FIELD_NAME = "flowers";
+  private static final String FIELD_NAME = "many_Flowers";
   private static final String CONSTANT_NAME = "permanent";
   private static final String ENUM_NAME = "innumerable";
   private static final String METHOD_NAME = "methodical";
@@ -395,7 +395,18 @@ public class CppModelBuilderTest {
 
     CppField cppField = modelBuilder.getFinalResult(CppField.class);
     assertNotNull(cppField);
-    assertEquals(FIELD_NAME, cppField.name);
+    assertEquals("many_flowers", cppField.name);
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldInExternalStructPreservesName() {
+    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+
+    modelBuilder.finishBuilding(francaField);
+
+    CppField cppField = modelBuilder.getFinalResult(CppField.class);
+    assertNotNull(cppField);
+    assertEquals("many_Flowers", cppField.name);
   }
 
   @Test
