@@ -158,8 +158,11 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FField francaField) {
 
+    String fieldName = francaField.getName();
+    if (deploymentModel.getExternalType((FType) francaField.eContainer()) == null) {
+      fieldName = CppNameRules.getFieldName(fieldName);
+    }
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
-    String fieldName = CppNameRules.getFieldName(francaField.getName());
 
     CppField cppField =
         CppField.builder(fieldName, cppTypeRef)

@@ -212,10 +212,10 @@ void smoke_Structs_ExternalStruct_release(_baseRef handle) {
 }
 _baseRef smoke_Structs_ExternalStruct_stringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::ExternalStruct>(handle);
-    return reinterpret_cast<_baseRef>( new std::string(struct_pointer->string_field) );
+    return reinterpret_cast<_baseRef>( new std::string(struct_pointer->stringField) );
 }
 void smoke_Structs_ExternalStruct_stringField_set(_baseRef handle, const char* stringField) {
-    get_pointer<::smoke::Structs::ExternalStruct>(handle)->string_field = stringField;
+    get_pointer<::smoke::Structs::ExternalStruct>(handle)->stringField = stringField;
 }
 _baseRef smoke_Structs_ExternalStruct_externalStringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::ExternalStruct>(handle);
@@ -246,10 +246,10 @@ void smoke_Structs_AnotherExternalStruct_release(_baseRef handle) {
 }
 int8_t smoke_Structs_AnotherExternalStruct_intField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::fire::SomeVeryExternalStruct>(handle);
-    return struct_pointer->int_field;
+    return struct_pointer->intField;
 }
 void smoke_Structs_AnotherExternalStruct_intField_set(_baseRef handle, int8_t intField) {
-    get_pointer<::fire::SomeVeryExternalStruct>(handle)->int_field = intField;
+    get_pointer<::fire::SomeVeryExternalStruct>(handle)->intField = intField;
 }
 _baseRef smoke_Structs_YetAnotherExternalStruct_create() {
     return reinterpret_cast<_baseRef>( new ::smoke::Structs::Yet_Another_External_Struct() );
@@ -259,10 +259,10 @@ void smoke_Structs_YetAnotherExternalStruct_release(_baseRef handle) {
 }
 _baseRef smoke_Structs_YetAnotherExternalStruct_stringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::Yet_Another_External_Struct>(handle);
-    return reinterpret_cast<_baseRef>( new std::string(struct_pointer->string_field) );
+    return reinterpret_cast<_baseRef>( new std::string(struct_pointer->string_Field) );
 }
 void smoke_Structs_YetAnotherExternalStruct_stringField_set(_baseRef handle, const char* stringField) {
-    get_pointer<::smoke::Structs::Yet_Another_External_Struct>(handle)->string_field = stringField;
+    get_pointer<::smoke::Structs::Yet_Another_External_Struct>(handle)->string_Field = stringField;
 }
 _baseRef smoke_Structs_createPoint(double x, double y) {
     return reinterpret_cast<_baseRef>( new ::smoke::Structs::Point(::smoke::Structs::create_point(x, y)) );

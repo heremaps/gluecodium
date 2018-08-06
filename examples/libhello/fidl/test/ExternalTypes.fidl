@@ -27,18 +27,18 @@ typeCollection ExternalTypes {
     }
 
     struct ExternalStruct {
-        String stringField
+        String string_field
         String externalStringField
         Int32[] externalArrayField
         AnotherExternalStruct externalStructField
     }
 
     struct AnotherExternalStruct {
-        Int32 intField
+        Int32 int_field
     }
 
     struct Yet_Another_External_Struct {
-        String stringField
+        String string_Field
     }
 
     enumeration ExternalEnum {

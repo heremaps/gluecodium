@@ -78,7 +78,7 @@ interface Structs {
     }
 
     struct Yet_Another_External_Struct {
-        String stringField
+        String string_Field
     }
 
     enumeration FooBar {
