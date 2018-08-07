@@ -1,5 +1,11 @@
 # Genium project Release Notes
 
+## Unreleased
+- Breaking changes:
+  + Type names for structs and enumerations marked with "ExternalType", as well as the names for
+    their child elements (fields and enumerators, respectively) are now used verbatim in generated
+    C++ and conversion code.
+
 ## 3.5.0
 - Features:
   + Added support for "ExternalType" and "ExternalName" FDEPL properties for enumerations.
