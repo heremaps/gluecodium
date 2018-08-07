@@ -21,7 +21,6 @@ package com.here.genium.loader;
 
 import static org.junit.Assert.*;
 
-import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.franca.ModelHelper;
 import com.here.genium.platform.common.GeneratorSuite;
@@ -30,7 +29,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
@@ -95,18 +93,6 @@ public class FrancaModelLoaderTest {
     FMethod constMethod = methods.get(0);
 
     assertTrue(deploymentModel.isConst(constMethod));
-  }
-
-  @Test
-  public void loadMalformedDeploymentModelWithPackage() throws URISyntaxException {
-    exception.expect(GeniumExecutionException.class);
-
-    URL malformedFdepl =
-        ClassLoader.getSystemClassLoader()
-            .getResource("francamodelloadertest/MalformedWithPackage.fdepl");
-
-    Collection<File> currentFiles = Collections.singletonList(new File(malformedFdepl.toURI()));
-    loader.load(GeneratorSuite.SPEC_PATH, currentFiles, new LinkedList<>());
   }
 
   @Test
