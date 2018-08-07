@@ -62,7 +62,7 @@ public class ExternalTypesValidatorPredicateTest {
   @Test
   public void validateWithExternalNameAndWithExternalType() {
     when(deploymentModel.getExternalName(francaType)).thenReturn("Bar");
-    when(deploymentModel.getExternalType(francaType)).thenReturn("Baz");
+    when(deploymentModel.isExternalType(francaType)).thenReturn(true);
 
     assertNull(validatorPredicate.validate(deploymentModel, francaType));
   }
@@ -76,7 +76,7 @@ public class ExternalTypesValidatorPredicateTest {
 
   @Test
   public void validateWithoutExternalNameAndWithExternalType() {
-    when(deploymentModel.getExternalType(francaType)).thenReturn("Baz");
+    when(deploymentModel.isExternalType(francaType)).thenReturn(true);
 
     assertNull(validatorPredicate.validate(deploymentModel, francaType));
   }

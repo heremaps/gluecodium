@@ -115,7 +115,7 @@ public final class CBridgeTypeMapperTest {
   @Test
   public void mapStructTypeWithExternalType() {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
-    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+    when(deploymentModel.isExternalType(any())).thenReturn(true);
 
     CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
 
@@ -125,7 +125,7 @@ public final class CBridgeTypeMapperTest {
   @Test
   public void mapStructTypeWithExternalName() {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
-    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+    when(deploymentModel.isExternalType(any())).thenReturn(true);
     when(deploymentModel.getExternalName(any())).thenReturn("::bar::Baz");
 
     CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);

@@ -159,7 +159,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FField francaField) {
 
     String fieldName = francaField.getName();
-    if (deploymentModel.getExternalType((FType) francaField.eContainer()) == null) {
+    if (!deploymentModel.isExternalType((FType) francaField.eContainer())) {
       fieldName = CppNameRules.getFieldName(fieldName);
     }
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
@@ -179,7 +179,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FStructType francaStructType) {
 
     // Type definition
-    boolean isExternal = deploymentModel.getExternalType(francaStructType) != null;
+    boolean isExternal = deploymentModel.isExternalType(francaStructType);
     String externalName = deploymentModel.getExternalName(francaStructType);
     String name = CppNameRules.getTypeName(francaStructType.getName(), isExternal, externalName);
     String fullyQualifiedName =
@@ -263,7 +263,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FEnumerationType francaEnumerationType) {
 
     // Type definition
-    boolean isExternal = deploymentModel.getExternalType(francaEnumerationType) != null;
+    boolean isExternal = deploymentModel.isExternalType(francaEnumerationType);
     String externalName = deploymentModel.getExternalName(francaEnumerationType);
     String enumName =
         CppNameRules.getTypeName(francaEnumerationType.getName(), isExternal, externalName);
@@ -290,7 +290,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FEnumerator francaEnumerator) {
 
     String enumItemName = francaEnumerator.getName();
-    if (deploymentModel.getExternalType((FType) francaEnumerator.eContainer()) == null) {
+    if (!deploymentModel.isExternalType((FType) francaEnumerator.eContainer())) {
       enumItemName = CppNameRules.getEnumEntryName(enumItemName);
     }
     CppValue cppValue = getPreviousResult(CppValue.class);

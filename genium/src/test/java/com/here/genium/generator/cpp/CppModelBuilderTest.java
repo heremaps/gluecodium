@@ -400,7 +400,7 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldInExternalStructPreservesName() {
-    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+    when(deploymentModel.isExternalType(any())).thenReturn(true);
 
     modelBuilder.finishBuilding(francaField);
 
@@ -487,7 +487,7 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaStructTypeReadsExternalType() {
-    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+    when(deploymentModel.isExternalType(any())).thenReturn(true);
 
     modelBuilder.finishBuilding(francaStructType);
 
@@ -499,7 +499,7 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaStructTypeReadsExternalName() {
-    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+    when(deploymentModel.isExternalType(any())).thenReturn(true);
     when(deploymentModel.getExternalName(any())).thenReturn("::very::External");
 
     modelBuilder.finishBuilding(francaStructType);
@@ -651,7 +651,7 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeReadsExternalType() {
-    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+    when(deploymentModel.isExternalType(any())).thenReturn(true);
 
     modelBuilder.finishBuilding(francaEnumerationType);
 
@@ -662,7 +662,7 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeReadsExternalName() {
-    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+    when(deploymentModel.isExternalType(any())).thenReturn(true);
     when(deploymentModel.getExternalName(any())).thenReturn("::very::External");
 
     modelBuilder.finishBuilding(francaEnumerationType);
@@ -683,7 +683,7 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumeratorExternalEnum() {
-    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+    when(deploymentModel.isExternalType(any())).thenReturn(true);
 
     modelBuilder.finishBuilding(francaEnumerator);
 
