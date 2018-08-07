@@ -142,7 +142,7 @@ public class CppTypeMapperComplexTest {
   @Test
   public void mapStructWithExternalName() {
     when(francaTypeRef.getDerived()).thenReturn(structType);
-    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+    when(deploymentModel.isExternalType(any())).thenReturn(true);
     when(deploymentModel.getExternalName(any())).thenReturn("::very::External");
 
     CppTypeRef result = typeMapper.map(francaTypeRef);
@@ -170,7 +170,7 @@ public class CppTypeMapperComplexTest {
   @Test
   public void mapEnumWithExternalName() {
     when(francaTypeRef.getDerived()).thenReturn(enumType);
-    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+    when(deploymentModel.isExternalType(any())).thenReturn(true);
     when(deploymentModel.getExternalName(any())).thenReturn("::very::External");
 
     CppTypeRef result = typeMapper.map(francaTypeRef);

@@ -59,14 +59,14 @@ public class ExternalFieldsValidatorPredicateTest {
     when(francaStructType.eContainer()).thenReturn(francaTypeCollection);
     when(francaField.eContainer()).thenReturn(francaStructType);
 
-    when(deploymentModel.getExternalType(francaStructType)).thenReturn("Foo");
+    when(deploymentModel.isExternalType(francaStructType)).thenReturn(true);
   }
 
   @Test
   public void validateWithExternalFieldInNonExternalStruct() {
     when(deploymentModel.getExternalGetter(francaField)).thenReturn("Bar");
     when(deploymentModel.getExternalSetter(francaField)).thenReturn("Baz");
-    when(deploymentModel.getExternalType(francaStructType)).thenReturn(null);
+    when(deploymentModel.isExternalType(francaStructType)).thenReturn(false);
 
     assertNotNull(validatorPredicate.validate(deploymentModel, francaField));
   }

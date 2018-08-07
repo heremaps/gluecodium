@@ -149,7 +149,7 @@ public class CTypeMapper {
     String baseApiCall = null;
     if (modelElement instanceof FType) {
       FType francaType = (FType) modelElement;
-      boolean isExternal = deploymentModel.getExternalType(francaType) != null;
+      boolean isExternal = deploymentModel.isExternalType(francaType);
       if (isExternal) {
         String externalName = deploymentModel.getExternalName(francaType);
         baseApiCall = CppNameRules.getFullyQualifiedName(francaType, true, externalName);
