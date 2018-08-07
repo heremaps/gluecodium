@@ -106,6 +106,10 @@ public class FrancaDeploymentModel {
     return getString(francaType, "ExternalType");
   }
 
+  public boolean isExternalType(final FType francaType) {
+    return getExternalType(francaType) != null;
+  }
+
   public String getExternalName(final FType francaType) {
     return getString(francaType, "ExternalName");
   }

@@ -44,9 +44,8 @@ public class ExternalTypesValidatorPredicate implements ValidatorPredicate<FType
   public String validate(final FrancaDeploymentModel deploymentModel, final FType francaType) {
 
     boolean hasExternalName = deploymentModel.getExternalName(francaType) != null;
-    boolean hasExternalType = deploymentModel.getExternalType(francaType) != null;
 
-    return hasExternalName && !hasExternalType
+    return hasExternalName && !deploymentModel.isExternalType(francaType)
         ? String.format(NON_EXTERNAL_TYPE_MESSAGE, FrancaTypeHelper.getFullName(francaType))
         : null;
   }

@@ -80,7 +80,7 @@ public final class CppValueMapperTest {
 
   @Test
   public void mapEnumValue() {
-    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+    when(deploymentModel.isExternalType(any())).thenReturn(true);
     when(francaElementRef.getElement()).thenReturn(francaEnumerator);
     when(francaEnumerator.getName()).thenReturn("nonsense");
 
@@ -120,7 +120,7 @@ public final class CppValueMapperTest {
   @Test
   public void mapDeploymentDefaultValueForExternalEnumReadsNameVerbatim() {
     CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("SomeType").refersToEnum(true).build();
-    when(deploymentModel.getExternalType(any())).thenReturn("foo/Bar.h");
+    when(deploymentModel.isExternalType(any())).thenReturn(true);
 
     CppValue result = valueMapper.mapDeploymentDefaultValue(cppTypeRef, francaField);
 

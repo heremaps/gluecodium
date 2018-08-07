@@ -57,7 +57,7 @@ public class ExternalFieldsValidatorPredicate implements ValidatorPredicate<FFie
     if (hasExternalGetter != hasExternalSetter) {
       messageFormat = BOTH_PROPERTIES_MESSAGE;
     } else if (hasExternalGetter
-        && deploymentModel.getExternalType((FStructType) francaField.eContainer()) == null) {
+        && !deploymentModel.isExternalType((FStructType) francaField.eContainer())) {
       messageFormat = NON_EXTERNAL_STRUCT_MESSAGE;
     }
 

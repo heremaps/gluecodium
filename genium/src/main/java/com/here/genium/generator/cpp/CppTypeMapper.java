@@ -153,7 +153,7 @@ public class CppTypeMapper {
     String fullyQualifiedName;
     if (francaElement instanceof FType) {
       FType francaType = (FType) francaElement;
-      boolean isExternal = deploymentModel.getExternalType(francaType) != null;
+      boolean isExternal = deploymentModel.isExternalType(francaType);
       String externalName = deploymentModel.getExternalName(francaType);
       fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaType, isExternal, externalName);
     } else {

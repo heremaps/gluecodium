@@ -62,7 +62,7 @@ public class CppValueMapper {
       return new CppValue("\"" + StringEscapeUtils.escapeJava(deploymentDefaultValue) + "\"");
     } else if (cppTypeRef.refersToEnumType()) {
       String enumEntryName =
-          deploymentModel.getExternalType(francaField.getType().getDerived()) != null
+          deploymentModel.isExternalType(francaField.getType().getDerived())
               ? deploymentDefaultValue
               : CppNameRules.getEnumEntryName(deploymentDefaultValue);
       return new CppValue(cppTypeRef.name + "::" + enumEntryName);
@@ -81,7 +81,7 @@ public class CppValueMapper {
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(value);
     String enumeratorName = value.getName();
     String enumEntryName =
-        deploymentModel.getExternalType((FType) value.eContainer()) != null
+        deploymentModel.isExternalType((FType) value.eContainer())
             ? enumeratorName
             : CppNameRules.getEnumEntryName(enumeratorName);
     return new CppValue(CppNameRules.getFullyQualifiedName(nestedNameSpecifier, enumEntryName));
