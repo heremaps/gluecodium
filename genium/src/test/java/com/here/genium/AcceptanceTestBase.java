@@ -26,7 +26,6 @@ import static org.junit.Assume.assumeFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.spy;
 
-import com.here.genium.cli.OptionReader;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.platform.android.AndroidGeneratorSuite;
@@ -70,7 +69,7 @@ public abstract class AcceptanceTestBase {
 
   @Rule public final NiceErrorCollector errorCollector = new NiceErrorCollector();
 
-  private final Genium genium = spy(new Genium(OptionReader.DEFAULT_OPTIONS));
+  private final Genium genium = spy(new Genium(Genium.DEFAULT_OPTIONS));
 
   private final File featureDirectory;
   private final String generatorName;

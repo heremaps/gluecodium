@@ -5,6 +5,9 @@
   + Type names for structs and enumerations marked with "ExternalType", as well as the names for
     their child elements (fields and enumerators, respectively) are now used verbatim in generated
     C++ and conversion code.
+- Features:
+  + The *Genium* class can be instantiated directly now and serves as a high-level entry point for
+    usage as a library.
 
 ## 3.5.0
 - Features:

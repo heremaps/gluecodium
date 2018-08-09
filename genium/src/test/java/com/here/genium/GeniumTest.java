@@ -26,9 +26,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.anyList;
 
+import com.here.genium.Genium.Options;
 import com.here.genium.cache.CachingStrategy;
 import com.here.genium.cache.CachingStrategyCreator;
-import com.here.genium.cli.OptionReader.GeniumOptions;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.loader.FrancaModelLoader;
 import com.here.genium.output.ConsoleOutput;
@@ -96,14 +96,14 @@ public class GeniumTest {
 
     when(FrancaResourcesValidator.validate(any(), any())).thenReturn(true);
     when(generator.getName()).thenReturn("");
-    when(GeneratorSuite.instantiateByShortName(anyString(), any(GeniumOptions.class)))
+    when(GeneratorSuite.instantiateByShortName(anyString(), any(Options.class)))
         .thenReturn(generator);
   }
 
   @Test
   public void defaultGeneratorsAreUsed() {
     // Arrange
-    GeniumOptions options = GeniumOptions.builder().build();
+    Options options = Options.builder().build();
 
     // Act, Assert
     assertEquals(GeneratorSuite.generatorShortNames(), createGenium(options).discoverGenerators());
@@ -112,10 +112,9 @@ public class GeniumTest {
   @Test
   public void failedInstantiationOfGenerator() {
     // Arrange
-    when(GeneratorSuite.instantiateByShortName(anyString(), any(GeniumOptions.class)))
-        .thenReturn(null);
-    GeniumOptions options =
-        GeniumOptions.builder()
+    when(GeneratorSuite.instantiateByShortName(anyString(), any(Options.class))).thenReturn(null);
+    Options options =
+        Options.builder()
             .inputDirs(new String[] {""})
             .generators(Collections.singleton("invalidGenerator"))
             .build();
@@ -128,8 +127,8 @@ public class GeniumTest {
   public void fileNameCollisionsResolved() {
     // Arrange
     when(generator.generate(any(), any())).thenReturn(Arrays.asList(FILE, FILE, FILE));
-    GeniumOptions options =
-        GeniumOptions.builder()
+    Options options =
+        Options.builder()
             .inputDirs(new String[] {""})
             .generators(Collections.singleton(SHORT_NAME))
             .validatingOnly(false)
@@ -141,8 +140,8 @@ public class GeniumTest {
   @Test
   public void executeValidateOnly() {
     // Arrange
-    GeniumOptions options =
-        GeniumOptions.builder()
+    Options options =
+        Options.builder()
             .inputDirs(new String[] {""})
             .generators(Collections.singleton(SHORT_NAME))
             .validatingOnly(true)
@@ -159,8 +158,8 @@ public class GeniumTest {
   public void useCachingInExecute() {
 
     // Arrange
-    GeniumOptions options =
-        GeniumOptions.builder()
+    Options options =
+        Options.builder()
             .inputDirs(new String[] {""})
             .outputDir(temporaryFolder.getRoot().getPath())
             .generators(Collections.singleton(SHORT_NAME))
@@ -179,11 +178,11 @@ public class GeniumTest {
   @Test
   public void ableToOutputConsole() throws IOException {
     // Arrange
-    GeniumOptions.builder().dumpingToStdout(true).build();
+    Options.builder().dumpingToStdout(true).build();
     GeneratedFile generatedFile = new GeneratedFile(CONTENT, FILE_NAME);
     ByteArrayOutputStream bo = new ByteArrayOutputStream();
     System.setOut(new PrintStream(bo));
-    GeniumOptions options = GeniumOptions.builder().dumpingToStdout(true).build();
+    Options options = Options.builder().dumpingToStdout(true).build();
 
     // Act
     new Genium(options).output(null, Collections.singletonList(generatedFile));
@@ -206,7 +205,7 @@ public class GeniumTest {
     // Arrange
     FileOutput mockFileOutput = mock(FileOutput.class);
     PowerMockito.whenNew(FileOutput.class).withAnyArguments().thenReturn(mockFileOutput);
-    GeniumOptions options = GeniumOptions.builder().outputDir(OUTPUT_DIR).build();
+    Options options = Options.builder().outputDir(OUTPUT_DIR).build();
     File mockFile = mock(File.class);
     PowerMockito.whenNew(File.class).withAnyArguments().thenReturn(mockFile);
 
@@ -227,7 +226,7 @@ public class GeniumTest {
     ConsoleOutput mockConsoleOutput = mock(ConsoleOutput.class);
     PowerMockito.whenNew(ConsoleOutput.class).withNoArguments().thenReturn(mockConsoleOutput);
     Mockito.doThrow(new IOException()).when(mockConsoleOutput).output(anyList());
-    GeniumOptions options = GeniumOptions.builder().dumpingToStdout(true).build();
+    Options options = Options.builder().dumpingToStdout(true).build();
 
     // Act, Assert
     assertFalse(new Genium(options).output(null, GENERATED_FILES));
@@ -239,7 +238,7 @@ public class GeniumTest {
     FileOutput mockFileOutput = mock(FileOutput.class);
     PowerMockito.whenNew(FileOutput.class).withAnyArguments().thenReturn(mockFileOutput);
     Mockito.doThrow(new IOException()).when(mockFileOutput).output(GENERATED_FILES);
-    GeniumOptions options = GeniumOptions.builder().outputDir("").build();
+    Options options = Options.builder().outputDir("").build();
 
     // Act, Assert
     assertFalse(new Genium(options).output(null, GENERATED_FILES));
@@ -304,7 +303,7 @@ public class GeniumTest {
   }
 
   @NotNull
-  private Genium createGenium(final GeniumOptions options) {
+  private Genium createGenium(final Options options) {
     Genium genium = spy(new Genium(options));
     doReturn(francaModelLoader).when(genium).getFrancaModelLoader();
     doReturn(true).when(genium).validateFrancaModel(any(), any());

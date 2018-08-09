@@ -19,7 +19,7 @@
 
 package com.here.genium.platform.android;
 
-import com.here.genium.cli.OptionReader;
+import com.here.genium.Genium;
 import com.here.genium.generator.androidmanifest.AndroidManifestGenerator;
 import com.here.genium.generator.jni.JniGenerator;
 
@@ -31,7 +31,7 @@ public final class AndroidGeneratorSuite extends JavaGeneratorSuite {
 
   public static final String GENERATOR_NAME = "android";
 
-  public AndroidGeneratorSuite(final OptionReader.GeniumOptions options) {
+  public AndroidGeneratorSuite(final Genium.Options options) {
     super(options, true);
   }
 

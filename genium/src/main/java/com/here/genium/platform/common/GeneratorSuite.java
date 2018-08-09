@@ -19,8 +19,8 @@
 
 package com.here.genium.platform.common;
 
+import com.here.genium.Genium;
 import com.here.genium.cli.GeniumExecutionException;
-import com.here.genium.cli.OptionReader;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.platform.android.AndroidGeneratorSuite;
@@ -54,8 +54,7 @@ public abstract class GeneratorSuite {
       FrancaDeploymentModel deploymentModel, List<FTypeCollection> typeCollections);
 
   /** Creates a new instance of a generator suite by its short identifier */
-  public static GeneratorSuite instantiateByShortName(
-      String shortName, OptionReader.GeniumOptions options) {
+  public static GeneratorSuite instantiateByShortName(String shortName, Genium.Options options) {
 
     switch (shortName) {
       case AndroidGeneratorSuite.GENERATOR_NAME:

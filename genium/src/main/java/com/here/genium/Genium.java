@@ -48,15 +48,16 @@ import org.franca.core.franca.FTypeCollection;
 import org.jetbrains.annotations.NotNull;
 
 public class Genium {
-
   private static final Logger LOGGER = Logger.getLogger(Genium.class.getName());
+  public static final String DEFAULT_INTERNAL_NAMESPACE = "genium";
+  public static final Options DEFAULT_OPTIONS =
+      Options.builder().cppInternalNamespace(DEFAULT_INTERNAL_NAMESPACE).build();
 
-  private final OptionReader.GeniumOptions options;
+  private final Options options;
   private final Version version;
   private final CachingStrategy cacheStrategy;
 
-  @VisibleForTesting
-  Genium(final OptionReader.GeniumOptions options) {
+  public Genium(final Options options) {
     this.options = options;
     GeniumLogger.initialize("logging.properties");
     version = parseVersion();
@@ -99,8 +100,7 @@ public class Genium {
     return succeeded;
   }
 
-  @VisibleForTesting
-  boolean execute() {
+  public boolean execute() {
     LOGGER.info("Version: " + version);
 
     List<File> inputDirs =
@@ -307,7 +307,7 @@ public class Genium {
     OptionReader or = new OptionReader();
     int status = 1;
     try {
-      OptionReader.GeniumOptions options = or.read(args);
+      Options options = or.read(args);
       status = (options == null || new Genium(options).execute()) ? 0 : 1;
     } catch (GeniumExecutionException e) {
       LOGGER.log(Level.SEVERE, "Running Genium failed!", e);
@@ -317,5 +317,21 @@ public class Genium {
     }
 
     System.exit(status);
+  }
+
+  @lombok.Value
+  @lombok.Builder(builderClassName = "Builder")
+  public static class Options {
+    private String[] inputDirs;
+    private String outputDir;
+    private List<String> javaPackageList;
+    private boolean dumpingToStdout;
+    private boolean validatingOnly;
+    private Set<String> generators;
+    private boolean enableCaching;
+    private String androidMergeManifestPath;
+    private boolean logTimes;
+    private String copyrightHeaderContents;
+    private String cppInternalNamespace;
   }
 }
