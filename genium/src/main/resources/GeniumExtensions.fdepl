@@ -21,6 +21,7 @@ specification GeniumExtensions {
 
     for interfaces {
         IsInterface: Boolean (optional, default: false);
+        ObjcInterface: Boolean (optional, default: false);
     }
 
     for methods {
