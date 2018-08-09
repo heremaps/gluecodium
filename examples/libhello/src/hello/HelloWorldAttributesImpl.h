@@ -28,10 +28,10 @@ public:
     ~HelloWorldAttributesImpl( ) override;
 
 public:
-    uint32_t get_built_in_type_attribute( ) override;
+    uint32_t get_built_in_type_attribute( ) const override;
     void set_built_in_type_attribute( const uint32_t value ) override;
-    float get_readonly_attribute( ) override;
-    ::hello::HelloWorldAttributes::ExampleStruct get_struct_attribute( ) override;
+    float get_readonly_attribute( ) const override;
+    ::hello::HelloWorldAttributes::ExampleStruct get_struct_attribute( ) const override;
     void set_struct_attribute(
         const ::hello::HelloWorldAttributes::ExampleStruct& value ) override;
 

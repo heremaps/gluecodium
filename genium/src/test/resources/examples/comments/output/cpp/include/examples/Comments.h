@@ -70,7 +70,7 @@ virtual ::examples::Comments::Usefulness some_method( const ::std::string& input
 /**
  * This is some very useful attribute.
  */
-virtual ::examples::Comments::Usefulness is_some_attribute(  ) = 0;
+virtual ::examples::Comments::Usefulness is_some_attribute(  ) const = 0;
 /**
  * This is some very useful attribute.
  */

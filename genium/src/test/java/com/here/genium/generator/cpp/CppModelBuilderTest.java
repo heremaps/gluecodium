@@ -709,6 +709,7 @@ public final class CppModelBuilderTest {
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
     assertEquals("get_" + ATTRIBUTE_NAME, resultMethod.name.toLowerCase());
+    assertTrue(resultMethod.qualifiers.contains(CppMethod.Qualifier.CONST));
   }
 
   @Test

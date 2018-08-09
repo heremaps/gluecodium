@@ -47,7 +47,7 @@ ChildClassImpl::get_name( )
 }
 
 int32_t
-ChildClassImpl::get_lucky_number( )
+ChildClassImpl::get_lucky_number( ) const
 {
     return m_lucky_number;
 }
