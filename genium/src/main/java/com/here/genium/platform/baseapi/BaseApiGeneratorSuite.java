@@ -20,7 +20,7 @@
 package com.here.genium.platform.baseapi;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.here.genium.cli.OptionReader;
+import com.here.genium.Genium;
 import com.here.genium.common.CollectionsHelper;
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.common.GeneratedFile;
@@ -56,7 +56,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
   private final String internalNamespace;
 
-  public BaseApiGeneratorSuite(final OptionReader.GeniumOptions options) {
+  public BaseApiGeneratorSuite(final Genium.Options options) {
     super();
     internalNamespace = options.getCppInternalNamespace();
   }

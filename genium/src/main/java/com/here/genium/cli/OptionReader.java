@@ -21,6 +21,7 @@ package com.here.genium.cli;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.here.genium.Genium;
 import com.here.genium.platform.common.GeneratorSuite;
 import java.util.*;
 import org.apache.commons.cli.*;
@@ -28,27 +29,7 @@ import org.eclipse.xtext.util.Files;
 
 public final class OptionReader {
 
-  private static final String DEFAULT_INTERNAL_NAMESPACE = "genium";
-  public static final GeniumOptions DEFAULT_OPTIONS =
-      GeniumOptions.builder().cppInternalNamespace(DEFAULT_INTERNAL_NAMESPACE).build();
-
   private final Options allOptions;
-
-  @lombok.Value
-  @lombok.Builder(builderClassName = "Builder")
-  public static class GeniumOptions {
-    private String[] inputDirs;
-    private String outputDir;
-    private List<String> javaPackageList;
-    private boolean dumpingToStdout;
-    private boolean validatingOnly;
-    private Set<String> generators;
-    private boolean enableCaching;
-    private String androidMergeManifestPath;
-    private boolean logTimes;
-    private String copyrightHeaderContents;
-    private String cppInternalNamespace;
-  }
 
   public OptionReader() {
     this.allOptions = new Options();
@@ -98,8 +79,8 @@ public final class OptionReader {
   }
 
   @SuppressWarnings("PMD.ModifiedCyclomaticComplexity")
-  public GeniumOptions read(final String[] args) throws OptionReaderException {
-    GeniumOptions.Builder builder = GeniumOptions.builder();
+  public Genium.Options read(final String[] args) throws OptionReaderException {
+    Genium.Options.Builder builder = Genium.Options.builder();
     CommandLineParser parser = new BasicParser();
 
     try {
@@ -141,7 +122,7 @@ public final class OptionReader {
 
       builder.logTimes(cmd.hasOption("timeLogging"));
       builder.cppInternalNamespace(
-          cmd.getOptionValue("cppInternalNamespace", DEFAULT_INTERNAL_NAMESPACE));
+          cmd.getOptionValue("cppInternalNamespace", Genium.DEFAULT_INTERNAL_NAMESPACE));
 
       if (cmd.hasOption("copyrightHeader")) {
         String copyrightHeaderFile = cmd.getOptionValue("copyrightHeader");
@@ -153,7 +134,7 @@ public final class OptionReader {
     }
 
     // Validation
-    GeniumOptions options = builder.build();
+    Genium.Options options = builder.build();
     if (options.getInputDirs() == null || options.getInputDirs().length == 0) {
       throw new OptionReaderException("input option required");
     }
@@ -167,7 +148,7 @@ public final class OptionReader {
       System.out.println("  Found generator " + generatorName);
 
       GeneratorSuite generator =
-          GeneratorSuite.instantiateByShortName(generatorName, DEFAULT_OPTIONS);
+          GeneratorSuite.instantiateByShortName(generatorName, Genium.DEFAULT_OPTIONS);
       if (generator != null) {
         System.out.println("   DefinedIn:  " + generator.getClass().getName());
         System.out.println("   Name:       " + generator.getName());

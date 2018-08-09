@@ -19,7 +19,7 @@
 
 package com.here.genium.platform.android;
 
-import com.here.genium.cli.OptionReader;
+import com.here.genium.Genium;
 import com.here.genium.common.CollectionsHelper;
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.androidmanifest.AndroidManifestGenerator;
@@ -65,16 +65,15 @@ public class JavaGeneratorSuite extends GeneratorSuite {
 
   private static final String NATIVE_BASE_JAVA = "NativeBase.java";
 
-  private final OptionReader.GeniumOptions options;
+  private final Genium.Options options;
   private final boolean enableAndroidFeatures;
   private final String internalNamespace;
 
-  public JavaGeneratorSuite(final OptionReader.GeniumOptions options) {
+  public JavaGeneratorSuite(final Genium.Options options) {
     this(options, false);
   }
 
-  protected JavaGeneratorSuite(
-      final OptionReader.GeniumOptions options, final boolean enableAndroidFeatures) {
+  protected JavaGeneratorSuite(final Genium.Options options, final boolean enableAndroidFeatures) {
     super();
     this.options = options;
     this.enableAndroidFeatures = enableAndroidFeatures;
