@@ -38,6 +38,7 @@ public final class CFunction extends CElement {
   public final CppTypeInfo error;
   public final String nestedSpecifier;
   public final String shortName;
+  public final boolean isConst;
 
   public boolean isReturningVoid() {
     return returnType.functionReturnType.equals(CType.VOID);
@@ -47,7 +48,7 @@ public final class CFunction extends CElement {
     return new CFunctionBuilder().shortName(shortName);
   }
 
-  @SuppressWarnings("ParameterNumber")
+  @SuppressWarnings({"ParameterNumber", "PMD.ExcessiveParameterList"})
   @lombok.Builder
   private CFunction(
       List<? extends CParameter> parameters,
@@ -58,7 +59,8 @@ public final class CFunction extends CElement {
       CInParameter selfParameter,
       CppTypeInfo error,
       String nestedSpecifier,
-      String shortName) {
+      String shortName,
+      final boolean isConst) {
     super(NameHelper.joinNames(nestedSpecifier, shortName, CBridgeNameRules.UNDERSCORE_DELIMITER));
     this.parameters = parameters != null ? parameters : emptyList();
     this.returnType = returnType != null ? returnType : new CppTypeInfo(CType.VOID);
@@ -70,5 +72,6 @@ public final class CFunction extends CElement {
     this.error = error;
     this.nestedSpecifier = nestedSpecifier;
     this.shortName = shortName;
+    this.isConst = isConst;
   }
 }

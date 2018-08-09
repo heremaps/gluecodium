@@ -273,24 +273,27 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     CppTypeInfo attributeTypeInfo = getPreviousResult(CppTypeInfo.class);
 
     SwiftMethod getterSwiftMethod = property.propertyAccessors.get(0);
-    CFunction.CFunctionBuilder getterBuilder =
+    CFunction getterFunction =
         CFunction.builder(getterSwiftMethod.cShortName)
             .nestedSpecifier(getterSwiftMethod.cNestedSpecifier)
             .returnType(attributeTypeInfo)
             .selfParameter(selfParameter)
-            .functionName(cppMethods.get(0).name);
-    storeResult(getterBuilder.build());
+            .functionName(cppMethods.get(0).name)
+            .isConst(true)
+            .build();
+    storeResult(getterFunction);
 
     if (!attribute.isReadonly()) {
       SwiftMethod setterSwiftMethod = property.propertyAccessors.get(1);
-      CFunction.CFunctionBuilder setterBuilder =
+      CFunction setterFunction =
           CFunction.builder(setterSwiftMethod.cShortName)
               .nestedSpecifier(setterSwiftMethod.cNestedSpecifier)
               .parameters(
                   Collections.singletonList(new CInParameter("newValue", attributeTypeInfo)))
               .selfParameter(selfParameter)
-              .functionName(cppMethods.get(1).name);
-      storeResult(setterBuilder.build());
+              .functionName(cppMethods.get(1).name)
+              .build();
+      storeResult(setterFunction);
     }
 
     super.finishBuilding(attribute);

@@ -33,7 +33,7 @@ public:
     ~GrandchildClassImpl( ) = default;
     ::std::shared_ptr< ParentInterface > cast_to_parent( ) override;
     ::std::string get_name( ) override;
-    int32_t get_lucky_number( ) override;
+    int32_t get_lucky_number( ) const override;
     void set_lucky_number( const int32_t number ) override;
     void do_something( const std::string& value ) override;
     void do_something_to_child_class(

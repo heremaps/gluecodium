@@ -329,29 +329,30 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     String francaComment = CommentHelper.getDescription(francaAttribute);
 
     String getterName = CppNameRules.getGetterName(francaAttribute.getName(), cppTypeRef);
-    CppMethod getterMethod = buildAccessorMethod(getterName, cppTypeRef, francaComment);
+    CppMethod getterMethod =
+        new CppMethod.Builder(getterName)
+            .returnType(cppTypeRef)
+            .specifier(CppMethod.Specifier.VIRTUAL)
+            .qualifier(CppMethod.Qualifier.CONST)
+            .qualifier(CppMethod.Qualifier.PURE_VIRTUAL)
+            .comment(francaComment)
+            .build();
     storeResult(getterMethod);
 
     if (!francaAttribute.isReadonly()) {
       String setterName = CppNameRules.getSetterName(francaAttribute.getName());
       CppMethod setterMethod =
-          buildAccessorMethod(setterName, CppPrimitiveTypeRef.VOID, francaComment);
+          new CppMethod.Builder(setterName)
+              .returnType(CppPrimitiveTypeRef.VOID)
+              .specifier(CppMethod.Specifier.VIRTUAL)
+              .qualifier(CppMethod.Qualifier.PURE_VIRTUAL)
+              .comment(francaComment)
+              .build();
       setterMethod.parameters.add(new CppParameter("value", cppTypeRef));
       storeResult(setterMethod);
     }
 
     closeContext();
-  }
-
-  private CppMethod buildAccessorMethod(
-      final String name, final CppTypeRef cppTypeRef, final String francaComment) {
-
-    return new CppMethod.Builder(name)
-        .returnType(cppTypeRef)
-        .specifier(CppMethod.Specifier.VIRTUAL)
-        .qualifier(CppMethod.Qualifier.PURE_VIRTUAL)
-        .comment(francaComment)
-        .build();
   }
 
   private CppMethod buildCppMethod(

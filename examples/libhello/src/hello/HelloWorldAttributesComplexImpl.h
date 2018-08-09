@@ -28,9 +28,9 @@ public:
     ~HelloWorldAttributesComplexImpl( ) override;
 
 public:
-    ::std::vector< ::std::string > get_array_attribute( ) override;
+    ::std::vector< ::std::string > get_array_attribute( ) const override;
     void set_array_attribute( const ::std::vector< ::std::string >& value ) override;
-    ::hello::HelloWorldAttributesComplex::InternalError get_complex_type_attribute( ) override;
+    ::hello::HelloWorldAttributesComplex::InternalError get_complex_type_attribute( ) const override;
     void set_complex_type_attribute(
         const ::hello::HelloWorldAttributesComplex::InternalError value ) override;
 

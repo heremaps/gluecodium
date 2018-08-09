@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Breaking changes:
+  + Getter methods for attributes are generated as "const" in C++ now.
+
 ## 3.6.0
 - Breaking changes:
   + Type names for structs and enumerations marked with "ExternalType", as well as the names for

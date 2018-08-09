@@ -28,9 +28,9 @@ public:
     ~AttributesInterfaceImpl( ) override;
 
 public:
-    uint32_t get_built_in_type_attribute( ) override;
+    uint32_t get_built_in_type_attribute( ) const override;
     void set_built_in_type_attribute( const uint32_t value ) override;
-    ::test::AttributesInterface::ExampleStruct get_struct_attribute( ) override;
+    ::test::AttributesInterface::ExampleStruct get_struct_attribute( ) const override;
     void set_struct_attribute(
         const ::test::AttributesInterface::ExampleStruct& value ) override;
 
