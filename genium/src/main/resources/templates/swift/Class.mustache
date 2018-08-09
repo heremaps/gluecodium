@@ -34,7 +34,7 @@ internal func getRef(_ ref: {{name}}?) -> RefHolder {
 }
 
 {{>swift/Comment}}{{!!
-}}{{visibility}} class {{name}}{{#if baseAndProtocols}}: {{join baseAndProtocols delimiter=', '}}{{/if}} {
+}}{{visibility}} class {{name}}{{#if hasParents}}: {{/if}}{{#parentClass}}{{.}}{{#if implementsProtocols}}, {{/if}}{{/parentClass}}{{join implementsProtocols delimiter=', '}} {
 
 {{#typedefs}}
 {{prefixPartial 'swift/Typedefs' '    '}}

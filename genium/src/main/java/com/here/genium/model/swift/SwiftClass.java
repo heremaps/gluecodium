@@ -59,12 +59,8 @@ public final class SwiftClass extends SwiftType {
   }
 
   @SuppressWarnings("unused")
-  public List<String> baseAndProtocols() {
-    LinkedList<String> baseAndProtocols = new LinkedList<>(implementsProtocols);
-    if (parentClass != null) {
-      baseAndProtocols.addFirst(parentClass);
-    }
-    return baseAndProtocols;
+  public boolean hasParents() {
+    return parentClass != null || !implementsProtocols.isEmpty();
   }
 
   public static Builder builder(final String name) {
