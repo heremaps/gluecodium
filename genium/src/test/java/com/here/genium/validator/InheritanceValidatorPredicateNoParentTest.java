@@ -19,30 +19,47 @@
 
 package com.here.genium.validator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.*;
+import java.util.Arrays;
+import java.util.Collection;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.runners.Parameterized;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-@RunWith(JUnit4.class)
-public final class InheritanceValidatorPredicateTest {
+@RunWith(Parameterized.class)
+public final class InheritanceValidatorPredicateNoParentTest {
 
   @Mock private FModel francaModel;
   @Mock private FInterface francaInterface;
-  @Mock private FInterface francaInterface2;
 
   @Mock private FrancaDeploymentModel deploymentModel;
 
   private final InheritanceValidatorPredicate validatorPredicate =
       new InheritanceValidatorPredicate();
+
+  private final boolean isInterface;
+  private final boolean isObjcInteface;
+
+  public InheritanceValidatorPredicateNoParentTest(
+      final boolean isInterface, final boolean isObjcInteface) {
+    this.isInterface = isInterface;
+    this.isObjcInteface = isObjcInteface;
+  }
+
+  @Parameterized.Parameters
+  public static Collection<Object[]> data() {
+    return Arrays.asList(
+        new Object[][] {{false, false}, {false, true}, {true, false}, {true, true}});
+  }
 
   @Before
   public void setUp() {
@@ -50,42 +67,14 @@ public final class InheritanceValidatorPredicateTest {
 
     when(francaModel.getName()).thenReturn("");
     when(francaInterface.getName()).thenReturn("");
-    when(francaInterface2.getName()).thenReturn("");
 
     when(francaInterface.eContainer()).thenReturn(francaModel);
-    when(francaInterface2.eContainer()).thenReturn(francaModel);
   }
 
   @Test
-  public void validateWithInterfaceThatInheritsFromInterface() {
-    when(francaInterface.getBase()).thenReturn(francaInterface2);
-    when(deploymentModel.isInterface(any())).thenReturn(true);
-
-    assertNull(validatorPredicate.validate(deploymentModel, francaInterface));
-  }
-
-  @Test
-  public void validateWithClassThatInheritsFromInterface() {
-    when(francaInterface.getBase()).thenReturn(francaInterface2);
-    when(deploymentModel.isInterface(francaInterface)).thenReturn(false);
-    when(deploymentModel.isInterface(francaInterface2)).thenReturn(true);
-
-    assertNull(validatorPredicate.validate(deploymentModel, francaInterface));
-  }
-
-  @Test
-  public void validateWithInterfaceThatInheritsFromClass() {
-    when(francaInterface.getBase()).thenReturn(francaInterface2);
-    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-    when(deploymentModel.isInterface(francaInterface2)).thenReturn(false);
-
-    assertNotNull(validatorPredicate.validate(deploymentModel, francaInterface));
-  }
-
-  @Test
-  public void validateWithClassThatInheritsFromClass() {
-    when(francaInterface.getBase()).thenReturn(francaInterface2);
-    when(deploymentModel.isInterface(any())).thenReturn(false);
+  public void test() {
+    when(deploymentModel.isInterface(any())).thenReturn(isInterface);
+    when(deploymentModel.isObjcInterface(any())).thenReturn(isObjcInteface);
 
     assertNull(validatorPredicate.validate(deploymentModel, francaInterface));
   }
