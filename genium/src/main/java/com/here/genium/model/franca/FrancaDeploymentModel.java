@@ -122,6 +122,10 @@ public class FrancaDeploymentModel {
     return getString(francaField, "ExternalSetter");
   }
 
+  public boolean isObjcInterface(final FInterface francaInterface) {
+    return getBoolean(francaInterface, "ObjcInterface");
+  }
+
   private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {
 
     List<MappingGenericPropertyAccessor> propertyAccessorsForModelElement =
