@@ -1,6 +1,6 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.6.0
 - Breaking changes:
   + Type names for structs and enumerations marked with "ExternalType", as well as the names for
     their child elements (fields and enumerators, respectively) are now used verbatim in generated
