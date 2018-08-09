@@ -26,7 +26,7 @@ namespace test
 AttributesInterfaceImpl::~AttributesInterfaceImpl( ) = default;
 
 uint32_t
-AttributesInterfaceImpl::get_built_in_type_attribute( )
+AttributesInterfaceImpl::get_built_in_type_attribute( ) const
 {
     return m_build_in_type_attribute;
 }
@@ -38,7 +38,7 @@ AttributesInterfaceImpl::set_built_in_type_attribute( const uint32_t value )
 }
 
 ::test::AttributesInterface::ExampleStruct
-AttributesInterfaceImpl::get_struct_attribute( )
+AttributesInterfaceImpl::get_struct_attribute( ) const
 {
     return m_struct_attribute;
 }

@@ -47,7 +47,7 @@ GrandchildClassImpl::get_name( )
 }
 
 int32_t
-GrandchildClassImpl::get_lucky_number( )
+GrandchildClassImpl::get_lucky_number( ) const
 {
     return ChildClassImpl::get_lucky_number( );
 }

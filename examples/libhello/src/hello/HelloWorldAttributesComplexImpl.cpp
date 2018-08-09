@@ -26,7 +26,7 @@ namespace hello
 HelloWorldAttributesComplexImpl::~HelloWorldAttributesComplexImpl( ) = default;
 
 ::std::vector< ::std::string >
-HelloWorldAttributesComplexImpl::get_array_attribute( )
+HelloWorldAttributesComplexImpl::get_array_attribute( ) const
 {
     return m_array_attribute;
 }
@@ -38,7 +38,7 @@ HelloWorldAttributesComplexImpl::set_array_attribute( const ::std::vector< ::std
 }
 
 ::hello::HelloWorldAttributesComplex::InternalError
-HelloWorldAttributesComplexImpl::get_complex_type_attribute( )
+HelloWorldAttributesComplexImpl::get_complex_type_attribute( ) const
 {
     return m_complex_type_attribute;
 }

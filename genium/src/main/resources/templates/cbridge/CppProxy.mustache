@@ -33,7 +33,7 @@ public:
 
     {{#each inheritedFunctions functions}}
     {{#if selfParameter}}
-    {{returnType}} {{functionName}}({{joinPartial parameters "baseApiParameter" ", "}}) override {
+    {{returnType}} {{functionName}}({{joinPartial parameters "baseApiParameter" ", "}}){{#if isConst}} const{{/if}} override {
         {{>returnConversion}}
     }
     {{/if}}
