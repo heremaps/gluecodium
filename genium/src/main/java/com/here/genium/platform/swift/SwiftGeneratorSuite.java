@@ -21,7 +21,7 @@ package com.here.genium.platform.swift;
 
 import static java.util.stream.Collectors.toList;
 
-import com.here.genium.cli.OptionReader;
+import com.here.genium.Genium;
 import com.here.genium.generator.cbridge.CBridgeGenerator;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.generator.swift.SwiftGenerator;
@@ -47,7 +47,7 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
 
   private final String internalNamespace;
 
-  public SwiftGeneratorSuite(final OptionReader.GeniumOptions options) {
+  public SwiftGeneratorSuite(final Genium.Options options) {
     super();
     internalNamespace = options != null ? options.getCppInternalNamespace() : null;
   }

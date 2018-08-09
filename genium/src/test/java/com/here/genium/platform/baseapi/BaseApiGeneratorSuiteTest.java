@@ -22,7 +22,7 @@ package com.here.genium.platform.baseapi;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import com.here.genium.cli.OptionReader;
+import com.here.genium.Genium;
 import com.here.genium.generator.common.GeneratedFile;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,7 +34,7 @@ import org.junit.runners.JUnit4;
 public final class BaseApiGeneratorSuiteTest {
 
   private final BaseApiGeneratorSuite baseApiGeneratorSuite =
-      new BaseApiGeneratorSuite(OptionReader.DEFAULT_OPTIONS);
+      new BaseApiGeneratorSuite(Genium.DEFAULT_OPTIONS);
   private List<GeneratedFile> generatedFiles;
 
   private String getTargetFile(int i) {
