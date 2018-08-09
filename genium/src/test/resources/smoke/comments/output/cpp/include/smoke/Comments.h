@@ -106,7 +106,7 @@ virtual void some_method_without_return_type_or_input_parameters(  ) = 0;
 /**
  * This is some very useful attribute.
  */
-virtual ::smoke::Comments::Usefulness is_some_attribute(  ) = 0;
+virtual ::smoke::Comments::Usefulness is_some_attribute(  ) const = 0;
 /**
  * This is some very useful attribute.
  */

@@ -26,7 +26,7 @@ namespace hello
 HelloWorldAttributesImpl::~HelloWorldAttributesImpl( ) = default;
 
 uint32_t
-HelloWorldAttributesImpl::get_built_in_type_attribute( )
+HelloWorldAttributesImpl::get_built_in_type_attribute( ) const
 {
     return m_build_in_type_attribute;
 }
@@ -38,13 +38,13 @@ HelloWorldAttributesImpl::set_built_in_type_attribute( const uint32_t value )
 }
 
 float
-HelloWorldAttributesImpl::get_readonly_attribute( )
+HelloWorldAttributesImpl::get_readonly_attribute( ) const
 {
     return m_read_only_attribute;
 }
 
 ::hello::HelloWorldAttributes::ExampleStruct
-HelloWorldAttributesImpl::get_struct_attribute( )
+HelloWorldAttributesImpl::get_struct_attribute( ) const
 {
     return m_struct_attribute;
 }

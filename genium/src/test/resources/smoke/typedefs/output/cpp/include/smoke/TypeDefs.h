@@ -40,7 +40,7 @@ static ::smoke::TypeDefs::TestStructTypeDef return_test_struct_type_def( const :
 static ::smoke::TypeDefs::NestedStructTypeDef return_nested_struct_type_def( const ::smoke::TypeDefs::NestedStructTypeDef& input );
 static ::smoke::PointTypeDef return_type_def_point_from_type_collection( const ::smoke::PointTypeDef& input );
 
-virtual ::std::vector< ::smoke::TypeDefs::PrimitiveTypeDef > get_primitive_type_attribute(  ) = 0;
+virtual ::std::vector< ::smoke::TypeDefs::PrimitiveTypeDef > get_primitive_type_attribute(  ) const = 0;
 virtual void set_primitive_type_attribute( const ::std::vector< ::smoke::TypeDefs::PrimitiveTypeDef >& value ) = 0;
 
 };
