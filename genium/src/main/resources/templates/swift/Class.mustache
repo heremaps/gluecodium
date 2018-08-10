@@ -34,6 +34,8 @@ internal func getRef(_ ref: {{name}}?) -> RefHolder {
 }
 
 {{>swift/Comment}}{{!!
+}}{{#if isObjcInterface}}@objcMembers
+{{/if}}{{!!
 }}{{visibility}} class {{name}}{{#if hasParents}}: {{/if}}{{#parentClass}}{{.}}{{#if implementsProtocols}}, {{/if}}{{/parentClass}}{{join implementsProtocols delimiter=', '}} {
 
 {{#typedefs}}
@@ -48,6 +50,8 @@ internal func getRef(_ ref: {{name}}?) -> RefHolder {
 {{>swift/GetReference}}
 
 {{>swift/Comment}}{{!!
+}}{{#if isObjcInterface}}@objc
+{{/if}}{{!!
 }}{{visibility}} protocol {{name}} : {{#if implementsProtocols}}{{join implementsProtocols delimiter=', '}}{{/if}}{{#unless implementsProtocols}}AnyObject{{/unless}} {
 {{#typedefs}}{{prefixPartial 'swift/Typedefs' '    '}}
 {{/typedefs}}
