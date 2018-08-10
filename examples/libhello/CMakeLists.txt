@@ -347,6 +347,14 @@ feature(EquatableArrays cpp android SOURCES
     fidl/test/EquatableArrays.fdepl
 )
 
+if(APPLE)
+    #This feature is intended for Swift only. It also does not compile outside of Apple platforms.
+    feature(ObjcInterface swift SOURCES
+        fidl/test/ObjcInterface.fidl
+        fidl/test/ObjcInterface.fdepl
+    )
+endif()
+
 add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
 source_group("Franca files" FILES ${HELLO_FRANCA_SOURCES})
 set_target_properties(hello PROPERTIES
