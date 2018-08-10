@@ -85,16 +85,23 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     boolean parentIsInterface = parentClass != null && parentClass.isInterface;
     boolean parentIsClass = parentClass != null && !parentClass.isInterface;
 
+    boolean isObjcInterface = deploymentModel.isObjcInterface(francaInterface);
+    String parentClassName = parentIsClass ? parentClass.name : null;
+    if (parentClassName == null && isObjcInterface && !isInterface) {
+      parentClassName = SwiftTypeMapper.OBJC_PARENT_CLASS;
+    }
+
     SwiftClass clazz =
         SwiftClass.builder(SwiftNameRules.getClassName(francaInterface.getName()))
             .nameSpace(String.join("_", DefinedBy.getPackages(francaInterface)))
             .cInstance(CBridgeNameRules.getInterfaceName(francaInterface))
             .isInterface(isInterface)
-            .parentClass(parentIsClass ? parentClass.name : null)
+            .parentClass(parentClassName)
             .useParentCInstance(parentIsClass && !isInterface)
             .functionTableName(
                 isInterface ? CBridgeNameRules.getFunctionTableName(francaInterface) : null)
             .visibility(getVisibility(francaInterface))
+            .isObjcInterface(isObjcInterface)
             .build();
 
     if (parentIsInterface) {
