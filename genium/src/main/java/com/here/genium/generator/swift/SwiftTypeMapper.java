@@ -35,6 +35,8 @@ import org.franca.core.franca.*;
  */
 public class SwiftTypeMapper {
 
+  public static final String OBJC_PARENT_CLASS = "NSObject";
+
   public static SwiftType mapType(final FTypeRef type, FrancaDeploymentModel deploymentModel) {
     FType derived = type.getDerived();
 

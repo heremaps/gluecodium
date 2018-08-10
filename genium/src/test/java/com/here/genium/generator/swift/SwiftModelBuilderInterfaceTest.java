@@ -346,4 +346,56 @@ public class SwiftModelBuilderInterfaceTest {
     assertEquals("SomeParent", swiftClass.parentClass);
     assertFalse(swiftClass.useParentCInstance);
   }
+
+  @Test
+  public void finishBuildingFrancaInterfaceCreatesObjcInterfaceProtocol() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
+    when(deploymentModel.isObjcInterface(francaInterface)).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    SwiftFile swiftFile = modelBuilder.getFinalResult(SwiftFile.class);
+    assertNotNull(swiftFile);
+    assertNotNull(swiftFile.classes);
+    assertEquals(1, swiftFile.classes.size());
+
+    SwiftClass swiftClass = swiftFile.classes.get(0);
+    assertNull(swiftClass.parentClass);
+    assertTrue(swiftClass.isObjcInterface);
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceCreatesObjcInterfaceClass() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(false);
+    when(deploymentModel.isObjcInterface(francaInterface)).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    SwiftFile swiftFile = modelBuilder.getFinalResult(SwiftFile.class);
+    assertNotNull(swiftFile);
+    assertNotNull(swiftFile.classes);
+    assertEquals(1, swiftFile.classes.size());
+
+    SwiftClass swiftClass = swiftFile.classes.get(0);
+    assertEquals(SwiftTypeMapper.OBJC_PARENT_CLASS, swiftClass.parentClass);
+    assertTrue(swiftClass.isObjcInterface);
+  }
+
+  @Test
+  public void finishBuildingFrancaInterfaceCreatesObjcInterfaceClassWithParent() {
+    when(deploymentModel.isObjcInterface(francaInterface)).thenReturn(true);
+    SwiftClass parentClass = SwiftClass.builder("SomeParent").build();
+    contextStack.injectResult(parentClass);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    SwiftFile swiftFile = modelBuilder.getFinalResult(SwiftFile.class);
+    assertNotNull(swiftFile);
+    assertNotNull(swiftFile.classes);
+    assertEquals(1, swiftFile.classes.size());
+
+    SwiftClass swiftClass = swiftFile.classes.get(0);
+    assertEquals(parentClass.name, swiftClass.parentClass);
+    assertTrue(swiftClass.isObjcInterface);
+  }
 }

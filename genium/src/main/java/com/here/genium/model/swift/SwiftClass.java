@@ -37,6 +37,7 @@ public final class SwiftClass extends SwiftType {
   public final List<SwiftConstant> constants = new LinkedList<>();
   public final String functionTableName;
   public final boolean useParentCInstance;
+  public final boolean isObjcInterface;
 
   @SuppressWarnings("ParameterNumber")
   @lombok.Builder(builderClassName = "Builder")
@@ -48,7 +49,8 @@ public final class SwiftClass extends SwiftType {
       final String nameSpace,
       final String cInstance,
       final String functionTableName,
-      final boolean useParentCInstance) {
+      final boolean useParentCInstance,
+      final boolean isObjcInterface) {
     super(name, visibility, TypeCategory.CLASS, null, name, false);
     this.isInterface = isInterface;
     this.parentClass = parentClass;
@@ -56,6 +58,7 @@ public final class SwiftClass extends SwiftType {
     this.cInstance = cInstance;
     this.functionTableName = functionTableName;
     this.useParentCInstance = useParentCInstance;
+    this.isObjcInterface = isObjcInterface;
   }
 
   @SuppressWarnings("unused")
