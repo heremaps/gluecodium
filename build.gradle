@@ -4,12 +4,11 @@ plugins {
 
 allprojects {
     repositories {
-        maven {
-            name 'Local proxy of external Maven repositories'
-            url 'example.com'
-        }
-        maven {
-            url 'example.com'
+        mavenCentral()
+        repositories {
+            maven {
+                url 'https://jitpack.io'
+            }
         }
     }
 
@@ -29,6 +28,8 @@ allprojects {
         options.encoding = "UTF-8"
     }
 
+// TODO: APIGEN-1356, restore UML doclet when it's available at some public Maven repo.
+/*
     configurations {
         umljavadoclet
         javadocTaglets
@@ -37,12 +38,13 @@ allprojects {
         umljavadoclet 'info.leadinglight:uml-java-doclet:1.0-SNAPSHOT.3'
         javadocTaglets "org.jdrupes.taglets:plantuml-taglet:+"
     }
+*/
 
     javadoc {
-        options.docletpath = configurations.umljavadoclet.files.asType(List)
-        options.doclet = "info.leadinglight.umljavadoclet.UmlJavaDoclet"
-        options.tagletPath = configurations.javadocTaglets.files as List
-        options.taglets = ["org.jdrupes.taglets.plantUml.Taglet"]
+//        options.docletpath = configurations.umljavadoclet.files.asType(List)
+//        options.doclet = "info.leadinglight.umljavadoclet.UmlJavaDoclet"
+//        options.tagletPath = configurations.javadocTaglets.files as List
+//        options.taglets = ["org.jdrupes.taglets.plantUml.Taglet"]
         options.overview = "../doc/overview.html"
         options.tags = [
                 "generated:a:Generated",
