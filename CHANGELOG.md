@@ -1,6 +1,6 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.7.0
 - Breaking changes:
   + Getter methods for attributes are generated as "const" in C++ now.
 
