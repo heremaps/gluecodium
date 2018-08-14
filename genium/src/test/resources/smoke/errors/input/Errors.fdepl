@@ -22,16 +22,19 @@ import "./Errors.fidl"
 
 define GeniumExtensions for interface smoke.Errors
 {
-    enumeration ExternalErrors {
-        ExternalType = "foo/Bar.h"
-        ExternalName = "::fire::SomeEnum"
-    }
-
     method methodWithErrors {
         Static = true
     }
 
     method methodWithExternalErrors {
         Static = true
+    }
+}
+
+define ExternalTypes for interface smoke.Errors
+{
+    enumeration ExternalErrors {
+        ExternalType = "foo/Bar.h"
+        ExternalName = "::fire::SomeEnum"
     }
 }

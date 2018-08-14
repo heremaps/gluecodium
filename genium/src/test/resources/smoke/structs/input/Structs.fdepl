@@ -22,31 +22,6 @@ import "./Structs.fidl"
 
 define GeniumExtensions for interface smoke.Structs
 {
-    struct ExternalStruct {
-        ExternalType = "foo/Bar.h"
-        externalStringField {
-            ExternalGetter = "get_some_string"
-            ExternalSetter = "set_some_string"
-        }
-        externalArrayField {
-            ExternalGetter = "get_some_array"
-            ExternalSetter = "set_some_array"
-        }
-        externalStructField {
-            ExternalGetter = "get_some_struct"
-            ExternalSetter = "set_some_struct"
-        }
-    }
-
-    struct AnotherExternalStruct {
-        ExternalType = "foo/Bazz.h"
-        ExternalName = "::fire::SomeVeryExternalStruct"
-    }
-
-    struct Yet_Another_External_Struct {
-        ExternalType = "foo/Bazz.h"
-    }
-
     method createPoint {
         Static = true
     }
@@ -85,6 +60,34 @@ define GeniumExtensions for interface smoke.Structs
 
     method getYetAnotherExternalStruct {
         Static = true
+    }
+}
+
+define ExternalTypes for interface smoke.Structs
+{
+    struct ExternalStruct {
+        ExternalType = "foo/Bar.h"
+        externalStringField {
+            ExternalGetter = "get_some_string"
+            ExternalSetter = "set_some_string"
+        }
+        externalArrayField {
+            ExternalGetter = "get_some_array"
+            ExternalSetter = "set_some_array"
+        }
+        externalStructField {
+            ExternalGetter = "get_some_struct"
+            ExternalSetter = "set_some_struct"
+        }
+    }
+
+    struct AnotherExternalStruct {
+        ExternalType = "foo/Bazz.h"
+        ExternalName = "::fire::SomeVeryExternalStruct"
+    }
+
+    struct Yet_Another_External_Struct {
+        ExternalType = "foo/Bazz.h"
     }
 }
 
