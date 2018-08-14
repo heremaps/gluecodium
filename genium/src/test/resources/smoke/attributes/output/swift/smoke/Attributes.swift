@@ -89,6 +89,22 @@ public class Attributes {
             return smoke_Attributes_byteBufferAttribute_set(c_instance, newValue_handle)
         }
     }
+
+    public var instanceAttribute: AttributesInterface? {
+        get {
+            let cResult = smoke_Attributes_instanceAttribute_get(c_instance)
+            if let swift_pointer = smoke_AttributesInterface_get_swift_object_from_cache(cResult),
+                    let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesInterface {
+                return re_constructed
+            }
+            return _AttributesInterface(cAttributesInterface: cResult)
+        }
+        set {
+            let newValue_handle = getRef(newValue)
+            return smoke_Attributes_instanceAttribute_set(c_instance, newValue_handle.ref)
+        }
+    }
+
     let c_instance : _baseRef
 
     public init?(cAttributes: _baseRef) {

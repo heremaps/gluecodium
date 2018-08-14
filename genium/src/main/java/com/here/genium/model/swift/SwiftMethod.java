@@ -34,7 +34,6 @@ public final class SwiftMethod extends SwiftModelElement {
   public final String cNestedSpecifier;
   public final String cShortName;
   public final List<SwiftGenericParameter> genericParameters;
-  public final boolean forceReturnValueUnwrapping;
   public final SwiftEnum error;
 
   @SuppressWarnings({"ParameterNumber", "PMD.ExcessiveParameterList"})
@@ -48,7 +47,6 @@ public final class SwiftMethod extends SwiftModelElement {
       final boolean isStatic,
       final String cNestedSpecifier,
       final String cShortName,
-      final boolean forceReturnValueUnwrapping,
       final SwiftEnum error,
       final List<SwiftParameter> parameters,
       final List<SwiftGenericParameter> genericParameters) {
@@ -59,7 +57,6 @@ public final class SwiftMethod extends SwiftModelElement {
     this.isStatic = isStatic;
     this.cNestedSpecifier = cNestedSpecifier != null ? cNestedSpecifier : "";
     this.cShortName = cShortName != null ? cShortName : "";
-    this.forceReturnValueUnwrapping = forceReturnValueUnwrapping;
     this.error = error;
     this.parameters = parameters != null ? parameters : new LinkedList<>();
     this.genericParameters = genericParameters != null ? genericParameters : new LinkedList<>();

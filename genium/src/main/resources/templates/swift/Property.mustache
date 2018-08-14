@@ -19,7 +19,7 @@
   !
   !}}
 {{>swift/Comment}}
-{{^isInterface}}{{visibility}} {{/isInterface}}var {{name}}: {{type.publicName}} {
+{{^isInterface}}{{visibility}} {{/isInterface}}var {{name}}: {{type.publicName}}{{#if type.optional}}?{{/if}} {
     get {
 {{#propertyAccessors.0}}
 {{prefixPartial 'swift/ParametersConversion' '        '}}

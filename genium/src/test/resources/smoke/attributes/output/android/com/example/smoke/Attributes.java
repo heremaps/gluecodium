@@ -49,4 +49,6 @@ public class Attributes extends NativeBase {
     public native void setComplexTypeAttribute(final Attributes.InternalError value);
     public native byte[] getByteBufferAttribute();
     public native void setByteBufferAttribute(final byte[] value);
+    public native AttributesInterface getInstanceAttribute();
+    public native void setInstanceAttribute(final AttributesInterface value);
 }
