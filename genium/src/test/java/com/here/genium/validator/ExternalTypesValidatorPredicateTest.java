@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.FModel;
-import org.franca.core.franca.FType;
+import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class ExternalTypesValidatorPredicateTest {
 
   @Mock private FModel fModel;
   @Mock private FTypeCollection francaTypeCollection;
-  @Mock private FType francaType;
+  @Mock private FModelElement francaElement;
 
   @Mock private FrancaDeploymentModel deploymentModel;
 
@@ -53,36 +53,36 @@ public class ExternalTypesValidatorPredicateTest {
 
     when(fModel.getName()).thenReturn("");
     when(francaTypeCollection.getName()).thenReturn("");
-    when(francaType.getName()).thenReturn("");
+    when(francaElement.getName()).thenReturn("");
 
     when(francaTypeCollection.eContainer()).thenReturn(fModel);
-    when(francaType.eContainer()).thenReturn(francaTypeCollection);
+    when(francaElement.eContainer()).thenReturn(francaTypeCollection);
   }
 
   @Test
   public void validateWithExternalNameAndWithExternalType() {
-    when(deploymentModel.getExternalName(francaType)).thenReturn("Bar");
-    when(deploymentModel.isExternalType(francaType)).thenReturn(true);
+    when(deploymentModel.getExternalName(francaElement)).thenReturn("Bar");
+    when(deploymentModel.isExternalType(francaElement)).thenReturn(true);
 
-    assertNull(validatorPredicate.validate(deploymentModel, francaType));
+    assertNull(validatorPredicate.validate(deploymentModel, francaElement));
   }
 
   @Test
   public void validateWithExternalNameAndWithoutExternalType() {
-    when(deploymentModel.getExternalName(francaType)).thenReturn("Bar");
+    when(deploymentModel.getExternalName(francaElement)).thenReturn("Bar");
 
-    assertNotNull(validatorPredicate.validate(deploymentModel, francaType));
+    assertNotNull(validatorPredicate.validate(deploymentModel, francaElement));
   }
 
   @Test
   public void validateWithoutExternalNameAndWithExternalType() {
-    when(deploymentModel.isExternalType(francaType)).thenReturn(true);
+    when(deploymentModel.isExternalType(francaElement)).thenReturn(true);
 
-    assertNull(validatorPredicate.validate(deploymentModel, francaType));
+    assertNull(validatorPredicate.validate(deploymentModel, francaElement));
   }
 
   @Test
   public void validateWithoutExternalNameAndWithoutExternalType() {
-    assertNull(validatorPredicate.validate(deploymentModel, francaType));
+    assertNull(validatorPredicate.validate(deploymentModel, francaElement));
   }
 }

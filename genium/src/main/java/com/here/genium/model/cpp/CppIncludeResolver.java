@@ -26,7 +26,6 @@ import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.HashMap;
 import java.util.Map;
 import org.franca.core.franca.FModelElement;
-import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeCollection;
 
 public class CppIncludeResolver {
@@ -41,12 +40,9 @@ public class CppIncludeResolver {
 
   public Include resolveInclude(final FModelElement modelElement) {
 
-    if (modelElement instanceof FType) {
-      FType francaType = (FType) modelElement;
-      String externalType = deploymentModel.getExternalType(francaType);
-      if (externalType != null) {
-        return Include.createInternalInclude(externalType);
-      }
+    String externalType = deploymentModel.getExternalType(modelElement);
+    if (externalType != null) {
+      return Include.createInternalInclude(externalType);
     }
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);

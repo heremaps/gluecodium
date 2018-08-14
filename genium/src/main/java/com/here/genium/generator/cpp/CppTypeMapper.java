@@ -151,14 +151,11 @@ public class CppTypeMapper {
   public CppTypeRef mapComplexType(final FModelElement francaElement) {
 
     String fullyQualifiedName;
-    if (francaElement instanceof FType) {
-      FType francaType = (FType) francaElement;
-      boolean isExternal = deploymentModel.isExternalType(francaType);
-      String externalName = deploymentModel.getExternalName(francaType);
-      fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaType, isExternal, externalName);
-    } else {
-      fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaElement);
-    }
+
+    boolean isExternal = deploymentModel.isExternalType(francaElement);
+    String externalName = deploymentModel.getExternalName(francaElement);
+    fullyQualifiedName =
+        CppNameRules.getFullyQualifiedName(francaElement, isExternal, externalName);
 
     return new CppComplexTypeRef.Builder(fullyQualifiedName)
         .refersToEnum(francaElement instanceof FEnumerationType)

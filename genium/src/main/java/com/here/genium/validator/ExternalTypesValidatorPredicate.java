@@ -21,7 +21,7 @@ package com.here.genium.validator;
 
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.FType;
+import org.franca.core.franca.FModelElement;
 
 /**
  * Validate each type with "ExternalName" property set against the following conditions:
@@ -30,23 +30,24 @@ import org.franca.core.franca.FType;
  *   <li>Should have "ExternalType" property set.
  * </ul>
  */
-public class ExternalTypesValidatorPredicate implements ValidatorPredicate<FType> {
+public class ExternalTypesValidatorPredicate implements ValidatorPredicate<FModelElement> {
 
   private static final String NON_EXTERNAL_TYPE_MESSAGE =
       "The type with 'ExternalName' should have 'ExternalType' property set: type '%s'.";
 
   @Override
-  public Class<FType> getElementClass() {
-    return FType.class;
+  public Class<FModelElement> getElementClass() {
+    return FModelElement.class;
   }
 
   @Override
-  public String validate(final FrancaDeploymentModel deploymentModel, final FType francaType) {
+  public String validate(
+      final FrancaDeploymentModel deploymentModel, final FModelElement francaElement) {
 
-    boolean hasExternalName = deploymentModel.getExternalName(francaType) != null;
+    boolean hasExternalName = deploymentModel.getExternalName(francaElement) != null;
 
-    return hasExternalName && !deploymentModel.isExternalType(francaType)
-        ? String.format(NON_EXTERNAL_TYPE_MESSAGE, FrancaTypeHelper.getFullName(francaType))
+    return hasExternalName && !deploymentModel.isExternalType(francaElement)
+        ? String.format(NON_EXTERNAL_TYPE_MESSAGE, FrancaTypeHelper.getFullName(francaElement))
         : null;
   }
 }

@@ -81,7 +81,7 @@ public class CppValueMapper {
     List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(value);
     String enumeratorName = value.getName();
     String enumEntryName =
-        deploymentModel.isExternalType((FType) value.eContainer())
+        deploymentModel.isExternalType((FEnumerationType) value.eContainer())
             ? enumeratorName
             : CppNameRules.getEnumEntryName(enumeratorName);
     return new CppValue(CppNameRules.getFullyQualifiedName(nestedNameSpecifier, enumEntryName));
