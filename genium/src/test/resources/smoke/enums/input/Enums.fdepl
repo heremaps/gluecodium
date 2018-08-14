@@ -22,15 +22,6 @@ import "./Enums.fidl"
 
 define GeniumExtensions for interface smoke.Enums
 {
-    enumeration External_Enum {
-        ExternalType = "foo/Bar.h"
-    }
-
-    enumeration VeryExternalEnum {
-        ExternalType = "foo/Bar.h"
-        ExternalName = "::fire::SomeVeryExternalEnum"
-    }
-
     method methodWithEnumeration {
         Static = true
     }
@@ -59,3 +50,14 @@ define GeniumExtensions for interface smoke.EnumsInTypeCollectionInterface
     }
 }
 
+define ExternalTypes for interface smoke.Enums
+{
+    enumeration External_Enum {
+        ExternalType = "foo/Bar.h"
+    }
+
+    enumeration VeryExternalEnum {
+        ExternalType = "foo/Bar.h"
+        ExternalName = "::fire::SomeVeryExternalEnum"
+    }
+}

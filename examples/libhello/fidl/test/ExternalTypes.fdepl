@@ -20,7 +20,7 @@
 import "classpath:/GeniumExtensions.fdepl"
 import "./ExternalTypes.fidl"
 
-define GeniumExtensions for typeCollection external.ExternalTypes
+define ExternalTypes for typeCollection external.ExternalTypes
 {
     struct ExternalStruct {
         ExternalType = "include/ExternalTypes.h"

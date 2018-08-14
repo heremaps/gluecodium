@@ -224,7 +224,7 @@ FIDL:
 
 FDEPL:
 
-    define GeniumExtensions for typeCollection example.ExampleTypeCollection
+    define ExternalTypes for typeCollection example.ExampleTypeCollection
     {
         struct exampleStruct {
             ExternalType = "example/ExampleStruct.h"
@@ -260,7 +260,7 @@ FIDL:
 
 FDEPL:
 
-    define GeniumExtensions for typeCollection example.ExampleTypeCollection
+    define ExternalTypes for typeCollection example.ExampleTypeCollection
     {
         struct exampleStruct {
             ExternalType = "example/ExampleStruct.h"
@@ -297,7 +297,7 @@ FIDL:
 
 FDEPL:
 
-    define GeniumExtensions for typeCollection example.ExampleTypeCollection
+    define ExternalTypes for typeCollection example.ExampleTypeCollection
     {
         struct exampleStruct {
             ExternalType = "example/ExampleStruct.h"
