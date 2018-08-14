@@ -22,11 +22,6 @@ import "./Defaults.fidl"
 
 define GeniumExtensions for interface test.Defaults
 {
-    enumeration ExternalEnum {
-        ExternalType = "include/ExternalTypes.h"
-        ExternalName = "::external::even_more_external::VeryAlienEnum"
-    }
-
     method getDefault {
         Static = true
     }
@@ -65,3 +60,12 @@ define Defaults for interface test.Defaults
         }
     }
 }
+
+define ExternalTypes for interface test.Defaults
+{
+    enumeration ExternalEnum {
+        ExternalType = "include/ExternalTypes.h"
+        ExternalName = "::external::even_more_external::VeryAlienEnum"
+    }
+}
+
