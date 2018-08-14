@@ -49,11 +49,6 @@ define Defaults for interface smoke.DefaultValues
 
 define GeniumExtensions for interface smoke.DefaultValues
 {
-    enumeration ExternalEnum {
-        ExternalType = "foo/Bar.h"
-        ExternalName = "::fire::SomeVeryExternalEnum"
-    }
-
     method processStructWithDefaults {
         Static = true
     }
@@ -80,5 +75,13 @@ define Defaults for typeCollection smoke.TypesWithDefaults
         enumField {
             DefaultValue = "BarValue"
         }
+    }
+}
+
+define ExternalTypes for interface smoke.DefaultValues
+{
+    enumeration ExternalEnum {
+        ExternalType = "foo/Bar.h"
+        ExternalName = "::fire::SomeVeryExternalEnum"
     }
 }

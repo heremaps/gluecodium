@@ -32,19 +32,10 @@ specification GeniumExtensions {
     for structs {
         Serializable: Boolean (optional, default: false);
         Equatable: Boolean (optional, default: false);
-        ExternalType: String (optional);
-        ExternalName: String (optional);
     }
 
     for struct_fields {
         NotNull: Boolean (optional, default: false);
-        ExternalGetter: String (optional);
-        ExternalSetter: String (optional);
-    }
-
-    for enumerations {
-        ExternalType: String (optional);
-        ExternalName: String (optional);
     }
 }
 
@@ -82,5 +73,23 @@ specification Visibility {
 
     for arrays {
         Internal: Boolean (optional, default: false);
+    }
+}
+
+specification ExternalTypes {
+
+    for structs {
+        ExternalType: String (optional);
+        ExternalName: String (optional);
+    }
+
+    for struct_fields {
+        ExternalGetter: String (optional);
+        ExternalSetter: String (optional);
+    }
+
+    for enumerations {
+        ExternalType: String (optional);
+        ExternalName: String (optional);
     }
 }
