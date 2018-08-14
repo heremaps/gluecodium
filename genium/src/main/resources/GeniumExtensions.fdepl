@@ -92,4 +92,9 @@ specification ExternalTypes {
         ExternalType: String (optional);
         ExternalName: String (optional);
     }
+
+    for interfaces {
+        ExternalType: String (optional);
+        ExternalName: String (optional);
+    }
 }

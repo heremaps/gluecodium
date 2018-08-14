@@ -109,13 +109,13 @@ public final class CppNameRules {
   }
 
   public static String getFullyQualifiedName(
-      final FType francaType, boolean isExternal, final String externalName) {
+      final FModelElement francaElement, boolean isExternal, final String externalName) {
 
     if (!isExternal) {
-      return getFullyQualifiedName(francaType);
+      return getFullyQualifiedName(francaElement);
     } else if (externalName == null) {
-      List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(francaType);
-      return getFullyQualifiedName(nestedNameSpecifier, francaType.getName());
+      List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(francaElement);
+      return getFullyQualifiedName(nestedNameSpecifier, francaElement.getName());
     } else {
       return externalName;
     }

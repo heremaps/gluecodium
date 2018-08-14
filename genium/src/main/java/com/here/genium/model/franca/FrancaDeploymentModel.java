@@ -102,15 +102,15 @@ public class FrancaDeploymentModel {
     return getString(francaField, "DefaultValue");
   }
 
-  public String getExternalType(final FType francaType) {
+  public String getExternalType(final FModelElement francaType) {
     return getString(francaType, "ExternalType");
   }
 
-  public boolean isExternalType(final FType francaType) {
+  public boolean isExternalType(final FModelElement francaType) {
     return getExternalType(francaType) != null;
   }
 
-  public String getExternalName(final FType francaType) {
+  public String getExternalName(final FModelElement francaType) {
     return getString(francaType, "ExternalName");
   }
 

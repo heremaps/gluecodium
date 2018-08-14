@@ -159,7 +159,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FField francaField) {
 
     String fieldName = francaField.getName();
-    if (!deploymentModel.isExternalType((FType) francaField.eContainer())) {
+    if (!deploymentModel.isExternalType((FStructType) francaField.eContainer())) {
       fieldName = CppNameRules.getFieldName(fieldName);
     }
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
@@ -290,7 +290,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FEnumerator francaEnumerator) {
 
     String enumItemName = francaEnumerator.getName();
-    if (!deploymentModel.isExternalType((FType) francaEnumerator.eContainer())) {
+    if (!deploymentModel.isExternalType((FEnumerationType) francaEnumerator.eContainer())) {
       enumItemName = CppNameRules.getEnumEntryName(enumItemName);
     }
     CppValue cppValue = getPreviousResult(CppValue.class);
