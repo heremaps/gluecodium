@@ -1,13 +1,15 @@
 # Genium project Release Notes
 
-## 3.7.0
-- Breaking changes:
-  + Getter methods for attributes are generated as "const" in C++ now.
+## Unreleased
 - Features:
   + Added FDEPL property "ObjcInterface" for enabling bridging generated Swift code with
     Objective-C code. For interfaces marked as such their corresponding Swift classes (and
     protocols) are generated with @objcMembers annotation (@objc for protocols), enabling the usage
     of these types and their members from Objective-C.
+
+## 3.7.0
+- Breaking changes:
+  + Getter methods for attributes are generated as "const" in C++ now.
 
 ## 3.6.0
 - Breaking changes:
