@@ -337,7 +337,6 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .cNestedSpecifier(nestedSpecifier)
             .cShortName(CBridgeNameRules.getPropertyGetterName(francaAttribute))
             .returnType(property.type)
-            .forceReturnValueUnwrapping(true)
             .build();
     property.propertyAccessors.add(getterMethod);
 

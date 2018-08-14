@@ -111,7 +111,7 @@ defer {
 defer {
     {{returnType.cPrefix}}_release(cResult)
 }
-return {{>returnTypeOrImplClass}}(c{{returnType.simpleName}}: cResult){{#if forceReturnValueUnwrapping}}!{{/if}}
+return {{>returnTypeOrImplClass}}(c{{returnType.simpleName}}: cResult){{#unless returnType.optional}}!{{/unless}}
 {{/MethodReturnStruct}}
 
 {{+MethodReturnClass}}{{!!
@@ -122,7 +122,7 @@ if let swift_pointer = {{returnType.cPrefix}}_get_swift_object_from_cache(cResul
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{returnType.publicName}} {
     return re_constructed
 }{{/if}}
-return {{>returnTypeOrImplClass}}(c{{returnType}}: cResult){{#if forceReturnValueUnwrapping}}!{{/if}}
+return {{>returnTypeOrImplClass}}(c{{returnType}}: cResult){{#unless returnType.optional}}!{{/unless}}
 {{/MethodReturnClass}}
 
 {{+MethodReturnEnum}}{{!!

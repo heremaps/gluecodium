@@ -20,6 +20,7 @@
 package smoke
 
 interface Attributes {
+
     public typedef Attributes is undefined
 
     struct ExampleStruct {
@@ -37,9 +38,13 @@ interface Attributes {
     attribute String[] arrayAttribute
     attribute InternalError complexTypeAttribute
     attribute ByteBuffer byteBufferAttribute
+    attribute AttributesInterface.AttributesInterface instanceAttribute
 }
 
 interface AttributesInterface {
+
+    public typedef AttributesInterface is undefined
+
     struct ExampleStruct {
         Double value
     }
