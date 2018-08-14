@@ -6,6 +6,8 @@
     Objective-C code. For interfaces marked as such their corresponding Swift classes (and
     protocols) are generated with @objcMembers annotation (@objc for protocols), enabling the usage
     of these types and their members from Objective-C.
+- Bug fixes:
+  + Fixed instance-type attributes in Swift to be generated as properties with an optional type.
 
 ## 3.7.0
 - Breaking changes:
