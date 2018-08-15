@@ -29,9 +29,15 @@ public final class CppClass extends CppElementWithComment {
   public final Set<CppMethod> methods = new LinkedHashSet<>();
   public final Set<CppField> fields = new LinkedHashSet<>();
   public final Set<CppInheritance> inheritances = new LinkedHashSet<>();
+  public final boolean isExternal;
 
-  public CppClass(final String name, final String fullyQualifiedName, final String comment) {
+  public CppClass(
+      final String name,
+      final String fullyQualifiedName,
+      final String comment,
+      final boolean isExternal) {
     super(name, fullyQualifiedName, comment);
+    this.isExternal = isExternal;
   }
 
   @SuppressWarnings("unused")
