@@ -232,7 +232,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
         jniTopLevelElement != null
             ? jniTopLevelElement.javaPackage.packageNames
             : Collections.emptyList();
-    List<String> cppNameSpace = CppNameRules.getNestedNameSpecifier(francaTypeCollection);
+    List<String> cppNameSpace = CppNameRules.INSTANCE.getNestedNameSpecifier(francaTypeCollection);
 
     JniContainer jniContainer = JniContainer.builder(packageNames, cppNameSpace).build();
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniStruct.class)

@@ -101,7 +101,7 @@ public class CppTypeMapper {
   }
 
   private CppTypeRef mapTypeDef(FTypeDef typedef) {
-    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(typedef);
+    String fullyQualifiedName = CppNameRules.INSTANCE.getFullyQualifiedName(typedef);
 
     if (InstanceRules.isInstanceId(typedef)) {
       CppComplexTypeRef instanceType = new CppInstanceTypeRef(fullyQualifiedName);
@@ -120,7 +120,7 @@ public class CppTypeMapper {
 
   private CppTypeRef mapArray(final FArrayType francaArrayType) {
 
-    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaArrayType);
+    String fullyQualifiedName = CppNameRules.INSTANCE.getFullyQualifiedName(francaArrayType);
     CppTypeRef elementType = map(francaArrayType.getElementType());
     CppTypeRef arrayType =
         CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
@@ -131,7 +131,7 @@ public class CppTypeMapper {
 
   private CppTypeRef mapMapType(final FMapType francaMapType) {
 
-    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaMapType);
+    String fullyQualifiedName = CppNameRules.INSTANCE.getFullyQualifiedName(francaMapType);
     CppTypeRef mapType =
         wrapMap(map(francaMapType.getKeyType()), map(francaMapType.getValueType()));
 
@@ -155,7 +155,7 @@ public class CppTypeMapper {
     boolean isExternal = deploymentModel.isExternalType(francaElement);
     String externalName = deploymentModel.getExternalName(francaElement);
     fullyQualifiedName =
-        CppNameRules.getFullyQualifiedName(francaElement, isExternal, externalName);
+        CppNameRules.INSTANCE.getFullyQualifiedName(francaElement, isExternal, externalName);
 
     return new CppComplexTypeRef.Builder(fullyQualifiedName)
         .refersToEnum(francaElement instanceof FEnumerationType)

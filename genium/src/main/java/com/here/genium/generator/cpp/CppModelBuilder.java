@@ -59,7 +59,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FInterface francaInterface) {
 
-    String className = CppNameRules.getClassName(francaInterface.getName());
+    String className = CppNameRules.INSTANCE.getClassName(francaInterface.getName());
     String classComment = CommentHelper.getDescription(francaInterface);
 
     CppClass cppClass = new CppClass(className, classComment);
@@ -105,7 +105,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     CppParameter cppParameter =
-        new CppParameter(CppNameRules.getParameterName(francaArgument.getName()), cppTypeRef);
+        new CppParameter(
+            CppNameRules.INSTANCE.getParameterName(francaArgument.getName()), cppTypeRef);
     cppParameter.comment = CommentHelper.getDescription(francaArgument);
 
     storeResult(cppParameter);
@@ -117,7 +118,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     CppParameter cppParameter =
-        new CppParameter(CppNameRules.getParameterName(francaArgument.getName()), cppTypeRef, true);
+        new CppParameter(
+            CppNameRules.INSTANCE.getParameterName(francaArgument.getName()), cppTypeRef, true);
     cppParameter.comment = CommentHelper.getDescription(francaArgument);
 
     storeResult(cppParameter);
@@ -142,9 +144,10 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FConstantDef francaConstant) {
 
-    List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(francaConstant);
-    String name = CppNameRules.getConstantName(francaConstant.getName());
-    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(nestedNameSpecifier, name);
+    List<String> nestedNameSpecifier = CppNameRules.INSTANCE.getNestedNameSpecifier(francaConstant);
+    String name = CppNameRules.INSTANCE.getConstantName(francaConstant.getName());
+    String fullyQualifiedName =
+        CppNameRules.INSTANCE.getFullyQualifiedName(nestedNameSpecifier, name);
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     CppValue value = getPreviousResult(CppValue.class);
 
@@ -160,7 +163,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     String fieldName = francaField.getName();
     if (!deploymentModel.isExternalType((FStructType) francaField.eContainer())) {
-      fieldName = CppNameRules.getFieldName(fieldName);
+      fieldName = CppNameRules.INSTANCE.getFieldName(fieldName);
     }
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
 
@@ -181,9 +184,10 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     // Type definition
     boolean isExternal = deploymentModel.isExternalType(francaStructType);
     String externalName = deploymentModel.getExternalName(francaStructType);
-    String name = CppNameRules.getTypeName(francaStructType.getName(), isExternal, externalName);
+    String name =
+        CppNameRules.INSTANCE.getTypeName(francaStructType.getName(), isExternal, externalName);
     String fullyQualifiedName =
-        CppNameRules.getFullyQualifiedName(francaStructType, isExternal, externalName);
+        CppNameRules.INSTANCE.getFullyQualifiedName(francaStructType, isExternal, externalName);
 
     boolean isEquatable = deploymentModel.isEquatable(francaStructType);
     CppStruct cppStruct = new CppStruct(name, fullyQualifiedName, isExternal, isEquatable);
@@ -206,8 +210,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FTypeDef francaTypeDef) {
 
     if (!InstanceRules.isInstanceId(francaTypeDef)) {
-      String typeDefName = CppNameRules.getTypedefName(francaTypeDef.getName());
-      String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaTypeDef);
+      String typeDefName = CppNameRules.INSTANCE.getTypedefName(francaTypeDef.getName());
+      String fullyQualifiedName = CppNameRules.INSTANCE.getFullyQualifiedName(francaTypeDef);
       CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
       String comment = CommentHelper.getDescription(francaTypeDef);
       CppUsing cppUsing =
@@ -225,8 +229,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FArrayType francaArrayType) {
 
-    String name = CppNameRules.getTypedefName(francaArrayType.getName());
-    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaArrayType);
+    String name = CppNameRules.INSTANCE.getTypedefName(francaArrayType.getName());
+    String fullyQualifiedName = CppNameRules.INSTANCE.getFullyQualifiedName(francaArrayType);
     CppTypeRef elementType = getPreviousResult(CppTypeRef.class);
     CppTypeRef targetType =
         CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
@@ -244,8 +248,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FMapType francaMapType) {
 
-    String name = CppNameRules.getTypedefName(francaMapType.getName());
-    String fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaMapType);
+    String name = CppNameRules.INSTANCE.getTypedefName(francaMapType.getName());
+    String fullyQualifiedName = CppNameRules.INSTANCE.getFullyQualifiedName(francaMapType);
     List<CppTypeRef> typeRefs = getPreviousResults(CppTypeRef.class);
     CppTypeRef targetType = typeMapper.wrapMap(typeRefs.get(0), typeRefs.get(1));
     String comment = CommentHelper.getDescription(francaMapType);
@@ -266,9 +270,11 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     boolean isExternal = deploymentModel.isExternalType(francaEnumerationType);
     String externalName = deploymentModel.getExternalName(francaEnumerationType);
     String enumName =
-        CppNameRules.getTypeName(francaEnumerationType.getName(), isExternal, externalName);
+        CppNameRules.INSTANCE.getTypeName(
+            francaEnumerationType.getName(), isExternal, externalName);
     String fullyQualifiedName =
-        CppNameRules.getFullyQualifiedName(francaEnumerationType, isExternal, externalName);
+        CppNameRules.INSTANCE.getFullyQualifiedName(
+            francaEnumerationType, isExternal, externalName);
 
     CppEnum cppEnum =
         CppEnum.builder(enumName)
@@ -291,7 +297,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     String enumItemName = francaEnumerator.getName();
     if (!deploymentModel.isExternalType((FEnumerationType) francaEnumerator.eContainer())) {
-      enumItemName = CppNameRules.getEnumEntryName(enumItemName);
+      enumItemName = CppNameRules.INSTANCE.getEnumEntryName(enumItemName);
     }
     CppValue cppValue = getPreviousResult(CppValue.class);
 
@@ -328,7 +334,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     String francaComment = CommentHelper.getDescription(francaAttribute);
 
-    String getterName = CppNameRules.getGetterName(francaAttribute.getName(), cppTypeRef);
+    String getterName = CppNameRules.INSTANCE.getGetterName(francaAttribute.getName(), cppTypeRef);
     CppMethod getterMethod =
         new CppMethod.Builder(getterName)
             .returnType(cppTypeRef)
@@ -340,7 +346,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     storeResult(getterMethod);
 
     if (!francaAttribute.isReadonly()) {
-      String setterName = CppNameRules.getSetterName(francaAttribute.getName());
+      String setterName = CppNameRules.INSTANCE.getSetterName(francaAttribute.getName());
       CppMethod setterMethod =
           new CppMethod.Builder(setterName)
               .returnType(CppPrimitiveTypeRef.VOID)
@@ -358,10 +364,10 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   private CppMethod buildCppMethod(
       final FMethod francaMethod, final CppTypeRef returnType, final String returnComment) {
 
-    String methodName = CppNameRules.getMethodName(francaMethod.getName());
+    String methodName = CppNameRules.INSTANCE.getMethodName(francaMethod.getName());
     String fullyQualifiedMethodName =
-        CppNameRules.getFullyQualifiedName(
-            CppNameRules.getNestedNameSpecifier(francaMethod), methodName);
+        CppNameRules.INSTANCE.getFullyQualifiedName(
+            CppNameRules.INSTANCE.getNestedNameSpecifier(francaMethod), methodName);
     CppMethod.Builder builder =
         new CppMethod.Builder(methodName)
             .fullyQualifiedName(fullyQualifiedMethodName)

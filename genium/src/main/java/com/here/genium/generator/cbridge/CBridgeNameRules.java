@@ -159,7 +159,7 @@ public final class CBridgeNameRules {
     if (category == CppTypeInfo.TypeCategory.CLASS) {
       return CBridgeNameRules.getBaseApiInstanceName(elementType);
     } else {
-      return CppNameRules.getFullyQualifiedName(elementType);
+      return CppNameRules.INSTANCE.getFullyQualifiedName(elementType);
     }
   }
 

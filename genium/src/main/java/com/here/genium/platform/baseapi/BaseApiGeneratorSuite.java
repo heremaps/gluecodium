@@ -89,8 +89,8 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
       CppFile cppModel =
           mapFrancaTypeCollectionToCppModel(
               deploymentModel, typeMapper, francaTypeCollection, errorEnums);
-      String outputFilePathHeader = CppNameRules.getOutputFilePath(francaTypeCollection);
-      String outputFilePathImpl = CppNameRules.getOutputFilePath(francaTypeCollection);
+      String outputFilePathHeader = CppNameRules.INSTANCE.getOutputFilePath(francaTypeCollection);
+      String outputFilePathImpl = CppNameRules.INSTANCE.getOutputFilePath(francaTypeCollection);
 
       generatedFiles.addAll(
           generator.generateCode(cppModel, outputFilePathHeader, outputFilePathImpl));
@@ -168,6 +168,8 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   private static String getEnumName(
       final FEnumerationType francaEnum, final FrancaDeploymentModel deploymentModel) {
     String externalName = deploymentModel.getExternalName(francaEnum);
-    return externalName != null ? externalName : CppNameRules.getFullyQualifiedName(francaEnum);
+    return externalName != null
+        ? externalName
+        : CppNameRules.INSTANCE.getFullyQualifiedName(francaEnum);
   }
 }

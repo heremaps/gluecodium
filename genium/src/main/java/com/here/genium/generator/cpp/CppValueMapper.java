@@ -64,7 +64,7 @@ public class CppValueMapper {
       String enumEntryName =
           deploymentModel.isExternalType(francaField.getType().getDerived())
               ? deploymentDefaultValue
-              : CppNameRules.getEnumEntryName(deploymentDefaultValue);
+              : CppNameRules.INSTANCE.getEnumEntryName(deploymentDefaultValue);
       return new CppValue(cppTypeRef.name + "::" + enumEntryName);
     } else {
       return new CppValue(deploymentDefaultValue);
@@ -78,12 +78,12 @@ public class CppValueMapper {
       return null;
     }
 
-    List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(value);
+    List<String> nestedNameSpecifier = CppNameRules.INSTANCE.getNestedNameSpecifier(value);
     String enumeratorName = value.getName();
     String enumEntryName =
         deploymentModel.isExternalType((FEnumerationType) value.eContainer())
             ? enumeratorName
-            : CppNameRules.getEnumEntryName(enumeratorName);
+            : CppNameRules.INSTANCE.getEnumEntryName(enumeratorName);
     return new CppValue(CppNameRules.getFullyQualifiedName(nestedNameSpecifier, enumEntryName));
   }
 }
