@@ -29,6 +29,9 @@ import java.util.List;
 import org.franca.core.franca.*;
 
 public final class CppNameRules {
+
+  public static final CppNameRules INSTANCE = new CppNameRules();
+
   public static final String HEADER_FILE_SUFFIX = ".h";
   public static final String IMPLEMENTATION_FILE_SUFFIX = ".cpp";
   public static final String PACKAGE_NAME_SPECIFIER_INCLUDE = "include";
@@ -48,23 +51,23 @@ public final class CppNameRules {
     return prefix + NameHelper.toLowerSnakeCase(base); // get_my_value
   }
 
-  public static String getSetterName(String base) {
+  public String getSetterName(String base) {
     return "set_" + NameHelper.toLowerSnakeCase(base); // set_my_value
   }
 
-  public static String getEnumName(String base) {
+  public String getEnumName(String base) {
     return NameHelper.toUpperCamelCase(base); // MyEnum
   }
 
-  public static String getStructName(String base) {
+  public String getStructName(String base) {
     return NameHelper.toUpperCamelCase(base); // MyStruct
   }
 
-  public static String getTypedefName(String base) {
+  public String getTypedefName(String base) {
     return NameHelper.toUpperCamelCase(base); // MyTypedef
   }
 
-  public static List<String> getNestedNameSpecifier(final FModelElement modelElement) {
+  public List<String> getNestedNameSpecifier(final FModelElement modelElement) {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
     List<String> result = DefinedBy.getPackages(typeCollection);
@@ -85,7 +88,7 @@ public final class CppNameRules {
         : "::" + String.join("::", nestedNameSpecifier) + (name.isEmpty() ? "" : "::" + name);
   }
 
-  public static String getFullyQualifiedName(final FModelElement francaElement) {
+  public String getFullyQualifiedName(final FModelElement francaElement) {
     List<String> nestedNameSpecifier = getNestedNameSpecifier(francaElement);
     String typeName = "";
 
@@ -108,21 +111,20 @@ public final class CppNameRules {
     return getFullyQualifiedName(nestedNameSpecifier, typeName);
   }
 
-  public static String getFullyQualifiedName(
+  public String getFullyQualifiedName(
       final FModelElement francaElement, boolean isExternal, final String externalName) {
 
     if (!isExternal) {
       return getFullyQualifiedName(francaElement);
     } else if (externalName == null) {
-      List<String> nestedNameSpecifier = CppNameRules.getNestedNameSpecifier(francaElement);
+      List<String> nestedNameSpecifier = getNestedNameSpecifier(francaElement);
       return getFullyQualifiedName(nestedNameSpecifier, francaElement.getName());
     } else {
       return externalName;
     }
   }
 
-  public static String getTypeName(
-      final String typeName, boolean isExternal, final String externalName) {
+  public String getTypeName(final String typeName, boolean isExternal, final String externalName) {
 
     if (!isExternal) {
       return getStructName(typeName);
@@ -133,31 +135,31 @@ public final class CppNameRules {
     }
   }
 
-  public static String getClassName(String typeCollectionName) {
+  public String getClassName(String typeCollectionName) {
     return NameHelper.toUpperCamelCase(typeCollectionName);
   }
 
-  public static String getEnumEntryName(String base) {
+  public String getEnumEntryName(String base) {
     return NameHelper.toUpperSnakeCase(base); // MY_ENUM_ENTRY
   }
 
-  public static String getFieldName(String base) {
+  public String getFieldName(String base) {
     return NameHelper.toLowerSnakeCase(base); // my_field
   }
 
-  public static String getConstantName(String base) {
+  public String getConstantName(String base) {
     return NameHelper.toUpperSnakeCase(base); // MY_CONSTANT
   }
 
-  public static String getParameterName(final String base) {
+  public String getParameterName(final String base) {
     return NameHelper.toLowerSnakeCase(base); // my_parameter
   }
 
-  public static String getHeaderPath(final FTypeCollection francaTypeCollection) {
+  public String getHeaderPath(final FTypeCollection francaTypeCollection) {
     return getOutputFilePath(francaTypeCollection) + HEADER_FILE_SUFFIX;
   }
 
-  public static String getOutputFilePath(final FTypeCollection francaTypeCollection) {
+  public String getOutputFilePath(final FTypeCollection francaTypeCollection) {
     return String.join(File.separator, DefinedBy.getPackages(francaTypeCollection))
         + File.separator
         + (francaTypeCollection instanceof FInterface
