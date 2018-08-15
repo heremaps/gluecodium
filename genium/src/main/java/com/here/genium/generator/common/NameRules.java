@@ -17,19 +17,19 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.modelbuilder;
+package com.here.genium.generator.common;
 
-import com.here.genium.generator.common.NameRules;
-import java.util.ArrayList;
-import java.util.List;
+public interface NameRules {
 
-/**
- * Context of each building step. Used to propagate data between parent- and child-steps. Additional
- * fields should be added if more data is needed in the future.
- */
-public final class ModelBuilderContext<E> {
+  String getTypeName(String base);
 
-  public final List<E> previousResults = new ArrayList<>();
-  public final List<E> currentResults = new ArrayList<>();
-  public NameRules nameRules;
+  String getFunctionName(String base);
+
+  String getVariableName(String base);
+
+  String getConstantName(String base);
+
+  String getGetterName(String base, boolean isBoolean);
+
+  String getSetterName(String base);
 }

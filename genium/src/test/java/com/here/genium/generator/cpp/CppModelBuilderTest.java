@@ -121,6 +121,8 @@ public final class CppModelBuilderTest {
     when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
         .thenReturn(francaTypeCollection);
     when(DefinedBy.getPackages(any())).thenReturn(Collections.singletonList("nonsense"));
+
+    contextStack.getCurrentContext().nameRules = CppNameRules.INSTANCE;
   }
 
   @Test
@@ -493,8 +495,6 @@ public final class CppModelBuilderTest {
 
     CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
     assertTrue(resultStruct.isExternal);
-    assertEquals(STRUCT_NAME, resultStruct.name);
-    assertEquals("::nonsense::" + STRUCT_NAME, resultStruct.fullyQualifiedName);
   }
 
   @Test
@@ -657,7 +657,6 @@ public final class CppModelBuilderTest {
 
     CppEnum resultEnum = modelBuilder.getFinalResult(CppEnum.class);
     assertTrue(resultEnum.isExternal);
-    assertEquals(ENUM_NAME, resultEnum.name);
   }
 
   @Test
@@ -704,6 +703,8 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaAttributeCreatesGetter() {
+    contextStack.injectResult(cppComplexTypeRef);
+
     modelBuilder.finishBuilding(francaAttribute);
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
@@ -714,6 +715,8 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaAttributeCreatesSetter() {
+    contextStack.injectResult(cppComplexTypeRef);
+
     modelBuilder.finishBuilding(francaAttribute);
 
     List<CppMethod> methods =
@@ -724,6 +727,8 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaAttributeReadonly() {
+    contextStack.injectResult(cppComplexTypeRef);
+
     when(francaAttribute.isReadonly()).thenReturn(true);
 
     modelBuilder.finishBuilding(francaAttribute);

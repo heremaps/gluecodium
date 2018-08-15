@@ -19,6 +19,7 @@
 
 package com.here.genium.generator.cpp;
 
+import com.here.genium.generator.common.NameRules;
 import com.here.genium.generator.common.StringValueMapper;
 import com.here.genium.model.cpp.*;
 import com.here.genium.model.franca.FrancaDeploymentModel;
@@ -61,11 +62,10 @@ public class CppValueMapper {
     if (cppTypeRef == CppTypeMapper.STRING_TYPE) {
       return new CppValue("\"" + StringEscapeUtils.escapeJava(deploymentDefaultValue) + "\"");
     } else if (cppTypeRef.refersToEnumType()) {
-      String enumEntryName =
-          deploymentModel.isExternalType(francaField.getType().getDerived())
-              ? deploymentDefaultValue
-              : CppNameRules.INSTANCE.getEnumEntryName(deploymentDefaultValue);
-      return new CppValue(cppTypeRef.name + "::" + enumEntryName);
+      NameRules nameRules =
+          CppNameRules.selectNameRules(deploymentModel, francaField.getType().getDerived());
+      String name = nameRules.getConstantName(deploymentDefaultValue);
+      return new CppValue(cppTypeRef.name + "::" + name);
     } else {
       return new CppValue(deploymentDefaultValue);
     }
@@ -80,10 +80,9 @@ public class CppValueMapper {
 
     List<String> nestedNameSpecifier = CppNameRules.INSTANCE.getNestedNameSpecifier(value);
     String enumeratorName = value.getName();
-    String enumEntryName =
-        deploymentModel.isExternalType((FEnumerationType) value.eContainer())
-            ? enumeratorName
-            : CppNameRules.INSTANCE.getEnumEntryName(enumeratorName);
-    return new CppValue(CppNameRules.getFullyQualifiedName(nestedNameSpecifier, enumEntryName));
+    NameRules nameRules =
+        CppNameRules.selectNameRules(deploymentModel, (FEnumerationType) value.eContainer());
+    String name = nameRules.getConstantName(enumeratorName);
+    return new CppValue(CppNameRules.getFullyQualifiedName(nestedNameSpecifier, name));
   }
 }
