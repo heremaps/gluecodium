@@ -79,6 +79,8 @@ public class CppModelBuilderCommentsTest {
     modelBuilder = new CppModelBuilder(contextStack, deploymentModel, typeMapper, valueMapper);
 
     when(CommentHelper.getDescription(any())).thenReturn(COMMENT);
+
+    contextStack.getCurrentContext().nameRules = CppNameRules.INSTANCE;
   }
 
   @Test
@@ -245,6 +247,8 @@ public class CppModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingFrancaAttributeReadsComment() {
+    contextStack.injectResult(cppComplexTypeRef);
+
     modelBuilder.finishBuilding(francaAttribute);
 
     List<CppMethod> methods =
