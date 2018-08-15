@@ -26,14 +26,14 @@
 namespace {{.}} {
 
 {{/namespace}}
-{{#classes}}
+{{#classes}}{{#unless isExternal}}
 {{name}}::~{{name}}() = default;
 
 {{#set className=name}}{{#members}}
 {{#instanceOf this "CppConstant"}}const {{type.name}} {{className}}::{{name}} = {{value.name}};{{/instanceOf}}
 {{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}
 {{/members}}{{/set}}
-{{/classes}}
+{{/unless}}{{/classes}}
 {{#members}}
 {{#instanceOf this "CppConstant"}}const {{type.name}} {{name}} = {{value.name}};{{/instanceOf}}
 {{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}

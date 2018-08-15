@@ -198,6 +198,16 @@ public final class CppModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaInterfaceReadsExternalType() {
+    when(deploymentModel.isExternalType(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    CppClass resultClass = modelBuilder.getFinalResult(CppClass.class);
+    assertTrue(resultClass.isExternal);
+  }
+
+  @Test
   public void finishBuildingFrancaMethodReadsNames() {
     modelBuilder.finishBuilding(francaMethod);
 
