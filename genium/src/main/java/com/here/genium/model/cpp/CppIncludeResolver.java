@@ -49,7 +49,7 @@ public class CppIncludeResolver {
     Include include = resolvedIncludes.get(typeCollection);
 
     if (include == null) {
-      String includeName = CppNameRules.getHeaderPath(typeCollection);
+      String includeName = CppNameRules.INSTANCE.getHeaderPath(typeCollection);
       include = Include.createInternalInclude(includeName);
       resolvedIncludes.put(typeCollection, include);
     }

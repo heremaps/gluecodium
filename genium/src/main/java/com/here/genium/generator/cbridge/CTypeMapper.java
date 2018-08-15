@@ -150,7 +150,7 @@ public class CTypeMapper {
     boolean isExternal = deploymentModel.isExternalType(modelElement);
     if (isExternal) {
       String externalName = deploymentModel.getExternalName(modelElement);
-      baseApiCall = CppNameRules.getFullyQualifiedName(modelElement, true, externalName);
+      baseApiCall = CppNameRules.INSTANCE.getFullyQualifiedName(modelElement, true, externalName);
     }
 
     if (baseApiCall == null) {
@@ -179,7 +179,7 @@ public class CTypeMapper {
 
     String fullyQualifiedName = deploymentModel.getExternalName(francaEnum);
     if (fullyQualifiedName == null) {
-      fullyQualifiedName = CppNameRules.getFullyQualifiedName(francaEnum);
+      fullyQualifiedName = CppNameRules.INSTANCE.getFullyQualifiedName(francaEnum);
     }
 
     CType enumCType =
