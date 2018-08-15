@@ -66,7 +66,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     String className = nameResolver.getName(francaInterface);
     String fullyQualifiedName = nameResolver.getFullyQualifiedName(francaInterface);
     String classComment = CommentHelper.getDescription(francaInterface);
-    CppClass cppClass = new CppClass(className, fullyQualifiedName, classComment);
+    boolean isExternal = deploymentModel.isExternalType(francaInterface);
+    CppClass cppClass = new CppClass(className, fullyQualifiedName, classComment, isExternal);
 
     FInterface parentInterface = francaInterface.getBase();
     if (parentInterface != null) {
