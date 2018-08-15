@@ -20,15 +20,16 @@
 package com.here.genium.generator.cpp;
 
 import com.here.genium.generator.common.NameHelper;
+import com.here.genium.generator.common.NameRules;
+import com.here.genium.generator.common.VerbatimNameRules;
 import com.here.genium.model.common.InstanceRules;
-import com.here.genium.model.cpp.CppPrimitiveTypeRef;
-import com.here.genium.model.cpp.CppTypeRef;
 import com.here.genium.model.franca.DefinedBy;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.io.File;
 import java.util.List;
 import org.franca.core.franca.*;
 
-public final class CppNameRules {
+public final class CppNameRules implements NameRules {
 
   public static final CppNameRules INSTANCE = new CppNameRules();
 
@@ -39,32 +40,34 @@ public final class CppNameRules {
 
   private CppNameRules() {}
 
-  public static String getMethodName(String base) {
+  @Override
+  public String getTypeName(final String base) {
+    return NameHelper.toUpperCamelCase(base); // MyType
+  }
+
+  @Override
+  public String getFunctionName(final String base) {
     return NameHelper.toLowerSnakeCase(base); // do_my_stuff
   }
 
-  public static String getGetterName(final String base, final CppTypeRef cppTypeRef) {
-    final String prefix =
-        cppTypeRef != null && cppTypeRef.getActualType() == CppPrimitiveTypeRef.BOOL
-            ? "is_"
-            : "get_";
-    return prefix + NameHelper.toLowerSnakeCase(base); // get_my_value
+  @Override
+  public String getVariableName(final String base) {
+    return NameHelper.toLowerSnakeCase(base); // my_variable
   }
 
-  public String getSetterName(String base) {
-    return "set_" + NameHelper.toLowerSnakeCase(base); // set_my_value
+  @Override
+  public String getConstantName(final String base) {
+    return NameHelper.toUpperSnakeCase(base); // MY_CONSTANT
   }
 
-  public String getEnumName(String base) {
-    return NameHelper.toUpperCamelCase(base); // MyEnum
+  @Override
+  public String getGetterName(final String base, final boolean isBoolean) {
+    return (isBoolean ? "is_" : "get_") + getFunctionName(base);
   }
 
-  public String getStructName(String base) {
-    return NameHelper.toUpperCamelCase(base); // MyStruct
-  }
-
-  public String getTypedefName(String base) {
-    return NameHelper.toUpperCamelCase(base); // MyTypedef
+  @Override
+  public String getSetterName(final String base) {
+    return "set_" + getFunctionName(base);
   }
 
   public List<String> getNestedNameSpecifier(final FModelElement modelElement) {
@@ -73,10 +76,10 @@ public final class CppNameRules {
     List<String> result = DefinedBy.getPackages(typeCollection);
 
     if (typeCollection instanceof FInterface) {
-      result.add(getClassName(typeCollection.getName()));
+      result.add(getTypeName(typeCollection.getName()));
     }
     if (modelElement instanceof FEnumerator) {
-      result.add(getEnumName(((FEnumerationType) modelElement.eContainer()).getName()));
+      result.add(getTypeName(((FEnumerationType) modelElement.eContainer()).getName()));
     }
 
     return result;
@@ -93,19 +96,19 @@ public final class CppNameRules {
     String typeName = "";
 
     if (francaElement instanceof FCompoundType) {
-      typeName = getStructName(francaElement.getName());
+      typeName = getTypeName(francaElement.getName());
     } else if (francaElement instanceof FEnumerationType) {
-      typeName = getEnumName(francaElement.getName());
+      typeName = getTypeName(francaElement.getName());
     } else if (francaElement instanceof FTypeDef) {
       FTypeDef typedef = (FTypeDef) francaElement;
       if (!InstanceRules.isInstanceId(typedef)) {
-        typeName = getTypedefName(francaElement.getName());
+        typeName = getTypeName(francaElement.getName());
       }
     } else if (francaElement instanceof FConstantDef) {
       typeName = getConstantName(francaElement.getName());
     } else if (francaElement instanceof FArrayType || francaElement instanceof FMapType) {
       // Franca maps and explicit arrays resolve into a "using" directive in C++
-      typeName = getTypedefName(francaElement.getName());
+      typeName = getTypeName(francaElement.getName());
     }
 
     return getFullyQualifiedName(nestedNameSpecifier, typeName);
@@ -124,37 +127,6 @@ public final class CppNameRules {
     }
   }
 
-  public String getTypeName(final String typeName, boolean isExternal, final String externalName) {
-
-    if (!isExternal) {
-      return getStructName(typeName);
-    } else if (externalName == null) {
-      return typeName;
-    } else {
-      return externalName;
-    }
-  }
-
-  public String getClassName(String typeCollectionName) {
-    return NameHelper.toUpperCamelCase(typeCollectionName);
-  }
-
-  public String getEnumEntryName(String base) {
-    return NameHelper.toUpperSnakeCase(base); // MY_ENUM_ENTRY
-  }
-
-  public String getFieldName(String base) {
-    return NameHelper.toLowerSnakeCase(base); // my_field
-  }
-
-  public String getConstantName(String base) {
-    return NameHelper.toUpperSnakeCase(base); // MY_CONSTANT
-  }
-
-  public String getParameterName(final String base) {
-    return NameHelper.toLowerSnakeCase(base); // my_parameter
-  }
-
   public String getHeaderPath(final FTypeCollection francaTypeCollection) {
     return getOutputFilePath(francaTypeCollection) + HEADER_FILE_SUFFIX;
   }
@@ -163,7 +135,14 @@ public final class CppNameRules {
     return String.join(File.separator, DefinedBy.getPackages(francaTypeCollection))
         + File.separator
         + (francaTypeCollection instanceof FInterface
-            ? getClassName(francaTypeCollection.getName())
+            ? getTypeName(francaTypeCollection.getName())
             : francaTypeCollection.getName());
+  }
+
+  public static NameRules selectNameRules(
+      final FrancaDeploymentModel deploymentModel, final FModelElement francaModelElement) {
+    return deploymentModel.isExternalType(francaModelElement)
+        ? VerbatimNameRules.INSTANCE
+        : CppNameRules.INSTANCE;
   }
 }
