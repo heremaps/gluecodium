@@ -68,9 +68,16 @@ public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
     initTreeNode(FAttribute.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
     initTreeNode(
         FConstantDef.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
-    initTreeNode(FStructType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
     initTreeNode(
-        FEnumerationType.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
+        FStructType.class,
+        ModelBuilder::startBuilding,
+        ModelBuilder::finishBuilding,
+        FrancaTreeWalker::walkChildNodes);
+    initTreeNode(
+        FEnumerationType.class,
+        ModelBuilder::startBuilding,
+        ModelBuilder::finishBuilding,
+        FrancaTreeWalker::walkChildNodes);
     initTreeNode(FEnumerator.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
     initTreeNode(FField.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
     initTreeNode(FTypeDef.class, ModelBuilder::finishBuilding, FrancaTreeWalker::walkChildNodes);
