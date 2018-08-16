@@ -1,16 +1,15 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.8.0
 - Breaking changes:
   + Moved "External*" FDEPL properties from "GeniumExtensions" FDEPL specification into a dedicated
     FDEPL specification "ExternalTypes".
+  + Fixed instance-type attributes in Swift to be generated as properties with an optional type.
 - Features:
   + Added FDEPL property "ObjcInterface" for enabling bridging generated Swift code with
     Objective-C code. For interfaces marked as such their corresponding Swift classes (and
     protocols) are generated with @objcMembers annotation (@objc for protocols), enabling the usage
     of these types and their members from Objective-C.
-- Bug fixes:
-  + Fixed instance-type attributes in Swift to be generated as properties with an optional type.
 
 ## 3.7.0
 - Breaking changes:
