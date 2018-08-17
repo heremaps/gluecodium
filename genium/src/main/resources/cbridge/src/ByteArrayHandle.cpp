@@ -26,8 +26,9 @@
 _baseRef
 byteArray_create( )
 {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr< std::vector< uint8_t > > (
-        new ( std::nothrow ) std::vector< uint8_t >{ } ) );
+    return reinterpret_cast< _baseRef >( new ( std::nothrow )
+                                             std::shared_ptr< std::vector< uint8_t > >(
+                                                 new ( std::nothrow ) std::vector< uint8_t >{} ) );
 }
 
 void
@@ -39,7 +40,8 @@ byteArray_release( _baseRef handle )
 void
 byteArray_assign( _baseRef handle, const uint8_t* data, const size_t size )
 {
-    ( *get_pointer< std::shared_ptr< std::vector< uint8_t > > >( handle ) )->assign( data, data + size );
+    ( *get_pointer< std::shared_ptr< std::vector< uint8_t > > >( handle ) )
+        ->assign( data, data + size );
 }
 
 const uint8_t*
