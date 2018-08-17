@@ -1,8 +1,5 @@
 repositories {
     mavenLocal()
-    maven {
-        url 'example.com'
-    }
     mavenCentral()
 }
 

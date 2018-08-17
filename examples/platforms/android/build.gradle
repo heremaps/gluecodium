@@ -1,9 +1,6 @@
 buildscript {
     repositories {
-        maven {
-            name 'Local proxy of external Maven repositories'
-            url 'example.com'
-        }
+        mavenLocal()
         google()
     }
     dependencies {
@@ -17,10 +14,7 @@ plugins {
 
 allprojects {
     repositories {
-        maven {
-            name 'Local proxy of external Maven repositories'
-            url 'example.com'
-        }
+        mavenLocal()
         google()
     }
 }

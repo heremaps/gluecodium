@@ -1,8 +1,5 @@
 repositories {
-    maven {
-        name 'Local proxy of external Maven repositories'
-        url 'example.com'
-    }
+    mavenLocal()
     google()
     flatDir {
         if (project.hasProperty('localDependenciesDirs')) {
