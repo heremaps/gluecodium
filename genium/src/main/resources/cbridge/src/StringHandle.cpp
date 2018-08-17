@@ -26,7 +26,7 @@
 _baseRef
 std_string_create( const char* c_str )
 {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::string( c_str ) );
+    return reinterpret_cast< _baseRef >( new ( std::nothrow ) std::string( c_str ) );
 }
 
 void

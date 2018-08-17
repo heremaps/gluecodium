@@ -54,16 +54,19 @@ public:
         if ( proxy )
         {
             proxy->m_key = key;
-            s_cache[ key ] = std::make_pair(proxy, proxy.get());
-            s_reverse_cache[ proxy.get() ] = key;
+            s_cache[ key ] = std::make_pair( proxy, proxy.get( ) );
+            s_reverse_cache[ proxy.get( ) ] = key;
         }
         return proxy;
     }
 
-    static const void* get_swift_object(const void* proxy) {
+    static const void*
+    get_swift_object( const void* proxy )
+    {
         std::lock_guard< std::mutex > cache_lock( s_cache_mutex );
         auto it = s_reverse_cache.find( proxy );
-        if ( it != s_reverse_cache.end( ) ) {
+        if ( it != s_reverse_cache.end( ) )
+        {
             return it->second;
         }
         return nullptr;
@@ -81,13 +84,14 @@ private:
 
 private:
     using CacheEntryType = std::pair< std::weak_ptr< ProxyType >, void* >;
-    static std::unordered_map< const void*,  CacheEntryType > s_cache;
+    static std::unordered_map< const void*, CacheEntryType > s_cache;
     static std::unordered_map< const void*, const void* > s_reverse_cache;
     static std::mutex s_cache_mutex;
 };
 
 template < class ProxyType >
-std::unordered_map< const void*, typename CachedProxyBase< ProxyType >::CacheEntryType > CachedProxyBase< ProxyType >::s_cache;
+std::unordered_map< const void*, typename CachedProxyBase< ProxyType >::CacheEntryType >
+    CachedProxyBase< ProxyType >::s_cache;
 
 template < class ProxyType >
 std::unordered_map< const void*, const void* > CachedProxyBase< ProxyType >::s_reverse_cache;
