@@ -47,6 +47,9 @@ followed by a period and then the same name again:
         }
     }
 
+**Note:** There is no guarantee for pointer equality on Java and Swift side for the same wrapped
+C++ object.
+
 Custom FDEPL syntax
 -------------------
 
@@ -62,6 +65,8 @@ implemented in Java/Swift to C++ code.
 **Note:** For Java, calling an interface implemented in Java from a thread created on C++ side is
 not supported, see
 [Android JNI Tips](https://developer.android.com/training/articles/perf-jni#faq_FindClass).
+**Note** It is safe to do comparison on the std::shared_ptr in C++ to check if it's the same
+Java/Swift object as passed before.
 
 FIDL:
 
