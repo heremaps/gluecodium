@@ -34,3 +34,14 @@ define GeniumExtensions for interface smoke.InterfaceWithStruct
 {
     IsInterface = true
 }
+
+define ExternalTypes for interface smoke.ExternalInterface
+{
+    ExternalType = "foo/Bar.h"
+}
+
+define ExternalTypes for interface smoke.VeryExternalInterface
+{
+    ExternalType = "foo/Bar.h"
+    ExternalName = "::fire::Baz"
+}

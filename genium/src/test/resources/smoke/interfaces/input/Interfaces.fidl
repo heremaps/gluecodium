@@ -58,6 +58,33 @@ interface NestedInterface {
             SimpleInterface.SimpleInterface interfaceTwo
         }
     }
+
+    method makeMoreExternal:withInterface {
+        in {
+            ExternalInterface.ExternalInterface input
+        }
+        out {
+            VeryExternalInterface.VeryExternalInterface result
+         }
+    }
+
+    method makeMoreExternal:withStruct {
+        in {
+            ExternalInterface.some_Struct input
+        }
+        out {
+            VeryExternalInterface.some_Struct result
+         }
+    }
+
+    method makeMoreExternal:withEnum {
+        in {
+            ExternalInterface.some_Enum input
+        }
+        out {
+            VeryExternalInterface.some_Enum result
+         }
+    }
 }
 
 interface InterfaceWithStruct {
@@ -75,5 +102,39 @@ interface InterfaceWithStruct {
         out {
             InnerStruct outputStruct
         }
+    }
+}
+
+interface ExternalInterface {
+
+    public typedef ExternalInterface is undefined
+
+    public struct some_Struct {
+        String some_Field
+    }
+
+    public enumeration some_Enum {
+        some_Value
+    }
+
+    method some_Method {
+        in { Int8 some_Parameter }
+    }
+}
+
+interface VeryExternalInterface {
+
+    public typedef VeryExternalInterface is undefined
+
+    public struct some_Struct {
+        String some_Field
+    }
+
+    public enumeration some_Enum {
+        some_Value
+    }
+
+    method some_Method {
+        in { Int8 some_Parameter }
     }
 }
