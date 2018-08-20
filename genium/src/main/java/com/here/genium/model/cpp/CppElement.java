@@ -26,7 +26,7 @@ import lombok.EqualsAndHashCode;
 public abstract class CppElement extends Streamable<CppElement> {
 
   public final String name;
-  public final String fullyQualifiedName; // Currently used for dependency analysis only
+  public final String fullyQualifiedName;
 
   protected CppElement(final String name, final String fullyQualifiedName) {
     super();
