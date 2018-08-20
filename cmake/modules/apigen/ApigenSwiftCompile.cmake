@@ -23,14 +23,24 @@ set(includeguard_ApigenSwiftCompile ON)
 cmake_minimum_required(VERSION 3.5)
 
 set(MINIMAL_CLANG_VERSION 5.0)
-if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang") OR CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
-  message(FATAL_ERROR "Clang compiler version > ${MINIMAL_CLANG_VERSION} is required,"
-  "your compiler is ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}\n"
-  "On Ubuntu 16.04 you can run\n"
-  "apt-get install clang-${MINIMAL_CLANG_VERSION}\n"
-  "update-alternatives --install /usr/bin/clang clang /usr/lib/llvm-${MINIMAL_CLANG_VERSION}/bin/clang 100\n"
-  "update-alternatives --install /usr/bin/clang++ clang++ /usr/lib/llvm-${MINIMAL_CLANG_VERSION}/bin/clang++ 100\n
-  and then do a clean rebuild")
+if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang"))
+  message(FATAL_ERROR "Clang compiler is required, your compiler identifies as ${CMAKE_CXX_COMPILER_ID}.
+  On Ubuntu 16.04 you can run
+    apt-get install clang-${MINIMAL_CLANG_VERSION}
+  and then do a clean CMake run passing -DCMAKE_CXX_COMPILER=clang++ and -DCMAKE_C_COMPILER=clang
+  ")
+endif()
+if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS ${MINIMAL_CLANG_VERSION})
+  message(FATAL_ERROR "Clang compiler version > ${MINIMAL_CLANG_VERSION} is required,
+  your compiler is ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}
+  On Ubuntu 16.04 you can run
+    apt-get install clang-${MINIMAL_CLANG_VERSION}
+    update-alternatives --install /usr/bin/clang clang \\
+      /usr/lib/llvm-${MINIMAL_CLANG_VERSION}/bin/clang 100
+    update-alternatives --install /usr/bin/clang++ clang++ \\
+      /usr/lib/llvm-${MINIMAL_CLANG_VERSION}/bin/clang++ 100
+  and then do a clean rebuild
+  ")
 endif()
 
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftTest.cmake)
