@@ -97,4 +97,9 @@ specification ExternalTypes {
         ExternalType: String (optional);
         ExternalName: String (optional);
     }
+
+    for attributes {
+        ExternalGetter: String (optional);
+        ExternalSetter: String (optional);
+    }
 }
