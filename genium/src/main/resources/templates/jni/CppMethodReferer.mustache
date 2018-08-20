@@ -18,4 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isStatic}}{{>jni/FullyQualifiedCppName}}::{{/if}}{{#unless isStatic}}(*pInstanceSharedPointer)->{{/unless}}
+{{#if isStatic}}{{owningContainer.cppFullyQualifiedName}}::{{/if}}{{#unless isStatic}}(*pInstanceSharedPointer)->{{/unless}}

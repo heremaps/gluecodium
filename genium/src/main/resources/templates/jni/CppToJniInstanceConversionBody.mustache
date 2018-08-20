@@ -24,7 +24,7 @@
         return nullptr;
     }
     auto javaClass = _jenv->FindClass("{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}");
-    auto pInstanceSharedPointer = new (::std::nothrow) ::std::shared_ptr<::{{#cppNameSpaces}}{{.}}::{{/cppNameSpaces}}{{cppName}}>(_ninput);
+    auto pInstanceSharedPointer = new (::std::nothrow) ::std::shared_ptr<{{cppFullyQualifiedName}}>(_ninput);
     if (pInstanceSharedPointer == nullptr)
     {
         jclass exceptionClass = _jenv->FindClass("java/lang/RuntimeException");

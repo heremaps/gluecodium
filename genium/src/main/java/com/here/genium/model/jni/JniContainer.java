@@ -39,6 +39,7 @@ public final class JniContainer implements JniElement {
   public final String javaName;
   public final String javaInterfaceName;
   public final String cppName;
+  public final String cppFullyQualifiedName;
   public final boolean isFrancaInterface;
   public boolean isInterface;
 
@@ -56,6 +57,7 @@ public final class JniContainer implements JniElement {
       final String javaName,
       final String javaInterfaceName,
       final String cppName,
+      final String cppFullyQualifiedName,
       final boolean isFrancaInterface,
       final boolean isInterface) {
     this.javaPackages = javaPackages;
@@ -63,6 +65,7 @@ public final class JniContainer implements JniElement {
     this.javaName = javaName;
     this.javaInterfaceName = javaInterfaceName;
     this.cppName = cppName;
+    this.cppFullyQualifiedName = cppFullyQualifiedName;
     this.isFrancaInterface = isFrancaInterface;
     this.isInterface = isInterface;
   }

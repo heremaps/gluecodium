@@ -127,13 +127,15 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaInterfaceReadsName() {
+    when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
+        .thenReturn(francaInterface);
+
     modelBuilder.finishBuilding(francaInterface);
 
-    CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
-    assertNotNull(cppClass);
-    assertTrue(cppClass.name.toLowerCase().startsWith("classy"));
-
-    verify(francaInterface).getName();
+    CppClass resultClass = modelBuilder.getFinalResult(CppClass.class);
+    assertNotNull(resultClass);
+    assertEquals("Classy", resultClass.name);
+    assertEquals("::nonsense::Classy", resultClass.fullyQualifiedName);
   }
 
   @Test
