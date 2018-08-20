@@ -115,11 +115,11 @@ public class FrancaDeploymentModel {
     return getString(francaType, "ExternalName");
   }
 
-  public String getExternalGetter(final FField francaField) {
+  public String getExternalGetter(final FTypedElement francaField) {
     return getString(francaField, "ExternalGetter");
   }
 
-  public String getExternalSetter(final FField francaField) {
+  public String getExternalSetter(final FTypedElement francaField) {
     return getString(francaField, "ExternalSetter");
   }
 
