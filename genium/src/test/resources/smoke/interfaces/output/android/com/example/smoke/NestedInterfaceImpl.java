@@ -21,4 +21,7 @@ class NestedInterfaceImpl extends NativeBase implements NestedInterface {
     public native void setSameTypeInstances(final SimpleInterface interfaceOne, final SimpleInterface interfaceTwo);
     public native SimpleInterface getInstanceOne();
     public native SimpleInterface getInstanceTwo();
+    public native VeryExternalInterface makeMoreExternal(final ExternalInterface input);
+    public native VeryExternalInterface.SomeStruct makeMoreExternal(final ExternalInterface.SomeStruct input);
+    public native VeryExternalInterface.SomeEnum makeMoreExternal(final ExternalInterface.SomeEnum input);
 }

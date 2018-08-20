@@ -30,6 +30,18 @@ internal func getRef(_ ref: NestedInterface?) -> RefHolder {
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
         return getRef(swift_class.getInstanceTwo()!).ref
     }
+    functions.smoke_NestedInterface_makeMoreExternal_withInterface = {(swift_class_pointer, input) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
+        return getRef(swift_class.makeMoreExternal(input: ExternalInterface(cExternalInterface: input)!)!).ref
+    }
+    functions.smoke_NestedInterface_makeMoreExternal_withStruct = {(swift_class_pointer, input) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
+        return get_pointer((swift_class.makeMoreExternal(input: ExternalInterface.SomeStruct(cExternalInterface.SomeStruct: input)!)!).convertToCType())
+    }
+    functions.smoke_NestedInterface_makeMoreExternal_withEnum = {(swift_class_pointer, input) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
+        return swift_class.makeMoreExternal(input: ExternalInterface.SomeEnum(rawValue: input)!)
+    }
     let proxy = smoke_NestedInterface_createProxy(functions)
     return RefHolder(ref: proxy, release: smoke_NestedInterface_release)
 }
@@ -39,6 +51,9 @@ public protocol NestedInterface : AnyObject {
     func setSameTypeInstances(interfaceOne: SimpleInterface?, interfaceTwo: SimpleInterface?) -> Void
     func getInstanceOne() -> SimpleInterface?
     func getInstanceTwo() -> SimpleInterface?
+    func makeMoreExternal(input: ExternalInterface?) -> VeryExternalInterface?
+    func makeMoreExternal(input: ExternalInterface.SomeStruct) -> VeryExternalInterface.SomeStruct?
+    func makeMoreExternal(input: ExternalInterface.SomeEnum) -> VeryExternalInterface.SomeEnum
 }
 
 internal class _NestedInterface: NestedInterface {
@@ -81,6 +96,26 @@ internal class _NestedInterface: NestedInterface {
         return _SimpleInterface(cSimpleInterface: cResult)
     }
 
+    public func makeMoreExternal(input: ExternalInterface?) -> VeryExternalInterface? {
+        let input_handle = getRef(input)
+        let cResult = smoke_NestedInterface_makeMoreExternal_withInterface(c_instance, input_handle.ref)
+        return VeryExternalInterface(cVeryExternalInterface: cResult)
+    }
+    public func makeMoreExternal(input: ExternalInterface.SomeStruct) -> VeryExternalInterface.SomeStruct? {
+        let input_handle = input.convertToCType()
+        defer {
+            smoke_ExternalInterface_SomeStruct_release(input_handle)
+        }
+        let cResult = smoke_NestedInterface_makeMoreExternal_withStruct(c_instance, input_handle)
+        defer {
+            smoke_VeryExternalInterface_SomeStruct_release(cResult)
+        }
+        return VeryExternalInterface.SomeStruct(cSomeStruct: cResult)
+    }
+    public func makeMoreExternal(input: ExternalInterface.SomeEnum) -> VeryExternalInterface.SomeEnum {
+        let cResult = smoke_NestedInterface_makeMoreExternal_withEnum(c_instance, input.rawValue)
+        return VeryExternalInterface.SomeEnum(rawValue: cResult)!
+    }
 }
 
 extension _NestedInterface: NativeBase {
