@@ -26,6 +26,7 @@ import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.franca.DefinedBy;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.*;
 
@@ -73,7 +74,7 @@ public final class CppNameRules implements NameRules {
   public List<String> getNestedNameSpecifier(final FModelElement modelElement) {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
-    List<String> result = DefinedBy.getPackages(typeCollection);
+    List<String> result = new LinkedList<>(DefinedBy.getPackages(typeCollection));
 
     if (typeCollection instanceof FInterface) {
       result.add(getTypeName(typeCollection.getName()));

@@ -30,7 +30,7 @@ inline void createCppProxy(JNIEnv* env, jobject obj, ::std::shared_ptr<T>& resul
 
 {{#models}}
 template<>
-inline void createCppProxy(JNIEnv* env, jobject obj, ::std::shared_ptr<{{#cppNameSpaces}}::{{.}}{{/cppNameSpaces}}{{#cppName}}::{{.}}{{/cppName}}>& result) {
-    ::{{internalNamespace}}::jni::CppProxyBase::createProxy<{{#cppNameSpaces}}::{{.}}{{/cppNameSpaces}}{{#cppName}}::{{.}}{{/cppName}}, {{#cppNameSpaces}}::{{.}}{{/cppNameSpaces}}{{#cppName}}::{{.}}{{/cppName}}CppProxy>(env, obj, result);
+inline void createCppProxy(JNIEnv* env, jobject obj, ::std::shared_ptr<{{cppFullyQualifiedName}}>& result) {
+    ::{{internalNamespace}}::jni::CppProxyBase::createProxy<{{cppFullyQualifiedName}}, {{cppFullyQualifiedName}}CppProxy>(env, obj, result);
 }
 {{/models}}

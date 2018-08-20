@@ -48,7 +48,7 @@ extern "C" {
 {{/parameters}}
 {{#unless isStatic}}
     auto pointerAsLong = {{internalNamespace}}::jni::get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
-    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<{{>jni/FullyQualifiedCppName}}>*> (pointerAsLong);
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (pointerAsLong);
 {{/unless}}
 {{>jni/ReturnTypeConversion}}
 }
@@ -57,7 +57,7 @@ extern "C" {
 void
 Java_{{#javaPackages}}{{.}}_{{/javaPackages}}{{javaName}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
-    delete reinterpret_cast<std::shared_ptr<::{{#cppNameSpaces}}{{.}}::{{/cppNameSpaces}}{{cppName}}>*> (_jpointerRef);
+    delete reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (_jpointerRef);
 }
 }
 {{/container}}

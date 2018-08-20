@@ -99,6 +99,7 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
             .javaName(javaClass.name)
             .javaInterfaceName(javaTopLevelElement.name)
             .cppName(cppClass.name)
+            .cppFullyQualifiedName(cppClass.fullyQualifiedName)
             .isFrancaInterface(true)
             .isInterface(deploymentModel.isInterface(francaInterface))
             .build();

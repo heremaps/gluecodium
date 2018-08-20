@@ -30,12 +30,8 @@ public final class CppClass extends CppElementWithComment {
   public final Set<CppField> fields = new LinkedHashSet<>();
   public final Set<CppInheritance> inheritances = new LinkedHashSet<>();
 
-  public CppClass(final String name) {
-    this(name, null);
-  }
-
-  public CppClass(final String name, final String comment) {
-    super(name, name, comment);
+  public CppClass(final String name, final String fullyQualifiedName, final String comment) {
+    super(name, fullyQualifiedName, comment);
   }
 
   @SuppressWarnings("unused")
