@@ -19,6 +19,7 @@
 
 package com.here.genium.model.franca;
 
+import com.here.genium.common.FrancaTypeHelper;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EObject;
@@ -157,25 +158,20 @@ public class FrancaDeploymentModel {
   private List<MappingGenericPropertyAccessor> getPropertyAccessors(
       final FModelElement francaModelElement) {
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(francaModelElement);
-    return propertyAccessors.get(buildKey(typeCollection));
-  }
-
-  private static String buildKey(final FTypeCollection francaTypeCollection) {
-    if (francaTypeCollection.getName() == null) {
-      return null;
-    }
-    return DefinedBy.getModelName(francaTypeCollection) + "." + francaTypeCollection.getName();
+    return propertyAccessors.get(FrancaTypeHelper.getFullName(typeCollection));
   }
 
   private void addDeploymentInterface(final FDInterface fdInterface) {
     propertyAccessors
-        .computeIfAbsent(buildKey(fdInterface.getTarget()), key -> new LinkedList<>())
+        .computeIfAbsent(
+            FrancaTypeHelper.getFullName(fdInterface.getTarget()), key -> new LinkedList<>())
         .add(new NameBasedPropertyAccessor(fdInterface));
   }
 
   private void addDeploymentTypeCollection(final FDTypes fdTypeCollection) {
     propertyAccessors
-        .computeIfAbsent(buildKey(fdTypeCollection.getTarget()), key -> new LinkedList<>())
+        .computeIfAbsent(
+            FrancaTypeHelper.getFullName(fdTypeCollection.getTarget()), key -> new LinkedList<>())
         .add(new NameBasedPropertyAccessor(fdTypeCollection));
   }
 }
