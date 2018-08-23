@@ -21,6 +21,7 @@ package com.here.genium.generator.cpp;
 
 import static org.junit.Assert.assertEquals;
 
+import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.*;
 import java.util.*;
 import org.junit.Test;
@@ -146,7 +147,11 @@ public class TopologicalSortTest {
             "usingDependingOnUsing",
             Arrays.asList(
                 createUsing(
-                    "anotherShortcut", new CppTypeDefRef(TYPE_DEF_NAME, createComplex(TYPE_A))),
+                    "anotherShortcut",
+                    new CppTypeDefRef(
+                        TYPE_DEF_NAME,
+                        createComplex(TYPE_A),
+                        Include.createInternalInclude("foo"))),
                 CPP_USING),
             Arrays.asList(1, 0)
           },
@@ -219,7 +224,10 @@ public class TopologicalSortTest {
   private static CppConstant createConstantWithUsing(String typeName) {
     String name = "fixed";
     return new CppConstant(
-        name, new CppTypeDefRef(typeName, createComplex("nonsense")), new CppValue());
+        name,
+        new CppTypeDefRef(
+            typeName, createComplex("nonsense"), Include.createInternalInclude("foo")),
+        new CppValue());
   }
 
   private static CppStruct createChild() {

@@ -24,6 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import com.here.genium.common.CollectionsHelper;
+import com.here.genium.model.common.Include;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
 import com.here.genium.model.franca.DefinedBy;
@@ -87,8 +88,9 @@ public final class CppModelBuilderTest {
   private final CppEnum cppEnum = CppEnum.builder(ENUM_NAME).fullyQualifiedName(ENUM_NAME).build();
   private final CppStruct cppStruct = new CppStruct(STRUCT_NAME);
   private final CppTypeRef cppTypeRef = CppPrimitiveTypeRef.INT64;
-  private final CppUsing cppUsing =
-      CppUsing.builder("useful", new CppTypeDefRef("useful", cppTypeRef)).build();
+  private final CppTypeDefRef cppTypeDefRef =
+      new CppTypeDefRef("useful", cppTypeRef, Include.createInternalInclude("foo"));
+  private final CppUsing cppUsing = CppUsing.builder("useful", cppTypeDefRef).build();
   private final CppConstant cppConstant = new CppConstant(CONSTANT_NAME, cppTypeRef, cppValue);
 
   @Before
