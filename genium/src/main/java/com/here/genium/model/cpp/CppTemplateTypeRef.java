@@ -89,13 +89,6 @@ public final class CppTemplateTypeRef extends CppComplexTypeRef {
   }
 
   @Override
-  public String getShortName() {
-    String[] templateParts = name.split("<");
-    String[] splitName = templateParts[0].split("::");
-    return splitName[splitName.length - 1] + "<" + templateParts[1];
-  }
-
-  @Override
   public Stream<? extends CppElement> stream() {
     return templateParameters.stream();
   }

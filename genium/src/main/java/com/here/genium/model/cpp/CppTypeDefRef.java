@@ -21,6 +21,7 @@ package com.here.genium.model.cpp;
 
 import com.here.genium.model.common.Include;
 import java.util.Collection;
+import java.util.Collections;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
@@ -28,9 +29,8 @@ public final class CppTypeDefRef extends CppTypeRef {
 
   public final CppTypeRef actualType;
 
-  public CppTypeDefRef(String name, CppTypeRef type, Include... includes) {
-    super(name, includes);
-    actualType = type;
+  public CppTypeDefRef(String name, CppTypeRef type, Include include) {
+    this(name, type, Collections.singletonList(include));
   }
 
   public CppTypeDefRef(String name, CppTypeRef type, final Collection<Include> includes) {
@@ -46,11 +46,6 @@ public final class CppTypeDefRef extends CppTypeRef {
   @Override
   public boolean refersToEnumType() {
     return actualType.refersToEnumType();
-  }
-
-  @Override
-  public String getShortName() {
-    return actualType.getShortName();
   }
 
   @Override
