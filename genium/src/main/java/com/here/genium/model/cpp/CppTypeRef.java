@@ -20,17 +20,12 @@
 package com.here.genium.model.cpp;
 
 import com.here.genium.model.common.Include;
-import java.util.Arrays;
 import java.util.Collection;
 
 public abstract class CppTypeRef extends CppElementWithIncludes {
 
   public CppTypeRef(String typeName) {
     super(typeName);
-  }
-
-  public CppTypeRef(String typeName, Include... includes) {
-    this(typeName, Arrays.asList(includes));
   }
 
   public CppTypeRef(String typeName, final Collection<Include> includes) {
@@ -43,11 +38,6 @@ public abstract class CppTypeRef extends CppElementWithIncludes {
 
   public boolean refersToEnumType() {
     return false;
-  }
-
-  public String getShortName() {
-    String[] splitName = name.split("::");
-    return splitName[splitName.length - 1];
   }
 
   public CppTypeRef getActualType() {
