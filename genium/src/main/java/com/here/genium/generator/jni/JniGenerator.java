@@ -23,6 +23,7 @@ import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.common.AbstractGenerator;
 import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.genium.generator.cpp.CppModelBuilder;
+import com.here.genium.generator.cpp.CppNameResolver;
 import com.here.genium.generator.cpp.CppTypeMapper;
 import com.here.genium.generator.cpp.CppValueMapper;
 import com.here.genium.generator.java.JavaModelBuilder;
@@ -59,6 +60,7 @@ public final class JniGenerator extends AbstractGenerator {
   private final boolean enableAndroidFeatures;
   private final String internalNamespace;
   private final CppIncludeResolver cppIncludeResolver;
+  private final CppNameResolver cppNameResolver;
 
   public JniGenerator(
       final FrancaDeploymentModel deploymentModel,
@@ -70,10 +72,11 @@ public final class JniGenerator extends AbstractGenerator {
     super(packageList);
     this.deploymentModel = deploymentModel;
     this.additionalIncludes = additionalIncludes;
+    this.errorEnumFilter = errorEnumFilter;
     this.enableAndroidFeatures = enableAndroidFeatures;
     this.internalNamespace = internalNamespace;
     this.cppIncludeResolver = new CppIncludeResolver(deploymentModel);
-    this.errorEnumFilter = errorEnumFilter;
+    this.cppNameResolver = new CppNameResolver(deploymentModel);
   }
 
   public Collection<ModelElement> generateModel(final FTypeCollection francaTypeCollection) {
@@ -92,7 +95,8 @@ public final class JniGenerator extends AbstractGenerator {
     CppTypeMapper typeMapper =
         new CppTypeMapper(cppIncludeResolver, deploymentModel, internalNamespace);
     CppValueMapper valueMapper = new CppValueMapper(deploymentModel);
-    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, typeMapper, valueMapper);
+    CppModelBuilder cppBuilder =
+        new CppModelBuilder(deploymentModel, typeMapper, valueMapper, cppNameResolver);
     JniModelBuilder jniBuilder =
         new JniModelBuilder(deploymentModel, javaBuilder, cppBuilder, cppIncludeResolver);
 

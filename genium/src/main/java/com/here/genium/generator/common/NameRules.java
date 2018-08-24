@@ -28,8 +28,4 @@ public interface NameRules {
   String getVariableName(String base);
 
   String getConstantName(String base);
-
-  String getGetterName(String base, boolean isBoolean);
-
-  String getSetterName(String base);
 }

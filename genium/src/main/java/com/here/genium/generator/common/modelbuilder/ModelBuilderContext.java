@@ -19,7 +19,6 @@
 
 package com.here.genium.generator.common.modelbuilder;
 
-import com.here.genium.generator.common.NameRules;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,5 +30,4 @@ public final class ModelBuilderContext<E> {
 
   public final List<E> previousResults = new ArrayList<>();
   public final List<E> currentResults = new ArrayList<>();
-  public NameRules nameRules;
 }

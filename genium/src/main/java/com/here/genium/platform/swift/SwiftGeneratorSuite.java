@@ -24,6 +24,7 @@ import static java.util.stream.Collectors.toList;
 import com.here.genium.Genium;
 import com.here.genium.generator.cbridge.CBridgeGenerator;
 import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.generator.cpp.CppNameResolver;
 import com.here.genium.generator.swift.SwiftGenerator;
 import com.here.genium.model.cbridge.CBridgeIncludeResolver;
 import com.here.genium.model.cpp.CppIncludeResolver;
@@ -47,12 +48,14 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
 
   private final String internalNamespace;
   private final FrancaDeploymentModel deploymentModel;
+  private final CppNameResolver cppNameResolver;
 
   public SwiftGeneratorSuite(
       final Genium.Options options, final FrancaDeploymentModel deploymentModel) {
     super();
     this.internalNamespace = options != null ? options.getCppInternalNamespace() : null;
     this.deploymentModel = deploymentModel;
+    this.cppNameResolver = new CppNameResolver(deploymentModel);
   }
 
   @Override
@@ -64,6 +67,7 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
             deploymentModel,
             new CppIncludeResolver(deploymentModel),
             new CBridgeIncludeResolver(),
+            cppNameResolver,
             internalNamespace);
 
     Stream<GeneratedFile> swiftStream = typeCollections.stream().map(swiftGenerator::generate);
