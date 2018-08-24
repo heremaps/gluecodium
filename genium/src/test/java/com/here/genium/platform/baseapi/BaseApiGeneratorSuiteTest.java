@@ -34,7 +34,7 @@ import org.junit.runners.JUnit4;
 public final class BaseApiGeneratorSuiteTest {
 
   private final BaseApiGeneratorSuite baseApiGeneratorSuite =
-      new BaseApiGeneratorSuite(Genium.DEFAULT_OPTIONS);
+      new BaseApiGeneratorSuite(Genium.DEFAULT_OPTIONS, null);
   private List<GeneratedFile> generatedFiles;
 
   private String getTargetFile(int i) {
@@ -43,7 +43,7 @@ public final class BaseApiGeneratorSuiteTest {
 
   @Test
   public void generateFilesEmptyModel() {
-    generatedFiles = baseApiGeneratorSuite.generate(null, new LinkedList<>());
+    generatedFiles = baseApiGeneratorSuite.generate(new LinkedList<>());
     assertNotNull(generatedFiles);
     final int expectedGeneratedFiles = BaseApiGeneratorSuite.ADDITIONAL_HEADERS.size();
     assertEquals(

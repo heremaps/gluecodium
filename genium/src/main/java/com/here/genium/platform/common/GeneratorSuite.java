@@ -46,25 +46,26 @@ public abstract class GeneratorSuite {
   /**
    * Triggers the generation. The model is assumed to be valid.
    *
-   * @param deploymentModel model containing deployment specification definitions
    * @param typeCollections type collections and interfaces (interfaces are type collection as well)
    * @return a list of generated files with their relative destination paths
    */
-  public abstract List<GeneratedFile> generate(
-      FrancaDeploymentModel deploymentModel, List<FTypeCollection> typeCollections);
+  public abstract List<GeneratedFile> generate(List<FTypeCollection> typeCollections);
 
   /** Creates a new instance of a generator suite by its short identifier */
-  public static GeneratorSuite instantiateByShortName(String shortName, Genium.Options options) {
+  public static GeneratorSuite instantiateByShortName(
+      final String shortName,
+      final Genium.Options options,
+      final FrancaDeploymentModel deploymentModel) {
 
     switch (shortName) {
       case AndroidGeneratorSuite.GENERATOR_NAME:
-        return new AndroidGeneratorSuite(options);
+        return new AndroidGeneratorSuite(options, deploymentModel);
       case JavaGeneratorSuite.GENERATOR_NAME:
-        return new JavaGeneratorSuite(options);
+        return new JavaGeneratorSuite(options, deploymentModel);
       case BaseApiGeneratorSuite.GENERATOR_NAME:
-        return new BaseApiGeneratorSuite(options);
+        return new BaseApiGeneratorSuite(options, deploymentModel);
       case SwiftGeneratorSuite.GENERATOR_NAME:
-        return new SwiftGeneratorSuite(options);
+        return new SwiftGeneratorSuite(options, deploymentModel);
     }
 
     return null;
