@@ -33,11 +33,11 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class SwiftGeneratorSuiteTest {
 
-  private final SwiftGeneratorSuite suite = new SwiftGeneratorSuite(null);
+  private final SwiftGeneratorSuite suite = new SwiftGeneratorSuite(null, null);
 
   @Test
   public void generatedFilesContainStaticFiles() {
-    List<GeneratedFile> generatedFiles = suite.generate(null, new LinkedList<>());
+    List<GeneratedFile> generatedFiles = suite.generate(new LinkedList<>());
 
     assertTrue(
         generatedFiles + " must contain all " + SwiftGenerator.STATIC_FILES,

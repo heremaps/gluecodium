@@ -22,6 +22,7 @@ package com.here.genium.platform.android;
 import com.here.genium.Genium;
 import com.here.genium.generator.androidmanifest.AndroidManifestGenerator;
 import com.here.genium.generator.jni.JniGenerator;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 
 /**
  * Combines generators {@link AndroidManifestGenerator}, {@link JniGenerator} and {@link
@@ -31,8 +32,9 @@ public final class AndroidGeneratorSuite extends JavaGeneratorSuite {
 
   public static final String GENERATOR_NAME = "android";
 
-  public AndroidGeneratorSuite(final Genium.Options options) {
-    super(options, true);
+  public AndroidGeneratorSuite(
+      final Genium.Options options, final FrancaDeploymentModel deploymentModel) {
+    super(options, true, deploymentModel);
   }
 
   @Override
