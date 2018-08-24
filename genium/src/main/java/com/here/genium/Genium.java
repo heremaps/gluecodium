@@ -175,14 +175,15 @@ public class Genium {
       final Map<String, String> fileNamesCache) {
 
     LOGGER.fine("Using generator " + generatorName);
-    GeneratorSuite generator = GeneratorSuite.instantiateByShortName(generatorName, options);
+    GeneratorSuite generator =
+        GeneratorSuite.instantiateByShortName(generatorName, options, deploymentModel);
     if (generator == null) {
       LOGGER.severe("Failed instantiation of generator '" + generatorName + "'");
       return false;
     }
     LOGGER.fine("Instantiated generator " + generator.getName());
 
-    List<GeneratedFile> outputFiles = generator.generate(deploymentModel, typeCollections);
+    List<GeneratedFile> outputFiles = generator.generate(typeCollections);
 
     boolean outputSuccessful = output(generatorName, outputFiles);
     boolean processedWithoutCollisions =

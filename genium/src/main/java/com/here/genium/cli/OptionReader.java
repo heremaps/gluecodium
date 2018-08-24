@@ -148,7 +148,7 @@ public final class OptionReader {
       System.out.println("  Found generator " + generatorName);
 
       GeneratorSuite generator =
-          GeneratorSuite.instantiateByShortName(generatorName, Genium.DEFAULT_OPTIONS);
+          GeneratorSuite.instantiateByShortName(generatorName, Genium.DEFAULT_OPTIONS, null);
       if (generator != null) {
         System.out.println("   DefinedIn:  " + generator.getClass().getName());
         System.out.println("   Name:       " + generator.getName());

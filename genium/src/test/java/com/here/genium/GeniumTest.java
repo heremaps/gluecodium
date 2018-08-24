@@ -22,7 +22,6 @@ package com.here.genium;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.anyList;
 
@@ -96,8 +95,7 @@ public class GeniumTest {
 
     when(FrancaResourcesValidator.validate(any(), any())).thenReturn(true);
     when(generator.getName()).thenReturn("");
-    when(GeneratorSuite.instantiateByShortName(anyString(), any(Options.class)))
-        .thenReturn(generator);
+    when(GeneratorSuite.instantiateByShortName(any(), any(), any())).thenReturn(generator);
   }
 
   @Test
@@ -112,7 +110,7 @@ public class GeniumTest {
   @Test
   public void failedInstantiationOfGenerator() {
     // Arrange
-    when(GeneratorSuite.instantiateByShortName(anyString(), any(Options.class))).thenReturn(null);
+    when(GeneratorSuite.instantiateByShortName(any(), any(), any())).thenReturn(null);
     Options options =
         Options.builder()
             .inputDirs(new String[] {""})
@@ -126,7 +124,7 @@ public class GeniumTest {
   @Test
   public void fileNameCollisionsResolved() {
     // Arrange
-    when(generator.generate(any(), any())).thenReturn(Arrays.asList(FILE, FILE, FILE));
+    when(generator.generate(any())).thenReturn(Arrays.asList(FILE, FILE, FILE));
     Options options =
         Options.builder()
             .inputDirs(new String[] {""})
@@ -151,7 +149,7 @@ public class GeniumTest {
     createGenium(options).execute();
 
     // Assert
-    verify(generator, never()).generate(any(), any());
+    verify(generator, never()).generate(any());
   }
 
   @Test

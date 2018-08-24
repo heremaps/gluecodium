@@ -55,10 +55,13 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   static final List<String> ADDITIONAL_HEADERS = Arrays.asList("EnumHash", "Return");
 
   private final String internalNamespace;
+  private final FrancaDeploymentModel deploymentModel;
 
-  public BaseApiGeneratorSuite(final Genium.Options options) {
+  public BaseApiGeneratorSuite(
+      final Genium.Options options, final FrancaDeploymentModel deploymentModel) {
     super();
     internalNamespace = options.getCppInternalNamespace();
+    this.deploymentModel = deploymentModel;
   }
 
   @Override
@@ -66,8 +69,8 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     return "com.here.BaseApiGenerator";
   }
 
-  public List<GeneratedFile> generate(
-      final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
+  @Override
+  public List<GeneratedFile> generate(final List<FTypeCollection> typeCollections) {
 
     CppIncludeResolver includeResolver = new CppIncludeResolver(deploymentModel);
     CppTypeMapper typeMapper =
