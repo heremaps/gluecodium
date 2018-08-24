@@ -51,16 +51,6 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   @Override
-  public void startBuilding(FStructType francaType) {
-    openContext();
-  }
-
-  @Override
-  public void startBuilding(FEnumerationType francaType) {
-    openContext();
-  }
-
-  @Override
   public void startBuildingInputArgument(FArgument francaArgument) {
     openContext();
   }

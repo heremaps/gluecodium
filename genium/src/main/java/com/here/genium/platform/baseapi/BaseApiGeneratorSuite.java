@@ -36,7 +36,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.emf.ecore.EObject;
-import org.franca.core.franca.FEnumerationType;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeCollection;
 
@@ -56,12 +55,16 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
   private final String internalNamespace;
   private final FrancaDeploymentModel deploymentModel;
+  private final CppIncludeResolver includeResolver;
+  private final CppNameResolver nameResolver;
 
   public BaseApiGeneratorSuite(
       final Genium.Options options, final FrancaDeploymentModel deploymentModel) {
     super();
-    internalNamespace = options.getCppInternalNamespace();
+    this.internalNamespace = options.getCppInternalNamespace();
     this.deploymentModel = deploymentModel;
+    this.includeResolver = new CppIncludeResolver(deploymentModel);
+    this.nameResolver = new CppNameResolver(deploymentModel);
   }
 
   @Override
@@ -72,7 +75,6 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   @Override
   public List<GeneratedFile> generate(final List<FTypeCollection> typeCollections) {
 
-    CppIncludeResolver includeResolver = new CppIncludeResolver(deploymentModel);
     CppTypeMapper typeMapper =
         new CppTypeMapper(includeResolver, deploymentModel, internalNamespace);
 
@@ -80,18 +82,13 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
         new CppGenerator(BaseApiGeneratorSuite.GENERATOR_NAME, internalNamespace);
 
     Set<String> errorEnums =
-        typeCollections
-            .stream()
-            .flatMap(
-                francaTypeCollection -> collectErrorEnums(francaTypeCollection, deploymentModel))
-            .collect(Collectors.toSet());
+        typeCollections.stream().flatMap(this::collectErrorEnums).collect(Collectors.toSet());
 
     List<GeneratedFile> generatedFiles = new LinkedList<>();
     for (final FTypeCollection francaTypeCollection : typeCollections) {
 
       CppFile cppModel =
-          mapFrancaTypeCollectionToCppModel(
-              deploymentModel, typeMapper, francaTypeCollection, errorEnums);
+          mapFrancaTypeCollectionToCppModel(typeMapper, francaTypeCollection, errorEnums);
       String outputFilePathHeader = CppNameRules.INSTANCE.getOutputFilePath(francaTypeCollection);
       String outputFilePathImpl = CppNameRules.INSTANCE.getOutputFilePath(francaTypeCollection);
 
@@ -106,14 +103,14 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     return generatedFiles;
   }
 
-  private static CppFile mapFrancaTypeCollectionToCppModel(
-      final FrancaDeploymentModel deploymentModel,
+  private CppFile mapFrancaTypeCollectionToCppModel(
       final CppTypeMapper typeMapper,
       final FTypeCollection francaTypeCollection,
       final Set<String> allErrorEnums) {
 
     CppModelBuilder builder =
-        new CppModelBuilder(deploymentModel, typeMapper, new CppValueMapper(deploymentModel));
+        new CppModelBuilder(
+            deploymentModel, typeMapper, new CppValueMapper(deploymentModel), nameResolver);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walkTree(francaTypeCollection);
@@ -159,20 +156,11 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
         .collect(Collectors.toSet());
   }
 
-  private static Stream<String> collectErrorEnums(
-      final FTypeCollection francaTypeCollection, final FrancaDeploymentModel deploymentModel) {
+  private Stream<String> collectErrorEnums(final FTypeCollection francaTypeCollection) {
     Stream<EObject> allElementsStream = FrancaTypeHelper.getAllElements(francaTypeCollection);
     return CollectionsHelper.getStreamOfType(allElementsStream, FMethod.class)
         .map(FMethod::getErrorEnum)
         .filter(Objects::nonNull)
-        .map(francaEnum -> getEnumName(francaEnum, deploymentModel));
-  }
-
-  private static String getEnumName(
-      final FEnumerationType francaEnum, final FrancaDeploymentModel deploymentModel) {
-    String externalName = deploymentModel.getExternalName(francaEnum);
-    return externalName != null
-        ? externalName
-        : CppNameRules.INSTANCE.getFullyQualifiedName(francaEnum);
+        .map(nameResolver::getFullyQualifiedName);
   }
 }

@@ -32,10 +32,6 @@ public interface ModelBuilder {
 
   void startBuilding(FTypeCollection francaTypeCollection);
 
-  void startBuilding(FStructType francaType);
-
-  void startBuilding(FEnumerationType francaType);
-
   void startBuildingInputArgument(FArgument francaArgument);
 
   void startBuildingOutputArgument(FArgument francaArgument);
