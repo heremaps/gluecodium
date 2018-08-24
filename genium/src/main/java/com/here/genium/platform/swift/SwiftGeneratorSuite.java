@@ -46,15 +46,17 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
   public static final String GENERATOR_NAME = "swift";
 
   private final String internalNamespace;
+  private final FrancaDeploymentModel deploymentModel;
 
-  public SwiftGeneratorSuite(final Genium.Options options) {
+  public SwiftGeneratorSuite(
+      final Genium.Options options, final FrancaDeploymentModel deploymentModel) {
     super();
-    internalNamespace = options != null ? options.getCppInternalNamespace() : null;
+    this.internalNamespace = options != null ? options.getCppInternalNamespace() : null;
+    this.deploymentModel = deploymentModel;
   }
 
   @Override
-  public List<GeneratedFile> generate(
-      final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
+  public List<GeneratedFile> generate(final List<FTypeCollection> typeCollections) {
 
     SwiftGenerator swiftGenerator = new SwiftGenerator(deploymentModel);
     CBridgeGenerator cBridgeGenerator =
