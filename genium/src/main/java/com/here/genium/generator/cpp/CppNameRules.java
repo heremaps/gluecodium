@@ -61,14 +61,12 @@ public final class CppNameRules implements NameRules {
     return NameHelper.toUpperSnakeCase(base); // MY_CONSTANT
   }
 
-  @Override
-  public String getGetterName(final String base, final boolean isBoolean) {
-    return (isBoolean ? "is_" : "get_") + getFunctionName(base);
+  public static String getGetterPrefix(final boolean isBoolean) {
+    return isBoolean ? "is_" : "get_";
   }
 
-  @Override
-  public String getSetterName(final String base) {
-    return "set_" + getFunctionName(base);
+  public static String getSetterPrefix() {
+    return "set_";
   }
 
   public List<String> getNestedNameSpecifier(final FModelElement modelElement) {
