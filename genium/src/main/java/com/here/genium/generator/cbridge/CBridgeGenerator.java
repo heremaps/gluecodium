@@ -28,6 +28,7 @@ import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.generator.cpp.CppModelBuilder;
+import com.here.genium.generator.cpp.CppNameResolver;
 import com.here.genium.generator.cpp.CppTypeMapper;
 import com.here.genium.generator.cpp.CppValueMapper;
 import com.here.genium.generator.swift.SwiftModelBuilder;
@@ -47,6 +48,7 @@ public class CBridgeGenerator {
   private final FrancaDeploymentModel deploymentModel;
   private final CppIncludeResolver cppIncludeResolver;
   private final CBridgeIncludeResolver includeResolver;
+  private final CppNameResolver cppNameResolver;
   private final String internalNamespace;
 
   public final CArrayGenerator arrayGenerator = new CArrayGenerator();
@@ -68,10 +70,12 @@ public class CBridgeGenerator {
       final FrancaDeploymentModel deploymentModel,
       final CppIncludeResolver cppIncludeResolver,
       final CBridgeIncludeResolver includeResolver,
+      final CppNameResolver cppNameResolver,
       final String internalNamespace) {
     this.deploymentModel = deploymentModel;
     this.cppIncludeResolver = cppIncludeResolver;
     this.includeResolver = includeResolver;
+    this.cppNameResolver = cppNameResolver;
     this.internalNamespace = internalNamespace;
   }
 
@@ -102,7 +106,8 @@ public class CBridgeGenerator {
     CppTypeMapper cppTypeMapper =
         new CppTypeMapper(cppIncludeResolver, deploymentModel, internalNamespace);
     CppValueMapper valueMapper = new CppValueMapper(deploymentModel);
-    CppModelBuilder cppBuilder = new CppModelBuilder(deploymentModel, cppTypeMapper, valueMapper);
+    CppModelBuilder cppBuilder =
+        new CppModelBuilder(deploymentModel, cppTypeMapper, valueMapper, cppNameResolver);
     SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(deploymentModel);
     CTypeMapper cTypeMapper =
         new CTypeMapper(

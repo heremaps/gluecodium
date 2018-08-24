@@ -27,11 +27,9 @@ import com.here.genium.common.CollectionsHelper;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
-import com.here.genium.model.franca.DefinedBy;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.test.ArrayEList;
 import com.here.genium.test.MockContextStack;
-import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -44,21 +42,19 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({InstanceRules.class, DefinedBy.class})
+@PrepareForTest(InstanceRules.class)
 public final class CppModelBuilderTest {
 
-  private static final String STRUCT_NAME = "structural";
-  private static final String FIELD_NAME = "many_Flowers";
-  private static final String CONSTANT_NAME = "permanent";
-  private static final String ENUM_NAME = "innumerable";
-  private static final String METHOD_NAME = "methodical";
-  private static final String ATTRIBUTE_NAME = "tribute";
+  private static final String DUMMY_NAME = "Foo";
+  private static final String NONSENSE_NAME = "nonsense";
+  private static final String DUMMY_FQN = "::bar::Baz";
 
   private final MockContextStack<CppElement> contextStack = new MockContextStack<>();
 
   @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private CppTypeMapper typeMapper;
   @Mock private CppValueMapper valueMapper;
+  @Mock private CppNameResolver nameResolver;
 
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
@@ -81,63 +77,45 @@ public final class CppModelBuilderTest {
   private CppModelBuilder modelBuilder;
 
   private final CppComplexTypeRef cppComplexTypeRef =
-      new CppComplexTypeRef.Builder("typically").build();
+      new CppComplexTypeRef.Builder(NONSENSE_NAME).build();
 
-  private final CppMethod cppMethod = new CppMethod.Builder("classical").build();
-  private final CppValue cppValue = new CppValue("valuable");
-  private final CppEnum cppEnum = CppEnum.builder(ENUM_NAME).fullyQualifiedName(ENUM_NAME).build();
-  private final CppStruct cppStruct = new CppStruct(STRUCT_NAME);
+  private final CppMethod cppMethod = new CppMethod.Builder(NONSENSE_NAME).build();
+  private final CppValue cppValue = new CppValue(NONSENSE_NAME);
+  private final CppEnum cppEnum =
+      CppEnum.builder(NONSENSE_NAME).fullyQualifiedName(NONSENSE_NAME).build();
+  private final CppStruct cppStruct = new CppStruct(NONSENSE_NAME);
   private final CppTypeRef cppTypeRef = CppPrimitiveTypeRef.INT64;
   private final CppTypeDefRef cppTypeDefRef =
-      new CppTypeDefRef("useful", cppTypeRef, Include.createInternalInclude("foo"));
-  private final CppUsing cppUsing = CppUsing.builder("useful", cppTypeDefRef).build();
-  private final CppConstant cppConstant = new CppConstant(CONSTANT_NAME, cppTypeRef, cppValue);
+      new CppTypeDefRef(NONSENSE_NAME, cppTypeRef, Include.createInternalInclude(NONSENSE_NAME));
+  private final CppUsing cppUsing = CppUsing.builder(NONSENSE_NAME, cppTypeDefRef).build();
+  private final CppConstant cppConstant = new CppConstant(NONSENSE_NAME, cppTypeRef, cppValue);
 
   @Before
   public void setUp() {
-    PowerMockito.mockStatic(InstanceRules.class, DefinedBy.class);
-
+    PowerMockito.mockStatic(InstanceRules.class);
     MockitoAnnotations.initMocks(this);
 
-    modelBuilder = new CppModelBuilder(contextStack, deploymentModel, typeMapper, valueMapper);
+    modelBuilder =
+        new CppModelBuilder(contextStack, deploymentModel, typeMapper, valueMapper, nameResolver);
 
-    when(francaInterface.getName()).thenReturn("classy");
-    when(francaArgument.getName()).thenReturn("flowers");
-    when(francaStructType.getName()).thenReturn(STRUCT_NAME);
-    when(francaTypeDef.getName()).thenReturn("definitely");
-    when(francaArrayType.getName()).thenReturn("relay");
-    when(francaMapType.getName()).thenReturn("tigers");
-    when(francaField.getName()).thenReturn(FIELD_NAME);
-    when(francaConstant.getName()).thenReturn(CONSTANT_NAME);
-    when(francaEnumerationType.getName()).thenReturn(ENUM_NAME);
-    when(francaEnumerator.getName()).thenReturn("enumerated");
-    when(francaMethod.getName()).thenReturn(METHOD_NAME);
-    when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
+    when(nameResolver.getName(any())).thenReturn(DUMMY_NAME);
+    when(nameResolver.getFullyQualifiedName(any())).thenReturn(DUMMY_FQN);
 
     when(francaMethod.getInArgs()).thenReturn(new ArrayEList<>());
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef);
     when(francaMapType.getKeyType()).thenReturn(francaTypeRef);
     when(francaMapType.getValueType()).thenReturn(francaAnotherTypeRef);
     when(francaConstant.getRhs()).thenReturn(francaInitializerExpression);
-
-    when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
-        .thenReturn(francaTypeCollection);
-    when(DefinedBy.getPackages(any())).thenReturn(Collections.singletonList("nonsense"));
-
-    contextStack.getCurrentContext().nameRules = CppNameRules.INSTANCE;
   }
 
   @Test
   public void finishBuildingFrancaInterfaceReadsName() {
-    when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
-        .thenReturn(francaInterface);
-
     modelBuilder.finishBuilding(francaInterface);
 
     CppClass resultClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(resultClass);
-    assertEquals("Classy", resultClass.name);
-    assertEquals("::nonsense::Classy", resultClass.fullyQualifiedName);
+    assertEquals(DUMMY_NAME, resultClass.name);
+    assertEquals(DUMMY_FQN, resultClass.fullyQualifiedName);
   }
 
   @Test
@@ -221,25 +199,12 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodReadsNames() {
-    when(DefinedBy.getPackages(any())).thenReturn(Collections.singletonList("nonsense"));
-
     modelBuilder.finishBuilding(francaMethod);
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
-    assertEquals(METHOD_NAME, resultMethod.name);
-    assertEquals("::nonsense::" + METHOD_NAME, resultMethod.fullyQualifiedName);
-  }
-
-  @Test
-  public void finishBuildingFrancaMethodOmitsSelector() {
-    when(francaMethod.getSelector()).thenReturn("selective");
-
-    modelBuilder.finishBuilding(francaMethod);
-
-    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
-    assertNotNull(resultMethod);
-    assertEquals(METHOD_NAME, resultMethod.name);
+    assertEquals(DUMMY_NAME, resultMethod.name);
+    assertEquals(DUMMY_FQN, resultMethod.fullyQualifiedName);
   }
 
   @Test
@@ -255,7 +220,7 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodReadsInputParameters() {
-    CppParameter cppParameter = new CppParameter("flowers", null);
+    CppParameter cppParameter = new CppParameter(NONSENSE_NAME, null);
     contextStack.injectResult(cppParameter);
 
     modelBuilder.finishBuilding(francaMethod);
@@ -270,7 +235,7 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodReadsOutputParameters() {
-    contextStack.injectResult(new CppParameter("flowers", cppComplexTypeRef, true));
+    contextStack.injectResult(new CppParameter(NONSENSE_NAME, cppComplexTypeRef, true));
 
     modelBuilder.finishBuilding(francaMethod);
 
@@ -296,7 +261,7 @@ public final class CppModelBuilderTest {
 
     CppParameter cppParameter = modelBuilder.getFinalResult(CppParameter.class);
     assertNotNull(cppParameter);
-    assertEquals("flowers", cppParameter.name);
+    assertEquals(DUMMY_NAME, cppParameter.name);
   }
 
   @Test
@@ -316,7 +281,7 @@ public final class CppModelBuilderTest {
 
     CppParameter cppParameter = modelBuilder.getFinalResult(CppParameter.class);
     assertNotNull(cppParameter);
-    assertEquals("flowers", cppParameter.name);
+    assertEquals(DUMMY_NAME, cppParameter.name);
     assertTrue(cppParameter.isOutput);
   }
 
@@ -380,7 +345,7 @@ public final class CppModelBuilderTest {
 
     CppConstant result = modelBuilder.getFinalResult(CppConstant.class);
     assertNotNull(result);
-    assertEquals("::nonsense::" + CONSTANT_NAME, result.fullyQualifiedName.toLowerCase());
+    assertEquals(DUMMY_FQN, result.fullyQualifiedName);
     assertEquals(cppValue, result.value);
   }
 
@@ -401,18 +366,7 @@ public final class CppModelBuilderTest {
 
     CppField cppField = modelBuilder.getFinalResult(CppField.class);
     assertNotNull(cppField);
-    assertEquals("many_flowers", cppField.name);
-  }
-
-  @Test
-  public void finishBuildingFrancaFieldInExternalStructPreservesName() {
-    when(deploymentModel.isExternalType(any())).thenReturn(true);
-
-    modelBuilder.finishBuilding(francaField);
-
-    CppField cppField = modelBuilder.getFinalResult(CppField.class);
-    assertNotNull(cppField);
-    assertEquals("many_Flowers", cppField.name);
+    assertEquals(DUMMY_NAME, cppField.name);
   }
 
   @Test
@@ -428,7 +382,7 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsDefaultValue() {
-    when(deploymentModel.getDefaultValue(any())).thenReturn("SomeDefault");
+    when(deploymentModel.getDefaultValue(any())).thenReturn(NONSENSE_NAME);
     when(valueMapper.mapDeploymentDefaultValue(any(), any())).thenReturn(cppValue);
     contextStack.injectResult(cppComplexTypeRef);
 
@@ -445,15 +399,13 @@ public final class CppModelBuilderTest {
 
     CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
     assertNotNull(resultStruct);
-    assertEquals("Structural", resultStruct.name);
-    assertEquals("::nonsense::Structural", resultStruct.fullyQualifiedName);
-
-    verify(francaStructType, atLeastOnce()).getName();
+    assertEquals(DUMMY_NAME, resultStruct.name);
+    assertEquals(DUMMY_FQN, resultStruct.fullyQualifiedName);
   }
 
   @Test
   public void finishBuildingFrancaStructTypeReadsFields() {
-    final CppField cppField = new CppField(FIELD_NAME, cppComplexTypeRef);
+    final CppField cppField = new CppField(NONSENSE_NAME, cppComplexTypeRef);
     contextStack.injectResult(cppField);
 
     modelBuilder.finishBuilding(francaStructType);
@@ -502,18 +454,6 @@ public final class CppModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaStructTypeReadsExternalName() {
-    when(deploymentModel.isExternalType(any())).thenReturn(true);
-    when(deploymentModel.getExternalName(any())).thenReturn("::very::External");
-
-    modelBuilder.finishBuilding(francaStructType);
-
-    CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
-    assertEquals("::very::External", resultStruct.name);
-    assertEquals("::very::External", resultStruct.fullyQualifiedName);
-  }
-
-  @Test
   public void finishBuildingFrancaStructTypeReadsEquatable() {
     when(deploymentModel.isEquatable(any())).thenReturn(true);
 
@@ -544,8 +484,8 @@ public final class CppModelBuilderTest {
 
     CppUsing resultUsing = modelBuilder.getFinalResult(CppUsing.class);
     assertNotNull(resultUsing);
-    assertEquals("definitely", resultUsing.name.toLowerCase());
-    assertEquals("::nonsense::Definitely", resultUsing.fullyQualifiedName);
+    assertEquals(DUMMY_NAME, resultUsing.name);
+    assertEquals(DUMMY_FQN, resultUsing.fullyQualifiedName);
     assertEquals(cppComplexTypeRef, resultUsing.definition);
 
     PowerMockito.verifyStatic(atLeastOnce());
@@ -560,8 +500,8 @@ public final class CppModelBuilderTest {
 
     CppUsing resultUsing = modelBuilder.getFinalResult(CppUsing.class);
     assertNotNull(resultUsing);
-    assertEquals("relay", resultUsing.name.toLowerCase());
-    assertEquals("::nonsense::Relay", resultUsing.fullyQualifiedName);
+    assertEquals(DUMMY_NAME, resultUsing.name);
+    assertEquals(DUMMY_FQN, resultUsing.fullyQualifiedName);
     assertTrue(resultUsing.definition instanceof CppTemplateTypeRef);
 
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) resultUsing.definition;
@@ -582,8 +522,8 @@ public final class CppModelBuilderTest {
 
     CppUsing resultUsing = modelBuilder.getFinalResult(CppUsing.class);
     assertNotNull(resultUsing);
-    assertEquals("tigers", resultUsing.name.toLowerCase());
-    assertEquals("::nonsense::Tigers", resultUsing.fullyQualifiedName);
+    assertEquals(DUMMY_NAME, resultUsing.name);
+    assertEquals(DUMMY_FQN, resultUsing.fullyQualifiedName);
     assertEquals(mapTypeRef, resultUsing.definition);
     verify(typeMapper).wrapMap(cppPrimitiveTypeRef, cppComplexTypeRef);
   }
@@ -625,12 +565,12 @@ public final class CppModelBuilderTest {
 
     CppEnum resultEnum = modelBuilder.getFinalResult(CppEnum.class);
     assertNotNull(resultEnum);
-    assertEquals("Innumerable", resultEnum.name);
+    assertEquals(DUMMY_NAME, resultEnum.name);
   }
 
   @Test
   public void finishBuildingFrancaEnumerationTypeReadsEnumItems() {
-    CppEnumItem cppEnumItem = new CppEnumItem("enumerated");
+    CppEnumItem cppEnumItem = new CppEnumItem(NONSENSE_NAME);
     contextStack.injectResult(cppEnumItem);
 
     modelBuilder.finishBuilding(francaEnumerationType);
@@ -664,35 +604,12 @@ public final class CppModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaEnumerationTypeReadsExternalName() {
-    when(deploymentModel.isExternalType(any())).thenReturn(true);
-    when(deploymentModel.getExternalName(any())).thenReturn("::very::External");
-
-    modelBuilder.finishBuilding(francaEnumerationType);
-
-    CppEnum resultEnum = modelBuilder.getFinalResult(CppEnum.class);
-    assertEquals("::very::External", resultEnum.name);
-    assertEquals("::very::External", resultEnum.fullyQualifiedName);
-  }
-
-  @Test
   public void finishBuildingFrancaEnumerator() {
     modelBuilder.finishBuilding(francaEnumerator);
 
     CppEnumItem cppEnumItem = modelBuilder.getFinalResult(CppEnumItem.class);
     assertNotNull(cppEnumItem);
-    assertEquals("ENUMERATED", cppEnumItem.name);
-  }
-
-  @Test
-  public void finishBuildingFrancaEnumeratorExternalEnum() {
-    when(deploymentModel.isExternalType(any())).thenReturn(true);
-
-    modelBuilder.finishBuilding(francaEnumerator);
-
-    CppEnumItem cppEnumItem = modelBuilder.getFinalResult(CppEnumItem.class);
-    assertNotNull(cppEnumItem);
-    assertEquals("enumerated", cppEnumItem.name);
+    assertEquals(DUMMY_NAME, cppEnumItem.name);
   }
 
   @Test
@@ -713,7 +630,7 @@ public final class CppModelBuilderTest {
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
-    assertEquals("get_" + ATTRIBUTE_NAME, resultMethod.name.toLowerCase());
+    assertEquals("get_" + DUMMY_NAME, resultMethod.name);
     assertTrue(resultMethod.qualifiers.contains(CppMethod.Qualifier.CONST));
   }
 
@@ -726,7 +643,7 @@ public final class CppModelBuilderTest {
     List<CppMethod> methods =
         CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CppMethod.class);
     assertEquals(2, methods.size());
-    assertEquals("set_" + ATTRIBUTE_NAME, methods.get(1).name.toLowerCase());
+    assertEquals("set_" + DUMMY_NAME, methods.get(1).name);
   }
 
   @Test
@@ -740,7 +657,7 @@ public final class CppModelBuilderTest {
     List<CppMethod> methods =
         CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CppMethod.class);
     assertEquals(1, methods.size());
-    assertEquals("get_" + ATTRIBUTE_NAME, methods.get(0).name.toLowerCase());
+    assertEquals("get_" + DUMMY_NAME, methods.get(0).name);
   }
 
   @Test
@@ -779,6 +696,6 @@ public final class CppModelBuilderTest {
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
-    assertEquals("is_" + ATTRIBUTE_NAME, resultMethod.name.toLowerCase());
+    assertEquals("is_" + DUMMY_NAME, resultMethod.name);
   }
 }

@@ -52,6 +52,7 @@ public class CppModelBuilderCommentsTest {
   @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private CppTypeMapper typeMapper;
   @Mock private CppValueMapper valueMapper;
+  @Mock private CppNameResolver nameResolver;
 
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
@@ -76,11 +77,10 @@ public class CppModelBuilderCommentsTest {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(CommentHelper.class, DefinedBy.class, InstanceRules.class);
 
-    modelBuilder = new CppModelBuilder(contextStack, deploymentModel, typeMapper, valueMapper);
+    modelBuilder =
+        new CppModelBuilder(contextStack, deploymentModel, typeMapper, valueMapper, nameResolver);
 
     when(CommentHelper.getDescription(any())).thenReturn(COMMENT);
-
-    contextStack.getCurrentContext().nameRules = CppNameRules.INSTANCE;
   }
 
   @Test

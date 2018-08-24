@@ -44,14 +44,4 @@ public final class VerbatimNameRules implements NameRules {
   public String getConstantName(final String base) {
     return base;
   }
-
-  @Override
-  public String getGetterName(final String base, final boolean isBoolean) {
-    return base;
-  }
-
-  @Override
-  public String getSetterName(final String base) {
-    return base;
-  }
 }
