@@ -29,8 +29,6 @@ import com.here.genium.model.common.Include;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
 import com.here.genium.model.franca.DefinedBy;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import java.util.Collections;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Rule;
@@ -48,9 +46,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({InstanceRules.class, DefinedBy.class})
 public class CppTypeMapperComplexTest {
 
-  private static final String STRUCT_NAME = "MyStruct";
-  private static final String ENUM_NAME = "MyEnumeration";
-  private static final String TYPEDEF_NAME = "MyTypeDef";
   private static final String DUMMY_NAME = "Nonsense";
 
   @Rule public ExpectedException exception = ExpectedException.none();
@@ -71,7 +66,7 @@ public class CppTypeMapperComplexTest {
   @Mock private FTypeCollection francaTypeCollection;
 
   @Mock private CppIncludeResolver includeResolver;
-  @Mock private FrancaDeploymentModel deploymentModel;
+  @Mock private CppNameResolver nameResolver;
 
   private final Include internalInclude = Include.createInternalInclude("nonsense");
 
@@ -82,7 +77,7 @@ public class CppTypeMapperComplexTest {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(InstanceRules.class, DefinedBy.class);
 
-    typeMapper = new CppTypeMapper(includeResolver, deploymentModel, "lorem_ipsum");
+    typeMapper = new CppTypeMapper(includeResolver, nameResolver, "lorem_ipsum");
 
     when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
         .thenReturn(francaTypeCollection);
@@ -122,11 +117,10 @@ public class CppTypeMapperComplexTest {
   }
 
   @Test
-  public void mapNonEmptyStruct() {
+  public void mapStruct() {
     // mock franca related stuff
     when(francaTypeRef.getDerived()).thenReturn(structType);
-    when(structType.getName()).thenReturn(STRUCT_NAME);
-    when(structType.getElements().isEmpty()).thenReturn(false);
+    when(nameResolver.getFullyQualifiedName(any())).thenReturn("MyStruct");
 
     // act
     CppTypeRef result = typeMapper.map(francaTypeRef);
@@ -134,48 +128,25 @@ public class CppTypeMapperComplexTest {
     // assert
     assertTrue(result instanceof CppComplexTypeRef);
     CppComplexTypeRef complexResult = (CppComplexTypeRef) result;
-    assertEquals("::" + STRUCT_NAME, complexResult.name);
+    assertEquals("MyStruct", complexResult.name);
     assertEquals(1, complexResult.includes.size());
     assertTrue(complexResult.includes.contains(internalInclude));
   }
 
   @Test
-  public void mapStructWithExternalName() {
-    when(francaTypeRef.getDerived()).thenReturn(structType);
-    when(deploymentModel.isExternalType(any())).thenReturn(true);
-    when(deploymentModel.getExternalName(any())).thenReturn("::very::External");
-
-    CppTypeRef result = typeMapper.map(francaTypeRef);
-
-    assertEquals("::very::External", result.name);
-  }
-
-  @Test
-  public void mapNonEmptyEnum() {
+  public void mapEnum() {
     // mock type reference
     when(francaTypeRef.getDerived()).thenReturn(enumType);
-    when(enumType.getName()).thenReturn(ENUM_NAME);
-    when(enumType.getEnumerators().isEmpty()).thenReturn(false);
+    when(nameResolver.getFullyQualifiedName(any())).thenReturn("MyEnumeration");
 
     CppTypeRef result = typeMapper.map(francaTypeRef);
 
     // assert
     assertTrue(result instanceof CppComplexTypeRef);
     CppComplexTypeRef complexResult = (CppComplexTypeRef) result;
-    assertEquals("::" + ENUM_NAME, complexResult.name);
+    assertEquals("MyEnumeration", complexResult.name);
     assertEquals(1, complexResult.includes.size());
     assertTrue(complexResult.includes.contains(internalInclude));
-  }
-
-  @Test
-  public void mapEnumWithExternalName() {
-    when(francaTypeRef.getDerived()).thenReturn(enumType);
-    when(deploymentModel.isExternalType(any())).thenReturn(true);
-    when(deploymentModel.getExternalName(any())).thenReturn("::very::External");
-
-    CppTypeRef result = typeMapper.map(francaTypeRef);
-
-    assertEquals("::very::External", result.name);
   }
 
   @Test
@@ -183,8 +154,8 @@ public class CppTypeMapperComplexTest {
     // Arrange
     FTypeRef fTypeRefDouble = mockPredefinedType(FBasicTypeId.DOUBLE);
     when(francaArrayType.getElementType()).thenReturn(fTypeRefDouble);
-    when(francaArrayType.getName()).thenReturn(DUMMY_NAME);
     when(francaTypeRef.getDerived()).thenReturn(francaArrayType);
+    when(nameResolver.getFullyQualifiedName(any())).thenReturn(DUMMY_NAME);
 
     // Act
     CppTypeRef result = typeMapper.map(francaTypeRef);
@@ -193,7 +164,7 @@ public class CppTypeMapperComplexTest {
     assertTrue(result instanceof CppTypeDefRef);
 
     CppTypeDefRef cppTypeDefRef = (CppTypeDefRef) result;
-    assertEquals("::" + DUMMY_NAME, cppTypeDefRef.name);
+    assertEquals(DUMMY_NAME, cppTypeDefRef.name);
     assertTrue(cppTypeDefRef.actualType instanceof CppTemplateTypeRef);
 
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) cppTypeDefRef.actualType;
@@ -209,8 +180,8 @@ public class CppTypeMapperComplexTest {
     FTypeRef francaStringTypeRef = mockPredefinedType(FBasicTypeId.STRING);
     when(francaMapType.getKeyType()).thenReturn(francaIntTypeRef);
     when(francaMapType.getValueType()).thenReturn(francaStringTypeRef);
-    when(francaMapType.getName()).thenReturn(DUMMY_NAME);
     when(francaTypeRef.getDerived()).thenReturn(francaMapType);
+    when(nameResolver.getFullyQualifiedName(any())).thenReturn(DUMMY_NAME);
 
     // Act
     CppTypeRef result = typeMapper.map(francaTypeRef);
@@ -219,7 +190,7 @@ public class CppTypeMapperComplexTest {
     assertTrue(result instanceof CppTypeDefRef);
 
     CppTypeDefRef cppTypeDefRef = (CppTypeDefRef) result;
-    assertEquals("::" + DUMMY_NAME, cppTypeDefRef.name);
+    assertEquals(DUMMY_NAME, cppTypeDefRef.name);
     assertTrue(cppTypeDefRef.actualType instanceof CppTemplateTypeRef);
 
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) cppTypeDefRef.actualType;
@@ -234,9 +205,9 @@ public class CppTypeMapperComplexTest {
     // Arrange
     FTypeDef fTypeDef = mock(FTypeDef.class);
     FTypeRef fActualType = mockPredefinedType(FBasicTypeId.INT64);
-    when(fTypeDef.getName()).thenReturn(TYPEDEF_NAME);
     when(fTypeDef.getActualType()).thenReturn(fActualType);
     when(francaTypeRef.getDerived()).thenReturn(fTypeDef);
+    when(nameResolver.getFullyQualifiedName(any())).thenReturn(DUMMY_NAME);
 
     // Act
     CppTypeRef cppTypeRef = typeMapper.map(francaTypeRef);
@@ -245,7 +216,7 @@ public class CppTypeMapperComplexTest {
     assertTrue(cppTypeRef instanceof CppTypeDefRef);
     CppTypeDefRef cppTypeDefRef = (CppTypeDefRef) cppTypeRef;
 
-    assertEquals("::" + TYPEDEF_NAME, cppTypeDefRef.name);
+    assertEquals(DUMMY_NAME, cppTypeDefRef.name);
     assertEquals(CppPrimitiveTypeRef.INT64, cppTypeDefRef.actualType);
     assertEquals(1, cppTypeDefRef.includes.size());
     assertTrue(cppTypeDefRef.includes.contains(internalInclude));
@@ -257,7 +228,7 @@ public class CppTypeMapperComplexTest {
     FTypeDef fTypeDef = mock(FTypeDef.class);
     when(francaTypeRef.getDerived()).thenReturn(fTypeDef);
     when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(true);
-    when(DefinedBy.getPackages(any())).thenReturn(Collections.singletonList("MyClazz"));
+    when(nameResolver.getFullyQualifiedName(any())).thenReturn(DUMMY_NAME);
 
     // Act
     CppTypeRef cppTypeRef = typeMapper.map(francaTypeRef);
@@ -265,7 +236,7 @@ public class CppTypeMapperComplexTest {
     // Assert
     assertTrue(cppTypeRef instanceof CppTemplateTypeRef);
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) cppTypeRef;
-    assertEquals("::std::shared_ptr< ::MyClazz >", cppTemplateTypeRef.name);
+    assertEquals("::std::shared_ptr< Nonsense >", cppTemplateTypeRef.name);
     assertEquals(1, cppTemplateTypeRef.templateParameters.size());
     assertTrue(cppTemplateTypeRef.templateParameters.get(0) instanceof CppComplexTypeRef);
 

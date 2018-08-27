@@ -21,12 +21,8 @@ package com.here.genium.generator.cpp;
 
 import com.here.genium.generator.common.NameHelper;
 import com.here.genium.generator.common.NameRules;
-import com.here.genium.generator.common.VerbatimNameRules;
-import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.franca.DefinedBy;
-import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.*;
 
@@ -69,61 +65,11 @@ public final class CppNameRules implements NameRules {
     return "set_";
   }
 
-  public List<String> getNestedNameSpecifier(final FModelElement modelElement) {
-
-    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
-    List<String> result = new LinkedList<>(DefinedBy.getPackages(typeCollection));
-
-    if (typeCollection instanceof FInterface) {
-      result.add(getTypeName(typeCollection.getName()));
-    }
-    if (modelElement instanceof FEnumerator) {
-      result.add(getTypeName(((FEnumerationType) modelElement.eContainer()).getName()));
-    }
-
-    return result;
-  }
-
-  public static String getFullyQualifiedName(List<String> nestedNameSpecifier, String name) {
+  public static String joinFullyQualifiedName(
+      final List<String> nestedNameSpecifier, final String name) {
     return nestedNameSpecifier.isEmpty()
         ? "::" + name
         : "::" + String.join("::", nestedNameSpecifier) + (name.isEmpty() ? "" : "::" + name);
-  }
-
-  public String getFullyQualifiedName(final FModelElement francaElement) {
-    List<String> nestedNameSpecifier = getNestedNameSpecifier(francaElement);
-    String typeName = "";
-
-    if (francaElement instanceof FCompoundType) {
-      typeName = getTypeName(francaElement.getName());
-    } else if (francaElement instanceof FEnumerationType) {
-      typeName = getTypeName(francaElement.getName());
-    } else if (francaElement instanceof FTypeDef) {
-      FTypeDef typedef = (FTypeDef) francaElement;
-      if (!InstanceRules.isInstanceId(typedef)) {
-        typeName = getTypeName(francaElement.getName());
-      }
-    } else if (francaElement instanceof FConstantDef) {
-      typeName = getConstantName(francaElement.getName());
-    } else if (francaElement instanceof FArrayType || francaElement instanceof FMapType) {
-      // Franca maps and explicit arrays resolve into a "using" directive in C++
-      typeName = getTypeName(francaElement.getName());
-    }
-
-    return getFullyQualifiedName(nestedNameSpecifier, typeName);
-  }
-
-  public String getFullyQualifiedName(
-      final FModelElement francaElement, boolean isExternal, final String externalName) {
-
-    if (!isExternal) {
-      return getFullyQualifiedName(francaElement);
-    } else if (externalName == null) {
-      List<String> nestedNameSpecifier = getNestedNameSpecifier(francaElement);
-      return getFullyQualifiedName(nestedNameSpecifier, francaElement.getName());
-    } else {
-      return externalName;
-    }
   }
 
   public String getHeaderPath(final FTypeCollection francaTypeCollection) {
@@ -136,12 +82,5 @@ public final class CppNameRules implements NameRules {
         + (francaTypeCollection instanceof FInterface
             ? getTypeName(francaTypeCollection.getName())
             : francaTypeCollection.getName());
-  }
-
-  public static NameRules selectNameRules(
-      final FrancaDeploymentModel deploymentModel, final FModelElement francaModelElement) {
-    return deploymentModel.isExternalType(francaModelElement)
-        ? VerbatimNameRules.INSTANCE
-        : CppNameRules.INSTANCE;
   }
 }

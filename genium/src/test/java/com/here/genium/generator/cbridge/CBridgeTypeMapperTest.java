@@ -31,11 +31,11 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.cpp.CppLibraryIncludes;
+import com.here.genium.generator.cpp.CppNameResolver;
 import com.here.genium.model.cbridge.CBridgeIncludeResolver;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.cpp.CppIncludeResolver;
 import com.here.genium.model.franca.DefinedBy;
-import com.here.genium.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,7 +59,7 @@ public final class CBridgeTypeMapperTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FMapType francaMap;
 
-  @Mock private FrancaDeploymentModel deploymentModel;
+  @Mock private CppNameResolver cppNameResolver;
 
   private CTypeMapper typeMapper;
 
@@ -70,8 +70,8 @@ public final class CBridgeTypeMapperTest {
     typeMapper =
         new CTypeMapper(
             mock(CppIncludeResolver.class),
+            cppNameResolver,
             mock(CBridgeIncludeResolver.class),
-            deploymentModel,
             "::FooHash",
             null);
 
@@ -86,10 +86,11 @@ public final class CBridgeTypeMapperTest {
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef2);
     when(francaTypeRef2.getDerived()).thenReturn(francaStructType);
+    when(cppNameResolver.getFullyQualifiedName(any())).thenReturn("::Foo");
 
     CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
 
-    assertEquals("::SomeStruct", mapped.name);
+    assertEquals("::Foo", mapped.name);
   }
 
   @Test
@@ -106,31 +107,11 @@ public final class CBridgeTypeMapperTest {
   @Test
   public void mapStructType() {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
+    when(cppNameResolver.getFullyQualifiedName(any())).thenReturn("::Foo");
 
     CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
 
-    assertEquals("::SomeStruct", mapped.name);
-  }
-
-  @Test
-  public void mapStructTypeWithExternalType() {
-    when(francaTypeRef.getDerived()).thenReturn(francaStructType);
-    when(deploymentModel.isExternalType(any())).thenReturn(true);
-
-    CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
-
-    assertEquals("::someStruct", mapped.name);
-  }
-
-  @Test
-  public void mapStructTypeWithExternalName() {
-    when(francaTypeRef.getDerived()).thenReturn(francaStructType);
-    when(deploymentModel.isExternalType(any())).thenReturn(true);
-    when(deploymentModel.getExternalName(any())).thenReturn("::bar::Baz");
-
-    CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
-
-    assertEquals("::bar::Baz", mapped.name);
+    assertEquals("::Foo", mapped.name);
   }
 
   @Test
@@ -143,22 +124,12 @@ public final class CBridgeTypeMapperTest {
 
   @Test
   public void mapEnumerationType() {
-    when(francaEnum.getName()).thenReturn("foo");
     when(francaTypeRef.getDerived()).thenReturn(francaEnum);
+    when(cppNameResolver.getFullyQualifiedName(any())).thenReturn("::Foo");
 
     CppTypeInfo actualType = typeMapper.mapType(francaTypeRef);
 
     assertEquals("::Foo", actualType.name);
-  }
-
-  @Test
-  public void mapEnumerationTypeWithExternalName() {
-    when(francaTypeRef.getDerived()).thenReturn(francaEnum);
-    when(deploymentModel.getExternalName(any())).thenReturn("::bar::Baz");
-
-    CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
-
-    assertEquals("::bar::Baz", mapped.name);
   }
 
   @Test
@@ -182,7 +153,8 @@ public final class CBridgeTypeMapperTest {
     when(francaMap.getKeyType().getDerived()).thenReturn(null);
     when(francaMap.getKeyType().getPredefined()).thenReturn(FBasicTypeId.STRING);
     when(francaMap.getValueType().getDerived()).thenReturn(francaStructType);
-    when(francaMap.getName()).thenReturn("FooMap");
+    when(cppNameResolver.getFullyQualifiedName(francaStructType)).thenReturn("::Foo");
+    when(cppNameResolver.getFullyQualifiedName(francaMap)).thenReturn("::FooMap");
 
     CppTypeInfo result = typeMapper.mapType(francaTypeRef);
 
@@ -193,7 +165,7 @@ public final class CBridgeTypeMapperTest {
     assertEquals("::FooMap", resultMapType.name);
     assertEquals(BASE_REF_NAME, resultMapType.cType.name);
     assertEquals(BASE_REF_NAME, resultMapType.functionReturnType.name);
-    assertEquals("std::unordered_map<std::string, ::SomeStruct>", resultMapType.baseApi);
+    assertEquals("std::unordered_map<std::string, ::Foo>", resultMapType.baseApi);
     assertEquals(2, resultMapType.includes.size());
     assertEquals(BASE_HANDLE_IMPL_FILE, resultMapType.includes.get(0).fileName);
     assertEquals(CppLibraryIncludes.MAP, resultMapType.includes.get(1));
@@ -204,7 +176,8 @@ public final class CBridgeTypeMapperTest {
     when(francaTypeRef.getDerived()).thenReturn(francaMap);
     when(francaMap.getKeyType().getDerived()).thenReturn(francaEnum);
     when(francaMap.getValueType().getDerived()).thenReturn(francaStructType);
-    when(francaEnum.getName()).thenReturn("BarEnum");
+    when(cppNameResolver.getFullyQualifiedName(francaEnum)).thenReturn("::Foo");
+    when(cppNameResolver.getFullyQualifiedName(francaStructType)).thenReturn("::Bar");
 
     CppTypeInfo result = typeMapper.mapType(francaTypeRef);
 
@@ -212,7 +185,7 @@ public final class CBridgeTypeMapperTest {
     assertTrue(result instanceof CppMapTypeInfo);
 
     CppMapTypeInfo resultMapType = (CppMapTypeInfo) result;
-    assertEquals("std::unordered_map<::BarEnum, ::SomeStruct, ::FooHash>", resultMapType.baseApi);
+    assertEquals("std::unordered_map<::Foo, ::Bar, ::FooHash>", resultMapType.baseApi);
     assertEquals(3, resultMapType.includes.size());
     assertEquals(CppLibraryIncludes.ENUM_HASH, resultMapType.includes.get(2));
   }

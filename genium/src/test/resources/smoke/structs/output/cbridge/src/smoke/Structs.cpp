@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 void smoke_Structs_release(_baseRef handle) {
-    delete get_pointer<std::shared_ptr<smoke::Structs>>(handle);
+    delete get_pointer<std::shared_ptr<::smoke::Structs>>(handle);
 }
 _baseRef smoke_Structs_Point_create() {
     return reinterpret_cast<_baseRef>( new ::smoke::Structs::Point() );

@@ -22,7 +22,6 @@ package com.here.genium.generator.cpp;
 import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
-import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.Collections;
 import org.franca.core.franca.*;
 
@@ -47,21 +46,21 @@ public class CppTypeMapper {
   private static final String ENUM_HASH_CLASS_NAME = "EnumHash";
 
   private final CppIncludeResolver includeResolver;
-  private final FrancaDeploymentModel deploymentModel;
+  private final CppNameResolver nameResolver;
   private final String internalNamespace;
 
   public CppTypeMapper(
       final CppIncludeResolver includeResolver,
-      final FrancaDeploymentModel deploymentModel,
+      final CppNameResolver nameResolver,
       final String internalNamespace) {
     this.includeResolver = includeResolver;
-    this.deploymentModel = deploymentModel;
+    this.nameResolver = nameResolver;
     this.internalNamespace = internalNamespace;
   }
 
   public CppTypeRef getEnumHashType() {
     String name =
-        CppNameRules.getFullyQualifiedName(
+        CppNameRules.joinFullyQualifiedName(
             Collections.singletonList(internalNamespace), ENUM_HASH_CLASS_NAME);
     return new CppComplexTypeRef.Builder(name).include(CppLibraryIncludes.ENUM_HASH).build();
   }
@@ -100,27 +99,29 @@ public class CppTypeMapper {
     throw new GeniumExecutionException("Unmapped derived type: " + derived.getName());
   }
 
-  private CppTypeRef mapTypeDef(FTypeDef typedef) {
-    String fullyQualifiedName = CppNameRules.INSTANCE.getFullyQualifiedName(typedef);
+  private CppTypeRef mapTypeDef(final FTypeDef francaTypeDef) {
 
-    if (InstanceRules.isInstanceId(typedef)) {
+    if (InstanceRules.isInstanceId(francaTypeDef)) {
+      String fullyQualifiedName =
+          nameResolver.getFullyQualifiedName((FInterface) francaTypeDef.eContainer());
       CppComplexTypeRef instanceType = new CppInstanceTypeRef(fullyQualifiedName);
-      instanceType.includes.add(includeResolver.resolveInclude(typedef));
+      instanceType.includes.add(includeResolver.resolveInclude(francaTypeDef));
 
       return CppTemplateTypeRef.create(
           CppTemplateTypeRef.TemplateClass.SHARED_POINTER, instanceType);
     } else {
 
-      CppTypeRef actualType = map(typedef.getActualType());
+      String fullyQualifiedName = nameResolver.getFullyQualifiedName(francaTypeDef);
+      CppTypeRef actualType = map(francaTypeDef.getActualType());
 
       return new CppTypeDefRef(
-          fullyQualifiedName, actualType, includeResolver.resolveInclude(typedef));
+          fullyQualifiedName, actualType, includeResolver.resolveInclude(francaTypeDef));
     }
   }
 
   private CppTypeRef mapArray(final FArrayType francaArrayType) {
 
-    String fullyQualifiedName = CppNameRules.INSTANCE.getFullyQualifiedName(francaArrayType);
+    String fullyQualifiedName = nameResolver.getFullyQualifiedName(francaArrayType);
     CppTypeRef elementType = map(francaArrayType.getElementType());
     CppTypeRef arrayType =
         CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
@@ -131,7 +132,7 @@ public class CppTypeMapper {
 
   private CppTypeRef mapMapType(final FMapType francaMapType) {
 
-    String fullyQualifiedName = CppNameRules.INSTANCE.getFullyQualifiedName(francaMapType);
+    String fullyQualifiedName = nameResolver.getFullyQualifiedName(francaMapType);
     CppTypeRef mapType =
         wrapMap(map(francaMapType.getKeyType()), map(francaMapType.getValueType()));
 
@@ -150,14 +151,7 @@ public class CppTypeMapper {
 
   public CppTypeRef mapComplexType(final FModelElement francaElement) {
 
-    String fullyQualifiedName;
-
-    boolean isExternal = deploymentModel.isExternalType(francaElement);
-    String externalName = deploymentModel.getExternalName(francaElement);
-    fullyQualifiedName =
-        CppNameRules.INSTANCE.getFullyQualifiedName(francaElement, isExternal, externalName);
-
-    return new CppComplexTypeRef.Builder(fullyQualifiedName)
+    return new CppComplexTypeRef.Builder(nameResolver.getFullyQualifiedName(francaElement))
         .refersToEnum(francaElement instanceof FEnumerationType)
         .include(includeResolver.resolveInclude(francaElement))
         .build();

@@ -9,7 +9,7 @@
 #include <new>
 
 void smoke_Errors_release(_baseRef handle) {
-    delete get_pointer<std::shared_ptr<smoke::Errors>>(handle);
+    delete get_pointer<std::shared_ptr<::smoke::Errors>>(handle);
 }
 
 smoke_Errors_InternalError smoke_Errors_methodWithErrors() {

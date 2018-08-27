@@ -23,7 +23,6 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.*;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.*;
@@ -49,9 +48,7 @@ public final class CppValueMapperTest {
   @Mock private FQualifiedElementRef francaElementRef;
 
   @Mock private FrancaDeploymentModel deploymentModel;
-  @Mock private CppIncludeResolver includeResolver;
-
-  private final Include internalInclude = Include.createInternalInclude("nonsense");
+  @Mock private CppNameResolver nameResolver;
 
   private CppValueMapper valueMapper;
 
@@ -59,9 +56,8 @@ public final class CppValueMapperTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    valueMapper = new CppValueMapper(deploymentModel);
+    valueMapper = new CppValueMapper(deploymentModel, nameResolver);
 
-    when(includeResolver.resolveInclude(any())).thenReturn(internalInclude);
     when(deploymentModel.getDefaultValue(francaField)).thenReturn("SomeString");
 
     when(francaTypeCollection.eContainer()).thenReturn(francaModel);
