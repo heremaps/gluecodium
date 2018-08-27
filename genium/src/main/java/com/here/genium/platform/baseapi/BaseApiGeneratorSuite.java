@@ -75,8 +75,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   @Override
   public List<GeneratedFile> generate(final List<FTypeCollection> typeCollections) {
 
-    CppTypeMapper typeMapper =
-        new CppTypeMapper(includeResolver, deploymentModel, internalNamespace);
+    CppTypeMapper typeMapper = new CppTypeMapper(includeResolver, nameResolver, internalNamespace);
 
     CppGenerator generator =
         new CppGenerator(BaseApiGeneratorSuite.GENERATOR_NAME, internalNamespace);
@@ -110,7 +109,10 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
     CppModelBuilder builder =
         new CppModelBuilder(
-            deploymentModel, typeMapper, new CppValueMapper(deploymentModel), nameResolver);
+            deploymentModel,
+            typeMapper,
+            new CppValueMapper(deploymentModel, nameResolver),
+            nameResolver);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
 
     treeWalker.walkTree(francaTypeCollection);

@@ -25,100 +25,32 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.here.genium.generator.common.NameHelper;
-import com.here.genium.model.common.InstanceRules;
-import java.util.List;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({InstanceRules.class, NameHelper.class})
-public class CppNameRulesTest {
+@RunWith(JUnit4.class)
+public final class CppNameRulesTest {
 
   @Mock private FModel fModel;
   @Mock private FTypeCollection francaTypeCollection;
   @Mock private FInterface francaInterface;
-  @Mock private FType fType;
-  @Mock private FCompoundType compound;
-  @Mock private FEnumerationType enumeration;
-  @Mock private FTypeDef typeDef;
-  @Mock private FConstantDef fConstantDef;
-  @Mock private FEnumerator francaEnumerator;
 
   private final CppNameRules cppNameRules = CppNameRules.INSTANCE;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    PowerMockito.mockStatic(InstanceRules.class);
-    PowerMockito.spy(NameHelper.class);
 
     when(francaInterface.eContainer()).thenReturn(fModel);
     when(francaTypeCollection.eContainer()).thenReturn(fModel);
-    when(francaEnumerator.eContainer()).thenReturn(enumeration);
 
     when(francaInterface.getName()).thenReturn("AnInterface");
     when(fModel.getName()).thenReturn("a.b.c");
-    when(enumeration.getName()).thenReturn("TestEnumeration");
-  }
-
-  @Test
-  public void getNestedNameSpecifierForTypeFromInterface() {
-    when(francaInterface.getName()).thenReturn("Iface");
-    when(fModel.getName()).thenReturn("my.fancy.package");
-    when(fType.eContainer()).thenReturn(francaInterface);
-
-    // act
-    List<String> qualifier = cppNameRules.getNestedNameSpecifier(fType);
-
-    // assert
-    assertEquals(asList("my", "fancy", "package", "Iface"), qualifier);
-  }
-
-  @Test
-  public void getNestedNameSpecifierForTypeFromTypeCollection() {
-    when(francaTypeCollection.getName()).thenReturn("TCollection");
-    when(fModel.getName()).thenReturn("my.fancy.package");
-    when(fType.eContainer()).thenReturn(francaTypeCollection);
-
-    // act
-    List<String> qualifier = cppNameRules.getNestedNameSpecifier(fType);
-
-    // assert
-    assertEquals(asList("my", "fancy", "package"), qualifier);
-  }
-
-  @Test
-  public void getNestedNameSpecifierForEnumeratorFromInterface() {
-    when(francaInterface.getName()).thenReturn("Iface");
-    when(fModel.getName()).thenReturn("my.fancy.package");
-    when(enumeration.eContainer()).thenReturn(francaInterface);
-
-    // act
-    List<String> qualifier = cppNameRules.getNestedNameSpecifier(francaEnumerator);
-
-    // assert
-    assertEquals(asList("my", "fancy", "package", "Iface", "TestEnumeration"), qualifier);
-  }
-
-  @Test
-  public void getNestedNameSpecifierForEnumeratorFromTypeCollection() {
-    when(francaTypeCollection.getName()).thenReturn("TCollection");
-    when(fModel.getName()).thenReturn("my.fancy.package");
-    when(enumeration.eContainer()).thenReturn(francaTypeCollection);
-
-    // act
-    List<String> qualifier = cppNameRules.getNestedNameSpecifier(francaEnumerator);
-
-    // assert
-    assertEquals(asList("my", "fancy", "package", "TestEnumeration"), qualifier);
   }
 
   @Test
@@ -148,82 +80,8 @@ public class CppNameRulesTest {
   }
 
   @Test
-  public void getFullyQualifiedNameOfCompoundType() {
-    when(compound.eContainer()).thenReturn(francaInterface);
-    when(compound.getName()).thenReturn("TestCompound");
-
-    String fullyQualifiedName = cppNameRules.getFullyQualifiedName(compound);
-
-    assertEquals("::a::b::c::AnInterface::TestCompound", fullyQualifiedName);
-  }
-
-  @Test
-  public void getFullyQualifiedNameOfTypeCollectionCompoundType() {
-    when(compound.eContainer()).thenReturn(francaTypeCollection);
-    when(compound.getName()).thenReturn("TestCompound");
-
-    String fullyQualifiedName = cppNameRules.getFullyQualifiedName(compound);
-
-    assertEquals("::a::b::c::TestCompound", fullyQualifiedName);
-  }
-
-  @Test
-  public void getFullyQualifiedNameOfEnumeration() {
-    when(enumeration.eContainer()).thenReturn(francaInterface);
-
-    String fullyQualifiedName = cppNameRules.getFullyQualifiedName(enumeration);
-
-    assertEquals("::a::b::c::AnInterface::TestEnumeration", fullyQualifiedName);
-  }
-
-  @Test
-  public void getFullyQualifiedNameOfTypeCollectionEnumeration() {
-    when(enumeration.eContainer()).thenReturn(francaTypeCollection);
-
-    String fullyQualifiedName = cppNameRules.getFullyQualifiedName(enumeration);
-
-    assertEquals("::a::b::c::TestEnumeration", fullyQualifiedName);
-  }
-
-  @Test
-  public void getFullyQualifiedNameOfSimpleTypeDefinition() {
-    when(typeDef.eContainer()).thenReturn(francaInterface);
-    when(typeDef.getName()).thenReturn("TestTypeDefinition");
-    when(InstanceRules.isInstanceId(typeDef)).thenReturn(false);
-
-    String fullyQualifiedName = cppNameRules.getFullyQualifiedName(typeDef);
-
-    assertEquals("::a::b::c::AnInterface::TestTypeDefinition", fullyQualifiedName);
-  }
-
-  @Test
-  public void getFullyQualifiedNameOfInstanceIdTypeDefinition() {
-    when(typeDef.eContainer()).thenReturn(francaInterface);
-    when(typeDef.getName()).thenReturn("TestTypeDefinition");
-    when(InstanceRules.isInstanceId(typeDef)).thenReturn(true);
-
-    String fullyQualifiedName = cppNameRules.getFullyQualifiedName(typeDef);
-
-    assertEquals("::a::b::c::AnInterface", fullyQualifiedName);
-  }
-
-  @Test
-  public void getConstantFullyQualifiedName() {
-    when(fConstantDef.eContainer()).thenReturn(francaInterface);
-    when(fConstantDef.getName()).thenReturn("fixed");
-
-    List<String> nestedNameSpecifier = cppNameRules.getNestedNameSpecifier(fConstantDef);
-    String constantName = cppNameRules.getConstantName(fConstantDef.getName());
-
-    String fullyQualifiedName =
-        CppNameRules.getFullyQualifiedName(nestedNameSpecifier, constantName);
-
-    assertEquals("::a::b::c::AnInterface::FIXED", fullyQualifiedName);
-  }
-
-  @Test
-  public void getFullyQualifiedNameFromNamespaceParts() {
-    assertEquals("::NAME", CppNameRules.getFullyQualifiedName(emptyList(), "NAME"));
-    assertEquals("::A::B::NAME", CppNameRules.getFullyQualifiedName(asList("A", "B"), "NAME"));
+  public void joinFullyQualifiedNameFromNamespaceParts() {
+    assertEquals("::NAME", CppNameRules.joinFullyQualifiedName(emptyList(), "NAME"));
+    assertEquals("::A::B::NAME", CppNameRules.joinFullyQualifiedName(asList("A", "B"), "NAME"));
   }
 }

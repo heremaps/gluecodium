@@ -104,16 +104,16 @@ public class CBridgeGenerator {
   public CInterface buildCBridgeModel(final FTypeCollection francaTypeCollection) {
 
     CppTypeMapper cppTypeMapper =
-        new CppTypeMapper(cppIncludeResolver, deploymentModel, internalNamespace);
-    CppValueMapper valueMapper = new CppValueMapper(deploymentModel);
+        new CppTypeMapper(cppIncludeResolver, cppNameResolver, internalNamespace);
+    CppValueMapper valueMapper = new CppValueMapper(deploymentModel, cppNameResolver);
     CppModelBuilder cppBuilder =
         new CppModelBuilder(deploymentModel, cppTypeMapper, valueMapper, cppNameResolver);
     SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(deploymentModel);
     CTypeMapper cTypeMapper =
         new CTypeMapper(
             cppIncludeResolver,
+            cppNameResolver,
             includeResolver,
-            deploymentModel,
             cppTypeMapper.getEnumHashType().name,
             cppTypeMapper.getByteBufferType().name);
 

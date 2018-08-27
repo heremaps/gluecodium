@@ -27,12 +27,11 @@ import static com.here.genium.model.common.InstanceRules.isInstanceId;
 
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.cpp.CppLibraryIncludes;
-import com.here.genium.generator.cpp.CppNameRules;
+import com.here.genium.generator.cpp.CppNameResolver;
 import com.here.genium.model.cbridge.CBridgeIncludeResolver;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.CppIncludeResolver;
-import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.LinkedList;
 import java.util.List;
 import lombok.Getter;
@@ -44,20 +43,20 @@ public class CTypeMapper {
       Include.createInternalInclude(CBridgeNameRules.BASE_HANDLE_IMPL_FILE);
 
   private final CppIncludeResolver cppIncludeResolver;
+  private final CppNameResolver cppNameResolver;
   private final CBridgeIncludeResolver includeResolver;
-  private final FrancaDeploymentModel deploymentModel;
   @Getter private final String enumHashType;
   private final CppTypeInfo byteBufferTypeInfo;
 
   public CTypeMapper(
       final CppIncludeResolver cppIncludeResolver,
+      final CppNameResolver cppNameResolver,
       final CBridgeIncludeResolver includeResolver,
-      final FrancaDeploymentModel deploymentModel,
       final String enumHashType,
       final String byteBufferType) {
     this.cppIncludeResolver = cppIncludeResolver;
+    this.cppNameResolver = cppNameResolver;
     this.includeResolver = includeResolver;
-    this.deploymentModel = deploymentModel;
     this.enumHashType = enumHashType;
     this.byteBufferTypeInfo =
         CppTypeInfo.builder(byteBufferType)
@@ -102,7 +101,7 @@ public class CTypeMapper {
 
   private CppTypeInfo mapTypeDef(FTypeDef derived) {
     if (isInstanceId(derived)) {
-      return createCustomTypeInfo(derived, CLASS);
+      return createCustomTypeInfo((FInterface) derived.eContainer(), CLASS);
     } else {
       return mapType(derived.getActualType());
     }
@@ -146,17 +145,8 @@ public class CTypeMapper {
   public CppTypeInfo createCustomTypeInfo(
       final FModelElement modelElement, final CppTypeInfo.TypeCategory category) {
 
-    String baseApiCall = null;
-    boolean isExternal = deploymentModel.isExternalType(modelElement);
-    if (isExternal) {
-      String externalName = deploymentModel.getExternalName(modelElement);
-      baseApiCall = CppNameRules.INSTANCE.getFullyQualifiedName(modelElement, true, externalName);
-    }
-
-    if (baseApiCall == null) {
-      String baseApiName = CBridgeNameRules.getBaseApiName(modelElement, category);
-      baseApiCall = CBridgeNameRules.getBaseApiCall(category, baseApiName);
-    }
+    String baseApiName = cppNameResolver.getFullyQualifiedName(modelElement);
+    String baseApiCall = CBridgeNameRules.getBaseApiCall(category, baseApiName);
 
     Include publicInclude = includeResolver.resolveInclude(modelElement);
     Include baseApiInclude = cppIncludeResolver.resolveInclude(modelElement);
@@ -177,16 +167,11 @@ public class CTypeMapper {
 
   public CppTypeInfo createEnumTypeInfo(final FEnumerationType francaEnum) {
 
-    String fullyQualifiedName = deploymentModel.getExternalName(francaEnum);
-    if (fullyQualifiedName == null) {
-      fullyQualifiedName = CppNameRules.INSTANCE.getFullyQualifiedName(francaEnum);
-    }
-
     CType enumCType =
         new CType(
             CBridgeNameRules.getEnumName(francaEnum), includeResolver.resolveInclude(francaEnum));
 
-    return CppTypeInfo.builder(fullyQualifiedName)
+    return CppTypeInfo.builder(cppNameResolver.getFullyQualifiedName(francaEnum))
         .cType(enumCType)
         .functionReturnType(enumCType)
         .category(ENUM)
@@ -201,8 +186,6 @@ public class CTypeMapper {
 
   private CppTypeInfo mapMapType(final FMapType francaMapType) {
 
-    String baseApiName =
-        CBridgeNameRules.getBaseApiName(francaMapType, CppTypeInfo.TypeCategory.MAP);
     CType cType = new CType(BASE_REF_NAME);
     CppTypeInfo keyType = mapType(francaMapType.getKeyType());
     CppTypeInfo valueType = mapType(francaMapType.getValueType());
@@ -217,7 +200,7 @@ public class CTypeMapper {
       enumHash = enumHashType;
     }
 
-    return CppMapTypeInfo.mapTypeBuilder(baseApiName)
+    return CppMapTypeInfo.mapTypeBuilder(cppNameResolver.getFullyQualifiedName(francaMapType))
         .cType(cType)
         .functionReturnType(cType)
         .includes(includes)

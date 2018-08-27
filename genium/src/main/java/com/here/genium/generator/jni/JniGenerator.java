@@ -93,8 +93,8 @@ public final class JniGenerator extends AbstractGenerator {
             errorEnumFilter);
 
     CppTypeMapper typeMapper =
-        new CppTypeMapper(cppIncludeResolver, deploymentModel, internalNamespace);
-    CppValueMapper valueMapper = new CppValueMapper(deploymentModel);
+        new CppTypeMapper(cppIncludeResolver, cppNameResolver, internalNamespace);
+    CppValueMapper valueMapper = new CppValueMapper(deploymentModel, cppNameResolver);
     CppModelBuilder cppBuilder =
         new CppModelBuilder(deploymentModel, typeMapper, valueMapper, cppNameResolver);
     JniModelBuilder jniBuilder =
