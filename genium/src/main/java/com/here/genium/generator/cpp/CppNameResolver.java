@@ -54,6 +54,10 @@ public class CppNameResolver {
     return getCachedEntry(francaElement).getFullName();
   }
 
+  public static NameRules selectNameRules(boolean isExternal) {
+    return isExternal ? VerbatimNameRules.INSTANCE : CppNameRules.INSTANCE;
+  }
+
   private NamesCacheEntry getCachedEntry(final FModelElement francaElement) {
 
     String cacheKey = FrancaTypeHelper.getFullName(francaElement);
@@ -91,7 +95,7 @@ public class CppNameResolver {
       return;
     }
 
-    NameRules nameRules = isExternal ? VerbatimNameRules.INSTANCE : CppNameRules.INSTANCE;
+    NameRules nameRules = selectNameRules(isExternal);
     String name = selectNameRule(francaElement).apply(nameRules, francaElement.getName());
     String fullyQualifiedName = parentFqn + "::" + name;
     namesCache.put(cacheKey, new NamesCacheEntry(isExternal, name, fullyQualifiedName));

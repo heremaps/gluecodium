@@ -20,7 +20,6 @@
 package com.here.genium.generator.cbridge;
 
 import com.here.genium.generator.common.NameHelper;
-import com.here.genium.generator.cpp.CppNameRules;
 import com.here.genium.model.franca.DefinedBy;
 import java.io.File;
 import java.nio.file.Paths;
@@ -46,7 +45,6 @@ public final class CBridgeNameRules {
   public static final String BASE_REF_NAME = "_baseRef";
 
   public static final String UNDERSCORE_DELIMITER = "_";
-  private static final String CPP_NAMESPACE_DELIMITER = "::";
   private static final String PUBLIC_HEADER_SUFFIX = ".h";
   private static final String IMPL_SUFFIX = ".cpp";
 
@@ -94,25 +92,19 @@ public final class CBridgeNameRules {
   }
 
   public static String getStructBaseName(final FModelElement francaElement) {
-    return fullyQualifiedName(
+    return joinQualifiedName(
         getNestedNameSpecifier(francaElement),
-        NameHelper.toUpperCamelCase(francaElement.getName()),
-        UNDERSCORE_DELIMITER);
+        NameHelper.toUpperCamelCase(francaElement.getName()));
   }
 
   public static String getInstanceBaseName(final FModelElement francaElement) {
     return String.join(UNDERSCORE_DELIMITER, getNestedNameSpecifier(francaElement));
   }
 
-  public static String getBaseApiInstanceName(final FModelElement francaModel) {
-    return String.join(CPP_NAMESPACE_DELIMITER, getNestedNameSpecifier(francaModel));
-  }
-
-  public static String fullyQualifiedName(
-      List<String> nameSpecifier, String name, String delimiter) {
+  private static String joinQualifiedName(final List<String> nameSpecifier, final String name) {
     List<String> names = new LinkedList<>(nameSpecifier);
     names.add(name);
-    return String.join(delimiter, names);
+    return String.join(UNDERSCORE_DELIMITER, names);
   }
 
   private static List<String> getNestedNameSpecifier(final FModelElement modelElement) {
@@ -130,17 +122,14 @@ public final class CBridgeNameRules {
   }
 
   public static String getEnumItemName(FEnumerator francaEnumItem) {
-    return fullyQualifiedName(
-        getNestedNameSpecifier(francaEnumItem),
-        francaEnumItem.getName().toLowerCase(),
-        UNDERSCORE_DELIMITER);
+    return joinQualifiedName(
+        getNestedNameSpecifier(francaEnumItem), francaEnumItem.getName().toLowerCase());
   }
 
   public static String getEnumName(FModelElement francaEnumerator) {
-    return fullyQualifiedName(
+    return joinQualifiedName(
         getNestedNameSpecifier(francaEnumerator),
-        NameHelper.toUpperCamelCase(francaEnumerator.getName()),
-        UNDERSCORE_DELIMITER);
+        NameHelper.toUpperCamelCase(francaEnumerator.getName()));
   }
 
   public static String getBaseApiCall(
@@ -154,15 +143,6 @@ public final class CBridgeNameRules {
     return null;
   }
 
-  public static String getBaseApiName(
-      final FModelElement elementType, final CppTypeInfo.TypeCategory category) {
-    if (category == CppTypeInfo.TypeCategory.CLASS) {
-      return CBridgeNameRules.getBaseApiInstanceName(elementType);
-    } else {
-      return CppNameRules.INSTANCE.getFullyQualifiedName(elementType);
-    }
-  }
-
   public static String getPropertySetterName(final FAttribute attribute) {
     return NameHelper.toLowerCamelCase(attribute.getName()) + "_set";
   }
@@ -172,9 +152,8 @@ public final class CBridgeNameRules {
   }
 
   public static String getMapName(final FModelElement francaElement) {
-    return fullyQualifiedName(
+    return joinQualifiedName(
         getNestedNameSpecifier(francaElement),
-        NameHelper.toUpperCamelCase(francaElement.getName()),
-        UNDERSCORE_DELIMITER);
+        NameHelper.toUpperCamelCase(francaElement.getName()));
   }
 }

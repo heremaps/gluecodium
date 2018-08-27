@@ -24,7 +24,6 @@ import com.here.genium.common.CollectionsHelper;
 import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
 import com.here.genium.generator.cpp.CppModelBuilder;
-import com.here.genium.generator.cpp.CppNameRules;
 import com.here.genium.generator.java.JavaModelBuilder;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.*;
@@ -233,8 +232,8 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
         jniTopLevelElement != null
             ? jniTopLevelElement.javaPackage.packageNames
             : Collections.emptyList();
-    List<String> cppNameSpace = CppNameRules.INSTANCE.getNestedNameSpecifier(francaTypeCollection);
 
+    List<String> cppNameSpace = DefinedBy.getPackages(francaTypeCollection);
     JniContainer jniContainer = JniContainer.builder(packageNames, cppNameSpace).build();
     CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JniStruct.class)
         .forEach(jniContainer::add);

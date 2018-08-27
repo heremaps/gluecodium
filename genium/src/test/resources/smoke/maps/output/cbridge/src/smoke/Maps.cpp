@@ -11,7 +11,7 @@
 #include <unordered_map>
 
 void smoke_Maps_release(_baseRef handle) {
-    delete get_pointer<std::shared_ptr<smoke::Maps>>(handle);
+    delete get_pointer<std::shared_ptr<::smoke::Maps>>(handle);
 }
 _baseRef smoke_Maps_SomeStruct_create() {
     return reinterpret_cast<_baseRef>( new ::smoke::Maps::SomeStruct() );
