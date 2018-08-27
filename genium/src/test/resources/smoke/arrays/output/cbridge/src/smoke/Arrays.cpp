@@ -8,7 +8,7 @@
 #include <new>
 #include <vector>
 void smoke_Arrays_release(_baseRef handle) {
-    delete get_pointer<std::shared_ptr<smoke::Arrays>>(handle);
+    delete get_pointer<std::shared_ptr<::smoke::Arrays>>(handle);
 }
 _baseRef smoke_Arrays_BasicStruct_create() {
     return reinterpret_cast<_baseRef>( new ::smoke::Arrays::BasicStruct() );
