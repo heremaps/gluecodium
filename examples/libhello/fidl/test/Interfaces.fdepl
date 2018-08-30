@@ -39,3 +39,14 @@ define GeniumExtensions for interface test.NestedInterfaceTwo
 {
     IsInterface = true
 }
+
+define ExternalTypes for interface test.external_Interface
+{
+    ExternalType = "include/ExternalTypes.h"
+}
+
+define ExternalTypes for interface test.VeryExternalInterface
+{
+    ExternalType = "include/ExternalTypes.h"
+    ExternalName = "::external::fOo_iTnerface"
+}
