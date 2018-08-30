@@ -43,10 +43,19 @@ define GeniumExtensions for interface test.NestedInterfaceTwo
 define ExternalTypes for interface test.external_Interface
 {
     ExternalType = "include/ExternalTypes.h"
+
+    attribute some_Attribute {
+        ExternalGetter = "get_Me"
+    }
 }
 
 define ExternalTypes for interface test.VeryExternalInterface
 {
     ExternalType = "include/ExternalTypes.h"
     ExternalName = "::external::fOo_iTnerface"
+
+    attribute some_Attribute {
+        ExternalGetter = "get_Me"
+        ExternalSetter = "set_Me"
+    }
 }

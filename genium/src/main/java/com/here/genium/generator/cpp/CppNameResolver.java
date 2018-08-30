@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import lombok.Value;
 import org.eclipse.emf.ecore.EObject;
+import org.franca.core.framework.FrancaHelpers;
 import org.franca.core.franca.*;
 
 public class CppNameResolver {
@@ -52,6 +53,27 @@ public class CppNameResolver {
 
   public String getFullyQualifiedName(final FModelElement francaElement) {
     return getCachedEntry(francaElement).getFullName();
+  }
+
+  public String getGetterName(final FAttribute francaAttribute) {
+
+    String externalName = deploymentModel.getExternalGetter(francaAttribute);
+    if (externalName == null) {
+      boolean isBoolean = FrancaHelpers.isBoolean(francaAttribute.getType());
+      return CppNameRules.getGetterPrefix(isBoolean) + getName(francaAttribute);
+    } else {
+      return externalName;
+    }
+  }
+
+  public String getSetterName(final FAttribute francaAttribute) {
+
+    String externalName = deploymentModel.getExternalSetter(francaAttribute);
+    if (externalName == null) {
+      return CppNameRules.getSetterPrefix() + getName(francaAttribute);
+    } else {
+      return externalName;
+    }
   }
 
   public static NameRules selectNameRules(boolean isExternal) {

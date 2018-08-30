@@ -634,18 +634,20 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaAttributeCreatesGetter() {
+    when(nameResolver.getGetterName(any())).thenReturn(NONSENSE_NAME);
     contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaAttribute);
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
-    assertEquals("get_" + DUMMY_NAME, resultMethod.name);
+    assertEquals(NONSENSE_NAME, resultMethod.name);
     assertTrue(resultMethod.qualifiers.contains(CppMethod.Qualifier.CONST));
   }
 
   @Test
   public void finishBuildingFrancaAttributeCreatesSetter() {
+    when(nameResolver.getSetterName(any())).thenReturn(NONSENSE_NAME);
     contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaAttribute);
@@ -653,11 +655,12 @@ public final class CppModelBuilderTest {
     List<CppMethod> methods =
         CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CppMethod.class);
     assertEquals(2, methods.size());
-    assertEquals("set_" + DUMMY_NAME, methods.get(1).name);
+    assertEquals(NONSENSE_NAME, methods.get(1).name);
   }
 
   @Test
   public void finishBuildingFrancaAttributeReadonly() {
+    when(nameResolver.getGetterName(any())).thenReturn(NONSENSE_NAME);
     contextStack.injectResult(cppComplexTypeRef);
 
     when(francaAttribute.isReadonly()).thenReturn(true);
@@ -667,7 +670,7 @@ public final class CppModelBuilderTest {
     List<CppMethod> methods =
         CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CppMethod.class);
     assertEquals(1, methods.size());
-    assertEquals("get_" + DUMMY_NAME, methods.get(0).name);
+    assertEquals(NONSENSE_NAME, methods.get(0).name);
   }
 
   @Test
@@ -696,16 +699,5 @@ public final class CppModelBuilderTest {
     assertEquals(CppPrimitiveTypeRef.VOID, resultMethod.returnType);
     assertFalse(resultMethod.parameters.isEmpty());
     assertEquals(cppComplexTypeRef, resultMethod.parameters.get(0).type);
-  }
-
-  @Test
-  public void finishBuildingFrancaBooleanAttributeCreatesGetter() {
-    contextStack.injectResult(CppPrimitiveTypeRef.BOOL);
-
-    modelBuilder.finishBuilding(francaAttribute);
-
-    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
-    assertNotNull(resultMethod);
-    assertEquals("is_" + DUMMY_NAME, resultMethod.name);
   }
 }

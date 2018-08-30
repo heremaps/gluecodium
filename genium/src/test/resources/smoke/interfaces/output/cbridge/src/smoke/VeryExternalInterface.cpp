@@ -26,3 +26,9 @@ void smoke_VeryExternalInterface_SomeStruct_someField_set(_baseRef handle, const
 void smoke_VeryExternalInterface_someMethod(_baseRef _instance, int8_t some_Parameter) {
     return get_pointer<std::shared_ptr<::fire::Baz>>(_instance)->get()->some_Method(some_Parameter);
 }
+_baseRef smoke_VeryExternalInterface_someAttribute_get(_baseRef _instance) {
+    return reinterpret_cast<_baseRef>( new std::string(get_pointer<std::shared_ptr<::fire::Baz>>(_instance)->get()->get_Me()) );
+}
+void smoke_VeryExternalInterface_someAttribute_set(_baseRef _instance, const char* newValue) {
+    return get_pointer<std::shared_ptr<::fire::Baz>>(_instance)->get()->set_Me(std::string(newValue));
+}

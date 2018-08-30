@@ -132,6 +132,8 @@ interface external_Interface {
         some_Value
     }
 
+    attribute String some_Attribute readonly
+
     method some_Method {
         in { Int8 some_Parameter }
     }
@@ -148,6 +150,8 @@ interface VeryExternalInterface {
     public enumeration some_Enum {
         some_Value
     }
+
+    attribute String some_Attribute
 
     method some_Method {
         in { Int8 some_Parameter }

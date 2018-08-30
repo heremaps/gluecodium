@@ -95,6 +95,10 @@ public:
         some_Value
     };
 
+    virtual std::string get_Me( ) = 0;
+
+    virtual void set_Me( const std::string& ) = 0;
+
     virtual void some_Method( uint8_t ) = 0;
 };
 }
@@ -113,6 +117,8 @@ public:
     {
         some_Value
     };
+
+    virtual std::string get_Me( ) = 0;
 
     virtual void some_Method( uint8_t ) = 0;
 };

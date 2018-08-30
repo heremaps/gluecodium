@@ -25,6 +25,26 @@ Java_com_example_smoke_VeryExternalInterface_someMethod(JNIEnv* _jenv, jobject _
     (*pInstanceSharedPointer)->some_Method(someParameter);
 }
 
+jstring
+Java_com_example_smoke_VeryExternalInterface_getSomeAttribute(JNIEnv* _jenv, jobject _jinstance)
+{
+    auto pointerAsLong = genium::jni::get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::fire::Baz>*> (pointerAsLong);
+    auto result = (*pInstanceSharedPointer)->get_Me();
+    return genium::jni::convert_to_jni(_jenv, result);
+}
+
+void
+Java_com_example_smoke_VeryExternalInterface_setSomeAttribute(JNIEnv* _jenv, jobject _jinstance, jstring jvalue)
+{
+    ::std::string value;
+    genium::jni::convert_from_jni( _jenv, jvalue, value );
+    _jenv->DeleteLocalRef(jvalue);
+    auto pointerAsLong = genium::jni::get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::fire::Baz>*> (pointerAsLong);
+    (*pInstanceSharedPointer)->set_Me(value);
+}
+
 void
 Java_com_example_smoke_VeryExternalInterface_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {

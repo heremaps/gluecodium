@@ -1,5 +1,11 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features:
+  + Added support for "ExternalType" and "ExternalName" FDEPL properties for interfaces. Added
+    support for "ExternalGetter" and "ExternalSetter" FDEPL properties for attributes in such
+    interfaces.
+
 ## 3.8.0
 - Breaking changes:
   + Moved "External*" FDEPL properties from "GeniumExtensions" FDEPL specification into a dedicated

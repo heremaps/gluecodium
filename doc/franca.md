@@ -313,6 +313,35 @@ FDEPL:
         }
     }
 
+### Attribute: ExternalGetter/ExternalSetter
+
+These FDEPL properties control which accessor methods are used as a source of data for the
+given Franca attribute. These properties are valid only if the Franca interface containing the
+attribute is marked with "ExternalType" property (see above). These properties are also mandatory in
+this case. This property has no effect on generated code for public APIs (i.e. C++, Java, and
+Swift).
+
+**Note:** Both "ExternalGetter" and "ExternalSetter" properties have to be specified at the same
+time (only "ExternalGetter" for readonly attributes).
+
+FIDL:
+
+    package example
+
+    interface ExampleInterface {
+        attribute String exampleAttribute
+    }
+
+FDEPL:
+
+    define ExternalTypes for interface example.ExampleInterface
+    {
+        attribute exampleAttribute {
+            ExternalGetter = "get_example_attribute"
+            ExternalSetter = "set_example_attribute"
+        }
+    }
+
 ### Struct field: DefaultValue
 
 This FDEPL property controls whether a default value initializer is generated for the given
