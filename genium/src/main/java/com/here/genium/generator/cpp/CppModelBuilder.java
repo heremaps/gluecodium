@@ -313,11 +313,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     String francaComment = CommentHelper.getDescription(francaAttribute);
 
-    boolean isBoolean = cppTypeRef.getActualType() == CppPrimitiveTypeRef.BOOL;
-    String getterName =
-        CppNameRules.getGetterPrefix(isBoolean) + nameResolver.getName(francaAttribute);
     CppMethod getterMethod =
-        new CppMethod.Builder(getterName)
+        new CppMethod.Builder(nameResolver.getGetterName(francaAttribute))
             .returnType(cppTypeRef)
             .specifier(CppMethod.Specifier.VIRTUAL)
             .qualifier(CppMethod.Qualifier.CONST)
@@ -327,9 +324,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     storeResult(getterMethod);
 
     if (!francaAttribute.isReadonly()) {
-      String setterName = CppNameRules.getSetterPrefix() + nameResolver.getName(francaAttribute);
       CppMethod setterMethod =
-          new CppMethod.Builder(setterName)
+          new CppMethod.Builder(nameResolver.getSetterName(francaAttribute))
               .returnType(CppPrimitiveTypeRef.VOID)
               .specifier(CppMethod.Specifier.VIRTUAL)
               .qualifier(CppMethod.Qualifier.PURE_VIRTUAL)
