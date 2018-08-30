@@ -119,3 +119,37 @@ interface NestedInterfaceTwo {
         }
     }
 }
+
+interface external_Interface {
+
+    public typedef external_Interface is undefined
+
+    public struct some_Struct {
+        String some_Field
+    }
+
+    public enumeration some_Enum {
+        some_Value
+    }
+
+    method some_Method {
+        in { Int8 some_Parameter }
+    }
+}
+
+interface VeryExternalInterface {
+
+    public typedef VeryExternalInterface is undefined
+
+    public struct some_Struct {
+        String some_Field
+    }
+
+    public enumeration some_Enum {
+        some_Value
+    }
+
+    method some_Method {
+        in { Int8 some_Parameter }
+    }
+}

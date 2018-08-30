@@ -82,6 +82,40 @@ public:
     std::string string_Field;
 };
 
+class fOo_iTnerface
+{
+public:
+    struct some_Struct
+    {
+        std::string some_Field;
+    };
+
+    enum class some_Enum
+    {
+        some_Value
+    };
+
+    virtual void some_Method( uint8_t ) = 0;
+};
+}
+
+namespace test
+{
+class external_Interface
+{
+public:
+    struct some_Struct
+    {
+        std::string some_Field;
+    };
+
+    enum class some_Enum
+    {
+        some_Value
+    };
+
+    virtual void some_Method( uint8_t ) = 0;
+};
 }
 
 namespace std
