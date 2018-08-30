@@ -19,6 +19,7 @@
 
 package com.here.genium.model.cpp;
 
+import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.cpp.CppNameRules;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.franca.DefinedBy;
@@ -30,8 +31,7 @@ import org.franca.core.franca.FTypeCollection;
 
 public class CppIncludeResolver {
 
-  private final Map<FTypeCollection, Include> resolvedIncludes = new HashMap<>();
-
+  private final Map<String, Include> resolvedIncludes = new HashMap<>();
   private final FrancaDeploymentModel deploymentModel;
 
   public CppIncludeResolver(final FrancaDeploymentModel deploymentModel) {
@@ -40,19 +40,24 @@ public class CppIncludeResolver {
 
   public Include resolveInclude(final FModelElement modelElement) {
 
+    String cacheKey = FrancaTypeHelper.getFullName(modelElement);
+    Include include = resolvedIncludes.get(cacheKey);
+    if (include != null) {
+      return include;
+    }
+
     String externalType = deploymentModel.getExternalType(modelElement);
     if (externalType != null) {
-      return Include.createInternalInclude(externalType);
-    }
-
-    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
-    Include include = resolvedIncludes.get(typeCollection);
-
-    if (include == null) {
-      String includeName = CppNameRules.INSTANCE.getHeaderPath(typeCollection);
+      include = Include.createInternalInclude(externalType);
+    } else if (modelElement instanceof FTypeCollection) {
+      String includeName = CppNameRules.INSTANCE.getHeaderPath((FTypeCollection) modelElement);
       include = Include.createInternalInclude(includeName);
-      resolvedIncludes.put(typeCollection, include);
+    } else {
+      FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
+      include = resolveInclude(typeCollection);
     }
+
+    resolvedIncludes.put(cacheKey, include);
 
     return include;
   }
