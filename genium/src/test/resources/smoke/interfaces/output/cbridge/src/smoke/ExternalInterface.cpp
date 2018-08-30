@@ -26,3 +26,6 @@ void smoke_ExternalInterface_SomeStruct_someField_set(_baseRef handle, const cha
 void smoke_ExternalInterface_someMethod(_baseRef _instance, int8_t some_Parameter) {
     return get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(_instance)->get()->some_Method(some_Parameter);
 }
+_baseRef smoke_ExternalInterface_someAttribute_get(_baseRef _instance) {
+    return reinterpret_cast<_baseRef>( new std::string(get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(_instance)->get()->get_Me()) );
+}
