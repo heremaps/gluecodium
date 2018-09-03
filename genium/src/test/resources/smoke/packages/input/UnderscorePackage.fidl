@@ -17,12 +17,16 @@
  * License-Filename: LICENSE
  */
 
-import "classpath:/GeniumExtensions.fdepl"
-import "./Basic.fidl"
+package smoke_off
 
-define GeniumExtensions for interface smoke_off.Basic
-{
+interface UnderscorePackage {
+
     method basicMethod {
-        Static = true
+        in {
+            String inputString
+        }
+        out {
+            String outputString
+        }
     }
 }
