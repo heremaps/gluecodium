@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.here.genium.model.franca.FrancaDeploymentModel;
+import java.util.Collections;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FModelElement;
@@ -50,7 +51,7 @@ public final class CppNameResolverAttributesTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    nameResolver = new CppNameResolver(deploymentModel);
+    nameResolver = new CppNameResolver(deploymentModel, Collections.emptyList());
 
     when(francaAttribute.getName()).thenReturn("an_Attribute");
     when(francaAttribute.eContainer()).thenReturn(parentElement);

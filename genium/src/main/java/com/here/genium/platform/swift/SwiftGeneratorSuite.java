@@ -47,15 +47,17 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
   public static final String GENERATOR_NAME = "swift";
 
   private final String internalNamespace;
+  private final List<String> rootNamespace;
   private final FrancaDeploymentModel deploymentModel;
   private final CppNameResolver cppNameResolver;
 
   public SwiftGeneratorSuite(
       final Genium.Options options, final FrancaDeploymentModel deploymentModel) {
     super();
-    this.internalNamespace = options != null ? options.getCppInternalNamespace() : null;
+    this.internalNamespace = options.getCppInternalNamespace();
+    this.rootNamespace = options.getCppRootNamespace();
     this.deploymentModel = deploymentModel;
-    this.cppNameResolver = new CppNameResolver(deploymentModel);
+    this.cppNameResolver = new CppNameResolver(deploymentModel, rootNamespace);
   }
 
   @Override
@@ -65,8 +67,8 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
     CBridgeGenerator cBridgeGenerator =
         new CBridgeGenerator(
             deploymentModel,
-            new CppIncludeResolver(deploymentModel),
-            new CBridgeIncludeResolver(),
+            new CppIncludeResolver(deploymentModel, rootNamespace),
+            new CBridgeIncludeResolver(rootNamespace),
             cppNameResolver,
             internalNamespace);
 
