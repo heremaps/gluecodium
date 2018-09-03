@@ -21,6 +21,7 @@ package com.here.genium.platform.swift;
 
 import static org.junit.Assert.assertTrue;
 
+import com.here.genium.Genium;
 import com.here.genium.generator.cbridge.CBridgeGenerator;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.generator.swift.SwiftGenerator;
@@ -33,7 +34,7 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class SwiftGeneratorSuiteTest {
 
-  private final SwiftGeneratorSuite suite = new SwiftGeneratorSuite(null, null);
+  private final SwiftGeneratorSuite suite = new SwiftGeneratorSuite(Genium.DEFAULT_OPTIONS, null);
 
   @Test
   public void generatedFilesContainStaticFiles() {

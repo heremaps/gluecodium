@@ -320,6 +320,7 @@ public class Genium {
     System.exit(status);
   }
 
+  @SuppressWarnings("PMD.ImmutableField")
   @lombok.Value
   @lombok.Builder(builderClassName = "Builder")
   public static class Options {
@@ -334,5 +335,6 @@ public class Genium {
     private boolean logTimes;
     private String copyrightHeaderContents;
     private String cppInternalNamespace;
+    @lombok.Builder.Default private List<String> cppRootNamespace = new LinkedList<>();
   }
 }

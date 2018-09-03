@@ -68,15 +68,16 @@ public final class JniGenerator extends AbstractGenerator {
       final List<String> additionalIncludes,
       final FrancaTypeHelper.ErrorEnumFilter errorEnumFilter,
       final boolean enableAndroidFeatures,
-      final String internalNamespace) {
+      final String internalNamespace,
+      final List<String> rootNamespace) {
     super(packageList);
     this.deploymentModel = deploymentModel;
     this.additionalIncludes = additionalIncludes;
     this.errorEnumFilter = errorEnumFilter;
     this.enableAndroidFeatures = enableAndroidFeatures;
     this.internalNamespace = internalNamespace;
-    this.cppIncludeResolver = new CppIncludeResolver(deploymentModel);
-    this.cppNameResolver = new CppNameResolver(deploymentModel);
+    this.cppIncludeResolver = new CppIncludeResolver(deploymentModel, rootNamespace);
+    this.cppNameResolver = new CppNameResolver(deploymentModel, rootNamespace);
   }
 
   public Collection<ModelElement> generateModel(final FTypeCollection francaTypeCollection) {

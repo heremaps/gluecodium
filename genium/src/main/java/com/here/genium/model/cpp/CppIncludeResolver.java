@@ -26,8 +26,9 @@ import com.here.genium.model.franca.DefinedBy;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
 
@@ -35,9 +36,12 @@ public class CppIncludeResolver {
 
   private final Map<String, Include> resolvedIncludes = new HashMap<>();
   private final FrancaDeploymentModel deploymentModel;
+  private final List<String> rootNamespace;
 
-  public CppIncludeResolver(final FrancaDeploymentModel deploymentModel) {
+  public CppIncludeResolver(
+      final FrancaDeploymentModel deploymentModel, final List<String> rootNamespace) {
     this.deploymentModel = deploymentModel;
+    this.rootNamespace = rootNamespace;
   }
 
   public Include resolveInclude(final FModelElement modelElement) {
@@ -66,10 +70,11 @@ public class CppIncludeResolver {
   }
 
   public String getOutputFilePath(final FTypeCollection typeCollection) {
-    return String.join(File.separator, DefinedBy.getPackages(typeCollection))
-        + File.separator
-        + (typeCollection instanceof FInterface
-            ? CppNameRules.INSTANCE.getTypeName(typeCollection.getName())
-            : typeCollection.getName());
+
+    LinkedList<String> pathComponents = new LinkedList<>(rootNamespace);
+    pathComponents.addAll(DefinedBy.getPackages(typeCollection));
+    pathComponents.add(CppNameRules.INSTANCE.getTypeName(typeCollection.getName()));
+
+    return String.join(File.separator, pathComponents);
   }
 }

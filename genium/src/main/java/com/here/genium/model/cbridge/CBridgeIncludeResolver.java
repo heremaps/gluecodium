@@ -30,6 +30,11 @@ import org.franca.core.franca.FTypeCollection;
 public class CBridgeIncludeResolver {
 
   private final Map<FTypeCollection, Include> resolvedIncludes = new HashMap<>();
+  private final List<String> rootNamespace;
+
+  public CBridgeIncludeResolver(final List<String> rootNamespace) {
+    this.rootNamespace = rootNamespace;
+  }
 
   public Include resolveInclude(final FModelElement modelElement) {
 
@@ -61,6 +66,7 @@ public class CBridgeIncludeResolver {
     List<String> pathComponents = new LinkedList<>();
     pathComponents.add(CBridgeNameRules.CBRIDGE_PUBLIC);
     pathComponents.add(subfolder);
+    pathComponents.addAll(rootNamespace);
     pathComponents.addAll(DefinedBy.getPackages(francaTypeCollection));
     pathComponents.add(CBridgeNameRules.getName(francaTypeCollection) + suffix);
 

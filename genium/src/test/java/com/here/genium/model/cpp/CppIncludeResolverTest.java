@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 
 import com.here.genium.model.common.Include;
 import com.here.genium.model.franca.FrancaDeploymentModel;
+import java.util.Collections;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FStructType;
@@ -57,7 +58,7 @@ public final class CppIncludeResolverTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    includeResolver = new CppIncludeResolver(deploymentModel);
+    includeResolver = new CppIncludeResolver(deploymentModel, Collections.emptyList());
 
     when(francaStruct.eContainer()).thenReturn(francaTypeCollection);
     when(francaTypeCollection.eContainer()).thenReturn(francaModel);
