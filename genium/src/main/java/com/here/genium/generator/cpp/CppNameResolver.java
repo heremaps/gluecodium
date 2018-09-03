@@ -24,9 +24,11 @@ import com.here.genium.generator.common.NameRules;
 import com.here.genium.generator.common.VerbatimNameRules;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import lombok.Value;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.framework.FrancaHelpers;
 import org.franca.core.franca.*;
@@ -34,6 +36,7 @@ import org.franca.core.franca.*;
 public class CppNameResolver {
 
   private final FrancaDeploymentModel deploymentModel;
+  private final String rootNamespace;
   private final Map<String, NamesCacheEntry> namesCache = new HashMap<>();
 
   @Value
@@ -43,8 +46,10 @@ public class CppNameResolver {
     private final String fullName;
   }
 
-  public CppNameResolver(final FrancaDeploymentModel deploymentModel) {
+  public CppNameResolver(
+      final FrancaDeploymentModel deploymentModel, final List<String> rootNamespace) {
     this.deploymentModel = deploymentModel;
+    this.rootNamespace = String.join("::", rootNamespace);
   }
 
   public String getName(final FModelElement francaElement) {
@@ -101,7 +106,7 @@ public class CppNameResolver {
     String parentFqn;
     boolean parentIsExternal = false;
     if (parentElement instanceof FModel) {
-      parentFqn = "::" + ((FModel) parentElement).getName().replace(".", "::");
+      parentFqn = getModelName((FModel) parentElement);
     } else if (parentElement instanceof FModelElement) {
       NamesCacheEntry parentCacheEntry = getCachedEntry((FModelElement) parentElement);
       parentIsExternal = parentCacheEntry.isExternal();
@@ -121,6 +126,11 @@ public class CppNameResolver {
     String name = selectNameRule(francaElement).apply(nameRules, francaElement.getName());
     String fullyQualifiedName = parentFqn + "::" + name;
     namesCache.put(cacheKey, new NamesCacheEntry(isExternal, name, fullyQualifiedName));
+  }
+
+  private String getModelName(final FModel francaModel) {
+    String modelName = "::" + francaModel.getName().replace(".", "::");
+    return StringUtils.isEmpty(rootNamespace) ? modelName : ("::" + rootNamespace + modelName);
   }
 
   private static BiFunction<NameRules, String, String> selectNameRule(

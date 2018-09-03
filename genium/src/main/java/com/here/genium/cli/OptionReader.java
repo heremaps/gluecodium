@@ -25,6 +25,7 @@ import com.here.genium.Genium;
 import com.here.genium.platform.common.GeneratorSuite;
 import java.util.*;
 import org.apache.commons.cli.*;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.xtext.util.Files;
 
 public final class OptionReader {
@@ -76,6 +77,7 @@ public final class OptionReader {
             + " all the generated files.");
     allOptions.addOption(
         "cppInternalNamespace", true, "C++ namespace for internal (non-API) headers.");
+    allOptions.addOption("cppnamespace", true, "C++ namespace for public (API) headers.");
   }
 
   @SuppressWarnings("PMD.ModifiedCyclomaticComplexity")
@@ -121,6 +123,13 @@ public final class OptionReader {
       builder.enableCaching(cmd.hasOption("output") && cmd.hasOption("enableCaching"));
 
       builder.logTimes(cmd.hasOption("timeLogging"));
+
+      String cppRootNamespaces = getSingleOptionValue(cmd, "cppnamespace");
+      builder.cppRootNamespace(
+          !StringUtils.isEmpty(cppRootNamespaces)
+              ? Arrays.asList(cppRootNamespaces.split("."))
+              : Collections.emptyList());
+
       builder.cppInternalNamespace(
           cmd.getOptionValue("cppInternalNamespace", Genium.DEFAULT_INTERNAL_NAMESPACE));
 

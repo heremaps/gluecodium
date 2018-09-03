@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.here.genium.model.common.Include;
+import java.util.Arrays;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
@@ -46,7 +47,7 @@ public final class CBridgeIncludeResolverTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    includeResolver = new CBridgeIncludeResolver();
+    includeResolver = new CBridgeIncludeResolver(Arrays.asList("ro", "ot"));
 
     when(francaElement.eContainer()).thenReturn(francaTypeCollection);
     when(francaTypeCollection.eContainer()).thenReturn(francaModel);
@@ -59,7 +60,7 @@ public final class CBridgeIncludeResolverTest {
   public void resolveInclude() {
     Include result = includeResolver.resolveInclude(francaElement);
 
-    assertEquals("cbridge/include/my/fancy/package/SomeTypeCollection.h", result.fileName);
+    assertEquals("cbridge/include/ro/ot/my/fancy/package/SomeTypeCollection.h", result.fileName);
   }
 
   @Test
@@ -67,7 +68,7 @@ public final class CBridgeIncludeResolverTest {
 
     String filePath = includeResolver.getHeaderFileNameWithPath(francaTypeCollection);
 
-    assertEquals("cbridge/include/my/fancy/package/SomeTypeCollection.h", filePath);
+    assertEquals("cbridge/include/ro/ot/my/fancy/package/SomeTypeCollection.h", filePath);
   }
 
   @Test
@@ -76,6 +77,6 @@ public final class CBridgeIncludeResolverTest {
 
     String filePath = includeResolver.getImplementationFileNameWithPath(francaTypeCollection);
 
-    assertEquals("cbridge/src/my/fancy/package/SomeTypeCollection.cpp", filePath);
+    assertEquals("cbridge/src/ro/ot/my/fancy/package/SomeTypeCollection.cpp", filePath);
   }
 }

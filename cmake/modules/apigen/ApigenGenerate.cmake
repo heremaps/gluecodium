@@ -58,7 +58,8 @@ function(apigen_generate)
       ANDROID_MERGE_MANIFEST
       JAVA_PACKAGE
       COPYRIGHT_HEADER
-      CPP_INTERNAL_NAMESPACE)
+      CPP_INTERNAL_NAMESPACE
+      CPP_NAMESPACE)
   set(multiValueArgs FRANCA_SOURCES)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
@@ -127,6 +128,9 @@ function(apigen_generate)
   endif()
   if(apigen_generate_CPP_INTERNAL_NAMESPACE)
     string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -cppInternalNamespace ${apigen_generate_CPP_INTERNAL_NAMESPACE}")
+  endif()
+  if(apigen_generate_CPP_NAMESPACE)
+    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -cppnamespace ${apigen_generate_CPP_NAMESPACE}")
   endif()
 
   execute_process(

@@ -65,9 +65,10 @@ public class JavaGeneratorSuite extends GeneratorSuite {
 
   private static final String NATIVE_BASE_JAVA = "NativeBase.java";
 
-  private final Genium.Options options;
+  private final List<String> rootPackage;
   private final boolean enableAndroidFeatures;
   private final String internalNamespace;
+  private final List<String> rootNamespace;
   private final FrancaDeploymentModel deploymentModel;
 
   public JavaGeneratorSuite(
@@ -80,9 +81,10 @@ public class JavaGeneratorSuite extends GeneratorSuite {
       final boolean enableAndroidFeatures,
       final FrancaDeploymentModel deploymentModel) {
     super();
-    this.options = options;
+    this.rootPackage = options.getJavaPackageList();
     this.enableAndroidFeatures = enableAndroidFeatures;
-    this.internalNamespace = options != null ? options.getCppInternalNamespace() : null;
+    this.internalNamespace = options.getCppInternalNamespace();
+    this.rootNamespace = options.getCppRootNamespace();
     this.deploymentModel = deploymentModel;
   }
 
@@ -94,7 +96,6 @@ public class JavaGeneratorSuite extends GeneratorSuite {
   @Override
   public List<GeneratedFile> generate(final List<FTypeCollection> typeCollections) {
 
-    List<String> rootPackage = options.getJavaPackageList();
     List<String> javaPackageList =
         rootPackage != null && !rootPackage.isEmpty()
             ? rootPackage
@@ -113,7 +114,8 @@ public class JavaGeneratorSuite extends GeneratorSuite {
                 .collect(Collectors.toList()),
             errorEnumFilter,
             enableAndroidFeatures,
-            internalNamespace);
+            internalNamespace,
+            rootNamespace);
 
     Collection<ModelElement> model =
         typeCollections

@@ -74,17 +74,17 @@ public final class CppNameResolverTest {
 
     return Arrays.asList(
         new Object[][] {
-          {francaModel, "::mo::del::AnElement", "::mo::del::an_Element"},
-          {francaTypeCollection, "::mo::del::AnElement", "::mo::del::an_Element"},
+          {francaModel, "::ro::ot::mo::del::AnElement", "::ro::ot::mo::del::an_Element"},
+          {francaTypeCollection, "::ro::ot::mo::del::AnElement", "::ro::ot::mo::del::an_Element"},
           {
             normalParentElement,
-            "::mo::del::ParentElement::AnElement",
-            "::mo::del::ParentElement::an_Element"
+            "::ro::ot::mo::del::ParentElement::AnElement",
+            "::ro::ot::mo::del::ParentElement::an_Element"
           },
           {
             EXTERNAL_PARENT_ELEMENT,
-            "::mo::del::parent_Element::an_Element",
-            "::mo::del::parent_Element::an_Element"
+            "::ro::ot::mo::del::parent_Element::an_Element",
+            "::ro::ot::mo::del::parent_Element::an_Element"
           },
           {EXTERNAL_NAMED_PARENT_ELEMENT, "ALIEN_PARENT::an_Element", "ALIEN_PARENT::an_Element"}
         });
@@ -94,7 +94,7 @@ public final class CppNameResolverTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    nameResolver = new CppNameResolver(deploymentModel);
+    nameResolver = new CppNameResolver(deploymentModel, Arrays.asList("ro", "ot"));
 
     when(deploymentModel.isExternalType(EXTERNAL_PARENT_ELEMENT)).thenReturn(true);
     when(deploymentModel.isExternalType(EXTERNAL_NAMED_PARENT_ELEMENT)).thenReturn(true);

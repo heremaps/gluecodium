@@ -54,6 +54,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   static final List<String> ADDITIONAL_HEADERS = Arrays.asList("EnumHash", "Return");
 
   private final String internalNamespace;
+  private final List<String> rootNamespace;
   private final FrancaDeploymentModel deploymentModel;
   private final CppIncludeResolver includeResolver;
   private final CppNameResolver nameResolver;
@@ -62,9 +63,10 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
       final Genium.Options options, final FrancaDeploymentModel deploymentModel) {
     super();
     this.internalNamespace = options.getCppInternalNamespace();
+    this.rootNamespace = options.getCppRootNamespace();
     this.deploymentModel = deploymentModel;
-    this.includeResolver = new CppIncludeResolver(deploymentModel);
-    this.nameResolver = new CppNameResolver(deploymentModel);
+    this.includeResolver = new CppIncludeResolver(deploymentModel, rootNamespace);
+    this.nameResolver = new CppNameResolver(deploymentModel, rootNamespace);
   }
 
   @Override
@@ -76,7 +78,6 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   public List<GeneratedFile> generate(final List<FTypeCollection> typeCollections) {
 
     CppTypeMapper typeMapper = new CppTypeMapper(includeResolver, nameResolver, internalNamespace);
-
     CppGenerator generator =
         new CppGenerator(BaseApiGeneratorSuite.GENERATOR_NAME, internalNamespace);
 
@@ -117,7 +118,10 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
     treeWalker.walkTree(francaTypeCollection);
 
-    CppFile cppModel = new CppFile(DefinedBy.getPackages(francaTypeCollection));
+    LinkedList<String> namespaces = new LinkedList<>(rootNamespace);
+    namespaces.addAll(DefinedBy.getPackages(francaTypeCollection));
+
+    CppFile cppModel = new CppFile(namespaces);
     cppModel.members.addAll(builder.getFinalResults());
     cppModel.includes.addAll(collectIncludes(cppModel));
     cppModel.forwardDeclarations.addAll(collectForwardDeclarations(cppModel));
