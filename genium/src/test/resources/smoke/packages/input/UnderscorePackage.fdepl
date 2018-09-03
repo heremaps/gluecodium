@@ -17,26 +17,12 @@
  * License-Filename: LICENSE
  */
 
-package smoke_off
+import "classpath:/GeniumExtensions.fdepl"
+import "./UnderscorePackage.fidl"
 
-interface Basic {
-
-    version {
-        major 0
-        minor 1
-    }
-
-    <** @description:
-    Example static method for Basic feature which takes a String and returns a String
-    **>
+define GeniumExtensions for interface smoke_off.UnderscorePackage
+{
     method basicMethod {
-        in {
-            <** @description: Input string **>
-            String inputString
-        }
-        out {
-            <** @description: Output string **>
-            String outputString
-        }
+        Static = true
     }
 }
