@@ -61,7 +61,7 @@ public final class CppNameResolverTest {
     FTypeCollection francaTypeCollection = mock(FTypeCollection.class);
     FModelElement normalParentElement = mock(FModelElement.class);
 
-    when(francaModel.getName()).thenReturn("model");
+    when(francaModel.getName()).thenReturn("mo.del");
     when(francaTypeCollection.getName()).thenReturn("type_Collection");
     when(normalParentElement.getName()).thenReturn("parent_Element");
     when(EXTERNAL_PARENT_ELEMENT.getName()).thenReturn("parent_Element");
@@ -74,17 +74,17 @@ public final class CppNameResolverTest {
 
     return Arrays.asList(
         new Object[][] {
-          {francaModel, "::model::AnElement", "::model::an_Element"},
-          {francaTypeCollection, "::model::AnElement", "::model::an_Element"},
+          {francaModel, "::mo::del::AnElement", "::mo::del::an_Element"},
+          {francaTypeCollection, "::mo::del::AnElement", "::mo::del::an_Element"},
           {
             normalParentElement,
-            "::model::ParentElement::AnElement",
-            "::model::ParentElement::an_Element"
+            "::mo::del::ParentElement::AnElement",
+            "::mo::del::ParentElement::an_Element"
           },
           {
             EXTERNAL_PARENT_ELEMENT,
-            "::model::parent_Element::an_Element",
-            "::model::parent_Element::an_Element"
+            "::mo::del::parent_Element::an_Element",
+            "::mo::del::parent_Element::an_Element"
           },
           {EXTERNAL_NAMED_PARENT_ELEMENT, "ALIEN_PARENT::an_Element", "ALIEN_PARENT::an_Element"}
         });
