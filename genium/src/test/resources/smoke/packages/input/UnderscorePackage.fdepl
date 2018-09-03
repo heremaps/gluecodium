@@ -18,9 +18,9 @@
  */
 
 import "classpath:/GeniumExtensions.fdepl"
-import "./Basic.fidl"
+import "./UnderscorePackage.fidl"
 
-define GeniumExtensions for interface smoke_off.Basic
+define GeniumExtensions for interface smoke_off.UnderscorePackage
 {
     method basicMethod {
         Static = true

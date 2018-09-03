@@ -19,23 +19,13 @@
 
 package smoke_off
 
-interface Basic {
+interface UnderscorePackage {
 
-    version {
-        major 0
-        minor 1
-    }
-
-    <** @description:
-    Example static method for Basic feature which takes a String and returns a String
-    **>
     method basicMethod {
         in {
-            <** @description: Input string **>
             String inputString
         }
         out {
-            <** @description: Output string **>
             String outputString
         }
     }
