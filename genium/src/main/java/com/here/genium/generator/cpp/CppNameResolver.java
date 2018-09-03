@@ -101,7 +101,7 @@ public class CppNameResolver {
     String parentFqn;
     boolean parentIsExternal = false;
     if (parentElement instanceof FModel) {
-      parentFqn = "::" + ((FModel) parentElement).getName();
+      parentFqn = "::" + ((FModel) parentElement).getName().replace(".", "::");
     } else if (parentElement instanceof FModelElement) {
       NamesCacheEntry parentCacheEntry = getCachedEntry((FModelElement) parentElement);
       parentIsExternal = parentCacheEntry.isExternal();
