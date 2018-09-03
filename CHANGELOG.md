@@ -5,6 +5,8 @@
   + Added support for "ExternalType" and "ExternalName" FDEPL properties for interfaces. Added
     support for "ExternalGetter" and "ExternalSetter" FDEPL properties for attributes in such
     interfaces.
+- Bug fixes:
+  + Fixed handling of nested namespaces in C++.
 
 ## 3.8.0
 - Breaking changes:
