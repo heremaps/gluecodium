@@ -69,7 +69,7 @@ public abstract class AcceptanceTestBase {
 
   @Rule public final NiceErrorCollector errorCollector = new NiceErrorCollector();
 
-  private final Genium genium = spy(new Genium(Genium.DEFAULT_OPTIONS));
+  private final Genium genium = spy(new Genium(getGeniumOptions()));
 
   private final File featureDirectory;
   private final String generatorName;
@@ -93,6 +93,10 @@ public abstract class AcceptanceTestBase {
             })
         .when(genium)
         .output(any(), any());
+  }
+
+  protected Genium.Options getGeniumOptions() {
+    return Genium.DEFAULT_OPTIONS;
   }
 
   protected static Collection<Object[]> getData(final String resourcePrefix) {
