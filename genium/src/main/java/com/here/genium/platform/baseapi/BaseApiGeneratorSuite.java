@@ -88,8 +88,8 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
       CppFile cppModel =
           mapFrancaTypeCollectionToCppModel(typeMapper, francaTypeCollection, errorEnums);
-      String outputFilePathHeader = CppNameRules.INSTANCE.getOutputFilePath(francaTypeCollection);
-      String outputFilePathImpl = CppNameRules.INSTANCE.getOutputFilePath(francaTypeCollection);
+      String outputFilePathHeader = includeResolver.getOutputFilePath(francaTypeCollection);
+      String outputFilePathImpl = includeResolver.getOutputFilePath(francaTypeCollection);
 
       generatedFiles.addAll(
           generator.generateCode(cppModel, outputFilePathHeader, outputFilePathImpl));

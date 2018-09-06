@@ -24,8 +24,10 @@ import com.here.genium.generator.cpp.CppNameRules;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.franca.DefinedBy;
 import com.here.genium.model.franca.FrancaDeploymentModel;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
 
@@ -50,7 +52,8 @@ public class CppIncludeResolver {
     if (externalType != null) {
       include = Include.createInternalInclude(externalType);
     } else if (modelElement instanceof FTypeCollection) {
-      String includeName = CppNameRules.INSTANCE.getHeaderPath((FTypeCollection) modelElement);
+      String includeName =
+          getOutputFilePath((FTypeCollection) modelElement) + CppNameRules.HEADER_FILE_SUFFIX;
       include = Include.createInternalInclude(includeName);
     } else {
       FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
@@ -60,5 +63,13 @@ public class CppIncludeResolver {
     resolvedIncludes.put(cacheKey, include);
 
     return include;
+  }
+
+  public String getOutputFilePath(final FTypeCollection typeCollection) {
+    return String.join(File.separator, DefinedBy.getPackages(typeCollection))
+        + File.separator
+        + (typeCollection instanceof FInterface
+            ? CppNameRules.INSTANCE.getTypeName(typeCollection.getName())
+            : typeCollection.getName());
   }
 }

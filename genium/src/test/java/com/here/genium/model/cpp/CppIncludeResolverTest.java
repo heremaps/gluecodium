@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 
 import com.here.genium.model.common.Include;
 import com.here.genium.model.franca.FrancaDeploymentModel;
+import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FStructType;
 import org.franca.core.franca.FTypeCollection;
@@ -45,6 +46,7 @@ public final class CppIncludeResolverTest {
 
   @Mock private FModel francaModel;
   @Mock private FTypeCollection francaTypeCollection;
+  @Mock private FInterface francaInterface;
   @Mock private FStructType francaStruct;
 
   @Mock private FrancaDeploymentModel deploymentModel;
@@ -59,6 +61,7 @@ public final class CppIncludeResolverTest {
 
     when(francaStruct.eContainer()).thenReturn(francaTypeCollection);
     when(francaTypeCollection.eContainer()).thenReturn(francaModel);
+    when(francaInterface.eContainer()).thenReturn(francaModel);
 
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
     when(francaModel.getName()).thenReturn(MODEL_NAME);
@@ -79,5 +82,24 @@ public final class CppIncludeResolverTest {
     Include result = includeResolver.resolveInclude(francaStruct);
 
     assertEquals("SomeModel/SomeTypeCollection.h", result.fileName);
+  }
+
+  @Test
+  public void getOutputFilePathForInterface() {
+    when(francaModel.getName()).thenReturn("my.fancy.package");
+    when(francaInterface.getName()).thenReturn("FancyName");
+
+    String filePath = includeResolver.getOutputFilePath(francaInterface);
+
+    assertEquals("my/fancy/package/FancyName", filePath);
+  }
+
+  @Test
+  public void getOutputFilePathForTypeCollection() {
+    when(francaModel.getName()).thenReturn("my.fancy.package");
+
+    String filePath = includeResolver.getOutputFilePath(francaTypeCollection);
+
+    assertEquals("my/fancy/package/SomeTypeCollection", filePath);
   }
 }

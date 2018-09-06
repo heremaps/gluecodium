@@ -21,10 +21,7 @@ package com.here.genium.generator.cpp;
 
 import com.here.genium.generator.common.NameHelper;
 import com.here.genium.generator.common.NameRules;
-import com.here.genium.model.franca.DefinedBy;
-import java.io.File;
 import java.util.List;
-import org.franca.core.franca.*;
 
 public final class CppNameRules implements NameRules {
 
@@ -70,17 +67,5 @@ public final class CppNameRules implements NameRules {
     return nestedNameSpecifier.isEmpty()
         ? "::" + name
         : "::" + String.join("::", nestedNameSpecifier) + (name.isEmpty() ? "" : "::" + name);
-  }
-
-  public String getHeaderPath(final FTypeCollection francaTypeCollection) {
-    return getOutputFilePath(francaTypeCollection) + HEADER_FILE_SUFFIX;
-  }
-
-  public String getOutputFilePath(final FTypeCollection francaTypeCollection) {
-    return String.join(File.separator, DefinedBy.getPackages(francaTypeCollection))
-        + File.separator
-        + (francaTypeCollection instanceof FInterface
-            ? getTypeName(francaTypeCollection.getName())
-            : francaTypeCollection.getName());
   }
 }
