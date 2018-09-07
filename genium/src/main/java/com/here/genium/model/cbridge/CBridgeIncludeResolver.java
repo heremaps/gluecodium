@@ -22,8 +22,8 @@ package com.here.genium.model.cbridge;
 import com.here.genium.generator.cbridge.CBridgeNameRules;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.franca.DefinedBy;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
+import java.util.*;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
 
@@ -37,11 +37,33 @@ public class CBridgeIncludeResolver {
     Include include = resolvedIncludes.get(typeCollection);
 
     if (include == null) {
-      String includeName = CBridgeNameRules.getHeaderFileNameWithPath(typeCollection);
+      String includeName = getHeaderFileNameWithPath(typeCollection);
       include = Include.createInternalInclude(includeName);
       resolvedIncludes.put(typeCollection, include);
     }
 
     return include;
+  }
+
+  public String getHeaderFileNameWithPath(final FTypeCollection francaTypeCollection) {
+    return getPathComponents(
+        francaTypeCollection, CBridgeNameRules.INCLUDE_DIR, CBridgeNameRules.PUBLIC_HEADER_SUFFIX);
+  }
+
+  public String getImplementationFileNameWithPath(final FTypeCollection francaTypeCollection) {
+    return getPathComponents(
+        francaTypeCollection, CBridgeNameRules.SRC_DIR, CBridgeNameRules.IMPL_SUFFIX);
+  }
+
+  private String getPathComponents(
+      final FTypeCollection francaTypeCollection, final String subfolder, final String suffix) {
+
+    List<String> pathComponents = new LinkedList<>();
+    pathComponents.add(CBridgeNameRules.CBRIDGE_PUBLIC);
+    pathComponents.add(subfolder);
+    pathComponents.addAll(DefinedBy.getPackages(francaTypeCollection));
+    pathComponents.add(CBridgeNameRules.getName(francaTypeCollection) + suffix);
+
+    return String.join(File.separator, pathComponents);
   }
 }

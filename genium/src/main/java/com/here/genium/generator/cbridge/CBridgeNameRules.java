@@ -21,9 +21,7 @@ package com.here.genium.generator.cbridge;
 
 import com.here.genium.generator.common.NameHelper;
 import com.here.genium.model.franca.DefinedBy;
-import java.io.File;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import org.franca.core.franca.*;
@@ -45,31 +43,12 @@ public final class CBridgeNameRules {
   public static final String BASE_REF_NAME = "_baseRef";
 
   public static final String UNDERSCORE_DELIMITER = "_";
-  private static final String PUBLIC_HEADER_SUFFIX = ".h";
-  private static final String IMPL_SUFFIX = ".cpp";
+  public static final String PUBLIC_HEADER_SUFFIX = ".h";
+  public static final String IMPL_SUFFIX = ".cpp";
 
   private CBridgeNameRules() {}
 
-  public static String getHeaderFileNameWithPath(final FTypeCollection francaTypeCollection) {
-    return getPathComponents(francaTypeCollection, INCLUDE_DIR, PUBLIC_HEADER_SUFFIX);
-  }
-
-  public static String getImplementationFileNameWithPath(
-      final FTypeCollection francaTypeCollection) {
-    return getPathComponents(francaTypeCollection, SRC_DIR, IMPL_SUFFIX);
-  }
-
-  private static String getPathComponents(
-      final FTypeCollection francaTypeCollection, final String subfolder, final String suffix) {
-    ArrayList<String> pathComponents = new ArrayList<>();
-    pathComponents.add(CBridgeNameRules.CBRIDGE_PUBLIC);
-    pathComponents.add(subfolder);
-    pathComponents.addAll(DefinedBy.getPackages(francaTypeCollection));
-    pathComponents.add(getName(francaTypeCollection) + suffix);
-    return String.join(File.separator, pathComponents);
-  }
-
-  private static String getName(final FTypeCollection francaTypeCollection) {
+  public static String getName(final FTypeCollection francaTypeCollection) {
     return NameHelper.toUpperCamelCase(francaTypeCollection.getName());
   }
 

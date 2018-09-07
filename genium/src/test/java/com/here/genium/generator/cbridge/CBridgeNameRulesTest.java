@@ -23,9 +23,7 @@ import static com.here.genium.generator.common.NameHelper.toUpperCamelCase;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
-import com.here.genium.generator.cpp.CppNameRules;
 import java.util.List;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FEnumerationType;
@@ -38,13 +36,13 @@ import org.franca.core.franca.FTypeCollection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.Mock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.MockitoAnnotations;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(CppNameRules.class)
+@RunWith(JUnit4.class)
 public final class CBridgeNameRulesTest {
+
   private static final List<String> PACKAGES = asList("PKG1", "PKG2");
   private static final String INTERFACE_NAME = "TestInterface";
   private static final String TYPE_COLLECTION_NAME = "TestTypeCollection";
@@ -63,7 +61,8 @@ public final class CBridgeNameRulesTest {
 
   @Before
   public void setUp() {
-    mockStatic(CppNameRules.class);
+    MockitoAnnotations.initMocks(this);
+
     when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
 
     when(francaStruct.getName()).thenReturn(STRUCT_NAME);
@@ -106,24 +105,6 @@ public final class CBridgeNameRulesTest {
 
     String actualName = CBridgeNameRules.getStructBaseName(francaStruct);
     assertEquals(expectedName, actualName);
-  }
-
-  @Test
-  public void getHeaderFileNameWithPathReturnsCorrectPath() {
-    String expected = "cbridge/include/PKG1/PKG2/TestInterface.h";
-
-    String actual = CBridgeNameRules.getHeaderFileNameWithPath(francaInterface);
-
-    assertEquals(expected, actual);
-  }
-
-  @Test
-  public void getImplementationFileNameWithPathReturnsCorrectPath() {
-    String expected = "cbridge/src/PKG1/PKG2/TestInterface.cpp";
-
-    String actual = CBridgeNameRules.getImplementationFileNameWithPath(francaInterface);
-
-    assertEquals(expected, actual);
   }
 
   @Test
