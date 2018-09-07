@@ -84,10 +84,10 @@ public class CBridgeGenerator {
     return Stream.of(
             new GeneratedFile(
                 generateHeaderContent(cModel),
-                CBridgeNameRules.getHeaderFileNameWithPath(francaTypeCollection)),
+                includeResolver.getHeaderFileNameWithPath(francaTypeCollection)),
             new GeneratedFile(
                 generateImplementationContent(cModel),
-                CBridgeNameRules.getImplementationFileNameWithPath(francaTypeCollection)))
+                includeResolver.getImplementationFileNameWithPath(francaTypeCollection)))
         .filter(file -> !file.content.isEmpty());
   }
 
@@ -141,7 +141,7 @@ public class CBridgeGenerator {
       final FTypeCollection francaTypeCollection, CInterface cModel) {
     cModel.headerIncludes.remove(
         Include.createInternalInclude(
-            CBridgeNameRules.getHeaderFileNameWithPath(francaTypeCollection)));
+            includeResolver.getHeaderFileNameWithPath(francaTypeCollection)));
     cModel.implementationIncludes.removeAll(cModel.headerIncludes);
     cModel.privateHeaderIncludes.removeAll(cModel.headerIncludes);
   }
