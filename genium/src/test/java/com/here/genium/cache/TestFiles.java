@@ -23,7 +23,7 @@ import com.here.genium.generator.common.GeneratedFile;
 import java.util.Arrays;
 import java.util.List;
 
-public final class TestFiles {
+final class TestFiles {
 
   public static final String CONTENT1 = "CONTENT1";
   public static final String CONTENT2 = "";

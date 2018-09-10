@@ -26,7 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public final class IntegrationTestFiles {
+final class IntegrationTestFiles {
 
   public static final Set<String> MY_GENERATORS =
       new HashSet<>(Arrays.asList("Fancy", "SuperFancy", "NotSoFancy"));
@@ -44,7 +44,7 @@ public final class IntegrationTestFiles {
     public final List<GeneratedFile> inputFiles;
     public final List<GeneratedFile> outputFiles;
 
-    public CacheInputOutputPair(
+    CacheInputOutputPair(
         final String cacheName,
         final List<GeneratedFile> expectedInput,
         final List<GeneratedFile> expectedOutput) {

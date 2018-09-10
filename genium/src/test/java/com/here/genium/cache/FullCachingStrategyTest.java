@@ -40,13 +40,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(FullCachingStrategy.class)
-public class FullCachingStrategyTest {
+@PrepareForTest(FullCachingStrategy.class) // Required for mocking of FileRemove constructor call
+public final class FullCachingStrategyTest {
 
   private static final String OUT_FOLDER = "outFolder";
 
@@ -58,8 +57,6 @@ public class FullCachingStrategyTest {
 
   @Before
   public void setUp() throws Exception {
-    MockitoAnnotations.initMocks(this);
-
     when(cache.getNonCachedFiles()).thenReturn(new LinkedList<>());
     when(fileRemover.removeFiles(new LinkedList<>())).thenReturn(true);
     whenNew(FileRemove.class).withArguments(new File(OUT_FOLDER)).thenReturn(fileRemover);
@@ -69,8 +66,6 @@ public class FullCachingStrategyTest {
 
   @Test
   public void writeFolderInvalid() {
-
-    // arrange is done in setUp
 
     // act
     boolean result = cacheStrategy.write(false);
@@ -85,8 +80,6 @@ public class FullCachingStrategyTest {
 
   @Test
   public void writeFolderValid() throws FileNotFoundException {
-
-    // arrange is done in setUp
 
     // act
     boolean result = cacheStrategy.write(true);

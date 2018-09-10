@@ -30,6 +30,7 @@ import com.here.genium.output.FileRemove;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import org.junit.Before;
@@ -41,12 +42,15 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({MultiFileSetCache.class, CleanUpCachingStrategy.class})
-public class CleanUpCachingStrategyTest {
+@PrepareForTest({
+  MultiFileSetCache.class,
+  CleanUpCachingStrategy.class // Required for mocking of FileRemove constructor call
+})
+public final class CleanUpCachingStrategyTest {
 
   private static final String ROOTDIRNAME = "root";
   private final CleanUpCachingStrategy myStrategy =
-      new CleanUpCachingStrategy(ROOTDIRNAME, new HashSet<>(Arrays.asList("SetA")));
+      new CleanUpCachingStrategy(ROOTDIRNAME, new HashSet<>(Collections.singletonList("SetA")));
 
   @Mock private FileRemove remover;
 
@@ -61,14 +65,15 @@ public class CleanUpCachingStrategyTest {
 
     // arrange
     CleanUpCachingStrategy nullStrategy =
-        new CleanUpCachingStrategy(null, new HashSet<>(Arrays.asList("SetA")));
+        new CleanUpCachingStrategy(null, new HashSet<>(Collections.singletonList("SetA")));
 
     // act
     nullStrategy.write(true);
 
     // verify
     verifyStatic(never());
-    MultiFileSetCache.retrieveExistingCacheFiles(ROOTDIRNAME, new HashSet<>(Arrays.asList("SetA")));
+    MultiFileSetCache.retrieveExistingCacheFiles(
+        ROOTDIRNAME, new HashSet<>(Collections.singletonList("SetA")));
     verify(remover, never()).removeFiles(any());
   }
 
@@ -84,7 +89,8 @@ public class CleanUpCachingStrategyTest {
 
     // verify
     verifyStatic();
-    MultiFileSetCache.retrieveExistingCacheFiles(ROOTDIRNAME, new HashSet<>(Arrays.asList("SetA")));
+    MultiFileSetCache.retrieveExistingCacheFiles(
+        ROOTDIRNAME, new HashSet<>(Collections.singletonList("SetA")));
     verify(remover).removeFiles(Arrays.asList(Paths.get("1"), Paths.get("2"), Paths.get("3")));
   }
 
@@ -99,7 +105,8 @@ public class CleanUpCachingStrategyTest {
 
     // verify
     verifyStatic();
-    MultiFileSetCache.retrieveExistingCacheFiles(ROOTDIRNAME, new HashSet<>(Arrays.asList("SetA")));
+    MultiFileSetCache.retrieveExistingCacheFiles(
+        ROOTDIRNAME, new HashSet<>(Collections.singletonList("SetA")));
     verify(remover, never()).removeFiles(any());
   }
 }
