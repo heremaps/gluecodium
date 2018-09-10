@@ -30,14 +30,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({HashValueCalculator.class, MessageDigest.class})
-public class HashValueCalculatorTest {
+public final class HashValueCalculatorTest {
 
   private static final String TEST_INPUT = "someString";
   private static final byte[] TEST_OUTPUT = TEST_INPUT.getBytes();
@@ -47,7 +46,7 @@ public class HashValueCalculatorTest {
   @Before
   public void setUp() throws NoSuchAlgorithmException {
     PowerMockito.mockStatic(MessageDigest.class);
-    MockitoAnnotations.initMocks(this);
+
     PowerMockito.when(MessageDigest.getInstance(any())).thenReturn(md);
     when(md.digest()).thenReturn(TEST_OUTPUT);
   }

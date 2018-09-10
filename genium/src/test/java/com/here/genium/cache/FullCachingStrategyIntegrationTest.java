@@ -73,6 +73,7 @@ public final class FullCachingStrategyIntegrationTest {
       assertTrue(Files.isRegularFile(Paths.get(buildFolderPath, "/.cache/" + generatorName)));
       Map<String, CacheEntry> result =
           loadCacheFile(Paths.get(buildFolderPath, "/.cache/" + generatorName).toFile());
+      assertNotNull(result);
       assertTrue(result.isEmpty());
     }
   }
@@ -88,6 +89,7 @@ public final class FullCachingStrategyIntegrationTest {
       assertTrue(Files.isRegularFile(Paths.get(buildFolderPath, "/.cache/" + generatorName)));
       Map<String, CacheEntry> result =
           loadCacheFile(Paths.get(buildFolderPath, "/.cache/" + generatorName).toFile());
+      assertNotNull(result);
       assertTrue(result.isEmpty());
     }
   }
@@ -100,7 +102,7 @@ public final class FullCachingStrategyIntegrationTest {
       List<GeneratedFile> result = myStrategy.updateCache(entry.name, entry.inputFiles);
       // assert
       assertEquals(entry.outputFiles.size(), result.size());
-      assertTrue(entry.outputFiles.stream().allMatch(file -> result.contains(file)));
+      assertTrue(result.containsAll(entry.outputFiles));
     }
   }
 
@@ -118,7 +120,7 @@ public final class FullCachingStrategyIntegrationTest {
       List<GeneratedFile> result = myStrategy.updateCache(entry.name, entry.inputFiles);
 
       assertEquals(result.size(), entry.outputFiles.size());
-      assertTrue(entry.outputFiles.stream().allMatch(file -> result.contains(file)));
+      assertTrue(result.containsAll(entry.outputFiles));
     }
     myStrategy.write(true);
 
@@ -127,7 +129,7 @@ public final class FullCachingStrategyIntegrationTest {
       List<GeneratedFile> result = myStrategy.updateCache(entry.name, entry.inputFiles);
 
       assertEquals(result.size(), entry.outputFiles.size());
-      assertTrue(entry.outputFiles.stream().allMatch(file -> result.contains(file)));
+      assertTrue(result.containsAll(entry.outputFiles));
     }
   }
 
@@ -170,18 +172,18 @@ public final class FullCachingStrategyIntegrationTest {
     for (IntegrationTestFiles.CacheInputOutputPair entry : FIRSTRUN) {
       Map<String, CacheEntry> result =
           loadCacheFile(Paths.get(buildFolderPath, "/.cache/" + entry.name).toFile());
+      assertNotNull(result);
       assertTrue(result.isEmpty());
     }
   }
 
-  private static Map<String, CacheEntry> loadCacheFile(File cacheFile) {
+  @SuppressWarnings("unchecked")
+  private static Map<String, CacheEntry> loadCacheFile(final File cacheFile) {
     try {
       InputStream fileInputStream = new FileInputStream(cacheFile);
       ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
       return (HashMap<String, CacheEntry>) objectInputStream.readObject();
-    } catch (IOException e) {
-      return null;
-    } catch (ClassNotFoundException e) {
+    } catch (IOException | ClassNotFoundException e) {
       return null;
     }
   }
