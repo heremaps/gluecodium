@@ -19,17 +19,39 @@
 
 package com.here.genium.cache;
 
+import com.here.genium.cli.GeniumExecutionException;
 import java.util.Set;
 
 public final class CachingStrategyCreator {
 
   public static CachingStrategy initializeCaching(
-      boolean cachingEnabled, final String buildFolder, Set<String> availableGenerators) {
+      boolean cachingEnabled, final String buildFolder, final Set<String> availableGenerators) {
 
-    if (cachingEnabled) {
-      return new FullCachingStrategy(
-          new MultiFileSetCache(buildFolder, availableGenerators), buildFolder);
+    if (!cachingEnabled) {
+      return new CleanUpCachingStrategy(buildFolder, availableGenerators);
     }
-    return new CleanUpCachingStrategy(buildFolder, availableGenerators);
+
+    MultiFileSetCache cache;
+    try {
+      cache = new MultiFileSetCache(buildFolder, availableGenerators);
+    } catch (GeniumExecutionException e) {
+      eraseExistingFileCache(buildFolder, availableGenerators, e);
+      cache = new MultiFileSetCache(buildFolder, availableGenerators);
+    }
+
+    return new FullCachingStrategy(cache, buildFolder);
+  }
+
+  private static void eraseExistingFileCache(
+      final String buildFolder,
+      final Set<String> availableGenerators,
+      final GeniumExecutionException previousException) {
+
+    CleanUpCachingStrategy cleanUpStrategy =
+        new CleanUpCachingStrategy(buildFolder, availableGenerators);
+    boolean cleanupResult = cleanUpStrategy.write(true);
+    if (!cleanupResult) {
+      throw new GeniumExecutionException("Failed to erase corrupt file cache", previousException);
+    }
   }
 }
