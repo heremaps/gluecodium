@@ -62,13 +62,11 @@ public final class FileSetCacheTest {
 
   @Before
   public void setUp() {
+    PowerMockito.mockStatic(HashValueCalculator.class);
 
     cacheFile = new File(testFolder.getRoot(), RELATIVE_CACHE_PATH);
     cache = new FileSetCache(cacheFile);
 
-    PowerMockito.mockStatic(HashValueCalculator.class);
-
-    // we need valid hash values
     when(HashValueCalculator.calculateHashValue(anyString()))
         .thenAnswer(invocation -> ((String) invocation.getArguments()[0]).getBytes());
   }
@@ -95,7 +93,7 @@ public final class FileSetCacheTest {
   }
 
   @Test
-  public void loadEmptyCache() throws IOException, ClassNotFoundException {
+  public void loadEmptyCache() {
     cache.writeCache();
 
     // act
@@ -106,7 +104,7 @@ public final class FileSetCacheTest {
   }
 
   @Test
-  public void updateEmptyCache() throws IOException, ClassNotFoundException {
+  public void updateEmptyCache() {
 
     // act
     List<GeneratedFile> result = cache.updateCache(TestFiles.INITIAL_FILES);
@@ -151,7 +149,7 @@ public final class FileSetCacheTest {
   }
 
   @Test
-  public void loadNonEmptyCache() throws IOException, ClassNotFoundException {
+  public void loadNonEmptyCache() {
 
     cache.updateCache(TestFiles.INITIAL_FILES);
     cache.writeCache();
@@ -241,7 +239,7 @@ public final class FileSetCacheTest {
 
     // assert
     assertEquals(2, cache.getCacheEntries().size());
-    assertTrue(cache.getCacheEntries().values().stream().allMatch(entry -> !entry.touched));
+    assertTrue(cache.getCacheEntries().values().stream().noneMatch(entry -> entry.touched));
     CacheEntry secondFromCache = cache.getCacheEntries().get("second");
     CacheEntry thirdFromCache = cache.getCacheEntries().get("third");
     assertEquals(second, secondFromCache);

@@ -47,8 +47,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(MultiFileSetCache.class)
-public class MultiFileSetCacheTest {
+@PrepareForTest(MultiFileSetCache.class) // Required for mocking of FileSetCache constructor call
+public final class MultiFileSetCacheTest {
 
   @Rule public TemporaryFolder testFolder = new TemporaryFolder();
 
@@ -106,29 +106,19 @@ public class MultiFileSetCacheTest {
   }
 
   @Test
-  public void constructMultiSetCache() throws Exception {
-
-    // arrange & act is done in setUp
-
-    PowerMockito.verifyNew(FileSetCache.class).withArguments(cacheFileSetA);
-
-    PowerMockito.verifyNew(FileSetCache.class).withArguments(cacheFileSetB);
-  }
-
-  @Test
   public void updateCacheFileSetNotFound() {
 
     expectedException.expect(GeniumExecutionException.class);
 
-    multiCache.updateCache(FILE_SET_A_NAME + "_X", Collections.EMPTY_LIST);
+    multiCache.updateCache(FILE_SET_A_NAME + "_X", Collections.emptyList());
   }
 
   @Test
   public void updateCacheFileSetFound() {
 
-    multiCache.updateCache(FILE_SET_A_NAME, Collections.EMPTY_LIST);
+    multiCache.updateCache(FILE_SET_A_NAME, Collections.emptyList());
 
-    verify(cacheA).updateCache(Collections.EMPTY_LIST);
+    verify(cacheA).updateCache(Collections.emptyList());
     verify(cacheB, never()).updateCache(any());
   }
 
