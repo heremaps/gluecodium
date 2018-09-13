@@ -61,14 +61,14 @@ public final class CBridgeTypeMapperTest {
 
   @Mock private CppNameResolver cppNameResolver;
 
-  private CTypeMapper typeMapper;
+  private CBridgeTypeMapper typeMapper;
 
   @Before
   public void setUp() {
     mockStatic(FrancaTypeHelper.class, DefinedBy.class);
 
     typeMapper =
-        new CTypeMapper(
+        new CBridgeTypeMapper(
             mock(CppIncludeResolver.class),
             cppNameResolver,
             mock(CBridgeIncludeResolver.class),

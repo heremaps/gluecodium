@@ -47,7 +47,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
   private final CBridgeIncludeResolver includeResolver;
   private final CppModelBuilder cppBuilder;
   private final SwiftModelBuilder swiftBuilder;
-  private final CTypeMapper typeMapper;
+  private final CBridgeTypeMapper typeMapper;
 
   public final Map<String, CArray> arraysCollector = new HashMap<>();
 
@@ -57,7 +57,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
       final CBridgeIncludeResolver includeResolver,
       final CppModelBuilder cppBuilder,
       final SwiftModelBuilder swiftBuilder,
-      final CTypeMapper typeMapper) {
+      final CBridgeTypeMapper typeMapper) {
     this(
         new ModelBuilderContextStack<>(),
         deploymentModel,
@@ -76,7 +76,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
       final CBridgeIncludeResolver includeResolver,
       final CppModelBuilder cppBuilder,
       final SwiftModelBuilder swiftBuilder,
-      final CTypeMapper typeMapper) {
+      final CBridgeTypeMapper typeMapper) {
     super(contextStack);
     this.deploymentModel = deploymentModel;
     this.cppIncludeResolver = cppIncludeResolver;

@@ -37,7 +37,7 @@ import java.util.List;
 import lombok.Getter;
 import org.franca.core.franca.*;
 
-public class CTypeMapper {
+public class CBridgeTypeMapper {
 
   private static final Include BASE_HANDLE_IMPL_INCLUDE =
       Include.createInternalInclude(CBridgeNameRules.BASE_HANDLE_IMPL_FILE);
@@ -48,7 +48,7 @@ public class CTypeMapper {
   @Getter private final String enumHashType;
   private final CppTypeInfo byteBufferTypeInfo;
 
-  public CTypeMapper(
+  public CBridgeTypeMapper(
       final CppIncludeResolver cppIncludeResolver,
       final CppNameResolver cppNameResolver,
       final CBridgeIncludeResolver includeResolver,
