@@ -94,7 +94,7 @@ public final class CBridgeModelBuilderTest {
   @Mock private SwiftModelBuilder swiftModelBuilder;
   @Mock private CppIncludeResolver cppIncludeResolver;
   @Mock private CBridgeIncludeResolver includeResolver;
-  @Mock private CTypeMapper typeMapper;
+  @Mock private CBridgeTypeMapper typeMapper;
 
   @Mock private FInterface francaInterface;
   @Mock private FMethod francaMethod;
