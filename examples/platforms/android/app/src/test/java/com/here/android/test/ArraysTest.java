@@ -147,6 +147,18 @@ public class ArraysTest {
   }
 
   @Test
+  public void reverseUint8Array() {
+    List<Long> longList = java.util.Arrays.asList(LONG_VALUE_1, LONG_VALUE_2);
+
+    List<Long> resultsList = Arrays.reverseUint8Array(longList);
+
+    assertNotNull(resultsList);
+    assertEquals(2, resultsList.size());
+    assertEquals(LONG_VALUE_2, resultsList.get(0).longValue());
+    assertEquals(LONG_VALUE_1, resultsList.get(1).longValue());
+  }
+
+  @Test
   public void reverseUint16Array() {
     List<Long> longList = java.util.Arrays.asList(LONG_VALUE_1, LONG_VALUE_2);
 
