@@ -69,7 +69,8 @@ public final class MainActivity extends AppCompatActivity {
             context.getString(R.string.fragment_defaults_title),
             context.getString(R.string.fragment_inheritance_title),
             context.getString(R.string.fragment_parcelable_title),
-            context.getString(R.string.fragment_maps_title)
+            context.getString(R.string.fragment_maps_title),
+            context.getString(R.string.fragment_equatable_title)
           };
     }
 
@@ -104,6 +105,8 @@ public final class MainActivity extends AppCompatActivity {
           return new ParcelableFragment();
         case 13:
           return new MapsFragment();
+        case 14:
+          return new EquatableFragment();
         default:
           return null;
       }

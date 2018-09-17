@@ -15,6 +15,7 @@
     <string name="fragment_inheritance_title">Inheritance</string>
     <string name="fragment_parcelable_title">Parcelable</string>
     <string name="fragment_maps_title">Maps</string>
+    <string name="fragment_equatable_title">Equatable</string>
     <string name="number_of_usages_input">Insert numberOfUsages</string>
     <string name="profile_name_input">Insert new profile name</string>
     <string name="parameter_value">Value</string>
@@ -76,4 +77,15 @@
     <string name="inheritance_table_header_circle">Circle</string>
     <string name="inheritance_table_header_rectangle">Rectangle</string>
     <string name="inheritance_table_header_square">Square</string>
+    <string name="equatable_description">Showcase for Equatable structs with auto-generated equals()
+        and hashCode() methods.</string>
+    <string name="equatable_input_label">Input struct values</string>
+    <string name="equatable_int_hint">Int32</string>
+    <string name="equatable_string_hint">String</string>
+    <string name="equatable_nested_string_hint">nested String</string>
+    <string name="equatable_reference_struct_label">Reference struct:</string>
+    <string name="equatable_new_struct_label">New struct:</string>
+    <string name="equatable_equals_label">equals(): %1$b</string>
+    <string name="equatable_hashcode_label">hashCode(): 0x%1$X</string>
+    <string name="process_equatable_btn_txt">Compare</string>
 </resources>
