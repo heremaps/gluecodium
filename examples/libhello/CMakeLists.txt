@@ -340,6 +340,8 @@ feature(Constants cpp android swift SOURCES
 feature(Equatable cpp android swift SOURCES
     src/test/EquatableImpl.cpp
 
+    fidl/hello/HelloWorldEquatable.fidl
+    fidl/hello/HelloWorldEquatable.fdepl
     fidl/test/Equatable.fidl
     fidl/test/Equatable.fdepl
 )
