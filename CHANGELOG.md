@@ -1,6 +1,9 @@
 # Genium project Release Notes
 
 ## Unreleased
+- Features:
+  + Added FDEPL property "Equatable" for structs for generating the equality support infrastructure
+    in C++, Java and Swift.
 - Bug fixes:
   + Fixed an issue where a Swift-implemented object was not castable to its original type after a
     Swift-Cpp-Swift round-trip in some cases.
