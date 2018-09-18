@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3484FFBE1F0D37EB00986A69 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3484FFBD1F0D37EB00986A69 /* AppDelegate.swift */; };
+		4F5CD2E320ED12FA004A6CB6 /* Equatable.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F5CD2E220ED12FA004A6CB6 /* Equatable.storyboard */; };
+		4FE05CE32151388200CA51D1 /* EquatableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE05CE22151388200CA51D1 /* EquatableViewController.swift */; };
 		577E024A1FBC9E2F00F0CA64 /* ListenersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577E02491FBC9E2F00F0CA64 /* ListenersTableViewCell.swift */; };
 		577E024C1FBC9FEB00F0CA64 /* AsynchronousListenersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577E024B1FBC9FEB00F0CA64 /* AsynchronousListenersViewController.swift */; };
 		579C7C5E1FBB35830018D88E /* Listeners.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 579C7C5D1FBB35830018D88E /* Listeners.storyboard */; };
@@ -69,6 +71,8 @@
 		3484FFBD1F0D37EB00986A69 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3484FFC41F0D37EB00986A69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3484FFC91F0D37EB00986A69 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F5CD2E220ED12FA004A6CB6 /* Equatable.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Equatable.storyboard; sourceTree = "<group>"; };
+		4FE05CE22151388200CA51D1 /* EquatableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EquatableViewController.swift; sourceTree = "<group>"; };
 		577E02491FBC9E2F00F0CA64 /* ListenersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenersTableViewCell.swift; sourceTree = "<group>"; };
 		577E024B1FBC9FEB00F0CA64 /* AsynchronousListenersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousListenersViewController.swift; sourceTree = "<group>"; };
 		579C7C5D1FBB35830018D88E /* Listeners.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Listeners.storyboard; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 				C448B98D1FBAF1C600AFD6CE /* Arrays.storyboard */,
 				839B32071F9E3189002E04A6 /* Attributes.storyboard */,
 				C49F95891F8E58270069AB1C /* Base.storyboard */,
+				4F5CD2E220ED12FA004A6CB6 /* Equatable.storyboard */,
 				C49F95881F8E58270069AB1C /* LaunchScreen.storyboard */,
 				C49F95871F8E58270069AB1C /* Main.storyboard */,
 				C49F95901F8E58A50069AB1C /* Structs.storyboard */,
@@ -186,6 +191,7 @@
 				839B320B1F9E31A5002E04A6 /* AttributesViewController.swift */,
 				C42139121F8FA8220019AF14 /* TypedefsViewController.swift */,
 				8394336C1F18A820009D5914 /* BaseViewController.swift */,
+				4FE05CE22151388200CA51D1 /* EquatableViewController.swift */,
 				8394336E1F18BABC009D5914 /* BuiltinTypesViewController.swift */,
 				83C6C2321F7E851200376FD6 /* InstancesViewController.swift */,
 				C851A6871F59A8AB00FB2D3B /* StructsViewController.swift */,
@@ -296,6 +302,7 @@
 				83E266061FD822B400C2B1C7 /* Errors.storyboard in Resources */,
 				C448B98E1FBAF1C700AFD6CE /* Arrays.storyboard in Resources */,
 				839B32081F9E3189002E04A6 /* Attributes.storyboard in Resources */,
+				4F5CD2E320ED12FA004A6CB6 /* Equatable.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,6 +358,7 @@
 				C477F49F1F90A0D40073F27A /* UIApplication+Version.swift in Sources */,
 				83C6C2331F7E851300376FD6 /* InstancesViewController.swift in Sources */,
 				C851A6881F59A8AB00FB2D3B /* StructsViewController.swift in Sources */,
+				4FE05CE32151388200CA51D1 /* EquatableViewController.swift in Sources */,
 				8394336D1F18A820009D5914 /* BaseViewController.swift in Sources */,
 				C49F959A1F8E626C0069AB1C /* MenuTableViewController.swift in Sources */,
 				C49F95981F8E59EC0069AB1C /* Storyboard+Utils.swift in Sources */,

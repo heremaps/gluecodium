@@ -38,7 +38,8 @@ class MenuTableViewController: UITableViewController {
         ("Listeners", "Listeners"),
         ("Errors", "Errors"),
         ("Inheritance", "Inheritance"),
-        ("Maps", "Maps")]
+        ("Maps", "Maps"),
+        ("Equatable", "Equatable")]
 
     @IBOutlet weak var versionLabel: UILabel! {
         willSet { newValue.text = versionMessage }
