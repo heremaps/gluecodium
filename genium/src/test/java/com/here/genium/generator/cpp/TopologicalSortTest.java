@@ -218,7 +218,7 @@ public class TopologicalSortTest {
 
   private static CppConstant createConstant(String typeName) {
     String name = "fixed";
-    return new CppConstant(name, createComplex(typeName), new CppValue());
+    return new CppConstant(name, createComplex(typeName), new CppValue(null));
   }
 
   private static CppConstant createConstantWithUsing(String typeName) {
@@ -227,7 +227,7 @@ public class TopologicalSortTest {
         name,
         new CppTypeDefRef(
             typeName, createComplex("nonsense"), Include.createInternalInclude("foo")),
-        new CppValue());
+        new CppValue(null));
   }
 
   private static CppStruct createChild() {
