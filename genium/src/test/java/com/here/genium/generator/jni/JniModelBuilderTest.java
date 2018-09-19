@@ -749,7 +749,7 @@ public class JniModelBuilderTest {
   public void finishBuildingFEnumerator() {
 
     // arrange
-    when(cppBuilder.getFinalResult(any())).thenReturn(new CppEnumItem("cppEnumerator"));
+    when(cppBuilder.getFinalResult(any())).thenReturn(new CppEnumItem("cppEnumerator", null));
     when(javaBuilder.getFinalResult(any())).thenReturn(new JavaEnumItem("javaEnumerator"));
 
     // act
