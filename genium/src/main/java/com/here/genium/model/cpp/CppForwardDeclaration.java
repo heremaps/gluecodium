@@ -27,10 +27,11 @@ import org.jetbrains.annotations.NotNull;
 
 @EqualsAndHashCode
 public class CppForwardDeclaration implements Comparable<CppForwardDeclaration> {
+
   public final List<String> namespaces;
   public final String type;
 
-  public CppForwardDeclaration(String fullName) {
+  public CppForwardDeclaration(final String fullName) {
     List<String> split =
         Arrays.stream(fullName.split("::"))
             .filter(string -> !string.isEmpty())
@@ -39,12 +40,12 @@ public class CppForwardDeclaration implements Comparable<CppForwardDeclaration> 
     namespaces = split.subList(0, split.size() - 1);
   }
 
-  public String fullyQualified() {
+  private String getFullName() {
     return String.join("::", namespaces) + "::" + type;
   }
 
   @Override
   public int compareTo(@NotNull CppForwardDeclaration cppForwardDeclaration) {
-    return fullyQualified().compareTo(cppForwardDeclaration.fullyQualified());
+    return getFullName().compareTo(cppForwardDeclaration.getFullName());
   }
 }

@@ -580,7 +580,7 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeReadsEnumItems() {
-    CppEnumItem cppEnumItem = new CppEnumItem(NONSENSE_NAME);
+    CppEnumItem cppEnumItem = new CppEnumItem(NONSENSE_NAME, null);
     contextStack.injectResult(cppEnumItem);
 
     modelBuilder.finishBuilding(francaEnumerationType);

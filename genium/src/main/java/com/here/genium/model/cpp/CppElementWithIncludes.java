@@ -28,10 +28,6 @@ public abstract class CppElementWithIncludes extends CppElement {
 
   public final Set<Include> includes;
 
-  protected CppElementWithIncludes(final String name) {
-    this(name, name, null);
-  }
-
   protected CppElementWithIncludes(final String name, final Collection<Include> includes) {
     this(name, name, includes);
   }
