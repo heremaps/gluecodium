@@ -25,10 +25,6 @@ public final class CppEnumItem extends CppElementWithComment {
 
   public final CppValue value;
 
-  public CppEnumItem(final String name) {
-    this(name, null);
-  }
-
   public CppEnumItem(final String name, final CppValue value) {
     super(name);
     this.value = value;

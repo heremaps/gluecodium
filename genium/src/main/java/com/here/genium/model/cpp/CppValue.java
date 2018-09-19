@@ -19,26 +19,9 @@
 
 package com.here.genium.model.cpp;
 
-import static java.util.Arrays.asList;
+public final class CppValue extends CppElement {
 
-import com.here.genium.model.common.Include;
-import java.util.Collection;
-
-public final class CppValue extends CppElementWithIncludes {
-
-  public CppValue() {
-    super(null);
-  }
-
-  public CppValue(String value) {
-    super(value);
-  }
-
-  public CppValue(String value, Include... includes) {
-    super(value, asList(includes));
-  }
-
-  public CppValue(String value, Collection<Include> includes) {
-    super(value, includes);
+  public CppValue(final String value) {
+    super(value, value);
   }
 }

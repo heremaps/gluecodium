@@ -24,10 +24,6 @@ import java.util.Collection;
 
 public abstract class CppTypeRef extends CppElementWithIncludes {
 
-  public CppTypeRef(String typeName) {
-    super(typeName);
-  }
-
   public CppTypeRef(String typeName, final Collection<Include> includes) {
     super(typeName, includes);
   }
