@@ -74,7 +74,7 @@ extension ArraysViewController: UIPickerViewDelegate {
 
 extension UITextField {
     var intArray: [Int64] {
-        return self.text?.split(separator: ",").flatMap {Int64($0)} ?? []
+        return self.text?.split(separator: ",").compactMap {Int64($0)} ?? []
     }
 }
 
