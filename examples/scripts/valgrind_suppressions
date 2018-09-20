@@ -71,8 +71,8 @@
 
    Memcheck:Leak
    match-leak-kinds: definite
-   fun:_Znwm
-   fun:_ZL29_registerProtocolConformancesR16ConformanceStatePKN5swift31TargetProtocolConformanceRecordINS1_9InProcessEEES6_
+   fun:malloc
+   fun:_ZL29_registerProtocolConformancesR16ConformanceStatePKN5swift21RelativeDirectPointerINS1_35TargetProtocolConformanceDescriptorINS1_9InProcessEEELb0EiEES8_
    fun:swift_addNewDSOImage
    fun:*
 }
@@ -86,5 +86,47 @@
    fun:swift_getMetatypeMetadata
    fun:_ZL23findDynamicValueAndTypePN5swift11OpaqueValueEPKNS_14TargetMetadataINS_9InProcessEEERS1_RS6_Rbbb
    fun:swift_getDynamicType
+   fun:*
+}
+{
+   initStructMetadata
+
+   Memcheck:Cond
+   fun:swift_initStructMetadata
+   ...
+   fun:_ZN5swift22MetadataCacheEntryBaseIN12_GLOBAL__N_117GenericCacheEntryEJPKvEE16doInitializationERNS_18ConcurrencyControlEPNS_28MetadataCompletionQueueEntryENS_15MetadataRequestE
+   fun:*
+}
+{
+   relocateClassMetadata
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:swift_relocateClassMetadata
+   ...
+   fun:__pthread_once_slow
+   fun:swift_once
+   fun:*
+}
+{
+   registerTypeMetadataRecords
+
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:_ZL28_registerTypeMetadataRecordsR24TypeMetadataPrivateStatePKN5swift24TargetTypeMetadataRecordINS1_9InProcessEEES6_
+   fun:*
+}
+{
+   swiftMetadataAllocator
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:_Znam
+   fun:_ZN5swift17MetadataAllocator8AllocateEmm
+   fun:_ZN5swift20LockingConcurrentMapIN12_GLOBAL__N_115TupleCacheEntryELb0ENS1_10TupleCacheEE11getOrInsertINS2_3KeyEJRNS_15MetadataRequestERPKNS_17ValueWitnessTableEEEESt4pairIPS2_NS_16MetadataResponseEET_DpOT0_
+   fun:swift_getTupleTypeMetadata
+   fun:swift_getTupleTypeMetadata2
    fun:*
 }
