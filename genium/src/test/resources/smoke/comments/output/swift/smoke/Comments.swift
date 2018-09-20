@@ -5,25 +5,15 @@ import Foundation
 internal func getRef(_ ref: Comments?) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
-/**
- This is some very useful interface.
- */
+/// This is some very useful interface.
 public class Comments {
-    /**
-     This is some very useful typedef.
-     */
+    /// This is some very useful typedef.
     public typealias Usefulness = Bool
-    /**
-     This is some very useful map.
-     */
+    /// This is some very useful map.
     public typealias SomeMap = [String: Comments.Usefulness]
-    /**
-     This is some very useful constant.
-    */
+    /// This is some very useful constant.
     public static let veryUseful: Comments.Usefulness = true
-    /**
-     This is some very useful attribute.
-     */
+    /// This is some very useful attribute.
     public var someAttribute: Comments.Usefulness {
         get {
             return smoke_Comments_someAttribute_get(c_instance)
@@ -42,26 +32,16 @@ public class Comments {
     deinit {
         smoke_Comments_release(c_instance)
     }
-    /**
-     This is some very useful enum.
-     */
+    /// This is some very useful enum.
     public enum SomeEnum : UInt32 {
-        /**
-         Not quite useful
-         */
+        /// Not quite useful
         case useless
-        /**
-         Somewhat useful
-         */
+        /// Somewhat useful
         case useful
     }
-    /**
-     This is some very useful struct.
-     */
+    /// This is some very useful struct.
     public struct SomeStruct {
-        /**
-         How useful this struct is
-         */
+        /// How useful this struct is
         public var someField: Comments.Usefulness
         public init(someField: Comments.Usefulness) {
             self.someField = someField
@@ -78,66 +58,48 @@ public class Comments {
             smoke_Comments_SomeStruct_someField_set(cSomeStruct, someField)
         }
     }
-    /**
-     This is some very useful method that measures the usefulness of its input.
-     - Parameter input: Very useful input parameter
-     - Returns: Usefulness of the input
-     */
+    /// This is some very useful method that measures the usefulness of its input.
+    /// - Parameter input: Very useful input parameter
+    /// - Returns: Usefulness of the input
     public func someMethodWithAllComments(input: String) -> Comments.Usefulness {
         return smoke_Comments_someMethodWithAllComments(c_instance, input)
     }
-    /**
-     This is some very useful method that measures the usefulness of its input.
-     - Parameter input: Very useful input parameter
-     */
+    /// This is some very useful method that measures the usefulness of its input.
+    /// - Parameter input: Very useful input parameter
     public func someMethodWithInputComments(input: String) -> Comments.Usefulness {
         return smoke_Comments_someMethodWithInputComments(c_instance, input)
     }
-    /**
-     This is some very useful method that measures the usefulness of its input.
-     - Returns: Usefulness of the input
-     */
+    /// This is some very useful method that measures the usefulness of its input.
+    /// - Returns: Usefulness of the input
     public func someMethodWithOutputComments(input: String) -> Comments.Usefulness {
         return smoke_Comments_someMethodWithOutputComments(c_instance, input)
     }
-    /**
-     This is some very useful method that measures the usefulness of its input.
-     */
+    /// This is some very useful method that measures the usefulness of its input.
     public func someMethodWithNoComments(input: String) -> Comments.Usefulness {
         return smoke_Comments_someMethodWithNoComments(c_instance, input)
     }
-    /**
-     This is some very useful method that does not measure the usefulness of its input.
-     - Parameter input: Very useful input parameter
-     */
+    /// This is some very useful method that does not measure the usefulness of its input.
+    /// - Parameter input: Very useful input parameter
     public func someMethodWithoutReturnTypeWithAllComments(input: String) -> Void {
         return smoke_Comments_someMethodWithoutReturnTypeWithAllComments(c_instance, input)
     }
-    /**
-     This is some very useful method that does not measure the usefulness of its input.
-     */
+    /// This is some very useful method that does not measure the usefulness of its input.
     public func someMethodWithoutReturnTypeWithNoComments(input: String) -> Void {
         return smoke_Comments_someMethodWithoutReturnTypeWithNoComments(c_instance, input)
     }
-    /**
-     This is some very useful method that measures the usefulness of something.
-     - Returns: Usefulness of the input
-     */
+    /// This is some very useful method that measures the usefulness of something.
+    /// - Returns: Usefulness of the input
     public func someMethodWithoutInputParametersWithAllComments() -> Comments.Usefulness {
         return smoke_Comments_someMethodWithoutInputParametersWithAllComments(c_instance)
     }
-    /**
-     This is some very useful method that measures the usefulness of something.
-     */
+    /// This is some very useful method that measures the usefulness of something.
     public func someMethodWithoutInputParametersWithNoComments() -> Comments.Usefulness {
         return smoke_Comments_someMethodWithoutInputParametersWithNoComments(c_instance)
     }
     public func someMethodWithNothing() -> Void {
         return smoke_Comments_someMethodWithNothing(c_instance)
     }
-    /**
-     This is some very useful method that does nothing.
-     */
+    /// This is some very useful method that does nothing.
     public func someMethodWithoutReturnTypeOrInputParameters() -> Void {
         return smoke_Comments_someMethodWithoutReturnTypeOrInputParameters(c_instance)
     }
