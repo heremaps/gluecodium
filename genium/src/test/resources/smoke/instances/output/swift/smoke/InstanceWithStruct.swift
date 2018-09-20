@@ -47,9 +47,7 @@ public class InstanceWithStruct {
     public struct StructWithInstance {
         public var instance: SimpleInstantiableOne?
         public var instanceNotNull: SimpleInstantiableOne
-        /**
-         This is some very useful field.
-         */
+        /// This is some very useful field.
         public var instanceNotNullWithComment: SimpleInstantiableOne
 
         public init(instance: SimpleInstantiableOne?, instanceNotNull: SimpleInstantiableOne, instanceNotNullWithComment: SimpleInstantiableOne) {
