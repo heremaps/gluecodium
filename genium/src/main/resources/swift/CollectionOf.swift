@@ -45,6 +45,6 @@ public class CollectionOf<T> : Collection {
 
 extension CollectionOf: CustomDebugStringConvertible {
     public var debugDescription: String {
-        return self.flatMap{String(describing: $0)}.joined(separator:" ")
+        return self.compactMap{String(describing: $0)}.joined(separator:" ")
     }
 }
