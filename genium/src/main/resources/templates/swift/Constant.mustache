@@ -18,9 +18,5 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if this.comment}}
-/**
-{{prefix this.comment ' '}}
-*/
-{{/if}}
+{{>swift/Comment}}
 {{visibility}} static let {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}} = {{value}}

@@ -19,13 +19,11 @@
   !
   !}}
 {{#if comment}}
-/**
-{{prefix comment " "}}
+{{prefix comment '/// '}}
 {{#parameters}}
-{{#if this.comment}} - Parameter {{name}}: {{comment}}{{/if}}
+{{#if this.comment}}/// - Parameter {{name}}: {{comment}}{{/if}}
 {{/parameters}}
 {{#if returnComment}}
- - Returns: {{returnComment}}
+/// - Returns: {{returnComment}}
 {{/if}}
- */
 {{/if}}

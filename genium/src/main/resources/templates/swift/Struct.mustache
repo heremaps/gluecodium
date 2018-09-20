@@ -25,9 +25,7 @@
 {{/constants}}{{!!
 }}{{#if fields}}{{#fields}}
 {{#if this.comment}}
-    /**
-{{prefix this.comment '     '}}
-     */
+{{prefixPartial "swift/Comment" '    '}}
 {{/if}}
     {{visibility}} var {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}
 {{/fields}}
