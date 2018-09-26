@@ -1,17 +1,10 @@
-plugins {
-    id 'com.jfrog.artifactory' version '4.7.3'
+buildscript {
+    repositories {
+        jcenter()
+    }
 }
 
 allprojects {
-    repositories {
-        mavenCentral()
-        repositories {
-            maven {
-                url 'https://jitpack.io'
-            }
-        }
-    }
-
     configurations.all {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             if (details.requested.name == 'junit-dep') {
