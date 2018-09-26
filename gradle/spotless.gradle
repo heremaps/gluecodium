@@ -17,7 +17,6 @@
  * License-Filename: LICENSE
  */
 
-apply plugin: 'com.diffplug.gradle.spotless'
 spotless {
     java {
         target project.fileTree(project.projectDir) {

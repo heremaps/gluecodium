@@ -17,15 +17,14 @@
  * License-Filename: LICENSE
  */
 
-plugins {
-    id 'com.jfrog.artifactory' version '4.7.3'
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
 }
 
 allprojects {
-    repositories {
-        mavenLocal()
-    }
-
     configurations.all {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             if (details.requested.name == 'junit-dep') {

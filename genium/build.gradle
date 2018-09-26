@@ -19,8 +19,16 @@
 
 plugins {
     id 'com.diffplug.gradle.spotless' version '3.15.0'
+    id 'com.jfrog.artifactory' version '4.8.1'
+    id 'com.jfrog.bintray' version '1.8.4'
+    id 'maven-publish'
     id 'org.jetbrains.kotlin.jvm' version '1.3.11'
     id "de.undercouch.download" version "3.4.3"
+}
+
+repositories {
+    jcenter()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -79,8 +87,8 @@ mainClassName = 'com.here.genium.Genium'
 
 jar {
     manifest {
-        attributes ('Main-Class': 'com.here.genium.Genium',
-                    'Class-Path': configurations.runtime.files.collect { it.getName() }.join(' '))
+        attributes('Main-Class': 'com.here.genium.Genium',
+                'Class-Path': configurations.runtime.files.collect { it.getName() }.join(' '))
     }
     from {
         tasks.unzipFrancaZip.extractedJars.collect { it.isDirectory() ? it : zipTree(it) }
@@ -121,12 +129,12 @@ checkstyle {
     ignoreFailures false
 }
 checkstyleMain {
-    maxErrors=0
-    maxWarnings=0
+    maxErrors = 0
+    maxWarnings = 0
 }
 checkstyleTest {
-    maxErrors=0
-    maxWarnings=0
+    maxErrors = 0
+    maxWarnings = 0
 }
 
 tasks.withType(Checkstyle).each { checkstyleTask ->
@@ -150,5 +158,97 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+}
+
+// Publishing
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('genium/src/main/resources/version.properties').newDataInputStream())
+version = properties.getProperty('version')
+group = 'com.here'
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    classifier = 'javadoc'
+}
+
+publishing.publications {
+    mavenJava(MavenPublication) {
+        groupId
+        artifactId project.name
+        version this.version
+
+        from components.java
+        artifact sourcesJar
+        //artifact javadocJar
+
+        pom {
+            name = 'Genium'
+            description = 'Cross-language bindings generator'
+            url = 'https://github.com/heremaps/genium'
+            licenses {
+                license {
+                    name = 'The Apache License, Version 2.0'
+                    url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                }
+            }
+            scm {
+                connection = 'scm:git:git://github.com/heremaps/genium.git'
+                developerConnection = 'scm:git:ssh://github.com/heremaps/genium.git'
+                url = 'https://github.com/heremaps/genium'
+            }
+        }
+    }
+}
+
+artifactory {
+    contextUrl = project.properties['artifactory.contextUrl']
+    publish {
+        repository {
+            username = project.properties['artifactory.username']
+            password = project.properties['artifactory.password']
+            repoKey = project.properties['artifactory.repoKey']
+        }
+        defaults {
+            publications 'maven'
+        }
+    }
+}
+
+bintray {
+    user = project.properties["bintray.user"]
+    key = project.properties["bintray.apikey"]
+    publications = ['mavenJava']
+    configurations = ['archives']
+    override = true
+    pkg {
+        repo = 'maven'
+        name = 'genium'
+        userOrg = 'heremaps'
+        websiteUrl = 'https://github.com/heremaps/genium'
+        issueTrackerUrl = 'https://github.com/heremaps/genium/issues'
+        vcsUrl = 'https://github.com/heremaps/genium.git'
+        licenses = ['Apache-2.0']
+        desc = 'Cross-language bindings generator'
+        labels = ['aar', 'android']
+        publish = true
+        publicDownloadNumbers = true
+        githubRepo = 'heremaps/genium'
+        githubReleaseNotesFile = 'CHANGELOG.md'
+        version {
+            name = this.version
+            desc = "${project.name} ${this.version}"
+            released = new Date()
+            vcsTag = this.version
+            gpg {
+                sign = true
+            }
+        }
     }
 }
