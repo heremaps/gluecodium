@@ -213,6 +213,7 @@ feature(Listeners cpp android swift SOURCES
     src/hello/HelloWorldListeners.cpp
     src/hello/HelloWorldCalculatorListenerFactory.cpp
     src/test/StringListeners.cpp
+    src/test/ListenerRoundtrip.cpp
 
     fidl/hello/HelloWorldCalculatorListenerFactory.fdepl
     fidl/hello/HelloWorldCalculatorListenerFactory.fidl
@@ -222,6 +223,8 @@ feature(Listeners cpp android swift SOURCES
     fidl/hello/HelloWorldListeners.fidl
     fidl/test/StringListeners.fdepl
     fidl/test/StringListeners.fidl
+    fidl/test/ListenerRoundtrip.fdepl
+    fidl/test/ListenerRoundtrip.fidl
 )
 
 feature(ComplexListeners cpp android swift SOURCES
