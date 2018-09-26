@@ -1,5 +1,10 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed an issue where a Swift-implemented object was not castable to its original type after a
+    Swift-Cpp-Swift round-trip in some cases.
+
 ## 3.9.0
 - Features:
   + Added support for "ExternalType" and "ExternalName" FDEPL properties for interfaces. Added

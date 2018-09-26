@@ -56,6 +56,22 @@ internal func getRef(_ ref: {{name}}?) -> RefHolder {
             byteArray_release({{name}})
         }
         {{/case}}{{!!
+        }}{{#case "CLASS"}}
+        var swift_object_{{name}}: {{type.publicName}}? = nil
+        {{#if type.isInterface}}{{!!
+      }}if let swift_pointer_{{name}} = {{type.cPrefix}}_get_swift_object_from_cache({{name}}) {
+            swift_object_{{name}} = Unmanaged<AnyObject>.fromOpaque(swift_pointer_{{name}}).takeUnretainedValue() as? {{type.publicName}}
+            if swift_object_{{name}} != nil {
+                defer {
+                    {{type.cPrefix}}_release({{name}})
+                }
+            }
+        }
+        {{/if}}{{!!
+      }}if swift_object_{{name}} == nil {
+            swift_object_{{name}} = {{#type.implementingClass}}{{.}}{{/type.implementingClass}}{{^type.implementingClass}}{{type}}{{/type.implementingClass}}(c{{type}}: {{name}})
+        }
+        {{/case}}{{!!
         }}{{/switch}}{{/parameters}}
         return {{>swiftReturn}}
     }
@@ -73,7 +89,7 @@ internal func getRef(_ ref: {{name}}?) -> RefHolder {
 }}{{/switch}}{{/swiftReturn}}
 {{+delegateCall2}}swift_class.{{name}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}
 {{+swiftParameter2}}{{name}}: {{#switch type.category.toString}}{{!!
-    }}{{#case "CLASS"}}{{#type.implementingClass}}{{.}}{{/type.implementingClass}}{{^type.implementingClass}}{{type}}{{/type.implementingClass}}(c{{type}}: {{name}})!{{/case}}{{!!
+    }}{{#case "CLASS"}}swift_object_{{name}}!{{/case}}{{!!
     }}{{#case "STRUCT"}}{{type}}(c{{type}}: {{name}})!{{/case}}{{!!
     }}{{#case "DICTIONARY"}}convert{{type}}FromCType({{name}}){{/case}}{{!!
     }}{{#case "ARRAY"}}{{type.implementingClass}}({{name}}){{/case}}{{!!
