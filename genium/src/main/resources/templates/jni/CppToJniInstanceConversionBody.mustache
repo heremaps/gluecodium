@@ -19,19 +19,29 @@
   !
   !}}
 {
-    if (!_ninput)
+    if ( !_ninput )
     {
         return nullptr;
     }
-    auto javaClass = _jenv->FindClass("{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}");
-    auto pInstanceSharedPointer = new (::std::nothrow) ::std::shared_ptr<{{cppFullyQualifiedName}}>(_ninput);
-    if (pInstanceSharedPointer == nullptr)
+
+    jobject jResult = {{internalNamespace}}::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    if ( jResult != nullptr )
     {
-        jclass exceptionClass = _jenv->FindClass("java/lang/RuntimeException");
-        _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
+        return jResult;
+    }
+
+    auto javaClass = _jenv->FindClass( "{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}" );
+    auto pInstanceSharedPointer =
+        new (::std::nothrow) ::std::shared_ptr<{{cppFullyQualifiedName}}>( _ninput );
+    if ( pInstanceSharedPointer == nullptr )
+    {
+        jclass exceptionClass = _jenv->FindClass( "java/lang/RuntimeException" );
+        _jenv->ThrowNew( exceptionClass, "Cannot allocate native memory." );
         _jenv->DeleteLocalRef( exceptionClass );
     }
-    jobject jResult = {{internalNamespace}}::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+    jResult = {{internalNamespace}}::jni::create_instance_object(
+        _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     _jenv->DeleteLocalRef( javaClass );
+
     return jResult;
 }

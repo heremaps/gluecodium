@@ -22,91 +22,130 @@ namespace jni {
 
 jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiableOne> & _ninput)
 {
-    if (!_ninput)
+    if ( !_ninput )
     {
         return nullptr;
     }
-    auto javaClass = _jenv->FindClass("com/example/smoke/SimpleInstantiableOne");
-    auto pInstanceSharedPointer = new (::std::nothrow) ::std::shared_ptr<::smoke::SimpleInstantiableOne>(_ninput);
-    if (pInstanceSharedPointer == nullptr)
+    jobject jResult = genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    if ( jResult != nullptr )
     {
-        jclass exceptionClass = _jenv->FindClass("java/lang/RuntimeException");
-        _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
+        return jResult;
+    }
+    auto javaClass = _jenv->FindClass( "com/example/smoke/SimpleInstantiableOne" );
+    auto pInstanceSharedPointer =
+        new (::std::nothrow) ::std::shared_ptr<::smoke::SimpleInstantiableOne>( _ninput );
+    if ( pInstanceSharedPointer == nullptr )
+    {
+        jclass exceptionClass = _jenv->FindClass( "java/lang/RuntimeException" );
+        _jenv->ThrowNew( exceptionClass, "Cannot allocate native memory." );
         _jenv->DeleteLocalRef( exceptionClass );
     }
-    jobject jResult = genium::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+    jResult = genium::jni::create_instance_object(
+        _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     _jenv->DeleteLocalRef( javaClass );
     return jResult;
 }
+
 jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiableTwo> & _ninput)
 {
-    if (!_ninput)
+    if ( !_ninput )
     {
         return nullptr;
     }
-    auto javaClass = _jenv->FindClass("com/example/smoke/SimpleInstantiableTwo");
-    auto pInstanceSharedPointer = new (::std::nothrow) ::std::shared_ptr<::smoke::SimpleInstantiableTwo>(_ninput);
-    if (pInstanceSharedPointer == nullptr)
+    jobject jResult = genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    if ( jResult != nullptr )
     {
-        jclass exceptionClass = _jenv->FindClass("java/lang/RuntimeException");
-        _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
+        return jResult;
+    }
+    auto javaClass = _jenv->FindClass( "com/example/smoke/SimpleInstantiableTwo" );
+    auto pInstanceSharedPointer =
+        new (::std::nothrow) ::std::shared_ptr<::smoke::SimpleInstantiableTwo>( _ninput );
+    if ( pInstanceSharedPointer == nullptr )
+    {
+        jclass exceptionClass = _jenv->FindClass( "java/lang/RuntimeException" );
+        _jenv->ThrowNew( exceptionClass, "Cannot allocate native memory." );
         _jenv->DeleteLocalRef( exceptionClass );
     }
-    jobject jResult = genium::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+    jResult = genium::jni::create_instance_object(
+        _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     _jenv->DeleteLocalRef( javaClass );
     return jResult;
 }
+
 jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiableOne> & _ninput)
 {
-    if (!_ninput)
+    if ( !_ninput )
     {
         return nullptr;
     }
-    auto javaClass = _jenv->FindClass("com/example/smoke/NestedInstantiableOne");
-    auto pInstanceSharedPointer = new (::std::nothrow) ::std::shared_ptr<::smoke::NestedInstantiableOne>(_ninput);
-    if (pInstanceSharedPointer == nullptr)
+    jobject jResult = genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    if ( jResult != nullptr )
     {
-        jclass exceptionClass = _jenv->FindClass("java/lang/RuntimeException");
-        _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
+        return jResult;
+    }
+    auto javaClass = _jenv->FindClass( "com/example/smoke/NestedInstantiableOne" );
+    auto pInstanceSharedPointer =
+        new (::std::nothrow) ::std::shared_ptr<::smoke::NestedInstantiableOne>( _ninput );
+    if ( pInstanceSharedPointer == nullptr )
+    {
+        jclass exceptionClass = _jenv->FindClass( "java/lang/RuntimeException" );
+        _jenv->ThrowNew( exceptionClass, "Cannot allocate native memory." );
         _jenv->DeleteLocalRef( exceptionClass );
     }
-    jobject jResult = genium::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+    jResult = genium::jni::create_instance_object(
+        _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     _jenv->DeleteLocalRef( javaClass );
     return jResult;
 }
+
 jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiableTwo> & _ninput)
 {
-    if (!_ninput)
+    if ( !_ninput )
     {
         return nullptr;
     }
-    auto javaClass = _jenv->FindClass("com/example/smoke/NestedInstantiableTwo");
-    auto pInstanceSharedPointer = new (::std::nothrow) ::std::shared_ptr<::smoke::NestedInstantiableTwo>(_ninput);
-    if (pInstanceSharedPointer == nullptr)
+    jobject jResult = genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    if ( jResult != nullptr )
     {
-        jclass exceptionClass = _jenv->FindClass("java/lang/RuntimeException");
-        _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
+        return jResult;
+    }
+    auto javaClass = _jenv->FindClass( "com/example/smoke/NestedInstantiableTwo" );
+    auto pInstanceSharedPointer =
+        new (::std::nothrow) ::std::shared_ptr<::smoke::NestedInstantiableTwo>( _ninput );
+    if ( pInstanceSharedPointer == nullptr )
+    {
+        jclass exceptionClass = _jenv->FindClass( "java/lang/RuntimeException" );
+        _jenv->ThrowNew( exceptionClass, "Cannot allocate native memory." );
         _jenv->DeleteLocalRef( exceptionClass );
     }
-    jobject jResult = genium::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+    jResult = genium::jni::create_instance_object(
+        _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     _jenv->DeleteLocalRef( javaClass );
     return jResult;
 }
+
 jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceWithStruct> & _ninput)
 {
-    if (!_ninput)
+    if ( !_ninput )
     {
         return nullptr;
     }
-    auto javaClass = _jenv->FindClass("com/example/smoke/InstanceWithStruct");
-    auto pInstanceSharedPointer = new (::std::nothrow) ::std::shared_ptr<::smoke::InstanceWithStruct>(_ninput);
-    if (pInstanceSharedPointer == nullptr)
+    jobject jResult = genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    if ( jResult != nullptr )
     {
-        jclass exceptionClass = _jenv->FindClass("java/lang/RuntimeException");
-        _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
+        return jResult;
+    }
+    auto javaClass = _jenv->FindClass( "com/example/smoke/InstanceWithStruct" );
+    auto pInstanceSharedPointer =
+        new (::std::nothrow) ::std::shared_ptr<::smoke::InstanceWithStruct>( _ninput );
+    if ( pInstanceSharedPointer == nullptr )
+    {
+        jclass exceptionClass = _jenv->FindClass( "java/lang/RuntimeException" );
+        _jenv->ThrowNew( exceptionClass, "Cannot allocate native memory." );
         _jenv->DeleteLocalRef( exceptionClass );
     }
-    jobject jResult = genium::jni::create_instance_object(_jenv, javaClass, reinterpret_cast<jlong> (pInstanceSharedPointer));
+    jResult = genium::jni::create_instance_object(
+        _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     _jenv->DeleteLocalRef( javaClass );
     return jResult;
 }

@@ -87,7 +87,10 @@ public:
         auto newProxy = ::std::shared_ptr< ImplType >( newProxyInstance );
         result = newProxy;
         sProxyCache[ key ] = ::std::weak_ptr< ImplType >( newProxy );
+        sReverseProxyCache[ result.get( ) ] = key;
     }
+
+    static jobject getJavaObject( const void* proxy );
 
 protected:
     CppProxyBase( JNIEnv* jenv, jobject jGlobalRef, jint jHashCode );
@@ -122,6 +125,7 @@ private:
 
     using ProxyCache
         = ::std::unordered_map< ProxyCacheKey, ::std::weak_ptr< CppProxyBase >, ProxyCacheKeyHash >;
+    using ReverseProxyCache = ::std::unordered_map< const void*, ProxyCacheKey >;
 
     static jint getHashCode( JNIEnv* jniEnv, jobject jObj );
 
@@ -130,6 +134,7 @@ private:
 
 protected:
     static ProxyCache sProxyCache;
+    static ReverseProxyCache sReverseProxyCache;
     static ::std::mutex sCacheMutex;
 };
 
