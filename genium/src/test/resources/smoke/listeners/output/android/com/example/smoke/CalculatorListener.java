@@ -21,4 +21,5 @@ public interface CalculatorListener {
     void onCalculationResultStruct(final CalculatorListener.ResultStruct calculationResult);
     void onCalculationResultArray(final List<Double> calculationResult);
     void onCalculationResultMap(final Map<String, Double> calculationResults);
+    void onCalculationResultInstance(final CalculationResult calculationResult);
 }

@@ -41,6 +41,22 @@ internal func getRef(_ ref: CalculatorListener?) -> RefHolder {
         }
         return swift_class.onCalculationResultMap(calculationResults: convertNamedCalculationResultsFromCType(calculationResults))
     }
+    functions.smoke_CalculatorListener_onCalculationResultInstance = {(swift_class_pointer, calculationResult) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
+        var swift_object_calculationResult: CalculationResult? = nil
+        if let swift_pointer_calculationResult = smoke_CalculationResult_get_swift_object_from_cache(calculationResult) {
+            swift_object_calculationResult = Unmanaged<AnyObject>.fromOpaque(swift_pointer_calculationResult).takeUnretainedValue() as? CalculationResult
+            if swift_object_calculationResult != nil {
+                defer {
+                    smoke_CalculationResult_release(calculationResult)
+                }
+            }
+        }
+        if swift_object_calculationResult == nil {
+            swift_object_calculationResult = _CalculationResult(cCalculationResult: calculationResult)
+        }
+        return swift_class.onCalculationResultInstance(calculationResult: swift_object_calculationResult!)
+    }
     let proxy = smoke_CalculatorListener_createProxy(functions)
     return RefHolder(ref: proxy, release: smoke_CalculatorListener_release)
 }
@@ -52,6 +68,7 @@ public protocol CalculatorListener : AnyObject {
     func onCalculationResultStruct(calculationResult: ResultStruct) -> Void
     func onCalculationResultArray<TcalculationResult: Collection>(calculationResult: TcalculationResult) -> Void where TcalculationResult.Element == Double
     func onCalculationResultMap(calculationResults: NamedCalculationResults) -> Void
+    func onCalculationResultInstance(calculationResult: CalculationResult?) -> Void
 }
 
 internal class _CalculatorListener: CalculatorListener {
@@ -91,6 +108,10 @@ internal class _CalculatorListener: CalculatorListener {
             smoke_CalculatorListener_NamedCalculationResults_release(calculationResults_handle)
         }
         return smoke_CalculatorListener_onCalculationResultMap(c_instance, calculationResults_handle)
+    }
+    public func onCalculationResultInstance(calculationResult: CalculationResult?) -> Void {
+        let calculationResult_handle = getRef(calculationResult)
+        return smoke_CalculatorListener_onCalculationResultInstance(c_instance, calculationResult_handle.ref)
     }
 }
 

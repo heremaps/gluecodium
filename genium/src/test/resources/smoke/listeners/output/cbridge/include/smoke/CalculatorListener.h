@@ -10,6 +10,7 @@ extern "C" {
 
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/StringHandle.h"
+#include "cbridge/include/smoke/CalculationResult.h"
 #include <stdbool.h>
 
 _baseRef smoke_CalculatorListener_ResultStruct_create();
@@ -26,6 +27,7 @@ typedef struct {
     void(*smoke_CalculatorListener_onCalculationResultStruct)(void* swift_pointer, _baseRef calculationResult);
     void(*smoke_CalculatorListener_onCalculationResultArray)(void* swift_pointer, _baseRef calculationResult);
     void(*smoke_CalculatorListener_onCalculationResultMap)(void* swift_pointer, _baseRef calculationResults);
+    void(*smoke_CalculatorListener_onCalculationResultInstance)(void* swift_pointer, _baseRef calculationResult);
 } smoke_CalculatorListener_FunctionTable;
 
 _baseRef smoke_CalculatorListener_createProxy(smoke_CalculatorListener_FunctionTable functionTable);
@@ -35,6 +37,7 @@ void smoke_CalculatorListener_onCalculationResultConst(_baseRef _instance, doubl
 void smoke_CalculatorListener_onCalculationResultStruct(_baseRef _instance, _baseRef calculationResult);
 void smoke_CalculatorListener_onCalculationResultArray(_baseRef _instance, _baseRef calculationResult);
 void smoke_CalculatorListener_onCalculationResultMap(_baseRef _instance, _baseRef calculationResults);
+void smoke_CalculatorListener_onCalculationResultInstance(_baseRef _instance, _baseRef calculationResult);
 _baseRef smoke_CalculatorListener_NamedCalculationResults_create();
 void smoke_CalculatorListener_NamedCalculationResults_release(_baseRef handle);
 _baseRef smoke_CalculatorListener_NamedCalculationResults_iterator(_baseRef handle);

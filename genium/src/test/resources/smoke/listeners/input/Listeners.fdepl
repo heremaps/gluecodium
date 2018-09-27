@@ -39,3 +39,8 @@ define GeniumExtensions for interface smoke.Calculator
         Static = true
     }
 }
+
+define GeniumExtensions for interface smoke.CalculationResult
+{
+    IsInterface = true
+}

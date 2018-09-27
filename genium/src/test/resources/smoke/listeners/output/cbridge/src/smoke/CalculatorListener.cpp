@@ -5,6 +5,7 @@
 #include "cbridge/include/smoke/CalculatorListener.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
+#include "smoke/CalculationResult.h"
 #include "smoke/CalculatorListener.h"
 #include <memory>
 #include <new>
@@ -42,6 +43,9 @@ void smoke_CalculatorListener_onCalculationResultArray(_baseRef _instance, _base
 void smoke_CalculatorListener_onCalculationResultMap(_baseRef _instance, _baseRef calculationResults) {
     return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_map(*get_pointer<std::unordered_map<std::string, double>>(calculationResults));
 }
+void smoke_CalculatorListener_onCalculationResultInstance(_baseRef _instance, _baseRef calculationResult) {
+    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_instance(*get_pointer<std::shared_ptr<::smoke::CalculationResult>>(calculationResult));
+}
 
 class smoke_CalculatorListenerProxy : public std::shared_ptr<::smoke::CalculatorListener>::element_type, public CachedProxyBase<smoke_CalculatorListenerProxy> {
 public:
@@ -67,6 +71,9 @@ public:
     }
     void on_calculation_result_map(const ::smoke::CalculatorListener::NamedCalculationResults& calculationResults) override {
         return mFunctions.smoke_CalculatorListener_onCalculationResultMap(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new ::smoke::CalculatorListener::NamedCalculationResults(calculationResults) ));
+    }
+    void on_calculation_result_instance(const std::shared_ptr<::smoke::CalculationResult>& calculationResult) override {
+        return mFunctions.smoke_CalculatorListener_onCalculationResultInstance(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new std::shared_ptr<::smoke::CalculationResult>(calculationResult) ));
     }
 private:
     function_table_t mFunctions;
