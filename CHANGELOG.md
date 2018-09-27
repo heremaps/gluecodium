@@ -7,6 +7,8 @@
 - Bug fixes:
   + Fixed an issue where a Swift-implemented object was not castable to its original type after a
     Swift-Cpp-Swift round-trip in some cases.
+  + Fixed an issue where a Java-implemented object was not castable to its original type after a
+    Java-Cpp-Java round-trip in all cases.
 
 ## 3.9.0
 - Features:

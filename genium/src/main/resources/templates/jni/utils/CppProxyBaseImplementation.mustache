@@ -89,6 +89,7 @@ namespace {{.}}
 namespace jni
 {
 CppProxyBase::ProxyCache CppProxyBase::sProxyCache{};
+CppProxyBase::ReverseProxyCache CppProxyBase::sReverseProxyCache{};
 ::std::mutex CppProxyBase::sCacheMutex{};
 
 void
@@ -135,6 +136,7 @@ CppProxyBase::~CppProxyBase( )
     {
         ::std::lock_guard< std::mutex > lock( sCacheMutex );
         sProxyCache.erase( ProxyCacheKey{jniEnv, jGlobalRef, jHashCode} );
+        sReverseProxyCache.erase( this );
     }
 
     jniEnv->DeleteGlobalRef( jGlobalRef );
@@ -156,6 +158,15 @@ CppProxyBase::getHashCode( JNIEnv* jniEnv, jobject jObj )
     jint jResult = jniEnv->CallStaticIntMethod( jClass, jMethodId, jObj );
     jniEnv->DeleteLocalRef( jClass );
     return jResult;
+}
+
+jobject
+CppProxyBase::getJavaObject( const void* proxy )
+{
+    ::std::lock_guard< ::std::mutex > lock( sCacheMutex );
+
+    const auto iterator = sReverseProxyCache.find( proxy );
+    return iterator != sReverseProxyCache.end( ) ? iterator->second.jObject : nullptr;
 }
 
 }
