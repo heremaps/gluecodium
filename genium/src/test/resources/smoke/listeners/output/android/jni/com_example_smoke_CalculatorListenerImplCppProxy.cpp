@@ -45,4 +45,10 @@ void CalculatorListenerCppProxy::on_calculation_result_map( const ::smoke::Calcu
     callJavaMethod( "onCalculationResultMap", "(Ljava/util/Map;)V", jniEnv , jcalculationResults);
 }
 
+void CalculatorListenerCppProxy::on_calculation_result_instance( const ::std::shared_ptr< ::smoke::CalculationResult >& ncalculationResult ) {
+    JNIEnv* jniEnv = getJniEnvironment( );
+    auto jcalculationResult = convert_to_jni( jniEnv, ncalculationResult );
+    callJavaMethod( "onCalculationResultInstance", "(Lcom/example/smoke/CalculationResult;)V", jniEnv , jcalculationResult);
+}
+
 }

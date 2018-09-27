@@ -9,10 +9,15 @@
 
 #pragma once
 
+#include "smoke/CalculationResult.h"
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
+namespace smoke {
+    class CalculationResult;
+}
 namespace smoke {
 
 class CalculatorListener {
@@ -31,6 +36,7 @@ virtual void on_calculation_result_const( const double calculation_result ) cons
 virtual void on_calculation_result_struct( const ::smoke::CalculatorListener::ResultStruct& calculation_result ) = 0;
 virtual void on_calculation_result_array( const ::std::vector< double >& calculation_result ) = 0;
 virtual void on_calculation_result_map( const ::smoke::CalculatorListener::NamedCalculationResults& calculation_results ) = 0;
+virtual void on_calculation_result_instance( const ::std::shared_ptr< ::smoke::CalculationResult >& calculation_result ) = 0;
 };
 
 }
