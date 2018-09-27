@@ -57,6 +57,12 @@ interface CalculatorListener {
             NamedCalculationResults calculationResults
         }
     }
+
+    method onCalculationResultInstance {
+        in {
+            CalculationResult.CalculationResult calculationResult
+        }
+    }
  }
 
 interface Calculator {
@@ -72,4 +78,9 @@ interface Calculator {
             CalculatorListener.CalculatorListener listener
         }
     }
+}
+
+interface CalculationResult {
+
+    public typedef CalculationResult is undefined
 }
