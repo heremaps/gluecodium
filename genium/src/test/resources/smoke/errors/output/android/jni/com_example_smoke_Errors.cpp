@@ -28,6 +28,7 @@ Java_com_example_smoke_Errors_methodWithErrors(JNIEnv* _jenv, jobject _jinstance
         auto theConstructor = _jenv->GetMethodID(exceptionClass, "<init>", "(Lcom/example/smoke/Errors$InternalError;)V");
         auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);
         _jenv->Throw(static_cast<jthrowable>(exception));
+        _jenv->DeleteLocalRef( exceptionClass );
     }
 }
 void
@@ -43,6 +44,7 @@ Java_com_example_smoke_Errors_methodWithExternalErrors(JNIEnv* _jenv, jobject _j
         auto theConstructor = _jenv->GetMethodID(exceptionClass, "<init>", "(Lcom/example/smoke/Errors$ExternalErrors;)V");
         auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);
         _jenv->Throw(static_cast<jthrowable>(exception));
+        _jenv->DeleteLocalRef( exceptionClass );
     }
 }
 void
