@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include "Return.h"
+#include <string>
 #include <system_error>
 
 namespace smoke {
@@ -25,6 +27,7 @@ enum class InternalError {
 public:
 static ::std::error_code method_with_errors(  );
 static ::std::error_code method_with_external_errors(  );
+static ::genium::Return< ::std::string, ::std::error_code > method_with_errors_and_return_value(  );
 };
 
 ::std::error_code make_error_code( ::smoke::Errors::InternalError value ) noexcept;

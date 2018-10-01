@@ -48,4 +48,5 @@ public class Errors extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     public static native void methodWithErrors() throws Errors.InternalErrorException;
     public static native void methodWithExternalErrors() throws Errors.ExternalErrorsException;
+    public static native String methodWithErrorsAndReturnValue() throws Errors.InternalErrorException;
 }

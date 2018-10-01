@@ -4,8 +4,6 @@
 
 import Foundation
 
-
-
 internal func getRef(_ ref: Errors?) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
@@ -49,6 +47,19 @@ public class Errors {
         }
     }
 
+    public static func methodWithErrorsAndReturnValue() throws -> String {
+        let RESULT = smoke_Errors_methodWithErrorsAndReturnValue()
+        if (RESULT.has_value) {
+            let result_string_handle = RESULT.returned_value
+            defer {
+                std_string_release(result_string_handle)
+            }
+            return String(data: Data(bytes: std_string_data_get(result_string_handle),
+                                     count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
+        } else {
+            throw Errors.InternalError(rawValue: RESULT.error_code)!
+        }
+    }
 }
 
 extension Errors: NativeBase {

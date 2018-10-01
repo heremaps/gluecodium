@@ -7,6 +7,7 @@
 #include "smoke/Errors.h"
 #include <memory>
 #include <new>
+#include <string>
 
 void smoke_Errors_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::Errors>>(handle);
@@ -18,4 +19,13 @@ smoke_Errors_InternalError smoke_Errors_methodWithErrors() {
 
 smoke_Errors_ExternalErrors smoke_Errors_methodWithExternalErrors() {
     return ::smoke::Errors::method_with_external_errors().value();
+}
+
+smoke_Errors_methodWithErrorsAndReturnValue_result smoke_Errors_methodWithErrorsAndReturnValue() {
+    auto&& RESULT = ::smoke::Errors::method_with_errors_and_return_value();
+    if (RESULT.has_value()) {
+        return {true, .returned_value = reinterpret_cast<_baseRef>( new std::string(RESULT.safe_value()) )};
+    } else {
+        return {false, .error_code = static_cast< smoke_Errors_InternalError >(RESULT.error().value())};
+    }
 }
