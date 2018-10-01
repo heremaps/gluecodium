@@ -43,6 +43,13 @@ interface Errors {
     method methodWithExternalErrors {
         error ExternalErrors
     }
+
+    method methodWithErrorsAndReturnValue {
+        out {
+            String result
+        }
+        error InternalError
+    }
 }
 
 typeCollection SomeTypeCollection {

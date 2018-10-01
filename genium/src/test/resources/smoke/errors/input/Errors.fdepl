@@ -29,6 +29,10 @@ define GeniumExtensions for interface smoke.Errors
     method methodWithExternalErrors {
         Static = true
     }
+
+    method methodWithErrorsAndReturnValue {
+        Static = true
+    }
 }
 
 define ExternalTypes for interface smoke.Errors
