@@ -34,3 +34,4 @@ include(${CMAKE_CURRENT_LIST_DIR}/ApigenJavaJar.cmake)
 
 # Android modules
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenAndroidArchive.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/DokkaApiDocumentation.cmake)
