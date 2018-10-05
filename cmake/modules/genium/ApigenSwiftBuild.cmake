@@ -24,6 +24,7 @@ cmake_minimum_required(VERSION 3.5)
 
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftCompile.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftModulemap.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftConfiguration.cmake)
 
 #.rst:
 # apigen_swift_build
@@ -36,7 +37,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftModulemap.cmake)
 #
 # The general form of the command is::
 #
-#   apigen_swift_build(target)
+#     apigen_swift_build(target)
 #
 
 function(apigen_swift_build target)
@@ -47,6 +48,7 @@ function(apigen_swift_build target)
     message(FATAL_ERROR "apigen_swift_build() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
+  apigen_swift_configuration(${target})
   apigen_swift_modulemap(${target})
 
   if(CMAKE_CROSSCOMPILING)

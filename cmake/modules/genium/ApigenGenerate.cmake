@@ -59,7 +59,7 @@ function(apigen_generate)
       JAVA_PACKAGE
       COPYRIGHT_HEADER
       CPP_INTERNAL_NAMESPACE
-      CPP_NAMESPACE)
+      OUTPUT_DIR)
   set(multiValueArgs FRANCA_SOURCES)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
@@ -81,7 +81,10 @@ function(apigen_generate)
 
   # Genium invocations for different generators need different output directories
   # as Genium currently wipes the directory upon start.
-  set(GENIUM_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_generate_GENERATOR}-generated)
+  if(NOT apigen_generate_OUTPUT_DIR)
+    set(apigen_generate_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${apigen_generate_GENERATOR}-generated)
+  endif()
+  set(GENIUM_OUTPUT_DIR ${apigen_generate_OUTPUT_DIR})
 
   # Attach properties to target for re-use in other modules
   set_target_properties(${apigen_generate_TARGET} PROPERTIES
@@ -128,9 +131,6 @@ function(apigen_generate)
   endif()
   if(apigen_generate_CPP_INTERNAL_NAMESPACE)
     string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -cppInternalNamespace ${apigen_generate_CPP_INTERNAL_NAMESPACE}")
-  endif()
-  if(apigen_generate_CPP_NAMESPACE)
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -cppnamespace ${apigen_generate_CPP_NAMESPACE}")
   endif()
 
   execute_process(

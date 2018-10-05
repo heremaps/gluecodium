@@ -35,7 +35,7 @@ cmake_minimum_required(VERSION 3.5)
 #
 # The general form of the command is::
 #
-#   apigen_target_include_directories(target)
+#     apigen_target_include_directories(target)
 #
 
 function(apigen_target_include_directories target)

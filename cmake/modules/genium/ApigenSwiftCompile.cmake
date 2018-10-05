@@ -23,27 +23,20 @@ set(includeguard_ApigenSwiftCompile ON)
 cmake_minimum_required(VERSION 3.5)
 
 set(MINIMAL_CLANG_VERSION 5.0)
-if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang"))
-  message(FATAL_ERROR "Clang compiler is required, your compiler identifies as ${CMAKE_CXX_COMPILER_ID}.
-  On Ubuntu 16.04 you can run
-    apt-get install clang-${MINIMAL_CLANG_VERSION}
-  and then do a clean CMake run passing -DCMAKE_CXX_COMPILER=clang++ and -DCMAKE_C_COMPILER=clang
-  ")
-endif()
-if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS ${MINIMAL_CLANG_VERSION})
-  message(FATAL_ERROR "Clang compiler version > ${MINIMAL_CLANG_VERSION} is required,
-  your compiler is ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}
-  On Ubuntu 16.04 you can run
-    apt-get install clang-${MINIMAL_CLANG_VERSION}
-    update-alternatives --install /usr/bin/clang clang \\
-      /usr/lib/llvm-${MINIMAL_CLANG_VERSION}/bin/clang 100
-    update-alternatives --install /usr/bin/clang++ clang++ \\
-      /usr/lib/llvm-${MINIMAL_CLANG_VERSION}/bin/clang++ 100
-  and then do a clean rebuild
-  ")
+if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang") OR CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
+  message(FATAL_ERROR "Clang compiler version > ${MINIMAL_CLANG_VERSION} is required,"
+  "your compiler is ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}\n"
+  "On Ubuntu 16.04 you can run\n"
+  "apt-get install clang-${MINIMAL_CLANG_VERSION}\n"
+  "update-alternatives --install /usr/bin/clang clang /usr/lib/llvm-${MINIMAL_CLANG_VERSION}/bin/clang 100\n"
+  "update-alternatives --install /usr/bin/clang++ clang++ /usr/lib/llvm-${MINIMAL_CLANG_VERSION}/bin/clang++ 100\n
+  and then do a clean rebuild")
 endif()
 
+include(${CMAKE_CURRENT_LIST_DIR}/GetLinkLibraries.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftTest.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftHelper.cmake)
+
 
 
 #.rst:
@@ -57,7 +50,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftTest.cmake)
 #
 # The general form of the command is::
 #
-#   apigen_swift_compile(target)
+#     apigen_swift_compile(target)
 #
 
 function(apigen_swift_compile target architecture)
@@ -67,12 +60,22 @@ function(apigen_swift_compile target architecture)
   get_target_property(ADDITIONAL_SOURCES ${target} APIGEN_GENIUM_GENERATOR_ADDITIONAL_SOURCES)
   get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
   get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
+  get_target_property(SWIFT_FRAMEWORK_VERSION_SHORT ${target} APIGEN_SWIFT_FRAMEWORK_VERSION_SHORT)
+  get_target_property(SWIFT_FRAMEWORK_MINIMUM_OS_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION)
 
   if(NOT ADDITIONAL_SOURCES)
     set(ADDITIONAL_SOURCES "")
   endif()
   if(NOT ${GENERATOR} MATCHES "swift")
     message(FATAL_ERROR "apigen_swift_compile() depends on apigen_generate() configured with generator 'swift'")
+  endif()
+
+  find_program(SWIFTC swiftc)
+  if(SWIFTC)
+    execute_process(COMMAND ${SWIFTC} --version OUTPUT_VARIABLE SWIFTC_VERSION)
+    message(STATUS "[Swift] ${SWIFTC_VERSION}")
+  else()
+    message(FATAL_ERROR "Swift compiler was not found")
   endif()
 
   set(TARGET_ARCHITECTURE ${architecture})
@@ -95,8 +98,6 @@ function(apigen_swift_compile target architecture)
     endif()
   endif()
 
-  file(GLOB_RECURSE SOURCES ${OUTPUT_DIR}/swift/*.swift)
-
   set(MODULE_NAME ${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>)
   if(APPLE)
     # CMakes compiler check is outdated and fails for Swift 4.0, force it to pass.
@@ -105,14 +106,13 @@ function(apigen_swift_compile target architecture)
 
     set(SWIFT_FLAGS "-import-underlying-module -I${OUTPUT_DIR} -module-name=${target}")
     set(SWIFT_DEBUG_FLAG "-D DEBUG")
-
+    set_xcode_swift_version(${target})
     set_target_properties(${target} PROPERTIES
       FRAMEWORK TRUE
-      FRAMEWORK_VERSION ${SWIFT_FRAMEWORK_VERSION}
       XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS "${SWIFT_FLAGS}"
       XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS[variant=Debug] "${SWIFT_FLAGS} ${SWIFT_DEBUG_FLAG}"
       XCODE_ATTRIBUTE_OTHER_LDFLAGS "-lc++"
-      XCODE_ATTRIBUTE_SWIFT_VERSION "4.0"
+      XCODE_ATTRIBUTE_SWIFT_OPTIMIZATION_LEVEL[variant=Debug] "-Onone"
       XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
       XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=RelWithDebInfo] "YES"
       )
@@ -136,9 +136,10 @@ function(apigen_swift_compile target architecture)
       set(BUILD_ARGUMENTS ${BUILD_ARGUMENTS} -g)
     endif()
 
+    file(GLOB_RECURSE SOURCES ${OUTPUT_DIR}/swift/*.swift)
     add_custom_command(TARGET ${target} POST_BUILD
       COMMENT "Compiling generated Swift sources -> ${BUILD_ARGUMENTS}"
-      COMMAND swiftc ${BUILD_ARGUMENTS} ${SOURCES} ${ADDITIONAL_SOURCES}
+      COMMAND ${SWIFTC} ${BUILD_ARGUMENTS} ${SOURCES} ${ADDITIONAL_SOURCES}
       WORKING_DIRECTORY ${SWIFT_OUTPUT_DIR})
 
     install(

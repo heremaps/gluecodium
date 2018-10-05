@@ -368,7 +368,7 @@ set_target_properties(hello PROPERTIES
         VERSION ${HELLO_VERSION})
 target_include_directories(hello PRIVATE "src/test/")
 
-include(apigen/Genium)
+include(genium/Genium)
 apigen_generate(TARGET hello
         FRANCA_SOURCES ${HELLO_FRANCA_SOURCES}
         GENERATOR ${HELLO_APIGEN_GENIUM_GENERATOR}
@@ -389,7 +389,7 @@ if(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL cpp)
         INCLUDES DESTINATION hello)
 elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL android)
     # Android customers want an Android Archive and it's pre-requirements...
-    include(apigen/Android)
+    include(genium/Android)
     if(NOT DEFINED ANDROID_NATIVE_API_LEVEL)
         set(ANDROID_NATIVE_API_LEVEL "27")
     endif()
@@ -404,9 +404,9 @@ elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL android)
     apigen_android_archive(TARGET hello)
 elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL swift)
     # Swift customers want a module...
-    include(apigen/iOS)
+    include(genium/iOS)
     if(HELLO_SWIFT_TESTS)
-        set_target_properties(hello PROPERTIES APIGEN_SWIFT_TESTS ${HELLO_SWIFT_TESTS})
+        set_target_properties(hello PROPERTIES APIGEN_SWIFT_TESTS_SHARED ${HELLO_SWIFT_TESTS})
     endif()
 
     apigen_swift_configuration(hello)

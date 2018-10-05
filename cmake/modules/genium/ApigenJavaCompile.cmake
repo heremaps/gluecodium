@@ -33,10 +33,10 @@ cmake_minimum_required(VERSION 3.5)
 #
 # The general form of the command is::
 #
-#   apigen_java_compile(TARGET target
-#    LOCAL_DEPENDENCIES jar_name
-#    LOCAL_DEPENDENCIES_DIRS dir_path
-#    REMOTE_DEPENDENCIES package_name )
+#     apigen_java_compile(TARGET target
+#        LOCAL_DEPENDENCIES jar_name
+#        LOCAL_DEPENDENCIES_DIRS dir_path
+#        REMOTE_DEPENDENCIES package_name )
 #
 # LOCAL_DEPENDENCIES specifies name(s) of the local JAR file(s) to include as dependencies.
 # LOCAL_DEPENDENCIES_DIRS specifies paths(s) of the local directories where to look for those JARs.
