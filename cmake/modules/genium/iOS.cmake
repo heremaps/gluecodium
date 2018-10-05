@@ -30,6 +30,6 @@ cmake_minimum_required(VERSION 3.5)
 
 # Swift modules
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftBuild.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftConfiguration.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFrameworkBundle.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFrameworkInfoPlist.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/JazzyApiDocumentation.cmake)
+

@@ -19,7 +19,9 @@
 	<key>CFBundleVersion</key>
 	<string>${MACOSX_FRAMEWORK_BUNDLE_VERSION}</string>
 	<key>CFBundleShortVersionString</key>
-	<string>${MACOSX_FRAMEWORK_SHORT_VERSION_STRING}</string>
+	<string>${MACOSX_FRAMEWORK_BUNDLE_VERSION_SHORT}</string>
+	<key>MinimumOSVersion</key>
+	<string>${MACOSX_FRAMEWORK_MINIMUM_OS_VERSION}</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
 </dict>
