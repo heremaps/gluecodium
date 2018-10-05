@@ -32,7 +32,7 @@ cmake_minimum_required(VERSION 3.5)
 #
 # The general form of the command is::
 #
-#   apigen_swift_framework_info_plist(target)
+#     apigen_swift_framework_info_plist(target)
 #
 
 function(apigen_swift_framework_info_plist target)
@@ -40,6 +40,8 @@ function(apigen_swift_framework_info_plist target)
   get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
   get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
   get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
+  get_target_property(SWIFT_FRAMEWORK_VERSION_SHORT ${target} APIGEN_SWIFT_FRAMEWORK_VERSION_SHORT)
+  get_target_property(SWIFT_FRAMEWORK_MINIMUM_OS_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION)
   get_target_property(SWIFT_RESOURCES_DIR ${target} APIGEN_SWIFT_RESOURCES_DIR)
 
   if(NOT ${GENERATOR} MATCHES "swift")
@@ -51,7 +53,8 @@ function(apigen_swift_framework_info_plist target)
   #TODO APIGEN-347 make this configurable
   set(MACOSX_FRAMEWORK_IDENTIFIER com.here.ivi.${target})
   set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${SWIFT_FRAMEWORK_VERSION})
-  set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${SWIFT_FRAMEWORK_VERSION})
+  set(MACOSX_FRAMEWORK_BUNDLE_VERSION_SHORT ${SWIFT_FRAMEWORK_VERSION_SHORT})
+  set(MACOSX_FRAMEWORK_MINIMUM_OS_VERSION ${SWIFT_FRAMEWORK_MINIMUM_OS_VERSION})
 
   # using CMakes builtin Info.plist generation does not work properly, work around this by removing
   # and replacing the generated one
@@ -59,7 +62,6 @@ function(apigen_swift_framework_info_plist target)
   add_custom_command(TARGET ${target} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E remove "$<TARGET_FILE_DIR:${target}>/Info.plist"
     COMMAND ${CMAKE_COMMAND} -E copy ${SWIFT_OUTPUT_DIR}/Info.plist.${target} "$<TARGET_FILE_DIR:${target}>/Info.plist"
-    COMMAND ${CMAKE_COMMAND} -E copy ${SWIFT_OUTPUT_DIR}/Info.plist.${target} "$<TARGET_FILE_DIR:${target}>/Resources/Info.plist"
     )
   message(STATUS "[Swift] Creating Mac OS configuration...")
 

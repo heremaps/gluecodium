@@ -15,21 +15,36 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_apigen_iOS)
+if(DEFINED includeguard_ApigenSwiftPackage)
   return()
 endif()
-set(includeguard_apigen_iOS ON)
+set(includeguard_ApigenSwiftPackage ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-#.rst:
-# The iOS Apigen module
-# ---------------------
-#
-# Includes modules needed for iOS builds.
-
-# Swift modules
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftBuild.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftConfiguration.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFrameworkBundle.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFatLibrary.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFrameworkInfoPlist.cmake)
+
+#.rst:
+# apigen_swift_package
+# -------------------
+#
+# This module execute post operations when the build process has finished.
+#
+# .. command:: apigen_swift_package
+#
+# The general form of the command is:
+#
+#     apigen_swift_swift_package(target)
+#
+
+function(apigen_swift_package target)
+
+  if(NOT ${GENERATOR} MATCHES "swift")
+    message(FATAL_ERROR "apigen_swift_package() depends on apigen_generate() configured with generator 'swift'")
+  endif()
+
+  apigen_swift_fat_library(${target})
+  apigen_swift_framework_info_plist(${target})
+
+endfunction()

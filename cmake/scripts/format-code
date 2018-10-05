@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Utility to format source code.
+#
+
+# Format CMake files with dockerized 'cmakelint'
+cmake_files=$(find . \( -name CMakeLists.txt -o -name "*.cmake" \) -exec echo /opt/{} \;)
+docker run \
+    --net=host \
+    --pid=host \
+    --rm \
+    --user ${UID}:${GID} \
+    --volume "${PWD}:/opt" \
+    saschpe/cmakelint --filter=-linelength ${cmake_files}

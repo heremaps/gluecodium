@@ -1,3 +1,6 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 repositories {
     mavenLocal()
     mavenCentral()
@@ -12,8 +15,8 @@ dependencies {
 mainClassName = 'com.here.genium.Genium'
 run {
     if (System.getProperty("exec.args") != null) {
-        List<String> splitArgs = new ArrayList<String>();
-        java.util.regex.Matcher matcher = java.util.regex.Pattern
+        List<String> splitArgs = new ArrayList<String>()
+        Matcher matcher = Pattern
                .compile("\\s*(([^\"']\\S*)|[\"'](.+?)[\"'])\\s*")
                .matcher(System.getProperty('exec.args'))
         while (matcher.find()) {

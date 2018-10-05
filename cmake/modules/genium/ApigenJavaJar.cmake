@@ -33,12 +33,17 @@ cmake_minimum_required(VERSION 3.5)
 #
 # The general form of the command is::
 #
-#   apigen_java_jar(target)
+#     apigen_java_jar(target)
 #
 
 find_package(Java COMPONENTS Development REQUIRED)
 
 function(apigen_java_jar target)
+  set(options "")
+  set(oneValueArgs OUTPUT_DIR)
+  set(multiValueArgs "")
+  cmake_parse_arguments(apigen_java_jar "${options}" "${oneValueArgs}"
+                      "${multiValueArgs}" ${ARGN})
 
   get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
   get_target_property(APIGEN_JAVA_OUTPUT_DIR ${target} APIGEN_JAVA_COMPILE_OUTPUT_DIR)
@@ -49,7 +54,10 @@ function(apigen_java_jar target)
 
   # Genium invocations for different generators need different output directories
   # as Genium currently wipes the directory upon start.
-  set(APIGEN_JAVA_JAR_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-java-jar)
+  if(NOT apigen_java_jar_OUTPUT_DIR)
+    set(apigen_java_jar_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/apigen/${GENERATOR}-java-jar)
+  endif()
+  set(APIGEN_JAVA_JAR_OUTPUT_DIR ${apigen_java_jar_OUTPUT_DIR})
   set(APIGEN_JAVA_JAR ${APIGEN_JAVA_JAR_OUTPUT_DIR}/${target}.jar)
 
   # Attach properties to target for re-use in other modules
