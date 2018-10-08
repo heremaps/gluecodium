@@ -39,17 +39,20 @@ public final class OptionReader {
     allOptions.addOption("output", true, "Generated files output destination");
     allOptions.addOption("javapackage", true, "Java package name");
     allOptions.addOption(
-        "androidMergeManifest",
+        "mergemanifest",
+        "android-merge-manifest",
         true,
         "A second AndroidManifest.xml that will be merged with the generated AndroidManifest.xml");
     allOptions.addOption("stdout", false, "Echo generated files to stdout");
     allOptions.addOption("help", false, "Shows this help and exits.");
     allOptions.addOption(
-        "validateOnly",
+        "validate",
+        "validate-only",
         false,
         "Perform fidl and fdepl files validation without generating any code.");
     allOptions.addOption(
-        "enableCaching",
+        "cache",
+        "enable-caching",
         false,
         "enable caching of output files, only available if output destination is set");
     Option generatorsOpt =
@@ -66,20 +69,31 @@ public final class OptionReader {
     generatorsOpt.setArgs(Option.UNLIMITED_VALUES);
     allOptions.addOption(generatorsOpt);
     allOptions.addOption(
-        "timeLogging",
+        "time",
+        "time-logging",
         false,
         "Enables logging of elapsed time at INFO level. "
             + "Time for Franca model loading step and for code generation step is logged separately.");
     allOptions.addOption(
-        "copyrightHeader",
+        "copyright",
+        "copyright-header",
         true,
         "Specify the path for the file containing the copyright header that will be appended to"
             + " all the generated files.");
     allOptions.addOption(
-        "cppInternalNamespace", true, "C++ namespace for internal (non-API) headers.");
+        "intnamespace",
+        "cpp-internal-namespace",
+        true,
+        "C++ namespace for internal (non-API) headers.");
     allOptions.addOption("cppnamespace", true, "C++ namespace for public (API) headers.");
 
+    allOptions.addOption("androidMergeManifest", true, "DEPRECATED");
+    allOptions.addOption("copyrightHeader", true, "DEPRECATED");
+    allOptions.addOption("cppInternalNamespace", true, "DEPRECATED");
+    allOptions.addOption("enableCaching", false, "DEPRECATED");
     allOptions.addOption("nostdout", false, "DEPRECATED");
+    allOptions.addOption("timeLogging", false, "DEPRECATED");
+    allOptions.addOption("validateOnly", false, "DEPRECATED");
   }
 
   @SuppressWarnings("PMD.ModifiedCyclomaticComplexity")
@@ -106,7 +120,11 @@ public final class OptionReader {
               ? Lists.newArrayList(Splitter.on(".").split(javaPackage))
               : Collections.emptyList());
 
-      builder.androidMergeManifestPath(getSingleOptionValue(cmd, "androidMergeManifest"));
+      String mergeManifestPath = getSingleOptionValue(cmd, "mergemanifest");
+      if (mergeManifestPath == null) {
+        mergeManifestPath = getSingleOptionValue(cmd, "androidMergeManifest");
+      }
+      builder.androidMergeManifestPath(mergeManifestPath);
 
       if (cmd.hasOption("generators")) {
         String[] arg = cmd.getOptionValues("generators");
@@ -115,11 +133,12 @@ public final class OptionReader {
             arg != null ? new HashSet<>(Arrays.asList(arg)) : GeneratorSuite.generatorShortNames());
       }
 
-      builder.validatingOnly(cmd.hasOption("validateOnly"));
+      builder.validatingOnly(cmd.hasOption("validate") || cmd.hasOption("validateOnly"));
       builder.dumpingToStdout(cmd.hasOption("stdout"));
-      builder.enableCaching(cmd.hasOption("output") && cmd.hasOption("enableCaching"));
+      builder.enableCaching(
+          cmd.hasOption("output") && (cmd.hasOption("cache") || cmd.hasOption("enableCaching")));
 
-      builder.logTimes(cmd.hasOption("timeLogging"));
+      builder.logTimes(cmd.hasOption("time") || cmd.hasOption("timeLogging"));
 
       String cppRootNamespaces = getSingleOptionValue(cmd, "cppnamespace");
       builder.cppRootNamespace(
@@ -127,10 +146,18 @@ public final class OptionReader {
               ? Arrays.asList(cppRootNamespaces.split("."))
               : Collections.emptyList());
 
-      builder.cppInternalNamespace(
-          cmd.getOptionValue("cppInternalNamespace", Genium.DEFAULT_INTERNAL_NAMESPACE));
+      String cppInternalNamespace = getSingleOptionValue(cmd, "intnamespace");
+      if (cppInternalNamespace == null) {
+        cppInternalNamespace =
+            cmd.getOptionValue("cppInternalNamespace", Genium.DEFAULT_INTERNAL_NAMESPACE);
+      }
+      builder.cppInternalNamespace(cppInternalNamespace);
 
-      if (cmd.hasOption("copyrightHeader")) {
+      String copyrightHeader = cmd.getOptionValue("copyright");
+      if (copyrightHeader == null) {
+        copyrightHeader = cmd.getOptionValue("copyrightHeader");
+      }
+      if (copyrightHeader != null) {
         String copyrightHeaderFile = cmd.getOptionValue("copyrightHeader");
         String contents = Files.readFileIntoString(copyrightHeaderFile);
         builder.copyrightHeaderContents(contents);
