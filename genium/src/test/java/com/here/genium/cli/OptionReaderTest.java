@@ -153,7 +153,7 @@ public final class OptionReaderTest {
 
   @Test
   public void androidMergeManifestPathIsRecognised() throws OptionReaderException {
-    String[] toRead = prepareToRead("-androidMergeManifest", TEST_ADDITIONAL_ANDROID_MANIFEST);
+    String[] toRead = prepareToRead("-mergemanifest", TEST_ADDITIONAL_ANDROID_MANIFEST);
     Options options = optionReader.read(toRead);
     assertEquals(TEST_ADDITIONAL_ANDROID_MANIFEST, options.getAndroidMergeManifestPath());
   }
