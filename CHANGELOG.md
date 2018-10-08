@@ -1,5 +1,17 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features:
+  + Added "-stdout" command line parameter. This parameter enables echoing of the generated code
+    into std::out console output.
+- Deprecated:
+  + "-nostdout" command line parameter is deprecated. It will be removed in a future release. The
+    behavior of not echoing generated code into std::out is the default behavior now.
+- Removed:
+  + "-listGenerators" command line parameter was removed. All available generators are listed in the
+    help message for "generator" parameter. Use "-help" to view the help message for all Genium
+    command line parameters.
+
 ## 3.10.0 - 2018-10-08
 - Features:
   + Added FDEPL property "Equatable" for structs for generating the equality support infrastructure
