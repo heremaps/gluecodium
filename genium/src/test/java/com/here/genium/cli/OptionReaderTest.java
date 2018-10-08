@@ -28,7 +28,7 @@ import com.here.genium.Genium.Options;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,6 +38,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class OptionReaderTest {
+
   private static final String[] TEST_INPUT_SINGLE_FOLDER = {"dirA"};
   private static final String[] TEST_INPUT_TWO_FOLDERS = {"dirA", "dirB"};
   private static final String TEST_OUTPUT = "./outputFile";
@@ -51,36 +52,12 @@ public final class OptionReaderTest {
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
   @Test
-  public void listGeneratorsOptionIsRecognised() throws OptionReaderException {
-    // Arrange, Act
-    Options options = optionReader.read(new String[] {"-listGenerators"});
-
-    // Assert
-    assertNull(options);
-  }
-
-  @Test
   public void helpOptionIsRecognised() throws OptionReaderException {
     // Arrange, Act
     Options options = optionReader.read(new String[] {"-help"});
 
     // Assert
     assertNull(options);
-  }
-
-  @Test
-  public void listGeneratorsOptionCreatesOutput() throws OptionReaderException, IOException {
-    // Arrange
-    ByteArrayOutputStream bo = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(bo));
-
-    // Act
-    optionReader.read(new String[] {"-listGenerators"});
-    bo.flush();
-    String consoleOutput = new String(bo.toByteArray());
-
-    // Assert
-    assertTrue(consoleOutput.contains("Found generator android"));
   }
 
   @Test
@@ -161,7 +138,7 @@ public final class OptionReaderTest {
     Options options = optionReader.read(toRead);
 
     // Assert
-    assertEquals(Arrays.asList(TEST_JAVA_PACKAGE_LIST), options.getJavaPackageList());
+    assertEquals(Collections.singletonList(TEST_JAVA_PACKAGE_LIST), options.getJavaPackageList());
   }
 
   @Test
