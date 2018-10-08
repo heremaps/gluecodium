@@ -42,9 +42,8 @@ public final class OptionReader {
         "androidMergeManifest",
         true,
         "A second AndroidManifest.xml that will be merged with the generated AndroidManifest.xml");
-    allOptions.addOption("nostdout", false, "Don't dump generated files to stdout");
+    allOptions.addOption("stdout", false, "Echo generated files to stdout");
     allOptions.addOption("help", false, "Shows this help and exits.");
-    allOptions.addOption("listGenerators", false, "Prints out all available generators and exits.");
     allOptions.addOption(
         "validateOnly",
         false,
@@ -59,9 +58,9 @@ public final class OptionReader {
             true,
             String.join(
                 "\n",
-                "List of generators to use, separated by comma,",
-                "if empty <arg> provided - uses all available generators.",
-                "Default behaviour - uses automatic generator resolution based on .fdepl files provided."));
+                "List of generators to use, separated by comma. "
+                    + "If empty, all available generators are used. Available generators: "
+                    + String.join(",", GeneratorSuite.generatorShortNames())));
     generatorsOpt.setValueSeparator(',');
     generatorsOpt.setOptionalArg(true);
     generatorsOpt.setArgs(Option.UNLIMITED_VALUES);
@@ -69,7 +68,8 @@ public final class OptionReader {
     allOptions.addOption(
         "timeLogging",
         false,
-        "Enables logging of transpilation- and franca model loading-times at INFO level.");
+        "Enables logging of elapsed time at INFO level. "
+            + "Time for Franca model loading step and for code generation step is logged separately.");
     allOptions.addOption(
         "copyrightHeader",
         true,
@@ -78,6 +78,8 @@ public final class OptionReader {
     allOptions.addOption(
         "cppInternalNamespace", true, "C++ namespace for internal (non-API) headers.");
     allOptions.addOption("cppnamespace", true, "C++ namespace for public (API) headers.");
+
+    allOptions.addOption("nostdout", false, "DEPRECATED");
   }
 
   @SuppressWarnings("PMD.ModifiedCyclomaticComplexity")
@@ -87,11 +89,6 @@ public final class OptionReader {
 
     try {
       CommandLine cmd = parser.parse(allOptions, args);
-
-      if (cmd.hasOption("listGenerators")) {
-        printGenerators();
-        return null;
-      }
 
       if (cmd.hasOption("help")) {
         printUsage();
@@ -119,7 +116,7 @@ public final class OptionReader {
       }
 
       builder.validatingOnly(cmd.hasOption("validateOnly"));
-      builder.dumpingToStdout(!cmd.hasOption("nostdout"));
+      builder.dumpingToStdout(cmd.hasOption("stdout"));
       builder.enableCaching(cmd.hasOption("output") && cmd.hasOption("enableCaching"));
 
       builder.logTimes(cmd.hasOption("timeLogging"));
@@ -149,23 +146,6 @@ public final class OptionReader {
     }
 
     return options;
-  }
-
-  private void printGenerators() {
-    System.out.println("Available generators: \n");
-    for (String generatorName : GeneratorSuite.generatorShortNames()) {
-      System.out.println("  Found generator " + generatorName);
-
-      GeneratorSuite generator =
-          GeneratorSuite.instantiateByShortName(generatorName, Genium.DEFAULT_OPTIONS, null);
-      if (generator != null) {
-        System.out.println("   DefinedIn:  " + generator.getClass().getName());
-        System.out.println("   Name:       " + generator.getName());
-      } else {
-        System.err.println("   Instantiation failed!");
-      }
-      System.out.println();
-    }
   }
 
   public void printUsage() {
