@@ -7,6 +7,8 @@
 - Deprecated:
   + "-nostdout" command line parameter is deprecated. It will be removed in a future release. The
     behavior of not echoing generated code into std::out is the default behavior now.
+  + Camel-case command line parameters were renamed to shorter names without camel-case. The old
+    names are deprecated. The old names will be removed in a future release.
 - Removed:
   + "-listGenerators" command line parameter was removed. All available generators are listed in the
     help message for "generator" parameter. Use "-help" to view the help message for all Genium
