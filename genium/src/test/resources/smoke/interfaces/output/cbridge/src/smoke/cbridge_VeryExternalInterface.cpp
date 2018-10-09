@@ -1,7 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-#include "cbridge/include/smoke/VeryExternalInterface.h"
+#include "cbridge/include/smoke/cbridge_VeryExternalInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "foo/Bar.h"
 #include <memory>

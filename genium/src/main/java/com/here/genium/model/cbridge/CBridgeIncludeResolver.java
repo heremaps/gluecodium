@@ -68,7 +68,8 @@ public class CBridgeIncludeResolver {
     pathComponents.add(subfolder);
     pathComponents.addAll(rootNamespace);
     pathComponents.addAll(DefinedBy.getPackages(francaTypeCollection));
-    pathComponents.add(CBridgeNameRules.getName(francaTypeCollection) + suffix);
+    pathComponents.add(
+        CBridgeNameRules.CBRIDGE_PREFIX + CBridgeNameRules.getName(francaTypeCollection) + suffix);
 
     return String.join(File.separator, pathComponents);
   }

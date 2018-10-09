@@ -1,7 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-#include "cbridge/include/root/space/smoke/BasicTypes.h"
+#include "cbridge/include/root/space/smoke/cbridge_BasicTypes.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "root/space/smoke/BasicTypes.h"
 #include <memory>
