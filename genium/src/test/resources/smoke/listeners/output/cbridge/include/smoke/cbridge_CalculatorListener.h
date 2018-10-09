@@ -10,7 +10,7 @@ extern "C" {
 
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/StringHandle.h"
-#include "cbridge/include/smoke/CalculationResult.h"
+#include "cbridge/include/smoke/cbridge_CalculationResult.h"
 #include <stdbool.h>
 
 _baseRef smoke_CalculatorListener_ResultStruct_create();

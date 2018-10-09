@@ -2,7 +2,7 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 
-#include "cbridge/include/smoke/CalculatorListener.h"
+#include "cbridge/include/smoke/cbridge_CalculatorListener.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "smoke/CalculationResult.h"

@@ -45,6 +45,7 @@ public final class CBridgeNameRules {
   public static final String UNDERSCORE_DELIMITER = "_";
   public static final String PUBLIC_HEADER_SUFFIX = ".h";
   public static final String IMPL_SUFFIX = ".cpp";
+  public static final String CBRIDGE_PREFIX = "cbridge_";
 
   private CBridgeNameRules() {}
 

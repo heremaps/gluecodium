@@ -4,7 +4,7 @@
 
 #include "cbridge/include/ArrayCollection.h"
 #include "cbridge/include/StringHandle.h"
-#include "cbridge/include/smoke/Arrays.h"
+#include "cbridge/include/smoke/cbridge_Arrays.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "smoke/Arrays.h"
 #include <memory>

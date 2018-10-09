@@ -10,7 +10,7 @@ extern "C" {
 
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/StringHandle.h"
-#include "cbridge/include/smoke/Arrays.h"
+#include "cbridge/include/smoke/cbridge_Arrays.h"
 #include <stdint.h>
 
 _baseRef arrayCollection_Enums_create();

@@ -2,7 +2,7 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 
-#include "cbridge/include/smoke/Maps.h"
+#include "cbridge/include/smoke/cbridge_Maps.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "smoke/Maps.h"
 #include <memory>

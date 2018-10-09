@@ -60,7 +60,8 @@ public final class CBridgeIncludeResolverTest {
   public void resolveInclude() {
     Include result = includeResolver.resolveInclude(francaElement);
 
-    assertEquals("cbridge/include/ro/ot/my/fancy/package/SomeTypeCollection.h", result.fileName);
+    assertEquals(
+        "cbridge/include/ro/ot/my/fancy/package/cbridge_SomeTypeCollection.h", result.fileName);
   }
 
   @Test
@@ -68,7 +69,7 @@ public final class CBridgeIncludeResolverTest {
 
     String filePath = includeResolver.getHeaderFileNameWithPath(francaTypeCollection);
 
-    assertEquals("cbridge/include/ro/ot/my/fancy/package/SomeTypeCollection.h", filePath);
+    assertEquals("cbridge/include/ro/ot/my/fancy/package/cbridge_SomeTypeCollection.h", filePath);
   }
 
   @Test
@@ -77,6 +78,6 @@ public final class CBridgeIncludeResolverTest {
 
     String filePath = includeResolver.getImplementationFileNameWithPath(francaTypeCollection);
 
-    assertEquals("cbridge/src/ro/ot/my/fancy/package/SomeTypeCollection.cpp", filePath);
+    assertEquals("cbridge/src/ro/ot/my/fancy/package/cbridge_SomeTypeCollection.cpp", filePath);
   }
 }
