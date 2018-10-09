@@ -2,7 +2,7 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 
-#include "cbridge/include/smoke/SimpleInstantiableTwo.h"
+#include "cbridge/include/smoke/cbridge_SimpleInstantiableTwo.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "smoke/SimpleInstantiableTwo.h"
 #include <memory>

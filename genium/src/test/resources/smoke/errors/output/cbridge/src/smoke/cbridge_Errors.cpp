@@ -2,7 +2,7 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 
-#include "cbridge/include/smoke/Errors.h"
+#include "cbridge/include/smoke/cbridge_Errors.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "smoke/Errors.h"
 #include <memory>
