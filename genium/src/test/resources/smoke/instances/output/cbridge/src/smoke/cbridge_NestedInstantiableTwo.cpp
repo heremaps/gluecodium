@@ -2,7 +2,7 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 
-#include "cbridge/include/smoke/NestedInstantiableTwo.h"
+#include "cbridge/include/smoke/cbridge_NestedInstantiableTwo.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "smoke/NestedInstantiableOne.h"
 #include "smoke/NestedInstantiableTwo.h"
