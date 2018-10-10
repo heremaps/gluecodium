@@ -33,6 +33,7 @@ import java.util.Set;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -50,6 +51,7 @@ public final class OptionReaderTest {
   private final OptionReader optionReader = new OptionReader();
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
+  @Rule public final TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   @Test
   public void helpOptionIsRecognised() throws OptionReaderException {
@@ -156,6 +158,17 @@ public final class OptionReaderTest {
     String[] toRead = prepareToRead("-mergemanifest", TEST_ADDITIONAL_ANDROID_MANIFEST);
     Options options = optionReader.read(toRead);
     assertEquals(TEST_ADDITIONAL_ANDROID_MANIFEST, options.getAndroidMergeManifestPath());
+  }
+
+  @Test
+  public void copyrightHeaderPathIsRecognised() throws OptionReaderException, IOException {
+    temporaryFolder.newFile("Foo.txt");
+    String[] toRead =
+        prepareToRead("-copyright", temporaryFolder.getRoot().getAbsolutePath() + "/Foo.txt");
+
+    Options options = optionReader.read(toRead);
+
+    assertEquals("", options.getCopyrightHeaderContents());
   }
 
   private String[] prepareToRead(String optionName, String optionValue) {

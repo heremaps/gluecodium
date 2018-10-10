@@ -158,8 +158,7 @@ public final class OptionReader {
         copyrightHeader = cmd.getOptionValue("copyrightHeader");
       }
       if (copyrightHeader != null) {
-        String copyrightHeaderFile = cmd.getOptionValue("copyrightHeader");
-        String contents = Files.readFileIntoString(copyrightHeaderFile);
+        String contents = Files.readFileIntoString(copyrightHeader);
         builder.copyrightHeaderContents(contents);
       }
     } catch (ParseException e) {
