@@ -409,7 +409,6 @@ elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL swift)
         set_target_properties(hello PROPERTIES APIGEN_SWIFT_TESTS_SHARED ${HELLO_SWIFT_TESTS})
     endif()
 
-    apigen_swift_configuration(hello)
     apigen_swift_build(hello)
     apigen_swift_framework_info_plist(hello)
 endif()
