@@ -1,5 +1,10 @@
 # Genium project Release Notes
 
+## 3.11.1
+- Release date: 2018-10-10
+- Bug fixes:
+  + Fixed incorrect handling of "--copyright-header" command line parameter.
+
 ## 3.11.0
 - Release date: 2018-10-10
 - Features:
