@@ -61,9 +61,10 @@ public:
     {
         jobject jGlobalRef = jenv->NewGlobalRef( jobj );
         jint jHashCode = getHashCode( jenv, jobj );
-        ProxyCacheKey key{jenv, jGlobalRef, jHashCode};
+        ProxyCacheKey key{jGlobalRef, jHashCode};
 
-        ::std::lock_guard< ::std::mutex > lock( sCacheMutex );
+        ::std::lock_guard< GlobalJniLock > lock( sGlobalJniLock );
+        sGlobalJniLock.setJniEnvForCurrentThread( jenv );
         auto iterator = sProxyCache.find( key );
         if ( iterator != sProxyCache.end( ) )
         {
@@ -107,7 +108,6 @@ protected:
 private:
     struct ProxyCacheKey
     {
-        JNIEnv* jniEnv;
         jobject jObject;
         jint jHashCode;
 
@@ -123,6 +123,19 @@ private:
         }
     };
 
+    class GlobalJniLock {
+    public:
+        void lock( );
+        void unlock( );
+
+        void setJniEnvForCurrentThread( JNIEnv* env );
+        JNIEnv* getJniEnvForCurrentThread( );
+
+    private:
+        ::std::mutex cacheMutex;
+        JNIEnv* jniEnvForCurrentThread = nullptr;
+    };
+
     using ProxyCache
         = ::std::unordered_map< ProxyCacheKey, ::std::weak_ptr< CppProxyBase >, ProxyCacheKeyHash >;
     using ReverseProxyCache = ::std::unordered_map< const void*, ProxyCacheKey >;
@@ -135,7 +148,7 @@ private:
 protected:
     static ProxyCache sProxyCache;
     static ReverseProxyCache sReverseProxyCache;
-    static ::std::mutex sCacheMutex;
+    static GlobalJniLock sGlobalJniLock;
 };
 
 }

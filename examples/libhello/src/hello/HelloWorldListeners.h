@@ -68,6 +68,11 @@ public:
         const ::std::shared_ptr< ::hello::CalculatorListener >& listener ) override;
 
     /**
+     * removes all listeners to calculateInBackground results notifications
+     */
+    void remove_all_listeners( ) override;
+
+    /**
      * Compute the Euclidean distance between two positions.
      *     It is guaranteed that listener will be called before method returns
      */

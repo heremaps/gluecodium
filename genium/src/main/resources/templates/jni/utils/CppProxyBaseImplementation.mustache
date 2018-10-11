@@ -90,7 +90,7 @@ namespace jni
 {
 CppProxyBase::ProxyCache CppProxyBase::sProxyCache{};
 CppProxyBase::ReverseProxyCache CppProxyBase::sReverseProxyCache{};
-::std::mutex CppProxyBase::sCacheMutex{};
+CppProxyBase::GlobalJniLock CppProxyBase::sGlobalJniLock{};
 
 void
 CppProxyBase::callJavaMethod( const ::std::string& methodName,
@@ -134,8 +134,9 @@ CppProxyBase::~CppProxyBase( )
     JNIEnv* jniEnv = getJniEnvironment( );
 
     {
-        ::std::lock_guard< std::mutex > lock( sCacheMutex );
-        sProxyCache.erase( ProxyCacheKey{jniEnv, jGlobalRef, jHashCode} );
+        ::std::lock_guard< GlobalJniLock > lock( sGlobalJniLock );
+        sGlobalJniLock.setJniEnvForCurrentThread( jniEnv );
+        sProxyCache.erase( ProxyCacheKey{jGlobalRef, jHashCode} );
         sReverseProxyCache.erase( this );
     }
 
@@ -145,7 +146,37 @@ CppProxyBase::~CppProxyBase( )
 bool
 CppProxyBase::ProxyCacheKey::operator==( const CppProxyBase::ProxyCacheKey& other ) const
 {
-    return jHashCode == other.jHashCode && jniEnv->IsSameObject( jObject, other.jObject );
+    return jHashCode == other.jHashCode &&
+        sGlobalJniLock.getJniEnvForCurrentThread( )->IsSameObject( jObject, other.jObject );
+}
+
+void
+CppProxyBase::GlobalJniLock::lock( )
+{
+    cacheMutex.lock( );
+}
+
+void
+CppProxyBase::GlobalJniLock::unlock( )
+{
+    jniEnvForCurrentThread = nullptr;
+    cacheMutex.unlock( );
+}
+
+void
+CppProxyBase::GlobalJniLock::setJniEnvForCurrentThread( JNIEnv* env )
+{
+    jniEnvForCurrentThread = env;
+}
+
+JNIEnv*
+CppProxyBase::GlobalJniLock::getJniEnvForCurrentThread( )
+{
+    if ( jniEnvForCurrentThread == nullptr )
+    {
+        jniEnvForCurrentThread = CppProxyBase::getJniEnvironment( );
+    }
+    return jniEnvForCurrentThread;
 }
 
 jint
@@ -163,7 +194,7 @@ CppProxyBase::getHashCode( JNIEnv* jniEnv, jobject jObj )
 jobject
 CppProxyBase::getJavaObject( const void* proxy )
 {
-    ::std::lock_guard< ::std::mutex > lock( sCacheMutex );
+    ::std::lock_guard< GlobalJniLock > lock( sGlobalJniLock );
 
     const auto iterator = sReverseProxyCache.find( proxy );
     return iterator != sReverseProxyCache.end( ) ? iterator->second.jObject : nullptr;
