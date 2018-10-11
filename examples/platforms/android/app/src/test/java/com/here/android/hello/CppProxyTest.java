@@ -136,4 +136,22 @@ public final class CppProxyTest {
         "Listener de-registration was unsuccessful on C++ side",
         HelloWorldStaticLogger.getLog().contains("removed registration for the listener"));
   }
+
+  @Test
+  public void removeAllRegisteredListenersAtDifferentThread( ) throws InterruptedException {
+    Thread registerThread = new Thread(() -> notifier.registerListener(JAVA_LISTENER));
+
+    registerThread.start();
+    registerThread.join();
+
+    notifier.removeAllListeners();
+
+    assertTrue(
+        "Listener registration was unsuccessful on C++ side (multi-threading)",
+        HelloWorldStaticLogger.getLog().contains("new registration for the listener"));
+
+    assertTrue(
+        "Registered listeners were not removed on C++ side",
+        HelloWorldStaticLogger.getLog().contains("removed registration for all listeners"));
+  }
 }

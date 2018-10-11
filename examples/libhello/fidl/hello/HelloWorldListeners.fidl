@@ -51,6 +51,10 @@ interface Calculator {
         }
     }
 
+    <** @description: removes all listeners to calculateInBackground results notifications **>
+    method removeAllListeners {
+    }
+
     <**@description: Compute the Euclidian distance between two positions.
     It is guaranteed that listener will be called before method returns**>
     method calculate {
