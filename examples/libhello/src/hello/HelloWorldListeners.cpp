@@ -126,6 +126,15 @@ HelloCalculator::unregister_listener(
 }
 
 void
+HelloCalculator::remove_all_listeners( ) {
+    ::std::lock_guard< ::std::mutex > lock( m_listeners_mutex );
+    m_listeners.clear( );
+    std::stringstream log_stream;
+    log_stream << __PRETTY_FUNCTION__ << " removed registration for all listeners" << std::endl;
+    HelloWorldStaticLogger::append(log_stream.str());
+}
+
+void
 HelloCalculator::calculate( const ::hello::Calculator::Position& from_position,
                             const ::hello::Calculator::Position& to_position,
                             const ::std::shared_ptr< ::hello::CalculatorListener >& listener )
