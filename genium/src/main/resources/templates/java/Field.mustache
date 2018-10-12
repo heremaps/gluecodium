@@ -12,4 +12,4 @@
 {{#annotations}}
 @{{name}}
 {{/annotations}}
-{{#if visibility.toString}}{{visibility}} {{/if}}{{type.name}} {{name}};
+{{#if visibility.toString}}{{visibility}} {{/if}}{{#if isImmutable}}final {{/if}}{{type.name}} {{name}};

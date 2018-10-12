@@ -22,6 +22,10 @@ import "./Structs.fidl"
 
 define GeniumExtensions for interface smoke.Structs
 {
+    struct AllTypesStruct {
+        Immutable = true
+    }
+
     method createPoint {
         Static = true
     }

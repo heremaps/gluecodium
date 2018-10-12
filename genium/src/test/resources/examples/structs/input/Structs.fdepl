@@ -22,6 +22,10 @@ import "./Structs.fidl"
 
 define GeniumExtensions for interface examples.Structs
 {
+    struct SyncResult {
+        Immutable = true
+    }
+
     method methodWithNonNestedType {
         Static = true
     }

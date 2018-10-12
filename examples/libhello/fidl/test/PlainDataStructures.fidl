@@ -68,6 +68,24 @@ interface PlainDataStructures {
         Point pointField
     }
 
+    <** @description: Immutable struct type containing all builtin and a custom data type **>
+    struct AllTypesImmutableStruct {
+        Int8 int8Field
+        UInt8 uint8Field
+        Int16 int16Field
+        UInt16 uint16Field
+        Int32 int32Field
+        UInt32 uint32Field
+        Int64 int64Field
+        UInt64 uint64Field
+        Float floatField
+        Double doubleField
+        String stringField
+        Boolean booleanField
+        ByteBuffer bytesField
+        Point pointField
+    }
+
     struct ColoredLineInherited extends Line {
         Color color
     }
