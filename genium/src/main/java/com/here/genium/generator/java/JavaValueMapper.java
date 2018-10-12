@@ -95,13 +95,10 @@ public final class JavaValueMapper {
   public static JavaValue mapDefaultValue(
       final JavaType javaType, final String deploymentDefaultValue) {
 
-    if (JavaPrimitiveType.FLOAT.equals(javaType)) {
-      return new JavaValue(deploymentDefaultValue + "f");
+    if (javaType instanceof JavaPrimitiveType) {
+      return new JavaValue(
+          decorateLiteralValue((JavaPrimitiveType) javaType, deploymentDefaultValue));
     }
-    if (JavaPrimitiveType.LONG.equals(javaType)) {
-      return new JavaValue(deploymentDefaultValue + "L");
-    }
-
     if (javaType instanceof JavaReferenceType
         && ((JavaReferenceType) javaType).type == JavaReferenceType.Type.STRING) {
       return new JavaValue("\"" + StringEscapeUtils.escapeJava(deploymentDefaultValue) + "\"");
@@ -110,22 +107,58 @@ public final class JavaValueMapper {
       String enumeratorName = JavaNameRules.getConstantName(deploymentDefaultValue);
       return new JavaValue(javaType.name + "." + enumeratorName);
     }
+
     return new JavaValue(deploymentDefaultValue);
   }
 
   public static JavaValue mapDefaultValue(final JavaType javaType) {
+
+    if (javaType == null) {
+      return null;
+    }
     if (javaType instanceof JavaTemplateType) {
       return new JavaValue(((JavaTemplateType) javaType).implementationType);
-    } else if (javaType instanceof JavaEnumType) {
+    }
+    if (javaType instanceof JavaEnumType) {
       return new JavaValue(javaType.name + ".values()[0]");
-    } else if (javaType instanceof JavaCustomType && !((JavaCustomType) javaType).isInterface) {
+    }
+    if (javaType instanceof JavaCustomType && !((JavaCustomType) javaType).isInterface) {
       return new JavaValue(javaType);
     }
-    return null;
+    if (JavaPrimitiveType.BOOL.equals(javaType)) {
+      return new JavaValue("false");
+    }
+    if (javaType instanceof JavaPrimitiveType) {
+      return new JavaValue(decorateLiteralValue((JavaPrimitiveType) javaType, "0"));
+    }
+
+    return new JavaValue("(" + javaType.name + ")null");
   }
 
   private static boolean fitsIntoInteger(final BigInteger bigInteger) {
     long longValue = bigInteger.longValue();
     return longValue <= Integer.MAX_VALUE && longValue >= Integer.MIN_VALUE;
+  }
+
+  private static String decorateLiteralValue(
+      final JavaPrimitiveType javaType, final String defaultValue) {
+
+    StringBuilder literal = new StringBuilder();
+
+    if (JavaPrimitiveType.BYTE.equals(javaType)) {
+      literal.append("(byte)");
+    } else if (JavaPrimitiveType.SHORT.equals(javaType)) {
+      literal.append("(short)");
+    }
+
+    literal.append(defaultValue);
+
+    if (JavaPrimitiveType.FLOAT.equals(javaType)) {
+      literal.append('f');
+    } else if (JavaPrimitiveType.LONG.equals(javaType)) {
+      literal.append('L');
+    }
+
+    return literal.toString();
   }
 }

@@ -167,7 +167,7 @@ public final class JavaValueMapperTest {
 
     JavaValue result = JavaValueMapper.mapDefaultValue(customType);
 
-    assertNull(result);
+    assertEquals("(myType)null", result.name);
   }
 
   @Test
