@@ -1,5 +1,10 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features:
+  + Added FDEPL property "Immutable" for structs for generating structs that cannot be modified
+    after creation in Java.
+
 ## 3.12.0
 - Release date: 2018-10-18
 - Breaking changes:
