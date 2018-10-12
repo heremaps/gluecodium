@@ -32,6 +32,7 @@ specification GeniumExtensions {
     for structs {
         Serializable: Boolean (optional, default: false);
         Equatable: Boolean (optional, default: false);
+        Immutable: Boolean (optional, default: false)
     }
 
     for struct_fields {

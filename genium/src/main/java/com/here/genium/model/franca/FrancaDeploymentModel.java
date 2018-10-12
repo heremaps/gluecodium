@@ -71,6 +71,10 @@ public class FrancaDeploymentModel {
     return getBoolean(francaStruct, "Equatable");
   }
 
+  public boolean isImmutable(final FStructType francaStruct) {
+    return getBoolean(francaStruct, "Immutable");
+  }
+
   public boolean isNotNull(final FField francaField) {
     return getBoolean(francaField, "NotNull");
   }

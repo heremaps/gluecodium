@@ -32,9 +32,10 @@ public final class JavaClass extends JavaTopLevelElement {
   public final boolean needsDisposer;
   public final boolean isParcelable;
   public final boolean isEquatable;
+  public final boolean isImmutable;
 
   public JavaClass(final String name) {
-    this(name, null, false, false, false, false);
+    this(name, null, false, false, false, false, false);
   }
 
   @lombok.Builder(builderClassName = "Builder")
@@ -44,13 +45,15 @@ public final class JavaClass extends JavaTopLevelElement {
       final boolean isImplClass,
       final boolean needsDisposer,
       final boolean isParcelable,
-      final boolean isEquatable) {
+      final boolean isEquatable,
+      final boolean isImmutable) {
     super(name);
     this.extendedClass = extendedClass;
     this.isImplClass = isImplClass;
     this.needsDisposer = needsDisposer;
     this.isParcelable = isParcelable;
     this.isEquatable = isEquatable;
+    this.isImmutable = isImmutable;
   }
 
   @SuppressWarnings("unused")

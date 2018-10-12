@@ -585,6 +585,17 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaStructTypeWithImmutable() {
+    when(deploymentModel.isImmutable(francaStructType)).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertTrue(javaClass.isImmutable);
+  }
+
+  @Test
   public void finishBuildingFrancaTypeRef() {
     modelBuilder.finishBuilding(francaTypeRef);
 

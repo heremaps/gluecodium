@@ -95,20 +95,20 @@ public class Structs extends NativeBase {
         }
     }
     public static class AllTypesStruct {
-        public byte int8Field;
-        public long uint8Field;
-        public short int16Field;
-        public long uint16Field;
-        public int int32Field;
-        public long uint32Field;
-        public long int64Field;
-        public long uint64Field;
-        public float floatField;
-        public double doubleField;
-        public String stringField;
-        public boolean booleanField;
-        public byte[] bytesField;
-        public Structs.Point pointField;
+        public final byte int8Field;
+        public final long uint8Field;
+        public final short int16Field;
+        public final long uint16Field;
+        public final int int32Field;
+        public final long uint32Field;
+        public final long int64Field;
+        public final long uint64Field;
+        public final float floatField;
+        public final double doubleField;
+        public final String stringField;
+        public final boolean booleanField;
+        public final byte[] bytesField;
+        public final Structs.Point pointField;
         public AllTypesStruct() {
             this((byte)0, 0L, (short)0, 0L, 0, 0L, 0L, 0L, 0f, 0, (String)null, false, (byte[])null, new Structs.Point());
         }

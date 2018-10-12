@@ -201,6 +201,30 @@ FDEPL:
         }
     }
 
+### Struct: Immutable
+
+This FDEPL property controls whether the given Franca struct represents a data structure that cannot
+be modified after creation. Default value is `false`, i.e. the generated data structure is
+modifiable. This affects Java generated code only.
+
+FIDL:
+
+    package example
+
+    typeCollection ExampleTypeCollection {
+        struct exampleStruct {
+        }
+    }
+
+FDEPL:
+
+    define GeniumExtensions for typeCollection example.ExampleTypeCollection
+    {
+        struct exampleStruct {
+            Immutable = true
+        }
+    }
+
 ### Struct, Enumeration, Interface: ExternalType
 
 This FDEPL property controls whether the C++ header file is generated for the given Franca type.
