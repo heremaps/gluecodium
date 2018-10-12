@@ -21,7 +21,7 @@
 
 public static class Builder {
 {{#allVisibleFields}}
-    private {{type.name}} {{name}}{{#initial}} = {{#isNew}}new {{/isNew}}{{name}}{{#isNew}}(){{/isNew}}{{/initial}};
+    private {{type.name}} {{name}}{{#if initial}} = {{>java/FieldInitializer}}{{/if}};
 {{/allVisibleFields}}
 
     public Builder() {

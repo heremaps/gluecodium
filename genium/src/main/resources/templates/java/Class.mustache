@@ -36,7 +36,9 @@
 {{#if isImplClass}}{{prefixPartial "java/NativeConstructor" "    "}}
 {{/if}}
 {{#if allVisibleFields}}
-    public {{name}}() {}
+    public {{name}}() {
+        this({{joinPartial allVisibleFields "java/FieldInitializer" ", "}});
+    }
 
     public {{name}}({{#allVisibleFields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/allVisibleFields}}) {
 {{#if parentFields}}        super({{#parentFields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/parentFields}});
