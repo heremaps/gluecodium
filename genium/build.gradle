@@ -171,5 +171,4 @@ pmdTest {
     rulePriority = 3
 }
 
-apply from: "$rootDir/gradle/publish.gradle"
 apply from: "$rootDir/gradle/spotless.gradle"
