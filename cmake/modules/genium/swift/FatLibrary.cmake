@@ -15,16 +15,16 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_ApigenSwiftFatLibrary)
+if(DEFINED includeguard_genium_swift_FatLibrary)
   return()
 endif()
-set(includeguard_ApigenSwiftFatLibrary ON)
+set(includeguard_genium_swift_FatLibrary ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
 # apigen_swift_fat_library
-# -------------------
+# ------------------------
 #
 # This module crates fat libraries for different architecture
 #

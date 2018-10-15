@@ -15,16 +15,16 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_ApigenAndroidArchive)
+if(DEFINED includeguard_genium_android_AndroidArchive)
   return()
 endif()
-set(includeguard_ApigenAndroidArchive ON)
+set(includeguard_genium_android_AndroidArchive ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# ApigenAndroidArchive
-# -------------------
+# Android Archive module
+# ----------------------
 #
 # This module assembles an Android Archive (*.aar) file for a target.
 # It requires that apigen_android_archive(), apigen_java_compile() and

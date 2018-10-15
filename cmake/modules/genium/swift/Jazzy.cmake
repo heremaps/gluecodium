@@ -7,11 +7,16 @@
 # material also contains confidential information which may not be
 # disclosed to others without the prior written consent of HERE.
 
+if(DEFINED includeguard_genium_swift_Jazzy)
+  return()
+endif()
+set(includeguard_genium_swift_Jazzy ON)
+
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# JazzyApiDocumentation
-# ---------------
+# Jazzy module
+# ------------
 #
 # This module provides functions to generate documentation
 # for the iOS public API of the Mobile SDK.
@@ -28,7 +33,7 @@ cmake_minimum_required(VERSION 3.5)
 # XCODE_PROJECT_PATH specifies the directory with .xcodeproj file that will be used by generator
 # TARGET specifies the target that documents generation will be attached to
 # OUTPUT_DIR specifies the output directory of the documents generation tool
-#
+
 function(jazzy_api_documentation)
   set(options OPTIONAL)
   set(one_value_args XCODE_PROJECT_PATH TARGET OUTPUT_DIR)

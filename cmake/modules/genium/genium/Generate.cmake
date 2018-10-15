@@ -15,16 +15,16 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_ApigenGenerate)
+if(DEFINED includeguard_genium_Generate)
   return()
 endif()
-set(includeguard_ApigenGenerate ON)
+set(includeguard_genium_Generate ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# ApigenGenerate
-# ---------------
+# Code generation module
+# ----------------------
 #
 # This module provides functions to generate API interfaces specified
 # in the Franca language into target source code as provided by the
@@ -45,7 +45,7 @@ cmake_minimum_required(VERSION 3.5)
 # files with a specific target language generator.
 
 find_package(Java COMPONENTS Runtime REQUIRED)
-set(APIGEN_GENIUM_DIR ${CMAKE_CURRENT_LIST_DIR}/genium)
+set(APIGEN_GENIUM_DIR ${CMAKE_CURRENT_LIST_DIR})
 if(WIN32)
   set(APIGEN_GENIUM_GRADLE_WRAPPER ./gradlew.bat)
 else()
@@ -105,7 +105,7 @@ function(apigen_generate)
     -generators ${apigen_generate_GENERATOR}\
     ${validateParam}\
     ${mergeManifest}\
-    -nostdout -enableCaching -timeLogging")
+    --enable-caching --time-logging")
   foreach(input ${apigen_generate_FRANCA_SOURCES})
     # Attach sources to target for IDEs to display them properly in their projects
     file(GLOB_RECURSE inputFrancaSources ${input}/*.fidl ${input}/*.fdepl)
@@ -121,16 +121,16 @@ function(apigen_generate)
     string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -input \"${input}\"")
   endforeach()
   if(apigen_generate_ANDROID_MERGE_MANIFEST)
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -androidMergeManifest ${apigen_generate_ANDROID_MERGE_MANIFEST}")
+    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " --android-merge-manifest ${apigen_generate_ANDROID_MERGE_MANIFEST}")
   endif()
   if(apigen_generate_JAVA_PACKAGE)
     string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -javapackage ${apigen_generate_JAVA_PACKAGE}")
   endif()
   if(apigen_generate_COPYRIGHT_HEADER)
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -copyrightHeader ${apigen_generate_COPYRIGHT_HEADER}")
+    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " --copyright-header ${apigen_generate_COPYRIGHT_HEADER}")
   endif()
   if(apigen_generate_CPP_INTERNAL_NAMESPACE)
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -cppInternalNamespace ${apigen_generate_CPP_INTERNAL_NAMESPACE}")
+    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " --cpp-internal-namespace ${apigen_generate_CPP_INTERNAL_NAMESPACE}")
   endif()
 
   execute_process(
