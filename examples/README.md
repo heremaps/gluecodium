@@ -28,17 +28,3 @@ Invoke the following script to build the entire project for C++ users:
 ```
 
 Install artifacts end up in the dist/ folder and are ready for re-distribution.
-
-## Contributing
-Work on your stuff locally, branch, commit and modify to your heart's content.
-As soon as you're ready either do (assuming you have git-review installed):
-
-```bash
-git review -R
-```
-
-Or, just:
-
-```bash
-git push origin HEAD:refs/for/master
-```
