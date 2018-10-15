@@ -15,19 +15,19 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_apigen_Genium)
+if(DEFINED includeguard_genium_Genium)
   return()
 endif()
-set(includeguard_apigen_Genium ON)
+set(includeguard_genium_Genium ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# The main Apigen module
+# The main Genium module
 # ----------------------
 #
 # Includes Genium modules.
 
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenTargetIncludeDirectories.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenTargetSources.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenGenerate.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/genium/TargetIncludeDirectories.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/genium/TargetSources.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/genium/Generate.cmake)

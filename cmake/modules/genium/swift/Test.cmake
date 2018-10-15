@@ -15,19 +15,16 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_ApigenSwiftTest)
+if(DEFINED includeguard_genium_swift_Test)
   return()
 endif()
-set(includeguard_ApigenSwiftTest ON)
+set(includeguard_genium_swift_Test ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftHelper.cmake)
-
-
 #.rst:
 # apigen_swift_test
-# -------------------
+# -----------------
 #
 # This module builds test target information
 #
@@ -102,7 +99,6 @@ function(create_xctest_bundle target tests_name sources)
   set(TEST_TARGET "${tests_name}${target}")
   message(STATUS "Test target : ${TEST_TARGET}")
   xctest_add_bundle(${TEST_TARGET} ${target} ${sources})
-  set_xcode_swift_version(${TEST_TARGET})
   set_target_properties(${TEST_TARGET} PROPERTIES
     XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Frameworks"
     XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"

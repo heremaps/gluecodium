@@ -15,16 +15,16 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_ApigenJavaJar)
+if(DEFINED includeguard_genium_java_Jar)
   return()
 endif()
-set(includeguard_ApigenJavaJar ON)
+set(includeguard_genium_java_Jar ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# ApigenJavaJar
-# -------------------
+# Java jar module
+# ---------------
 #
 # This module assembles *.class files into a *.jar file for a target for which
 # apigen_java_compile($target) was run.

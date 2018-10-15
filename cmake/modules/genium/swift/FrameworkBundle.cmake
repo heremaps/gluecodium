@@ -15,14 +15,14 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_ApigenSwiftFrameworkBundle)
+if(DEFINED includeguard_genium_swift_FrameworkBundle)
   return()
 endif()
-set(includeguard_ApigenSwiftFrameworkBundle ON)
+set(includeguard_genium_swift_FrameworkBundle ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFrameworkInfoPlist.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/FrameworkInfoPlist.cmake)
 
 
 #.rst:
@@ -60,12 +60,13 @@ function(apigen_swift_framework_bundle)
   get_target_property(GENERATOR ${apigen_swift_framework_bundle_TARGET} APIGEN_GENIUM_GENERATOR)
   get_target_property(SWIFT_OUTPUT_DIR ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
   get_target_property(SWIFT_RESOURCES_DIR ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_RESOURCES_DIR)
+  get_target_property(SWIFT_FRAMEWORK_NAME ${apigen_swift_framework_bundle_TARGET} APIGEN_SWIFT_FRAMEWORK_NAME)
 
   if(NOT ${GENERATOR} MATCHES "swift")
     message(FATAL_ERROR "apigen_swift_framework_bundle() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
-  set(SWIFT_ASSETS_DIRECTORY "$<TARGET_FILE_DIR:${apigen_swift_framework_bundle_TARGET}>/assets.bundle/Resources/")
+  set(SWIFT_ASSETS_DIRECTORY "$<TARGET_FILE_DIR:${apigen_swift_framework_bundle_TARGET}>/../${SWIFT_FRAMEWORK_NAME}.framework/assets.bundle/Resources/")
   add_custom_command(TARGET ${apigen_swift_framework_bundle_TARGET} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory ${SWIFT_ASSETS_DIRECTORY})
 

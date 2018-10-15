@@ -15,16 +15,16 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_ApigenSwiftModulemap)
+if(DEFINED includeguard_genium_swift_Modulemap)
   return()
 endif()
-set(includeguard_ApigenSwiftModulemap ON)
+set(includeguard_genium_swift_Modulemap ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# ApigenSwiftModulemap
-# -------------------
+# apigen_swift_modulemap
+# ----------------------
 #
 # This module builds Swift modulemap needed for the framework creation.
 # The modulemap is used to get the Swift compiler into loading the header files and linking
@@ -43,16 +43,17 @@ function(apigen_swift_modulemap target)
   get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
   get_target_property(OUTPUT_DIR ${target} APIGEN_GENIUM_GENERATOR_OUTPUT_DIR)
   get_target_property(SWIFT_OUTPUT_DIR ${target} APIGEN_SWIFT_BUILD_OUTPUT_DIR)
+  get_target_property(SWIFT_FRAMEWORK_NAME ${target} APIGEN_SWIFT_FRAMEWORK_NAME)
 
   if(NOT ${GENERATOR} MATCHES "swift")
     message(FATAL_ERROR "apigen_swift_modulemap() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
-  set(MODULEMAP_FRAMEWORK_PATH "${SWIFT_OUTPUT_DIR}/${target}.framework/Modules/module.modulemap")
+  set(MODULEMAP_FRAMEWORK_PATH "${SWIFT_OUTPUT_DIR}/${SWIFT_FRAMEWORK_NAME}.framework/Modules/module.modulemap")
 
   # Module map generation
   ## Top level:
-  set(CBRIDGE_MODULE_MAP "module ${target} {\n")
+  set(CBRIDGE_MODULE_MAP "module ${SWIFT_FRAMEWORK_NAME} {\n")
   file(GLOB_RECURSE cbridge_headers ${OUTPUT_DIR}/cbridge/*.h)
 
   foreach(header IN LISTS cbridge_headers)
@@ -62,8 +63,8 @@ function(apigen_swift_modulemap target)
   set(CBRIDGE_MODULE_MAP "${CBRIDGE_MODULE_MAP}\n}\n")
 
   file(WRITE "${OUTPUT_DIR}/module.modulemap.generated" "${CBRIDGE_MODULE_MAP}")
-  file(WRITE ${MODULEMAP_FRAMEWORK_PATH} "module ${target} {\n}\n")
-  file(WRITE ${SWIFT_OUTPUT_DIR}/module.modulemap "module ${target} {\n}")
+  file(WRITE ${MODULEMAP_FRAMEWORK_PATH} "module ${SWIFT_FRAMEWORK_NAME} {\n}\n")
+  file(WRITE ${SWIFT_OUTPUT_DIR}/module.modulemap "module ${SWIFT_FRAMEWORK_NAME} {\n}")
 
   # Clean up the modulemap after building to avoid double definition conflicts with the generated
   # framework - this is caused by using internally the same name as the final Xcode project

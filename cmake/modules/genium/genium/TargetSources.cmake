@@ -15,16 +15,16 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_ApigenTargetSources)
+if(DEFINED includeguard_genium_TargetSources)
   return()
 endif()
-set(includeguard_ApigenTargetSources ON)
+set(includeguard_genium_TargetSources ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# ApigenTargetSources
-# -------------------
+# Generated target_sources module
+# -------------------------------
 #
 # This module attaches additional source files to the provided target.
 # These might differ depending on the previously used generator (cpp, android,

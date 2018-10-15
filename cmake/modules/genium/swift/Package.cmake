@@ -15,19 +15,19 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_ApigenSwiftPackage)
+if(DEFINED includeguard_genium_swift_Package)
   return()
 endif()
-set(includeguard_ApigenSwiftPackage ON)
+set(includeguard_genium_swift_Package ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFatLibrary.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFrameworkInfoPlist.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/FatLibrary.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/FrameworkInfoPlist.cmake)
 
 #.rst:
 # apigen_swift_package
-# -------------------
+# --------------------
 #
 # This module execute post operations when the build process has finished.
 #
