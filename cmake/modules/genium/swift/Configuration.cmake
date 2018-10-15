@@ -15,16 +15,20 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_ApigenSwiftConfiguration)
+if(DEFINED includeguard_genium_swift_Configuration)
   return()
 endif()
-set(includeguard_ApigenSwiftConfiguration ON)
+set(includeguard_genium_swift_Configuration ON)
 
-cmake_minimum_required(VERSION 3.5)
+if(CMAKE_GENERATOR STREQUAL "Xcode" AND NOT XCODE_VERSION VERSION_LESS 10.0)
+  cmake_minimum_required(VERSION 3.12.1)
+else()
+  cmake_minimum_required(VERSION 3.7.2)
+endif()
 
 #.rst:
-# ApigenSwiftConfiguration
-# -------------------
+# apigen_swift_configuration
+# --------------------------
 #
 # This module builds configures the Swift framework.
 # Defines output and version library and it will added to the
@@ -38,7 +42,7 @@ cmake_minimum_required(VERSION 3.5)
 #
 
 #TODO: find_package(Swift REQUIRED)
-set(SWIFT_RESOURCES_DIR ${CMAKE_CURRENT_LIST_DIR}/swift)
+set(SWIFT_RESOURCES_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 
 function(apigen_swift_configuration target)
@@ -48,6 +52,7 @@ function(apigen_swift_configuration target)
   get_target_property(SDK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
   get_target_property(SDK_VERSION_SHORT ${target} APIGEN_SWIFT_FRAMEWORK_VERSION_SHORT)
   get_target_property(MINIMUM_OS_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION)
+  get_target_property(SWIFT_FRAMEWORK_NAME ${target} APIGEN_SWIFT_FRAMEWORK_NAME)
 
   if(NOT ${GENERATOR} MATCHES "swift")
     message(FATAL_ERROR "apigen_swift_configuration() depends on apigen_generate() configured with generator 'swift'")
@@ -63,6 +68,15 @@ function(apigen_swift_configuration target)
 
   if(NOT MINIMUM_OS_VERSION)
     set_target_properties(${target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION 11.0)
+  endif()
+
+  if(NOT DEFINED CMAKE_Swift_LANGUAGE_VERSION)
+    message(STATUS "[Swift] Swift version not specified, will use 4.2")
+    set(CMAKE_Swift_LANGUAGE_VERSION "4.2" CACHE STRING "Swift version to use for compilation.")
+  endif()
+
+  if(NOT SWIFT_FRAMEWORK_NAME)
+    set_target_properties(${target} PROPERTIES APIGEN_SWIFT_FRAMEWORK_NAME ${target})
   endif()
 
   # Genium invocations for different generators need different output directories

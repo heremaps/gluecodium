@@ -15,16 +15,16 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_ApigenSwiftBuild)
+if(DEFINED includeguard_genium_swift_Build)
   return()
 endif()
-set(includeguard_ApigenSwiftBuild ON)
+set(includeguard_genium_swift_Build ON)
 
 cmake_minimum_required(VERSION 3.5)
 
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftCompile.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftModulemap.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftConfiguration.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/Compile.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/Modulemap.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/Configuration.cmake)
 
 #.rst:
 # apigen_swift_build

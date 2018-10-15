@@ -15,16 +15,16 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_ApigenSwiftFrameworkInfoPlist)
+if(DEFINED includeguard_genium_swift_FrameworkInfoPlist)
   return()
 endif()
-set(includeguard_ApigenSwiftFrameworkInfoPlist ON)
+set(includeguard_genium_swift_FrameworkInfoPlist ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
 # apigen_swift_framework_info_plist
-# -------------------
+# ---------------------------------
 #
 # This module builds macos target information
 #
@@ -43,15 +43,16 @@ function(apigen_swift_framework_info_plist target)
   get_target_property(SWIFT_FRAMEWORK_VERSION_SHORT ${target} APIGEN_SWIFT_FRAMEWORK_VERSION_SHORT)
   get_target_property(SWIFT_FRAMEWORK_MINIMUM_OS_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION)
   get_target_property(SWIFT_RESOURCES_DIR ${target} APIGEN_SWIFT_RESOURCES_DIR)
+  get_target_property(SWIFT_FRAMEWORK_NAME ${target} APIGEN_SWIFT_FRAMEWORK_NAME)
 
   if(NOT ${GENERATOR} MATCHES "swift")
     message(FATAL_ERROR "apigen_swift_framework_info_plist() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
-  set(MACOSX_FRAMEWORK_NAME ${target})
+  set(MACOSX_FRAMEWORK_NAME ${SWIFT_FRAMEWORK_NAME})
   set(MACOSX_FRAMEWORK_ICON_FILE)
   #TODO APIGEN-347 make this configurable
-  set(MACOSX_FRAMEWORK_IDENTIFIER com.here.ivi.${target})
+  set(MACOSX_FRAMEWORK_IDENTIFIER com.here.ivi.${SWIFT_FRAMEWORK_NAME})
   set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${SWIFT_FRAMEWORK_VERSION})
   set(MACOSX_FRAMEWORK_BUNDLE_VERSION_SHORT ${SWIFT_FRAMEWORK_VERSION_SHORT})
   set(MACOSX_FRAMEWORK_MINIMUM_OS_VERSION ${SWIFT_FRAMEWORK_MINIMUM_OS_VERSION})
@@ -60,8 +61,8 @@ function(apigen_swift_framework_info_plist target)
   # and replacing the generated one
   configure_file(${SWIFT_RESOURCES_DIR}/MacOSXFrameworkInfo.plist.in ${SWIFT_OUTPUT_DIR}/Info.plist.${target})
   add_custom_command(TARGET ${target} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E remove "$<TARGET_FILE_DIR:${target}>/Info.plist"
-    COMMAND ${CMAKE_COMMAND} -E copy ${SWIFT_OUTPUT_DIR}/Info.plist.${target} "$<TARGET_FILE_DIR:${target}>/Info.plist"
+    COMMAND ${CMAKE_COMMAND} -E remove "$<TARGET_FILE_DIR:${target}>/../${SWIFT_FRAMEWORK_NAME}.framework/Info.plist"
+    COMMAND ${CMAKE_COMMAND} -E copy ${SWIFT_OUTPUT_DIR}/Info.plist.${target} "$<TARGET_FILE_DIR:${target}>/../${SWIFT_FRAMEWORK_NAME}.framework/Info.plist"
     )
   message(STATUS "[Swift] Creating Mac OS configuration...")
 

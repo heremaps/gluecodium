@@ -15,23 +15,25 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_apigen_Android)
+if(DEFINED includeguard_genium_Android)
   return()
 endif()
-set(includeguard_apigen_Android ON)
+set(includeguard_genium_Android ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# The Android Apigen module
+# The Android Genium module
 # -------------------------
 #
 # Includes modules needed for Android builds.
 
 # Java modules
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenJavaCompile.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenJavaJar.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/java/Compile.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/java/Jar.cmake)
 
 # Android modules
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenAndroidArchive.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/DokkaApiDocumentation.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/android/AndroidArchive.cmake)
+
+# Kotlin modules
+include(${CMAKE_CURRENT_LIST_DIR}/kotlin/Dokka.cmake)

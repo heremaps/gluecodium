@@ -404,7 +404,7 @@ elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL android)
     apigen_android_archive(TARGET hello)
 elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL swift)
     # Swift customers want a module...
-    include(genium/iOS)
+    include(genium/Swift)
     if(HELLO_SWIFT_TESTS)
         set_target_properties(hello PROPERTIES APIGEN_SWIFT_TESTS_SHARED ${HELLO_SWIFT_TESTS})
     endif()

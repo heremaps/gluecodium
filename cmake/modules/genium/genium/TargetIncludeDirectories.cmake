@@ -15,16 +15,16 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_ApigenTargetIncludeDirectories)
+if(DEFINED includeguard_genium_TargetIncludeDirectories)
   return()
 endif()
-set(includeguard_ApigenTargetIncludeDirectories ON)
+set(includeguard_genium_TargetIncludeDirectories ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# ApigenTargetIncludeDirectories
-# ------------------------------
+# Generated target_include_directories module
+# -------------------------------------------
 #
 # This module attaches additional include directories to the provided target.
 # These might differ depending on the previously used generator (cpp, android,

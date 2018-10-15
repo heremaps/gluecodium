@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_ApigenSwiftCompile)
+if(DEFINED includeguard_genium_swift_Compile)
   return()
 endif()
-set(includeguard_ApigenSwiftCompile ON)
+set(includeguard_genium_swift_Compile ON)
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -34,10 +34,7 @@ if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL
 endif()
 
 include(${CMAKE_CURRENT_LIST_DIR}/GetLinkLibraries.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftTest.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftHelper.cmake)
-
-
+include(${CMAKE_CURRENT_LIST_DIR}/Test.cmake)
 
 #.rst:
 # apigen_swift_compile
@@ -62,6 +59,7 @@ function(apigen_swift_compile target architecture)
   get_target_property(SWIFT_FRAMEWORK_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_VERSION)
   get_target_property(SWIFT_FRAMEWORK_VERSION_SHORT ${target} APIGEN_SWIFT_FRAMEWORK_VERSION_SHORT)
   get_target_property(SWIFT_FRAMEWORK_MINIMUM_OS_VERSION ${target} APIGEN_SWIFT_FRAMEWORK_MINIMUM_OS_VERSION)
+  get_target_property(SWIFT_FRAMEWORK_NAME ${target} APIGEN_SWIFT_FRAMEWORK_NAME)
 
   if(NOT ADDITIONAL_SOURCES)
     set(ADDITIONAL_SOURCES "")
@@ -98,15 +96,13 @@ function(apigen_swift_compile target architecture)
     endif()
   endif()
 
-  set(MODULE_NAME ${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>)
   if(APPLE)
     # CMakes compiler check is outdated and fails for Swift 4.0, force it to pass.
     set(CMAKE_Swift_COMPILER_FORCED TRUE)
     enable_language(Swift)
-
-    set(SWIFT_FLAGS "-import-underlying-module -I${OUTPUT_DIR} -module-name=${target}")
+    set(SWIFT_FLAGS "-import-underlying-module -I${OUTPUT_DIR}")
     set(SWIFT_DEBUG_FLAG "-D DEBUG")
-    set_xcode_swift_version(${target})
+    set(MODULE_NAME ${SWIFT_FRAMEWORK_NAME}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>)
     set_target_properties(${target} PROPERTIES
       FRAMEWORK TRUE
       XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS "${SWIFT_FLAGS}"
@@ -115,6 +111,8 @@ function(apigen_swift_compile target architecture)
       XCODE_ATTRIBUTE_SWIFT_OPTIMIZATION_LEVEL[variant=Debug] "-Onone"
       XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
       XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=RelWithDebInfo] "YES"
+      XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT[variant=Debug] "dwarf"
+      XCODE_ATTRIBUTE_PRODUCT_NAME ${SWIFT_FRAMEWORK_NAME}
       )
     install(TARGETS ${target} FRAMEWORK DESTINATION .)
   else()
