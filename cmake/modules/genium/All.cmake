@@ -15,21 +15,24 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-if(DEFINED includeguard_apigen_iOS)
+if(DEFINED includeguard_genium_All)
   return()
 endif()
-set(includeguard_apigen_iOS ON)
+set(includeguard_genium_All ON)
 
 cmake_minimum_required(VERSION 3.5)
 
 #.rst:
-# The iOS Apigen module
-# ---------------------
+# The main Genium module
+# ----------------------
 #
-# Includes modules needed for iOS builds.
+# Includes all other Genium modules for convenience.
 
-# Swift modules
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftBuild.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/ApigenSwiftFrameworkBundle.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/JazzyApiDocumentation.cmake)
+# Generic modules
+include(${CMAKE_CURRENT_LIST_DIR}/Genium.cmake)
 
+# Android modules
+include(${CMAKE_CURRENT_LIST_DIR}/Android.cmake)
+
+# iOS modules
+include(${CMAKE_CURRENT_LIST_DIR}/Swift.cmake)
