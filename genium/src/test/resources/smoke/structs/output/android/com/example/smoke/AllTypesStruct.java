@@ -19,9 +19,11 @@ public class AllTypesStruct {
     public String stringField;
     public boolean booleanField;
     public byte[] bytesField;
-    public Point pointField = new Point();
+    public Point pointField;
 
-    public AllTypesStruct() {}
+    public AllTypesStruct() {
+        this((byte)0, 0L, (short)0, 0L, 0, 0L, 0L, 0L, 0f, 0, (String)null, false, (byte[])null, new Point());
+    }
     public AllTypesStruct(byte int8Field, long uint8Field, short int16Field, long uint16Field, int int32Field, long uint32Field, long int64Field, long uint64Field, float floatField, double doubleField, String stringField, boolean booleanField, byte[] bytesField, Point pointField) {
         this.int8Field = int8Field;
         this.uint8Field = uint8Field;
@@ -39,19 +41,19 @@ public class AllTypesStruct {
         this.pointField = pointField;
     }
     public static class Builder {
-        private byte int8Field;
-        private long uint8Field;
-        private short int16Field;
-        private long uint16Field;
-        private int int32Field;
-        private long uint32Field;
-        private long int64Field;
-        private long uint64Field;
-        private float floatField;
-        private double doubleField;
-        private String stringField;
-        private boolean booleanField;
-        private byte[] bytesField;
+        private byte int8Field = (byte)0;
+        private long uint8Field = 0L;
+        private short int16Field = (short)0;
+        private long uint16Field = 0L;
+        private int int32Field = 0;
+        private long uint32Field = 0L;
+        private long int64Field = 0L;
+        private long uint64Field = 0L;
+        private float floatField = 0f;
+        private double doubleField = 0;
+        private String stringField = (String)null;
+        private boolean booleanField = false;
+        private byte[] bytesField = (byte[])null;
         private Point pointField = new Point();
         public Builder() {
         }

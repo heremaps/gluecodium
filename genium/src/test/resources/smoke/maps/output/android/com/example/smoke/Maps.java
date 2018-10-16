@@ -13,14 +13,18 @@ import java.util.Map;
 public class Maps extends NativeBase {
     public static class SomeStruct {
         public String value;
-        public SomeStruct() {}
+        public SomeStruct() {
+            this((String)null);
+        }
         public SomeStruct(String value) {
             this.value = value;
         }
     }
     public static class StructWithMap {
-        public Map<Integer, String> errorMapping = new HashMap<>();
-        public StructWithMap() {}
+        public Map<Integer, String> errorMapping;
+        public StructWithMap() {
+            this(new HashMap<>());
+        }
         public StructWithMap(Map<Integer, String> errorMapping) {
             this.errorMapping = errorMapping;
         }
