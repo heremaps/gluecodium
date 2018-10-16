@@ -201,19 +201,19 @@ FDEPL:
         }
     }
 
-### Struct, Enumeration: ExternalType
+### Struct, Enumeration, Interface: ExternalType
 
-This FDEPL property controls whether the C++ header file is generated for the given Franca struct or
-enumeration. Default value is `null`, i.e. the type is not external and thus a header file is
-generated. If a non-empty value is given, no header file is generated, but the given String value is
-used as a path to a pre-existing header file instead. This property has no effect on generated code
-for Java or Swift.
+This FDEPL property controls whether the C++ header file is generated for the given Franca type.
+Default value is `null`, i.e. the type is not external and thus a header file is generated. If a
+non-empty value is given, no header file is generated, but the given String value is used as a path
+to a pre-existing header file instead. This property has no effect on generated code for Java or
+Swift.
 
 For an external type, the name is assumed to match its "external" counterpart in the source file,
 and thus is taken verbatim in generated C++ and conversion code (i.e. without any naming convention
-being applied to the name). Same "verbatim" logic applies to the names of the fields of an external
-struct and to the names of the enumerators (individual enumeration values) of an external
-enumeration.
+being applied to the name). Same "verbatim" logic applies to the names of the child elements of an
+external type: fields in a struct, enumerators in an enumeration, various child elements in an
+interface.
 
 FIDL:
 
@@ -221,9 +221,6 @@ FIDL:
 
     typeCollection ExampleTypeCollection {
         struct exampleStruct {
-        }
-
-        enum exampleEnum {
         }
     }
 
@@ -234,19 +231,15 @@ FDEPL:
         struct exampleStruct {
             ExternalType = "example/ExampleStruct.h"
         }
-
-        enum exampleEnum {
-            ExternalType = "example/ExampleEnum.h"
-        }
     }
 
-### Struct, Enumeration: ExternalName
+### Struct, Enumeration, Interface: ExternalName
 
-This FDEPL property controls whether the C++ fully-qualified name for the given Franca struct or
-enumeration differs from the name specified in the FIDL file. Default value is `null`, i.e. the type
-name is governed by what is specified in the FIDL file. If a non-empty value is given, then this
-value is used verbatim as a fully-qualified name in C++ generated code and in "glue layer" generated
-code (i.e. JNI and CBridge). This property has no effect on generated code for Java or Swift.
+This FDEPL property controls whether the C++ fully-qualified name for the given Franca type differs
+from the name specified in the FIDL file. Default value is `null`, i.e. the type name is governed by
+what is specified in the FIDL file. If a non-empty value is given, then this value is used verbatim
+as a fully-qualified name in C++ generated code and in "glue layer" generated code (i.e. JNI and
+CBridge). This property has no effect on generated code for Java or Swift.
 
 **Note:** This property is intended for usage in combination with "ExternalType" property (see
 above) and thus only applies to types already marked with "ExternalType".
@@ -258,9 +251,6 @@ FIDL:
     typeCollection ExampleTypeCollection {
         struct exampleStruct {
         }
-
-        enum exampleEnum {
-        }
     }
 
 FDEPL:
@@ -271,17 +261,12 @@ FDEPL:
             ExternalType = "example/ExampleStruct.h"
             ExternalName = "::external::SomeStruct"
         }
-
-        enum exampleEnum {
-            ExternalType = "example/ExampleEnum.h"
-            ExternalName = "::external::SomeEnum"
-        }
     }
 
-### Struct field: ExternalGetter/ExternalSetter
+### Struct field, Attribute: ExternalGetter/ExternalSetter
 
 These FDEPL properties control whether the accessor methods are used as a source of data for the
-given Franca struct. Default value is `null`, i.e. the struct field is used as a data source by the
+given Franca field. Default value is `null`, i.e. the struct field is used as a data source by the
 "glue layer" generated code (i.e. JNI and CBridge). If a non-empty values are given, the given
 getter and setter function are used instead. This property has no effect on generated code for
 public APIs (i.e. C++, Java, and Swift).
