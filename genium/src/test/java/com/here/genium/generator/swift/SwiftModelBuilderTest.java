@@ -316,7 +316,7 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesTypesFromTypeCollection() {
-    SwiftContainerType struct = SwiftContainerType.builder(STRUCT_NAME).build();
+    SwiftStruct struct = SwiftStruct.builder(STRUCT_NAME).build();
     SwiftEnum swiftEnum = SwiftEnum.builder("").build();
     contextStack.injectResult(struct);
     contextStack.injectResult(swiftEnum);
@@ -344,7 +344,7 @@ public class SwiftModelBuilderTest {
     assertNotNull(result);
     assertEquals(1, result.structs.size());
 
-    SwiftContainerType resultStruct = result.structs.get(0);
+    SwiftStruct resultStruct = result.structs.get(0);
     assertEquals(1, resultStruct.constants.size());
     assertEquals(swiftConstant, resultStruct.constants.get(0));
   }
@@ -663,7 +663,7 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStruct);
 
-    SwiftContainerType swiftStruct = modelBuilder.getFinalResult(SwiftContainerType.class);
+    SwiftStruct swiftStruct = modelBuilder.getFinalResult(SwiftStruct.class);
     assertNotNull(swiftStruct);
     assertEquals("Structural", swiftStruct.name);
     assertEquals("CBase", swiftStruct.cPrefix);
@@ -675,7 +675,7 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStruct);
 
-    SwiftContainerType swiftStruct = modelBuilder.getFinalResult(SwiftContainerType.class);
+    SwiftStruct swiftStruct = modelBuilder.getFinalResult(SwiftStruct.class);
     assertNotNull(swiftStruct);
     assertEquals(1, swiftStruct.fields.size());
     assertEquals(swiftField, swiftStruct.fields.get(0));
@@ -683,7 +683,7 @@ public class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaStructTypeReadsParent() {
-    SwiftContainerType parentStruct = SwiftContainerType.builder("FooStruct").build();
+    SwiftStruct parentStruct = SwiftStruct.builder("FooStruct").build();
     SwiftField parentField = new SwiftField("foo", null, swiftType, null);
     parentStruct.fields.add(parentField);
     contextStack.injectResult(parentStruct);
@@ -691,7 +691,7 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStruct);
 
-    SwiftContainerType swiftStruct = modelBuilder.getFinalResult(SwiftContainerType.class);
+    SwiftStruct swiftStruct = modelBuilder.getFinalResult(SwiftStruct.class);
     assertNotNull(swiftStruct);
     assertEquals(parentStruct, swiftStruct.parent);
     assertEquals(2, swiftStruct.fields.size());
@@ -705,7 +705,7 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStruct);
 
-    SwiftContainerType swiftStruct = modelBuilder.getFinalResult(SwiftContainerType.class);
+    SwiftStruct swiftStruct = modelBuilder.getFinalResult(SwiftStruct.class);
     assertNotNull(swiftStruct);
     assertEquals(SwiftVisibility.INTERNAL, swiftStruct.visibility);
   }
@@ -716,7 +716,7 @@ public class SwiftModelBuilderTest {
 
     modelBuilder.finishBuilding(francaStruct);
 
-    SwiftContainerType swiftStruct = modelBuilder.getFinalResult(SwiftContainerType.class);
+    SwiftStruct swiftStruct = modelBuilder.getFinalResult(SwiftStruct.class);
     assertNotNull(swiftStruct);
     assertTrue(swiftStruct.isEquatable);
   }
