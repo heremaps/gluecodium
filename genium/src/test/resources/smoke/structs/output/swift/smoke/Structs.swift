@@ -169,20 +169,20 @@ public class Structs {
         }
     }
     public struct AllTypesStruct {
-        public var int8Field: Int8
-        public var uint8Field: UInt8
-        public var int16Field: Int16
-        public var uint16Field: UInt16
-        public var int32Field: Int32
-        public var uint32Field: UInt32
-        public var int64Field: Int64
-        public var uint64Field: UInt64
-        public var floatField: Float
-        public var doubleField: Double
-        public var stringField: String
-        public var booleanField: Bool
-        public var bytesField: Data
-        public var pointField: Structs.Point
+        public let int8Field: Int8
+        public let uint8Field: UInt8
+        public let int16Field: Int16
+        public let uint16Field: UInt16
+        public let int32Field: Int32
+        public let uint32Field: UInt32
+        public let int64Field: Int64
+        public let uint64Field: UInt64
+        public let floatField: Float
+        public let doubleField: Double
+        public let stringField: String
+        public let booleanField: Bool
+        public let bytesField: Data
+        public let pointField: Structs.Point
         public init(int8Field: Int8, uint8Field: UInt8, int16Field: Int16, uint16Field: UInt16, int32Field: Int32, uint32Field: UInt32, int64Field: Int64, uint64Field: UInt64, floatField: Float, doubleField: Double, stringField: String, booleanField: Bool, bytesField: Data, pointField: Structs.Point) {
             self.int8Field = int8Field
             self.uint8Field = uint8Field

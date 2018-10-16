@@ -30,8 +30,9 @@ public final class SwiftStruct extends SwiftType {
   public final String cPrefix;
   public final boolean isInterface;
   public final boolean isEquatable;
+  public final boolean isImmutable;
 
-  @SuppressWarnings("ParameterNumber")
+  @SuppressWarnings({"ParameterNumber", "PMD.ExcessiveParameterList"})
   @lombok.Builder(builderClassName = "Builder")
   private SwiftStruct(
       final String name,
@@ -42,7 +43,8 @@ public final class SwiftStruct extends SwiftType {
       final boolean optional,
       final SwiftStruct parent,
       final String cPrefix,
-      final boolean isEquatable) {
+      final boolean isEquatable,
+      final boolean isImmutable) {
     super(
         name,
         visibility,
@@ -53,6 +55,7 @@ public final class SwiftStruct extends SwiftType {
     this.parent = parent;
     this.cPrefix = cPrefix;
     this.isEquatable = isEquatable;
+    this.isImmutable = isImmutable;
     this.isInterface = !name.equals(implementingClass);
   }
 
@@ -72,7 +75,8 @@ public final class SwiftStruct extends SwiftType {
             optional,
             parent,
             cPrefix,
-            isEquatable);
+            isEquatable,
+            isImmutable);
     container.comment = this.comment;
     container.fields.addAll(fields);
     return container;
@@ -90,7 +94,8 @@ public final class SwiftStruct extends SwiftType {
             optional,
             parent,
             cPrefix,
-            isEquatable);
+            isEquatable,
+            isImmutable);
     container.comment = this.comment;
     container.fields.addAll(fields);
     return container;

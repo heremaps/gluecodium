@@ -150,6 +150,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             .cPrefix(CBridgeNameRules.getStructBaseName(francaStruct))
             .visibility(getVisibility(francaStruct))
             .isEquatable(deploymentModel.isEquatable(francaStruct))
+            .isImmutable(deploymentModel.isImmutable(francaStruct))
             .build();
     String comment = CommentHelper.getDescription(francaStruct);
     swiftStruct.comment = comment != null ? comment : "";
