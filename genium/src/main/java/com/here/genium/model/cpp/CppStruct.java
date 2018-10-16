@@ -25,26 +25,31 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
+import lombok.Builder;
+import lombok.Singular;
 
 public final class CppStruct extends CppElementWithComment {
 
-  public final List<CppField> fields = new LinkedList<>();
-  public final Set<CppInheritance> inheritances = new LinkedHashSet<>();
+  public final List<CppField> fields;
+  public final Set<CppInheritance> inheritances;
   public final boolean isExternal;
   public final boolean isEquatable;
 
-  public CppStruct(final String name) {
-    this(name, name, false, false);
-  }
-
-  public CppStruct(
+  @Builder
+  private CppStruct(
       final String name,
       final String fullyQualifiedName,
+      final String comment,
+      @Singular final List<CppField> fields,
+      @Singular final List<CppInheritance> inheritances,
       final boolean isExternal,
       final boolean isEquatable) {
-    super(name, fullyQualifiedName, null);
+    super(name, fullyQualifiedName, comment);
     this.isExternal = isExternal;
     this.isEquatable = isEquatable;
+    this.fields = fields != null ? new LinkedList<>(fields) : new LinkedList<>();
+    this.inheritances =
+        inheritances != null ? new LinkedHashSet<>(inheritances) : new LinkedHashSet<>();
   }
 
   @Override

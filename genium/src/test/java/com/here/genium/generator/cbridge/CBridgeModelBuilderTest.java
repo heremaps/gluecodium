@@ -128,7 +128,8 @@ public final class CBridgeModelBuilderTest {
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
 
     when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(CppMethod.builder().build());
-    when(cppModelbuilder.getFinalResult(CppStruct.class)).thenReturn(new CppStruct(STRUCT_NAME));
+    when(cppModelbuilder.getFinalResult(CppStruct.class))
+        .thenReturn(CppStruct.builder().name(STRUCT_NAME).fullyQualifiedName(STRUCT_NAME).build());
     when(swiftModelBuilder.getFinalResult(SwiftMethod.class)).thenReturn(swiftMethod);
 
     when(typeMapper.createCustomTypeInfo(any(), any())).thenReturn(typeInfo);

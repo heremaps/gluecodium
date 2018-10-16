@@ -118,6 +118,8 @@ public class JniModelBuilderTest {
   private final CppMethod cppSetter = new CppMethod.Builder("shootBothFeet").build();
   private final JniType jniType = JniType.createType(javaCustomType, cppCustomType);
   private final Include cppInclude = Include.createInternalInclude("Foo.h");
+  private final CppStruct cppStruct =
+      CppStruct.builder().name(CPP_CLASS_NAME).fullyQualifiedName(CPP_CLASS_NAME).build();
 
   private JniModelBuilder modelBuilder;
 
@@ -478,7 +480,6 @@ public class JniModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaStructReadsJavaCppClasses() {
-    CppStruct cppStruct = new CppStruct(CPP_CLASS_NAME);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppStruct);
 
     modelBuilder.finishBuilding(francaStructType);
@@ -577,7 +578,7 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaTypeCollectionReadsStructs() {
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
-    JniStruct jniStruct = new JniStruct(javaClass, new CppStruct(CPP_CLASS_NAME), null);
+    JniStruct jniStruct = new JniStruct(javaClass, cppStruct, null);
     contextStack.injectResult(jniStruct);
 
     modelBuilder.finishBuilding(francaTypeCollection);

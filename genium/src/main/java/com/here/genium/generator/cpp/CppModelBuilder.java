@@ -179,14 +179,15 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FStructType francaStructType) {
 
     // Type definition
-    String name = nameResolver.getName(francaStructType);
-    String fullyQualifiedName = nameResolver.getFullyQualifiedName(francaStructType);
-    boolean isExternal = deploymentModel.isExternalType(francaStructType);
-
-    boolean isEquatable = deploymentModel.isEquatable(francaStructType);
-    CppStruct cppStruct = new CppStruct(name, fullyQualifiedName, isExternal, isEquatable);
-    cppStruct.comment = CommentHelper.getDescription(francaStructType);
-    cppStruct.fields.addAll(getPreviousResults(CppField.class));
+    CppStruct cppStruct =
+        CppStruct.builder()
+            .name(nameResolver.getName(francaStructType))
+            .fullyQualifiedName(nameResolver.getFullyQualifiedName(francaStructType))
+            .comment(CommentHelper.getDescription(francaStructType))
+            .fields(getPreviousResults(CppField.class))
+            .isExternal(deploymentModel.isExternalType(francaStructType))
+            .isEquatable(deploymentModel.isEquatable(francaStructType))
+            .build();
 
     CppTypeRef parentTypeRef = getPreviousResult(CppTypeRef.class);
     if (parentTypeRef != null) {
