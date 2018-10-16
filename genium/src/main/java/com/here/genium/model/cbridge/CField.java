@@ -21,8 +21,6 @@ package com.here.genium.model.cbridge;
 
 import com.here.genium.generator.cbridge.CppTypeInfo;
 
-/** Field of a com.here.genium.model.cbridge.CStruct */
-@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class CField extends CElement {
 
   public final String baseLayerName;

@@ -22,7 +22,6 @@ package com.here.genium.model.jni;
 import com.here.genium.model.java.JavaPackage;
 import java.util.List;
 
-@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class JniEnum extends JniTopLevelElement {
 
   public final String javaEnumName;
