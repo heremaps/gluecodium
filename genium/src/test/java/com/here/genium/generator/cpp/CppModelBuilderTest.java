@@ -83,7 +83,8 @@ public final class CppModelBuilderTest {
   private final CppValue cppValue = new CppValue(NONSENSE_NAME);
   private final CppEnum cppEnum =
       CppEnum.builder(NONSENSE_NAME).fullyQualifiedName(NONSENSE_NAME).build();
-  private final CppStruct cppStruct = new CppStruct(NONSENSE_NAME);
+  private final CppStruct cppStruct =
+      CppStruct.builder().name(NONSENSE_NAME).fullyQualifiedName(NONSENSE_NAME).build();
   private final CppTypeRef cppTypeRef = CppPrimitiveTypeRef.INT64;
   private final CppTypeDefRef cppTypeDefRef =
       new CppTypeDefRef(NONSENSE_NAME, cppTypeRef, Include.createInternalInclude(NONSENSE_NAME));
