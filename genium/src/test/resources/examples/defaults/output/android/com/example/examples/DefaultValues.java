@@ -18,13 +18,15 @@ public class DefaultValues extends NativeBase {
     }
 
     public static class StructWithDefaults {
-        public int intField = 42;
-        public float floatField = 3.14f;
-        public boolean boolField = true;
-        public String stringField = "some string";
-        public DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
+        public int intField;
+        public float floatField;
+        public boolean boolField;
+        public String stringField;
+        public DefaultValues.SomeEnum enumField;
 
-        public StructWithDefaults() {}
+        public StructWithDefaults() {
+            this(42, 3.14f, true, "some string", DefaultValues.SomeEnum.BAR_VALUE);
+        }
         public StructWithDefaults(int intField, float floatField, boolean boolField, String stringField, DefaultValues.SomeEnum enumField) {
             this.intField = intField;
             this.floatField = floatField;

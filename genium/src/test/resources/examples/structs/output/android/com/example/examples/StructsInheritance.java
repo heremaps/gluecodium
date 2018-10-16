@@ -10,15 +10,17 @@ import com.example.NativeBase;
 public class StructsInheritance extends NativeBase {
     public static class SyncResultInherited extends Structs.SyncResult {
         public int id;
-        public SyncResultInherited() {}
+        public SyncResultInherited() {
+            this(0L, 0L, 0);
+        }
         public SyncResultInherited(long lastUpdatedTimeStamp, long numberOfChanges, int id) {
             super(lastUpdatedTimeStamp, numberOfChanges);
             this.id = id;
         }
         public static class Builder {
-            private long lastUpdatedTimeStamp;
-            private long numberOfChanges;
-            private int id;
+            private long lastUpdatedTimeStamp = 0L;
+            private long numberOfChanges = 0L;
+            private int id = 0;
             public Builder() {
             }
             public Builder setLastUpdatedTimeStamp(long lastUpdatedTimeStamp) {

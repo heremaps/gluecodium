@@ -21,7 +21,9 @@ public class Structs extends NativeBase {
     public static class Point {
         public double x;
         public double y;
-        public Point() {}
+        public Point() {
+            this(0, 0);
+        }
         public Point(double x, double y) {
             this.x = x;
             this.y = y;
@@ -32,7 +34,9 @@ public class Structs extends NativeBase {
         public long green;
         public long blue;
 
-        public Color() {}
+        public Color() {
+            this(0L, 0L, 0L);
+        }
 
         public Color(long red, long green, long blue) {
             this.red = red;
@@ -41,9 +45,9 @@ public class Structs extends NativeBase {
         }
 
         public static class Builder {
-            private long red;
-            private long green;
-            private long blue;
+            private long red = 0L;
+            private long green = 0L;
+            private long blue = 0L;
 
             public Builder() {
             }
@@ -69,18 +73,22 @@ public class Structs extends NativeBase {
         }
     }
     public static class Line {
-        public Structs.Point a = new Structs.Point();
-        public Structs.Point b = new Structs.Point();
-        public Line() {}
+        public Structs.Point a;
+        public Structs.Point b;
+        public Line() {
+            this(new Structs.Point(), new Structs.Point());
+        }
         public Line(Structs.Point a, Structs.Point b) {
             this.a = a;
             this.b = b;
         }
     }
     public static class ColoredLine {
-        public Structs.Line line = new Structs.Line();
-        public Structs.Color color = new Structs.Color();
-        public ColoredLine() {}
+        public Structs.Line line;
+        public Structs.Color color;
+        public ColoredLine() {
+            this(new Structs.Line(), new Structs.Color());
+        }
         public ColoredLine(Structs.Line line, Structs.Color color) {
             this.line = line;
             this.color = color;
@@ -100,8 +108,10 @@ public class Structs extends NativeBase {
         public String stringField;
         public boolean booleanField;
         public byte[] bytesField;
-        public Structs.Point pointField = new Structs.Point();
-        public AllTypesStruct() {}
+        public Structs.Point pointField;
+        public AllTypesStruct() {
+            this((byte)0, 0L, (short)0, 0L, 0, 0L, 0L, 0L, 0f, 0, (String)null, false, (byte[])null, new Structs.Point());
+        }
         public AllTypesStruct(byte int8Field, long uint8Field, short int16Field, long uint16Field, int int32Field, long uint32Field, long int64Field, long uint64Field, float floatField, double doubleField, String stringField, boolean booleanField, byte[] bytesField, Structs.Point pointField) {
             this.int8Field = int8Field;
             this.uint8Field = uint8Field;
@@ -119,19 +129,19 @@ public class Structs extends NativeBase {
             this.pointField = pointField;
         }
         public static class Builder {
-            private byte int8Field;
-            private long uint8Field;
-            private short int16Field;
-            private long uint16Field;
-            private int int32Field;
-            private long uint32Field;
-            private long int64Field;
-            private long uint64Field;
-            private float floatField;
-            private double doubleField;
-            private String stringField;
-            private boolean booleanField;
-            private byte[] bytesField;
+            private byte int8Field = (byte)0;
+            private long uint8Field = 0L;
+            private short int16Field = (short)0;
+            private long uint16Field = 0L;
+            private int int32Field = 0;
+            private long uint32Field = 0L;
+            private long int64Field = 0L;
+            private long uint64Field = 0L;
+            private float floatField = 0f;
+            private double doubleField = 0;
+            private String stringField = (String)null;
+            private boolean booleanField = false;
+            private byte[] bytesField = (byte[])null;
             private Structs.Point pointField = new Structs.Point();
             public Builder() {
             }
@@ -200,9 +210,11 @@ public class Structs extends NativeBase {
     public static class ExternalStruct {
         public String stringField;
         public String externalStringField;
-        public List<Byte> externalArrayField = new ArrayList<>();
-        public Structs.AnotherExternalStruct externalStructField = new Structs.AnotherExternalStruct();
-        public ExternalStruct() {}
+        public List<Byte> externalArrayField;
+        public Structs.AnotherExternalStruct externalStructField;
+        public ExternalStruct() {
+            this((String)null, (String)null, new ArrayList<>(), new Structs.AnotherExternalStruct());
+        }
         public ExternalStruct(String stringField, String externalStringField, List<Byte> externalArrayField, Structs.AnotherExternalStruct externalStructField) {
             this.stringField = stringField;
             this.externalStringField = externalStringField;
@@ -210,8 +222,8 @@ public class Structs extends NativeBase {
             this.externalStructField = externalStructField;
         }
         public static class Builder {
-            private String stringField;
-            private String externalStringField;
+            private String stringField = (String)null;
+            private String externalStringField = (String)null;
             private List<Byte> externalArrayField = new ArrayList<>();
             private Structs.AnotherExternalStruct externalStructField = new Structs.AnotherExternalStruct();
             public Builder() {
@@ -239,7 +251,9 @@ public class Structs extends NativeBase {
     }
     public static class AnotherExternalStruct {
         public byte intField;
-        public AnotherExternalStruct() {}
+        public AnotherExternalStruct() {
+            this((byte)0);
+        }
         public AnotherExternalStruct(byte intField) {
             this.intField = intField;
         }
@@ -247,7 +261,9 @@ public class Structs extends NativeBase {
 
     public static class YetAnotherExternalStruct {
         public String stringField;
-        public YetAnotherExternalStruct() {}
+        public YetAnotherExternalStruct() {
+            this((String)null);
+        }
         public YetAnotherExternalStruct(String stringField) {
             this.stringField = stringField;
         }

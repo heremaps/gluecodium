@@ -9,9 +9,11 @@ public class EquatableStruct {
 
     public int intField;
     public String stringField;
-    public NestedEquatableStruct structField = new NestedEquatableStruct();
+    public NestedEquatableStruct structField;
 
-    public EquatableStruct() {}
+    public EquatableStruct() {
+        this(0, (String)null, new NestedEquatableStruct());
+    }
 
     public EquatableStruct(int intField, String stringField, NestedEquatableStruct structField) {
         this.intField = intField;
@@ -39,8 +41,8 @@ public class EquatableStruct {
     }
 
     public static class Builder {
-        private int intField;
-        private String stringField;
+        private int intField = 0;
+        private String stringField = (String)null;
         private NestedEquatableStruct structField = new NestedEquatableStruct();
         public Builder() {
         }

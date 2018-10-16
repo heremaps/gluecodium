@@ -11,7 +11,9 @@ import com.example.NativeBase;
 public class InstanceWithStruct extends NativeBase {
     public static class InnerStruct {
         public byte value;
-        public InnerStruct() {}
+        public InnerStruct() {
+            this((byte)0);
+        }
         public InnerStruct(byte value) {
             this.value = value;
         }
@@ -27,16 +29,18 @@ public class InstanceWithStruct extends NativeBase {
          */
         @NonNull
         public SimpleInstantiableOne instanceNotNullWithComment;
-        public StructWithInstance() {}
+        public StructWithInstance() {
+            this((SimpleInstantiableOne)null, (SimpleInstantiableOne)null, (SimpleInstantiableOne)null);
+        }
         public StructWithInstance(SimpleInstantiableOne instance, SimpleInstantiableOne instanceNotNull, SimpleInstantiableOne instanceNotNullWithComment) {
             this.instance = instance;
             this.instanceNotNull = instanceNotNull;
             this.instanceNotNullWithComment = instanceNotNullWithComment;
         }
         public static class Builder {
-            private SimpleInstantiableOne instance;
-            private SimpleInstantiableOne instanceNotNull;
-            private SimpleInstantiableOne instanceNotNullWithComment;
+            private SimpleInstantiableOne instance = (SimpleInstantiableOne)null;
+            private SimpleInstantiableOne instanceNotNull = (SimpleInstantiableOne)null;
+            private SimpleInstantiableOne instanceNotNullWithComment = (SimpleInstantiableOne)null;
             public Builder() {
             }
             public Builder setInstance(SimpleInstantiableOne instance) {

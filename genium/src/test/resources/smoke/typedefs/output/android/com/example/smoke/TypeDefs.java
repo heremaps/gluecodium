@@ -11,14 +11,18 @@ import java.util.List;
 public class TypeDefs extends NativeBase {
     public static class StructHavingAliasFieldDefinedBelow {
         public double field;
-        public StructHavingAliasFieldDefinedBelow() {}
+        public StructHavingAliasFieldDefinedBelow() {
+            this(0);
+        }
         public StructHavingAliasFieldDefinedBelow(double field) {
             this.field = field;
         }
     }
     public static class TestStruct {
         public String something;
-        public TestStruct() {}
+        public TestStruct() {
+            this((String)null);
+        }
         public TestStruct(String something) {
             this.something = something;
         }

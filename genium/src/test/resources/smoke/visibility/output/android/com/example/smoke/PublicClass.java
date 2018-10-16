@@ -20,15 +20,19 @@ public class PublicClass extends NativeBase {
 
     static class InternalStruct {
         public String stringField;
-        public InternalStruct() {}
+        public InternalStruct() {
+            this((String)null);
+        }
         public InternalStruct(String stringField) {
             this.stringField = stringField;
         }
     }
 
     public static class PublicStruct {
-        PublicClass.InternalStruct internalField = new PublicClass.InternalStruct();
-        public PublicStruct() {}
+        PublicClass.InternalStruct internalField;
+        public PublicStruct() {
+            this(new PublicClass.InternalStruct());
+        }
         public PublicStruct(PublicClass.InternalStruct internalField) {
             this.internalField = internalField;
         }

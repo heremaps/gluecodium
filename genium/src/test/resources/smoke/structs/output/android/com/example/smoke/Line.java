@@ -6,9 +6,11 @@
 package com.example.smoke;
 
 public class Line {
-    public Point a = new Point();
-    public Point b = new Point();
-    public Line() {}
+    public Point a;
+    public Point b;
+    public Line() {
+        this(new Point(), new Point());
+    }
     public Line(Point a, Point b) {
         this.a = a;
         this.b = b;

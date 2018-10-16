@@ -22,14 +22,16 @@ public class DefaultValues extends NativeBase {
         }
     }
     public static class StructWithDefaults {
-        public int intField = 42;
-        public long uintField = 4294967295L;
-        public float floatField = 3.14f;
-        public boolean boolField = true;
-        public String stringField = "\\Jonny \"Magic\" Smith\n";
-        public DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
-        public DefaultValues.ExternalEnum externalEnumField = DefaultValues.ExternalEnum.ANOTHER_VALUE;
-        public StructWithDefaults() {}
+        public int intField;
+        public long uintField;
+        public float floatField;
+        public boolean boolField;
+        public String stringField;
+        public DefaultValues.SomeEnum enumField;
+        public DefaultValues.ExternalEnum externalEnumField;
+        public StructWithDefaults() {
+            this(42, 4294967295L, 3.14f, true, "\\Jonny \"Magic\" Smith\n", DefaultValues.SomeEnum.BAR_VALUE, DefaultValues.ExternalEnum.ANOTHER_VALUE);
+        }
         public StructWithDefaults(int intField, long uintField, float floatField, boolean boolField, String stringField, DefaultValues.SomeEnum enumField, DefaultValues.ExternalEnum externalEnumField) {
             this.intField = intField;
             this.uintField = uintField;

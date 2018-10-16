@@ -11,7 +11,9 @@ public class EquatableInterface extends NativeBase {
     public static class EquatableStruct {
         public int intField;
         public String stringField;
-        public EquatableStruct() {}
+        public EquatableStruct() {
+            this(0, (String)null);
+        }
         public EquatableStruct(int intField, String stringField) {
             this.intField = intField;
             this.stringField = stringField;

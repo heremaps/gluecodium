@@ -31,14 +31,15 @@ public class SerializableStruct implements Parcelable {
     public float floatField;
     public double doubleField;
     public String stringField;
-    public NestedSerializableStruct structField = new NestedSerializableStruct();
+    public NestedSerializableStruct structField;
     public byte[] byteBufferField;
-    public List<String> arrayField = new ArrayList<>();
-    public List<NestedSerializableStruct> structArrayField = new ArrayList<>();
-    public Map<Integer, String> mapField = new HashMap<>();
-    public SomeEnum enumField = SomeEnum.values()[0];
-
-    public SerializableStruct() {}
+    public List<String> arrayField;
+    public List<NestedSerializableStruct> structArrayField;
+    public Map<Integer, String> mapField;
+    public SomeEnum enumField;
+    public SerializableStruct() {
+        this(false, (byte)0, (short)0, 0, 0L, 0f, 0, (String)null, new NestedSerializableStruct(), (byte[])null, new ArrayList<>(), new ArrayList<>(), new HashMap<>(), SomeEnum.values()[0]);
+    }
 
     public SerializableStruct(boolean boolField, byte byteField, short shortField, int intField, long longField, float floatField, double doubleField, String stringField, NestedSerializableStruct structField, byte[] byteBufferField, List<String> arrayField, List<NestedSerializableStruct> structArrayField, Map<Integer, String> mapField, SomeEnum enumField) {
         this.boolField = boolField;
@@ -101,16 +102,16 @@ public class SerializableStruct implements Parcelable {
     }
 
     public static class Builder {
-        private boolean boolField;
-        private byte byteField;
-        private short shortField;
-        private int intField;
-        private long longField;
-        private float floatField;
-        private double doubleField;
-        private String stringField;
+        private boolean boolField = false;
+        private byte byteField = (byte)0;
+        private short shortField = (short)0;
+        private int intField = 0;
+        private long longField = 0L;
+        private float floatField = 0f;
+        private double doubleField = 0;
+        private String stringField = (String)null;
         private NestedSerializableStruct structField = new NestedSerializableStruct();
-        private byte[] byteBufferField;
+        private byte[] byteBufferField = (byte[])null;
         private List<String> arrayField = new ArrayList<>();
         private List<NestedSerializableStruct> structArrayField = new ArrayList<>();
         private Map<Integer, String> mapField = new HashMap<>();
