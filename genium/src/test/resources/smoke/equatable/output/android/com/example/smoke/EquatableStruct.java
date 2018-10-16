@@ -17,12 +17,14 @@ public class EquatableStruct {
     public float floatField;
     public double doubleField;
     public String stringField;
-    public NestedEquatableStruct structField = new NestedEquatableStruct();
-    public SomeEnum enumField = SomeEnum.values()[0];
-    public List<String> arrayField = new ArrayList<>();
-    public Map<Integer, String> mapField = new HashMap<>();
+    public NestedEquatableStruct structField;
+    public SomeEnum enumField;
+    public List<String> arrayField;
+    public Map<Integer, String> mapField;
 
-    public EquatableStruct() {}
+    public EquatableStruct() {
+        this(false, 0, 0L, 0f, 0, (String)null, new NestedEquatableStruct(), SomeEnum.values()[0], new ArrayList<>(), new HashMap<>());
+    }
 
     public EquatableStruct(boolean boolField, int intField, long longField, float floatField, double doubleField, String stringField, NestedEquatableStruct structField, SomeEnum enumField, List<String> arrayField, Map<Integer, String> mapField) {
         this.boolField = boolField;
@@ -71,12 +73,12 @@ public class EquatableStruct {
     }
 
     public static class Builder {
-        private boolean boolField;
-        private int intField;
-        private long longField;
-        private float floatField;
-        private double doubleField;
-        private String stringField;
+        private boolean boolField = false;
+        private int intField = 0;
+        private long longField = 0L;
+        private float floatField = 0f;
+        private double doubleField = 0;
+        private String stringField = (String)null;
         private NestedEquatableStruct structField = new NestedEquatableStruct();
         private SomeEnum enumField = SomeEnum.values()[0];
         private List<String> arrayField = new ArrayList<>();

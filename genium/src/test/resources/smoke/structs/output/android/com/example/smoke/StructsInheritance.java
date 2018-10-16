@@ -6,8 +6,10 @@ package com.example.smoke;
 import com.example.NativeBase;
 public class StructsInheritance extends NativeBase {
     public static class ColoredLineInherited extends Structs.Line {
-        public Color color = new Color();
-        public ColoredLineInherited() {}
+        public Color color;
+        public ColoredLineInherited() {
+            this(new Structs.Point(), new Structs.Point(), new Color());
+        }
         public ColoredLineInherited(Structs.Point a, Structs.Point b, Color color) {
             super(a, b);
             this.color = color;

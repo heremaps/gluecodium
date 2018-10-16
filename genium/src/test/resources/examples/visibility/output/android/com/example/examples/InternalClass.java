@@ -11,7 +11,9 @@ class InternalClass extends NativeBase {
 
     static class InternalStruct {
         public String stringField;
-        public InternalStruct() {}
+        public InternalStruct() {
+            this((String)null);
+        }
         public InternalStruct(String stringField) {
             this.stringField = stringField;
         }

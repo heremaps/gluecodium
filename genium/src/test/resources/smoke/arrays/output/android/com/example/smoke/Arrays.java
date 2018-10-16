@@ -21,16 +21,20 @@ public class Arrays extends NativeBase {
     }
     public static class BasicStruct {
         public double value;
-        public BasicStruct() {}
+        public BasicStruct() {
+            this(0);
+        }
         public BasicStruct(double value) {
             this.value = value;
         }
     }
     public static class FancyStruct {
-        public List<String> messages = new ArrayList<>();
-        public List<Long> numbers = new ArrayList<>();
+        public List<String> messages;
+        public List<Long> numbers;
         public byte[] image;
-        public FancyStruct() {}
+        public FancyStruct() {
+            this(new ArrayList<>(), new ArrayList<>(), (byte[])null);
+        }
         public FancyStruct(List<String> messages, List<Long> numbers, byte[] image) {
             this.messages = messages;
             this.numbers = numbers;
@@ -39,7 +43,7 @@ public class Arrays extends NativeBase {
         public static class Builder {
             private List<String> messages = new ArrayList<>();
             private List<Long> numbers = new ArrayList<>();
-            private byte[] image;
+            private byte[] image = (byte[])null;
             public Builder() {
             }
             public Builder setMessages(List<String> messages) {

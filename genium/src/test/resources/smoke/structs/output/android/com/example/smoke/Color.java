@@ -9,16 +9,18 @@ public class Color {
     public long red;
     public long green;
     public long blue;
-    public Color() {}
+    public Color() {
+        this(0L, 0L, 0L);
+    }
     public Color(long red, long green, long blue) {
         this.red = red;
         this.green = green;
         this.blue = blue;
     }
     public static class Builder {
-        private long red;
-        private long green;
-        private long blue;
+        private long red = 0L;
+        private long green = 0L;
+        private long blue = 0L;
         public Builder() {
         }
         public Builder setRed(long red) {

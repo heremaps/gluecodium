@@ -37,7 +37,9 @@ public class Comments extends NativeBase {
          * How useful this struct is
          */
         public boolean someField;
-        public SomeStruct() {}
+        public SomeStruct() {
+            this(false);
+        }
         public SomeStruct(boolean someField) {
             this.someField = someField;
         }
