@@ -179,10 +179,10 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FStructType francaStructType) {
 
     // Type definition
-    CppInheritance parentStruct = null;
+    CppInheritance parentStructRef = null;
     CppTypeRef parentTypeRef = getPreviousResult(CppTypeRef.class);
     if (parentTypeRef != null) {
-      parentStruct = new CppInheritance(parentTypeRef, CppInheritance.Type.Public);
+      parentStructRef = new CppInheritance(parentTypeRef, CppInheritance.Type.Public);
     }
 
     CppStruct cppStruct =
@@ -191,10 +191,16 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             .fullyQualifiedName(nameResolver.getFullyQualifiedName(francaStructType))
             .comment(CommentHelper.getDescription(francaStructType))
             .fields(getPreviousResults(CppField.class))
-            .parentStruct(parentStruct)
+            .parentStruct(parentStructRef)
             .isExternal(deploymentModel.isExternalType(francaStructType))
             .isEquatable(deploymentModel.isEquatable(francaStructType))
             .build();
+
+    CppStruct parentStruct = getPreviousResult(CppStruct.class);
+    if (parentStruct != null) {
+      cppStruct.parentFields.addAll(parentStruct.parentFields);
+      cppStruct.parentFields.addAll(parentStruct.fields);
+    }
 
     storeResult(cppStruct);
 

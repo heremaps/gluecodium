@@ -19,6 +19,7 @@
 
 package com.here.genium.model.cpp;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -29,9 +30,11 @@ public final class CppStruct extends CppElementWithComment {
 
   public final List<CppField> fields;
   public final CppInheritance parentStruct;
+  public final List<CppField> parentFields;
   public final boolean isExternal;
   public final boolean isEquatable;
 
+  @SuppressWarnings("ParameterNumber")
   @Builder
   private CppStruct(
       final String name,
@@ -39,6 +42,7 @@ public final class CppStruct extends CppElementWithComment {
       final String comment,
       @Singular final List<CppField> fields,
       final CppInheritance parentStruct,
+      @Singular final List<CppField> parentFields,
       final boolean isExternal,
       final boolean isEquatable) {
     super(name, fullyQualifiedName, comment);
@@ -46,6 +50,7 @@ public final class CppStruct extends CppElementWithComment {
     this.isEquatable = isEquatable;
     this.fields = fields != null ? new LinkedList<>(fields) : new LinkedList<>();
     this.parentStruct = parentStruct;
+    this.parentFields = parentFields != null ? new LinkedList<>(parentFields) : new LinkedList<>();
   }
 
   @Override
@@ -53,5 +58,13 @@ public final class CppStruct extends CppElementWithComment {
     return parentStruct != null
         ? Stream.concat(fields.stream(), Stream.of(parentStruct))
         : fields.stream();
+  }
+
+  @SuppressWarnings("unused")
+  public Collection<CppField> getAllVisibleFields() {
+    List<CppField> result = new LinkedList<>();
+    result.addAll(parentFields);
+    result.addAll(fields);
+    return result;
   }
 }

@@ -18,15 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if comment}}
-/**
-{{prefix comment " * "}}
-{{#parameters}}
-{{#if this.comment}} * \param[in] {{name}} {{comment}}{{/if}}
-{{/parameters}}
-{{#if returnComment}}
- * \return {{returnComment}}
-{{/if}}
- */
-{{/if}}
-{{#specifiers}}{{.}} {{/specifiers}}{{returnType.name}} {{name}}( {{joinPartial parameters "cpp/CppMethodParameter" ", "}} ){{#qualifiers}} {{.}}{{/qualifiers}}
+const {{#type}}{{name}}{{^refersToValueType}}&{{/refersToValueType}}{{/type}} {{name}}
