@@ -20,16 +20,23 @@
   !}}
 {{#unless isExternal}}
 struct {{name}}{{#parentStruct}}: {{visibility}} {{parent.name}}{{/parentStruct}} {
-{{#if isEquatable}}
-    bool operator==( const {{name}}& rhs ) const;
-    bool operator!=( const {{name}}& rhs ) const;
-
-{{/if}}{{!!
-}}{{#fields}}
+{{#fields}}
 {{#if hasComment}}
 {{prefixPartial "cpp/CppFieldComment" "    "}}
 {{/if}}
     {{type.name}} {{name}}{{#initializer}} = {{name}}{{/initializer}};
-{{/fields}}
+{{/fields}}{{!!
+}}{{#if allVisibleFields}}
+
+    {{name}}( );
+    {{name}}( {{joinPartial allVisibleFields "cpp/CppMethodParameter" ", "}} );
+
+{{/if}}{{!!
+}}{{#if isEquatable}}
+
+    bool operator==( const {{name}}& rhs ) const;
+    bool operator!=( const {{name}}& rhs ) const;
+
+{{/if}}
 };
 {{/unless}}

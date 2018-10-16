@@ -18,7 +18,17 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless isExternal}}{{#if isEquatable}}
+{{#unless isExternal}}{{#if allVisibleFields}}
+{{#className}}{{.}}::{{/className}}{{name}}::{{name}}( ) = default;
+
+{{#className}}{{.}}::{{/className}}{{name}}::{{name}}( {{joinPartial allVisibleFields "cpp/CppMethodParameter" ", "}} )
+    : {{#parentStruct}}{{parent.name}}( {{#parentFields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/parentFields}} ), {{/parentStruct}}{{!!
+   }}{{#fields}}{{name}}( {{name}} ){{#if iter.hasNext}}, {{/if}}{{/fields}}
+{
+}
+
+{{/if}}{{!!
+}}{{#if isEquatable}}
 bool {{#className}}{{.}}::{{/className}}{{name}}::operator==( const {{name}}& rhs ) const
 {
     return {{joinPartial fields "fieldEq" " &&

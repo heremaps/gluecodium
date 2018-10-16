@@ -5,6 +5,7 @@
   + Generated Swift code now fully supports Swift 4.2. It is not compatible with Swift 4.1 anymore.
 - Features:
   + "Equatable" FDEPL property for structs is now fully supported in Swift.
+  + C++ structs are now generated with convenience constructors.
 - Bug fixes:
   + Fixed array fields handling for "Equatable" structs in Swift.
 
