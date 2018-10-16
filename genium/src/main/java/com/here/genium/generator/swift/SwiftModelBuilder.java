@@ -58,15 +58,15 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   public void finishBuilding(FTypeCollection francaTypeCollection) {
 
     SwiftFile file = new SwiftFile();
-    file.structs.addAll(getPreviousResults(SwiftContainerType.class));
+    file.structs.addAll(getPreviousResults(SwiftStruct.class));
     file.enums.addAll(getPreviousResults(SwiftEnum.class));
     file.typeDefs.addAll(getPreviousResults(SwiftTypeDef.class));
     file.dictionaries.addAll(getPreviousResults(SwiftDictionary.class));
 
     List<SwiftConstant> constants = getPreviousResults(SwiftConstant.class);
     if (!constants.isEmpty()) {
-      SwiftContainerType swiftStruct =
-          SwiftContainerType.builder(SwiftNameRules.getClassName(francaTypeCollection.getName()))
+      SwiftStruct swiftStruct =
+          SwiftStruct.builder(SwiftNameRules.getClassName(francaTypeCollection.getName()))
               .visibility(getVisibility(francaTypeCollection))
               .build();
       swiftStruct.constants.addAll(constants);
@@ -127,10 +127,10 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     file.dictionaries.addAll(getPreviousResults(SwiftDictionary.class));
 
     if (isInterface) {
-      file.structs.addAll(getPreviousResults(SwiftContainerType.class));
+      file.structs.addAll(getPreviousResults(SwiftStruct.class));
       file.enums.addAll(getPreviousResults(SwiftEnum.class));
     } else {
-      clazz.structs.addAll(getPreviousResults(SwiftContainerType.class));
+      clazz.structs.addAll(getPreviousResults(SwiftStruct.class));
       clazz.enums.addAll(getPreviousResults(SwiftEnum.class));
     }
 
@@ -142,10 +142,10 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FStructType francaStruct) {
 
-    SwiftContainerType parent = getPreviousResult(SwiftContainerType.class);
+    SwiftStruct parent = getPreviousResult(SwiftStruct.class);
 
-    SwiftContainerType swiftStruct =
-        SwiftContainerType.builder(SwiftNameRules.getStructName(francaStruct, deploymentModel))
+    SwiftStruct swiftStruct =
+        SwiftStruct.builder(SwiftNameRules.getStructName(francaStruct, deploymentModel))
             .parent(parent)
             .cPrefix(CBridgeNameRules.getStructBaseName(francaStruct))
             .visibility(getVisibility(francaStruct))

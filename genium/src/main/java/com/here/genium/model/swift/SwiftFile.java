@@ -25,7 +25,7 @@ import java.util.List;
 public final class SwiftFile extends SwiftModelElement {
 
   public final List<SwiftClass> classes = new LinkedList<>();
-  public final List<SwiftContainerType> structs = new LinkedList<>();
+  public final List<SwiftStruct> structs = new LinkedList<>();
   public final List<SwiftEnum> enums = new LinkedList<>();
   public final List<SwiftTypeDef> typeDefs = new LinkedList<>();
   public final List<SwiftArray> arrays = new LinkedList<>();

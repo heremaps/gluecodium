@@ -73,7 +73,7 @@ public class SwiftTypeMapper {
   private static SwiftType mapMapType(
       final FMapType francaMapType, final FrancaDeploymentModel deploymentModel) {
 
-    return SwiftContainerType.builder(SwiftNameRules.getMapName(francaMapType, deploymentModel))
+    return SwiftStruct.builder(SwiftNameRules.getMapName(francaMapType, deploymentModel))
         .publicName(SwiftNameRules.getTypeName(francaMapType, deploymentModel))
         .cPrefix(CBridgeNameRules.getStructBaseName(francaMapType))
         .category(SwiftType.TypeCategory.DICTIONARY)
@@ -93,7 +93,7 @@ public class SwiftTypeMapper {
       final FStructType francaStructType, final FrancaDeploymentModel deploymentModel) {
 
     String name = SwiftNameRules.getStructName(francaStructType, deploymentModel);
-    return SwiftContainerType.builder(name)
+    return SwiftStruct.builder(name)
         .category(STRUCT)
         .cPrefix(CBridgeNameRules.getStructBaseName(francaStructType))
         .build();
@@ -109,7 +109,7 @@ public class SwiftTypeMapper {
       implementingClass = "_" + swiftName;
     }
 
-    return SwiftContainerType.builder(swiftName)
+    return SwiftStruct.builder(swiftName)
         .category(CLASS)
         .implementingClass(implementingClass)
         .optional(true)

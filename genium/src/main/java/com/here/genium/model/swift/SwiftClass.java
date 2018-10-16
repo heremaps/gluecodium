@@ -29,7 +29,7 @@ public final class SwiftClass extends SwiftType {
   public final List<String> implementsProtocols = new LinkedList<>();
   public final List<SwiftProperty> properties = new LinkedList<>();
   public final List<SwiftMethod> methods = new LinkedList<>();
-  public final List<SwiftContainerType> structs = new LinkedList<>();
+  public final List<SwiftStruct> structs = new LinkedList<>();
   public final List<SwiftEnum> enums = new LinkedList<>();
   public final String nameSpace;
   public final String cInstance;
