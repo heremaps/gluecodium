@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isEquatable}}
+{{#unless isExternal}}{{#if isEquatable}}
 bool {{#className}}{{.}}::{{/className}}{{name}}::operator==( const {{name}}& rhs ) const
 {
     return {{joinPartial fields "fieldEq" " &&
@@ -30,4 +30,5 @@ bool {{#className}}{{.}}::{{/className}}{{name}}::operator!=( const {{name}}& rh
     return !( *this == rhs );
 }
 
-{{/if}}{{+fieldEq}}{{name}} == rhs.{{name}}{{/fieldEq}}
+{{/if}}{{/unless}}{{!!
+}}{{+fieldEq}}{{name}} == rhs.{{name}}{{/fieldEq}}
