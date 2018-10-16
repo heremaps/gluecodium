@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.franca.DefinedBy;
 import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.swift.SwiftContainerType;
+import com.here.genium.model.swift.SwiftStruct;
 import com.here.genium.model.swift.SwiftType;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -74,7 +74,7 @@ public class SwiftTypeMapperTest {
 
     SwiftType resultType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
 
-    assertTrue(resultType instanceof SwiftContainerType);
+    assertTrue(resultType instanceof SwiftStruct);
     assertEquals(SwiftType.TypeCategory.STRUCT, resultType.category);
     assertEquals(STRUCT_NAME, resultType.name);
   }
@@ -85,8 +85,8 @@ public class SwiftTypeMapperTest {
 
     SwiftType resultType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
 
-    assertTrue(resultType instanceof SwiftContainerType);
-    SwiftContainerType containerType = (SwiftContainerType) resultType;
+    assertTrue(resultType instanceof SwiftStruct);
+    SwiftStruct containerType = (SwiftStruct) resultType;
     final String expectedCName = TYPE_COLLECTION_NAME + "_" + STRUCT_NAME;
     assertEquals(expectedCName, containerType.cPrefix);
   }
@@ -98,7 +98,7 @@ public class SwiftTypeMapperTest {
 
     SwiftType resultType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
 
-    assertTrue(resultType instanceof SwiftContainerType);
+    assertTrue(resultType instanceof SwiftStruct);
     assertEquals(SwiftType.TypeCategory.CLASS, resultType.category);
     assertEquals(INTERFACE_NAME, resultType.name);
   }
@@ -110,8 +110,8 @@ public class SwiftTypeMapperTest {
 
     SwiftType resultType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
 
-    assertTrue(resultType instanceof SwiftContainerType);
-    SwiftContainerType containerType = (SwiftContainerType) resultType;
+    assertTrue(resultType instanceof SwiftStruct);
+    SwiftStruct containerType = (SwiftStruct) resultType;
     assertEquals(INTERFACE_NAME, containerType.cPrefix);
   }
 }
