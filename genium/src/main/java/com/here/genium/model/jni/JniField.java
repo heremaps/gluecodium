@@ -24,7 +24,6 @@ import com.here.genium.model.java.JavaCustomType;
 import com.here.genium.model.java.JavaField;
 import com.here.genium.model.java.JavaTemplateType;
 
-@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class JniField implements JniElement {
 
   public final JavaField javaField;

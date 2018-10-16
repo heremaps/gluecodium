@@ -56,6 +56,7 @@ Excluded: android, logging, GenericsNaming
         <!-- if (x != y) { short code block } else { long code block } -->
         <exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal" />
         <exclude name="ConfusingTernary" />
+        <exclude name="MissingStaticMethodInNonInstantiatableClass" />
         <exclude name="SimpleDateFormatNeedsLocale" />
         <exclude name="SwitchStmtsShouldHaveDefault" />
         <exclude name="TooFewBranchesForASwitchStatement" />
