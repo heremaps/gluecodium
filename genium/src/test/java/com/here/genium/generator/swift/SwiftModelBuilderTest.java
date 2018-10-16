@@ -722,6 +722,17 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaStructTypeReadsImmutable() {
+    when(deploymentModel.isImmutable(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    SwiftStruct swiftStruct = modelBuilder.getFinalResult(SwiftStruct.class);
+    assertNotNull(swiftStruct);
+    assertTrue(swiftStruct.isImmutable);
+  }
+
+  @Test
   public void finishBuildingFrancaMapTypeCreatesDictionary() {
     when(francaMap.getName()).thenReturn("SomeMap");
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn("SomeMapBaz");

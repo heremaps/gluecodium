@@ -3,7 +3,7 @@
 ## Unreleased
 - Features:
   + Added FDEPL property "Immutable" for structs for generating structs that cannot be modified
-    after creation in Java.
+    after creation. This property is supported for Java and Swift.
 
 ## 3.12.0
 - Release date: 2018-10-18

@@ -27,7 +27,7 @@
 {{#if this.comment}}
 {{prefixPartial "swift/Comment" '    '}}
 {{/if}}
-    {{visibility}} var {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}
+    {{visibility}} {{#if isImmutable}}let{{/if}}{{#unless isImmutable}}var{{/unless}} {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}
 {{/fields}}
 
 {{prefixPartial "swift/StructPublicInitMethod" "    "}}{{/if}}{{#if parent}}
