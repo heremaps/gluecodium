@@ -44,6 +44,8 @@ typeCollection Equatable {
     }
 
     map SomeMap { Int32 to String }
+
+    array EquatableArray of EquatableStruct
 }
 
 interface EquatableInterface {

@@ -138,6 +138,30 @@ public final class EquatableTest {
     assertNotEquals(mainStruct.hashCode(), otherStruct.hashCode());
   }
 
+  @Test
+  public void equatableArrayEquals() {
+    EquatableStruct otherStruct = createEquatableStruct();
+    otherStruct.boolField = !otherStruct.boolField;
+    List<EquatableStruct> array = java.util.Arrays.asList(mainStruct, otherStruct);
+    List<EquatableStruct> otherArray
+        = new LinkedList<>(java.util.Arrays.asList(mainStruct, otherStruct));
+
+    assertEquals(array, otherArray);
+    assertEquals(array.hashCode(), otherArray.hashCode());
+  }
+
+  @Test
+  public void equatableArrayNotEquals() {
+    EquatableStruct otherStruct = createEquatableStruct();
+    otherStruct.boolField = !otherStruct.boolField;
+    List<EquatableStruct> array = java.util.Arrays.asList(mainStruct, otherStruct);
+    List<EquatableStruct> otherArray
+        = new LinkedList<>(java.util.Arrays.asList(mainStruct, mainStruct));
+
+    assertNotEquals(array, otherArray);
+    assertNotEquals(array.hashCode(), otherArray.hashCode());
+  }
+
   private static EquatableStruct createEquatableStruct() {
 
     Map<Integer, String> someMap = new HashMap<>();
