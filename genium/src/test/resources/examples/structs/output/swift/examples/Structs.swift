@@ -23,8 +23,8 @@ public class Structs {
         examples_Structs_release(c_instance)
     }
     public struct SyncResult {
-        public var lastUpdatedTimeStamp: UInt64
-        public var numberOfChanges: UInt32
+        public let lastUpdatedTimeStamp: UInt64
+        public let numberOfChanges: UInt32
 
         public init(lastUpdatedTimeStamp: UInt64, numberOfChanges: UInt32) {
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
