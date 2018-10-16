@@ -442,6 +442,23 @@ public final class CppModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaStructTypeReadsParentFields() {
+    CppField parentField = new CppField("foo", null);
+    CppField grandParentField = new CppField("foo", null);
+    CppStruct parentStruct =
+        CppStruct.builder().field(parentField).parentField(grandParentField).build();
+    contextStack.injectResult(parentStruct);
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
+    assertNotNull(resultStruct);
+    assertFalse(resultStruct.parentFields.isEmpty());
+    assertTrue(resultStruct.parentFields.contains(parentField));
+    assertTrue(resultStruct.parentFields.contains(grandParentField));
+  }
+
+  @Test
   public void finishBuildingFrancaStructTypeCreatesTypeRef() {
     when(typeMapper.mapComplexType(any())).thenReturn(cppComplexTypeRef);
 
