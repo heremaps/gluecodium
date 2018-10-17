@@ -18,7 +18,8 @@
  */
 
 plugins {
-    id 'com.diffplug.gradle.spotless' version '3.13.0'
+    id 'com.diffplug.gradle.spotless' version '3.15.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.71'
     id "de.undercouch.download" version "3.4.3"
 }
 
@@ -26,12 +27,13 @@ dependencies {
     compile files({ tasks.unzipFrancaZip.extractedJars })
     compile 'com.android.tools.build:manifest-merger:25.3.0'
     compile 'commons-io:commons-io:2.5'
+    compile 'org.apache.commons:commons-text:1.1'
     compile 'org.eclipse.core:runtime:3.10.0-v20140318-2214'
     compile 'org.eclipse.xtext:org.eclipse.xtext.generator:2.11.0'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'org.slf4j:slf4j-jdk14:1.7.25'
     compile 'org.trimou:trimou-core:2.2.0.Final'
-    compile 'org.apache.commons:commons-text:1.1'
 
     compileOnly 'org.projectlombok:lombok:1.18.2'
     annotationProcessor 'org.projectlombok:lombok:1.18.2'
@@ -165,3 +167,14 @@ pmdTest {
 }
 
 apply from: "$rootDir/gradle/spotless.gradle"
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
