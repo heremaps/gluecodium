@@ -19,11 +19,8 @@
 
 package com.here.genium.model.cpp;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Stream;
 import lombok.Builder;
 import lombok.Singular;
@@ -31,7 +28,7 @@ import lombok.Singular;
 public final class CppStruct extends CppElementWithComment {
 
   public final List<CppField> fields;
-  public final Set<CppInheritance> inheritances;
+  public final CppInheritance parentStruct;
   public final boolean isExternal;
   public final boolean isEquatable;
 
@@ -41,19 +38,20 @@ public final class CppStruct extends CppElementWithComment {
       final String fullyQualifiedName,
       final String comment,
       @Singular final List<CppField> fields,
-      @Singular final List<CppInheritance> inheritances,
+      final CppInheritance parentStruct,
       final boolean isExternal,
       final boolean isEquatable) {
     super(name, fullyQualifiedName, comment);
     this.isExternal = isExternal;
     this.isEquatable = isEquatable;
     this.fields = fields != null ? new LinkedList<>(fields) : new LinkedList<>();
-    this.inheritances =
-        inheritances != null ? new LinkedHashSet<>(inheritances) : new LinkedHashSet<>();
+    this.parentStruct = parentStruct;
   }
 
   @Override
   public Stream<? extends CppElement> stream() {
-    return Stream.of(fields, inheritances).flatMap(Collection::stream);
+    return parentStruct != null
+        ? Stream.concat(fields.stream(), Stream.of(parentStruct))
+        : fields.stream();
   }
 }
