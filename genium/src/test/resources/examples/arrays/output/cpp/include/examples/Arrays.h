@@ -21,6 +21,9 @@ public:
 struct SyncResult {
     uint64_t last_updated_time_stamp;
     uint32_t number_of_changes;
+
+    SyncResult( );
+    SyncResult( const uint64_t last_updated_time_stamp, const uint32_t number_of_changes );
 };
 using SyncResults = ::std::vector< ::examples::Arrays::SyncResult >;
 
