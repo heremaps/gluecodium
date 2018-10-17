@@ -23,9 +23,13 @@ using PrimitiveTypeDef = double;
 using NestedIntTypeDef = ::smoke::TypeDefs::PrimitiveTypeDef;
 struct StructHavingAliasFieldDefinedBelow {
     ::smoke::TypeDefs::PrimitiveTypeDef field;
+    StructHavingAliasFieldDefinedBelow( );
+    StructHavingAliasFieldDefinedBelow( const ::smoke::TypeDefs::PrimitiveTypeDef field );
 };
 struct TestStruct {
     ::std::string something;
+    TestStruct( );
+    TestStruct( const ::std::string& something );
 };
 using StructArray = ::std::vector< ::smoke::TypeDefs::TestStruct >;
 using ComplexTypeDef = ::smoke::TypeDefs::StructArray;

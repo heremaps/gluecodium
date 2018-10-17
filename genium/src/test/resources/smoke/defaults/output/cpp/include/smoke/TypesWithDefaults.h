@@ -26,6 +26,8 @@ struct StructWithDefaults {
     bool bool_field = true;
     ::std::string string_field = "\\Jonny \"Magic\" Smith\n";
     ::smoke::SomeEnum enum_field = ::smoke::SomeEnum::BAR_VALUE;
+    StructWithDefaults( );
+    StructWithDefaults( const int32_t int_field, const uint32_t uint_field, const float float_field, const bool bool_field, const ::std::string& string_field, const ::smoke::SomeEnum enum_field );
 };
 
 }
