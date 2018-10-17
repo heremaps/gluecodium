@@ -2,7 +2,7 @@
 #
 # Update .gitignore with github.com/simonwhitaker/gibo like this:
 #
-#   { cat .gitignore-custom ; gibo Android Java JetBrains Vim macOS Objective-C Qt Swift } > .gitignore
+#   { cat .gitignore-custom ; gibo Android Java JetBrains Kotlin Vim macOS Objective-C Qt Swift } > .gitignore
 #
 .idea/compiler.xml
 .idea/misc.xml

@@ -29,7 +29,13 @@ spotless {
         trimTrailingWhitespace()
         endWithNewline()
     }
-
+    /*kotlin {
+        ktlint("0.29.0")
+        licenseHeaderFile rootProject.file('config/spotless/here_java.license')
+    }*/
+    kotlinGradle {
+        ktlint("0.29.0")
+    }
     format 'cpp', {
         target project.fileTree(project.projectDir) {
             include '**/*.h', '**/*.cpp'
@@ -40,7 +46,6 @@ spotless {
         trimTrailingWhitespace()
         endWithNewline()
     }
-
     format 'swift', {
         target project.fileTree(project.projectDir) {
             include '**/*.swift'
@@ -51,7 +56,6 @@ spotless {
         trimTrailingWhitespace()
         endWithNewline()
     }
-
     format 'misc', {
         target project.fileTree(project.rootDir) {
             include '**/*.gradle', '**/*.md', '**/*.gitignore'
