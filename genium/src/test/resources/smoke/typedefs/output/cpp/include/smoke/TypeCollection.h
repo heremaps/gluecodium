@@ -17,6 +17,8 @@ namespace smoke {
 struct Point {
     double x;
     double y;
+    Point( );
+    Point( const double x, const double y );
 };
 using PointTypeDef = ::smoke::Point;
 
@@ -25,5 +27,7 @@ extern const ::smoke::StorageId INVALID_STORAGE_ID;
 
 struct StructHavingAliasFieldDefinedBelow {
     ::smoke::StorageId field;
+    StructHavingAliasFieldDefinedBelow( );
+    StructHavingAliasFieldDefinedBelow( const ::smoke::StorageId field );
 };
 }

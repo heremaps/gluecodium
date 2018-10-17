@@ -26,6 +26,8 @@ using IntArray = ::std::vector< int8_t >;
 struct Point {
     double x;
     double y;
+    Point( );
+    Point( const double x, const double y );
 };
 
 public:

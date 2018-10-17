@@ -53,6 +53,8 @@ struct SomeStruct {
      * How useful this struct is
      */
     ::smoke::Comments::Usefulness some_field;
+    SomeStruct( );
+    SomeStruct( const ::smoke::Comments::Usefulness some_field );
 };
 /**
  * This is some very useful constant.

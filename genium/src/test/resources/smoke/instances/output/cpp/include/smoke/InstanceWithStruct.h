@@ -22,6 +22,8 @@ public:
 public:
 struct InnerStruct {
     int8_t value;
+    InnerStruct( );
+    InnerStruct( const int8_t value );
 };
 struct StructWithInstance {
     ::std::shared_ptr< ::smoke::SimpleInstantiableOne > instance;
@@ -32,6 +34,8 @@ struct StructWithInstance {
      * \warning @NotNull
      */
     ::std::shared_ptr< ::smoke::SimpleInstantiableOne > instance_not_null_with_comment;
+    StructWithInstance( );
+    StructWithInstance( const ::std::shared_ptr< ::smoke::SimpleInstantiableOne >& instance, const ::std::shared_ptr< ::smoke::SimpleInstantiableOne >& instance_not_null, const ::std::shared_ptr< ::smoke::SimpleInstantiableOne >& instance_not_null_with_comment );
 };
 public:
 virtual ::smoke::InstanceWithStruct::InnerStruct inner_struct_method( const ::smoke::InstanceWithStruct::InnerStruct& input_struct ) = 0;

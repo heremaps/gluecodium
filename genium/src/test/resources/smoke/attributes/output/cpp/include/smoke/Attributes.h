@@ -33,6 +33,8 @@ enum class InternalError {
 
 struct ExampleStruct {
     double value;
+    ExampleStruct( );
+    ExampleStruct( const double value );
 };
 
 public:

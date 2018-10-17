@@ -36,12 +36,16 @@ using ArrayOfEnums = ::std::vector< ::smoke::Arrays::SomeEnum >;
 
 struct BasicStruct {
     double value;
+    BasicStruct( );
+    BasicStruct( const double value );
 };
 using StructArray = ::std::vector< ::smoke::Arrays::BasicStruct >;
 struct FancyStruct {
     ::smoke::Arrays::StringArray messages;
     ::std::vector< uint8_t > numbers;
     ::std::shared_ptr< ::std::vector< uint8_t > > image;
+    FancyStruct( );
+    FancyStruct( const ::smoke::Arrays::StringArray& messages, const ::std::vector< uint8_t >& numbers, const ::std::shared_ptr< ::std::vector< uint8_t > >& image );
 };
 using FancyArray = ::std::vector< ::smoke::Arrays::FancyStruct >;
 public:

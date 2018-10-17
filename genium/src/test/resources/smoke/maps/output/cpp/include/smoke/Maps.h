@@ -27,6 +27,8 @@ using StringToArray = ::std::unordered_map< ::std::string, ::smoke::Maps::ArrayO
 
 struct SomeStruct {
     ::std::string value;
+    SomeStruct( );
+    SomeStruct( const ::std::string& value );
 };
 
 using NumberToStruct = ::std::unordered_map< uint8_t, ::smoke::Maps::SomeStruct >;
@@ -34,6 +36,8 @@ using NestedMap = ::std::unordered_map< uint8_t, ::smoke::Maps::NumberToStruct >
 
 struct StructWithMap {
     ::smoke::Maps::ErrorCodeToMessageMap error_mapping;
+    StructWithMap( );
+    StructWithMap( const ::smoke::Maps::ErrorCodeToMessageMap& error_mapping );
 };
 
 public:

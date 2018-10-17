@@ -28,6 +28,8 @@ public:
 using NamedCalculationResults = ::std::unordered_map< ::std::string, double >;
 struct ResultStruct {
     double result;
+    ResultStruct( );
+    ResultStruct( const double result );
 };
 
 public:
