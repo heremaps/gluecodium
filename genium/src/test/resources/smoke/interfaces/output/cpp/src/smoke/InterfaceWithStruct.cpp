@@ -12,4 +12,11 @@ namespace smoke {
 
 InterfaceWithStruct::~InterfaceWithStruct() = default;
 
+InterfaceWithStruct::InnerStruct::InnerStruct( ) = default;
+
+InterfaceWithStruct::InnerStruct::InnerStruct( const int8_t value )
+    : value( value )
+{
+}
+
 }

@@ -33,6 +33,8 @@ using ExampleMap = ::std::unordered_map< ::smoke::Enums::SimpleEnum, uint64_t, :
 struct ErrorStruct {
     ::smoke::Enums::InternalError type;
     ::std::string message;
+    ErrorStruct( );
+    ErrorStruct( const ::smoke::Enums::InternalError type, const ::std::string& message );
 };
 
 public:

@@ -20,6 +20,8 @@ public:
 public:
 struct ColoredLineInherited: public ::smoke::Structs::Line {
     ::smoke::Color color;
+    ColoredLineInherited( );
+    ColoredLineInherited( const ::smoke::Structs::Point& a, const ::smoke::Structs::Point& b, const ::smoke::Color& color );
 };
 
 public:

@@ -13,6 +13,13 @@ namespace smoke {
 
 EquatableInterface::~EquatableInterface() = default;
 
+EquatableInterface::EquatableStruct::EquatableStruct( ) = default;
+
+EquatableInterface::EquatableStruct::EquatableStruct( const int32_t int_field, const ::std::string& string_field )
+    : int_field( int_field ), string_field( string_field )
+{
+}
+
 bool EquatableInterface::EquatableStruct::operator==( const EquatableStruct& rhs ) const
 {
     return int_field == rhs.int_field &&

@@ -20,6 +20,8 @@ public:
 public:
 struct InnerStruct {
     int8_t value;
+    InnerStruct( );
+    InnerStruct( const int8_t value );
 };
 
 public:

@@ -19,11 +19,12 @@ public:
     virtual ~EquatableInterface() = 0;
 public:
 struct EquatableStruct {
-    bool operator==( const EquatableStruct& rhs ) const;
-    bool operator!=( const EquatableStruct& rhs ) const;
-
     int32_t int_field;
     ::std::string string_field;
+    EquatableStruct( );
+    EquatableStruct( const int32_t int_field, const ::std::string& string_field );
+    bool operator==( const EquatableStruct& rhs ) const;
+    bool operator!=( const EquatableStruct& rhs ) const;
 };
 
 };

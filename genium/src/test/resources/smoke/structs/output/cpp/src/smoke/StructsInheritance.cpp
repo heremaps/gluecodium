@@ -6,21 +6,18 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 //
 // -------------------------------------------------------------------------------------------------
-#pragma once
-#include <string>
+
+#include "smoke/StructsInheritance.h"
+
 namespace smoke {
-namespace off {
-class NestedPackages {
-public:
-    virtual ~NestedPackages() = 0;
-public:
-struct SomeStruct {
-    ::std::string some_field;
-    SomeStruct( );
-    SomeStruct( const ::std::string& some_field );
-};
-public:
-static ::smoke::off::NestedPackages::SomeStruct basic_method( const ::smoke::off::NestedPackages::SomeStruct& input );
-};
+
+StructsInheritance::~StructsInheritance() = default;
+
+StructsInheritance::ColoredLineInherited::ColoredLineInherited( ) = default;
+
+StructsInheritance::ColoredLineInherited::ColoredLineInherited( const ::smoke::Structs::Point& a, const ::smoke::Structs::Point& b, const ::smoke::Color& color )
+    : ::smoke::Structs::Line( a, b ), color( color )
+{
 }
+
 }
