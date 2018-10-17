@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public final class TopologicalSort {
 
@@ -116,8 +115,10 @@ public final class TopologicalSort {
     }
 
     if (cppElement instanceof CppStruct) {
-      CppStruct cppStruct = (CppStruct) cppElement;
-      return getStructDependencies(cppStruct);
+      return cppElement
+          .stream()
+          .flatMap(cppField -> getElementDependencies(cppField).stream())
+          .collect(Collectors.toSet());
     }
 
     if (cppElement instanceof CppUsing) {
@@ -125,22 +126,16 @@ public final class TopologicalSort {
       return getTypeDependencies(cppUsing.definition);
     }
 
+    if (cppElement instanceof CppInheritance) {
+      Set<String> dependencies = new HashSet<>();
+      String name = ((CppInheritance) cppElement).parent.fullyQualifiedName;
+      if (fullyQualifiedNames.contains(name)) {
+        dependencies.add(name);
+      }
+      return dependencies;
+    }
+
     return Collections.emptySet();
-  }
-
-  private Set<String> getStructDependencies(CppStruct cppStruct) {
-
-    return Stream.concat(
-            cppStruct
-                .inheritances
-                .stream()
-                .map(cppInheritance -> cppInheritance.parent.fullyQualifiedName)
-                .filter(fullyQualifiedNames::contains),
-            cppStruct
-                .fields
-                .stream()
-                .flatMap(cppField -> getElementDependencies(cppField).stream()))
-        .collect(Collectors.toSet());
   }
 
   private Map<String, Set<String>> buildDependencies() {

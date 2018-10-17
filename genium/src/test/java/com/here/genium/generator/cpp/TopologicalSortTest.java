@@ -204,7 +204,13 @@ public class TopologicalSortTest {
   }
 
   private static CppStruct createCppStruct(String name, String firstType, String secondType) {
-    CppStruct cppStruct = CppStruct.builder().name(name).fullyQualifiedName(name).build();
+    return createCppStruct(name, firstType, secondType, null);
+  }
+
+  private static CppStruct createCppStruct(
+      String name, String firstType, String secondType, CppInheritance parentStruct) {
+    CppStruct cppStruct =
+        CppStruct.builder().name(name).fullyQualifiedName(name).parentStruct(parentStruct).build();
 
     cppStruct.fields.add(new CppField("x", createComplex(firstType)));
     cppStruct.fields.add(new CppField("y", createComplex(secondType)));
@@ -231,11 +237,9 @@ public class TopologicalSortTest {
   }
 
   private static CppStruct createChild() {
-    CppStruct cppStruct = createCppStruct(SECOND_STRUCT_NAME, TYPE_A, TYPE_B);
     CppInheritance inheritance =
         new CppInheritance(createComplex(FIRST_STRUCT_NAME), CppInheritance.Type.Public);
-    cppStruct.inheritances.add(inheritance);
-    return cppStruct;
+    return createCppStruct(SECOND_STRUCT_NAME, TYPE_A, TYPE_B, inheritance);
   }
 
   @Test

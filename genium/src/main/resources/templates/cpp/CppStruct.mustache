@@ -1,5 +1,5 @@
 {{#unless isExternal}}
-struct {{name}}{{>cpp/CppInheritance}} {
+struct {{name}}{{#parentStruct}}: {{visibility}} {{parent.name}}{{/parentStruct}} {
 {{#if isEquatable}}
     bool operator==( const {{name}}& rhs ) const;
     bool operator!=( const {{name}}& rhs ) const;

@@ -435,11 +435,10 @@ public final class CppModelBuilderTest {
 
     CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
     assertNotNull(resultStruct);
-    assertEquals(1, resultStruct.inheritances.size());
+    assertNotNull(resultStruct.parentStruct);
 
-    CppInheritance cppInheritance = resultStruct.inheritances.iterator().next();
-    assertEquals(cppComplexTypeRef, cppInheritance.parent);
-    assertEquals(CppInheritance.Type.Public, cppInheritance.visibility);
+    assertEquals(cppComplexTypeRef, resultStruct.parentStruct.parent);
+    assertEquals(CppInheritance.Type.Public, resultStruct.parentStruct.visibility);
   }
 
   @Test
