@@ -11,6 +11,13 @@
 
 namespace examples {
 
+EquatableStruct::EquatableStruct( ) = default;
+
+EquatableStruct::EquatableStruct( const int32_t int_field, const ::std::string& string_field, const ::examples::NestedEquatableStruct& struct_field )
+    : int_field( int_field ), string_field( string_field ), struct_field( struct_field )
+{
+}
+
 bool EquatableStruct::operator==( const EquatableStruct& rhs ) const
 {
     return int_field == rhs.int_field &&
@@ -21,6 +28,13 @@ bool EquatableStruct::operator==( const EquatableStruct& rhs ) const
 bool EquatableStruct::operator!=( const EquatableStruct& rhs ) const
 {
     return !( *this == rhs );
+}
+
+NestedEquatableStruct::NestedEquatableStruct( ) = default;
+
+NestedEquatableStruct::NestedEquatableStruct( const ::std::string& foo_field )
+    : foo_field( foo_field )
+{
 }
 
 bool NestedEquatableStruct::operator==( const NestedEquatableStruct& rhs ) const

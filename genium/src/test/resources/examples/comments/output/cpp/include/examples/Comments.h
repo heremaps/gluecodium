@@ -54,6 +54,9 @@ struct SomeStruct {
      * How useful this struct is
      */
     ::examples::Comments::Usefulness some_field;
+
+    SomeStruct( );
+    SomeStruct( const ::examples::Comments::Usefulness some_field );
 };
 /**
  * This is some very useful constant.

@@ -21,6 +21,9 @@ public:
 public:
 struct SyncResultInherited: public ::examples::Structs::SyncResult {
     int32_t id;
+
+    SyncResultInherited( );
+    SyncResultInherited( const uint64_t last_updated_time_stamp, const uint32_t number_of_changes, const int32_t id );
 };
 
 public:

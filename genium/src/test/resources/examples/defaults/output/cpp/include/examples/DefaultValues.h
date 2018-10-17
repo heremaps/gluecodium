@@ -30,6 +30,9 @@ struct StructWithDefaults {
     bool bool_field = true;
     ::std::string string_field = "some string";
     ::examples::DefaultValues::SomeEnum enum_field = ::examples::DefaultValues::SomeEnum::BAR_VALUE;
+
+    StructWithDefaults( );
+    StructWithDefaults( const int32_t int_field, const float float_field, const bool bool_field, const ::std::string& string_field, const ::examples::DefaultValues::SomeEnum enum_field );
 };
 };
 
