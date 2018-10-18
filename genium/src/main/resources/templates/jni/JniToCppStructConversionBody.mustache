@@ -19,7 +19,7 @@
   !
   !}}
 {
-  {{cppStruct.fullyQualifiedName}} _nout{};
+  {{#unless cppStruct.isImmutable}}{{cppStruct.fullyQualifiedName}} _nout{};{{/unless}}
   jclass javaClass = _jenv->GetObjectClass(_jinput);
 {{#fields}}
   {{#hasCustomType}}
@@ -33,14 +33,13 @@
     "{{javaField.name}}",
     "L{{join javaField.type.packageNames delimiter="/"}}/{{join javaField.type.classNames delimiter="$"}};"),
     ({{cppField.type.name}}*)nullptr );
-  {{>setCppFieldValue}}n_{{cppField.name}}{{#if cppSetterName}}){{/if}};
   {{/hasCustomType}}
   {{^hasCustomType}}
 
-  {{>setCppFieldValue}}{{internalNamespace}}::jni::get_{{javaField.type.literalName}}_field(_jenv, javaClass, _jinput, "{{javaField.name}}"){{#if cppSetterName}}){{/if}};
+  {{cppField.type.name}} n_{{cppField.name}} = {{internalNamespace}}::jni::get_{{javaField.type.literalName}}_field(_jenv, javaClass, _jinput, "{{javaField.name}}");
   {{/hasCustomType}}
+  {{#unless cppStruct.isImmutable}}_nout.{{#if cppSetterName}}{{cppSetterName}}({{/if}}{{#unless cppSetterName}}{{cppField.name}} = {{/unless}}n_{{cppField.name}}{{#if cppSetterName}}){{/if}};{{/unless}}
 {{/fields}}
-  return _nout;
-}{{!!
-
-}}{{+setCppFieldValue}}_nout.{{#if cppSetterName}}{{cppSetterName}}({{/if}}{{#unless cppSetterName}}{{cppField.name}} = {{/unless}}{{/setCppFieldValue}}
+  {{#if cppStruct.isImmutable}}return {{cppStruct.fullyQualifiedName}}({{#fields}}n_{{cppField.name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});{{/if}}
+  {{#unless cppStruct.isImmutable}}return _nout;{{/unless}}
+}

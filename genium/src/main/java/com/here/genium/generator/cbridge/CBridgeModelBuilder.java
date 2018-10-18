@@ -201,11 +201,13 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
   @Override
   public void finishBuilding(FStructType francaStruct) {
 
+    CppStruct cppStruct = cppBuilder.getFinalResult(CppStruct.class);
     CStruct cStruct =
         new CStruct(
             CBridgeNameRules.getStructBaseName(francaStruct),
-            cppBuilder.getFinalResult(CppStruct.class).fullyQualifiedName,
-            typeMapper.createCustomTypeInfo(francaStruct, STRUCT));
+            cppStruct.fullyQualifiedName,
+            typeMapper.createCustomTypeInfo(francaStruct, STRUCT),
+            cppStruct.isImmutable);
 
     CStruct parentStruct = getPreviousResult(CStruct.class);
     if (parentStruct != null) {

@@ -1,6 +1,8 @@
 # Genium project Release Notes
 
 ## Unreleased
+- Features:
+  + Added "Immutable" property support for C++.
 - Bug fixes:
   + Fixed Java method overloads to avoid adding suffixes if only one array overload is present (the
     suffixes are still added if there are several array overloads).

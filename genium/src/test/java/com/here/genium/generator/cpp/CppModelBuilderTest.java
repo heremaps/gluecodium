@@ -491,6 +491,16 @@ public final class CppModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaStructTypeReadsImmutable() {
+    when(deploymentModel.isImmutable(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaStructType);
+
+    CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
+    assertTrue(resultStruct.isImmutable);
+  }
+
+  @Test
   public void finishBuildingFrancaTypeDefInstanceId() {
     when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
 

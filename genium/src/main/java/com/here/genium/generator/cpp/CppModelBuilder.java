@@ -194,6 +194,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             .parentStruct(parentStructRef)
             .isExternal(deploymentModel.isExternalType(francaStructType))
             .isEquatable(deploymentModel.isEquatable(francaStructType))
+            .isImmutable(deploymentModel.isImmutable(francaStructType))
             .build();
 
     CppStruct parentStruct = getPreviousResult(CppStruct.class);

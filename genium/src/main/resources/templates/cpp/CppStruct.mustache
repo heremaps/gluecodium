@@ -24,7 +24,7 @@ struct {{name}}{{#parentStruct}}: {{visibility}} {{parent.name}}{{/parentStruct}
 {{#if hasComment}}
 {{prefixPartial "cpp/CppFieldComment" "    "}}
 {{/if}}
-    {{type.name}} {{name}}{{#initializer}} = {{name}}{{/initializer}};
+    {{#if isImmutable}}const {{/if}}{{type.name}} {{name}}{{#initializer}} = {{name}}{{/initializer}};
 {{/fields}}{{!!
 }}{{#if allVisibleFields}}
 
