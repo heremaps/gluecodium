@@ -1,0 +1,10 @@
+### API-Transpiler custom rules on top of github .gitignore templates
+#
+# Update .gitignore with github.com/simonwhitaker/gibo like this:
+#
+#   { cat .gitignore-custom ; gibo Android Java JetBrains Vim macOS Objective-C Qt Swift } > .gitignore
+#
+.idea/compiler.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
