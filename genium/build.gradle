@@ -46,13 +46,6 @@ dependencies {
 
     testCompileOnly 'org.projectlombok:lombok:1.18.2'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
-
-    // Work around IntelliJ bug not finding (test) resources.
-    // https://youtrack.jetbrains.com/issue/IDEA-91952
-    // https://youtrack.jetbrains.com/issue/IDEA-119280
-    // https://issuetracker.google.com/issues/36988115
-    runtime files('build/resources/main')
-    testRuntime files('build/resources/test')
 }
 
 task downloadFrancaZip(type: Download) {
