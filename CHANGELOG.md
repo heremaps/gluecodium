@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.12.0
+- Release date: 2018-10-18
 - Breaking changes:
   + Generated Swift code now fully supports Swift 4.2. It is not compatible with Swift 4.1 anymore.
 - Features:
@@ -8,6 +9,7 @@
   + C++ structs are now generated with convenience constructors.
 - Bug fixes:
   + Fixed array fields handling for "Equatable" structs in Swift.
+  + Fixed a threading issue for calling back into Java from C++ code.
 
 ## 3.11.1
 - Release date: 2018-10-10
