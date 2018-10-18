@@ -33,6 +33,7 @@ public final class CppStruct extends CppElementWithComment {
   public final List<CppField> parentFields;
   public final boolean isExternal;
   public final boolean isEquatable;
+  public final boolean isImmutable;
 
   @SuppressWarnings("ParameterNumber")
   @Builder
@@ -44,13 +45,15 @@ public final class CppStruct extends CppElementWithComment {
       final CppInheritance parentStruct,
       @Singular final List<CppField> parentFields,
       final boolean isExternal,
-      final boolean isEquatable) {
+      final boolean isEquatable,
+      final boolean isImmutable) {
     super(name, fullyQualifiedName, comment);
-    this.isExternal = isExternal;
-    this.isEquatable = isEquatable;
     this.fields = fields != null ? new LinkedList<>(fields) : new LinkedList<>();
     this.parentStruct = parentStruct;
     this.parentFields = parentFields != null ? new LinkedList<>(parentFields) : new LinkedList<>();
+    this.isExternal = isExternal;
+    this.isEquatable = isEquatable;
+    this.isImmutable = isImmutable;
   }
 
   @Override

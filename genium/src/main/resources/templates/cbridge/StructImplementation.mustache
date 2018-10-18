@@ -19,9 +19,11 @@
   !
   !}}
 _baseRef {{name}}_create({{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
-    {{baseApiName}}* _struct = new {{baseApiName}}();
+{{#unless isImmutable}}    {{baseApiName}}* _struct = new {{baseApiName}}();{{/unless}}
 {{#fields}}
-    _struct->{{#if baseLayerSetterName}}{{baseLayerSetterName}}({{/if}}{{#unless baseLayerSetterName}}{{baseLayerName}} = {{/unless}}{{!!
+{{#if isImmutable}}    auto _{{name}} = {{/if}}{{!!
+}}{{#unless isImmutable}}    _struct->{{#if baseLayerSetterName}}{{baseLayerSetterName}}({{/if}}{{!!
+}}{{#unless baseLayerSetterName}}{{baseLayerName}} = {{/unless}}{{/unless}}{{!!
 }}{{#switch type.typeCategory.toString}}{{!!
     }}{{#case "ENUM"}}static_cast<{{type.name}}>({{name}}){{/case}}{{!!
     }}{{#case "MAP" break=false}}{{/case}}{{!!
@@ -32,6 +34,7 @@ _baseRef {{name}}_create({{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}},
     }}{{#default}}{{name}}{{/default}}{{!!
 }}{{/switch}}{{#if baseLayerSetterName}}){{/if}};
 {{/fields}}
+{{#if isImmutable}}    {{baseApiName}}* _struct = new {{baseApiName}}({{#fields}}_{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});{{/if}}
     return reinterpret_cast<_baseRef>(_struct);
 }
 
