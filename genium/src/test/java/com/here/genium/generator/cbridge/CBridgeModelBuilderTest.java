@@ -338,7 +338,7 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingStructReadsParentFields() {
-    CStruct parentStruct = new CStruct("Foo", null, null);
+    CStruct parentStruct = new CStruct("Foo", null, null, false);
     CField parentField =
         CField.builder()
             .swiftLayerName("ParentField")
@@ -365,8 +365,25 @@ public final class CBridgeModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingStructReadsImmutable() {
+    when(cppModelbuilder.getFinalResult(CppStruct.class))
+        .thenReturn(
+            CppStruct.builder()
+                .name(STRUCT_NAME)
+                .fullyQualifiedName(STRUCT_NAME)
+                .isImmutable(true)
+                .build());
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    CStruct cStruct = modelBuilder.getFinalResult(CStruct.class);
+    assertNotNull(cStruct);
+    assertTrue(cStruct.isImmutable);
+  }
+
+  @Test
   public void finishBuildingInterfaceDoesNotAddStructs() {
-    CStruct struct = new CStruct("name", "baseApiName", new CppTypeInfo(CType.VOID));
+    CStruct struct = new CStruct("name", "baseApiName", new CppTypeInfo(CType.VOID), false);
     contextStack.injectResult(struct);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -382,7 +399,7 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingTypeCollectionContainsStructs() {
-    CStruct struct = new CStruct("name", "baseApiName", new CppTypeInfo(CType.VOID));
+    CStruct struct = new CStruct("name", "baseApiName", new CppTypeInfo(CType.VOID), false);
     contextStack.injectResult(struct);
 
     modelBuilder.finishBuilding(francaTypeCollection);

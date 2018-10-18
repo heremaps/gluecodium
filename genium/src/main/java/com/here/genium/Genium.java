@@ -252,8 +252,7 @@ public class Genium {
     return saveToDirectory(options.getOutputDir(), filesToBeWritten);
   }
 
-  @VisibleForTesting
-  static boolean saveToDirectory(final String outputDir, final List<GeneratedFile> files) {
+  private static boolean saveToDirectory(final String outputDir, final List<GeneratedFile> files) {
 
     if (outputDir != null) {
       try {
@@ -296,7 +295,8 @@ public class Genium {
                 new FieldVisibilityValidatorPredicate(),
                 new ArrayVisibilityValidatorPredicate(),
                 new ExternalElementsValidatorPredicate(),
-                new ExternalTypesValidatorPredicate()));
+                new ExternalTypesValidatorPredicate(),
+                new ImmutabilityValidatorPredicate()));
 
     boolean nameValidationResult = NameValidator.validate(typeCollections);
     boolean modelValidationResult = modelValidator.validate(deploymentModel, typeCollections);

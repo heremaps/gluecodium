@@ -205,7 +205,7 @@ FDEPL:
 
 This FDEPL property controls whether the given Franca struct represents a data structure that cannot
 be modified after creation. Default value is `false`, i.e. the generated data structure is
-modifiable. This affects Java and Swift generated code.
+modifiable.
 
 FIDL:
 
