@@ -22,11 +22,19 @@ import "./Defaults.fidl"
 
 define GeniumExtensions for interface test.Defaults
 {
+    struct ImmutableStructWithDefaults {
+        Immutable = true
+    }
+
     method getDefault {
         Static = true
     }
 
     method checkDefault {
+        Static = true
+    }
+
+    method getImmutableDefault {
         Static = true
     }
 }
@@ -57,6 +65,21 @@ define Defaults for interface test.Defaults
     struct StructWithExternalDefaults {
         enumField {
             DefaultValue = "Another_Value"
+        }
+    }
+
+    struct ImmutableStructWithDefaults {
+        intField {
+            DefaultValue = "42"
+        }
+        floatField {
+            DefaultValue = "3.14"
+        }
+        stringField {
+            DefaultValue = "some string"
+        }
+        enumField {
+            DefaultValue = "BarValue"
         }
     }
 }

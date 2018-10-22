@@ -16,12 +16,13 @@
  * SPDX-License-Identifier: Apache-2.0
  * License-Filename: LICENSE
  */
-package com.here.android.hello;
+package com.here.android.test;
 
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertEquals;
 
 import android.os.Build;
-import com.example.here.hello.BuildConfig;
+import android.support.compat.BuildConfig;
 import com.here.android.RobolectricApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,26 +35,26 @@ import org.robolectric.annotation.Config;
   application = RobolectricApplication.class,
   constants = BuildConfig.class
 )
-public final class HelloWorldDefaultsTest {
+public final class DefaultsTest {
 
-  private static final HelloWorldDefaults.StructWithDefaults STRUCT_WITH_DEFAULTS =
-      new HelloWorldDefaults.StructWithDefaults();
+  private static final Defaults.StructWithDefaults STRUCT_WITH_DEFAULTS =
+      new Defaults.StructWithDefaults();
 
-  private static boolean checkIfStructEqualsDefault(
-      final HelloWorldDefaults.StructWithDefaults struct) {
+  private static boolean checkIfStructEqualsDefault(final Defaults.StructWithDefaults struct) {
 
     return struct.intField == 42
+        && struct.uintField == 4294967295L
         && struct.floatField == 3.14F
         && struct.boolField == true
         && struct.stringField.equals("some string")
-        && struct.enumField == HelloWorldDefaults.SomeEnum.BAR_VALUE;
+        && struct.enumField == Defaults.SomeEnum.BAR_VALUE;
   }
 
   @Test
   public void checkJavaDefaults() {
 
     //act
-    HelloWorldDefaults.StructWithDefaults myStruct = new HelloWorldDefaults.StructWithDefaults();
+    Defaults.StructWithDefaults myStruct = new Defaults.StructWithDefaults();
 
     //assert
     assertTrue(checkIfStructEqualsDefault(myStruct));
@@ -63,9 +64,22 @@ public final class HelloWorldDefaultsTest {
   public void checkCppDefaults() {
 
     //act
-    HelloWorldDefaults.StructWithDefaults myStruct = HelloWorldDefaults.getStructWithDefaults();
+    Defaults.StructWithDefaults myStruct = Defaults.getDefault();
 
     //assert
     assertTrue(checkIfStructEqualsDefault(myStruct));
+  }
+
+  @Test
+  public void checkCppDefaultsImmutable() {
+
+    Defaults.ImmutableStructWithDefaults myStruct = Defaults.getImmutableDefault();
+
+    assertEquals(42, myStruct.intField);
+    assertEquals(0, myStruct.uintField);
+    assertEquals(3.14F, myStruct.floatField);
+    assertEquals(false, myStruct.boolField);
+    assertEquals("some string", myStruct.stringField);
+    assertEquals(Defaults.SomeEnum.BAR_VALUE, myStruct.enumField);
   }
 }

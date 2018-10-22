@@ -26,7 +26,7 @@ interface DefaultValues {
         BarValue
     }
 
-    enumeration ExternalEnum {
+    public enumeration ExternalEnum {
         One_Value
         Another_Value
     }
@@ -65,5 +65,15 @@ typeCollection TypesWithDefaults {
         Boolean boolField
         String stringField
         SomeEnum enumField
+    }
+
+    struct ImmutableStructWithDefaults {
+        Int32 intField
+        UInt32 uintField
+        Float floatField
+        Boolean boolField
+        String stringField
+        SomeEnum enumField
+        DefaultValues.ExternalEnum externalEnumField
     }
 }
