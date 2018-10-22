@@ -22,7 +22,7 @@ import "./Structs.fidl"
 
 define GeniumExtensions for interface examples.Structs
 {
-    struct SyncResult {
+    struct ImmutableSyncResult {
         Immutable = true
     }
 
