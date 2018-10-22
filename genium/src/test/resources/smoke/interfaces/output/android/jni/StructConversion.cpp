@@ -4,17 +4,14 @@
 #include "FieldAccessMethods.h"
 #include "EnumConversion.h"
 #include "ArrayConversionUtils.h"
-
 namespace genium {
 namespace jni {
-
-void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InterfaceWithStruct::InnerStruct& _nout ){
-
+::smoke::InterfaceWithStruct::InnerStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InterfaceWithStruct::InnerStruct* dummy ){
+  ::smoke::InterfaceWithStruct::InnerStruct _nout{};
   jclass javaClass = _jenv->GetObjectClass(_jinput);
-
   _nout.value = genium::jni::get_byte_field(_jenv, javaClass, _jinput, "value");
+  return _nout;
 }
-
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InterfaceWithStruct::InnerStruct& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/InterfaceWithStruct$InnerStruct");
   auto _jresult = genium::jni::create_object(_jenv, javaClass);
@@ -23,12 +20,12 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InterfaceWithStruct::InnerS
   _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
-
-void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ExternalInterface::some_Struct& _nout ){
+::smoke::ExternalInterface::some_Struct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ExternalInterface::some_Struct* dummy ){
+  ::smoke::ExternalInterface::some_Struct _nout{};
   jclass javaClass = _jenv->GetObjectClass(_jinput);
   _nout.some_Field = genium::jni::get_string_field(_jenv, javaClass, _jinput, "someField");
+  return _nout;
 }
-
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::ExternalInterface::some_Struct& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/ExternalInterface$SomeStruct");
   auto _jresult = genium::jni::create_object(_jenv, javaClass);
@@ -37,12 +34,12 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::ExternalInterface::some_Str
   _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
-
-void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::Baz::some_Struct& _nout ){
+::fire::Baz::some_Struct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::Baz::some_Struct* dummy ){
+  ::fire::Baz::some_Struct _nout{};
   jclass javaClass = _jenv->GetObjectClass(_jinput);
   _nout.some_Field = genium::jni::get_string_field(_jenv, javaClass, _jinput, "someField");
+  return _nout;
 }
-
 jobject convert_to_jni(JNIEnv* _jenv, const ::fire::Baz::some_Struct& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/VeryExternalInterface$SomeStruct");
   auto _jresult = genium::jni::create_object(_jenv, javaClass);
@@ -51,6 +48,5 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::fire::Baz::some_Struct& _ninput){
   _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }
-
 }
 }

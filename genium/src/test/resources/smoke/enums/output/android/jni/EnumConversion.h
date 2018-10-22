@@ -1,5 +1,4 @@
 #pragma once
-
 #include <jni.h>
 #include "smoke/Enums.h"
 #include "foo/Bar.h"
@@ -11,18 +10,17 @@
 #include "smoke/EnumsInTypeCollectionInterface.h"
 #include "com_example_smoke_EnumsInTypeCollectionInterface.h"
 #include "smoke/EnumsInTypeCollection.h"
-
 namespace genium {
 namespace jni {
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::SimpleEnum& _nout );
+    ::smoke::Enums::SimpleEnum convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::SimpleEnum* dummy );
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::SimpleEnum _ninput );
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::InternalError& _nout );
+    ::smoke::Enums::InternalError convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::InternalError* dummy );
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::InternalError _ninput );
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::External_Enum& _nout );
+    ::smoke::Enums::External_Enum convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::External_Enum* dummy );
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::External_Enum _ninput );
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::SomeVeryExternalEnum& _nout );
+    ::fire::SomeVeryExternalEnum convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::SomeVeryExternalEnum* dummy );
     jobject convert_to_jni( JNIEnv* _jenv, const ::fire::SomeVeryExternalEnum _ninput );
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::TCEnum& _nout );
+    ::smoke::TCEnum convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::TCEnum* dummy );
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::TCEnum _ninput );
 }
 }

@@ -1,11 +1,10 @@
 #include "EnumConversion.h"
-
 namespace genium {
 namespace jni {
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ExternalInterface::some_Enum& _nout )    {
+    ::smoke::ExternalInterface::some_Enum convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ExternalInterface::some_Enum* dummy )    {
         jclass javaClass = _jenv->GetObjectClass(_jinput);
         jint enumValue = genium::jni::get_int_field(_jenv,javaClass, _jinput, "value" );
-        _nout = ::smoke::ExternalInterface::some_Enum( enumValue );
+        return ::smoke::ExternalInterface::some_Enum( enumValue );
     }
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::ExternalInterface::some_Enum _ninput )    {
         auto javaClass = _jenv->FindClass( "com/example/smoke/ExternalInterface$SomeEnum" );
@@ -20,10 +19,10 @@ namespace jni {
         _jenv->DeleteLocalRef( javaClass );
         return jResult;
     }
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::Baz::some_Enum& _nout )    {
+    ::fire::Baz::some_Enum convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::Baz::some_Enum* dummy )    {
         jclass javaClass = _jenv->GetObjectClass(_jinput);
         jint enumValue = genium::jni::get_int_field(_jenv,javaClass, _jinput, "value" );
-        _nout = ::fire::Baz::some_Enum( enumValue );
+        return ::fire::Baz::some_Enum( enumValue );
     }
     jobject convert_to_jni( JNIEnv* _jenv, const ::fire::Baz::some_Enum _ninput )    {
         auto javaClass = _jenv->FindClass( "com/example/smoke/VeryExternalInterface$SomeEnum" );
