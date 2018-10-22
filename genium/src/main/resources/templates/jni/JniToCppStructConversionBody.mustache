@@ -19,12 +19,12 @@
   !
   !}}
 {
+  {{cppStruct.fullyQualifiedName}} _nout{};
   jclass javaClass = _jenv->GetObjectClass(_jinput);
 {{#fields}}
   {{#hasCustomType}}
 
-  {{cppField.type.name}} n_{{cppField.name}}{};
-  convert_from_jni(
+  {{cppField.type.name}} n_{{cppField.name}} = convert_from_jni(
     _jenv,
     {{internalNamespace}}::jni::get_object_field(
     _jenv,
@@ -32,7 +32,7 @@
     _jinput,
     "{{javaField.name}}",
     "L{{join javaField.type.packageNames delimiter="/"}}/{{join javaField.type.classNames delimiter="$"}};"),
-    n_{{cppField.name}} );
+    ({{cppField.type.name}}*)nullptr );
   {{>setCppFieldValue}}n_{{cppField.name}}{{#if cppSetterName}}){{/if}};
   {{/hasCustomType}}
   {{^hasCustomType}}
@@ -40,6 +40,7 @@
   {{>setCppFieldValue}}{{internalNamespace}}::jni::get_{{javaField.type.literalName}}_field(_jenv, javaClass, _jinput, "{{javaField.name}}"){{#if cppSetterName}}){{/if}};
   {{/hasCustomType}}
 {{/fields}}
+  return _nout;
 }{{!!
 
 }}{{+setCppFieldValue}}_nout.{{#if cppSetterName}}{{cppSetterName}}({{/if}}{{#unless cppSetterName}}{{cppField.name}} = {{/unless}}{{/setCppFieldValue}}

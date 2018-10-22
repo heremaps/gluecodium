@@ -38,8 +38,7 @@ extern "C" {
 {
 {{#parameters}}
 {{#if type.isComplex}}
-    {{type.cppName}} {{name}};
-    {{internalNamespace}}::jni::convert_from_jni( _jenv, j{{name}}, {{name}} );
+    {{type.cppName}} {{name}} = {{internalNamespace}}::jni::convert_from_jni( _jenv, j{{name}}, ({{type.cppName}}*)nullptr );
     _jenv->DeleteLocalRef(j{{name}});
 {{/if}}
 {{#unless type.isComplex}}

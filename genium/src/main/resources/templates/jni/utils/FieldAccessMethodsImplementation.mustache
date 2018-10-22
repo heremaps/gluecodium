@@ -109,12 +109,12 @@ get_double_field( JNIEnv* env, const jclass javaClass, const jobject object, con
 std::string
 get_string_field( JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName )
 {
-    std::string result;
     auto fieldId = env->GetFieldID( javaClass, fieldName, "Ljava/lang/String;" );
 
-    {{.}}::jni::convert_from_jni(
-        env, static_cast< jstring >( env->GetObjectField( object, fieldId ) ), result );
-    return result;
+    return {{.}}::jni::convert_from_jni(
+        env,
+        static_cast< jstring >( env->GetObjectField( object, fieldId ) ),
+        (std::string*)nullptr );
 }
 
 std::shared_ptr< std::vector< uint8_t > >
@@ -123,12 +123,12 @@ get_byte_array_field( JNIEnv* env,
                       const jobject object,
                       const char* fieldName )
 {
-    std::shared_ptr< std::vector< uint8_t > > result;
     auto fieldId = env->GetFieldID( javaClass, fieldName, "[B" );
 
-    {{.}}::jni::convert_from_jni(
-        env, static_cast< jbyteArray >( env->GetObjectField( object, fieldId ) ), result );
-    return result;
+    return {{.}}::jni::convert_from_jni(
+        env,
+        static_cast< jbyteArray >( env->GetObjectField( object, fieldId ) ),
+        (std::shared_ptr< std::vector< uint8_t > >*)nullptr );
 }
 
 jobject
