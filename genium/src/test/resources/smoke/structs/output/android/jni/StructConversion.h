@@ -1,5 +1,4 @@
 #pragma once
-
 #include <jni.h>
 #include "smoke/Structs.h"
 #include "foo/Bar.h"
@@ -19,46 +18,43 @@
 #include "fire/StructsQualifiedType.h"
 #include "com_example_fire_StructsQualifiedType.h"
 #include "smoke/TypeCollection.h"
-
 namespace genium {
 namespace jni {
-
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::Point& _nout );
+    ::smoke::Structs::Point convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::Point* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Point& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::Color& _nout );
+    ::smoke::Structs::Color convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::Color* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Color& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::Line& _nout );
+    ::smoke::Structs::Line convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::Line* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Line& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::ColoredLine& _nout );
+    ::smoke::Structs::ColoredLine convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::ColoredLine* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ColoredLine& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::AllTypesStruct& _nout );
+    ::smoke::Structs::AllTypesStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::AllTypesStruct* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AllTypesStruct& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::ExternalStruct& _nout );
+    ::smoke::Structs::ExternalStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::ExternalStruct* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ExternalStruct& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::SomeVeryExternalStruct& _nout );
+    ::fire::SomeVeryExternalStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::SomeVeryExternalStruct* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::fire::SomeVeryExternalStruct& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::Yet_Another_External_Struct& _nout );
+    ::smoke::Structs::Yet_Another_External_Struct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::Yet_Another_External_Struct* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Yet_Another_External_Struct& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::StructsInheritance::ColoredLineInherited& _nout );
+    ::smoke::StructsInheritance::ColoredLineInherited convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::StructsInheritance::ColoredLineInherited* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::StructsInheritance::ColoredLineInherited& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::GrandChildStruct& _nout );
+    ::smoke::GrandChildStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::GrandChildStruct* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::GrandChildStruct& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ChildStruct& _nout );
+    ::smoke::ChildStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ChildStruct* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::ChildStruct& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ParentStruct& _nout );
+    ::smoke::ParentStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ParentStruct* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::ParentStruct& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::StructsQualifiedType::QualifiedType& _nout );
+    ::fire::StructsQualifiedType::QualifiedType convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::StructsQualifiedType::QualifiedType* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::fire::StructsQualifiedType::QualifiedType& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Point& _nout );
+    ::smoke::Point convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Point* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Point& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Color& _nout );
+    ::smoke::Color convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Color* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Color& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Line& _nout );
+    ::smoke::Line convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Line* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Line& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ColoredLine& _nout );
+    ::smoke::ColoredLine convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ColoredLine* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::ColoredLine& _ninput);
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::AllTypesStruct& _nout );
+    ::smoke::AllTypesStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::AllTypesStruct* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::AllTypesStruct& _ninput);
-
 }
 }

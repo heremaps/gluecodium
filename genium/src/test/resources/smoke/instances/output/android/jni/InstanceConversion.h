@@ -23,8 +23,9 @@ namespace genium {
 namespace jni {
 
 template < typename T >
-void
-convert_from_jni( JNIEnv* _env, jobject _jobj, ::std::shared_ptr< T >& _nresult ) {
+::std::shared_ptr< T >
+convert_from_jni( JNIEnv* _env, jobject _jobj, ::std::shared_ptr< T >* dummy ) {
+    ::std::shared_ptr< T > _nresult{};
     jclass nativeBaseClass = _env->FindClass("com/example/NativeBase");
     if (_env->IsInstanceOf(_jobj, nativeBaseClass)) {
         if (_jobj != nullptr) {
@@ -35,6 +36,7 @@ convert_from_jni( JNIEnv* _env, jobject _jobj, ::std::shared_ptr< T >& _nresult 
         ::createCppProxy<>( _env, _jobj, _nresult);
     }
     _env->DeleteLocalRef( nativeBaseClass );
+    return _nresult;
 }
 
 jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiableOne> & _ninput);

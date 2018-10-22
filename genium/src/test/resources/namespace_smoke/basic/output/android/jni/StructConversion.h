@@ -9,7 +9,7 @@
 #include "root/space/smoke/BasicTypes.h"
 namespace genium {
 namespace jni {
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::root::space::smoke::SomeStruct& _nout );
+    ::root::space::smoke::SomeStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::root::space::smoke::SomeStruct* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::root::space::smoke::SomeStruct& _ninput);
 }
 }

@@ -1,14 +1,11 @@
 #include "EnumConversion.h"
-
 namespace genium {
 namespace jni {
-
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::SimpleEnum& _nout )    {
+    ::smoke::Enums::SimpleEnum convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::SimpleEnum* dummy )    {
         jclass javaClass = _jenv->GetObjectClass(_jinput);
         jint enumValue = genium::jni::get_int_field(_jenv,javaClass, _jinput, "value" );
-        _nout = ::smoke::Enums::SimpleEnum( enumValue );
+        return ::smoke::Enums::SimpleEnum( enumValue );
     }
-
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::SimpleEnum _ninput )    {
         auto javaClass = _jenv->FindClass( "com/example/smoke/Enums$SimpleEnum" );
         ::std::string enumeratorName;
@@ -25,13 +22,11 @@ namespace jni {
         _jenv->DeleteLocalRef( javaClass );
         return jResult;
     }
-
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::InternalError& _nout )    {
+    ::smoke::Enums::InternalError convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::InternalError* dummy )    {
         jclass javaClass = _jenv->GetObjectClass(_jinput);
         jint enumValue = genium::jni::get_int_field(_jenv,javaClass, _jinput, "value" );
-        _nout = ::smoke::Enums::InternalError( enumValue );
+        return ::smoke::Enums::InternalError( enumValue );
     }
-
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::InternalError _ninput )    {
         auto javaClass = _jenv->FindClass( "com/example/smoke/Enums$InternalError" );
         ::std::string enumeratorName;
@@ -48,13 +43,11 @@ namespace jni {
         _jenv->DeleteLocalRef( javaClass );
         return jResult;
     }
-
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::External_Enum& _nout )    {
+    ::smoke::Enums::External_Enum convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Enums::External_Enum* dummy )    {
         jclass javaClass = _jenv->GetObjectClass(_jinput);
         jint enumValue = genium::jni::get_int_field(_jenv,javaClass, _jinput, "value" );
-        _nout = ::smoke::Enums::External_Enum( enumValue );
+        return ::smoke::Enums::External_Enum( enumValue );
     }
-
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::External_Enum _ninput )    {
         auto javaClass = _jenv->FindClass( "com/example/smoke/Enums$ExternalEnum" );
         ::std::string enumeratorName;
@@ -71,13 +64,11 @@ namespace jni {
         _jenv->DeleteLocalRef( javaClass );
         return jResult;
     }
-
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::SomeVeryExternalEnum& _nout )    {
+    ::fire::SomeVeryExternalEnum convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::SomeVeryExternalEnum* dummy )    {
         jclass javaClass = _jenv->GetObjectClass(_jinput);
         jint enumValue = genium::jni::get_int_field(_jenv,javaClass, _jinput, "value" );
-        _nout = ::fire::SomeVeryExternalEnum( enumValue );
+        return ::fire::SomeVeryExternalEnum( enumValue );
     }
-
     jobject convert_to_jni( JNIEnv* _jenv, const ::fire::SomeVeryExternalEnum _ninput )    {
         auto javaClass = _jenv->FindClass( "com/example/smoke/Enums$VeryExternalEnum" );
         ::std::string enumeratorName;
@@ -94,13 +85,11 @@ namespace jni {
         _jenv->DeleteLocalRef( javaClass );
         return jResult;
     }
-
-    void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::TCEnum& _nout )    {
+    ::smoke::TCEnum convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::TCEnum* dummy )    {
         jclass javaClass = _jenv->GetObjectClass(_jinput);
         jint enumValue = genium::jni::get_int_field(_jenv,javaClass, _jinput, "value" );
-        _nout = ::smoke::TCEnum( enumValue );
+        return ::smoke::TCEnum( enumValue );
     }
-
     jobject convert_to_jni( JNIEnv* _jenv, const ::smoke::TCEnum _ninput )    {
         auto javaClass = _jenv->FindClass( "com/example/smoke/TCEnum" );
         ::std::string enumeratorName;

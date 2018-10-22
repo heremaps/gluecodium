@@ -37,8 +37,7 @@ Java_com_example_smoke_VeryExternalInterface_getSomeAttribute(JNIEnv* _jenv, job
 void
 Java_com_example_smoke_VeryExternalInterface_setSomeAttribute(JNIEnv* _jenv, jobject _jinstance, jstring jvalue)
 {
-    ::std::string value;
-    genium::jni::convert_from_jni( _jenv, jvalue, value );
+    ::std::string value = genium::jni::convert_from_jni( _jenv, jvalue, (::std::string*)nullptr );
     _jenv->DeleteLocalRef(jvalue);
     auto pointerAsLong = genium::jni::get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::fire::Baz>*> (pointerAsLong);
