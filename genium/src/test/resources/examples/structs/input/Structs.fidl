@@ -31,6 +31,11 @@ interface Structs {
         SyncResult syncResult
     }
 
+    public struct ImmutableSyncResult {
+        UInt64 lastUpdatedTimeStamp
+        UInt32 numberOfChanges
+    }
+
     method methodWithNonNestedType {
         in {
             SyncResult input
