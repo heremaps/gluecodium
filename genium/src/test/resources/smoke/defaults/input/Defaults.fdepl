@@ -76,6 +76,24 @@ define Defaults for typeCollection smoke.TypesWithDefaults
             DefaultValue = "BarValue"
         }
     }
+
+    struct ImmutableStructWithDefaults {
+        intField {
+            DefaultValue = "42"
+        }
+        floatField {
+            DefaultValue = "3.14"
+        }
+        stringField {
+            DefaultValue = "\\Jonny \"Magic\" Smith\n"
+        }
+        enumField {
+            DefaultValue = "BarValue"
+        }
+        externalEnumField {
+            DefaultValue = "Another_Value"
+        }
+    }
 }
 
 define ExternalTypes for interface smoke.DefaultValues
@@ -83,5 +101,12 @@ define ExternalTypes for interface smoke.DefaultValues
     enumeration ExternalEnum {
         ExternalType = "foo/Bar.h"
         ExternalName = "::fire::SomeVeryExternalEnum"
+    }
+}
+
+define GeniumExtensions for typeCollection smoke.TypesWithDefaults
+{
+    struct ImmutableStructWithDefaults {
+        Immutable = true
     }
 }

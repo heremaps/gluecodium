@@ -49,6 +49,15 @@ interface Defaults {
         ExternalEnum enumField
     }
 
+    struct ImmutableStructWithDefaults {
+        Int32 intField
+        UInt32 uintField
+        Float floatField
+        Boolean boolField
+        String stringField
+        SomeEnum enumField
+    }
+
     <** @description: Get a default-initialized StructWithDefaults object. **>
     method getDefault {
         out {
@@ -63,6 +72,13 @@ interface Defaults {
         }
         out {
             Boolean output
+        }
+    }
+
+    <** @description: Get a default-initialized ImmutableStructWithDefaults object. **>
+    method getImmutableDefault {
+        out {
+            ImmutableStructWithDefaults output
         }
     }
 }

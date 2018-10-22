@@ -26,7 +26,7 @@ namespace test
 Defaults::StructWithDefaults
 Defaults::get_default( )
 {
-    return Defaults::StructWithDefaults{ };
+    return { };
 }
 
 bool
@@ -38,6 +38,12 @@ Defaults::check_default( const Defaults::StructWithDefaults& input )
         && input.bool_field == default_struct.bool_field
         && input.string_field == default_struct.string_field
         && input.enum_field == default_struct.enum_field;
+}
+
+Defaults::ImmutableStructWithDefaults
+Defaults::get_immutable_default( )
+{
+    return { };
 }
 
 }
