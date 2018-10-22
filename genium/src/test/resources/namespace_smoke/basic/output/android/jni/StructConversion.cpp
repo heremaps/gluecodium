@@ -6,9 +6,11 @@
 #include "ArrayConversionUtils.h"
 namespace genium {
 namespace jni {
-void convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::root::space::smoke::SomeStruct& _nout ){
+::root::space::smoke::SomeStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::root::space::smoke::SomeStruct* dummy ){
+  ::root::space::smoke::SomeStruct _nout{};
   jclass javaClass = _jenv->GetObjectClass(_jinput);
   _nout.some_field = genium::jni::get_string_field(_jenv, javaClass, _jinput, "someField");
+  return _nout;
 }
 jobject convert_to_jni(JNIEnv* _jenv, const ::root::space::smoke::SomeStruct& _ninput){
   auto javaClass = _jenv->FindClass("com/example/smoke/SomeStruct");
