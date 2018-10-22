@@ -9,7 +9,8 @@ namespace jni {
 ::root::space::smoke::SomeStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::root::space::smoke::SomeStruct* dummy ){
   ::root::space::smoke::SomeStruct _nout{};
   jclass javaClass = _jenv->GetObjectClass(_jinput);
-  _nout.some_field = genium::jni::get_string_field(_jenv, javaClass, _jinput, "someField");
+  ::std::string n_some_field = genium::jni::get_string_field(_jenv, javaClass, _jinput, "someField");
+  _nout.some_field = n_some_field;
   return _nout;
 }
 jobject convert_to_jni(JNIEnv* _jenv, const ::root::space::smoke::SomeStruct& _ninput){

@@ -21,8 +21,8 @@ public class Structs {
         examples_Structs_release(c_instance)
     }
     public struct SyncResult {
-        public let lastUpdatedTimeStamp: UInt64
-        public let numberOfChanges: UInt32
+        public var lastUpdatedTimeStamp: UInt64
+        public var numberOfChanges: UInt32
 
         public init(lastUpdatedTimeStamp: UInt64, numberOfChanges: UInt32) {
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
@@ -70,6 +70,24 @@ public class Structs {
                 examples_Structs_SyncResult_release(syncResult_handle)
             }
             return examples_Structs_IdentifiableSyncResult_create(id_handle, syncResult_handle)
+        }
+    }
+
+    public struct ImmutableSyncResult {
+        public let lastUpdatedTimeStamp: UInt64
+        public let numberOfChanges: UInt32
+        public init(lastUpdatedTimeStamp: UInt64, numberOfChanges: UInt32) {
+            self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
+            self.numberOfChanges = numberOfChanges
+        }
+        internal init?(cImmutableSyncResult: _baseRef) {
+            lastUpdatedTimeStamp = examples_Structs_ImmutableSyncResult_lastUpdatedTimeStamp_get(cImmutableSyncResult)
+            numberOfChanges = examples_Structs_ImmutableSyncResult_numberOfChanges_get(cImmutableSyncResult)
+        }
+        internal func convertToCType() -> _baseRef {
+            let lastUpdatedTimeStamp_handle = lastUpdatedTimeStamp
+            let numberOfChanges_handle = numberOfChanges
+            return examples_Structs_ImmutableSyncResult_create(lastUpdatedTimeStamp_handle, numberOfChanges_handle)
         }
     }
 

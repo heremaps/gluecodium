@@ -17,17 +17,26 @@ class Structs {
 public:
     virtual ~Structs() = 0;
 public:
+
 struct SyncResult {
     uint64_t last_updated_time_stamp;
     uint32_t number_of_changes;
     SyncResult( );
     SyncResult( const uint64_t last_updated_time_stamp, const uint32_t number_of_changes );
 };
+
 struct IdentifiableSyncResult {
     int32_t id;
     ::examples::Structs::SyncResult sync_result;
     IdentifiableSyncResult( );
     IdentifiableSyncResult( const int32_t id, const ::examples::Structs::SyncResult& sync_result );
+};
+
+struct ImmutableSyncResult {
+    const uint64_t last_updated_time_stamp;
+    const uint32_t number_of_changes;
+    ImmutableSyncResult( );
+    ImmutableSyncResult( const uint64_t last_updated_time_stamp, const uint32_t number_of_changes );
 };
 
 public:

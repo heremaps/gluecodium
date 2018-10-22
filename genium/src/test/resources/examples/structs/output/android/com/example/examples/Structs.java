@@ -10,8 +10,8 @@ import com.example.NativeBase;
 public class Structs extends NativeBase {
 
     public static class SyncResult {
-        public final long lastUpdatedTimeStamp;
-        public final long numberOfChanges;
+        public long lastUpdatedTimeStamp;
+        public long numberOfChanges;
 
         public SyncResult() {
             this(0L, 0L);
@@ -34,6 +34,18 @@ public class Structs extends NativeBase {
         public IdentifiableSyncResult(int id, Structs.SyncResult syncResult) {
             this.id = id;
             this.syncResult = syncResult;
+        }
+    }
+
+    public static class ImmutableSyncResult {
+        public final long lastUpdatedTimeStamp;
+        public final long numberOfChanges;
+        public ImmutableSyncResult() {
+            this(0L, 0L);
+        }
+        public ImmutableSyncResult(long lastUpdatedTimeStamp, long numberOfChanges) {
+            this.lastUpdatedTimeStamp = lastUpdatedTimeStamp;
+            this.numberOfChanges = numberOfChanges;
         }
     }
 

@@ -9,7 +9,8 @@ namespace jni {
 ::smoke::InstanceWithStruct::InnerStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::InstanceWithStruct::InnerStruct* dummy ){
   ::smoke::InstanceWithStruct::InnerStruct _nout{};
   jclass javaClass = _jenv->GetObjectClass(_jinput);
-  _nout.value = genium::jni::get_byte_field(_jenv, javaClass, _jinput, "value");
+  int8_t n_value = genium::jni::get_byte_field(_jenv, javaClass, _jinput, "value");
+  _nout.value = n_value;
   return _nout;
 }
 jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::InnerStruct& _ninput){

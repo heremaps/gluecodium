@@ -87,21 +87,21 @@ _baseRef smoke_Structs_ColoredLine_color_get(_baseRef handle) {
     return reinterpret_cast<_baseRef>( new ::smoke::Structs::Color(struct_pointer->color) );
 }
 _baseRef smoke_Structs_AllTypesStruct_create(int8_t int8Field, uint8_t uint8Field, int16_t int16Field, uint16_t uint16Field, int32_t int32Field, uint32_t uint32Field, int64_t int64Field, uint64_t uint64Field, float floatField, double doubleField, const char* stringField, bool booleanField, _baseRef bytesField, _baseRef pointField) {
-    ::smoke::Structs::AllTypesStruct* _struct = new ::smoke::Structs::AllTypesStruct();
-    _struct->int8_field = int8Field;
-    _struct->uint8_field = uint8Field;
-    _struct->int16_field = int16Field;
-    _struct->uint16_field = uint16Field;
-    _struct->int32_field = int32Field;
-    _struct->uint32_field = uint32Field;
-    _struct->int64_field = int64Field;
-    _struct->uint64_field = uint64Field;
-    _struct->float_field = floatField;
-    _struct->double_field = doubleField;
-    _struct->string_field = stringField;
-    _struct->boolean_field = booleanField;
-    _struct->bytes_field = *get_pointer<::std::shared_ptr< ::std::vector< uint8_t > >>(bytesField);
-    _struct->point_field = *get_pointer<::smoke::Structs::Point>(pointField);
+    auto _int8Field = int8Field;
+    auto _uint8Field = uint8Field;
+    auto _int16Field = int16Field;
+    auto _uint16Field = uint16Field;
+    auto _int32Field = int32Field;
+    auto _uint32Field = uint32Field;
+    auto _int64Field = int64Field;
+    auto _uint64Field = uint64Field;
+    auto _floatField = floatField;
+    auto _doubleField = doubleField;
+    auto _stringField = stringField;
+    auto _booleanField = booleanField;
+    auto _bytesField = *get_pointer<::std::shared_ptr< ::std::vector< uint8_t > >>(bytesField);
+    auto _pointField = *get_pointer<::smoke::Structs::Point>(pointField);
+    ::smoke::Structs::AllTypesStruct* _struct = new ::smoke::Structs::AllTypesStruct(_int8Field, _uint8Field, _int16Field, _uint16Field, _int32Field, _uint32Field, _int64Field, _uint64Field, _floatField, _doubleField, _stringField, _booleanField, _bytesField, _pointField);
     return reinterpret_cast<_baseRef>(_struct);
 }
 void smoke_Structs_AllTypesStruct_release(_baseRef handle) {
