@@ -81,38 +81,33 @@ jobject convert_to_jni( JNIEnv* env, const uint64_t nvalue );
 // The following conversion methods are unboxing and converting primitive values from the
 // java boxing object.
 
-void convert_from_jni( JNIEnv* env, const jobject& jvalue, bool& nvalue );
+bool convert_from_jni( JNIEnv* env, const jobject& jvalue, bool* dummy );
 
-void convert_from_jni( JNIEnv* env, const jobject& jvalue, double& nvalue );
+double convert_from_jni( JNIEnv* env, const jobject& jvalue, double* dummy );
 
-void convert_from_jni( JNIEnv* env, const jobject& jvalue, float& nvalue );
+float convert_from_jni( JNIEnv* env, const jobject& jvalue, float* dummy );
 
-void convert_from_jni( JNIEnv* env, const jobject& jvalue, int8_t& nvalue );
+int8_t convert_from_jni( JNIEnv* env, const jobject& jvalue, int8_t* dummy );
 
-void convert_from_jni( JNIEnv* env, const jobject& jvalue, int16_t& nvalue );
+int16_t convert_from_jni( JNIEnv* env, const jobject& jvalue, int16_t* dummy );
 
-void convert_from_jni( JNIEnv* env, const jobject& jvalue, int32_t& nvalue );
+int32_t convert_from_jni( JNIEnv* env, const jobject& jvalue, int32_t* dummy );
 
-void convert_from_jni( JNIEnv* env, const jobject& jvalue, int64_t& nvalue );
+int64_t convert_from_jni( JNIEnv* env, const jobject& jvalue, int64_t* dummy );
 
-void convert_from_jni( JNIEnv* env, const jobject& jvalue, uint8_t& nvalue );
+uint8_t convert_from_jni( JNIEnv* env, const jobject& jvalue, uint8_t* dummy );
 
-void convert_from_jni( JNIEnv* env, const jobject& jvalue, uint16_t& nvalue );
+uint16_t convert_from_jni( JNIEnv* env, const jobject& jvalue, uint16_t* dummy );
 
-void convert_from_jni( JNIEnv* env, const jobject& jvalue, uint32_t& nvalue );
+uint32_t convert_from_jni( JNIEnv* env, const jobject& jvalue, uint32_t* dummy );
 
-void convert_from_jni( JNIEnv* env, const jobject& jvalue, uint64_t& nvalue );
-
-jint unbox_int_value( JNIEnv* env, const jobject& jvalue );
-
-jlong unbox_long_value( JNIEnv* env, const jobject& jvalue );
+uint64_t convert_from_jni( JNIEnv* env, const jobject& jvalue, uint64_t* dummy );
 
 // Forward declare map conversion routines
 
 template < typename K, typename V, typename Hash >
-void
-convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V, Hash >&
-    _nresult );
+::std::unordered_map< K, V, Hash >
+convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V, Hash >* dummy );
 
 template < typename K, typename V, typename Hash >
 jobject
@@ -140,13 +135,14 @@ convert_to_jni( JNIEnv* _env, const std::vector< T >& _ninput )
 }
 
 template < typename T >
-void
-convert_from_jni( JNIEnv* _env, const jobject& _arrayList, std::vector< T >& _nresult )
+std::vector< T >
+convert_from_jni( JNIEnv* _env, const jobject& _arrayList, std::vector< T >* dummy )
 {
+    std::vector< T > _nresult{};
+
     if ( _env->IsSameObject( _arrayList, nullptr ) )
     {
-        _nresult.clear( );
-        return;
+        return _nresult;
     }
 
     auto javaArrayListClass = _env->FindClass( "java/util/List" );
@@ -158,13 +154,13 @@ convert_from_jni( JNIEnv* _env, const jobject& _arrayList, std::vector< T >& _nr
     for ( jint i = 0; i < length; i++ )
     {
         jobject javaListItem = _env->CallObjectMethod( _arrayList, getMethodId, i );
-        T resultItem;
-        convert_from_jni( _env, javaListItem, resultItem );
-        _nresult.push_back( resultItem );
+        _nresult.push_back( convert_from_jni( _env, javaListItem, (T*)nullptr ) );
         _env->DeleteLocalRef( javaListItem );
     }
 
     _env->DeleteLocalRef( javaArrayListClass );
+
+    return _nresult;
 }
 
 // Templated functions to create HashMaps from C++ unordered_maps and vice versa
@@ -194,13 +190,14 @@ convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput )
 }
 
 template < typename K, typename V, typename Hash = ::std::hash< K > >
-void
-convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V, Hash >& _nresult )
+::std::unordered_map< K, V, Hash >
+convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V, Hash >* dummy )
 {
+    ::std::unordered_map< K, V, Hash > _nresult{};
+
     if ( _env->IsSameObject( _jMap, nullptr ) )
     {
-        _nresult.clear( );
-        return;
+        return _nresult;
     }
 
     auto javaMapClass = _env->FindClass( "java/util/Map" );
@@ -225,12 +222,10 @@ convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V
         jobject jEntry = _env->CallObjectMethod( jIterator, nextMethodId );
 
         auto jKey = _env->CallObjectMethod( jEntry, getKeyMethodId );
-        K nKey;
-        convert_from_jni( _env, jKey, nKey );
+        K nKey = convert_from_jni( _env, jKey, (K*)nullptr );
 
         auto jValue = _env->CallObjectMethod( jEntry, getValueMethodId );
-        V nValue;
-        convert_from_jni( _env, jValue, nValue );
+        V nValue = convert_from_jni( _env, jValue, (V*)nullptr );
 
         _nresult[ nKey ] = nValue;
 
@@ -243,6 +238,8 @@ convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V
     _env->DeleteLocalRef( javaSetClass );
     _env->DeleteLocalRef( javaIteratorClass );
     _env->DeleteLocalRef( javaMapEntryClass );
+
+    return _nresult;
 }
 
 }

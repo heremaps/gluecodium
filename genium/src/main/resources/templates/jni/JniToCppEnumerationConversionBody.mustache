@@ -21,5 +21,5 @@
 {
     jclass javaClass = _jenv->GetObjectClass(_jinput);
     jint enumValue = {{internalNamespace}}::jni::get_int_field(_jenv,javaClass, _jinput, "value" );
-    _nout = {{cppEnumName}}( enumValue );
+    return {{cppEnumName}}( enumValue );
 }

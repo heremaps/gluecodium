@@ -57,13 +57,13 @@ namespace jni
 /**
  * Converts a JNI jstring to a std string.
  */
-void convert_from_jni( JNIEnv* env, const jobject jvalue, std::string& nresult );
+std::string convert_from_jni( JNIEnv* env, const jobject jvalue, std::string* dummy );
 
 /**
  * Converts a jbyteArray to a byte buffer
  */
-void convert_from_jni( JNIEnv* env, const jbyteArray& jvalue,
-                       std::shared_ptr< ::std::vector< uint8_t > >& nresult );
+std::shared_ptr< ::std::vector< uint8_t > > convert_from_jni(
+    JNIEnv* env, const jbyteArray& jvalue, std::shared_ptr< ::std::vector< uint8_t > >* dummy );
 
 // -------------------- C++ to JNI conversion functions --------------------------------------------
 
