@@ -4,8 +4,6 @@
 
 import Foundation
 
-
-
 internal func getRef(_ ref: Arrays?) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
@@ -37,14 +35,9 @@ public class Arrays {
         }
 
         internal func convertToCType() -> _baseRef {
-            let result = examples_Arrays_SyncResult_create()
-            fillFunction(result)
-            return result
-        }
-
-        internal func fillFunction(_ cSyncResult: _baseRef) -> Void {
-            examples_Arrays_SyncResult_lastUpdatedTimeStamp_set(cSyncResult, lastUpdatedTimeStamp)
-            examples_Arrays_SyncResult_numberOfChanges_set(cSyncResult, numberOfChanges)
+            let lastUpdatedTimeStamp_handle = lastUpdatedTimeStamp
+            let numberOfChanges_handle = numberOfChanges
+            return examples_Arrays_SyncResult_create(lastUpdatedTimeStamp_handle, numberOfChanges_handle)
         }
     }
 

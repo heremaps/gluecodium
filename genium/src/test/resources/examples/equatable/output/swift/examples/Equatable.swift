@@ -39,19 +39,13 @@ public struct EquatableStruct: Equatable {
     }
 
     internal func convertToCType() -> _baseRef {
-        let result = examples_Equatable_EquatableStruct_create()
-        fillFunction(result)
-        return result
-    }
-
-    internal func fillFunction(_ cEquatableStruct: _baseRef) -> Void {
-        examples_Equatable_EquatableStruct_intField_set(cEquatableStruct, intField)
-        examples_Equatable_EquatableStruct_stringField_set(cEquatableStruct, stringField)
+        let intField_handle = intField
+        let stringField_handle = stringField
         let structField_handle = structField.convertToCType()
         defer {
             examples_Equatable_NestedEquatableStruct_release(structField_handle)
         }
-        examples_Equatable_EquatableStruct_structField_set(cEquatableStruct, structField_handle)
+        return examples_Equatable_EquatableStruct_create(intField_handle, stringField_handle, structField_handle)
     }
 }
 
@@ -70,11 +64,7 @@ public struct NestedEquatableStruct: Equatable {
         }
     }
     internal func convertToCType() -> _baseRef {
-        let result = examples_Equatable_NestedEquatableStruct_create()
-        fillFunction(result)
-        return result
-    }
-    internal func fillFunction(_ cNestedEquatableStruct: _baseRef) -> Void {
-        examples_Equatable_NestedEquatableStruct_fooField_set(cNestedEquatableStruct, fooField)
+        let fooField_handle = fooField
+        return examples_Equatable_NestedEquatableStruct_create(fooField_handle)
     }
 }

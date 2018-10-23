@@ -4,8 +4,6 @@
 
 import Foundation
 
-
-
 internal func getRef(_ ref: StructsInheritance?) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
@@ -44,15 +42,10 @@ public class StructsInheritance {
         }
 
         internal func convertToCType() -> _baseRef {
-            let result = examples_StructsInheritance_SyncResultInherited_create()
-            fillFunction(result)
-            return result
-        }
-
-        internal func fillFunction(_ cSyncResultInherited: _baseRef) -> Void {
-            examples_StructsInheritance_SyncResultInherited_lastUpdatedTimeStamp_set(cSyncResultInherited, lastUpdatedTimeStamp)
-            examples_StructsInheritance_SyncResultInherited_numberOfChanges_set(cSyncResultInherited, numberOfChanges)
-            examples_StructsInheritance_SyncResultInherited_id_set(cSyncResultInherited, id)
+            let lastUpdatedTimeStamp_handle = lastUpdatedTimeStamp
+            let numberOfChanges_handle = numberOfChanges
+            let id_handle = id
+            return examples_StructsInheritance_SyncResultInherited_create(lastUpdatedTimeStamp_handle, numberOfChanges_handle, id_handle)
         }
     }
 

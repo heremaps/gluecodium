@@ -10,8 +10,10 @@
 void smoke_Arrays_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::Arrays>>(handle);
 }
-_baseRef smoke_Arrays_BasicStruct_create() {
-    return reinterpret_cast<_baseRef>( new ::smoke::Arrays::BasicStruct() );
+_baseRef smoke_Arrays_BasicStruct_create(double value) {
+    ::smoke::Arrays::BasicStruct* _struct = new ::smoke::Arrays::BasicStruct();
+    _struct->value = value;
+    return reinterpret_cast<_baseRef>(_struct);
 }
 void smoke_Arrays_BasicStruct_release(_baseRef handle) {
     delete get_pointer<::smoke::Arrays::BasicStruct>(handle);
@@ -20,11 +22,12 @@ double smoke_Arrays_BasicStruct_value_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Arrays::BasicStruct>(handle);
     return struct_pointer->value;
 }
-void smoke_Arrays_BasicStruct_value_set(_baseRef handle, double value) {
-    get_pointer<::smoke::Arrays::BasicStruct>(handle)->value = value;
-}
-_baseRef smoke_Arrays_FancyStruct_create() {
-    return reinterpret_cast<_baseRef>( new ::smoke::Arrays::FancyStruct() );
+_baseRef smoke_Arrays_FancyStruct_create(_baseRef messages, _baseRef numbers, _baseRef image) {
+    ::smoke::Arrays::FancyStruct* _struct = new ::smoke::Arrays::FancyStruct();
+    _struct->messages = *get_pointer<std::vector<std::string>>(messages);
+    _struct->numbers = *get_pointer<std::vector<uint8_t>>(numbers);
+    _struct->image = *get_pointer<::std::shared_ptr< ::std::vector< uint8_t > >>(image);
+    return reinterpret_cast<_baseRef>(_struct);
 }
 void smoke_Arrays_FancyStruct_release(_baseRef handle) {
     delete get_pointer<::smoke::Arrays::FancyStruct>(handle);
@@ -33,22 +36,13 @@ _baseRef smoke_Arrays_FancyStruct_messages_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Arrays::FancyStruct>(handle);
     return reinterpret_cast<_baseRef>( new std::vector<std::string>(struct_pointer->messages) );
 }
-void smoke_Arrays_FancyStruct_messages_set(_baseRef handle, _baseRef messages) {
-    get_pointer<::smoke::Arrays::FancyStruct>(handle)->messages = *get_pointer<std::vector<std::string>>(messages);
-}
 _baseRef smoke_Arrays_FancyStruct_numbers_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Arrays::FancyStruct>(handle);
     return reinterpret_cast<_baseRef>( new std::vector<uint8_t>(struct_pointer->numbers) );
 }
-void smoke_Arrays_FancyStruct_numbers_set(_baseRef handle, _baseRef numbers) {
-    get_pointer<::smoke::Arrays::FancyStruct>(handle)->numbers = *get_pointer<std::vector<uint8_t>>(numbers);
-}
 _baseRef smoke_Arrays_FancyStruct_image_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Arrays::FancyStruct>(handle);
     return reinterpret_cast<_baseRef>( checked_pointer_copy(struct_pointer->image) );
-}
-void smoke_Arrays_FancyStruct_image_set(_baseRef handle, _baseRef image) {
-    get_pointer<::smoke::Arrays::FancyStruct>(handle)->image = *get_pointer<::std::shared_ptr< ::std::vector< uint8_t > >>(image);
 }
 _baseRef smoke_Arrays_methodWithArray(_baseRef input) {
     return reinterpret_cast<_baseRef>( new std::vector<std::string>(::smoke::Arrays::method_with_array(*get_pointer<std::vector<std::string>>(input))) );

@@ -13,14 +13,12 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
-_baseRef smoke_Maps_SomeStruct_create();
+_baseRef smoke_Maps_SomeStruct_create(const char* value);
 void smoke_Maps_SomeStruct_release(_baseRef handle);
 _baseRef smoke_Maps_SomeStruct_value_get(_baseRef handle);
-void smoke_Maps_SomeStruct_value_set(_baseRef handle, const char* value);
-_baseRef smoke_Maps_StructWithMap_create();
+_baseRef smoke_Maps_StructWithMap_create(_baseRef errorMapping);
 void smoke_Maps_StructWithMap_release(_baseRef handle);
 _baseRef smoke_Maps_StructWithMap_errorMapping_get(_baseRef handle);
-void smoke_Maps_StructWithMap_errorMapping_set(_baseRef handle, _baseRef errorMapping);
 void smoke_Maps_release(_baseRef handle);
 
 _baseRef smoke_Maps_methodWithMap(_baseRef input);

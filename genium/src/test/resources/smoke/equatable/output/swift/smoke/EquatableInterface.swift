@@ -38,13 +38,9 @@ public class EquatableInterface {
             }
         }
         internal func convertToCType() -> _baseRef {
-            let result = smoke_EquatableInterface_EquatableStruct_create()
-            fillFunction(result)
-            return result
-        }
-        internal func fillFunction(_ cEquatableStruct: _baseRef) -> Void {
-            smoke_EquatableInterface_EquatableStruct_intField_set(cEquatableStruct, intField)
-            smoke_EquatableInterface_EquatableStruct_stringField_set(cEquatableStruct, stringField)
+            let intField_handle = intField
+            let stringField_handle = stringField
+            return smoke_EquatableInterface_EquatableStruct_create(intField_handle, stringField_handle)
         }
     }
 }

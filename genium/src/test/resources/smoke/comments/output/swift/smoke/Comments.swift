@@ -50,12 +50,8 @@ public class Comments {
             someField = smoke_Comments_SomeStruct_someField_get(cSomeStruct)
         }
         internal func convertToCType() -> _baseRef {
-            let result = smoke_Comments_SomeStruct_create()
-            fillFunction(result)
-            return result
-        }
-        internal func fillFunction(_ cSomeStruct: _baseRef) -> Void {
-            smoke_Comments_SomeStruct_someField_set(cSomeStruct, someField)
+            let someField_handle = someField
+            return smoke_Comments_SomeStruct_create(someField_handle)
         }
     }
     /// This is some very useful method that measures the usefulness of its input.

@@ -69,29 +69,27 @@ public struct EquatableStruct: Equatable {
         }
     }
     internal func convertToCType() -> _baseRef {
-        let result = smoke_Equatable_EquatableStruct_create()
-        fillFunction(result)
-        return result
-    }
-    internal func fillFunction(_ cEquatableStruct: _baseRef) -> Void {
-        smoke_Equatable_EquatableStruct_boolField_set(cEquatableStruct, boolField)
-        smoke_Equatable_EquatableStruct_intField_set(cEquatableStruct, intField)
-        smoke_Equatable_EquatableStruct_longField_set(cEquatableStruct, longField)
-        smoke_Equatable_EquatableStruct_floatField_set(cEquatableStruct, floatField)
-        smoke_Equatable_EquatableStruct_doubleField_set(cEquatableStruct, doubleField)
-        smoke_Equatable_EquatableStruct_stringField_set(cEquatableStruct, stringField)
+        let boolField_handle = boolField
+        let intField_handle = intField
+        let longField_handle = longField
+        let floatField_handle = floatField
+        let doubleField_handle = doubleField
+        let stringField_handle = stringField
         let structField_handle = structField.convertToCType()
         defer {
             smoke_Equatable_NestedEquatableStruct_release(structField_handle)
         }
-        smoke_Equatable_EquatableStruct_structField_set(cEquatableStruct, structField_handle)
-        smoke_Equatable_EquatableStruct_enumField_set(cEquatableStruct, enumField.rawValue)
+        let enumField_handle = enumField.rawValue
         let arrayField_conversion = arrayField.c_conversion()
-        smoke_Equatable_EquatableStruct_arrayField_set(cEquatableStruct, arrayField_conversion.c_type)
-        arrayField_conversion.cleanup()
-        let mapField_conversion = convertErrorCodeToMessageMapToCType(mapField)
-        smoke_Equatable_EquatableStruct_mapField_set(cEquatableStruct, mapField_conversion)
-        smoke_Equatable_ErrorCodeToMessageMap_release(mapField_conversion)
+        defer {
+          arrayField_conversion.cleanup()
+        }
+        let arrayField_handle = arrayField_conversion.c_type
+        let mapField_handle = convertErrorCodeToMessageMapToCType(mapField)
+        defer {
+          smoke_Equatable_ErrorCodeToMessageMap_release(mapField_handle)
+        }
+        return smoke_Equatable_EquatableStruct_create(boolField_handle, intField_handle, longField_handle, floatField_handle, doubleField_handle, stringField_handle, structField_handle, enumField_handle, arrayField_handle, mapField_handle)
     }
 }
 
@@ -110,12 +108,8 @@ public struct NestedEquatableStruct: Equatable {
         }
     }
     internal func convertToCType() -> _baseRef {
-        let result = smoke_Equatable_NestedEquatableStruct_create()
-        fillFunction(result)
-        return result
-    }
-    internal func fillFunction(_ cNestedEquatableStruct: _baseRef) -> Void {
-        smoke_Equatable_NestedEquatableStruct_fooField_set(cNestedEquatableStruct, fooField)
+        let fooField_handle = fooField
+        return smoke_Equatable_NestedEquatableStruct_create(fooField_handle)
     }
 }
 
