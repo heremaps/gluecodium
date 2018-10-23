@@ -130,14 +130,14 @@ class FullCachingStrategyIntegrationTest {
         myStrategy.write(true)
 
         // Assert
-        IntegrationTestFiles.FIRSTRUN.forEach {
-            val result = loadCacheFile(Paths.get(buildFolderPath, "/.cache/" + it.name).toFile())
+        IntegrationTestFiles.FIRSTRUN.forEach { iter ->
+            val result = loadCacheFile(Paths.get(buildFolderPath, "/.cache/" + iter.name).toFile())
 
             // check that we have entries for all files
             assertNotNull(result)
-            assertEquals(result?.size?.toLong(), it.inputFiles.size.toLong())
+            assertEquals(result?.size?.toLong(), iter.inputFiles.size.toLong())
 
-            it.inputFiles.all { result!!.containsKey(it.targetFile.path) }
+            iter.inputFiles.all { result!!.containsKey(it.targetFile.path) }
         }
     }
 
@@ -162,6 +162,7 @@ class FullCachingStrategyIntegrationTest {
     companion object {
         private const val BUILD_FOLDER = "buildFolder"
 
+        @Suppress("UNCHECKED_CAST")
         private fun loadCacheFile(cacheFile: File): Map<String, CacheEntry>? = try {
             val fileInputStream = FileInputStream(cacheFile)
             val objectInputStream = ObjectInputStream(fileInputStream)

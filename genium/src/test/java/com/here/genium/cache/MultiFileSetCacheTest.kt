@@ -30,7 +30,9 @@ import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mock
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.never
+import org.mockito.Mockito.verify
 import org.powermock.api.mockito.PowerMockito
 import org.powermock.api.mockito.PowerMockito.verifyStatic
 import org.powermock.core.classloader.annotations.PrepareForTest

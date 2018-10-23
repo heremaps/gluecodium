@@ -21,7 +21,6 @@ package com.here.genium.cache
 
 import com.here.genium.generator.common.GeneratedFile
 import java.util.Arrays
-import java.util.Collections
 import java.util.HashSet
 
 internal object IntegrationTestFiles {

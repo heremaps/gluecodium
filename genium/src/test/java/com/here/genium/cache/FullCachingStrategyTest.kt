@@ -21,7 +21,9 @@ package com.here.genium.cache
 
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.output.FileRemove
-import junit.framework.TestCase.*
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,7 +38,7 @@ import org.powermock.modules.junit4.PowerMockRunner
 import java.io.File
 import java.io.FileNotFoundException
 import java.nio.file.Path
-import java.util.*
+import java.util.LinkedList
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(FullCachingStrategy::class) // Required for mocking of FileRemove constructor call
