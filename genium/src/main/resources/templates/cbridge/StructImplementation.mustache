@@ -18,8 +18,21 @@
   ! License-Filename: LICENSE
   !
   !}}
-_baseRef {{name}}_create() {
-    return reinterpret_cast<_baseRef>( new {{baseApiName}}() );
+_baseRef {{name}}_create({{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
+    {{baseApiName}}* _struct = new {{baseApiName}}();
+{{#fields}}
+    _struct->{{#if baseLayerSetterName}}{{baseLayerSetterName}}({{/if}}{{#unless baseLayerSetterName}}{{baseLayerName}} = {{/unless}}{{!!
+}}{{#switch type.typeCategory.toString}}{{!!
+    }}{{#case "ENUM"}}static_cast<{{type.name}}>({{name}}){{/case}}{{!!
+    }}{{#case "MAP" break=false}}{{/case}}{{!!
+    }}{{#case "ARRAY"}}*get_pointer<{{type.baseApi}}>({{name}}){{/case}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
+    }}{{#case "STRUCT" break=false}}{{/case}}{{!!
+    }}{{#case "CLASS"}}*get_pointer<{{type.name}}>({{name}}){{/case}}{{!!
+    }}{{#default}}{{name}}{{/default}}{{!!
+}}{{/switch}}{{#if baseLayerSetterName}}){{/if}};
+{{/fields}}
+    return reinterpret_cast<_baseRef>(_struct);
 }
 
 void {{name}}_release(_baseRef handle) {
@@ -41,23 +54,8 @@ void {{name}}_release(_baseRef handle) {
     }}{{#default}}return {{>getBaseLayerFieldValue}};{{/default}}
 {{/switch}}
 }
-
-void {{structname}}_{{name}}_set(_baseRef handle, {{type.cType}} {{name}}) {
-    {{>setBaseLayerFieldValue}}{{#switch type.typeCategory.toString}}{{!!
-    }}{{#case "ENUM"}}static_cast<{{type.name}}>({{name}}){{/case}}{{!!
-    }}{{#case "MAP" break=false}}{{/case}}{{!!
-    }}{{#case "ARRAY"}}*get_pointer<{{type.baseApi}}>({{name}}){{/case}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT" break=false}}{{/case}}{{!!
-    }}{{#case "CLASS"}}*get_pointer<{{type.name}}>({{name}}){{/case}}{{!!
-    }}{{#default}}{{name}}{{/default}}{{!!
-}}{{/switch}}{{#if baseLayerSetterName}}){{/if}};
-}
 {{/fields}}
 {{/set}}{{!!
 
 }}{{+getBaseLayerFieldValue}}struct_pointer->{{#if baseLayerGetterName}}{{baseLayerGetterName}}(){{/if}}{{!!
-}}{{#unless baseLayerGetterName}}{{baseLayerName}}{{/unless}}{{/getBaseLayerFieldValue}}{{!!
-
-}}{{+setBaseLayerFieldValue}}get_pointer<{{mappedType.name}}>(handle)->{{#if baseLayerSetterName}}{{baseLayerSetterName}}({{/if}}{{!!
-}}{{#unless baseLayerSetterName}}{{baseLayerName}} = {{/unless}}{{/setBaseLayerFieldValue}}
+}}{{#unless baseLayerGetterName}}{{baseLayerName}}{{/unless}}{{/getBaseLayerFieldValue}}
