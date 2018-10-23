@@ -19,7 +19,11 @@
 
 package com.here.genium.cache
 
-import org.junit.Assert.*
+import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -37,7 +41,7 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.io.ObjectInputStream
 import java.nio.file.Paths
-import java.util.*
+import java.util.HashMap
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(HashValueCalculator::class)
@@ -109,6 +113,7 @@ class FileSetCacheTest {
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     @Test
     @Throws(IOException::class, ClassNotFoundException::class)
     fun writeNonEmptyCache() {
