@@ -57,11 +57,7 @@ internal struct InternalStruct {
         }
     }
     internal func convertToCType() -> _baseRef {
-        let result = smoke_PublicInterface_InternalStruct_create()
-        fillFunction(result)
-        return result
-    }
-    internal func fillFunction(_ cInternalStruct: _baseRef) -> Void {
-        smoke_PublicInterface_InternalStruct_stringField_set(cInternalStruct, stringField)
+        let stringField_handle = stringField
+        return smoke_PublicInterface_InternalStruct_create(stringField_handle)
     }
 }

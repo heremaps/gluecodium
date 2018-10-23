@@ -68,14 +68,9 @@ public class Enums {
         }
 
         internal func convertToCType() -> _baseRef {
-            let result = smoke_Enums_ErrorStruct_create()
-            fillFunction(result)
-            return result
-        }
-
-        internal func fillFunction(_ cErrorStruct: _baseRef) -> Void {
-            smoke_Enums_ErrorStruct_type_set(cErrorStruct, type.rawValue)
-            smoke_Enums_ErrorStruct_message_set(cErrorStruct, message)
+            let type_handle = type.rawValue
+            let message_handle = message
+            return smoke_Enums_ErrorStruct_create(type_handle, message_handle)
         }
     }
 

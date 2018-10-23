@@ -31,12 +31,8 @@ public class Arrays {
             value = smoke_Arrays_BasicStruct_value_get(cBasicStruct)
         }
         internal func convertToCType() -> _baseRef {
-            let result = smoke_Arrays_BasicStruct_create()
-            fillFunction(result)
-            return result
-        }
-        internal func fillFunction(_ cBasicStruct: _baseRef) -> Void {
-            smoke_Arrays_BasicStruct_value_set(cBasicStruct, value)
+            let value_handle = value
+            return smoke_Arrays_BasicStruct_create(value_handle)
         }
     }
     public struct FancyStruct {
@@ -65,17 +61,16 @@ public class Arrays {
             }
         }
         internal func convertToCType() -> _baseRef {
-            let result = smoke_Arrays_FancyStruct_create()
-            fillFunction(result)
-            return result
-        }
-        internal func fillFunction(_ cFancyStruct: _baseRef) -> Void {
             let messages_conversion = messages.c_conversion()
-            smoke_Arrays_FancyStruct_messages_set(cFancyStruct, messages_conversion.c_type)
-            messages_conversion.cleanup()
+            defer {
+              messages_conversion.cleanup()
+            }
+            let messages_handle = messages_conversion.c_type
             let numbers_conversion = numbers.c_conversion()
-            smoke_Arrays_FancyStruct_numbers_set(cFancyStruct, numbers_conversion.c_type)
-            numbers_conversion.cleanup()
+            defer {
+              numbers_conversion.cleanup()
+            }
+            let numbers_handle = numbers_conversion.c_type
             let image_handle = byteArray_create()
             defer {
                 byteArray_release(image_handle)
@@ -83,7 +78,7 @@ public class Arrays {
             image.withUnsafeBytes { (image_ptr: UnsafePointer<UInt8>) in
                 byteArray_assign(image_handle, image_ptr, image.count)
             }
-            smoke_Arrays_FancyStruct_image_set(cFancyStruct, image_handle)
+            return smoke_Arrays_FancyStruct_create(messages_handle, numbers_handle, image_handle)
         }
     }
     public static func methodWithArray<Tinput: Collection>(input: Tinput) -> CollectionOf<String> where Tinput.Element == String {

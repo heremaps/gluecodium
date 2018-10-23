@@ -15,8 +15,10 @@
 void smoke_CalculatorListener_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle);
 }
-_baseRef smoke_CalculatorListener_ResultStruct_create() {
-    return reinterpret_cast<_baseRef>( new ::smoke::CalculatorListener::ResultStruct() );
+_baseRef smoke_CalculatorListener_ResultStruct_create(double result) {
+    ::smoke::CalculatorListener::ResultStruct* _struct = new ::smoke::CalculatorListener::ResultStruct();
+    _struct->result = result;
+    return reinterpret_cast<_baseRef>(_struct);
 }
 void smoke_CalculatorListener_ResultStruct_release(_baseRef handle) {
     delete get_pointer<::smoke::CalculatorListener::ResultStruct>(handle);
@@ -24,9 +26,6 @@ void smoke_CalculatorListener_ResultStruct_release(_baseRef handle) {
 double smoke_CalculatorListener_ResultStruct_result_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::CalculatorListener::ResultStruct>(handle);
     return struct_pointer->result;
-}
-void smoke_CalculatorListener_ResultStruct_result_set(_baseRef handle, double result) {
-    get_pointer<::smoke::CalculatorListener::ResultStruct>(handle)->result = result;
 }
 void smoke_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {
     return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result(calculationResult);

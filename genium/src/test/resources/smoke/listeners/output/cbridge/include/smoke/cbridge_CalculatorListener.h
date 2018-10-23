@@ -13,10 +13,9 @@ extern "C" {
 #include "cbridge/include/smoke/cbridge_CalculationResult.h"
 #include <stdbool.h>
 
-_baseRef smoke_CalculatorListener_ResultStruct_create();
+_baseRef smoke_CalculatorListener_ResultStruct_create(double result);
 void smoke_CalculatorListener_ResultStruct_release(_baseRef handle);
 double smoke_CalculatorListener_ResultStruct_result_get(_baseRef handle);
-void smoke_CalculatorListener_ResultStruct_result_set(_baseRef handle, double result);
 void smoke_CalculatorListener_release(_baseRef handle);
 
 typedef struct {

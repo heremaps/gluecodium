@@ -4,8 +4,6 @@
 
 import Foundation
 
-
-
 internal func getRef(_ ref: TypeDefs?) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
@@ -56,13 +54,8 @@ public class TypeDefs {
         }
 
         internal func convertToCType() -> _baseRef {
-            let result = smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create()
-            fillFunction(result)
-            return result
-        }
-
-        internal func fillFunction(_ cStructHavingAliasFieldDefinedBelow: _baseRef) -> Void {
-            smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_field_set(cStructHavingAliasFieldDefinedBelow, field)
+            let field_handle = field
+            return smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create(field_handle)
         }
     }
 
@@ -84,13 +77,8 @@ public class TypeDefs {
         }
 
         internal func convertToCType() -> _baseRef {
-            let result = smoke_TypeDefs_TestStruct_create()
-            fillFunction(result)
-            return result
-        }
-
-        internal func fillFunction(_ cTestStruct: _baseRef) -> Void {
-            smoke_TypeDefs_TestStruct_something_set(cTestStruct, something)
+            let something_handle = something
+            return smoke_TypeDefs_TestStruct_create(something_handle)
         }
     }
 
