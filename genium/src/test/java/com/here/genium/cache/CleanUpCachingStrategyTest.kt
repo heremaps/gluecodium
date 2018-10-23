@@ -28,13 +28,17 @@ import org.mockito.Mock
 import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
 import org.powermock.api.mockito.PowerMockito
-import org.powermock.api.mockito.PowerMockito.*
+import org.powermock.api.mockito.PowerMockito.`when`
+import org.powermock.api.mockito.PowerMockito.verifyStatic
+import org.powermock.api.mockito.PowerMockito.whenNew
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import java.io.IOException
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.*
+import java.util.Arrays
+import java.util.HashSet
+import java.util.LinkedList
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(MultiFileSetCache::class, CleanUpCachingStrategy::class)

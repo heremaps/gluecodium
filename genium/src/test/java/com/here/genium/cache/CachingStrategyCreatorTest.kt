@@ -19,17 +19,16 @@
 
 package com.here.genium.cache
 
-import org.junit.Assert.*
-
-import java.io.File
-import java.io.IOException
-import java.util.Collections
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import java.io.File
+import java.io.IOException
 
 @RunWith(JUnit4::class)
 class CachingStrategyCreatorTest {
