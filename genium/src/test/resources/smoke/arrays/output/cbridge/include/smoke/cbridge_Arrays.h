@@ -11,18 +11,14 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 typedef uint32_t smoke_Arrays_SomeEnum;
-_baseRef smoke_Arrays_BasicStruct_create();
+_baseRef smoke_Arrays_BasicStruct_create(double value);
 void smoke_Arrays_BasicStruct_release(_baseRef handle);
 double smoke_Arrays_BasicStruct_value_get(_baseRef handle);
-void smoke_Arrays_BasicStruct_value_set(_baseRef handle, double value);
-_baseRef smoke_Arrays_FancyStruct_create();
+_baseRef smoke_Arrays_FancyStruct_create(_baseRef messages, _baseRef numbers, _baseRef image);
 void smoke_Arrays_FancyStruct_release(_baseRef handle);
 _baseRef smoke_Arrays_FancyStruct_messages_get(_baseRef handle);
-void smoke_Arrays_FancyStruct_messages_set(_baseRef handle, _baseRef messages);
 _baseRef smoke_Arrays_FancyStruct_numbers_get(_baseRef handle);
-void smoke_Arrays_FancyStruct_numbers_set(_baseRef handle, _baseRef numbers);
 _baseRef smoke_Arrays_FancyStruct_image_get(_baseRef handle);
-void smoke_Arrays_FancyStruct_image_set(_baseRef handle, _baseRef image);
 void smoke_Arrays_release(_baseRef handle);
 _baseRef smoke_Arrays_methodWithArray(_baseRef input);
 _baseRef smoke_Arrays_methodWithArrayInline(_baseRef input);

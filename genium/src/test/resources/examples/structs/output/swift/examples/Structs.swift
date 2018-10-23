@@ -4,8 +4,6 @@
 
 import Foundation
 
-
-
 internal func getRef(_ ref: Structs?) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
@@ -37,14 +35,9 @@ public class Structs {
         }
 
         internal func convertToCType() -> _baseRef {
-            let result = examples_Structs_SyncResult_create()
-            fillFunction(result)
-            return result
-        }
-
-        internal func fillFunction(_ cSyncResult: _baseRef) -> Void {
-            examples_Structs_SyncResult_lastUpdatedTimeStamp_set(cSyncResult, lastUpdatedTimeStamp)
-            examples_Structs_SyncResult_numberOfChanges_set(cSyncResult, numberOfChanges)
+            let lastUpdatedTimeStamp_handle = lastUpdatedTimeStamp
+            let numberOfChanges_handle = numberOfChanges
+            return examples_Structs_SyncResult_create(lastUpdatedTimeStamp_handle, numberOfChanges_handle)
         }
     }
 
@@ -71,17 +64,12 @@ public class Structs {
             }
         }
         internal func convertToCType() -> _baseRef {
-            let result = examples_Structs_IdentifiableSyncResult_create()
-            fillFunction(result)
-            return result
-        }
-        internal func fillFunction(_ cIdentifiableSyncResult: _baseRef) -> Void {
-            examples_Structs_IdentifiableSyncResult_id_set(cIdentifiableSyncResult, id)
+            let id_handle = id
             let syncResult_handle = syncResult.convertToCType()
             defer {
                 examples_Structs_SyncResult_release(syncResult_handle)
             }
-            examples_Structs_IdentifiableSyncResult_syncResult_set(cIdentifiableSyncResult, syncResult_handle)
+            return examples_Structs_IdentifiableSyncResult_create(id_handle, syncResult_handle)
         }
     }
 

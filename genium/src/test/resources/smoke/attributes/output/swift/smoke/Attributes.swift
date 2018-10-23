@@ -136,13 +136,8 @@ public class Attributes {
         }
 
         internal func convertToCType() -> _baseRef {
-            let result = smoke_Attributes_ExampleStruct_create()
-            fillFunction(result)
-            return result
-        }
-
-        internal func fillFunction(_ cExampleStruct: _baseRef) -> Void {
-            smoke_Attributes_ExampleStruct_value_set(cExampleStruct, value)
+            let value_handle = value
+            return smoke_Attributes_ExampleStruct_create(value_handle)
         }
     }
 

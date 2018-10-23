@@ -4,8 +4,6 @@
 
 import Foundation
 
-
-
 internal func getRef(_ ref: DefaultValues?) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
@@ -59,17 +57,12 @@ public class DefaultValues {
         }
 
         internal func convertToCType() -> _baseRef {
-            let result = examples_DefaultValues_StructWithDefaults_create()
-            fillFunction(result)
-            return result
-        }
-
-        internal func fillFunction(_ cStructWithDefaults: _baseRef) -> Void {
-            examples_DefaultValues_StructWithDefaults_intField_set(cStructWithDefaults, intField)
-            examples_DefaultValues_StructWithDefaults_floatField_set(cStructWithDefaults, floatField)
-            examples_DefaultValues_StructWithDefaults_boolField_set(cStructWithDefaults, boolField)
-            examples_DefaultValues_StructWithDefaults_stringField_set(cStructWithDefaults, stringField)
-            examples_DefaultValues_StructWithDefaults_enumField_set(cStructWithDefaults, enumField.rawValue)
+            let intField_handle = intField
+            let floatField_handle = floatField
+            let boolField_handle = boolField
+            let stringField_handle = stringField
+            let enumField_handle = enumField.rawValue
+            return examples_DefaultValues_StructWithDefaults_create(intField_handle, floatField_handle, boolField_handle, stringField_handle, enumField_handle)
         }
     }
 

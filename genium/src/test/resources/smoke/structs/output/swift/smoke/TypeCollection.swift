@@ -15,13 +15,9 @@ public struct Point {
         y = smoke_TypeCollection_Point_y_get(cPoint)
     }
     internal func convertToCType() -> _baseRef {
-        let result = smoke_TypeCollection_Point_create()
-        fillFunction(result)
-        return result
-    }
-    internal func fillFunction(_ cPoint: _baseRef) -> Void {
-        smoke_TypeCollection_Point_x_set(cPoint, x)
-        smoke_TypeCollection_Point_y_set(cPoint, y)
+        let x_handle = x
+        let y_handle = y
+        return smoke_TypeCollection_Point_create(x_handle, y_handle)
     }
 }
 public struct Color {
@@ -39,14 +35,10 @@ public struct Color {
         blue = smoke_TypeCollection_Color_blue_get(cColor)
     }
     internal func convertToCType() -> _baseRef {
-        let result = smoke_TypeCollection_Color_create()
-        fillFunction(result)
-        return result
-    }
-    internal func fillFunction(_ cColor: _baseRef) -> Void {
-        smoke_TypeCollection_Color_red_set(cColor, red)
-        smoke_TypeCollection_Color_green_set(cColor, green)
-        smoke_TypeCollection_Color_blue_set(cColor, blue)
+        let red_handle = red
+        let green_handle = green
+        let blue_handle = blue
+        return smoke_TypeCollection_Color_create(red_handle, green_handle, blue_handle)
     }
 }
 public struct Line {
@@ -83,21 +75,15 @@ public struct Line {
         }
     }
     internal func convertToCType() -> _baseRef {
-        let result = smoke_TypeCollection_Line_create()
-        fillFunction(result)
-        return result
-    }
-    internal func fillFunction(_ cLine: _baseRef) -> Void {
         let a_handle = a.convertToCType()
         defer {
             smoke_TypeCollection_Point_release(a_handle)
         }
-        smoke_TypeCollection_Line_a_set(cLine, a_handle)
         let b_handle = b.convertToCType()
         defer {
             smoke_TypeCollection_Point_release(b_handle)
         }
-        smoke_TypeCollection_Line_b_set(cLine, b_handle)
+        return smoke_TypeCollection_Line_create(a_handle, b_handle)
     }
 }
 public struct ColoredLine {
@@ -134,21 +120,15 @@ public struct ColoredLine {
         }
     }
     internal func convertToCType() -> _baseRef {
-        let result = smoke_TypeCollection_ColoredLine_create()
-        fillFunction(result)
-        return result
-    }
-    internal func fillFunction(_ cColoredLine: _baseRef) -> Void {
         let line_handle = line.convertToCType()
         defer {
             smoke_TypeCollection_Line_release(line_handle)
         }
-        smoke_TypeCollection_ColoredLine_line_set(cColoredLine, line_handle)
         let color_handle = color.convertToCType()
         defer {
             smoke_TypeCollection_Color_release(color_handle)
         }
-        smoke_TypeCollection_ColoredLine_color_set(cColoredLine, color_handle)
+        return smoke_TypeCollection_ColoredLine_create(line_handle, color_handle)
     }
 }
 public struct AllTypesStruct {
@@ -227,23 +207,18 @@ public struct AllTypesStruct {
         }
     }
     internal func convertToCType() -> _baseRef {
-        let result = smoke_TypeCollection_AllTypesStruct_create()
-        fillFunction(result)
-        return result
-    }
-    internal func fillFunction(_ cAllTypesStruct: _baseRef) -> Void {
-        smoke_TypeCollection_AllTypesStruct_int8Field_set(cAllTypesStruct, int8Field)
-        smoke_TypeCollection_AllTypesStruct_uint8Field_set(cAllTypesStruct, uint8Field)
-        smoke_TypeCollection_AllTypesStruct_int16Field_set(cAllTypesStruct, int16Field)
-        smoke_TypeCollection_AllTypesStruct_uint16Field_set(cAllTypesStruct, uint16Field)
-        smoke_TypeCollection_AllTypesStruct_int32Field_set(cAllTypesStruct, int32Field)
-        smoke_TypeCollection_AllTypesStruct_uint32Field_set(cAllTypesStruct, uint32Field)
-        smoke_TypeCollection_AllTypesStruct_int64Field_set(cAllTypesStruct, int64Field)
-        smoke_TypeCollection_AllTypesStruct_uint64Field_set(cAllTypesStruct, uint64Field)
-        smoke_TypeCollection_AllTypesStruct_floatField_set(cAllTypesStruct, floatField)
-        smoke_TypeCollection_AllTypesStruct_doubleField_set(cAllTypesStruct, doubleField)
-        smoke_TypeCollection_AllTypesStruct_stringField_set(cAllTypesStruct, stringField)
-        smoke_TypeCollection_AllTypesStruct_booleanField_set(cAllTypesStruct, booleanField)
+        let int8Field_handle = int8Field
+        let uint8Field_handle = uint8Field
+        let int16Field_handle = int16Field
+        let uint16Field_handle = uint16Field
+        let int32Field_handle = int32Field
+        let uint32Field_handle = uint32Field
+        let int64Field_handle = int64Field
+        let uint64Field_handle = uint64Field
+        let floatField_handle = floatField
+        let doubleField_handle = doubleField
+        let stringField_handle = stringField
+        let booleanField_handle = booleanField
         let bytesField_handle = byteArray_create()
         defer {
             byteArray_release(bytesField_handle)
@@ -251,11 +226,10 @@ public struct AllTypesStruct {
         bytesField.withUnsafeBytes { (bytesField_ptr: UnsafePointer<UInt8>) in
             byteArray_assign(bytesField_handle, bytesField_ptr, bytesField.count)
         }
-        smoke_TypeCollection_AllTypesStruct_bytesField_set(cAllTypesStruct, bytesField_handle)
         let pointField_handle = pointField.convertToCType()
         defer {
             smoke_TypeCollection_Point_release(pointField_handle)
         }
-        smoke_TypeCollection_AllTypesStruct_pointField_set(cAllTypesStruct, pointField_handle)
+        return smoke_TypeCollection_AllTypesStruct_create(int8Field_handle, uint8Field_handle, int16Field_handle, uint16Field_handle, int32Field_handle, uint32Field_handle, int64Field_handle, uint64Field_handle, floatField_handle, doubleField_handle, stringField_handle, booleanField_handle, bytesField_handle, pointField_handle)
     }
 }

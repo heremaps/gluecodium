@@ -61,12 +61,8 @@ public class PublicClass {
             }
         }
         internal func convertToCType() -> _baseRef {
-            let result = smoke_PublicClass_InternalStruct_create()
-            fillFunction(result)
-            return result
-        }
-        internal func fillFunction(_ cInternalStruct: _baseRef) -> Void {
-            smoke_PublicClass_InternalStruct_stringField_set(cInternalStruct, stringField)
+            let stringField_handle = stringField
+            return smoke_PublicClass_InternalStruct_create(stringField_handle)
         }
     }
 
@@ -90,16 +86,11 @@ public class PublicClass {
             }
         }
         internal func convertToCType() -> _baseRef {
-            let result = smoke_PublicClass_PublicStruct_create()
-            fillFunction(result)
-            return result
-        }
-        internal func fillFunction(_ cPublicStruct: _baseRef) -> Void {
             let internalField_handle = internalField.convertToCType()
             defer {
                 smoke_PublicClass_InternalStruct_release(internalField_handle)
             }
-            smoke_PublicClass_PublicStruct_internalField_set(cPublicStruct, internalField_handle)
+            return smoke_PublicClass_PublicStruct_create(internalField_handle)
         }
     }
 

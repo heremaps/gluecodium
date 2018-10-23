@@ -67,26 +67,19 @@ public class StructsInheritance {
             }
         }
         internal func convertToCType() -> _baseRef {
-            let result = smoke_StructsInheritance_ColoredLineInherited_create()
-            fillFunction(result)
-            return result
-        }
-        internal func fillFunction(_ cColoredLineInherited: _baseRef) -> Void {
             let a_handle = a.convertToCType()
             defer {
                 smoke_Structs_Point_release(a_handle)
             }
-            smoke_StructsInheritance_ColoredLineInherited_a_set(cColoredLineInherited, a_handle)
             let b_handle = b.convertToCType()
             defer {
                 smoke_Structs_Point_release(b_handle)
             }
-            smoke_StructsInheritance_ColoredLineInherited_b_set(cColoredLineInherited, b_handle)
             let color_handle = color.convertToCType()
             defer {
                 smoke_TypeCollection_Color_release(color_handle)
             }
-            smoke_StructsInheritance_ColoredLineInherited_color_set(cColoredLineInherited, color_handle)
+            return smoke_StructsInheritance_ColoredLineInherited_create(a_handle, b_handle, color_handle)
         }
     }
     public static func methodWithInheritedType(input: StructsInheritance.ColoredLineInherited) -> StructsInheritance.ColoredLineInherited? {

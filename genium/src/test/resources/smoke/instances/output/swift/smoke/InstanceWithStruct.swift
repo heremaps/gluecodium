@@ -34,13 +34,8 @@ public class InstanceWithStruct {
         }
 
         internal func convertToCType() -> _baseRef {
-            let result = smoke_InstanceWithStruct_InnerStruct_create()
-            fillFunction(result)
-            return result
-        }
-
-        internal func fillFunction(_ cInnerStruct: _baseRef) -> Void {
-            smoke_InstanceWithStruct_InnerStruct_value_set(cInnerStruct, value)
+            let value_handle = value
+            return smoke_InstanceWithStruct_InnerStruct_create(value_handle)
         }
     }
 
@@ -77,15 +72,10 @@ public class InstanceWithStruct {
         }
 
         internal func convertToCType() -> _baseRef {
-            let result = smoke_InstanceWithStruct_StructWithInstance_create()
-            fillFunction(result)
-            return result
-        }
-
-        internal func fillFunction(_ cStructWithInstance: _baseRef) -> Void {
-            smoke_InstanceWithStruct_StructWithInstance_instance_set(cStructWithInstance, getRef(instance).ref)
-            smoke_InstanceWithStruct_StructWithInstance_instanceNotNull_set(cStructWithInstance, getRef(instanceNotNull).ref)
-            smoke_InstanceWithStruct_StructWithInstance_instanceNotNullWithComment_set(cStructWithInstance, getRef(instanceNotNullWithComment).ref)
+            let instance_handle = getRef(instance).ref
+            let instanceNotNull_handle = getRef(instanceNotNull).ref
+            let instanceNotNullWithComment_handle = getRef(instanceNotNullWithComment).ref
+            return smoke_InstanceWithStruct_StructWithInstance_create(instance_handle, instanceNotNull_handle, instanceNotNullWithComment_handle)
         }
     }
 

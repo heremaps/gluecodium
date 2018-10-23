@@ -75,12 +75,7 @@ public struct InnerStruct {
     }
 
     internal func convertToCType() -> _baseRef {
-        let result = smoke_InterfaceWithStruct_InnerStruct_create()
-        fillFunction(result)
-        return result
-    }
-
-    internal func fillFunction(_ cInnerStruct: _baseRef) -> Void {
-        smoke_InterfaceWithStruct_InnerStruct_value_set(cInnerStruct, value)
+        let value_handle = value
+        return smoke_InterfaceWithStruct_InnerStruct_create(value_handle)
     }
 }

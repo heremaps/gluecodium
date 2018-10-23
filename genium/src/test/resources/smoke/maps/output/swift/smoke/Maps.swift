@@ -45,12 +45,8 @@ public class Maps {
             }
         }
         internal func convertToCType() -> _baseRef {
-            let result = smoke_Maps_SomeStruct_create()
-            fillFunction(result)
-            return result
-        }
-        internal func fillFunction(_ cSomeStruct: _baseRef) -> Void {
-            smoke_Maps_SomeStruct_value_set(cSomeStruct, value)
+            let value_handle = value
+            return smoke_Maps_SomeStruct_create(value_handle)
         }
     }
 
@@ -69,14 +65,11 @@ public class Maps {
             }
         }
         internal func convertToCType() -> _baseRef {
-            let result = smoke_Maps_StructWithMap_create()
-            fillFunction(result)
-            return result
-        }
-        internal func fillFunction(_ cStructWithMap: _baseRef) -> Void {
-            let errorMapping_conversion = convertMaps_ErrorCodeToMessageMapToCType(errorMapping)
-            smoke_Maps_StructWithMap_errorMapping_set(cStructWithMap, errorMapping_conversion)
-            smoke_Maps_ErrorCodeToMessageMap_release(errorMapping_conversion)
+            let errorMapping_handle = convertMaps_ErrorCodeToMessageMapToCType(errorMapping)
+            defer {
+              smoke_Maps_ErrorCodeToMessageMap_release(errorMapping_handle)
+            }
+            return smoke_Maps_StructWithMap_create(errorMapping_handle)
         }
     }
 

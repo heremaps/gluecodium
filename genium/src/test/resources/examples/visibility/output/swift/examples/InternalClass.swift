@@ -38,12 +38,8 @@ internal class InternalClass {
             }
         }
         internal func convertToCType() -> _baseRef {
-            let result = examples_InternalClass_InternalStruct_create()
-            fillFunction(result)
-            return result
-        }
-        internal func fillFunction(_ cInternalStruct: _baseRef) -> Void {
-            examples_InternalClass_InternalStruct_stringField_set(cInternalStruct, stringField)
+            let stringField_handle = stringField
+            return examples_InternalClass_InternalStruct_create(stringField_handle)
         }
     }
 

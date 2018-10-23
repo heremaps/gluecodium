@@ -128,12 +128,8 @@ public struct ResultStruct {
         result = smoke_CalculatorListener_ResultStruct_result_get(cResultStruct)
     }
     internal func convertToCType() -> _baseRef {
-        let result = smoke_CalculatorListener_ResultStruct_create()
-        fillFunction(result)
-        return result
-    }
-    internal func fillFunction(_ cResultStruct: _baseRef) -> Void {
-        smoke_CalculatorListener_ResultStruct_result_set(cResultStruct, result)
+        let result_handle = result
+        return smoke_CalculatorListener_ResultStruct_create(result_handle)
     }
 }
 

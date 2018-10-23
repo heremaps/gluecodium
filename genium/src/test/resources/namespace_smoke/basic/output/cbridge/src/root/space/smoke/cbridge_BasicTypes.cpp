@@ -7,8 +7,10 @@
 #include <memory>
 #include <new>
 #include <string>
-_baseRef smoke_BasicTypes_SomeStruct_create() {
-    return reinterpret_cast<_baseRef>( new ::root::space::smoke::SomeStruct() );
+_baseRef smoke_BasicTypes_SomeStruct_create(const char* someField) {
+    ::root::space::smoke::SomeStruct* _struct = new ::root::space::smoke::SomeStruct();
+    _struct->some_field = someField;
+    return reinterpret_cast<_baseRef>(_struct);
 }
 void smoke_BasicTypes_SomeStruct_release(_baseRef handle) {
     delete get_pointer<::root::space::smoke::SomeStruct>(handle);
@@ -16,7 +18,4 @@ void smoke_BasicTypes_SomeStruct_release(_baseRef handle) {
 _baseRef smoke_BasicTypes_SomeStruct_someField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::root::space::smoke::SomeStruct>(handle);
     return reinterpret_cast<_baseRef>( new std::string(struct_pointer->some_field) );
-}
-void smoke_BasicTypes_SomeStruct_someField_set(_baseRef handle, const char* someField) {
-    get_pointer<::root::space::smoke::SomeStruct>(handle)->some_field = someField;
 }

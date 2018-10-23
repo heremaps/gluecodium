@@ -37,14 +37,9 @@ public class MethodOverloads {
         }
 
         internal func convertToCType() -> _baseRef {
-            let result = smoke_MethodOverloads_Point_create()
-            fillFunction(result)
-            return result
-        }
-
-        internal func fillFunction(_ cPoint: _baseRef) -> Void {
-            smoke_MethodOverloads_Point_x_set(cPoint, x)
-            smoke_MethodOverloads_Point_y_set(cPoint, y)
+            let x_handle = x
+            let y_handle = y
+            return smoke_MethodOverloads_Point_create(x_handle, y_handle)
         }
     }
 
