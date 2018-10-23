@@ -18,12 +18,11 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{type}} {{name}}_create();
+_baseRef {{name}}_create({{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 void {{name}}_release(_baseRef handle);
 
 {{#set structname=name}}
 {{#fields}}
 {{type.functionReturnType}} {{structname}}_{{name}}_get(_baseRef handle);
-void {{structname}}_{{name}}_set(_baseRef handle, {{type.cType}} {{name}});
 {{/fields}}
 {{/set}}

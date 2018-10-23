@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-internal func fillFunction(_ c{{simpleName}}: _baseRef) -> Void {
+internal func convertToCType() -> _baseRef {
 {{#set structName=simpleName}}
 {{#fields}}
 {{#switch type.category.toString}}
@@ -47,9 +47,10 @@ internal func fillFunction(_ c{{simpleName}}: _baseRef) -> Void {
 {{/switch}}
 {{/fields}}
 {{/set}}
+    return {{cPrefix}}_create({{#fields}}{{name}}_handle{{#if iter.hasNext}}, {{/if}}{{/fields}})
 }
 
-{{+fillBasicType}}{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}})
+{{+fillBasicType}}let {{name}}_handle = {{name}}
 {{/fillBasicType}}
 
 {{+fillDataType}}let {{name}}_handle = byteArray_create()
@@ -59,28 +60,29 @@ defer {
 {{name}}.withUnsafeBytes { ({{name}}_ptr: UnsafePointer<UInt8>) in
     byteArray_assign({{name}}_handle, {{name}}_ptr, {{name}}.count)
 }
-{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}_handle)
 {{/fillDataType}}
 
 {{+fillStruct}}let {{name}}_handle = {{name}}.convertToCType()
 defer {
     {{type.cPrefix}}_release({{name}}_handle)
 }
-{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}_handle)
 {{/fillStruct}}
 
-{{+fillClass}}{{cPrefix}}_{{name}}_set(c{{structName}}, getRef({{name}}).ref)
+{{+fillClass}}let {{name}}_handle = getRef({{name}}).ref
 {{/fillClass}}
 
-{{+fillEnum}}{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}.rawValue)
+{{+fillEnum}}let {{name}}_handle = {{name}}.rawValue
 {{/fillEnum}}
 
 {{+fillArray}}let {{name}}_conversion = {{name}}.c_conversion()
-{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}_conversion.c_type)
-{{name}}_conversion.cleanup()
+defer {
+  {{name}}_conversion.cleanup()
+}
+let {{name}}_handle = {{name}}_conversion.c_type
 {{/fillArray}}{{!!
 
-}}{{+fillDictionary}}let {{name}}_conversion = convert{{type.name}}ToCType({{name}})
-{{cPrefix}}_{{name}}_set(c{{structName}}, {{name}}_conversion)
-{{type.cPrefix}}_release({{name}}_conversion)
+}}{{+fillDictionary}}let {{name}}_handle = convert{{type.name}}ToCType({{name}})
+defer {
+  {{type.cPrefix}}_release({{name}}_handle)
+}
 {{/fillDictionary}}
