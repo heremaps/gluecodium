@@ -1,6 +1,8 @@
 # HERE Genium project Release Notes
 
 ## Unreleased
+- Breaking changes:
+  + Removed support for Struct ihneritance.
 - Features:
   + Added "Immutable" property support for C++.
 - Bug fixes:

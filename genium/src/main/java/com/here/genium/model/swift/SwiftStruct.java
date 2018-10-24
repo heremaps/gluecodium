@@ -26,7 +26,6 @@ public final class SwiftStruct extends SwiftType {
 
   public final List<SwiftField> fields = new LinkedList<>();
   public final List<SwiftConstant> constants = new LinkedList<>();
-  public final SwiftStruct parent;
   public final String cPrefix;
   public final boolean isInterface;
   public final boolean isEquatable;
@@ -41,7 +40,6 @@ public final class SwiftStruct extends SwiftType {
       final String implementingClass,
       final String publicName,
       final boolean optional,
-      final SwiftStruct parent,
       final String cPrefix,
       final boolean isEquatable,
       final boolean isImmutable) {
@@ -52,7 +50,6 @@ public final class SwiftStruct extends SwiftType {
         implementingClass,
         publicName != null ? publicName : name,
         optional);
-    this.parent = parent;
     this.cPrefix = cPrefix;
     this.isEquatable = isEquatable;
     this.isImmutable = isImmutable;
@@ -73,7 +70,6 @@ public final class SwiftStruct extends SwiftType {
             implementingClass,
             aliasName,
             optional,
-            parent,
             cPrefix,
             isEquatable,
             isImmutable);
@@ -92,7 +88,6 @@ public final class SwiftStruct extends SwiftType {
             implementingClass,
             publicName,
             optional,
-            parent,
             cPrefix,
             isEquatable,
             isImmutable);
