@@ -159,11 +159,6 @@ public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
   }
 
   private void walkChildNodes(FStructType francaStructType) {
-
-    // Code is generated only for the "top" level struct.
-    // Walking "base" just provides additional inheritance data to the child.
-    walk(francaStructType.getBase());
-
     walkCollection(francaStructType.getElements());
   }
 

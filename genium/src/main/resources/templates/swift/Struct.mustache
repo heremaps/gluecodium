@@ -30,9 +30,7 @@
     {{visibility}} {{#if isImmutable}}let{{/if}}{{#unless isImmutable}}var{{/unless}} {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}
 {{/fields}}
 
-{{prefixPartial "swift/StructPublicInitMethod" "    "}}{{/if}}{{#if parent}}
-
-{{prefixPartial "swift/StructParentConversionFunction" "    "}}{{/if}}{{#if fields}}
+{{prefixPartial "swift/StructPublicInitMethod" "    "}}{{/if}}{{#if fields}}
 
 {{prefixPartial "swift/StructInternalInitMethod" "    "}}
 

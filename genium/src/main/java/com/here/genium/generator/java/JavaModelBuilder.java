@@ -231,10 +231,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     boolean isSerializable =
         serializationBase != null && deploymentModel.isSerializable(francaStructType);
 
-    // Type definition
     JavaClass javaClass =
         JavaClass.builder(JavaNameRules.getClassName(francaStructType.getName()))
-            .extendedClass(getPreviousResult(JavaCustomType.class))
             .isParcelable(isSerializable)
             .isEquatable(deploymentModel.isEquatable(francaStructType))
             .isImmutable(deploymentModel.isImmutable(francaStructType))
@@ -245,21 +243,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaClass.comment = CommentHelper.getDescription(francaStructType);
     javaClass.fields.addAll(getPreviousResults(JavaField.class));
 
-    JavaClass parentClass = getPreviousResult(JavaClass.class);
-    if (parentClass != null) {
-      javaClass.parentFields.addAll(parentClass.parentFields);
-      javaClass.parentFields.addAll(parentClass.fields);
-    }
-
     if (isSerializable) {
       javaClass.parentInterfaces.add(serializationBase);
     }
 
     storeResult(javaClass);
-
-    // Type reference
-    storeResult(typeMapper.mapCustomType(francaStructType));
-
     closeContext();
   }
 

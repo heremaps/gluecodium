@@ -21,26 +21,31 @@ package com.here.genium.validator;
 
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FTypeCollection;
 
-/** Validates Franca unions are not used. */
-public final class UnionsValidatorPredicate implements ValidatorPredicate<FUnionType> {
+/** Validates that Franca struct iheritance is not used. */
+public final class StructInheritanceValidatorPredicate implements ValidatorPredicate<FStructType> {
 
-  private static final String UNION_MESSAGE =
-      "Unions are not supported: union '%s' in type collection '%s'.";
+  private static final String INHERITANCE_MESSAGE =
+      "Struct Inheritance is not supported: struct '%s' in type collection '%s'.";
 
   @Override
-  public Class<FUnionType> getElementClass() {
-    return FUnionType.class;
+  public Class<FStructType> getElementClass() {
+    return FStructType.class;
   }
 
   @Override
   public String validate(
-      final FrancaDeploymentModel deploymentModel, final FUnionType francaUnion) {
+      final FrancaDeploymentModel deploymentModel, final FStructType francaStruct) {
+
+    if (francaStruct.getBase() == null) {
+      return null;
+    }
 
     return String.format(
-        UNION_MESSAGE,
-        francaUnion.getName(),
-        FrancaTypeHelper.getFullName((FTypeCollection) francaUnion.eContainer()));
+        INHERITANCE_MESSAGE,
+        francaStruct.getName(),
+        FrancaTypeHelper.getFullName((FTypeCollection) francaStruct.eContainer()));
   }
 }

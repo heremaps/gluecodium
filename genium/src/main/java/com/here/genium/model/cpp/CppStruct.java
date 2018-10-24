@@ -19,7 +19,6 @@
 
 package com.here.genium.model.cpp;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -29,8 +28,6 @@ import lombok.Singular;
 public final class CppStruct extends CppElementWithComment {
 
   public final List<CppField> fields;
-  public final CppInheritance parentStruct;
-  public final List<CppField> parentFields;
   public final boolean isExternal;
   public final boolean isEquatable;
   public final boolean isImmutable;
@@ -42,15 +39,11 @@ public final class CppStruct extends CppElementWithComment {
       final String fullyQualifiedName,
       final String comment,
       @Singular final List<CppField> fields,
-      final CppInheritance parentStruct,
-      @Singular final List<CppField> parentFields,
       final boolean isExternal,
       final boolean isEquatable,
       final boolean isImmutable) {
     super(name, fullyQualifiedName, comment);
     this.fields = fields != null ? new LinkedList<>(fields) : new LinkedList<>();
-    this.parentStruct = parentStruct;
-    this.parentFields = parentFields != null ? new LinkedList<>(parentFields) : new LinkedList<>();
     this.isExternal = isExternal;
     this.isEquatable = isEquatable;
     this.isImmutable = isImmutable;
@@ -58,16 +51,6 @@ public final class CppStruct extends CppElementWithComment {
 
   @Override
   public Stream<? extends CppElement> stream() {
-    return parentStruct != null
-        ? Stream.concat(fields.stream(), Stream.of(parentStruct))
-        : fields.stream();
-  }
-
-  @SuppressWarnings("unused")
-  public Collection<CppField> getAllVisibleFields() {
-    List<CppField> result = new LinkedList<>();
-    result.addAll(parentFields);
-    result.addAll(fields);
-    return result;
+    return fields.stream();
   }
 }

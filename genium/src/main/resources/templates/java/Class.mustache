@@ -35,15 +35,13 @@
 {{/innerClasses}}
 {{#if isImplClass}}{{prefixPartial "java/NativeConstructor" "    "}}
 {{/if}}
-{{#if allVisibleFields}}
+{{#if fields}}
     public {{name}}() {
-        this({{joinPartial allVisibleFields "java/FieldInitializer" ", "}});
+        this({{joinPartial fields "java/FieldInitializer" ", "}});
     }
 
-    public {{name}}({{#allVisibleFields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/allVisibleFields}}) {
-{{#if parentFields}}        super({{#parentFields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/parentFields}});
-{{/if}}{{!!
-}}{{#fields}}        this.{{name}} = {{name}};
+    public {{name}}({{#fields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
+{{#fields}}        this.{{name}} = {{name}};
 {{/fields}}
     }
 {{/if}}
