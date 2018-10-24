@@ -208,11 +208,6 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
             cppStruct.fullyQualifiedName,
             typeMapper.createCustomTypeInfo(francaStruct, STRUCT),
             cppStruct.isImmutable);
-
-    CStruct parentStruct = getPreviousResult(CStruct.class);
-    if (parentStruct != null) {
-      cStruct.fields.addAll(parentStruct.fields);
-    }
     cStruct.fields.addAll(getPreviousResults(CField.class));
 
     storeResult(cStruct);

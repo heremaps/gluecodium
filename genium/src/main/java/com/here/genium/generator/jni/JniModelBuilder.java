@@ -164,15 +164,9 @@ public class JniModelBuilder extends AbstractModelBuilder<JniElement> {
 
     JavaClass javaClass = javaBuilder.getFinalResult(JavaClass.class);
     CppStruct cppStruct = cppBuilder.getFinalResult(CppStruct.class);
+    JniStruct jniStruct = new JniStruct(javaClass, cppStruct, getPreviousResults(JniField.class));
 
-    List<JniField> jniFields = new LinkedList<>();
-    JniStruct parentStruct = getPreviousResult(JniStruct.class);
-    if (parentStruct != null) {
-      jniFields.addAll(parentStruct.fields);
-    }
-    jniFields.addAll(getPreviousResults(JniField.class));
-
-    storeResult(new JniStruct(javaClass, cppStruct, jniFields));
+    storeResult(jniStruct);
     closeContext();
   }
 

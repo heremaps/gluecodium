@@ -142,11 +142,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FStructType francaStruct) {
 
-    SwiftStruct parent = getPreviousResult(SwiftStruct.class);
-
     SwiftStruct swiftStruct =
         SwiftStruct.builder(SwiftNameRules.getStructName(francaStruct, deploymentModel))
-            .parent(parent)
             .cPrefix(CBridgeNameRules.getStructBaseName(francaStruct))
             .visibility(getVisibility(francaStruct))
             .isEquatable(deploymentModel.isEquatable(francaStruct))
@@ -155,9 +152,6 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     String comment = CommentHelper.getDescription(francaStruct);
     swiftStruct.comment = comment != null ? comment : "";
 
-    if (parent != null) {
-      swiftStruct.fields.addAll(parent.fields);
-    }
     swiftStruct.fields.addAll(getPreviousResults(SwiftField.class));
 
     storeResult(swiftStruct);

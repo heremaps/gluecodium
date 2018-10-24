@@ -291,12 +291,12 @@ public class Genium {
                 new InterfaceVisibilityValidatorPredicate(),
                 new AttributeVisibilityValidatorPredicate(),
                 new MethodVisibilityValidatorPredicate(),
-                new StructVisibilityValidatorPredicate(),
                 new FieldVisibilityValidatorPredicate(),
                 new ArrayVisibilityValidatorPredicate(),
                 new ExternalElementsValidatorPredicate(),
                 new ExternalTypesValidatorPredicate(),
-                new ImmutabilityValidatorPredicate()));
+                new ImmutabilityValidatorPredicate(),
+                new StructInheritanceValidatorPredicate()));
 
     boolean nameValidationResult = NameValidator.validate(typeCollections);
     boolean modelValidationResult = modelValidator.validate(deploymentModel, typeCollections);

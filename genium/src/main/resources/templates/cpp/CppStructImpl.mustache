@@ -18,15 +18,14 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless isExternal}}{{#if allVisibleFields}}
+{{#unless isExternal}}{{#if fields}}
 {{#className}}{{.}}::{{/className}}{{name}}::{{name}}( )
     : {{#parentStruct}}{{parent.name}}{ }, {{/parentStruct}}{{#fields}}{{name}}{ {{#initializer}}{{name}} {{/initializer}}}{{#if iter.hasNext}}, {{/if}}{{/fields}}
 {
 }
 
-{{#className}}{{.}}::{{/className}}{{name}}::{{name}}( {{joinPartial allVisibleFields "cpp/CppMethodParameter" ", "}} )
-    : {{#parentStruct}}{{parent.name}}( {{#parentFields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/parentFields}} ), {{/parentStruct}}{{!!
-   }}{{#fields}}{{name}}( {{name}} ){{#if iter.hasNext}}, {{/if}}{{/fields}}
+{{#className}}{{.}}::{{/className}}{{name}}::{{name}}( {{joinPartial fields "cpp/CppMethodParameter" ", "}} )
+    : {{#fields}}{{name}}( {{name}} ){{#if iter.hasNext}}, {{/if}}{{/fields}}
 {
 }
 

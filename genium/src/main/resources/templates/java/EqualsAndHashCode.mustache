@@ -23,16 +23,16 @@ public boolean equals(Object obj) {
     if (obj == this) return true;
     if (!(obj instanceof {{name}})) return false;
     final {{name}} other = ({{name}}) obj;
-    return {{joinPartial allVisibleFields "fieldEq" " &&
+    return {{joinPartial fields "fieldEq" " &&
             " }};
 }
 
 @Override
 public int hashCode() {
     int hash = 7;
-{{#allVisibleFields}}
+{{#fields}}
     hash = 31 * hash + {{>fieldHash}};
-{{/allVisibleFields}}
+{{/fields}}
     return hash;
 }{{!!
 
