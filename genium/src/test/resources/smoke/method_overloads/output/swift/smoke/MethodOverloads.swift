@@ -4,8 +4,6 @@
 
 import Foundation
 
-
-
 internal func getRef(_ ref: MethodOverloads?) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
@@ -91,6 +89,18 @@ public class MethodOverloads {
 
     public func isBoolean() -> Bool {
         return smoke_MethodOverloads_isBoolean_constOverload(c_instance)
+    }
+
+    public func isFloat(input: String) -> Bool {
+        return smoke_MethodOverloads_isFloat_stringOverload(c_instance, input)
+    }
+
+    public func isFloat<Tinput: Collection>(input: Tinput) -> Bool where Tinput.Element == Int8 {
+        let input_handle = input.c_conversion()
+        defer {
+            input_handle.cleanup()
+        }
+        return smoke_MethodOverloads_isFloat_intArrayOverload(c_instance, input_handle.c_type)
     }
 }
 

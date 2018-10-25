@@ -35,6 +35,12 @@ Java_com_example_smoke_MethodOverloads_isBooleanIntArrayOverload__Ljava_util_Lis
 JNIEXPORT jboolean JNICALL
 Java_com_example_smoke_MethodOverloads_isBoolean__(JNIEnv* _jenv, jobject _jinstance);
 
+JNIEXPORT jboolean JNICALL
+Java_com_example_smoke_MethodOverloads_isFloat__Ljava_lang_String_2(JNIEnv* _jenv, jobject _jinstance, jstring jinput);
+
+JNIEXPORT jboolean JNICALL
+Java_com_example_smoke_MethodOverloads_isFloat__Ljava_util_List_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput);
+
 #ifdef __cplusplus
 }
 #endif

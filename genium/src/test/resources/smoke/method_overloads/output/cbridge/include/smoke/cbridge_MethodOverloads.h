@@ -22,6 +22,8 @@ bool smoke_MethodOverloads_isBoolean_everythingOverload(_baseRef _instance, bool
 bool smoke_MethodOverloads_isBoolean_stringArrayOverload(_baseRef _instance, _baseRef input);
 bool smoke_MethodOverloads_isBoolean_intArrayOverload(_baseRef _instance, _baseRef input);
 bool smoke_MethodOverloads_isBoolean_constOverload(_baseRef _instance);
+bool smoke_MethodOverloads_isFloat_stringOverload(_baseRef _instance, const char* input);
+bool smoke_MethodOverloads_isFloat_intArrayOverload(_baseRef _instance, _baseRef input);
 #ifdef __cplusplus
 }
 #endif
