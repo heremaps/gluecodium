@@ -337,34 +337,6 @@ public final class CBridgeModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingStructReadsParentFields() {
-    CStruct parentStruct = new CStruct("Foo", null, null, false);
-    CField parentField =
-        CField.builder()
-            .swiftLayerName("ParentField")
-            .baseLayerName("CppName1")
-            .cppTypeInfo(cppTypeInfo)
-            .build();
-    parentStruct.fields.add(parentField);
-    contextStack.injectResult(parentStruct);
-    CField cField =
-        CField.builder()
-            .swiftLayerName("SwiftName1")
-            .baseLayerName("CppName1")
-            .cppTypeInfo(cppTypeInfo)
-            .build();
-    contextStack.injectResult(cField);
-
-    modelBuilder.finishBuilding(francaStruct);
-
-    CStruct cStruct = modelBuilder.getFinalResult(CStruct.class);
-    assertNotNull(cStruct);
-    assertEquals("There should be 2 fields in struct", 2, cStruct.fields.size());
-    assertEquals(parentField, cStruct.fields.get(0));
-    assertEquals(cField, cStruct.fields.get(1));
-  }
-
-  @Test
   public void finishBuildingStructReadsImmutable() {
     when(cppModelbuilder.getFinalResult(CppStruct.class))
         .thenReturn(
