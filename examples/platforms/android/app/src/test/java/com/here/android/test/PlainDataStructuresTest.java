@@ -227,4 +227,9 @@ public final class PlainDataStructuresTest {
     assertNotNull(result.b);
     assertNotNull(result.color);
   }
+
+  @Test
+  public void checkAllFieldsAreInitialized() {
+    assertTrue(PlainDataStructures.checkAllFieldsAreInitialized());
+  }
 }
