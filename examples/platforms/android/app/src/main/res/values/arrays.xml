@@ -63,13 +63,11 @@
     <string-array name="plain_old_data_methods">
         <item>SyncResult methodWithNonNestedType(SyncResult)</item>
         <item>IdSyncResult methodWithNestedType(IdSyncResult)</item>
-        <item>NumericSyncResult methodWithInheritedStruct(NumericSyncResult)</item>
     </string-array>
 
     <string-array name="plain_old_data_methods_description">
         <item>Returns input struct with numberOfUsage increased by 1.\n\nINPUT:\nSyncResult{\n\t\tlong timeStamp = 42\n\t\tlong numberOfUsages = ?\n}</item>
         <item>Returns input struct with numberOfUsage increased by 1.\n\nINPUT:\nIdSyncResult{\n\t\tint id = 99\n\t\tSyncResult {\n\t\t\t\tlong timeStamp = 42\n\t\t\t\tlong numberOfUsages = ?\n\t\t}\n}</item>
-        <item>Returns input struct with result increased by 1.\n\nINPUT:\nNumericSyncResult{\n\t\tlong timeStamp = 42\n\t\tlong numberOfUsages = ?\n\t\tresult = 99\n}</item>
     </string-array>
 
     <string-array name="enumeration_enumerators">

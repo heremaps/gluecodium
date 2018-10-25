@@ -91,95 +91,14 @@ class PlainDataStructuresTests: XCTestCase {
         }
     }
 
-    func testReturnColoredLineInherited() {
-        let color = PlainDataStructures.Color(red: 1, green: 2, blue: 3)
-        let point1 = PlainDataStructures.Point(x: 11, y: 12)
-        let point2 = PlainDataStructures.Point(x: 13, y: 14)
-        let coloredLine = PlainDataStructures.ColoredLineInherited(a: point1, b: point2, color: color)
-
-        if let result = PlainDataStructures.returnColoredLineInherited(input: coloredLine) {
-            XCTAssertEqual(result.a.x, coloredLine.a.x)
-            XCTAssertEqual(result.a.y, coloredLine.a.y)
-            XCTAssertEqual(result.b.x, coloredLine.b.x)
-            XCTAssertEqual(result.b.y, coloredLine.b.y)
-            XCTAssertEqual(result.color.red, coloredLine.color.red)
-            XCTAssertEqual(result.color.green, coloredLine.color.green)
-            XCTAssertEqual(result.color.blue, coloredLine.color.blue)
-        } else {
-            XCTFail("Returned struct is nil")
-        }
-    }
-
-    func testConvertColoredLineInheritedToLine() {
-        let color = PlainDataStructures.Color(red: 1, green: 2, blue: 3)
-        let point1 = PlainDataStructures.Point(x: 11, y: 12)
-        let point2 = PlainDataStructures.Point(x: 13, y: 14)
-        let coloredLine = PlainDataStructures.ColoredLineInherited(a: point1, b: point2, color: color)
-
-        let result = coloredLine.convertToLine()
-
-        XCTAssertEqual(result.a.x, coloredLine.a.x)
-        XCTAssertEqual(result.a.y, coloredLine.a.y)
-        XCTAssertEqual(result.b.x, coloredLine.b.x)
-        XCTAssertEqual(result.b.y, coloredLine.b.y)
-    }
-
-    func testPassColoredLineInheritedAsLine() {
-        let color = PlainDataStructures.Color(red: 1, green: 2, blue: 3)
-        let point1 = PlainDataStructures.Point(x: 11, y: 12)
-        let point2 = PlainDataStructures.Point(x: 13, y: 14)
-        let coloredLine = PlainDataStructures.ColoredLineInherited(a: point1, b: point2, color: color)
-
-        if let result = PlainDataStructures.createColoredLine(line: coloredLine.convertToLine(), color: color) {
-            XCTAssertEqual(result.line.a.x, coloredLine.a.x)
-            XCTAssertEqual(result.line.a.y, coloredLine.a.y)
-            XCTAssertEqual(result.line.b.x, coloredLine.b.x)
-            XCTAssertEqual(result.line.b.y, coloredLine.b.y)
-        } else {
-            XCTFail("Returned struct is nil")
-        }
-    }
-
-    func testAssignInstanceToNativeInheritedStruct() {
-        let native = hello.InstanceInStruct.ExtendedSelfHolder(
-            mySelf: hello.InstanceInStruct.create(), additionalField: "SIMPLE")
-        native.mySelf?.setStringValue(stringValue: "Hello")
-
-        XCTAssertEqual(native.mySelf?.getStringValue(), "Hello")
-        XCTAssertEqual(native.additionalField, "SIMPLE")
-    }
-
-    func testInheritedStructWithInstance() {
-        let fromBaseApi = hello.InstanceInStruct.createInInheritedStruct()!
-        fromBaseApi.mySelf?.setStringValue(stringValue: "Hello")
-
-        XCTAssertEqual(fromBaseApi.mySelf?.getStringValue(), "Hello")
-        XCTAssertEqual(fromBaseApi.additionalField, "CREATED")
-    }
-
-    func testCastingInheritedStructWithInstance() {
-        let fromBaseApi = hello.InstanceInStruct.createInInheritedStruct()!
-        let base = fromBaseApi.convertToSelfHolder()
-        base.mySelf?.setStringValue(stringValue: "Hello")
-
-        XCTAssertEqual(fromBaseApi.mySelf?.getStringValue(), "Hello")
-    }
-
     func testAllFieldsAreInitialized() {
         XCTAssertTrue(PlainDataStructures.checkAllFieldsAreInitialized())
     }
-
     static var allTests = [
         ("testReturnStruct", testReturnStruct),
         ("testCreatePassAndReturnStruct", testCreatePassAndReturnStruct),
         ("testReturnNestedStruct", testReturnNestedStruct),
         ("testAllBasicTypesCanBePassedInStruct", testAllBasicTypesCanBePassedInStruct),
-        ("testReturnColoredLineInherited", testReturnColoredLineInherited),
-        ("testConvertColoredLineInheritedToLine", testConvertColoredLineInheritedToLine),
-        ("testPassColoredLineInheritedAsLine", testPassColoredLineInheritedAsLine),
-        ("testAssignInstanceToNativeInheritedStruct", testAssignInstanceToNativeInheritedStruct),
-        ("testInheritedStructWithInstance", testInheritedStructWithInstance),
-        ("testCastingInheritedStructWithInstance", testCastingInheritedStructWithInstance),
         ("testAllFieldsAreInitialized", testAllFieldsAreInitialized)
     ]
 }

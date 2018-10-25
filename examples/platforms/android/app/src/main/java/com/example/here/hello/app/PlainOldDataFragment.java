@@ -36,7 +36,6 @@ import com.example.here.hello.R;
 import com.example.here.hello.utils.InputMethodHelper;
 import com.here.android.hello.HelloWorldPlainDataStructures;
 import com.here.android.hello.HelloWorldPlainDataStructures.IdentifiableSyncResult;
-import com.here.android.hello.HelloWorldPlainDataStructures.NumericSyncResult;
 import com.here.android.hello.HelloWorldPlainDataStructures.SyncResult;
 import java.util.Locale;
 
@@ -50,12 +49,6 @@ public final class PlainOldDataFragment extends Fragment {
           + "        long timeStamp = %d%n"
           + "        long numberOfUsages = %d%n"
           + "    }%n"
-          + "}";
-  private static final String NUMERIC_SYNC_RESULT_TEXT =
-      "NumericSyncResult {%n"
-          + "    long timeStamp = %d%n"
-          + "    long numberOfUsages = %d%n"
-          + "    long resultInChildStruct = %d%n"
           + "}";
 
   private Button submitButton;
@@ -153,24 +146,6 @@ public final class PlainOldDataFragment extends Fragment {
                 outputIdentifiableSyncResult.syncResult.lastUpdatedTimeStamp,
                 outputIdentifiableSyncResult.syncResult.numberOfChanges);
         result.setText(resultText);
-        break;
-      case 2:
-        NumericSyncResult numericSyncResult = new NumericSyncResult();
-        numericSyncResult.lastUpdatedTimeStamp = 42L;
-        numericSyncResult.numberOfChanges = parameterValue;
-        numericSyncResult.resultInChildStruct = 99;
-
-        NumericSyncResult outputNumericSyncResult =
-            HelloWorldPlainDataStructures.methodWithInheritedStruct(numericSyncResult);
-
-        String numericSyncResultText =
-            String.format(
-                Locale.getDefault(),
-                NUMERIC_SYNC_RESULT_TEXT,
-                outputNumericSyncResult.lastUpdatedTimeStamp,
-                outputNumericSyncResult.numberOfChanges,
-                outputNumericSyncResult.resultInChildStruct);
-        result.setText(numericSyncResultText);
         break;
     }
   }

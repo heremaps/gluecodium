@@ -93,25 +93,6 @@ PlainDataStructures::modify_all_types_struct( const PlainDataStructures::AllType
     output.point_field = PlainDataStructures::swap_point_coordinates( input.point_field );
     return output;
 }
-
-PlainDataStructures::ColoredLineInherited
-PlainDataStructures::create_colored_line_inherited( const PlainDataStructures::Line& line,
-                                                    const PlainDataStructures::Color& color )
-{
-    PlainDataStructures::ColoredLineInherited coloredLine;
-    coloredLine.a = line.a;
-    coloredLine.b = line.b;
-    coloredLine.color = color;
-    return coloredLine;
-}
-
-PlainDataStructures::ColoredLineInherited
-PlainDataStructures::return_colored_line_inherited(
-    const PlainDataStructures::ColoredLineInherited& input )
-{
-    return input;
-}
-
 bool
 PlainDataStructures::check_all_fields_are_initialized( )
 {

@@ -86,10 +86,6 @@ interface PlainDataStructures {
         Point pointField
     }
 
-    struct ColoredLineInherited extends Line {
-        Color color
-    }
-
     <** @description: Static method to create a point **>
     method createPoint {
         in {
@@ -170,31 +166,6 @@ interface PlainDataStructures {
         }
         out {
             AllTypesStruct output
-        }
-    }
-
-    <** @description:
-    Static test method which creates a colored line
-    **>
-    method createColoredLineInherited {
-        in {
-            Line line
-            Color color
-        }
-        out {
-            ColoredLineInherited output
-        }
-    }
-
-    <** @description:
-    Static test method which returns a colored line unmodified
-    **>
-    method returnColoredLineInherited {
-        in {
-            ColoredLineInherited input
-        }
-        out {
-            ColoredLineInherited output
         }
     }
 

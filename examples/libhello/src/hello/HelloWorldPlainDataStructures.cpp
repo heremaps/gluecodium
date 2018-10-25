@@ -41,14 +41,4 @@ HelloWorldPlainDataStructures::method_with_nested_type(
 
     return output;
 }
-
-HelloWorldPlainDataStructures::NumericSyncResult
-HelloWorldPlainDataStructures::method_with_inherited_struct(
-    const HelloWorldPlainDataStructures::NumericSyncResult& input )
-{
-    HelloWorldPlainDataStructures::NumericSyncResult output = input;
-    ++output.number_of_changes;
-
-    return output;
-}
 }

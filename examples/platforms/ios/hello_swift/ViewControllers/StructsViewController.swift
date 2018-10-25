@@ -33,7 +33,6 @@ class StructsViewController: UIViewController, UIPickerViewDataSource, UIPickerV
 
     var syncResult: Structs.SyncResult
     var extendedSyncResult: Structs.IdentifiableSyncResult
-    var numericSync: Structs.NumericSyncResult
 
     private var indexSelected = 0
 
@@ -43,16 +42,12 @@ class StructsViewController: UIViewController, UIPickerViewDataSource, UIPickerV
             self.syncResult =  Structs.methodWithNonNestedType(input: self.syncResult)!}),
         ("Nested class defined structure", {return HTML.renderStruct(self.extendedSyncResult)}, {
             self.extendedSyncResult.syncResult.lastUpdatedTimeStamp = UInt64(Date().timeIntervalSinceReferenceDate)
-            self.extendedSyncResult = Structs.methodWithNestedType(input: self.extendedSyncResult)!}),
-        ("Inherited class defined structure", {return HTML.renderStruct(self.numericSync)}, {
-            self.numericSync.lastUpdatedTimeStamp = UInt64(Date().timeIntervalSinceReferenceDate)
-            self.numericSync = Structs.methodWithInheritedStruct(input: self.numericSync)!})
+            self.extendedSyncResult = Structs.methodWithNestedType(input: self.extendedSyncResult)!})
     ]
 
     required init?(coder aDecoder: NSCoder) {
         syncResult = Structs.SyncResult(lastUpdatedTimeStamp: 0, numberOfChanges: 0)
         extendedSyncResult = Structs.IdentifiableSyncResult(id: 42, syncResult: syncResult)
-        numericSync = Structs.NumericSyncResult(lastUpdatedTimeStamp: 0, numberOfChanges: 0, resultInChildStruct: 5)
         super.init(coder: aDecoder)
     }
 

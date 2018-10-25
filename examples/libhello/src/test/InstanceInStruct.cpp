@@ -50,14 +50,6 @@ InstanceInStruct::create_in_struct() {
     return {std::make_shared<InstanceInStructImpl>()};
 }
 
-::test::InstanceInStruct::ExtendedSelfHolder
-InstanceInStruct::create_in_inherited_struct(  ) {
-  auto result = ::test::InstanceInStruct::ExtendedSelfHolder();
-  result.my_self = InstanceInStruct::create();
-  result.additional_field = "CREATED";
-  return result;
-}
-
 InstanceInStruct::SelfHolder
 InstanceInStruct::create_null_in_struct() {
     return {std::shared_ptr<InstanceInStructImpl>()};
