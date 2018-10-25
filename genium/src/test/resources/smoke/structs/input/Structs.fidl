@@ -171,26 +171,6 @@ interface Structs {
     }
 }
 
-interface StructsInheritance {
-    version {
-        major 0
-        minor 1
-    }
-
-    struct ColoredLineInherited extends Structs.Line {
-        TypeCollection.Color color
-    }
-
-    method methodWithInheritedType {
-        in {
-            ColoredLineInherited input
-        }
-        out {
-            ColoredLineInherited output
-        }
-    }
-}
-
 interface StructsFromTypeCollection {
     version {
         major 0

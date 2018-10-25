@@ -8,13 +8,10 @@
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
-#include "smoke/StructsInheritance.h"
-#include "com_example_smoke_StructsInheritance.h"
 #include "smoke/StructsFromTypeCollection.h"
 #include "com_example_smoke_StructsFromTypeCollection.h"
 #include "smoke/StructsInstance.h"
 #include "com_example_smoke_StructsInstance.h"
-#include "smoke/InheritedStructsOrder.h"
 #include "fire/StructsQualifiedType.h"
 #include "com_example_fire_StructsQualifiedType.h"
 #include "smoke/TypeCollection.h"
@@ -36,14 +33,6 @@ namespace jni {
     jobject convert_to_jni(JNIEnv* _jenv, const ::fire::SomeVeryExternalStruct& _ninput);
     ::smoke::Structs::Yet_Another_External_Struct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Structs::Yet_Another_External_Struct* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Yet_Another_External_Struct& _ninput);
-    ::smoke::StructsInheritance::ColoredLineInherited convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::StructsInheritance::ColoredLineInherited* dummy );
-    jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::StructsInheritance::ColoredLineInherited& _ninput);
-    ::smoke::GrandChildStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::GrandChildStruct* dummy );
-    jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::GrandChildStruct& _ninput);
-    ::smoke::ChildStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ChildStruct* dummy );
-    jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::ChildStruct& _ninput);
-    ::smoke::ParentStruct convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::ParentStruct* dummy );
-    jobject convert_to_jni(JNIEnv* _jenv, const ::smoke::ParentStruct& _ninput);
     ::fire::StructsQualifiedType::QualifiedType convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::fire::StructsQualifiedType::QualifiedType* dummy );
     jobject convert_to_jni(JNIEnv* _jenv, const ::fire::StructsQualifiedType::QualifiedType& _ninput);
     ::smoke::Point convert_from_jni( JNIEnv* _jenv, const jobject _jinput, ::smoke::Point* dummy );
