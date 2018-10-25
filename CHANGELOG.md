@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.13.0
+- Release date: 2018-10-25
 - Features:
   + Added FDEPL property "Immutable" for structs for generating structs that cannot be modified
     after creation. This property is supported for Java and Swift.
