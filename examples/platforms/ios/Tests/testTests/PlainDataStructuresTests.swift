@@ -165,6 +165,10 @@ class PlainDataStructuresTests: XCTestCase {
         XCTAssertEqual(fromBaseApi.mySelf?.getStringValue(), "Hello")
     }
 
+    func testAllFieldsAreInitialized() {
+        XCTAssertTrue(PlainDataStructures.checkAllFieldsAreInitialized())
+    }
+
     static var allTests = [
         ("testReturnStruct", testReturnStruct),
         ("testCreatePassAndReturnStruct", testCreatePassAndReturnStruct),
@@ -175,6 +179,7 @@ class PlainDataStructuresTests: XCTestCase {
         ("testPassColoredLineInheritedAsLine", testPassColoredLineInheritedAsLine),
         ("testAssignInstanceToNativeInheritedStruct", testAssignInstanceToNativeInheritedStruct),
         ("testInheritedStructWithInstance", testInheritedStructWithInstance),
-        ("testCastingInheritedStructWithInstance", testCastingInheritedStructWithInstance)
+        ("testCastingInheritedStructWithInstance", testCastingInheritedStructWithInstance),
+        ("testAllFieldsAreInitialized", testAllFieldsAreInitialized)
     ]
 }

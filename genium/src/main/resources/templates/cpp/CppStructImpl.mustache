@@ -19,7 +19,10 @@
   !
   !}}
 {{#unless isExternal}}{{#if allVisibleFields}}
-{{#className}}{{.}}::{{/className}}{{name}}::{{name}}( ) = default;
+{{#className}}{{.}}::{{/className}}{{name}}::{{name}}( )
+    : {{#parentStruct}}{{parent.name}}{ }, {{/parentStruct}}{{#fields}}{{name}}{ {{#initializer}}{{name}} {{/initializer}}}{{#if iter.hasNext}}, {{/if}}{{/fields}}
+{
+}
 
 {{#className}}{{.}}::{{/className}}{{name}}::{{name}}( {{joinPartial allVisibleFields "cpp/CppMethodParameter" ", "}} )
     : {{#parentStruct}}{{parent.name}}( {{#parentFields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/parentFields}} ), {{/parentStruct}}{{!!

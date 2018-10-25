@@ -4,6 +4,9 @@
 - Features:
   + Added FDEPL property "Immutable" for structs for generating structs that cannot be modified
     after creation. This property is supported for Java and Swift.
+- Bug fixes:
+  + Fixed behavior of default constructors for C++ structs that could leave some fields
+    uninitialized in some cases.
 
 ## 3.12.0
 - Release date: 2018-10-18
