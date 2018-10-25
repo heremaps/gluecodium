@@ -33,10 +33,6 @@ interface InstanceInStruct {
         InstanceInStruct mySelf
     }
 
-    public struct ExtendedSelfHolder extends InstanceInStruct.SelfHolder {
-        String additionalField
-    }
-
     method setStringValue {
         in {
             String stringValue
@@ -58,12 +54,6 @@ interface InstanceInStruct {
     method createInStruct {
         out {
             SelfHolder wrappedInstance
-        }
-    }
-
-    method createInInheritedStruct {
-        out {
-            ExtendedSelfHolder wrappedInstance
         }
     }
 
