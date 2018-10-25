@@ -99,9 +99,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
-    boolean needSelectorSuffix =
-        francaMethod.getSelector() != null && FrancaTypeHelper.hasArrayParameters(francaMethod);
-    String selector = needSelectorSuffix ? francaMethod.getSelector() : "";
+    String selector = needsSelector(francaMethod) ? francaMethod.getSelector() : "";
     String javaMethodName = JavaNameRules.getMethodName(francaMethod.getName(), selector);
 
     // Map return type
@@ -144,6 +142,15 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     storeResult(javaMethod);
     closeContext();
+  }
+
+  private boolean needsSelector(final FMethod francaMethod) {
+    return FrancaTypeHelper.hasArrayParameters(francaMethod)
+        && FrancaTypeHelper.getAllOverloads(francaMethod)
+                .stream()
+                .filter(FrancaTypeHelper::hasArrayParameters)
+                .count()
+            > 1;
   }
 
   @Override

@@ -1,5 +1,10 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed Java method overloads to avoid adding suffixes if only one array overload is present (the
+    suffixes are still added if there are several array overloads).
+
 ## 3.13.0
 - Release date: 2018-10-25
 - Features:

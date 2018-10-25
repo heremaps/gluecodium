@@ -39,6 +39,8 @@ virtual bool is_boolean( const bool input1, const int8_t input2, const ::std::st
 virtual bool is_boolean( const ::smoke::MethodOverloads::StringArray& input ) = 0;
 virtual bool is_boolean( const ::smoke::MethodOverloads::IntArray& input ) = 0;
 virtual bool is_boolean(  ) const = 0;
+virtual bool is_float( const ::std::string& input ) = 0;
+virtual bool is_float( const ::smoke::MethodOverloads::IntArray& input ) = 0;
 };
 
 }

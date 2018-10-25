@@ -39,4 +39,6 @@ public class MethodOverloads extends NativeBase {
     public native boolean isBooleanStringArrayOverload(final List<String> input);
     public native boolean isBooleanIntArrayOverload(final List<Byte> input);
     public native boolean isBoolean();
+    public native boolean isFloat(final String input);
+    public native boolean isFloat(final List<Byte> input);
 }

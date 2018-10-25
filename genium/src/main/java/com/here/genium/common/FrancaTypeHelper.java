@@ -21,6 +21,8 @@ package com.here.genium.common;
 
 import com.here.genium.model.franca.DefinedBy;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -103,5 +105,16 @@ public final class FrancaTypeHelper {
     return francaType instanceof FArrayType
         || (francaType instanceof FTypeDef
             && isArray(((FTypeDef) francaType).getActualType().getDerived()));
+  }
+
+  public static List<FMethod> getAllOverloads(final FMethod francaMethod) {
+    EObject parent = francaMethod.eContainer();
+    return parent instanceof FInterface
+        ? ((FInterface) parent)
+            .getMethods()
+            .stream()
+            .filter(method -> method.getName().equals(francaMethod.getName()))
+            .collect(Collectors.toList())
+        : Collections.emptyList();
   }
 }
