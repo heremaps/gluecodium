@@ -100,4 +100,22 @@ interface MethodOverloads {
            Boolean output
        }
     }
+
+    method isFloat:stringOverload {
+        in {
+            String input
+        }
+        out {
+           Boolean output
+        }
+    }
+
+    method isFloat:intArrayOverload {
+        in {
+            IntArray input
+        }
+        out {
+            Boolean output
+        }
+    }
 }

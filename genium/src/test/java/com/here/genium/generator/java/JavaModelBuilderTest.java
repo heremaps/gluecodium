@@ -161,6 +161,9 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodAddsSelector() {
+    FMethod anotherFrancaMethod = mock(FMethod.class);
+    when(FrancaTypeHelper.getAllOverloads(any()))
+        .thenReturn(Arrays.asList(francaMethod, anotherFrancaMethod));
     when(FrancaTypeHelper.hasArrayParameters(any())).thenReturn(true);
     when(francaMethod.getSelector()).thenReturn("selective");
 
@@ -169,9 +172,6 @@ public class JavaModelBuilderTest {
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertEquals(METHOD_NAME + "Selective", javaMethod.name);
-
-    PowerMockito.verifyStatic();
-    FrancaTypeHelper.hasArrayParameters(francaMethod);
   }
 
   @Test
