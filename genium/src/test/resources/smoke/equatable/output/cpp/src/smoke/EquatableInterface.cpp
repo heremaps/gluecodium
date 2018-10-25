@@ -13,7 +13,10 @@ namespace smoke {
 
 EquatableInterface::~EquatableInterface() = default;
 
-EquatableInterface::EquatableStruct::EquatableStruct( ) = default;
+EquatableInterface::EquatableStruct::EquatableStruct( )
+    : int_field{ }, string_field{ }
+{
+}
 
 EquatableInterface::EquatableStruct::EquatableStruct( const int32_t int_field, const ::std::string& string_field )
     : int_field( int_field ), string_field( string_field )

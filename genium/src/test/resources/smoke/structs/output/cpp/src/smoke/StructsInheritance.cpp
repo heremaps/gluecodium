@@ -13,7 +13,10 @@ namespace smoke {
 
 StructsInheritance::~StructsInheritance() = default;
 
-StructsInheritance::ColoredLineInherited::ColoredLineInherited( ) = default;
+StructsInheritance::ColoredLineInherited::ColoredLineInherited( )
+    : ::smoke::Structs::Line{ }, color{ }
+{
+}
 
 StructsInheritance::ColoredLineInherited::ColoredLineInherited( const ::smoke::Structs::Point& a, const ::smoke::Structs::Point& b, const ::smoke::Color& color )
     : ::smoke::Structs::Line( a, b ), color( color )
