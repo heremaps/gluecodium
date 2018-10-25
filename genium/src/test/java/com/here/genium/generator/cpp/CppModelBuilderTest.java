@@ -428,49 +428,6 @@ public final class CppModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaStructTypeReadsInheritance() {
-    contextStack.injectResult(cppComplexTypeRef);
-
-    modelBuilder.finishBuilding(francaStructType);
-
-    CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
-    assertNotNull(resultStruct);
-    assertNotNull(resultStruct.parentStruct);
-
-    assertEquals(cppComplexTypeRef, resultStruct.parentStruct.parent);
-    assertEquals(CppInheritance.Type.Public, resultStruct.parentStruct.visibility);
-  }
-
-  @Test
-  public void finishBuildingFrancaStructTypeReadsParentFields() {
-    CppField parentField = new CppField("foo", null);
-    CppField grandParentField = new CppField("foo", null);
-    CppStruct parentStruct =
-        CppStruct.builder().field(parentField).parentField(grandParentField).build();
-    contextStack.injectResult(parentStruct);
-
-    modelBuilder.finishBuilding(francaStructType);
-
-    CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
-    assertNotNull(resultStruct);
-    assertFalse(resultStruct.parentFields.isEmpty());
-    assertTrue(resultStruct.parentFields.contains(parentField));
-    assertTrue(resultStruct.parentFields.contains(grandParentField));
-  }
-
-  @Test
-  public void finishBuildingFrancaStructTypeCreatesTypeRef() {
-    when(typeMapper.mapComplexType(any())).thenReturn(cppComplexTypeRef);
-
-    modelBuilder.finishBuilding(francaStructType);
-
-    CppComplexTypeRef resultTypeRef = modelBuilder.getFinalResult(CppComplexTypeRef.class);
-    assertEquals(cppComplexTypeRef, resultTypeRef);
-
-    verify(typeMapper).mapComplexType(francaStructType);
-  }
-
-  @Test
   public void finishBuildingFrancaStructTypeReadsExternalType() {
     when(deploymentModel.isExternalType(any())).thenReturn(true);
 

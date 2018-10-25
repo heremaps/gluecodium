@@ -682,24 +682,6 @@ public class SwiftModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaStructTypeReadsParent() {
-    SwiftStruct parentStruct = SwiftStruct.builder("FooStruct").build();
-    SwiftField parentField = new SwiftField("foo", null, swiftType, null);
-    parentStruct.fields.add(parentField);
-    contextStack.injectResult(parentStruct);
-    contextStack.injectResult(swiftField);
-
-    modelBuilder.finishBuilding(francaStruct);
-
-    SwiftStruct swiftStruct = modelBuilder.getFinalResult(SwiftStruct.class);
-    assertNotNull(swiftStruct);
-    assertEquals(parentStruct, swiftStruct.parent);
-    assertEquals(2, swiftStruct.fields.size());
-    assertEquals(parentField, swiftStruct.fields.get(0));
-    assertEquals(swiftField, swiftStruct.fields.get(1));
-  }
-
-  @Test
   public void finishBuildingFrancaStructTypeCreatesInternalStruct() {
     when(deploymentModel.isInternal(any())).thenReturn(true);
 

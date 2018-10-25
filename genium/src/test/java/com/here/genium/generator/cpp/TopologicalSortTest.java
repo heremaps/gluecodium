@@ -42,8 +42,6 @@ public class TopologicalSortTest {
 
   private static final CppEnum CPP_ENUM =
       CppEnum.builder(ENUM_NAME).fullyQualifiedName(ENUM_NAME).build();
-  private static final CppStruct PARENT_STRUCT = createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B);
-  private static final CppStruct CHILD_STRUCT = createChild();
   private static final CppUsing CPP_USING = createUsing(TYPE_DEF_NAME, createComplex(TYPE_A));
 
   private final List<CppElement> elements;
@@ -185,16 +183,6 @@ public class TopologicalSortTest {
                 createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
                 createUsing(TYPE_DEF_NAME, createComplex(TYPE_C))),
             Arrays.asList(0, 1)
-          },
-          {
-            "childStructFollowedByParentStruct",
-            Arrays.asList(CHILD_STRUCT, PARENT_STRUCT),
-            Arrays.asList(1, 0)
-          },
-          {
-            "parentStructFollowedByChildStruct",
-            Arrays.asList(PARENT_STRUCT, CHILD_STRUCT),
-            Arrays.asList(0, 1)
           }
         });
   }
@@ -204,13 +192,7 @@ public class TopologicalSortTest {
   }
 
   private static CppStruct createCppStruct(String name, String firstType, String secondType) {
-    return createCppStruct(name, firstType, secondType, null);
-  }
-
-  private static CppStruct createCppStruct(
-      String name, String firstType, String secondType, CppInheritance parentStruct) {
-    CppStruct cppStruct =
-        CppStruct.builder().name(name).fullyQualifiedName(name).parentStruct(parentStruct).build();
+    CppStruct cppStruct = CppStruct.builder().name(name).fullyQualifiedName(name).build();
 
     cppStruct.fields.add(new CppField("x", createComplex(firstType)));
     cppStruct.fields.add(new CppField("y", createComplex(secondType)));
@@ -234,12 +216,6 @@ public class TopologicalSortTest {
         new CppTypeDefRef(
             typeName, createComplex("nonsense"), Include.createInternalInclude("foo")),
         new CppValue(null));
-  }
-
-  private static CppStruct createChild() {
-    CppInheritance inheritance =
-        new CppInheritance(createComplex(FIRST_STRUCT_NAME), CppInheritance.Type.Public);
-    return createCppStruct(SECOND_STRUCT_NAME, TYPE_A, TYPE_B, inheritance);
   }
 
   @Test

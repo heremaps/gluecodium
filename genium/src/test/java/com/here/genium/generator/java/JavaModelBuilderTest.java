@@ -34,7 +34,6 @@ import com.here.genium.test.ArrayEList;
 import com.here.genium.test.MockContextStack;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.*;
@@ -492,48 +491,6 @@ public class JavaModelBuilderTest {
     assertNotNull(javaClass);
     assertFalse(javaClass.fields.isEmpty());
     assertEquals(javaField, javaClass.fields.iterator().next());
-  }
-
-  @Test
-  public void finishBuildingFrancaStructTypeReadsParent() {
-    contextStack.injectResult(javaCustomType);
-
-    modelBuilder.finishBuilding(francaStructType);
-
-    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertEquals(javaCustomType, javaClass.extendedClass);
-  }
-
-  @Test
-  public void finishBuildingFrancaStructTypeReadsParentFields() {
-    JavaClass parentClass = JavaClass.builder("Foo").build();
-    JavaField grandParentField = JavaField.builder("BarField", javaCustomType).build();
-    parentClass.parentFields.add(grandParentField);
-    parentClass.fields.add(javaField);
-    contextStack.injectResult(parentClass);
-
-    modelBuilder.finishBuilding(francaStructType);
-
-    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
-    assertNotNull(javaClass);
-    assertEquals(2, javaClass.parentFields.size());
-
-    Iterator<JavaField> iterator = javaClass.parentFields.iterator();
-    assertEquals(grandParentField, iterator.next());
-    assertEquals(javaField, iterator.next());
-  }
-
-  @Test
-  public void finishBuildingFrancaStructTypeCreatesTypeRef() {
-    when(typeMapper.mapCustomType(any())).thenReturn(javaCustomType);
-
-    modelBuilder.finishBuilding(francaStructType);
-
-    JavaCustomType resultType = modelBuilder.getFinalResult(JavaCustomType.class);
-    assertEquals(javaCustomType, resultType);
-
-    verify(typeMapper).mapCustomType(francaStructType);
   }
 
   @Test
