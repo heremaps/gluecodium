@@ -54,14 +54,6 @@ define GeniumExtensions for interface test.PlainDataStructures
         Static = true
     }
 
-    method createColoredLineInherited {
-        Static = true
-    }
-
-    method returnColoredLineInherited {
-        Static = true
-    }
-
     method checkAllFieldsAreInitialized {
         Static = true
     }

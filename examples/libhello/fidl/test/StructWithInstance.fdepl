@@ -36,10 +36,6 @@ define GeniumExtensions for interface test.InstanceInStruct
         Static = true
     }
 
-    method createInInheritedStruct {
-        Static = true
-    }
-
     method createNullInStruct {
         Static = true
     }

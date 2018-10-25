@@ -190,45 +190,6 @@ public final class PlainDataStructuresTest {
   }
 
   @Test
-  public void createInheritedDataStructure() {
-    PlainDataStructures.Point point1 = PlainDataStructures.createPoint(1.0, 2.0);
-    PlainDataStructures.Point point2 = PlainDataStructures.createPoint(3.0, 4.0);
-    PlainDataStructures.Line line = PlainDataStructures.createLine(point1, point2);
-    PlainDataStructures.Color color = new PlainDataStructures.Color();
-    color.red = 10;
-    color.green = 20;
-    color.blue = 30;
-
-    PlainDataStructures.ColoredLineInherited coloredLine =
-        PlainDataStructures.createColoredLineInherited(line, color);
-
-    assertNotNull(coloredLine);
-    assertEquals(1.0, coloredLine.a.x);
-    assertEquals(2.0, coloredLine.a.y);
-    assertEquals(3.0, coloredLine.b.x);
-    assertEquals(4.0, coloredLine.b.y);
-    assertEquals(10, coloredLine.color.red);
-    assertEquals(20, coloredLine.color.green);
-    assertEquals(30, coloredLine.color.blue);
-  }
-
-  @Test
-  public void useUninitializedInheritedStructure() {
-    PlainDataStructures.ColoredLineInherited coloredLine =
-        new PlainDataStructures.ColoredLineInherited();
-
-    PlainDataStructures.ColoredLineInherited result =
-        PlainDataStructures.returnColoredLineInherited(coloredLine);
-
-    assertNotNull(coloredLine.a);
-    assertNotNull(coloredLine.b);
-    assertNotNull(coloredLine.color);
-    assertNotNull(result.a);
-    assertNotNull(result.b);
-    assertNotNull(result.color);
-  }
-
-  @Test
   public void checkAllFieldsAreInitialized() {
     assertTrue(PlainDataStructures.checkAllFieldsAreInitialized());
   }
