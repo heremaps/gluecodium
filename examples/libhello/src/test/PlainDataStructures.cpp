@@ -112,4 +112,12 @@ PlainDataStructures::return_colored_line_inherited(
     return input;
 }
 
+bool
+PlainDataStructures::check_all_fields_are_initialized( )
+{
+    uint64_t buffer[] = { 0xDEADBEEF, 0xDEADBEEF, 0xDEADBEEF, 0xDEADBEEF };
+    Point* point = new (buffer) Point();
+    return point->x == 0 && point->y == 0;
+}
+
 }

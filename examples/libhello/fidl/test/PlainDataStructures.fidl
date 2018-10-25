@@ -197,4 +197,13 @@ interface PlainDataStructures {
             ColoredLineInherited output
         }
     }
+
+    <** @description:
+    Static test method which checks that all fields in the Point struct are initialized in C++
+    **>
+    method checkAllFieldsAreInitialized {
+        out {
+            Boolean output
+        }
+    }
 }
