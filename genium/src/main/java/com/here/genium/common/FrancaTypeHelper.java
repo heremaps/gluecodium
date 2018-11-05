@@ -62,13 +62,6 @@ public final class FrancaTypeHelper {
     return (container instanceof FInterface) ? ((FInterface) container).getName() : null;
   }
 
-  public static boolean hasArrayParameters(final FMethod francaMethod) {
-    Collection<FArgument> francaArguments = francaMethod.getInArgs();
-    return francaArguments != null
-        && !francaArguments.isEmpty()
-        && francaArguments.stream().anyMatch(FrancaTypeHelper::isArray);
-  }
-
   public static String getFullName(final FModelElement modelElement) {
 
     String suffix = modelElement instanceof FMethod ? ((FMethod) modelElement).getSelector() : null;
@@ -95,16 +88,6 @@ public final class FrancaTypeHelper {
     @SuppressWarnings("NullableProblems")
     Iterable<EObject> iterable = francaTypeCollection::eAllContents;
     return StreamSupport.stream(iterable.spliterator(), false);
-  }
-
-  private static boolean isArray(final FTypedElement francaTypedElement) {
-    return francaTypedElement.isArray() || isArray(francaTypedElement.getType().getDerived());
-  }
-
-  private static boolean isArray(final FType francaType) {
-    return francaType instanceof FArrayType
-        || (francaType instanceof FTypeDef
-            && isArray(((FTypeDef) francaType).getActualType().getDerived()));
   }
 
   public static List<FMethod> getAllOverloads(final FMethod francaMethod) {

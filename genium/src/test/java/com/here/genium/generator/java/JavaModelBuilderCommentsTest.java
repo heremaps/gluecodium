@@ -54,6 +54,7 @@ public class JavaModelBuilderCommentsTest {
 
   private final MockContextStack<JavaElement> contextStack = new MockContextStack<>();
 
+  @Mock private JavaMethodNameResolver methodNameResolver;
   @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private JavaTypeMapper typeMapper;
 
@@ -82,6 +83,7 @@ public class JavaModelBuilderCommentsTest {
     modelBuilder =
         new JavaModelBuilder(
             contextStack,
+            methodNameResolver,
             deploymentModel,
             new JavaPackage(BASE_PACKAGE_NAMES),
             typeMapper,
