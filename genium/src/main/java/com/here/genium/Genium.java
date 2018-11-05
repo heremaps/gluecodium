@@ -295,7 +295,6 @@ public class Genium {
                 new ArrayVisibilityValidatorPredicate(),
                 new ExternalElementsValidatorPredicate(),
                 new ExternalTypesValidatorPredicate(),
-                new ImmutabilityValidatorPredicate(),
                 new StructInheritanceValidatorPredicate()));
 
     boolean nameValidationResult = NameValidator.validate(typeCollections);
