@@ -64,8 +64,8 @@ public class JavaModelBuilderTest {
 
   private final MockContextStack<JavaElement> contextStack = new MockContextStack<>();
 
+  @Mock private JavaMethodNameResolver methodNameResolver;
   @Mock private FrancaDeploymentModel deploymentModel;
-
   @Mock private JavaTypeMapper typeMapper;
 
   @Mock private FTypeCollection francaTypeCollection;
@@ -82,8 +82,6 @@ public class JavaModelBuilderTest {
   @Mock private FEnumerator francaEnumerator1;
   @Mock private FEnumerator francaEnumerator2;
   @Mock private FMapType francaMapType;
-
-  private final EList<FArgument> arguments = new ArrayEList<>();
 
   private final JavaCustomType nativeBase = new JavaCustomType("FooNativeBar");
   private final JavaCustomType javaCustomType = new JavaCustomType("typical");
@@ -110,6 +108,7 @@ public class JavaModelBuilderTest {
     modelBuilder =
         new JavaModelBuilder(
             contextStack,
+            methodNameResolver,
             deploymentModel,
             new JavaPackage(BASE_PACKAGE_NAMES),
             typeMapper,
@@ -122,8 +121,7 @@ public class JavaModelBuilderTest {
     when(francaStructType.getName()).thenReturn("nonsense");
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
-    when(francaMethod.getName()).thenReturn(METHOD_NAME);
-    when(francaMethod.getOutArgs()).thenReturn(arguments);
+    when(methodNameResolver.getName(any())).thenReturn(METHOD_NAME);
 
     when(francaArgument.getName()).thenReturn(PARAMETER_NAME);
     when(francaArgument.getType()).thenReturn(francaTypeRef);
@@ -156,21 +154,6 @@ public class JavaModelBuilderTest {
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertEquals(METHOD_NAME, javaMethod.name);
-  }
-
-  @Test
-  public void finishBuildingFrancaMethodAddsSelector() {
-    FMethod anotherFrancaMethod = mock(FMethod.class);
-    when(FrancaTypeHelper.getAllOverloads(any()))
-        .thenReturn(Arrays.asList(francaMethod, anotherFrancaMethod));
-    when(FrancaTypeHelper.hasArrayParameters(any())).thenReturn(true);
-    when(francaMethod.getSelector()).thenReturn("selective");
-
-    modelBuilder.finishBuilding(francaMethod);
-
-    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
-    assertNotNull(javaMethod);
-    assertEquals(METHOD_NAME + "Selective", javaMethod.name);
   }
 
   @Test

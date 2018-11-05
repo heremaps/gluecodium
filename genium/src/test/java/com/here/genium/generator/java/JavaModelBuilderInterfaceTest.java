@@ -46,6 +46,7 @@ public class JavaModelBuilderInterfaceTest {
 
   private final MockContextStack<JavaElement> contextStack = new MockContextStack<>();
 
+  @Mock private JavaMethodNameResolver methodNameResolver;
   @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private JavaTypeMapper typeMapper;
 
@@ -69,7 +70,13 @@ public class JavaModelBuilderInterfaceTest {
 
     when(typeMapper.getNativeBase()).thenReturn(nativeBase);
     modelBuilder =
-        new JavaModelBuilder(contextStack, deploymentModel, BASE_PACKAGE, typeMapper, e -> false);
+        new JavaModelBuilder(
+            contextStack,
+            methodNameResolver,
+            deploymentModel,
+            BASE_PACKAGE,
+            typeMapper,
+            e -> false);
 
     when(francaInterface.getName()).thenReturn("classy");
   }
