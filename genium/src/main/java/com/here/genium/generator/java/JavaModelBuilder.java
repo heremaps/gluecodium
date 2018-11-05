@@ -39,10 +39,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   private final JavaTypeMapper typeMapper;
   private final JavaType nativeBase;
   private final FrancaTypeHelper.ErrorEnumFilter errorEnums;
+  private final JavaMethodNameResolver methodNameResolver;
 
   @VisibleForTesting
   JavaModelBuilder(
       final ModelBuilderContextStack<JavaElement> contextStack,
+      final JavaMethodNameResolver methodNameResolver,
       final FrancaDeploymentModel deploymentModel,
       final JavaPackage rootPackage,
       final JavaTypeMapper typeMapper,
@@ -53,6 +55,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     this.typeMapper = typeMapper;
     this.nativeBase = typeMapper.getNativeBase();
     this.errorEnums = errorEnums;
+    this.methodNameResolver = methodNameResolver;
   }
 
   public JavaModelBuilder(
@@ -60,7 +63,13 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       final JavaPackage rootPackage,
       final JavaTypeMapper typeMapper,
       final FrancaTypeHelper.ErrorEnumFilter errorEnums) {
-    this(new ModelBuilderContextStack<>(), deploymentModel, rootPackage, typeMapper, errorEnums);
+    this(
+        new ModelBuilderContextStack<>(),
+        new JavaMethodNameResolver(),
+        deploymentModel,
+        rootPackage,
+        typeMapper,
+        errorEnums);
   }
 
   @Override
@@ -99,9 +108,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
   @Override
   public void finishBuilding(FMethod francaMethod) {
 
-    String selector = needsSelector(francaMethod) ? francaMethod.getSelector() : "";
-    String javaMethodName = JavaNameRules.getMethodName(francaMethod.getName(), selector);
-
     // Map return type
     JavaParameter outputParameter =
         CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaParameter.class)
@@ -122,7 +128,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaExceptionType javaExceptionTypeRef = getPreviousResult(JavaExceptionType.class);
 
     JavaMethod javaMethod =
-        JavaMethod.builder(javaMethodName)
+        JavaMethod.builder(methodNameResolver.getName(francaMethod))
             .returnType(returnType)
             .returnComment(returnComment)
             .exception(javaExceptionTypeRef)
@@ -142,15 +148,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     storeResult(javaMethod);
     closeContext();
-  }
-
-  private boolean needsSelector(final FMethod francaMethod) {
-    return FrancaTypeHelper.hasArrayParameters(francaMethod)
-        && FrancaTypeHelper.getAllOverloads(francaMethod)
-                .stream()
-                .filter(FrancaTypeHelper::hasArrayParameters)
-                .count()
-            > 1;
   }
 
   @Override
