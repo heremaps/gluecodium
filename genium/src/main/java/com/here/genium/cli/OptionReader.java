@@ -86,14 +86,6 @@ public final class OptionReader {
         true,
         "C++ namespace for internal (non-API) headers.");
     allOptions.addOption("cppnamespace", true, "C++ namespace for public (API) headers.");
-
-    allOptions.addOption("androidMergeManifest", true, "DEPRECATED");
-    allOptions.addOption("copyrightHeader", true, "DEPRECATED");
-    allOptions.addOption("cppInternalNamespace", true, "DEPRECATED");
-    allOptions.addOption("enableCaching", false, "DEPRECATED");
-    allOptions.addOption("nostdout", false, "DEPRECATED");
-    allOptions.addOption("timeLogging", false, "DEPRECATED");
-    allOptions.addOption("validateOnly", false, "DEPRECATED");
   }
 
   @SuppressWarnings("PMD.ModifiedCyclomaticComplexity")
@@ -120,11 +112,7 @@ public final class OptionReader {
               ? Lists.newArrayList(Splitter.on(".").split(javaPackage))
               : Collections.emptyList());
 
-      String mergeManifestPath = getSingleOptionValue(cmd, "mergemanifest");
-      if (mergeManifestPath == null) {
-        mergeManifestPath = getSingleOptionValue(cmd, "androidMergeManifest");
-      }
-      builder.androidMergeManifestPath(mergeManifestPath);
+      builder.androidMergeManifestPath(getSingleOptionValue(cmd, "mergemanifest"));
 
       if (cmd.hasOption("generators")) {
         String[] arg = cmd.getOptionValues("generators");
@@ -133,12 +121,11 @@ public final class OptionReader {
             arg != null ? new HashSet<>(Arrays.asList(arg)) : GeneratorSuite.generatorShortNames());
       }
 
-      builder.validatingOnly(cmd.hasOption("validate") || cmd.hasOption("validateOnly"));
+      builder.validatingOnly(cmd.hasOption("validate"));
       builder.dumpingToStdout(cmd.hasOption("stdout"));
-      builder.enableCaching(
-          cmd.hasOption("output") && (cmd.hasOption("cache") || cmd.hasOption("enableCaching")));
+      builder.enableCaching(cmd.hasOption("output") && cmd.hasOption("cache"));
 
-      builder.logTimes(cmd.hasOption("time") || cmd.hasOption("timeLogging"));
+      builder.logTimes(cmd.hasOption("time"));
 
       String cppRootNamespaces = getSingleOptionValue(cmd, "cppnamespace");
       builder.cppRootNamespace(
@@ -146,17 +133,9 @@ public final class OptionReader {
               ? Arrays.asList(cppRootNamespaces.split("."))
               : Collections.emptyList());
 
-      String cppInternalNamespace = getSingleOptionValue(cmd, "intnamespace");
-      if (cppInternalNamespace == null) {
-        cppInternalNamespace =
-            cmd.getOptionValue("cppInternalNamespace", Genium.DEFAULT_INTERNAL_NAMESPACE);
-      }
-      builder.cppInternalNamespace(cppInternalNamespace);
+      builder.cppInternalNamespace(getSingleOptionValue(cmd, "intnamespace"));
 
       String copyrightHeader = cmd.getOptionValue("copyright");
-      if (copyrightHeader == null) {
-        copyrightHeader = cmd.getOptionValue("copyrightHeader");
-      }
       if (copyrightHeader != null) {
         String contents = Files.readFileIntoString(copyrightHeader);
         builder.copyrightHeaderContents(contents);
