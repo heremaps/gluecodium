@@ -85,7 +85,7 @@ class InheritanceValidatorPredicateWithParentTest(
         fun data() = Arrays.asList(
             arrayOf(false, false, false, false, true),
             arrayOf(true, false, false, false, false),
-            arrayOf(false, true, false, false, true),
+            arrayOf(false, true, false, false, false),
             arrayOf(false, false, true, false, true),
             arrayOf(false, false, false, true, true),
             arrayOf(true, true, false, false, false),
@@ -94,7 +94,7 @@ class InheritanceValidatorPredicateWithParentTest(
             arrayOf(false, true, true, false, true),
             arrayOf(false, true, false, true, true),
             arrayOf(false, false, true, true, true),
-            arrayOf(true, true, true, false, true),
+            arrayOf(true, true, true, false, false),
             arrayOf(true, true, false, true, false),
             arrayOf(true, false, true, true, true),
             arrayOf(false, true, true, true, true),
