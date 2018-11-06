@@ -53,4 +53,6 @@ public class Attributes extends NativeBase {
     public native void setByteBufferAttribute(final byte[] value);
     public native AttributesInterface getInstanceAttribute();
     public native void setInstanceAttribute(final AttributesInterface value);
+    public native boolean isBooleanAttribute();
+    public native void setBooleanAttribute(final boolean value);
 }

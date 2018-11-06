@@ -3,6 +3,8 @@
 ## Unreleased
 - Breaking changes:
   + Removed support for Struct ihneritance.
+  + Boolean Swift properties now have their names prefixed with "is", in conformance with Swift API
+    design guidelines.
 - Features:
   + Added "Immutable" property support for C++.
 - Bug fixes:

@@ -139,7 +139,7 @@ public class SwiftTypeMapper {
       case FBasicTypeId.UINT64_VALUE:
         return new SwiftType("UInt64");
       case FBasicTypeId.BOOLEAN_VALUE:
-        return new SwiftType("Bool");
+        return SwiftType.BOOL;
       case FBasicTypeId.STRING_VALUE:
         return SwiftType.STRING;
       case FBasicTypeId.FLOAT_VALUE:

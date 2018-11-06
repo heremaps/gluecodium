@@ -48,7 +48,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
   DefinedBy.class,
   SwiftValueMapper.class
 })
-public class SwiftModelBuilderTest {
+public final class SwiftModelBuilderTest {
 
   private static final String PARAM_NAME = "someParamName";
   private static final String FUNCTION_NAME = "someFunctionName";
@@ -572,7 +572,6 @@ public class SwiftModelBuilderTest {
   @Test
   public void finishBuildingCreatesWritableAttribute() {
     contextStack.injectResult(swiftType);
-    when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
     modelBuilder.finishBuilding(francaAttribute);
 
@@ -599,7 +598,6 @@ public class SwiftModelBuilderTest {
   @Test
   public void finishBuildingCreatesReadonlyAttribute() {
     contextStack.injectResult(swiftType);
-    when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
     when(francaAttribute.isReadonly()).thenReturn(true);
 
     modelBuilder.finishBuilding(francaAttribute);
@@ -613,6 +611,18 @@ public class SwiftModelBuilderTest {
     assertSame(swiftType, getter.returnType);
     assertEquals("Getter should have no parameters", 0, getter.parameters.size());
     assertEquals(CBRIDGE_GETTER_NAME, getter.cShortName);
+  }
+
+  @Test
+  public void finishBuildingCreatesBooleanAttribute() {
+    contextStack.injectResult(SwiftType.BOOL);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    SwiftProperty property = modelBuilder.getFinalResult(SwiftProperty.class);
+    assertNotNull(property);
+    assertEquals(SwiftType.BOOL, property.type);
+    assertEquals("isSomeAttributeName", property.name);
   }
 
   @Test

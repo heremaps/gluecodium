@@ -108,8 +108,10 @@ public final class SwiftNameRules {
     return NameHelper.toLowerCamelCase(name);
   }
 
-  public static String getPropertyName(FAttribute name) {
-    return NameHelper.toLowerCamelCase(name.getName());
+  public static String getPropertyName(final String name, final SwiftType swiftType) {
+    return swiftType == SwiftType.BOOL
+        ? "is" + NameHelper.toUpperCamelCase(name)
+        : NameHelper.toLowerCamelCase(name);
   }
 
   public static String getArrayName(SwiftType innerType) {

@@ -319,11 +319,12 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FAttribute francaAttribute) {
 
+    SwiftType swiftType = getPreviousResult(SwiftType.class);
     SwiftProperty property =
         new SwiftProperty(
-            SwiftNameRules.getPropertyName(francaAttribute),
+            SwiftNameRules.getPropertyName(francaAttribute.getName(), swiftType),
             getVisibility(francaAttribute),
-            getPreviousResult(SwiftType.class));
+            swiftType);
     property.comment = CommentHelper.getDescription(francaAttribute);
 
     String nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(francaAttribute);
