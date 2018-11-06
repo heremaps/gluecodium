@@ -54,11 +54,11 @@ public class CppIncludeResolver {
 
     String externalType = deploymentModel.getExternalType(modelElement);
     if (externalType != null) {
-      include = Include.createInternalInclude(externalType);
+      include = Include.Companion.createInternalInclude(externalType);
     } else if (modelElement instanceof FTypeCollection) {
       String includeName =
           getOutputFilePath((FTypeCollection) modelElement) + CppNameRules.HEADER_FILE_SUFFIX;
-      include = Include.createInternalInclude(includeName);
+      include = Include.Companion.createInternalInclude(includeName);
     } else {
       FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
       include = resolveInclude(typeCollection);

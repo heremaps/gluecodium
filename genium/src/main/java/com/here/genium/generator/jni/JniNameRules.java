@@ -73,7 +73,7 @@ public final class JniNameRules {
   }
 
   public static String getJniClassFileName(final JniContainer jniContainer) {
-    return formatPackageName(jniContainer.javaPackages) + jniContainer.javaName;
+    return formatPackageName(jniContainer.getJavaPackages()) + jniContainer.getJavaName();
   }
 
   private String getJniPathPrefix() {

@@ -85,7 +85,7 @@ public class Genium {
       Map<String, String> fileNamesCache, List<GeneratedFile> files, String generatorName) {
     boolean succeeded = true;
     for (GeneratedFile file : files) {
-      String path = file.targetFile.getPath();
+      String path = file.getTargetFile().getPath();
       String previousEntry = fileNamesCache.get(path);
       if (previousEntry == null) {
         fileNamesCache.put(path, generatorName);

@@ -149,7 +149,7 @@ public class TopologicalSortTest {
                     new CppTypeDefRef(
                         TYPE_DEF_NAME,
                         createComplex(TYPE_A),
-                        Include.createInternalInclude("foo"))),
+                        Include.Companion.createInternalInclude("foo"))),
                 CPP_USING),
             Arrays.asList(1, 0)
           },
@@ -214,7 +214,7 @@ public class TopologicalSortTest {
     return new CppConstant(
         name,
         new CppTypeDefRef(
-            typeName, createComplex("nonsense"), Include.createInternalInclude("foo")),
+            typeName, createComplex("nonsense"), Include.Companion.createInternalInclude("foo")),
         new CppValue(null));
   }
 

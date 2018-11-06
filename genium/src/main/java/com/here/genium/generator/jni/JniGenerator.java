@@ -106,7 +106,7 @@ public final class JniGenerator extends AbstractGenerator {
     treeWalker.walkTree(francaTypeCollection);
 
     JniContainer jniContainer = jniBuilder.getFinalResult(JniContainer.class);
-    jniContainer.includes.addAll(getIncludes(jniContainer));
+    jniContainer.getIncludes().addAll(getIncludes(jniContainer));
 
     List<ModelElement> results = new LinkedList<>(javaBuilder.getFinalResults());
     results.add(jniContainer);
@@ -117,12 +117,15 @@ public final class JniGenerator extends AbstractGenerator {
   private List<Include> getIncludes(final JniContainer jniContainer) {
 
     List<String> includes = new LinkedList<>();
-    if (jniContainer.isFrancaInterface) {
+    if (jniContainer.isFrancaInterface()) {
       includes.add(JniNameRules.getHeaderFileName(JniNameRules.getJniClassFileName(jniContainer)));
     }
 
     includes.addAll(additionalIncludes);
 
-    return includes.stream().map(Include::createInternalInclude).collect(Collectors.toList());
+    return includes
+        .stream()
+        .map(Include.Companion::createInternalInclude)
+        .collect(Collectors.toList());
   }
 }

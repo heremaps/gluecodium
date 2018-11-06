@@ -92,8 +92,8 @@ class FileSetCache {
 
     List<GeneratedFile> result = new LinkedList<>();
     for (GeneratedFile file : inputFiles) {
-      byte[] hashValue = HashValueCalculator.calculateHashValue(file.content);
-      String normalizedPath = Paths.get(file.targetFile.getPath()).normalize().toString();
+      byte[] hashValue = HashValueCalculator.calculateHashValue(file.getContent());
+      String normalizedPath = Paths.get(file.getTargetFile().getPath()).normalize().toString();
       CacheEntry previousEntry = cacheEntries.put(normalizedPath, new CacheEntry(hashValue));
       if (previousEntry == null || !Arrays.equals(previousEntry.cachedFileHashValue, hashValue)) {
         result.add(file);

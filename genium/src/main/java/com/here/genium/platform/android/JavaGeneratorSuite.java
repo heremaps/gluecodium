@@ -142,7 +142,7 @@ public class JavaGeneratorSuite extends GeneratorSuite {
         Stream.concat(
             jniModel
                 .stream()
-                .filter(jniContainer -> jniContainer.isFrancaInterface)
+                .filter(JniContainer::isFrancaInterface)
                 .map(jniTemplates::generateFiles),
             Stream.of(jniTemplates.generateConversionFiles(jniModel)));
 

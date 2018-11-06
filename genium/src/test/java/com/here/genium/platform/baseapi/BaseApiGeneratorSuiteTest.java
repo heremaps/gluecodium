@@ -38,7 +38,7 @@ public final class BaseApiGeneratorSuiteTest {
   private List<GeneratedFile> generatedFiles;
 
   private String getTargetFile(int i) {
-    return generatedFiles.get(i).targetFile.toString();
+    return generatedFiles.get(i).getTargetFile().toString();
   }
 
   @Test

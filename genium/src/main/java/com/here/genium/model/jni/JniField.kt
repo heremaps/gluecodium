@@ -17,13 +17,20 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.jni;
+package com.here.genium.model.jni
 
-import lombok.AllArgsConstructor;
+import com.here.genium.model.cpp.CppField
+import com.here.genium.model.java.JavaCustomType
+import com.here.genium.model.java.JavaField
+import com.here.genium.model.java.JavaTemplateType
 
-@AllArgsConstructor
-public final class JniException implements JniElement {
-
-  public final String javaClassName;
-  public final JniType jniEnum;
+class JniField @JvmOverloads constructor(
+    val javaField: JavaField,
+    val cppField: CppField,
+    val type: JniType? = null,
+    val cppGetterName: String? = null,
+    val cppSetterName: String? = null
+) : JniElement {
+    val hasCustomType = javaField.type is JavaCustomType
+    val hasTemplateType = javaField.type is JavaTemplateType
 }

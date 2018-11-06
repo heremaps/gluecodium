@@ -109,7 +109,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     if (deploymentModel.isInterface(francaInterface)) {
       cInterface.functionTableName = CBridgeNameRules.getFunctionTableName(francaInterface);
       cInterface.implementationIncludes.add(
-          Include.createInternalInclude(CBridgeComponents.PROXY_CACHE_FILENAME));
+          Include.Companion.createInternalInclude(CBridgeComponents.PROXY_CACHE_FILENAME));
     }
 
     storeResult(cInterface);

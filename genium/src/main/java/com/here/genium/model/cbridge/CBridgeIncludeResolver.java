@@ -43,7 +43,7 @@ public class CBridgeIncludeResolver {
 
     if (include == null) {
       String includeName = getHeaderFileNameWithPath(typeCollection);
-      include = Include.createInternalInclude(includeName);
+      include = Include.Companion.createInternalInclude(includeName);
       resolvedIncludes.put(typeCollection, include);
     }
 

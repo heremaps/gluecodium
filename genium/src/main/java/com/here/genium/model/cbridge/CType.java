@@ -33,8 +33,8 @@ import lombok.EqualsAndHashCode;
 public class CType extends CElement {
   protected static final String CONST_SPECIFIER = "const";
   public static final Include FIXED_WIDTH_INTEGERS_INCLUDE =
-      Include.createSystemInclude("stdint.h");
-  public static final Include BOOL_INCLUDE = Include.createSystemInclude("stdbool.h");
+      Include.Companion.createSystemInclude("stdint.h");
+  public static final Include BOOL_INCLUDE = Include.Companion.createSystemInclude("stdbool.h");
 
   public static final CType VOID = new CType("void");
   public static final CType CHAR = new CType("char");
@@ -52,12 +52,12 @@ public class CType extends CElement {
   public static final CType STRING_REF =
       new CType(
           BASE_REF_NAME,
-          Include.createInternalInclude(
+          Include.Companion.createInternalInclude(
               Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "StringHandle.h").toString()));
   public static final CType BYTE_ARRAY_REF =
       new CType(
           BASE_REF_NAME,
-          Include.createInternalInclude(
+          Include.Companion.createInternalInclude(
               Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "ByteArrayHandle.h")
                   .toString()));
 

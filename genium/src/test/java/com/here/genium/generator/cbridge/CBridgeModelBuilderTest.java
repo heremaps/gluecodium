@@ -139,7 +139,8 @@ public final class CBridgeModelBuilderTest {
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
-    when(includeResolver.resolveInclude(any())).thenReturn(Include.createInternalInclude(""));
+    when(includeResolver.resolveInclude(any()))
+        .thenReturn(Include.Companion.createInternalInclude(""));
 
     modelBuilder =
         new CBridgeModelBuilder(
@@ -288,7 +289,8 @@ public final class CBridgeModelBuilderTest {
         CFunction.builder("SomeName")
             .nestedSpecifier("foo")
             .delegateCall("someBaseApiFunc()")
-            .delegateCallIncludes(singleton(Include.createInternalInclude("baseApiInclude.h")))
+            .delegateCallIncludes(
+                singleton(Include.Companion.createInternalInclude("baseApiInclude.h")))
             .build();
     contextStack.injectResult(function);
 
@@ -578,7 +580,7 @@ public final class CBridgeModelBuilderTest {
     when(CBridgeNameRules.getMapName(any())).thenReturn("FooMap");
     contextStack.injectResult(CppTypeInfo.STRING);
     contextStack.injectResult(cppTypeInfo);
-    Include fooInclude = Include.createInternalInclude("Foo");
+    Include fooInclude = Include.Companion.createInternalInclude("Foo");
     when(cppIncludeResolver.resolveInclude(any())).thenReturn(fooInclude);
 
     modelBuilder.finishBuilding(francaMap);

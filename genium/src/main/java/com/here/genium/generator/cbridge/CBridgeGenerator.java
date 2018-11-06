@@ -88,7 +88,7 @@ public class CBridgeGenerator {
             new GeneratedFile(
                 generateImplementationContent(cModel),
                 includeResolver.getImplementationFileNameWithPath(francaTypeCollection)))
-        .filter(file -> !file.content.isEmpty());
+        .filter(file -> !file.getContent().isEmpty());
   }
 
   @VisibleForTesting
@@ -140,7 +140,7 @@ public class CBridgeGenerator {
   private void removeRedundantIncludes(
       final FTypeCollection francaTypeCollection, CInterface cModel) {
     cModel.headerIncludes.remove(
-        Include.createInternalInclude(
+        Include.Companion.createInternalInclude(
             includeResolver.getHeaderFileNameWithPath(francaTypeCollection)));
     cModel.implementationIncludes.removeAll(cModel.headerIncludes);
     cModel.privateHeaderIncludes.removeAll(cModel.headerIncludes);
