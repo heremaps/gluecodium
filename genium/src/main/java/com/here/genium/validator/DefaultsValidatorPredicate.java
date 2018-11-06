@@ -127,9 +127,9 @@ public final class DefaultsValidatorPredicate implements ValidatorPredicate<FFie
   private static boolean checkEnumValue(
       final FEnumerationType francaEnum, final String stringValue) {
 
-    List<FEnumerator> enumerators = francaEnum.getEnumerators();
-    return enumerators != null
-        && !enumerators.isEmpty()
-        && enumerators.stream().anyMatch(enumerator -> stringValue.equals(enumerator.getName()));
+    return francaEnum
+        .getEnumerators()
+        .stream()
+        .anyMatch(enumerator -> stringValue.equals(enumerator.getName()));
   }
 }
