@@ -39,10 +39,6 @@ public final class CppGenerator {
   public List<GeneratedFile> generateCode(
       final CppFile cppModel, final String relativeHeaderPath, final String relativeImplPath) {
 
-    if (cppModel == null || cppModel.isEmpty()) {
-      return Collections.emptyList();
-    }
-
     String absoluteHeaderPath =
         Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE, relativeHeaderPath)
                 .toString()

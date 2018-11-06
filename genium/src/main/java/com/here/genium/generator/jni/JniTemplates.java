@@ -74,11 +74,8 @@ public final class JniTemplates {
   }
 
   public List<GeneratedFile> generateConversionFiles(final List<JniContainer> jniContainers) {
-    List<GeneratedFile> results = new LinkedList<>();
-    if (jniContainers == null || jniContainers.isEmpty()) {
-      return results;
-    }
 
+    List<GeneratedFile> results = new LinkedList<>();
     addStructConversionFiles(jniContainers, results);
     addInstanceConversionFiles(jniContainers, results);
     addEnumConversionFiles(jniContainers, results);
