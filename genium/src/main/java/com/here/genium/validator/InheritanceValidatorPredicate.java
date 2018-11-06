@@ -65,7 +65,7 @@ public final class InheritanceValidatorPredicate implements ValidatorPredicate<F
       // An interface/protocol cannot inherit from a class.
       errorMessageFormat = INVALID_INTERFACE_INHERITANCE_MESSAGE;
     } else if (deploymentModel.isObjcInterface(francaInterface)
-        && !deploymentModel.isObjcInterface(francaInterface)) {
+        && !deploymentModel.isObjcInterface(parentInterface)) {
 
       if (childIsInterface) {
         // An @objc protocol cannot inherit from non-@objc protocol.
