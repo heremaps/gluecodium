@@ -33,6 +33,7 @@ public class SwiftType extends SwiftModelElement {
   }
 
   public static final SwiftType VOID = new SwiftType("Void");
+  public static final SwiftType BOOL = new SwiftType("Bool");
   public static final SwiftType STRING = new SwiftType("String", TypeCategory.BUILTIN_STRING);
   public static final SwiftType DATA = new SwiftType("Data", TypeCategory.BUILTIN_BYTEBUFFER);
 

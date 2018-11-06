@@ -51,6 +51,8 @@ virtual ::std::shared_ptr< ::std::vector< uint8_t > > get_byte_buffer_attribute(
 virtual void set_byte_buffer_attribute( const ::std::shared_ptr< ::std::vector< uint8_t > >& value ) = 0;
 virtual ::std::shared_ptr< ::smoke::AttributesInterface > get_instance_attribute(  ) const = 0;
 virtual void set_instance_attribute( const ::std::shared_ptr< ::smoke::AttributesInterface >& value ) = 0;
+virtual bool is_boolean_attribute(  ) const = 0;
+virtual void set_boolean_attribute( const bool value ) = 0;
 
 };
 

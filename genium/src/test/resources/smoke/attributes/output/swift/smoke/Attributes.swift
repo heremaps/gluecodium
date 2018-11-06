@@ -105,6 +105,15 @@ public class Attributes {
         }
     }
 
+    public var isBooleanAttribute: Bool {
+        get {
+            return smoke_Attributes_booleanAttribute_get(c_instance)
+        }
+        set {
+            return smoke_Attributes_booleanAttribute_set(c_instance, newValue)
+        }
+    }
+
     let c_instance : _baseRef
 
     public init?(cAttributes: _baseRef) {

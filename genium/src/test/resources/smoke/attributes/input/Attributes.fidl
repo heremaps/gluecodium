@@ -39,6 +39,7 @@ interface Attributes {
     attribute InternalError complexTypeAttribute
     attribute ByteBuffer byteBufferAttribute
     attribute AttributesInterface.AttributesInterface instanceAttribute
+    attribute Boolean booleanAttribute
 }
 
 interface AttributesInterface {
