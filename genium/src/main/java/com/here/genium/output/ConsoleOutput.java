@@ -32,12 +32,12 @@ public class ConsoleOutput implements GeneratorOutput {
         file -> {
           StringConcatenation builder = new StringConcatenation();
           builder.append("Generated ");
-          builder.append(file.targetFile.getPath(), "");
+          builder.append(file.getTargetFile().getPath(), "");
           builder.append(":");
           builder.newLineIfNotEmpty();
           builder.newLine();
           builder.append("        ");
-          builder.append(file.content, "        ");
+          builder.append(file.getContent(), "        ");
           builder.newLineIfNotEmpty();
 
           System.out.println(builder.toString());

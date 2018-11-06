@@ -51,7 +51,7 @@ public class FileOutput implements GeneratorOutput {
   public void output(GeneratedFile file) throws IOException {
 
     // write file
-    File targetFile = new File(rootPath, file.targetFile.getPath());
+    File targetFile = new File(rootPath, file.getTargetFile().getPath());
     LOGGER.fine("Writing " + targetFile);
 
     // create missing path(s)
@@ -61,7 +61,7 @@ public class FileOutput implements GeneratorOutput {
     }
 
     BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(targetFile));
-    bufferedWriter.write(file.content);
+    bufferedWriter.write(file.getContent());
     bufferedWriter.close();
   }
 }

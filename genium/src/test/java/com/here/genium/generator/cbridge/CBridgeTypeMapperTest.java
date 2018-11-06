@@ -167,7 +167,7 @@ public final class CBridgeTypeMapperTest {
     assertEquals(BASE_REF_NAME, resultMapType.functionReturnType.name);
     assertEquals("std::unordered_map<std::string, ::Foo>", resultMapType.baseApi);
     assertEquals(2, resultMapType.includes.size());
-    assertEquals(BASE_HANDLE_IMPL_FILE, resultMapType.includes.get(0).fileName);
+    assertEquals(BASE_HANDLE_IMPL_FILE, resultMapType.includes.get(0).getFileName());
     assertEquals(CppLibraryIncludes.MAP, resultMapType.includes.get(1));
   }
 

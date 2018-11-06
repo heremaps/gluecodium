@@ -40,7 +40,7 @@ import org.franca.core.franca.*;
 public class CBridgeTypeMapper {
 
   private static final Include BASE_HANDLE_IMPL_INCLUDE =
-      Include.createInternalInclude(CBridgeNameRules.BASE_HANDLE_IMPL_FILE);
+      Include.Companion.createInternalInclude(CBridgeNameRules.BASE_HANDLE_IMPL_FILE);
 
   private final CppIncludeResolver cppIncludeResolver;
   private final CppNameResolver cppNameResolver;
@@ -63,7 +63,7 @@ public class CBridgeTypeMapper {
             .cType(new CType(BASE_REF_NAME))
             .functionReturnType(CType.BYTE_ARRAY_REF)
             .category(BUILTIN_BYTEBUFFER)
-            .include(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
+            .include(Include.Companion.createInternalInclude(BASE_HANDLE_IMPL_FILE))
             .build();
   }
 
@@ -191,7 +191,7 @@ public class CBridgeTypeMapper {
     CppTypeInfo valueType = mapType(francaMapType.getValueType());
 
     List<Include> includes = new LinkedList<>();
-    includes.add(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE));
+    includes.add(Include.Companion.createInternalInclude(BASE_HANDLE_IMPL_FILE));
     includes.add(CppLibraryIncludes.MAP);
 
     String enumHash = null;

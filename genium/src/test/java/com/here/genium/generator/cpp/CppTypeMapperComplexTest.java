@@ -68,7 +68,7 @@ public class CppTypeMapperComplexTest {
   @Mock private CppIncludeResolver includeResolver;
   @Mock private CppNameResolver nameResolver;
 
-  private final Include internalInclude = Include.createInternalInclude("nonsense");
+  private final Include internalInclude = Include.Companion.createInternalInclude("nonsense");
 
   private CppTypeMapper typeMapper;
 

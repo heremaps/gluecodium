@@ -17,19 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common;
+package com.here.genium.generator.common
 
-import java.io.File;
-import lombok.EqualsAndHashCode;
+import java.io.File
 
-@EqualsAndHashCode
-public final class GeneratedFile {
-
-  public final String content;
-  public final File targetFile;
-
-  public GeneratedFile(final String content, final String targetFile) {
-    this.content = content;
-    this.targetFile = new File(targetFile);
-  }
+data class GeneratedFile(
+    val content: String,
+    private val targetFilename: String
+) {
+    val targetFile: File = File(targetFilename)
 }

@@ -102,7 +102,7 @@ public final class JniTemplates {
       List<JniContainer> jniContainers, List<GeneratedFile> results) {
 
     final Set<Include> includes = new LinkedHashSet<>();
-    jniContainers.forEach(model -> includes.addAll(model.includes));
+    jniContainers.forEach(model -> includes.addAll(model.getIncludes()));
 
     Map<String, Object> mustacheData = new HashMap<>();
     mustacheData.put(INCLUDES_NAME, includes);
@@ -118,13 +118,13 @@ public final class JniTemplates {
     mustacheData.put(
         INCLUDES_NAME,
         Arrays.asList(
-            Include.createInternalInclude(
+            Include.Companion.createInternalInclude(
                 JniNameRules.getHeaderFileName(JniNameRules.JNI_STRUCT_CONVERSION_NAME)),
             CppLibraryIncludes.INT_TYPES,
             CppLibraryIncludes.VECTOR,
-            Include.createInternalInclude(
+            Include.Companion.createInternalInclude(
                 JniNameRules.getHeaderFileName(AndroidGeneratorSuite.FIELD_ACCESS_UTILS)),
-            Include.createInternalInclude(
+            Include.Companion.createInternalInclude(
                 JniNameRules.getHeaderFileName(JniNameRules.JNI_ENUM_CONVERSION_NAME))));
 
     results.add(
@@ -137,7 +137,7 @@ public final class JniTemplates {
   private void addEnumConversionFiles(
       List<JniContainer> jniContainers, List<GeneratedFile> results) {
     final Set<Include> includes = new LinkedHashSet<>();
-    jniContainers.forEach(model -> includes.addAll(model.includes));
+    jniContainers.forEach(model -> includes.addAll(model.getIncludes()));
 
     Map<String, Object> mustacheData = new HashMap<>();
     mustacheData.put(INCLUDES_NAME, includes);
@@ -153,7 +153,7 @@ public final class JniTemplates {
     mustacheData.put(
         INCLUDES_NAME,
         Collections.singletonList(
-            Include.createInternalInclude(
+            Include.Companion.createInternalInclude(
                 JniNameRules.getHeaderFileName(JniNameRules.JNI_ENUM_CONVERSION_NAME))));
 
     results.add(
@@ -167,16 +167,13 @@ public final class JniTemplates {
       List<JniContainer> jniContainers, List<GeneratedFile> results) {
 
     List<JniContainer> instanceContainers =
-        jniContainers
-            .stream()
-            .filter(container -> container.isFrancaInterface)
-            .collect(Collectors.toList());
+        jniContainers.stream().filter(JniContainer::isFrancaInterface).collect(Collectors.toList());
 
     Map<String, Object> instanceData = new HashMap<>();
     final Set<Include> instanceIncludes = new LinkedHashSet<>();
     instanceIncludes.add(CppLibraryIncludes.MEMORY);
     instanceIncludes.add(CppLibraryIncludes.NEW);
-    instanceContainers.forEach(container -> instanceIncludes.addAll(container.includes));
+    instanceContainers.forEach(container -> instanceIncludes.addAll(container.getIncludes()));
     instanceData.put(INCLUDES_NAME, instanceIncludes);
     instanceData.put(MODELS_NAME, instanceContainers);
     instanceData.put(BASE_PACKAGES_NAME, basePackages);
@@ -189,7 +186,7 @@ public final class JniTemplates {
             jniNameRules.getHeaderFilePath(JniNameRules.JNI_INSTANCE_CONVERSION_NAME)));
 
     instanceIncludes.add(
-        Include.createInternalInclude(
+        Include.Companion.createInternalInclude(
             JniNameRules.getHeaderFileName(JniNameRules.JNI_INSTANCE_CONVERSION_NAME)));
 
     results.add(
@@ -220,7 +217,7 @@ public final class JniTemplates {
               "jni/CppProxyHeader", containerData, jniNameRules.getHeaderFilePath(fileName)));
 
       Include headerInclude =
-          Include.createInternalInclude(JniNameRules.getHeaderFileName(fileName));
+          Include.Companion.createInternalInclude(JniNameRules.getHeaderFileName(fileName));
 
       proxyIncludes.add(headerInclude);
 
@@ -247,8 +244,8 @@ public final class JniTemplates {
 
   private static boolean isListener(final JniContainer jniContainer) {
 
-    return jniContainer.isInterface
-        && jniContainer.methods.stream().allMatch(method -> method.returnType == null);
+    return jniContainer.isInterface()
+        && jniContainer.getMethods().stream().allMatch(method -> method.getReturnType() == null);
   }
 
   private static GeneratedFile generateFile(
