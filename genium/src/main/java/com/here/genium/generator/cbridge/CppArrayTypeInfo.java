@@ -52,12 +52,8 @@ public final class CppArrayTypeInfo extends CppTypeInfo {
   private static String arrayFindNested(final CppTypeInfo innerType) {
 
     String arrayName = innerType.name;
-
     if (innerType instanceof CppArrayTypeInfo) {
-      CppTypeInfo innerInnerType = ((CppArrayTypeInfo) innerType).innerType;
-      if (innerInnerType != null) {
-        arrayName = arrayFindNested(innerInnerType);
-      }
+      arrayName = arrayFindNested(((CppArrayTypeInfo) innerType).innerType);
     }
 
     return "std::vector<" + arrayName + ">";

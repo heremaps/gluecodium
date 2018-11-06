@@ -69,7 +69,7 @@ public final class CArrayMapper {
       if (francaRef.getDerived() != null) {
         elementName = getName(francaRef.getDerived());
       } else {
-        elementName = getTypeRefName(francaRef);
+        elementName = francaRef.getPredefined().getName();
       }
     } else if (object instanceof FStructType) {
       FStructType struct = (FStructType) object;
@@ -88,26 +88,12 @@ public final class CArrayMapper {
   }
 
   private static String addNestedSuffixIfNeeded(final CppTypeInfo innerType) {
-
-    if (!(innerType instanceof CppArrayTypeInfo)) {
-      return "";
-    }
-
-    CppTypeInfo innerInnerType = ((CppArrayTypeInfo) innerType).innerType;
-    return innerInnerType != null ? addNestedSuffixIfNeeded(innerInnerType) + "Array" : "";
+    return innerType instanceof CppArrayTypeInfo
+        ? addNestedSuffixIfNeeded(((CppArrayTypeInfo) innerType).innerType) + "Array"
+        : "";
   }
 
   public static String addPrefix(final String typeString) {
     return "arrayCollection_" + typeString;
-  }
-
-  private static String getTypeRefName(FTypeRef ref) {
-    if (ref.getPredefined() != FBasicTypeId.UNDEFINED) {
-      return ref.getPredefined().getName();
-    } else if (ref.getDerived() != null) {
-      return ref.getDerived().getName();
-    } else {
-      return FBasicTypeId.UNDEFINED.getName();
-    }
   }
 }

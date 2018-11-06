@@ -114,13 +114,9 @@ public final class CBridgeNameRules {
 
   public static String getBaseApiCall(
       final CppTypeInfo.TypeCategory category, final String baseAPIName) {
-    switch (category) {
-      case CLASS:
-        return "std::shared_ptr<" + baseAPIName + ">";
-      case STRUCT:
-        return baseAPIName;
-    }
-    return null;
+    return category == CppTypeInfo.TypeCategory.CLASS
+        ? "std::shared_ptr<" + baseAPIName + ">"
+        : baseAPIName;
   }
 
   public static String getPropertySetterName(final FAttribute attribute) {
