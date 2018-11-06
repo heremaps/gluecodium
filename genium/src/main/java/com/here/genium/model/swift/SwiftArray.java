@@ -53,21 +53,6 @@ public final class SwiftArray extends SwiftType {
     this.refName = refName;
   }
 
-  @SuppressWarnings("unused")
-  public String getSwiftArrayConversion() {
-    return swiftRecursiveTransformation(underlyingType);
-  }
-
-  @SuppressWarnings("unused")
-  public boolean isNested() {
-    return (underlyingType.category == TypeCategory.ARRAY);
-  }
-
-  @SuppressWarnings("unused")
-  public String getPrivateInnerType() {
-    return underlyingType.implementingClass;
-  }
-
   @Override
   public SwiftType withAlias(String aliasName) {
     return new SwiftArray(
@@ -76,14 +61,5 @@ public final class SwiftArray extends SwiftType {
 
   private static String getImplName(SwiftType underlyingType) {
     return "CollectionOf<" + underlyingType.publicName + ">";
-  }
-
-  private String swiftRecursiveTransformation(final SwiftType type) {
-    if (type.category == TypeCategory.ARRAY) {
-      SwiftArray arrayType = (SwiftArray) type;
-      return "[" + swiftRecursiveTransformation(arrayType.underlyingType) + "]";
-    } else {
-      return type.name;
-    }
   }
 }

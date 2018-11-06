@@ -33,9 +33,4 @@ public abstract class CppElement extends Streamable<CppElement> {
     this.name = name;
     this.fullyQualifiedName = fullyQualifiedName;
   }
-
-  @Override
-  public String toString() {
-    return this.getClass().getSimpleName() + "::" + name;
-  }
 }
