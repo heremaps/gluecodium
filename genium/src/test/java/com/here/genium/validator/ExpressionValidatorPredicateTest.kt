@@ -38,6 +38,7 @@ import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
+import org.franca.core.franca.FEvaluableElement
 
 @RunWith(JUnit4::class)
 class ExpressionValidatorPredicateTest {
@@ -57,9 +58,11 @@ class ExpressionValidatorPredicateTest {
     @Mock
     private lateinit var francaCompoundExpression: FOperation
     @Mock
-    private lateinit var francaEnumeratorRef: FQualifiedElementRef
+    private lateinit var francaElementRef: FQualifiedElementRef
     @Mock
     private lateinit var francaUnaryOperation: FUnaryOperation
+    @Mock
+    private lateinit var francaEvaluableElement: FEvaluableElement
 
     private val validatorPredicate = ExpressionValidatorPredicate()
 
@@ -77,8 +80,7 @@ class ExpressionValidatorPredicateTest {
         `when`<EObject>(francaEnumerationType.eContainer()).thenReturn(francaTypeCollection)
         `when`<EObject>(francaEnumerator.eContainer()).thenReturn(francaEnumerationType)
         `when`<EObject>(francaConstantDef.eContainer()).thenReturn(francaTypeCollection)
-
-        `when`(francaEnumeratorRef.element).thenReturn(francaEnumerator)
+        `when`(francaElementRef.eContainer()).thenReturn(francaTypeCollection)
     }
 
     @Test
@@ -102,7 +104,16 @@ class ExpressionValidatorPredicateTest {
 
     @Test
     fun validateWithEnumeratorReferenceExpression() {
-        assertNull(validatorPredicate.validate(null, francaEnumeratorRef))
+        `when`(francaElementRef.element).thenReturn(francaEnumerator)
+
+        assertNull(validatorPredicate.validate(null, francaElementRef))
+    }
+
+    @Test
+    fun validateWithNonEnumeratorReferenceExpression() {
+        `when`(francaElementRef.element).thenReturn(francaEvaluableElement)
+
+        assertNotNull(validatorPredicate.validate(null, francaElementRef))
     }
 
     @Test

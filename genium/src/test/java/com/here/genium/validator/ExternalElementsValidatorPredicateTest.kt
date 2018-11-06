@@ -104,6 +104,14 @@ class ExternalElementsValidatorPredicateTest {
     }
 
     @Test
+    fun validateWithoutExternalGetterAndWithExternalSetterReadonly() {
+        `when`(francaAttribute.isReadonly).thenReturn(true)
+        `when`(deploymentModel.getExternalSetter(francaElement)).thenReturn("Baz")
+
+        assertNotNull(validatorPredicate.validate(deploymentModel, francaElement))
+    }
+
+    @Test
     fun validateWithoutExternalGetterAndWithoutExternalSetter() =
         assertNull(validatorPredicate.validate(deploymentModel, francaElement))
 
