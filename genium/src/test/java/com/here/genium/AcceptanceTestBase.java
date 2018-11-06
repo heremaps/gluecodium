@@ -162,8 +162,8 @@ public abstract class AcceptanceTestBase {
             .stream()
             .collect(
                 Collectors.toMap(
-                    generatedFile -> generatedFile.targetFile.getPath(),
-                    generatedFile -> generatedFile.content));
+                    generatedFile -> generatedFile.getTargetFile().getPath(),
+                    generatedFile -> generatedFile.getContent()));
 
     for (final File referenceFile : referenceFiles) {
       String relativePath = getRelativePath(outputDirectory, referenceFile);

@@ -23,15 +23,15 @@ import com.here.genium.model.common.Include;
 
 public final class CppLibraryIncludes {
   // Standard
-  public static final Include INT_TYPES = Include.createSystemInclude("cstdint");
-  public static final Include MAP = Include.createSystemInclude("unordered_map");
-  public static final Include MEMORY = Include.createSystemInclude("memory");
-  public static final Include STRING = Include.createSystemInclude("string");
-  public static final Include VECTOR = Include.createSystemInclude("vector");
-  public static final Include NEW = Include.createSystemInclude("new");
-  public static final Include SYSTEM_ERROR = Include.createSystemInclude("system_error");
+  public static final Include INT_TYPES = Include.Companion.createSystemInclude("cstdint");
+  public static final Include MAP = Include.Companion.createSystemInclude("unordered_map");
+  public static final Include MEMORY = Include.Companion.createSystemInclude("memory");
+  public static final Include STRING = Include.Companion.createSystemInclude("string");
+  public static final Include VECTOR = Include.Companion.createSystemInclude("vector");
+  public static final Include NEW = Include.Companion.createSystemInclude("new");
+  public static final Include SYSTEM_ERROR = Include.Companion.createSystemInclude("system_error");
 
   // Custom
-  public static final Include RETURN = Include.createInternalInclude("Return.h");
-  public static final Include ENUM_HASH = Include.createInternalInclude("EnumHash.h");
+  public static final Include RETURN = Include.Companion.createInternalInclude("Return.h");
+  public static final Include ENUM_HASH = Include.Companion.createInternalInclude("EnumHash.h");
 }

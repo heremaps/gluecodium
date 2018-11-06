@@ -17,19 +17,18 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common;
+package com.here.genium.model.jni
 
-import java.io.File;
-import lombok.EqualsAndHashCode;
+import com.here.genium.model.java.JavaPackage
 
-@EqualsAndHashCode
-public final class GeneratedFile {
-
-  public final String content;
-  public final File targetFile;
-
-  public GeneratedFile(final String content, final String targetFile) {
-    this.content = content;
-    this.targetFile = new File(targetFile);
-  }
+class JniEnum @JvmOverloads constructor(
+    javaPackage: JavaPackage? = null,
+    val javaEnumName: String,
+    val cppEnumName: String,
+    val enumerators: List<JniEnumerator> = listOf(),
+    owningContainer: JniContainer? = null
+) : JniTopLevelElement(javaPackage) {
+    init {
+        this.owningContainer = owningContainer
+    }
 }

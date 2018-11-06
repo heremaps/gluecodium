@@ -17,13 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.jni;
+package com.here.genium.model.jni
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
-public final class JniException implements JniElement {
-
-  public final String javaClassName;
-  public final JniType jniEnum;
-}
+data class JniMethod @JvmOverloads constructor(
+    var owningContainer: JniContainer? = null,
+    val javaMethodName: String? = null,
+    val cppMethodName: String? = null,
+    val returnType: JniType? = null,
+    val isStatic: Boolean = false,
+    val isConst: Boolean = false,
+    val isOverloaded: Boolean = false,
+    val exception: JniException? = null,
+    val parameters: MutableList<JniParameter> = mutableListOf()
+) : JniElement

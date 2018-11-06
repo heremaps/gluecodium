@@ -35,7 +35,9 @@ import org.junit.runners.JUnit4;
 public final class CppTemplateTypeRefTest {
 
   private static final List<Include> INCLUDES =
-      Arrays.asList(Include.createInternalInclude("a"), Include.createInternalInclude("b"));
+      Arrays.asList(
+          Include.Companion.createInternalInclude("a"),
+          Include.Companion.createInternalInclude("b"));
 
   private static final CppPrimitiveTypeRef INT_TYPE_REF = CppPrimitiveTypeRef.INT32;
 
@@ -43,7 +45,7 @@ public final class CppTemplateTypeRefTest {
       new CppTemplateTypeRef.Builder("Custom").includes(INCLUDES).build();
 
   private static final List<Include> ERROR_INCLUDES =
-      Collections.singletonList(Include.createInternalInclude("E"));
+      Collections.singletonList(Include.Companion.createInternalInclude("E"));
 
   private static final CppComplexTypeRef ERROR_TYPE_REF =
       new CppTemplateTypeRef.Builder("CustomError").includes(ERROR_INCLUDES).build();

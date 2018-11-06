@@ -56,8 +56,8 @@ public class CppTypeInfo extends CElement {
           .category(TypeCategory.BUILTIN_STRING)
           .include(CppLibraryIncludes.STRING)
           .include(CppLibraryIncludes.NEW)
-          .include(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
-          .include(Include.createInternalInclude(STRING_HANDLE_FILE))
+          .include(Include.Companion.createInternalInclude(BASE_HANDLE_IMPL_FILE))
+          .include(Include.Companion.createInternalInclude(STRING_HANDLE_FILE))
           .build();
 
   @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterNumber"})

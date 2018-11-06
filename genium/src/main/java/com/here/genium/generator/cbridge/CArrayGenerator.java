@@ -63,7 +63,7 @@ public final class CArrayGenerator {
 
     Collection<Include> implementationIncludes =
         new TreeSet<>(CBridgeComponents.collectImplementationIncludes(arrays));
-    implementationIncludes.add(Include.createInternalInclude(CBRIDGE_ARRAY_HEADER));
+    implementationIncludes.add(Include.Companion.createInternalInclude(CBRIDGE_ARRAY_HEADER));
 
     Map<String, Object> implementationData = new HashMap<>();
     implementationData.put("arrays", arrays);
