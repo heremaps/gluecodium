@@ -86,8 +86,4 @@ public class CppTypeInfo extends CElement {
   public static Builder builder(final String name) {
     return new Builder().name(name);
   }
-
-  public boolean isStruct() {
-    return typeCategory == TypeCategory.STRUCT;
-  }
 }
