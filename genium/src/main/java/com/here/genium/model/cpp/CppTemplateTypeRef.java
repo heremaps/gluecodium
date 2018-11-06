@@ -69,8 +69,7 @@ public final class CppTemplateTypeRef extends CppComplexTypeRef {
     String parametersString =
         templateParameters.stream().map(param -> param.name).collect(Collectors.joining(", "));
     String fullyQualifiedName =
-        CppNameRules.joinFullyQualifiedName(
-                Collections.singletonList(namespace), templateClass.name)
+        CppNameRules.joinFullyQualifiedName(namespace, templateClass.name)
             + "< "
             + parametersString
             + " >";

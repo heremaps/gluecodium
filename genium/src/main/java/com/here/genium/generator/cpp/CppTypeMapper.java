@@ -22,7 +22,6 @@ package com.here.genium.generator.cpp;
 import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
-import java.util.Collections;
 import org.franca.core.franca.*;
 
 /**
@@ -59,9 +58,7 @@ public class CppTypeMapper {
   }
 
   public CppTypeRef getEnumHashType() {
-    String name =
-        CppNameRules.joinFullyQualifiedName(
-            Collections.singletonList(internalNamespace), ENUM_HASH_CLASS_NAME);
+    String name = CppNameRules.joinFullyQualifiedName(internalNamespace, ENUM_HASH_CLASS_NAME);
     return new CppComplexTypeRef.Builder(name).include(CppLibraryIncludes.ENUM_HASH).build();
   }
 
