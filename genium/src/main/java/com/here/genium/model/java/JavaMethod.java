@@ -23,7 +23,7 @@ import java.util.*;
 import java.util.stream.Stream;
 import lombok.Singular;
 
-public final class JavaMethod extends JavaElement {
+public final class JavaMethod extends JavaAnnotatedElement {
 
   public enum MethodQualifier {
     STATIC("static"),
@@ -74,6 +74,7 @@ public final class JavaMethod extends JavaElement {
 
   @Override
   public Stream<JavaElement> stream() {
-    return Stream.concat(Stream.of(returnType, exception), parameters.stream());
+    return Stream.concat(
+        Stream.of(returnType, exception), Stream.concat(parameters.stream(), super.stream()));
   }
 }

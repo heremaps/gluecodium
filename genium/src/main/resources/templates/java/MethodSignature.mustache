@@ -19,4 +19,7 @@
   !
   !}}
 {{>java/MethodComment}}
+{{#annotations}}
+@{{name}}
+{{/annotations}}
 {{#if visibility.toString}}{{visibility}} {{/if}}{{#qualifiers}}{{this}} {{/qualifiers}}{{returnType.name}} {{name}}({{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}};
