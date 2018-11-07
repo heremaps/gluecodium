@@ -3,6 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public class DefaultValues extends NativeBase {
     public enum SomeEnum {
@@ -94,5 +95,6 @@ public class DefaultValues extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
+    @NonNull
     public static native DefaultValues.StructWithDefaults processStructWithDefaults(final DefaultValues.StructWithDefaults input);
 }

@@ -5,6 +5,7 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +43,7 @@ public class Maps extends NativeBase {
     public static native Map<Integer, String> methodWithMap(final Map<Integer, String> input);
     public static native Map<Long, Maps.SomeStruct> methodWithMapToStruct(final Map<Long, Maps.SomeStruct> input);
     public static native Map<Long, Map<Long, Maps.SomeStruct>> methodWithNestedMap(final Map<Long, Map<Long, Maps.SomeStruct>> input);
+    @NonNull
     public static native Maps.StructWithMap methodWithStructWithMap(final Maps.StructWithMap input);
     public static native Map<String, List<Integer>> methodWithMapOfArrays(final Map<String, List<Integer>> input);
 }

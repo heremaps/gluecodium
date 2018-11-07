@@ -5,6 +5,7 @@
 
 package com.example.examples;
 
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 
 public class Structs extends NativeBase {
@@ -60,6 +61,8 @@ public class Structs extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
 
+    @NonNull
     public static native Structs.SyncResult methodWithNonNestedType(final Structs.SyncResult input);
+    @NonNull
     public static native Structs.IdentifiableSyncResult methodWithNestedType(final Structs.IdentifiableSyncResult input);
 }

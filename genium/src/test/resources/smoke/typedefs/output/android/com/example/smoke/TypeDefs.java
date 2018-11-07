@@ -5,6 +5,7 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
 
@@ -40,8 +41,11 @@ public class TypeDefs extends NativeBase {
     public static native double methodWithPrimitiveTypeDef(final double input);
     public static native List<TypeDefs.TestStruct> methodWithComplexTypeDef(final List<TypeDefs.TestStruct> input);
     public static native double returnNestedIntTypeDef(final double input);
+    @NonNull
     public static native TypeDefs.TestStruct returnTestStructTypeDef(final TypeDefs.TestStruct input);
+    @NonNull
     public static native TypeDefs.TestStruct returnNestedStructTypeDef(final TypeDefs.TestStruct input);
+    @NonNull
     public static native Point returnTypeDefPointFromTypeCollection(final Point input);
     public native List<Double> getPrimitiveTypeAttribute();
     public native void setPrimitiveTypeAttribute(final List<Double> value);

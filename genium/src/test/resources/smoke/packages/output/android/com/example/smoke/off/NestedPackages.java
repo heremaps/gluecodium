@@ -3,6 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke.off;
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public class NestedPackages extends NativeBase {
     public static class SomeStruct {
@@ -24,5 +25,6 @@ public class NestedPackages extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
+    @NonNull
     public static native NestedPackages.SomeStruct basicMethod(final NestedPackages.SomeStruct input);
 }
