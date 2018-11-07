@@ -32,7 +32,7 @@ class ExternalTypesTests: XCTestCase {
         let inputStruct = UseExternalTypes.StructWithExternalTypes(structField: externalStruct,
                                                                    enumField: .foo)
 
-        let resultStruct = UseExternalTypes.extractExternalStruct(nestedStruct: inputStruct)!
+        let resultStruct = UseExternalTypes.extractExternalStruct(nestedStruct: inputStruct)
 
         XCTAssertNotNil(resultStruct)
         XCTAssertEqual("foo", resultStruct.stringField)

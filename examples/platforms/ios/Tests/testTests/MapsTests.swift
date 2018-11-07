@@ -100,7 +100,7 @@ class MapsTests: XCTestCase {
     func testMethodWithStructWithMapEmpty() {
         let inputStruct = Maps.StructWithMap(errorMapping: [:])
 
-        let resultStruct = Maps.methodWithStructWithMap(input: inputStruct)!
+        let resultStruct = Maps.methodWithStructWithMap(input: inputStruct)
 
         XCTAssertEqual(resultStruct.errorMapping.count, 0)
     }
@@ -110,7 +110,7 @@ class MapsTests: XCTestCase {
 
         let inputStruct = Maps.StructWithMap(errorMapping: inputDict)
 
-        let resultStruct = Maps.methodWithStructWithMap(input: inputStruct)!
+        let resultStruct = Maps.methodWithStructWithMap(input: inputStruct)
 
         XCTAssertEqual(resultStruct.errorMapping.count, 3)
         XCTAssertEqual(resultStruct.errorMapping[11], outputValue1)

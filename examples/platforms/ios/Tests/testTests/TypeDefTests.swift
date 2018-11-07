@@ -47,17 +47,17 @@ class TypeDefTests: XCTestCase {
     func testNestedStructInMethod() {
         let nestedArgument: StaticTypedef.NestedStructTypedef = StaticTypedef.ExampleStruct(exampleString: "Test4")
         let returnValue = StaticTypedef.returnNestedStructTypedef(input: nestedArgument)
-        let returnMirror = Mirror(reflecting: returnValue!)
-        XCTAssertEqual(returnValue?.exampleString, Optional("Hello Test4"))
+        let returnMirror = Mirror(reflecting: returnValue)
+        XCTAssertEqual(returnValue.exampleString, Optional("Hello Test4"))
         XCTAssertTrue(returnMirror.subjectType == StaticTypedef.ExampleStruct.self)
     }
 
     func testTypeDefDefinedOutsideClass() {
         let typeCollectionTypeDef: PointTypedef = Point(x: 1.0, y: 1.0)
         let returnValue = StaticTypedef.returnTypedefPointFromTypeCollection(input: typeCollectionTypeDef)
-        let returnMirror = Mirror(reflecting: returnValue!)
-        XCTAssertEqual(returnValue?.x, Optional(1.0))
-        XCTAssertEqual(returnValue?.y, Optional(1.0))
+        let returnMirror = Mirror(reflecting: returnValue)
+        XCTAssertEqual(returnValue.x, Optional(1.0))
+        XCTAssertEqual(returnValue.y, Optional(1.0))
         XCTAssertTrue(returnMirror.subjectType == Point.self)
     }
 

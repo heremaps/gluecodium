@@ -24,7 +24,7 @@ import hello
 class DefaultsTests: XCTestCase {
 
     func testGetDefault() {
-      let result = Defaults.getDefault()!
+      let result = Defaults.getDefault()
 
       let expectedStruct = Defaults.StructWithDefaults()
       XCTAssertEqual(result.intField, expectedStruct.intField)
@@ -64,7 +64,7 @@ class DefaultsTests: XCTestCase {
     }
 
     func testGetImmutableDefault() {
-      let result = Defaults.getImmutableDefault()!
+      let result = Defaults.getImmutableDefault()
 
       let expectedStruct = Defaults.ImmutableStructWithDefaults(uintField: 0, boolField: false)
       XCTAssertEqual(result.intField, expectedStruct.intField)
