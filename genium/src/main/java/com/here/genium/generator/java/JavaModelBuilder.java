@@ -188,7 +188,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     String name = JavaNameRules.getConstantName(francaConstant.getName());
     JavaValue value = getPreviousResult(JavaValue.class);
 
-    JavaConstant javaConstant = new JavaConstant(javaType, name, value);
+    JavaConstant javaConstant = new JavaConstant(name, javaType, value);
     javaConstant.visibility = getVisibility(francaConstant);
     javaConstant.comment = CommentHelper.getDescription(francaConstant);
 

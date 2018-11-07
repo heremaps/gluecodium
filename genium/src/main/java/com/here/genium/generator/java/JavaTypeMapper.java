@@ -19,6 +19,7 @@
 
 package com.here.genium.generator.java;
 
+import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.franca.DefinedBy;
@@ -124,7 +125,7 @@ public class JavaTypeMapper {
       return mapCustomType(francaType);
     }
 
-    return new JavaCustomType("TODO");
+    throw new GeniumExecutionException("Unmapped derived type: " + francaType.getName());
   }
 
   public JavaTemplateType mapArray(FArrayType arrayType) {
