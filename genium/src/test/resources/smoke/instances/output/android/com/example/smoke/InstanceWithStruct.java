@@ -71,6 +71,8 @@ public class InstanceWithStruct extends NativeBase {
     }
 
     private static native void disposeNativeHandle(long nativeHandle);
+    @NonNull
     public native InstanceWithStruct.InnerStruct innerStructMethod(final InstanceWithStruct.InnerStruct inputStruct);
+    @NonNull
     public native InstanceWithStruct.StructWithInstance structWithInstanceMethod(final InstanceWithStruct.StructWithInstance input);
 }

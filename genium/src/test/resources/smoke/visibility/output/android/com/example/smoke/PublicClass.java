@@ -5,6 +5,7 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 
 public class PublicClass extends NativeBase {
@@ -49,7 +50,9 @@ public class PublicClass extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
 
+    @NonNull
     native PublicClass.InternalStruct internalMethod(final PublicClass.InternalStruct input);
+    @NonNull
     native PublicClass.InternalStruct getInternalStructAttribute();
     native void setInternalStructAttribute(final PublicClass.InternalStruct value);
 }

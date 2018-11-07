@@ -5,6 +5,7 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 
 class InterfaceWithStructImpl extends NativeBase implements InterfaceWithStruct {
@@ -18,5 +19,6 @@ class InterfaceWithStructImpl extends NativeBase implements InterfaceWithStruct 
     }
 
     private static native void disposeNativeHandle(long nativeHandle);
+    @NonNull
     public native InterfaceWithStruct.InnerStruct innerStructMethod(final InterfaceWithStruct.InnerStruct inputStruct);
 }

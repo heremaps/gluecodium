@@ -5,6 +5,7 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.ArrayList;
 import java.util.List;
@@ -279,14 +280,24 @@ public class Structs extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
+    @NonNull
     public static native Structs.Point createPoint(final double x, final double y);
+    @NonNull
     public static native Structs.Point swapPointCoordinates(final Structs.Point input);
+    @NonNull
     public static native Structs.Line createLine(final Structs.Point pointA, final Structs.Point pointB);
+    @NonNull
     public static native Structs.ColoredLine createColoredLine(final Structs.Line line, final Structs.Color color);
+    @NonNull
     public static native Structs.ColoredLine returnColoredLine(final Structs.ColoredLine input);
+    @NonNull
     public static native Structs.AllTypesStruct returnAllTypesStruct(final Structs.AllTypesStruct input);
+    @NonNull
     public static native Structs.AllTypesStruct modifyAllTypesStruct(final Structs.AllTypesStruct input);
+    @NonNull
     public static native Structs.ExternalStruct getExternalStruct();
+    @NonNull
     public static native Structs.AnotherExternalStruct getAnotherExternalStruct();
+    @NonNull
     public static native Structs.YetAnotherExternalStruct getYetAnotherExternalStruct();
 }
