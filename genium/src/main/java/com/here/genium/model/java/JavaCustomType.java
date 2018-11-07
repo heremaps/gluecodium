@@ -27,21 +27,25 @@ public class JavaCustomType extends JavaComplexType {
 
   public final boolean isInterface;
 
-  public JavaCustomType(final String name) {
-    this(name, null, null, null, false);
+  public JavaCustomType(final String fullName, final JavaPackage javaPackage) {
+    this(fullName, null, javaPackage.packageNames, new JavaImport(fullName, javaPackage));
   }
 
-  public JavaCustomType(final String fullName, final JavaPackage javaPackage) {
+  protected JavaCustomType(
+      final String fullName,
+      final List<String> classNames,
+      final List<String> packageNames,
+      final JavaImport javaImport) {
     this(
         fullName,
-        null,
-        javaPackage.packageNames,
-        Collections.singletonList(new JavaImport(fullName, javaPackage)),
+        classNames,
+        packageNames,
+        javaImport != null ? Collections.singletonList(javaImport) : null,
         false);
   }
 
   @lombok.Builder(builderClassName = "Builder")
-  protected JavaCustomType(
+  private JavaCustomType(
       final String fullName,
       @Singular final List<String> classNames,
       final List<String> packageNames,

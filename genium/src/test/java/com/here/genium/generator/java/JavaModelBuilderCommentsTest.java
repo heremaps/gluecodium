@@ -70,7 +70,7 @@ public class JavaModelBuilderCommentsTest {
 
   private JavaModelBuilder modelBuilder;
 
-  private final JavaCustomType nativeBase = new JavaCustomType("FooNativeBar");
+  private final JavaCustomType nativeBase = JavaCustomType.builder("FooNativeBar").build();
   private final JavaCustomType javaCustomType = JavaCustomType.builder("typically").build();
 
   @Before
