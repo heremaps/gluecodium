@@ -23,35 +23,26 @@ import hello
 
 class PlainDataStructuresFromTypeCollectionTests: XCTestCase {
     func testReturnStruct() {
-        if let point = PlainDataStructuresFromTypeCollection.createPoint(x: 1.2, y: 3.4) {
-            XCTAssertEqual(point.x, 1.2)
-            XCTAssertEqual(point.y, 3.4)
-        } else {
-            XCTFail("Returned struct is nil")
-        }
+        let point = PlainDataStructuresFromTypeCollection.createPoint(x: 1.2, y: 3.4)
+        XCTAssertEqual(point.x, 1.2)
+        XCTAssertEqual(point.y, 3.4)
     }
 
     func testCreatePassAndReturnStruct() {
         let point = Point(x: 5.6, y: 7.8)
-        if let swappedPoint = PlainDataStructuresFromTypeCollection.swapPointCoordinates(input: point) {
-            XCTAssertEqual(swappedPoint.x, 7.8)
-            XCTAssertEqual(swappedPoint.y, 5.6)
-        } else {
-            XCTFail("Returned struct is nil")
-        }
+        let swappedPoint = PlainDataStructuresFromTypeCollection.swapPointCoordinates(input: point)
+        XCTAssertEqual(swappedPoint.x, 7.8)
+        XCTAssertEqual(swappedPoint.y, 5.6)
     }
 
     func testReturnNestedStruct() {
         let begin = Point(x: 1, y: 2)
         let end = Point(x: 3, y: 4)
-        if let line = PlainDataStructuresFromTypeCollection.createLine(pointA: begin, pointB: end) {
-            XCTAssertEqual(line.a.x, begin.x)
-            XCTAssertEqual(line.a.y, begin.y)
-            XCTAssertEqual(line.b.x, end.x)
-            XCTAssertEqual(line.b.y, end.y)
-        } else {
-            XCTFail("Returned struct is nil")
-        }
+        let line = PlainDataStructuresFromTypeCollection.createLine(pointA: begin, pointB: end)
+        XCTAssertEqual(line.a.x, begin.x)
+        XCTAssertEqual(line.a.y, begin.y)
+        XCTAssertEqual(line.b.x, end.x)
+        XCTAssertEqual(line.b.y, end.y)
     }
 
     func testAllBasicTypesCanBePassedInStruct() {
@@ -70,25 +61,22 @@ class PlainDataStructuresFromTypeCollectionTests: XCTestCase {
             booleanField: true,
             bytesField: Data(bytes: [1, 2, 3]),
             pointField: Point(x: 13, y: 14))
-        if let result = PlainDataStructuresFromTypeCollection.modifyAllTypesStruct(input: allTypes) {
-            XCTAssertEqual(result.int8Field, 1)
-            XCTAssertEqual(result.uint8Field, 2)
-            XCTAssertEqual(result.int16Field, 3)
-            XCTAssertEqual(result.uint16Field, 4)
-            XCTAssertEqual(result.int32Field, 5)
-            XCTAssertEqual(result.uint32Field, 6)
-            XCTAssertEqual(result.int64Field, 7)
-            XCTAssertEqual(result.uint64Field, 8)
-            XCTAssertEqual(result.floatField, 9)
-            XCTAssertEqual(result.doubleField, 10)
-            XCTAssertEqual(result.stringField, "Hello You")
-            XCTAssertEqual(result.booleanField, false)
-            XCTAssertEqual(result.bytesField, Data(bytes: [3, 2, 1]))
-            XCTAssertEqual(result.pointField.x, 14)
-            XCTAssertEqual(result.pointField.y, 13)
-        } else {
-            XCTFail("Returned struct is nil")
-        }
+        let result = PlainDataStructuresFromTypeCollection.modifyAllTypesStruct(input: allTypes)
+        XCTAssertEqual(result.int8Field, 1)
+        XCTAssertEqual(result.uint8Field, 2)
+        XCTAssertEqual(result.int16Field, 3)
+        XCTAssertEqual(result.uint16Field, 4)
+        XCTAssertEqual(result.int32Field, 5)
+        XCTAssertEqual(result.uint32Field, 6)
+        XCTAssertEqual(result.int64Field, 7)
+        XCTAssertEqual(result.uint64Field, 8)
+        XCTAssertEqual(result.floatField, 9)
+        XCTAssertEqual(result.doubleField, 10)
+        XCTAssertEqual(result.stringField, "Hello You")
+        XCTAssertEqual(result.booleanField, false)
+        XCTAssertEqual(result.bytesField, Data(bytes: [3, 2, 1]))
+        XCTAssertEqual(result.pointField.x, 14)
+        XCTAssertEqual(result.pointField.y, 13)
     }
 
     static var allTests = [

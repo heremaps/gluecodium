@@ -40,7 +40,7 @@ class StructWithInstanceTests: XCTestCase {
     }
 
     func testCopyInstanceInStructFromMethod() {
-        let one = hello.InstanceInStruct.createInStruct()!
+        let one = hello.InstanceInStruct.createInStruct()
         do {
            let other = one
            other.mySelf?.setStringValue(stringValue: "Hello")
@@ -51,26 +51,27 @@ class StructWithInstanceTests: XCTestCase {
     func testNullInstanceInStruct() {
         let emptyStruct = hello.InstanceInStruct.createNullInStruct()
         XCTAssertNotNil(emptyStruct)
-        XCTAssertNil(emptyStruct?.mySelf)
+        XCTAssertNil(emptyStruct.mySelf)
     }
 
     func testInstanceInNotNullStruct() {
         let structNotNull = hello.InstanceInStruct.createInNotNullStruct()
         XCTAssertNotNil(structNotNull)
-        XCTAssertNotNil(structNotNull!.mySelf)
+        XCTAssertNotNil(structNotNull.mySelf)
     }
 
-    func testNullInstanceInNotNullStruct() {
-        let emptyStruct = hello.InstanceInStruct.createInEmptyNotNullStruct()
-        XCTAssertNil(emptyStruct)
-    }
+// TODO: APIGEN-1427 add infrastructure for catching fatalError(), rewrite this test and reenable it
+//    func testNullInstanceInNotNullStruct() {
+//        let emptyStruct = hello.InstanceInStruct.createInEmptyNotNullStruct()
+//        XCTAssertNil(emptyStruct)
+//    }
 
     static var allTests = [
         ("testAssignInstanceToStruct", testAssignInstanceToStruct),
         ("testCopyInstanceInStruct", testCopyInstanceInStruct),
         ("testCopyInstanceInStructFromMethod", testCopyInstanceInStructFromMethod),
         ("testNullInstanceInStruct", testNullInstanceInStruct),
-        ("testInstanceInNotNullStruct", testInstanceInNotNullStruct),
-        ("testNullInstanceInNotNullStruct", testNullInstanceInNotNullStruct)
+        ("testInstanceInNotNullStruct", testInstanceInNotNullStruct)/*,
+        ("testNullInstanceInNotNullStruct", testNullInstanceInNotNullStruct)*/
     ]
 }

@@ -45,20 +45,14 @@ class EnumsTests: XCTestCase {
     }
 
     func testCreateStructWithEnumInside() {
-        if let result = Enums.createStructWithEnumInside(
+        var result = Enums.createStructWithEnumInside(
           type: Enums.InternalError.errorNone,
-          message: "MESSAGE") {
-            XCTAssertEqual(result.type, Enums.InternalError.errorFatal)
-        } else {
-            XCTFail("Returned struct is nil")
-        }
-        if let result = Enums.createStructWithEnumInside(
+          message: "MESSAGE")
+        XCTAssertEqual(result.type, Enums.InternalError.errorFatal)
+        result = Enums.createStructWithEnumInside(
           type: Enums.InternalError.errorFatal,
-          message: "MESSAGE") {
-            XCTAssertEqual(result.type, Enums.InternalError.errorNone)
-        } else {
-            XCTFail("Returned struct is nil")
-        }
+          message: "MESSAGE")
+        XCTAssertEqual(result.type, Enums.InternalError.errorNone)
     }
 
     static var allTests = [
