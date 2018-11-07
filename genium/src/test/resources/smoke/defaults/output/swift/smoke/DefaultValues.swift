@@ -41,7 +41,7 @@ public class DefaultValues {
             self.enumField = enumField
             self.externalEnumField = externalEnumField
         }
-        internal init?(cStructWithDefaults: _baseRef) {
+        internal init(cStructWithDefaults: _baseRef) {
             intField = smoke_DefaultValues_StructWithDefaults_intField_get(cStructWithDefaults)
             uintField = smoke_DefaultValues_StructWithDefaults_uintField_get(cStructWithDefaults)
             floatField = smoke_DefaultValues_StructWithDefaults_floatField_get(cStructWithDefaults)
@@ -67,7 +67,7 @@ public class DefaultValues {
             return smoke_DefaultValues_StructWithDefaults_create(intField_handle, uintField_handle, floatField_handle, boolField_handle, stringField_handle, enumField_handle, externalEnumField_handle)
         }
     }
-    public static func processStructWithDefaults(input: DefaultValues.StructWithDefaults) -> DefaultValues.StructWithDefaults? {
+    public static func processStructWithDefaults(input: DefaultValues.StructWithDefaults) -> DefaultValues.StructWithDefaults {
         let input_handle = input.convertToCType()
         defer {
             smoke_DefaultValues_StructWithDefaults_release(input_handle)

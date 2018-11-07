@@ -33,7 +33,7 @@ public struct EquatableStruct: Equatable {
         self.arrayField = arrayField
         self.mapField = mapField
     }
-    internal init?(cEquatableStruct: _baseRef) {
+    internal init(cEquatableStruct: _baseRef) {
         boolField = smoke_Equatable_EquatableStruct_boolField_get(cEquatableStruct)
         intField = smoke_Equatable_EquatableStruct_intField_get(cEquatableStruct)
         longField = smoke_Equatable_EquatableStruct_longField_get(cEquatableStruct)
@@ -51,12 +51,7 @@ public struct EquatableStruct: Equatable {
             defer {
                 smoke_Equatable_NestedEquatableStruct_release(structField_handle)
             }
-            guard
-                let structField_unwrapped = NestedEquatableStruct(cNestedEquatableStruct: structField_handle)
-            else {
-                return nil
-            }
-            structField = structField_unwrapped
+            structField = NestedEquatableStruct(cNestedEquatableStruct: structField_handle)
         }
         enumField = SomeEnum.init(rawValue: smoke_Equatable_EquatableStruct_enumField_get(cEquatableStruct))!
         arrayField = StringList(smoke_Equatable_EquatableStruct_arrayField_get(cEquatableStruct))
@@ -98,7 +93,7 @@ public struct NestedEquatableStruct: Equatable {
     public init(fooField: String) {
         self.fooField = fooField
     }
-    internal init?(cNestedEquatableStruct: _baseRef) {
+    internal init(cNestedEquatableStruct: _baseRef) {
         do {
             let fooField_handle = smoke_Equatable_NestedEquatableStruct_fooField_get(cNestedEquatableStruct)
             defer {

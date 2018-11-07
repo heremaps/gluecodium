@@ -22,7 +22,7 @@ public class StructsFromTypeCollection {
     deinit {
         smoke_StructsFromTypeCollection_release(c_instance)
     }
-    public static func createPoint(x: Double, y: Double) -> Point? {
+    public static func createPoint(x: Double, y: Double) -> Point {
         let cResult = smoke_StructsFromTypeCollection_createPoint(x, y)
         defer {
             smoke_TypeCollection_Point_release(cResult)
@@ -30,7 +30,7 @@ public class StructsFromTypeCollection {
         return Point(cPoint: cResult)
     }
 
-    public static func swapPointCoordinates(input: Point) -> Point? {
+    public static func swapPointCoordinates(input: Point) -> Point {
         let input_handle = input.convertToCType()
         defer {
             smoke_TypeCollection_Point_release(input_handle)
@@ -42,7 +42,7 @@ public class StructsFromTypeCollection {
         return Point(cPoint: cResult)
     }
 
-    public static func createLine(pointA: Point, pointB: Point) -> Line? {
+    public static func createLine(pointA: Point, pointB: Point) -> Line {
         let pointA_handle = pointA.convertToCType()
         defer {
             smoke_TypeCollection_Point_release(pointA_handle)
@@ -58,7 +58,7 @@ public class StructsFromTypeCollection {
         return Line(cLine: cResult)
     }
 
-    public static func createColoredLine(line: Line, color: Color) -> ColoredLine? {
+    public static func createColoredLine(line: Line, color: Color) -> ColoredLine {
         let line_handle = line.convertToCType()
         defer {
             smoke_TypeCollection_Line_release(line_handle)
@@ -74,7 +74,7 @@ public class StructsFromTypeCollection {
         return ColoredLine(cColoredLine: cResult)
     }
 
-    public static func modifyAllTypesStruct(input: AllTypesStruct) -> AllTypesStruct? {
+    public static func modifyAllTypesStruct(input: AllTypesStruct) -> AllTypesStruct {
         let input_handle = input.convertToCType()
         defer {
             smoke_TypeCollection_AllTypesStruct_release(input_handle)

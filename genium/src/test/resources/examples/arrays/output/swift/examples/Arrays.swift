@@ -29,7 +29,7 @@ public class Arrays {
             self.numberOfChanges = numberOfChanges
         }
 
-        internal init?(cSyncResult: _baseRef) {
+        internal init(cSyncResult: _baseRef) {
             lastUpdatedTimeStamp = examples_Arrays_SyncResult_lastUpdatedTimeStamp_get(cSyncResult)
             numberOfChanges = examples_Arrays_SyncResult_numberOfChanges_get(cSyncResult)
         }

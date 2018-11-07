@@ -47,7 +47,7 @@ internal struct InternalStruct {
     public init(stringField: String) {
         self.stringField = stringField
     }
-    internal init?(cInternalStruct: _baseRef) {
+    internal init(cInternalStruct: _baseRef) {
         do {
             let stringField_handle = smoke_PublicInterface_InternalStruct_stringField_get(cInternalStruct)
             defer {

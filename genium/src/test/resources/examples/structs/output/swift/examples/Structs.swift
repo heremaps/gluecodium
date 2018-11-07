@@ -29,7 +29,7 @@ public class Structs {
             self.numberOfChanges = numberOfChanges
         }
 
-        internal init?(cSyncResult: _baseRef) {
+        internal init(cSyncResult: _baseRef) {
             lastUpdatedTimeStamp = examples_Structs_SyncResult_lastUpdatedTimeStamp_get(cSyncResult)
             numberOfChanges = examples_Structs_SyncResult_numberOfChanges_get(cSyncResult)
         }
@@ -48,19 +48,14 @@ public class Structs {
             self.id = id
             self.syncResult = syncResult
         }
-        internal init?(cIdentifiableSyncResult: _baseRef) {
+        internal init(cIdentifiableSyncResult: _baseRef) {
             id = examples_Structs_IdentifiableSyncResult_id_get(cIdentifiableSyncResult)
             do {
                 let syncResult_handle = examples_Structs_IdentifiableSyncResult_syncResult_get(cIdentifiableSyncResult)
                 defer {
                     examples_Structs_SyncResult_release(syncResult_handle)
                 }
-                guard
-                    let syncResult_unwrapped = Structs.SyncResult(cSyncResult: syncResult_handle)
-                else {
-                    return nil
-                }
-                syncResult = syncResult_unwrapped
+                syncResult = Structs.SyncResult(cSyncResult: syncResult_handle)
             }
         }
         internal func convertToCType() -> _baseRef {
@@ -80,7 +75,7 @@ public class Structs {
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
             self.numberOfChanges = numberOfChanges
         }
-        internal init?(cImmutableSyncResult: _baseRef) {
+        internal init(cImmutableSyncResult: _baseRef) {
             lastUpdatedTimeStamp = examples_Structs_ImmutableSyncResult_lastUpdatedTimeStamp_get(cImmutableSyncResult)
             numberOfChanges = examples_Structs_ImmutableSyncResult_numberOfChanges_get(cImmutableSyncResult)
         }
@@ -91,7 +86,7 @@ public class Structs {
         }
     }
 
-    public static func methodWithNonNestedType(input: Structs.SyncResult) -> Structs.SyncResult? {
+    public static func methodWithNonNestedType(input: Structs.SyncResult) -> Structs.SyncResult {
         let input_handle = input.convertToCType()
         defer {
             examples_Structs_SyncResult_release(input_handle)
@@ -103,7 +98,7 @@ public class Structs {
         return Structs.SyncResult(cSyncResult: cResult)
     }
 
-    public static func methodWithNestedType(input: Structs.IdentifiableSyncResult) -> Structs.IdentifiableSyncResult? {
+    public static func methodWithNestedType(input: Structs.IdentifiableSyncResult) -> Structs.IdentifiableSyncResult {
         let input_handle = input.convertToCType()
         defer {
             examples_Structs_IdentifiableSyncResult_release(input_handle)

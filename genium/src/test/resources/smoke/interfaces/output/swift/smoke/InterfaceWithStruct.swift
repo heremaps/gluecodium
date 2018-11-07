@@ -28,7 +28,7 @@ internal func getRef(_ ref: InterfaceWithStruct?) -> RefHolder {
 
 public protocol InterfaceWithStruct : AnyObject {
 
-    func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct?
+    func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct
 }
 
 internal class _InterfaceWithStruct: InterfaceWithStruct {
@@ -45,7 +45,7 @@ internal class _InterfaceWithStruct: InterfaceWithStruct {
     deinit {
         smoke_InterfaceWithStruct_release(c_instance)
     }
-    public func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct? {
+    public func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct {
         let inputStruct_handle = inputStruct.convertToCType()
         defer {
             smoke_InterfaceWithStruct_InnerStruct_release(inputStruct_handle)
@@ -70,7 +70,7 @@ public struct InnerStruct {
         self.value = value
     }
 
-    internal init?(cInnerStruct: _baseRef) {
+    internal init(cInnerStruct: _baseRef) {
         value = smoke_InterfaceWithStruct_InnerStruct_value_get(cInnerStruct)
     }
 
