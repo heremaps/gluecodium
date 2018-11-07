@@ -19,35 +19,20 @@
 
 package com.here.genium.model.java;
 
-import com.google.common.base.Strings;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.stream.Stream;
 
-public final class JavaField extends JavaAnnotatedElement {
+public abstract class JavaAnnotatedElement extends JavaElement {
 
-  public final JavaType type;
-  public final JavaValue initial;
-  public final boolean isNonNull;
+  public final Collection<JavaType> annotations = new LinkedHashSet<>();
 
-  @lombok.Builder(builderClassName = "Builder")
-  private JavaField(
-      final String name, final JavaType type, final JavaValue initial, final boolean isNonNull) {
+  public JavaAnnotatedElement(final String name) {
     super(name);
-    this.type = type;
-    this.initial = initial;
-    this.isNonNull = isNonNull;
-  }
-
-  public static Builder builder(final String name, final JavaType type) {
-    return new Builder().name(name).type(type);
   }
 
   @Override
   public Stream<JavaElement> stream() {
-    return Stream.concat(Stream.of(type, initial), super.stream());
-  }
-
-  @SuppressWarnings("unused")
-  public boolean hasComment() {
-    return !Strings.isNullOrEmpty(comment) || isNonNull;
+    return annotations.stream().map(JavaElement.class::cast);
   }
 }

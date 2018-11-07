@@ -225,6 +225,20 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaMethodAddsNotNullAnnotation() {
+    when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
+    JavaType structType = JavaCustomType.builder("FooStruct").isNotNull(true).build();
+    JavaParameter outParameter = new JavaParameter(structType, "foo", true);
+    contextStack.injectResult(outParameter);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
+    assertNotNull(javaMethod);
+    assertTrue(javaMethod.annotations.contains(javaCustomType));
+  }
+
+  @Test
   public void finishBuildingFrancaInputArgument() {
     contextStack.injectResult(javaCustomType);
 
@@ -636,6 +650,17 @@ public class JavaModelBuilderTest {
         CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JavaMethod.class);
     assertEquals(2, methods.size());
     assertEquals(JavaVisibility.PACKAGE, methods.get(1).visibility);
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeMarksGetterAsNotNull() {
+    when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
+    contextStack.injectResult(JavaCustomType.builder("FooType").isNotNull(true).build());
+    modelBuilder.finishBuilding(francaAttribute);
+
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
+    assertNotNull(javaMethod);
+    assertTrue(javaMethod.annotations.contains(javaCustomType));
   }
 
   @Test

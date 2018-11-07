@@ -146,6 +146,10 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
             .collect(Collectors.toList());
     javaMethod.parameters.addAll(inputParameters);
 
+    if (returnType instanceof JavaCustomType && ((JavaCustomType) returnType).isNotNull) {
+      addNotNullAnnotation(javaMethod);
+    }
+
     storeResult(javaMethod);
     closeContext();
   }
@@ -211,10 +215,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaField.comment = CommentHelper.getDescription(francaField);
 
     if (isNonNull) {
-      JavaType notNullAnnotation = typeMapper.getNotNullAnnotation();
-      if (notNullAnnotation != null) {
-        javaField.annotations.add(notNullAnnotation);
-      }
+      addNotNullAnnotation(javaField);
     }
 
     storeResult(javaField);
@@ -329,6 +330,10 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaMethod getterMethod = JavaMethod.builder(getterName).returnType(javaType).build();
     getterMethod.visibility = visibility;
     getterMethod.comment = comment;
+
+    if (javaType instanceof JavaCustomType && ((JavaCustomType) javaType).isNotNull) {
+      addNotNullAnnotation(getterMethod);
+    }
 
     storeResult(getterMethod);
 
@@ -478,5 +483,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     return deploymentModel.isInternal(francaModelElement)
         ? JavaVisibility.PACKAGE
         : JavaVisibility.PUBLIC;
+  }
+
+  private void addNotNullAnnotation(final JavaAnnotatedElement annotatedElement) {
+    JavaType notNullAnnotation = typeMapper.getNotNullAnnotation();
+    if (notNullAnnotation != null) {
+      annotatedElement.annotations.add(notNullAnnotation);
+    }
   }
 }

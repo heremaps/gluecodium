@@ -181,6 +181,7 @@ public class JavaTypeMapper {
           .classNames(classNames)
           .packageNames(packageNames)
           .javaImport(javaImport)
+          .isNotNull(francaElement instanceof FStructType)
           .build();
     }
   }
