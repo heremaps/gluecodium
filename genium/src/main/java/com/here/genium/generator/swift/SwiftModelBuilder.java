@@ -234,14 +234,12 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
-    SwiftType swiftType = getPreviousResult(SwiftType.class);
-    if (swiftType.category == TypeCategory.STRUCT) {
-      swiftType = swiftType.withOptional(true);
-    }
 
     SwiftParameter swiftParameter =
-        new SwiftOutParameter(SwiftNameRules.getParameterName(francaArgument), swiftType);
+        new SwiftOutParameter(
+            SwiftNameRules.getParameterName(francaArgument), getPreviousResult(SwiftType.class));
     swiftParameter.comment = CommentHelper.getDescription(francaArgument);
+
     storeResult(swiftParameter);
     super.finishBuildingOutputArgument(francaArgument);
   }

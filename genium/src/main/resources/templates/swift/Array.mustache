@@ -90,10 +90,7 @@ return handle{{/defaultSubscript}}
 defer {
     {{underlyingType.cPrefix}}_release(handle)
 }
-guard let result = {{underlyingType}}(c{{underlyingType.simpleName}}: handle) else {
-    fatalError("Unexpected nullptr for {{underlyingType}}")
-}
-return result{{/structSubscript}}
+return {{underlyingType}}(c{{underlyingType.simpleName}}: handle){{/structSubscript}}
 
 {{+classSubscript}}
 guard let result = {{underlyingType.implementingClass}}(c{{underlyingType.simpleName}}: handle) else {

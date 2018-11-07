@@ -111,7 +111,7 @@ defer {
 defer {
     {{returnType.cPrefix}}_release(cResult)
 }
-return {{>returnTypeOrImplClass}}(c{{returnType.simpleName}}: cResult){{#unless returnType.optional}}!{{/unless}}
+return {{>returnTypeOrImplClass}}(c{{returnType.simpleName}}: cResult)
 {{/MethodReturnStruct}}
 
 {{+MethodReturnClass}}{{!!
