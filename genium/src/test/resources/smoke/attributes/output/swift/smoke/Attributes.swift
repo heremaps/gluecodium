@@ -33,7 +33,7 @@ public class Attributes {
             defer {
                 smoke_Attributes_ExampleStruct_release(cResult)
             }
-            return Attributes.ExampleStruct(cExampleStruct: cResult)!
+            return Attributes.ExampleStruct(cExampleStruct: cResult)
         }
         set {
             let newValue_handle = newValue.convertToCType()
@@ -140,7 +140,7 @@ public class Attributes {
             self.value = value
         }
 
-        internal init?(cExampleStruct: _baseRef) {
+        internal init(cExampleStruct: _baseRef) {
             value = smoke_Attributes_ExampleStruct_value_get(cExampleStruct)
         }
 

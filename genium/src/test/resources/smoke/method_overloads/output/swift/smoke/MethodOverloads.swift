@@ -29,7 +29,7 @@ public class MethodOverloads {
             self.y = y
         }
 
-        internal init?(cPoint: _baseRef) {
+        internal init(cPoint: _baseRef) {
             x = smoke_MethodOverloads_Point_x_get(cPoint)
             y = smoke_MethodOverloads_Point_y_get(cPoint)
         }

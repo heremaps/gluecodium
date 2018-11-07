@@ -46,7 +46,7 @@ public class Comments {
         public init(someField: Comments.Usefulness) {
             self.someField = someField
         }
-        internal init?(cSomeStruct: _baseRef) {
+        internal init(cSomeStruct: _baseRef) {
             someField = examples_Comments_SomeStruct_someField_get(cSomeStruct)
         }
         internal func convertToCType() -> _baseRef {

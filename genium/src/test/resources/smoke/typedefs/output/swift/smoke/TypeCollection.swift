@@ -11,7 +11,7 @@ public struct Point {
         self.x = x
         self.y = y
     }
-    internal init?(cPoint: _baseRef) {
+    internal init(cPoint: _baseRef) {
         x = smoke_TypeCollection_Point_x_get(cPoint)
         y = smoke_TypeCollection_Point_y_get(cPoint)
     }
@@ -26,7 +26,7 @@ public struct StructHavingAliasFieldDefinedBelow {
     public init(field: StorageId) {
         self.field = field
     }
-    internal init?(cStructHavingAliasFieldDefinedBelow: _baseRef) {
+    internal init(cStructHavingAliasFieldDefinedBelow: _baseRef) {
         field = smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_field_get(cStructHavingAliasFieldDefinedBelow)
     }
     internal func convertToCType() -> _baseRef {

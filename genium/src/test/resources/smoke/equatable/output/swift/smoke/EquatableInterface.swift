@@ -27,7 +27,7 @@ public class EquatableInterface {
             self.intField = intField
             self.stringField = stringField
         }
-        internal init?(cEquatableStruct: _baseRef) {
+        internal init(cEquatableStruct: _baseRef) {
             intField = smoke_EquatableInterface_EquatableStruct_intField_get(cEquatableStruct)
             do {
                 let stringField_handle = smoke_EquatableInterface_EquatableStruct_stringField_get(cEquatableStruct)
