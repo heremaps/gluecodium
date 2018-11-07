@@ -232,7 +232,7 @@ class ArraysTests: XCTestCase {
     func testArrayInStructOutlivesStruct() {
         var messages: CollectionOf<String>
         do {
-            let fancyStruct = Arrays.createFancyStruct()!
+            let fancyStruct = Arrays.createFancyStruct()
             messages = fancyStruct.messages
         }
         XCTAssertEqual(messages[0], "Hello")
