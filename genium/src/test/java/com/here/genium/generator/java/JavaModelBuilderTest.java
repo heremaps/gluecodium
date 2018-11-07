@@ -83,8 +83,8 @@ public class JavaModelBuilderTest {
   @Mock private FEnumerator francaEnumerator2;
   @Mock private FMapType francaMapType;
 
-  private final JavaCustomType nativeBase = new JavaCustomType("FooNativeBar");
-  private final JavaCustomType javaCustomType = new JavaCustomType("typical");
+  private final JavaCustomType nativeBase = JavaCustomType.builder("FooNativeBar").build();
+  private final JavaCustomType javaCustomType = JavaCustomType.builder("typical").build();
   private final JavaTemplateType javaTemplateType =
       JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaCustomType);
   private final JavaField javaField = JavaField.builder(FIELD_NAME, javaCustomType).build();

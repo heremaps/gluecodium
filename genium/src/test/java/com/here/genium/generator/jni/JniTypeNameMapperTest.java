@@ -72,7 +72,7 @@ public final class JniTypeNameMapperTest {
           {new JavaReferenceType(JavaReferenceType.Type.SHORT), "jobject"},
           {new JavaReferenceType(JavaReferenceType.Type.STRING), "jstring"},
           {new JavaReferenceType(JavaReferenceType.Type.THROWABLE), "jthrowable"},
-          {new JavaCustomType("MyFancyType"), "jobject"}
+          {JavaCustomType.builder("MyFancyType").build(), "jobject"}
         });
   }
 
