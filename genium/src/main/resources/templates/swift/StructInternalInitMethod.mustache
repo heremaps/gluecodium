@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-internal init?(c{{simpleName}}: _baseRef) {
+internal init(c{{simpleName}}: _baseRef) {
 {{#set structName=simpleName}}
 {{#fields}}
     {{#switch type.category.toString}}
@@ -58,12 +58,11 @@ internal init?(c{{simpleName}}: _baseRef) {
     defer {
         byteArray_release({{name}}_handle)
     }
-    guard
-        let array_data_handle = byteArray_data_get({{name}}_handle)
-    else {
-        return nil
+    if let array_data_handle = byteArray_data_get({{name}}_handle) {
+        {{name}} = Data(bytes: array_data_handle, count: Int(byteArray_size_get({{name}}_handle)))
+    } else {
+        {{name}} = Data()
     }
-    {{name}} = Data(bytes: array_data_handle, count: Int(byteArray_size_get({{name}}_handle)))
 }
 {{/assignDataType}}
 
@@ -72,12 +71,7 @@ internal init?(c{{simpleName}}: _baseRef) {
     defer {
         {{type.cPrefix}}_release({{name}}_handle)
     }
-    guard
-        let {{name}}_unwrapped = {{type}}(c{{type.simpleName}}: {{name}}_handle)
-    else {
-        return nil
-    }
-    {{name}} = {{name}}_unwrapped
+    {{name}} = {{type}}(c{{type.simpleName}}: {{name}}_handle)
 }
 {{/assignStruct}}
 
@@ -88,7 +82,7 @@ internal init?(c{{simpleName}}: _baseRef) {
 }}{{^type.optional}}{{!!
 }}    guard let {{name}}_unwrapped = {{type}}(c{{type}}: {{cPrefix}}_{{name}}_get(c{{structName}}))
     else {
-        return nil
+        fatalError("Nullptr value for field '{{structName}}.{{name}}' is not supported")
     }
     {{name}} = {{name}}_unwrapped{{!!
 }}{{/type.optional}}
