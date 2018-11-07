@@ -1,5 +1,10 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features:
+  + Added @NonNull annotation to generated Java methods returning a struct (only works with Android
+    flavor of Java generated code).
+
 ## 3.14.2
 - Release date: 2018-11-12
 - Bug fixes:
