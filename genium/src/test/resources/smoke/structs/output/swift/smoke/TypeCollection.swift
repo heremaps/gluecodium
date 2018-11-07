@@ -10,7 +10,7 @@ public struct Point {
         self.x = x
         self.y = y
     }
-    internal init?(cPoint: _baseRef) {
+    internal init(cPoint: _baseRef) {
         x = smoke_TypeCollection_Point_x_get(cPoint)
         y = smoke_TypeCollection_Point_y_get(cPoint)
     }
@@ -29,7 +29,7 @@ public struct Color {
         self.green = green
         self.blue = blue
     }
-    internal init?(cColor: _baseRef) {
+    internal init(cColor: _baseRef) {
         red = smoke_TypeCollection_Color_red_get(cColor)
         green = smoke_TypeCollection_Color_green_get(cColor)
         blue = smoke_TypeCollection_Color_blue_get(cColor)
@@ -48,30 +48,20 @@ public struct Line {
         self.a = a
         self.b = b
     }
-    internal init?(cLine: _baseRef) {
+    internal init(cLine: _baseRef) {
         do {
             let a_handle = smoke_TypeCollection_Line_a_get(cLine)
             defer {
                 smoke_TypeCollection_Point_release(a_handle)
             }
-            guard
-                let a_unwrapped = Point(cPoint: a_handle)
-            else {
-                return nil
-            }
-            a = a_unwrapped
+            a = Point(cPoint: a_handle)
         }
         do {
             let b_handle = smoke_TypeCollection_Line_b_get(cLine)
             defer {
                 smoke_TypeCollection_Point_release(b_handle)
             }
-            guard
-                let b_unwrapped = Point(cPoint: b_handle)
-            else {
-                return nil
-            }
-            b = b_unwrapped
+            b = Point(cPoint: b_handle)
         }
     }
     internal func convertToCType() -> _baseRef {
@@ -93,30 +83,20 @@ public struct ColoredLine {
         self.line = line
         self.color = color
     }
-    internal init?(cColoredLine: _baseRef) {
+    internal init(cColoredLine: _baseRef) {
         do {
             let line_handle = smoke_TypeCollection_ColoredLine_line_get(cColoredLine)
             defer {
                 smoke_TypeCollection_Line_release(line_handle)
             }
-            guard
-                let line_unwrapped = Line(cLine: line_handle)
-            else {
-                return nil
-            }
-            line = line_unwrapped
+            line = Line(cLine: line_handle)
         }
         do {
             let color_handle = smoke_TypeCollection_ColoredLine_color_get(cColoredLine)
             defer {
                 smoke_TypeCollection_Color_release(color_handle)
             }
-            guard
-                let color_unwrapped = Color(cColor: color_handle)
-            else {
-                return nil
-            }
-            color = color_unwrapped
+            color = Color(cColor: color_handle)
         }
     }
     internal func convertToCType() -> _baseRef {
@@ -162,7 +142,7 @@ public struct AllTypesStruct {
         self.bytesField = bytesField
         self.pointField = pointField
     }
-    internal init?(cAllTypesStruct: _baseRef) {
+    internal init(cAllTypesStruct: _baseRef) {
         int8Field = smoke_TypeCollection_AllTypesStruct_int8Field_get(cAllTypesStruct)
         uint8Field = smoke_TypeCollection_AllTypesStruct_uint8Field_get(cAllTypesStruct)
         int16Field = smoke_TypeCollection_AllTypesStruct_int16Field_get(cAllTypesStruct)
@@ -186,24 +166,18 @@ public struct AllTypesStruct {
             defer {
                 byteArray_release(bytesField_handle)
             }
-            guard
-                let array_data_handle = byteArray_data_get(bytesField_handle)
-            else {
-                return nil
+            if let array_data_handle = byteArray_data_get(bytesField_handle) {
+                bytesField = Data(bytes: array_data_handle, count: Int(byteArray_size_get(bytesField_handle)))
+            } else {
+                bytesField = Data()
             }
-            bytesField = Data(bytes: array_data_handle, count: Int(byteArray_size_get(bytesField_handle)))
         }
         do {
             let pointField_handle = smoke_TypeCollection_AllTypesStruct_pointField_get(cAllTypesStruct)
             defer {
                 smoke_TypeCollection_Point_release(pointField_handle)
             }
-            guard
-                let pointField_unwrapped = Point(cPoint: pointField_handle)
-            else {
-                return nil
-            }
-            pointField = pointField_unwrapped
+            pointField = Point(cPoint: pointField_handle)
         }
     }
     internal func convertToCType() -> _baseRef {

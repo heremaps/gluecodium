@@ -28,7 +28,7 @@ internal class InternalClass {
         public init(stringField: String) {
             self.stringField = stringField
         }
-        internal init?(cInternalStruct: _baseRef) {
+        internal init(cInternalStruct: _baseRef) {
             do {
                 let stringField_handle = examples_InternalClass_InternalStruct_stringField_get(cInternalStruct)
                 defer {

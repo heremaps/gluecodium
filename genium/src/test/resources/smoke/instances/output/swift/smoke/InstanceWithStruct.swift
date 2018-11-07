@@ -29,7 +29,7 @@ public class InstanceWithStruct {
             self.value = value
         }
 
-        internal init?(cInnerStruct: _baseRef) {
+        internal init(cInnerStruct: _baseRef) {
             value = smoke_InstanceWithStruct_InnerStruct_value_get(cInnerStruct)
         }
 
@@ -51,21 +51,21 @@ public class InstanceWithStruct {
             self.instanceNotNullWithComment = instanceNotNullWithComment
         }
 
-        internal init?(cStructWithInstance: _baseRef) {
+        internal init(cStructWithInstance: _baseRef) {
             do {
                 instance = SimpleInstantiableOne(cSimpleInstantiableOne: smoke_InstanceWithStruct_StructWithInstance_instance_get(cStructWithInstance))
             }
             do {
                 guard let instanceNotNull_unwrapped = SimpleInstantiableOne(cSimpleInstantiableOne: smoke_InstanceWithStruct_StructWithInstance_instanceNotNull_get(cStructWithInstance))
             else {
-                return nil
+                fatalError("Nullptr value for field 'StructWithInstance.instanceNotNull' is not supported")
             }
             instanceNotNull = instanceNotNull_unwrapped
             }
             do {
                 guard let instanceNotNullWithComment_unwrapped = SimpleInstantiableOne(cSimpleInstantiableOne: smoke_InstanceWithStruct_StructWithInstance_instanceNotNullWithComment_get(cStructWithInstance))
             else {
-                return nil
+                fatalError("Nullptr value for field 'StructWithInstance.instanceNotNullWithComment' is not supported")
             }
             instanceNotNullWithComment = instanceNotNullWithComment_unwrapped
             }
@@ -79,7 +79,7 @@ public class InstanceWithStruct {
         }
     }
 
-    public func innerStructMethod(inputStruct: InstanceWithStruct.InnerStruct) -> InstanceWithStruct.InnerStruct? {
+    public func innerStructMethod(inputStruct: InstanceWithStruct.InnerStruct) -> InstanceWithStruct.InnerStruct {
         let inputStruct_handle = inputStruct.convertToCType()
         defer {
             smoke_InstanceWithStruct_InnerStruct_release(inputStruct_handle)
@@ -91,7 +91,7 @@ public class InstanceWithStruct {
         return InstanceWithStruct.InnerStruct(cInnerStruct: cResult)
     }
 
-    public func structWithInstanceMethod(input: InstanceWithStruct.StructWithInstance) -> InstanceWithStruct.StructWithInstance? {
+    public func structWithInstanceMethod(input: InstanceWithStruct.StructWithInstance) -> InstanceWithStruct.StructWithInstance {
         let input_handle = input.convertToCType()
         defer {
             smoke_InstanceWithStruct_StructWithInstance_release(input_handle)

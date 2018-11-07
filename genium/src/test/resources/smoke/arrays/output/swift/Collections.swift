@@ -18,10 +18,7 @@ internal class BasicStructList: CollectionOf<Arrays.BasicStruct> {
         defer {
             smoke_Arrays_BasicStruct_release(handle)
         }
-        guard let result = Arrays.BasicStruct(cBasicStruct: handle) else {
-            fatalError("Unexpected nullptr for Arrays.BasicStruct")
-        }
-        return result
+        return Arrays.BasicStruct(cBasicStruct: handle)
     }
 }
 extension Collection where Element == Arrays.BasicStruct  {
@@ -56,10 +53,7 @@ internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
         defer {
             smoke_Arrays_FancyStruct_release(handle)
         }
-        guard let result = Arrays.FancyStruct(cFancyStruct: handle) else {
-            fatalError("Unexpected nullptr for Arrays.FancyStruct")
-        }
-        return result
+        return Arrays.FancyStruct(cFancyStruct: handle)
     }
 }
 extension Collection where Element == Arrays.FancyStruct  {

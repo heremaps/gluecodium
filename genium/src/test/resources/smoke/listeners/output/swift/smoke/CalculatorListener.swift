@@ -124,7 +124,7 @@ public struct ResultStruct {
     public init(result: Double) {
         self.result = result
     }
-    internal init?(cResultStruct: _baseRef) {
+    internal init(cResultStruct: _baseRef) {
         result = smoke_CalculatorListener_ResultStruct_result_get(cResultStruct)
     }
     internal func convertToCType() -> _baseRef {

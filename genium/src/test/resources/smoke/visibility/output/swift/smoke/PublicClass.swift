@@ -17,7 +17,7 @@ public class PublicClass {
             defer {
                 smoke_PublicClass_InternalStruct_release(cResult)
             }
-            return PublicClass.InternalStruct(cInternalStruct: cResult)!
+            return PublicClass.InternalStruct(cInternalStruct: cResult)
         }
         set {
             let newValue_handle = newValue.convertToCType()
@@ -51,7 +51,7 @@ public class PublicClass {
         public init(stringField: String) {
             self.stringField = stringField
         }
-        internal init?(cInternalStruct: _baseRef) {
+        internal init(cInternalStruct: _baseRef) {
             do {
                 let stringField_handle = smoke_PublicClass_InternalStruct_stringField_get(cInternalStruct)
                 defer {
@@ -71,18 +71,13 @@ public class PublicClass {
         public init(internalField: PublicClass.InternalStruct) {
             self.internalField = internalField
         }
-        internal init?(cPublicStruct: _baseRef) {
+        internal init(cPublicStruct: _baseRef) {
             do {
                 let internalField_handle = smoke_PublicClass_PublicStruct_internalField_get(cPublicStruct)
                 defer {
                     smoke_PublicClass_InternalStruct_release(internalField_handle)
                 }
-                guard
-                    let internalField_unwrapped = PublicClass.InternalStruct(cInternalStruct: internalField_handle)
-                else {
-                    return nil
-                }
-                internalField = internalField_unwrapped
+                internalField = PublicClass.InternalStruct(cInternalStruct: internalField_handle)
             }
         }
         internal func convertToCType() -> _baseRef {
@@ -94,7 +89,7 @@ public class PublicClass {
         }
     }
 
-    internal func internalMethod(input: PublicClass.InternalStruct) -> PublicClass.InternalStructTypeDef? {
+    internal func internalMethod(input: PublicClass.InternalStruct) -> PublicClass.InternalStructTypeDef {
         let input_handle = input.convertToCType()
         defer {
             smoke_PublicClass_InternalStruct_release(input_handle)

@@ -27,7 +27,7 @@ public class Arrays {
         public init(value: Double) {
             self.value = value
         }
-        internal init?(cBasicStruct: _baseRef) {
+        internal init(cBasicStruct: _baseRef) {
             value = smoke_Arrays_BasicStruct_value_get(cBasicStruct)
         }
         internal func convertToCType() -> _baseRef {
@@ -44,7 +44,7 @@ public class Arrays {
             self.numbers = numbers
             self.image = image
         }
-        internal init?(cFancyStruct: _baseRef) {
+        internal init(cFancyStruct: _baseRef) {
             messages = StringList(smoke_Arrays_FancyStruct_messages_get(cFancyStruct))
             numbers = UInt8List(smoke_Arrays_FancyStruct_numbers_get(cFancyStruct))
             do {
@@ -52,12 +52,11 @@ public class Arrays {
                 defer {
                     byteArray_release(image_handle)
                 }
-                guard
-                    let array_data_handle = byteArray_data_get(image_handle)
-                else {
-                    return nil
+                if let array_data_handle = byteArray_data_get(image_handle) {
+                    image = Data(bytes: array_data_handle, count: Int(byteArray_size_get(image_handle)))
+                } else {
+                    image = Data()
                 }
-                image = Data(bytes: array_data_handle, count: Int(byteArray_size_get(image_handle)))
             }
         }
         internal func convertToCType() -> _baseRef {

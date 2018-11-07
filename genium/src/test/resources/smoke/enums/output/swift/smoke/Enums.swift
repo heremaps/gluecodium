@@ -56,7 +56,7 @@ public class Enums {
             self.message = message
         }
 
-        internal init?(cErrorStruct: _baseRef) {
+        internal init(cErrorStruct: _baseRef) {
             type = Enums.InternalError.init(rawValue: smoke_Enums_ErrorStruct_type_get(cErrorStruct))!
             do {
                 let message_handle = smoke_Enums_ErrorStruct_message_get(cErrorStruct)
@@ -93,7 +93,7 @@ public class Enums {
         return Enums.InternalError(rawValue: cResult)!
     }
 
-    public static func createStructWithEnumInside(type: Enums.InternalError, message: String) -> Enums.ErrorStruct? {
+    public static func createStructWithEnumInside(type: Enums.InternalError, message: String) -> Enums.ErrorStruct {
         let cResult = smoke_Enums_createStructWithEnumInside(type.rawValue, message)
         defer {
             smoke_Enums_ErrorStruct_release(cResult)

@@ -35,7 +35,7 @@ public class Maps {
         public init(value: String) {
             self.value = value
         }
-        internal init?(cSomeStruct: _baseRef) {
+        internal init(cSomeStruct: _baseRef) {
             do {
                 let value_handle = smoke_Maps_SomeStruct_value_get(cSomeStruct)
                 defer {
@@ -55,7 +55,7 @@ public class Maps {
         public init(errorMapping: Maps.ErrorCodeToMessageMap) {
             self.errorMapping = errorMapping
         }
-        internal init?(cStructWithMap: _baseRef) {
+        internal init(cStructWithMap: _baseRef) {
             do {
                 let errorMapping_handle = smoke_Maps_StructWithMap_errorMapping_get(cStructWithMap)
                 defer {
@@ -109,7 +109,7 @@ public class Maps {
         return convertMaps_NestedMapFromCType(result_handle)
     }
 
-    public static func methodWithStructWithMap(input: Maps.StructWithMap) -> Maps.StructWithMap? {
+    public static func methodWithStructWithMap(input: Maps.StructWithMap) -> Maps.StructWithMap {
         let input_handle = input.convertToCType()
         defer {
             smoke_Maps_StructWithMap_release(input_handle)

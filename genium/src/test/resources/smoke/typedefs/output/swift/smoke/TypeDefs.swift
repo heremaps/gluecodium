@@ -49,7 +49,7 @@ public class TypeDefs {
             self.field = field
         }
 
-        internal init?(cStructHavingAliasFieldDefinedBelow: _baseRef) {
+        internal init(cStructHavingAliasFieldDefinedBelow: _baseRef) {
             field = smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_field_get(cStructHavingAliasFieldDefinedBelow)
         }
 
@@ -66,7 +66,7 @@ public class TypeDefs {
             self.something = something
         }
 
-        internal init?(cTestStruct: _baseRef) {
+        internal init(cTestStruct: _baseRef) {
             do {
                 let something_handle = smoke_TypeDefs_TestStruct_something_get(cTestStruct)
                 defer {
@@ -101,7 +101,7 @@ public class TypeDefs {
         return smoke_TypeDefs_returnNestedIntTypeDef(input)
     }
 
-    public static func returnTestStructTypeDef(input: TypeDefs.TestStructTypeDef) -> TypeDefs.TestStructTypeDef? {
+    public static func returnTestStructTypeDef(input: TypeDefs.TestStructTypeDef) -> TypeDefs.TestStructTypeDef {
         let input_handle = input.convertToCType()
         defer {
             smoke_TypeDefs_TestStruct_release(input_handle)
@@ -113,7 +113,7 @@ public class TypeDefs {
         return TypeDefs.TestStruct(cTestStruct: cResult)
     }
 
-    public static func returnNestedStructTypeDef(input: TypeDefs.NestedStructTypeDef) -> TypeDefs.NestedStructTypeDef? {
+    public static func returnNestedStructTypeDef(input: TypeDefs.NestedStructTypeDef) -> TypeDefs.NestedStructTypeDef {
         let input_handle = input.convertToCType()
         defer {
             smoke_TypeDefs_TestStruct_release(input_handle)
@@ -125,7 +125,7 @@ public class TypeDefs {
         return TypeDefs.TestStruct(cTestStruct: cResult)
     }
 
-    public static func returnTypeDefPointFromTypeCollection(input: PointTypeDef) -> PointTypeDef? {
+    public static func returnTypeDefPointFromTypeCollection(input: PointTypeDef) -> PointTypeDef {
         let input_handle = input.convertToCType()
         defer {
             smoke_TypeCollection_Point_release(input_handle)

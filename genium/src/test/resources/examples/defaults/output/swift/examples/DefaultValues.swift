@@ -42,7 +42,7 @@ public class DefaultValues {
             self.enumField = enumField
         }
 
-        internal init?(cStructWithDefaults: _baseRef) {
+        internal init(cStructWithDefaults: _baseRef) {
             intField = examples_DefaultValues_StructWithDefaults_intField_get(cStructWithDefaults)
             floatField = examples_DefaultValues_StructWithDefaults_floatField_get(cStructWithDefaults)
             boolField = examples_DefaultValues_StructWithDefaults_boolField_get(cStructWithDefaults)

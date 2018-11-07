@@ -35,7 +35,7 @@ internal class _AttributesInterface: AttributesInterface {
             defer {
                 smoke_AttributesInterface_ExampleStruct_release(cResult)
             }
-            return ExampleStruct(cExampleStruct: cResult)!
+            return ExampleStruct(cExampleStruct: cResult)
         }
         set {
             let newValue_handle = newValue.convertToCType()
@@ -70,7 +70,7 @@ public struct ExampleStruct {
         self.value = value
     }
 
-    internal init?(cExampleStruct: _baseRef) {
+    internal init(cExampleStruct: _baseRef) {
         value = smoke_AttributesInterface_ExampleStruct_value_get(cExampleStruct)
     }
 

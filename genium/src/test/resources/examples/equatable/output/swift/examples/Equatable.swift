@@ -15,7 +15,7 @@ public struct EquatableStruct: Equatable {
         self.structField = structField
     }
 
-    internal init?(cEquatableStruct: _baseRef) {
+    internal init(cEquatableStruct: _baseRef) {
         intField = examples_Equatable_EquatableStruct_intField_get(cEquatableStruct)
         do {
             let stringField_handle = examples_Equatable_EquatableStruct_stringField_get(cEquatableStruct)
@@ -29,12 +29,7 @@ public struct EquatableStruct: Equatable {
             defer {
                 examples_Equatable_NestedEquatableStruct_release(structField_handle)
             }
-            guard
-                let structField_unwrapped = NestedEquatableStruct(cNestedEquatableStruct: structField_handle)
-            else {
-                return nil
-            }
-            structField = structField_unwrapped
+            structField = NestedEquatableStruct(cNestedEquatableStruct: structField_handle)
         }
     }
 
@@ -54,7 +49,7 @@ public struct NestedEquatableStruct: Equatable {
     public init(fooField: String) {
         self.fooField = fooField
     }
-    internal init?(cNestedEquatableStruct: _baseRef) {
+    internal init(cNestedEquatableStruct: _baseRef) {
         do {
             let fooField_handle = examples_Equatable_NestedEquatableStruct_fooField_get(cNestedEquatableStruct)
             defer {

@@ -76,7 +76,7 @@ public protocol NestedInterface : AnyObject {
     func getInstanceOne() -> SimpleInterface?
     func getInstanceTwo() -> SimpleInterface?
     func makeMoreExternal(input: ExternalInterface?) -> VeryExternalInterface?
-    func makeMoreExternal(input: ExternalInterface.SomeStruct) -> VeryExternalInterface.SomeStruct?
+    func makeMoreExternal(input: ExternalInterface.SomeStruct) -> VeryExternalInterface.SomeStruct
     func makeMoreExternal(input: ExternalInterface.SomeEnum) -> VeryExternalInterface.SomeEnum
 }
 internal class _NestedInterface: NestedInterface {
@@ -116,7 +116,7 @@ internal class _NestedInterface: NestedInterface {
         let cResult = smoke_NestedInterface_makeMoreExternal_withInterface(c_instance, input_handle.ref)
         return VeryExternalInterface(cVeryExternalInterface: cResult)
     }
-    public func makeMoreExternal(input: ExternalInterface.SomeStruct) -> VeryExternalInterface.SomeStruct? {
+    public func makeMoreExternal(input: ExternalInterface.SomeStruct) -> VeryExternalInterface.SomeStruct {
         let input_handle = input.convertToCType()
         defer {
             smoke_ExternalInterface_SomeStruct_release(input_handle)
