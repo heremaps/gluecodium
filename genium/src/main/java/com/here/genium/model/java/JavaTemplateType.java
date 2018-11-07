@@ -52,12 +52,7 @@ public final class JavaTemplateType extends JavaCustomType {
   }
 
   private JavaTemplateType(final String name, final TemplateClass templateClass) {
-    super(
-        name,
-        Collections.singletonList(templateClass.name),
-        templateClass.packageNames,
-        null,
-        false);
+    super(name, Collections.singletonList(templateClass.name), templateClass.packageNames, null);
     implementationType = templateClass.implementationType;
   }
 
