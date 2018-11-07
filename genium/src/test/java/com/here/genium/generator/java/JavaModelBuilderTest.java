@@ -299,7 +299,7 @@ public class JavaModelBuilderTest {
   @Test
   public void finishBuildingFrancaTypeCollectionReadsConstants() {
     when(francaTypeCollection.getName()).thenReturn("TestTypeCollection");
-    JavaConstant javaConstant = new JavaConstant(javaCustomType, "Foo", new JavaValue("bar"));
+    JavaConstant javaConstant = new JavaConstant("Foo", javaCustomType, new JavaValue("bar"));
     contextStack.injectResult(javaConstant);
 
     modelBuilder.finishBuilding(francaTypeCollection);

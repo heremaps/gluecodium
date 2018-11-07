@@ -21,19 +21,15 @@ package com.here.genium.model.java;
 
 import java.util.stream.Stream;
 
-public class JavaConstant extends JavaElement {
+public final class JavaConstant extends JavaElement {
+
   public final JavaType type;
   public final JavaValue value;
 
-  public JavaConstant(final JavaType type, final String name, final JavaValue value) {
+  public JavaConstant(final String name, final JavaType type, final JavaValue value) {
     super(name);
     this.type = type;
-    if (value == null) {
-      // TODO APIGEN-484 handle this case
-      this.value = new JavaValue("TODO");
-    } else {
-      this.value = value;
-    }
+    this.value = value;
   }
 
   @Override
