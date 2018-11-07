@@ -5,6 +5,7 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 
 class NestedInterfaceImpl extends NativeBase implements NestedInterface {
@@ -22,6 +23,7 @@ class NestedInterfaceImpl extends NativeBase implements NestedInterface {
     public native SimpleInterface getInstanceOne();
     public native SimpleInterface getInstanceTwo();
     public native VeryExternalInterface makeMoreExternal(final ExternalInterface input);
+    @NonNull
     public native VeryExternalInterface.SomeStruct makeMoreExternal(final ExternalInterface.SomeStruct input);
     public native VeryExternalInterface.SomeEnum makeMoreExternal(final ExternalInterface.SomeEnum input);
 }

@@ -5,6 +5,7 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 
 public class Enums extends NativeBase {
@@ -75,6 +76,7 @@ public class Enums extends NativeBase {
     public static native Enums.SimpleEnum methodWithEnumeration(final Enums.SimpleEnum input);
     public static native Enums.InternalError flipEnumValue(final Enums.InternalError input);
     public static native Enums.InternalError extractEnumFromStruct(final Enums.ErrorStruct input);
+    @NonNull
     public static native Enums.ErrorStruct createStructWithEnumInside(final Enums.InternalError type, final String message);
     public static native void methodWithExternalEnum(final Enums.ExternalEnum input);
 }

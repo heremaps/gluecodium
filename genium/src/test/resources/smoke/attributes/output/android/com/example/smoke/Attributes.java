@@ -5,6 +5,7 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class Attributes extends NativeBase {
     public native long getBuiltInTypeAttribute();
     public native void setBuiltInTypeAttribute(final long value);
     public native float getReadonlyAttribute();
+    @NonNull
     public native Attributes.ExampleStruct getStructAttribute();
     public native void setStructAttribute(final Attributes.ExampleStruct value);
     public native List<String> getArrayAttribute();
