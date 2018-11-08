@@ -30,4 +30,8 @@ define GeniumExtensions for interface test.DummyLogger
     method relayMessage {
         Static = true
     }
+
+    method relayMessageAsStruct {
+        Static = true
+    }
 }

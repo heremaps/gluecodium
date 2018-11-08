@@ -179,13 +179,6 @@ feature(Maps cpp android swift SOURCES
     fidl/test/Maps.fidl
 )
 
-feature(ListenerWithMaps cpp android swift SOURCES
-    src/test/ListenerWithMaps.cpp
-
-    fidl/test/ListenerWithMaps.fidl
-    fidl/test/ListenerWithMaps.fdepl
-)
-
 feature(Attributes cpp android swift SOURCES
     src/hello/HelloWorldAttributesImpl.h
     src/hello/HelloWorldAttributesImpl.cpp
@@ -214,6 +207,7 @@ feature(Listeners cpp android swift SOURCES
     src/hello/HelloWorldCalculatorListenerFactory.cpp
     src/test/StringListeners.cpp
     src/test/ListenerRoundtrip.cpp
+    src/test/ListenerWithMaps.cpp
 
     fidl/hello/HelloWorldCalculatorListenerFactory.fdepl
     fidl/hello/HelloWorldCalculatorListenerFactory.fidl
@@ -225,6 +219,8 @@ feature(Listeners cpp android swift SOURCES
     fidl/test/StringListeners.fidl
     fidl/test/ListenerRoundtrip.fdepl
     fidl/test/ListenerRoundtrip.fidl
+    fidl/test/ListenerWithMaps.fidl
+    fidl/test/ListenerWithMaps.fdepl
 )
 
 feature(ComplexListeners cpp android swift SOURCES
