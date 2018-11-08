@@ -180,4 +180,14 @@ public final class JavaMethodNameResolverTest {
 
     assertEquals("produceMore", result);
   }
+
+  @Test
+  public void getNameWithArrayAndMap() {
+    arguments.add(arrayArgument);
+    otherArguments.add(mapArgument);
+
+    String result = methodNameResolver.getName(francaMethod);
+
+    assertEquals("produceMore", result);
+  }
 }
