@@ -36,4 +36,11 @@ DummyLogger::relay_message(
     listener->on_message( message );
 }
 
+void
+DummyLogger::relay_message_as_struct(
+    const ::std::shared_ptr< ::test::StringListener >& listener, const ::std::string& message )
+{
+    listener->on_struct_message( {message} );
+}
+
 }

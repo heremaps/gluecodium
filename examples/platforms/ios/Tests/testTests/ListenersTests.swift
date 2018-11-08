@@ -46,6 +46,10 @@ class ListenersTests: XCTestCase {
         public func onMessage(message: String) {
             print(message)
         }
+
+        public func onStructMessage(message: StringStruct) {
+            print(message.stringField)
+        }
     }
 
     func testBackgroundListener() {

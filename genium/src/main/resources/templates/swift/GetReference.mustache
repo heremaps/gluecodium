@@ -90,7 +90,7 @@ internal func getRef(_ ref: {{name}}?) -> RefHolder {
 {{+delegateCall2}}swift_class.{{name}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}
 {{+swiftParameter2}}{{name}}: {{#switch type.category.toString}}{{!!
     }}{{#case "CLASS"}}swift_object_{{name}}!{{/case}}{{!!
-    }}{{#case "STRUCT"}}{{type}}(c{{type}}: {{name}})!{{/case}}{{!!
+    }}{{#case "STRUCT"}}{{type}}(c{{type}}: {{name}}){{/case}}{{!!
     }}{{#case "DICTIONARY"}}convert{{type}}FromCType({{name}}){{/case}}{{!!
     }}{{#case "ARRAY"}}{{type.implementingClass}}({{name}}){{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER"}}Data(bytes: byteArray_data_get({{name}}), count: byteArray_size_get({{name}})){{/case}}{{!!
