@@ -55,7 +55,7 @@ function build {
         pushd "${build_dir}"
         safe cmake \
             -DBUILD_SHARED_LIBS=ON \
-            -DCMAKE_TOOLCHAIN_FILE="${SCRIPT_DIR}/../../cmake/toolchains/iOS.cmake" \
+            -DCMAKE_TOOLCHAIN_FILE="${SCRIPT_DIR}/../cmake/external/ios-cmake/ios.toolchain.cmake" \
             -DIOS_PLATFORM="${target}" \
             -DCMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET=9.3 \
             -DCMAKE_INSTALL_PREFIX="${build_dir}/dist" \
@@ -71,7 +71,7 @@ function build {
 
 BUILD_DIR_SIMULATOR="${CWD}/${BUILD_DIR}/simulator"
 
-build "${BUILD_DIR_SIMULATOR}" SIMULATOR
+build "${BUILD_DIR_SIMULATOR}" SIMULATOR64
 
 mkdir -p ${INSTALL_DIR}
 cp -R "${BUILD_DIR_SIMULATOR}/dist/hello.framework" "${INSTALL_DIR}"
