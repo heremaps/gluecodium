@@ -1,15 +1,19 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.14.0
+- Release date: 2018-11-08
 - Breaking changes:
   + Removed support for Struct ihneritance.
   + Boolean Swift properties now have their names prefixed with "is", in conformance with Swift API
     design guidelines.
+  + Swift functions returning structs are now returning them as non-optional.
 - Features:
   + Added "Immutable" property support for C++.
 - Bug fixes:
-  + Fixed Java method overloads to avoid adding suffixes if only one array overload is present (the
-    suffixes are still added if there are several array overloads).
+  + Fixed Java method overloads to avoid adding suffixes if only one List<> overload is present (the
+    suffixes are still added if there are several List<> overloads).
+  + Fixed Java method overloads to add suffixes if there is an ambiguity caused by two or more Map<>
+    overloads.
 - Removed:
   + Deprecated camel-case command line parameters were removed.
 
