@@ -28,7 +28,7 @@ internal func getRef(_ ref: CalculatorListener?) -> RefHolder {
     }
     functions.smoke_CalculatorListener_onCalculationResultStruct = {(swift_class_pointer, calculationResult) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
-        return swift_class.onCalculationResultStruct(calculationResult: ResultStruct(cResultStruct: calculationResult)!)
+        return swift_class.onCalculationResultStruct(calculationResult: ResultStruct(cResultStruct: calculationResult))
     }
     functions.smoke_CalculatorListener_onCalculationResultArray = {(swift_class_pointer, calculationResult) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener

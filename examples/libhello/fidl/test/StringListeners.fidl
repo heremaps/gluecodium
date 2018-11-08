@@ -23,10 +23,21 @@ interface StringListener {
 
     public typedef StringListener is undefined
 
+    public struct StringStruct {
+        String stringField
+    }
+
     <**@description: The method to call on the listener when the log message is output **>
     method onMessage {
         in {
             String message
+        }
+    }
+
+    <**@description: The method to call on the listener when the log message is output **>
+    method onStructMessage {
+        in {
+            StringStruct message
         }
     }
 }
@@ -35,6 +46,14 @@ interface DummyLogger {
 
     <**@description: Send the message to our Mobile overlords through the registered listeners **>
     method relayMessage {
+        in {
+            StringListener.StringListener listener
+            String message
+        }
+    }
+
+    <**@description: Send the message to our Mobile overlords through the registered listeners **>
+    method relayMessageAsStruct {
         in {
             StringListener.StringListener listener
             String message
