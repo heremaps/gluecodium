@@ -199,7 +199,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     SwiftType fieldType = getPreviousResult(SwiftType.class);
     if (fieldType.category == TypeCategory.CLASS && deploymentModel.isNotNull(francaField)) {
-      fieldType = fieldType.withOptional(false);
+      fieldType = fieldType.asNonOptional();
     }
 
     String fieldName = SwiftNameRules.getFieldName(francaField.getName());
