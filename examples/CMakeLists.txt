@@ -18,7 +18,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(hello_world)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/modules/")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
 option(HELLO_BUILD_CPP_APP "Build example C++ apps" OFF)
 option(HELLO_BUILD_IOS_APP "Build example iOS apps" OFF)

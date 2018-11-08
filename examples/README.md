@@ -10,7 +10,7 @@ The project is structured as follows:
     │   ├── base_api        C++ example app
     │   └── ios             iOS example app
     ├── cmake
-    │   └── modules         Custom CMake modules, includes Genium.cmake
+    │   └── modules         Genium CMake modules subtree
     ├── libhello            Example library that provides Genium-generated public API
     │   ├── fidl            Franca interface definitions for the public API
     │   └── src             Example library implementation
