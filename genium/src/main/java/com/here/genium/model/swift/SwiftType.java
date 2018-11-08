@@ -68,7 +68,7 @@ public class SwiftType extends SwiftModelElement {
     return new SwiftType(name, visibility, category, implementingClass, aliasName, optional);
   }
 
-  public SwiftType withOptional(final boolean optionalValue) {
-    return new SwiftType(name, visibility, category, implementingClass, publicName, optionalValue);
+  public SwiftType asNonOptional() {
+    return new SwiftType(name, visibility, category, implementingClass, publicName, false);
   }
 }

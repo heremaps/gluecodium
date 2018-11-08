@@ -77,22 +77,4 @@ public final class SwiftStruct extends SwiftType {
     container.fields.addAll(fields);
     return container;
   }
-
-  @Override
-  public SwiftType withOptional(final boolean optional) {
-    SwiftStruct container =
-        new SwiftStruct(
-            name,
-            visibility,
-            category,
-            implementingClass,
-            publicName,
-            optional,
-            cPrefix,
-            isEquatable,
-            isImmutable);
-    container.comment = this.comment;
-    container.fields.addAll(fields);
-    return container;
-  }
 }

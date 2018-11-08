@@ -428,7 +428,7 @@ public final class SwiftModelBuilderTest {
   public void finishBuildingFrancaFieldReadsNotNull() {
     when(deploymentModel.isNotNull(any())).thenReturn(true);
     SwiftType classType =
-        new SwiftType("VerySwiftType", SwiftType.TypeCategory.CLASS).withOptional(true);
+        new SwiftType("VerySwiftType", SwiftType.TypeCategory.CLASS).asNonOptional();
     contextStack.injectResult(classType);
 
     modelBuilder.finishBuilding(francaField);
