@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.14.1
+- Release date: 2018-11-08
 - Bug fixes:
   + Fixed handling of structs being passed as parameters to Swift listener callbacks.
 
