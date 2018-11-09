@@ -17,32 +17,24 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.output;
+package com.here.genium.output
 
-import com.here.genium.generator.common.GeneratedFile;
-import java.util.List;
-import org.eclipse.xtend2.lib.StringConcatenation;
+import com.here.genium.generator.common.GeneratedFile
+import org.eclipse.xtend2.lib.StringConcatenation
 
-/** Write generated files to standard console output. */
-public class ConsoleOutput implements GeneratorOutput {
-
-  @Override
-  public void output(List<GeneratedFile> files) {
-    files.forEach(
-        file -> {
-          StringConcatenation builder = new StringConcatenation();
-          builder.append("Generated ");
-          builder.append(file.getTargetFile().getPath(), "");
-          builder.append(":");
-          builder.newLineIfNotEmpty();
-          builder.newLine();
-          builder.append("        ");
-          builder.append(file.getContent(), "        ");
-          builder.newLineIfNotEmpty();
-
-          System.out.println(builder.toString());
-        });
-
-    System.out.println("Done.");
-  }
+/** Write generated files to standard console output.  */
+class ConsoleOutput : GeneratorOutput {
+    override fun output(files: List<GeneratedFile>) {
+        files.forEach { file ->
+            println(StringConcatenation().apply {
+                append("Generated ${file.targetFile.path}:")
+                newLineIfNotEmpty()
+                newLine()
+                append("        ")
+                append(file.content, "        ")
+                newLineIfNotEmpty()
+            }.toString())
+        }
+        println("Done.")
+    }
 }

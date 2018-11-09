@@ -17,51 +17,50 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.output;
+package com.here.genium.output
 
-import com.here.genium.generator.common.GeneratedFile;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.logging.Logger;
+import com.here.genium.generator.common.GeneratedFile
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileWriter
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.logging.Logger
 
 /** Write the generated files to disk. */
-public class FileOutput implements GeneratorOutput {
-
-  private static final Logger LOGGER = Logger.getLogger(FileOutput.class.getName());
-
-  private final File rootPath;
-
-  public FileOutput(File rootPath) throws IOException {
-    if (!rootPath.exists() && !rootPath.mkdir()) {
-      throw new FileNotFoundException(rootPath.getPath() + " (Can't create output directory)");
-    }
-    this.rootPath = rootPath;
-  }
-
-  @Override
-  public void output(List<GeneratedFile> files) throws IOException {
-    for (GeneratedFile f : files) {
-      output(f);
-    }
-  }
-
-  public void output(GeneratedFile file) throws IOException {
-
-    // write file
-    File targetFile = new File(rootPath, file.getTargetFile().getPath());
-    LOGGER.fine("Writing " + targetFile);
-
-    // create missing path(s)
-    Path path = Paths.get(targetFile.getParent());
-    if (Files.notExists(path)) {
-      Files.createDirectories(path);
+// TODO(APIGEN-1431): Remove 'open' with other mocking library:
+open class FileOutput @Throws(IOException::class)
+constructor(private val rootPath: File) : GeneratorOutput {
+    init {
+        if (!rootPath.exists() && !rootPath.mkdir()) {
+            throw FileNotFoundException(rootPath.path + " (Can't create output directory)")
+        }
     }
 
-    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(targetFile));
-    bufferedWriter.write(file.getContent());
-    bufferedWriter.close();
-  }
+    @Throws(IOException::class)
+    override fun output(files: List<GeneratedFile>) = files.forEach { output(it) }
+
+    @Throws(IOException::class)
+    fun output(file: GeneratedFile) {
+        // Write file
+        val targetFile = File(rootPath, file.targetFile.path)
+        LOGGER.fine("Writing $targetFile")
+
+        // Create missing path(s)
+        val path = Paths.get(targetFile.parent)
+        if (Files.notExists(path)) {
+            Files.createDirectories(path)
+        }
+
+        BufferedWriter(FileWriter(targetFile)).apply {
+            write(file.content)
+            close()
+        }
+    }
+
+    companion object {
+        private val LOGGER = Logger.getLogger(FileOutput::class.java.name)
+    }
 }
