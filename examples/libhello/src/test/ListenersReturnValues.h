@@ -29,6 +29,8 @@ class MessageDeliveryImpl: public MessageDelivery {
 
 public:
     virtual std::string get_message( const std::shared_ptr<ListenerWithReturn>& envelope ) override;
+    virtual std::string get_packed_message(
+        const std::shared_ptr<ListenerWithReturn>& envelope ) override;
 };
 
 }
