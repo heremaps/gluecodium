@@ -19,7 +19,6 @@
 
 package com.here.genium.validator
 
-import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FConstant
 import org.franca.core.franca.FConstantDef
 import org.franca.core.franca.FEnumerationType
@@ -76,10 +75,10 @@ class ExpressionValidatorPredicateTest {
         `when`(francaEnumerator.name).thenReturn("")
         `when`(francaConstantDef.name).thenReturn("")
 
-        `when`<EObject>(francaTypeCollection.eContainer()).thenReturn(fModel)
-        `when`<EObject>(francaEnumerationType.eContainer()).thenReturn(francaTypeCollection)
-        `when`<EObject>(francaEnumerator.eContainer()).thenReturn(francaEnumerationType)
-        `when`<EObject>(francaConstantDef.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaTypeCollection.eContainer()).thenReturn(fModel)
+        `when`(francaEnumerationType.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaEnumerator.eContainer()).thenReturn(francaEnumerationType)
+        `when`(francaConstantDef.eContainer()).thenReturn(francaTypeCollection)
         `when`(francaElementRef.eContainer()).thenReturn(francaTypeCollection)
     }
 
@@ -90,14 +89,14 @@ class ExpressionValidatorPredicateTest {
 
     @Test
     fun validateWithNonConstantExpressionInEnumerator() {
-        `when`<EObject>(francaCompoundExpression.eContainer()).thenReturn(francaEnumerator)
+        `when`(francaCompoundExpression.eContainer()).thenReturn(francaEnumerator)
 
         assertNotNull(validatorPredicate.validate(null, francaCompoundExpression))
     }
 
     @Test
     fun validateWithNonConstantExpressionInConstant() {
-        `when`<EObject>(francaCompoundExpression.eContainer()).thenReturn(francaConstantDef)
+        `when`(francaCompoundExpression.eContainer()).thenReturn(francaConstantDef)
 
         assertNotNull(validatorPredicate.validate(null, francaCompoundExpression))
     }

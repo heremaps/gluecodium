@@ -29,8 +29,8 @@ import org.junit.rules.ExpectedException
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
 import org.powermock.api.mockito.PowerMockito
@@ -39,7 +39,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import java.io.File
 import java.nio.file.Files
-import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.function.Predicate
 
@@ -52,13 +51,11 @@ class MultiFileSetCacheTest {
 
     @Rule
     private val expectedException = ExpectedException.none()
-    private var cacheFileSetA: File? = null
-    private var cacheFileSetB: File? = null
+    private lateinit var cacheFileSetA: File
+    private lateinit var cacheFileSetB: File
 
-    @Mock
-    private val cacheA: FileSetCache? = null
-    @Mock
-    private val cacheB: FileSetCache? = null
+    private var cacheA = mock(FileSetCache::class.java)
+    private var cacheB = mock(FileSetCache::class.java)
 
     private lateinit var rootDir: File
     private lateinit var multiCache: MultiFileSetCache
@@ -83,7 +80,7 @@ class MultiFileSetCacheTest {
     @Test
     fun retrieveExistingCacheFiles() {
         PowerMockito.mockStatic(Files::class.java)
-        `when`(Files.isRegularFile(cacheFileSetA!!.toPath())).thenReturn(true)
+        `when`(Files.isRegularFile(cacheFileSetA.toPath())).thenReturn(true)
 
         // Act
         val cacheFiles = MultiFileSetCache.retrieveExistingCacheFiles(
@@ -93,10 +90,10 @@ class MultiFileSetCacheTest {
 
         // Assert
         assertEquals(1, cacheFiles.size.toLong())
-        assertEquals(cacheFileSetA!!.toPath(), cacheFiles[0])
-        assertEquals(cacheFileSetA!!.toPath(), cacheFiles[0])
+        assertEquals(cacheFileSetA.toPath(), cacheFiles[0])
+        assertEquals(cacheFileSetA.toPath(), cacheFiles[0])
         verifyStatic()
-        Files.isRegularFile(cacheFileSetB!!.toPath())
+        Files.isRegularFile(cacheFileSetB.toPath())
     }
 
     @Test
@@ -114,8 +111,8 @@ class MultiFileSetCacheTest {
         multiCache.updateCache(FILE_SET_A_NAME, emptyList<GeneratedFile>())
 
         // Assert
-        verify<FileSetCache>(cacheA).updateCache(emptyList<GeneratedFile>())
-        verify<FileSetCache>(cacheB, never()).updateCache(any<List<GeneratedFile>>())
+        verify(cacheA).updateCache(emptyList<GeneratedFile>())
+        verify(cacheB, never()).updateCache(any<List<GeneratedFile>>())
     }
 
     @Test
@@ -124,22 +121,22 @@ class MultiFileSetCacheTest {
         multiCache.finalizeUpdates()
 
         // Assert
-        verify<FileSetCache>(cacheA).finalizeUpdates()
-        verify<FileSetCache>(cacheB).finalizeUpdates()
+        verify(cacheA).finalizeUpdates()
+        verify(cacheB).finalizeUpdates()
     }
 
     @Test
     @Throws(Exception::class)
     fun getNonCachedFiles() {
         // Arrange
-        `when`<Predicate<Path>>(cacheA!!.filterOutCachedFiles())
+        `when`(cacheA.filterOutCachedFiles())
             .thenReturn(Predicate {
                 if (it.isAbsolute) {
                     throw GeniumExecutionException("this should never happen")
                 }
                 it != Paths.get(TestFiles.PATH3).normalize()
             })
-        `when`<Predicate<Path>>(cacheB!!.filterOutCachedFiles())
+        `when`(cacheB.filterOutCachedFiles())
             .thenReturn(Predicate {
                 if (it.isAbsolute) {
                     throw GeniumExecutionException("this should never happen")

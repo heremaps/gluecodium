@@ -20,8 +20,6 @@
 package com.here.genium.validator
 
 import com.here.genium.test.ArrayEList
-import org.eclipse.emf.common.util.EList
-import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FType
@@ -57,8 +55,8 @@ class NameValidatorTest {
         `when`(fModel.name).thenReturn(MODEL_NAME)
         `when`(francaInterface.name).thenReturn(INTERFACE_NAME)
 
-        `when`<EObject>(francaInterface.eContainer()).thenReturn(fModel)
-        `when`<EObject>(francaTypeCollection.eContainer()).thenReturn(fModel)
+        `when`(francaInterface.eContainer()).thenReturn(fModel)
+        `when`(francaTypeCollection.eContainer()).thenReturn(fModel)
     }
 
     @Test
@@ -131,7 +129,7 @@ class NameValidatorTest {
     fun checkTypeCollectionNamesWithTwoNonUniqueNamesDifferentPackages() {
         val anotherFModel = mock(FModel::class.java)
         `when`(anotherFModel.name).thenReturn("$MODEL_NAME.xtra")
-        `when`<EObject>(francaTypeCollection.eContainer()).thenReturn(anotherFModel)
+        `when`(francaTypeCollection.eContainer()).thenReturn(anotherFModel)
 
         `when`(francaTypeCollection.name).thenReturn(INTERFACE_NAME)
         typeCollections.add(francaInterface)
@@ -149,12 +147,12 @@ class NameValidatorTest {
 
         val fTypeCollection = mock(FTypeCollection::class.java)
 
-        `when`<EObject>(fTypeCollection.eContainer()).thenReturn(fModelParam)
-        `when`<EObject>(fTypeCollection.eContainer()).thenReturn(fModelParam)
+        `when`(fTypeCollection.eContainer()).thenReturn(fModelParam)
+        `when`(fTypeCollection.eContainer()).thenReturn(fModelParam)
 
         val types = ArrayEList<FType>()
         types.add(type)
-        `when`<EList<FType>>(fTypeCollection.types).thenReturn(types)
+        `when`(fTypeCollection.types).thenReturn(types)
         return fTypeCollection
     }
 

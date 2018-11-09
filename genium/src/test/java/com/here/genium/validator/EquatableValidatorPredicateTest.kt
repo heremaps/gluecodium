@@ -20,7 +20,6 @@
 package com.here.genium.validator
 
 import com.here.genium.model.franca.FrancaDeploymentModel
-import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FField
 import org.franca.core.franca.FModel
@@ -66,9 +65,9 @@ class EquatableValidatorPredicateTest {
         `when`(francaStructType.name).thenReturn("")
         `when`(francaField.name).thenReturn("")
 
-        `when`<EObject>(francaTypeCollection.eContainer()).thenReturn(fModel)
-        `when`<EObject>(francaStructType.eContainer()).thenReturn(francaTypeCollection)
-        `when`<EObject>(francaField.eContainer()).thenReturn(francaStructType)
+        `when`(francaTypeCollection.eContainer()).thenReturn(fModel)
+        `when`(francaStructType.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaField.eContainer()).thenReturn(francaStructType)
 
         `when`(francaField.type).thenReturn(francaTypeRef)
         `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.UNDEFINED)

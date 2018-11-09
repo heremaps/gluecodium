@@ -23,19 +23,19 @@ import com.here.genium.generator.common.GeneratedFile
 import java.util.Arrays
 
 internal object TestFiles {
-    const val CONTENT1 = "CONTENT1"
-    const val CONTENT2 = ""
-    const val CONTENT3 = "CONTENT3"
-    const val CONTENT4 = "CONTENT4"
+    private const val CONTENT1 = "CONTENT1"
+    private const val CONTENT2 = ""
+    private const val CONTENT3 = "CONTENT3"
+    private const val CONTENT4 = "CONTENT4"
 
-    const val PATH1 = "PATH1_1/PATH1_2/FILE1"
+    private const val PATH1 = "PATH1_1/PATH1_2/FILE1"
     // leading dot is important, as it will be tested whether path strings get normalized before
     // storing them inside cache
     const val PATH2 = "./PATH2/FILE2"
     const val PATH3 = "FILE3"
     const val PATH4 = "FILE4"
 
-    const val PATH_UNCACHED = PATH4 + "xtra"
+    const val PATH_UNCACHED = "${PATH4}xtra"
 
     // initial file set
     val INITIAL_FILES: MutableList<GeneratedFile> = Arrays.asList(
@@ -46,7 +46,7 @@ internal object TestFiles {
 
     // updated file set: one file removed, one unchanged, one added
     val UPDATED_FILES: MutableList<GeneratedFile> = Arrays.asList(
-        GeneratedFile(CONTENT1 + "xtra", PATH1),
+        GeneratedFile("${CONTENT1}xtra", PATH1),
         // following entry should be considered unchanged file as path's will be normalized
         GeneratedFile(CONTENT3, "./$PATH3"),
         GeneratedFile(CONTENT4, PATH4)
@@ -54,6 +54,6 @@ internal object TestFiles {
 
     // set of changed files when caching INITIAL_FILES first and update with UPDATED_FILES afterwards
     val CHANGED_FILES: MutableList<GeneratedFile> = Arrays.asList(
-        GeneratedFile(CONTENT1 + "xtra", PATH1), GeneratedFile(CONTENT4, PATH4)
+        GeneratedFile("${CONTENT1}xtra", PATH1), GeneratedFile(CONTENT4, PATH4)
     )
 }
