@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal func getRef(_ ref: MethodOverloads?) -> RefHolder {
+internal func getRef(_ ref: MethodOverloads?, owning: Bool = false) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
 public class MethodOverloads {

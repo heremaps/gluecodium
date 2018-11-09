@@ -2,7 +2,7 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-internal func getRef(_ ref: NestedInterface?) -> RefHolder {
+internal func getRef(_ ref: NestedInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
     }
@@ -46,11 +46,11 @@ internal func getRef(_ ref: NestedInterface?) -> RefHolder {
     }
     functions.smoke_NestedInterface_getInstanceOne = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
-        return getRef(swift_class.getInstanceOne()!).ref
+        return getRef(swift_class.getInstanceOne()!, owning: false).ref
     }
     functions.smoke_NestedInterface_getInstanceTwo = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
-        return getRef(swift_class.getInstanceTwo()!).ref
+        return getRef(swift_class.getInstanceTwo()!, owning: false).ref
     }
     functions.smoke_NestedInterface_makeMoreExternal_withInterface = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
@@ -58,7 +58,7 @@ internal func getRef(_ ref: NestedInterface?) -> RefHolder {
         if swift_object_input == nil {
             swift_object_input = ExternalInterface(cExternalInterface: input)
         }
-        return getRef(swift_class.makeMoreExternal(input: swift_object_input!)!).ref
+        return getRef(swift_class.makeMoreExternal(input: swift_object_input!)!, owning: false).ref
     }
     functions.smoke_NestedInterface_makeMoreExternal_withStruct = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
@@ -69,7 +69,7 @@ internal func getRef(_ ref: NestedInterface?) -> RefHolder {
         return swift_class.makeMoreExternal(input: ExternalInterface.SomeEnum(rawValue: input)!)
     }
     let proxy = smoke_NestedInterface_createProxy(functions)
-    return RefHolder(ref: proxy, release: smoke_NestedInterface_release)
+    return owning ? RefHolder(ref: proxy, release: smoke_NestedInterface_release) : RefHolder(proxy)
 }
 public protocol NestedInterface : AnyObject {
     func setSameTypeInstances(interfaceOne: SimpleInterface?, interfaceTwo: SimpleInterface?) -> Void

@@ -2,7 +2,7 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-internal func getRef(_ ref: LongComments?) -> RefHolder {
+internal func getRef(_ ref: LongComments?, owning: Bool = false) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
 /// This is some very useful interface. There is a lot to say about this interface. at least it has a long comment.

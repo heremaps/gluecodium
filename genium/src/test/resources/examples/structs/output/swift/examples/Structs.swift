@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal func getRef(_ ref: Structs?) -> RefHolder {
+internal func getRef(_ ref: Structs?, owning: Bool = false) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
 public class Structs {

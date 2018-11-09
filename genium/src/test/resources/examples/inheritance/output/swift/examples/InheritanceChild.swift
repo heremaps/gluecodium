@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal func getRef(_ ref: InheritanceChild?) -> RefHolder {
+internal func getRef(_ ref: InheritanceChild?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
     }
@@ -31,7 +31,7 @@ internal func getRef(_ ref: InheritanceChild?) -> RefHolder {
         return swift_class.childMethod(input: input)
     }
     let proxy = examples_InheritanceChild_createProxy(functions)
-    return RefHolder(ref: proxy, release: examples_InheritanceChild_release)
+    return owning ? RefHolder(ref: proxy, release: examples_InheritanceChild_release) : RefHolder(proxy)
 }
 
 public protocol InheritanceChild : InheritanceParent {

@@ -5,7 +5,7 @@
 import Foundation
 
 
-internal func getRef(_ ref: CalculatorListener?) -> RefHolder {
+internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
     }
@@ -24,7 +24,7 @@ internal func getRef(_ ref: CalculatorListener?) -> RefHolder {
         return swift_class.onCalculationResult(calculationResult: calculationResult)
     }
     let proxy = examples_CalculatorListener_createProxy(functions)
-    return RefHolder(ref: proxy, release: examples_CalculatorListener_release)
+    return owning ? RefHolder(ref: proxy, release: examples_CalculatorListener_release) : RefHolder(proxy)
 }
 
 public protocol CalculatorListener : AnyObject {

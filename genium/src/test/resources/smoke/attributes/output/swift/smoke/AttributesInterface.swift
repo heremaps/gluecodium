@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal func getRef(_ ref: AttributesInterface?) -> RefHolder {
+internal func getRef(_ ref: AttributesInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
     }
@@ -19,7 +19,7 @@ internal func getRef(_ ref: AttributesInterface?) -> RefHolder {
         }
     }
     let proxy = smoke_AttributesInterface_createProxy(functions)
-    return RefHolder(ref: proxy, release: smoke_AttributesInterface_release)
+    return owning ? RefHolder(ref: proxy, release: smoke_AttributesInterface_release) : RefHolder(proxy)
 }
 
 public protocol AttributesInterface : AnyObject {

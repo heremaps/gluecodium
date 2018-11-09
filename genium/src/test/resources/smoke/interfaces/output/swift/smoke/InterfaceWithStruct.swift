@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal func getRef(_ ref: InterfaceWithStruct?) -> RefHolder {
+internal func getRef(_ ref: InterfaceWithStruct?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
     }
@@ -23,7 +23,7 @@ internal func getRef(_ ref: InterfaceWithStruct?) -> RefHolder {
         return get_pointer((swift_class.innerStructMethod(inputStruct: InnerStruct(cInnerStruct: inputStruct))!).convertToCType())
     }
     let proxy = smoke_InterfaceWithStruct_createProxy(functions)
-    return RefHolder(ref: proxy, release: smoke_InterfaceWithStruct_release)
+    return owning ? RefHolder(ref: proxy, release: smoke_InterfaceWithStruct_release) : RefHolder(proxy)
 }
 
 public protocol InterfaceWithStruct : AnyObject {

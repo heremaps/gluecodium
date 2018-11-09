@@ -6,7 +6,7 @@ import Foundation
 
 
 
-internal func getRef(_ ref: Typedefs?) -> RefHolder {
+internal func getRef(_ ref: Typedefs?, owning: Bool = false) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
 public class Typedefs {

@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal func getRef(_ ref: PublicInterface?) -> RefHolder {
+internal func getRef(_ ref: PublicInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
     }
@@ -19,7 +19,7 @@ internal func getRef(_ ref: PublicInterface?) -> RefHolder {
         }
     }
     let proxy = smoke_PublicInterface_createProxy(functions)
-    return RefHolder(ref: proxy, release: smoke_PublicInterface_release)
+    return owning ? RefHolder(ref: proxy, release: smoke_PublicInterface_release) : RefHolder(proxy)
 }
 
 public protocol PublicInterface : AnyObject {

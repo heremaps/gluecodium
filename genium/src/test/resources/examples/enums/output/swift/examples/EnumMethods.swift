@@ -6,7 +6,7 @@ import Foundation
 
 
 
-internal func getRef(_ ref: EnumMethods?) -> RefHolder {
+internal func getRef(_ ref: EnumMethods?, owning: Bool = false) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
 public class EnumMethods {
