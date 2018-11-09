@@ -6,7 +6,7 @@ import Foundation
 
 
 
-internal func getRef(_ ref: EnumsInTypeCollectionInterface?) -> RefHolder {
+internal func getRef(_ ref: EnumsInTypeCollectionInterface?, owning: Bool = false) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
 public class EnumsInTypeCollectionInterface {

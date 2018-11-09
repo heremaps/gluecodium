@@ -5,7 +5,7 @@
 import Foundation
 
 
-internal func getRef(_ ref: ProfileManagerInterface?) -> RefHolder {
+internal func getRef(_ ref: ProfileManagerInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
     }
@@ -28,7 +28,7 @@ internal func getRef(_ ref: ProfileManagerInterface?) -> RefHolder {
                                                 count: Int(std_string_size_get(username))), encoding: .utf8)!)
     }
     let proxy = examples_ProfileManagerInterface_createProxy(functions)
-    return RefHolder(ref: proxy, release: examples_ProfileManagerInterface_release)
+    return owning ? RefHolder(ref: proxy, release: examples_ProfileManagerInterface_release) : RefHolder(proxy)
 }
 
 public protocol ProfileManagerInterface : AnyObject {

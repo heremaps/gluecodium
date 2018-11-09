@@ -5,7 +5,7 @@
 import Foundation
 
 
-internal func getRef(_ ref: SimpleInterface?) -> RefHolder {
+internal func getRef(_ ref: SimpleInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
     }
@@ -32,7 +32,7 @@ internal func getRef(_ ref: SimpleInterface?) -> RefHolder {
         return swift_class.getStringValue().convertToCType()
     }
     let proxy = smoke_SimpleInterface_createProxy(functions)
-    return RefHolder(ref: proxy, release: smoke_SimpleInterface_release)
+    return owning ? RefHolder(ref: proxy, release: smoke_SimpleInterface_release) : RefHolder(proxy)
 }
 
 public protocol SimpleInterface : AnyObject {

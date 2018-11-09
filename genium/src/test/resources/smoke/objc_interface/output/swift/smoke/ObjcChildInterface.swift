@@ -2,7 +2,7 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-internal func getRef(_ ref: ObjcChildInterface?) -> RefHolder {
+internal func getRef(_ ref: ObjcChildInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
     }
@@ -17,7 +17,7 @@ internal func getRef(_ ref: ObjcChildInterface?) -> RefHolder {
         }
     }
     let proxy = smoke_ObjcChildInterface_createProxy(functions)
-    return RefHolder(ref: proxy, release: smoke_ObjcChildInterface_release)
+    return owning ? RefHolder(ref: proxy, release: smoke_ObjcChildInterface_release) : RefHolder(proxy)
 }
 @objc
 public protocol ObjcChildInterface : ObjcInterface {
