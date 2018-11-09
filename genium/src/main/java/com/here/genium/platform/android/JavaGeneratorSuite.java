@@ -81,7 +81,7 @@ public class JavaGeneratorSuite extends GeneratorSuite {
       final boolean enableAndroidFeatures,
       final FrancaDeploymentModel deploymentModel) {
     super();
-    this.rootPackage = options.getJavaPackageList();
+    this.rootPackage = options.getJavaPackages();
     this.enableAndroidFeatures = enableAndroidFeatures;
     this.internalNamespace = options.getCppInternalNamespace();
     this.rootNamespace = options.getCppRootNamespace();

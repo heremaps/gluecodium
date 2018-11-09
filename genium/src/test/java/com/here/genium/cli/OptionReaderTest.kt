@@ -23,16 +23,15 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
-
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.io.PrintStream
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.PrintStream
 
 @RunWith(JUnit4::class)
 class OptionReaderTest {
@@ -80,7 +79,7 @@ class OptionReaderTest {
 
         // Assert
         assertNotNull(options!!.inputDirs)
-        assertEquals(1, options.inputDirs.size.toLong())
+        assertEquals(1, options.inputDirs.size)
         assertEquals(TEST_INPUT_SINGLE_FOLDER[0], options.inputDirs[0])
     }
 
@@ -94,7 +93,7 @@ class OptionReaderTest {
 
         // Assert
         assertNotNull(options!!.inputDirs)
-        assertEquals(2, options.inputDirs.size.toLong())
+        assertEquals(2, options.inputDirs.size)
         assertEquals(TEST_INPUT_TWO_FOLDERS[0], options.inputDirs[0])
         assertEquals(TEST_INPUT_TWO_FOLDERS[1], options.inputDirs[1])
     }
@@ -122,9 +121,9 @@ class OptionReaderTest {
         val options = optionReader.read(toRead)
 
         // Assert
-        val generators = options!!.generators
-        assertTrue(generators.contains("cpp"))
-        assertTrue(generators.contains("java"))
+        val generators = options?.generators
+        assertTrue(generators?.contains("cpp") ?: false)
+        assertTrue(generators?.contains("java") ?: false)
     }
 
     @Test
@@ -137,7 +136,7 @@ class OptionReaderTest {
         val options = optionReader.read(toRead)
 
         // Assert
-        assertEquals(listOf(TEST_JAVA_PACKAGE_LIST), options!!.javaPackageList)
+        assertEquals(listOf(TEST_JAVA_PACKAGE_LIST), options!!.javaPackages)
     }
 
     @Test

@@ -19,6 +19,7 @@
 
 package com.here.genium;
 
+import com.here.genium.Genium.Options;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,15 +42,15 @@ public final class NamespaceSmokeTest extends AcceptanceTestBase {
 
   @Override
   protected Genium.Options getGeniumOptions() {
-    return Genium.Options.builder()
-        .cppInternalNamespace(Genium.DEFAULT_INTERNAL_NAMESPACE)
-        .cppRootNamespace(Arrays.asList("root", "space"))
-        .build();
+    Options options = new Genium.Options();
+    options.setCppInternalNamespace(Genium.DEFAULT_INTERNAL_NAMESPACE);
+    options.setCppRootNamespace(Arrays.asList("root", "space"));
+    return options;
   }
 
   @Parameters(name = "{2}, {1}")
   public static Collection<Object[]> data() {
-    return getData(RESOURCE_PREFIX);
+    return Companion.getData(RESOURCE_PREFIX);
   }
 
   @Test

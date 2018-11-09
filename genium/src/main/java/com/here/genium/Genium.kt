@@ -17,324 +17,335 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium;
+package com.here.genium
 
-import com.android.manifmerger.Merger;
-import com.google.common.annotations.VisibleForTesting;
-import com.here.genium.cache.CachingStrategy;
-import com.here.genium.cache.CachingStrategyCreator;
-import com.here.genium.cli.*;
-import com.here.genium.common.TimeLogger;
-import com.here.genium.generator.common.*;
-import com.here.genium.generator.common.templates.TemplateEngine;
-import com.here.genium.loader.FrancaModelLoader;
-import com.here.genium.logger.GeniumLogger;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.franca.ModelHelper;
-import com.here.genium.output.ConsoleOutput;
-import com.here.genium.output.FileOutput;
-import com.here.genium.platform.android.AndroidGeneratorSuite;
-import com.here.genium.platform.common.GeneratorSuite;
-import com.here.genium.validator.*;
-import com.here.genium.validator.visibility.*;
-import java.io.*;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import org.franca.core.franca.FTypeCollection;
-import org.jetbrains.annotations.NotNull;
+import com.android.manifmerger.Merger
+import com.google.common.annotations.VisibleForTesting
+import com.here.genium.cache.CachingStrategyCreator
+import com.here.genium.cli.GeniumExecutionException
+import com.here.genium.cli.OptionReader
+import com.here.genium.cli.OptionReaderException
+import com.here.genium.common.TimeLogger
+import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.common.Version
+import com.here.genium.generator.common.templates.TemplateEngine
+import com.here.genium.loader.FrancaModelLoader
+import com.here.genium.logger.GeniumLogger
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.franca.ModelHelper
+import com.here.genium.output.ConsoleOutput
+import com.here.genium.output.FileOutput
+import com.here.genium.platform.android.AndroidGeneratorSuite
+import com.here.genium.platform.common.GeneratorSuite
+import com.here.genium.validator.DefaultsValidatorPredicate
+import com.here.genium.validator.EquatableValidatorPredicate
+import com.here.genium.validator.ErrorEnumsValidatorPredicate
+import com.here.genium.validator.ExpressionValidatorPredicate
+import com.here.genium.validator.ExternalElementsValidatorPredicate
+import com.here.genium.validator.ExternalTypesValidatorPredicate
+import com.here.genium.validator.FrancaModelValidator
+import com.here.genium.validator.FrancaResourcesValidator
+import com.here.genium.validator.InheritanceValidatorPredicate
+import com.here.genium.validator.IntegerIntervalValidatorPredicate
+import com.here.genium.validator.MapKeyValidatorPredicate
+import com.here.genium.validator.NameValidator
+import com.here.genium.validator.NotNullValidatorPredicate
+import com.here.genium.validator.SerializationValidatorPredicate
+import com.here.genium.validator.StaticMethodsValidatorPredicate
+import com.here.genium.validator.StructInheritanceValidatorPredicate
+import com.here.genium.validator.UnionsValidatorPredicate
+import com.here.genium.validator.visibility.ArrayVisibilityValidatorPredicate
+import com.here.genium.validator.visibility.AttributeVisibilityValidatorPredicate
+import com.here.genium.validator.visibility.FieldVisibilityValidatorPredicate
+import com.here.genium.validator.visibility.InterfaceVisibilityValidatorPredicate
+import com.here.genium.validator.visibility.MethodVisibilityValidatorPredicate
+import org.franca.core.franca.FTypeCollection
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.nio.file.Paths
+import java.util.Properties
+import java.util.concurrent.TimeUnit
+import java.util.logging.Level
+import java.util.logging.Logger
 
-public class Genium {
-  private static final Logger LOGGER = Logger.getLogger(Genium.class.getName());
-  public static final String DEFAULT_INTERNAL_NAMESPACE = "genium";
-  public static final Options DEFAULT_OPTIONS =
-      Options.builder().cppInternalNamespace(DEFAULT_INTERNAL_NAMESPACE).build();
+class Genium(private val options: Options) {
+    private val version = parseVersion()
+    private val cacheStrategy = CachingStrategyCreator.initializeCaching(
+        options.isEnableCaching,
+        options.outputDir,
+        GeneratorSuite.generatorShortNames()
+    )
 
-  private final Options options;
-  private final Version version;
-  private final CachingStrategy cacheStrategy;
+    val francaModelLoader: FrancaModelLoader
+        get() {
+            val francaModelLoader = FrancaModelLoader()
+            ModelHelper.getFdeplInjector().injectMembers(francaModelLoader)
+            return francaModelLoader
+        }
 
-  public Genium(final Options options) {
-    this.options = options;
-    GeniumLogger.initialize("logging.properties");
-    version = parseVersion();
-    cacheStrategy =
-        CachingStrategyCreator.initializeCaching(
-            options.isEnableCaching(),
-            options.getOutputDir(),
-            GeneratorSuite.generatorShortNames());
-  }
-
-  private static Version parseVersion() {
-
-    Properties prop = new Properties();
-    try {
-      InputStream stream = Genium.class.getClassLoader().getResourceAsStream("version.properties");
-      prop.load(stream);
-    } catch (IOException ex) {
-      ex.printStackTrace();
+    init {
+        GeniumLogger.initialize("logging.properties")
     }
 
-    return Version.createFromString(prop.getProperty("version", "0.0.1"));
-  }
+    fun execute(): Boolean {
+        LOGGER.info("Version: $version")
 
-  private static boolean checkForFileNameCollisions(
-      Map<String, String> fileNamesCache, List<GeneratedFile> files, String generatorName) {
-    boolean succeeded = true;
-    for (GeneratedFile file : files) {
-      String path = file.getTargetFile().getPath();
-      String previousEntry = fileNamesCache.get(path);
-      if (previousEntry == null) {
-        fileNamesCache.put(path, generatorName);
-      } else {
-        LOGGER.severe(
-            String.format(
-                "Generator '%s' is overwriting file %s created already by '%s' ",
-                generatorName, path, previousEntry));
-        succeeded = false;
-      }
-    }
-    return succeeded;
-  }
+        val inputDirs = options.inputDirs.map { File(it) }
+        val typeCollections = mutableListOf<FTypeCollection>()
+        val times = TimeLogger(LOGGER, TimeUnit.MILLISECONDS, Level.INFO)
+        times.start()
+        val deploymentModel = loadModel(inputDirs, typeCollections)
+        times.addLogEntry("model loading")
 
-  public boolean execute() {
-    LOGGER.info("Version: " + version);
+        if (deploymentModel == null) {
+            return false
+        }
+        if (options.isValidatingOnly) {
+            return true
+        }
 
-    List<File> inputDirs =
-        Arrays.stream(options.getInputDirs()).map(File::new).collect(Collectors.toList());
-    List<FTypeCollection> typeCollections = new LinkedList<>();
-    TimeLogger times = new TimeLogger(LOGGER, TimeUnit.MILLISECONDS, Level.INFO);
-    times.start();
-    FrancaDeploymentModel deploymentModel = loadModel(inputDirs, typeCollections);
-    times.addLogEntry("model loading");
+        TemplateEngine.initCopyrightHeaderContents(options.copyrightHeaderContents)
 
-    if (deploymentModel == null) {
-      return false;
-    }
-    if (options.isValidatingOnly()) {
-      return true;
+        val fileNamesCache = hashMapOf<String, String>()
+        var executionSucceeded = false
+        try {
+            executionSucceeded = discoverGenerators()
+                .all {
+                    executeGenerator(it, deploymentModel, typeCollections, fileNamesCache)
+                }
+        } finally {
+            // cache has to be updated in any case
+            executionSucceeded = cacheStrategy.write(executionSucceeded)
+
+            times.addLogEntry("code generation (including file output)")
+        }
+        if (options.isLoggingTimes) {
+            times.log()
+        }
+        return executionSucceeded
     }
 
-    TemplateEngine.initCopyrightHeaderContents(options.getCopyrightHeaderContents());
+    @VisibleForTesting
+    fun loadModel(
+        inputDirs: List<File>,
+        typeCollections: MutableList<FTypeCollection>
+    ): FrancaDeploymentModel? {
+        val inputFiles = FrancaModelLoader.listFilesRecursively(inputDirs)
 
-    Map<String, String> fileNamesCache = new HashMap<>();
-    boolean executionSucceeded = false;
-    try {
-      executionSucceeded =
-          discoverGenerators()
-              .stream()
-              .allMatch(
-                  generatorName ->
-                      executeGenerator(
-                          generatorName, deploymentModel, typeCollections, fileNamesCache));
-    } finally {
-      // cache has to be updated in any case
-      executionSucceeded = cacheStrategy.write(executionSucceeded);
+        val francaModelLoader = francaModelLoader
+        if (!FrancaResourcesValidator.validate(
+                francaModelLoader.resourceSetProvider.get(), inputFiles
+            )
+        ) {
+            LOGGER.severe("Validation of Franca files Failed")
+            return null
+        }
 
-      times.addLogEntry("code generation (including file output)");
-    }
-    if (options.isLogTimes()) {
-      times.log();
-    }
-    return executionSucceeded;
-  }
+        val deploymentModel =
+            francaModelLoader.load(GeneratorSuite.SPEC_PATH, inputFiles, typeCollections)
+        LOGGER.fine("Built franca model")
 
-  @VisibleForTesting
-  FrancaDeploymentModel loadModel(
-      final List<File> inputDirs, final List<FTypeCollection> typeCollections) {
-
-    Collection<File> inputFiles = FrancaModelLoader.listFilesRecursively(inputDirs);
-
-    FrancaModelLoader francaModelLoader = getFrancaModelLoader();
-    if (!FrancaResourcesValidator.validate(
-        francaModelLoader.getResourceSetProvider().get(), inputFiles)) {
-      LOGGER.severe("Validation of Franca files Failed");
-      return null;
+        if (!validateFrancaModel(deploymentModel, typeCollections)) {
+            LOGGER.severe("Validation of Franca model Failed")
+            return null
+        }
+        return deploymentModel
     }
 
-    FrancaDeploymentModel deploymentModel =
-        francaModelLoader.load(GeneratorSuite.SPEC_PATH, inputFiles, typeCollections);
-    LOGGER.fine("Built franca model");
+    @VisibleForTesting
+    fun executeGenerator(
+        generatorName: String,
+        deploymentModel: FrancaDeploymentModel,
+        typeCollections: List<FTypeCollection>,
+        fileNamesCache: MutableMap<String, String>
+    ): Boolean {
+        LOGGER.fine("Using generator $generatorName")
+        val generator =
+            GeneratorSuite.instantiateByShortName(generatorName, options, deploymentModel)
+        if (generator == null) {
+            LOGGER.severe("Failed instantiation of generator '$generatorName'")
+            return false
+        }
+        LOGGER.fine("Instantiated generator " + generator.name)
 
-    if (!validateFrancaModel(deploymentModel, typeCollections)) {
-      LOGGER.severe("Validation of Franca model Failed");
-      return null;
+        val outputFiles = generator.generate(typeCollections)
+        val outputSuccessful = output(generatorName, outputFiles)
+        val processedWithoutCollisions =
+            checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName)
+
+        if (AndroidGeneratorSuite.GENERATOR_NAME == generatorName &&
+            options.androidMergeManifestPath != null &&
+            outputSuccessful &&
+            processedWithoutCollisions
+        ) {
+            val baseManifestPath =
+                Paths.get(options.outputDir, "android", "AndroidManifest.xml").toString()
+            return mergeAndroidManifests(
+                baseManifestPath, options.androidMergeManifestPath.toString(), baseManifestPath
+            )
+        }
+        return processedWithoutCollisions && outputSuccessful
     }
 
-    return deploymentModel;
-  }
-
-  @VisibleForTesting
-  boolean executeGenerator(
-      final String generatorName,
-      final FrancaDeploymentModel deploymentModel,
-      final List<FTypeCollection> typeCollections,
-      final Map<String, String> fileNamesCache) {
-
-    LOGGER.fine("Using generator " + generatorName);
-    GeneratorSuite generator =
-        GeneratorSuite.instantiateByShortName(generatorName, options, deploymentModel);
-    if (generator == null) {
-      LOGGER.severe("Failed instantiation of generator '" + generatorName + "'");
-      return false;
-    }
-    LOGGER.fine("Instantiated generator " + generator.getName());
-
-    List<GeneratedFile> outputFiles = generator.generate(typeCollections);
-
-    boolean outputSuccessful = output(generatorName, outputFiles);
-    boolean processedWithoutCollisions =
-        checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName);
-
-    if (AndroidGeneratorSuite.GENERATOR_NAME.equals(generatorName)
-        && options.getAndroidMergeManifestPath() != null
-        && outputSuccessful
-        && processedWithoutCollisions) {
-
-      String baseManifestPath =
-          Paths.get(options.getOutputDir(), "android", "AndroidManifest.xml").toString();
-      return mergeAndroidManifests(
-          baseManifestPath, options.getAndroidMergeManifestPath(), baseManifestPath);
+    @VisibleForTesting
+    internal fun discoverGenerators(): Set<String> {
+        var generators = options.generators
+        if (generators.isNotEmpty()) {
+            LOGGER.fine("Following generators were specified on command line: $generators")
+        } else {
+            generators = GeneratorSuite.generatorShortNames()
+            LOGGER.fine("No generators specified, using all available generators: $generators")
+        }
+        return generators
     }
 
-    return processedWithoutCollisions && outputSuccessful;
-  }
-
-  @NotNull
-  @VisibleForTesting
-  FrancaModelLoader getFrancaModelLoader() {
-    FrancaModelLoader francaModelLoader = new FrancaModelLoader();
-    ModelHelper.getFdeplInjector().injectMembers(francaModelLoader);
-    return francaModelLoader;
-  }
-
-  @VisibleForTesting
-  static boolean mergeAndroidManifests(
-      String baseManifestPath, String appendManifestPath, String outputFilePath) {
-    Merger merger = new Merger();
-    String[] mergerArgs = {
-      "--main", baseManifestPath,
-      "--overlays", appendManifestPath,
-      "--out", outputFilePath
-    };
-    try {
-      return merger.process(mergerArgs) == 0;
-    } catch (FileNotFoundException e) {
-      LOGGER.severe("Could not merge base Android Manifest files: " + e.getMessage());
-    }
-    return false;
-  }
-
-  @VisibleForTesting
-  Set<String> discoverGenerators() {
-    Set<String> generators = options.getGenerators();
-    if (generators != null) {
-      LOGGER.fine("Following generators were specified on command line: " + generators);
-    } else {
-      generators = GeneratorSuite.generatorShortNames();
-      LOGGER.fine("No generators specified, using all available generators: " + generators);
-    }
-    return generators;
-  }
-
-  @VisibleForTesting
-  boolean output(final String generatorName, List<GeneratedFile> files) {
-
-    // handle output options
-    if (options.isDumpingToStdout()) {
-      ConsoleOutput co = new ConsoleOutput();
-      co.output(files);
-    }
-    List<GeneratedFile> filesToBeWritten = cacheStrategy.updateCache(generatorName, files);
-    return saveToDirectory(options.getOutputDir(), filesToBeWritten);
-  }
-
-  private static boolean saveToDirectory(final String outputDir, final List<GeneratedFile> files) {
-
-    if (outputDir != null) {
-      try {
-        FileOutput fileOutput = new FileOutput(new File(outputDir));
-        fileOutput.output(files);
-      } catch (IOException ignored) {
-        LOGGER.severe("Cannot open output directory '" + outputDir + "' for writing");
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
-   * Uses the internal validators to validate the model.
-   *
-   * @return boolean True if the model is valid, false otherwise.
-   */
-  @VisibleForTesting
-  boolean validateFrancaModel(
-      final FrancaDeploymentModel deploymentModel, final List<FTypeCollection> typeCollections) {
-
-    FrancaModelValidator modelValidator =
-        new FrancaModelValidator(
-            Arrays.asList(
-                new DefaultsValidatorPredicate(),
-                new ExpressionValidatorPredicate(),
-                new MapKeyValidatorPredicate(),
-                new IntegerIntervalValidatorPredicate(),
-                new StaticMethodsValidatorPredicate(),
-                new ErrorEnumsValidatorPredicate(),
-                new InheritanceValidatorPredicate(),
-                new UnionsValidatorPredicate(),
-                new SerializationValidatorPredicate(),
-                new EquatableValidatorPredicate(),
-                new InterfaceVisibilityValidatorPredicate(),
-                new AttributeVisibilityValidatorPredicate(),
-                new MethodVisibilityValidatorPredicate(),
-                new FieldVisibilityValidatorPredicate(),
-                new ArrayVisibilityValidatorPredicate(),
-                new ExternalElementsValidatorPredicate(),
-                new ExternalTypesValidatorPredicate(),
-                new StructInheritanceValidatorPredicate(),
-                new NotNullValidatorPredicate()));
-
-    boolean nameValidationResult = NameValidator.validate(typeCollections);
-    boolean modelValidationResult = modelValidator.validate(deploymentModel, typeCollections);
-
-    return nameValidationResult && modelValidationResult;
-  }
-
-  public static void main(final String[] args) {
-    OptionReader or = new OptionReader();
-    int status = 1;
-    try {
-      Options options = or.read(args);
-      status = (options == null || new Genium(options).execute()) ? 0 : 1;
-    } catch (GeniumExecutionException e) {
-      LOGGER.log(Level.SEVERE, "Running Genium failed!", e);
-    } catch (OptionReaderException e) {
-      LOGGER.severe("Failed reading options: " + e.getMessage());
-      or.printUsage();
+    @VisibleForTesting
+    fun output(generatorName: String, files: List<GeneratedFile>): Boolean {
+        // handle output options
+        if (options.isDumpingToStdout) {
+            val co = ConsoleOutput()
+            co.output(files)
+        }
+        val filesToBeWritten = cacheStrategy.updateCache(generatorName, files) ?: listOf()
+        return saveToDirectory(options.outputDir, filesToBeWritten)
     }
 
-    System.exit(status);
-  }
+    /**
+     * Uses the internal validators to validate the model.
+     *
+     * @return boolean True if the model is valid, false otherwise.
+     */
+    @VisibleForTesting
+    internal fun validateFrancaModel(
+        deploymentModel: FrancaDeploymentModel,
+        typeCollections: List<FTypeCollection>
+    ) = NameValidator.validate(typeCollections) && FrancaModelValidator(
+        listOf(
+            DefaultsValidatorPredicate(),
+            ExpressionValidatorPredicate(),
+            MapKeyValidatorPredicate(),
+            IntegerIntervalValidatorPredicate(),
+            StaticMethodsValidatorPredicate(),
+            ErrorEnumsValidatorPredicate(),
+            InheritanceValidatorPredicate(),
+            UnionsValidatorPredicate(),
+            SerializationValidatorPredicate(),
+            EquatableValidatorPredicate(),
+            InterfaceVisibilityValidatorPredicate(),
+            AttributeVisibilityValidatorPredicate(),
+            MethodVisibilityValidatorPredicate(),
+            FieldVisibilityValidatorPredicate(),
+            ArrayVisibilityValidatorPredicate(),
+            ExternalElementsValidatorPredicate(),
+            ExternalTypesValidatorPredicate(),
+            StructInheritanceValidatorPredicate(),
+            NotNullValidatorPredicate()
+        )
+    ).validate(deploymentModel, typeCollections)
 
-  @SuppressWarnings("PMD.ImmutableField")
-  @lombok.Value
-  @lombok.Builder(builderClassName = "Builder")
-  public static class Options {
-    private String[] inputDirs;
-    private String outputDir;
-    private List<String> javaPackageList;
-    private boolean dumpingToStdout;
-    private boolean validatingOnly;
-    private Set<String> generators;
-    private boolean enableCaching;
-    private String androidMergeManifestPath;
-    private boolean logTimes;
-    private String copyrightHeaderContents;
-    public String cppInternalNamespace;
-    @lombok.Builder.Default public List<String> cppRootNamespace = new LinkedList<>();
-  }
+    class Options @JvmOverloads constructor(
+        var inputDirs: List<String> = listOf(),
+        var outputDir: String? = null,
+        var javaPackages: List<String> = listOf(),
+        var isDumpingToStdout: Boolean = false,
+        var isValidatingOnly: Boolean = false,
+        var generators: Set<String> = setOf(),
+        var isEnableCaching: Boolean = false,
+        var androidMergeManifestPath: String? = null,
+        var isLoggingTimes: Boolean = false,
+        var copyrightHeaderContents: String? = null,
+        var cppInternalNamespace: String? = null,
+        var cppRootNamespace: List<String> = listOf()
+    )
+
+    companion object {
+        private val LOGGER = Logger.getLogger(Genium::class.java.name)
+        const val DEFAULT_INTERNAL_NAMESPACE = "genium"
+        val DEFAULT_OPTIONS = Options(cppInternalNamespace = DEFAULT_INTERNAL_NAMESPACE)
+
+        private fun parseVersion(): Version {
+            val prop = Properties()
+            try {
+                val stream =
+                    Genium::class.java.classLoader.getResourceAsStream("version.properties")
+                prop.load(stream)
+            } catch (ex: IOException) {
+                ex.printStackTrace()
+            }
+            return Version.createFromString(prop.getProperty("version", "0.0.1"))
+        }
+
+        private fun checkForFileNameCollisions(
+            fileNamesCache: MutableMap<String, String>,
+            files: List<GeneratedFile>,
+            generatorName: String
+        ): Boolean {
+            var succeeded = true
+            for (file in files) {
+                val path = file.targetFile.path
+                val previousEntry = fileNamesCache[path]
+                if (previousEntry == null) {
+                    fileNamesCache[path] = generatorName
+                } else {
+                    LOGGER.severe(
+                        String.format(
+                            "Generator '%s' is overwriting file %s created already by '%s' ",
+                            generatorName, path, previousEntry
+                        )
+                    )
+                    succeeded = false
+                }
+            }
+            return succeeded
+        }
+
+        @VisibleForTesting
+        internal fun mergeAndroidManifests(
+            baseManifestPath: String,
+            appendManifestPath: String,
+            outputFilePath: String
+        ) = try {
+            Merger().process(
+                arrayOf(
+                    "--main",
+                    baseManifestPath,
+                    "--overlays",
+                    appendManifestPath,
+                    "--out",
+                    outputFilePath
+                )
+            ) == 0
+        } catch (e: FileNotFoundException) {
+            LOGGER.severe("Could not merge base Android Manifest files: " + e.message)
+            false
+        }
+
+        private fun saveToDirectory(outputDir: String?, files: List<GeneratedFile>): Boolean {
+            if (outputDir != null) {
+                try {
+                    FileOutput(File(outputDir)).output(files)
+                } catch (ignored: IOException) {
+                    LOGGER.severe("Cannot open output directory '$outputDir' for writing")
+                    return false
+                }
+            }
+            return true
+        }
+
+        @JvmStatic
+        fun main(args: Array<String>) {
+            var status = 1
+            try {
+                val options = OptionReader().read(args)
+                status = if (options == null || Genium(options).execute()) 0 else 1
+            } catch (e: GeniumExecutionException) {
+                LOGGER.log(Level.SEVERE, "Running Genium failed!", e)
+            } catch (e: OptionReaderException) {
+                LOGGER.severe("Failed reading options: ${e.message}")
+                OptionReader().printUsage()
+            }
+            System.exit(status)
+        }
+    }
 }

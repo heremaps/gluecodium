@@ -17,160 +17,156 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.cli;
+package com.here.genium.cli
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
-import com.here.genium.Genium;
-import com.here.genium.platform.common.GeneratorSuite;
-import java.util.*;
-import org.apache.commons.cli.*;
-import org.apache.commons.lang3.StringUtils;
-import org.eclipse.xtext.util.Files;
+import com.google.common.base.Splitter
+import com.here.genium.Genium
+import com.here.genium.platform.common.GeneratorSuite
+import org.apache.commons.cli.BasicParser
+import org.apache.commons.cli.CommandLine
+import org.apache.commons.cli.HelpFormatter
+import org.apache.commons.cli.Option
+import org.apache.commons.cli.Options
+import org.apache.commons.cli.ParseException
+import org.eclipse.xtext.util.Files
 
-public final class OptionReader {
-
-  private final Options allOptions;
-
-  public OptionReader() {
-    this.allOptions = new Options();
-
-    allOptions.addOption("input", true, "The path or the file to use for generation");
-    allOptions.addOption("output", true, "Generated files output destination");
-    allOptions.addOption("javapackage", true, "Java package name");
-    allOptions.addOption(
-        "mergemanifest",
-        "android-merge-manifest",
-        true,
-        "A second AndroidManifest.xml that will be merged with the generated AndroidManifest.xml");
-    allOptions.addOption("stdout", false, "Echo generated files to stdout");
-    allOptions.addOption("help", false, "Shows this help and exits.");
-    allOptions.addOption(
-        "validate",
-        "validate-only",
-        false,
-        "Perform fidl and fdepl files validation without generating any code.");
-    allOptions.addOption(
-        "cache",
-        "enable-caching",
-        false,
-        "enable caching of output files, only available if output destination is set");
-    Option generatorsOpt =
-        new Option(
+class OptionReader {
+    private val options: Options = Options().run {
+        addOption("input", true, "The path or the file to use for generation")
+        addOption("output", true, "Generated files output destination")
+        addOption("javapackage", true, "Java package name")
+        addOption(
+            "mergemanifest",
+            "android-merge-manifest",
+            true,
+            "A second AndroidManifest.xml that will be merged with the generated AndroidManifest.xml"
+        )
+        addOption("stdout", false, "Echo generated files to stdout")
+        addOption("help", false, "Shows this help and exits.")
+        addOption(
+            "validate",
+            "validate-only",
+            false,
+            "Perform fidl and fdepl files validation without generating any code."
+        )
+        addOption(
+            "cache",
+            "enable-caching",
+            false,
+            "enable caching of output files, only available if output destination is set"
+        )
+        addOption(Option(
             "generators",
             true,
-            String.join(
-                "\n",
-                "List of generators to use, separated by comma. "
-                    + "If empty, all available generators are used. Available generators: "
-                    + String.join(",", GeneratorSuite.generatorShortNames())));
-    generatorsOpt.setValueSeparator(',');
-    generatorsOpt.setOptionalArg(true);
-    generatorsOpt.setArgs(Option.UNLIMITED_VALUES);
-    allOptions.addOption(generatorsOpt);
-    allOptions.addOption(
-        "time",
-        "time-logging",
-        false,
-        "Enables logging of elapsed time at INFO level. "
-            + "Time for Franca model loading step and for code generation step is logged separately.");
-    allOptions.addOption(
-        "copyright",
-        "copyright-header",
-        true,
-        "Specify the path for the file containing the copyright header that will be appended to"
-            + " all the generated files.");
-    allOptions.addOption(
-        "intnamespace",
-        "cpp-internal-namespace",
-        true,
-        "C++ namespace for internal (non-API) headers.");
-    allOptions.addOption("cppnamespace", true, "C++ namespace for public (API) headers.");
-  }
-
-  @SuppressWarnings("PMD.ModifiedCyclomaticComplexity")
-  public Genium.Options read(final String[] args) throws OptionReaderException {
-    Genium.Options.Builder builder = Genium.Options.builder();
-    CommandLineParser parser = new BasicParser();
-
-    try {
-      CommandLine cmd = parser.parse(allOptions, args);
-
-      if (cmd.hasOption("help")) {
-        printUsage();
-        return null;
-      }
-
-      if (cmd.hasOption("input")) {
-        builder.inputDirs(cmd.getOptionValues("input"));
-      }
-
-      builder.outputDir(getSingleOptionValue(cmd, "output"));
-      String javaPackage = getSingleOptionValue(cmd, "javapackage");
-      builder.javaPackageList(
-          javaPackage != null
-              ? Lists.newArrayList(Splitter.on(".").split(javaPackage))
-              : Collections.emptyList());
-
-      builder.androidMergeManifestPath(getSingleOptionValue(cmd, "mergemanifest"));
-
-      if (cmd.hasOption("generators")) {
-        String[] arg = cmd.getOptionValues("generators");
-        // use all generators if option provided without argument
-        builder.generators(
-            arg != null ? new HashSet<>(Arrays.asList(arg)) : GeneratorSuite.generatorShortNames());
-      }
-
-      builder.validatingOnly(cmd.hasOption("validate"));
-      builder.dumpingToStdout(cmd.hasOption("stdout"));
-      builder.enableCaching(cmd.hasOption("output") && cmd.hasOption("cache"));
-
-      builder.logTimes(cmd.hasOption("time"));
-
-      String cppRootNamespaces = getSingleOptionValue(cmd, "cppnamespace");
-      builder.cppRootNamespace(
-          !StringUtils.isEmpty(cppRootNamespaces)
-              ? Arrays.asList(cppRootNamespaces.split("."))
-              : Collections.emptyList());
-
-      builder.cppInternalNamespace(getSingleOptionValue(cmd, "intnamespace"));
-
-      String copyrightHeader = cmd.getOptionValue("copyright");
-      if (copyrightHeader != null) {
-        String contents = Files.readFileIntoString(copyrightHeader);
-        builder.copyrightHeaderContents(contents);
-      }
-    } catch (ParseException e) {
-      throw new OptionReaderException(e);
+            "List of generators to use, separated by comma. If empty, all available generators are used. Available generators: ${GeneratorSuite.generatorShortNames().joinToString(
+                ","
+            )}\n"
+        ).apply {
+            valueSeparator = ','
+            setOptionalArg(true)
+            args = Option.UNLIMITED_VALUES
+        })
+        addOption(
+            "time",
+            "time-logging",
+            false,
+            "Enables logging of elapsed time at INFO level. Time for Franca model loading step and for code generation step is logged separately."
+        )
+        addOption(
+            "copyright",
+            "copyright-header",
+            true,
+            "Specify the path for the file containing the copyright header that will be appended to" + " all the generated files."
+        )
+        addOption(
+            "intnamespace",
+            "cpp-internal-namespace",
+            true,
+            "C++ namespace for internal (non-API) headers."
+        )
+        addOption("cppnamespace", true, "C++ namespace for public (API) headers.")
     }
 
-    // Validation
-    Genium.Options options = builder.build();
-    if (options.getInputDirs() == null || options.getInputDirs().length == 0) {
-      throw new OptionReaderException("input option required");
+    @Throws(OptionReaderException::class)
+    fun read(args: Array<String>): Genium.Options? {
+        val options = Genium.Options()
+        val parser = BasicParser()
+
+        try {
+            val cmd = parser.parse(this.options, args)
+
+            if (cmd.hasOption("help")) {
+                printUsage()
+                return null
+            }
+
+            if (cmd.hasOption("input")) {
+                options.inputDirs = cmd.getOptionValues("input").toList()
+            }
+
+            options.outputDir = getSingleOptionValue(cmd, "output")
+            val javaPackage = getSingleOptionValue(cmd, "javapackage")
+            options.javaPackages = if (javaPackage != null)
+                Splitter.on(".").split(javaPackage).toList()
+            else
+                listOf()
+
+            options.androidMergeManifestPath = getSingleOptionValue(cmd, "mergemanifest")
+
+            if (cmd.hasOption("generators")) {
+                val arg = cmd.getOptionValues("generators")
+                // use all generators if option provided without argument
+                options.generators = if (arg != null)
+                    hashSetOf(*arg)
+                else
+                    GeneratorSuite.generatorShortNames()
+            }
+
+            options.isValidatingOnly = cmd.hasOption("validate")
+            options.isDumpingToStdout = cmd.hasOption("stdout")
+            options.isEnableCaching = cmd.hasOption("output") && cmd.hasOption("cache")
+            options.isLoggingTimes = cmd.hasOption("time")
+
+            val cppRootNamespaces = getSingleOptionValue(cmd, "cppnamespace")
+            options.cppRootNamespace = if (cppRootNamespaces?.isNotEmpty() == true) {
+                cppRootNamespaces.split(".")
+            } else {
+                listOf()
+            }
+
+            options.cppInternalNamespace = getSingleOptionValue(cmd, "intnamespace")
+
+            val copyrightHeader = cmd.getOptionValue("copyright")
+            if (copyrightHeader != null) {
+                val contents = Files.readFileIntoString(copyrightHeader)
+                options.copyrightHeaderContents = contents
+            }
+        } catch (e: ParseException) {
+            throw OptionReaderException(e)
+        }
+
+        // Validation
+        if (options.inputDirs.isEmpty()) {
+            throw OptionReaderException("input option required")
+        }
+
+        return options
     }
 
-    return options;
-  }
+    fun printUsage() {
+        val header = "Genium - Generate APIs from Franca IDL files\n\n"
+        val footer = "\nPlease report issues at /dev/null"
 
-  public void printUsage() {
-    String header = "Genium - Generate APIs from Franca IDL files\n\n";
-    String footer = "\nPlease report issues at /dev/null";
-
-    HelpFormatter formatter = new HelpFormatter();
-    formatter.printHelp("generate [input]", header, allOptions, footer, true);
-  }
-
-  private static String getSingleOptionValue(final CommandLine cmd, final String option)
-      throws OptionReaderException {
-    String[] result = cmd.getOptionValues(option);
-
-    if (result == null) {
-      return null;
+        HelpFormatter().printHelp("generate [input]", header, options, footer, true)
     }
-    if (result.length != 1) {
-      throw new OptionReaderException("multiple values for option: " + option);
+
+    @Throws(OptionReaderException::class)
+    private fun getSingleOptionValue(cmd: CommandLine, option: String): String? {
+        val result = cmd.getOptionValues(option) ?: return null
+
+        if (result.size != 1) {
+            throw OptionReaderException("multiple values for option: $option")
+        }
+        return result[0]
     }
-    return result[0];
-  }
 }
