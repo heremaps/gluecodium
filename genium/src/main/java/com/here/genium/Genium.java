@@ -333,7 +333,7 @@ public class Genium {
     private String androidMergeManifestPath;
     private boolean logTimes;
     private String copyrightHeaderContents;
-    private String cppInternalNamespace;
-    @lombok.Builder.Default private List<String> cppRootNamespace = new LinkedList<>();
+    public String cppInternalNamespace;
+    @lombok.Builder.Default public List<String> cppRootNamespace = new LinkedList<>();
   }
 }

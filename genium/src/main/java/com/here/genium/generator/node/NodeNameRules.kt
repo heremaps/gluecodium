@@ -17,42 +17,29 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.node;
+package com.here.genium.generator.node
 
-import com.here.genium.generator.common.NameHelper;
-import com.here.genium.model.franca.DefinedBy;
-import java.io.File;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FTypeCollection;
+import com.here.genium.generator.common.NameHelper
+import com.here.genium.model.franca.DefinedBy
+import org.franca.core.franca.FArgument
+import org.franca.core.franca.FMethod
+import org.franca.core.franca.FTypeCollection
+import java.io.File
 
-public final class NodeNameRules {
+object NodeNameRules {
+    private val TARGET_DIRECTORY = "node${File.separator}"
 
-  public static final String TARGET_DIRECTORY = "node" + File.separator;
+    fun getImplementationFileName(francaTypeCollection: FTypeCollection) =
+        ("$TARGET_DIRECTORY${DefinedBy.getPackages(
+            francaTypeCollection
+        ).joinToString(File.separator)}${File.separator}${getFileName(francaTypeCollection)}.cpp")
 
-  private NodeNameRules() {}
+    private fun getFileName(francaTypeCollection: FTypeCollection) =
+        NodeNameRules.getClassName(francaTypeCollection.name)
 
-  public static String getImplementationFileName(final FTypeCollection francaTypeCollection) {
-    return TARGET_DIRECTORY
-        + String.join(File.separator, DefinedBy.getPackages(francaTypeCollection))
-        + File.separator
-        + getFileName(francaTypeCollection)
-        + ".cpp";
-  }
+    fun getMethodName(method: FMethod) = NameHelper.toLowerCamelCase(method.name)
 
-  private static String getFileName(final FTypeCollection francaTypeCollection) {
-    return NodeNameRules.getClassName(francaTypeCollection.getName());
-  }
+    fun getParameterName(argument: FArgument) = NameHelper.toLowerCamelCase(argument.name)
 
-  public static String getMethodName(final FMethod method) {
-    return NameHelper.toLowerCamelCase(method.getName());
-  }
-
-  public static String getParameterName(final FArgument argument) {
-    return NameHelper.toLowerCamelCase(argument.getName());
-  }
-
-  public static String getClassName(final String name) {
-    return NameHelper.toUpperCamelCase(name);
-  }
+    fun getClassName(name: String) = NameHelper.toUpperCamelCase(name)
 }
