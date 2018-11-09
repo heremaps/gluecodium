@@ -31,7 +31,7 @@ class NiceErrorCollector : ErrorCollector() {
      * Adds a failure with the given `message` to the table if `actualValue` is not null.
      * Execution continues, but the test will fail at the end if the match fails.
      */
-    fun <T> checkNotNull(message: String, value: T) {
+    fun <T> checkNotNull(message: String, value: T?) {
         checkSucceeds {
             assertNotNull(message, value)
             value

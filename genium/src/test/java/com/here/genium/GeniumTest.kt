@@ -29,6 +29,8 @@ import com.here.genium.output.ConsoleOutput
 import com.here.genium.output.FileOutput
 import com.here.genium.platform.common.GeneratorSuite
 import com.here.genium.validator.FrancaResourcesValidator
+import io.mockk.every
+import io.mockk.spyk
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.franca.core.franca.FTypeCollection
 import org.junit.Assert.assertEquals
@@ -47,10 +49,8 @@ import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
-import org.mockito.Mockito.doReturn
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.never
-import org.mockito.Mockito.spy
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
@@ -115,7 +115,7 @@ class GeniumTest {
     @Test
     fun defaultGeneratorsAreUsed() {
         // Arrange
-        val options = Options.builder().build()
+        val options = Options()
 
         // Act, Assert
         assertEquals(
@@ -134,10 +134,10 @@ class GeniumTest {
                 any<FrancaDeploymentModel>()
             )
         ).thenReturn(null)
-        val options = Options.builder()
-            .inputDirs(arrayOf(""))
-            .generators(setOf("invalidGenerator"))
-            .build()
+        val options = Options(
+            inputDirs = listOf(""),
+            generators = setOf("invalidGenerator")
+        )
 
         // Act, Assert
         assertFalse(createGenium(options).execute())
@@ -153,23 +153,24 @@ class GeniumTest {
                 FILE
             )
         )
-        val options = Options.builder()
-            .inputDirs(arrayOf(""))
-            .generators(setOf(SHORT_NAME))
-            .validatingOnly(false)
-            .build()
+        val options = Options(
+            inputDirs = listOf(""),
+            generators = setOf(SHORT_NAME),
+            isValidatingOnly = false
+        )
 
+        // Act, assert
         assertFalse(createGenium(options).execute())
     }
 
     @Test
     fun executeValidateOnly() {
         // Arrange
-        val options = Options.builder()
-            .inputDirs(arrayOf(""))
-            .generators(setOf(SHORT_NAME))
-            .validatingOnly(true)
-            .build()
+        val options = Options(
+            inputDirs = listOf(""),
+            generators = setOf(SHORT_NAME),
+            isValidatingOnly = true
+        )
 
         // Act
         createGenium(options).execute()
@@ -181,12 +182,12 @@ class GeniumTest {
     @Test
     fun useCachingInExecute() {
         // Arrange
-        val options = Options.builder()
-            .inputDirs(arrayOf(""))
-            .outputDir(temporaryFolder.root.path)
-            .generators(setOf(SHORT_NAME))
-            .enableCaching(true)
-            .build()
+        val options = Options(
+            inputDirs = listOf(""),
+            outputDir = temporaryFolder.root.path,
+            generators = setOf(SHORT_NAME),
+            isEnableCaching = true
+        )
 
         // Act
         createGenium(options).execute()
@@ -202,14 +203,13 @@ class GeniumTest {
     @Throws(IOException::class)
     fun ableToOutputConsole() {
         // Arrange
-        Options.builder().dumpingToStdout(true).build()
         val generatedFile = GeneratedFile(CONTENT, FILE_NAME)
         val bo = ByteArrayOutputStream()
         System.setOut(PrintStream(bo))
-        val options = Options.builder().dumpingToStdout(true).build()
+        val options = Options(isDumpingToStdout = true)
 
         // Act
-        Genium(options).output(null, listOf(generatedFile))
+        Genium(options).output("", listOf(generatedFile))
         bo.flush()
         val consoleOutput = String(bo.toByteArray())
 
@@ -230,12 +230,12 @@ class GeniumTest {
         // Arrange
         val mockFileOutput = mock(FileOutput::class.java)
         PowerMockito.whenNew(FileOutput::class.java).withAnyArguments().thenReturn(mockFileOutput)
-        val options = Options.builder().outputDir(OUTPUT_DIR).build()
+        val options = Options(outputDir = OUTPUT_DIR)
         val mockFile = mock(File::class.java)
         PowerMockito.whenNew(File::class.java).withAnyArguments().thenReturn(mockFile)
 
         // Act, Assert
-        assertTrue(Genium(options).output(null, GENERATED_FILES))
+        assertTrue(Genium(options).output("", GENERATED_FILES))
         verify(mockFileOutput, times(1)).output(ArgumentMatchers.anyList())
         verify(cache).updateCache(any(), any())
     }
@@ -253,10 +253,10 @@ class GeniumTest {
         PowerMockito.whenNew(ConsoleOutput::class.java).withNoArguments()
             .thenReturn(mockConsoleOutput)
         Mockito.doThrow(IOException()).`when`(mockConsoleOutput).output(ArgumentMatchers.anyList())
-        val options = Options.builder().dumpingToStdout(true).build()
+        val options = Options(isDumpingToStdout = true)
 
         // Act, Assert
-        assertFalse(Genium(options).output(null, GENERATED_FILES))
+        assertFalse(Genium(options).output("", GENERATED_FILES))
     }
 
     @Test
@@ -266,10 +266,10 @@ class GeniumTest {
         val mockFileOutput = mock(FileOutput::class.java)
         PowerMockito.whenNew(FileOutput::class.java).withAnyArguments().thenReturn(mockFileOutput)
         Mockito.doThrow(IOException()).`when`(mockFileOutput).output(GENERATED_FILES)
-        val options = Options.builder().outputDir("").build()
+        val options = Options(outputDir = "")
 
         // Act, Assert
-        assertFalse(Genium(options).output(null, GENERATED_FILES))
+        assertFalse(Genium(options).output("", GENERATED_FILES))
     }
 
     @Test
@@ -328,10 +328,9 @@ class GeniumTest {
     }
 
     private fun createGenium(options: Options): Genium {
-        val genium = spy(Genium(options))
-        doReturn(francaModelLoader).`when`(genium).francaModelLoader
-        doReturn(true).`when`(genium)
-            .validateFrancaModel(any<FrancaDeploymentModel>(), any<List<FTypeCollection>>())
+        val genium = spyk(Genium(options))
+        every { genium.francaModelLoader } returns francaModelLoader
+        every { genium.validateFrancaModel(any(), any()) } returns(true)
         return genium
     }
 
