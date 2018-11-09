@@ -17,51 +17,39 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.node;
+package com.here.genium.generator.node
 
-import com.google.common.annotations.VisibleForTesting;
-import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
-import com.here.genium.generator.common.templates.TemplateEngine;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.node.NodeFile;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import org.franca.core.franca.FTypeCollection;
+import com.google.common.annotations.VisibleForTesting
+import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
+import com.here.genium.generator.common.modelbuilder.ModelBuilder
+import com.here.genium.generator.common.templates.TemplateEngine
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.node.NodeFile
+import org.franca.core.franca.FTypeCollection
 
-public class NodeGenerator {
+class NodeGenerator(private val deploymentModel: FrancaDeploymentModel) {
+    private val enumsAsErrors = hashSetOf<String>()
 
-  public final Set<String> enumsAsErrors = new HashSet<>();
-
-  private final FrancaDeploymentModel deploymentModel;
-
-  public NodeGenerator(final FrancaDeploymentModel deploymentModel) {
-    this.deploymentModel = deploymentModel;
-  }
-
-  public GeneratedFile generate(final FTypeCollection francaTypeCollection) {
-    NodeFile file = buildNodeModel(francaTypeCollection);
-    if (file.isEmpty()) {
-      return null;
-    } else {
-      return new GeneratedFile(
-          TemplateEngine.render("node/File", file),
-          NodeNameRules.getImplementationFileName(francaTypeCollection));
+    fun generate(francaTypeCollection: FTypeCollection): GeneratedFile? {
+        val file = buildNodeModel(francaTypeCollection)
+        return if (file!!.isEmpty) {
+            null
+        } else {
+            GeneratedFile(
+                TemplateEngine.render("node/File", file),
+                NodeNameRules.getImplementationFileName(francaTypeCollection)
+            )
+        }
     }
-  }
 
-  public GeneratedFile generateErrors() {
-    return null;
-  }
+    @VisibleForTesting
+    internal fun buildNodeModel(francaTypeCollection: FTypeCollection): NodeFile? {
+        val modelBuilder = NodeModelBuilder(deploymentModel)
+        val treeWalker = FrancaTreeWalker(listOf<ModelBuilder>(modelBuilder))
 
-  @VisibleForTesting
-  NodeFile buildNodeModel(final FTypeCollection francaTypeCollection) {
-    NodeModelBuilder modelBuilder = new NodeModelBuilder(deploymentModel);
-    FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
-
-    treeWalker.walkTree(francaTypeCollection);
-    enumsAsErrors.addAll(modelBuilder.enumsAsErrors);
-    return modelBuilder.getFinalResult(NodeFile.class);
-  }
+        treeWalker.walkTree(francaTypeCollection)
+        enumsAsErrors.addAll(modelBuilder.enumsAsErrors)
+        return modelBuilder.getFinalResult(NodeFile::class.java)
+    }
 }

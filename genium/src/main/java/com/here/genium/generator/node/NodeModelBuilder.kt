@@ -17,36 +17,28 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.node;
+package com.here.genium.generator.node
 
-import com.google.common.annotations.VisibleForTesting;
-import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
-import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.node.NodeArray;
-import com.here.genium.model.node.NodeElement;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import com.google.common.annotations.VisibleForTesting
+import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder
+import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.node.NodeArray
+import com.here.genium.model.node.NodeElement
+import java.util.HashMap
+import java.util.HashSet
 
-@SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-public class NodeModelBuilder extends AbstractModelBuilder<NodeElement> {
+class NodeModelBuilder @VisibleForTesting
+internal constructor(
+    contextStack: ModelBuilderContextStack<NodeElement>,
+    private val deploymentModel: FrancaDeploymentModel
+) : AbstractModelBuilder<NodeElement>(contextStack) {
 
-  public final Map<String, NodeArray> arraysCollector = new HashMap<>();
-  public final Set<String> enumsAsErrors = new HashSet<>();
+    val arraysCollector: Map<String, NodeArray> = HashMap()
+    val enumsAsErrors: Set<String> = HashSet()
 
-  private final FrancaDeploymentModel deploymentModel;
-
-  public NodeModelBuilder(final FrancaDeploymentModel deploymentModel) {
-    this(new ModelBuilderContextStack<>(), deploymentModel);
-  }
-
-  @VisibleForTesting
-  NodeModelBuilder(
-      final ModelBuilderContextStack<NodeElement> contextStack,
-      final FrancaDeploymentModel deploymentModel) {
-    super(contextStack);
-    this.deploymentModel = deploymentModel;
-  }
+    constructor(deploymentModel: FrancaDeploymentModel) : this(
+        ModelBuilderContextStack<NodeElement>(),
+        deploymentModel
+    )
 }

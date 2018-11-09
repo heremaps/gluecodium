@@ -17,25 +17,21 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.node;
+package com.here.genium.model.node
 
-import java.util.LinkedList;
-import java.util.List;
+class NodeFile : NodeElement() {
+    val classes = listOf<NodeClass>()
+    val structs = listOf<NodeContainerType>()
+    val enums = listOf<NodeEnum>()
+    val typeDefs = listOf<NodeTypeDef>()
+    val arrays = listOf<NodeArray>()
+    val dictionaries = listOf<NodeDictionary>()
 
-public final class NodeFile extends NodeElement {
-
-  public final List<NodeClass> classes = new LinkedList<>();
-  public final List<NodeContainerType> structs = new LinkedList<>();
-  public final List<NodeEnum> enums = new LinkedList<>();
-  public final List<NodeTypeDef> typeDefs = new LinkedList<>();
-  public final List<NodeArray> arrays = new LinkedList<>();
-  public final List<NodeDictionary> dictionaries = new LinkedList<>();
-
-  public boolean isEmpty() {
-    return classes.isEmpty()
-        && structs.isEmpty()
-        && enums.isEmpty()
-        && arrays.isEmpty()
-        && dictionaries.isEmpty();
-  }
+    val isEmpty: Boolean
+        get() = (classes.isEmpty() &&
+                structs.isEmpty() &&
+                enums.isEmpty() &&
+                typeDefs.isEmpty() &&
+                arrays.isEmpty() &&
+                dictionaries.isEmpty())
 }

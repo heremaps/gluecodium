@@ -17,22 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.node;
+package com.here.genium.platform.node
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Assert.assertEquals
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
-import com.here.genium.Genium;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+@RunWith(JUnit4::class)
+class NodeGeneratorSuiteTest {
+    //private val suite = NodeGeneratorSuite(Genium.DEFAULT_OPTIONS, null!!)
 
-@RunWith(JUnit4.class)
-public final class NodeGeneratorSuiteTest {
-
-  private final NodeGeneratorSuite suite = new NodeGeneratorSuite(Genium.DEFAULT_OPTIONS, null);
-
-  @Test
-  public void generatorNameIsCorrect() {
-    assertEquals(suite.GENERATOR_NAME, "nodejs");
-  }
+    @Test
+    fun generatorNameIsCorrect() = assertEquals(NodeGeneratorSuite.GENERATOR_NAME, "nodejs")
 }

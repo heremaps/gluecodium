@@ -17,8 +17,8 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.node;
+package com.here.genium.model.node
 
-import com.here.genium.model.common.ModelElement;
+import com.here.genium.model.common.ModelElement
 
-public interface NodeEnum extends ModelElement {}
+interface NodeEnum : ModelElement
