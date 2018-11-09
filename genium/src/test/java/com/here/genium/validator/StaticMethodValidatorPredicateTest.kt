@@ -20,7 +20,6 @@
 package com.here.genium.validator
 
 import com.here.genium.model.franca.FrancaDeploymentModel
-import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
@@ -56,8 +55,8 @@ class StaticMethodValidatorPredicateTest {
         `when`(francaInterface.name).thenReturn("")
         `when`(francaMethod.name).thenReturn("")
 
-        `when`<EObject>(francaInterface.eContainer()).thenReturn(francaModel)
-        `when`<EObject>(francaMethod.eContainer()).thenReturn(francaInterface)
+        `when`(francaInterface.eContainer()).thenReturn(francaModel)
+        `when`(francaMethod.eContainer()).thenReturn(francaInterface)
     }
 
     @Test

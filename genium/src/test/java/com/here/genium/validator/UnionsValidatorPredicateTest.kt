@@ -19,7 +19,6 @@
 
 package com.here.genium.validator
 
-import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FUnionType
@@ -51,8 +50,8 @@ class UnionsValidatorPredicateTest {
         `when`(francaTypeCollection.name).thenReturn("")
         `when`(francaUnionType.name).thenReturn("")
 
-        `when`<EObject>(francaTypeCollection.eContainer()).thenReturn(francaModel)
-        `when`<EObject>(francaUnionType.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
+        `when`(francaUnionType.eContainer()).thenReturn(francaTypeCollection)
     }
 
     @Test

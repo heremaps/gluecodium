@@ -175,7 +175,7 @@ class GeniumTest {
         createGenium(options).execute()
 
         // Assert
-        verify<GeneratorSuite>(generator, never()).generate(any<List<FTypeCollection>>())
+        verify(generator, never()).generate(any<List<FTypeCollection>>())
     }
 
     @Test
@@ -193,8 +193,8 @@ class GeniumTest {
 
         // Verify
         Mockito.inOrder(cache).apply {
-            verify<CachingStrategy>(cache).updateCache(any(), any())
-            verify<CachingStrategy>(cache).write(true)
+            verify(cache).updateCache(any(), any())
+            verify(cache).write(true)
         }
     }
 
@@ -237,7 +237,7 @@ class GeniumTest {
         // Act, Assert
         assertTrue(Genium(options).output(null, GENERATED_FILES))
         verify(mockFileOutput, times(1)).output(ArgumentMatchers.anyList())
-        verify<CachingStrategy>(cache).updateCache(any(), any())
+        verify(cache).updateCache(any(), any())
     }
 
     @PrepareForTest(

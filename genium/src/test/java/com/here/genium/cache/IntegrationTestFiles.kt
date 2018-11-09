@@ -20,15 +20,13 @@
 package com.here.genium.cache
 
 import com.here.genium.generator.common.GeneratedFile
-import java.util.Arrays
-import java.util.HashSet
 
 internal object IntegrationTestFiles {
-    val MY_GENERATORS: Set<String> = HashSet(Arrays.asList("Fancy", "SuperFancy", "NotSoFancy"))
+    val MY_GENERATORS: Set<String> = hashSetOf("Fancy", "SuperFancy", "NotSoFancy")
 
-    val FIRSTRUN: List<CacheInputOutputPair>
-    val SECONDRUN: List<CacheInputOutputPair>
-    val THIRDRUN: List<CacheInputOutputPair>
+    val FIRST_RUN: List<CacheInputOutputPair>
+    val SECOND_RUN: List<CacheInputOutputPair>
+    val THIRD_RUN: List<CacheInputOutputPair>
 
     /**
      * This class wraps input (files given to updateCache()) and corresponding expected output(files
@@ -42,7 +40,7 @@ internal object IntegrationTestFiles {
 
     init {
         // input/ output for first cache
-        var firstFiles = Arrays.asList(
+        var firstFiles = listOf(
             GeneratedFile("contentA", "FILE1.1"),
             GeneratedFile("contentB", "FILE1.2"),
             GeneratedFile("contentC", "FILE1.3")
@@ -51,12 +49,12 @@ internal object IntegrationTestFiles {
         // one unchanged, one deletion, one update, one addition
         val secondRunCacheA = CacheInputOutputPair(
             "Fancy",
-            Arrays.asList(
+            listOf(
                 GeneratedFile("contentA", "FILE1.1"),
                 GeneratedFile("contentC*", "FILE1.3"),
                 GeneratedFile("contentD", "FILE1.4")
             ),
-            Arrays.asList(
+            listOf(
                 GeneratedFile("contentC*", "FILE1.3"),
                 GeneratedFile("contentD", "FILE1.4")
             )
@@ -64,12 +62,12 @@ internal object IntegrationTestFiles {
         // all files renamed
         val thirdRunCacheA = CacheInputOutputPair(
             "Fancy",
-            Arrays.asList(
+            listOf(
                 GeneratedFile("contentA", "FILE1.5"),
                 GeneratedFile("contentC*", "FILE1.6"),
                 GeneratedFile("contentD", "FILE1.7")
             ),
-            Arrays.asList(
+            listOf(
                 GeneratedFile("contentA", "FILE1.5"),
                 GeneratedFile("contentC*", "FILE1.6"),
                 GeneratedFile("contentD", "FILE1.7")
@@ -82,12 +80,12 @@ internal object IntegrationTestFiles {
         // three additions, (contents match first generator's output)
         val secondRunCacheB = CacheInputOutputPair(
             "SuperFancy",
-            Arrays.asList(
+            listOf(
                 GeneratedFile("contentA", "FILE2.1"),
                 GeneratedFile("contentC*", "FILE2.2"),
                 GeneratedFile("contentD", "FILE2.3")
             ),
-            Arrays.asList(
+            listOf(
                 GeneratedFile("contentA", "FILE2.1"),
                 GeneratedFile("contentC*", "FILE2.2"),
                 GeneratedFile("contentD", "FILE2.3")
@@ -96,12 +94,12 @@ internal object IntegrationTestFiles {
         // all contents changed
         val thirdRunCacheB = CacheInputOutputPair(
             "SuperFancy",
-            Arrays.asList(
+            listOf(
                 GeneratedFile("contentA*", "FILE2.1"),
                 GeneratedFile("contentC**", "FILE2.2"),
                 GeneratedFile("contentD*", "FILE2.3")
             ),
-            Arrays.asList(
+            listOf(
                 GeneratedFile("contentA*", "FILE2.1"),
                 GeneratedFile("contentC**", "FILE2.2"),
                 GeneratedFile("contentD*", "FILE2.3")
@@ -109,7 +107,7 @@ internal object IntegrationTestFiles {
         )
 
         // input/ output for third cache
-        firstFiles = Arrays.asList(
+        firstFiles = listOf(
             GeneratedFile("contentI", "FILE3.1"),
             GeneratedFile("contentII", "FILE3.2"),
             GeneratedFile("contentIII", "FILE3.3")
@@ -120,20 +118,20 @@ internal object IntegrationTestFiles {
         // same as in first run
         val thirdRunCacheC = CacheInputOutputPair(
             "NotSoFancy",
-            Arrays.asList(
+            listOf(
                 GeneratedFile("contentI", "FILE3.1"),
                 GeneratedFile("contentII", "FILE3.2"),
                 GeneratedFile("contentIII", "FILE3.3")
             ),
-            Arrays.asList(
+            listOf(
                 GeneratedFile("contentI", "FILE3.1"),
                 GeneratedFile("contentII", "FILE3.2"),
                 GeneratedFile("contentIII", "FILE3.3")
             )
         )
 
-        FIRSTRUN = Arrays.asList(firstRunCacheA, firstRunCacheB, firstRunCacheC)
-        SECONDRUN = Arrays.asList(secondRunCacheA, secondRunCacheB, secondRunCacheC)
-        THIRDRUN = Arrays.asList(thirdRunCacheA, thirdRunCacheB, thirdRunCacheC)
+        FIRST_RUN = listOf(firstRunCacheA, firstRunCacheB, firstRunCacheC)
+        SECOND_RUN = listOf(secondRunCacheA, secondRunCacheB, secondRunCacheC)
+        THIRD_RUN = listOf(thirdRunCacheA, thirdRunCacheB, thirdRunCacheC)
     }
 }

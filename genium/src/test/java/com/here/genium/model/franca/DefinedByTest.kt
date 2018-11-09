@@ -19,7 +19,6 @@
 
 package com.here.genium.model.franca
 
-import org.eclipse.emf.ecore.EObject
 import org.junit.Assert.assertEquals
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations.initMocks
@@ -61,7 +60,7 @@ class DefinedByTest {
     fun findDefiningTypeCollection_returnsParentTypeCollection() {
         // Arrange
         `when`(francaTypeCollection.name).thenReturn("MyFTypeCollection")
-        `when`<EObject>(francaModelElement.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaModelElement.eContainer()).thenReturn(francaTypeCollection)
 
         // Act
         val definingTypeCollection = DefinedBy.findDefiningTypeCollection(francaModelElement)
@@ -74,7 +73,7 @@ class DefinedByTest {
     fun findDefiningTypeCollection_forQualifiedRef_returnsParentTypeCollection() {
         // Arrange
         `when`(francaTypeCollection.name).thenReturn("MyFTypeCollection")
-        `when`<EObject>(francaQualifiedElementRef.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaQualifiedElementRef.eContainer()).thenReturn(francaTypeCollection)
 
         // Act
         val definingTypeCollection = DefinedBy.findDefiningTypeCollection(francaQualifiedElementRef)

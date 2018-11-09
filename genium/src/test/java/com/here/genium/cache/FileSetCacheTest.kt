@@ -41,7 +41,6 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.io.ObjectInputStream
 import java.nio.file.Paths
-import java.util.HashMap
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(HashValueCalculator::class)
@@ -61,14 +60,12 @@ class FileSetCacheTest {
         cache = FileSetCache(cacheFile)
 
         `when`(HashValueCalculator.calculateHashValue(anyString()))
-            .thenAnswer { invocation -> (invocation.arguments[0] as String).toByteArray() }
+            .thenAnswer { (it.arguments[0] as String).toByteArray() }
     }
 
     @Test
-    fun createEmptyCache() {
-        // Assert
-        assertEquals(HashMap<String, CacheEntry>(), cache.cacheEntries)
-    }
+    fun createEmptyCache() =
+        assertEquals(hashMapOf<String, CacheEntry>(), cache.cacheEntries)
 
     @Test
     @Throws(IOException::class, ClassNotFoundException::class)
@@ -78,10 +75,7 @@ class FileSetCacheTest {
 
         // Assert
         assertTrue(cacheFile.exists())
-        val fileInput = FileInputStream(cacheFile)
-        val objectInputStream = ObjectInputStream(fileInput)
-        val fileDirectory = objectInputStream.readObject() as HashMap<*, *>
-        assertEquals(fileDirectory, cache.cacheEntries)
+        assertEquals(ObjectInputStream(FileInputStream(cacheFile)).readObject(), cache.cacheEntries)
     }
 
     @Test

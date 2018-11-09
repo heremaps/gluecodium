@@ -20,7 +20,6 @@
 package com.here.genium.validator
 
 import com.here.genium.model.franca.FrancaDeploymentModel
-import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FModel
 import org.junit.Assert.assertNull
@@ -55,7 +54,7 @@ class InheritanceValidatorPredicateNoParentTest(
         `when`(francaModel.name).thenReturn("")
         `when`(francaInterface.name).thenReturn("")
 
-        `when`<EObject>(francaInterface.eContainer()).thenReturn(francaModel)
+        `when`(francaInterface.eContainer()).thenReturn(francaModel)
     }
 
     @Test

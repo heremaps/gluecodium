@@ -88,7 +88,7 @@ class FullCachingStrategyIntegrationTest {
 
     @Test
     fun updateEmptyCache() {
-        IntegrationTestFiles.FIRSTRUN.forEach { entry ->
+        IntegrationTestFiles.FIRST_RUN.forEach { entry ->
             // Act
             val result = myStrategy.updateCache(entry.name, entry.inputFiles)
 
@@ -101,11 +101,11 @@ class FullCachingStrategyIntegrationTest {
     @Test
     fun updateNonEmptyCache() {
         // Arrange
-        IntegrationTestFiles.FIRSTRUN.forEach { myStrategy.updateCache(it.name, it.inputFiles) }
+        IntegrationTestFiles.FIRST_RUN.forEach { myStrategy.updateCache(it.name, it.inputFiles) }
         myStrategy.write(true)
 
         // Act, assert
-        IntegrationTestFiles.SECONDRUN.forEach {
+        IntegrationTestFiles.SECOND_RUN.forEach {
             val result = myStrategy.updateCache(it.name, it.inputFiles)
 
             assertEquals(result.size.toLong(), it.outputFiles.size.toLong())
@@ -113,7 +113,7 @@ class FullCachingStrategyIntegrationTest {
         }
         myStrategy.write(true)
 
-        IntegrationTestFiles.THIRDRUN.forEach {
+        IntegrationTestFiles.THIRD_RUN.forEach {
             val result = myStrategy.updateCache(it.name, it.inputFiles)
 
             assertEquals(result.size.toLong(), it.outputFiles.size.toLong())
@@ -124,13 +124,13 @@ class FullCachingStrategyIntegrationTest {
     @Test
     fun writeNonEmptyCache() {
         // Arrange
-        IntegrationTestFiles.FIRSTRUN.forEach { myStrategy.updateCache(it.name, it.inputFiles) }
+        IntegrationTestFiles.FIRST_RUN.forEach { myStrategy.updateCache(it.name, it.inputFiles) }
 
         // Act
         myStrategy.write(true)
 
         // Assert
-        IntegrationTestFiles.FIRSTRUN.forEach { iter ->
+        IntegrationTestFiles.FIRST_RUN.forEach { iter ->
             val result = loadCacheFile(Paths.get(buildFolderPath, "/.cache/" + iter.name).toFile())
 
             // check that we have entries for all files
@@ -144,13 +144,13 @@ class FullCachingStrategyIntegrationTest {
     @Test
     fun writeNonEmptyCacheInvalid() {
         // Arrange
-        IntegrationTestFiles.FIRSTRUN.forEach { myStrategy.updateCache(it.name, it.inputFiles) }
+        IntegrationTestFiles.FIRST_RUN.forEach { myStrategy.updateCache(it.name, it.inputFiles) }
 
         // Act
         myStrategy.write(false)
 
         // Assert
-        IntegrationTestFiles.FIRSTRUN.forEach {
+        IntegrationTestFiles.FIRST_RUN.forEach {
             val result =
                 loadCacheFile(Paths.get(buildFolderPath, "/.cache/" + it.name).toFile())
 

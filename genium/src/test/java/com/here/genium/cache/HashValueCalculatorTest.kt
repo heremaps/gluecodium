@@ -20,33 +20,31 @@
 package com.here.genium.cache
 
 import org.junit.Assert.assertEquals
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
-
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 import org.powermock.api.mockito.PowerMockito
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(HashValueCalculator::class, MessageDigest::class)
 class HashValueCalculatorTest {
-    @Mock
-    private val md: MessageDigest? = null
+    private var messageDigest = mock(MessageDigest::class.java)
 
     @Before
     @Throws(NoSuchAlgorithmException::class)
     fun setupMessageDigest() {
         PowerMockito.mockStatic(MessageDigest::class.java)
 
-        PowerMockito.`when`(MessageDigest.getInstance(any())).thenReturn(md)
-        `when`(md!!.digest()).thenReturn(TEST_OUTPUT)
+        PowerMockito.`when`(MessageDigest.getInstance(any())).thenReturn(messageDigest)
+        `when`(messageDigest.digest()).thenReturn(TEST_OUTPUT)
     }
 
     @Test
@@ -56,8 +54,8 @@ class HashValueCalculatorTest {
 
         // Assert
         assertEquals(TEST_OUTPUT, result)
-        verify<MessageDigest>(md).update(TEST_INPUT.toByteArray())
-        verify<MessageDigest>(md).digest()
+        verify(messageDigest).update(TEST_INPUT.toByteArray())
+        verify(messageDigest).digest()
     }
 
     companion object {

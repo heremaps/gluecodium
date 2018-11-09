@@ -20,7 +20,6 @@
 package com.here.genium.model.cpp
 
 import com.here.genium.model.franca.FrancaDeploymentModel
-import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
@@ -59,9 +58,9 @@ class CppIncludeResolverTest {
 
         includeResolver = CppIncludeResolver(deploymentModel, emptyList())
 
-        `when`<EObject>(francaStruct.eContainer()).thenReturn(francaTypeCollection)
-        `when`<EObject>(francaTypeCollection.eContainer()).thenReturn(francaModel)
-        `when`<EObject>(francaInterface.eContainer()).thenReturn(francaModel)
+        `when`(francaStruct.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
+        `when`(francaInterface.eContainer()).thenReturn(francaModel)
 
         `when`(francaTypeCollection.name).thenReturn(TYPE_COLLECTION_NAME)
         `when`(francaModel.name).thenReturn(MODEL_NAME)

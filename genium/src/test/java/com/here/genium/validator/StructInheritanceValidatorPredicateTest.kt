@@ -20,7 +20,6 @@
 package com.here.genium.validator
 
 import com.here.genium.model.franca.FrancaDeploymentModel
-import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FTypeCollection
@@ -58,9 +57,9 @@ class StructInheritanceValidatorPredicateTest {
         `when`(francaTypeCollection.name).thenReturn("Bar")
         `when`(francaStruct.name).thenReturn("Baz")
 
-        `when`<EObject>(francaTypeCollection.eContainer()).thenReturn(francaModel)
-        `when`<EObject>(francaStruct.eContainer()).thenReturn(francaTypeCollection)
-        `when`<EObject>(parentStruct.eContainer()).thenReturn(parentStruct)
+        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
+        `when`(francaStruct.eContainer()).thenReturn(francaTypeCollection)
+        `when`(parentStruct.eContainer()).thenReturn(parentStruct)
 
         `when`(francaStruct.base).thenReturn(parentStruct)
     }

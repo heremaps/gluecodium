@@ -19,7 +19,6 @@
 
 package com.here.genium.validator
 
-import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FIntegerInterval
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
@@ -54,9 +53,9 @@ class IntegerIntervalValidatorPredicateTest {
         `when`(francaTypeCollection.name).thenReturn("")
         `when`(francaModelElement.name).thenReturn("")
 
-        `when`<EObject>(francaTypeCollection.eContainer()).thenReturn(francaModel)
-        `when`<EObject>(francaModelElement.eContainer()).thenReturn(francaTypeCollection)
-        `when`<EObject>(francaIntegerInterval.eContainer()).thenReturn(francaModelElement)
+        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
+        `when`(francaModelElement.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaIntegerInterval.eContainer()).thenReturn(francaModelElement)
     }
 
     @Test

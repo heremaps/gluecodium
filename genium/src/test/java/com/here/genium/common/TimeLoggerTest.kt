@@ -19,44 +19,38 @@
 
 package com.here.genium.common
 
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.ArgumentMatchers.eq
-import org.mockito.Mockito.never
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
-import org.powermock.api.mockito.PowerMockito.verifyStatic
-import org.powermock.api.mockito.PowerMockito.`when`
-
-import java.util.concurrent.TimeUnit
-import java.util.logging.Level
-import java.util.logging.Logger
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
-import org.mockito.Mock
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.anyString
+import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mockito
-import org.mockito.MockitoAnnotations
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.never
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 import org.powermock.api.mockito.PowerMockito
+import org.powermock.api.mockito.PowerMockito.`when`
+import org.powermock.api.mockito.PowerMockito.verifyStatic
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
+import java.util.concurrent.TimeUnit
+import java.util.logging.Level
+import java.util.logging.Logger
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(TimeLogger::class)
 class TimeLoggerTest {
     @Rule
     private val exception = ExpectedException.none()
-
-    @Mock
-    private val logger: Logger? = null
-
+    private val logger = mock(Logger::class.java)
     private lateinit var timeLogger: TimeLogger
 
     @Before
-    fun setUp() {
-        MockitoAnnotations.initMocks(this)
+    fun beforeMocks() {
         PowerMockito.mockStatic(System::class.java)
         timeLogger = TimeLogger(logger, TimeUnit.NANOSECONDS, Level.INFO)
     }
@@ -114,7 +108,7 @@ class TimeLoggerTest {
         // Assert
         verifyStatic(never())
         System.nanoTime()
-        verify<Logger>(logger, never()).log(any(), anyString())
+        verify(logger, never()).log(any(), anyString())
     }
 
     @Test
@@ -128,7 +122,7 @@ class TimeLoggerTest {
         // Assert
         verifyStatic()
         System.nanoTime()
-        verify<Logger>(logger, never()).log(any(), anyString())
+        verify(logger, never()).log(any(), anyString())
     }
 
     @Test
@@ -145,7 +139,7 @@ class TimeLoggerTest {
         // Assert
         verifyStatic(times(2))
         System.nanoTime()
-        verify<Logger>(logger).log(eq(Level.INFO), eq("3,000 ns <someString>"))
+        verify(logger).log(eq(Level.INFO), eq("3,000 ns <someString>"))
     }
 
     @Test
@@ -168,10 +162,11 @@ class TimeLoggerTest {
         // Assert
         verifyStatic(times(5))
         System.nanoTime()
-        val orderVerifier = Mockito.inOrder(logger)
-        orderVerifier.verify<Logger>(logger).log(eq(Level.INFO), eq("99 ns <Bla>"))
-        orderVerifier.verify<Logger>(logger).log(eq(Level.INFO), eq("321,095 ns <Blu>"))
-        orderVerifier.verify<Logger>(logger).log(eq(Level.INFO), eq("678,905 ns <null>"))
-        orderVerifier.verify<Logger>(logger).log(eq(Level.INFO), eq("0 ns <>"))
+        Mockito.inOrder(logger).apply {
+            verify(logger).log(eq(Level.INFO), eq("99 ns <Bla>"))
+            verify(logger).log(eq(Level.INFO), eq("321,095 ns <Blu>"))
+            verify(logger).log(eq(Level.INFO), eq("678,905 ns <null>"))
+            verify(logger).log(eq(Level.INFO), eq("0 ns <>"))
+        }
     }
 }

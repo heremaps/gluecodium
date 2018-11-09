@@ -35,62 +35,60 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class FrancaTypeHelperTest {
-    @Mock
-    private val typeRef: FTypeRef? = null
-    @Mock
-    private val typedElement: FTypedElement? = null
-    @Mock
-    private val type: FType? = null
-    @Mock
-    private val francaInterface: FInterface? = null
+    private val typeRef = mock(FTypeRef::class.java)
+    private val typedElement = mock(FTypedElement::class.java)
+    private val type = mock(FType::class.java)
+    private val francaInterface = mock(FInterface::class.java)
 
     @Before
     fun beforeMocks() = MockitoAnnotations.initMocks(this)
 
     @Test
     fun nonTypedElement() {
-        `when`(typeRef!!.eContainer()).thenReturn(mock(EObject::class.java))
+        // Arrange
+        `when`(typeRef.eContainer()).thenReturn(mock(EObject::class.java))
 
+        // Act. assert
         assertFalse(FrancaTypeHelper.isImplicitArray(typeRef))
-
         verify(typeRef).eContainer()
     }
 
     @Test
     fun nonImplicitArrayTypedElement() {
-        `when`(typeRef!!.eContainer()).thenReturn(typedElement)
-        `when`(typedElement!!.isArray).thenReturn(false)
+        // Arrange
+        `when`(typeRef.eContainer()).thenReturn(typedElement)
+        `when`(typedElement.isArray).thenReturn(false)
 
+        // Act. assert
         assertFalse(FrancaTypeHelper.isImplicitArray(typeRef))
-
         verify(typeRef).eContainer()
         verify(typedElement).isArray
     }
 
     @Test
     fun implicitArrayTypedElement() {
-        `when`(typeRef!!.eContainer()).thenReturn(typedElement)
-        `when`(typedElement!!.isArray).thenReturn(true)
+        // Arrange
+        `when`(typeRef.eContainer()).thenReturn(typedElement)
+        `when`(typedElement.isArray).thenReturn(true)
 
+        // Act. assert
         assertTrue(FrancaTypeHelper.isImplicitArray(typeRef))
-
         verify(typeRef).eContainer()
         verify(typedElement).isArray
     }
 
     @Test
     fun namespaceContainer() {
-        `when`(type!!.eContainer()).thenReturn(francaInterface)
-        `when`(francaInterface!!.name).thenReturn("testBase")
+        // Arrange
+        `when`(type.eContainer()).thenReturn(francaInterface)
+        `when`(francaInterface.name).thenReturn("testBase")
 
-        val namespace = FrancaTypeHelper.getNamespace(type)
-        assertEquals("testBase", namespace)
-
+        // Act. assert
+        assertEquals("testBase", FrancaTypeHelper.getNamespace(type))
         verify(type).eContainer()
     }
 }
