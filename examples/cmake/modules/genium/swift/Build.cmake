@@ -37,10 +37,17 @@ include(${CMAKE_CURRENT_LIST_DIR}/Configuration.cmake)
 #
 # The general form of the command is::
 #
-#     apigen_swift_build(target)
+#     apigen_swift_build(target
+#       MODULEMAP_HEADERS file_list)
+#
+# MODULEMAP_HEADERS specifies additional file list to put into generated modulemap file
 #
 
 function(apigen_swift_build target)
+
+  set (multiArgs MODULEMAP_HEADERS)
+
+  cmake_parse_arguments(APIGEN_SWIFT_BUILD "" "${singleArgs}" "${multiArgs}" ${ARGN})
 
   get_target_property(GENERATOR ${target} APIGEN_GENIUM_GENERATOR)
 
@@ -49,7 +56,7 @@ function(apigen_swift_build target)
   endif()
 
   apigen_swift_configuration(${target})
-  apigen_swift_modulemap(${target})
+  apigen_swift_modulemap(${target} HEADERS ${APIGEN_SWIFT_BUILD_MODULEMAP_HEADERS})
 
   if(CMAKE_CROSSCOMPILING)
     foreach(TARGET_ARCH IN LISTS CMAKE_OSX_ARCHITECTURES)

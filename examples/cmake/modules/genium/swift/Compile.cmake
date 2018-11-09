@@ -68,7 +68,23 @@ function(apigen_swift_compile target architecture)
     message(FATAL_ERROR "apigen_swift_compile() depends on apigen_generate() configured with generator 'swift'")
   endif()
 
-  find_program(SWIFTC swiftc)
+  message("CMAKE_FIND_ROOT_PATH ${CMAKE_FIND_ROOT_PATH}")
+  message("CMAKE_PREFIX_PATH ${CMAKE_SYSTEM_PREFIX_PATH}")
+  message("CMAKE_PROGRAM_PATH ${CMAKE_SYSTEM_PROGRAM_PATH}")
+  message("CMAKE_APPBUNDLE_PATH ${CMAKE_SYSTEM_APPBUNDLE_PATH}")
+
+  if(APPLE)
+    if(XCODE_IOS_PLATFORM)
+      execute_process(COMMAND xcrun --sdk "${XCODE_IOS_PLATFORM}" --find swiftc
+        OUTPUT_VARIABLE SWIFTC)
+    else()
+      execute_process(COMMAND xcrun --find swiftc
+        OUTPUT_VARIABLE SWIFTC)
+    endif()
+  else()
+    find_program(SWIFTC swiftc)
+  endif()
+
   if(SWIFTC)
     execute_process(COMMAND ${SWIFTC} --version OUTPUT_VARIABLE SWIFTC_VERSION)
     message(STATUS "[Swift] ${SWIFTC_VERSION}")
@@ -96,13 +112,13 @@ function(apigen_swift_compile target architecture)
     endif()
   endif()
 
+  set(MODULE_NAME ${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>)
   if(APPLE)
     # CMakes compiler check is outdated and fails for Swift 4.0, force it to pass.
     set(CMAKE_Swift_COMPILER_FORCED TRUE)
     enable_language(Swift)
     set(SWIFT_FLAGS "-import-underlying-module -I${OUTPUT_DIR}")
     set(SWIFT_DEBUG_FLAG "-D DEBUG")
-    set(MODULE_NAME ${SWIFT_FRAMEWORK_NAME}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>)
     set_target_properties(${target} PROPERTIES
       FRAMEWORK TRUE
       XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS "${SWIFT_FLAGS}"
