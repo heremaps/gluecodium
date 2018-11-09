@@ -27,12 +27,38 @@ interface ListenerWithReturn {
             String message
         }
     }
+
+    method getPackedMessage {
+        out {
+            MessagePackage.MessagePackage message
+        }
+    }
+}
+
+interface MessagePackage {
+
+  public typedef MessagePackage is undefined
+
+  method unpackMessage {
+      out {
+          String message
+      }
+  }
 }
 
 interface MessageDelivery {
     public typedef MessageDelivery is undefined
 
     method getMessage {
+        in {
+            ListenerWithReturn.ListenerWithReturn envelope
+        }
+        out {
+            String message
+        }
+    }
+
+    method getPackedMessage {
         in {
             ListenerWithReturn.ListenerWithReturn envelope
         }

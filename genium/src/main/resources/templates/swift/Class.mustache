@@ -29,7 +29,7 @@ extension {{#isInterface}}_{{/isInterface}}{{name}}: NativeBase {
 
 }}{{+ClassWithoutProtocol}}
 
-internal func getRef(_ ref: {{name}}?) -> RefHolder {
+internal func getRef(_ ref: {{name}}?, owning: Bool = false) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
 
