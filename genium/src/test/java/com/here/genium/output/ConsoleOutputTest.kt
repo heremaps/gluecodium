@@ -37,11 +37,13 @@ class ConsoleOutputTest {
     @Test
     @Throws(IOException::class)
     fun verifyExpectedConsoleOutputFormatting() {
+        // Arrange
         assertFalse(TestFiles.FILES.isEmpty())
 
-        val consoleOutput = ConsoleOutput()
-        consoleOutput.output(TestFiles.FILES)
+        // Act
+        ConsoleOutput().output(TestFiles.FILES)
 
+        // Assert
         assertEquals(EXPECTED, systemOutRule.log)
     }
 

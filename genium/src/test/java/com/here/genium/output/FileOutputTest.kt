@@ -41,11 +41,13 @@ class FileOutputTest {
     @Test
     @Throws(IOException::class)
     fun testFileOutput() {
+        // Arrange
         assertFalse(TestFiles.FILES.isEmpty())
 
-        val fileOutput = FileOutput(testFolder.root)
-        fileOutput.output(TestFiles.FILES)
+        // Act
+        FileOutput(testFolder.root).output(TestFiles.FILES)
 
+        // Assert
         TestFiles.FILES.forEach {
             val path = Paths.get(testFolder.root.path, it.targetFile.path)
             val lines = Files.readAllLines(path, Charset.defaultCharset())
