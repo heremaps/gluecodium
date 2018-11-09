@@ -44,7 +44,12 @@ cmake_minimum_required(VERSION 3.5)
 # This function invokes the Genium tool based on a set of of input *.fidl
 # files with a specific target language generator.
 
-find_package(Java COMPONENTS Runtime REQUIRED)
+if(COMMAND find_host_package)
+  find_host_package(JAVA COMPONENTS Runtime REQUIRED)
+else()
+  find_package(Java COMPONENTS Runtime REQUIRED)
+endif()
+
 set(APIGEN_GENIUM_DIR ${CMAKE_CURRENT_LIST_DIR})
 if(WIN32)
   set(APIGEN_GENIUM_GRADLE_WRAPPER ./gradlew.bat)

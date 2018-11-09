@@ -31,6 +31,3 @@ cmake_minimum_required(VERSION 3.5)
 # Swift modules
 include(${CMAKE_CURRENT_LIST_DIR}/swift/Build.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/swift/FrameworkBundle.cmake)
-
-# Documentation modules
-include(${CMAKE_CURRENT_LIST_DIR}/swift/Jazzy.cmake)
