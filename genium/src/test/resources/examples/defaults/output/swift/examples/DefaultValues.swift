@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal func getRef(_ ref: DefaultValues?) -> RefHolder {
+internal func getRef(_ ref: DefaultValues?, owning: Bool = false) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
 public class DefaultValues {

@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal func getRef(_ ref: InheritanceRoot?) -> RefHolder {
+internal func getRef(_ ref: InheritanceRoot?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
     }
@@ -23,7 +23,7 @@ internal func getRef(_ ref: InheritanceRoot?) -> RefHolder {
         return swift_class.rootMethod()
     }
     let proxy = smoke_InheritanceRoot_createProxy(functions)
-    return RefHolder(ref: proxy, release: smoke_InheritanceRoot_release)
+    return owning ? RefHolder(ref: proxy, release: smoke_InheritanceRoot_release) : RefHolder(proxy)
 }
 
 public protocol InheritanceRoot : AnyObject {

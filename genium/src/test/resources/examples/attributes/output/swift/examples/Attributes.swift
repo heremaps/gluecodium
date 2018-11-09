@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal func getRef(_ ref: Attributes?) -> RefHolder {
+internal func getRef(_ ref: Attributes?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
     }
@@ -19,7 +19,7 @@ internal func getRef(_ ref: Attributes?) -> RefHolder {
         }
     }
     let proxy = examples_Attributes_createProxy(functions)
-    return RefHolder(ref: proxy, release: examples_Attributes_release)
+    return owning ? RefHolder(ref: proxy, release: examples_Attributes_release) : RefHolder(proxy)
 }
 
 public protocol Attributes : AnyObject {

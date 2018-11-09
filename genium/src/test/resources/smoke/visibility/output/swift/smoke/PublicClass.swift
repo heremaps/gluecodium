@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal func getRef(_ ref: PublicClass?) -> RefHolder {
+internal func getRef(_ ref: PublicClass?, owning: Bool = false) -> RefHolder {
     return RefHolder(ref?.c_instance ?? 0)
 }
 

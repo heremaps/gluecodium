@@ -5,7 +5,7 @@
 import Foundation
 
 
-internal func getRef(_ ref: InheritanceParent?) -> RefHolder {
+internal func getRef(_ ref: InheritanceParent?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
     }
@@ -28,7 +28,7 @@ internal func getRef(_ ref: InheritanceParent?) -> RefHolder {
                                                 count: Int(std_string_size_get(input))), encoding: .utf8)!).convertToCType()
     }
     let proxy = examples_InheritanceParent_createProxy(functions)
-    return RefHolder(ref: proxy, release: examples_InheritanceParent_release)
+    return owning ? RefHolder(ref: proxy, release: examples_InheritanceParent_release) : RefHolder(proxy)
 }
 
 public protocol InheritanceParent : AnyObject {
