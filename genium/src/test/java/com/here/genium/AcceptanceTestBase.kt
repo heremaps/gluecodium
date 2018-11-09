@@ -17,203 +17,165 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium;
+package com.here.genium
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeFalse;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.spy;
+import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.platform.android.AndroidGeneratorSuite
+import com.here.genium.platform.baseapi.BaseApiGeneratorSuite
+import com.here.genium.platform.swift.SwiftGeneratorSuite
+import com.here.genium.test.NiceErrorCollector
+import io.mockk.every
+import io.mockk.spyk
+import org.eclipse.xtext.util.Files
+import org.franca.core.franca.FTypeCollection
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
+import org.junit.Assume.assumeFalse
+import org.junit.Before
+import org.junit.Rule
+import java.io.File
+import java.net.URISyntaxException
+import java.util.HashMap
 
-import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.platform.android.AndroidGeneratorSuite;
-import com.here.genium.platform.baseapi.BaseApiGeneratorSuite;
-import com.here.genium.platform.swift.SwiftGeneratorSuite;
-import com.here.genium.test.NiceErrorCollector;
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.*;
-import java.util.stream.Collectors;
-import org.eclipse.xtext.util.Files;
-import org.franca.core.franca.FTypeCollection;
-import org.junit.Before;
-import org.junit.Rule;
-import org.mockito.Mockito;
+abstract class AcceptanceTestBase protected constructor(
+    private val featureDirectory: File,
+    private val generatorName: String
+) {
+    @JvmField
+    @Rule
+    val errorCollector = NiceErrorCollector()
 
-public abstract class AcceptanceTestBase {
+    private val genium = spyk(Genium(getGeniumOptions()))
 
-  private static final String FEATURE_INPUT_FOLDER = "input";
-  private static final String FEATURE_OUTPUT_FOLDER = "output";
-  private static final String IGNORE_PREFIX = "ignore";
-  private static final List<String> GENERATOR_NAMES =
-      Arrays.asList(
-          BaseApiGeneratorSuite.GENERATOR_NAME,
-          AndroidGeneratorSuite.GENERATOR_NAME,
-          SwiftGeneratorSuite.GENERATOR_NAME);
-  private static final Map<String, List<String>> GENERATOR_DIRECTORIES = new HashMap<>();
+    private val results = mutableListOf<GeneratedFile>()
 
-  static {
-    GENERATOR_DIRECTORIES.put(
-        BaseApiGeneratorSuite.GENERATOR_NAME,
-        Collections.singletonList(BaseApiGeneratorSuite.GENERATOR_NAME));
-    GENERATOR_DIRECTORIES.put(
-        AndroidGeneratorSuite.GENERATOR_NAME,
-        Collections.singletonList(AndroidGeneratorSuite.GENERATOR_NAME));
-    GENERATOR_DIRECTORIES.put(
-        SwiftGeneratorSuite.GENERATOR_NAME,
-        Arrays.asList(SwiftGeneratorSuite.GENERATOR_NAME, "cbridge", "cbridge_internal"));
-  }
+    protected open fun getGeniumOptions(): Genium.Options = Genium.DEFAULT_OPTIONS
 
-  @Rule public final NiceErrorCollector errorCollector = new NiceErrorCollector();
-
-  private final Genium genium = spy(new Genium(getGeniumOptions()));
-
-  private final File featureDirectory;
-  private final String generatorName;
-
-  private final List<GeneratedFile> results = new LinkedList<>();
-
-  protected AcceptanceTestBase(final File featureDirectory, final String generatorName) {
-    this.featureDirectory = featureDirectory;
-    this.generatorName = generatorName;
-  }
-
-  @Before
-  public void setUp() {
-    Mockito.doAnswer(
-            invocation -> {
-              @SuppressWarnings("unchecked")
-              List<GeneratedFile> generatedFiles =
-                  (List<GeneratedFile>) invocation.getArguments()[1];
-              results.addAll(generatedFiles);
-              return true;
-            })
-        .when(genium)
-        .output(any(), any());
-  }
-
-  protected Genium.Options getGeniumOptions() {
-    return Genium.DEFAULT_OPTIONS;
-  }
-
-  protected static Collection<Object[]> getData(final String resourcePrefix) {
-    URL testResourcesUrl = ClassLoader.getSystemClassLoader().getResource(resourcePrefix);
-    if (testResourcesUrl == null) {
-      fail("Test resources directory not found");
-      return Collections.emptyList();
+    @Before
+    fun setUp() {
+        every { genium.output(any(), any()) }.answers {
+            results.addAll(it.invocation.args[1] as List<GeneratedFile>)
+            true
+        }
     }
 
-    File testResourcesDirectory;
-    try {
-      testResourcesDirectory = new File(testResourcesUrl.toURI());
-    } catch (URISyntaxException e) {
-      fail("Unable to load test resources");
-      return Collections.emptyList();
+    protected fun runTest() {
+        val inputDirectory = File(featureDirectory, FEATURE_INPUT_FOLDER)
+        val outputDirectory = File(featureDirectory, FEATURE_OUTPUT_FOLDER)
+
+        val referenceFiles = GENERATOR_DIRECTORIES[generatorName]!!
+            .map { generatorDirectoryName -> File(outputDirectory, generatorDirectoryName) }
+            .flatMap { generatorDirectory -> listFilesRecursively(generatorDirectory) }
+            .filter { !it.name.toLowerCase().startsWith(IGNORE_PREFIX) }
+
+        assumeFalse("No reference files were found", referenceFiles.isEmpty())
+
+        val typeCollections = mutableListOf<FTypeCollection>()
+        val deploymentModel = genium.loadModel(listOf(inputDirectory), typeCollections)
+        assertNotNull(deploymentModel)
+        assertTrue(
+            genium.executeGenerator(generatorName, deploymentModel!!, typeCollections, HashMap())
+        )
+
+        val generatedContents = results.associateBy({
+            it.targetFile.path
+        }, {
+            it.content
+        })
+
+        referenceFiles.forEach { referenceFile ->
+            val relativePath = getRelativePath(outputDirectory, referenceFile)
+            val generatedContent = generatedContents[relativePath]
+            errorCollector.checkNotNull(
+                "File was not generated: $relativePath, generated files: ${generatedContents.keys}",
+                generatedContent
+            )
+
+            if (generatedContent != null) {
+                val expected = Files.readFileIntoString(referenceFile.path)
+                errorCollector.checkEquals(
+                    "File content differs for file: $relativePath",
+                    ignoreWhitespace(expected),
+                    ignoreWhitespace(generatedContent)
+                )
+            }
+        }
     }
 
-    File[] featureDirectoryResources = testResourcesDirectory.listFiles();
-    if (featureDirectoryResources == null) {
-      fail("No test features were found");
-      return Collections.emptyList();
+    companion object {
+        private const val FEATURE_INPUT_FOLDER = "input"
+        private const val FEATURE_OUTPUT_FOLDER = "output"
+        private const val IGNORE_PREFIX = "ignore"
+        private val GENERATOR_NAMES = listOf(
+            BaseApiGeneratorSuite.GENERATOR_NAME,
+            AndroidGeneratorSuite.GENERATOR_NAME,
+            SwiftGeneratorSuite.GENERATOR_NAME
+        )
+        private val GENERATOR_DIRECTORIES = hashMapOf<String, List<String>>()
+
+        init {
+            GENERATOR_DIRECTORIES[BaseApiGeneratorSuite.GENERATOR_NAME] =
+                    listOf(BaseApiGeneratorSuite.GENERATOR_NAME)
+            GENERATOR_DIRECTORIES[AndroidGeneratorSuite.GENERATOR_NAME] =
+                    listOf(AndroidGeneratorSuite.GENERATOR_NAME)
+            GENERATOR_DIRECTORIES[SwiftGeneratorSuite.GENERATOR_NAME] =
+                    listOf(SwiftGeneratorSuite.GENERATOR_NAME, "cbridge", "cbridge_internal")
+        }
+
+        protected fun getData(resourcePrefix: String): Collection<Array<Any>> {
+            val testResourcesUrl = ClassLoader.getSystemClassLoader().getResource(resourcePrefix)
+            if (testResourcesUrl == null) {
+                fail("Test resources directory not found")
+                return emptyList()
+            }
+
+            val testResourcesDirectory: File
+            try {
+                testResourcesDirectory = File(testResourcesUrl.toURI())
+            } catch (e: URISyntaxException) {
+                fail("Unable to load test resources")
+                return emptyList()
+            }
+
+            val featureDirectoryResources = testResourcesDirectory.listFiles()
+            if (featureDirectoryResources == null) {
+                fail("No test features were found")
+                return emptyList()
+            }
+            return featureDirectoryResources.filter { it.isDirectory }.sorted()
+                .flatMap { directory ->
+                    GENERATOR_NAMES.map { generatorName ->
+                        arrayOf(
+                            directory,
+                            generatorName,
+                            getFeatureName(testResourcesDirectory, directory)
+                        )
+                    }
+                }
+        }
+
+        private fun listFilesRecursively(directory: File): Collection<File> {
+            val files = directory.listFiles() ?: return emptyList()
+            val result = mutableListOf<File>()
+            files.forEach { file ->
+                if (file.isDirectory) {
+                    result.addAll(listFilesRecursively(file))
+                } else {
+                    result.add(file)
+                }
+            }
+            return result
+        }
+
+        private fun getRelativePath(directory: File, file: File) =
+            directory.toURI().relativize(file.toURI()).path
+
+        private fun ignoreWhitespace(text: String) =
+            text.replace("( *\n)+".toRegex(), "\n") // ignore repeating empty lines
+                .trim { it <= ' ' } // ignore leading and trailing whitespace
+
+        private fun getFeatureName(parentDirectory: File, featureDirectory: File) =
+            getRelativePath(parentDirectory, featureDirectory).replace("/", "")
     }
-    return Arrays.stream(featureDirectoryResources)
-        .filter(File::isDirectory)
-        .sorted()
-        .flatMap(
-            directory ->
-                GENERATOR_NAMES
-                    .stream()
-                    .map(
-                        generatorName ->
-                            new Object[] {
-                              directory,
-                              generatorName,
-                              getFeatureName(testResourcesDirectory, directory)
-                            }))
-        .collect(Collectors.toList());
-  }
-
-  protected void runTest() {
-    File inputDirectory = new File(featureDirectory, FEATURE_INPUT_FOLDER);
-    File outputDirectory = new File(featureDirectory, FEATURE_OUTPUT_FOLDER);
-
-    List<File> referenceFiles =
-        GENERATOR_DIRECTORIES
-            .get(generatorName)
-            .stream()
-            .map(generatorDirectoryName -> new File(outputDirectory, generatorDirectoryName))
-            .flatMap(generatorDirectory -> listFilesRecursively(generatorDirectory).stream())
-            .filter(file -> !file.getName().toLowerCase().startsWith(IGNORE_PREFIX))
-            .collect(Collectors.toList());
-    assumeFalse("No reference files were found", referenceFiles.isEmpty());
-
-    List<FTypeCollection> typeCollections = new LinkedList<>();
-    FrancaDeploymentModel deploymentModel =
-        genium.loadModel(Collections.singletonList(inputDirectory), typeCollections);
-    assertNotNull(deploymentModel);
-    assertTrue(
-        genium.executeGenerator(generatorName, deploymentModel, typeCollections, new HashMap<>()));
-
-    Map<String, String> generatedContents =
-        results
-            .stream()
-            .collect(
-                Collectors.toMap(
-                    generatedFile -> generatedFile.getTargetFile().getPath(),
-                    generatedFile -> generatedFile.getContent()));
-
-    for (final File referenceFile : referenceFiles) {
-      String relativePath = getRelativePath(outputDirectory, referenceFile);
-      String generatedContent = generatedContents.get(relativePath);
-      errorCollector.checkNotNull(
-          "File was not generated: "
-              + relativePath
-              + ", generated files: "
-              + generatedContents.keySet(),
-          generatedContent);
-
-      if (generatedContent != null) {
-        String expected = Files.readFileIntoString(referenceFile.getPath());
-        errorCollector.checkEquals(
-            "File content differs for file: " + relativePath,
-            ignoreWhitespace(expected),
-            ignoreWhitespace(generatedContent));
-      }
-    }
-  }
-
-  private static Collection<File> listFilesRecursively(final File directory) {
-
-    final File[] files = directory.listFiles();
-    if (files == null) {
-      return Collections.emptyList();
-    }
-
-    Collection<File> result = new LinkedList<>();
-    for (final File file : files) {
-      if (file.isDirectory()) {
-        result.addAll(listFilesRecursively(file));
-      } else {
-        result.add(file);
-      }
-    }
-
-    return result;
-  }
-
-  private static String getRelativePath(final File directory, final File file) {
-    return directory.toURI().relativize(file.toURI()).getPath();
-  }
-
-  private static String ignoreWhitespace(String text) {
-    return text.replaceAll("( *\n)+", "\n") // ignore repeating empty lines
-        .trim(); // ignore leading and trailing whitespace
-  }
-
-  private static String getFeatureName(final File parentDirectory, final File featureDirectory) {
-    return getRelativePath(parentDirectory, featureDirectory).replace("/", "");
-  }
 }

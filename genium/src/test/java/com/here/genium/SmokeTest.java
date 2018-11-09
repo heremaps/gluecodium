@@ -40,7 +40,7 @@ public final class SmokeTest extends AcceptanceTestBase {
 
   @Parameters(name = "{2}, {1}")
   public static Collection<Object[]> data() {
-    return getData(RESOURCE_PREFIX);
+    return Companion.getData(RESOURCE_PREFIX);
   }
 
   @Test
