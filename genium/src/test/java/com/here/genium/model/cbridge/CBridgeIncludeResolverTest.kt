@@ -19,7 +19,6 @@
 
 package com.here.genium.model.cbridge
 
-import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
 import org.franca.core.franca.FTypeCollection
@@ -47,8 +46,8 @@ class CBridgeIncludeResolverTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
-        `when`<EObject>(francaElement.eContainer()).thenReturn(francaTypeCollection)
-        `when`<EObject>(francaTypeCollection.eContainer()).thenReturn(francaModel)
+        `when`(francaElement.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
 
         `when`(francaTypeCollection.name).thenReturn("SomeTypeCollection")
         `when`(francaModel.name).thenReturn("my.fancy.package")

@@ -17,13 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.output;
+package com.here.genium.output
 
-import com.here.genium.generator.common.GeneratedFile;
-import java.io.IOException;
-import java.util.List;
+import com.here.genium.generator.common.GeneratedFile
+import java.io.IOException
 
-/** Output interface for generated files. */
-public interface GeneratorOutput {
-  void output(List<GeneratedFile> files) throws IOException;
+/** Output interface for generated files.  */
+interface GeneratorOutput {
+    @Throws(IOException::class)
+    fun output(files: List<GeneratedFile>)
 }

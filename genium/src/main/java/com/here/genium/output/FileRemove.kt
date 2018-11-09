@@ -17,49 +17,44 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.output;
+package com.here.genium.output
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.logging.Logger;
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Path
+import java.util.logging.Logger
 
-public class FileRemove {
+// TODO(APIGEN-1431): Remove 'open' and change to non-nullable type with other mocking library:
+open class FileRemove(private val rootDir: File?) {
+    @Throws(FileNotFoundException::class)
 
-  private static final Logger LOGGER = Logger.getLogger(FileRemove.class.getName());
-
-  private final File rootDir;
-
-  public FileRemove(File rootDir) {
-    this.rootDir = rootDir;
-  }
-
-  public boolean removeFiles(final List<Path> absolutePaths) throws FileNotFoundException {
-
-    if (!rootDir.exists() || !rootDir.isDirectory()) {
-      throw new FileNotFoundException(
-          "Accessing root directory '" + rootDir.getPath() + "' failed");
-    }
-
-    for (Path absolutePath : absolutePaths) {
-
-      try {
-        // only remove regular files located below root dir
-        if (Files.isRegularFile(absolutePath)
-            && absolutePath
-                .toFile()
-                .getCanonicalPath()
-                .startsWith(rootDir.getCanonicalPath() + File.separator)) {
-          Files.delete(absolutePath);
+    // TODO(APIGEN-1431): Remove 'open' and change to non-nullable type with other mocking library:
+    open fun removeFiles(absolutePaths: List<Path>?): Boolean {
+        if (rootDir?.exists() == false || rootDir?.isDirectory == false) {
+            throw FileNotFoundException(
+                "Accessing root directory '" + rootDir.path + "' failed"
+            )
         }
-      } catch (IOException e) {
-        LOGGER.severe("deletion of '" + absolutePath.toString() + "' failed");
-        return false;
-      }
+
+        absolutePaths?.forEach {
+            try {
+                // only remove regular files located below root dir
+                if (Files.isRegularFile(it) && it.toFile().canonicalPath
+                        .startsWith(rootDir?.canonicalPath + File.separator)
+                ) {
+                    Files.delete(it)
+                }
+            } catch (e: IOException) {
+                LOGGER.severe("deletion of '$it' failed")
+                return false
+            }
+        }
+        return true
     }
-    return true;
-  }
+
+    companion object {
+        private val LOGGER = Logger.getLogger(FileRemove::class.java.name)
+    }
 }

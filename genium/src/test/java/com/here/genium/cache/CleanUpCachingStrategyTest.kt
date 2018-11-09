@@ -24,7 +24,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mock
+import org.mockito.Mockito.mock
 import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
 import org.powermock.api.mockito.PowerMockito
@@ -34,19 +34,13 @@ import org.powermock.api.mockito.PowerMockito.whenNew
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import java.io.IOException
-import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.Arrays
-import java.util.HashSet
-import java.util.LinkedList
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(MultiFileSetCache::class, CleanUpCachingStrategy::class)
 class CleanUpCachingStrategyTest {
-    private val myStrategy = CleanUpCachingStrategy(ROOTDIRNAME, HashSet(listOf("SetA")))
-
-    @Mock
-    private val remover: FileRemove? = null
+    private val myStrategy = CleanUpCachingStrategy(ROOT_DIRECTORY_NAME, hashSetOf("SetA"))
+    private var remover = mock(FileRemove::class.java)
 
     @Before
     @Throws(Exception::class)
@@ -59,34 +53,32 @@ class CleanUpCachingStrategyTest {
     @Throws(IOException::class)
     fun writeRootDirectoryNull() {
         // Arrange
-        val nullStrategy = CleanUpCachingStrategy(null, HashSet(listOf("SetA")))
+        val nullStrategy = CleanUpCachingStrategy(null, hashSetOf("SetA"))
 
         // Act
         nullStrategy.write(true)
 
         // Assert
         verifyStatic(never())
-        MultiFileSetCache.retrieveExistingCacheFiles(
-            ROOTDIRNAME, HashSet(listOf("SetA"))
-        )
-        verify<FileRemove>(remover, never()).removeFiles(any<List<Path>>())
+        MultiFileSetCache.retrieveExistingCacheFiles(ROOT_DIRECTORY_NAME, hashSetOf("SetA"))
+        verify(remover, never()).removeFiles(any())
     }
 
     @Test
     @Throws(IOException::class)
     fun writeExistingCacheFiles() {
         // Arrange
-        `when`<List<Path>>(MultiFileSetCache.retrieveExistingCacheFiles(any(), any()))
-            .thenReturn(Arrays.asList<Path>(Paths.get("1"), Paths.get("2"), Paths.get("3")))
+        `when`(MultiFileSetCache.retrieveExistingCacheFiles(any(), any()))
+            .thenReturn(listOf(Paths.get("1"), Paths.get("2"), Paths.get("3")))
 
         // Act
         myStrategy.write(true)
 
         // Assert
         verifyStatic()
-        MultiFileSetCache.retrieveExistingCacheFiles(ROOTDIRNAME, HashSet(listOf("SetA")))
-        verify<FileRemove>(remover).removeFiles(
-            Arrays.asList<Path>(Paths.get("1"), Paths.get("2"), Paths.get("3"))
+        MultiFileSetCache.retrieveExistingCacheFiles(ROOT_DIRECTORY_NAME, hashSetOf("SetA"))
+        verify(remover).removeFiles(
+            listOf(Paths.get("1"), Paths.get("2"), Paths.get("3"))
         )
     }
 
@@ -94,8 +86,8 @@ class CleanUpCachingStrategyTest {
     @Throws(IOException::class)
     fun writeNonExistingCacheFiles() {
         // Arrange
-        `when`<List<Path>>(MultiFileSetCache.retrieveExistingCacheFiles(any(), any())).thenReturn(
-            LinkedList()
+        `when`(MultiFileSetCache.retrieveExistingCacheFiles(any(), any())).thenReturn(
+            listOf()
         )
 
         // Act
@@ -103,11 +95,11 @@ class CleanUpCachingStrategyTest {
 
         // Assert
         verifyStatic()
-        MultiFileSetCache.retrieveExistingCacheFiles(ROOTDIRNAME, HashSet(listOf("SetA")))
-        verify<FileRemove>(remover, never()).removeFiles(any<List<Path>>())
+        MultiFileSetCache.retrieveExistingCacheFiles(ROOT_DIRECTORY_NAME, hashSetOf("SetA"))
+        verify(remover, never()).removeFiles(any())
     }
 
     companion object {
-        private const val ROOTDIRNAME = "root"
+        private const val ROOT_DIRECTORY_NAME = "root"
     }
 }

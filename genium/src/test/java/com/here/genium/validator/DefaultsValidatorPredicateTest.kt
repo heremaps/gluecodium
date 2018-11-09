@@ -21,8 +21,6 @@ package com.here.genium.validator
 
 import com.here.genium.model.franca.FrancaDeploymentModel
 import com.here.genium.test.ArrayEList
-import org.eclipse.emf.common.util.EList
-import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FEnumerator
@@ -74,16 +72,16 @@ class DefaultsValidatorPredicateTest {
         `when`(francaStruct.name).thenReturn("Baz")
         `when`(francaField.name).thenReturn("Fizz")
 
-        `when`<EObject>(francaTypeCollection.eContainer()).thenReturn(francaModel)
-        `when`<EObject>(francaStruct.eContainer()).thenReturn(francaTypeCollection)
-        `when`<EObject>(francaField.eContainer()).thenReturn(francaStruct)
+        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
+        `when`(francaStruct.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaField.eContainer()).thenReturn(francaStruct)
         `when`(francaField.type).thenReturn(francaTypeRef)
 
         val enumerator1 = mock(FEnumerator::class.java)
         `when`(enumerator1.name).thenReturn("SomeEnumItem")
         val enumerator2 = mock(FEnumerator::class.java)
         `when`(enumerator2.name).thenReturn("SomeOtherEnumItem")
-        `when`<EList<FEnumerator>>(francaEnum.enumerators)
+        `when`(francaEnum.enumerators)
             .thenReturn(ArrayEList(Arrays.asList(enumerator1, enumerator2)))
     }
 

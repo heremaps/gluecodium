@@ -20,7 +20,6 @@
 package com.here.genium.validator
 
 import com.here.genium.model.franca.FrancaDeploymentModel
-import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
 import org.franca.core.franca.FTypeCollection
@@ -56,8 +55,8 @@ class ExternalTypesValidatorPredicateTest {
         `when`(francaTypeCollection.name).thenReturn("")
         `when`(francaElement.name).thenReturn("")
 
-        `when`<EObject>(francaTypeCollection.eContainer()).thenReturn(fModel)
-        `when`<EObject>(francaElement.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaTypeCollection.eContainer()).thenReturn(fModel)
+        `when`(francaElement.eContainer()).thenReturn(francaTypeCollection)
     }
 
     @Test
