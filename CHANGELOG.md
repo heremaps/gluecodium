@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.14.2
+- Release date: 2018-11-12
 - Bug fixes:
   + Fixed an issue with returning instances from Swift callbacks when these are called from C++.
 
