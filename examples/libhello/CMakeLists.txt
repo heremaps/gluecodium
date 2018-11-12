@@ -392,6 +392,8 @@ elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL android)
     apigen_java_jar(hello)
     apigen_android_archive(TARGET hello)
 elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL swift)
+    set_target_properties(hello PROPERTIES APIGEN_GENIUM_GENERATOR_ADDITIONAL_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/../platforms/ios/FatalErrorHelper.swift")
     # Swift customers want a module...
     include(genium/Swift)
     if(HELLO_SWIFT_TESTS)
