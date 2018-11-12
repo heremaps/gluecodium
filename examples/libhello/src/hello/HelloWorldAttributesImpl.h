@@ -33,11 +33,14 @@ public:
     float get_readonly_attribute( ) const override;
     ::hello::HelloWorldAttributes::ExampleStruct get_struct_attribute( ) const override;
     void set_struct_attribute(
-        const ::hello::HelloWorldAttributes::ExampleStruct& value ) override;
+    const ::hello::HelloWorldAttributes::ExampleStruct& value ) override;
+    ::hello::HelloWorldAttributes::StringArray get_array_attribute(  ) const override;
+    void set_array_attribute( const ::hello::HelloWorldAttributes::StringArray& value ) override;
 
 private:
     uint32_t m_build_in_type_attribute = 0;
     const float m_read_only_attribute = 3.14f;
     ::hello::HelloWorldAttributes::ExampleStruct m_struct_attribute;
+    ::hello::HelloWorldAttributes::StringArray m_array;
 };
 }

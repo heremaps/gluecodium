@@ -18,14 +18,19 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-public class CollectionOf<T> : Collection {
+public class CollectionOf<T> : Collection, ExpressibleByArrayLiteral {
 
-    private var elements: Array<T>?
+    private var elements: Array<T> = []
 
-    public init(_ elements: Array<T>?) {
+    init() {
+        self.startIndex = 0
+        self.endIndex = 0
+    }
+
+    public init(_ elements: Array<T>) {
         self.elements = elements
         self.startIndex = 0
-        self.endIndex = elements?.count ?? 0
+        self.endIndex = elements.count
     }
 
     public func index(after i: Int) -> Int {
@@ -33,7 +38,7 @@ public class CollectionOf<T> : Collection {
     }
 
     public subscript(position: Int) -> T {
-        return elements![position]
+        return elements[position]
     }
 
     public var startIndex: Int
@@ -41,6 +46,10 @@ public class CollectionOf<T> : Collection {
 
     public typealias Element = T
     public typealias Index = Int
+
+    required public convenience init(arrayLiteral elements: Element...) {
+        self.init(elements)
+    }
 }
 
 extension CollectionOf: CustomDebugStringConvertible {

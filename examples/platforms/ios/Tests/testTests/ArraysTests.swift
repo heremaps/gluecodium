@@ -205,9 +205,13 @@ class ArraysTests: XCTestCase {
         }
     }
 
+    func testArrayLiteralCreation() {
+        let collectionFromArray: CollectionOf<String> = ["foo", "bar"]
+        let arrayMirror = Mirror(reflecting: collectionFromArray)
+        XCTAssertTrue(arrayMirror.subjectType == CollectionOf<String>.self)
+    }
+
     func getFancyStruct(_ values: [UInt8]) -> Arrays.FancyStruct {
-        let messagesString: [String]  = ["Hello", "Test"]
-        let messages: CollectionOf<String> = CollectionOf<String>(messagesString)
         let numbersArray: [UInt8] = values
         let numbers =  CollectionOf<UInt8>(numbersArray)
         let instance1 = InstancesFactory.createSimpleInstantiableOne()!
@@ -216,9 +220,9 @@ class ArraysTests: XCTestCase {
         instance2.setStringValue(stringValue: "World")
         let instance3 = InstancesFactory.createSimpleInstantiableOne()!
         instance3.setStringValue(stringValue: "Test")
-        let instanceArray: [SimpleInstantiableOne] = [instance1, instance2, instance3]
-        let instances = CollectionOf(instanceArray)
-        return Arrays.FancyStruct(messages: messages, numbers: numbers, instances: instances)
+        return Arrays.FancyStruct(messages: ["Hello", "Test"],
+                                  numbers: numbers,
+                                  instances: [instance1, instance2, instance3])
     }
 
     func testEnumsArray() {
@@ -271,6 +275,7 @@ class ArraysTests: XCTestCase {
         ("testEnumsArray", testEnumsArray),
         ("testArrayOfAliases", testArrayOfAliases),
         ("testArrayInStructOutlivesStruct", testArrayInStructOutlivesStruct),
-        ("testArrayOfMaps", testArrayOfMaps)
+        ("testArrayOfMaps", testArrayOfMaps),
+        ("testArrayLiteralCreation", testArrayLiteralCreation)
         ]
 }
