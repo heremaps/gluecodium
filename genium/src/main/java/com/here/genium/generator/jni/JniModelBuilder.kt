@@ -259,7 +259,8 @@ internal constructor(
             JniMethod(
                 javaMethodName = javaGetter.name,
                 cppMethodName = cppGetter.name,
-                returnType = jniType
+                returnType = jniType,
+                isConst = true
             )
         )
         if (!francaAttribute.isReadonly) {
