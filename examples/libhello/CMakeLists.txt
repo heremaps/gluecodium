@@ -231,8 +231,7 @@ feature(ComplexListeners cpp android swift SOURCES
     fidl/test/ComplexListeners.fidl
 )
 
-#This feature is not planned for Android
-feature(ListenersWithReturnValues cpp swift SOURCES
+feature(ListenersWithReturnValues cpp android swift SOURCES
     src/test/ListenersReturnValues.cpp
     src/test/ListenersReturnValues.h
 

@@ -70,12 +70,6 @@ detach_current_thread( void* )
     {{.}}::jni::get_java_vm( )->DetachCurrentThread( );
 }
 
-inline void
-callJavaMethodVaList( JNIEnv* jniEnv, jobject jObj, jmethodID jmid, va_list iParams )
-{
-    jniEnv->CallVoidMethodV( jObj, jmid, iParams );
-}
-
 void
 make_key_once( )
 {
@@ -91,20 +85,6 @@ namespace jni
 CppProxyBase::ProxyCache CppProxyBase::sProxyCache{};
 CppProxyBase::ReverseProxyCache CppProxyBase::sReverseProxyCache{};
 CppProxyBase::GlobalJniLock CppProxyBase::sGlobalJniLock{};
-
-void
-CppProxyBase::callJavaMethod( const ::std::string& methodName,
-                              const ::std::string& jniSignature,
-                              JNIEnv* jniEnv,
-                              ... ) const
-{
-    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
-    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
-    va_list vaList;
-    va_start( vaList, jniEnv );
-    ::callJavaMethodVaList( jniEnv, jGlobalRef, jmethodId, vaList );
-    va_end( vaList );
-}
 
 JNIEnv*
 CppProxyBase::getJniEnvironment( )
@@ -198,6 +178,181 @@ CppProxyBase::getJavaObject( const void* proxy )
 
     const auto iterator = sReverseProxyCache.find( proxy );
     return iterator != sReverseProxyCache.end( ) ? iterator->second.jObject : nullptr;
+}
+
+template<>
+void
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const
+{
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+    va_list vaList;
+    va_start( vaList, jniEnv );
+    jniEnv->CallVoidMethodV( jGlobalRef, jmethodId, vaList );
+    va_end( vaList );
+}
+
+template<>
+jstring
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const
+{
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+    va_list vaList;
+    va_start( vaList, jniEnv );
+    auto result = jniEnv->CallObjectMethodV( jGlobalRef, jmethodId, vaList );
+    va_end( vaList );
+    return static_cast<jstring>( result );
+}
+
+template<>
+jobject
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const
+{
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+    va_list vaList;
+    va_start( vaList, jniEnv );
+    auto result = jniEnv->CallObjectMethodV( jGlobalRef, jmethodId, vaList );
+    va_end( vaList );
+    return result;
+}
+
+template<>
+jboolean
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const
+{
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+    va_list vaList;
+    va_start( vaList, jniEnv );
+    auto result = jniEnv->CallBooleanMethodV( jGlobalRef, jmethodId, vaList );
+    va_end( vaList );
+    return result;
+}
+
+template<>
+jbyte
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const
+{
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+    va_list vaList;
+    va_start( vaList, jniEnv );
+    auto result = jniEnv->CallByteMethodV( jGlobalRef, jmethodId, vaList );
+    va_end( vaList );
+    return result;
+}
+
+template<>
+jchar
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const
+{
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+    va_list vaList;
+    va_start( vaList, jniEnv );
+    auto result = jniEnv->CallCharMethodV( jGlobalRef, jmethodId, vaList );
+    va_end( vaList );
+    return result;
+}
+
+template<>
+jshort
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const
+{
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+    va_list vaList;
+    va_start( vaList, jniEnv );
+    auto result = jniEnv->CallShortMethodV( jGlobalRef, jmethodId, vaList );
+    va_end( vaList );
+    return result;
+}
+
+template<>
+jint
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const
+{
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+    va_list vaList;
+    va_start( vaList, jniEnv );
+    auto result = jniEnv->CallIntMethodV( jGlobalRef, jmethodId, vaList );
+    va_end( vaList );
+    return result;
+}
+
+template<>
+jlong
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const
+{
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+    va_list vaList;
+    va_start( vaList, jniEnv );
+    auto result = jniEnv->CallLongMethodV( jGlobalRef, jmethodId, vaList );
+    va_end( vaList );
+    return result;
+}
+
+template<>
+jfloat
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const
+{
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+    va_list vaList;
+    va_start( vaList, jniEnv );
+    auto result = jniEnv->CallFloatMethodV( jGlobalRef, jmethodId, vaList );
+    va_end( vaList );
+    return result;
+}
+
+template<>
+jdouble
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const
+{
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+    va_list vaList;
+    va_start( vaList, jniEnv );
+    auto result = jniEnv->CallDoubleMethodV( jGlobalRef, jmethodId, vaList );
+    va_end( vaList );
+    return result;
 }
 
 }

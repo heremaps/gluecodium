@@ -19,7 +19,7 @@ class InheritanceGrandchildCppProxy : public genium::jni::CppProxyBase, public I
 public:
     InheritanceGrandchildCppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode );
     void root_method(  ) override;
-    ::std::string get_root_attribute(  ) override;
+    ::std::string get_root_attribute(  ) const override;
     void set_root_attribute( const ::std::string& nvalue ) override;
     void child_method(  ) override;
     void grandchild_method(  ) override;

@@ -98,10 +98,11 @@ protected:
 
     virtual ~CppProxyBase( );
 
-    void callJavaMethod( const ::std::string& methodName,
-                         const ::std::string& jniSignature,
-                         JNIEnv* jniEnv,
-                         ... ) const;
+    template< typename T >
+    T callJavaMethod( const ::std::string& methodName,
+                      const ::std::string& jniSignature,
+                      JNIEnv* jniEnv,
+                      ... ) const;
 
     static JNIEnv* getJniEnvironment( );
 
@@ -150,6 +151,83 @@ protected:
     static ReverseProxyCache sReverseProxyCache;
     static GlobalJniLock sGlobalJniLock;
 };
+
+template<>
+void
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const;
+
+template<>
+jstring
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const;
+
+template<>
+jobject
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const;
+
+template<>
+jboolean
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const;
+
+template<>
+jbyte
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const;
+
+template<>
+jchar
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const;
+
+template<>
+jshort
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const;
+
+template<>
+jint
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const;
+
+template<>
+jlong
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const;
+
+template<>
+jfloat
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const;
+
+template<>
+jdouble
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const;
 
 }
 }
