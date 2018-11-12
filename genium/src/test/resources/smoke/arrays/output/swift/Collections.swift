@@ -3,22 +3,26 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
 internal class BasicStructList: CollectionOf<Arrays.BasicStruct> {
-    let c_element: _baseRef
+    var c_element: _baseRef?
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init(nil)
+        super.init()
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_BasicStruct_count(c_element))
     }
     deinit {
-        arrayCollection_BasicStruct_release(c_element)
+        arrayCollection_BasicStruct_release(c_element!)
     }
     public override subscript(index: Int) -> Arrays.BasicStruct {
-        let handle = arrayCollection_BasicStruct_get(c_element, UInt64(index))
+        let handle = arrayCollection_BasicStruct_get(c_element!, UInt64(index))
         defer {
             smoke_Arrays_BasicStruct_release(handle)
         }
         return Arrays.BasicStruct(cBasicStruct: handle)
+    }
+    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
+    required public init(arrayLiteral elements: Element...) {
+        super.init(elements)
     }
 }
 extension Collection where Element == Arrays.BasicStruct  {
@@ -38,22 +42,26 @@ extension Collection where Element == Arrays.BasicStruct  {
     }
 }
 internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
-    let c_element: _baseRef
+    var c_element: _baseRef?
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init(nil)
+        super.init()
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_FancyStruct_count(c_element))
     }
     deinit {
-        arrayCollection_FancyStruct_release(c_element)
+        arrayCollection_FancyStruct_release(c_element!)
     }
     public override subscript(index: Int) -> Arrays.FancyStruct {
-        let handle = arrayCollection_FancyStruct_get(c_element, UInt64(index))
+        let handle = arrayCollection_FancyStruct_get(c_element!, UInt64(index))
         defer {
             smoke_Arrays_FancyStruct_release(handle)
         }
         return Arrays.FancyStruct(cFancyStruct: handle)
+    }
+    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
+    required public init(arrayLiteral elements: Element...) {
+        super.init(elements)
     }
 }
 extension Collection where Element == Arrays.FancyStruct  {
@@ -73,19 +81,23 @@ extension Collection where Element == Arrays.FancyStruct  {
     }
 }
 internal class SomeEnumList: CollectionOf<Arrays.SomeEnum> {
-    let c_element: _baseRef
+    var c_element: _baseRef?
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init(nil)
+        super.init()
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_Enums_count(c_element))
     }
     deinit {
-        arrayCollection_Enums_release(c_element)
+        arrayCollection_Enums_release(c_element!)
     }
     public override subscript(index: Int) -> Arrays.SomeEnum {
-        let handle = arrayCollection_Enums_get(c_element, UInt64(index))
+        let handle = arrayCollection_Enums_get(c_element!, UInt64(index))
         return Arrays.SomeEnum(rawValue: handle)!
+    }
+    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
+    required public init(arrayLiteral elements: Element...) {
+        super.init(elements)
     }
 }
 extension Collection where Element == Arrays.SomeEnum  {
@@ -101,19 +113,23 @@ extension Collection where Element == Arrays.SomeEnum  {
     }
 }
 internal class ArraysErrorCodeToMessageMapList: CollectionOf<Arrays.ErrorCodeToMessageMap> {
-    let c_element: _baseRef
+    var c_element: _baseRef?
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init(nil)
+        super.init()
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_Int32StringMap_count(c_element))
     }
     deinit {
-        arrayCollection_Int32StringMap_release(c_element)
+        arrayCollection_Int32StringMap_release(c_element!)
     }
     public override subscript(index: Int) -> Arrays.ErrorCodeToMessageMap {
-        let handle = arrayCollection_Int32StringMap_get(c_element, UInt64(index))
+        let handle = arrayCollection_Int32StringMap_get(c_element!, UInt64(index))
         return convertArrays_ErrorCodeToMessageMapFromCType(handle)
+    }
+    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
+    required public init(arrayLiteral elements: Element...) {
+        super.init(elements)
     }
 }
 extension Collection where Element == Arrays.ErrorCodeToMessageMap  {
@@ -133,19 +149,23 @@ extension Collection where Element == Arrays.ErrorCodeToMessageMap  {
     }
 }
 internal class StringListList: CollectionOf<CollectionOf<String>> {
-    let c_element: _baseRef
+    var c_element: _baseRef?
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init(nil)
+        super.init()
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_StringArray_count(c_element))
     }
     deinit {
-        arrayCollection_StringArray_release(c_element)
+        arrayCollection_StringArray_release(c_element!)
     }
     public override subscript(index: Int) -> CollectionOf<String> {
-        let handle = arrayCollection_StringArray_get(c_element, UInt64(index))
+        let handle = arrayCollection_StringArray_get(c_element!, UInt64(index))
         return StringList(handle)
+    }
+    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
+    required public init(arrayLiteral elements: Element...) {
+        super.init(elements)
     }
 }
 extension Collection where Element: Collection, Element.Element == String  {
@@ -163,19 +183,23 @@ extension Collection where Element: Collection, Element.Element == String  {
     }
 }
 internal class UInt8ListList: CollectionOf<CollectionOf<UInt8>> {
-    let c_element: _baseRef
+    var c_element: _baseRef?
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init(nil)
+        super.init()
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_UInt8Array_count(c_element))
     }
     deinit {
-        arrayCollection_UInt8Array_release(c_element)
+        arrayCollection_UInt8Array_release(c_element!)
     }
     public override subscript(index: Int) -> CollectionOf<UInt8> {
-        let handle = arrayCollection_UInt8Array_get(c_element, UInt64(index))
+        let handle = arrayCollection_UInt8Array_get(c_element!, UInt64(index))
         return UInt8List(handle)
+    }
+    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
+    required public init(arrayLiteral elements: Element...) {
+        super.init(elements)
     }
 }
 extension Collection where Element: Collection, Element.Element == UInt8  {
@@ -193,23 +217,27 @@ extension Collection where Element: Collection, Element.Element == UInt8  {
     }
 }
 internal class StringList: CollectionOf<String> {
-    let c_element: _baseRef
+    var c_element: _baseRef?
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init(nil)
+        super.init()
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_String_count(c_element))
     }
     deinit {
-        arrayCollection_String_release(c_element)
+        arrayCollection_String_release(c_element!)
     }
     public override subscript(index: Int) -> String {
-        let handle = arrayCollection_String_get(c_element, UInt64(index))
+        let handle = arrayCollection_String_get(c_element!, UInt64(index))
         defer {
             std_string_release(handle)
         }
         return String(data: Data(bytes: std_string_data_get(handle),
                       count: Int(std_string_size_get(handle))), encoding: .utf8)!
+    }
+    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
+    required public init(arrayLiteral elements: Element...) {
+        super.init(elements)
     }
 }
 extension Collection where Element == String  {
@@ -225,19 +253,23 @@ extension Collection where Element == String  {
     }
 }
 internal class UInt8List: CollectionOf<UInt8> {
-    let c_element: _baseRef
+    var c_element: _baseRef?
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init(nil)
+        super.init()
         self.startIndex = 0
         self.endIndex = Int(arrayCollection_UInt8_count(c_element))
     }
     deinit {
-        arrayCollection_UInt8_release(c_element)
+        arrayCollection_UInt8_release(c_element!)
     }
     public override subscript(index: Int) -> UInt8 {
-        let handle = arrayCollection_UInt8_get(c_element, UInt64(index))
+        let handle = arrayCollection_UInt8_get(c_element!, UInt64(index))
         return handle
+    }
+    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
+    required public init(arrayLiteral elements: Element...) {
+        super.init(elements)
     }
 }
 extension Collection where Element == UInt8  {

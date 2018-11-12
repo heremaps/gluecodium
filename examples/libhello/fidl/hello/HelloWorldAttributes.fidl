@@ -27,12 +27,17 @@ interface HelloWorldAttributes {
     }
 
     public typedef HelloWorldAttributes is undefined
+    
+    array StringArray of String
+
 
     struct ExampleStruct {
         Double value
+        Int64[] intValue
     }
 
     attribute UInt32 builtInTypeAttribute
     attribute Float readonlyAttribute readonly
     attribute ExampleStruct structAttribute
+    attribute StringArray arrayAttribute
 }

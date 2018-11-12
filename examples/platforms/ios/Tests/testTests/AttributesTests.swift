@@ -40,7 +40,7 @@ class AttributesTests: XCTestCase {
     }
 
     func testStructAttribute() {
-      let expectedStruct = HelloWorldAttributes.ExampleStruct(value: 2.71)
+      let expectedStruct = HelloWorldAttributes.ExampleStruct(value: 2.71, intValue: [])
 
       attributes!.structAttribute = expectedStruct
       let actualStruct = attributes!.structAttribute
@@ -48,9 +48,16 @@ class AttributesTests: XCTestCase {
       XCTAssertEqual(expectedStruct.value, actualStruct.value, accuracy: 1e-6)
     }
 
+    func testStructArrayLiteralAttribute() {
+      var expectedStruct = HelloWorldAttributes.ExampleStruct(value: 2.71, intValue: [])
+      expectedStruct.intValue = [1, 2, 3, 4]
+      XCTAssertEqual(expectedStruct.intValue, [1, 2, 3, 4])
+    }
+
     static var allTests = [
         ("testBuiltInTypeAttribute", testBuiltInTypeAttribute),
         ("testReadonlyAttribute", testReadonlyAttribute),
-        ("testStructAttribute", testStructAttribute)
+        ("testStructAttribute", testStructAttribute),
+        ("testStructArrayLiteralAttribute", testStructArrayLiteralAttribute)
     ]
 }
