@@ -26,21 +26,21 @@ import Foundation
 
 {{#arrays}}
 internal class {{implementingClass}}: CollectionOf<{{underlyingType.publicName}}> {
-    let c_element: _baseRef
+    var c_element: _baseRef?
 
     init(_ c_element: _baseRef) {
         self.c_element = c_element
-        super.init(nil)
+        super.init()
         self.startIndex = 0
         self.endIndex = Int({{refName}}_count(c_element))
     }
 
     deinit {
-        {{refName}}_release(c_element)
+        {{refName}}_release(c_element!)
     }
 
     public override subscript(index: Int) -> {{underlyingType.publicName}} {
-        let handle = {{refName}}_get(c_element, UInt64(index)){{!!
+        let handle = {{refName}}_get(c_element!, UInt64(index)){{!!
         }}{{#switch underlyingType.category.toString}}{{!!
         }}{{#case "STRUCT"}}{{prefixPartial 'structSubscript'   '        '}}{{/case}}{{!!
         }}{{#case "CLASS"}}{{prefixPartial 'classSubscript'   '        '}}{{/case}}{{!!
@@ -51,7 +51,13 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType.publicName}}
         }}{{#default}}{{prefixPartial 'defaultSubscript'  '        '}}{{/default}}{{!!
         }}{{/switch}}
     }
+
+    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
+    required public init(arrayLiteral elements: Element...) {
+        super.init(elements)
+    }
 }
+
 extension Collection {{>GenericConstraintsRule}}  {
     public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = {{refName}}_create()

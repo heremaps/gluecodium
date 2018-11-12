@@ -55,5 +55,19 @@ HelloWorldAttributesImpl::set_struct_attribute(
 {
     m_struct_attribute = value;
 }
+    
+::hello::HelloWorldAttributes::StringArray
+HelloWorldAttributesImpl::get_array_attribute(  ) const
+{
+    return m_array;
+}
+
+void
+HelloWorldAttributesImpl::set_array_attribute( const ::hello::HelloWorldAttributes::StringArray& value )
+{
+    m_array = value;
+}
 
 }
+
+
