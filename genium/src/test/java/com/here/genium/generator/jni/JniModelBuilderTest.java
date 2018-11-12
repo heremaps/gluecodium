@@ -201,6 +201,7 @@ public class JniModelBuilderTest {
     assertNotNull(jniMethod);
     assertEquals(javaMethod.name, jniMethod.getJavaMethodName());
     assertEquals(cppMethod.name, jniMethod.getCppMethodName());
+    assertNotNull(jniMethod.getReturnType());
     assertEquals(javaMethod.returnType.name, jniMethod.getReturnType().javaName);
     assertEquals(cppMethod.returnType.name, jniMethod.getReturnType().cppName);
   }
@@ -280,6 +281,7 @@ public class JniModelBuilderTest {
 
     JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
     assertNotNull(jniMethod);
+    assertNotNull(jniMethod.getException());
     assertEquals("com/example/FooException", jniMethod.getException().getJavaClassName());
   }
 
@@ -299,6 +301,7 @@ public class JniModelBuilderTest {
 
     JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
     assertNotNull(jniMethod);
+    assertNotNull(jniMethod.getException());
     assertEquals(jniType, jniMethod.getException().getJniEnum());
   }
 
@@ -603,9 +606,10 @@ public class JniModelBuilderTest {
     assertNotNull(jniMethod);
     assertEquals(javaGetter.name, jniMethod.getJavaMethodName());
     assertEquals(cppGetter.name, jniMethod.getCppMethodName());
+    assertNotNull(jniMethod.getReturnType());
     assertEquals(javaGetter.returnType.name, jniMethod.getReturnType().javaName);
     assertEquals(cppGetter.returnType.name, jniMethod.getReturnType().cppName);
-    assertFalse(jniMethod.isStatic());
+    assertTrue(jniMethod.isConst());
   }
 
   @Test
@@ -623,7 +627,6 @@ public class JniModelBuilderTest {
     assertEquals(javaSetter.name, jniMethod.getJavaMethodName());
     assertEquals(cppSetter.name, jniMethod.getCppMethodName());
     assertNull(jniMethod.getReturnType());
-    assertFalse(jniMethod.isStatic());
   }
 
   @Test
@@ -664,6 +667,7 @@ public class JniModelBuilderTest {
     JniMethod jniMethod = methods.get(0);
     assertEquals(javaGetter.name, jniMethod.getJavaMethodName());
     assertEquals(cppGetter.name, jniMethod.getCppMethodName());
+    assertNotNull(jniMethod.getReturnType());
     assertEquals(javaGetter.returnType.name, jniMethod.getReturnType().javaName);
     assertEquals(cppGetter.returnType.name, jniMethod.getReturnType().cppName);
   }

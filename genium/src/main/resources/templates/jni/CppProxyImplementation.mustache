@@ -60,7 +60,15 @@ using namespace ::{{internalNamespace}}::jni;
     j{{type.javaName}} j{{name}} = n{{name}};{{!!
 }}{{/unless}}{{!!
 }}{{/parameters}}
-    callJavaMethod( "{{javaMethodName}}", "({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{#if returnType}}{{returnType.jniTypeSignature}}{{/if}}{{#unless returnType}}V{{/unless}}", {{!!
+{{#if returnType}}
+    auto result = callJavaMethod<{{returnType.name}}>( "{{javaMethodName}}", "({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{returnType.jniTypeSignature}}", {{!!
     }}jniEnv {{#if parameters}},{{/if}} {{#parameters}}j{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+    return {{#if returnType.isComplex}}{{internalNamespace}}::jni::convert_from_jni( jniEnv, result, ({{returnType.cppName}}*)nullptr ){{/if}}{{!!
+    }}{{#unless returnType.isComplex}}result{{/unless}};
+{{/if}}{{!!
+}}{{#unless returnType}}
+    callJavaMethod<void>( "{{javaMethodName}}", "({{#parameters}}{{type.jniTypeSignature}}{{/parameters}})V", {{!!
+    }}jniEnv {{#if parameters}},{{/if}} {{#parameters}}j{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+{{/unless}}
 }
 {{/proxyMethod}}

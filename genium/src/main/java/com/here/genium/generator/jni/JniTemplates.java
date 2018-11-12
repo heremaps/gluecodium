@@ -200,7 +200,7 @@ public final class JniTemplates {
       final List<JniContainer> jniContainers, final List<GeneratedFile> results) {
 
     List<JniContainer> listeners =
-        jniContainers.stream().filter(JniTemplates::isListener).collect(Collectors.toList());
+        jniContainers.stream().filter(JniContainer::isInterface).collect(Collectors.toList());
 
     List<Include> proxyIncludes = new LinkedList<>();
 
@@ -240,12 +240,6 @@ public final class JniTemplates {
             "jni/ProxyGeneratorHeader",
             mustacheData,
             jniNameRules.getHeaderFilePath(JniNameRules.JNI_PROXY_CONVERSION_NAME)));
-  }
-
-  private static boolean isListener(final JniContainer jniContainer) {
-
-    return jniContainer.isInterface()
-        && jniContainer.getMethods().stream().allMatch(method -> method.getReturnType() == null);
   }
 
   private static GeneratedFile generateFile(
