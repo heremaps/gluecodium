@@ -38,7 +38,7 @@ class StructsWithDefaultsViewController: UIViewController {
         nativeDefault.loadHTMLString(
             HTML.renderStruct(HelloWorldDefaults.StructWithDefaults()), baseURL: nil)
         baseLayerDefault.loadHTMLString(
-            HTML.renderStruct(HelloWorldDefaults.getStructWithDefaults()!), baseURL: nil)
+            HTML.renderStruct(HelloWorldDefaults.getStructWithDefaults()), baseURL: nil)
     }
     override func viewDidLoad() {
         expected.loadHTMLString(
