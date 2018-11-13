@@ -4,6 +4,7 @@ disabled_rules:
 excluded:
   - .build
   - build-ios
+  - Playground
 reporter: "junit"
 
 type_name:
