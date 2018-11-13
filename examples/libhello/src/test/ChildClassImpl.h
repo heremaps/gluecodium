@@ -24,7 +24,6 @@
 
 namespace test
 {
-
 class ChildClassImpl : public ChildClass, public ::std::enable_shared_from_this< ChildClassImpl >
 {
 public:
@@ -35,10 +34,10 @@ public:
     int32_t get_lucky_number( ) const override;
     void set_lucky_number( const int32_t number ) override;
     void do_something_to_child_class(
-        const ::std::shared_ptr< ::test::ChildClass >& input ) override;
+        const ::std::shared_ptr<::test::ChildClass >& input ) override;
 
 private:
     int32_t m_lucky_number;
 };
 
-}
+}  // namespace test

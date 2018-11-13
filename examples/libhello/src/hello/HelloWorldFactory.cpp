@@ -20,12 +20,11 @@
 
 #include "hello/HelloWorldFactory.h"
 
-#include "HelloWorldInstances.h"
 #include "HelloWorldAttributesImpl.h"
+#include "HelloWorldInstances.h"
 
 namespace hello
 {
-
 ::std::shared_ptr< SimpleInstantiable >
 HelloWorldFactory::create_simple( )
 {
@@ -33,7 +32,8 @@ HelloWorldFactory::create_simple( )
 }
 
 ::std::shared_ptr< NestedInstantiable >
-HelloWorldFactory::create_nested( const ::std::shared_ptr< SimpleInstantiable >& simple_instance_ref )
+HelloWorldFactory::create_nested(
+    const ::std::shared_ptr< SimpleInstantiable >& simple_instance_ref )
 {
     return ::std::make_shared< HelloWorldNestedInstantiable >( simple_instance_ref );
 }
@@ -44,4 +44,4 @@ HelloWorldFactory::create_attributes( )
     return ::std::make_shared< HelloWorldAttributesImpl >( );
 }
 
-}
+}  // namespace hello

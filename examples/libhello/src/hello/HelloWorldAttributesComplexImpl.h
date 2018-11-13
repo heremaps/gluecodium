@@ -28,15 +28,16 @@ public:
     ~HelloWorldAttributesComplexImpl( ) override;
 
 public:
-    ::std::vector< ::std::string > get_array_attribute( ) const override;
-    void set_array_attribute( const ::std::vector< ::std::string >& value ) override;
-    ::hello::HelloWorldAttributesComplex::InternalError get_complex_type_attribute( ) const override;
+    ::std::vector<::std::string > get_array_attribute( ) const override;
+    void set_array_attribute( const ::std::vector<::std::string >& value ) override;
+    ::hello::HelloWorldAttributesComplex::InternalError get_complex_type_attribute( )
+        const override;
     void set_complex_type_attribute(
         const ::hello::HelloWorldAttributesComplex::InternalError value ) override;
 
 private:
-    ::std::vector< ::std::string > m_array_attribute;
+    ::std::vector<::std::string > m_array_attribute;
     ::hello::HelloWorldAttributesComplex::InternalError m_complex_type_attribute
         = ::hello::HelloWorldAttributesComplex::InternalError::ERROR_NONE;
 };
-}
+}  // namespace hello

@@ -20,8 +20,8 @@
 
 #include "test/StaticStringMethods.h"
 
-namespace test {
-
+namespace test
+{
 std::string
 StaticStringMethods::return_input_string( const std::string& input_string )
 {
@@ -30,21 +30,21 @@ StaticStringMethods::return_input_string( const std::string& input_string )
 
 std::string
 StaticStringMethods::concatenate_strings( const std::string& input_string1,
-                                             const std::string& input_string2 )
+                                          const std::string& input_string2 )
 {
     return input_string1 + input_string2;
 }
 
 std::string
-StaticStringMethods::return_hello_string(  )
+StaticStringMethods::return_hello_string( )
 {
     return "hello";
 }
 
 std::string
-StaticStringMethods::return_empty(  )
+StaticStringMethods::return_empty( )
 {
     return "";
 }
 
-}
+}  // namespace test

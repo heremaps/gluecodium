@@ -20,14 +20,14 @@
 
 #include "hello/HelloWorldStaticLogger.h"
 
-namespace hello {
-
+namespace hello
+{
 static std::string s_logger_string = "";
 
 ::std::string
-HelloWorldStaticLogger::get_log(  )
+HelloWorldStaticLogger::get_log( )
 {
-     return s_logger_string;
+    return s_logger_string;
 }
 
 void
@@ -37,9 +37,9 @@ HelloWorldStaticLogger::append( const ::std::string& log )
 }
 
 void
-HelloWorldStaticLogger::clear_log(  )
+HelloWorldStaticLogger::clear_log( )
 {
     s_logger_string = "";
 }
 
-}
+}  // namespace hello

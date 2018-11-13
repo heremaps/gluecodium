@@ -18,22 +18,21 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/ForecastProvider.h"
-#include "test/ForecastListener.h"
 #include "test/ForecastFactory.h"
+#include "test/ForecastListener.h"
+#include "test/ForecastProvider.h"
 
 #include "hello/HelloWorldStaticLogger.h"
 
+#include <algorithm>
+#include <memory>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <sstream>
-#include <memory>
 
 namespace
 {
-const ::test::CityDataMap data{
-    {"Berlin", {-2, 26}}, {"Marrakesh", {8, 40}}, {"Madrid", {1, 33}}};
+const ::test::CityDataMap data{{"Berlin", {-2, 26}}, {"Marrakesh", {8, 40}}, {"Madrid", {1, 33}}};
 
 class MyForecastProvider : public ::test::ForecastProvider
 {
@@ -42,7 +41,7 @@ public:
     ~MyForecastProvider( ) = default;
 
     void
-    inform( const ::std::shared_ptr< ::test::ForecastListener >& listener )
+    inform( const ::std::shared_ptr<::test::ForecastListener >& listener )
     {
         listener->on_forecast_data_provided( data );
     }
@@ -79,19 +78,19 @@ public:
         ::hello::HelloWorldStaticLogger::append( stream.str( ) );
     }
 };
-}
+}  // namespace
 
 namespace test
 {
-::std::shared_ptr< ::test::ForecastProvider >
+::std::shared_ptr<::test::ForecastProvider >
 ForecastFactory::create_provider( )
 {
     return std::make_shared< MyForecastProvider >( );
 }
 
-::std::shared_ptr< ::test::ForecastListener >
+::std::shared_ptr<::test::ForecastListener >
 ForecastFactory::create_listener( )
 {
     return std::make_shared< MyForecastListener >( );
 }
-}
+}  // namespace test

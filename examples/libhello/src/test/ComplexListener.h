@@ -26,26 +26,24 @@ namespace test
 class ManhattanMetric : public DistanceMetric
 {
 public:
-
     ManhattanMetric( ) = default;
 
     ~ManhattanMetric( ) = default;
 
-    double get_length( const ::std::vector< ::test::NamedPoint3D >& input ) override;
+    double get_length( const ::std::vector<::test::NamedPoint3D >& input ) override;
 };
 
 class ComplexNotifierImpl : public ComplexNotifier
 {
 public:
-
-    ComplexNotifierImpl( )  = default;
+    ComplexNotifierImpl( ) = default;
     ~ComplexNotifierImpl( ) = default;
 
     void trajectory_completed(
-        const ::std::vector< ::test::NamedPoint3D >& trajectory,
+        const ::std::vector<::test::NamedPoint3D >& trajectory,
         const ::test::TrajectoryQuality quality,
-        const ::std::shared_ptr< ::std::vector< uint8_t > >& image,
-        const ::std::shared_ptr< ::test::ComplexListener >& listener ) override;
+        const ::std::shared_ptr<::std::vector< uint8_t > >& image,
+        const ::std::shared_ptr<::test::ComplexListener >& listener ) override;
 };
 
-} // namespace test
+}  // namespace test

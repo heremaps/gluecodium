@@ -23,7 +23,6 @@
 
 namespace test
 {
-
 void
 SimpleInterfaceOneImpl::set_string_value( const std::string& string_value )
 {
@@ -31,7 +30,7 @@ SimpleInterfaceOneImpl::set_string_value( const std::string& string_value )
 }
 
 std::string
-SimpleInterfaceOneImpl::get_string_value(  )
+SimpleInterfaceOneImpl::get_string_value( )
 {
     return m_value;
 }
@@ -43,7 +42,7 @@ SimpleInterfaceTwoImpl::set_string_value( const std::string& string_value )
 }
 
 std::string
-SimpleInterfaceTwoImpl::get_string_value(  )
+SimpleInterfaceTwoImpl::get_string_value( )
 {
     return m_value;
 }
@@ -58,13 +57,13 @@ NestedInterfaceOneImpl::set_same_type_interfaces(
 }
 
 std::shared_ptr< SimpleInterfaceOne >
-NestedInterfaceOneImpl::get_interface_one(  )
+NestedInterfaceOneImpl::get_interface_one( )
 {
     return m_interface_one;
 }
 
 std::shared_ptr< SimpleInterfaceOne >
-NestedInterfaceOneImpl::get_interface_two(  )
+NestedInterfaceOneImpl::get_interface_two( )
 {
     return m_interface_two;
 }
@@ -87,27 +86,27 @@ NestedInterfaceTwoImpl::set_self_interface( const std::shared_ptr< NestedInterfa
 }
 
 std::shared_ptr< NestedInterfaceTwo >
-NestedInterfaceTwoImpl::get_self_interface(  )
+NestedInterfaceTwoImpl::get_self_interface( )
 {
     return m_interface_self;
 }
 
 std::shared_ptr< SimpleInterfaceOne >
-NestedInterfaceTwoImpl::get_interface_one(  )
+NestedInterfaceTwoImpl::get_interface_one( )
 {
     return m_interface_one;
 }
 
 std::shared_ptr< SimpleInterfaceTwo >
-NestedInterfaceTwoImpl::get_interface_two(  )
+NestedInterfaceTwoImpl::get_interface_two( )
 {
     return m_interface_two;
 }
 
 std::shared_ptr< NestedInterfaceOne >
-NestedInterfaceTwoImpl::get_nested_interface(  )
+NestedInterfaceTwoImpl::get_nested_interface( )
 {
     return m_nested_interface;
 }
 
-}
+}  // namespace test

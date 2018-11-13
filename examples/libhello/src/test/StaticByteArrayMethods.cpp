@@ -22,8 +22,8 @@
 
 #include "test/StaticByteArrayMethods.h"
 
-namespace test {
-
+namespace test
+{
 std::shared_ptr< std::vector< uint8_t > >
 StaticByteArrayMethods::return_input_byte_buffer(
     const std::shared_ptr< std::vector< uint8_t > >& input_buffer )
@@ -35,8 +35,8 @@ std::shared_ptr< std::vector< uint8_t > >
 StaticByteArrayMethods::return_reverse_byte_buffer(
     const std::shared_ptr< std::vector< uint8_t > >& input_buffer )
 {
-    return std::make_shared< std::vector< uint8_t > >(
-        input_buffer->rbegin( ), input_buffer->rend( ) );
+    return std::make_shared< std::vector< uint8_t > >( input_buffer->rbegin( ),
+                                                       input_buffer->rend( ) );
 }
 
 std::shared_ptr< std::vector< uint8_t > >
@@ -46,8 +46,8 @@ StaticByteArrayMethods::concatenate_byte_buffers(
 {
     std::shared_ptr< std::vector< uint8_t > > output
         = std::make_shared< std::vector< uint8_t > >( *input1 );
-    output->insert( output->end(), input2->begin(), input2->end() );
+    output->insert( output->end( ), input2->begin( ), input2->end( ) );
     return output;
 }
 
-}
+}  // namespace test

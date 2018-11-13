@@ -18,16 +18,16 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include <memory>
-#include "HelloWorldListeners.h"
 #include "hello/HelloWorldCalculatorListenerFactory.h"
+#include "HelloWorldListeners.h"
+#include <memory>
 
-namespace hello {
-
-::std::shared_ptr< CalculatorListener >
-HelloWorldCalculatorListenerFactory::create_calculator_listener(  )
+namespace hello
 {
-        return ::std::make_shared< ::hello::HelloCalculatorListener >( );
+::std::shared_ptr< CalculatorListener >
+HelloWorldCalculatorListenerFactory::create_calculator_listener( )
+{
+    return ::std::make_shared<::hello::HelloCalculatorListener >( );
 }
 
-}
+}  // namespace hello

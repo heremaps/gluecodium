@@ -29,7 +29,7 @@ flip_enum( const ::test::InternalErrorTypeCollection val )
                ? ::test::InternalErrorTypeCollection::ERROR_FATAL
                : ::test::InternalErrorTypeCollection::ERROR_NONE;
 }
-}
+}  // namespace
 
 namespace test
 {
@@ -40,7 +40,8 @@ EnumsTypeCollectionMethods::flip_enum_value( const ::test::InternalErrorTypeColl
 }
 
 ::test::InternalErrorTypeCollection
-EnumsTypeCollectionMethods::extract_enum_from_struct( const ::test::ErrorStructTypeCollection& input )
+EnumsTypeCollectionMethods::extract_enum_from_struct(
+    const ::test::ErrorStructTypeCollection& input )
 {
     return flip_enum( input.type );
 }
@@ -49,7 +50,7 @@ EnumsTypeCollectionMethods::extract_enum_from_struct( const ::test::ErrorStructT
 EnumsTypeCollectionMethods::create_struct_with_enum_inside(
     const ::test::InternalErrorTypeCollection type, const ::std::string& message )
 {
-   return {flip_enum( type ), message};
+    return {flip_enum( type ), message};
 }
 
-}
+}  // namespace test

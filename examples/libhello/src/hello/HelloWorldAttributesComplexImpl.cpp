@@ -22,17 +22,16 @@
 
 namespace hello
 {
-
 HelloWorldAttributesComplexImpl::~HelloWorldAttributesComplexImpl( ) = default;
 
-::std::vector< ::std::string >
+::std::vector<::std::string >
 HelloWorldAttributesComplexImpl::get_array_attribute( ) const
 {
     return m_array_attribute;
 }
 
 void
-HelloWorldAttributesComplexImpl::set_array_attribute( const ::std::vector< ::std::string >& value )
+HelloWorldAttributesComplexImpl::set_array_attribute( const ::std::vector<::std::string >& value )
 {
     m_array_attribute = value;
 }
@@ -50,4 +49,4 @@ HelloWorldAttributesComplexImpl::set_complex_type_attribute(
     m_complex_type_attribute = value;
 }
 
-}
+}  // namespace hello

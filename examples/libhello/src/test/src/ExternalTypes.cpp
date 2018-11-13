@@ -27,9 +27,9 @@ namespace even_more_external
 std::error_code
 make_error_code( AlienErrors value ) noexcept
 {
-    return std::error_code( static_cast<int>( value ), std::generic_category( ) );
+    return std::error_code( static_cast< int >( value ), std::generic_category( ) );
 }
-}
+}  // namespace even_more_external
 
 std::string
 ExternalStruct::get_some_string( ) const
@@ -67,4 +67,4 @@ ExternalStruct::madnessEnsues( const even_more_external::AlienStructure& value )
     m_some_struct = value;
 }
 
-}
+}  // namespace external
