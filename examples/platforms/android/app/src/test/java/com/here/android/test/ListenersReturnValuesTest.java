@@ -53,6 +53,11 @@ public class ListenersReturnValuesTest {
     public MessagePackage getPackedMessage() {
       return new TestMessagePackage();
     }
+
+    @Override
+    public String getAttributedMessage() {
+      return "Works";
+    }
   }
 
   @Test
@@ -71,5 +76,14 @@ public class ListenersReturnValuesTest {
     MessageDelivery delivery = MessageDelivery.createMe();
 
     assertEquals("Works", delivery.getPackedMessage(envelope));
+  }
+
+  @Test
+  public void attributeReturnWorks() {
+    ListenerWithReturn envelope = new TestListener();
+
+    MessageDelivery delivery = MessageDelivery.createMe();
+
+    assertEquals("Works", delivery.getAttributedMessage(envelope));
   }
 }
