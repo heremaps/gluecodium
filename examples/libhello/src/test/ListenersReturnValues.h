@@ -33,6 +33,17 @@ public:
         const std::shared_ptr< ListenerWithReturn >& envelope ) override;
     virtual std::string get_attributed_message(
         const std::shared_ptr< ListenerWithReturn >& envelope ) override;
+    virtual std::string get_structured_message(
+        const std::shared_ptr< ListenerWithReturn >& envelope ) override;
+    virtual std::string get_enumerated_message(
+        const std::shared_ptr< ListenerWithReturn >& envelope ) override;
+    virtual std::string get_arrayed_message(
+        const std::shared_ptr< ListenerWithReturn >& envelope ) override;
+    virtual std::string get_mapped_message(
+        const std::shared_ptr< ListenerWithReturn >& envelope ) override;
+    virtual std::string get_buffered_message(
+        const std::shared_ptr< ListenerWithReturn >& envelope ) override;
+
 };
 
 }  // namespace test

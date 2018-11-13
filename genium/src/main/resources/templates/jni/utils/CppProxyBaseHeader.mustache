@@ -167,6 +167,13 @@ CppProxyBase::callJavaMethod( const ::std::string& methodName,
                               ... ) const;
 
 template<>
+jbyteArray
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const;
+
+template<>
 jobject
 CppProxyBase::callJavaMethod( const ::std::string& methodName,
                               const ::std::string& jniSignature,
