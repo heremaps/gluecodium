@@ -41,6 +41,37 @@ MessageDeliveryImpl::get_attributed_message( const std::shared_ptr< ListenerWith
     return envelope->get_attributed_message( );
 }
 
+std::string
+MessageDeliveryImpl::get_structured_message( const std::shared_ptr< ListenerWithReturn >& envelope )
+{
+    return envelope->get_structured_message( ).message;
+}
+
+std::string
+MessageDeliveryImpl::get_enumerated_message( const std::shared_ptr< ListenerWithReturn >& envelope )
+{
+    return envelope->get_enumerated_message( ) == ListenerWithReturn::MessageEnum::YES
+        ? "YES" : "NO";
+}
+
+std::string
+MessageDeliveryImpl::get_arrayed_message( const std::shared_ptr< ListenerWithReturn >& envelope )
+{
+    return envelope->get_arrayed_message( )[0];
+}
+
+std::string
+MessageDeliveryImpl::get_mapped_message( const std::shared_ptr< ListenerWithReturn >& envelope )
+{
+    return envelope->get_mapped_message( )[0];
+}
+
+std::string
+MessageDeliveryImpl::get_buffered_message( const std::shared_ptr< ListenerWithReturn >& envelope )
+{
+    return std::string(
+        reinterpret_cast< char const* >( envelope->get_buffered_message( )->data( ) ) );
+}
 
 std::shared_ptr< MessageDelivery >
 MessageDelivery::create_me( )

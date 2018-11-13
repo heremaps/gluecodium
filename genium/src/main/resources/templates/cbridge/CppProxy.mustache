@@ -76,6 +76,7 @@ const void* {{name}}_get_swift_object_from_cache(_baseRef handle) {
     }}{{#case "BUILTIN_SIMPLE"}}return {{>swiftDelegateCall}};{{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
     }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
+    }}{{#case "ARRAY" break=false}}{{/case}}{{!!
     }}{{#case "MAP" break=false}}{{/case}}{{!!
     }}{{#case "CLASS" break=false}}{{/case}}{{!!
     }}{{#case "STRUCT"}}auto _return_value_ptr = get_pointer<{{returnType}}>({{>swiftDelegateCall}});
@@ -83,6 +84,7 @@ const void* {{name}}_get_swift_object_from_cache(_baseRef handle) {
         delete _return_value_ptr;
         return _return_value;
     {{/case}}{{!!
+    }}{{#case "ENUM"}}return static_cast<{{returnType}}>({{>swiftDelegateCall}});{{/case}}{{!!
     }}{{#default}}{{>swiftDelegateCall}};{{/default}}{{!!
 }}{{/switch}}
 {{/returnConversion}}

@@ -20,7 +20,19 @@
 package test
 
 interface ListenerWithReturn {
+
     public typedef ListenerWithReturn is undefined
+
+    struct MessageStruct {
+        String message
+    }
+
+    enumeration MessageEnum {
+        NO
+        YES
+    }
+
+    map MessageMap { Int8 to String }
 
     method getMessage {
         out {
@@ -35,6 +47,36 @@ interface ListenerWithReturn {
     }
 
     attribute String attributedMessage readonly
+
+    method getStructuredMessage {
+        out {
+            MessageStruct message
+        }
+    }
+
+    method getEnumeratedMessage {
+        out {
+            MessageEnum message
+        }
+    }
+
+    method getArrayedMessage {
+        out {
+            String[] message
+        }
+    }
+
+    method getMappedMessage {
+        out {
+            MessageMap message
+        }
+    }
+
+    method getBufferedMessage {
+        out {
+            ByteBuffer message
+        }
+    }
 }
 
 interface MessagePackage {
@@ -70,6 +112,51 @@ interface MessageDelivery {
     }
 
     method getAttributedMessage {
+        in {
+            ListenerWithReturn.ListenerWithReturn envelope
+        }
+        out {
+            String message
+        }
+    }
+
+    method getStructuredMessage {
+        in {
+            ListenerWithReturn.ListenerWithReturn envelope
+        }
+        out {
+            String message
+        }
+    }
+
+    method getEnumeratedMessage {
+        in {
+            ListenerWithReturn.ListenerWithReturn envelope
+        }
+        out {
+            String message
+        }
+    }
+
+    method getArrayedMessage {
+        in {
+            ListenerWithReturn.ListenerWithReturn envelope
+        }
+        out {
+            String message
+        }
+    }
+
+    method getMappedMessage {
+        in {
+            ListenerWithReturn.ListenerWithReturn envelope
+        }
+        out {
+            String message
+        }
+    }
+
+    method getBufferedMessage {
         in {
             ListenerWithReturn.ListenerWithReturn envelope
         }

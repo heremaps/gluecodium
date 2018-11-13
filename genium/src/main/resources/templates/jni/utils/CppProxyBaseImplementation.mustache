@@ -212,6 +212,22 @@ CppProxyBase::callJavaMethod( const ::std::string& methodName,
 }
 
 template<>
+jbyteArray
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const
+{
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+    va_list vaList;
+    va_start( vaList, jniEnv );
+    auto result = jniEnv->CallObjectMethodV( jGlobalRef, jmethodId, vaList );
+    va_end( vaList );
+    return static_cast<jbyteArray>( result );
+}
+
+template<>
 jobject
 CppProxyBase::callJavaMethod( const ::std::string& methodName,
                               const ::std::string& jniSignature,

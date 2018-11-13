@@ -23,6 +23,10 @@ import static junit.framework.Assert.assertEquals;
 import android.os.Build;
 import android.support.compat.BuildConfig;
 import com.here.android.RobolectricApplication;
+import java.util.Collections;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -58,6 +62,31 @@ public class ListenersReturnValuesTest {
     public String getAttributedMessage() {
       return "Works";
     }
+
+    @Override
+    public MessageStruct getStructuredMessage() {
+      return new MessageStruct("Works");
+    }
+
+    @Override
+    public MessageEnum getEnumeratedMessage() {
+      return MessageEnum.YES;
+    }
+
+    @Override
+    public List<String> getArrayedMessage() {
+      return Collections.singletonList("Works");
+    }
+
+    @Override
+    public Map<Byte, String> getMappedMessage() {
+      return Collections.singletonMap((byte)0, "Works");
+    }
+
+    @Override
+    public byte[] getBufferedMessage() {
+      return "Works".getBytes();
+    }
   }
 
   @Test
@@ -85,5 +114,50 @@ public class ListenersReturnValuesTest {
     MessageDelivery delivery = MessageDelivery.createMe();
 
     assertEquals("Works", delivery.getAttributedMessage(envelope));
+  }
+
+  @Test
+  public void structReturnWorks() {
+    ListenerWithReturn envelope = new TestListener();
+
+    MessageDelivery delivery = MessageDelivery.createMe();
+
+    assertEquals("Works", delivery.getStructuredMessage(envelope));
+  }
+
+  @Test
+  public void enumReturnWorks() {
+    ListenerWithReturn envelope = new TestListener();
+
+    MessageDelivery delivery = MessageDelivery.createMe();
+
+    assertEquals("YES", delivery.getEnumeratedMessage(envelope));
+  }
+
+  @Test
+  public void arrayReturnWorks() {
+    ListenerWithReturn envelope = new TestListener();
+
+    MessageDelivery delivery = MessageDelivery.createMe();
+
+    assertEquals("Works", delivery.getArrayedMessage(envelope));
+  }
+
+  @Test
+  public void mapReturnWorks() {
+    ListenerWithReturn envelope = new TestListener();
+
+    MessageDelivery delivery = MessageDelivery.createMe();
+
+    assertEquals("Works", delivery.getMappedMessage(envelope));
+  }
+
+  @Test
+  public void byteBufferReturnWorks() {
+    ListenerWithReturn envelope = new TestListener();
+
+    MessageDelivery delivery = MessageDelivery.createMe();
+
+    assertEquals("Works", delivery.getBufferedMessage(envelope));
   }
 }

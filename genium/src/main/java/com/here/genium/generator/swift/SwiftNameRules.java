@@ -76,7 +76,9 @@ public final class SwiftNameRules {
     FTypeCollection definingTypeCollection = DefinedBy.findDefiningTypeCollection(elem);
     if (definingTypeCollection instanceof FInterface) {
       FInterface iface = (FInterface) definingTypeCollection;
-      if (elem instanceof FTypeDef || !deploymentModel.isInterface(iface)) {
+      if (elem instanceof FTypeDef
+          || elem instanceof FMapType
+          || !deploymentModel.isInterface(iface)) {
         return getClassName(definingTypeCollection.getName()) + ".";
       }
     }

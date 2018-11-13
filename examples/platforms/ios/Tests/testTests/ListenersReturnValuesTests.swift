@@ -41,6 +41,26 @@ class ListenersReturnValuesTests: XCTestCase {
           var attributedMessage: String {
               return "Works"
           }
+
+          public func getStructuredMessage() -> MessageStruct {
+              return MessageStruct(message: "Works")
+          }
+
+          public func getEnumeratedMessage() -> MessageEnum {
+              return .yes
+          }
+
+          public func getArrayedMessage() -> CollectionOf<String> {
+              return ["Works"]
+          }
+
+          public func getMappedMessage() -> [Int8: String] {
+              return [0: "Works"]
+          }
+
+          public func getBufferedMessage() -> Data {
+              return Data([0x57, 0x6F, 0x72, 0x6B, 0x73, 0x00])
+          }
       }
 
     func testStringReturn() {
@@ -61,9 +81,44 @@ class ListenersReturnValuesTests: XCTestCase {
         XCTAssertEqual("Works", delivery.getAttributedMessage(envelope: envelope))
     }
 
+    func testStructuredReturn() {
+        let envelope = TestListener()
+        let delivery = MessageDelivery.createMe()!
+        XCTAssertEqual("Works", delivery.getStructuredMessage(envelope: envelope))
+    }
+
+    func testEnumeratedReturn() {
+        let envelope = TestListener()
+        let delivery = MessageDelivery.createMe()!
+        XCTAssertEqual("YES", delivery.getEnumeratedMessage(envelope: envelope))
+    }
+
+    func testArrayedReturn() {
+        let envelope = TestListener()
+        let delivery = MessageDelivery.createMe()!
+        XCTAssertEqual("Works", delivery.getArrayedMessage(envelope: envelope))
+    }
+
+    func testMappedReturn() {
+        let envelope = TestListener()
+        let delivery = MessageDelivery.createMe()!
+        XCTAssertEqual("Works", delivery.getMappedMessage(envelope: envelope))
+    }
+
+    func testBufferedReturn() {
+        let envelope = TestListener()
+        let delivery = MessageDelivery.createMe()!
+        XCTAssertEqual("Works", delivery.getBufferedMessage(envelope: envelope))
+    }
+
     static var allTests = [
         ("testStringReturn", testStringReturn),
         ("testPackageReturn", testPackageReturn),
-        ("testAttributedReturn", testAttributedReturn)
+        ("testAttributedReturn", testAttributedReturn),
+        ("testStructuredReturn", testStructuredReturn),
+        ("testEnumeratedReturn", testEnumeratedReturn),
+        ("testArrayedReturn", testArrayedReturn),
+        ("testMappedReturn", testMappedReturn),
+        ("testBufferedReturn", testBufferedReturn)
     ]
 }

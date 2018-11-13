@@ -84,15 +84,25 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
         }
         {{/case}}{{!!
         }}{{/switch}}{{/parameters}}
-        return {{>swiftReturn}}
+        {{#if returnType}}{{>swiftReturn}}{{/if}}{{!!
+      }}{{#unless returnType}}{{include delegateToCall}}{{/unless}}
     }
 {{/functionTableEntry}}{{!!
 }}{{+swiftParameter}}{{name}}{{/swiftParameter}}{{!!
 }}{{+swiftReturn}}{{#switch returnType.category.toString}}{{!!
     }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}{{include delegateToCall}}.convertToCType(){{/case}}{{!!
-    }}{{#case "CLASS"}}getRef({{include delegateToCall}}!, owning: false).ref{{/case}}{{!!
-    }}{{#default}}{{include delegateToCall}}{{/default}}{{!!
+    }}{{#case "STRUCT"}}return {{include delegateToCall}}.convertToCType(){{/case}}{{!!
+    }}{{#case "CLASS"}}return getRef({{include delegateToCall}}!, owning: false).ref{{/case}}{{!!
+    }}{{#case "ENUM"}}return {{include delegateToCall}}.rawValue{{/case}}{{!!
+    }}{{#case "ARRAY"}}return {{include delegateToCall}}.c_conversion().c_type{{/case}}{{!!
+    }}{{#case "DICTIONARY"}}return convert{{returnType.name}}ToCType({{include delegateToCall}}){{/case}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER"}}let result = {{include delegateToCall}}
+        let result_handle = byteArray_create()
+        result.withUnsafeBytes { (result_ptr: UnsafePointer<UInt8>) in
+            byteArray_assign(result_handle, result_ptr, result.count)
+        }
+        return result_handle{{/case}}{{!!
+    }}{{#default}}return {{include delegateToCall}}{{/default}}{{!!
 }}{{/switch}}{{/swiftReturn}}{{!!
 }}{{+delegateCall2}}swift_class.{{name}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}{{!!
 }}{{+callPropertyGetter}}swift_class.{{propertyName}}{{/callPropertyGetter}}{{!!
