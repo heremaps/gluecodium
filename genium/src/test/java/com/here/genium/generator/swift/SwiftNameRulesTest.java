@@ -56,6 +56,7 @@ public class SwiftNameRulesTest {
   @Mock private FStructType fStruct;
   @Mock private FTypeDef fTypeDef;
   @Mock private FArgument francaArgument;
+  @Mock private FMapType francaMap;
 
   @Before
   public void setUp() {
@@ -63,13 +64,17 @@ public class SwiftNameRulesTest {
 
     ArrayEList<FMethod> methods = new ArrayEList<>();
     methods.add(fMethod);
+
     when(fEnumerationType.eContainer()).thenReturn(fInterface);
     when(fStruct.eContainer()).thenReturn(fInterface);
     when(fTypeDef.eContainer()).thenReturn(fInterface);
+    when(francaMap.eContainer()).thenReturn(fInterface);
+
     when(fInterface.getName()).thenReturn(INTERFACE_NAME);
-    when(fInterface.getMethods()).thenReturn(methods);
     when(fEnumerationType.getName()).thenReturn(ENUM_NAME);
     when(fStruct.getName()).thenReturn(STRUCT_NAME);
+
+    when(fInterface.getMethods()).thenReturn(methods);
   }
 
   @Test
@@ -158,6 +163,17 @@ public class SwiftNameRulesTest {
     String expected = INTERFACE_NAME + NAMESPACE_DELIMITER + TYPEDEF_NAME;
 
     String actual = SwiftNameRules.getTypeDefName(fTypeDef, deploymentModel);
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void fullyQualifiedNameForDictionaryInsideProtocol() {
+    when(deploymentModel.isInterface(any())).thenReturn(true);
+    when(NameHelper.toUpperCamelCase(any())).thenReturn(INTERFACE_NAME).thenReturn(TYPEDEF_NAME);
+    String expected = INTERFACE_NAME + NAMESPACE_DELIMITER + TYPEDEF_NAME;
+
+    String actual = SwiftNameRules.getTypeDefName(francaMap, deploymentModel);
 
     assertEquals(expected, actual);
   }
