@@ -22,23 +22,22 @@
 
 namespace hello
 {
-
 HelloWorldArrays::StringArray
 HelloWorldArrays::method_with_array( const HelloWorldArrays::StringArray& input )
 {
-    return { input.rbegin( ), input.rend( ) };
+    return {input.rbegin( ), input.rend( )};
 }
 
 std::vector< int64_t >
 HelloWorldArrays::method_with_simple_array( const HelloWorldArrays::Int64Array& input )
 {
-    return { input.rbegin( ), input.rend( ) };
+    return {input.rbegin( ), input.rend( )};
 }
 
-std::vector<  uint32_t >
-HelloWorldArrays::method_with_array_inline( const std::vector<  uint32_t >& input )
+std::vector< uint32_t >
+HelloWorldArrays::method_with_array_inline( const std::vector< uint32_t >& input )
 {
-    return { input.rbegin( ), input.rend( ) };
+    return {input.rbegin( ), input.rend( )};
 }
 
 std::vector< HelloWorldArrays::ExampleStruct >
@@ -56,10 +55,10 @@ HelloWorldArrays::method_with_nested_arrays_inline(
     auto reverseIterator = input.rbegin( );
     while ( reverseIterator != input.rend( ) )
     {
-        output.push_back( { reverseIterator->rbegin(), reverseIterator->rend() } );
+        output.push_back( {reverseIterator->rbegin( ), reverseIterator->rend( )} );
         reverseIterator++;
     }
     return output;
 }
 
-}
+}  // namespace hello

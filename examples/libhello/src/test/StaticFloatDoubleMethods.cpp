@@ -20,8 +20,8 @@
 
 #include "test/StaticFloatDoubleMethods.h"
 
-namespace test {
-
+namespace test
+{
 float
 StaticFloatDoubleMethods::return_float( const float input_number )
 {
@@ -58,6 +58,4 @@ StaticFloatDoubleMethods::sum_two_doubles( const double input_number1, const dou
     return input_number1 + input_number2;
 }
 
-}
-
-
+}  // namespace test

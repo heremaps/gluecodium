@@ -37,22 +37,23 @@ do_calculate( const ::hello::Calculator::Position& fromPosition,
     auto deltaX = static_cast< double >( fromPosition.x - toPosition.x );
     auto deltaY = static_cast< double >( fromPosition.y - toPosition.y );
     auto deltaZ = static_cast< double >( fromPosition.z - toPosition.z );
-    auto euclideanDistance = std::sqrt( deltaX * deltaX + deltaY * deltaY  + deltaZ * deltaZ );
+    auto euclideanDistance = std::sqrt( deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ );
 
     return euclideanDistance;
 }
 
-static int get_instance_id() {
+static int
+get_instance_id( )
+{
     static int id = 0;
     return ++id;
 }
-}
+}  // namespace
 
 namespace hello
 {
-
-HelloCalculatorListener::HelloCalculatorListener()
-    : m_instance_id(get_instance_id())
+HelloCalculatorListener::HelloCalculatorListener( )
+    : m_instance_id( get_instance_id( ) )
 {
 }
 
@@ -60,29 +61,31 @@ void
 HelloCalculatorListener::on_calculation_result( const double calculation_result )
 {
     std::stringstream log_stream;
-    log_stream << "C++ listener " << m_instance_id << " synchronous: " << calculation_result << std::endl;
-    HelloWorldStaticLogger::append(log_stream.str());
+    log_stream << "C++ listener " << m_instance_id << " synchronous: " << calculation_result
+               << std::endl;
+    HelloWorldStaticLogger::append( log_stream.str( ) );
 }
 
 void
 HelloCalculatorListener::on_calculation_in_background_result( const double calculation_result )
 {
     std::stringstream log_stream;
-    log_stream << "C++ listener " << m_instance_id << " background: " << calculation_result << std::endl;
-    HelloWorldStaticLogger::append(log_stream.str());
+    log_stream << "C++ listener " << m_instance_id << " background: " << calculation_result
+               << std::endl;
+    HelloWorldStaticLogger::append( log_stream.str( ) );
 }
 
-::std::shared_ptr< ::hello::Calculator >
+::std::shared_ptr<::hello::Calculator >
 CalculatorFactory::create_calculator( )
 {
-    return ::std::make_shared< ::hello::HelloCalculator >( );
+    return ::std::make_shared<::hello::HelloCalculator >( );
 }
 
 void
 HelloCalculator::register_listener(
-    const ::std::shared_ptr< ::hello::CalculatorListener >& listener )
+    const ::std::shared_ptr<::hello::CalculatorListener >& listener )
 {
-    ::std::lock_guard< ::std::mutex > lock( m_listeners_mutex );
+    ::std::lock_guard<::std::mutex > lock( m_listeners_mutex );
 
     bool registered
         = std::find( m_listeners.begin( ), m_listeners.end( ), listener ) != m_listeners.end( );
@@ -99,14 +102,14 @@ HelloCalculator::register_listener(
 
     std::stringstream log_stream;
     log_stream << __PRETTY_FUNCTION__ << log_message << std::endl;
-    HelloWorldStaticLogger::append(log_stream.str());
+    HelloWorldStaticLogger::append( log_stream.str( ) );
 }
 
 void
 HelloCalculator::unregister_listener(
-    const ::std::shared_ptr< ::hello::CalculatorListener >& listener )
+    const ::std::shared_ptr<::hello::CalculatorListener >& listener )
 {
-    ::std::lock_guard< ::std::mutex > lock( m_listeners_mutex );
+    ::std::lock_guard<::std::mutex > lock( m_listeners_mutex );
 
     const auto iterator = std::find( m_listeners.begin( ), m_listeners.end( ), listener );
     std::string log_message;
@@ -122,22 +125,23 @@ HelloCalculator::unregister_listener(
 
     std::stringstream log_stream;
     log_stream << __PRETTY_FUNCTION__ << log_message << std::endl;
-    HelloWorldStaticLogger::append(log_stream.str());
+    HelloWorldStaticLogger::append( log_stream.str( ) );
 }
 
 void
-HelloCalculator::remove_all_listeners( ) {
-    ::std::lock_guard< ::std::mutex > lock( m_listeners_mutex );
+HelloCalculator::remove_all_listeners( )
+{
+    ::std::lock_guard<::std::mutex > lock( m_listeners_mutex );
     m_listeners.clear( );
     std::stringstream log_stream;
     log_stream << __PRETTY_FUNCTION__ << " removed registration for all listeners" << std::endl;
-    HelloWorldStaticLogger::append(log_stream.str());
+    HelloWorldStaticLogger::append( log_stream.str( ) );
 }
 
 void
 HelloCalculator::calculate( const ::hello::Calculator::Position& from_position,
                             const ::hello::Calculator::Position& to_position,
-                            const ::std::shared_ptr< ::hello::CalculatorListener >& listener )
+                            const ::std::shared_ptr<::hello::CalculatorListener >& listener )
 {
     double result = do_calculate( from_position, to_position );
     listener->on_calculation_result( result );
@@ -145,13 +149,13 @@ HelloCalculator::calculate( const ::hello::Calculator::Position& from_position,
 
 void
 HelloCalculator::calculate_in_background( const ::hello::Calculator::Position& from_position,
-                                        const ::hello::Calculator::Position& to_position )
+                                          const ::hello::Calculator::Position& to_position )
 {
     double result = do_calculate( from_position, to_position );
 
-    ::std::vector< ::std::shared_ptr< ::hello::CalculatorListener > > listeners;
+    ::std::vector<::std::shared_ptr<::hello::CalculatorListener > > listeners;
     {
-        ::std::lock_guard< ::std::mutex > lock( m_listeners_mutex );
+        ::std::lock_guard<::std::mutex > lock( m_listeners_mutex );
         listeners = m_listeners;
     }
 
@@ -160,4 +164,4 @@ HelloCalculator::calculate_in_background( const ::hello::Calculator::Position& f
         listener->on_calculation_in_background_result( result );
     }
 }
-}
+}  // namespace hello

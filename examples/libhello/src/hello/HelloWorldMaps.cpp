@@ -38,4 +38,4 @@ HelloWorldMaps::method_with_map( const HelloWorldMaps::ErrorCodeToMessageMap& in
     }
     return result;
 }
-}
+}  // namespace hello

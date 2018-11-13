@@ -20,10 +20,8 @@
 
 #include "hello/ProfileManager.h"
 
-
 namespace hello
 {
-
 class HelloWorldProfileManager : public ProfileManager
 {
 public:
@@ -31,8 +29,9 @@ public:
     void create_profile( const ::std::string& username ) override;
     ::std::string change_profile( const ::std::string& username ) override;
     ::std::string delete_profile( ) override;
+
 private:
     ::std::string m_profile_name = "";
 };
 
-}
+}  // namespace hello

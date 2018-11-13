@@ -33,4 +33,4 @@ HelloWorldTypedefs::method_with_type_def(
                     ::toupper );
     return {uppercase_string};
 }
-}
+}  // namespace hello

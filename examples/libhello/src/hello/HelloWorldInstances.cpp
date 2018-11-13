@@ -35,21 +35,21 @@ HelloWorldSimpleInstantiable::get_string_value( )
 }
 
 HelloWorldNestedInstantiable::HelloWorldNestedInstantiable(
-    const ::std::shared_ptr< ::hello::SimpleInstantiable >& instance )
+    const ::std::shared_ptr<::hello::SimpleInstantiable >& instance )
     : m_instance( instance )
 {
 }
 
 void
 HelloWorldNestedInstantiable::set_instantiable(
-    const ::std::shared_ptr< ::hello::SimpleInstantiable >& instance )
+    const ::std::shared_ptr<::hello::SimpleInstantiable >& instance )
 {
     m_instance = instance;
 }
 
-::std::shared_ptr< ::hello::SimpleInstantiable >
+::std::shared_ptr<::hello::SimpleInstantiable >
 HelloWorldNestedInstantiable::get_instantiable( )
 {
     return m_instance;
 }
-}
+}  // namespace hello

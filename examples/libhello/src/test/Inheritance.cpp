@@ -163,7 +163,7 @@ public:
 private:
     std::string data;
 };
-}
+}  // namespace
 
 namespace test
 {
@@ -209,4 +209,4 @@ InheritanceTestHelper::create_another_concrete_grand_child( )
 {
     return ::std::make_shared< AnotherConcreteGrandChildImpl >( );
 }
-}
+}  // namespace test

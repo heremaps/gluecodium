@@ -32,9 +32,8 @@ public:
     void set_built_in_type_attribute( const uint32_t value ) override;
     float get_readonly_attribute( ) const override;
     ::hello::HelloWorldAttributes::ExampleStruct get_struct_attribute( ) const override;
-    void set_struct_attribute(
-    const ::hello::HelloWorldAttributes::ExampleStruct& value ) override;
-    ::hello::HelloWorldAttributes::StringArray get_array_attribute(  ) const override;
+    void set_struct_attribute( const ::hello::HelloWorldAttributes::ExampleStruct& value ) override;
+    ::hello::HelloWorldAttributes::StringArray get_array_attribute( ) const override;
     void set_array_attribute( const ::hello::HelloWorldAttributes::StringArray& value ) override;
 
 private:
@@ -43,4 +42,4 @@ private:
     ::hello::HelloWorldAttributes::ExampleStruct m_struct_attribute;
     ::hello::HelloWorldAttributes::StringArray m_array;
 };
-}
+}  // namespace hello

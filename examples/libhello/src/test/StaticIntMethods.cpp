@@ -168,5 +168,4 @@ StaticIntMethods::return_prime_uint64( )
 {
     return 4294967311L;
 }
-}
-
+}  // namespace test

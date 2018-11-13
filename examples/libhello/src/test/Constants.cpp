@@ -23,42 +23,42 @@
 #include "test/UseInterfaceConstants.h"
 #include "test/UseTypeCollectionConstants.h"
 
-namespace test {
-
+namespace test
+{
 // UseTypeCollectionConstants
 
 int32_t
-UseTypeCollectionConstants::get_int_constant()
+UseTypeCollectionConstants::get_int_constant( )
 {
     return test::INT_CONSTANT;
 }
 
 uint32_t
-UseTypeCollectionConstants::get_uint_constant()
+UseTypeCollectionConstants::get_uint_constant( )
 {
     return test::UINT_CONSTANT;
 }
 
 float
-UseTypeCollectionConstants::get_float_constant()
+UseTypeCollectionConstants::get_float_constant( )
 {
     return test::FLOAT_CONSTANT;
 }
 
 double
-UseTypeCollectionConstants::get_double_constant()
+UseTypeCollectionConstants::get_double_constant( )
 {
     return test::DOUBLE_CONSTANT;
 }
 
 std::string
-UseTypeCollectionConstants::get_string_constant()
+UseTypeCollectionConstants::get_string_constant( )
 {
     return test::STRING_CONSTANT;
 }
 
 test::StateEnum
-UseTypeCollectionConstants::get_enum_constant()
+UseTypeCollectionConstants::get_enum_constant( )
 {
     return test::ENUM_CONSTANT;
 }
@@ -66,39 +66,39 @@ UseTypeCollectionConstants::get_enum_constant()
 // UseInterfaceConstants
 
 int32_t
-UseInterfaceConstants::get_int_constant()
+UseInterfaceConstants::get_int_constant( )
 {
     return ConstantsInterface::INT_CONSTANT;
 }
 
 uint32_t
-UseInterfaceConstants::get_uint_constant()
+UseInterfaceConstants::get_uint_constant( )
 {
     return ConstantsInterface::UINT_CONSTANT;
 }
 
 float
-UseInterfaceConstants::get_float_constant()
+UseInterfaceConstants::get_float_constant( )
 {
     return ConstantsInterface::FLOAT_CONSTANT;
 }
 
 double
-UseInterfaceConstants::get_double_constant()
+UseInterfaceConstants::get_double_constant( )
 {
     return ConstantsInterface::DOUBLE_CONSTANT;
 }
 
 std::string
-UseInterfaceConstants::get_string_constant()
+UseInterfaceConstants::get_string_constant( )
 {
     return ConstantsInterface::STRING_CONSTANT;
 }
 
 ConstantsInterface::StateEnum
-UseInterfaceConstants::get_enum_constant()
+UseInterfaceConstants::get_enum_constant( )
 {
     return ConstantsInterface::ENUM_CONSTANT;
 }
 
-}
+}  // namespace test

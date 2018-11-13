@@ -22,7 +22,6 @@
 
 namespace test
 {
-
 std::shared_ptr< ChildClass >
 ChildClass::create_child_class( )
 {
@@ -30,7 +29,7 @@ ChildClass::create_child_class( )
 }
 
 ChildClassImpl::ChildClassImpl( )
-    : m_lucky_number(7)
+    : m_lucky_number( 7 )
 {
 }
 
@@ -59,9 +58,9 @@ ChildClassImpl::set_lucky_number( const int32_t number )
 }
 
 void
-ChildClassImpl::do_something_to_child_class( const ::std::shared_ptr< ::test::ChildClass >& input )
+ChildClassImpl::do_something_to_child_class( const ::std::shared_ptr<::test::ChildClass >& input )
 {
     // Do nothing
 }
 
-}
+}  // namespace test

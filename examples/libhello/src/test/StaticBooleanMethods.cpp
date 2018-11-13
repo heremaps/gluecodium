@@ -20,8 +20,8 @@
 
 #include "test/StaticBooleanMethods.h"
 
-namespace test {
-
+namespace test
+{
 bool
 StaticBooleanMethods::return_inverted_boolean( const bool input )
 {
@@ -34,5 +34,4 @@ StaticBooleanMethods::return_and_boolean( const bool input1, const bool input2 )
     return input1 && input2;
 }
 
-}
-
+}  // namespace test

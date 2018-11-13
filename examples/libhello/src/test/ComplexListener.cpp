@@ -24,16 +24,15 @@
 
 namespace test
 {
-
 double
-ManhattanMetric::get_length( const ::std::vector< ::test::NamedPoint3D >& input )
+ManhattanMetric::get_length( const ::std::vector<::test::NamedPoint3D >& input )
 {
     double length_total = 0;
     for ( int i = 1; i < input.size( ); ++i )
     {
-        length_total += fabs( input[ i - 1 ].pt.x - input[ i ].pt.x ) +
-                        fabs( input[ i - 1 ].pt.y - input[ i ].pt.y ) +
-                        fabs( input[ i - 1 ].pt.z - input[ i ].pt.z );
+        length_total += fabs( input[ i - 1 ].pt.x - input[ i ].pt.x )
+                        + fabs( input[ i - 1 ].pt.y - input[ i ].pt.y )
+                        + fabs( input[ i - 1 ].pt.z - input[ i ].pt.z );
     }
 
     return length_total;
@@ -42,26 +41,24 @@ ManhattanMetric::get_length( const ::std::vector< ::test::NamedPoint3D >& input 
 void
 ComplexNotifierImpl::trajectory_completed(
 
-    const ::std::vector< ::test::NamedPoint3D >& trajectory,
+    const ::std::vector<::test::NamedPoint3D >& trajectory,
     const ::test::TrajectoryQuality quality,
-    const ::std::shared_ptr< ::std::vector< uint8_t > >& image,
-    const ::std::shared_ptr< ::test::ComplexListener >& listener )
+    const ::std::shared_ptr<::std::vector< uint8_t > >& image,
+    const ::std::shared_ptr<::test::ComplexListener >& listener )
 {
     listener->on_trajectory_completed( ComplexListenerFactory::create_distance_metric( ),
-                                       trajectory,
-                                       quality,
-                                       image );
+                                       trajectory, quality, image );
 }
 
-::std::shared_ptr< ::test::ComplexNotifier >
+::std::shared_ptr<::test::ComplexNotifier >
 ComplexListenerFactory::create_complex_notifier( )
 {
-    return ::std::make_shared< ::test::ComplexNotifierImpl >( );
+    return ::std::make_shared<::test::ComplexNotifierImpl >( );
 }
 
-::std::shared_ptr< ::test::DistanceMetric >
+::std::shared_ptr<::test::DistanceMetric >
 ComplexListenerFactory::create_distance_metric( )
 {
-    return ::std::make_shared< ::test::ManhattanMetric >( );
+    return ::std::make_shared<::test::ManhattanMetric >( );
 }
-} // namespace test
+}  // namespace test

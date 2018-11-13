@@ -20,30 +20,28 @@
 
 #pragma once
 
-#include "test/SimpleInterfaceOne.h"
-#include "test/SimpleInterfaceTwo.h"
 #include "test/NestedInterfaceOne.h"
 #include "test/NestedInterfaceTwo.h"
+#include "test/SimpleInterfaceOne.h"
+#include "test/SimpleInterfaceTwo.h"
 
 namespace test
 {
-
-class SimpleInterfaceOneImpl : public SimpleInterfaceOne {
-
+class SimpleInterfaceOneImpl : public SimpleInterfaceOne
+{
 public:
     void set_string_value( const std::string& string_value ) override;
-    std::string get_string_value(  ) override;
+    std::string get_string_value( ) override;
 
 private:
     std::string m_value;
-
 };
 
-class SimpleInterfaceTwoImpl : public SimpleInterfaceTwo {
-
+class SimpleInterfaceTwoImpl : public SimpleInterfaceTwo
+{
 public:
     void set_string_value( const std::string& string_value ) override;
-    std::string get_string_value(  ) override;
+    std::string get_string_value( ) override;
 
 private:
     std::string m_value;
@@ -51,13 +49,12 @@ private:
 
 class NestedInterfaceOneImpl : public NestedInterfaceOne
 {
-
 public:
     void set_same_type_interfaces(
         const std::shared_ptr< SimpleInterfaceOne >& interface_one,
         const std::shared_ptr< SimpleInterfaceOne >& interface_two ) override;
-    std::shared_ptr< SimpleInterfaceOne > get_interface_one(  ) override;
-    std::shared_ptr< SimpleInterfaceOne > get_interface_two(  ) override;
+    std::shared_ptr< SimpleInterfaceOne > get_interface_one( ) override;
+    std::shared_ptr< SimpleInterfaceOne > get_interface_two( ) override;
 
 private:
     std::shared_ptr< SimpleInterfaceOne > m_interface_one;
@@ -66,7 +63,6 @@ private:
 
 class NestedInterfaceTwoImpl : public NestedInterfaceTwo
 {
-
 public:
     void set_multiple_type_interfaces(
         const std::shared_ptr< SimpleInterfaceOne >& interface_one,
@@ -74,10 +70,10 @@ public:
         const std::shared_ptr< NestedInterfaceOne >& nested_interface ) override;
     void set_self_interface(
         const ::std::shared_ptr< NestedInterfaceTwo >& self_interface ) override;
-    std::shared_ptr< NestedInterfaceTwo > get_self_interface(  ) override;
-    std::shared_ptr< SimpleInterfaceOne > get_interface_one(  ) override;
-    std::shared_ptr< SimpleInterfaceTwo > get_interface_two(  ) override;
-    std::shared_ptr< NestedInterfaceOne > get_nested_interface(  ) override;
+    std::shared_ptr< NestedInterfaceTwo > get_self_interface( ) override;
+    std::shared_ptr< SimpleInterfaceOne > get_interface_one( ) override;
+    std::shared_ptr< SimpleInterfaceTwo > get_interface_two( ) override;
+    std::shared_ptr< NestedInterfaceOne > get_nested_interface( ) override;
 
 private:
     std::shared_ptr< NestedInterfaceTwo > m_interface_self;
@@ -86,4 +82,4 @@ private:
     std::shared_ptr< NestedInterfaceOne > m_nested_interface;
 };
 
-}
+}  // namespace test

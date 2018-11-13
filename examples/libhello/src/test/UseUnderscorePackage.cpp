@@ -22,11 +22,13 @@
 
 namespace test
 {
-::std::shared_ptr< ::test_off::OffInterface > method_with_underscore_instance( const ::std::shared_ptr< ::test_off::OffInterface >& input );
+::std::shared_ptr<::test_off::OffInterface > method_with_underscore_instance(
+    const ::std::shared_ptr<::test_off::OffInterface >& input );
 ::test_off::OffStruct method_with_underscore_struct( const ::test_off::OffStruct& input );
 
-::std::shared_ptr< ::test_off::OffInterface >
-UseUnderscorePackage::method_with_underscore_instance( const ::std::shared_ptr< ::test_off::OffInterface >& input )
+::std::shared_ptr<::test_off::OffInterface >
+UseUnderscorePackage::method_with_underscore_instance(
+    const ::std::shared_ptr<::test_off::OffInterface >& input )
 {
     return nullptr;
 }
@@ -36,4 +38,4 @@ UseUnderscorePackage::method_with_underscore_struct( const ::test_off::OffStruct
 {
     return {};
 }
-}
+}  // namespace test

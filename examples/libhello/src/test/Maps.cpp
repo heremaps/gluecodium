@@ -24,8 +24,8 @@
 #include <cstdint>
 #include <string>
 
-namespace test {
-
+namespace test
+{
 Maps::ErrorCodeToMessageMap
 Maps::method_with_map( const Maps::ErrorCodeToMessageMap& input )
 {
@@ -104,8 +104,8 @@ Maps::method_with_map_of_arrays( const Maps::NumberToArray& input )
         Maps::ArrayOfStrings string_array( entry.second );
         for ( auto& input_string : string_array )
         {
-            std::transform( input_string.begin( ), input_string.end( ),
-                            input_string.begin( ), ::toupper );
+            std::transform( input_string.begin( ), input_string.end( ), input_string.begin( ),
+                            ::toupper );
         }
         result.emplace( entry.first, string_array );
     }
@@ -116,8 +116,7 @@ Maps::StringToInstance
 Maps::method_with_map_of_instances( const Maps::StringToInstance& input )
 {
     Maps::StringToInstance result = input;
-    for_each( std::begin( input ),
-              std::end( input ),
+    for_each( std::begin( input ), std::end( input ),
               []( const Maps::StringToInstance::value_type& value ) {
                   auto str = value.second->get_string_value( );
                   str += " " + value.first;
@@ -125,4 +124,4 @@ Maps::method_with_map_of_instances( const Maps::StringToInstance& input )
               } );
     return result;
 }
-}
+}  // namespace test

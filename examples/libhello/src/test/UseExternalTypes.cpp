@@ -42,4 +42,4 @@ UseExternalTypes::extract_external_enum(
 {
     return nested_struct.enum_field;
 }
-}
+}  // namespace test

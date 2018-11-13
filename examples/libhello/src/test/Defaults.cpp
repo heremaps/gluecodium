@@ -22,28 +22,27 @@
 
 namespace test
 {
-
 Defaults::StructWithDefaults
 Defaults::get_default( )
 {
-    return { };
+    return {};
 }
 
 bool
 Defaults::check_default( const Defaults::StructWithDefaults& input )
 {
-    Defaults::StructWithDefaults default_struct{ };
+    Defaults::StructWithDefaults default_struct{};
     return input.int_field == default_struct.int_field
-        && input.float_field == default_struct.float_field
-        && input.bool_field == default_struct.bool_field
-        && input.string_field == default_struct.string_field
-        && input.enum_field == default_struct.enum_field;
+           && input.float_field == default_struct.float_field
+           && input.bool_field == default_struct.bool_field
+           && input.string_field == default_struct.string_field
+           && input.enum_field == default_struct.enum_field;
 }
 
 Defaults::ImmutableStructWithDefaults
 Defaults::get_immutable_default( )
 {
-    return { };
+    return {};
 }
 
-}
+}  // namespace test

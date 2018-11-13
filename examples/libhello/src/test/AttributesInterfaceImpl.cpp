@@ -22,7 +22,6 @@
 
 namespace test
 {
-
 AttributesInterfaceImpl::~AttributesInterfaceImpl( ) = default;
 
 uint32_t
@@ -50,4 +49,4 @@ AttributesInterfaceImpl::set_struct_attribute(
     m_struct_attribute = value;
 }
 
-}
+}  // namespace test

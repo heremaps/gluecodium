@@ -22,7 +22,6 @@
 
 namespace test
 {
-
 std::shared_ptr< GrandchildClass >
 GrandchildClass::create_grandchild_class( )
 {
@@ -31,7 +30,7 @@ GrandchildClass::create_grandchild_class( )
 
 GrandchildClassImpl::GrandchildClassImpl( )
 {
-    set_lucky_number(42);
+    set_lucky_number( 42 );
 }
 
 std::shared_ptr< ParentInterface >
@@ -66,9 +65,9 @@ GrandchildClassImpl::do_something( const std::string& value )
 
 void
 GrandchildClassImpl::do_something_to_child_class(
-    const ::std::shared_ptr< ::test::ChildClass >& input )
+    const ::std::shared_ptr<::test::ChildClass >& input )
 {
     // Do nothing
 }
 
-}
+}  // namespace test

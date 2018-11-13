@@ -31,11 +31,10 @@ public:
     uint32_t get_built_in_type_attribute( ) const override;
     void set_built_in_type_attribute( const uint32_t value ) override;
     ::test::AttributesInterface::ExampleStruct get_struct_attribute( ) const override;
-    void set_struct_attribute(
-        const ::test::AttributesInterface::ExampleStruct& value ) override;
+    void set_struct_attribute( const ::test::AttributesInterface::ExampleStruct& value ) override;
 
 private:
     uint32_t m_build_in_type_attribute = 0;
     ::test::AttributesInterface::ExampleStruct m_struct_attribute;
 };
-}
+}  // namespace test

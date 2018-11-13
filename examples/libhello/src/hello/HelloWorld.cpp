@@ -22,9 +22,9 @@
 
 namespace hello
 {
-    std::string
-    HelloWorld::hello_world_method(const std::string& input_string)
-    {
-        return "Hello " + input_string;
-    }
+std::string
+HelloWorld::hello_world_method( const std::string& input_string )
+{
+    return "Hello " + input_string;
 }
+}  // namespace hello

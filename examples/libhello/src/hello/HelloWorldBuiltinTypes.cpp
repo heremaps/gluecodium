@@ -24,55 +24,54 @@
 
 namespace hello
 {
-
 static int32_t s_last_void_method_parameter;
 
 int8_t
 HelloWorldBuiltinTypes::method_with_int8( const int8_t input_number )
 {
-   return input_number + 1;
+    return input_number + 1;
 }
 
 uint8_t
 HelloWorldBuiltinTypes::method_with_uint8( const uint8_t input_number )
 {
-   return input_number + 1;
+    return input_number + 1;
 }
 
 int16_t
 HelloWorldBuiltinTypes::method_with_int16( const int16_t input_number )
 {
-   return input_number + 1;
+    return input_number + 1;
 }
 
 uint16_t
 HelloWorldBuiltinTypes::method_with_uint16( const uint16_t input_number )
 {
-   return input_number + 1;
+    return input_number + 1;
 }
 
 int32_t
 HelloWorldBuiltinTypes::method_with_int32( const int32_t input_number )
 {
-   return input_number + 1;
+    return input_number + 1;
 }
 
 uint32_t
 HelloWorldBuiltinTypes::method_with_uint32( const uint32_t input_number )
 {
-   return input_number + 1;
+    return input_number + 1;
 }
 
 int64_t
 HelloWorldBuiltinTypes::method_with_int64( const int64_t input_number )
 {
-   return input_number + 1;
+    return input_number + 1;
 }
 
 uint64_t
 HelloWorldBuiltinTypes::method_with_uint64( const uint64_t input_number )
 {
-   return input_number + 1;
+    return input_number + 1;
 }
 
 bool
@@ -97,15 +96,15 @@ std::shared_ptr< std::vector< uint8_t > >
 HelloWorldBuiltinTypes::method_with_byte_buffer(
     const std::shared_ptr< std::vector< uint8_t > >& input_buffer )
 {
-    return std::make_shared< std::vector< uint8_t > >(
-        input_buffer->rbegin( ), input_buffer->rend( ) );
+    return std::make_shared< std::vector< uint8_t > >( input_buffer->rbegin( ),
+                                                       input_buffer->rend( ) );
 }
 
 double
 HelloWorldBuiltinTypes::method_with_float_and_integer( const float input_float,
                                                        const int8_t input_integer )
 {
-    return input_float * (0.01 * input_integer);
+    return input_float * ( 0.01 * input_integer );
 }
 
 void
@@ -114,10 +113,10 @@ HelloWorldBuiltinTypes::void_method( const int32_t input_number )
     s_last_void_method_parameter = input_number;
 }
 
-int32_t HelloWorldBuiltinTypes::get_void_method_parameter( )
+int32_t
+HelloWorldBuiltinTypes::get_void_method_parameter( )
 {
     return s_last_void_method_parameter;
 }
 
-}
-
+}  // namespace hello

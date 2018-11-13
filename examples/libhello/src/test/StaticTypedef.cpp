@@ -18,12 +18,11 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/TypeCollection.h"
 #include "test/StaticTypedef.h"
+#include "test/TypeCollection.h"
 
 namespace test
 {
-
 StaticTypedef::IntTypedef
 StaticTypedef::return_int_typedef( const ::test::StaticTypedef::IntTypedef input )
 {
@@ -49,7 +48,8 @@ StaticTypedef::return_byte_buffer_typedef( const ::test::StaticTypedef::ByteArra
 }
 
 StaticTypedef::ExampleStructTypedef
-StaticTypedef::return_example_struct_typedef( const ::test::StaticTypedef::ExampleStructTypedef& input )
+StaticTypedef::return_example_struct_typedef(
+    const ::test::StaticTypedef::ExampleStructTypedef& input )
 {
     StaticTypedef::ExampleStructTypedef result;
     result.example_string = "Hello " + input.example_string;
@@ -63,11 +63,12 @@ StaticTypedef::return_typedef_point_from_type_collection( const ::test::PointTyp
 }
 
 StaticTypedef::NestedStructTypedef
-StaticTypedef::return_nested_struct_typedef( const ::test::StaticTypedef::NestedStructTypedef& input )
+StaticTypedef::return_nested_struct_typedef(
+    const ::test::StaticTypedef::NestedStructTypedef& input )
 {
     StaticTypedef::NestedStructTypedef result;
     result.example_string = "Hello " + input.example_string;
     return result;
 }
 
-}
+}  // namespace test

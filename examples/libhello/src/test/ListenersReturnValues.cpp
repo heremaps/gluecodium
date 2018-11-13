@@ -23,21 +23,22 @@
 
 namespace test
 {
-
 std::string
-MessageDeliveryImpl::get_message( const std::shared_ptr<ListenerWithReturn>& envelope )
+MessageDeliveryImpl::get_message( const std::shared_ptr< ListenerWithReturn >& envelope )
 {
     return envelope->get_message( );
 }
 
 std::string
-MessageDeliveryImpl::get_packed_message( const std::shared_ptr<ListenerWithReturn>& envelope )
+MessageDeliveryImpl::get_packed_message( const std::shared_ptr< ListenerWithReturn >& envelope )
 {
     return envelope->get_packed_message( )->unpack_message( );
 }
 
-std::shared_ptr<MessageDelivery> MessageDelivery::create_me( ) {
-    return std::make_shared<MessageDeliveryImpl>( );
+std::shared_ptr< MessageDelivery >
+MessageDelivery::create_me( )
+{
+    return std::make_shared< MessageDeliveryImpl >( );
 }
 
-}
+}  // namespace test

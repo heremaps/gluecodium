@@ -105,5 +105,4 @@ Errors::method_with_external_error( const bool error_flag )
         return {};
     }
 }
-}
-
+}  // namespace test

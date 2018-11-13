@@ -20,8 +20,8 @@
 
 #include "test/Nlp.h"
 
-namespace test {
-
+namespace test
+{
 void
 Nlp::set_route( const std::shared_ptr< RouteProvider >& route_provider,
                 const std::shared_ptr< Route >& route )
@@ -29,5 +29,4 @@ Nlp::set_route( const std::shared_ptr< RouteProvider >& route_provider,
     route_provider->set_route( route );
 }
 
-}
-
+}  // namespace test

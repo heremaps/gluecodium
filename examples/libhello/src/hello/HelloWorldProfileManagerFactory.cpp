@@ -18,16 +18,16 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include <memory>
-#include "HelloWorldProfileManager.h"
 #include "hello/HelloWorldProfileManagerFactory.h"
+#include "HelloWorldProfileManager.h"
+#include <memory>
 
-namespace hello {
-
-::std::shared_ptr< ::hello::ProfileManager >
-HelloWorldProfileManagerFactory::create_profile_manager_instance(  )
+namespace hello
 {
-        return ::std::make_shared< ::hello::HelloWorldProfileManager >( );
+::std::shared_ptr<::hello::ProfileManager >
+HelloWorldProfileManagerFactory::create_profile_manager_instance( )
+{
+    return ::std::make_shared<::hello::HelloWorldProfileManager >( );
 }
 
-}
+}  // namespace hello

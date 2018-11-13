@@ -47,7 +47,9 @@ MethodOverloads::is_boolean( const MethodOverloads::Point& input )
 }
 
 bool
-MethodOverloads::is_boolean( const bool input1, const int8_t input2, const ::std::string& input3,
+MethodOverloads::is_boolean( const bool input1,
+                             const int8_t input2,
+                             const ::std::string& input3,
                              const MethodOverloads::Point& input4 )
 {
     return false;
@@ -65,4 +67,4 @@ MethodOverloads::is_boolean( const MethodOverloads::IntArray& input )
     return false;
 }
 
-}
+}  // namespace test

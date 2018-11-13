@@ -32,4 +32,4 @@ HelloWorldEnums::method_with_enumeration( const HelloWorldEnums::InternalError i
 
     return HelloWorldEnums::InternalError::ERROR_NONE;
 }
-}
+}  // namespace hello

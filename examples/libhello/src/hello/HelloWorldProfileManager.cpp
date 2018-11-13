@@ -18,15 +18,15 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include <string>
-#include <memory>
-#include "hello/HelloWorldStaticLogger.h"
 #include "HelloWorldProfileManager.h"
+#include "hello/HelloWorldStaticLogger.h"
+#include <memory>
+#include <string>
 
 namespace hello
 {
-
-// ProfileManager destruction is logged to static logger to allow verification of correct instance disposal
+// ProfileManager destruction is logged to static logger to allow verification
+// of correct instance disposal
 HelloWorldProfileManager::~HelloWorldProfileManager( )
 {
     HelloWorldStaticLogger::append( "ProfileManager::destructor" );
@@ -53,4 +53,4 @@ HelloWorldProfileManager::delete_profile( )
     m_profile_name = "";
     return old;
 }
-}
+}  // namespace hello

@@ -41,4 +41,4 @@ HelloWorldPlainDataStructures::method_with_nested_type(
 
     return output;
 }
-}
+}  // namespace hello

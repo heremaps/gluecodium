@@ -35,4 +35,4 @@ Talker::talk_to_child( const std::shared_ptr< ChildListener >& listener )
 {
     listener->listen( );
 }
-}
+}  // namespace test
