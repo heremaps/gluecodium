@@ -39,10 +39,10 @@ class StructsViewController: UIViewController, UIPickerViewDataSource, UIPickerV
     lazy var dataSource: [DemoCase] = [
         ("Class defined structure", {return HTML.renderStruct(self.syncResult)}, {
             self.syncResult.lastUpdatedTimeStamp = UInt64(Date().timeIntervalSinceReferenceDate)
-            self.syncResult =  Structs.methodWithNonNestedType(input: self.syncResult)!}),
+            self.syncResult =  Structs.methodWithNonNestedType(input: self.syncResult)}),
         ("Nested class defined structure", {return HTML.renderStruct(self.extendedSyncResult)}, {
             self.extendedSyncResult.syncResult.lastUpdatedTimeStamp = UInt64(Date().timeIntervalSinceReferenceDate)
-            self.extendedSyncResult = Structs.methodWithNestedType(input: self.extendedSyncResult)!})
+            self.extendedSyncResult = Structs.methodWithNestedType(input: self.extendedSyncResult)})
     ]
 
     required init?(coder aDecoder: NSCoder) {
