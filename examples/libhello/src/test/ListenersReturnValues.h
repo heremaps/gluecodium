@@ -31,6 +31,8 @@ public:
         const std::shared_ptr< ListenerWithReturn >& envelope ) override;
     virtual std::string get_packed_message(
         const std::shared_ptr< ListenerWithReturn >& envelope ) override;
+    virtual std::string get_attributed_message(
+        const std::shared_ptr< ListenerWithReturn >& envelope ) override;
 };
 
 }  // namespace test

@@ -37,7 +37,18 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
     }
 
 {{#set className=name}}
-    {{#methods}}
+{{#methods}}
+{{#set delegateToCall="delegateCall2"}}{{>functionTableEntry}}{{/set}}
+{{/methods}}
+{{#properties}}
+{{#set propertyName=name}}{{#propertyAccessors.0}}{{#set delegateToCall="callPropertyGetter"}}{{>functionTableEntry}}{{/set}}{{/propertyAccessors.0}}
+{{#unless readonly}}{{#propertyAccessors.1}}{{#set delegateToCall="callPropertySetter"}}{{>functionTableEntry}}{{/set}}{{/propertyAccessors.1}}{{/unless}}{{/set}}
+{{/properties}}
+    let proxy = {{cInstance}}_createProxy(functions)
+    return owning ? RefHolder(ref: proxy, release: {{cInstance}}_release) : RefHolder(proxy)
+}
+{{/set}}{{!!
+}}{{+functionTableEntry}}
     functions.{{cBaseName}} = {(swift_class_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! {{className}}
         {{#parameters}}{{#switch type.category.toString}}{{!!
@@ -75,20 +86,19 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
         }}{{/switch}}{{/parameters}}
         return {{>swiftReturn}}
     }
-    {{/methods}}
-    let proxy = {{cInstance}}_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: {{cInstance}}_release) : RefHolder(proxy)
-}
-{{/set}}
-{{+swiftParameter}}{{name}}{{/swiftParameter}}
-{{+swiftReturn}}{{#switch returnType.category.toString}}{{!!
-    }}{{#case "BUILTIN_STRING"}}{{>delegateCall2}}.convertToCType(){{/case}}{{!!
-    }}{{#case "STRUCT"}}get_pointer(({{>delegateCall2}}!).convertToCType()){{/case}}{{!!
-    }}{{#case "CLASS"}}getRef({{>delegateCall2}}!, owning: false).ref{{/case}}{{!!
-    }}{{#default}}{{>delegateCall2}}{{/default}}{{!!
-}}{{/switch}}{{/swiftReturn}}
-{{+delegateCall2}}swift_class.{{name}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}
-{{+swiftParameter2}}{{name}}: {{#switch type.category.toString}}{{!!
+{{/functionTableEntry}}{{!!
+}}{{+swiftParameter}}{{name}}{{/swiftParameter}}{{!!
+}}{{+swiftReturn}}{{#switch returnType.category.toString}}{{!!
+    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
+    }}{{#case "STRUCT"}}{{include delegateToCall}}.convertToCType(){{/case}}{{!!
+    }}{{#case "CLASS"}}getRef({{include delegateToCall}}!, owning: false).ref{{/case}}{{!!
+    }}{{#default}}{{include delegateToCall}}{{/default}}{{!!
+}}{{/switch}}{{/swiftReturn}}{{!!
+}}{{+delegateCall2}}swift_class.{{name}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}{{!!
+}}{{+callPropertyGetter}}swift_class.{{propertyName}}{{/callPropertyGetter}}{{!!
+}}{{+callPropertySetter}}swift_class.{{propertyName}} = {{#parameters.0}}{{>swiftParameterConversion}}{{/parameters.0}}{{/callPropertySetter}}{{!!
+}}{{+swiftParameter2}}{{name}}: {{>swiftParameterConversion}}{{/swiftParameter2}}{{!!
+}}{{+swiftParameterConversion}}{{#switch type.category.toString}}{{!!
     }}{{#case "CLASS"}}swift_object_{{name}}!{{/case}}{{!!
     }}{{#case "STRUCT"}}{{type}}(c{{type}}: {{name}}){{/case}}{{!!
     }}{{#case "DICTIONARY"}}convert{{type}}FromCType({{name}}){{/case}}{{!!
@@ -98,4 +108,4 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
                                                 count: Int(std_string_size_get({{name}}))), encoding: .utf8)!{{/case}}{{!!
     }}{{#case "ENUM"}}{{type}}(rawValue: {{name}})!{{/case}}{{!!
     }}{{#default}}{{name}}{{/default}}{{!!
-}}{{/switch}}{{/swiftParameter2}}
+}}{{/switch}}{{/swiftParameterConversion}}

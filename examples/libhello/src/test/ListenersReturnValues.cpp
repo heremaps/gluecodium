@@ -35,6 +35,13 @@ MessageDeliveryImpl::get_packed_message( const std::shared_ptr< ListenerWithRetu
     return envelope->get_packed_message( )->unpack_message( );
 }
 
+std::string
+MessageDeliveryImpl::get_attributed_message( const std::shared_ptr< ListenerWithReturn >& envelope )
+{
+    return envelope->get_attributed_message( );
+}
+
+
 std::shared_ptr< MessageDelivery >
 MessageDelivery::create_me( )
 {
