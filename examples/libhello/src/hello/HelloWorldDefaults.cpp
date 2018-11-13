@@ -22,10 +22,9 @@
 
 namespace hello
 {
-
 HelloWorldDefaults::StructWithDefaults
 HelloWorldDefaults::get_struct_with_defaults( )
 {
     return HelloWorldDefaults::StructWithDefaults( );
 }
-} // namespace hello
+}  // namespace hello

@@ -23,16 +23,20 @@
 
 namespace test
 {
-
-class InstanceInStructImpl: public InstanceInStruct {
+class InstanceInStructImpl : public InstanceInStruct
+{
 public:
-    ~InstanceInStructImpl() = default;
+    ~InstanceInStructImpl( ) = default;
 
-    virtual void set_string_value( const ::std::string& string_value ) {
+    virtual void
+    set_string_value( const ::std::string& string_value )
+    {
         m_value = string_value;
     }
 
-    virtual ::std::string get_string_value(  ) {
+    virtual ::std::string
+    get_string_value( )
+    {
         return m_value;
     }
 
@@ -40,29 +44,34 @@ private:
     std::string m_value;
 };
 
-std::shared_ptr<InstanceInStruct>
-InstanceInStruct::create() {
-    return std::make_shared<InstanceInStructImpl>();
+std::shared_ptr< InstanceInStruct >
+InstanceInStruct::create( )
+{
+    return std::make_shared< InstanceInStructImpl >( );
 }
 
 InstanceInStruct::SelfHolder
-InstanceInStruct::create_in_struct() {
-    return {std::make_shared<InstanceInStructImpl>()};
+InstanceInStruct::create_in_struct( )
+{
+    return {std::make_shared< InstanceInStructImpl >( )};
 }
 
 InstanceInStruct::SelfHolder
-InstanceInStruct::create_null_in_struct() {
-    return {std::shared_ptr<InstanceInStructImpl>()};
+InstanceInStruct::create_null_in_struct( )
+{
+    return {std::shared_ptr< InstanceInStructImpl >( )};
 }
 
 InstanceInStruct::NotNullSelfHolder
-InstanceInStruct::create_in_not_null_struct() {
-    return {std::make_shared<InstanceInStructImpl>()};
+InstanceInStruct::create_in_not_null_struct( )
+{
+    return {std::make_shared< InstanceInStructImpl >( )};
 }
 
 InstanceInStruct::NotNullSelfHolder
-InstanceInStruct::create_in_empty_not_null_struct() {
-    return {std::shared_ptr<InstanceInStructImpl>()};
+InstanceInStruct::create_in_empty_not_null_struct( )
+{
+    return {std::shared_ptr< InstanceInStructImpl >( )};
 }
 
-}
+}  // namespace test

@@ -27,9 +27,8 @@ interface HelloWorldAttributes {
     }
 
     public typedef HelloWorldAttributes is undefined
-    
-    array StringArray of String
 
+    array StringArray of String
 
     struct ExampleStruct {
         Double value

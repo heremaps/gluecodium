@@ -46,6 +46,5 @@ HelloWorldErrors::hello_world_method_with_error_and_string( const bool error_fla
     {
         return std::string{"Hello!"};
     }
-    }
 }
-
+}  // namespace hello

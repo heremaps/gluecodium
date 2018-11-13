@@ -59,13 +59,13 @@ public:
      * register listener to calculateInBackground results notifications
      */
     void register_listener(
-        const ::std::shared_ptr< ::hello::CalculatorListener >& listener ) override;
+        const ::std::shared_ptr<::hello::CalculatorListener >& listener ) override;
 
     /**
      * unregister listener to calculateInBackground results notifications
      */
     void unregister_listener(
-        const ::std::shared_ptr< ::hello::CalculatorListener >& listener ) override;
+        const ::std::shared_ptr<::hello::CalculatorListener >& listener ) override;
 
     /**
      * removes all listeners to calculateInBackground results notifications
@@ -78,17 +78,17 @@ public:
      */
     void calculate( const ::hello::Calculator::Position& from_position,
                     const ::hello::Calculator::Position& to_position,
-                    const ::std::shared_ptr< ::hello::CalculatorListener >& listener ) override;
+                    const ::std::shared_ptr<::hello::CalculatorListener >& listener ) override;
 
     /**
-     * start computing the Euclidean distance between two positions and notify the registered
-     *     listeners when it is done
+     * start computing the Euclidean distance between two positions and notify the
+     * registered listeners when it is done
      */
     void calculate_in_background( const ::hello::Calculator::Position& from_position,
-                                const ::hello::Calculator::Position& to_position ) override;
+                                  const ::hello::Calculator::Position& to_position ) override;
 
 private:
-    ::std::vector< ::std::shared_ptr< ::hello::CalculatorListener > > m_listeners;
+    ::std::vector<::std::shared_ptr<::hello::CalculatorListener > > m_listeners;
     ::std::mutex m_listeners_mutex;
 };
-}
+}  // namespace hello

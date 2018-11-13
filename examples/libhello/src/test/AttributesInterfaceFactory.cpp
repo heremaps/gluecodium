@@ -18,16 +18,16 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include <memory>
+#include "test/AttributesInterfaceFactory.h"
 #include "AttributesInterfaceImpl.h"
 #include "test/AttributesInterface.h"
-#include "test/AttributesInterfaceFactory.h"
+#include <memory>
 
-namespace test {
-
+namespace test
+{
 ::std::shared_ptr< AttributesInterface >
 AttributesInterfaceFactory::create_attributes_interface( )
 {
     return ::std::make_shared< AttributesInterfaceImpl >( );
 }
-}
+}  // namespace test

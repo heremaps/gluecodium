@@ -18,13 +18,13 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include <memory>
+#include "test/InstancesFactory.h"
 #include "Instances.h"
 #include "Interfaces.h"
-#include "test/InstancesFactory.h"
+#include <memory>
 
-namespace test {
-
+namespace test
+{
 ::std::shared_ptr< SimpleInstantiableOne >
 InstancesFactory::create_simple_instantiable_one( )
 {
@@ -73,4 +73,4 @@ InstancesFactory::create_nested_interface_two( )
     return ::std::make_shared< NestedInterfaceTwoImpl >( );
 }
 
-}
+}  // namespace test

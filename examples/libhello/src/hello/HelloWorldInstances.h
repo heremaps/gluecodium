@@ -18,8 +18,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "hello/SimpleInstantiable.h"
 #include "hello/NestedInstantiable.h"
+#include "hello/SimpleInstantiable.h"
 
 namespace hello
 {
@@ -36,14 +36,13 @@ private:
 class HelloWorldNestedInstantiable : public NestedInstantiable
 {
 public:
-    HelloWorldNestedInstantiable(
-        const ::std::shared_ptr< ::hello::SimpleInstantiable >& instance );
+    HelloWorldNestedInstantiable( const ::std::shared_ptr<::hello::SimpleInstantiable >& instance );
 
     void set_instantiable(
-        const ::std::shared_ptr< ::hello::SimpleInstantiable >& instance ) override;
-    ::std::shared_ptr< ::hello::SimpleInstantiable > get_instantiable( ) override;
+        const ::std::shared_ptr<::hello::SimpleInstantiable >& instance ) override;
+    ::std::shared_ptr<::hello::SimpleInstantiable > get_instantiable( ) override;
 
 private:
-    ::std::shared_ptr< ::hello::SimpleInstantiable > m_instance = nullptr;
+    ::std::shared_ptr<::hello::SimpleInstantiable > m_instance = nullptr;
 };
-}
+}  // namespace hello

@@ -20,8 +20,8 @@
 
 #include "test/EquatableInterface.h"
 
-namespace test {
-
+namespace test
+{
 bool
 EquatableInterface::are_equal( const EquatableInterface::AnotherEquatableStruct& lhs,
                                const EquatableInterface::AnotherEquatableStruct& rhs )
@@ -35,4 +35,4 @@ EquatableInterface::are_equal( const EquatableStruct& lhs, const EquatableStruct
     return lhs == rhs;
 }
 
-}
+}  // namespace test

@@ -25,7 +25,6 @@
 
 namespace test
 {
-
 class GrandchildClassImpl : public GrandchildClass, public ChildClassImpl
 {
 public:
@@ -37,7 +36,7 @@ public:
     void set_lucky_number( const int32_t number ) override;
     void do_something( const std::string& value ) override;
     void do_something_to_child_class(
-        const ::std::shared_ptr< ::test::ChildClass >& input ) override;
+        const ::std::shared_ptr<::test::ChildClass >& input ) override;
 };
 
-}
+}  // namespace test

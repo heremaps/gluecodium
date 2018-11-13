@@ -25,8 +25,9 @@ namespace test
 void
 Teacher::talk_to_parents( const std::vector< std::shared_ptr< ParentListener > >& parents )
 {
-    for (const auto& parent: parents) {
+    for ( const auto& parent : parents )
+    {
         parent->listen( );
     }
 }
-}
+}  // namespace test

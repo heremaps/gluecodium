@@ -29,7 +29,7 @@ flip_enum( const ::test::Enums::InternalError val )
                ? ::test::Enums::InternalError::ERROR_FATAL
                : ::test::Enums::InternalError::ERROR_NONE;
 }
-}
+}  // namespace
 
 namespace test
 {
@@ -51,4 +51,4 @@ Enums::create_struct_with_enum_inside( const ::test::Enums::InternalError type,
 {
     return {flip_enum( type ), message};
 }
-}
+}  // namespace test

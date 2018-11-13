@@ -20,39 +20,43 @@
 
 #pragma once
 
-#include <system_error>
 #include <string>
+#include <system_error>
 #include <vector>
 
 namespace external
 {
 namespace even_more_external
 {
-enum class AlienEnum {
+enum class AlienEnum
+{
     Foo,
     Bar
 };
 
-enum class AlienErrors {
+enum class AlienErrors
+{
     NONE,
     BOOM
 };
 
 /// An enum that intentionally violates naming conventions for its values.
-enum class VeryAlienEnum {
+enum class VeryAlienEnum
+{
     One_Value,
     Another_Value
 };
 
 struct AlienStructure
 {
-   int32_t int_field;
+    int32_t int_field;
 };
 
 std::error_code make_error_code( AlienErrors value ) noexcept;
-}
+}  // namespace even_more_external
 
-enum class Very_External_Enum {
+enum class Very_External_Enum
+{
     FOO,
     BAR
 };
@@ -101,7 +105,7 @@ public:
 
     virtual void some_Method( uint8_t ) = 0;
 };
-}
+}  // namespace external
 
 namespace test
 {
@@ -122,10 +126,12 @@ public:
 
     virtual void some_Method( uint8_t ) = 0;
 };
-}
+}  // namespace test
 
 namespace std
 {
 template <>
-struct is_error_code_enum < external::even_more_external::AlienErrors > : public std::true_type { };
-}
+struct is_error_code_enum< external::even_more_external::AlienErrors > : public std::true_type
+{
+};
+}  // namespace std
