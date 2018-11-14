@@ -56,6 +56,14 @@ public class MapsTest {
   }
 
   @Test
+  public void methodWithMaps_nullMap() {
+    Map<Integer, String> resultsMap = Maps.methodWithMap(null);
+
+    assertNotNull(resultsMap);
+    assertEquals(0, resultsMap.size());
+  }
+
+  @Test
   public void methodWithMaps_multipleItems() {
     Map<Integer, String> intStringMap = new HashMap<>();
     intStringMap.put(11, LOWERCASE_VALUE_1);
