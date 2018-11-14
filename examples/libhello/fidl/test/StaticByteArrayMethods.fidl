@@ -68,4 +68,16 @@ interface StaticByteArrayMethods {
             ByteBuffer outputBuffer
         }
     }
+
+    <** @description:
+    Example static test method which takes a byte buffer and checks whether it is null
+    **>
+    method isByteBufferNull {
+        in {
+            ByteBuffer input
+        }
+        out {
+            Boolean result
+        }
+    }
 }
