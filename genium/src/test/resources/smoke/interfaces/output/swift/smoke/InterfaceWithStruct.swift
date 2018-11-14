@@ -20,7 +20,7 @@ internal func getRef(_ ref: InterfaceWithStruct?, owning: Bool = true) -> RefHol
     }
     functions.smoke_InterfaceWithStruct_innerStructMethod = {(swift_class_pointer, inputStruct) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InterfaceWithStruct
-        return get_pointer((swift_class.innerStructMethod(inputStruct: InnerStruct(cInnerStruct: inputStruct))!).convertToCType())
+        return swift_class.innerStructMethod(inputStruct: InnerStruct(cInnerStruct: inputStruct)).convertToCType()
     }
     let proxy = smoke_InterfaceWithStruct_createProxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_InterfaceWithStruct_release) : RefHolder(proxy)

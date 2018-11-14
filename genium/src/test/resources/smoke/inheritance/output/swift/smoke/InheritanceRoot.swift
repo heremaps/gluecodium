@@ -22,6 +22,18 @@ internal func getRef(_ ref: InheritanceRoot?, owning: Bool = true) -> RefHolder 
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceRoot
         return swift_class.rootMethod()
     }
+    functions.smoke_InheritanceRoot_rootAttribute_get = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceRoot
+        return swift_class.rootAttribute.convertToCType()
+    }
+    functions.smoke_InheritanceRoot_rootAttribute_set = {(swift_class_pointer, newValue) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceRoot
+        defer {
+            std_string_release(newValue)
+        }
+        return swift_class.rootAttribute = String(data: Data(bytes: std_string_data_get(newValue),
+                                                count: Int(std_string_size_get(newValue))), encoding: .utf8)!
+    }
     let proxy = smoke_InheritanceRoot_createProxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_InheritanceRoot_release) : RefHolder(proxy)
 }
