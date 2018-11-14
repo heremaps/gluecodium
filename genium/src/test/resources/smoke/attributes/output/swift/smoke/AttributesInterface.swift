@@ -18,6 +18,14 @@ internal func getRef(_ ref: AttributesInterface?, owning: Bool = true) -> RefHol
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
+    functions.smoke_AttributesInterface_structAttribute_get = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! AttributesInterface
+        return swift_class.structAttribute.convertToCType()
+    }
+    functions.smoke_AttributesInterface_structAttribute_set = {(swift_class_pointer, newValue) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! AttributesInterface
+        return swift_class.structAttribute = ExampleStruct(cExampleStruct: newValue)
+    }
     let proxy = smoke_AttributesInterface_createProxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_AttributesInterface_release) : RefHolder(proxy)
 }

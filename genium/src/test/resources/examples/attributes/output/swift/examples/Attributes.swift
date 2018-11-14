@@ -18,6 +18,18 @@ internal func getRef(_ ref: Attributes?, owning: Bool = true) -> RefHolder {
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
+    functions.examples_Attributes_builtInTypeAttribute_get = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Attributes
+        return swift_class.builtInTypeAttribute
+    }
+    functions.examples_Attributes_builtInTypeAttribute_set = {(swift_class_pointer, newValue) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Attributes
+        return swift_class.builtInTypeAttribute = newValue
+    }
+    functions.examples_Attributes_readonlyAttribute_get = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Attributes
+        return swift_class.readonlyAttribute
+    }
     let proxy = examples_Attributes_createProxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_Attributes_release) : RefHolder(proxy)
 }
