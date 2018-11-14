@@ -175,27 +175,5 @@
    fun:allocate_stack
    fun:pthread_create@@GLIBC_2.2.5
    fun:_dispatch_global_queue_poke_slow
-   fun:$S8Dispatch0A5QueueC5async5group3qos5flags7executeyAA0A5GroupCSg_AA0A3QoSVAA0A13WorkItemFlagsVyyXBtF
-   fun:$S9testhello23StructWithInstanceTestsC08testNulld5InNotgB0yyF
    fun:*
-}
-{
-   swiftLeakStuckThreadFromFatalErrorTest2
-
-   Memcheck:Leak
-   match-leak-kinds: possible
-   fun:calloc
-   fun:allocate_dtv
-   fun:_dl_allocate_tls
-   fun:allocate_stack
-   fun:pthread_create@@GLIBC_2.2.5
-   fun:_dispatch_global_queue_poke_slow
-   fun:_dispatch_epoll_init
-   fun:dispatch_once_f
-   fun:_dispatch_event_loop_poke
-   fun:_dispatch_queue_resume_finalize_activation
-   fun:__CFRunLoopRun
-   fun:CFRunLoopRunSpecific
-   fun:$S10Foundation7RunLoopC3run5untilyAA4DateV_tF
-   fun:$S6XCTest0A4CaseC19waitForExpectations7timeout4file4line7handlerySd_s12StaticStringVSiy10Foundation7NSErrorCSgcSgtF
 }
