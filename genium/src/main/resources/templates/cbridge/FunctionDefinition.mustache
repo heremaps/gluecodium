@@ -58,8 +58,8 @@
 }}{{+delegateConversion}}{{#switch mappedType.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_STRING"}}std::string({{name}}){{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT" break=false}}{{/case}}{{!!
-    }}{{#case "CLASS"}}*get_pointer<{{mappedType.name}}>({{name}}){{/case}}{{!!
+    }}{{#case "STRUCT"}}*get_pointer<{{mappedType.name}}>({{name}}){{/case}}{{!!
+    }}{{#case "CLASS"}}{{name}} ? *get_pointer<{{mappedType.name}}>({{name}}) : nullptr{{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<{{mappedType.name}}>({{name}}){{/case}}{{!!
     }}{{#case "MAP" break=false}}{{/case}}{{!!
     }}{{#case "ARRAY"}}*get_pointer<{{mappedType.baseApi}}>({{name}}){{/case}}{{!!

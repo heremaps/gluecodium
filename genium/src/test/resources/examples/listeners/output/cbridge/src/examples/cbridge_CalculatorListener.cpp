@@ -50,6 +50,6 @@ _baseRef examples_CalculatorListener_createProxy(examples_CalculatorListener_Fun
 }
 
 const void* examples_CalculatorListener_get_swift_object_from_cache(_baseRef handle) {
-    return examples_CalculatorListenerProxy::get_swift_object(get_pointer<std::shared_ptr<::examples::CalculatorListener>>(handle)->get());
+    return handle ? examples_CalculatorListenerProxy::get_swift_object(get_pointer<std::shared_ptr<::examples::CalculatorListener>>(handle)->get()) : nullptr;
 }
 
