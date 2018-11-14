@@ -33,4 +33,8 @@ define GeniumExtensions for interface test.StaticByteArrayMethods
     method concatenateByteBuffers {
         Static = true
     }
+
+    method isByteBufferNull {
+        Static = true
+    }
 }

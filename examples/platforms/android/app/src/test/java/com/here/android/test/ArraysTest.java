@@ -87,6 +87,14 @@ public class ArraysTest {
   }
 
   @Test
+  public void reverseStringArray_useNull() {
+    List<String> resultsList = Arrays.reverseStringArray(null);
+
+    assertNotNull(resultsList);
+    assertEquals(0, resultsList.size());
+  }
+
+  @Test
   public void methodWithInlineArray() {
     List<Short> shortList = java.util.Arrays.asList(SHORT_ITEM_1, SHORT_ITEM_2);
 

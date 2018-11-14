@@ -50,4 +50,11 @@ StaticByteArrayMethods::concatenate_byte_buffers(
     return output;
 }
 
+bool
+StaticByteArrayMethods::is_byte_buffer_null(
+    const std::shared_ptr< std::vector< uint8_t > >& input_buffer )
+{
+    return input_buffer == nullptr;
+}
+
 }  // namespace test

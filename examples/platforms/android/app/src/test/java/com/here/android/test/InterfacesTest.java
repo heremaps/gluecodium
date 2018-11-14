@@ -122,4 +122,13 @@ public class InterfacesTest {
     NestedInterfaceTwo selfInterface = nestedInstance.getSelfInterface();
     assertEquals(INSTANCE_ONE_STRING, selfInterface.getInterfaceOne().getStringValue());
   }
+
+  @Test
+  public void setSelfInterfaceNull() {
+    NestedInterfaceTwo nestedInstance = InstancesFactory.createNestedInterfaceTwo();
+
+    nestedInstance.setSelfInterface(null);
+
+    assertNull(nestedInstance.getSelfInterface());
+  }
 }

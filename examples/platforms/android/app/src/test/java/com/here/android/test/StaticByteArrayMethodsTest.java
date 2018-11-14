@@ -89,4 +89,12 @@ public final class StaticByteArrayMethodsTest {
     // Assert
     assertEquals("bytearray", new String(output));
   }
+
+  @Test
+  public void checkByteBufferNull() {
+
+    boolean result = StaticByteArrayMethods.isByteBufferNull(null);
+
+    assertTrue(result);
+  }
 }
