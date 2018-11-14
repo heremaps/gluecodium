@@ -53,7 +53,7 @@ _baseRef {{name}}_createProxy({{functionTableName}} functionTable) {
 }
 
 const void* {{name}}_get_swift_object_from_cache(_baseRef handle) {
-    return {{name}}Proxy::get_swift_object(get_pointer<{{selfType}}>(handle)->get());
+    return handle ? {{name}}Proxy::get_swift_object(get_pointer<{{selfType}}>(handle)->get()) : nullptr;
 }
 
 {{+baseApiParameter}}{{#switch mappedType.typeCategory.toString}}{{!!

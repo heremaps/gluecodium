@@ -5,6 +5,8 @@
   + Added @NonNull annotation to generated Java methods returning a struct (only works with Android
     flavor of Java generated code).
   + Returning instances from Java callbacks when these are called from C++ now works.
+- Bug fixes:
+  + Fixed an issue with passing "nil" as a value for Swift instances.
 
 ## 3.14.2
 - Release date: 2018-11-12

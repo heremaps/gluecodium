@@ -43,7 +43,7 @@ void smoke_CalculatorListener_onCalculationResultMap(_baseRef _instance, _baseRe
     return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_map(*get_pointer<std::unordered_map<std::string, double>>(calculationResults));
 }
 void smoke_CalculatorListener_onCalculationResultInstance(_baseRef _instance, _baseRef calculationResult) {
-    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_instance(*get_pointer<std::shared_ptr<::smoke::CalculationResult>>(calculationResult));
+    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_instance(calculationResult ? *get_pointer<std::shared_ptr<::smoke::CalculationResult>>(calculationResult) : nullptr);
 }
 
 class smoke_CalculatorListenerProxy : public std::shared_ptr<::smoke::CalculatorListener>::element_type, public CachedProxyBase<smoke_CalculatorListenerProxy> {
@@ -88,7 +88,7 @@ _baseRef smoke_CalculatorListener_createProxy(smoke_CalculatorListener_FunctionT
 }
 
 const void* smoke_CalculatorListener_get_swift_object_from_cache(_baseRef handle) {
-    return smoke_CalculatorListenerProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle)->get());
+    return handle ? smoke_CalculatorListenerProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle)->get()) : nullptr;
 }
 _baseRef smoke_CalculatorListener_NamedCalculationResults_create() {
     return reinterpret_cast<_baseRef>( new std::unordered_map<std::string, double>() );

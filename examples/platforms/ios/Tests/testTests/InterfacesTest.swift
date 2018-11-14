@@ -123,6 +123,12 @@ class InterfacesTests: XCTestCase {
         XCTAssertEqual(complexInterface.getInterfaceTwo()!.getStringValue(), "World")
     }
 
+    func testPassingNilInterface() {
+        let nestedTwo = InstancesFactory.createNestedInterfaceTwo()!
+        nestedTwo.setSelfInterface(selfInterface: nil)
+        XCTAssertNil(nestedTwo.getSelfInterface())
+    }
+
     static var allTests = [
         ("testSimpleInterfaceCreation", testSimpleInterfaceCreation),
         ("testNestedInterfaceCreation", testNestedInterfaceCreation),
@@ -131,6 +137,7 @@ class InterfacesTests: XCTestCase {
         ("testSetSameTypeInterfaces", testSetSameTypeInterfaces),
         ("testSetSameTypeInterfaces_identicalInterface", testSetSameTypeInterfaces_identicalInterface),
         ("testGetNestedInterface", testGetNestedInterface),
-        ("testSetMultipleTypeInterface", testSetMultipleTypeInterface)
+        ("testSetMultipleTypeInterface", testSetMultipleTypeInterface),
+        ("testPassingNilInterface", testPassingNilInterface)
     ]
 }
