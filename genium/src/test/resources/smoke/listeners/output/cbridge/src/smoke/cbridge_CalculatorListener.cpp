@@ -59,7 +59,7 @@ public:
     void on_calculation_result(double calculationResult) override {
         return mFunctions.smoke_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);
     }
-    void on_calculation_result_const(double calculationResult) override {
+    void on_calculation_result_const(double calculationResult) const override {
         return mFunctions.smoke_CalculatorListener_onCalculationResultConst(mFunctions.swift_pointer, calculationResult);
     }
     void on_calculation_result_struct(const ::smoke::CalculatorListener::ResultStruct& calculationResult) override {
