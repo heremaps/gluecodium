@@ -47,6 +47,10 @@ class ListenersTests: XCTestCase {
             print(message)
         }
 
+        public func onConstMessage(message: String) {
+            print(message)
+        }
+
         public func onStructMessage(message: StringStruct) {
             print(message.stringField)
         }
@@ -179,6 +183,10 @@ class ListenersTests: XCTestCase {
         DummyLogger.relayMessage(listener: MessageListener(), message: "Hi!")
     }
 
+    func testStringConstListenerDoesNotCrash() {
+        DummyLogger.relayConstMessage(listener: MessageListener(), message: "Hi!")
+    }
+
     func testComplexListener() {
         class SwiftComplexListener: ComplexListener {
             var length: Double = 0
@@ -228,6 +236,7 @@ class ListenersTests: XCTestCase {
         ("testRegisterTwiceUnregisterTwiceCleanup", testRegisterTwiceUnregisterTwiceCleanup),
         ("testRegisterUnregisterTwiceCleanup", testRegisterUnregisterTwiceCleanup),
         ("testStringListenerDoesNotCrash", testStringListenerDoesNotCrash),
+        ("testStringConstListenerDoesNotCrash", testStringConstListenerDoesNotCrash),
         ("testComplexListener", testComplexListener)
     ]
 }

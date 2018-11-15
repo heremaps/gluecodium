@@ -171,7 +171,8 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
                     : null)
             .delegateCallIncludes(
                 Collections.singleton(cppIncludeResolver.resolveInclude(francaMethod)))
-            .functionName(cppMethod.name);
+            .functionName(cppMethod.name)
+            .isConst(deploymentModel.isConst(francaMethod));
 
     if (!deploymentModel.isStatic(francaMethod)) {
       CppTypeInfo classInfo =

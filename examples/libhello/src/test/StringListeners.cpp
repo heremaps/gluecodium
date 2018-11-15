@@ -42,4 +42,11 @@ DummyLogger::relay_message_as_struct( const ::std::shared_ptr<::test::StringList
     listener->on_struct_message( {message} );
 }
 
+void
+DummyLogger::relay_const_message( const ::std::shared_ptr<::test::StringListener >& listener,
+                                  const ::std::string& message )
+{
+    listener->on_const_message( message );
+}
+
 }  // namespace test

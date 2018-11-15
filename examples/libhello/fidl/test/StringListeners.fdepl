@@ -23,6 +23,10 @@ import "./StringListeners.fidl"
 define GeniumExtensions for interface test.StringListener
 {
     IsInterface = true
+
+    method onConstMessage {
+        Const = true
+    }
 }
 
 define GeniumExtensions for interface test.DummyLogger
@@ -32,6 +36,10 @@ define GeniumExtensions for interface test.DummyLogger
     }
 
     method relayMessageAsStruct {
+        Static = true
+    }
+
+    method relayConstMessage {
         Static = true
     }
 }

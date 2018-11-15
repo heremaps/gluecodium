@@ -244,6 +244,17 @@ public final class CBridgeModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaMethodReadsIsConst() {
+    when(deploymentModel.isConst(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    CFunction function = modelBuilder.getFinalResult(CFunction.class);
+    assertNotNull(function);
+    assertTrue(function.isConst);
+  }
+
+  @Test
   public void finishBuildingCreatesCInterfaceForFInterface() {
     CFunction function = CFunction.builder("SomeName").nestedSpecifier("foo").build();
     contextStack.injectResult(function);

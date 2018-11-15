@@ -40,6 +40,13 @@ interface StringListener {
             StringStruct message
         }
     }
+
+    <**@description: The method to call on the listener when the log message is output **>
+    method onConstMessage {
+        in {
+            String message
+        }
+    }
 }
 
 interface DummyLogger {
@@ -54,6 +61,14 @@ interface DummyLogger {
 
     <**@description: Send the message to our Mobile overlords through the registered listeners **>
     method relayMessageAsStruct {
+        in {
+            StringListener.StringListener listener
+            String message
+        }
+    }
+
+    <**@description: Send the message to our Mobile overlords through the registered listeners **>
+    method relayConstMessage {
         in {
             StringListener.StringListener listener
             String message
