@@ -60,37 +60,18 @@ class StructWithInstanceTests: XCTestCase {
         XCTAssertNotNil(structNotNull.mySelf)
     }
 
-    func testNullInstanceInNotNullStruct() {
-        var fatalErrorHappened = false
-        let expectation = self.expectation(description: "expectingFatalError")
-        FatalErrorHelper.replaceFatalError { _, _, _ in
-            fatalErrorHappened = true
-            expectation.fulfill()
-            self.unreachable()
-        }
-
-        DispatchQueue.global(qos: .userInitiated).async {
-            hello.InstanceInStruct.createInEmptyNotNullStruct()
-        }
-
-        waitForExpectations(timeout: 10) { _ in
-            XCTAssertTrue(fatalErrorHappened)
-            FatalErrorHelper.restoreFatalError()
-        }
-    }
-
-    private func unreachable() -> Never {
-        repeat {
-            RunLoop.current.run()
-        } while (true)
-    }
+// TODO: APIGEN-1427 add infrastructure for catching fatalError(), rewrite this test and reenable it
+//    func testNullInstanceInNotNullStruct() {
+//        let emptyStruct = hello.InstanceInStruct.createInEmptyNotNullStruct()
+//        XCTAssertNil(emptyStruct)
+//    }
 
     static var allTests = [
         ("testAssignInstanceToStruct", testAssignInstanceToStruct),
         ("testCopyInstanceInStruct", testCopyInstanceInStruct),
         ("testCopyInstanceInStructFromMethod", testCopyInstanceInStructFromMethod),
         ("testNullInstanceInStruct", testNullInstanceInStruct),
-        ("testInstanceInNotNullStruct", testInstanceInNotNullStruct),
-        ("testNullInstanceInNotNullStruct", testNullInstanceInNotNullStruct)
+        ("testInstanceInNotNullStruct", testInstanceInNotNullStruct)/*,
+        ("testNullInstanceInNotNullStruct", testNullInstanceInNotNullStruct)*/
     ]
 }
