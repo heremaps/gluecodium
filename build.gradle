@@ -52,11 +52,7 @@ allprojects {
     }
 
     javadoc {
-        options.docletpath = configurations.umljavadoclet.files.asType(List)
-        options.doclet = "info.leadinglight.umljavadoclet.UmlJavaDoclet"
-        options.tagletPath = configurations.javadocTaglets.files as List
-        options.taglets = ["org.jdrupes.taglets.plantUml.Taglet"]
-        options.overview = "../doc/overview.html"
+        options.overview = "../docs/overview.html"
         options.tags = [
                 "generated:a:Generated",
                 "implNote:a:Implementation note",
