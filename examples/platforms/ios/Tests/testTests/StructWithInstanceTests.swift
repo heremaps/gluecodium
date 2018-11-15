@@ -60,18 +60,11 @@ class StructWithInstanceTests: XCTestCase {
         XCTAssertNotNil(structNotNull.mySelf)
     }
 
-// TODO: APIGEN-1427 add infrastructure for catching fatalError(), rewrite this test and reenable it
-//    func testNullInstanceInNotNullStruct() {
-//        let emptyStruct = hello.InstanceInStruct.createInEmptyNotNullStruct()
-//        XCTAssertNil(emptyStruct)
-//    }
-
     static var allTests = [
         ("testAssignInstanceToStruct", testAssignInstanceToStruct),
         ("testCopyInstanceInStruct", testCopyInstanceInStruct),
         ("testCopyInstanceInStructFromMethod", testCopyInstanceInStructFromMethod),
         ("testNullInstanceInStruct", testNullInstanceInStruct),
-        ("testInstanceInNotNullStruct", testInstanceInNotNullStruct)/*,
-        ("testNullInstanceInNotNullStruct", testNullInstanceInNotNullStruct)*/
+        ("testInstanceInNotNullStruct", testInstanceInNotNullStruct)
     ]
 }
