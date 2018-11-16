@@ -1,6 +1,9 @@
 # Genium project Release Notes
 
 ## Unreleased
+- Features:
+  + Returning values from Swift or Java callbacks when these are called from C++ now works for all
+    types. It also works for callbacks that are Swift properties.
 - Bug fixes:
   + Fixed documentation comments handling for Java interfaces and Swift protocols.
 

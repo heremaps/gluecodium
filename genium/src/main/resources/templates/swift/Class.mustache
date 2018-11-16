@@ -57,7 +57,7 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = false) -> RefHolder {
 {{/typedefs}}
 {{#properties}}
 {{prefixPartial "swift/Comment" "    "}}
-    var {{name}}: {{type}} { get {{^readonly}}set {{/readonly}}}
+    var {{name}}: {{type.publicName}}{{#if type.optional}}?{{/if}} { get {{^readonly}}set {{/readonly}}}
 {{/properties}}
 {{#methods}}{{prefixPartial 'swift/MethodSignature' '    '}}
 {{/methods}}

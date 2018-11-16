@@ -36,12 +36,6 @@ MessageDeliveryImpl::get_packed_message( const std::shared_ptr< ListenerWithRetu
 }
 
 std::string
-MessageDeliveryImpl::get_attributed_message( const std::shared_ptr< ListenerWithReturn >& envelope )
-{
-    return envelope->get_attributed_message( );
-}
-
-std::string
 MessageDeliveryImpl::get_structured_message( const std::shared_ptr< ListenerWithReturn >& envelope )
 {
     return envelope->get_structured_message( ).message;
