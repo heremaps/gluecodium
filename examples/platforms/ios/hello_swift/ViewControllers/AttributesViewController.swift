@@ -97,7 +97,7 @@ class AttributesViewController: UIViewController, UIPickerViewDataSource, UIPick
                 String(format: AttributesLabels.getStructAttrHTML, HTML.renderStruct(readValue)), baseURL: nil)
         case .setStructAttribute:
             let newValue = Double(input.text!)!
-            testClass.structAttribute = HelloWorldAttributes.ExampleStruct(value: newValue)
+            testClass.structAttribute = HelloWorldAttributes.ExampleStruct(value: newValue, intValue: [])
             result.loadHTMLString(String(format: AttributesLabels.setStructAttrHTML, newValue), baseURL: nil)
         }
     }
