@@ -38,10 +38,6 @@ class ListenersReturnValuesTests: XCTestCase {
               return TestMessagePackage()
           }
 
-          var attributedMessage: String {
-              return "Works"
-          }
-
           public func getStructuredMessage() -> MessageStruct {
               return MessageStruct(message: "Works")
           }
@@ -73,12 +69,6 @@ class ListenersReturnValuesTests: XCTestCase {
         let envelope = TestListener()
         let delivery = MessageDelivery.createMe()!
         XCTAssertEqual("Works", delivery.getPackedMessage(envelope: envelope))
-    }
-
-    func testAttributedReturn() {
-        let envelope = TestListener()
-        let delivery = MessageDelivery.createMe()!
-        XCTAssertEqual("Works", delivery.getAttributedMessage(envelope: envelope))
     }
 
     func testStructuredReturn() {
@@ -114,7 +104,6 @@ class ListenersReturnValuesTests: XCTestCase {
     static var allTests = [
         ("testStringReturn", testStringReturn),
         ("testPackageReturn", testPackageReturn),
-        ("testAttributedReturn", testAttributedReturn),
         ("testStructuredReturn", testStructuredReturn),
         ("testEnumeratedReturn", testEnumeratedReturn),
         ("testArrayedReturn", testArrayedReturn),

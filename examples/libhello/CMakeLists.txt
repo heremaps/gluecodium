@@ -234,9 +234,13 @@ feature(ComplexListeners cpp android swift SOURCES
 feature(ListenersWithReturnValues cpp android swift SOURCES
     src/test/ListenersReturnValues.cpp
     src/test/ListenersReturnValues.h
+    src/test/ListenerWithAttributes.cpp
+    src/test/ListenerWithAttributes.h
 
     fidl/test/ListenersReturnValues.fdepl
     fidl/test/ListenersReturnValues.fidl
+    fidl/test/ListenerWithAttributes.fdepl
+    fidl/test/ListenerWithAttributes.fidl
 )
 
 feature(Arrays cpp android swift SOURCES

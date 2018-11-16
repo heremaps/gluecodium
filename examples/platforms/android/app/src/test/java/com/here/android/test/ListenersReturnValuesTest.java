@@ -59,11 +59,6 @@ public class ListenersReturnValuesTest {
     }
 
     @Override
-    public String getAttributedMessage() {
-      return "Works";
-    }
-
-    @Override
     public MessageStruct getStructuredMessage() {
       return new MessageStruct("Works");
     }
@@ -105,15 +100,6 @@ public class ListenersReturnValuesTest {
     MessageDelivery delivery = MessageDelivery.createMe();
 
     assertEquals("Works", delivery.getPackedMessage(envelope));
-  }
-
-  @Test
-  public void attributeReturnWorks() {
-    ListenerWithReturn envelope = new TestListener();
-
-    MessageDelivery delivery = MessageDelivery.createMe();
-
-    assertEquals("Works", delivery.getAttributedMessage(envelope));
   }
 
   @Test

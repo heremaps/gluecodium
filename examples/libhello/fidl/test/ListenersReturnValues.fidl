@@ -23,16 +23,16 @@ interface ListenerWithReturn {
 
     public typedef ListenerWithReturn is undefined
 
-    struct MessageStruct {
+    public struct MessageStruct {
         String message
     }
 
-    enumeration MessageEnum {
+    public enumeration MessageEnum {
         NO
         YES
     }
 
-    map MessageMap { Int8 to String }
+    public map MessageMap { Int8 to String }
 
     method getMessage {
         out {
@@ -45,8 +45,6 @@ interface ListenerWithReturn {
             MessagePackage.MessagePackage message
         }
     }
-
-    attribute String attributedMessage readonly
 
     method getStructuredMessage {
         out {
@@ -103,15 +101,6 @@ interface MessageDelivery {
     }
 
     method getPackedMessage {
-        in {
-            ListenerWithReturn.ListenerWithReturn envelope
-        }
-        out {
-            String message
-        }
-    }
-
-    method getAttributedMessage {
         in {
             ListenerWithReturn.ListenerWithReturn envelope
         }
