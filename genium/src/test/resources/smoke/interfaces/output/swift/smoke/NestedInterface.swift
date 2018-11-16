@@ -66,7 +66,7 @@ internal func getRef(_ ref: NestedInterface?, owning: Bool = true) -> RefHolder 
     }
     functions.smoke_NestedInterface_makeMoreExternal_withEnum = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
-        return swift_class.makeMoreExternal(input: ExternalInterface.SomeEnum(rawValue: input)!)
+        return swift_class.makeMoreExternal(input: ExternalInterface.SomeEnum(rawValue: input)!).rawValue
     }
     let proxy = smoke_NestedInterface_createProxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_NestedInterface_release) : RefHolder(proxy)

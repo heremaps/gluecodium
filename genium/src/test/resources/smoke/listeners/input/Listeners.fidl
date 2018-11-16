@@ -63,7 +63,7 @@ interface CalculatorListener {
             CalculationResult.CalculationResult calculationResult
         }
     }
- }
+}
 
 interface Calculator {
 
