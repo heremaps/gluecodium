@@ -98,7 +98,7 @@ public protocol CommentsInterface : AnyObject {
     /// This is some very useful map.
     typealias SomeMap = [String: CommentsInterface.Usefulness]
     /// This is some very useful attribute.
-    var someAttribute: Bool { get set }
+    var someAttribute: CommentsInterface.Usefulness { get set }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
