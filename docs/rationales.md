@@ -1,11 +1,11 @@
-#Rationales for some Design decisions#
+#Rationales for some Design decisions
 
 For some design decisions the rationale might not be immediately apparent, therefore some of these
 are documented here.
 
-##Pointer equality for Interfaces##
+##Pointer equality for Interfaces
 
-###Pointer comparison in Java/Swift####
+###Pointer comparison in Java/Swift
 When a C++ object is passed from Java/Swift and later retrieved (setter/getter) the Java/Swift
 object representing it will have a different memory address, e.g. == in Java or === in Swift
 respectively will fail. This happens because the bridging code will create a new Java/Swift wrapper
@@ -14,7 +14,7 @@ generated C++ classes are agnostic to their platform bindings, there is no possi
 the Java/Swift wrapper for the lifetime of the C++ object and hence at some point memory address
 comparison would fail again.
 
-###Pointer comparison in C++###
+###Pointer comparison in C++
 A C++ object wrapped in Java/Swift will never be copied by bridging code, hence the pointer value
 stays the same.
 
