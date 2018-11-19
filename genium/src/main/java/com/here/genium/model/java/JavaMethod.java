@@ -47,9 +47,11 @@ public final class JavaMethod extends JavaAnnotatedElement {
   public final List<JavaParameter> parameters;
   public final JavaCustomType exception;
 
+  @SuppressWarnings("ParameterNumber")
   @lombok.Builder(builderClassName = "Builder", toBuilder = true)
   private JavaMethod(
       final String name,
+      final String comment,
       final JavaVisibility visibility,
       final JavaType returnType,
       final String returnComment,
@@ -57,6 +59,7 @@ public final class JavaMethod extends JavaAnnotatedElement {
       @Singular Set<MethodQualifier> qualifiers,
       @Singular List<JavaParameter> parameters) {
     super(name);
+    this.comment = comment;
     this.visibility = visibility;
     this.returnType = returnType != null ? returnType : JavaPrimitiveType.VOID;
     this.returnComment = returnComment;
