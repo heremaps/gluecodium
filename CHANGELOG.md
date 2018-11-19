@@ -1,5 +1,9 @@
 # HERE Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed documentation comments handling for Java interfaces and Swift protocols.
+
 ## 3.15.0
 - Release date: 2018-11-16
 - Features:
