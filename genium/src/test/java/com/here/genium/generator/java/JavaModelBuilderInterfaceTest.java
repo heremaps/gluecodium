@@ -312,6 +312,21 @@ public class JavaModelBuilderInterfaceTest {
     assertEquals(JavaVisibility.PACKAGE, javaInterface.visibility);
   }
 
+  @Test
+  public void finishBuildingFrancaInterfacePreservesMethodComments() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
+    javaMethod.comment = "FooComment";
+    contextStack.injectResult(javaMethod);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
+    assertNotNull(javaInterface);
+    assertFalse(javaInterface.methods.isEmpty());
+    JavaMethod resultMethod = javaInterface.methods.iterator().next();
+    assertEquals(javaMethod.comment, resultMethod.comment);
+  }
+
   // Creates: Implementation class for Java interface
 
   @Test
