@@ -79,7 +79,7 @@ public final class CppModelBuilderTest {
   private final CppComplexTypeRef cppComplexTypeRef =
       new CppComplexTypeRef.Builder(NONSENSE_NAME).build();
 
-  private final CppMethod cppMethod = new CppMethod.Builder(NONSENSE_NAME).build();
+  private final CppMethod cppMethod = new CppMethod(NONSENSE_NAME);
   private final CppValue cppValue = new CppValue(NONSENSE_NAME);
   private final CppEnum cppEnum =
       CppEnum.builder(NONSENSE_NAME).fullyQualifiedName(NONSENSE_NAME).build();
@@ -102,6 +102,8 @@ public final class CppModelBuilderTest {
 
     when(nameResolver.getName(any())).thenReturn(DUMMY_NAME);
     when(nameResolver.getFullyQualifiedName(any())).thenReturn(DUMMY_FQN);
+    when(nameResolver.getGetterName(any())).thenReturn("");
+    when(nameResolver.getSetterName(any())).thenReturn("");
 
     when(francaMethod.getInArgs()).thenReturn(new ArrayEList<>());
     when(francaTypeDef.getActualType()).thenReturn(francaTypeRef);
@@ -227,12 +229,12 @@ public final class CppModelBuilderTest {
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
-    assertTrue(resultMethod.specifiers.contains(CppMethod.Specifier.STATIC));
+    assertTrue(resultMethod.getSpecifiers().contains(CppMethod.Specifier.STATIC));
   }
 
   @Test
   public void finishBuildingFrancaMethodReadsInputParameters() {
-    CppParameter cppParameter = new CppParameter(NONSENSE_NAME, null);
+    CppParameter cppParameter = new CppParameter(NONSENSE_NAME, cppTypeRef);
     contextStack.injectResult(cppParameter);
 
     modelBuilder.finishBuilding(francaMethod);
@@ -240,7 +242,7 @@ public final class CppModelBuilderTest {
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
 
-    List<CppParameter> cppParameters = resultMethod.parameters;
+    List<CppParameter> cppParameters = resultMethod.getParameters();
     assertFalse(cppParameters.isEmpty());
     assertEquals(cppParameter, cppParameters.get(0));
   }
@@ -253,7 +255,7 @@ public final class CppModelBuilderTest {
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
-    assertEquals(cppComplexTypeRef, resultMethod.returnType);
+    assertEquals(cppComplexTypeRef, resultMethod.getReturnType());
   }
 
   @Test
@@ -264,11 +266,13 @@ public final class CppModelBuilderTest {
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
-    assertEquals(CppTypeMapper.STD_ERROR_CODE_TYPE, resultMethod.returnType);
+    assertEquals(CppTypeMapper.STD_ERROR_CODE_TYPE, resultMethod.getReturnType());
   }
 
   @Test
   public void finishBuildingInputArgumentReadsName() {
+    contextStack.injectResult(cppComplexTypeRef);
+
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
     CppParameter cppParameter = modelBuilder.getFinalResult(CppParameter.class);
@@ -289,12 +293,14 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingOutputArgument() {
+    contextStack.injectResult(cppComplexTypeRef);
+
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
     CppParameter cppParameter = modelBuilder.getFinalResult(CppParameter.class);
     assertNotNull(cppParameter);
     assertEquals(DUMMY_NAME, cppParameter.name);
-    assertTrue(cppParameter.isOutput);
+    assertTrue(cppParameter.isOutput());
   }
 
   @Test
@@ -627,7 +633,7 @@ public final class CppModelBuilderTest {
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
     assertEquals(NONSENSE_NAME, resultMethod.name);
-    assertTrue(resultMethod.qualifiers.contains(CppMethod.Qualifier.CONST));
+    assertTrue(resultMethod.getQualifiers().contains(CppMethod.Qualifier.CONST));
   }
 
   @Test
@@ -666,8 +672,8 @@ public final class CppModelBuilderTest {
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
-    assertEquals(cppComplexTypeRef, resultMethod.returnType);
-    assertTrue(resultMethod.parameters.isEmpty());
+    assertEquals(cppComplexTypeRef, resultMethod.getReturnType());
+    assertTrue(resultMethod.getParameters().isEmpty());
   }
 
   @Test
@@ -681,8 +687,8 @@ public final class CppModelBuilderTest {
     assertEquals(2, methods.size());
 
     CppMethod resultMethod = methods.get(1);
-    assertEquals(CppPrimitiveTypeRef.VOID, resultMethod.returnType);
-    assertFalse(resultMethod.parameters.isEmpty());
-    assertEquals(cppComplexTypeRef, resultMethod.parameters.get(0).type);
+    assertEquals(CppPrimitiveTypeRef.VOID, resultMethod.getReturnType());
+    assertFalse(resultMethod.getParameters().isEmpty());
+    assertEquals(cppComplexTypeRef, resultMethod.getParameters().get(0).type);
   }
 }

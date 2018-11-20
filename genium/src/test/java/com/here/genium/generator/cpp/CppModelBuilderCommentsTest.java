@@ -81,6 +81,11 @@ public class CppModelBuilderCommentsTest {
         new CppModelBuilder(contextStack, deploymentModel, typeMapper, valueMapper, nameResolver);
 
     when(CommentHelper.getDescription(any())).thenReturn(COMMENT);
+
+    when(nameResolver.getName(any())).thenReturn("");
+    when(nameResolver.getFullyQualifiedName(any())).thenReturn("");
+    when(nameResolver.getGetterName(any())).thenReturn("");
+    when(nameResolver.getSetterName(any())).thenReturn("");
   }
 
   @Test
@@ -117,11 +122,13 @@ public class CppModelBuilderCommentsTest {
 
     CppMethod cppMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(cppMethod);
-    assertEquals("foobar", cppMethod.returnComment);
+    assertEquals("foobar", cppMethod.getReturnComment());
   }
 
   @Test
   public void finishBuildingInputArgumentReadsComment() {
+    contextStack.injectResult(cppComplexTypeRef);
+
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
     CppParameter cppParameter = modelBuilder.getFinalResult(CppParameter.class);
@@ -134,6 +141,8 @@ public class CppModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingOutputArgumentReadsComment() {
+    contextStack.injectResult(cppComplexTypeRef);
+
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
     CppParameter cppParameter = modelBuilder.getFinalResult(CppParameter.class);

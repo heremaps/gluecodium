@@ -127,7 +127,7 @@ public final class CBridgeModelBuilderTest {
 
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
 
-    when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(CppMethod.builder().build());
+    when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(new CppMethod(""));
     when(cppModelbuilder.getFinalResult(CppStruct.class))
         .thenReturn(CppStruct.builder().name(STRUCT_NAME).fullyQualifiedName(STRUCT_NAME).build());
     when(swiftModelBuilder.getFinalResult(SwiftMethod.class)).thenReturn(swiftMethod);
@@ -214,7 +214,7 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesMethodWithoutParams() {
-    CppMethod cppMethod = CppMethod.builder().fullyQualifiedName(DELEGATE_NAME).build();
+    CppMethod cppMethod = new CppMethod(DELEGATE_NAME);
     when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(cppMethod);
 
     modelBuilder.finishBuilding(francaMethod);
@@ -228,7 +228,7 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesMethodWithParam() {
-    CppMethod cppMethod = CppMethod.builder().fullyQualifiedName(DELEGATE_NAME).build();
+    CppMethod cppMethod = new CppMethod(DELEGATE_NAME);
     when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(cppMethod);
     CInParameter param = new CInParameter(PARAM_NAME, new CppTypeInfo(CType.DOUBLE));
     contextStack.injectResult(param);
@@ -464,9 +464,7 @@ public final class CBridgeModelBuilderTest {
   public void finishBuildingCreatesFunctionsForAttribute() {
     CppTypeInfo classTypeInfo = new CppTypeInfo(new CType(""));
     List<CppElement> cppMethods =
-        asList(
-            new CppMethod.Builder(CPP_ATTR_GETTER_NAME).build(),
-            new CppMethod.Builder(CPP_ATTR_SETTER_NAME).build());
+        asList(new CppMethod(CPP_ATTR_GETTER_NAME), new CppMethod(CPP_ATTR_SETTER_NAME));
     when(cppModelbuilder.getFinalResults()).thenReturn(cppMethods);
 
     when(francaAttribute.isReadonly()).thenReturn(false);
@@ -492,8 +490,7 @@ public final class CBridgeModelBuilderTest {
   @Test
   public void finishBuildingCreatesFunctionForReadonlyAttribute() {
     CppTypeInfo classTypeInfo = new CppTypeInfo(new CType(""));
-    List<CppElement> cppMethods =
-        singletonList(new CppMethod.Builder(CPP_ATTR_GETTER_NAME).build());
+    List<CppElement> cppMethods = singletonList(new CppMethod(CPP_ATTR_GETTER_NAME));
     when(cppModelbuilder.getFinalResults()).thenReturn(cppMethods);
 
     when(francaAttribute.isReadonly()).thenReturn(true);
