@@ -206,6 +206,34 @@ public class JavaModelBuilderInterfaceTest {
     assertEquals(JavaVisibility.PACKAGE, javaClass.visibility);
   }
 
+  @Test
+  public void finishBuildingFrancaClassPreservesMethodComments() {
+    javaMethod.comment = "FooComment";
+    contextStack.injectResult(javaMethod);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertFalse(javaClass.methods.isEmpty());
+    JavaMethod resultMethod = javaClass.methods.iterator().next();
+    assertEquals(javaMethod.comment, resultMethod.comment);
+  }
+
+  @Test
+  public void finishBuildingFrancaClassPreservesMethodAnnotations() {
+    javaMethod.annotations.add(javaCustomType);
+    contextStack.injectResult(javaMethod);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
+    assertNotNull(javaClass);
+    assertFalse(javaClass.methods.isEmpty());
+    JavaMethod resultMethod = javaClass.methods.iterator().next();
+    assertTrue(resultMethod.annotations.contains(javaCustomType));
+  }
+
   // Creates: Interface implemented as Java interface
 
   @Test
@@ -327,6 +355,21 @@ public class JavaModelBuilderInterfaceTest {
     assertEquals(javaMethod.comment, resultMethod.comment);
   }
 
+  @Test
+  public void finishBuildingFrancaInterfacePreservesMethodAnnotations() {
+    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
+    javaMethod.annotations.add(javaCustomType);
+    contextStack.injectResult(javaMethod);
+
+    modelBuilder.finishBuilding(francaInterface);
+
+    JavaInterface javaInterface = modelBuilder.getFinalResult(JavaInterface.class);
+    assertNotNull(javaInterface);
+    assertFalse(javaInterface.methods.isEmpty());
+    JavaMethod resultMethod = javaInterface.methods.iterator().next();
+    assertTrue(resultMethod.annotations.contains(javaCustomType));
+  }
+
   // Creates: Implementation class for Java interface
 
   @Test
@@ -378,7 +421,8 @@ public class JavaModelBuilderInterfaceTest {
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertFalse(javaClass.methods.isEmpty());
-    assertEquals(javaMethod, javaClass.methods.iterator().next());
+    JavaMethod resultMethod = javaClass.methods.iterator().next();
+    assertTrue(resultMethod.qualifiers.contains(JavaMethod.MethodQualifier.STATIC));
   }
 
   @Test
