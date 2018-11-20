@@ -38,6 +38,10 @@ specification GeniumExtensions {
     for struct_fields {
         NotNull: Boolean (optional, default: false);
     }
+
+    for arguments {
+        NotNull: Boolean (optional, default: false);
+    }
 }
 
 specification Defaults {

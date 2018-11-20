@@ -122,6 +122,7 @@ public class JniModelBuilderTest {
           "",
           CppPrimitiveTypeRef.VOID,
           "",
+          false,
           Collections.singletonList(new CppParameter("value", CppPrimitiveTypeRef.INT8)));
   private final JniType jniType = JniType.createType(javaCustomType, cppCustomType);
   private final Include cppInclude = Include.Companion.createInternalInclude("Foo.h");
@@ -174,6 +175,7 @@ public class JniModelBuilderTest {
         "",
         cppPrimitiveType,
         "",
+        false,
         Collections.singletonList(cppParameter));
   }
 

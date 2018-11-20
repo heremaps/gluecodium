@@ -108,22 +108,21 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
-
-    String name = nameResolver.getName(francaArgument);
-    CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
-    CppParameter cppParameter = new CppParameter(name, cppTypeRef);
-    cppParameter.comment = CommentHelper.getDescription(francaArgument);
-
-    storeResult(cppParameter);
-    closeContext();
+    finishBuildingFrancaArgument(francaArgument, false);
   }
 
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
+    finishBuildingFrancaArgument(francaArgument, true);
+  }
+
+  private void finishBuildingFrancaArgument(
+      final FArgument francaArgument, final boolean isOutput) {
 
     String name = nameResolver.getName(francaArgument);
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
-    CppParameter cppParameter = new CppParameter(name, cppTypeRef, true);
+    CppParameter cppParameter =
+        new CppParameter(name, cppTypeRef, isOutput, deploymentModel.isNotNull(francaArgument));
     cppParameter.comment = CommentHelper.getDescription(francaArgument);
 
     storeResult(cppParameter);
@@ -314,6 +313,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             francaComment,
             cppTypeRef,
             "",
+            false,
             Collections.emptyList(),
             EnumSet.of(CppMethod.Specifier.VIRTUAL),
             EnumSet.of(CppMethod.Qualifier.CONST, CppMethod.Qualifier.PURE_VIRTUAL));
@@ -327,6 +327,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
               francaComment,
               CppPrimitiveTypeRef.VOID,
               "",
+              false,
               Collections.singletonList(new CppParameter("value", cppTypeRef)),
               EnumSet.of(CppMethod.Specifier.VIRTUAL),
               EnumSet.of(CppMethod.Qualifier.PURE_VIRTUAL));
@@ -358,12 +359,20 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             .filter(parameter -> !parameter.isOutput())
             .collect(Collectors.toList());
 
+    CppParameter returnTypeParameter =
+        CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
+            .filter(CppParameter::isOutput)
+            .findFirst()
+            .orElse(null);
+    boolean isNotNull = returnTypeParameter != null && returnTypeParameter.isNotNull();
+
     return new CppMethod(
         nameResolver.getName(francaMethod),
         nameResolver.getFullyQualifiedName(francaMethod),
         CommentHelper.getDescription(francaMethod),
         returnType,
         returnComment,
+        isNotNull,
         parameters,
         specifiers,
         qualifiers);
