@@ -29,6 +29,7 @@ import com.here.genium.model.cpp.*;
 import com.here.genium.model.franca.CommentHelper;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.*;
+import java.util.stream.Collectors;
 import org.franca.core.franca.*;
 
 public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
@@ -91,7 +92,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppParameter outputParameter =
         CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
-            .filter(parameter -> parameter.isOutput)
+            .filter(CppParameter::isOutput)
             .findFirst()
             .orElse(null);
     String returnTypeComment = outputParameter != null ? outputParameter.comment : null;
@@ -307,24 +308,28 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     String francaComment = CommentHelper.getDescription(francaAttribute);
 
     CppMethod getterMethod =
-        new CppMethod.Builder(nameResolver.getGetterName(francaAttribute))
-            .returnType(cppTypeRef)
-            .specifier(CppMethod.Specifier.VIRTUAL)
-            .qualifier(CppMethod.Qualifier.CONST)
-            .qualifier(CppMethod.Qualifier.PURE_VIRTUAL)
-            .comment(francaComment)
-            .build();
+        new CppMethod(
+            nameResolver.getGetterName(francaAttribute),
+            nameResolver.getFullyQualifiedName(francaAttribute),
+            francaComment,
+            cppTypeRef,
+            "",
+            Collections.emptyList(),
+            EnumSet.of(CppMethod.Specifier.VIRTUAL),
+            EnumSet.of(CppMethod.Qualifier.CONST, CppMethod.Qualifier.PURE_VIRTUAL));
     storeResult(getterMethod);
 
     if (!francaAttribute.isReadonly()) {
       CppMethod setterMethod =
-          new CppMethod.Builder(nameResolver.getSetterName(francaAttribute))
-              .returnType(CppPrimitiveTypeRef.VOID)
-              .specifier(CppMethod.Specifier.VIRTUAL)
-              .qualifier(CppMethod.Qualifier.PURE_VIRTUAL)
-              .comment(francaComment)
-              .build();
-      setterMethod.parameters.add(new CppParameter("value", cppTypeRef));
+          new CppMethod(
+              nameResolver.getSetterName(francaAttribute),
+              nameResolver.getFullyQualifiedName(francaAttribute),
+              francaComment,
+              CppPrimitiveTypeRef.VOID,
+              "",
+              Collections.singletonList(new CppParameter("value", cppTypeRef)),
+              EnumSet.of(CppMethod.Specifier.VIRTUAL),
+              EnumSet.of(CppMethod.Qualifier.PURE_VIRTUAL));
       storeResult(setterMethod);
     }
 
@@ -334,30 +339,34 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   private CppMethod buildCppMethod(
       final FMethod francaMethod, final CppTypeRef returnType, final String returnComment) {
 
-    CppMethod.Builder builder =
-        new CppMethod.Builder(nameResolver.getName(francaMethod))
-            .fullyQualifiedName(nameResolver.getFullyQualifiedName(francaMethod))
-            .returnType(returnType);
+    Set<CppMethod.Specifier> specifiers = EnumSet.noneOf(CppMethod.Specifier.class);
+    Set<CppMethod.Qualifier> qualifiers = EnumSet.noneOf(CppMethod.Qualifier.class);
 
     if (deploymentModel.isStatic(francaMethod)) {
-      builder.specifier(CppMethod.Specifier.STATIC);
+      specifiers.add(CppMethod.Specifier.STATIC);
     } else {
       if (deploymentModel.isConst(francaMethod)) {
         // const needs to be before "= 0" pure virtual specifier
-        builder.qualifier(CppMethod.Qualifier.CONST);
+        qualifiers.add(CppMethod.Qualifier.CONST);
       }
-      builder.specifier(CppMethod.Specifier.VIRTUAL);
-      builder.qualifier(CppMethod.Qualifier.PURE_VIRTUAL);
+      specifiers.add(CppMethod.Specifier.VIRTUAL);
+      qualifiers.add(CppMethod.Qualifier.PURE_VIRTUAL);
     }
 
-    builder.comment(CommentHelper.getDescription(francaMethod));
-    builder.returnComment(returnComment);
+    List<CppParameter> parameters =
+        CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
+            .filter(parameter -> !parameter.isOutput())
+            .collect(Collectors.toList());
 
-    CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
-        .filter(parameter -> !parameter.isOutput)
-        .forEach(builder::parameter);
-
-    return builder.build();
+    return new CppMethod(
+        nameResolver.getName(francaMethod),
+        nameResolver.getFullyQualifiedName(francaMethod),
+        CommentHelper.getDescription(francaMethod),
+        returnType,
+        returnComment,
+        parameters,
+        specifiers,
+        qualifiers);
   }
 
   private CppTypeRef mapMethodReturnType(

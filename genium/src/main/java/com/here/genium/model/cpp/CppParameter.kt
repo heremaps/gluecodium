@@ -17,27 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import java.util.stream.Stream;
-import lombok.EqualsAndHashCode;
+import java.util.stream.Stream
 
-@EqualsAndHashCode(callSuper = true)
-public final class CppParameter extends CppTypedElement {
+class CppParameter @JvmOverloads constructor(
+    name: String,
+    type: CppTypeRef,
+    val isOutput: Boolean = false
+) :
+    CppTypedElement(name, type) {
 
-  public final boolean isOutput;
-
-  public CppParameter(final String name, final CppTypeRef type) {
-    this(name, type, false);
-  }
-
-  public CppParameter(final String name, final CppTypeRef type, final boolean isOutput) {
-    super(name, type);
-    this.isOutput = isOutput;
-  }
-
-  @Override
-  public Stream<? extends CppElement> stream() {
-    return Stream.of(type);
-  }
+    override fun stream() = Stream.of(type)
 }
