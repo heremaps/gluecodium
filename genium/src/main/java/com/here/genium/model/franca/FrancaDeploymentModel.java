@@ -75,8 +75,8 @@ public class FrancaDeploymentModel {
     return getBoolean(francaStruct, "Immutable");
   }
 
-  public boolean isNotNull(final FField francaField) {
-    return getBoolean(francaField, "NotNull");
+  public boolean isNotNull(final FTypedElement francaTypedElement) {
+    return getBoolean(francaTypedElement, "NotNull");
   }
 
   public boolean isInternal(final EObject francaElement) {
