@@ -1,11 +1,11 @@
-{{#if comment}}
+{{#if hasComment}}
 /**
 {{prefix comment " * "}}
 {{#parameters}}
-{{#if this.comment}} * \param[in] {{name}} {{comment}}{{/if}}
+{{#if hasComment}} * \param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{comment}}{{/if}}
 {{/parameters}}
-{{#if returnComment}}
- * \return {{returnComment}}
+{{#if hasReturnComment}}
+ * \return {{#if isNotNull}}@NotNull {{/if}}{{returnComment}}
 {{/if}}
  */
 {{/if}}

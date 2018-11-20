@@ -19,14 +19,19 @@
 
 package com.here.genium.model.cpp
 
+import org.apache.commons.lang3.StringUtils
 import java.util.stream.Stream
 
 class CppParameter @JvmOverloads constructor(
     name: String,
-    type: CppTypeRef,
-    val isOutput: Boolean = false
+    type: CppTypeRef?,
+    val isOutput: Boolean = false,
+    val isNotNull: Boolean = false
 ) :
     CppTypedElement(name, type) {
 
     override fun stream() = Stream.of(type)
+
+    @Suppress("unused")
+    fun hasComment() = isNotNull || StringUtils.isNotEmpty(comment)
 }
