@@ -390,13 +390,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaInterface.constants.addAll(getPreviousResults(JavaConstant.class));
     javaInterface.enums.addAll(getPreviousResults(JavaEnum.class));
     javaInterface.exceptions.addAll(getPreviousResults(JavaExceptionClass.class));
-
-    List<JavaMethod> interfaceMethods =
-        getPreviousResults(JavaMethod.class)
-            .stream()
-            .map(javaMethod -> javaMethod.toBuilder().visibility(JavaVisibility.PACKAGE).build())
-            .collect(Collectors.toList());
-    javaInterface.methods.addAll(interfaceMethods);
+    javaInterface.methods.addAll(getPreviousResults(JavaMethod.class));
 
     addInnerClasses(javaInterface);
 
@@ -418,8 +412,13 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaClass.javaPackage = rootPackage;
     javaClass.fields.addAll(getPreviousResults(JavaField.class));
 
-    javaClass.methods.addAll(getPreviousResults(JavaMethod.class));
-    javaClass.methods.forEach(method -> method.qualifiers.add(MethodQualifier.NATIVE));
+    List<JavaMethod> classMethods =
+        getPreviousResults(JavaMethod.class)
+            .stream()
+            .map(JavaMethod::shallowCopy)
+            .peek(javaMethod -> javaMethod.qualifiers.add(MethodQualifier.NATIVE))
+            .collect(Collectors.toList());
+    javaClass.methods.addAll(classMethods);
 
     JavaCustomType interfaceTypeReference =
         new JavaCustomType(javaInterface.name, javaInterface.javaPackage);
