@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 public final class CppClass extends CppElementWithComment {
 
   public final List<CppElement> members = new LinkedList<>();
-  public final Set<CppMethod> methods = new LinkedHashSet<>();
+  public final List<CppMethod> methods = new LinkedList<>();
   public final Set<CppField> fields = new LinkedHashSet<>();
   public final Set<CppInheritance> inheritances = new LinkedHashSet<>();
   public final boolean isExternal;

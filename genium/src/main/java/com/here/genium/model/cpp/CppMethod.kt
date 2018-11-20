@@ -17,96 +17,39 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import java.util.EnumSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
-import lombok.EqualsAndHashCode;
-import lombok.Singular;
+import java.util.EnumSet
+import java.util.stream.Stream
 
-@EqualsAndHashCode(callSuper = true)
-public final class CppMethod extends CppElementWithComment {
+class CppMethod
+@JvmOverloads constructor(
+    name: String,
+    fullyQualifiedName: String = name,
+    comment: String = "",
+    val returnType: CppTypeRef = CppPrimitiveTypeRef.VOID,
+    val returnComment: String? = null,
+    val parameters: List<CppParameter> = emptyList(),
+    val specifiers: Set<Specifier> = EnumSet.noneOf(Specifier::class.java),
+    val qualifiers: Set<Qualifier> = EnumSet.noneOf(Qualifier::class.java)
+) : CppElementWithComment(name, fullyQualifiedName, comment) {
 
-  public final CppTypeRef returnType;
-  public final String returnComment;
-  public final Set<Specifier> specifiers;
-  public final Set<Qualifier> qualifiers;
-  public final List<CppParameter> parameters;
+    enum class Specifier(private val text: String) {
+        EXPLICIT("explicit"),
+        INLINE("inline"),
+        STATIC("static"),
+        VIRTUAL("virtual");
 
-  public enum Specifier {
-    EXPLICIT("explicit"),
-    INLINE("inline"),
-    STATIC("static"),
-    VIRTUAL("virtual");
-
-    private final String text;
-
-    Specifier(final String text) {
-      this.text = text;
+        override fun toString(): String = text
     }
 
-    @Override
-    public String toString() {
-      return text;
-    }
-  }
+    enum class Qualifier(private val text: String) {
+        CONST("const"),
+        OVERRIDE("override"),
+        PURE_VIRTUAL("= 0");
 
-  public enum Qualifier {
-    CONST("const"),
-    OVERRIDE("override"),
-    PURE_VIRTUAL("= 0");
-
-    private final String text;
-
-    Qualifier(final String text) {
-      this.text = text;
+        override fun toString(): String = text
     }
 
-    @Override
-    public String toString() {
-      return text;
-    }
-  }
-
-  @SuppressWarnings("ParameterNumber")
-  @lombok.Builder(builderClassName = "Builder")
-  private CppMethod(
-      final String name,
-      final String comment,
-      final CppTypeRef returnType,
-      final String returnComment,
-      final String fullyQualifiedName,
-      @Singular final Set<Specifier> specifiers,
-      @Singular final Set<Qualifier> qualifiers,
-      @Singular final List<CppParameter> parameters) {
-    super(name, fullyQualifiedName == null ? name : fullyQualifiedName, comment);
-    this.returnType = returnType != null ? returnType : CppPrimitiveTypeRef.VOID;
-    this.returnComment = returnComment;
-    this.specifiers =
-        !specifiers.isEmpty() ? EnumSet.copyOf(specifiers) : EnumSet.noneOf(Specifier.class);
-    this.qualifiers =
-        !qualifiers.isEmpty() ? EnumSet.copyOf(qualifiers) : EnumSet.noneOf(Qualifier.class);
-    this.parameters = new LinkedList<>(parameters);
-  }
-
-  @SuppressWarnings("unused")
-  public static class Builder {
-    private String name;
-
-    Builder() {
-      this(null);
-    }
-
-    public Builder(final String name) {
-      this.name = name;
-    }
-  }
-
-  @Override
-  public Stream<? extends CppElement> stream() {
-    return Stream.concat(Stream.of(returnType), parameters.stream());
-  }
+    override fun stream() = Stream.concat(Stream.of(returnType), parameters.stream())
 }
