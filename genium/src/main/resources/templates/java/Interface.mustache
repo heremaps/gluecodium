@@ -18,6 +18,6 @@
 {{/enums}}
 {{#innerClasses}}{{prefixPartial "java/Class" "    "}}
 {{/innerClasses}}
-{{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
-{{/methods}}
+{{#set isInterface=true}}{{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
+{{/methods}}{{/set}}
 }

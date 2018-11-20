@@ -48,7 +48,7 @@ public final class JavaMethod extends JavaAnnotatedElement {
   public final JavaCustomType exception;
 
   @SuppressWarnings("ParameterNumber")
-  @lombok.Builder(builderClassName = "Builder", toBuilder = true)
+  @lombok.Builder(builderClassName = "Builder")
   private JavaMethod(
       final String name,
       final String comment,
@@ -66,7 +66,7 @@ public final class JavaMethod extends JavaAnnotatedElement {
     this.exception = exception;
     this.qualifiers =
         qualifiers != null && !qualifiers.isEmpty()
-            ? qualifiers
+            ? EnumSet.copyOf(qualifiers)
             : EnumSet.noneOf(MethodQualifier.class);
     this.parameters = parameters != null ? new LinkedList<>(parameters) : new LinkedList<>();
   }
@@ -79,5 +79,20 @@ public final class JavaMethod extends JavaAnnotatedElement {
   public Stream<JavaElement> stream() {
     return Stream.concat(
         Stream.of(returnType, exception), Stream.concat(parameters.stream(), super.stream()));
+  }
+
+  public JavaMethod shallowCopy() {
+    JavaMethod result =
+        new JavaMethod(
+            name,
+            comment,
+            visibility,
+            returnType,
+            returnComment,
+            exception,
+            qualifiers,
+            parameters);
+    result.annotations.addAll(annotations);
+    return result;
   }
 }
