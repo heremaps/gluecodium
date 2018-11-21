@@ -10,6 +10,11 @@
 void smoke_ExternalInterface_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(handle);
 }
+_baseRef smoke_ExternalInterface_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(handle)))
+        : 0;
+}
 _baseRef smoke_ExternalInterface_SomeStruct_create(const char* someField) {
     ::smoke::ExternalInterface::some_Struct* _struct = new ::smoke::ExternalInterface::some_Struct();
     _struct->some_Field = someField;

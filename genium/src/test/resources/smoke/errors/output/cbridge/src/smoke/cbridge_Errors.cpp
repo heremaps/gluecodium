@@ -13,6 +13,12 @@ void smoke_Errors_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::Errors>>(handle);
 }
 
+_baseRef smoke_Errors_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::Errors>>(handle)))
+        : 0;
+}
+
 smoke_Errors_InternalError smoke_Errors_methodWithErrors() {
     return ::smoke::Errors::method_with_errors().value();
 }

@@ -10,6 +10,11 @@
 void smoke_InstanceWithStruct_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::InstanceWithStruct>>(handle);
 }
+_baseRef smoke_InstanceWithStruct_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::InstanceWithStruct>>(handle)))
+        : 0;
+}
 _baseRef smoke_InstanceWithStruct_InnerStruct_create(int8_t value) {
     ::smoke::InstanceWithStruct::InnerStruct* _struct = new ::smoke::InstanceWithStruct::InnerStruct();
     _struct->value = value;

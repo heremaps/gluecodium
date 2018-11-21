@@ -10,7 +10,10 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
         return RefHolder(0)
     }
     if let instanceReference = reference as? NativeBase {
-        return RefHolder(instanceReference.c_handle)
+        let handle_copy = examples_CalculatorListener_copy_handle(instanceReference.c_handle)
+        return owning
+            ? RefHolder(ref: handle_copy, release: examples_CalculatorListener_release)
+            : RefHolder(handle_copy)
     }
     var functions = examples_CalculatorListener_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()

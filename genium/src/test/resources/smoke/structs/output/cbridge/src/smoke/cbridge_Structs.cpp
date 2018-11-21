@@ -13,6 +13,11 @@
 void smoke_Structs_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::Structs>>(handle);
 }
+_baseRef smoke_Structs_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::Structs>>(handle)))
+        : 0;
+}
 _baseRef smoke_Structs_Point_create(double x, double y) {
     ::smoke::Structs::Point* _struct = new ::smoke::Structs::Point();
     _struct->x = x;

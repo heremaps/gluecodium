@@ -7,7 +7,10 @@ internal func getRef(_ ref: NestedInterface?, owning: Bool = true) -> RefHolder 
         return RefHolder(0)
     }
     if let instanceReference = reference as? NativeBase {
-        return RefHolder(instanceReference.c_handle)
+        let handle_copy = smoke_NestedInterface_copy_handle(instanceReference.c_handle)
+        return owning
+            ? RefHolder(ref: handle_copy, release: smoke_NestedInterface_release)
+            : RefHolder(handle_copy)
     }
     var functions = smoke_NestedInterface_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
@@ -62,6 +65,9 @@ internal func getRef(_ ref: NestedInterface?, owning: Bool = true) -> RefHolder 
     }
     functions.smoke_NestedInterface_makeMoreExternal_withStruct = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
+        defer {
+            smoke_ExternalInterface_SomeStruct_release(input)
+        }
         return swift_class.makeMoreExternal(input: ExternalInterface.SomeStruct(cExternalInterface.SomeStruct: input)).convertToCType()
     }
     functions.smoke_NestedInterface_makeMoreExternal_withEnum = {(swift_class_pointer, input) in

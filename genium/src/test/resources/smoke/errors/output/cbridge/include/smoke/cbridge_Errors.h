@@ -22,6 +22,7 @@ typedef struct {
 } smoke_Errors_methodWithErrorsAndReturnValue_result;
 
 void smoke_Errors_release(_baseRef handle);
+_baseRef smoke_Errors_copy_handle(_baseRef handle);
 smoke_Errors_InternalError smoke_Errors_methodWithErrors();
 smoke_Errors_ExternalErrors smoke_Errors_methodWithExternalErrors();
 smoke_Errors_methodWithErrorsAndReturnValue_result smoke_Errors_methodWithErrorsAndReturnValue();

@@ -15,6 +15,11 @@
 void smoke_CalculatorListener_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle);
 }
+_baseRef smoke_CalculatorListener_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle)))
+        : 0;
+}
 _baseRef smoke_CalculatorListener_ResultStruct_create(double result) {
     ::smoke::CalculatorListener::ResultStruct* _struct = new ::smoke::CalculatorListener::ResultStruct();
     _struct->result = result;

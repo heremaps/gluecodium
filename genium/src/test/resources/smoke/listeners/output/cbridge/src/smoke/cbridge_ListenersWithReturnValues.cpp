@@ -14,6 +14,11 @@
 void smoke_ListenersWithReturnValues_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle);
 }
+_baseRef smoke_ListenersWithReturnValues_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)))
+        : 0;
+}
 _baseRef smoke_ListenersWithReturnValues_ResultStruct_create(double result) {
     ::smoke::ListenersWithReturnValues::ResultStruct* _struct = new ::smoke::ListenersWithReturnValues::ResultStruct();
     _struct->result = result;

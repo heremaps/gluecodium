@@ -10,7 +10,10 @@ internal func getRef(_ ref: SimpleInterface?, owning: Bool = true) -> RefHolder 
         return RefHolder(0)
     }
     if let instanceReference = reference as? NativeBase {
-        return RefHolder(instanceReference.c_handle)
+        let handle_copy = smoke_SimpleInterface_copy_handle(instanceReference.c_handle)
+        return owning
+            ? RefHolder(ref: handle_copy, release: smoke_SimpleInterface_release)
+            : RefHolder(handle_copy)
     }
     var functions = smoke_SimpleInterface_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()

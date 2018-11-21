@@ -10,6 +10,11 @@
 void smoke_Basic_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::root::space::smoke::Basic>>(handle);
 }
+_baseRef smoke_Basic_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::root::space::smoke::Basic>>(handle)))
+        : 0;
+}
 _baseRef smoke_Basic_basicMethod(const char* inputString) {
     return reinterpret_cast<_baseRef>( new std::string(::root::space::smoke::Basic::basic_method(std::string(inputString))) );
 }

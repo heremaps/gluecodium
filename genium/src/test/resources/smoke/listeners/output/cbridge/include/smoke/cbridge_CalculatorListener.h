@@ -17,6 +17,7 @@ _baseRef smoke_CalculatorListener_ResultStruct_create(double result);
 void smoke_CalculatorListener_ResultStruct_release(_baseRef handle);
 double smoke_CalculatorListener_ResultStruct_result_get(_baseRef handle);
 void smoke_CalculatorListener_release(_baseRef handle);
+_baseRef smoke_CalculatorListener_copy_handle(_baseRef handle);
 
 typedef struct {
     void* swift_pointer;

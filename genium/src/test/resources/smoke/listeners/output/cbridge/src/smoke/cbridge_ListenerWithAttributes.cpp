@@ -14,6 +14,11 @@
 void smoke_ListenerWithAttributes_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(handle);
 }
+_baseRef smoke_ListenerWithAttributes_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(handle)))
+        : 0;
+}
 _baseRef smoke_ListenerWithAttributes_ResultStruct_create(double result) {
     ::smoke::ListenerWithAttributes::ResultStruct* _struct = new ::smoke::ListenerWithAttributes::ResultStruct();
     _struct->result = result;

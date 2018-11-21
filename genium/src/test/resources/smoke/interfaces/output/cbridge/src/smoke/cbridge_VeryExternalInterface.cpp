@@ -10,6 +10,11 @@
 void smoke_VeryExternalInterface_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::fire::Baz>>(handle);
 }
+_baseRef smoke_VeryExternalInterface_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::fire::Baz>>(handle)))
+        : 0;
+}
 _baseRef smoke_VeryExternalInterface_SomeStruct_create(const char* someField) {
     ::fire::Baz::some_Struct* _struct = new ::fire::Baz::some_Struct();
     _struct->some_Field = someField;

@@ -7,7 +7,10 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
         return RefHolder(0)
     }
     if let instanceReference = reference as? NativeBase {
-        return RefHolder(instanceReference.c_handle)
+        let handle_copy = smoke_ListenerWithAttributes_copy_handle(instanceReference.c_handle)
+        return owning
+            ? RefHolder(ref: handle_copy, release: smoke_ListenerWithAttributes_release)
+            : RefHolder(handle_copy)
     }
     var functions = smoke_ListenerWithAttributes_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
@@ -54,6 +57,9 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_structuredMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
+        defer {
+            smoke_ListenerWithAttributes_ResultStruct_release(newValue)
+        }
         return swift_class.structuredMessage = ResultStruct(cResultStruct: newValue)
     }
     functions.smoke_ListenerWithAttributes_enumeratedMessage_get = {(swift_class_pointer) in

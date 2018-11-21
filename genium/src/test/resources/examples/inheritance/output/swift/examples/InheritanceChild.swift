@@ -9,7 +9,10 @@ internal func getRef(_ ref: InheritanceChild?, owning: Bool = true) -> RefHolder
         return RefHolder(0)
     }
     if let instanceReference = reference as? NativeBase {
-        return RefHolder(instanceReference.c_handle)
+        let handle_copy = examples_InheritanceChild_copy_handle(instanceReference.c_handle)
+        return owning
+            ? RefHolder(ref: handle_copy, release: examples_InheritanceChild_release)
+            : RefHolder(handle_copy)
     }
     var functions = examples_InheritanceChild_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()

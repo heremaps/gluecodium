@@ -46,4 +46,5 @@ public class Maps extends NativeBase {
     @NonNull
     public static native Maps.StructWithMap methodWithStructWithMap(final Maps.StructWithMap input);
     public static native Map<String, List<Integer>> methodWithMapOfArrays(final Map<String, List<Integer>> input);
+    public static native Map<Long, MapsInstance> methodWithMapOfInstances(final Map<Long, MapsInstance> input);
 }
