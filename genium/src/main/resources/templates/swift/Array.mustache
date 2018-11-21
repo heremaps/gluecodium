@@ -59,7 +59,7 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType.publicName}}
 }
 
 extension Collection {{>GenericConstraintsRule}}  {
-    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
+    func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = {{refName}}_create()
 
         for item in self {

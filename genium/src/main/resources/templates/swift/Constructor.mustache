@@ -20,7 +20,7 @@
   !}}
 {{^useParentCInstance}}let c_instance : _baseRef
 
-{{^isInterface}}public {{/isInterface}}init?(c{{name}}: _baseRef) {
+init?(c{{name}}: _baseRef) {
     guard c{{name}} != 0 else {
         return nil
     }
@@ -31,6 +31,6 @@ deinit {
     {{cInstance}}_release(c_instance)
 }{{/useParentCInstance}}{{!!
 
-}}{{#useParentCInstance}}{{^isInterface}}public {{/isInterface}}init?(c{{name}}: _baseRef) {
+}}{{#useParentCInstance}}init?(c{{name}}: _baseRef) {
     super.init(c{{parentClass}}: c{{name}})
 }{{/useParentCInstance}}
