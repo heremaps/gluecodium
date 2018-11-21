@@ -9,7 +9,7 @@ public class Arrays {
     public typealias ProfileId = String
     public typealias ErrorCodeToMessageMap = [Int32: String]
     let c_instance : _baseRef
-    public init?(cArrays: _baseRef) {
+    init?(cArrays: _baseRef) {
         guard cArrays != 0 else {
             return nil
         }

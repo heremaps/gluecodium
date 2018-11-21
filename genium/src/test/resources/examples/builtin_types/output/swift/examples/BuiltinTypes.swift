@@ -12,7 +12,7 @@ internal func getRef(_ ref: BuiltinTypes?, owning: Bool = false) -> RefHolder {
 public class BuiltinTypes {
     let c_instance : _baseRef
 
-    public init?(cBuiltinTypes: _baseRef) {
+    init?(cBuiltinTypes: _baseRef) {
         guard cBuiltinTypes != 0 else {
             return nil
         }

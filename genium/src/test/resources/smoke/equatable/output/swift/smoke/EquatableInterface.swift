@@ -10,7 +10,7 @@ internal func getRef(_ ref: EquatableInterface?, owning: Bool = false) -> RefHol
 
 public class EquatableInterface {
     let c_instance : _baseRef
-    public init?(cEquatableInterface: _baseRef) {
+    init?(cEquatableInterface: _baseRef) {
         guard cEquatableInterface != 0 else {
             return nil
         }

@@ -8,7 +8,7 @@ internal func getRef(_ ref: ObjcClass?, owning: Bool = false) -> RefHolder {
 @objcMembers
 public class ObjcClass: NSObject {
     let c_instance : _baseRef
-    public init?(cObjcClass: _baseRef) {
+    init?(cObjcClass: _baseRef) {
         guard cObjcClass != 0 else {
             return nil
         }

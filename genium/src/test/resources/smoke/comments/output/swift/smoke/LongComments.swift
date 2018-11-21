@@ -8,7 +8,7 @@ internal func getRef(_ ref: LongComments?, owning: Bool = false) -> RefHolder {
 /// This is some very useful interface. There is a lot to say about this interface. at least it has a long comment.
 public class LongComments {
     let c_instance : _baseRef
-    public init?(cLongComments: _baseRef) {
+    init?(cLongComments: _baseRef) {
         guard cLongComments != 0 else {
             return nil
         }

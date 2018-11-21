@@ -32,7 +32,7 @@ public class TypeDefs {
     }
     let c_instance : _baseRef
 
-    public init?(cTypeDefs: _baseRef) {
+    init?(cTypeDefs: _baseRef) {
         guard cTypeDefs != 0 else {
             return nil
         }

@@ -26,7 +26,7 @@ internal class BasicStructList: CollectionOf<Arrays.BasicStruct> {
     }
 }
 extension Collection where Element == Arrays.BasicStruct  {
-    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
+    func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_BasicStruct_create()
         for item in self {
             let item_handle = item.convertToCType();
@@ -65,7 +65,7 @@ internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
     }
 }
 extension Collection where Element == Arrays.FancyStruct  {
-    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
+    func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_FancyStruct_create()
         for item in self {
             let item_handle = item.convertToCType();
@@ -101,7 +101,7 @@ internal class SomeEnumList: CollectionOf<Arrays.SomeEnum> {
     }
 }
 extension Collection where Element == Arrays.SomeEnum  {
-    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
+    func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_Enums_create()
         for item in self {
             arrayCollection_Enums_append(handle, item.rawValue)
@@ -133,7 +133,7 @@ internal class ArraysErrorCodeToMessageMapList: CollectionOf<Arrays.ErrorCodeToM
     }
 }
 extension Collection where Element == Arrays.ErrorCodeToMessageMap  {
-    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
+    func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_Int32StringMap_create()
         for item in self {
             let conversion = convertArrays_ErrorCodeToMessageMapToCType(item)
@@ -169,7 +169,7 @@ internal class StringListList: CollectionOf<CollectionOf<String>> {
     }
 }
 extension Collection where Element: Collection, Element.Element == String  {
-    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
+    func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_StringArray_create()
         for item in self {
             let conversion = item.c_conversion()
@@ -203,7 +203,7 @@ internal class UInt8ListList: CollectionOf<CollectionOf<UInt8>> {
     }
 }
 extension Collection where Element: Collection, Element.Element == UInt8  {
-    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
+    func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_UInt8Array_create()
         for item in self {
             let conversion = item.c_conversion()
@@ -241,7 +241,7 @@ internal class StringList: CollectionOf<String> {
     }
 }
 extension Collection where Element == String  {
-    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
+    func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_String_create()
         for item in self {
             arrayCollection_String_append(handle, item)
@@ -273,7 +273,7 @@ internal class UInt8List: CollectionOf<UInt8> {
     }
 }
 extension Collection where Element == UInt8  {
-    public func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
+    func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
         let handle = arrayCollection_UInt8_create()
         for item in self {
             arrayCollection_UInt8_append(handle, item)

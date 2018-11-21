@@ -13,7 +13,7 @@ public class Enums {
 
     let c_instance : _baseRef
 
-    public init?(cEnums: _baseRef) {
+    init?(cEnums: _baseRef) {
         guard cEnums != 0 else {
             return nil
         }

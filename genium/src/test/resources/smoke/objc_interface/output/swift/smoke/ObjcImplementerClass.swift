@@ -8,7 +8,7 @@ internal func getRef(_ ref: ObjcImplementerClass?, owning: Bool = false) -> RefH
 @objcMembers
 public class ObjcImplementerClass: NSObject, ObjcInterface {
     let c_instance : _baseRef
-    public init?(cObjcImplementerClass: _baseRef) {
+    init?(cObjcImplementerClass: _baseRef) {
         guard cObjcImplementerClass != 0 else {
             return nil
         }

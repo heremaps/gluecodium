@@ -12,7 +12,7 @@ internal func getRef(_ ref: InstanceWithStruct?, owning: Bool = false) -> RefHol
 public class InstanceWithStruct {
     let c_instance : _baseRef
 
-    public init?(cInstanceWithStruct: _baseRef) {
+    init?(cInstanceWithStruct: _baseRef) {
         guard cInstanceWithStruct != 0 else {
             return nil
         }
