@@ -28,6 +28,12 @@
 void {{name}}_release(_baseRef handle) {
     delete get_pointer<{{selfType.name}}>(handle);
 }
+
+_baseRef {{name}}_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<{{selfType.name}}>(handle)))
+        : 0;
+}
 {{/if}}
 
 {{#structs}}

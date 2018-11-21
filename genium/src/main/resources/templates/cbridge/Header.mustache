@@ -39,6 +39,7 @@ extern "C" {
 
 {{#if selfType}}
 void {{name}}_release(_baseRef handle);
+_baseRef {{name}}_copy_handle(_baseRef handle);
 
 {{/if}}
 {{#isInterface}}
