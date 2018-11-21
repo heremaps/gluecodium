@@ -49,6 +49,8 @@ interface Maps {
 
     array ArrayOfInts of Int32
 
+    map NumberToInstance {UInt8 to MapsInstance.MapsInstance}
+
     method methodWithMap {
         in {
             ErrorCodeToMessageMap input
@@ -93,4 +95,17 @@ interface Maps {
             StringToArray output
         }
     }
+
+    method methodWithMapOfInstances {
+        in {
+            NumberToInstance input
+        }
+        out {
+            NumberToInstance output
+        }
+    }
+}
+
+interface MapsInstance {
+    public typedef MapsInstance is undefined
 }

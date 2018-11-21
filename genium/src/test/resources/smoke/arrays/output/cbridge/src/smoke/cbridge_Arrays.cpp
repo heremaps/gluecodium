@@ -10,6 +10,11 @@
 void smoke_Arrays_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::Arrays>>(handle);
 }
+_baseRef smoke_Arrays_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::Arrays>>(handle)))
+        : 0;
+}
 _baseRef smoke_Arrays_BasicStruct_create(double value) {
     ::smoke::Arrays::BasicStruct* _struct = new ::smoke::Arrays::BasicStruct();
     _struct->value = value;

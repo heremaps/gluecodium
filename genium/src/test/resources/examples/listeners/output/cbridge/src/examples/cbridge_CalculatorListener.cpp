@@ -13,11 +13,15 @@ void examples_CalculatorListener_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::examples::CalculatorListener>>(handle);
 }
 
+_baseRef examples_CalculatorListener_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::examples::CalculatorListener>>(handle)))
+        : 0;
+}
 
 void examples_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {
     return get_pointer<std::shared_ptr<::examples::CalculatorListener>>(_instance)->get()->on_calculation_result(calculationResult);
 }
-
 
 class examples_CalculatorListenerProxy : public std::shared_ptr<::examples::CalculatorListener>::element_type, public CachedProxyBase<examples_CalculatorListenerProxy> {
 public:

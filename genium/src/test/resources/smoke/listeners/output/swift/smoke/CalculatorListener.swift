@@ -7,7 +7,10 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
         return RefHolder(0)
     }
     if let instanceReference = reference as? NativeBase {
-        return RefHolder(instanceReference.c_handle)
+        let handle_copy = smoke_CalculatorListener_copy_handle(instanceReference.c_handle)
+        return owning
+            ? RefHolder(ref: handle_copy, release: smoke_CalculatorListener_release)
+            : RefHolder(handle_copy)
     }
     var functions = smoke_CalculatorListener_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
@@ -26,6 +29,9 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
     }
     functions.smoke_CalculatorListener_onCalculationResultStruct = {(swift_class_pointer, calculationResult) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
+        defer {
+            smoke_CalculatorListener_ResultStruct_release(calculationResult)
+        }
         return swift_class.onCalculationResultStruct(calculationResult: ResultStruct(cResultStruct: calculationResult))
     }
     functions.smoke_CalculatorListener_onCalculationResultArray = {(swift_class_pointer, calculationResult) in

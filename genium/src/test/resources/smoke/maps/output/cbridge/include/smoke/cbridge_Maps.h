@@ -10,6 +10,7 @@ extern "C" {
 
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/StringHandle.h"
+#include "cbridge/include/smoke/cbridge_MapsInstance.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -20,12 +21,14 @@ _baseRef smoke_Maps_StructWithMap_create(_baseRef errorMapping);
 void smoke_Maps_StructWithMap_release(_baseRef handle);
 _baseRef smoke_Maps_StructWithMap_errorMapping_get(_baseRef handle);
 void smoke_Maps_release(_baseRef handle);
+_baseRef smoke_Maps_copy_handle(_baseRef handle);
 
 _baseRef smoke_Maps_methodWithMap(_baseRef input);
 _baseRef smoke_Maps_methodWithMapToStruct(_baseRef input);
 _baseRef smoke_Maps_methodWithNestedMap(_baseRef input);
 _baseRef smoke_Maps_methodWithStructWithMap(_baseRef input);
 _baseRef smoke_Maps_methodWithMapOfArrays(_baseRef input);
+_baseRef smoke_Maps_methodWithMapOfInstances(_baseRef input);
 
 _baseRef smoke_Maps_ErrorCodeToMessageMap_create();
 void smoke_Maps_ErrorCodeToMessageMap_release(_baseRef handle);
@@ -81,6 +84,15 @@ bool smoke_Maps_StringToArray_iterator_is_valid(_baseRef handle, _baseRef iterat
 void smoke_Maps_StringToArray_iterator_increment(_baseRef iterator_handle);
 _baseRef smoke_Maps_StringToArray_iterator_key(_baseRef iterator_handle);
 _baseRef smoke_Maps_StringToArray_iterator_value(_baseRef iterator_handle);
+_baseRef smoke_Maps_NumberToInstance_create();
+void smoke_Maps_NumberToInstance_release(_baseRef handle);
+_baseRef smoke_Maps_NumberToInstance_iterator(_baseRef handle);
+void smoke_Maps_NumberToInstance_iterator_release(_baseRef iterator_handle);
+void smoke_Maps_NumberToInstance_put(_baseRef handle, uint8_t key, _baseRef value);
+bool smoke_Maps_NumberToInstance_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
+void smoke_Maps_NumberToInstance_iterator_increment(_baseRef iterator_handle);
+uint8_t smoke_Maps_NumberToInstance_iterator_key(_baseRef iterator_handle);
+_baseRef smoke_Maps_NumberToInstance_iterator_value(_baseRef iterator_handle);
 
 #ifdef __cplusplus
 }

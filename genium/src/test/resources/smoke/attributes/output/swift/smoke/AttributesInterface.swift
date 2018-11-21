@@ -9,7 +9,10 @@ internal func getRef(_ ref: AttributesInterface?, owning: Bool = true) -> RefHol
         return RefHolder(0)
     }
     if let instanceReference = reference as? NativeBase {
-        return RefHolder(instanceReference.c_handle)
+        let handle_copy = smoke_AttributesInterface_copy_handle(instanceReference.c_handle)
+        return owning
+            ? RefHolder(ref: handle_copy, release: smoke_AttributesInterface_release)
+            : RefHolder(handle_copy)
     }
     var functions = smoke_AttributesInterface_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
@@ -24,6 +27,9 @@ internal func getRef(_ ref: AttributesInterface?, owning: Bool = true) -> RefHol
     }
     functions.smoke_AttributesInterface_structAttribute_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! AttributesInterface
+        defer {
+            smoke_AttributesInterface_ExampleStruct_release(newValue)
+        }
         return swift_class.structAttribute = ExampleStruct(cExampleStruct: newValue)
     }
     let proxy = smoke_AttributesInterface_createProxy(functions)

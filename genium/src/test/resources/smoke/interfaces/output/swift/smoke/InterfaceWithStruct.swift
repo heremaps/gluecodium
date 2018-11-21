@@ -9,7 +9,10 @@ internal func getRef(_ ref: InterfaceWithStruct?, owning: Bool = true) -> RefHol
         return RefHolder(0)
     }
     if let instanceReference = reference as? NativeBase {
-        return RefHolder(instanceReference.c_handle)
+        let handle_copy = smoke_InterfaceWithStruct_copy_handle(instanceReference.c_handle)
+        return owning
+            ? RefHolder(ref: handle_copy, release: smoke_InterfaceWithStruct_release)
+            : RefHolder(handle_copy)
     }
     var functions = smoke_InterfaceWithStruct_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
@@ -20,6 +23,9 @@ internal func getRef(_ ref: InterfaceWithStruct?, owning: Bool = true) -> RefHol
     }
     functions.smoke_InterfaceWithStruct_innerStructMethod = {(swift_class_pointer, inputStruct) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InterfaceWithStruct
+        defer {
+            smoke_InterfaceWithStruct_InnerStruct_release(inputStruct)
+        }
         return swift_class.innerStructMethod(inputStruct: InnerStruct(cInnerStruct: inputStruct)).convertToCType()
     }
     let proxy = smoke_InterfaceWithStruct_createProxy(functions)

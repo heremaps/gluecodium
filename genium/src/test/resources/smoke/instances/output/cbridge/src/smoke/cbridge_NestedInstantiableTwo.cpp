@@ -14,6 +14,11 @@
 void smoke_NestedInstantiableTwo_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::NestedInstantiableTwo>>(handle);
 }
+_baseRef smoke_NestedInstantiableTwo_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::NestedInstantiableTwo>>(handle)))
+        : 0;
+}
 void smoke_NestedInstantiableTwo_setMultipleTypeInstances(_baseRef _instance, _baseRef instanceOne, _baseRef instanceTwo, _baseRef nestedInstantiable) {
     return get_pointer<std::shared_ptr<::smoke::NestedInstantiableTwo>>(_instance)->get()->set_multiple_type_instances(instanceOne ? *get_pointer<std::shared_ptr<::smoke::SimpleInstantiableOne>>(instanceOne) : nullptr, instanceTwo ? *get_pointer<std::shared_ptr<::smoke::SimpleInstantiableTwo>>(instanceTwo) : nullptr, nestedInstantiable ? *get_pointer<std::shared_ptr<::smoke::NestedInstantiableOne>>(nestedInstantiable) : nullptr);
 }

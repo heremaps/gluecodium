@@ -41,4 +41,13 @@ define GeniumExtensions for interface smoke.Maps
     method methodWithMapOfArrays {
         Static = true
     }
+
+    method methodWithMapOfInstances {
+        Static = true
+    }
+}
+
+define GeniumExtensions for interface smoke.MapsInstance
+{
+    IsInterface = true
 }
