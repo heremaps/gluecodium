@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -138,6 +139,7 @@ public class ListenersReturnValuesTest {
     assertEquals("Works", delivery.getMappedMessage(envelope));
   }
 
+  @Ignore("TODO: APIGEN-1458: this test is flaky. Fix the underlying issue and unignore it.")
   @Test
   public void byteBufferReturnWorks() {
     ListenerWithReturn envelope = new TestListener();
