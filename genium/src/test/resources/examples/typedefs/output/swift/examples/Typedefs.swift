@@ -14,7 +14,7 @@ public class Typedefs {
     public typealias ExampleAlias = UInt32
     let c_instance : _baseRef
 
-    public init?(cTypedefs: _baseRef) {
+    init?(cTypedefs: _baseRef) {
         guard cTypedefs != 0 else {
             return nil
         }

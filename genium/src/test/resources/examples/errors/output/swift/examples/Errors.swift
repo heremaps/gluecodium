@@ -12,7 +12,7 @@ internal func getRef(_ ref: Errors?, owning: Bool = false) -> RefHolder {
 public class Errors {
     let c_instance : _baseRef
 
-    public init?(cErrors: _baseRef) {
+    init?(cErrors: _baseRef) {
         guard cErrors != 0 else {
             return nil
         }

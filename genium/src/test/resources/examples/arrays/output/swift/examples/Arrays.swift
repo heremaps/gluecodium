@@ -10,7 +10,7 @@ internal func getRef(_ ref: Arrays?, owning: Bool = false) -> RefHolder {
 public class Arrays {
     let c_instance : _baseRef
 
-    public init?(cArrays: _baseRef) {
+    init?(cArrays: _baseRef) {
         guard cArrays != 0 else {
             return nil
         }

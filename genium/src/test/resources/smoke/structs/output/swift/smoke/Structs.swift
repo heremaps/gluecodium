@@ -7,7 +7,7 @@ internal func getRef(_ ref: Structs?, owning: Bool = false) -> RefHolder {
 }
 public class Structs {
     let c_instance : _baseRef
-    public init?(cStructs: _baseRef) {
+    init?(cStructs: _baseRef) {
         guard cStructs != 0 else {
             return nil
         }

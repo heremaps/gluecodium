@@ -12,7 +12,7 @@ internal func getRef(_ ref: ProfileManagerFactory?, owning: Bool = false) -> Ref
 public class ProfileManagerFactory {
     let c_instance : _baseRef
 
-    public init?(cProfileManagerFactory: _baseRef) {
+    init?(cProfileManagerFactory: _baseRef) {
         guard cProfileManagerFactory != 0 else {
             return nil
         }

@@ -11,7 +11,7 @@ internal func getRef(_ ref: InternalClass?, owning: Bool = false) -> RefHolder {
 internal class InternalClass {
     let c_instance : _baseRef
 
-    public init?(cInternalClass: _baseRef) {
+    init?(cInternalClass: _baseRef) {
         guard cInternalClass != 0 else {
             return nil
         }

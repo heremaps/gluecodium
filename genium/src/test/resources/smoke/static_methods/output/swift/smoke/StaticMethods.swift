@@ -12,7 +12,7 @@ internal func getRef(_ ref: StaticMethods?, owning: Bool = false) -> RefHolder {
 public class StaticMethods {
     let c_instance : _baseRef
 
-    public init?(cStaticMethods: _baseRef) {
+    init?(cStaticMethods: _baseRef) {
         guard cStaticMethods != 0 else {
             return nil
         }

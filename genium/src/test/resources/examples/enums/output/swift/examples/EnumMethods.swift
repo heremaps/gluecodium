@@ -12,7 +12,7 @@ internal func getRef(_ ref: EnumMethods?, owning: Bool = false) -> RefHolder {
 public class EnumMethods {
     let c_instance : _baseRef
 
-    public init?(cEnumMethods: _baseRef) {
+    init?(cEnumMethods: _baseRef) {
         guard cEnumMethods != 0 else {
             return nil
         }

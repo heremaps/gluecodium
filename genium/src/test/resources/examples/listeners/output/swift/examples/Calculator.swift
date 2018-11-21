@@ -12,7 +12,7 @@ internal func getRef(_ ref: Calculator?, owning: Bool = false) -> RefHolder {
 public class Calculator {
     let c_instance : _baseRef
 
-    public init?(cCalculator: _baseRef) {
+    init?(cCalculator: _baseRef) {
         guard cCalculator != 0 else {
             return nil
         }
