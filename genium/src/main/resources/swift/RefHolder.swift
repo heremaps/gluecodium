@@ -39,4 +39,4 @@ class RefHolder {
     }
 }
 
-public typealias _baseRef = Int64
+typealias _baseRef = Int64
