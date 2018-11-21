@@ -12,7 +12,7 @@ internal func getRef(_ ref: SimpleInstantiableOne?, owning: Bool = false) -> Ref
 public class SimpleInstantiableOne {
     let c_instance : _baseRef
 
-    public init?(cSimpleInstantiableOne: _baseRef) {
+    init?(cSimpleInstantiableOne: _baseRef) {
         guard cSimpleInstantiableOne != 0 else {
             return nil
         }

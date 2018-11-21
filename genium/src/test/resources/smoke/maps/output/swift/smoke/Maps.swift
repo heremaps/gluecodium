@@ -20,7 +20,7 @@ public class Maps {
 
     let c_instance : _baseRef
 
-    public init?(cMaps: _baseRef) {
+    init?(cMaps: _baseRef) {
         guard cMaps != 0 else {
             return nil
         }

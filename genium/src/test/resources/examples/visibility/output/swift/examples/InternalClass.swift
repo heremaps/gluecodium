@@ -12,7 +12,7 @@ internal class InternalClass {
 
     let c_instance : _baseRef
 
-    public init?(cInternalClass: _baseRef) {
+    init?(cInternalClass: _baseRef) {
         guard cInternalClass != 0 else {
             return nil
         }

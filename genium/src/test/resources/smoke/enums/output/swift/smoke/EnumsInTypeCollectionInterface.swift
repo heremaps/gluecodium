@@ -12,7 +12,7 @@ internal func getRef(_ ref: EnumsInTypeCollectionInterface?, owning: Bool = fals
 public class EnumsInTypeCollectionInterface {
     let c_instance : _baseRef
 
-    public init?(cEnumsInTypeCollectionInterface: _baseRef) {
+    init?(cEnumsInTypeCollectionInterface: _baseRef) {
         guard cEnumsInTypeCollectionInterface != 0 else {
             return nil
         }

@@ -10,7 +10,7 @@ internal func getRef(_ ref: DefaultValues?, owning: Bool = false) -> RefHolder {
 public class DefaultValues {
     let c_instance : _baseRef
 
-    public init?(cDefaultValues: _baseRef) {
+    init?(cDefaultValues: _baseRef) {
         guard cDefaultValues != 0 else {
             return nil
         }

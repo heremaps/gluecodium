@@ -12,7 +12,7 @@ internal func getRef(_ ref: NestedInstantiableTwo?, owning: Bool = false) -> Ref
 public class NestedInstantiableTwo {
     let c_instance : _baseRef
 
-    public init?(cNestedInstantiableTwo: _baseRef) {
+    init?(cNestedInstantiableTwo: _baseRef) {
         guard cNestedInstantiableTwo != 0 else {
             return nil
         }

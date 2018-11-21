@@ -116,7 +116,7 @@ public class Attributes {
 
     let c_instance : _baseRef
 
-    public init?(cAttributes: _baseRef) {
+    init?(cAttributes: _baseRef) {
         guard cAttributes != 0 else {
             return nil
         }

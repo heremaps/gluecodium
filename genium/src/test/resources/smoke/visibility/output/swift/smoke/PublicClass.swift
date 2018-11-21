@@ -30,7 +30,7 @@ public class PublicClass {
 
     let c_instance : _baseRef
 
-    public init?(cPublicClass: _baseRef) {
+    init?(cPublicClass: _baseRef) {
         guard cPublicClass != 0 else {
             return nil
         }

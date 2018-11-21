@@ -12,7 +12,7 @@ internal func getRef(_ ref: ProfileManager?, owning: Bool = false) -> RefHolder 
 public class ProfileManager {
     let c_instance : _baseRef
 
-    public init?(cProfileManager: _baseRef) {
+    init?(cProfileManager: _baseRef) {
         guard cProfileManager != 0 else {
             return nil
         }

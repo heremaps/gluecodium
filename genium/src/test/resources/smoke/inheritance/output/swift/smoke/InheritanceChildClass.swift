@@ -23,7 +23,7 @@ public class InheritanceChildClass: InheritanceRoot {
         }
     }
     let c_instance : _baseRef
-    public init?(cInheritanceChildClass: _baseRef) {
+    init?(cInheritanceChildClass: _baseRef) {
         guard cInheritanceChildClass != 0 else {
             return nil
         }

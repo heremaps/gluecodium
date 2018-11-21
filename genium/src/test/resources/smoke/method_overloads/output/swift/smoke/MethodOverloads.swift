@@ -10,7 +10,7 @@ internal func getRef(_ ref: MethodOverloads?, owning: Bool = false) -> RefHolder
 public class MethodOverloads {
     let c_instance : _baseRef
 
-    public init?(cMethodOverloads: _baseRef) {
+    init?(cMethodOverloads: _baseRef) {
         guard cMethodOverloads != 0 else {
             return nil
         }

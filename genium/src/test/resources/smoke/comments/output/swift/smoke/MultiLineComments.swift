@@ -8,7 +8,7 @@ internal func getRef(_ ref: MultiLineComments?, owning: Bool = false) -> RefHold
 /// This is some very useful interface. There is a lot to say about this interface. at least it has multiline comments.
 public class MultiLineComments {
     let c_instance : _baseRef
-    public init?(cMultiLineComments: _baseRef) {
+    init?(cMultiLineComments: _baseRef) {
         guard cMultiLineComments != 0 else {
             return nil
         }
