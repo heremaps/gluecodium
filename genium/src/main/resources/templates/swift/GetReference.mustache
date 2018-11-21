@@ -5,7 +5,10 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
     }
 
     if let instanceReference = reference as? NativeBase {
-        return RefHolder(instanceReference.c_handle)
+        let handle_copy = {{cInstance}}_copy_handle(instanceReference.c_handle)
+        return owning
+            ? RefHolder(ref: handle_copy, release: {{cInstance}}_release)
+            : RefHolder(handle_copy)
     }
 
     var functions = {{functionTableName}}()
@@ -37,6 +40,7 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
             std_string_release({{name}})
         }
         {{/case}}{{!!
+        }}{{#case "STRUCT" break=false}}{{/case}}{{!!
         }}{{#case "DICTIONARY"}}
         defer {
             {{type.cPrefix}}_release({{name}})

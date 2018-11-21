@@ -6,6 +6,7 @@
     types. It also works for callbacks that are Swift properties.
 - Bug fixes:
   + Fixed documentation comments handling for Java interfaces and Swift protocols.
+  + Fixed a Cpp-Swift-Cpp object round-trip segfault issue.
 
 ## 3.15.0
 - Release date: 2018-11-16
