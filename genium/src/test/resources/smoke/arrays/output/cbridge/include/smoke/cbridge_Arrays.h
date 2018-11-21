@@ -20,6 +20,7 @@ _baseRef smoke_Arrays_FancyStruct_messages_get(_baseRef handle);
 _baseRef smoke_Arrays_FancyStruct_numbers_get(_baseRef handle);
 _baseRef smoke_Arrays_FancyStruct_image_get(_baseRef handle);
 void smoke_Arrays_release(_baseRef handle);
+_baseRef smoke_Arrays_copy_handle(_baseRef handle);
 _baseRef smoke_Arrays_methodWithArray(_baseRef input);
 _baseRef smoke_Arrays_methodWithArrayInline(_baseRef input);
 _baseRef smoke_Arrays_methodWithStructArray(_baseRef input);

@@ -7,7 +7,10 @@ internal func getRef(_ ref: ObjcChildInterface?, owning: Bool = true) -> RefHold
         return RefHolder(0)
     }
     if let instanceReference = reference as? NativeBase {
-        return RefHolder(instanceReference.c_handle)
+        let handle_copy = smoke_ObjcChildInterface_copy_handle(instanceReference.c_handle)
+        return owning
+            ? RefHolder(ref: handle_copy, release: smoke_ObjcChildInterface_release)
+            : RefHolder(handle_copy)
     }
     var functions = smoke_ObjcChildInterface_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()

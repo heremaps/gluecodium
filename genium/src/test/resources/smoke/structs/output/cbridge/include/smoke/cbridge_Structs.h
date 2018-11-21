@@ -57,6 +57,7 @@ _baseRef smoke_Structs_YetAnotherExternalStruct_create(const char* stringField);
 void smoke_Structs_YetAnotherExternalStruct_release(_baseRef handle);
 _baseRef smoke_Structs_YetAnotherExternalStruct_stringField_get(_baseRef handle);
 void smoke_Structs_release(_baseRef handle);
+_baseRef smoke_Structs_copy_handle(_baseRef handle);
 _baseRef smoke_Structs_createPoint(double x, double y);
 _baseRef smoke_Structs_swapPointCoordinates(_baseRef input);
 _baseRef smoke_Structs_createLine(_baseRef pointA, _baseRef pointB);

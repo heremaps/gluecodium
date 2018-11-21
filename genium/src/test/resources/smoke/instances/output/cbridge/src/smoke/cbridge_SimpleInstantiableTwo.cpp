@@ -12,6 +12,11 @@
 void smoke_SimpleInstantiableTwo_release(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::SimpleInstantiableTwo>>(handle);
 }
+_baseRef smoke_SimpleInstantiableTwo_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::SimpleInstantiableTwo>>(handle)))
+        : 0;
+}
 void smoke_SimpleInstantiableTwo_setStringValue(_baseRef _instance, const char* stringValue) {
     return get_pointer<std::shared_ptr<::smoke::SimpleInstantiableTwo>>(_instance)->get()->set_string_value(std::string(stringValue));
 }

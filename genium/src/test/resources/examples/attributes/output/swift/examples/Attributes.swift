@@ -9,7 +9,10 @@ internal func getRef(_ ref: Attributes?, owning: Bool = true) -> RefHolder {
         return RefHolder(0)
     }
     if let instanceReference = reference as? NativeBase {
-        return RefHolder(instanceReference.c_handle)
+        let handle_copy = examples_Attributes_copy_handle(instanceReference.c_handle)
+        return owning
+            ? RefHolder(ref: handle_copy, release: examples_Attributes_release)
+            : RefHolder(handle_copy)
     }
     var functions = examples_Attributes_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()

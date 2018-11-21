@@ -16,6 +16,7 @@ public class Maps {
     public typealias TypeDefToNumber = [Maps.SomeId: UInt8]
     public typealias SomeId = String
     public typealias StringToArray = [String: CollectionOf<Int32>]
+    public typealias NumberToInstance = [UInt8: MapsInstance]
 
     let c_instance : _baseRef
 
@@ -131,6 +132,17 @@ public class Maps {
             smoke_Maps_StringToArray_release(result_handle)
         }
         return convertMaps_StringToArrayFromCType(result_handle)
+    }
+    public static func methodWithMapOfInstances(input: Maps.NumberToInstance) -> Maps.NumberToInstance {
+        let input_handle = convertMaps_NumberToInstanceToCType(input)
+        defer {
+            smoke_Maps_NumberToInstance_release(input_handle)
+        }
+        let result_handle = smoke_Maps_methodWithMapOfInstances(input_handle)
+        defer {
+            smoke_Maps_NumberToInstance_release(result_handle)
+        }
+        return convertMaps_NumberToInstanceFromCType(result_handle)
     }
 }
 
@@ -328,5 +340,31 @@ func convertMaps_StringToArrayFromCType(_ c_handle: _baseRef) -> Maps.StringToAr
         smoke_Maps_StringToArray_iterator_increment(iterator_handle)
     }
     smoke_Maps_StringToArray_iterator_release(iterator_handle)
+    return swiftDict
+}
+func convertMaps_NumberToInstanceToCType(_ swiftDict: Maps.NumberToInstance) -> _baseRef {
+    let c_handle = smoke_Maps_NumberToInstance_create()
+    for (swift_key, swift_value) in swiftDict {
+        let c_key = swift_key
+        let value_ref_holder = getRef(swift_value)
+        let c_value = value_ref_holder.ref
+        smoke_Maps_NumberToInstance_put(c_handle, c_key, c_value)
+    }
+    return c_handle
+}
+func convertMaps_NumberToInstanceFromCType(_ c_handle: _baseRef) -> Maps.NumberToInstance {
+    var swiftDict: Maps.NumberToInstance = [:]
+    let iterator_handle = smoke_Maps_NumberToInstance_iterator(c_handle)
+    while smoke_Maps_NumberToInstance_iterator_is_valid(c_handle, iterator_handle) {
+        let c_key = smoke_Maps_NumberToInstance_iterator_key(iterator_handle)
+        let swift_key = c_key
+        let c_value = smoke_Maps_NumberToInstance_iterator_value(iterator_handle)
+        guard let swift_value = _MapsInstance(cMapsInstance: c_value) else {
+            fatalError("Nullptr entries for arrays of MapsInstance are not supported")
+        }
+        swiftDict[swift_key] = swift_value
+        smoke_Maps_NumberToInstance_iterator_increment(iterator_handle)
+    }
+    smoke_Maps_NumberToInstance_iterator_release(iterator_handle)
     return swiftDict
 }
