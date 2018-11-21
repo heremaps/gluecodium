@@ -49,7 +49,8 @@ let allTests = [
     testCase(ExternalTypesTests.allTests),
     testCase(ConstantsTests.allTests),
     testCase(EquatableTests.allTests),
-    testCase(ListenerRoundtripTests.allTests)
+    testCase(ListenerRoundtripTests.allTests),
+    testCase(ListenerWithAttributesTests.allTests)
 ]
 
 XCTMain(allTests)

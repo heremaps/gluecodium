@@ -80,7 +80,8 @@ defer {
 {{/ConvertFromSwiftEnum}}{{!!
 
 }}{{+ConvertFromSwiftClass}}{{!!
-}}let c_{{variableName}} = getRef(swift_{{variableName}}).ref
+}}let {{variableName}}_ref_holder = getRef(swift_{{variableName}})
+let c_{{variableName}} = {{variableName}}_ref_holder.ref
 {{/ConvertFromSwiftClass}}{{!!
 
 }}{{+ConvertFromSwiftArray}}{{!!
