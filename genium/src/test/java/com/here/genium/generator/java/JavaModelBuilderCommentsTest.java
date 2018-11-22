@@ -131,6 +131,8 @@ public class JavaModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingInputArgumentReadsComment() {
+    contextStack.injectResult(javaCustomType);
+
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
     JavaParameter javaParameter = modelBuilder.getFinalResult(JavaParameter.class);
@@ -143,6 +145,8 @@ public class JavaModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingOutputArgumentReadsComment() {
+    contextStack.injectResult(javaCustomType);
+
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
     JavaParameter javaParameter = modelBuilder.getFinalResult(JavaParameter.class);
@@ -155,6 +159,8 @@ public class JavaModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingFrancaConstantReadsComment() {
+    contextStack.injectResult(javaCustomType);
+
     modelBuilder.finishBuilding(francaConstant);
 
     JavaConstant javaConstant = modelBuilder.getFinalResult(JavaConstant.class);
@@ -167,6 +173,8 @@ public class JavaModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsComment() {
+    contextStack.injectResult(javaCustomType);
+
     modelBuilder.finishBuilding(francaField);
 
     JavaField javaField = modelBuilder.getFinalResult(JavaField.class);
@@ -219,6 +227,8 @@ public class JavaModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingFrancaAttributeReadsComment() {
+    contextStack.injectResult(javaCustomType);
+
     modelBuilder.finishBuilding(francaAttribute);
 
     List<JavaMethod> methods =

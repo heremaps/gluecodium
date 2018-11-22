@@ -485,7 +485,7 @@ public class JniModelBuilderTest {
     JniParameter resultParameter = modelBuilder.getFinalResult(JniParameter.class);
     assertNotNull(resultParameter);
     assertEquals(javaParameter.name, resultParameter.name);
-    assertEquals(javaParameter.type.name, resultParameter.type.javaName);
+    assertEquals(javaParameter.getType().name, resultParameter.type.javaName);
     assertEquals(cppParameter.type.name, resultParameter.type.cppName);
   }
 
@@ -656,7 +656,7 @@ public class JniModelBuilderTest {
     assertEquals(1, jniMethod.getParameters().size());
     JniParameter setterParameter = jniMethod.getParameters().get(0);
     assertEquals(javaSetter.parameters.get(0).name, setterParameter.name);
-    assertEquals(javaSetter.parameters.get(0).type.name, setterParameter.type.javaName);
+    assertEquals(javaSetter.parameters.get(0).getType().name, setterParameter.type.javaName);
     assertEquals(cppSetter.getParameters().get(0).type.name, setterParameter.type.cppName);
   }
 

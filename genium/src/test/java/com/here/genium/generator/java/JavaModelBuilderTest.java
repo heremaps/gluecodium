@@ -246,7 +246,7 @@ public class JavaModelBuilderTest {
 
     JavaParameter javaParameter = modelBuilder.getFinalResult(JavaParameter.class);
     assertNotNull(javaParameter);
-    assertEquals(javaCustomType, javaParameter.type);
+    assertEquals(javaCustomType, javaParameter.getType());
     assertFalse(javaParameter.isOutput);
   }
 
@@ -258,7 +258,7 @@ public class JavaModelBuilderTest {
 
     JavaParameter javaParameter = modelBuilder.getFinalResult(JavaParameter.class);
     assertNotNull(javaParameter);
-    assertEquals(javaCustomType, javaParameter.type);
+    assertEquals(javaCustomType, javaParameter.getType());
     assertTrue(javaParameter.isOutput);
   }
 
@@ -343,13 +343,15 @@ public class JavaModelBuilderTest {
     JavaConstant resultConstant = modelBuilder.getFinalResult(JavaConstant.class);
     assertNotNull(resultConstant);
     assertEquals("permanent", resultConstant.name.toLowerCase());
-    assertEquals(javaCustomType, resultConstant.type);
+    assertEquals(javaCustomType, resultConstant.getType());
     assertEquals(javaValue, resultConstant.value);
     assertEquals(JavaVisibility.PUBLIC, resultConstant.visibility);
   }
 
   @Test
   public void finishBuildingFrancaFieldReadsName() {
+    contextStack.injectResult(javaCustomType);
+
     modelBuilder.finishBuilding(francaField);
 
     JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
@@ -365,7 +367,7 @@ public class JavaModelBuilderTest {
 
     JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
     assertNotNull(resultField);
-    assertEquals(javaCustomType, resultField.type);
+    assertEquals(javaCustomType, resultField.getType());
   }
 
   @Test
@@ -399,6 +401,8 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldCreatesPublicField() {
+    contextStack.injectResult(javaCustomType);
+
     modelBuilder.finishBuilding(francaField);
 
     JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
@@ -415,7 +419,7 @@ public class JavaModelBuilderTest {
     JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
     assertNotNull(resultField);
     assertEquals(FIELD_NAME, resultField.name.toLowerCase());
-    assertEquals("List<typical>", resultField.type.name);
+    assertEquals("List<typical>", resultField.getType().name);
     verifyStatic();
     JavaValueMapper.mapDefaultValue(javaTemplateType);
     verify(deploymentModel).getDefaultValue(francaField);
@@ -436,6 +440,7 @@ public class JavaModelBuilderTest {
   @Test
   public void finishBuildingFrancaFieldCreatesInternalField() {
     when(deploymentModel.isInternal(any())).thenReturn(true);
+    contextStack.injectResult(javaCustomType);
 
     modelBuilder.finishBuilding(francaField);
 
@@ -447,6 +452,7 @@ public class JavaModelBuilderTest {
   @Test
   public void finishBuildingFrancaFieldReadsNotNull() {
     when(deploymentModel.isNotNull(francaField)).thenReturn(true);
+    contextStack.injectResult(javaCustomType);
 
     modelBuilder.finishBuilding(francaField);
 
@@ -459,6 +465,7 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaFieldAddsNonNullAnnotation() {
     when(deploymentModel.isNotNull(francaField)).thenReturn(true);
     when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
+    contextStack.injectResult(javaCustomType);
 
     modelBuilder.finishBuilding(francaField);
 
@@ -561,6 +568,8 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaAttributeCreatesGetter() {
+    contextStack.injectResult(javaCustomType);
+
     modelBuilder.finishBuilding(francaAttribute);
 
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
@@ -570,6 +579,8 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaAttributeCreatesSetter() {
+    contextStack.injectResult(javaCustomType);
+
     modelBuilder.finishBuilding(francaAttribute);
 
     List<JavaMethod> methods =
@@ -615,7 +626,7 @@ public class JavaModelBuilderTest {
     JavaMethod javaMethod = methods.get(1);
     assertEquals(JavaPrimitiveType.VOID, javaMethod.returnType);
     assertFalse(javaMethod.parameters.isEmpty());
-    assertEquals(javaCustomType, javaMethod.parameters.get(0).type);
+    assertEquals(javaCustomType, javaMethod.parameters.get(0).getType());
   }
 
   @Test
@@ -632,6 +643,7 @@ public class JavaModelBuilderTest {
   @Test
   public void finishBuildingFrancaAttributeCreatesInternalGetter() {
     when(deploymentModel.isInternal(any())).thenReturn(true);
+    contextStack.injectResult(javaCustomType);
 
     modelBuilder.finishBuilding(francaAttribute);
 
@@ -643,6 +655,7 @@ public class JavaModelBuilderTest {
   @Test
   public void finishBuildingFrancaAttributeCreatesInternalSetter() {
     when(deploymentModel.isInternal(any())).thenReturn(true);
+    contextStack.injectResult(javaCustomType);
 
     modelBuilder.finishBuilding(francaAttribute);
 

@@ -121,7 +121,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       returnType = JavaPrimitiveType.VOID;
       returnComment = null;
     } else {
-      returnType = outputParameter.type;
+      returnType = outputParameter.getType();
       returnComment = outputParameter.comment;
     }
 
