@@ -7,9 +7,9 @@ package com.example.smoke;
 
 import com.example.NativeBase;
 
-public class SimpleInstantiableOne extends NativeBase {
+public class NestedInstantiable extends NativeBase {
     /** For internal use only */
-    protected SimpleInstantiableOne(final long nativeHandle) {
+    protected NestedInstantiable(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {
@@ -19,6 +19,6 @@ public class SimpleInstantiableOne extends NativeBase {
     }
 
     private static native void disposeNativeHandle(long nativeHandle);
-    public native void setStringValue(final String stringValue);
-    public native String getStringValue();
+    public native void setSameTypeInstances(final SimpleInstantiable instanceOne, final SimpleInstantiable instanceTwo);
+    public native SimpleInstantiable getInstanceOne();
 }

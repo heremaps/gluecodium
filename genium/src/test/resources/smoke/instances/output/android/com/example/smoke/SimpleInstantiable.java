@@ -7,9 +7,9 @@ package com.example.smoke;
 
 import com.example.NativeBase;
 
-public class SimpleInstantiableTwo extends NativeBase {
+public class SimpleInstantiable extends NativeBase {
     /** For internal use only */
-    protected SimpleInstantiableTwo(final long nativeHandle) {
+    protected SimpleInstantiable(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {

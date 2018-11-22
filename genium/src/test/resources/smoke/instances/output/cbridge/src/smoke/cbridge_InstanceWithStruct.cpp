@@ -4,7 +4,7 @@
 #include "cbridge/include/smoke/cbridge_InstanceWithStruct.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "smoke/InstanceWithStruct.h"
-#include "smoke/SimpleInstantiableOne.h"
+#include "smoke/SimpleInstantiable.h"
 #include <memory>
 #include <new>
 void smoke_InstanceWithStruct_release(_baseRef handle) {
@@ -29,9 +29,9 @@ int8_t smoke_InstanceWithStruct_InnerStruct_value_get(_baseRef handle) {
 }
 _baseRef smoke_InstanceWithStruct_StructWithInstance_create(_baseRef instance, _baseRef instanceNotNull, _baseRef instanceNotNullWithComment) {
     ::smoke::InstanceWithStruct::StructWithInstance* _struct = new ::smoke::InstanceWithStruct::StructWithInstance();
-    _struct->instance = *get_pointer<std::shared_ptr<::smoke::SimpleInstantiableOne>>(instance);
-    _struct->instance_not_null = *get_pointer<std::shared_ptr<::smoke::SimpleInstantiableOne>>(instanceNotNull);
-    _struct->instance_not_null_with_comment = *get_pointer<std::shared_ptr<::smoke::SimpleInstantiableOne>>(instanceNotNullWithComment);
+    _struct->instance = *get_pointer<std::shared_ptr<::smoke::SimpleInstantiable>>(instance);
+    _struct->instance_not_null = *get_pointer<std::shared_ptr<::smoke::SimpleInstantiable>>(instanceNotNull);
+    _struct->instance_not_null_with_comment = *get_pointer<std::shared_ptr<::smoke::SimpleInstantiable>>(instanceNotNullWithComment);
     return reinterpret_cast<_baseRef>(_struct);
 }
 void smoke_InstanceWithStruct_StructWithInstance_release(_baseRef handle) {

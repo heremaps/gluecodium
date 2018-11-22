@@ -19,26 +19,9 @@
 
 package smoke
 
-interface SimpleInstantiableOne {
+interface SimpleInstantiable {
 
-    public typedef SimpleInstantiableOne is undefined
-
-    method setStringValue {
-        in {
-            String stringValue
-        }
-    }
-
-    method getStringValue {
-        out {
-           String stringValue
-        }
-    }
-}
-
-interface SimpleInstantiableTwo {
-
-    public typedef SimpleInstantiableTwo is undefined
+    public typedef SimpleInstantiable is undefined
 
     method setStringValue {
         in {
@@ -53,69 +36,20 @@ interface SimpleInstantiableTwo {
     }
 }
 
-interface NestedInstantiableOne {
+interface NestedInstantiable {
 
-    public typedef NestedInstantiableOne is undefined
+    public typedef NestedInstantiable is undefined
 
     method setSameTypeInstances {
         in {
-            SimpleInstantiableOne.SimpleInstantiableOne instanceOne
-            SimpleInstantiableOne.SimpleInstantiableOne instanceTwo
+            SimpleInstantiable.SimpleInstantiable instanceOne
+            SimpleInstantiable.SimpleInstantiable instanceTwo
         }
     }
 
     method getInstanceOne {
         out {
-            SimpleInstantiableOne.SimpleInstantiableOne instanceOne
-        }
-    }
-
-    method getInstanceTwo {
-        out {
-            SimpleInstantiableOne.SimpleInstantiableOne instanceTwo
-        }
-    }
-}
-
-interface NestedInstantiableTwo {
-
-    public typedef NestedInstantiableTwo is undefined
-
-    method setMultipleTypeInstances {
-        in {
-            SimpleInstantiableOne.SimpleInstantiableOne instanceOne
-            SimpleInstantiableTwo.SimpleInstantiableTwo instanceTwo
-            NestedInstantiableOne.NestedInstantiableOne nestedInstantiable
-        }
-    }
-
-    method getInstantiableOne {
-        out {
-            SimpleInstantiableOne.SimpleInstantiableOne instance
-        }
-    }
-
-    method getInstantiableTwo {
-        out {
-            SimpleInstantiableTwo.SimpleInstantiableTwo instance
-        }
-    }
-
-    method getNestedInstantiable {
-        out {
-            NestedInstantiableOne.NestedInstantiableOne instance
-        }
-    }
-
-    method setSelfInstantiable {
-        in {
-            NestedInstantiableTwo selfInstance
-        }
-    }
-
-    method getSelfInstantiable {
-        out {
-            NestedInstantiableTwo selfInstance
+            SimpleInstantiable.SimpleInstantiable instanceOne
         }
     }
 }
@@ -143,10 +77,10 @@ interface InstanceWithStruct {
     }
 
     struct StructWithInstance {
-        SimpleInstantiableOne.SimpleInstantiableOne instance
-        SimpleInstantiableOne.SimpleInstantiableOne instanceNotNull
+        SimpleInstantiable.SimpleInstantiable instance
+        SimpleInstantiable.SimpleInstantiable instanceNotNull
         <** @description: This is some very useful field. **>
-        SimpleInstantiableOne.SimpleInstantiableOne instanceNotNullWithComment
+        SimpleInstantiable.SimpleInstantiable instanceNotNullWithComment
     }
 
     method structWithInstanceMethod {

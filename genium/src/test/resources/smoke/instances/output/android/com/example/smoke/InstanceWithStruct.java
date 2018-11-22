@@ -19,39 +19,39 @@ public class InstanceWithStruct extends NativeBase {
         }
     }
     public static class StructWithInstance {
-        public SimpleInstantiableOne instance;
+        public SimpleInstantiable instance;
         /** @nonNull */
         @NonNull
-        public SimpleInstantiableOne instanceNotNull;
+        public SimpleInstantiable instanceNotNull;
         /**
          * This is some very useful field.
          * @nonNull
          */
         @NonNull
-        public SimpleInstantiableOne instanceNotNullWithComment;
+        public SimpleInstantiable instanceNotNullWithComment;
         public StructWithInstance() {
-            this((SimpleInstantiableOne)null, (SimpleInstantiableOne)null, (SimpleInstantiableOne)null);
+            this((SimpleInstantiable)null, (SimpleInstantiable)null, (SimpleInstantiable)null);
         }
-        public StructWithInstance(SimpleInstantiableOne instance, SimpleInstantiableOne instanceNotNull, SimpleInstantiableOne instanceNotNullWithComment) {
+        public StructWithInstance(SimpleInstantiable instance, SimpleInstantiable instanceNotNull, SimpleInstantiable instanceNotNullWithComment) {
             this.instance = instance;
             this.instanceNotNull = instanceNotNull;
             this.instanceNotNullWithComment = instanceNotNullWithComment;
         }
         public static class Builder {
-            private SimpleInstantiableOne instance = (SimpleInstantiableOne)null;
-            private SimpleInstantiableOne instanceNotNull = (SimpleInstantiableOne)null;
-            private SimpleInstantiableOne instanceNotNullWithComment = (SimpleInstantiableOne)null;
+            private SimpleInstantiable instance = (SimpleInstantiable)null;
+            private SimpleInstantiable instanceNotNull = (SimpleInstantiable)null;
+            private SimpleInstantiable instanceNotNullWithComment = (SimpleInstantiable)null;
             public Builder() {
             }
-            public Builder setInstance(SimpleInstantiableOne instance) {
+            public Builder setInstance(SimpleInstantiable instance) {
                 this.instance = instance;
                 return this;
             }
-            public Builder setInstanceNotNull(SimpleInstantiableOne instanceNotNull) {
+            public Builder setInstanceNotNull(SimpleInstantiable instanceNotNull) {
                 this.instanceNotNull = instanceNotNull;
                 return this;
             }
-            public Builder setInstanceNotNullWithComment(SimpleInstantiableOne instanceNotNullWithComment) {
+            public Builder setInstanceNotNullWithComment(SimpleInstantiable instanceNotNullWithComment) {
                 this.instanceNotNullWithComment = instanceNotNullWithComment;
                 return this;
             }

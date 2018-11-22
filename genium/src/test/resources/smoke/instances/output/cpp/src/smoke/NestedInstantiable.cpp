@@ -7,9 +7,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "smoke/SimpleInstantiableTwo.h"
+#include "smoke/NestedInstantiable.h"
 namespace smoke {
 
-SimpleInstantiableTwo::~SimpleInstantiableTwo() = default;
+NestedInstantiable::~NestedInstantiable() = default;
 
 }

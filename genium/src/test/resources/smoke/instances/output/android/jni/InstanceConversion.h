@@ -1,27 +1,20 @@
 #pragma once
-
 #include <jni.h>
 #include <memory>
 #include <new>
-#include "smoke/SimpleInstantiableOne.h"
-#include "com_example_smoke_SimpleInstantiableOne.h"
+#include "smoke/SimpleInstantiable.h"
+#include "com_example_smoke_SimpleInstantiable.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
-#include "smoke/SimpleInstantiableTwo.h"
-#include "com_example_smoke_SimpleInstantiableTwo.h"
-#include "smoke/NestedInstantiableOne.h"
-#include "com_example_smoke_NestedInstantiableOne.h"
-#include "smoke/NestedInstantiableTwo.h"
-#include "com_example_smoke_NestedInstantiableTwo.h"
+#include "smoke/NestedInstantiable.h"
+#include "com_example_smoke_NestedInstantiable.h"
 #include "smoke/InstanceWithStruct.h"
 #include "com_example_smoke_InstanceWithStruct.h"
 #include "ProxyConversion.h"
-
 namespace genium {
 namespace jni {
-
 template < typename T >
 ::std::shared_ptr< T >
 convert_from_jni( JNIEnv* _env, jobject _jobj, ::std::shared_ptr< T >* dummy ) {
@@ -38,12 +31,8 @@ convert_from_jni( JNIEnv* _env, jobject _jobj, ::std::shared_ptr< T >* dummy ) {
     _env->DeleteLocalRef( nativeBaseClass );
     return _nresult;
 }
-
-jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiableOne> & _ninput);
-jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiableTwo> & _ninput);
-jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiableOne> & _ninput);
-jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiableTwo> & _ninput);
+jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiable> & _ninput);
+jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiable> & _ninput);
 jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceWithStruct> & _ninput);
-
 }
 }
