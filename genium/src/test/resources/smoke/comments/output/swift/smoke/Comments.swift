@@ -99,6 +99,14 @@ public class Comments {
     public func someMethodWithoutReturnTypeOrInputParameters() -> Void {
         return smoke_Comments_someMethodWithoutReturnTypeOrInputParameters(c_instance)
     }
+    /// This is some very useful instance method.
+    /// - Parameter input: This is some very useful instance method parameter.
+    /// - Returns: This is some very useful instance method result.
+    public func instanceNotNullMethod(input: CommentsInstantiable?) -> CommentsInstantiable? {
+        let input_handle = getRef(input)
+        let cResult = smoke_Comments_instanceNotNullMethod(c_instance, input_handle.ref)
+        return CommentsInstantiable(cCommentsInstantiable: cResult)
+    }
 }
 extension Comments: NativeBase {
     var c_handle: _baseRef { return c_instance }

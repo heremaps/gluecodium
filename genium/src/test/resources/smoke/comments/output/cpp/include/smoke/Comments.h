@@ -8,10 +8,15 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 
+#include "smoke/CommentsInstantiable.h"
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
+namespace smoke {
+    class CommentsInstantiable;
+}
 namespace smoke {
 /**
  * This is some very useful interface.
@@ -105,6 +110,12 @@ virtual void some_method_with_nothing(  ) = 0;
  * This is some very useful method that does nothing.
  */
 virtual void some_method_without_return_type_or_input_parameters(  ) = 0;
+/**
+ * This is some very useful instance method.
+ * \param[in] input @NotNull This is some very useful instance method parameter.
+ * \return @NotNull This is some very useful instance method result.
+ */
+virtual ::std::shared_ptr< ::smoke::CommentsInstantiable > instance_not_null_method( const ::std::shared_ptr< ::smoke::CommentsInstantiable >& input ) = 0;
 /**
  * This is some very useful attribute.
  */
