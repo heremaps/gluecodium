@@ -136,6 +136,18 @@ interface Comments {
 
     <** @description: This is some very useful attribute. **>
     attribute Usefulness SomeAttribute
+
+    <** @description: This is some very useful instance method. **>
+    method instanceNotNullMethod {
+        in {
+            <** @description: This is some very useful instance method parameter. **>
+            CommentsInstantiable.CommentsInstantiable input
+        }
+        out {
+            <** @description: This is some very useful instance method result. **>
+            CommentsInstantiable.CommentsInstantiable output
+        }
+    }
 }
 
 <** @description: This is some very useful interface.
@@ -189,4 +201,8 @@ interface LongComments {
           Float output
        }
    }
+}
+
+interface CommentsInstantiable {
+    public typedef CommentsInstantiable is undefined
 }

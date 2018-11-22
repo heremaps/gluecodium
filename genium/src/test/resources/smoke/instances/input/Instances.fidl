@@ -52,6 +52,15 @@ interface NestedInstantiable {
             SimpleInstantiable.SimpleInstantiable instanceOne
         }
     }
+
+    method instanceNotNullMethod {
+        in {
+            SimpleInstantiable.SimpleInstantiable input
+        }
+        out {
+            SimpleInstantiable.SimpleInstantiable output
+        }
+    }
 }
 
 interface InstanceWithStruct {

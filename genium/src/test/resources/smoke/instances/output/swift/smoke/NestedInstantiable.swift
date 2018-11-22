@@ -32,6 +32,11 @@ public class NestedInstantiable {
         let cResult = smoke_NestedInstantiable_getInstanceOne(c_instance)
         return SimpleInstantiable(cSimpleInstantiable: cResult)
     }
+    public func instanceNotNullMethod(input: SimpleInstantiable?) -> SimpleInstantiable? {
+        let input_handle = getRef(input)
+        let cResult = smoke_NestedInstantiable_instanceNotNullMethod(c_instance, input_handle.ref)
+        return SimpleInstantiable(cSimpleInstantiable: cResult)
+    }
 }
 
 extension NestedInstantiable: NativeBase {

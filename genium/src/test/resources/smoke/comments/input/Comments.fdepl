@@ -18,9 +18,9 @@
  */
 
 import "classpath:/GeniumExtensions.fdepl"
-import "./Instances.fidl"
+import "./Comments.fidl"
 
-define GeniumExtensions for interface smoke.NestedInstantiable
+define GeniumExtensions for interface smoke.Comments
 {
     method instanceNotNullMethod {
         in {
@@ -32,18 +32,6 @@ define GeniumExtensions for interface smoke.NestedInstantiable
             output {
                 NotNull = true
             }
-        }
-    }
-}
-
-define GeniumExtensions for interface smoke.InstanceWithStruct
-{
-    struct StructWithInstance {
-        instanceNotNull {
-            NotNull = true
-        }
-        instanceNotNullWithComment {
-            NotNull = true
         }
     }
 }

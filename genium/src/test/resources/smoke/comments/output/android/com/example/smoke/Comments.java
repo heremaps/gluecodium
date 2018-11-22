@@ -98,6 +98,12 @@ public class Comments extends NativeBase {
      */
     public native void someMethodWithoutReturnTypeOrInputParameters();
     /**
+     * This is some very useful instance method.
+     * @param input This is some very useful instance method parameter.
+     * @return This is some very useful instance method result.
+     */
+    public native CommentsInstantiable instanceNotNullMethod(final CommentsInstantiable input);
+    /**
      * This is some very useful attribute.
      */
     public native boolean isSomeAttribute();
