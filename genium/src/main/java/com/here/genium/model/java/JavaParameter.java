@@ -19,39 +19,16 @@
 
 package com.here.genium.model.java;
 
-import java.util.stream.Stream;
+public final class JavaParameter extends JavaTypedElement {
 
-public final class JavaParameter extends JavaElement {
-
-  public final JavaType type;
-  public final JavaValue defaultValue;
   public final boolean isOutput;
 
   public JavaParameter(final JavaType type, final String name) {
-    this(type, name, null, false);
-  }
-
-  public JavaParameter(final JavaType type, final String name, final JavaValue defaultValue) {
-    this(type, name, defaultValue, false);
+    this(type, name, false);
   }
 
   public JavaParameter(final JavaType type, final String name, final boolean isOutput) {
-    this(type, name, null, isOutput);
-  }
-
-  private JavaParameter(
-      final JavaType type,
-      final String name,
-      final JavaValue defaultValue,
-      final boolean isOutput) {
-    super(name);
-    this.type = type;
-    this.defaultValue = defaultValue;
+    super(name, type);
     this.isOutput = isOutput;
-  }
-
-  @Override
-  public Stream<JavaElement> stream() {
-    return Stream.of(type, defaultValue);
   }
 }
