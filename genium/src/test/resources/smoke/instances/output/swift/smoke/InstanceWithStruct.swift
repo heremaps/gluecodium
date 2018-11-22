@@ -40,12 +40,12 @@ public class InstanceWithStruct {
     }
 
     public struct StructWithInstance {
-        public var instance: SimpleInstantiableOne?
-        public var instanceNotNull: SimpleInstantiableOne
+        public var instance: SimpleInstantiable?
+        public var instanceNotNull: SimpleInstantiable
         /// This is some very useful field.
-        public var instanceNotNullWithComment: SimpleInstantiableOne
+        public var instanceNotNullWithComment: SimpleInstantiable
 
-        public init(instance: SimpleInstantiableOne?, instanceNotNull: SimpleInstantiableOne, instanceNotNullWithComment: SimpleInstantiableOne) {
+        public init(instance: SimpleInstantiable?, instanceNotNull: SimpleInstantiable, instanceNotNullWithComment: SimpleInstantiable) {
             self.instance = instance
             self.instanceNotNull = instanceNotNull
             self.instanceNotNullWithComment = instanceNotNullWithComment
@@ -53,17 +53,17 @@ public class InstanceWithStruct {
 
         internal init(cStructWithInstance: _baseRef) {
             do {
-                instance = SimpleInstantiableOne(cSimpleInstantiableOne: smoke_InstanceWithStruct_StructWithInstance_instance_get(cStructWithInstance))
+                instance = SimpleInstantiable(cSimpleInstantiable: smoke_InstanceWithStruct_StructWithInstance_instance_get(cStructWithInstance))
             }
             do {
-                guard let instanceNotNull_unwrapped = SimpleInstantiableOne(cSimpleInstantiableOne: smoke_InstanceWithStruct_StructWithInstance_instanceNotNull_get(cStructWithInstance))
+                guard let instanceNotNull_unwrapped = SimpleInstantiable(cSimpleInstantiable: smoke_InstanceWithStruct_StructWithInstance_instanceNotNull_get(cStructWithInstance))
             else {
                 fatalError("Nullptr value for field 'StructWithInstance.instanceNotNull' is not supported")
             }
             instanceNotNull = instanceNotNull_unwrapped
             }
             do {
-                guard let instanceNotNullWithComment_unwrapped = SimpleInstantiableOne(cSimpleInstantiableOne: smoke_InstanceWithStruct_StructWithInstance_instanceNotNullWithComment_get(cStructWithInstance))
+                guard let instanceNotNullWithComment_unwrapped = SimpleInstantiable(cSimpleInstantiable: smoke_InstanceWithStruct_StructWithInstance_instanceNotNullWithComment_get(cStructWithInstance))
             else {
                 fatalError("Nullptr value for field 'StructWithInstance.instanceNotNullWithComment' is not supported")
             }

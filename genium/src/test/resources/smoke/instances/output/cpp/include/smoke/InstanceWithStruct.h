@@ -7,12 +7,12 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "smoke/SimpleInstantiableOne.h"
+#include "smoke/SimpleInstantiable.h"
 #include <cstdint>
 #include <memory>
 
 namespace smoke {
-    class SimpleInstantiableOne;
+    class SimpleInstantiable;
 }
 
 namespace smoke {
@@ -26,16 +26,16 @@ struct InnerStruct {
     InnerStruct( const int8_t value );
 };
 struct StructWithInstance {
-    ::std::shared_ptr< ::smoke::SimpleInstantiableOne > instance;
+    ::std::shared_ptr< ::smoke::SimpleInstantiable > instance;
     /// \warning @NotNull
-    ::std::shared_ptr< ::smoke::SimpleInstantiableOne > instance_not_null;
+    ::std::shared_ptr< ::smoke::SimpleInstantiable > instance_not_null;
     /**
      * This is some very useful field.
      * \warning @NotNull
      */
-    ::std::shared_ptr< ::smoke::SimpleInstantiableOne > instance_not_null_with_comment;
+    ::std::shared_ptr< ::smoke::SimpleInstantiable > instance_not_null_with_comment;
     StructWithInstance( );
-    StructWithInstance( const ::std::shared_ptr< ::smoke::SimpleInstantiableOne >& instance, const ::std::shared_ptr< ::smoke::SimpleInstantiableOne >& instance_not_null, const ::std::shared_ptr< ::smoke::SimpleInstantiableOne >& instance_not_null_with_comment );
+    StructWithInstance( const ::std::shared_ptr< ::smoke::SimpleInstantiable >& instance, const ::std::shared_ptr< ::smoke::SimpleInstantiable >& instance_not_null, const ::std::shared_ptr< ::smoke::SimpleInstantiable >& instance_not_null_with_comment );
 };
 public:
 virtual ::smoke::InstanceWithStruct::InnerStruct inner_struct_method( const ::smoke::InstanceWithStruct::InnerStruct& input_struct ) = 0;
