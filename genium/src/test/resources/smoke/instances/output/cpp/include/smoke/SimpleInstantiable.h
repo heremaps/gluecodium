@@ -7,9 +7,20 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "smoke/NestedInstantiableTwo.h"
+#pragma once
+
+#include <string>
+
 namespace smoke {
 
-NestedInstantiableTwo::~NestedInstantiableTwo() = default;
+class SimpleInstantiable {
+public:
+    virtual ~SimpleInstantiable() = 0;
+
+public:
+virtual void set_string_value( const ::std::string& string_value ) = 0;
+virtual ::std::string get_string_value(  ) = 0;
+
+};
 
 }
