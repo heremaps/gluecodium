@@ -19,20 +19,18 @@
 
 package com.here.genium.model.java;
 
-import com.google.common.base.Strings;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.StringUtils;
 
-public final class JavaField extends JavaAnnotatedElement {
+public final class JavaField extends JavaTypedElement {
 
-  public final JavaType type;
   public final JavaValue initial;
   public final boolean isNonNull;
 
   @lombok.Builder(builderClassName = "Builder")
   private JavaField(
       final String name, final JavaType type, final JavaValue initial, final boolean isNonNull) {
-    super(name);
-    this.type = type;
+    super(name, type);
     this.initial = initial;
     this.isNonNull = isNonNull;
   }
@@ -43,11 +41,11 @@ public final class JavaField extends JavaAnnotatedElement {
 
   @Override
   public Stream<JavaElement> stream() {
-    return Stream.concat(Stream.of(type, initial), super.stream());
+    return Stream.concat(super.stream(), Stream.of(initial));
   }
 
   @SuppressWarnings("unused")
   public boolean hasComment() {
-    return !Strings.isNullOrEmpty(comment) || isNonNull;
+    return StringUtils.isNotEmpty(comment) || isNonNull;
   }
 }
