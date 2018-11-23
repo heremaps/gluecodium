@@ -11,7 +11,7 @@ internal func getRef(_ ref: InheritanceChild?, owning: Bool = true) -> RefHolder
     if let instanceReference = reference as? NativeBase {
         let handle_copy = examples_InheritanceChild_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: examples_InheritanceChild_release)
+            ? RefHolder(ref: handle_copy, release: examples_InheritanceChild_release_handle)
             : RefHolder(handle_copy)
     }
     var functions = examples_InheritanceChild_FunctionTable()
@@ -24,7 +24,7 @@ internal func getRef(_ ref: InheritanceChild?, owning: Bool = true) -> RefHolder
     functions.examples_InheritanceParent_parentMethod = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceChild
         defer {
-            std_string_release(input)
+            std_string_release_handle(input)
         }
         return swift_class.parentMethod(input: String(data: Data(bytes: std_string_data_get(input),
                                                 count: Int(std_string_size_get(input))), encoding: .utf8)!).convertToCType()
@@ -33,8 +33,8 @@ internal func getRef(_ ref: InheritanceChild?, owning: Bool = true) -> RefHolder
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceChild
         return swift_class.childMethod(input: input)
     }
-    let proxy = examples_InheritanceChild_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: examples_InheritanceChild_release) : RefHolder(proxy)
+    let proxy = examples_InheritanceChild_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: examples_InheritanceChild_release_handle) : RefHolder(proxy)
 }
 
 public protocol InheritanceChild : InheritanceParent {
@@ -51,12 +51,12 @@ internal class _InheritanceChild: InheritanceChild {
         c_instance = cInheritanceChild
     }
     deinit {
-        examples_InheritanceChild_release(c_instance)
+        examples_InheritanceChild_release_handle(c_instance)
     }
     public func parentMethod(input: String) -> String {
         let result_string_handle = examples_InheritanceParent_parentMethod(c_instance, input)
         defer {
-            std_string_release(result_string_handle)
+            std_string_release_handle(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
                                  count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!

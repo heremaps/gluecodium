@@ -26,7 +26,7 @@ public class ConstantsInterface {
         c_instance = cConstantsInterface
     }
     deinit {
-        smoke_ConstantsInterface_release(c_instance)
+        smoke_ConstantsInterface_release_handle(c_instance)
     }
     public enum StateEnum : UInt32 {
         case off

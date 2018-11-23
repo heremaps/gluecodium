@@ -9,7 +9,7 @@ internal func getRef(_ ref: NestedInterface?, owning: Bool = true) -> RefHolder 
     if let instanceReference = reference as? NativeBase {
         let handle_copy = smoke_NestedInterface_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: smoke_NestedInterface_release)
+            ? RefHolder(ref: handle_copy, release: smoke_NestedInterface_release_handle)
             : RefHolder(handle_copy)
     }
     var functions = smoke_NestedInterface_FunctionTable()
@@ -26,7 +26,7 @@ internal func getRef(_ ref: NestedInterface?, owning: Bool = true) -> RefHolder 
             swift_object_interfaceOne = Unmanaged<AnyObject>.fromOpaque(swift_pointer_interfaceOne).takeUnretainedValue() as? SimpleInterface
             if swift_object_interfaceOne != nil {
                 defer {
-                    smoke_SimpleInterface_release(interfaceOne)
+                    smoke_SimpleInterface_release_handle(interfaceOne)
                 }
             }
         }
@@ -38,7 +38,7 @@ internal func getRef(_ ref: NestedInterface?, owning: Bool = true) -> RefHolder 
             swift_object_interfaceTwo = Unmanaged<AnyObject>.fromOpaque(swift_pointer_interfaceTwo).takeUnretainedValue() as? SimpleInterface
             if swift_object_interfaceTwo != nil {
                 defer {
-                    smoke_SimpleInterface_release(interfaceTwo)
+                    smoke_SimpleInterface_release_handle(interfaceTwo)
                 }
             }
         }
@@ -66,7 +66,7 @@ internal func getRef(_ ref: NestedInterface?, owning: Bool = true) -> RefHolder 
     functions.smoke_NestedInterface_makeMoreExternal_withStruct = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
         defer {
-            smoke_ExternalInterface_SomeStruct_release(input)
+            smoke_ExternalInterface_SomeStruct_release_handle(input)
         }
         return swift_class.makeMoreExternal(input: ExternalInterface.SomeStruct(cExternalInterface.SomeStruct: input)).convertToCType()
     }
@@ -74,8 +74,8 @@ internal func getRef(_ ref: NestedInterface?, owning: Bool = true) -> RefHolder 
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
         return swift_class.makeMoreExternal(input: ExternalInterface.SomeEnum(rawValue: input)!).rawValue
     }
-    let proxy = smoke_NestedInterface_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: smoke_NestedInterface_release) : RefHolder(proxy)
+    let proxy = smoke_NestedInterface_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: smoke_NestedInterface_release_handle) : RefHolder(proxy)
 }
 public protocol NestedInterface : AnyObject {
     func setSameTypeInstances(interfaceOne: SimpleInterface?, interfaceTwo: SimpleInterface?) -> Void
@@ -94,7 +94,7 @@ internal class _NestedInterface: NestedInterface {
         c_instance = cNestedInterface
     }
     deinit {
-        smoke_NestedInterface_release(c_instance)
+        smoke_NestedInterface_release_handle(c_instance)
     }
     public func setSameTypeInstances(interfaceOne: SimpleInterface?, interfaceTwo: SimpleInterface?) -> Void {
         let interfaceOne_handle = getRef(interfaceOne)
@@ -125,11 +125,11 @@ internal class _NestedInterface: NestedInterface {
     public func makeMoreExternal(input: ExternalInterface.SomeStruct) -> VeryExternalInterface.SomeStruct {
         let input_handle = input.convertToCType()
         defer {
-            smoke_ExternalInterface_SomeStruct_release(input_handle)
+            smoke_ExternalInterface_SomeStruct_release_handle(input_handle)
         }
         let cResult = smoke_NestedInterface_makeMoreExternal_withStruct(c_instance, input_handle)
         defer {
-            smoke_VeryExternalInterface_SomeStruct_release(cResult)
+            smoke_VeryExternalInterface_SomeStruct_release_handle(cResult)
         }
         return VeryExternalInterface.SomeStruct(cSomeStruct: cResult)
     }

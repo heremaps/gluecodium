@@ -11,7 +11,7 @@ internal func getRef(_ ref: PublicInterface?, owning: Bool = true) -> RefHolder 
     if let instanceReference = reference as? NativeBase {
         let handle_copy = smoke_PublicInterface_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: smoke_PublicInterface_release)
+            ? RefHolder(ref: handle_copy, release: smoke_PublicInterface_release_handle)
             : RefHolder(handle_copy)
     }
     var functions = smoke_PublicInterface_FunctionTable()
@@ -21,8 +21,8 @@ internal func getRef(_ ref: PublicInterface?, owning: Bool = true) -> RefHolder 
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-    let proxy = smoke_PublicInterface_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: smoke_PublicInterface_release) : RefHolder(proxy)
+    let proxy = smoke_PublicInterface_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: smoke_PublicInterface_release_handle) : RefHolder(proxy)
 }
 
 public protocol PublicInterface : AnyObject {
@@ -37,7 +37,7 @@ internal class _PublicInterface: PublicInterface {
         c_instance = cPublicInterface
     }
     deinit {
-        smoke_PublicInterface_release(c_instance)
+        smoke_PublicInterface_release_handle(c_instance)
     }
 }
 
@@ -54,13 +54,13 @@ internal struct InternalStruct {
         do {
             let stringField_handle = smoke_PublicInterface_InternalStruct_stringField_get(cInternalStruct)
             defer {
-                std_string_release(stringField_handle)
+                std_string_release_handle(stringField_handle)
             }
             stringField = String(cString: std_string_data_get(stringField_handle))
         }
     }
     internal func convertToCType() -> _baseRef {
         let stringField_handle = stringField
-        return smoke_PublicInterface_InternalStruct_create(stringField_handle)
+        return smoke_PublicInterface_InternalStruct_create_handle(stringField_handle)
     }
 }

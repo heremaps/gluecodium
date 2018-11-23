@@ -11,7 +11,7 @@ internal func getRef(_ ref: Attributes?, owning: Bool = true) -> RefHolder {
     if let instanceReference = reference as? NativeBase {
         let handle_copy = examples_Attributes_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: examples_Attributes_release)
+            ? RefHolder(ref: handle_copy, release: examples_Attributes_release_handle)
             : RefHolder(handle_copy)
     }
     var functions = examples_Attributes_FunctionTable()
@@ -33,8 +33,8 @@ internal func getRef(_ ref: Attributes?, owning: Bool = true) -> RefHolder {
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Attributes
         return swift_class.readonlyAttribute
     }
-    let proxy = examples_Attributes_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: examples_Attributes_release) : RefHolder(proxy)
+    let proxy = examples_Attributes_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: examples_Attributes_release_handle) : RefHolder(proxy)
 }
 
 public protocol Attributes : AnyObject {
@@ -73,7 +73,7 @@ internal class _Attributes: Attributes {
     }
 
     deinit {
-        examples_Attributes_release(c_instance)
+        examples_Attributes_release_handle(c_instance)
     }
 }
 

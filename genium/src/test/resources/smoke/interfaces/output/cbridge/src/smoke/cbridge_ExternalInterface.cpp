@@ -7,7 +7,7 @@
 #include <memory>
 #include <new>
 #include <string>
-void smoke_ExternalInterface_release(_baseRef handle) {
+void smoke_ExternalInterface_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(handle);
 }
 _baseRef smoke_ExternalInterface_copy_handle(_baseRef handle) {
@@ -15,12 +15,12 @@ _baseRef smoke_ExternalInterface_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(handle)))
         : 0;
 }
-_baseRef smoke_ExternalInterface_SomeStruct_create(const char* someField) {
+_baseRef smoke_ExternalInterface_SomeStruct_create_handle(const char* someField) {
     ::smoke::ExternalInterface::some_Struct* _struct = new ::smoke::ExternalInterface::some_Struct();
     _struct->some_Field = someField;
     return reinterpret_cast<_baseRef>(_struct);
 }
-void smoke_ExternalInterface_SomeStruct_release(_baseRef handle) {
+void smoke_ExternalInterface_SomeStruct_release_handle(_baseRef handle) {
     delete get_pointer<::smoke::ExternalInterface::some_Struct>(handle);
 }
 _baseRef smoke_ExternalInterface_SomeStruct_someField_get(_baseRef handle) {

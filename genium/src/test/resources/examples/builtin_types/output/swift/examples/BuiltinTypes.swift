@@ -20,7 +20,7 @@ public class BuiltinTypes {
     }
 
     deinit {
-        examples_BuiltinTypes_release(c_instance)
+        examples_BuiltinTypes_release_handle(c_instance)
     }
     public static func methodWithInt8(inputNumber: Int8) -> Int8 {
         return examples_BuiltinTypes_methodWithInt8(inputNumber)
@@ -67,16 +67,16 @@ public class BuiltinTypes {
     }
 
     public static func methodWithByteBuffer(inputBuffer: Data) -> Data {
-        let inputBuffer_handle = byteArray_create()
+        let inputBuffer_handle = byteArray_create_handle()
         defer {
-            byteArray_release(inputBuffer_handle)
+            byteArray_release_handle(inputBuffer_handle)
         }
         inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) in
             byteArray_assign(inputBuffer_handle, inputBuffer_ptr, inputBuffer.count)
         }
         let result_data_handle = examples_BuiltinTypes_methodWithByteBuffer(inputBuffer_handle)
         defer {
-            byteArray_release(result_data_handle)
+            byteArray_release_handle(result_data_handle)
         }
         return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
     }

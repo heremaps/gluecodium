@@ -9,7 +9,7 @@
 #include <memory>
 #include <new>
 
-void examples_CalculatorListener_release(_baseRef handle) {
+void examples_CalculatorListener_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::examples::CalculatorListener>>(handle);
 }
 
@@ -44,7 +44,7 @@ private:
     function_table_t mFunctions;
 };
 
-_baseRef examples_CalculatorListener_createProxy(examples_CalculatorListener_FunctionTable functionTable) {
+_baseRef examples_CalculatorListener_create_proxy(examples_CalculatorListener_FunctionTable functionTable) {
     auto proxy = examples_CalculatorListenerProxy::get_proxy(std::move(functionTable));
     if (proxy) {
         return reinterpret_cast<_baseRef>( new std::shared_ptr<::examples::CalculatorListener>(std::move(proxy)) );

@@ -18,7 +18,7 @@ public class DefaultValues {
     }
 
     deinit {
-        examples_DefaultValues_release(c_instance)
+        examples_DefaultValues_release_handle(c_instance)
     }
     public enum SomeEnum : UInt32 {
 
@@ -49,7 +49,7 @@ public class DefaultValues {
             do {
                 let stringField_handle = examples_DefaultValues_StructWithDefaults_stringField_get(cStructWithDefaults)
                 defer {
-                    std_string_release(stringField_handle)
+                    std_string_release_handle(stringField_handle)
                 }
                 stringField = String(cString: std_string_data_get(stringField_handle))
             }
@@ -62,7 +62,7 @@ public class DefaultValues {
             let boolField_handle = boolField
             let stringField_handle = stringField
             let enumField_handle = enumField.rawValue
-            return examples_DefaultValues_StructWithDefaults_create(intField_handle, floatField_handle, boolField_handle, stringField_handle, enumField_handle)
+            return examples_DefaultValues_StructWithDefaults_create_handle(intField_handle, floatField_handle, boolField_handle, stringField_handle, enumField_handle)
         }
     }
 

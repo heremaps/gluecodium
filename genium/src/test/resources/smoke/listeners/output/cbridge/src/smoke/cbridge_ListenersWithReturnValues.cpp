@@ -11,7 +11,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-void smoke_ListenersWithReturnValues_release(_baseRef handle) {
+void smoke_ListenersWithReturnValues_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle);
 }
 _baseRef smoke_ListenersWithReturnValues_copy_handle(_baseRef handle) {
@@ -19,12 +19,12 @@ _baseRef smoke_ListenersWithReturnValues_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)))
         : 0;
 }
-_baseRef smoke_ListenersWithReturnValues_ResultStruct_create(double result) {
+_baseRef smoke_ListenersWithReturnValues_ResultStruct_create_handle(double result) {
     ::smoke::ListenersWithReturnValues::ResultStruct* _struct = new ::smoke::ListenersWithReturnValues::ResultStruct();
     _struct->result = result;
     return reinterpret_cast<_baseRef>(_struct);
 }
-void smoke_ListenersWithReturnValues_ResultStruct_release(_baseRef handle) {
+void smoke_ListenersWithReturnValues_ResultStruct_release_handle(_baseRef handle) {
     delete get_pointer<::smoke::ListenersWithReturnValues::ResultStruct>(handle);
 }
 double smoke_ListenersWithReturnValues_ResultStruct_result_get(_baseRef handle) {
@@ -101,7 +101,7 @@ public:
 private:
     function_table_t mFunctions;
 };
-_baseRef smoke_ListenersWithReturnValues_createProxy(smoke_ListenersWithReturnValues_FunctionTable functionTable) {
+_baseRef smoke_ListenersWithReturnValues_create_proxy(smoke_ListenersWithReturnValues_FunctionTable functionTable) {
     auto proxy = smoke_ListenersWithReturnValuesProxy::get_proxy(std::move(functionTable));
     if (proxy) {
         return reinterpret_cast<_baseRef>( new std::shared_ptr<::smoke::ListenersWithReturnValues>(std::move(proxy)) );
@@ -112,16 +112,16 @@ _baseRef smoke_ListenersWithReturnValues_createProxy(smoke_ListenersWithReturnVa
 const void* smoke_ListenersWithReturnValues_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_ListenersWithReturnValuesProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get()) : nullptr;
 }
-_baseRef smoke_ListenersWithReturnValues_StringToDouble_create() {
+_baseRef smoke_ListenersWithReturnValues_StringToDouble_create_handle() {
     return reinterpret_cast<_baseRef>( new std::unordered_map<std::string, double>() );
 }
-void smoke_ListenersWithReturnValues_StringToDouble_release(_baseRef handle) {
+void smoke_ListenersWithReturnValues_StringToDouble_release_handle(_baseRef handle) {
     delete get_pointer<std::unordered_map<std::string, double>>(handle);
 }
 _baseRef smoke_ListenersWithReturnValues_StringToDouble_iterator(_baseRef handle) {
     return reinterpret_cast<_baseRef>( new std::unordered_map<std::string, double>::iterator( get_pointer<std::unordered_map<std::string, double>>(handle)->begin() ) );
 }
-void smoke_ListenersWithReturnValues_StringToDouble_iterator_release(_baseRef iterator_handle) {
+void smoke_ListenersWithReturnValues_StringToDouble_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle );
 }
 void smoke_ListenersWithReturnValues_StringToDouble_put(_baseRef handle, _baseRef key, double value) {

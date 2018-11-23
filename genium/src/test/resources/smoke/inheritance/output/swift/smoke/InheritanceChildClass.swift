@@ -13,7 +13,7 @@ public class InheritanceChildClass: InheritanceRoot {
         get {
             let result_string_handle = smoke_InheritanceRoot_rootAttribute_get(c_instance)
             defer {
-                std_string_release(result_string_handle)
+                std_string_release_handle(result_string_handle)
             }
             return String(data: Data(bytes: std_string_data_get(result_string_handle),
                                      count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
@@ -30,7 +30,7 @@ public class InheritanceChildClass: InheritanceRoot {
         c_instance = cInheritanceChildClass
     }
     deinit {
-        smoke_InheritanceChildClass_release(c_instance)
+        smoke_InheritanceChildClass_release_handle(c_instance)
     }
     public func rootMethod() -> Void {
         return smoke_InheritanceRoot_rootMethod(c_instance)

@@ -7,7 +7,7 @@
 #include <memory>
 #include <new>
 #include <string>
-void smoke_VeryExternalInterface_release(_baseRef handle) {
+void smoke_VeryExternalInterface_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::fire::Baz>>(handle);
 }
 _baseRef smoke_VeryExternalInterface_copy_handle(_baseRef handle) {
@@ -15,12 +15,12 @@ _baseRef smoke_VeryExternalInterface_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::fire::Baz>>(handle)))
         : 0;
 }
-_baseRef smoke_VeryExternalInterface_SomeStruct_create(const char* someField) {
+_baseRef smoke_VeryExternalInterface_SomeStruct_create_handle(const char* someField) {
     ::fire::Baz::some_Struct* _struct = new ::fire::Baz::some_Struct();
     _struct->some_Field = someField;
     return reinterpret_cast<_baseRef>(_struct);
 }
-void smoke_VeryExternalInterface_SomeStruct_release(_baseRef handle) {
+void smoke_VeryExternalInterface_SomeStruct_release_handle(_baseRef handle) {
     delete get_pointer<::fire::Baz::some_Struct>(handle);
 }
 _baseRef smoke_VeryExternalInterface_SomeStruct_someField_get(_baseRef handle) {

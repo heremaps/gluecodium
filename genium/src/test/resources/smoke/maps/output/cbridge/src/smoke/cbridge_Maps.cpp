@@ -10,7 +10,7 @@
 #include <string>
 #include <unordered_map>
 
-void smoke_Maps_release(_baseRef handle) {
+void smoke_Maps_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::Maps>>(handle);
 }
 _baseRef smoke_Maps_copy_handle(_baseRef handle) {
@@ -18,24 +18,24 @@ _baseRef smoke_Maps_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::Maps>>(handle)))
         : 0;
 }
-_baseRef smoke_Maps_SomeStruct_create(const char* value) {
+_baseRef smoke_Maps_SomeStruct_create_handle(const char* value) {
     ::smoke::Maps::SomeStruct* _struct = new ::smoke::Maps::SomeStruct();
     _struct->value = value;
     return reinterpret_cast<_baseRef>(_struct);
 }
-void smoke_Maps_SomeStruct_release(_baseRef handle) {
+void smoke_Maps_SomeStruct_release_handle(_baseRef handle) {
     delete get_pointer<::smoke::Maps::SomeStruct>(handle);
 }
 _baseRef smoke_Maps_SomeStruct_value_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Maps::SomeStruct>(handle);
     return reinterpret_cast<_baseRef>( new std::string(struct_pointer->value) );
 }
-_baseRef smoke_Maps_StructWithMap_create(_baseRef errorMapping) {
+_baseRef smoke_Maps_StructWithMap_create_handle(_baseRef errorMapping) {
     ::smoke::Maps::StructWithMap* _struct = new ::smoke::Maps::StructWithMap();
     _struct->error_mapping = *get_pointer<std::unordered_map<int32_t, std::string>>(errorMapping);
     return reinterpret_cast<_baseRef>(_struct);
 }
-void smoke_Maps_StructWithMap_release(_baseRef handle) {
+void smoke_Maps_StructWithMap_release_handle(_baseRef handle) {
     delete get_pointer<::smoke::Maps::StructWithMap>(handle);
 }
 _baseRef smoke_Maps_StructWithMap_errorMapping_get(_baseRef handle) {
@@ -62,16 +62,16 @@ _baseRef smoke_Maps_methodWithMapOfInstances(_baseRef input) {
     return reinterpret_cast<_baseRef>( new std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>(::smoke::Maps::method_with_map_of_instances(*get_pointer<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>>(input))) );
 }
 
-_baseRef smoke_Maps_ErrorCodeToMessageMap_create() {
+_baseRef smoke_Maps_ErrorCodeToMessageMap_create_handle() {
     return reinterpret_cast<_baseRef>( new std::unordered_map<int32_t, std::string>() );
 }
-void smoke_Maps_ErrorCodeToMessageMap_release(_baseRef handle) {
+void smoke_Maps_ErrorCodeToMessageMap_release_handle(_baseRef handle) {
     delete get_pointer<std::unordered_map<int32_t, std::string>>(handle);
 }
 _baseRef smoke_Maps_ErrorCodeToMessageMap_iterator(_baseRef handle) {
     return reinterpret_cast<_baseRef>( new std::unordered_map<int32_t, std::string>::iterator( get_pointer<std::unordered_map<int32_t, std::string>>(handle)->begin() ) );
 }
-void smoke_Maps_ErrorCodeToMessageMap_iterator_release(_baseRef iterator_handle) {
+void smoke_Maps_ErrorCodeToMessageMap_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, std::string>::iterator*>( iterator_handle );
 }
 void smoke_Maps_ErrorCodeToMessageMap_put(_baseRef handle, int32_t key, _baseRef value) {
@@ -91,16 +91,16 @@ _baseRef smoke_Maps_ErrorCodeToMessageMap_iterator_value(_baseRef iterator_handl
     auto& value = (*reinterpret_cast<std::unordered_map<int32_t, std::string>::iterator*>( iterator_handle ))->second;
     return reinterpret_cast<_baseRef>(new std::string { value });
 }
-_baseRef smoke_Maps_NumberToStruct_create() {
+_baseRef smoke_Maps_NumberToStruct_create_handle() {
     return reinterpret_cast<_baseRef>( new std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>() );
 }
-void smoke_Maps_NumberToStruct_release(_baseRef handle) {
+void smoke_Maps_NumberToStruct_release_handle(_baseRef handle) {
     delete get_pointer<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>>(handle);
 }
 _baseRef smoke_Maps_NumberToStruct_iterator(_baseRef handle) {
     return reinterpret_cast<_baseRef>( new std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>::iterator( get_pointer<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>>(handle)->begin() ) );
 }
-void smoke_Maps_NumberToStruct_iterator_release(_baseRef iterator_handle) {
+void smoke_Maps_NumberToStruct_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>::iterator*>( iterator_handle );
 }
 void smoke_Maps_NumberToStruct_put(_baseRef handle, uint8_t key, _baseRef value) {
@@ -120,16 +120,16 @@ _baseRef smoke_Maps_NumberToStruct_iterator_value(_baseRef iterator_handle) {
     auto& value = (*reinterpret_cast<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>::iterator*>( iterator_handle ))->second;
     return reinterpret_cast<_baseRef>(new ::smoke::Maps::SomeStruct { value });
 }
-_baseRef smoke_Maps_NestedMap_create() {
+_baseRef smoke_Maps_NestedMap_create_handle() {
     return reinterpret_cast<_baseRef>( new std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>() );
 }
-void smoke_Maps_NestedMap_release(_baseRef handle) {
+void smoke_Maps_NestedMap_release_handle(_baseRef handle) {
     delete get_pointer<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>>(handle);
 }
 _baseRef smoke_Maps_NestedMap_iterator(_baseRef handle) {
     return reinterpret_cast<_baseRef>( new std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>::iterator( get_pointer<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>>(handle)->begin() ) );
 }
-void smoke_Maps_NestedMap_iterator_release(_baseRef iterator_handle) {
+void smoke_Maps_NestedMap_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>::iterator*>( iterator_handle );
 }
 void smoke_Maps_NestedMap_put(_baseRef handle, uint8_t key, _baseRef value) {
@@ -149,16 +149,16 @@ _baseRef smoke_Maps_NestedMap_iterator_value(_baseRef iterator_handle) {
     auto& value = (*reinterpret_cast<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>::iterator*>( iterator_handle ))->second;
     return reinterpret_cast<_baseRef>(new std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct> { value });
 }
-_baseRef smoke_Maps_NumberToTypeDef_create() {
+_baseRef smoke_Maps_NumberToTypeDef_create_handle() {
     return reinterpret_cast<_baseRef>( new std::unordered_map<uint8_t, std::string>() );
 }
-void smoke_Maps_NumberToTypeDef_release(_baseRef handle) {
+void smoke_Maps_NumberToTypeDef_release_handle(_baseRef handle) {
     delete get_pointer<std::unordered_map<uint8_t, std::string>>(handle);
 }
 _baseRef smoke_Maps_NumberToTypeDef_iterator(_baseRef handle) {
     return reinterpret_cast<_baseRef>( new std::unordered_map<uint8_t, std::string>::iterator( get_pointer<std::unordered_map<uint8_t, std::string>>(handle)->begin() ) );
 }
-void smoke_Maps_NumberToTypeDef_iterator_release(_baseRef iterator_handle) {
+void smoke_Maps_NumberToTypeDef_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<uint8_t, std::string>::iterator*>( iterator_handle );
 }
 void smoke_Maps_NumberToTypeDef_put(_baseRef handle, uint8_t key, _baseRef value) {
@@ -178,16 +178,16 @@ _baseRef smoke_Maps_NumberToTypeDef_iterator_value(_baseRef iterator_handle) {
     auto& value = (*reinterpret_cast<std::unordered_map<uint8_t, std::string>::iterator*>( iterator_handle ))->second;
     return reinterpret_cast<_baseRef>(new std::string { value });
 }
-_baseRef smoke_Maps_TypeDefToNumber_create() {
+_baseRef smoke_Maps_TypeDefToNumber_create_handle() {
     return reinterpret_cast<_baseRef>( new std::unordered_map<std::string, uint8_t>() );
 }
-void smoke_Maps_TypeDefToNumber_release(_baseRef handle) {
+void smoke_Maps_TypeDefToNumber_release_handle(_baseRef handle) {
     delete get_pointer<std::unordered_map<std::string, uint8_t>>(handle);
 }
 _baseRef smoke_Maps_TypeDefToNumber_iterator(_baseRef handle) {
     return reinterpret_cast<_baseRef>( new std::unordered_map<std::string, uint8_t>::iterator( get_pointer<std::unordered_map<std::string, uint8_t>>(handle)->begin() ) );
 }
-void smoke_Maps_TypeDefToNumber_iterator_release(_baseRef iterator_handle) {
+void smoke_Maps_TypeDefToNumber_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<std::string, uint8_t>::iterator*>( iterator_handle );
 }
 void smoke_Maps_TypeDefToNumber_put(_baseRef handle, _baseRef key, uint8_t value) {
@@ -207,16 +207,16 @@ uint8_t smoke_Maps_TypeDefToNumber_iterator_value(_baseRef iterator_handle) {
     auto& value = (*reinterpret_cast<std::unordered_map<std::string, uint8_t>::iterator*>( iterator_handle ))->second;
     return value;
 }
-_baseRef smoke_Maps_StringToArray_create() {
+_baseRef smoke_Maps_StringToArray_create_handle() {
     return reinterpret_cast<_baseRef>( new std::unordered_map<std::string, std::vector<int32_t>>() );
 }
-void smoke_Maps_StringToArray_release(_baseRef handle) {
+void smoke_Maps_StringToArray_release_handle(_baseRef handle) {
     delete get_pointer<std::unordered_map<std::string, std::vector<int32_t>>>(handle);
 }
 _baseRef smoke_Maps_StringToArray_iterator(_baseRef handle) {
     return reinterpret_cast<_baseRef>( new std::unordered_map<std::string, std::vector<int32_t>>::iterator( get_pointer<std::unordered_map<std::string, std::vector<int32_t>>>(handle)->begin() ) );
 }
-void smoke_Maps_StringToArray_iterator_release(_baseRef iterator_handle) {
+void smoke_Maps_StringToArray_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<std::string, std::vector<int32_t>>::iterator*>( iterator_handle );
 }
 void smoke_Maps_StringToArray_put(_baseRef handle, _baseRef key, _baseRef value) {
@@ -236,16 +236,16 @@ _baseRef smoke_Maps_StringToArray_iterator_value(_baseRef iterator_handle) {
     auto& value = (*reinterpret_cast<std::unordered_map<std::string, std::vector<int32_t>>::iterator*>( iterator_handle ))->second;
     return reinterpret_cast<_baseRef>(new std::vector<int32_t> { value });
 }
-_baseRef smoke_Maps_NumberToInstance_create() {
+_baseRef smoke_Maps_NumberToInstance_create_handle() {
     return reinterpret_cast<_baseRef>( new std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>() );
 }
-void smoke_Maps_NumberToInstance_release(_baseRef handle) {
+void smoke_Maps_NumberToInstance_release_handle(_baseRef handle) {
     delete get_pointer<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>>(handle);
 }
 _baseRef smoke_Maps_NumberToInstance_iterator(_baseRef handle) {
     return reinterpret_cast<_baseRef>( new std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>::iterator( get_pointer<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>>(handle)->begin() ) );
 }
-void smoke_Maps_NumberToInstance_iterator_release(_baseRef iterator_handle) {
+void smoke_Maps_NumberToInstance_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>::iterator*>( iterator_handle );
 }
 void smoke_Maps_NumberToInstance_put(_baseRef handle, uint8_t key, _baseRef value) {

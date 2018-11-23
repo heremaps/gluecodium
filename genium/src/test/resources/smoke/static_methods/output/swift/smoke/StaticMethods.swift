@@ -20,7 +20,7 @@ public class StaticMethods {
     }
 
     deinit {
-        smoke_StaticMethods_release(c_instance)
+        smoke_StaticMethods_release_handle(c_instance)
     }
     public static func returnInvertedBoolean(input: Bool) -> Bool {
         return smoke_StaticMethods_returnInvertedBoolean(input)
@@ -31,53 +31,53 @@ public class StaticMethods {
     }
 
     public static func returnInputByteBuffer(inputBuffer: Data) -> Data {
-        let inputBuffer_handle = byteArray_create()
+        let inputBuffer_handle = byteArray_create_handle()
         defer {
-            byteArray_release(inputBuffer_handle)
+            byteArray_release_handle(inputBuffer_handle)
         }
         inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) in
             byteArray_assign(inputBuffer_handle, inputBuffer_ptr, inputBuffer.count)
         }
         let result_data_handle = smoke_StaticMethods_returnInputByteBuffer(inputBuffer_handle)
         defer {
-            byteArray_release(result_data_handle)
+            byteArray_release_handle(result_data_handle)
         }
         return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
     }
 
     public static func returnReverseByteBuffer(inputBuffer: Data) -> Data {
-        let inputBuffer_handle = byteArray_create()
+        let inputBuffer_handle = byteArray_create_handle()
         defer {
-            byteArray_release(inputBuffer_handle)
+            byteArray_release_handle(inputBuffer_handle)
         }
         inputBuffer.withUnsafeBytes { (inputBuffer_ptr: UnsafePointer<UInt8>) in
             byteArray_assign(inputBuffer_handle, inputBuffer_ptr, inputBuffer.count)
         }
         let result_data_handle = smoke_StaticMethods_returnReverseByteBuffer(inputBuffer_handle)
         defer {
-            byteArray_release(result_data_handle)
+            byteArray_release_handle(result_data_handle)
         }
         return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
     }
 
     public static func concatenateByteBuffers(input1: Data, input2: Data) -> Data {
-        let input1_handle = byteArray_create()
+        let input1_handle = byteArray_create_handle()
         defer {
-            byteArray_release(input1_handle)
+            byteArray_release_handle(input1_handle)
         }
         input1.withUnsafeBytes { (input1_ptr: UnsafePointer<UInt8>) in
             byteArray_assign(input1_handle, input1_ptr, input1.count)
         }
-        let input2_handle = byteArray_create()
+        let input2_handle = byteArray_create_handle()
         defer {
-            byteArray_release(input2_handle)
+            byteArray_release_handle(input2_handle)
         }
         input2.withUnsafeBytes { (input2_ptr: UnsafePointer<UInt8>) in
             byteArray_assign(input2_handle, input2_ptr, input2.count)
         }
         let result_data_handle = smoke_StaticMethods_concatenateByteBuffers(input1_handle, input2_handle)
         defer {
-            byteArray_release(result_data_handle)
+            byteArray_release_handle(result_data_handle)
         }
         return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
     }
@@ -204,7 +204,7 @@ public class StaticMethods {
     public static func returnInputString(inputString: String) -> String {
         let result_string_handle = smoke_StaticMethods_returnInputString(inputString)
         defer {
-            std_string_release(result_string_handle)
+            std_string_release_handle(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
                                  count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
@@ -213,7 +213,7 @@ public class StaticMethods {
     public static func concatenateStrings(inputString1: String, inputString2: String) -> String {
         let result_string_handle = smoke_StaticMethods_concatenateStrings(inputString1, inputString2)
         defer {
-            std_string_release(result_string_handle)
+            std_string_release_handle(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
                                  count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
@@ -222,7 +222,7 @@ public class StaticMethods {
     public static func returnHelloString() -> String {
         let result_string_handle = smoke_StaticMethods_returnHelloString()
         defer {
-            std_string_release(result_string_handle)
+            std_string_release_handle(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
                                  count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
@@ -231,7 +231,7 @@ public class StaticMethods {
     public static func returnEmpty() -> String {
         let result_string_handle = smoke_StaticMethods_returnEmpty()
         defer {
-            std_string_release(result_string_handle)
+            std_string_release_handle(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
                                  count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!

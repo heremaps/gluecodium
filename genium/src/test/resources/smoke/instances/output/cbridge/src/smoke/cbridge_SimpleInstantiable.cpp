@@ -7,7 +7,7 @@
 #include <memory>
 #include <new>
 #include <string>
-void smoke_SimpleInstantiable_release(_baseRef handle) {
+void smoke_SimpleInstantiable_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::SimpleInstantiable>>(handle);
 }
 _baseRef smoke_SimpleInstantiable_copy_handle(_baseRef handle) {
