@@ -146,8 +146,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
             .collect(Collectors.toList());
     javaMethod.parameters.addAll(inputParameters);
 
-    if (returnType instanceof JavaCustomType && ((JavaCustomType) returnType).isNotNull) {
-      addNotNullAnnotation(javaMethod);
+    if (outputParameter != null) {
+      javaMethod.annotations.addAll(outputParameter.annotations);
     }
 
     storeResult(javaMethod);
@@ -156,27 +156,28 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
-
-    JavaType javaArgumentType = getPreviousResult(JavaType.class);
-
-    JavaParameter javaParameter =
-        new JavaParameter(
-            javaArgumentType, JavaNameRules.getArgumentName(francaArgument.getName()));
-    javaParameter.comment = CommentHelper.getDescription(francaArgument);
-
-    storeResult(javaParameter);
-    closeContext();
+    finishBuildingFrancaArgument(francaArgument, false);
   }
 
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
+    finishBuildingFrancaArgument(francaArgument, true);
+  }
 
-    JavaType javaArgumentType = getPreviousResult(JavaType.class);
+  private void finishBuildingFrancaArgument(
+      final FArgument francaArgument, final boolean isOutput) {
+
+    JavaType javaType = getPreviousResult(JavaType.class);
 
     JavaParameter javaParameter =
         new JavaParameter(
-            javaArgumentType, JavaNameRules.getArgumentName(francaArgument.getName()), true);
+            JavaNameRules.getArgumentName(francaArgument.getName()), javaType, isOutput);
     javaParameter.comment = CommentHelper.getDescription(francaArgument);
+
+    if (deploymentModel.isNotNull(francaArgument)
+        || (javaType instanceof JavaCustomType && ((JavaCustomType) javaType).isNotNull)) {
+      addNotNullAnnotation(javaParameter);
+    }
 
     storeResult(javaParameter);
     closeContext();
@@ -344,7 +345,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       setterMethod.visibility = visibility;
       setterMethod.comment = comment;
 
-      setterMethod.parameters.add(new JavaParameter(javaType, "value"));
+      setterMethod.parameters.add(new JavaParameter("value", javaType));
       storeResult(setterMethod);
     }
 
