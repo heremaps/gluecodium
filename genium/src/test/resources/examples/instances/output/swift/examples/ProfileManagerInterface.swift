@@ -12,7 +12,7 @@ internal func getRef(_ ref: ProfileManagerInterface?, owning: Bool = true) -> Re
     if let instanceReference = reference as? NativeBase {
         let handle_copy = examples_ProfileManagerInterface_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: examples_ProfileManagerInterface_release)
+            ? RefHolder(ref: handle_copy, release: examples_ProfileManagerInterface_release_handle)
             : RefHolder(handle_copy)
     }
     var functions = examples_ProfileManagerInterface_FunctionTable()
@@ -25,13 +25,13 @@ internal func getRef(_ ref: ProfileManagerInterface?, owning: Bool = true) -> Re
     functions.examples_ProfileManagerInterface_createProfile = {(swift_class_pointer, username) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ProfileManagerInterface
         defer {
-            std_string_release(username)
+            std_string_release_handle(username)
         }
         return swift_class.createProfile(username: String(data: Data(bytes: std_string_data_get(username),
                                                 count: Int(std_string_size_get(username))), encoding: .utf8)!)
     }
-    let proxy = examples_ProfileManagerInterface_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: examples_ProfileManagerInterface_release) : RefHolder(proxy)
+    let proxy = examples_ProfileManagerInterface_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: examples_ProfileManagerInterface_release_handle) : RefHolder(proxy)
 }
 
 public protocol ProfileManagerInterface : AnyObject {
@@ -51,7 +51,7 @@ internal class _ProfileManagerInterface: ProfileManagerInterface {
     }
 
     deinit {
-        examples_ProfileManagerInterface_release(c_instance)
+        examples_ProfileManagerInterface_release_handle(c_instance)
     }
     public func createProfile(username: String) -> Void {
         return examples_ProfileManagerInterface_createProfile(c_instance, username)

@@ -7,7 +7,7 @@
 #include "smoke/SimpleInstantiable.h"
 #include <memory>
 #include <new>
-void smoke_InstanceWithStruct_release(_baseRef handle) {
+void smoke_InstanceWithStruct_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::InstanceWithStruct>>(handle);
 }
 _baseRef smoke_InstanceWithStruct_copy_handle(_baseRef handle) {
@@ -15,26 +15,26 @@ _baseRef smoke_InstanceWithStruct_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::InstanceWithStruct>>(handle)))
         : 0;
 }
-_baseRef smoke_InstanceWithStruct_InnerStruct_create(int8_t value) {
+_baseRef smoke_InstanceWithStruct_InnerStruct_create_handle(int8_t value) {
     ::smoke::InstanceWithStruct::InnerStruct* _struct = new ::smoke::InstanceWithStruct::InnerStruct();
     _struct->value = value;
     return reinterpret_cast<_baseRef>(_struct);
 }
-void smoke_InstanceWithStruct_InnerStruct_release(_baseRef handle) {
+void smoke_InstanceWithStruct_InnerStruct_release_handle(_baseRef handle) {
     delete get_pointer<::smoke::InstanceWithStruct::InnerStruct>(handle);
 }
 int8_t smoke_InstanceWithStruct_InnerStruct_value_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::InstanceWithStruct::InnerStruct>(handle);
     return struct_pointer->value;
 }
-_baseRef smoke_InstanceWithStruct_StructWithInstance_create(_baseRef instance, _baseRef instanceNotNull, _baseRef instanceNotNullWithComment) {
+_baseRef smoke_InstanceWithStruct_StructWithInstance_create_handle(_baseRef instance, _baseRef instanceNotNull, _baseRef instanceNotNullWithComment) {
     ::smoke::InstanceWithStruct::StructWithInstance* _struct = new ::smoke::InstanceWithStruct::StructWithInstance();
     _struct->instance = *get_pointer<std::shared_ptr<::smoke::SimpleInstantiable>>(instance);
     _struct->instance_not_null = *get_pointer<std::shared_ptr<::smoke::SimpleInstantiable>>(instanceNotNull);
     _struct->instance_not_null_with_comment = *get_pointer<std::shared_ptr<::smoke::SimpleInstantiable>>(instanceNotNullWithComment);
     return reinterpret_cast<_baseRef>(_struct);
 }
-void smoke_InstanceWithStruct_StructWithInstance_release(_baseRef handle) {
+void smoke_InstanceWithStruct_StructWithInstance_release_handle(_baseRef handle) {
     delete get_pointer<::smoke::InstanceWithStruct::StructWithInstance>(handle);
 }
 _baseRef smoke_InstanceWithStruct_StructWithInstance_instance_get(_baseRef handle) {

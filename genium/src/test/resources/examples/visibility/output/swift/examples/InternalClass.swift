@@ -20,7 +20,7 @@ internal class InternalClass {
     }
 
     deinit {
-        examples_InternalClass_release(c_instance)
+        examples_InternalClass_release_handle(c_instance)
     }
 
     internal struct InternalStruct {
@@ -32,21 +32,21 @@ internal class InternalClass {
             do {
                 let stringField_handle = examples_InternalClass_InternalStruct_stringField_get(cInternalStruct)
                 defer {
-                    std_string_release(stringField_handle)
+                    std_string_release_handle(stringField_handle)
                 }
                 stringField = String(cString: std_string_data_get(stringField_handle))
             }
         }
         internal func convertToCType() -> _baseRef {
             let stringField_handle = stringField
-            return examples_InternalClass_InternalStruct_create(stringField_handle)
+            return examples_InternalClass_InternalStruct_create_handle(stringField_handle)
         }
     }
 
     internal func internalMethod(input: InternalClass.InternalStruct) -> Void {
         let input_handle = input.convertToCType()
         defer {
-            examples_InternalClass_InternalStruct_release(input_handle)
+            examples_InternalClass_InternalStruct_release_handle(input_handle)
         }
         return examples_InternalClass_internalMethod(c_instance, input_handle)
     }

@@ -7,7 +7,7 @@
 #include <memory>
 #include <new>
 #include <string>
-void smoke_Basic_release(_baseRef handle) {
+void smoke_Basic_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::root::space::smoke::Basic>>(handle);
 }
 _baseRef smoke_Basic_copy_handle(_baseRef handle) {

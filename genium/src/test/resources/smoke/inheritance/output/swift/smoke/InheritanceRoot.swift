@@ -11,7 +11,7 @@ internal func getRef(_ ref: InheritanceRoot?, owning: Bool = true) -> RefHolder 
     if let instanceReference = reference as? NativeBase {
         let handle_copy = smoke_InheritanceRoot_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: smoke_InheritanceRoot_release)
+            ? RefHolder(ref: handle_copy, release: smoke_InheritanceRoot_release_handle)
             : RefHolder(handle_copy)
     }
     var functions = smoke_InheritanceRoot_FunctionTable()
@@ -32,13 +32,13 @@ internal func getRef(_ ref: InheritanceRoot?, owning: Bool = true) -> RefHolder 
     functions.smoke_InheritanceRoot_rootAttribute_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceRoot
         defer {
-            std_string_release(newValue)
+            std_string_release_handle(newValue)
         }
         return swift_class.rootAttribute = String(data: Data(bytes: std_string_data_get(newValue),
                                                 count: Int(std_string_size_get(newValue))), encoding: .utf8)!
     }
-    let proxy = smoke_InheritanceRoot_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: smoke_InheritanceRoot_release) : RefHolder(proxy)
+    let proxy = smoke_InheritanceRoot_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: smoke_InheritanceRoot_release_handle) : RefHolder(proxy)
 }
 
 public protocol InheritanceRoot : AnyObject {
@@ -51,7 +51,7 @@ internal class _InheritanceRoot: InheritanceRoot {
         get {
             let result_string_handle = smoke_InheritanceRoot_rootAttribute_get(c_instance)
             defer {
-                std_string_release(result_string_handle)
+                std_string_release_handle(result_string_handle)
             }
             return String(data: Data(bytes: std_string_data_get(result_string_handle),
                                      count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
@@ -69,7 +69,7 @@ internal class _InheritanceRoot: InheritanceRoot {
     }
 
     deinit {
-        smoke_InheritanceRoot_release(c_instance)
+        smoke_InheritanceRoot_release_handle(c_instance)
     }
     public func rootMethod() -> Void {
         return smoke_InheritanceRoot_rootMethod(c_instance)

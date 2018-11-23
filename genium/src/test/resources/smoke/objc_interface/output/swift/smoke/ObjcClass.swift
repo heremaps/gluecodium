@@ -15,7 +15,7 @@ public class ObjcClass: NSObject {
         c_instance = cObjcClass
     }
     deinit {
-        smoke_ObjcClass_release(c_instance)
+        smoke_ObjcClass_release_handle(c_instance)
     }
 }
 extension ObjcClass: NativeBase {

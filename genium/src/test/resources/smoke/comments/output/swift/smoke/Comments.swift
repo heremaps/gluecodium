@@ -30,7 +30,7 @@ public class Comments {
         c_instance = cComments
     }
     deinit {
-        smoke_Comments_release(c_instance)
+        smoke_Comments_release_handle(c_instance)
     }
     /// This is some very useful enum.
     public enum SomeEnum : UInt32 {
@@ -51,7 +51,7 @@ public class Comments {
         }
         internal func convertToCType() -> _baseRef {
             let someField_handle = someField
-            return smoke_Comments_SomeStruct_create(someField_handle)
+            return smoke_Comments_SomeStruct_create_handle(someField_handle)
         }
     }
     /// This is some very useful method that measures the usefulness of its input.
@@ -112,11 +112,11 @@ extension Comments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 func convertComments_SomeMapToCType(_ swiftDict: Comments.SomeMap) -> _baseRef {
-    let c_handle = smoke_Comments_SomeMap_create()
+    let c_handle = smoke_Comments_SomeMap_create_handle()
     for (swift_key, swift_value) in swiftDict {
         let c_key = swift_key.convertToCType()
         defer {
-            std_string_release(c_key)
+            std_string_release_handle(c_key)
         }
         let c_value = swift_value
         smoke_Comments_SomeMap_put(c_handle, c_key, c_value)
@@ -129,7 +129,7 @@ func convertComments_SomeMapFromCType(_ c_handle: _baseRef) -> Comments.SomeMap 
     while smoke_Comments_SomeMap_iterator_is_valid(c_handle, iterator_handle) {
         let c_key = smoke_Comments_SomeMap_iterator_key(iterator_handle)
         defer {
-            std_string_release(c_key)
+            std_string_release_handle(c_key)
         }
         let swift_key = String(data: Data(bytes: std_string_data_get(c_key),
                                             count: Int(std_string_size_get(c_key))),
@@ -139,6 +139,6 @@ func convertComments_SomeMapFromCType(_ c_handle: _baseRef) -> Comments.SomeMap 
         swiftDict[swift_key!] = swift_value
         smoke_Comments_SomeMap_iterator_increment(iterator_handle)
     }
-    smoke_Comments_SomeMap_iterator_release(iterator_handle)
+    smoke_Comments_SomeMap_iterator_release_handle(iterator_handle)
     return swiftDict
 }

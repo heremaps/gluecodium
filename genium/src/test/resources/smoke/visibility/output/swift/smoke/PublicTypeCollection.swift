@@ -15,7 +15,7 @@ internal struct InternalStruct {
         do {
             let stringField_handle = smoke_PublicTypeCollection_InternalStruct_stringField_get(cInternalStruct)
             defer {
-                std_string_release(stringField_handle)
+                std_string_release_handle(stringField_handle)
             }
             stringField = String(cString: std_string_data_get(stringField_handle))
         }
@@ -23,6 +23,6 @@ internal struct InternalStruct {
 
     internal func convertToCType() -> _baseRef {
         let stringField_handle = stringField
-        return smoke_PublicTypeCollection_InternalStruct_create(stringField_handle)
+        return smoke_PublicTypeCollection_InternalStruct_create_handle(stringField_handle)
     }
 }

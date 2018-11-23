@@ -9,11 +9,11 @@ extern "C" {
 #include "cbridge/include/StringHandle.h"
 #include <stdbool.h>
 #include <stdint.h>
-_baseRef smoke_MethodOverloads_Point_create(double x, double y);
-void smoke_MethodOverloads_Point_release(_baseRef handle);
+_baseRef smoke_MethodOverloads_Point_create_handle(double x, double y);
+void smoke_MethodOverloads_Point_release_handle(_baseRef handle);
 double smoke_MethodOverloads_Point_x_get(_baseRef handle);
 double smoke_MethodOverloads_Point_y_get(_baseRef handle);
-void smoke_MethodOverloads_release(_baseRef handle);
+void smoke_MethodOverloads_release_handle(_baseRef handle);
 _baseRef smoke_MethodOverloads_copy_handle(_baseRef handle);
 bool smoke_MethodOverloads_isBoolean_boolOverload(_baseRef _instance, bool input);
 bool smoke_MethodOverloads_isBoolean_intOverload(_baseRef _instance, int8_t input);

@@ -19,7 +19,7 @@ internal class InternalClass {
     }
 
     deinit {
-        smoke_InternalClass_release(c_instance)
+        smoke_InternalClass_release_handle(c_instance)
     }
 }
 
