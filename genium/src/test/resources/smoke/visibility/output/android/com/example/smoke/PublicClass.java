@@ -51,7 +51,7 @@ public class PublicClass extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
 
     @NonNull
-    native PublicClass.InternalStruct internalMethod(final PublicClass.InternalStruct input);
+    native PublicClass.InternalStruct internalMethod(@NonNull final PublicClass.InternalStruct input);
     @NonNull
     native PublicClass.InternalStruct getInternalStructAttribute();
     native void setInternalStructAttribute(final PublicClass.InternalStruct value);

@@ -5,6 +5,7 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public interface CalculatorListener {
     }
     void onCalculationResult(final double calculationResult);
     void onCalculationResultConst(final double calculationResult);
-    void onCalculationResultStruct(final CalculatorListener.ResultStruct calculationResult);
+    void onCalculationResultStruct(@NonNull final CalculatorListener.ResultStruct calculationResult);
     void onCalculationResultArray(final List<Double> calculationResult);
     void onCalculationResultMap(final Map<String, Double> calculationResults);
     void onCalculationResultInstance(final CalculationResult calculationResult);

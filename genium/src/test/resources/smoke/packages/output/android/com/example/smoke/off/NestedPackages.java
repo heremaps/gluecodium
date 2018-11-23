@@ -26,5 +26,5 @@ public class NestedPackages extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     @NonNull
-    public static native NestedPackages.SomeStruct basicMethod(final NestedPackages.SomeStruct input);
+    public static native NestedPackages.SomeStruct basicMethod(@NonNull final NestedPackages.SomeStruct input);
 }

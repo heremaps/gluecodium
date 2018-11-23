@@ -5,6 +5,7 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
 
@@ -34,8 +35,8 @@ public class MethodOverloads extends NativeBase {
     public native boolean isBoolean(final boolean input);
     public native boolean isBoolean(final byte input);
     public native boolean isBoolean(final String input);
-    public native boolean isBoolean(final MethodOverloads.Point input);
-    public native boolean isBoolean(final boolean input1, final byte input2, final String input3, final MethodOverloads.Point input4);
+    public native boolean isBoolean(@NonNull final MethodOverloads.Point input);
+    public native boolean isBoolean(final boolean input1, final byte input2, final String input3, @NonNull final MethodOverloads.Point input4);
     public native boolean isBooleanStringArrayOverload(final List<String> input);
     public native boolean isBooleanIntArrayOverload(final List<Byte> input);
     public native boolean isBoolean();

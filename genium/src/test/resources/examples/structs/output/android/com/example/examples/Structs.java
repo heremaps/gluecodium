@@ -62,7 +62,7 @@ public class Structs extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
 
     @NonNull
-    public static native Structs.SyncResult methodWithNonNestedType(final Structs.SyncResult input);
+    public static native Structs.SyncResult methodWithNonNestedType(@NonNull final Structs.SyncResult input);
     @NonNull
-    public static native Structs.IdentifiableSyncResult methodWithNestedType(final Structs.IdentifiableSyncResult input);
+    public static native Structs.IdentifiableSyncResult methodWithNestedType(@NonNull final Structs.IdentifiableSyncResult input);
 }

@@ -283,17 +283,17 @@ public class Structs extends NativeBase {
     @NonNull
     public static native Structs.Point createPoint(final double x, final double y);
     @NonNull
-    public static native Structs.Point swapPointCoordinates(final Structs.Point input);
+    public static native Structs.Point swapPointCoordinates(@NonNull final Structs.Point input);
     @NonNull
-    public static native Structs.Line createLine(final Structs.Point pointA, final Structs.Point pointB);
+    public static native Structs.Line createLine(@NonNull final Structs.Point pointA, @NonNull final Structs.Point pointB);
     @NonNull
-    public static native Structs.ColoredLine createColoredLine(final Structs.Line line, final Structs.Color color);
+    public static native Structs.ColoredLine createColoredLine(@NonNull final Structs.Line line, @NonNull final Structs.Color color);
     @NonNull
-    public static native Structs.ColoredLine returnColoredLine(final Structs.ColoredLine input);
+    public static native Structs.ColoredLine returnColoredLine(@NonNull final Structs.ColoredLine input);
     @NonNull
-    public static native Structs.AllTypesStruct returnAllTypesStruct(final Structs.AllTypesStruct input);
+    public static native Structs.AllTypesStruct returnAllTypesStruct(@NonNull final Structs.AllTypesStruct input);
     @NonNull
-    public static native Structs.AllTypesStruct modifyAllTypesStruct(final Structs.AllTypesStruct input);
+    public static native Structs.AllTypesStruct modifyAllTypesStruct(@NonNull final Structs.AllTypesStruct input);
     @NonNull
     public static native Structs.ExternalStruct getExternalStruct();
     @NonNull

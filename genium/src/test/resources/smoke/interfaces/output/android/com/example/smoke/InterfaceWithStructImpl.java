@@ -20,5 +20,5 @@ class InterfaceWithStructImpl extends NativeBase implements InterfaceWithStruct 
 
     private static native void disposeNativeHandle(long nativeHandle);
     @NonNull
-    public native InterfaceWithStruct.InnerStruct innerStructMethod(final InterfaceWithStruct.InnerStruct inputStruct);
+    public native InterfaceWithStruct.InnerStruct innerStructMethod(@NonNull final InterfaceWithStruct.InnerStruct inputStruct);
 }
