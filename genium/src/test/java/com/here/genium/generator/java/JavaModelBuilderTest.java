@@ -179,7 +179,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodReadsOutputParameters() {
-    JavaParameter outParameter = new JavaParameter(javaCustomType, "foo", true);
+    JavaParameter outParameter = new JavaParameter("foo", javaCustomType, true);
     contextStack.injectResult(outParameter);
 
     modelBuilder.finishBuilding(francaMethod);
@@ -191,7 +191,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodReadsInputParameters() {
-    final JavaParameter javaParameter = new JavaParameter(javaCustomType, PARAMETER_NAME);
+    final JavaParameter javaParameter = new JavaParameter(PARAMETER_NAME, javaCustomType);
     contextStack.injectResult(javaParameter);
 
     modelBuilder.finishBuilding(francaMethod);
@@ -225,10 +225,9 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaMethodAddsNotNullAnnotation() {
-    when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
-    JavaType structType = JavaCustomType.builder("FooStruct").isNotNull(true).build();
-    JavaParameter outParameter = new JavaParameter(structType, "foo", true);
+  public void finishBuildingFrancaMethodReadsAnnotations() {
+    JavaParameter outParameter = new JavaParameter("foo", javaTemplateType, true);
+    outParameter.annotations.add(javaCustomType);
     contextStack.injectResult(outParameter);
 
     modelBuilder.finishBuilding(francaMethod);
@@ -251,6 +250,19 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaInputArgumentReadsNotNull() {
+    contextStack.injectResult(javaTemplateType);
+    when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
+    when(deploymentModel.isNotNull(any())).thenReturn(true);
+
+    modelBuilder.finishBuildingInputArgument(francaArgument);
+
+    JavaParameter javaParameter = modelBuilder.getFinalResult(JavaParameter.class);
+    assertNotNull(javaParameter);
+    assertTrue(javaParameter.annotations.contains(javaCustomType));
+  }
+
+  @Test
   public void finishBuildingFrancaOutputArgument() {
     contextStack.injectResult(javaCustomType);
 
@@ -260,6 +272,19 @@ public class JavaModelBuilderTest {
     assertNotNull(javaParameter);
     assertEquals(javaCustomType, javaParameter.getType());
     assertTrue(javaParameter.isOutput);
+  }
+
+  @Test
+  public void finishBuildingFrancaOutputArgumentReadsNotNull() {
+    contextStack.injectResult(javaTemplateType);
+    when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
+    when(deploymentModel.isNotNull(any())).thenReturn(true);
+
+    modelBuilder.finishBuildingOutputArgument(francaArgument);
+
+    JavaParameter javaParameter = modelBuilder.getFinalResult(JavaParameter.class);
+    assertNotNull(javaParameter);
+    assertTrue(javaParameter.annotations.contains(javaCustomType));
   }
 
   @Test

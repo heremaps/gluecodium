@@ -23,11 +23,11 @@ public final class JavaParameter extends JavaTypedElement {
 
   public final boolean isOutput;
 
-  public JavaParameter(final JavaType type, final String name) {
-    this(type, name, false);
+  public JavaParameter(final String name, final JavaType type) {
+    this(name, type, false);
   }
 
-  public JavaParameter(final JavaType type, final String name, final boolean isOutput) {
+  public JavaParameter(final String name, final JavaType type, final boolean isOutput) {
     super(name, type);
     this.isOutput = isOutput;
   }
