@@ -10,6 +10,6 @@ public interface NestedInterface {
     SimpleInterface getInstanceTwo();
     VeryExternalInterface makeMoreExternal(final ExternalInterface input);
     @NonNull
-    VeryExternalInterface.SomeStruct makeMoreExternal(final ExternalInterface.SomeStruct input);
+    VeryExternalInterface.SomeStruct makeMoreExternal(@NonNull final ExternalInterface.SomeStruct input);
     VeryExternalInterface.SomeEnum makeMoreExternal(final ExternalInterface.SomeEnum input);
 }

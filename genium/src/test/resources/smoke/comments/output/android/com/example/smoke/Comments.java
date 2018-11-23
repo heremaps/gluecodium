@@ -3,6 +3,8 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
+
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 /**
  * This is some very useful interface.
@@ -102,7 +104,8 @@ public class Comments extends NativeBase {
      * @param input This is some very useful instance method parameter.
      * @return This is some very useful instance method result.
      */
-    public native CommentsInstantiable instanceNotNullMethod(final CommentsInstantiable input);
+    @NonNull
+    public native CommentsInstantiable instanceNotNullMethod(@NonNull final CommentsInstantiable input);
     /**
      * This is some very useful attribute.
      */
