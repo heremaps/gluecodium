@@ -108,10 +108,10 @@ public class Comments {
     /// This is some very useful instance method.
     /// - Parameter input: This is some very useful instance method parameter.
     /// - Returns: This is some very useful instance method result.
-    public func instanceNotNullMethod(input: CommentsInstantiable?) -> CommentsInstantiable? {
+    public func instanceNotNullMethod(input: CommentsInstantiable) -> CommentsInstantiable {
         let input_handle = getRef(input)
         let cResult = smoke_Comments_instanceNotNullMethod(c_instance, input_handle.ref)
-        return CommentsInstantiable(cCommentsInstantiable: cResult)
+        return CommentsInstantiable(cCommentsInstantiable: cResult)!
     }
 }
 extension Comments: NativeBase {
