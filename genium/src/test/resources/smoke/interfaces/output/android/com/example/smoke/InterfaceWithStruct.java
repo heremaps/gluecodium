@@ -15,5 +15,5 @@ public interface InterfaceWithStruct {
         }
     }
     @NonNull
-    InterfaceWithStruct.InnerStruct innerStructMethod(final InterfaceWithStruct.InnerStruct inputStruct);
+    InterfaceWithStruct.InnerStruct innerStructMethod(@NonNull final InterfaceWithStruct.InnerStruct inputStruct);
 }

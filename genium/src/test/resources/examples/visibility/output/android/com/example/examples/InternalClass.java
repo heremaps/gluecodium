@@ -5,6 +5,7 @@
 
 package com.example.examples;
 
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 
 class InternalClass extends NativeBase {
@@ -30,5 +31,5 @@ class InternalClass extends NativeBase {
 
     private static native void disposeNativeHandle(long nativeHandle);
 
-    native void internalMethod(final InternalClass.InternalStruct input);
+    native void internalMethod(@NonNull final InternalClass.InternalStruct input);
 }

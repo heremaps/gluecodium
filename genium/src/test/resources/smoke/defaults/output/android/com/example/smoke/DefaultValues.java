@@ -96,5 +96,5 @@ public class DefaultValues extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     @NonNull
-    public static native DefaultValues.StructWithDefaults processStructWithDefaults(final DefaultValues.StructWithDefaults input);
+    public static native DefaultValues.StructWithDefaults processStructWithDefaults(@NonNull final DefaultValues.StructWithDefaults input);
 }

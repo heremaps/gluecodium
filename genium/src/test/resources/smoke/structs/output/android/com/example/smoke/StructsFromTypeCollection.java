@@ -22,11 +22,11 @@ public class StructsFromTypeCollection extends NativeBase {
     @NonNull
     public static native Point createPoint(final double x, final double y);
     @NonNull
-    public static native Point swapPointCoordinates(final Point input);
+    public static native Point swapPointCoordinates(@NonNull final Point input);
     @NonNull
-    public static native Line createLine(final Point pointA, final Point pointB);
+    public static native Line createLine(@NonNull final Point pointA, @NonNull final Point pointB);
     @NonNull
-    public static native ColoredLine createColoredLine(final Line line, final Color color);
+    public static native ColoredLine createColoredLine(@NonNull final Line line, @NonNull final Color color);
     @NonNull
-    public static native AllTypesStruct modifyAllTypesStruct(final AllTypesStruct input);
+    public static native AllTypesStruct modifyAllTypesStruct(@NonNull final AllTypesStruct input);
 }
