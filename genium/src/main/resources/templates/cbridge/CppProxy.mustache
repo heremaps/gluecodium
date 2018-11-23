@@ -43,7 +43,7 @@ private:
     function_table_t mFunctions;
 };
 
-_baseRef {{name}}_createProxy({{functionTableName}} functionTable) {
+_baseRef {{name}}_create_proxy({{functionTableName}} functionTable) {
     auto proxy = {{name}}Proxy::get_proxy(std::move(functionTable));
     if (proxy) {
         return reinterpret_cast<_baseRef>( new {{selfType}}(std::move(proxy)) );
@@ -63,7 +63,7 @@ const void* {{name}}_get_swift_object_from_cache(_baseRef handle) {
 }}{{/switch}} {{name}}{{/baseApiParameter}}
 {{+swiftParameter}}{{#switch mappedType.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}{{name}}{{/case}}{{!!
-    }}{{#case "BUILTIN_STRING"}}std_string_create({{name}}.c_str()){{/case}}{{!!
+    }}{{#case "BUILTIN_STRING"}}std_string_create_handle({{name}}.c_str()){{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
     }}{{#case "CLASS" break=false}}{{/case}}{{!!
     }}{{#case "ARRAY" break=false}}{{/case}}{{!!

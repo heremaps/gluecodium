@@ -20,6 +20,6 @@
   !}}
 let result_data_handle = {{include delegateToCall}}
 defer {
-    byteArray_release(result_data_handle)
+    byteArray_release_handle(result_data_handle)
 }
 return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))

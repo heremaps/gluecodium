@@ -36,7 +36,7 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType.publicName}}
     }
 
     deinit {
-        {{refName}}_release(c_element!)
+        {{refName}}_release_handle(c_element!)
     }
 
     public override subscript(index: Int) -> {{underlyingType.publicName}} {
@@ -60,7 +60,7 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType.publicName}}
 
 extension Collection {{>GenericConstraintsRule}}  {
     func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
-        let handle = {{refName}}_create()
+        let handle = {{refName}}_create_handle()
 
         for item in self {
 {{#switch underlyingType.category.toString}}{{!!
@@ -73,7 +73,7 @@ extension Collection {{>GenericConstraintsRule}}  {
             }}{{/switch}}
         }
         let cleanup_function = { () -> Void in
-            {{refName}}_release(handle)
+            {{refName}}_release_handle(handle)
         }
         return (handle, cleanup_function)
     }
@@ -94,7 +94,7 @@ return handle{{/defaultSubscript}}
 
 {{+structSubscript}}
 defer {
-    {{underlyingType.cPrefix}}_release(handle)
+    {{underlyingType.cPrefix}}_release_handle(handle)
 }
 return {{underlyingType}}(c{{underlyingType.simpleName}}: handle){{/structSubscript}}
 
@@ -112,14 +112,14 @@ return convert{{underlyingType.name}}FromCType(handle){{/dictionarySubscript}}{{
 
 }}{{+stringSubscript}}
 defer {
-    std_string_release(handle)
+    std_string_release_handle(handle)
 }
 return String(data: Data(bytes: std_string_data_get(handle),
               count: Int(std_string_size_get(handle))), encoding: .utf8)!{{/stringSubscript}}
 
 {{+structConversion}}let item_handle = item.convertToCType();
 defer {
-    {{underlyingType.cPrefix}}_release(item_handle)
+    {{underlyingType.cPrefix}}_release_handle(item_handle)
 }
 {{refName}}_append(handle, item_handle){{/structConversion}}
 
@@ -133,7 +133,7 @@ conversion.cleanup(){{/arrayConversion}}{{!!
 
 }}{{+dictionaryConversion}}let conversion = convert{{underlyingType.name}}ToCType(item)
 defer {
-    {{underlyingType.cPrefix}}_release(conversion)
+    {{underlyingType.cPrefix}}_release_handle(conversion)
 }
 {{refName}}_append(handle, conversion){{/dictionaryConversion}}{{!!
 

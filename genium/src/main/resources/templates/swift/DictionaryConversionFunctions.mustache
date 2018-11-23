@@ -19,7 +19,7 @@
   !
   !}}
 func convert{{name}}ToCType(_ swiftDict: {{publicName}}) -> _baseRef {
-    let c_handle = {{cPrefix}}_create()
+    let c_handle = {{cPrefix}}_create_handle()
     for (swift_key, swift_value) in swiftDict {
 {{#set variableName="key" variableType=keyType}}{{prefixPartial "ConvertFromSwift" "        "}}{{/set}}
 {{#set variableName="value" variableType=valueType}}{{prefixPartial "ConvertFromSwift" "        "}}{{/set}}
@@ -37,7 +37,7 @@ func convert{{name}}FromCType(_ c_handle: _baseRef) -> {{publicName}} {
         swiftDict[swift_key{{#isEq keyType.category.toString "BUILTIN_STRING"}}!{{/isEq}}] = swift_value
         {{cPrefix}}_iterator_increment(iterator_handle)
     }
-    {{cPrefix}}_iterator_release(iterator_handle)
+    {{cPrefix}}_iterator_release_handle(iterator_handle)
     return swiftDict
 }{{!!
 
@@ -57,21 +57,21 @@ func convert{{name}}FromCType(_ c_handle: _baseRef) -> {{publicName}} {
 }}{{+ConvertFromSwiftString}}{{!!
 }}let c_{{variableName}} = swift_{{variableName}}.convertToCType()
 defer {
-    std_string_release(c_{{variableName}})
+    std_string_release_handle(c_{{variableName}})
 }
 {{/ConvertFromSwiftString}}{{!!
 
 }}{{+ConvertFromSwiftStruct}}{{!!
 }}let c_{{variableName}} = swift_{{variableName}}.convertToCType()
 defer {
-    {{variableType.cPrefix}}_release(c_{{variableName}})
+    {{variableType.cPrefix}}_release_handle(c_{{variableName}})
 }
 {{/ConvertFromSwiftStruct}}{{!!
 
 }}{{+ConvertFromSwiftDictionary}}{{!!
 }}let c_{{variableName}} = convert{{variableType.name}}ToCType(swift_{{variableName}})
 defer {
-    {{variableType.cPrefix}}_release(c_{{variableName}})
+    {{variableType.cPrefix}}_release_handle(c_{{variableName}})
 }
 {{/ConvertFromSwiftDictionary}}{{!!
 
@@ -110,7 +110,7 @@ let c_{{variableName}} = c_conversion.c_type
 
 }}{{+ConvertToSwiftString}}{{!!
 }}defer {
-    std_string_release(c_{{variableName}})
+    std_string_release_handle(c_{{variableName}})
 }
 let swift_{{variableName}} = String(data: Data(bytes: std_string_data_get(c_{{variableName}}),
                                     count: Int(std_string_size_get(c_{{variableName}}))),
@@ -119,14 +119,14 @@ let swift_{{variableName}} = String(data: Data(bytes: std_string_data_get(c_{{va
 
 }}{{+ConvertToSwiftStruct}}{{!!
 }}defer {
-    {{variableType.cPrefix}}_release(c_{{variableName}})
+    {{variableType.cPrefix}}_release_handle(c_{{variableName}})
 }
 let swift_{{variableName}} = {{variableType}}(c{{variableType.simpleName}}: c_{{variableName}})
 {{/ConvertToSwiftStruct}}{{!!
 
 }}{{+ConvertToSwiftDictionary}}{{!!
 }}defer {
-    {{variableType.cPrefix}}_release(c_{{variableName}})
+    {{variableType.cPrefix}}_release_handle(c_{{variableName}})
 }
 let swift_{{variableName}} = convert{{variableType.name}}FromCType(c_{{variableName}})
 {{/ConvertToSwiftDictionary}}{{!!

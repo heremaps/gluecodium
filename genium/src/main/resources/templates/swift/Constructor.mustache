@@ -28,7 +28,7 @@ init?(c{{name}}: _baseRef) {
 }
 
 deinit {
-    {{cInstance}}_release(c_instance)
+    {{cInstance}}_release_handle(c_instance)
 }{{/useParentCInstance}}{{!!
 
 }}{{#useParentCInstance}}init?(c{{name}}: _baseRef) {

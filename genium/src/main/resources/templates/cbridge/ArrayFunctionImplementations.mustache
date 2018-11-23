@@ -18,11 +18,11 @@
   ! License-Filename: LICENSE
   !
   !}}
-_baseRef {{name}}_create() {
+_baseRef {{name}}_create_handle() {
     return reinterpret_cast<_baseRef>( new {{arrayType.baseApi}}() );
 }
 
-void {{name}}_release(_baseRef handle) {
+void {{name}}_release_handle(_baseRef handle) {
     delete get_pointer<{{arrayType.baseApi}}>(handle);
 }
 

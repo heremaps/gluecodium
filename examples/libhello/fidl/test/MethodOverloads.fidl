@@ -95,3 +95,17 @@ interface MethodOverloads {
       }
     }
 }
+
+interface SpecialNames {
+
+    typedef SpecialNames is undefined
+
+    method create {
+    }
+
+    method release {
+    }
+
+    method createProxy {
+    }
+}
