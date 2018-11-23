@@ -7,6 +7,7 @@
 - Bug fixes:
   + Fixed documentation comments handling for Java interfaces and Swift protocols.
   + Fixed a Cpp-Swift-Cpp object round-trip segfault issue.
+  + Naming a parameter-less method "release" does not produce un-compilable Swift code anymore.
 
 ## 3.15.0
 - Release date: 2018-11-16

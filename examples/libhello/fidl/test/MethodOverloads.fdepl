@@ -50,3 +50,8 @@ define GeniumExtensions for interface test.MethodOverloads
         Static = true
     }
 }
+
+define GeniumExtensions for interface test.SpecialNames
+{
+    IsInterface = true
+}
