@@ -27,6 +27,7 @@ import com.here.genium.generator.cbridge.CBridgeNameRules;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.swift.*;
+import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
 /**
@@ -48,6 +49,12 @@ public class SwiftTypeMapper {
     }
     if (FrancaTypeHelper.isImplicitArray(type)) {
       swiftType = SwiftArrayMapper.create(swiftType, type);
+    }
+
+    EObject parentElement = type.eContainer();
+    if (parentElement instanceof FTypedElement
+        && deploymentModel.isNotNull((FTypedElement) parentElement)) {
+      swiftType = swiftType.asNonOptional();
     }
 
     return swiftType;

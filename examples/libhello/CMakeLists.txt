@@ -345,6 +345,13 @@ feature(Equatable cpp android swift SOURCES
     fidl/test/Equatable.fdepl
 )
 
+feature(Nullability cpp android swift SOURCES
+    src/test/NotNull.cpp
+
+    fidl/test/NotNull.fidl
+    fidl/test/NotNull.fdepl
+)
+
 if(APPLE)
     #This feature is intended for Swift only. It also does not compile outside of Apple platforms.
     feature(ObjcInterface swift SOURCES

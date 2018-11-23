@@ -425,21 +425,6 @@ public final class SwiftModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaFieldReadsNotNull() {
-    when(deploymentModel.isNotNull(any())).thenReturn(true);
-    SwiftType classType =
-        new SwiftType("VerySwiftType", SwiftType.TypeCategory.CLASS).asNonOptional();
-    contextStack.injectResult(classType);
-
-    modelBuilder.finishBuilding(francaField);
-
-    SwiftField resultField = modelBuilder.getFinalResult(SwiftField.class);
-    assertNotNull(resultField);
-    assertFalse(resultField.type.optional);
-    verify(deploymentModel).isNotNull(francaField);
-  }
-
-  @Test
   public void finishBuildingFrancaFieldReadsDefaultValue() {
     when(deploymentModel.getDefaultValue(any())).thenReturn("SomeValue");
     when(SwiftValueMapper.mapDefaultValue(any(), any())).thenReturn(swiftValue);

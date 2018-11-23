@@ -96,7 +96,7 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
 }}{{+swiftReturn}}{{#switch returnType.category.toString}}{{!!
     }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
     }}{{#case "STRUCT"}}return {{include delegateToCall}}.convertToCType(){{/case}}{{!!
-    }}{{#case "CLASS"}}return getRef({{include delegateToCall}}!, owning: false).ref{{/case}}{{!!
+    }}{{#case "CLASS"}}return getRef({{include delegateToCall}}{{#if returnType.optional}}!{{/if}}, owning: false).ref{{/case}}{{!!
     }}{{#case "ENUM"}}return {{include delegateToCall}}.rawValue{{/case}}{{!!
     }}{{#case "ARRAY"}}return {{include delegateToCall}}.c_conversion().c_type{{/case}}{{!!
     }}{{#case "DICTIONARY"}}return convert{{returnType.name}}ToCType({{include delegateToCall}}){{/case}}{{!!

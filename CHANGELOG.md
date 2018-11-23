@@ -11,6 +11,9 @@
 - Features:
   + Returning values from Swift or Java callbacks when these are called from C++ now works for all
     types. It also works for callbacks that are Swift properties.
+  + Method parameters and return values with instance type can now be marked with "NotNull" FDEPL
+    property. This marks them as optional/non-optional in Swift or annotates them with @NonNull
+    annotation in Java.
 - Bug fixes:
   + Fixed documentation comments handling for Java interfaces and Swift protocols.
   + Fixed several Cpp-Swift-Cpp object round-trip segfault issues.
@@ -215,7 +218,7 @@
 ## 2.2.0
 - Release date: 2018-03-27
 - Features:
-  + Added FDEPL flag "NotNull" for marking struct fields as optional/non-optional in Swift or
+  + Added FDEPL flag "NotNull" for marking instance type fields as optional/non-optional in Swift or
     annotating them with @NonNull annotation in Java.
 
 ## 2.1.0

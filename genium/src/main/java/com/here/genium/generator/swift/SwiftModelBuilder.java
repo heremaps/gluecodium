@@ -31,7 +31,6 @@ import com.here.genium.model.franca.CommentHelper;
 import com.here.genium.model.franca.DefinedBy;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.swift.*;
-import com.here.genium.model.swift.SwiftType.TypeCategory;
 import java.util.*;
 import org.franca.core.franca.*;
 
@@ -198,9 +197,6 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   public void finishBuilding(FField francaField) {
 
     SwiftType fieldType = getPreviousResult(SwiftType.class);
-    if (fieldType.category == TypeCategory.CLASS && deploymentModel.isNotNull(francaField)) {
-      fieldType = fieldType.asNonOptional();
-    }
 
     String fieldName = SwiftNameRules.getFieldName(francaField.getName());
     String deploymentDefaultValue = deploymentModel.getDefaultValue(francaField);
@@ -219,10 +215,13 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
+
     SwiftType swiftType = getPreviousResult(SwiftType.class);
+
     SwiftInParameter swiftParameter =
         new SwiftInParameter(SwiftNameRules.getParameterName(francaArgument), swiftType);
     swiftParameter.comment = CommentHelper.getDescription(francaArgument);
+
     storeResult(swiftParameter);
 
     if (swiftType instanceof SwiftArray) {
