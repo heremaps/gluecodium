@@ -118,7 +118,7 @@ public class JavaModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingFrancaMethodReadsReturnTypeComment() {
-    JavaParameter returnTypeParameter = new JavaParameter(javaCustomType, "flowers", true);
+    JavaParameter returnTypeParameter = new JavaParameter("flowers", javaCustomType, true);
     returnTypeParameter.comment = "foobar";
     contextStack.injectResult(returnTypeParameter);
 

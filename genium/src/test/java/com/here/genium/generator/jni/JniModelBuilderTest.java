@@ -143,7 +143,7 @@ public class JniModelBuilderTest {
         new JniModelBuilder(
             contextStack, deploymentModel, javaBuilder, cppBuilder, cppIncludeResolver);
 
-    javaSetter.parameters.add(new JavaParameter(JavaPrimitiveType.INT, "value"));
+    javaSetter.parameters.add(new JavaParameter("value", JavaPrimitiveType.INT));
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
 
     when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
@@ -161,7 +161,7 @@ public class JniModelBuilderTest {
   private static JavaMethod createJavaMethod() {
     JavaMethod javaMethod =
         JavaMethod.builder(JAVA_INT_METHOD_NAME).returnType(JavaPrimitiveType.INT).build();
-    javaMethod.parameters.add(new JavaParameter(JavaPrimitiveType.INT, BASE_NAME_PARAMETER));
+    javaMethod.parameters.add(new JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT));
     return javaMethod;
   }
 
@@ -283,7 +283,7 @@ public class JniModelBuilderTest {
             .returnType(JavaPrimitiveType.INT)
             .exception(new JavaCustomType("FooException", JavaPackage.DEFAULT))
             .build();
-    javaMethod.parameters.add(new JavaParameter(JavaPrimitiveType.INT, BASE_NAME_PARAMETER));
+    javaMethod.parameters.add(new JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT));
     when(javaBuilder.getFinalResult(any())).thenReturn(javaMethod);
     when(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod());
 
@@ -302,7 +302,7 @@ public class JniModelBuilderTest {
             .returnType(JavaPrimitiveType.INT)
             .exception(new JavaCustomType("FooException", JavaPackage.DEFAULT))
             .build();
-    javaMethod.parameters.add(new JavaParameter(JavaPrimitiveType.INT, BASE_NAME_PARAMETER));
+    javaMethod.parameters.add(new JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT));
     when(javaBuilder.getFinalResult(any())).thenReturn(javaMethod);
     when(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod());
     contextStack.injectResult(jniType);
@@ -473,7 +473,7 @@ public class JniModelBuilderTest {
 
   @Test
   public void finishBuildingInputArgumentReadsJavaCppParameters() {
-    JavaParameter javaParameter = new JavaParameter(javaCustomType, "relative");
+    JavaParameter javaParameter = new JavaParameter("relative", javaCustomType);
     CppParameter cppParameter =
         new CppParameter("absolute", new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build());
     when(javaBuilder.getFinalResult(any())).thenReturn(javaParameter);
