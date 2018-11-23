@@ -5,6 +5,7 @@
 #   { cat .gitignore-custom ; gibo Android Java JetBrains Kotlin Vim macOS Objective-C Qt Swift } > .gitignore
 #
 .idea/compiler.xml
+.idea/encodings.xml
 .idea/misc.xml
 .idea/modules.xml
 .idea/vcs.xml
