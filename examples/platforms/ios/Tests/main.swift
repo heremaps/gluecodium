@@ -50,7 +50,8 @@ let allTests = [
     testCase(ConstantsTests.allTests),
     testCase(EquatableTests.allTests),
     testCase(ListenerRoundtripTests.allTests),
-    testCase(ListenerWithAttributesTests.allTests)
+    testCase(ListenerWithAttributesTests.allTests),
+    testCase(NotNullTests.allTests)
 ]
 
 XCTMain(allTests)
