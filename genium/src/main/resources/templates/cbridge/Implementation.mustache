@@ -25,7 +25,7 @@
 {{/implementationIncludes}}
 
 {{#if selfType}}
-void {{name}}_release(_baseRef handle) {
+void {{name}}_release_handle(_baseRef handle) {
     delete get_pointer<{{selfType.name}}>(handle);
 }
 

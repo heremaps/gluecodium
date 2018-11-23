@@ -24,7 +24,7 @@
 #include <vector>
 
 _baseRef
-byteArray_create( )
+byteArray_create_handle( )
 {
     return reinterpret_cast< _baseRef >( new ( std::nothrow )
                                              std::shared_ptr< std::vector< uint8_t > >(
@@ -32,7 +32,7 @@ byteArray_create( )
 }
 
 void
-byteArray_release( _baseRef handle )
+byteArray_release_handle( _baseRef handle )
 {
     delete get_pointer< std::shared_ptr< std::vector< uint8_t > > >( handle );
 }

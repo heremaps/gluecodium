@@ -27,10 +27,10 @@
 extern "C" {
 #endif
 
-_baseRef std_string_create( const char* c_str );
+_baseRef std_string_create_handle( const char* c_str );
 const char* std_string_data_get( _baseRef handle );
 int64_t std_string_size_get( _baseRef handle );
-void std_string_release( _baseRef handle );
+void std_string_release_handle( _baseRef handle );
 
 #ifdef __cplusplus
 }

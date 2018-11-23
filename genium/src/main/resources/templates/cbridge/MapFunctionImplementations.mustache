@@ -18,11 +18,11 @@
   ! License-Filename: LICENSE
   !
   !}}
-_baseRef {{name}}_create() {
+_baseRef {{name}}_create_handle() {
     return reinterpret_cast<_baseRef>( new {{>baseApi}}() );
 }
 
-void {{name}}_release(_baseRef handle) {
+void {{name}}_release_handle(_baseRef handle) {
     delete get_pointer<{{>baseApi}}>(handle);
 }
 
@@ -30,7 +30,7 @@ _baseRef {{name}}_iterator(_baseRef handle) {
     return reinterpret_cast<_baseRef>( new {{>baseApi}}::iterator( get_pointer<{{>baseApi}}>(handle)->begin() ) );
 }
 
-void {{name}}_iterator_release(_baseRef iterator_handle) {
+void {{name}}_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle );
 }
 

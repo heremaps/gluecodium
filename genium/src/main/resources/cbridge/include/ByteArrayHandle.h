@@ -28,8 +28,8 @@
 extern "C" {
 #endif
 
-_baseRef byteArray_create( );
-void byteArray_release( _baseRef handle );
+_baseRef byteArray_create_handle( );
+void byteArray_release_handle( _baseRef handle );
 void byteArray_assign( _baseRef handle, const uint8_t* data, const size_t size );
 const uint8_t* byteArray_data_get( _baseRef handle );
 size_t byteArray_size_get( _baseRef handle );

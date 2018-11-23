@@ -72,9 +72,9 @@ if (RESULT.has_value) {
 
 
 }}{{+byteBufferConversion}}{{!!
-}}let {{variableName}}_handle = byteArray_create()
+}}let {{variableName}}_handle = byteArray_create_handle()
 defer {
-    byteArray_release({{variableName}}_handle)
+    byteArray_release_handle({{variableName}}_handle)
 }
 {{variableName}}.withUnsafeBytes { ({{variableName}}_ptr: UnsafePointer<UInt8>) in
     byteArray_assign({{variableName}}_handle, {{variableName}}_ptr, {{variableName}}.count)
@@ -84,7 +84,7 @@ defer {
 }}{{+structConversion}}{{!!
 }}let {{name}}_handle = {{name}}.convertToCType()
 defer {
-    {{type.cPrefix}}_release({{name}}_handle)
+    {{type.cPrefix}}_release_handle({{name}}_handle)
 }
 {{/structConversion}}{{!!
 
@@ -102,14 +102,14 @@ defer {
 }}{{+dictionaryConversion}}{{!!
 }}let {{name}}_handle = convert{{type.name}}ToCType({{name}})
 defer {
-    {{type.cPrefix}}_release({{name}}_handle)
+    {{type.cPrefix}}_release_handle({{name}}_handle)
 }
 {{/dictionaryConversion}}{{!!
 
 }}{{+MethodReturnStruct}}{{!!
 }}let cResult = {{include delegateToCall}}
 defer {
-    {{returnType.cPrefix}}_release(cResult)
+    {{returnType.cPrefix}}_release_handle(cResult)
 }
 return {{>returnTypeOrImplClass}}(c{{returnType.simpleName}}: cResult)
 {{/MethodReturnStruct}}
@@ -138,7 +138,7 @@ return {{returnType.implementingClass}}(result_handle)
 }}{{+MethodReturnDictionary}}{{!!
 }}let result_handle = {{include delegateToCall}}
 defer {
-    {{returnType.cPrefix}}_release(result_handle)
+    {{returnType.cPrefix}}_release_handle(result_handle)
 }
 return convert{{returnType.name}}FromCType(result_handle)
 {{/MethodReturnDictionary}}{{!!

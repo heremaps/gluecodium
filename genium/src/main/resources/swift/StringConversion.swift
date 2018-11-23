@@ -22,7 +22,7 @@ import Foundation
 
 extension String {
     func convertToCType() -> _baseRef {
-        let result = std_string_create(self)
+        let result = std_string_create_handle(self)
         precondition(result != 0, "Out of memory")
         return result
     }

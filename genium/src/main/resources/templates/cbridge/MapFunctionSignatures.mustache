@@ -18,10 +18,10 @@
   ! License-Filename: LICENSE
   !
   !}}
-_baseRef {{name}}_create();
-void {{name}}_release(_baseRef handle);
+_baseRef {{name}}_create_handle();
+void {{name}}_release_handle(_baseRef handle);
 _baseRef {{name}}_iterator(_baseRef handle);
-void {{name}}_iterator_release(_baseRef iterator_handle);
+void {{name}}_iterator_release_handle(_baseRef iterator_handle);
 void {{name}}_put(_baseRef handle, {{keyType.functionReturnType}} key, {{valueType.functionReturnType}} value);
 bool {{name}}_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
 void {{name}}_iterator_increment(_baseRef iterator_handle);

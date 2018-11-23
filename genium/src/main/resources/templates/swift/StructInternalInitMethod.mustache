@@ -47,7 +47,7 @@ internal init(c{{simpleName}}: _baseRef) {
 {{+assignStringType}}do {
     let {{name}}_handle = {{cPrefix}}_{{name}}_get(c{{structName}})
     defer {
-        std_string_release({{name}}_handle)
+        std_string_release_handle({{name}}_handle)
     }
     {{name}} = String(cString: std_string_data_get({{name}}_handle))
 }
@@ -56,7 +56,7 @@ internal init(c{{simpleName}}: _baseRef) {
 {{+assignDataType}}do {
     let {{name}}_handle = {{cPrefix}}_{{name}}_get(c{{structName}})
     defer {
-        byteArray_release({{name}}_handle)
+        byteArray_release_handle({{name}}_handle)
     }
     if let array_data_handle = byteArray_data_get({{name}}_handle) {
         {{name}} = Data(bytes: array_data_handle, count: Int(byteArray_size_get({{name}}_handle)))
@@ -69,7 +69,7 @@ internal init(c{{simpleName}}: _baseRef) {
 {{+assignStruct}}do {
     let {{name}}_handle = {{cPrefix}}_{{name}}_get(c{{structName}})
     defer {
-        {{type.cPrefix}}_release({{name}}_handle)
+        {{type.cPrefix}}_release_handle({{name}}_handle)
     }
     {{name}} = {{type}}(c{{type.simpleName}}: {{name}}_handle)
 }
@@ -92,7 +92,7 @@ internal init(c{{simpleName}}: _baseRef) {
 }}{{+assignDictionary}}do {
     let {{name}}_handle = {{cPrefix}}_{{name}}_get(c{{structName}})
     defer {
-        {{type.cPrefix}}_release({{name}}_handle)
+        {{type.cPrefix}}_release_handle({{name}}_handle)
     }
     {{name}} = convert{{type.name}}FromCType({{name}}_handle)
 }

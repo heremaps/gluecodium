@@ -18,8 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-_baseRef {{name}}_create({{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
-void {{name}}_release(_baseRef handle);
+_baseRef {{name}}_create_handle({{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+void {{name}}_release_handle(_baseRef handle);
 
 {{#set structname=name}}
 {{#fields}}

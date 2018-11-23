@@ -27,7 +27,7 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
     if let instanceReference = reference as? NativeBase {
         let handle_copy = {{cInstance}}_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: {{cInstance}}_release)
+            ? RefHolder(ref: handle_copy, release: {{cInstance}}_release_handle)
             : RefHolder(handle_copy)
     }
 
@@ -47,8 +47,8 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
 {{#set propertyName=name}}{{#propertyAccessors.0}}{{#set delegateToCall="callPropertyGetter"}}{{>functionTableEntry}}{{/set}}{{/propertyAccessors.0}}
 {{#unless readonly}}{{#propertyAccessors.1}}{{#set delegateToCall="callPropertySetter"}}{{>functionTableEntry}}{{/set}}{{/propertyAccessors.1}}{{/unless}}{{/set}}
 {{/properties}}
-    let proxy = {{cInstance}}_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: {{cInstance}}_release) : RefHolder(proxy)
+    let proxy = {{cInstance}}_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: {{cInstance}}_release_handle) : RefHolder(proxy)
 }
 {{/set}}{{!!
 }}{{+functionTableEntry}}
@@ -57,18 +57,18 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
         {{#parameters}}{{#switch type.category.toString}}{{!!
         }}{{#case "BUILTIN_STRING"}}
         defer {
-            std_string_release({{name}})
+            std_string_release_handle({{name}})
         }
         {{/case}}{{!!
         }}{{#case "STRUCT" break=false}}{{/case}}{{!!
         }}{{#case "DICTIONARY"}}
         defer {
-            {{type.cPrefix}}_release({{name}})
+            {{type.cPrefix}}_release_handle({{name}})
         }
         {{/case}}{{!!
         }}{{#case "BUILTIN_BYTEBUFFER"}}
         defer {
-            byteArray_release({{name}})
+            byteArray_release_handle({{name}})
         }
         {{/case}}{{!!
         }}{{#case "CLASS"}}
@@ -78,7 +78,7 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
             swift_object_{{name}} = Unmanaged<AnyObject>.fromOpaque(swift_pointer_{{name}}).takeUnretainedValue() as? {{type.publicName}}
             if swift_object_{{name}} != nil {
                 defer {
-                    {{type.cPrefix}}_release({{name}})
+                    {{type.cPrefix}}_release_handle({{name}})
                 }
             }
         }
@@ -101,7 +101,7 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
     }}{{#case "ARRAY"}}return {{include delegateToCall}}.c_conversion().c_type{{/case}}{{!!
     }}{{#case "DICTIONARY"}}return convert{{returnType.name}}ToCType({{include delegateToCall}}){{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER"}}let result = {{include delegateToCall}}
-        let result_handle = byteArray_create()
+        let result_handle = byteArray_create_handle()
         result.withUnsafeBytes { (result_ptr: UnsafePointer<UInt8>) in
             byteArray_assign(result_handle, result_ptr, result.count)
         }

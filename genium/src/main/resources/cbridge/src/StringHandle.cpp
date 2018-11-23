@@ -24,13 +24,13 @@
 #include <string>
 
 _baseRef
-std_string_create( const char* c_str )
+std_string_create_handle( const char* c_str )
 {
     return reinterpret_cast< _baseRef >( new ( std::nothrow ) std::string( c_str ) );
 }
 
 void
-std_string_release( _baseRef handle )
+std_string_release_handle( _baseRef handle )
 {
     delete get_pointer< std::string >( handle );
 }

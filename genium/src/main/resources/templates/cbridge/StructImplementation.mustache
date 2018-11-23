@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-_baseRef {{name}}_create({{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
+_baseRef {{name}}_create_handle({{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
 {{#unless isImmutable}}    {{baseApiName}}* _struct = new {{baseApiName}}();{{/unless}}
 {{#fields}}
 {{#if isImmutable}}    auto _{{name}} = {{/if}}{{!!
@@ -38,7 +38,7 @@ _baseRef {{name}}_create({{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}},
     return reinterpret_cast<_baseRef>(_struct);
 }
 
-void {{name}}_release(_baseRef handle) {
+void {{name}}_release_handle(_baseRef handle) {
     delete get_pointer<{{mappedType.name}}>(handle);
 }
 
