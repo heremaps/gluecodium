@@ -11,7 +11,7 @@ internal func getRef(_ ref: AttributesInterface?, owning: Bool = true) -> RefHol
     if let instanceReference = reference as? NativeBase {
         let handle_copy = smoke_AttributesInterface_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: smoke_AttributesInterface_release)
+            ? RefHolder(ref: handle_copy, release: smoke_AttributesInterface_release_handle)
             : RefHolder(handle_copy)
     }
     var functions = smoke_AttributesInterface_FunctionTable()
@@ -28,12 +28,12 @@ internal func getRef(_ ref: AttributesInterface?, owning: Bool = true) -> RefHol
     functions.smoke_AttributesInterface_structAttribute_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! AttributesInterface
         defer {
-            smoke_AttributesInterface_ExampleStruct_release(newValue)
+            smoke_AttributesInterface_ExampleStruct_release_handle(newValue)
         }
         return swift_class.structAttribute = ExampleStruct(cExampleStruct: newValue)
     }
-    let proxy = smoke_AttributesInterface_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: smoke_AttributesInterface_release) : RefHolder(proxy)
+    let proxy = smoke_AttributesInterface_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: smoke_AttributesInterface_release_handle) : RefHolder(proxy)
 }
 
 public protocol AttributesInterface : AnyObject {
@@ -47,14 +47,14 @@ internal class _AttributesInterface: AttributesInterface {
         get {
             let cResult = smoke_AttributesInterface_structAttribute_get(c_instance)
             defer {
-                smoke_AttributesInterface_ExampleStruct_release(cResult)
+                smoke_AttributesInterface_ExampleStruct_release_handle(cResult)
             }
             return ExampleStruct(cExampleStruct: cResult)
         }
         set {
             let newValue_handle = newValue.convertToCType()
             defer {
-                smoke_AttributesInterface_ExampleStruct_release(newValue_handle)
+                smoke_AttributesInterface_ExampleStruct_release_handle(newValue_handle)
             }
             return smoke_AttributesInterface_structAttribute_set(c_instance, newValue_handle)
         }
@@ -69,7 +69,7 @@ internal class _AttributesInterface: AttributesInterface {
     }
 
     deinit {
-        smoke_AttributesInterface_release(c_instance)
+        smoke_AttributesInterface_release_handle(c_instance)
     }
 }
 
@@ -90,6 +90,6 @@ public struct ExampleStruct {
 
     internal func convertToCType() -> _baseRef {
         let value_handle = value
-        return smoke_AttributesInterface_ExampleStruct_create(value_handle)
+        return smoke_AttributesInterface_ExampleStruct_create_handle(value_handle)
     }
 }

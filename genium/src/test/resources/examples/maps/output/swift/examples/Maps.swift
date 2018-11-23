@@ -22,17 +22,17 @@ public class Maps {
     }
 
     deinit {
-        examples_Maps_release(c_instance)
+        examples_Maps_release_handle(c_instance)
     }
 
     public static func mapMethod(input: Maps.NameMap) -> Maps.NameMap {
         let input_handle = convertMaps_NameMapToCType(input)
         defer {
-            examples_Maps_NameMap_release(input_handle)
+            examples_Maps_NameMap_release_handle(input_handle)
         }
         let result_handle = examples_Maps_mapMethod(input_handle)
         defer {
-            examples_Maps_NameMap_release(result_handle)
+            examples_Maps_NameMap_release_handle(result_handle)
         }
         return convertMaps_NameMapFromCType(result_handle)
     }
@@ -43,12 +43,12 @@ extension Maps: NativeBase {
 }
 
 func convertMaps_NameMapToCType(_ swiftDict: Maps.NameMap) -> _baseRef {
-    let c_handle = examples_Maps_NameMap_create()
+    let c_handle = examples_Maps_NameMap_create_handle()
     for (swift_key, swift_value) in swiftDict {
         let c_key = swift_key
         let c_value = swift_value.convertToCType()
         defer {
-            std_string_release(c_value)
+            std_string_release_handle(c_value)
         }
         examples_Maps_NameMap_put(c_handle, c_key, c_value)
     }
@@ -63,7 +63,7 @@ func convertMaps_NameMapFromCType(_ c_handle: _baseRef) -> Maps.NameMap {
         let swift_key = c_key
         let c_value = examples_Maps_NameMap_iterator_value(iterator_handle)
         defer {
-            std_string_release(c_value)
+            std_string_release_handle(c_value)
         }
         let swift_value = String(data: Data(bytes: std_string_data_get(c_value),
                                             count: Int(std_string_size_get(c_value))),
@@ -71,6 +71,6 @@ func convertMaps_NameMapFromCType(_ c_handle: _baseRef) -> Maps.NameMap {
         swiftDict[swift_key] = swift_value
         examples_Maps_NameMap_iterator_increment(iterator_handle)
     }
-    examples_Maps_NameMap_iterator_release(iterator_handle)
+    examples_Maps_NameMap_iterator_release_handle(iterator_handle)
     return swiftDict
 }

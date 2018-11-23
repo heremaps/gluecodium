@@ -14,7 +14,7 @@ public class DefaultValues {
         c_instance = cDefaultValues
     }
     deinit {
-        smoke_DefaultValues_release(c_instance)
+        smoke_DefaultValues_release_handle(c_instance)
     }
     public enum SomeEnum : UInt32 {
         case fooValue
@@ -49,7 +49,7 @@ public class DefaultValues {
             do {
                 let stringField_handle = smoke_DefaultValues_StructWithDefaults_stringField_get(cStructWithDefaults)
                 defer {
-                    std_string_release(stringField_handle)
+                    std_string_release_handle(stringField_handle)
                 }
                 stringField = String(cString: std_string_data_get(stringField_handle))
             }
@@ -64,17 +64,17 @@ public class DefaultValues {
             let stringField_handle = stringField
             let enumField_handle = enumField.rawValue
             let externalEnumField_handle = externalEnumField.rawValue
-            return smoke_DefaultValues_StructWithDefaults_create(intField_handle, uintField_handle, floatField_handle, boolField_handle, stringField_handle, enumField_handle, externalEnumField_handle)
+            return smoke_DefaultValues_StructWithDefaults_create_handle(intField_handle, uintField_handle, floatField_handle, boolField_handle, stringField_handle, enumField_handle, externalEnumField_handle)
         }
     }
     public static func processStructWithDefaults(input: DefaultValues.StructWithDefaults) -> DefaultValues.StructWithDefaults {
         let input_handle = input.convertToCType()
         defer {
-            smoke_DefaultValues_StructWithDefaults_release(input_handle)
+            smoke_DefaultValues_StructWithDefaults_release_handle(input_handle)
         }
         let cResult = smoke_DefaultValues_processStructWithDefaults(input_handle)
         defer {
-            smoke_DefaultValues_StructWithDefaults_release(cResult)
+            smoke_DefaultValues_StructWithDefaults_release_handle(cResult)
         }
         return DefaultValues.StructWithDefaults(cStructWithDefaults: cResult)
     }

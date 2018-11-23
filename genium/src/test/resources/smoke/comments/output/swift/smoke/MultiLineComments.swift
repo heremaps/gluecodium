@@ -15,7 +15,7 @@ public class MultiLineComments {
         c_instance = cMultiLineComments
     }
     deinit {
-        smoke_MultiLineComments_release(c_instance)
+        smoke_MultiLineComments_release_handle(c_instance)
     }
     /// This is very important method. It has very important parameters. It has side effects.
     /// - Parameter input: Very useful input parameter. You must not confuse it with the second parameter. But they are similar.

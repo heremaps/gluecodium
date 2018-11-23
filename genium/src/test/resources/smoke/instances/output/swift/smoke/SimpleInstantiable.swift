@@ -20,7 +20,7 @@ public class SimpleInstantiable {
     }
 
     deinit {
-        smoke_SimpleInstantiable_release(c_instance)
+        smoke_SimpleInstantiable_release_handle(c_instance)
     }
     public func setStringValue(stringValue: String) -> Void {
         return smoke_SimpleInstantiable_setStringValue(c_instance, stringValue)
@@ -29,7 +29,7 @@ public class SimpleInstantiable {
     public func getStringValue() -> String {
         let result_string_handle = smoke_SimpleInstantiable_getStringValue(c_instance)
         defer {
-            std_string_release(result_string_handle)
+            std_string_release_handle(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
                                  count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!

@@ -20,7 +20,7 @@ public class InstanceWithStruct {
     }
 
     deinit {
-        smoke_InstanceWithStruct_release(c_instance)
+        smoke_InstanceWithStruct_release_handle(c_instance)
     }
     public struct InnerStruct {
         public var value: Int8
@@ -35,7 +35,7 @@ public class InstanceWithStruct {
 
         internal func convertToCType() -> _baseRef {
             let value_handle = value
-            return smoke_InstanceWithStruct_InnerStruct_create(value_handle)
+            return smoke_InstanceWithStruct_InnerStruct_create_handle(value_handle)
         }
     }
 
@@ -75,18 +75,18 @@ public class InstanceWithStruct {
             let instance_handle = getRef(instance).ref
             let instanceNotNull_handle = getRef(instanceNotNull).ref
             let instanceNotNullWithComment_handle = getRef(instanceNotNullWithComment).ref
-            return smoke_InstanceWithStruct_StructWithInstance_create(instance_handle, instanceNotNull_handle, instanceNotNullWithComment_handle)
+            return smoke_InstanceWithStruct_StructWithInstance_create_handle(instance_handle, instanceNotNull_handle, instanceNotNullWithComment_handle)
         }
     }
 
     public func innerStructMethod(inputStruct: InstanceWithStruct.InnerStruct) -> InstanceWithStruct.InnerStruct {
         let inputStruct_handle = inputStruct.convertToCType()
         defer {
-            smoke_InstanceWithStruct_InnerStruct_release(inputStruct_handle)
+            smoke_InstanceWithStruct_InnerStruct_release_handle(inputStruct_handle)
         }
         let cResult = smoke_InstanceWithStruct_innerStructMethod(c_instance, inputStruct_handle)
         defer {
-            smoke_InstanceWithStruct_InnerStruct_release(cResult)
+            smoke_InstanceWithStruct_InnerStruct_release_handle(cResult)
         }
         return InstanceWithStruct.InnerStruct(cInnerStruct: cResult)
     }
@@ -94,11 +94,11 @@ public class InstanceWithStruct {
     public func structWithInstanceMethod(input: InstanceWithStruct.StructWithInstance) -> InstanceWithStruct.StructWithInstance {
         let input_handle = input.convertToCType()
         defer {
-            smoke_InstanceWithStruct_StructWithInstance_release(input_handle)
+            smoke_InstanceWithStruct_StructWithInstance_release_handle(input_handle)
         }
         let cResult = smoke_InstanceWithStruct_structWithInstanceMethod(c_instance, input_handle)
         defer {
-            smoke_InstanceWithStruct_StructWithInstance_release(cResult)
+            smoke_InstanceWithStruct_StructWithInstance_release_handle(cResult)
         }
         return InstanceWithStruct.StructWithInstance(cStructWithInstance: cResult)
     }

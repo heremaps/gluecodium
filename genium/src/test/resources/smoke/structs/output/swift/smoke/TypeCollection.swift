@@ -17,7 +17,7 @@ public struct Point {
     internal func convertToCType() -> _baseRef {
         let x_handle = x
         let y_handle = y
-        return smoke_TypeCollection_Point_create(x_handle, y_handle)
+        return smoke_TypeCollection_Point_create_handle(x_handle, y_handle)
     }
 }
 public struct Color {
@@ -38,7 +38,7 @@ public struct Color {
         let red_handle = red
         let green_handle = green
         let blue_handle = blue
-        return smoke_TypeCollection_Color_create(red_handle, green_handle, blue_handle)
+        return smoke_TypeCollection_Color_create_handle(red_handle, green_handle, blue_handle)
     }
 }
 public struct Line {
@@ -52,14 +52,14 @@ public struct Line {
         do {
             let a_handle = smoke_TypeCollection_Line_a_get(cLine)
             defer {
-                smoke_TypeCollection_Point_release(a_handle)
+                smoke_TypeCollection_Point_release_handle(a_handle)
             }
             a = Point(cPoint: a_handle)
         }
         do {
             let b_handle = smoke_TypeCollection_Line_b_get(cLine)
             defer {
-                smoke_TypeCollection_Point_release(b_handle)
+                smoke_TypeCollection_Point_release_handle(b_handle)
             }
             b = Point(cPoint: b_handle)
         }
@@ -67,13 +67,13 @@ public struct Line {
     internal func convertToCType() -> _baseRef {
         let a_handle = a.convertToCType()
         defer {
-            smoke_TypeCollection_Point_release(a_handle)
+            smoke_TypeCollection_Point_release_handle(a_handle)
         }
         let b_handle = b.convertToCType()
         defer {
-            smoke_TypeCollection_Point_release(b_handle)
+            smoke_TypeCollection_Point_release_handle(b_handle)
         }
-        return smoke_TypeCollection_Line_create(a_handle, b_handle)
+        return smoke_TypeCollection_Line_create_handle(a_handle, b_handle)
     }
 }
 public struct ColoredLine {
@@ -87,14 +87,14 @@ public struct ColoredLine {
         do {
             let line_handle = smoke_TypeCollection_ColoredLine_line_get(cColoredLine)
             defer {
-                smoke_TypeCollection_Line_release(line_handle)
+                smoke_TypeCollection_Line_release_handle(line_handle)
             }
             line = Line(cLine: line_handle)
         }
         do {
             let color_handle = smoke_TypeCollection_ColoredLine_color_get(cColoredLine)
             defer {
-                smoke_TypeCollection_Color_release(color_handle)
+                smoke_TypeCollection_Color_release_handle(color_handle)
             }
             color = Color(cColor: color_handle)
         }
@@ -102,13 +102,13 @@ public struct ColoredLine {
     internal func convertToCType() -> _baseRef {
         let line_handle = line.convertToCType()
         defer {
-            smoke_TypeCollection_Line_release(line_handle)
+            smoke_TypeCollection_Line_release_handle(line_handle)
         }
         let color_handle = color.convertToCType()
         defer {
-            smoke_TypeCollection_Color_release(color_handle)
+            smoke_TypeCollection_Color_release_handle(color_handle)
         }
-        return smoke_TypeCollection_ColoredLine_create(line_handle, color_handle)
+        return smoke_TypeCollection_ColoredLine_create_handle(line_handle, color_handle)
     }
 }
 public struct AllTypesStruct {
@@ -156,7 +156,7 @@ public struct AllTypesStruct {
         do {
             let stringField_handle = smoke_TypeCollection_AllTypesStruct_stringField_get(cAllTypesStruct)
             defer {
-                std_string_release(stringField_handle)
+                std_string_release_handle(stringField_handle)
             }
             stringField = String(cString: std_string_data_get(stringField_handle))
         }
@@ -164,7 +164,7 @@ public struct AllTypesStruct {
         do {
             let bytesField_handle = smoke_TypeCollection_AllTypesStruct_bytesField_get(cAllTypesStruct)
             defer {
-                byteArray_release(bytesField_handle)
+                byteArray_release_handle(bytesField_handle)
             }
             if let array_data_handle = byteArray_data_get(bytesField_handle) {
                 bytesField = Data(bytes: array_data_handle, count: Int(byteArray_size_get(bytesField_handle)))
@@ -175,7 +175,7 @@ public struct AllTypesStruct {
         do {
             let pointField_handle = smoke_TypeCollection_AllTypesStruct_pointField_get(cAllTypesStruct)
             defer {
-                smoke_TypeCollection_Point_release(pointField_handle)
+                smoke_TypeCollection_Point_release_handle(pointField_handle)
             }
             pointField = Point(cPoint: pointField_handle)
         }
@@ -193,17 +193,17 @@ public struct AllTypesStruct {
         let doubleField_handle = doubleField
         let stringField_handle = stringField
         let booleanField_handle = booleanField
-        let bytesField_handle = byteArray_create()
+        let bytesField_handle = byteArray_create_handle()
         defer {
-            byteArray_release(bytesField_handle)
+            byteArray_release_handle(bytesField_handle)
         }
         bytesField.withUnsafeBytes { (bytesField_ptr: UnsafePointer<UInt8>) in
             byteArray_assign(bytesField_handle, bytesField_ptr, bytesField.count)
         }
         let pointField_handle = pointField.convertToCType()
         defer {
-            smoke_TypeCollection_Point_release(pointField_handle)
+            smoke_TypeCollection_Point_release_handle(pointField_handle)
         }
-        return smoke_TypeCollection_AllTypesStruct_create(int8Field_handle, uint8Field_handle, int16Field_handle, uint16Field_handle, int32Field_handle, uint32Field_handle, int64Field_handle, uint64Field_handle, floatField_handle, doubleField_handle, stringField_handle, booleanField_handle, bytesField_handle, pointField_handle)
+        return smoke_TypeCollection_AllTypesStruct_create_handle(int8Field_handle, uint8Field_handle, int16Field_handle, uint16Field_handle, int32Field_handle, uint32Field_handle, int64Field_handle, uint64Field_handle, floatField_handle, doubleField_handle, stringField_handle, booleanField_handle, bytesField_handle, pointField_handle)
     }
 }

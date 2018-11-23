@@ -9,7 +9,7 @@ internal func getRef(_ ref: ObjcChildInterface?, owning: Bool = true) -> RefHold
     if let instanceReference = reference as? NativeBase {
         let handle_copy = smoke_ObjcChildInterface_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: smoke_ObjcChildInterface_release)
+            ? RefHolder(ref: handle_copy, release: smoke_ObjcChildInterface_release_handle)
             : RefHolder(handle_copy)
     }
     var functions = smoke_ObjcChildInterface_FunctionTable()
@@ -19,8 +19,8 @@ internal func getRef(_ ref: ObjcChildInterface?, owning: Bool = true) -> RefHold
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-    let proxy = smoke_ObjcChildInterface_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: smoke_ObjcChildInterface_release) : RefHolder(proxy)
+    let proxy = smoke_ObjcChildInterface_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: smoke_ObjcChildInterface_release_handle) : RefHolder(proxy)
 }
 @objc
 public protocol ObjcChildInterface : ObjcInterface {
@@ -34,7 +34,7 @@ internal class _ObjcChildInterface: ObjcChildInterface {
         c_instance = cObjcChildInterface
     }
     deinit {
-        smoke_ObjcChildInterface_release(c_instance)
+        smoke_ObjcChildInterface_release_handle(c_instance)
     }
 }
 extension _ObjcChildInterface: NativeBase {

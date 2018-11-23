@@ -20,12 +20,12 @@ public class StructsFromTypeCollection {
     }
 
     deinit {
-        smoke_StructsFromTypeCollection_release(c_instance)
+        smoke_StructsFromTypeCollection_release_handle(c_instance)
     }
     public static func createPoint(x: Double, y: Double) -> Point {
         let cResult = smoke_StructsFromTypeCollection_createPoint(x, y)
         defer {
-            smoke_TypeCollection_Point_release(cResult)
+            smoke_TypeCollection_Point_release_handle(cResult)
         }
         return Point(cPoint: cResult)
     }
@@ -33,11 +33,11 @@ public class StructsFromTypeCollection {
     public static func swapPointCoordinates(input: Point) -> Point {
         let input_handle = input.convertToCType()
         defer {
-            smoke_TypeCollection_Point_release(input_handle)
+            smoke_TypeCollection_Point_release_handle(input_handle)
         }
         let cResult = smoke_StructsFromTypeCollection_swapPointCoordinates(input_handle)
         defer {
-            smoke_TypeCollection_Point_release(cResult)
+            smoke_TypeCollection_Point_release_handle(cResult)
         }
         return Point(cPoint: cResult)
     }
@@ -45,15 +45,15 @@ public class StructsFromTypeCollection {
     public static func createLine(pointA: Point, pointB: Point) -> Line {
         let pointA_handle = pointA.convertToCType()
         defer {
-            smoke_TypeCollection_Point_release(pointA_handle)
+            smoke_TypeCollection_Point_release_handle(pointA_handle)
         }
         let pointB_handle = pointB.convertToCType()
         defer {
-            smoke_TypeCollection_Point_release(pointB_handle)
+            smoke_TypeCollection_Point_release_handle(pointB_handle)
         }
         let cResult = smoke_StructsFromTypeCollection_createLine(pointA_handle, pointB_handle)
         defer {
-            smoke_TypeCollection_Line_release(cResult)
+            smoke_TypeCollection_Line_release_handle(cResult)
         }
         return Line(cLine: cResult)
     }
@@ -61,15 +61,15 @@ public class StructsFromTypeCollection {
     public static func createColoredLine(line: Line, color: Color) -> ColoredLine {
         let line_handle = line.convertToCType()
         defer {
-            smoke_TypeCollection_Line_release(line_handle)
+            smoke_TypeCollection_Line_release_handle(line_handle)
         }
         let color_handle = color.convertToCType()
         defer {
-            smoke_TypeCollection_Color_release(color_handle)
+            smoke_TypeCollection_Color_release_handle(color_handle)
         }
         let cResult = smoke_StructsFromTypeCollection_createColoredLine(line_handle, color_handle)
         defer {
-            smoke_TypeCollection_ColoredLine_release(cResult)
+            smoke_TypeCollection_ColoredLine_release_handle(cResult)
         }
         return ColoredLine(cColoredLine: cResult)
     }
@@ -77,11 +77,11 @@ public class StructsFromTypeCollection {
     public static func modifyAllTypesStruct(input: AllTypesStruct) -> AllTypesStruct {
         let input_handle = input.convertToCType()
         defer {
-            smoke_TypeCollection_AllTypesStruct_release(input_handle)
+            smoke_TypeCollection_AllTypesStruct_release_handle(input_handle)
         }
         let cResult = smoke_StructsFromTypeCollection_modifyAllTypesStruct(input_handle)
         defer {
-            smoke_TypeCollection_AllTypesStruct_release(cResult)
+            smoke_TypeCollection_AllTypesStruct_release_handle(cResult)
         }
         return AllTypesStruct(cAllTypesStruct: cResult)
     }

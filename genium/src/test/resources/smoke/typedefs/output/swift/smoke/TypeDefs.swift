@@ -40,7 +40,7 @@ public class TypeDefs {
     }
 
     deinit {
-        smoke_TypeDefs_release(c_instance)
+        smoke_TypeDefs_release_handle(c_instance)
     }
     public struct StructHavingAliasFieldDefinedBelow {
         public var field: TypeDefs.PrimitiveTypeDef
@@ -55,7 +55,7 @@ public class TypeDefs {
 
         internal func convertToCType() -> _baseRef {
             let field_handle = field
-            return smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create(field_handle)
+            return smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_handle(field_handle)
         }
     }
 
@@ -70,7 +70,7 @@ public class TypeDefs {
             do {
                 let something_handle = smoke_TypeDefs_TestStruct_something_get(cTestStruct)
                 defer {
-                    std_string_release(something_handle)
+                    std_string_release_handle(something_handle)
                 }
                 something = String(cString: std_string_data_get(something_handle))
             }
@@ -78,7 +78,7 @@ public class TypeDefs {
 
         internal func convertToCType() -> _baseRef {
             let something_handle = something
-            return smoke_TypeDefs_TestStruct_create(something_handle)
+            return smoke_TypeDefs_TestStruct_create_handle(something_handle)
         }
     }
 
@@ -104,11 +104,11 @@ public class TypeDefs {
     public static func returnTestStructTypeDef(input: TypeDefs.TestStructTypeDef) -> TypeDefs.TestStructTypeDef {
         let input_handle = input.convertToCType()
         defer {
-            smoke_TypeDefs_TestStruct_release(input_handle)
+            smoke_TypeDefs_TestStruct_release_handle(input_handle)
         }
         let cResult = smoke_TypeDefs_returnTestStructTypeDef(input_handle)
         defer {
-            smoke_TypeDefs_TestStruct_release(cResult)
+            smoke_TypeDefs_TestStruct_release_handle(cResult)
         }
         return TypeDefs.TestStruct(cTestStruct: cResult)
     }
@@ -116,11 +116,11 @@ public class TypeDefs {
     public static func returnNestedStructTypeDef(input: TypeDefs.NestedStructTypeDef) -> TypeDefs.NestedStructTypeDef {
         let input_handle = input.convertToCType()
         defer {
-            smoke_TypeDefs_TestStruct_release(input_handle)
+            smoke_TypeDefs_TestStruct_release_handle(input_handle)
         }
         let cResult = smoke_TypeDefs_returnNestedStructTypeDef(input_handle)
         defer {
-            smoke_TypeDefs_TestStruct_release(cResult)
+            smoke_TypeDefs_TestStruct_release_handle(cResult)
         }
         return TypeDefs.TestStruct(cTestStruct: cResult)
     }
@@ -128,11 +128,11 @@ public class TypeDefs {
     public static func returnTypeDefPointFromTypeCollection(input: PointTypeDef) -> PointTypeDef {
         let input_handle = input.convertToCType()
         defer {
-            smoke_TypeCollection_Point_release(input_handle)
+            smoke_TypeCollection_Point_release_handle(input_handle)
         }
         let cResult = smoke_TypeDefs_returnTypeDefPointFromTypeCollection(input_handle)
         defer {
-            smoke_TypeCollection_Point_release(cResult)
+            smoke_TypeCollection_Point_release_handle(cResult)
         }
         return Point(cPoint: cResult)
     }

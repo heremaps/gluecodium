@@ -7,12 +7,12 @@
 #include <memory>
 #include <new>
 #include <string>
-_baseRef smoke_BasicTypes_SomeStruct_create(const char* someField) {
+_baseRef smoke_BasicTypes_SomeStruct_create_handle(const char* someField) {
     ::root::space::smoke::SomeStruct* _struct = new ::root::space::smoke::SomeStruct();
     _struct->some_field = someField;
     return reinterpret_cast<_baseRef>(_struct);
 }
-void smoke_BasicTypes_SomeStruct_release(_baseRef handle) {
+void smoke_BasicTypes_SomeStruct_release_handle(_baseRef handle) {
     delete get_pointer<::root::space::smoke::SomeStruct>(handle);
 }
 _baseRef smoke_BasicTypes_SomeStruct_someField_get(_baseRef handle) {

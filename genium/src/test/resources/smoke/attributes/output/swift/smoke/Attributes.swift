@@ -31,14 +31,14 @@ public class Attributes {
         get {
             let cResult = smoke_Attributes_structAttribute_get(c_instance)
             defer {
-                smoke_Attributes_ExampleStruct_release(cResult)
+                smoke_Attributes_ExampleStruct_release_handle(cResult)
             }
             return Attributes.ExampleStruct(cExampleStruct: cResult)
         }
         set {
             let newValue_handle = newValue.convertToCType()
             defer {
-                smoke_Attributes_ExampleStruct_release(newValue_handle)
+                smoke_Attributes_ExampleStruct_release_handle(newValue_handle)
             }
             return smoke_Attributes_structAttribute_set(c_instance, newValue_handle)
         }
@@ -74,14 +74,14 @@ public class Attributes {
         get {
             let result_data_handle = smoke_Attributes_byteBufferAttribute_get(c_instance)
             defer {
-                byteArray_release(result_data_handle)
+                byteArray_release_handle(result_data_handle)
             }
             return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
         }
         set {
-            let newValue_handle = byteArray_create()
+            let newValue_handle = byteArray_create_handle()
             defer {
-                byteArray_release(newValue_handle)
+                byteArray_release_handle(newValue_handle)
             }
             newValue.withUnsafeBytes { (newValue_ptr: UnsafePointer<UInt8>) in
                 byteArray_assign(newValue_handle, newValue_ptr, newValue.count)
@@ -124,7 +124,7 @@ public class Attributes {
     }
 
     deinit {
-        smoke_Attributes_release(c_instance)
+        smoke_Attributes_release_handle(c_instance)
     }
     public enum InternalError : UInt32 {
 
@@ -146,7 +146,7 @@ public class Attributes {
 
         internal func convertToCType() -> _baseRef {
             let value_handle = value
-            return smoke_Attributes_ExampleStruct_create(value_handle)
+            return smoke_Attributes_ExampleStruct_create_handle(value_handle)
         }
     }
 

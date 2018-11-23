@@ -15,7 +15,7 @@ public class LongComments {
         c_instance = cLongComments
     }
     deinit {
-        smoke_LongComments_release(c_instance)
+        smoke_LongComments_release_handle(c_instance)
     }
     /// This is very important method. It has very important parameters. It has side effects.
     /// - Parameter input: Very useful input parameter. You must not confuse it with the second parameter. But they are similar.

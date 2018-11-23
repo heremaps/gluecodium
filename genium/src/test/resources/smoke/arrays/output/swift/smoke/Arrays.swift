@@ -16,7 +16,7 @@ public class Arrays {
         c_instance = cArrays
     }
     deinit {
-        smoke_Arrays_release(c_instance)
+        smoke_Arrays_release_handle(c_instance)
     }
     public enum SomeEnum : UInt32 {
         case foo
@@ -32,7 +32,7 @@ public class Arrays {
         }
         internal func convertToCType() -> _baseRef {
             let value_handle = value
-            return smoke_Arrays_BasicStruct_create(value_handle)
+            return smoke_Arrays_BasicStruct_create_handle(value_handle)
         }
     }
     public struct FancyStruct {
@@ -50,7 +50,7 @@ public class Arrays {
             do {
                 let image_handle = smoke_Arrays_FancyStruct_image_get(cFancyStruct)
                 defer {
-                    byteArray_release(image_handle)
+                    byteArray_release_handle(image_handle)
                 }
                 if let array_data_handle = byteArray_data_get(image_handle) {
                     image = Data(bytes: array_data_handle, count: Int(byteArray_size_get(image_handle)))
@@ -70,14 +70,14 @@ public class Arrays {
               numbers_conversion.cleanup()
             }
             let numbers_handle = numbers_conversion.c_type
-            let image_handle = byteArray_create()
+            let image_handle = byteArray_create_handle()
             defer {
-                byteArray_release(image_handle)
+                byteArray_release_handle(image_handle)
             }
             image.withUnsafeBytes { (image_ptr: UnsafePointer<UInt8>) in
                 byteArray_assign(image_handle, image_ptr, image.count)
             }
-            return smoke_Arrays_FancyStruct_create(messages_handle, numbers_handle, image_handle)
+            return smoke_Arrays_FancyStruct_create_handle(messages_handle, numbers_handle, image_handle)
         }
     }
     public static func methodWithArray<Tinput: Collection>(input: Tinput) -> CollectionOf<String> where Tinput.Element == String {
@@ -141,16 +141,16 @@ public class Arrays {
         return ArraysErrorCodeToMessageMapList(result_handle)
     }
     public static func methodWithByteBuffer(input: Data) -> Data {
-        let input_handle = byteArray_create()
+        let input_handle = byteArray_create_handle()
         defer {
-            byteArray_release(input_handle)
+            byteArray_release_handle(input_handle)
         }
         input.withUnsafeBytes { (input_ptr: UnsafePointer<UInt8>) in
             byteArray_assign(input_handle, input_ptr, input.count)
         }
         let result_data_handle = smoke_Arrays_methodWithByteBuffer(input_handle)
         defer {
-            byteArray_release(result_data_handle)
+            byteArray_release_handle(result_data_handle)
         }
         return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
     }
@@ -159,12 +159,12 @@ extension Arrays: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 func convertArrays_ErrorCodeToMessageMapToCType(_ swiftDict: Arrays.ErrorCodeToMessageMap) -> _baseRef {
-    let c_handle = smoke_Arrays_ErrorCodeToMessageMap_create()
+    let c_handle = smoke_Arrays_ErrorCodeToMessageMap_create_handle()
     for (swift_key, swift_value) in swiftDict {
         let c_key = swift_key
         let c_value = swift_value.convertToCType()
         defer {
-            std_string_release(c_value)
+            std_string_release_handle(c_value)
         }
         smoke_Arrays_ErrorCodeToMessageMap_put(c_handle, c_key, c_value)
     }
@@ -178,7 +178,7 @@ func convertArrays_ErrorCodeToMessageMapFromCType(_ c_handle: _baseRef) -> Array
         let swift_key = c_key
         let c_value = smoke_Arrays_ErrorCodeToMessageMap_iterator_value(iterator_handle)
         defer {
-            std_string_release(c_value)
+            std_string_release_handle(c_value)
         }
         let swift_value = String(data: Data(bytes: std_string_data_get(c_value),
                                             count: Int(std_string_size_get(c_value))),
@@ -186,6 +186,6 @@ func convertArrays_ErrorCodeToMessageMapFromCType(_ c_handle: _baseRef) -> Array
         swiftDict[swift_key] = swift_value
         smoke_Arrays_ErrorCodeToMessageMap_iterator_increment(iterator_handle)
     }
-    smoke_Arrays_ErrorCodeToMessageMap_iterator_release(iterator_handle)
+    smoke_Arrays_ErrorCodeToMessageMap_iterator_release_handle(iterator_handle)
     return swiftDict
 }

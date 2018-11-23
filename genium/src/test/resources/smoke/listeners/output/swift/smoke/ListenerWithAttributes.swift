@@ -9,7 +9,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     if let instanceReference = reference as? NativeBase {
         let handle_copy = smoke_ListenerWithAttributes_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: smoke_ListenerWithAttributes_release)
+            ? RefHolder(ref: handle_copy, release: smoke_ListenerWithAttributes_release_handle)
             : RefHolder(handle_copy)
     }
     var functions = smoke_ListenerWithAttributes_FunctionTable()
@@ -26,7 +26,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     functions.smoke_ListenerWithAttributes_message_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
         defer {
-            std_string_release(newValue)
+            std_string_release_handle(newValue)
         }
         return swift_class.message = String(data: Data(bytes: std_string_data_get(newValue),
                                                 count: Int(std_string_size_get(newValue))), encoding: .utf8)!
@@ -42,7 +42,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
             swift_object_newValue = Unmanaged<AnyObject>.fromOpaque(swift_pointer_newValue).takeUnretainedValue() as? CalculationResult
             if swift_object_newValue != nil {
                 defer {
-                    smoke_CalculationResult_release(newValue)
+                    smoke_CalculationResult_release_handle(newValue)
                 }
             }
         }
@@ -58,7 +58,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     functions.smoke_ListenerWithAttributes_structuredMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
         defer {
-            smoke_ListenerWithAttributes_ResultStruct_release(newValue)
+            smoke_ListenerWithAttributes_ResultStruct_release_handle(newValue)
         }
         return swift_class.structuredMessage = ResultStruct(cResultStruct: newValue)
     }
@@ -85,14 +85,14 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     functions.smoke_ListenerWithAttributes_mappedMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
         defer {
-            smoke_ListenerWithAttributes_StringToDouble_release(newValue)
+            smoke_ListenerWithAttributes_StringToDouble_release_handle(newValue)
         }
         return swift_class.mappedMessage = convertListenerWithAttributes_StringToDoubleFromCType(newValue)
     }
     functions.smoke_ListenerWithAttributes_bufferedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
         let result = swift_class.bufferedMessage
-        let result_handle = byteArray_create()
+        let result_handle = byteArray_create_handle()
         result.withUnsafeBytes { (result_ptr: UnsafePointer<UInt8>) in
             byteArray_assign(result_handle, result_ptr, result.count)
         }
@@ -101,12 +101,12 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     functions.smoke_ListenerWithAttributes_bufferedMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
         defer {
-            byteArray_release(newValue)
+            byteArray_release_handle(newValue)
         }
         return swift_class.bufferedMessage = Data(bytes: byteArray_data_get(newValue), count: byteArray_size_get(newValue))
     }
-    let proxy = smoke_ListenerWithAttributes_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: smoke_ListenerWithAttributes_release) : RefHolder(proxy)
+    let proxy = smoke_ListenerWithAttributes_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: smoke_ListenerWithAttributes_release_handle) : RefHolder(proxy)
 }
 public protocol ListenerWithAttributes : AnyObject {
     typealias StringToDouble = [String: Double]
@@ -123,7 +123,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
         get {
             let result_string_handle = smoke_ListenerWithAttributes_message_get(c_instance)
             defer {
-                std_string_release(result_string_handle)
+                std_string_release_handle(result_string_handle)
             }
             return String(data: Data(bytes: std_string_data_get(result_string_handle),
                                      count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
@@ -150,14 +150,14 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
         get {
             let cResult = smoke_ListenerWithAttributes_structuredMessage_get(c_instance)
             defer {
-                smoke_ListenerWithAttributes_ResultStruct_release(cResult)
+                smoke_ListenerWithAttributes_ResultStruct_release_handle(cResult)
             }
             return ResultStruct(cResultStruct: cResult)
         }
         set {
             let newValue_handle = newValue.convertToCType()
             defer {
-                smoke_ListenerWithAttributes_ResultStruct_release(newValue_handle)
+                smoke_ListenerWithAttributes_ResultStruct_release_handle(newValue_handle)
             }
             return smoke_ListenerWithAttributes_structuredMessage_set(c_instance, newValue_handle)
         }
@@ -188,14 +188,14 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
         get {
             let result_handle = smoke_ListenerWithAttributes_mappedMessage_get(c_instance)
             defer {
-                smoke_ListenerWithAttributes_StringToDouble_release(result_handle)
+                smoke_ListenerWithAttributes_StringToDouble_release_handle(result_handle)
             }
             return convertListenerWithAttributes_StringToDoubleFromCType(result_handle)
         }
         set {
             let newValue_handle = convertListenerWithAttributes_StringToDoubleToCType(newValue)
             defer {
-                smoke_ListenerWithAttributes_StringToDouble_release(newValue_handle)
+                smoke_ListenerWithAttributes_StringToDouble_release_handle(newValue_handle)
             }
             return smoke_ListenerWithAttributes_mappedMessage_set(c_instance, newValue_handle)
         }
@@ -204,14 +204,14 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
         get {
             let result_data_handle = smoke_ListenerWithAttributes_bufferedMessage_get(c_instance)
             defer {
-                byteArray_release(result_data_handle)
+                byteArray_release_handle(result_data_handle)
             }
             return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
         }
         set {
-            let newValue_handle = byteArray_create()
+            let newValue_handle = byteArray_create_handle()
             defer {
-                byteArray_release(newValue_handle)
+                byteArray_release_handle(newValue_handle)
             }
             newValue.withUnsafeBytes { (newValue_ptr: UnsafePointer<UInt8>) in
                 byteArray_assign(newValue_handle, newValue_ptr, newValue.count)
@@ -227,7 +227,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
         c_instance = cListenerWithAttributes
     }
     deinit {
-        smoke_ListenerWithAttributes_release(c_instance)
+        smoke_ListenerWithAttributes_release_handle(c_instance)
     }
 }
 extension _ListenerWithAttributes: NativeBase {
@@ -247,15 +247,15 @@ public struct ResultStruct {
     }
     internal func convertToCType() -> _baseRef {
         let result_handle = result
-        return smoke_ListenerWithAttributes_ResultStruct_create(result_handle)
+        return smoke_ListenerWithAttributes_ResultStruct_create_handle(result_handle)
     }
 }
 func convertListenerWithAttributes_StringToDoubleToCType(_ swiftDict: ListenerWithAttributes.StringToDouble) -> _baseRef {
-    let c_handle = smoke_ListenerWithAttributes_StringToDouble_create()
+    let c_handle = smoke_ListenerWithAttributes_StringToDouble_create_handle()
     for (swift_key, swift_value) in swiftDict {
         let c_key = swift_key.convertToCType()
         defer {
-            std_string_release(c_key)
+            std_string_release_handle(c_key)
         }
         let c_value = swift_value
         smoke_ListenerWithAttributes_StringToDouble_put(c_handle, c_key, c_value)
@@ -268,7 +268,7 @@ func convertListenerWithAttributes_StringToDoubleFromCType(_ c_handle: _baseRef)
     while smoke_ListenerWithAttributes_StringToDouble_iterator_is_valid(c_handle, iterator_handle) {
         let c_key = smoke_ListenerWithAttributes_StringToDouble_iterator_key(iterator_handle)
         defer {
-            std_string_release(c_key)
+            std_string_release_handle(c_key)
         }
         let swift_key = String(data: Data(bytes: std_string_data_get(c_key),
                                             count: Int(std_string_size_get(c_key))),
@@ -278,6 +278,6 @@ func convertListenerWithAttributes_StringToDoubleFromCType(_ c_handle: _baseRef)
         swiftDict[swift_key!] = swift_value
         smoke_ListenerWithAttributes_StringToDouble_iterator_increment(iterator_handle)
     }
-    smoke_ListenerWithAttributes_StringToDouble_iterator_release(iterator_handle)
+    smoke_ListenerWithAttributes_StringToDouble_iterator_release_handle(iterator_handle)
     return swiftDict
 }

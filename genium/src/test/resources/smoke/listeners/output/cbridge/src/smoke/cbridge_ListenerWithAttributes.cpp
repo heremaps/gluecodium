@@ -11,7 +11,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-void smoke_ListenerWithAttributes_release(_baseRef handle) {
+void smoke_ListenerWithAttributes_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(handle);
 }
 _baseRef smoke_ListenerWithAttributes_copy_handle(_baseRef handle) {
@@ -19,12 +19,12 @@ _baseRef smoke_ListenerWithAttributes_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(handle)))
         : 0;
 }
-_baseRef smoke_ListenerWithAttributes_ResultStruct_create(double result) {
+_baseRef smoke_ListenerWithAttributes_ResultStruct_create_handle(double result) {
     ::smoke::ListenerWithAttributes::ResultStruct* _struct = new ::smoke::ListenerWithAttributes::ResultStruct();
     _struct->result = result;
     return reinterpret_cast<_baseRef>(_struct);
 }
-void smoke_ListenerWithAttributes_ResultStruct_release(_baseRef handle) {
+void smoke_ListenerWithAttributes_ResultStruct_release_handle(_baseRef handle) {
     delete get_pointer<::smoke::ListenerWithAttributes::ResultStruct>(handle);
 }
 double smoke_ListenerWithAttributes_ResultStruct_result_get(_baseRef handle) {
@@ -90,7 +90,7 @@ public:
         return _return_value;
     }
     void set_message(const std::string& newValue) override {
-        return mFunctions.smoke_ListenerWithAttributes_message_set(mFunctions.swift_pointer, std_string_create(newValue.c_str()));
+        return mFunctions.smoke_ListenerWithAttributes_message_set(mFunctions.swift_pointer, std_string_create_handle(newValue.c_str()));
     }
     std::shared_ptr<::smoke::CalculationResult> get_packed_message() const override {
         auto _return_value_ptr = get_pointer<std::shared_ptr<::smoke::CalculationResult>>(mFunctions.smoke_ListenerWithAttributes_packedMessage_get(mFunctions.swift_pointer));
@@ -146,7 +146,7 @@ public:
 private:
     function_table_t mFunctions;
 };
-_baseRef smoke_ListenerWithAttributes_createProxy(smoke_ListenerWithAttributes_FunctionTable functionTable) {
+_baseRef smoke_ListenerWithAttributes_create_proxy(smoke_ListenerWithAttributes_FunctionTable functionTable) {
     auto proxy = smoke_ListenerWithAttributesProxy::get_proxy(std::move(functionTable));
     if (proxy) {
         return reinterpret_cast<_baseRef>( new std::shared_ptr<::smoke::ListenerWithAttributes>(std::move(proxy)) );
@@ -157,16 +157,16 @@ _baseRef smoke_ListenerWithAttributes_createProxy(smoke_ListenerWithAttributes_F
 const void* smoke_ListenerWithAttributes_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_ListenerWithAttributesProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(handle)->get()) : nullptr;
 }
-_baseRef smoke_ListenerWithAttributes_StringToDouble_create() {
+_baseRef smoke_ListenerWithAttributes_StringToDouble_create_handle() {
     return reinterpret_cast<_baseRef>( new std::unordered_map<std::string, double>() );
 }
-void smoke_ListenerWithAttributes_StringToDouble_release(_baseRef handle) {
+void smoke_ListenerWithAttributes_StringToDouble_release_handle(_baseRef handle) {
     delete get_pointer<std::unordered_map<std::string, double>>(handle);
 }
 _baseRef smoke_ListenerWithAttributes_StringToDouble_iterator(_baseRef handle) {
     return reinterpret_cast<_baseRef>( new std::unordered_map<std::string, double>::iterator( get_pointer<std::unordered_map<std::string, double>>(handle)->begin() ) );
 }
-void smoke_ListenerWithAttributes_StringToDouble_iterator_release(_baseRef iterator_handle) {
+void smoke_ListenerWithAttributes_StringToDouble_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle );
 }
 void smoke_ListenerWithAttributes_StringToDouble_put(_baseRef handle, _baseRef key, double value) {

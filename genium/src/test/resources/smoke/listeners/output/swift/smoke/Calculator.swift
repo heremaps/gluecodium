@@ -20,7 +20,7 @@ public class Calculator {
     }
 
     deinit {
-        smoke_Calculator_release(c_instance)
+        smoke_Calculator_release_handle(c_instance)
     }
     public static func registerListener(listener: CalculatorListener?) -> Void {
         let listener_handle = getRef(listener)

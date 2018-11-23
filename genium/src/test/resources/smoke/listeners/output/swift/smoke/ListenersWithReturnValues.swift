@@ -9,7 +9,7 @@ internal func getRef(_ ref: ListenersWithReturnValues?, owning: Bool = true) -> 
     if let instanceReference = reference as? NativeBase {
         let handle_copy = smoke_ListenersWithReturnValues_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: smoke_ListenersWithReturnValues_release)
+            ? RefHolder(ref: handle_copy, release: smoke_ListenersWithReturnValues_release_handle)
             : RefHolder(handle_copy)
     }
     var functions = smoke_ListenersWithReturnValues_FunctionTable()
@@ -47,8 +47,8 @@ internal func getRef(_ ref: ListenersWithReturnValues?, owning: Bool = true) -> 
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
         return getRef(swift_class.fetchData()!, owning: false).ref
     }
-    let proxy = smoke_ListenersWithReturnValues_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: smoke_ListenersWithReturnValues_release) : RefHolder(proxy)
+    let proxy = smoke_ListenersWithReturnValues_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: smoke_ListenersWithReturnValues_release_handle) : RefHolder(proxy)
 }
 public protocol ListenersWithReturnValues : AnyObject {
     typealias StringToDouble = [String: Double]
@@ -69,7 +69,7 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
         c_instance = cListenersWithReturnValues
     }
     deinit {
-        smoke_ListenersWithReturnValues_release(c_instance)
+        smoke_ListenersWithReturnValues_release_handle(c_instance)
     }
     public func fetchData() -> Double {
         return smoke_ListenersWithReturnValues_fetchData_double(c_instance)
@@ -77,7 +77,7 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
     public func fetchData() -> String {
         let result_string_handle = smoke_ListenersWithReturnValues_fetchData_string(c_instance)
         defer {
-            std_string_release(result_string_handle)
+            std_string_release_handle(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
                                  count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
@@ -85,7 +85,7 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
     public func fetchData() -> ResultStruct {
         let cResult = smoke_ListenersWithReturnValues_fetchData_Struct(c_instance)
         defer {
-            smoke_ListenersWithReturnValues_ResultStruct_release(cResult)
+            smoke_ListenersWithReturnValues_ResultStruct_release_handle(cResult)
         }
         return ResultStruct(cResultStruct: cResult)
     }
@@ -100,7 +100,7 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
     public func fetchData() -> ListenersWithReturnValues.StringToDouble {
         let result_handle = smoke_ListenersWithReturnValues_fetchData_Map(c_instance)
         defer {
-            smoke_ListenersWithReturnValues_StringToDouble_release(result_handle)
+            smoke_ListenersWithReturnValues_StringToDouble_release_handle(result_handle)
         }
         return convertListenersWithReturnValues_StringToDoubleFromCType(result_handle)
     }
@@ -130,15 +130,15 @@ public struct ResultStruct {
     }
     internal func convertToCType() -> _baseRef {
         let result_handle = result
-        return smoke_ListenersWithReturnValues_ResultStruct_create(result_handle)
+        return smoke_ListenersWithReturnValues_ResultStruct_create_handle(result_handle)
     }
 }
 func convertListenersWithReturnValues_StringToDoubleToCType(_ swiftDict: ListenersWithReturnValues.StringToDouble) -> _baseRef {
-    let c_handle = smoke_ListenersWithReturnValues_StringToDouble_create()
+    let c_handle = smoke_ListenersWithReturnValues_StringToDouble_create_handle()
     for (swift_key, swift_value) in swiftDict {
         let c_key = swift_key.convertToCType()
         defer {
-            std_string_release(c_key)
+            std_string_release_handle(c_key)
         }
         let c_value = swift_value
         smoke_ListenersWithReturnValues_StringToDouble_put(c_handle, c_key, c_value)
@@ -151,7 +151,7 @@ func convertListenersWithReturnValues_StringToDoubleFromCType(_ c_handle: _baseR
     while smoke_ListenersWithReturnValues_StringToDouble_iterator_is_valid(c_handle, iterator_handle) {
         let c_key = smoke_ListenersWithReturnValues_StringToDouble_iterator_key(iterator_handle)
         defer {
-            std_string_release(c_key)
+            std_string_release_handle(c_key)
         }
         let swift_key = String(data: Data(bytes: std_string_data_get(c_key),
                                             count: Int(std_string_size_get(c_key))),
@@ -161,6 +161,6 @@ func convertListenersWithReturnValues_StringToDoubleFromCType(_ c_handle: _baseR
         swiftDict[swift_key!] = swift_value
         smoke_ListenersWithReturnValues_StringToDouble_iterator_increment(iterator_handle)
     }
-    smoke_ListenersWithReturnValues_StringToDouble_iterator_release(iterator_handle)
+    smoke_ListenersWithReturnValues_StringToDouble_iterator_release_handle(iterator_handle)
     return swiftDict
 }

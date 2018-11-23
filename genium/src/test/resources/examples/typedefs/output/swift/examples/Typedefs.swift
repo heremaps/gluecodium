@@ -22,7 +22,7 @@ public class Typedefs {
     }
 
     deinit {
-        examples_Typedefs_release(c_instance)
+        examples_Typedefs_release_handle(c_instance)
     }
     public static func typedefMethod(input: Typedefs.ExampleAlias) -> Typedefs.ExampleAlias {
         return examples_Typedefs_typedefMethod(input)

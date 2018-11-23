@@ -18,7 +18,7 @@ public class MethodOverloads {
     }
 
     deinit {
-        smoke_MethodOverloads_release(c_instance)
+        smoke_MethodOverloads_release_handle(c_instance)
     }
     public struct Point {
         public var x: Double
@@ -37,7 +37,7 @@ public class MethodOverloads {
         internal func convertToCType() -> _baseRef {
             let x_handle = x
             let y_handle = y
-            return smoke_MethodOverloads_Point_create(x_handle, y_handle)
+            return smoke_MethodOverloads_Point_create_handle(x_handle, y_handle)
         }
     }
 
@@ -56,7 +56,7 @@ public class MethodOverloads {
     public func isBoolean(input: MethodOverloads.Point) -> Bool {
         let input_handle = input.convertToCType()
         defer {
-            smoke_MethodOverloads_Point_release(input_handle)
+            smoke_MethodOverloads_Point_release_handle(input_handle)
         }
         return smoke_MethodOverloads_isBoolean_structOverload(c_instance, input_handle)
     }
@@ -64,7 +64,7 @@ public class MethodOverloads {
     public func isBoolean(input1: Bool, input2: Int8, input3: String, input4: MethodOverloads.Point) -> Bool {
         let input4_handle = input4.convertToCType()
         defer {
-            smoke_MethodOverloads_Point_release(input4_handle)
+            smoke_MethodOverloads_Point_release_handle(input4_handle)
         }
         return smoke_MethodOverloads_isBoolean_everythingOverload(c_instance, input1, input2, input3, input4_handle)
     }

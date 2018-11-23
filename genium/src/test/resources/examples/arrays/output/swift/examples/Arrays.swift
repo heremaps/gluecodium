@@ -18,7 +18,7 @@ public class Arrays {
     }
 
     deinit {
-        examples_Arrays_release(c_instance)
+        examples_Arrays_release_handle(c_instance)
     }
     public struct SyncResult {
         public var lastUpdatedTimeStamp: UInt64
@@ -37,7 +37,7 @@ public class Arrays {
         internal func convertToCType() -> _baseRef {
             let lastUpdatedTimeStamp_handle = lastUpdatedTimeStamp
             let numberOfChanges_handle = numberOfChanges
-            return examples_Arrays_SyncResult_create(lastUpdatedTimeStamp_handle, numberOfChanges_handle)
+            return examples_Arrays_SyncResult_create_handle(lastUpdatedTimeStamp_handle, numberOfChanges_handle)
         }
     }
 

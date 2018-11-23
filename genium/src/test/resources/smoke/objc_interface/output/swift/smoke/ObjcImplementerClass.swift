@@ -15,7 +15,7 @@ public class ObjcImplementerClass: NSObject, ObjcInterface {
         c_instance = cObjcImplementerClass
     }
     deinit {
-        smoke_ObjcImplementerClass_release(c_instance)
+        smoke_ObjcImplementerClass_release_handle(c_instance)
     }
 }
 extension ObjcImplementerClass: NativeBase {

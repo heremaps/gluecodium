@@ -11,7 +11,7 @@ internal func getRef(_ ref: InternalInterface?, owning: Bool = true) -> RefHolde
     if let instanceReference = reference as? NativeBase {
         let handle_copy = smoke_InternalInterface_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: smoke_InternalInterface_release)
+            ? RefHolder(ref: handle_copy, release: smoke_InternalInterface_release_handle)
             : RefHolder(handle_copy)
     }
     var functions = smoke_InternalInterface_FunctionTable()
@@ -21,8 +21,8 @@ internal func getRef(_ ref: InternalInterface?, owning: Bool = true) -> RefHolde
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-    let proxy = smoke_InternalInterface_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: smoke_InternalInterface_release) : RefHolder(proxy)
+    let proxy = smoke_InternalInterface_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: smoke_InternalInterface_release_handle) : RefHolder(proxy)
 }
 
 internal protocol InternalInterface : AnyObject {
@@ -39,7 +39,7 @@ internal class _InternalInterface: InternalInterface {
     }
 
     deinit {
-        smoke_InternalInterface_release(c_instance)
+        smoke_InternalInterface_release_handle(c_instance)
     }
 }
 

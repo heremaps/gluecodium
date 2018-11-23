@@ -17,7 +17,7 @@ public class EquatableInterface {
         c_instance = cEquatableInterface
     }
     deinit {
-        smoke_EquatableInterface_release(c_instance)
+        smoke_EquatableInterface_release_handle(c_instance)
     }
 
     public struct EquatableStruct: Equatable {
@@ -32,7 +32,7 @@ public class EquatableInterface {
             do {
                 let stringField_handle = smoke_EquatableInterface_EquatableStruct_stringField_get(cEquatableStruct)
                 defer {
-                    std_string_release(stringField_handle)
+                    std_string_release_handle(stringField_handle)
                 }
                 stringField = String(cString: std_string_data_get(stringField_handle))
             }
@@ -40,7 +40,7 @@ public class EquatableInterface {
         internal func convertToCType() -> _baseRef {
             let intField_handle = intField
             let stringField_handle = stringField
-            return smoke_EquatableInterface_EquatableStruct_create(intField_handle, stringField_handle)
+            return smoke_EquatableInterface_EquatableStruct_create_handle(intField_handle, stringField_handle)
         }
     }
 }

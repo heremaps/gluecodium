@@ -20,7 +20,7 @@ public class NestedInstantiable {
     }
 
     deinit {
-        smoke_NestedInstantiable_release(c_instance)
+        smoke_NestedInstantiable_release_handle(c_instance)
     }
     public func setSameTypeInstances(instanceOne: SimpleInstantiable?, instanceTwo: SimpleInstantiable?) -> Void {
         let instanceOne_handle = getRef(instanceOne)

@@ -18,7 +18,7 @@ public struct Point {
     internal func convertToCType() -> _baseRef {
         let x_handle = x
         let y_handle = y
-        return smoke_TypeCollection_Point_create(x_handle, y_handle)
+        return smoke_TypeCollection_Point_create_handle(x_handle, y_handle)
     }
 }
 public struct StructHavingAliasFieldDefinedBelow {
@@ -31,7 +31,7 @@ public struct StructHavingAliasFieldDefinedBelow {
     }
     internal func convertToCType() -> _baseRef {
         let field_handle = field
-        return smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_create(field_handle)
+        return smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_create_handle(field_handle)
     }
 }
 public struct TypeCollection {

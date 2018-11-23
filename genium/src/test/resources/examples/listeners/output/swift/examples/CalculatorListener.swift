@@ -12,7 +12,7 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
     if let instanceReference = reference as? NativeBase {
         let handle_copy = examples_CalculatorListener_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: examples_CalculatorListener_release)
+            ? RefHolder(ref: handle_copy, release: examples_CalculatorListener_release_handle)
             : RefHolder(handle_copy)
     }
     var functions = examples_CalculatorListener_FunctionTable()
@@ -26,8 +26,8 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
         return swift_class.onCalculationResult(calculationResult: calculationResult)
     }
-    let proxy = examples_CalculatorListener_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: examples_CalculatorListener_release) : RefHolder(proxy)
+    let proxy = examples_CalculatorListener_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: examples_CalculatorListener_release_handle) : RefHolder(proxy)
 }
 
 public protocol CalculatorListener : AnyObject {
@@ -47,7 +47,7 @@ internal class _CalculatorListener: CalculatorListener {
     }
 
     deinit {
-        examples_CalculatorListener_release(c_instance)
+        examples_CalculatorListener_release_handle(c_instance)
     }
     public func onCalculationResult(calculationResult: Double) -> Void {
         return examples_CalculatorListener_onCalculationResult(c_instance, calculationResult)

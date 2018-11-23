@@ -12,7 +12,7 @@ internal func getRef(_ ref: InheritanceParent?, owning: Bool = true) -> RefHolde
     if let instanceReference = reference as? NativeBase {
         let handle_copy = examples_InheritanceParent_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: examples_InheritanceParent_release)
+            ? RefHolder(ref: handle_copy, release: examples_InheritanceParent_release_handle)
             : RefHolder(handle_copy)
     }
     var functions = examples_InheritanceParent_FunctionTable()
@@ -25,13 +25,13 @@ internal func getRef(_ ref: InheritanceParent?, owning: Bool = true) -> RefHolde
     functions.examples_InheritanceParent_parentMethod = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceParent
         defer {
-            std_string_release(input)
+            std_string_release_handle(input)
         }
         return swift_class.parentMethod(input: String(data: Data(bytes: std_string_data_get(input),
                                                 count: Int(std_string_size_get(input))), encoding: .utf8)!).convertToCType()
     }
-    let proxy = examples_InheritanceParent_createProxy(functions)
-    return owning ? RefHolder(ref: proxy, release: examples_InheritanceParent_release) : RefHolder(proxy)
+    let proxy = examples_InheritanceParent_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: examples_InheritanceParent_release_handle) : RefHolder(proxy)
 }
 
 public protocol InheritanceParent : AnyObject {
@@ -54,12 +54,12 @@ internal class _InheritanceParent: InheritanceParent {
     }
 
     deinit {
-        examples_InheritanceParent_release(c_instance)
+        examples_InheritanceParent_release_handle(c_instance)
     }
     public func parentMethod(input: String) -> String {
         let result_string_handle = examples_InheritanceParent_parentMethod(c_instance, input)
         defer {
-            std_string_release(result_string_handle)
+            std_string_release_handle(result_string_handle)
         }
         return String(data: Data(bytes: std_string_data_get(result_string_handle),
                                  count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!

@@ -18,7 +18,7 @@ public class Errors {
     }
 
     deinit {
-        smoke_Errors_release(c_instance)
+        smoke_Errors_release_handle(c_instance)
     }
     public enum InternalError : UInt32 {
 
@@ -52,7 +52,7 @@ public class Errors {
         if (RESULT.has_value) {
             let result_string_handle = RESULT.returned_value
             defer {
-                std_string_release(result_string_handle)
+                std_string_release_handle(result_string_handle)
             }
             return String(data: Data(bytes: std_string_data_get(result_string_handle),
                                      count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!

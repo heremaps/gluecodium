@@ -21,7 +21,7 @@ public class Enums {
     }
 
     deinit {
-        smoke_Enums_release(c_instance)
+        smoke_Enums_release_handle(c_instance)
     }
     public enum SimpleEnum : UInt32 {
 
@@ -61,7 +61,7 @@ public class Enums {
             do {
                 let message_handle = smoke_Enums_ErrorStruct_message_get(cErrorStruct)
                 defer {
-                    std_string_release(message_handle)
+                    std_string_release_handle(message_handle)
                 }
                 message = String(cString: std_string_data_get(message_handle))
             }
@@ -70,7 +70,7 @@ public class Enums {
         internal func convertToCType() -> _baseRef {
             let type_handle = type.rawValue
             let message_handle = message
-            return smoke_Enums_ErrorStruct_create(type_handle, message_handle)
+            return smoke_Enums_ErrorStruct_create_handle(type_handle, message_handle)
         }
     }
 
@@ -87,7 +87,7 @@ public class Enums {
     public static func extractEnumFromStruct(input: Enums.ErrorStruct) -> Enums.InternalError {
         let input_handle = input.convertToCType()
         defer {
-            smoke_Enums_ErrorStruct_release(input_handle)
+            smoke_Enums_ErrorStruct_release_handle(input_handle)
         }
         let cResult = smoke_Enums_extractEnumFromStruct(input_handle)
         return Enums.InternalError(rawValue: cResult)!
@@ -96,7 +96,7 @@ public class Enums {
     public static func createStructWithEnumInside(type: Enums.InternalError, message: String) -> Enums.ErrorStruct {
         let cResult = smoke_Enums_createStructWithEnumInside(type.rawValue, message)
         defer {
-            smoke_Enums_ErrorStruct_release(cResult)
+            smoke_Enums_ErrorStruct_release_handle(cResult)
         }
         return Enums.ErrorStruct(cErrorStruct: cResult)
     }
@@ -111,7 +111,7 @@ extension Enums: NativeBase {
 }
 
 func convertEnums_ExampleMapToCType(_ swiftDict: Enums.ExampleMap) -> _baseRef {
-    let c_handle = smoke_Enums_ExampleMap_create()
+    let c_handle = smoke_Enums_ExampleMap_create_handle()
     for (swift_key, swift_value) in swiftDict {
         let c_key = swift_key.rawValue
         let c_value = swift_value
@@ -131,6 +131,6 @@ func convertEnums_ExampleMapFromCType(_ c_handle: _baseRef) -> Enums.ExampleMap 
         swiftDict[swift_key] = swift_value
         smoke_Enums_ExampleMap_iterator_increment(iterator_handle)
     }
-    smoke_Enums_ExampleMap_iterator_release(iterator_handle)
+    smoke_Enums_ExampleMap_iterator_release_handle(iterator_handle)
     return swiftDict
 }

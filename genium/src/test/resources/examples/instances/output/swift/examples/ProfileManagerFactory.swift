@@ -20,7 +20,7 @@ public class ProfileManagerFactory {
     }
 
     deinit {
-        examples_ProfileManagerFactory_release(c_instance)
+        examples_ProfileManagerFactory_release_handle(c_instance)
     }
     public static func createProfileManager() -> ProfileManager? {
         let cResult = examples_ProfileManagerFactory_createProfileManager()
