@@ -100,10 +100,10 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
     }}{{#case "ENUM"}}return {{include delegateToCall}}.rawValue{{/case}}{{!!
     }}{{#case "ARRAY"}}return {{include delegateToCall}}.c_conversion().c_type{{/case}}{{!!
     }}{{#case "DICTIONARY"}}return convert{{returnType.name}}ToCType({{include delegateToCall}}){{/case}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER"}}let result = {{include delegateToCall}}
+    }}{{#case "BUILTIN_BYTEBUFFER"}}let result_object = {{include delegateToCall}}
         let result_handle = byteArray_create_handle()
-        result.withUnsafeBytes { (result_ptr: UnsafePointer<UInt8>) in
-            byteArray_assign(result_handle, result_ptr, result.count)
+        result_object.withUnsafeBytes { (result_ptr: UnsafePointer<UInt8>) in
+            byteArray_assign(result_handle, result_ptr, result_object.count)
         }
         return result_handle{{/case}}{{!!
     }}{{#default}}return {{include delegateToCall}}{{/default}}{{!!
