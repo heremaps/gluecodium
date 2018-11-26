@@ -31,6 +31,8 @@ public:
         const std::shared_ptr< ListenerWithAttributes >& envelope ) override;
     virtual bool check_packed_message_round_trip(
         const std::shared_ptr< ListenerWithAttributes >& envelope ) override;
+    virtual bool check_boxed_message_round_trip(
+        const std::shared_ptr< ListenerWithAttributes >& envelope ) override;
     virtual bool check_structured_message_round_trip(
         const std::shared_ptr< ListenerWithAttributes >& envelope ) override;
     virtual bool check_enumerated_message_round_trip(

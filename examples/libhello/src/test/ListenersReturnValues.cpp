@@ -36,6 +36,12 @@ MessageDeliveryImpl::get_packed_message( const std::shared_ptr< ListenerWithRetu
 }
 
 std::string
+MessageDeliveryImpl::get_boxed_message( const std::shared_ptr< ListenerWithReturn >& envelope )
+{
+    return envelope->get_boxed_message( )->unpack_message( );
+}
+
+std::string
 MessageDeliveryImpl::get_structured_message( const std::shared_ptr< ListenerWithReturn >& envelope )
 {
     return envelope->get_structured_message( ).message;
@@ -71,6 +77,18 @@ std::shared_ptr< MessageDelivery >
 MessageDelivery::create_me( )
 {
     return std::make_shared< MessageDeliveryImpl >( );
+}
+
+std::string
+MessageBoxImpl::unpack_message( )
+{
+    return "Works";
+}
+
+std::shared_ptr< MessageBox >
+MessageBox::create( )
+{
+    return std::make_shared< MessageBoxImpl >( );
 }
 
 }  // namespace test
