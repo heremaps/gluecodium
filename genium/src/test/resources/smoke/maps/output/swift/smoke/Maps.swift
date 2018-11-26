@@ -4,8 +4,14 @@
 
 import Foundation
 
-internal func getRef(_ ref: Maps?, owning: Bool = false) -> RefHolder {
-    return RefHolder(ref?.c_instance ?? 0)
+internal func getRef(_ ref: Maps?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_Maps_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_Maps_release_handle)
+        : RefHolder(handle_copy)
 }
 
 public class Maps {
