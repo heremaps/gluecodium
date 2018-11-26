@@ -4,10 +4,14 @@
 
 import Foundation
 
-
-
-internal func getRef(_ ref: BuiltinTypes?, owning: Bool = false) -> RefHolder {
-    return RefHolder(ref?.c_instance ?? 0)
+internal func getRef(_ ref: BuiltinTypes?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = examples_BuiltinTypes_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: examples_BuiltinTypes_release_handle)
+        : RefHolder(handle_copy)
 }
 public class BuiltinTypes {
     let c_instance : _baseRef

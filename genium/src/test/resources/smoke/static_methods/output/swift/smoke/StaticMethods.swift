@@ -4,10 +4,14 @@
 
 import Foundation
 
-
-
-internal func getRef(_ ref: StaticMethods?, owning: Bool = false) -> RefHolder {
-    return RefHolder(ref?.c_instance ?? 0)
+internal func getRef(_ ref: StaticMethods?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_StaticMethods_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_StaticMethods_release_handle)
+        : RefHolder(handle_copy)
 }
 public class StaticMethods {
     let c_instance : _baseRef

@@ -2,8 +2,14 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-internal func getRef(_ ref: DefaultValues?, owning: Bool = false) -> RefHolder {
-    return RefHolder(ref?.c_instance ?? 0)
+internal func getRef(_ ref: DefaultValues?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_DefaultValues_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_DefaultValues_release_handle)
+        : RefHolder(handle_copy)
 }
 public class DefaultValues {
     let c_instance : _baseRef
