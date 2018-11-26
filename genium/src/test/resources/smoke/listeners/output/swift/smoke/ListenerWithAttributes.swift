@@ -91,10 +91,10 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_bufferedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        let result = swift_class.bufferedMessage
+        let result_object = swift_class.bufferedMessage
         let result_handle = byteArray_create_handle()
-        result.withUnsafeBytes { (result_ptr: UnsafePointer<UInt8>) in
-            byteArray_assign(result_handle, result_ptr, result.count)
+        result_object.withUnsafeBytes { (result_ptr: UnsafePointer<UInt8>) in
+            byteArray_assign(result_handle, result_ptr, result_object.count)
         }
         return result_handle
     }
