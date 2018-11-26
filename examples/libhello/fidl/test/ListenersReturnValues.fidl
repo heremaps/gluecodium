@@ -46,6 +46,12 @@ interface ListenerWithReturn {
         }
     }
 
+    method getBoxedMessage {
+        out {
+            MessageBox.MessageBox message
+        }
+    }
+
     method getStructuredMessage {
         out {
             MessageStruct message
@@ -88,6 +94,23 @@ interface MessagePackage {
   }
 }
 
+interface MessageBox {
+
+  public typedef MessageBox is undefined
+
+  method unpackMessage {
+      out {
+          String message
+      }
+  }
+
+  method create {
+      out {
+          MessageBox result
+      }
+  }
+}
+
 interface MessageDelivery {
     public typedef MessageDelivery is undefined
 
@@ -101,6 +124,15 @@ interface MessageDelivery {
     }
 
     method getPackedMessage {
+        in {
+            ListenerWithReturn.ListenerWithReturn envelope
+        }
+        out {
+            String message
+        }
+    }
+
+    method getBoxedMessage {
         in {
             ListenerWithReturn.ListenerWithReturn envelope
         }

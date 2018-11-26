@@ -34,6 +34,17 @@ TestMessagePackage::unpack_message( )
 {
     return NONSENSE;
 }
+
+struct TestMessageBox: test::MessageBox
+{
+    std::string unpack_message( ) override;
+};
+
+std::string
+TestMessageBox::unpack_message( )
+{
+    return NONSENSE;
+}
 }
 
 namespace test
@@ -52,6 +63,14 @@ AttributedMessageDeliveryImpl::check_packed_message_round_trip(
 {
     envelope->set_packed_message( std::make_shared< TestMessagePackage >( ) );
     return envelope->get_packed_message( )->unpack_message( ) == NONSENSE;
+}
+
+bool
+AttributedMessageDeliveryImpl::check_boxed_message_round_trip(
+    const std::shared_ptr< ListenerWithAttributes >& envelope )
+{
+    envelope->set_boxed_message( std::make_shared< TestMessageBox >( ) );
+    return envelope->get_boxed_message( )->unpack_message( ) == NONSENSE;
 }
 
 bool
