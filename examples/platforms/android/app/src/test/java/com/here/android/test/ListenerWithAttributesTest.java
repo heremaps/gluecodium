@@ -40,17 +40,11 @@ import org.robolectric.annotation.Config;
 )
 public class ListenerWithAttributesTest {
 
-  static class TestMessagePackage implements MessagePackage {
-    @Override
-    public String unpackMessage() {
-      return "Doesn't work";
-    }
-  }
-
   static class TestListener implements ListenerWithAttributes {
 
     private String data = "Doesn't work";
-    private MessagePackage pakage = new TestMessagePackage();
+    private MessagePackage pakage;
+    private MessageBox box;
     private ListenerWithReturn.MessageEnum enumData = ListenerWithReturn.MessageEnum.NO;
 
     @Override
@@ -71,6 +65,16 @@ public class ListenerWithAttributesTest {
     @Override
     public void setPackedMessage(MessagePackage value) {
       pakage = value;
+    }
+
+    @Override
+    public MessageBox getBoxedMessage() {
+      return box;
+    }
+
+    @Override
+    public void setBoxedMessage(MessageBox value) {
+      box = value;
     }
 
     @Override
@@ -140,6 +144,15 @@ public class ListenerWithAttributesTest {
     AttributedMessageDelivery delivery = AttributedMessageDelivery.create();
 
     assertTrue(delivery.checkPackedMessageRoundTrip(envelope));
+  }
+
+  @Test
+  public void boxRoundTripWorks() {
+    ListenerWithAttributes envelope = new TestListener();
+
+    AttributedMessageDelivery delivery = AttributedMessageDelivery.create();
+
+    assertTrue(delivery.checkBoxedMessageRoundTrip(envelope));
   }
 
   @Test

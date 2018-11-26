@@ -60,6 +60,11 @@ public class ListenersReturnValuesTest {
     }
 
     @Override
+    public MessageBox getBoxedMessage() {
+      return MessageBox.create();
+    }
+
+    @Override
     public MessageStruct getStructuredMessage() {
       return new MessageStruct("Works");
     }
@@ -101,6 +106,15 @@ public class ListenersReturnValuesTest {
     MessageDelivery delivery = MessageDelivery.createMe();
 
     assertEquals("Works", delivery.getPackedMessage(envelope));
+  }
+
+  @Test
+  public void boxReturnWorks() {
+    ListenerWithReturn envelope = new TestListener();
+
+    MessageDelivery delivery = MessageDelivery.createMe();
+
+    assertEquals("Works", delivery.getBoxedMessage(envelope));
   }
 
   @Test

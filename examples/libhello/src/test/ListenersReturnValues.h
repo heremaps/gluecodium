@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "test/MessageBox.h"
 #include "test/MessageDelivery.h"
 
 namespace test
@@ -30,6 +31,8 @@ public:
     virtual std::string get_message(
         const std::shared_ptr< ListenerWithReturn >& envelope ) override;
     virtual std::string get_packed_message(
+        const std::shared_ptr< ListenerWithReturn >& envelope ) override;
+    virtual std::string get_boxed_message(
         const std::shared_ptr< ListenerWithReturn >& envelope ) override;
     virtual std::string get_structured_message(
         const std::shared_ptr< ListenerWithReturn >& envelope ) override;
@@ -42,6 +45,12 @@ public:
     virtual std::string get_buffered_message(
         const std::shared_ptr< ListenerWithReturn >& envelope ) override;
 
+};
+
+class MessageBoxImpl : public MessageBox
+{
+public:
+    std::string unpack_message( ) override;
 };
 
 }  // namespace test

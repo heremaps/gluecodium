@@ -23,15 +23,10 @@ import hello
 
 class ListenerWithAttributesTests: XCTestCase {
 
-      class TestMessagePackage: MessagePackage {
-          public func unpackMessage() -> String {
-              return "Doesn't work"
-          }
-      }
-
       class TestListener: ListenerWithAttributes {
           private var data: String = "Doesn't work"
-          private var package: MessagePackage? = TestMessagePackage()
+          private var package: MessagePackage?
+          private var box: MessageBox?
           private var enumData: MessageEnum = .no
           private var buffer: Data = Data([0xDE, 0xAD, 0xBE, 0xEF, 0x00])
 
@@ -50,6 +45,15 @@ class ListenerWithAttributesTests: XCTestCase {
               }
               set {
                   package = newValue
+              }
+          }
+
+          public var boxedMessage: MessageBox? {
+              get {
+                  return box
+              }
+              set {
+                  box = newValue
               }
           }
 
@@ -111,6 +115,12 @@ class ListenerWithAttributesTests: XCTestCase {
         XCTAssertTrue(delivery.checkPackedMessageRoundTrip(envelope: envelope))
     }
 
+    func testBoxedRoundTrip() {
+        let envelope = TestListener()
+        let delivery = AttributedMessageDelivery.create()!
+        XCTAssertTrue(delivery.checkBoxedMessageRoundTrip(envelope: envelope))
+    }
+
     func testStructuredRoundTrip() {
         let envelope = TestListener()
         let delivery = AttributedMessageDelivery.create()!
@@ -144,6 +154,7 @@ class ListenerWithAttributesTests: XCTestCase {
     static var allTests = [
         ("testStringRoundTrip", testStringRoundTrip),
         ("testPackageRoundTrip", testPackageRoundTrip),
+        ("testBoxedRoundTrip", testBoxedRoundTrip),
         ("testStructuredRoundTrip", testStructuredRoundTrip),
         ("testEnumeratedRoundTrip", testEnumeratedRoundTrip),
         ("testArrayedRoundTrip", testArrayedRoundTrip),

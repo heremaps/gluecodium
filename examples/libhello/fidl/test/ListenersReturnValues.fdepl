@@ -30,6 +30,13 @@ define GeniumExtensions for interface test.MessagePackage
     IsInterface = true
 }
 
+define GeniumExtensions for interface test.MessageBox
+{
+    method create {
+        Static = true
+    }
+}
+
 define GeniumExtensions for interface test.MessageDelivery
 {
     method createMe {

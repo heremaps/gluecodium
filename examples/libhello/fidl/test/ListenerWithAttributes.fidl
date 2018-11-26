@@ -19,10 +19,11 @@
 
 package test
 
+import test.MessageBox.MessageBox from "./ListenersReturnValues.fidl"
 import test.MessagePackage.MessagePackage from "./ListenersReturnValues.fidl"
-import test.ListenerWithReturn.MessageStruct from "./ListenersReturnValues.fidl"
 import test.ListenerWithReturn.MessageEnum from "./ListenersReturnValues.fidl"
 import test.ListenerWithReturn.MessageMap from "./ListenersReturnValues.fidl"
+import test.ListenerWithReturn.MessageStruct from "./ListenersReturnValues.fidl"
 
 interface ListenerWithAttributes {
 
@@ -30,6 +31,7 @@ interface ListenerWithAttributes {
 
     attribute String Message
     attribute MessagePackage packedMessage
+    attribute MessageBox boxedMessage
     attribute MessageStruct structuredMessage
     attribute MessageEnum enumeratedMessage
     attribute String[] arrayedMessage
@@ -51,6 +53,15 @@ interface AttributedMessageDelivery {
     }
 
     method checkPackedMessageRoundTrip {
+        in {
+            ListenerWithAttributes.ListenerWithAttributes envelope
+        }
+        out {
+            Boolean result
+        }
+    }
+
+    method checkBoxedMessageRoundTrip {
         in {
             ListenerWithAttributes.ListenerWithAttributes envelope
         }
