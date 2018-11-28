@@ -39,7 +39,11 @@ public class NestedInstantiable {
     public func instanceNotNullMethod(input: SimpleInstantiable) -> SimpleInstantiable {
         let input_handle = getRef(input)
         let cResult = smoke_NestedInstantiable_instanceNotNullMethod(c_instance, input_handle.ref)
-        return SimpleInstantiable(cSimpleInstantiable: cResult)!
+        if let unwrapped_result = SimpleInstantiable(cSimpleInstantiable: cResult) {
+            return unwrapped_result
+        } else {
+            fatalError("Nullptr value is not supported for non-optional type SimpleInstantiable")
+        }
     }
 }
 
