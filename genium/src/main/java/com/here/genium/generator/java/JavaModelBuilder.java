@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.franca.core.franca.*;
 
+@SuppressWarnings("PMD.GodClass")
 public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   private final FrancaDeploymentModel deploymentModel;
@@ -320,8 +321,10 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaType javaType = getPreviousResult(JavaType.class);
     String comment = CommentHelper.getDescription(francaAttribute);
-
     JavaVisibility visibility = getVisibility(francaAttribute);
+    boolean isNotNull =
+        deploymentModel.isNotNull(francaAttribute)
+            || (javaType instanceof JavaCustomType && ((JavaCustomType) javaType).isNotNull);
 
     String getterName = JavaNameRules.getGetterName(francaAttribute.getName(), javaType);
 
@@ -329,7 +332,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     getterMethod.visibility = visibility;
     getterMethod.comment = comment;
 
-    if (javaType instanceof JavaCustomType && ((JavaCustomType) javaType).isNotNull) {
+    if (isNotNull) {
       addNotNullAnnotation(getterMethod);
     }
 
@@ -342,7 +345,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       setterMethod.visibility = visibility;
       setterMethod.comment = comment;
 
-      setterMethod.parameters.add(new JavaParameter("value", javaType));
+      JavaParameter setterParameter = new JavaParameter("value", javaType);
+      if (isNotNull) {
+        addNotNullAnnotation(setterParameter);
+      }
+      setterMethod.parameters.add(setterParameter);
+
       storeResult(setterMethod);
     }
 

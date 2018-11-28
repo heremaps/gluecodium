@@ -679,7 +679,7 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaAttributeMarksGetterAsNotNull() {
+  public void finishBuildingFrancaAttributeGetterReadsNotNullFromType() {
     when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
     contextStack.injectResult(JavaCustomType.builder("FooType").isNotNull(true).build());
     modelBuilder.finishBuilding(francaAttribute);
@@ -687,6 +687,47 @@ public class JavaModelBuilderTest {
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertTrue(javaMethod.annotations.contains(javaCustomType));
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeSetterReadsNotNullFromType() {
+    when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
+    contextStack.injectResult(JavaCustomType.builder("FooType").isNotNull(true).build());
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<JavaMethod> methods =
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JavaMethod.class);
+    assertEquals(2, methods.size());
+    JavaMethod setterMethod = methods.get(1);
+    assertEquals(1, setterMethod.parameters.size());
+    assertTrue(setterMethod.parameters.get(0).annotations.contains(javaCustomType));
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeGetterReadsNotNullFromAttribute() {
+    when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
+    contextStack.injectResult(JavaCustomType.builder("FooType").build());
+    when(deploymentModel.isNotNull(any())).thenReturn(true);
+    modelBuilder.finishBuilding(francaAttribute);
+
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
+    assertNotNull(javaMethod);
+    assertTrue(javaMethod.annotations.contains(javaCustomType));
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeSetterReadsNotNullFromAttribute() {
+    when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
+    contextStack.injectResult(JavaCustomType.builder("FooType").build());
+    when(deploymentModel.isNotNull(any())).thenReturn(true);
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<JavaMethod> methods =
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JavaMethod.class);
+    assertEquals(2, methods.size());
+    JavaMethod setterMethod = methods.get(1);
+    assertEquals(1, setterMethod.parameters.size());
+    assertTrue(setterMethod.parameters.get(0).annotations.contains(javaCustomType));
   }
 
   @Test

@@ -22,7 +22,7 @@
 /**
 {{prefix comment " * "}}
 {{#parameters}}
-{{#if hasComment}} * \param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{comment}}{{/if}}
+{{#if hasComment}} * \param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{this.comment}}{{/if}}
 {{/parameters}}
 {{#if hasReturnComment}}
  * \return {{#if isNotNull}}@NotNull {{/if}}{{returnComment}}
