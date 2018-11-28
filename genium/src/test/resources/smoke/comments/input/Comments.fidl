@@ -148,6 +148,9 @@ interface Comments {
             CommentsInstantiable.CommentsInstantiable output
         }
     }
+
+    <** @description: This is some very useful attribute. **>
+    attribute CommentsInstantiable.CommentsInstantiable instanceNotNullAttribute
 }
 
 <** @description: This is some very useful interface.

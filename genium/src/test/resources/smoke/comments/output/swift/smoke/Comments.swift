@@ -28,6 +28,17 @@ public class Comments {
             return smoke_Comments_someAttribute_set(c_instance, newValue)
         }
     }
+    /// This is some very useful attribute.
+    public var instanceNotNullAttribute: CommentsInstantiable {
+        get {
+            let cResult = smoke_Comments_instanceNotNullAttribute_get(c_instance)
+            return CommentsInstantiable(cCommentsInstantiable: cResult)!
+        }
+        set {
+            let newValue_handle = getRef(newValue)
+            return smoke_Comments_instanceNotNullAttribute_set(c_instance, newValue_handle.ref)
+        }
+    }
     let c_instance : _baseRef
     init?(cComments: _baseRef) {
         guard cComments != 0 else {
