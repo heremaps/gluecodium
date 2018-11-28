@@ -55,5 +55,5 @@ public class PublicClass extends NativeBase {
     native PublicClass.InternalStruct internalMethod(@NonNull final PublicClass.InternalStruct input);
     @NonNull
     native PublicClass.InternalStruct getInternalStructAttribute();
-    native void setInternalStructAttribute(final PublicClass.InternalStruct value);
+    native void setInternalStructAttribute(@NonNull final PublicClass.InternalStruct value);
 }

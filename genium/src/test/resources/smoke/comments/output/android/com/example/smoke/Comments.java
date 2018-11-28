@@ -114,4 +114,13 @@ public class Comments extends NativeBase {
      * This is some very useful attribute.
      */
     public native void setSomeAttribute(final boolean value);
+    /**
+     * This is some very useful attribute.
+     */
+    @NonNull
+    public native CommentsInstantiable getInstanceNotNullAttribute();
+    /**
+     * This is some very useful attribute.
+     */
+    public native void setInstanceNotNullAttribute(@NonNull final CommentsInstantiable value);
 }
