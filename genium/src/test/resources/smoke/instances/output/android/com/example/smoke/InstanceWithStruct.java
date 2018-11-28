@@ -20,12 +20,10 @@ public class InstanceWithStruct extends NativeBase {
     }
     public static class StructWithInstance {
         public SimpleInstantiable instance;
-        /** @nonNull */
         @NonNull
         public SimpleInstantiable instanceNotNull;
         /**
          * This is some very useful field.
-         * @nonNull
          */
         @NonNull
         public SimpleInstantiable instanceNotNullWithComment;

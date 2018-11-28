@@ -26,6 +26,7 @@ public class Structs extends NativeBase {
 
     public static class IdentifiableSyncResult {
         public int id;
+        @NonNull
         public Structs.SyncResult syncResult;
 
         public IdentifiableSyncResult() {

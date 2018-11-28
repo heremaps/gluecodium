@@ -5,6 +5,8 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
+
 public class AllTypesStruct {
     public byte int8Field;
     public long uint8Field;
@@ -19,6 +21,7 @@ public class AllTypesStruct {
     public String stringField;
     public boolean booleanField;
     public byte[] bytesField;
+    @NonNull
     public Point pointField;
 
     public AllTypesStruct() {

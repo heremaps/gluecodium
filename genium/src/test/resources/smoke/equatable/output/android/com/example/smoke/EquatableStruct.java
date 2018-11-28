@@ -5,6 +5,7 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ public class EquatableStruct {
     public float floatField;
     public double doubleField;
     public String stringField;
+    @NonNull
     public NestedEquatableStruct structField;
     public SomeEnum enumField;
     public List<String> arrayField;

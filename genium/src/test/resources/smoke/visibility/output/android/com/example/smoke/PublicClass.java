@@ -30,6 +30,7 @@ public class PublicClass extends NativeBase {
     }
 
     public static class PublicStruct {
+        @NonNull
         PublicClass.InternalStruct internalField;
         public PublicStruct() {
             this(new PublicClass.InternalStruct());
