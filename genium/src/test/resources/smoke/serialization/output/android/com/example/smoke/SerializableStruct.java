@@ -7,6 +7,7 @@ package com.example.smoke;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ public class SerializableStruct implements Parcelable {
     public float floatField;
     public double doubleField;
     public String stringField;
+    @NonNull
     public NestedSerializableStruct structField;
     public byte[] byteBufferField;
     public List<String> arrayField;

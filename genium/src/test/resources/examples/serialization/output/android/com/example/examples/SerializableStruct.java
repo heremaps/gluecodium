@@ -6,6 +6,7 @@ package com.example.examples;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class SerializableStruct implements Parcelable {
 
     public int intField;
     public String stringField;
+    @NonNull
     public NestedSerializableStruct structField;
     public List<String> arrayField;
 

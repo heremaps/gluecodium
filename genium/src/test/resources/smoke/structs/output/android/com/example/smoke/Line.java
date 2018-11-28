@@ -5,8 +5,12 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
+
 public class Line {
+    @NonNull
     public Point a;
+    @NonNull
     public Point b;
     public Line() {
         this(new Point(), new Point());
