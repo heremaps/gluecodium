@@ -17,35 +17,15 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.stream.Stream;
-import org.apache.commons.lang3.StringUtils;
+import java.util.stream.Stream
 
-public final class JavaField extends JavaTypedElement {
+class JavaField @JvmOverloads constructor(
+    name: String,
+    type: JavaType,
+    val initial: JavaValue? = null
+) : JavaTypedElement(name, type) {
 
-  public final JavaValue initial;
-  public final boolean isNonNull;
-
-  @lombok.Builder(builderClassName = "Builder")
-  private JavaField(
-      final String name, final JavaType type, final JavaValue initial, final boolean isNonNull) {
-    super(name, type);
-    this.initial = initial;
-    this.isNonNull = isNonNull;
-  }
-
-  public static Builder builder(final String name, final JavaType type) {
-    return new Builder().name(name).type(type);
-  }
-
-  @Override
-  public Stream<JavaElement> stream() {
-    return Stream.concat(super.stream(), Stream.of(initial));
-  }
-
-  @SuppressWarnings("unused")
-  public boolean hasComment() {
-    return StringUtils.isNotEmpty(comment) || isNonNull;
-  }
+    override fun stream(): Stream<JavaElement> = Stream.concat(super.stream(), Stream.of(initial))
 }

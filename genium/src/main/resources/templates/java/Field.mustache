@@ -1,14 +1,8 @@
-{{#if hasComment}}{{#if comment}}
+{{#if comment}}
 /**
 {{prefix comment " * "}}
-{{#if isNonNull}}
- * @nonNull
-{{/if}}
  */
 {{/if}}
-{{#unless comment}}{{#if isNonNull}}
-/** @nonNull */
-{{/if}}{{/unless}}{{/if}}
 {{#annotations}}
 @{{name}}
 {{/annotations}}
