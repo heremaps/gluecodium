@@ -37,6 +37,15 @@ NotNullStatic::not_null_bottom_up_round_trip( const std::shared_ptr< NotNullList
 }
 
 bool
+NotNullStatic::not_null_bottom_up_attribute_round_trip(
+    const std::shared_ptr< NotNullListener >& listener )
+{
+    auto payload = std::make_shared< NotNullPayloadImpl >( );
+    listener->set_not_null_attribute( payload );
+    return listener->get_not_null_attribute( )->poke( );
+}
+
+bool
 NotNullPayloadImpl::poke( )
 {
     return true;

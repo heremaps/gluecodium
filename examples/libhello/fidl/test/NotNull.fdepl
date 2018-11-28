@@ -45,6 +45,10 @@ define GeniumExtensions for interface test.NotNullStatic
     method notNullBottomUpRoundTrip {
         Static = true
     }
+
+    method notNullBottomUpAttributeRoundTrip {
+        Static = true
+    }
 }
 
 define GeniumExtensions for interface test.NotNullListener
@@ -62,6 +66,10 @@ define GeniumExtensions for interface test.NotNullListener
                 NotNull = true
             }
         }
+    }
+
+    attribute notNullAttribute {
+        NotNull = true
     }
 }
 
