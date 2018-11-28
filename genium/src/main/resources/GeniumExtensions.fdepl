@@ -42,6 +42,10 @@ specification GeniumExtensions {
     for arguments {
         NotNull: Boolean (optional, default: false);
     }
+
+    for attributes {
+        NotNull: Boolean (optional, default: false);
+    }
 }
 
 specification Defaults {

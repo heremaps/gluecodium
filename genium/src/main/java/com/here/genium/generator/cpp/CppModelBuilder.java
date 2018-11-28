@@ -307,6 +307,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     String francaComment = CommentHelper.getDescription(francaAttribute);
+    boolean isNotNull = deploymentModel.isNotNull(francaAttribute);
 
     CppMethod getterMethod =
         new CppMethod(
@@ -315,13 +316,14 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             francaComment,
             cppTypeRef,
             "",
-            false,
+            isNotNull,
             Collections.emptyList(),
             EnumSet.of(CppMethod.Specifier.VIRTUAL),
             EnumSet.of(CppMethod.Qualifier.CONST, CppMethod.Qualifier.PURE_VIRTUAL));
     storeResult(getterMethod);
 
     if (!francaAttribute.isReadonly()) {
+      CppParameter setterParameter = new CppParameter("value", cppTypeRef, false, isNotNull);
       CppMethod setterMethod =
           new CppMethod(
               nameResolver.getSetterName(francaAttribute),
@@ -330,7 +332,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
               CppPrimitiveTypeRef.Companion.getVOID(),
               "",
               false,
-              Collections.singletonList(new CppParameter("value", cppTypeRef)),
+              Collections.singletonList(setterParameter),
               EnumSet.of(CppMethod.Specifier.VIRTUAL),
               EnumSet.of(CppMethod.Qualifier.PURE_VIRTUAL));
       storeResult(setterMethod);
