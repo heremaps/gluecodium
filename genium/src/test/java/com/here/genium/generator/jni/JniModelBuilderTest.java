@@ -100,9 +100,7 @@ public class JniModelBuilderTest {
       CppEnum.builder(CPP_CLASS_NAME).fullyQualifiedName("::" + CPP_CLASS_NAME).build();
   private final JavaCustomType javaCustomType = JavaCustomType.builder(JAVA_CLASS_NAME).build();
   private final JavaField javaField =
-      JavaField.builder(BASE_NAME_PARAMETER, javaCustomType)
-          .initial(new JavaValue(javaCustomType))
-          .build();
+      new JavaField(BASE_NAME_PARAMETER, javaCustomType, new JavaValue(javaCustomType));
   private final CppComplexTypeRef cppCustomType =
       new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build();
   private final CppField cppField = new CppField(CPP_CLASS_NAME, cppCustomType);
