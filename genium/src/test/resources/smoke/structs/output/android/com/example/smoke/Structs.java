@@ -74,7 +74,9 @@ public class Structs extends NativeBase {
         }
     }
     public static class Line {
+        @NonNull
         public Structs.Point a;
+        @NonNull
         public Structs.Point b;
         public Line() {
             this(new Structs.Point(), new Structs.Point());
@@ -85,7 +87,9 @@ public class Structs extends NativeBase {
         }
     }
     public static class ColoredLine {
+        @NonNull
         public Structs.Line line;
+        @NonNull
         public Structs.Color color;
         public ColoredLine() {
             this(new Structs.Line(), new Structs.Color());
@@ -109,6 +113,7 @@ public class Structs extends NativeBase {
         public final String stringField;
         public final boolean booleanField;
         public final byte[] bytesField;
+        @NonNull
         public final Structs.Point pointField;
         public AllTypesStruct() {
             this((byte)0, 0L, (short)0, 0L, 0, 0L, 0L, 0L, 0f, 0, (String)null, false, (byte[])null, new Structs.Point());
@@ -212,6 +217,7 @@ public class Structs extends NativeBase {
         public String stringField;
         public String externalStringField;
         public List<Byte> externalArrayField;
+        @NonNull
         public Structs.AnotherExternalStruct externalStructField;
         public ExternalStruct() {
             this((String)null, (String)null, new ArrayList<>(), new Structs.AnotherExternalStruct());

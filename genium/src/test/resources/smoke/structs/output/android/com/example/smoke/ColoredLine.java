@@ -5,8 +5,12 @@
 
 package com.example.smoke;
 
+import android.support.annotation.NonNull;
+
 public class ColoredLine {
+    @NonNull
     public Line line;
+    @NonNull
     public Color color;
     public ColoredLine() {
         this(new Line(), new Color());

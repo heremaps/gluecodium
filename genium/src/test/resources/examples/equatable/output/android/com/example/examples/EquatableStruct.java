@@ -5,10 +5,13 @@
 
 package com.example.examples;
 
+import android.support.annotation.NonNull;
+
 public class EquatableStruct {
 
     public int intField;
     public String stringField;
+    @NonNull
     public NestedEquatableStruct structField;
 
     public EquatableStruct() {
