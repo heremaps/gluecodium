@@ -174,8 +174,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
             JavaNameRules.getArgumentName(francaArgument.getName()), javaType, isOutput);
     javaParameter.comment = CommentHelper.getDescription(francaArgument);
 
-    if (deploymentModel.isNotNull(francaArgument)
-        || (javaType instanceof JavaCustomType && ((JavaCustomType) javaType).isNotNull)) {
+    if (isNotNull(francaArgument, javaType)) {
       addNotNullAnnotation(javaParameter);
     }
 
@@ -208,14 +207,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
         defaultValue != null
             ? JavaValueMapper.mapDefaultValue(javaType, defaultValue)
             : JavaValueMapper.mapDefaultValue(javaType);
-    boolean isNonNull = deploymentModel.isNotNull(francaField);
 
-    JavaField javaField =
-        JavaField.builder(fieldName, javaType).initial(initialValue).isNonNull(isNonNull).build();
+    JavaField javaField = new JavaField(fieldName, javaType, initialValue);
     javaField.visibility = getVisibility(francaField);
     javaField.comment = CommentHelper.getDescription(francaField);
 
-    if (isNonNull) {
+    if (isNotNull(francaField, javaType)) {
       addNotNullAnnotation(javaField);
     }
 
@@ -490,5 +487,10 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     if (notNullAnnotation != null) {
       annotatedElement.annotations.add(notNullAnnotation);
     }
+  }
+
+  private boolean isNotNull(final FTypedElement francaTypedElement, final JavaType javaType) {
+    return deploymentModel.isNotNull(francaTypedElement)
+        || (javaType instanceof JavaCustomType && ((JavaCustomType) javaType).isNotNull);
   }
 }

@@ -87,7 +87,7 @@ public class JavaModelBuilderTest {
   private final JavaCustomType javaCustomType = JavaCustomType.builder("typical").build();
   private final JavaTemplateType javaTemplateType =
       JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaCustomType);
-  private final JavaField javaField = JavaField.builder(FIELD_NAME, javaCustomType).build();
+  private final JavaField javaField = new JavaField(FIELD_NAME, javaCustomType);
   private final JavaEnum javaEnum = new JavaEnum(ENUMERATION_NAME);
   private final JavaEnumType enumType =
       new JavaEnumType("myEnum", null, JavaPackage.DEFAULT_PACKAGE_NAMES, null);
@@ -459,7 +459,7 @@ public class JavaModelBuilderTest {
 
     JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
     assertNotNull(resultField);
-    assertNull(resultField.initial);
+    assertNull(resultField.getInitial());
   }
 
   @Test
@@ -472,18 +472,6 @@ public class JavaModelBuilderTest {
     JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
     assertNotNull(resultField);
     assertEquals(JavaVisibility.PACKAGE, resultField.visibility);
-  }
-
-  @Test
-  public void finishBuildingFrancaFieldReadsNotNull() {
-    when(deploymentModel.isNotNull(francaField)).thenReturn(true);
-    contextStack.injectResult(javaCustomType);
-
-    modelBuilder.finishBuilding(francaField);
-
-    JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
-    assertNotNull(resultField);
-    assertTrue(resultField.isNonNull);
   }
 
   @Test
