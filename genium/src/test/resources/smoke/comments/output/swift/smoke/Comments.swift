@@ -32,7 +32,11 @@ public class Comments {
     public var instanceNotNullAttribute: CommentsInstantiable {
         get {
             let cResult = smoke_Comments_instanceNotNullAttribute_get(c_instance)
-            return CommentsInstantiable(cCommentsInstantiable: cResult)!
+            if let unwrapped_result = CommentsInstantiable(cCommentsInstantiable: cResult) {
+                return unwrapped_result
+            } else {
+                fatalError("Nullptr value is not supported for non-optional type CommentsInstantiable")
+            }
         }
         set {
             let newValue_handle = getRef(newValue)
@@ -122,7 +126,11 @@ public class Comments {
     public func instanceNotNullMethod(input: CommentsInstantiable) -> CommentsInstantiable {
         let input_handle = getRef(input)
         let cResult = smoke_Comments_instanceNotNullMethod(c_instance, input_handle.ref)
-        return CommentsInstantiable(cCommentsInstantiable: cResult)!
+        if let unwrapped_result = CommentsInstantiable(cCommentsInstantiable: cResult) {
+            return unwrapped_result
+        } else {
+            fatalError("Nullptr value is not supported for non-optional type CommentsInstantiable")
+        }
     }
 }
 extension Comments: NativeBase {

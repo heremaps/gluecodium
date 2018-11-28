@@ -27,6 +27,8 @@ class NotNullTests: XCTestCase {
         public func notNullBottomUpRoundTrip(input: NotNullPayload) -> NotNullPayload {
             return input
         }
+
+        public var notNullAttribute: NotNullPayload = NotNullPayload.create()
     }
 
     func testTopDownRoundTrip() {
@@ -39,8 +41,14 @@ class NotNullTests: XCTestCase {
         XCTAssertTrue(result)
     }
 
+    func testBottomUpAttributeRoundTrip() {
+        let result = NotNullStatic.notNullBottomUpAttributeRoundTrip(listener: NotNullListenerImpl())
+        XCTAssertTrue(result)
+    }
+
     static var allTests = [
         ("testTopDownRoundTrip", testTopDownRoundTrip),
-        ("testBottomUpRoundTrip", testBottomUpRoundTrip)
+        ("testBottomUpRoundTrip", testBottomUpRoundTrip),
+        ("testBottomUpAttributeRoundTrip", testBottomUpAttributeRoundTrip)
     ]
 }

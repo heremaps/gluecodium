@@ -42,6 +42,15 @@ interface NotNullStatic {
             Boolean result
         }
     }
+
+    method notNullBottomUpAttributeRoundTrip {
+        in {
+            NotNullListener.NotNullListener listener
+        }
+        out {
+            Boolean result
+        }
+    }
 }
 
 interface NotNullListener {
@@ -56,6 +65,8 @@ interface NotNullListener {
             NotNullPayload.NotNullPayload output
         }
     }
+
+    attribute NotNullPayload.NotNullPayload notNullAttribute
 }
 
 interface NotNullPayload {
