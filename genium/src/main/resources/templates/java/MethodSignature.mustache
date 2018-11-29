@@ -1,5 +1,5 @@
 {{>java/MethodComment}}
-{{#annotations}}
+{{#allAnnotations}}
 @{{name}}
-{{/annotations}}
+{{/allAnnotations}}
 {{^isInterface}}{{#if visibility.toString}}{{visibility}} {{/if}}{{/isInterface}}{{#qualifiers}}{{.}} {{/qualifiers}}{{returnType.name}} {{name}}({{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}};
