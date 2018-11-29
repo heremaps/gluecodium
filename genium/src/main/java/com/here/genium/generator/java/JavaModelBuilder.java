@@ -175,7 +175,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
             JavaNameRules.getArgumentName(francaArgument.getName()), javaType, isOutput);
     javaParameter.comment = CommentHelper.getDescription(francaArgument);
 
-    if (isNotNull(francaArgument, javaType)) {
+    if (deploymentModel.isNotNull(francaArgument)) {
       addNotNullAnnotation(javaParameter);
     }
 
@@ -213,7 +213,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaField.visibility = getVisibility(francaField);
     javaField.comment = CommentHelper.getDescription(francaField);
 
-    if (isNotNull(francaField, javaType)) {
+    if (deploymentModel.isNotNull(francaField)) {
       addNotNullAnnotation(javaField);
     }
 
@@ -322,9 +322,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaType javaType = getPreviousResult(JavaType.class);
     String comment = CommentHelper.getDescription(francaAttribute);
     JavaVisibility visibility = getVisibility(francaAttribute);
-    boolean isNotNull =
-        deploymentModel.isNotNull(francaAttribute)
-            || (javaType instanceof JavaCustomType && ((JavaCustomType) javaType).isNotNull);
+    boolean isNotNull = deploymentModel.isNotNull(francaAttribute);
 
     String getterName = JavaNameRules.getGetterName(francaAttribute.getName(), javaType);
 
@@ -490,15 +488,10 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
         : JavaVisibility.PUBLIC;
   }
 
-  private void addNotNullAnnotation(final JavaAnnotatedElement annotatedElement) {
+  private void addNotNullAnnotation(final JavaElement annotatedElement) {
     JavaType notNullAnnotation = typeMapper.getNotNullAnnotation();
     if (notNullAnnotation != null) {
       annotatedElement.annotations.add(notNullAnnotation);
     }
-  }
-
-  private boolean isNotNull(final FTypedElement francaTypedElement, final JavaType javaType) {
-    return deploymentModel.isNotNull(francaTypedElement)
-        || (javaType instanceof JavaCustomType && ((JavaCustomType) javaType).isNotNull);
   }
 }

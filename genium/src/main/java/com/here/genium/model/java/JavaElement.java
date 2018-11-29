@@ -21,12 +21,16 @@ package com.here.genium.model.java;
 
 import com.here.genium.model.common.ModelElement;
 import com.here.genium.model.common.Streamable;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.stream.Stream;
 
 public abstract class JavaElement extends Streamable<JavaElement> implements ModelElement {
 
   public final String name;
   public String comment = "";
   public JavaVisibility visibility = JavaVisibility.PACKAGE;
+  public final Collection<JavaType> annotations = new LinkedHashSet<>();
 
   public JavaElement(final String name) {
     super();
@@ -36,5 +40,10 @@ public abstract class JavaElement extends Streamable<JavaElement> implements Mod
   @Override
   public String toString() {
     return name;
+  }
+
+  @Override
+  public Stream<JavaElement> stream() {
+    return annotations.stream().map(JavaElement.class::cast);
   }
 }

@@ -27,6 +27,8 @@ import com.here.genium.model.java.*;
 import java.util.LinkedList;
 import java.util.List;
 import lombok.Getter;
+import org.eclipse.emf.ecore.EObject;
+import org.franca.core.framework.FrancaHelpers;
 import org.franca.core.franca.*;
 
 /**
@@ -52,15 +54,19 @@ public class JavaTypeMapper {
     this.notNullAnnotation = notNullAnnotation;
   }
 
-  public JavaType map(final FTypeRef fTypeRef) {
+  public JavaType map(final FTypeRef francaTypRef) {
 
     JavaType javaType =
-        fTypeRef.getDerived() != null
-            ? mapDerived(fTypeRef.getDerived())
-            : mapPredefined(fTypeRef.getPredefined());
+        francaTypRef.getDerived() != null
+            ? mapDerived(francaTypRef.getDerived())
+            : mapPredefined(francaTypRef.getPredefined());
 
-    if (FrancaTypeHelper.isImplicitArray(fTypeRef)) {
+    if (FrancaTypeHelper.isImplicitArray(francaTypRef)) {
       javaType = JavaTemplateType.wrapInList(javaType);
+    }
+
+    if (notNullAnnotation != null && needsNotNullAnnotation(francaTypRef)) {
+      javaType.annotations.add(notNullAnnotation);
     }
 
     return javaType;
@@ -118,7 +124,7 @@ public class JavaTypeMapper {
     throw new GeniumExecutionException("Unmapped derived type: " + francaType.getName());
   }
 
-  public JavaTemplateType mapArray(FArrayType arrayType) {
+  public JavaType mapArray(final FArrayType arrayType) {
     return JavaTemplateType.wrapInList(map(arrayType.getElementType()));
   }
 
@@ -170,7 +176,6 @@ public class JavaTypeMapper {
           .classNames(classNames)
           .packageNames(packageNames)
           .javaImport(javaImport)
-          .isNotNull(francaElement instanceof FStructType)
           .build();
     }
   }
@@ -216,5 +221,14 @@ public class JavaTypeMapper {
     } else {
       return map(typeDef.getActualType());
     }
+  }
+
+  private boolean needsNotNullAnnotation(final FTypeRef francaTypeRef) {
+    EObject parentElement = francaTypeRef.eContainer();
+    return FrancaHelpers.getActualDerived(francaTypeRef) instanceof FStructType
+        && (parentElement instanceof FField
+            || parentElement instanceof FArgument
+            || parentElement instanceof FAttribute)
+        && !((FTypedElement) parentElement).isArray();
   }
 }

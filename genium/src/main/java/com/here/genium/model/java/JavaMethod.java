@@ -20,10 +20,11 @@
 package com.here.genium.model.java;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.Singular;
 
-public final class JavaMethod extends JavaAnnotatedElement {
+public final class JavaMethod extends JavaElement {
 
   public enum MethodQualifier {
     STATIC("static"),
@@ -94,5 +95,11 @@ public final class JavaMethod extends JavaAnnotatedElement {
             parameters);
     result.annotations.addAll(annotations);
     return result;
+  }
+
+  @SuppressWarnings("unused")
+  public List<JavaType> getAllAnnotations() {
+    return Stream.concat(returnType.annotations.stream(), annotations.stream())
+        .collect(Collectors.toList());
   }
 }

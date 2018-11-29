@@ -21,6 +21,7 @@ package com.here.genium.generator.java;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -62,15 +63,18 @@ public class JavaTypeMapperCustomTypeTest {
   @Mock private FTypeCollection fTypeCollection;
   @Mock private FInterface fInterface;
   @Mock private FModel theModel;
-  @Mock private FStructType structType;
+  @Mock private FStructType francaStructType;
   @Mock private FTypeRef francaTypeRef;
   @Mock private FTypeDef francaTypeDef;
   @Mock private FArrayType francaArrayType;
   @Mock private FEnumerationType francaEnumerationType;
   @Mock private FMapType francaMapType;
+  @Mock private FField francaField;
+
+  private final JavaType notNullAnnotation = JavaCustomType.builder("foo").build();
 
   private final JavaTypeMapper typeMapper =
-      new JavaTypeMapper(new JavaPackage(Collections.emptyList()), null, null);
+      new JavaTypeMapper(new JavaPackage(Collections.emptyList()), null, notNullAnnotation);
 
   @Before
   public void setUp() {
@@ -86,15 +90,17 @@ public class JavaTypeMapperCustomTypeTest {
     when(fInterface.getName()).thenReturn(INTERFACE_NAME);
     when(fInterface.eContainer()).thenReturn(theModel);
 
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
+    when(francaTypeDef.getActualType()).thenReturn(mock(FTypeRef.class));
+    when(francaStructType.eContainer()).thenReturn(fInterface);
     when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME);
   }
 
   @Test
-  public void mapFStructTypeToJavaTypeInTypeCollection() {
-    when(structType.getName()).thenReturn(STRUCT_NAME_TYPECOLLECTION);
-    when(structType.eContainer()).thenReturn(fTypeCollection);
-    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
-    when(francaTypeRef.getDerived()).thenReturn(structType);
+  public void mapStructTypeToJavaTypeInTypeCollection() {
+    when(francaStructType.getName()).thenReturn(STRUCT_NAME_TYPECOLLECTION);
+    when(francaStructType.eContainer()).thenReturn(fTypeCollection);
+    when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
     JavaType result = typeMapper.map(francaTypeRef);
 
@@ -109,11 +115,9 @@ public class JavaTypeMapperCustomTypeTest {
   }
 
   @Test
-  public void mapFStructTypeToJavaTypeInInterface() {
-    when(structType.getName()).thenReturn(STRUCT_NAME_INTERFACE);
-    when(structType.eContainer()).thenReturn(fInterface);
-    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
-    when(francaTypeRef.getDerived()).thenReturn(structType);
+  public void mapStructTypeToJavaTypeInInterface() {
+    when(francaStructType.getName()).thenReturn(STRUCT_NAME_INTERFACE);
+    when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
     JavaType result = typeMapper.map(francaTypeRef);
 
@@ -153,7 +157,6 @@ public class JavaTypeMapperCustomTypeTest {
     String className = "MyClazz";
     when(francaTypeDef.getName()).thenReturn(className);
     when(francaTypeDef.eContainer()).thenReturn(fInterface);
-    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
     when(theModel.getName()).thenReturn(String.join(".", packageNames));
     when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
@@ -208,7 +211,6 @@ public class JavaTypeMapperCustomTypeTest {
     // arrange
     when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME_TYPECOLLECTION);
     when(francaEnumerationType.eContainer()).thenReturn(fTypeCollection);
-    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(francaTypeRef.getDerived()).thenReturn(francaEnumerationType);
 
     // act
@@ -230,7 +232,6 @@ public class JavaTypeMapperCustomTypeTest {
     // arrange
     when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME_INTERFACE);
     when(francaEnumerationType.eContainer()).thenReturn(fInterface);
-    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(francaTypeRef.getDerived()).thenReturn(francaEnumerationType);
 
     // act
@@ -280,5 +281,28 @@ public class JavaTypeMapperCustomTypeTest {
     assertTrue(arrayType instanceof JavaTemplateType);
     JavaTemplateType templateType = (JavaTemplateType) arrayType;
     assertEquals("Map<Float, Long>", templateType.name);
+  }
+
+  @Test
+  public void mapStructTypeRefInFieldAddsNotNullAnnotation() {
+    when(francaTypeRef.getDerived()).thenReturn(francaStructType);
+    when(francaTypeRef.eContainer()).thenReturn(francaField);
+
+    JavaType result = typeMapper.map(francaTypeRef);
+
+    assertNotNull(result);
+    assertTrue(result.annotations.contains(notNullAnnotation));
+  }
+
+  @Test
+  public void mapStructArrayTypeRefInFieldDoesNotAddNotNullAnnotation() {
+    when(francaTypeRef.getDerived()).thenReturn(francaStructType);
+    when(francaTypeRef.eContainer()).thenReturn(francaField);
+    when(francaField.isArray()).thenReturn(true);
+
+    JavaType result = typeMapper.map(francaTypeRef);
+
+    assertNotNull(result);
+    assertFalse(result.annotations.contains(notNullAnnotation));
   }
 }
