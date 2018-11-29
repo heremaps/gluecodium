@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.16.0
+- Release date: 2018-11-29
 - Features:
   + Returning values from Swift or Java callbacks when these are called from C++ now works for all
     types. It also works for callbacks that are Swift properties.
