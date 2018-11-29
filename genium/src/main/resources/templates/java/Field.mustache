@@ -23,7 +23,7 @@
 {{prefix comment " * "}}
  */
 {{/if}}
-{{#annotations}}
+{{#allAnnotations}}
 @{{name}}
-{{/annotations}}
+{{/allAnnotations}}
 {{#if visibility.toString}}{{visibility}} {{/if}}{{#if isImmutable}}final {{/if}}{{type.name}} {{name}};
