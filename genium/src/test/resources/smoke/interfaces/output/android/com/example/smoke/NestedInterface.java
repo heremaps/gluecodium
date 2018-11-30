@@ -11,5 +11,6 @@ public interface NestedInterface {
     VeryExternalInterface makeMoreExternal(final ExternalInterface input);
     @NonNull
     VeryExternalInterface.SomeStruct makeMoreExternal(@NonNull final ExternalInterface.SomeStruct input);
-    VeryExternalInterface.SomeEnum makeMoreExternal(final ExternalInterface.SomeEnum input);
+    @NonNull
+    VeryExternalInterface.SomeEnum makeMoreExternal(@NonNull final ExternalInterface.SomeEnum input);
 }

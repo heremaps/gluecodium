@@ -38,6 +38,7 @@ public class SerializableStruct implements Parcelable {
     public List<String> arrayField;
     public List<NestedSerializableStruct> structArrayField;
     public Map<Integer, String> mapField;
+    @NonNull
     public SomeEnum enumField;
     public SerializableStruct() {
         this(false, (byte)0, (short)0, 0, 0L, 0f, 0, (String)null, new NestedSerializableStruct(), (byte[])null, new ArrayList<>(), new ArrayList<>(), new HashMap<>(), SomeEnum.values()[0]);

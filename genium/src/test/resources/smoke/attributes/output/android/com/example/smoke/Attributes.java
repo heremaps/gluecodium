@@ -49,8 +49,9 @@ public class Attributes extends NativeBase {
     public native void setStructAttribute(@NonNull final Attributes.ExampleStruct value);
     public native List<String> getArrayAttribute();
     public native void setArrayAttribute(final List<String> value);
+    @NonNull
     public native Attributes.InternalError getComplexTypeAttribute();
-    public native void setComplexTypeAttribute(final Attributes.InternalError value);
+    public native void setComplexTypeAttribute(@NonNull final Attributes.InternalError value);
     public native byte[] getByteBufferAttribute();
     public native void setByteBufferAttribute(final byte[] value);
     public native AttributesInterface getInstanceAttribute();
