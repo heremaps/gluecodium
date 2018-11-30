@@ -20,9 +20,7 @@
 package com.here.genium.model.cpp;
 
 import java.util.stream.Stream;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
 public class CppInheritance extends CppElement {
 
   public enum Type {
