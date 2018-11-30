@@ -17,11 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-public final class CppInstanceTypeRef extends CppComplexTypeRef {
-
-  public CppInstanceTypeRef(final String fullyQualifiedName) {
-    super(fullyQualifiedName, null, false);
-  }
-}
+class CppInstanceTypeRef(fullyQualifiedName: String) :
+    CppComplexTypeRef(fullyQualifiedName, null, false)

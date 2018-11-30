@@ -89,8 +89,9 @@ public final class CppModelBuilderTest {
   private final CppTypeDefRef cppTypeDefRef =
       new CppTypeDefRef(
           NONSENSE_NAME, cppTypeRef, Include.Companion.createInternalInclude(NONSENSE_NAME));
-  private final CppUsing cppUsing = CppUsing.builder(NONSENSE_NAME, cppTypeDefRef).build();
-  private final CppConstant cppConstant = new CppConstant(NONSENSE_NAME, cppTypeRef, cppValue);
+  private final CppUsing cppUsing = new CppUsing(NONSENSE_NAME, NONSENSE_NAME, cppTypeDefRef);
+  private final CppConstant cppConstant =
+      new CppConstant(NONSENSE_NAME, NONSENSE_NAME, cppTypeRef, cppValue);
 
   @Before
   public void setUp() {
@@ -364,12 +365,13 @@ public final class CppModelBuilderTest {
     CppConstant result = modelBuilder.getFinalResult(CppConstant.class);
     assertNotNull(result);
     assertEquals(DUMMY_FQN, result.fullyQualifiedName);
-    assertEquals(cppValue, result.value);
+    assertEquals(cppValue, result.getValue());
   }
 
   @Test
   public void finishBuildingFrancaConstantReadsTypeRef() {
     contextStack.injectResult(cppComplexTypeRef);
+    contextStack.injectResult(cppValue);
 
     modelBuilder.finishBuilding(francaConstant);
 
@@ -487,7 +489,7 @@ public final class CppModelBuilderTest {
     assertNotNull(resultUsing);
     assertEquals(DUMMY_NAME, resultUsing.name);
     assertEquals(DUMMY_FQN, resultUsing.fullyQualifiedName);
-    assertEquals(cppComplexTypeRef, resultUsing.definition);
+    assertEquals(cppComplexTypeRef, resultUsing.getDefinition());
 
     PowerMockito.verifyStatic(atLeastOnce());
     InstanceRules.isInstanceId(francaTypeDef);
@@ -503,9 +505,9 @@ public final class CppModelBuilderTest {
     assertNotNull(resultUsing);
     assertEquals(DUMMY_NAME, resultUsing.name);
     assertEquals(DUMMY_FQN, resultUsing.fullyQualifiedName);
-    assertTrue(resultUsing.definition instanceof CppTemplateTypeRef);
+    assertTrue(resultUsing.getDefinition() instanceof CppTemplateTypeRef);
 
-    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) resultUsing.definition;
+    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) resultUsing.getDefinition();
     assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, cppTemplateTypeRef.templateClass);
     assertEquals(1, cppTemplateTypeRef.templateParameters.size());
     assertEquals(cppComplexTypeRef, cppTemplateTypeRef.templateParameters.get(0));
@@ -525,7 +527,7 @@ public final class CppModelBuilderTest {
     assertNotNull(resultUsing);
     assertEquals(DUMMY_NAME, resultUsing.name);
     assertEquals(DUMMY_FQN, resultUsing.fullyQualifiedName);
-    assertEquals(mapTypeRef, resultUsing.definition);
+    assertEquals(mapTypeRef, resultUsing.getDefinition());
     verify(typeMapper).wrapMap(cppPrimitiveTypeRef, cppComplexTypeRef);
   }
 

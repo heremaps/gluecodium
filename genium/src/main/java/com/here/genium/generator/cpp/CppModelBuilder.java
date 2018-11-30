@@ -198,12 +198,12 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     if (!InstanceRules.isInstanceId(francaTypeDef)) {
       CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
-      String comment = CommentHelper.getDescription(francaTypeDef);
       CppUsing cppUsing =
-          CppUsing.builder(nameResolver.getName(francaTypeDef), cppTypeRef)
-              .fullyQualifiedName(nameResolver.getFullyQualifiedName(francaTypeDef))
-              .comment(comment)
-              .build();
+          new CppUsing(
+              nameResolver.getName(francaTypeDef),
+              nameResolver.getFullyQualifiedName(francaTypeDef),
+              CommentHelper.getDescription(francaTypeDef),
+              cppTypeRef);
 
       storeResult(cppUsing);
     }
@@ -217,12 +217,12 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppTypeRef elementType = getPreviousResult(CppTypeRef.class);
     CppTypeRef targetType =
         CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
-    String comment = CommentHelper.getDescription(francaArrayType);
     CppUsing cppUsing =
-        CppUsing.builder(nameResolver.getName(francaArrayType), targetType)
-            .fullyQualifiedName(nameResolver.getFullyQualifiedName(francaArrayType))
-            .comment(comment)
-            .build();
+        new CppUsing(
+            nameResolver.getName(francaArrayType),
+            nameResolver.getFullyQualifiedName(francaArrayType),
+            CommentHelper.getDescription(francaArrayType),
+            targetType);
 
     storeResult(cppUsing);
     closeContext();
@@ -233,12 +233,12 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     List<CppTypeRef> typeRefs = getPreviousResults(CppTypeRef.class);
     CppTypeRef targetType = typeMapper.wrapMap(typeRefs.get(0), typeRefs.get(1));
-    String comment = CommentHelper.getDescription(francaMapType);
     CppUsing cppUsing =
-        CppUsing.builder(nameResolver.getName(francaMapType), targetType)
-            .fullyQualifiedName(nameResolver.getFullyQualifiedName(francaMapType))
-            .comment(comment)
-            .build();
+        new CppUsing(
+            nameResolver.getName(francaMapType),
+            nameResolver.getFullyQualifiedName(francaMapType),
+            CommentHelper.getDescription(francaMapType),
+            targetType);
 
     storeResult(cppUsing);
     closeContext();

@@ -201,21 +201,20 @@ public class TopologicalSortTest {
   }
 
   private static CppUsing createUsing(final String name, final CppTypeRef typeRef) {
-    return CppUsing.builder(name, typeRef).build();
+    return new CppUsing(name, name, typeRef);
   }
 
   private static CppConstant createConstant(String typeName) {
-    String name = "fixed";
-    return new CppConstant(name, createComplex(typeName), new CppValue(null));
+    return new CppConstant("fixed", "fixed", createComplex(typeName), new CppValue(""));
   }
 
   private static CppConstant createConstantWithUsing(String typeName) {
-    String name = "fixed";
     return new CppConstant(
-        name,
+        "fixed",
+        "fixed",
         new CppTypeDefRef(
             typeName, createComplex("nonsense"), Include.Companion.createInternalInclude("foo")),
-        new CppValue(null));
+        new CppValue(""));
   }
 
   @Test

@@ -17,29 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import java.util.stream.Stream;
+import java.util.stream.Stream
 
-public final class CppConstant extends CppTypedElement {
+class CppConstant(
+    name: String,
+    fullyQualifiedName: String,
+    type: CppTypeRef,
+    val value: CppValue
+) : CppTypedElement(name, fullyQualifiedName, type) {
 
-  public final CppValue value;
-
-  public CppConstant(final String name, final CppTypeRef type, final CppValue value) {
-    this(name, name, type, value);
-  }
-
-  public CppConstant(
-      final String name,
-      final String fullyQualifiedName,
-      final CppTypeRef type,
-      final CppValue value) {
-    super(name, fullyQualifiedName, type);
-    this.value = value;
-  }
-
-  @Override
-  public Stream<? extends CppElement> stream() {
-    return Stream.of(type, value);
-  }
+    override fun stream() = Stream.of(type, value)
 }

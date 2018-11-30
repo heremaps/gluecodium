@@ -155,6 +155,9 @@ public class CppModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingFrancaConstantReadsComment() {
+    contextStack.injectResult(cppComplexTypeRef);
+    contextStack.injectResult(new CppValue("foo"));
+
     modelBuilder.finishBuilding(francaConstant);
 
     CppConstant cppConstant = modelBuilder.getFinalResult(CppConstant.class);
@@ -191,6 +194,8 @@ public class CppModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingFrancaTypeDefReadsComment() {
+    contextStack.injectResult(cppComplexTypeRef);
+
     modelBuilder.finishBuilding(francaTypeDef);
 
     CppUsing cppUsing = modelBuilder.getFinalResult(CppUsing.class);
@@ -217,6 +222,7 @@ public class CppModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingFrancaMapTypeReadsComment() {
+    when(typeMapper.wrapMap(any(), any())).thenReturn(new CppInstanceTypeRef("foo"));
     contextStack.injectResult(CppPrimitiveTypeRef.INT8);
     contextStack.injectResult(cppComplexTypeRef);
 

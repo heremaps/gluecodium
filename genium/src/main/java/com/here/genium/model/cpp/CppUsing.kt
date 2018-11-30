@@ -17,30 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import java.util.stream.Stream;
+import java.util.stream.Stream
 
-public final class CppUsing extends CppElementWithComment {
+class CppUsing @JvmOverloads constructor(
+    name: String,
+    fullyQualifiedName: String,
+    comment: String? = null,
+    val definition: CppTypeRef
+) : CppElementWithComment(name, fullyQualifiedName, comment) {
 
-  public final CppTypeRef definition;
-
-  @lombok.Builder(builderClassName = "Builder")
-  private CppUsing(
-      final String name,
-      final String fullyQualifiedName,
-      final CppTypeRef definition,
-      final String comment) {
-    super(name, fullyQualifiedName, comment);
-    this.definition = definition;
-  }
-
-  public static Builder builder(final String name, final CppTypeRef definition) {
-    return new Builder().name(name).fullyQualifiedName(name).definition(definition);
-  }
-
-  @Override
-  public Stream<? extends CppElement> stream() {
-    return Stream.of(definition);
-  }
+    override fun stream() = Stream.of(definition)
 }
