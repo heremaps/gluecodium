@@ -64,24 +64,28 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FInterface francaInterface) {
 
-    String className = nameResolver.getName(francaInterface);
-    String fullyQualifiedName = nameResolver.getFullyQualifiedName(francaInterface);
-    String classComment = CommentHelper.getDescription(francaInterface);
-    boolean isExternal = deploymentModel.isExternalType(francaInterface);
-    CppClass cppClass = new CppClass(className, fullyQualifiedName, classComment, isExternal);
+    List<CppElement> members = new LinkedList<>();
+    members.addAll(getPreviousResults(CppEnum.class));
+    members.addAll(getPreviousResults(CppUsing.class));
+    members.addAll(getPreviousResults(CppStruct.class));
+    members.addAll(getPreviousResults(CppConstant.class));
 
     FInterface parentInterface = francaInterface.getBase();
+    List<CppInheritance> inheritances = new LinkedList<>();
     if (parentInterface != null) {
       CppTypeRef parentTypeRef = typeMapper.mapComplexType(parentInterface);
-      cppClass.inheritances.add(new CppInheritance(parentTypeRef, CppInheritance.Type.Public));
+      inheritances.add(new CppInheritance(parentTypeRef, CppInheritance.Type.Public));
     }
 
-    cppClass.methods.addAll(getPreviousResults(CppMethod.class));
-
-    cppClass.members.addAll(getPreviousResults(CppEnum.class));
-    cppClass.members.addAll(getPreviousResults(CppUsing.class));
-    cppClass.members.addAll(getPreviousResults(CppStruct.class));
-    cppClass.members.addAll(getPreviousResults(CppConstant.class));
+    CppClass cppClass =
+        new CppClass(
+            nameResolver.getName(francaInterface),
+            nameResolver.getFullyQualifiedName(francaInterface),
+            CommentHelper.getDescription(francaInterface),
+            deploymentModel.isExternalType(francaInterface),
+            members,
+            getPreviousResults(CppMethod.class),
+            inheritances);
 
     storeResult(cppClass);
     closeContext();

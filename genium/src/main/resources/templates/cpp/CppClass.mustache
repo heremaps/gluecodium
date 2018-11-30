@@ -24,7 +24,7 @@ class {{name}}{{>cpp/CppInheritance}} {
 public:
     virtual ~{{name}}() = 0;
 
-{{#if hasSortedMembers}}
+{{#if members}}
 public:
 {{#sortedMembers}}
 {{#instanceOf this "CppEnum"}}{{>cpp/CppEnum}}{{/instanceOf}}
@@ -42,13 +42,6 @@ public:
 {{#methods}}
 {{>cpp/CppMethodSignature}};
 {{/methods}}
-
-{{/if}}
-{{#if fields}}
-private:
-{{#fields}}
-{{type.name}} {{name}}{{#initializer}} = {{initializer.name}}{{/initializer}};
-{{/fields}}
 
 {{/if}}
 };{{!!

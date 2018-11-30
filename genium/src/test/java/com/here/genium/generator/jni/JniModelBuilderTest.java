@@ -42,6 +42,7 @@ import com.here.genium.test.ArrayEList;
 import com.here.genium.test.MockContextStack;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.*;
@@ -94,7 +95,14 @@ public class JniModelBuilderTest {
 
   private final JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
   private final CppClass cppClass =
-      new CppClass(CPP_CLASS_NAME, "::" + CPP_CLASS_NAME, null, false);
+      new CppClass(
+          CPP_CLASS_NAME,
+          "::" + CPP_CLASS_NAME,
+          null,
+          false,
+          new LinkedList<>(),
+          new LinkedList<>(),
+          new LinkedList<>());
   private final JavaEnum javaEnum = new JavaEnum(JAVA_CLASS_NAME);
   private final CppEnum cppEnum =
       CppEnum.builder(CPP_CLASS_NAME).fullyQualifiedName("::" + CPP_CLASS_NAME).build();
@@ -317,7 +325,7 @@ public class JniModelBuilderTest {
   public void finishBuildingInstantiableFrancaInterface() {
     // arrange
     CppMethod nonStaticMethod = new CppMethod("nonStaticMethod");
-    cppClass.methods.add(nonStaticMethod);
+    cppClass.getMethods().add(nonStaticMethod);
 
     // act
     modelBuilder.finishBuilding(francaInterface);

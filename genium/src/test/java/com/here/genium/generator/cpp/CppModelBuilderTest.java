@@ -131,8 +131,8 @@ public final class CppModelBuilderTest {
 
     CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(cppClass);
-    assertFalse(cppClass.methods.isEmpty());
-    assertEquals(cppMethod, cppClass.methods.iterator().next());
+    assertFalse(cppClass.getMethods().isEmpty());
+    assertEquals(cppMethod, cppClass.getMethods().iterator().next());
   }
 
   @Test
@@ -143,8 +143,8 @@ public final class CppModelBuilderTest {
 
     CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(cppClass);
-    assertFalse(cppClass.members.isEmpty());
-    assertEquals(cppStruct, cppClass.members.iterator().next());
+    assertFalse(cppClass.getMembers().isEmpty());
+    assertEquals(cppStruct, cppClass.getMembers().iterator().next());
   }
 
   @Test
@@ -155,8 +155,8 @@ public final class CppModelBuilderTest {
 
     CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(cppClass);
-    assertFalse(cppClass.members.isEmpty());
-    assertEquals(cppEnum, cppClass.members.iterator().next());
+    assertFalse(cppClass.getMembers().isEmpty());
+    assertEquals(cppEnum, cppClass.getMembers().iterator().next());
   }
 
   @Test
@@ -167,8 +167,8 @@ public final class CppModelBuilderTest {
 
     CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(cppClass);
-    assertEquals(1, cppClass.members.size());
-    assertEquals(cppUsing, cppClass.members.iterator().next());
+    assertEquals(1, cppClass.getMembers().size());
+    assertEquals(cppUsing, cppClass.getMembers().iterator().next());
   }
 
   @Test
@@ -179,8 +179,8 @@ public final class CppModelBuilderTest {
 
     CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(cppClass);
-    assertEquals(1, cppClass.members.size());
-    assertEquals(cppConstant, cppClass.members.iterator().next());
+    assertEquals(1, cppClass.getMembers().size());
+    assertEquals(cppConstant, cppClass.getMembers().iterator().next());
   }
 
   @Test
@@ -193,9 +193,9 @@ public final class CppModelBuilderTest {
 
     CppClass cppClass = modelBuilder.getFinalResult(CppClass.class);
     assertNotNull(cppClass);
-    assertEquals(1, cppClass.inheritances.size());
+    assertEquals(1, cppClass.getInheritances().size());
 
-    CppInheritance cppInheritance = cppClass.inheritances.iterator().next();
+    CppInheritance cppInheritance = cppClass.getInheritances().iterator().next();
     assertEquals(cppComplexTypeRef, cppInheritance.parent);
     assertEquals(CppInheritance.Type.Public, cppInheritance.visibility);
 
@@ -209,7 +209,7 @@ public final class CppModelBuilderTest {
     modelBuilder.finishBuilding(francaInterface);
 
     CppClass resultClass = modelBuilder.getFinalResult(CppClass.class);
-    assertTrue(resultClass.isExternal);
+    assertTrue(resultClass.isExternal());
   }
 
   @Test

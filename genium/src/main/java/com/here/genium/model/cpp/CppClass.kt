@@ -17,46 +17,25 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import com.here.genium.generator.cpp.TopologicalSort;
-import java.util.*;
-import java.util.stream.Stream;
+import com.here.genium.generator.cpp.TopologicalSort
+import java.util.stream.Stream
 
-public final class CppClass extends CppElementWithComment {
+class CppClass(
+    name: String,
+    fullyQualifiedName: String,
+    comment: String?,
+    val isExternal: Boolean,
+    val members: List<CppElement>,
+    val methods: List<CppMethod>,
+    val inheritances: List<CppInheritance>
+) : CppElementWithComment(name, fullyQualifiedName, comment) {
 
-  public final List<CppElement> members = new LinkedList<>();
-  public final List<CppMethod> methods = new LinkedList<>();
-  public final Set<CppField> fields = new LinkedHashSet<>();
-  public final Set<CppInheritance> inheritances = new LinkedHashSet<>();
-  public final boolean isExternal;
+    @Suppress("unused")
+    val sortedMembers
+        get() = TopologicalSort(members).sort()
 
-  public CppClass(
-      final String name,
-      final String fullyQualifiedName,
-      final String comment,
-      final boolean isExternal) {
-    super(name, fullyQualifiedName, comment);
-    this.isExternal = isExternal;
-  }
-
-  @SuppressWarnings("unused")
-  public boolean hasSortedMembers() {
-    return !members.isEmpty();
-  }
-
-  /**
-   * Returns topologically sorted list of members
-   *
-   * @return sorted class members
-   */
-  @SuppressWarnings("unused")
-  public List<CppElement> getSortedMembers() {
-    return new TopologicalSort(members).sort();
-  }
-
-  @Override
-  public Stream<? extends CppElement> stream() {
-    return Stream.of(methods, members, inheritances).flatMap(Collection::stream);
-  }
+    override fun stream() =
+            Stream.of(methods, members, inheritances).flatMap(Collection<CppElement>::stream)
 }
