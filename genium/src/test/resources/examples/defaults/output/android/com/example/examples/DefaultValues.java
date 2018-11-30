@@ -3,7 +3,10 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.examples;
+
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
+
 public class DefaultValues extends NativeBase {
 
     public enum SomeEnum {
@@ -22,6 +25,7 @@ public class DefaultValues extends NativeBase {
         public float floatField;
         public boolean boolField;
         public String stringField;
+        @NonNull
         public DefaultValues.SomeEnum enumField;
 
         public StructWithDefaults() {

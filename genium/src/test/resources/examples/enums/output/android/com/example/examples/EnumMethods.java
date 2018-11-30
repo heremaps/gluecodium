@@ -3,7 +3,10 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.examples;
+
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
+
 public class EnumMethods extends NativeBase {
     /** For internal use only */
     protected EnumMethods(final long nativeHandle) {
@@ -15,5 +18,6 @@ public class EnumMethods extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    public static native ShoeSizes methodWithEnumeration(final ShoeSizes input);
+    @NonNull
+    public static native ShoeSizes methodWithEnumeration(@NonNull final ShoeSizes input);
 }

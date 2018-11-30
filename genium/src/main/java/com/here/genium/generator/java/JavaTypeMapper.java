@@ -224,8 +224,11 @@ public class JavaTypeMapper {
   }
 
   private boolean needsNotNullAnnotation(final FTypeRef francaTypeRef) {
+
+    FType actualDerived = FrancaHelpers.getActualDerived(francaTypeRef);
     EObject parentElement = francaTypeRef.eContainer();
-    return FrancaHelpers.getActualDerived(francaTypeRef) instanceof FStructType
+
+    return (actualDerived instanceof FStructType || actualDerived instanceof FEnumerationType)
         && (parentElement instanceof FField
             || parentElement instanceof FArgument
             || parentElement instanceof FAttribute)
