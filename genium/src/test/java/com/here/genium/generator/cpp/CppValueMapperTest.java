@@ -78,7 +78,7 @@ public final class CppValueMapperTest {
   public void mapEnumValue() {
     when(deploymentModel.isExternalType(any())).thenReturn(true);
     when(francaElementRef.getElement()).thenReturn(francaEnumerator);
-    when(francaEnumerator.getName()).thenReturn("nonsense");
+    when(nameResolver.getFullyQualifiedName(any())).thenReturn("nonsense");
 
     CppValue mappedValue = valueMapper.map(francaElementRef);
 
@@ -88,6 +88,7 @@ public final class CppValueMapperTest {
   @Test
   public void mapExternalEnumValue() {
     when(francaElementRef.getElement()).thenReturn(francaEnumerator);
+    when(nameResolver.getFullyQualifiedName(any())).thenReturn("nonsense");
 
     CppValue mappedValue = valueMapper.map(francaElementRef);
 

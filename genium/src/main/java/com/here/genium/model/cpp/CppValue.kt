@@ -17,11 +17,6 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-public final class CppValue extends CppElement {
-
-  public CppValue(final String value) {
-    super(value, value);
-  }
-}
+class CppValue(value: String) : CppElement(value, value)
