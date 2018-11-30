@@ -51,6 +51,7 @@ public class Enums extends NativeBase {
     }
 
     public static class ErrorStruct {
+        @NonNull
         public Enums.InternalError type;
         public String message;
         public ErrorStruct() {
@@ -73,10 +74,13 @@ public class Enums extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
 
-    public static native Enums.SimpleEnum methodWithEnumeration(final Enums.SimpleEnum input);
-    public static native Enums.InternalError flipEnumValue(final Enums.InternalError input);
+    @NonNull
+    public static native Enums.SimpleEnum methodWithEnumeration(@NonNull final Enums.SimpleEnum input);
+    @NonNull
+    public static native Enums.InternalError flipEnumValue(@NonNull final Enums.InternalError input);
+    @NonNull
     public static native Enums.InternalError extractEnumFromStruct(@NonNull final Enums.ErrorStruct input);
     @NonNull
-    public static native Enums.ErrorStruct createStructWithEnumInside(final Enums.InternalError type, final String message);
-    public static native void methodWithExternalEnum(final Enums.ExternalEnum input);
+    public static native Enums.ErrorStruct createStructWithEnumInside(@NonNull final Enums.InternalError type, final String message);
+    public static native void methodWithExternalEnum(@NonNull final Enums.ExternalEnum input);
 }

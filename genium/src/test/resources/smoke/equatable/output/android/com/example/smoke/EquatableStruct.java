@@ -20,6 +20,7 @@ public class EquatableStruct {
     public String stringField;
     @NonNull
     public NestedEquatableStruct structField;
+    @NonNull
     public SomeEnum enumField;
     public List<String> arrayField;
     public Map<Integer, String> mapField;

@@ -3,7 +3,10 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
+
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
+
 public class EnumsInTypeCollectionInterface extends NativeBase {
     /** For internal use only */
     protected EnumsInTypeCollectionInterface(final long nativeHandle) {
@@ -15,5 +18,6 @@ public class EnumsInTypeCollectionInterface extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    public static native TCEnum flipEnumValue(final TCEnum input);
+    @NonNull
+    public static native TCEnum flipEnumValue(@NonNull final TCEnum input);
 }

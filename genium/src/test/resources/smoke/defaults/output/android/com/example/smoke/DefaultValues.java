@@ -28,7 +28,9 @@ public class DefaultValues extends NativeBase {
         public float floatField;
         public boolean boolField;
         public String stringField;
+        @NonNull
         public DefaultValues.SomeEnum enumField;
+        @NonNull
         public DefaultValues.ExternalEnum externalEnumField;
         public StructWithDefaults() {
             this(42, 4294967295L, 3.14f, true, "\\Jonny \"Magic\" Smith\n", DefaultValues.SomeEnum.BAR_VALUE, DefaultValues.ExternalEnum.ANOTHER_VALUE);

@@ -93,6 +93,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(francaTypeDef.getActualType()).thenReturn(mock(FTypeRef.class));
     when(francaStructType.eContainer()).thenReturn(fInterface);
+    when(francaEnumerationType.eContainer()).thenReturn(fInterface);
     when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME);
   }
 
@@ -286,6 +287,17 @@ public class JavaTypeMapperCustomTypeTest {
   @Test
   public void mapStructTypeRefInFieldAddsNotNullAnnotation() {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
+    when(francaTypeRef.eContainer()).thenReturn(francaField);
+
+    JavaType result = typeMapper.map(francaTypeRef);
+
+    assertNotNull(result);
+    assertTrue(result.annotations.contains(notNullAnnotation));
+  }
+
+  @Test
+  public void mapEnumTypeRefInFieldAddsNotNullAnnotation() {
+    when(francaTypeRef.getDerived()).thenReturn(francaEnumerationType);
     when(francaTypeRef.eContainer()).thenReturn(francaField);
 
     JavaType result = typeMapper.map(francaTypeRef);

@@ -25,5 +25,6 @@ class NestedInterfaceImpl extends NativeBase implements NestedInterface {
     public native VeryExternalInterface makeMoreExternal(final ExternalInterface input);
     @NonNull
     public native VeryExternalInterface.SomeStruct makeMoreExternal(@NonNull final ExternalInterface.SomeStruct input);
-    public native VeryExternalInterface.SomeEnum makeMoreExternal(final ExternalInterface.SomeEnum input);
+    @NonNull
+    public native VeryExternalInterface.SomeEnum makeMoreExternal(@NonNull final ExternalInterface.SomeEnum input);
 }
