@@ -17,21 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import java.util.stream.Stream;
+import java.util.stream.Stream
 
-public final class CppEnumItem extends CppElementWithComment {
-
-  public final CppValue value;
-
-  public CppEnumItem(final String name, final CppValue value) {
-    super(name);
-    this.value = value;
-  }
-
-  @Override
-  public Stream<? extends CppElement> stream() {
-    return Stream.of(value);
-  }
+class CppEnumItem(name: String, val value: CppValue?) : CppElementWithComment(name) {
+    override fun stream() = Stream.of(value)
 }

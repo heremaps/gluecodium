@@ -123,7 +123,7 @@ public final class TopologicalSort {
 
     if (cppElement instanceof CppUsing) {
       CppUsing cppUsing = (CppUsing) cppElement;
-      return getTypeDependencies(cppUsing.definition);
+      return getTypeDependencies(cppUsing.getDefinition());
     }
 
     if (cppElement instanceof CppInheritance) {
