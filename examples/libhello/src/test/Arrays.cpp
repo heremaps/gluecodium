@@ -185,6 +185,12 @@ Arrays::reverse_enums_array( const Arrays::ArrayEnumArray& input )
     return {input.rbegin( ), input.rend( )};
 }
 
+Arrays::SomeOtherEnumArray
+Arrays::reverse_other_enums_array( const Arrays::SomeOtherEnumArray& input )
+{
+    return {input.rbegin( ), input.rend( )};
+}
+
 Arrays::ArrayOfMaps
 Arrays::reverse_maps_array( const Arrays::ArrayOfMaps& input )
 {

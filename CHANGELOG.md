@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed arrays of enum values in Swift so that they don't produce undefined behavior anymore.
+
 ## 3.16.0
 - Release date: 2018-11-29
 - Features:

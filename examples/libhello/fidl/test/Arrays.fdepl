@@ -110,6 +110,10 @@ define GeniumExtensions for interface test.Arrays
         Static = true
     }
 
+    method reverseOtherEnumsArray {
+        Static = true
+    }
+
     method reverseMapsArray {
         Static = true
     }

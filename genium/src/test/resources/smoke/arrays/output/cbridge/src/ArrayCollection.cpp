@@ -13,19 +13,19 @@
 #include <unordered_map>
 #include <vector>
 
-_baseRef arrayCollection_Enums_create_handle() {
+_baseRef arrayCollection_SomeEnum_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<::smoke::Arrays::SomeEnum>() );
 }
-void arrayCollection_Enums_release_handle(_baseRef handle) {
+void arrayCollection_SomeEnum_release_handle(_baseRef handle) {
     delete get_pointer<std::vector<::smoke::Arrays::SomeEnum>>(handle);
 }
-uint64_t arrayCollection_Enums_count(_baseRef handle) {
+uint64_t arrayCollection_SomeEnum_count(_baseRef handle) {
     return get_pointer<std::vector<::smoke::Arrays::SomeEnum>>(handle)->size();
 }
-smoke_Arrays_SomeEnum arrayCollection_Enums_get(_baseRef handle, uint64_t index) {
+smoke_Arrays_SomeEnum arrayCollection_SomeEnum_get(_baseRef handle, uint64_t index) {
     return static_cast<smoke_Arrays_SomeEnum>((*get_pointer<std::vector<::smoke::Arrays::SomeEnum>>(handle))[index]);
 }
-void arrayCollection_Enums_append(_baseRef handle, smoke_Arrays_SomeEnum item) {
+void arrayCollection_SomeEnum_append(_baseRef handle, smoke_Arrays_SomeEnum item) {
     get_pointer<std::vector<::smoke::Arrays::SomeEnum>>(handle)->push_back(static_cast<::smoke::Arrays::SomeEnum>(item));
 }
 _baseRef arrayCollection_FancyStruct_create_handle() {
