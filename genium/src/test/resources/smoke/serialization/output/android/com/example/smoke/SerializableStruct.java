@@ -35,7 +35,9 @@ public class SerializableStruct implements Parcelable {
     @NonNull
     public NestedSerializableStruct structField;
     public byte[] byteBufferField;
+    @NonNull
     public List<String> arrayField;
+    @NonNull
     public List<NestedSerializableStruct> structArrayField;
     public Map<Integer, String> mapField;
     @NonNull
