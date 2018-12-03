@@ -183,6 +183,9 @@ This FDEPL property controls whether any equality comparison helpers are generat
 Franca struct. Default value is `false`, i.e. no equality helpers are generated. This affects C++,
 Java and Swift generated code.
 
+**Note:** Structs marked as "Equatable" cannot have instance references as fields. Other struct
+types can be used as field types only if those other struct types are also marked as "Equatable".
+
 FIDL:
 
     package example
