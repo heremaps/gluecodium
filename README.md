@@ -1,5 +1,6 @@
 # Genium
-This repository contains the Genium project.
+This repository contains the Genium project. For a list of features and how to get started
+ writing IDL, see [Genium Franca IDL](./docs/franca.md).
 
 ## Building and testing
 Outside of IntelliJ you can invoke the following Gradle tasks to build
