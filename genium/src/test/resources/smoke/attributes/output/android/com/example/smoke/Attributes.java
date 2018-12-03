@@ -47,8 +47,9 @@ public class Attributes extends NativeBase {
     @NonNull
     public native Attributes.ExampleStruct getStructAttribute();
     public native void setStructAttribute(@NonNull final Attributes.ExampleStruct value);
+    @NonNull
     public native List<String> getArrayAttribute();
-    public native void setArrayAttribute(final List<String> value);
+    public native void setArrayAttribute(@NonNull final List<String> value);
     @NonNull
     public native Attributes.InternalError getComplexTypeAttribute();
     public native void setComplexTypeAttribute(@NonNull final Attributes.InternalError value);

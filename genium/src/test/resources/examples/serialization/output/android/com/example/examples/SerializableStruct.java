@@ -27,6 +27,7 @@ public class SerializableStruct implements Parcelable {
     public String stringField;
     @NonNull
     public NestedSerializableStruct structField;
+    @NonNull
     public List<String> arrayField;
 
     public SerializableStruct() {

@@ -92,9 +92,11 @@ public class JavaTypeMapperCustomTypeTest {
 
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(francaTypeDef.getActualType()).thenReturn(mock(FTypeRef.class));
+    when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME);
+
     when(francaStructType.eContainer()).thenReturn(fInterface);
     when(francaEnumerationType.eContainer()).thenReturn(fInterface);
-    when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME);
+    when(francaArrayType.eContainer()).thenReturn(fInterface);
   }
 
   @Test
@@ -307,14 +309,28 @@ public class JavaTypeMapperCustomTypeTest {
   }
 
   @Test
-  public void mapStructArrayTypeRefInFieldDoesNotAddNotNullAnnotation() {
-    when(francaTypeRef.getDerived()).thenReturn(francaStructType);
+  public void mapArrayTypeRefInFieldAddsNotNullAnnotation() {
+    FTypeRef typeRef = mock(FTypeRef.class);
+    when(typeRef.getPredefined()).thenReturn(FBasicTypeId.DOUBLE);
+    when(francaArrayType.getElementType()).thenReturn(typeRef);
+    when(francaTypeRef.getDerived()).thenReturn(francaArrayType);
+    when(francaTypeRef.eContainer()).thenReturn(francaField);
+
+    JavaType result = typeMapper.map(francaTypeRef);
+
+    assertNotNull(result);
+    assertTrue(result.annotations.contains(notNullAnnotation));
+  }
+
+  @Test
+  public void mapPrimitiveTypeRefInArrayFieldAddsNotNullAnnotation() {
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
     when(francaTypeRef.eContainer()).thenReturn(francaField);
     when(francaField.isArray()).thenReturn(true);
 
     JavaType result = typeMapper.map(francaTypeRef);
 
     assertNotNull(result);
-    assertFalse(result.annotations.contains(notNullAnnotation));
+    assertTrue(result.annotations.contains(notNullAnnotation));
   }
 }
