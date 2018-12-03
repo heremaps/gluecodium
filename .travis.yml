@@ -19,6 +19,5 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 script:
-  - echo "Travis branch is $TRAVIS_BRANCH"
-  - echo "Travis branch is in pull request $TRAVIS_PULL+REQUEST"
+  - echo "Travis branch '$TRAVIS_BRANCH' from pull request '$TRAVIS_PULL_REQUEST'."
   - ./gradlew build
