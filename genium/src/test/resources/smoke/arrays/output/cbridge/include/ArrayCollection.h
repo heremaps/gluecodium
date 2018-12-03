@@ -13,11 +13,11 @@ extern "C" {
 #include "cbridge/include/smoke/cbridge_Arrays.h"
 #include <stdint.h>
 
-_baseRef arrayCollection_Enums_create_handle();
-void arrayCollection_Enums_release_handle(_baseRef handle);
-uint64_t arrayCollection_Enums_count(_baseRef handle);
-smoke_Arrays_SomeEnum arrayCollection_Enums_get(_baseRef handle, uint64_t index);
-void arrayCollection_Enums_append(_baseRef handle, smoke_Arrays_SomeEnum item);
+_baseRef arrayCollection_SomeEnum_create_handle();
+void arrayCollection_SomeEnum_release_handle(_baseRef handle);
+uint64_t arrayCollection_SomeEnum_count(_baseRef handle);
+smoke_Arrays_SomeEnum arrayCollection_SomeEnum_get(_baseRef handle, uint64_t index);
+void arrayCollection_SomeEnum_append(_baseRef handle, smoke_Arrays_SomeEnum item);
 _baseRef arrayCollection_FancyStruct_create_handle();
 void arrayCollection_FancyStruct_release_handle(_baseRef handle);
 uint64_t arrayCollection_FancyStruct_count(_baseRef handle);

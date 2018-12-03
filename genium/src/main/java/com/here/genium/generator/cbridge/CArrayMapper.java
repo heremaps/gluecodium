@@ -71,17 +71,14 @@ public final class CArrayMapper {
       } else {
         elementName = francaRef.getPredefined().getName();
       }
-    } else if (object instanceof FStructType) {
-      FStructType struct = (FStructType) object;
-      elementName = struct.getName();
+    } else if (object instanceof FStructType || object instanceof FEnumerationType) {
+      elementName = ((FType) object).getName();
     } else if (object instanceof FArrayType) {
       FTypeRef francaRef = ((FArrayType) object).getElementType();
       elementName = getName(francaRef);
     } else if (object instanceof FMapType) {
       FMapType francaMap = (FMapType) object;
       elementName = getName(francaMap.getKeyType()) + getName(francaMap.getValueType()) + "Map";
-    } else if (object instanceof FEnumerationType) {
-      elementName = "Enums";
     }
 
     return elementName;

@@ -43,6 +43,11 @@ interface Arrays {
         ENUM_THREE
     }
 
+    enumeration SomeOtherEnum {
+        ON = 256
+        OFF
+    }
+
     array Int8Array of Int8
     array Int16Array of Int16
     array Int32Array of Int32
@@ -65,6 +70,7 @@ interface Arrays {
     array NestedStructArray of StructArray
     array InstancesArray of SimpleInstantiableOne
     array ArrayEnumArray of ArrayEnum
+    array SomeOtherEnumArray of SomeOtherEnum
 
     typedef ProfileId is String
     array ProfileIdList of ProfileId
@@ -375,6 +381,20 @@ interface Arrays {
         out {
             <** @description: Output array **>
             ArrayEnumArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes an array and returns an array of same type in reversed order.
+    **>
+    method reverseOtherEnumsArray {
+        in {
+            <** @description: Input array **>
+            SomeOtherEnumArray input
+        }
+        out {
+            <** @description: Output array **>
+            SomeOtherEnumArray output
         }
     }
 
