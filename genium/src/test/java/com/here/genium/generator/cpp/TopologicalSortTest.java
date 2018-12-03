@@ -41,7 +41,7 @@ public class TopologicalSortTest {
   private static final String TYPE_DEF_NAME = "shortcut";
 
   private static final CppEnum CPP_ENUM =
-      CppEnum.builder(ENUM_NAME).fullyQualifiedName(ENUM_NAME).build();
+      new CppEnum(ENUM_NAME, ENUM_NAME, false, Collections.emptyList());
   private static final CppUsing CPP_USING = createUsing(TYPE_DEF_NAME, createComplex(TYPE_A));
 
   private final List<CppElement> elements;

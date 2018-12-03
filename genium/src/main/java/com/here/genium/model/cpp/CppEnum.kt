@@ -17,35 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Stream;
+class CppEnum(
+    name: String,
+    fullyQualifiedName: String,
+    val isExternal: Boolean,
+    val items: List<CppEnumItem>
+) : CppElementWithComment(name, fullyQualifiedName) {
 
-public final class CppEnum extends CppElementWithComment {
-
-  public final boolean isScoped;
-  public final boolean isExternal;
-  public final List<CppEnumItem> items = new LinkedList<>();
-
-  @lombok.Builder(builderClassName = "Builder")
-  private CppEnum(
-      final String name,
-      final String fullyQualifiedName,
-      final boolean isScoped,
-      final boolean isExternal) {
-    super(name, fullyQualifiedName);
-    this.isScoped = isScoped;
-    this.isExternal = isExternal;
-  }
-
-  public static Builder builder(final String name) {
-    return new Builder().name(name);
-  }
-
-  @Override
-  public Stream<? extends CppElement> stream() {
-    return items.stream();
-  }
+    override fun stream() = items.stream()
 }

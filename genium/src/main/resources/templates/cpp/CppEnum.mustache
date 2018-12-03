@@ -20,7 +20,7 @@
   !}}
 {{#unless isExternal}}
 {{>common/DocComment}}
-enum {{#isScoped}}class {{/isScoped}}{{name}} {
+enum class {{name}} {
 {{joinPartial items "enumItem" ",
 "}}
 };

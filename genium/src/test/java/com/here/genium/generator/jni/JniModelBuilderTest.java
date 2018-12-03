@@ -105,7 +105,7 @@ public class JniModelBuilderTest {
           new LinkedList<>());
   private final JavaEnum javaEnum = new JavaEnum(JAVA_CLASS_NAME);
   private final CppEnum cppEnum =
-      CppEnum.builder(CPP_CLASS_NAME).fullyQualifiedName("::" + CPP_CLASS_NAME).build();
+      new CppEnum(CPP_CLASS_NAME, "::" + CPP_CLASS_NAME, false, Collections.emptyList());
   private final JavaCustomType javaCustomType = JavaCustomType.builder(JAVA_CLASS_NAME).build();
   private final JavaField javaField =
       new JavaField(BASE_NAME_PARAMETER, javaCustomType, new JavaValue(javaCustomType));

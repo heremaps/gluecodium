@@ -253,13 +253,12 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     // Type definition
     CppEnum cppEnum =
-        CppEnum.builder(nameResolver.getName(francaEnumerationType))
-            .fullyQualifiedName(nameResolver.getFullyQualifiedName(francaEnumerationType))
-            .isScoped(true)
-            .isExternal(deploymentModel.isExternalType(francaEnumerationType))
-            .build();
+        new CppEnum(
+            nameResolver.getName(francaEnumerationType),
+            nameResolver.getFullyQualifiedName(francaEnumerationType),
+            deploymentModel.isExternalType(francaEnumerationType),
+            getPreviousResults(CppEnumItem.class));
     cppEnum.comment = CommentHelper.getDescription(francaEnumerationType);
-    cppEnum.items.addAll(getPreviousResults(CppEnumItem.class));
     storeResult(cppEnum);
 
     // Type reference

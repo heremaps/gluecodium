@@ -157,7 +157,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     Stream<Streamable> allElementsStream =
         cppModel.members.stream().flatMap(CppElement::streamRecursive);
     return CollectionsHelper.getStreamOfType(allElementsStream, CppEnum.class)
-        .filter(cppEnum -> !cppEnum.isExternal)
+        .filter(cppEnum -> !cppEnum.isExternal())
         .map(cppEnum -> cppEnum.fullyQualifiedName)
         .collect(Collectors.toSet());
   }
