@@ -24,7 +24,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.genium.model.common.InstanceRules;
@@ -41,10 +40,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(InstanceRules.class)
-public class CBridgeArrayMapperTest {
+public final class CBridgeArrayMapperTest {
 
   @Mock private FTypeRef francaTypeRef;
   @Mock private FStructType francaStructType;
+  @Mock private FEnumerationType francaEnumerationType;
   @Mock private FArrayType francaArray;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -118,8 +118,12 @@ public class CBridgeArrayMapperTest {
   }
 
   @Test
-  public void getNameForEnums() {
-    assertEquals("Enums", CArrayMapper.getName(mock(FEnumerationType.class)));
+  public void enumArrayName() {
+    when(francaEnumerationType.getName()).thenReturn("EnumTest");
+
+    String arrayName = CArrayMapper.getName(francaEnumerationType);
+
+    assertEquals("Should have the same name", "EnumTest", arrayName);
   }
 
   @Test

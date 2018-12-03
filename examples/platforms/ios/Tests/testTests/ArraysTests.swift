@@ -233,6 +233,14 @@ class ArraysTests: XCTestCase {
         }
     }
 
+    func testOtherEnumsArray() {
+        let enumArray: [Arrays.SomeOtherEnum] = [.on, .off]
+        let result = Arrays.reverseOtherEnumsArray(input: enumArray)
+        for (indexArray, enumValue) in result.enumerated() {
+            XCTAssertEqual(enumValue, enumArray[1-indexArray])
+        }
+    }
+
     func testArrayInStructOutlivesStruct() {
         var messages: CollectionOf<String>
         do {
@@ -273,6 +281,7 @@ class ArraysTests: XCTestCase {
         ("testNestedStructArray", testNestedStructArray),
         ("testMergeArraysOfStructsWithArrays", testMergeArraysOfStructsWithArrays),
         ("testEnumsArray", testEnumsArray),
+        ("testOtherEnumsArray", testOtherEnumsArray),
         ("testArrayOfAliases", testArrayOfAliases),
         ("testArrayInStructOutlivesStruct", testArrayInStructOutlivesStruct),
         ("testArrayOfMaps", testArrayOfMaps),

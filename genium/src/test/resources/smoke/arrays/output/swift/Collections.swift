@@ -86,13 +86,13 @@ internal class SomeEnumList: CollectionOf<Arrays.SomeEnum> {
         self.c_element = c_element
         super.init()
         self.startIndex = 0
-        self.endIndex = Int(arrayCollection_Enums_count(c_element))
+        self.endIndex = Int(arrayCollection_SomeEnum_count(c_element))
     }
     deinit {
-        arrayCollection_Enums_release_handle(c_element!)
+        arrayCollection_SomeEnum_release_handle(c_element!)
     }
     public override subscript(index: Int) -> Arrays.SomeEnum {
-        let handle = arrayCollection_Enums_get(c_element!, UInt64(index))
+        let handle = arrayCollection_SomeEnum_get(c_element!, UInt64(index))
         return Arrays.SomeEnum(rawValue: handle)!
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
@@ -102,12 +102,12 @@ internal class SomeEnumList: CollectionOf<Arrays.SomeEnum> {
 }
 extension Collection where Element == Arrays.SomeEnum  {
     func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
-        let handle = arrayCollection_Enums_create_handle()
+        let handle = arrayCollection_SomeEnum_create_handle()
         for item in self {
-            arrayCollection_Enums_append(handle, item.rawValue)
+            arrayCollection_SomeEnum_append(handle, item.rawValue)
         }
         let cleanup_function = { () -> Void in
-            arrayCollection_Enums_release_handle(handle)
+            arrayCollection_SomeEnum_release_handle(handle)
         }
         return (handle, cleanup_function)
     }
