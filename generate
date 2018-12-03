@@ -1,2 +1,2 @@
 #!/bin/bash
-exec ./gradlew -q run -Dexec.args="$*"
+exec ./gradlew -q run --args="$*"
