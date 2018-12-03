@@ -216,6 +216,7 @@ public class Structs extends NativeBase {
     public static class ExternalStruct {
         public String stringField;
         public String externalStringField;
+        @NonNull
         public List<Byte> externalArrayField;
         @NonNull
         public Structs.AnotherExternalStruct externalStructField;

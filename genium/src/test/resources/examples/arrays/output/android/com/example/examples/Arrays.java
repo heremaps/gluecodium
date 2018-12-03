@@ -3,8 +3,11 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.examples;
+
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
+
 public class Arrays extends NativeBase {
     public static class SyncResult {
         public long lastUpdatedTimeStamp;
@@ -27,6 +30,8 @@ public class Arrays extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    public static native List<Arrays.SyncResult> explicitArrayMethod(final List<Arrays.SyncResult> input);
-    public static native List<Arrays.SyncResult> implicitArrayMethod(final List<Arrays.SyncResult> input);
+    @NonNull
+    public static native List<Arrays.SyncResult> explicitArrayMethod(@NonNull final List<Arrays.SyncResult> input);
+    @NonNull
+    public static native List<Arrays.SyncResult> implicitArrayMethod(@NonNull final List<Arrays.SyncResult> input);
 }
