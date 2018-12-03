@@ -16,4 +16,4 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
-exec ./gradlew -q run -Dexec.args="$*"
+exec ./gradlew -q run --args="$*"

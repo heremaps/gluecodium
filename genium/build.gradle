@@ -75,23 +75,6 @@ compileKotlin.dependsOn unzipFrancaZip
 
 apply plugin: 'application'
 mainClassName = 'com.here.genium.Genium'
-run {
-    /* By default gradle doesn't forward the command line arguments to main.
-     This allows to provide a -Dexec.args="args" when the user calls gradle
-     :genium:run. This way args will map to the args in main. */
-    if (System.getProperty("exec.args") != null) {
-        List<String> splitArgs = new ArrayList<String>();
-        java.util.regex.Matcher matcher = java.util.regex.Pattern
-                .compile("\\s*(([^\"']\\S*)|[\"'](.+?)[\"'])\\s*")
-                .matcher(System.getProperty('exec.args'))
-        while (matcher.find()) {
-            splitArgs.add(matcher.group(2) == null
-                    ? matcher.group(3)
-                    : matcher.group(2))
-        }
-        args splitArgs
-    }
-}
 
 jar {
     manifest {

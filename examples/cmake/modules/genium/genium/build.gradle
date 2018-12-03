@@ -31,20 +31,6 @@ dependencies {
 }
 
 mainClassName = 'com.here.genium.Genium'
-run {
-    if (System.getProperty("exec.args") != null) {
-        List<String> splitArgs = new ArrayList<String>()
-        Matcher matcher = Pattern
-               .compile("\\s*(([^\"']\\S*)|[\"'](.+?)[\"'])\\s*")
-               .matcher(System.getProperty('exec.args'))
-        while (matcher.find()) {
-            splitArgs.add(matcher.group(2) == null
-               ? matcher.group(3)
-               : matcher.group(2))
-        }
-        args splitArgs
-    }
-}
 
 class TimingsListener implements TaskExecutionListener, BuildListener {
     private long startTime
