@@ -30,6 +30,7 @@ import com.here.genium.model.cpp.*;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.test.ArrayEList;
 import com.here.genium.test.MockContextStack;
+import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -82,7 +83,7 @@ public final class CppModelBuilderTest {
   private final CppMethod cppMethod = new CppMethod(NONSENSE_NAME);
   private final CppValue cppValue = new CppValue(NONSENSE_NAME);
   private final CppEnum cppEnum =
-      CppEnum.builder(NONSENSE_NAME).fullyQualifiedName(NONSENSE_NAME).build();
+      new CppEnum(NONSENSE_NAME, NONSENSE_NAME, false, Collections.emptyList());
   private final CppStruct cppStruct =
       CppStruct.builder().name(NONSENSE_NAME).fullyQualifiedName(NONSENSE_NAME).build();
   private final CppTypeRef cppTypeRef = CppPrimitiveTypeRef.INT64;
@@ -580,8 +581,8 @@ public final class CppModelBuilderTest {
 
     CppEnum resultEnum = modelBuilder.getFinalResult(CppEnum.class);
     assertNotNull(resultEnum);
-    assertFalse(resultEnum.items.isEmpty());
-    assertEquals(cppEnumItem, resultEnum.items.get(0));
+    assertFalse(resultEnum.getItems().isEmpty());
+    assertEquals(cppEnumItem, resultEnum.getItems().get(0));
   }
 
   @Test
@@ -603,7 +604,7 @@ public final class CppModelBuilderTest {
     modelBuilder.finishBuilding(francaEnumerationType);
 
     CppEnum resultEnum = modelBuilder.getFinalResult(CppEnum.class);
-    assertTrue(resultEnum.isExternal);
+    assertTrue(resultEnum.isExternal());
   }
 
   @Test
