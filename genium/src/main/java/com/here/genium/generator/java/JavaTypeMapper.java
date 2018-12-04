@@ -67,41 +67,31 @@ public class JavaTypeMapper {
   }
 
   private static JavaType mapPredefined(final FBasicTypeId basicTypeId) {
-    switch (basicTypeId.getValue()) {
-      case FBasicTypeId.BOOLEAN_VALUE:
+    switch (basicTypeId) {
+      case BOOLEAN:
         return JavaPrimitiveType.BOOL;
-
-      case FBasicTypeId.FLOAT_VALUE:
+      case FLOAT:
         return JavaPrimitiveType.FLOAT;
-
-      case FBasicTypeId.DOUBLE_VALUE:
+      case DOUBLE:
         return JavaPrimitiveType.DOUBLE;
-
-      case FBasicTypeId.INT8_VALUE:
+      case INT8:
         return JavaPrimitiveType.BYTE;
-
-      case FBasicTypeId.INT16_VALUE:
+      case INT16:
         return JavaPrimitiveType.SHORT;
-
-      case FBasicTypeId.INT32_VALUE:
+      case INT32:
         return JavaPrimitiveType.INT;
-
-      case FBasicTypeId.INT64_VALUE:
+      case INT64:
         return JavaPrimitiveType.LONG;
-
-      case FBasicTypeId.UINT8_VALUE:
-      case FBasicTypeId.UINT16_VALUE:
-      case FBasicTypeId.UINT32_VALUE:
-      case FBasicTypeId.UINT64_VALUE:
+      case UINT8:
+      case UINT16:
+      case UINT32:
+      case UINT64:
         // TODO: APIGEN-217 figure out how to handle unsigned ints
         return JavaPrimitiveType.LONG;
-
-      case FBasicTypeId.STRING_VALUE:
+      case STRING:
         return new JavaReferenceType(JavaReferenceType.Type.STRING);
-
-      case FBasicTypeId.BYTE_BUFFER_VALUE:
+      case BYTE_BUFFER:
         return new JavaArrayType(JavaPrimitiveType.Type.BYTE);
-
       default:
         return JavaPrimitiveType.VOID;
     }
@@ -147,7 +137,6 @@ public class JavaTypeMapper {
   }
 
   public JavaType mapCustomType(final FModelElement francaElement) {
-
     return mapCustomType(francaElement, JavaNameRules.getClassName(francaElement.getName()));
   }
 
