@@ -25,7 +25,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -34,6 +33,7 @@ import com.here.genium.generator.cpp.CppLibraryIncludes;
 import com.here.genium.generator.cpp.CppNameResolver;
 import com.here.genium.model.cbridge.CBridgeIncludeResolver;
 import com.here.genium.model.cbridge.CType;
+import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.CppIncludeResolver;
 import com.here.genium.model.franca.DefinedBy;
 import org.franca.core.franca.*;
@@ -49,6 +49,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({FrancaTypeHelper.class, DefinedBy.class})
 public final class CBridgeTypeMapperTest {
 
+  private static final Include CPP_INCLUDE = Include.Companion.createInternalInclude("CPP_INCLUDE");
+  private static final Include CBRIDGE_INCLUDE =
+      Include.Companion.createInternalInclude("CBRIDGE_INCLUDE");
+
   @Mock private FTypeRef francaTypeRef;
   @Mock private FTypeRef francaTypeRef2;
   @Mock private FTypeDef francaTypeDef;
@@ -59,6 +63,8 @@ public final class CBridgeTypeMapperTest {
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FMapType francaMap;
 
+  @Mock private CppIncludeResolver cppIncludeResolver;
+  @Mock private CBridgeIncludeResolver includeResolver;
   @Mock private CppNameResolver cppNameResolver;
 
   private CBridgeTypeMapper typeMapper;
@@ -69,16 +75,15 @@ public final class CBridgeTypeMapperTest {
 
     typeMapper =
         new CBridgeTypeMapper(
-            mock(CppIncludeResolver.class),
-            cppNameResolver,
-            mock(CBridgeIncludeResolver.class),
-            "::FooHash",
-            null);
+            cppIncludeResolver, cppNameResolver, includeResolver, "::FooHash", null);
 
     when(francaStructType.getName()).thenReturn("someStruct");
 
     when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
         .thenReturn(francaTypeCollection);
+
+    when(cppIncludeResolver.resolveInclude(any())).thenReturn(CPP_INCLUDE);
+    when(includeResolver.resolveInclude(any())).thenReturn(CBRIDGE_INCLUDE);
   }
 
   @Test
@@ -109,9 +114,11 @@ public final class CBridgeTypeMapperTest {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
     when(cppNameResolver.getFullyQualifiedName(any())).thenReturn("::Foo");
 
-    CppTypeInfo mapped = typeMapper.mapType(francaTypeRef);
+    CppTypeInfo resultType = typeMapper.mapType(francaTypeRef);
 
-    assertEquals("::Foo", mapped.name);
+    assertEquals("::Foo", resultType.name);
+    assertTrue(resultType.includes.contains(CPP_INCLUDE));
+    assertTrue(resultType.includes.contains(CBRIDGE_INCLUDE));
   }
 
   @Test
@@ -127,9 +134,11 @@ public final class CBridgeTypeMapperTest {
     when(francaTypeRef.getDerived()).thenReturn(francaEnum);
     when(cppNameResolver.getFullyQualifiedName(any())).thenReturn("::Foo");
 
-    CppTypeInfo actualType = typeMapper.mapType(francaTypeRef);
+    CppTypeInfo resultType = typeMapper.mapType(francaTypeRef);
 
-    assertEquals("::Foo", actualType.name);
+    assertEquals("::Foo", resultType.name);
+    assertTrue(resultType.includes.contains(CPP_INCLUDE));
+    assertTrue(resultType.includes.contains(CBRIDGE_INCLUDE));
   }
 
   @Test

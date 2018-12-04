@@ -33,7 +33,7 @@ public final class CInterface extends CElement {
   public final List<CFunction> functions = new LinkedList<>();
   public String functionTableName;
   public final CppTypeInfo selfType;
-  public final List<CEnum> enumerators = new LinkedList<>();
+  public final List<CEnum> enums = new LinkedList<>();
   public final List<CMap> maps = new LinkedList<>();
 
   public CInterface(final String name) {

@@ -94,7 +94,10 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuilding(FEnumerationType enumerationType) {
-    storeResult(new CEnum(CBridgeNameRules.getEnumName(enumerationType)));
+    storeResult(
+        new CEnum(
+            CBridgeNameRules.getEnumName(enumerationType),
+            typeMapper.createEnumTypeInfo(enumerationType)));
     super.finishBuilding(enumerationType);
   }
 
@@ -136,7 +139,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     }
     cInterface.functions.addAll(getPreviousResults(CFunction.class));
     cInterface.structs.addAll(getPreviousResults(CStruct.class));
-    cInterface.enumerators.addAll(getPreviousResults(CEnum.class));
+    cInterface.enums.addAll(getPreviousResults(CEnum.class));
     cInterface.maps.addAll(getPreviousResults(CMap.class));
 
     cInterface.headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(cInterface));
