@@ -8,6 +8,8 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 
+#include "alien/FooEnum.h"
+#include "alien/FooStruct.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -33,6 +35,7 @@ using ErrorCodeToMessageMap = ::std::unordered_map< int32_t, ::std::string >;
 using ArrayOfMaps = ::std::vector< ::smoke::Arrays::ErrorCodeToMessageMap >;
 using ArrayOfArrays = ::std::vector< ::smoke::Arrays::StringArray >;
 using ArrayOfEnums = ::std::vector< ::smoke::Arrays::SomeEnum >;
+using ArrayOfExternalEnums = ::std::vector< ::alien::FooEnum >;
 
 struct BasicStruct {
     double value;
@@ -40,6 +43,7 @@ struct BasicStruct {
     BasicStruct( const double value );
 };
 using StructArray = ::std::vector< ::smoke::Arrays::BasicStruct >;
+using ExternalStructArray = ::std::vector< ::alien::FooStruct >;
 struct FancyStruct {
     ::smoke::Arrays::StringArray messages;
     ::std::vector< uint8_t > numbers;
@@ -52,10 +56,13 @@ public:
 static ::smoke::Arrays::StringArray method_with_array( const ::smoke::Arrays::StringArray& input );
 static ::std::vector< uint8_t > method_with_array_inline( const ::std::vector< uint8_t >& input );
 static ::smoke::Arrays::StructArray method_with_struct_array( const ::std::vector< ::smoke::Arrays::BasicStruct >& input );
+static ::smoke::Arrays::ExternalStructArray method_with_external_struct_array( const ::std::vector< ::alien::FooStruct >& input );
 static ::std::vector< ::smoke::Arrays::UIntArray > method_with_array_of_arrays( const ::std::vector< ::smoke::Arrays::UIntArray >& input );
 static ::smoke::Arrays::FancyArray merge_arrays_of_structs_with_arrays( const ::std::vector< ::smoke::Arrays::FancyStruct >& inline_fancy_array, const ::smoke::Arrays::FancyArray& fancy_array );
 static ::smoke::Arrays::ProfileIdList method_with_array_of_aliases( const ::smoke::Arrays::ProfileIdList& input );
 static ::smoke::Arrays::ArrayOfMaps method_with_array_of_maps( const ::smoke::Arrays::ArrayOfMaps& input );
 static ::std::shared_ptr< ::std::vector< uint8_t > > method_with_byte_buffer( const ::std::shared_ptr< ::std::vector< uint8_t > >& input );
+static ::smoke::Arrays::ArrayOfEnums method_with_enum_array( const ::std::vector< ::smoke::Arrays::SomeEnum >& input );
+static ::smoke::Arrays::ArrayOfExternalEnums method_with_external_enum_array( const ::std::vector< ::alien::FooEnum >& input );
 };
 }

@@ -19,6 +19,14 @@ public class Arrays extends NativeBase {
             this.value = value;
         }
     }
+    public enum ExternalEnum {
+        ON(0),
+        OFF(1);
+        public final int value;
+        ExternalEnum(final int value) {
+            this.value = value;
+        }
+    }
     public static class BasicStruct {
         public double value;
         public BasicStruct() {
@@ -26,6 +34,15 @@ public class Arrays extends NativeBase {
         }
         public BasicStruct(double value) {
             this.value = value;
+        }
+    }
+    public static class ExternalStruct {
+        public String string;
+        public ExternalStruct() {
+            this((String)null);
+        }
+        public ExternalStruct(String string) {
+            this.string = string;
         }
     }
     public static class FancyStruct {
@@ -76,9 +93,12 @@ public class Arrays extends NativeBase {
     public static native List<String> methodWithArray(final List<String> input);
     public static native List<Long> methodWithArrayInline(final List<Long> input);
     public static native List<Arrays.BasicStruct> methodWithStructArray(final List<Arrays.BasicStruct> input);
+    public static native List<Arrays.ExternalStruct> methodWithExternalStructArray(final List<Arrays.ExternalStruct> input);
     public static native List<List<Long>> methodWithArrayOfArrays(final List<List<Long>> input);
     public static native List<Arrays.FancyStruct> mergeArraysOfStructsWithArrays(final List<Arrays.FancyStruct> inlineFancyArray, final List<Arrays.FancyStruct> fancyArray);
     public static native List<String> methodWithArrayOfAliases(final List<String> input);
     public static native List<Map<Integer, String>> methodWithArrayOfMaps(final List<Map<Integer, String>> input);
     public static native byte[] methodWithByteBuffer(final byte[] input);
+    public static native List<Arrays.SomeEnum> methodWithEnumArray(final List<Arrays.SomeEnum> input);
+    public static native List<Arrays.ExternalEnum> methodWithExternalEnumArray(final List<Arrays.ExternalEnum> input);
 }
