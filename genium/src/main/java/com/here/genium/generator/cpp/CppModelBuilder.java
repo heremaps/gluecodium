@@ -166,13 +166,12 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FField francaField) {
 
-    CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
-    CppValue initializer = valueMapper.mapDeploymentDefaultValue(cppTypeRef, francaField);
     CppField cppField =
-        CppField.builder(nameResolver.getName(francaField), cppTypeRef)
-            .initializer(initializer)
-            .isNotNull(deploymentModel.isNotNull(francaField))
-            .build();
+        new CppField(
+            nameResolver.getName(francaField),
+            getPreviousResult(CppTypeRef.class),
+            valueMapper.mapDeploymentDefaultValue(getPreviousResult(CppTypeRef.class), francaField),
+            deploymentModel.isNotNull(francaField));
     cppField.comment = CommentHelper.getDescription(francaField);
 
     storeResult(cppField);

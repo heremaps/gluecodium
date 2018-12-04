@@ -115,6 +115,7 @@ public final class CBridgeModelBuilderTest {
           .cNestedSpecifier(NESTED_SPECIFIER_NAME)
           .cShortName(SHORT_FUNCTION_NAME)
           .build();
+  private final CppField cppField = new CppField(CPP_FIELD_NAME, CppPrimitiveTypeRef.BOOL);
 
   private CBridgeModelBuilder modelBuilder;
 
@@ -397,7 +398,7 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsName() {
-    when(cppModelbuilder.getFinalResult(any())).thenReturn(new CppField(CPP_FIELD_NAME, null));
+    when(cppModelbuilder.getFinalResult(any())).thenReturn(cppField);
     when(swiftModelBuilder.getFinalResult(any()))
         .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null, null, null));
 
@@ -411,7 +412,7 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsTypeInfo() {
-    when(cppModelbuilder.getFinalResult(any())).thenReturn(new CppField(CPP_FIELD_NAME, null));
+    when(cppModelbuilder.getFinalResult(any())).thenReturn(cppField);
     when(swiftModelBuilder.getFinalResult(any()))
         .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null, null, null));
     contextStack.injectResult(cppTypeInfo);
@@ -425,7 +426,7 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsExternalAccessors() {
-    when(cppModelbuilder.getFinalResult(any())).thenReturn(new CppField(CPP_FIELD_NAME, null));
+    when(cppModelbuilder.getFinalResult(any())).thenReturn(cppField);
     when(swiftModelBuilder.getFinalResult(any()))
         .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null, null, null));
     when(deploymentModel.getExternalGetter(any())).thenReturn("get_foo");

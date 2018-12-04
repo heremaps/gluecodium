@@ -170,6 +170,8 @@ public class CppModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsComment() {
+    contextStack.injectResult(cppComplexTypeRef);
+
     modelBuilder.finishBuilding(francaField);
 
     CppField cppField = modelBuilder.getFinalResult(CppField.class);
