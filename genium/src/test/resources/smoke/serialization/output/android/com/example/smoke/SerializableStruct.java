@@ -39,6 +39,7 @@ public class SerializableStruct implements Parcelable {
     public List<String> arrayField;
     @NonNull
     public List<NestedSerializableStruct> structArrayField;
+    @NonNull
     public Map<Integer, String> mapField;
     @NonNull
     public SomeEnum enumField;

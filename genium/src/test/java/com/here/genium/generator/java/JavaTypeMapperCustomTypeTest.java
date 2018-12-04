@@ -70,6 +70,7 @@ public class JavaTypeMapperCustomTypeTest {
   @Mock private FEnumerationType francaEnumerationType;
   @Mock private FMapType francaMapType;
   @Mock private FField francaField;
+  @Mock private FTypeRef francaPrimitiveTypeRef;
 
   private final JavaType notNullAnnotation = JavaCustomType.builder("foo").build();
 
@@ -93,6 +94,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.UNDEFINED);
     when(francaTypeDef.getActualType()).thenReturn(mock(FTypeRef.class));
     when(francaEnumerationType.getName()).thenReturn(ENUMERATION_NAME);
+    when(francaPrimitiveTypeRef.getPredefined()).thenReturn(FBasicTypeId.DOUBLE);
 
     when(francaStructType.eContainer()).thenReturn(fInterface);
     when(francaEnumerationType.eContainer()).thenReturn(fInterface);
@@ -310,10 +312,21 @@ public class JavaTypeMapperCustomTypeTest {
 
   @Test
   public void mapArrayTypeRefInFieldAddsNotNullAnnotation() {
-    FTypeRef typeRef = mock(FTypeRef.class);
-    when(typeRef.getPredefined()).thenReturn(FBasicTypeId.DOUBLE);
-    when(francaArrayType.getElementType()).thenReturn(typeRef);
+    when(francaArrayType.getElementType()).thenReturn(francaPrimitiveTypeRef);
     when(francaTypeRef.getDerived()).thenReturn(francaArrayType);
+    when(francaTypeRef.eContainer()).thenReturn(francaField);
+
+    JavaType result = typeMapper.map(francaTypeRef);
+
+    assertNotNull(result);
+    assertTrue(result.annotations.contains(notNullAnnotation));
+  }
+
+  @Test
+  public void mapMapTypeRefInFieldAddsNotNullAnnotation() {
+    when(francaMapType.getKeyType()).thenReturn(francaPrimitiveTypeRef);
+    when(francaMapType.getValueType()).thenReturn(francaPrimitiveTypeRef);
+    when(francaTypeRef.getDerived()).thenReturn(francaMapType);
     when(francaTypeRef.eContainer()).thenReturn(francaField);
 
     JavaType result = typeMapper.map(francaTypeRef);

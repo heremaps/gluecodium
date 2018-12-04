@@ -23,6 +23,6 @@ public interface CalculatorListener {
     void onCalculationResultConst(final double calculationResult);
     void onCalculationResultStruct(@NonNull final CalculatorListener.ResultStruct calculationResult);
     void onCalculationResultArray(@NonNull final List<Double> calculationResult);
-    void onCalculationResultMap(final Map<String, Double> calculationResults);
+    void onCalculationResultMap(@NonNull final Map<String, Double> calculationResults);
     void onCalculationResultInstance(final CalculationResult calculationResult);
 }
