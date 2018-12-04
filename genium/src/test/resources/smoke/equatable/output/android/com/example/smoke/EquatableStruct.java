@@ -24,6 +24,7 @@ public class EquatableStruct {
     public SomeEnum enumField;
     @NonNull
     public List<String> arrayField;
+    @NonNull
     public Map<Integer, String> mapField;
 
     public EquatableStruct() {

@@ -24,10 +24,10 @@ public class ArrayMethodOverloads extends NativeBase {
     public native void doStuff(final int input);
     public native void doStuffIntArrayOverload(@NonNull final List<Integer> input);
     public native void doStuffStringArrayOverload(@NonNull final List<String> input);
-    public native void doStuffStringToIdMapOverload(final Map<String, Long> input);
-    public native void doStuffIdToStringMapOverload(final Map<Long, String> input);
+    public native void doStuffStringToIdMapOverload(@NonNull final Map<String, Long> input);
+    public native void doStuffIdToStringMapOverload(@NonNull final Map<Long, String> input);
     public native void doStuff(@NonNull final List<Integer> arrayParam, final int intParam);
     public native void doStuff(final int intParam, @NonNull final List<Integer> arrayParam);
     public native void doOtherStuff(@NonNull final List<Integer> input);
-    public native void doMoreStuff(final Map<String, Long> input);
+    public native void doMoreStuff(@NonNull final Map<String, Long> input);
 }
