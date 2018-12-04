@@ -121,41 +121,38 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     LinkedList<String> namespaces = new LinkedList<>(rootNamespace);
     namespaces.addAll(DefinedBy.getPackages(francaTypeCollection));
 
-    CppFile cppModel = new CppFile(namespaces);
-    cppModel.members.addAll(builder.getFinalResults());
-    cppModel.includes.addAll(collectIncludes(cppModel));
-    cppModel.forwardDeclarations.addAll(collectForwardDeclarations(cppModel));
+    List<CppElement> finalResults = builder.getFinalResults();
+    List<Include> includes = collectIncludes(finalResults);
 
-    cppModel.errorEnums.addAll(collectEnums(cppModel));
-    cppModel.errorEnums.retainAll(allErrorEnums);
-    if (!cppModel.errorEnums.isEmpty()) {
-      cppModel.includes.add(CppLibraryIncludes.SYSTEM_ERROR);
+    Set<String> errorEnums = collectEnums(finalResults);
+    errorEnums.retainAll(allErrorEnums);
+    if (!errorEnums.isEmpty()) {
+      includes.add(CppLibraryIncludes.SYSTEM_ERROR);
     }
 
-    return cppModel;
+    return new CppFile(
+        namespaces, finalResults, includes, collectForwardDeclarations(finalResults), errorEnums);
   }
 
-  private static List<Include> collectIncludes(final CppFile cppModel) {
-    Stream<Streamable> allElementsStream =
-        cppModel.members.stream().flatMap(CppElement::streamRecursive);
+  private static List<Include> collectIncludes(final List<CppElement> members) {
+    Stream<Streamable> allElementsStream = members.stream().flatMap(CppElement::streamRecursive);
     return CollectionsHelper.getStreamOfType(allElementsStream, CppElementWithIncludes.class)
         .map(elementWithIncludes -> elementWithIncludes.includes)
         .flatMap(Set::stream)
         .collect(Collectors.toList());
   }
 
-  private static List<CppForwardDeclaration> collectForwardDeclarations(final CppFile cppModel) {
-    Stream<Streamable> allElementsStream =
-        cppModel.members.stream().flatMap(CppElement::streamRecursive);
+  private static List<CppForwardDeclaration> collectForwardDeclarations(
+      final List<CppElement> members) {
+    Stream<Streamable> allElementsStream = members.stream().flatMap(CppElement::streamRecursive);
     return CollectionsHelper.getStreamOfType(allElementsStream, CppInstanceTypeRef.class)
         .map(instanceTypeRef -> instanceTypeRef.name)
         .map(CppForwardDeclaration::new)
         .collect(Collectors.toList());
   }
 
-  private static Set<String> collectEnums(final CppFile cppModel) {
-    Stream<Streamable> allElementsStream =
-        cppModel.members.stream().flatMap(CppElement::streamRecursive);
+  private static Set<String> collectEnums(final List<CppElement> members) {
+    Stream<Streamable> allElementsStream = members.stream().flatMap(CppElement::streamRecursive);
     return CollectionsHelper.getStreamOfType(allElementsStream, CppEnum.class)
         .filter(cppEnum -> !cppEnum.isExternal())
         .map(cppEnum -> cppEnum.fullyQualifiedName)
