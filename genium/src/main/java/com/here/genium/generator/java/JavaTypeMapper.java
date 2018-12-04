@@ -234,6 +234,7 @@ public class JavaTypeMapper {
         && (actualDerived instanceof FStructType
             || actualDerived instanceof FEnumerationType
             || actualDerived instanceof FArrayType
+            || actualDerived instanceof FMapType
             || ((FTypedElement) parentElement).isArray());
   }
 }

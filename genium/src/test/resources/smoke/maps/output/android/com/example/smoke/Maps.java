@@ -22,6 +22,7 @@ public class Maps extends NativeBase {
         }
     }
     public static class StructWithMap {
+        @NonNull
         public Map<Integer, String> errorMapping;
         public StructWithMap() {
             this(new HashMap<>());
@@ -40,11 +41,16 @@ public class Maps extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    public static native Map<Integer, String> methodWithMap(final Map<Integer, String> input);
-    public static native Map<Long, Maps.SomeStruct> methodWithMapToStruct(final Map<Long, Maps.SomeStruct> input);
-    public static native Map<Long, Map<Long, Maps.SomeStruct>> methodWithNestedMap(final Map<Long, Map<Long, Maps.SomeStruct>> input);
+    @NonNull
+    public static native Map<Integer, String> methodWithMap(@NonNull final Map<Integer, String> input);
+    @NonNull
+    public static native Map<Long, Maps.SomeStruct> methodWithMapToStruct(@NonNull final Map<Long, Maps.SomeStruct> input);
+    @NonNull
+    public static native Map<Long, Map<Long, Maps.SomeStruct>> methodWithNestedMap(@NonNull final Map<Long, Map<Long, Maps.SomeStruct>> input);
     @NonNull
     public static native Maps.StructWithMap methodWithStructWithMap(@NonNull final Maps.StructWithMap input);
-    public static native Map<String, List<Integer>> methodWithMapOfArrays(final Map<String, List<Integer>> input);
-    public static native Map<Long, MapsInstance> methodWithMapOfInstances(final Map<Long, MapsInstance> input);
+    @NonNull
+    public static native Map<String, List<Integer>> methodWithMapOfArrays(@NonNull final Map<String, List<Integer>> input);
+    @NonNull
+    public static native Map<Long, MapsInstance> methodWithMapOfInstances(@NonNull final Map<Long, MapsInstance> input);
 }
