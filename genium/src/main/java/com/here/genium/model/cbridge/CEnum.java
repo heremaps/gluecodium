@@ -19,8 +19,14 @@
 
 package com.here.genium.model.cbridge;
 
+import com.here.genium.generator.cbridge.CppTypeInfo;
+
 public final class CEnum extends CType {
-  public CEnum(String enumName) {
+
+  public final CppTypeInfo mappedType;
+
+  public CEnum(final String enumName, final CppTypeInfo mappedType) {
     super(enumName, FIXED_WIDTH_INTEGERS_INCLUDE);
+    this.mappedType = mappedType;
   }
 }

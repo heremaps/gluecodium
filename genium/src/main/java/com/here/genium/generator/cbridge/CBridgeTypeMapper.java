@@ -167,14 +167,17 @@ public class CBridgeTypeMapper {
 
   public CppTypeInfo createEnumTypeInfo(final FEnumerationType francaEnum) {
 
-    CType enumCType =
-        new CType(
-            CBridgeNameRules.getEnumName(francaEnum), includeResolver.resolveInclude(francaEnum));
+    Include publicInclude = includeResolver.resolveInclude(francaEnum);
+    Include baseApiInclude = cppIncludeResolver.resolveInclude(francaEnum);
+
+    CType enumCType = new CType(CBridgeNameRules.getEnumName(francaEnum), publicInclude);
 
     return CppTypeInfo.builder(cppNameResolver.getFullyQualifiedName(francaEnum))
         .cType(enumCType)
         .functionReturnType(enumCType)
         .category(ENUM)
+        .include(publicInclude)
+        .include(baseApiInclude)
         .build();
   }
 
