@@ -1,2 +1,6 @@
 #!/bin/bash
-exec ./gradlew -q run --args="$*"
+if [ -z "$*" ]; then
+    exec ./gradlew -q run
+else
+    exec ./gradlew -q run --args="$*"
+fi
