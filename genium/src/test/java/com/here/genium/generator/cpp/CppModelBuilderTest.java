@@ -196,9 +196,9 @@ public final class CppModelBuilderTest {
     assertNotNull(cppClass);
     assertEquals(1, cppClass.getInheritances().size());
 
-    CppInheritance cppInheritance = cppClass.getInheritances().iterator().next();
-    assertEquals(cppComplexTypeRef, cppInheritance.parent);
-    assertEquals(CppInheritance.Type.Public, cppInheritance.visibility);
+    CppInheritance cppInheritance = cppClass.getInheritances().get(0);
+    assertEquals(cppComplexTypeRef, cppInheritance.getParent());
+    assertEquals(CppInheritance.Type.Public, cppInheritance.getVisibility());
 
     verify(typeMapper).mapComplexType(parentInterface);
   }

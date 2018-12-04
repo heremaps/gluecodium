@@ -17,40 +17,20 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import java.util.stream.Stream;
+import java.util.stream.Stream
 
-public class CppInheritance extends CppElement {
+class CppInheritance(val parent: CppTypeRef, val visibility: Type)
+    : CppElement(null, null) {
 
-  public enum Type {
-    Public("public"),
-    Protected("protected"),
-    Private("private");
+    enum class Type(private val value: String) {
+        Public("public"),
+        Protected("protected"),
+        Private("private");
 
-    private final String value;
-
-    Type(final String value) {
-      this.value = value;
+        override fun toString() = value
     }
 
-    @Override
-    public String toString() {
-      return value;
-    }
-  }
-
-  public final CppTypeRef parent;
-  public final Type visibility;
-
-  public CppInheritance(CppTypeRef parent, Type type) {
-    super(null, null);
-    this.parent = parent;
-    this.visibility = type;
-  }
-
-  @Override
-  public Stream<? extends CppElement> stream() {
-    return Stream.of(parent);
-  }
+    override fun stream() = Stream.of(parent)
 }

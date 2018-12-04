@@ -128,7 +128,7 @@ public final class TopologicalSort {
 
     if (cppElement instanceof CppInheritance) {
       Set<String> dependencies = new HashSet<>();
-      String name = ((CppInheritance) cppElement).parent.fullyQualifiedName;
+      String name = ((CppInheritance) cppElement).getParent().fullyQualifiedName;
       if (fullyQualifiedNames.contains(name)) {
         dependencies.add(name);
       }
