@@ -1,6 +1,10 @@
 # Genium
-This repository contains the HERE Genium project. For a list of features and how to get started
- writing IDL, see [Genium Franca IDL](./docs/franca.md).
+This repository contains the HERE Genium project.
+
+## Getting started
+
+The easiest way to get started is by running the [Examples](examples/README.md).
+For a list of features and how to get started writing IDL, see [Genium Franca IDL](./docs/franca.md).
 
 ## Building and testing
 Outside of IntelliJ you can invoke the following Gradle tasks to build
