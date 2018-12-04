@@ -2,6 +2,8 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 
+#include "alien/FooEnum.h"
+#include "alien/FooStruct.h"
 #include "cbridge/include/ArrayCollection.h"
 #include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_Arrays.h"
@@ -46,6 +48,25 @@ _baseRef arrayCollection_FancyStruct_get(_baseRef handle, uint64_t index) {
 }
 void arrayCollection_FancyStruct_append(_baseRef handle, _baseRef item) {
     get_pointer<std::vector<::smoke::Arrays::FancyStruct>>(handle)->push_back(*get_pointer<::smoke::Arrays::FancyStruct>(item));
+}
+_baseRef arrayCollection_ExternalStruct_create_handle() {
+    return reinterpret_cast<_baseRef>( new std::vector<::alien::FooStruct>() );
+}
+void arrayCollection_ExternalStruct_release_handle(_baseRef handle) {
+    delete get_pointer<std::vector<::alien::FooStruct>>(handle);
+}
+uint64_t arrayCollection_ExternalStruct_count(_baseRef handle) {
+    return get_pointer<std::vector<::alien::FooStruct>>(handle)->size();
+}
+_baseRef arrayCollection_ExternalStruct_get(_baseRef handle, uint64_t index) {
+    return reinterpret_cast<_baseRef>(
+        new ::alien::FooStruct {
+            (*get_pointer<std::vector<::alien::FooStruct>>(handle))[index]
+        }
+    );
+}
+void arrayCollection_ExternalStruct_append(_baseRef handle, _baseRef item) {
+    get_pointer<std::vector<::alien::FooStruct>>(handle)->push_back(*get_pointer<::alien::FooStruct>(item));
 }
 _baseRef arrayCollection_UInt8Array_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<std::vector<uint8_t>>() );
@@ -152,4 +173,19 @@ uint8_t arrayCollection_UInt8_get(_baseRef handle, uint64_t index) {
 }
 void arrayCollection_UInt8_append(_baseRef handle, uint8_t item) {
     get_pointer<std::vector<uint8_t>>(handle)->push_back(item);
+}
+_baseRef arrayCollection_ExternalEnum_create_handle() {
+    return reinterpret_cast<_baseRef>( new std::vector<::alien::FooEnum>() );
+}
+void arrayCollection_ExternalEnum_release_handle(_baseRef handle) {
+    delete get_pointer<std::vector<::alien::FooEnum>>(handle);
+}
+uint64_t arrayCollection_ExternalEnum_count(_baseRef handle) {
+    return get_pointer<std::vector<::alien::FooEnum>>(handle)->size();
+}
+smoke_Arrays_ExternalEnum arrayCollection_ExternalEnum_get(_baseRef handle, uint64_t index) {
+    return static_cast<smoke_Arrays_ExternalEnum>((*get_pointer<std::vector<::alien::FooEnum>>(handle))[index]);
+}
+void arrayCollection_ExternalEnum_append(_baseRef handle, smoke_Arrays_ExternalEnum item) {
+    get_pointer<std::vector<::alien::FooEnum>>(handle)->push_back(static_cast<::alien::FooEnum>(item));
 }

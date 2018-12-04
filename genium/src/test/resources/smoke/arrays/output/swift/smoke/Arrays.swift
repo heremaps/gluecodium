@@ -28,6 +28,10 @@ public class Arrays {
         case foo
         case bar
     }
+    public enum ExternalEnum : UInt32 {
+        case on
+        case off
+    }
     public struct BasicStruct {
         public var value: Double
         public init(value: Double) {
@@ -39,6 +43,25 @@ public class Arrays {
         internal func convertToCType() -> _baseRef {
             let value_handle = value
             return smoke_Arrays_BasicStruct_create_handle(value_handle)
+        }
+    }
+    public struct ExternalStruct {
+        public var string: String
+        public init(string: String) {
+            self.string = string
+        }
+        internal init(cExternalStruct: _baseRef) {
+            do {
+                let string_handle = smoke_Arrays_ExternalStruct_string_get(cExternalStruct)
+                defer {
+                    std_string_release_handle(string_handle)
+                }
+                string = String(cString: std_string_data_get(string_handle))
+            }
+        }
+        internal func convertToCType() -> _baseRef {
+            let string_handle = string
+            return smoke_Arrays_ExternalStruct_create_handle(string_handle)
         }
     }
     public struct FancyStruct {
@@ -110,6 +133,14 @@ public class Arrays {
         let result_handle = smoke_Arrays_methodWithStructArray(input_handle.c_type)
         return BasicStructList(result_handle)
     }
+    public static func methodWithExternalStructArray<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.ExternalStruct> where Tinput.Element == Arrays.ExternalStruct {
+        let input_handle = input.c_conversion()
+        defer {
+            input_handle.cleanup()
+        }
+        let result_handle = smoke_Arrays_methodWithExternalStructArray(input_handle.c_type)
+        return ExternalStructList(result_handle)
+    }
     public static func methodWithArrayOfArrays<Tinput: Collection>(input: Tinput) -> CollectionOf<CollectionOf<UInt8>> where Tinput.Element: Collection, Tinput.Element.Element == UInt8 {
         let input_handle = input.c_conversion()
         defer {
@@ -159,6 +190,22 @@ public class Arrays {
             byteArray_release_handle(result_data_handle)
         }
         return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
+    }
+    public static func methodWithEnumArray<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SomeEnum> where Tinput.Element == Arrays.SomeEnum {
+        let input_handle = input.c_conversion()
+        defer {
+            input_handle.cleanup()
+        }
+        let result_handle = smoke_Arrays_methodWithEnumArray(input_handle.c_type)
+        return SomeEnumList(result_handle)
+    }
+    public static func methodWithExternalEnumArray<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.ExternalEnum> where Tinput.Element == Arrays.ExternalEnum {
+        let input_handle = input.c_conversion()
+        defer {
+            input_handle.cleanup()
+        }
+        let result_handle = smoke_Arrays_methodWithExternalEnumArray(input_handle.c_type)
+        return ExternalEnumList(result_handle)
     }
 }
 extension Arrays: NativeBase {

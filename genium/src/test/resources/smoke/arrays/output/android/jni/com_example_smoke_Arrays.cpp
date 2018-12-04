@@ -3,6 +3,8 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 #include "smoke/Arrays.h"
+#include "alien/FooStruct.h"
+#include "alien/FooEnum.h"
 #include "com_example_smoke_Arrays.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
@@ -36,6 +38,14 @@ Java_com_example_smoke_Arrays_methodWithStructArray(JNIEnv* _jenv, jobject _jins
     ::std::vector< ::smoke::Arrays::BasicStruct > input = genium::jni::convert_from_jni( _jenv, jinput, (::std::vector< ::smoke::Arrays::BasicStruct >*)nullptr );
     _jenv->DeleteLocalRef(jinput);
     auto result = ::smoke::Arrays::method_with_struct_array(input);
+    return genium::jni::convert_to_jni(_jenv, result);
+}
+jobject
+Java_com_example_smoke_Arrays_methodWithExternalStructArray(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
+{
+    ::std::vector< ::alien::FooStruct > input = genium::jni::convert_from_jni( _jenv, jinput, (::std::vector< ::alien::FooStruct >*)nullptr );
+    _jenv->DeleteLocalRef(jinput);
+    auto result = ::smoke::Arrays::method_with_external_struct_array(input);
     return genium::jni::convert_to_jni(_jenv, result);
 }
 jobject
@@ -78,6 +88,22 @@ Java_com_example_smoke_Arrays_methodWithByteBuffer(JNIEnv* _jenv, jobject _jinst
     ::std::shared_ptr< ::std::vector< uint8_t > > input = genium::jni::convert_from_jni( _jenv, jinput, (::std::shared_ptr< ::std::vector< uint8_t > >*)nullptr );
     _jenv->DeleteLocalRef(jinput);
     auto result = ::smoke::Arrays::method_with_byte_buffer(input);
+    return genium::jni::convert_to_jni(_jenv, result);
+}
+jobject
+Java_com_example_smoke_Arrays_methodWithEnumArray(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
+{
+    ::std::vector< ::smoke::Arrays::SomeEnum > input = genium::jni::convert_from_jni( _jenv, jinput, (::std::vector< ::smoke::Arrays::SomeEnum >*)nullptr );
+    _jenv->DeleteLocalRef(jinput);
+    auto result = ::smoke::Arrays::method_with_enum_array(input);
+    return genium::jni::convert_to_jni(_jenv, result);
+}
+jobject
+Java_com_example_smoke_Arrays_methodWithExternalEnumArray(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
+{
+    ::std::vector< ::alien::FooEnum > input = genium::jni::convert_from_jni( _jenv, jinput, (::std::vector< ::alien::FooEnum >*)nullptr );
+    _jenv->DeleteLocalRef(jinput);
+    auto result = ::smoke::Arrays::method_with_external_enum_array(input);
     return genium::jni::convert_to_jni(_jenv, result);
 }
 void
