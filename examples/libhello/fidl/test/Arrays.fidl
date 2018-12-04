@@ -19,6 +19,8 @@
 
 package test
 
+import external.ExternalTypes.ExternalEnum from "./ExternalTypes.fidl"
+import external.ExternalTypes.ExternalStruct from "./ExternalTypes.fidl"
 import test.SimpleInstantiableOne.SimpleInstantiableOne from "./Instances.fidl"
 
 interface Arrays {
@@ -65,12 +67,15 @@ interface Arrays {
 
     array FancyArray of FancyStruct
     array StructArray of BasicStruct
+    array ExternalStructArray of ExternalStruct
 
     array NestedPrimitiveArray of DoubleArray
     array NestedStructArray of StructArray
     array InstancesArray of SimpleInstantiableOne
+
     array ArrayEnumArray of ArrayEnum
     array SomeOtherEnumArray of SomeOtherEnum
+    array ExternalEnumArray of ExternalEnum
 
     typedef ProfileId is String
     array ProfileIdList of ProfileId

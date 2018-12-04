@@ -55,6 +55,9 @@ public final class CBridgeComponents {
     for (CMap map : cInterface.maps) {
       includes.add(map.include);
     }
+    for (final CEnum enumeration : cInterface.enums) {
+      includes.addAll(enumeration.mappedType.includes);
+    }
 
     return includes;
   }
@@ -83,7 +86,7 @@ public final class CBridgeComponents {
         includes.addAll(field.type.cType.includes);
       }
     }
-    for (CEnum enumType : cInterface.enumerators) {
+    for (CEnum enumType : cInterface.enums) {
       includes.addAll(enumType.includes);
     }
     for (final CMap map : cInterface.maps) {

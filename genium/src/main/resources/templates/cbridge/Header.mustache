@@ -30,7 +30,7 @@ extern "C" {
 {{#headerIncludes}}{{>common/Include}}{{/headerIncludes}}
 {{#if maps}}#include <stdbool.h>{{/if}}
 
-{{#enumerators}}{{>cbridge/Enumeration}}{{/enumerators}}
+{{#enums}}{{>cbridge/Enumeration}}{{/enums}}
 
 {{#functions}}{{#if error}}{{#unless isReturningVoid}}{{>cbridge/ThrowingFunctionReturnType}}
 {{/unless}}{{/if}}{{/functions}}
