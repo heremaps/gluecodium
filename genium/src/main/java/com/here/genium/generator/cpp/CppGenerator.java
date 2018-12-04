@@ -48,17 +48,19 @@ public final class CppGenerator {
             + CppNameRules.IMPLEMENTATION_FILE_SUFFIX;
 
     // Filter out self-includes
-    cppModel.includes.removeIf(
-        include ->
-            include.getFileName().equals(relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX));
+    cppModel
+        .getIncludes()
+        .removeIf(
+            include ->
+                include.getFileName().equals(relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX));
 
     List<GeneratedFile> result = new LinkedList<>();
     String headerContent = TemplateEngine.render("cpp/CppHeader", cppModel);
     result.add(new GeneratedFile(headerContent, absoluteHeaderPath));
 
-    cppModel.headerInclude =
+    cppModel.setHeaderInclude(
         Include.Companion.createInternalInclude(
-            relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX);
+            relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX));
 
     String implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel);
     result.add(new GeneratedFile(implementationContent, absoluteImplPath));

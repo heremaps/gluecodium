@@ -24,7 +24,7 @@ namespace {{.}} {
 namespace {{.}} {
 
 {{/namespace}}
-{{#if hasSortedMembers}}
+{{#if members}}
 {{#sortedMembers}}
 {{#instanceOf this "CppEnum"}}{{>cpp/CppEnum}}{{/instanceOf}}
 {{#instanceOf this "CppConstant"}}{{#set storageQualifier="extern"}}{{>cpp/CppConstant}}{{/set}}{{/instanceOf}}
@@ -34,11 +34,9 @@ namespace {{.}} {
 {{>cpp/CppStruct}}
 {{/instanceOf}}
 {{/sortedMembers}}
-{{/if}}
 {{#classes}}
 {{>cpp/CppClass}}
 {{/classes}}
-{{#if members}}
 
 {{/if}}
 
