@@ -17,61 +17,32 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import com.here.genium.common.CollectionsHelper;
-import com.here.genium.generator.cpp.TopologicalSort;
-import com.here.genium.model.common.Include;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.here.genium.common.CollectionsHelper
+import com.here.genium.generator.cpp.TopologicalSort
+import com.here.genium.model.common.Include
+import java.util.TreeSet
 
-public final class CppFile {
+class CppFile @JvmOverloads constructor(
+    val namespace: List<String>,
+    val members: List<CppElement>,
+    includes: Collection<Include>,
+    forwardDeclarations: Collection<CppForwardDeclaration>,
+    errorEnums: Collection<String>,
+    var headerInclude: Include? = null
+) {
 
-  public final List<String> namespace;
-  public final List<CppElement> members = new LinkedList<>();
-  public final Set<Include> includes = new TreeSet<>();
-  public final Set<CppForwardDeclaration> forwardDeclarations = new TreeSet<>();
-  public final Set<String> errorEnums = new TreeSet<>();
-  public Include headerInclude;
+    val includes = TreeSet(includes)
+    @Suppress("unused")
+    val forwardDeclarations = TreeSet(forwardDeclarations)
+    @Suppress("unused")
+    val errorEnums = TreeSet(errorEnums)
 
-  public CppFile(List<String> namespace) {
-    this.namespace = namespace;
-  }
+    @Suppress("unused")
+    val sortedMembers: List<CppElement>
+        get() = TopologicalSort(members).sort()
 
-  public boolean isEmpty() {
-    return members.isEmpty();
-  }
-
-  @SuppressWarnings("unused")
-  public boolean hasSortedMembers() {
-    return members
-        .stream()
-        .anyMatch(
-            member ->
-                member instanceof CppEnum
-                    || member instanceof CppConstant
-                    || member instanceof CppStruct
-                    || member instanceof CppUsing);
-  }
-
-  @SuppressWarnings("unused")
-  public List<CppElement> getSortedMembers() {
-    List<CppElement> unsortedMembers =
-        members
-            .stream()
-            .filter(
-                member ->
-                    member instanceof CppEnum
-                        || member instanceof CppConstant
-                        || member instanceof CppStruct
-                        || member instanceof CppUsing)
-            .collect(Collectors.toList());
-
-    return new TopologicalSort(unsortedMembers).sort();
-  }
-
-  @SuppressWarnings("unused")
-  public List<CppClass> getClasses() {
-    return CollectionsHelper.getAllOfType(members, CppClass.class);
-  }
+    val classes: List<CppClass>
+        get() = CollectionsHelper.getAllOfType(members.toMutableList(), CppClass::class.java)
 }
