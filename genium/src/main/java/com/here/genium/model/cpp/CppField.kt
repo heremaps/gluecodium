@@ -17,42 +17,20 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import com.google.common.base.Strings;
-import java.util.stream.Stream;
+import com.google.common.base.Strings
+import java.util.stream.Stream
 
-public final class CppField extends CppTypedElement {
+class CppField @JvmOverloads constructor(
+    name: String,
+    type: CppTypeRef,
+    val initializer: CppValue? = null,
+    val isNotNull: Boolean = false
+) : CppTypedElement(name, type) {
 
-  public final CppValue initializer;
-  public final boolean isNotNull;
+    override fun stream() = Stream.of(type, initializer)
 
-  public CppField(final String name, final CppTypeRef type) {
-    this(name, type, null, false);
-  }
-
-  @lombok.Builder(builderClassName = "Builder")
-  private CppField(
-      final String name,
-      final CppTypeRef type,
-      final CppValue initializer,
-      final boolean isNotNull) {
-    super(name, type);
-    this.initializer = initializer;
-    this.isNotNull = isNotNull;
-  }
-
-  public static Builder builder(final String name, final CppTypeRef type) {
-    return new Builder().name(name).type(type);
-  }
-
-  @Override
-  public Stream<? extends CppElement> stream() {
-    return Stream.of(type, initializer);
-  }
-
-  @SuppressWarnings("unused")
-  public boolean hasComment() {
-    return !Strings.isNullOrEmpty(comment) || isNotNull;
-  }
+    @Suppress("unused")
+    fun hasComment() = !Strings.isNullOrEmpty(comment) || isNotNull
 }

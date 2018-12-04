@@ -383,6 +383,8 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaFieldReadsName() {
+    contextStack.injectResult(cppComplexTypeRef);
+
     modelBuilder.finishBuilding(francaField);
 
     CppField cppField = modelBuilder.getFinalResult(CppField.class);
@@ -411,7 +413,7 @@ public final class CppModelBuilderTest {
 
     CppField cppField = modelBuilder.getFinalResult(CppField.class);
     assertNotNull(cppField);
-    assertEquals(cppValue, cppField.initializer);
+    assertEquals(cppValue, cppField.getInitializer());
   }
 
   @Test
