@@ -79,6 +79,10 @@ public class FrancaDeploymentModel {
     return getBoolean(francaTypedElement, "NotNull");
   }
 
+  public boolean isNullable(final FTypedElement francaTypedElement) {
+    return getBoolean(francaTypedElement, "Nullable");
+  }
+
   public boolean isInternal(final EObject francaElement) {
 
     if (francaElement == null) {
