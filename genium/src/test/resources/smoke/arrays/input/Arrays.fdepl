@@ -34,6 +34,10 @@ define GeniumExtensions for interface smoke.Arrays
         Static = true
     }
 
+    method methodWithExternalStructArray {
+        Static = true
+    }
+
     method methodWithArrayOfArrays {
         Static = true
     }
@@ -52,5 +56,26 @@ define GeniumExtensions for interface smoke.Arrays
 
     method methodWithByteBuffer {
         Static = true
+    }
+
+    method methodWithEnumArray {
+        Static = true
+    }
+
+    method methodWithExternalEnumArray {
+        Static = true
+    }
+}
+
+define ExternalTypes for interface smoke.Arrays
+{
+    struct ExternalStruct {
+        ExternalType = "alien/FooStruct.h"
+        ExternalName = "::alien::FooStruct"
+    }
+
+    enumeration ExternalEnum {
+        ExternalType = "alien/FooEnum.h"
+        ExternalName = "::alien::FooEnum"
     }
 }

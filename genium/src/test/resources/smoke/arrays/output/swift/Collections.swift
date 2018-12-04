@@ -41,6 +41,77 @@ extension Collection where Element == Arrays.BasicStruct  {
         return (handle, cleanup_function)
     }
 }
+internal class ExternalEnumList: CollectionOf<Arrays.ExternalEnum> {
+    var c_element: _baseRef?
+    init(_ c_element: _baseRef) {
+        self.c_element = c_element
+        super.init()
+        self.startIndex = 0
+        self.endIndex = Int(arrayCollection_ExternalEnum_count(c_element))
+    }
+    deinit {
+        arrayCollection_ExternalEnum_release_handle(c_element!)
+    }
+    public override subscript(index: Int) -> Arrays.ExternalEnum {
+        let handle = arrayCollection_ExternalEnum_get(c_element!, UInt64(index))
+        return Arrays.ExternalEnum(rawValue: handle)!
+    }
+    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
+    required public init(arrayLiteral elements: Element...) {
+        super.init(elements)
+    }
+}
+extension Collection where Element == Arrays.ExternalEnum  {
+    func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
+        let handle = arrayCollection_ExternalEnum_create_handle()
+        for item in self {
+            arrayCollection_ExternalEnum_append(handle, item.rawValue)
+        }
+        let cleanup_function = { () -> Void in
+            arrayCollection_ExternalEnum_release_handle(handle)
+        }
+        return (handle, cleanup_function)
+    }
+}
+internal class ExternalStructList: CollectionOf<Arrays.ExternalStruct> {
+    var c_element: _baseRef?
+    init(_ c_element: _baseRef) {
+        self.c_element = c_element
+        super.init()
+        self.startIndex = 0
+        self.endIndex = Int(arrayCollection_ExternalStruct_count(c_element))
+    }
+    deinit {
+        arrayCollection_ExternalStruct_release_handle(c_element!)
+    }
+    public override subscript(index: Int) -> Arrays.ExternalStruct {
+        let handle = arrayCollection_ExternalStruct_get(c_element!, UInt64(index))
+        defer {
+            smoke_Arrays_ExternalStruct_release_handle(handle)
+        }
+        return Arrays.ExternalStruct(cExternalStruct: handle)
+    }
+    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
+    required public init(arrayLiteral elements: Element...) {
+        super.init(elements)
+    }
+}
+extension Collection where Element == Arrays.ExternalStruct  {
+    func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
+        let handle = arrayCollection_ExternalStruct_create_handle()
+        for item in self {
+            let item_handle = item.convertToCType();
+            defer {
+                smoke_Arrays_ExternalStruct_release_handle(item_handle)
+            }
+            arrayCollection_ExternalStruct_append(handle, item_handle)
+        }
+        let cleanup_function = { () -> Void in
+            arrayCollection_ExternalStruct_release_handle(handle)
+        }
+        return (handle, cleanup_function)
+    }
+}
 internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
     var c_element: _baseRef?
     init(_ c_element: _baseRef) {

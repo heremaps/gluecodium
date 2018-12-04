@@ -1,11 +1,14 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
+#include "alien/FooEnum.h"
+#include "alien/FooStruct.h"
 #include "cbridge/include/smoke/cbridge_Arrays.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "smoke/Arrays.h"
 #include <memory>
 #include <new>
+#include <string>
 #include <vector>
 void smoke_Arrays_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::Arrays>>(handle);
@@ -26,6 +29,18 @@ void smoke_Arrays_BasicStruct_release_handle(_baseRef handle) {
 double smoke_Arrays_BasicStruct_value_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Arrays::BasicStruct>(handle);
     return struct_pointer->value;
+}
+_baseRef smoke_Arrays_ExternalStruct_create_handle(const char* string) {
+    ::alien::FooStruct* _struct = new ::alien::FooStruct();
+    _struct->string = string;
+    return reinterpret_cast<_baseRef>(_struct);
+}
+void smoke_Arrays_ExternalStruct_release_handle(_baseRef handle) {
+    delete get_pointer<::alien::FooStruct>(handle);
+}
+_baseRef smoke_Arrays_ExternalStruct_string_get(_baseRef handle) {
+    auto struct_pointer = get_pointer<::alien::FooStruct>(handle);
+    return reinterpret_cast<_baseRef>( new std::string(struct_pointer->string) );
 }
 _baseRef smoke_Arrays_FancyStruct_create_handle(_baseRef messages, _baseRef numbers, _baseRef image) {
     ::smoke::Arrays::FancyStruct* _struct = new ::smoke::Arrays::FancyStruct();
@@ -58,6 +73,9 @@ _baseRef smoke_Arrays_methodWithArrayInline(_baseRef input) {
 _baseRef smoke_Arrays_methodWithStructArray(_baseRef input) {
     return reinterpret_cast<_baseRef>( new std::vector<::smoke::Arrays::BasicStruct>(::smoke::Arrays::method_with_struct_array(*get_pointer<std::vector<::smoke::Arrays::BasicStruct>>(input))) );
 }
+_baseRef smoke_Arrays_methodWithExternalStructArray(_baseRef input) {
+    return reinterpret_cast<_baseRef>( new std::vector<::alien::FooStruct>(::smoke::Arrays::method_with_external_struct_array(*get_pointer<std::vector<::alien::FooStruct>>(input))) );
+}
 _baseRef smoke_Arrays_methodWithArrayOfArrays(_baseRef input) {
     return reinterpret_cast<_baseRef>( new std::vector<std::vector<uint8_t>>(::smoke::Arrays::method_with_array_of_arrays(*get_pointer<std::vector<std::vector<uint8_t>>>(input))) );
 }
@@ -72,6 +90,12 @@ _baseRef smoke_Arrays_methodWithArrayOfMaps(_baseRef input) {
 }
 _baseRef smoke_Arrays_methodWithByteBuffer(_baseRef input) {
     return reinterpret_cast<_baseRef>( new ::std::shared_ptr< ::std::vector< uint8_t > >(::smoke::Arrays::method_with_byte_buffer(*get_pointer<::std::shared_ptr< ::std::vector< uint8_t > >>(input))) );
+}
+_baseRef smoke_Arrays_methodWithEnumArray(_baseRef input) {
+    return reinterpret_cast<_baseRef>( new std::vector<::smoke::Arrays::SomeEnum>(::smoke::Arrays::method_with_enum_array(*get_pointer<std::vector<::smoke::Arrays::SomeEnum>>(input))) );
+}
+_baseRef smoke_Arrays_methodWithExternalEnumArray(_baseRef input) {
+    return reinterpret_cast<_baseRef>( new std::vector<::alien::FooEnum>(::smoke::Arrays::method_with_external_enum_array(*get_pointer<std::vector<::alien::FooEnum>>(input))) );
 }
 _baseRef smoke_Arrays_ErrorCodeToMessageMap_create_handle() {
     return reinterpret_cast<_baseRef>( new std::unordered_map<int32_t, std::string>() );

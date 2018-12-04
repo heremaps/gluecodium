@@ -29,6 +29,10 @@ interface Arrays {
         Double value
     }
 
+    struct ExternalStruct {
+        String string
+    }
+
     struct FancyStruct {
         StringArray messages
         UInt8[] numbers
@@ -40,7 +44,13 @@ interface Arrays {
         BAR
     }
 
+    enumeration ExternalEnum {
+        ON
+        OFF
+    }
+
     array StructArray of BasicStruct
+    array ExternalStructArray of ExternalStruct
 
     array UIntArray of UInt8
     array StringArray of String
@@ -54,6 +64,7 @@ interface Arrays {
 
     array ArrayOfArrays of StringArray
     array ArrayOfEnums of SomeEnum
+    array ArrayOfExternalEnums of ExternalEnum
 
     method methodWithArray {
         in {
@@ -79,6 +90,15 @@ interface Arrays {
         }
         out {
             StructArray output
+        }
+    }
+
+    method methodWithExternalStructArray {
+        in {
+            ExternalStruct[] input
+        }
+        out {
+            ExternalStructArray output
         }
     }
 
@@ -125,6 +145,24 @@ interface Arrays {
         }
         out {
             ByteBuffer output
+        }
+    }
+
+    method methodWithEnumArray {
+        in {
+            SomeEnum[] input
+        }
+        out {
+            ArrayOfEnums output
+        }
+    }
+
+    method methodWithExternalEnumArray {
+        in {
+            ExternalEnum[] input
+        }
+        out {
+            ArrayOfExternalEnums output
         }
     }
 }
