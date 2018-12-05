@@ -131,7 +131,7 @@ public class JniModelBuilderTest {
           false,
           Collections.singletonList(
               new CppParameter("value", CppPrimitiveTypeRef.Companion.getINT8())));
-  private final JniType jniType = JniType.createType(javaCustomType, cppCustomType);
+  private final JniType jniType = new JniType(javaCustomType, cppCustomType);
   private final Include cppInclude = Include.Companion.createInternalInclude("Foo.h");
   private final CppStruct cppStruct =
       CppStruct.builder().name(CPP_CLASS_NAME).fullyQualifiedName(CPP_CLASS_NAME).build();
@@ -188,21 +188,6 @@ public class JniModelBuilderTest {
 
   private JniMethod createJniMethod(JniContainer jniContainer) {
     return new JniMethod(jniContainer, JAVA_VOID_METHOD_NAME, CPP_VOID_METHOD_NAME);
-  }
-
-  @Test
-  public void finishBuildingFrancaMethodVoid() {
-    // arrange
-    when(javaBuilder.getFinalResult(any()))
-        .thenReturn(JavaMethod.builder(JAVA_VOID_METHOD_NAME).build());
-    when(cppBuilder.getFinalResult(any())).thenReturn(new CppMethod(CPP_VOID_METHOD_NAME));
-
-    // act
-    modelBuilder.finishBuilding(francaMethod);
-
-    // assert
-    JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
-    assertEquals(createJniMethod(null), jniMethod);
   }
 
   @Test
@@ -643,7 +628,8 @@ public class JniModelBuilderTest {
     JniMethod jniMethod = methods.get(1);
     assertEquals(javaSetter.name, jniMethod.getJavaMethodName());
     assertEquals(cppSetter.name, jniMethod.getCppMethodName());
-    assertNull(jniMethod.getReturnType());
+    assertEquals("void", jniMethod.getReturnType().cppName);
+    assertEquals("void", jniMethod.getReturnType().javaName);
   }
 
   @Test

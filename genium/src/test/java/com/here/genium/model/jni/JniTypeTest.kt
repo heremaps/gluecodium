@@ -26,7 +26,6 @@ import com.here.genium.model.java.JavaPrimitiveType
 import com.here.genium.model.java.JavaReferenceType
 import com.here.genium.model.java.JavaType
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -36,20 +35,16 @@ import java.util.Arrays
 class JniTypeTest(private val javaType: JavaType, private val expectedJniTypeSignature: String?) {
     @Test
     fun createJniSignatureTest() {
-        val result = JniType.createType(javaType, CppComplexTypeRef.Builder("dummy").build())
+        val result = JniType(javaType, CppComplexTypeRef.Builder("dummy").build())
 
-        if (expectedJniTypeSignature == null) {
-            assertNull(result)
-        } else {
-            assertEquals(expectedJniTypeSignature, result!!.jniTypeSignature)
-        }
+        assertEquals(expectedJniTypeSignature, result.jniTypeSignature)
     }
 
     companion object {
         @JvmStatic
         @Parameterized.Parameters
         fun testData() = listOf(
-            arrayOf(JavaPrimitiveType.VOID, null),
+            arrayOf(JavaPrimitiveType.VOID, "V"),
             arrayOf(JavaPrimitiveType.INT, "I"),
             arrayOf(JavaPrimitiveType.DOUBLE, "D"),
             arrayOf(JavaPrimitiveType.FLOAT, "F"),

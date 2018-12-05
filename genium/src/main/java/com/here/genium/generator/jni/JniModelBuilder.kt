@@ -152,7 +152,7 @@ internal constructor(
         val jniMethod = JniMethod(
             javaMethodName = javaMethod.name,
             cppMethodName = cppMethod!!.name,
-            returnType = JniType.createType(javaMethod.returnType, cppMethod.returnType),
+            returnType = JniType(javaMethod.returnType, cppMethod.returnType),
             isStatic = cppMethod.specifiers.contains(CppMethod.Specifier.STATIC),
             isConst = cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST),
             isOverloaded = francaMethod.selector != null,
@@ -167,7 +167,7 @@ internal constructor(
     override fun finishBuildingInputArgument(francaArgument: FArgument) {
         val javaParameter = javaBuilder.getFinalResult(JavaParameter::class.java)
         val cppParameter = cppBuilder.getFinalResult(CppParameter::class.java)
-        val jniType = JniType.createType(javaParameter!!.type, cppParameter!!.type)
+        val jniType = JniType(javaParameter!!.type, cppParameter!!.type)
 
         storeResult(JniParameter(javaParameter.name, jniType))
         closeContext()
@@ -198,7 +198,7 @@ internal constructor(
         // Type reference
         val javaType = javaBuilder.getFinalResult(JavaType::class.java)
         val cppTypeRef = cppBuilder.getFinalResult(CppTypeRef::class.java)
-        storeResult(JniType.createType(javaType, cppTypeRef))
+        storeResult(JniType(javaType, cppTypeRef))
 
         closeContext()
     }
@@ -254,7 +254,7 @@ internal constructor(
 
         val javaGetter = javaMethods[0]
         val cppGetter = cppMethods[0]
-        val jniType = JniType.createType(javaGetter.returnType, cppGetter.returnType)
+        val jniType = JniType(javaGetter.returnType, cppGetter.returnType)
         storeResult(
             JniMethod(
                 javaMethodName = javaGetter.name,
@@ -268,12 +268,13 @@ internal constructor(
             val cppSetter = cppMethods[1]
             val jniSetter = JniMethod(
                 javaMethodName = javaSetter.name,
-                cppMethodName = cppSetter.name
+                cppMethodName = cppSetter.name,
+                returnType = JniType.VOID
             )
 
             val javaParameter = javaSetter.parameters[0]
             val cppParameter = cppSetter.parameters[0]
-            val parameterType = JniType.createType(javaParameter.type, cppParameter.type)
+            val parameterType = JniType(javaParameter.type, cppParameter.type)
             jniSetter.parameters.add(JniParameter(javaParameter.name, parameterType))
 
             storeResult(jniSetter)
