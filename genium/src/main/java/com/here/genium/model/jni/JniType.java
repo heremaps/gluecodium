@@ -23,6 +23,7 @@ import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.generator.jni.JniNameRules;
 import com.here.genium.generator.jni.JniTypeNameMapper;
 import com.here.genium.model.cpp.CppComplexTypeRef;
+import com.here.genium.model.cpp.CppPrimitiveTypeRef;
 import com.here.genium.model.cpp.CppTypeRef;
 import com.here.genium.model.java.JavaArrayType;
 import com.here.genium.model.java.JavaComplexType;
@@ -30,6 +31,9 @@ import com.here.genium.model.java.JavaPrimitiveType;
 import com.here.genium.model.java.JavaType;
 
 public final class JniType implements JniElement {
+
+  public static final JniType VOID =
+      new JniType(JavaPrimitiveType.VOID, CppPrimitiveTypeRef.Companion.getVOID());
 
   public final String name;
   public final String cppName;
@@ -40,30 +44,23 @@ public final class JniType implements JniElement {
 
   public final boolean isComplex;
   public final boolean refersToValueType;
+  public final boolean isJavaVoid;
 
-  public static JniType createType(final JavaType javaType, final CppTypeRef cppType) {
-    if (javaType instanceof JavaPrimitiveType
-        && ((JavaPrimitiveType) javaType).type == JavaPrimitiveType.Type.VOID) {
-      return null;
-    }
-    return new JniType(javaType, cppType);
-  }
-
-  @SuppressWarnings("unused")
-  public String getMangledSignature() {
-    return JniNameRules.getMangledName(jniTypeSignature);
-  }
-
-  private JniType(final JavaType javaType, final CppTypeRef cppType) {
-
+  public JniType(final JavaType javaType, final CppTypeRef cppType) {
     this.name = JniTypeNameMapper.map(javaType);
     this.cppName = cppType.name;
     this.javaName = javaType.name;
     isComplex = !(javaType instanceof JavaPrimitiveType);
     isJavaArray = javaType instanceof JavaArrayType;
-    this.refersToValueType = cppType.refersToValueType();
+    refersToValueType = cppType.refersToValueType();
+    isJavaVoid = javaType == JavaPrimitiveType.VOID;
     jniTypeSignature = createJniSignature(javaType);
     cppFullyQualifiedName = getCppFullyQualifiedName(cppType);
+  }
+
+  @SuppressWarnings("unused")
+  public String getMangledSignature() {
+    return JniNameRules.getMangledName(jniTypeSignature);
   }
 
   private static String createJniSignature(JavaType type) {

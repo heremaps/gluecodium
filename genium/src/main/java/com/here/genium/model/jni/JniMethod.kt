@@ -23,7 +23,7 @@ data class JniMethod @JvmOverloads constructor(
     var owningContainer: JniContainer? = null,
     val javaMethodName: String? = null,
     val cppMethodName: String? = null,
-    val returnType: JniType? = null,
+    val returnType: JniType = JniType.VOID,
     val isStatic: Boolean = false,
     val isConst: Boolean = false,
     val isOverloaded: Boolean = false,

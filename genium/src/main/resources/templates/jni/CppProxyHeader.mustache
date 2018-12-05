@@ -43,10 +43,10 @@ public:
     {{cppName}}CppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode );
 
 {{#parentMethods}}
-    {{>jni/ReturnType}} {{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} override;
+    {{returnType.cppName}} {{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} override;
 {{/parentMethods}}
 {{#methods}}
-    {{>jni/ReturnType}} {{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} override;
+    {{returnType.cppName}} {{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} override;
 {{/methods}}
 };
 
