@@ -25,9 +25,6 @@ import static org.mockito.Mockito.when;
 
 import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.*;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
@@ -55,7 +52,8 @@ public final class CppTypeMapperTest {
 
     CppTypeRef cppType = typeMapper.map(francaTypeRef);
 
-    verifyPrimitiveType(cppType, CppPrimitiveTypeRef.Type.BOOL, Collections.emptyList());
+    assertEquals(CppPrimitiveTypeRef.Companion.getBOOL(), cppType);
+    assertTrue(cppType.includes.isEmpty());
   }
 
   @Test
@@ -64,7 +62,8 @@ public final class CppTypeMapperTest {
 
     CppTypeRef cppType = typeMapper.map(francaTypeRef);
 
-    verifyPrimitiveType(cppType, CppPrimitiveTypeRef.Type.FLOAT, Collections.emptyList());
+    assertEquals(CppPrimitiveTypeRef.Companion.getFLOAT(), cppType);
+    assertTrue(cppType.includes.isEmpty());
   }
 
   @Test
@@ -73,7 +72,8 @@ public final class CppTypeMapperTest {
 
     CppTypeRef cppType = typeMapper.map(francaTypeRef);
 
-    verifyPrimitiveType(cppType, CppPrimitiveTypeRef.Type.DOUBLE, Collections.emptyList());
+    assertEquals(CppPrimitiveTypeRef.Companion.getDOUBLE(), cppType);
+    assertTrue(cppType.includes.isEmpty());
   }
 
   @Test
@@ -82,10 +82,8 @@ public final class CppTypeMapperTest {
 
     CppTypeRef cppType = typeMapper.map(francaTypeRef);
 
-    verifyPrimitiveType(
-        cppType,
-        CppPrimitiveTypeRef.Type.INT8,
-        Collections.singletonList(CppLibraryIncludes.INT_TYPES));
+    assertEquals(CppPrimitiveTypeRef.Companion.getINT8(), cppType);
+    assertTrue(cppType.includes.contains(CppLibraryIncludes.INT_TYPES));
   }
 
   @Test
@@ -94,10 +92,8 @@ public final class CppTypeMapperTest {
 
     CppTypeRef cppType = typeMapper.map(francaTypeRef);
 
-    verifyPrimitiveType(
-        cppType,
-        CppPrimitiveTypeRef.Type.INT16,
-        Collections.singletonList(CppLibraryIncludes.INT_TYPES));
+    assertEquals(CppPrimitiveTypeRef.Companion.getINT16(), cppType);
+    assertTrue(cppType.includes.contains(CppLibraryIncludes.INT_TYPES));
   }
 
   @Test
@@ -106,10 +102,8 @@ public final class CppTypeMapperTest {
 
     CppTypeRef cppType = typeMapper.map(francaTypeRef);
 
-    verifyPrimitiveType(
-        cppType,
-        CppPrimitiveTypeRef.Type.INT32,
-        Collections.singletonList(CppLibraryIncludes.INT_TYPES));
+    assertEquals(CppPrimitiveTypeRef.Companion.getINT32(), cppType);
+    assertTrue(cppType.includes.contains(CppLibraryIncludes.INT_TYPES));
   }
 
   @Test
@@ -118,10 +112,8 @@ public final class CppTypeMapperTest {
 
     CppTypeRef cppType = typeMapper.map(francaTypeRef);
 
-    verifyPrimitiveType(
-        cppType,
-        CppPrimitiveTypeRef.Type.INT64,
-        Collections.singletonList(CppLibraryIncludes.INT_TYPES));
+    assertEquals(CppPrimitiveTypeRef.Companion.getINT64(), cppType);
+    assertTrue(cppType.includes.contains(CppLibraryIncludes.INT_TYPES));
   }
 
   @Test
@@ -130,10 +122,8 @@ public final class CppTypeMapperTest {
 
     CppTypeRef cppType = typeMapper.map(francaTypeRef);
 
-    verifyPrimitiveType(
-        cppType,
-        CppPrimitiveTypeRef.Type.UINT8,
-        Collections.singletonList(CppLibraryIncludes.INT_TYPES));
+    assertEquals(CppPrimitiveTypeRef.Companion.getUINT8(), cppType);
+    assertTrue(cppType.includes.contains(CppLibraryIncludes.INT_TYPES));
   }
 
   @Test
@@ -142,10 +132,8 @@ public final class CppTypeMapperTest {
 
     CppTypeRef cppType = typeMapper.map(francaTypeRef);
 
-    verifyPrimitiveType(
-        cppType,
-        CppPrimitiveTypeRef.Type.UINT16,
-        Collections.singletonList(CppLibraryIncludes.INT_TYPES));
+    assertEquals(CppPrimitiveTypeRef.Companion.getUINT16(), cppType);
+    assertTrue(cppType.includes.contains(CppLibraryIncludes.INT_TYPES));
   }
 
   @Test
@@ -154,10 +142,8 @@ public final class CppTypeMapperTest {
 
     CppTypeRef cppType = typeMapper.map(francaTypeRef);
 
-    verifyPrimitiveType(
-        cppType,
-        CppPrimitiveTypeRef.Type.UINT32,
-        Collections.singletonList(CppLibraryIncludes.INT_TYPES));
+    assertEquals(CppPrimitiveTypeRef.Companion.getUINT32(), cppType);
+    assertTrue(cppType.includes.contains(CppLibraryIncludes.INT_TYPES));
   }
 
   @Test
@@ -166,10 +152,8 @@ public final class CppTypeMapperTest {
 
     CppTypeRef cppType = typeMapper.map(francaTypeRef);
 
-    verifyPrimitiveType(
-        cppType,
-        CppPrimitiveTypeRef.Type.UINT64,
-        Collections.singletonList(CppLibraryIncludes.INT_TYPES));
+    assertEquals(CppPrimitiveTypeRef.Companion.getUINT64(), cppType);
+    assertTrue(cppType.includes.contains(CppLibraryIncludes.INT_TYPES));
   }
 
   @Test
@@ -178,7 +162,8 @@ public final class CppTypeMapperTest {
 
     CppTypeRef cppType = typeMapper.map(francaTypeRef);
 
-    verifyPrimitiveType(cppType, CppPrimitiveTypeRef.Type.VOID, Collections.emptyList());
+    assertEquals(CppPrimitiveTypeRef.Companion.getVOID(), cppType);
+    assertTrue(cppType.includes.isEmpty());
   }
 
   @Test
@@ -186,7 +171,7 @@ public final class CppTypeMapperTest {
     Include fooInclude = Include.Companion.createInternalInclude("bar/Foo.h");
     CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("Foo").include(fooInclude).build();
 
-    CppTypeRef result = typeMapper.wrapMap(CppPrimitiveTypeRef.UINT32, cppTypeRef);
+    CppTypeRef result = typeMapper.wrapMap(CppPrimitiveTypeRef.Companion.getUINT32(), cppTypeRef);
 
     assertTrue(result.includes.contains(CppLibraryIncludes.INT_TYPES));
     assertTrue(result.includes.contains(fooInclude));
@@ -196,7 +181,8 @@ public final class CppTypeMapperTest {
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) result;
     assertEquals(CppTemplateTypeRef.TemplateClass.MAP, cppTemplateTypeRef.templateClass);
     assertEquals(2, cppTemplateTypeRef.templateParameters.size());
-    assertEquals(CppPrimitiveTypeRef.UINT32, cppTemplateTypeRef.templateParameters.get(0));
+    assertEquals(
+        CppPrimitiveTypeRef.Companion.getUINT32(), cppTemplateTypeRef.templateParameters.get(0));
     assertEquals(cppTypeRef, cppTemplateTypeRef.templateParameters.get(1));
   }
 
@@ -204,7 +190,7 @@ public final class CppTypeMapperTest {
   public void wrapMapTypeWithEnumKeyType() {
     CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("Foo").refersToEnum(true).build();
 
-    CppTypeRef result = typeMapper.wrapMap(cppTypeRef, CppPrimitiveTypeRef.VOID);
+    CppTypeRef result = typeMapper.wrapMap(cppTypeRef, CppPrimitiveTypeRef.Companion.getVOID());
 
     assertTrue(result.includes.contains(CppLibraryIncludes.ENUM_HASH));
     assertTrue(result instanceof CppTemplateTypeRef);
@@ -212,13 +198,5 @@ public final class CppTypeMapperTest {
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) result;
     assertEquals(3, cppTemplateTypeRef.templateParameters.size());
     assertEquals(typeMapper.getEnumHashType(), cppTemplateTypeRef.templateParameters.get(2));
-  }
-
-  private void verifyPrimitiveType(
-      CppTypeRef actual, CppPrimitiveTypeRef.Type expectedType, List<Include> includes) {
-    assertTrue(actual instanceof CppPrimitiveTypeRef);
-    CppPrimitiveTypeRef primitiveType = (CppPrimitiveTypeRef) actual;
-    assertEquals(expectedType, primitiveType.type);
-    assertEquals(new HashSet<>(includes), primitiveType.includes);
   }
 }

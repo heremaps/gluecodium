@@ -86,7 +86,7 @@ public final class CppModelBuilderTest {
       new CppEnum(NONSENSE_NAME, NONSENSE_NAME, false, Collections.emptyList());
   private final CppStruct cppStruct =
       CppStruct.builder().name(NONSENSE_NAME).fullyQualifiedName(NONSENSE_NAME).build();
-  private final CppTypeRef cppTypeRef = CppPrimitiveTypeRef.INT64;
+  private final CppTypeRef cppTypeRef = CppPrimitiveTypeRef.Companion.getINT64();
   private final CppTypeDefRef cppTypeDefRef =
       new CppTypeDefRef(
           NONSENSE_NAME, cppTypeRef, Include.Companion.createInternalInclude(NONSENSE_NAME));
@@ -518,9 +518,9 @@ public final class CppModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMapType() {
-    CppTypeRef mapTypeRef = CppPrimitiveTypeRef.INT8;
+    CppTypeRef mapTypeRef = CppPrimitiveTypeRef.Companion.getINT8();
     when(typeMapper.wrapMap(any(), any())).thenReturn(mapTypeRef);
-    CppTypeRef cppPrimitiveTypeRef = CppPrimitiveTypeRef.INT8;
+    CppTypeRef cppPrimitiveTypeRef = CppPrimitiveTypeRef.Companion.getINT8();
     contextStack.injectResult(cppPrimitiveTypeRef);
     contextStack.injectResult(cppComplexTypeRef);
 
@@ -692,7 +692,7 @@ public final class CppModelBuilderTest {
     assertEquals(2, methods.size());
 
     CppMethod resultMethod = methods.get(1);
-    assertEquals(CppPrimitiveTypeRef.VOID, resultMethod.getReturnType());
+    assertEquals(CppPrimitiveTypeRef.Companion.getVOID(), resultMethod.getReturnType());
     assertFalse(resultMethod.getParameters().isEmpty());
     assertEquals(cppComplexTypeRef, resultMethod.getParameters().get(0).type);
   }
