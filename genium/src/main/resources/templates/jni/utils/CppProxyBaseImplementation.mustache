@@ -73,7 +73,7 @@ detach_current_thread( void* )
 void
 make_key_once( )
 {
-    pthread_key_create( &s_thread_key, NULL );
+    pthread_key_create( &s_thread_key, detach_current_thread );
 }
 
 }
