@@ -327,7 +327,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
               nameResolver.getSetterName(francaAttribute),
               nameResolver.getFullyQualifiedName(francaAttribute),
               francaComment,
-              CppPrimitiveTypeRef.VOID,
+              CppPrimitiveTypeRef.Companion.getVOID(),
               "",
               false,
               Collections.singletonList(new CppParameter("value", cppTypeRef)),
@@ -385,7 +385,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppTypeRef outArgType = outputParameter != null ? outputParameter.type : null;
     if (errorType == null && outArgType == null) {
-      return CppPrimitiveTypeRef.VOID;
+      return CppPrimitiveTypeRef.Companion.getVOID();
     } else if (errorType != null && outArgType == null) {
       return errorType;
     } else if (errorType == null) {

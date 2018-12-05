@@ -17,68 +17,34 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import com.here.genium.generator.cpp.CppLibraryIncludes;
-import lombok.EqualsAndHashCode;
+import com.here.genium.generator.cpp.CppLibraryIncludes
+import com.here.genium.model.common.Include
+import java.util.Collections.singletonList
 
-@EqualsAndHashCode(callSuper = true)
-public final class CppPrimitiveTypeRef extends CppTypeRef {
+class CppPrimitiveTypeRef private constructor(
+    name: String,
+    includes: Collection<Include> = emptyList()
+) : CppTypeRef(name, includes) {
 
-  public static final CppPrimitiveTypeRef VOID = new CppPrimitiveTypeRef(Type.VOID);
-  public static final CppPrimitiveTypeRef BOOL = new CppPrimitiveTypeRef(Type.BOOL);
-  public static final CppPrimitiveTypeRef FLOAT = new CppPrimitiveTypeRef(Type.FLOAT);
-  public static final CppPrimitiveTypeRef DOUBLE = new CppPrimitiveTypeRef(Type.DOUBLE);
-  public static final CppPrimitiveTypeRef INT8 = new CppPrimitiveTypeRef(Type.INT8);
-  public static final CppPrimitiveTypeRef INT16 = new CppPrimitiveTypeRef(Type.INT16);
-  public static final CppPrimitiveTypeRef INT32 = new CppPrimitiveTypeRef(Type.INT32);
-  public static final CppPrimitiveTypeRef INT64 = new CppPrimitiveTypeRef(Type.INT64);
-  public static final CppPrimitiveTypeRef UINT8 = new CppPrimitiveTypeRef(Type.UINT8);
-  public static final CppPrimitiveTypeRef UINT16 = new CppPrimitiveTypeRef(Type.UINT16);
-  public static final CppPrimitiveTypeRef UINT32 = new CppPrimitiveTypeRef(Type.UINT32);
-  public static final CppPrimitiveTypeRef UINT64 = new CppPrimitiveTypeRef(Type.UINT64);
-  public static final CppPrimitiveTypeRef CHAR = new CppPrimitiveTypeRef(Type.CHAR);
+    override fun refersToValueType() = true
 
-  public final Type type;
+    companion object {
+        private val intIncludes = singletonList(CppLibraryIncludes.INT_TYPES)
 
-  public enum Type {
-    VOID("void"),
-    BOOL("bool"),
-    FLOAT("float"),
-    DOUBLE("double"),
-    INT8("int8_t", true),
-    INT16("int16_t", true),
-    INT32("int32_t", true),
-    INT64("int64_t", true),
-    UINT8("uint8_t", true),
-    UINT16("uint16_t", true),
-    UINT32("uint32_t", true),
-    UINT64("uint64_t", true),
-    CHAR("char", false);
-
-    public final String value;
-    public final boolean isIntegerType;
-
-    Type(final String value) {
-      this(value, false);
+        val VOID = CppPrimitiveTypeRef("void")
+        val BOOL = CppPrimitiveTypeRef("bool")
+        val FLOAT = CppPrimitiveTypeRef("float")
+        val DOUBLE = CppPrimitiveTypeRef("double")
+        val CHAR = CppPrimitiveTypeRef("char")
+        val INT8 = CppPrimitiveTypeRef("int8_t", intIncludes)
+        val INT16 = CppPrimitiveTypeRef("int16_t", intIncludes)
+        val INT32 = CppPrimitiveTypeRef("int32_t", intIncludes)
+        val INT64 = CppPrimitiveTypeRef("int64_t", intIncludes)
+        val UINT8 = CppPrimitiveTypeRef("uint8_t", intIncludes)
+        val UINT16 = CppPrimitiveTypeRef("uint16_t", intIncludes)
+        val UINT32 = CppPrimitiveTypeRef("uint32_t", intIncludes)
+        val UINT64 = CppPrimitiveTypeRef("uint64_t", intIncludes)
     }
-
-    Type(final String value, final boolean isIntegerType) {
-      this.value = value;
-      this.isIntegerType = isIntegerType;
-    }
-  }
-
-  public CppPrimitiveTypeRef(final Type type) {
-    super(type.value, null);
-    this.type = type;
-    if (type.isIntegerType) {
-      includes.add(CppLibraryIncludes.INT_TYPES);
-    }
-  }
-
-  @Override
-  public boolean refersToValueType() {
-    return true;
-  }
 }

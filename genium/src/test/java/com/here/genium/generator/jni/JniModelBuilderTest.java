@@ -119,17 +119,18 @@ public class JniModelBuilderTest {
   private final JavaMethod javaGetter =
       JavaMethod.builder("getFoo").returnType(JavaCustomType.builder("FooType").build()).build();
   private final CppMethod cppGetter =
-      new CppMethod("shootFoot", "shootFoot", "", CppPrimitiveTypeRef.INT32);
+      new CppMethod("shootFoot", "shootFoot", "", CppPrimitiveTypeRef.Companion.getINT32());
   private final JavaMethod javaSetter = JavaMethod.builder("setFoo").build();
   private final CppMethod cppSetter =
       new CppMethod(
           "shootBothFeet",
           "shootBothFeet",
           "",
-          CppPrimitiveTypeRef.VOID,
+          CppPrimitiveTypeRef.Companion.getVOID(),
           "",
           false,
-          Collections.singletonList(new CppParameter("value", CppPrimitiveTypeRef.INT8)));
+          Collections.singletonList(
+              new CppParameter("value", CppPrimitiveTypeRef.Companion.getINT8())));
   private final JniType jniType = JniType.createType(javaCustomType, cppCustomType);
   private final Include cppInclude = Include.Companion.createInternalInclude("Foo.h");
   private final CppStruct cppStruct =
@@ -172,7 +173,7 @@ public class JniModelBuilderTest {
   }
 
   private static CppMethod createCppMethod() {
-    CppPrimitiveTypeRef cppPrimitiveType = CppPrimitiveTypeRef.INT8;
+    CppPrimitiveTypeRef cppPrimitiveType = CppPrimitiveTypeRef.Companion.getINT8();
     CppParameter cppParameter = new CppParameter("", cppPrimitiveType);
 
     return new CppMethod(

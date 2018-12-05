@@ -170,7 +170,8 @@ public class CppTypeMapperComplexTest {
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) cppTypeDefRef.actualType;
     assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, cppTemplateTypeRef.templateClass);
     assertEquals(1, cppTemplateTypeRef.templateParameters.size());
-    assertEquals(CppPrimitiveTypeRef.DOUBLE, cppTemplateTypeRef.templateParameters.get(0));
+    assertEquals(
+        CppPrimitiveTypeRef.Companion.getDOUBLE(), cppTemplateTypeRef.templateParameters.get(0));
   }
 
   @Test
@@ -196,7 +197,8 @@ public class CppTypeMapperComplexTest {
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) cppTypeDefRef.actualType;
     assertEquals(CppTemplateTypeRef.TemplateClass.MAP, cppTemplateTypeRef.templateClass);
     assertEquals(2, cppTemplateTypeRef.templateParameters.size());
-    assertEquals(CppPrimitiveTypeRef.UINT64, cppTemplateTypeRef.templateParameters.get(0));
+    assertEquals(
+        CppPrimitiveTypeRef.Companion.getUINT64(), cppTemplateTypeRef.templateParameters.get(0));
     assertEquals(CppTypeMapper.STRING_TYPE, cppTemplateTypeRef.templateParameters.get(1));
   }
 
@@ -217,7 +219,7 @@ public class CppTypeMapperComplexTest {
     CppTypeDefRef cppTypeDefRef = (CppTypeDefRef) cppTypeRef;
 
     assertEquals(DUMMY_NAME, cppTypeDefRef.name);
-    assertEquals(CppPrimitiveTypeRef.INT64, cppTypeDefRef.actualType);
+    assertEquals(CppPrimitiveTypeRef.Companion.getINT64(), cppTypeDefRef.actualType);
     assertEquals(1, cppTypeDefRef.includes.size());
     assertTrue(cppTypeDefRef.includes.contains(internalInclude));
   }

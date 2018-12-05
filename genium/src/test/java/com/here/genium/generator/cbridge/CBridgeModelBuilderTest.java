@@ -115,7 +115,8 @@ public final class CBridgeModelBuilderTest {
           .cNestedSpecifier(NESTED_SPECIFIER_NAME)
           .cShortName(SHORT_FUNCTION_NAME)
           .build();
-  private final CppField cppField = new CppField(CPP_FIELD_NAME, CppPrimitiveTypeRef.BOOL);
+  private final CppField cppField =
+      new CppField(CPP_FIELD_NAME, CppPrimitiveTypeRef.Companion.getBOOL());
 
   private CBridgeModelBuilder modelBuilder;
 
