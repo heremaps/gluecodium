@@ -20,8 +20,8 @@
   !}}
     {{#exception}}
     auto nativeCallResult = {{>jni/CppMethodCall}}
-    auto errorCode = nativeCallResult{{#if returnType}}.error(){{/if}};
-    if ({{#if returnType}}!nativeCallResult.has_value(){{/if}}{{#unless returnType}}errorCode{{/unless}})
+    auto errorCode = nativeCallResult{{#unless returnType.isJavaVoid}}.error(){{/unless}};
+    if ({{#unless returnType.isJavaVoid}}!nativeCallResult.has_value(){{/unless}}{{#if returnType.isJavaVoid}}errorCode{{/if}})
     {
         auto nEnumValue = static_cast<{{jniEnum.cppFullyQualifiedName}}>(errorCode.value());
         auto jEnumValue = {{internalNamespace}}::jni::convert_to_jni(_jenv, nEnumValue);
@@ -29,10 +29,10 @@
         auto theConstructor = _jenv->GetMethodID(exceptionClass, "<init>", "({{jniEnum.jniTypeSignature}})V");
         auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);
         _jenv->Throw(static_cast<jthrowable>(exception));
-        _jenv->DeleteLocalRef( exceptionClass );{{#if returnType}}
-        return {{#if returnType.isComplex}}nullptr{{/if}}{{#unless returnType.isComplex}}nativeCallResult.safe_value(){{/unless}};{{/if}}
-    }{{#if returnType}}
-    auto result = nativeCallResult.safe_value();{{/if}}
+        _jenv->DeleteLocalRef( exceptionClass );{{#unless returnType.isJavaVoid}}
+        return {{#if returnType.isComplex}}nullptr{{/if}}{{#unless returnType.isComplex}}nativeCallResult.safe_value(){{/unless}};{{/unless}}
+    }{{#unless returnType.isJavaVoid}}
+    auto result = nativeCallResult.safe_value();{{/unless}}
     {{/exception}}
-{{^exception}}    {{#if returnType}}auto result = {{/if}}{{>jni/CppMethodCall}}{{/exception}}{{#if returnType}}
-    return {{#if returnType.isComplex}}{{internalNamespace}}::jni::convert_to_jni(_jenv, result){{/if}}{{#unless returnType.isComplex}}result{{/unless}};{{/if}}
+{{^exception}}    {{#unless returnType.isJavaVoid}}auto result = {{/unless}}{{>jni/CppMethodCall}}{{/exception}}{{#unless returnType.isJavaVoid}}
+    return {{#if returnType.isComplex}}{{internalNamespace}}::jni::convert_to_jni(_jenv, result){{/if}}{{#unless returnType.isComplex}}result{{/unless}};{{/unless}}
