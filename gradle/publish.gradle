@@ -1,0 +1,46 @@
+Properties properties = new Properties()
+properties.load(project.rootProject.file('genium/src/main/resources/version.properties').newDataInputStream())
+
+group = 'com.here.genium'
+// Try to load the version as declared by the genium or use the safe default
+version = properties.getProperty('version', '0.0.1')
+//retrieve sha1 from git
+def getGitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+def pomConfig = {
+    licenses {
+        // Include only licenses found in the repository and not its dependencies.
+        license {
+	    name 'Apache License Version 2.0'
+	    url  'http://www.apache.org/licenses/'
+            distribution 'git'
+            comments 'SPDX-License-Identifier: Apache-2.0'
+        }
+    }
+
+    scm {
+        connection 'scm:git:ssh://git@github.com:heremaps/genium.git'
+        url 'https://github.com/heremaps/genium'
+        tag getGitHash()
+    }
+}
+
+apply plugin: 'maven-publish'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+
+            pom.withXml {
+                asNode().children().last() + pomConfig
+            }
+        }
+    }
+}
