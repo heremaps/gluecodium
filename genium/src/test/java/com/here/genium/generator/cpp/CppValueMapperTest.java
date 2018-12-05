@@ -126,7 +126,7 @@ public final class CppValueMapperTest {
 
   @Test
   public void mapDeploymentDefaultValueForInteger() {
-    CppTypeRef cppTypeRef = CppPrimitiveTypeRef.UINT64;
+    CppTypeRef cppTypeRef = CppPrimitiveTypeRef.Companion.getUINT64();
 
     CppValue result = valueMapper.mapDeploymentDefaultValue(cppTypeRef, francaField);
 

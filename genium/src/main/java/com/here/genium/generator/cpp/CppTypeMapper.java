@@ -32,7 +32,7 @@ public class CppTypeMapper {
 
   private static final CppTypeRef BASIC_STRING_CHAR_TYPE =
       CppTemplateTypeRef.create(
-          CppTemplateTypeRef.TemplateClass.BASIC_STRING, CppPrimitiveTypeRef.CHAR);
+          CppTemplateTypeRef.TemplateClass.BASIC_STRING, CppPrimitiveTypeRef.Companion.getCHAR());
 
   public static final CppTypeRef STD_ERROR_CODE_TYPE =
       new CppComplexTypeRef.Builder("::std::error_code")
@@ -70,7 +70,7 @@ public class CppTypeMapper {
   public CppTypeRef getByteBufferType() {
     CppTypeRef byteBufferType =
         CppTemplateTypeRef.create(
-            CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8);
+            CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.Companion.getUINT8());
     return CppTemplateTypeRef.create(
         CppTemplateTypeRef.TemplateClass.SHARED_POINTER, byteBufferType);
   }
@@ -158,37 +158,37 @@ public class CppTypeMapper {
 
     switch (type.getPredefined().getValue()) {
       case FBasicTypeId.BOOLEAN_VALUE:
-        return CppPrimitiveTypeRef.BOOL;
+        return CppPrimitiveTypeRef.Companion.getBOOL();
 
       case FBasicTypeId.FLOAT_VALUE:
-        return CppPrimitiveTypeRef.FLOAT;
+        return CppPrimitiveTypeRef.Companion.getFLOAT();
 
       case FBasicTypeId.DOUBLE_VALUE:
-        return CppPrimitiveTypeRef.DOUBLE;
+        return CppPrimitiveTypeRef.Companion.getDOUBLE();
 
       case FBasicTypeId.INT8_VALUE:
-        return CppPrimitiveTypeRef.INT8;
+        return CppPrimitiveTypeRef.Companion.getINT8();
 
       case FBasicTypeId.INT16_VALUE:
-        return CppPrimitiveTypeRef.INT16;
+        return CppPrimitiveTypeRef.Companion.getINT16();
 
       case FBasicTypeId.INT32_VALUE:
-        return CppPrimitiveTypeRef.INT32;
+        return CppPrimitiveTypeRef.Companion.getINT32();
 
       case FBasicTypeId.INT64_VALUE:
-        return CppPrimitiveTypeRef.INT64;
+        return CppPrimitiveTypeRef.Companion.getINT64();
 
       case FBasicTypeId.UINT8_VALUE:
-        return CppPrimitiveTypeRef.UINT8;
+        return CppPrimitiveTypeRef.Companion.getUINT8();
 
       case FBasicTypeId.UINT16_VALUE:
-        return CppPrimitiveTypeRef.UINT16;
+        return CppPrimitiveTypeRef.Companion.getUINT16();
 
       case FBasicTypeId.UINT32_VALUE:
-        return CppPrimitiveTypeRef.UINT32;
+        return CppPrimitiveTypeRef.Companion.getUINT32();
 
       case FBasicTypeId.UINT64_VALUE:
-        return CppPrimitiveTypeRef.UINT64;
+        return CppPrimitiveTypeRef.Companion.getUINT64();
 
       case FBasicTypeId.STRING_VALUE:
         return STRING_TYPE;
@@ -197,7 +197,7 @@ public class CppTypeMapper {
         return getByteBufferType();
 
       case FBasicTypeId.UNDEFINED_VALUE:
-        return CppPrimitiveTypeRef.VOID;
+        return CppPrimitiveTypeRef.Companion.getVOID();
 
       default:
         throw new GeniumExecutionException(

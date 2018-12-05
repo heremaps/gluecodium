@@ -39,7 +39,7 @@ public final class CppTemplateTypeRefTest {
           Include.Companion.createInternalInclude("a"),
           Include.Companion.createInternalInclude("b"));
 
-  private static final CppPrimitiveTypeRef INT_TYPE_REF = CppPrimitiveTypeRef.INT32;
+  private static final CppPrimitiveTypeRef INT_TYPE_REF = CppPrimitiveTypeRef.Companion.getINT32();
 
   private static final CppComplexTypeRef COMPLEX_TYPE_REF =
       new CppTemplateTypeRef.Builder("Custom").includes(INCLUDES).build();
