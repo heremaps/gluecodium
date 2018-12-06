@@ -77,8 +77,7 @@ public final class CppModelBuilderTest {
 
   private CppModelBuilder modelBuilder;
 
-  private final CppComplexTypeRef cppComplexTypeRef =
-      new CppComplexTypeRef.Builder(NONSENSE_NAME).build();
+  private final CppComplexTypeRef cppComplexTypeRef = new CppComplexTypeRef(NONSENSE_NAME);
 
   private final CppMethod cppMethod = new CppMethod(NONSENSE_NAME);
   private final CppValue cppValue = new CppValue(NONSENSE_NAME);
@@ -89,7 +88,9 @@ public final class CppModelBuilderTest {
   private final CppTypeRef cppTypeRef = CppPrimitiveTypeRef.Companion.getINT64();
   private final CppTypeDefRef cppTypeDefRef =
       new CppTypeDefRef(
-          NONSENSE_NAME, cppTypeRef, Include.Companion.createInternalInclude(NONSENSE_NAME));
+          NONSENSE_NAME,
+          Collections.singletonList(Include.Companion.createInternalInclude(NONSENSE_NAME)),
+          cppTypeRef);
   private final CppUsing cppUsing = new CppUsing(NONSENSE_NAME, NONSENSE_NAME, cppTypeDefRef);
   private final CppConstant cppConstant =
       new CppConstant(NONSENSE_NAME, NONSENSE_NAME, cppTypeRef, cppValue);
@@ -511,9 +512,9 @@ public final class CppModelBuilderTest {
     assertTrue(resultUsing.getDefinition() instanceof CppTemplateTypeRef);
 
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) resultUsing.getDefinition();
-    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, cppTemplateTypeRef.templateClass);
-    assertEquals(1, cppTemplateTypeRef.templateParameters.size());
-    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.templateParameters.get(0));
+    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, cppTemplateTypeRef.getTemplateClass());
+    assertEquals(1, cppTemplateTypeRef.getTemplateParameters().size());
+    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.getTemplateParameters().get(0));
   }
 
   @Test
@@ -558,9 +559,9 @@ public final class CppModelBuilderTest {
     assertTrue(result instanceof CppTemplateTypeRef);
 
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) result;
-    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, cppTemplateTypeRef.templateClass);
-    assertEquals(1, cppTemplateTypeRef.templateParameters.size());
-    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.templateParameters.get(0));
+    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, cppTemplateTypeRef.getTemplateClass());
+    assertEquals(1, cppTemplateTypeRef.getTemplateParameters().size());
+    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.getTemplateParameters().get(0));
 
     verify(typeMapper).map(francaTypeRef);
   }

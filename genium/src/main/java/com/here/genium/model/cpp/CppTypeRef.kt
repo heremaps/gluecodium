@@ -17,26 +17,18 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import com.here.genium.model.common.Include;
-import java.util.Collection;
+import com.here.genium.model.common.Include
 
-public abstract class CppTypeRef extends CppElementWithIncludes {
+abstract class CppTypeRef(typeName: String, includes: List<Include>) :
+    CppElementWithIncludes(typeName, includes) {
 
-  public CppTypeRef(String typeName, final Collection<Include> includes) {
-    super(typeName, includes);
-  }
+    open val actualType: CppTypeRef
+        get() = this
 
-  public boolean refersToValueType() {
-    return refersToEnumType();
-  }
+    open val refersToValueType
+        get() = refersToEnumType
 
-  public boolean refersToEnumType() {
-    return false;
-  }
-
-  public CppTypeRef getActualType() {
-    return this;
-  }
+    open val refersToEnumType = false
 }

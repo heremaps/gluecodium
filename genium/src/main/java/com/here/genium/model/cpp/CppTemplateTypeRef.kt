@@ -17,79 +17,54 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import com.here.genium.generator.cpp.CppLibraryIncludes;
-import com.here.genium.generator.cpp.CppNameRules;
-import com.here.genium.model.common.Include;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import com.here.genium.generator.cpp.CppLibraryIncludes
+import com.here.genium.generator.cpp.CppNameRules
+import com.here.genium.model.common.Include
+import java.util.Arrays
 
-public final class CppTemplateTypeRef extends CppComplexTypeRef {
+class CppTemplateTypeRef private constructor(
+    fullyQualifiedName: String,
+    val templateClass: TemplateClass,
+    val templateParameters: List<CppTypeRef>
+) : CppComplexTypeRef(fullyQualifiedName) {
 
-  public final List<CppTypeRef> templateParameters;
-  public final TemplateClass templateClass;
-
-  public enum TemplateClass {
-    SHARED_POINTER("std", "shared_ptr", CppLibraryIncludes.MEMORY),
-    MAP("std", "unordered_map", CppLibraryIncludes.MAP),
-    VECTOR("std", "vector", CppLibraryIncludes.VECTOR),
-    BASIC_STRING("std", "basic_string", CppLibraryIncludes.STRING),
-    RETURN(null, "Return", CppLibraryIncludes.RETURN);
-
-    public final String namespace;
-    public final String templateName;
-    public final Set<Include> includes;
-
-    TemplateClass(final String namespace, final String templateName, Include... includes) {
-      this.namespace = namespace;
-      this.templateName = templateName;
-      this.includes = new LinkedHashSet<>(Arrays.asList(includes));
-    }
-  }
-
-  private CppTemplateTypeRef(
-      final String fullyQualifiedName,
-      final TemplateClass templateClass,
-      final List<CppTypeRef> templateParameters) {
-    super(fullyQualifiedName, null, false);
-    this.templateClass = templateClass;
-    this.templateParameters = templateParameters;
-  }
-
-  public static CppTemplateTypeRef create(
-      final TemplateClass templateClass, CppTypeRef... parameters) {
-    return create(templateClass.namespace, templateClass, parameters);
-  }
-
-  public static CppTemplateTypeRef create(
-      final String namespace, final TemplateClass templateClass, CppTypeRef... parameters) {
-    List<CppTypeRef> templateParameters = Arrays.asList(parameters);
-    String parametersString =
-        templateParameters.stream().map(param -> param.name).collect(Collectors.joining(", "));
-    String fullyQualifiedName =
-        CppNameRules.joinFullyQualifiedName(namespace, templateClass.templateName)
-            + "< "
-            + parametersString
-            + " >";
-
-    CppTemplateTypeRef templateTypeRef =
-        new CppTemplateTypeRef(fullyQualifiedName, templateClass, templateParameters);
-
-    // add template parameters includes
-    for (CppTypeRef typeRef : templateParameters) {
-      templateTypeRef.includes.addAll(typeRef.includes);
+    enum class TemplateClass(
+        val namespace: String?,
+        val templateName: String,
+        val include: Include
+    ) {
+        SHARED_POINTER("std", "shared_ptr", CppLibraryIncludes.MEMORY),
+        MAP("std", "unordered_map", CppLibraryIncludes.MAP),
+        VECTOR("std", "vector", CppLibraryIncludes.VECTOR),
+        BASIC_STRING("std", "basic_string", CppLibraryIncludes.STRING),
+        RETURN(null, "Return", CppLibraryIncludes.RETURN);
     }
 
-    // Add template class includes
-    templateTypeRef.includes.addAll(templateClass.includes);
+    override fun stream() = templateParameters.stream()
 
-    return templateTypeRef;
-  }
+    companion object {
 
-  @Override
-  public Stream<? extends CppElement> stream() {
-    return templateParameters.stream();
-  }
+        fun create(templateClass: TemplateClass, vararg parameters: CppTypeRef) =
+                create(templateClass.namespace, templateClass, *parameters)
+
+        fun create(
+            namespace: String?,
+            templateClass: TemplateClass,
+            vararg parameters: CppTypeRef
+        ): CppTemplateTypeRef {
+            val templateParameters = Arrays.asList(*parameters)
+            val parametersString = templateParameters.map { param -> param.name }.joinToString(", ")
+            val fullyQualifiedName =
+                CppNameRules.joinFullyQualifiedName(namespace, templateClass.templateName)
+
+            val templateTypeRef = CppTemplateTypeRef(
+                "$fullyQualifiedName< $parametersString >", templateClass, templateParameters)
+            templateTypeRef.includes.addAll(templateParameters.flatMap { it.includes })
+            templateTypeRef.includes.add(templateClass.include)
+
+            return templateTypeRef
+        }
+    }
 }

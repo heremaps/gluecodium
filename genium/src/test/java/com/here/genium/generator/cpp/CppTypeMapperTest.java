@@ -25,6 +25,7 @@ import static org.mockito.Mockito.when;
 
 import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.*;
+import java.util.Collections;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
@@ -169,7 +170,7 @@ public final class CppTypeMapperTest {
   @Test
   public void wrapMapType() {
     Include fooInclude = Include.Companion.createInternalInclude("bar/Foo.h");
-    CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("Foo").include(fooInclude).build();
+    CppTypeRef cppTypeRef = new CppComplexTypeRef("Foo", Collections.singletonList(fooInclude));
 
     CppTypeRef result = typeMapper.wrapMap(CppPrimitiveTypeRef.Companion.getUINT32(), cppTypeRef);
 
@@ -179,16 +180,17 @@ public final class CppTypeMapperTest {
     assertTrue(result instanceof CppTemplateTypeRef);
 
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) result;
-    assertEquals(CppTemplateTypeRef.TemplateClass.MAP, cppTemplateTypeRef.templateClass);
-    assertEquals(2, cppTemplateTypeRef.templateParameters.size());
+    assertEquals(CppTemplateTypeRef.TemplateClass.MAP, cppTemplateTypeRef.getTemplateClass());
+    assertEquals(2, cppTemplateTypeRef.getTemplateParameters().size());
     assertEquals(
-        CppPrimitiveTypeRef.Companion.getUINT32(), cppTemplateTypeRef.templateParameters.get(0));
-    assertEquals(cppTypeRef, cppTemplateTypeRef.templateParameters.get(1));
+        CppPrimitiveTypeRef.Companion.getUINT32(),
+        cppTemplateTypeRef.getTemplateParameters().get(0));
+    assertEquals(cppTypeRef, cppTemplateTypeRef.getTemplateParameters().get(1));
   }
 
   @Test
   public void wrapMapTypeWithEnumKeyType() {
-    CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("Foo").refersToEnum(true).build();
+    CppTypeRef cppTypeRef = new CppComplexTypeRef("Foo", Collections.emptyList(), true);
 
     CppTypeRef result = typeMapper.wrapMap(cppTypeRef, CppPrimitiveTypeRef.Companion.getVOID());
 
@@ -196,7 +198,7 @@ public final class CppTypeMapperTest {
     assertTrue(result instanceof CppTemplateTypeRef);
 
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) result;
-    assertEquals(3, cppTemplateTypeRef.templateParameters.size());
-    assertEquals(typeMapper.getEnumHashType(), cppTemplateTypeRef.templateParameters.get(2));
+    assertEquals(3, cppTemplateTypeRef.getTemplateParameters().size());
+    assertEquals(typeMapper.getEnumHashType(), cppTemplateTypeRef.getTemplateParameters().get(2));
   }
 }

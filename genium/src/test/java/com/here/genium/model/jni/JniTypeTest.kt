@@ -35,7 +35,7 @@ import java.util.Arrays
 class JniTypeTest(private val javaType: JavaType, private val expectedJniTypeSignature: String?) {
     @Test
     fun createJniSignatureTest() {
-        val result = JniType(javaType, CppComplexTypeRef.Builder("dummy").build())
+        val result = JniType(javaType, CppComplexTypeRef("dummy"))
 
         assertEquals(expectedJniTypeSignature, result.jniTypeSignature)
     }

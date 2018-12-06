@@ -26,7 +26,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public abstract class CppElementWithIncludes extends CppElement {
 
-  public final Set<Include> includes;
+  public final List<Include> includes;
 
   protected CppElementWithIncludes(final String name, final Collection<Include> includes) {
     this(name, name, includes);
@@ -35,6 +35,6 @@ public abstract class CppElementWithIncludes extends CppElement {
   private CppElementWithIncludes(
       final String name, final String fullyQualifiedName, final Collection<Include> includes) {
     super(name, fullyQualifiedName);
-    this.includes = includes != null ? new LinkedHashSet<>(includes) : new LinkedHashSet<>();
+    this.includes = includes != null ? new LinkedList<>(includes) : new LinkedList<>();
   }
 }

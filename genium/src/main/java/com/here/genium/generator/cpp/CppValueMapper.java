@@ -63,7 +63,7 @@ public class CppValueMapper {
 
     if (cppTypeRef == CppTypeMapper.STRING_TYPE) {
       return new CppValue("\"" + StringEscapeUtils.escapeJava(deploymentDefaultValue) + "\"");
-    } else if (cppTypeRef.refersToEnumType()) {
+    } else if (cppTypeRef.getRefersToEnumType()) {
       NameRules nameRules =
           CppNameResolver.selectNameRules(
               deploymentModel.isExternalType(francaField.getType().getDerived()));

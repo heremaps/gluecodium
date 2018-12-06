@@ -17,42 +17,15 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import com.here.genium.model.common.Include;
-import java.util.Collection;
-import lombok.EqualsAndHashCode;
-import lombok.Singular;
+import com.here.genium.model.common.Include
 
-@EqualsAndHashCode(callSuper = true)
-public class CppComplexTypeRef extends CppTypeRef {
+open class CppComplexTypeRef @JvmOverloads constructor(
+    fullyQualifiedName: String,
+    includes: List<Include> = emptyList(),
+    refersToEnum: Boolean = false
+) : CppTypeRef(fullyQualifiedName, includes) {
 
-  private final boolean refersToEnum;
-
-  @lombok.Builder(builderClassName = "Builder")
-  protected CppComplexTypeRef(
-      final String fullyQualifiedName,
-      @Singular final Collection<Include> includes,
-      final boolean refersToEnum) {
-    super(fullyQualifiedName, includes);
-    this.refersToEnum = refersToEnum;
-  }
-
-  @Override
-  public boolean refersToEnumType() {
-    return refersToEnum;
-  }
-
-  @SuppressWarnings("unused")
-  public static class Builder {
-    private String fullyQualifiedName;
-
-    Builder() {
-      this(null);
-    }
-
-    public Builder(final String fullyQualifiedName) {
-      this.fullyQualifiedName = fullyQualifiedName;
-    }
-  }
+    override val refersToEnumType = refersToEnum
 }

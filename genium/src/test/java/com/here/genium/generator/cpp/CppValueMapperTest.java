@@ -25,6 +25,7 @@ import static org.mockito.Mockito.when;
 
 import com.here.genium.model.cpp.*;
 import com.here.genium.model.franca.FrancaDeploymentModel;
+import java.util.Collections;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -107,7 +108,7 @@ public final class CppValueMapperTest {
 
   @Test
   public void mapDeploymentDefaultValueForEnum() {
-    CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("SomeType").refersToEnum(true).build();
+    CppTypeRef cppTypeRef = new CppComplexTypeRef("SomeType", Collections.emptyList(), true);
 
     CppValue result = valueMapper.mapDeploymentDefaultValue(cppTypeRef, francaField);
 
@@ -116,7 +117,7 @@ public final class CppValueMapperTest {
 
   @Test
   public void mapDeploymentDefaultValueForExternalEnumReadsNameVerbatim() {
-    CppTypeRef cppTypeRef = new CppComplexTypeRef.Builder("SomeType").refersToEnum(true).build();
+    CppTypeRef cppTypeRef = new CppComplexTypeRef("SomeType", Collections.emptyList(), true);
     when(deploymentModel.isExternalType(any())).thenReturn(true);
 
     CppValue result = valueMapper.mapDeploymentDefaultValue(cppTypeRef, francaField);

@@ -25,10 +25,10 @@ import java.util.Collections.singletonList
 
 class CppPrimitiveTypeRef private constructor(
     name: String,
-    includes: Collection<Include> = emptyList()
+    includes: List<Include> = emptyList()
 ) : CppTypeRef(name, includes) {
 
-    override fun refersToValueType() = true
+    override val refersToValueType = true
 
     companion object {
         private val intIncludes = singletonList(CppLibraryIncludes.INT_TYPES)

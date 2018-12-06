@@ -148,8 +148,8 @@ public class TopologicalSortTest {
                     "anotherShortcut",
                     new CppTypeDefRef(
                         TYPE_DEF_NAME,
-                        createComplex(TYPE_A),
-                        Include.Companion.createInternalInclude("foo"))),
+                        Collections.singletonList(Include.Companion.createInternalInclude("foo")),
+                        createComplex(TYPE_A))),
                 CPP_USING),
             Arrays.asList(1, 0)
           },
@@ -188,7 +188,7 @@ public class TopologicalSortTest {
   }
 
   private static CppComplexTypeRef createComplex(String name) {
-    return new CppComplexTypeRef.Builder(name).build();
+    return new CppComplexTypeRef(name);
   }
 
   private static CppStruct createCppStruct(String name, String firstType, String secondType) {
@@ -213,7 +213,9 @@ public class TopologicalSortTest {
         "fixed",
         "fixed",
         new CppTypeDefRef(
-            typeName, createComplex("nonsense"), Include.Companion.createInternalInclude("foo")),
+            typeName,
+            Collections.singletonList(Include.Companion.createInternalInclude("foo")),
+            createComplex("nonsense")),
         new CppValue(""));
   }
 
