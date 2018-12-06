@@ -47,11 +47,11 @@ import org.franca.deploymodel.dsl.fDeploy.*;
  *
  * <ol>
  *   <li>It scans the directory for all .fdepl and .fidl files.
- *   <li>It then loads & parses each fdepl file using the FDeployPersistenceManager.
+ *   <li>It then loads and parses each fdepl file using the FDeployPersistenceManager.
  *   <li>It collects all the interfaces/types/etc combined with their special InterfaceAccessor if
  *       data is defined.
- *   <li>Lastly it loads & parses all fidl files that were not imported by the fdepl files using the
- *       FrancaPersistenceManager, and collects the ones that were not already specified in the
+ *   <li>Lastly it loads and parses all fidl files that were not imported by the fdepl files using
+ *       the FrancaPersistenceManager, and collects the ones that were not already specified in the
  *       fdepl.
  * </ol>
  *

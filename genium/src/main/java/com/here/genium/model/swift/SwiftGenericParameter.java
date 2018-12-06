@@ -27,8 +27,13 @@ import lombok.AllArgsConstructor;
 /**
  * Represents a parameter in Swift "generic" declaration, e.g.:
  *
- * <p>func methodFoo&lt;parameterName: parameterTypeName>() -> typeBar<br>
- * where parameterName.constraintName == constraintTypeName
+ * <pre>{@code
+ * func methodFoo<parameterName: parameterTypeName>() -> typeBar
+ * }</pre>
+ *
+ * where
+ *
+ * <p>parameterName.constraintName == constraintTypeName
  */
 public final class SwiftGenericParameter extends SwiftModelElement {
 
