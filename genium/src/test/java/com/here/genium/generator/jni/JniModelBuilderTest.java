@@ -109,8 +109,7 @@ public class JniModelBuilderTest {
   private final JavaCustomType javaCustomType = JavaCustomType.builder(JAVA_CLASS_NAME).build();
   private final JavaField javaField =
       new JavaField(BASE_NAME_PARAMETER, javaCustomType, new JavaValue(javaCustomType));
-  private final CppComplexTypeRef cppCustomType =
-      new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build();
+  private final CppComplexTypeRef cppCustomType = new CppComplexTypeRef(CPP_CLASS_NAME);
   private final CppField cppField = new CppField(CPP_CLASS_NAME, cppCustomType);
 
   private final MockContextStack<JniElement> contextStack = new MockContextStack<>();
@@ -466,8 +465,7 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingInputArgumentReadsJavaCppParameters() {
     JavaParameter javaParameter = new JavaParameter("relative", javaCustomType);
-    CppParameter cppParameter =
-        new CppParameter("absolute", new CppComplexTypeRef.Builder(CPP_CLASS_NAME).build());
+    CppParameter cppParameter = new CppParameter("absolute", new CppComplexTypeRef(CPP_CLASS_NAME));
     when(javaBuilder.getFinalResult(any())).thenReturn(javaParameter);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppParameter);
     when(francaArgument.getType()).thenReturn(mock(FTypeRef.class));

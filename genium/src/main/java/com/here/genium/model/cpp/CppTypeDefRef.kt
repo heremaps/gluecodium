@@ -17,39 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import com.here.genium.model.common.Include;
-import java.util.Collection;
-import java.util.Collections;
-import lombok.EqualsAndHashCode;
+import com.here.genium.model.common.Include
 
-@EqualsAndHashCode(callSuper = true)
-public final class CppTypeDefRef extends CppTypeRef {
+class CppTypeDefRef(
+    name: String,
+    includes: List<Include>,
+    override val actualType: CppTypeRef
+) : CppTypeRef(name, includes) {
 
-  public final CppTypeRef actualType;
-
-  public CppTypeDefRef(String name, CppTypeRef type, Include include) {
-    this(name, type, Collections.singletonList(include));
-  }
-
-  public CppTypeDefRef(String name, CppTypeRef type, final Collection<Include> includes) {
-    super(name, includes);
-    actualType = type;
-  }
-
-  @Override
-  public boolean refersToValueType() {
-    return actualType.refersToValueType();
-  }
-
-  @Override
-  public boolean refersToEnumType() {
-    return actualType.refersToEnumType();
-  }
-
-  @Override
-  public CppTypeRef getActualType() {
-    return actualType;
-  }
+    override val refersToValueType = actualType.refersToValueType
+    override val refersToEnumType = actualType.refersToEnumType
 }

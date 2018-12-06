@@ -219,7 +219,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppTypeRef elementType = getPreviousResult(CppTypeRef.class);
     CppTypeRef targetType =
-        CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
+        CppTemplateTypeRef.Companion.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
     CppUsing cppUsing =
         new CppUsing(
             nameResolver.getName(francaArrayType),
@@ -295,7 +295,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppTypeRef cppTypeRef = typeMapper.map(francaTypeRef);
 
     if (FrancaTypeHelper.isImplicitArray(francaTypeRef)) {
-      cppTypeRef = CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, cppTypeRef);
+      cppTypeRef =
+          CppTemplateTypeRef.Companion.create(CppTemplateTypeRef.TemplateClass.VECTOR, cppTypeRef);
     }
 
     storeResult(cppTypeRef);

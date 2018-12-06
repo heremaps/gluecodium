@@ -42,22 +42,24 @@ public final class CppTemplateTypeRefTest {
   private static final CppPrimitiveTypeRef INT_TYPE_REF = CppPrimitiveTypeRef.Companion.getINT32();
 
   private static final CppComplexTypeRef COMPLEX_TYPE_REF =
-      new CppTemplateTypeRef.Builder("Custom").includes(INCLUDES).build();
+      new CppComplexTypeRef("Custom", INCLUDES);
 
   private static final List<Include> ERROR_INCLUDES =
       Collections.singletonList(Include.Companion.createInternalInclude("E"));
 
   private static final CppComplexTypeRef ERROR_TYPE_REF =
-      new CppTemplateTypeRef.Builder("CustomError").includes(ERROR_INCLUDES).build();
+      new CppComplexTypeRef("CustomError", ERROR_INCLUDES);
 
   @Test
   public void sharedPointerOfPrimitiveType() {
     CppTemplateTypeRef templateTypeRef =
-        CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.SHARED_POINTER, INT_TYPE_REF);
+        CppTemplateTypeRef.Companion.create(
+            CppTemplateTypeRef.TemplateClass.SHARED_POINTER, INT_TYPE_REF);
 
-    assertEquals(CppTemplateTypeRef.TemplateClass.SHARED_POINTER, templateTypeRef.templateClass);
-    assertEquals(1, templateTypeRef.templateParameters.size());
-    assertEquals(INT_TYPE_REF, templateTypeRef.templateParameters.get(0));
+    assertEquals(
+        CppTemplateTypeRef.TemplateClass.SHARED_POINTER, templateTypeRef.getTemplateClass());
+    assertEquals(1, templateTypeRef.getTemplateParameters().size());
+    assertEquals(INT_TYPE_REF, templateTypeRef.getTemplateParameters().get(0));
     assertEquals(2, templateTypeRef.includes.size());
     assertTrue(templateTypeRef.includes.contains(CppLibraryIncludes.MEMORY));
     assertTrue(templateTypeRef.includes.contains(CppLibraryIncludes.INT_TYPES));
@@ -66,12 +68,13 @@ public final class CppTemplateTypeRefTest {
   @Test
   public void sharedPointerOfComplexType() {
     CppTemplateTypeRef templateTypeRef =
-        CppTemplateTypeRef.create(
+        CppTemplateTypeRef.Companion.create(
             CppTemplateTypeRef.TemplateClass.SHARED_POINTER, COMPLEX_TYPE_REF);
 
-    assertEquals(CppTemplateTypeRef.TemplateClass.SHARED_POINTER, templateTypeRef.templateClass);
-    assertEquals(1, templateTypeRef.templateParameters.size());
-    assertEquals(COMPLEX_TYPE_REF, templateTypeRef.templateParameters.get(0));
+    assertEquals(
+        CppTemplateTypeRef.TemplateClass.SHARED_POINTER, templateTypeRef.getTemplateClass());
+    assertEquals(1, templateTypeRef.getTemplateParameters().size());
+    assertEquals(COMPLEX_TYPE_REF, templateTypeRef.getTemplateParameters().get(0));
     assertEquals(3, templateTypeRef.includes.size());
     assertTrue(templateTypeRef.includes.containsAll(INCLUDES));
     assertTrue(templateTypeRef.includes.contains(CppLibraryIncludes.MEMORY));
@@ -80,13 +83,13 @@ public final class CppTemplateTypeRefTest {
   @Test
   public void map() {
     CppTemplateTypeRef templateTypeRef =
-        CppTemplateTypeRef.create(
+        CppTemplateTypeRef.Companion.create(
             CppTemplateTypeRef.TemplateClass.MAP, INT_TYPE_REF, COMPLEX_TYPE_REF);
 
-    assertEquals(CppTemplateTypeRef.TemplateClass.MAP, templateTypeRef.templateClass);
-    assertEquals(2, templateTypeRef.templateParameters.size());
-    assertEquals(INT_TYPE_REF, templateTypeRef.templateParameters.get(0));
-    assertEquals(COMPLEX_TYPE_REF, templateTypeRef.templateParameters.get(1));
+    assertEquals(CppTemplateTypeRef.TemplateClass.MAP, templateTypeRef.getTemplateClass());
+    assertEquals(2, templateTypeRef.getTemplateParameters().size());
+    assertEquals(INT_TYPE_REF, templateTypeRef.getTemplateParameters().get(0));
+    assertEquals(COMPLEX_TYPE_REF, templateTypeRef.getTemplateParameters().get(1));
     assertEquals(4, templateTypeRef.includes.size());
     assertTrue(templateTypeRef.includes.containsAll(INCLUDES));
     assertTrue(templateTypeRef.includes.contains(CppLibraryIncludes.INT_TYPES));
@@ -96,11 +99,11 @@ public final class CppTemplateTypeRefTest {
   @Test
   public void vectorOfPrimitiveType() {
     CppTemplateTypeRef templateTypeRef =
-        CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, INT_TYPE_REF);
+        CppTemplateTypeRef.Companion.create(CppTemplateTypeRef.TemplateClass.VECTOR, INT_TYPE_REF);
 
-    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, templateTypeRef.templateClass);
-    assertEquals(1, templateTypeRef.templateParameters.size());
-    assertEquals(INT_TYPE_REF, templateTypeRef.templateParameters.get(0));
+    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, templateTypeRef.getTemplateClass());
+    assertEquals(1, templateTypeRef.getTemplateParameters().size());
+    assertEquals(INT_TYPE_REF, templateTypeRef.getTemplateParameters().get(0));
 
     assertEquals(2, templateTypeRef.includes.size());
     assertTrue(templateTypeRef.includes.contains(CppLibraryIncludes.VECTOR));
@@ -110,11 +113,12 @@ public final class CppTemplateTypeRefTest {
   @Test
   public void vectorOfComplexType() {
     CppTemplateTypeRef templateTypeRef =
-        CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, COMPLEX_TYPE_REF);
+        CppTemplateTypeRef.Companion.create(
+            CppTemplateTypeRef.TemplateClass.VECTOR, COMPLEX_TYPE_REF);
 
-    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, templateTypeRef.templateClass);
-    assertEquals(1, templateTypeRef.templateParameters.size());
-    assertEquals(COMPLEX_TYPE_REF, templateTypeRef.templateParameters.get(0));
+    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, templateTypeRef.getTemplateClass());
+    assertEquals(1, templateTypeRef.getTemplateParameters().size());
+    assertEquals(COMPLEX_TYPE_REF, templateTypeRef.getTemplateParameters().get(0));
 
     assertEquals(3, templateTypeRef.includes.size());
     assertTrue(templateTypeRef.includes.contains(CppLibraryIncludes.VECTOR));
@@ -124,13 +128,13 @@ public final class CppTemplateTypeRefTest {
   @Test
   public void expected() {
     CppTemplateTypeRef templateTypeRef =
-        CppTemplateTypeRef.create(
+        CppTemplateTypeRef.Companion.create(
             "", CppTemplateTypeRef.TemplateClass.RETURN, COMPLEX_TYPE_REF, ERROR_TYPE_REF);
 
-    assertEquals(CppTemplateTypeRef.TemplateClass.RETURN, templateTypeRef.templateClass);
-    assertEquals(2, templateTypeRef.templateParameters.size());
-    assertEquals(COMPLEX_TYPE_REF, templateTypeRef.templateParameters.get(0));
-    assertEquals(ERROR_TYPE_REF, templateTypeRef.templateParameters.get(1));
+    assertEquals(CppTemplateTypeRef.TemplateClass.RETURN, templateTypeRef.getTemplateClass());
+    assertEquals(2, templateTypeRef.getTemplateParameters().size());
+    assertEquals(COMPLEX_TYPE_REF, templateTypeRef.getTemplateParameters().get(0));
+    assertEquals(ERROR_TYPE_REF, templateTypeRef.getTemplateParameters().get(1));
 
     assertEquals(4, templateTypeRef.includes.size());
     assertTrue(templateTypeRef.includes.contains(CppLibraryIncludes.RETURN));

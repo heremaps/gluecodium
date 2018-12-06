@@ -52,7 +52,7 @@ public final class JniType implements JniElement {
     this.javaName = javaType.name;
     isComplex = !(javaType instanceof JavaPrimitiveType);
     isJavaArray = javaType instanceof JavaArrayType;
-    refersToValueType = cppType.refersToValueType();
+    refersToValueType = cppType.getRefersToValueType();
     isJavaVoid = javaType == JavaPrimitiveType.VOID;
     jniTypeSignature = createJniSignature(javaType);
     cppFullyQualifiedName = getCppFullyQualifiedName(cppType);

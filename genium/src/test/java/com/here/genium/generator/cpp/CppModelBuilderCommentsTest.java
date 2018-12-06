@@ -69,8 +69,7 @@ public class CppModelBuilderCommentsTest {
 
   private CppModelBuilder modelBuilder;
 
-  private final CppComplexTypeRef cppComplexTypeRef =
-      new CppComplexTypeRef.Builder("typically").build();
+  private final CppComplexTypeRef cppComplexTypeRef = new CppComplexTypeRef("typically");
 
   @Before
   public void setUp() {

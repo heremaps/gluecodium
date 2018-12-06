@@ -22,6 +22,7 @@ package com.here.genium.generator.cpp;
 import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
+import java.util.Collections;
 import org.franca.core.franca.*;
 
 /**
@@ -31,16 +32,15 @@ import org.franca.core.franca.*;
 public class CppTypeMapper {
 
   private static final CppTypeRef BASIC_STRING_CHAR_TYPE =
-      CppTemplateTypeRef.create(
+      CppTemplateTypeRef.Companion.create(
           CppTemplateTypeRef.TemplateClass.BASIC_STRING, CppPrimitiveTypeRef.Companion.getCHAR());
 
   public static final CppTypeRef STD_ERROR_CODE_TYPE =
-      new CppComplexTypeRef.Builder("::std::error_code")
-          .include(CppLibraryIncludes.SYSTEM_ERROR)
-          .build();
+      new CppComplexTypeRef(
+          "::std::error_code", Collections.singletonList(CppLibraryIncludes.SYSTEM_ERROR));
 
   public static final CppTypeRef STRING_TYPE =
-      new CppTypeDefRef("::std::string", BASIC_STRING_CHAR_TYPE, BASIC_STRING_CHAR_TYPE.includes);
+      new CppTypeDefRef("::std::string", BASIC_STRING_CHAR_TYPE.includes, BASIC_STRING_CHAR_TYPE);
 
   private static final String ENUM_HASH_CLASS_NAME = "EnumHash";
 
@@ -59,19 +59,19 @@ public class CppTypeMapper {
 
   public CppTypeRef getEnumHashType() {
     String name = CppNameRules.joinFullyQualifiedName(internalNamespace, ENUM_HASH_CLASS_NAME);
-    return new CppComplexTypeRef.Builder(name).include(CppLibraryIncludes.ENUM_HASH).build();
+    return new CppComplexTypeRef(name, Collections.singletonList(CppLibraryIncludes.ENUM_HASH));
   }
 
   public CppTypeRef getReturnWrapperType(final CppTypeRef outArgType, final CppTypeRef errorType) {
-    return CppTemplateTypeRef.create(
+    return CppTemplateTypeRef.Companion.create(
         internalNamespace, CppTemplateTypeRef.TemplateClass.RETURN, outArgType, errorType);
   }
 
   public CppTypeRef getByteBufferType() {
     CppTypeRef byteBufferType =
-        CppTemplateTypeRef.create(
+        CppTemplateTypeRef.Companion.create(
             CppTemplateTypeRef.TemplateClass.VECTOR, CppPrimitiveTypeRef.Companion.getUINT8());
-    return CppTemplateTypeRef.create(
+    return CppTemplateTypeRef.Companion.create(
         CppTemplateTypeRef.TemplateClass.SHARED_POINTER, byteBufferType);
   }
 
@@ -104,7 +104,7 @@ public class CppTypeMapper {
       CppComplexTypeRef instanceType = new CppInstanceTypeRef(fullyQualifiedName);
       instanceType.includes.add(includeResolver.resolveInclude(francaTypeDef));
 
-      return CppTemplateTypeRef.create(
+      return CppTemplateTypeRef.Companion.create(
           CppTemplateTypeRef.TemplateClass.SHARED_POINTER, instanceType);
     } else {
 
@@ -112,7 +112,9 @@ public class CppTypeMapper {
       CppTypeRef actualType = map(francaTypeDef.getActualType());
 
       return new CppTypeDefRef(
-          fullyQualifiedName, actualType, includeResolver.resolveInclude(francaTypeDef));
+          fullyQualifiedName,
+          Collections.singletonList(includeResolver.resolveInclude(francaTypeDef)),
+          actualType);
     }
   }
 
@@ -121,10 +123,12 @@ public class CppTypeMapper {
     String fullyQualifiedName = nameResolver.getFullyQualifiedName(francaArrayType);
     CppTypeRef elementType = map(francaArrayType.getElementType());
     CppTypeRef arrayType =
-        CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
+        CppTemplateTypeRef.Companion.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
 
     return new CppTypeDefRef(
-        fullyQualifiedName, arrayType, includeResolver.resolveInclude(francaArrayType));
+        fullyQualifiedName,
+        Collections.singletonList(includeResolver.resolveInclude(francaArrayType)),
+        arrayType);
   }
 
   private CppTypeRef mapMapType(final FMapType francaMapType) {
@@ -134,24 +138,26 @@ public class CppTypeMapper {
         wrapMap(map(francaMapType.getKeyType()), map(francaMapType.getValueType()));
 
     return new CppTypeDefRef(
-        fullyQualifiedName, mapType, includeResolver.resolveInclude(francaMapType));
+        fullyQualifiedName,
+        Collections.singletonList(includeResolver.resolveInclude(francaMapType)),
+        mapType);
   }
 
   public CppTypeRef wrapMap(final CppTypeRef key, final CppTypeRef value) {
-    if (key.refersToEnumType()) {
-      return CppTemplateTypeRef.create(
+    if (key.getRefersToEnumType()) {
+      return CppTemplateTypeRef.Companion.create(
           CppTemplateTypeRef.TemplateClass.MAP, key, value, getEnumHashType());
     } else {
-      return CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.MAP, key, value);
+      return CppTemplateTypeRef.Companion.create(CppTemplateTypeRef.TemplateClass.MAP, key, value);
     }
   }
 
   public CppTypeRef mapComplexType(final FModelElement francaElement) {
 
-    return new CppComplexTypeRef.Builder(nameResolver.getFullyQualifiedName(francaElement))
-        .refersToEnum(francaElement instanceof FEnumerationType)
-        .include(includeResolver.resolveInclude(francaElement))
-        .build();
+    return new CppComplexTypeRef(
+        nameResolver.getFullyQualifiedName(francaElement),
+        Collections.singletonList(includeResolver.resolveInclude(francaElement)),
+        francaElement instanceof FEnumerationType);
   }
 
   private CppTypeRef mapPredefined(final FTypeRef type) {
