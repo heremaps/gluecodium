@@ -20,17 +20,44 @@
 package smoke
 
 interface Errors {
-    version {
-        major 0
-        minor 1
-    }
 
     public enumeration InternalError {
         ERROR_NONE
         ERROR_FATAL
     }
 
-    enumeration ExternalErrors {
+    public enumeration ExternalErrors {
+        NONE
+        BOOM
+        BUST
+    }
+
+    method methodWithErrors {
+        error InternalError
+    }
+
+    method methodWithExternalErrors {
+        error ExternalErrors
+    }
+
+    method methodWithErrorsAndReturnValue {
+        out {
+            String result
+        }
+        error InternalError
+    }
+}
+
+interface ErrorsInterface {
+
+    typedef ErrorsInterface is undefined
+
+    public enumeration InternalError {
+        ERROR_NONE
+        ERROR_FATAL
+    }
+
+    public enumeration ExternalErrors {
         NONE
         BOOM
         BUST

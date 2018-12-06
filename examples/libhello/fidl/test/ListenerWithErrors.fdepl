@@ -18,32 +18,16 @@
  */
 
 import "classpath:/GeniumExtensions.fdepl"
-import "./Errors.fidl"
+import "./ListenerWithErrors.fidl"
 
-define GeniumExtensions for interface smoke.Errors
-{
-    method methodWithErrors {
-        Static = true
-    }
-
-    method methodWithExternalErrors {
-        Static = true
-    }
-
-    method methodWithErrorsAndReturnValue {
-        Static = true
-    }
-}
-
-define GeniumExtensions for interface smoke.ErrorsInterface
+define GeniumExtensions for interface test.ListenerWithErrors
 {
     IsInterface = true
 }
 
-define ExternalTypes for interface smoke.Errors
+define GeniumExtensions for interface test.ErrorMessenger
 {
-    enumeration ExternalErrors {
-        ExternalType = "foo/Bar.h"
-        ExternalName = "::fire::SomeEnum"
+    method create {
+        Static = true
     }
 }

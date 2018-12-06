@@ -60,15 +60,39 @@ using namespace ::{{internalNamespace}}::jni;
     j{{type.javaName}} j{{name}} = n{{name}};{{!!
 }}{{/unless}}{{!!
 }}{{/parameters}}
-{{#if returnType}}
-    auto result = callJavaMethod<{{returnType.name}}>( "{{javaMethodName}}", "({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{returnType.jniTypeSignature}}", {{!!
+    {{#unless returnType.isJavaVoid}}auto result = {{/unless}}callJavaMethod<{{returnType.name}}>( "{{javaMethodName}}", {{!!
+    }}"({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{returnType.jniTypeSignature}}", {{!!
     }}jniEnv {{#if parameters}},{{/if}} {{#parameters}}j{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
-    return {{#if returnType.isComplex}}{{internalNamespace}}::jni::convert_from_jni( jniEnv, result, ({{returnType.cppName}}*)nullptr ){{/if}}{{!!
-    }}{{#unless returnType.isComplex}}result{{/unless}};
+{{#if exception}}
+    auto jException = jniEnv->ExceptionOccurred( );
+    if ( jException )
+    {
+        auto jEnumValue = {{internalNamespace}}::jni::get_object_field(
+            jniEnv,
+            jniEnv->GetObjectClass( jException ),
+            jException,
+            "error",
+            "{{exception.jniEnum.jniTypeSignature}}" );
+        auto nEnumValue = {{internalNamespace}}::jni::convert_from_jni(
+            jniEnv,
+            jEnumValue,
+            ({{exception.jniEnum.cppFullyQualifiedName}}*)nullptr );
+
+        jniEnv->DeleteLocalRef( jException );
+        jniEnv->ExceptionClear( );
+        return ::std::error_code{nEnumValue};
+    }
+    else
+    {
 {{/if}}{{!!
-}}{{#unless returnType}}
-    callJavaMethod<void>( "{{javaMethodName}}", "({{#parameters}}{{type.jniTypeSignature}}{{/parameters}})V", {{!!
-    }}jniEnv {{#if parameters}},{{/if}} {{#parameters}}j{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+}}{{#unless returnType.isJavaVoid}}
+    return {{#if returnType.isComplex}}{{internalNamespace}}::jni::convert_from_jni( jniEnv, result, ({{returnType.cppName}}{{#if exception}}::value_type{{/if}}*)nullptr ){{/if}}{{!!
+    }}{{#unless returnType.isComplex}}result{{/unless}};
 {{/unless}}
+{{#if exception}}{{#if returnType.isJavaVoid}}
+        return ::std::error_code{};
+{{/if}}
+    }
+{{/if}}
 }
 {{/proxyMethod}}
