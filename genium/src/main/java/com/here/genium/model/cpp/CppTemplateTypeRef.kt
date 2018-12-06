@@ -39,12 +39,12 @@ public final class CppTemplateTypeRef extends CppComplexTypeRef {
     RETURN(null, "Return", CppLibraryIncludes.RETURN);
 
     public final String namespace;
-    public final String name;
+    public final String templateName;
     public final Set<Include> includes;
 
-    TemplateClass(final String namespace, final String name, Include... includes) {
+    TemplateClass(final String namespace, final String templateName, Include... includes) {
       this.namespace = namespace;
-      this.name = name;
+      this.templateName = templateName;
       this.includes = new LinkedHashSet<>(Arrays.asList(includes));
     }
   }
@@ -69,7 +69,7 @@ public final class CppTemplateTypeRef extends CppComplexTypeRef {
     String parametersString =
         templateParameters.stream().map(param -> param.name).collect(Collectors.joining(", "));
     String fullyQualifiedName =
-        CppNameRules.joinFullyQualifiedName(namespace, templateClass.name)
+        CppNameRules.joinFullyQualifiedName(namespace, templateClass.templateName)
             + "< "
             + parametersString
             + " >";
