@@ -138,7 +138,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     Stream<Streamable> allElementsStream = members.stream().flatMap(CppElement::streamRecursive);
     return CollectionsHelper.getStreamOfType(allElementsStream, CppElementWithIncludes.class)
         .map(elementWithIncludes -> elementWithIncludes.includes)
-        .flatMap(Set::stream)
+        .flatMap(List::stream)
         .collect(Collectors.toList());
   }
 

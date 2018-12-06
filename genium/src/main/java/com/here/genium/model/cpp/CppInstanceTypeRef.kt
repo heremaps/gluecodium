@@ -20,4 +20,4 @@
 package com.here.genium.model.cpp
 
 class CppInstanceTypeRef(fullyQualifiedName: String) :
-    CppComplexTypeRef(fullyQualifiedName, null, false)
+    CppComplexTypeRef(fullyQualifiedName)

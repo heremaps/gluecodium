@@ -89,11 +89,12 @@ public final class TopologicalSort {
 
     if (typeRef instanceof CppTemplateTypeRef) {
       CppTemplateTypeRef templateTypeRef = (CppTemplateTypeRef) typeRef;
-      templateTypeRef.templateParameters.forEach(
-          parameter -> dependencies.addAll(getTypeDependencies(parameter)));
+      templateTypeRef
+          .getTemplateParameters()
+          .forEach(parameter -> dependencies.addAll(getTypeDependencies(parameter)));
     } else if (typeRef instanceof CppTypeDefRef) {
       CppTypeDefRef typeDefRef = (CppTypeDefRef) typeRef;
-      dependencies.addAll(getTypeDependencies(typeDefRef.actualType));
+      dependencies.addAll(getTypeDependencies(typeDefRef.getActualType()));
     }
 
     if (fullyQualifiedNames.contains(typeRef.name)) {
