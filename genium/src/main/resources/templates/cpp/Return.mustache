@@ -63,10 +63,11 @@ namespace {{.}}
 template < class Value, class Error = std::error_code >
 class Return
 {
-private:
+public:
     using value_type = Value;
     using error_type = Error;
 
+private:
     // Internal representation:
     bool m_has_value;
     union {

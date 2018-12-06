@@ -36,6 +36,8 @@
 {{/constants}}
 {{#enums}}{{prefixPartial "java/Enum" "    "}}
 {{/enums}}
+{{#exceptions}}{{#set static=true}}{{prefixPartial "java/ExceptionDefinition" "    "}}{{/set}}
+{{/exceptions}}
 {{#innerClasses}}{{prefixPartial "java/Class" "    "}}
 {{/innerClasses}}
 {{#set isInterface=true}}{{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
