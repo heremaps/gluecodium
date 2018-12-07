@@ -17,14 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.cli;
+package com.here.genium.cli
 
-public class GeniumExecutionException extends RuntimeException {
-  public GeniumExecutionException(String message) {
-    super(message);
-  }
-
-  public GeniumExecutionException(String message, Throwable cause) {
-    super(message, cause);
-  }
+class GeniumExecutionException : RuntimeException {
+    constructor(message: String) : super(message)
+    constructor(message: String, cause: Throwable) : super(message, cause)
 }
