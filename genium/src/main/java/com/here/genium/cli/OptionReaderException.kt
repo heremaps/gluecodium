@@ -17,15 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.cli;
+package com.here.genium.cli
 
-public class OptionReaderException extends Exception {
-
-  public OptionReaderException(final String message) {
-    super(message);
-  }
-
-  public OptionReaderException(final Exception e) {
-    super(e.getMessage());
-  }
+class OptionReaderException : Exception {
+    constructor(message: String) : super(message)
+    constructor(e: Exception) : super(e.message)
 }

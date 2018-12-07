@@ -17,96 +17,66 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.common;
+package com.here.genium.common
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.text.DecimalFormat
+import java.util.concurrent.TimeUnit
+import java.util.logging.Level
+import java.util.logging.Logger
 
-public class TimeLogger {
+class TimeLogger(
+    private val logger: Logger,
+    private val timeUnit: TimeUnit,
+    private val loggingLevel: Level
+) {
+    private val timedEntries = mutableListOf<TimedLogEntry>()
+    private val formatter = DecimalFormat()
 
-  private final List<TimedLogEntry> timedEntries = new LinkedList<>();
-  private final NumberFormat formatter = new DecimalFormat();
-  private final Logger logger;
-  private final TimeUnit timeUnit;
-  private final Level loggingLevel;
-
-  private class TimedLogEntry {
-    public final long time;
-    public final String message;
-
-    TimedLogEntry(final String message) {
-      time = System.nanoTime();
-      this.message = message;
+    private inner class TimedLogEntry(val message: String) {
+        val time = System.nanoTime()
     }
-  }
 
-  public TimeLogger(final Logger logger, final TimeUnit timeUnit, final Level loggingLevel) {
-    this.logger = logger;
-    this.timeUnit = timeUnit;
-    this.loggingLevel = loggingLevel;
-  }
-
-  public void start() {
-    if (!timedEntries.isEmpty()) {
-      throw new IllegalStateException("Calling start() multiple times is illegal");
+    fun start() {
+        if (!timedEntries.isEmpty()) {
+            throw IllegalStateException("Calling start() multiple times is illegal")
+        }
+        timedEntries.add(TimedLogEntry(""))
     }
-    timedEntries.add(new TimedLogEntry(""));
-  }
 
-  public void addLogEntry(final String message) {
-    if (timedEntries.isEmpty()) {
-      throw new IllegalStateException(
-          "Adding a log entry without having called start() in advance is illegal");
+    fun addLogEntry(message: String) {
+        if (timedEntries.isEmpty()) {
+            throw IllegalStateException(
+                "Adding a log entry without having called start() in advance is illegal"
+            )
+        }
+        timedEntries.add(TimedLogEntry(message))
     }
-    timedEntries.add(new TimedLogEntry(message));
-  }
 
-  public void log() {
+    fun log() {
+        if (timedEntries.size < 2) {
+            return
+        }
+        val iterator = timedEntries.iterator()
+        var lastTime = iterator.next().time
+        while (iterator.hasNext()) {
+            val current = iterator.next()
+            val elapsedTime = current.time - lastTime
+            logger.log(
+                loggingLevel,
+                "${formatter.format(timeUnit.convert(elapsedTime,TimeUnit.NANOSECONDS))} ${timeUnitName(timeUnit)} <${current.message}>"
+            )
+            lastTime = current.time
+        }
+    }
 
-    if (timedEntries.size() < 2) {
-      return;
+    private fun timeUnitName(unit: TimeUnit) = when (unit) {
+        TimeUnit.NANOSECONDS -> "ns"
+        TimeUnit.MICROSECONDS -> "\u00B5s"
+        TimeUnit.MILLISECONDS -> "ms"
+        TimeUnit.SECONDS -> "s"
+        TimeUnit.MINUTES -> "min"
+        TimeUnit.HOURS -> "h"
+        TimeUnit.DAYS -> "d"
+        else -> null
     }
-    Iterator<TimedLogEntry> iterator = timedEntries.iterator();
-    long lastTime = iterator.next().time;
-    while (iterator.hasNext()) {
-      TimedLogEntry current = iterator.next();
-      long elapsedTime = current.time - lastTime;
-      logger.log(
-          loggingLevel,
-          formatter.format(timeUnit.convert(elapsedTime, TimeUnit.NANOSECONDS))
-              + " "
-              + timeUnitName(timeUnit)
-              + " <"
-              + current.message
-              + ">");
-      lastTime = current.time;
-    }
-  }
-
-  private static String timeUnitName(TimeUnit unit) {
-    switch (unit) {
-      case NANOSECONDS:
-        return "ns";
-      case MICROSECONDS:
-        return "\u00B5s";
-      case MILLISECONDS:
-        return "ms";
-      case SECONDS:
-        return "s";
-      case MINUTES:
-        return "min";
-      case HOURS:
-        return "h";
-      case DAYS:
-        return "d";
-      default:
-        return null;
-    }
-  }
 }
