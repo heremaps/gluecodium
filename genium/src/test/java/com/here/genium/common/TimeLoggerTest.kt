@@ -75,19 +75,6 @@ class TimeLoggerTest {
     }
 
     @Test
-    fun addEntryNullString() {
-        // Arrange
-        timeLogger.start()
-
-        // Act
-        timeLogger.addLogEntry(null)
-
-        // Assert
-        verifyStatic(times(2))
-        System.nanoTime()
-    }
-
-    @Test
     fun addEntryEmptyString() {
         // Arrange
         timeLogger.start()
@@ -152,21 +139,18 @@ class TimeLoggerTest {
         `when`(System.nanoTime()).thenReturn(321094L)
         timeLogger.addLogEntry("Blu")
         `when`(System.nanoTime()).thenReturn(999999L)
-        timeLogger.addLogEntry(null)
-        `when`(System.nanoTime()).thenReturn(999999L)
         timeLogger.addLogEntry("")
 
         // Act
         timeLogger.log()
 
         // Assert
-        verifyStatic(times(5))
+        verifyStatic(times(4))
         System.nanoTime()
         Mockito.inOrder(logger).apply {
             verify(logger).log(eq(Level.INFO), eq("99 ns <Bla>"))
             verify(logger).log(eq(Level.INFO), eq("321,095 ns <Blu>"))
-            verify(logger).log(eq(Level.INFO), eq("678,905 ns <null>"))
-            verify(logger).log(eq(Level.INFO), eq("0 ns <>"))
+            verify(logger).log(eq(Level.INFO), eq("678,905 ns <>"))
         }
     }
 }

@@ -17,26 +17,25 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.logger;
+package com.here.genium.logger
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.LogManager;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.eclipse.xtext.linking.impl.ImportedNamesAdapter;
+import org.apache.log4j.Level
+import org.apache.log4j.Logger
+import org.eclipse.xtext.linking.impl.ImportedNamesAdapter
+import java.io.IOException
+import java.util.logging.LogManager
 
-/** Initialize logging framework with logging.properties file. */
-public class GeniumLogger {
-
-  public static void initialize(String propertiesFile) {
-    try {
-      InputStream stream = GeniumLogger.class.getClassLoader().getResourceAsStream(propertiesFile);
-      LogManager.getLogManager().readConfiguration(stream);
-      // Disable Xtext info messages
-      Logger.getLogger(ImportedNamesAdapter.class).setLevel(Level.WARN);
-    } catch (IOException e) {
-      e.printStackTrace();
+/** Initialize logging framework with logging.properties file.  */
+object GeniumLogger {
+    fun initialize(propertiesFile: String) {
+        try {
+            LogManager.getLogManager().readConfiguration(
+                GeniumLogger::class.java.classLoader.getResourceAsStream(propertiesFile)
+            )
+            // Disable Xtext info messages
+            Logger.getLogger(ImportedNamesAdapter::class.java).level = Level.WARN
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
     }
-  }
 }
