@@ -20,8 +20,6 @@
   !}}
 class {{name}}Proxy : public {{selfType.name}}::element_type, public CachedProxyBase<{{name}}Proxy> {
 public:
-    using function_table_t = {{functionTableName}};
-
     {{name}}Proxy({{functionTableName}}&& functions)
      : mFunctions(std::move(functions))
     {
@@ -34,22 +32,21 @@ public:
     {{#each inheritedFunctions functions}}
     {{#if selfParameter}}
     {{returnType}} {{functionName}}({{joinPartial parameters "baseApiParameter" ", "}}){{#if isConst}} const{{/if}} override {
+        {{#if isReturningVoid}}{{>swiftDelegateCall}};{{/if}}{{!!
+        }}{{#unless isReturningVoid}}
         {{>returnConversion}}
+        return _return_value;{{/unless}}
     }
     {{/if}}
     {{/each}}
 
 private:
-    function_table_t mFunctions;
+    {{functionTableName}} mFunctions;
 };
 
 _baseRef {{name}}_create_proxy({{functionTableName}} functionTable) {
     auto proxy = {{name}}Proxy::get_proxy(std::move(functionTable));
-    if (proxy) {
-        return reinterpret_cast<_baseRef>( new {{selfType}}(std::move(proxy)) );
-    } else {
-        return 0;
-    }
+    return proxy ? reinterpret_cast<_baseRef>(new {{selfType}}(std::move(proxy))) : 0;
 }
 
 const void* {{name}}_get_swift_object_from_cache(_baseRef handle) {
@@ -64,28 +61,15 @@ const void* {{name}}_get_swift_object_from_cache(_baseRef handle) {
 {{+swiftParameter}}{{#switch mappedType.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}{{name}}{{/case}}{{!!
     }}{{#case "BUILTIN_STRING"}}std_string_create_handle({{name}}.c_str()){{/case}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
-    }}{{#case "CLASS" break=false}}{{/case}}{{!!
-    }}{{#case "ARRAY" break=false}}{{/case}}{{!!
-    }}{{#case "MAP" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}reinterpret_cast<_baseRef>( new {{mappedType}}({{name}}) ){{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<uint32_t>({{name}}){{/case}}{{!!
-    }}{{#default}}{{name}}{{/default}}{{!!
+    }}{{#default}}reinterpret_cast<_baseRef>(new {{mappedType}}({{name}})){{/default}}{{!!
 }}{{/switch}}{{/swiftParameter}}
 {{+returnConversion}}{{#switch returnType.typeCategory.toString}}{{!!
-    }}{{#case "BUILTIN_SIMPLE"}}return {{>swiftDelegateCall}};{{/case}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
-    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
-    }}{{#case "ARRAY" break=false}}{{/case}}{{!!
-    }}{{#case "MAP" break=false}}{{/case}}{{!!
-    }}{{#case "CLASS" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}auto _return_value_ptr = get_pointer<{{returnType}}>({{>swiftDelegateCall}});
+    }}{{#case "BUILTIN_SIMPLE"}}auto _return_value = {{>swiftDelegateCall}};{{/case}}{{!!
+    }}{{#case "ENUM"}}auto _return_value = static_cast<{{returnType}}>({{>swiftDelegateCall}});{{/case}}{{!!
+    }}{{#default}}auto _return_value_ptr = get_pointer<{{returnType}}>({{>swiftDelegateCall}});
         auto _return_value(*_return_value_ptr);
-        delete _return_value_ptr;
-        return _return_value;
-    {{/case}}{{!!
-    }}{{#case "ENUM"}}return static_cast<{{returnType}}>({{>swiftDelegateCall}});{{/case}}{{!!
-    }}{{#default}}{{>swiftDelegateCall}};{{/default}}{{!!
+        delete _return_value_ptr;{{/default}}{{!!
 }}{{/switch}}
 {{/returnConversion}}
 {{+swiftDelegateCall}}mFunctions.{{name}}(mFunctions.swift_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}){{/swiftDelegateCall}}

@@ -22,7 +22,7 @@ typedef struct {
     void* swift_pointer;
     void(*release)(void* swift_pointer);
 {{#each inheritedFunctions functions}}
-    {{returnType.functionReturnType}}(*{{name}})(void* swift_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "pars" ", "}});
+    {{>cbridge/FunctionReturnType}}(*{{name}})(void* swift_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "pars" ", "}});
 {{/each}}
 } {{functionTableName}};
 {{+pars}}{{mappedType.functionReturnType}} {{name}}{{/pars}}
