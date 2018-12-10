@@ -53,7 +53,6 @@ void smoke_CalculatorListener_onCalculationResultInstance(_baseRef _instance, _b
 
 class smoke_CalculatorListenerProxy : public std::shared_ptr<::smoke::CalculatorListener>::element_type, public CachedProxyBase<smoke_CalculatorListenerProxy> {
 public:
-    using function_table_t = smoke_CalculatorListener_FunctionTable;
     smoke_CalculatorListenerProxy(smoke_CalculatorListener_FunctionTable&& functions)
      : mFunctions(std::move(functions))
     {
@@ -62,34 +61,30 @@ public:
         mFunctions.release(mFunctions.swift_pointer);
     }
     void on_calculation_result(double calculationResult) override {
-        return mFunctions.smoke_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);
+        mFunctions.smoke_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);
     }
     void on_calculation_result_const(double calculationResult) const override {
-        return mFunctions.smoke_CalculatorListener_onCalculationResultConst(mFunctions.swift_pointer, calculationResult);
+        mFunctions.smoke_CalculatorListener_onCalculationResultConst(mFunctions.swift_pointer, calculationResult);
     }
     void on_calculation_result_struct(const ::smoke::CalculatorListener::ResultStruct& calculationResult) override {
-        return mFunctions.smoke_CalculatorListener_onCalculationResultStruct(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new ::smoke::CalculatorListener::ResultStruct(calculationResult) ));
+        mFunctions.smoke_CalculatorListener_onCalculationResultStruct(mFunctions.swift_pointer, reinterpret_cast<_baseRef>(new ::smoke::CalculatorListener::ResultStruct(calculationResult)));
     }
     void on_calculation_result_array(const std::vector<double>& calculationResult) override {
-        return mFunctions.smoke_CalculatorListener_onCalculationResultArray(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new std::vector<double>(calculationResult) ));
+        mFunctions.smoke_CalculatorListener_onCalculationResultArray(mFunctions.swift_pointer, reinterpret_cast<_baseRef>(new std::vector<double>(calculationResult)));
     }
     void on_calculation_result_map(const ::smoke::CalculatorListener::NamedCalculationResults& calculationResults) override {
-        return mFunctions.smoke_CalculatorListener_onCalculationResultMap(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new ::smoke::CalculatorListener::NamedCalculationResults(calculationResults) ));
+        mFunctions.smoke_CalculatorListener_onCalculationResultMap(mFunctions.swift_pointer, reinterpret_cast<_baseRef>(new ::smoke::CalculatorListener::NamedCalculationResults(calculationResults)));
     }
     void on_calculation_result_instance(const std::shared_ptr<::smoke::CalculationResult>& calculationResult) override {
-        return mFunctions.smoke_CalculatorListener_onCalculationResultInstance(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new std::shared_ptr<::smoke::CalculationResult>(calculationResult) ));
+        mFunctions.smoke_CalculatorListener_onCalculationResultInstance(mFunctions.swift_pointer, reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::CalculationResult>(calculationResult)));
     }
 private:
-    function_table_t mFunctions;
+    smoke_CalculatorListener_FunctionTable mFunctions;
 };
 
 _baseRef smoke_CalculatorListener_create_proxy(smoke_CalculatorListener_FunctionTable functionTable) {
     auto proxy = smoke_CalculatorListenerProxy::get_proxy(std::move(functionTable));
-    if (proxy) {
-        return reinterpret_cast<_baseRef>( new std::shared_ptr<::smoke::CalculatorListener>(std::move(proxy)) );
-    } else {
-        return 0;
-    }
+    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::CalculatorListener>(std::move(proxy))) : 0;
 }
 
 const void* smoke_CalculatorListener_get_swift_object_from_cache(_baseRef handle) {

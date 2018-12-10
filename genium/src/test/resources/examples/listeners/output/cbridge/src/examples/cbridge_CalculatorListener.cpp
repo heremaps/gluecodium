@@ -25,8 +25,6 @@ void examples_CalculatorListener_onCalculationResult(_baseRef _instance, double 
 
 class examples_CalculatorListenerProxy : public std::shared_ptr<::examples::CalculatorListener>::element_type, public CachedProxyBase<examples_CalculatorListenerProxy> {
 public:
-    using function_table_t = examples_CalculatorListener_FunctionTable;
-
     examples_CalculatorListenerProxy(examples_CalculatorListener_FunctionTable&& functions)
      : mFunctions(std::move(functions))
     {
@@ -37,20 +35,16 @@ public:
     }
 
     void on_calculation_result(double calculationResult) override {
-        return mFunctions.examples_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);
+        mFunctions.examples_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);
     }
 
 private:
-    function_table_t mFunctions;
+    examples_CalculatorListener_FunctionTable mFunctions;
 };
 
 _baseRef examples_CalculatorListener_create_proxy(examples_CalculatorListener_FunctionTable functionTable) {
     auto proxy = examples_CalculatorListenerProxy::get_proxy(std::move(functionTable));
-    if (proxy) {
-        return reinterpret_cast<_baseRef>( new std::shared_ptr<::examples::CalculatorListener>(std::move(proxy)) );
-    } else {
-        return 0;
-    }
+    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::examples::CalculatorListener>(std::move(proxy))) : 0;
 }
 
 const void* examples_CalculatorListener_get_swift_object_from_cache(_baseRef handle) {

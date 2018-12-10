@@ -54,7 +54,6 @@ _baseRef smoke_ListenersWithReturnValues_fetchData_instance(_baseRef _instance) 
 }
 class smoke_ListenersWithReturnValuesProxy : public std::shared_ptr<::smoke::ListenersWithReturnValues>::element_type, public CachedProxyBase<smoke_ListenersWithReturnValuesProxy> {
 public:
-    using function_table_t = smoke_ListenersWithReturnValues_FunctionTable;
     smoke_ListenersWithReturnValuesProxy(smoke_ListenersWithReturnValues_FunctionTable&& functions)
      : mFunctions(std::move(functions))
     {
@@ -63,7 +62,8 @@ public:
         mFunctions.release(mFunctions.swift_pointer);
     }
     double fetch_data() override {
-        return mFunctions.smoke_ListenersWithReturnValues_fetchData_double(mFunctions.swift_pointer);
+        auto _return_value = mFunctions.smoke_ListenersWithReturnValues_fetchData_double(mFunctions.swift_pointer);
+        return _return_value;
     }
     std::string fetch_data() override {
         auto _return_value_ptr = get_pointer<std::string>(mFunctions.smoke_ListenersWithReturnValues_fetchData_string(mFunctions.swift_pointer));
@@ -78,7 +78,8 @@ public:
         return _return_value;
     }
     ::smoke::ListenersWithReturnValues::ResultEnum fetch_data() override {
-        return static_cast<::smoke::ListenersWithReturnValues::ResultEnum>(mFunctions.smoke_ListenersWithReturnValues_fetchData_enum(mFunctions.swift_pointer));
+        auto _return_value = static_cast<::smoke::ListenersWithReturnValues::ResultEnum>(mFunctions.smoke_ListenersWithReturnValues_fetchData_enum(mFunctions.swift_pointer));
+        return _return_value;
     }
     std::vector<double> fetch_data() override {
         auto _return_value_ptr = get_pointer<std::vector<double>>(mFunctions.smoke_ListenersWithReturnValues_fetchData_Array(mFunctions.swift_pointer));
@@ -99,15 +100,11 @@ public:
         return _return_value;
     }
 private:
-    function_table_t mFunctions;
+    smoke_ListenersWithReturnValues_FunctionTable mFunctions;
 };
 _baseRef smoke_ListenersWithReturnValues_create_proxy(smoke_ListenersWithReturnValues_FunctionTable functionTable) {
     auto proxy = smoke_ListenersWithReturnValuesProxy::get_proxy(std::move(functionTable));
-    if (proxy) {
-        return reinterpret_cast<_baseRef>( new std::shared_ptr<::smoke::ListenersWithReturnValues>(std::move(proxy)) );
-    } else {
-        return 0;
-    }
+    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::ListenersWithReturnValues>(std::move(proxy))) : 0;
 }
 const void* smoke_ListenersWithReturnValues_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_ListenersWithReturnValuesProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get()) : nullptr;

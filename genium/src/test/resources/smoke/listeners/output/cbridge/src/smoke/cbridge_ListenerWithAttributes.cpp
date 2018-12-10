@@ -75,7 +75,6 @@ void smoke_ListenerWithAttributes_bufferedMessage_set(_baseRef _instance, _baseR
 }
 class smoke_ListenerWithAttributesProxy : public std::shared_ptr<::smoke::ListenerWithAttributes>::element_type, public CachedProxyBase<smoke_ListenerWithAttributesProxy> {
 public:
-    using function_table_t = smoke_ListenerWithAttributes_FunctionTable;
     smoke_ListenerWithAttributesProxy(smoke_ListenerWithAttributes_FunctionTable&& functions)
      : mFunctions(std::move(functions))
     {
@@ -90,7 +89,7 @@ public:
         return _return_value;
     }
     void set_message(const std::string& newValue) override {
-        return mFunctions.smoke_ListenerWithAttributes_message_set(mFunctions.swift_pointer, std_string_create_handle(newValue.c_str()));
+        mFunctions.smoke_ListenerWithAttributes_message_set(mFunctions.swift_pointer, std_string_create_handle(newValue.c_str()));
     }
     std::shared_ptr<::smoke::CalculationResult> get_packed_message() const override {
         auto _return_value_ptr = get_pointer<std::shared_ptr<::smoke::CalculationResult>>(mFunctions.smoke_ListenerWithAttributes_packedMessage_get(mFunctions.swift_pointer));
@@ -99,7 +98,7 @@ public:
         return _return_value;
     }
     void set_packed_message(const std::shared_ptr<::smoke::CalculationResult>& newValue) override {
-        return mFunctions.smoke_ListenerWithAttributes_packedMessage_set(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new std::shared_ptr<::smoke::CalculationResult>(newValue) ));
+        mFunctions.smoke_ListenerWithAttributes_packedMessage_set(mFunctions.swift_pointer, reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::CalculationResult>(newValue)));
     }
     ::smoke::ListenerWithAttributes::ResultStruct get_structured_message() const override {
         auto _return_value_ptr = get_pointer<::smoke::ListenerWithAttributes::ResultStruct>(mFunctions.smoke_ListenerWithAttributes_structuredMessage_get(mFunctions.swift_pointer));
@@ -108,13 +107,14 @@ public:
         return _return_value;
     }
     void set_structured_message(const ::smoke::ListenerWithAttributes::ResultStruct& newValue) override {
-        return mFunctions.smoke_ListenerWithAttributes_structuredMessage_set(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new ::smoke::ListenerWithAttributes::ResultStruct(newValue) ));
+        mFunctions.smoke_ListenerWithAttributes_structuredMessage_set(mFunctions.swift_pointer, reinterpret_cast<_baseRef>(new ::smoke::ListenerWithAttributes::ResultStruct(newValue)));
     }
     ::smoke::ListenerWithAttributes::ResultEnum get_enumerated_message() const override {
-        return static_cast<::smoke::ListenerWithAttributes::ResultEnum>(mFunctions.smoke_ListenerWithAttributes_enumeratedMessage_get(mFunctions.swift_pointer));
+        auto _return_value = static_cast<::smoke::ListenerWithAttributes::ResultEnum>(mFunctions.smoke_ListenerWithAttributes_enumeratedMessage_get(mFunctions.swift_pointer));
+        return _return_value;
     }
     void set_enumerated_message(const ::smoke::ListenerWithAttributes::ResultEnum newValue) override {
-        return mFunctions.smoke_ListenerWithAttributes_enumeratedMessage_set(mFunctions.swift_pointer, static_cast<uint32_t>(newValue));
+        mFunctions.smoke_ListenerWithAttributes_enumeratedMessage_set(mFunctions.swift_pointer, static_cast<uint32_t>(newValue));
     }
     std::vector<std::string> get_arrayed_message() const override {
         auto _return_value_ptr = get_pointer<std::vector<std::string>>(mFunctions.smoke_ListenerWithAttributes_arrayedMessage_get(mFunctions.swift_pointer));
@@ -123,7 +123,7 @@ public:
         return _return_value;
     }
     void set_arrayed_message(const std::vector<std::string>& newValue) override {
-        return mFunctions.smoke_ListenerWithAttributes_arrayedMessage_set(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new std::vector<std::string>(newValue) ));
+        mFunctions.smoke_ListenerWithAttributes_arrayedMessage_set(mFunctions.swift_pointer, reinterpret_cast<_baseRef>(new std::vector<std::string>(newValue)));
     }
     ::smoke::ListenerWithAttributes::StringToDouble get_mapped_message() const override {
         auto _return_value_ptr = get_pointer<::smoke::ListenerWithAttributes::StringToDouble>(mFunctions.smoke_ListenerWithAttributes_mappedMessage_get(mFunctions.swift_pointer));
@@ -132,7 +132,7 @@ public:
         return _return_value;
     }
     void set_mapped_message(const ::smoke::ListenerWithAttributes::StringToDouble& newValue) override {
-        return mFunctions.smoke_ListenerWithAttributes_mappedMessage_set(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new ::smoke::ListenerWithAttributes::StringToDouble(newValue) ));
+        mFunctions.smoke_ListenerWithAttributes_mappedMessage_set(mFunctions.swift_pointer, reinterpret_cast<_baseRef>(new ::smoke::ListenerWithAttributes::StringToDouble(newValue)));
     }
     ::std::shared_ptr< ::std::vector< uint8_t > > get_buffered_message() const override {
         auto _return_value_ptr = get_pointer<::std::shared_ptr< ::std::vector< uint8_t > >>(mFunctions.smoke_ListenerWithAttributes_bufferedMessage_get(mFunctions.swift_pointer));
@@ -141,18 +141,14 @@ public:
         return _return_value;
     }
     void set_buffered_message(const ::std::shared_ptr< ::std::vector< uint8_t > >& newValue) override {
-        return mFunctions.smoke_ListenerWithAttributes_bufferedMessage_set(mFunctions.swift_pointer, reinterpret_cast<_baseRef>( new ::std::shared_ptr< ::std::vector< uint8_t > >(newValue) ));
+        mFunctions.smoke_ListenerWithAttributes_bufferedMessage_set(mFunctions.swift_pointer, reinterpret_cast<_baseRef>(new ::std::shared_ptr< ::std::vector< uint8_t > >(newValue)));
     }
 private:
-    function_table_t mFunctions;
+    smoke_ListenerWithAttributes_FunctionTable mFunctions;
 };
 _baseRef smoke_ListenerWithAttributes_create_proxy(smoke_ListenerWithAttributes_FunctionTable functionTable) {
     auto proxy = smoke_ListenerWithAttributesProxy::get_proxy(std::move(functionTable));
-    if (proxy) {
-        return reinterpret_cast<_baseRef>( new std::shared_ptr<::smoke::ListenerWithAttributes>(std::move(proxy)) );
-    } else {
-        return 0;
-    }
+    return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::ListenerWithAttributes>(std::move(proxy))) : 0;
 }
 const void* smoke_ListenerWithAttributes_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_ListenerWithAttributesProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(handle)->get()) : nullptr;
