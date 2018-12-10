@@ -243,8 +243,7 @@ feature(ListenersWithReturnValues cpp android swift SOURCES
     fidl/test/ListenerWithAttributes.fidl
 )
 
-# TODO: APIGEN-1483: implement for Swift
-feature(ListenersWithErrorTypes cpp android SOURCES
+feature(ListenersWithErrorTypes cpp android swift SOURCES
     src/test/ListenerWithErrors.cpp
     src/test/ListenerWithErrors.h
 
