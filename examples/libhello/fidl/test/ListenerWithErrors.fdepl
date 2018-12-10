@@ -29,5 +29,10 @@ define GeniumExtensions for interface test.ErrorMessenger
 {
     method create {
         Static = true
+        out {
+            newInstance {
+                NotNull = true
+            }
+        }
     }
 }

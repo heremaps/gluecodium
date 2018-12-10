@@ -88,29 +88,44 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
         }
         {{/case}}{{!!
         }}{{/switch}}{{/parameters}}
-        {{#if returnType}}{{>swiftReturn}}{{/if}}{{!!
-      }}{{#unless returnType}}{{include delegateToCall}}{{/unless}}
+        {{#if error}}do { {{#if isReturningVoid}}
+            try {{include delegateToCall}}
+            return 0
+        } catch let error as {{error}} {
+            return error.rawValue{{/if}}{{!!
+        }}{{#unless isReturningVoid}}
+            let call_result = try {{include delegateToCall}}
+            {{#set delegateToCall="callResult" returnPrefix="let result_handle ="}}{{>swiftReturn}}{{/set}}
+            return {{cBaseName}}_result(has_value: true, .init(returned_value: result_handle))
+        } catch let error as {{error}} {
+            return {{cBaseName}}_result(has_value: false, .init(error_code: error.rawValue)){{/unless}}
+        } catch {
+            fatalError("Unexpected error: \(error)")
+        }{{/if}}{{!!
+        }}{{#unless error}}{{#if isReturningVoid}}{{include delegateToCall}}{{/if}}{{!!
+        }}{{#unless isReturningVoid}}{{#set returnPrefix="return"}}{{>swiftReturn}}{{/set}}{{/unless}}{{/unless}}
     }
 {{/functionTableEntry}}{{!!
 }}{{+swiftParameter}}{{name}}{{/swiftParameter}}{{!!
 }}{{+swiftReturn}}{{#switch returnType.category.toString}}{{!!
     }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}return {{include delegateToCall}}.convertToCType(){{/case}}{{!!
-    }}{{#case "CLASS"}}return getRef({{include delegateToCall}}{{#if returnType.optional}}!{{/if}}, owning: false).ref{{/case}}{{!!
-    }}{{#case "ENUM"}}return {{include delegateToCall}}.rawValue{{/case}}{{!!
-    }}{{#case "ARRAY"}}return {{include delegateToCall}}.c_conversion().c_type{{/case}}{{!!
-    }}{{#case "DICTIONARY"}}return convert{{returnType.name}}ToCType({{include delegateToCall}}){{/case}}{{!!
+    }}{{#case "STRUCT"}}{{returnPrefix}} {{include delegateToCall}}.convertToCType(){{/case}}{{!!
+    }}{{#case "CLASS"}}{{returnPrefix}} getRef({{include delegateToCall}}{{#if returnType.optional}}!{{/if}}, owning: false).ref{{/case}}{{!!
+    }}{{#case "ENUM"}}{{returnPrefix}} {{include delegateToCall}}.rawValue{{/case}}{{!!
+    }}{{#case "ARRAY"}}{{returnPrefix}} {{include delegateToCall}}.c_conversion().c_type{{/case}}{{!!
+    }}{{#case "DICTIONARY"}}{{returnPrefix}} convert{{returnType.name}}ToCType({{include delegateToCall}}){{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER"}}let result_object = {{include delegateToCall}}
         let result_handle = byteArray_create_handle()
         result_object.withUnsafeBytes { (result_ptr: UnsafePointer<UInt8>) in
             byteArray_assign(result_handle, result_ptr, result_object.count)
         }
         return result_handle{{/case}}{{!!
-    }}{{#default}}return {{include delegateToCall}}{{/default}}{{!!
+    }}{{#default}}{{returnPrefix}} {{include delegateToCall}}{{/default}}{{!!
 }}{{/switch}}{{/swiftReturn}}{{!!
 }}{{+delegateCall2}}swift_class.{{name}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}{{!!
 }}{{+callPropertyGetter}}swift_class.{{propertyName}}{{/callPropertyGetter}}{{!!
 }}{{+callPropertySetter}}swift_class.{{propertyName}} = {{#parameters.0}}{{>swiftParameterConversion}}{{/parameters.0}}{{/callPropertySetter}}{{!!
+}}{{+callResult}}call_result{{/callResult}}{{!!
 }}{{+swiftParameter2}}{{name}}: {{>swiftParameterConversion}}{{/swiftParameter2}}{{!!
 }}{{+swiftParameterConversion}}{{#switch type.category.toString}}{{!!
     }}{{#case "CLASS"}}swift_object_{{name}}!{{/case}}{{!!

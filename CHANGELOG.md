@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features:
+  + Listener callbacks that throw exceptions/errors are now fully supported in Java/Swift.
+
 ## 3.16.1
 - Release date: 2018-12-05
 - Bug fixes:

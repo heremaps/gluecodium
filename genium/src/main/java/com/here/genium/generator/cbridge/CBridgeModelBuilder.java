@@ -168,6 +168,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
             .delegateCall(cppMethod.fullyQualifiedName)
             .parameters(inParams)
             .returnType(returnParam.mappedType)
+            .cppReturnTypeName(cppMethod.getReturnType().fullyQualifiedName)
             .error(
                 francaMethod.getErrorEnum() != null
                     ? typeMapper.createErrorTypeInfo(francaMethod.getErrorEnum())
@@ -278,6 +279,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
         CFunction.builder(getterSwiftMethod.cShortName)
             .nestedSpecifier(getterSwiftMethod.cNestedSpecifier)
             .returnType(attributeTypeInfo)
+            .cppReturnTypeName(cppMethods.get(0).getReturnType().fullyQualifiedName)
             .selfParameter(selfParameter)
             .functionName(cppMethods.get(0).name)
             .isConst(true)
@@ -289,6 +291,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
       CFunction setterFunction =
           CFunction.builder(setterSwiftMethod.cShortName)
               .nestedSpecifier(setterSwiftMethod.cNestedSpecifier)
+              .cppReturnTypeName(cppMethods.get(1).getReturnType().fullyQualifiedName)
               .parameters(
                   Collections.singletonList(new CInParameter("newValue", attributeTypeInfo)))
               .selfParameter(selfParameter)

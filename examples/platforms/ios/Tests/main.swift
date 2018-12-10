@@ -51,6 +51,7 @@ let allTests = [
     testCase(EquatableTests.allTests),
     testCase(ListenerRoundtripTests.allTests),
     testCase(ListenerWithAttributesTests.allTests),
+    testCase(ListenerWithErrorsTests.allTests),
     testCase(NotNullTests.allTests)
 ]
 
