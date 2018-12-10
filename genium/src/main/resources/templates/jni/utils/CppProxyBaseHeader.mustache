@@ -52,6 +52,122 @@ namespace {{.}}
 {
 namespace jni
 {
+
+template< typename ResultType, bool IsDerivedFromJObject >
+struct JniMethodForType
+{
+    // If result type is wrong you should have compilation error here
+};
+
+template<>
+struct JniMethodForType<void, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallVoidMethod;
+};
+
+template<>
+struct JniMethodForType<jboolean, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallBooleanMethod;
+};
+
+template<>
+struct JniMethodForType<jbyte, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallByteMethod;
+};
+
+template<>
+struct JniMethodForType<jchar, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallCharMethod;
+};
+
+template<>
+struct JniMethodForType<jshort, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallShortMethod;
+};
+
+template<>
+struct JniMethodForType<jint, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallIntMethod;
+};
+
+template<>
+struct JniMethodForType<jlong, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallLongMethod;
+};
+
+template<>
+struct JniMethodForType<jfloat, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallFloatMethod;
+};
+
+template<>
+struct JniMethodForType<jdouble, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallDoubleMethod;
+};
+
+template<>
+struct JniMethodForType<jobject, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallObjectMethod;
+};
+
+template<typename ResultType>
+struct JniMethodForType<ResultType, true>
+{
+    static constexpr auto method_ptr = JniMethodForType<jobject, false>::method_ptr;
+};
+
+template <class Type>
+struct IsDerivedFromJObject
+{
+    static constexpr bool value =
+        std::is_base_of< typename std::remove_pointer<jobject>::type,
+                         typename std::remove_pointer<Type>::type >::value;
+};
+
+template<class... T>
+struct JniMethodArgumentTypeChecker
+{
+    static constexpr bool are_all_jni_types = true;
+};
+
+template<class T, class ... Args>
+struct JniMethodArgumentTypeChecker< T, Args... >
+{
+    static constexpr bool are_all_jni_types =
+        ( std::is_same< T, jboolean >::value ||
+          std::is_same< T, jbyte >::value ||
+          std::is_same< T, jchar >::value ||
+          std::is_same< T, jshort >::value ||
+          std::is_same< T, jint >::value ||
+          std::is_same< T, jlong >::value ||
+          std::is_same< T, jfloat >::value ||
+          std::is_same< T, jdouble >::value ||
+          std::is_same< T, jobject >::value ||
+          IsDerivedFromJObject< T >::value ) &&
+      JniMethodArgumentTypeChecker<Args...>::are_all_jni_types;
+};
+
+template<class T>
+struct JniMethodReturnTypeChecker
+{
+    static constexpr bool is_jni_type = JniMethodArgumentTypeChecker<T>::are_all_jni_types;
+};
+
+template<>
+struct JniMethodReturnTypeChecker<void>
+{
+    static constexpr bool is_jni_type = true;
+};
+
 class CppProxyBase
 {
 public:
@@ -98,11 +214,22 @@ protected:
 
     virtual ~CppProxyBase( );
 
-    template< typename T >
+    template< typename T, class ... Args >
     T callJavaMethod( const ::std::string& methodName,
                       const ::std::string& jniSignature,
                       JNIEnv* jniEnv,
-                      ... ) const;
+                      Args ... args ) const
+    {
+        static_assert((JniMethodArgumentTypeChecker<Args...>::are_all_jni_types),
+            "Detected attempt to pass to Java method non JNI type parameter");
+        static_assert((JniMethodReturnTypeChecker<T>::is_jni_type),
+            "Detected attempt to return from Java method non JNI type value");
+
+        jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+        jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+        auto method_ptr = JniMethodForType<T, IsDerivedFromJObject<T>::value>::method_ptr;
+        return static_cast<T>((jniEnv->*method_ptr)( jGlobalRef, jmethodId, args... ));
+    }
 
     static JNIEnv* getJniEnvironment( );
 
@@ -151,90 +278,6 @@ protected:
     static ReverseProxyCache sReverseProxyCache;
     static GlobalJniLock sGlobalJniLock;
 };
-
-template<>
-void
-CppProxyBase::callJavaMethod( const ::std::string& methodName,
-                              const ::std::string& jniSignature,
-                              JNIEnv* jniEnv,
-                              ... ) const;
-
-template<>
-jstring
-CppProxyBase::callJavaMethod( const ::std::string& methodName,
-                              const ::std::string& jniSignature,
-                              JNIEnv* jniEnv,
-                              ... ) const;
-
-template<>
-jbyteArray
-CppProxyBase::callJavaMethod( const ::std::string& methodName,
-                              const ::std::string& jniSignature,
-                              JNIEnv* jniEnv,
-                              ... ) const;
-
-template<>
-jobject
-CppProxyBase::callJavaMethod( const ::std::string& methodName,
-                              const ::std::string& jniSignature,
-                              JNIEnv* jniEnv,
-                              ... ) const;
-
-template<>
-jboolean
-CppProxyBase::callJavaMethod( const ::std::string& methodName,
-                              const ::std::string& jniSignature,
-                              JNIEnv* jniEnv,
-                              ... ) const;
-
-template<>
-jbyte
-CppProxyBase::callJavaMethod( const ::std::string& methodName,
-                              const ::std::string& jniSignature,
-                              JNIEnv* jniEnv,
-                              ... ) const;
-
-template<>
-jchar
-CppProxyBase::callJavaMethod( const ::std::string& methodName,
-                              const ::std::string& jniSignature,
-                              JNIEnv* jniEnv,
-                              ... ) const;
-
-template<>
-jshort
-CppProxyBase::callJavaMethod( const ::std::string& methodName,
-                              const ::std::string& jniSignature,
-                              JNIEnv* jniEnv,
-                              ... ) const;
-
-template<>
-jint
-CppProxyBase::callJavaMethod( const ::std::string& methodName,
-                              const ::std::string& jniSignature,
-                              JNIEnv* jniEnv,
-                              ... ) const;
-
-template<>
-jlong
-CppProxyBase::callJavaMethod( const ::std::string& methodName,
-                              const ::std::string& jniSignature,
-                              JNIEnv* jniEnv,
-                              ... ) const;
-
-template<>
-jfloat
-CppProxyBase::callJavaMethod( const ::std::string& methodName,
-                              const ::std::string& jniSignature,
-                              JNIEnv* jniEnv,
-                              ... ) const;
-
-template<>
-jdouble
-CppProxyBase::callJavaMethod( const ::std::string& methodName,
-                              const ::std::string& jniSignature,
-                              JNIEnv* jniEnv,
-                              ... ) const;
 
 }
 }
