@@ -1,12 +1,3 @@
-{{>functionReturnType}}{{$functionName}} {{name}}{{/functionName}}({{#selfParameter}}{{>signatureParameter}}{{#if parameters}}, {{/if}}{{/selfParameter}}{{joinPartial parameters "signatureParameter" ", "}}){{!!
-
-
-}}{{+functionReturnType}}{{!!
-    }}{{#if error}}{{!!
-        }}{{#if isReturningVoid}}{{error.functionReturnType}}{{/if}}{{!!
-        }}{{#unless isReturningVoid}}{{name}}_result{{/unless}}{{!!
-    }}{{/if}}{{!!
-    }}{{#unless error}}{{returnType.functionReturnType}}{{/unless}}{{!!
-}}{{/functionReturnType}}{{!!
+{{>cbridge/FunctionReturnType}}{{$functionName}} {{name}}{{/functionName}}({{#selfParameter}}{{>signatureParameter}}{{#if parameters}}, {{/if}}{{/selfParameter}}{{joinPartial parameters "signatureParameter" ", "}}){{!!
 
 }}{{+signatureParameter}}{{mappedType.cType}} {{name}}{{/signatureParameter}}
