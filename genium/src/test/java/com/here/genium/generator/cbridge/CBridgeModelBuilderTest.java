@@ -257,6 +257,24 @@ public final class CBridgeModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaMethodReadsCppTypeName() {
+    CppMethod cppMethod =
+        new CppMethod(
+            DELEGATE_NAME,
+            DELEGATE_NAME,
+            "",
+            CppComplexTypeRef.builder().fullyQualifiedName("::std::FooType").build());
+    when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(cppMethod);
+    when(CBridgeNameRules.getNestedSpecifierString(any())).thenReturn("NOT");
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    CFunction function = modelBuilder.getFinalResult(CFunction.class);
+    assertNotNull(function);
+    assertEquals("::std::FooType", function.cppReturnTypeName);
+  }
+
+  @Test
   public void finishBuildingCreatesCInterfaceForFInterface() {
     CFunction function = CFunction.builder("SomeName").nestedSpecifier("foo").build();
     contextStack.injectResult(function);

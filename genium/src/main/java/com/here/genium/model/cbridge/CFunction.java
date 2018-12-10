@@ -31,12 +31,12 @@ public final class CFunction extends CElement {
 
   public final List<? extends CParameter> parameters;
   public final CppTypeInfo returnType;
+  public final String cppReturnTypeName;
   public final String delegateCall;
   public final Set<Include> delegateCallIncludes;
   public final String functionName;
   public final CInParameter selfParameter;
   public final CppTypeInfo error;
-  public final String nestedSpecifier;
   public final String shortName;
   public final boolean isConst;
 
@@ -53,6 +53,7 @@ public final class CFunction extends CElement {
   private CFunction(
       List<? extends CParameter> parameters,
       CppTypeInfo returnType,
+      String cppReturnTypeName,
       String delegateCall,
       Set<Include> delegateCallIncludes,
       String functionName,
@@ -64,13 +65,13 @@ public final class CFunction extends CElement {
     super(NameHelper.joinNames(nestedSpecifier, shortName, CBridgeNameRules.UNDERSCORE_DELIMITER));
     this.parameters = parameters != null ? parameters : emptyList();
     this.returnType = returnType != null ? returnType : new CppTypeInfo(CType.VOID);
+    this.cppReturnTypeName = cppReturnTypeName;
     this.delegateCall = delegateCall != null ? delegateCall : "";
     this.delegateCallIncludes =
         delegateCallIncludes != null ? delegateCallIncludes : new LinkedHashSet<>();
     this.functionName = functionName;
     this.selfParameter = selfParameter;
     this.error = error;
-    this.nestedSpecifier = nestedSpecifier;
     this.shortName = shortName;
     this.isConst = isConst;
   }
