@@ -117,7 +117,7 @@ CppProxyBase::~CppProxyBase( )
         ::std::lock_guard< GlobalJniLock > lock( sGlobalJniLock );
         sGlobalJniLock.setJniEnvForCurrentThread( jniEnv );
         sProxyCache.erase( ProxyCacheKey{jGlobalRef, jHashCode} );
-        sReverseProxyCache.erase( this );
+        removeSelfFromReverseCache( );
     }
 
     jniEnv->DeleteGlobalRef( jGlobalRef );
@@ -171,12 +171,29 @@ CppProxyBase::getHashCode( JNIEnv* jniEnv, jobject jObj )
     return jResult;
 }
 
+void CppProxyBase::registerInReverseCache( CppProxyBase* proxyBase,
+                                           ReverseCacheKey reverseCacheKey,
+                                           const ProxyCacheKey& primaryKey )
+{
+    proxyBase->mReverseCacheKey = reverseCacheKey;
+    sReverseProxyCache[ reverseCacheKey ] = primaryKey;
+}
+
+void CppProxyBase::removeSelfFromReverseCache( )
+{
+    if ( mReverseCacheKey != nullptr )
+    {
+        sReverseProxyCache.erase( mReverseCacheKey );
+        mReverseCacheKey = nullptr;
+    }
+}
+
 jobject
-CppProxyBase::getJavaObject( const void* proxy )
+CppProxyBase::getJavaObjectFromReverseCache( ReverseCacheKey reverseCacheKey )
 {
     ::std::lock_guard< GlobalJniLock > lock( sGlobalJniLock );
 
-    const auto iterator = sReverseProxyCache.find( proxy );
+    const auto iterator = sReverseProxyCache.find( reverseCacheKey );
     return iterator != sReverseProxyCache.end( ) ? iterator->second.jObject : nullptr;
 }
 

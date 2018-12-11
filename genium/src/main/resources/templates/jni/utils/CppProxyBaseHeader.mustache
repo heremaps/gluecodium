@@ -200,14 +200,19 @@ public:
             jclass exceptionClass = jenv->FindClass( "java/lang/RuntimeException" );
             jenv->ThrowNew( exceptionClass, "Cannot allocate native memory." );
             jenv->DeleteLocalRef( exceptionClass );
+            return;
         }
         auto newProxy = ::std::shared_ptr< ImplType >( newProxyInstance );
         result = newProxy;
         sProxyCache[ key ] = ::std::weak_ptr< ImplType >( newProxy );
-        sReverseProxyCache[ result.get( ) ] = key;
+        registerInReverseCache( newProxyInstance, result.get( ), key );
     }
 
-    static jobject getJavaObject( const void* proxy );
+    template <class T>
+    static jobject getJavaObject( T* interfacePtr )
+    {
+        return getJavaObjectFromReverseCache( interfacePtr );
+    }
 
 protected:
     CppProxyBase( JNIEnv* jenv, jobject jGlobalRef, jint jHashCode );
@@ -234,6 +239,7 @@ protected:
     static JNIEnv* getJniEnvironment( );
 
 private:
+
     struct ProxyCacheKey
     {
         jobject jObject;
@@ -250,6 +256,8 @@ private:
             return key.jHashCode;
         }
     };
+
+    using ReverseCacheKey = const void*;
 
     class GlobalJniLock {
     public:
@@ -268,10 +276,19 @@ private:
         = ::std::unordered_map< ProxyCacheKey, ::std::weak_ptr< CppProxyBase >, ProxyCacheKeyHash >;
     using ReverseProxyCache = ::std::unordered_map< const void*, ProxyCacheKey >;
 
+private:
     static jint getHashCode( JNIEnv* jniEnv, jobject jObj );
 
+    static void registerInReverseCache( CppProxyBase* proxyBase,
+                                        ReverseCacheKey reverseCacheKey,
+                                        const ProxyCacheKey& primaryKey );
+    void removeSelfFromReverseCache( );
+    static jobject getJavaObjectFromReverseCache( ReverseCacheKey reverseCacheKey );
+
+private:
     jobject jGlobalRef;
     jint jHashCode;
+    ReverseCacheKey mReverseCacheKey = nullptr;
 
 protected:
     static ProxyCache sProxyCache;
