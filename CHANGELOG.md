@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features:
+  + "NaN" and "Infinity" can now be used as struct field FDEPL default values.
+
 ## 3.17.0
 - Release date: 2018-12-11
 - Features:

@@ -36,6 +36,14 @@ import org.franca.core.franca.*;
 
 public final class JavaValueMapper {
 
+  private static final JavaValue FLOAT_NAN = new JavaValue("Float.NaN");
+  private static final JavaValue FLOAT_INFINITY = new JavaValue("Float.POSITIVE_INFINITY");
+  private static final JavaValue FLOAT_NEGATIVE_INFINITY = new JavaValue("Float.NEGATIVE_INFINITY");
+  private static final JavaValue DOUBLE_NAN = new JavaValue("Double.NaN");
+  private static final JavaValue DOUBLE_INFINITY = new JavaValue("Double.POSITIVE_INFINITY");
+  private static final JavaValue DOUBLE_NEGATIVE_INFINITY =
+      new JavaValue("Double.NEGATIVE_INFINITY");
+
   public static void completePartialEnumeratorValues(List<JavaEnumItem> javaEnumItems) {
 
     int lastValue = 0;
@@ -96,8 +104,7 @@ public final class JavaValueMapper {
       final JavaType javaType, final String deploymentDefaultValue) {
 
     if (javaType instanceof JavaPrimitiveType) {
-      return new JavaValue(
-          decorateLiteralValue((JavaPrimitiveType) javaType, deploymentDefaultValue));
+      return mapPrimitiveTypeDefaultValue((JavaPrimitiveType) javaType, deploymentDefaultValue);
     }
     if (javaType instanceof JavaReferenceType
         && ((JavaReferenceType) javaType).type == JavaReferenceType.Type.STRING) {
@@ -160,5 +167,27 @@ public final class JavaValueMapper {
     }
 
     return literal.toString();
+  }
+
+  private static JavaValue mapPrimitiveTypeDefaultValue(
+      final JavaPrimitiveType javaType, final String deploymentDefaultValue) {
+
+    if (JavaPrimitiveType.FLOAT.equals(javaType)) {
+      Float parsedFloat = Float.parseFloat(deploymentDefaultValue);
+      if (parsedFloat.isNaN()) {
+        return FLOAT_NAN;
+      } else if (parsedFloat.isInfinite()) {
+        return parsedFloat > 0 ? FLOAT_INFINITY : FLOAT_NEGATIVE_INFINITY;
+      }
+    } else if (JavaPrimitiveType.DOUBLE.equals(javaType)) {
+      Double parsedDouble = Double.parseDouble(deploymentDefaultValue);
+      if (parsedDouble.isNaN()) {
+        return DOUBLE_NAN;
+      } else if (parsedDouble.isInfinite()) {
+        return parsedDouble > 0 ? DOUBLE_INFINITY : DOUBLE_NEGATIVE_INFINITY;
+      }
+    }
+
+    return new JavaValue(decorateLiteralValue(javaType, deploymentDefaultValue));
   }
 }

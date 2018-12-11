@@ -70,6 +70,24 @@ public final class SwiftValueMapperTest {
   }
 
   @Test
+  public void mapDeploymentDefaultFloatNan() {
+    SwiftType swiftType = SwiftType.FLOAT;
+
+    SwiftValue result = SwiftValueMapper.mapDefaultValue(swiftType, "NaN");
+
+    assertEquals("Float.nan", result.name);
+  }
+
+  @Test
+  public void mapDeploymentDefaultDoubleNegativeInfinity() {
+    SwiftType swiftType = SwiftType.DOUBLE;
+
+    SwiftValue result = SwiftValueMapper.mapDefaultValue(swiftType, "-Infinity");
+
+    assertEquals("-Double.infinity", result.name);
+  }
+
+  @Test
   public void mapDefaultValueForInteger() {
     SwiftType swiftType = new SwiftType("UInt64");
 

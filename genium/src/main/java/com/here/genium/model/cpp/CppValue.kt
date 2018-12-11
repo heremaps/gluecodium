@@ -19,4 +19,7 @@
 
 package com.here.genium.model.cpp
 
-class CppValue(value: String) : CppElement(value, value)
+import com.here.genium.model.common.Include
+
+class CppValue @JvmOverloads constructor(value: String, includes: List<Include> = emptyList())
+    : CppElementWithIncludes(value, includes)

@@ -133,4 +133,24 @@ public final class CppValueMapperTest {
 
     assertEquals("SomeString", result.name);
   }
+
+  @Test
+  public void mapDeploymentDefaultFloatNan() {
+    when(deploymentModel.getDefaultValue(francaField)).thenReturn("NaN");
+    CppTypeRef cppTypeRef = CppPrimitiveTypeRef.Companion.getFLOAT();
+
+    CppValue result = valueMapper.mapDeploymentDefaultValue(cppTypeRef, francaField);
+
+    assertEquals("std::numeric_limits<float>::quiet_NaN()", result.name);
+  }
+
+  @Test
+  public void mapDeploymentDefaultDoubleNegativeInfinity() {
+    when(deploymentModel.getDefaultValue(francaField)).thenReturn("-Infinity");
+    CppTypeRef cppTypeRef = CppPrimitiveTypeRef.Companion.getDOUBLE();
+
+    CppValue result = valueMapper.mapDeploymentDefaultValue(cppTypeRef, francaField);
+
+    assertEquals("-std::numeric_limits<double>::infinity()", result.name);
+  }
 }

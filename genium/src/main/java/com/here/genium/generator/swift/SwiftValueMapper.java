@@ -28,6 +28,13 @@ import org.franca.core.franca.*;
 
 public final class SwiftValueMapper {
 
+  private static final SwiftValue FLOAT_NAN = new SwiftValue("Float.nan");
+  private static final SwiftValue FLOAT_INFINITY = new SwiftValue("Float.infinity");
+  private static final SwiftValue FLOAT_NEGATIVE_INFINITY = new SwiftValue("-Float.infinity");
+  private static final SwiftValue DOUBLE_NAN = new SwiftValue("Double.nan");
+  private static final SwiftValue DOUBLE_INFINITY = new SwiftValue("Double.infinity");
+  private static final SwiftValue DOUBLE_NEGATIVE_INFINITY = new SwiftValue("-Double.infinity");
+
   public static SwiftValue map(final FInitializerExpression francaExpression) {
 
     if (francaExpression instanceof FConstant || francaExpression instanceof FUnaryOperation) {
@@ -49,6 +56,8 @@ public final class SwiftValueMapper {
       case ENUM:
         String enumItemName = SwiftNameRules.getEnumItemName(deploymentDefaultValue);
         return new SwiftValue(swiftType.name + "." + enumItemName);
+      case BUILTIN_SIMPLE:
+        return mapSimpleDefaultValue(swiftType, deploymentDefaultValue);
       default:
         return new SwiftValue(deploymentDefaultValue);
     }
@@ -71,5 +80,27 @@ public final class SwiftValueMapper {
     }
 
     return new SwiftValue(String.join(".", names));
+  }
+
+  private static SwiftValue mapSimpleDefaultValue(
+      final SwiftType swiftType, final String deploymentDefaultValue) {
+
+    if (SwiftType.FLOAT.equals(swiftType)) {
+      Float parsedFloat = Float.parseFloat(deploymentDefaultValue);
+      if (parsedFloat.isNaN()) {
+        return FLOAT_NAN;
+      } else if (parsedFloat.isInfinite()) {
+        return parsedFloat > 0 ? FLOAT_INFINITY : FLOAT_NEGATIVE_INFINITY;
+      }
+    } else if (SwiftType.DOUBLE.equals(swiftType)) {
+      Double parsedDouble = Double.parseDouble(deploymentDefaultValue);
+      if (parsedDouble.isNaN()) {
+        return DOUBLE_NAN;
+      } else if (parsedDouble.isInfinite()) {
+        return parsedDouble > 0 ? DOUBLE_INFINITY : DOUBLE_NEGATIVE_INFINITY;
+      }
+    }
+
+    return new SwiftValue(deploymentDefaultValue);
   }
 }

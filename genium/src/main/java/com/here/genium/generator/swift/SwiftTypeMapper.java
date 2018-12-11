@@ -20,7 +20,6 @@
 package com.here.genium.generator.swift;
 
 import static com.here.genium.model.swift.SwiftType.TypeCategory.*;
-import static com.here.genium.model.swift.SwiftType.VOID;
 
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.cbridge.CBridgeNameRules;
@@ -74,7 +73,7 @@ public class SwiftTypeMapper {
     } else if (derived instanceof FMapType) {
       return mapMapType((FMapType) derived, deploymentModel);
     }
-    return VOID;
+    return SwiftType.VOID;
   }
 
   private static SwiftType mapMapType(
@@ -128,7 +127,7 @@ public class SwiftTypeMapper {
     FBasicTypeId typeId = type.getPredefined();
     switch (typeId.getValue()) {
       case FBasicTypeId.UNDEFINED_VALUE:
-        return VOID;
+        return SwiftType.VOID;
       case FBasicTypeId.INT8_VALUE:
         return new SwiftType("Int8");
       case FBasicTypeId.UINT8_VALUE:
@@ -150,12 +149,12 @@ public class SwiftTypeMapper {
       case FBasicTypeId.STRING_VALUE:
         return SwiftType.STRING;
       case FBasicTypeId.FLOAT_VALUE:
-        return new SwiftType("Float");
+        return SwiftType.FLOAT;
       case FBasicTypeId.DOUBLE_VALUE:
-        return new SwiftType("Double");
+        return SwiftType.DOUBLE;
       case FBasicTypeId.BYTE_BUFFER_VALUE:
         return SwiftType.DATA;
     }
-    return VOID;
+    return SwiftType.VOID;
   }
 }

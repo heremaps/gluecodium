@@ -30,6 +30,7 @@ public final class CppLibraryIncludes {
   public static final Include VECTOR = Include.Companion.createSystemInclude("vector");
   public static final Include NEW = Include.Companion.createSystemInclude("new");
   public static final Include SYSTEM_ERROR = Include.Companion.createSystemInclude("system_error");
+  public static final Include LIMITS = Include.Companion.createSystemInclude("limits");
 
   // Custom
   public static final Include RETURN = Include.Companion.createInternalInclude("Return.h");
