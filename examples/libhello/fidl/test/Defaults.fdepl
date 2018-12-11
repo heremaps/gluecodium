@@ -37,6 +37,26 @@ define GeniumExtensions for interface test.Defaults
     method getImmutableDefault {
         Static = true
     }
+
+    method isNan:float {
+        Static = true
+    }
+
+    method isNan:double {
+        Static = true
+    }
+
+    method isInfinity:float {
+        Static = true
+    }
+
+    method isInfinity:double {
+        Static = true
+    }
+
+    method createSpecial {
+        Static = true
+    }
 }
 
 define Defaults for interface test.Defaults
@@ -80,6 +100,27 @@ define Defaults for interface test.Defaults
         }
         enumField {
             DefaultValue = "BarValue"
+        }
+    }
+
+    struct StructWithSpecialDefaults {
+        floatNanField {
+            DefaultValue = "NaN"
+        }
+        floatInfinityField {
+            DefaultValue = "Infinity"
+        }
+        floatNegativeInfinityField {
+            DefaultValue = "-Infinity"
+        }
+        doubleNanField {
+            DefaultValue = "NaN"
+        }
+        doubleInfinityField {
+            DefaultValue = "Infinity"
+        }
+        doubleNegativeInfinityField {
+            DefaultValue = "-Infinity"
         }
     }
 }

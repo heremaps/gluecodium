@@ -73,6 +73,39 @@ public class DefaultValues {
             return smoke_DefaultValues_StructWithDefaults_create_handle(intField_handle, uintField_handle, floatField_handle, boolField_handle, stringField_handle, enumField_handle, externalEnumField_handle)
         }
     }
+    public struct StructWithSpecialDefaults {
+        public var floatNanField: Float
+        public var floatInfinityField: Float
+        public var floatNegativeInfinityField: Float
+        public var doubleNanField: Double
+        public var doubleInfinityField: Double
+        public var doubleNegativeInfinityField: Double
+        public init(floatNanField: Float = Float.nan, floatInfinityField: Float = Float.infinity, floatNegativeInfinityField: Float = -Float.infinity, doubleNanField: Double = Double.nan, doubleInfinityField: Double = Double.infinity, doubleNegativeInfinityField: Double = -Double.infinity) {
+            self.floatNanField = floatNanField
+            self.floatInfinityField = floatInfinityField
+            self.floatNegativeInfinityField = floatNegativeInfinityField
+            self.doubleNanField = doubleNanField
+            self.doubleInfinityField = doubleInfinityField
+            self.doubleNegativeInfinityField = doubleNegativeInfinityField
+        }
+        internal init(cStructWithSpecialDefaults: _baseRef) {
+            floatNanField = smoke_DefaultValues_StructWithSpecialDefaults_floatNanField_get(cStructWithSpecialDefaults)
+            floatInfinityField = smoke_DefaultValues_StructWithSpecialDefaults_floatInfinityField_get(cStructWithSpecialDefaults)
+            floatNegativeInfinityField = smoke_DefaultValues_StructWithSpecialDefaults_floatNegativeInfinityField_get(cStructWithSpecialDefaults)
+            doubleNanField = smoke_DefaultValues_StructWithSpecialDefaults_doubleNanField_get(cStructWithSpecialDefaults)
+            doubleInfinityField = smoke_DefaultValues_StructWithSpecialDefaults_doubleInfinityField_get(cStructWithSpecialDefaults)
+            doubleNegativeInfinityField = smoke_DefaultValues_StructWithSpecialDefaults_doubleNegativeInfinityField_get(cStructWithSpecialDefaults)
+        }
+        internal func convertToCType() -> _baseRef {
+            let floatNanField_handle = floatNanField
+            let floatInfinityField_handle = floatInfinityField
+            let floatNegativeInfinityField_handle = floatNegativeInfinityField
+            let doubleNanField_handle = doubleNanField
+            let doubleInfinityField_handle = doubleInfinityField
+            let doubleNegativeInfinityField_handle = doubleNegativeInfinityField
+            return smoke_DefaultValues_StructWithSpecialDefaults_create_handle(floatNanField_handle, floatInfinityField_handle, floatNegativeInfinityField_handle, doubleNanField_handle, doubleInfinityField_handle, doubleNegativeInfinityField_handle)
+        }
+    }
     public static func processStructWithDefaults(input: DefaultValues.StructWithDefaults) -> DefaultValues.StructWithDefaults {
         let input_handle = input.convertToCType()
         defer {

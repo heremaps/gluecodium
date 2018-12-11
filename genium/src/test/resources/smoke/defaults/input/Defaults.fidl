@@ -41,6 +41,15 @@ interface DefaultValues {
         ExternalEnum externalEnumField
     }
 
+    struct StructWithSpecialDefaults {
+        Float floatNanField
+        Float floatInfinityField
+        Float floatNegativeInfinityField
+        Double doubleNanField
+        Double doubleInfinityField
+        Double doubleNegativeInfinityField
+    }
+
     method processStructWithDefaults {
         in {
             StructWithDefaults input

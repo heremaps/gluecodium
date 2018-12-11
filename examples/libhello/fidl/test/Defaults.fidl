@@ -58,6 +58,15 @@ interface Defaults {
         SomeEnum enumField
     }
 
+    struct StructWithSpecialDefaults {
+        Float floatNanField
+        Float floatInfinityField
+        Float floatNegativeInfinityField
+        Double doubleNanField
+        Double doubleInfinityField
+        Double doubleNegativeInfinityField
+    }
+
     <** @description: Get a default-initialized StructWithDefaults object. **>
     method getDefault {
         out {
@@ -79,6 +88,48 @@ interface Defaults {
     method getImmutableDefault {
         out {
             ImmutableStructWithDefaults output
+        }
+    }
+
+    method isNan:float {
+        in {
+            Float value
+        }
+        out {
+            Boolean result
+        }
+    }
+
+    method isNan:double {
+        in {
+            Double value
+        }
+        out {
+            Boolean result
+        }
+    }
+
+    method isInfinity:float {
+        in {
+            Float value
+        }
+        out {
+            Boolean result
+        }
+    }
+
+    method isInfinity:double {
+        in {
+            Double value
+        }
+        out {
+            Boolean result
+        }
+    }
+
+    method createSpecial {
+        out {
+            StructWithSpecialDefaults result
         }
     }
 }
