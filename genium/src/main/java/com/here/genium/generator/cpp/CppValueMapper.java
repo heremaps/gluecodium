@@ -23,10 +23,36 @@ import com.here.genium.generator.common.NameRules;
 import com.here.genium.generator.common.StringValueMapper;
 import com.here.genium.model.cpp.*;
 import com.here.genium.model.franca.FrancaDeploymentModel;
+import java.util.Collections;
 import org.apache.commons.text.StringEscapeUtils;
 import org.franca.core.franca.*;
 
 public class CppValueMapper {
+
+  private static final CppValue FLOAT_NAN =
+      new CppValue(
+          "std::numeric_limits<float>::quiet_NaN()",
+          Collections.singletonList(CppLibraryIncludes.LIMITS));
+  private static final CppValue FLOAT_INFINITY =
+      new CppValue(
+          "std::numeric_limits<float>::infinity()",
+          Collections.singletonList(CppLibraryIncludes.LIMITS));
+  private static final CppValue FLOAT_NEGATIVE_INFINITY =
+      new CppValue(
+          "-std::numeric_limits<float>::infinity()",
+          Collections.singletonList(CppLibraryIncludes.LIMITS));
+  private static final CppValue DOUBLE_NAN =
+      new CppValue(
+          "std::numeric_limits<double>::quiet_NaN()",
+          Collections.singletonList(CppLibraryIncludes.LIMITS));
+  private static final CppValue DOUBLE_INFINITY =
+      new CppValue(
+          "std::numeric_limits<double>::infinity()",
+          Collections.singletonList(CppLibraryIncludes.LIMITS));
+  private static final CppValue DOUBLE_NEGATIVE_INFINITY =
+      new CppValue(
+          "-std::numeric_limits<double>::infinity()",
+          Collections.singletonList(CppLibraryIncludes.LIMITS));
 
   private final FrancaDeploymentModel deploymentModel;
   private final CppNameResolver nameResolver;
@@ -70,7 +96,7 @@ public class CppValueMapper {
       String name = nameRules.getConstantName(deploymentDefaultValue);
       return new CppValue(cppTypeRef.name + "::" + name);
     } else {
-      return new CppValue(deploymentDefaultValue);
+      return mapPrimitiveTypeDefaultValue(cppTypeRef, deploymentDefaultValue);
     }
   }
 
@@ -82,5 +108,27 @@ public class CppValueMapper {
     }
 
     return new CppValue(nameResolver.getFullyQualifiedName(value));
+  }
+
+  private CppValue mapPrimitiveTypeDefaultValue(
+      final CppTypeRef cppTypeRef, final String deploymentDefaultValue) {
+
+    if (CppPrimitiveTypeRef.Companion.getFLOAT().equals(cppTypeRef)) {
+      Float parsedFloat = Float.parseFloat(deploymentDefaultValue);
+      if (parsedFloat.isNaN()) {
+        return FLOAT_NAN;
+      } else if (parsedFloat.isInfinite()) {
+        return parsedFloat > 0 ? FLOAT_INFINITY : FLOAT_NEGATIVE_INFINITY;
+      }
+    } else if (CppPrimitiveTypeRef.Companion.getDOUBLE().equals(cppTypeRef)) {
+      Double parsedDouble = Double.parseDouble(deploymentDefaultValue);
+      if (parsedDouble.isNaN()) {
+        return DOUBLE_NAN;
+      } else if (parsedDouble.isInfinite()) {
+        return parsedDouble > 0 ? DOUBLE_INFINITY : DOUBLE_NEGATIVE_INFINITY;
+      }
+    }
+
+    return new CppValue(deploymentDefaultValue);
   }
 }
