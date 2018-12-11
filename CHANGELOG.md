@@ -1,8 +1,10 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.17.0
+- Release date: 2018-12-11
 - Features:
   + Listener callbacks that throw exceptions/errors are now fully supported in Java/Swift.
+  + "NotNull" FDEPL property can now be applied to attributes and method parameters.
 
 ## 3.16.1
 - Release date: 2018-12-05
