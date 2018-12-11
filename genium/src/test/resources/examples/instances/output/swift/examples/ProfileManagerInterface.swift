@@ -27,7 +27,7 @@ internal func getRef(_ ref: ProfileManagerInterface?, owning: Bool = true) -> Re
         defer {
             std_string_release_handle(username)
         }
-        return swift_class.createProfile(username: String(data: Data(bytes: std_string_data_get(username),
+        swift_class.createProfile(username: String(data: Data(bytes: std_string_data_get(username),
                                                 count: Int(std_string_size_get(username))), encoding: .utf8)!)
     }
     let proxy = examples_ProfileManagerInterface_create_proxy(functions)

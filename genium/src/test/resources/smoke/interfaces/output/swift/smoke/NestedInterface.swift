@@ -45,7 +45,7 @@ internal func getRef(_ ref: NestedInterface?, owning: Bool = true) -> RefHolder 
         if swift_object_interfaceTwo == nil {
             swift_object_interfaceTwo = _SimpleInterface(cSimpleInterface: interfaceTwo)
         }
-        return swift_class.setSameTypeInstances(interfaceOne: swift_object_interfaceOne!, interfaceTwo: swift_object_interfaceTwo!)
+        swift_class.setSameTypeInstances(interfaceOne: swift_object_interfaceOne!, interfaceTwo: swift_object_interfaceTwo!)
     }
     functions.smoke_NestedInterface_getInstanceOne = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
