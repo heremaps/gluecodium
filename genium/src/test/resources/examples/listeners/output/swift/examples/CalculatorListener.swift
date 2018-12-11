@@ -24,7 +24,7 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
     }
     functions.examples_CalculatorListener_onCalculationResult = {(swift_class_pointer, calculationResult) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
-        return swift_class.onCalculationResult(calculationResult: calculationResult)
+        swift_class.onCalculationResult(calculationResult: calculationResult)
     }
     let proxy = examples_CalculatorListener_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_CalculatorListener_release_handle) : RefHolder(proxy)
