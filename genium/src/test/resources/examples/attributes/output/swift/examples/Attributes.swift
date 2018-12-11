@@ -27,7 +27,7 @@ internal func getRef(_ ref: Attributes?, owning: Bool = true) -> RefHolder {
     }
     functions.examples_Attributes_builtInTypeAttribute_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Attributes
-        return swift_class.builtInTypeAttribute = newValue
+        swift_class.builtInTypeAttribute = newValue
     }
     functions.examples_Attributes_readonlyAttribute_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Attributes

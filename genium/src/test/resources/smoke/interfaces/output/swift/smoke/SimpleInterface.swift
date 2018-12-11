@@ -27,7 +27,7 @@ internal func getRef(_ ref: SimpleInterface?, owning: Bool = true) -> RefHolder 
         defer {
             std_string_release_handle(stringValue)
         }
-        return swift_class.setStringValue(stringValue: String(data: Data(bytes: std_string_data_get(stringValue),
+        swift_class.setStringValue(stringValue: String(data: Data(bytes: std_string_data_get(stringValue),
                                                 count: Int(std_string_size_get(stringValue))), encoding: .utf8)!)
     }
     functions.smoke_SimpleInterface_getStringValue = {(swift_class_pointer) in

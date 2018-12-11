@@ -30,7 +30,7 @@ internal func getRef(_ ref: AttributesInterface?, owning: Bool = true) -> RefHol
         defer {
             smoke_AttributesInterface_ExampleStruct_release_handle(newValue)
         }
-        return swift_class.structAttribute = ExampleStruct(cExampleStruct: newValue)
+        swift_class.structAttribute = ExampleStruct(cExampleStruct: newValue)
     }
     let proxy = smoke_AttributesInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_AttributesInterface_release_handle) : RefHolder(proxy)
