@@ -72,11 +72,38 @@ class DefaultsTests: XCTestCase {
       XCTAssertEqual(result.stringField, expectedStruct.stringField)
       XCTAssertEqual(result.enumField, expectedStruct.enumField)
     }
+
+    func testSwiftSpecialDefaults() {
+      let special = Defaults.StructWithSpecialDefaults()
+
+      XCTAssertTrue(Defaults.isNan(value: special.floatNanField))
+      XCTAssertTrue(Defaults.isInfinity(value: special.floatInfinityField))
+      XCTAssertTrue(Defaults.isInfinity(value: special.floatNegativeInfinityField))
+      XCTAssertTrue(Defaults.isNan(value: special.doubleNanField))
+      XCTAssertTrue(Defaults.isInfinity(value: special.doubleInfinityField))
+      XCTAssertTrue(Defaults.isInfinity(value: special.doubleNegativeInfinityField))
+    }
+
+    func testCppSpecialDefaults() {
+      let special = Defaults.createSpecial()
+
+      XCTAssertTrue(special.floatNanField.isNaN)
+      XCTAssertTrue(special.floatInfinityField.isInfinite)
+      XCTAssertTrue(special.floatNegativeInfinityField.isInfinite)
+      XCTAssertTrue(special.floatNegativeInfinityField < 0)
+      XCTAssertTrue(special.doubleNanField.isNaN)
+      XCTAssertTrue(special.doubleInfinityField.isInfinite)
+      XCTAssertTrue(special.doubleNegativeInfinityField.isInfinite)
+      XCTAssertTrue(special.doubleNegativeInfinityField < 0)
+    }
+
     static var allTests = [
         ("testGetDefault", testGetDefault),
         ("testWithAllButOneDefaultFields", testWithAllButOneDefaultFields),
         ("testCheckDefaultTrue", testCheckDefaultTrue),
         ("testCheckDefaultFalse", testCheckDefaultFalse),
-        ("testGetImmutableDefault", testGetImmutableDefault)
+        ("testGetImmutableDefault", testGetImmutableDefault),
+        ("testSwiftSpecialDefaults", testSwiftSpecialDefaults),
+        ("testCppSpecialDefaults", testCppSpecialDefaults)
     ]
 }

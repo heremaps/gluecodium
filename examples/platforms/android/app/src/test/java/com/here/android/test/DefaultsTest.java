@@ -82,4 +82,30 @@ public final class DefaultsTest {
     assertEquals("some string", myStruct.stringField);
     assertEquals(Defaults.SomeEnum.BAR_VALUE, myStruct.enumField);
   }
+
+  @Test
+  public void checkJavaSpecialDefaults() {
+    Defaults.StructWithSpecialDefaults special = new Defaults.StructWithSpecialDefaults();
+
+    assertTrue(Defaults.isNan(special.floatNanField));
+    assertTrue(Defaults.isInfinity(special.floatInfinityField));
+    assertTrue(Defaults.isInfinity(special.floatNegativeInfinityField));
+    assertTrue(Defaults.isNan(special.doubleNanField));
+    assertTrue(Defaults.isInfinity(special.doubleInfinityField));
+    assertTrue(Defaults.isInfinity(special.doubleNegativeInfinityField));
+  }
+
+  @Test
+  public void checkCppSpecialDefaults() {
+    Defaults.StructWithSpecialDefaults special = Defaults.createSpecial();
+
+    assertTrue(Float.isNaN(special.floatNanField));
+    assertTrue(Float.isInfinite(special.floatInfinityField));
+    assertTrue(Float.isInfinite(special.floatNegativeInfinityField));
+    assertTrue(special.floatNegativeInfinityField < 0);
+    assertTrue(Double.isNaN(special.doubleNanField));
+    assertTrue(Double.isInfinite(special.doubleInfinityField));
+    assertTrue(Double.isInfinite(special.doubleNegativeInfinityField));
+    assertTrue(special.doubleNegativeInfinityField < 0);
+  }
 }

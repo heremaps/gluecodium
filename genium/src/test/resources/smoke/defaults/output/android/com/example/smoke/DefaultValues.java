@@ -87,6 +87,62 @@ public class DefaultValues extends NativeBase {
             }
         }
     }
+    public static class StructWithSpecialDefaults {
+        public float floatNanField;
+        public float floatInfinityField;
+        public float floatNegativeInfinityField;
+        public double doubleNanField;
+        public double doubleInfinityField;
+        public double doubleNegativeInfinityField;
+        public StructWithSpecialDefaults() {
+            this(Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY, Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
+        }
+        public StructWithSpecialDefaults(float floatNanField, float floatInfinityField, float floatNegativeInfinityField, double doubleNanField, double doubleInfinityField, double doubleNegativeInfinityField) {
+            this.floatNanField = floatNanField;
+            this.floatInfinityField = floatInfinityField;
+            this.floatNegativeInfinityField = floatNegativeInfinityField;
+            this.doubleNanField = doubleNanField;
+            this.doubleInfinityField = doubleInfinityField;
+            this.doubleNegativeInfinityField = doubleNegativeInfinityField;
+        }
+        public static class Builder {
+            private float floatNanField = Float.NaN;
+            private float floatInfinityField = Float.POSITIVE_INFINITY;
+            private float floatNegativeInfinityField = Float.NEGATIVE_INFINITY;
+            private double doubleNanField = Double.NaN;
+            private double doubleInfinityField = Double.POSITIVE_INFINITY;
+            private double doubleNegativeInfinityField = Double.NEGATIVE_INFINITY;
+            public Builder() {
+            }
+            public Builder setFloatNanField(float floatNanField) {
+                this.floatNanField = floatNanField;
+                return this;
+            }
+            public Builder setFloatInfinityField(float floatInfinityField) {
+                this.floatInfinityField = floatInfinityField;
+                return this;
+            }
+            public Builder setFloatNegativeInfinityField(float floatNegativeInfinityField) {
+                this.floatNegativeInfinityField = floatNegativeInfinityField;
+                return this;
+            }
+            public Builder setDoubleNanField(double doubleNanField) {
+                this.doubleNanField = doubleNanField;
+                return this;
+            }
+            public Builder setDoubleInfinityField(double doubleInfinityField) {
+                this.doubleInfinityField = doubleInfinityField;
+                return this;
+            }
+            public Builder setDoubleNegativeInfinityField(double doubleNegativeInfinityField) {
+                this.doubleNegativeInfinityField = doubleNegativeInfinityField;
+                return this;
+            }
+            public StructWithSpecialDefaults build() {
+                return new StructWithSpecialDefaults(floatNanField, floatInfinityField, floatNegativeInfinityField, doubleNanField, doubleInfinityField, doubleNegativeInfinityField);
+            }
+        }
+    }
     /** For internal use only */
     protected DefaultValues(final long nativeHandle) {
         super(nativeHandle, new Disposer() {

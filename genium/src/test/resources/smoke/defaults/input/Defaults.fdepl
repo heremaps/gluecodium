@@ -45,6 +45,27 @@ define Defaults for interface smoke.DefaultValues
             DefaultValue = "Another_Value"
         }
     }
+
+    struct StructWithSpecialDefaults {
+        floatNanField {
+            DefaultValue = "NaN"
+        }
+        floatInfinityField {
+            DefaultValue = "Infinity"
+        }
+        floatNegativeInfinityField {
+            DefaultValue = "-Infinity"
+        }
+        doubleNanField {
+            DefaultValue = "NaN"
+        }
+        doubleInfinityField {
+            DefaultValue = "Infinity"
+        }
+        doubleNegativeInfinityField {
+            DefaultValue = "-Infinity"
+        }
+    }
 }
 
 define GeniumExtensions for interface smoke.DefaultValues

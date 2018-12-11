@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Defaults.h"
+#include <cmath>
 
 namespace test
 {
@@ -41,6 +42,37 @@ Defaults::check_default( const Defaults::StructWithDefaults& input )
 
 Defaults::ImmutableStructWithDefaults
 Defaults::get_immutable_default( )
+{
+    return {};
+}
+
+bool
+Defaults::is_nan( const float value )
+{
+    return std::isnan( value );
+}
+
+bool
+Defaults::is_nan( const double value )
+{
+    return std::isnan( value );
+}
+
+bool
+Defaults::is_infinity( const float value )
+{
+    return std::isinf( value );
+}
+
+bool
+Defaults::is_infinity( const double value )
+{
+    return std::isinf( value );
+}
+
+
+Defaults::StructWithSpecialDefaults
+Defaults::create_special( )
 {
     return {};
 }
