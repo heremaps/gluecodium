@@ -210,6 +210,24 @@ public final class JavaValueMapperTest {
   }
 
   @Test
+  public void mapDeploymentDefaultFloatNan() {
+    String defaultValue = "NaN";
+
+    JavaValue result = JavaValueMapper.mapDefaultValue(JavaPrimitiveType.FLOAT, defaultValue);
+
+    assertEquals("Float.NaN", result.name);
+  }
+
+  @Test
+  public void mapDeploymentDefaultDoubleNegativeInfinity() {
+    String defaultValue = "-Infinity";
+
+    JavaValue result = JavaValueMapper.mapDefaultValue(JavaPrimitiveType.DOUBLE, defaultValue);
+
+    assertEquals("Double.NEGATIVE_INFINITY", result.name);
+  }
+
+  @Test
   public void mapNonConstantValue() {
     JavaValue mappedValue = JavaValueMapper.map(francaElementRef);
 
