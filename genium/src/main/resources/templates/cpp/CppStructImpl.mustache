@@ -22,10 +22,17 @@
 {{#className}}{{.}}::{{/className}}{{name}}::{{name}}( )
     : {{#parentStruct}}{{parent.name}}{ }, {{/parentStruct}}{{#fields}}{{name}}{ {{#initializer}}{{name}} {{/initializer}}}{{#if iter.hasNext}}, {{/if}}{{/fields}}
 {
-}
+}{{#if hasPartialDefaults}}
+
+{{#className}}{{.}}::{{/className}}{{name}}::{{name}}( {{joinPartial uninitializedFields "cpp/CppMethodParameter" ", "}} )
+    : {{#parentStruct}}{{parent.name}}{ }, {{/parentStruct}}{{!!
+}}{{#fields}}{{name}}{{#initializer}}{ {{name}} }{{/initializer}}{{!!
+}}{{^initializer}}( {{name}} ){{/initializer}}{{#if iter.hasNext}}, {{/if}}{{/fields}}
+{
+}{{/if}}
 
 {{#className}}{{.}}::{{/className}}{{name}}::{{name}}( {{joinPartial fields "cpp/CppMethodParameter" ", "}} )
-    : {{#fields}}{{name}}( {{name}} ){{#if iter.hasNext}}, {{/if}}{{/fields}}
+    : {{#parentStruct}}{{parent.name}}{ }, {{/parentStruct}}{{#fields}}{{name}}( {{name}} ){{#if iter.hasNext}}, {{/if}}{{/fields}}
 {
 }
 

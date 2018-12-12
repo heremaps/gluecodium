@@ -29,5 +29,11 @@ class CppStruct @JvmOverloads constructor(
     val isImmutable: Boolean = false
 ) : CppElementWithComment(name, fullyQualifiedName, comment) {
 
+    @Suppress("unused")
+    val uninitializedFields = fields.filter { it.initializer == null }
+
+    @Suppress("unused")
+    val hasPartialDefaults = uninitializedFields.isNotEmpty() && uninitializedFields.size < fields.size
+
     override fun stream() = fields.stream()
 }

@@ -40,6 +40,7 @@ struct ImmutableStructWithDefaults {
     const ::smoke::SomeEnum enum_field = ::smoke::SomeEnum::BAR_VALUE;
     const ::fire::SomeVeryExternalEnum external_enum_field = ::fire::SomeVeryExternalEnum::Another_Value;
     ImmutableStructWithDefaults( );
+    ImmutableStructWithDefaults( const uint32_t uint_field, const bool bool_field );
     ImmutableStructWithDefaults( const int32_t int_field, const uint32_t uint_field, const float float_field, const bool bool_field, const ::std::string& string_field, const ::smoke::SomeEnum enum_field, const ::fire::SomeVeryExternalEnum external_enum_field );
 };
 
