@@ -8,7 +8,8 @@ struct {{name}} {
 {{/fields}}{{!!
 }}{{#if fields}}
 
-    {{name}}( );
+    {{name}}( );{{#if hasPartialDefaults}}
+    {{name}}( {{joinPartial uninitializedFields "cpp/CppMethodParameter" ", "}} );{{/if}}
     {{name}}( {{joinPartial fields "cpp/CppMethodParameter" ", "}} );
 
 {{/if}}{{!!
