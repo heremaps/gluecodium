@@ -132,8 +132,7 @@ public class JniModelBuilderTest {
               new CppParameter("value", CppPrimitiveTypeRef.Companion.getINT8())));
   private final JniType jniType = new JniType(javaCustomType, cppCustomType);
   private final Include cppInclude = Include.Companion.createInternalInclude("Foo.h");
-  private final CppStruct cppStruct =
-      CppStruct.builder().name(CPP_CLASS_NAME).fullyQualifiedName(CPP_CLASS_NAME).build();
+  private final CppStruct cppStruct = new CppStruct(CPP_CLASS_NAME);
 
   private JniModelBuilder modelBuilder;
 
