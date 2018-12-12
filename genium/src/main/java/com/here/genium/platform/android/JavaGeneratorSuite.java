@@ -54,6 +54,7 @@ public class JavaGeneratorSuite extends GeneratorSuite {
   private static final String JNI_CPP_CONVERSION_UTILS = "JniCppConversionUtils";
   private static final String JNI_TEMPLATE_METAINFO = "JniTemplateMetainfo";
   private static final String JNI_REFERENCE = "JniReference";
+  private static final String JNI_CALL_JAVA_METHOD = "JniCallJavaMethod";
 
   private static final List<String> UTILS_FILES =
       Arrays.asList(
@@ -63,7 +64,7 @@ public class JavaGeneratorSuite extends GeneratorSuite {
           JNI_BASE,
           JNI_CPP_CONVERSION_UTILS);
   private static final List<String> UTILS_FILES_HEADER_ONLY =
-      Arrays.asList(JNI_TEMPLATE_METAINFO, JNI_REFERENCE);
+      Arrays.asList(JNI_TEMPLATE_METAINFO, JNI_REFERENCE, JNI_CALL_JAVA_METHOD);
   private static final List<String> UTILS_HEADER_INCLUDES =
       Arrays.asList(CPP_PROXY_BASE, FIELD_ACCESS_UTILS, JNI_BASE, JNI_CPP_CONVERSION_UTILS);
 
