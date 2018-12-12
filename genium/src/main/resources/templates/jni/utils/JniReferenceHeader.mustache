@@ -1,0 +1,55 @@
+{{>java/CopyrightHeader}}
+
+#pragma once
+
+#include "JniTemplateMetainfo.h"
+#include "JniBase.h"
+
+#include <jni.h>
+#include <cstddef>
+#include <memory>
+
+namespace {{.}}
+{
+
+namespace jni
+{
+
+class JniReferenceDeleter
+{
+public:
+    template<class JniType>
+    void operator () (JniType obj) const
+    {
+        if (!obj)
+        {
+            return;
+        }
+
+        if (JNIEnv* jni_env = {{.}}::jni::getJniEnvironmentForCurrentThread( ))
+        {
+            jni_env->DeleteGlobalRef( obj );
+        }
+    }
+};
+
+template<class JniType>
+using JniReference = std::unique_ptr<typename std::remove_pointer<JniType>::type, JniReferenceDeleter>;
+
+template<class JniType>
+JniReference<JniType> make_global_ref(JniType jobj)
+{
+    static_assert((IsDerivedFromJObject<JniType>::value),
+                  "Detected attempt to create global reference to type which is not derived from jobject");
+    return JniReference<JniType>(jobj, JniReferenceDeleter());
+}
+
+template<class JniType>
+JniReference<JniType> new_global_ref(JNIEnv* jni_env, JniType jobj)
+{
+    return make_global_ref(jni_env->NewGlobalRef( jobj ));
+}
+
+}
+
+}
