@@ -1,0 +1,75 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2018 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{>java/CopyrightHeader}}
+
+#pragma once
+
+#include "JniTemplateMetainfo.h"
+#include "JniBase.h"
+
+#include <jni.h>
+#include <cstddef>
+#include <memory>
+
+namespace {{.}}
+{
+
+namespace jni
+{
+
+class JniReferenceDeleter
+{
+public:
+    template<class JniType>
+    void operator () (JniType obj) const
+    {
+        if (!obj)
+        {
+            return;
+        }
+
+        if (JNIEnv* jni_env = {{.}}::jni::getJniEnvironmentForCurrentThread( ))
+        {
+            jni_env->DeleteGlobalRef( obj );
+        }
+    }
+};
+
+template<class JniType>
+using JniReference = std::unique_ptr<typename std::remove_pointer<JniType>::type, JniReferenceDeleter>;
+
+template<class JniType>
+JniReference<JniType> make_global_ref(JniType jobj)
+{
+    static_assert((IsDerivedFromJObject<JniType>::value),
+                  "Detected attempt to create global reference to type which is not derived from jobject");
+    return JniReference<JniType>(jobj, JniReferenceDeleter());
+}
+
+template<class JniType>
+JniReference<JniType> new_global_ref(JNIEnv* jni_env, JniType jobj)
+{
+    return make_global_ref(jni_env->NewGlobalRef( jobj ));
+}
+
+}
+
+}

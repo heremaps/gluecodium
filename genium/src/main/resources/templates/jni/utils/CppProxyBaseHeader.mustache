@@ -43,6 +43,7 @@
 #include <jni.h>
 
 #include "JniTemplateMetainfo.h"
+#include "JniReference.h"
 
 #include <memory>
 #include <mutex>
@@ -62,9 +63,9 @@ public:
     static void
     createProxy( JNIEnv* jenv, jobject jobj, ::std::shared_ptr< ResultType >& result )
     {
-        jobject jGlobalRef = jenv->NewGlobalRef( jobj );
+        JniReference<jobject> globalRef = new_global_ref( jenv, jobj );
         jint jHashCode = getHashCode( jenv, jobj );
-        ProxyCacheKey key{jGlobalRef, jHashCode};
+        ProxyCacheKey key{globalRef.get(), jHashCode};
 
         ::std::lock_guard< GlobalJniLock > lock( sGlobalJniLock );
         sGlobalJniLock.setJniEnvForCurrentThread( jenv );
@@ -74,14 +75,12 @@ public:
             auto cachedProxy = iterator->second.lock( );
             if ( cachedProxy )
             {
-                jenv->DeleteGlobalRef( jGlobalRef );
                 result = ::std::static_pointer_cast< ImplType >( cachedProxy );
-
                 return;
             }
         }
 
-        auto newProxyInstance = new (::std::nothrow ) ImplType( jenv, jGlobalRef, jHashCode );
+        auto newProxyInstance = new (::std::nothrow ) ImplType( jenv, std::move(globalRef), jHashCode );
         if ( newProxyInstance == nullptr )
         {
             jclass exceptionClass = jenv->FindClass( "java/lang/RuntimeException" );
@@ -102,7 +101,7 @@ public:
     }
 
 protected:
-    CppProxyBase( JNIEnv* jenv, jobject jGlobalRef, jint jHashCode );
+    CppProxyBase( JNIEnv* jenv, JniReference<jobject> globalRef, jint jHashCode );
 
     virtual ~CppProxyBase( );
 
@@ -117,10 +116,10 @@ protected:
         static_assert((JniMethodReturnTypeChecker<T>::is_jni_type),
             "Detected attempt to return from Java method non JNI type value");
 
-        jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+        jclass jClass = jniEnv->GetObjectClass( mGlobalRef.get() );
         jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
         auto method_ptr = JniMethodForType<T, IsDerivedFromJObject<T>::value>::method_ptr;
-        return static_cast<T>((jniEnv->*method_ptr)( jGlobalRef, jmethodId, args... ));
+        return static_cast<T>((jniEnv->*method_ptr)( mGlobalRef.get(), jmethodId, args... ));
     }
 
     static JNIEnv* getJniEnvironment( );
@@ -173,7 +172,7 @@ private:
     static jobject getJavaObjectFromReverseCache( ReverseCacheKey reverseCacheKey );
 
 private:
-    jobject jGlobalRef;
+    JniReference<jobject> mGlobalRef;
     jint jHashCode;
     ReverseCacheKey mReverseCacheKey = nullptr;
 

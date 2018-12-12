@@ -33,8 +33,8 @@ namespace {{.}} {
 
 using namespace ::{{internalNamespace}}::jni;
 
-{{cppName}}CppProxy::{{cppName}}CppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode )
-    : CppProxyBase( _jenv, _jobj, _jHashCode ) {
+{{cppName}}CppProxy::{{cppName}}CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
+    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode ) {
 }
 {{#parentMethods}}
 {{>proxyMethod}}
