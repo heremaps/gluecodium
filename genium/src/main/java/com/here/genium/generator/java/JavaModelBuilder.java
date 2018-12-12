@@ -93,7 +93,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     List<JavaConstant> constants = getPreviousResults(JavaConstant.class);
     if (!constants.isEmpty()) {
       String name = JavaNameRules.getClassName(francaTypeCollection.getName());
-      JavaClass javaClass = JavaClass.builder(name).build();
+      JavaClass javaClass = new JavaClass(name);
       javaClass.visibility = getVisibility(francaTypeCollection);
       javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL);
       javaClass.javaPackage = rootPackage;
@@ -229,16 +229,18 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
         serializationBase != null && deploymentModel.isSerializable(francaStructType);
 
     JavaClass javaClass =
-        JavaClass.builder(JavaNameRules.getClassName(francaStructType.getName()))
-            .isParcelable(isSerializable)
-            .isEquatable(deploymentModel.isEquatable(francaStructType))
-            .isImmutable(deploymentModel.isImmutable(francaStructType))
-            .build();
+        new JavaClass(
+            JavaNameRules.getClassName(francaStructType.getName()),
+            null,
+            getPreviousResults(JavaField.class),
+            false,
+            false,
+            isSerializable,
+            deploymentModel.isEquatable(francaStructType),
+            deploymentModel.isImmutable(francaStructType));
     javaClass.visibility = getVisibility(francaStructType);
     javaClass.javaPackage = rootPackage;
-
     javaClass.comment = CommentHelper.getDescription(francaStructType);
-    javaClass.fields.addAll(getPreviousResults(JavaField.class));
 
     if (isSerializable) {
       javaClass.parentInterfaces.add(serializationBase);
@@ -361,17 +363,16 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       final JavaType extendedClass) {
 
     JavaClass javaClass =
-        JavaClass.builder(JavaNameRules.getClassName(francaInterface.getName()))
-            .extendedClass(extendedClass)
-            .isImplClass(true)
-            .needsDisposer(nativeBase.equals(extendedClass))
-            .build();
+        new JavaClass(
+            JavaNameRules.getClassName(francaInterface.getName()),
+            extendedClass,
+            getPreviousResults(JavaField.class),
+            true,
+            nativeBase.equals(extendedClass));
     javaClass.visibility = getVisibility(francaInterface);
     javaClass.javaPackage = rootPackage;
 
     javaClass.comment = CommentHelper.getDescription(francaInterface);
-    javaClass.fields.addAll(getPreviousResults(JavaField.class));
-
     javaClass.constants.addAll(getPreviousResults(JavaConstant.class));
     javaClass.methods.addAll(methods);
     javaClass.methods.forEach(method -> method.qualifiers.add(MethodQualifier.NATIVE));
@@ -407,14 +408,14 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       final JavaType extendedClass) {
 
     JavaClass javaClass =
-        JavaClass.builder(JavaNameRules.getImplementationClassName(francaInterface.getName()))
-            .extendedClass(extendedClass)
-            .isImplClass(true)
-            .needsDisposer(nativeBase.equals(extendedClass))
-            .build();
+        new JavaClass(
+            JavaNameRules.getImplementationClassName(francaInterface.getName()),
+            extendedClass,
+            getPreviousResults(JavaField.class),
+            true,
+            nativeBase.equals(extendedClass));
     javaClass.visibility = JavaVisibility.PACKAGE;
     javaClass.javaPackage = rootPackage;
-    javaClass.fields.addAll(getPreviousResults(JavaField.class));
 
     List<JavaMethod> classMethods =
         getPreviousResults(JavaMethod.class)
@@ -435,7 +436,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     List<JavaClass> innerClasses =
         getPreviousResults(JavaClass.class)
             .stream()
-            .filter(javaClass -> !javaClass.isImplClass)
+            .filter(javaClass -> !javaClass.isImplClass())
             .collect(Collectors.toList());
     innerClasses.forEach(innerClass -> innerClass.qualifiers.add(JavaClass.Qualifier.STATIC));
     javaTopLevelElement.innerClasses.addAll(innerClasses);

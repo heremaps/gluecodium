@@ -17,72 +17,42 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Stream;
+import java.util.function.Function
+import java.util.stream.Stream
 
-public final class JavaClass extends JavaTopLevelElement {
+class JavaClass @JvmOverloads constructor(
+    name: String,
+    val extendedClass: JavaType? = null,
+    val fields: List<JavaField> = emptyList(),
+    @Suppress("unused") val isImplClass: Boolean = false,
+    @Suppress("unused") val needsDisposer: Boolean = false,
+    @Suppress("unused") val isParcelable: Boolean = false,
+    val isEquatable: Boolean = false,
+    val isImmutable: Boolean = false
+) : JavaTopLevelElement(name) {
 
-  public final Set<JavaField> fields = new LinkedHashSet<>();
-  public final JavaType extendedClass;
-  public final boolean isImplClass;
-  public final boolean needsDisposer;
-  public final boolean isParcelable;
-  public final boolean isEquatable;
-  public final boolean isImmutable;
+    @Suppress("unused")
+    val needsBuilder = fields.size > 2
 
-  public JavaClass(final String name) {
-    this(name, null, false, false, false, false, false);
-  }
-
-  @lombok.Builder(builderClassName = "Builder")
-  private JavaClass(
-      final String name,
-      final JavaType extendedClass,
-      final boolean isImplClass,
-      final boolean needsDisposer,
-      final boolean isParcelable,
-      final boolean isEquatable,
-      final boolean isImmutable) {
-    super(name);
-    this.extendedClass = extendedClass;
-    this.isImplClass = isImplClass;
-    this.needsDisposer = needsDisposer;
-    this.isParcelable = isParcelable;
-    this.isEquatable = isEquatable;
-    this.isImmutable = isImmutable;
-  }
-
-  @SuppressWarnings("unused")
-  public boolean needsBuilder() {
-    return fields.size() > 2;
-  }
-
-  @Override
-  public Stream<JavaElement> stream() {
-    Stream<? extends JavaElement> extendedClassStream =
-        extendedClass != null ? extendedClass.stream() : Stream.empty();
-    return Stream.of(super.stream(), fields.stream(), extendedClassStream)
-        .flatMap(Function.identity());
-  }
-
-  @Override
-  public Set<JavaImport> getImports() {
-
-    Set<JavaImport> imports = super.getImports();
-
-    if (extendedClass != null) {
-      imports.addAll(extendedClass.imports);
-      // No need to import things from the same package. This also filters out a self-import.
-      imports.removeIf(anImport -> Objects.equals(anImport.javaPackage, this.javaPackage));
+    override fun stream(): Stream<JavaElement> {
+        val extendedClassStream =
+            if (extendedClass != null) extendedClass.stream() else Stream.empty()
+        return Stream.of(super.stream(), fields.stream(), extendedClassStream)
+            .flatMap(Function.identity())
     }
 
-    return imports;
-  }
+    override fun getImports(): Set<JavaImport> {
 
-  public static Builder builder(final String name) {
-    return new Builder().name(name);
-  }
+        val imports = super.getImports()
+        if (extendedClass != null) {
+            imports.addAll(extendedClass.imports)
+        }
+
+        // No need to import things from the same package. This also filters out a self-import.
+        imports.removeIf { anImport -> anImport.javaPackage == this.javaPackage }
+
+        return imports
+    }
 }

@@ -506,8 +506,8 @@ public class JavaModelBuilderTest {
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
-    assertFalse(javaClass.fields.isEmpty());
-    assertEquals(javaField, javaClass.fields.iterator().next());
+    assertFalse(javaClass.getFields().isEmpty());
+    assertEquals(javaField, javaClass.getFields().iterator().next());
   }
 
   @Test
@@ -519,7 +519,7 @@ public class JavaModelBuilderTest {
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
-    assertTrue(javaClass.isParcelable);
+    assertTrue(javaClass.isParcelable());
     assertEquals(1, javaClass.parentInterfaces.size());
     assertEquals(javaCustomType, javaClass.parentInterfaces.iterator().next());
   }
@@ -532,7 +532,7 @@ public class JavaModelBuilderTest {
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
-    assertFalse(javaClass.isParcelable);
+    assertFalse(javaClass.isParcelable());
     assertTrue(javaClass.parentInterfaces.isEmpty());
   }
 
@@ -555,7 +555,7 @@ public class JavaModelBuilderTest {
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
-    assertTrue(javaClass.isEquatable);
+    assertTrue(javaClass.isEquatable());
   }
 
   @Test
@@ -566,7 +566,7 @@ public class JavaModelBuilderTest {
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
-    assertTrue(javaClass.isImmutable);
+    assertTrue(javaClass.isImmutable());
   }
 
   @Test
