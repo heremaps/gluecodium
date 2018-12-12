@@ -259,11 +259,7 @@ public final class CBridgeModelBuilderTest {
   @Test
   public void finishBuildingFrancaMethodReadsCppTypeName() {
     CppMethod cppMethod =
-        new CppMethod(
-            DELEGATE_NAME,
-            DELEGATE_NAME,
-            "",
-            CppComplexTypeRef.builder().fullyQualifiedName("::std::FooType").build());
+        new CppMethod(DELEGATE_NAME, DELEGATE_NAME, "", new CppComplexTypeRef("::std::FooType"));
     when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(cppMethod);
     when(CBridgeNameRules.getNestedSpecifierString(any())).thenReturn("NOT");
 
