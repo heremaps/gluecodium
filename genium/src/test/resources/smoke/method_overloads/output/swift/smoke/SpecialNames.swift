@@ -31,6 +31,12 @@ public class SpecialNames {
     public func createProxy() -> Void {
         return smoke_SpecialNames_createProxy(c_instance)
     }
+    public func update() -> Void {
+        return smoke_SpecialNames_update(c_instance)
+    }
+    public func Uppercase() -> Void {
+        return smoke_SpecialNames_Uppercase(c_instance)
+    }
 }
 extension SpecialNames: NativeBase {
     var c_handle: _baseRef { return c_instance }

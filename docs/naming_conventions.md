@@ -15,6 +15,13 @@ Overloaded methods in FIDL definitions require arbitrary "selector" suffixes, in
 "methodName:selectorName". The selector never affects the generated code (for one corner-case
 exception see "Java names" section below).
 
+###Circumventing Franca reserved words
+Franca IDL has some reserved words that are not reserved in target languages (e.g. "update"). Using
+these words as identifiers in a FIDL files results in validation failures during code generation. To
+get around this limitation, the first letter of the word should be capitalized (e.g. "Update"). Due
+to naming conventions being applied for target languages, this change does not affect the generated
+code at all, but it allows the validation step to pass normally.
+
 ##C++ names
 
 ###General naming conventions
