@@ -91,7 +91,7 @@ public class JavaModelBuilderInterfaceTest {
     assertNotNull(javaClass);
     assertEquals("Classy", javaClass.name);
     assertEquals(JavaVisibility.PUBLIC, javaClass.visibility);
-    assertEquals(nativeBase, javaClass.extendedClass);
+    assertEquals(nativeBase, javaClass.getExtendedClass());
     assertTrue(javaClass.parentInterfaces.isEmpty());
   }
 
@@ -124,8 +124,8 @@ public class JavaModelBuilderInterfaceTest {
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
-    assertFalse(javaClass.fields.isEmpty());
-    assertEquals(javaField, javaClass.fields.iterator().next());
+    assertFalse(javaClass.getFields().isEmpty());
+    assertEquals(javaField, javaClass.getFields().iterator().next());
   }
 
   @Test
@@ -177,7 +177,7 @@ public class JavaModelBuilderInterfaceTest {
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
-    assertEquals(javaCustomType, javaClass.extendedClass);
+    assertEquals(javaCustomType, javaClass.getExtendedClass());
     assertTrue(javaClass.parentInterfaces.isEmpty());
   }
 
@@ -191,7 +191,7 @@ public class JavaModelBuilderInterfaceTest {
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
-    assertEquals(javaCustomType, javaClass.extendedClass);
+    assertEquals(javaCustomType, javaClass.getExtendedClass());
     assertTrue(javaClass.innerClasses.isEmpty());
   }
 
@@ -381,7 +381,7 @@ public class JavaModelBuilderInterfaceTest {
     assertNotNull(javaClass);
     assertEquals("ClassyImpl", javaClass.name);
     assertEquals(JavaVisibility.PACKAGE, javaClass.visibility);
-    assertEquals(nativeBase, javaClass.extendedClass);
+    assertEquals(nativeBase, javaClass.getExtendedClass());
 
     assertFalse(javaClass.parentInterfaces.isEmpty());
     assertEquals("Classy", javaClass.parentInterfaces.iterator().next().name);
@@ -406,8 +406,8 @@ public class JavaModelBuilderInterfaceTest {
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
-    assertFalse(javaClass.fields.isEmpty());
-    assertEquals(javaField, javaClass.fields.iterator().next());
+    assertFalse(javaClass.getFields().isEmpty());
+    assertEquals(javaField, javaClass.getFields().iterator().next());
   }
 
   @Test
@@ -463,6 +463,6 @@ public class JavaModelBuilderInterfaceTest {
 
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
-    assertEquals(javaCustomType, javaClass.extendedClass);
+    assertEquals(javaCustomType, javaClass.getExtendedClass());
   }
 }
