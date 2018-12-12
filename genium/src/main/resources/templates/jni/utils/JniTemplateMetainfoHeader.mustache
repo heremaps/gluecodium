@@ -1,0 +1,153 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2018 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{>java/CopyrightHeader}}
+
+#pragma once
+
+#include <jni.h>
+
+#include <type_traits>
+
+namespace {{.}}
+{
+
+namespace jni
+{
+
+template <class Type>
+struct IsDerivedFromJObject :
+    std::conditional<
+        std::is_base_of< typename std::remove_pointer<jobject>::type,
+                         typename std::remove_pointer<Type>::type >::value,
+        std::true_type,
+        std::false_type>::type
+{
+};
+
+template<class... T>
+struct JniMethodArgumentTypeChecker
+{
+    static constexpr bool are_all_jni_types = true;
+};
+
+template<class T, class ... Args>
+struct JniMethodArgumentTypeChecker< T, Args... >
+{
+    static constexpr bool are_all_jni_types =
+        ( std::is_same< T, jboolean >::value ||
+          std::is_same< T, jbyte >::value ||
+          std::is_same< T, jchar >::value ||
+          std::is_same< T, jshort >::value ||
+          std::is_same< T, jint >::value ||
+          std::is_same< T, jlong >::value ||
+          std::is_same< T, jfloat >::value ||
+          std::is_same< T, jdouble >::value ||
+          IsDerivedFromJObject< T >::value ) &&
+      JniMethodArgumentTypeChecker<Args...>::are_all_jni_types;
+};
+
+template< typename ResultType, bool IsDerivedFromJObject >
+struct JniMethodForType
+{
+    // If result type is wrong you should have compilation error here
+};
+
+template<>
+struct JniMethodForType<void, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallVoidMethod;
+};
+
+template<>
+struct JniMethodForType<jboolean, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallBooleanMethod;
+};
+
+template<>
+struct JniMethodForType<jbyte, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallByteMethod;
+};
+
+template<>
+struct JniMethodForType<jchar, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallCharMethod;
+};
+
+template<>
+struct JniMethodForType<jshort, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallShortMethod;
+};
+
+template<>
+struct JniMethodForType<jint, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallIntMethod;
+};
+
+template<>
+struct JniMethodForType<jlong, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallLongMethod;
+};
+
+template<>
+struct JniMethodForType<jfloat, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallFloatMethod;
+};
+
+template<>
+struct JniMethodForType<jdouble, false>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallDoubleMethod;
+};
+
+template<>
+struct JniMethodForType<jobject, true>
+{
+    static constexpr auto method_ptr = &JNIEnv::CallObjectMethod;
+};
+
+template<typename ResultType>
+struct JniMethodForType<ResultType, true>
+{
+    static constexpr auto method_ptr = JniMethodForType<jobject, true>::method_ptr;
+};
+
+template<class T>
+struct JniMethodReturnTypeChecker
+{
+    static constexpr bool is_jni_type = JniMethodArgumentTypeChecker<T>::are_all_jni_types;
+};
+
+template<>
+struct JniMethodReturnTypeChecker<void>
+{
+    static constexpr bool is_jni_type = true;
+};
+
+}
+
+}
