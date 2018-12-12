@@ -182,15 +182,14 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FStructType francaStructType) {
 
     CppStruct cppStruct =
-        CppStruct.builder()
-            .name(nameResolver.getName(francaStructType))
-            .fullyQualifiedName(nameResolver.getFullyQualifiedName(francaStructType))
-            .comment(CommentHelper.getDescription(francaStructType))
-            .fields(getPreviousResults(CppField.class))
-            .isExternal(deploymentModel.isExternalType(francaStructType))
-            .isEquatable(deploymentModel.isEquatable(francaStructType))
-            .isImmutable(deploymentModel.isImmutable(francaStructType))
-            .build();
+        new CppStruct(
+            nameResolver.getName(francaStructType),
+            nameResolver.getFullyQualifiedName(francaStructType),
+            CommentHelper.getDescription(francaStructType),
+            getPreviousResults(CppField.class),
+            deploymentModel.isExternalType(francaStructType),
+            deploymentModel.isEquatable(francaStructType),
+            deploymentModel.isImmutable(francaStructType));
 
     storeResult(cppStruct);
     closeContext();

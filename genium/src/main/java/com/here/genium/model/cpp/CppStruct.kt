@@ -17,40 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Stream;
-import lombok.Builder;
-import lombok.Singular;
+class CppStruct @JvmOverloads constructor(
+    name: String,
+    fullyQualifiedName: String = name,
+    comment: String = "",
+    val fields: List<CppField> = emptyList(),
+    val isExternal: Boolean = false,
+    val isEquatable: Boolean = false,
+    val isImmutable: Boolean = false
+) : CppElementWithComment(name, fullyQualifiedName, comment) {
 
-public final class CppStruct extends CppElementWithComment {
-
-  public final List<CppField> fields;
-  public final boolean isExternal;
-  public final boolean isEquatable;
-  public final boolean isImmutable;
-
-  @SuppressWarnings("ParameterNumber")
-  @Builder
-  private CppStruct(
-      final String name,
-      final String fullyQualifiedName,
-      final String comment,
-      @Singular final List<CppField> fields,
-      final boolean isExternal,
-      final boolean isEquatable,
-      final boolean isImmutable) {
-    super(name, fullyQualifiedName, comment);
-    this.fields = fields != null ? new LinkedList<>(fields) : new LinkedList<>();
-    this.isExternal = isExternal;
-    this.isEquatable = isEquatable;
-    this.isImmutable = isImmutable;
-  }
-
-  @Override
-  public Stream<? extends CppElement> stream() {
-    return fields.stream();
-  }
+    override fun stream() = fields.stream()
 }

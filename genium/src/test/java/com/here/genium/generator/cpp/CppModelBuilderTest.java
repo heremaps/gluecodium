@@ -83,8 +83,7 @@ public final class CppModelBuilderTest {
   private final CppValue cppValue = new CppValue(NONSENSE_NAME);
   private final CppEnum cppEnum =
       new CppEnum(NONSENSE_NAME, NONSENSE_NAME, false, Collections.emptyList());
-  private final CppStruct cppStruct =
-      CppStruct.builder().name(NONSENSE_NAME).fullyQualifiedName(NONSENSE_NAME).build();
+  private final CppStruct cppStruct = new CppStruct(NONSENSE_NAME);
   private final CppTypeRef cppTypeRef = CppPrimitiveTypeRef.Companion.getINT64();
   private final CppTypeDefRef cppTypeDefRef =
       new CppTypeDefRef(
@@ -436,8 +435,8 @@ public final class CppModelBuilderTest {
 
     CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
     assertNotNull(resultStruct);
-    assertFalse(resultStruct.fields.isEmpty());
-    assertEquals(cppField, resultStruct.fields.get(0));
+    assertFalse(resultStruct.getFields().isEmpty());
+    assertEquals(cppField, resultStruct.getFields().get(0));
   }
 
   @Test
@@ -447,7 +446,7 @@ public final class CppModelBuilderTest {
     modelBuilder.finishBuilding(francaStructType);
 
     CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
-    assertTrue(resultStruct.isExternal);
+    assertTrue(resultStruct.isExternal());
   }
 
   @Test
@@ -457,7 +456,7 @@ public final class CppModelBuilderTest {
     modelBuilder.finishBuilding(francaStructType);
 
     CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
-    assertTrue(resultStruct.isEquatable);
+    assertTrue(resultStruct.isEquatable());
   }
 
   @Test
@@ -467,7 +466,7 @@ public final class CppModelBuilderTest {
     modelBuilder.finishBuilding(francaStructType);
 
     CppStruct resultStruct = modelBuilder.getFinalResult(CppStruct.class);
-    assertTrue(resultStruct.isImmutable);
+    assertTrue(resultStruct.isImmutable());
   }
 
   @Test

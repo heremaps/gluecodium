@@ -53,6 +53,7 @@ import com.here.genium.model.swift.SwiftProperty;
 import com.here.genium.model.swift.SwiftType;
 import com.here.genium.test.MockContextStack;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import org.franca.core.franca.*;
 import org.franca.core.franca.FArgument;
@@ -130,8 +131,7 @@ public final class CBridgeModelBuilderTest {
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
 
     when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(new CppMethod(""));
-    when(cppModelbuilder.getFinalResult(CppStruct.class))
-        .thenReturn(CppStruct.builder().name(STRUCT_NAME).fullyQualifiedName(STRUCT_NAME).build());
+    when(cppModelbuilder.getFinalResult(CppStruct.class)).thenReturn(new CppStruct(STRUCT_NAME));
     when(swiftModelBuilder.getFinalResult(SwiftMethod.class)).thenReturn(swiftMethod);
 
     when(typeMapper.createCustomTypeInfo(any(), any())).thenReturn(typeInfo);
@@ -369,11 +369,8 @@ public final class CBridgeModelBuilderTest {
   public void finishBuildingStructReadsImmutable() {
     when(cppModelbuilder.getFinalResult(CppStruct.class))
         .thenReturn(
-            CppStruct.builder()
-                .name(STRUCT_NAME)
-                .fullyQualifiedName(STRUCT_NAME)
-                .isImmutable(true)
-                .build());
+            new CppStruct(
+                STRUCT_NAME, STRUCT_NAME, "", Collections.emptyList(), false, false, true));
 
     modelBuilder.finishBuilding(francaStruct);
 
