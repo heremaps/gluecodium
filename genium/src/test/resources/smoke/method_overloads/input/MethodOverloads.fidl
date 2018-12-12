@@ -132,4 +132,10 @@ interface SpecialNames {
 
     method createProxy {
     }
+
+    method Update {
+    }
+
+    method _upperCase {
+    }
 }
