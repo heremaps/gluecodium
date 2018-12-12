@@ -40,43 +40,6 @@
 
 #include "CppProxyBase.h"
 #include "JniBase.h"
-#include <pthread.h>
-
-namespace
-{
-static pthread_key_t s_thread_key;
-
-JNIEnv*
-attach_current_thread( )
-{
-    JNIEnv* jniEnv;
-    JavaVM* jvm = {{.}}::jni::get_java_vm( );
-    int envState = jvm->GetEnv( reinterpret_cast< void** >( &jniEnv ), JNI_VERSION_1_6 );
-    if ( envState == JNI_EDETACHED )
-    {
-#ifdef __ANDROID__
-        jvm->AttachCurrentThread( &jniEnv, nullptr );
-#else   // ifdef __ANDROID__
-        jvm->AttachCurrentThread( reinterpret_cast< void** >( &jniEnv ), nullptr );
-#endif  // ifdef __ANDROID__
-    }
-
-    return jniEnv;
-}
-
-void
-detach_current_thread( void* )
-{
-    {{.}}::jni::get_java_vm( )->DetachCurrentThread( );
-}
-
-void
-make_key_once( )
-{
-    pthread_key_create( &s_thread_key, detach_current_thread );
-}
-
-}
 
 namespace {{.}}
 {
@@ -89,18 +52,7 @@ CppProxyBase::GlobalJniLock CppProxyBase::sGlobalJniLock{};
 JNIEnv*
 CppProxyBase::getJniEnvironment( )
 {
-    // Add cleanup callback to current thread when called the first time
-    static pthread_once_t s_key_once = PTHREAD_ONCE_INIT;
-    pthread_once( &s_key_once, make_key_once );
-
-    JNIEnv* env;
-    if ( ( env = static_cast< JNIEnv* >( pthread_getspecific( s_thread_key ) ) ) == nullptr )
-    {
-        env = attach_current_thread( );
-        pthread_setspecific( s_thread_key, env );
-    }
-
-    return env;
+    return {{.}}::jni::getJniEnvironmentForCurrentThread( );
 }
 
 CppProxyBase::CppProxyBase( JNIEnv* jenv, jobject jGlobalRef, jint jHashCode )
