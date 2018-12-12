@@ -5,8 +5,8 @@
 #include "EnumConversion.h"
 namespace smoke {
 using namespace ::genium::jni;
-InheritanceGrandchildCppProxy::InheritanceGrandchildCppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode )
-    : CppProxyBase( _jenv, _jobj, _jHashCode ) {
+InheritanceGrandchildCppProxy::InheritanceGrandchildCppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
+    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode ) {
 }
 void InheritanceGrandchildCppProxy::root_method(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );

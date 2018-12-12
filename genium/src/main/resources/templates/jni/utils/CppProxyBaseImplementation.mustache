@@ -55,8 +55,8 @@ CppProxyBase::getJniEnvironment( )
     return {{.}}::jni::getJniEnvironmentForCurrentThread( );
 }
 
-CppProxyBase::CppProxyBase( JNIEnv* jenv, jobject jGlobalRef, jint jHashCode )
-    : jGlobalRef( jGlobalRef )
+CppProxyBase::CppProxyBase( JNIEnv* jenv, {{.}}::jni::JniReference<jobject> globalRef, jint jHashCode )
+    : mGlobalRef( std::move( globalRef ) )
     , jHashCode( jHashCode )
 {
 }
@@ -68,11 +68,9 @@ CppProxyBase::~CppProxyBase( )
     {
         ::std::lock_guard< GlobalJniLock > lock( sGlobalJniLock );
         sGlobalJniLock.setJniEnvForCurrentThread( jniEnv );
-        sProxyCache.erase( ProxyCacheKey{jGlobalRef, jHashCode} );
+        sProxyCache.erase( ProxyCacheKey{mGlobalRef.get(), jHashCode} );
         removeSelfFromReverseCache( );
     }
-
-    jniEnv->DeleteGlobalRef( jGlobalRef );
 }
 
 bool

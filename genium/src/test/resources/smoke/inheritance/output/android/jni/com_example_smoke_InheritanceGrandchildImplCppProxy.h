@@ -2,9 +2,9 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 #pragma once
 #include <jni.h>
+#include "JniReference.h"
 #include "smoke/InheritanceGrandchild.h"
 #include "com_example_smoke_InheritanceGrandchildImpl.h"
 #include "CppProxyBase.h"
@@ -17,7 +17,7 @@ extern "C" {
 namespace smoke {
 class InheritanceGrandchildCppProxy : public genium::jni::CppProxyBase, public InheritanceGrandchild {
 public:
-    InheritanceGrandchildCppProxy( JNIEnv* _jenv, jobject _jobj, jint _jHashCode );
+    InheritanceGrandchildCppProxy( JNIEnv* _jenv, genium::jni::JniReference<jobject> globalRef, jint _jHashCode );
     void root_method(  ) override;
     ::std::string get_root_attribute(  ) const override;
     void set_root_attribute( const ::std::string& nvalue ) override;
