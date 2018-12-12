@@ -44,6 +44,7 @@
 
 #include "JniTemplateMetainfo.h"
 #include "JniReference.h"
+#include "JniCallJavaMethod.h"
 
 #include <memory>
 #include <mutex>
@@ -111,15 +112,7 @@ protected:
                       JNIEnv* jniEnv,
                       Args ... args ) const
     {
-        static_assert((JniMethodArgumentTypeChecker<Args...>::are_all_jni_types),
-            "Detected attempt to pass to Java method non JNI type parameter");
-        static_assert((JniMethodReturnTypeChecker<T>::is_jni_type),
-            "Detected attempt to return from Java method non JNI type value");
-
-        jclass jClass = jniEnv->GetObjectClass( mGlobalRef.get() );
-        jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
-        auto method_ptr = JniMethodForType<T, IsDerivedFromJObject<T>::value>::method_ptr;
-        return static_cast<T>((jniEnv->*method_ptr)( mGlobalRef.get(), jmethodId, args... ));
+        return call_java_method<T>(jniEnv, mGlobalRef.get(), methodName, jniSignature, args...);
     }
 
     static JNIEnv* getJniEnvironment( );
