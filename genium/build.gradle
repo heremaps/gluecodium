@@ -216,7 +216,7 @@ artifactory {
             repoKey = project.properties['artifactory.repoKey']
         }
         defaults {
-            publications 'maven'
+            publications 'mavenJava'
         }
     }
 }
