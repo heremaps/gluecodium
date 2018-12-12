@@ -38,7 +38,13 @@
 {{#if fields}}
     public {{name}}() {
         this({{joinPartial fields "java/FieldInitializer" ", "}});
+    }{{#if hasPartialDefaults}}
+
+    public {{name}}({{#uninitializedFields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}) {
+{{#fields}}        this.{{name}} = {{#if initial}}{{>java/FieldInitializer}}{{/if}}{{#unless initial}}{{name}}{{/unless}};
+{{/fields}}
     }
+    {{/if}}
 
     public {{name}}({{#fields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
 {{#fields}}        this.{{name}} = {{name}};
