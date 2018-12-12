@@ -1,0 +1,47 @@
+{{>java/CopyrightHeader}}
+
+#pragma once
+
+#include "JniTemplateMetainfo.h"
+#include "JniReference.h"
+
+#include <string>
+
+namespace {{.}}
+{
+
+namespace jni
+{
+
+template< class ResultType, class ... Args >
+ResultType
+call_java_method( JNIEnv* jni_env,
+                  jobject java_object,
+                  jmethodID method_id,
+                  const Args& ... args )
+{
+    static_assert((JniMethodArgumentTypeChecker<Args...>::are_all_jni_types),
+        "Detected attempt to pass to Java method non JNI type parameter");
+    static_assert((JniMethodReturnTypeChecker<ResultType>::is_jni_type),
+        "Detected attempt to return from Java method non JNI type value");
+
+    auto method_ptr = JniMethodForType<ResultType, IsDerivedFromJObject<ResultType>::value>::method_ptr;
+    return static_cast<ResultType>((jni_env->*method_ptr)( java_object, method_id, args... ));
+}
+
+template< class ResultType, class ... Args >
+ResultType
+call_java_method( JNIEnv* jni_env,
+                  const jobject java_object,
+                  const ::std::string& method_name,
+                  const ::std::string& jni_signature,
+                  const Args& ... args )
+{
+    jclass java_class = jni_env->GetObjectClass( java_object );
+    jmethodID method_id = jni_env->GetMethodID( java_class, method_name.c_str( ), jni_signature.c_str( ) );
+    return call_java_method<ResultType>(jni_env, java_object, method_id, args...);
+}
+
+}
+
+}
