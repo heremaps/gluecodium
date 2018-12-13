@@ -24,24 +24,22 @@
         return nullptr;
     }
 
-    jobject jResult = {{internalNamespace}}::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    auto jResult = {{internalNamespace}}::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
     if ( jResult != nullptr )
     {
         return jResult;
     }
 
-    auto javaClass = _jenv->FindClass( "{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}" );
+    auto javaClass = find_class(_jenv, "{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}" );
     auto pInstanceSharedPointer =
         new (::std::nothrow) ::std::shared_ptr<{{cppFullyQualifiedName}}>( _ninput );
     if ( pInstanceSharedPointer == nullptr )
     {
-        jclass exceptionClass = _jenv->FindClass( "java/lang/RuntimeException" );
-        _jenv->ThrowNew( exceptionClass, "Cannot allocate native memory." );
-        _jenv->DeleteLocalRef( exceptionClass );
+        auto exceptionClass = find_class(_jenv, "java/lang/RuntimeException" );
+        _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
     jResult = {{internalNamespace}}::jni::create_instance_object(
-        _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
-    _jenv->DeleteLocalRef( javaClass );
+        _jenv, javaClass.get(), reinterpret_cast<jlong>( pInstanceSharedPointer ) );
 
     return jResult;
 }
