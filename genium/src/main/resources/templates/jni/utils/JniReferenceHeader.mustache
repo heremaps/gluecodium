@@ -101,6 +101,18 @@ private:
 template<class JniType>
 using JniReference = std::unique_ptr<typename std::remove_pointer<JniType>::type, JniReferenceDeleter>;
 
+template<class T, class Deleter, template<class, class> class SmartPointer>
+T* jni_reference_unwrap(const SmartPointer<T, Deleter>& argument)
+{
+    return argument.get();
+}
+
+template<class T>
+T jni_reference_unwrap(const T& argument)
+{
+    return argument;
+}
+
 template<class JniType>
 JniReference<JniType> make_local_ref(JNIEnv* jni_env, JniType jobj)
 {
@@ -134,6 +146,12 @@ JniReference<JniType> new_global_ref(JNIEnv* jni_env, JniType jobj)
 inline JniReference<jclass> find_class(JNIEnv* jni_env, const char* name)
 {
     return make_local_ref(jni_env, jni_env->FindClass(name));
+}
+
+template<class JniType>
+JniReference<jclass> get_object_class(JNIEnv* jni_env, const JniType& java_instance)
+{
+    return make_local_ref(jni_env, jni_env->GetObjectClass(jni_reference_unwrap(java_instance)));
 }
 
 }

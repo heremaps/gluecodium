@@ -112,7 +112,7 @@ protected:
                     JNIEnv* jniEnv,
                     const Args& ... args ) const
     {
-        return call_java_method<ResultType>(jniEnv, mGlobalRef.get(), methodName, jniSignature, args...);
+        return call_java_method_obsolete<ResultType>(jniEnv, mGlobalRef, methodName, jniSignature, args...);
     }
 
     static JNIEnv* getJniEnvironment( );

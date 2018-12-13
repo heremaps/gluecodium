@@ -44,6 +44,7 @@
 #include "InstanceConversion.h"
 #include "JniCppConversionUtils.h"
 #include "StructConversion.h"
+#include "JniReference.h"
 #include "JniCallJavaMethod.h"
 
 #include <jni.h>
@@ -120,18 +121,16 @@ template < typename T >
 jobject
 convert_to_jni( JNIEnv* _env, const std::vector< T >& _ninput )
 {
-    auto javaClass = _env->FindClass( "java/util/ArrayList" );
-    auto result = create_object( _env, javaClass );
-    jmethodID addMethodId = _env->GetMethodID( javaClass, "add", "(Ljava/lang/Object;)Z" );
+    auto javaClass = find_class( _env, "java/util/ArrayList");
+    auto result = create_object( _env, javaClass.get() );
+    jmethodID addMethodId = _env->GetMethodID( javaClass.get(), "add", "(Ljava/lang/Object;)Z" );
 
     for ( const auto& element : _ninput )
     {
-        auto jElement = convert_to_jni( _env, element );
+        auto jElement = make_local_ref( _env, convert_to_jni( _env, element ) );
         call_java_method<jboolean>( _env, result, addMethodId, jElement );
-        _env->DeleteLocalRef( jElement );
     }
 
-    _env->DeleteLocalRef( javaClass );
     return result;
 }
 
@@ -146,20 +145,17 @@ convert_from_jni( JNIEnv* _env, const jobject& _arrayList, std::vector< T >* dum
         return _nresult;
     }
 
-    auto javaArrayListClass = _env->FindClass( "java/util/List" );
-    auto sizeMethodId = _env->GetMethodID( javaArrayListClass, "size", "()I" );
-    auto getMethodId = _env->GetMethodID( javaArrayListClass, "get", "(I)Ljava/lang/Object;" );
+    auto javaArrayListClass = find_class( _env, "java/util/List" );
+    auto sizeMethodId = _env->GetMethodID( javaArrayListClass.get(), "size", "()I" );
+    auto getMethodId = _env->GetMethodID( javaArrayListClass.get(), "get", "(I)Ljava/lang/Object;" );
     jint length = call_java_method<jint>( _env, _arrayList, sizeMethodId );
     _nresult.reserve( length );
 
     for ( jint i = 0; i < length; i++ )
     {
-        jobject javaListItem = call_java_method<jobject>( _env, _arrayList, getMethodId, i );
-        _nresult.push_back( convert_from_jni( _env, javaListItem, (T*)nullptr ) );
-        _env->DeleteLocalRef( javaListItem );
+        auto javaListItem = call_java_method<jobject>( _env, _arrayList, getMethodId, i );
+        _nresult.push_back( convert_from_jni( _env, javaListItem.get(), (T*)nullptr ) );
     }
-
-    _env->DeleteLocalRef( javaArrayListClass );
 
     return _nresult;
 }
@@ -170,23 +166,18 @@ template < typename K, typename V, typename Hash = ::std::hash< K > >
 jobject
 convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput )
 {
-    auto javaClass = _env->FindClass( "java/util/HashMap" );
-    auto result = create_object( _env, javaClass );
+    auto javaClass = find_class(_env, "java/util/HashMap" );
+    auto result = create_object( _env, javaClass.get() );
     jmethodID putMethodId = _env->GetMethodID(
-        javaClass, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;" );
+        javaClass.get(), "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;" );
 
     for ( const auto& pair : _ninput )
     {
-        auto jKey = convert_to_jni( _env, pair.first );
-        auto jValue = convert_to_jni( _env, pair.second );
-
+        auto jKey = make_local_ref( _env, convert_to_jni( _env, pair.first ) );
+        auto jValue = make_local_ref( _env, convert_to_jni( _env, pair.second ) );
         call_java_method<jobject>( _env, result, putMethodId, jKey, jValue );
-
-        _env->DeleteLocalRef( jKey );
-        _env->DeleteLocalRef( jValue );
     }
 
-    _env->DeleteLocalRef( javaClass );
     return result;
 }
 
@@ -201,44 +192,34 @@ convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V
         return _nresult;
     }
 
-    auto javaMapClass = _env->FindClass( "java/util/Map" );
-    auto entrySetMethodId = _env->GetMethodID( javaMapClass, "entrySet", "()Ljava/util/Set;" );
-    jobject jEntrySet = call_java_method<jobject>( _env, _jMap, entrySetMethodId );
+    auto javaMapClass = find_class(_env, "java/util/Map" );
+    auto entrySetMethodId = _env->GetMethodID( javaMapClass.get(), "entrySet", "()Ljava/util/Set;" );
+    auto jEntrySet = call_java_method<jobject>( _env, _jMap, entrySetMethodId );
 
-    auto javaSetClass = _env->FindClass( "java/util/Set" );
-    auto iteratorMethodId = _env->GetMethodID( javaSetClass, "iterator", "()Ljava/util/Iterator;" );
-    jobject jIterator = call_java_method<jobject>( _env, jEntrySet, iteratorMethodId );
+    auto javaSetClass = find_class(_env, "java/util/Set" );
+    auto iteratorMethodId = _env->GetMethodID( javaSetClass.get(), "iterator", "()Ljava/util/Iterator;" );
+    auto jIterator = call_java_method<jobject>( _env, jEntrySet, iteratorMethodId );
 
-    auto javaIteratorClass = _env->FindClass( "java/util/Iterator" );
-    auto hasNextMethodId = _env->GetMethodID( javaIteratorClass, "hasNext", "()Z" );
-    auto nextMethodId = _env->GetMethodID( javaIteratorClass, "next", "()Ljava/lang/Object;" );
+    auto javaIteratorClass = find_class(_env, "java/util/Iterator" );
+    auto hasNextMethodId = _env->GetMethodID( javaIteratorClass.get(), "hasNext", "()Z" );
+    auto nextMethodId = _env->GetMethodID( javaIteratorClass.get(), "next", "()Ljava/lang/Object;" );
 
-    auto javaMapEntryClass = _env->FindClass( "java/util/Map$Entry" );
-    auto getKeyMethodId = _env->GetMethodID( javaMapEntryClass, "getKey", "()Ljava/lang/Object;" );
+    auto javaMapEntryClass = find_class(_env, "java/util/Map$Entry" );
+    auto getKeyMethodId = _env->GetMethodID( javaMapEntryClass.get(), "getKey", "()Ljava/lang/Object;" );
     auto getValueMethodId
-        = _env->GetMethodID( javaMapEntryClass, "getValue", "()Ljava/lang/Object;" );
+        = _env->GetMethodID( javaMapEntryClass.get(), "getValue", "()Ljava/lang/Object;" );
 
     while ( call_java_method<jboolean>( _env, jIterator, hasNextMethodId ) )
     {
-        jobject jEntry = call_java_method<jobject>( _env, jIterator, nextMethodId );
-
+        auto jEntry = call_java_method<jobject>( _env, jIterator, nextMethodId );
         auto jKey = call_java_method<jobject>( _env, jEntry, getKeyMethodId );
-        K nKey = convert_from_jni( _env, jKey, (K*)nullptr );
+        K nKey = convert_from_jni( _env, jKey.get(), (K*)nullptr );
 
         auto jValue = call_java_method<jobject>( _env, jEntry, getValueMethodId );
-        V nValue = convert_from_jni( _env, jValue, (V*)nullptr );
+        V nValue = convert_from_jni( _env, jValue.get(), (V*)nullptr );
 
         _nresult[ nKey ] = nValue;
-
-        _env->DeleteLocalRef( jEntry );
-        _env->DeleteLocalRef( jKey );
-        _env->DeleteLocalRef( jValue );
     }
-
-    _env->DeleteLocalRef( javaMapClass );
-    _env->DeleteLocalRef( javaSetClass );
-    _env->DeleteLocalRef( javaIteratorClass );
-    _env->DeleteLocalRef( javaMapEntryClass );
 
     return _nresult;
 }
