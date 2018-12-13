@@ -35,10 +35,10 @@ namespace jni
 
 template< class ResultType, class ... Args >
 ResultType
-call_java_method( JNIEnv* jni_env,
-                  jobject java_object,
-                  jmethodID method_id,
-                  const Args& ... args )
+call_java_method_impl( JNIEnv* jni_env,
+                       jobject java_object,
+                       jmethodID method_id,
+                       Args ... args )
 {
     static_assert((JniMethodArgumentTypeChecker<Args...>::are_all_jni_types),
         "Detected attempt to pass to Java method non JNI type parameter");
@@ -46,20 +46,90 @@ call_java_method( JNIEnv* jni_env,
         "Detected attempt to return from Java method non JNI type value");
 
     auto method_ptr = JniMethodForType<ResultType, IsDerivedFromJObject<ResultType>::value>::method_ptr;
-    return static_cast<ResultType>((jni_env->*method_ptr)( java_object, method_id, args... ));
+    return static_cast<ResultType>((jni_env->*method_ptr)(java_object, method_id, args...));
 }
 
-template< class ResultType, class ... Args >
-ResultType
+template< bool IsResultTypeDerivedFromJObject, class ResultType >
+struct ProcessJavaMethodCall
+{
+};
+
+template<class ResultType>
+struct ProcessJavaMethodCall<false, ResultType>
+{
+    template <class ... Args>
+    static ResultType call( JNIEnv* jni_env,
+                            jobject java_object,
+                            jmethodID method_id,
+                            Args ... args )
+    {
+        return call_java_method_impl<ResultType>(jni_env, java_object, method_id, args...);
+    }
+};
+
+template<class ResultType >
+struct ProcessJavaMethodCall<true, ResultType>
+{
+    template <class ... Args>
+    static JniReference<ResultType> call( JNIEnv* jni_env,
+                                          jobject java_object,
+                                          jmethodID method_id,
+                                          Args ... args )
+    {
+        return make_local_ref(jni_env,
+            call_java_method_impl<ResultType>(jni_env, java_object, method_id, args...));
+    }
+};
+
+template<>
+struct ProcessJavaMethodCall<false, void>
+{
+    template <class ... Args>
+    static void call( JNIEnv* jni_env,
+                      jobject java_object,
+                      jmethodID method_id,
+                      Args ... args )
+    {
+        call_java_method_impl<void>(jni_env, java_object, method_id, args...);
+    }
+};
+
+template< class ResultType, class JavaObject, class ... Args >
+typename std::conditional<IsDerivedFromJObject<ResultType>::value, JniReference<ResultType>, ResultType>::type
 call_java_method( JNIEnv* jni_env,
-                  const jobject java_object,
+                  const JavaObject& java_object,
+                  jmethodID method_id,
+                  const Args& ... args )
+{
+    return ProcessJavaMethodCall<IsDerivedFromJObject<ResultType>::value, ResultType>::call(
+        jni_env, jni_reference_unwrap(java_object), method_id, jni_reference_unwrap(args)...);
+}
+
+template< class ResultType, class JavaObject, class ... Args >
+typename std::conditional<IsDerivedFromJObject<ResultType>::value, JniReference<ResultType>, ResultType>::type
+call_java_method( JNIEnv* jni_env,
+                  const JavaObject& java_object,
                   const ::std::string& method_name,
                   const ::std::string& jni_signature,
                   const Args& ... args )
 {
-    jclass java_class = jni_env->GetObjectClass( java_object );
-    jmethodID method_id = jni_env->GetMethodID( java_class, method_name.c_str( ), jni_signature.c_str( ) );
+    auto jClass = get_object_class( jni_env, java_object );
+    jmethodID method_id = jni_env->GetMethodID( jClass.get( ), method_name.c_str( ), jni_signature.c_str( ) );
     return call_java_method<ResultType>(jni_env, java_object, method_id, args...);
+}
+
+template< class ResultType, class ... Args >
+ResultType
+call_java_method_obsolete( JNIEnv* jni_env,
+                           const JniReference<jobject>& java_object,
+                           const ::std::string& method_name,
+                           const ::std::string& jni_signature,
+                           const Args& ... args )
+{
+    auto jClass = get_object_class( jni_env, java_object );
+    jmethodID method_id = jni_env->GetMethodID( jClass.get( ), method_name.c_str( ), jni_signature.c_str( ) );
+    return call_java_method_impl<ResultType>(
+        jni_env, java_object.get(), method_id, jni_reference_unwrap(args)...);
 }
 
 }
