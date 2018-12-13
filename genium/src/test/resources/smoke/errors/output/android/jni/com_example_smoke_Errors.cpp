@@ -24,11 +24,10 @@ Java_com_example_smoke_Errors_methodWithErrors(JNIEnv* _jenv, jobject _jinstance
     {
         auto nEnumValue = static_cast<::smoke::Errors::InternalError>(errorCode.value());
         auto jEnumValue = genium::jni::convert_to_jni(_jenv, nEnumValue);
-        auto exceptionClass = _jenv->FindClass("com/example/smoke/Errors$InternalErrorException");
-        auto theConstructor = _jenv->GetMethodID(exceptionClass, "<init>", "(Lcom/example/smoke/Errors$InternalError;)V");
-        auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);
-        _jenv->Throw(static_cast<jthrowable>(exception));
-        _jenv->DeleteLocalRef( exceptionClass );
+        auto exceptionClass = genium::jni::find_class(_jenv, "com/example/smoke/Errors$InternalErrorException");
+        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Errors$InternalError;)V");
+        auto exception = genium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
+        _jenv->Throw(static_cast<jthrowable>(exception.release()));
     }
 }
 void
@@ -40,11 +39,10 @@ Java_com_example_smoke_Errors_methodWithExternalErrors(JNIEnv* _jenv, jobject _j
     {
         auto nEnumValue = static_cast<::fire::SomeEnum>(errorCode.value());
         auto jEnumValue = genium::jni::convert_to_jni(_jenv, nEnumValue);
-        auto exceptionClass = _jenv->FindClass("com/example/smoke/Errors$ExternalErrorsException");
-        auto theConstructor = _jenv->GetMethodID(exceptionClass, "<init>", "(Lcom/example/smoke/Errors$ExternalErrors;)V");
-        auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);
-        _jenv->Throw(static_cast<jthrowable>(exception));
-        _jenv->DeleteLocalRef( exceptionClass );
+        auto exceptionClass = genium::jni::find_class(_jenv, "com/example/smoke/Errors$ExternalErrorsException");
+        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Errors$ExternalErrors;)V");
+        auto exception = genium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
+        _jenv->Throw(static_cast<jthrowable>(exception.release()));
     }
 }
 jstring
@@ -56,11 +54,10 @@ Java_com_example_smoke_Errors_methodWithErrorsAndReturnValue(JNIEnv* _jenv, jobj
     {
         auto nEnumValue = static_cast<::smoke::Errors::InternalError>(errorCode.value());
         auto jEnumValue = genium::jni::convert_to_jni(_jenv, nEnumValue);
-        auto exceptionClass = _jenv->FindClass("com/example/smoke/Errors$InternalErrorException");
-        auto theConstructor = _jenv->GetMethodID(exceptionClass, "<init>", "(Lcom/example/smoke/Errors$InternalError;)V");
-        auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);
-        _jenv->Throw(static_cast<jthrowable>(exception));
-        _jenv->DeleteLocalRef( exceptionClass );
+        auto exceptionClass = genium::jni::find_class(_jenv, "com/example/smoke/Errors$InternalErrorException");
+        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Errors$InternalError;)V");
+        auto exception = genium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
+        _jenv->Throw(static_cast<jthrowable>(exception.release()));
         return nullptr;
     }
     auto result = nativeCallResult.safe_value();
