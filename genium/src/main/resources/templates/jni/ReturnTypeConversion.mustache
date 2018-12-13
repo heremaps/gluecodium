@@ -25,11 +25,10 @@
     {
         auto nEnumValue = static_cast<{{jniEnum.cppFullyQualifiedName}}>(errorCode.value());
         auto jEnumValue = {{internalNamespace}}::jni::convert_to_jni(_jenv, nEnumValue);
-        auto exceptionClass = _jenv->FindClass("{{javaClassName}}");
-        auto theConstructor = _jenv->GetMethodID(exceptionClass, "<init>", "({{jniEnum.jniTypeSignature}})V");
-        auto exception = _jenv->NewObject(exceptionClass, theConstructor, jEnumValue);
-        _jenv->Throw(static_cast<jthrowable>(exception));
-        _jenv->DeleteLocalRef( exceptionClass );{{#unless returnType.isJavaVoid}}
+        auto exceptionClass = {{internalNamespace}}::jni::find_class(_jenv, "{{javaClassName}}");
+        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "({{jniEnum.jniTypeSignature}})V");
+        auto exception = {{internalNamespace}}::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
+        _jenv->Throw(static_cast<jthrowable>(exception.release()));{{#unless returnType.isJavaVoid}}
         return {{#if returnType.isComplex}}nullptr{{/if}}{{#unless returnType.isComplex}}nativeCallResult.safe_value(){{/unless}};{{/unless}}
     }{{#unless returnType.isJavaVoid}}
     auto result = nativeCallResult.safe_value();{{/unless}}

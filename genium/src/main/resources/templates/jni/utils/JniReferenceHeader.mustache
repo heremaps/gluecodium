@@ -154,6 +154,23 @@ JniReference<jclass> get_object_class(JNIEnv* jni_env, const JniType& java_insta
     return make_local_ref(jni_env, jni_env->GetObjectClass(jni_reference_unwrap(java_instance)));
 }
 
+template<class ... Args>
+JniReference<jobject> new_object_impl(JNIEnv* env, jclass java_class, jmethodID constructor_id, Args ... args)
+{
+    static_assert((JniMethodArgumentTypeChecker<Args...>::are_all_jni_types),
+                   "Detected attempt to pass to Java constructor non JNI type parameter");
+    return make_local_ref(env, env->NewObject(java_class, constructor_id, args...));
+}
+
+template<class JavaClass, class ... Args>
+JniReference<jobject> new_object(JNIEnv* env,
+                                 const JavaClass& java_class,
+                                 jmethodID constructor_id,
+                                 const Args& ... args)
+{
+    return new_object_impl(env, jni_reference_unwrap(java_class), constructor_id, jni_reference_unwrap(args)...);
+}
+
 }
 
 }
