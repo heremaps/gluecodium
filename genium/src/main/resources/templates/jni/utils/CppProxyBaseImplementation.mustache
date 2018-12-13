@@ -112,12 +112,11 @@ CppProxyBase::GlobalJniLock::getJniEnvForCurrentThread( )
 jint
 CppProxyBase::getHashCode( JNIEnv* jniEnv, jobject jObj )
 {
-    jclass jClass = jniEnv->FindClass( "java/lang/System" );
+    auto jClass = find_class(jniEnv, "java/lang/System" );
     jmethodID jMethodId
-        = jniEnv->GetStaticMethodID( jClass, "identityHashCode", "(Ljava/lang/Object;)I" );
+        = jniEnv->GetStaticMethodID( jClass.get(), "identityHashCode", "(Ljava/lang/Object;)I" );
 
-    jint jResult = jniEnv->CallStaticIntMethod( jClass, jMethodId, jObj );
-    jniEnv->DeleteLocalRef( jClass );
+    jint jResult = jniEnv->CallStaticIntMethod( jClass.get(), jMethodId, jObj );
     return jResult;
 }
 
@@ -138,13 +137,17 @@ void CppProxyBase::removeSelfFromReverseCache( )
     }
 }
 
-jobject
+JniReference<jobject>
 CppProxyBase::getJavaObjectFromReverseCache( ReverseCacheKey reverseCacheKey )
 {
     ::std::lock_guard< GlobalJniLock > lock( sGlobalJniLock );
 
     const auto iterator = sReverseProxyCache.find( reverseCacheKey );
-    return iterator != sReverseProxyCache.end( ) ? iterator->second.jObject : nullptr;
+    if (iterator == sReverseProxyCache.end( ))
+    {
+        return nullptr;
+    }
+    return make_non_releasing_ref(iterator->second.jObject);
 }
 
 }

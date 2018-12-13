@@ -84,9 +84,8 @@ public:
         auto newProxyInstance = new (::std::nothrow ) ImplType( jenv, std::move(globalRef), jHashCode );
         if ( newProxyInstance == nullptr )
         {
-            jclass exceptionClass = jenv->FindClass( "java/lang/RuntimeException" );
-            jenv->ThrowNew( exceptionClass, "Cannot allocate native memory." );
-            jenv->DeleteLocalRef( exceptionClass );
+            auto exceptionClass = find_class(jenv, "java/lang/RuntimeException" );
+            jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
             return;
         }
         auto newProxy = ::std::shared_ptr< ImplType >( newProxyInstance );
@@ -98,7 +97,7 @@ public:
     template <class T>
     static jobject getJavaObject( T* interfacePtr )
     {
-        return getJavaObjectFromReverseCache( interfacePtr );
+        return getJavaObjectFromReverseCache( interfacePtr ).release();
     }
 
 protected:
@@ -106,13 +105,14 @@ protected:
 
     virtual ~CppProxyBase( );
 
-    template< typename T, class ... Args >
-    T callJavaMethod( const ::std::string& methodName,
-                      const ::std::string& jniSignature,
-                      JNIEnv* jniEnv,
-                      Args ... args ) const
+    template< typename ResultType, class ... Args >
+    ResultType
+    callJavaMethod( const ::std::string& methodName,
+                    const ::std::string& jniSignature,
+                    JNIEnv* jniEnv,
+                    const Args& ... args ) const
     {
-        return call_java_method<T>(jniEnv, mGlobalRef.get(), methodName, jniSignature, args...);
+        return call_java_method<ResultType>(jniEnv, mGlobalRef.get(), methodName, jniSignature, args...);
     }
 
     static JNIEnv* getJniEnvironment( );
@@ -162,7 +162,7 @@ private:
                                         ReverseCacheKey reverseCacheKey,
                                         const ProxyCacheKey& primaryKey );
     void removeSelfFromReverseCache( );
-    static jobject getJavaObjectFromReverseCache( ReverseCacheKey reverseCacheKey );
+    static JniReference<jobject> getJavaObjectFromReverseCache( ReverseCacheKey reverseCacheKey );
 
 private:
     JniReference<jobject> mGlobalRef;
