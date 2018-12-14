@@ -39,7 +39,7 @@
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
     jResult = {{internalNamespace}}::jni::create_instance_object(
-        _jenv, javaClass.get(), reinterpret_cast<jlong>( pInstanceSharedPointer ) );
+        _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
 
     return jResult;
 }

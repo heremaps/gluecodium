@@ -42,6 +42,8 @@
 
 #include <jni.h>
 
+#include "JniReference.h"
+
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -57,25 +59,26 @@ namespace jni
 /**
  * Converts a JNI jstring to a std string.
  */
-std::string convert_from_jni( JNIEnv* env, const jobject jvalue, std::string* dummy );
+std::string convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::string* dummy );
+std::string convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string* dummy );
 
 /**
  * Converts a jbyteArray to a byte buffer
  */
 std::shared_ptr< ::std::vector< uint8_t > > convert_from_jni(
-    JNIEnv* env, const jbyteArray& jvalue, std::shared_ptr< ::std::vector< uint8_t > >* dummy );
+    JNIEnv* env, const JniReference<jbyteArray>& jvalue, std::shared_ptr< ::std::vector< uint8_t > >* dummy );
 
 // -------------------- C++ to JNI conversion functions --------------------------------------------
 
 /**
  * Converts a std string to a JNI jstring
  */
-jstring convert_to_jni( JNIEnv* env, const std::string& nvalue );
+JniReference<jstring> convert_to_jni( JNIEnv* env, const std::string& nvalue );
 
 /**
  * Converts a byte buffer to a jbyteArray
  */
-jbyteArray convert_to_jni( JNIEnv* env, const std::shared_ptr< ::std::vector< uint8_t > >& nvalue );
+JniReference<jbyteArray> convert_to_jni( JNIEnv* env, const std::shared_ptr< ::std::vector< uint8_t > >& nvalue );
 
 }
 }

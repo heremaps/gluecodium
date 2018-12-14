@@ -14,7 +14,7 @@
 #include "ArrayConversionUtils.h"
 namespace genium {
 namespace jni {
-jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiable> & _ninput)
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiable> & _ninput)
 {
     if ( !_ninput )
     {
@@ -34,10 +34,10 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleIns
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
     jResult = genium::jni::create_instance_object(
-        _jenv, javaClass.get(), reinterpret_cast<jlong>( pInstanceSharedPointer ) );
+        _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
-jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiable> & _ninput)
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiable> & _ninput)
 {
     if ( !_ninput )
     {
@@ -57,10 +57,10 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedIns
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
     jResult = genium::jni::create_instance_object(
-        _jenv, javaClass.get(), reinterpret_cast<jlong>( pInstanceSharedPointer ) );
+        _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
-jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceWithStruct> & _ninput)
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceWithStruct> & _ninput)
 {
     if ( !_ninput )
     {
@@ -80,7 +80,7 @@ jobject convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceW
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
     jResult = genium::jni::create_instance_object(
-        _jenv, javaClass.get(), reinterpret_cast<jlong>( pInstanceSharedPointer ) );
+        _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
 }

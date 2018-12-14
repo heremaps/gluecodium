@@ -43,9 +43,12 @@
 #include <jni.h>
 
 #include "JniCppConversionUtils.h"
+#include "JniReference.h"
+
 #include <cstdint>
 #include <memory>
 #include <vector>
+
 
 namespace {{.}}
 {
@@ -55,109 +58,105 @@ namespace jni
 // -------------------- JNI object field getters --------------------------------------------------
 
 jboolean get_boolean_field(
-    JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName );
 
 jbyte get_byte_field(
-    JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName );
 
 jshort get_short_field(
-    JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName );
 
 jint get_int_field(
-    JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName );
 
 jlong get_long_field(
-    JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName );
 
 jfloat get_float_field(
-    JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName );
 
 jdouble get_double_field(
-    JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName );
 
 std::string get_string_field(
-    JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName );
 
 std::shared_ptr< ::std::vector< uint8_t > > get_byte_array_field(
-    JNIEnv* env, const jclass javaClass, const jobject object, const char* fieldName );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName );
 
-jobject get_object_field( JNIEnv* env,
-                          const jclass javaClass,
-                          const jobject object,
-                          const char* fieldName,
-                          const char* fieldSignature );
+JniReference<jobject> get_object_field( JNIEnv* env,
+                                       const JniReference<jclass>& javaClass,
+                                       const JniReference<jobject>& object,
+                                       const char* fieldName,
+                                       const char* fieldSignature );
 
 // -------------------- JNI object constructor ----------------------------------------------------
 
-jobject create_object( JNIEnv* env, jclass javaClass );
+JniReference<jobject> create_object( JNIEnv* env, const JniReference<jclass>& javaClass );
 
 // -------------------- JNI instance object constructor -------------------------------------------
 
-jobject create_instance_object( JNIEnv* env, jclass javaClass, jlong instancePointer );
+JniReference<jobject> create_instance_object( JNIEnv* env, const JniReference<jclass>& javaClass, jlong instancePointer );
 
 template < typename T >
-jobject
+JniReference<jobject>
 box_value_in_object( JNIEnv* env, const char* className, const char* signature, T param )
 {
-    auto javaClass = env->FindClass( className );
-    auto theConstructor = env->GetMethodID( javaClass, "<init>", signature );
-    jobject jResult = env->NewObject( javaClass, theConstructor, param );
-    env->DeleteLocalRef( javaClass );
-    return jResult;
+    auto javaClass = find_class(env, className );
+    auto theConstructor = env->GetMethodID( javaClass.get(), "<init>", signature );
+    return new_object(env, javaClass, theConstructor, param );
 }
 
 template < typename T >
-jobject
+JniReference<jobject>
 box_uint_in_object( JNIEnv* env, T param )
 {
-    auto javaClass = env->FindClass( "java/lang/Long" );
-    auto theConstructor = env->GetMethodID( javaClass, "<init>", "(J)V" );
-    jobject jResult = env->NewObject( javaClass, theConstructor, static_cast< uint64_t >( param ) );
-    env->DeleteLocalRef( javaClass );
-    return jResult;
+    auto javaClass = find_class(env, "java/lang/Long" );
+    auto theConstructor = env->GetMethodID( javaClass.get(), "<init>", "(J)V" );
+    return new_object(env, javaClass, theConstructor, static_cast< int64_t >( param ) );
 }
 
 // -------------------- JNI object field setters --------------------------------------------------
 
 void set_boolean_field(
-    JNIEnv* env, jclass javaClass, jobject object, const char* fieldName, bool value );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName, bool value );
 
 void set_byte_field(
-    JNIEnv* env, jclass javaClass, jobject object, const char* fieldName, int8_t value );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName, int8_t value );
 
 void set_short_field(
-    JNIEnv* env, jclass javaClass, jobject object, const char* fieldName, int16_t value );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName, int16_t value );
 
 void set_int_field(
-    JNIEnv* env, jclass javaClass, jobject object, const char* fieldName, int32_t value );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName, int32_t value );
 
 void set_long_field(
-    JNIEnv* env, jclass javaClass, jobject object, const char* fieldName, int64_t value );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName, int64_t value );
 
 void set_float_field(
-    JNIEnv* env, jclass javaClass, jobject object, const char* fieldName, float value );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName, float value );
 
 void set_double_field(
-    JNIEnv* env, jclass javaClass, jobject object, const char* fieldName, double value );
+    JNIEnv* env, const JniReference<jclass>& javaClass, const JniReference<jobject>& object, const char* fieldName, double value );
 
 void set_string_field( JNIEnv* env,
-                       const jclass javaClass,
-                       const jobject object,
+                       const JniReference<jclass>& javaClass,
+                       const JniReference<jobject>& object,
                        const char* fieldName,
                        const std::string& fieldValue );
 
 void set_byte_array_field( JNIEnv* env,
-                           const jclass javaClass,
-                           const jobject object,
+                           const JniReference<jclass>& javaClass,
+                           const JniReference<jobject>& object,
                            const char* fieldName,
                            const std::shared_ptr< ::std::vector< uint8_t > >& fieldValue );
 
 void set_object_field( JNIEnv* env,
-                       jclass javaClass,
-                       jobject object,
+                       const JniReference<jclass>& javaClass,
+                       const JniReference<jobject>& object,
                        const char* fieldName,
                        const char* fieldSignature,
-                       jobject fieldValue );
+                       const JniReference<jobject>& fieldValue );
 
 }
 }

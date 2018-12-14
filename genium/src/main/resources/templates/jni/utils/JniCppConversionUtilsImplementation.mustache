@@ -48,54 +48,65 @@ namespace jni
 // ------------------- JNI to C++ conversion functions ---------------------------------------------
 
 std::string
-convert_from_jni( JNIEnv* env, const jobject jvalue, std::string* dummy )
+convert_string_from_jni( JNIEnv* env, jstring java_string )
 {
-    if ( env->IsSameObject( jvalue, nullptr ) )
+    if ( env->IsSameObject( java_string, nullptr ) )
     {
         return {};
     }
-    jstring stringValue = static_cast< jstring >( jvalue );
-    const char* jbuffer = env->GetStringUTFChars( stringValue, nullptr );
+    const char* jbuffer = env->GetStringUTFChars( java_string, nullptr );
     auto nresult = std::string( jbuffer );
-    env->ReleaseStringUTFChars( stringValue, jbuffer );
+    env->ReleaseStringUTFChars( java_string, jbuffer );
     return nresult;
 }
 
+std::string
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::string* )
+{
+    return convert_string_from_jni( env, static_cast< jstring >( jvalue.get( ) ) );
+}
+
+std::string
+convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string* )
+{
+    return convert_string_from_jni( env, jvalue.get( ) );
+}
+
 std::shared_ptr< std::vector< uint8_t > >
-convert_from_jni( JNIEnv* env, const jbyteArray& jvalue,
+convert_from_jni( JNIEnv* env, const JniReference<jbyteArray>& jvalue,
                   std::shared_ptr< std::vector< uint8_t > >* dummy )
 {
-    if ( env->IsSameObject( jvalue, nullptr ) )
+    if ( env->IsSameObject( jvalue.get(), nullptr ) )
     {
         return {};
     }
-    size_t size = static_cast< size_t >( env->GetArrayLength( jvalue ) );
+    size_t size = static_cast< size_t >( env->GetArrayLength( jvalue.get() ) );
     auto nresult = std::make_shared< std::vector< uint8_t > >( size );
     jbyte* jbuffer = reinterpret_cast< jbyte* >( nresult->data( ) );
-    env->GetByteArrayRegion( jvalue, 0, size, jbuffer );
+    env->GetByteArrayRegion( jvalue.get(), 0, size, jbuffer );
     return nresult;
 }
 
 // -------------------- C++ to JNI conversion functions --------------------------------------------
 
-jstring
+JniReference<jstring>
 convert_to_jni( JNIEnv* env, const std::string& nvalue )
 {
-    return env->NewStringUTF( nvalue.c_str( ) );
+    return make_local_ref(env, env->NewStringUTF( nvalue.c_str( ) ));
 }
 
-jbyteArray
+JniReference<jbyteArray>
 convert_to_jni( JNIEnv* env, const std::shared_ptr< std::vector< uint8_t > >& nvalue )
 {
     if ( !nvalue )
     {
-        return nullptr;
+        return {};
     }
 
     jsize size = static_cast< jsize >( nvalue->size( ) );
-    jbyteArray jresult = env->NewByteArray( size );
+    auto jresult = make_local_ref(env, env->NewByteArray( size ));
     const jbyte* jbuffer = reinterpret_cast< const jbyte* >( nvalue->data( ) );
-    env->SetByteArrayRegion( jresult, 0, size, jbuffer );
+    env->SetByteArrayRegion( jresult.get(), 0, size, jbuffer );
 
     return jresult;
 }

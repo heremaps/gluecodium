@@ -44,7 +44,7 @@ namespace
 {
 
 jint
-unbox_int_value( JNIEnv* env, const jobject& jvalue )
+unbox_int_value( JNIEnv* env, const {{.}}::jni::JniReference<jobject>& jvalue )
 {
     auto javaIntegerClass = {{.}}::jni::find_class(env, "java/lang/Integer" );
     auto intValueMethodId = env->GetMethodID( javaIntegerClass.get(), "intValue", "()I" );
@@ -53,7 +53,7 @@ unbox_int_value( JNIEnv* env, const jobject& jvalue )
 }
 
 jlong
-unbox_long_value( JNIEnv* env, const jobject& jvalue )
+unbox_long_value( JNIEnv* env, const {{.}}::jni::JniReference<jobject>& jvalue )
 {
     auto javaLongClass = {{.}}::jni::find_class(env, "java/lang/Long" );
     auto longValueMethodId = env->GetMethodID( javaLongClass.get(), "longValue", "()J" );
@@ -67,74 +67,74 @@ namespace {{.}}
 {
 namespace jni
 {
-jobject
+JniReference<jobject>
 convert_to_jni( JNIEnv* env, const bool nvalue )
 {
-    return box_value_in_object( env, "java/lang/Boolean", "(Z)V", nvalue );
+    return box_value_in_object<jboolean>( env, "java/lang/Boolean", "(Z)V", nvalue );
 }
 
-jobject
+JniReference<jobject>
 convert_to_jni( JNIEnv* env, const double nvalue )
 {
-    return box_value_in_object( env, "java/lang/Double", "(D)V", nvalue );
+    return box_value_in_object<jdouble>( env, "java/lang/Double", "(D)V", nvalue );
 }
 
-jobject
+JniReference<jobject>
 convert_to_jni( JNIEnv* env, const float nvalue )
 {
-    return box_value_in_object( env, "java/lang/Float", "(F)V", nvalue );
+    return box_value_in_object<jfloat>( env, "java/lang/Float", "(F)V", nvalue );
 }
 
-jobject
+JniReference<jobject>
 convert_to_jni( JNIEnv* env, const int8_t nvalue )
 {
-    return box_value_in_object( env, "java/lang/Byte", "(B)V", nvalue );
+    return box_value_in_object<jbyte>( env, "java/lang/Byte", "(B)V", nvalue );
 }
 
-jobject
+JniReference<jobject>
 convert_to_jni( JNIEnv* env, const int16_t nvalue )
 {
-    return box_value_in_object( env, "java/lang/Short", "(S)V", nvalue );
+    return box_value_in_object<jshort>( env, "java/lang/Short", "(S)V", nvalue );
 }
 
-jobject
+JniReference<jobject>
 convert_to_jni( JNIEnv* env, const int32_t nvalue )
 {
-    return box_value_in_object( env, "java/lang/Integer", "(I)V", nvalue );
+    return box_value_in_object<jint>( env, "java/lang/Integer", "(I)V", nvalue );
 }
 
-jobject
+JniReference<jobject>
 convert_to_jni( JNIEnv* env, const int64_t nvalue )
 {
-    return box_value_in_object( env, "java/lang/Long", "(J)V", nvalue );
+    return box_value_in_object<jlong>( env, "java/lang/Long", "(J)V", nvalue );
 }
 
-jobject
+JniReference<jobject>
 convert_to_jni( JNIEnv* env, const uint8_t nvalue )
 {
     return box_uint_in_object( env, nvalue );
 }
 
-jobject
+JniReference<jobject>
 convert_to_jni( JNIEnv* env, const uint16_t nvalue )
 {
     return box_uint_in_object( env, nvalue );
 }
 
-jobject
+JniReference<jobject>
 convert_to_jni( JNIEnv* env, const uint32_t nvalue )
 {
     return box_uint_in_object( env, nvalue );
 }
 
-jobject
+JniReference<jobject>
 convert_to_jni( JNIEnv* env, const uint64_t nvalue )
 {
     return box_uint_in_object( env, nvalue );
 }
 
 bool
-convert_from_jni( JNIEnv* env, const jobject& jvalue, bool* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, bool* dummy )
 {
     auto javaBooleanClass = find_class(env, "java/lang/Boolean" );
     auto booleanValueMethodId = env->GetMethodID( javaBooleanClass.get(), "booleanValue", "()Z" );
@@ -143,7 +143,7 @@ convert_from_jni( JNIEnv* env, const jobject& jvalue, bool* dummy )
 }
 
 double
-convert_from_jni( JNIEnv* env, const jobject& jvalue, double* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, double* dummy )
 {
     auto javaDoubleClass = find_class(env, "java/lang/Double" );
     auto doubleValueMethodId = env->GetMethodID( javaDoubleClass.get(), "doubleValue", "()D" );
@@ -152,7 +152,7 @@ convert_from_jni( JNIEnv* env, const jobject& jvalue, double* dummy )
 }
 
 float
-convert_from_jni( JNIEnv* env, const jobject& jvalue, float* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, float* dummy )
 {
     auto javaFloatClass = find_class(env, "java/lang/Float" );
     auto floatValueMethodId = env->GetMethodID( javaFloatClass.get(), "floatValue", "()F" );
@@ -161,7 +161,7 @@ convert_from_jni( JNIEnv* env, const jobject& jvalue, float* dummy )
 }
 
 int8_t
-convert_from_jni( JNIEnv* env, const jobject& jvalue, int8_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int8_t* dummy )
 {
     auto javaByteClass = find_class(env, "java/lang/Byte" );
     auto byteValueMethodId = env->GetMethodID( javaByteClass.get(), "byteValue", "()B" );
@@ -170,7 +170,7 @@ convert_from_jni( JNIEnv* env, const jobject& jvalue, int8_t* dummy )
 }
 
 int16_t
-convert_from_jni( JNIEnv* env, const jobject& jvalue, int16_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int16_t* dummy )
 {
     auto javaShortClass = find_class(env, "java/lang/Short" );
     auto shortValueMethodId = env->GetMethodID( javaShortClass.get(), "shortValue", "()S" );
@@ -179,37 +179,37 @@ convert_from_jni( JNIEnv* env, const jobject& jvalue, int16_t* dummy )
 }
 
 int32_t
-convert_from_jni( JNIEnv* env, const jobject& jvalue, int32_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int32_t* dummy )
 {
     return unbox_int_value( env, jvalue );
 }
 
 int64_t
-convert_from_jni( JNIEnv* env, const jobject& jvalue, int64_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int64_t* dummy )
 {
     return unbox_long_value( env, jvalue );
 }
 
 uint8_t
-convert_from_jni( JNIEnv* env, const jobject& jvalue, uint8_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint8_t* dummy )
 {
     return unbox_long_value( env, jvalue );
 }
 
 uint16_t
-convert_from_jni( JNIEnv* env, const jobject& jvalue, uint16_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint16_t* dummy )
 {
     return unbox_long_value( env, jvalue );
 }
 
 uint32_t
-convert_from_jni( JNIEnv* env, const jobject& jvalue, uint32_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint32_t* dummy )
 {
     return unbox_long_value( env, jvalue );
 }
 
 uint64_t
-convert_from_jni( JNIEnv* env, const jobject& jvalue, uint64_t* dummy )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint64_t* dummy )
 {
     return unbox_long_value( env, jvalue );
 }

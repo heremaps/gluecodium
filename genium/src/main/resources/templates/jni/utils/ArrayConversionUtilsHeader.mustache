@@ -58,76 +58,76 @@ namespace jni
 // The following functions are converting and boxing primitive values into the corresponding
 // java boxing object so that they can be added to java list.
 
-jobject convert_to_jni( JNIEnv* env, const bool nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const bool nvalue );
 
-jobject convert_to_jni( JNIEnv* env, const double nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const double nvalue );
 
-jobject convert_to_jni( JNIEnv* env, const float nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const float nvalue );
 
-jobject convert_to_jni( JNIEnv* env, const int8_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const int8_t nvalue );
 
-jobject convert_to_jni( JNIEnv* env, const int16_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const int16_t nvalue );
 
-jobject convert_to_jni( JNIEnv* env, const int32_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const int32_t nvalue );
 
-jobject convert_to_jni( JNIEnv* env, const int64_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const int64_t nvalue );
 
-jobject convert_to_jni( JNIEnv* env, const uint8_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const uint8_t nvalue );
 
-jobject convert_to_jni( JNIEnv* env, const uint16_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const uint16_t nvalue );
 
-jobject convert_to_jni( JNIEnv* env, const uint32_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const uint32_t nvalue );
 
-jobject convert_to_jni( JNIEnv* env, const uint64_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const uint64_t nvalue );
 
 // The following conversion methods are unboxing and converting primitive values from the
 // java boxing object.
 
-bool convert_from_jni( JNIEnv* env, const jobject& jvalue, bool* dummy );
+bool convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, bool* dummy );
 
-double convert_from_jni( JNIEnv* env, const jobject& jvalue, double* dummy );
+double convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, double* dummy );
 
-float convert_from_jni( JNIEnv* env, const jobject& jvalue, float* dummy );
+float convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, float* dummy );
 
-int8_t convert_from_jni( JNIEnv* env, const jobject& jvalue, int8_t* dummy );
+int8_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int8_t* dummy );
 
-int16_t convert_from_jni( JNIEnv* env, const jobject& jvalue, int16_t* dummy );
+int16_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int16_t* dummy );
 
-int32_t convert_from_jni( JNIEnv* env, const jobject& jvalue, int32_t* dummy );
+int32_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int32_t* dummy );
 
-int64_t convert_from_jni( JNIEnv* env, const jobject& jvalue, int64_t* dummy );
+int64_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int64_t* dummy );
 
-uint8_t convert_from_jni( JNIEnv* env, const jobject& jvalue, uint8_t* dummy );
+uint8_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint8_t* dummy );
 
-uint16_t convert_from_jni( JNIEnv* env, const jobject& jvalue, uint16_t* dummy );
+uint16_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint16_t* dummy );
 
-uint32_t convert_from_jni( JNIEnv* env, const jobject& jvalue, uint32_t* dummy );
+uint32_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint32_t* dummy );
 
-uint64_t convert_from_jni( JNIEnv* env, const jobject& jvalue, uint64_t* dummy );
+uint64_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint64_t* dummy );
 
 // Forward declare map conversion routines
 
 template < typename K, typename V, typename Hash >
 ::std::unordered_map< K, V, Hash >
-convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V, Hash >* dummy );
+convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jMap, ::std::unordered_map< K, V, Hash >* dummy );
 
 template < typename K, typename V, typename Hash >
-jobject
+JniReference<jobject>
 convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput );
 
 // Templated functions to create ArrayLists from C++ vectors and vice versa
 
 template < typename T >
-jobject
+JniReference<jobject>
 convert_to_jni( JNIEnv* _env, const std::vector< T >& _ninput )
 {
     auto javaClass = find_class( _env, "java/util/ArrayList");
-    auto result = create_object( _env, javaClass.get() );
+    auto result = create_object( _env, javaClass );
     jmethodID addMethodId = _env->GetMethodID( javaClass.get(), "add", "(Ljava/lang/Object;)Z" );
 
     for ( const auto& element : _ninput )
     {
-        auto jElement = make_local_ref( _env, convert_to_jni( _env, element ) );
+        auto jElement = convert_to_jni( _env, element );
         call_java_method<jboolean>( _env, result, addMethodId, jElement );
     }
 
@@ -136,11 +136,11 @@ convert_to_jni( JNIEnv* _env, const std::vector< T >& _ninput )
 
 template < typename T >
 std::vector< T >
-convert_from_jni( JNIEnv* _env, const jobject& _arrayList, std::vector< T >* dummy )
+convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _arrayList, std::vector< T >* dummy )
 {
     std::vector< T > _nresult{};
 
-    if ( _env->IsSameObject( _arrayList, nullptr ) )
+    if ( _env->IsSameObject( _arrayList.get(), nullptr ) )
     {
         return _nresult;
     }
@@ -154,7 +154,7 @@ convert_from_jni( JNIEnv* _env, const jobject& _arrayList, std::vector< T >* dum
     for ( jint i = 0; i < length; i++ )
     {
         auto javaListItem = call_java_method<jobject>( _env, _arrayList, getMethodId, i );
-        _nresult.push_back( convert_from_jni( _env, javaListItem.get(), (T*)nullptr ) );
+        _nresult.push_back( convert_from_jni( _env, javaListItem, (T*)nullptr ) );
     }
 
     return _nresult;
@@ -163,18 +163,18 @@ convert_from_jni( JNIEnv* _env, const jobject& _arrayList, std::vector< T >* dum
 // Templated functions to create HashMaps from C++ unordered_maps and vice versa
 
 template < typename K, typename V, typename Hash = ::std::hash< K > >
-jobject
+JniReference<jobject>
 convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput )
 {
     auto javaClass = find_class(_env, "java/util/HashMap" );
-    auto result = create_object( _env, javaClass.get() );
+    auto result = create_object( _env, javaClass );
     jmethodID putMethodId = _env->GetMethodID(
         javaClass.get(), "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;" );
 
     for ( const auto& pair : _ninput )
     {
-        auto jKey = make_local_ref( _env, convert_to_jni( _env, pair.first ) );
-        auto jValue = make_local_ref( _env, convert_to_jni( _env, pair.second ) );
+        auto jKey = convert_to_jni( _env, pair.first );
+        auto jValue = convert_to_jni( _env, pair.second );
         call_java_method<jobject>( _env, result, putMethodId, jKey, jValue );
     }
 
@@ -183,11 +183,11 @@ convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput )
 
 template < typename K, typename V, typename Hash = ::std::hash< K > >
 ::std::unordered_map< K, V, Hash >
-convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V, Hash >* dummy )
+convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jMap, ::std::unordered_map< K, V, Hash >* dummy )
 {
     ::std::unordered_map< K, V, Hash > _nresult{};
 
-    if ( _env->IsSameObject( _jMap, nullptr ) )
+    if ( _env->IsSameObject( _jMap.get(), nullptr ) )
     {
         return _nresult;
     }
@@ -213,10 +213,10 @@ convert_from_jni( JNIEnv* _env, const jobject& _jMap, ::std::unordered_map< K, V
     {
         auto jEntry = call_java_method<jobject>( _env, jIterator, nextMethodId );
         auto jKey = call_java_method<jobject>( _env, jEntry, getKeyMethodId );
-        K nKey = convert_from_jni( _env, jKey.get(), (K*)nullptr );
+        K nKey = convert_from_jni( _env, jKey, (K*)nullptr );
 
         auto jValue = call_java_method<jobject>( _env, jEntry, getValueMethodId );
-        V nValue = convert_from_jni( _env, jValue.get(), (V*)nullptr );
+        V nValue = convert_from_jni( _env, jValue, (V*)nullptr );
 
         _nresult[ nKey ] = nValue;
     }

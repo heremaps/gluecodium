@@ -20,7 +20,7 @@
   !}}
 {
   {{#unless cppStruct.isImmutable}}{{cppStruct.fullyQualifiedName}} _nout{};{{/unless}}
-  jclass javaClass = _jenv->GetObjectClass(_jinput);
+  auto javaClass = get_object_class(_jenv, _jinput);
 {{#fields}}
   {{#hasCustomType}}
 

@@ -62,10 +62,10 @@ class CppProxyBase
 public:
     template < typename ResultType, typename ImplType >
     static void
-    createProxy( JNIEnv* jenv, jobject jobj, ::std::shared_ptr< ResultType >& result )
+    createProxy( JNIEnv* jenv, const JniReference<jobject>& jobj, ::std::shared_ptr< ResultType >& result )
     {
-        JniReference<jobject> globalRef = new_global_ref( jenv, jobj );
-        jint jHashCode = getHashCode( jenv, jobj );
+        JniReference<jobject> globalRef = new_global_ref( jenv, jobj.get() );
+        jint jHashCode = getHashCode( jenv, jobj.get() );
         ProxyCacheKey key{globalRef.get(), jHashCode};
 
         ::std::lock_guard< GlobalJniLock > lock( sGlobalJniLock );
@@ -95,9 +95,9 @@ public:
     }
 
     template <class T>
-    static jobject getJavaObject( T* interfacePtr )
+    static JniReference<jobject> getJavaObject( T* interfacePtr )
     {
-        return getJavaObjectFromReverseCache( interfacePtr ).release();
+        return getJavaObjectFromReverseCache( interfacePtr );
     }
 
 protected:
@@ -106,13 +106,13 @@ protected:
     virtual ~CppProxyBase( );
 
     template< typename ResultType, class ... Args >
-    ResultType
+    typename std::conditional<IsDerivedFromJObject<ResultType>::value, JniReference<ResultType>, ResultType>::type
     callJavaMethod( const ::std::string& methodName,
                     const ::std::string& jniSignature,
                     JNIEnv* jniEnv,
                     const Args& ... args ) const
     {
-        return call_java_method_obsolete<ResultType>(jniEnv, mGlobalRef, methodName, jniSignature, args...);
+        return call_java_method<ResultType>(jniEnv, mGlobalRef, methodName, jniSignature, args...);
     }
 
     static JNIEnv* getJniEnvironment( );
