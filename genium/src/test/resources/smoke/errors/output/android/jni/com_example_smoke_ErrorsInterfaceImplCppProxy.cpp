@@ -11,12 +11,12 @@ ErrorsInterfaceCppProxy::ErrorsInterfaceCppProxy( JNIEnv* _jenv, JniReference<jo
 ::std::error_code ErrorsInterfaceCppProxy::method_with_errors(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     callJavaMethod<void>( "methodWithErrors", "()V", jniEnv  );
-    auto jException = jniEnv->ExceptionOccurred( );
+    auto jException = genium::jni::make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
         auto jEnumValue = genium::jni::get_object_field(
             jniEnv,
-            jniEnv->GetObjectClass( jException ),
+            genium::jni::get_object_class(jniEnv, jException),
             jException,
             "error",
             "Lcom/example/smoke/ErrorsInterface$InternalError;" );
@@ -24,7 +24,6 @@ ErrorsInterfaceCppProxy::ErrorsInterfaceCppProxy( JNIEnv* _jenv, JniReference<jo
             jniEnv,
             jEnumValue,
             (::smoke::ErrorsInterface::InternalError*)nullptr );
-        jniEnv->DeleteLocalRef( jException );
         jniEnv->ExceptionClear( );
         return ::std::error_code{nEnumValue};
     }
@@ -36,12 +35,12 @@ ErrorsInterfaceCppProxy::ErrorsInterfaceCppProxy( JNIEnv* _jenv, JniReference<jo
 ::std::error_code ErrorsInterfaceCppProxy::method_with_external_errors(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     callJavaMethod<void>( "methodWithExternalErrors", "()V", jniEnv  );
-    auto jException = jniEnv->ExceptionOccurred( );
+    auto jException = genium::jni::make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
         auto jEnumValue = genium::jni::get_object_field(
             jniEnv,
-            jniEnv->GetObjectClass( jException ),
+            genium::jni::get_object_class(jniEnv, jException),
             jException,
             "error",
             "Lcom/example/smoke/ErrorsInterface$ExternalErrors;" );
@@ -49,7 +48,6 @@ ErrorsInterfaceCppProxy::ErrorsInterfaceCppProxy( JNIEnv* _jenv, JniReference<jo
             jniEnv,
             jEnumValue,
             (::smoke::ErrorsInterface::ExternalErrors*)nullptr );
-        jniEnv->DeleteLocalRef( jException );
         jniEnv->ExceptionClear( );
         return ::std::error_code{nEnumValue};
     }
@@ -61,12 +59,12 @@ ErrorsInterfaceCppProxy::ErrorsInterfaceCppProxy( JNIEnv* _jenv, JniReference<jo
 ::genium::Return< ::std::string, ::std::error_code > ErrorsInterfaceCppProxy::method_with_errors_and_return_value(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jstring>( "methodWithErrorsAndReturnValue", "()Ljava/lang/String;", jniEnv  );
-    auto jException = jniEnv->ExceptionOccurred( );
+    auto jException = genium::jni::make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
         auto jEnumValue = genium::jni::get_object_field(
             jniEnv,
-            jniEnv->GetObjectClass( jException ),
+            genium::jni::get_object_class(jniEnv, jException),
             jException,
             "error",
             "Lcom/example/smoke/ErrorsInterface$InternalError;" );
@@ -74,7 +72,6 @@ ErrorsInterfaceCppProxy::ErrorsInterfaceCppProxy( JNIEnv* _jenv, JniReference<jo
             jniEnv,
             jEnumValue,
             (::smoke::ErrorsInterface::InternalError*)nullptr );
-        jniEnv->DeleteLocalRef( jException );
         jniEnv->ExceptionClear( );
         return ::std::error_code{nEnumValue};
     }
