@@ -19,7 +19,7 @@
   !
   !}}
 {
-    auto javaClass = _jenv->FindClass( "{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}}" );
+    auto javaClass = find_class(_jenv, "{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}}" );
     ::std::string enumeratorName;
     switch(_ninput) {
 {{#enumerators}}
@@ -28,8 +28,6 @@
             break;
 {{/enumerators}}
     }
-    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass , enumeratorName.c_str(), "L{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}};");
-    jobject jResult = _jenv->GetStaticObjectField(javaClass, fieldID);
-    _jenv->DeleteLocalRef( javaClass );
-    return jResult;
+    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get() , enumeratorName.c_str(), "L{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}};");
+    return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }

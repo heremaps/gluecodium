@@ -13,25 +13,30 @@
 #include "ProxyConversion.h"
 #include "EnumConversion.h"
 #include "ArrayConversionUtils.h"
+#include "JniReference.h"
 extern "C" {
 void
 Java_com_example_smoke_ExternalInterface_someMethod(JNIEnv* _jenv, jobject _jinstance, jbyte jsomeParameter)
 {
     int8_t someParameter = jsomeParameter;
-    auto pointerAsLong = genium::jni::get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
+    auto pointerAsLong = genium::jni::get_long_field(_jenv,
+            genium::jni::get_object_class(_jenv, _jinstance),
+            genium::jni::make_local_ref(_jenv, _jinstance),
+            "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::ExternalInterface>*> (pointerAsLong);
     (*pInstanceSharedPointer)->some_Method(someParameter);
 }
-
 jstring
 Java_com_example_smoke_ExternalInterface_getSomeAttribute(JNIEnv* _jenv, jobject _jinstance)
 {
-    auto pointerAsLong = genium::jni::get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
+    auto pointerAsLong = genium::jni::get_long_field(_jenv,
+            genium::jni::get_object_class(_jenv, _jinstance),
+            genium::jni::make_local_ref(_jenv, _jinstance),
+            "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::ExternalInterface>*> (pointerAsLong);
     auto result = (*pInstanceSharedPointer)->get_Me();
-    return genium::jni::convert_to_jni(_jenv, result);
+    return genium::jni::convert_to_jni(_jenv, result).release();
 }
-
 void
 Java_com_example_smoke_ExternalInterface_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {

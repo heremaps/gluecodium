@@ -19,22 +19,19 @@
   !
   !}}
 {
-  auto javaClass = _jenv->FindClass("{{>jni/JavaClassSignaturePrefix}}{{javaClass.name}}");
+  auto javaClass = find_class(_jenv, "{{>jni/JavaClassSignaturePrefix}}{{javaClass.name}}");
   auto _jresult = {{internalNamespace}}::jni::create_object(_jenv, javaClass);
 {{#fields}}
   {{#hasCustomType}}
   auto j{{cppField.name}} = convert_to_jni(_jenv, {{>getCppFieldValue}});
   {{internalNamespace}}::jni::set_object_field(_jenv, javaClass, _jresult, "{{javaField.name}}",
   "L{{join javaField.type.packageNames delimiter="/"}}/{{join javaField.type.classNames delimiter="$"}};", j{{cppField.name}});
-  _jenv->DeleteLocalRef(j{{cppField.name}});
   {{/hasCustomType}}
   {{^hasCustomType}}
   auto j{{cppField.name}} = {{#if type.isJavaArray}}convert_to_jni(_jenv, {{/if}}{{>getCppFieldValue}}{{#if type.isJavaArray}}){{/if}};
-  {{internalNamespace}}::jni::set_{{javaField.type.literalName}}_field(_jenv, javaClass, _jresult, "{{javaField.name}}", j{{cppField.name}});{{#if type.isJavaArray}}
-  _jenv->DeleteLocalRef(j{{cppField.name}});{{/if}}
+  {{internalNamespace}}::jni::set_{{javaField.type.literalName}}_field(_jenv, javaClass, _jresult, "{{javaField.name}}", j{{cppField.name}});
   {{/hasCustomType}}
 {{/fields}}
-  _jenv->DeleteLocalRef(javaClass);
   return _jresult;
 }{{!!
 

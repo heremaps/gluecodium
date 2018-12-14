@@ -14,6 +14,7 @@
 #include "ProxyConversion.h"
 #include "EnumConversion.h"
 #include "ArrayConversionUtils.h"
+#include "JniReference.h"
 extern "C" {
 void
 Java_com_example_smoke_Errors_methodWithErrors(JNIEnv* _jenv, jobject _jinstance)
@@ -61,7 +62,7 @@ Java_com_example_smoke_Errors_methodWithErrorsAndReturnValue(JNIEnv* _jenv, jobj
         return nullptr;
     }
     auto result = nativeCallResult.safe_value();
-    return genium::jni::convert_to_jni(_jenv, result);
+    return genium::jni::convert_to_jni(_jenv, result).release();
 }
 void
 Java_com_example_smoke_Errors_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

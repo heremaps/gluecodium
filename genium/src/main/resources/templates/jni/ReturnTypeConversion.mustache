@@ -34,4 +34,4 @@
     auto result = nativeCallResult.safe_value();{{/unless}}
     {{/exception}}
 {{^exception}}    {{#unless returnType.isJavaVoid}}auto result = {{/unless}}{{>jni/CppMethodCall}}{{/exception}}{{#unless returnType.isJavaVoid}}
-    return {{#if returnType.isComplex}}{{internalNamespace}}::jni::convert_to_jni(_jenv, result){{/if}}{{#unless returnType.isComplex}}result{{/unless}};{{/unless}}
+    return {{#if returnType.isComplex}}{{internalNamespace}}::jni::convert_to_jni(_jenv, result).release(){{/if}}{{#unless returnType.isComplex}}result{{/unless}};{{/unless}}

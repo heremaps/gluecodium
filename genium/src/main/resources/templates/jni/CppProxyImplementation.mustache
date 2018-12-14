@@ -64,12 +64,12 @@ using namespace ::{{internalNamespace}}::jni;
     }}"({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{returnType.jniTypeSignature}}", {{!!
     }}jniEnv {{#if parameters}},{{/if}} {{#parameters}}j{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{#if exception}}
-    auto jException = jniEnv->ExceptionOccurred( );
+    auto jException = {{internalNamespace}}::jni::make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
         auto jEnumValue = {{internalNamespace}}::jni::get_object_field(
             jniEnv,
-            jniEnv->GetObjectClass( jException ),
+            {{internalNamespace}}::jni::get_object_class(jniEnv, jException),
             jException,
             "error",
             "{{exception.jniEnum.jniTypeSignature}}" );
@@ -78,7 +78,6 @@ using namespace ::{{internalNamespace}}::jni;
             jEnumValue,
             ({{exception.jniEnum.cppFullyQualifiedName}}*)nullptr );
 
-        jniEnv->DeleteLocalRef( jException );
         jniEnv->ExceptionClear( );
         return ::std::error_code{nEnumValue};
     }

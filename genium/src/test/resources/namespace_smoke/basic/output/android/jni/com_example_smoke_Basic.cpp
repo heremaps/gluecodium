@@ -13,14 +13,14 @@
 #include "ProxyConversion.h"
 #include "EnumConversion.h"
 #include "ArrayConversionUtils.h"
+#include "JniReference.h"
 extern "C" {
 jstring
 Java_com_example_smoke_Basic_basicMethod(JNIEnv* _jenv, jobject _jinstance, jstring jinputString)
 {
-    ::std::string inputString = genium::jni::convert_from_jni( _jenv, jinputString, (::std::string*)nullptr );
-    _jenv->DeleteLocalRef(jinputString);
+    ::std::string inputString = genium::jni::convert_from_jni( _jenv, genium::jni::make_local_ref(_jenv, jinputString), (::std::string*)nullptr );
     auto result = ::root::space::smoke::Basic::basic_method(inputString);
-    return genium::jni::convert_to_jni(_jenv, result);
+    return genium::jni::convert_to_jni(_jenv, result).release();
 }
 void
 Java_com_example_smoke_Basic_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

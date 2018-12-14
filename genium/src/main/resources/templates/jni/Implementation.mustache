@@ -28,6 +28,7 @@
 #include "ProxyConversion.h"
 #include "EnumConversion.h"
 #include "ArrayConversionUtils.h"
+#include "JniReference.h"
 
 extern "C" {
 
@@ -38,15 +39,17 @@ extern "C" {
 {
 {{#parameters}}
 {{#if type.isComplex}}
-    {{type.cppName}} {{name}} = {{internalNamespace}}::jni::convert_from_jni( _jenv, j{{name}}, ({{type.cppName}}*)nullptr );
-    _jenv->DeleteLocalRef(j{{name}});
+    {{type.cppName}} {{name}} = {{internalNamespace}}::jni::convert_from_jni( _jenv, {{internalNamespace}}::jni::make_local_ref(_jenv, j{{name}}), ({{type.cppName}}*)nullptr );
 {{/if}}
 {{#unless type.isComplex}}
     {{type.cppName}} {{name}} = j{{name}};
 {{/unless}}
 {{/parameters}}
 {{#unless isStatic}}
-    auto pointerAsLong = {{internalNamespace}}::jni::get_long_field(_jenv, _jenv->GetObjectClass(_jinstance), _jinstance, "nativeHandle");
+    auto pointerAsLong = {{internalNamespace}}::jni::get_long_field(_jenv,
+            {{internalNamespace}}::jni::get_object_class(_jenv, _jinstance),
+            {{internalNamespace}}::jni::make_local_ref(_jenv, _jinstance),
+            "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (pointerAsLong);
 {{/unless}}
 {{>jni/ReturnTypeConversion}}
