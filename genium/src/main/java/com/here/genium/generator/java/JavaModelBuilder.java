@@ -28,7 +28,9 @@ import com.here.genium.model.franca.CommentHelper;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.java.*;
 import com.here.genium.model.java.JavaMethod.MethodQualifier;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.franca.core.franca.*;
 
@@ -118,38 +120,35 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     JavaType returnType;
     String returnComment;
+    Set<JavaType> annotations;
     if (outputParameter == null) { // Void return type
       returnType = JavaPrimitiveType.VOID;
       returnComment = null;
+      annotations = Collections.emptySet();
     } else {
       returnType = outputParameter.getType();
       returnComment = outputParameter.comment;
+      annotations = outputParameter.annotations;
     }
-
-    JavaExceptionType javaExceptionTypeRef = getPreviousResult(JavaExceptionType.class);
-
-    JavaMethod javaMethod =
-        JavaMethod.builder(methodNameResolver.getName(francaMethod))
-            .returnType(returnType)
-            .returnComment(returnComment)
-            .exception(javaExceptionTypeRef)
-            .build();
-    javaMethod.comment = CommentHelper.getDescription(francaMethod);
-
-    if (deploymentModel.isStatic(francaMethod)) {
-      javaMethod.qualifiers.add(MethodQualifier.STATIC);
-    }
-    javaMethod.visibility = getVisibility(francaMethod);
 
     List<JavaParameter> inputParameters =
         CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaParameter.class)
             .filter(parameter -> !parameter.isOutput)
             .collect(Collectors.toList());
-    javaMethod.parameters.addAll(inputParameters);
 
-    if (outputParameter != null) {
-      javaMethod.annotations.addAll(outputParameter.annotations);
-    }
+    JavaMethod javaMethod =
+        new JavaMethod(
+            methodNameResolver.getName(francaMethod),
+            CommentHelper.getDescription(francaMethod),
+            getVisibility(francaMethod),
+            returnType,
+            returnComment,
+            getPreviousResult(JavaExceptionType.class),
+            inputParameters,
+            deploymentModel.isStatic(francaMethod)
+                ? Collections.singleton(MethodQualifier.STATIC)
+                : Collections.emptySet(),
+            annotations);
 
     storeResult(javaMethod);
     closeContext();
@@ -326,12 +325,12 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaVisibility visibility = getVisibility(francaAttribute);
     boolean isNotNull = deploymentModel.isNotNull(francaAttribute);
 
-    String getterName = JavaNameRules.getGetterName(francaAttribute.getName(), javaType);
-
-    JavaMethod getterMethod = JavaMethod.builder(getterName).returnType(javaType).build();
-    getterMethod.visibility = visibility;
-    getterMethod.comment = comment;
-
+    JavaMethod getterMethod =
+        new JavaMethod(
+            JavaNameRules.getGetterName(francaAttribute.getName(), javaType),
+            comment,
+            visibility,
+            javaType);
     if (isNotNull) {
       addNotNullAnnotation(getterMethod);
     }
@@ -339,17 +338,20 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     storeResult(getterMethod);
 
     if (!francaAttribute.isReadonly()) {
-      String setterName = JavaNameRules.getSetterName(francaAttribute.getName());
-
-      JavaMethod setterMethod = JavaMethod.builder(setterName).build();
-      setterMethod.visibility = visibility;
-      setterMethod.comment = comment;
-
       JavaParameter setterParameter = new JavaParameter("value", javaType);
       if (isNotNull) {
         addNotNullAnnotation(setterParameter);
       }
-      setterMethod.parameters.add(setterParameter);
+
+      JavaMethod setterMethod =
+          new JavaMethod(
+              JavaNameRules.getSetterName(francaAttribute.getName()),
+              comment,
+              visibility,
+              JavaPrimitiveType.VOID,
+              null,
+              null,
+              Collections.singletonList(setterParameter));
 
       storeResult(setterMethod);
     }
@@ -375,7 +377,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     javaClass.comment = CommentHelper.getDescription(francaInterface);
     javaClass.constants.addAll(getPreviousResults(JavaConstant.class));
     javaClass.methods.addAll(methods);
-    javaClass.methods.forEach(method -> method.qualifiers.add(MethodQualifier.NATIVE));
+    javaClass.methods.forEach(method -> method.getQualifiers().add(MethodQualifier.NATIVE));
     javaClass.enums.addAll(getPreviousResults(JavaEnum.class));
     javaClass.exceptions.addAll(getPreviousResults(JavaExceptionClass.class));
 
@@ -421,7 +423,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
         getPreviousResults(JavaMethod.class)
             .stream()
             .map(JavaMethod::shallowCopy)
-            .peek(javaMethod -> javaMethod.qualifiers.add(MethodQualifier.NATIVE))
+            .peek(javaMethod -> javaMethod.getQualifiers().add(MethodQualifier.NATIVE))
             .collect(Collectors.toList());
     javaClass.methods.addAll(classMethods);
 
