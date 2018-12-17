@@ -81,8 +81,8 @@ public abstract class JavaTopLevelElement extends JavaElement {
     imports.addAll(
         methods
             .stream()
-            .filter(javaMethod -> javaMethod.exception != null)
-            .flatMap(javaMethod -> javaMethod.exception.imports.stream())
+            .filter(javaMethod -> javaMethod.getException() != null)
+            .flatMap(javaMethod -> javaMethod.getException().imports.stream())
             .collect(Collectors.toList()));
 
     // No need to import things from the same package. This also filters out a self-import.
