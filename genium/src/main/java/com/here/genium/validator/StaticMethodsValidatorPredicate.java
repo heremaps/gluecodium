@@ -24,11 +24,16 @@ import com.here.genium.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 
-/** Validate that static methods are not contained in Franca interfaces with IsInterface "true". */
+/**
+ * Validate that static methods or constructors are not contained in Franca interfaces with
+ * IsInterface "true".
+ */
 public final class StaticMethodsValidatorPredicate implements ValidatorPredicate<FMethod> {
 
   private static final String STATIC_METHOD_MESSAGE =
       "Static methods in interfaces are not allowed: method '%s' in interface '%s'.";
+  private static final String CONSTRUCTOR_METHOD_MESSAGE =
+      "Constructors in interfaces are not allowed: method '%s' in interface '%s'.";
 
   @Override
   public Class<FMethod> getElementClass() {
@@ -38,17 +43,18 @@ public final class StaticMethodsValidatorPredicate implements ValidatorPredicate
   @Override
   public String validate(final FrancaDeploymentModel deploymentModel, final FMethod francaMethod) {
 
-    if (!deploymentModel.isStatic(francaMethod)) {
-      return null;
-    }
-
     FInterface francaInterface = (FInterface) francaMethod.eContainer();
     if (!deploymentModel.isInterface(francaInterface)) {
       return null;
     }
 
+    boolean isConstructor = deploymentModel.isConstructor(francaMethod);
+    if (!isConstructor && !deploymentModel.isStatic(francaMethod)) {
+      return null;
+    }
+
     return String.format(
-        STATIC_METHOD_MESSAGE,
+        isConstructor ? CONSTRUCTOR_METHOD_MESSAGE : STATIC_METHOD_MESSAGE,
         francaMethod.getName(),
         FrancaTypeHelper.getFullName(francaInterface));
   }

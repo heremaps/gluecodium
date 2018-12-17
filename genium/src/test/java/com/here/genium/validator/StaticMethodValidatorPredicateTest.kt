@@ -71,6 +71,13 @@ class StaticMethodValidatorPredicateTest {
     }
 
     @Test
+    fun validateWithConstructorMethod() {
+        `when`(deploymentModel.isConstructor(francaMethod)).thenReturn(true)
+
+        assertNull(validatorPredicate.validate(deploymentModel, francaMethod))
+    }
+
+    @Test
     fun validateWithIsInterfaceAndInstanceMethod() {
         `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
 
@@ -81,6 +88,14 @@ class StaticMethodValidatorPredicateTest {
     fun validateWithIsInterfaceAndStaticMethod() {
         `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
         `when`(deploymentModel.isStatic(francaMethod)).thenReturn(true)
+
+        assertNotNull(validatorPredicate.validate(deploymentModel, francaMethod))
+    }
+
+    @Test
+    fun validateWithIsInterfaceAndConstructorMethod() {
+        `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
+        `when`(deploymentModel.isConstructor(francaMethod)).thenReturn(true)
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaMethod))
     }

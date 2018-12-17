@@ -265,3 +265,33 @@ interface StaticMethods {
         out { String emptyString }
     }
 }
+
+interface Constructors {
+
+    typedef Constructors is undefined
+
+    method create:noArgs {
+        out {
+            Constructors result
+        }
+    }
+
+    method create:copyCtor {
+        in {
+            Constructors other
+        }
+        out {
+            Constructors result
+        }
+    }
+
+    method create:twoArgs {
+        in {
+            String foo
+            UInt64 bar
+        }
+        out {
+            Constructors result
+        }
+    }
+}

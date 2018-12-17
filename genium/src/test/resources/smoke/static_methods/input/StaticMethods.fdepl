@@ -178,3 +178,18 @@ define GeniumExtensions for interface smoke.StaticMethods
         Static = true
     }
 }
+
+define GeniumExtensions for interface smoke.Constructors
+{
+    method create:noArgs {
+        Constructor = true
+    }
+
+    method create:copyCtor {
+        Constructor = true
+    }
+
+    method create:twoArgs {
+        Constructor = true
+    }
+}
