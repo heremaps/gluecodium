@@ -22,4 +22,5 @@
 {{#allAnnotations}}
 @{{name}}
 {{/allAnnotations}}
-{{^isInterface}}{{#if visibility.toString}}{{visibility}} {{/if}}{{/isInterface}}{{#qualifiers}}{{.}} {{/qualifiers}}{{returnType.name}} {{name}}({{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}};
+{{^isInterface}}{{#if isConstructor}}private {{/if}}{{#unless isConstructor}}{{#if visibility.toString}}{{visibility}} {{/if}}{{/unless}}{{/isInterface}}{{!!
+}}{{#qualifiers}}{{.}} {{/qualifiers}}{{returnType.name}} {{name}}({{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}};

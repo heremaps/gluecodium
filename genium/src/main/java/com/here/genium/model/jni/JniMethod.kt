@@ -27,6 +27,7 @@ data class JniMethod @JvmOverloads constructor(
     val isStatic: Boolean = false,
     val isConst: Boolean = false,
     val isOverloaded: Boolean = false,
+    val isConstructor: Boolean = false,
     val exception: JniException? = null,
     val parameters: MutableList<JniParameter> = mutableListOf()
 ) : JniElement

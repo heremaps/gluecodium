@@ -33,7 +33,13 @@
 {{/exceptions}}
 {{#innerClasses}}{{prefixPartial "java/Class" "    "}}
 {{/innerClasses}}
-{{#if isImplClass}}{{prefixPartial "java/NativeConstructor" "    "}}
+{{#set className=name}}{{#constructors}}
+    {{visibility}} {{className}}({{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}} {
+        this({{name}}({{join parameters delimiter=", " }}));
+    }
+{{/constructors}}{{/set}}
+{{#if isImplClass}}
+{{prefixPartial "java/NativeConstructor" "    "}}
 {{/if}}
 {{#if fields}}
     public {{name}}() {
