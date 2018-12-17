@@ -27,6 +27,7 @@ specification GeniumExtensions {
     for methods {
         Const: Boolean (optional, default: false);
         Static: Boolean (optional, default: false);
+        Constructor: Boolean (optional, default: false);
     }
 
     for structs {

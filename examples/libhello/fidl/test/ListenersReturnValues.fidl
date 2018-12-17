@@ -188,7 +188,7 @@ interface MessageDelivery {
 
     method createMe {
         out {
-            MessageDelivery.MessageDelivery newInstance
+            MessageDelivery newInstance
         }
     }
 }

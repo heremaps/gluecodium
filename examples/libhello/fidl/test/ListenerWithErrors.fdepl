@@ -28,10 +28,11 @@ define GeniumExtensions for interface test.ListenerWithErrors
 define GeniumExtensions for interface test.ErrorMessenger
 {
     method create {
-        Static = true
+        Constructor = true
+        Static = true // TODO: APIGEN-1486 remove when implemented for both Swift and Java
         out {
             newInstance {
-                NotNull = true
+                NotNull = true // TODO: APIGEN-1486 remove when implemented for both Swift and Java
             }
         }
     }

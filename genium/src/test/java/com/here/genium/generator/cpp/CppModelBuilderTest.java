@@ -235,6 +235,17 @@ public final class CppModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaMethodReadsConstructorFlag() {
+    when(deploymentModel.isConstructor(francaMethod)).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
+    assertNotNull(resultMethod);
+    assertTrue(resultMethod.getSpecifiers().contains(CppMethod.Specifier.STATIC));
+  }
+
+  @Test
   public void finishBuildingFrancaMethodReadsInputParameters() {
     CppParameter cppParameter = new CppParameter(NONSENSE_NAME, cppTypeRef);
     contextStack.injectResult(cppParameter);
