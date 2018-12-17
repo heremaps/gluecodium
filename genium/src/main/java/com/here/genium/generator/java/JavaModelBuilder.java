@@ -136,16 +136,18 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
             .filter(parameter -> !parameter.isOutput)
             .collect(Collectors.toList());
 
+    boolean isConstructor = deploymentModel.isConstructor(francaMethod);
     JavaMethod javaMethod =
         new JavaMethod(
             methodNameResolver.getName(francaMethod),
             CommentHelper.getDescription(francaMethod),
             getVisibility(francaMethod),
-            returnType,
+            isConstructor ? JavaPrimitiveType.LONG : returnType,
             returnComment,
             getPreviousResult(JavaExceptionType.class),
             inputParameters,
-            deploymentModel.isStatic(francaMethod)
+            isConstructor,
+            (isConstructor || deploymentModel.isStatic(francaMethod))
                 ? Collections.singleton(MethodQualifier.STATIC)
                 : Collections.emptySet(),
             annotations);
@@ -485,8 +487,8 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     storeResult(javaImplementationClass);
   }
 
-  private JavaVisibility getVisibility(final FModelElement francaModelElement) {
-    return deploymentModel.isInternal(francaModelElement)
+  private JavaVisibility getVisibility(final FModelElement francaElement) {
+    return deploymentModel.isInternal(francaElement)
         ? JavaVisibility.PACKAGE
         : JavaVisibility.PUBLIC;
   }

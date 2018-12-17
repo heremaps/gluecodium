@@ -43,6 +43,10 @@ class JavaClass @JvmOverloads constructor(
     val hasPartialDefaults =
             uninitializedFields.isNotEmpty() && uninitializedFields.size < fields.size
 
+    @Suppress("unused")
+    val constructors
+        get() = methods.filter { it.isConstructor }
+
     override fun stream(): Stream<JavaElement> {
         val extendedClassStream =
             if (extendedClass != null) extendedClass.stream() else Stream.empty()
