@@ -168,6 +168,19 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaMethodWithConstructor() {
+    when(deploymentModel.isConstructor(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
+    assertNotNull(javaMethod);
+    assertTrue(javaMethod.getQualifiers().contains(JavaMethod.MethodQualifier.STATIC));
+    assertTrue(javaMethod.isConstructor());
+    assertEquals(JavaPrimitiveType.LONG, javaMethod.getReturnType());
+  }
+
+  @Test
   public void finishBuildingFrancaMethodWithZeroOutArgs() {
     modelBuilder.finishBuilding(francaMethod);
 

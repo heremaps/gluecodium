@@ -29,7 +29,7 @@ extern "C" {
 #endif
 
 {{#container}}{{#methods}}
-JNIEXPORT {{#returnType}}{{name}}{{/returnType}}{{^returnType}}void{{/returnType}} JNICALL
+JNIEXPORT {{returnType.name}} JNICALL
 {{>jni/FunctionSignature}};
 
 {{/methods}}{{/container}}

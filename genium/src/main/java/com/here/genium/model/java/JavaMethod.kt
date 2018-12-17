@@ -29,6 +29,7 @@ class JavaMethod @JvmOverloads constructor(
     val returnComment: String? = null,
     val exception: JavaCustomType? = null,
     val parameters: List<JavaParameter> = emptyList(),
+    val isConstructor: Boolean = false,
     qualifiers: Set<MethodQualifier> = LinkedHashSet(),
     annotations: Set<JavaType> = emptySet()
 ) : JavaElement(name) {
@@ -64,6 +65,7 @@ class JavaMethod @JvmOverloads constructor(
         returnComment,
         exception,
         parameters,
+        false,
         qualifiers,
         annotations
     )

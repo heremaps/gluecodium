@@ -156,6 +156,7 @@ internal constructor(
             isStatic = cppMethod.specifiers.contains(CppMethod.Specifier.STATIC),
             isConst = cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST),
             isOverloaded = francaMethod.selector != null,
+            isConstructor = javaMethod.isConstructor,
             exception = jniException
         )
         jniMethod.parameters.addAll(getPreviousResults(JniParameter::class.java))

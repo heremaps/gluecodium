@@ -34,4 +34,14 @@
     auto result = nativeCallResult.safe_value();{{/unless}}
     {{/exception}}
 {{^exception}}    {{#unless returnType.isJavaVoid}}auto result = {{/unless}}{{>jni/CppMethodCall}}{{/exception}}{{#unless returnType.isJavaVoid}}
-    return {{#if returnType.isComplex}}{{internalNamespace}}::jni::convert_to_jni(_jenv, result).release(){{/if}}{{#unless returnType.isComplex}}result{{/unless}};{{/unless}}
+    {{#if isConstructor}}auto nSharedPtr = new (::std::nothrow) {{returnType.cppFullyQualifiedName}}(result);
+    if (nSharedPtr == nullptr)
+    {
+        jclass exceptionClass = _jenv->FindClass("java/lang/RuntimeException" );
+        _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
+        _jenv->DeleteLocalRef(exceptionClass);
+        return 0;
+    }
+    return reinterpret_cast<jlong>(nSharedPtr);{{/if}}{{!!
+}}{{#unless isConstructor}}return {{#if returnType.isComplex}}{{internalNamespace}}::jni::convert_to_jni(_jenv, result).release(){{/if}}{{!!
+}}{{#unless returnType.isComplex}}result{{/unless}};{{/unless}}{{/unless}}

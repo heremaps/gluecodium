@@ -33,7 +33,7 @@
 extern "C" {
 
 {{#methods}}
-{{#returnType}}{{name}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{returnType.name}}
 {{>jni/FunctionSignature}}
 
 {
