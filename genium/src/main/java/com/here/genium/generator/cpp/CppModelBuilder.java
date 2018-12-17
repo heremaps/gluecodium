@@ -347,7 +347,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     Set<CppMethod.Specifier> specifiers = EnumSet.noneOf(CppMethod.Specifier.class);
     Set<CppMethod.Qualifier> qualifiers = EnumSet.noneOf(CppMethod.Qualifier.class);
 
-    if (deploymentModel.isStatic(francaMethod)) {
+    if (deploymentModel.isStatic(francaMethod) || deploymentModel.isConstructor(francaMethod)) {
       specifiers.add(CppMethod.Specifier.STATIC);
     } else {
       if (deploymentModel.isConst(francaMethod)) {

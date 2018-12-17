@@ -63,6 +63,10 @@ public class FrancaDeploymentModel {
     return getBoolean(francaMethod, "Const");
   }
 
+  public boolean isConstructor(final FMethod francaMethod) {
+    return getBoolean(francaMethod, "Constructor");
+  }
+
   public boolean isSerializable(final FStructType francaStruct) {
     return getBoolean(francaStruct, "Serializable");
   }
