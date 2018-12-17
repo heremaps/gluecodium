@@ -17,89 +17,54 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import lombok.Singular;
+import java.util.stream.Stream
 
-public final class JavaMethod extends JavaElement {
+class JavaMethod @JvmOverloads constructor(
+    name: String,
+    comment: String? = null,
+    visibility: JavaVisibility = JavaVisibility.PUBLIC,
+    val returnType: JavaType = JavaPrimitiveType.VOID,
+    val returnComment: String? = null,
+    val exception: JavaCustomType? = null,
+    val parameters: List<JavaParameter> = emptyList(),
+    qualifiers: Set<MethodQualifier> = LinkedHashSet(),
+    annotations: Set<JavaType> = emptySet()
+) : JavaElement(name) {
 
-  public enum MethodQualifier {
-    STATIC("static"),
-    NATIVE("native");
+    val qualifiers: Set<MethodQualifier> = LinkedHashSet(qualifiers)
 
-    private final String value;
-
-    MethodQualifier(final String value) {
-      this.value = value;
+    init {
+        this.comment = comment
+        this.visibility = visibility
+        this.annotations.addAll(annotations)
     }
 
-    @Override
-    public String toString() {
-      return value;
+    @Suppress("unused")
+    val allAnnotations
+        get() = returnType.annotations + annotations
+
+    enum class MethodQualifier constructor(private val value: String) {
+        STATIC("static"),
+        NATIVE("native");
+
+        override fun toString() = value
     }
-  }
 
-  public final JavaType returnType;
-  public final String returnComment;
-  public final Set<MethodQualifier> qualifiers;
-  public final List<JavaParameter> parameters;
-  public final JavaCustomType exception;
+    override fun stream() = Stream.concat(
+        Stream.of(returnType, exception),
+        Stream.concat(parameters.stream(), super.stream()))
 
-  @SuppressWarnings("ParameterNumber")
-  @lombok.Builder(builderClassName = "Builder")
-  private JavaMethod(
-      final String name,
-      final String comment,
-      final JavaVisibility visibility,
-      final JavaType returnType,
-      final String returnComment,
-      final JavaCustomType exception,
-      @Singular Set<MethodQualifier> qualifiers,
-      @Singular List<JavaParameter> parameters) {
-    super(name);
-    this.comment = comment;
-    this.visibility = visibility;
-    this.returnType = returnType != null ? returnType : JavaPrimitiveType.VOID;
-    this.returnComment = returnComment;
-    this.exception = exception;
-    this.qualifiers =
-        qualifiers != null && !qualifiers.isEmpty()
-            ? EnumSet.copyOf(qualifiers)
-            : EnumSet.noneOf(MethodQualifier.class);
-    this.parameters = parameters != null ? new LinkedList<>(parameters) : new LinkedList<>();
-  }
-
-  public static Builder builder(final String name) {
-    return new Builder().name(name);
-  }
-
-  @Override
-  public Stream<JavaElement> stream() {
-    return Stream.concat(
-        Stream.of(returnType, exception), Stream.concat(parameters.stream(), super.stream()));
-  }
-
-  public JavaMethod shallowCopy() {
-    JavaMethod result =
-        new JavaMethod(
-            name,
-            comment,
-            visibility,
-            returnType,
-            returnComment,
-            exception,
-            qualifiers,
-            parameters);
-    result.annotations.addAll(annotations);
-    return result;
-  }
-
-  @SuppressWarnings("unused")
-  public List<JavaType> getAllAnnotations() {
-    return Stream.concat(returnType.annotations.stream(), annotations.stream())
-        .collect(Collectors.toList());
-  }
+    fun shallowCopy() = JavaMethod(
+        name,
+        comment,
+        visibility,
+        returnType,
+        returnComment,
+        exception,
+        parameters,
+        qualifiers,
+        annotations
+    )
 }

@@ -116,10 +116,19 @@ public class JniModelBuilderTest {
 
   private final JniParameter jniParameter = new JniParameter(BASE_NAME_PARAMETER, null);
   private final JavaMethod javaGetter =
-      JavaMethod.builder("getFoo").returnType(JavaCustomType.builder("FooType").build()).build();
+      new JavaMethod(
+          "getFoo", null, JavaVisibility.PUBLIC, JavaCustomType.builder("FooType").build());
   private final CppMethod cppGetter =
       new CppMethod("shootFoot", "shootFoot", "", CppPrimitiveTypeRef.Companion.getINT32());
-  private final JavaMethod javaSetter = JavaMethod.builder("setFoo").build();
+  private final JavaMethod javaSetter =
+      new JavaMethod(
+          "setFoo",
+          null,
+          JavaVisibility.PUBLIC,
+          JavaPrimitiveType.VOID,
+          null,
+          null,
+          Collections.singletonList(new JavaParameter("value", JavaPrimitiveType.INT)));
   private final CppMethod cppSetter =
       new CppMethod(
           "shootBothFeet",
@@ -148,7 +157,6 @@ public class JniModelBuilderTest {
         new JniModelBuilder(
             contextStack, deploymentModel, javaBuilder, cppBuilder, cppIncludeResolver);
 
-    javaSetter.parameters.add(new JavaParameter("value", JavaPrimitiveType.INT));
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
 
     when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
@@ -164,10 +172,14 @@ public class JniModelBuilderTest {
   }
 
   private static JavaMethod createJavaMethod() {
-    JavaMethod javaMethod =
-        JavaMethod.builder(JAVA_INT_METHOD_NAME).returnType(JavaPrimitiveType.INT).build();
-    javaMethod.parameters.add(new JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT));
-    return javaMethod;
+    return new JavaMethod(
+        JAVA_INT_METHOD_NAME,
+        null,
+        JavaVisibility.PUBLIC,
+        JavaPrimitiveType.INT,
+        null,
+        null,
+        Collections.singletonList(new JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT)));
   }
 
   private static CppMethod createCppMethod() {
@@ -202,7 +214,7 @@ public class JniModelBuilderTest {
     assertEquals(javaMethod.name, jniMethod.getJavaMethodName());
     assertEquals(cppMethod.name, jniMethod.getCppMethodName());
     assertNotNull(jniMethod.getReturnType());
-    assertEquals(javaMethod.returnType.name, jniMethod.getReturnType().javaName);
+    assertEquals(javaMethod.getReturnType().name, jniMethod.getReturnType().javaName);
     assertEquals(cppMethod.getReturnType().name, jniMethod.getReturnType().cppName);
   }
 
@@ -269,11 +281,15 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaMethodReadsExceptionName() {
     JavaMethod javaMethod =
-        JavaMethod.builder(JAVA_INT_METHOD_NAME)
-            .returnType(JavaPrimitiveType.INT)
-            .exception(new JavaCustomType("FooException", JavaPackage.DEFAULT))
-            .build();
-    javaMethod.parameters.add(new JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT));
+        new JavaMethod(
+            JAVA_INT_METHOD_NAME,
+            null,
+            JavaVisibility.PUBLIC,
+            JavaPrimitiveType.INT,
+            null,
+            new JavaCustomType("FooException", JavaPackage.DEFAULT),
+            Collections.singletonList(
+                new JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT)));
     when(javaBuilder.getFinalResult(any())).thenReturn(javaMethod);
     when(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod());
 
@@ -288,11 +304,15 @@ public class JniModelBuilderTest {
   @Test
   public void finishBuildingFrancaMethodReadsExceptionEnum() {
     JavaMethod javaMethod =
-        JavaMethod.builder(JAVA_INT_METHOD_NAME)
-            .returnType(JavaPrimitiveType.INT)
-            .exception(new JavaCustomType("FooException", JavaPackage.DEFAULT))
-            .build();
-    javaMethod.parameters.add(new JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT));
+        new JavaMethod(
+            JAVA_INT_METHOD_NAME,
+            null,
+            JavaVisibility.PUBLIC,
+            JavaPrimitiveType.INT,
+            null,
+            new JavaCustomType("FooException", JavaPackage.DEFAULT),
+            Collections.singletonList(
+                new JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT)));
     when(javaBuilder.getFinalResult(any())).thenReturn(javaMethod);
     when(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod());
     contextStack.injectResult(jniType);
@@ -606,7 +626,7 @@ public class JniModelBuilderTest {
     assertEquals(javaGetter.name, jniMethod.getJavaMethodName());
     assertEquals(cppGetter.name, jniMethod.getCppMethodName());
     assertNotNull(jniMethod.getReturnType());
-    assertEquals(javaGetter.returnType.name, jniMethod.getReturnType().javaName);
+    assertEquals(javaGetter.getReturnType().name, jniMethod.getReturnType().javaName);
     assertEquals(cppGetter.getReturnType().name, jniMethod.getReturnType().cppName);
     assertTrue(jniMethod.isConst());
   }
@@ -645,8 +665,8 @@ public class JniModelBuilderTest {
     JniMethod jniMethod = methods.get(1);
     assertEquals(1, jniMethod.getParameters().size());
     JniParameter setterParameter = jniMethod.getParameters().get(0);
-    assertEquals(javaSetter.parameters.get(0).name, setterParameter.name);
-    assertEquals(javaSetter.parameters.get(0).getType().name, setterParameter.type.javaName);
+    assertEquals(javaSetter.getParameters().get(0).name, setterParameter.name);
+    assertEquals(javaSetter.getParameters().get(0).getType().name, setterParameter.type.javaName);
     assertEquals(cppSetter.getParameters().get(0).type.name, setterParameter.type.cppName);
   }
 
@@ -668,7 +688,7 @@ public class JniModelBuilderTest {
     assertEquals(javaGetter.name, jniMethod.getJavaMethodName());
     assertEquals(cppGetter.name, jniMethod.getCppMethodName());
     assertNotNull(jniMethod.getReturnType());
-    assertEquals(javaGetter.returnType.name, jniMethod.getReturnType().javaName);
+    assertEquals(javaGetter.getReturnType().name, jniMethod.getReturnType().javaName);
     assertEquals(cppGetter.getReturnType().name, jniMethod.getReturnType().cppName);
   }
 

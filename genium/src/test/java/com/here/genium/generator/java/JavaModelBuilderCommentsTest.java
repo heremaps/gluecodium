@@ -90,6 +90,7 @@ public class JavaModelBuilderCommentsTest {
             e -> false);
 
     when(CommentHelper.getDescription(any())).thenReturn(COMMENT);
+    when(methodNameResolver.getName(any())).thenReturn("doFoo");
   }
 
   @Test
@@ -126,7 +127,7 @@ public class JavaModelBuilderCommentsTest {
 
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
-    assertEquals("foobar", javaMethod.returnComment);
+    assertEquals("foobar", javaMethod.getReturnComment());
   }
 
   @Test

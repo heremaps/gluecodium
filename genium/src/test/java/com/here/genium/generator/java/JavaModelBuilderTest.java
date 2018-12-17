@@ -141,7 +141,7 @@ public class JavaModelBuilderTest {
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
     assertEquals(METHOD_NAME, javaMethod.name);
-    assertFalse(javaMethod.qualifiers.contains(JavaMethod.MethodQualifier.STATIC));
+    assertFalse(javaMethod.getQualifiers().contains(JavaMethod.MethodQualifier.STATIC));
     assertEquals(JavaVisibility.PUBLIC, javaMethod.visibility);
   }
 
@@ -164,7 +164,7 @@ public class JavaModelBuilderTest {
 
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
-    assertTrue(javaMethod.qualifiers.contains(JavaMethod.MethodQualifier.STATIC));
+    assertTrue(javaMethod.getQualifiers().contains(JavaMethod.MethodQualifier.STATIC));
   }
 
   @Test
@@ -173,8 +173,9 @@ public class JavaModelBuilderTest {
 
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
-    assertTrue(javaMethod.returnType instanceof JavaPrimitiveType);
-    assertEquals(JavaPrimitiveType.Type.VOID, ((JavaPrimitiveType) javaMethod.returnType).type);
+    assertTrue(javaMethod.getReturnType() instanceof JavaPrimitiveType);
+    assertEquals(
+        JavaPrimitiveType.Type.VOID, ((JavaPrimitiveType) javaMethod.getReturnType()).type);
   }
 
   @Test
@@ -186,7 +187,7 @@ public class JavaModelBuilderTest {
 
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
-    assertEquals(javaCustomType, javaMethod.returnType);
+    assertEquals(javaCustomType, javaMethod.getReturnType());
   }
 
   @Test
@@ -198,8 +199,8 @@ public class JavaModelBuilderTest {
 
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
-    assertFalse(javaMethod.parameters.isEmpty());
-    assertEquals(javaParameter, javaMethod.parameters.get(0));
+    assertFalse(javaMethod.getParameters().isEmpty());
+    assertEquals(javaParameter, javaMethod.getParameters().get(0));
   }
 
   @Test
@@ -210,7 +211,7 @@ public class JavaModelBuilderTest {
 
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
-    assertEquals(javaExceptionType, javaMethod.exception);
+    assertEquals(javaExceptionType, javaMethod.getException());
   }
 
   @Test
@@ -604,6 +605,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaAttributeReadonly() {
+    contextStack.injectResult(javaCustomType);
     when(francaAttribute.isReadonly()).thenReturn(true);
 
     modelBuilder.finishBuilding(francaAttribute);
@@ -622,8 +624,8 @@ public class JavaModelBuilderTest {
 
     JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
     assertNotNull(javaMethod);
-    assertEquals(javaCustomType, javaMethod.returnType);
-    assertTrue(javaMethod.parameters.isEmpty());
+    assertEquals(javaCustomType, javaMethod.getReturnType());
+    assertTrue(javaMethod.getParameters().isEmpty());
   }
 
   @Test
@@ -637,9 +639,9 @@ public class JavaModelBuilderTest {
     assertEquals(2, methods.size());
 
     JavaMethod javaMethod = methods.get(1);
-    assertEquals(JavaPrimitiveType.VOID, javaMethod.returnType);
-    assertFalse(javaMethod.parameters.isEmpty());
-    assertEquals(javaCustomType, javaMethod.parameters.get(0).getType());
+    assertEquals(JavaPrimitiveType.VOID, javaMethod.getReturnType());
+    assertFalse(javaMethod.getParameters().isEmpty());
+    assertEquals(javaCustomType, javaMethod.getParameters().get(0).getType());
   }
 
   @Test
@@ -701,8 +703,8 @@ public class JavaModelBuilderTest {
         CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JavaMethod.class);
     assertEquals(2, methods.size());
     JavaMethod setterMethod = methods.get(1);
-    assertEquals(1, setterMethod.parameters.size());
-    assertTrue(setterMethod.parameters.get(0).annotations.contains(javaCustomType));
+    assertEquals(1, setterMethod.getParameters().size());
+    assertTrue(setterMethod.getParameters().get(0).annotations.contains(javaCustomType));
   }
 
   @Test

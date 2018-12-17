@@ -58,7 +58,7 @@ public class JavaModelBuilderInterfaceTest {
   private final JavaConstant javaConstant =
       new JavaConstant("permanent", javaCustomType, new JavaValue("valuable"));
   private final JavaField javaField = new JavaField("flowers", javaCustomType);
-  private final JavaMethod javaMethod = JavaMethod.builder("methodical").build();
+  private final JavaMethod javaMethod = new JavaMethod("methodical");
   private final JavaEnum javaEnum = new JavaEnum("enumerable");
 
   private JavaModelBuilder modelBuilder;
@@ -140,7 +140,7 @@ public class JavaModelBuilderInterfaceTest {
 
     JavaMethod resultMethod = javaClass.methods.iterator().next();
     assertEquals(javaMethod, resultMethod);
-    assertTrue(resultMethod.qualifiers.contains(JavaMethod.MethodQualifier.NATIVE));
+    assertTrue(resultMethod.getQualifiers().contains(JavaMethod.MethodQualifier.NATIVE));
   }
 
   @Test
@@ -283,7 +283,7 @@ public class JavaModelBuilderInterfaceTest {
     assertFalse(javaInterface.methods.isEmpty());
     JavaMethod resultMethod = javaInterface.methods.iterator().next();
     assertEquals(javaMethod.name, resultMethod.name);
-    assertFalse(resultMethod.qualifiers.contains(JavaMethod.MethodQualifier.NATIVE));
+    assertFalse(resultMethod.getQualifiers().contains(JavaMethod.MethodQualifier.NATIVE));
   }
 
   @Test
@@ -413,7 +413,7 @@ public class JavaModelBuilderInterfaceTest {
   @Test
   public void finishBuildingFrancaInterfaceReadsStaticMethods() {
     when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-    javaMethod.qualifiers.add(JavaMethod.MethodQualifier.STATIC);
+    javaMethod.getQualifiers().add(JavaMethod.MethodQualifier.STATIC);
     contextStack.injectResult(javaMethod);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -422,7 +422,7 @@ public class JavaModelBuilderInterfaceTest {
     assertNotNull(javaClass);
     assertFalse(javaClass.methods.isEmpty());
     JavaMethod resultMethod = javaClass.methods.iterator().next();
-    assertTrue(resultMethod.qualifiers.contains(JavaMethod.MethodQualifier.STATIC));
+    assertTrue(resultMethod.getQualifiers().contains(JavaMethod.MethodQualifier.STATIC));
   }
 
   @Test
@@ -437,13 +437,13 @@ public class JavaModelBuilderInterfaceTest {
     assertFalse(javaClass.methods.isEmpty());
     JavaMethod resultMethod = javaClass.methods.iterator().next();
     assertEquals(javaMethod.name, resultMethod.name);
-    assertTrue(resultMethod.qualifiers.contains(JavaMethod.MethodQualifier.NATIVE));
+    assertTrue(resultMethod.getQualifiers().contains(JavaMethod.MethodQualifier.NATIVE));
   }
 
   @Test
   public void finishBuildingFrancaInterfaceReadsEnumIntoImplClass() {
     when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-    contextStack.injectResult(JavaMethod.builder("myMethod").build());
+    contextStack.injectResult(new JavaMethod("myMethod"));
     contextStack.injectResult(javaEnum);
 
     modelBuilder.finishBuilding(francaInterface);
