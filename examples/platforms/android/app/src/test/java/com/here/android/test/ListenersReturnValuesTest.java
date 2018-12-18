@@ -61,7 +61,7 @@ public class ListenersReturnValuesTest {
 
     @Override
     public MessageBox getBoxedMessage() {
-      return MessageBox.create();
+      return new MessageBox();
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ListenersReturnValuesTest {
   public void stringReturnWorks() {
     ListenerWithReturn envelope = new TestListener();
 
-    MessageDelivery delivery = MessageDelivery.createMe();
+    MessageDelivery delivery = new MessageDelivery();
 
     assertEquals("Works", delivery.getMessage(envelope));
   }
@@ -103,7 +103,7 @@ public class ListenersReturnValuesTest {
   public void packageReturnWorks() {
     ListenerWithReturn envelope = new TestListener();
 
-    MessageDelivery delivery = MessageDelivery.createMe();
+    MessageDelivery delivery = new MessageDelivery();
 
     assertEquals("Works", delivery.getPackedMessage(envelope));
   }
@@ -112,7 +112,7 @@ public class ListenersReturnValuesTest {
   public void boxReturnWorks() {
     ListenerWithReturn envelope = new TestListener();
 
-    MessageDelivery delivery = MessageDelivery.createMe();
+    MessageDelivery delivery = new MessageDelivery();
 
     assertEquals("Works", delivery.getBoxedMessage(envelope));
   }
@@ -121,7 +121,7 @@ public class ListenersReturnValuesTest {
   public void structReturnWorks() {
     ListenerWithReturn envelope = new TestListener();
 
-    MessageDelivery delivery = MessageDelivery.createMe();
+    MessageDelivery delivery = new MessageDelivery();
 
     assertEquals("Works", delivery.getStructuredMessage(envelope));
   }
@@ -130,7 +130,7 @@ public class ListenersReturnValuesTest {
   public void enumReturnWorks() {
     ListenerWithReturn envelope = new TestListener();
 
-    MessageDelivery delivery = MessageDelivery.createMe();
+    MessageDelivery delivery = new MessageDelivery();
 
     assertEquals("YES", delivery.getEnumeratedMessage(envelope));
   }
@@ -139,7 +139,7 @@ public class ListenersReturnValuesTest {
   public void arrayReturnWorks() {
     ListenerWithReturn envelope = new TestListener();
 
-    MessageDelivery delivery = MessageDelivery.createMe();
+    MessageDelivery delivery = new MessageDelivery();
 
     assertEquals("Works", delivery.getArrayedMessage(envelope));
   }
@@ -148,7 +148,7 @@ public class ListenersReturnValuesTest {
   public void mapReturnWorks() {
     ListenerWithReturn envelope = new TestListener();
 
-    MessageDelivery delivery = MessageDelivery.createMe();
+    MessageDelivery delivery = new MessageDelivery();
 
     assertEquals("Works", delivery.getMappedMessage(envelope));
   }
@@ -158,7 +158,7 @@ public class ListenersReturnValuesTest {
   public void byteBufferReturnWorks() {
     ListenerWithReturn envelope = new TestListener();
 
-    MessageDelivery delivery = MessageDelivery.createMe();
+    MessageDelivery delivery = new MessageDelivery();
 
     assertEquals("Works", delivery.getBufferedMessage(envelope));
   }
