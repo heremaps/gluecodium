@@ -132,7 +132,7 @@ public class ListenerWithAttributesTest {
   public void stringRoundTripWorks() {
     ListenerWithAttributes envelope = new TestListener();
 
-    AttributedMessageDelivery delivery = AttributedMessageDelivery.create();
+    AttributedMessageDelivery delivery = new AttributedMessageDelivery();
 
     assertTrue(delivery.checkMessageRoundTrip(envelope));
   }
@@ -141,7 +141,7 @@ public class ListenerWithAttributesTest {
   public void packageRoundTripWorks() {
     ListenerWithAttributes envelope = new TestListener();
 
-    AttributedMessageDelivery delivery = AttributedMessageDelivery.create();
+    AttributedMessageDelivery delivery = new AttributedMessageDelivery();
 
     assertTrue(delivery.checkPackedMessageRoundTrip(envelope));
   }
@@ -150,7 +150,7 @@ public class ListenerWithAttributesTest {
   public void boxRoundTripWorks() {
     ListenerWithAttributes envelope = new TestListener();
 
-    AttributedMessageDelivery delivery = AttributedMessageDelivery.create();
+    AttributedMessageDelivery delivery = new AttributedMessageDelivery();
 
     assertTrue(delivery.checkBoxedMessageRoundTrip(envelope));
   }
@@ -159,7 +159,7 @@ public class ListenerWithAttributesTest {
   public void structRoundTripWorks() {
     ListenerWithAttributes envelope = new TestListener();
 
-    AttributedMessageDelivery delivery = AttributedMessageDelivery.create();
+    AttributedMessageDelivery delivery = new AttributedMessageDelivery();
 
     assertTrue(delivery.checkStructuredMessageRoundTrip(envelope));
   }
@@ -168,7 +168,7 @@ public class ListenerWithAttributesTest {
   public void enumRoundTripWorks() {
     ListenerWithAttributes envelope = new TestListener();
 
-    AttributedMessageDelivery delivery = AttributedMessageDelivery.create();
+    AttributedMessageDelivery delivery = new AttributedMessageDelivery();
 
     assertTrue(delivery.checkEnumeratedMessageRoundTrip(envelope));
   }
@@ -177,7 +177,7 @@ public class ListenerWithAttributesTest {
   public void arrayRoundTripWorks() {
     ListenerWithAttributes envelope = new TestListener();
 
-    AttributedMessageDelivery delivery = AttributedMessageDelivery.create();
+    AttributedMessageDelivery delivery = new AttributedMessageDelivery();
 
     assertTrue(delivery.checkArrayedMessageRoundTrip(envelope));
   }
@@ -186,7 +186,7 @@ public class ListenerWithAttributesTest {
   public void mapRoundTripWorks() {
     ListenerWithAttributes envelope = new TestListener();
 
-    AttributedMessageDelivery delivery = AttributedMessageDelivery.create();
+    AttributedMessageDelivery delivery = new AttributedMessageDelivery();
 
     assertTrue(delivery.checkMappedMessageRoundTrip(envelope));
   }
@@ -195,7 +195,7 @@ public class ListenerWithAttributesTest {
   public void byteBufferRoundTripWorks() {
     ListenerWithAttributes envelope = new TestListener();
 
-    AttributedMessageDelivery delivery = AttributedMessageDelivery.create();
+    AttributedMessageDelivery delivery = new AttributedMessageDelivery();
 
     assertTrue(delivery.checkBufferedMessageRoundTrip(envelope));
   }

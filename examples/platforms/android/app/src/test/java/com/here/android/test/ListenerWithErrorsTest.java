@@ -73,7 +73,7 @@ public class ListenerWithErrorsTest {
   public void stringRoundTripWorks() throws ListenerWithErrors.ErrorEnumException {
     ListenerWithErrors listener = new TestListener();
 
-    ErrorMessenger messenger = ErrorMessenger.create();
+    ErrorMessenger messenger = new ErrorMessenger();
     messenger.setMessage(listener, "Works");
     String result = messenger.getMessage(listener);
 
@@ -86,7 +86,7 @@ public class ListenerWithErrorsTest {
     expectedException.expect(
         FieldMatcher.hasFieldWithValue("error", ListenerWithErrors.ErrorEnum.BROKEN));
 
-    ErrorMessenger.create().getMessage(new ThrowingListener());
+    new ErrorMessenger().getMessage(new ThrowingListener());
   }
 
   @Test
@@ -95,6 +95,6 @@ public class ListenerWithErrorsTest {
     expectedException.expect(
         FieldMatcher.hasFieldWithValue("error", ListenerWithErrors.ErrorEnum.BROKEN));
 
-    ErrorMessenger.create().setMessage(new ThrowingListener(), "Foo");
+    new ErrorMessenger().setMessage(new ThrowingListener(), "Foo");
   }
 }
