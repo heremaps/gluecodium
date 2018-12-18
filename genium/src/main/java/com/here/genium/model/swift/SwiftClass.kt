@@ -17,56 +17,35 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.model.swift
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.LinkedList
 
-public final class SwiftClass extends SwiftType {
+class SwiftClass @JvmOverloads constructor(
+    name: String,
+    visibility: SwiftVisibility? = null,
+    val isInterface: Boolean = false,
+    val parentClass: String? = null,
+    @Suppress("unused") val nameSpace: String? = null,
+    private val cInstance: String? = null,
+    val functionTableName: String? = null,
+    val useParentCInstance: Boolean = false,
+    @Suppress("unused") val isObjcInterface: Boolean = false
+) : SwiftType(name, visibility, SwiftType.TypeCategory.CLASS, null, name, false) {
 
-  public final boolean isInterface;
-  public final String parentClass;
-  public final List<String> implementsProtocols = new LinkedList<>();
-  public final List<SwiftProperty> properties = new LinkedList<>();
-  public final List<SwiftMethod> methods = new LinkedList<>();
-  public final List<SwiftStruct> structs = new LinkedList<>();
-  public final List<SwiftEnum> enums = new LinkedList<>();
-  public final String nameSpace;
-  public final String cInstance;
-  public final List<SwiftTypeDef> typedefs = new LinkedList<>();
-  public final List<SwiftConstant> constants = new LinkedList<>();
-  public final String functionTableName;
-  public final boolean useParentCInstance;
-  public final boolean isObjcInterface;
+    val implementsProtocols: List<String> = LinkedList()
+    val properties: List<SwiftProperty> = LinkedList()
+    val methods: List<SwiftMethod> = LinkedList()
+    val structs: List<SwiftStruct> = LinkedList()
+    val enums: List<SwiftEnum> = LinkedList()
+    val typedefs: List<SwiftTypeDef> = LinkedList()
+    val constants: List<SwiftConstant> = LinkedList()
 
-  @SuppressWarnings("ParameterNumber")
-  @lombok.Builder(builderClassName = "Builder")
-  private SwiftClass(
-      final String name,
-      final SwiftVisibility visibility,
-      final boolean isInterface,
-      final String parentClass,
-      final String nameSpace,
-      final String cInstance,
-      final String functionTableName,
-      final boolean useParentCInstance,
-      final boolean isObjcInterface) {
-    super(name, visibility, TypeCategory.CLASS, null, name, false);
-    this.isInterface = isInterface;
-    this.parentClass = parentClass;
-    this.nameSpace = nameSpace;
-    this.cInstance = cInstance;
-    this.functionTableName = functionTableName;
-    this.useParentCInstance = useParentCInstance;
-    this.isObjcInterface = isObjcInterface;
-  }
+    // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
+    @Suppress("unused")
+    fun getcInstance() = cInstance
 
-  @SuppressWarnings("unused")
-  public boolean hasParents() {
-    return parentClass != null || !implementsProtocols.isEmpty();
-  }
-
-  public static Builder builder(final String name) {
-    return new Builder().name(name);
-  }
+    @Suppress("unused")
+    val hasParents
+        get() = parentClass != null || !implementsProtocols.isEmpty()
 }

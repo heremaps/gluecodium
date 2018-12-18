@@ -81,8 +81,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     boolean isInterface = deploymentModel.isInterface(francaInterface);
     SwiftClass parentClass = getPreviousResult(SwiftClass.class);
-    boolean parentIsInterface = parentClass != null && parentClass.isInterface;
-    boolean parentIsClass = parentClass != null && !parentClass.isInterface;
+    boolean parentIsInterface = parentClass != null && parentClass.isInterface();
+    boolean parentIsClass = parentClass != null && !parentClass.isInterface();
 
     boolean isObjcInterface = deploymentModel.isObjcInterface(francaInterface);
     String parentClassName = parentIsClass ? parentClass.name : null;
@@ -91,32 +91,31 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     }
 
     SwiftClass clazz =
-        SwiftClass.builder(SwiftNameRules.getClassName(francaInterface.getName()))
-            .nameSpace(String.join("_", DefinedBy.getPackages(francaInterface)))
-            .cInstance(CBridgeNameRules.getInterfaceName(francaInterface))
-            .isInterface(isInterface)
-            .parentClass(parentClassName)
-            .useParentCInstance(parentIsClass && !isInterface)
-            .functionTableName(
-                isInterface ? CBridgeNameRules.getFunctionTableName(francaInterface) : null)
-            .visibility(getVisibility(francaInterface))
-            .isObjcInterface(isObjcInterface)
-            .build();
+        new SwiftClass(
+            SwiftNameRules.getClassName(francaInterface.getName()),
+            getVisibility(francaInterface),
+            isInterface,
+            parentClassName,
+            String.join("_", DefinedBy.getPackages(francaInterface)),
+            CBridgeNameRules.getInterfaceName(francaInterface),
+            isInterface ? CBridgeNameRules.getFunctionTableName(francaInterface) : null,
+            parentIsClass && !isInterface,
+            isObjcInterface);
 
     if (parentIsInterface) {
-      clazz.implementsProtocols.add(parentClass.name);
-      clazz.methods.addAll(parentClass.methods);
-      for (final SwiftProperty parentProperty : parentClass.properties) {
+      clazz.getImplementsProtocols().add(parentClass.name);
+      clazz.getMethods().addAll(parentClass.getMethods());
+      for (final SwiftProperty parentProperty : parentClass.getProperties()) {
         SwiftProperty swiftProperty =
             new SwiftProperty(parentProperty.name, parentProperty.visibility, parentProperty.type);
         swiftProperty.propertyAccessors.addAll(parentProperty.propertyAccessors);
-        clazz.properties.add(swiftProperty);
+        clazz.getProperties().add(swiftProperty);
       }
     }
-    clazz.methods.addAll(getPreviousResults(SwiftMethod.class));
-    clazz.properties.addAll(getPreviousResults(SwiftProperty.class));
-    clazz.typedefs.addAll(getPreviousResults(SwiftTypeDef.class));
-    clazz.constants.addAll(getPreviousResults(SwiftConstant.class));
+    clazz.getMethods().addAll(getPreviousResults(SwiftMethod.class));
+    clazz.getProperties().addAll(getPreviousResults(SwiftProperty.class));
+    clazz.getTypedefs().addAll(getPreviousResults(SwiftTypeDef.class));
+    clazz.getConstants().addAll(getPreviousResults(SwiftConstant.class));
 
     String comment = CommentHelper.getDescription(francaInterface);
     clazz.comment = comment != null ? comment : "";
@@ -129,8 +128,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
       file.structs.addAll(getPreviousResults(SwiftStruct.class));
       file.enums.addAll(getPreviousResults(SwiftEnum.class));
     } else {
-      clazz.structs.addAll(getPreviousResults(SwiftStruct.class));
-      clazz.enums.addAll(getPreviousResults(SwiftEnum.class));
+      clazz.getStructs().addAll(getPreviousResults(SwiftStruct.class));
+      clazz.getEnums().addAll(getPreviousResults(SwiftEnum.class));
     }
 
     storeResult(clazz);
@@ -273,18 +272,18 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
         CollectionsHelper.getFirstOfType(
             getCurrentContext().previousResults, SwiftOutParameter.class, new SwiftOutParameter());
     SwiftMethod method =
-        SwiftMethod.builder(SwiftNameRules.getMethodName(francaMethod))
-            .comment(comment)
-            .returnType(returnParam.type)
-            .returnComment(returnParam.comment)
-            .isStatic(deploymentModel.isStatic(francaMethod))
-            .cNestedSpecifier(CBridgeNameRules.getNestedSpecifierString(francaMethod))
-            .cShortName(CBridgeNameRules.getShortMethodName(francaMethod))
-            .error(createErrorIfNeeded(francaMethod))
-            .visibility(getVisibility(francaMethod))
-            .build();
-    method.parameters.addAll(inParams);
-    method.genericParameters.addAll(getPreviousResults(SwiftGenericParameter.class));
+        new SwiftMethod(
+            SwiftNameRules.getMethodName(francaMethod),
+            getVisibility(francaMethod),
+            comment,
+            returnParam.type,
+            returnParam.comment,
+            CBridgeNameRules.getNestedSpecifierString(francaMethod),
+            CBridgeNameRules.getShortMethodName(francaMethod),
+            createErrorIfNeeded(francaMethod),
+            deploymentModel.isStatic(francaMethod),
+            inParams,
+            getPreviousResults(SwiftGenericParameter.class));
 
     storeResult(method);
     super.finishBuilding(francaMethod);
@@ -326,21 +325,29 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     String nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(francaAttribute);
     SwiftMethod getterMethod =
-        SwiftMethod.builder("")
-            .cNestedSpecifier(nestedSpecifier)
-            .cShortName(CBridgeNameRules.getPropertyGetterName(francaAttribute))
-            .returnType(property.type)
-            .build();
+        new SwiftMethod(
+            "",
+            null,
+            null,
+            property.type,
+            null,
+            nestedSpecifier,
+            CBridgeNameRules.getPropertyGetterName(francaAttribute));
     property.propertyAccessors.add(getterMethod);
 
     if (!francaAttribute.isReadonly()) {
       SwiftMethod setterMethod =
-          SwiftMethod.builder("")
-              .cNestedSpecifier(nestedSpecifier)
-              .cShortName(CBridgeNameRules.getPropertySetterName(francaAttribute))
-              .returnType(SwiftType.VOID)
-              .build();
-      setterMethod.parameters.add(new SwiftParameter("newValue", property.type));
+          new SwiftMethod(
+              "",
+              null,
+              null,
+              SwiftType.VOID,
+              null,
+              nestedSpecifier,
+              CBridgeNameRules.getPropertySetterName(francaAttribute),
+              null,
+              false,
+              Collections.singletonList(new SwiftParameter("newValue", property.type)));
       property.propertyAccessors.add(setterMethod);
     }
 

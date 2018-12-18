@@ -242,7 +242,7 @@ public final class SwiftModelBuilderTest {
 
     SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
     assertNotNull(method);
-    assertTrue("Method is marked as static", method.isStatic);
+    assertTrue("Method is marked as static", method.isStatic());
   }
 
   @Test
@@ -253,7 +253,7 @@ public final class SwiftModelBuilderTest {
 
     SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
     assertNotNull(method);
-    assertFalse("Method is marked as non-static", method.isStatic);
+    assertFalse("Method is marked as non-static", method.isStatic());
   }
 
   @Test
@@ -262,8 +262,8 @@ public final class SwiftModelBuilderTest {
 
     SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
     assertNotNull(method);
-    assertEquals(SwiftType.VOID, method.returnType);
-    assertEquals(0, method.parameters.size());
+    assertEquals(SwiftType.VOID, method.getReturnType());
+    assertEquals(0, method.getParameters().size());
   }
 
   @Test
@@ -275,8 +275,8 @@ public final class SwiftModelBuilderTest {
 
     SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
     assertNotNull(method);
-    assertEquals(1, method.parameters.size());
-    assertSame(param, method.parameters.get(0));
+    assertEquals(1, method.getParameters().size());
+    assertSame(param, method.getParameters().get(0));
   }
 
   @Test
@@ -288,8 +288,8 @@ public final class SwiftModelBuilderTest {
 
     SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
     assertNotNull(method);
-    assertEquals(1, method.genericParameters.size());
-    assertSame(genericParameter, method.genericParameters.get(0));
+    assertEquals(1, method.getGenericParameters().size());
+    assertSame(genericParameter, method.getGenericParameters().get(0));
   }
 
   @Test
@@ -558,15 +558,15 @@ public final class SwiftModelBuilderTest {
         "Should be two accessor methods - getter and setter", 2, property.propertyAccessors.size());
 
     SwiftMethod getter = property.propertyAccessors.get(0);
-    assertSame(swiftType, getter.returnType);
-    assertEquals("Getter should have no parameters", 0, getter.parameters.size());
-    assertEquals(CBRIDGE_GETTER_NAME, getter.cShortName);
+    assertSame(swiftType, getter.getReturnType());
+    assertEquals("Getter should have no parameters", 0, getter.getParameters().size());
+    assertEquals(CBRIDGE_GETTER_NAME, getter.getCShortName());
 
     SwiftMethod setter = property.propertyAccessors.get(1);
-    assertSame(SwiftType.VOID, setter.returnType);
-    assertEquals("Setter should have one parameters", 1, setter.parameters.size());
-    assertSame(swiftType, setter.parameters.get(0).type);
-    assertEquals(CBRIDGE_SETTER_NAME, setter.cShortName);
+    assertSame(SwiftType.VOID, setter.getReturnType());
+    assertEquals("Setter should have one parameters", 1, setter.getParameters().size());
+    assertSame(swiftType, setter.getParameters().get(0).type);
+    assertEquals(CBRIDGE_SETTER_NAME, setter.getCShortName());
   }
 
   @Test
@@ -582,9 +582,9 @@ public final class SwiftModelBuilderTest {
     assertEquals("Should be one accessor method - getter", 1, property.propertyAccessors.size());
 
     SwiftMethod getter = property.propertyAccessors.get(0);
-    assertSame(swiftType, getter.returnType);
-    assertEquals("Getter should have no parameters", 0, getter.parameters.size());
-    assertEquals(CBRIDGE_GETTER_NAME, getter.cShortName);
+    assertSame(swiftType, getter.getReturnType());
+    assertEquals("Getter should have no parameters", 0, getter.getParameters().size());
+    assertEquals(CBRIDGE_GETTER_NAME, getter.getCShortName());
   }
 
   @Test
@@ -601,6 +601,7 @@ public final class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaAttributeCreatesInternalProperty() {
+    contextStack.injectResult(swiftType);
     when(deploymentModel.isInternal(any())).thenReturn(true);
 
     modelBuilder.finishBuilding(francaAttribute);
@@ -624,7 +625,7 @@ public final class SwiftModelBuilderTest {
     modelBuilder.finishBuilding(francaMethod);
 
     SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
-    assertNull(method.error);
+    assertNull(method.getError());
   }
 
   @Test
@@ -636,8 +637,8 @@ public final class SwiftModelBuilderTest {
     modelBuilder.finishBuilding(francaMethod);
 
     SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
-    assertNotNull(method.error);
-    assertEquals("SomeError", method.error.name);
+    assertNotNull(method.getError());
+    assertEquals("SomeError", method.getError().name);
   }
 
   @Test
