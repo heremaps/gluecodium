@@ -362,7 +362,8 @@ generated.
 
 **Note:** The type of this property in the FDEPL file is always `String` regardless of the actual
 type of the struct field. The given string value is converted to represent a value of the correct
-type in the generated code.
+type in the generated code. Special values of "NaN", "Infinity" and "-Infinity" are supported for
+Float and Double fields.
 
 FIDL:
 

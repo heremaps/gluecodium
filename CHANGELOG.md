@@ -1,8 +1,11 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.18.0
+- Release date: 2018-12-18
 - Features:
   + "NaN" and "Infinity" can now be used as struct field FDEPL default values.
+- Bug fixes:
+  + Fixed Java crashes caused by JNI local reference table overflow.
 
 ## 3.17.0
 - Release date: 2018-12-11
