@@ -17,71 +17,39 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.model.swift
 
-import com.here.genium.generator.cbridge.CBridgeNameRules;
-import com.here.genium.generator.common.NameHelper;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.here.genium.generator.cbridge.CBridgeNameRules
+import com.here.genium.generator.common.NameHelper
 
-public final class SwiftMethod extends SwiftModelElement {
+class SwiftMethod @JvmOverloads constructor(
+    name: String,
+    visibility: SwiftVisibility? = null,
+    comment: String? = null,
+    val returnType: SwiftType = SwiftType.VOID,
+    @Suppress("unused") val returnComment: String? = null,
+    val cNestedSpecifier: String? = null,
+    val cShortName: String? = null,
+    val error: SwiftEnum? = null,
+    val isStatic: Boolean = false,
+    val parameters: List<SwiftParameter> = emptyList(),
+    val genericParameters: List<SwiftGenericParameter> = emptyList()
+) : SwiftModelElement(name, visibility) {
 
-  public final SwiftType returnType;
-  public final String returnComment;
-  public final List<SwiftParameter> parameters;
-  public final boolean isStatic;
-  public final String cNestedSpecifier;
-  public final String cShortName;
-  public final List<SwiftGenericParameter> genericParameters;
-  public final SwiftEnum error;
+    init {
+        this.comment = comment
+    }
 
-  @SuppressWarnings({"ParameterNumber", "PMD.ExcessiveParameterList"})
-  @lombok.Builder(builderClassName = "Builder")
-  private SwiftMethod(
-      final String name,
-      final SwiftVisibility visibility,
-      final String comment,
-      final SwiftType returnType,
-      final String returnComment,
-      final boolean isStatic,
-      final String cNestedSpecifier,
-      final String cShortName,
-      final SwiftEnum error,
-      final List<SwiftParameter> parameters,
-      final List<SwiftGenericParameter> genericParameters) {
-    super(name, visibility);
-    this.comment = comment;
-    this.returnType = returnType != null ? returnType : SwiftType.VOID;
-    this.returnComment = returnComment != null ? returnComment : "";
-    this.isStatic = isStatic;
-    this.cNestedSpecifier = cNestedSpecifier != null ? cNestedSpecifier : "";
-    this.cShortName = cShortName != null ? cShortName : "";
-    this.error = error;
-    this.parameters = parameters != null ? parameters : new LinkedList<>();
-    this.genericParameters = genericParameters != null ? genericParameters : new LinkedList<>();
-  }
+    @Suppress("unused")
+    val isReturningVoid = returnType == SwiftType.VOID
 
-  @SuppressWarnings("unused")
-  public boolean isReturningVoid() {
-    return returnType.equals(SwiftType.VOID);
-  }
+    @Suppress("unused")
+    val genericConstraints
+        get() = genericParameters
+            .flatMap { parameter -> parameter.constraints }
 
-  @SuppressWarnings("unused")
-  public List<SwiftGenericParameter.Constraint> getGenericConstraints() {
-    return genericParameters
-        .stream()
-        .flatMap(parameter -> parameter.constraints.stream())
-        .collect(Collectors.toList());
-  }
-
-  @SuppressWarnings("unused")
-  public String getcBaseName() {
-    return NameHelper.joinNames(
-        cNestedSpecifier, cShortName, CBridgeNameRules.UNDERSCORE_DELIMITER);
-  }
-
-  public static Builder builder(final String name) {
-    return new Builder().name(name);
-  }
+    // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
+    @Suppress("unused")
+    fun getcBaseName() = NameHelper.joinNames(
+        cNestedSpecifier, cShortName, CBridgeNameRules.UNDERSCORE_DELIMITER)
 }
