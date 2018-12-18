@@ -112,10 +112,8 @@ public final class CBridgeModelBuilderTest {
   private final CppArrayTypeInfo cppArrayTypeInfo =
       CppArrayTypeInfo.arrayTypeBuilder("FooArrayType").build();
   private final SwiftMethod swiftMethod =
-      SwiftMethod.builder("swiftFoo")
-          .cNestedSpecifier(NESTED_SPECIFIER_NAME)
-          .cShortName(SHORT_FUNCTION_NAME)
-          .build();
+      new SwiftMethod(
+          "swiftFoo", null, null, SwiftType.VOID, null, NESTED_SPECIFIER_NAME, SHORT_FUNCTION_NAME);
   private final CppField cppField =
       new CppField(CPP_FIELD_NAME, CppPrimitiveTypeRef.Companion.getBOOL());
 
@@ -483,9 +481,9 @@ public final class CBridgeModelBuilderTest {
     when(francaAttribute.isReadonly()).thenReturn(false);
     SwiftProperty swiftProperty = new SwiftProperty("", null, new SwiftType(""));
     swiftProperty.propertyAccessors.add(
-        SwiftMethod.builder("").cShortName(CBRIDGE_ATTR_GETTER_NAME).build());
+        new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_GETTER_NAME));
     swiftProperty.propertyAccessors.add(
-        SwiftMethod.builder("").cShortName(CBRIDGE_ATTR_SETTER_NAME).build());
+        new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_SETTER_NAME));
     when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
 
     contextStack.injectResult(cppTypeInfo);
@@ -509,7 +507,7 @@ public final class CBridgeModelBuilderTest {
     when(francaAttribute.isReadonly()).thenReturn(true);
     SwiftProperty swiftProperty = new SwiftProperty("", null, new SwiftType(""));
     swiftProperty.propertyAccessors.add(
-        SwiftMethod.builder("").cShortName(CBRIDGE_ATTR_GETTER_NAME).build());
+        new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_GETTER_NAME));
     when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
 
     contextStack.injectResult(cppTypeInfo);
