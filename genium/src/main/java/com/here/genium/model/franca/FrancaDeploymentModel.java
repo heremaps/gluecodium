@@ -55,6 +55,10 @@ public class FrancaDeploymentModel {
     return getBoolean(francaInterface, "IsInterface");
   }
 
+  public boolean isStatic(final FAttribute francaAttribute) {
+    return getBoolean(francaAttribute, "Static");
+  }
+
   public boolean isStatic(final FMethod francaMethod) {
     return getBoolean(francaMethod, "Static");
   }
