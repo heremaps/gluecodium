@@ -22,42 +22,44 @@ import XCTest
 import hello
 
 class AttributesTests: XCTestCase {
-    var attributes: HelloWorldAttributes?
-
-    override func setUp() {
-        super.setUp()
-        attributes = HelloWorldFactory.createAttributes()
-    }
+    let attributes: Attributes = Attributes()
 
     func testBuiltInTypeAttribute() {
-      attributes!.builtInTypeAttribute = 42
+      attributes.builtInTypeAttribute = 42
 
-      XCTAssertEqual(42, attributes!.builtInTypeAttribute)
+      XCTAssertEqual(42, attributes.builtInTypeAttribute)
     }
 
     func testReadonlyAttribute() {
-      XCTAssertEqual(3.14, attributes!.readonlyAttribute, accuracy: 1e-6)
+      XCTAssertEqual(3.14, attributes.readonlyAttribute, accuracy: 1e-6)
     }
 
     func testStructAttribute() {
-      let expectedStruct = HelloWorldAttributes.ExampleStruct(value: 2.71, intValue: [])
+      let expectedStruct = Attributes.ExampleStruct(value: 2.71, intValue: [])
 
-      attributes!.structAttribute = expectedStruct
-      let actualStruct = attributes!.structAttribute
+      attributes.structAttribute = expectedStruct
+      let actualStruct = attributes.structAttribute
 
       XCTAssertEqual(expectedStruct.value, actualStruct.value, accuracy: 1e-6)
     }
 
     func testStructArrayLiteralAttribute() {
-      var expectedStruct = HelloWorldAttributes.ExampleStruct(value: 2.71, intValue: [])
+      var expectedStruct = Attributes.ExampleStruct(value: 2.71, intValue: [])
       expectedStruct.intValue = [1, 2, 3, 4]
       XCTAssertEqual(expectedStruct.intValue, [1, 2, 3, 4])
+    }
+
+    func testStaticAttribute() {
+      Attributes.staticAttribute = "fooBar"
+
+      XCTAssertEqual("fooBar", Attributes.staticAttribute)
     }
 
     static var allTests = [
         ("testBuiltInTypeAttribute", testBuiltInTypeAttribute),
         ("testReadonlyAttribute", testReadonlyAttribute),
         ("testStructAttribute", testStructAttribute),
-        ("testStructArrayLiteralAttribute", testStructArrayLiteralAttribute)
+        ("testStructArrayLiteralAttribute", testStructArrayLiteralAttribute),
+        ("testStaticAttribute", testStaticAttribute)
     ]
 }

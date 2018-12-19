@@ -20,19 +20,13 @@
 import "classpath:/GeniumExtensions.fdepl"
 import "./Attributes.fidl"
 
-define GeniumExtensions for interface smoke.Attributes
+define GeniumExtensions for interface test.Attributes
 {
+    method create {
+        Constructor = true
+    }
+
     attribute staticAttribute {
         Static = true
     }
-
-    attribute staticReadonlyAttribute {
-        Static = true
-    }
-}
-
-
-define GeniumExtensions for interface smoke.AttributesInterface
-{
-    IsInterface = true
 }
