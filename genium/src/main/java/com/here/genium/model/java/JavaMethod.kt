@@ -19,6 +19,7 @@
 
 package com.here.genium.model.java
 
+import java.util.EnumSet
 import java.util.stream.Stream
 
 class JavaMethod @JvmOverloads constructor(
@@ -30,7 +31,7 @@ class JavaMethod @JvmOverloads constructor(
     val exception: JavaCustomType? = null,
     val parameters: List<JavaParameter> = emptyList(),
     val isConstructor: Boolean = false,
-    qualifiers: Set<MethodQualifier> = LinkedHashSet(),
+    qualifiers: Set<MethodQualifier> = EnumSet.noneOf(MethodQualifier::class.java),
     annotations: Set<JavaType> = emptySet()
 ) : JavaElement(name) {
 
