@@ -27,6 +27,7 @@ import com.here.genium.common.CollectionsHelper;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
+import com.here.genium.model.cpp.CppMethod.Specifier;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.test.ArrayEList;
 import com.here.genium.test.MockContextStack;
@@ -675,7 +676,6 @@ public final class CppModelBuilderTest {
   public void finishBuildingFrancaAttributeReadonly() {
     when(nameResolver.getGetterName(any())).thenReturn(NONSENSE_NAME);
     contextStack.injectResult(cppComplexTypeRef);
-
     when(francaAttribute.isReadonly()).thenReturn(true);
 
     modelBuilder.finishBuilding(francaAttribute);
@@ -741,5 +741,19 @@ public final class CppModelBuilderTest {
     CppMethod setterMethod = methods.get(1);
     assertEquals(1, setterMethod.getParameters().size());
     assertTrue(setterMethod.getParameters().get(0).isNotNull());
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeWithStatic() {
+    when(deploymentModel.isStatic(any(FAttribute.class))).thenReturn(true);
+    contextStack.injectResult(cppComplexTypeRef);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<CppMethod> methods =
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CppMethod.class);
+    assertEquals(2, methods.size());
+    assertTrue(methods.get(0).getSpecifiers().contains(Specifier.STATIC));
+    assertTrue(methods.get(1).getSpecifiers().contains(Specifier.STATIC));
   }
 }

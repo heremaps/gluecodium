@@ -231,11 +231,11 @@ public class SwiftModelBuilderInterfaceTest {
   @Test
   public void finishBuildingFrancaInterfaceReadsParentProperties() {
     SwiftClass parentClass = new SwiftClass("SomeParent", null, true);
-    SwiftProperty parentProperty = new SwiftProperty("ParentProperty", null, null);
+    SwiftProperty parentProperty = new SwiftProperty("ParentProperty", null, null, false);
     parentClass.getProperties().add(parentProperty);
     SwiftMethod parentMethod =
         new SwiftMethod("ParentMethod", null, null, SwiftType.VOID, null, "foo");
-    SwiftProperty childProperty = new SwiftProperty("", null, null);
+    SwiftProperty childProperty = new SwiftProperty("", null, null, false);
 
     parentProperty.propertyAccessors.add(parentMethod);
     contextStack.injectResult(parentClass);

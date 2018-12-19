@@ -693,6 +693,20 @@ public class JniModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaAttributeStatic() {
+    when(deploymentModel.isStatic(any(FAttribute.class))).thenReturn(true);
+    when(javaBuilder.getFinalResults()).thenReturn(Arrays.asList(javaGetter, javaSetter));
+    when(cppBuilder.getFinalResults()).thenReturn(Arrays.asList(cppGetter, cppSetter));
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<JniMethod> methods =
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JniMethod.class);
+    assertTrue(methods.get(0).isStatic());
+    assertTrue(methods.get(1).isStatic());
+  }
+
+  @Test
   public void finishBuildingFrancaEnumerationsReadsNames() {
     // Arrange
     when(cppBuilder.getFinalResult(any())).thenReturn(cppEnum, cppCustomType);

@@ -127,10 +127,11 @@ FDEPL:
         }
     }
 
-### Method: Static
+### Method, Attribute: Static
 
-This FDEPL property controls whether the given Franca method is generated as `static` in all
-supported languages. Default value is `false`, i.e. an instance method is generated.
+This FDEPL property controls whether the given Franca method or attribute is generated as `static`
+in all supported languages. Default value is `false`, i.e. an instance method or attribute is
+generated.
 
 **Note:** Static methods are not supported if `IsInterface` property is set to `true`.
 
@@ -141,6 +142,7 @@ FIDL:
     interface ExampleInterface {
         method exampleMethod {
         }
+        attribute String exampleAttribute
     }
 
 FDEPL:
@@ -148,6 +150,9 @@ FDEPL:
     define GeniumExtensions for interface example.ExampleInterface
     {
         method exampleMethod {
+            Static = true
+        }
+        attribute exampleAttribute {
             Static = true
         }
     }

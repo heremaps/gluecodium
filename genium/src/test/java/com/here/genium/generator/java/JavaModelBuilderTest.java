@@ -30,6 +30,7 @@ import com.here.genium.common.CollectionsHelper;
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.java.*;
+import com.here.genium.model.java.JavaMethod.MethodQualifier;
 import com.here.genium.test.ArrayEList;
 import com.here.genium.test.MockContextStack;
 import java.util.Arrays;
@@ -718,6 +719,20 @@ public class JavaModelBuilderTest {
     JavaMethod setterMethod = methods.get(1);
     assertEquals(1, setterMethod.getParameters().size());
     assertTrue(setterMethod.getParameters().get(0).annotations.contains(javaCustomType));
+  }
+
+  @Test
+  public void finishBuildingFrancaAttributeWithStatic() {
+    when(deploymentModel.isStatic(any(FAttribute.class))).thenReturn(true);
+    contextStack.injectResult(javaCustomType);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<JavaMethod> methods =
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JavaMethod.class);
+    assertEquals(2, methods.size());
+    assertTrue(methods.get(0).getQualifiers().contains(MethodQualifier.STATIC));
+    assertTrue(methods.get(1).getQualifiers().contains(MethodQualifier.STATIC));
   }
 
   @Test

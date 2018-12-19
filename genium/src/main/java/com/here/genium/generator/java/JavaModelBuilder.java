@@ -29,6 +29,7 @@ import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.java.*;
 import com.here.genium.model.java.JavaMethod.MethodQualifier;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -327,12 +328,22 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaVisibility visibility = getVisibility(francaAttribute);
     boolean isNotNull = deploymentModel.isNotNull(francaAttribute);
 
+    Set<MethodQualifier> qualifiers =
+        deploymentModel.isStatic(francaAttribute)
+            ? EnumSet.of(MethodQualifier.STATIC)
+            : EnumSet.noneOf(MethodQualifier.class);
+
     JavaMethod getterMethod =
         new JavaMethod(
             JavaNameRules.getGetterName(francaAttribute.getName(), javaType),
             comment,
             visibility,
-            javaType);
+            javaType,
+            null,
+            null,
+            Collections.emptyList(),
+            false,
+            qualifiers);
     if (isNotNull) {
       addNotNullAnnotation(getterMethod);
     }
@@ -353,7 +364,9 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
               JavaPrimitiveType.VOID,
               null,
               null,
-              Collections.singletonList(setterParameter));
+              Collections.singletonList(setterParameter),
+              false,
+              qualifiers);
 
       storeResult(setterMethod);
     }

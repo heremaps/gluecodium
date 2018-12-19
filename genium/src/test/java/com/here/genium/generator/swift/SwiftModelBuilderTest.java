@@ -612,6 +612,20 @@ public final class SwiftModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaAttributeWithStatic() {
+    contextStack.injectResult(swiftType);
+    when(deploymentModel.isStatic(any(FAttribute.class))).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    SwiftProperty swiftProperty = modelBuilder.getFinalResult(SwiftProperty.class);
+    assertNotNull(swiftProperty);
+    assertTrue(swiftProperty.isStatic);
+    assertTrue(swiftProperty.propertyAccessors.get(0).isStatic());
+    assertTrue(swiftProperty.propertyAccessors.get(1).isStatic());
+  }
+
+  @Test
   public void finishBuildingOutputArgumentDoesNotChangeStringType() {
     contextStack.injectResult(SwiftType.STRING);
 

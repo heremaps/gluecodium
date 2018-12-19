@@ -26,6 +26,8 @@ import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
+import com.here.genium.model.cpp.CppMethod.Qualifier;
+import com.here.genium.model.cpp.CppMethod.Specifier;
 import com.here.genium.model.franca.CommentHelper;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.*;
@@ -309,6 +311,10 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     String francaComment = CommentHelper.getDescription(francaAttribute);
     boolean isNotNull = deploymentModel.isNotNull(francaAttribute);
 
+    boolean isStatic = deploymentModel.isStatic(francaAttribute);
+    EnumSet<Specifier> specifiers =
+        isStatic ? EnumSet.of(Specifier.STATIC) : EnumSet.of(Specifier.VIRTUAL);
+
     CppMethod getterMethod =
         new CppMethod(
             nameResolver.getGetterName(francaAttribute),
@@ -318,8 +324,10 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             "",
             isNotNull,
             Collections.emptyList(),
-            EnumSet.of(CppMethod.Specifier.VIRTUAL),
-            EnumSet.of(CppMethod.Qualifier.CONST, CppMethod.Qualifier.PURE_VIRTUAL));
+            specifiers,
+            isStatic
+                ? EnumSet.noneOf(Qualifier.class)
+                : EnumSet.of(Qualifier.CONST, Qualifier.PURE_VIRTUAL));
     storeResult(getterMethod);
 
     if (!francaAttribute.isReadonly()) {
@@ -333,8 +341,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
               "",
               false,
               Collections.singletonList(setterParameter),
-              EnumSet.of(CppMethod.Specifier.VIRTUAL),
-              EnumSet.of(CppMethod.Qualifier.PURE_VIRTUAL));
+              specifiers,
+              isStatic ? EnumSet.noneOf(Qualifier.class) : EnumSet.of(Qualifier.PURE_VIRTUAL));
       storeResult(setterMethod);
     }
 

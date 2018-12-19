@@ -105,13 +105,9 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     if (parentIsInterface) {
       clazz.getImplementsProtocols().add(parentClass.name);
       clazz.getMethods().addAll(parentClass.getMethods());
-      for (final SwiftProperty parentProperty : parentClass.getProperties()) {
-        SwiftProperty swiftProperty =
-            new SwiftProperty(parentProperty.name, parentProperty.visibility, parentProperty.type);
-        swiftProperty.propertyAccessors.addAll(parentProperty.propertyAccessors);
-        clazz.getProperties().add(swiftProperty);
-      }
+      clazz.getProperties().addAll(parentClass.getProperties());
     }
+
     clazz.getMethods().addAll(getPreviousResults(SwiftMethod.class));
     clazz.getProperties().addAll(getPreviousResults(SwiftProperty.class));
     clazz.getTypedefs().addAll(getPreviousResults(SwiftTypeDef.class));
@@ -318,11 +314,13 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   public void finishBuilding(FAttribute francaAttribute) {
 
     SwiftType swiftType = getPreviousResult(SwiftType.class);
+    boolean isStatic = deploymentModel.isStatic(francaAttribute);
     SwiftProperty property =
         new SwiftProperty(
             SwiftNameRules.getPropertyName(francaAttribute.getName(), swiftType),
             getVisibility(francaAttribute),
-            swiftType);
+            swiftType,
+            isStatic);
     property.comment = CommentHelper.getDescription(francaAttribute);
 
     String nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(francaAttribute);
@@ -334,7 +332,9 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             property.type,
             null,
             nestedSpecifier,
-            CBridgeNameRules.getPropertyGetterName(francaAttribute));
+            CBridgeNameRules.getPropertyGetterName(francaAttribute),
+            null,
+            isStatic);
     property.propertyAccessors.add(getterMethod);
 
     if (!francaAttribute.isReadonly()) {
@@ -348,7 +348,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
               nestedSpecifier,
               CBridgeNameRules.getPropertySetterName(francaAttribute),
               null,
-              false,
+              isStatic,
               false,
               Collections.singletonList(new SwiftParameter("newValue", property.type)));
       property.propertyAccessors.add(setterMethod);
