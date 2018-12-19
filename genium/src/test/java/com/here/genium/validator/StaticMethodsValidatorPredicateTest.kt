@@ -34,7 +34,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
-class StaticMethodValidatorPredicateTest {
+class StaticMethodsValidatorPredicateTest {
     @Mock
     private lateinit var francaModel: FModel
     @Mock
