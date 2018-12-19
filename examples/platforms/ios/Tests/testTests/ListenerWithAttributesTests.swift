@@ -105,49 +105,49 @@ class ListenerWithAttributesTests: XCTestCase {
 
     func testStringRoundTrip() {
         let envelope = TestListener()
-        let delivery = AttributedMessageDelivery.create()!
+        let delivery = AttributedMessageDelivery()
         XCTAssertTrue(delivery.checkMessageRoundTrip(envelope: envelope))
     }
 
     func testPackageRoundTrip() {
         let envelope = TestListener()
-        let delivery = AttributedMessageDelivery.create()!
+        let delivery = AttributedMessageDelivery()
         XCTAssertTrue(delivery.checkPackedMessageRoundTrip(envelope: envelope))
     }
 
     func testBoxedRoundTrip() {
         let envelope = TestListener()
-        let delivery = AttributedMessageDelivery.create()!
+        let delivery = AttributedMessageDelivery()
         XCTAssertTrue(delivery.checkBoxedMessageRoundTrip(envelope: envelope))
     }
 
     func testStructuredRoundTrip() {
         let envelope = TestListener()
-        let delivery = AttributedMessageDelivery.create()!
+        let delivery = AttributedMessageDelivery()
         XCTAssertTrue(delivery.checkStructuredMessageRoundTrip(envelope: envelope))
     }
 
     func testEnumeratedRoundTrip() {
         let envelope = TestListener()
-        let delivery = AttributedMessageDelivery.create()!
+        let delivery = AttributedMessageDelivery()
         XCTAssertTrue(delivery.checkEnumeratedMessageRoundTrip(envelope: envelope))
     }
 
     func testArrayedRoundTrip() {
         let envelope = TestListener()
-        let delivery = AttributedMessageDelivery.create()!
+        let delivery = AttributedMessageDelivery()
         XCTAssertTrue(delivery.checkArrayedMessageRoundTrip(envelope: envelope))
     }
 
     func testMappedRoundTrip() {
         let envelope = TestListener()
-        let delivery = AttributedMessageDelivery.create()!
+        let delivery = AttributedMessageDelivery()
         XCTAssertTrue(delivery.checkMappedMessageRoundTrip(envelope: envelope))
     }
 
     func testBufferedRoundTrip() {
         let envelope = TestListener()
-        let delivery = AttributedMessageDelivery.create()!
+        let delivery = AttributedMessageDelivery()
         XCTAssertTrue(delivery.checkBufferedMessageRoundTrip(envelope: envelope))
     }
 

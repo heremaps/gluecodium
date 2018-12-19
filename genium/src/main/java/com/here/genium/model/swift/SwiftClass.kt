@@ -48,4 +48,8 @@ class SwiftClass @JvmOverloads constructor(
     @Suppress("unused")
     val hasParents
         get() = parentClass != null || !implementsProtocols.isEmpty()
+
+    @Suppress("unused")
+    val constructors
+        get() = methods.filter { it.isConstructor }
 }

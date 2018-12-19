@@ -152,6 +152,37 @@ FDEPL:
         }
     }
 
+### Method: Constructor
+
+This FDEPL property controls whether the given Franca method is generated as a constructor in Java
+and as an initializer in Swift. Default value is `false`, i.e. an instance method is generated. This
+property only affects Java and Swift generated code. Methods marked as "Constructor" are just static
+methods in C++ (not constructors).
+
+**Note:** Constructors are not supported if `IsInterface` property is set to `true`.
+
+FIDL:
+
+    package example
+
+    interface ExampleInterface {
+        typedef ExampleInterface is undefined
+        method exampleMethod {
+            out {
+                ExampleInterface result
+            }
+        }
+    }
+
+FDEPL:
+
+    define GeniumExtensions for interface example.ExampleInterface
+    {
+        method exampleMethod {
+            Constructor = true
+        }
+    }
+
 ### Struct: Serializable
 
 This FDEPL property controls whether any serialization infrastructure is generated for the

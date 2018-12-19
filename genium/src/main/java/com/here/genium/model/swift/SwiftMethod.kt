@@ -32,6 +32,7 @@ class SwiftMethod @JvmOverloads constructor(
     val cShortName: String? = null,
     val error: SwiftEnum? = null,
     val isStatic: Boolean = false,
+    val isConstructor: Boolean = false,
     val parameters: List<SwiftParameter> = emptyList(),
     val genericParameters: List<SwiftGenericParameter> = emptyList()
 ) : SwiftModelElement(name, visibility) {
