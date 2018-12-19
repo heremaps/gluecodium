@@ -48,7 +48,7 @@ class ListenerWithErrorsTests: XCTestCase {
     func testStringRoundTrip() {
         let listener = TestListener()
 
-        let messenger = ErrorMessenger.create()
+        let messenger = ErrorMessenger()
         XCTAssertNoThrow(try messenger.setMessage(listener: listener, message: "Works"))
         let result = try? messenger.getMessage(listener: listener)
 
@@ -56,7 +56,7 @@ class ListenerWithErrorsTests: XCTestCase {
     }
 
     func testGetMessageErrorRethrown() {
-        let messenger = ErrorMessenger.create()
+        let messenger = ErrorMessenger()
 
         XCTAssertThrowsError(try messenger.getMessage(listener: ThrowingListener())) { error in
             XCTAssertEqual(error as? ErrorEnum, ErrorEnum.broken)
@@ -64,7 +64,7 @@ class ListenerWithErrorsTests: XCTestCase {
     }
 
     func testSetMessageErrorRethrown() {
-        let messenger = ErrorMessenger.create()
+        let messenger = ErrorMessenger()
 
         XCTAssertThrowsError(try messenger.setMessage(listener: ThrowingListener(), message: "Foo")) { error in
             XCTAssertEqual(error as? ErrorEnum, ErrorEnum.broken)

@@ -1,5 +1,10 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features:
+  + Added "Constructor" FDEPL property that marks methods for being generated as
+    constructors/initializers in Java/Swift.
+
 ## 3.18.0
 - Release date: 2018-12-18
 - Features:
