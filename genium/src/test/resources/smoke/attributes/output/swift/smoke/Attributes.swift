@@ -118,6 +118,30 @@ public class Attributes {
         }
     }
 
+    public static var staticAttribute: String {
+        get {
+            let result_string_handle = smoke_Attributes_staticAttribute_get()
+            defer {
+                std_string_release_handle(result_string_handle)
+            }
+            return String(data: Data(bytes: std_string_data_get(result_string_handle),
+                                     count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
+        }
+        set {
+            return smoke_Attributes_staticAttribute_set(newValue)
+        }
+    }
+
+    public static var staticReadonlyAttribute: Attributes.ExampleStruct {
+        get {
+            let cResult = smoke_Attributes_staticReadonlyAttribute_get()
+            defer {
+                smoke_Attributes_ExampleStruct_release_handle(cResult)
+            }
+            return Attributes.ExampleStruct(cExampleStruct: cResult)
+        }
+    }
+
     let c_instance : _baseRef
 
     init?(cAttributes: _baseRef) {

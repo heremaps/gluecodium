@@ -185,8 +185,12 @@ feature(Attributes cpp android swift SOURCES
     src/test/AttributesInterfaceImpl.h
     src/test/AttributesInterfaceImpl.cpp
     src/test/AttributesInterfaceFactory.cpp
+    src/test/AttributesImpl.h
+    src/test/AttributesImpl.cpp
 
     fidl/hello/HelloWorldAttributes.fidl
+    fidl/test/Attributes.fidl
+    fidl/test/Attributes.fdepl
     fidl/test/AttributesInterface.fidl
     fidl/test/AttributesInterface.fdepl
     fidl/test/AttributesInterfaceFactory.fidl

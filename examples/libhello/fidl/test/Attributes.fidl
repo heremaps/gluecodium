@@ -17,41 +17,28 @@
  * License-Filename: LICENSE
  */
 
-package smoke
+package test
 
 interface Attributes {
 
-    public typedef Attributes is undefined
+    typedef Attributes is undefined
+
+    array StringArray of String
 
     struct ExampleStruct {
         Double value
-    }
-
-    enumeration InternalError {
-        ERROR_NONE
-        ERROR_FATAL = 999
+        Int64[] intValue
     }
 
     attribute UInt32 builtInTypeAttribute
     attribute Float readonlyAttribute readonly
     attribute ExampleStruct structAttribute
-    attribute String[] arrayAttribute
-    attribute InternalError complexTypeAttribute
-    attribute ByteBuffer byteBufferAttribute
-    attribute AttributesInterface.AttributesInterface instanceAttribute
-    attribute Boolean booleanAttribute
-
+    attribute StringArray arrayAttribute
     attribute String staticAttribute
-    attribute ExampleStruct staticReadonlyAttribute readonly
-}
 
-interface AttributesInterface {
-
-    public typedef AttributesInterface is undefined
-
-    struct ExampleStruct {
-        Double value
+    method create {
+        out {
+            Attributes result
+        }
     }
-
-    attribute ExampleStruct structAttribute
 }
