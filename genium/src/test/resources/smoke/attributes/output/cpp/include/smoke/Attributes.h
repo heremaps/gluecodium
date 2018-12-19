@@ -53,7 +53,9 @@ virtual ::std::shared_ptr< ::smoke::AttributesInterface > get_instance_attribute
 virtual void set_instance_attribute( const ::std::shared_ptr< ::smoke::AttributesInterface >& value ) = 0;
 virtual bool is_boolean_attribute(  ) const = 0;
 virtual void set_boolean_attribute( const bool value ) = 0;
-
+static ::std::string get_static_attribute(  );
+static void set_static_attribute( const ::std::string& value );
+static ::smoke::Attributes::ExampleStruct get_static_readonly_attribute(  );
 };
 
 }
