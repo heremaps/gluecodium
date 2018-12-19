@@ -158,7 +158,7 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodWithStatic() {
-    when(deploymentModel.isStatic(any())).thenReturn(true);
+    when(deploymentModel.isStatic(any(FMethod.class))).thenReturn(true);
 
     modelBuilder.finishBuilding(francaMethod);
 

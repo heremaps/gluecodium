@@ -266,7 +266,7 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaMethodReadsIsStatic() {
-    when(deploymentModel.isStatic(any())).thenReturn(true);
+    when(deploymentModel.isStatic(any(FMethod.class))).thenReturn(true);
 
     modelBuilder.finishBuilding(francaMethod);
 
