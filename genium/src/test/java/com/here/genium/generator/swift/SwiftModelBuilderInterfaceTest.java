@@ -68,6 +68,7 @@ public class SwiftModelBuilderInterfaceTest {
           null,
           null,
           false,
+          false,
           Collections.singletonList(new SwiftParameter("MethodValue", SwiftType.STRING)));
 
   @Mock private FrancaDeploymentModel deploymentModel;

@@ -39,7 +39,7 @@ class ListenersReturnValuesTests: XCTestCase {
           }
 
           public func getBoxedMessage() -> MessageBox? {
-              return MessageBox.create()
+              return MessageBox()
           }
 
           public func getStructuredMessage() -> MessageStruct {
@@ -65,49 +65,49 @@ class ListenersReturnValuesTests: XCTestCase {
 
     func testStringReturn() {
         let envelope = TestListener()
-        let delivery = MessageDelivery.createMe()!
+        let delivery = MessageDelivery()
         XCTAssertEqual("Works", delivery.getMessage(envelope: envelope))
     }
 
     func testPackageReturn() {
         let envelope = TestListener()
-        let delivery = MessageDelivery.createMe()!
+        let delivery = MessageDelivery()
         XCTAssertEqual("Works", delivery.getPackedMessage(envelope: envelope))
     }
 
     func testBoxedReturn() {
         let envelope = TestListener()
-        let delivery = MessageDelivery.createMe()!
+        let delivery = MessageDelivery()
         XCTAssertEqual("Works", delivery.getBoxedMessage(envelope: envelope))
     }
 
     func testStructuredReturn() {
         let envelope = TestListener()
-        let delivery = MessageDelivery.createMe()!
+        let delivery = MessageDelivery()
         XCTAssertEqual("Works", delivery.getStructuredMessage(envelope: envelope))
     }
 
     func testEnumeratedReturn() {
         let envelope = TestListener()
-        let delivery = MessageDelivery.createMe()!
+        let delivery = MessageDelivery()
         XCTAssertEqual("YES", delivery.getEnumeratedMessage(envelope: envelope))
     }
 
     func testArrayedReturn() {
         let envelope = TestListener()
-        let delivery = MessageDelivery.createMe()!
+        let delivery = MessageDelivery()
         XCTAssertEqual("Works", delivery.getArrayedMessage(envelope: envelope))
     }
 
     func testMappedReturn() {
         let envelope = TestListener()
-        let delivery = MessageDelivery.createMe()!
+        let delivery = MessageDelivery()
         XCTAssertEqual("Works", delivery.getMappedMessage(envelope: envelope))
     }
 
     func testBufferedReturn() {
         let envelope = TestListener()
-        let delivery = MessageDelivery.createMe()!
+        let delivery = MessageDelivery()
         XCTAssertEqual("Works", delivery.getBufferedMessage(envelope: envelope))
     }
 

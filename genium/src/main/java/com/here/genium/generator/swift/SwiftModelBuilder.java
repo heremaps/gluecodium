@@ -271,17 +271,19 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     SwiftParameter returnParam =
         CollectionsHelper.getFirstOfType(
             getCurrentContext().previousResults, SwiftOutParameter.class, new SwiftOutParameter());
+    boolean isConstructor = deploymentModel.isConstructor(francaMethod);
     SwiftMethod method =
         new SwiftMethod(
             SwiftNameRules.getMethodName(francaMethod),
             getVisibility(francaMethod),
             comment,
-            returnParam.type,
+            isConstructor ? new SwiftType(CBridgeNameRules.BASE_REF_NAME) : returnParam.type,
             returnParam.comment,
             CBridgeNameRules.getNestedSpecifierString(francaMethod),
             CBridgeNameRules.getShortMethodName(francaMethod),
             createErrorIfNeeded(francaMethod),
-            deploymentModel.isStatic(francaMethod),
+            deploymentModel.isStatic(francaMethod) || isConstructor,
+            isConstructor,
             inParams,
             getPreviousResults(SwiftGenericParameter.class));
 
@@ -346,6 +348,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
               nestedSpecifier,
               CBridgeNameRules.getPropertySetterName(francaAttribute),
               null,
+              false,
               false,
               Collections.singletonList(new SwiftParameter("newValue", property.type)));
       property.propertyAccessors.add(setterMethod);
