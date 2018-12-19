@@ -25,10 +25,15 @@ import java.util.List;
 public final class SwiftProperty extends SwiftTypedModelElement {
 
   public final List<SwiftMethod> propertyAccessors = new LinkedList<>();
+  public final boolean isStatic;
 
   public SwiftProperty(
-      final String propertyName, final SwiftVisibility visibility, final SwiftType type) {
+      final String propertyName,
+      final SwiftVisibility visibility,
+      final SwiftType type,
+      final boolean isStatic) {
     super(propertyName, visibility, type);
+    this.isStatic = isStatic;
   }
 
   public boolean isReadonly() {

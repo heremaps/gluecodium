@@ -255,13 +255,15 @@ internal constructor(
 
         val javaGetter = javaMethods[0]
         val cppGetter = cppMethods[0]
+        val isStatic = deploymentModel.isStatic(francaAttribute)
         val jniType = JniType(javaGetter.returnType, cppGetter.returnType)
         storeResult(
             JniMethod(
                 javaMethodName = javaGetter.name,
                 cppMethodName = cppGetter.name,
                 returnType = jniType,
-                isConst = true
+                isConst = true,
+                isStatic = isStatic
             )
         )
         if (!francaAttribute.isReadonly) {
@@ -270,7 +272,8 @@ internal constructor(
             val jniSetter = JniMethod(
                 javaMethodName = javaSetter.name,
                 cppMethodName = cppSetter.name,
-                returnType = JniType.VOID
+                returnType = JniType.VOID,
+                isStatic = isStatic
             )
 
             val javaParameter = javaSetter.parameters[0]

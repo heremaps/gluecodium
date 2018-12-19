@@ -497,7 +497,7 @@ public final class CBridgeModelBuilderTest {
     when(cppModelbuilder.getFinalResults()).thenReturn(cppMethods);
 
     when(francaAttribute.isReadonly()).thenReturn(false);
-    SwiftProperty swiftProperty = new SwiftProperty("", null, new SwiftType(""));
+    SwiftProperty swiftProperty = new SwiftProperty("", null, new SwiftType(""), false);
     swiftProperty.propertyAccessors.add(
         new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_GETTER_NAME));
     swiftProperty.propertyAccessors.add(
@@ -523,7 +523,7 @@ public final class CBridgeModelBuilderTest {
     when(cppModelbuilder.getFinalResults()).thenReturn(cppMethods);
 
     when(francaAttribute.isReadonly()).thenReturn(true);
-    SwiftProperty swiftProperty = new SwiftProperty("", null, new SwiftType(""));
+    SwiftProperty swiftProperty = new SwiftProperty("", null, new SwiftType(""), false);
     swiftProperty.propertyAccessors.add(
         new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_GETTER_NAME));
     when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
@@ -537,6 +537,25 @@ public final class CBridgeModelBuilderTest {
         CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CFunction.class);
     assertEquals("There should be only getter", 1, functions.size());
     verifyAttributeGetter(classTypeInfo, functions.get(0));
+  }
+
+  @Test
+  public void finishBuildingStaticAttribute() {
+    SwiftProperty swiftProperty = new SwiftProperty("", null, new SwiftType(""), false);
+    swiftProperty.propertyAccessors.add(new SwiftMethod(""));
+    swiftProperty.propertyAccessors.add(new SwiftMethod(""));
+    when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
+    when(cppModelbuilder.getFinalResults())
+        .thenReturn(asList(new CppMethod(""), new CppMethod("")));
+    when(deploymentModel.isStatic(any(FAttribute.class))).thenReturn(true);
+    contextStack.injectResult(cppTypeInfo);
+
+    modelBuilder.finishBuilding(francaAttribute);
+
+    List<CFunction> functions =
+        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CFunction.class);
+    assertNull(functions.get(0).selfParameter);
+    assertNull(functions.get(1).selfParameter);
   }
 
   @Test
