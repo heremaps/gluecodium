@@ -17,35 +17,27 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates;
+package com.here.genium.generator.common.templates
 
-import lombok.Setter;
-import org.trimou.engine.resolver.AbstractResolver;
-import org.trimou.engine.resolver.ResolutionContext;
-import org.trimou.engine.resolver.Resolver;
+import org.trimou.engine.resolver.AbstractResolver
+import org.trimou.engine.resolver.ResolutionContext
+import org.trimou.engine.resolver.Resolver
 
 /**
  * Resolves "copyrightHeader" keyword into the copyright header contents.<br>
  * Will be used in general prefixed with a prefix corresponding to the prefix for comments in the
  * target language. Example: {{prefix copyrightHeader "// "}}
  */
-class CopyrightHeaderResolver extends AbstractResolver {
+internal class CopyrightHeaderResolver : AbstractResolver(Resolver.DEFAULT_PRIORITY) {
+    var copyrightHeaderContent: String? = null
 
-  public static final String TAG_COPYRIGHT_HEADER = "copyrightHeader";
+    override fun resolve(contextObject: Any?, name: String, context: ResolutionContext) =
+        when (TAG_COPYRIGHT_HEADER) {
+            name -> copyrightHeaderContent
+            else -> null
+        }
 
-  @Setter private String copyrightHeaderContents;
-
-  CopyrightHeaderResolver() {
-    super(Resolver.DEFAULT_PRIORITY);
-  }
-
-  @Override
-  public Object resolve(Object contextObject, String name, ResolutionContext context) {
-
-    if (TAG_COPYRIGHT_HEADER.equals(name)) {
-      return copyrightHeaderContents;
+    companion object {
+        const val TAG_COPYRIGHT_HEADER = "copyrightHeader"
     }
-
-    return null;
-  }
 }

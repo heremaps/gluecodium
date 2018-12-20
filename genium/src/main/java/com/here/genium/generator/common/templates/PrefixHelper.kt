@@ -17,13 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates;
+package com.here.genium.generator.common.templates
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.trimou.handlebars.BasicHelper;
-import org.trimou.handlebars.Options;
+import org.trimou.handlebars.BasicHelper
+import org.trimou.handlebars.Options
 
 /**
  * Prefix each line of a multi-line value with a prefix. Trim each line at the end to avoid trailing
@@ -31,24 +28,16 @@ import org.trimou.handlebars.Options;
  * Usage: {{prefix value "prefix"}}<br>
  * Example: {{prefix comment "// "}}
  */
-class PrefixHelper extends BasicHelper {
-
-  @Override
-  public void execute(Options options) {
-    List<Object> parameters = options.getParameters();
-    if (parameters.isEmpty()) {
-      return;
+internal open class PrefixHelper : BasicHelper() {
+    override fun execute(options: Options) {
+        val parameters = options.parameters
+        if (parameters.isNotEmpty()) {
+            val prefix = if (parameters.size > 1) parameters[1].toString() else ""
+            val value = getValue(options, parameters[0])
+            options.append(value.split("\n").joinToString(separator = "\n") { prefix + it.trimEnd() })
+        }
     }
 
-    final String prefix = (parameters.size() > 1) ? parameters.get(1).toString() : "";
-    final String value = getValue(options, parameters.get(0));
-    options.append(
-        Arrays.stream(value.split("\n"))
-            .map(s -> (prefix + s).replaceAll("\\s+$", ""))
-            .collect(Collectors.joining("\n")));
-  }
-
-  protected String getValue(final Options options, final Object dataObject) {
-    return (dataObject != null) ? dataObject.toString() : "";
-  }
+    protected open operator fun getValue(options: Options, dataObject: Any?) =
+        dataObject?.toString() ?: ""
 }

@@ -17,22 +17,20 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates;
+package com.here.genium.generator.common.templates
 
-import org.trimou.handlebars.Options;
+import org.trimou.handlebars.Options
 
 /**
  * Prefix each line of a multi-line partial with a prefix. Trim each line at the end to avoid
- * trailing whitespace.<br>
- * Usage: {{prefixPartial "partial-name" "prefix"}}<br>
+ * trailing whitespace.<br></br>
+ * Usage: {{prefixPartial "partial-name" "prefix"}}<br></br>
  * Example: {{prefixPartial "common/CopyrightNotice" "// "}}
  */
-class PrefixPartialHelper extends PrefixHelper {
-
-  @Override
-  protected String getValue(final Options options, final Object dataObject) {
-    StringBuilder builder = new StringBuilder();
-    options.partial(dataObject.toString(), builder);
-    return builder.toString();
-  }
+internal class PrefixPartialHelper : PrefixHelper() {
+    override fun getValue(options: Options, dataObject: Any?): String {
+        val builder = StringBuilder()
+        options.partial(dataObject.toString(), builder)
+        return builder.toString()
+    }
 }

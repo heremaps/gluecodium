@@ -17,98 +17,87 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates;
+package com.here.genium.generator.common.templates
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import io.mockk.every
+import io.mockk.spyk
+import io.mockk.verify
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
+import org.trimou.handlebars.Options
 
-import java.util.LinkedList;
-import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.trimou.handlebars.Options;
+@RunWith(JUnit4::class)
+class PrefixHelperTest {
+    private val parameters = mutableListOf<Any>()
+    private val options = spyk<Options>()
+    private val helper = PrefixHelper()
 
-@RunWith(JUnit4.class)
-public class PrefixHelperTest {
+    @Before
+    fun beforeMocks() {
+        every { options.parameters } returns parameters
+    }
 
-  private static final String PREFIX = " <!-- ";
-  private static final String FIRST_LINE = "complete";
-  private static final String SECOND_LINE = "nonsense";
-  private static final String MULTI_LINE = FIRST_LINE + "\n" + SECOND_LINE;
+    @Test
+    fun executeNoParameters() {
+        helper.execute(options)
 
-  private final List<Object> parameters = new LinkedList<>();
+        verify(exactly = 0) { options.append(any()) }
+    }
 
-  @Mock private Options options;
+    @Test
+    fun executeSingleLineNoPrefix() {
+        parameters.add(FIRST_LINE)
 
-  private final PrefixHelper helper = new PrefixHelper();
+        helper.execute(options)
 
-  @Before
-  public void setUp() {
-    MockitoAnnotations.initMocks(this);
+        verify(exactly = 1) { options.append(FIRST_LINE) }
+    }
 
-    when(options.getParameters()).thenReturn(parameters);
-  }
+    @Test
+    fun executeSingleLineWithPrefix() {
+        parameters.add(FIRST_LINE)
+        parameters.add(PREFIX)
 
-  @Test
-  public void executeNoParameters() {
-    helper.execute(options);
+        helper.execute(options)
 
-    verify(options, never()).append(any());
-  }
+        verify(exactly = 1) { options.append("$PREFIX$FIRST_LINE") }
+    }
 
-  @Test
-  public void executeSingleLineNoPrefix() {
-    parameters.add(FIRST_LINE);
+    @Test
+    fun executeMultiLineNoPrefix() {
+        parameters.add(MULTI_LINE)
 
-    helper.execute(options);
+        helper.execute(options)
 
-    verify(options).append(FIRST_LINE);
-  }
+        verify(exactly = 1) { options.append(MULTI_LINE) }
+    }
 
-  @Test
-  public void executeSingleLineWithPrefix() {
-    parameters.add(FIRST_LINE);
-    parameters.add(PREFIX);
+    @Test
+    fun executeMultiLineWithPrefix() {
+        parameters.add(MULTI_LINE)
+        parameters.add(PREFIX)
 
-    helper.execute(options);
+        helper.execute(options)
 
-    verify(options).append(PREFIX + FIRST_LINE);
-  }
+        verify(exactly = 1) { options.append("$PREFIX$FIRST_LINE\n$PREFIX$SECOND_LINE") }
+    }
 
-  @Test
-  public void executeMultiLineNoPrefix() {
-    parameters.add(MULTI_LINE);
+    @Test
+    fun executeMultiLineWithTrim() {
+        parameters.add("$FIRST_LINE\n\n$SECOND_LINE")
+        parameters.add(PREFIX)
 
-    helper.execute(options);
+        helper.execute(options)
 
-    verify(options).append(MULTI_LINE);
-  }
+        verify(exactly = 1) { options.append("$PREFIX$FIRST_LINE\n$PREFIX\n$PREFIX$SECOND_LINE") }
+    }
 
-  @Test
-  public void executeMultiLineWithPrefix() {
-    parameters.add(MULTI_LINE);
-    parameters.add(PREFIX);
-
-    helper.execute(options);
-
-    verify(options).append(PREFIX + FIRST_LINE + "\n" + PREFIX + SECOND_LINE);
-  }
-
-  @Test
-  public void executeMultiLineWithTrim() {
-    parameters.add(FIRST_LINE + "\n\n" + SECOND_LINE);
-    parameters.add(PREFIX);
-
-    helper.execute(options);
-
-    final String trimmedPrefix = " <!--";
-    verify(options)
-        .append(PREFIX + FIRST_LINE + "\n" + trimmedPrefix + "\n" + PREFIX + SECOND_LINE);
-  }
+    companion object {
+        private const val PREFIX = " <!-- "
+        private const val FIRST_LINE = "complete"
+        private const val SECOND_LINE = "nonsense"
+        private const val MULTI_LINE = "$FIRST_LINE\n$SECOND_LINE"
+    }
 }
