@@ -17,72 +17,70 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates;
+package com.here.genium.generator.common.templates
 
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import io.mockk.every
+import io.mockk.spyk
+import io.mockk.verify
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
+import org.trimou.handlebars.Options
 
-import java.util.LinkedList;
-import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.trimou.handlebars.Options;
+@RunWith(JUnit4::class)
+class InstanceOfHelperTest {
+    private val parameters = mutableListOf(Any())
+    private val options = spyk<Options>()
+    private val helper = InstanceOfHelper(true)
 
-@RunWith(JUnit4.class)
-public class InstanceOfHelperTest {
+    @Before
+    fun beforeMocks() {
+        every { options.parameters } returns parameters
+    }
 
-  private final Object object = new Object();
-  private final List<Object> parameters = new LinkedList<>();
+    @Test
+    fun executeNoParameters() {
+        // Arrange
+        parameters.clear()
 
-  @Mock private Options options;
+        // Act
+        helper.execute(options)
 
-  private final InstanceOfHelper helper = new InstanceOfHelper(true);
+        // Assert
+        verify(exactly = 0) { options.fn() }
+    }
 
-  @Before
-  public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    @Test
+    fun executeOneParameter() {
+        // Arrange, act
+        helper.execute(options)
 
-    parameters.add(object);
+        // Assert
+        verify(exactly = 0) { options.fn() }
+    }
 
-    when(options.getParameters()).thenReturn(parameters);
-  }
+    @Test
+    fun executeTrue() {
+        // Arrange
+        parameters.add("Object")
 
-  @Test
-  public void executeNoParameters() {
-    parameters.clear();
+        // Act
+        helper.execute(options)
 
-    helper.execute(options);
+        // Assert
+        verify(exactly = 1) { options.fn() }
+    }
 
-    verify(options, never()).fn();
-  }
+    @Test
+    fun executeFalse() {
+        // Arrange
+        parameters.add("String")
 
-  @Test
-  public void executeOneParameter() {
-    helper.execute(options);
+        // Act
+        helper.execute(options)
 
-    verify(options, never()).fn();
-  }
-
-  @Test
-  public void executeTrue() {
-    parameters.add("Object");
-
-    helper.execute(options);
-
-    verify(options).fn();
-  }
-
-  @Test
-  public void executeFalse() {
-    parameters.add("String");
-
-    helper.execute(options);
-
-    verify(options, never()).fn();
-  }
+        // Assert
+        verify(exactly = 0) { options.fn() }
+    }
 }

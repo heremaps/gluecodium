@@ -17,147 +17,154 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates;
+package com.here.genium.generator.common.templates
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import io.mockk.every
+import io.mockk.spyk
+import io.mockk.verify
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
+import org.trimou.handlebars.Options
 
-import java.util.LinkedList;
-import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.trimou.handlebars.Options;
+@RunWith(JUnit4::class)
+class JoinPartialHelperTest {
+    private val iterable = mutableListOf(FIRST_LINE)
+    private val parameters = mutableListOf(iterable, TEMPLATE_NAME)
+    private val options = spyk<Options>()
+    private val helper = JoinPartialHelper()
 
-@RunWith(JUnit4.class)
-public class JoinPartialHelperTest {
+    @Before
+    fun setUp() {
+        every { options.parameters } returns parameters
+    }
 
-  private static final String TEMPLATE_NAME = "glorious";
-  private static final String SEPARATOR = " \\o/ ";
-  private static final String FIRST_LINE = "complete";
-  private static final String SECOND_LINE = "nonsense";
+    @Test
+    fun executeNoParameters() {
+        // Arrange
+        parameters.clear()
 
-  private final List<String> iterable = new LinkedList<>();
-  private final List<Object> parameters = new LinkedList<>();
+        // Act
+        helper.execute(options)
 
-  @Mock private Options options;
+        // Assert
+        verify(exactly = 0) { options.append(any()) }
+        verify(exactly = 0) { options.push(any()) }
+        verify(exactly = 0) { options.partial(any()) }
+        verify(exactly = 0) { options.pop() }
+    }
 
-  private final JoinPartialHelper helper = new JoinPartialHelper();
+    @Test
+    fun executeOneParameter() {
+        // Arrange
+        parameters.clear()
+        parameters.add(iterable)
 
-  @Before
-  public void setUp() {
-    MockitoAnnotations.initMocks(this);
+        // Act
+        helper.execute(options)
 
-    iterable.add(FIRST_LINE);
+        // Assert
+        verify(exactly = 0) { options.append(any()) }
+        verify(exactly = 0) { options.push(any()) }
+        verify(exactly = 0) { options.partial(any()) }
+        verify(exactly = 0) { options.pop() }
+    }
 
-    parameters.add(iterable);
-    parameters.add(TEMPLATE_NAME);
+    @Test
+    fun executeNotIterableNoSeparator() {
+        // Arrange
+        parameters[0] = FIRST_LINE
 
-    when(options.getParameters()).thenReturn(parameters);
-  }
+        // Act
+        helper.execute(options)
 
-  @Test
-  public void executeNoParameters() {
-    parameters.clear();
+        // Assert
+        verify(exactly = 0) { options.append(any()) }
+        verify(exactly = 1) { options.push(FIRST_LINE) }
+        verify(exactly = 1) { options.partial(TEMPLATE_NAME) }
+        verify(exactly = 1) { options.pop() }
+    }
 
-    helper.execute(options);
+    @Test
+    fun executeNotIterableWithSeparator() {
+        // Arrange
+        parameters[0] = FIRST_LINE
+        parameters.add(SEPARATOR)
 
-    verify(options, never()).append(any());
-    verify(options, never()).push(any());
-    verify(options, never()).partial(any());
-    verify(options, never()).pop();
-  }
+        // Act
+        helper.execute(options)
 
-  @Test
-  public void executeOneParameter() {
-    parameters.clear();
-    parameters.add(iterable);
+        // Assert
+        verify(exactly = 0) { options.append(any()) }
+        verify(exactly = 1) { options.push(FIRST_LINE) }
+        verify(exactly = 1) { options.partial(TEMPLATE_NAME) }
+        verify(exactly = 1) { options.pop() }
+    }
 
-    helper.execute(options);
+    @Test
+    fun executeOneValueNoSeparator() {
+        // Arrange, act
+        helper.execute(options)
 
-    verify(options, never()).append(any());
-    verify(options, never()).push(any());
-    verify(options, never()).partial(any());
-    verify(options, never()).pop();
-  }
+        // Assert
+        verify(exactly = 0) { options.append(any()) }
+        verify(exactly = 1) { options.push(FIRST_LINE) }
+        verify(exactly = 1) { options.partial(TEMPLATE_NAME) }
+        verify(exactly = 1) { options.pop() }
+    }
 
-  @Test
-  public void executeNotIterableNoSeparator() {
-    parameters.set(0, FIRST_LINE);
+    @Test
+    fun executeOneValueWithSeparator() {
+        // Arrange
+        parameters.add(SEPARATOR)
 
-    helper.execute(options);
+        // Act
+        helper.execute(options)
 
-    verify(options, never()).append(any());
-    verify(options).push(FIRST_LINE);
-    verify(options).partial(TEMPLATE_NAME);
-    verify(options).pop();
-  }
+        // Assert
+        verify(exactly = 0) { options.append(any()) }
+        verify(exactly = 1) { options.push(FIRST_LINE) }
+        verify(exactly = 1) { options.partial(TEMPLATE_NAME) }
+        verify(exactly = 1) { options.pop() }
+    }
 
-  @Test
-  public void executeNotIterableWithSeparator() {
-    parameters.set(0, FIRST_LINE);
-    parameters.add(SEPARATOR);
+    @Test
+    fun executeTwoValuesNoSeparator() {
+        iterable.add(SECOND_LINE)
 
-    helper.execute(options);
+        // Act
+        helper.execute(options)
 
-    verify(options, never()).append(any());
-    verify(options).push(FIRST_LINE);
-    verify(options).partial(TEMPLATE_NAME);
-    verify(options).pop();
-  }
+        // Assert
+        verify(exactly = 1) { options.append("") }
+        verify(exactly = 1) { options.push(FIRST_LINE) }
+        verify(exactly = 1) { options.push(SECOND_LINE) }
+        verify(exactly = 2) { options.partial(TEMPLATE_NAME) }
+        verify(exactly = 2) { options.pop() }
+    }
 
-  @Test
-  public void executeOneValueNoSeparator() {
-    helper.execute(options);
+    @Test
+    fun executeTwoValuesWithSeparator() {
+        // Arrange
+        parameters.add(SEPARATOR)
+        iterable.add(SECOND_LINE)
 
-    verify(options, never()).append(any());
-    verify(options).push(FIRST_LINE);
-    verify(options).partial(TEMPLATE_NAME);
-    verify(options).pop();
-  }
+        // Act
+        helper.execute(options)
 
-  @Test
-  public void executeOneValueWithSeparator() {
-    parameters.add(SEPARATOR);
+        // Assert
+        verify(exactly = 1) { options.append(SEPARATOR) }
+        verify(exactly = 1) { options.push(FIRST_LINE) }
+        verify(exactly = 1) { options.push(SECOND_LINE) }
+        verify(exactly = 2) { options.partial(TEMPLATE_NAME) }
+        verify(exactly = 2) { options.pop() }
+    }
 
-    helper.execute(options);
-
-    verify(options, never()).append(any());
-    verify(options).push(FIRST_LINE);
-    verify(options).partial(TEMPLATE_NAME);
-    verify(options).pop();
-  }
-
-  @Test
-  public void executeTwoValuesNoSeparator() {
-    iterable.add(SECOND_LINE);
-
-    helper.execute(options);
-
-    verify(options).append("");
-    verify(options).push(FIRST_LINE);
-    verify(options).push(SECOND_LINE);
-    verify(options, times(2)).partial(TEMPLATE_NAME);
-    verify(options, times(2)).pop();
-  }
-
-  @Test
-  public void executeTwoValuesWithSeparator() {
-    parameters.add(SEPARATOR);
-    iterable.add(SECOND_LINE);
-
-    helper.execute(options);
-
-    verify(options).append(SEPARATOR);
-    verify(options).push(FIRST_LINE);
-    verify(options).push(SECOND_LINE);
-    verify(options, times(2)).partial(TEMPLATE_NAME);
-    verify(options, times(2)).pop();
-  }
+    companion object {
+        private const val TEMPLATE_NAME = "glorious"
+        private const val SEPARATOR = " \\o/ "
+        private const val FIRST_LINE = "complete"
+        private const val SECOND_LINE = "nonsense"
+    }
 }
