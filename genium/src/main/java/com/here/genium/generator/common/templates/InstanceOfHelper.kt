@@ -17,11 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates;
+package com.here.genium.generator.common.templates
 
-import java.util.List;
-import org.trimou.handlebars.BasicSectionHelper;
-import org.trimou.handlebars.Options;
+import org.trimou.handlebars.BasicSectionHelper
+import org.trimou.handlebars.Options
 
 /**
  * instanceOf: execute a block if the class name of the value equals the given string<br>
@@ -32,26 +31,15 @@ import org.trimou.handlebars.Options;
  * Usage: {{#notInstanceOf value "className"}}...{{/notInstanceOf}}<br>
  * Example: {{#notInstanceOf this "CppStruct"}}...{{/notInstanceOf}} *
  */
-class InstanceOfHelper extends BasicSectionHelper {
-
-  private final boolean equality;
-
-  InstanceOfHelper(final boolean equality) {
-    super();
-    this.equality = equality;
-  }
-
-  @Override
-  public void execute(Options options) {
-    List<Object> parameters = options.getParameters();
-    if (parameters.size() < 2) {
-      return;
+internal class InstanceOfHelper(private val equality: Boolean) : BasicSectionHelper() {
+    override fun execute(options: Options) {
+        val parameters = options.parameters
+        if (parameters.size < 2) {
+            return
+        }
+        val className = parameters[1].toString()
+        if (parameters[0].javaClass.name.endsWith(className) == equality) {
+            options.fn()
+        }
     }
-
-    Object object = parameters.get(0);
-    String className = parameters.get(1).toString();
-    if (object.getClass().getName().endsWith(className) == equality) {
-      options.fn();
-    }
-  }
 }

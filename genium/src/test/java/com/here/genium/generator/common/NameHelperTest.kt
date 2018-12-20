@@ -17,189 +17,119 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common;
+package com.here.genium.generator.common
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Assert.assertEquals
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
-@RunWith(JUnit4.class)
-public final class NameHelperTest {
-  private static final String LOWER_CAMEL_CASE = "someTestString";
-  private static final String UPPER_CAMEL_CASE = "SomeTestString";
-  private static final String LOWER_SNAKE_CASE = "some_test_string";
-  private static final String UPPER_SNAKE_CASE = "SOME_TEST_STRING";
-  private static final String UPPER_CASE = "SOMETESTSTRING";
-  private static final String LOWER_CASE = "someteststring";
-  private static final String SIMPLE_UPPER_CAMEL_CASE = "Someteststring";
+@RunWith(JUnit4::class)
+class NameHelperTest {
+    @Test
+    fun fromLowerCamelToLowerCamel() =
+        assertEquals(LOWER_CAMEL_CASE, NameHelper.toLowerCamelCase(LOWER_CAMEL_CASE))
 
-  @Test
-  public void fromLowerCamelToLowerCamel() {
-    String actual = NameHelper.toLowerCamelCase(LOWER_CAMEL_CASE);
+    @Test
+    fun fromUpperCamelToLowerCamel() =
+        assertEquals(LOWER_CAMEL_CASE, NameHelper.toLowerCamelCase(UPPER_CAMEL_CASE))
 
-    assertEquals(LOWER_CAMEL_CASE, actual);
-  }
+    @Test
+    fun fromLowerSnakeCaseToLowerCamel() =
+        assertEquals(LOWER_CAMEL_CASE, NameHelper.toLowerCamelCase(LOWER_SNAKE_CASE))
 
-  @Test
-  public void fromUpperCamelToLowerCamel() {
-    String actual = NameHelper.toLowerCamelCase(UPPER_CAMEL_CASE);
+    @Test
+    fun fromUpperSnakeCaseToLowerCamel() =
+        assertEquals(LOWER_CAMEL_CASE, NameHelper.toLowerCamelCase(UPPER_SNAKE_CASE))
 
-    assertEquals(LOWER_CAMEL_CASE, actual);
-  }
+    @Test
+    fun fromLowerCaseToLowerCamel() =
+        assertEquals(LOWER_CASE, NameHelper.toLowerCamelCase(LOWER_CASE))
 
-  @Test
-  public void fromLowerSnakeCaseToLowerCamel() {
-    String actual = NameHelper.toLowerCamelCase(LOWER_SNAKE_CASE);
+    @Test
+    fun fromUpperCaseToLowerCamel() =
+        assertEquals(LOWER_CASE, NameHelper.toLowerCamelCase(UPPER_CASE))
 
-    assertEquals(LOWER_CAMEL_CASE, actual);
-  }
+    @Test
+    fun fromLowerCamelToUpperCamel() =
+        assertEquals(UPPER_CAMEL_CASE, NameHelper.toUpperCamelCase(LOWER_CAMEL_CASE))
 
-  @Test
-  public void fromUpperSnakeCaseToLowerCamel() {
-    String actual = NameHelper.toLowerCamelCase(UPPER_SNAKE_CASE);
+    @Test
+    fun fromUpperCamelToUpperCamel() =
+        assertEquals(UPPER_CAMEL_CASE, NameHelper.toUpperCamelCase(UPPER_CAMEL_CASE))
 
-    assertEquals(LOWER_CAMEL_CASE, actual);
-  }
+    @Test
+    fun fromLowerSnakeCaseToUpperCamel() =
+        assertEquals(UPPER_CAMEL_CASE, NameHelper.toUpperCamelCase(LOWER_SNAKE_CASE))
 
-  @Test
-  public void fromLowerCaseToLowerCamel() {
-    String actual = NameHelper.toLowerCamelCase(LOWER_CASE);
+    @Test
+    fun fromUpperSnakeCaseToUpperCamel() =
+        assertEquals(UPPER_CAMEL_CASE, NameHelper.toUpperCamelCase(UPPER_SNAKE_CASE))
 
-    assertEquals(LOWER_CASE, actual);
-  }
+    @Test
+    fun fromLowerCaseToUpperCamel() =
+        assertEquals(SIMPLE_UPPER_CAMEL_CASE, NameHelper.toUpperCamelCase(LOWER_CASE))
 
-  @Test
-  public void fromUpperCaseToLowerCamel() {
-    String actual = NameHelper.toLowerCamelCase(UPPER_CASE);
+    @Test
+    fun fromUpperCaseToUpperCamel() =
+        assertEquals(SIMPLE_UPPER_CAMEL_CASE, NameHelper.toUpperCamelCase(UPPER_CASE))
 
-    assertEquals(LOWER_CASE, actual);
-  }
+    @Test
+    fun fromLowerCamelToUpperSnakeCase() =
+        assertEquals(UPPER_SNAKE_CASE, NameHelper.toUpperSnakeCase(LOWER_CAMEL_CASE))
 
-  @Test
-  public void fromLowerCamelToUpperCamel() {
-    String actual = NameHelper.toUpperCamelCase(LOWER_CAMEL_CASE);
+    @Test
+    fun fromUpperCamelToUpperSnakeCase() =
+        assertEquals(UPPER_SNAKE_CASE, NameHelper.toUpperSnakeCase(UPPER_CAMEL_CASE))
 
-    assertEquals(UPPER_CAMEL_CASE, actual);
-  }
+    @Test
+    fun fromLowerSnakeCaseToUpperSnakeCase() =
+        assertEquals(UPPER_SNAKE_CASE, NameHelper.toUpperSnakeCase(LOWER_SNAKE_CASE))
 
-  @Test
-  public void fromUpperCamelToUpperCamel() {
-    String actual = NameHelper.toUpperCamelCase(UPPER_CAMEL_CASE);
+    @Test
+    fun fromUpperSnakeCaseToUpperSnakeCase() =
+        assertEquals(UPPER_SNAKE_CASE, NameHelper.toUpperSnakeCase(UPPER_SNAKE_CASE))
 
-    assertEquals(UPPER_CAMEL_CASE, actual);
-  }
+    @Test
+    fun fromUpperCaseToUpperSnakeCase() =
+        assertEquals(UPPER_CASE, NameHelper.toUpperSnakeCase(UPPER_CASE))
 
-  @Test
-  public void fromLowerSnakeCaseToUpperCamel() {
-    String actual = NameHelper.toUpperCamelCase(LOWER_SNAKE_CASE);
+    @Test
+    fun fromLowerCaseToUpperSnakeCase() =
+        assertEquals(UPPER_CASE, NameHelper.toUpperSnakeCase(LOWER_CASE))
 
-    assertEquals(UPPER_CAMEL_CASE, actual);
-  }
+    @Test
+    fun fromLowerCamelToLowerSnakeCase() =
+        assertEquals(LOWER_SNAKE_CASE, NameHelper.toLowerSnakeCase(LOWER_CAMEL_CASE))
 
-  @Test
-  public void fromUpperSnakeCaseToUpperCamel() {
-    String actual = NameHelper.toUpperCamelCase(UPPER_SNAKE_CASE);
+    @Test
+    fun fromUpperCamelToLowerSnakeCase() =
+        assertEquals(LOWER_SNAKE_CASE, NameHelper.toLowerSnakeCase(UPPER_CAMEL_CASE))
 
-    assertEquals(UPPER_CAMEL_CASE, actual);
-  }
+    @Test
+    fun fromLowerSnakeCaseToLowerSnakeCase() =
+        assertEquals(LOWER_SNAKE_CASE, NameHelper.toLowerSnakeCase(LOWER_SNAKE_CASE))
 
-  @Test
-  public void fromLowerCaseToUpperCamel() {
-    String actual = NameHelper.toUpperCamelCase(LOWER_CASE);
+    @Test
+    fun fromUpperSnakeCaseToLowerSnakeCase() =
+        assertEquals(LOWER_SNAKE_CASE, NameHelper.toLowerSnakeCase(UPPER_SNAKE_CASE))
 
-    assertEquals(SIMPLE_UPPER_CAMEL_CASE, actual);
-  }
+    @Test
+    fun fromUpperCaseToLowerSnakeCase() =
+        assertEquals(LOWER_CASE, NameHelper.toLowerSnakeCase(UPPER_CASE))
 
-  @Test
-  public void fromUpperCaseToUpperCamel() {
-    String actual = NameHelper.toUpperCamelCase(UPPER_CASE);
+    @Test
+    fun fromLowerCaseToLowerSnakeCase() =
+        assertEquals(LOWER_CASE, NameHelper.toLowerSnakeCase(LOWER_CASE))
 
-    assertEquals(SIMPLE_UPPER_CAMEL_CASE, actual);
-  }
-
-  @Test
-  public void fromLowerCamelToUpperSnakeCase() {
-    String actual = NameHelper.toUpperSnakeCase(LOWER_CAMEL_CASE);
-
-    assertEquals(UPPER_SNAKE_CASE, actual);
-  }
-
-  @Test
-  public void fromUpperCamelToUpperSnakeCase() {
-    String actual = NameHelper.toUpperSnakeCase(UPPER_CAMEL_CASE);
-
-    assertEquals(UPPER_SNAKE_CASE, actual);
-  }
-
-  @Test
-  public void fromLowerSnakeCaseToUpperSnakeCase() {
-    String actual = NameHelper.toUpperSnakeCase(LOWER_SNAKE_CASE);
-
-    assertEquals(UPPER_SNAKE_CASE, actual);
-  }
-
-  @Test
-  public void fromUpperSnakeCaseToUpperSnakeCase() {
-    String actual = NameHelper.toUpperSnakeCase(UPPER_SNAKE_CASE);
-
-    assertEquals(UPPER_SNAKE_CASE, actual);
-  }
-
-  @Test
-  public void fromUpperCaseToUpperSnakeCase() {
-    String actual = NameHelper.toUpperSnakeCase(UPPER_CASE);
-
-    assertEquals(UPPER_CASE, actual);
-  }
-
-  @Test
-  public void fromLowerCaseToUpperSnakeCase() {
-    String actual = NameHelper.toUpperSnakeCase(LOWER_CASE);
-
-    assertEquals(UPPER_CASE, actual);
-  }
-
-  @Test
-  public void fromLowerCamelToLowerSnakeCase() {
-    String actual = NameHelper.toLowerSnakeCase(LOWER_CAMEL_CASE);
-
-    assertEquals(LOWER_SNAKE_CASE, actual);
-  }
-
-  @Test
-  public void fromUpperCamelToLowerSnakeCase() {
-    String actual = NameHelper.toLowerSnakeCase(UPPER_CAMEL_CASE);
-
-    assertEquals(LOWER_SNAKE_CASE, actual);
-  }
-
-  @Test
-  public void fromLowerSnakeCaseToLowerSnakeCase() {
-    String actual = NameHelper.toLowerSnakeCase(LOWER_SNAKE_CASE);
-
-    assertEquals(LOWER_SNAKE_CASE, actual);
-  }
-
-  @Test
-  public void fromUpperSnakeCaseToLowerSnakeCase() {
-    String actual = NameHelper.toLowerSnakeCase(UPPER_SNAKE_CASE);
-
-    assertEquals(LOWER_SNAKE_CASE, actual);
-  }
-
-  @Test
-  public void fromUpperCaseToLowerSnakeCase() {
-    String actual = NameHelper.toLowerSnakeCase(UPPER_CASE);
-
-    assertEquals(LOWER_CASE, actual);
-  }
-
-  @Test
-  public void fromLowerCaseToLowerSnakeCase() {
-    String actual = NameHelper.toLowerSnakeCase(LOWER_CASE);
-
-    assertEquals(LOWER_CASE, actual);
-  }
+    companion object {
+        private const val LOWER_CAMEL_CASE = "someTestString"
+        private const val UPPER_CAMEL_CASE = "SomeTestString"
+        private const val LOWER_SNAKE_CASE = "some_test_string"
+        private const val UPPER_SNAKE_CASE = "SOME_TEST_STRING"
+        private const val UPPER_CASE = "SOMETESTSTRING"
+        private const val LOWER_CASE = "someteststring"
+        private const val SIMPLE_UPPER_CAMEL_CASE = "Someteststring"
+    }
 }
