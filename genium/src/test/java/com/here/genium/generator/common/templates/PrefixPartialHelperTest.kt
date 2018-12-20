@@ -17,120 +17,114 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates;
+package com.here.genium.generator.common.templates
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import io.mockk.every
+import io.mockk.spyk
+import io.mockk.verify
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
+import org.trimou.handlebars.Options
 
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.trimou.handlebars.Options;
+@RunWith(JUnit4::class)
+class PrefixPartialHelperTest {
+    private val parameters = mutableListOf<Any>(TEMPLATE_NAME)
+    private val options = spyk<Options>()
+    private val helper = PrefixPartialHelper()
 
-@RunWith(JUnit4.class)
-public class PrefixPartialHelperTest {
+    @Before
+    fun setupMocks() {
+        every { options.parameters } returns parameters
+    }
 
-  private static final String TEMPLATE_NAME = "glorious";
-  private static final String PREFIX = " <!-- ";
-  private static final String FIRST_LINE = "complete";
-  private static final String SECOND_LINE = "nonsense";
-  private static final String MULTI_LINE = FIRST_LINE + "\n" + SECOND_LINE;
+    @Test
+    fun executeNoParameters() {
+        // Arrange
+        parameters.clear()
 
-  private final List<Object> parameters = new LinkedList<>();
+        // Act
+        helper.execute(options)
 
-  @Mock private Options options;
+        // Assert
+        verify(exactly = 0) { options.append(any()) }
+    }
 
-  private final PrefixPartialHelper helper = new PrefixPartialHelper();
+    @Test
+    fun executeSingleLineNoPrefix() {
+        // Arrange
+        mockPartial(FIRST_LINE)
 
-  private void mockPartial(final String returnValue) {
-    doAnswer(
-            invocation -> {
-              Appendable appendable = (Appendable) invocation.getArguments()[1];
-              try {
-                appendable.append(returnValue);
-              } catch (IOException exception) {
-                exception.printStackTrace();
-              }
-              return null;
-            })
-        .when(options)
-        .partial(any(), any());
-  }
+        // Act
+        helper.execute(options)
 
-  @Before
-  public void setUp() {
-    MockitoAnnotations.initMocks(this);
+        // Assert
+        verify(exactly = 1) { options.append(FIRST_LINE) }
+    }
 
-    parameters.add(TEMPLATE_NAME);
+    @Test
+    fun executeSingleLineWithPrefix() {
+        // Arrange
+        mockPartial(FIRST_LINE)
+        parameters.add(PREFIX)
 
-    when(options.getParameters()).thenReturn(parameters);
-  }
+        // Act
+        helper.execute(options)
 
-  @Test
-  public void executeNoParameters() {
-    parameters.clear();
+        // Assert
+        verify(exactly = 1) { options.append("$PREFIX$FIRST_LINE") }
+    }
 
-    helper.execute(options);
+    @Test
+    fun executeMultiLineNoPrefix() {
+        // Arrange
+        mockPartial(MULTI_LINE)
 
-    verify(options, never()).append(any());
-  }
+        // Act
+        helper.execute(options)
 
-  @Test
-  public void executeSingleLineNoPrefix() {
-    mockPartial(FIRST_LINE);
+        // Assert
+        verify(exactly = 1) { options.append(MULTI_LINE) }
+    }
 
-    helper.execute(options);
+    @Test
+    fun prefixHelperMultiLineWithPrefix() {
+        // Arrange
+        mockPartial(MULTI_LINE)
+        parameters.add(PREFIX)
 
-    verify(options).append(FIRST_LINE);
-  }
+        // Act
+        helper.execute(options)
 
-  @Test
-  public void executeSingleLineWithPrefix() {
-    mockPartial(FIRST_LINE);
-    parameters.add(PREFIX);
+        // Assert
+        verify(exactly = 1) { options.append("$PREFIX$FIRST_LINE\n$PREFIX$SECOND_LINE") }
+    }
 
-    helper.execute(options);
+    @Test
+    fun executeMultiLineWithTrim() {
+        // Arrange
+        mockPartial("$FIRST_LINE\n\n$SECOND_LINE")
+        parameters.add(PREFIX)
 
-    verify(options).append(PREFIX + FIRST_LINE);
-  }
+        // Act
+        helper.execute(options)
 
-  @Test
-  public void executeMultiLineNoPrefix() {
-    mockPartial(MULTI_LINE);
+        // Assert
+        verify(exactly = 1) { options.append("$PREFIX$FIRST_LINE\n$PREFIX\n$PREFIX$SECOND_LINE") }
+    }
 
-    helper.execute(options);
+    private fun mockPartial(returnValue: String) {
+        every { options.partial(any(), any()) } answers {
+            (invocation.args[1] as Appendable).append(returnValue)
+        }
+    }
 
-    verify(options).append(MULTI_LINE);
-  }
-
-  @Test
-  public void prefixHelperMultiLineWithPrefix() {
-    mockPartial(MULTI_LINE);
-    parameters.add(PREFIX);
-
-    helper.execute(options);
-
-    verify(options).append(PREFIX + FIRST_LINE + "\n" + PREFIX + SECOND_LINE);
-  }
-
-  @Test
-  public void executeMultiLineWithTrim() {
-    mockPartial(FIRST_LINE + "\n\n" + SECOND_LINE);
-    parameters.add(PREFIX);
-
-    helper.execute(options);
-
-    final String trimmedPrefix = " <!--";
-    verify(options)
-        .append(PREFIX + FIRST_LINE + "\n" + trimmedPrefix + "\n" + PREFIX + SECOND_LINE);
-  }
+    companion object {
+        private const val TEMPLATE_NAME = "glorious"
+        private const val PREFIX = " <!-- "
+        private const val FIRST_LINE = "complete"
+        private const val SECOND_LINE = "nonsense"
+        private const val MULTI_LINE = "$FIRST_LINE\n$SECOND_LINE"
+    }
 }
