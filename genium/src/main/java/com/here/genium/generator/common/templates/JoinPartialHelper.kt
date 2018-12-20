@@ -17,48 +17,45 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates;
+package com.here.genium.generator.common.templates
 
-import java.util.Iterator;
-import java.util.List;
-import org.trimou.handlebars.BasicHelper;
-import org.trimou.handlebars.Options;
+import org.trimou.handlebars.BasicHelper
+import org.trimou.handlebars.Options
 
 /**
- * Apply a partial to each value in an Iterable and join the results with a separator.<br>
- * Usage: {{joinPartial iterable "partial-name" "separator"}}<br>
+ * Apply a partial to each value in an Iterable and join the results with a separator.<br></br>
+ * Usage: {{joinPartial iterable "partial-name" "separator"}}<br></br>
  * Example: {{joinPartial parameters "cpp/CppMethodParameter" ", "}}
  */
-class JoinPartialHelper extends BasicHelper {
-
-  @Override
-  public void execute(Options options) {
-    List<Object> parameters = options.getParameters();
-    if (parameters.size() < 2) {
-      return;
-    }
-
-    final Object value = parameters.get(0);
-    final String partialName = parameters.get(1).toString();
-    final String separator = (parameters.size() > 2) ? parameters.get(2).toString() : "";
-
-    if (value instanceof Iterable<?>) {
-      Iterator<?> iterator = ((Iterable<?>) value).iterator();
-      while (iterator.hasNext()) {
-        applyPartial(options, partialName, iterator.next());
-        if (iterator.hasNext()) {
-          options.append(separator);
+internal class JoinPartialHelper : BasicHelper() {
+    override fun execute(options: Options) {
+        val parameters = options.parameters
+        if (parameters.size < 2) {
+            return
         }
-      }
-    } else {
-      applyPartial(options, partialName, value);
-    }
-  }
 
-  private static void applyPartial(
-      final Options options, final String partialName, final Object dataObject) {
-    options.push(dataObject);
-    options.partial(partialName);
-    options.pop();
-  }
+        val value = parameters[0]
+        val partialName = parameters[1].toString()
+        val separator = if (parameters.size > 2) parameters[2].toString() else ""
+
+        when (value) {
+            is Iterable<*> -> {
+                val iterator = value.iterator()
+                while (iterator.hasNext()) {
+                    applyPartial(options, partialName, iterator.next()!!)
+                    if (iterator.hasNext()) {
+                        options.append(separator)
+                    }
+                }
+            }
+            else -> applyPartial(options, partialName, value)
+        }
+    }
+
+    private fun applyPartial(options: Options, partialName: String, dataObject: Any) =
+        options.apply {
+            push(dataObject)
+            partial(partialName)
+            pop()
+        }
 }

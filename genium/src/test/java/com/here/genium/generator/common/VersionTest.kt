@@ -17,88 +17,96 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common;
+package com.here.genium.generator.common
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import io.mockk.every
+import io.mockk.mockk
+import org.franca.core.franca.FVersion
+import org.junit.Assert.assertEquals
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
-import org.franca.core.franca.FVersion;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+@RunWith(JUnit4::class)
+class VersionTest {
+    @Test
+    fun toStringWithoutSuffix() {
+        // Arrange, act
+        val versionString = Version(MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, "").toString()
 
-@RunWith(JUnit4.class)
-public class VersionTest {
+        // Assert
+        assertEquals(VERSION_WITHOUT_SUFFIX, versionString)
+    }
 
-  private static final int MAJOR_VERSION = 7;
-  private static final int MINOR_VERSION = 21;
-  private static final int PATCH_VERSION = 302;
-  private static final String VERSION_SUFFIX = "abc";
-  private static final String VERSION_WITHOUT_SUFFIX = "7.21.302";
-  private static final String VERSION_WITH_SUFFIX = "7.21.302-abc";
-  private static final String INVALID_VERSION_STRING = "not a version";
+    @Test
+    fun toStringWithSuffix() {
+        // Arrange, act
+        val versionString = Version(MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_SUFFIX).toString()
 
-  @Test
-  public void toStringWithoutSuffix() {
-    final Version version = new Version(MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, "");
+        // Assert
+        assertEquals(VERSION_WITH_SUFFIX, versionString)
+    }
 
-    String versionString = version.toString();
+    @Test
+    fun createFromFrancaVersion() {
+        // Arrange
+        val francaVersion = mockk<FVersion>()
+        every { francaVersion.major } returns MAJOR_VERSION
+        every { francaVersion.minor } returns MINOR_VERSION
 
-    assertEquals(VERSION_WITHOUT_SUFFIX, versionString);
-  }
+        // Act
+        val version = Version.createFromFrancaVersion(francaVersion)
 
-  @Test
-  public void toStringWithSuffix() {
-    final Version version =
-        new Version(MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_SUFFIX);
+        // Assert
+        assertEquals(MAJOR_VERSION, version.major)
+        assertEquals(MINOR_VERSION, version.minor)
+        assertEquals(0, version.patch)
+        assertEquals("", version.suffix)
+    }
 
-    String versionString = version.toString();
+    @Test
+    fun createFromStringWithoutSuffix() {
+        // Arrange, act
+        val version = Version.createFromString(VERSION_WITHOUT_SUFFIX)
 
-    assertEquals(VERSION_WITH_SUFFIX, versionString);
-  }
+        // Assert
+        assertEquals(MAJOR_VERSION, version.major)
+        assertEquals(MINOR_VERSION, version.minor)
+        assertEquals(PATCH_VERSION, version.patch)
+        assertEquals("", version.suffix)
+    }
 
-  @Test
-  public void createFromFrancaVersion() {
-    FVersion francaVersion = mock(FVersion.class);
-    when(francaVersion.getMajor()).thenReturn(MAJOR_VERSION);
-    when(francaVersion.getMinor()).thenReturn(MINOR_VERSION);
+    @Test
+    fun createFromStringWithSuffix() {
+        // Arrange, act
+        val version = Version.createFromString(VERSION_WITH_SUFFIX)
 
-    Version version = Version.createFromFrancaVersion(francaVersion);
+        // Assert
+        assertEquals(MAJOR_VERSION, version.major)
+        assertEquals(MINOR_VERSION, version.minor)
+        assertEquals(PATCH_VERSION, version.patch)
+        assertEquals(VERSION_SUFFIX, version.suffix)
+    }
 
-    assertEquals(MAJOR_VERSION, version.major);
-    assertEquals(MINOR_VERSION, version.minor);
-    assertEquals(0, version.patch);
-    assertEquals("", version.suffix);
-  }
+    @Test
+    fun createFromStringWithInvalidString() {
+        // Arrange, act
+        val version = Version.createFromString(INVALID_VERSION_STRING)
 
-  @Test
-  public void createFromStringWithoutSuffix() {
-    Version version = Version.createFromString(VERSION_WITHOUT_SUFFIX);
+        // Assert
+        assertEquals(0, version.major)
+        assertEquals(0, version.minor)
+        assertEquals(0, version.patch)
+        assertEquals("", version.suffix)
+    }
 
-    assertEquals(MAJOR_VERSION, version.major);
-    assertEquals(MINOR_VERSION, version.minor);
-    assertEquals(PATCH_VERSION, version.patch);
-    assertEquals("", version.suffix);
-  }
-
-  @Test
-  public void createFromStringWithSuffix() {
-    Version version = Version.createFromString(VERSION_WITH_SUFFIX);
-
-    assertEquals(MAJOR_VERSION, version.major);
-    assertEquals(MINOR_VERSION, version.minor);
-    assertEquals(PATCH_VERSION, version.patch);
-    assertEquals(VERSION_SUFFIX, version.suffix);
-  }
-
-  @Test
-  public void createFromStringWithInvalidString() {
-    Version version = Version.createFromString(INVALID_VERSION_STRING);
-
-    assertEquals(0, version.major);
-    assertEquals(0, version.minor);
-    assertEquals(0, version.patch);
-    assertEquals("", version.suffix);
-  }
+    companion object {
+        private const val MAJOR_VERSION = 7
+        private const val MINOR_VERSION = 21
+        private const val PATCH_VERSION = 302
+        private const val VERSION_SUFFIX = "abc"
+        private const val VERSION_WITHOUT_SUFFIX = "7.21.302"
+        private const val VERSION_WITH_SUFFIX = "7.21.302-abc"
+        private const val INVALID_VERSION_STRING = "not a version"
+    }
 }

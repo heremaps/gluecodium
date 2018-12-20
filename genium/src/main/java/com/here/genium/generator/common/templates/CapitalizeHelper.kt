@@ -17,29 +17,19 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates;
+package com.here.genium.generator.common.templates
 
-import java.util.List;
-import org.trimou.handlebars.BasicHelper;
-import org.trimou.handlebars.Options;
+import org.trimou.handlebars.BasicHelper
+import org.trimou.handlebars.Options
 
 /**
- * Capitalize value of a given String.<br>
+ * Capitalize value of a given String.<br></br>
  * Example: {{capitalize "someString"}}
  */
-class CapitalizeHelper extends BasicHelper {
-  @Override
-  public void execute(Options options) {
-    List<Object> parameters = options.getParameters();
-    if (parameters.isEmpty()) {
-      return;
+internal class CapitalizeHelper : BasicHelper() {
+    override fun execute(options: Options) {
+        if (options.parameters.isNotEmpty()) {
+            options.append((options.parameters[0].toString()).capitalize())
+        }
     }
-    final String value = getValue(parameters.get(0));
-    options.append(
-        String.valueOf(value.charAt(0)).toUpperCase() + value.substring(1, value.length()));
-  }
-
-  private String getValue(final Object dataObject) {
-    return (dataObject != null) ? dataObject.toString() : "";
-  }
 }

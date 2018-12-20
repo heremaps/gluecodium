@@ -17,52 +17,46 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates;
+package com.here.genium.generator.common.templates
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import io.mockk.every
+import io.mockk.spyk
+import io.mockk.verify
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
+import org.trimou.handlebars.Options
 
-import java.util.LinkedList;
-import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.trimou.handlebars.Options;
+@RunWith(JUnit4::class)
+class CapitalizeHelperTest {
+    private val parameters = mutableListOf<Any>()
+    private val options = spyk<Options>()
+    private val helper = CapitalizeHelper()
 
-@RunWith(JUnit4.class)
-public class CapitalizeHelperTest {
+    @Before
+    fun beforeMocks() {
+        every { options.parameters } returns parameters
+    }
 
-  private final List<Object> parameters = new LinkedList<>();
+    @Test
+    fun executeNoParameters() {
+        // Arrange, act
+        helper.execute(options)
 
-  @Mock private Options options;
+        // Assert
+        verify(exactly = 0) { options.append(any()) }
+    }
 
-  private final CapitalizeHelper helper = new CapitalizeHelper();
+    @Test
+    fun executeCapitalize() {
+        // Arrange
+        parameters.add("someString")
 
-  @Before
-  public void setUp() {
-    MockitoAnnotations.initMocks(this);
+        // Act
+        helper.execute(options)
 
-    when(options.getParameters()).thenReturn(parameters);
-  }
-
-  @Test
-  public void executeNoParameters() {
-    helper.execute(options);
-
-    verify(options, never()).append(any());
-  }
-
-  @Test
-  public void executeCapitalize() {
-    parameters.add("someString");
-
-    helper.execute(options);
-
-    verify(options).append("SomeString");
-  }
+        // Assert
+        verify(exactly = 1) { options.append("SomeString") }
+    }
 }
