@@ -62,7 +62,7 @@ public final class TemplateEngine {
 
   public static void initCopyrightHeaderContents(String contents) {
     if (!copyrightHeaderInitialized) {
-      COPYRIGHT_HEADER_RESOLVER.setCopyrightHeaderContents(contents);
+      COPYRIGHT_HEADER_RESOLVER.setCopyrightHeaderContent(contents);
       copyrightHeaderInitialized = true;
     }
   }
