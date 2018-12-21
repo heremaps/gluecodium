@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="52cm" height="32cm" viewBox="99 -37 1040 631" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="100" y="60" width="200" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="100" y="60" width="200" height="100"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="200" y="105.9">
+      <tspan x="200" y="105.9">class CustomType = 0</tspan>
+      <tspan x="200" y="121.9">&lt;Abstract C++ class&gt;</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="440" y="60" width="299.8" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="440" y="60" width="299.8" height="100"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="589.9" y="105.9">
+      <tspan x="589.9" y="105.9">class CustomTypeProxy: pubilc CustomType</tspan>
+      <tspan x="589.9" y="121.9">&lt;C++ implementation&gt;</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="920" y="60" width="180" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="920" y="60" width="180" height="100"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1010" y="105.9">
+      <tspan x="1010" y="105.9">protocol CustomType</tspan>
+      <tspan x="1010" y="121.9">&lt;Swift protocol&gt;</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="883" y="272" width="254.85" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x="883" y="272" width="254.85" height="100"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1010.43" y="317.9">
+      <tspan x="1010.43" y="317.9">class CustomTypeImpl: CustomType</tspan>
+      <tspan x="1010.43" y="333.9">&lt;User implementation of protocol&gt; </tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1408" y="861.5">
+    <tspan x="1408" y="861.5"></tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1010.32" y1="271.006" x2="1010.12" y2="171.994"/>
+    <polygon style="fill: #000000" points="1015.12,171.984 1010.1,161.994 1005.12,172.004 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1015.12,171.984 1010.1,161.994 1005.12,172.004 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="739.8" y1="110" x2="912.828" y2="110"/>
+    <polygon style="fill: #000000" points="920,110 915,115 910,110 915,105 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="920,110 915,115 910,110 915,105 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="440" y1="110" x2="311" y2="110"/>
+    <polygon style="fill: #000000" points="311,105 301,110 311,115 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="311,105 301,110 311,115 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="340" y="100">
+    <tspan x="340" y="100">inherits</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1014" y="226">
+    <tspan x="1014" y="226">inherits</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="760" y="100">
+    <tspan x="760" y="100">holds strong reference</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="155" y="-11">
+    <tspan x="155" y="-11">Generated classes for C++ proxies of Swift objects (IsInterface = true)</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="580" y="40">
+    <tspan x="580" y="40">C-Bridge</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1000" y="40">
+    <tspan x="1000" y="40">Swift</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="160" y="40">
+    <tspan x="160" y="40">Base API (C++)</tspan>
+  </text>
+  <g>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="102" y="353" width="340" height="240"/>
+    <g>
+      <rect style="fill: #ffffff" x="122" y="393" width="40" height="38"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="122" y="393" width="40" height="38"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="142" y="415.9">
+        <tspan x="142" y="415.9"></tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff" x="122" y="453" width="40" height="40"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x="122" y="453" width="40" height="40"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="142" y="476.9">
+        <tspan x="142" y="476.9"></tspan>
+      </text>
+    </g>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="182" y="413">
+      <tspan x="182" y="413">Generated class</tspan>
+    </text>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="185.1" y1="528.85" x2="354.1" y2="528.85"/>
+      <polygon style="fill: #000000" points="354.1,533.85 364.1,528.85 354.1,523.85 "/>
+      <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="354.1,533.85 364.1,528.85 354.1,523.85 "/>
+    </g>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="182" y="473">
+      <tspan x="182" y="473">Hand written class</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="236" y="489">
+      <tspan x="236" y="489"></tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="236" y="489">
+      <tspan x="236" y="489"></tspan>
+    </text>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="185.1" y1="568.85" x2="357.928" y2="568.85"/>
+      <polygon style="fill: #000000" points="365.1,568.85 360.1,573.85 355.1,568.85 360.1,563.85 "/>
+      <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="365.1,568.85 360.1,573.85 355.1,568.85 360.1,563.85 "/>
+    </g>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="122" y="373">
+      <tspan x="122" y="373">Legend</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="165.1" y="568.85">
+      <tspan x="165.1" y="568.85"></tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="125.1" y="568.85">
+      <tspan x="125.1" y="568.85">Holder</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="185.1" y="565.85">
+      <tspan x="185.1" y="565.85">holds strong reference of</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="385.1" y="568.85">
+      <tspan x="385.1" y="568.85">Pointee</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="125.1" y="528.85">
+      <tspan x="125.1" y="528.85">Child</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="385.1" y="528.85">
+      <tspan x="385.1" y="528.85">Base</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="185.1" y="525.85">
+      <tspan x="185.1" y="525.85">inherits from</tspan>
+    </text>
+  </g>
+</svg>

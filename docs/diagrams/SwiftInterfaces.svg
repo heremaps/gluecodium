@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="66cm" height="45cm" viewBox="-42 -6 1309 887" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="320" y="20">
+    <tspan x="320" y="20">Generated code and ownership for Swift for Interfaces</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="20" y="140" width="200" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="20" y="140" width="200" height="100"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="120" y="185.9">
+      <tspan x="120" y="185.9">class CustomType = 0</tspan>
+      <tspan x="120" y="201.9">&lt;Abstract C++ class&gt;</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="498.95" y="115" width="338.8" height="150"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="498.95" y="115" width="338.8" height="150"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="668.35" y="137.9">
+      <tspan x="668.35" y="137.9">BaseHandle</tspan>
+      <tspan x="668.35" y="153.9">&lt;void*&gt;</tspan>
+      <tspan x="668.35" y="169.9"></tspan>
+      <tspan x="668.35" y="185.9">instances are retained by copying shared_ptr</tspan>
+      <tspan x="668.35" y="201.9">on the heap which is then managed by Swift.</tspan>
+      <tspan x="668.35" y="217.9">Swift manipulates and uses C++ object through</tspan>
+      <tspan x="668.35" y="233.9">a number of C functions passing BaseHandle* as</tspan>
+      <tspan x="668.35" y="249.9">argument.</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="1020" y="120" width="246.8" height="140"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1020" y="120" width="246.8" height="140"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1143.4" y="161.9">
+      <tspan x="1143.4" y="161.9">class CustomType</tspan>
+      <tspan x="1143.4" y="177.9">&lt;Swift wrapper&gt;</tspan>
+      <tspan x="1143.4" y="193.9"></tspan>
+      <tspan x="1143.4" y="209.9">owns and manages void* _baseRef</tspan>
+      <tspan x="1143.4" y="225.9">pointer, forwards calls to C-Bridge</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-40" y="340" width="339.1" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x="-40" y="340" width="339.1" height="100"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="129.55" y="385.9">
+      <tspan x="129.55" y="385.9">class CustomTypeImpl: public CustomType</tspan>
+      <tspan x="129.55" y="401.9">&lt;User implementation of generated C++ class&gt; </tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1444.9" y="945.65">
+    <tspan x="1444.9" y="945.65"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="140" y="300">
+    <tspan x="140" y="300">inherits</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="640" y="100">
+    <tspan x="640" y="100">C-Bridge</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1120" y="100">
+    <tspan x="1120" y="100">Swift</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="160" y="100">
+    <tspan x="160" y="100">Base API (C++)</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="127.115" y1="339.011" x2="122.959" y2="251.976"/>
+    <polygon style="fill: #000000" points="127.954,251.738 122.482,241.988 117.965,252.215 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="127.954,251.738 122.482,241.988 117.965,252.215 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="1020" y="340" width="240" height="118"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1020" y="340" width="240" height="118"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1140" y="362.9">
+      <tspan x="1140" y="362.9">protocol NativeBase</tspan>
+      <tspan x="1140" y="378.9">&lt;Swift protocol&gt;</tspan>
+      <tspan x="1140" y="394.9"></tspan>
+      <tspan x="1140" y="410.9">used as marker for generated</tspan>
+      <tspan x="1140" y="426.9">Swift wrapper and defines access</tspan>
+      <tspan x="1140" y="442.9">to raw pointer to C-Bridge object</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1020" y1="190" x2="844.922" y2="190"/>
+    <polygon style="fill: #ffffff" points="837.75,190 842.75,185 847.75,190 842.75,195 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="837.75,190 842.75,185 847.75,190 842.75,195 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="497.953" y1="190" x2="228.146" y2="190"/>
+    <polygon style="fill: #000000" points="220.975,190 225.975,185 230.975,190 225.975,195 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="220.975,190 225.975,185 230.975,190 225.975,195 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1142.25" y1="260.989" x2="1141.15" y2="328.2"/>
+    <polygon style="fill: #000000" points="1136.15,328.118 1140.99,338.198 1146.15,328.281 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1136.15,328.118 1140.99,338.198 1146.15,328.281 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="320" y="160">
+    <tspan x="320" y="160">shared_ptr to C++ object</tspan>
+    <tspan x="320" y="176">on the heap</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="860" y="180">
+    <tspan x="860" y="180">owns raw pointer as int</tspan>
+  </text>
+  <g>
+    <polygon style="fill: #ffffff" points="520,420 749.3,420 761.3,432 761.3,470 520,470 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="520,420 749.3,420 761.3,432 761.3,470 520,470 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="749.3,420 749.3,432 761.3,432 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="527" y="444.9">
+      <tspan x="527" y="444.9">C++ classes are always passed</tspan>
+      <tspan x="527" y="460.9">as std::shared_ptr</tspan>
+    </text>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x1="613.174" y1="419.056" x2="360" y2="180"/>
+  <g>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-40" y="560" width="360" height="320"/>
+    <g>
+      <rect style="fill: #ffffff" x="-20" y="600" width="40" height="38"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-20" y="600" width="40" height="38"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="0" y="622.9">
+        <tspan x="0" y="622.9"></tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff" x="-20" y="660" width="40" height="40"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x="-20" y="660" width="40" height="40"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="0" y="683.9">
+        <tspan x="0" y="683.9"></tspan>
+      </text>
+    </g>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="40" y="620">
+      <tspan x="40" y="620">Generated class</tspan>
+    </text>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="43.1" y1="735.85" x2="212.1" y2="735.85"/>
+      <polygon style="fill: #000000" points="212.1,740.85 222.1,735.85 212.1,730.85 "/>
+      <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="212.1,740.85 222.1,735.85 212.1,730.85 "/>
+    </g>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="40" y="680">
+      <tspan x="40" y="680">Hand written class</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="94" y="696">
+      <tspan x="94" y="696"></tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="94" y="696">
+      <tspan x="94" y="696"></tspan>
+    </text>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="43.1" y1="775.85" x2="215.928" y2="775.85"/>
+      <polygon style="fill: #000000" points="223.1,775.85 218.1,780.85 213.1,775.85 218.1,770.85 "/>
+      <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="223.1,775.85 218.1,780.85 213.1,775.85 218.1,770.85 "/>
+    </g>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-20" y="580">
+      <tspan x="-20" y="580">Legend</tspan>
+    </text>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="43.1" y1="815.85" x2="215.928" y2="815.85"/>
+      <polygon style="fill: #ffffff" points="223.1,815.85 218.1,820.85 213.1,815.85 218.1,810.85 "/>
+      <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="223.1,815.85 218.1,820.85 213.1,815.85 218.1,810.85 "/>
+    </g>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-16.9" y="815.85">
+      <tspan x="-16.9" y="815.85">Holder</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="23.1" y="775.85">
+      <tspan x="23.1" y="775.85"></tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="43.1" y="812.85">
+      <tspan x="43.1" y="812.85">holds raw pointer pointing to</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="243.1" y="815.85">
+      <tspan x="243.1" y="815.85">Pointee</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-16.9" y="775.85">
+      <tspan x="-16.9" y="775.85">Holder</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="43.1" y="772.85">
+      <tspan x="43.1" y="772.85">holds shared_ptr of</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="243.1" y="775.85">
+      <tspan x="243.1" y="775.85">Pointee</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-16.9" y="735.85">
+      <tspan x="-16.9" y="735.85">Child</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="243.1" y="735.85">
+      <tspan x="243.1" y="735.85">Base</tspan>
+    </text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="43.1" y="732.85">
+      <tspan x="43.1" y="732.85">inherits from</tspan>
+    </text>
+    <g>
+      <polygon style="fill: #ffffff" points="-16.9,835.85 4.5,835.85 16.5,847.85 16.5,869.85 -16.9,869.85 "/>
+      <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-16.9,835.85 4.5,835.85 16.5,847.85 16.5,869.85 -16.9,869.85 "/>
+      <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="4.5,835.85 4.5,847.85 16.5,847.85 "/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-9.9" y="860.75">
+        <tspan x="-9.9" y="860.75">  </tspan>
+      </text>
+    </g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x1="17.4798" y1="839.951" x2="23.1" y2="835.85"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="43.1" y="855.85">
+      <tspan x="43.1" y="855.85">Note</tspan>
+    </text>
+  </g>
+</svg>
