@@ -56,6 +56,7 @@ public final class CppNameResolverAttributesTest {
     when(francaAttribute.getName()).thenReturn("an_Attribute");
     when(francaAttribute.eContainer()).thenReturn(parentElement);
     when(francaAttribute.getType().getDerived()).thenReturn(null);
+    when(parentElement.getName()).thenReturn("the_Parent");
   }
 
   @Test
@@ -113,6 +114,13 @@ public final class CppNameResolverAttributesTest {
   }
 
   @Test
+  public void getFullyQualifiedGetterName() {
+    String result = nameResolver.getFullyQualifiedGetterName(francaAttribute);
+
+    assertEquals("::TheParent::get_an_attribute", result);
+  }
+
+  @Test
   public void getSetterNameForNormalAttribute() {
     String result = nameResolver.getSetterName(francaAttribute);
 
@@ -135,5 +143,12 @@ public final class CppNameResolverAttributesTest {
     String result = nameResolver.getSetterName(francaAttribute);
 
     assertEquals("Foo", result);
+  }
+
+  @Test
+  public void getFullyQualifiedSetterName() {
+    String result = nameResolver.getFullyQualifiedSetterName(francaAttribute);
+
+    assertEquals("::TheParent::set_an_attribute", result);
   }
 }

@@ -263,6 +263,8 @@ public class CppModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingFrancaAttributeReadsComment() {
+    when(nameResolver.getFullyQualifiedGetterName(any())).thenReturn("");
+    when(nameResolver.getFullyQualifiedSetterName(any())).thenReturn("");
     contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaAttribute);

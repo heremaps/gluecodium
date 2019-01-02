@@ -81,6 +81,16 @@ public class CppNameResolver {
     }
   }
 
+  public String getFullyQualifiedGetterName(final FAttribute francaAttribute) {
+    NamesCacheEntry parentCacheEntry = getCachedEntry((FModelElement) francaAttribute.eContainer());
+    return parentCacheEntry.getFullName() + "::" + getGetterName(francaAttribute);
+  }
+
+  public String getFullyQualifiedSetterName(final FAttribute francaAttribute) {
+    NamesCacheEntry parentCacheEntry = getCachedEntry((FModelElement) francaAttribute.eContainer());
+    return parentCacheEntry.getFullName() + "::" + getSetterName(francaAttribute);
+  }
+
   public static NameRules selectNameRules(boolean isExternal) {
     return isExternal ? VerbatimNameRules.INSTANCE : CppNameRules.INSTANCE;
   }

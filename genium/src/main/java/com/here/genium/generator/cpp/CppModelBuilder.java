@@ -312,7 +312,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppMethod getterMethod =
         new CppMethod(
             nameResolver.getGetterName(francaAttribute),
-            nameResolver.getFullyQualifiedName(francaAttribute),
+            nameResolver.getFullyQualifiedGetterName(francaAttribute),
             francaComment,
             cppTypeRef,
             "",
@@ -327,7 +327,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
       CppMethod setterMethod =
           new CppMethod(
               nameResolver.getSetterName(francaAttribute),
-              nameResolver.getFullyQualifiedName(francaAttribute),
+              nameResolver.getFullyQualifiedSetterName(francaAttribute),
               francaComment,
               CppPrimitiveTypeRef.Companion.getVOID(),
               "",
