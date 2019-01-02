@@ -112,6 +112,9 @@ public final class CppModelBuilderTest {
     when(francaMapType.getKeyType()).thenReturn(francaTypeRef);
     when(francaMapType.getValueType()).thenReturn(francaAnotherTypeRef);
     when(francaConstant.getRhs()).thenReturn(francaInitializerExpression);
+
+    when(nameResolver.getFullyQualifiedGetterName(any())).thenReturn(DUMMY_FQN);
+    when(nameResolver.getFullyQualifiedSetterName(any())).thenReturn(DUMMY_FQN);
   }
 
   @Test
@@ -649,6 +652,7 @@ public final class CppModelBuilderTest {
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
     assertEquals(NONSENSE_NAME, resultMethod.name);
+    assertEquals(DUMMY_FQN, resultMethod.fullyQualifiedName);
     assertTrue(resultMethod.getQualifiers().contains(CppMethod.Qualifier.CONST));
   }
 
@@ -662,7 +666,9 @@ public final class CppModelBuilderTest {
     List<CppMethod> methods =
         CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CppMethod.class);
     assertEquals(2, methods.size());
-    assertEquals(NONSENSE_NAME, methods.get(1).name);
+    CppMethod resultMethod = methods.get(1);
+    assertEquals(NONSENSE_NAME, resultMethod.name);
+    assertEquals(DUMMY_FQN, resultMethod.fullyQualifiedName);
   }
 
   @Test
