@@ -55,21 +55,22 @@ public final class CppGenerator {
                 include.getFileName().equals(relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX));
 
     List<GeneratedFile> result = new LinkedList<>();
-    String headerContent = TemplateEngine.render("cpp/CppHeader", cppModel);
+    String headerContent = TemplateEngine.INSTANCE.render("cpp/CppHeader", cppModel);
     result.add(new GeneratedFile(headerContent, absoluteHeaderPath));
 
     cppModel.setHeaderInclude(
         Include.Companion.createInternalInclude(
             relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX));
 
-    String implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel);
+    String implementationContent =
+        TemplateEngine.INSTANCE.render("cpp/CppImplementation", cppModel);
     result.add(new GeneratedFile(implementationContent, absoluteImplPath));
 
     return result;
   }
 
   public GeneratedFile generateHelperHeader(final String headerName) {
-    String content = TemplateEngine.render("cpp/" + headerName, internalNamespace);
+    String content = TemplateEngine.INSTANCE.render("cpp/" + headerName, internalNamespace);
     String resultFileName =
         Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE, headerName)
             + CppNameRules.HEADER_FILE_SUFFIX;

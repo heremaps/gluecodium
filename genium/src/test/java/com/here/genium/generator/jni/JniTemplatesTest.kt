@@ -21,22 +21,20 @@ package com.here.genium.generator.jni
 
 import com.here.genium.generator.common.templates.TemplateEngine
 import com.here.genium.model.jni.JniContainer
+import io.mockk.every
+import io.mockk.mockkObject
+import io.mockk.unmockkAll
+import io.mockk.verify
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.ArgumentMatchers.eq
-import org.mockito.Mockito.`when`
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
+import org.junit.runners.JUnit4
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(TemplateEngine::class)
+@RunWith(JUnit4::class)
 class JniTemplatesTest {
     private val jniContainer = JniContainer(
         javaName = "classy",
@@ -44,15 +42,12 @@ class JniTemplatesTest {
         cppName = "classy",
         isFrancaInterface = true
     )
-    private val templates = JniTemplates(
-        null, null, ""
-    )
+    private val templates = JniTemplates(null, null, "")
 
     @Before
-    fun setUp() {
-        PowerMockito.mockStatic(TemplateEngine::class.java)
-
-        `when`(TemplateEngine.render(anyString(), any())).thenReturn("")
+    fun beforeMocks() {
+        mockkObject(TemplateEngine)
+        every { TemplateEngine.render(any(), any()) } returns ""
     }
 
     @Test
@@ -111,10 +106,8 @@ class JniTemplatesTest {
 
         // Assert
         assertEquals(MAIN_FILES_COUNT, result.size)
-        PowerMockito.verifyStatic()
-        TemplateEngine.render(eq("jni/Header"), any())
-        PowerMockito.verifyStatic()
-        TemplateEngine.render(eq("jni/Implementation"), any())
+        verify { TemplateEngine.render(eq("jni/Header"), any()) }
+        verify { TemplateEngine.render(eq("jni/Implementation"), any()) }
     }
 
     @Test
@@ -133,25 +126,19 @@ class JniTemplatesTest {
 
         // Assert
         assertEquals(MAIN_FILES_WITH_INSTANCES_COUNT, result.size)
-        PowerMockito.verifyStatic()
-        TemplateEngine.render(eq("jni/StructConversionHeader"), any())
-        PowerMockito.verifyStatic()
-        TemplateEngine.render(eq("jni/StructConversionImplementation"), any())
-        PowerMockito.verifyStatic()
-        TemplateEngine.render(eq("jni/InstanceConversionHeader"), any())
-        PowerMockito.verifyStatic()
-        TemplateEngine.render(eq("jni/InstanceConversionImplementation"), any())
-        PowerMockito.verifyStatic()
-        TemplateEngine.render(eq("jni/CppProxyHeader"), any())
-        PowerMockito.verifyStatic()
-        TemplateEngine.render(eq("jni/CppProxyImplementation"), any())
-        PowerMockito.verifyStatic()
-        TemplateEngine.render(eq("jni/ProxyGeneratorHeader"), any())
-        PowerMockito.verifyStatic()
-        TemplateEngine.render(eq("jni/EnumConversionHeader"), any())
-        PowerMockito.verifyStatic()
-        TemplateEngine.render(eq("jni/EnumConversionImplementation"), any())
+        verify { TemplateEngine.render(eq("jni/StructConversionHeader"), any()) }
+        verify { TemplateEngine.render(eq("jni/StructConversionImplementation"), any()) }
+        verify { TemplateEngine.render(eq("jni/InstanceConversionHeader"), any()) }
+        verify { TemplateEngine.render(eq("jni/InstanceConversionImplementation"), any()) }
+        verify { TemplateEngine.render(eq("jni/CppProxyHeader"), any()) }
+        verify { TemplateEngine.render(eq("jni/CppProxyImplementation"), any()) }
+        verify { TemplateEngine.render(eq("jni/ProxyGeneratorHeader"), any()) }
+        verify { TemplateEngine.render(eq("jni/EnumConversionHeader"), any()) }
+        verify { TemplateEngine.render(eq("jni/EnumConversionImplementation"), any()) }
     }
+
+    @After
+    fun afterMocks() = unmockkAll()
 
     companion object {
         private const val MAIN_FILES_COUNT = 2

@@ -59,7 +59,8 @@ public final class CArrayGenerator {
 
     GeneratedFile headerFile =
         new GeneratedFile(
-            TemplateEngine.render("cbridge/ArraysHeader", headerData), CBRIDGE_ARRAY_HEADER);
+            TemplateEngine.INSTANCE.render("cbridge/ArraysHeader", headerData),
+            CBRIDGE_ARRAY_HEADER);
 
     Collection<Include> implementationIncludes =
         new TreeSet<>(CBridgeComponents.collectImplementationIncludes(arrays));
@@ -71,7 +72,8 @@ public final class CArrayGenerator {
 
     GeneratedFile implementationFile =
         new GeneratedFile(
-            TemplateEngine.render("cbridge/ArraysImpl", implementationData), CBRIDGE_ARRAY_IMPL);
+            TemplateEngine.INSTANCE.render("cbridge/ArraysImpl", implementationData),
+            CBRIDGE_ARRAY_IMPL);
 
     return Arrays.asList(headerFile, implementationFile);
   }

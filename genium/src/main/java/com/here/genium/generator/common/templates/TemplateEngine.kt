@@ -17,36 +17,32 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates;
+package com.here.genium.generator.common.templates
 
-import org.trimou.engine.MustacheEngine;
-import org.trimou.engine.MustacheEngineBuilder;
-import org.trimou.engine.locator.ClassPathTemplateLocator;
-import org.trimou.handlebars.HelpersBuilder;
-import org.trimou.handlebars.SwitchHelper;
+import org.trimou.engine.MustacheEngine
+import org.trimou.engine.MustacheEngineBuilder
+import org.trimou.engine.locator.ClassPathTemplateLocator
+import org.trimou.handlebars.HelpersBuilder
+import org.trimou.handlebars.SwitchHelper
 
-public final class TemplateEngine {
+object TemplateEngine {
+    private val engine: MustacheEngine
+    private val copyrightHeaderResolver = CopyrightHeaderResolver()
+    private var copyrightHeaderInitialized = false
 
-  private static final MustacheEngine ENGINE;
-  private static final CopyrightHeaderResolver COPYRIGHT_HEADER_RESOLVER =
-      new CopyrightHeaderResolver();
-
-  private static boolean copyrightHeaderInitialized;
-
-  static {
-    ENGINE =
-        MustacheEngineBuilder.newBuilder()
-            .addTemplateLocator(new ClassPathTemplateLocator(1, "templates", "mustache"))
+    init {
+        engine = MustacheEngineBuilder.newBuilder()
+            .addTemplateLocator(ClassPathTemplateLocator(1, "templates", "mustache"))
             .setProperty("org.trimou.engine.config.skipValueEscaping", true)
-            .registerHelper("prefix", new PrefixHelper())
-            .registerHelper("prefixPartial", new PrefixPartialHelper())
-            .registerHelper("joinPartial", new JoinPartialHelper())
-            .registerHelper("instanceOf", new InstanceOfHelper(true))
-            .registerHelper("notInstanceOf", new InstanceOfHelper(false))
-            .registerHelper("capitalize", new CapitalizeHelper())
-            .registerHelper("switch", new NiceSwitchHelper())
-            .registerHelper("case", new SwitchHelper.CaseHelper(true))
-            .registerHelper("default", new SwitchHelper.DefaultHelper())
+            .registerHelper("prefix", PrefixHelper())
+            .registerHelper("prefixPartial", PrefixPartialHelper())
+            .registerHelper("joinPartial", JoinPartialHelper())
+            .registerHelper("instanceOf", InstanceOfHelper(true))
+            .registerHelper("notInstanceOf", InstanceOfHelper(false))
+            .registerHelper("capitalize", CapitalizeHelper())
+            .registerHelper("switch", NiceSwitchHelper())
+            .registerHelper("case", SwitchHelper.CaseHelper(true))
+            .registerHelper("default", SwitchHelper.DefaultHelper())
             .registerHelpers(
                 HelpersBuilder.empty()
                     .addIsEqual()
@@ -55,20 +51,19 @@ public final class TemplateEngine {
                     .addIsNotEqual()
                     .addJoin()
                     .addSet()
-                    .build())
-            .addResolver(COPYRIGHT_HEADER_RESOLVER)
-            .build();
-  }
-
-  public static void initCopyrightHeaderContents(String contents) {
-    if (!copyrightHeaderInitialized) {
-      COPYRIGHT_HEADER_RESOLVER.setCopyrightHeaderContent(contents);
-      copyrightHeaderInitialized = true;
+                    .build()
+            )
+            .addResolver(copyrightHeaderResolver)
+            .build()
     }
-  }
 
-  public static String render(final String templateName, final Object data) {
+    fun initCopyrightHeaderContents(contents: String?) {
+        if (!copyrightHeaderInitialized) {
+            copyrightHeaderResolver.copyrightHeaderContent = contents
+            copyrightHeaderInitialized = true
+        }
+    }
 
-    return ENGINE.getMustache(templateName).render(data);
-  }
+    fun render(templateName: String?, data: Any?): String =
+        engine.getMustache(templateName).render(data)
 }

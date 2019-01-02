@@ -58,14 +58,14 @@ public final class JavaTemplates {
 
   public static GeneratedFile generateNativeBase(
       final String fileName, final List<String> packageList) {
-    String fileContent = TemplateEngine.render("java/NativeBase", packageList);
+    String fileContent = TemplateEngine.INSTANCE.render("java/NativeBase", packageList);
     return new GeneratedFile(fileContent, fileName);
   }
 
   private GeneratedFile generateFileForElement(
       final String templateName, final JavaTopLevelElement javaElement) {
 
-    String fileContent = TemplateEngine.render(templateName, javaElement);
+    String fileContent = TemplateEngine.INSTANCE.render(templateName, javaElement);
     String fileName = javaNameRules.getFileName(javaElement);
 
     return new GeneratedFile(fileContent, fileName);
