@@ -17,45 +17,43 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator;
+package com.here.genium.validator
 
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.model.franca.FrancaDeploymentModel
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMethod
 
 /**
  * Validate that static methods or constructors are not contained in Franca interfaces with
  * IsInterface "true".
  */
-public final class StaticMethodsValidatorPredicate implements ValidatorPredicate<FMethod> {
+class StaticMethodsValidatorPredicate : ValidatorPredicate<FMethod> {
 
-  private static final String STATIC_METHOD_MESSAGE =
-      "Static methods in interfaces are not allowed: method '%s' in interface '%s'.";
-  private static final String CONSTRUCTOR_METHOD_MESSAGE =
-      "Constructors in interfaces are not allowed: method '%s' in interface '%s'.";
+    override fun getElementClass() = FMethod::class.java
 
-  @Override
-  public Class<FMethod> getElementClass() {
-    return FMethod.class;
-  }
+    override fun validate(deploymentModel: FrancaDeploymentModel, francaMethod: FMethod): String? {
 
-  @Override
-  public String validate(final FrancaDeploymentModel deploymentModel, final FMethod francaMethod) {
+        val francaInterface = francaMethod.eContainer() as FInterface
+        if (!deploymentModel.isInterface(francaInterface)) {
+            return null
+        }
 
-    FInterface francaInterface = (FInterface) francaMethod.eContainer();
-    if (!deploymentModel.isInterface(francaInterface)) {
-      return null;
+        return if (deploymentModel.isConstructor(francaMethod)) String.format(
+            CONSTRUCTOR_METHOD_MESSAGE,
+            francaMethod.name,
+            FrancaTypeHelper.getFullName(francaInterface)
+        ) else if (deploymentModel.isStatic(francaMethod)) String.format(
+            STATIC_METHOD_MESSAGE,
+            francaMethod.name,
+            FrancaTypeHelper.getFullName(francaInterface)
+        ) else null
     }
 
-    boolean isConstructor = deploymentModel.isConstructor(francaMethod);
-    if (!isConstructor && !deploymentModel.isStatic(francaMethod)) {
-      return null;
+    companion object {
+        private val STATIC_METHOD_MESSAGE =
+            "Static methods in interfaces are not allowed: method '%s' in interface '%s'."
+        private val CONSTRUCTOR_METHOD_MESSAGE =
+            "Constructors in interfaces are not allowed: method '%s' in interface '%s'."
     }
-
-    return String.format(
-        isConstructor ? CONSTRUCTOR_METHOD_MESSAGE : STATIC_METHOD_MESSAGE,
-        francaMethod.getName(),
-        FrancaTypeHelper.getFullName(francaInterface));
-  }
 }
