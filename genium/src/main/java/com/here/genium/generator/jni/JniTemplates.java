@@ -244,6 +244,6 @@ public final class JniTemplates {
 
   private static GeneratedFile generateFile(
       final String templateName, final Object data, final String fileName) {
-    return new GeneratedFile(TemplateEngine.render(templateName, data), fileName);
+    return new GeneratedFile(TemplateEngine.INSTANCE.render(templateName, data), fileName);
   }
 }

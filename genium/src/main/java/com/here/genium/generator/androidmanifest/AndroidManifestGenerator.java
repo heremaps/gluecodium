@@ -32,7 +32,7 @@ public final class AndroidManifestGenerator extends AbstractGenerator {
 
   public GeneratedFile generate() {
     String fileContent =
-        TemplateEngine.render("android/AndroidManifest", String.join(".", basePackages));
+        TemplateEngine.INSTANCE.render("android/AndroidManifest", String.join(".", basePackages));
     return new GeneratedFile(fileContent, AndroidManifestNameRules.getManifestFilename());
   }
 }

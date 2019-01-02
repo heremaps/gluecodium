@@ -33,7 +33,7 @@ public final class AndroidManifestTemplateTest {
   private static final String TEST_COPYRIGHT_HEADER;
 
   static {
-    TEST_COPYRIGHT_HEADER = TemplateEngine.render("xml/CopyrightHeader", null);
+    TEST_COPYRIGHT_HEADER = TemplateEngine.INSTANCE.render("xml/CopyrightHeader", null);
   }
 
   @Test
@@ -52,7 +52,8 @@ public final class AndroidManifestTemplateTest {
             + "</manifest>";
 
     // Act
-    String generated = TemplateEngine.render("android/AndroidManifest", javaPackage.flatten());
+    String generated =
+        TemplateEngine.INSTANCE.render("android/AndroidManifest", javaPackage.flatten());
 
     // Assert
     assertEquals(expected, generated);

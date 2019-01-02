@@ -17,72 +17,68 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.templates;
+package com.here.genium.generator.common.templates
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.trimou.engine.MustacheTagInfo;
-import org.trimou.engine.MustacheTagType;
-import org.trimou.handlebars.Helper;
-import org.trimou.handlebars.HelperDefinition;
-import org.trimou.handlebars.HelperValidator;
-import org.trimou.handlebars.SwitchHelper;
+import org.slf4j.LoggerFactory
+import org.trimou.engine.MustacheTagInfo
+import org.trimou.engine.MustacheTagType
+import org.trimou.handlebars.HelperDefinition
+import org.trimou.handlebars.HelperValidator
+import org.trimou.handlebars.SwitchHelper
 
 /**
  * Identical to built-in Trimou SwitchHelper, except that it does not spam the log about "comment"
  * sections found inside the "switch" block.
  *
- * <p>Since the real validation check in SwitchHelper is in a private isValid() method, both
+ * Since the real validation check in SwitchHelper is in a private isValid() method, both
  * validate() and isValid() method are copy-pasted from SwitchHelper here.
  */
-class NiceSwitchHelper extends SwitchHelper {
+internal class NiceSwitchHelper : SwitchHelper() {
+    override fun validate(definition: HelperDefinition) {
+        // BasicHelper.validate()
+        val helperClazz = this.javaClass
+        HelperValidator.checkType(helperClazz, definition, *allowedTagTypes())
+        HelperValidator.checkParams(helperClazz, definition, numberOfRequiredParameters())
+        HelperValidator.checkHash(definition, this)
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(SwitchHelper.class);
-
-  @Override
-  public void validate(HelperDefinition definition) {
-    // BasicHelper.validate()
-    Class<? extends Helper> helperClazz = this.getClass();
-    HelperValidator.checkType(helperClazz, definition, allowedTagTypes());
-    HelperValidator.checkParams(helperClazz, definition, numberOfRequiredParameters());
-    HelperValidator.checkHash(definition, this);
-
-    // SwitchHelper.validate()
-    Set<String> validNames = new HashSet<>(4);
-    for (Map.Entry<String, Helper> entry : configuration.getHelpers().entrySet()) {
-      if (entry.getValue() instanceof CaseHelper || entry.getValue() instanceof DefaultHelper) {
-        validNames.add(entry.getKey());
-      }
-    }
-    for (MustacheTagInfo info : definition.getTagInfo().getChildTags()) {
-      if (!isValid(info, validNames)) {
-        LOGGER.warn(
-            "Invalid content detected {}. "
-                + "This helper should only contain case, default and comment sections. "
-                + "Other types of segments are always rendered.",
-            info);
-      }
-    }
-  }
-
-  private boolean isValid(MustacheTagInfo info, Set<String> validNames) {
-    // Accept "comment" sections as valid
-    if (info.getType().equals(MustacheTagType.COMMENT)) {
-      return true;
+        // SwitchHelper.validate()
+        val validNames = hashSetOf<String>()
+        configuration.helpers.forEach { key, value ->
+            if (value is SwitchHelper.CaseHelper || value is SwitchHelper.DefaultHelper) {
+                validNames.add(key)
+            }
+        }
+        definition.tagInfo.childTags.forEach { info ->
+            if (!isValid(info, validNames)) {
+                LOGGER.warn(
+                    "Invalid content detected {}. " +
+                            "This helper should only contain case, default and comment sections. " +
+                            "Other types of segments are always rendered.",
+                    info
+                )
+            }
+        }
     }
 
-    // SwitchHelper.isValid()
-    if (!info.getType().equals(MustacheTagType.SECTION)) {
-      return false;
+    private fun isValid(info: MustacheTagInfo, validNames: Set<String>): Boolean {
+        // Accept "comment" sections as valid
+        if (info.type == MustacheTagType.COMMENT) {
+            return true
+        }
+
+        // SwitchHelper.isValid()
+        if (info.type != MustacheTagType.SECTION) {
+            return false
+        }
+        validNames.forEach {
+            if (info.text.startsWith(it)) {
+                return true
+            }
+        }
+        return false
     }
-    for (String name : validNames) {
-      if (info.getText().startsWith(name)) {
-        return true;
-      }
+
+    companion object {
+        private val LOGGER = LoggerFactory.getLogger(SwitchHelper::class.java)
     }
-    return false;
-  }
 }

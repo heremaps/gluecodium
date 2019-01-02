@@ -44,7 +44,7 @@ public final class SwiftArrayGenerator {
     if (arrayFile.isEmpty()) {
       return emptyList();
     } else {
-      String content = TemplateEngine.render("swift/Array", arrayFile);
+      String content = TemplateEngine.INSTANCE.render("swift/Array", arrayFile);
       return Collections.singletonList(new GeneratedFile(content, SWIFT_ARRAY));
     }
   }
