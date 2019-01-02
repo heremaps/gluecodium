@@ -93,12 +93,12 @@ public class CBridgeGenerator {
 
   @VisibleForTesting
   public static String generateHeaderContent(CInterface model) {
-    return TemplateEngine.render("cbridge/Header", model);
+    return TemplateEngine.INSTANCE.render("cbridge/Header", model);
   }
 
   @VisibleForTesting
   public static String generateImplementationContent(CInterface model) {
-    return TemplateEngine.render("cbridge/Implementation", model);
+    return TemplateEngine.INSTANCE.render("cbridge/Implementation", model);
   }
 
   public CInterface buildCBridgeModel(final FTypeCollection francaTypeCollection) {

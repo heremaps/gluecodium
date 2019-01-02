@@ -54,7 +54,7 @@ public class SwiftGenerator {
       return null;
     } else {
       return new GeneratedFile(
-          TemplateEngine.render("swift/File", file),
+          TemplateEngine.INSTANCE.render("swift/File", file),
           SwiftNameRules.getImplementationFileName(francaTypeCollection));
     }
   }
@@ -64,7 +64,8 @@ public class SwiftGenerator {
       return null;
     } else {
       return new GeneratedFile(
-          TemplateEngine.render("swift/Errors", enumsAsErrors.stream().sorted().collect(toList())),
+          TemplateEngine.INSTANCE.render(
+              "swift/Errors", enumsAsErrors.stream().sorted().collect(toList())),
           SwiftNameRules.TARGET_DIRECTORY + "ErrorsExtensions.swift");
     }
   }
