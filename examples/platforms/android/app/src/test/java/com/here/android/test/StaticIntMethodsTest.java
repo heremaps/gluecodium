@@ -66,11 +66,11 @@ public final class StaticIntMethodsTest {
   @Test
   public void returnNextNumberUint8() {
     // Arrange
-    long number = 200;
-    long expected = 201;
+    short number = 200;
+    short expected = 201;
 
     // Act
-    long actual = StaticIntMethods.returnNextNumberUint8(number);
+    short actual = StaticIntMethods.returnNextNumberUint8(number);
 
     // Assert
     assertEquals(expected, actual);
@@ -79,12 +79,12 @@ public final class StaticIntMethodsTest {
   @Test
   public void sumTwoNumbersUint8() {
     // Arrange
-    long firstNumber = 160;
-    long secondNumber = 80;
-    long expected = firstNumber + secondNumber;
+    short firstNumber = 160;
+    short secondNumber = 80;
+    short expected = (short)(firstNumber + secondNumber);
 
     // Act
-    long actual = StaticIntMethods.sumTwoNumbersUint8(firstNumber, secondNumber);
+    short actual = StaticIntMethods.sumTwoNumbersUint8(firstNumber, secondNumber);
 
     // Assert
     assertEquals(expected, actual);
@@ -93,7 +93,7 @@ public final class StaticIntMethodsTest {
   @Test
   public void returnPrimeUint8() {
     // Arrange, act, assert
-    assertEquals(131L, StaticIntMethods.returnPrimeUint8());
+    assertEquals(131, StaticIntMethods.returnPrimeUint8());
   }
 
   @Test
@@ -132,11 +132,11 @@ public final class StaticIntMethodsTest {
   @Test
   public void returnNextNumberUint16() {
     // Arrange
-    long number = 40000;
-    long expected = 40001;
+    int number = 40000;
+    int expected = 40001;
 
     // Act
-    long actual = StaticIntMethods.returnNextNumberUint16(number);
+    int actual = StaticIntMethods.returnNextNumberUint16(number);
 
     // Assert
     assertEquals(expected, actual);
@@ -145,12 +145,12 @@ public final class StaticIntMethodsTest {
   @Test
   public void sumTwoNumbersUint16() {
     // Arrange
-    long firstNumber = 16000;
-    long secondNumber = 8000;
-    long expected = firstNumber + secondNumber;
+    int firstNumber = 16000;
+    int secondNumber = 8000;
+    int expected = firstNumber + secondNumber;
 
     // Act
-    long actual = StaticIntMethods.sumTwoNumbersUint16(firstNumber, secondNumber);
+    int actual = StaticIntMethods.sumTwoNumbersUint16(firstNumber, secondNumber);
 
     // Assert
     assertEquals(expected, actual);
@@ -159,7 +159,7 @@ public final class StaticIntMethodsTest {
   @Test
   public void returnPrimeUint16() {
     // Arrange, act, assert
-    assertEquals(32771L, StaticIntMethods.returnPrimeUint16());
+    assertEquals(32771, StaticIntMethods.returnPrimeUint16());
   }
 
   @Test

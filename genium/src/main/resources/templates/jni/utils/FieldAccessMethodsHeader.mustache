@@ -116,6 +116,12 @@ box_uint_in_object( JNIEnv* env, T param )
     return new_object(env, javaClass, theConstructor, static_cast< int64_t >( param ) );
 }
 
+template<>
+JniReference<jobject> box_uint_in_object( JNIEnv* env, uint8_t param );
+
+template<>
+JniReference<jobject> box_uint_in_object( JNIEnv* env, uint16_t param );
+
 // -------------------- JNI object field setters --------------------------------------------------
 
 void set_boolean_field(

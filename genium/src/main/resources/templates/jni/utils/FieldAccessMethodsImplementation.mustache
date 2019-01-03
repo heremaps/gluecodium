@@ -190,6 +190,24 @@ create_instance_object( JNIEnv* env, const JniReference<jclass>& javaClass, jlon
     return new_object(env, javaClass, theConstructor, instancePointer );
 }
 
+template<>
+JniReference<jobject>
+box_uint_in_object( JNIEnv* env, uint8_t param )
+{
+    auto javaClass = find_class(env, "java/lang/Short" );
+    auto theConstructor = env->GetMethodID( javaClass.get(), "<init>", "(S)V" );
+    return new_object(env, javaClass, theConstructor, static_cast< int16_t >( param ) );
+}
+
+template<>
+JniReference<jobject>
+box_uint_in_object( JNIEnv* env, uint16_t param )
+{
+    auto javaClass = find_class(env, "java/lang/Integer" );
+    auto theConstructor = env->GetMethodID( javaClass.get(), "<init>", "(I)V" );
+    return new_object(env, javaClass, theConstructor, static_cast< int32_t >( param ) );
+}
+
 // -------------------- JNI object field setters --------------------------------------------------
 
 void
