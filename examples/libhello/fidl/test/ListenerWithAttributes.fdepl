@@ -29,6 +29,5 @@ define GeniumExtensions for interface test.AttributedMessageDelivery
 {
     method create {
         Constructor = true
-        Static = true // TODO: APIGEN-1486 remove when implemented for both Swift
     }
 }
