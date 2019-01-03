@@ -178,7 +178,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
             .functionName(cppMethod.name)
             .isConst(deploymentModel.isConst(francaMethod));
 
-    if (!deploymentModel.isStatic(francaMethod)) {
+    if (!deploymentModel.isStatic(francaMethod) && !deploymentModel.isConstructor(francaMethod)) {
       CppTypeInfo classInfo =
           CollectionsHelper.getFirstOfType(getParentContext().currentResults, CppTypeInfo.class);
       CInParameter parameterSelf = new CInParameter("_instance", classInfo);
