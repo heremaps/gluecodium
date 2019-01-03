@@ -134,8 +134,6 @@ public final class CBridgeModelBuilderTest {
 
     when(typeMapper.createCustomTypeInfo(any(), any())).thenReturn(typeInfo);
 
-    when(deploymentModel.isStatic(any())).thenReturn(true);
-
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
@@ -168,7 +166,6 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingInstanceMethodNoParams() {
-    when(deploymentModel.isStatic(any())).thenReturn(false);
     contextStack.getParentContext().currentResults.add(new CppTypeInfo(CType.VOID));
 
     modelBuilder.finishBuilding(francaMethod);
@@ -185,7 +182,6 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingInstanceMethodWithParams() {
-    when(deploymentModel.isStatic(any())).thenReturn(false);
     contextStack.getParentContext().currentResults.add(new CppTypeInfo(CType.VOID));
     contextStack.injectResult(new CInParameter(PARAM_NAME, new CppTypeInfo(CType.DOUBLE)));
 
@@ -266,6 +262,28 @@ public final class CBridgeModelBuilderTest {
     CFunction function = modelBuilder.getFinalResult(CFunction.class);
     assertNotNull(function);
     assertEquals("::std::FooType", function.cppReturnTypeName);
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodReadsIsStatic() {
+    when(deploymentModel.isStatic(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    CFunction function = modelBuilder.getFinalResult(CFunction.class);
+    assertNotNull(function);
+    assertNull(function.selfParameter);
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodReadsIsCosntructor() {
+    when(deploymentModel.isConstructor(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    CFunction function = modelBuilder.getFinalResult(CFunction.class);
+    assertNotNull(function);
+    assertNull(function.selfParameter);
   }
 
   @Test
