@@ -6,5 +6,5 @@
 package com.example.examples;
 
 public interface InheritanceChild extends InheritanceParent {
-    short childMethod(final long input);
+    short childMethod(final short input);
 }

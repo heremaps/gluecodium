@@ -47,19 +47,19 @@ public class Arrays extends NativeBase {
         @NonNull
         public List<String> messages;
         @NonNull
-        public List<Long> numbers;
+        public List<Short> numbers;
         public byte[] image;
         public FancyStruct() {
             this(new ArrayList<>(), new ArrayList<>(), (byte[])null);
         }
-        public FancyStruct(List<String> messages, List<Long> numbers, byte[] image) {
+        public FancyStruct(List<String> messages, List<Short> numbers, byte[] image) {
             this.messages = messages;
             this.numbers = numbers;
             this.image = image;
         }
         public static class Builder {
             private List<String> messages = new ArrayList<>();
-            private List<Long> numbers = new ArrayList<>();
+            private List<Short> numbers = new ArrayList<>();
             private byte[] image = (byte[])null;
             public Builder() {
             }
@@ -67,7 +67,7 @@ public class Arrays extends NativeBase {
                 this.messages = messages;
                 return this;
             }
-            public Builder setNumbers(List<Long> numbers) {
+            public Builder setNumbers(List<Short> numbers) {
                 this.numbers = numbers;
                 return this;
             }
@@ -93,13 +93,13 @@ public class Arrays extends NativeBase {
     @NonNull
     public static native List<String> methodWithArray(@NonNull final List<String> input);
     @NonNull
-    public static native List<Long> methodWithArrayInline(@NonNull final List<Long> input);
+    public static native List<Short> methodWithArrayInline(@NonNull final List<Short> input);
     @NonNull
     public static native List<Arrays.BasicStruct> methodWithStructArray(@NonNull final List<Arrays.BasicStruct> input);
     @NonNull
     public static native List<Arrays.ExternalStruct> methodWithExternalStructArray(@NonNull final List<Arrays.ExternalStruct> input);
     @NonNull
-    public static native List<List<Long>> methodWithArrayOfArrays(@NonNull final List<List<Long>> input);
+    public static native List<List<Short>> methodWithArrayOfArrays(@NonNull final List<List<Short>> input);
     @NonNull
     public static native List<Arrays.FancyStruct> mergeArraysOfStructsWithArrays(@NonNull final List<Arrays.FancyStruct> inlineFancyArray, @NonNull final List<Arrays.FancyStruct> fancyArray);
     @NonNull

@@ -2,14 +2,11 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.smoke;
-
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.ArrayList;
 import java.util.List;
-
 public class Structs extends NativeBase {
     public enum FooBar {
         FOO(0),
@@ -31,43 +28,35 @@ public class Structs extends NativeBase {
         }
     }
     public static class Color {
-        public long red;
-        public long green;
-        public long blue;
-
+        public short red;
+        public short green;
+        public short blue;
         public Color() {
-            this(0L, 0L, 0L);
+            this((short)0, (short)0, (short)0);
         }
-
-        public Color(long red, long green, long blue) {
+        public Color(short red, short green, short blue) {
             this.red = red;
             this.green = green;
             this.blue = blue;
         }
-
         public static class Builder {
-            private long red = 0L;
-            private long green = 0L;
-            private long blue = 0L;
-
+            private short red = (short)0;
+            private short green = (short)0;
+            private short blue = (short)0;
             public Builder() {
             }
-
-            public Builder setRed(long red) {
+            public Builder setRed(short red) {
                 this.red = red;
                 return this;
             }
-
-            public Builder setGreen(long green) {
+            public Builder setGreen(short green) {
                 this.green = green;
                 return this;
             }
-
-            public Builder setBlue(long blue) {
+            public Builder setBlue(short blue) {
                 this.blue = blue;
                 return this;
             }
-
             public Color build() {
                 return new Color(red, green, blue);
             }
@@ -101,9 +90,9 @@ public class Structs extends NativeBase {
     }
     public static class AllTypesStruct {
         public final byte int8Field;
-        public final long uint8Field;
+        public final short uint8Field;
         public final short int16Field;
-        public final long uint16Field;
+        public final int uint16Field;
         public final int int32Field;
         public final long uint32Field;
         public final long int64Field;
@@ -116,9 +105,9 @@ public class Structs extends NativeBase {
         @NonNull
         public final Structs.Point pointField;
         public AllTypesStruct() {
-            this((byte)0, 0L, (short)0, 0L, 0, 0L, 0L, 0L, 0f, 0, (String)null, false, (byte[])null, new Structs.Point());
+            this((byte)0, (short)0, (short)0, 0, 0, 0L, 0L, 0L, 0f, 0, (String)null, false, (byte[])null, new Structs.Point());
         }
-        public AllTypesStruct(byte int8Field, long uint8Field, short int16Field, long uint16Field, int int32Field, long uint32Field, long int64Field, long uint64Field, float floatField, double doubleField, String stringField, boolean booleanField, byte[] bytesField, Structs.Point pointField) {
+        public AllTypesStruct(byte int8Field, short uint8Field, short int16Field, int uint16Field, int int32Field, long uint32Field, long int64Field, long uint64Field, float floatField, double doubleField, String stringField, boolean booleanField, byte[] bytesField, Structs.Point pointField) {
             this.int8Field = int8Field;
             this.uint8Field = uint8Field;
             this.int16Field = int16Field;
@@ -136,9 +125,9 @@ public class Structs extends NativeBase {
         }
         public static class Builder {
             private byte int8Field = (byte)0;
-            private long uint8Field = 0L;
+            private short uint8Field = (short)0;
             private short int16Field = (short)0;
-            private long uint16Field = 0L;
+            private int uint16Field = 0;
             private int int32Field = 0;
             private long uint32Field = 0L;
             private long int64Field = 0L;
@@ -155,7 +144,7 @@ public class Structs extends NativeBase {
                 this.int8Field = int8Field;
                 return this;
             }
-            public Builder setUint8Field(long uint8Field) {
+            public Builder setUint8Field(short uint8Field) {
                 this.uint8Field = uint8Field;
                 return this;
             }
@@ -163,7 +152,7 @@ public class Structs extends NativeBase {
                 this.int16Field = int16Field;
                 return this;
             }
-            public Builder setUint16Field(long uint16Field) {
+            public Builder setUint16Field(int uint16Field) {
                 this.uint16Field = uint16Field;
                 return this;
             }
@@ -212,7 +201,6 @@ public class Structs extends NativeBase {
             }
         }
     }
-
     public static class ExternalStruct {
         public String stringField;
         public String externalStringField;
@@ -266,7 +254,6 @@ public class Structs extends NativeBase {
             this.intField = intField;
         }
     }
-
     public static class YetAnotherExternalStruct {
         public String stringField;
         public YetAnotherExternalStruct() {
@@ -276,7 +263,6 @@ public class Structs extends NativeBase {
             this.stringField = stringField;
         }
     }
-
     /** For internal use only */
     protected Structs(final long nativeHandle) {
         super(nativeHandle, new Disposer() {

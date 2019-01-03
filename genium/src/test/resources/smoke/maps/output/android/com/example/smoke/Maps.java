@@ -44,13 +44,13 @@ public class Maps extends NativeBase {
     @NonNull
     public static native Map<Integer, String> methodWithMap(@NonNull final Map<Integer, String> input);
     @NonNull
-    public static native Map<Long, Maps.SomeStruct> methodWithMapToStruct(@NonNull final Map<Long, Maps.SomeStruct> input);
+    public static native Map<Short, Maps.SomeStruct> methodWithMapToStruct(@NonNull final Map<Short, Maps.SomeStruct> input);
     @NonNull
-    public static native Map<Long, Map<Long, Maps.SomeStruct>> methodWithNestedMap(@NonNull final Map<Long, Map<Long, Maps.SomeStruct>> input);
+    public static native Map<Short, Map<Short, Maps.SomeStruct>> methodWithNestedMap(@NonNull final Map<Short, Map<Short, Maps.SomeStruct>> input);
     @NonNull
     public static native Maps.StructWithMap methodWithStructWithMap(@NonNull final Maps.StructWithMap input);
     @NonNull
     public static native Map<String, List<Integer>> methodWithMapOfArrays(@NonNull final Map<String, List<Integer>> input);
     @NonNull
-    public static native Map<Long, MapsInstance> methodWithMapOfInstances(@NonNull final Map<Long, MapsInstance> input);
+    public static native Map<Short, MapsInstance> methodWithMapOfInstances(@NonNull final Map<Short, MapsInstance> input);
 }

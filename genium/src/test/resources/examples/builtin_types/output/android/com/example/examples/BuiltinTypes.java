@@ -18,9 +18,9 @@ public class BuiltinTypes extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     public static native byte methodWithInt8(final byte inputNumber);
-    public static native long methodWithUInt8(final long inputNumber);
+    public static native short methodWithUInt8(final short inputNumber);
     public static native short methodWithInt16(final short inputNumber);
-    public static native long methodWithUInt16(final long inputNumber);
+    public static native int methodWithUInt16(final int inputNumber);
     public static native int methodWithInt32(final int inputNumber);
     public static native long methodWithUInt32(final long inputNumber);
     public static native long methodWithInt64(final long inputNumber);

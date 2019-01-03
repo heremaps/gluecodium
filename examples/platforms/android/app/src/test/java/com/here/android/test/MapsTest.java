@@ -82,9 +82,9 @@ public class MapsTest {
 
   @Test
   public void methodWithMapToArray_emptyMap() {
-    Map<Long, List<String>> arrayMap = new HashMap<>();
+    Map<Short, List<String>> arrayMap = new HashMap<>();
 
-    Map<Long, List<String>> resultsMap = Maps.methodWithMapOfArrays(arrayMap);
+    Map<Short, List<String>> resultsMap = Maps.methodWithMapOfArrays(arrayMap);
 
     assertNotNull(resultsMap);
     assertEquals(0, resultsMap.size());
@@ -92,27 +92,27 @@ public class MapsTest {
 
   @Test
   public void methodWithMapToArray_multipleItems() {
-    Map<Long, List<String>> arrayMap = new HashMap<>();
+    Map<Short, List<String>> arrayMap = new HashMap<>();
 
-    arrayMap.put(11L, Collections.singletonList(LOWERCASE_VALUE_1));
-    arrayMap.put(42L, java.util.Arrays.asList(LOWERCASE_VALUE_2, LOWERCASE_VALUE_3));
-    arrayMap.put(199L, Collections.emptyList());
+    arrayMap.put((short)11, Collections.singletonList(LOWERCASE_VALUE_1));
+    arrayMap.put((short)42, java.util.Arrays.asList(LOWERCASE_VALUE_2, LOWERCASE_VALUE_3));
+    arrayMap.put((short)199, Collections.emptyList());
 
-    Map<Long, List<String>> resultsMap = Maps.methodWithMapOfArrays(arrayMap);
+    Map<Short, List<String>> resultsMap = Maps.methodWithMapOfArrays(arrayMap);
 
     assertNotNull(resultsMap);
     assertEquals(3, resultsMap.size());
-    assertEquals(Collections.singletonList(UPPERCASE_VALUE_1), resultsMap.get(11L));
+    assertEquals(Collections.singletonList(UPPERCASE_VALUE_1), resultsMap.get((short)11));
     assertEquals(
-        java.util.Arrays.asList(UPPERCASE_VALUE_2, UPPERCASE_VALUE_3), resultsMap.get(42L));
-    assertEquals(Collections.emptyList(), resultsMap.get(199L));
+        java.util.Arrays.asList(UPPERCASE_VALUE_2, UPPERCASE_VALUE_3), resultsMap.get((short)42));
+    assertEquals(Collections.emptyList(), resultsMap.get((short)199));
   }
 
   @Test
   public void methodWithMapToStruct_emptyMap() {
-    Map<Long, Maps.SomeStruct> byteStructMap = new HashMap<>();
+    Map<Short, Maps.SomeStruct> byteStructMap = new HashMap<>();
 
-    Map<Long, Maps.SomeStruct> resultsMap = Maps.methodWithMapToStruct(byteStructMap);
+    Map<Short, Maps.SomeStruct> resultsMap = Maps.methodWithMapToStruct(byteStructMap);
 
     assertNotNull(resultsMap);
     assertEquals(0, resultsMap.size());
@@ -120,32 +120,32 @@ public class MapsTest {
 
   @Test
   public void methodWithMapToStruct_multipleItems() {
-    Map<Long, Maps.SomeStruct> byteStructMap = new HashMap<>();
+    Map<Short, Maps.SomeStruct> byteStructMap = new HashMap<>();
     Maps.SomeStruct someStruct1 = new Maps.SomeStruct();
     someStruct1.value = LOWERCASE_VALUE_1;
-    byteStructMap.put(11L, someStruct1);
+    byteStructMap.put((short)11, someStruct1);
     Maps.SomeStruct someStruct2 = new Maps.SomeStruct();
     someStruct2.value = LOWERCASE_VALUE_2;
-    byteStructMap.put(42L, someStruct2);
+    byteStructMap.put((short)42, someStruct2);
     Maps.SomeStruct someStruct3 = new Maps.SomeStruct();
     someStruct3.value = LOWERCASE_VALUE_3;
-    byteStructMap.put(199L, someStruct3);
+    byteStructMap.put((short)199, someStruct3);
 
-    Map<Long, Maps.SomeStruct> resultsMap = Maps.methodWithMapToStruct(byteStructMap);
+    Map<Short, Maps.SomeStruct> resultsMap = Maps.methodWithMapToStruct(byteStructMap);
 
     assertNotNull(resultsMap);
     assertEquals(3, resultsMap.size());
     // method returns string values in uppercase, inside structs
-    assertEquals(UPPERCASE_VALUE_1, resultsMap.get(11L).value);
-    assertEquals(UPPERCASE_VALUE_2, resultsMap.get(42L).value);
-    assertEquals(UPPERCASE_VALUE_3, resultsMap.get(199L).value);
+    assertEquals(UPPERCASE_VALUE_1, resultsMap.get((short)11).value);
+    assertEquals(UPPERCASE_VALUE_2, resultsMap.get((short)42).value);
+    assertEquals(UPPERCASE_VALUE_3, resultsMap.get((short)199).value);
   }
 
   @Test
   public void methodWithNestedMap_emptyMap() {
-    Map<Long, Map<Long, Maps.SomeStruct>> byteMapMap = new HashMap<>();
+    Map<Short, Map<Short, Maps.SomeStruct>> byteMapMap = new HashMap<>();
 
-    Map<Long, Map<Long, Maps.SomeStruct>> resultsMap = Maps.methodWithNestedMap(byteMapMap);
+    Map<Short, Map<Short, Maps.SomeStruct>> resultsMap = Maps.methodWithNestedMap(byteMapMap);
 
     assertNotNull(resultsMap);
     assertEquals(0, resultsMap.size());
@@ -153,33 +153,33 @@ public class MapsTest {
 
   @Test
   public void methodWithNestedMap_multipleItems() {
-    Map<Long, Maps.SomeStruct> byteStructMap = new HashMap<>();
+    Map<Short, Maps.SomeStruct> byteStructMap = new HashMap<>();
     Maps.SomeStruct someStruct1 = new Maps.SomeStruct();
     someStruct1.value = LOWERCASE_VALUE_1;
-    byteStructMap.put(11L, someStruct1);
+    byteStructMap.put((short)11, someStruct1);
     Maps.SomeStruct someStruct2 = new Maps.SomeStruct();
     someStruct2.value = LOWERCASE_VALUE_2;
-    byteStructMap.put(42L, someStruct2);
+    byteStructMap.put((short)42, someStruct2);
     Maps.SomeStruct someStruct3 = new Maps.SomeStruct();
     someStruct3.value = LOWERCASE_VALUE_3;
-    byteStructMap.put(199L, someStruct3);
+    byteStructMap.put((short)199, someStruct3);
 
-    Map<Long, Map<Long, Maps.SomeStruct>> byteMapMap = new HashMap<>();
-    byteMapMap.put(7L, byteStructMap);
-    byteMapMap.put(93L, new HashMap<>());
+    Map<Short, Map<Short, Maps.SomeStruct>> byteMapMap = new HashMap<>();
+    byteMapMap.put((short)7, byteStructMap);
+    byteMapMap.put((short)93, new HashMap<>());
 
-    Map<Long, Map<Long, Maps.SomeStruct>> resultsMap = Maps.methodWithNestedMap(byteMapMap);
+    Map<Short, Map<Short, Maps.SomeStruct>> resultsMap = Maps.methodWithNestedMap(byteMapMap);
 
     assertNotNull(resultsMap);
     assertEquals(2, resultsMap.size());
-    assertEquals(0, resultsMap.get(93L).size());
+    assertEquals(0, resultsMap.get((short)93).size());
 
-    Map<Long, Maps.SomeStruct> resultSubMap = resultsMap.get(7L);
+    Map<Short, Maps.SomeStruct> resultSubMap = resultsMap.get((short)7);
     assertEquals(3, resultSubMap.size());
     // method returns string values in uppercase, inside structs
-    assertEquals(UPPERCASE_VALUE_1, resultSubMap.get(11L).value);
-    assertEquals(UPPERCASE_VALUE_2, resultSubMap.get(42L).value);
-    assertEquals(UPPERCASE_VALUE_3, resultSubMap.get(199L).value);
+    assertEquals(UPPERCASE_VALUE_1, resultSubMap.get((short)11).value);
+    assertEquals(UPPERCASE_VALUE_2, resultSubMap.get((short)42).value);
+    assertEquals(UPPERCASE_VALUE_3, resultSubMap.get((short)199).value);
   }
 
   @Test

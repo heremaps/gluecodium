@@ -83,16 +83,14 @@ public class JavaTypeMapper {
       case INT8:
         return JavaPrimitiveType.BYTE;
       case INT16:
+      case UINT8:
         return JavaPrimitiveType.SHORT;
       case INT32:
+      case UINT16:
         return JavaPrimitiveType.INT;
       case INT64:
-        return JavaPrimitiveType.LONG;
-      case UINT8:
-      case UINT16:
       case UINT32:
       case UINT64:
-        // TODO: APIGEN-217 figure out how to handle unsigned ints
         return JavaPrimitiveType.LONG;
       case STRING:
         return new JavaReferenceType(JavaReferenceType.Type.STRING);

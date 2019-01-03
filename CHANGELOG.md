@@ -1,6 +1,8 @@
 # Genium project Release Notes
 
 ## Unreleased
+- Breaking changes:
+  + FIDL types UInt8 and UInt16 are now generated as Short and Integer in Java.
 - Features:
   + Added "Constructor" FDEPL property that marks methods for being generated as
     constructors/initializers in Java/Swift.
