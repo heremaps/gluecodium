@@ -2,36 +2,34 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.smoke;
-
 public class Color {
-    public long red;
-    public long green;
-    public long blue;
+    public short red;
+    public short green;
+    public short blue;
     public Color() {
-        this(0L, 0L, 0L);
+        this((short)0, (short)0, (short)0);
     }
-    public Color(long red, long green, long blue) {
+    public Color(short red, short green, short blue) {
         this.red = red;
         this.green = green;
         this.blue = blue;
     }
     public static class Builder {
-        private long red = 0L;
-        private long green = 0L;
-        private long blue = 0L;
+        private short red = (short)0;
+        private short green = (short)0;
+        private short blue = (short)0;
         public Builder() {
         }
-        public Builder setRed(long red) {
+        public Builder setRed(short red) {
             this.red = red;
             return this;
         }
-        public Builder setGreen(long green) {
+        public Builder setGreen(short green) {
             this.green = green;
             return this;
         }
-        public Builder setBlue(long blue) {
+        public Builder setBlue(short blue) {
             this.blue = blue;
             return this;
         }

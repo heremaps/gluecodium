@@ -2,16 +2,13 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.smoke;
-
 import android.support.annotation.NonNull;
-
 public class AllTypesStruct {
     public byte int8Field;
-    public long uint8Field;
+    public short uint8Field;
     public short int16Field;
-    public long uint16Field;
+    public int uint16Field;
     public int int32Field;
     public long uint32Field;
     public long int64Field;
@@ -23,11 +20,10 @@ public class AllTypesStruct {
     public byte[] bytesField;
     @NonNull
     public Point pointField;
-
     public AllTypesStruct() {
-        this((byte)0, 0L, (short)0, 0L, 0, 0L, 0L, 0L, 0f, 0, (String)null, false, (byte[])null, new Point());
+        this((byte)0, (short)0, (short)0, 0, 0, 0L, 0L, 0L, 0f, 0, (String)null, false, (byte[])null, new Point());
     }
-    public AllTypesStruct(byte int8Field, long uint8Field, short int16Field, long uint16Field, int int32Field, long uint32Field, long int64Field, long uint64Field, float floatField, double doubleField, String stringField, boolean booleanField, byte[] bytesField, Point pointField) {
+    public AllTypesStruct(byte int8Field, short uint8Field, short int16Field, int uint16Field, int int32Field, long uint32Field, long int64Field, long uint64Field, float floatField, double doubleField, String stringField, boolean booleanField, byte[] bytesField, Point pointField) {
         this.int8Field = int8Field;
         this.uint8Field = uint8Field;
         this.int16Field = int16Field;
@@ -45,9 +41,9 @@ public class AllTypesStruct {
     }
     public static class Builder {
         private byte int8Field = (byte)0;
-        private long uint8Field = 0L;
+        private short uint8Field = (short)0;
         private short int16Field = (short)0;
-        private long uint16Field = 0L;
+        private int uint16Field = 0;
         private int int32Field = 0;
         private long uint32Field = 0L;
         private long int64Field = 0L;
@@ -64,7 +60,7 @@ public class AllTypesStruct {
             this.int8Field = int8Field;
             return this;
         }
-        public Builder setUint8Field(long uint8Field) {
+        public Builder setUint8Field(short uint8Field) {
             this.uint8Field = uint8Field;
             return this;
         }
@@ -72,7 +68,7 @@ public class AllTypesStruct {
             this.int16Field = int16Field;
             return this;
         }
-        public Builder setUint16Field(long uint16Field) {
+        public Builder setUint16Field(int uint16Field) {
             this.uint16Field = uint16Field;
             return this;
         }

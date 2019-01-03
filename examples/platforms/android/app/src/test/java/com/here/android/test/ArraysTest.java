@@ -59,6 +59,10 @@ public class ArraysTest {
   private static final Byte BYTE_ITEM_2 = (byte) 5;
   private static final Short SHORT_ITEM_1 = (short) 4;
   private static final Short SHORT_ITEM_2 = (short) 5;
+  private static final Short SHORT_ITEM_3 = (short) 6;
+  private static final Short SHORT_ITEM_4 = (short) 7;
+  private static final Integer INT_ITEM_1 = 6;
+  private static final Integer INT_ITEM_2 = 7;
 
   @Test
   public void reverseStringArray() {
@@ -132,14 +136,14 @@ public class ArraysTest {
 
   @Test
   public void reverseInt32Array() {
-    List<Integer> intList = java.util.Arrays.asList(6, 7);
+    List<Integer> intList = java.util.Arrays.asList(INT_ITEM_1, INT_ITEM_2);
 
     List<Integer> resultsList = Arrays.reverseInt32Array(intList);
 
     assertNotNull(resultsList);
     assertEquals(2, resultsList.size());
-    assertEquals(7, resultsList.get(0).intValue());
-    assertEquals(6, resultsList.get(1).intValue());
+    assertEquals(INT_ITEM_2, resultsList.get(0));
+    assertEquals(INT_ITEM_1, resultsList.get(1));
   }
 
   @Test
@@ -156,26 +160,26 @@ public class ArraysTest {
 
   @Test
   public void reverseUint8Array() {
-    List<Long> longList = java.util.Arrays.asList(LONG_VALUE_1, LONG_VALUE_2);
+    List<Short> shortList = java.util.Arrays.asList(SHORT_ITEM_1, SHORT_ITEM_2);
 
-    List<Long> resultsList = Arrays.reverseUint8Array(longList);
+    List<Short> resultsList = Arrays.reverseUint8Array(shortList);
 
     assertNotNull(resultsList);
     assertEquals(2, resultsList.size());
-    assertEquals(LONG_VALUE_2, resultsList.get(0).longValue());
-    assertEquals(LONG_VALUE_1, resultsList.get(1).longValue());
+    assertEquals(SHORT_ITEM_2, resultsList.get(0));
+    assertEquals(SHORT_ITEM_1, resultsList.get(1));
   }
 
   @Test
   public void reverseUint16Array() {
-    List<Long> longList = java.util.Arrays.asList(LONG_VALUE_1, LONG_VALUE_2);
+    List<Integer> longList = java.util.Arrays.asList(INT_ITEM_1, INT_ITEM_2);
 
-    List<Long> resultsList = Arrays.reverseUint16Array(longList);
+    List<Integer> resultsList = Arrays.reverseUint16Array(longList);
 
     assertNotNull(resultsList);
     assertEquals(2, resultsList.size());
-    assertEquals(LONG_VALUE_2, resultsList.get(0).longValue());
-    assertEquals(LONG_VALUE_1, resultsList.get(1).longValue());
+    assertEquals(INT_ITEM_2, resultsList.get(0));
+    assertEquals(INT_ITEM_1, resultsList.get(1));
   }
 
   @Test
@@ -257,13 +261,13 @@ public class ArraysTest {
 
   @Test
   public void reverseMapArray() {
-    Map<Long, String> map0 = Collections.emptyMap();
-    Map<Long, String> map1 = new HashMap<>();
-    map1.put(42L, STRING_LIST_ITEM_1);
+    Map<Short, String> map0 = Collections.emptyMap();
+    Map<Short, String> map1 = new HashMap<>();
+    map1.put((short)42, STRING_LIST_ITEM_1);
 
-    List<Map<Long, String>> input = java.util.Arrays.asList(map0, map1);
+    List<Map<Short, String>> input = java.util.Arrays.asList(map0, map1);
 
-    List<Map<Long, String>> result = Arrays.reverseMapsArray(input);
+    List<Map<Short, String>> result = Arrays.reverseMapsArray(input);
     assertNotNull(result);
     assertEquals(2, result.size());
     assertEquals(map1, result.get(0));
@@ -386,13 +390,13 @@ public class ArraysTest {
     Arrays.FancyStruct struct2 = new Arrays.FancyStruct();
     Arrays.FancyStruct struct3 = new Arrays.FancyStruct();
     struct1.messages = java.util.Arrays.asList("struct", "1");
-    struct1.numbers = java.util.Arrays.asList(LONG_VALUE_1, LONG_VALUE_2);
+    struct1.numbers = java.util.Arrays.asList(SHORT_ITEM_1, SHORT_ITEM_2);
     struct1.instances = instancesArray1;
     struct2.messages = java.util.Arrays.asList("struct", "2");
-    struct2.numbers = java.util.Arrays.asList(LONG_VALUE_3, LONG_VALUE_3);
+    struct2.numbers = java.util.Arrays.asList(SHORT_ITEM_3, SHORT_ITEM_3);
     struct2.instances = instancesArray2;
     struct3.messages = java.util.Arrays.asList("struct", "3");
-    struct3.numbers = java.util.Arrays.asList(LONG_VALUE_4, LONG_VALUE_4);
+    struct3.numbers = java.util.Arrays.asList(SHORT_ITEM_4, SHORT_ITEM_4);
     List<Arrays.FancyStruct> fancyStructList1 = java.util.Arrays.asList(struct1, struct2);
     List<Arrays.FancyStruct> fancyStructList2 = Collections.singletonList(struct3);
 
