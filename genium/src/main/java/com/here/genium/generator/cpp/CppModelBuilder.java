@@ -127,6 +127,10 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     String name = nameResolver.getName(francaArgument);
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
+    if (deploymentModel.isNullable(francaArgument)) {
+      cppTypeRef = CppTypeMapper.createSharedPointerType(cppTypeRef);
+    }
+
     CppParameter cppParameter =
         new CppParameter(name, cppTypeRef, isOutput, deploymentModel.isNotNull(francaArgument));
     cppParameter.comment = CommentHelper.getDescription(francaArgument);
@@ -168,11 +172,17 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   @Override
   public void finishBuilding(FField francaField) {
 
+    CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
+    CppValue initializer = valueMapper.mapDeploymentDefaultValue(cppTypeRef, francaField);
+    if (deploymentModel.isNullable(francaField)) {
+      cppTypeRef = CppTypeMapper.createSharedPointerType(cppTypeRef);
+    }
+
     CppField cppField =
         new CppField(
             nameResolver.getName(francaField),
-            getPreviousResult(CppTypeRef.class),
-            valueMapper.mapDeploymentDefaultValue(getPreviousResult(CppTypeRef.class), francaField),
+            cppTypeRef,
+            initializer,
             deploymentModel.isNotNull(francaField));
     cppField.comment = CommentHelper.getDescription(francaField);
 
@@ -308,6 +318,10 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FAttribute francaAttribute) {
 
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
+    if (deploymentModel.isNullable(francaAttribute)) {
+      cppTypeRef = CppTypeMapper.createSharedPointerType(cppTypeRef);
+    }
+
     String francaComment = CommentHelper.getDescription(francaAttribute);
     boolean isNotNull = deploymentModel.isNotNull(francaAttribute);
 
