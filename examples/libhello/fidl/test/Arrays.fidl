@@ -83,6 +83,10 @@ interface Arrays {
     array ArrayOfMaps of NumberToIdMap
     map NumberToIdMap { UInt8 to ProfileId }
 
+    struct StructWithEnumArray {
+        ArrayEnum[] enumArrayField
+    }
+
     <** @description:
     Static method which takes a string array and returns an array of same type in reversed order.
     **>
