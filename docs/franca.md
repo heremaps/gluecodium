@@ -421,10 +421,14 @@ FDEPL:
         }
     }
 
-### Struct field: NotNull
+### Struct field, Attribute, Method parameter: NotNull
 
-This FDEPL property controls whether the given field in the given Franca struct can have a `null`
-value (`nil` in Swift). Default value is `false`, i.e. the field is nullable.
+This FDEPL property controls whether the given element of Instance type (see "Instance reference"
+above) can have a `null` value (`nil` in Swift). Default value is `false`, i.e. the field is
+nullable.
+
+**Note:** This property applies to elements (fields, attributes and parameters) of Instance type.
+For all other types these elements have the "not null" behavior by default.
 
 **Note:** In generated Swift code this property controls whether the field has an "optional" type or
 not, therefore enforcing (non-)nullability on compile time. For Java and C++ generated code the
