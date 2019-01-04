@@ -1,0 +1,147 @@
+/*
+ * Copyright (C) 2016-2019 HERE Europe B.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * License-Filename: LICENSE
+ */
+
+package test
+
+interface Nullable {
+
+    typedef Nullable is undefined
+
+    struct SomeStruct {
+        String stringField
+    }
+
+    enumeration SomeEnum {
+        ON
+        OFF
+    }
+
+    array SomeArray of String
+
+    map SomeMap { Int64 to String }
+
+    struct NullableStruct {
+        String stringField
+        Boolean boolField
+        Double doubleField
+        Int64 intField
+        SomeStruct structField
+        SomeEnum enumField
+        SomeArray arrayField
+        String[] inlineArrayField
+        SomeMap mapField
+    }
+
+    method create {
+        out {
+            Nullable result
+        }
+    }
+
+    method methodWithString {
+        in {
+            String input
+        }
+        out {
+            String output
+        }
+    }
+
+    method methodWithBoolean {
+        in {
+            Boolean input
+        }
+        out {
+            Boolean output
+        }
+    }
+
+    method methodWithDouble {
+        in {
+            Double input
+        }
+        out {
+            Double output
+        }
+    }
+
+    method methodWithInt {
+        in {
+            Int64 input
+        }
+        out {
+            Int64 output
+        }
+    }
+
+    method methodWithSomeStruct {
+        in {
+            SomeStruct input
+        }
+        out {
+            SomeStruct output
+        }
+    }
+
+    method methodWithSomeEnum {
+        in {
+            SomeEnum input
+        }
+        out {
+            SomeEnum output
+        }
+    }
+
+    method methodWithSomeArray {
+        in {
+            SomeArray input
+        }
+        out {
+            SomeArray output
+        }
+    }
+
+    method methodWithInlineArray {
+        in {
+            String[] input
+        }
+        out {
+            String[] output
+        }
+    }
+
+    method methodWithSomeMap {
+        in {
+            SomeMap input
+        }
+        out {
+            SomeMap output
+        }
+    }
+
+    attribute String stringAttribute
+    attribute Boolean boolAttribute
+    attribute Double doubleAttribute
+    attribute Int64 intAttribute
+    attribute SomeStruct structAttribute
+    attribute SomeEnum enumAttribute
+    attribute SomeArray arrayAttribute
+    attribute String[] inlineArrayAttribute
+    attribute SomeMap mapAttribute
+}

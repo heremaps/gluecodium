@@ -24,6 +24,7 @@ import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
 import java.util.Collections;
 import org.franca.core.franca.*;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Maps Franca type references to their C++ counterparts. These references are used as parameters,
@@ -75,9 +76,14 @@ public class CppTypeMapper {
         CppTemplateTypeRef.TemplateClass.SHARED_POINTER, byteBufferType);
   }
 
-  public CppTypeRef map(FTypeRef type) {
-
+  public CppTypeRef map(final FTypeRef type) {
     return type.getDerived() != null ? mapDerived(type.getDerived()) : mapPredefined(type);
+  }
+
+  @NotNull
+  public static CppTemplateTypeRef createSharedPointerType(final CppTypeRef cppTypeRef) {
+    return CppTemplateTypeRef.Companion.create(
+        CppTemplateTypeRef.TemplateClass.SHARED_POINTER, cppTypeRef);
   }
 
   private CppTypeRef mapDerived(FType derived) {
@@ -104,8 +110,7 @@ public class CppTypeMapper {
       CppComplexTypeRef instanceType = new CppInstanceTypeRef(fullyQualifiedName);
       instanceType.includes.add(includeResolver.resolveInclude(francaTypeDef));
 
-      return CppTemplateTypeRef.Companion.create(
-          CppTemplateTypeRef.TemplateClass.SHARED_POINTER, instanceType);
+      return createSharedPointerType(instanceType);
     } else {
 
       String fullyQualifiedName = nameResolver.getFullyQualifiedName(francaTypeDef);
