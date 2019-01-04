@@ -364,6 +364,14 @@ feature(Nullability cpp android swift SOURCES
     fidl/test/NotNull.fdepl
 )
 
+# TODO: merge with Nullability when it's done for all platforms
+feature(Nullable cpp SOURCES
+    src/test/Nullable.cpp
+
+    fidl/test/Nullable.fidl
+    fidl/test/Nullable.fdepl
+)
+
 if(APPLE)
     #This feature is intended for Swift only. It also does not compile outside of Apple platforms.
     feature(ObjcInterface swift SOURCES
