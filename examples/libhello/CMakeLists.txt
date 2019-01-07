@@ -366,10 +366,10 @@ feature(Nullability cpp android swift SOURCES
 
 # TODO: merge with Nullability when it's done for all platforms
 feature(Nullable cpp SOURCES
-    src/test/Nullable.cpp
+    src/test/NullableInterface.cpp
 
-    fidl/test/Nullable.fidl
-    fidl/test/Nullable.fdepl
+    fidl/test/NullableInterface.fidl
+    fidl/test/NullableInterface.fdepl
 )
 
 if(APPLE)
