@@ -50,10 +50,6 @@ namespace jni
 std::string
 convert_string_from_jni( JNIEnv* env, jstring java_string )
 {
-    if ( env->IsSameObject( java_string, nullptr ) )
-    {
-        return {};
-    }
     const char* jbuffer = env->GetStringUTFChars( java_string, nullptr );
     auto nresult = std::string( jbuffer );
     env->ReleaseStringUTFChars( java_string, jbuffer );
@@ -63,23 +59,36 @@ convert_string_from_jni( JNIEnv* env, jstring java_string )
 std::string
 convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::string* )
 {
-    return convert_string_from_jni( env, static_cast< jstring >( jvalue.get( ) ) );
+    return jvalue
+        ? convert_string_from_jni( env, static_cast<jstring>( jvalue.get( ) ) )
+        : std::string{};
 }
 
 std::string
 convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string* )
 {
-    return convert_string_from_jni( env, jvalue.get( ) );
+    return jvalue
+        ? convert_string_from_jni( env, jvalue.get( ) )
+        : std::string{};
+}
+
+std::shared_ptr<std::string>
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<std::string>* )
+{
+    return jvalue
+        ? std::make_shared<std::string>( convert_string_from_jni( env, static_cast<jstring>( jvalue.get( ) ) ) )
+        : std::shared_ptr<std::string>{};
 }
 
 std::shared_ptr< std::vector< uint8_t > >
 convert_from_jni( JNIEnv* env, const JniReference<jbyteArray>& jvalue,
                   std::shared_ptr< std::vector< uint8_t > >* dummy )
 {
-    if ( env->IsSameObject( jvalue.get(), nullptr ) )
+    if ( !jvalue )
     {
         return {};
     }
+
     size_t size = static_cast< size_t >( env->GetArrayLength( jvalue.get() ) );
     auto nresult = std::make_shared< std::vector< uint8_t > >( size );
     jbyte* jbuffer = reinterpret_cast< jbyte* >( nresult->data( ) );
@@ -93,6 +102,14 @@ JniReference<jstring>
 convert_to_jni( JNIEnv* env, const std::string& nvalue )
 {
     return make_local_ref(env, env->NewStringUTF( nvalue.c_str( ) ));
+}
+
+JniReference<jstring>
+convert_to_jni( JNIEnv* env, const std::shared_ptr<std::string>& nvalue )
+{
+    return nvalue
+        ? make_local_ref(env, env->NewStringUTF( nvalue->c_str( ) ))
+        : JniReference<jstring>{};
 }
 
 JniReference<jbyteArray>

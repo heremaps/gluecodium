@@ -58,6 +58,31 @@ uint16_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uin
 uint32_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint32_t* dummy );
 uint64_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint64_t* dummy );
 
+// Boxing/unboxing conversion functions for nullable types
+
+JniReference<jobject> convert_to_jni( JNIEnv* env, ::std::shared_ptr<bool> nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, ::std::shared_ptr<float> nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, ::std::shared_ptr<double> nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, ::std::shared_ptr<int8_t> nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, ::std::shared_ptr<int16_t> nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, ::std::shared_ptr<int32_t> nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, ::std::shared_ptr<int64_t> nvalue );
+
+::std::shared_ptr<bool> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::std::shared_ptr<bool>* dummy );
+::std::shared_ptr<float> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::std::shared_ptr<float>* dummy );
+::std::shared_ptr<double> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::std::shared_ptr<double>* dummy );
+::std::shared_ptr<int8_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::std::shared_ptr<int8_t>* dummy );
+::std::shared_ptr<int16_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::std::shared_ptr<int16_t>* dummy );
+::std::shared_ptr<int32_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::std::shared_ptr<int32_t>* dummy );
+::std::shared_ptr<int64_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::std::shared_ptr<int64_t>* dummy );
+
 // No-conversion boxing functions
 
 template<typename T>

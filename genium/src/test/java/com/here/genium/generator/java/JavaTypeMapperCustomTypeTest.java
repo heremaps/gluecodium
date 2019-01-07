@@ -77,9 +77,11 @@ public class JavaTypeMapperCustomTypeTest {
   @Mock private FrancaDeploymentModel deploymentModel;
 
   private final JavaType notNullAnnotation = new JavaCustomType("foo");
+  private final JavaType nullableAnnotation = new JavaCustomType("bar");
 
   private final JavaTypeMapper typeMapper =
-      new JavaTypeMapper(new JavaPackage(Collections.emptyList()), null, notNullAnnotation);
+      new JavaTypeMapper(
+          new JavaPackage(Collections.emptyList()), null, notNullAnnotation, nullableAnnotation);
 
   @Before
   public void setUp() {
@@ -366,5 +368,81 @@ public class JavaTypeMapperCustomTypeTest {
 
     assertNotNull(result);
     assertTrue(result.annotations.contains(notNullAnnotation));
+  }
+
+  @Test
+  public void mapStructTypeRefInFieldAddsNullableAnnotation() {
+    when(francaTypeRef.getDerived()).thenReturn(francaStructType);
+    when(francaTypeRef.eContainer()).thenReturn(francaField);
+    when(deploymentModel.isNullable(any())).thenReturn(true);
+
+    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+
+    assertNotNull(result);
+    assertTrue(result.annotations.contains(nullableAnnotation));
+  }
+
+  @Test
+  public void mapEnumTypeRefInFieldAddsNullableAnnotation() {
+    when(francaTypeRef.getDerived()).thenReturn(francaEnumerationType);
+    when(francaTypeRef.eContainer()).thenReturn(francaField);
+    when(deploymentModel.isNullable(any())).thenReturn(true);
+
+    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+
+    assertNotNull(result);
+    assertTrue(result.annotations.contains(nullableAnnotation));
+  }
+
+  @Test
+  public void mapArrayTypeRefInFieldAddsNullableAnnotation() {
+    when(francaArrayType.getElementType()).thenReturn(francaPrimitiveTypeRef);
+    when(francaTypeRef.getDerived()).thenReturn(francaArrayType);
+    when(francaTypeRef.eContainer()).thenReturn(francaField);
+    when(deploymentModel.isNullable(any())).thenReturn(true);
+
+    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+
+    assertNotNull(result);
+    assertTrue(result.annotations.contains(nullableAnnotation));
+  }
+
+  @Test
+  public void mapMapTypeRefInFieldAddsNullableAnnotation() {
+    when(francaMapType.getKeyType()).thenReturn(francaPrimitiveTypeRef);
+    when(francaMapType.getValueType()).thenReturn(francaPrimitiveTypeRef);
+    when(francaTypeRef.getDerived()).thenReturn(francaMapType);
+    when(francaTypeRef.eContainer()).thenReturn(francaField);
+    when(deploymentModel.isNullable(any())).thenReturn(true);
+
+    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+
+    assertNotNull(result);
+    assertTrue(result.annotations.contains(nullableAnnotation));
+  }
+
+  @Test
+  public void mapPrimitiveTypeRefInFieldAddsNullableAnnotation() {
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.BOOLEAN);
+    when(francaTypeRef.eContainer()).thenReturn(francaField);
+    when(deploymentModel.isNullable(any())).thenReturn(true);
+
+    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+
+    assertNotNull(result);
+    assertTrue(result.annotations.contains(nullableAnnotation));
+  }
+
+  @Test
+  public void mapInstanceTypeRefInFieldAddsNullableAnnotation() {
+    when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
+    when(francaTypeRef.eContainer()).thenReturn(francaField);
+    when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
+    when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(true);
+
+    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+
+    assertNotNull(result);
+    assertTrue(result.annotations.contains(nullableAnnotation));
   }
 }

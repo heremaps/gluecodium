@@ -50,6 +50,7 @@
 #include "StructConversion.h"
 
 #include <jni.h>
+#include <memory>
 #include <unordered_map>
 #include <vector>
 
@@ -60,12 +61,22 @@ namespace jni
 // Forward declare map conversion routines
 
 template < typename K, typename V, typename Hash >
-::std::unordered_map< K, V, Hash >
-convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jMap, ::std::unordered_map< K, V, Hash >* dummy );
+std::unordered_map< K, V, Hash >
+convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jMap, std::unordered_map< K, V, Hash >* dummy );
+
+template<typename K, typename V, typename Hash>
+std::shared_ptr<std::unordered_map<K, V, Hash>>
+convert_from_jni(JNIEnv* _env,
+                 const JniReference<jobject>& _jMap,
+                 std::shared_ptr<std::unordered_map<K, V, Hash>>* dummy);
 
 template < typename K, typename V, typename Hash >
 JniReference<jobject>
 convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput );
+
+template<typename K, typename V, typename Hash>
+JniReference<jobject>
+convert_to_jni(JNIEnv* _env, const std::shared_ptr<std::unordered_map<K, V, Hash>>& _ninput);
 
 // Templated functions to create ArrayLists from C++ vectors and vice versa
 
@@ -84,6 +95,13 @@ convert_to_jni( JNIEnv* _env, const std::vector< T >& _ninput )
     }
 
     return result;
+}
+
+template<typename T>
+JniReference<jobject>
+convert_to_jni(JNIEnv* _env, const std::shared_ptr<std::vector<T>>& _ninput)
+{
+    return _ninput ? convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
 
 template < typename T >
@@ -112,6 +130,18 @@ convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _arrayList, std::ve
     return _nresult;
 }
 
+template<typename T>
+std::shared_ptr<std::vector<T>>
+convert_from_jni(JNIEnv* _env,
+                 const JniReference<jobject>& _arrayList,
+                 std::shared_ptr<std::vector<T>>* dummy)
+{
+    return _arrayList
+        ? std::make_shared<std::vector<T>>(
+            convert_from_jni(_env, _arrayList, (std::vector<T>*)nullptr))
+        : std::shared_ptr<std::vector<T>>{};
+}
+
 // Templated functions to create HashMaps from C++ unordered_maps and vice versa
 
 template < typename K, typename V, typename Hash = ::std::hash< K > >
@@ -131,6 +161,13 @@ convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput )
     }
 
     return result;
+}
+
+template<typename K, typename V, typename Hash>
+JniReference<jobject>
+convert_to_jni(JNIEnv* _env, const std::shared_ptr<std::unordered_map<K, V, Hash>>& _ninput)
+{
+    return _ninput ? convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
 
 template < typename K, typename V, typename Hash = ::std::hash< K > >
@@ -174,6 +211,19 @@ convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jMap, ::std::unord
     }
 
     return _nresult;
+}
+
+
+template<typename K, typename V, typename Hash>
+std::shared_ptr<std::unordered_map<K, V, Hash>>
+convert_from_jni(JNIEnv* _env,
+                 const JniReference<jobject>& _jMap,
+                 std::shared_ptr<std::unordered_map<K, V, Hash>>* dummy)
+{
+    return _jMap
+        ? std::make_shared<std::unordered_map<K, V, Hash>>(
+            convert_from_jni(_env, _jMap, (std::unordered_map<K, V, Hash>*)nullptr))
+        : std::shared_ptr<std::unordered_map<K, V, Hash>>{};
 }
 
 }

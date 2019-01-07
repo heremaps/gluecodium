@@ -68,15 +68,18 @@ public class JavaTypeMapper {
   private final JavaType nativeBase;
   private final JavaType serializationBase;
   private final JavaType notNullAnnotation;
+  private final JavaType nullableAnnotation;
 
   public JavaTypeMapper(
       final JavaPackage basePackage,
       final JavaType serializationBase,
-      final JavaType notNullAnnotation) {
+      final JavaType notNullAnnotation,
+      final JavaType nullableAnnotation) {
     this.basePackage = basePackage;
     this.nativeBase = new JavaCustomType(NATIVE_BASE_NAME, basePackage);
     this.serializationBase = serializationBase;
     this.notNullAnnotation = notNullAnnotation;
+    this.nullableAnnotation = nullableAnnotation;
   }
 
   public JavaType map(final FTypeRef francaTypRef, final FrancaDeploymentModel deploymentModel) {
@@ -85,6 +88,12 @@ public class JavaTypeMapper {
 
     if (FrancaTypeHelper.isImplicitArray(francaTypRef)) {
       javaType = JavaTemplateType.wrapInList(javaType);
+    }
+    if (nullableAnnotation != null && needsNullableAnnotation(francaTypRef, deploymentModel)) {
+      if (javaType instanceof JavaPrimitiveType) {
+        javaType = JavaReferenceType.boxPrimitiveType((JavaPrimitiveType) javaType);
+      }
+      javaType.annotations.add(nullableAnnotation);
     }
     if (notNullAnnotation != null && needsNotNullAnnotation(francaTypRef, deploymentModel)) {
       javaType.annotations.add(notNullAnnotation);
@@ -267,6 +276,26 @@ public class JavaTypeMapper {
         || typedElement.isArray();
   }
 
+  private boolean needsNullableAnnotation(
+      final FTypeRef francaTypeRef, final FrancaDeploymentModel deploymentModel) {
+
+    EObject parentElement = francaTypeRef.eContainer();
+    if (!isNullableElement(parentElement)) {
+      return false;
+    }
+
+    FTypedElement typedElement = (FTypedElement) parentElement;
+    if (deploymentModel.isNullable(typedElement)) {
+      return true;
+    }
+    if (deploymentModel.isNotNull(typedElement)) {
+      return false;
+    }
+
+    return !typedElement.isArray() && InstanceRules.isInstanceId(francaTypeRef);
+  }
+
+  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
   private boolean isNullableElement(final EObject francaElement) {
     return francaElement instanceof FField
         || francaElement instanceof FArgument

@@ -147,6 +147,10 @@ public final class JavaValueMapper {
       return new JavaValue(decorateLiteralValue((JavaPrimitiveType) javaType, "0"));
     }
 
+    return mapNullValue(javaType);
+  }
+
+  public static JavaValue mapNullValue(final JavaType javaType) {
     return new JavaValue("(" + javaType.name + ")null");
   }
 

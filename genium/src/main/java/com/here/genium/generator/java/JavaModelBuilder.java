@@ -201,11 +201,17 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     String fieldName = JavaNameRules.getFieldName(francaField.getName());
     JavaType javaType = getPreviousResult(JavaType.class);
+
     String defaultValue = deploymentModel.getDefaultValue(francaField);
-    JavaValue initialValue =
-        defaultValue != null
-            ? JavaValueMapper.mapDefaultValue(javaType, defaultValue)
-            : JavaValueMapper.mapDefaultValue(javaType);
+    JavaValue initialValue;
+    if (defaultValue != null) {
+      initialValue = JavaValueMapper.mapDefaultValue(javaType, defaultValue);
+    } else {
+      initialValue =
+          deploymentModel.isNullable(francaField)
+              ? JavaValueMapper.mapNullValue(javaType)
+              : JavaValueMapper.mapDefaultValue(javaType);
+    }
 
     JavaField javaField = new JavaField(fieldName, javaType, initialValue);
     javaField.visibility = getVisibility(francaField);

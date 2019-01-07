@@ -567,6 +567,19 @@ public class JniModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaFieldReadsNullable() {
+    when(javaBuilder.getFinalResult(any())).thenReturn(javaField);
+    when(cppBuilder.getFinalResult(any())).thenReturn(cppField);
+    when(deploymentModel.isNullable(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaField);
+
+    JniField jniField = modelBuilder.getFinalResult(JniField.class);
+    assertNotNull(jniField);
+    assertTrue("get_foo", jniField.isNullable());
+  }
+
+  @Test
   public void finishBuildingFrancaTypeCollectionReadsStructs() {
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
     JniStruct jniStruct = new JniStruct(javaClass, cppStruct, null);

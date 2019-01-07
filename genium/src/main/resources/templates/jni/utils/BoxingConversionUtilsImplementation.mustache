@@ -41,6 +41,7 @@
 #include "BoxingConversionUtils.h"
 
 #include "JniCallJavaMethod.h"
+#include "JniCppConversionUtils.h"
 
 namespace
 {
@@ -232,6 +233,132 @@ uint64_t
 convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint64_t* dummy )
 {
     return unbox_long_value( env, jvalue );
+}
+
+JniReference<jobject>
+convert_to_jni( JNIEnv* env, std::shared_ptr<bool> nvalue )
+{
+    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+}
+
+JniReference<jobject>
+convert_to_jni( JNIEnv* env, std::shared_ptr<float> nvalue )
+{
+    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+}
+
+JniReference<jobject>
+convert_to_jni( JNIEnv* env, std::shared_ptr<double> nvalue )
+{
+    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+}
+
+JniReference<jobject>
+convert_to_jni( JNIEnv* env, std::shared_ptr<int8_t> nvalue )
+{
+    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+}
+
+JniReference<jobject>
+convert_to_jni( JNIEnv* env, std::shared_ptr<int16_t> nvalue )
+{
+    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+}
+
+JniReference<jobject>
+convert_to_jni( JNIEnv* env, std::shared_ptr<int32_t> nvalue )
+{
+    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+}
+
+JniReference<jobject>
+convert_to_jni( JNIEnv* env, std::shared_ptr<int64_t> nvalue )
+{
+    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+}
+
+std::shared_ptr<bool>
+convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<bool>* dummy )
+{
+    if ( !jvalue )
+    {
+        return {};
+    }
+    auto unboxedValue = call_java_method<jboolean>( env, jvalue, "booleanValue", "()Z" );
+    return std::make_shared<bool>( unboxedValue );
+}
+
+std::shared_ptr<float>
+convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<float>* dummy )
+{
+    if ( !jvalue )
+    {
+        return {};
+    }
+    auto unboxedValue = call_java_method<jfloat>( env, jvalue, "floatValue", "()F" );
+    return std::make_shared<float>( unboxedValue );
+}
+
+std::shared_ptr<double>
+convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<double>* dummy )
+{
+    if ( !jvalue )
+    {
+        return {};
+    }
+    auto unboxedValue = call_java_method<jdouble>( env, jvalue, "doubleValue", "()D" );
+    return std::make_shared<double>( unboxedValue );
+}
+
+std::shared_ptr<int8_t>
+convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<int8_t>* dummy )
+{
+    if ( !jvalue )
+    {
+        return {};
+    }
+    auto unboxedValue = call_java_method<int8_t>( env, jvalue, "byteValue", "()B" );
+    return std::make_shared<int8_t>( unboxedValue );
+}
+
+std::shared_ptr<int16_t>
+convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<int16_t>* dummy )
+{
+    if ( !jvalue )
+    {
+        return {};
+    }
+    auto unboxedValue = call_java_method<int16_t>( env, jvalue, "shortValue", "()S" );
+    return std::make_shared<int16_t>( unboxedValue );
+}
+
+std::shared_ptr<int32_t>
+convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<int32_t>* dummy )
+{
+    if ( !jvalue )
+    {
+        return {};
+    }
+    auto unboxedValue = call_java_method<int32_t>( env, jvalue, "intValue", "()I" );
+    return std::make_shared<int32_t>( unboxedValue );
+}
+
+std::shared_ptr<int64_t>
+convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<int64_t>* dummy )
+{
+    if ( !jvalue )
+    {
+        return {};
+    }
+    auto unboxedValue = call_java_method<int64_t>( env, jvalue, "longValue", "()J" );
+    return std::make_shared<int64_t>( unboxedValue );
 }
 
 }

@@ -27,8 +27,7 @@ namespace {{internalNamespace}}
 {
 namespace jni
 {
-{{#models}}
-{{#structs}}
+{{#models}}{{#structs}}
 {{cppStruct.fullyQualifiedName}}
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppStruct.fullyQualifiedName}}* dummy)
 {
@@ -43,12 +42,20 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppStruc
         "L{{join javaField.type.packageNames delimiter="/"}}/{{join javaField.type.classNames delimiter="$"}};"),
         ({{cppField.type.name}}*)nullptr );
 {{/if}}{{#unless hasCustomType}}
-    {{cppField.type.name}} n_{{cppField.name}} = {{internalNamespace}}::jni::get_{{javaField.type.literalName}}_field(_jenv, _jinput, "{{javaField.name}}");
+    {{cppField.type.name}} n_{{cppField.name}} = {{internalNamespace}}::jni::get_{{#if isNullable}}nullable_{{/if}}{{javaField.type.literalName}}_field(_jenv, _jinput, "{{javaField.name}}");
 {{/unless}}
     {{#unless cppStruct.isImmutable}}_nout.{{#if cppSetterName}}{{cppSetterName}}({{/if}}{{#unless cppSetterName}}{{cppField.name}} = {{/unless}}n_{{cppField.name}}{{#if cppSetterName}}){{/if}};{{/unless}}
 {{/fields}}
     {{#if cppStruct.isImmutable}}return {{cppStruct.fullyQualifiedName}}({{#fields}}n_{{cppField.name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});{{/if}}{{!!
     }}{{#unless cppStruct.isImmutable}}return _nout;{{/unless}}
+}
+
+std::shared_ptr<{{cppStruct.fullyQualifiedName}}>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<{{cppStruct.fullyQualifiedName}}>* dummy)
+{
+    return _jinput
+        ? std::make_shared<{{cppStruct.fullyQualifiedName}}>(convert_from_jni(_jenv, _jinput, ({{cppStruct.fullyQualifiedName}}*)nullptr))
+        : std::shared_ptr<{{cppStruct.fullyQualifiedName}}>{};
 }
 
 JniReference<jobject>
@@ -59,16 +66,21 @@ convert_to_jni(JNIEnv* _jenv, const {{cppStruct.fullyQualifiedName}}& _ninput)
 {{#fields}}{{#if hasCustomType}}
     auto j{{cppField.name}} = convert_to_jni(_jenv, {{>getCppFieldValue}});
     {{internalNamespace}}::jni::set_object_field(_jenv, _jresult, "{{javaField.name}}",
-    "L{{join javaField.type.packageNames delimiter="/"}}/{{join javaField.type.classNames delimiter="$"}};", j{{cppField.name}});
+        "L{{join javaField.type.packageNames delimiter="/"}}/{{join javaField.type.classNames delimiter="$"}};", j{{cppField.name}});
 {{/if}}{{#unless hasCustomType}}
     auto j{{cppField.name}} = {{#if type.isJavaArray}}convert_to_jni(_jenv, {{/if}}{{>getCppFieldValue}}{{#if type.isJavaArray}}){{/if}};
-    {{internalNamespace}}::jni::set_{{javaField.type.literalName}}_field(_jenv, _jresult, "{{javaField.name}}", j{{cppField.name}});
-{{/unless}}
-{{/fields}}
+    {{internalNamespace}}::jni::set_{{#if isNullable}}nullable_{{/if}}{{javaField.type.literalName}}_field(_jenv, _jresult, "{{javaField.name}}", j{{cppField.name}});
+{{/unless}}{{/fields}}
     return _jresult;
 }
-{{/structs}}
-{{/models}}
+
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<{{cppStruct.fullyQualifiedName}}> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
+
+{{/structs}}{{/models}}
 }
 }{{!!
 
