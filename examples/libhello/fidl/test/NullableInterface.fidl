@@ -19,9 +19,9 @@
 
 package test
 
-interface Nullable {
+interface NullableInterface {
 
-    typedef Nullable is undefined
+    typedef NullableInterface is undefined
 
     struct SomeStruct {
         String stringField
@@ -50,7 +50,7 @@ interface Nullable {
 
     method create {
         out {
-            Nullable result
+            NullableInterface result
         }
     }
 

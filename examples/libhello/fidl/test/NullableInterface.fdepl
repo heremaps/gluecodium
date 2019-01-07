@@ -18,9 +18,9 @@
  */
 
 import "classpath:/GeniumExtensions.fdepl"
-import "./Nullable.fidl"
+import "./NullableInterface.fidl"
 
-define GeniumExtensions for interface test.Nullable
+define GeniumExtensions for interface test.NullableInterface
 {
     struct NullableStruct {
         stringField {

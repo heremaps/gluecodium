@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include "test/Nullable.h"
+#include "test/NullableInterface.h"
 
 namespace test
 {
-class NullableImpl : public Nullable
+class NullableInterfaceImpl : public NullableInterface
 {
 public:
     ::std::shared_ptr< ::std::string > method_with_string(
