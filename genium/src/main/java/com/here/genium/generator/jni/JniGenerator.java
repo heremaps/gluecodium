@@ -55,6 +55,8 @@ public final class JniGenerator extends AbstractGenerator {
               new JavaImport("Parcel", ANDROID_OS_PACKAGE)));
   private static final JavaType NON_NULL =
       new JavaCustomType("NonNull", ANDROID_SUPPORT_ANNOTATION_PACKAGE);
+  private static final JavaType NULLABLE =
+      new JavaCustomType("Nullable", ANDROID_SUPPORT_ANNOTATION_PACKAGE);
 
   private final FrancaDeploymentModel deploymentModel;
   private final List<String> additionalIncludes;
@@ -92,7 +94,8 @@ public final class JniGenerator extends AbstractGenerator {
             new JavaTypeMapper(
                 basePackage,
                 enableAndroidFeatures ? PARCELABLE : null,
-                enableAndroidFeatures ? NON_NULL : null),
+                enableAndroidFeatures ? NON_NULL : null,
+                enableAndroidFeatures ? NULLABLE : null),
             errorEnumFilter);
 
     CppTypeMapper typeMapper =

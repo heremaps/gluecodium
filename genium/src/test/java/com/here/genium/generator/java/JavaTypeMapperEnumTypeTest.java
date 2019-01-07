@@ -62,7 +62,7 @@ public final class JavaTypeMapperEnumTypeTest {
   @Mock private FInterface fInterface;
 
   private final JavaTypeMapper typeMapper =
-      new JavaTypeMapper(new JavaPackage(Collections.emptyList()), null, null);
+      new JavaTypeMapper(new JavaPackage(Collections.emptyList()), null, null, null);
 
   @Before
   public void setUp() {
