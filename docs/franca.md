@@ -430,6 +430,41 @@ FDEPL:
         }
     }
 
+### Struct field, Attribute, Method parameter: Nullable
+
+This FDEPL property controls whether the given element of non-Instance type (see "Instance
+reference" above) can have a `null` value (`nil` in Swift). Default value is `false`, i.e. the field
+is not nullable.
+
+**Note:** This property applies to elements (fields, attributes and parameters) of non-Instance
+type. Instance type elements have the "nullable" behavior by default.
+
+**Note:** In generated Swift code this property controls whether the field has an "optional" type or
+not, therefore enforcing nullability at compile time. For Java generated code the nullability is
+expressed through a @Nullable annotation, enabling compile time enforcing when used with Kotlin
+language. For C++ generated code the nullability is expressed as a documentation comment.
+
+FIDL:
+
+    package example
+
+    typeCollection ExampleTypeCollection {
+        struct exampleStruct {
+            Float floatField
+        }
+    }
+
+FDEPL:
+
+    define GeniumExtensions for typeCollection example.ExampleTypeCollection
+    {
+        struct exampleStruct {
+            structField {
+                Nullable = true
+            }
+        }
+    }
+
 ### Struct field, Attribute, Method parameter: NotNull
 
 This FDEPL property controls whether the given element of Instance type (see "Instance reference"

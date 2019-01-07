@@ -441,6 +441,19 @@ public class JavaModelBuilderTest {
   }
 
   @Test
+  public void finishBuildingFrancaFieldReadsNullable() {
+    when(deploymentModel.isNullable(any())).thenReturn(true);
+    when(JavaValueMapper.mapNullValue(any())).thenReturn(javaValue);
+    contextStack.injectResult(javaCustomType);
+
+    modelBuilder.finishBuilding(francaField);
+
+    JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
+    assertNotNull(resultField);
+    assertEquals(javaValue, resultField.getInitial());
+  }
+
+  @Test
   public void finishBuildingFrancaFieldCreatesInternalField() {
     when(deploymentModel.isInternal(any())).thenReturn(true);
     contextStack.injectResult(javaCustomType);

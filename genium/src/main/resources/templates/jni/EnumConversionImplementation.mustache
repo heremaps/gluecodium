@@ -28,15 +28,23 @@ namespace jni
 {
 {{#models}}{{#enums}}
 {{cppEnumName}}
-convert_from_jni( JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppEnumName}}* dummy )
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppEnumName}}* dummy)
 {
-    return {{cppEnumName}}( {{internalNamespace}}::jni::get_int_field(_jenv, _jinput, "value" ) );
+    return {{cppEnumName}}({{internalNamespace}}::jni::get_int_field(_jenv, _jinput, "value"));
+}
+
+std::shared_ptr<{{cppEnumName}}>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<{{cppEnumName}}>* dummy)
+{
+    return _jinput
+        ? std::make_shared<{{cppEnumName}}>(convert_from_jni(_jenv, _jinput, ({{cppEnumName}}*)nullptr))
+        : std::shared_ptr<{{cppEnumName}}>{};
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* _jenv, const {{cppEnumName}} _ninput )
+convert_to_jni(JNIEnv* _jenv, const {{cppEnumName}} _ninput)
 {
-    auto javaClass = find_class(_jenv, "{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}}" );
+    auto javaClass = find_class(_jenv, "{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}}");
     ::std::string enumeratorName;
     switch(_ninput) {
 {{#enumerators}}
@@ -47,6 +55,12 @@ convert_to_jni( JNIEnv* _jenv, const {{cppEnumName}} _ninput )
     }
     jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName.c_str(), "L{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}};");
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
+}
+
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<{{cppEnumName}}> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 
 {{/enums}}{{/models}}

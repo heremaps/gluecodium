@@ -81,10 +81,42 @@ double get_double_field(
 std::string get_string_field(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName );
 
-std::shared_ptr< ::std::vector< uint8_t > > get_byte_array_field(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName );
+::std::shared_ptr< bool > get_nullable_boolean_field( JNIEnv* env,
+                                                      const JniReference< jobject >& object,
+                                                      const char* fieldName );
 
-JniReference<jobject> get_object_field( JNIEnv* env,
+::std::shared_ptr< int8_t > get_nullable_byte_field( JNIEnv* env,
+                                                     const JniReference< jobject >& object,
+                                                     const char* fieldName );
+
+::std::shared_ptr< int16_t > get_nullable_short_field( JNIEnv* env,
+                                                       const JniReference< jobject >& object,
+                                                       const char* fieldName );
+
+::std::shared_ptr< int32_t > get_nullable_int_field( JNIEnv* env,
+                                                     const JniReference< jobject >& object,
+                                                     const char* fieldName );
+
+::std::shared_ptr< int64_t > get_nullable_long_field( JNIEnv* env,
+                                                      const JniReference< jobject >& object,
+                                                      const char* fieldName );
+
+::std::shared_ptr< float > get_nullable_float_field( JNIEnv* env,
+                                                     const JniReference< jobject >& object,
+                                                     const char* fieldName );
+
+::std::shared_ptr< double > get_nullable_double_field( JNIEnv* env,
+                                                       const JniReference< jobject >& object,
+                                                       const char* fieldName );
+
+::std::shared_ptr< ::std::string > get_nullable_string_field( JNIEnv* env,
+                                                              const JniReference< jobject >& object,
+                                                              const char* fieldName );
+
+::std::shared_ptr< ::std::vector< uint8_t > > get_byte_array_field(
+    JNIEnv* env, const JniReference< jobject >& object, const char* fieldName );
+
+JniReference< jobject > get_object_field( JNIEnv* env,
                                        const JniReference<jobject>& object,
                                        const char* fieldName,
                                        const char* fieldSignature );
@@ -124,6 +156,46 @@ void set_string_field( JNIEnv* env,
                        const JniReference<jobject>& object,
                        const char* fieldName,
                        const std::string& fieldValue );
+
+void set_nullable_boolean_field( JNIEnv* env,
+                                 const JniReference< jobject >& object,
+                                 const char* fieldName,
+                                 ::std::shared_ptr< bool > value );
+
+void set_nullable_byte_field( JNIEnv* env,
+                              const JniReference< jobject >& object,
+                              const char* fieldName,
+                              ::std::shared_ptr< int8_t > value );
+
+void set_nullable_short_field( JNIEnv* env,
+                               const JniReference< jobject >& object,
+                               const char* fieldName,
+                               ::std::shared_ptr< int16_t > value );
+
+void set_nullable_int_field( JNIEnv* env,
+                             const JniReference< jobject >& object,
+                             const char* fieldName,
+                             ::std::shared_ptr< int32_t > value );
+
+void set_nullable_long_field( JNIEnv* env,
+                              const JniReference< jobject >& object,
+                              const char* fieldName,
+                              ::std::shared_ptr< int64_t > value );
+
+void set_nullable_float_field( JNIEnv* env,
+                               const JniReference< jobject >& object,
+                               const char* fieldName,
+                               ::std::shared_ptr< float > value );
+
+void set_nullable_double_field( JNIEnv* env,
+                                const JniReference< jobject >& object,
+                                const char* fieldName,
+                                ::std::shared_ptr< double > value );
+
+void set_nullable_string_field( JNIEnv* env,
+                                const JniReference< jobject >& object,
+                                const char* fieldName,
+                                ::std::shared_ptr< ::std::string > value );
 
 void set_byte_array_field( JNIEnv* env,
                            const JniReference<jobject>& object,

@@ -219,6 +219,7 @@ internal constructor(
             javaField = javaField,
             cppField = cppField,
             type = jniType,
+            isNullable = deploymentModel.isNullable(francaField),
             cppGetterName = deploymentModel.getExternalGetter(francaField),
             cppSetterName = deploymentModel.getExternalSetter(francaField)
         )

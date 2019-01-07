@@ -61,6 +61,8 @@ namespace jni
  */
 std::string convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::string* dummy );
 std::string convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string* dummy );
+std::shared_ptr<std::string> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<std::string>* dummy );
 
 /**
  * Converts a jbyteArray to a byte buffer
@@ -74,6 +76,7 @@ std::shared_ptr< ::std::vector< uint8_t > > convert_from_jni(
  * Converts a std string to a JNI jstring
  */
 JniReference<jstring> convert_to_jni( JNIEnv* env, const std::string& nvalue );
+JniReference<jstring> convert_to_jni( JNIEnv* env, const std::shared_ptr<std::string>& nvalue );
 
 /**
  * Converts a byte buffer to a jbyteArray

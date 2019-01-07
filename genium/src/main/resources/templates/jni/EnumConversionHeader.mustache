@@ -20,18 +20,21 @@
   !}}
 #pragma once
 
-#include <jni.h>
 {{#includes}}
 {{>common/Include}}
 {{/includes}}
+#include <jni.h>
+#include <memory>
 
 namespace {{internalNamespace}}
 {
 namespace jni
 {
 {{#models}}{{#enums}}
-{{cppEnumName}} convert_from_jni( JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppEnumName}}* dummy );
-JniReference<jobject> convert_to_jni( JNIEnv* _jenv, const {{cppEnumName}} _ninput );
+{{cppEnumName}} convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppEnumName}}* dummy);
+std::shared_ptr<{{cppEnumName}}> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<{{cppEnumName}}>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{cppEnumName}} _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<{{cppEnumName}}> _ninput);
 {{/enums}}{{/models}}
 }
 }
