@@ -109,3 +109,42 @@ interface SpecialNames {
     method createProxy {
     }
 }
+
+interface ConstructorOverloads {
+
+    typedef ConstructorOverloads is undefined
+
+    method create:noParameters {
+        out {
+            ConstructorOverloads output
+        }
+    }
+
+    method create:singleStringParameter {
+        in {
+            String input
+        }
+        out {
+            ConstructorOverloads output
+        }
+    }
+
+    method create:singleBoolParameter {
+        in {
+            Boolean input
+        }
+        out {
+            ConstructorOverloads output
+        }
+    }
+
+    method create:twoParameters {
+        in {
+            String stringInput
+            Boolean booleanInput
+        }
+        out {
+            ConstructorOverloads output
+        }
+    }
+}
