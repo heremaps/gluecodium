@@ -73,4 +73,8 @@ define GeniumExtensions for interface test.ConstructorOverloads
     method create:twoParameters {
         Constructor = true
     }
+
+    method create:withError {
+        Constructor = true
+    }
 }
