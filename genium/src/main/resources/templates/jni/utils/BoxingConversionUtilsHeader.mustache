@@ -1,0 +1,88 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{>java/CopyrightHeader}}
+
+#pragma once
+
+#include "JniReference.h"
+
+#include <jni.h>
+
+namespace {{.}}
+{
+namespace jni
+{
+// The following functions are converting and boxing primitive values into Java boxed types.
+
+JniReference<jobject> convert_to_jni( JNIEnv* env, const bool nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const double nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const float nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const int8_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const int16_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const int32_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const int64_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const uint8_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const uint16_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const uint32_t nvalue );
+JniReference<jobject> convert_to_jni( JNIEnv* env, const uint64_t nvalue );
+
+// The following functions are unboxing and converting primitive values from Java boxed types.
+
+bool convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, bool* dummy );
+double convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, double* dummy );
+float convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, float* dummy );
+int8_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int8_t* dummy );
+int16_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int16_t* dummy );
+int32_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int32_t* dummy );
+int64_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int64_t* dummy );
+uint8_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint8_t* dummy );
+uint16_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint16_t* dummy );
+uint32_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint32_t* dummy );
+uint64_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint64_t* dummy );
+
+// No-conversion boxing functions
+
+template<typename T>
+JniReference<jobject>
+box_value_in_object( JNIEnv* env, const char* className, const char* signature, T param )
+{
+    auto javaClass = find_class(env, className );
+    auto theConstructor = env->GetMethodID( javaClass.get(), "<init>", signature );
+    return new_object(env, javaClass, theConstructor, param );
+}
+
+template<typename T>
+JniReference<jobject>
+box_uint_in_object( JNIEnv* env, T param )
+{
+    auto javaClass = find_class(env, "java/lang/Long" );
+    auto theConstructor = env->GetMethodID( javaClass.get(), "<init>", "(J)V" );
+    return new_object(env, javaClass, theConstructor, static_cast< int64_t >( param ) );
+}
+
+template<>
+JniReference<jobject> box_uint_in_object( JNIEnv* env, uint8_t param );
+
+template<>
+JniReference<jobject> box_uint_in_object( JNIEnv* env, uint16_t param );
+
+}
+}

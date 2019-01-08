@@ -40,6 +40,7 @@
 
 #pragma once
 
+#include "BoxingConversionUtils.h"
 #include "EnumConversion.h"
 #include "FieldAccessMethods.h"
 #include "InstanceConversion.h"
@@ -56,56 +57,6 @@ namespace {{.}}
 {
 namespace jni
 {
-// The following functions are converting and boxing primitive values into the corresponding
-// java boxing object so that they can be added to java list.
-
-JniReference<jobject> convert_to_jni( JNIEnv* env, const bool nvalue );
-
-JniReference<jobject> convert_to_jni( JNIEnv* env, const double nvalue );
-
-JniReference<jobject> convert_to_jni( JNIEnv* env, const float nvalue );
-
-JniReference<jobject> convert_to_jni( JNIEnv* env, const int8_t nvalue );
-
-JniReference<jobject> convert_to_jni( JNIEnv* env, const int16_t nvalue );
-
-JniReference<jobject> convert_to_jni( JNIEnv* env, const int32_t nvalue );
-
-JniReference<jobject> convert_to_jni( JNIEnv* env, const int64_t nvalue );
-
-JniReference<jobject> convert_to_jni( JNIEnv* env, const uint8_t nvalue );
-
-JniReference<jobject> convert_to_jni( JNIEnv* env, const uint16_t nvalue );
-
-JniReference<jobject> convert_to_jni( JNIEnv* env, const uint32_t nvalue );
-
-JniReference<jobject> convert_to_jni( JNIEnv* env, const uint64_t nvalue );
-
-// The following conversion methods are unboxing and converting primitive values from the
-// java boxing object.
-
-bool convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, bool* dummy );
-
-double convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, double* dummy );
-
-float convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, float* dummy );
-
-int8_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int8_t* dummy );
-
-int16_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int16_t* dummy );
-
-int32_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int32_t* dummy );
-
-int64_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int64_t* dummy );
-
-uint8_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint8_t* dummy );
-
-uint16_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint16_t* dummy );
-
-uint32_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint32_t* dummy );
-
-uint64_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint64_t* dummy );
-
 // Forward declare map conversion routines
 
 template < typename K, typename V, typename Hash >

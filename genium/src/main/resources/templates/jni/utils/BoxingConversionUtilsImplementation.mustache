@@ -38,29 +38,27 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "ArrayConversionUtils.h"
+#include "BoxingConversionUtils.h"
+
+#include "JniCallJavaMethod.h"
 
 namespace
 {
-
 jint
 unbox_int_value( JNIEnv* env, const {{.}}::jni::JniReference<jobject>& jvalue )
 {
-    auto javaIntegerClass = {{.}}::jni::find_class(env, "java/lang/Integer" );
+    auto javaIntegerClass = {{.}}::jni::find_class( env, "java/lang/Integer" );
     auto intValueMethodId = env->GetMethodID( javaIntegerClass.get(), "intValue", "()I" );
-    jint jresult = {{.}}::jni::call_java_method<jint>(env, jvalue, intValueMethodId);
-    return jresult;
+    return {{.}}::jni::call_java_method<jint>( env, jvalue, intValueMethodId );
 }
 
 jlong
 unbox_long_value( JNIEnv* env, const {{.}}::jni::JniReference<jobject>& jvalue )
 {
-    auto javaLongClass = {{.}}::jni::find_class(env, "java/lang/Long" );
+    auto javaLongClass = {{.}}::jni::find_class( env, "java/lang/Long" );
     auto longValueMethodId = env->GetMethodID( javaLongClass.get(), "longValue", "()J" );
-    jlong jresult = {{.}}::jni::call_java_method<jlong>(env, jvalue, longValueMethodId);
-    return jresult;
+    return {{.}}::jni::call_java_method<jlong>( env, jvalue, longValueMethodId );
 }
-
 }
 
 namespace {{.}}
@@ -136,37 +134,33 @@ convert_to_jni( JNIEnv* env, const uint64_t nvalue )
 bool
 convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, bool* dummy )
 {
-    auto javaBooleanClass = find_class(env, "java/lang/Boolean" );
+    auto javaBooleanClass = find_class( env, "java/lang/Boolean" );
     auto booleanValueMethodId = env->GetMethodID( javaBooleanClass.get(), "booleanValue", "()Z" );
-    bool nvalue = call_java_method<jboolean>( env, jvalue, booleanValueMethodId );
-    return nvalue;
+    return call_java_method<jboolean>( env, jvalue, booleanValueMethodId );
 }
 
 double
 convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, double* dummy )
 {
-    auto javaDoubleClass = find_class(env, "java/lang/Double" );
+    auto javaDoubleClass = find_class( env, "java/lang/Double" );
     auto doubleValueMethodId = env->GetMethodID( javaDoubleClass.get(), "doubleValue", "()D" );
-    double nvalue = call_java_method<jdouble>(env, jvalue, doubleValueMethodId);
-    return nvalue;
+    return call_java_method<jdouble>( env, jvalue, doubleValueMethodId );
 }
 
 float
 convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, float* dummy )
 {
-    auto javaFloatClass = find_class(env, "java/lang/Float" );
+    auto javaFloatClass = find_class( env, "java/lang/Float" );
     auto floatValueMethodId = env->GetMethodID( javaFloatClass.get(), "floatValue", "()F" );
-    float nvalue = call_java_method<jfloat>(env, jvalue, floatValueMethodId);
-    return nvalue;
+    return call_java_method<jfloat>( env, jvalue, floatValueMethodId );
 }
 
 int8_t
 convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int8_t* dummy )
 {
-    auto javaByteClass = find_class(env, "java/lang/Byte" );
+    auto javaByteClass = find_class( env, "java/lang/Byte" );
     auto byteValueMethodId = env->GetMethodID( javaByteClass.get(), "byteValue", "()B" );
-    int8_t nvalue = call_java_method<jbyte>(env, jvalue, byteValueMethodId);
-    return nvalue;
+    return call_java_method<jbyte>( env, jvalue, byteValueMethodId );
 }
 
 int16_t
@@ -174,8 +168,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int16_t* dum
 {
     auto javaShortClass = find_class(env, "java/lang/Short" );
     auto shortValueMethodId = env->GetMethodID( javaShortClass.get(), "shortValue", "()S" );
-    int16_t nvalue = call_java_method<jshort>(env, jvalue, shortValueMethodId);
-    return nvalue;
+    return call_java_method<jshort>( env, jvalue, shortValueMethodId );
 }
 
 int32_t
