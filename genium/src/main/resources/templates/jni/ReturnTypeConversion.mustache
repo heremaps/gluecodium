@@ -29,7 +29,8 @@
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "({{jniEnum.jniTypeSignature}})V");
         auto exception = {{internalNamespace}}::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
         _jenv->Throw(static_cast<jthrowable>(exception.release()));{{#unless returnType.isJavaVoid}}
-        return {{#if returnType.isComplex}}nullptr{{/if}}{{#unless returnType.isComplex}}nativeCallResult.safe_value(){{/unless}};{{/unless}}
+        return {{#if isConstructor}}0{{/if}}{{#unless isConstructor}}{{!!
+        }}{{#if returnType.isComplex}}nullptr{{/if}}{{#unless returnType.isComplex}}nativeCallResult.safe_value(){{/unless}}{{/unless}};{{/unless}}
     }{{#unless returnType.isJavaVoid}}
     auto result = nativeCallResult.safe_value();{{/unless}}
     {{/exception}}

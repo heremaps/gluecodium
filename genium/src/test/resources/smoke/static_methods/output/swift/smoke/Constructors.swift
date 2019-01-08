@@ -33,6 +33,13 @@ public class Constructors {
         }
         c_instance = _result
     }
+    public init(input: String) throws {
+        let _result = try Constructors.create(input: input)
+        guard _result != 0 else {
+            fatalError("Nullptr value is not supported for initializers: Constructors")
+        }
+        c_instance = _result
+    }
     let c_instance : _baseRef
     init?(cConstructors: _baseRef) {
         guard cConstructors != 0 else {
@@ -43,6 +50,10 @@ public class Constructors {
     deinit {
         smoke_Constructors_release_handle(c_instance)
     }
+    public enum ErrorEnum : UInt32 {
+        case none
+        case crashed
+    }
     private static func create() -> _baseRef {
         return smoke_Constructors_create_noArgs()
     }
@@ -52,6 +63,14 @@ public class Constructors {
     }
     private static func create(foo: String, bar: UInt64) -> _baseRef {
         return smoke_Constructors_create_twoArgs(foo, bar)
+    }
+    private static func create(input: String) throws -> _baseRef {
+        let RESULT = smoke_Constructors_create_withError(input)
+        if (RESULT.has_value) {
+            return RESULT.returned_value
+        } else {
+            throw Constructors.ErrorEnum(rawValue: RESULT.error_code)!
+        }
     }
 }
 extension Constructors: NativeBase {

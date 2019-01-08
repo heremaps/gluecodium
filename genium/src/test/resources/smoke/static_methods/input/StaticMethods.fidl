@@ -270,6 +270,11 @@ interface Constructors {
 
     typedef Constructors is undefined
 
+    enumeration ErrorEnum {
+        NONE
+        CRASHED
+    }
+
     method create:noArgs {
         out {
             Constructors result
@@ -293,5 +298,15 @@ interface Constructors {
         out {
             Constructors result
         }
+    }
+
+    method create:withError {
+        in {
+            String input
+        }
+        out {
+            Constructors result
+        }
+        error ErrorEnum
     }
 }

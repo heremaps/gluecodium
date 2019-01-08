@@ -5,6 +5,21 @@
 package com.example.smoke;
 import com.example.NativeBase;
 public class Constructors extends NativeBase {
+    public enum ErrorEnum {
+        NONE(0),
+        CRASHED(1);
+        public final int value;
+        ErrorEnum(final int value) {
+            this.value = value;
+        }
+    }
+    public static class ErrorEnumException extends Exception {
+        ErrorEnumException(final Constructors.ErrorEnum error) {
+            super(Integer.toString(error.value));
+            this.error = error;
+        }
+        public final Constructors.ErrorEnum error;
+    }
     public Constructors() {
         this(create());
     }
@@ -13,6 +28,9 @@ public class Constructors extends NativeBase {
     }
     public Constructors(final String foo, final long bar) {
         this(create(foo, bar));
+    }
+    public Constructors(final String input) throws Constructors.ErrorEnumException {
+        this(create(input));
     }
     /** For internal use only */
     protected Constructors(final long nativeHandle) {
@@ -27,4 +45,5 @@ public class Constructors extends NativeBase {
     private static native long create();
     private static native long create(final Constructors other);
     private static native long create(final String foo, final long bar);
+    private static native long create(final String input) throws Constructors.ErrorEnumException;
 }

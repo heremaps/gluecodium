@@ -98,4 +98,11 @@ ConstructorOverloads::create( const std::string& string_input, bool boolean_inpu
     return std::make_shared< ConstructorOverloadsImpl >( );
 }
 
+lorem_ipsum::Return< std::shared_ptr< ConstructorOverloads >, std::error_code >
+ConstructorOverloads::create( double input )
+{
+    return lorem_ipsum::Return< std::shared_ptr< ConstructorOverloads >, std::error_code >(
+        std::make_shared< ConstructorOverloadsImpl >( ) );
+}
+
 }  // namespace test
