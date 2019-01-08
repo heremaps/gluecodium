@@ -50,6 +50,7 @@ public class JavaGeneratorSuite extends GeneratorSuite {
   private static final String ARRAY_CONVERSION_UTILS = "ArrayConversionUtils";
   private static final String CPP_PROXY_BASE = "CppProxyBase";
   public static final String FIELD_ACCESS_UTILS = "FieldAccessMethods";
+  private static final String BOXING_CONVERSION_UTILS = "BoxingConversionUtils";
   private static final String JNI_BASE = "JniBase";
   private static final String JNI_CPP_CONVERSION_UTILS = "JniCppConversionUtils";
   private static final String JNI_TEMPLATE_METAINFO = "JniTemplateMetainfo";
@@ -58,13 +59,14 @@ public class JavaGeneratorSuite extends GeneratorSuite {
 
   private static final List<String> UTILS_FILES =
       Arrays.asList(
-          ARRAY_CONVERSION_UTILS,
           CPP_PROXY_BASE,
           FIELD_ACCESS_UTILS,
           JNI_BASE,
-          JNI_CPP_CONVERSION_UTILS);
+          JNI_CPP_CONVERSION_UTILS,
+          BOXING_CONVERSION_UTILS);
   private static final List<String> UTILS_FILES_HEADER_ONLY =
-      Arrays.asList(JNI_TEMPLATE_METAINFO, JNI_REFERENCE, JNI_CALL_JAVA_METHOD);
+      Arrays.asList(
+          JNI_TEMPLATE_METAINFO, JNI_REFERENCE, JNI_CALL_JAVA_METHOD, ARRAY_CONVERSION_UTILS);
   private static final List<String> UTILS_HEADER_INCLUDES =
       Arrays.asList(CPP_PROXY_BASE, FIELD_ACCESS_UTILS, JNI_BASE, JNI_CPP_CONVERSION_UTILS);
 
