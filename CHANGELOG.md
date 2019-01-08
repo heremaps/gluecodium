@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.19.0
+- Release date: 2019-01-08
 - Breaking changes:
   + FIDL types UInt8 and UInt16 are now generated as Short and Integer in Java.
 - Features:
