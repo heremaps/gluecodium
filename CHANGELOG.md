@@ -3,6 +3,7 @@
 ## Unreleased
 - Bug fixes:
   + Fixed compilation issues for constructors with parameters in Swift.
+  + Fixed compilation issues for throwing constructors in Swift and Java.
 
 ## 3.19.0
 - Release date: 2019-01-08

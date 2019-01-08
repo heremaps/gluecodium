@@ -114,6 +114,11 @@ interface ConstructorOverloads {
 
     typedef ConstructorOverloads is undefined
 
+    enumeration ErrorEnum {
+        NONE
+        CRASHED
+    }
+
     method create:noParameters {
         out {
             ConstructorOverloads output
@@ -146,5 +151,15 @@ interface ConstructorOverloads {
         out {
             ConstructorOverloads output
         }
+    }
+
+    method create:withError {
+        in {
+            Double input
+        }
+        out {
+            ConstructorOverloads output
+        }
+        error ErrorEnum
     }
 }

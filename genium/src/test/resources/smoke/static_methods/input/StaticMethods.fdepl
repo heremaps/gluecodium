@@ -192,4 +192,8 @@ define GeniumExtensions for interface smoke.Constructors
     method create:twoArgs {
         Constructor = true
     }
+
+    method create:withError {
+        Constructor = true
+    }
 }

@@ -48,7 +48,7 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
 {{prefixPartial 'swift/Typedefs' '    '}}
 {{/typedefs}}{{#set className=name}}{{#constructors}}
     {{visibility}} init{{>swift/MethodGenericParameters}}({{>swift/MethodParameterDeclaration}}){{#if error}} throws{{/if}} {
-        let _result = {{className}}.{{name}}({{#parameters}}{{name}}: {{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+        let _result = {{#if error}}try {{/if}}{{className}}.{{name}}({{#parameters}}{{name}}: {{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
         guard _result != 0 else {
             fatalError("Nullptr value is not supported for initializers: {{className}}")
         }
