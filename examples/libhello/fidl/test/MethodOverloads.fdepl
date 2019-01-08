@@ -55,3 +55,22 @@ define GeniumExtensions for interface test.SpecialNames
 {
     IsInterface = true
 }
+
+define GeniumExtensions for interface test.ConstructorOverloads
+{
+    method create:noParameters {
+        Constructor = true
+    }
+
+    method create:singleStringParameter {
+        Constructor = true
+    }
+
+    method create:singleBoolParameter {
+        Constructor = true
+    }
+
+    method create:twoParameters {
+        Constructor = true
+    }
+}

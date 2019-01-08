@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/ConstructorOverloads.h"
 #include "test/MethodOverloads.h"
 
 namespace test
@@ -65,6 +66,36 @@ bool
 MethodOverloads::is_boolean( const MethodOverloads::IntArray& input )
 {
     return false;
+}
+
+class ConstructorOverloadsImpl: public ConstructorOverloads
+{
+public:
+    virtual ~ConstructorOverloadsImpl( ) = default;
+};
+
+std::shared_ptr< ConstructorOverloads >
+ConstructorOverloads::create( )
+{
+    return std::make_shared< ConstructorOverloadsImpl >( );
+}
+
+std::shared_ptr< ConstructorOverloads >
+ConstructorOverloads::create( const std::string& input )
+{
+    return std::make_shared< ConstructorOverloadsImpl >( );
+}
+
+std::shared_ptr< ConstructorOverloads >
+ConstructorOverloads::create( bool input )
+{
+    return std::make_shared< ConstructorOverloadsImpl >( );
+}
+
+std::shared_ptr< ConstructorOverloads >
+ConstructorOverloads::create( const std::string& string_input, bool boolean_input )
+{
+    return std::make_shared< ConstructorOverloadsImpl >( );
 }
 
 }  // namespace test
