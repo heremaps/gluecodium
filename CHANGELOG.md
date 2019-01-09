@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.19.1
+- Release date: 2019-01-09
 - Bug fixes:
   + Fixed compilation issues for constructors with parameters in Swift.
   + Fixed compilation issues for throwing constructors in Swift and Java.
