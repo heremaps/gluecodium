@@ -163,3 +163,24 @@ interface ConstructorOverloads {
         error ErrorEnum
     }
 }
+
+interface ChildConstructorOverloads extends ConstructorOverloads {
+
+    typedef ChildConstructorOverloads is undefined
+
+    method create:noParametersChild {
+        out {
+            ChildConstructorOverloads output
+        }
+    }
+
+    method create:withErrorChild {
+        in {
+            Double input
+        }
+        out {
+            ChildConstructorOverloads output
+        }
+        error ConstructorOverloads.ErrorEnum
+    }
+}

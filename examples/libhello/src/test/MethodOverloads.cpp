@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/ChildConstructorOverloads.h"
 #include "test/ConstructorOverloads.h"
 #include "test/MethodOverloads.h"
 
@@ -103,6 +104,25 @@ ConstructorOverloads::create( double input )
 {
     return lorem_ipsum::Return< std::shared_ptr< ConstructorOverloads >, std::error_code >(
         std::make_shared< ConstructorOverloadsImpl >( ) );
+}
+
+class ChildConstructorOverloadsImpl: public ChildConstructorOverloads
+{
+public:
+    virtual ~ChildConstructorOverloadsImpl( ) = default;
+};
+
+std::shared_ptr< ChildConstructorOverloads >
+ChildConstructorOverloads::create( )
+{
+    return std::make_shared< ChildConstructorOverloadsImpl >( );
+}
+
+lorem_ipsum::Return< std::shared_ptr< ChildConstructorOverloads >, std::error_code >
+ChildConstructorOverloads::create( double input )
+{
+    return lorem_ipsum::Return< std::shared_ptr< ChildConstructorOverloads >, std::error_code >(
+        std::make_shared< ChildConstructorOverloadsImpl >( ) );
 }
 
 }  // namespace test

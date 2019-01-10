@@ -15,28 +15,28 @@ public class Constructors {
     public init() {
         let _result = Constructors.create()
         guard _result != 0 else {
-            fatalError("Nullptr value is not supported for initializers: Constructors")
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = _result
     }
     public init(other: Constructors?) {
         let _result = Constructors.create(other: other)
         guard _result != 0 else {
-            fatalError("Nullptr value is not supported for initializers: Constructors")
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = _result
     }
     public init(foo: String, bar: UInt64) {
         let _result = Constructors.create(foo: foo, bar: bar)
         guard _result != 0 else {
-            fatalError("Nullptr value is not supported for initializers: Constructors")
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = _result
     }
     public init(input: String) throws {
         let _result = try Constructors.create(input: input)
         guard _result != 0 else {
-            fatalError("Nullptr value is not supported for initializers: Constructors")
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = _result
     }

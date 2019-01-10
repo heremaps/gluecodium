@@ -310,3 +310,23 @@ interface Constructors {
         error ErrorEnum
     }
 }
+
+interface ChildConstructors extends Constructors {
+
+    typedef ChildConstructors is undefined
+
+    method create:noArgsChild {
+        out {
+            ChildConstructors result
+        }
+    }
+
+    method create:copyFromParent {
+        in {
+            Constructors other
+        }
+        out {
+            ChildConstructors result
+        }
+    }
+}
