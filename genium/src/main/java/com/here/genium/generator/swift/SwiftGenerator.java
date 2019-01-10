@@ -39,7 +39,7 @@ public class SwiftGenerator {
   public static final List<GeneratedFile> STATIC_FILES =
       Arrays.asList(
           GeneratorSuite.copyTarget("swift/RefHolder.swift", ""),
-          GeneratorSuite.copyTarget("swift/StringConversion.swift", ""),
+          GeneratorSuite.copyTarget("swift/BuiltinConversions.swift", ""),
           GeneratorSuite.copyTarget("swift/CollectionOf.swift", ""),
           GeneratorSuite.copyTarget("swift/NativeBase.swift", ""));
 

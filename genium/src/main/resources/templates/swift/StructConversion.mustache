@@ -1,0 +1,11 @@
+internal func copyFromCType(_ handle: _baseRef) -> {{name}} {
+    return {{name}}({{#if fields}}cHandle: handle{{/if}})
+}
+
+internal func moveFromCType(_ handle: _baseRef) -> {{name}} {
+{{#if fields}}
+    defer {
+        {{cPrefix}}_release_handle(handle)
+    }{{/if}}
+    return copyFromCType(handle)
+}
