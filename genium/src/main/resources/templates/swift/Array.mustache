@@ -99,10 +99,7 @@ defer {
 return {{underlyingType}}(c{{underlyingType.simpleName}}: handle){{/structSubscript}}
 
 {{+classSubscript}}
-guard let result = {{underlyingType.implementingClass}}(c{{underlyingType.simpleName}}: handle) else {
-    fatalError("Nullptr entries for arrays of {{underlyingType}} are not supported")
-}
-return result{{/classSubscript}}
+return {{underlyingType.implementingClass}}(c{{underlyingType.simpleName}}: handle){{/classSubscript}}
 
 {{+arraySubscript}}
 return {{underlyingType.implementingClass}}(handle){{/arraySubscript}}{{!!

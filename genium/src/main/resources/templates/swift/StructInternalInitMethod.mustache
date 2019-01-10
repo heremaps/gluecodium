@@ -76,16 +76,8 @@ internal init(c{{simpleName}}: _baseRef) {
 {{/assignStruct}}
 
 {{+assignClass}}do {
-{{#type.optional}}{{!!
-}}    {{name}} = {{type}}(c{{type}}: {{cPrefix}}_{{name}}_get(c{{structName}})){{!!
-}}{{/type.optional}}{{!!
-}}{{^type.optional}}{{!!
-}}    guard let {{name}}_unwrapped = {{type}}(c{{type}}: {{cPrefix}}_{{name}}_get(c{{structName}}))
-    else {
-        fatalError("Nullptr value for field '{{structName}}.{{name}}' is not supported")
-    }
-    {{name}} = {{name}}_unwrapped{{!!
-}}{{/type.optional}}
+    let {{name}}_handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    {{name}} = {{#if type.optional}}{{name}}_handle != 0 ? {{/if}}{{type}}(c{{type}}: {{name}}_handle){{#if type.optional}} : nil{{/if}}
 }
 {{/assignClass}}{{!!
 
