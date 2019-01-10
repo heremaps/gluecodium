@@ -78,3 +78,14 @@ define GeniumExtensions for interface test.ConstructorOverloads
         Constructor = true
     }
 }
+
+define GeniumExtensions for interface test.ChildConstructorOverloads
+{
+    method create:noParametersChild {
+        Constructor = true
+    }
+
+    method create:withErrorChild {
+        Constructor = true
+    }
+}
