@@ -17,87 +17,62 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java;
+package com.here.genium.generator.java
 
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.model.common.InstanceRules;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import org.franca.core.framework.FrancaHelpers;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FArrayType;
-import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeRef;
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.model.common.InstanceRules
+import org.franca.core.framework.FrancaHelpers
+import org.franca.core.franca.FArgument
+import org.franca.core.franca.FArrayType
+import org.franca.core.franca.FMapType
+import org.franca.core.franca.FMethod
 
-public class JavaMethodNameResolver {
+open class JavaMethodNameResolver {
 
-  private static final String TYPE_ERASED_ARRAY = "List<>";
-  private static final String TYPE_ERASED_MAP = "Map<>";
+    private val signatureCache = hashMapOf<String, List<String>>()
 
-  private final Map<String, List<String>> signatureCache = new HashMap<>();
-
-  public String getName(final FMethod francaMethod) {
-    String selector = needsSelector(francaMethod) ? francaMethod.getSelector() : "";
-    return JavaNameRules.getMethodName(francaMethod.getName(), selector);
-  }
-
-  private boolean needsSelector(final FMethod francaMethod) {
-    List<String> signature = getSignature(francaMethod);
-    return FrancaTypeHelper.getAllOverloads(francaMethod)
-            .stream()
-            .map(this::getSignature)
-            .filter(signature::equals)
-            .count()
-        > 1;
-  }
-
-  private List<String> getSignature(final FMethod francaMethod) {
-
-    String key = FrancaTypeHelper.getFullName(francaMethod);
-    List<String> signature = signatureCache.get(key);
-    if (signature == null) {
-      signature = computeSignature(francaMethod);
-      signatureCache.put(key, signature);
+    open fun getName(francaMethod: FMethod): String {
+        val selector = if (needsSelector(francaMethod)) francaMethod.selector else ""
+        return JavaNameRules.getMethodName(francaMethod.name, selector)
     }
 
-    return signature;
-  }
-
-  private static List<String> computeSignature(final FMethod francaMethod) {
-    return francaMethod
-        .getInArgs()
-        .stream()
-        .map(JavaMethodNameResolver::getTypeName)
-        .collect(Collectors.toList());
-  }
-
-  private static String getTypeName(final FArgument francaArgument) {
-
-    if (francaArgument.isArray()) {
-      return TYPE_ERASED_ARRAY;
+    private fun needsSelector(francaMethod: FMethod): Boolean {
+        val signature = getSignature(francaMethod)
+        return FrancaTypeHelper.getAllOverloads(francaMethod)
+            .map { getSignature(it) }
+            .filter { signature == it }
+            .count() > 1
     }
 
-    FTypeRef francaTypeRef = francaArgument.getType();
-    if (InstanceRules.isInstanceId(francaTypeRef)) {
-      return francaTypeRef.getDerived().getName();
+    private fun getSignature(francaMethod: FMethod): List<String>? {
+        val key = FrancaTypeHelper.getFullName(francaMethod)
+        return signatureCache.getOrPut(key) { computeSignature(francaMethod) }
     }
 
-    FType actualDerived = FrancaHelpers.getActualDerived(francaTypeRef);
-    if (actualDerived == null) {
-      return FrancaHelpers.getActualPredefined(francaTypeRef).getName();
-    }
+    companion object {
+        private const val TYPE_ERASED_ARRAY = "List<>"
+        private const val TYPE_ERASED_MAP = "Map<>"
 
-    if (actualDerived instanceof FArrayType) {
-      return TYPE_ERASED_ARRAY;
-    }
-    if (actualDerived instanceof FMapType) {
-      return TYPE_ERASED_MAP;
-    }
+        private fun computeSignature(francaMethod: FMethod) =
+            francaMethod.inArgs.map { getTypeName(it) }
 
-    return actualDerived.getName();
-  }
+        private fun getTypeName(francaArgument: FArgument): String {
+            if (francaArgument.isArray) {
+                return TYPE_ERASED_ARRAY
+            }
+
+            val francaTypeRef = francaArgument.type
+            if (InstanceRules.isInstanceId(francaTypeRef)) {
+                return francaTypeRef.derived.name
+            }
+
+            val actualDerived = FrancaHelpers.getActualDerived(francaTypeRef)
+            return when (actualDerived) {
+                null -> FrancaHelpers.getActualPredefined(francaTypeRef).getName()
+                is FArrayType -> TYPE_ERASED_ARRAY
+                is FMapType -> TYPE_ERASED_MAP
+                else -> actualDerived.name ?: ""
+            }
+        }
+    }
 }
