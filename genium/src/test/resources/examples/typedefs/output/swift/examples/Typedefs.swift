@@ -18,9 +18,9 @@ public class Typedefs {
     public typealias ExampleAlias = UInt32
     let c_instance : _baseRef
 
-    init?(cTypedefs: _baseRef) {
+    init(cTypedefs: _baseRef) {
         guard cTypedefs != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cTypedefs
     }

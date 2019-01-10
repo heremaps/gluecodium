@@ -75,9 +75,9 @@ public protocol CalculatorListener : AnyObject {
 }
 internal class _CalculatorListener: CalculatorListener {
     let c_instance : _baseRef
-    init?(cCalculatorListener: _baseRef) {
+    init(cCalculatorListener: _baseRef) {
         guard cCalculatorListener != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cCalculatorListener
     }

@@ -13,7 +13,7 @@ internal func getRef(_ ref: ObjcChildClass?, owning: Bool = true) -> RefHolder {
 }
 @objcMembers
 public class ObjcChildClass: ObjcClass {
-    init?(cObjcChildClass: _baseRef) {
+    init(cObjcChildClass: _baseRef) {
         super.init(cObjcClass: cObjcChildClass)
     }
 }

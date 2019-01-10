@@ -65,9 +65,9 @@ internal class _Attributes: Attributes {
     }
     let c_instance : _baseRef
 
-    init?(cAttributes: _baseRef) {
+    init(cAttributes: _baseRef) {
         guard cAttributes != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cAttributes
     }

@@ -25,9 +25,9 @@ public class ConstantsInterface {
     public static let enumConstant: ConstantsInterface.StateEnum = ConstantsInterface.StateEnum.on
 
     let c_instance : _baseRef
-    init?(cConstantsInterface: _baseRef) {
+    init(cConstantsInterface: _baseRef) {
         guard cConstantsInterface != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cConstantsInterface
     }

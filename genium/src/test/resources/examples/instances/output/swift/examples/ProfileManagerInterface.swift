@@ -43,9 +43,9 @@ internal class _ProfileManagerInterface: ProfileManagerInterface {
 
     let c_instance : _baseRef
 
-    init?(cProfileManagerInterface: _baseRef) {
+    init(cProfileManagerInterface: _baseRef) {
         guard cProfileManagerInterface != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cProfileManagerInterface
     }

@@ -16,9 +16,9 @@ internal func getRef(_ ref: StaticMethods?, owning: Bool = true) -> RefHolder {
 public class StaticMethods {
     let c_instance : _baseRef
 
-    init?(cStaticMethods: _baseRef) {
+    init(cStaticMethods: _baseRef) {
         guard cStaticMethods != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cStaticMethods
     }

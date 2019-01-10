@@ -41,9 +41,9 @@ internal class _InterfaceWithStruct: InterfaceWithStruct {
 
     let c_instance : _baseRef
 
-    init?(cInterfaceWithStruct: _baseRef) {
+    init(cInterfaceWithStruct: _baseRef) {
         guard cInterfaceWithStruct != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cInterfaceWithStruct
     }

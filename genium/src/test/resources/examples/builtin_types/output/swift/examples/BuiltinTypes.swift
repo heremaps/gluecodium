@@ -16,9 +16,9 @@ internal func getRef(_ ref: BuiltinTypes?, owning: Bool = true) -> RefHolder {
 public class BuiltinTypes {
     let c_instance : _baseRef
 
-    init?(cBuiltinTypes: _baseRef) {
+    init(cBuiltinTypes: _baseRef) {
         guard cBuiltinTypes != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cBuiltinTypes
     }

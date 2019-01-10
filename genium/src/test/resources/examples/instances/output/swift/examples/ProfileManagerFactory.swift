@@ -16,9 +16,9 @@ internal func getRef(_ ref: ProfileManagerFactory?, owning: Bool = true) -> RefH
 public class ProfileManagerFactory {
     let c_instance : _baseRef
 
-    init?(cProfileManagerFactory: _baseRef) {
+    init(cProfileManagerFactory: _baseRef) {
         guard cProfileManagerFactory != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cProfileManagerFactory
     }
@@ -28,11 +28,13 @@ public class ProfileManagerFactory {
     }
     public static func createProfileManager() -> ProfileManager? {
         let cResult = examples_ProfileManagerFactory_createProfileManager()
+        if cResult == 0 { return nil }
         return ProfileManager(cProfileManager: cResult)
     }
 
     public static func createProfileManagerInterface() -> ProfileManagerInterface? {
         let cResult = examples_ProfileManagerFactory_createProfileManagerInterface()
+        if cResult == 0 { return nil }
 
         if let swift_pointer = examples_ProfileManagerInterface_get_swift_object_from_cache(cResult),
                 let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ProfileManagerInterface {

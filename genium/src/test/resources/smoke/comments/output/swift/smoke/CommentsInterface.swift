@@ -141,9 +141,9 @@ internal class _CommentsInterface: CommentsInterface {
         }
     }
     let c_instance : _baseRef
-    init?(cCommentsInterface: _baseRef) {
+    init(cCommentsInterface: _baseRef) {
         guard cCommentsInterface != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cCommentsInterface
     }

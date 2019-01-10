@@ -48,9 +48,9 @@ internal class _SimpleInterface: SimpleInterface {
 
     let c_instance : _baseRef
 
-    init?(cSimpleInterface: _baseRef) {
+    init(cSimpleInterface: _baseRef) {
         guard cSimpleInterface != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cSimpleInterface
     }

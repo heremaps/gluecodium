@@ -31,9 +31,9 @@ internal protocol InternalInterface : AnyObject {
 internal class _InternalInterface: InternalInterface {
     let c_instance : _baseRef
 
-    init?(cInternalInterface: _baseRef) {
+    init(cInternalInterface: _baseRef) {
         guard cInternalInterface != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cInternalInterface
     }

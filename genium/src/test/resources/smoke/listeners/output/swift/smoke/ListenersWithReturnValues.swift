@@ -62,9 +62,9 @@ public protocol ListenersWithReturnValues : AnyObject {
 }
 internal class _ListenersWithReturnValues: ListenersWithReturnValues {
     let c_instance : _baseRef
-    init?(cListenersWithReturnValues: _baseRef) {
+    init(cListenersWithReturnValues: _baseRef) {
         guard cListenersWithReturnValues != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cListenersWithReturnValues
     }
@@ -106,6 +106,7 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
     }
     public func fetchData() -> CalculationResult? {
         let cResult = smoke_ListenersWithReturnValues_fetchData_instance(c_instance)
+        if cResult == 0 { return nil }
         if let swift_pointer = smoke_CalculationResult_get_swift_object_from_cache(cResult),
                 let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CalculationResult {
             return re_constructed

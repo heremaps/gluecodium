@@ -29,9 +29,9 @@ public class InheritanceChildClass: InheritanceRoot {
         }
     }
     let c_instance : _baseRef
-    init?(cInheritanceChildClass: _baseRef) {
+    init(cInheritanceChildClass: _baseRef) {
         guard cInheritanceChildClass != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cInheritanceChildClass
     }
