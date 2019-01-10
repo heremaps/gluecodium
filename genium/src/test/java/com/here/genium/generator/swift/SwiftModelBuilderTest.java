@@ -25,6 +25,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
+import com.here.genium.common.FrancaSignatureResolver;
 import com.here.genium.generator.cbridge.CBridgeNameRules;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.franca.DefinedBy;
@@ -61,6 +62,7 @@ public final class SwiftModelBuilderTest {
   private final MockContextStack<SwiftModelElement> contextStack = new MockContextStack<>();
 
   @Mock private FrancaDeploymentModel deploymentModel;
+  @Mock private FrancaSignatureResolver signatureResolver;
 
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
@@ -104,7 +106,7 @@ public final class SwiftModelBuilderTest {
     when(francaTypeDef.getName()).thenReturn("definite");
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
 
-    modelBuilder = new SwiftModelBuilder(contextStack, deploymentModel);
+    modelBuilder = new SwiftModelBuilder(contextStack, deploymentModel, signatureResolver);
   }
 
   @Test
@@ -301,6 +303,29 @@ public final class SwiftModelBuilderTest {
     SwiftMethod swiftMethod = modelBuilder.getFinalResult(SwiftMethod.class);
     assertNotNull(swiftMethod);
     assertEquals(SwiftVisibility.INTERNAL, swiftMethod.visibility);
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodCreatesConstructor() {
+    when(deploymentModel.isConstructor(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    SwiftMethod swiftMethod = modelBuilder.getFinalResult(SwiftMethod.class);
+    assertNotNull(swiftMethod);
+    assertTrue(swiftMethod.isConstructor());
+  }
+
+  @Test
+  public void finishBuildingFrancaMethodCreatesOverridingConstructor() {
+    when(deploymentModel.isConstructor(any())).thenReturn(true);
+    when(signatureResolver.hasSignatureClash(any())).thenReturn(true);
+
+    modelBuilder.finishBuilding(francaMethod);
+
+    SwiftMethod swiftMethod = modelBuilder.getFinalResult(SwiftMethod.class);
+    assertNotNull(swiftMethod);
+    assertTrue(swiftMethod.isOverriding());
   }
 
   @Test

@@ -22,6 +22,7 @@ package com.here.genium.generator.swift;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.here.genium.common.FrancaSignatureResolver;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.genium.generator.common.templates.TemplateEngine;
@@ -43,9 +44,11 @@ public class SwiftGenerator {
           GeneratorSuite.copyTarget("swift/NativeBase.swift", ""));
 
   private final FrancaDeploymentModel deploymentModel;
+  private final FrancaSignatureResolver signatureResolver;
 
   public SwiftGenerator(final FrancaDeploymentModel deploymentModel) {
     this.deploymentModel = deploymentModel;
+    this.signatureResolver = new FrancaSignatureResolver();
   }
 
   public GeneratedFile generate(final FTypeCollection francaTypeCollection) {
@@ -72,7 +75,7 @@ public class SwiftGenerator {
 
   @VisibleForTesting
   SwiftFile buildSwiftModel(final FTypeCollection francaTypeCollection) {
-    SwiftModelBuilder modelBuilder = new SwiftModelBuilder(deploymentModel);
+    SwiftModelBuilder modelBuilder = new SwiftModelBuilder(deploymentModel, signatureResolver);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walkTree(francaTypeCollection);

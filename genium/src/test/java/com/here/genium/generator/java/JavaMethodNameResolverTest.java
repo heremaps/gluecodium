@@ -21,7 +21,6 @@ package com.here.genium.generator.java;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.genium.common.FrancaTypeHelper;
@@ -32,6 +31,7 @@ import org.franca.core.franca.FArrayType;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FMapType;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FTypeRef;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,6 +48,9 @@ public final class JavaMethodNameResolverTest {
 
   @Mock private FMethod francaMethod;
   @Mock private FMethod anotherMethod;
+  @Mock private FArrayType francaArrayType;
+  @Mock private FMapType francaMapType;
+  @Mock private FTypeRef francaTypeRef;
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FArgument arrayArgument;
@@ -76,10 +79,13 @@ public final class JavaMethodNameResolverTest {
     when(francaMethod.getInArgs()).thenReturn(arguments);
     when(anotherMethod.getInArgs()).thenReturn(otherArguments);
 
-    when(arrayArgument.getType().getDerived()).thenReturn(mock(FArrayType.class));
+    when(arrayArgument.getType().getDerived()).thenReturn(francaArrayType);
+    when(francaArrayType.getElementType()).thenReturn(francaTypeRef);
     when(inlineArrayArgument.isArray()).thenReturn(true);
     when(inlineArrayArgument.getType().getPredefined()).thenReturn(FBasicTypeId.INT32);
-    when(mapArgument.getType().getDerived()).thenReturn(mock(FMapType.class));
+    when(mapArgument.getType().getDerived()).thenReturn(francaMapType);
+    when(francaMapType.getKeyType()).thenReturn(francaTypeRef);
+    when(francaMapType.getValueType()).thenReturn(francaTypeRef);
     when(intArgument.getType().getPredefined()).thenReturn(FBasicTypeId.INT8);
 
     when(FrancaTypeHelper.getFullName(francaMethod)).thenReturn("some_nonsense_cache_key");

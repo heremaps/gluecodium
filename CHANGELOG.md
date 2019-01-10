@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed compilation issues for constructors of child classes in Swift.
+
 ## 3.19.1
 - Release date: 2019-01-09
 - Bug fixes:

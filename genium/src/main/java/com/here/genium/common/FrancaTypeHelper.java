@@ -22,6 +22,7 @@ package com.here.genium.common;
 import com.here.genium.model.franca.DefinedBy;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -93,11 +94,18 @@ public final class FrancaTypeHelper {
   public static List<FMethod> getAllOverloads(final FMethod francaMethod) {
     EObject parent = francaMethod.eContainer();
     return parent instanceof FInterface
-        ? ((FInterface) parent)
-            .getMethods()
+        ? getAllMethods((FInterface) parent)
             .stream()
             .filter(method -> method.getName().equals(francaMethod.getName()))
             .collect(Collectors.toList())
         : Collections.emptyList();
+  }
+
+  private static List<FMethod> getAllMethods(final FInterface francaInterface) {
+    List<FMethod> result = new LinkedList<>(francaInterface.getMethods());
+    if (francaInterface.getBase() != null) {
+      result.addAll(getAllMethods(francaInterface.getBase()));
+    }
+    return result;
   }
 }
