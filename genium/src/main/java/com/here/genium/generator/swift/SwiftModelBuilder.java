@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.genium.common.CollectionsHelper;
+import com.here.genium.common.FrancaSignatureResolver;
 import com.here.genium.generator.cbridge.CBridgeNameRules;
 import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
@@ -40,17 +41,22 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   public final Set<String> enumsAsErrors = new HashSet<>();
 
   private final FrancaDeploymentModel deploymentModel;
+  private final FrancaSignatureResolver signatureResolver;
 
-  public SwiftModelBuilder(final FrancaDeploymentModel deploymentModel) {
-    this(new ModelBuilderContextStack<>(), deploymentModel);
+  public SwiftModelBuilder(
+      final FrancaDeploymentModel deploymentModel,
+      final FrancaSignatureResolver signatureResolver) {
+    this(new ModelBuilderContextStack<>(), deploymentModel, signatureResolver);
   }
 
   @VisibleForTesting
   SwiftModelBuilder(
       final ModelBuilderContextStack<SwiftModelElement> contextStack,
-      final FrancaDeploymentModel deploymentModel) {
+      final FrancaDeploymentModel deploymentModel,
+      final FrancaSignatureResolver signatureResolver) {
     super(contextStack);
     this.deploymentModel = deploymentModel;
+    this.signatureResolver = signatureResolver;
   }
 
   @Override
@@ -280,6 +286,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             createErrorIfNeeded(francaMethod),
             deploymentModel.isStatic(francaMethod) || isConstructor,
             isConstructor,
+            isConstructor && signatureResolver.hasSignatureClash(francaMethod),
             inParams,
             getPreviousResults(SwiftGenericParameter.class));
 
@@ -349,6 +356,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
               CBridgeNameRules.getPropertySetterName(francaAttribute),
               null,
               isStatic,
+              false,
               false,
               Collections.singletonList(new SwiftParameter("newValue", property.type)));
       property.propertyAccessors.add(setterMethod);
