@@ -24,6 +24,7 @@ import static com.here.genium.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
 import static com.here.genium.generator.cbridge.CBridgeNameRules.SRC_DIR;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.here.genium.common.FrancaSignatureResolver;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
 import com.here.genium.generator.common.templates.TemplateEngine;
@@ -46,6 +47,7 @@ import org.franca.core.franca.FTypeCollection;
 public class CBridgeGenerator {
 
   private final FrancaDeploymentModel deploymentModel;
+  private final FrancaSignatureResolver signatureResolver;
   private final CppIncludeResolver cppIncludeResolver;
   private final CBridgeIncludeResolver includeResolver;
   private final CppNameResolver cppNameResolver;
@@ -77,6 +79,7 @@ public class CBridgeGenerator {
     this.includeResolver = includeResolver;
     this.cppNameResolver = cppNameResolver;
     this.internalNamespace = internalNamespace;
+    this.signatureResolver = new FrancaSignatureResolver();
   }
 
   public Stream<GeneratedFile> generate(final FTypeCollection francaTypeCollection) {
@@ -108,7 +111,7 @@ public class CBridgeGenerator {
     CppValueMapper valueMapper = new CppValueMapper(deploymentModel, cppNameResolver);
     CppModelBuilder cppBuilder =
         new CppModelBuilder(deploymentModel, cppTypeMapper, valueMapper, cppNameResolver);
-    SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(deploymentModel);
+    SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(deploymentModel, signatureResolver);
     CBridgeTypeMapper typeMapper =
         new CBridgeTypeMapper(
             cppIncludeResolver,

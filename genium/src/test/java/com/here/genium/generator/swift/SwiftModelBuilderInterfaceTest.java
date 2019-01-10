@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
+import com.here.genium.common.FrancaSignatureResolver;
 import com.here.genium.generator.cbridge.CBridgeNameRules;
 import com.here.genium.model.franca.DefinedBy;
 import com.here.genium.model.franca.FrancaDeploymentModel;
@@ -69,9 +70,11 @@ public class SwiftModelBuilderInterfaceTest {
           null,
           false,
           false,
+          false,
           Collections.singletonList(new SwiftParameter("MethodValue", SwiftType.STRING)));
 
   @Mock private FrancaDeploymentModel deploymentModel;
+  @Mock private FrancaSignatureResolver signatureResolver;
   @Mock private FInterface francaInterface;
 
   private SwiftModelBuilder modelBuilder;
@@ -85,7 +88,7 @@ public class SwiftModelBuilderInterfaceTest {
     when(CBridgeNameRules.getInterfaceName(francaInterface)).thenReturn("package_classy");
     when(CBridgeNameRules.getFunctionTableName(francaInterface)).thenReturn("fun_table");
 
-    modelBuilder = new SwiftModelBuilder(contextStack, deploymentModel);
+    modelBuilder = new SwiftModelBuilder(contextStack, deploymentModel, signatureResolver);
   }
 
   // Creates instantiable Swift class
