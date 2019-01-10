@@ -15,7 +15,7 @@ internal func getRef(_ ref: InheritanceGrandchildClass?, owning: Bool = true) ->
 }
 
 public class InheritanceGrandchildClass: InheritanceChildClass {
-    init?(cInheritanceGrandchildClass: _baseRef) {
+    init(cInheritanceGrandchildClass: _baseRef) {
         super.init(cInheritanceChildClass: cInheritanceGrandchildClass)
     }
     public func grandchildClassMethod() -> Void {

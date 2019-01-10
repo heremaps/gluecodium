@@ -16,9 +16,9 @@ internal func getRef(_ ref: SimpleInstantiable?, owning: Bool = true) -> RefHold
 public class SimpleInstantiable {
     let c_instance : _baseRef
 
-    init?(cSimpleInstantiable: _baseRef) {
+    init(cSimpleInstantiable: _baseRef) {
         guard cSimpleInstantiable != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cSimpleInstantiable
     }

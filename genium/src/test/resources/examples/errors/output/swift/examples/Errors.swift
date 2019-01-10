@@ -16,9 +16,9 @@ internal func getRef(_ ref: Errors?, owning: Bool = true) -> RefHolder {
 public class Errors {
     let c_instance : _baseRef
 
-    init?(cErrors: _baseRef) {
+    init(cErrors: _baseRef) {
         guard cErrors != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cErrors
     }

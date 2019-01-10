@@ -97,6 +97,7 @@ public class Attributes {
     public var instanceAttribute: AttributesInterface? {
         get {
             let cResult = smoke_Attributes_instanceAttribute_get(c_instance)
+            if cResult == 0 { return nil }
             if let swift_pointer = smoke_AttributesInterface_get_swift_object_from_cache(cResult),
                     let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesInterface {
                 return re_constructed
@@ -144,9 +145,9 @@ public class Attributes {
 
     let c_instance : _baseRef
 
-    init?(cAttributes: _baseRef) {
+    init(cAttributes: _baseRef) {
         guard cAttributes != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cAttributes
     }

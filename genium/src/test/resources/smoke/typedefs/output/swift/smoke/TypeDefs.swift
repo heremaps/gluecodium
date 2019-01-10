@@ -38,9 +38,9 @@ public class TypeDefs {
     }
     let c_instance : _baseRef
 
-    init?(cTypeDefs: _baseRef) {
+    init(cTypeDefs: _baseRef) {
         guard cTypeDefs != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cTypeDefs
     }
