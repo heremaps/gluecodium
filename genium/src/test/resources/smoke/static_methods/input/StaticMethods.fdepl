@@ -197,3 +197,14 @@ define GeniumExtensions for interface smoke.Constructors
         Constructor = true
     }
 }
+
+define GeniumExtensions for interface smoke.ChildConstructors
+{
+    method create:noArgsChild {
+        Constructor = true
+    }
+
+    method create:copyFromParent {
+        Constructor = true
+    }
+}
