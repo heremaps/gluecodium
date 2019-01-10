@@ -136,9 +136,8 @@ let swift_{{variableName}} = convert{{variableType.name}}FromCType(c_{{variableN
 {{/ConvertToSwiftEnum}}{{!!
 
 }}{{+ConvertToSwiftClass}}{{!!
-}}guard let swift_{{variableName}} = {{variableType.implementingClass}}(c{{variableType.simpleName}}: c_{{variableName}}) else {
-    fatalError("Nullptr entries for arrays of {{variableType}} are not supported")
-}
+}}let swift_{{variableName}} = {{#if type.optional}}c_{{variableName}} != 0 ? {{/if}}{{!!
+}}{{variableType.implementingClass}}(c{{variableType.simpleName}}: c_{{variableName}}){{#if type.optional}} : nil{{/if}}
 {{/ConvertToSwiftClass}}{{!!
 
 }}{{+ConvertToSwiftArray}}{{!!
