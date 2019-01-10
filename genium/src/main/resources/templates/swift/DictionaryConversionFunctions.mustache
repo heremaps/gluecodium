@@ -34,7 +34,7 @@ func convert{{name}}FromCType(_ c_handle: _baseRef) -> {{publicName}} {
     while {{cPrefix}}_iterator_is_valid(c_handle, iterator_handle) {
 {{#set variableName="key" variableType=keyType}}{{prefixPartial "ConvertToSwift" "        "}}{{/set}}
 {{#set variableName="value" variableType=valueType}}{{prefixPartial "ConvertToSwift" "        "}}{{/set}}
-        swiftDict[swift_key{{#isEq keyType.category.toString "BUILTIN_STRING"}}!{{/isEq}}] = swift_value
+        swiftDict[swift_key] = swift_value
         {{cPrefix}}_iterator_increment(iterator_handle)
     }
     {{cPrefix}}_iterator_release_handle(iterator_handle)
@@ -97,7 +97,7 @@ let c_{{variableName}} = c_conversion.c_type
 }}{{+ConvertToSwift}}{{!!
 }}let c_{{variableName}} = {{cPrefix}}_iterator_{{variableName}}(iterator_handle)
 {{#switch variableType.category.toString}}{{!!
-    }}{{#case "BUILTIN_STRING"}}{{>ConvertToSwiftString}}{{/case}}{{!!
+    }}{{#case "BUILTIN_STRING" break="false"}}{{/case}}{{!!
     }}{{#case "STRUCT"}}{{>ConvertToSwiftStruct}}{{/case}}{{!!
     }}{{#case "DICTIONARY"}}{{>ConvertToSwiftDictionary}}{{/case}}{{!!
     }}{{#case "ENUM"}}{{>ConvertToSwiftEnum}}{{/case}}{{!!
@@ -108,20 +108,8 @@ let c_{{variableName}} = c_conversion.c_type
 }}{{/switch}}{{!!
 }}{{/ConvertToSwift}}{{!!
 
-}}{{+ConvertToSwiftString}}{{!!
-}}defer {
-    std_string_release_handle(c_{{variableName}})
-}
-let swift_{{variableName}} = String(data: Data(bytes: std_string_data_get(c_{{variableName}}),
-                                    count: Int(std_string_size_get(c_{{variableName}}))),
-                                    encoding: .utf8)
-{{/ConvertToSwiftString}}{{!!
-
 }}{{+ConvertToSwiftStruct}}{{!!
-}}defer {
-    {{variableType.cPrefix}}_release_handle(c_{{variableName}})
-}
-let swift_{{variableName}} = {{variableType}}(c{{variableType.simpleName}}: c_{{variableName}})
+}}let swift_{{variableName}}: {{variableType}} = moveFromCType(c_{{variableName}})
 {{/ConvertToSwiftStruct}}{{!!
 
 }}{{+ConvertToSwiftDictionary}}{{!!

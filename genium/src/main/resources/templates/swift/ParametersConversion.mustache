@@ -59,14 +59,14 @@ if (RESULT.has_value) {
 
 
 }}{{+returnValueConversion}}{{#switch returnType.category.toString}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER"}}{{>swift/MethodReturnData}}{{/case}}{{!!
-    }}{{#case "BUILTIN_STRING"}}{{>swift/MethodReturnString}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}{{>MethodReturnStruct}}{{/case}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER" break="false"}}{{/case}}{{!!
+    }}{{#case "STRUCT" break="false"}}{{/case}}{{!!
+    }}{{#case "BUILTIN_STRING"}}return moveFromCType({{include delegateToCall}}){{/case}}{{!!
     }}{{#case "CLASS"}}{{>MethodReturnClass}}{{/case}}{{!!
     }}{{#case "ENUM"}}{{>MethodReturnEnum}}{{/case}}{{!!
     }}{{#case "ARRAY"}}{{>MethodReturnArray}}{{/case}}{{!!
     }}{{#case "DICTIONARY"}}{{>MethodReturnDictionary}}{{/case}}{{!!
-    }}{{#default}}{{>swift/MethodReturn}}{{/default}}{{!!
+    }}{{#default}}return {{include delegateToCall}}{{/default}}{{!!
   }}{{/switch}}{{!!
 }}{{/returnValueConversion}}{{!!
 
@@ -106,15 +106,7 @@ defer {
 }
 {{/dictionaryConversion}}{{!!
 
-}}{{+MethodReturnStruct}}{{!!
-}}let cResult = {{include delegateToCall}}
-defer {
-    {{returnType.cPrefix}}_release_handle(cResult)
-}
-return {{>returnTypeOrImplClass}}(c{{returnType.simpleName}}: cResult)
-{{/MethodReturnStruct}}
-
-{{+MethodReturnClass}}{{!!
+}}{{+MethodReturnClass}}{{!!
 }}let cResult = {{include delegateToCall}}{{!!
 }}{{#if returnType.optional}}
 if cResult == 0 { return nil }{{/if}}{{!!

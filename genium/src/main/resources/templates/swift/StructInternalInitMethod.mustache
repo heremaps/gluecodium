@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-internal init(c{{simpleName}}: _baseRef) {
+internal init(cHandle: _baseRef) {
 {{#set structName=simpleName}}
 {{#fields}}
     {{#switch type.category.toString}}
@@ -35,17 +35,18 @@ internal init(c{{simpleName}}: _baseRef) {
 {{/set}}
 }
 
-{{+assignBasicType}}{{name}} = {{cPrefix}}_{{name}}_get(c{{structName}})
+
+{{+assignBasicType}}{{name}} = {{cPrefix}}_{{name}}_get(cHandle)
 {{/assignBasicType}}
 
-{{+assignArray}}{{name}} = {{type.implementingClass}}({{cPrefix}}_{{name}}_get(c{{structName}}))
+{{+assignArray}}{{name}} = {{type.implementingClass}}({{cPrefix}}_{{name}}_get(cHandle))
 {{/assignArray}}
 
-{{+assignEnum}}{{name}} = {{type}}.init(rawValue: {{cPrefix}}_{{name}}_get(c{{structName}}))!
+{{+assignEnum}}{{name}} = {{type}}.init(rawValue: {{cPrefix}}_{{name}}_get(cHandle))!
 {{/assignEnum}}
 
 {{+assignStringType}}do {
-    let {{name}}_handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    let {{name}}_handle = {{cPrefix}}_{{name}}_get(cHandle)
     defer {
         std_string_release_handle({{name}}_handle)
     }
@@ -54,7 +55,7 @@ internal init(c{{simpleName}}: _baseRef) {
 {{/assignStringType}}
 
 {{+assignDataType}}do {
-    let {{name}}_handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    let {{name}}_handle = {{cPrefix}}_{{name}}_get(cHandle)
     defer {
         byteArray_release_handle({{name}}_handle)
     }
@@ -67,22 +68,22 @@ internal init(c{{simpleName}}: _baseRef) {
 {{/assignDataType}}
 
 {{+assignStruct}}do {
-    let {{name}}_handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    let {{name}}_handle = {{cPrefix}}_{{name}}_get(cHandle)
     defer {
         {{type.cPrefix}}_release_handle({{name}}_handle)
     }
-    {{name}} = {{type}}(c{{type.simpleName}}: {{name}}_handle)
+    {{name}} = {{type}}(cHandle: {{name}}_handle)
 }
 {{/assignStruct}}
 
 {{+assignClass}}do {
-    let {{name}}_handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    let {{name}}_handle = {{cPrefix}}_{{name}}_get(cHandle)
     {{name}} = {{#if type.optional}}{{name}}_handle != 0 ? {{/if}}{{type}}(c{{type}}: {{name}}_handle){{#if type.optional}} : nil{{/if}}
 }
 {{/assignClass}}{{!!
 
 }}{{+assignDictionary}}do {
-    let {{name}}_handle = {{cPrefix}}_{{name}}_get(c{{structName}})
+    let {{name}}_handle = {{cPrefix}}_{{name}}_get(cHandle)
     defer {
         {{type.cPrefix}}_release_handle({{name}}_handle)
     }

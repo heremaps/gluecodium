@@ -42,11 +42,11 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType.publicName}}
     public override subscript(index: Int) -> {{underlyingType.publicName}} {
         let handle = {{refName}}_get(c_element!, UInt64(index)){{!!
         }}{{#switch underlyingType.category.toString}}{{!!
+        }}{{#case "BUILTIN_STRING" break="false"}}{{/case}}{{!!
         }}{{#case "STRUCT"}}{{prefixPartial 'structSubscript'   '        '}}{{/case}}{{!!
         }}{{#case "CLASS"}}{{prefixPartial 'classSubscript'   '        '}}{{/case}}{{!!
         }}{{#case "ARRAY"}}{{prefixPartial 'arraySubscript'   '        '}}{{/case}}{{!!
         }}{{#case "ENUM"}}{{prefixPartial 'enumSubscript'   '        '}}{{/case}}{{!!
-        }}{{#case "BUILTIN_STRING"}}{{prefixPartial 'stringSubscript'  '        '}}{{/case}}{{!!
         }}{{#case "DICTIONARY"}}{{prefixPartial 'dictionarySubscript'   '        '}}{{/case}}{{!!
         }}{{#default}}{{prefixPartial 'defaultSubscript'  '        '}}{{/default}}{{!!
         }}{{/switch}}
@@ -93,10 +93,7 @@ return {{underlyingType}}(rawValue: handle)!{{/enumSubscript}}
 return handle{{/defaultSubscript}}
 
 {{+structSubscript}}
-defer {
-    {{underlyingType.cPrefix}}_release_handle(handle)
-}
-return {{underlyingType}}(c{{underlyingType.simpleName}}: handle){{/structSubscript}}
+return moveFromCType(handle){{/structSubscript}}
 
 {{+classSubscript}}
 return {{underlyingType.implementingClass}}(c{{underlyingType.simpleName}}: handle){{/classSubscript}}
@@ -107,14 +104,7 @@ return {{underlyingType.implementingClass}}(handle){{/arraySubscript}}{{!!
 }}{{+dictionarySubscript}}
 return convert{{underlyingType.name}}FromCType(handle){{/dictionarySubscript}}{{!!
 
-}}{{+stringSubscript}}
-defer {
-    std_string_release_handle(handle)
-}
-return String(data: Data(bytes: std_string_data_get(handle),
-              count: Int(std_string_size_get(handle))), encoding: .utf8)!{{/stringSubscript}}
-
-{{+structConversion}}let item_handle = item.convertToCType();
+}}{{+structConversion}}let item_handle = item.convertToCType();
 defer {
     {{underlyingType.cPrefix}}_release_handle(item_handle)
 }
