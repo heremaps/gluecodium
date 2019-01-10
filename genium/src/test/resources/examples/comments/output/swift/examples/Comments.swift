@@ -29,9 +29,9 @@ public class Comments {
         }
     }
     let c_instance : _baseRef
-    init?(cComments: _baseRef) {
+    init(cComments: _baseRef) {
         guard cComments != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cComments
     }

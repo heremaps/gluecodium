@@ -16,9 +16,9 @@ internal func getRef(_ ref: EnumMethods?, owning: Bool = true) -> RefHolder {
 public class EnumMethods {
     let c_instance : _baseRef
 
-    init?(cEnumMethods: _baseRef) {
+    init(cEnumMethods: _baseRef) {
         guard cEnumMethods != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cEnumMethods
     }

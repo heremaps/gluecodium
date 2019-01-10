@@ -16,9 +16,9 @@ internal func getRef(_ ref: MethodOverloads?, owning: Bool = true) -> RefHolder 
 public class MethodOverloads {
     let c_instance : _baseRef
 
-    init?(cMethodOverloads: _baseRef) {
+    init(cMethodOverloads: _baseRef) {
         guard cMethodOverloads != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cMethodOverloads
     }

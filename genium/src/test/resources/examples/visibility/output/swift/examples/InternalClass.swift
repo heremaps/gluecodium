@@ -18,9 +18,9 @@ internal class InternalClass {
 
     let c_instance : _baseRef
 
-    init?(cInternalClass: _baseRef) {
+    init(cInternalClass: _baseRef) {
         guard cInternalClass != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cInternalClass
     }

@@ -63,9 +63,9 @@ public protocol ErrorsInterface : AnyObject {
 }
 internal class _ErrorsInterface: ErrorsInterface {
     let c_instance : _baseRef
-    init?(cErrorsInterface: _baseRef) {
+    init(cErrorsInterface: _baseRef) {
         guard cErrorsInterface != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cErrorsInterface
     }

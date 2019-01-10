@@ -16,9 +16,9 @@ internal func getRef(_ ref: ProfileManager?, owning: Bool = true) -> RefHolder {
 public class ProfileManager {
     let c_instance : _baseRef
 
-    init?(cProfileManager: _baseRef) {
+    init(cProfileManager: _baseRef) {
         guard cProfileManager != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cProfileManager
     }

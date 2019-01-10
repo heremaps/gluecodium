@@ -16,9 +16,9 @@ internal func getRef(_ ref: Calculator?, owning: Bool = true) -> RefHolder {
 public class Calculator {
     let c_instance : _baseRef
 
-    init?(cCalculator: _baseRef) {
+    init(cCalculator: _baseRef) {
         guard cCalculator != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cCalculator
     }

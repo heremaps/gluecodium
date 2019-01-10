@@ -46,9 +46,9 @@ internal class _InheritanceParent: InheritanceParent {
 
     let c_instance : _baseRef
 
-    init?(cInheritanceParent: _baseRef) {
+    init(cInheritanceParent: _baseRef) {
         guard cInheritanceParent != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cInheritanceParent
     }

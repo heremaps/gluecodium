@@ -135,6 +135,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
     var packedMessage: CalculationResult? {
         get {
             let cResult = smoke_ListenerWithAttributes_packedMessage_get(c_instance)
+            if cResult == 0 { return nil }
             if let swift_pointer = smoke_CalculationResult_get_swift_object_from_cache(cResult),
                     let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CalculationResult {
                 return re_constructed
@@ -220,9 +221,9 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
         }
     }
     let c_instance : _baseRef
-    init?(cListenerWithAttributes: _baseRef) {
+    init(cListenerWithAttributes: _baseRef) {
         guard cListenerWithAttributes != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cListenerWithAttributes
     }

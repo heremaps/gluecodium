@@ -16,9 +16,9 @@ internal func getRef(_ ref: InstanceWithStruct?, owning: Bool = true) -> RefHold
 public class InstanceWithStruct {
     let c_instance : _baseRef
 
-    init?(cInstanceWithStruct: _baseRef) {
+    init(cInstanceWithStruct: _baseRef) {
         guard cInstanceWithStruct != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cInstanceWithStruct
     }
@@ -57,21 +57,16 @@ public class InstanceWithStruct {
 
         internal init(cStructWithInstance: _baseRef) {
             do {
-                instance = SimpleInstantiable(cSimpleInstantiable: smoke_InstanceWithStruct_StructWithInstance_instance_get(cStructWithInstance))
+                let instance_handle = smoke_InstanceWithStruct_StructWithInstance_instance_get(cStructWithInstance)
+                instance = instance_handle != 0 ? SimpleInstantiable(cSimpleInstantiable: instance_handle) : nil
             }
             do {
-                guard let instanceNotNull_unwrapped = SimpleInstantiable(cSimpleInstantiable: smoke_InstanceWithStruct_StructWithInstance_instanceNotNull_get(cStructWithInstance))
-            else {
-                fatalError("Nullptr value for field 'StructWithInstance.instanceNotNull' is not supported")
-            }
-            instanceNotNull = instanceNotNull_unwrapped
+                let instanceNotNull_handle = smoke_InstanceWithStruct_StructWithInstance_instanceNotNull_get(cStructWithInstance)
+                instanceNotNull = SimpleInstantiable(cSimpleInstantiable: instanceNotNull_handle)
             }
             do {
-                guard let instanceNotNullWithComment_unwrapped = SimpleInstantiable(cSimpleInstantiable: smoke_InstanceWithStruct_StructWithInstance_instanceNotNullWithComment_get(cStructWithInstance))
-            else {
-                fatalError("Nullptr value for field 'StructWithInstance.instanceNotNullWithComment' is not supported")
-            }
-            instanceNotNullWithComment = instanceNotNullWithComment_unwrapped
+                let instanceNotNullWithComment_handle = smoke_InstanceWithStruct_StructWithInstance_instanceNotNullWithComment_get(cStructWithInstance)
+                instanceNotNullWithComment = SimpleInstantiable(cSimpleInstantiable: instanceNotNullWithComment_handle)
             }
         }
 

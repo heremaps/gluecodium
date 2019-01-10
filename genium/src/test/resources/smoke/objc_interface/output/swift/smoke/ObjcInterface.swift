@@ -27,9 +27,9 @@ public protocol ObjcInterface : AnyObject {
 }
 internal class _ObjcInterface: ObjcInterface {
     let c_instance : _baseRef
-    init?(cObjcInterface: _baseRef) {
+    init(cObjcInterface: _baseRef) {
         guard cObjcInterface != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cObjcInterface
     }

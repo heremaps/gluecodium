@@ -15,14 +15,12 @@ internal func getRef(_ ref: NestedInstantiable?, owning: Bool = true) -> RefHold
 }
 public class NestedInstantiable {
     let c_instance : _baseRef
-
-    init?(cNestedInstantiable: _baseRef) {
+    init(cNestedInstantiable: _baseRef) {
         guard cNestedInstantiable != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cNestedInstantiable
     }
-
     deinit {
         smoke_NestedInstantiable_release_handle(c_instance)
     }
@@ -31,19 +29,15 @@ public class NestedInstantiable {
         let instanceTwo_handle = getRef(instanceTwo)
         return smoke_NestedInstantiable_setSameTypeInstances(c_instance, instanceOne_handle.ref, instanceTwo_handle.ref)
     }
-
     public func getInstanceOne() -> SimpleInstantiable? {
         let cResult = smoke_NestedInstantiable_getInstanceOne(c_instance)
+        if cResult == 0 { return nil }
         return SimpleInstantiable(cSimpleInstantiable: cResult)
     }
     public func instanceNotNullMethod(input: SimpleInstantiable) -> SimpleInstantiable {
         let input_handle = getRef(input)
         let cResult = smoke_NestedInstantiable_instanceNotNullMethod(c_instance, input_handle.ref)
-        if let unwrapped_result = SimpleInstantiable(cSimpleInstantiable: cResult) {
-            return unwrapped_result
-        } else {
-            fatalError("Nullptr value is not supported for non-optional type SimpleInstantiable")
-        }
+        return SimpleInstantiable(cSimpleInstantiable: cResult)
     }
 }
 

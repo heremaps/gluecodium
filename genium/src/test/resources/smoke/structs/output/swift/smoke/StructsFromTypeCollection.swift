@@ -16,9 +16,9 @@ internal func getRef(_ ref: StructsFromTypeCollection?, owning: Bool = true) -> 
 public class StructsFromTypeCollection {
     let c_instance : _baseRef
 
-    init?(cStructsFromTypeCollection: _baseRef) {
+    init(cStructsFromTypeCollection: _baseRef) {
         guard cStructsFromTypeCollection != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cStructsFromTypeCollection
     }

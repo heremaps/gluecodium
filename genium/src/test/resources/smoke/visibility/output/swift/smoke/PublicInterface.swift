@@ -30,9 +30,9 @@ public protocol PublicInterface : AnyObject {
 
 internal class _PublicInterface: PublicInterface {
     let c_instance : _baseRef
-    init?(cPublicInterface: _baseRef) {
+    init(cPublicInterface: _baseRef) {
         guard cPublicInterface != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cPublicInterface
     }

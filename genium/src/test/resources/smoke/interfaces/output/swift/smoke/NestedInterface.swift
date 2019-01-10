@@ -87,9 +87,9 @@ public protocol NestedInterface : AnyObject {
 }
 internal class _NestedInterface: NestedInterface {
     let c_instance : _baseRef
-    init?(cNestedInterface: _baseRef) {
+    init(cNestedInterface: _baseRef) {
         guard cNestedInterface != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cNestedInterface
     }
@@ -103,6 +103,7 @@ internal class _NestedInterface: NestedInterface {
     }
     public func getInstanceOne() -> SimpleInterface? {
         let cResult = smoke_NestedInterface_getInstanceOne(c_instance)
+        if cResult == 0 { return nil }
         if let swift_pointer = smoke_SimpleInterface_get_swift_object_from_cache(cResult),
                 let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleInterface {
             return re_constructed
@@ -111,6 +112,7 @@ internal class _NestedInterface: NestedInterface {
     }
     public func getInstanceTwo() -> SimpleInterface? {
         let cResult = smoke_NestedInterface_getInstanceTwo(c_instance)
+        if cResult == 0 { return nil }
         if let swift_pointer = smoke_SimpleInterface_get_swift_object_from_cache(cResult),
                 let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleInterface {
             return re_constructed
@@ -120,6 +122,7 @@ internal class _NestedInterface: NestedInterface {
     public func makeMoreExternal(input: ExternalInterface?) -> VeryExternalInterface? {
         let input_handle = getRef(input)
         let cResult = smoke_NestedInterface_makeMoreExternal_withInterface(c_instance, input_handle.ref)
+        if cResult == 0 { return nil }
         return VeryExternalInterface(cVeryExternalInterface: cResult)
     }
     public func makeMoreExternal(input: ExternalInterface.SomeStruct) -> VeryExternalInterface.SomeStruct {

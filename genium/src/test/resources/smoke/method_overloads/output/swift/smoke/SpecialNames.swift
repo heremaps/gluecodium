@@ -13,9 +13,9 @@ internal func getRef(_ ref: SpecialNames?, owning: Bool = true) -> RefHolder {
 }
 public class SpecialNames {
     let c_instance : _baseRef
-    init?(cSpecialNames: _baseRef) {
+    init(cSpecialNames: _baseRef) {
         guard cSpecialNames != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cSpecialNames
     }

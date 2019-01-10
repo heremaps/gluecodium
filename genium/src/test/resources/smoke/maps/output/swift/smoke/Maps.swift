@@ -26,9 +26,9 @@ public class Maps {
 
     let c_instance : _baseRef
 
-    init?(cMaps: _baseRef) {
+    init(cMaps: _baseRef) {
         guard cMaps != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cMaps
     }
@@ -365,9 +365,7 @@ func convertMaps_NumberToInstanceFromCType(_ c_handle: _baseRef) -> Maps.NumberT
         let c_key = smoke_Maps_NumberToInstance_iterator_key(iterator_handle)
         let swift_key = c_key
         let c_value = smoke_Maps_NumberToInstance_iterator_value(iterator_handle)
-        guard let swift_value = _MapsInstance(cMapsInstance: c_value) else {
-            fatalError("Nullptr entries for arrays of MapsInstance are not supported")
-        }
+        let swift_value = _MapsInstance(cMapsInstance: c_value)
         swiftDict[swift_key] = swift_value
         smoke_Maps_NumberToInstance_iterator_increment(iterator_handle)
     }

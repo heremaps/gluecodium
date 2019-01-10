@@ -16,9 +16,9 @@ internal func getRef(_ ref: DefaultValues?, owning: Bool = true) -> RefHolder {
 public class DefaultValues {
     let c_instance : _baseRef
 
-    init?(cDefaultValues: _baseRef) {
+    init(cDefaultValues: _baseRef) {
         guard cDefaultValues != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cDefaultValues
     }

@@ -16,9 +16,9 @@ internal func getRef(_ ref: EquatableInterface?, owning: Bool = true) -> RefHold
 
 public class EquatableInterface {
     let c_instance : _baseRef
-    init?(cEquatableInterface: _baseRef) {
+    init(cEquatableInterface: _baseRef) {
         guard cEquatableInterface != 0 else {
-            return nil
+            fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cEquatableInterface
     }
