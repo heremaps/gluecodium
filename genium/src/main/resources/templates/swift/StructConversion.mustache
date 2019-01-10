@@ -18,9 +18,14 @@
   ! License-Filename: LICENSE
   !
   !}}
-let result_string_handle = {{include delegateToCall}}
-defer {
-    std_string_release_handle(result_string_handle)
+internal func copyFromCType(_ handle: _baseRef) -> {{name}} {
+    return {{name}}({{#if fields}}cHandle: handle{{/if}})
 }
-return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                         count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
+
+internal func moveFromCType(_ handle: _baseRef) -> {{name}} {
+{{#if fields}}
+    defer {
+        {{cPrefix}}_release_handle(handle)
+    }{{/if}}
+    return copyFromCType(handle)
+}

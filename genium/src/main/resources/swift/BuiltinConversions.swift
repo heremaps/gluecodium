@@ -21,9 +21,32 @@
 import Foundation
 
 extension String {
-    func convertToCType() -> _baseRef {
+    internal func convertToCType() -> _baseRef {
         let result = std_string_create_handle(self)
         precondition(result != 0, "Out of memory")
         return result
     }
+}
+
+internal func copyFromCType(_ handle: _baseRef) -> String {
+    return String(data: Data(bytes: std_string_data_get(handle),
+                  count: Int(std_string_size_get(handle))), encoding: .utf8)!
+}
+
+internal func moveFromCType(_ handle: _baseRef) -> String {
+    defer {
+        std_string_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyFromCType(_ handle: _baseRef) -> Data {
+    return Data(bytes: byteArray_data_get(handle), count: Int(byteArray_size_get(handle)))
+}
+
+internal func moveFromCType(_ handle: _baseRef) -> Data {
+    defer {
+        byteArray_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

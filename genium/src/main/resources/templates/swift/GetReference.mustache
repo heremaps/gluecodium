@@ -129,7 +129,7 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
 }}{{+swiftParameter2}}{{name}}: {{>swiftParameterConversion}}{{/swiftParameter2}}{{!!
 }}{{+swiftParameterConversion}}{{#switch type.category.toString}}{{!!
     }}{{#case "CLASS"}}swift_object_{{name}}!{{/case}}{{!!
-    }}{{#case "STRUCT"}}{{type}}(c{{type}}: {{name}}){{/case}}{{!!
+    }}{{#case "STRUCT"}}{{type}}(cHandle: {{name}}){{/case}}{{!!
     }}{{#case "DICTIONARY"}}convert{{type}}FromCType({{name}}){{/case}}{{!!
     }}{{#case "ARRAY"}}{{type.implementingClass}}({{name}}){{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER"}}Data(bytes: byteArray_data_get({{name}}), count: byteArray_size_get({{name}})){{/case}}{{!!
