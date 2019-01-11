@@ -14,15 +14,15 @@ internal func getRef(_ ref: Attributes?, owning: Bool = true) -> RefHolder {
 public class Attributes {
     public var builtInTypeAttribute: UInt32 {
         get {
-            return smoke_Attributes_builtInTypeAttribute_get(c_instance)
+            return moveFromCType(smoke_Attributes_builtInTypeAttribute_get(c_instance))
         }
         set {
-            return smoke_Attributes_builtInTypeAttribute_set(c_instance, newValue)
+            return moveFromCType(smoke_Attributes_builtInTypeAttribute_set(c_instance, newValue))
         }
     }
     public var readonlyAttribute: Float {
         get {
-            return smoke_Attributes_readonlyAttribute_get(c_instance)
+            return moveFromCType(smoke_Attributes_readonlyAttribute_get(c_instance))
         }
     }
     public var structAttribute: Attributes.ExampleStruct {
@@ -34,7 +34,7 @@ public class Attributes {
             defer {
                 smoke_Attributes_ExampleStruct_release_handle(newValue_handle)
             }
-            return smoke_Attributes_structAttribute_set(c_instance, newValue_handle)
+            return moveFromCType(smoke_Attributes_structAttribute_set(c_instance, newValue_handle))
         }
     }
     public var arrayAttribute: CollectionOf<String> {
@@ -47,16 +47,15 @@ public class Attributes {
             defer {
                 newValue_handle.cleanup()
             }
-            return smoke_Attributes_arrayAttribute_set(c_instance, newValue_handle.c_type)
+            return moveFromCType(smoke_Attributes_arrayAttribute_set(c_instance, newValue_handle.c_type))
         }
     }
     public var complexTypeAttribute: Attributes.InternalError {
         get {
-            let cResult = smoke_Attributes_complexTypeAttribute_get(c_instance)
-            return Attributes.InternalError(rawValue: cResult)!
+            return moveFromCType(smoke_Attributes_complexTypeAttribute_get(c_instance))
         }
         set {
-            return smoke_Attributes_complexTypeAttribute_set(c_instance, newValue.rawValue)
+            return moveFromCType(smoke_Attributes_complexTypeAttribute_set(c_instance, newValue.rawValue))
         }
     }
     public var byteBufferAttribute: Data {
@@ -71,7 +70,7 @@ public class Attributes {
             newValue.withUnsafeBytes { (newValue_ptr: UnsafePointer<UInt8>) in
                 byteArray_assign(newValue_handle, newValue_ptr, newValue.count)
             }
-            return smoke_Attributes_byteBufferAttribute_set(c_instance, newValue_handle)
+            return moveFromCType(smoke_Attributes_byteBufferAttribute_set(c_instance, newValue_handle))
         }
     }
     public var instanceAttribute: AttributesInterface? {
@@ -86,15 +85,15 @@ public class Attributes {
         }
         set {
             let newValue_handle = getRef(newValue)
-            return smoke_Attributes_instanceAttribute_set(c_instance, newValue_handle.ref)
+            return moveFromCType(smoke_Attributes_instanceAttribute_set(c_instance, newValue_handle.ref))
         }
     }
     public var isBooleanAttribute: Bool {
         get {
-            return smoke_Attributes_booleanAttribute_get(c_instance)
+            return moveFromCType(smoke_Attributes_booleanAttribute_get(c_instance))
         }
         set {
-            return smoke_Attributes_booleanAttribute_set(c_instance, newValue)
+            return moveFromCType(smoke_Attributes_booleanAttribute_set(c_instance, newValue))
         }
     }
     public static var staticAttribute: String {
@@ -102,7 +101,7 @@ public class Attributes {
             return moveFromCType(smoke_Attributes_staticAttribute_get())
         }
         set {
-            return smoke_Attributes_staticAttribute_set(newValue)
+            return moveFromCType(smoke_Attributes_staticAttribute_set(newValue))
         }
     }
     public static var staticReadonlyAttribute: Attributes.ExampleStruct {
@@ -149,4 +148,10 @@ internal func moveFromCType(_ handle: _baseRef) -> Attributes.ExampleStruct {
         smoke_Attributes_ExampleStruct_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+internal func copyFromCType(_ cValue: UInt32) -> Attributes.InternalError {
+    return Attributes.InternalError(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> Attributes.InternalError {
+    return copyFromCType(cValue)
 }

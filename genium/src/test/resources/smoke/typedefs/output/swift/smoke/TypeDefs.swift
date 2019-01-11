@@ -27,7 +27,7 @@ public class TypeDefs {
             defer {
                 newValue_handle.cleanup()
             }
-            return smoke_TypeDefs_primitiveTypeAttribute_set(c_instance, newValue_handle.c_type)
+            return moveFromCType(smoke_TypeDefs_primitiveTypeAttribute_set(c_instance, newValue_handle.c_type))
         }
     }
     let c_instance : _baseRef
@@ -73,7 +73,7 @@ public class TypeDefs {
         }
     }
     public static func methodWithPrimitiveTypeDef(input: TypeDefs.PrimitiveTypeDef) -> TypeDefs.PrimitiveTypeDef {
-        return smoke_TypeDefs_methodWithPrimitiveTypeDef(input)
+        return moveFromCType(smoke_TypeDefs_methodWithPrimitiveTypeDef(input))
     }
     public static func methodWithComplexTypeDef<Tinput: Collection>(input: Tinput) -> TypeDefs.ComplexTypeDef where Tinput.Element == TypeDefs.TestStruct {
         let input_handle = input.c_conversion()
@@ -84,7 +84,7 @@ public class TypeDefs {
         return TestStructList(result_handle)
     }
     public static func returnNestedIntTypeDef(input: TypeDefs.NestedIntTypeDef) -> TypeDefs.NestedIntTypeDef {
-        return smoke_TypeDefs_returnNestedIntTypeDef(input)
+        return moveFromCType(smoke_TypeDefs_returnNestedIntTypeDef(input))
     }
     public static func returnTestStructTypeDef(input: TypeDefs.TestStructTypeDef) -> TypeDefs.TestStructTypeDef {
         let input_handle = input.convertToCType()

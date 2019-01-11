@@ -23,7 +23,7 @@ public class SimpleInstantiable {
         smoke_SimpleInstantiable_release_handle(c_instance)
     }
     public func setStringValue(stringValue: String) -> Void {
-        return smoke_SimpleInstantiable_setStringValue(c_instance, stringValue)
+        return moveFromCType(smoke_SimpleInstantiable_setStringValue(c_instance, stringValue))
     }
     public func getStringValue() -> String {
         return moveFromCType(smoke_SimpleInstantiable_getStringValue(c_instance))

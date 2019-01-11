@@ -23,13 +23,13 @@ public class ProfileManager {
         examples_ProfileManager_release_handle(c_instance)
     }
     public func createProfile(username: String) -> Void {
-        return examples_ProfileManager_createProfile(c_instance, username)
+        return moveFromCType(examples_ProfileManager_createProfile(c_instance, username))
     }
     public func changeProfile(username: String) -> String {
         return moveFromCType(examples_ProfileManager_changeProfile(c_instance, username))
     }
     public func deleteProfile(username: String) -> Void {
-        return examples_ProfileManager_deleteProfile(c_instance, username)
+        return moveFromCType(examples_ProfileManager_deleteProfile(c_instance, username))
     }
 }
 extension ProfileManager: NativeBase {

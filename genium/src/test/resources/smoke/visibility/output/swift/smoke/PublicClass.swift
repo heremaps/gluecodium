@@ -23,7 +23,7 @@ public class PublicClass {
             defer {
                 smoke_PublicClass_InternalStruct_release_handle(newValue_handle)
             }
-            return smoke_PublicClass_internalStructAttribute_set(c_instance, newValue_handle)
+            return moveFromCType(smoke_PublicClass_internalStructAttribute_set(c_instance, newValue_handle))
         }
     }
     let c_instance : _baseRef
@@ -109,6 +109,12 @@ internal func moveFromCType(_ handle: _baseRef) -> PublicClass.PublicStruct {
         smoke_PublicClass_PublicStruct_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+internal func copyFromCType(_ cValue: UInt32) -> PublicClass.InternalEnum {
+    return PublicClass.InternalEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> PublicClass.InternalEnum {
+    return copyFromCType(cValue)
 }
 func convertPublicClass_StringToInternalStructMapToCType(_ swiftDict: PublicClass.StringToInternalStructMap) -> _baseRef {
     let c_handle = smoke_PublicClass_StringToInternalStructMap_create_handle()

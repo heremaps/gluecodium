@@ -46,7 +46,7 @@ internal class _AttributesInterface: AttributesInterface {
             defer {
                 smoke_AttributesInterface_ExampleStruct_release_handle(newValue_handle)
             }
-            return smoke_AttributesInterface_structAttribute_set(c_instance, newValue_handle)
+            return moveFromCType(smoke_AttributesInterface_structAttribute_set(c_instance, newValue_handle))
         }
     }
     let c_instance : _baseRef

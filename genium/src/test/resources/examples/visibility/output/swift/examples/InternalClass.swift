@@ -46,7 +46,7 @@ internal class InternalClass {
         defer {
             examples_InternalClass_InternalStruct_release_handle(input_handle)
         }
-        return examples_InternalClass_internalMethod(c_instance, input_handle)
+        return moveFromCType(examples_InternalClass_internalMethod(c_instance, input_handle))
     }
 }
 extension InternalClass: NativeBase {

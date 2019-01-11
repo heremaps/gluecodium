@@ -24,7 +24,7 @@ public class Typedefs {
         examples_Typedefs_release_handle(c_instance)
     }
     public static func typedefMethod(input: Typedefs.ExampleAlias) -> Typedefs.ExampleAlias {
-        return examples_Typedefs_typedefMethod(input)
+        return moveFromCType(examples_Typedefs_typedefMethod(input))
     }
 }
 extension Typedefs: NativeBase {

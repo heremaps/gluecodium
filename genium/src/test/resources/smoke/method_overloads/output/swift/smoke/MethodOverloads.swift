@@ -40,54 +40,54 @@ public class MethodOverloads {
         }
     }
     public func isBoolean(input: Bool) -> Bool {
-        return smoke_MethodOverloads_isBoolean_boolOverload(c_instance, input)
+        return moveFromCType(smoke_MethodOverloads_isBoolean_boolOverload(c_instance, input))
     }
     public func isBoolean(input: Int8) -> Bool {
-        return smoke_MethodOverloads_isBoolean_intOverload(c_instance, input)
+        return moveFromCType(smoke_MethodOverloads_isBoolean_intOverload(c_instance, input))
     }
     public func isBoolean(input: String) -> Bool {
-        return smoke_MethodOverloads_isBoolean_stringOverload(c_instance, input)
+        return moveFromCType(smoke_MethodOverloads_isBoolean_stringOverload(c_instance, input))
     }
     public func isBoolean(input: MethodOverloads.Point) -> Bool {
         let input_handle = input.convertToCType()
         defer {
             smoke_MethodOverloads_Point_release_handle(input_handle)
         }
-        return smoke_MethodOverloads_isBoolean_structOverload(c_instance, input_handle)
+        return moveFromCType(smoke_MethodOverloads_isBoolean_structOverload(c_instance, input_handle))
     }
     public func isBoolean(input1: Bool, input2: Int8, input3: String, input4: MethodOverloads.Point) -> Bool {
         let input4_handle = input4.convertToCType()
         defer {
             smoke_MethodOverloads_Point_release_handle(input4_handle)
         }
-        return smoke_MethodOverloads_isBoolean_everythingOverload(c_instance, input1, input2, input3, input4_handle)
+        return moveFromCType(smoke_MethodOverloads_isBoolean_everythingOverload(c_instance, input1, input2, input3, input4_handle))
     }
     public func isBoolean<Tinput: Collection>(input: Tinput) -> Bool where Tinput.Element == String {
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-        return smoke_MethodOverloads_isBoolean_stringArrayOverload(c_instance, input_handle.c_type)
+        return moveFromCType(smoke_MethodOverloads_isBoolean_stringArrayOverload(c_instance, input_handle.c_type))
     }
     public func isBoolean<Tinput: Collection>(input: Tinput) -> Bool where Tinput.Element == Int8 {
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-        return smoke_MethodOverloads_isBoolean_intArrayOverload(c_instance, input_handle.c_type)
+        return moveFromCType(smoke_MethodOverloads_isBoolean_intArrayOverload(c_instance, input_handle.c_type))
     }
     public func isBoolean() -> Bool {
-        return smoke_MethodOverloads_isBoolean_constOverload(c_instance)
+        return moveFromCType(smoke_MethodOverloads_isBoolean_constOverload(c_instance))
     }
     public func isFloat(input: String) -> Bool {
-        return smoke_MethodOverloads_isFloat_stringOverload(c_instance, input)
+        return moveFromCType(smoke_MethodOverloads_isFloat_stringOverload(c_instance, input))
     }
     public func isFloat<Tinput: Collection>(input: Tinput) -> Bool where Tinput.Element == Int8 {
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-        return smoke_MethodOverloads_isFloat_intArrayOverload(c_instance, input_handle.c_type)
+        return moveFromCType(smoke_MethodOverloads_isFloat_intArrayOverload(c_instance, input_handle.c_type))
     }
 }
 extension MethodOverloads: NativeBase {
