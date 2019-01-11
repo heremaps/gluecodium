@@ -1,9 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
 internal func getRef(_ ref: PublicInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -24,10 +22,8 @@ internal func getRef(_ ref: PublicInterface?, owning: Bool = true) -> RefHolder 
     let proxy = smoke_PublicInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_PublicInterface_release_handle) : RefHolder(proxy)
 }
-
 public protocol PublicInterface : AnyObject {
 }
-
 internal class _PublicInterface: PublicInterface {
     let c_instance : _baseRef
     init(cPublicInterface: _baseRef) {
@@ -40,19 +36,17 @@ internal class _PublicInterface: PublicInterface {
         smoke_PublicInterface_release_handle(c_instance)
     }
 }
-
 extension _PublicInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-
 internal struct InternalStruct {
     public var stringField: String
     public init(stringField: String) {
         self.stringField = stringField
     }
-    internal init(cInternalStruct: _baseRef) {
+    internal init(cHandle: _baseRef) {
         do {
-            let stringField_handle = smoke_PublicInterface_InternalStruct_stringField_get(cInternalStruct)
+            let stringField_handle = smoke_PublicInterface_InternalStruct_stringField_get(cHandle)
             defer {
                 std_string_release_handle(stringField_handle)
             }
@@ -63,4 +57,13 @@ internal struct InternalStruct {
         let stringField_handle = stringField
         return smoke_PublicInterface_InternalStruct_create_handle(stringField_handle)
     }
+}
+internal func copyFromCType(_ handle: _baseRef) -> InternalStruct {
+    return InternalStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> InternalStruct {
+    defer {
+        smoke_PublicInterface_InternalStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

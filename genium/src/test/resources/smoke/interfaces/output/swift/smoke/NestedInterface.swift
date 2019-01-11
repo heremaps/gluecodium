@@ -68,7 +68,7 @@ internal func getRef(_ ref: NestedInterface?, owning: Bool = true) -> RefHolder 
         defer {
             smoke_ExternalInterface_SomeStruct_release_handle(input)
         }
-        return swift_class.makeMoreExternal(input: ExternalInterface.SomeStruct(cExternalInterface.SomeStruct: input)).convertToCType()
+        return swift_class.makeMoreExternal(input: ExternalInterface.SomeStruct(cHandle: input)).convertToCType()
     }
     functions.smoke_NestedInterface_makeMoreExternal_withEnum = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
@@ -130,11 +130,7 @@ internal class _NestedInterface: NestedInterface {
         defer {
             smoke_ExternalInterface_SomeStruct_release_handle(input_handle)
         }
-        let cResult = smoke_NestedInterface_makeMoreExternal_withStruct(c_instance, input_handle)
-        defer {
-            smoke_VeryExternalInterface_SomeStruct_release_handle(cResult)
-        }
-        return VeryExternalInterface.SomeStruct(cSomeStruct: cResult)
+        return moveFromCType(smoke_NestedInterface_makeMoreExternal_withStruct(c_instance, input_handle))
     }
     public func makeMoreExternal(input: ExternalInterface.SomeEnum) -> VeryExternalInterface.SomeEnum {
         let cResult = smoke_NestedInterface_makeMoreExternal_withEnum(c_instance, input.rawValue)

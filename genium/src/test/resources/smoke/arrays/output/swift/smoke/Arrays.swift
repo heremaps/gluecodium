@@ -37,8 +37,8 @@ public class Arrays {
         public init(value: Double) {
             self.value = value
         }
-        internal init(cBasicStruct: _baseRef) {
-            value = smoke_Arrays_BasicStruct_value_get(cBasicStruct)
+        internal init(cHandle: _baseRef) {
+            value = smoke_Arrays_BasicStruct_value_get(cHandle)
         }
         internal func convertToCType() -> _baseRef {
             let value_handle = value
@@ -50,9 +50,9 @@ public class Arrays {
         public init(string: String) {
             self.string = string
         }
-        internal init(cExternalStruct: _baseRef) {
+        internal init(cHandle: _baseRef) {
             do {
-                let string_handle = smoke_Arrays_ExternalStruct_string_get(cExternalStruct)
+                let string_handle = smoke_Arrays_ExternalStruct_string_get(cHandle)
                 defer {
                     std_string_release_handle(string_handle)
                 }
@@ -73,11 +73,11 @@ public class Arrays {
             self.numbers = numbers
             self.image = image
         }
-        internal init(cFancyStruct: _baseRef) {
-            messages = StringList(smoke_Arrays_FancyStruct_messages_get(cFancyStruct))
-            numbers = UInt8List(smoke_Arrays_FancyStruct_numbers_get(cFancyStruct))
+        internal init(cHandle: _baseRef) {
+            messages = StringList(smoke_Arrays_FancyStruct_messages_get(cHandle))
+            numbers = UInt8List(smoke_Arrays_FancyStruct_numbers_get(cHandle))
             do {
-                let image_handle = smoke_Arrays_FancyStruct_image_get(cFancyStruct)
+                let image_handle = smoke_Arrays_FancyStruct_image_get(cHandle)
                 defer {
                     byteArray_release_handle(image_handle)
                 }
@@ -185,11 +185,7 @@ public class Arrays {
         input.withUnsafeBytes { (input_ptr: UnsafePointer<UInt8>) in
             byteArray_assign(input_handle, input_ptr, input.count)
         }
-        let result_data_handle = smoke_Arrays_methodWithByteBuffer(input_handle)
-        defer {
-            byteArray_release_handle(result_data_handle)
-        }
-        return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
+        return moveFromCType(smoke_Arrays_methodWithByteBuffer(input_handle))
     }
     public static func methodWithEnumArray<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SomeEnum> where Tinput.Element == Arrays.SomeEnum {
         let input_handle = input.c_conversion()
@@ -211,6 +207,33 @@ public class Arrays {
 extension Arrays: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func copyFromCType(_ handle: _baseRef) -> Arrays.BasicStruct {
+    return Arrays.BasicStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Arrays.BasicStruct {
+    defer {
+        smoke_Arrays_BasicStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Arrays.ExternalStruct {
+    return Arrays.ExternalStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Arrays.ExternalStruct {
+    defer {
+        smoke_Arrays_ExternalStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Arrays.FancyStruct {
+    return Arrays.FancyStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Arrays.FancyStruct {
+    defer {
+        smoke_Arrays_FancyStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
 func convertArrays_ErrorCodeToMessageMapToCType(_ swiftDict: Arrays.ErrorCodeToMessageMap) -> _baseRef {
     let c_handle = smoke_Arrays_ErrorCodeToMessageMap_create_handle()
     for (swift_key, swift_value) in swiftDict {
@@ -230,12 +253,7 @@ func convertArrays_ErrorCodeToMessageMapFromCType(_ c_handle: _baseRef) -> Array
         let c_key = smoke_Arrays_ErrorCodeToMessageMap_iterator_key(iterator_handle)
         let swift_key = c_key
         let c_value = smoke_Arrays_ErrorCodeToMessageMap_iterator_value(iterator_handle)
-        defer {
-            std_string_release_handle(c_value)
-        }
-        let swift_value = String(data: Data(bytes: std_string_data_get(c_value),
-                                            count: Int(std_string_size_get(c_value))),
-                                            encoding: .utf8)
+        let swift_value: String = moveFromCType(c_value)
         swiftDict[swift_key] = swift_value
         smoke_Arrays_ErrorCodeToMessageMap_iterator_increment(iterator_handle)
     }

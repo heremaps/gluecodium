@@ -10,15 +10,24 @@ public struct Point {
         self.x = x
         self.y = y
     }
-    internal init(cPoint: _baseRef) {
-        x = smoke_TypeCollection_Point_x_get(cPoint)
-        y = smoke_TypeCollection_Point_y_get(cPoint)
+    internal init(cHandle: _baseRef) {
+        x = smoke_TypeCollection_Point_x_get(cHandle)
+        y = smoke_TypeCollection_Point_y_get(cHandle)
     }
     internal func convertToCType() -> _baseRef {
         let x_handle = x
         let y_handle = y
         return smoke_TypeCollection_Point_create_handle(x_handle, y_handle)
     }
+}
+internal func copyFromCType(_ handle: _baseRef) -> Point {
+    return Point(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Point {
+    defer {
+        smoke_TypeCollection_Point_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }
 public struct Color {
     public var red: UInt8
@@ -29,10 +38,10 @@ public struct Color {
         self.green = green
         self.blue = blue
     }
-    internal init(cColor: _baseRef) {
-        red = smoke_TypeCollection_Color_red_get(cColor)
-        green = smoke_TypeCollection_Color_green_get(cColor)
-        blue = smoke_TypeCollection_Color_blue_get(cColor)
+    internal init(cHandle: _baseRef) {
+        red = smoke_TypeCollection_Color_red_get(cHandle)
+        green = smoke_TypeCollection_Color_green_get(cHandle)
+        blue = smoke_TypeCollection_Color_blue_get(cHandle)
     }
     internal func convertToCType() -> _baseRef {
         let red_handle = red
@@ -41,6 +50,15 @@ public struct Color {
         return smoke_TypeCollection_Color_create_handle(red_handle, green_handle, blue_handle)
     }
 }
+internal func copyFromCType(_ handle: _baseRef) -> Color {
+    return Color(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Color {
+    defer {
+        smoke_TypeCollection_Color_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
 public struct Line {
     public var a: Point
     public var b: Point
@@ -48,20 +66,20 @@ public struct Line {
         self.a = a
         self.b = b
     }
-    internal init(cLine: _baseRef) {
+    internal init(cHandle: _baseRef) {
         do {
-            let a_handle = smoke_TypeCollection_Line_a_get(cLine)
+            let a_handle = smoke_TypeCollection_Line_a_get(cHandle)
             defer {
                 smoke_TypeCollection_Point_release_handle(a_handle)
             }
-            a = Point(cPoint: a_handle)
+            a = Point(cHandle: a_handle)
         }
         do {
-            let b_handle = smoke_TypeCollection_Line_b_get(cLine)
+            let b_handle = smoke_TypeCollection_Line_b_get(cHandle)
             defer {
                 smoke_TypeCollection_Point_release_handle(b_handle)
             }
-            b = Point(cPoint: b_handle)
+            b = Point(cHandle: b_handle)
         }
     }
     internal func convertToCType() -> _baseRef {
@@ -76,6 +94,15 @@ public struct Line {
         return smoke_TypeCollection_Line_create_handle(a_handle, b_handle)
     }
 }
+internal func copyFromCType(_ handle: _baseRef) -> Line {
+    return Line(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Line {
+    defer {
+        smoke_TypeCollection_Line_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
 public struct ColoredLine {
     public var line: Line
     public var color: Color
@@ -83,20 +110,20 @@ public struct ColoredLine {
         self.line = line
         self.color = color
     }
-    internal init(cColoredLine: _baseRef) {
+    internal init(cHandle: _baseRef) {
         do {
-            let line_handle = smoke_TypeCollection_ColoredLine_line_get(cColoredLine)
+            let line_handle = smoke_TypeCollection_ColoredLine_line_get(cHandle)
             defer {
                 smoke_TypeCollection_Line_release_handle(line_handle)
             }
-            line = Line(cLine: line_handle)
+            line = Line(cHandle: line_handle)
         }
         do {
-            let color_handle = smoke_TypeCollection_ColoredLine_color_get(cColoredLine)
+            let color_handle = smoke_TypeCollection_ColoredLine_color_get(cHandle)
             defer {
                 smoke_TypeCollection_Color_release_handle(color_handle)
             }
-            color = Color(cColor: color_handle)
+            color = Color(cHandle: color_handle)
         }
     }
     internal func convertToCType() -> _baseRef {
@@ -110,6 +137,15 @@ public struct ColoredLine {
         }
         return smoke_TypeCollection_ColoredLine_create_handle(line_handle, color_handle)
     }
+}
+internal func copyFromCType(_ handle: _baseRef) -> ColoredLine {
+    return ColoredLine(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> ColoredLine {
+    defer {
+        smoke_TypeCollection_ColoredLine_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }
 public struct AllTypesStruct {
     public var int8Field: Int8
@@ -142,27 +178,27 @@ public struct AllTypesStruct {
         self.bytesField = bytesField
         self.pointField = pointField
     }
-    internal init(cAllTypesStruct: _baseRef) {
-        int8Field = smoke_TypeCollection_AllTypesStruct_int8Field_get(cAllTypesStruct)
-        uint8Field = smoke_TypeCollection_AllTypesStruct_uint8Field_get(cAllTypesStruct)
-        int16Field = smoke_TypeCollection_AllTypesStruct_int16Field_get(cAllTypesStruct)
-        uint16Field = smoke_TypeCollection_AllTypesStruct_uint16Field_get(cAllTypesStruct)
-        int32Field = smoke_TypeCollection_AllTypesStruct_int32Field_get(cAllTypesStruct)
-        uint32Field = smoke_TypeCollection_AllTypesStruct_uint32Field_get(cAllTypesStruct)
-        int64Field = smoke_TypeCollection_AllTypesStruct_int64Field_get(cAllTypesStruct)
-        uint64Field = smoke_TypeCollection_AllTypesStruct_uint64Field_get(cAllTypesStruct)
-        floatField = smoke_TypeCollection_AllTypesStruct_floatField_get(cAllTypesStruct)
-        doubleField = smoke_TypeCollection_AllTypesStruct_doubleField_get(cAllTypesStruct)
+    internal init(cHandle: _baseRef) {
+        int8Field = smoke_TypeCollection_AllTypesStruct_int8Field_get(cHandle)
+        uint8Field = smoke_TypeCollection_AllTypesStruct_uint8Field_get(cHandle)
+        int16Field = smoke_TypeCollection_AllTypesStruct_int16Field_get(cHandle)
+        uint16Field = smoke_TypeCollection_AllTypesStruct_uint16Field_get(cHandle)
+        int32Field = smoke_TypeCollection_AllTypesStruct_int32Field_get(cHandle)
+        uint32Field = smoke_TypeCollection_AllTypesStruct_uint32Field_get(cHandle)
+        int64Field = smoke_TypeCollection_AllTypesStruct_int64Field_get(cHandle)
+        uint64Field = smoke_TypeCollection_AllTypesStruct_uint64Field_get(cHandle)
+        floatField = smoke_TypeCollection_AllTypesStruct_floatField_get(cHandle)
+        doubleField = smoke_TypeCollection_AllTypesStruct_doubleField_get(cHandle)
         do {
-            let stringField_handle = smoke_TypeCollection_AllTypesStruct_stringField_get(cAllTypesStruct)
+            let stringField_handle = smoke_TypeCollection_AllTypesStruct_stringField_get(cHandle)
             defer {
                 std_string_release_handle(stringField_handle)
             }
             stringField = String(cString: std_string_data_get(stringField_handle))
         }
-        booleanField = smoke_TypeCollection_AllTypesStruct_booleanField_get(cAllTypesStruct)
+        booleanField = smoke_TypeCollection_AllTypesStruct_booleanField_get(cHandle)
         do {
-            let bytesField_handle = smoke_TypeCollection_AllTypesStruct_bytesField_get(cAllTypesStruct)
+            let bytesField_handle = smoke_TypeCollection_AllTypesStruct_bytesField_get(cHandle)
             defer {
                 byteArray_release_handle(bytesField_handle)
             }
@@ -173,11 +209,11 @@ public struct AllTypesStruct {
             }
         }
         do {
-            let pointField_handle = smoke_TypeCollection_AllTypesStruct_pointField_get(cAllTypesStruct)
+            let pointField_handle = smoke_TypeCollection_AllTypesStruct_pointField_get(cHandle)
             defer {
                 smoke_TypeCollection_Point_release_handle(pointField_handle)
             }
-            pointField = Point(cPoint: pointField_handle)
+            pointField = Point(cHandle: pointField_handle)
         }
     }
     internal func convertToCType() -> _baseRef {
@@ -206,4 +242,13 @@ public struct AllTypesStruct {
         }
         return smoke_TypeCollection_AllTypesStruct_create_handle(int8Field_handle, uint8Field_handle, int16Field_handle, uint16Field_handle, int32Field_handle, uint32Field_handle, int64Field_handle, uint64Field_handle, floatField_handle, doubleField_handle, stringField_handle, booleanField_handle, bytesField_handle, pointField_handle)
     }
+}
+internal func copyFromCType(_ handle: _baseRef) -> AllTypesStruct {
+    return AllTypesStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> AllTypesStruct {
+    defer {
+        smoke_TypeCollection_AllTypesStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }
