@@ -106,6 +106,13 @@ ConstructorOverloads::create( double input )
         std::make_shared< ConstructorOverloadsImpl >( ) );
 }
 
+std::shared_ptr< ConstructorOverloads >
+ConstructorOverloads::create( const std::vector< double >& input )
+{
+    return std::make_shared< ConstructorOverloadsImpl >( );
+}
+
+
 class ChildConstructorOverloadsImpl: public ChildConstructorOverloads
 {
 public:

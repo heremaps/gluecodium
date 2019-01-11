@@ -166,6 +166,10 @@ methods in C++ (not constructors).
 
 **Note:** Constructors are not supported if `IsInterface` property is set to `true`.
 
+**Note:** Method overloading generally works for constructors. One notable exception is that a pair
+of constructors overloaded on an Array or Map parameter (i.e. having signatures that differ only in
+array/map element types) will generate uncompilable code in Java (Swift and C++ will still compile).
+
 FIDL:
 
     package example
