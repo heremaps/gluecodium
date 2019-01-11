@@ -23,19 +23,19 @@ public class SpecialNames {
         smoke_SpecialNames_release_handle(c_instance)
     }
     public func create() -> Void {
-        return smoke_SpecialNames_create(c_instance)
+        return moveFromCType(smoke_SpecialNames_create(c_instance))
     }
     public func release() -> Void {
-        return smoke_SpecialNames_release(c_instance)
+        return moveFromCType(smoke_SpecialNames_release(c_instance))
     }
     public func createProxy() -> Void {
-        return smoke_SpecialNames_createProxy(c_instance)
+        return moveFromCType(smoke_SpecialNames_createProxy(c_instance))
     }
     public func update() -> Void {
-        return smoke_SpecialNames_update(c_instance)
+        return moveFromCType(smoke_SpecialNames_update(c_instance))
     }
     public func Uppercase() -> Void {
-        return smoke_SpecialNames_Uppercase(c_instance)
+        return moveFromCType(smoke_SpecialNames_Uppercase(c_instance))
     }
 }
 extension SpecialNames: NativeBase {

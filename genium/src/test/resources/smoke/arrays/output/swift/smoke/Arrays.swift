@@ -234,6 +234,18 @@ internal func moveFromCType(_ handle: _baseRef) -> Arrays.FancyStruct {
     }
     return copyFromCType(handle)
 }
+internal func copyFromCType(_ cValue: UInt32) -> Arrays.SomeEnum {
+    return Arrays.SomeEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> Arrays.SomeEnum {
+    return copyFromCType(cValue)
+}
+internal func copyFromCType(_ cValue: UInt32) -> Arrays.ExternalEnum {
+    return Arrays.ExternalEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> Arrays.ExternalEnum {
+    return copyFromCType(cValue)
+}
 func convertArrays_ErrorCodeToMessageMapToCType(_ swiftDict: Arrays.ErrorCodeToMessageMap) -> _baseRef {
     let c_handle = smoke_Arrays_ErrorCodeToMessageMap_create_handle()
     for (swift_key, swift_value) in swiftDict {
@@ -251,7 +263,7 @@ func convertArrays_ErrorCodeToMessageMapFromCType(_ c_handle: _baseRef) -> Array
     let iterator_handle = smoke_Arrays_ErrorCodeToMessageMap_iterator(c_handle)
     while smoke_Arrays_ErrorCodeToMessageMap_iterator_is_valid(c_handle, iterator_handle) {
         let c_key = smoke_Arrays_ErrorCodeToMessageMap_iterator_key(iterator_handle)
-        let swift_key = c_key
+        let swift_key: Int32 = moveFromCType(c_key)
         let c_value = smoke_Arrays_ErrorCodeToMessageMap_iterator_value(iterator_handle)
         let swift_value: String = moveFromCType(c_value)
         swiftDict[swift_key] = swift_value

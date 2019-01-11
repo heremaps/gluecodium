@@ -53,7 +53,7 @@ internal class _InheritanceChild: InheritanceChild {
             return moveFromCType(smoke_InheritanceRoot_rootAttribute_get(c_instance))
         }
         set {
-            return smoke_InheritanceRoot_rootAttribute_set(c_instance, newValue)
+            return moveFromCType(smoke_InheritanceRoot_rootAttribute_set(c_instance, newValue))
         }
     }
     let c_instance : _baseRef
@@ -67,10 +67,10 @@ internal class _InheritanceChild: InheritanceChild {
         smoke_InheritanceChild_release_handle(c_instance)
     }
     public func rootMethod() -> Void {
-        return smoke_InheritanceRoot_rootMethod(c_instance)
+        return moveFromCType(smoke_InheritanceRoot_rootMethod(c_instance))
     }
     public func childMethod() -> Void {
-        return smoke_InheritanceChild_childMethod(c_instance)
+        return moveFromCType(smoke_InheritanceChild_childMethod(c_instance))
     }
 }
 extension _InheritanceChild: NativeBase {

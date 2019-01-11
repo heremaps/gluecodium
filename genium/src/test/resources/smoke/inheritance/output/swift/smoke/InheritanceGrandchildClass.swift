@@ -16,6 +16,6 @@ public class InheritanceGrandchildClass: InheritanceChildClass {
         super.init(cInheritanceChildClass: cInheritanceGrandchildClass)
     }
     public func grandchildClassMethod() -> Void {
-        return smoke_InheritanceGrandchildClass_grandchildClassMethod(c_instance)
+        return moveFromCType(smoke_InheritanceGrandchildClass_grandchildClassMethod(c_instance))
     }
 }

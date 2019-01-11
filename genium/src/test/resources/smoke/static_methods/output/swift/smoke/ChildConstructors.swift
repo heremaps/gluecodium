@@ -24,10 +24,10 @@ public class ChildConstructors: Constructors {
         super.init(cConstructors: cChildConstructors)
     }
     private static func create() -> _baseRef {
-        return smoke_ChildConstructors_create_noArgsChild()
+        return moveFromCType(smoke_ChildConstructors_create_noArgsChild())
     }
     private static func create(other: Constructors?) -> _baseRef {
         let other_handle = getRef(other)
-        return smoke_ChildConstructors_create_copyFromParent(other_handle.ref)
+        return moveFromCType(smoke_ChildConstructors_create_copyFromParent(other_handle.ref))
     }
 }

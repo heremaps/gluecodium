@@ -22,10 +22,10 @@ public class Comments {
     /// This is some very useful attribute.
     public var someAttribute: Comments.Usefulness {
         get {
-            return examples_Comments_someAttribute_get(c_instance)
+            return moveFromCType(examples_Comments_someAttribute_get(c_instance))
         }
         set {
-            return examples_Comments_someAttribute_set(c_instance, newValue)
+            return moveFromCType(examples_Comments_someAttribute_set(c_instance, newValue))
         }
     }
     let c_instance : _baseRef
@@ -64,7 +64,7 @@ public class Comments {
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
     public func someMethod(input: String) -> Comments.Usefulness {
-        return examples_Comments_someMethod(c_instance, input)
+        return moveFromCType(examples_Comments_someMethod(c_instance, input))
     }
 }
 extension Comments: NativeBase {
@@ -78,6 +78,12 @@ internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
         examples_Comments_SomeStruct_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+internal func copyFromCType(_ cValue: UInt32) -> Comments.SomeEnum {
+    return Comments.SomeEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> Comments.SomeEnum {
+    return copyFromCType(cValue)
 }
 func convertComments_SomeMapToCType(_ swiftDict: Comments.SomeMap) -> _baseRef {
     let c_handle = examples_Comments_SomeMap_create_handle()
@@ -98,7 +104,7 @@ func convertComments_SomeMapFromCType(_ c_handle: _baseRef) -> Comments.SomeMap 
         let c_key = examples_Comments_SomeMap_iterator_key(iterator_handle)
         let swift_key: String = moveFromCType(c_key)
         let c_value = examples_Comments_SomeMap_iterator_value(iterator_handle)
-        let swift_value = c_value
+        let swift_value: Bool = moveFromCType(c_value)
         swiftDict[swift_key] = swift_value
         examples_Comments_SomeMap_iterator_increment(iterator_handle)
     }

@@ -124,7 +124,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
             return moveFromCType(smoke_ListenerWithAttributes_message_get(c_instance))
         }
         set {
-            return smoke_ListenerWithAttributes_message_set(c_instance, newValue)
+            return moveFromCType(smoke_ListenerWithAttributes_message_set(c_instance, newValue))
         }
     }
     var packedMessage: CalculationResult? {
@@ -139,7 +139,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
         }
         set {
             let newValue_handle = getRef(newValue)
-            return smoke_ListenerWithAttributes_packedMessage_set(c_instance, newValue_handle.ref)
+            return moveFromCType(smoke_ListenerWithAttributes_packedMessage_set(c_instance, newValue_handle.ref))
         }
     }
     var structuredMessage: ResultStruct {
@@ -151,16 +151,15 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
             defer {
                 smoke_ListenerWithAttributes_ResultStruct_release_handle(newValue_handle)
             }
-            return smoke_ListenerWithAttributes_structuredMessage_set(c_instance, newValue_handle)
+            return moveFromCType(smoke_ListenerWithAttributes_structuredMessage_set(c_instance, newValue_handle))
         }
     }
     var enumeratedMessage: ResultEnum {
         get {
-            let cResult = smoke_ListenerWithAttributes_enumeratedMessage_get(c_instance)
-            return ResultEnum(rawValue: cResult)!
+            return moveFromCType(smoke_ListenerWithAttributes_enumeratedMessage_get(c_instance))
         }
         set {
-            return smoke_ListenerWithAttributes_enumeratedMessage_set(c_instance, newValue.rawValue)
+            return moveFromCType(smoke_ListenerWithAttributes_enumeratedMessage_set(c_instance, newValue.rawValue))
         }
     }
     var arrayedMessage: CollectionOf<String> {
@@ -173,7 +172,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
             defer {
                 newValue_handle.cleanup()
             }
-            return smoke_ListenerWithAttributes_arrayedMessage_set(c_instance, newValue_handle.c_type)
+            return moveFromCType(smoke_ListenerWithAttributes_arrayedMessage_set(c_instance, newValue_handle.c_type))
         }
     }
     var mappedMessage: ListenerWithAttributes.StringToDouble {
@@ -189,7 +188,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
             defer {
                 smoke_ListenerWithAttributes_StringToDouble_release_handle(newValue_handle)
             }
-            return smoke_ListenerWithAttributes_mappedMessage_set(c_instance, newValue_handle)
+            return moveFromCType(smoke_ListenerWithAttributes_mappedMessage_set(c_instance, newValue_handle))
         }
     }
     var bufferedMessage: Data {
@@ -204,7 +203,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
             newValue.withUnsafeBytes { (newValue_ptr: UnsafePointer<UInt8>) in
                 byteArray_assign(newValue_handle, newValue_ptr, newValue.count)
             }
-            return smoke_ListenerWithAttributes_bufferedMessage_set(c_instance, newValue_handle)
+            return moveFromCType(smoke_ListenerWithAttributes_bufferedMessage_set(c_instance, newValue_handle))
         }
     }
     let c_instance : _baseRef
@@ -224,6 +223,12 @@ extension _ListenerWithAttributes: NativeBase {
 public enum ResultEnum : UInt32 {
     case none
     case result
+}
+internal func copyFromCType(_ cValue: UInt32) -> ResultEnum {
+    return ResultEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> ResultEnum {
+    return copyFromCType(cValue)
 }
 public struct ResultStruct {
     public var result: Double
@@ -266,7 +271,7 @@ func convertListenerWithAttributes_StringToDoubleFromCType(_ c_handle: _baseRef)
         let c_key = smoke_ListenerWithAttributes_StringToDouble_iterator_key(iterator_handle)
         let swift_key: String = moveFromCType(c_key)
         let c_value = smoke_ListenerWithAttributes_StringToDouble_iterator_value(iterator_handle)
-        let swift_value = c_value
+        let swift_value: Double = moveFromCType(c_value)
         swiftDict[swift_key] = swift_value
         smoke_ListenerWithAttributes_StringToDouble_iterator_increment(iterator_handle)
     }

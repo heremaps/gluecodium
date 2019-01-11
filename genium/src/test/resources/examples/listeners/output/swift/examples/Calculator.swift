@@ -24,14 +24,14 @@ public class Calculator {
     }
     public static func registerListener(listener: CalculatorListener?) -> Void {
         let listener_handle = getRef(listener)
-        return examples_Calculator_registerListener(listener_handle.ref)
+        return moveFromCType(examples_Calculator_registerListener(listener_handle.ref))
     }
     public static func unregisterListener(listener: CalculatorListener?) -> Void {
         let listener_handle = getRef(listener)
-        return examples_Calculator_unregisterListener(listener_handle.ref)
+        return moveFromCType(examples_Calculator_unregisterListener(listener_handle.ref))
     }
     public static func calculate() -> Void {
-        return examples_Calculator_calculate()
+        return moveFromCType(examples_Calculator_calculate())
     }
 }
 extension Calculator: NativeBase {

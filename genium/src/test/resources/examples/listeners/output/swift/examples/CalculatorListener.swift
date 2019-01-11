@@ -41,7 +41,7 @@ internal class _CalculatorListener: CalculatorListener {
         examples_CalculatorListener_release_handle(c_instance)
     }
     public func onCalculationResult(calculationResult: Double) -> Void {
-        return examples_CalculatorListener_onCalculationResult(c_instance, calculationResult)
+        return moveFromCType(examples_CalculatorListener_onCalculationResult(c_instance, calculationResult))
     }
 }
 extension _CalculatorListener: NativeBase {

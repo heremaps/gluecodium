@@ -450,3 +450,9 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.YetAnotherExternalStr
     }
     return copyFromCType(handle)
 }
+internal func copyFromCType(_ cValue: UInt32) -> Structs.FooBar {
+    return Structs.FooBar(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> Structs.FooBar {
+    return copyFromCType(cValue)
+}

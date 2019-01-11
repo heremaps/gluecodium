@@ -7,6 +7,12 @@ public enum SomeEnum : UInt32 {
     case foo
     case bar
 }
+internal func copyFromCType(_ cValue: UInt32) -> SomeEnum {
+    return SomeEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> SomeEnum {
+    return copyFromCType(cValue)
+}
 public struct EquatableStruct: Equatable {
     public var boolField: Bool
     public var intField: Int32
@@ -138,7 +144,7 @@ func convertErrorCodeToMessageMapFromCType(_ c_handle: _baseRef) -> ErrorCodeToM
     let iterator_handle = smoke_Equatable_ErrorCodeToMessageMap_iterator(c_handle)
     while smoke_Equatable_ErrorCodeToMessageMap_iterator_is_valid(c_handle, iterator_handle) {
         let c_key = smoke_Equatable_ErrorCodeToMessageMap_iterator_key(iterator_handle)
-        let swift_key = c_key
+        let swift_key: Int32 = moveFromCType(c_key)
         let c_value = smoke_Equatable_ErrorCodeToMessageMap_iterator_value(iterator_handle)
         let swift_value: String = moveFromCType(c_value)
         swiftDict[swift_key] = swift_value

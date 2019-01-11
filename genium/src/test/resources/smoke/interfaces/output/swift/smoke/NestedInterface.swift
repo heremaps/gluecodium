@@ -99,7 +99,7 @@ internal class _NestedInterface: NestedInterface {
     public func setSameTypeInstances(interfaceOne: SimpleInterface?, interfaceTwo: SimpleInterface?) -> Void {
         let interfaceOne_handle = getRef(interfaceOne)
         let interfaceTwo_handle = getRef(interfaceTwo)
-        return smoke_NestedInterface_setSameTypeInstances(c_instance, interfaceOne_handle.ref, interfaceTwo_handle.ref)
+        return moveFromCType(smoke_NestedInterface_setSameTypeInstances(c_instance, interfaceOne_handle.ref, interfaceTwo_handle.ref))
     }
     public func getInstanceOne() -> SimpleInterface? {
         let cResult = smoke_NestedInterface_getInstanceOne(c_instance)
@@ -133,8 +133,7 @@ internal class _NestedInterface: NestedInterface {
         return moveFromCType(smoke_NestedInterface_makeMoreExternal_withStruct(c_instance, input_handle))
     }
     public func makeMoreExternal(input: ExternalInterface.SomeEnum) -> VeryExternalInterface.SomeEnum {
-        let cResult = smoke_NestedInterface_makeMoreExternal_withEnum(c_instance, input.rawValue)
-        return VeryExternalInterface.SomeEnum(rawValue: cResult)!
+        return moveFromCType(smoke_NestedInterface_makeMoreExternal_withEnum(c_instance, input.rawValue))
     }
 }
 extension _NestedInterface: NativeBase {

@@ -22,10 +22,10 @@ public class Comments {
     /// This is some very useful attribute.
     public var someAttribute: Comments.Usefulness {
         get {
-            return smoke_Comments_someAttribute_get(c_instance)
+            return moveFromCType(smoke_Comments_someAttribute_get(c_instance))
         }
         set {
-            return smoke_Comments_someAttribute_set(c_instance, newValue)
+            return moveFromCType(smoke_Comments_someAttribute_set(c_instance, newValue))
         }
     }
     /// This is some very useful attribute.
@@ -36,7 +36,7 @@ public class Comments {
         }
         set {
             let newValue_handle = getRef(newValue)
-            return smoke_Comments_instanceNotNullAttribute_set(c_instance, newValue_handle.ref)
+            return moveFromCType(smoke_Comments_instanceNotNullAttribute_set(c_instance, newValue_handle.ref))
         }
     }
     let c_instance : _baseRef
@@ -75,46 +75,46 @@ public class Comments {
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
     public func someMethodWithAllComments(input: String) -> Comments.Usefulness {
-        return smoke_Comments_someMethodWithAllComments(c_instance, input)
+        return moveFromCType(smoke_Comments_someMethodWithAllComments(c_instance, input))
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     public func someMethodWithInputComments(input: String) -> Comments.Usefulness {
-        return smoke_Comments_someMethodWithInputComments(c_instance, input)
+        return moveFromCType(smoke_Comments_someMethodWithInputComments(c_instance, input))
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Returns: Usefulness of the input
     public func someMethodWithOutputComments(input: String) -> Comments.Usefulness {
-        return smoke_Comments_someMethodWithOutputComments(c_instance, input)
+        return moveFromCType(smoke_Comments_someMethodWithOutputComments(c_instance, input))
     }
     /// This is some very useful method that measures the usefulness of its input.
     public func someMethodWithNoComments(input: String) -> Comments.Usefulness {
-        return smoke_Comments_someMethodWithNoComments(c_instance, input)
+        return moveFromCType(smoke_Comments_someMethodWithNoComments(c_instance, input))
     }
     /// This is some very useful method that does not measure the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     public func someMethodWithoutReturnTypeWithAllComments(input: String) -> Void {
-        return smoke_Comments_someMethodWithoutReturnTypeWithAllComments(c_instance, input)
+        return moveFromCType(smoke_Comments_someMethodWithoutReturnTypeWithAllComments(c_instance, input))
     }
     /// This is some very useful method that does not measure the usefulness of its input.
     public func someMethodWithoutReturnTypeWithNoComments(input: String) -> Void {
-        return smoke_Comments_someMethodWithoutReturnTypeWithNoComments(c_instance, input)
+        return moveFromCType(smoke_Comments_someMethodWithoutReturnTypeWithNoComments(c_instance, input))
     }
     /// This is some very useful method that measures the usefulness of something.
     /// - Returns: Usefulness of the input
     public func someMethodWithoutInputParametersWithAllComments() -> Comments.Usefulness {
-        return smoke_Comments_someMethodWithoutInputParametersWithAllComments(c_instance)
+        return moveFromCType(smoke_Comments_someMethodWithoutInputParametersWithAllComments(c_instance))
     }
     /// This is some very useful method that measures the usefulness of something.
     public func someMethodWithoutInputParametersWithNoComments() -> Comments.Usefulness {
-        return smoke_Comments_someMethodWithoutInputParametersWithNoComments(c_instance)
+        return moveFromCType(smoke_Comments_someMethodWithoutInputParametersWithNoComments(c_instance))
     }
     public func someMethodWithNothing() -> Void {
-        return smoke_Comments_someMethodWithNothing(c_instance)
+        return moveFromCType(smoke_Comments_someMethodWithNothing(c_instance))
     }
     /// This is some very useful method that does nothing.
     public func someMethodWithoutReturnTypeOrInputParameters() -> Void {
-        return smoke_Comments_someMethodWithoutReturnTypeOrInputParameters(c_instance)
+        return moveFromCType(smoke_Comments_someMethodWithoutReturnTypeOrInputParameters(c_instance))
     }
     /// This is some very useful instance method.
     /// - Parameter input: This is some very useful instance method parameter.
@@ -137,6 +137,12 @@ internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
     }
     return copyFromCType(handle)
 }
+internal func copyFromCType(_ cValue: UInt32) -> Comments.SomeEnum {
+    return Comments.SomeEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> Comments.SomeEnum {
+    return copyFromCType(cValue)
+}
 func convertComments_SomeMapToCType(_ swiftDict: Comments.SomeMap) -> _baseRef {
     let c_handle = smoke_Comments_SomeMap_create_handle()
     for (swift_key, swift_value) in swiftDict {
@@ -156,7 +162,7 @@ func convertComments_SomeMapFromCType(_ c_handle: _baseRef) -> Comments.SomeMap 
         let c_key = smoke_Comments_SomeMap_iterator_key(iterator_handle)
         let swift_key: String = moveFromCType(c_key)
         let c_value = smoke_Comments_SomeMap_iterator_value(iterator_handle)
-        let swift_value = c_value
+        let swift_value: Bool = moveFromCType(c_value)
         swiftDict[swift_key] = swift_value
         smoke_Comments_SomeMap_iterator_increment(iterator_handle)
     }

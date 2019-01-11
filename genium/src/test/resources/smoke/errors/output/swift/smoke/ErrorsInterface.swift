@@ -100,8 +100,20 @@ public enum InternalError : UInt32 {
     case errorNone
     case errorFatal
 }
+internal func copyFromCType(_ cValue: UInt32) -> InternalError {
+    return InternalError(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> InternalError {
+    return copyFromCType(cValue)
+}
 public enum ExternalErrors : UInt32 {
     case none
     case boom
     case bust
+}
+internal func copyFromCType(_ cValue: UInt32) -> ExternalErrors {
+    return ExternalErrors(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> ExternalErrors {
+    return copyFromCType(cValue)
 }

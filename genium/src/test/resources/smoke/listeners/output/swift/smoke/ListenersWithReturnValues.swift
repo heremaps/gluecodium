@@ -72,7 +72,7 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
         smoke_ListenersWithReturnValues_release_handle(c_instance)
     }
     public func fetchData() -> Double {
-        return smoke_ListenersWithReturnValues_fetchData_double(c_instance)
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_double(c_instance))
     }
     public func fetchData() -> String {
         return moveFromCType(smoke_ListenersWithReturnValues_fetchData_string(c_instance))
@@ -81,8 +81,7 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
         return moveFromCType(smoke_ListenersWithReturnValues_fetchData_Struct(c_instance))
     }
     public func fetchData() -> ResultEnum {
-        let cResult = smoke_ListenersWithReturnValues_fetchData_enum(c_instance)
-        return ResultEnum(rawValue: cResult)!
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_enum(c_instance))
     }
     public func fetchData() -> CollectionOf<Double> {
         let result_handle = smoke_ListenersWithReturnValues_fetchData_Array(c_instance)
@@ -111,6 +110,12 @@ extension _ListenersWithReturnValues: NativeBase {
 public enum ResultEnum : UInt32 {
     case none
     case result
+}
+internal func copyFromCType(_ cValue: UInt32) -> ResultEnum {
+    return ResultEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> ResultEnum {
+    return copyFromCType(cValue)
 }
 public struct ResultStruct {
     public var result: Double
@@ -153,7 +158,7 @@ func convertListenersWithReturnValues_StringToDoubleFromCType(_ c_handle: _baseR
         let c_key = smoke_ListenersWithReturnValues_StringToDouble_iterator_key(iterator_handle)
         let swift_key: String = moveFromCType(c_key)
         let c_value = smoke_ListenersWithReturnValues_StringToDouble_iterator_value(iterator_handle)
-        let swift_value = c_value
+        let swift_value: Double = moveFromCType(c_value)
         swiftDict[swift_key] = swift_value
         smoke_ListenersWithReturnValues_StringToDouble_iterator_increment(iterator_handle)
     }

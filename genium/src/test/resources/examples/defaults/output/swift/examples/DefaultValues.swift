@@ -74,3 +74,9 @@ internal func moveFromCType(_ handle: _baseRef) -> DefaultValues.StructWithDefau
     }
     return copyFromCType(handle)
 }
+internal func copyFromCType(_ cValue: UInt32) -> DefaultValues.SomeEnum {
+    return DefaultValues.SomeEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> DefaultValues.SomeEnum {
+    return copyFromCType(cValue)
+}

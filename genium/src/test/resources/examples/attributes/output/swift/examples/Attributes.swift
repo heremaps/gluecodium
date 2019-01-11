@@ -41,15 +41,15 @@ public protocol Attributes : AnyObject {
 internal class _Attributes: Attributes {
     var builtInTypeAttribute: UInt32 {
         get {
-            return examples_Attributes_builtInTypeAttribute_get(c_instance)
+            return moveFromCType(examples_Attributes_builtInTypeAttribute_get(c_instance))
         }
         set {
-            return examples_Attributes_builtInTypeAttribute_set(c_instance, newValue)
+            return moveFromCType(examples_Attributes_builtInTypeAttribute_set(c_instance, newValue))
         }
     }
     var readonlyAttribute: Float {
         get {
-            return examples_Attributes_readonlyAttribute_get(c_instance)
+            return moveFromCType(examples_Attributes_readonlyAttribute_get(c_instance))
         }
     }
     let c_instance : _baseRef

@@ -23,8 +23,7 @@ public class EnumMethods {
         examples_EnumMethods_release_handle(c_instance)
     }
     public static func methodWithEnumeration(input: ShoeSizes) -> ShoeSizes {
-        let cResult = examples_EnumMethods_methodWithEnumeration(input.rawValue)
-        return ShoeSizes(rawValue: cResult)!
+        return moveFromCType(examples_EnumMethods_methodWithEnumeration(input.rawValue))
     }
 }
 extension EnumMethods: NativeBase {

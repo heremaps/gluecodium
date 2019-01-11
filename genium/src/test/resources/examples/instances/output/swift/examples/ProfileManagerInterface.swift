@@ -45,7 +45,7 @@ internal class _ProfileManagerInterface: ProfileManagerInterface {
         examples_ProfileManagerInterface_release_handle(c_instance)
     }
     public func createProfile(username: String) -> Void {
-        return examples_ProfileManagerInterface_createProfile(c_instance, username)
+        return moveFromCType(examples_ProfileManagerInterface_createProfile(c_instance, username))
     }
 }
 extension _ProfileManagerInterface: NativeBase {
