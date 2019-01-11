@@ -77,6 +77,10 @@ define GeniumExtensions for interface test.ConstructorOverloads
     method create:withError {
         Constructor = true
     }
+
+    method create:arrayParameter {
+        Constructor = true
+    }
 }
 
 define GeniumExtensions for interface test.ChildConstructorOverloads

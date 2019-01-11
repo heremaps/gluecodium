@@ -3,7 +3,9 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
+import java.util.List;
 public class Constructors extends NativeBase {
     public enum ErrorEnum {
         NONE(0),
@@ -32,6 +34,9 @@ public class Constructors extends NativeBase {
     public Constructors(final String input) throws Constructors.ErrorEnumException {
         this(create(input));
     }
+    public Constructors(@NonNull final List<Double> input) {
+        this(create(input));
+    }
     /** For internal use only */
     protected Constructors(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
@@ -46,4 +51,5 @@ public class Constructors extends NativeBase {
     private static native long create(final Constructors other);
     private static native long create(final String foo, final long bar);
     private static native long create(final String input) throws Constructors.ErrorEnumException;
+    private static native long create(@NonNull final List<Double> input);
 }

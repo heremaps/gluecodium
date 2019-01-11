@@ -162,6 +162,15 @@ interface ConstructorOverloads {
         }
         error ErrorEnum
     }
+
+    method create:arrayParameter {
+        in {
+            Double[] input
+        }
+        out {
+            ConstructorOverloads output
+        }
+    }
 }
 
 interface ChildConstructorOverloads extends ConstructorOverloads {

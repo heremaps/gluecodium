@@ -87,6 +87,21 @@ Java_com_example_smoke_Constructors_create__Ljava_lang_String_2(JNIEnv* _jenv, j
     }
     return reinterpret_cast<jlong>(nSharedPtr);
 }
+jlong
+Java_com_example_smoke_Constructors_create__Ljava_util_List_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
+{
+    ::std::vector< double > input = genium::jni::convert_from_jni( _jenv, genium::jni::make_local_ref(_jenv, jinput), (::std::vector< double >*)nullptr );
+    auto result = ::smoke::Constructors::create(input);
+    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(result);
+    if (nSharedPtr == nullptr)
+    {
+        jclass exceptionClass = _jenv->FindClass("java/lang/RuntimeException" );
+        _jenv->ThrowNew(exceptionClass, "Cannot allocate native memory.");
+        _jenv->DeleteLocalRef(exceptionClass);
+        return 0;
+    }
+    return reinterpret_cast<jlong>(nSharedPtr);
+}
 void
 Java_com_example_smoke_Constructors_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {

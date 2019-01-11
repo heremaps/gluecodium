@@ -40,6 +40,13 @@ public class Constructors {
         }
         c_instance = _result
     }
+    public init<Tinput: Collection>(input: Tinput) where Tinput.Element == Double {
+        let _result = Constructors.create(input: input)
+        guard _result != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = _result
+    }
     let c_instance : _baseRef
     init(cConstructors: _baseRef) {
         guard cConstructors != 0 else {
@@ -71,6 +78,13 @@ public class Constructors {
         } else {
             throw Constructors.ErrorEnum(rawValue: RESULT.error_code)!
         }
+    }
+    private static func create<Tinput: Collection>(input: Tinput) -> _baseRef where Tinput.Element == Double {
+        let input_handle = input.c_conversion()
+        defer {
+            input_handle.cleanup()
+        }
+        return smoke_Constructors_create_withArray(input_handle.c_type)
     }
 }
 extension Constructors: NativeBase {
