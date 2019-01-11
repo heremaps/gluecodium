@@ -1,9 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
 internal func getRef(_ ref: InheritanceRoot?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -40,21 +38,14 @@ internal func getRef(_ ref: InheritanceRoot?, owning: Bool = true) -> RefHolder 
     let proxy = smoke_InheritanceRoot_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_InheritanceRoot_release_handle) : RefHolder(proxy)
 }
-
 public protocol InheritanceRoot : AnyObject {
     var rootAttribute: String { get set }
     func rootMethod() -> Void
 }
-
 internal class _InheritanceRoot: InheritanceRoot {
     var rootAttribute: String {
         get {
-            let result_string_handle = smoke_InheritanceRoot_rootAttribute_get(c_instance)
-            defer {
-                std_string_release_handle(result_string_handle)
-            }
-            return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                     count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
+            return moveFromCType(smoke_InheritanceRoot_rootAttribute_get(c_instance))
         }
         set {
             return smoke_InheritanceRoot_rootAttribute_set(c_instance, newValue)
@@ -67,7 +58,6 @@ internal class _InheritanceRoot: InheritanceRoot {
         }
         c_instance = cInheritanceRoot
     }
-
     deinit {
         smoke_InheritanceRoot_release_handle(c_instance)
     }
@@ -75,7 +65,6 @@ internal class _InheritanceRoot: InheritanceRoot {
         return smoke_InheritanceRoot_rootMethod(c_instance)
     }
 }
-
 extension _InheritanceRoot: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }

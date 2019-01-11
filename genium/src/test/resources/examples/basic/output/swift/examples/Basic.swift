@@ -1,9 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
 internal func getRef(_ ref: Basic?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -15,28 +13,19 @@ internal func getRef(_ ref: Basic?, owning: Bool = true) -> RefHolder {
 }
 public class Basic {
     let c_instance : _baseRef
-
     init(cBasic: _baseRef) {
         guard cBasic != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cBasic
     }
-
     deinit {
         examples_Basic_release_handle(c_instance)
     }
     public static func basicMethod(inputString: String) -> String {
-        let result_string_handle = examples_Basic_basicMethod(inputString)
-        defer {
-            std_string_release_handle(result_string_handle)
-        }
-        return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
+        return moveFromCType(examples_Basic_basicMethod(inputString))
     }
-
 }
-
 extension Basic: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }

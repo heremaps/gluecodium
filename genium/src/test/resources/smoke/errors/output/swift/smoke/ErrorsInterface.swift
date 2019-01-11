@@ -87,12 +87,7 @@ internal class _ErrorsInterface: ErrorsInterface {
     public func methodWithErrorsAndReturnValue() throws -> String {
         let RESULT = smoke_ErrorsInterface_methodWithErrorsAndReturnValue(c_instance)
         if (RESULT.has_value) {
-            let result_string_handle = RESULT.returned_value
-            defer {
-                std_string_release_handle(result_string_handle)
-            }
-            return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                     count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
+            return moveFromCType(RESULT.returned_value)
         } else {
             throw InternalError(rawValue: RESULT.error_code)!
         }

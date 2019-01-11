@@ -1,10 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
-
 internal func getRef(_ ref: InheritanceParent?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -33,40 +30,24 @@ internal func getRef(_ ref: InheritanceParent?, owning: Bool = true) -> RefHolde
     let proxy = examples_InheritanceParent_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_InheritanceParent_release_handle) : RefHolder(proxy)
 }
-
 public protocol InheritanceParent : AnyObject {
-
-
     func parentMethod(input: String) -> String
-
 }
-
 internal class _InheritanceParent: InheritanceParent {
-
-
     let c_instance : _baseRef
-
     init(cInheritanceParent: _baseRef) {
         guard cInheritanceParent != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cInheritanceParent
     }
-
     deinit {
         examples_InheritanceParent_release_handle(c_instance)
     }
     public func parentMethod(input: String) -> String {
-        let result_string_handle = examples_InheritanceParent_parentMethod(c_instance, input)
-        defer {
-            std_string_release_handle(result_string_handle)
-        }
-        return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
+        return moveFromCType(examples_InheritanceParent_parentMethod(c_instance, input))
     }
-
 }
-
 extension _InheritanceParent: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }

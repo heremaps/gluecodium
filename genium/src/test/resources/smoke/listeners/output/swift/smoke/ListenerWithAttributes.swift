@@ -60,7 +60,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
         defer {
             smoke_ListenerWithAttributes_ResultStruct_release_handle(newValue)
         }
-        swift_class.structuredMessage = ResultStruct(cResultStruct: newValue)
+        swift_class.structuredMessage = ResultStruct(cHandle: newValue)
     }
     functions.smoke_ListenerWithAttributes_enumeratedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
@@ -121,12 +121,7 @@ public protocol ListenerWithAttributes : AnyObject {
 internal class _ListenerWithAttributes: ListenerWithAttributes {
     var message: String {
         get {
-            let result_string_handle = smoke_ListenerWithAttributes_message_get(c_instance)
-            defer {
-                std_string_release_handle(result_string_handle)
-            }
-            return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                     count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
+            return moveFromCType(smoke_ListenerWithAttributes_message_get(c_instance))
         }
         set {
             return smoke_ListenerWithAttributes_message_set(c_instance, newValue)
@@ -149,11 +144,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
     }
     var structuredMessage: ResultStruct {
         get {
-            let cResult = smoke_ListenerWithAttributes_structuredMessage_get(c_instance)
-            defer {
-                smoke_ListenerWithAttributes_ResultStruct_release_handle(cResult)
-            }
-            return ResultStruct(cResultStruct: cResult)
+            return moveFromCType(smoke_ListenerWithAttributes_structuredMessage_get(c_instance))
         }
         set {
             let newValue_handle = newValue.convertToCType()
@@ -203,11 +194,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
     }
     var bufferedMessage: Data {
         get {
-            let result_data_handle = smoke_ListenerWithAttributes_bufferedMessage_get(c_instance)
-            defer {
-                byteArray_release_handle(result_data_handle)
-            }
-            return Data(bytes: byteArray_data_get(result_data_handle), count: Int(byteArray_size_get(result_data_handle)))
+            return moveFromCType(smoke_ListenerWithAttributes_bufferedMessage_get(c_instance))
         }
         set {
             let newValue_handle = byteArray_create_handle()
@@ -243,13 +230,22 @@ public struct ResultStruct {
     public init(result: Double) {
         self.result = result
     }
-    internal init(cResultStruct: _baseRef) {
-        result = smoke_ListenerWithAttributes_ResultStruct_result_get(cResultStruct)
+    internal init(cHandle: _baseRef) {
+        result = smoke_ListenerWithAttributes_ResultStruct_result_get(cHandle)
     }
     internal func convertToCType() -> _baseRef {
         let result_handle = result
         return smoke_ListenerWithAttributes_ResultStruct_create_handle(result_handle)
     }
+}
+internal func copyFromCType(_ handle: _baseRef) -> ResultStruct {
+    return ResultStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> ResultStruct {
+    defer {
+        smoke_ListenerWithAttributes_ResultStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }
 func convertListenerWithAttributes_StringToDoubleToCType(_ swiftDict: ListenerWithAttributes.StringToDouble) -> _baseRef {
     let c_handle = smoke_ListenerWithAttributes_StringToDouble_create_handle()
@@ -268,15 +264,10 @@ func convertListenerWithAttributes_StringToDoubleFromCType(_ c_handle: _baseRef)
     let iterator_handle = smoke_ListenerWithAttributes_StringToDouble_iterator(c_handle)
     while smoke_ListenerWithAttributes_StringToDouble_iterator_is_valid(c_handle, iterator_handle) {
         let c_key = smoke_ListenerWithAttributes_StringToDouble_iterator_key(iterator_handle)
-        defer {
-            std_string_release_handle(c_key)
-        }
-        let swift_key = String(data: Data(bytes: std_string_data_get(c_key),
-                                            count: Int(std_string_size_get(c_key))),
-                                            encoding: .utf8)
+        let swift_key: String = moveFromCType(c_key)
         let c_value = smoke_ListenerWithAttributes_StringToDouble_iterator_value(iterator_handle)
         let swift_value = c_value
-        swiftDict[swift_key!] = swift_value
+        swiftDict[swift_key] = swift_value
         smoke_ListenerWithAttributes_StringToDouble_iterator_increment(iterator_handle)
     }
     smoke_ListenerWithAttributes_StringToDouble_iterator_release_handle(iterator_handle)

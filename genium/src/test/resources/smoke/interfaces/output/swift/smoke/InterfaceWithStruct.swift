@@ -1,9 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
 internal func getRef(_ ref: InterfaceWithStruct?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -26,28 +24,22 @@ internal func getRef(_ ref: InterfaceWithStruct?, owning: Bool = true) -> RefHol
         defer {
             smoke_InterfaceWithStruct_InnerStruct_release_handle(inputStruct)
         }
-        return swift_class.innerStructMethod(inputStruct: InnerStruct(cInnerStruct: inputStruct)).convertToCType()
+        return swift_class.innerStructMethod(inputStruct: InnerStruct(cHandle: inputStruct)).convertToCType()
     }
     let proxy = smoke_InterfaceWithStruct_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_InterfaceWithStruct_release_handle) : RefHolder(proxy)
 }
-
 public protocol InterfaceWithStruct : AnyObject {
-
     func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct
 }
-
 internal class _InterfaceWithStruct: InterfaceWithStruct {
-
     let c_instance : _baseRef
-
     init(cInterfaceWithStruct: _baseRef) {
         guard cInterfaceWithStruct != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cInterfaceWithStruct
     }
-
     deinit {
         smoke_InterfaceWithStruct_release_handle(c_instance)
     }
@@ -56,32 +48,31 @@ internal class _InterfaceWithStruct: InterfaceWithStruct {
         defer {
             smoke_InterfaceWithStruct_InnerStruct_release_handle(inputStruct_handle)
         }
-        let cResult = smoke_InterfaceWithStruct_innerStructMethod(c_instance, inputStruct_handle)
-        defer {
-            smoke_InterfaceWithStruct_InnerStruct_release_handle(cResult)
-        }
-        return InnerStruct(cInnerStruct: cResult)
+        return moveFromCType(smoke_InterfaceWithStruct_innerStructMethod(c_instance, inputStruct_handle))
     }
-
 }
-
 extension _InterfaceWithStruct: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-
 public struct InnerStruct {
     public var value: Int8
-
     public init(value: Int8) {
         self.value = value
     }
-
-    internal init(cInnerStruct: _baseRef) {
-        value = smoke_InterfaceWithStruct_InnerStruct_value_get(cInnerStruct)
+    internal init(cHandle: _baseRef) {
+        value = smoke_InterfaceWithStruct_InnerStruct_value_get(cHandle)
     }
-
     internal func convertToCType() -> _baseRef {
         let value_handle = value
         return smoke_InterfaceWithStruct_InnerStruct_create_handle(value_handle)
     }
+}
+internal func copyFromCType(_ handle: _baseRef) -> InnerStruct {
+    return InnerStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> InnerStruct {
+    defer {
+        smoke_InterfaceWithStruct_InnerStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

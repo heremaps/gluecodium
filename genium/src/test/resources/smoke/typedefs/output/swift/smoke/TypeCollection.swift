@@ -11,9 +11,9 @@ public struct Point {
         self.x = x
         self.y = y
     }
-    internal init(cPoint: _baseRef) {
-        x = smoke_TypeCollection_Point_x_get(cPoint)
-        y = smoke_TypeCollection_Point_y_get(cPoint)
+    internal init(cHandle: _baseRef) {
+        x = smoke_TypeCollection_Point_x_get(cHandle)
+        y = smoke_TypeCollection_Point_y_get(cHandle)
     }
     internal func convertToCType() -> _baseRef {
         let x_handle = x
@@ -21,19 +21,43 @@ public struct Point {
         return smoke_TypeCollection_Point_create_handle(x_handle, y_handle)
     }
 }
+internal func copyFromCType(_ handle: _baseRef) -> Point {
+    return Point(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Point {
+    defer {
+        smoke_TypeCollection_Point_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
 public struct StructHavingAliasFieldDefinedBelow {
     public var field: StorageId
     public init(field: StorageId) {
         self.field = field
     }
-    internal init(cStructHavingAliasFieldDefinedBelow: _baseRef) {
-        field = smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_field_get(cStructHavingAliasFieldDefinedBelow)
+    internal init(cHandle: _baseRef) {
+        field = smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_field_get(cHandle)
     }
     internal func convertToCType() -> _baseRef {
         let field_handle = field
         return smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_create_handle(field_handle)
     }
 }
+internal func copyFromCType(_ handle: _baseRef) -> StructHavingAliasFieldDefinedBelow {
+    return StructHavingAliasFieldDefinedBelow(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> StructHavingAliasFieldDefinedBelow {
+    defer {
+        smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
 public struct TypeCollection {
     public static let invalidStorageId: StorageId = 0
+}
+internal func copyFromCType(_ handle: _baseRef) -> TypeCollection {
+    return TypeCollection()
+}
+internal func moveFromCType(_ handle: _baseRef) -> TypeCollection {
+    return copyFromCType(handle)
 }

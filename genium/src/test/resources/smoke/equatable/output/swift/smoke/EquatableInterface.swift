@@ -1,9 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
 internal func getRef(_ ref: EquatableInterface?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -13,7 +11,6 @@ internal func getRef(_ ref: EquatableInterface?, owning: Bool = true) -> RefHold
         ? RefHolder(ref: handle_copy, release: smoke_EquatableInterface_release_handle)
         : RefHolder(handle_copy)
 }
-
 public class EquatableInterface {
     let c_instance : _baseRef
     init(cEquatableInterface: _baseRef) {
@@ -25,7 +22,6 @@ public class EquatableInterface {
     deinit {
         smoke_EquatableInterface_release_handle(c_instance)
     }
-
     public struct EquatableStruct: Equatable {
         public var intField: Int32
         public var stringField: String
@@ -33,10 +29,10 @@ public class EquatableInterface {
             self.intField = intField
             self.stringField = stringField
         }
-        internal init(cEquatableStruct: _baseRef) {
-            intField = smoke_EquatableInterface_EquatableStruct_intField_get(cEquatableStruct)
+        internal init(cHandle: _baseRef) {
+            intField = smoke_EquatableInterface_EquatableStruct_intField_get(cHandle)
             do {
-                let stringField_handle = smoke_EquatableInterface_EquatableStruct_stringField_get(cEquatableStruct)
+                let stringField_handle = smoke_EquatableInterface_EquatableStruct_stringField_get(cHandle)
                 defer {
                     std_string_release_handle(stringField_handle)
                 }
@@ -50,7 +46,15 @@ public class EquatableInterface {
         }
     }
 }
-
 extension EquatableInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func copyFromCType(_ handle: _baseRef) -> EquatableInterface.EquatableStruct {
+    return EquatableInterface.EquatableStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> EquatableInterface.EquatableStruct {
+    defer {
+        smoke_EquatableInterface_EquatableStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

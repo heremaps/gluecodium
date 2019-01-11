@@ -15,10 +15,7 @@ internal class BasicStructList: CollectionOf<Arrays.BasicStruct> {
     }
     public override subscript(index: Int) -> Arrays.BasicStruct {
         let handle = arrayCollection_BasicStruct_get(c_element!, UInt64(index))
-        defer {
-            smoke_Arrays_BasicStruct_release_handle(handle)
-        }
-        return Arrays.BasicStruct(cBasicStruct: handle)
+        return moveFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -86,10 +83,7 @@ internal class ExternalStructList: CollectionOf<Arrays.ExternalStruct> {
     }
     public override subscript(index: Int) -> Arrays.ExternalStruct {
         let handle = arrayCollection_ExternalStruct_get(c_element!, UInt64(index))
-        defer {
-            smoke_Arrays_ExternalStruct_release_handle(handle)
-        }
-        return Arrays.ExternalStruct(cExternalStruct: handle)
+        return moveFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -125,10 +119,7 @@ internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
     }
     public override subscript(index: Int) -> Arrays.FancyStruct {
         let handle = arrayCollection_FancyStruct_get(c_element!, UInt64(index))
-        defer {
-            smoke_Arrays_FancyStruct_release_handle(handle)
-        }
-        return Arrays.FancyStruct(cFancyStruct: handle)
+        return moveFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -300,11 +291,7 @@ internal class StringList: CollectionOf<String> {
     }
     public override subscript(index: Int) -> String {
         let handle = arrayCollection_String_get(c_element!, UInt64(index))
-        defer {
-            std_string_release_handle(handle)
-        }
-        return String(data: Data(bytes: std_string_data_get(handle),
-                      count: Int(std_string_size_get(handle))), encoding: .utf8)!
+        return moveFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {

@@ -1,9 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
 internal func getRef(_ ref: InternalClass?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -13,30 +11,25 @@ internal func getRef(_ ref: InternalClass?, owning: Bool = true) -> RefHolder {
         ? RefHolder(ref: handle_copy, release: examples_InternalClass_release_handle)
         : RefHolder(handle_copy)
 }
-
 internal class InternalClass {
-
     let c_instance : _baseRef
-
     init(cInternalClass: _baseRef) {
         guard cInternalClass != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cInternalClass
     }
-
     deinit {
         examples_InternalClass_release_handle(c_instance)
     }
-
     internal struct InternalStruct {
         public var stringField: String
         public init(stringField: String) {
             self.stringField = stringField
         }
-        internal init(cInternalStruct: _baseRef) {
+        internal init(cHandle: _baseRef) {
             do {
-                let stringField_handle = examples_InternalClass_InternalStruct_stringField_get(cInternalStruct)
+                let stringField_handle = examples_InternalClass_InternalStruct_stringField_get(cHandle)
                 defer {
                     std_string_release_handle(stringField_handle)
                 }
@@ -48,7 +41,6 @@ internal class InternalClass {
             return examples_InternalClass_InternalStruct_create_handle(stringField_handle)
         }
     }
-
     internal func internalMethod(input: InternalClass.InternalStruct) -> Void {
         let input_handle = input.convertToCType()
         defer {
@@ -57,7 +49,15 @@ internal class InternalClass {
         return examples_InternalClass_internalMethod(c_instance, input_handle)
     }
 }
-
 extension InternalClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func copyFromCType(_ handle: _baseRef) -> InternalClass.InternalStruct {
+    return InternalClass.InternalStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> InternalClass.InternalStruct {
+    defer {
+        examples_InternalClass_InternalStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

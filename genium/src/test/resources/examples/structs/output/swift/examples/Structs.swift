@@ -1,9 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
 internal func getRef(_ ref: Structs?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -15,38 +13,32 @@ internal func getRef(_ ref: Structs?, owning: Bool = true) -> RefHolder {
 }
 public class Structs {
     let c_instance : _baseRef
-
     init(cStructs: _baseRef) {
         guard cStructs != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cStructs
     }
-
     deinit {
         examples_Structs_release_handle(c_instance)
     }
     public struct SyncResult {
         public var lastUpdatedTimeStamp: UInt64
         public var numberOfChanges: UInt32
-
         public init(lastUpdatedTimeStamp: UInt64, numberOfChanges: UInt32) {
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
             self.numberOfChanges = numberOfChanges
         }
-
-        internal init(cSyncResult: _baseRef) {
-            lastUpdatedTimeStamp = examples_Structs_SyncResult_lastUpdatedTimeStamp_get(cSyncResult)
-            numberOfChanges = examples_Structs_SyncResult_numberOfChanges_get(cSyncResult)
+        internal init(cHandle: _baseRef) {
+            lastUpdatedTimeStamp = examples_Structs_SyncResult_lastUpdatedTimeStamp_get(cHandle)
+            numberOfChanges = examples_Structs_SyncResult_numberOfChanges_get(cHandle)
         }
-
         internal func convertToCType() -> _baseRef {
             let lastUpdatedTimeStamp_handle = lastUpdatedTimeStamp
             let numberOfChanges_handle = numberOfChanges
             return examples_Structs_SyncResult_create_handle(lastUpdatedTimeStamp_handle, numberOfChanges_handle)
         }
     }
-
     public struct IdentifiableSyncResult {
         public var id: Int32
         public var syncResult: Structs.SyncResult
@@ -54,14 +46,14 @@ public class Structs {
             self.id = id
             self.syncResult = syncResult
         }
-        internal init(cIdentifiableSyncResult: _baseRef) {
-            id = examples_Structs_IdentifiableSyncResult_id_get(cIdentifiableSyncResult)
+        internal init(cHandle: _baseRef) {
+            id = examples_Structs_IdentifiableSyncResult_id_get(cHandle)
             do {
-                let syncResult_handle = examples_Structs_IdentifiableSyncResult_syncResult_get(cIdentifiableSyncResult)
+                let syncResult_handle = examples_Structs_IdentifiableSyncResult_syncResult_get(cHandle)
                 defer {
                     examples_Structs_SyncResult_release_handle(syncResult_handle)
                 }
-                syncResult = Structs.SyncResult(cSyncResult: syncResult_handle)
+                syncResult = Structs.SyncResult(cHandle: syncResult_handle)
             }
         }
         internal func convertToCType() -> _baseRef {
@@ -73,7 +65,6 @@ public class Structs {
             return examples_Structs_IdentifiableSyncResult_create_handle(id_handle, syncResult_handle)
         }
     }
-
     public struct ImmutableSyncResult {
         public let lastUpdatedTimeStamp: UInt64
         public let numberOfChanges: UInt32
@@ -81,9 +72,9 @@ public class Structs {
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
             self.numberOfChanges = numberOfChanges
         }
-        internal init(cImmutableSyncResult: _baseRef) {
-            lastUpdatedTimeStamp = examples_Structs_ImmutableSyncResult_lastUpdatedTimeStamp_get(cImmutableSyncResult)
-            numberOfChanges = examples_Structs_ImmutableSyncResult_numberOfChanges_get(cImmutableSyncResult)
+        internal init(cHandle: _baseRef) {
+            lastUpdatedTimeStamp = examples_Structs_ImmutableSyncResult_lastUpdatedTimeStamp_get(cHandle)
+            numberOfChanges = examples_Structs_ImmutableSyncResult_numberOfChanges_get(cHandle)
         }
         internal func convertToCType() -> _baseRef {
             let lastUpdatedTimeStamp_handle = lastUpdatedTimeStamp
@@ -91,33 +82,48 @@ public class Structs {
             return examples_Structs_ImmutableSyncResult_create_handle(lastUpdatedTimeStamp_handle, numberOfChanges_handle)
         }
     }
-
     public static func methodWithNonNestedType(input: Structs.SyncResult) -> Structs.SyncResult {
         let input_handle = input.convertToCType()
         defer {
             examples_Structs_SyncResult_release_handle(input_handle)
         }
-        let cResult = examples_Structs_methodWithNonNestedType(input_handle)
-        defer {
-            examples_Structs_SyncResult_release_handle(cResult)
-        }
-        return Structs.SyncResult(cSyncResult: cResult)
+        return moveFromCType(examples_Structs_methodWithNonNestedType(input_handle))
     }
-
     public static func methodWithNestedType(input: Structs.IdentifiableSyncResult) -> Structs.IdentifiableSyncResult {
         let input_handle = input.convertToCType()
         defer {
             examples_Structs_IdentifiableSyncResult_release_handle(input_handle)
         }
-        let cResult = examples_Structs_methodWithNestedType(input_handle)
-        defer {
-            examples_Structs_IdentifiableSyncResult_release_handle(cResult)
-        }
-        return Structs.IdentifiableSyncResult(cIdentifiableSyncResult: cResult)
+        return moveFromCType(examples_Structs_methodWithNestedType(input_handle))
     }
-
 }
-
 extension Structs: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.SyncResult {
+    return Structs.SyncResult(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.SyncResult {
+    defer {
+        examples_Structs_SyncResult_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.IdentifiableSyncResult {
+    return Structs.IdentifiableSyncResult(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.IdentifiableSyncResult {
+    defer {
+        examples_Structs_IdentifiableSyncResult_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.ImmutableSyncResult {
+    return Structs.ImmutableSyncResult(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.ImmutableSyncResult {
+    defer {
+        examples_Structs_ImmutableSyncResult_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

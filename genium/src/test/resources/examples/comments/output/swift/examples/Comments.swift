@@ -52,8 +52,8 @@ public class Comments {
         public init(someField: Comments.Usefulness) {
             self.someField = someField
         }
-        internal init(cSomeStruct: _baseRef) {
-            someField = examples_Comments_SomeStruct_someField_get(cSomeStruct)
+        internal init(cHandle: _baseRef) {
+            someField = examples_Comments_SomeStruct_someField_get(cHandle)
         }
         internal func convertToCType() -> _baseRef {
             let someField_handle = someField
@@ -69,6 +69,15 @@ public class Comments {
 }
 extension Comments: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
+    return Comments.SomeStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
+    defer {
+        examples_Comments_SomeStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }
 func convertComments_SomeMapToCType(_ swiftDict: Comments.SomeMap) -> _baseRef {
     let c_handle = examples_Comments_SomeMap_create_handle()
@@ -87,15 +96,10 @@ func convertComments_SomeMapFromCType(_ c_handle: _baseRef) -> Comments.SomeMap 
     let iterator_handle = examples_Comments_SomeMap_iterator(c_handle)
     while examples_Comments_SomeMap_iterator_is_valid(c_handle, iterator_handle) {
         let c_key = examples_Comments_SomeMap_iterator_key(iterator_handle)
-        defer {
-            std_string_release_handle(c_key)
-        }
-        let swift_key = String(data: Data(bytes: std_string_data_get(c_key),
-                                            count: Int(std_string_size_get(c_key))),
-                                            encoding: .utf8)
+        let swift_key: String = moveFromCType(c_key)
         let c_value = examples_Comments_SomeMap_iterator_value(iterator_handle)
         let swift_value = c_value
-        swiftDict[swift_key!] = swift_value
+        swiftDict[swift_key] = swift_value
         examples_Comments_SomeMap_iterator_increment(iterator_handle)
     }
     examples_Comments_SomeMap_iterator_release_handle(iterator_handle)

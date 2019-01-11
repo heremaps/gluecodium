@@ -1,9 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
 internal func getRef(_ ref: AttributesInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -30,26 +28,18 @@ internal func getRef(_ ref: AttributesInterface?, owning: Bool = true) -> RefHol
         defer {
             smoke_AttributesInterface_ExampleStruct_release_handle(newValue)
         }
-        swift_class.structAttribute = ExampleStruct(cExampleStruct: newValue)
+        swift_class.structAttribute = ExampleStruct(cHandle: newValue)
     }
     let proxy = smoke_AttributesInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_AttributesInterface_release_handle) : RefHolder(proxy)
 }
-
 public protocol AttributesInterface : AnyObject {
-
     var structAttribute: ExampleStruct { get set }
 }
-
 internal class _AttributesInterface: AttributesInterface {
-
     var structAttribute: ExampleStruct {
         get {
-            let cResult = smoke_AttributesInterface_structAttribute_get(c_instance)
-            defer {
-                smoke_AttributesInterface_ExampleStruct_release_handle(cResult)
-            }
-            return ExampleStruct(cExampleStruct: cResult)
+            return moveFromCType(smoke_AttributesInterface_structAttribute_get(c_instance))
         }
         set {
             let newValue_handle = newValue.convertToCType()
@@ -60,36 +50,38 @@ internal class _AttributesInterface: AttributesInterface {
         }
     }
     let c_instance : _baseRef
-
     init(cAttributesInterface: _baseRef) {
         guard cAttributesInterface != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cAttributesInterface
     }
-
     deinit {
         smoke_AttributesInterface_release_handle(c_instance)
     }
 }
-
 extension _AttributesInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-
 public struct ExampleStruct {
     public var value: Double
-
     public init(value: Double) {
         self.value = value
     }
-
-    internal init(cExampleStruct: _baseRef) {
-        value = smoke_AttributesInterface_ExampleStruct_value_get(cExampleStruct)
+    internal init(cHandle: _baseRef) {
+        value = smoke_AttributesInterface_ExampleStruct_value_get(cHandle)
     }
-
     internal func convertToCType() -> _baseRef {
         let value_handle = value
         return smoke_AttributesInterface_ExampleStruct_create_handle(value_handle)
     }
+}
+internal func copyFromCType(_ handle: _baseRef) -> ExampleStruct {
+    return ExampleStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> ExampleStruct {
+    defer {
+        smoke_AttributesInterface_ExampleStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }
