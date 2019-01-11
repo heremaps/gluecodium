@@ -1,9 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
 internal func getRef(_ ref: NestedInstantiable?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -40,7 +38,6 @@ public class NestedInstantiable {
         return SimpleInstantiable(cSimpleInstantiable: cResult)
     }
 }
-
 extension NestedInstantiable: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }

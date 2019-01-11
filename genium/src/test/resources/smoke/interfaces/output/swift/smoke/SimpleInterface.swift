@@ -1,10 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
-
 internal func getRef(_ ref: SimpleInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -37,42 +34,28 @@ internal func getRef(_ ref: SimpleInterface?, owning: Bool = true) -> RefHolder 
     let proxy = smoke_SimpleInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_SimpleInterface_release_handle) : RefHolder(proxy)
 }
-
 public protocol SimpleInterface : AnyObject {
-
     func setStringValue(stringValue: String) -> Void
     func getStringValue() -> String
 }
-
 internal class _SimpleInterface: SimpleInterface {
-
     let c_instance : _baseRef
-
     init(cSimpleInterface: _baseRef) {
         guard cSimpleInterface != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cSimpleInterface
     }
-
     deinit {
         smoke_SimpleInterface_release_handle(c_instance)
     }
     public func setStringValue(stringValue: String) -> Void {
         return smoke_SimpleInterface_setStringValue(c_instance, stringValue)
     }
-
     public func getStringValue() -> String {
-        let result_string_handle = smoke_SimpleInterface_getStringValue(c_instance)
-        defer {
-            std_string_release_handle(result_string_handle)
-        }
-        return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
+        return moveFromCType(smoke_SimpleInterface_getStringValue(c_instance))
     }
-
 }
-
 extension _SimpleInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }

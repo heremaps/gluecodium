@@ -1,9 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
 internal func getRef(_ ref: InheritanceChild?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -36,12 +34,10 @@ internal func getRef(_ ref: InheritanceChild?, owning: Bool = true) -> RefHolder
     let proxy = examples_InheritanceChild_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_InheritanceChild_release_handle) : RefHolder(proxy)
 }
-
 public protocol InheritanceChild : InheritanceParent {
     func parentMethod(input: String) -> String
     func childMethod(input: UInt8) -> Int16
 }
-
 internal class _InheritanceChild: InheritanceChild {
     let c_instance : _baseRef
     init(cInheritanceChild: _baseRef) {
@@ -54,18 +50,12 @@ internal class _InheritanceChild: InheritanceChild {
         examples_InheritanceChild_release_handle(c_instance)
     }
     public func parentMethod(input: String) -> String {
-        let result_string_handle = examples_InheritanceParent_parentMethod(c_instance, input)
-        defer {
-            std_string_release_handle(result_string_handle)
-        }
-        return String(data: Data(bytes: std_string_data_get(result_string_handle),
-                                 count: Int(std_string_size_get(result_string_handle))), encoding: .utf8)!
+        return moveFromCType(examples_InheritanceParent_parentMethod(c_instance, input))
     }
     public func childMethod(input: UInt8) -> Int16 {
         return examples_InheritanceChild_childMethod(c_instance, input)
     }
 }
-
 extension _InheritanceChild: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }

@@ -1,10 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 import Foundation
-
-
 internal func getRef(_ ref: ProfileManagerInterface?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
@@ -33,32 +30,24 @@ internal func getRef(_ ref: ProfileManagerInterface?, owning: Bool = true) -> Re
     let proxy = examples_ProfileManagerInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_ProfileManagerInterface_release_handle) : RefHolder(proxy)
 }
-
 public protocol ProfileManagerInterface : AnyObject {
-
     func createProfile(username: String) -> Void
 }
-
 internal class _ProfileManagerInterface: ProfileManagerInterface {
-
     let c_instance : _baseRef
-
     init(cProfileManagerInterface: _baseRef) {
         guard cProfileManagerInterface != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cProfileManagerInterface
     }
-
     deinit {
         examples_ProfileManagerInterface_release_handle(c_instance)
     }
     public func createProfile(username: String) -> Void {
         return examples_ProfileManagerInterface_createProfile(c_instance, username)
     }
-
 }
-
 extension _ProfileManagerInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }

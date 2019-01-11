@@ -26,7 +26,6 @@ import com.here.genium.platform.swift.SwiftGeneratorSuite
 import com.here.genium.test.NiceErrorCollector
 import io.mockk.every
 import io.mockk.spyk
-import org.eclipse.xtext.util.Files
 import org.franca.core.franca.FTypeCollection
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -93,7 +92,7 @@ abstract class AcceptanceTestBase protected constructor(
             )
 
             if (generatedContent != null) {
-                val expected = Files.readFileIntoString(referenceFile.path)
+                val expected = referenceFile.readText()
                 errorCollector.checkEquals(
                     "File content differs for file: $relativePath",
                     ignoreWhitespace(expected),

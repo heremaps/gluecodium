@@ -213,13 +213,22 @@ public struct SomeStruct {
     public init(someField: CommentsInterface.Usefulness) {
         self.someField = someField
     }
-    internal init(cSomeStruct: _baseRef) {
-        someField = smoke_CommentsInterface_SomeStruct_someField_get(cSomeStruct)
+    internal init(cHandle: _baseRef) {
+        someField = smoke_CommentsInterface_SomeStruct_someField_get(cHandle)
     }
     internal func convertToCType() -> _baseRef {
         let someField_handle = someField
         return smoke_CommentsInterface_SomeStruct_create_handle(someField_handle)
     }
+}
+internal func copyFromCType(_ handle: _baseRef) -> SomeStruct {
+    return SomeStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> SomeStruct {
+    defer {
+        smoke_CommentsInterface_SomeStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }
 func convertCommentsInterface_SomeMapToCType(_ swiftDict: CommentsInterface.SomeMap) -> _baseRef {
     let c_handle = smoke_CommentsInterface_SomeMap_create_handle()
@@ -238,15 +247,10 @@ func convertCommentsInterface_SomeMapFromCType(_ c_handle: _baseRef) -> Comments
     let iterator_handle = smoke_CommentsInterface_SomeMap_iterator(c_handle)
     while smoke_CommentsInterface_SomeMap_iterator_is_valid(c_handle, iterator_handle) {
         let c_key = smoke_CommentsInterface_SomeMap_iterator_key(iterator_handle)
-        defer {
-            std_string_release_handle(c_key)
-        }
-        let swift_key = String(data: Data(bytes: std_string_data_get(c_key),
-                                            count: Int(std_string_size_get(c_key))),
-                                            encoding: .utf8)
+        let swift_key: String = moveFromCType(c_key)
         let c_value = smoke_CommentsInterface_SomeMap_iterator_value(iterator_handle)
         let swift_value = c_value
-        swiftDict[swift_key!] = swift_value
+        swiftDict[swift_key] = swift_value
         smoke_CommentsInterface_SomeMap_iterator_increment(iterator_handle)
     }
     smoke_CommentsInterface_SomeMap_iterator_release_handle(iterator_handle)
