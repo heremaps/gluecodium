@@ -39,8 +39,7 @@ public class Attributes {
     }
     public var arrayAttribute: CollectionOf<String> {
         get {
-            let result_handle = smoke_Attributes_arrayAttribute_get(c_instance)
-            return StringList(result_handle)
+            return moveFromCType(smoke_Attributes_arrayAttribute_get(c_instance))
         }
         set {
             let newValue_handle = newValue.c_conversion()

@@ -311,7 +311,7 @@ func convertMaps_StringToArrayFromCType(_ c_handle: _baseRef) -> Maps.StringToAr
         let c_key = smoke_Maps_StringToArray_iterator_key(iterator_handle)
         let swift_key: String = moveFromCType(c_key)
         let c_value = smoke_Maps_StringToArray_iterator_value(iterator_handle)
-        let swift_value = Int32List(c_value)
+        let swift_value: CollectionOf<Int32> = moveFromCType(c_value)
         swiftDict[swift_key] = swift_value
         smoke_Maps_StringToArray_iterator_increment(iterator_handle)
     }

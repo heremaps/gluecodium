@@ -114,40 +114,35 @@ public class Arrays {
         defer {
             input_handle.cleanup()
         }
-        let result_handle = smoke_Arrays_methodWithArray(input_handle.c_type)
-        return StringList(result_handle)
+        return moveFromCType(smoke_Arrays_methodWithArray(input_handle.c_type))
     }
     public static func methodWithArrayInline<Tinput: Collection>(input: Tinput) -> CollectionOf<UInt8> where Tinput.Element == UInt8 {
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-        let result_handle = smoke_Arrays_methodWithArrayInline(input_handle.c_type)
-        return UInt8List(result_handle)
+        return moveFromCType(smoke_Arrays_methodWithArrayInline(input_handle.c_type))
     }
     public static func methodWithStructArray<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.BasicStruct> where Tinput.Element == Arrays.BasicStruct {
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-        let result_handle = smoke_Arrays_methodWithStructArray(input_handle.c_type)
-        return BasicStructList(result_handle)
+        return moveFromCType(smoke_Arrays_methodWithStructArray(input_handle.c_type))
     }
     public static func methodWithExternalStructArray<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.ExternalStruct> where Tinput.Element == Arrays.ExternalStruct {
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-        let result_handle = smoke_Arrays_methodWithExternalStructArray(input_handle.c_type)
-        return ExternalStructList(result_handle)
+        return moveFromCType(smoke_Arrays_methodWithExternalStructArray(input_handle.c_type))
     }
     public static func methodWithArrayOfArrays<Tinput: Collection>(input: Tinput) -> CollectionOf<CollectionOf<UInt8>> where Tinput.Element: Collection, Tinput.Element.Element == UInt8 {
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-        let result_handle = smoke_Arrays_methodWithArrayOfArrays(input_handle.c_type)
-        return UInt8ListList(result_handle)
+        return moveFromCType(smoke_Arrays_methodWithArrayOfArrays(input_handle.c_type))
     }
     public static func mergeArraysOfStructsWithArrays<TinlineFancyArray: Collection, TfancyArray: Collection>(inlineFancyArray: TinlineFancyArray, fancyArray: TfancyArray) -> CollectionOf<Arrays.FancyStruct> where TinlineFancyArray.Element == Arrays.FancyStruct, TfancyArray.Element == Arrays.FancyStruct {
         let inlineFancyArray_handle = inlineFancyArray.c_conversion()
@@ -158,24 +153,21 @@ public class Arrays {
         defer {
             fancyArray_handle.cleanup()
         }
-        let result_handle = smoke_Arrays_mergeArraysOfStructsWithArrays(inlineFancyArray_handle.c_type, fancyArray_handle.c_type)
-        return FancyStructList(result_handle)
+        return moveFromCType(smoke_Arrays_mergeArraysOfStructsWithArrays(inlineFancyArray_handle.c_type, fancyArray_handle.c_type))
     }
     public static func methodWithArrayOfAliases<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.ProfileId> where Tinput.Element == Arrays.ProfileId {
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-        let result_handle = smoke_Arrays_methodWithArrayOfAliases(input_handle.c_type)
-        return StringList(result_handle)
+        return moveFromCType(smoke_Arrays_methodWithArrayOfAliases(input_handle.c_type))
     }
     public static func methodWithArrayOfMaps<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.ErrorCodeToMessageMap> where Tinput.Element == Arrays.ErrorCodeToMessageMap {
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-        let result_handle = smoke_Arrays_methodWithArrayOfMaps(input_handle.c_type)
-        return ArraysErrorCodeToMessageMapList(result_handle)
+        return moveFromCType(smoke_Arrays_methodWithArrayOfMaps(input_handle.c_type))
     }
     public static func methodWithByteBuffer(input: Data) -> Data {
         let input_handle = byteArray_create_handle()
@@ -192,16 +184,14 @@ public class Arrays {
         defer {
             input_handle.cleanup()
         }
-        let result_handle = smoke_Arrays_methodWithEnumArray(input_handle.c_type)
-        return SomeEnumList(result_handle)
+        return moveFromCType(smoke_Arrays_methodWithEnumArray(input_handle.c_type))
     }
     public static func methodWithExternalEnumArray<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.ExternalEnum> where Tinput.Element == Arrays.ExternalEnum {
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-        let result_handle = smoke_Arrays_methodWithExternalEnumArray(input_handle.c_type)
-        return ExternalEnumList(result_handle)
+        return moveFromCType(smoke_Arrays_methodWithExternalEnumArray(input_handle.c_type))
     }
 }
 extension Arrays: NativeBase {
