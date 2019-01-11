@@ -3,6 +3,7 @@
 ## Unreleased
 - Bug fixes:
   + Fixed compilation issues for constructors of child classes in Swift.
+  + Fixed compilation issues for constructors with Array parameters in Swift.
 
 ## 3.19.1
 - Release date: 2019-01-09

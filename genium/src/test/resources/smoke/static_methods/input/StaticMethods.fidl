@@ -309,6 +309,16 @@ interface Constructors {
         }
         error ErrorEnum
     }
+
+
+    method create:withArray {
+        in {
+            Double[] input
+        }
+        out {
+            Constructors result
+        }
+    }
 }
 
 interface ChildConstructors extends Constructors {
