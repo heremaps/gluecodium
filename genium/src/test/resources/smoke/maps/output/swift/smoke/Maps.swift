@@ -172,7 +172,7 @@ func convertMaps_ErrorCodeToMessageMapFromCType(_ c_handle: _baseRef) -> Maps.Er
     let iterator_handle = smoke_Maps_ErrorCodeToMessageMap_iterator(c_handle)
     while smoke_Maps_ErrorCodeToMessageMap_iterator_is_valid(c_handle, iterator_handle) {
         let c_key = smoke_Maps_ErrorCodeToMessageMap_iterator_key(iterator_handle)
-        let swift_key = c_key
+        let swift_key: Int32 = moveFromCType(c_key)
         let c_value = smoke_Maps_ErrorCodeToMessageMap_iterator_value(iterator_handle)
         let swift_value: String = moveFromCType(c_value)
         swiftDict[swift_key] = swift_value
@@ -198,7 +198,7 @@ func convertMaps_NumberToStructFromCType(_ c_handle: _baseRef) -> Maps.NumberToS
     let iterator_handle = smoke_Maps_NumberToStruct_iterator(c_handle)
     while smoke_Maps_NumberToStruct_iterator_is_valid(c_handle, iterator_handle) {
         let c_key = smoke_Maps_NumberToStruct_iterator_key(iterator_handle)
-        let swift_key = c_key
+        let swift_key: UInt8 = moveFromCType(c_key)
         let c_value = smoke_Maps_NumberToStruct_iterator_value(iterator_handle)
         let swift_value: Maps.SomeStruct = moveFromCType(c_value)
         swiftDict[swift_key] = swift_value
@@ -224,7 +224,7 @@ func convertMaps_NestedMapFromCType(_ c_handle: _baseRef) -> Maps.NestedMap {
     let iterator_handle = smoke_Maps_NestedMap_iterator(c_handle)
     while smoke_Maps_NestedMap_iterator_is_valid(c_handle, iterator_handle) {
         let c_key = smoke_Maps_NestedMap_iterator_key(iterator_handle)
-        let swift_key = c_key
+        let swift_key: UInt8 = moveFromCType(c_key)
         let c_value = smoke_Maps_NestedMap_iterator_value(iterator_handle)
         defer {
             smoke_Maps_NumberToStruct_release_handle(c_value)
@@ -253,7 +253,7 @@ func convertMaps_NumberToTypeDefFromCType(_ c_handle: _baseRef) -> Maps.NumberTo
     let iterator_handle = smoke_Maps_NumberToTypeDef_iterator(c_handle)
     while smoke_Maps_NumberToTypeDef_iterator_is_valid(c_handle, iterator_handle) {
         let c_key = smoke_Maps_NumberToTypeDef_iterator_key(iterator_handle)
-        let swift_key = c_key
+        let swift_key: UInt8 = moveFromCType(c_key)
         let c_value = smoke_Maps_NumberToTypeDef_iterator_value(iterator_handle)
         let swift_value: String = moveFromCType(c_value)
         swiftDict[swift_key] = swift_value
@@ -281,7 +281,7 @@ func convertMaps_TypeDefToNumberFromCType(_ c_handle: _baseRef) -> Maps.TypeDefT
         let c_key = smoke_Maps_TypeDefToNumber_iterator_key(iterator_handle)
         let swift_key: String = moveFromCType(c_key)
         let c_value = smoke_Maps_TypeDefToNumber_iterator_value(iterator_handle)
-        let swift_value = c_value
+        let swift_value: UInt8 = moveFromCType(c_value)
         swiftDict[swift_key] = swift_value
         smoke_Maps_TypeDefToNumber_iterator_increment(iterator_handle)
     }
@@ -333,7 +333,7 @@ func convertMaps_NumberToInstanceFromCType(_ c_handle: _baseRef) -> Maps.NumberT
     let iterator_handle = smoke_Maps_NumberToInstance_iterator(c_handle)
     while smoke_Maps_NumberToInstance_iterator_is_valid(c_handle, iterator_handle) {
         let c_key = smoke_Maps_NumberToInstance_iterator_key(iterator_handle)
-        let swift_key = c_key
+        let swift_key: UInt8 = moveFromCType(c_key)
         let c_value = smoke_Maps_NumberToInstance_iterator_value(iterator_handle)
         let swift_value = _MapsInstance(cMapsInstance: c_value)
         swiftDict[swift_key] = swift_value

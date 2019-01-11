@@ -8,3 +8,9 @@ public enum ShoeSizes : UInt32 {
     case normal = 43
     case big = 46
 }
+internal func copyFromCType(_ cValue: UInt32) -> ShoeSizes {
+    return ShoeSizes(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> ShoeSizes {
+    return copyFromCType(cValue)
+}

@@ -53,7 +53,7 @@ internal class _InheritanceChild: InheritanceChild {
         return moveFromCType(examples_InheritanceParent_parentMethod(c_instance, input))
     }
     public func childMethod(input: UInt8) -> Int16 {
-        return examples_InheritanceChild_childMethod(c_instance, input)
+        return moveFromCType(examples_InheritanceChild_childMethod(c_instance, input))
     }
 }
 extension _InheritanceChild: NativeBase {

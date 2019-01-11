@@ -62,19 +62,19 @@ public class Constructors {
         case crashed
     }
     private static func create() -> _baseRef {
-        return smoke_Constructors_create_noArgs()
+        return moveFromCType(smoke_Constructors_create_noArgs())
     }
     private static func create(other: Constructors?) -> _baseRef {
         let other_handle = getRef(other)
-        return smoke_Constructors_create_copyCtor(other_handle.ref)
+        return moveFromCType(smoke_Constructors_create_copyCtor(other_handle.ref))
     }
     private static func create(foo: String, bar: UInt64) -> _baseRef {
-        return smoke_Constructors_create_twoArgs(foo, bar)
+        return moveFromCType(smoke_Constructors_create_twoArgs(foo, bar))
     }
     private static func create(input: String) throws -> _baseRef {
         let RESULT = smoke_Constructors_create_withError(input)
         if (RESULT.has_value) {
-            return RESULT.returned_value
+            return moveFromCType(RESULT.returned_value)
         } else {
             throw Constructors.ErrorEnum(rawValue: RESULT.error_code)!
         }
@@ -84,9 +84,15 @@ public class Constructors {
         defer {
             input_handle.cleanup()
         }
-        return smoke_Constructors_create_withArray(input_handle.c_type)
+        return moveFromCType(smoke_Constructors_create_withArray(input_handle.c_type))
     }
 }
 extension Constructors: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func copyFromCType(_ cValue: UInt32) -> Constructors.ErrorEnum {
+    return Constructors.ErrorEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> Constructors.ErrorEnum {
+    return copyFromCType(cValue)
 }

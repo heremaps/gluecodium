@@ -51,7 +51,7 @@ internal class ExternalEnumList: CollectionOf<Arrays.ExternalEnum> {
     }
     public override subscript(index: Int) -> Arrays.ExternalEnum {
         let handle = arrayCollection_ExternalEnum_get(c_element!, UInt64(index))
-        return Arrays.ExternalEnum(rawValue: handle)!
+        return moveFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -155,7 +155,7 @@ internal class SomeEnumList: CollectionOf<Arrays.SomeEnum> {
     }
     public override subscript(index: Int) -> Arrays.SomeEnum {
         let handle = arrayCollection_SomeEnum_get(c_element!, UInt64(index))
-        return Arrays.SomeEnum(rawValue: handle)!
+        return moveFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -323,7 +323,7 @@ internal class UInt8List: CollectionOf<UInt8> {
     }
     public override subscript(index: Int) -> UInt8 {
         let handle = arrayCollection_UInt8_get(c_element!, UInt64(index))
-        return handle
+        return moveFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {

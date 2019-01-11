@@ -85,35 +85,35 @@ internal class _CalculatorListener: CalculatorListener {
         smoke_CalculatorListener_release_handle(c_instance)
     }
     public func onCalculationResult(calculationResult: Double) -> Void {
-        return smoke_CalculatorListener_onCalculationResult(c_instance, calculationResult)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResult(c_instance, calculationResult))
     }
     public func onCalculationResultConst(calculationResult: Double) -> Void {
-        return smoke_CalculatorListener_onCalculationResultConst(c_instance, calculationResult)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultConst(c_instance, calculationResult))
     }
     public func onCalculationResultStruct(calculationResult: ResultStruct) -> Void {
         let calculationResult_handle = calculationResult.convertToCType()
         defer {
             smoke_CalculatorListener_ResultStruct_release_handle(calculationResult_handle)
         }
-        return smoke_CalculatorListener_onCalculationResultStruct(c_instance, calculationResult_handle)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultStruct(c_instance, calculationResult_handle))
     }
     public func onCalculationResultArray<TcalculationResult: Collection>(calculationResult: TcalculationResult) -> Void where TcalculationResult.Element == Double {
         let calculationResult_handle = calculationResult.c_conversion()
         defer {
             calculationResult_handle.cleanup()
         }
-        return smoke_CalculatorListener_onCalculationResultArray(c_instance, calculationResult_handle.c_type)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultArray(c_instance, calculationResult_handle.c_type))
     }
     public func onCalculationResultMap(calculationResults: CalculatorListener.NamedCalculationResults) -> Void {
         let calculationResults_handle = convertCalculatorListener_NamedCalculationResultsToCType(calculationResults)
         defer {
             smoke_CalculatorListener_NamedCalculationResults_release_handle(calculationResults_handle)
         }
-        return smoke_CalculatorListener_onCalculationResultMap(c_instance, calculationResults_handle)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultMap(c_instance, calculationResults_handle))
     }
     public func onCalculationResultInstance(calculationResult: CalculationResult?) -> Void {
         let calculationResult_handle = getRef(calculationResult)
-        return smoke_CalculatorListener_onCalculationResultInstance(c_instance, calculationResult_handle.ref)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultInstance(c_instance, calculationResult_handle.ref))
     }
 }
 extension _CalculatorListener: NativeBase {
@@ -160,7 +160,7 @@ func convertCalculatorListener_NamedCalculationResultsFromCType(_ c_handle: _bas
         let c_key = smoke_CalculatorListener_NamedCalculationResults_iterator_key(iterator_handle)
         let swift_key: String = moveFromCType(c_key)
         let c_value = smoke_CalculatorListener_NamedCalculationResults_iterator_value(iterator_handle)
-        let swift_value = c_value
+        let swift_value: Double = moveFromCType(c_value)
         swiftDict[swift_key] = swift_value
         smoke_CalculatorListener_NamedCalculationResults_iterator_increment(iterator_handle)
     }

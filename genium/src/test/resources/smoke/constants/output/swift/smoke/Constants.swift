@@ -6,6 +6,12 @@ public enum StateEnum : UInt32 {
     case off
     case on
 }
+internal func copyFromCType(_ cValue: UInt32) -> StateEnum {
+    return StateEnum(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> StateEnum {
+    return copyFromCType(cValue)
+}
 public struct Constants {
     public static let boolConstant: Bool = true
     public static let intConstant: Int32 = -11

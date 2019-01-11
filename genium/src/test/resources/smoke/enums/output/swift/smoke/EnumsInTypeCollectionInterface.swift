@@ -23,8 +23,7 @@ public class EnumsInTypeCollectionInterface {
         smoke_EnumsInTypeCollectionInterface_release_handle(c_instance)
     }
     public static func flipEnumValue(input: TCEnum) -> TCEnum {
-        let cResult = smoke_EnumsInTypeCollectionInterface_flipEnumValue(input.rawValue)
-        return TCEnum(rawValue: cResult)!
+        return moveFromCType(smoke_EnumsInTypeCollectionInterface_flipEnumValue(input.rawValue))
     }
 }
 extension EnumsInTypeCollectionInterface: NativeBase {

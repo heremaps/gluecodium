@@ -25,7 +25,7 @@ public class NestedInstantiable {
     public func setSameTypeInstances(instanceOne: SimpleInstantiable?, instanceTwo: SimpleInstantiable?) -> Void {
         let instanceOne_handle = getRef(instanceOne)
         let instanceTwo_handle = getRef(instanceTwo)
-        return smoke_NestedInstantiable_setSameTypeInstances(c_instance, instanceOne_handle.ref, instanceTwo_handle.ref)
+        return moveFromCType(smoke_NestedInstantiable_setSameTypeInstances(c_instance, instanceOne_handle.ref, instanceTwo_handle.ref))
     }
     public func getInstanceOne() -> SimpleInstantiable? {
         let cResult = smoke_NestedInstantiable_getInstanceOne(c_instance)
