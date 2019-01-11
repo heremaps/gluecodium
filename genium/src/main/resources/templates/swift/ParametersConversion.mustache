@@ -60,7 +60,6 @@ if (RESULT.has_value) {
 
 }}{{+returnValueConversion}}{{#switch returnType.category.toString}}{{!!
     }}{{#case "CLASS"}}{{>MethodReturnClass}}{{/case}}{{!!
-    }}{{#case "ARRAY"}}{{>MethodReturnArray}}{{/case}}{{!!
     }}{{#case "DICTIONARY"}}{{>MethodReturnDictionary}}{{/case}}{{!!
     }}{{#default}}return moveFromCType({{include delegateToCall}}){{/default}}{{!!
   }}{{/switch}}{{!!
@@ -119,11 +118,6 @@ return {{>returnTypeOrImplClass}}(c{{returnType}}: cResult)
 }}let cResult = {{include delegateToCall}}
 return {{returnType}}(rawValue: cResult)!
 {{/MethodReturnEnum}}{{!!
-
-}}{{+MethodReturnArray}}
-let result_handle = {{include delegateToCall}}
-return {{returnType.implementingClass}}(result_handle)
-{{/MethodReturnArray}}{{!!
 
 }}{{+MethodReturnDictionary}}{{!!
 }}let result_handle = {{include delegateToCall}}

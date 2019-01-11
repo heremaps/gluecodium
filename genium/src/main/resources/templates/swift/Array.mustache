@@ -43,7 +43,6 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType.publicName}}
         let handle = {{refName}}_get(c_element!, UInt64(index))
         {{#switch underlyingType.category.toString}}{{!!
         }}{{#case "CLASS"}}{{prefixPartial 'classSubscript'   '        '}}{{/case}}{{!!
-        }}{{#case "ARRAY"}}{{prefixPartial 'arraySubscript'   '        '}}{{/case}}{{!!
         }}{{#case "DICTIONARY"}}{{prefixPartial 'dictionarySubscript'   '        '}}{{/case}}{{!!
         }}{{#default}}return moveFromCType(handle){{/default}}{{!!
         }}{{/switch}}
@@ -76,6 +75,15 @@ extension Collection {{>GenericConstraintsRule}}  {
     }
 }
 
+internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<{{underlyingType.publicName}}> {
+    return {{implementingClass}}(handle)
+}
+
+// Array is taking over and owning _baseRef instead of releasing it directly
+internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<{{underlyingType.publicName}}> {
+    return copyFromCType(handle)
+}
+
 {{/arrays}}
 
 {{+GenericConstraintsRule}}{{!!
@@ -84,10 +92,7 @@ extension Collection {{>GenericConstraintsRule}}  {
  }}{{#if iter.hasNext}}, {{/if}}{{/genericParameter.constraints}}{{/GenericConstraintsRule}}
 
 {{+classSubscript}}
-return {{underlyingType.implementingClass}}(c{{underlyingType.simpleName}}: handle){{/classSubscript}}
-
-{{+arraySubscript}}
-return {{underlyingType.implementingClass}}(handle){{/arraySubscript}}{{!!
+return {{underlyingType.implementingClass}}(c{{underlyingType.simpleName}}: handle){{/classSubscript}}{{!!
 
 }}{{+dictionarySubscript}}
 return convert{{underlyingType.name}}FromCType(handle){{/dictionarySubscript}}{{!!
