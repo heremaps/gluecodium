@@ -38,6 +38,13 @@ extension Collection where Element == Arrays.BasicStruct  {
         return (handle, cleanup_function)
     }
 }
+internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.BasicStruct> {
+    return BasicStructList(handle)
+}
+// Array is taking over and owning _baseRef instead of releasing it directly
+internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.BasicStruct> {
+    return copyFromCType(handle)
+}
 internal class ExternalEnumList: CollectionOf<Arrays.ExternalEnum> {
     var c_element: _baseRef?
     init(_ c_element: _baseRef) {
@@ -69,6 +76,13 @@ extension Collection where Element == Arrays.ExternalEnum  {
         }
         return (handle, cleanup_function)
     }
+}
+internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.ExternalEnum> {
+    return ExternalEnumList(handle)
+}
+// Array is taking over and owning _baseRef instead of releasing it directly
+internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.ExternalEnum> {
+    return copyFromCType(handle)
 }
 internal class ExternalStructList: CollectionOf<Arrays.ExternalStruct> {
     var c_element: _baseRef?
@@ -106,6 +120,13 @@ extension Collection where Element == Arrays.ExternalStruct  {
         return (handle, cleanup_function)
     }
 }
+internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.ExternalStruct> {
+    return ExternalStructList(handle)
+}
+// Array is taking over and owning _baseRef instead of releasing it directly
+internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.ExternalStruct> {
+    return copyFromCType(handle)
+}
 internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
     var c_element: _baseRef?
     init(_ c_element: _baseRef) {
@@ -142,6 +163,13 @@ extension Collection where Element == Arrays.FancyStruct  {
         return (handle, cleanup_function)
     }
 }
+internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.FancyStruct> {
+    return FancyStructList(handle)
+}
+// Array is taking over and owning _baseRef instead of releasing it directly
+internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.FancyStruct> {
+    return copyFromCType(handle)
+}
 internal class SomeEnumList: CollectionOf<Arrays.SomeEnum> {
     var c_element: _baseRef?
     init(_ c_element: _baseRef) {
@@ -173,6 +201,13 @@ extension Collection where Element == Arrays.SomeEnum  {
         }
         return (handle, cleanup_function)
     }
+}
+internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.SomeEnum> {
+    return SomeEnumList(handle)
+}
+// Array is taking over and owning _baseRef instead of releasing it directly
+internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.SomeEnum> {
+    return copyFromCType(handle)
 }
 internal class ArraysErrorCodeToMessageMapList: CollectionOf<Arrays.ErrorCodeToMessageMap> {
     var c_element: _baseRef?
@@ -210,6 +245,13 @@ extension Collection where Element == Arrays.ErrorCodeToMessageMap  {
         return (handle, cleanup_function)
     }
 }
+internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.ErrorCodeToMessageMap> {
+    return ArraysErrorCodeToMessageMapList(handle)
+}
+// Array is taking over and owning _baseRef instead of releasing it directly
+internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.ErrorCodeToMessageMap> {
+    return copyFromCType(handle)
+}
 internal class StringListList: CollectionOf<CollectionOf<String>> {
     var c_element: _baseRef?
     init(_ c_element: _baseRef) {
@@ -223,7 +265,7 @@ internal class StringListList: CollectionOf<CollectionOf<String>> {
     }
     public override subscript(index: Int) -> CollectionOf<String> {
         let handle = arrayCollection_StringArray_get(c_element!, UInt64(index))
-        return StringList(handle)
+        return moveFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -244,6 +286,13 @@ extension Collection where Element: Collection, Element.Element == String  {
         return (handle, cleanup_function)
     }
 }
+internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<CollectionOf<String>> {
+    return StringListList(handle)
+}
+// Array is taking over and owning _baseRef instead of releasing it directly
+internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<CollectionOf<String>> {
+    return copyFromCType(handle)
+}
 internal class UInt8ListList: CollectionOf<CollectionOf<UInt8>> {
     var c_element: _baseRef?
     init(_ c_element: _baseRef) {
@@ -257,7 +306,7 @@ internal class UInt8ListList: CollectionOf<CollectionOf<UInt8>> {
     }
     public override subscript(index: Int) -> CollectionOf<UInt8> {
         let handle = arrayCollection_UInt8Array_get(c_element!, UInt64(index))
-        return UInt8List(handle)
+        return moveFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -277,6 +326,13 @@ extension Collection where Element: Collection, Element.Element == UInt8  {
         }
         return (handle, cleanup_function)
     }
+}
+internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<CollectionOf<UInt8>> {
+    return UInt8ListList(handle)
+}
+// Array is taking over and owning _baseRef instead of releasing it directly
+internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<CollectionOf<UInt8>> {
+    return copyFromCType(handle)
 }
 internal class StringList: CollectionOf<String> {
     var c_element: _baseRef?
@@ -310,6 +366,13 @@ extension Collection where Element == String  {
         return (handle, cleanup_function)
     }
 }
+internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<String> {
+    return StringList(handle)
+}
+// Array is taking over and owning _baseRef instead of releasing it directly
+internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<String> {
+    return copyFromCType(handle)
+}
 internal class UInt8List: CollectionOf<UInt8> {
     var c_element: _baseRef?
     init(_ c_element: _baseRef) {
@@ -341,4 +404,11 @@ extension Collection where Element == UInt8  {
         }
         return (handle, cleanup_function)
     }
+}
+internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<UInt8> {
+    return UInt8List(handle)
+}
+// Array is taking over and owning _baseRef instead of releasing it directly
+internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<UInt8> {
+    return copyFromCType(handle)
 }

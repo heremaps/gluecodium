@@ -19,8 +19,7 @@ public class TypeDefs {
     public typealias NestedStructTypeDef = TypeDefs.TestStructTypeDef
     public var primitiveTypeAttribute: CollectionOf<TypeDefs.PrimitiveTypeDef> {
         get {
-            let result_handle = smoke_TypeDefs_primitiveTypeAttribute_get(c_instance)
-            return DoubleList(result_handle)
+            return moveFromCType(smoke_TypeDefs_primitiveTypeAttribute_get(c_instance))
         }
         set {
             let newValue_handle = newValue.c_conversion()
@@ -80,8 +79,7 @@ public class TypeDefs {
         defer {
             input_handle.cleanup()
         }
-        let result_handle = smoke_TypeDefs_methodWithComplexTypeDef(input_handle.c_type)
-        return TestStructList(result_handle)
+        return moveFromCType(smoke_TypeDefs_methodWithComplexTypeDef(input_handle.c_type))
     }
     public static func returnNestedIntTypeDef(input: TypeDefs.NestedIntTypeDef) -> TypeDefs.NestedIntTypeDef {
         return moveFromCType(smoke_TypeDefs_returnNestedIntTypeDef(input))

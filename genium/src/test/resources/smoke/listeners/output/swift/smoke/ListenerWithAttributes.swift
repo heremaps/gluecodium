@@ -164,8 +164,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
     }
     var arrayedMessage: CollectionOf<String> {
         get {
-            let result_handle = smoke_ListenerWithAttributes_arrayedMessage_get(c_instance)
-            return StringList(result_handle)
+            return moveFromCType(smoke_ListenerWithAttributes_arrayedMessage_get(c_instance))
         }
         set {
             let newValue_handle = newValue.c_conversion()

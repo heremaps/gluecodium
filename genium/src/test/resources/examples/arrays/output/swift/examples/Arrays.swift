@@ -44,16 +44,14 @@ public class Arrays {
         defer {
             input_handle.cleanup()
         }
-        let result_handle = examples_Arrays_explicitArrayMethod(input_handle.c_type)
-        return SyncResultList(result_handle)
+        return moveFromCType(examples_Arrays_explicitArrayMethod(input_handle.c_type))
     }
     public static func implicitArrayMethod<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SyncResult> where Tinput.Element == Arrays.SyncResult {
         let input_handle = input.c_conversion()
         defer {
             input_handle.cleanup()
         }
-        let result_handle = examples_Arrays_implicitArrayMethod(input_handle.c_type)
-        return SyncResultList(result_handle)
+        return moveFromCType(examples_Arrays_implicitArrayMethod(input_handle.c_type))
     }
 }
 extension Arrays: NativeBase {

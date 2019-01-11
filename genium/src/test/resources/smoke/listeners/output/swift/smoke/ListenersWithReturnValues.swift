@@ -84,8 +84,7 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
         return moveFromCType(smoke_ListenersWithReturnValues_fetchData_enum(c_instance))
     }
     public func fetchData() -> CollectionOf<Double> {
-        let result_handle = smoke_ListenersWithReturnValues_fetchData_Array(c_instance)
-        return DoubleList(result_handle)
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_Array(c_instance))
     }
     public func fetchData() -> ListenersWithReturnValues.StringToDouble {
         let result_handle = smoke_ListenersWithReturnValues_fetchData_Map(c_instance)
