@@ -50,3 +50,13 @@ internal func moveFromCType(_ handle: _baseRef) -> Data {
     }
     return copyFromCType(handle)
 }
+
+// catch primitive types
+internal func copyFromCType<T>(_ primitive: T) -> T {
+    return primitive
+}
+
+// catch primitive types
+internal func moveFromCType<T>(_ primitive: T) -> T {
+    return primitive
+}
