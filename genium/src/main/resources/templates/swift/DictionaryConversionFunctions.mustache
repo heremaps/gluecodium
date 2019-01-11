@@ -99,7 +99,6 @@ let c_{{variableName}} = c_conversion.c_type
 {{#switch variableType.category.toString}}{{!!
     }}{{#case "DICTIONARY"}}{{>ConvertToSwiftDictionary}}{{/case}}{{!!
     }}{{#case "CLASS"}}{{>ConvertToSwiftClass}}{{/case}}{{!!
-    }}{{#case "ARRAY"}}{{>ConvertToSwiftArray}}{{/case}}{{!!
     }}{{#default}}let swift_{{variableName}}: {{variableType}} = moveFromCType(c_{{variableName}}){{/default}}{{!!
 }}{{/switch}}{{!!
 }}{{/ConvertToSwift}}{{!!
@@ -114,10 +113,4 @@ let swift_{{variableName}} = convert{{variableType.name}}FromCType(c_{{variableN
 }}{{+ConvertToSwiftClass}}{{!!
 }}let swift_{{variableName}} = {{#if type.optional}}c_{{variableName}} != 0 ? {{/if}}{{!!
 }}{{variableType.implementingClass}}(c{{variableType.simpleName}}: c_{{variableName}}){{#if type.optional}} : nil{{/if}}
-{{/ConvertToSwiftClass}}{{!!
-
-}}{{+ConvertToSwiftArray}}{{!!
-}}let swift_{{variableName}} = {{variableType.implementingClass}}(c_{{variableName}})
-{{/ConvertToSwiftArray}}
-
-
+{{/ConvertToSwiftClass}}
