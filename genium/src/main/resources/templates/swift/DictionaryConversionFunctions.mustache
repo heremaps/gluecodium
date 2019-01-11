@@ -97,20 +97,12 @@ let c_{{variableName}} = c_conversion.c_type
 }}{{+ConvertToSwift}}{{!!
 }}let c_{{variableName}} = {{cPrefix}}_iterator_{{variableName}}(iterator_handle)
 {{#switch variableType.category.toString}}{{!!
-    }}{{#case "BUILTIN_STRING" break="false"}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}{{>ConvertToSwiftStruct}}{{/case}}{{!!
     }}{{#case "DICTIONARY"}}{{>ConvertToSwiftDictionary}}{{/case}}{{!!
-    }}{{#case "ENUM"}}{{>ConvertToSwiftEnum}}{{/case}}{{!!
     }}{{#case "CLASS"}}{{>ConvertToSwiftClass}}{{/case}}{{!!
     }}{{#case "ARRAY"}}{{>ConvertToSwiftArray}}{{/case}}{{!!
-    }}{{#default}}let swift_{{variableName}} = c_{{variableName}}
-{{/default}}{{!!
+    }}{{#default}}let swift_{{variableName}}: {{variableType}} = moveFromCType(c_{{variableName}}){{/default}}{{!!
 }}{{/switch}}{{!!
 }}{{/ConvertToSwift}}{{!!
-
-}}{{+ConvertToSwiftStruct}}{{!!
-}}let swift_{{variableName}}: {{variableType}} = moveFromCType(c_{{variableName}})
-{{/ConvertToSwiftStruct}}{{!!
 
 }}{{+ConvertToSwiftDictionary}}{{!!
 }}defer {
@@ -118,10 +110,6 @@ let c_{{variableName}} = c_conversion.c_type
 }
 let swift_{{variableName}} = convert{{variableType.name}}FromCType(c_{{variableName}})
 {{/ConvertToSwiftDictionary}}{{!!
-
-}}{{+ConvertToSwiftEnum}}{{!!
-}}let swift_{{variableName}} = {{variableType}}(rawValue: c_{{variableName}})!
-{{/ConvertToSwiftEnum}}{{!!
 
 }}{{+ConvertToSwiftClass}}{{!!
 }}let swift_{{variableName}} = {{#if type.optional}}c_{{variableName}} != 0 ? {{/if}}{{!!

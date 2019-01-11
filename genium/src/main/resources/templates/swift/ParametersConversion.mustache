@@ -59,14 +59,10 @@ if (RESULT.has_value) {
 
 
 }}{{+returnValueConversion}}{{#switch returnType.category.toString}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER" break="false"}}{{/case}}{{!!
-    }}{{#case "STRUCT" break="false"}}{{/case}}{{!!
-    }}{{#case "BUILTIN_STRING"}}return moveFromCType({{include delegateToCall}}){{/case}}{{!!
     }}{{#case "CLASS"}}{{>MethodReturnClass}}{{/case}}{{!!
-    }}{{#case "ENUM"}}{{>MethodReturnEnum}}{{/case}}{{!!
     }}{{#case "ARRAY"}}{{>MethodReturnArray}}{{/case}}{{!!
     }}{{#case "DICTIONARY"}}{{>MethodReturnDictionary}}{{/case}}{{!!
-    }}{{#default}}return {{include delegateToCall}}{{/default}}{{!!
+    }}{{#default}}return moveFromCType({{include delegateToCall}}){{/default}}{{!!
   }}{{/switch}}{{!!
 }}{{/returnValueConversion}}{{!!
 

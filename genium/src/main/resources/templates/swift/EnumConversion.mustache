@@ -18,32 +18,10 @@
   ! License-Filename: LICENSE
   !
   !}}
-//
-{{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
-//
-// Automatically generated. Do not modify. Your changes will be lost.
+internal func copyFromCType(_ cValue: UInt32) -> {{name}} {
+    return {{name}}(rawValue: cValue)!
+}
 
-import Foundation
-
-{{#classes}}
-{{>swift/Class}}
-{{/classes}}{{!!
-
-}}{{#typeDefs}}
-{{>swift/Typedefs}}
-{{/typeDefs}}{{!!
-
-}}{{#enums}}
-{{>swift/Enum}}
-{{>swift/EnumConversion}}
-{{/enums}}{{!!
-
-}}
-{{#structs}}
-{{>swift/Struct}}
-{{>swift/StructConversion}}
-{{/structs}}
-
-{{#dictionaries}}
-{{>swift/DictionaryConversionFunctions}}
-{{/dictionaries}}
+internal func moveFromCType(_ cValue: UInt32) -> {{name}} {
+    return copyFromCType(cValue)
+}

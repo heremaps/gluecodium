@@ -40,15 +40,12 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType.publicName}}
     }
 
     public override subscript(index: Int) -> {{underlyingType.publicName}} {
-        let handle = {{refName}}_get(c_element!, UInt64(index)){{!!
-        }}{{#switch underlyingType.category.toString}}{{!!
-        }}{{#case "BUILTIN_STRING" break="false"}}{{/case}}{{!!
-        }}{{#case "STRUCT"}}{{prefixPartial 'structSubscript'   '        '}}{{/case}}{{!!
+        let handle = {{refName}}_get(c_element!, UInt64(index))
+        {{#switch underlyingType.category.toString}}{{!!
         }}{{#case "CLASS"}}{{prefixPartial 'classSubscript'   '        '}}{{/case}}{{!!
         }}{{#case "ARRAY"}}{{prefixPartial 'arraySubscript'   '        '}}{{/case}}{{!!
-        }}{{#case "ENUM"}}{{prefixPartial 'enumSubscript'   '        '}}{{/case}}{{!!
         }}{{#case "DICTIONARY"}}{{prefixPartial 'dictionarySubscript'   '        '}}{{/case}}{{!!
-        }}{{#default}}{{prefixPartial 'defaultSubscript'  '        '}}{{/default}}{{!!
+        }}{{#default}}return moveFromCType(handle){{/default}}{{!!
         }}{{/switch}}
     }
 
@@ -85,15 +82,6 @@ extension Collection {{>GenericConstraintsRule}}  {
  }}where {{#genericParameter.constraints}}{{name}}{{!!
  }}{{#if isProtocol}}:{{/if}}{{#unless isProtocol}} =={{/unless}} {{typeName}}{{!!
  }}{{#if iter.hasNext}}, {{/if}}{{/genericParameter.constraints}}{{/GenericConstraintsRule}}
-
-{{+enumSubscript}}
-return {{underlyingType}}(rawValue: handle)!{{/enumSubscript}}
-
-{{+defaultSubscript}}
-return handle{{/defaultSubscript}}
-
-{{+structSubscript}}
-return moveFromCType(handle){{/structSubscript}}
 
 {{+classSubscript}}
 return {{underlyingType.implementingClass}}(c{{underlyingType.simpleName}}: handle){{/classSubscript}}
