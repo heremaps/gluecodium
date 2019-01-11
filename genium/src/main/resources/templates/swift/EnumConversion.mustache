@@ -1,0 +1,7 @@
+internal func copyFromCType(_ cValue: UInt32) -> {{name}} {
+    return {{name}}(rawValue: cValue)!
+}
+
+internal func moveFromCType(_ cValue: UInt32) -> {{name}} {
+    return copyFromCType(cValue)
+}
