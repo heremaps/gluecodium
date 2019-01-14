@@ -70,6 +70,21 @@ public class Comments {
 extension Comments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func CommentscopyFromCType(_ handle: _baseRef) -> Comments {
+    return Comments(cComments: handle)
+}
+internal func CommentsmoveFromCType(_ handle: _baseRef) -> Comments {
+    return CommentscopyFromCType(handle)
+}
+internal func CommentscopyFromCType(_ handle: _baseRef) -> Comments? {
+    guard handle != 0 else {
+        return nil
+    }
+    return CommentsmoveFromCType(handle) as Comments
+}
+internal func CommentsmoveFromCType(_ handle: _baseRef) -> Comments? {
+    return CommentscopyFromCType(handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
     return Comments.SomeStruct(cHandle: handle)
 }

@@ -26,3 +26,18 @@ internal class InternalClass {
 extension InternalClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func InternalClasscopyFromCType(_ handle: _baseRef) -> InternalClass {
+    return InternalClass(cInternalClass: handle)
+}
+internal func InternalClassmoveFromCType(_ handle: _baseRef) -> InternalClass {
+    return InternalClasscopyFromCType(handle)
+}
+internal func InternalClasscopyFromCType(_ handle: _baseRef) -> InternalClass? {
+    guard handle != 0 else {
+        return nil
+    }
+    return InternalClassmoveFromCType(handle) as InternalClass
+}
+internal func InternalClassmoveFromCType(_ handle: _baseRef) -> InternalClass? {
+    return InternalClasscopyFromCType(handle)
+}

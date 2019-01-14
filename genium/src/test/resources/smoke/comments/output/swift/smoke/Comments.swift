@@ -31,8 +31,7 @@ public class Comments {
     /// This is some very useful attribute.
     public var instanceNotNullAttribute: CommentsInstantiable {
         get {
-            let cResult = smoke_Comments_instanceNotNullAttribute_get(c_instance)
-            return CommentsInstantiable(cCommentsInstantiable: cResult)
+            return CommentsInstantiablemoveFromCType(smoke_Comments_instanceNotNullAttribute_get(c_instance))
         }
         set {
             let newValue_handle = getRef(newValue)
@@ -121,12 +120,26 @@ public class Comments {
     /// - Returns: This is some very useful instance method result.
     public func instanceNotNullMethod(input: CommentsInstantiable) -> CommentsInstantiable {
         let input_handle = getRef(input)
-        let cResult = smoke_Comments_instanceNotNullMethod(c_instance, input_handle.ref)
-        return CommentsInstantiable(cCommentsInstantiable: cResult)
+        return CommentsInstantiablemoveFromCType(smoke_Comments_instanceNotNullMethod(c_instance, input_handle.ref))
     }
 }
 extension Comments: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func CommentscopyFromCType(_ handle: _baseRef) -> Comments {
+    return Comments(cComments: handle)
+}
+internal func CommentsmoveFromCType(_ handle: _baseRef) -> Comments {
+    return CommentscopyFromCType(handle)
+}
+internal func CommentscopyFromCType(_ handle: _baseRef) -> Comments? {
+    guard handle != 0 else {
+        return nil
+    }
+    return CommentsmoveFromCType(handle) as Comments
+}
+internal func CommentsmoveFromCType(_ handle: _baseRef) -> Comments? {
+    return CommentscopyFromCType(handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
     return Comments.SomeStruct(cHandle: handle)

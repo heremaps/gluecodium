@@ -85,6 +85,21 @@ public class Enums {
 extension Enums: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func EnumscopyFromCType(_ handle: _baseRef) -> Enums {
+    return Enums(cEnums: handle)
+}
+internal func EnumsmoveFromCType(_ handle: _baseRef) -> Enums {
+    return EnumscopyFromCType(handle)
+}
+internal func EnumscopyFromCType(_ handle: _baseRef) -> Enums? {
+    guard handle != 0 else {
+        return nil
+    }
+    return EnumsmoveFromCType(handle) as Enums
+}
+internal func EnumsmoveFromCType(_ handle: _baseRef) -> Enums? {
+    return EnumscopyFromCType(handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Enums.ErrorStruct {
     return Enums.ErrorStruct(cHandle: handle)
 }

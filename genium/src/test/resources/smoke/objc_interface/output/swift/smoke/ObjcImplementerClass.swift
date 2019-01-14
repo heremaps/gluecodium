@@ -27,3 +27,18 @@ public class ObjcImplementerClass: NSObject, ObjcInterface {
 extension ObjcImplementerClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func ObjcImplementerClasscopyFromCType(_ handle: _baseRef) -> ObjcImplementerClass {
+    return ObjcImplementerClass(cObjcImplementerClass: handle)
+}
+internal func ObjcImplementerClassmoveFromCType(_ handle: _baseRef) -> ObjcImplementerClass {
+    return ObjcImplementerClasscopyFromCType(handle)
+}
+internal func ObjcImplementerClasscopyFromCType(_ handle: _baseRef) -> ObjcImplementerClass? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ObjcImplementerClassmoveFromCType(handle) as ObjcImplementerClass
+}
+internal func ObjcImplementerClassmoveFromCType(_ handle: _baseRef) -> ObjcImplementerClass? {
+    return ObjcImplementerClasscopyFromCType(handle)
+}

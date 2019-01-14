@@ -29,3 +29,18 @@ public class EnumsInTypeCollectionInterface {
 extension EnumsInTypeCollectionInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func EnumsInTypeCollectionInterfacecopyFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface {
+    return EnumsInTypeCollectionInterface(cEnumsInTypeCollectionInterface: handle)
+}
+internal func EnumsInTypeCollectionInterfacemoveFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface {
+    return EnumsInTypeCollectionInterfacecopyFromCType(handle)
+}
+internal func EnumsInTypeCollectionInterfacecopyFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface? {
+    guard handle != 0 else {
+        return nil
+    }
+    return EnumsInTypeCollectionInterfacemoveFromCType(handle) as EnumsInTypeCollectionInterface
+}
+internal func EnumsInTypeCollectionInterfacemoveFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface? {
+    return EnumsInTypeCollectionInterfacecopyFromCType(handle)
+}

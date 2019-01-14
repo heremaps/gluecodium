@@ -21,11 +21,7 @@ internal func getRef(_ ref: SimpleInterface?, owning: Bool = true) -> RefHolder 
     }
     functions.smoke_SimpleInterface_setStringValue = {(swift_class_pointer, stringValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! SimpleInterface
-        defer {
-            std_string_release_handle(stringValue)
-        }
-        swift_class.setStringValue(stringValue: String(data: Data(bytes: std_string_data_get(stringValue),
-                                                count: Int(std_string_size_get(stringValue))), encoding: .utf8)!)
+        swift_class.setStringValue(stringValue: moveFromCType(stringValue))
     }
     functions.smoke_SimpleInterface_getStringValue = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! SimpleInterface
@@ -58,4 +54,24 @@ internal class _SimpleInterface: SimpleInterface {
 }
 extension _SimpleInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func SimpleInterfacecopyFromCType(_ handle: _baseRef) -> SimpleInterface {
+    if let swift_pointer = smoke_SimpleInterface_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleInterface {
+        smoke_SimpleInterface_release_handle(handle)
+        return re_constructed
+    }
+    return _SimpleInterface(cSimpleInterface: handle)
+}
+internal func SimpleInterfacemoveFromCType(_ handle: _baseRef) -> SimpleInterface {
+    return SimpleInterfacecopyFromCType(handle)
+}
+internal func SimpleInterfacecopyFromCType(_ handle: _baseRef) -> SimpleInterface? {
+    guard handle != 0 else {
+        return nil
+    }
+    return SimpleInterfacemoveFromCType(handle) as SimpleInterface
+}
+internal func SimpleInterfacemoveFromCType(_ handle: _baseRef) -> SimpleInterface? {
+    return SimpleInterfacecopyFromCType(handle)
 }

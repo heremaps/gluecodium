@@ -92,6 +92,21 @@ public class PublicClass {
 extension PublicClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func PublicClasscopyFromCType(_ handle: _baseRef) -> PublicClass {
+    return PublicClass(cPublicClass: handle)
+}
+internal func PublicClassmoveFromCType(_ handle: _baseRef) -> PublicClass {
+    return PublicClasscopyFromCType(handle)
+}
+internal func PublicClasscopyFromCType(_ handle: _baseRef) -> PublicClass? {
+    guard handle != 0 else {
+        return nil
+    }
+    return PublicClassmoveFromCType(handle) as PublicClass
+}
+internal func PublicClassmoveFromCType(_ handle: _baseRef) -> PublicClass? {
+    return PublicClasscopyFromCType(handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> PublicClass.InternalStruct {
     return PublicClass.InternalStruct(cHandle: handle)
 }

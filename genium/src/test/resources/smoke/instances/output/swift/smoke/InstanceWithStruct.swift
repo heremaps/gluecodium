@@ -84,6 +84,21 @@ public class InstanceWithStruct {
 extension InstanceWithStruct: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func InstanceWithStructcopyFromCType(_ handle: _baseRef) -> InstanceWithStruct {
+    return InstanceWithStruct(cInstanceWithStruct: handle)
+}
+internal func InstanceWithStructmoveFromCType(_ handle: _baseRef) -> InstanceWithStruct {
+    return InstanceWithStructcopyFromCType(handle)
+}
+internal func InstanceWithStructcopyFromCType(_ handle: _baseRef) -> InstanceWithStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    return InstanceWithStructmoveFromCType(handle) as InstanceWithStruct
+}
+internal func InstanceWithStructmoveFromCType(_ handle: _baseRef) -> InstanceWithStruct? {
+    return InstanceWithStructcopyFromCType(handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> InstanceWithStruct.InnerStruct {
     return InstanceWithStruct.InnerStruct(cHandle: handle)
 }

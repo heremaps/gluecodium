@@ -21,51 +21,27 @@ internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolde
     }
     functions.smoke_CommentsInterface_someMethodWithAllComments = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        defer {
-            std_string_release_handle(input)
-        }
-        return swift_class.someMethodWithAllComments(input: String(data: Data(bytes: std_string_data_get(input),
-                                                count: Int(std_string_size_get(input))), encoding: .utf8)!)
+        return swift_class.someMethodWithAllComments(input: moveFromCType(input))
     }
     functions.smoke_CommentsInterface_someMethodWithInputComments = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        defer {
-            std_string_release_handle(input)
-        }
-        return swift_class.someMethodWithInputComments(input: String(data: Data(bytes: std_string_data_get(input),
-                                                count: Int(std_string_size_get(input))), encoding: .utf8)!)
+        return swift_class.someMethodWithInputComments(input: moveFromCType(input))
     }
     functions.smoke_CommentsInterface_someMethodWithOutputComments = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        defer {
-            std_string_release_handle(input)
-        }
-        return swift_class.someMethodWithOutputComments(input: String(data: Data(bytes: std_string_data_get(input),
-                                                count: Int(std_string_size_get(input))), encoding: .utf8)!)
+        return swift_class.someMethodWithOutputComments(input: moveFromCType(input))
     }
     functions.smoke_CommentsInterface_someMethodWithNoComments = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        defer {
-            std_string_release_handle(input)
-        }
-        return swift_class.someMethodWithNoComments(input: String(data: Data(bytes: std_string_data_get(input),
-                                                count: Int(std_string_size_get(input))), encoding: .utf8)!)
+        return swift_class.someMethodWithNoComments(input: moveFromCType(input))
     }
     functions.smoke_CommentsInterface_someMethodWithoutReturnTypeWithAllComments = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        defer {
-            std_string_release_handle(input)
-        }
-        swift_class.someMethodWithoutReturnTypeWithAllComments(input: String(data: Data(bytes: std_string_data_get(input),
-                                                count: Int(std_string_size_get(input))), encoding: .utf8)!)
+        swift_class.someMethodWithoutReturnTypeWithAllComments(input: moveFromCType(input))
     }
     functions.smoke_CommentsInterface_someMethodWithoutReturnTypeWithNoComments = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        defer {
-            std_string_release_handle(input)
-        }
-        swift_class.someMethodWithoutReturnTypeWithNoComments(input: String(data: Data(bytes: std_string_data_get(input),
-                                                count: Int(std_string_size_get(input))), encoding: .utf8)!)
+        swift_class.someMethodWithoutReturnTypeWithNoComments(input: moveFromCType(input))
     }
     functions.smoke_CommentsInterface_someMethodWithoutInputParametersWithAllComments = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
@@ -89,7 +65,7 @@ internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolde
     }
     functions.smoke_CommentsInterface_someAttribute_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        swift_class.someAttribute = newValue
+        swift_class.someAttribute = moveFromCType(newValue)
     }
     let proxy = smoke_CommentsInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_CommentsInterface_release_handle) : RefHolder(proxy)
@@ -198,6 +174,26 @@ internal class _CommentsInterface: CommentsInterface {
 }
 extension _CommentsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func CommentsInterfacecopyFromCType(_ handle: _baseRef) -> CommentsInterface {
+    if let swift_pointer = smoke_CommentsInterface_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CommentsInterface {
+        smoke_CommentsInterface_release_handle(handle)
+        return re_constructed
+    }
+    return _CommentsInterface(cCommentsInterface: handle)
+}
+internal func CommentsInterfacemoveFromCType(_ handle: _baseRef) -> CommentsInterface {
+    return CommentsInterfacecopyFromCType(handle)
+}
+internal func CommentsInterfacecopyFromCType(_ handle: _baseRef) -> CommentsInterface? {
+    guard handle != 0 else {
+        return nil
+    }
+    return CommentsInterfacemoveFromCType(handle) as CommentsInterface
+}
+internal func CommentsInterfacemoveFromCType(_ handle: _baseRef) -> CommentsInterface? {
+    return CommentsInterfacecopyFromCType(handle)
 }
 /// This is some very useful enum.
 public enum SomeEnum : UInt32 {
