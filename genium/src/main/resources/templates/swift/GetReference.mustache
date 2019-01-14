@@ -54,13 +54,6 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
 }}{{+functionTableEntry}}
     functions.{{cBaseName}} = {(swift_class_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! {{className}}
-        {{#parameters}}{{#switch type.category.toString}}{{!!
-        }}{{#case "DICTIONARY"}}
-        defer {
-            {{type.cPrefix}}_release_handle({{name}})
-        }
-        {{/case}}{{!!
-        }}{{/switch}}{{/parameters}}
         {{#if error}}do { {{#if isReturningVoid}}
             try {{include delegateToCall}}
             return 0
@@ -100,7 +93,4 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
 }}{{+callPropertySetter}}swift_class.{{propertyName}} = {{#parameters.0}}{{>swiftParameterConversion}}{{/parameters.0}}{{/callPropertySetter}}{{!!
 }}{{+callResult}}call_result{{/callResult}}{{!!
 }}{{+swiftParameter2}}{{name}}: {{>swiftParameterConversion}}{{/swiftParameter2}}{{!!
-}}{{+swiftParameterConversion}}{{#switch type.category.toString}}{{!!
-    }}{{#case "DICTIONARY"}}convert{{type}}FromCType({{name}}){{/case}}{{!!
-    }}{{#default}}{{type.className}}moveFromCType({{name}}){{/default}}{{!!
-}}{{/switch}}{{/swiftParameterConversion}}
+}}{{+swiftParameterConversion}}{{type.className}}moveFromCType({{name}}){{/swiftParameterConversion}}

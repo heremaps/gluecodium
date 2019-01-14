@@ -58,10 +58,8 @@ if (RESULT.has_value) {
 {{/WrapErrorOrValue}}{{!!
 
 
-}}{{+returnValueConversion}}{{#switch returnType.category.toString}}{{!!
-    }}{{#case "DICTIONARY"}}{{>MethodReturnDictionary}}{{/case}}{{!!
-    }}{{#default}}return {{returnType.className}}moveFromCType({{include delegateToCall}}){{/default}}{{!!
-  }}{{/switch}}{{!!
+}}{{+returnValueConversion}}{{!!
+    }}return {{returnType.className}}moveFromCType({{include delegateToCall}}){{!!
 }}{{/returnValueConversion}}{{!!
 
 

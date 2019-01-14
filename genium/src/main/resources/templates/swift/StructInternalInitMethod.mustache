@@ -21,72 +21,7 @@
 internal init(cHandle: _baseRef) {
 {{#set structName=simpleName}}
 {{#fields}}
-    {{#switch type.category.toString}}
-    {{#case "BUILTIN_STRING"}}{{>assignStringType}}{{/case}}
-    {{#case "BUILTIN_BYTEBUFFER"}}{{>assignDataType}}{{/case}}
-    {{#case "STRUCT"}}{{>assignStruct}}{{/case}}
-    {{#case "CLASS"}}{{>assignClass}}{{/case}}
-    {{#case "ENUM"}}{{>assignEnum}}{{/case}}
-    {{#case "ARRAY"}}{{>assignArray}}{{/case}}
-    {{#case "DICTIONARY"}}{{>assignDictionary}}{{/case}}
-    {{#default}}{{>assignBasicType}}{{/default}}
-    {{/switch}}
+    {{name}} = {{type.className}}moveFromCType({{cPrefix}}_{{name}}_get(cHandle))
 {{/fields}}
 {{/set}}
 }
-
-
-{{+assignBasicType}}{{name}} = {{cPrefix}}_{{name}}_get(cHandle)
-{{/assignBasicType}}
-
-{{+assignArray}}{{name}} = {{type.implementingClass}}({{cPrefix}}_{{name}}_get(cHandle))
-{{/assignArray}}
-
-{{+assignEnum}}{{name}} = {{type}}.init(rawValue: {{cPrefix}}_{{name}}_get(cHandle))!
-{{/assignEnum}}
-
-{{+assignStringType}}do {
-    let {{name}}_handle = {{cPrefix}}_{{name}}_get(cHandle)
-    defer {
-        std_string_release_handle({{name}}_handle)
-    }
-    {{name}} = String(cString: std_string_data_get({{name}}_handle))
-}
-{{/assignStringType}}
-
-{{+assignDataType}}do {
-    let {{name}}_handle = {{cPrefix}}_{{name}}_get(cHandle)
-    defer {
-        byteArray_release_handle({{name}}_handle)
-    }
-    if let array_data_handle = byteArray_data_get({{name}}_handle) {
-        {{name}} = Data(bytes: array_data_handle, count: Int(byteArray_size_get({{name}}_handle)))
-    } else {
-        {{name}} = Data()
-    }
-}
-{{/assignDataType}}
-
-{{+assignStruct}}do {
-    let {{name}}_handle = {{cPrefix}}_{{name}}_get(cHandle)
-    defer {
-        {{type.cPrefix}}_release_handle({{name}}_handle)
-    }
-    {{name}} = {{type}}(cHandle: {{name}}_handle)
-}
-{{/assignStruct}}
-
-{{+assignClass}}do {
-    let {{name}}_handle = {{cPrefix}}_{{name}}_get(cHandle)
-    {{name}} = {{#if type.optional}}{{name}}_handle != 0 ? {{/if}}{{type}}(c{{type}}: {{name}}_handle){{#if type.optional}} : nil{{/if}}
-}
-{{/assignClass}}{{!!
-
-}}{{+assignDictionary}}do {
-    let {{name}}_handle = {{cPrefix}}_{{name}}_get(cHandle)
-    defer {
-        {{type.cPrefix}}_release_handle({{name}}_handle)
-    }
-    {{name}} = convert{{type.name}}FromCType({{name}}_handle)
-}
-{{/assignDictionary}}

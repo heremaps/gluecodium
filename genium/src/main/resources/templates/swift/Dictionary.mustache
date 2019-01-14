@@ -1,0 +1,47 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{#dictionaries}}
+
+func copyFromCType(_ handle: _baseRef) -> {{implementingClass}} {
+    var swiftDict: {{implementingClass}} = [:]
+    let iterator_handle = {{cPrefix}}_iterator(handle)
+    while {{cPrefix}}_iterator_is_valid(handle, iterator_handle) {
+{{#set variableName="key" variableType=keyType}}{{prefixPartial "ConvertToSwift" "        "}}{{/set}}
+{{#set variableName="value" variableType=valueType}}{{prefixPartial "ConvertToSwift" "        "}}{{/set}}
+        swiftDict[swift_key] = swift_value
+        {{cPrefix}}_iterator_increment(iterator_handle)
+    }
+    {{cPrefix}}_iterator_release_handle(iterator_handle)
+    return swiftDict
+}
+
+func moveFromCType(_ handle: _baseRef) -> {{implementingClass}} {
+    defer {
+        {{cPrefix}}_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+{{+ConvertToSwift}}{{!!
+}}let c_{{variableName}} = {{cPrefix}}_iterator_{{variableName}}(iterator_handle)
+let swift_{{variableName}}: {{variableType.publicName}} = {{variableType.className}}moveFromCType(c_{{variableName}}){{!!
+}}{{/ConvertToSwift}}
+{{/dictionaries}}

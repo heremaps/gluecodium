@@ -38,6 +38,7 @@ import org.franca.core.franca.*;
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   public final Map<String, SwiftArray> arraysCollector = new HashMap<>();
+  public final Map<String, SwiftDictionary> mapCollector = new HashMap();
   public final Set<String> enumsAsErrors = new HashSet<>();
 
   private final FrancaDeploymentModel deploymentModel;
@@ -385,7 +386,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     String typeDefName = SwiftNameRules.getTypeDefName(francaMapType, deploymentModel);
     String mapName = SwiftNameRules.getMapName(francaMapType, deploymentModel);
     List<SwiftType> typeRefs = getPreviousResults(SwiftType.class);
-    SwiftType swiftDictionary =
+    SwiftDictionary swiftDictionary =
         new SwiftDictionary(
             mapName,
             null,
@@ -393,6 +394,11 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             CBridgeNameRules.getStructBaseName(francaMapType),
             typeRefs.get(0),
             typeRefs.get(1));
+    mapCollector.put(
+        ((SwiftDictionary) swiftDictionary).getKeyType().name
+            + ":"
+            + ((SwiftDictionary) swiftDictionary).getValueType().name,
+        swiftDictionary);
     storeResult(swiftDictionary);
 
     SwiftVisibility visibility = getVisibility(francaMapType);
