@@ -38,10 +38,22 @@ class MethodOverloadsTests: XCTestCase {
         XCTAssertFalse(MethodOverloads.isBoolean(input: [11, 42]))
     }
 
+    func testConstructorDoesNotThrow() {
+        XCTAssertNoThrow(try ConstructorOverloads(input: 0.0))
+    }
+
+    func testConstructorThrows() {
+      XCTAssertThrowsError(try ConstructorOverloads(input: 1.0)) { error in
+        XCTAssertEqual(error as? ConstructorOverloads.ErrorEnum, ConstructorOverloads.ErrorEnum.crashed)
+      }
+    }
+
     static var allTests = [
         ("testPassBool", testPassBool),
         ("testPassInt", testPassInt),
         ("testPassArrayOfStrings", testPassArrayOfStrings),
-        ("testPassArrayOfInts", testPassArrayOfInts)
+        ("testPassArrayOfInts", testPassArrayOfInts),
+        ("testConstructorDoesNotThrow", testConstructorDoesNotThrow),
+        ("testConstructorThrows", testConstructorThrows)
     ]
 }
