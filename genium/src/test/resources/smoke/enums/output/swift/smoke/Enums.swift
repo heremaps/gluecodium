@@ -47,14 +47,8 @@ public class Enums {
             self.message = message
         }
         internal init(cHandle: _baseRef) {
-            type = Enums.InternalError.init(rawValue: smoke_Enums_ErrorStruct_type_get(cHandle))!
-            do {
-                let message_handle = smoke_Enums_ErrorStruct_message_get(cHandle)
-                defer {
-                    std_string_release_handle(message_handle)
-                }
-                message = String(cString: std_string_data_get(message_handle))
-            }
+            type = moveFromCType(smoke_Enums_ErrorStruct_type_get(cHandle))
+            message = moveFromCType(smoke_Enums_ErrorStruct_message_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let type_handle = type.rawValue
@@ -141,18 +135,4 @@ func convertEnums_ExampleMapToCType(_ swiftDict: Enums.ExampleMap) -> _baseRef {
         smoke_Enums_ExampleMap_put(c_handle, c_key, c_value)
     }
     return c_handle
-}
-func convertEnums_ExampleMapFromCType(_ c_handle: _baseRef) -> Enums.ExampleMap {
-    var swiftDict: Enums.ExampleMap = [:]
-    let iterator_handle = smoke_Enums_ExampleMap_iterator(c_handle)
-    while smoke_Enums_ExampleMap_iterator_is_valid(c_handle, iterator_handle) {
-        let c_key = smoke_Enums_ExampleMap_iterator_key(iterator_handle)
-        let swift_key: Enums.SimpleEnum = moveFromCType(c_key)
-        let c_value = smoke_Enums_ExampleMap_iterator_value(iterator_handle)
-        let swift_value: UInt64 = moveFromCType(c_value)
-        swiftDict[swift_key] = swift_value
-        smoke_Enums_ExampleMap_iterator_increment(iterator_handle)
-    }
-    smoke_Enums_ExampleMap_iterator_release_handle(iterator_handle)
-    return swiftDict
 }

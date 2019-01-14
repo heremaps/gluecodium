@@ -37,34 +37,16 @@ public struct EquatableStruct: Equatable {
         self.mapField = mapField
     }
     internal init(cHandle: _baseRef) {
-        boolField = smoke_Equatable_EquatableStruct_boolField_get(cHandle)
-        intField = smoke_Equatable_EquatableStruct_intField_get(cHandle)
-        longField = smoke_Equatable_EquatableStruct_longField_get(cHandle)
-        floatField = smoke_Equatable_EquatableStruct_floatField_get(cHandle)
-        doubleField = smoke_Equatable_EquatableStruct_doubleField_get(cHandle)
-        do {
-            let stringField_handle = smoke_Equatable_EquatableStruct_stringField_get(cHandle)
-            defer {
-                std_string_release_handle(stringField_handle)
-            }
-            stringField = String(cString: std_string_data_get(stringField_handle))
-        }
-        do {
-            let structField_handle = smoke_Equatable_EquatableStruct_structField_get(cHandle)
-            defer {
-                smoke_Equatable_NestedEquatableStruct_release_handle(structField_handle)
-            }
-            structField = NestedEquatableStruct(cHandle: structField_handle)
-        }
-        enumField = SomeEnum.init(rawValue: smoke_Equatable_EquatableStruct_enumField_get(cHandle))!
-        arrayField = StringList(smoke_Equatable_EquatableStruct_arrayField_get(cHandle))
-        do {
-            let mapField_handle = smoke_Equatable_EquatableStruct_mapField_get(cHandle)
-            defer {
-                smoke_Equatable_ErrorCodeToMessageMap_release_handle(mapField_handle)
-            }
-            mapField = convertErrorCodeToMessageMapFromCType(mapField_handle)
-        }
+        boolField = moveFromCType(smoke_Equatable_EquatableStruct_boolField_get(cHandle))
+        intField = moveFromCType(smoke_Equatable_EquatableStruct_intField_get(cHandle))
+        longField = moveFromCType(smoke_Equatable_EquatableStruct_longField_get(cHandle))
+        floatField = moveFromCType(smoke_Equatable_EquatableStruct_floatField_get(cHandle))
+        doubleField = moveFromCType(smoke_Equatable_EquatableStruct_doubleField_get(cHandle))
+        stringField = moveFromCType(smoke_Equatable_EquatableStruct_stringField_get(cHandle))
+        structField = moveFromCType(smoke_Equatable_EquatableStruct_structField_get(cHandle))
+        enumField = moveFromCType(smoke_Equatable_EquatableStruct_enumField_get(cHandle))
+        arrayField = moveFromCType(smoke_Equatable_EquatableStruct_arrayField_get(cHandle))
+        mapField = moveFromCType(smoke_Equatable_EquatableStruct_mapField_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
         let boolField_handle = boolField
@@ -105,13 +87,7 @@ public struct NestedEquatableStruct: Equatable {
         self.fooField = fooField
     }
     internal init(cHandle: _baseRef) {
-        do {
-            let fooField_handle = smoke_Equatable_NestedEquatableStruct_fooField_get(cHandle)
-            defer {
-                std_string_release_handle(fooField_handle)
-            }
-            fooField = String(cString: std_string_data_get(fooField_handle))
-        }
+        fooField = moveFromCType(smoke_Equatable_NestedEquatableStruct_fooField_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
         let fooField_handle = fooField
@@ -138,18 +114,4 @@ func convertErrorCodeToMessageMapToCType(_ swiftDict: ErrorCodeToMessageMap) -> 
         smoke_Equatable_ErrorCodeToMessageMap_put(c_handle, c_key, c_value)
     }
     return c_handle
-}
-func convertErrorCodeToMessageMapFromCType(_ c_handle: _baseRef) -> ErrorCodeToMessageMap {
-    var swiftDict: ErrorCodeToMessageMap = [:]
-    let iterator_handle = smoke_Equatable_ErrorCodeToMessageMap_iterator(c_handle)
-    while smoke_Equatable_ErrorCodeToMessageMap_iterator_is_valid(c_handle, iterator_handle) {
-        let c_key = smoke_Equatable_ErrorCodeToMessageMap_iterator_key(iterator_handle)
-        let swift_key: Int32 = moveFromCType(c_key)
-        let c_value = smoke_Equatable_ErrorCodeToMessageMap_iterator_value(iterator_handle)
-        let swift_value: String = moveFromCType(c_value)
-        swiftDict[swift_key] = swift_value
-        smoke_Equatable_ErrorCodeToMessageMap_iterator_increment(iterator_handle)
-    }
-    smoke_Equatable_ErrorCodeToMessageMap_iterator_release_handle(iterator_handle)
-    return swiftDict
 }

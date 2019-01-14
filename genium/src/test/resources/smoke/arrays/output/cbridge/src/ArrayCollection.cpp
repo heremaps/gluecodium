@@ -1,7 +1,6 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 #include "alien/FooEnum.h"
 #include "alien/FooStruct.h"
 #include "cbridge/include/ArrayCollection.h"
@@ -14,7 +13,6 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-
 _baseRef arrayCollection_SomeEnum_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<::smoke::Arrays::SomeEnum>() );
 }
@@ -41,9 +39,7 @@ uint64_t arrayCollection_FancyStruct_count(_baseRef handle) {
 }
 _baseRef arrayCollection_FancyStruct_get(_baseRef handle, uint64_t index) {
     return reinterpret_cast<_baseRef>(
-        new ::smoke::Arrays::FancyStruct {
-            (*get_pointer<std::vector<::smoke::Arrays::FancyStruct>>(handle))[index]
-        }
+        &(*get_pointer<std::vector<::smoke::Arrays::FancyStruct>>(handle))[index]
     );
 }
 void arrayCollection_FancyStruct_append(_baseRef handle, _baseRef item) {
@@ -60,9 +56,7 @@ uint64_t arrayCollection_ExternalStruct_count(_baseRef handle) {
 }
 _baseRef arrayCollection_ExternalStruct_get(_baseRef handle, uint64_t index) {
     return reinterpret_cast<_baseRef>(
-        new ::alien::FooStruct {
-            (*get_pointer<std::vector<::alien::FooStruct>>(handle))[index]
-        }
+        &(*get_pointer<std::vector<::alien::FooStruct>>(handle))[index]
     );
 }
 void arrayCollection_ExternalStruct_append(_baseRef handle, _baseRef item) {
@@ -97,7 +91,9 @@ uint64_t arrayCollection_Int32StringMap_count(_baseRef handle) {
     return get_pointer<std::vector<::smoke::Arrays::ErrorCodeToMessageMap>>(handle)->size();
 }
 _baseRef arrayCollection_Int32StringMap_get(_baseRef handle, uint64_t index) {
-    return reinterpret_cast<_baseRef>( &(*get_pointer<std::vector<::smoke::Arrays::ErrorCodeToMessageMap>>(handle))[index] );
+    return reinterpret_cast<_baseRef>(
+        &(*get_pointer<std::vector<::smoke::Arrays::ErrorCodeToMessageMap>>(handle))[index]
+    );
 }
 void arrayCollection_Int32StringMap_append(_baseRef handle, _baseRef item) {
     get_pointer<std::vector<::smoke::Arrays::ErrorCodeToMessageMap>>(handle)->push_back(*get_pointer<::smoke::Arrays::ErrorCodeToMessageMap>(item));
@@ -113,9 +109,7 @@ uint64_t arrayCollection_BasicStruct_count(_baseRef handle) {
 }
 _baseRef arrayCollection_BasicStruct_get(_baseRef handle, uint64_t index) {
     return reinterpret_cast<_baseRef>(
-        new ::smoke::Arrays::BasicStruct {
-            (*get_pointer<std::vector<::smoke::Arrays::BasicStruct>>(handle))[index]
-        }
+        &(*get_pointer<std::vector<::smoke::Arrays::BasicStruct>>(handle))[index]
     );
 }
 void arrayCollection_BasicStruct_append(_baseRef handle, _baseRef item) {
@@ -132,9 +126,7 @@ uint64_t arrayCollection_String_count(_baseRef handle) {
 }
 _baseRef arrayCollection_String_get(_baseRef handle, uint64_t index) {
     return reinterpret_cast<_baseRef>(
-        new std::string {
-            (*get_pointer<std::vector<std::string>>(handle))[index]
-        }
+        &(*get_pointer<std::vector<std::string>>(handle))[index]
     );
 }
 void arrayCollection_String_append(_baseRef handle, const char* item) {

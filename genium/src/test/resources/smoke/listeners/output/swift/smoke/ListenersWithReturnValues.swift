@@ -87,11 +87,7 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
         return moveFromCType(smoke_ListenersWithReturnValues_fetchData_Array(c_instance))
     }
     public func fetchData() -> ListenersWithReturnValues.StringToDouble {
-        let result_handle = smoke_ListenersWithReturnValues_fetchData_Map(c_instance)
-        defer {
-            smoke_ListenersWithReturnValues_StringToDouble_release_handle(result_handle)
-        }
-        return convertListenersWithReturnValues_StringToDoubleFromCType(result_handle)
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_Map(c_instance))
     }
     public func fetchData() -> CalculationResult? {
         return CalculationResultmoveFromCType(smoke_ListenersWithReturnValues_fetchData_instance(c_instance))
@@ -136,7 +132,7 @@ public struct ResultStruct {
         self.result = result
     }
     internal init(cHandle: _baseRef) {
-        result = smoke_ListenersWithReturnValues_ResultStruct_result_get(cHandle)
+        result = moveFromCType(smoke_ListenersWithReturnValues_ResultStruct_result_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
         let result_handle = result
@@ -163,18 +159,4 @@ func convertListenersWithReturnValues_StringToDoubleToCType(_ swiftDict: Listene
         smoke_ListenersWithReturnValues_StringToDouble_put(c_handle, c_key, c_value)
     }
     return c_handle
-}
-func convertListenersWithReturnValues_StringToDoubleFromCType(_ c_handle: _baseRef) -> ListenersWithReturnValues.StringToDouble {
-    var swiftDict: ListenersWithReturnValues.StringToDouble = [:]
-    let iterator_handle = smoke_ListenersWithReturnValues_StringToDouble_iterator(c_handle)
-    while smoke_ListenersWithReturnValues_StringToDouble_iterator_is_valid(c_handle, iterator_handle) {
-        let c_key = smoke_ListenersWithReturnValues_StringToDouble_iterator_key(iterator_handle)
-        let swift_key: String = moveFromCType(c_key)
-        let c_value = smoke_ListenersWithReturnValues_StringToDouble_iterator_value(iterator_handle)
-        let swift_value: Double = moveFromCType(c_value)
-        swiftDict[swift_key] = swift_value
-        smoke_ListenersWithReturnValues_StringToDouble_iterator_increment(iterator_handle)
-    }
-    smoke_ListenersWithReturnValues_StringToDouble_iterator_release_handle(iterator_handle)
-    return swiftDict
 }

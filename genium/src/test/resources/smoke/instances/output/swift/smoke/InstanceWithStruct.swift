@@ -28,7 +28,7 @@ public class InstanceWithStruct {
             self.value = value
         }
         internal init(cHandle: _baseRef) {
-            value = smoke_InstanceWithStruct_InnerStruct_value_get(cHandle)
+            value = moveFromCType(smoke_InstanceWithStruct_InnerStruct_value_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let value_handle = value
@@ -46,18 +46,9 @@ public class InstanceWithStruct {
             self.instanceNotNullWithComment = instanceNotNullWithComment
         }
         internal init(cHandle: _baseRef) {
-            do {
-                let instance_handle = smoke_InstanceWithStruct_StructWithInstance_instance_get(cHandle)
-                instance = instance_handle != 0 ? SimpleInstantiable(cSimpleInstantiable: instance_handle) : nil
-            }
-            do {
-                let instanceNotNull_handle = smoke_InstanceWithStruct_StructWithInstance_instanceNotNull_get(cHandle)
-                instanceNotNull = SimpleInstantiable(cSimpleInstantiable: instanceNotNull_handle)
-            }
-            do {
-                let instanceNotNullWithComment_handle = smoke_InstanceWithStruct_StructWithInstance_instanceNotNullWithComment_get(cHandle)
-                instanceNotNullWithComment = SimpleInstantiable(cSimpleInstantiable: instanceNotNullWithComment_handle)
-            }
+            instance = SimpleInstantiablemoveFromCType(smoke_InstanceWithStruct_StructWithInstance_instance_get(cHandle))
+            instanceNotNull = SimpleInstantiablemoveFromCType(smoke_InstanceWithStruct_StructWithInstance_instanceNotNull_get(cHandle))
+            instanceNotNullWithComment = SimpleInstantiablemoveFromCType(smoke_InstanceWithStruct_StructWithInstance_instanceNotNullWithComment_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let instance_handle = getRef(instance).ref

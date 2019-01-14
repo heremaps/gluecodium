@@ -65,10 +65,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_mappedMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        defer {
-            smoke_ListenerWithAttributes_StringToDouble_release_handle(newValue)
-        }
-        swift_class.mappedMessage = convertListenerWithAttributes_StringToDoubleFromCType(newValue)
+        swift_class.mappedMessage = moveFromCType(newValue)
     }
     functions.smoke_ListenerWithAttributes_bufferedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
@@ -148,11 +145,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
     }
     var mappedMessage: ListenerWithAttributes.StringToDouble {
         get {
-            let result_handle = smoke_ListenerWithAttributes_mappedMessage_get(c_instance)
-            defer {
-                smoke_ListenerWithAttributes_StringToDouble_release_handle(result_handle)
-            }
-            return convertListenerWithAttributes_StringToDoubleFromCType(result_handle)
+            return moveFromCType(smoke_ListenerWithAttributes_mappedMessage_get(c_instance))
         }
         set {
             let newValue_handle = convertListenerWithAttributes_StringToDoubleToCType(newValue)
@@ -227,7 +220,7 @@ public struct ResultStruct {
         self.result = result
     }
     internal init(cHandle: _baseRef) {
-        result = smoke_ListenerWithAttributes_ResultStruct_result_get(cHandle)
+        result = moveFromCType(smoke_ListenerWithAttributes_ResultStruct_result_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
         let result_handle = result
@@ -254,18 +247,4 @@ func convertListenerWithAttributes_StringToDoubleToCType(_ swiftDict: ListenerWi
         smoke_ListenerWithAttributes_StringToDouble_put(c_handle, c_key, c_value)
     }
     return c_handle
-}
-func convertListenerWithAttributes_StringToDoubleFromCType(_ c_handle: _baseRef) -> ListenerWithAttributes.StringToDouble {
-    var swiftDict: ListenerWithAttributes.StringToDouble = [:]
-    let iterator_handle = smoke_ListenerWithAttributes_StringToDouble_iterator(c_handle)
-    while smoke_ListenerWithAttributes_StringToDouble_iterator_is_valid(c_handle, iterator_handle) {
-        let c_key = smoke_ListenerWithAttributes_StringToDouble_iterator_key(iterator_handle)
-        let swift_key: String = moveFromCType(c_key)
-        let c_value = smoke_ListenerWithAttributes_StringToDouble_iterator_value(iterator_handle)
-        let swift_value: Double = moveFromCType(c_value)
-        swiftDict[swift_key] = swift_value
-        smoke_ListenerWithAttributes_StringToDouble_iterator_increment(iterator_handle)
-    }
-    smoke_ListenerWithAttributes_StringToDouble_iterator_release_handle(iterator_handle)
-    return swiftDict
 }

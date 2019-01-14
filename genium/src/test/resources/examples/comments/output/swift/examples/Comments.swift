@@ -53,7 +53,7 @@ public class Comments {
             self.someField = someField
         }
         internal init(cHandle: _baseRef) {
-            someField = examples_Comments_SomeStruct_someField_get(cHandle)
+            someField = moveFromCType(examples_Comments_SomeStruct_someField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let someField_handle = someField
@@ -111,18 +111,4 @@ func convertComments_SomeMapToCType(_ swiftDict: Comments.SomeMap) -> _baseRef {
         examples_Comments_SomeMap_put(c_handle, c_key, c_value)
     }
     return c_handle
-}
-func convertComments_SomeMapFromCType(_ c_handle: _baseRef) -> Comments.SomeMap {
-    var swiftDict: Comments.SomeMap = [:]
-    let iterator_handle = examples_Comments_SomeMap_iterator(c_handle)
-    while examples_Comments_SomeMap_iterator_is_valid(c_handle, iterator_handle) {
-        let c_key = examples_Comments_SomeMap_iterator_key(iterator_handle)
-        let swift_key: String = moveFromCType(c_key)
-        let c_value = examples_Comments_SomeMap_iterator_value(iterator_handle)
-        let swift_value: Bool = moveFromCType(c_value)
-        swiftDict[swift_key] = swift_value
-        examples_Comments_SomeMap_iterator_increment(iterator_handle)
-    }
-    examples_Comments_SomeMap_iterator_release_handle(iterator_handle)
-    return swiftDict
 }

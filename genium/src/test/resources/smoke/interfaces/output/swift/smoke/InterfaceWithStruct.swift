@@ -77,7 +77,7 @@ public struct InnerStruct {
         self.value = value
     }
     internal init(cHandle: _baseRef) {
-        value = smoke_InterfaceWithStruct_InnerStruct_value_get(cHandle)
+        value = moveFromCType(smoke_InterfaceWithStruct_InnerStruct_value_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
         let value_handle = value
