@@ -35,6 +35,7 @@ import org.franca.core.franca.FTypeCollection;
 public class SwiftGenerator {
 
   public final SwiftArrayGenerator arrayGenerator = new SwiftArrayGenerator();
+  public final SwiftMapGenerator mapGenerator = new SwiftMapGenerator();
   public final Set<String> enumsAsErrors = new HashSet<>();
   public static final List<GeneratedFile> STATIC_FILES =
       Arrays.asList(
@@ -80,6 +81,7 @@ public class SwiftGenerator {
 
     treeWalker.walkTree(francaTypeCollection);
     arrayGenerator.collect(modelBuilder.arraysCollector);
+    mapGenerator.collect(modelBuilder.mapCollector);
     enumsAsErrors.addAll(modelBuilder.enumsAsErrors);
     return modelBuilder.getFinalResult(SwiftFile.class);
   }
