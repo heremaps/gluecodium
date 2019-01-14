@@ -37,6 +37,21 @@ public class ConstantsInterface {
 extension ConstantsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func ConstantsInterfacecopyFromCType(_ handle: _baseRef) -> ConstantsInterface {
+    return ConstantsInterface(cConstantsInterface: handle)
+}
+internal func ConstantsInterfacemoveFromCType(_ handle: _baseRef) -> ConstantsInterface {
+    return ConstantsInterfacecopyFromCType(handle)
+}
+internal func ConstantsInterfacecopyFromCType(_ handle: _baseRef) -> ConstantsInterface? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ConstantsInterfacemoveFromCType(handle) as ConstantsInterface
+}
+internal func ConstantsInterfacemoveFromCType(_ handle: _baseRef) -> ConstantsInterface? {
+    return ConstantsInterfacecopyFromCType(handle)
+}
 internal func copyFromCType(_ cValue: UInt32) -> ConstantsInterface.StateEnum {
     return ConstantsInterface.StateEnum(rawValue: cValue)!
 }

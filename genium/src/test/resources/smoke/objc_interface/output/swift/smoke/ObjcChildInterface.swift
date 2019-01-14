@@ -40,3 +40,23 @@ internal class _ObjcChildInterface: ObjcChildInterface {
 extension _ObjcChildInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func ObjcChildInterfacecopyFromCType(_ handle: _baseRef) -> ObjcChildInterface {
+    if let swift_pointer = smoke_ObjcChildInterface_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcChildInterface {
+        smoke_ObjcChildInterface_release_handle(handle)
+        return re_constructed
+    }
+    return _ObjcChildInterface(cObjcChildInterface: handle)
+}
+internal func ObjcChildInterfacemoveFromCType(_ handle: _baseRef) -> ObjcChildInterface {
+    return ObjcChildInterfacecopyFromCType(handle)
+}
+internal func ObjcChildInterfacecopyFromCType(_ handle: _baseRef) -> ObjcChildInterface? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ObjcChildInterfacemoveFromCType(handle) as ObjcChildInterface
+}
+internal func ObjcChildInterfacemoveFromCType(_ handle: _baseRef) -> ObjcChildInterface? {
+    return ObjcChildInterfacecopyFromCType(handle)
+}

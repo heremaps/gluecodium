@@ -19,3 +19,18 @@ public class InheritanceGrandchildClass: InheritanceChildClass {
         return moveFromCType(smoke_InheritanceGrandchildClass_grandchildClassMethod(c_instance))
     }
 }
+internal func InheritanceGrandchildClasscopyFromCType(_ handle: _baseRef) -> InheritanceGrandchildClass {
+    return InheritanceGrandchildClass(cInheritanceGrandchildClass: handle)
+}
+internal func InheritanceGrandchildClassmoveFromCType(_ handle: _baseRef) -> InheritanceGrandchildClass {
+    return InheritanceGrandchildClasscopyFromCType(handle)
+}
+internal func InheritanceGrandchildClasscopyFromCType(_ handle: _baseRef) -> InheritanceGrandchildClass? {
+    guard handle != 0 else {
+        return nil
+    }
+    return InheritanceGrandchildClassmoveFromCType(handle) as InheritanceGrandchildClass
+}
+internal func InheritanceGrandchildClassmoveFromCType(_ handle: _baseRef) -> InheritanceGrandchildClass? {
+    return InheritanceGrandchildClasscopyFromCType(handle)
+}

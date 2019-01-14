@@ -25,11 +25,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_message_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        defer {
-            std_string_release_handle(newValue)
-        }
-        swift_class.message = String(data: Data(bytes: std_string_data_get(newValue),
-                                                count: Int(std_string_size_get(newValue))), encoding: .utf8)!
+        swift_class.message = moveFromCType(newValue)
     }
     functions.smoke_ListenerWithAttributes_packedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
@@ -37,19 +33,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_packedMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        var swift_object_newValue: CalculationResult? = nil
-        if let swift_pointer_newValue = smoke_CalculationResult_get_swift_object_from_cache(newValue) {
-            swift_object_newValue = Unmanaged<AnyObject>.fromOpaque(swift_pointer_newValue).takeUnretainedValue() as? CalculationResult
-            if swift_object_newValue != nil {
-                defer {
-                    smoke_CalculationResult_release_handle(newValue)
-                }
-            }
-        }
-        if swift_object_newValue == nil {
-            swift_object_newValue = _CalculationResult(cCalculationResult: newValue)
-        }
-        swift_class.packedMessage = swift_object_newValue!
+        swift_class.packedMessage = CalculationResultmoveFromCType(newValue)
     }
     functions.smoke_ListenerWithAttributes_structuredMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
@@ -57,10 +41,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_structuredMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        defer {
-            smoke_ListenerWithAttributes_ResultStruct_release_handle(newValue)
-        }
-        swift_class.structuredMessage = ResultStruct(cHandle: newValue)
+        swift_class.structuredMessage = moveFromCType(newValue)
     }
     functions.smoke_ListenerWithAttributes_enumeratedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
@@ -68,7 +49,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_enumeratedMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        swift_class.enumeratedMessage = ResultEnum(rawValue: newValue)!
+        swift_class.enumeratedMessage = moveFromCType(newValue)
     }
     functions.smoke_ListenerWithAttributes_arrayedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
@@ -76,7 +57,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_arrayedMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        swift_class.arrayedMessage = StringList(newValue)
+        swift_class.arrayedMessage = moveFromCType(newValue)
     }
     functions.smoke_ListenerWithAttributes_mappedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
@@ -100,10 +81,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_bufferedMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        defer {
-            byteArray_release_handle(newValue)
-        }
-        swift_class.bufferedMessage = Data(bytes: byteArray_data_get(newValue), count: byteArray_size_get(newValue))
+        swift_class.bufferedMessage = moveFromCType(newValue)
     }
     let proxy = smoke_ListenerWithAttributes_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_ListenerWithAttributes_release_handle) : RefHolder(proxy)
@@ -129,13 +107,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
     }
     var packedMessage: CalculationResult? {
         get {
-            let cResult = smoke_ListenerWithAttributes_packedMessage_get(c_instance)
-            if cResult == 0 { return nil }
-            if let swift_pointer = smoke_CalculationResult_get_swift_object_from_cache(cResult),
-                    let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CalculationResult {
-                return re_constructed
-            }
-            return _CalculationResult(cCalculationResult: cResult)
+            return CalculationResultmoveFromCType(smoke_ListenerWithAttributes_packedMessage_get(c_instance))
         }
         set {
             let newValue_handle = getRef(newValue)
@@ -218,6 +190,26 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
 }
 extension _ListenerWithAttributes: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func ListenerWithAttributescopyFromCType(_ handle: _baseRef) -> ListenerWithAttributes {
+    if let swift_pointer = smoke_ListenerWithAttributes_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenerWithAttributes {
+        smoke_ListenerWithAttributes_release_handle(handle)
+        return re_constructed
+    }
+    return _ListenerWithAttributes(cListenerWithAttributes: handle)
+}
+internal func ListenerWithAttributesmoveFromCType(_ handle: _baseRef) -> ListenerWithAttributes {
+    return ListenerWithAttributescopyFromCType(handle)
+}
+internal func ListenerWithAttributescopyFromCType(_ handle: _baseRef) -> ListenerWithAttributes? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ListenerWithAttributesmoveFromCType(handle) as ListenerWithAttributes
+}
+internal func ListenerWithAttributesmoveFromCType(_ handle: _baseRef) -> ListenerWithAttributes? {
+    return ListenerWithAttributescopyFromCType(handle)
 }
 public enum ResultEnum : UInt32 {
     case none

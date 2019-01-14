@@ -25,7 +25,7 @@ internal func getRef(_ ref: Attributes?, owning: Bool = true) -> RefHolder {
     }
     functions.examples_Attributes_builtInTypeAttribute_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Attributes
-        swift_class.builtInTypeAttribute = newValue
+        swift_class.builtInTypeAttribute = moveFromCType(newValue)
     }
     functions.examples_Attributes_readonlyAttribute_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Attributes
@@ -65,4 +65,24 @@ internal class _Attributes: Attributes {
 }
 extension _Attributes: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes {
+    if let swift_pointer = examples_Attributes_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Attributes {
+        examples_Attributes_release_handle(handle)
+        return re_constructed
+    }
+    return _Attributes(cAttributes: handle)
+}
+internal func AttributesmoveFromCType(_ handle: _baseRef) -> Attributes {
+    return AttributescopyFromCType(handle)
+}
+internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes? {
+    guard handle != 0 else {
+        return nil
+    }
+    return AttributesmoveFromCType(handle) as Attributes
+}
+internal func AttributesmoveFromCType(_ handle: _baseRef) -> Attributes? {
+    return AttributescopyFromCType(handle)
 }

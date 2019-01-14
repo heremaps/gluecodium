@@ -90,6 +90,21 @@ public class Constructors {
 extension Constructors: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func ConstructorscopyFromCType(_ handle: _baseRef) -> Constructors {
+    return Constructors(cConstructors: handle)
+}
+internal func ConstructorsmoveFromCType(_ handle: _baseRef) -> Constructors {
+    return ConstructorscopyFromCType(handle)
+}
+internal func ConstructorscopyFromCType(_ handle: _baseRef) -> Constructors? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ConstructorsmoveFromCType(handle) as Constructors
+}
+internal func ConstructorsmoveFromCType(_ handle: _baseRef) -> Constructors? {
+    return ConstructorscopyFromCType(handle)
+}
 internal func copyFromCType(_ cValue: UInt32) -> Constructors.ErrorEnum {
     return Constructors.ErrorEnum(rawValue: cValue)!
 }

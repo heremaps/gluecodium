@@ -38,6 +38,21 @@ public class Maps {
 extension Maps: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func MapscopyFromCType(_ handle: _baseRef) -> Maps {
+    return Maps(cMaps: handle)
+}
+internal func MapsmoveFromCType(_ handle: _baseRef) -> Maps {
+    return MapscopyFromCType(handle)
+}
+internal func MapscopyFromCType(_ handle: _baseRef) -> Maps? {
+    guard handle != 0 else {
+        return nil
+    }
+    return MapsmoveFromCType(handle) as Maps
+}
+internal func MapsmoveFromCType(_ handle: _baseRef) -> Maps? {
+    return MapscopyFromCType(handle)
+}
 func convertMaps_NameMapToCType(_ swiftDict: Maps.NameMap) -> _baseRef {
     let c_handle = examples_Maps_NameMap_create_handle()
     for (swift_key, swift_value) in swiftDict {

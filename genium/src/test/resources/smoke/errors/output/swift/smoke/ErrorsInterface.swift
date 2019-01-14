@@ -96,6 +96,26 @@ internal class _ErrorsInterface: ErrorsInterface {
 extension _ErrorsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func ErrorsInterfacecopyFromCType(_ handle: _baseRef) -> ErrorsInterface {
+    if let swift_pointer = smoke_ErrorsInterface_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ErrorsInterface {
+        smoke_ErrorsInterface_release_handle(handle)
+        return re_constructed
+    }
+    return _ErrorsInterface(cErrorsInterface: handle)
+}
+internal func ErrorsInterfacemoveFromCType(_ handle: _baseRef) -> ErrorsInterface {
+    return ErrorsInterfacecopyFromCType(handle)
+}
+internal func ErrorsInterfacecopyFromCType(_ handle: _baseRef) -> ErrorsInterface? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ErrorsInterfacemoveFromCType(handle) as ErrorsInterface
+}
+internal func ErrorsInterfacemoveFromCType(_ handle: _baseRef) -> ErrorsInterface? {
+    return ErrorsInterfacecopyFromCType(handle)
+}
 public enum InternalError : UInt32 {
     case errorNone
     case errorFatal

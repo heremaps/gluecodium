@@ -23,20 +23,27 @@ public class ProfileManagerFactory {
         examples_ProfileManagerFactory_release_handle(c_instance)
     }
     public static func createProfileManager() -> ProfileManager? {
-        let cResult = examples_ProfileManagerFactory_createProfileManager()
-        if cResult == 0 { return nil }
-        return ProfileManager(cProfileManager: cResult)
+        return ProfileManagermoveFromCType(examples_ProfileManagerFactory_createProfileManager())
     }
     public static func createProfileManagerInterface() -> ProfileManagerInterface? {
-        let cResult = examples_ProfileManagerFactory_createProfileManagerInterface()
-        if cResult == 0 { return nil }
-        if let swift_pointer = examples_ProfileManagerInterface_get_swift_object_from_cache(cResult),
-                let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ProfileManagerInterface {
-            return re_constructed
-        }
-        return _ProfileManagerInterface(cProfileManagerInterface: cResult)
+        return ProfileManagerInterfacemoveFromCType(examples_ProfileManagerFactory_createProfileManagerInterface())
     }
 }
 extension ProfileManagerFactory: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func ProfileManagerFactorycopyFromCType(_ handle: _baseRef) -> ProfileManagerFactory {
+    return ProfileManagerFactory(cProfileManagerFactory: handle)
+}
+internal func ProfileManagerFactorymoveFromCType(_ handle: _baseRef) -> ProfileManagerFactory {
+    return ProfileManagerFactorycopyFromCType(handle)
+}
+internal func ProfileManagerFactorycopyFromCType(_ handle: _baseRef) -> ProfileManagerFactory? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ProfileManagerFactorymoveFromCType(handle) as ProfileManagerFactory
+}
+internal func ProfileManagerFactorymoveFromCType(_ handle: _baseRef) -> ProfileManagerFactory? {
+    return ProfileManagerFactorycopyFromCType(handle)
 }

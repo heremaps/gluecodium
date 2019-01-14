@@ -39,6 +39,26 @@ internal class _PublicInterface: PublicInterface {
 extension _PublicInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func PublicInterfacecopyFromCType(_ handle: _baseRef) -> PublicInterface {
+    if let swift_pointer = smoke_PublicInterface_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? PublicInterface {
+        smoke_PublicInterface_release_handle(handle)
+        return re_constructed
+    }
+    return _PublicInterface(cPublicInterface: handle)
+}
+internal func PublicInterfacemoveFromCType(_ handle: _baseRef) -> PublicInterface {
+    return PublicInterfacecopyFromCType(handle)
+}
+internal func PublicInterfacecopyFromCType(_ handle: _baseRef) -> PublicInterface? {
+    guard handle != 0 else {
+        return nil
+    }
+    return PublicInterfacemoveFromCType(handle) as PublicInterface
+}
+internal func PublicInterfacemoveFromCType(_ handle: _baseRef) -> PublicInterface? {
+    return PublicInterfacecopyFromCType(handle)
+}
 internal struct InternalStruct {
     public var stringField: String
     public init(stringField: String) {

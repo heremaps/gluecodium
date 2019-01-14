@@ -17,3 +17,18 @@ public class ObjcChildClass: ObjcClass {
         super.init(cObjcClass: cObjcChildClass)
     }
 }
+internal func ObjcChildClasscopyFromCType(_ handle: _baseRef) -> ObjcChildClass {
+    return ObjcChildClass(cObjcChildClass: handle)
+}
+internal func ObjcChildClassmoveFromCType(_ handle: _baseRef) -> ObjcChildClass {
+    return ObjcChildClasscopyFromCType(handle)
+}
+internal func ObjcChildClasscopyFromCType(_ handle: _baseRef) -> ObjcChildClass? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ObjcChildClassmoveFromCType(handle) as ObjcChildClass
+}
+internal func ObjcChildClassmoveFromCType(_ handle: _baseRef) -> ObjcChildClass? {
+    return ObjcChildClasscopyFromCType(handle)
+}

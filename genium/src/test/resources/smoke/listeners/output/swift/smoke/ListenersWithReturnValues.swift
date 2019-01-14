@@ -94,17 +94,31 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
         return convertListenersWithReturnValues_StringToDoubleFromCType(result_handle)
     }
     public func fetchData() -> CalculationResult? {
-        let cResult = smoke_ListenersWithReturnValues_fetchData_instance(c_instance)
-        if cResult == 0 { return nil }
-        if let swift_pointer = smoke_CalculationResult_get_swift_object_from_cache(cResult),
-                let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CalculationResult {
-            return re_constructed
-        }
-        return _CalculationResult(cCalculationResult: cResult)
+        return CalculationResultmoveFromCType(smoke_ListenersWithReturnValues_fetchData_instance(c_instance))
     }
 }
 extension _ListenersWithReturnValues: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func ListenersWithReturnValuescopyFromCType(_ handle: _baseRef) -> ListenersWithReturnValues {
+    if let swift_pointer = smoke_ListenersWithReturnValues_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenersWithReturnValues {
+        smoke_ListenersWithReturnValues_release_handle(handle)
+        return re_constructed
+    }
+    return _ListenersWithReturnValues(cListenersWithReturnValues: handle)
+}
+internal func ListenersWithReturnValuesmoveFromCType(_ handle: _baseRef) -> ListenersWithReturnValues {
+    return ListenersWithReturnValuescopyFromCType(handle)
+}
+internal func ListenersWithReturnValuescopyFromCType(_ handle: _baseRef) -> ListenersWithReturnValues? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ListenersWithReturnValuesmoveFromCType(handle) as ListenersWithReturnValues
+}
+internal func ListenersWithReturnValuesmoveFromCType(_ handle: _baseRef) -> ListenersWithReturnValues? {
+    return ListenersWithReturnValuescopyFromCType(handle)
 }
 public enum ResultEnum : UInt32 {
     case none

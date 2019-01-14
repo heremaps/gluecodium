@@ -137,6 +137,21 @@ public class Maps {
 extension Maps: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func MapscopyFromCType(_ handle: _baseRef) -> Maps {
+    return Maps(cMaps: handle)
+}
+internal func MapsmoveFromCType(_ handle: _baseRef) -> Maps {
+    return MapscopyFromCType(handle)
+}
+internal func MapscopyFromCType(_ handle: _baseRef) -> Maps? {
+    guard handle != 0 else {
+        return nil
+    }
+    return MapsmoveFromCType(handle) as Maps
+}
+internal func MapsmoveFromCType(_ handle: _baseRef) -> Maps? {
+    return MapscopyFromCType(handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Maps.SomeStruct {
     return Maps.SomeStruct(cHandle: handle)
 }
@@ -335,7 +350,7 @@ func convertMaps_NumberToInstanceFromCType(_ c_handle: _baseRef) -> Maps.NumberT
         let c_key = smoke_Maps_NumberToInstance_iterator_key(iterator_handle)
         let swift_key: UInt8 = moveFromCType(c_key)
         let c_value = smoke_Maps_NumberToInstance_iterator_value(iterator_handle)
-        let swift_value = _MapsInstance(cMapsInstance: c_value)
+        let swift_value: MapsInstance = MapsInstancemoveFromCType(c_value)
         swiftDict[swift_key] = swift_value
         smoke_Maps_NumberToInstance_iterator_increment(iterator_handle)
     }

@@ -21,10 +21,7 @@ internal func getRef(_ ref: InterfaceWithStruct?, owning: Bool = true) -> RefHol
     }
     functions.smoke_InterfaceWithStruct_innerStructMethod = {(swift_class_pointer, inputStruct) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InterfaceWithStruct
-        defer {
-            smoke_InterfaceWithStruct_InnerStruct_release_handle(inputStruct)
-        }
-        return swift_class.innerStructMethod(inputStruct: InnerStruct(cHandle: inputStruct)).convertToCType()
+        return swift_class.innerStructMethod(inputStruct: moveFromCType(inputStruct)).convertToCType()
     }
     let proxy = smoke_InterfaceWithStruct_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_InterfaceWithStruct_release_handle) : RefHolder(proxy)
@@ -53,6 +50,26 @@ internal class _InterfaceWithStruct: InterfaceWithStruct {
 }
 extension _InterfaceWithStruct: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func InterfaceWithStructcopyFromCType(_ handle: _baseRef) -> InterfaceWithStruct {
+    if let swift_pointer = smoke_InterfaceWithStruct_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InterfaceWithStruct {
+        smoke_InterfaceWithStruct_release_handle(handle)
+        return re_constructed
+    }
+    return _InterfaceWithStruct(cInterfaceWithStruct: handle)
+}
+internal func InterfaceWithStructmoveFromCType(_ handle: _baseRef) -> InterfaceWithStruct {
+    return InterfaceWithStructcopyFromCType(handle)
+}
+internal func InterfaceWithStructcopyFromCType(_ handle: _baseRef) -> InterfaceWithStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    return InterfaceWithStructmoveFromCType(handle) as InterfaceWithStruct
+}
+internal func InterfaceWithStructmoveFromCType(_ handle: _baseRef) -> InterfaceWithStruct? {
+    return InterfaceWithStructcopyFromCType(handle)
 }
 public struct InnerStruct {
     public var value: Int8

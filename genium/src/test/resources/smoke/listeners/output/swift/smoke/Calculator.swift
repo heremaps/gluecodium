@@ -34,3 +34,18 @@ public class Calculator {
 extension Calculator: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func CalculatorcopyFromCType(_ handle: _baseRef) -> Calculator {
+    return Calculator(cCalculator: handle)
+}
+internal func CalculatormoveFromCType(_ handle: _baseRef) -> Calculator {
+    return CalculatorcopyFromCType(handle)
+}
+internal func CalculatorcopyFromCType(_ handle: _baseRef) -> Calculator? {
+    guard handle != 0 else {
+        return nil
+    }
+    return CalculatormoveFromCType(handle) as Calculator
+}
+internal func CalculatormoveFromCType(_ handle: _baseRef) -> Calculator? {
+    return CalculatorcopyFromCType(handle)
+}

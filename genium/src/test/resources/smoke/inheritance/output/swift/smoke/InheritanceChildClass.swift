@@ -40,3 +40,18 @@ public class InheritanceChildClass: InheritanceRoot {
 extension InheritanceChildClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func InheritanceChildClasscopyFromCType(_ handle: _baseRef) -> InheritanceChildClass {
+    return InheritanceChildClass(cInheritanceChildClass: handle)
+}
+internal func InheritanceChildClassmoveFromCType(_ handle: _baseRef) -> InheritanceChildClass {
+    return InheritanceChildClasscopyFromCType(handle)
+}
+internal func InheritanceChildClasscopyFromCType(_ handle: _baseRef) -> InheritanceChildClass? {
+    guard handle != 0 else {
+        return nil
+    }
+    return InheritanceChildClassmoveFromCType(handle) as InheritanceChildClass
+}
+internal func InheritanceChildClassmoveFromCType(_ handle: _baseRef) -> InheritanceChildClass? {
+    return InheritanceChildClasscopyFromCType(handle)
+}

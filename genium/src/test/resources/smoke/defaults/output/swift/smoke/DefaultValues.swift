@@ -117,6 +117,21 @@ public class DefaultValues {
 extension DefaultValues: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func DefaultValuescopyFromCType(_ handle: _baseRef) -> DefaultValues {
+    return DefaultValues(cDefaultValues: handle)
+}
+internal func DefaultValuesmoveFromCType(_ handle: _baseRef) -> DefaultValues {
+    return DefaultValuescopyFromCType(handle)
+}
+internal func DefaultValuescopyFromCType(_ handle: _baseRef) -> DefaultValues? {
+    guard handle != 0 else {
+        return nil
+    }
+    return DefaultValuesmoveFromCType(handle) as DefaultValues
+}
+internal func DefaultValuesmoveFromCType(_ handle: _baseRef) -> DefaultValues? {
+    return DefaultValuescopyFromCType(handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> DefaultValues.StructWithDefaults {
     return DefaultValues.StructWithDefaults(cHandle: handle)
 }

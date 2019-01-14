@@ -45,6 +45,21 @@ public class Errors {
 extension Errors: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func ErrorscopyFromCType(_ handle: _baseRef) -> Errors {
+    return Errors(cErrors: handle)
+}
+internal func ErrorsmoveFromCType(_ handle: _baseRef) -> Errors {
+    return ErrorscopyFromCType(handle)
+}
+internal func ErrorscopyFromCType(_ handle: _baseRef) -> Errors? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ErrorsmoveFromCType(handle) as Errors
+}
+internal func ErrorsmoveFromCType(_ handle: _baseRef) -> Errors? {
+    return ErrorscopyFromCType(handle)
+}
 internal func copyFromCType(_ cValue: UInt32) -> Errors.InternalErrors {
     return Errors.InternalErrors(rawValue: cValue)!
 }

@@ -34,3 +34,18 @@ public class MultiLineComments {
 extension MultiLineComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func MultiLineCommentscopyFromCType(_ handle: _baseRef) -> MultiLineComments {
+    return MultiLineComments(cMultiLineComments: handle)
+}
+internal func MultiLineCommentsmoveFromCType(_ handle: _baseRef) -> MultiLineComments {
+    return MultiLineCommentscopyFromCType(handle)
+}
+internal func MultiLineCommentscopyFromCType(_ handle: _baseRef) -> MultiLineComments? {
+    guard handle != 0 else {
+        return nil
+    }
+    return MultiLineCommentsmoveFromCType(handle) as MultiLineComments
+}
+internal func MultiLineCommentsmoveFromCType(_ handle: _baseRef) -> MultiLineComments? {
+    return MultiLineCommentscopyFromCType(handle)
+}

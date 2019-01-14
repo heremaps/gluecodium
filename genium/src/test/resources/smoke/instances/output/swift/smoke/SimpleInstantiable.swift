@@ -32,3 +32,18 @@ public class SimpleInstantiable {
 extension SimpleInstantiable: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func SimpleInstantiablecopyFromCType(_ handle: _baseRef) -> SimpleInstantiable {
+    return SimpleInstantiable(cSimpleInstantiable: handle)
+}
+internal func SimpleInstantiablemoveFromCType(_ handle: _baseRef) -> SimpleInstantiable {
+    return SimpleInstantiablecopyFromCType(handle)
+}
+internal func SimpleInstantiablecopyFromCType(_ handle: _baseRef) -> SimpleInstantiable? {
+    guard handle != 0 else {
+        return nil
+    }
+    return SimpleInstantiablemoveFromCType(handle) as SimpleInstantiable
+}
+internal func SimpleInstantiablemoveFromCType(_ handle: _baseRef) -> SimpleInstantiable? {
+    return SimpleInstantiablecopyFromCType(handle)
+}

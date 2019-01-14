@@ -74,13 +74,7 @@ public class Attributes {
     }
     public var instanceAttribute: AttributesInterface? {
         get {
-            let cResult = smoke_Attributes_instanceAttribute_get(c_instance)
-            if cResult == 0 { return nil }
-            if let swift_pointer = smoke_AttributesInterface_get_swift_object_from_cache(cResult),
-                    let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesInterface {
-                return re_constructed
-            }
-            return _AttributesInterface(cAttributesInterface: cResult)
+            return AttributesInterfacemoveFromCType(smoke_Attributes_instanceAttribute_get(c_instance))
         }
         set {
             let newValue_handle = getRef(newValue)
@@ -138,6 +132,21 @@ public class Attributes {
 }
 extension Attributes: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes {
+    return Attributes(cAttributes: handle)
+}
+internal func AttributesmoveFromCType(_ handle: _baseRef) -> Attributes {
+    return AttributescopyFromCType(handle)
+}
+internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes? {
+    guard handle != 0 else {
+        return nil
+    }
+    return AttributesmoveFromCType(handle) as Attributes
+}
+internal func AttributesmoveFromCType(_ handle: _baseRef) -> Attributes? {
+    return AttributescopyFromCType(handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> Attributes.ExampleStruct {
     return Attributes.ExampleStruct(cHandle: handle)

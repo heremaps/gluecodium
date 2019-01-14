@@ -197,6 +197,21 @@ public class Arrays {
 extension Arrays: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func ArrayscopyFromCType(_ handle: _baseRef) -> Arrays {
+    return Arrays(cArrays: handle)
+}
+internal func ArraysmoveFromCType(_ handle: _baseRef) -> Arrays {
+    return ArrayscopyFromCType(handle)
+}
+internal func ArrayscopyFromCType(_ handle: _baseRef) -> Arrays? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ArraysmoveFromCType(handle) as Arrays
+}
+internal func ArraysmoveFromCType(_ handle: _baseRef) -> Arrays? {
+    return ArrayscopyFromCType(handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Arrays.BasicStruct {
     return Arrays.BasicStruct(cHandle: handle)
 }

@@ -34,3 +34,18 @@ public class LongComments {
 extension LongComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func LongCommentscopyFromCType(_ handle: _baseRef) -> LongComments {
+    return LongComments(cLongComments: handle)
+}
+internal func LongCommentsmoveFromCType(_ handle: _baseRef) -> LongComments {
+    return LongCommentscopyFromCType(handle)
+}
+internal func LongCommentscopyFromCType(_ handle: _baseRef) -> LongComments? {
+    guard handle != 0 else {
+        return nil
+    }
+    return LongCommentsmoveFromCType(handle) as LongComments
+}
+internal func LongCommentsmoveFromCType(_ handle: _baseRef) -> LongComments? {
+    return LongCommentscopyFromCType(handle)
+}

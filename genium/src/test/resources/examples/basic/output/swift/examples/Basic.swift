@@ -29,3 +29,18 @@ public class Basic {
 extension Basic: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func BasiccopyFromCType(_ handle: _baseRef) -> Basic {
+    return Basic(cBasic: handle)
+}
+internal func BasicmoveFromCType(_ handle: _baseRef) -> Basic {
+    return BasiccopyFromCType(handle)
+}
+internal func BasiccopyFromCType(_ handle: _baseRef) -> Basic? {
+    guard handle != 0 else {
+        return nil
+    }
+    return BasicmoveFromCType(handle) as Basic
+}
+internal func BasicmoveFromCType(_ handle: _baseRef) -> Basic? {
+    return BasiccopyFromCType(handle)
+}

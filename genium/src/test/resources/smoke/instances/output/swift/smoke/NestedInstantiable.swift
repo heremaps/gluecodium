@@ -28,16 +28,28 @@ public class NestedInstantiable {
         return moveFromCType(smoke_NestedInstantiable_setSameTypeInstances(c_instance, instanceOne_handle.ref, instanceTwo_handle.ref))
     }
     public func getInstanceOne() -> SimpleInstantiable? {
-        let cResult = smoke_NestedInstantiable_getInstanceOne(c_instance)
-        if cResult == 0 { return nil }
-        return SimpleInstantiable(cSimpleInstantiable: cResult)
+        return SimpleInstantiablemoveFromCType(smoke_NestedInstantiable_getInstanceOne(c_instance))
     }
     public func instanceNotNullMethod(input: SimpleInstantiable) -> SimpleInstantiable {
         let input_handle = getRef(input)
-        let cResult = smoke_NestedInstantiable_instanceNotNullMethod(c_instance, input_handle.ref)
-        return SimpleInstantiable(cSimpleInstantiable: cResult)
+        return SimpleInstantiablemoveFromCType(smoke_NestedInstantiable_instanceNotNullMethod(c_instance, input_handle.ref))
     }
 }
 extension NestedInstantiable: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func NestedInstantiablecopyFromCType(_ handle: _baseRef) -> NestedInstantiable {
+    return NestedInstantiable(cNestedInstantiable: handle)
+}
+internal func NestedInstantiablemoveFromCType(_ handle: _baseRef) -> NestedInstantiable {
+    return NestedInstantiablecopyFromCType(handle)
+}
+internal func NestedInstantiablecopyFromCType(_ handle: _baseRef) -> NestedInstantiable? {
+    guard handle != 0 else {
+        return nil
+    }
+    return NestedInstantiablemoveFromCType(handle) as NestedInstantiable
+}
+internal func NestedInstantiablemoveFromCType(_ handle: _baseRef) -> NestedInstantiable? {
+    return NestedInstantiablecopyFromCType(handle)
 }

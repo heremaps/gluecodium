@@ -21,22 +21,19 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
     }
     functions.smoke_CalculatorListener_onCalculationResult = {(swift_class_pointer, calculationResult) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
-        swift_class.onCalculationResult(calculationResult: calculationResult)
+        swift_class.onCalculationResult(calculationResult: moveFromCType(calculationResult))
     }
     functions.smoke_CalculatorListener_onCalculationResultConst = {(swift_class_pointer, calculationResult) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
-        swift_class.onCalculationResultConst(calculationResult: calculationResult)
+        swift_class.onCalculationResultConst(calculationResult: moveFromCType(calculationResult))
     }
     functions.smoke_CalculatorListener_onCalculationResultStruct = {(swift_class_pointer, calculationResult) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
-        defer {
-            smoke_CalculatorListener_ResultStruct_release_handle(calculationResult)
-        }
-        swift_class.onCalculationResultStruct(calculationResult: ResultStruct(cHandle: calculationResult))
+        swift_class.onCalculationResultStruct(calculationResult: moveFromCType(calculationResult))
     }
     functions.smoke_CalculatorListener_onCalculationResultArray = {(swift_class_pointer, calculationResult) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
-        swift_class.onCalculationResultArray(calculationResult: DoubleList(calculationResult))
+        swift_class.onCalculationResultArray(calculationResult: moveFromCType(calculationResult))
     }
     functions.smoke_CalculatorListener_onCalculationResultMap = {(swift_class_pointer, calculationResults) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
@@ -47,19 +44,7 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
     }
     functions.smoke_CalculatorListener_onCalculationResultInstance = {(swift_class_pointer, calculationResult) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
-        var swift_object_calculationResult: CalculationResult? = nil
-        if let swift_pointer_calculationResult = smoke_CalculationResult_get_swift_object_from_cache(calculationResult) {
-            swift_object_calculationResult = Unmanaged<AnyObject>.fromOpaque(swift_pointer_calculationResult).takeUnretainedValue() as? CalculationResult
-            if swift_object_calculationResult != nil {
-                defer {
-                    smoke_CalculationResult_release_handle(calculationResult)
-                }
-            }
-        }
-        if swift_object_calculationResult == nil {
-            swift_object_calculationResult = _CalculationResult(cCalculationResult: calculationResult)
-        }
-        swift_class.onCalculationResultInstance(calculationResult: swift_object_calculationResult!)
+        swift_class.onCalculationResultInstance(calculationResult: CalculationResultmoveFromCType(calculationResult))
     }
     let proxy = smoke_CalculatorListener_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_CalculatorListener_release_handle) : RefHolder(proxy)
@@ -118,6 +103,26 @@ internal class _CalculatorListener: CalculatorListener {
 }
 extension _CalculatorListener: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func CalculatorListenercopyFromCType(_ handle: _baseRef) -> CalculatorListener {
+    if let swift_pointer = smoke_CalculatorListener_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CalculatorListener {
+        smoke_CalculatorListener_release_handle(handle)
+        return re_constructed
+    }
+    return _CalculatorListener(cCalculatorListener: handle)
+}
+internal func CalculatorListenermoveFromCType(_ handle: _baseRef) -> CalculatorListener {
+    return CalculatorListenercopyFromCType(handle)
+}
+internal func CalculatorListenercopyFromCType(_ handle: _baseRef) -> CalculatorListener? {
+    guard handle != 0 else {
+        return nil
+    }
+    return CalculatorListenermoveFromCType(handle) as CalculatorListener
+}
+internal func CalculatorListenermoveFromCType(_ handle: _baseRef) -> CalculatorListener? {
+    return CalculatorListenercopyFromCType(handle)
 }
 public struct ResultStruct {
     public var result: Double
