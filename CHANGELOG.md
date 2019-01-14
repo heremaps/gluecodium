@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed run-time issues for throwing constructors in Java.
+
 ## 3.19.2
 - Release date: 2019-01-11
 - Bug fixes:

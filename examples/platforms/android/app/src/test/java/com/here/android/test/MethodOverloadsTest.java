@@ -23,10 +23,13 @@ import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
 import android.support.compat.BuildConfig;
+import com.here.android.matchers.FieldMatcher;
 import com.here.android.RobolectricApplication;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -38,6 +41,9 @@ import org.robolectric.annotation.Config;
   constants = BuildConfig.class
 )
 public final class MethodOverloadsTest {
+
+  @Rule public final ExpectedException expectedException = ExpectedException.none();
+
   @Test
   public void isBooleanWithBoolean() {
     boolean result = MethodOverloads.isBoolean(false);
@@ -97,5 +103,19 @@ public final class MethodOverloadsTest {
     boolean result = MethodOverloads.isBooleanIntArrayOverload(byteList);
 
     assertFalse(result);
+  }
+
+  @Test
+  public void constructorDoesNotThrow() throws ConstructorOverloads.ErrorEnumException {
+    ConstructorOverloads result = new ConstructorOverloads(0.0);
+  }
+
+  @Test
+  public void constructorThrows() throws ConstructorOverloads.ErrorEnumException {
+    expectedException.expect(ConstructorOverloads.ErrorEnumException.class);
+    expectedException.expect(
+        FieldMatcher.hasFieldWithValue("error", ConstructorOverloads.ErrorEnum.CRASHED));
+
+    ConstructorOverloads result = new ConstructorOverloads(1.0);
   }
 }

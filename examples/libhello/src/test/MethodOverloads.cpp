@@ -102,8 +102,10 @@ ConstructorOverloads::create( const std::string& string_input, bool boolean_inpu
 lorem_ipsum::Return< std::shared_ptr< ConstructorOverloads >, std::error_code >
 ConstructorOverloads::create( double input )
 {
-    return lorem_ipsum::Return< std::shared_ptr< ConstructorOverloads >, std::error_code >(
-        std::make_shared< ConstructorOverloadsImpl >( ) );
+    return input == 0
+        ? lorem_ipsum::Return< std::shared_ptr< ConstructorOverloads >, std::error_code >(
+            std::make_shared< ConstructorOverloadsImpl >( ) )
+        : std::error_code( ConstructorOverloads::ErrorEnum::CRASHED );
 }
 
 std::shared_ptr< ConstructorOverloads >
@@ -128,8 +130,10 @@ ChildConstructorOverloads::create( )
 lorem_ipsum::Return< std::shared_ptr< ChildConstructorOverloads >, std::error_code >
 ChildConstructorOverloads::create( double input )
 {
-    return lorem_ipsum::Return< std::shared_ptr< ChildConstructorOverloads >, std::error_code >(
-        std::make_shared< ChildConstructorOverloadsImpl >( ) );
+    return input == 0
+        ? lorem_ipsum::Return< std::shared_ptr< ChildConstructorOverloads >, std::error_code >(
+            std::make_shared< ChildConstructorOverloadsImpl >( ) )
+        : std::error_code( ConstructorOverloads::ErrorEnum::CRASHED );
 }
 
 }  // namespace test
