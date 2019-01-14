@@ -55,36 +55,9 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
     functions.{{cBaseName}} = {(swift_class_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! {{className}}
         {{#parameters}}{{#switch type.category.toString}}{{!!
-        }}{{#case "BUILTIN_STRING"}}
-        defer {
-            std_string_release_handle({{name}})
-        }
-        {{/case}}{{!!
-        }}{{#case "STRUCT" break=false}}{{/case}}{{!!
         }}{{#case "DICTIONARY"}}
         defer {
             {{type.cPrefix}}_release_handle({{name}})
-        }
-        {{/case}}{{!!
-        }}{{#case "BUILTIN_BYTEBUFFER"}}
-        defer {
-            byteArray_release_handle({{name}})
-        }
-        {{/case}}{{!!
-        }}{{#case "CLASS"}}
-        var swift_object_{{name}}: {{type.publicName}}? = nil
-        {{#if type.isInterface}}{{!!
-      }}if let swift_pointer_{{name}} = {{type.cPrefix}}_get_swift_object_from_cache({{name}}) {
-            swift_object_{{name}} = Unmanaged<AnyObject>.fromOpaque(swift_pointer_{{name}}).takeUnretainedValue() as? {{type.publicName}}
-            if swift_object_{{name}} != nil {
-                defer {
-                    {{type.cPrefix}}_release_handle({{name}})
-                }
-            }
-        }
-        {{/if}}{{!!
-      }}if swift_object_{{name}} == nil {
-            swift_object_{{name}} = {{#type.implementingClass}}{{.}}{{/type.implementingClass}}{{^type.implementingClass}}{{type}}{{/type.implementingClass}}(c{{type}}: {{name}})
         }
         {{/case}}{{!!
         }}{{/switch}}{{/parameters}}
@@ -128,13 +101,6 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
 }}{{+callResult}}call_result{{/callResult}}{{!!
 }}{{+swiftParameter2}}{{name}}: {{>swiftParameterConversion}}{{/swiftParameter2}}{{!!
 }}{{+swiftParameterConversion}}{{#switch type.category.toString}}{{!!
-    }}{{#case "CLASS"}}swift_object_{{name}}!{{/case}}{{!!
-    }}{{#case "STRUCT"}}{{type}}(cHandle: {{name}}){{/case}}{{!!
     }}{{#case "DICTIONARY"}}convert{{type}}FromCType({{name}}){{/case}}{{!!
-    }}{{#case "ARRAY"}}{{type.implementingClass}}({{name}}){{/case}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER"}}Data(bytes: byteArray_data_get({{name}}), count: byteArray_size_get({{name}})){{/case}}{{!!
-    }}{{#case "BUILTIN_STRING"}}String(data: Data(bytes: std_string_data_get({{name}}),
-                                                count: Int(std_string_size_get({{name}}))), encoding: .utf8)!{{/case}}{{!!
-    }}{{#case "ENUM"}}{{type}}(rawValue: {{name}})!{{/case}}{{!!
-    }}{{#default}}{{name}}{{/default}}{{!!
+    }}{{#default}}{{type.className}}moveFromCType({{name}}){{/default}}{{!!
 }}{{/switch}}{{/swiftParameterConversion}}
