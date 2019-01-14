@@ -30,14 +30,8 @@ public class EquatableInterface {
             self.stringField = stringField
         }
         internal init(cHandle: _baseRef) {
-            intField = smoke_EquatableInterface_EquatableStruct_intField_get(cHandle)
-            do {
-                let stringField_handle = smoke_EquatableInterface_EquatableStruct_stringField_get(cHandle)
-                defer {
-                    std_string_release_handle(stringField_handle)
-                }
-                stringField = String(cString: std_string_data_get(stringField_handle))
-            }
+            intField = moveFromCType(smoke_EquatableInterface_EquatableStruct_intField_get(cHandle))
+            stringField = moveFromCType(smoke_EquatableInterface_EquatableStruct_stringField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let intField_handle = intField

@@ -30,8 +30,8 @@ public class MethodOverloads {
             self.y = y
         }
         internal init(cHandle: _baseRef) {
-            x = smoke_MethodOverloads_Point_x_get(cHandle)
-            y = smoke_MethodOverloads_Point_y_get(cHandle)
+            x = moveFromCType(smoke_MethodOverloads_Point_x_get(cHandle))
+            y = moveFromCType(smoke_MethodOverloads_Point_y_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let x_handle = x

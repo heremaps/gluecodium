@@ -15,7 +15,7 @@ internal class BasicStructList: CollectionOf<Arrays.BasicStruct> {
     }
     public override subscript(index: Int) -> Arrays.BasicStruct {
         let handle = arrayCollection_BasicStruct_get(c_element!, UInt64(index))
-        return moveFromCType(handle)
+        return copyFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -58,7 +58,7 @@ internal class ExternalEnumList: CollectionOf<Arrays.ExternalEnum> {
     }
     public override subscript(index: Int) -> Arrays.ExternalEnum {
         let handle = arrayCollection_ExternalEnum_get(c_element!, UInt64(index))
-        return moveFromCType(handle)
+        return copyFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -97,7 +97,7 @@ internal class ExternalStructList: CollectionOf<Arrays.ExternalStruct> {
     }
     public override subscript(index: Int) -> Arrays.ExternalStruct {
         let handle = arrayCollection_ExternalStruct_get(c_element!, UInt64(index))
-        return moveFromCType(handle)
+        return copyFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -140,7 +140,7 @@ internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
     }
     public override subscript(index: Int) -> Arrays.FancyStruct {
         let handle = arrayCollection_FancyStruct_get(c_element!, UInt64(index))
-        return moveFromCType(handle)
+        return copyFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -183,7 +183,7 @@ internal class SomeEnumList: CollectionOf<Arrays.SomeEnum> {
     }
     public override subscript(index: Int) -> Arrays.SomeEnum {
         let handle = arrayCollection_SomeEnum_get(c_element!, UInt64(index))
-        return moveFromCType(handle)
+        return copyFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -222,7 +222,7 @@ internal class ArraysErrorCodeToMessageMapList: CollectionOf<Arrays.ErrorCodeToM
     }
     public override subscript(index: Int) -> Arrays.ErrorCodeToMessageMap {
         let handle = arrayCollection_Int32StringMap_get(c_element!, UInt64(index))
-        return convertArrays_ErrorCodeToMessageMapFromCType(handle)
+        return copyFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -265,7 +265,7 @@ internal class StringListList: CollectionOf<CollectionOf<String>> {
     }
     public override subscript(index: Int) -> CollectionOf<String> {
         let handle = arrayCollection_StringArray_get(c_element!, UInt64(index))
-        return moveFromCType(handle)
+        return copyFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -306,7 +306,7 @@ internal class UInt8ListList: CollectionOf<CollectionOf<UInt8>> {
     }
     public override subscript(index: Int) -> CollectionOf<UInt8> {
         let handle = arrayCollection_UInt8Array_get(c_element!, UInt64(index))
-        return moveFromCType(handle)
+        return copyFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -347,7 +347,7 @@ internal class StringList: CollectionOf<String> {
     }
     public override subscript(index: Int) -> String {
         let handle = arrayCollection_String_get(c_element!, UInt64(index))
-        return moveFromCType(handle)
+        return copyFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {
@@ -386,7 +386,7 @@ internal class UInt8List: CollectionOf<UInt8> {
     }
     public override subscript(index: Int) -> UInt8 {
         let handle = arrayCollection_UInt8_get(c_element!, UInt64(index))
-        return moveFromCType(handle)
+        return copyFromCType(handle)
     }
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
     required public init(arrayLiteral elements: Element...) {

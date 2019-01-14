@@ -30,8 +30,8 @@ public class Structs {
             self.numberOfChanges = numberOfChanges
         }
         internal init(cHandle: _baseRef) {
-            lastUpdatedTimeStamp = examples_Structs_SyncResult_lastUpdatedTimeStamp_get(cHandle)
-            numberOfChanges = examples_Structs_SyncResult_numberOfChanges_get(cHandle)
+            lastUpdatedTimeStamp = moveFromCType(examples_Structs_SyncResult_lastUpdatedTimeStamp_get(cHandle))
+            numberOfChanges = moveFromCType(examples_Structs_SyncResult_numberOfChanges_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let lastUpdatedTimeStamp_handle = lastUpdatedTimeStamp
@@ -47,14 +47,8 @@ public class Structs {
             self.syncResult = syncResult
         }
         internal init(cHandle: _baseRef) {
-            id = examples_Structs_IdentifiableSyncResult_id_get(cHandle)
-            do {
-                let syncResult_handle = examples_Structs_IdentifiableSyncResult_syncResult_get(cHandle)
-                defer {
-                    examples_Structs_SyncResult_release_handle(syncResult_handle)
-                }
-                syncResult = Structs.SyncResult(cHandle: syncResult_handle)
-            }
+            id = moveFromCType(examples_Structs_IdentifiableSyncResult_id_get(cHandle))
+            syncResult = moveFromCType(examples_Structs_IdentifiableSyncResult_syncResult_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let id_handle = id
@@ -73,8 +67,8 @@ public class Structs {
             self.numberOfChanges = numberOfChanges
         }
         internal init(cHandle: _baseRef) {
-            lastUpdatedTimeStamp = examples_Structs_ImmutableSyncResult_lastUpdatedTimeStamp_get(cHandle)
-            numberOfChanges = examples_Structs_ImmutableSyncResult_numberOfChanges_get(cHandle)
+            lastUpdatedTimeStamp = moveFromCType(examples_Structs_ImmutableSyncResult_lastUpdatedTimeStamp_get(cHandle))
+            numberOfChanges = moveFromCType(examples_Structs_ImmutableSyncResult_numberOfChanges_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let lastUpdatedTimeStamp_handle = lastUpdatedTimeStamp

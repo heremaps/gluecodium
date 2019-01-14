@@ -46,13 +46,7 @@ public class PublicClass {
             self.stringField = stringField
         }
         internal init(cHandle: _baseRef) {
-            do {
-                let stringField_handle = smoke_PublicClass_InternalStruct_stringField_get(cHandle)
-                defer {
-                    std_string_release_handle(stringField_handle)
-                }
-                stringField = String(cString: std_string_data_get(stringField_handle))
-            }
+            stringField = moveFromCType(smoke_PublicClass_InternalStruct_stringField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let stringField_handle = stringField
@@ -65,13 +59,7 @@ public class PublicClass {
             self.internalField = internalField
         }
         internal init(cHandle: _baseRef) {
-            do {
-                let internalField_handle = smoke_PublicClass_PublicStruct_internalField_get(cHandle)
-                defer {
-                    smoke_PublicClass_InternalStruct_release_handle(internalField_handle)
-                }
-                internalField = PublicClass.InternalStruct(cHandle: internalField_handle)
-            }
+            internalField = moveFromCType(smoke_PublicClass_PublicStruct_internalField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let internalField_handle = internalField.convertToCType()
@@ -145,18 +133,4 @@ func convertPublicClass_StringToInternalStructMapToCType(_ swiftDict: PublicClas
         smoke_PublicClass_StringToInternalStructMap_put(c_handle, c_key, c_value)
     }
     return c_handle
-}
-func convertPublicClass_StringToInternalStructMapFromCType(_ c_handle: _baseRef) -> PublicClass.StringToInternalStructMap {
-    var swiftDict: PublicClass.StringToInternalStructMap = [:]
-    let iterator_handle = smoke_PublicClass_StringToInternalStructMap_iterator(c_handle)
-    while smoke_PublicClass_StringToInternalStructMap_iterator_is_valid(c_handle, iterator_handle) {
-        let c_key = smoke_PublicClass_StringToInternalStructMap_iterator_key(iterator_handle)
-        let swift_key: String = moveFromCType(c_key)
-        let c_value = smoke_PublicClass_StringToInternalStructMap_iterator_value(iterator_handle)
-        let swift_value: PublicClass.InternalStruct = moveFromCType(c_value)
-        swiftDict[swift_key] = swift_value
-        smoke_PublicClass_StringToInternalStructMap_iterator_increment(iterator_handle)
-    }
-    smoke_PublicClass_StringToInternalStructMap_iterator_release_handle(iterator_handle)
-    return swiftDict
 }

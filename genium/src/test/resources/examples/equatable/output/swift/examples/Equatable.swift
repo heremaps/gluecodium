@@ -12,21 +12,9 @@ public struct EquatableStruct: Equatable {
         self.structField = structField
     }
     internal init(cHandle: _baseRef) {
-        intField = examples_Equatable_EquatableStruct_intField_get(cHandle)
-        do {
-            let stringField_handle = examples_Equatable_EquatableStruct_stringField_get(cHandle)
-            defer {
-                std_string_release_handle(stringField_handle)
-            }
-            stringField = String(cString: std_string_data_get(stringField_handle))
-        }
-        do {
-            let structField_handle = examples_Equatable_EquatableStruct_structField_get(cHandle)
-            defer {
-                examples_Equatable_NestedEquatableStruct_release_handle(structField_handle)
-            }
-            structField = NestedEquatableStruct(cHandle: structField_handle)
-        }
+        intField = moveFromCType(examples_Equatable_EquatableStruct_intField_get(cHandle))
+        stringField = moveFromCType(examples_Equatable_EquatableStruct_stringField_get(cHandle))
+        structField = moveFromCType(examples_Equatable_EquatableStruct_structField_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
         let intField_handle = intField
@@ -53,13 +41,7 @@ public struct NestedEquatableStruct: Equatable {
         self.fooField = fooField
     }
     internal init(cHandle: _baseRef) {
-        do {
-            let fooField_handle = examples_Equatable_NestedEquatableStruct_fooField_get(cHandle)
-            defer {
-                std_string_release_handle(fooField_handle)
-            }
-            fooField = String(cString: std_string_data_get(fooField_handle))
-        }
+        fooField = moveFromCType(examples_Equatable_NestedEquatableStruct_fooField_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
         let fooField_handle = fooField

@@ -86,7 +86,7 @@ public struct ExampleStruct {
         self.value = value
     }
     internal init(cHandle: _baseRef) {
-        value = smoke_AttributesInterface_ExampleStruct_value_get(cHandle)
+        value = moveFromCType(smoke_AttributesInterface_ExampleStruct_value_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
         let value_handle = value

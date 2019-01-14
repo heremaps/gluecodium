@@ -40,17 +40,11 @@ public class DefaultValues {
             self.enumField = enumField
         }
         internal init(cHandle: _baseRef) {
-            intField = examples_DefaultValues_StructWithDefaults_intField_get(cHandle)
-            floatField = examples_DefaultValues_StructWithDefaults_floatField_get(cHandle)
-            boolField = examples_DefaultValues_StructWithDefaults_boolField_get(cHandle)
-            do {
-                let stringField_handle = examples_DefaultValues_StructWithDefaults_stringField_get(cHandle)
-                defer {
-                    std_string_release_handle(stringField_handle)
-                }
-                stringField = String(cString: std_string_data_get(stringField_handle))
-            }
-            enumField = DefaultValues.SomeEnum.init(rawValue: examples_DefaultValues_StructWithDefaults_enumField_get(cHandle))!
+            intField = moveFromCType(examples_DefaultValues_StructWithDefaults_intField_get(cHandle))
+            floatField = moveFromCType(examples_DefaultValues_StructWithDefaults_floatField_get(cHandle))
+            boolField = moveFromCType(examples_DefaultValues_StructWithDefaults_boolField_get(cHandle))
+            stringField = moveFromCType(examples_DefaultValues_StructWithDefaults_stringField_get(cHandle))
+            enumField = moveFromCType(examples_DefaultValues_StructWithDefaults_enumField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let intField_handle = intField
