@@ -37,6 +37,7 @@ import com.here.genium.output.ConsoleOutput
 import com.here.genium.output.FileOutput
 import com.here.genium.platform.android.AndroidGeneratorSuite
 import com.here.genium.platform.common.GeneratorSuite
+import com.here.genium.validator.ConstructorsValidatorPredicate
 import com.here.genium.validator.DefaultsValidatorPredicate
 import com.here.genium.validator.EquatableValidatorPredicate
 import com.here.genium.validator.ErrorEnumsValidatorPredicate
@@ -242,7 +243,8 @@ class Genium(private val options: Options) {
             ExternalElementsValidatorPredicate(),
             ExternalTypesValidatorPredicate(),
             StructInheritanceValidatorPredicate(),
-            NullabilityValidatorPredicate()
+            NullabilityValidatorPredicate(),
+            ConstructorsValidatorPredicate()
         )
     ).validate(deploymentModel, typeCollections)
 
