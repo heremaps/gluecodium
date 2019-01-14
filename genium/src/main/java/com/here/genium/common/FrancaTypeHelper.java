@@ -101,7 +101,7 @@ public final class FrancaTypeHelper {
         : Collections.emptyList();
   }
 
-  private static List<FMethod> getAllMethods(final FInterface francaInterface) {
+  public static List<FMethod> getAllMethods(final FInterface francaInterface) {
     List<FMethod> result = new LinkedList<>(francaInterface.getMethods());
     if (francaInterface.getBase() != null) {
       result.addAll(getAllMethods(francaInterface.getBase()));
