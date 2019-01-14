@@ -27,3 +27,18 @@ public class ObjcClass: NSObject {
 extension ObjcClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func ObjcClasscopyFromCType(_ handle: _baseRef) -> ObjcClass {
+    return ObjcClass(cObjcClass: handle)
+}
+internal func ObjcClassmoveFromCType(_ handle: _baseRef) -> ObjcClass {
+    return ObjcClasscopyFromCType(handle)
+}
+internal func ObjcClasscopyFromCType(_ handle: _baseRef) -> ObjcClass? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ObjcClassmoveFromCType(handle) as ObjcClass
+}
+internal func ObjcClassmoveFromCType(_ handle: _baseRef) -> ObjcClass? {
+    return ObjcClasscopyFromCType(handle)
+}

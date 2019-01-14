@@ -21,7 +21,7 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
     }
     functions.examples_CalculatorListener_onCalculationResult = {(swift_class_pointer, calculationResult) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
-        swift_class.onCalculationResult(calculationResult: calculationResult)
+        swift_class.onCalculationResult(calculationResult: moveFromCType(calculationResult))
     }
     let proxy = examples_CalculatorListener_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_CalculatorListener_release_handle) : RefHolder(proxy)
@@ -46,4 +46,24 @@ internal class _CalculatorListener: CalculatorListener {
 }
 extension _CalculatorListener: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func CalculatorListenercopyFromCType(_ handle: _baseRef) -> CalculatorListener {
+    if let swift_pointer = examples_CalculatorListener_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CalculatorListener {
+        examples_CalculatorListener_release_handle(handle)
+        return re_constructed
+    }
+    return _CalculatorListener(cCalculatorListener: handle)
+}
+internal func CalculatorListenermoveFromCType(_ handle: _baseRef) -> CalculatorListener {
+    return CalculatorListenercopyFromCType(handle)
+}
+internal func CalculatorListenercopyFromCType(_ handle: _baseRef) -> CalculatorListener? {
+    guard handle != 0 else {
+        return nil
+    }
+    return CalculatorListenermoveFromCType(handle) as CalculatorListener
+}
+internal func CalculatorListenermoveFromCType(_ handle: _baseRef) -> CalculatorListener? {
+    return CalculatorListenercopyFromCType(handle)
 }

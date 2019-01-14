@@ -21,11 +21,7 @@ internal func getRef(_ ref: ProfileManagerInterface?, owning: Bool = true) -> Re
     }
     functions.examples_ProfileManagerInterface_createProfile = {(swift_class_pointer, username) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ProfileManagerInterface
-        defer {
-            std_string_release_handle(username)
-        }
-        swift_class.createProfile(username: String(data: Data(bytes: std_string_data_get(username),
-                                                count: Int(std_string_size_get(username))), encoding: .utf8)!)
+        swift_class.createProfile(username: moveFromCType(username))
     }
     let proxy = examples_ProfileManagerInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_ProfileManagerInterface_release_handle) : RefHolder(proxy)
@@ -50,4 +46,24 @@ internal class _ProfileManagerInterface: ProfileManagerInterface {
 }
 extension _ProfileManagerInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func ProfileManagerInterfacecopyFromCType(_ handle: _baseRef) -> ProfileManagerInterface {
+    if let swift_pointer = examples_ProfileManagerInterface_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ProfileManagerInterface {
+        examples_ProfileManagerInterface_release_handle(handle)
+        return re_constructed
+    }
+    return _ProfileManagerInterface(cProfileManagerInterface: handle)
+}
+internal func ProfileManagerInterfacemoveFromCType(_ handle: _baseRef) -> ProfileManagerInterface {
+    return ProfileManagerInterfacecopyFromCType(handle)
+}
+internal func ProfileManagerInterfacecopyFromCType(_ handle: _baseRef) -> ProfileManagerInterface? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ProfileManagerInterfacemoveFromCType(handle) as ProfileManagerInterface
+}
+internal func ProfileManagerInterfacemoveFromCType(_ handle: _baseRef) -> ProfileManagerInterface? {
+    return ProfileManagerInterfacecopyFromCType(handle)
 }

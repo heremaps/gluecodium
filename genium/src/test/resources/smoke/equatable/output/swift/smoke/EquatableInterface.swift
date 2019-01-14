@@ -49,6 +49,21 @@ public class EquatableInterface {
 extension EquatableInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func EquatableInterfacecopyFromCType(_ handle: _baseRef) -> EquatableInterface {
+    return EquatableInterface(cEquatableInterface: handle)
+}
+internal func EquatableInterfacemoveFromCType(_ handle: _baseRef) -> EquatableInterface {
+    return EquatableInterfacecopyFromCType(handle)
+}
+internal func EquatableInterfacecopyFromCType(_ handle: _baseRef) -> EquatableInterface? {
+    guard handle != 0 else {
+        return nil
+    }
+    return EquatableInterfacemoveFromCType(handle) as EquatableInterface
+}
+internal func EquatableInterfacemoveFromCType(_ handle: _baseRef) -> EquatableInterface? {
+    return EquatableInterfacecopyFromCType(handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> EquatableInterface.EquatableStruct {
     return EquatableInterface.EquatableStruct(cHandle: handle)
 }

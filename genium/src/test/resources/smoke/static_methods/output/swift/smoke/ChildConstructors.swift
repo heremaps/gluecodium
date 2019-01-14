@@ -31,3 +31,18 @@ public class ChildConstructors: Constructors {
         return moveFromCType(smoke_ChildConstructors_create_copyFromParent(other_handle.ref))
     }
 }
+internal func ChildConstructorscopyFromCType(_ handle: _baseRef) -> ChildConstructors {
+    return ChildConstructors(cChildConstructors: handle)
+}
+internal func ChildConstructorsmoveFromCType(_ handle: _baseRef) -> ChildConstructors {
+    return ChildConstructorscopyFromCType(handle)
+}
+internal func ChildConstructorscopyFromCType(_ handle: _baseRef) -> ChildConstructors? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ChildConstructorsmoveFromCType(handle) as ChildConstructors
+}
+internal func ChildConstructorsmoveFromCType(_ handle: _baseRef) -> ChildConstructors? {
+    return ChildConstructorscopyFromCType(handle)
+}

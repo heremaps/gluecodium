@@ -25,10 +25,7 @@ internal func getRef(_ ref: AttributesInterface?, owning: Bool = true) -> RefHol
     }
     functions.smoke_AttributesInterface_structAttribute_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! AttributesInterface
-        defer {
-            smoke_AttributesInterface_ExampleStruct_release_handle(newValue)
-        }
-        swift_class.structAttribute = ExampleStruct(cHandle: newValue)
+        swift_class.structAttribute = moveFromCType(newValue)
     }
     let proxy = smoke_AttributesInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_AttributesInterface_release_handle) : RefHolder(proxy)
@@ -62,6 +59,26 @@ internal class _AttributesInterface: AttributesInterface {
 }
 extension _AttributesInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func AttributesInterfacecopyFromCType(_ handle: _baseRef) -> AttributesInterface {
+    if let swift_pointer = smoke_AttributesInterface_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? AttributesInterface {
+        smoke_AttributesInterface_release_handle(handle)
+        return re_constructed
+    }
+    return _AttributesInterface(cAttributesInterface: handle)
+}
+internal func AttributesInterfacemoveFromCType(_ handle: _baseRef) -> AttributesInterface {
+    return AttributesInterfacecopyFromCType(handle)
+}
+internal func AttributesInterfacecopyFromCType(_ handle: _baseRef) -> AttributesInterface? {
+    guard handle != 0 else {
+        return nil
+    }
+    return AttributesInterfacemoveFromCType(handle) as AttributesInterface
+}
+internal func AttributesInterfacemoveFromCType(_ handle: _baseRef) -> AttributesInterface? {
+    return AttributesInterfacecopyFromCType(handle)
 }
 public struct ExampleStruct {
     public var value: Double

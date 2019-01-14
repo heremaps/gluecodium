@@ -29,11 +29,7 @@ internal func getRef(_ ref: InheritanceRoot?, owning: Bool = true) -> RefHolder 
     }
     functions.smoke_InheritanceRoot_rootAttribute_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceRoot
-        defer {
-            std_string_release_handle(newValue)
-        }
-        swift_class.rootAttribute = String(data: Data(bytes: std_string_data_get(newValue),
-                                                count: Int(std_string_size_get(newValue))), encoding: .utf8)!
+        swift_class.rootAttribute = moveFromCType(newValue)
     }
     let proxy = smoke_InheritanceRoot_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_InheritanceRoot_release_handle) : RefHolder(proxy)
@@ -67,4 +63,24 @@ internal class _InheritanceRoot: InheritanceRoot {
 }
 extension _InheritanceRoot: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func InheritanceRootcopyFromCType(_ handle: _baseRef) -> InheritanceRoot {
+    if let swift_pointer = smoke_InheritanceRoot_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InheritanceRoot {
+        smoke_InheritanceRoot_release_handle(handle)
+        return re_constructed
+    }
+    return _InheritanceRoot(cInheritanceRoot: handle)
+}
+internal func InheritanceRootmoveFromCType(_ handle: _baseRef) -> InheritanceRoot {
+    return InheritanceRootcopyFromCType(handle)
+}
+internal func InheritanceRootcopyFromCType(_ handle: _baseRef) -> InheritanceRoot? {
+    guard handle != 0 else {
+        return nil
+    }
+    return InheritanceRootmoveFromCType(handle) as InheritanceRoot
+}
+internal func InheritanceRootmoveFromCType(_ handle: _baseRef) -> InheritanceRoot? {
+    return InheritanceRootcopyFromCType(handle)
 }

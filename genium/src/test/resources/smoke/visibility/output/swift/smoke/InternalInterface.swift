@@ -39,3 +39,23 @@ internal class _InternalInterface: InternalInterface {
 extension _InternalInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func InternalInterfacecopyFromCType(_ handle: _baseRef) -> InternalInterface {
+    if let swift_pointer = smoke_InternalInterface_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalInterface {
+        smoke_InternalInterface_release_handle(handle)
+        return re_constructed
+    }
+    return _InternalInterface(cInternalInterface: handle)
+}
+internal func InternalInterfacemoveFromCType(_ handle: _baseRef) -> InternalInterface {
+    return InternalInterfacecopyFromCType(handle)
+}
+internal func InternalInterfacecopyFromCType(_ handle: _baseRef) -> InternalInterface? {
+    guard handle != 0 else {
+        return nil
+    }
+    return InternalInterfacemoveFromCType(handle) as InternalInterface
+}
+internal func InternalInterfacemoveFromCType(_ handle: _baseRef) -> InternalInterface? {
+    return InternalInterfacecopyFromCType(handle)
+}

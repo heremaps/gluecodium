@@ -29,3 +29,18 @@ public class EnumMethods {
 extension EnumMethods: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func EnumMethodscopyFromCType(_ handle: _baseRef) -> EnumMethods {
+    return EnumMethods(cEnumMethods: handle)
+}
+internal func EnumMethodsmoveFromCType(_ handle: _baseRef) -> EnumMethods {
+    return EnumMethodscopyFromCType(handle)
+}
+internal func EnumMethodscopyFromCType(_ handle: _baseRef) -> EnumMethods? {
+    guard handle != 0 else {
+        return nil
+    }
+    return EnumMethodsmoveFromCType(handle) as EnumMethods
+}
+internal func EnumMethodsmoveFromCType(_ handle: _baseRef) -> EnumMethods? {
+    return EnumMethodscopyFromCType(handle)
+}

@@ -21,15 +21,11 @@ internal func getRef(_ ref: InheritanceChild?, owning: Bool = true) -> RefHolder
     }
     functions.examples_InheritanceParent_parentMethod = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceChild
-        defer {
-            std_string_release_handle(input)
-        }
-        return swift_class.parentMethod(input: String(data: Data(bytes: std_string_data_get(input),
-                                                count: Int(std_string_size_get(input))), encoding: .utf8)!).convertToCType()
+        return swift_class.parentMethod(input: moveFromCType(input)).convertToCType()
     }
     functions.examples_InheritanceChild_childMethod = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceChild
-        return swift_class.childMethod(input: input)
+        return swift_class.childMethod(input: moveFromCType(input))
     }
     let proxy = examples_InheritanceChild_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_InheritanceChild_release_handle) : RefHolder(proxy)
@@ -58,4 +54,24 @@ internal class _InheritanceChild: InheritanceChild {
 }
 extension _InheritanceChild: NativeBase {
     var c_handle: _baseRef { return c_instance }
+}
+internal func InheritanceChildcopyFromCType(_ handle: _baseRef) -> InheritanceChild {
+    if let swift_pointer = examples_InheritanceChild_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InheritanceChild {
+        examples_InheritanceChild_release_handle(handle)
+        return re_constructed
+    }
+    return _InheritanceChild(cInheritanceChild: handle)
+}
+internal func InheritanceChildmoveFromCType(_ handle: _baseRef) -> InheritanceChild {
+    return InheritanceChildcopyFromCType(handle)
+}
+internal func InheritanceChildcopyFromCType(_ handle: _baseRef) -> InheritanceChild? {
+    guard handle != 0 else {
+        return nil
+    }
+    return InheritanceChildmoveFromCType(handle) as InheritanceChild
+}
+internal func InheritanceChildmoveFromCType(_ handle: _baseRef) -> InheritanceChild? {
+    return InheritanceChildcopyFromCType(handle)
 }

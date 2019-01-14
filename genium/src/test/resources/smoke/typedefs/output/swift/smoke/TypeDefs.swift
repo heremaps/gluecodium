@@ -109,6 +109,21 @@ public class TypeDefs {
 extension TypeDefs: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func TypeDefscopyFromCType(_ handle: _baseRef) -> TypeDefs {
+    return TypeDefs(cTypeDefs: handle)
+}
+internal func TypeDefsmoveFromCType(_ handle: _baseRef) -> TypeDefs {
+    return TypeDefscopyFromCType(handle)
+}
+internal func TypeDefscopyFromCType(_ handle: _baseRef) -> TypeDefs? {
+    guard handle != 0 else {
+        return nil
+    }
+    return TypeDefsmoveFromCType(handle) as TypeDefs
+}
+internal func TypeDefsmoveFromCType(_ handle: _baseRef) -> TypeDefs? {
+    return TypeDefscopyFromCType(handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> TypeDefs.StructHavingAliasFieldDefinedBelow {
     return TypeDefs.StructHavingAliasFieldDefinedBelow(cHandle: handle)
 }

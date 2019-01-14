@@ -171,3 +171,18 @@ public class StaticMethods {
 extension StaticMethods: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+internal func StaticMethodscopyFromCType(_ handle: _baseRef) -> StaticMethods {
+    return StaticMethods(cStaticMethods: handle)
+}
+internal func StaticMethodsmoveFromCType(_ handle: _baseRef) -> StaticMethods {
+    return StaticMethodscopyFromCType(handle)
+}
+internal func StaticMethodscopyFromCType(_ handle: _baseRef) -> StaticMethods? {
+    guard handle != 0 else {
+        return nil
+    }
+    return StaticMethodsmoveFromCType(handle) as StaticMethods
+}
+internal func StaticMethodsmoveFromCType(_ handle: _baseRef) -> StaticMethods? {
+    return StaticMethodscopyFromCType(handle)
+}
