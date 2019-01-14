@@ -59,9 +59,8 @@ if (RESULT.has_value) {
 
 
 }}{{+returnValueConversion}}{{#switch returnType.category.toString}}{{!!
-    }}{{#case "CLASS"}}{{>MethodReturnClass}}{{/case}}{{!!
     }}{{#case "DICTIONARY"}}{{>MethodReturnDictionary}}{{/case}}{{!!
-    }}{{#default}}return moveFromCType({{include delegateToCall}}){{/default}}{{!!
+    }}{{#default}}return {{returnType.className}}moveFromCType({{include delegateToCall}}){{/default}}{{!!
   }}{{/switch}}{{!!
 }}{{/returnValueConversion}}{{!!
 
@@ -101,35 +100,10 @@ defer {
 }
 {{/dictionaryConversion}}{{!!
 
-}}{{+MethodReturnClass}}{{!!
-}}let cResult = {{include delegateToCall}}{{!!
-}}{{#if returnType.optional}}
-if cResult == 0 { return nil }{{/if}}{{!!
-}}{{#if returnType.isInterface}}
-
-if let swift_pointer = {{returnType.cPrefix}}_get_swift_object_from_cache(cResult),
-        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{returnType.publicName}} {
-    return re_constructed
-}{{/if}}
-return {{>returnTypeOrImplClass}}(c{{returnType}}: cResult)
-{{/MethodReturnClass}}
-
-{{+MethodReturnEnum}}{{!!
-}}let cResult = {{include delegateToCall}}
-return {{returnType}}(rawValue: cResult)!
-{{/MethodReturnEnum}}{{!!
-
 }}{{+MethodReturnDictionary}}{{!!
 }}let result_handle = {{include delegateToCall}}
 defer {
     {{returnType.cPrefix}}_release_handle(result_handle)
 }
 return convert{{returnType.name}}FromCType(result_handle)
-{{/MethodReturnDictionary}}{{!!
-
-}}{{+returnTypeOrImplClass}}{{!!
-}}{{returnType.implementingClass}}{{!!
-}}{{^returnType.implementingClass}}{{!!
-    }}{{returnType}}{{!!
-}}{{/returnType.implementingClass}}{{!!
-}}{{/returnTypeOrImplClass}}
+{{/MethodReturnDictionary}}

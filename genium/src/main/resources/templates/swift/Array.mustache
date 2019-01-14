@@ -42,9 +42,8 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType.publicName}}
     public override subscript(index: Int) -> {{underlyingType.publicName}} {
         let handle = {{refName}}_get(c_element!, UInt64(index))
         {{#switch underlyingType.category.toString}}{{!!
-        }}{{#case "CLASS"}}{{prefixPartial 'classSubscript'   '        '}}{{/case}}{{!!
         }}{{#case "DICTIONARY"}}{{prefixPartial 'dictionarySubscript'   '        '}}{{/case}}{{!!
-        }}{{#default}}return moveFromCType(handle){{/default}}{{!!
+        }}{{#default}}return {{underlyingType.className}}moveFromCType(handle){{/default}}{{!!
         }}{{/switch}}
     }
 
@@ -89,10 +88,7 @@ internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<{{underlyingType
 {{+GenericConstraintsRule}}{{!!
  }}where {{#genericParameter.constraints}}{{name}}{{!!
  }}{{#if isProtocol}}:{{/if}}{{#unless isProtocol}} =={{/unless}} {{typeName}}{{!!
- }}{{#if iter.hasNext}}, {{/if}}{{/genericParameter.constraints}}{{/GenericConstraintsRule}}
-
-{{+classSubscript}}
-return {{underlyingType.implementingClass}}(c{{underlyingType.simpleName}}: handle){{/classSubscript}}{{!!
+ }}{{#if iter.hasNext}}, {{/if}}{{/genericParameter.constraints}}{{/GenericConstraintsRule}}{{!!
 
 }}{{+dictionarySubscript}}
 return convert{{underlyingType.name}}FromCType(handle){{/dictionarySubscript}}{{!!

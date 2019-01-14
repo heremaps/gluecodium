@@ -83,9 +83,30 @@ internal class _{{name}}: {{name}} {
 
 {{>CommonClassParts}}
 }
-{{/ClassWithProtocol}}{{!!
+{{/ClassWithProtocol}}
 
-}}
+internal func {{name}}copyFromCType(_ handle: _baseRef) -> {{name}} {
+{{#if isInterface}}
+    if let swift_pointer = {{cInstance}}_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{name}} {
+        {{cInstance}}_release_handle(handle)
+        return re_constructed
+    }{{/if}}
+    return {{#isInterface}}_{{/isInterface}}{{name}}(c{{name}}: handle)
+}
+internal func {{name}}moveFromCType(_ handle: _baseRef) -> {{name}} {
+    return {{name}}copyFromCType(handle)
+}
+internal func {{name}}copyFromCType(_ handle: _baseRef) -> {{name}}? {
+    guard handle != 0 else {
+        return nil
+    }
+    return {{name}}moveFromCType(handle) as {{name}}
+}
+internal func {{name}}moveFromCType(_ handle: _baseRef) -> {{name}}? {
+    return {{name}}copyFromCType(handle)
+}
+
 {{#structs}}
 {{>swift/StructConversion}}{{!!
 }}{{/structs}}
@@ -93,7 +114,6 @@ internal class _{{name}}: {{name}} {
 {{>swift/EnumConversion}}{{!!
 }}{{/enums}}
 {{!!
-
 
 }}{{+CommonClassParts}}{{!!
 }}{{#constants}}

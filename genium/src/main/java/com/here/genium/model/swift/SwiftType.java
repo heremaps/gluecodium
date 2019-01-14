@@ -42,6 +42,7 @@ public class SwiftType extends SwiftModelElement {
   public final TypeCategory category;
   public final String implementingClass;
   public final String publicName;
+  public final String className;
   public final boolean optional;
 
   public SwiftType(final String name) {
@@ -64,6 +65,7 @@ public class SwiftType extends SwiftModelElement {
     this.category = category;
     this.implementingClass = implementingClass;
     this.publicName = publicName;
+    this.className = category == TypeCategory.CLASS ? publicName : "";
   }
 
   public SwiftType withAlias(final String aliasName) {
