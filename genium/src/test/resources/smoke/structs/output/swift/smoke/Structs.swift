@@ -34,8 +34,8 @@ public class Structs {
             self.y = y
         }
         internal init(cHandle: _baseRef) {
-            x = smoke_Structs_Point_x_get(cHandle)
-            y = smoke_Structs_Point_y_get(cHandle)
+            x = moveFromCType(smoke_Structs_Point_x_get(cHandle))
+            y = moveFromCType(smoke_Structs_Point_y_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let x_handle = x
@@ -53,9 +53,9 @@ public class Structs {
             self.blue = blue
         }
         internal init(cHandle: _baseRef) {
-            red = smoke_Structs_Color_red_get(cHandle)
-            green = smoke_Structs_Color_green_get(cHandle)
-            blue = smoke_Structs_Color_blue_get(cHandle)
+            red = moveFromCType(smoke_Structs_Color_red_get(cHandle))
+            green = moveFromCType(smoke_Structs_Color_green_get(cHandle))
+            blue = moveFromCType(smoke_Structs_Color_blue_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let red_handle = red
@@ -72,20 +72,8 @@ public class Structs {
             self.b = b
         }
         internal init(cHandle: _baseRef) {
-            do {
-                let a_handle = smoke_Structs_Line_a_get(cHandle)
-                defer {
-                    smoke_Structs_Point_release_handle(a_handle)
-                }
-                a = Structs.Point(cHandle: a_handle)
-            }
-            do {
-                let b_handle = smoke_Structs_Line_b_get(cHandle)
-                defer {
-                    smoke_Structs_Point_release_handle(b_handle)
-                }
-                b = Structs.Point(cHandle: b_handle)
-            }
+            a = moveFromCType(smoke_Structs_Line_a_get(cHandle))
+            b = moveFromCType(smoke_Structs_Line_b_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let a_handle = a.convertToCType()
@@ -107,20 +95,8 @@ public class Structs {
             self.color = color
         }
         internal init(cHandle: _baseRef) {
-            do {
-                let line_handle = smoke_Structs_ColoredLine_line_get(cHandle)
-                defer {
-                    smoke_Structs_Line_release_handle(line_handle)
-                }
-                line = Structs.Line(cHandle: line_handle)
-            }
-            do {
-                let color_handle = smoke_Structs_ColoredLine_color_get(cHandle)
-                defer {
-                    smoke_Structs_Color_release_handle(color_handle)
-                }
-                color = Structs.Color(cHandle: color_handle)
-            }
+            line = moveFromCType(smoke_Structs_ColoredLine_line_get(cHandle))
+            color = moveFromCType(smoke_Structs_ColoredLine_color_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let line_handle = line.convertToCType()
@@ -166,42 +142,20 @@ public class Structs {
             self.pointField = pointField
         }
         internal init(cHandle: _baseRef) {
-            int8Field = smoke_Structs_AllTypesStruct_int8Field_get(cHandle)
-            uint8Field = smoke_Structs_AllTypesStruct_uint8Field_get(cHandle)
-            int16Field = smoke_Structs_AllTypesStruct_int16Field_get(cHandle)
-            uint16Field = smoke_Structs_AllTypesStruct_uint16Field_get(cHandle)
-            int32Field = smoke_Structs_AllTypesStruct_int32Field_get(cHandle)
-            uint32Field = smoke_Structs_AllTypesStruct_uint32Field_get(cHandle)
-            int64Field = smoke_Structs_AllTypesStruct_int64Field_get(cHandle)
-            uint64Field = smoke_Structs_AllTypesStruct_uint64Field_get(cHandle)
-            floatField = smoke_Structs_AllTypesStruct_floatField_get(cHandle)
-            doubleField = smoke_Structs_AllTypesStruct_doubleField_get(cHandle)
-            do {
-                let stringField_handle = smoke_Structs_AllTypesStruct_stringField_get(cHandle)
-                defer {
-                    std_string_release_handle(stringField_handle)
-                }
-                stringField = String(cString: std_string_data_get(stringField_handle))
-            }
-            booleanField = smoke_Structs_AllTypesStruct_booleanField_get(cHandle)
-            do {
-                let bytesField_handle = smoke_Structs_AllTypesStruct_bytesField_get(cHandle)
-                defer {
-                    byteArray_release_handle(bytesField_handle)
-                }
-                if let array_data_handle = byteArray_data_get(bytesField_handle) {
-                    bytesField = Data(bytes: array_data_handle, count: Int(byteArray_size_get(bytesField_handle)))
-                } else {
-                    bytesField = Data()
-                }
-            }
-            do {
-                let pointField_handle = smoke_Structs_AllTypesStruct_pointField_get(cHandle)
-                defer {
-                    smoke_Structs_Point_release_handle(pointField_handle)
-                }
-                pointField = Structs.Point(cHandle: pointField_handle)
-            }
+            int8Field = moveFromCType(smoke_Structs_AllTypesStruct_int8Field_get(cHandle))
+            uint8Field = moveFromCType(smoke_Structs_AllTypesStruct_uint8Field_get(cHandle))
+            int16Field = moveFromCType(smoke_Structs_AllTypesStruct_int16Field_get(cHandle))
+            uint16Field = moveFromCType(smoke_Structs_AllTypesStruct_uint16Field_get(cHandle))
+            int32Field = moveFromCType(smoke_Structs_AllTypesStruct_int32Field_get(cHandle))
+            uint32Field = moveFromCType(smoke_Structs_AllTypesStruct_uint32Field_get(cHandle))
+            int64Field = moveFromCType(smoke_Structs_AllTypesStruct_int64Field_get(cHandle))
+            uint64Field = moveFromCType(smoke_Structs_AllTypesStruct_uint64Field_get(cHandle))
+            floatField = moveFromCType(smoke_Structs_AllTypesStruct_floatField_get(cHandle))
+            doubleField = moveFromCType(smoke_Structs_AllTypesStruct_doubleField_get(cHandle))
+            stringField = moveFromCType(smoke_Structs_AllTypesStruct_stringField_get(cHandle))
+            booleanField = moveFromCType(smoke_Structs_AllTypesStruct_booleanField_get(cHandle))
+            bytesField = moveFromCType(smoke_Structs_AllTypesStruct_bytesField_get(cHandle))
+            pointField = moveFromCType(smoke_Structs_AllTypesStruct_pointField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let int8Field_handle = int8Field
@@ -242,28 +196,10 @@ public class Structs {
             self.externalStructField = externalStructField
         }
         internal init(cHandle: _baseRef) {
-            do {
-                let stringField_handle = smoke_Structs_ExternalStruct_stringField_get(cHandle)
-                defer {
-                    std_string_release_handle(stringField_handle)
-                }
-                stringField = String(cString: std_string_data_get(stringField_handle))
-            }
-            do {
-                let externalStringField_handle = smoke_Structs_ExternalStruct_externalStringField_get(cHandle)
-                defer {
-                    std_string_release_handle(externalStringField_handle)
-                }
-                externalStringField = String(cString: std_string_data_get(externalStringField_handle))
-            }
-            externalArrayField = Int8List(smoke_Structs_ExternalStruct_externalArrayField_get(cHandle))
-            do {
-                let externalStructField_handle = smoke_Structs_ExternalStruct_externalStructField_get(cHandle)
-                defer {
-                    smoke_Structs_AnotherExternalStruct_release_handle(externalStructField_handle)
-                }
-                externalStructField = Structs.AnotherExternalStruct(cHandle: externalStructField_handle)
-            }
+            stringField = moveFromCType(smoke_Structs_ExternalStruct_stringField_get(cHandle))
+            externalStringField = moveFromCType(smoke_Structs_ExternalStruct_externalStringField_get(cHandle))
+            externalArrayField = moveFromCType(smoke_Structs_ExternalStruct_externalArrayField_get(cHandle))
+            externalStructField = moveFromCType(smoke_Structs_ExternalStruct_externalStructField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let stringField_handle = stringField
@@ -286,7 +222,7 @@ public class Structs {
             self.intField = intField
         }
         internal init(cHandle: _baseRef) {
-            intField = smoke_Structs_AnotherExternalStruct_intField_get(cHandle)
+            intField = moveFromCType(smoke_Structs_AnotherExternalStruct_intField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let intField_handle = intField
@@ -299,13 +235,7 @@ public class Structs {
             self.stringField = stringField
         }
         internal init(cHandle: _baseRef) {
-            do {
-                let stringField_handle = smoke_Structs_YetAnotherExternalStruct_stringField_get(cHandle)
-                defer {
-                    std_string_release_handle(stringField_handle)
-                }
-                stringField = String(cString: std_string_data_get(stringField_handle))
-            }
+            stringField = moveFromCType(smoke_Structs_YetAnotherExternalStruct_stringField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let stringField_handle = stringField

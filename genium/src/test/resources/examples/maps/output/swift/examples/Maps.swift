@@ -28,11 +28,7 @@ public class Maps {
         defer {
             examples_Maps_NameMap_release_handle(input_handle)
         }
-        let result_handle = examples_Maps_mapMethod(input_handle)
-        defer {
-            examples_Maps_NameMap_release_handle(result_handle)
-        }
-        return convertMaps_NameMapFromCType(result_handle)
+        return moveFromCType(examples_Maps_mapMethod(input_handle))
     }
 }
 extension Maps: NativeBase {
@@ -64,18 +60,4 @@ func convertMaps_NameMapToCType(_ swiftDict: Maps.NameMap) -> _baseRef {
         examples_Maps_NameMap_put(c_handle, c_key, c_value)
     }
     return c_handle
-}
-func convertMaps_NameMapFromCType(_ c_handle: _baseRef) -> Maps.NameMap {
-    var swiftDict: Maps.NameMap = [:]
-    let iterator_handle = examples_Maps_NameMap_iterator(c_handle)
-    while examples_Maps_NameMap_iterator_is_valid(c_handle, iterator_handle) {
-        let c_key = examples_Maps_NameMap_iterator_key(iterator_handle)
-        let swift_key: UInt64 = moveFromCType(c_key)
-        let c_value = examples_Maps_NameMap_iterator_value(iterator_handle)
-        let swift_value: String = moveFromCType(c_value)
-        swiftDict[swift_key] = swift_value
-        examples_Maps_NameMap_iterator_increment(iterator_handle)
-    }
-    examples_Maps_NameMap_iterator_release_handle(iterator_handle)
-    return swiftDict
 }

@@ -216,7 +216,7 @@ public struct SomeStruct {
         self.someField = someField
     }
     internal init(cHandle: _baseRef) {
-        someField = smoke_CommentsInterface_SomeStruct_someField_get(cHandle)
+        someField = moveFromCType(smoke_CommentsInterface_SomeStruct_someField_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
         let someField_handle = someField
@@ -243,18 +243,4 @@ func convertCommentsInterface_SomeMapToCType(_ swiftDict: CommentsInterface.Some
         smoke_CommentsInterface_SomeMap_put(c_handle, c_key, c_value)
     }
     return c_handle
-}
-func convertCommentsInterface_SomeMapFromCType(_ c_handle: _baseRef) -> CommentsInterface.SomeMap {
-    var swiftDict: CommentsInterface.SomeMap = [:]
-    let iterator_handle = smoke_CommentsInterface_SomeMap_iterator(c_handle)
-    while smoke_CommentsInterface_SomeMap_iterator_is_valid(c_handle, iterator_handle) {
-        let c_key = smoke_CommentsInterface_SomeMap_iterator_key(iterator_handle)
-        let swift_key: String = moveFromCType(c_key)
-        let c_value = smoke_CommentsInterface_SomeMap_iterator_value(iterator_handle)
-        let swift_value: Bool = moveFromCType(c_value)
-        swiftDict[swift_key] = swift_value
-        smoke_CommentsInterface_SomeMap_iterator_increment(iterator_handle)
-    }
-    smoke_CommentsInterface_SomeMap_iterator_release_handle(iterator_handle)
-    return swiftDict
 }

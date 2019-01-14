@@ -48,19 +48,13 @@ public class DefaultValues {
             self.externalEnumField = externalEnumField
         }
         internal init(cHandle: _baseRef) {
-            intField = smoke_DefaultValues_StructWithDefaults_intField_get(cHandle)
-            uintField = smoke_DefaultValues_StructWithDefaults_uintField_get(cHandle)
-            floatField = smoke_DefaultValues_StructWithDefaults_floatField_get(cHandle)
-            boolField = smoke_DefaultValues_StructWithDefaults_boolField_get(cHandle)
-            do {
-                let stringField_handle = smoke_DefaultValues_StructWithDefaults_stringField_get(cHandle)
-                defer {
-                    std_string_release_handle(stringField_handle)
-                }
-                stringField = String(cString: std_string_data_get(stringField_handle))
-            }
-            enumField = DefaultValues.SomeEnum.init(rawValue: smoke_DefaultValues_StructWithDefaults_enumField_get(cHandle))!
-            externalEnumField = DefaultValues.ExternalEnum.init(rawValue: smoke_DefaultValues_StructWithDefaults_externalEnumField_get(cHandle))!
+            intField = moveFromCType(smoke_DefaultValues_StructWithDefaults_intField_get(cHandle))
+            uintField = moveFromCType(smoke_DefaultValues_StructWithDefaults_uintField_get(cHandle))
+            floatField = moveFromCType(smoke_DefaultValues_StructWithDefaults_floatField_get(cHandle))
+            boolField = moveFromCType(smoke_DefaultValues_StructWithDefaults_boolField_get(cHandle))
+            stringField = moveFromCType(smoke_DefaultValues_StructWithDefaults_stringField_get(cHandle))
+            enumField = moveFromCType(smoke_DefaultValues_StructWithDefaults_enumField_get(cHandle))
+            externalEnumField = moveFromCType(smoke_DefaultValues_StructWithDefaults_externalEnumField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let intField_handle = intField
@@ -89,12 +83,12 @@ public class DefaultValues {
             self.doubleNegativeInfinityField = doubleNegativeInfinityField
         }
         internal init(cHandle: _baseRef) {
-            floatNanField = smoke_DefaultValues_StructWithSpecialDefaults_floatNanField_get(cHandle)
-            floatInfinityField = smoke_DefaultValues_StructWithSpecialDefaults_floatInfinityField_get(cHandle)
-            floatNegativeInfinityField = smoke_DefaultValues_StructWithSpecialDefaults_floatNegativeInfinityField_get(cHandle)
-            doubleNanField = smoke_DefaultValues_StructWithSpecialDefaults_doubleNanField_get(cHandle)
-            doubleInfinityField = smoke_DefaultValues_StructWithSpecialDefaults_doubleInfinityField_get(cHandle)
-            doubleNegativeInfinityField = smoke_DefaultValues_StructWithSpecialDefaults_doubleNegativeInfinityField_get(cHandle)
+            floatNanField = moveFromCType(smoke_DefaultValues_StructWithSpecialDefaults_floatNanField_get(cHandle))
+            floatInfinityField = moveFromCType(smoke_DefaultValues_StructWithSpecialDefaults_floatInfinityField_get(cHandle))
+            floatNegativeInfinityField = moveFromCType(smoke_DefaultValues_StructWithSpecialDefaults_floatNegativeInfinityField_get(cHandle))
+            doubleNanField = moveFromCType(smoke_DefaultValues_StructWithSpecialDefaults_doubleNanField_get(cHandle))
+            doubleInfinityField = moveFromCType(smoke_DefaultValues_StructWithSpecialDefaults_doubleInfinityField_get(cHandle))
+            doubleNegativeInfinityField = moveFromCType(smoke_DefaultValues_StructWithSpecialDefaults_doubleNegativeInfinityField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let floatNanField_handle = floatNanField

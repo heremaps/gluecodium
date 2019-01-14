@@ -45,7 +45,7 @@ public class TypeDefs {
             self.field = field
         }
         internal init(cHandle: _baseRef) {
-            field = smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_field_get(cHandle)
+            field = moveFromCType(smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_field_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let field_handle = field
@@ -58,13 +58,7 @@ public class TypeDefs {
             self.something = something
         }
         internal init(cHandle: _baseRef) {
-            do {
-                let something_handle = smoke_TypeDefs_TestStruct_something_get(cHandle)
-                defer {
-                    std_string_release_handle(something_handle)
-                }
-                something = String(cString: std_string_data_get(something_handle))
-            }
+            something = moveFromCType(smoke_TypeDefs_TestStruct_something_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let something_handle = something

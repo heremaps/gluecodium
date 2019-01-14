@@ -37,10 +37,7 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
     }
     functions.smoke_CalculatorListener_onCalculationResultMap = {(swift_class_pointer, calculationResults) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
-        defer {
-            smoke_CalculatorListener_NamedCalculationResults_release_handle(calculationResults)
-        }
-        swift_class.onCalculationResultMap(calculationResults: convertCalculatorListener_NamedCalculationResultsFromCType(calculationResults))
+        swift_class.onCalculationResultMap(calculationResults: moveFromCType(calculationResults))
     }
     functions.smoke_CalculatorListener_onCalculationResultInstance = {(swift_class_pointer, calculationResult) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CalculatorListener
@@ -130,7 +127,7 @@ public struct ResultStruct {
         self.result = result
     }
     internal init(cHandle: _baseRef) {
-        result = smoke_CalculatorListener_ResultStruct_result_get(cHandle)
+        result = moveFromCType(smoke_CalculatorListener_ResultStruct_result_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
         let result_handle = result
@@ -157,18 +154,4 @@ func convertCalculatorListener_NamedCalculationResultsToCType(_ swiftDict: Calcu
         smoke_CalculatorListener_NamedCalculationResults_put(c_handle, c_key, c_value)
     }
     return c_handle
-}
-func convertCalculatorListener_NamedCalculationResultsFromCType(_ c_handle: _baseRef) -> CalculatorListener.NamedCalculationResults {
-    var swiftDict: CalculatorListener.NamedCalculationResults = [:]
-    let iterator_handle = smoke_CalculatorListener_NamedCalculationResults_iterator(c_handle)
-    while smoke_CalculatorListener_NamedCalculationResults_iterator_is_valid(c_handle, iterator_handle) {
-        let c_key = smoke_CalculatorListener_NamedCalculationResults_iterator_key(iterator_handle)
-        let swift_key: String = moveFromCType(c_key)
-        let c_value = smoke_CalculatorListener_NamedCalculationResults_iterator_value(iterator_handle)
-        let swift_value: Double = moveFromCType(c_value)
-        swiftDict[swift_key] = swift_value
-        smoke_CalculatorListener_NamedCalculationResults_iterator_increment(iterator_handle)
-    }
-    smoke_CalculatorListener_NamedCalculationResults_iterator_release_handle(iterator_handle)
-    return swiftDict
 }

@@ -30,8 +30,8 @@ public class Arrays {
             self.numberOfChanges = numberOfChanges
         }
         internal init(cHandle: _baseRef) {
-            lastUpdatedTimeStamp = examples_Arrays_SyncResult_lastUpdatedTimeStamp_get(cHandle)
-            numberOfChanges = examples_Arrays_SyncResult_numberOfChanges_get(cHandle)
+            lastUpdatedTimeStamp = moveFromCType(examples_Arrays_SyncResult_lastUpdatedTimeStamp_get(cHandle))
+            numberOfChanges = moveFromCType(examples_Arrays_SyncResult_numberOfChanges_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let lastUpdatedTimeStamp_handle = lastUpdatedTimeStamp

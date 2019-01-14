@@ -8,13 +8,7 @@ internal struct InternalStruct {
         self.stringField = stringField
     }
     internal init(cHandle: _baseRef) {
-        do {
-            let stringField_handle = smoke_PublicTypeCollection_InternalStruct_stringField_get(cHandle)
-            defer {
-                std_string_release_handle(stringField_handle)
-            }
-            stringField = String(cString: std_string_data_get(stringField_handle))
-        }
+        stringField = moveFromCType(smoke_PublicTypeCollection_InternalStruct_stringField_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
         let stringField_handle = stringField

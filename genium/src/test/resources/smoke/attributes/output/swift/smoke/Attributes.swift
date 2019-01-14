@@ -122,7 +122,7 @@ public class Attributes {
             self.value = value
         }
         internal init(cHandle: _baseRef) {
-            value = smoke_Attributes_ExampleStruct_value_get(cHandle)
+            value = moveFromCType(smoke_Attributes_ExampleStruct_value_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let value_handle = value

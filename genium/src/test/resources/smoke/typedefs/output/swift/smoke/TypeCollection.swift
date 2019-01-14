@@ -12,8 +12,8 @@ public struct Point {
         self.y = y
     }
     internal init(cHandle: _baseRef) {
-        x = smoke_TypeCollection_Point_x_get(cHandle)
-        y = smoke_TypeCollection_Point_y_get(cHandle)
+        x = moveFromCType(smoke_TypeCollection_Point_x_get(cHandle))
+        y = moveFromCType(smoke_TypeCollection_Point_y_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
         let x_handle = x
@@ -36,7 +36,7 @@ public struct StructHavingAliasFieldDefinedBelow {
         self.field = field
     }
     internal init(cHandle: _baseRef) {
-        field = smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_field_get(cHandle)
+        field = moveFromCType(smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_field_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
         let field_handle = field
