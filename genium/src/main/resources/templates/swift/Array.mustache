@@ -41,10 +41,7 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType.publicName}}
 
     public override subscript(index: Int) -> {{underlyingType.publicName}} {
         let handle = {{refName}}_get(c_element!, UInt64(index))
-        {{#switch underlyingType.category.toString}}{{!!
-        }}{{#case "DICTIONARY"}}{{prefixPartial 'dictionarySubscript'   '        '}}{{/case}}{{!!
-        }}{{#default}}return {{underlyingType.className}}moveFromCType(handle){{/default}}{{!!
-        }}{{/switch}}
+        return {{underlyingType.className}}copyFromCType(handle)
     }
 
     // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral

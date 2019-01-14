@@ -33,6 +33,13 @@ interface Maps {
         String value
     }
 
+    typedef NumberTypedef is UInt8
+    typedef SomeStructTypedef is SomeStruct
+
+    // check if type based convert function generation clashes for typedefs
+    map IdTypedefToStruct { NumberTypedef to SomeStruct }
+    map NumberToStructTypedef { UInt8 to SomeStructTypedef }
+
     map NumberToStruct { UInt8 to SomeStruct }
 
     map NestedMap { UInt8 to NumberToStruct }

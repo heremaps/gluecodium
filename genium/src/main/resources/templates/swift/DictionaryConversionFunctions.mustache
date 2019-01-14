@@ -28,20 +28,7 @@ func convert{{name}}ToCType(_ swiftDict: {{publicName}}) -> _baseRef {
     return c_handle
 }
 
-func convert{{name}}FromCType(_ c_handle: _baseRef) -> {{publicName}} {
-    var swiftDict: {{publicName}} = [:]
-    let iterator_handle = {{cPrefix}}_iterator(c_handle)
-    while {{cPrefix}}_iterator_is_valid(c_handle, iterator_handle) {
-{{#set variableName="key" variableType=keyType}}{{prefixPartial "ConvertToSwift" "        "}}{{/set}}
-{{#set variableName="value" variableType=valueType}}{{prefixPartial "ConvertToSwift" "        "}}{{/set}}
-        swiftDict[swift_key] = swift_value
-        {{cPrefix}}_iterator_increment(iterator_handle)
-    }
-    {{cPrefix}}_iterator_release_handle(iterator_handle)
-    return swiftDict
-}{{!!
-
-}}{{+ConvertFromSwift}}{{!!
+{{+ConvertFromSwift}}{{!!
 }}{{#switch variableType.category.toString}}{{!!
     }}{{#case "BUILTIN_STRING"}}{{>ConvertFromSwiftString}}{{/case}}{{!!
     }}{{#case "STRUCT"}}{{>ConvertFromSwiftStruct}}{{/case}}{{!!
@@ -90,21 +77,4 @@ defer {
     c_conversion.cleanup()
 }
 let c_{{variableName}} = c_conversion.c_type
-{{/ConvertFromSwiftArray}}{{!!
-
-
-
-}}{{+ConvertToSwift}}{{!!
-}}let c_{{variableName}} = {{cPrefix}}_iterator_{{variableName}}(iterator_handle)
-{{#switch variableType.category.toString}}{{!!
-    }}{{#case "DICTIONARY"}}{{>ConvertToSwiftDictionary}}{{/case}}{{!!
-    }}{{#default}}let swift_{{variableName}}: {{variableType}} = {{variableType.className}}moveFromCType(c_{{variableName}}){{/default}}{{!!
-}}{{/switch}}{{!!
-}}{{/ConvertToSwift}}{{!!
-
-}}{{+ConvertToSwiftDictionary}}{{!!
-}}defer {
-    {{variableType.cPrefix}}_release_handle(c_{{variableName}})
-}
-let swift_{{variableName}} = convert{{variableType.name}}FromCType(c_{{variableName}})
-{{/ConvertToSwiftDictionary}}
+{{/ConvertFromSwiftArray}}
