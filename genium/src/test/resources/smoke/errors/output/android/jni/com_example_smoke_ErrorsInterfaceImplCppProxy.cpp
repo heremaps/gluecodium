@@ -16,7 +16,6 @@ ErrorsInterfaceCppProxy::ErrorsInterfaceCppProxy( JNIEnv* _jenv, JniReference<jo
     {
         auto jEnumValue = genium::jni::get_object_field(
             jniEnv,
-            genium::jni::get_object_class(jniEnv, jException),
             jException,
             "error",
             "Lcom/example/smoke/ErrorsInterface$InternalError;" );
@@ -40,7 +39,6 @@ ErrorsInterfaceCppProxy::ErrorsInterfaceCppProxy( JNIEnv* _jenv, JniReference<jo
     {
         auto jEnumValue = genium::jni::get_object_field(
             jniEnv,
-            genium::jni::get_object_class(jniEnv, jException),
             jException,
             "error",
             "Lcom/example/smoke/ErrorsInterface$ExternalErrors;" );
@@ -64,7 +62,6 @@ ErrorsInterfaceCppProxy::ErrorsInterfaceCppProxy( JNIEnv* _jenv, JniReference<jo
     {
         auto jEnumValue = genium::jni::get_object_field(
             jniEnv,
-            genium::jni::get_object_class(jniEnv, jException),
             jException,
             "error",
             "Lcom/example/smoke/ErrorsInterface$InternalError;" );
