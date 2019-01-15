@@ -2,8 +2,7 @@
 namespace genium {
 namespace jni {
     ::smoke::Enums::SimpleEnum convert_from_jni( JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::SimpleEnum* dummy )    {
-        auto javaClass = get_object_class(_jenv, _jinput);
-        jint enumValue = genium::jni::get_int_field(_jenv, javaClass, _jinput, "value" );
+        jint enumValue = genium::jni::get_int_field(_jenv, _jinput, "value" );
         return ::smoke::Enums::SimpleEnum( enumValue );
     }
     JniReference<jobject> convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::SimpleEnum _ninput )    {
@@ -21,8 +20,7 @@ namespace jni {
         return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
     }
     ::smoke::Enums::InternalError convert_from_jni( JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::InternalError* dummy )    {
-        auto javaClass = get_object_class(_jenv, _jinput);
-        jint enumValue = genium::jni::get_int_field(_jenv, javaClass, _jinput, "value" );
+        jint enumValue = genium::jni::get_int_field(_jenv, _jinput, "value" );
         return ::smoke::Enums::InternalError( enumValue );
     }
     JniReference<jobject> convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::InternalError _ninput )    {
@@ -40,8 +38,7 @@ namespace jni {
         return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
     }
     ::smoke::Enums::External_Enum convert_from_jni( JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::External_Enum* dummy )    {
-        auto javaClass = get_object_class(_jenv, _jinput);
-        jint enumValue = genium::jni::get_int_field(_jenv, javaClass, _jinput, "value" );
+        jint enumValue = genium::jni::get_int_field(_jenv, _jinput, "value" );
         return ::smoke::Enums::External_Enum( enumValue );
     }
     JniReference<jobject> convert_to_jni( JNIEnv* _jenv, const ::smoke::Enums::External_Enum _ninput )    {
@@ -59,8 +56,7 @@ namespace jni {
         return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
     }
     ::fire::SomeVeryExternalEnum convert_from_jni( JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::SomeVeryExternalEnum* dummy )    {
-        auto javaClass = get_object_class(_jenv, _jinput);
-        jint enumValue = genium::jni::get_int_field(_jenv, javaClass, _jinput, "value" );
+        jint enumValue = genium::jni::get_int_field(_jenv, _jinput, "value" );
         return ::fire::SomeVeryExternalEnum( enumValue );
     }
     JniReference<jobject> convert_to_jni( JNIEnv* _jenv, const ::fire::SomeVeryExternalEnum _ninput )    {
@@ -78,8 +74,7 @@ namespace jni {
         return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
     }
     ::smoke::TCEnum convert_from_jni( JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::TCEnum* dummy )    {
-        auto javaClass = get_object_class(_jenv, _jinput);
-        jint enumValue = genium::jni::get_int_field(_jenv, javaClass, _jinput, "value" );
+        jint enumValue = genium::jni::get_int_field(_jenv, _jinput, "value" );
         return ::smoke::TCEnum( enumValue );
     }
     JniReference<jobject> convert_to_jni( JNIEnv* _jenv, const ::smoke::TCEnum _ninput )    {

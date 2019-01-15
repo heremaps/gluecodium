@@ -23,7 +23,7 @@ convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jobj, ::std::share
     auto nativeBaseClass = find_class(_env, "com/example/NativeBase");
     if (_env->IsInstanceOf(_jobj.get(), nativeBaseClass.get())) {
         if (_jobj != nullptr) {
-            auto long_ptr = genium::jni::get_long_field(_env, get_object_class(_env, _jobj), _jobj, "nativeHandle");
+            auto long_ptr = genium::jni::get_long_field(_env, _jobj, "nativeHandle");
             _nresult = *reinterpret_cast<::std::shared_ptr< T >*> (long_ptr);
         }
     } else {
