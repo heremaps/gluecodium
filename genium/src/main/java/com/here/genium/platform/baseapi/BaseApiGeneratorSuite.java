@@ -35,8 +35,6 @@ import com.here.genium.platform.common.GeneratorSuite;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.eclipse.emf.ecore.EObject;
-import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FTypeCollection;
 
 /**
@@ -160,10 +158,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   }
 
   private Stream<String> collectErrorEnums(final FTypeCollection francaTypeCollection) {
-    Stream<EObject> allElementsStream = FrancaTypeHelper.getAllElements(francaTypeCollection);
-    return CollectionsHelper.getStreamOfType(allElementsStream, FMethod.class)
-        .map(FMethod::getErrorEnum)
-        .filter(Objects::nonNull)
+    return FrancaTypeHelper.getAllErrorEnums(francaTypeCollection)
         .map(nameResolver::getFullyQualifiedName);
   }
 }

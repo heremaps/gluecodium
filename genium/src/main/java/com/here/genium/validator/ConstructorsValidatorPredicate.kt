@@ -32,8 +32,9 @@ class ConstructorsValidatorPredicate : ValidatorPredicate<FInterface> {
     override fun validate(deploymentModel: FrancaDeploymentModel, francaInterface: FInterface): String? {
 
         val signatureResolver = FrancaSignatureResolver()
-        val allConstructorSignatures = FrancaTypeHelper.getAllMethods(francaInterface)
-            .filter(deploymentModel::isConstructor).map(signatureResolver::getSignature)
+        val allConstructorSignatures = francaInterface.methods
+            .filter(deploymentModel::isConstructor)
+            .map(signatureResolver::getSignature)
 
         return if (allConstructorSignatures.size != allConstructorSignatures.toSet().size) {
             String.format(SIGNATURE_CLASH_MESSAGE, FrancaTypeHelper.getFullName(francaInterface))
