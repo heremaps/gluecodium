@@ -20,7 +20,6 @@ Java_com_example_smoke_MethodOverloads_isBoolean__Z(JNIEnv* _jenv, jobject _jins
 {
     bool input = jinput;
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::get_object_class(_jenv, _jinstance),
             genium::jni::make_local_ref(_jenv, _jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
@@ -32,7 +31,6 @@ Java_com_example_smoke_MethodOverloads_isBoolean__B(JNIEnv* _jenv, jobject _jins
 {
     int8_t input = jinput;
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::get_object_class(_jenv, _jinstance),
             genium::jni::make_local_ref(_jenv, _jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
@@ -44,7 +42,6 @@ Java_com_example_smoke_MethodOverloads_isBoolean__Ljava_lang_String_2(JNIEnv* _j
 {
     ::std::string input = genium::jni::convert_from_jni( _jenv, genium::jni::make_local_ref(_jenv, jinput), (::std::string*)nullptr );
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::get_object_class(_jenv, _jinstance),
             genium::jni::make_local_ref(_jenv, _jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
@@ -56,7 +53,6 @@ Java_com_example_smoke_MethodOverloads_isBoolean__Lcom_example_smoke_MethodOverl
 {
     ::smoke::MethodOverloads::Point input = genium::jni::convert_from_jni( _jenv, genium::jni::make_local_ref(_jenv, jinput), (::smoke::MethodOverloads::Point*)nullptr );
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::get_object_class(_jenv, _jinstance),
             genium::jni::make_local_ref(_jenv, _jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
@@ -71,7 +67,6 @@ Java_com_example_smoke_MethodOverloads_isBoolean__ZBLjava_lang_String_2Lcom_exam
     ::std::string input3 = genium::jni::convert_from_jni( _jenv, genium::jni::make_local_ref(_jenv, jinput3), (::std::string*)nullptr );
     ::smoke::MethodOverloads::Point input4 = genium::jni::convert_from_jni( _jenv, genium::jni::make_local_ref(_jenv, jinput4), (::smoke::MethodOverloads::Point*)nullptr );
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::get_object_class(_jenv, _jinstance),
             genium::jni::make_local_ref(_jenv, _jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
@@ -83,7 +78,6 @@ Java_com_example_smoke_MethodOverloads_isBooleanStringArrayOverload__Ljava_util_
 {
     ::smoke::MethodOverloads::StringArray input = genium::jni::convert_from_jni( _jenv, genium::jni::make_local_ref(_jenv, jinput), (::smoke::MethodOverloads::StringArray*)nullptr );
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::get_object_class(_jenv, _jinstance),
             genium::jni::make_local_ref(_jenv, _jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
@@ -95,7 +89,6 @@ Java_com_example_smoke_MethodOverloads_isBooleanIntArrayOverload__Ljava_util_Lis
 {
     ::smoke::MethodOverloads::IntArray input = genium::jni::convert_from_jni( _jenv, genium::jni::make_local_ref(_jenv, jinput), (::smoke::MethodOverloads::IntArray*)nullptr );
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::get_object_class(_jenv, _jinstance),
             genium::jni::make_local_ref(_jenv, _jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
@@ -106,7 +99,6 @@ jboolean
 Java_com_example_smoke_MethodOverloads_isBoolean__(JNIEnv* _jenv, jobject _jinstance)
 {
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::get_object_class(_jenv, _jinstance),
             genium::jni::make_local_ref(_jenv, _jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
@@ -118,7 +110,6 @@ Java_com_example_smoke_MethodOverloads_isFloat__Ljava_lang_String_2(JNIEnv* _jen
 {
     ::std::string input = genium::jni::convert_from_jni( _jenv, genium::jni::make_local_ref(_jenv, jinput), (::std::string*)nullptr );
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::get_object_class(_jenv, _jinstance),
             genium::jni::make_local_ref(_jenv, _jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);
@@ -130,7 +121,6 @@ Java_com_example_smoke_MethodOverloads_isFloat__Ljava_util_List_2(JNIEnv* _jenv,
 {
     ::smoke::MethodOverloads::IntArray input = genium::jni::convert_from_jni( _jenv, genium::jni::make_local_ref(_jenv, jinput), (::smoke::MethodOverloads::IntArray*)nullptr );
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::get_object_class(_jenv, _jinstance),
             genium::jni::make_local_ref(_jenv, _jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (pointerAsLong);

@@ -20,7 +20,6 @@ Java_com_example_smoke_ExternalInterface_someMethod(JNIEnv* _jenv, jobject _jins
 {
     int8_t someParameter = jsomeParameter;
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::get_object_class(_jenv, _jinstance),
             genium::jni::make_local_ref(_jenv, _jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::ExternalInterface>*> (pointerAsLong);
@@ -30,7 +29,6 @@ jstring
 Java_com_example_smoke_ExternalInterface_getSomeAttribute(JNIEnv* _jenv, jobject _jinstance)
 {
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::get_object_class(_jenv, _jinstance),
             genium::jni::make_local_ref(_jenv, _jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::ExternalInterface>*> (pointerAsLong);
