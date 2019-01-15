@@ -38,15 +38,20 @@ public final class FrancaTypeHelper {
     boolean isErrorEnum(FEnumerationType enumType);
   }
 
+  public static Stream<FEnumerationType> getAllErrorEnums(
+      final FTypeCollection francaTypeCollection) {
+    return CollectionsHelper.getStreamOfType(
+            FrancaTypeHelper.getAllChildElements(francaTypeCollection), FMethod.class)
+        .map(FMethod::getErrorEnum)
+        .filter(Objects::nonNull);
+  }
+
   public static ErrorEnumFilter getErrorEnumFilter(
       final Collection<FTypeCollection> fTypeCollections) {
     final Set<String> result =
         fTypeCollections
             .stream()
-            .map(FrancaTypeHelper::getAllElements)
-            .flatMap(str -> CollectionsHelper.getStreamOfType(str, FMethod.class))
-            .map(FMethod::getErrorEnum)
-            .filter(Objects::nonNull)
+            .flatMap(FrancaTypeHelper::getAllErrorEnums)
             .map(FrancaTypeHelper::getFullName)
             .collect(Collectors.toSet());
 
@@ -85,10 +90,15 @@ public final class FrancaTypeHelper {
         DefinedBy.getModelName(francaModeElement1), DefinedBy.getModelName(francaModeElement2));
   }
 
-  public static Stream<EObject> getAllElements(final FTypeCollection francaTypeCollection) {
+  private static Stream<EObject> getAllChildElements(final FTypeCollection francaTypeCollection) {
     @SuppressWarnings("NullableProblems")
     Iterable<EObject> iterable = francaTypeCollection::eAllContents;
     return StreamSupport.stream(iterable.spliterator(), false);
+  }
+
+  public static Stream<EObject> getAllElements(final FTypeCollection francaTypeCollection) {
+    return Stream.concat(
+        Stream.of(francaTypeCollection), getAllChildElements(francaTypeCollection));
   }
 
   public static List<FMethod> getAllOverloads(final FMethod francaMethod) {
@@ -101,7 +111,7 @@ public final class FrancaTypeHelper {
         : Collections.emptyList();
   }
 
-  public static List<FMethod> getAllMethods(final FInterface francaInterface) {
+  private static List<FMethod> getAllMethods(final FInterface francaInterface) {
     List<FMethod> result = new LinkedList<>(francaInterface.getMethods());
     if (francaInterface.getBase() != null) {
       result.addAll(getAllMethods(francaInterface.getBase()));

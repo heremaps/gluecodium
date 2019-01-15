@@ -38,6 +38,7 @@ import org.mockito.Mockito.RETURNS_DEEP_STUBS
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
+import java.util.Arrays.asList
 
 @RunWith(JUnit4::class)
 class ConstructorsValidatorPredicateTest {
@@ -119,6 +120,17 @@ class ConstructorsValidatorPredicateTest {
         val francaArgument = mock(FArgument::class.java, RETURNS_DEEP_STUBS)
         `when`(francaArgument.type.predefined).thenReturn(FBasicTypeId.BOOLEAN)
         arguments.add(francaArgument)
+
+        assertNull(validatorPredicate.validate(deploymentModel, francaInterface))
+    }
+
+    @Test
+    fun validateWithConstructorOverloading() {
+        `when`(deploymentModel.isConstructor(any())).thenReturn(true)
+        val parentInterface = mock(FInterface::class.java)
+        val parentMethods = ArrayEList<FMethod>(asList(otherMethod))
+        `when`(parentInterface.methods).thenReturn(parentMethods)
+        `when`(francaInterface.base).thenReturn(parentInterface)
 
         assertNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }
