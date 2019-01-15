@@ -24,12 +24,12 @@
 {{#fields}}
   {{#hasCustomType}}
   auto j{{cppField.name}} = convert_to_jni(_jenv, {{>getCppFieldValue}});
-  {{internalNamespace}}::jni::set_object_field(_jenv, javaClass, _jresult, "{{javaField.name}}",
+  {{internalNamespace}}::jni::set_object_field(_jenv, _jresult, "{{javaField.name}}",
   "L{{join javaField.type.packageNames delimiter="/"}}/{{join javaField.type.classNames delimiter="$"}};", j{{cppField.name}});
   {{/hasCustomType}}
   {{^hasCustomType}}
   auto j{{cppField.name}} = {{#if type.isJavaArray}}convert_to_jni(_jenv, {{/if}}{{>getCppFieldValue}}{{#if type.isJavaArray}}){{/if}};
-  {{internalNamespace}}::jni::set_{{javaField.type.literalName}}_field(_jenv, javaClass, _jresult, "{{javaField.name}}", j{{cppField.name}});
+  {{internalNamespace}}::jni::set_{{javaField.type.literalName}}_field(_jenv, _jresult, "{{javaField.name}}", j{{cppField.name}});
   {{/hasCustomType}}
 {{/fields}}
   return _jresult;

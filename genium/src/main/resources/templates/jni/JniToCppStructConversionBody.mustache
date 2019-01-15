@@ -20,7 +20,6 @@
   !}}
 {
   {{#unless cppStruct.isImmutable}}{{cppStruct.fullyQualifiedName}} _nout{};{{/unless}}
-  auto javaClass = get_object_class(_jenv, _jinput);
 {{#fields}}
   {{#hasCustomType}}
 
@@ -28,7 +27,6 @@
     _jenv,
     {{internalNamespace}}::jni::get_object_field(
     _jenv,
-    javaClass,
     _jinput,
     "{{javaField.name}}",
     "L{{join javaField.type.packageNames delimiter="/"}}/{{join javaField.type.classNames delimiter="$"}};"),
@@ -36,7 +34,7 @@
   {{/hasCustomType}}
   {{^hasCustomType}}
 
-  {{cppField.type.name}} n_{{cppField.name}} = {{internalNamespace}}::jni::get_{{javaField.type.literalName}}_field(_jenv, javaClass, _jinput, "{{javaField.name}}");
+  {{cppField.type.name}} n_{{cppField.name}} = {{internalNamespace}}::jni::get_{{javaField.type.literalName}}_field(_jenv, _jinput, "{{javaField.name}}");
   {{/hasCustomType}}
   {{#unless cppStruct.isImmutable}}_nout.{{#if cppSetterName}}{{cppSetterName}}({{/if}}{{#unless cppSetterName}}{{cppField.name}} = {{/unless}}n_{{cppField.name}}{{#if cppSetterName}}){{/if}};{{/unless}}
 {{/fields}}

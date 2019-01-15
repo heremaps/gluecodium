@@ -19,7 +19,6 @@
   !
   !}}
 {
-    auto javaClass = get_object_class(_jenv, _jinput);
-    jint enumValue = {{internalNamespace}}::jni::get_int_field(_jenv, javaClass, _jinput, "value" );
+    jint enumValue = {{internalNamespace}}::jni::get_int_field(_jenv, _jinput, "value" );
     return {{cppEnumName}}( enumValue );
 }
