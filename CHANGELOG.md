@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.19.4
+- Release date: 2019-01-15
 - Bug fixes:
   + Fixed constructor validation to not to disallow constructors overriding for child classes.
 
