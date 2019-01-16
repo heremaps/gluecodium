@@ -17,47 +17,39 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.model.swift
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.LinkedList
 
-public final class SwiftStruct extends SwiftType {
+class SwiftStruct @JvmOverloads constructor(
+    name: String,
+    visibility: SwiftVisibility?,
+    category: SwiftType.TypeCategory = SwiftType.TypeCategory.STRUCT,
+    implementingClass: String? = null,
+    publicName: String? = null,
+    optional: Boolean = false,
+    private val cPrefix: String? = null,
+    val isEquatable: Boolean = false,
+    val isImmutable: Boolean = false
+) : SwiftType(
+    name,
+    visibility,
+    category,
+    implementingClass,
+    publicName ?: name,
+    optional
+) {
 
-  public final List<SwiftField> fields = new LinkedList<>();
-  public final List<SwiftConstant> constants = new LinkedList<>();
-  public final String cPrefix;
-  public final boolean isInterface;
-  public final boolean isEquatable;
-  public final boolean isImmutable;
+    val fields: MutableList<SwiftField> = LinkedList()
+    val constants: MutableList<SwiftConstant> = LinkedList()
+    val isInterface: Boolean = name != implementingClass
 
-  public SwiftStruct(
-      final String name,
-      final SwiftVisibility visibility,
-      final TypeCategory category,
-      final String implementingClass,
-      final String publicName,
-      final boolean optional,
-      final String cPrefix,
-      final boolean isEquatable,
-      final boolean isImmutable) {
-    super(
-        name,
-        visibility,
-        category != null ? category : TypeCategory.STRUCT,
-        implementingClass,
-        publicName != null ? publicName : name,
-        optional);
-    this.cPrefix = cPrefix;
-    this.isEquatable = isEquatable;
-    this.isImmutable = isImmutable;
-    this.isInterface = !name.equals(implementingClass);
-  }
+    // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
+    @Suppress("unused")
+    fun getcPrefix() = cPrefix
 
-  @Override
-  public SwiftType withAlias(final String aliasName) {
-    SwiftStruct container =
-        new SwiftStruct(
+    override fun withAlias(aliasName: String): SwiftType {
+        val container = SwiftStruct(
             name,
             visibility,
             category,
@@ -66,9 +58,10 @@ public final class SwiftStruct extends SwiftType {
             optional,
             cPrefix,
             isEquatable,
-            isImmutable);
-    container.comment = this.comment;
-    container.fields.addAll(fields);
-    return container;
-  }
+            isImmutable
+        )
+        container.comment = this.comment
+        container.fields.addAll(fields)
+        return container
+    }
 }

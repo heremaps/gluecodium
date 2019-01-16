@@ -64,7 +64,7 @@ public class SwiftTypeMapper {
     if (derived instanceof FStructType) {
       return getStructType((FStructType) derived, deploymentModel);
     } else if (derived instanceof FEnumerationType) {
-      return SwiftEnum.builder(SwiftNameRules.getEnumTypeName(derived, deploymentModel)).build();
+      return new SwiftEnum(SwiftNameRules.getEnumTypeName(derived, deploymentModel));
     } else if (derived instanceof FTypeDef) {
       return getTypedef((FTypeDef) derived, deploymentModel);
     } else if (derived instanceof FArrayType) {
@@ -79,11 +79,14 @@ public class SwiftTypeMapper {
   private static SwiftType mapMapType(
       final FMapType francaMapType, final FrancaDeploymentModel deploymentModel) {
 
-    return SwiftStruct.builder(SwiftNameRules.getMapName(francaMapType, deploymentModel))
-        .publicName(SwiftNameRules.getTypeName(francaMapType, deploymentModel))
-        .cPrefix(CBridgeNameRules.getStructBaseName(francaMapType))
-        .category(SwiftType.TypeCategory.DICTIONARY)
-        .build();
+    return new SwiftStruct(
+        SwiftNameRules.getMapName(francaMapType, deploymentModel),
+        null,
+        DICTIONARY,
+        null,
+        SwiftNameRules.getTypeName(francaMapType, deploymentModel),
+        false,
+        CBridgeNameRules.getStructBaseName(francaMapType));
   }
 
   private static SwiftType getTypedef(
@@ -99,10 +102,14 @@ public class SwiftTypeMapper {
       final FStructType francaStructType, final FrancaDeploymentModel deploymentModel) {
 
     String name = SwiftNameRules.getStructName(francaStructType, deploymentModel);
-    return SwiftStruct.builder(name)
-        .category(STRUCT)
-        .cPrefix(CBridgeNameRules.getStructBaseName(francaStructType))
-        .build();
+    return new SwiftStruct(
+        name,
+        null,
+        STRUCT,
+        null,
+        null,
+        false,
+        CBridgeNameRules.getStructBaseName(francaStructType));
   }
 
   private static SwiftType getClassType(
@@ -115,12 +122,14 @@ public class SwiftTypeMapper {
       implementingClass = "_" + swiftName;
     }
 
-    return SwiftStruct.builder(swiftName)
-        .category(CLASS)
-        .implementingClass(implementingClass)
-        .optional(true)
-        .cPrefix(CBridgeNameRules.getInstanceBaseName(francaTypeDef))
-        .build();
+    return new SwiftStruct(
+        swiftName,
+        null,
+        CLASS,
+        implementingClass,
+        null,
+        true,
+        CBridgeNameRules.getInstanceBaseName(francaTypeDef));
   }
 
   private static SwiftType mapPredefined(FTypeRef type) {
