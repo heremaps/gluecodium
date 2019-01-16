@@ -1,9 +1,11 @@
-# Rationales for some Design decisions
+Rationales for some Design decisions
+====================================
 
 For some design decisions the rationale might not be immediately apparent, therefore some of these
 are documented here.
 
-## Pointer equality for Interfaces
+Pointer equality for Interfaces
+-------------------------------
 
 ### Pointer comparison in Java/Swift
 When a C++ object is passed from Java/Swift and later retrieved (setter/getter) the Java/Swift
