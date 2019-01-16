@@ -17,23 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.model.swift
 
-import java.util.List;
-import lombok.Builder;
-import lombok.Singular;
-
-public final class SwiftEnum extends SwiftType {
-
-  public final List<SwiftEnumItem> items;
-
-  public SwiftEnum(
-      final String name,
-      final SwiftVisibility visibility,
-      final String comment,
-      @Singular final List<SwiftEnumItem> items) {
-    super(name, visibility, TypeCategory.ENUM, null, name, false);
-    this.comment = comment;
-    this.items = items;
-  }
-}
+class SwiftEnum @JvmOverloads constructor(
+    name: String,
+    visibility: SwiftVisibility? = null,
+    val items: List<SwiftEnumItem> = listOf()
+) : SwiftType(name, visibility, SwiftType.TypeCategory.ENUM, null, name, false)

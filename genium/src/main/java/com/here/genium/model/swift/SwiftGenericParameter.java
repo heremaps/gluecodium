@@ -22,7 +22,6 @@ package com.here.genium.model.swift;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import lombok.AllArgsConstructor;
 
 /**
  * Represents a parameter in Swift "generic" declaration, e.g.:
@@ -48,11 +47,16 @@ public final class SwiftGenericParameter extends SwiftModelElement {
     this.typeName = typeName;
   }
 
-  @AllArgsConstructor
   public static final class Constraint {
     public final String name;
     public final String typeName;
     public final boolean isProtocol;
+
+    public Constraint(final String name, final String typeName, final boolean isProtocol) {
+      this.name = name;
+      this.typeName = typeName;
+      this.isProtocol = isProtocol;
+    }
   }
 
   public SwiftGenericParameter(final String parameterName, final SwiftArray swiftArray) {
