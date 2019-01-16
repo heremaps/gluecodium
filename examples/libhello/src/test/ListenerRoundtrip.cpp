@@ -19,14 +19,28 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Nlp.h"
+#include "test/RouteStorage.h"
 
-namespace test
-{
+namespace test {
+namespace {
+    static std::shared_ptr<Route> s_route;
+}
+
 void
 Nlp::set_route( const std::shared_ptr< RouteProvider >& route_provider,
                 const std::shared_ptr< Route >& route )
 {
     route_provider->set_route( route );
+}
+
+std::shared_ptr<Route>
+RouteStorage::get_route() {
+    return s_route;
+}
+
+void
+RouteStorage::set_route(const std::shared_ptr<test::Route>& route) {
+    s_route = route;
 }
 
 }  // namespace test
