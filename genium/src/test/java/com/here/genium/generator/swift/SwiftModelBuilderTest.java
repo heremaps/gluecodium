@@ -330,8 +330,8 @@ public final class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesTypesFromTypeCollection() {
-    SwiftStruct struct = SwiftStruct.builder(STRUCT_NAME).build();
-    SwiftEnum swiftEnum = SwiftEnum.builder("").build();
+    SwiftStruct struct = new SwiftStruct(STRUCT_NAME, null);
+    SwiftEnum swiftEnum = new SwiftEnum("");
     contextStack.injectResult(struct);
     contextStack.injectResult(swiftEnum);
 
@@ -359,8 +359,8 @@ public final class SwiftModelBuilderTest {
     assertEquals(1, result.structs.size());
 
     SwiftStruct resultStruct = result.structs.get(0);
-    assertEquals(1, resultStruct.constants.size());
-    assertEquals(swiftConstant, resultStruct.constants.get(0));
+    assertEquals(1, resultStruct.getConstants().size());
+    assertEquals(swiftConstant, resultStruct.getConstants().get(0));
   }
 
   @Test
@@ -383,7 +383,7 @@ public final class SwiftModelBuilderTest {
 
     SwiftEnumItem enumItem = modelBuilder.getFinalResult(SwiftEnumItem.class);
     assertNotNull("Should be 1 enum item created", enumItem);
-    assertNull("Enum item should have not value set", enumItem.value);
+    assertNull("Enum item should have not value set", enumItem.getValue());
   }
 
   @Test
@@ -395,12 +395,12 @@ public final class SwiftModelBuilderTest {
 
     SwiftEnumItem enumItem = modelBuilder.getFinalResult(SwiftEnumItem.class);
     assertNotNull("Should be 1 enum item created", enumItem);
-    assertSame(swiftValue, enumItem.value);
+    assertSame(swiftValue, enumItem.getValue());
   }
 
   @Test
   public void finishBuildingCreatesSwiftEnum() {
-    SwiftEnumItem swiftEnumItem = SwiftEnumItem.builder("").build();
+    SwiftEnumItem swiftEnumItem = new SwiftEnumItem("", null);
     contextStack.injectResult(swiftEnumItem);
     when(francaEnum.getName()).thenReturn("SWIFT_NAME");
 
@@ -409,11 +409,11 @@ public final class SwiftModelBuilderTest {
     SwiftEnum enumType = modelBuilder.getFinalResult(SwiftEnum.class);
     assertNotNull("Should be 1 enum created", enumType);
     assertEquals("SwiftName", enumType.name);
-    assertEquals("should be 1 enum item created", 1, enumType.items.size());
+    assertEquals("should be 1 enum item created", 1, enumType.getItems().size());
     assertSame(
         "Enum item inside enum type should be on injected into model",
         swiftEnumItem,
-        enumType.items.get(0));
+        enumType.getItems().get(0));
   }
 
   @Test
@@ -690,7 +690,7 @@ public final class SwiftModelBuilderTest {
     SwiftStruct swiftStruct = modelBuilder.getFinalResult(SwiftStruct.class);
     assertNotNull(swiftStruct);
     assertEquals("Structural", swiftStruct.name);
-    assertEquals("CBase", swiftStruct.cPrefix);
+    assertEquals("CBase", swiftStruct.getcPrefix());
   }
 
   @Test
@@ -701,8 +701,8 @@ public final class SwiftModelBuilderTest {
 
     SwiftStruct swiftStruct = modelBuilder.getFinalResult(SwiftStruct.class);
     assertNotNull(swiftStruct);
-    assertEquals(1, swiftStruct.fields.size());
-    assertEquals(swiftField, swiftStruct.fields.get(0));
+    assertEquals(1, swiftStruct.getFields().size());
+    assertEquals(swiftField, swiftStruct.getFields().get(0));
   }
 
   @Test
@@ -724,7 +724,7 @@ public final class SwiftModelBuilderTest {
 
     SwiftStruct swiftStruct = modelBuilder.getFinalResult(SwiftStruct.class);
     assertNotNull(swiftStruct);
-    assertTrue(swiftStruct.isEquatable);
+    assertTrue(swiftStruct.isEquatable());
   }
 
   @Test
@@ -735,7 +735,7 @@ public final class SwiftModelBuilderTest {
 
     SwiftStruct swiftStruct = modelBuilder.getFinalResult(SwiftStruct.class);
     assertNotNull(swiftStruct);
-    assertTrue(swiftStruct.isImmutable);
+    assertTrue(swiftStruct.isImmutable());
   }
 
   @Test
@@ -751,9 +751,9 @@ public final class SwiftModelBuilderTest {
     assertNotNull(swiftDictionary);
     assertEquals("SomeMap", swiftDictionary.name);
     assertEquals("SomeMap", swiftDictionary.publicName);
-    assertEquals("SomeMapBaz", swiftDictionary.cPrefix);
-    assertEquals(SwiftType.STRING, swiftDictionary.keyType);
-    assertEquals(swiftType, swiftDictionary.valueType);
+    assertEquals("SomeMapBaz", swiftDictionary.getcPrefix());
+    assertEquals(SwiftType.STRING, swiftDictionary.getKeyType());
+    assertEquals(swiftType, swiftDictionary.getValueType());
 
     PowerMockito.verifyStatic();
     CBridgeNameRules.getStructBaseName(francaMap);

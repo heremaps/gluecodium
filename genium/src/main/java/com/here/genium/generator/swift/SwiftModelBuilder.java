@@ -71,10 +71,10 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     List<SwiftConstant> constants = getPreviousResults(SwiftConstant.class);
     if (!constants.isEmpty()) {
       SwiftStruct swiftStruct =
-          SwiftStruct.builder(SwiftNameRules.getClassName(francaTypeCollection.getName()))
-              .visibility(getVisibility(francaTypeCollection))
-              .build();
-      swiftStruct.constants.addAll(constants);
+          new SwiftStruct(
+              SwiftNameRules.getClassName(francaTypeCollection.getName()),
+              getVisibility(francaTypeCollection));
+      swiftStruct.getConstants().addAll(constants);
       file.structs.add(swiftStruct);
     }
 
@@ -143,16 +143,20 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   public void finishBuilding(FStructType francaStruct) {
 
     SwiftStruct swiftStruct =
-        SwiftStruct.builder(SwiftNameRules.getStructName(francaStruct, deploymentModel))
-            .cPrefix(CBridgeNameRules.getStructBaseName(francaStruct))
-            .visibility(getVisibility(francaStruct))
-            .isEquatable(deploymentModel.isEquatable(francaStruct))
-            .isImmutable(deploymentModel.isImmutable(francaStruct))
-            .build();
+        new SwiftStruct(
+            SwiftNameRules.getStructName(francaStruct, deploymentModel),
+            getVisibility(francaStruct),
+            SwiftType.TypeCategory.STRUCT,
+            null,
+            null,
+            false,
+            CBridgeNameRules.getStructBaseName(francaStruct),
+            deploymentModel.isEquatable(francaStruct),
+            deploymentModel.isImmutable(francaStruct));
     String comment = CommentHelper.getDescription(francaStruct);
     swiftStruct.comment = comment != null ? comment : "";
 
-    swiftStruct.fields.addAll(getPreviousResults(SwiftField.class));
+    swiftStruct.getFields().addAll(getPreviousResults(SwiftField.class));
 
     storeResult(swiftStruct);
     super.finishBuilding(francaStruct);
@@ -165,11 +169,11 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
         CollectionsHelper.getAllOfType(getCurrentContext().previousResults, SwiftEnumItem.class);
 
     SwiftEnum swiftEnum =
-        SwiftEnum.builder(SwiftNameRules.getEnumTypeName(francaEnumerationType, deploymentModel))
-            .comment(CommentHelper.getDescription(francaEnumerationType))
-            .items(enumItems)
-            .visibility(getVisibility(francaEnumerationType))
-            .build();
+        new SwiftEnum(
+            SwiftNameRules.getEnumTypeName(francaEnumerationType, deploymentModel),
+            getVisibility(francaEnumerationType),
+            enumItems);
+    swiftEnum.comment = CommentHelper.getDescription(francaEnumerationType);
 
     storeResult(swiftEnum);
     super.finishBuilding(francaEnumerationType);
@@ -177,14 +181,15 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FEnumerator enumerator) {
-    String comment = CommentHelper.getDescription(enumerator);
-    SwiftValue value =
-        CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, SwiftValue.class);
-    storeResult(
-        SwiftEnumItem.builder(SwiftNameRules.getEnumItemName(enumerator))
-            .comment(comment)
-            .value(value)
-            .build());
+
+    SwiftEnumItem swiftEnumItem =
+        new SwiftEnumItem(
+            SwiftNameRules.getEnumItemName(enumerator),
+            CollectionsHelper.getFirstOfType(
+                getCurrentContext().previousResults, SwiftValue.class));
+    swiftEnumItem.comment = CommentHelper.getDescription(enumerator);
+
+    storeResult(swiftEnumItem);
     super.finishBuilding(enumerator);
   }
 
@@ -299,7 +304,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     if (errorEnum != null) {
       String swiftEnumName = SwiftNameRules.getEnumTypeName(errorEnum, deploymentModel);
       enumsAsErrors.add(swiftEnumName);
-      return SwiftEnum.builder(swiftEnumName).build();
+      return new SwiftEnum(swiftEnumName);
     } else {
       return null;
     }
@@ -381,12 +386,13 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     String mapName = SwiftNameRules.getMapName(francaMapType, deploymentModel);
     List<SwiftType> typeRefs = getPreviousResults(SwiftType.class);
     SwiftType swiftDictionary =
-        SwiftDictionary.builder(mapName)
-            .publicName(typeDefName)
-            .cPrefix(CBridgeNameRules.getStructBaseName(francaMapType))
-            .keyType(typeRefs.get(0))
-            .valueType(typeRefs.get(1))
-            .build();
+        new SwiftDictionary(
+            mapName,
+            null,
+            typeDefName,
+            CBridgeNameRules.getStructBaseName(francaMapType),
+            typeRefs.get(0),
+            typeRefs.get(1));
     storeResult(swiftDictionary);
 
     SwiftVisibility visibility = getVisibility(francaMapType);

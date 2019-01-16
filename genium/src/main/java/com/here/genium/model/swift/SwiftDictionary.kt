@@ -17,35 +17,20 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.model.swift
 
-public final class SwiftDictionary extends SwiftType {
-
-  public final String cPrefix;
-  public final SwiftType keyType;
-  public final SwiftType valueType;
-
-  @lombok.Builder(builderClassName = "Builder")
-  private SwiftDictionary(
-      final String name,
-      final SwiftVisibility visibility,
-      final String publicName,
-      final String cPrefix,
-      final SwiftType keyType,
-      final SwiftType valueType) {
-    super(
-        name,
-        visibility,
-        TypeCategory.DICTIONARY,
-        "[" + keyType.publicName + ": " + valueType.publicName + "]",
-        publicName,
-        false);
-    this.cPrefix = cPrefix;
-    this.keyType = keyType;
-    this.valueType = valueType;
-  }
-
-  public static Builder builder(final String name) {
-    return new Builder().name(name);
-  }
+class SwiftDictionary(
+    name: String,
+    visibility: SwiftVisibility?,
+    publicName: String,
+    private val cPrefix: String?,
+    val keyType: SwiftType,
+    val valueType: SwiftType
+) : SwiftType(
+    name, visibility, SwiftType.TypeCategory.DICTIONARY,
+    "[" + keyType.publicName + ": " + valueType.publicName + "]", publicName, false
+) {
+    // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
+    @Suppress("unused")
+    fun getcPrefix() = cPrefix
 }

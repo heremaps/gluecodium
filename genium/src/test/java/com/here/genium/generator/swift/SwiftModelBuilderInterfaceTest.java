@@ -47,17 +47,10 @@ public class SwiftModelBuilderInterfaceTest {
 
   private final MockContextStack<SwiftModelElement> contextStack = new MockContextStack<>();
   private final SwiftValue swiftValue = new SwiftValue("value");
-  private final SwiftEnumItem swiftEnumItem =
-      SwiftEnumItem.builder("ItemName")
-          .comment("Some comment on enumerator")
-          .value(swiftValue)
-          .build();
+  private final SwiftEnumItem swiftEnumItem = new SwiftEnumItem("ItemName", swiftValue);
   private final SwiftEnum swiftEnum =
-      SwiftEnum.builder("EnumSwiftName")
-          .comment("Some comment on enum type")
-          .items(singletonList(swiftEnumItem))
-          .build();
-  private final SwiftStruct swiftStruct = SwiftStruct.builder("SomeStruct").build();
+      new SwiftEnum("EnumSwiftName", null, singletonList(swiftEnumItem));
+  private final SwiftStruct swiftStruct = new SwiftStruct("SomeStruct", null);
   private final SwiftMethod swiftMethod =
       new SwiftMethod(
           "SwiftMethod",

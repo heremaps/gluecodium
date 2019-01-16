@@ -17,14 +17,6 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.model.swift
 
-public final class SwiftEnumItem extends SwiftModelElement {
-  public final SwiftValue value;
-
-  public SwiftEnumItem(String name, String comment, SwiftValue value) {
-    super(name);
-    this.comment = comment;
-    this.value = value;
-  }
-}
+class SwiftEnumItem(name: String, val value: SwiftValue?) : SwiftModelElement(name)
