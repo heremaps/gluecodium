@@ -31,9 +31,7 @@ public final class SwiftStruct extends SwiftType {
   public final boolean isEquatable;
   public final boolean isImmutable;
 
-  @SuppressWarnings({"ParameterNumber", "PMD.ExcessiveParameterList"})
-  @lombok.Builder(builderClassName = "Builder")
-  private SwiftStruct(
+  public SwiftStruct(
       final String name,
       final SwiftVisibility visibility,
       final TypeCategory category,
@@ -54,10 +52,6 @@ public final class SwiftStruct extends SwiftType {
     this.isEquatable = isEquatable;
     this.isImmutable = isImmutable;
     this.isInterface = !name.equals(implementingClass);
-  }
-
-  public static Builder builder(final String name) {
-    return new Builder().name(name);
   }
 
   @Override

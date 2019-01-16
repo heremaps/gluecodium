@@ -19,26 +19,12 @@
 
 package com.here.genium.model.swift;
 
-import java.util.List;
-import lombok.Builder;
-import lombok.Singular;
+public final class SwiftEnumItem extends SwiftModelElement {
+  public final SwiftValue value;
 
-public final class SwiftEnum extends SwiftType {
-
-  public final List<SwiftEnumItem> items;
-
-  @Builder
-  private SwiftEnum(
-      final String name,
-      final SwiftVisibility visibility,
-      final String comment,
-      @Singular final List<SwiftEnumItem> items) {
-    super(name, visibility, TypeCategory.ENUM, null, name, false);
+  public SwiftEnumItem(String name, String comment, SwiftValue value) {
+    super(name);
     this.comment = comment;
-    this.items = items;
-  }
-
-  public static SwiftEnum.SwiftEnumBuilder builder(String name) {
-    return new SwiftEnum.SwiftEnumBuilder().name(name);
+    this.value = value;
   }
 }
