@@ -24,9 +24,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode
 public final class JavaPackage {
 
   public static final List<String> DEFAULT_PACKAGE_NAMES = Arrays.asList("com", "example");

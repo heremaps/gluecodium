@@ -20,10 +20,8 @@
 package com.here.genium.model.java;
 
 import java.util.List;
-import lombok.EqualsAndHashCode;
 
 /** This class represents an import in java. It is based on a java package. */
-@EqualsAndHashCode
 public final class JavaImport implements Comparable<JavaImport> {
   public final JavaPackage javaPackage;
   public final String className;
