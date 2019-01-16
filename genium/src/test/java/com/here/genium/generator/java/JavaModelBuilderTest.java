@@ -91,11 +91,13 @@ public class JavaModelBuilderTest {
   private final JavaField javaField = new JavaField(FIELD_NAME, javaCustomType);
   private final JavaEnum javaEnum = new JavaEnum(ENUMERATION_NAME);
   private final JavaEnumType enumType =
-      new JavaEnumType("myEnum", null, JavaPackage.DEFAULT_PACKAGE_NAMES, null);
+      new JavaEnumType("myEnum", null, JavaPackage.Companion.getDEFAULT_PACKAGE_NAMES(), null);
   private final EList<FEnumerator> francaEnumerators = new ArrayEList<>();
   private final JavaExceptionType javaExceptionType =
       new JavaExceptionType(
-          "FooEx", null, new JavaImport(null, new JavaPackage(JavaPackage.DEFAULT_PACKAGE_NAMES)));
+          "FooEx",
+          null,
+          new JavaImport("", new JavaPackage(JavaPackage.Companion.getDEFAULT_PACKAGE_NAMES())));
   private final JavaValue javaValue = new JavaValue("Foo");
 
   private JavaModelBuilder modelBuilder;
@@ -510,7 +512,7 @@ public class JavaModelBuilderTest {
     JavaClass javaClass = modelBuilder.getFinalResult(JavaClass.class);
     assertNotNull(javaClass);
     assertEquals("nonsense", javaClass.name.toLowerCase());
-    assertEquals(BASE_PACKAGE_NAMES, javaClass.javaPackage.packageNames);
+    assertEquals(BASE_PACKAGE_NAMES, javaClass.javaPackage.getPackageNames());
   }
 
   @Test
@@ -767,7 +769,7 @@ public class JavaModelBuilderTest {
     assertNotNull(result);
     assertEquals(ENUMERATION_NAME, result.name);
     assertEquals(JavaVisibility.PUBLIC, result.visibility);
-    assertEquals(BASE_PACKAGE_NAMES, result.javaPackage.packageNames);
+    assertEquals(BASE_PACKAGE_NAMES, result.javaPackage.getPackageNames());
     assertNotNull(result.items);
   }
 
@@ -832,7 +834,7 @@ public class JavaModelBuilderTest {
 
     JavaExceptionClass result = modelBuilder.getFinalResult(JavaExceptionClass.class);
     assertEquals("MyEnumException", result.name);
-    assertEquals(enumType.packageNames, result.javaPackage.packageNames);
+    assertEquals(enumType.packageNames, result.javaPackage.getPackageNames());
   }
 
   @Test

@@ -148,7 +148,7 @@ public class JavaTypeMapper {
 
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(francaElement);
     List<String> packageNames =
-        basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).packageNames;
+        basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).getPackageNames();
 
     String typeName;
     String importClassName;
@@ -184,7 +184,9 @@ public class JavaTypeMapper {
     FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(francaEnum);
     JavaPackage javaPackage =
         new JavaPackage(
-            basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).packageNames);
+            basePackage
+                .createChildPackage(DefinedBy.getPackages(typeCollection))
+                .getPackageNames());
 
     String importClassName;
     List<String> classNames = new LinkedList<>();
@@ -206,7 +208,7 @@ public class JavaTypeMapper {
     if (InstanceRules.isInstanceId(typeDef)) {
       FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(typeDef);
       List<String> packageNames =
-          basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).packageNames;
+          basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).getPackageNames();
       String className = JavaNameRules.getClassName(typeCollection.getName());
       JavaImport classImport = new JavaImport(className, new JavaPackage(packageNames));
 

@@ -114,8 +114,9 @@ public class JavaTypeMapperCustomTypeTest {
     JavaCustomType customReturn = (JavaCustomType) result;
     assertEquals(1, customReturn.imports.size());
     assertEquals(
-        JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME, customReturn.imports.iterator().next().javaPackage);
-    assertEquals(STRUCT_NAME_TYPECOLLECTION, customReturn.imports.iterator().next().className);
+        JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME,
+        customReturn.imports.iterator().next().getJavaPackage());
+    assertEquals(STRUCT_NAME_TYPECOLLECTION, customReturn.imports.iterator().next().getClassName());
     assertFalse(customReturn.isInterface);
   }
 
@@ -132,8 +133,8 @@ public class JavaTypeMapperCustomTypeTest {
     assertEquals(1, customReturn.imports.size());
     assertEquals(2, customReturn.classNames.size());
     assertEquals(STRUCT_NAME_INTERFACE, customReturn.classNames.get(1));
-    assertEquals(JAVA_PACKAGE, customReturn.imports.iterator().next().javaPackage);
-    assertEquals(INTERFACE_NAME, customReturn.imports.iterator().next().className);
+    assertEquals(JAVA_PACKAGE, customReturn.imports.iterator().next().getJavaPackage());
+    assertEquals(INTERFACE_NAME, customReturn.imports.iterator().next().getClassName());
     assertFalse(customReturn.isInterface);
   }
 
@@ -172,7 +173,8 @@ public class JavaTypeMapperCustomTypeTest {
     JavaCustomType customResult = (JavaCustomType) result;
     assertEquals(INTERFACE_NAME, customResult.name);
     assertEquals(1, customResult.imports.size());
-    assertEquals(packageNames, customResult.imports.iterator().next().javaPackage.packageNames);
+    assertEquals(
+        packageNames, customResult.imports.iterator().next().getJavaPackage().getPackageNames());
     assertTrue(customResult.isInterface);
 
     PowerMockito.verifyStatic();
@@ -194,8 +196,8 @@ public class JavaTypeMapperCustomTypeTest {
 
     assertFalse(templateType.imports.isEmpty());
     JavaImport javaImport = templateType.imports.iterator().next();
-    assertEquals(JavaTemplateType.JAVA_UTIL, javaImport.javaPackage);
-    assertEquals("List", javaImport.className);
+    assertEquals(JavaTemplateType.JAVA_UTIL, javaImport.getJavaPackage());
+    assertEquals("List", javaImport.getClassName());
   }
 
   @Test
@@ -228,8 +230,10 @@ public class JavaTypeMapperCustomTypeTest {
     assertEquals(1, enumReturn.imports.size());
 
     assertEquals(
-        JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME, enumReturn.imports.iterator().next().javaPackage);
-    assertEquals(ENUMERATION_NAME_TYPECOLLECTION, enumReturn.imports.iterator().next().className);
+        JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME,
+        enumReturn.imports.iterator().next().getJavaPackage());
+    assertEquals(
+        ENUMERATION_NAME_TYPECOLLECTION, enumReturn.imports.iterator().next().getClassName());
   }
 
   @Test
@@ -248,8 +252,8 @@ public class JavaTypeMapperCustomTypeTest {
     JavaEnumType enumReturn = (JavaEnumType) result;
     assertEquals(1, enumReturn.imports.size());
     assertEquals(INTERFACE_NAME + "." + ENUMERATION_NAME_INTERFACE, enumReturn.name);
-    assertEquals(JAVA_PACKAGE, enumReturn.imports.iterator().next().javaPackage);
-    assertEquals(INTERFACE_NAME, enumReturn.imports.iterator().next().className);
+    assertEquals(JAVA_PACKAGE, enumReturn.imports.iterator().next().getJavaPackage());
+    assertEquals(INTERFACE_NAME, enumReturn.imports.iterator().next().getClassName());
   }
 
   @Test
@@ -269,8 +273,8 @@ public class JavaTypeMapperCustomTypeTest {
 
     assertFalse(templateType.imports.isEmpty());
     JavaImport javaImport = templateType.imports.iterator().next();
-    assertEquals(JavaTemplateType.JAVA_UTIL, javaImport.javaPackage);
-    assertEquals("Map", javaImport.className);
+    assertEquals(JavaTemplateType.JAVA_UTIL, javaImport.getJavaPackage());
+    assertEquals("Map", javaImport.getClassName());
   }
 
   @Test

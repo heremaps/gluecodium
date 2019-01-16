@@ -43,7 +43,7 @@ public final class JavaNameRules {
   public String getFileName(final JavaTopLevelElement javaElement) {
     return generatorName
         + File.separator
-        + formatPackageName(javaElement.javaPackage.packageNames)
+        + formatPackageName(javaElement.javaPackage.getPackageNames())
         + javaElement.name
         + JAVA_FILE_SUFFIX;
   }

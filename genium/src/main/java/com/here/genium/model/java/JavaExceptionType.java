@@ -25,6 +25,6 @@ public final class JavaExceptionType extends JavaCustomType {
 
   public JavaExceptionType(
       final String fullName, final List<String> classNames, final JavaImport anImport) {
-    super(fullName, classNames, anImport.javaPackage.packageNames, anImport);
+    super(fullName, classNames, anImport.getJavaPackage().getPackageNames(), anImport);
   }
 }
