@@ -47,7 +47,7 @@ public final class JniGenerator extends AbstractGenerator {
       new JavaPackage(Arrays.asList("android", "support", "annotation"));
   private static final JavaType PARCELABLE =
       JavaCustomType.builder("Parcelable")
-          .packageNames(ANDROID_OS_PACKAGE.packageNames)
+          .packageNames(ANDROID_OS_PACKAGE.getPackageNames())
           .javaImport(new JavaImport("Parcelable", ANDROID_OS_PACKAGE))
           .javaImport(new JavaImport("Parcel", ANDROID_OS_PACKAGE))
           .build();
