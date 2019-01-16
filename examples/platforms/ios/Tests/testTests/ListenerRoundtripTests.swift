@@ -53,7 +53,14 @@ class ListenerRoundtripTests: XCTestCase {
         XCTAssertNotNil(routeImpl)
     }
 
+    func testOriginalSwiftObjectIsReturnedBack() {
+        let route = RouteImpl()
+        RouteStorage.route = route
+        XCTAssertTrue(RouteStorage.route === route)
+    }
+
     static var allTests = [
-        ("testListenerRoundTripPreservesType", testListenerRoundTripPreservesType)
+        ("testListenerRoundTripPreservesType", testListenerRoundTripPreservesType),
+        ("testOriginalSwiftObjectIsReturnedBack", testOriginalSwiftObjectIsReturnedBack)
     ]
 }

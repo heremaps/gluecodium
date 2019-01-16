@@ -36,3 +36,10 @@ define GeniumExtensions for interface test.Nlp
         Static = true
     }
 }
+
+define GeniumExtensions for interface test.RouteStorage
+{
+    attribute route {
+        Static = true
+    }
+}

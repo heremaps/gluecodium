@@ -44,3 +44,7 @@ interface Nlp {
         }
     }
 }
+
+interface RouteStorage {
+    attribute Route.Route route
+}

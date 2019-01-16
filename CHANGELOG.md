@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## unreleased
+- Bug fixes:
+  + Fixed potential memory leak while returning Swift proxies.
+
 ## 3.19.4
 - Release date: 2019-01-15
 - Bug fixes:
