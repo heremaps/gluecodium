@@ -106,7 +106,7 @@ public class JavaGeneratorSuite extends GeneratorSuite {
     List<String> javaPackageList =
         rootPackage != null && !rootPackage.isEmpty()
             ? rootPackage
-            : JavaPackage.DEFAULT_PACKAGE_NAMES;
+            : JavaPackage.Companion.getDEFAULT_PACKAGE_NAMES();
 
     FrancaTypeHelper.ErrorEnumFilter errorEnumFilter =
         FrancaTypeHelper.getErrorEnumFilter(typeCollections);

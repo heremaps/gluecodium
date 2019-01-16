@@ -287,7 +287,7 @@ public class JniModelBuilderTest {
             JavaVisibility.PUBLIC,
             JavaPrimitiveType.INT,
             null,
-            new JavaCustomType("FooException", JavaPackage.DEFAULT),
+            new JavaCustomType("FooException", JavaPackage.Companion.getDEFAULT()),
             Collections.singletonList(
                 new JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT)));
     when(javaBuilder.getFinalResult(any())).thenReturn(javaMethod);
@@ -310,7 +310,7 @@ public class JniModelBuilderTest {
             JavaVisibility.PUBLIC,
             JavaPrimitiveType.INT,
             null,
-            new JavaCustomType("FooException", JavaPackage.DEFAULT),
+            new JavaCustomType("FooException", JavaPackage.Companion.getDEFAULT()),
             Collections.singletonList(
                 new JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT)));
     when(javaBuilder.getFinalResult(any())).thenReturn(javaMethod);
@@ -782,7 +782,8 @@ public class JniModelBuilderTest {
   public void finishBuildingFrancaTypeCollectionReadsEnums() {
     // Arrange
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
-    JniEnum jniEnum = new JniEnum(JavaPackage.DEFAULT, "MyJavaEnumName", "MyCppEnumName");
+    JniEnum jniEnum =
+        new JniEnum(JavaPackage.Companion.getDEFAULT(), "MyJavaEnumName", "MyCppEnumName");
     contextStack.injectResult(jniEnum);
 
     // Act

@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 
 public abstract class JavaTopLevelElement extends JavaElement {
 
-  public JavaPackage javaPackage = JavaPackage.DEFAULT;
+  public JavaPackage javaPackage = JavaPackage.Companion.getDEFAULT();
   public final Set<JavaMethod> methods = new LinkedHashSet<>();
   public final Set<JavaType> parentInterfaces = new LinkedHashSet<>();
 
@@ -86,7 +86,7 @@ public abstract class JavaTopLevelElement extends JavaElement {
             .collect(Collectors.toList()));
 
     // No need to import things from the same package. This also filters out a self-import.
-    imports.removeIf(anImport -> Objects.equals(anImport.javaPackage, this.javaPackage));
+    imports.removeIf(anImport -> Objects.equals(anImport.getJavaPackage(), this.javaPackage));
 
     return imports;
   }

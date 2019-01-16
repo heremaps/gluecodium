@@ -28,7 +28,7 @@ public class JavaCustomType extends JavaComplexType {
   public final boolean isInterface;
 
   public JavaCustomType(final String fullName, final JavaPackage javaPackage) {
-    this(fullName, null, javaPackage.packageNames, new JavaImport(fullName, javaPackage));
+    this(fullName, null, javaPackage.getPackageNames(), new JavaImport(fullName, javaPackage));
   }
 
   protected JavaCustomType(

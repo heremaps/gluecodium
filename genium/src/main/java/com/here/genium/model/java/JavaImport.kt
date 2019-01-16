@@ -17,37 +17,29 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.List;
+data class JavaImport(
+    val className: String,
+    val javaPackage: JavaPackage
+) : Comparable<JavaImport> {
 
-/** This class represents an import in java. It is based on a java package. */
-public final class JavaImport implements Comparable<JavaImport> {
-  public final JavaPackage javaPackage;
-  public final String className;
+    override fun compareTo(other: JavaImport): Int {
+        val thisPackageNames = javaPackage.packageNames
+        val otherPackageNames = other.javaPackage.packageNames
 
-  public JavaImport(final String className, final JavaPackage javaPackage) {
-    this.javaPackage = javaPackage;
-    this.className = className;
-  }
-
-  @Override
-  public int compareTo(JavaImport otherImport) {
-
-    List<String> thisPackageNames = javaPackage.packageNames;
-    List<String> otherPackageNames = otherImport.javaPackage.packageNames;
-
-    int minimumNameCount = Math.min(thisPackageNames.size(), otherPackageNames.size());
-    for (int i = 0; i < minimumNameCount; ++i) {
-      int comparison = thisPackageNames.get(i).compareTo(otherPackageNames.get(i));
-      if (comparison != 0) {
-        return comparison;
-      }
+        val minimumNameCount = Math.min(thisPackageNames.size, otherPackageNames.size)
+        for (i in 0 until minimumNameCount) {
+            val comparison = thisPackageNames[i].compareTo(otherPackageNames[i])
+            if (comparison != 0) {
+                return comparison
+            }
+        }
+        val comparison = Integer.compare(thisPackageNames.size, otherPackageNames.size)
+        return if (comparison != 0) {
+            comparison
+        } else {
+            className.compareTo(other.className)
+        }
     }
-    int comparison = Integer.compare(thisPackageNames.size(), otherPackageNames.size());
-    if (comparison != 0) {
-      return comparison;
-    }
-    return className.compareTo(otherImport.className);
-  }
 }

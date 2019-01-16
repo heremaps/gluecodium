@@ -17,37 +17,27 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import com.here.genium.generator.java.JavaNameRules;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.here.genium.generator.java.JavaNameRules
+import java.util.LinkedList
 
-public final class JavaPackage {
+data class JavaPackage(private val packageList: List<String>) {
+    val packageNames = packageList.map { JavaNameRules.getPackageName(it) }
 
-  public static final List<String> DEFAULT_PACKAGE_NAMES = Arrays.asList("com", "example");
-  public static final JavaPackage DEFAULT = new JavaPackage(DEFAULT_PACKAGE_NAMES);
+    fun flatten() = packageNames.joinToString(".")
 
-  public final List<String> packageNames;
+    fun createChildPackage(additionalPackages: List<String>?): JavaPackage {
+        val packages = LinkedList(packageNames)
+        if (additionalPackages != null) {
+            packages.addAll(additionalPackages)
+        }
 
-  public JavaPackage(final List<String> packageList) {
-    packageNames =
-        packageList.stream().map(JavaNameRules::getPackageName).collect(Collectors.toList());
-  }
-
-  public String flatten() {
-    return String.join(".", packageNames);
-  }
-
-  public JavaPackage createChildPackage(final List<String> additionalPackages) {
-
-    List<String> packages = new LinkedList<>(packageNames);
-    if (additionalPackages != null) {
-      packages.addAll(additionalPackages);
+        return JavaPackage(packages)
     }
 
-    return new JavaPackage(packages);
-  }
+    companion object {
+        val DEFAULT_PACKAGE_NAMES = listOf("com", "example")
+        val DEFAULT = JavaPackage(DEFAULT_PACKAGE_NAMES)
+    }
 }
