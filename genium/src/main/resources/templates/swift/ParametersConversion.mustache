@@ -18,19 +18,10 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#parameters}}{{!!
-}}{{#switch type.category.toString}}{{!!
-  }}{{#case "BUILTIN_BYTEBUFFER"}}{{>byteBufferConversion}}{{/case}}{{!!
-  }}{{#case "STRUCT"}}{{>structConversion}}{{/case}}{{!!
-  }}{{#case "CLASS"}}{{>classConversion}}{{/case}}{{!!
-  }}{{#case "ARRAY"}}{{>arrayConversion}}{{/case}}{{!!
-  }}{{#case "DICTIONARY"}}{{>dictionaryConversion}}{{/case}}{{!!
-  }}{{#default}}{{/default}}{{!!
-}}{{/switch}}{{!!
-}}{{/parameters}}{{!!
-
-
-}}{{#if error}}{{!!
+{{#parameters}}
+    let c_{{variableName}} = moveToCType({{variableName}})
+{{/parameters}}
+{{#if error}}{{!!
     }}{{#if isReturningVoid}}{{!!
         }}{{>WrapError}}{{!!
     }}{{/if}}{{!!
@@ -60,48 +51,5 @@ if (RESULT.has_value) {
 
 }}{{+returnValueConversion}}{{!!
     }}return {{returnType.className}}moveFromCType({{include delegateToCall}}){{!!
-}}{{/returnValueConversion}}{{!!
+}}{{/returnValueConversion}}
 
-
-}}{{+byteBufferConversion}}{{!!
-}}let {{variableName}}_handle = byteArray_create_handle()
-defer {
-    byteArray_release_handle({{variableName}}_handle)
-}
-{{variableName}}.withUnsafeBytes { ({{variableName}}_ptr: UnsafePointer<UInt8>) in
-    byteArray_assign({{variableName}}_handle, {{variableName}}_ptr, {{variableName}}.count)
-}
-{{/byteBufferConversion}}{{!!
-
-}}{{+structConversion}}{{!!
-}}let {{name}}_handle = {{name}}.convertToCType()
-defer {
-    {{type.cPrefix}}_release_handle({{name}}_handle)
-}
-{{/structConversion}}{{!!
-
-}}{{+classConversion}}{{!!
-}}let {{name}}_handle = getRef({{name}})
-{{/classConversion}}{{!!
-
-}}{{+arrayConversion}}
-let {{name}}_handle = {{name}}.c_conversion()
-defer {
-    {{name}}_handle.cleanup()
-}
-{{/arrayConversion}}{{!!
-
-}}{{+dictionaryConversion}}{{!!
-}}let {{name}}_handle = convert{{type.name}}ToCType({{name}})
-defer {
-    {{type.cPrefix}}_release_handle({{name}}_handle)
-}
-{{/dictionaryConversion}}{{!!
-
-}}{{+MethodReturnDictionary}}{{!!
-}}let result_handle = {{include delegateToCall}}
-defer {
-    {{returnType.cPrefix}}_release_handle(result_handle)
-}
-return convert{{returnType.name}}FromCType(result_handle)
-{{/MethodReturnDictionary}}

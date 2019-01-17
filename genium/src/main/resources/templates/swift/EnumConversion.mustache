@@ -25,3 +25,10 @@ internal func copyFromCType(_ cValue: UInt32) -> {{name}} {
 internal func moveFromCType(_ cValue: UInt32) -> {{name}} {
     return copyFromCType(cValue)
 }
+
+internal func copyToCType(_ swiftType: {{name}}) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: {{name}}) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
+}

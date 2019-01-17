@@ -73,21 +73,7 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
     }
 {{/functionTableEntry}}{{!!
 }}{{+swiftParameter}}{{name}}{{/swiftParameter}}{{!!
-}}{{+swiftReturn}}{{#switch returnType.category.toString}}{{!!
-    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}{{returnPrefix}} {{include delegateToCall}}.convertToCType(){{/case}}{{!!
-    }}{{#case "CLASS"}}{{returnPrefix}} getRef({{include delegateToCall}}{{#if returnType.optional}}!{{/if}}, owning: false).ref{{/case}}{{!!
-    }}{{#case "ENUM"}}{{returnPrefix}} {{include delegateToCall}}.rawValue{{/case}}{{!!
-    }}{{#case "ARRAY"}}{{returnPrefix}} {{include delegateToCall}}.c_conversion().c_type{{/case}}{{!!
-    }}{{#case "DICTIONARY"}}{{returnPrefix}} convert{{returnType.name}}ToCType({{include delegateToCall}}){{/case}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER"}}let result_object = {{include delegateToCall}}
-        let result_handle = byteArray_create_handle()
-        result_object.withUnsafeBytes { (result_ptr: UnsafePointer<UInt8>) in
-            byteArray_assign(result_handle, result_ptr, result_object.count)
-        }
-        return result_handle{{/case}}{{!!
-    }}{{#default}}{{returnPrefix}} {{include delegateToCall}}{{/default}}{{!!
-}}{{/switch}}{{/swiftReturn}}{{!!
+}}{{+swiftReturn}}{{returnPrefix}} copyToCType({{include delegateToCall}}{{#if returnType.optional}}!{{/if}}).ref{{/swiftReturn}}{{!!
 }}{{+delegateCall2}}swift_class.{{name}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}{{!!
 }}{{+callPropertyGetter}}swift_class.{{propertyName}}{{/callPropertyGetter}}{{!!
 }}{{+callPropertySetter}}swift_class.{{propertyName}} = {{#parameters.0}}{{>swiftParameterConversion}}{{/parameters.0}}{{/callPropertySetter}}{{!!

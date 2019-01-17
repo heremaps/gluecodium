@@ -37,7 +37,6 @@ public class CType extends CElement {
   public static final Include BOOL_INCLUDE = Include.Companion.createSystemInclude("stdbool.h");
 
   public static final CType VOID = new CType("void");
-  public static final CType CHAR = new CType("char");
   public static final CType INT8 = new CType("int8_t", FIXED_WIDTH_INTEGERS_INCLUDE);
   public static final CType UINT8 = new CType("uint8_t", FIXED_WIDTH_INTEGERS_INCLUDE);
   public static final CType INT16 = new CType("int16_t", FIXED_WIDTH_INTEGERS_INCLUDE);

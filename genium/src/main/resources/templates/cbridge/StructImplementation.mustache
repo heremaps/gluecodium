@@ -29,6 +29,7 @@ _baseRef {{name}}_create_handle({{#fields}}{{type.cType}} {{name}}{{#if iter.has
     }}{{#case "MAP" break=false}}{{/case}}{{!!
     }}{{#case "ARRAY"}}*get_pointer<{{type.baseApi}}>({{name}}){{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
+    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
     }}{{#case "STRUCT" break=false}}{{/case}}{{!!
     }}{{#case "CLASS"}}*get_pointer<{{type.name}}>({{name}}){{/case}}{{!!
     }}{{#default}}{{name}}{{/default}}{{!!

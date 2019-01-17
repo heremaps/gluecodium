@@ -20,6 +20,14 @@
 
 import Foundation
 
+struct PrimitiveHolder<T> {
+    let ref: T
+
+    init(_ ref: T) {
+        self.ref = ref
+    }
+}
+
 extension String {
     internal func convertToCType() -> _baseRef {
         let result = std_string_create_handle(self)
@@ -31,6 +39,13 @@ extension String {
 internal func copyFromCType(_ handle: _baseRef) -> String {
     return String(data: Data(bytes: std_string_data_get(handle),
                   count: Int(std_string_size_get(handle))), encoding: .utf8)!
+}
+
+internal func copyToCType(_ swiftType: String) -> RefHolder {
+    return RefHolder(std_string_create_handle(swiftType))
+}
+internal func moveToCType(_ swiftType: String) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: std_string_release_handle)
 }
 
 internal func moveFromCType(_ handle: _baseRef) -> String {
@@ -51,6 +66,18 @@ internal func moveFromCType(_ handle: _baseRef) -> Data {
     return copyFromCType(handle)
 }
 
+internal func copyToCType(_ swiftType: Data) -> RefHolder {
+    let handle = byteArray_create_handle()
+    swiftType.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) in
+        byteArray_assign(handle, ptr, swiftType.count)
+    }
+    return RefHolder(handle)
+}
+
+internal func moveToCType(_ swiftType: Data) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: byteArray_release_handle)
+}
+
 // catch primitive types
 internal func copyFromCType<T>(_ primitive: T) -> T {
     return primitive
@@ -59,4 +86,14 @@ internal func copyFromCType<T>(_ primitive: T) -> T {
 // catch primitive types
 internal func moveFromCType<T>(_ primitive: T) -> T {
     return primitive
+}
+
+// catch primitive types
+internal func copyToCType<T>(_ primitive: T) -> PrimitiveHolder<T> {
+    return PrimitiveHolder(primitive)
+}
+
+// catch primitive types
+internal func moveToCType<T>(_ primitive: T) -> PrimitiveHolder<T> {
+    return PrimitiveHolder(primitive)
 }

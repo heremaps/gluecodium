@@ -56,7 +56,7 @@
 
 
 }}{{+delegateConversion}}{{#switch mappedType.typeCategory.toString}}{{!!
-    }}{{#case "BUILTIN_STRING"}}std::string({{name}}){{/case}}{{!!
+    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
     }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
     }}{{#case "STRUCT"}}*get_pointer<{{mappedType.name}}>({{name}}){{/case}}{{!!
     }}{{#case "CLASS"}}{{name}} ? *get_pointer<{{mappedType.name}}>({{name}}) : nullptr{{/case}}{{!!
