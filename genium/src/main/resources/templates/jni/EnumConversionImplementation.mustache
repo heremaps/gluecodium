@@ -22,19 +22,33 @@
 {{>common/Include}}
 {{/includes}}
 
-namespace {{internalNamespace}} {
-namespace jni {
+namespace {{internalNamespace}}
+{
+namespace jni
+{
+{{#models}}{{#enums}}
+{{cppEnumName}}
+convert_from_jni( JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppEnumName}}* dummy )
+{
+    return {{cppEnumName}}( {{internalNamespace}}::jni::get_int_field(_jenv, _jinput, "value" ) );
+}
 
-{{#models}}
-  {{#enums}}
-    {{>jni/JniToCppEnumerationConversionSignature}}
-    {{>jni/JniToCppEnumerationConversionBody}}
+JniReference<jobject>
+convert_to_jni( JNIEnv* _jenv, const {{cppEnumName}} _ninput )
+{
+    auto javaClass = find_class(_jenv, "{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}}" );
+    ::std::string enumeratorName;
+    switch(_ninput) {
+{{#enumerators}}
+        case({{cppEnumName}}::{{cppName}}):
+            enumeratorName = "{{javaName}}";
+            break;
+{{/enumerators}}
+    }
+    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName.c_str(), "L{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}};");
+    return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
+}
 
-    {{>jni/CppToJniEnumerationConversionSignature}}
-    {{>jni/CppToJniEnumerationConversionBody}}
-
-  {{/enums}}
-{{/models}}
-
+{{/enums}}{{/models}}
 }
 }

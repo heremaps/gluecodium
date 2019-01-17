@@ -23,19 +23,53 @@
 {{/includes}}
 #include "ArrayConversionUtils.h"
 
-namespace {{internalNamespace}} {
-namespace jni {
-
+namespace {{internalNamespace}}
+{
+namespace jni
+{
 {{#models}}
 {{#structs}}
-{{>jni/JniToCppStructConversionSignature}}
-{{>jni/JniToCppStructConversionBody}}
+{{cppStruct.fullyQualifiedName}}
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppStruct.fullyQualifiedName}}* dummy)
+{
+    {{#unless cppStruct.isImmutable}}{{cppStruct.fullyQualifiedName}} _nout{};{{/unless}}
+{{#fields}}{{#if hasCustomType}}
+    {{cppField.type.name}} n_{{cppField.name}} = convert_from_jni(
+        _jenv,
+        {{internalNamespace}}::jni::get_object_field(
+        _jenv,
+        _jinput,
+        "{{javaField.name}}",
+        "L{{join javaField.type.packageNames delimiter="/"}}/{{join javaField.type.classNames delimiter="$"}};"),
+        ({{cppField.type.name}}*)nullptr );
+{{/if}}{{#unless hasCustomType}}
+    {{cppField.type.name}} n_{{cppField.name}} = {{internalNamespace}}::jni::get_{{javaField.type.literalName}}_field(_jenv, _jinput, "{{javaField.name}}");
+{{/unless}}
+    {{#unless cppStruct.isImmutable}}_nout.{{#if cppSetterName}}{{cppSetterName}}({{/if}}{{#unless cppSetterName}}{{cppField.name}} = {{/unless}}n_{{cppField.name}}{{#if cppSetterName}}){{/if}};{{/unless}}
+{{/fields}}
+    {{#if cppStruct.isImmutable}}return {{cppStruct.fullyQualifiedName}}({{#fields}}n_{{cppField.name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});{{/if}}{{!!
+    }}{{#unless cppStruct.isImmutable}}return _nout;{{/unless}}
+}
 
-{{>jni/CppToJniStructConversionSignature}}
-{{>jni/CppToJniStructConversionBody}}
-
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const {{cppStruct.fullyQualifiedName}}& _ninput)
+{
+    auto javaClass = find_class(_jenv, "{{>jni/JavaClassSignaturePrefix}}{{javaClass.name}}");
+    auto _jresult = {{internalNamespace}}::jni::create_object(_jenv, javaClass);
+{{#fields}}{{#if hasCustomType}}
+    auto j{{cppField.name}} = convert_to_jni(_jenv, {{>getCppFieldValue}});
+    {{internalNamespace}}::jni::set_object_field(_jenv, _jresult, "{{javaField.name}}",
+    "L{{join javaField.type.packageNames delimiter="/"}}/{{join javaField.type.classNames delimiter="$"}};", j{{cppField.name}});
+{{/if}}{{#unless hasCustomType}}
+    auto j{{cppField.name}} = {{#if type.isJavaArray}}convert_to_jni(_jenv, {{/if}}{{>getCppFieldValue}}{{#if type.isJavaArray}}){{/if}};
+    {{internalNamespace}}::jni::set_{{javaField.type.literalName}}_field(_jenv, _jresult, "{{javaField.name}}", j{{cppField.name}});
+{{/unless}}
+{{/fields}}
+    return _jresult;
+}
 {{/structs}}
 {{/models}}
+}
+}{{!!
 
-}
-}
+}}{{+getCppFieldValue}}_ninput.{{#if cppGetterName}}{{cppGetterName}}(){{/if}}{{#unless cppGetterName}}{{cppField.name}}{{/unless}}{{/getCppFieldValue}}

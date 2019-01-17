@@ -21,35 +21,39 @@
 #pragma once
 
 #include <jni.h>
-#include "JniReference.h"
 {{#includes}}
 {{>common/Include}}
 {{/includes}}
-
+#include "JniReference.h"
 #include "ProxyConversion.h"
 
-namespace {{internalNamespace}} {
-namespace jni {
+namespace {{internalNamespace}}
+{
+namespace jni
+{
 template < typename T >
 ::std::shared_ptr< T >
-convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jobj, ::std::shared_ptr< T >* dummy ) {
+convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::std::shared_ptr< T >* dummy)
+{
     ::std::shared_ptr< T > _nresult{};
     auto nativeBaseClass = find_class(_env, "{{join basePackages delimiter="/"}}/NativeBase");
-    if (_env->IsInstanceOf(_jobj.get(), nativeBaseClass.get())) {
-        if (_jobj != nullptr) {
+    if (_env->IsInstanceOf(_jobj.get(), nativeBaseClass.get()))
+    {
+        if (_jobj != nullptr)
+        {
             auto long_ptr = {{internalNamespace}}::jni::get_long_field(_env, _jobj, "nativeHandle");
             _nresult = *reinterpret_cast<::std::shared_ptr< T >*> (long_ptr);
         }
-    } else {
+    }
+    else
+    {
         ::createCppProxy<>( _env, _jobj, _nresult);
     }
     return _nresult;
 }
 
 {{#models}}
-{{>jni/CppToJniInstanceConversionSignature}};
-
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}> & _ninput);
 {{/models}}
-
 }
 }
