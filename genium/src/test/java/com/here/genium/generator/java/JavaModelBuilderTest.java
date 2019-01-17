@@ -84,8 +84,8 @@ public class JavaModelBuilderTest {
   @Mock private FEnumerator francaEnumerator2;
   @Mock private FMapType francaMapType;
 
-  private final JavaCustomType nativeBase = JavaCustomType.builder("FooNativeBar").build();
-  private final JavaCustomType javaCustomType = JavaCustomType.builder("typical").build();
+  private final JavaCustomType nativeBase = new JavaCustomType("FooNativeBar");
+  private final JavaCustomType javaCustomType = new JavaCustomType("typical");
   private final JavaTemplateType javaTemplateType =
       JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaCustomType);
   private final JavaField javaField = new JavaField(FIELD_NAME, javaCustomType);
@@ -330,7 +330,7 @@ public class JavaModelBuilderTest {
   public void finishBuildingFrancaTypeCollectionReadsExceptions() {
     when(francaTypeCollection.getName()).thenReturn("TestTypeCollection");
     final JavaClass innerClass = new JavaClass(CLASS_NAME);
-    final JavaEnumType javaEnumType = new JavaEnumType(null, null, Collections.emptyList(), null);
+    final JavaEnumType javaEnumType = new JavaEnumType("", null, Collections.emptyList(), null);
     final JavaExceptionClass exceptionClass =
         new JavaExceptionClass(CLASS_NAME + "EX", javaEnumType);
     contextStack.injectResult(innerClass);

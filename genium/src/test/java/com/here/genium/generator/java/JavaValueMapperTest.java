@@ -151,7 +151,7 @@ public final class JavaValueMapperTest {
 
   @Test
   public void mapDefaultValueNoDeploymentValueNonNullableCustomType() {
-    JavaCustomType customType = JavaCustomType.builder("myType").isInterface(false).build();
+    JavaCustomType customType = new JavaCustomType("myType");
 
     JavaValue result = JavaValueMapper.mapDefaultValue(customType);
 
@@ -163,7 +163,7 @@ public final class JavaValueMapperTest {
 
   @Test
   public void mapDefaultValueNoDeploymentValueNullableCustomType() {
-    JavaCustomType customType = JavaCustomType.builder("myType").isInterface(true).build();
+    JavaCustomType customType = new JavaCustomType("myType", null, null, null, true);
 
     JavaValue result = JavaValueMapper.mapDefaultValue(customType);
 

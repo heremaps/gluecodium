@@ -25,6 +25,7 @@ import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.franca.DefinedBy;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.java.*;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import lombok.Getter;
@@ -174,11 +175,8 @@ public class JavaTypeMapper {
     if (francaElement instanceof FEnumerationType) {
       return new JavaEnumType(typeName, classNames, packageNames, javaImport);
     } else {
-      return JavaCustomType.builder(typeName)
-          .classNames(classNames)
-          .packageNames(packageNames)
-          .javaImport(javaImport)
-          .build();
+      return new JavaCustomType(
+          typeName, classNames, packageNames, Collections.singletonList(javaImport));
     }
   }
 
@@ -216,12 +214,8 @@ public class JavaTypeMapper {
       String className = JavaNameRules.getClassName(typeCollection.getName());
       JavaImport classImport = new JavaImport(className, new JavaPackage(packageNames));
 
-      return JavaCustomType.builder(className)
-          .className(className)
-          .packageNames(packageNames)
-          .javaImport(classImport)
-          .isInterface(true)
-          .build();
+      return new JavaCustomType(
+          className, null, packageNames, Collections.singletonList(classImport), true);
     } else {
       return mapTypeReference(typeDef.getActualType());
     }

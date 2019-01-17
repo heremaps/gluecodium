@@ -46,11 +46,13 @@ public final class JniGenerator extends AbstractGenerator {
   private static final JavaPackage ANDROID_SUPPORT_ANNOTATION_PACKAGE =
       new JavaPackage(Arrays.asList("android", "support", "annotation"));
   private static final JavaType PARCELABLE =
-      JavaCustomType.builder("Parcelable")
-          .packageNames(ANDROID_OS_PACKAGE.getPackageNames())
-          .javaImport(new JavaImport("Parcelable", ANDROID_OS_PACKAGE))
-          .javaImport(new JavaImport("Parcel", ANDROID_OS_PACKAGE))
-          .build();
+      new JavaCustomType(
+          "Parcelable",
+          null,
+          ANDROID_OS_PACKAGE.getPackageNames(),
+          Arrays.asList(
+              new JavaImport("Parcelable", ANDROID_OS_PACKAGE),
+              new JavaImport("Parcel", ANDROID_OS_PACKAGE)));
   private static final JavaType NON_NULL =
       new JavaCustomType("NonNull", ANDROID_SUPPORT_ANNOTATION_PACKAGE);
 

@@ -106,7 +106,7 @@ public class JniModelBuilderTest {
   private final JavaEnum javaEnum = new JavaEnum(JAVA_CLASS_NAME);
   private final CppEnum cppEnum =
       new CppEnum(CPP_CLASS_NAME, "::" + CPP_CLASS_NAME, false, Collections.emptyList());
-  private final JavaCustomType javaCustomType = JavaCustomType.builder(JAVA_CLASS_NAME).build();
+  private final JavaCustomType javaCustomType = new JavaCustomType(JAVA_CLASS_NAME);
   private final JavaField javaField =
       new JavaField(BASE_NAME_PARAMETER, javaCustomType, new JavaValue(javaCustomType));
   private final CppComplexTypeRef cppCustomType = new CppComplexTypeRef(CPP_CLASS_NAME);
@@ -116,8 +116,7 @@ public class JniModelBuilderTest {
 
   private final JniParameter jniParameter = new JniParameter(BASE_NAME_PARAMETER, null);
   private final JavaMethod javaGetter =
-      new JavaMethod(
-          "getFoo", null, JavaVisibility.PUBLIC, JavaCustomType.builder("FooType").build());
+      new JavaMethod("getFoo", null, JavaVisibility.PUBLIC, new JavaCustomType("FooType"));
   private final CppMethod cppGetter =
       new CppMethod("shootFoot", "shootFoot", "", CppPrimitiveTypeRef.Companion.getINT32());
   private final JavaMethod javaSetter =
