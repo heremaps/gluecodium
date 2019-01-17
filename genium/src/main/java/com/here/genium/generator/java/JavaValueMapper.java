@@ -130,7 +130,7 @@ public final class JavaValueMapper {
     if (javaType instanceof JavaEnumType) {
       return new JavaValue(javaType.name + ".values()[0]");
     }
-    if (javaType instanceof JavaCustomType && !((JavaCustomType) javaType).isInterface) {
+    if (javaType instanceof JavaCustomType && !((JavaCustomType) javaType).isInterface()) {
       return new JavaValue(javaType);
     }
     if (javaType instanceof JavaReferenceType
