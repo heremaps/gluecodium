@@ -23,7 +23,8 @@ public class EnumMethods {
         examples_EnumMethods_release_handle(c_instance)
     }
     public static func methodWithEnumeration(input: ShoeSizes) -> ShoeSizes {
-        return moveFromCType(examples_EnumMethods_methodWithEnumeration(input.rawValue))
+            let c_input = moveToCType(input)
+        return moveFromCType(examples_EnumMethods_methodWithEnumeration(c_input.ref))
     }
 }
 extension EnumMethods: NativeBase {
@@ -43,4 +44,16 @@ internal func EnumMethodscopyFromCType(_ handle: _baseRef) -> EnumMethods? {
 }
 internal func EnumMethodsmoveFromCType(_ handle: _baseRef) -> EnumMethods? {
     return EnumMethodscopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: EnumMethods) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: EnumMethods) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: EnumMethods?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: EnumMethods?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

@@ -24,11 +24,8 @@ public class Maps {
         examples_Maps_release_handle(c_instance)
     }
     public static func mapMethod(input: Maps.NameMap) -> Maps.NameMap {
-        let input_handle = convertMaps_NameMapToCType(input)
-        defer {
-            examples_Maps_NameMap_release_handle(input_handle)
-        }
-        return moveFromCType(examples_Maps_mapMethod(input_handle))
+            let c_input = moveToCType(input)
+        return moveFromCType(examples_Maps_mapMethod(c_input.ref))
     }
 }
 extension Maps: NativeBase {
@@ -49,15 +46,15 @@ internal func MapscopyFromCType(_ handle: _baseRef) -> Maps? {
 internal func MapsmoveFromCType(_ handle: _baseRef) -> Maps? {
     return MapscopyFromCType(handle)
 }
-func convertMaps_NameMapToCType(_ swiftDict: Maps.NameMap) -> _baseRef {
-    let c_handle = examples_Maps_NameMap_create_handle()
-    for (swift_key, swift_value) in swiftDict {
-        let c_key = swift_key
-        let c_value = swift_value.convertToCType()
-        defer {
-            std_string_release_handle(c_value)
-        }
-        examples_Maps_NameMap_put(c_handle, c_key, c_value)
-    }
-    return c_handle
+internal func copyToCType(_ swiftClass: Maps) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Maps) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: Maps?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Maps?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

@@ -41,7 +41,8 @@ internal class _CalculatorListener: CalculatorListener {
         examples_CalculatorListener_release_handle(c_instance)
     }
     public func onCalculationResult(calculationResult: Double) -> Void {
-        return moveFromCType(examples_CalculatorListener_onCalculationResult(c_instance, calculationResult))
+            let c_calculationResult = moveToCType(calculationResult)
+        return moveFromCType(examples_CalculatorListener_onCalculationResult(self.c_instance, c_calculationResult.ref))
     }
 }
 extension _CalculatorListener: NativeBase {
@@ -66,4 +67,16 @@ internal func CalculatorListenercopyFromCType(_ handle: _baseRef) -> CalculatorL
 }
 internal func CalculatorListenermoveFromCType(_ handle: _baseRef) -> CalculatorListener? {
     return CalculatorListenercopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: CalculatorListener) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: CalculatorListener) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: CalculatorListener?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: CalculatorListener?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

@@ -47,8 +47,8 @@ int64_t smoke_StaticMethods_returnPrimeINT64();
 uint64_t smoke_StaticMethods_returnNextNumberUINT64(uint64_t inputNumber);
 uint64_t smoke_StaticMethods_sumTwoNumbersUINT64(uint64_t inputNumber1, uint64_t inputNumber2);
 uint64_t smoke_StaticMethods_returnPrimeUINT64();
-_baseRef smoke_StaticMethods_returnInputString(const char* inputString);
-_baseRef smoke_StaticMethods_concatenateStrings(const char* inputString1, const char* inputString2);
+_baseRef smoke_StaticMethods_returnInputString(_baseRef inputString);
+_baseRef smoke_StaticMethods_concatenateStrings(_baseRef inputString1, _baseRef inputString2);
 _baseRef smoke_StaticMethods_returnHelloString();
 _baseRef smoke_StaticMethods_returnEmpty();
 #ifdef __cplusplus

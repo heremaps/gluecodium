@@ -21,7 +21,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_message_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        return swift_class.message.convertToCType()
+        return copyToCType(swift_class.message).ref
     }
     functions.smoke_ListenerWithAttributes_message_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
@@ -29,7 +29,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_packedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        return getRef(swift_class.packedMessage!, owning: false).ref
+        return copyToCType(swift_class.packedMessage!).ref
     }
     functions.smoke_ListenerWithAttributes_packedMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
@@ -37,7 +37,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_structuredMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        return swift_class.structuredMessage.convertToCType()
+        return copyToCType(swift_class.structuredMessage).ref
     }
     functions.smoke_ListenerWithAttributes_structuredMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
@@ -45,7 +45,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_enumeratedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        return swift_class.enumeratedMessage.rawValue
+        return copyToCType(swift_class.enumeratedMessage).ref
     }
     functions.smoke_ListenerWithAttributes_enumeratedMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
@@ -53,7 +53,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_arrayedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        return swift_class.arrayedMessage.c_conversion().c_type
+        return copyToCType(swift_class.arrayedMessage).ref
     }
     functions.smoke_ListenerWithAttributes_arrayedMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
@@ -61,7 +61,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_mappedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        return convertListenerWithAttributes_StringToDoubleToCType(swift_class.mappedMessage)
+        return copyToCType(swift_class.mappedMessage).ref
     }
     functions.smoke_ListenerWithAttributes_mappedMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
@@ -69,12 +69,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
     }
     functions.smoke_ListenerWithAttributes_bufferedMessage_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
-        let result_object = swift_class.bufferedMessage
-        let result_handle = byteArray_create_handle()
-        result_object.withUnsafeBytes { (result_ptr: UnsafePointer<UInt8>) in
-            byteArray_assign(result_handle, result_ptr, result_object.count)
-        }
-        return result_handle
+        return copyToCType(swift_class.bufferedMessage).ref
     }
     functions.smoke_ListenerWithAttributes_bufferedMessage_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenerWithAttributes
@@ -96,78 +91,65 @@ public protocol ListenerWithAttributes : AnyObject {
 internal class _ListenerWithAttributes: ListenerWithAttributes {
     var message: String {
         get {
-            return moveFromCType(smoke_ListenerWithAttributes_message_get(c_instance))
+            return moveFromCType(smoke_ListenerWithAttributes_message_get(self.c_instance))
         }
         set {
-            return moveFromCType(smoke_ListenerWithAttributes_message_set(c_instance, newValue))
+                let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_ListenerWithAttributes_message_set(self.c_instance, c_newValue.ref))
         }
     }
     var packedMessage: CalculationResult? {
         get {
-            return CalculationResultmoveFromCType(smoke_ListenerWithAttributes_packedMessage_get(c_instance))
+            return CalculationResultmoveFromCType(smoke_ListenerWithAttributes_packedMessage_get(self.c_instance))
         }
         set {
-            let newValue_handle = getRef(newValue)
-            return moveFromCType(smoke_ListenerWithAttributes_packedMessage_set(c_instance, newValue_handle.ref))
+                let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_ListenerWithAttributes_packedMessage_set(self.c_instance, c_newValue.ref))
         }
     }
     var structuredMessage: ResultStruct {
         get {
-            return moveFromCType(smoke_ListenerWithAttributes_structuredMessage_get(c_instance))
+            return moveFromCType(smoke_ListenerWithAttributes_structuredMessage_get(self.c_instance))
         }
         set {
-            let newValue_handle = newValue.convertToCType()
-            defer {
-                smoke_ListenerWithAttributes_ResultStruct_release_handle(newValue_handle)
-            }
-            return moveFromCType(smoke_ListenerWithAttributes_structuredMessage_set(c_instance, newValue_handle))
+                let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_ListenerWithAttributes_structuredMessage_set(self.c_instance, c_newValue.ref))
         }
     }
     var enumeratedMessage: ResultEnum {
         get {
-            return moveFromCType(smoke_ListenerWithAttributes_enumeratedMessage_get(c_instance))
+            return moveFromCType(smoke_ListenerWithAttributes_enumeratedMessage_get(self.c_instance))
         }
         set {
-            return moveFromCType(smoke_ListenerWithAttributes_enumeratedMessage_set(c_instance, newValue.rawValue))
+                let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_ListenerWithAttributes_enumeratedMessage_set(self.c_instance, c_newValue.ref))
         }
     }
     var arrayedMessage: CollectionOf<String> {
         get {
-            return moveFromCType(smoke_ListenerWithAttributes_arrayedMessage_get(c_instance))
+            return moveFromCType(smoke_ListenerWithAttributes_arrayedMessage_get(self.c_instance))
         }
         set {
-            let newValue_handle = newValue.c_conversion()
-            defer {
-                newValue_handle.cleanup()
-            }
-            return moveFromCType(smoke_ListenerWithAttributes_arrayedMessage_set(c_instance, newValue_handle.c_type))
+                let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_ListenerWithAttributes_arrayedMessage_set(self.c_instance, c_newValue.ref))
         }
     }
     var mappedMessage: ListenerWithAttributes.StringToDouble {
         get {
-            return moveFromCType(smoke_ListenerWithAttributes_mappedMessage_get(c_instance))
+            return moveFromCType(smoke_ListenerWithAttributes_mappedMessage_get(self.c_instance))
         }
         set {
-            let newValue_handle = convertListenerWithAttributes_StringToDoubleToCType(newValue)
-            defer {
-                smoke_ListenerWithAttributes_StringToDouble_release_handle(newValue_handle)
-            }
-            return moveFromCType(smoke_ListenerWithAttributes_mappedMessage_set(c_instance, newValue_handle))
+                let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_ListenerWithAttributes_mappedMessage_set(self.c_instance, c_newValue.ref))
         }
     }
     var bufferedMessage: Data {
         get {
-            return moveFromCType(smoke_ListenerWithAttributes_bufferedMessage_get(c_instance))
+            return moveFromCType(smoke_ListenerWithAttributes_bufferedMessage_get(self.c_instance))
         }
         set {
-            let newValue_handle = byteArray_create_handle()
-            defer {
-                byteArray_release_handle(newValue_handle)
-            }
-            newValue.withUnsafeBytes { (newValue_ptr: UnsafePointer<UInt8>) in
-                byteArray_assign(newValue_handle, newValue_ptr, newValue.count)
-            }
-            return moveFromCType(smoke_ListenerWithAttributes_bufferedMessage_set(c_instance, newValue_handle))
+                let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_ListenerWithAttributes_bufferedMessage_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef
@@ -204,6 +186,18 @@ internal func ListenerWithAttributescopyFromCType(_ handle: _baseRef) -> Listene
 internal func ListenerWithAttributesmoveFromCType(_ handle: _baseRef) -> ListenerWithAttributes? {
     return ListenerWithAttributescopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: ListenerWithAttributes) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ListenerWithAttributes) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: ListenerWithAttributes?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ListenerWithAttributes?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 public enum ResultEnum : UInt32 {
     case none
     case result
@@ -214,6 +208,12 @@ internal func copyFromCType(_ cValue: UInt32) -> ResultEnum {
 internal func moveFromCType(_ cValue: UInt32) -> ResultEnum {
     return copyFromCType(cValue)
 }
+internal func copyToCType(_ swiftType: ResultEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: ResultEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
+}
 public struct ResultStruct {
     public var result: Double
     public init(result: Double) {
@@ -223,8 +223,8 @@ public struct ResultStruct {
         result = moveFromCType(smoke_ListenerWithAttributes_ResultStruct_result_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
-        let result_handle = result
-        return smoke_ListenerWithAttributes_ResultStruct_create_handle(result_handle)
+        let c_result = moveToCType(result)
+        return smoke_ListenerWithAttributes_ResultStruct_create_handle(c_result.ref)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> ResultStruct {
@@ -236,15 +236,9 @@ internal func moveFromCType(_ handle: _baseRef) -> ResultStruct {
     }
     return copyFromCType(handle)
 }
-func convertListenerWithAttributes_StringToDoubleToCType(_ swiftDict: ListenerWithAttributes.StringToDouble) -> _baseRef {
-    let c_handle = smoke_ListenerWithAttributes_StringToDouble_create_handle()
-    for (swift_key, swift_value) in swiftDict {
-        let c_key = swift_key.convertToCType()
-        defer {
-            std_string_release_handle(c_key)
-        }
-        let c_value = swift_value
-        smoke_ListenerWithAttributes_StringToDouble_put(c_handle, c_key, c_value)
-    }
-    return c_handle
+internal func copyToCType(_ swiftType: ResultStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: ResultStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_ListenerWithAttributes_ResultStruct_release_handle)
 }

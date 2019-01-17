@@ -129,8 +129,8 @@ _baseRef arrayCollection_String_get(_baseRef handle, uint64_t index) {
         &(*get_pointer<std::vector<std::string>>(handle))[index]
     );
 }
-void arrayCollection_String_append(_baseRef handle, const char* item) {
-    get_pointer<std::vector<std::string>>(handle)->push_back(std::string(item));
+void arrayCollection_String_append(_baseRef handle, _baseRef item) {
+    get_pointer<std::vector<std::string>>(handle)->push_back(*get_pointer<std::string>(item));
 }
 _baseRef arrayCollection_StringArray_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<std::vector<std::string>>() );

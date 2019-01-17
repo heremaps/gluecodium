@@ -91,7 +91,7 @@ _baseRef smoke_Structs_ColoredLine_color_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::ColoredLine>(handle);
     return reinterpret_cast<_baseRef>( new ::smoke::Structs::Color(struct_pointer->color) );
 }
-_baseRef smoke_Structs_AllTypesStruct_create_handle(int8_t int8Field, uint8_t uint8Field, int16_t int16Field, uint16_t uint16Field, int32_t int32Field, uint32_t uint32Field, int64_t int64Field, uint64_t uint64Field, float floatField, double doubleField, const char* stringField, bool booleanField, _baseRef bytesField, _baseRef pointField) {
+_baseRef smoke_Structs_AllTypesStruct_create_handle(int8_t int8Field, uint8_t uint8Field, int16_t int16Field, uint16_t uint16Field, int32_t int32Field, uint32_t uint32Field, int64_t int64Field, uint64_t uint64Field, float floatField, double doubleField, _baseRef stringField, bool booleanField, _baseRef bytesField, _baseRef pointField) {
     auto _int8Field = int8Field;
     auto _uint8Field = uint8Field;
     auto _int16Field = int16Field;
@@ -102,7 +102,7 @@ _baseRef smoke_Structs_AllTypesStruct_create_handle(int8_t int8Field, uint8_t ui
     auto _uint64Field = uint64Field;
     auto _floatField = floatField;
     auto _doubleField = doubleField;
-    auto _stringField = stringField;
+    auto _stringField = *get_pointer<std::string>(stringField);
     auto _booleanField = booleanField;
     auto _bytesField = *get_pointer<::std::shared_ptr< ::std::vector< uint8_t > >>(bytesField);
     auto _pointField = *get_pointer<::smoke::Structs::Point>(pointField);
@@ -168,10 +168,10 @@ _baseRef smoke_Structs_AllTypesStruct_pointField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
     return reinterpret_cast<_baseRef>( new ::smoke::Structs::Point(struct_pointer->point_field) );
 }
-_baseRef smoke_Structs_ExternalStruct_create_handle(const char* stringField, const char* externalStringField, _baseRef externalArrayField, _baseRef externalStructField) {
+_baseRef smoke_Structs_ExternalStruct_create_handle(_baseRef stringField, _baseRef externalStringField, _baseRef externalArrayField, _baseRef externalStructField) {
     ::smoke::Structs::ExternalStruct* _struct = new ::smoke::Structs::ExternalStruct();
-    _struct->stringField = stringField;
-    _struct->set_some_string(externalStringField);
+    _struct->stringField = *get_pointer<std::string>(stringField);
+    _struct->set_some_string(*get_pointer<std::string>(externalStringField));
     _struct->set_some_array(*get_pointer<std::vector<int8_t>>(externalArrayField));
     _struct->set_some_struct(*get_pointer<::fire::SomeVeryExternalStruct>(externalStructField));
     return reinterpret_cast<_baseRef>(_struct);
@@ -207,9 +207,9 @@ int8_t smoke_Structs_AnotherExternalStruct_intField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::fire::SomeVeryExternalStruct>(handle);
     return struct_pointer->intField;
 }
-_baseRef smoke_Structs_YetAnotherExternalStruct_create_handle(const char* stringField) {
+_baseRef smoke_Structs_YetAnotherExternalStruct_create_handle(_baseRef stringField) {
     ::smoke::Structs::Yet_Another_External_Struct* _struct = new ::smoke::Structs::Yet_Another_External_Struct();
-    _struct->string_Field = stringField;
+    _struct->string_Field = *get_pointer<std::string>(stringField);
     return reinterpret_cast<_baseRef>(_struct);
 }
 void smoke_Structs_YetAnotherExternalStruct_release_handle(_baseRef handle) {

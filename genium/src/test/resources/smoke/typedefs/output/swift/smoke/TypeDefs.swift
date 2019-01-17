@@ -19,14 +19,11 @@ public class TypeDefs {
     public typealias NestedStructTypeDef = TypeDefs.TestStructTypeDef
     public var primitiveTypeAttribute: CollectionOf<TypeDefs.PrimitiveTypeDef> {
         get {
-            return moveFromCType(smoke_TypeDefs_primitiveTypeAttribute_get(c_instance))
+            return moveFromCType(smoke_TypeDefs_primitiveTypeAttribute_get(self.c_instance))
         }
         set {
-            let newValue_handle = newValue.c_conversion()
-            defer {
-                newValue_handle.cleanup()
-            }
-            return moveFromCType(smoke_TypeDefs_primitiveTypeAttribute_set(c_instance, newValue_handle.c_type))
+                let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_TypeDefs_primitiveTypeAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef
@@ -48,8 +45,8 @@ public class TypeDefs {
             field = moveFromCType(smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_field_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
-            let field_handle = field
-            return smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_handle(field_handle)
+            let c_field = moveToCType(field)
+            return smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_handle(c_field.ref)
         }
     }
     public struct TestStruct {
@@ -61,43 +58,33 @@ public class TypeDefs {
             something = moveFromCType(smoke_TypeDefs_TestStruct_something_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
-            let something_handle = something
-            return smoke_TypeDefs_TestStruct_create_handle(something_handle)
+            let c_something = moveToCType(something)
+            return smoke_TypeDefs_TestStruct_create_handle(c_something.ref)
         }
     }
     public static func methodWithPrimitiveTypeDef(input: TypeDefs.PrimitiveTypeDef) -> TypeDefs.PrimitiveTypeDef {
-        return moveFromCType(smoke_TypeDefs_methodWithPrimitiveTypeDef(input))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_TypeDefs_methodWithPrimitiveTypeDef(c_input.ref))
     }
     public static func methodWithComplexTypeDef<Tinput: Collection>(input: Tinput) -> TypeDefs.ComplexTypeDef where Tinput.Element == TypeDefs.TestStruct {
-        let input_handle = input.c_conversion()
-        defer {
-            input_handle.cleanup()
-        }
-        return moveFromCType(smoke_TypeDefs_methodWithComplexTypeDef(input_handle.c_type))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_TypeDefs_methodWithComplexTypeDef(c_input.ref))
     }
     public static func returnNestedIntTypeDef(input: TypeDefs.NestedIntTypeDef) -> TypeDefs.NestedIntTypeDef {
-        return moveFromCType(smoke_TypeDefs_returnNestedIntTypeDef(input))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_TypeDefs_returnNestedIntTypeDef(c_input.ref))
     }
     public static func returnTestStructTypeDef(input: TypeDefs.TestStructTypeDef) -> TypeDefs.TestStructTypeDef {
-        let input_handle = input.convertToCType()
-        defer {
-            smoke_TypeDefs_TestStruct_release_handle(input_handle)
-        }
-        return moveFromCType(smoke_TypeDefs_returnTestStructTypeDef(input_handle))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_TypeDefs_returnTestStructTypeDef(c_input.ref))
     }
     public static func returnNestedStructTypeDef(input: TypeDefs.NestedStructTypeDef) -> TypeDefs.NestedStructTypeDef {
-        let input_handle = input.convertToCType()
-        defer {
-            smoke_TypeDefs_TestStruct_release_handle(input_handle)
-        }
-        return moveFromCType(smoke_TypeDefs_returnNestedStructTypeDef(input_handle))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_TypeDefs_returnNestedStructTypeDef(c_input.ref))
     }
     public static func returnTypeDefPointFromTypeCollection(input: PointTypeDef) -> PointTypeDef {
-        let input_handle = input.convertToCType()
-        defer {
-            smoke_TypeCollection_Point_release_handle(input_handle)
-        }
-        return moveFromCType(smoke_TypeDefs_returnTypeDefPointFromTypeCollection(input_handle))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_TypeDefs_returnTypeDefPointFromTypeCollection(c_input.ref))
     }
 }
 extension TypeDefs: NativeBase {
@@ -118,6 +105,18 @@ internal func TypeDefscopyFromCType(_ handle: _baseRef) -> TypeDefs? {
 internal func TypeDefsmoveFromCType(_ handle: _baseRef) -> TypeDefs? {
     return TypeDefscopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: TypeDefs) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: TypeDefs) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: TypeDefs?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: TypeDefs?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 internal func copyFromCType(_ handle: _baseRef) -> TypeDefs.StructHavingAliasFieldDefinedBelow {
     return TypeDefs.StructHavingAliasFieldDefinedBelow(cHandle: handle)
 }
@@ -127,6 +126,12 @@ internal func moveFromCType(_ handle: _baseRef) -> TypeDefs.StructHavingAliasFie
     }
     return copyFromCType(handle)
 }
+internal func copyToCType(_ swiftType: TypeDefs.StructHavingAliasFieldDefinedBelow) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: TypeDefs.StructHavingAliasFieldDefinedBelow) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_release_handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> TypeDefs.TestStruct {
     return TypeDefs.TestStruct(cHandle: handle)
 }
@@ -135,4 +140,10 @@ internal func moveFromCType(_ handle: _baseRef) -> TypeDefs.TestStruct {
         smoke_TypeDefs_TestStruct_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: TypeDefs.TestStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: TypeDefs.TestStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeDefs_TestStruct_release_handle)
 }

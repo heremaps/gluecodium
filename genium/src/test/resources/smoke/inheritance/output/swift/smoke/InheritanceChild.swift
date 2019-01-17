@@ -29,7 +29,7 @@ internal func getRef(_ ref: InheritanceChild?, owning: Bool = true) -> RefHolder
     }
     functions.smoke_InheritanceRoot_rootAttribute_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceChild
-        return swift_class.rootAttribute.convertToCType()
+        return copyToCType(swift_class.rootAttribute).ref
     }
     functions.smoke_InheritanceRoot_rootAttribute_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceChild
@@ -46,10 +46,11 @@ public protocol InheritanceChild : InheritanceRoot {
 internal class _InheritanceChild: InheritanceChild {
     var rootAttribute: String {
         get {
-            return moveFromCType(smoke_InheritanceRoot_rootAttribute_get(c_instance))
+            return moveFromCType(smoke_InheritanceRoot_rootAttribute_get(self.c_instance))
         }
         set {
-            return moveFromCType(smoke_InheritanceRoot_rootAttribute_set(c_instance, newValue))
+                let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_InheritanceRoot_rootAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef
@@ -63,10 +64,10 @@ internal class _InheritanceChild: InheritanceChild {
         smoke_InheritanceChild_release_handle(c_instance)
     }
     public func rootMethod() -> Void {
-        return moveFromCType(smoke_InheritanceRoot_rootMethod(c_instance))
+        return moveFromCType(smoke_InheritanceRoot_rootMethod(self.c_instance))
     }
     public func childMethod() -> Void {
-        return moveFromCType(smoke_InheritanceChild_childMethod(c_instance))
+        return moveFromCType(smoke_InheritanceChild_childMethod(self.c_instance))
     }
 }
 extension _InheritanceChild: NativeBase {
@@ -91,4 +92,16 @@ internal func InheritanceChildcopyFromCType(_ handle: _baseRef) -> InheritanceCh
 }
 internal func InheritanceChildmoveFromCType(_ handle: _baseRef) -> InheritanceChild? {
     return InheritanceChildcopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: InheritanceChild) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InheritanceChild) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: InheritanceChild?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InheritanceChild?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

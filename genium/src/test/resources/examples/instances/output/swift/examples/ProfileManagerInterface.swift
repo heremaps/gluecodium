@@ -41,7 +41,8 @@ internal class _ProfileManagerInterface: ProfileManagerInterface {
         examples_ProfileManagerInterface_release_handle(c_instance)
     }
     public func createProfile(username: String) -> Void {
-        return moveFromCType(examples_ProfileManagerInterface_createProfile(c_instance, username))
+            let c_username = moveToCType(username)
+        return moveFromCType(examples_ProfileManagerInterface_createProfile(self.c_instance, c_username.ref))
     }
 }
 extension _ProfileManagerInterface: NativeBase {
@@ -66,4 +67,16 @@ internal func ProfileManagerInterfacecopyFromCType(_ handle: _baseRef) -> Profil
 }
 internal func ProfileManagerInterfacemoveFromCType(_ handle: _baseRef) -> ProfileManagerInterface? {
     return ProfileManagerInterfacecopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: ProfileManagerInterface) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ProfileManagerInterface) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: ProfileManagerInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ProfileManagerInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

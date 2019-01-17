@@ -47,3 +47,15 @@ internal func ProfileManagerFactorycopyFromCType(_ handle: _baseRef) -> ProfileM
 internal func ProfileManagerFactorymoveFromCType(_ handle: _baseRef) -> ProfileManagerFactory? {
     return ProfileManagerFactorycopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: ProfileManagerFactory) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ProfileManagerFactory) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: ProfileManagerFactory?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ProfileManagerFactory?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}

@@ -34,9 +34,9 @@ public class EquatableInterface {
             stringField = moveFromCType(smoke_EquatableInterface_EquatableStruct_stringField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
-            let intField_handle = intField
-            let stringField_handle = stringField
-            return smoke_EquatableInterface_EquatableStruct_create_handle(intField_handle, stringField_handle)
+            let c_intField = moveToCType(intField)
+            let c_stringField = moveToCType(stringField)
+            return smoke_EquatableInterface_EquatableStruct_create_handle(c_intField.ref, c_stringField.ref)
         }
     }
 }
@@ -58,6 +58,18 @@ internal func EquatableInterfacecopyFromCType(_ handle: _baseRef) -> EquatableIn
 internal func EquatableInterfacemoveFromCType(_ handle: _baseRef) -> EquatableInterface? {
     return EquatableInterfacecopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: EquatableInterface) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: EquatableInterface) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: EquatableInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: EquatableInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 internal func copyFromCType(_ handle: _baseRef) -> EquatableInterface.EquatableStruct {
     return EquatableInterface.EquatableStruct(cHandle: handle)
 }
@@ -66,4 +78,10 @@ internal func moveFromCType(_ handle: _baseRef) -> EquatableInterface.EquatableS
         smoke_EquatableInterface_EquatableStruct_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: EquatableInterface.EquatableStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: EquatableInterface.EquatableStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_EquatableInterface_EquatableStruct_release_handle)
 }

@@ -31,8 +31,8 @@ public class InstanceWithStruct {
             value = moveFromCType(smoke_InstanceWithStruct_InnerStruct_value_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
-            let value_handle = value
-            return smoke_InstanceWithStruct_InnerStruct_create_handle(value_handle)
+            let c_value = moveToCType(value)
+            return smoke_InstanceWithStruct_InnerStruct_create_handle(c_value.ref)
         }
     }
     public struct StructWithInstance {
@@ -51,25 +51,19 @@ public class InstanceWithStruct {
             instanceNotNullWithComment = SimpleInstantiablemoveFromCType(smoke_InstanceWithStruct_StructWithInstance_instanceNotNullWithComment_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
-            let instance_handle = getRef(instance).ref
-            let instanceNotNull_handle = getRef(instanceNotNull).ref
-            let instanceNotNullWithComment_handle = getRef(instanceNotNullWithComment).ref
-            return smoke_InstanceWithStruct_StructWithInstance_create_handle(instance_handle, instanceNotNull_handle, instanceNotNullWithComment_handle)
+            let c_instance = moveToCType(instance)
+            let c_instanceNotNull = moveToCType(instanceNotNull)
+            let c_instanceNotNullWithComment = moveToCType(instanceNotNullWithComment)
+            return smoke_InstanceWithStruct_StructWithInstance_create_handle(c_instance.ref, c_instanceNotNull.ref, c_instanceNotNullWithComment.ref)
         }
     }
     public func innerStructMethod(inputStruct: InstanceWithStruct.InnerStruct) -> InstanceWithStruct.InnerStruct {
-        let inputStruct_handle = inputStruct.convertToCType()
-        defer {
-            smoke_InstanceWithStruct_InnerStruct_release_handle(inputStruct_handle)
-        }
-        return moveFromCType(smoke_InstanceWithStruct_innerStructMethod(c_instance, inputStruct_handle))
+            let c_inputStruct = moveToCType(inputStruct)
+        return moveFromCType(smoke_InstanceWithStruct_innerStructMethod(self.c_instance, c_inputStruct.ref))
     }
     public func structWithInstanceMethod(input: InstanceWithStruct.StructWithInstance) -> InstanceWithStruct.StructWithInstance {
-        let input_handle = input.convertToCType()
-        defer {
-            smoke_InstanceWithStruct_StructWithInstance_release_handle(input_handle)
-        }
-        return moveFromCType(smoke_InstanceWithStruct_structWithInstanceMethod(c_instance, input_handle))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_InstanceWithStruct_structWithInstanceMethod(self.c_instance, c_input.ref))
     }
 }
 extension InstanceWithStruct: NativeBase {
@@ -90,6 +84,18 @@ internal func InstanceWithStructcopyFromCType(_ handle: _baseRef) -> InstanceWit
 internal func InstanceWithStructmoveFromCType(_ handle: _baseRef) -> InstanceWithStruct? {
     return InstanceWithStructcopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: InstanceWithStruct) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InstanceWithStruct) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: InstanceWithStruct?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InstanceWithStruct?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 internal func copyFromCType(_ handle: _baseRef) -> InstanceWithStruct.InnerStruct {
     return InstanceWithStruct.InnerStruct(cHandle: handle)
 }
@@ -99,6 +105,12 @@ internal func moveFromCType(_ handle: _baseRef) -> InstanceWithStruct.InnerStruc
     }
     return copyFromCType(handle)
 }
+internal func copyToCType(_ swiftType: InstanceWithStruct.InnerStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: InstanceWithStruct.InnerStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InstanceWithStruct_InnerStruct_release_handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> InstanceWithStruct.StructWithInstance {
     return InstanceWithStruct.StructWithInstance(cHandle: handle)
 }
@@ -107,4 +119,10 @@ internal func moveFromCType(_ handle: _baseRef) -> InstanceWithStruct.StructWith
         smoke_InstanceWithStruct_StructWithInstance_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: InstanceWithStruct.StructWithInstance) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: InstanceWithStruct.StructWithInstance) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InstanceWithStruct_StructWithInstance_release_handle)
 }

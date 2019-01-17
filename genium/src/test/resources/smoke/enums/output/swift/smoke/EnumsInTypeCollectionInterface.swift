@@ -23,7 +23,8 @@ public class EnumsInTypeCollectionInterface {
         smoke_EnumsInTypeCollectionInterface_release_handle(c_instance)
     }
     public static func flipEnumValue(input: TCEnum) -> TCEnum {
-        return moveFromCType(smoke_EnumsInTypeCollectionInterface_flipEnumValue(input.rawValue))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_EnumsInTypeCollectionInterface_flipEnumValue(c_input.ref))
     }
 }
 extension EnumsInTypeCollectionInterface: NativeBase {
@@ -43,4 +44,16 @@ internal func EnumsInTypeCollectionInterfacecopyFromCType(_ handle: _baseRef) ->
 }
 internal func EnumsInTypeCollectionInterfacemoveFromCType(_ handle: _baseRef) -> EnumsInTypeCollectionInterface? {
     return EnumsInTypeCollectionInterfacecopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: EnumsInTypeCollectionInterface) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: EnumsInTypeCollectionInterface) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: EnumsInTypeCollectionInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: EnumsInTypeCollectionInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

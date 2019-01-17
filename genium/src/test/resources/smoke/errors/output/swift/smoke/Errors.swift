@@ -70,15 +70,39 @@ internal func ErrorscopyFromCType(_ handle: _baseRef) -> Errors? {
 internal func ErrorsmoveFromCType(_ handle: _baseRef) -> Errors? {
     return ErrorscopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: Errors) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Errors) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: Errors?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Errors?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 internal func copyFromCType(_ cValue: UInt32) -> Errors.InternalError {
     return Errors.InternalError(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> Errors.InternalError {
     return copyFromCType(cValue)
 }
+internal func copyToCType(_ swiftType: Errors.InternalError) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: Errors.InternalError) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
+}
 internal func copyFromCType(_ cValue: UInt32) -> Errors.ExternalErrors {
     return Errors.ExternalErrors(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> Errors.ExternalErrors {
     return copyFromCType(cValue)
+}
+internal func copyToCType(_ swiftType: Errors.ExternalErrors) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: Errors.ExternalErrors) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
 }

@@ -47,12 +47,12 @@ public class DefaultValues {
             enumField = moveFromCType(examples_DefaultValues_StructWithDefaults_enumField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
-            let intField_handle = intField
-            let floatField_handle = floatField
-            let boolField_handle = boolField
-            let stringField_handle = stringField
-            let enumField_handle = enumField.rawValue
-            return examples_DefaultValues_StructWithDefaults_create_handle(intField_handle, floatField_handle, boolField_handle, stringField_handle, enumField_handle)
+            let c_intField = moveToCType(intField)
+            let c_floatField = moveToCType(floatField)
+            let c_boolField = moveToCType(boolField)
+            let c_stringField = moveToCType(stringField)
+            let c_enumField = moveToCType(enumField)
+            return examples_DefaultValues_StructWithDefaults_create_handle(c_intField.ref, c_floatField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref)
         }
     }
 }
@@ -74,6 +74,18 @@ internal func DefaultValuescopyFromCType(_ handle: _baseRef) -> DefaultValues? {
 internal func DefaultValuesmoveFromCType(_ handle: _baseRef) -> DefaultValues? {
     return DefaultValuescopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: DefaultValues) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: DefaultValues) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: DefaultValues?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: DefaultValues?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 internal func copyFromCType(_ handle: _baseRef) -> DefaultValues.StructWithDefaults {
     return DefaultValues.StructWithDefaults(cHandle: handle)
 }
@@ -83,9 +95,21 @@ internal func moveFromCType(_ handle: _baseRef) -> DefaultValues.StructWithDefau
     }
     return copyFromCType(handle)
 }
+internal func copyToCType(_ swiftType: DefaultValues.StructWithDefaults) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: DefaultValues.StructWithDefaults) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: examples_DefaultValues_StructWithDefaults_release_handle)
+}
 internal func copyFromCType(_ cValue: UInt32) -> DefaultValues.SomeEnum {
     return DefaultValues.SomeEnum(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> DefaultValues.SomeEnum {
     return copyFromCType(cValue)
+}
+internal func copyToCType(_ swiftType: DefaultValues.SomeEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: DefaultValues.SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
 }

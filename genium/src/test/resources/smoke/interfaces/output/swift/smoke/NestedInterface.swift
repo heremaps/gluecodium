@@ -25,23 +25,23 @@ internal func getRef(_ ref: NestedInterface?, owning: Bool = true) -> RefHolder 
     }
     functions.smoke_NestedInterface_getInstanceOne = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
-        return getRef(swift_class.getInstanceOne()!, owning: false).ref
+        return copyToCType(swift_class.getInstanceOne()!).ref
     }
     functions.smoke_NestedInterface_getInstanceTwo = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
-        return getRef(swift_class.getInstanceTwo()!, owning: false).ref
+        return copyToCType(swift_class.getInstanceTwo()!).ref
     }
     functions.smoke_NestedInterface_makeMoreExternal_withInterface = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
-        return getRef(swift_class.makeMoreExternal(input: ExternalInterfacemoveFromCType(input))!, owning: false).ref
+        return copyToCType(swift_class.makeMoreExternal(input: ExternalInterfacemoveFromCType(input))!).ref
     }
     functions.smoke_NestedInterface_makeMoreExternal_withStruct = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
-        return swift_class.makeMoreExternal(input: moveFromCType(input)).convertToCType()
+        return copyToCType(swift_class.makeMoreExternal(input: moveFromCType(input))).ref
     }
     functions.smoke_NestedInterface_makeMoreExternal_withEnum = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
-        return swift_class.makeMoreExternal(input: moveFromCType(input)).rawValue
+        return copyToCType(swift_class.makeMoreExternal(input: moveFromCType(input))).ref
     }
     let proxy = smoke_NestedInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_NestedInterface_release_handle) : RefHolder(proxy)
@@ -66,29 +66,27 @@ internal class _NestedInterface: NestedInterface {
         smoke_NestedInterface_release_handle(c_instance)
     }
     public func setSameTypeInstances(interfaceOne: SimpleInterface?, interfaceTwo: SimpleInterface?) -> Void {
-        let interfaceOne_handle = getRef(interfaceOne)
-        let interfaceTwo_handle = getRef(interfaceTwo)
-        return moveFromCType(smoke_NestedInterface_setSameTypeInstances(c_instance, interfaceOne_handle.ref, interfaceTwo_handle.ref))
+            let c_interfaceOne = moveToCType(interfaceOne)
+            let c_interfaceTwo = moveToCType(interfaceTwo)
+        return moveFromCType(smoke_NestedInterface_setSameTypeInstances(self.c_instance, c_interfaceOne.ref, c_interfaceTwo.ref))
     }
     public func getInstanceOne() -> SimpleInterface? {
-        return SimpleInterfacemoveFromCType(smoke_NestedInterface_getInstanceOne(c_instance))
+        return SimpleInterfacemoveFromCType(smoke_NestedInterface_getInstanceOne(self.c_instance))
     }
     public func getInstanceTwo() -> SimpleInterface? {
-        return SimpleInterfacemoveFromCType(smoke_NestedInterface_getInstanceTwo(c_instance))
+        return SimpleInterfacemoveFromCType(smoke_NestedInterface_getInstanceTwo(self.c_instance))
     }
     public func makeMoreExternal(input: ExternalInterface?) -> VeryExternalInterface? {
-        let input_handle = getRef(input)
-        return VeryExternalInterfacemoveFromCType(smoke_NestedInterface_makeMoreExternal_withInterface(c_instance, input_handle.ref))
+            let c_input = moveToCType(input)
+        return VeryExternalInterfacemoveFromCType(smoke_NestedInterface_makeMoreExternal_withInterface(self.c_instance, c_input.ref))
     }
     public func makeMoreExternal(input: ExternalInterface.SomeStruct) -> VeryExternalInterface.SomeStruct {
-        let input_handle = input.convertToCType()
-        defer {
-            smoke_ExternalInterface_SomeStruct_release_handle(input_handle)
-        }
-        return moveFromCType(smoke_NestedInterface_makeMoreExternal_withStruct(c_instance, input_handle))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_NestedInterface_makeMoreExternal_withStruct(self.c_instance, c_input.ref))
     }
     public func makeMoreExternal(input: ExternalInterface.SomeEnum) -> VeryExternalInterface.SomeEnum {
-        return moveFromCType(smoke_NestedInterface_makeMoreExternal_withEnum(c_instance, input.rawValue))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_NestedInterface_makeMoreExternal_withEnum(self.c_instance, c_input.ref))
     }
 }
 extension _NestedInterface: NativeBase {
@@ -113,4 +111,16 @@ internal func NestedInterfacecopyFromCType(_ handle: _baseRef) -> NestedInterfac
 }
 internal func NestedInterfacemoveFromCType(_ handle: _baseRef) -> NestedInterface? {
     return NestedInterfacecopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: NestedInterface) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: NestedInterface) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: NestedInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: NestedInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

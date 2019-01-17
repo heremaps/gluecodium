@@ -23,10 +23,11 @@ public class SimpleInstantiable {
         smoke_SimpleInstantiable_release_handle(c_instance)
     }
     public func setStringValue(stringValue: String) -> Void {
-        return moveFromCType(smoke_SimpleInstantiable_setStringValue(c_instance, stringValue))
+            let c_stringValue = moveToCType(stringValue)
+        return moveFromCType(smoke_SimpleInstantiable_setStringValue(self.c_instance, c_stringValue.ref))
     }
     public func getStringValue() -> String {
-        return moveFromCType(smoke_SimpleInstantiable_getStringValue(c_instance))
+        return moveFromCType(smoke_SimpleInstantiable_getStringValue(self.c_instance))
     }
 }
 extension SimpleInstantiable: NativeBase {
@@ -46,4 +47,16 @@ internal func SimpleInstantiablecopyFromCType(_ handle: _baseRef) -> SimpleInsta
 }
 internal func SimpleInstantiablemoveFromCType(_ handle: _baseRef) -> SimpleInstantiable? {
     return SimpleInstantiablecopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: SimpleInstantiable) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: SimpleInstantiable) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: SimpleInstantiable?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: SimpleInstantiable?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

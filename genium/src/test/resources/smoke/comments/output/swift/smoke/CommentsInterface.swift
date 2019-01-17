@@ -21,19 +21,19 @@ internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolde
     }
     functions.smoke_CommentsInterface_someMethodWithAllComments = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return swift_class.someMethodWithAllComments(input: moveFromCType(input))
+        return copyToCType(swift_class.someMethodWithAllComments(input: moveFromCType(input))).ref
     }
     functions.smoke_CommentsInterface_someMethodWithInputComments = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return swift_class.someMethodWithInputComments(input: moveFromCType(input))
+        return copyToCType(swift_class.someMethodWithInputComments(input: moveFromCType(input))).ref
     }
     functions.smoke_CommentsInterface_someMethodWithOutputComments = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return swift_class.someMethodWithOutputComments(input: moveFromCType(input))
+        return copyToCType(swift_class.someMethodWithOutputComments(input: moveFromCType(input))).ref
     }
     functions.smoke_CommentsInterface_someMethodWithNoComments = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return swift_class.someMethodWithNoComments(input: moveFromCType(input))
+        return copyToCType(swift_class.someMethodWithNoComments(input: moveFromCType(input))).ref
     }
     functions.smoke_CommentsInterface_someMethodWithoutReturnTypeWithAllComments = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
@@ -45,11 +45,11 @@ internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolde
     }
     functions.smoke_CommentsInterface_someMethodWithoutInputParametersWithAllComments = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return swift_class.someMethodWithoutInputParametersWithAllComments()
+        return copyToCType(swift_class.someMethodWithoutInputParametersWithAllComments()).ref
     }
     functions.smoke_CommentsInterface_someMethodWithoutInputParametersWithNoComments = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return swift_class.someMethodWithoutInputParametersWithNoComments()
+        return copyToCType(swift_class.someMethodWithoutInputParametersWithNoComments()).ref
     }
     functions.smoke_CommentsInterface_someMethodWithNothing = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
@@ -61,7 +61,7 @@ internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolde
     }
     functions.smoke_CommentsInterface_someAttribute_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return swift_class.someAttribute
+        return copyToCType(swift_class.someAttribute).ref
     }
     functions.smoke_CommentsInterface_someAttribute_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
@@ -110,10 +110,11 @@ internal class _CommentsInterface: CommentsInterface {
     /// This is some very useful attribute.
     var someAttribute: CommentsInterface.Usefulness {
         get {
-            return moveFromCType(smoke_CommentsInterface_someAttribute_get(c_instance))
+            return moveFromCType(smoke_CommentsInterface_someAttribute_get(self.c_instance))
         }
         set {
-            return moveFromCType(smoke_CommentsInterface_someAttribute_set(c_instance, newValue))
+                let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_CommentsInterface_someAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef
@@ -130,46 +131,52 @@ internal class _CommentsInterface: CommentsInterface {
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
     public func someMethodWithAllComments(input: String) -> CommentsInterface.Usefulness {
-        return moveFromCType(smoke_CommentsInterface_someMethodWithAllComments(c_instance, input))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_CommentsInterface_someMethodWithAllComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     public func someMethodWithInputComments(input: String) -> CommentsInterface.Usefulness {
-        return moveFromCType(smoke_CommentsInterface_someMethodWithInputComments(c_instance, input))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_CommentsInterface_someMethodWithInputComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Returns: Usefulness of the input
     public func someMethodWithOutputComments(input: String) -> CommentsInterface.Usefulness {
-        return moveFromCType(smoke_CommentsInterface_someMethodWithOutputComments(c_instance, input))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_CommentsInterface_someMethodWithOutputComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that measures the usefulness of its input.
     public func someMethodWithNoComments(input: String) -> CommentsInterface.Usefulness {
-        return moveFromCType(smoke_CommentsInterface_someMethodWithNoComments(c_instance, input))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_CommentsInterface_someMethodWithNoComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that does not measure the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     public func someMethodWithoutReturnTypeWithAllComments(input: String) -> Void {
-        return moveFromCType(smoke_CommentsInterface_someMethodWithoutReturnTypeWithAllComments(c_instance, input))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_CommentsInterface_someMethodWithoutReturnTypeWithAllComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that does not measure the usefulness of its input.
     public func someMethodWithoutReturnTypeWithNoComments(input: String) -> Void {
-        return moveFromCType(smoke_CommentsInterface_someMethodWithoutReturnTypeWithNoComments(c_instance, input))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_CommentsInterface_someMethodWithoutReturnTypeWithNoComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that measures the usefulness of something.
     /// - Returns: Usefulness of the input
     public func someMethodWithoutInputParametersWithAllComments() -> CommentsInterface.Usefulness {
-        return moveFromCType(smoke_CommentsInterface_someMethodWithoutInputParametersWithAllComments(c_instance))
+        return moveFromCType(smoke_CommentsInterface_someMethodWithoutInputParametersWithAllComments(self.c_instance))
     }
     /// This is some very useful method that measures the usefulness of something.
     public func someMethodWithoutInputParametersWithNoComments() -> CommentsInterface.Usefulness {
-        return moveFromCType(smoke_CommentsInterface_someMethodWithoutInputParametersWithNoComments(c_instance))
+        return moveFromCType(smoke_CommentsInterface_someMethodWithoutInputParametersWithNoComments(self.c_instance))
     }
     public func someMethodWithNothing() -> Void {
-        return moveFromCType(smoke_CommentsInterface_someMethodWithNothing(c_instance))
+        return moveFromCType(smoke_CommentsInterface_someMethodWithNothing(self.c_instance))
     }
     /// This is some very useful method that does nothing.
     public func someMethodWithoutReturnTypeOrInputParameters() -> Void {
-        return moveFromCType(smoke_CommentsInterface_someMethodWithoutReturnTypeOrInputParameters(c_instance))
+        return moveFromCType(smoke_CommentsInterface_someMethodWithoutReturnTypeOrInputParameters(self.c_instance))
     }
 }
 extension _CommentsInterface: NativeBase {
@@ -195,6 +202,18 @@ internal func CommentsInterfacecopyFromCType(_ handle: _baseRef) -> CommentsInte
 internal func CommentsInterfacemoveFromCType(_ handle: _baseRef) -> CommentsInterface? {
     return CommentsInterfacecopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: CommentsInterface) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: CommentsInterface) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: CommentsInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: CommentsInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 /// This is some very useful enum.
 public enum SomeEnum : UInt32 {
     /// Not quite useful
@@ -208,6 +227,12 @@ internal func copyFromCType(_ cValue: UInt32) -> SomeEnum {
 internal func moveFromCType(_ cValue: UInt32) -> SomeEnum {
     return copyFromCType(cValue)
 }
+internal func copyToCType(_ swiftType: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
+}
 /// This is some very useful struct.
 public struct SomeStruct {
     /// How useful this struct is
@@ -219,8 +244,8 @@ public struct SomeStruct {
         someField = moveFromCType(smoke_CommentsInterface_SomeStruct_someField_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
-        let someField_handle = someField
-        return smoke_CommentsInterface_SomeStruct_create_handle(someField_handle)
+        let c_someField = moveToCType(someField)
+        return smoke_CommentsInterface_SomeStruct_create_handle(c_someField.ref)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> SomeStruct {
@@ -232,15 +257,9 @@ internal func moveFromCType(_ handle: _baseRef) -> SomeStruct {
     }
     return copyFromCType(handle)
 }
-func convertCommentsInterface_SomeMapToCType(_ swiftDict: CommentsInterface.SomeMap) -> _baseRef {
-    let c_handle = smoke_CommentsInterface_SomeMap_create_handle()
-    for (swift_key, swift_value) in swiftDict {
-        let c_key = swift_key.convertToCType()
-        defer {
-            std_string_release_handle(c_key)
-        }
-        let c_value = swift_value
-        smoke_CommentsInterface_SomeMap_put(c_handle, c_key, c_value)
-    }
-    return c_handle
+internal func copyToCType(_ swiftType: SomeStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: SomeStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_CommentsInterface_SomeStruct_release_handle)
 }
