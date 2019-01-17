@@ -199,6 +199,8 @@ public final class CppTypeMapperTest {
 
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) result;
     assertEquals(3, cppTemplateTypeRef.getTemplateParameters().size());
-    assertEquals(typeMapper.getEnumHashType(), cppTemplateTypeRef.getTemplateParameters().get(2));
+    CppTypeRef actualTypeRef = cppTemplateTypeRef.getTemplateParameters().get(2);
+    assertEquals(typeMapper.getEnumHashType().name, actualTypeRef.name);
+    assertEquals(typeMapper.getEnumHashType().includes, actualTypeRef.includes);
   }
 }

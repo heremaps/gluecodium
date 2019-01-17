@@ -21,9 +21,7 @@ package com.here.genium.model.cpp;
 
 import com.here.genium.model.common.Include;
 import java.util.*;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
 public abstract class CppElementWithIncludes extends CppElement {
 
   public final List<Include> includes;
