@@ -25,7 +25,6 @@ import static java.util.Collections.emptyList;
 
 import com.here.genium.generator.cpp.CppLibraryIncludes;
 import com.here.genium.model.cbridge.CElement;
-import com.here.genium.model.cbridge.CPointerType;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
 import java.util.List;
@@ -51,7 +50,7 @@ public class CppTypeInfo extends CElement {
 
   public static final CppTypeInfo STRING =
       CppTypeInfo.builder("std::string")
-          .cType(CPointerType.CONST_CHAR_PTR)
+          .cType(CType.STRING_REF)
           .functionReturnType(CType.STRING_REF)
           .category(TypeCategory.BUILTIN_STRING)
           .include(CppLibraryIncludes.STRING)

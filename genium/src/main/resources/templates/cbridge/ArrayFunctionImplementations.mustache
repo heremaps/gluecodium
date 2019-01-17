@@ -44,12 +44,12 @@ uint64_t {{name}}_count(_baseRef handle) {
 
 void {{name}}_append(_baseRef handle, {{argument}} item) { {{!!
 }}{{#switch underlyingType.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
     }}{{#case "STRUCT" break=false}}{{/case}}{{!!
     }}{{#case "CLASS"  break=false}}{{/case}}{{!!
     }}{{#case "MAP" break=false}}{{/case}}{{!!
     }}{{#case "ARRAY"}}{{prefixPartial 'classAppendConversion' '    '}}{{/case}}{{!!
     }}{{#case "ENUM"}}{{prefixPartial 'enumAppendConversion' '    '}}{{/case}}{{!!
-    }}{{#case "BUILTIN_STRING"}}{{prefixPartial 'stringAppendConversion' '    '}}{{/case}}{{!!
     }}{{#default}}{{prefixPartial 'defaultAppendConversion' '    '}}{{/default}}{{!!
     }}{{/switch}}
 }

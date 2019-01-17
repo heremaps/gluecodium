@@ -68,7 +68,6 @@ const void* {{name}}_get_swift_object_from_cache(_baseRef handle) {
 }}{{/switch}} {{name}}{{/baseApiParameter}}
 {{+swiftParameter}}{{#switch mappedType.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}{{name}}{{/case}}{{!!
-    }}{{#case "BUILTIN_STRING"}}std_string_create_handle({{name}}.c_str()){{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<uint32_t>({{name}}){{/case}}{{!!
     }}{{#default}}reinterpret_cast<_baseRef>(new {{mappedType}}({{name}})){{/default}}{{!!
 }}{{/switch}}{{/swiftParameter}}

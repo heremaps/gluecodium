@@ -18,14 +18,21 @@
   ! License-Filename: LICENSE
   !
   !}}
-internal func copyFromCType(_ handle: _baseRef) -> {{name}} {
-    return {{name}}({{#if fields}}cHandle: handle{{/if}})
-}
-
-internal func moveFromCType(_ handle: _baseRef) -> {{name}} {
 {{#if fields}}
+internal func copyFromCType(_ handle: _baseRef) -> {{name}} {
+    return {{name}}(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> {{name}} {
     defer {
         {{cPrefix}}_release_handle(handle)
-    }{{/if}}
+    }
     return copyFromCType(handle)
 }
+
+internal func copyToCType(_ swiftType: {{name}}) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: {{name}}) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: {{cPrefix}}_release_handle)
+}
+{{/if}}

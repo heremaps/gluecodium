@@ -30,9 +30,25 @@
     {{visibility}} {{#if isImmutable}}let{{/if}}{{#unless isImmutable}}var{{/unless}} {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}
 {{/fields}}
 
-{{prefixPartial "swift/StructPublicInitMethod" "    "}}{{/if}}{{#if fields}}
+    public init({{joinPartial fields "initParameter" ", "}}) {
+{{#fields}}
+        self.{{name}} = {{name}}
+{{/fields}}
+    }
+{{/if}}{{#if fields}}
 
-{{prefixPartial "swift/StructInternalInitMethod" "    "}}
+    internal init(cHandle: _baseRef) {
+{{#fields}}
+        {{name}} = {{type.className}}moveFromCType({{cPrefix}}_{{name}}_get(cHandle))
+{{/fields}}
+    }
 
-{{prefixPartial "swift/StructFillFunction" "    "}}{{/if}}
+    internal func convertToCType() -> _baseRef {
+{{#fields}}
+        let c_{{name}} = moveToCType({{name}})
+{{/fields}}
+        return {{cPrefix}}_create_handle({{#fields}}c_{{name}}.ref{{#if iter.hasNext}}, {{/if}}{{/fields}})
+    }
+{{/if}}
 }
+{{+initParameter}}{{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}{{#if defaultValue}} = {{defaultValue}}{{/if}}{{/initParameter}}

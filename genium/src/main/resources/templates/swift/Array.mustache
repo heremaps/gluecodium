@@ -50,64 +50,33 @@ internal class {{implementingClass}}: CollectionOf<{{underlyingType.publicName}}
     }
 }
 
-extension Collection {{>GenericConstraintsRule}}  {
-    func c_conversion()-> (c_type: _baseRef, cleanup: () ->Void) {
-        let handle = {{refName}}_create_handle()
-
-        for item in self {
-{{#switch underlyingType.category.toString}}{{!!
-                }}{{#case "STRUCT"}}{{prefixPartial 'structConversion' '            '}}{{/case}}{{!!
-                }}{{#case "CLASS"}}{{prefixPartial 'classConversion' '            '}}{{/case}}{{!!
-                }}{{#case "ARRAY"}}{{prefixPartial 'arrayConversion'   '            '}}{{/case}}{{!!
-                }}{{#case "ENUM"}}{{prefixPartial 'enumConversion'   '            '}}{{/case}}{{!!
-                }}{{#case "DICTIONARY"}}{{prefixPartial 'dictionaryConversion'   '            '}}{{/case}}{{!!
-                }}{{#default}}{{prefixPartial 'defaultConversion' '            '}}{{/default}}{{!!
-            }}{{/switch}}
-        }
-        let cleanup_function = { () -> Void in
-            {{refName}}_release_handle(handle)
-        }
-        return (handle, cleanup_function)
-    }
-}
 
 internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<{{underlyingType.publicName}}> {
     return {{implementingClass}}(handle)
 }
 
-// Array is taking over and owning _baseRef instead of releasing it directly
+{{!! Array is taking over and owning _baseRef instead of releasing it directly }}
 internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<{{underlyingType.publicName}}> {
     return copyFromCType(handle)
+}
+
+internal func copyToCType<T: Collection>(_ swiftArray: T) -> RefHolder {{>GenericConstraintsRule}} {
+    let handle = {{refName}}_create_handle()
+
+    for item in swiftArray {
+        let c_item = moveToCType(item)
+        {{refName}}_append(handle, c_item.ref)
+    }
+    return RefHolder(handle)
+}
+
+internal func moveToCType<T: Collection>(_ swiftArray: T) -> RefHolder {{>GenericConstraintsRule}} {
+    return RefHolder(ref: copyToCType(swiftArray).ref, release: {{refName}}_release_handle)
 }
 
 {{/arrays}}
 
 {{+GenericConstraintsRule}}{{!!
- }}where {{#genericParameter.constraints}}{{name}}{{!!
+ }}where {{#genericParameter.constraints}}T.{{name}}{{!!
  }}{{#if isProtocol}}:{{/if}}{{#unless isProtocol}} =={{/unless}} {{typeName}}{{!!
- }}{{#if iter.hasNext}}, {{/if}}{{/genericParameter.constraints}}{{/GenericConstraintsRule}}{{!!
-
-}}{{+dictionarySubscript}}
-return convert{{underlyingType.name}}FromCType(handle){{/dictionarySubscript}}{{!!
-
-}}{{+structConversion}}let item_handle = item.convertToCType();
-defer {
-    {{underlyingType.cPrefix}}_release_handle(item_handle)
-}
-{{refName}}_append(handle, item_handle){{/structConversion}}
-
-{{+enumConversion}}{{refName}}_append(handle, item.rawValue){{/enumConversion}}
-
-{{+classConversion}}{{refName}}_append(handle, getRef(item).ref){{/classConversion}}
-
-{{+arrayConversion}}let conversion = item.c_conversion()
-{{refName}}_append(handle, conversion.c_type)
-conversion.cleanup(){{/arrayConversion}}{{!!
-
-}}{{+dictionaryConversion}}let conversion = convert{{underlyingType.name}}ToCType(item)
-defer {
-    {{underlyingType.cPrefix}}_release_handle(conversion)
-}
-{{refName}}_append(handle, conversion){{/dictionaryConversion}}{{!!
-
-}}{{+defaultConversion}}{{refName}}_append(handle, item){{/defaultConversion}}
+ }}{{#if iter.hasNext}}, {{/if}}{{/genericParameter.constraints}}{{/GenericConstraintsRule}}
