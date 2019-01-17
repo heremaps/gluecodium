@@ -17,33 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge;
+package com.here.genium.model.cbridge
 
-import com.here.genium.generator.cbridge.CppTypeInfo;
+import com.here.genium.generator.cbridge.CppTypeInfo
 
-public final class CField extends CElement {
+class CField @JvmOverloads constructor(
+    swiftLayerName: String,
+    val baseLayerName: String,
+    val type: CppTypeInfo,
+    val baseLayerGetterName: String? = null,
+    val baseLayerSetterName: String? = null
+) : CElement(swiftLayerName) {
 
-  public final String baseLayerName;
-  public final CppTypeInfo type;
-  public final String baseLayerGetterName;
-  public final String baseLayerSetterName;
-
-  @lombok.Builder(builderClassName = "Builder")
-  private CField(
-      final String swiftLayerName,
-      final String baseLayerName,
-      final CppTypeInfo cppTypeInfo,
-      final String baseLayerGetterName,
-      final String baseLayerSetterName) {
-    super(swiftLayerName);
-    this.baseLayerName = baseLayerName;
-    this.type = cppTypeInfo;
-    this.baseLayerGetterName = baseLayerGetterName;
-    this.baseLayerSetterName = baseLayerSetterName;
-  }
-
-  @Override
-  public String toString() {
-    return type.functionReturnType + " " + name;
-  }
+    override fun toString() = type.functionReturnType.toString() + " " + name
 }

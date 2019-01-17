@@ -152,8 +152,8 @@ public final class CBridgeTypeMapperTest {
     assertTrue(actualType instanceof CppArrayTypeInfo);
 
     CppArrayTypeInfo actualArrayType = (CppArrayTypeInfo) actualType;
-    assertNotNull(actualArrayType.innerType);
-    assertEquals(actualArrayType.innerType.functionReturnType.name, "uint64_t");
+    assertNotNull(actualArrayType.getInnerType());
+    assertEquals(actualArrayType.getInnerType().functionReturnType.name, "uint64_t");
   }
 
   @Test
@@ -174,7 +174,7 @@ public final class CBridgeTypeMapperTest {
     assertEquals("::FooMap", resultMapType.name);
     assertEquals(BASE_REF_NAME, resultMapType.cType.name);
     assertEquals(BASE_REF_NAME, resultMapType.functionReturnType.name);
-    assertEquals("std::unordered_map<std::string, ::Foo>", resultMapType.baseApi);
+    assertEquals("std::unordered_map<std::string, ::Foo>", resultMapType.getBaseApi());
     assertEquals(2, resultMapType.includes.size());
     assertEquals(BASE_HANDLE_IMPL_FILE, resultMapType.includes.get(0).getFileName());
     assertEquals(CppLibraryIncludes.MAP, resultMapType.includes.get(1));
@@ -187,6 +187,7 @@ public final class CBridgeTypeMapperTest {
     when(francaMap.getValueType().getDerived()).thenReturn(francaStructType);
     when(cppNameResolver.getFullyQualifiedName(francaEnum)).thenReturn("::Foo");
     when(cppNameResolver.getFullyQualifiedName(francaStructType)).thenReturn("::Bar");
+    when(cppNameResolver.getFullyQualifiedName(francaMap)).thenReturn("::Baz");
 
     CppTypeInfo result = typeMapper.mapType(francaTypeRef);
 
@@ -194,7 +195,7 @@ public final class CBridgeTypeMapperTest {
     assertTrue(result instanceof CppMapTypeInfo);
 
     CppMapTypeInfo resultMapType = (CppMapTypeInfo) result;
-    assertEquals("std::unordered_map<::Foo, ::Bar, ::FooHash>", resultMapType.baseApi);
+    assertEquals("std::unordered_map<::Foo, ::Bar, ::FooHash>", resultMapType.getBaseApi());
     assertEquals(3, resultMapType.includes.size());
     assertEquals(CppLibraryIncludes.ENUM_HASH, resultMapType.includes.get(2));
   }

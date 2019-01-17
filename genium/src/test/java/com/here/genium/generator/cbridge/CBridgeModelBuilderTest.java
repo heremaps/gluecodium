@@ -110,7 +110,8 @@ public final class CBridgeModelBuilderTest {
 
   private final CppTypeInfo cppTypeInfo = new CppTypeInfo(CType.FLOAT);
   private final CppArrayTypeInfo cppArrayTypeInfo =
-      CppArrayTypeInfo.arrayTypeBuilder("FooArrayType").build();
+      new CppArrayTypeInfo(
+          "FooArrayType", CType.BOOL, CType.BOOL, Collections.emptyList(), cppTypeInfo);
   private final SwiftMethod swiftMethod =
       new SwiftMethod(
           "swiftFoo", null, null, SwiftType.VOID, null, NESTED_SPECIFIER_NAME, SHORT_FUNCTION_NAME);
@@ -171,13 +172,13 @@ public final class CBridgeModelBuilderTest {
     modelBuilder.finishBuilding(francaMethod);
 
     CFunction interfaceFunction = modelBuilder.getFinalResult(CFunction.class);
-    assertNotNull(interfaceFunction.selfParameter);
+    assertNotNull(interfaceFunction.getSelfParameter());
     assertEquals(
         "Instance parameter should not be part of normal parameters",
         0,
-        interfaceFunction.parameters.size());
+        interfaceFunction.getParameters().size());
     assertNotNull(
-        "Instance should be part of C signature parameters", interfaceFunction.selfParameter);
+        "Instance should be part of C signature parameters", interfaceFunction.getSelfParameter());
   }
 
   @Test
@@ -191,9 +192,9 @@ public final class CBridgeModelBuilderTest {
     assertEquals(
         "Instance function should only take normal parameters",
         1,
-        interfaceFunction.parameters.size());
+        interfaceFunction.getParameters().size());
     assertNotNull(
-        "Instance parameter should be part of signature", interfaceFunction.selfParameter);
+        "Instance parameter should be part of signature", interfaceFunction.getSelfParameter());
   }
 
   @Test
@@ -205,7 +206,7 @@ public final class CBridgeModelBuilderTest {
     CFunction function = modelBuilder.getFinalResult(CFunction.class);
     assertNotNull(function);
     assertEquals(FULL_FUNCTION_NAME, function.name);
-    assertEquals(SHORT_FUNCTION_NAME, function.shortName);
+    assertEquals(SHORT_FUNCTION_NAME, function.getShortName());
   }
 
   @Test
@@ -217,9 +218,9 @@ public final class CBridgeModelBuilderTest {
 
     CFunction function = modelBuilder.getFinalResult(CFunction.class);
     assertNotNull(function);
-    assertEquals(CType.VOID, function.returnType.functionReturnType);
-    assertEquals(0, function.parameters.size());
-    assertEquals(DELEGATE_NAME, function.delegateCall);
+    assertEquals(CType.VOID, function.getReturnType().functionReturnType);
+    assertEquals(0, function.getParameters().size());
+    assertEquals(DELEGATE_NAME, function.getDelegateCall());
   }
 
   @Test
@@ -233,10 +234,10 @@ public final class CBridgeModelBuilderTest {
 
     CFunction function = modelBuilder.getFinalResult(CFunction.class);
     assertNotNull(function);
-    assertEquals(CType.VOID, function.returnType.functionReturnType);
-    assertEquals(DELEGATE_NAME, function.delegateCall);
-    assertEquals(1, function.parameters.size());
-    assertSame(param, function.parameters.get(0));
+    assertEquals(CType.VOID, function.getReturnType().functionReturnType);
+    assertEquals(DELEGATE_NAME, function.getDelegateCall());
+    assertEquals(1, function.getParameters().size());
+    assertSame(param, function.getParameters().get(0));
   }
 
   @Test
@@ -247,7 +248,7 @@ public final class CBridgeModelBuilderTest {
 
     CFunction function = modelBuilder.getFinalResult(CFunction.class);
     assertNotNull(function);
-    assertTrue(function.isConst);
+    assertTrue(function.isConst());
   }
 
   @Test
@@ -261,7 +262,7 @@ public final class CBridgeModelBuilderTest {
 
     CFunction function = modelBuilder.getFinalResult(CFunction.class);
     assertNotNull(function);
-    assertEquals("::std::FooType", function.cppReturnTypeName);
+    assertEquals("::std::FooType", function.getCppReturnTypeName());
   }
 
   @Test
@@ -272,7 +273,7 @@ public final class CBridgeModelBuilderTest {
 
     CFunction function = modelBuilder.getFinalResult(CFunction.class);
     assertNotNull(function);
-    assertNull(function.selfParameter);
+    assertNull(function.getSelfParameter());
   }
 
   @Test
@@ -283,12 +284,12 @@ public final class CBridgeModelBuilderTest {
 
     CFunction function = modelBuilder.getFinalResult(CFunction.class);
     assertNotNull(function);
-    assertNull(function.selfParameter);
+    assertNull(function.getSelfParameter());
   }
 
   @Test
   public void finishBuildingCreatesCInterfaceForFInterface() {
-    CFunction function = CFunction.builder("SomeName").nestedSpecifier("foo").build();
+    CFunction function = new CFunction("SomeName", "foo");
     contextStack.injectResult(function);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -301,7 +302,7 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingCreatesCInterfaceForFTypeCollection() {
-    CFunction function = CFunction.builder("SomeName").nestedSpecifier("foo").build();
+    CFunction function = new CFunction("SomeName", "foo");
     contextStack.injectResult(function);
 
     modelBuilder.finishBuilding(francaTypeCollection);
@@ -314,7 +315,7 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void properIncludesForVoidFunctionNotCallingToBaseApi() {
-    CFunction function = CFunction.builder("SomeName").nestedSpecifier("foo").build();
+    CFunction function = new CFunction("SomeName", "foo");
     contextStack.injectResult(function);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -329,12 +330,14 @@ public final class CBridgeModelBuilderTest {
   @Test
   public void properIncludesForVoidFunctionCallingToBaseApi() {
     CFunction function =
-        CFunction.builder("SomeName")
-            .nestedSpecifier("foo")
-            .delegateCall("someBaseApiFunc()")
-            .delegateCallIncludes(
-                singleton(Include.Companion.createInternalInclude("baseApiInclude.h")))
-            .build();
+        new CFunction(
+            "SomeName",
+            "foo",
+            new CppTypeInfo(CType.VOID),
+            Collections.emptyList(),
+            null,
+            "someBaseApiFunc()",
+            singleton(Include.Companion.createInternalInclude("baseApiInclude.h")));
     contextStack.injectResult(function);
 
     modelBuilder.finishBuilding(francaInterface);
@@ -348,18 +351,8 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingStructContainsFields() {
-    contextStack.injectResult(
-        CField.builder()
-            .swiftLayerName("SwiftName1")
-            .baseLayerName("CppName1")
-            .cppTypeInfo(cppTypeInfo)
-            .build());
-    contextStack.injectResult(
-        CField.builder()
-            .swiftLayerName("SwiftName2")
-            .baseLayerName("CppName2")
-            .cppTypeInfo(cppTypeInfo)
-            .build());
+    contextStack.injectResult(new CField("SwiftName1", "CppName1", cppTypeInfo));
+    contextStack.injectResult(new CField("SwiftName2", "CppName2", cppTypeInfo));
 
     modelBuilder.finishBuilding(francaStruct);
 
@@ -367,9 +360,9 @@ public final class CBridgeModelBuilderTest {
     assertNotNull(cStruct);
     assertEquals("There should be 2 fields in struct", 2, cStruct.fields.size());
     assertEquals("SwiftName1", cStruct.fields.get(0).name);
-    assertEquals("CppName1", cStruct.fields.get(0).baseLayerName);
+    assertEquals("CppName1", cStruct.fields.get(0).getBaseLayerName());
     assertEquals("SwiftName2", cStruct.fields.get(1).name);
-    assertEquals("CppName2", cStruct.fields.get(1).baseLayerName);
+    assertEquals("CppName2", cStruct.fields.get(1).getBaseLayerName());
   }
 
   @Test
@@ -429,13 +422,14 @@ public final class CBridgeModelBuilderTest {
     when(cppModelbuilder.getFinalResult(any())).thenReturn(cppField);
     when(swiftModelBuilder.getFinalResult(any()))
         .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null, null, null));
+    contextStack.injectResult(cppTypeInfo);
 
     modelBuilder.finishBuilding(francaField);
 
     CField field = modelBuilder.getFinalResult(CField.class);
     assertNotNull(field);
     assertEquals(SWIFT_FIELD_NAME, field.name);
-    assertEquals(CPP_FIELD_NAME, field.baseLayerName);
+    assertEquals(CPP_FIELD_NAME, field.getBaseLayerName());
   }
 
   @Test
@@ -449,7 +443,7 @@ public final class CBridgeModelBuilderTest {
 
     CField field = modelBuilder.getFinalResult(CField.class);
     assertNotNull(field);
-    assertEquals(cppTypeInfo, field.type);
+    assertEquals(cppTypeInfo, field.getType());
   }
 
   @Test
@@ -459,13 +453,14 @@ public final class CBridgeModelBuilderTest {
         .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null, null, null));
     when(deploymentModel.getExternalGetter(any())).thenReturn("get_foo");
     when(deploymentModel.getExternalSetter(any())).thenReturn("setFoo");
+    contextStack.injectResult(cppTypeInfo);
 
     modelBuilder.finishBuilding(francaField);
 
     CField field = modelBuilder.getFinalResult(CField.class);
     assertNotNull(field);
-    assertEquals("get_foo", field.baseLayerGetterName);
-    assertEquals("setFoo", field.baseLayerSetterName);
+    assertEquals("get_foo", field.getBaseLayerGetterName());
+    assertEquals("setFoo", field.getBaseLayerSetterName());
   }
 
   @Test
@@ -562,8 +557,8 @@ public final class CBridgeModelBuilderTest {
 
     List<CFunction> functions =
         CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CFunction.class);
-    assertNull(functions.get(0).selfParameter);
-    assertNull(functions.get(1).selfParameter);
+    assertNull(functions.get(0).getSelfParameter());
+    assertNull(functions.get(1).getSelfParameter());
   }
 
   @Test
@@ -581,10 +576,12 @@ public final class CBridgeModelBuilderTest {
   @Test
   public void finishBuildingFrancaTypeRefCreatesInlineArray() {
     CppArrayTypeInfo arrayType =
-        CppArrayTypeInfo.arrayTypeBuilder("ArrayTest")
-            .cType(new CType("ArrayTest"))
-            .functionReturnType(new CType("ArrayTest"))
-            .build();
+        new CppArrayTypeInfo(
+            "ArrayTest",
+            new CType("ArrayTest"),
+            new CType("ArrayTest"),
+            Collections.emptyList(),
+            cppTypeInfo);
     arrayType.typeCategory = CppTypeInfo.TypeCategory.ARRAY;
     when(typeMapper.mapType(any())).thenReturn(arrayType);
     CArray cArray = new CArray("FooArray", cppArrayTypeInfo);
@@ -597,38 +594,38 @@ public final class CBridgeModelBuilderTest {
     assertEquals("FooArray", arrays.iterator().next().name);
 
     PowerMockito.verifyStatic();
-    CArrayMapper.createArrayDefinition(francaTypeRef, arrayType.innerType, arrayType);
+    CArrayMapper.createArrayDefinition(francaTypeRef, arrayType.getInnerType(), arrayType);
   }
 
   private void verifyAttributeSetter(CppTypeInfo classTypeInfo, CFunction cSetter) {
     assertEquals(CBRIDGE_ATTR_SETTER_NAME, cSetter.name);
-    assertEquals(CPP_ATTR_SETTER_NAME, cSetter.functionName);
-    assertSame(classTypeInfo, cSetter.selfParameter.mappedType);
-    assertSame(CType.VOID, cSetter.returnType.functionReturnType);
+    assertEquals(CPP_ATTR_SETTER_NAME, cSetter.getFunctionName());
+    assertSame(classTypeInfo, cSetter.getSelfParameter().mappedType);
+    assertSame(CType.VOID, cSetter.getReturnType().functionReturnType);
     assertEquals(
-        "Setter should have two parameters, new value and instance(not included here)",
+        "Setter should have two parameters, new value and instance (not included here)",
         1,
-        cSetter.parameters.size());
+        cSetter.getParameters().size());
   }
 
   private void verifyAttributeGetter(CppTypeInfo classTypeInfo, CFunction cGetter) {
     assertEquals(CBRIDGE_ATTR_GETTER_NAME, cGetter.name);
-    assertEquals(CPP_ATTR_GETTER_NAME, cGetter.functionName);
-    assertSame(classTypeInfo, cGetter.selfParameter.mappedType);
-    assertSame(cppTypeInfo, cGetter.returnType);
+    assertEquals(CPP_ATTR_GETTER_NAME, cGetter.getFunctionName());
+    assertSame(classTypeInfo, cGetter.getSelfParameter().mappedType);
+    assertSame(cppTypeInfo, cGetter.getReturnType());
     assertEquals(
         "Getter should have only one parameter, instance but not included here",
         0,
-        cGetter.parameters.size());
+        cGetter.getParameters().size());
   }
 
   @Test
   public void finishBuildingInterfacePropagatesFunctionsFromBase() {
     CInterface base = new CInterface("Base");
-    base.inheritedFunctions.add(CFunction.builder("GrandParentFunction").build());
-    base.functions.add(CFunction.builder("ParentFunction").build());
+    base.inheritedFunctions.add(new CFunction("GrandParentFunction"));
+    base.functions.add(new CFunction("ParentFunction"));
     contextStack.injectResult(base);
-    CFunction function = CFunction.builder("ChildFunction").build();
+    CFunction function = new CFunction("ChildFunction");
     contextStack.injectResult(function);
 
     modelBuilder.finishBuilding(francaInterface);
