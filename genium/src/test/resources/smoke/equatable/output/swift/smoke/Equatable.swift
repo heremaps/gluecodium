@@ -13,6 +13,12 @@ internal func copyFromCType(_ cValue: UInt32) -> SomeEnum {
 internal func moveFromCType(_ cValue: UInt32) -> SomeEnum {
     return copyFromCType(cValue)
 }
+internal func copyToCType(_ swiftType: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
+}
 public struct EquatableStruct: Equatable {
     public var boolField: Bool
     public var intField: Int32
@@ -49,27 +55,17 @@ public struct EquatableStruct: Equatable {
         mapField = moveFromCType(smoke_Equatable_EquatableStruct_mapField_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
-        let boolField_handle = boolField
-        let intField_handle = intField
-        let longField_handle = longField
-        let floatField_handle = floatField
-        let doubleField_handle = doubleField
-        let stringField_handle = stringField
-        let structField_handle = structField.convertToCType()
-        defer {
-            smoke_Equatable_NestedEquatableStruct_release_handle(structField_handle)
-        }
-        let enumField_handle = enumField.rawValue
-        let arrayField_conversion = arrayField.c_conversion()
-        defer {
-          arrayField_conversion.cleanup()
-        }
-        let arrayField_handle = arrayField_conversion.c_type
-        let mapField_handle = convertErrorCodeToMessageMapToCType(mapField)
-        defer {
-          smoke_Equatable_ErrorCodeToMessageMap_release_handle(mapField_handle)
-        }
-        return smoke_Equatable_EquatableStruct_create_handle(boolField_handle, intField_handle, longField_handle, floatField_handle, doubleField_handle, stringField_handle, structField_handle, enumField_handle, arrayField_handle, mapField_handle)
+        let c_boolField = moveToCType(boolField)
+        let c_intField = moveToCType(intField)
+        let c_longField = moveToCType(longField)
+        let c_floatField = moveToCType(floatField)
+        let c_doubleField = moveToCType(doubleField)
+        let c_stringField = moveToCType(stringField)
+        let c_structField = moveToCType(structField)
+        let c_enumField = moveToCType(enumField)
+        let c_arrayField = moveToCType(arrayField)
+        let c_mapField = moveToCType(mapField)
+        return smoke_Equatable_EquatableStruct_create_handle(c_boolField.ref, c_intField.ref, c_longField.ref, c_floatField.ref, c_doubleField.ref, c_stringField.ref, c_structField.ref, c_enumField.ref, c_arrayField.ref, c_mapField.ref)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> EquatableStruct {
@@ -81,6 +77,12 @@ internal func moveFromCType(_ handle: _baseRef) -> EquatableStruct {
     }
     return copyFromCType(handle)
 }
+internal func copyToCType(_ swiftType: EquatableStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: EquatableStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Equatable_EquatableStruct_release_handle)
+}
 public struct NestedEquatableStruct: Equatable {
     public var fooField: String
     public init(fooField: String) {
@@ -90,8 +92,8 @@ public struct NestedEquatableStruct: Equatable {
         fooField = moveFromCType(smoke_Equatable_NestedEquatableStruct_fooField_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
-        let fooField_handle = fooField
-        return smoke_Equatable_NestedEquatableStruct_create_handle(fooField_handle)
+        let c_fooField = moveToCType(fooField)
+        return smoke_Equatable_NestedEquatableStruct_create_handle(c_fooField.ref)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> NestedEquatableStruct {
@@ -103,15 +105,9 @@ internal func moveFromCType(_ handle: _baseRef) -> NestedEquatableStruct {
     }
     return copyFromCType(handle)
 }
-func convertErrorCodeToMessageMapToCType(_ swiftDict: ErrorCodeToMessageMap) -> _baseRef {
-    let c_handle = smoke_Equatable_ErrorCodeToMessageMap_create_handle()
-    for (swift_key, swift_value) in swiftDict {
-        let c_key = swift_key
-        let c_value = swift_value.convertToCType()
-        defer {
-            std_string_release_handle(c_value)
-        }
-        smoke_Equatable_ErrorCodeToMessageMap_put(c_handle, c_key, c_value)
-    }
-    return c_handle
+internal func copyToCType(_ swiftType: NestedEquatableStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: NestedEquatableStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Equatable_NestedEquatableStruct_release_handle)
 }

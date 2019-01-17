@@ -23,19 +23,19 @@ public class SpecialNames {
         smoke_SpecialNames_release_handle(c_instance)
     }
     public func create() -> Void {
-        return moveFromCType(smoke_SpecialNames_create(c_instance))
+        return moveFromCType(smoke_SpecialNames_create(self.c_instance))
     }
     public func release() -> Void {
-        return moveFromCType(smoke_SpecialNames_release(c_instance))
+        return moveFromCType(smoke_SpecialNames_release(self.c_instance))
     }
     public func createProxy() -> Void {
-        return moveFromCType(smoke_SpecialNames_createProxy(c_instance))
+        return moveFromCType(smoke_SpecialNames_createProxy(self.c_instance))
     }
     public func update() -> Void {
-        return moveFromCType(smoke_SpecialNames_update(c_instance))
+        return moveFromCType(smoke_SpecialNames_update(self.c_instance))
     }
     public func Uppercase() -> Void {
-        return moveFromCType(smoke_SpecialNames_Uppercase(c_instance))
+        return moveFromCType(smoke_SpecialNames_Uppercase(self.c_instance))
     }
 }
 extension SpecialNames: NativeBase {
@@ -55,4 +55,16 @@ internal func SpecialNamescopyFromCType(_ handle: _baseRef) -> SpecialNames? {
 }
 internal func SpecialNamesmoveFromCType(_ handle: _baseRef) -> SpecialNames? {
     return SpecialNamescopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: SpecialNames) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: SpecialNames) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: SpecialNames?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: SpecialNames?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

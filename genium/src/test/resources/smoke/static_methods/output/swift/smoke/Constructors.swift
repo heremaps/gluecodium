@@ -65,14 +65,17 @@ public class Constructors {
         return moveFromCType(smoke_Constructors_create_noArgs())
     }
     private static func create(other: Constructors?) -> _baseRef {
-        let other_handle = getRef(other)
-        return moveFromCType(smoke_Constructors_create_copyCtor(other_handle.ref))
+            let c_other = moveToCType(other)
+        return moveFromCType(smoke_Constructors_create_copyCtor(c_other.ref))
     }
     private static func create(foo: String, bar: UInt64) -> _baseRef {
-        return moveFromCType(smoke_Constructors_create_twoArgs(foo, bar))
+            let c_foo = moveToCType(foo)
+            let c_bar = moveToCType(bar)
+        return moveFromCType(smoke_Constructors_create_twoArgs(c_foo.ref, c_bar.ref))
     }
     private static func create(input: String) throws -> _baseRef {
-        let RESULT = smoke_Constructors_create_withError(input)
+            let c_input = moveToCType(input)
+        let RESULT = smoke_Constructors_create_withError(c_input.ref)
         if (RESULT.has_value) {
             return moveFromCType(RESULT.returned_value)
         } else {
@@ -80,11 +83,8 @@ public class Constructors {
         }
     }
     private static func create<Tinput: Collection>(input: Tinput) -> _baseRef where Tinput.Element == Double {
-        let input_handle = input.c_conversion()
-        defer {
-            input_handle.cleanup()
-        }
-        return moveFromCType(smoke_Constructors_create_withArray(input_handle.c_type))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_Constructors_create_withArray(c_input.ref))
     }
 }
 extension Constructors: NativeBase {
@@ -105,9 +105,27 @@ internal func ConstructorscopyFromCType(_ handle: _baseRef) -> Constructors? {
 internal func ConstructorsmoveFromCType(_ handle: _baseRef) -> Constructors? {
     return ConstructorscopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: Constructors) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Constructors) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: Constructors?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Constructors?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 internal func copyFromCType(_ cValue: UInt32) -> Constructors.ErrorEnum {
     return Constructors.ErrorEnum(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> Constructors.ErrorEnum {
     return copyFromCType(cValue)
+}
+internal func copyToCType(_ swiftType: Constructors.ErrorEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: Constructors.ErrorEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
 }

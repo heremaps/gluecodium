@@ -30,9 +30,9 @@ double smoke_Arrays_BasicStruct_value_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Arrays::BasicStruct>(handle);
     return struct_pointer->value;
 }
-_baseRef smoke_Arrays_ExternalStruct_create_handle(const char* string) {
+_baseRef smoke_Arrays_ExternalStruct_create_handle(_baseRef string) {
     ::alien::FooStruct* _struct = new ::alien::FooStruct();
-    _struct->string = string;
+    _struct->string = *get_pointer<std::string>(string);
     return reinterpret_cast<_baseRef>(_struct);
 }
 void smoke_Arrays_ExternalStruct_release_handle(_baseRef handle) {

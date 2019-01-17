@@ -21,7 +21,7 @@ internal func getRef(_ ref: Attributes?, owning: Bool = true) -> RefHolder {
     }
     functions.examples_Attributes_builtInTypeAttribute_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Attributes
-        return swift_class.builtInTypeAttribute
+        return copyToCType(swift_class.builtInTypeAttribute).ref
     }
     functions.examples_Attributes_builtInTypeAttribute_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Attributes
@@ -29,7 +29,7 @@ internal func getRef(_ ref: Attributes?, owning: Bool = true) -> RefHolder {
     }
     functions.examples_Attributes_readonlyAttribute_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Attributes
-        return swift_class.readonlyAttribute
+        return copyToCType(swift_class.readonlyAttribute).ref
     }
     let proxy = examples_Attributes_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_Attributes_release_handle) : RefHolder(proxy)
@@ -41,15 +41,16 @@ public protocol Attributes : AnyObject {
 internal class _Attributes: Attributes {
     var builtInTypeAttribute: UInt32 {
         get {
-            return moveFromCType(examples_Attributes_builtInTypeAttribute_get(c_instance))
+            return moveFromCType(examples_Attributes_builtInTypeAttribute_get(self.c_instance))
         }
         set {
-            return moveFromCType(examples_Attributes_builtInTypeAttribute_set(c_instance, newValue))
+                let c_newValue = moveToCType(newValue)
+            return moveFromCType(examples_Attributes_builtInTypeAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
     var readonlyAttribute: Float {
         get {
-            return moveFromCType(examples_Attributes_readonlyAttribute_get(c_instance))
+            return moveFromCType(examples_Attributes_readonlyAttribute_get(self.c_instance))
         }
     }
     let c_instance : _baseRef
@@ -85,4 +86,16 @@ internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes? {
 }
 internal func AttributesmoveFromCType(_ handle: _baseRef) -> Attributes? {
     return AttributescopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: Attributes) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Attributes) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: Attributes?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Attributes?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

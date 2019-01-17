@@ -34,8 +34,8 @@ double smoke_ListenerWithAttributes_ResultStruct_result_get(_baseRef handle) {
 _baseRef smoke_ListenerWithAttributes_message_get(_baseRef _instance) {
     return reinterpret_cast<_baseRef>( new std::string(get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(_instance)->get()->get_message()) );
 }
-void smoke_ListenerWithAttributes_message_set(_baseRef _instance, const char* newValue) {
-    return get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(_instance)->get()->set_message(std::string(newValue));
+void smoke_ListenerWithAttributes_message_set(_baseRef _instance, _baseRef newValue) {
+    return get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(_instance)->get()->set_message(*get_pointer<std::string>(newValue));
 }
 _baseRef smoke_ListenerWithAttributes_packedMessage_get(_baseRef _instance) {
     return reinterpret_cast<_baseRef>( checked_pointer_copy(get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(_instance)->get()->get_packed_message()) );
@@ -90,7 +90,7 @@ public:
         return _return_value;
     }
     void set_message(const std::string& newValue) override {
-        mFunctions.smoke_ListenerWithAttributes_message_set(mFunctions.swift_pointer, std_string_create_handle(newValue.c_str()));
+        mFunctions.smoke_ListenerWithAttributes_message_set(mFunctions.swift_pointer, reinterpret_cast<_baseRef>(new std::string(newValue)));
     }
     ::std::shared_ptr< ::smoke::CalculationResult > get_packed_message() const override {
         auto _call_result = mFunctions.smoke_ListenerWithAttributes_packedMessage_get(mFunctions.swift_pointer);

@@ -67,35 +67,28 @@ internal class _CalculatorListener: CalculatorListener {
         smoke_CalculatorListener_release_handle(c_instance)
     }
     public func onCalculationResult(calculationResult: Double) -> Void {
-        return moveFromCType(smoke_CalculatorListener_onCalculationResult(c_instance, calculationResult))
+            let c_calculationResult = moveToCType(calculationResult)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResult(self.c_instance, c_calculationResult.ref))
     }
     public func onCalculationResultConst(calculationResult: Double) -> Void {
-        return moveFromCType(smoke_CalculatorListener_onCalculationResultConst(c_instance, calculationResult))
+            let c_calculationResult = moveToCType(calculationResult)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultConst(self.c_instance, c_calculationResult.ref))
     }
     public func onCalculationResultStruct(calculationResult: ResultStruct) -> Void {
-        let calculationResult_handle = calculationResult.convertToCType()
-        defer {
-            smoke_CalculatorListener_ResultStruct_release_handle(calculationResult_handle)
-        }
-        return moveFromCType(smoke_CalculatorListener_onCalculationResultStruct(c_instance, calculationResult_handle))
+            let c_calculationResult = moveToCType(calculationResult)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultStruct(self.c_instance, c_calculationResult.ref))
     }
     public func onCalculationResultArray<TcalculationResult: Collection>(calculationResult: TcalculationResult) -> Void where TcalculationResult.Element == Double {
-        let calculationResult_handle = calculationResult.c_conversion()
-        defer {
-            calculationResult_handle.cleanup()
-        }
-        return moveFromCType(smoke_CalculatorListener_onCalculationResultArray(c_instance, calculationResult_handle.c_type))
+            let c_calculationResult = moveToCType(calculationResult)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultArray(self.c_instance, c_calculationResult.ref))
     }
     public func onCalculationResultMap(calculationResults: CalculatorListener.NamedCalculationResults) -> Void {
-        let calculationResults_handle = convertCalculatorListener_NamedCalculationResultsToCType(calculationResults)
-        defer {
-            smoke_CalculatorListener_NamedCalculationResults_release_handle(calculationResults_handle)
-        }
-        return moveFromCType(smoke_CalculatorListener_onCalculationResultMap(c_instance, calculationResults_handle))
+            let c_calculationResults = moveToCType(calculationResults)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultMap(self.c_instance, c_calculationResults.ref))
     }
     public func onCalculationResultInstance(calculationResult: CalculationResult?) -> Void {
-        let calculationResult_handle = getRef(calculationResult)
-        return moveFromCType(smoke_CalculatorListener_onCalculationResultInstance(c_instance, calculationResult_handle.ref))
+            let c_calculationResult = moveToCType(calculationResult)
+        return moveFromCType(smoke_CalculatorListener_onCalculationResultInstance(self.c_instance, c_calculationResult.ref))
     }
 }
 extension _CalculatorListener: NativeBase {
@@ -121,6 +114,18 @@ internal func CalculatorListenercopyFromCType(_ handle: _baseRef) -> CalculatorL
 internal func CalculatorListenermoveFromCType(_ handle: _baseRef) -> CalculatorListener? {
     return CalculatorListenercopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: CalculatorListener) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: CalculatorListener) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: CalculatorListener?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: CalculatorListener?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 public struct ResultStruct {
     public var result: Double
     public init(result: Double) {
@@ -130,8 +135,8 @@ public struct ResultStruct {
         result = moveFromCType(smoke_CalculatorListener_ResultStruct_result_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
-        let result_handle = result
-        return smoke_CalculatorListener_ResultStruct_create_handle(result_handle)
+        let c_result = moveToCType(result)
+        return smoke_CalculatorListener_ResultStruct_create_handle(c_result.ref)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> ResultStruct {
@@ -143,15 +148,9 @@ internal func moveFromCType(_ handle: _baseRef) -> ResultStruct {
     }
     return copyFromCType(handle)
 }
-func convertCalculatorListener_NamedCalculationResultsToCType(_ swiftDict: CalculatorListener.NamedCalculationResults) -> _baseRef {
-    let c_handle = smoke_CalculatorListener_NamedCalculationResults_create_handle()
-    for (swift_key, swift_value) in swiftDict {
-        let c_key = swift_key.convertToCType()
-        defer {
-            std_string_release_handle(c_key)
-        }
-        let c_value = swift_value
-        smoke_CalculatorListener_NamedCalculationResults_put(c_handle, c_key, c_value)
-    }
-    return c_handle
+internal func copyToCType(_ swiftType: ResultStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: ResultStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_CalculatorListener_ResultStruct_release_handle)
 }

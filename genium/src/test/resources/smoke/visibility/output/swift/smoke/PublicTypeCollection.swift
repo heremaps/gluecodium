@@ -11,8 +11,8 @@ internal struct InternalStruct {
         stringField = moveFromCType(smoke_PublicTypeCollection_InternalStruct_stringField_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
-        let stringField_handle = stringField
-        return smoke_PublicTypeCollection_InternalStruct_create_handle(stringField_handle)
+        let c_stringField = moveToCType(stringField)
+        return smoke_PublicTypeCollection_InternalStruct_create_handle(c_stringField.ref)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> InternalStruct {
@@ -23,4 +23,10 @@ internal func moveFromCType(_ handle: _baseRef) -> InternalStruct {
         smoke_PublicTypeCollection_InternalStruct_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: InternalStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: InternalStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicTypeCollection_InternalStruct_release_handle)
 }

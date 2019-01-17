@@ -22,10 +22,11 @@ public class Comments {
     /// This is some very useful attribute.
     public var someAttribute: Comments.Usefulness {
         get {
-            return moveFromCType(examples_Comments_someAttribute_get(c_instance))
+            return moveFromCType(examples_Comments_someAttribute_get(self.c_instance))
         }
         set {
-            return moveFromCType(examples_Comments_someAttribute_set(c_instance, newValue))
+                let c_newValue = moveToCType(newValue)
+            return moveFromCType(examples_Comments_someAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef
@@ -56,15 +57,16 @@ public class Comments {
             someField = moveFromCType(examples_Comments_SomeStruct_someField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
-            let someField_handle = someField
-            return examples_Comments_SomeStruct_create_handle(someField_handle)
+            let c_someField = moveToCType(someField)
+            return examples_Comments_SomeStruct_create_handle(c_someField.ref)
         }
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
     public func someMethod(input: String) -> Comments.Usefulness {
-        return moveFromCType(examples_Comments_someMethod(c_instance, input))
+            let c_input = moveToCType(input)
+        return moveFromCType(examples_Comments_someMethod(self.c_instance, c_input.ref))
     }
 }
 extension Comments: NativeBase {
@@ -85,6 +87,18 @@ internal func CommentscopyFromCType(_ handle: _baseRef) -> Comments? {
 internal func CommentsmoveFromCType(_ handle: _baseRef) -> Comments? {
     return CommentscopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: Comments) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Comments) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: Comments?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Comments?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
     return Comments.SomeStruct(cHandle: handle)
 }
@@ -94,21 +108,21 @@ internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
     }
     return copyFromCType(handle)
 }
+internal func copyToCType(_ swiftType: Comments.SomeStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: Comments.SomeStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Comments_SomeStruct_release_handle)
+}
 internal func copyFromCType(_ cValue: UInt32) -> Comments.SomeEnum {
     return Comments.SomeEnum(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> Comments.SomeEnum {
     return copyFromCType(cValue)
 }
-func convertComments_SomeMapToCType(_ swiftDict: Comments.SomeMap) -> _baseRef {
-    let c_handle = examples_Comments_SomeMap_create_handle()
-    for (swift_key, swift_value) in swiftDict {
-        let c_key = swift_key.convertToCType()
-        defer {
-            std_string_release_handle(c_key)
-        }
-        let c_value = swift_value
-        examples_Comments_SomeMap_put(c_handle, c_key, c_value)
-    }
-    return c_handle
+internal func copyToCType(_ swiftType: Comments.SomeEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: Comments.SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
 }

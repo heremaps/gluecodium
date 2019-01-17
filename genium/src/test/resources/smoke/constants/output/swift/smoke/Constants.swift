@@ -12,6 +12,12 @@ internal func copyFromCType(_ cValue: UInt32) -> StateEnum {
 internal func moveFromCType(_ cValue: UInt32) -> StateEnum {
     return copyFromCType(cValue)
 }
+internal func copyToCType(_ swiftType: StateEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: StateEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
+}
 public struct Constants {
     public static let boolConstant: Bool = true
     public static let intConstant: Int32 = -11
@@ -20,10 +26,4 @@ public struct Constants {
     public static let doubleConstant: Double = -3.14
     public static let stringConstant: String = "Foo bar"
     public static let enumConstant: StateEnum = StateEnum.on
-}
-internal func copyFromCType(_ handle: _baseRef) -> Constants {
-    return Constants()
-}
-internal func moveFromCType(_ handle: _baseRef) -> Constants {
-    return copyFromCType(handle)
 }

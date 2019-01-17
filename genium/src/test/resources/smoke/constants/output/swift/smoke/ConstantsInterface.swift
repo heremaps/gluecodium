@@ -52,9 +52,27 @@ internal func ConstantsInterfacecopyFromCType(_ handle: _baseRef) -> ConstantsIn
 internal func ConstantsInterfacemoveFromCType(_ handle: _baseRef) -> ConstantsInterface? {
     return ConstantsInterfacecopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: ConstantsInterface) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ConstantsInterface) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: ConstantsInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ConstantsInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 internal func copyFromCType(_ cValue: UInt32) -> ConstantsInterface.StateEnum {
     return ConstantsInterface.StateEnum(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> ConstantsInterface.StateEnum {
     return copyFromCType(cValue)
+}
+internal func copyToCType(_ swiftType: ConstantsInterface.StateEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: ConstantsInterface.StateEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
 }
