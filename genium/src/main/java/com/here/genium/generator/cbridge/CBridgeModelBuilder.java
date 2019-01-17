@@ -162,32 +162,34 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
         CollectionsHelper.getFirstOfType(
             getCurrentContext().previousResults, COutParameter.class, new COutParameter());
 
-    CFunction.CFunctionBuilder methodBuilder =
-        CFunction.builder(swiftMethod.getCShortName())
-            .nestedSpecifier(swiftMethod.getCNestedSpecifier())
-            .delegateCall(cppMethod.fullyQualifiedName)
-            .parameters(inParams)
-            .returnType(returnParam.mappedType)
-            .cppReturnTypeName(cppMethod.getReturnType().fullyQualifiedName)
-            .error(
-                francaMethod.getErrorEnum() != null
-                    ? typeMapper.createErrorTypeInfo(francaMethod.getErrorEnum())
-                    : null)
-            .delegateCallIncludes(
-                Collections.singleton(cppIncludeResolver.resolveInclude(francaMethod)))
-            .functionName(cppMethod.name)
-            .isConst(deploymentModel.isConst(francaMethod));
-
-    if (!deploymentModel.isStatic(francaMethod) && !deploymentModel.isConstructor(francaMethod)) {
-      CppTypeInfo classInfo =
+    boolean isStatic =
+        !deploymentModel.isStatic(francaMethod) && !deploymentModel.isConstructor(francaMethod);
+    CParameter parameterSelf = null;
+    if (isStatic) {
+      CppTypeInfo cppTypeInfo =
           CollectionsHelper.getFirstOfType(getParentContext().currentResults, CppTypeInfo.class);
-      CInParameter parameterSelf = new CInParameter("_instance", classInfo);
-      methodBuilder
-          .selfParameter(parameterSelf)
-          .functionName(cppBuilder.getFinalResult(CppMethod.class).name);
+      parameterSelf = new CInParameter("_instance", cppTypeInfo);
+    }
+    CppTypeInfo errorTypeInfo = null;
+    if (francaMethod.getErrorEnum() != null) {
+      errorTypeInfo = typeMapper.createErrorTypeInfo(francaMethod.getErrorEnum());
     }
 
-    storeResult(methodBuilder.build());
+    CFunction result =
+        new CFunction(
+            swiftMethod.getCShortName(),
+            swiftMethod.getCNestedSpecifier(),
+            returnParam.mappedType,
+            inParams,
+            parameterSelf,
+            cppMethod.fullyQualifiedName,
+            Collections.singleton(cppIncludeResolver.resolveInclude(francaMethod)),
+            isStatic ? cppBuilder.getFinalResult(CppMethod.class).name : cppMethod.name,
+            cppMethod.getReturnType().fullyQualifiedName,
+            deploymentModel.isConst(francaMethod),
+            errorTypeInfo);
+
+    storeResult(result);
     closeContext();
   }
 
@@ -235,13 +237,12 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     CppField cppField = cppBuilder.getFinalResult(CppField.class);
     SwiftField swiftField = swiftBuilder.getFinalResult(SwiftField.class);
     CField cField =
-        CField.builder()
-            .swiftLayerName(swiftField.name)
-            .baseLayerName(cppField.name)
-            .cppTypeInfo(getPreviousResult(CppTypeInfo.class))
-            .baseLayerGetterName(deploymentModel.getExternalGetter(francaField))
-            .baseLayerSetterName(deploymentModel.getExternalSetter(francaField))
-            .build();
+        new CField(
+            swiftField.name,
+            cppField.name,
+            getPreviousResult(CppTypeInfo.class),
+            deploymentModel.getExternalGetter(francaField),
+            deploymentModel.getExternalSetter(francaField));
 
     storeResult(cField);
     super.finishBuilding(francaField);
@@ -253,7 +254,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     if (type instanceof CppArrayTypeInfo) {
       CppArrayTypeInfo arrayTypeInfo = (CppArrayTypeInfo) type;
       CArray cArray =
-          CArrayMapper.createArrayDefinition(typeRef, arrayTypeInfo.innerType, arrayTypeInfo);
+          CArrayMapper.createArrayDefinition(typeRef, arrayTypeInfo.getInnerType(), arrayTypeInfo);
       arraysCollector.put(cArray.name, cArray);
     }
 
@@ -280,34 +281,33 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     SwiftMethod getterSwiftMethod = property.getter;
     CppMethod cppGetterMethod = cppMethods.get(0);
     CFunction getterFunction =
-        CFunction.builder(getterSwiftMethod.getCShortName())
-            .nestedSpecifier(getterSwiftMethod.getCNestedSpecifier())
-            .returnType(attributeTypeInfo)
-            .cppReturnTypeName(cppGetterMethod.getReturnType().fullyQualifiedName)
-            .selfParameter(selfParameter)
-            .functionName(cppGetterMethod.name)
-            .delegateCall(cppGetterMethod.fullyQualifiedName)
-            .delegateCallIncludes(
-                Collections.singleton(cppIncludeResolver.resolveInclude(francaAttribute)))
-            .isConst(true)
-            .build();
+        new CFunction(
+            getterSwiftMethod.getCShortName(),
+            getterSwiftMethod.getCNestedSpecifier(),
+            attributeTypeInfo,
+            Collections.emptyList(),
+            selfParameter,
+            cppGetterMethod.fullyQualifiedName,
+            Collections.singleton(cppIncludeResolver.resolveInclude(francaAttribute)),
+            cppGetterMethod.name,
+            cppGetterMethod.getReturnType().fullyQualifiedName,
+            true);
     storeResult(getterFunction);
 
     if (!francaAttribute.isReadonly()) {
       SwiftMethod setterSwiftMethod = property.setter;
       CppMethod cppSetterMethod = cppMethods.get(1);
       CFunction setterFunction =
-          CFunction.builder(setterSwiftMethod.getCShortName())
-              .nestedSpecifier(setterSwiftMethod.getCNestedSpecifier())
-              .cppReturnTypeName(cppSetterMethod.getReturnType().fullyQualifiedName)
-              .parameters(
-                  Collections.singletonList(new CInParameter("newValue", attributeTypeInfo)))
-              .selfParameter(selfParameter)
-              .functionName(cppSetterMethod.name)
-              .delegateCall(cppSetterMethod.fullyQualifiedName)
-              .delegateCallIncludes(
-                  Collections.singleton(cppIncludeResolver.resolveInclude(francaAttribute)))
-              .build();
+          new CFunction(
+              setterSwiftMethod.getCShortName(),
+              setterSwiftMethod.getCNestedSpecifier(),
+              new CppTypeInfo(CType.VOID),
+              Collections.singletonList(new CInParameter("newValue", attributeTypeInfo)),
+              selfParameter,
+              cppSetterMethod.fullyQualifiedName,
+              Collections.singleton(cppIncludeResolver.resolveInclude(francaAttribute)),
+              cppSetterMethod.name,
+              cppSetterMethod.getReturnType().fullyQualifiedName);
       storeResult(setterFunction);
     }
 

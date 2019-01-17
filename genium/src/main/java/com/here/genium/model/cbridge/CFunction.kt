@@ -17,62 +17,32 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge;
+package com.here.genium.model.cbridge
 
-import static java.util.Collections.emptyList;
+import com.here.genium.generator.cbridge.CBridgeNameRules
+import com.here.genium.generator.cbridge.CppTypeInfo
+import com.here.genium.generator.common.NameHelper
+import com.here.genium.model.common.Include
 
-import com.here.genium.generator.cbridge.CBridgeNameRules;
-import com.here.genium.generator.cbridge.CppTypeInfo;
-import com.here.genium.generator.common.NameHelper;
-import com.here.genium.model.common.Include;
-import java.util.*;
-
-public final class CFunction extends CElement {
-
-  public final List<? extends CParameter> parameters;
-  public final CppTypeInfo returnType;
-  public final String cppReturnTypeName;
-  public final String delegateCall;
-  public final Set<Include> delegateCallIncludes;
-  public final String functionName;
-  public final CInParameter selfParameter;
-  public final CppTypeInfo error;
-  public final String shortName;
-  public final boolean isConst;
-
-  public boolean isReturningVoid() {
-    return returnType.functionReturnType.equals(CType.VOID);
-  }
-
-  public static CFunctionBuilder builder(final String shortName) {
-    return new CFunctionBuilder().shortName(shortName);
-  }
-
-  @SuppressWarnings({"ParameterNumber", "PMD.ExcessiveParameterList"})
-  @lombok.Builder
-  private CFunction(
-      List<? extends CParameter> parameters,
-      CppTypeInfo returnType,
-      String cppReturnTypeName,
-      String delegateCall,
-      Set<Include> delegateCallIncludes,
-      String functionName,
-      CInParameter selfParameter,
-      CppTypeInfo error,
-      String nestedSpecifier,
-      String shortName,
-      final boolean isConst) {
-    super(NameHelper.joinNames(nestedSpecifier, shortName, CBridgeNameRules.UNDERSCORE_DELIMITER));
-    this.parameters = parameters != null ? parameters : emptyList();
-    this.returnType = returnType != null ? returnType : new CppTypeInfo(CType.VOID);
-    this.cppReturnTypeName = cppReturnTypeName;
-    this.delegateCall = delegateCall != null ? delegateCall : "";
-    this.delegateCallIncludes =
-        delegateCallIncludes != null ? delegateCallIncludes : new LinkedHashSet<>();
-    this.functionName = functionName;
-    this.selfParameter = selfParameter;
-    this.error = error;
-    this.shortName = shortName;
-    this.isConst = isConst;
-  }
+class CFunction @JvmOverloads constructor(
+    val shortName: String?,
+    nestedSpecifier: String? = null,
+    val returnType: CppTypeInfo = CppTypeInfo(CType.VOID),
+    val parameters: List<CParameter> = listOf(),
+    val selfParameter: CParameter? = null,
+    val delegateCall: String = "",
+    val delegateCallIncludes: Set<Include> = setOf(),
+    val functionName: String? = null,
+    val cppReturnTypeName: String? = null,
+    val isConst: Boolean = false,
+    val error: CppTypeInfo? = null
+) : CElement(
+    NameHelper.joinNames(
+        nestedSpecifier,
+        shortName,
+        CBridgeNameRules.UNDERSCORE_DELIMITER
+    )
+) {
+    @Suppress("unused")
+    val isReturningVoid = returnType.functionReturnType == CType.VOID
 }

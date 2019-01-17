@@ -17,50 +17,42 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge;
+package com.here.genium.generator.cbridge
 
-import com.here.genium.model.cbridge.CType;
-import com.here.genium.model.common.Include;
-import java.util.List;
-import lombok.Singular;
+import com.here.genium.model.cbridge.CType
+import com.here.genium.model.common.Include
 
-public final class CppMapTypeInfo extends CppTypeInfo {
+class CppMapTypeInfo(
+    name: String,
+    cType: CType,
+    functionReturnType: CType,
+    includes: List<Include>,
+    keyType: CppTypeInfo,
+    valueType: CppTypeInfo,
+    enumHashType: String?
+) : CppTypeInfo(name, cType, functionReturnType, CppTypeInfo.TypeCategory.MAP, includes) {
 
-  public final String baseApi;
+    val baseApi = createBaseApiTypeString(keyType, valueType, enumHashType)
 
-  @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterNumber"})
-  @lombok.Builder(builderClassName = "Builder", builderMethodName = "mapTypeBuilder")
-  private CppMapTypeInfo(
-      final String name,
-      final CType cType,
-      final CType functionReturnType,
-      @Singular final List<Include> includes,
-      final CppTypeInfo keyType,
-      final CppTypeInfo valueType,
-      final String enumHashType) {
-    super(name, cType, functionReturnType, TypeCategory.MAP, includes);
-    baseApi = createBaseApiTypeString(keyType, valueType, enumHashType);
-  }
+    companion object {
+        private fun createBaseApiTypeString(
+            keyType: CppTypeInfo,
+            valueType: CppTypeInfo,
+            enumHashType: String?
+        ): String {
 
-  public static Builder mapTypeBuilder(final String name) {
-    return new Builder().name(name);
-  }
+            val stringBuilder = StringBuilder()
+            stringBuilder
+                .append("std::unordered_map<")
+                .append(keyType.name)
+                .append(", ")
+                .append(valueType.name)
+            if (enumHashType != null) {
+                stringBuilder.append(", ").append(enumHashType)
+            }
+            stringBuilder.append('>')
 
-  private static String createBaseApiTypeString(
-      final CppTypeInfo keyType, final CppTypeInfo valueType, final String enumHashType) {
-
-    StringBuilder stringBuilder = new StringBuilder();
-
-    stringBuilder
-        .append("std::unordered_map<")
-        .append(keyType.name)
-        .append(", ")
-        .append(valueType.name);
-    if (enumHashType != null) {
-      stringBuilder.append(", ").append(enumHashType);
+            return stringBuilder.toString()
+        }
     }
-    stringBuilder.append('>');
-
-    return stringBuilder.toString();
-  }
 }

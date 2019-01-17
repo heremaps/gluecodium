@@ -46,7 +46,7 @@ public final class CBridgeComponents {
     for (CStruct struct : cInterface.structs) {
       includes.addAll(struct.mappedType.includes);
       for (CField field : struct.fields) {
-        includes.addAll(field.type.includes);
+        includes.addAll(field.getType().includes);
       }
     }
     if (cInterface.selfType != null) {
@@ -82,8 +82,8 @@ public final class CBridgeComponents {
     }
     for (CStruct struct : cInterface.structs) {
       for (CField field : struct.fields) {
-        includes.addAll(field.type.functionReturnType.includes);
-        includes.addAll(field.type.cType.includes);
+        includes.addAll(field.getType().functionReturnType.includes);
+        includes.addAll(field.getType().cType.includes);
       }
     }
     for (CEnum enumType : cInterface.enums) {
@@ -110,25 +110,25 @@ public final class CBridgeComponents {
 
   private static Collection<Include> collectFunctionSignatureIncludes(CFunction function) {
     Collection<Include> includes = new LinkedList<>();
-    for (CParameter parameter : function.parameters) {
+    for (CParameter parameter : function.getParameters()) {
       includes.addAll(parameter.getSignatureIncludes());
     }
-    includes.addAll(function.returnType.functionReturnType.includes);
-    if (function.error != null) {
-      includes.addAll(function.error.functionReturnType.includes);
+    includes.addAll(function.getReturnType().functionReturnType.includes);
+    if (function.getError() != null) {
+      includes.addAll(function.getError().functionReturnType.includes);
     }
     return includes;
   }
 
   private static Collection<Include> collectFunctionBodyIncludes(CFunction function) {
     Collection<Include> includes = new LinkedList<>();
-    for (CParameter parameter : function.parameters) {
+    for (CParameter parameter : function.getParameters()) {
       includes.addAll(parameter.mappedType.includes);
     }
-    includes.addAll(function.returnType.includes);
-    includes.addAll(function.delegateCallIncludes);
-    if (function.selfParameter != null) {
-      includes.addAll(function.selfParameter.mappedType.includes);
+    includes.addAll(function.getReturnType().includes);
+    includes.addAll(function.getDelegateCallIncludes());
+    if (function.getSelfParameter() != null) {
+      includes.addAll(function.getSelfParameter().mappedType.includes);
     }
     return includes;
   }

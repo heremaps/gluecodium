@@ -203,13 +203,13 @@ public class CBridgeTypeMapper {
       enumHash = enumHashType;
     }
 
-    return CppMapTypeInfo.mapTypeBuilder(cppNameResolver.getFullyQualifiedName(francaMapType))
-        .cType(cType)
-        .functionReturnType(cType)
-        .includes(includes)
-        .keyType(keyType)
-        .valueType(valueType)
-        .enumHashType(enumHash)
-        .build();
+    return new CppMapTypeInfo(
+        cppNameResolver.getFullyQualifiedName(francaMapType),
+        cType,
+        cType,
+        includes,
+        keyType,
+        valueType,
+        enumHash);
   }
 }
