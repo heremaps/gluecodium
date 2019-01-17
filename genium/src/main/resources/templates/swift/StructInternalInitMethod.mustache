@@ -1,7 +1,0 @@
-internal init(cHandle: _baseRef) {
-{{#set structName=simpleName}}
-{{#fields}}
-    {{name}} = {{type.className}}moveFromCType({{cPrefix}}_{{name}}_get(cHandle))
-{{/fields}}
-{{/set}}
-}

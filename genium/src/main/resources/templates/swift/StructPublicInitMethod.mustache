@@ -1,6 +1,0 @@
-public init({{joinPartial fields "initParameter" ", "}}) {
-{{#fields}}
-    self.{{name}} = {{name}}
-{{/fields}}
-}
-{{+initParameter}}{{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}{{#if defaultValue}} = {{defaultValue}}{{/if}}{{/initParameter}}
