@@ -17,45 +17,30 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge;
+package com.here.genium.generator.cbridge
 
-import com.here.genium.model.cbridge.CType;
-import com.here.genium.model.common.Include;
-import java.util.List;
-import lombok.Singular;
+import com.here.genium.model.cbridge.CType
+import com.here.genium.model.common.Include
 
-public final class CppArrayTypeInfo extends CppTypeInfo {
+class CppArrayTypeInfo (
+    name: String,
+    cType: CType,
+    functionReturnType: CType,
+    includes: List<Include>,
+    val innerType: CppTypeInfo
+) : CppTypeInfo(name, cType, functionReturnType, CppTypeInfo.TypeCategory.ARRAY, includes) {
 
-  public final CppTypeInfo innerType;
+    @Suppress("unused")
+    val baseApi
+        get() = arrayFindNested(innerType)
 
-  @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterNumber"})
-  @lombok.Builder(builderClassName = "Builder", builderMethodName = "arrayTypeBuilder")
-  private CppArrayTypeInfo(
-      final String name,
-      final CType cType,
-      final CType functionReturnType,
-      @Singular final List<Include> includes,
-      final CppTypeInfo innerType) {
-    super(name, cType, functionReturnType, TypeCategory.ARRAY, includes);
-    this.innerType = innerType;
-  }
-
-  public static Builder arrayTypeBuilder(final String name) {
-    return new Builder().name(name);
-  }
-
-  @SuppressWarnings("unused")
-  public String getBaseApi() {
-    return arrayFindNested(innerType);
-  }
-
-  private static String arrayFindNested(final CppTypeInfo innerType) {
-
-    String arrayName = innerType.name;
-    if (innerType instanceof CppArrayTypeInfo) {
-      arrayName = arrayFindNested(((CppArrayTypeInfo) innerType).innerType);
+    companion object {
+        private fun arrayFindNested(innerType: CppTypeInfo): String {
+            var arrayName = innerType.name
+            if (innerType is CppArrayTypeInfo) {
+                arrayName = arrayFindNested(innerType.innerType)
+            }
+            return "std::vector<$arrayName>"
+        }
     }
-
-    return "std::vector<" + arrayName + ">";
-  }
 }

@@ -27,6 +27,7 @@ import com.here.genium.model.cbridge.CArray;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.common.InstanceRules;
+import java.util.Arrays;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
@@ -36,13 +37,14 @@ public final class CArrayMapper {
 
     CType arrayType = new CType(BASE_REF_NAME);
 
-    return CppArrayTypeInfo.arrayTypeBuilder("std::vector<" + innerType.name + ">")
-        .cType(arrayType)
-        .functionReturnType(arrayType)
-        .include(Include.Companion.createInternalInclude(BASE_HANDLE_IMPL_FILE))
-        .include(CppLibraryIncludes.VECTOR)
-        .innerType(innerType)
-        .build();
+    return new CppArrayTypeInfo(
+        "std::vector<" + innerType.name + ">",
+        arrayType,
+        arrayType,
+        Arrays.asList(
+            Include.Companion.createInternalInclude(BASE_HANDLE_IMPL_FILE),
+            CppLibraryIncludes.VECTOR),
+        innerType);
   }
 
   public static CArray createArrayDefinition(final FType francaArray, final CppTypeInfo innerType) {
@@ -86,7 +88,7 @@ public final class CArrayMapper {
 
   private static String addNestedSuffixIfNeeded(final CppTypeInfo innerType) {
     return innerType instanceof CppArrayTypeInfo
-        ? addNestedSuffixIfNeeded(((CppArrayTypeInfo) innerType).innerType) + "Array"
+        ? addNestedSuffixIfNeeded(((CppArrayTypeInfo) innerType).getInnerType()) + "Array"
         : "";
   }
 

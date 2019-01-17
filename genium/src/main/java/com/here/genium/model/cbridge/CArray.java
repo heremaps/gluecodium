@@ -33,7 +33,7 @@ public final class CArray extends CElement {
   public CArray(final String name, final CppArrayTypeInfo typeInfo) {
     super(name);
     this.arrayType = typeInfo;
-    this.underlyingType = typeInfo.innerType;
+    this.underlyingType = typeInfo.getInnerType();
   }
 
   public String getType() {
@@ -71,7 +71,7 @@ public final class CArray extends CElement {
   private CppTypeInfo getLastType(final CppTypeInfo typeInfo) {
     CppTypeInfo lastType = typeInfo;
     if (typeInfo instanceof CppArrayTypeInfo) {
-      CppTypeInfo innerInnerType = ((CppArrayTypeInfo) typeInfo).innerType;
+      CppTypeInfo innerInnerType = ((CppArrayTypeInfo) typeInfo).getInnerType();
       if (innerInnerType != null) {
         lastType = getLastType(innerInnerType);
       }

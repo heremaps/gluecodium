@@ -26,10 +26,7 @@ import com.here.genium.generator.cbridge.CBridgeNameRules;
 import com.here.genium.model.common.Include;
 import java.nio.file.Paths;
 import java.util.*;
-import lombok.EqualsAndHashCode;
 
-/** Base class for all C types */
-@EqualsAndHashCode(callSuper = true)
 public class CType extends CElement {
   protected static final String CONST_SPECIFIER = "const";
   public static final Include FIXED_WIDTH_INTEGERS_INCLUDE =

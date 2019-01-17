@@ -140,7 +140,7 @@ public final class CBridgeArrayMapperTest {
     CppArrayTypeInfo arrayType = CArrayMapper.createArrayReference(innerType);
 
     assertNotNull("Array type should not be null", arrayType);
-    assertNotNull("Inner type should not be null", arrayType.innerType);
+    assertNotNull("Inner type should not be null", arrayType.getInnerType());
     assertEquals("Should return array type", ARRAY, arrayType.typeCategory);
     assertEquals("Return type name should match", "_baseRef", arrayType.functionReturnType.name);
   }
@@ -155,9 +155,9 @@ public final class CBridgeArrayMapperTest {
     CppArrayTypeInfo nestedArrayType = CArrayMapper.createArrayReference(arrayType);
 
     assertNotNull("Array type should not be null", nestedArrayType);
-    assertNotNull("Inner type should not be null", nestedArrayType.innerType);
+    assertNotNull("Inner type should not be null", nestedArrayType.getInnerType());
     assertEquals("Should return array type", ARRAY, nestedArrayType.typeCategory);
-    assertEquals("Should return array type", ARRAY, nestedArrayType.innerType.typeCategory);
+    assertEquals("Should return array type", ARRAY, nestedArrayType.getInnerType().typeCategory);
     assertEquals(
         "Return type name should match", "_baseRef", nestedArrayType.functionReturnType.name);
   }
