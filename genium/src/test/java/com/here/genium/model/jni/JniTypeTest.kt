@@ -29,7 +29,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import java.util.Arrays
 
 @RunWith(Parameterized::class)
 class JniTypeTest(private val javaType: JavaType, private val expectedJniTypeSignature: String?) {
@@ -80,16 +79,18 @@ class JniTypeTest(private val javaType: JavaType, private val expectedJniTypeSig
                 "Ljava/lang/Throwable;"
             ),
             arrayOf(
-                JavaCustomType.builder("myNonNestedType")
-                    .className("nonNestedClass")
-                    .packageNames(Arrays.asList("nested", "package"))
-                    .build(), "Lnested/package/nonNestedClass;"
+                JavaCustomType(
+                    "myNonNestedType",
+                    listOf("nonNestedClass"),
+                    listOf("nested", "package")),
+                "Lnested/package/nonNestedClass;"
             ),
             arrayOf(
-                JavaCustomType.builder("myNestedType")
-                    .classNames(Arrays.asList("outerClass", "innerClass"))
-                    .packageNames(Arrays.asList("nested", "package"))
-                    .build(), "Lnested/package/outerClass\$innerClass;"
+                JavaCustomType(
+                    "myNestedType",
+                    listOf("outerClass", "innerClass"),
+                    listOf("nested", "package")),
+                "Lnested/package/outerClass\$innerClass;"
             )
         )
     }

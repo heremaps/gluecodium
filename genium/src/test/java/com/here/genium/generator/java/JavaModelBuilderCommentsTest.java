@@ -70,8 +70,8 @@ public class JavaModelBuilderCommentsTest {
 
   private JavaModelBuilder modelBuilder;
 
-  private final JavaCustomType nativeBase = JavaCustomType.builder("FooNativeBar").build();
-  private final JavaCustomType javaCustomType = JavaCustomType.builder("typically").build();
+  private final JavaCustomType nativeBase = new JavaCustomType("FooNativeBar");
+  private final JavaCustomType javaCustomType = new JavaCustomType("typically");
 
   @Before
   public void setUp() {
@@ -200,8 +200,7 @@ public class JavaModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingFrancaEnumerationTypeReadsComment() {
-    JavaEnumType enumType =
-        new JavaEnumType(null, null, Collections.singletonList("package"), null);
+    JavaEnumType enumType = new JavaEnumType("", null, Collections.singletonList("package"), null);
     when(typeMapper.mapCustomType(any())).thenReturn(enumType);
 
     modelBuilder.finishBuilding(francaEnumerationType);

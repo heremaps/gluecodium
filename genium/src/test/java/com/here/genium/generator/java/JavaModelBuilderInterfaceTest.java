@@ -53,8 +53,8 @@ public class JavaModelBuilderInterfaceTest {
   @Mock private FInterface francaInterface;
   @Mock private FInterface parentInterface;
 
-  private final JavaCustomType nativeBase = JavaCustomType.builder("FooNativeBar").build();
-  private final JavaType javaCustomType = JavaCustomType.builder("typical").build();
+  private final JavaCustomType nativeBase = new JavaCustomType("FooNativeBar");
+  private final JavaType javaCustomType = new JavaCustomType("typical");
   private final JavaConstant javaConstant =
       new JavaConstant("permanent", javaCustomType, new JavaValue("valuable"));
   private final JavaField javaField = new JavaField("flowers", javaCustomType);

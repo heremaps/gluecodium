@@ -76,7 +76,7 @@ public class JavaTypeMapperCustomTypeTest {
 
   @Mock private FrancaDeploymentModel deploymentModel;
 
-  private final JavaType notNullAnnotation = JavaCustomType.builder("foo").build();
+  private final JavaType notNullAnnotation = new JavaCustomType("foo");
 
   private final JavaTypeMapper typeMapper =
       new JavaTypeMapper(new JavaPackage(Collections.emptyList()), null, notNullAnnotation);
@@ -122,7 +122,7 @@ public class JavaTypeMapperCustomTypeTest {
         JAVA_PACKAGE_WITH_TYPECOLLECTION_NAME,
         customReturn.imports.iterator().next().getJavaPackage());
     assertEquals(STRUCT_NAME_TYPECOLLECTION, customReturn.imports.iterator().next().getClassName());
-    assertFalse(customReturn.isInterface);
+    assertFalse(customReturn.isInterface());
   }
 
   @Test
@@ -140,7 +140,7 @@ public class JavaTypeMapperCustomTypeTest {
     assertEquals(STRUCT_NAME_INTERFACE, customReturn.classNames.get(1));
     assertEquals(JAVA_PACKAGE, customReturn.imports.iterator().next().getJavaPackage());
     assertEquals(INTERFACE_NAME, customReturn.imports.iterator().next().getClassName());
-    assertFalse(customReturn.isInterface);
+    assertFalse(customReturn.isInterface());
   }
 
   @Test
@@ -179,7 +179,7 @@ public class JavaTypeMapperCustomTypeTest {
     assertEquals(1, customResult.imports.size());
     assertEquals(
         packageNames, customResult.imports.iterator().next().getJavaPackage().getPackageNames());
-    assertTrue(customResult.isInterface);
+    assertTrue(customResult.isInterface());
 
     PowerMockito.verifyStatic();
     InstanceRules.isInstanceId(francaTypeDef);

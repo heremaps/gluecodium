@@ -17,49 +17,20 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import java.util.Collections;
-import java.util.List;
-import lombok.Singular;
+open class JavaCustomType @JvmOverloads constructor(
+    fullName: String,
+    classNames: List<String>? = null,
+    packageNames: List<String>? = null,
+    javaImports: List<JavaImport>? = null,
+    val isInterface: Boolean = false
+) : JavaComplexType(fullName, classNames ?: listOf(fullName), packageNames, javaImports) {
 
-public class JavaCustomType extends JavaComplexType {
-
-  public final boolean isInterface;
-
-  public JavaCustomType(final String fullName, final JavaPackage javaPackage) {
-    this(fullName, null, javaPackage.getPackageNames(), new JavaImport(fullName, javaPackage));
-  }
-
-  protected JavaCustomType(
-      final String fullName,
-      final List<String> classNames,
-      final List<String> packageNames,
-      final JavaImport javaImport) {
-    this(
+    constructor(fullName: String, javaPackage: JavaPackage) : this(
         fullName,
-        classNames,
-        packageNames,
-        javaImport != null ? Collections.singletonList(javaImport) : null,
-        false);
-  }
-
-  @lombok.Builder(builderClassName = "Builder")
-  private JavaCustomType(
-      final String fullName,
-      @Singular final List<String> classNames,
-      final List<String> packageNames,
-      @Singular final List<JavaImport> javaImports,
-      final boolean isInterface) {
-    super(
-        fullName,
-        classNames != null ? classNames : Collections.singletonList(fullName),
-        packageNames,
-        javaImports);
-    this.isInterface = isInterface;
-  }
-
-  public static Builder builder(final String fullName) {
-    return new Builder().fullName(fullName);
-  }
+        null,
+        javaPackage.packageNames,
+        listOf(JavaImport(fullName, javaPackage))
+    )
 }
