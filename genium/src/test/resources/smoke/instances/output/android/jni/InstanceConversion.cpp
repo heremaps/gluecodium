@@ -12,16 +12,19 @@
 #include "com_example_smoke_InstanceWithStruct.h"
 #include "InstanceConversion.h"
 #include "ArrayConversionUtils.h"
-namespace genium {
-namespace jni {
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiable> & _ninput)
+namespace genium
+{
+namespace jni
+{
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiable> & _ninput)
 {
     if ( !_ninput )
     {
-        return nullptr;
+        return {};
     }
     auto jResult = genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
-    if ( jResult != nullptr )
+    if ( jResult )
     {
         return jResult;
     }
@@ -37,14 +40,15 @@ JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::sm
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiable> & _ninput)
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiable> & _ninput)
 {
     if ( !_ninput )
     {
-        return nullptr;
+        return {};
     }
     auto jResult = genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
-    if ( jResult != nullptr )
+    if ( jResult )
     {
         return jResult;
     }
@@ -60,14 +64,15 @@ JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::sm
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceWithStruct> & _ninput)
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceWithStruct> & _ninput)
 {
     if ( !_ninput )
     {
-        return nullptr;
+        return {};
     }
     auto jResult = genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
-    if ( jResult != nullptr )
+    if ( jResult )
     {
         return jResult;
     }

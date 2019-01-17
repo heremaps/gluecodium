@@ -1,6 +1,5 @@
 #pragma once
 #include <jni.h>
-#include "JniReference.h"
 #include <memory>
 #include <new>
 #include "smoke/SimpleInstantiable.h"
@@ -13,20 +12,28 @@
 #include "com_example_smoke_NestedInstantiable.h"
 #include "smoke/InstanceWithStruct.h"
 #include "com_example_smoke_InstanceWithStruct.h"
+#include "JniReference.h"
 #include "ProxyConversion.h"
-namespace genium {
-namespace jni {
+namespace genium
+{
+namespace jni
+{
 template < typename T >
 ::std::shared_ptr< T >
-convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jobj, ::std::shared_ptr< T >* dummy ) {
+convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::std::shared_ptr< T >* dummy)
+{
     ::std::shared_ptr< T > _nresult{};
     auto nativeBaseClass = find_class(_env, "com/example/NativeBase");
-    if (_env->IsInstanceOf(_jobj.get(), nativeBaseClass.get())) {
-        if (_jobj != nullptr) {
+    if (_env->IsInstanceOf(_jobj.get(), nativeBaseClass.get()))
+    {
+        if (_jobj != nullptr)
+        {
             auto long_ptr = genium::jni::get_long_field(_env, _jobj, "nativeHandle");
             _nresult = *reinterpret_cast<::std::shared_ptr< T >*> (long_ptr);
         }
-    } else {
+    }
+    else
+    {
         ::createCppProxy<>( _env, _jobj, _nresult);
     }
     return _nresult;
