@@ -23,13 +23,38 @@
 {{/includes}}
 #include "ArrayConversionUtils.h"
 
-namespace {{internalNamespace}} {
-namespace jni {
-
+namespace {{internalNamespace}}
+{
+namespace jni
+{
 {{#models}}
-{{>jni/CppToJniInstanceConversionSignature}}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}> & _ninput)
+{
+    if ( !_ninput )
+    {
+        return {};
+    }
 
-{{>jni/CppToJniInstanceConversionBody}}
+    auto jResult = {{internalNamespace}}::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    if ( jResult )
+    {
+        return jResult;
+    }
+
+    auto javaClass = find_class(_jenv, "{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}" );
+    auto pInstanceSharedPointer =
+        new (::std::nothrow) ::std::shared_ptr<{{cppFullyQualifiedName}}>( _ninput );
+    if ( pInstanceSharedPointer == nullptr )
+    {
+        auto exceptionClass = find_class(_jenv, "java/lang/RuntimeException" );
+        _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
+    }
+    jResult = {{internalNamespace}}::jni::create_instance_object(
+        _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
+
+    return jResult;
+}
 
 {{/models}}
 }

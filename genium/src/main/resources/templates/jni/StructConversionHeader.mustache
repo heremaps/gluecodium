@@ -25,16 +25,13 @@
 {{>common/Include}}
 {{/includes}}
 
-namespace {{internalNamespace}} {
-namespace jni {
-
-{{#models}}
-  {{#structs}}
-    {{>jni/JniToCppStructConversionSignature}};
-
-    {{>jni/CppToJniStructConversionSignature}};
-
-  {{/structs}}
-{{/models}}
+namespace {{internalNamespace}}
+{
+namespace jni
+{
+{{#models}}{{#structs}}
+{{cppStruct.fullyQualifiedName}} convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppStruct.fullyQualifiedName}}* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{cppStruct.fullyQualifiedName}}& _ninput);
+{{/structs}}{{/models}}
 }
 }

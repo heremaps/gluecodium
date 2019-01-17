@@ -25,16 +25,13 @@
 {{>common/Include}}
 {{/includes}}
 
-namespace {{internalNamespace}} {
-namespace jni {
-
-{{#models}}
-  {{#enums}}
-    {{>jni/JniToCppEnumerationConversionSignature}};
-
-    {{>jni/CppToJniEnumerationConversionSignature}};
-
-  {{/enums}}
-{{/models}}
+namespace {{internalNamespace}}
+{
+namespace jni
+{
+{{#models}}{{#enums}}
+{{cppEnumName}} convert_from_jni( JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppEnumName}}* dummy );
+JniReference<jobject> convert_to_jni( JNIEnv* _jenv, const {{cppEnumName}} _ninput );
+{{/enums}}{{/models}}
 }
 }
