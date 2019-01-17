@@ -15,7 +15,7 @@ typedef uint32_t smoke_Arrays_ExternalEnum;
 _baseRef smoke_Arrays_BasicStruct_create_handle(double value);
 void smoke_Arrays_BasicStruct_release_handle(_baseRef handle);
 double smoke_Arrays_BasicStruct_value_get(_baseRef handle);
-_baseRef smoke_Arrays_ExternalStruct_create_handle(const char* string);
+_baseRef smoke_Arrays_ExternalStruct_create_handle(_baseRef string);
 void smoke_Arrays_ExternalStruct_release_handle(_baseRef handle);
 _baseRef smoke_Arrays_ExternalStruct_string_get(_baseRef handle);
 _baseRef smoke_Arrays_FancyStruct_create_handle(_baseRef messages, _baseRef numbers, _baseRef image);

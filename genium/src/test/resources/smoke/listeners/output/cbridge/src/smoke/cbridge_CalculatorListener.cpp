@@ -1,7 +1,6 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 #include "cbridge/include/smoke/cbridge_CalculatorListener.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
@@ -11,7 +10,6 @@
 #include <new>
 #include <unordered_map>
 #include <vector>
-
 void smoke_CalculatorListener_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle);
 }
@@ -50,7 +48,6 @@ void smoke_CalculatorListener_onCalculationResultMap(_baseRef _instance, _baseRe
 void smoke_CalculatorListener_onCalculationResultInstance(_baseRef _instance, _baseRef calculationResult) {
     return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_instance(calculationResult ? *get_pointer<std::shared_ptr<::smoke::CalculationResult>>(calculationResult) : nullptr);
 }
-
 class smoke_CalculatorListenerProxy : public std::shared_ptr<::smoke::CalculatorListener>::element_type, public CachedProxyBase<smoke_CalculatorListenerProxy> {
 public:
     smoke_CalculatorListenerProxy(smoke_CalculatorListener_FunctionTable&& functions)
@@ -81,12 +78,10 @@ public:
 private:
     smoke_CalculatorListener_FunctionTable mFunctions;
 };
-
 _baseRef smoke_CalculatorListener_create_proxy(smoke_CalculatorListener_FunctionTable functionTable) {
     auto proxy = smoke_CalculatorListenerProxy::get_proxy(std::move(functionTable));
     return proxy ? reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::CalculatorListener>(std::move(proxy))) : 0;
 }
-
 const void* smoke_CalculatorListener_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_CalculatorListenerProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle)->get()) : nullptr;
 }

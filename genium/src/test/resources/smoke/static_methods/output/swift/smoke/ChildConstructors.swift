@@ -27,8 +27,8 @@ public class ChildConstructors: Constructors {
         return moveFromCType(smoke_ChildConstructors_create_noArgsChild())
     }
     private static func create(other: Constructors?) -> _baseRef {
-        let other_handle = getRef(other)
-        return moveFromCType(smoke_ChildConstructors_create_copyFromParent(other_handle.ref))
+            let c_other = moveToCType(other)
+        return moveFromCType(smoke_ChildConstructors_create_copyFromParent(c_other.ref))
     }
 }
 internal func ChildConstructorscopyFromCType(_ handle: _baseRef) -> ChildConstructors {
@@ -45,4 +45,16 @@ internal func ChildConstructorscopyFromCType(_ handle: _baseRef) -> ChildConstru
 }
 internal func ChildConstructorsmoveFromCType(_ handle: _baseRef) -> ChildConstructors? {
     return ChildConstructorscopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: ChildConstructors) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ChildConstructors) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: ChildConstructors?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ChildConstructors?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

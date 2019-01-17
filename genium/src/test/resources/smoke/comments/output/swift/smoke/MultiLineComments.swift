@@ -28,7 +28,9 @@ public class MultiLineComments {
     /// - Parameter ratio: Not as useful as the first parameter. But still useful. use a positive value for more happiness.
     /// - Returns: If you provide a useful input, and a useful ratio you can expect a useful output. Just kidding do not expect anything from a method until you see its body.
     public func someMethodWithLongComment(input: String, ratio: Double) -> Float {
-        return moveFromCType(smoke_MultiLineComments_someMethodWithLongComment(c_instance, input, ratio))
+            let c_input = moveToCType(input)
+            let c_ratio = moveToCType(ratio)
+        return moveFromCType(smoke_MultiLineComments_someMethodWithLongComment(self.c_instance, c_input.ref, c_ratio.ref))
     }
 }
 extension MultiLineComments: NativeBase {
@@ -48,4 +50,16 @@ internal func MultiLineCommentscopyFromCType(_ handle: _baseRef) -> MultiLineCom
 }
 internal func MultiLineCommentsmoveFromCType(_ handle: _baseRef) -> MultiLineComments? {
     return MultiLineCommentscopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: MultiLineComments) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: MultiLineComments) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: MultiLineComments?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: MultiLineComments?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

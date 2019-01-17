@@ -25,7 +25,7 @@ internal func getRef(_ ref: SimpleInterface?, owning: Bool = true) -> RefHolder 
     }
     functions.smoke_SimpleInterface_getStringValue = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! SimpleInterface
-        return swift_class.getStringValue().convertToCType()
+        return copyToCType(swift_class.getStringValue()).ref
     }
     let proxy = smoke_SimpleInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_SimpleInterface_release_handle) : RefHolder(proxy)
@@ -46,10 +46,11 @@ internal class _SimpleInterface: SimpleInterface {
         smoke_SimpleInterface_release_handle(c_instance)
     }
     public func setStringValue(stringValue: String) -> Void {
-        return moveFromCType(smoke_SimpleInterface_setStringValue(c_instance, stringValue))
+            let c_stringValue = moveToCType(stringValue)
+        return moveFromCType(smoke_SimpleInterface_setStringValue(self.c_instance, c_stringValue.ref))
     }
     public func getStringValue() -> String {
-        return moveFromCType(smoke_SimpleInterface_getStringValue(c_instance))
+        return moveFromCType(smoke_SimpleInterface_getStringValue(self.c_instance))
     }
 }
 extension _SimpleInterface: NativeBase {
@@ -74,4 +75,16 @@ internal func SimpleInterfacecopyFromCType(_ handle: _baseRef) -> SimpleInterfac
 }
 internal func SimpleInterfacemoveFromCType(_ handle: _baseRef) -> SimpleInterface? {
     return SimpleInterfacecopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: SimpleInterface) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: SimpleInterface) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: SimpleInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: SimpleInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

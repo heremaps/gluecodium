@@ -21,7 +21,7 @@ internal func getRef(_ ref: InterfaceWithStruct?, owning: Bool = true) -> RefHol
     }
     functions.smoke_InterfaceWithStruct_innerStructMethod = {(swift_class_pointer, inputStruct) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InterfaceWithStruct
-        return swift_class.innerStructMethod(inputStruct: moveFromCType(inputStruct)).convertToCType()
+        return copyToCType(swift_class.innerStructMethod(inputStruct: moveFromCType(inputStruct))).ref
     }
     let proxy = smoke_InterfaceWithStruct_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_InterfaceWithStruct_release_handle) : RefHolder(proxy)
@@ -41,11 +41,8 @@ internal class _InterfaceWithStruct: InterfaceWithStruct {
         smoke_InterfaceWithStruct_release_handle(c_instance)
     }
     public func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct {
-        let inputStruct_handle = inputStruct.convertToCType()
-        defer {
-            smoke_InterfaceWithStruct_InnerStruct_release_handle(inputStruct_handle)
-        }
-        return moveFromCType(smoke_InterfaceWithStruct_innerStructMethod(c_instance, inputStruct_handle))
+            let c_inputStruct = moveToCType(inputStruct)
+        return moveFromCType(smoke_InterfaceWithStruct_innerStructMethod(self.c_instance, c_inputStruct.ref))
     }
 }
 extension _InterfaceWithStruct: NativeBase {
@@ -71,6 +68,18 @@ internal func InterfaceWithStructcopyFromCType(_ handle: _baseRef) -> InterfaceW
 internal func InterfaceWithStructmoveFromCType(_ handle: _baseRef) -> InterfaceWithStruct? {
     return InterfaceWithStructcopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: InterfaceWithStruct) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InterfaceWithStruct) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: InterfaceWithStruct?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InterfaceWithStruct?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 public struct InnerStruct {
     public var value: Int8
     public init(value: Int8) {
@@ -80,8 +89,8 @@ public struct InnerStruct {
         value = moveFromCType(smoke_InterfaceWithStruct_InnerStruct_value_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
-        let value_handle = value
-        return smoke_InterfaceWithStruct_InnerStruct_create_handle(value_handle)
+        let c_value = moveToCType(value)
+        return smoke_InterfaceWithStruct_InnerStruct_create_handle(c_value.ref)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> InnerStruct {
@@ -92,4 +101,10 @@ internal func moveFromCType(_ handle: _baseRef) -> InnerStruct {
         smoke_InterfaceWithStruct_InnerStruct_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: InnerStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: InnerStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InterfaceWithStruct_InnerStruct_release_handle)
 }

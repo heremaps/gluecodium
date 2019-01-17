@@ -23,12 +23,12 @@ public class Calculator {
         smoke_Calculator_release_handle(c_instance)
     }
     public static func registerListener(listener: CalculatorListener?) -> Void {
-        let listener_handle = getRef(listener)
-        return moveFromCType(smoke_Calculator_registerListener(listener_handle.ref))
+            let c_listener = moveToCType(listener)
+        return moveFromCType(smoke_Calculator_registerListener(c_listener.ref))
     }
     public static func unregisterListener(listener: CalculatorListener?) -> Void {
-        let listener_handle = getRef(listener)
-        return moveFromCType(smoke_Calculator_unregisterListener(listener_handle.ref))
+            let c_listener = moveToCType(listener)
+        return moveFromCType(smoke_Calculator_unregisterListener(c_listener.ref))
     }
 }
 extension Calculator: NativeBase {
@@ -48,4 +48,16 @@ internal func CalculatorcopyFromCType(_ handle: _baseRef) -> Calculator? {
 }
 internal func CalculatormoveFromCType(_ handle: _baseRef) -> Calculator? {
     return CalculatorcopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: Calculator) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Calculator) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: Calculator?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Calculator?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

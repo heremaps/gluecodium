@@ -23,7 +23,8 @@ public class Basic {
         examples_Basic_release_handle(c_instance)
     }
     public static func basicMethod(inputString: String) -> String {
-        return moveFromCType(examples_Basic_basicMethod(inputString))
+            let c_inputString = moveToCType(inputString)
+        return moveFromCType(examples_Basic_basicMethod(c_inputString.ref))
     }
 }
 extension Basic: NativeBase {
@@ -43,4 +44,16 @@ internal func BasiccopyFromCType(_ handle: _baseRef) -> Basic? {
 }
 internal func BasicmoveFromCType(_ handle: _baseRef) -> Basic? {
     return BasiccopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: Basic) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Basic) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: Basic?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Basic?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

@@ -39,8 +39,8 @@ public class Maps {
             value = moveFromCType(smoke_Maps_SomeStruct_value_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
-            let value_handle = value
-            return smoke_Maps_SomeStruct_create_handle(value_handle)
+            let c_value = moveToCType(value)
+            return smoke_Maps_SomeStruct_create_handle(c_value.ref)
         }
     }
     public struct StructWithMap {
@@ -52,54 +52,33 @@ public class Maps {
             errorMapping = moveFromCType(smoke_Maps_StructWithMap_errorMapping_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
-            let errorMapping_handle = convertMaps_ErrorCodeToMessageMapToCType(errorMapping)
-            defer {
-              smoke_Maps_ErrorCodeToMessageMap_release_handle(errorMapping_handle)
-            }
-            return smoke_Maps_StructWithMap_create_handle(errorMapping_handle)
+            let c_errorMapping = moveToCType(errorMapping)
+            return smoke_Maps_StructWithMap_create_handle(c_errorMapping.ref)
         }
     }
     public static func methodWithMap(input: Maps.ErrorCodeToMessageMap) -> Maps.ErrorCodeToMessageMap {
-        let input_handle = convertMaps_ErrorCodeToMessageMapToCType(input)
-        defer {
-            smoke_Maps_ErrorCodeToMessageMap_release_handle(input_handle)
-        }
-        return moveFromCType(smoke_Maps_methodWithMap(input_handle))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_Maps_methodWithMap(c_input.ref))
     }
     public static func methodWithMapToStruct(input: Maps.NumberToStruct) -> Maps.NumberToStruct {
-        let input_handle = convertMaps_NumberToStructToCType(input)
-        defer {
-            smoke_Maps_NumberToStruct_release_handle(input_handle)
-        }
-        return moveFromCType(smoke_Maps_methodWithMapToStruct(input_handle))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_Maps_methodWithMapToStruct(c_input.ref))
     }
     public static func methodWithNestedMap(input: Maps.NestedMap) -> Maps.NestedMap {
-        let input_handle = convertMaps_NestedMapToCType(input)
-        defer {
-            smoke_Maps_NestedMap_release_handle(input_handle)
-        }
-        return moveFromCType(smoke_Maps_methodWithNestedMap(input_handle))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_Maps_methodWithNestedMap(c_input.ref))
     }
     public static func methodWithStructWithMap(input: Maps.StructWithMap) -> Maps.StructWithMap {
-        let input_handle = input.convertToCType()
-        defer {
-            smoke_Maps_StructWithMap_release_handle(input_handle)
-        }
-        return moveFromCType(smoke_Maps_methodWithStructWithMap(input_handle))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_Maps_methodWithStructWithMap(c_input.ref))
     }
     public static func methodWithMapOfArrays(input: Maps.StringToArray) -> Maps.StringToArray {
-        let input_handle = convertMaps_StringToArrayToCType(input)
-        defer {
-            smoke_Maps_StringToArray_release_handle(input_handle)
-        }
-        return moveFromCType(smoke_Maps_methodWithMapOfArrays(input_handle))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_Maps_methodWithMapOfArrays(c_input.ref))
     }
     public static func methodWithMapOfInstances(input: Maps.NumberToInstance) -> Maps.NumberToInstance {
-        let input_handle = convertMaps_NumberToInstanceToCType(input)
-        defer {
-            smoke_Maps_NumberToInstance_release_handle(input_handle)
-        }
-        return moveFromCType(smoke_Maps_methodWithMapOfInstances(input_handle))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_Maps_methodWithMapOfInstances(c_input.ref))
     }
 }
 extension Maps: NativeBase {
@@ -120,6 +99,18 @@ internal func MapscopyFromCType(_ handle: _baseRef) -> Maps? {
 internal func MapsmoveFromCType(_ handle: _baseRef) -> Maps? {
     return MapscopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: Maps) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Maps) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: Maps?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Maps?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Maps.SomeStruct {
     return Maps.SomeStruct(cHandle: handle)
 }
@@ -128,6 +119,12 @@ internal func moveFromCType(_ handle: _baseRef) -> Maps.SomeStruct {
         smoke_Maps_SomeStruct_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Maps.SomeStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: Maps.SomeStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_SomeStruct_release_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> Maps.StructWithMap {
     return Maps.StructWithMap(cHandle: handle)
@@ -138,89 +135,9 @@ internal func moveFromCType(_ handle: _baseRef) -> Maps.StructWithMap {
     }
     return copyFromCType(handle)
 }
-func convertMaps_ErrorCodeToMessageMapToCType(_ swiftDict: Maps.ErrorCodeToMessageMap) -> _baseRef {
-    let c_handle = smoke_Maps_ErrorCodeToMessageMap_create_handle()
-    for (swift_key, swift_value) in swiftDict {
-        let c_key = swift_key
-        let c_value = swift_value.convertToCType()
-        defer {
-            std_string_release_handle(c_value)
-        }
-        smoke_Maps_ErrorCodeToMessageMap_put(c_handle, c_key, c_value)
-    }
-    return c_handle
+internal func copyToCType(_ swiftType: Maps.StructWithMap) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
 }
-func convertMaps_NumberToStructToCType(_ swiftDict: Maps.NumberToStruct) -> _baseRef {
-    let c_handle = smoke_Maps_NumberToStruct_create_handle()
-    for (swift_key, swift_value) in swiftDict {
-        let c_key = swift_key
-        let c_value = swift_value.convertToCType()
-        defer {
-            smoke_Maps_SomeStruct_release_handle(c_value)
-        }
-        smoke_Maps_NumberToStruct_put(c_handle, c_key, c_value)
-    }
-    return c_handle
-}
-func convertMaps_NestedMapToCType(_ swiftDict: Maps.NestedMap) -> _baseRef {
-    let c_handle = smoke_Maps_NestedMap_create_handle()
-    for (swift_key, swift_value) in swiftDict {
-        let c_key = swift_key
-        let c_value = convertMaps_NumberToStructToCType(swift_value)
-        defer {
-            smoke_Maps_NumberToStruct_release_handle(c_value)
-        }
-        smoke_Maps_NestedMap_put(c_handle, c_key, c_value)
-    }
-    return c_handle
-}
-func convertMaps_NumberToTypeDefToCType(_ swiftDict: Maps.NumberToTypeDef) -> _baseRef {
-    let c_handle = smoke_Maps_NumberToTypeDef_create_handle()
-    for (swift_key, swift_value) in swiftDict {
-        let c_key = swift_key
-        let c_value = swift_value.convertToCType()
-        defer {
-            std_string_release_handle(c_value)
-        }
-        smoke_Maps_NumberToTypeDef_put(c_handle, c_key, c_value)
-    }
-    return c_handle
-}
-func convertMaps_TypeDefToNumberToCType(_ swiftDict: Maps.TypeDefToNumber) -> _baseRef {
-    let c_handle = smoke_Maps_TypeDefToNumber_create_handle()
-    for (swift_key, swift_value) in swiftDict {
-        let c_key = swift_key.convertToCType()
-        defer {
-            std_string_release_handle(c_key)
-        }
-        let c_value = swift_value
-        smoke_Maps_TypeDefToNumber_put(c_handle, c_key, c_value)
-    }
-    return c_handle
-}
-func convertMaps_StringToArrayToCType(_ swiftDict: Maps.StringToArray) -> _baseRef {
-    let c_handle = smoke_Maps_StringToArray_create_handle()
-    for (swift_key, swift_value) in swiftDict {
-        let c_key = swift_key.convertToCType()
-        defer {
-            std_string_release_handle(c_key)
-        }
-        let c_conversion = swift_value.c_conversion()
-        defer {
-            c_conversion.cleanup()
-        }
-        let c_value = c_conversion.c_type
-        smoke_Maps_StringToArray_put(c_handle, c_key, c_value)
-    }
-    return c_handle
-}
-func convertMaps_NumberToInstanceToCType(_ swiftDict: Maps.NumberToInstance) -> _baseRef {
-    let c_handle = smoke_Maps_NumberToInstance_create_handle()
-    for (swift_key, swift_value) in swiftDict {
-        let c_key = swift_key
-        let value_ref_holder = getRef(swift_value)
-        let c_value = value_ref_holder.ref
-        smoke_Maps_NumberToInstance_put(c_handle, c_key, c_value)
-    }
-    return c_handle
+internal func moveToCType(_ swiftType: Maps.StructWithMap) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_StructWithMap_release_handle)
 }

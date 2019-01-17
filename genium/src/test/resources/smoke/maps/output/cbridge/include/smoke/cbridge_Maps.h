@@ -1,20 +1,16 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 #pragma once
-
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_MapsInstance.h"
 #include <stdint.h>
 #include <stdbool.h>
-
-_baseRef smoke_Maps_SomeStruct_create_handle(const char* value);
+_baseRef smoke_Maps_SomeStruct_create_handle(_baseRef value);
 void smoke_Maps_SomeStruct_release_handle(_baseRef handle);
 _baseRef smoke_Maps_SomeStruct_value_get(_baseRef handle);
 _baseRef smoke_Maps_StructWithMap_create_handle(_baseRef errorMapping);
@@ -22,14 +18,12 @@ void smoke_Maps_StructWithMap_release_handle(_baseRef handle);
 _baseRef smoke_Maps_StructWithMap_errorMapping_get(_baseRef handle);
 void smoke_Maps_release_handle(_baseRef handle);
 _baseRef smoke_Maps_copy_handle(_baseRef handle);
-
 _baseRef smoke_Maps_methodWithMap(_baseRef input);
 _baseRef smoke_Maps_methodWithMapToStruct(_baseRef input);
 _baseRef smoke_Maps_methodWithNestedMap(_baseRef input);
 _baseRef smoke_Maps_methodWithStructWithMap(_baseRef input);
 _baseRef smoke_Maps_methodWithMapOfArrays(_baseRef input);
 _baseRef smoke_Maps_methodWithMapOfInstances(_baseRef input);
-
 _baseRef smoke_Maps_ErrorCodeToMessageMap_create_handle();
 void smoke_Maps_ErrorCodeToMessageMap_release_handle(_baseRef handle);
 _baseRef smoke_Maps_ErrorCodeToMessageMap_iterator(_baseRef handle);
@@ -93,7 +87,6 @@ bool smoke_Maps_NumberToInstance_iterator_is_valid(_baseRef handle, _baseRef ite
 void smoke_Maps_NumberToInstance_iterator_increment(_baseRef iterator_handle);
 uint8_t smoke_Maps_NumberToInstance_iterator_key(_baseRef iterator_handle);
 _baseRef smoke_Maps_NumberToInstance_iterator_value(_baseRef iterator_handle);
-
 #ifdef __cplusplus
 }
 #endif

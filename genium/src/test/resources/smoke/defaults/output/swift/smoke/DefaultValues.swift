@@ -57,14 +57,14 @@ public class DefaultValues {
             externalEnumField = moveFromCType(smoke_DefaultValues_StructWithDefaults_externalEnumField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
-            let intField_handle = intField
-            let uintField_handle = uintField
-            let floatField_handle = floatField
-            let boolField_handle = boolField
-            let stringField_handle = stringField
-            let enumField_handle = enumField.rawValue
-            let externalEnumField_handle = externalEnumField.rawValue
-            return smoke_DefaultValues_StructWithDefaults_create_handle(intField_handle, uintField_handle, floatField_handle, boolField_handle, stringField_handle, enumField_handle, externalEnumField_handle)
+            let c_intField = moveToCType(intField)
+            let c_uintField = moveToCType(uintField)
+            let c_floatField = moveToCType(floatField)
+            let c_boolField = moveToCType(boolField)
+            let c_stringField = moveToCType(stringField)
+            let c_enumField = moveToCType(enumField)
+            let c_externalEnumField = moveToCType(externalEnumField)
+            return smoke_DefaultValues_StructWithDefaults_create_handle(c_intField.ref, c_uintField.ref, c_floatField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref, c_externalEnumField.ref)
         }
     }
     public struct StructWithSpecialDefaults {
@@ -91,21 +91,18 @@ public class DefaultValues {
             doubleNegativeInfinityField = moveFromCType(smoke_DefaultValues_StructWithSpecialDefaults_doubleNegativeInfinityField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
-            let floatNanField_handle = floatNanField
-            let floatInfinityField_handle = floatInfinityField
-            let floatNegativeInfinityField_handle = floatNegativeInfinityField
-            let doubleNanField_handle = doubleNanField
-            let doubleInfinityField_handle = doubleInfinityField
-            let doubleNegativeInfinityField_handle = doubleNegativeInfinityField
-            return smoke_DefaultValues_StructWithSpecialDefaults_create_handle(floatNanField_handle, floatInfinityField_handle, floatNegativeInfinityField_handle, doubleNanField_handle, doubleInfinityField_handle, doubleNegativeInfinityField_handle)
+            let c_floatNanField = moveToCType(floatNanField)
+            let c_floatInfinityField = moveToCType(floatInfinityField)
+            let c_floatNegativeInfinityField = moveToCType(floatNegativeInfinityField)
+            let c_doubleNanField = moveToCType(doubleNanField)
+            let c_doubleInfinityField = moveToCType(doubleInfinityField)
+            let c_doubleNegativeInfinityField = moveToCType(doubleNegativeInfinityField)
+            return smoke_DefaultValues_StructWithSpecialDefaults_create_handle(c_floatNanField.ref, c_floatInfinityField.ref, c_floatNegativeInfinityField.ref, c_doubleNanField.ref, c_doubleInfinityField.ref, c_doubleNegativeInfinityField.ref)
         }
     }
     public static func processStructWithDefaults(input: DefaultValues.StructWithDefaults) -> DefaultValues.StructWithDefaults {
-        let input_handle = input.convertToCType()
-        defer {
-            smoke_DefaultValues_StructWithDefaults_release_handle(input_handle)
-        }
-        return moveFromCType(smoke_DefaultValues_processStructWithDefaults(input_handle))
+            let c_input = moveToCType(input)
+        return moveFromCType(smoke_DefaultValues_processStructWithDefaults(c_input.ref))
     }
 }
 extension DefaultValues: NativeBase {
@@ -126,6 +123,18 @@ internal func DefaultValuescopyFromCType(_ handle: _baseRef) -> DefaultValues? {
 internal func DefaultValuesmoveFromCType(_ handle: _baseRef) -> DefaultValues? {
     return DefaultValuescopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: DefaultValues) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: DefaultValues) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: DefaultValues?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: DefaultValues?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 internal func copyFromCType(_ handle: _baseRef) -> DefaultValues.StructWithDefaults {
     return DefaultValues.StructWithDefaults(cHandle: handle)
 }
@@ -134,6 +143,12 @@ internal func moveFromCType(_ handle: _baseRef) -> DefaultValues.StructWithDefau
         smoke_DefaultValues_StructWithDefaults_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: DefaultValues.StructWithDefaults) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: DefaultValues.StructWithDefaults) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_StructWithDefaults_release_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> DefaultValues.StructWithSpecialDefaults {
     return DefaultValues.StructWithSpecialDefaults(cHandle: handle)
@@ -144,15 +159,33 @@ internal func moveFromCType(_ handle: _baseRef) -> DefaultValues.StructWithSpeci
     }
     return copyFromCType(handle)
 }
+internal func copyToCType(_ swiftType: DefaultValues.StructWithSpecialDefaults) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: DefaultValues.StructWithSpecialDefaults) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_StructWithSpecialDefaults_release_handle)
+}
 internal func copyFromCType(_ cValue: UInt32) -> DefaultValues.SomeEnum {
     return DefaultValues.SomeEnum(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> DefaultValues.SomeEnum {
     return copyFromCType(cValue)
 }
+internal func copyToCType(_ swiftType: DefaultValues.SomeEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: DefaultValues.SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
+}
 internal func copyFromCType(_ cValue: UInt32) -> DefaultValues.ExternalEnum {
     return DefaultValues.ExternalEnum(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> DefaultValues.ExternalEnum {
     return copyFromCType(cValue)
+}
+internal func copyToCType(_ swiftType: DefaultValues.ExternalEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: DefaultValues.ExternalEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
 }

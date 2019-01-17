@@ -16,7 +16,7 @@ public class InheritanceGrandchildClass: InheritanceChildClass {
         super.init(cInheritanceChildClass: cInheritanceGrandchildClass)
     }
     public func grandchildClassMethod() -> Void {
-        return moveFromCType(smoke_InheritanceGrandchildClass_grandchildClassMethod(c_instance))
+        return moveFromCType(smoke_InheritanceGrandchildClass_grandchildClassMethod(self.c_instance))
     }
 }
 internal func InheritanceGrandchildClasscopyFromCType(_ handle: _baseRef) -> InheritanceGrandchildClass {
@@ -33,4 +33,16 @@ internal func InheritanceGrandchildClasscopyFromCType(_ handle: _baseRef) -> Inh
 }
 internal func InheritanceGrandchildClassmoveFromCType(_ handle: _baseRef) -> InheritanceGrandchildClass? {
     return InheritanceGrandchildClasscopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: InheritanceGrandchildClass) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InheritanceGrandchildClass) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: InheritanceGrandchildClass?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InheritanceGrandchildClass?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

@@ -24,7 +24,8 @@ public class Typedefs {
         examples_Typedefs_release_handle(c_instance)
     }
     public static func typedefMethod(input: Typedefs.ExampleAlias) -> Typedefs.ExampleAlias {
-        return moveFromCType(examples_Typedefs_typedefMethod(input))
+            let c_input = moveToCType(input)
+        return moveFromCType(examples_Typedefs_typedefMethod(c_input.ref))
     }
 }
 extension Typedefs: NativeBase {
@@ -44,4 +45,16 @@ internal func TypedefscopyFromCType(_ handle: _baseRef) -> Typedefs? {
 }
 internal func TypedefsmoveFromCType(_ handle: _baseRef) -> Typedefs? {
     return TypedefscopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: Typedefs) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Typedefs) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: Typedefs?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Typedefs?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

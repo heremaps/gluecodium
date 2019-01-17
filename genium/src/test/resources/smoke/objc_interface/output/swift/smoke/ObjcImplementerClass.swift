@@ -42,3 +42,15 @@ internal func ObjcImplementerClasscopyFromCType(_ handle: _baseRef) -> ObjcImple
 internal func ObjcImplementerClassmoveFromCType(_ handle: _baseRef) -> ObjcImplementerClass? {
     return ObjcImplementerClasscopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: ObjcImplementerClass) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ObjcImplementerClass) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: ObjcImplementerClass?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ObjcImplementerClass?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}

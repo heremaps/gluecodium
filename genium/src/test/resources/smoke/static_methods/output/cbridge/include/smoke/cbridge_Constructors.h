@@ -21,8 +21,8 @@ void smoke_Constructors_release_handle(_baseRef handle);
 _baseRef smoke_Constructors_copy_handle(_baseRef handle);
 _baseRef smoke_Constructors_create_noArgs();
 _baseRef smoke_Constructors_create_copyCtor(_baseRef other);
-_baseRef smoke_Constructors_create_twoArgs(const char* foo, uint64_t bar);
-smoke_Constructors_create_withError_result smoke_Constructors_create_withError(const char* input);
+_baseRef smoke_Constructors_create_twoArgs(_baseRef foo, uint64_t bar);
+smoke_Constructors_create_withError_result smoke_Constructors_create_withError(_baseRef input);
 _baseRef smoke_Constructors_create_withArray(_baseRef input);
 #ifdef __cplusplus
 }

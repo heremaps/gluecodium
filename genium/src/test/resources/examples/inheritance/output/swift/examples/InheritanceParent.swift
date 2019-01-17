@@ -21,7 +21,7 @@ internal func getRef(_ ref: InheritanceParent?, owning: Bool = true) -> RefHolde
     }
     functions.examples_InheritanceParent_parentMethod = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! InheritanceParent
-        return swift_class.parentMethod(input: moveFromCType(input)).convertToCType()
+        return copyToCType(swift_class.parentMethod(input: moveFromCType(input))).ref
     }
     let proxy = examples_InheritanceParent_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_InheritanceParent_release_handle) : RefHolder(proxy)
@@ -41,7 +41,8 @@ internal class _InheritanceParent: InheritanceParent {
         examples_InheritanceParent_release_handle(c_instance)
     }
     public func parentMethod(input: String) -> String {
-        return moveFromCType(examples_InheritanceParent_parentMethod(c_instance, input))
+            let c_input = moveToCType(input)
+        return moveFromCType(examples_InheritanceParent_parentMethod(self.c_instance, c_input.ref))
     }
 }
 extension _InheritanceParent: NativeBase {
@@ -66,4 +67,16 @@ internal func InheritanceParentcopyFromCType(_ handle: _baseRef) -> InheritanceP
 }
 internal func InheritanceParentmoveFromCType(_ handle: _baseRef) -> InheritanceParent? {
     return InheritanceParentcopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: InheritanceParent) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InheritanceParent) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: InheritanceParent?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InheritanceParent?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

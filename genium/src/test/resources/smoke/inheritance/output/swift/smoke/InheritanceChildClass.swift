@@ -14,10 +14,11 @@ internal func getRef(_ ref: InheritanceChildClass?, owning: Bool = true) -> RefH
 public class InheritanceChildClass: InheritanceRoot {
     public var rootAttribute: String {
         get {
-            return moveFromCType(smoke_InheritanceRoot_rootAttribute_get(c_instance))
+            return moveFromCType(smoke_InheritanceRoot_rootAttribute_get(self.c_instance))
         }
         set {
-            return moveFromCType(smoke_InheritanceRoot_rootAttribute_set(c_instance, newValue))
+                let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_InheritanceRoot_rootAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef
@@ -31,10 +32,10 @@ public class InheritanceChildClass: InheritanceRoot {
         smoke_InheritanceChildClass_release_handle(c_instance)
     }
     public func rootMethod() -> Void {
-        return moveFromCType(smoke_InheritanceRoot_rootMethod(c_instance))
+        return moveFromCType(smoke_InheritanceRoot_rootMethod(self.c_instance))
     }
     public func childClassMethod() -> Void {
-        return moveFromCType(smoke_InheritanceChildClass_childClassMethod(c_instance))
+        return moveFromCType(smoke_InheritanceChildClass_childClassMethod(self.c_instance))
     }
 }
 extension InheritanceChildClass: NativeBase {
@@ -54,4 +55,16 @@ internal func InheritanceChildClasscopyFromCType(_ handle: _baseRef) -> Inherita
 }
 internal func InheritanceChildClassmoveFromCType(_ handle: _baseRef) -> InheritanceChildClass? {
     return InheritanceChildClasscopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: InheritanceChildClass) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InheritanceChildClass) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: InheritanceChildClass?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InheritanceChildClass?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

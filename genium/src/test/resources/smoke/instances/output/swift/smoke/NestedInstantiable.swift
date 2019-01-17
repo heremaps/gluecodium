@@ -23,16 +23,16 @@ public class NestedInstantiable {
         smoke_NestedInstantiable_release_handle(c_instance)
     }
     public func setSameTypeInstances(instanceOne: SimpleInstantiable?, instanceTwo: SimpleInstantiable?) -> Void {
-        let instanceOne_handle = getRef(instanceOne)
-        let instanceTwo_handle = getRef(instanceTwo)
-        return moveFromCType(smoke_NestedInstantiable_setSameTypeInstances(c_instance, instanceOne_handle.ref, instanceTwo_handle.ref))
+            let c_instanceOne = moveToCType(instanceOne)
+            let c_instanceTwo = moveToCType(instanceTwo)
+        return moveFromCType(smoke_NestedInstantiable_setSameTypeInstances(self.c_instance, c_instanceOne.ref, c_instanceTwo.ref))
     }
     public func getInstanceOne() -> SimpleInstantiable? {
-        return SimpleInstantiablemoveFromCType(smoke_NestedInstantiable_getInstanceOne(c_instance))
+        return SimpleInstantiablemoveFromCType(smoke_NestedInstantiable_getInstanceOne(self.c_instance))
     }
     public func instanceNotNullMethod(input: SimpleInstantiable) -> SimpleInstantiable {
-        let input_handle = getRef(input)
-        return SimpleInstantiablemoveFromCType(smoke_NestedInstantiable_instanceNotNullMethod(c_instance, input_handle.ref))
+            let c_input = moveToCType(input)
+        return SimpleInstantiablemoveFromCType(smoke_NestedInstantiable_instanceNotNullMethod(self.c_instance, c_input.ref))
     }
 }
 extension NestedInstantiable: NativeBase {
@@ -52,4 +52,16 @@ internal func NestedInstantiablecopyFromCType(_ handle: _baseRef) -> NestedInsta
 }
 internal func NestedInstantiablemoveFromCType(_ handle: _baseRef) -> NestedInstantiable? {
     return NestedInstantiablecopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: NestedInstantiable) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: NestedInstantiable) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: NestedInstantiable?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: NestedInstantiable?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

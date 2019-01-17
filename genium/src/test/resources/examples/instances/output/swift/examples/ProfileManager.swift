@@ -23,13 +23,16 @@ public class ProfileManager {
         examples_ProfileManager_release_handle(c_instance)
     }
     public func createProfile(username: String) -> Void {
-        return moveFromCType(examples_ProfileManager_createProfile(c_instance, username))
+            let c_username = moveToCType(username)
+        return moveFromCType(examples_ProfileManager_createProfile(self.c_instance, c_username.ref))
     }
     public func changeProfile(username: String) -> String {
-        return moveFromCType(examples_ProfileManager_changeProfile(c_instance, username))
+            let c_username = moveToCType(username)
+        return moveFromCType(examples_ProfileManager_changeProfile(self.c_instance, c_username.ref))
     }
     public func deleteProfile(username: String) -> Void {
-        return moveFromCType(examples_ProfileManager_deleteProfile(c_instance, username))
+            let c_username = moveToCType(username)
+        return moveFromCType(examples_ProfileManager_deleteProfile(self.c_instance, c_username.ref))
     }
 }
 extension ProfileManager: NativeBase {
@@ -49,4 +52,16 @@ internal func ProfileManagercopyFromCType(_ handle: _baseRef) -> ProfileManager?
 }
 internal func ProfileManagermoveFromCType(_ handle: _baseRef) -> ProfileManager? {
     return ProfileManagercopyFromCType(handle)
+}
+internal func copyToCType(_ swiftClass: ProfileManager) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ProfileManager) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: ProfileManager?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ProfileManager?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
 }

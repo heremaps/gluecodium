@@ -31,16 +31,13 @@ internal class InternalClass {
             stringField = moveFromCType(examples_InternalClass_InternalStruct_stringField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
-            let stringField_handle = stringField
-            return examples_InternalClass_InternalStruct_create_handle(stringField_handle)
+            let c_stringField = moveToCType(stringField)
+            return examples_InternalClass_InternalStruct_create_handle(c_stringField.ref)
         }
     }
     internal func internalMethod(input: InternalClass.InternalStruct) -> Void {
-        let input_handle = input.convertToCType()
-        defer {
-            examples_InternalClass_InternalStruct_release_handle(input_handle)
-        }
-        return moveFromCType(examples_InternalClass_internalMethod(c_instance, input_handle))
+            let c_input = moveToCType(input)
+        return moveFromCType(examples_InternalClass_internalMethod(self.c_instance, c_input.ref))
     }
 }
 extension InternalClass: NativeBase {
@@ -61,6 +58,18 @@ internal func InternalClasscopyFromCType(_ handle: _baseRef) -> InternalClass? {
 internal func InternalClassmoveFromCType(_ handle: _baseRef) -> InternalClass? {
     return InternalClasscopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: InternalClass) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InternalClass) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: InternalClass?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InternalClass?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 internal func copyFromCType(_ handle: _baseRef) -> InternalClass.InternalStruct {
     return InternalClass.InternalStruct(cHandle: handle)
 }
@@ -69,4 +78,10 @@ internal func moveFromCType(_ handle: _baseRef) -> InternalClass.InternalStruct 
         examples_InternalClass_InternalStruct_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: InternalClass.InternalStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: InternalClass.InternalStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: examples_InternalClass_InternalStruct_release_handle)
 }

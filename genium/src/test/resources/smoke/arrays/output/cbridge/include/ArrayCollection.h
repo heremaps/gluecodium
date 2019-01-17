@@ -1,18 +1,14 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 #pragma once
-
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_Arrays.h"
 #include <stdint.h>
-
 _baseRef arrayCollection_SomeEnum_create_handle();
 void arrayCollection_SomeEnum_release_handle(_baseRef handle);
 uint64_t arrayCollection_SomeEnum_count(_baseRef handle);
@@ -47,7 +43,7 @@ _baseRef arrayCollection_String_create_handle();
 void arrayCollection_String_release_handle(_baseRef handle);
 uint64_t arrayCollection_String_count(_baseRef handle);
 _baseRef arrayCollection_String_get(_baseRef handle, uint64_t index);
-void arrayCollection_String_append(_baseRef handle, const char* item);
+void arrayCollection_String_append(_baseRef handle, _baseRef item);
 _baseRef arrayCollection_StringArray_create_handle();
 void arrayCollection_StringArray_release_handle(_baseRef handle);
 uint64_t arrayCollection_StringArray_count(_baseRef handle);
@@ -63,7 +59,6 @@ void arrayCollection_ExternalEnum_release_handle(_baseRef handle);
 uint64_t arrayCollection_ExternalEnum_count(_baseRef handle);
 smoke_Arrays_ExternalEnum arrayCollection_ExternalEnum_get(_baseRef handle, uint64_t index);
 void arrayCollection_ExternalEnum_append(_baseRef handle, smoke_Arrays_ExternalEnum item);
-
 #ifdef __cplusplus
 }
 #endif

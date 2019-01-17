@@ -14,3 +14,9 @@ internal func copyFromCType(_ cValue: UInt32) -> ShoeSizes {
 internal func moveFromCType(_ cValue: UInt32) -> ShoeSizes {
     return copyFromCType(cValue)
 }
+internal func copyToCType(_ swiftType: ShoeSizes) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: ShoeSizes) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
+}

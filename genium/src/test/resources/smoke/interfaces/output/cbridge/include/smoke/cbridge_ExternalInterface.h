@@ -9,7 +9,7 @@ extern "C" {
 #include "cbridge/include/StringHandle.h"
 #include <stdint.h>
 typedef uint32_t smoke_ExternalInterface_SomeEnum;
-_baseRef smoke_ExternalInterface_SomeStruct_create_handle(const char* someField);
+_baseRef smoke_ExternalInterface_SomeStruct_create_handle(_baseRef someField);
 void smoke_ExternalInterface_SomeStruct_release_handle(_baseRef handle);
 _baseRef smoke_ExternalInterface_SomeStruct_someField_get(_baseRef handle);
 void smoke_ExternalInterface_release_handle(_baseRef handle);

@@ -59,3 +59,15 @@ internal func InternalInterfacecopyFromCType(_ handle: _baseRef) -> InternalInte
 internal func InternalInterfacemoveFromCType(_ handle: _baseRef) -> InternalInterface? {
     return InternalInterfacecopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: InternalInterface) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InternalInterface) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: InternalInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InternalInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}

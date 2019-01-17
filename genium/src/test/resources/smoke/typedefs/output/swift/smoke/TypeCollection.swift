@@ -16,9 +16,9 @@ public struct Point {
         y = moveFromCType(smoke_TypeCollection_Point_y_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
-        let x_handle = x
-        let y_handle = y
-        return smoke_TypeCollection_Point_create_handle(x_handle, y_handle)
+        let c_x = moveToCType(x)
+        let c_y = moveToCType(y)
+        return smoke_TypeCollection_Point_create_handle(c_x.ref, c_y.ref)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> Point {
@@ -30,6 +30,12 @@ internal func moveFromCType(_ handle: _baseRef) -> Point {
     }
     return copyFromCType(handle)
 }
+internal func copyToCType(_ swiftType: Point) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: Point) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_Point_release_handle)
+}
 public struct StructHavingAliasFieldDefinedBelow {
     public var field: StorageId
     public init(field: StorageId) {
@@ -39,8 +45,8 @@ public struct StructHavingAliasFieldDefinedBelow {
         field = moveFromCType(smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_field_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
-        let field_handle = field
-        return smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_create_handle(field_handle)
+        let c_field = moveToCType(field)
+        return smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_create_handle(c_field.ref)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> StructHavingAliasFieldDefinedBelow {
@@ -52,12 +58,12 @@ internal func moveFromCType(_ handle: _baseRef) -> StructHavingAliasFieldDefined
     }
     return copyFromCType(handle)
 }
+internal func copyToCType(_ swiftType: StructHavingAliasFieldDefinedBelow) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: StructHavingAliasFieldDefinedBelow) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_StructHavingAliasFieldDefinedBelow_release_handle)
+}
 public struct TypeCollection {
     public static let invalidStorageId: StorageId = 0
-}
-internal func copyFromCType(_ handle: _baseRef) -> TypeCollection {
-    return TypeCollection()
-}
-internal func moveFromCType(_ handle: _baseRef) -> TypeCollection {
-    return copyFromCType(handle)
 }

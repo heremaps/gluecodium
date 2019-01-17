@@ -15,8 +15,8 @@ _baseRef smoke_SimpleInstantiable_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::SimpleInstantiable>>(handle)))
         : 0;
 }
-void smoke_SimpleInstantiable_setStringValue(_baseRef _instance, const char* stringValue) {
-    return get_pointer<std::shared_ptr<::smoke::SimpleInstantiable>>(_instance)->get()->set_string_value(std::string(stringValue));
+void smoke_SimpleInstantiable_setStringValue(_baseRef _instance, _baseRef stringValue) {
+    return get_pointer<std::shared_ptr<::smoke::SimpleInstantiable>>(_instance)->get()->set_string_value(*get_pointer<std::string>(stringValue));
 }
 _baseRef smoke_SimpleInstantiable_getStringValue(_baseRef _instance) {
     return reinterpret_cast<_baseRef>( new std::string(get_pointer<std::shared_ptr<::smoke::SimpleInstantiable>>(_instance)->get()->get_string_value()) );

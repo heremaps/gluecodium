@@ -21,31 +21,31 @@ internal func getRef(_ ref: ListenersWithReturnValues?, owning: Bool = true) -> 
     }
     functions.smoke_ListenersWithReturnValues_fetchData_double = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
-        return swift_class.fetchData()
+        return copyToCType(swift_class.fetchData()).ref
     }
     functions.smoke_ListenersWithReturnValues_fetchData_string = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
-        return swift_class.fetchData().convertToCType()
+        return copyToCType(swift_class.fetchData()).ref
     }
     functions.smoke_ListenersWithReturnValues_fetchData_Struct = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
-        return swift_class.fetchData().convertToCType()
+        return copyToCType(swift_class.fetchData()).ref
     }
     functions.smoke_ListenersWithReturnValues_fetchData_enum = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
-        return swift_class.fetchData().rawValue
+        return copyToCType(swift_class.fetchData()).ref
     }
     functions.smoke_ListenersWithReturnValues_fetchData_Array = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
-        return swift_class.fetchData().c_conversion().c_type
+        return copyToCType(swift_class.fetchData()).ref
     }
     functions.smoke_ListenersWithReturnValues_fetchData_Map = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
-        return convertListenersWithReturnValues_StringToDoubleToCType(swift_class.fetchData())
+        return copyToCType(swift_class.fetchData()).ref
     }
     functions.smoke_ListenersWithReturnValues_fetchData_instance = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
-        return getRef(swift_class.fetchData()!, owning: false).ref
+        return copyToCType(swift_class.fetchData()!).ref
     }
     let proxy = smoke_ListenersWithReturnValues_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_ListenersWithReturnValues_release_handle) : RefHolder(proxy)
@@ -72,25 +72,25 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
         smoke_ListenersWithReturnValues_release_handle(c_instance)
     }
     public func fetchData() -> Double {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_double(c_instance))
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_double(self.c_instance))
     }
     public func fetchData() -> String {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_string(c_instance))
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_string(self.c_instance))
     }
     public func fetchData() -> ResultStruct {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_Struct(c_instance))
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_Struct(self.c_instance))
     }
     public func fetchData() -> ResultEnum {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_enum(c_instance))
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_enum(self.c_instance))
     }
     public func fetchData() -> CollectionOf<Double> {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_Array(c_instance))
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_Array(self.c_instance))
     }
     public func fetchData() -> ListenersWithReturnValues.StringToDouble {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_Map(c_instance))
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_Map(self.c_instance))
     }
     public func fetchData() -> CalculationResult? {
-        return CalculationResultmoveFromCType(smoke_ListenersWithReturnValues_fetchData_instance(c_instance))
+        return CalculationResultmoveFromCType(smoke_ListenersWithReturnValues_fetchData_instance(self.c_instance))
     }
 }
 extension _ListenersWithReturnValues: NativeBase {
@@ -116,6 +116,18 @@ internal func ListenersWithReturnValuescopyFromCType(_ handle: _baseRef) -> List
 internal func ListenersWithReturnValuesmoveFromCType(_ handle: _baseRef) -> ListenersWithReturnValues? {
     return ListenersWithReturnValuescopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: ListenersWithReturnValues) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ListenersWithReturnValues) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: ListenersWithReturnValues?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ListenersWithReturnValues?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 public enum ResultEnum : UInt32 {
     case none
     case result
@@ -126,6 +138,12 @@ internal func copyFromCType(_ cValue: UInt32) -> ResultEnum {
 internal func moveFromCType(_ cValue: UInt32) -> ResultEnum {
     return copyFromCType(cValue)
 }
+internal func copyToCType(_ swiftType: ResultEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftType.rawValue)
+}
+internal func moveToCType(_ swiftType: ResultEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftType)
+}
 public struct ResultStruct {
     public var result: Double
     public init(result: Double) {
@@ -135,8 +153,8 @@ public struct ResultStruct {
         result = moveFromCType(smoke_ListenersWithReturnValues_ResultStruct_result_get(cHandle))
     }
     internal func convertToCType() -> _baseRef {
-        let result_handle = result
-        return smoke_ListenersWithReturnValues_ResultStruct_create_handle(result_handle)
+        let c_result = moveToCType(result)
+        return smoke_ListenersWithReturnValues_ResultStruct_create_handle(c_result.ref)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> ResultStruct {
@@ -148,15 +166,9 @@ internal func moveFromCType(_ handle: _baseRef) -> ResultStruct {
     }
     return copyFromCType(handle)
 }
-func convertListenersWithReturnValues_StringToDoubleToCType(_ swiftDict: ListenersWithReturnValues.StringToDouble) -> _baseRef {
-    let c_handle = smoke_ListenersWithReturnValues_StringToDouble_create_handle()
-    for (swift_key, swift_value) in swiftDict {
-        let c_key = swift_key.convertToCType()
-        defer {
-            std_string_release_handle(c_key)
-        }
-        let c_value = swift_value
-        smoke_ListenersWithReturnValues_StringToDouble_put(c_handle, c_key, c_value)
-    }
-    return c_handle
+internal func copyToCType(_ swiftType: ResultStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: ResultStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_ListenersWithReturnValues_ResultStruct_release_handle)
 }

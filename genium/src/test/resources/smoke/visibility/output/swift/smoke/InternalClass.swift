@@ -41,3 +41,15 @@ internal func InternalClasscopyFromCType(_ handle: _baseRef) -> InternalClass? {
 internal func InternalClassmoveFromCType(_ handle: _baseRef) -> InternalClass? {
     return InternalClasscopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: InternalClass) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InternalClass) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: InternalClass?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: InternalClass?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}

@@ -34,24 +34,18 @@ public class Arrays {
             numberOfChanges = moveFromCType(examples_Arrays_SyncResult_numberOfChanges_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
-            let lastUpdatedTimeStamp_handle = lastUpdatedTimeStamp
-            let numberOfChanges_handle = numberOfChanges
-            return examples_Arrays_SyncResult_create_handle(lastUpdatedTimeStamp_handle, numberOfChanges_handle)
+            let c_lastUpdatedTimeStamp = moveToCType(lastUpdatedTimeStamp)
+            let c_numberOfChanges = moveToCType(numberOfChanges)
+            return examples_Arrays_SyncResult_create_handle(c_lastUpdatedTimeStamp.ref, c_numberOfChanges.ref)
         }
     }
     public static func explicitArrayMethod<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SyncResult> where Tinput.Element == Arrays.SyncResult {
-        let input_handle = input.c_conversion()
-        defer {
-            input_handle.cleanup()
-        }
-        return moveFromCType(examples_Arrays_explicitArrayMethod(input_handle.c_type))
+            let c_input = moveToCType(input)
+        return moveFromCType(examples_Arrays_explicitArrayMethod(c_input.ref))
     }
     public static func implicitArrayMethod<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SyncResult> where Tinput.Element == Arrays.SyncResult {
-        let input_handle = input.c_conversion()
-        defer {
-            input_handle.cleanup()
-        }
-        return moveFromCType(examples_Arrays_implicitArrayMethod(input_handle.c_type))
+            let c_input = moveToCType(input)
+        return moveFromCType(examples_Arrays_implicitArrayMethod(c_input.ref))
     }
 }
 extension Arrays: NativeBase {
@@ -72,6 +66,18 @@ internal func ArrayscopyFromCType(_ handle: _baseRef) -> Arrays? {
 internal func ArraysmoveFromCType(_ handle: _baseRef) -> Arrays? {
     return ArrayscopyFromCType(handle)
 }
+internal func copyToCType(_ swiftClass: Arrays) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Arrays) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: Arrays?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: Arrays?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Arrays.SyncResult {
     return Arrays.SyncResult(cHandle: handle)
 }
@@ -80,4 +86,10 @@ internal func moveFromCType(_ handle: _baseRef) -> Arrays.SyncResult {
         examples_Arrays_SyncResult_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Arrays.SyncResult) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: Arrays.SyncResult) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Arrays_SyncResult_release_handle)
 }

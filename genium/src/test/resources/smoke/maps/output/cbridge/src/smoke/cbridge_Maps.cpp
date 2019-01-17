@@ -1,7 +1,6 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-
 #include "cbridge/include/smoke/cbridge_Maps.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "smoke/Maps.h"
@@ -9,7 +8,6 @@
 #include <new>
 #include <string>
 #include <unordered_map>
-
 void smoke_Maps_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::Maps>>(handle);
 }
@@ -18,9 +16,9 @@ _baseRef smoke_Maps_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::Maps>>(handle)))
         : 0;
 }
-_baseRef smoke_Maps_SomeStruct_create_handle(const char* value) {
+_baseRef smoke_Maps_SomeStruct_create_handle(_baseRef value) {
     ::smoke::Maps::SomeStruct* _struct = new ::smoke::Maps::SomeStruct();
-    _struct->value = value;
+    _struct->value = *get_pointer<std::string>(value);
     return reinterpret_cast<_baseRef>(_struct);
 }
 void smoke_Maps_SomeStruct_release_handle(_baseRef handle) {
@@ -42,7 +40,6 @@ _baseRef smoke_Maps_StructWithMap_errorMapping_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Maps::StructWithMap>(handle);
     return reinterpret_cast<_baseRef>( new std::unordered_map<int32_t, std::string>(struct_pointer->error_mapping) );
 }
-
 _baseRef smoke_Maps_methodWithMap(_baseRef input) {
     return reinterpret_cast<_baseRef>( new std::unordered_map<int32_t, std::string>(::smoke::Maps::method_with_map(*get_pointer<std::unordered_map<int32_t, std::string>>(input))) );
 }
@@ -61,7 +58,6 @@ _baseRef smoke_Maps_methodWithMapOfArrays(_baseRef input) {
 _baseRef smoke_Maps_methodWithMapOfInstances(_baseRef input) {
     return reinterpret_cast<_baseRef>( new std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>(::smoke::Maps::method_with_map_of_instances(*get_pointer<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>>(input))) );
 }
-
 _baseRef smoke_Maps_ErrorCodeToMessageMap_create_handle() {
     return reinterpret_cast<_baseRef>( new std::unordered_map<int32_t, std::string>() );
 }
