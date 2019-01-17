@@ -20,9 +20,7 @@
 package com.here.genium.model.cpp;
 
 import com.here.genium.model.common.Streamable;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = false)
 public abstract class CppElement extends Streamable<CppElement> {
 
   public final String name;

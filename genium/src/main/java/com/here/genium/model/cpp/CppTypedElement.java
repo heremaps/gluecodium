@@ -19,9 +19,6 @@
 
 package com.here.genium.model.cpp;
 
-import lombok.EqualsAndHashCode;
-
-@EqualsAndHashCode(callSuper = true)
 public abstract class CppTypedElement extends CppElementWithComment {
 
   public final CppTypeRef type;

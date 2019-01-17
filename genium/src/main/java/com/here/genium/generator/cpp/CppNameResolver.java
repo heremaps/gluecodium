@@ -27,11 +27,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
-import lombok.Value;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.framework.FrancaHelpers;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FAttribute;
+import org.franca.core.franca.FConstantDef;
+import org.franca.core.franca.FEnumerator;
+import org.franca.core.franca.FField;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FModel;
+import org.franca.core.franca.FModelElement;
+import org.franca.core.franca.FTypeCollection;
 
 public class CppNameResolver {
 
@@ -39,11 +47,16 @@ public class CppNameResolver {
   private final String rootNamespace;
   private final Map<String, NamesCacheEntry> namesCache = new HashMap<>();
 
-  @Value
   private static final class NamesCacheEntry {
-    private final boolean isExternal;
-    private final String shortName;
-    private final String fullName;
+    public final boolean isExternal;
+    public final String shortName;
+    public final String fullName;
+
+    NamesCacheEntry(boolean isExternal, String shortName, String fullName) {
+      this.isExternal = isExternal;
+      this.shortName = shortName;
+      this.fullName = fullName;
+    }
   }
 
   public CppNameResolver(
@@ -53,11 +66,11 @@ public class CppNameResolver {
   }
 
   public String getName(final FModelElement francaElement) {
-    return getCachedEntry(francaElement).getShortName();
+    return getCachedEntry(francaElement).shortName;
   }
 
   public String getFullyQualifiedName(final FModelElement francaElement) {
-    return getCachedEntry(francaElement).getFullName();
+    return getCachedEntry(francaElement).fullName;
   }
 
   public String getGetterName(final FAttribute francaAttribute) {
@@ -83,12 +96,12 @@ public class CppNameResolver {
 
   public String getFullyQualifiedGetterName(final FAttribute francaAttribute) {
     NamesCacheEntry parentCacheEntry = getCachedEntry((FModelElement) francaAttribute.eContainer());
-    return parentCacheEntry.getFullName() + "::" + getGetterName(francaAttribute);
+    return parentCacheEntry.fullName + "::" + getGetterName(francaAttribute);
   }
 
   public String getFullyQualifiedSetterName(final FAttribute francaAttribute) {
     NamesCacheEntry parentCacheEntry = getCachedEntry((FModelElement) francaAttribute.eContainer());
-    return parentCacheEntry.getFullName() + "::" + getSetterName(francaAttribute);
+    return parentCacheEntry.fullName + "::" + getSetterName(francaAttribute);
   }
 
   public static NameRules selectNameRules(boolean isExternal) {
@@ -119,8 +132,8 @@ public class CppNameResolver {
       parentFqn = getModelName((FModel) parentElement);
     } else if (parentElement instanceof FModelElement) {
       NamesCacheEntry parentCacheEntry = getCachedEntry((FModelElement) parentElement);
-      parentIsExternal = parentCacheEntry.isExternal();
-      parentFqn = parentCacheEntry.getFullName();
+      parentIsExternal = parentCacheEntry.isExternal;
+      parentFqn = parentCacheEntry.fullName;
     } else {
       parentFqn = "";
     }

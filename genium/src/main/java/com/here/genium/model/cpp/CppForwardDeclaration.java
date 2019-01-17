@@ -22,10 +22,8 @@ package com.here.genium.model.cpp;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.EqualsAndHashCode;
 import org.jetbrains.annotations.NotNull;
 
-@EqualsAndHashCode
 public class CppForwardDeclaration implements Comparable<CppForwardDeclaration> {
 
   public final List<String> namespaces;
