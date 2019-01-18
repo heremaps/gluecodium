@@ -13,7 +13,7 @@ class InternalClass extends NativeBase {
     static class InternalStruct {
         public String stringField;
         public InternalStruct() {
-            this((String)null);
+            this("");
         }
         public InternalStruct(String stringField) {
             this.stringField = stringField;

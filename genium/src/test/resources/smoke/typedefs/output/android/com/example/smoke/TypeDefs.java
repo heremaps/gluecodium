@@ -22,7 +22,7 @@ public class TypeDefs extends NativeBase {
     public static class TestStruct {
         public String something;
         public TestStruct() {
-            this((String)null);
+            this("");
         }
         public TestStruct(String something) {
             this.something = something;

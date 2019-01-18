@@ -31,7 +31,7 @@ public class SerializableStruct implements Parcelable {
     public List<String> arrayField;
 
     public SerializableStruct() {
-        this(0, (String)null, new NestedSerializableStruct(), new ArrayList<>());
+        this(0, "", new NestedSerializableStruct(), new ArrayList<>());
     }
 
     public SerializableStruct(int intField, String stringField, NestedSerializableStruct structField, List<String> arrayField) {
@@ -64,7 +64,7 @@ public class SerializableStruct implements Parcelable {
 
     public static class Builder {
         private int intField = 0;
-        private String stringField = (String)null;
+        private String stringField = "";
         private NestedSerializableStruct structField = new NestedSerializableStruct();
         private List<String> arrayField = new ArrayList<>();
         public Builder() {

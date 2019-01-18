@@ -105,7 +105,7 @@ public class Structs extends NativeBase {
         @NonNull
         public final Structs.Point pointField;
         public AllTypesStruct() {
-            this((byte)0, (short)0, (short)0, 0, 0, 0L, 0L, 0L, 0f, 0, (String)null, false, (byte[])null, new Structs.Point());
+            this((byte)0, (short)0, (short)0, 0, 0, 0L, 0L, 0L, 0f, 0, "", false, (byte[])null, new Structs.Point());
         }
         public AllTypesStruct(byte int8Field, short uint8Field, short int16Field, int uint16Field, int int32Field, long uint32Field, long int64Field, long uint64Field, float floatField, double doubleField, String stringField, boolean booleanField, byte[] bytesField, Structs.Point pointField) {
             this.int8Field = int8Field;
@@ -134,7 +134,7 @@ public class Structs extends NativeBase {
             private long uint64Field = 0L;
             private float floatField = 0f;
             private double doubleField = 0;
-            private String stringField = (String)null;
+            private String stringField = "";
             private boolean booleanField = false;
             private byte[] bytesField = (byte[])null;
             private Structs.Point pointField = new Structs.Point();
@@ -209,7 +209,7 @@ public class Structs extends NativeBase {
         @NonNull
         public Structs.AnotherExternalStruct externalStructField;
         public ExternalStruct() {
-            this((String)null, (String)null, new ArrayList<>(), new Structs.AnotherExternalStruct());
+            this("", "", new ArrayList<>(), new Structs.AnotherExternalStruct());
         }
         public ExternalStruct(String stringField, String externalStringField, List<Byte> externalArrayField, Structs.AnotherExternalStruct externalStructField) {
             this.stringField = stringField;
@@ -218,8 +218,8 @@ public class Structs extends NativeBase {
             this.externalStructField = externalStructField;
         }
         public static class Builder {
-            private String stringField = (String)null;
-            private String externalStringField = (String)null;
+            private String stringField = "";
+            private String externalStringField = "";
             private List<Byte> externalArrayField = new ArrayList<>();
             private Structs.AnotherExternalStruct externalStructField = new Structs.AnotherExternalStruct();
             public Builder() {
@@ -257,7 +257,7 @@ public class Structs extends NativeBase {
     public static class YetAnotherExternalStruct {
         public String stringField;
         public YetAnotherExternalStruct() {
-            this((String)null);
+            this("");
         }
         public YetAnotherExternalStruct(String stringField) {
             this.stringField = stringField;
