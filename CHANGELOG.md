@@ -1,8 +1,9 @@
 # Genium project Release Notes
 
-## unreleased
+## Unreleased
 - Bug fixes:
   + Fixed potential memory leak while returning Swift proxies.
+  + Fixed the default value of String type Struct fields in Java to be an empty string.
 
 ## 3.19.4
 - Release date: 2019-01-15

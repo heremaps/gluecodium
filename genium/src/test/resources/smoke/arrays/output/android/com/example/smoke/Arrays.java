@@ -37,7 +37,7 @@ public class Arrays extends NativeBase {
     public static class ExternalStruct {
         public String string;
         public ExternalStruct() {
-            this((String)null);
+            this("");
         }
         public ExternalStruct(String string) {
             this.string = string;

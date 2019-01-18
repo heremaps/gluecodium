@@ -15,7 +15,7 @@ public class Maps extends NativeBase {
     public static class SomeStruct {
         public String value;
         public SomeStruct() {
-            this((String)null);
+            this("");
         }
         public SomeStruct(String value) {
             this.value = value;

@@ -55,7 +55,7 @@ public class Enums extends NativeBase {
         public Enums.InternalError type;
         public String message;
         public ErrorStruct() {
-            this(Enums.InternalError.values()[0], (String)null);
+            this(Enums.InternalError.values()[0], "");
         }
         public ErrorStruct(Enums.InternalError type, String message) {
             this.type = type;

@@ -12,7 +12,7 @@ public class EquatableInterface extends NativeBase {
         public int intField;
         public String stringField;
         public EquatableStruct() {
-            this(0, (String)null);
+            this(0, "");
         }
         public EquatableStruct(int intField, String stringField) {
             this.intField = intField;
