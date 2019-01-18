@@ -9,7 +9,7 @@ public class NestedPackages extends NativeBase {
     public static class SomeStruct {
         public String someField;
         public SomeStruct() {
-            this((String)null);
+            this("");
         }
         public SomeStruct(String someField) {
             this.someField = someField;

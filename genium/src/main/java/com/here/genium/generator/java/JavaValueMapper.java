@@ -25,6 +25,7 @@ import com.here.genium.model.java.JavaEnumItem;
 import com.here.genium.model.java.JavaEnumType;
 import com.here.genium.model.java.JavaPrimitiveType;
 import com.here.genium.model.java.JavaReferenceType;
+import com.here.genium.model.java.JavaReferenceType.Type;
 import com.here.genium.model.java.JavaTemplateType;
 import com.here.genium.model.java.JavaType;
 import com.here.genium.model.java.JavaValue;
@@ -131,6 +132,10 @@ public final class JavaValueMapper {
     }
     if (javaType instanceof JavaCustomType && !((JavaCustomType) javaType).isInterface) {
       return new JavaValue(javaType);
+    }
+    if (javaType instanceof JavaReferenceType
+        && ((JavaReferenceType) javaType).type == Type.STRING) {
+      return new JavaValue("\"\"");
     }
     if (JavaPrimitiveType.BOOL.equals(javaType)) {
       return new JavaValue("false");
