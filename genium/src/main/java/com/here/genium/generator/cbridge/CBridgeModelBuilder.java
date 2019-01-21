@@ -277,7 +277,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
             : null;
     CppTypeInfo attributeTypeInfo = getPreviousResult(CppTypeInfo.class);
 
-    SwiftMethod getterSwiftMethod = property.propertyAccessors.get(0);
+    SwiftMethod getterSwiftMethod = property.getter;
     CppMethod cppGetterMethod = cppMethods.get(0);
     CFunction getterFunction =
         CFunction.builder(getterSwiftMethod.getCShortName())
@@ -294,7 +294,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     storeResult(getterFunction);
 
     if (!francaAttribute.isReadonly()) {
-      SwiftMethod setterSwiftMethod = property.propertyAccessors.get(1);
+      SwiftMethod setterSwiftMethod = property.setter;
       CppMethod cppSetterMethod = cppMethods.get(1);
       CFunction setterFunction =
           CFunction.builder(setterSwiftMethod.getCShortName())
