@@ -2,13 +2,11 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.smoke;
-
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
-
 public interface CalculatorListener {
     public static class ResultStruct {
         public double result;
@@ -24,5 +22,5 @@ public interface CalculatorListener {
     void onCalculationResultStruct(@NonNull final CalculatorListener.ResultStruct calculationResult);
     void onCalculationResultArray(@NonNull final List<Double> calculationResult);
     void onCalculationResultMap(@NonNull final Map<String, Double> calculationResults);
-    void onCalculationResultInstance(final CalculationResult calculationResult);
+    void onCalculationResultInstance(@Nullable final CalculationResult calculationResult);
 }

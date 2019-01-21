@@ -28,8 +28,8 @@ interface NullableInterface {
     }
 
     enumeration SomeEnum {
-        ON
         OFF
+        ON
     }
 
     array SomeArray of String
@@ -51,6 +51,15 @@ interface NullableInterface {
     method create {
         out {
             NullableInterface result
+        }
+    }
+
+    method methodWithNullableStruct {
+        in {
+            NullableStruct input
+        }
+        out {
+            NullableStruct output
         }
     }
 

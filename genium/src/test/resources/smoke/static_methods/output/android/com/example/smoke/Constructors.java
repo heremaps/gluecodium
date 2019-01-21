@@ -4,6 +4,7 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.example.NativeBase;
 import java.util.List;
 public class Constructors extends NativeBase {
@@ -25,7 +26,7 @@ public class Constructors extends NativeBase {
     public Constructors() {
         this(create());
     }
-    public Constructors(final Constructors other) {
+    public Constructors(@Nullable final Constructors other) {
         this(create(other));
     }
     public Constructors(final String foo, final long bar) {
@@ -48,7 +49,7 @@ public class Constructors extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     private static native long create();
-    private static native long create(final Constructors other);
+    private static native long create(@Nullable final Constructors other);
     private static native long create(final String foo, final long bar);
     private static native long create(final String input) throws Constructors.ErrorEnumException;
     private static native long create(@NonNull final List<Double> input);

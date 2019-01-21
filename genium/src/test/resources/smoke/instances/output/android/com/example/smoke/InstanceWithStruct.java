@@ -2,12 +2,10 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.smoke;
-
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.example.NativeBase;
-
 public class InstanceWithStruct extends NativeBase {
     public static class InnerStruct {
         public byte value;
@@ -19,6 +17,7 @@ public class InstanceWithStruct extends NativeBase {
         }
     }
     public static class StructWithInstance {
+        @Nullable
         public SimpleInstantiable instance;
         @NonNull
         public SimpleInstantiable instanceNotNull;
@@ -67,7 +66,6 @@ public class InstanceWithStruct extends NativeBase {
             }
         });
     }
-
     private static native void disposeNativeHandle(long nativeHandle);
     @NonNull
     public native InstanceWithStruct.InnerStruct innerStructMethod(@NonNull final InstanceWithStruct.InnerStruct inputStruct);

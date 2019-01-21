@@ -2,20 +2,16 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.smoke;
-
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.example.NativeBase;
 import java.util.List;
-
 public class Attributes extends NativeBase {
     public enum InternalError {
         ERROR_NONE(0),
         ERROR_FATAL(999);
-
         public final int value;
-
         InternalError(final int value) {
             this.value = value;
         }
@@ -38,9 +34,7 @@ public class Attributes extends NativeBase {
             }
         });
     }
-
     private static native void disposeNativeHandle(long nativeHandle);
-
     public native long getBuiltInTypeAttribute();
     public native void setBuiltInTypeAttribute(final long value);
     public native float getReadonlyAttribute();
@@ -55,8 +49,9 @@ public class Attributes extends NativeBase {
     public native void setComplexTypeAttribute(@NonNull final Attributes.InternalError value);
     public native byte[] getByteBufferAttribute();
     public native void setByteBufferAttribute(final byte[] value);
+    @Nullable
     public native AttributesInterface getInstanceAttribute();
-    public native void setInstanceAttribute(final AttributesInterface value);
+    public native void setInstanceAttribute(@Nullable final AttributesInterface value);
     public native boolean isBooleanAttribute();
     public native void setBooleanAttribute(final boolean value);
     public static native String getStaticAttribute();

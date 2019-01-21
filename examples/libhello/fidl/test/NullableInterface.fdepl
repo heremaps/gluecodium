@@ -22,6 +22,10 @@ import "./NullableInterface.fidl"
 
 define GeniumExtensions for interface test.NullableInterface
 {
+    struct SomeStruct {
+        Equatable = true
+    }
+
     struct NullableStruct {
         stringField {
             Nullable = true
