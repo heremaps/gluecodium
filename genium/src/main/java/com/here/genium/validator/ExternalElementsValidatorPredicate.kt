@@ -17,75 +17,74 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator;
+package com.here.genium.validator
 
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.*;
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.model.franca.FrancaDeploymentModel
+import org.franca.core.franca.FAttribute
+import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FTypedElement
 
 /**
  * Validate each field or attribute with "ExternalGetter" or "ExternalSetter" properties set against
  * the following conditions:
  *
- * <ul>
- *   <li>Should either have both "ExternalGetter" or "ExternalSetter" properties set, or none.
- *   <li>Should be in a struct or interface which has "ExternalType" property set.
- *   <li>Attribute in an interface which has "ExternalType" property set should have
- *       "ExternalGetter" and "ExternalSetter" properties set, as appropriate to its "readonly"
- *       flag.
- * </ul>
+ *  * Should either have both "ExternalGetter" or "ExternalSetter" properties set, or none.
+ *  * Should be in a struct or interface which has "ExternalType" property set.
+ *  * Attribute in an interface which has "ExternalType" property set should have
+ * "ExternalGetter" and "ExternalSetter" properties set, as appropriate to its "readonly" flag.
  */
-public class ExternalElementsValidatorPredicate implements ValidatorPredicate<FTypedElement> {
+class ExternalElementsValidatorPredicate : ValidatorPredicate<FTypedElement> {
 
-  private static final String BOTH_PROPERTIES_MESSAGE =
-      "External elements should have both 'ExternalGetter' and 'ExternalSetter' properties set: "
-          + "element '%s' in type '%s'.";
-  private static final String NON_EXTERNAL_TYPE_MESSAGE =
-      "The type containing external elements should have 'ExternalType' property set: "
-          + "element '%s' in type '%s'.";
-  private static final String EXTERNAL_ATTRIBUTES_MESSAGE =
-      "Attributes in an external interface should have both 'ExternalGetter' and 'ExternalSetter' "
-          + "properties set: attribute '%s' in interface '%s'.";
-  private static final String READONLY_EXTERNAL_ATTRIBUTES_MESSAGE =
-      "Readonly attributes in an external interface should have 'ExternalGetter' property set: "
-          + "attribute '%s' in interface '%s'.";
+    override fun getElementClass() = FTypedElement::class.java
 
-  @Override
-  public Class<FTypedElement> getElementClass() {
-    return FTypedElement.class;
-  }
+    override fun validate(
+        deploymentModel: FrancaDeploymentModel,
+        francaElement: FTypedElement
+    ): String? {
 
-  @Override
-  public String validate(
-      final FrancaDeploymentModel deploymentModel, final FTypedElement francaElement) {
+        val isAttribute = francaElement is FAttribute
+        val isReadonly = isAttribute && (francaElement as FAttribute).isReadonly
 
-    boolean isAttribute = francaElement instanceof FAttribute;
-    boolean isReadonly = isAttribute && ((FAttribute) francaElement).isReadonly();
+        val hasExternalGetter = deploymentModel.getExternalGetter(francaElement) != null
+        val hasExternalSetter = deploymentModel.getExternalSetter(francaElement) != null
 
-    boolean hasExternalGetter = deploymentModel.getExternalGetter(francaElement) != null;
-    boolean hasExternalSetter = deploymentModel.getExternalSetter(francaElement) != null;
+        val parentElement = francaElement.eContainer() as FModelElement
 
-    FModelElement parentElement = (FModelElement) francaElement.eContainer();
-    boolean parentIsExternal = deploymentModel.isExternalType(parentElement);
+        var messageFormat: String? = null
+        if (deploymentModel.isExternalType(parentElement)) {
+            if (isAttribute && !hasExternalGetter) {
+                messageFormat = if (isReadonly)
+                    READONLY_EXTERNAL_ATTRIBUTES_MESSAGE
+                else
+                    EXTERNAL_ATTRIBUTES_MESSAGE
+            } else if (hasExternalGetter != hasExternalSetter && !isReadonly) {
+                messageFormat = BOTH_PROPERTIES_MESSAGE
+            }
+        } else if (hasExternalGetter || hasExternalSetter) {
+            messageFormat = NON_EXTERNAL_TYPE_MESSAGE
+        }
 
-    String messageFormat = null;
-
-    if (parentIsExternal) {
-      if (isAttribute && !hasExternalGetter) {
-        messageFormat =
-            isReadonly ? READONLY_EXTERNAL_ATTRIBUTES_MESSAGE : EXTERNAL_ATTRIBUTES_MESSAGE;
-      } else if (hasExternalGetter != hasExternalSetter && !isReadonly) {
-        messageFormat = BOTH_PROPERTIES_MESSAGE;
-      }
-    } else {
-      if (hasExternalGetter) {
-        messageFormat = NON_EXTERNAL_TYPE_MESSAGE;
-      }
+        return if (messageFormat != null)
+            String.format(
+                messageFormat, francaElement.name, FrancaTypeHelper.getFullName(parentElement)
+            )
+        else
+            null
     }
 
-    return messageFormat != null
-        ? String.format(
-            messageFormat, francaElement.getName(), FrancaTypeHelper.getFullName(parentElement))
-        : null;
-  }
+    companion object {
+        private val BOTH_PROPERTIES_MESSAGE =
+            "External elements should have both 'ExternalGetter' and 'ExternalSetter' properties " +
+                    "set: element '%s' in type '%s'."
+        private val NON_EXTERNAL_TYPE_MESSAGE =
+            "The type containing external elements should have 'ExternalType' property set: " +
+                    "element '%s' in type '%s'."
+        private val EXTERNAL_ATTRIBUTES_MESSAGE =
+            "Attributes in an external interface should have both 'ExternalGetter' and " +
+                    "'ExternalSetter' properties set: attribute '%s' in interface '%s'."
+        private val READONLY_EXTERNAL_ATTRIBUTES_MESSAGE =
+            "Readonly attributes in an external interface should have 'ExternalGetter' property " +
+                    "set: attribute '%s' in interface '%s'."
+    }
 }
