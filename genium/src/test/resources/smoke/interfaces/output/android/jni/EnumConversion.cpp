@@ -4,14 +4,21 @@ namespace genium
 namespace jni
 {
 ::smoke::ExternalInterface::some_Enum
-convert_from_jni( JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::ExternalInterface::some_Enum* dummy )
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::ExternalInterface::some_Enum* dummy)
 {
-    return ::smoke::ExternalInterface::some_Enum( genium::jni::get_int_field(_jenv, _jinput, "value" ) );
+    return ::smoke::ExternalInterface::some_Enum(genium::jni::get_int_field(_jenv, _jinput, "value"));
+}
+std::shared_ptr<::smoke::ExternalInterface::some_Enum>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::ExternalInterface::some_Enum>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::ExternalInterface::some_Enum>(convert_from_jni(_jenv, _jinput, (::smoke::ExternalInterface::some_Enum*)nullptr))
+        : std::shared_ptr<::smoke::ExternalInterface::some_Enum>{};
 }
 JniReference<jobject>
-convert_to_jni( JNIEnv* _jenv, const ::smoke::ExternalInterface::some_Enum _ninput )
+convert_to_jni(JNIEnv* _jenv, const ::smoke::ExternalInterface::some_Enum _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/ExternalInterface$SomeEnum" );
+    auto javaClass = find_class(_jenv, "com/example/smoke/ExternalInterface$SomeEnum");
     ::std::string enumeratorName;
     switch(_ninput) {
         case(::smoke::ExternalInterface::some_Enum::some_Value):
@@ -21,15 +28,27 @@ convert_to_jni( JNIEnv* _jenv, const ::smoke::ExternalInterface::some_Enum _ninp
     jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName.c_str(), "Lcom/example/smoke/ExternalInterface$SomeEnum;");
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }
-::fire::Baz::some_Enum
-convert_from_jni( JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::Baz::some_Enum* dummy )
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::ExternalInterface::some_Enum> _ninput)
 {
-    return ::fire::Baz::some_Enum( genium::jni::get_int_field(_jenv, _jinput, "value" ) );
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
+::fire::Baz::some_Enum
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::Baz::some_Enum* dummy)
+{
+    return ::fire::Baz::some_Enum(genium::jni::get_int_field(_jenv, _jinput, "value"));
+}
+std::shared_ptr<::fire::Baz::some_Enum>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::fire::Baz::some_Enum>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::fire::Baz::some_Enum>(convert_from_jni(_jenv, _jinput, (::fire::Baz::some_Enum*)nullptr))
+        : std::shared_ptr<::fire::Baz::some_Enum>{};
 }
 JniReference<jobject>
-convert_to_jni( JNIEnv* _jenv, const ::fire::Baz::some_Enum _ninput )
+convert_to_jni(JNIEnv* _jenv, const ::fire::Baz::some_Enum _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/VeryExternalInterface$SomeEnum" );
+    auto javaClass = find_class(_jenv, "com/example/smoke/VeryExternalInterface$SomeEnum");
     ::std::string enumeratorName;
     switch(_ninput) {
         case(::fire::Baz::some_Enum::some_Value):
@@ -38,6 +57,11 @@ convert_to_jni( JNIEnv* _jenv, const ::fire::Baz::some_Enum _ninput )
     }
     jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName.c_str(), "Lcom/example/smoke/VeryExternalInterface$SomeEnum;");
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::fire::Baz::some_Enum> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 }
 }

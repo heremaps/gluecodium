@@ -16,6 +16,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::I
     _nout.value = n_value;
     return _nout;
 }
+std::shared_ptr<::smoke::InterfaceWithStruct::InnerStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::InterfaceWithStruct::InnerStruct>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::InterfaceWithStruct::InnerStruct>(convert_from_jni(_jenv, _jinput, (::smoke::InterfaceWithStruct::InnerStruct*)nullptr))
+        : std::shared_ptr<::smoke::InterfaceWithStruct::InnerStruct>{};
+}
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::InterfaceWithStruct::InnerStruct& _ninput)
 {
@@ -25,6 +32,11 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::InterfaceWithStruct::InnerStruct& _
     genium::jni::set_byte_field(_jenv, _jresult, "value", jvalue);
     return _jresult;
 }
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::InterfaceWithStruct::InnerStruct> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
 ::smoke::ExternalInterface::some_Struct
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::ExternalInterface::some_Struct* dummy)
 {
@@ -32,6 +44,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::E
     ::std::string n_some_Field = genium::jni::get_string_field(_jenv, _jinput, "someField");
     _nout.some_Field = n_some_Field;
     return _nout;
+}
+std::shared_ptr<::smoke::ExternalInterface::some_Struct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::ExternalInterface::some_Struct>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::ExternalInterface::some_Struct>(convert_from_jni(_jenv, _jinput, (::smoke::ExternalInterface::some_Struct*)nullptr))
+        : std::shared_ptr<::smoke::ExternalInterface::some_Struct>{};
 }
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::ExternalInterface::some_Struct& _ninput)
@@ -42,6 +61,11 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::ExternalInterface::some_Struct& _ni
     genium::jni::set_string_field(_jenv, _jresult, "someField", jsome_Field);
     return _jresult;
 }
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::ExternalInterface::some_Struct> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
 ::fire::Baz::some_Struct
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::Baz::some_Struct* dummy)
 {
@@ -49,6 +73,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::Ba
     ::std::string n_some_Field = genium::jni::get_string_field(_jenv, _jinput, "someField");
     _nout.some_Field = n_some_Field;
     return _nout;
+}
+std::shared_ptr<::fire::Baz::some_Struct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::fire::Baz::some_Struct>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::fire::Baz::some_Struct>(convert_from_jni(_jenv, _jinput, (::fire::Baz::some_Struct*)nullptr))
+        : std::shared_ptr<::fire::Baz::some_Struct>{};
 }
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::fire::Baz::some_Struct& _ninput)
@@ -58,6 +89,11 @@ convert_to_jni(JNIEnv* _jenv, const ::fire::Baz::some_Struct& _ninput)
     auto jsome_Field = _ninput.some_Field;
     genium::jni::set_string_field(_jenv, _jresult, "someField", jsome_Field);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::fire::Baz::some_Struct> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 }
 }

@@ -16,6 +16,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::root::sp
     _nout.some_field = n_some_field;
     return _nout;
 }
+std::shared_ptr<::root::space::smoke::SomeStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::root::space::smoke::SomeStruct>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::root::space::smoke::SomeStruct>(convert_from_jni(_jenv, _jinput, (::root::space::smoke::SomeStruct*)nullptr))
+        : std::shared_ptr<::root::space::smoke::SomeStruct>{};
+}
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::root::space::smoke::SomeStruct& _ninput)
 {
@@ -24,6 +31,11 @@ convert_to_jni(JNIEnv* _jenv, const ::root::space::smoke::SomeStruct& _ninput)
     auto jsome_field = _ninput.some_field;
     genium::jni::set_string_field(_jenv, _jresult, "someField", jsome_field);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::root::space::smoke::SomeStruct> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 }
 }

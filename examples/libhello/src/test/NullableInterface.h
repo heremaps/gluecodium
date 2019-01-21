@@ -27,6 +27,7 @@ namespace test
 class NullableInterfaceImpl : public NullableInterface
 {
 public:
+    NullableStruct method_with_nullable_struct( const NullableStruct& input ) override;
     ::std::shared_ptr< ::std::string > method_with_string(
         const ::std::shared_ptr< ::std::string >& input ) override;
     ::std::shared_ptr< bool > method_with_boolean(
