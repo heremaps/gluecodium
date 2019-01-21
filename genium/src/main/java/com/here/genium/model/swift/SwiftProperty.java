@@ -19,24 +19,22 @@
 
 package com.here.genium.model.swift;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public final class SwiftProperty extends SwiftTypedModelElement {
 
-  public final List<SwiftMethod> propertyAccessors = new LinkedList<>();
+  public final SwiftMethod getter;
+  public final SwiftMethod setter;
   public final boolean isStatic;
 
   public SwiftProperty(
       final String propertyName,
       final SwiftVisibility visibility,
       final SwiftType type,
+      final SwiftMethod getter,
+      final SwiftMethod setter,
       final boolean isStatic) {
     super(propertyName, visibility, type);
+    this.getter = getter;
+    this.setter = setter;
     this.isStatic = isStatic;
-  }
-
-  public boolean isReadonly() {
-    return propertyAccessors.size() <= 1;
   }
 }

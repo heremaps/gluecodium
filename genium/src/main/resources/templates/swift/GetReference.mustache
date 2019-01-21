@@ -44,8 +44,8 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
 {{#set delegateToCall="delegateCall2"}}{{>functionTableEntry}}{{/set}}
 {{/methods}}
 {{#properties}}
-{{#set propertyName=name}}{{#propertyAccessors.0}}{{#set delegateToCall="callPropertyGetter"}}{{>functionTableEntry}}{{/set}}{{/propertyAccessors.0}}
-{{#unless readonly}}{{#propertyAccessors.1}}{{#set delegateToCall="callPropertySetter"}}{{>functionTableEntry}}{{/set}}{{/propertyAccessors.1}}{{/unless}}{{/set}}
+{{#set propertyName=name}}{{#getter}}{{#set delegateToCall="callPropertyGetter"}}{{>functionTableEntry}}{{/set}}{{/getter}}
+{{#setter}}{{#set delegateToCall="callPropertySetter"}}{{>functionTableEntry}}{{/set}}{{/setter}}{{/set}}
 {{/properties}}
     let proxy = {{cInstance}}_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: {{cInstance}}_release_handle) : RefHolder(proxy)

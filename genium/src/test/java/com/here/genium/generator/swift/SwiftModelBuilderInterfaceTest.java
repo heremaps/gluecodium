@@ -227,13 +227,11 @@ public class SwiftModelBuilderInterfaceTest {
   @Test
   public void finishBuildingFrancaInterfaceReadsParentProperties() {
     SwiftClass parentClass = new SwiftClass("SomeParent", null, true);
-    SwiftProperty parentProperty = new SwiftProperty("ParentProperty", null, null, false);
+    SwiftProperty parentProperty =
+        new SwiftProperty("ParentProperty", null, null, null, null, false);
     parentClass.getProperties().add(parentProperty);
-    SwiftMethod parentMethod =
-        new SwiftMethod("ParentMethod", null, null, SwiftType.VOID, null, "foo");
-    SwiftProperty childProperty = new SwiftProperty("", null, null, false);
+    SwiftProperty childProperty = new SwiftProperty("", null, null, null, null, false);
 
-    parentProperty.propertyAccessors.add(parentMethod);
     contextStack.injectResult(parentClass);
     contextStack.injectResult(childProperty);
 
@@ -247,8 +245,6 @@ public class SwiftModelBuilderInterfaceTest {
     assertEquals(2, swiftClass.getProperties().size());
     SwiftProperty swiftProperty = swiftClass.getProperties().get(0);
     assertEquals("ParentProperty", swiftProperty.name);
-    assertEquals(1, swiftProperty.propertyAccessors.size());
-    assertEquals("foo", swiftProperty.propertyAccessors.get(0).getCNestedSpecifier());
   }
 
   @Test
