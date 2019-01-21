@@ -4,11 +4,15 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 public interface NestedInterface {
-    void setSameTypeInstances(final SimpleInterface interfaceOne, final SimpleInterface interfaceTwo);
+    void setSameTypeInstances(@Nullable final SimpleInterface interfaceOne, @Nullable final SimpleInterface interfaceTwo);
+    @Nullable
     SimpleInterface getInstanceOne();
+    @Nullable
     SimpleInterface getInstanceTwo();
-    VeryExternalInterface makeMoreExternal(final ExternalInterface input);
+    @Nullable
+    VeryExternalInterface makeMoreExternal(@Nullable final ExternalInterface input);
     @NonNull
     VeryExternalInterface.SomeStruct makeMoreExternal(@NonNull final ExternalInterface.SomeStruct input);
     @NonNull

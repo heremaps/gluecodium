@@ -3,6 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.examples;
+import android.support.annotation.Nullable;
 import com.example.NativeBase;
 public class Calculator extends NativeBase {
     /** For internal use only */
@@ -15,7 +16,7 @@ public class Calculator extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    public static native void registerListener(final CalculatorListener listener);
-    public static native void unregisterListener(final CalculatorListener listener);
+    public static native void registerListener(@Nullable final CalculatorListener listener);
+    public static native void unregisterListener(@Nullable final CalculatorListener listener);
     public static native void calculate();
 }

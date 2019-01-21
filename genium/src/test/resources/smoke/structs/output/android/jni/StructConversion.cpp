@@ -18,6 +18,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     _nout.y = n_y;
     return _nout;
 }
+std::shared_ptr<::smoke::Structs::Point>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Structs::Point>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::Structs::Point>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::Point*)nullptr))
+        : std::shared_ptr<::smoke::Structs::Point>{};
+}
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Point& _ninput)
 {
@@ -28,6 +35,11 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Point& _ninput)
     auto jy = _ninput.y;
     genium::jni::set_double_field(_jenv, _jresult, "y", jy);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::Point> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 ::smoke::Structs::Color
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::Color* dummy)
@@ -41,6 +53,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     _nout.blue = n_blue;
     return _nout;
 }
+std::shared_ptr<::smoke::Structs::Color>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Structs::Color>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::Structs::Color>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::Color*)nullptr))
+        : std::shared_ptr<::smoke::Structs::Color>{};
+}
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Color& _ninput)
 {
@@ -53,6 +72,11 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Color& _ninput)
     auto jblue = _ninput.blue;
     genium::jni::set_short_field(_jenv, _jresult, "blue", jblue);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::Color> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 ::smoke::Structs::Line
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::Line* dummy)
@@ -78,6 +102,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     _nout.b = n_b;
     return _nout;
 }
+std::shared_ptr<::smoke::Structs::Line>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Structs::Line>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::Structs::Line>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::Line*)nullptr))
+        : std::shared_ptr<::smoke::Structs::Line>{};
+}
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Line& _ninput)
 {
@@ -85,11 +116,16 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Line& _ninput)
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto ja = convert_to_jni(_jenv, _ninput.a);
     genium::jni::set_object_field(_jenv, _jresult, "a",
-    "Lcom/example/smoke/Structs$Point;", ja);
+        "Lcom/example/smoke/Structs$Point;", ja);
     auto jb = convert_to_jni(_jenv, _ninput.b);
     genium::jni::set_object_field(_jenv, _jresult, "b",
-    "Lcom/example/smoke/Structs$Point;", jb);
+        "Lcom/example/smoke/Structs$Point;", jb);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::Line> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 ::smoke::Structs::ColoredLine
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::ColoredLine* dummy)
@@ -115,6 +151,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     _nout.color = n_color;
     return _nout;
 }
+std::shared_ptr<::smoke::Structs::ColoredLine>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Structs::ColoredLine>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::Structs::ColoredLine>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::ColoredLine*)nullptr))
+        : std::shared_ptr<::smoke::Structs::ColoredLine>{};
+}
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ColoredLine& _ninput)
 {
@@ -122,11 +165,16 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ColoredLine& _ninput)
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jline = convert_to_jni(_jenv, _ninput.line);
     genium::jni::set_object_field(_jenv, _jresult, "line",
-    "Lcom/example/smoke/Structs$Line;", jline);
+        "Lcom/example/smoke/Structs$Line;", jline);
     auto jcolor = convert_to_jni(_jenv, _ninput.color);
     genium::jni::set_object_field(_jenv, _jresult, "color",
-    "Lcom/example/smoke/Structs$Color;", jcolor);
+        "Lcom/example/smoke/Structs$Color;", jcolor);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::ColoredLine> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 ::smoke::Structs::AllTypesStruct
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::AllTypesStruct* dummy)
@@ -153,6 +201,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
         "Lcom/example/smoke/Structs$Point;"),
         (::smoke::Structs::Point*)nullptr );
     return ::smoke::Structs::AllTypesStruct(n_int8_field, n_uint8_field, n_int16_field, n_uint16_field, n_int32_field, n_uint32_field, n_int64_field, n_uint64_field, n_float_field, n_double_field, n_string_field, n_boolean_field, n_bytes_field, n_point_field);
+}
+std::shared_ptr<::smoke::Structs::AllTypesStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Structs::AllTypesStruct>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::Structs::AllTypesStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::AllTypesStruct*)nullptr))
+        : std::shared_ptr<::smoke::Structs::AllTypesStruct>{};
 }
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AllTypesStruct& _ninput)
@@ -187,8 +242,13 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AllTypesStruct& _ninput)
     genium::jni::set_byte_array_field(_jenv, _jresult, "bytesField", jbytes_field);
     auto jpoint_field = convert_to_jni(_jenv, _ninput.point_field);
     genium::jni::set_object_field(_jenv, _jresult, "pointField",
-    "Lcom/example/smoke/Structs$Point;", jpoint_field);
+        "Lcom/example/smoke/Structs$Point;", jpoint_field);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::AllTypesStruct> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 ::smoke::Structs::ExternalStruct
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::ExternalStruct* dummy)
@@ -218,6 +278,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     _nout.set_some_struct(n_externalStructField);
     return _nout;
 }
+std::shared_ptr<::smoke::Structs::ExternalStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Structs::ExternalStruct>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::Structs::ExternalStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::ExternalStruct*)nullptr))
+        : std::shared_ptr<::smoke::Structs::ExternalStruct>{};
+}
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ExternalStruct& _ninput)
 {
@@ -229,11 +296,16 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ExternalStruct& _ninput)
     genium::jni::set_string_field(_jenv, _jresult, "externalStringField", jexternalStringField);
     auto jexternalArrayField = convert_to_jni(_jenv, _ninput.get_some_array());
     genium::jni::set_object_field(_jenv, _jresult, "externalArrayField",
-    "Ljava/util/List;", jexternalArrayField);
+        "Ljava/util/List;", jexternalArrayField);
     auto jexternalStructField = convert_to_jni(_jenv, _ninput.get_some_struct());
     genium::jni::set_object_field(_jenv, _jresult, "externalStructField",
-    "Lcom/example/smoke/Structs$AnotherExternalStruct;", jexternalStructField);
+        "Lcom/example/smoke/Structs$AnotherExternalStruct;", jexternalStructField);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::ExternalStruct> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 ::fire::SomeVeryExternalStruct
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::SomeVeryExternalStruct* dummy)
@@ -242,6 +314,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::So
     int8_t n_intField = genium::jni::get_byte_field(_jenv, _jinput, "intField");
     _nout.intField = n_intField;
     return _nout;
+}
+std::shared_ptr<::fire::SomeVeryExternalStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::fire::SomeVeryExternalStruct>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::fire::SomeVeryExternalStruct>(convert_from_jni(_jenv, _jinput, (::fire::SomeVeryExternalStruct*)nullptr))
+        : std::shared_ptr<::fire::SomeVeryExternalStruct>{};
 }
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::fire::SomeVeryExternalStruct& _ninput)
@@ -252,6 +331,11 @@ convert_to_jni(JNIEnv* _jenv, const ::fire::SomeVeryExternalStruct& _ninput)
     genium::jni::set_byte_field(_jenv, _jresult, "intField", jintField);
     return _jresult;
 }
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::fire::SomeVeryExternalStruct> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
 ::smoke::Structs::Yet_Another_External_Struct
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::Yet_Another_External_Struct* dummy)
 {
@@ -259,6 +343,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     ::std::string n_string_Field = genium::jni::get_string_field(_jenv, _jinput, "stringField");
     _nout.string_Field = n_string_Field;
     return _nout;
+}
+std::shared_ptr<::smoke::Structs::Yet_Another_External_Struct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Structs::Yet_Another_External_Struct>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::Structs::Yet_Another_External_Struct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::Yet_Another_External_Struct*)nullptr))
+        : std::shared_ptr<::smoke::Structs::Yet_Another_External_Struct>{};
 }
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Yet_Another_External_Struct& _ninput)
@@ -268,6 +359,11 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Yet_Another_External_Struc
     auto jstring_Field = _ninput.string_Field;
     genium::jni::set_string_field(_jenv, _jresult, "stringField", jstring_Field);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::Yet_Another_External_Struct> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 ::fire::StructsQualifiedType::QualifiedType
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::StructsQualifiedType::QualifiedType* dummy)
@@ -338,6 +434,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::St
     _nout.structs_instance = n_structs_instance;
     return _nout;
 }
+std::shared_ptr<::fire::StructsQualifiedType::QualifiedType>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::fire::StructsQualifiedType::QualifiedType>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::fire::StructsQualifiedType::QualifiedType>(convert_from_jni(_jenv, _jinput, (::fire::StructsQualifiedType::QualifiedType*)nullptr))
+        : std::shared_ptr<::fire::StructsQualifiedType::QualifiedType>{};
+}
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::fire::StructsQualifiedType::QualifiedType& _ninput)
 {
@@ -345,26 +448,31 @@ convert_to_jni(JNIEnv* _jenv, const ::fire::StructsQualifiedType::QualifiedType&
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jtype_collection_point = convert_to_jni(_jenv, _ninput.type_collection_point);
     genium::jni::set_object_field(_jenv, _jresult, "typeCollectionPoint",
-    "Lcom/example/smoke/Point;", jtype_collection_point);
+        "Lcom/example/smoke/Point;", jtype_collection_point);
     auto jinterface_point = convert_to_jni(_jenv, _ninput.interface_point);
     genium::jni::set_object_field(_jenv, _jresult, "interfacePoint",
-    "Lcom/example/smoke/Structs$Point;", jinterface_point);
+        "Lcom/example/smoke/Structs$Point;", jinterface_point);
     auto jtype_collection_explicit_points = convert_to_jni(_jenv, _ninput.type_collection_explicit_points);
     genium::jni::set_object_field(_jenv, _jresult, "typeCollectionExplicitPoints",
-    "Ljava/util/List;", jtype_collection_explicit_points);
+        "Ljava/util/List;", jtype_collection_explicit_points);
     auto jinterface_explicit_points = convert_to_jni(_jenv, _ninput.interface_explicit_points);
     genium::jni::set_object_field(_jenv, _jresult, "interfaceExplicitPoints",
-    "Ljava/util/List;", jinterface_explicit_points);
+        "Ljava/util/List;", jinterface_explicit_points);
     auto jtype_collection_implicit_points = convert_to_jni(_jenv, _ninput.type_collection_implicit_points);
     genium::jni::set_object_field(_jenv, _jresult, "typeCollectionImplicitPoints",
-    "Ljava/util/List;", jtype_collection_implicit_points);
+        "Ljava/util/List;", jtype_collection_implicit_points);
     auto jinterface_implicit_points = convert_to_jni(_jenv, _ninput.interface_implicit_points);
     genium::jni::set_object_field(_jenv, _jresult, "interfaceImplicitPoints",
-    "Ljava/util/List;", jinterface_implicit_points);
+        "Ljava/util/List;", jinterface_implicit_points);
     auto jstructs_instance = convert_to_jni(_jenv, _ninput.structs_instance);
     genium::jni::set_object_field(_jenv, _jresult, "structsInstance",
-    "Lcom/example/smoke/StructsInstance;", jstructs_instance);
+        "Lcom/example/smoke/StructsInstance;", jstructs_instance);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::fire::StructsQualifiedType::QualifiedType> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 ::smoke::Point
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Point* dummy)
@@ -376,6 +484,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::P
     _nout.y = n_y;
     return _nout;
 }
+std::shared_ptr<::smoke::Point>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Point>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::Point>(convert_from_jni(_jenv, _jinput, (::smoke::Point*)nullptr))
+        : std::shared_ptr<::smoke::Point>{};
+}
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Point& _ninput)
 {
@@ -386,6 +501,11 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Point& _ninput)
     auto jy = _ninput.y;
     genium::jni::set_double_field(_jenv, _jresult, "y", jy);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Point> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 ::smoke::Color
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Color* dummy)
@@ -399,6 +519,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::C
     _nout.blue = n_blue;
     return _nout;
 }
+std::shared_ptr<::smoke::Color>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Color>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::Color>(convert_from_jni(_jenv, _jinput, (::smoke::Color*)nullptr))
+        : std::shared_ptr<::smoke::Color>{};
+}
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Color& _ninput)
 {
@@ -411,6 +538,11 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Color& _ninput)
     auto jblue = _ninput.blue;
     genium::jni::set_short_field(_jenv, _jresult, "blue", jblue);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Color> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 ::smoke::Line
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Line* dummy)
@@ -436,6 +568,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::L
     _nout.b = n_b;
     return _nout;
 }
+std::shared_ptr<::smoke::Line>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Line>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::Line>(convert_from_jni(_jenv, _jinput, (::smoke::Line*)nullptr))
+        : std::shared_ptr<::smoke::Line>{};
+}
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Line& _ninput)
 {
@@ -443,11 +582,16 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Line& _ninput)
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto ja = convert_to_jni(_jenv, _ninput.a);
     genium::jni::set_object_field(_jenv, _jresult, "a",
-    "Lcom/example/smoke/Point;", ja);
+        "Lcom/example/smoke/Point;", ja);
     auto jb = convert_to_jni(_jenv, _ninput.b);
     genium::jni::set_object_field(_jenv, _jresult, "b",
-    "Lcom/example/smoke/Point;", jb);
+        "Lcom/example/smoke/Point;", jb);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Line> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 ::smoke::ColoredLine
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::ColoredLine* dummy)
@@ -473,6 +617,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::C
     _nout.color = n_color;
     return _nout;
 }
+std::shared_ptr<::smoke::ColoredLine>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::ColoredLine>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::ColoredLine>(convert_from_jni(_jenv, _jinput, (::smoke::ColoredLine*)nullptr))
+        : std::shared_ptr<::smoke::ColoredLine>{};
+}
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::ColoredLine& _ninput)
 {
@@ -480,11 +631,16 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::ColoredLine& _ninput)
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jline = convert_to_jni(_jenv, _ninput.line);
     genium::jni::set_object_field(_jenv, _jresult, "line",
-    "Lcom/example/smoke/Line;", jline);
+        "Lcom/example/smoke/Line;", jline);
     auto jcolor = convert_to_jni(_jenv, _ninput.color);
     genium::jni::set_object_field(_jenv, _jresult, "color",
-    "Lcom/example/smoke/Color;", jcolor);
+        "Lcom/example/smoke/Color;", jcolor);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::ColoredLine> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 ::smoke::AllTypesStruct
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::AllTypesStruct* dummy)
@@ -527,6 +683,13 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::A
     _nout.point_field = n_point_field;
     return _nout;
 }
+std::shared_ptr<::smoke::AllTypesStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::AllTypesStruct>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::AllTypesStruct>(convert_from_jni(_jenv, _jinput, (::smoke::AllTypesStruct*)nullptr))
+        : std::shared_ptr<::smoke::AllTypesStruct>{};
+}
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::AllTypesStruct& _ninput)
 {
@@ -560,8 +723,13 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::AllTypesStruct& _ninput)
     genium::jni::set_byte_array_field(_jenv, _jresult, "bytesField", jbytes_field);
     auto jpoint_field = convert_to_jni(_jenv, _ninput.point_field);
     genium::jni::set_object_field(_jenv, _jresult, "pointField",
-    "Lcom/example/smoke/Point;", jpoint_field);
+        "Lcom/example/smoke/Point;", jpoint_field);
     return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::AllTypesStruct> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 }
 }
