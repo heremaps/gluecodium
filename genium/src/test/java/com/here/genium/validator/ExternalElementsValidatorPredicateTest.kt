@@ -103,11 +103,19 @@ class ExternalElementsValidatorPredicateTest {
     }
 
     @Test
+    fun validateWithExternalGetterAndWithoutExternalSetterReadonly() {
+        `when`(francaAttribute.isReadonly).thenReturn(true)
+        `when`(deploymentModel.getExternalGetter(francaAttribute)).thenReturn("Bar")
+
+        assertNull(validatorPredicate.validate(deploymentModel, francaAttribute))
+    }
+
+    @Test
     fun validateWithoutExternalGetterAndWithExternalSetterReadonly() {
         `when`(francaAttribute.isReadonly).thenReturn(true)
-        `when`(deploymentModel.getExternalSetter(francaElement)).thenReturn("Baz")
+        `when`(deploymentModel.getExternalSetter(francaAttribute)).thenReturn("Baz")
 
-        assertNotNull(validatorPredicate.validate(deploymentModel, francaElement))
+        assertNotNull(validatorPredicate.validate(deploymentModel, francaAttribute))
     }
 
     @Test

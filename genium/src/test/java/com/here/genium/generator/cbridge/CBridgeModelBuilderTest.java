@@ -497,11 +497,14 @@ public final class CBridgeModelBuilderTest {
     when(cppModelbuilder.getFinalResults()).thenReturn(cppMethods);
 
     when(francaAttribute.isReadonly()).thenReturn(false);
-    SwiftProperty swiftProperty = new SwiftProperty("", null, new SwiftType(""), false);
-    swiftProperty.propertyAccessors.add(
-        new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_GETTER_NAME));
-    swiftProperty.propertyAccessors.add(
-        new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_SETTER_NAME));
+    SwiftProperty swiftProperty =
+        new SwiftProperty(
+            "",
+            null,
+            new SwiftType(""),
+            new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_GETTER_NAME),
+            new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_SETTER_NAME),
+            false);
     when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
 
     contextStack.injectResult(cppTypeInfo);
@@ -523,9 +526,14 @@ public final class CBridgeModelBuilderTest {
     when(cppModelbuilder.getFinalResults()).thenReturn(cppMethods);
 
     when(francaAttribute.isReadonly()).thenReturn(true);
-    SwiftProperty swiftProperty = new SwiftProperty("", null, new SwiftType(""), false);
-    swiftProperty.propertyAccessors.add(
-        new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_GETTER_NAME));
+    SwiftProperty swiftProperty =
+        new SwiftProperty(
+            "",
+            null,
+            new SwiftType(""),
+            new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_GETTER_NAME),
+            null,
+            false);
     when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
 
     contextStack.injectResult(cppTypeInfo);
@@ -541,9 +549,9 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingStaticAttribute() {
-    SwiftProperty swiftProperty = new SwiftProperty("", null, new SwiftType(""), false);
-    swiftProperty.propertyAccessors.add(new SwiftMethod(""));
-    swiftProperty.propertyAccessors.add(new SwiftMethod(""));
+    SwiftProperty swiftProperty =
+        new SwiftProperty(
+            "", null, new SwiftType(""), new SwiftMethod(""), new SwiftMethod(""), false);
     when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
     when(cppModelbuilder.getFinalResults())
         .thenReturn(asList(new CppMethod(""), new CppMethod("")));

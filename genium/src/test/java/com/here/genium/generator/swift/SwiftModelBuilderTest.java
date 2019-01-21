@@ -579,19 +579,16 @@ public final class SwiftModelBuilderTest {
     assertSame(swiftType, property.type);
     assertEquals(ATTRIBUTE_NAME, property.name);
 
-    assertEquals(
-        "Should be two accessor methods - getter and setter", 2, property.propertyAccessors.size());
+    assertNotNull(property.getter);
+    assertSame(swiftType, property.getter.getReturnType());
+    assertEquals("Getter should have no parameters", 0, property.getter.getParameters().size());
+    assertEquals(CBRIDGE_GETTER_NAME, property.getter.getCShortName());
 
-    SwiftMethod getter = property.propertyAccessors.get(0);
-    assertSame(swiftType, getter.getReturnType());
-    assertEquals("Getter should have no parameters", 0, getter.getParameters().size());
-    assertEquals(CBRIDGE_GETTER_NAME, getter.getCShortName());
-
-    SwiftMethod setter = property.propertyAccessors.get(1);
-    assertSame(SwiftType.VOID, setter.getReturnType());
-    assertEquals("Setter should have one parameters", 1, setter.getParameters().size());
-    assertSame(swiftType, setter.getParameters().get(0).type);
-    assertEquals(CBRIDGE_SETTER_NAME, setter.getCShortName());
+    assertNotNull(property.setter);
+    assertSame(SwiftType.VOID, property.setter.getReturnType());
+    assertEquals("Setter should have one parameters", 1, property.setter.getParameters().size());
+    assertSame(swiftType, property.setter.getParameters().get(0).type);
+    assertEquals(CBRIDGE_SETTER_NAME, property.setter.getCShortName());
   }
 
   @Test
@@ -603,13 +600,9 @@ public final class SwiftModelBuilderTest {
 
     SwiftProperty property = modelBuilder.getFinalResult(SwiftProperty.class);
     assertNotNull("Should be one property created", property);
-
-    assertEquals("Should be one accessor method - getter", 1, property.propertyAccessors.size());
-
-    SwiftMethod getter = property.propertyAccessors.get(0);
-    assertSame(swiftType, getter.getReturnType());
-    assertEquals("Getter should have no parameters", 0, getter.getParameters().size());
-    assertEquals(CBRIDGE_GETTER_NAME, getter.getCShortName());
+    assertNotNull(property.getter);
+    assertNull(property.setter);
+    assertEquals(CBRIDGE_GETTER_NAME, property.getter.getCShortName());
   }
 
   @Test
@@ -646,8 +639,8 @@ public final class SwiftModelBuilderTest {
     SwiftProperty swiftProperty = modelBuilder.getFinalResult(SwiftProperty.class);
     assertNotNull(swiftProperty);
     assertTrue(swiftProperty.isStatic);
-    assertTrue(swiftProperty.propertyAccessors.get(0).isStatic());
-    assertTrue(swiftProperty.propertyAccessors.get(1).isStatic());
+    assertTrue(swiftProperty.getter.isStatic());
+    assertTrue(swiftProperty.setter.isStatic());
   }
 
   @Test

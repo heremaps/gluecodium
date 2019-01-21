@@ -20,12 +20,14 @@
   !}}
 {{>swift/Comment}}
 {{^isInterface}}{{visibility}} {{/isInterface}}{{#if isStatic}}static {{/if}}var {{name}}: {{type.publicName}}{{#if type.optional}}?{{/if}} {
+{{#getter}}
     get {
-{{#propertyAccessors.0}}
 {{prefixPartial 'swift/ParametersConversion' '        '}}
-{{/propertyAccessors.0}}
     }
-{{^readonly}}    set {
-{{#propertyAccessors.1}}{{prefixPartial 'swift/ParametersConversion' '        '}}{{/propertyAccessors.1}}
-    }{{/readonly}}
+{{/getter}}
+{{#setter}}
+    set {
+{{prefixPartial 'swift/ParametersConversion' '        '}}
+    }
+{{/setter}}
 }

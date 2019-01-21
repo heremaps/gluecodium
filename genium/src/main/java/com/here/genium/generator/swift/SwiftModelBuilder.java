@@ -38,7 +38,7 @@ import org.franca.core.franca.*;
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   public final Map<String, SwiftArray> arraysCollector = new HashMap<>();
-  public final Map<String, SwiftDictionary> mapCollector = new HashMap();
+  public final Map<String, SwiftDictionary> mapCollector = new HashMap<>();
   public final Set<String> enumsAsErrors = new HashSet<>();
 
   private final FrancaDeploymentModel deploymentModel;
@@ -328,30 +328,24 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     SwiftType swiftType = getPreviousResult(SwiftType.class);
     boolean isStatic = deploymentModel.isStatic(francaAttribute);
-    SwiftProperty property =
-        new SwiftProperty(
-            SwiftNameRules.getPropertyName(francaAttribute.getName(), swiftType),
-            getVisibility(francaAttribute),
-            swiftType,
-            isStatic);
-    property.comment = CommentHelper.getDescription(francaAttribute);
 
     String nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(francaAttribute);
-    SwiftMethod getterMethod =
+    SwiftMethod getterMethod = null;
+    getterMethod =
         new SwiftMethod(
             "",
             null,
             null,
-            property.type,
+            swiftType,
             null,
             nestedSpecifier,
             CBridgeNameRules.getPropertyGetterName(francaAttribute),
             null,
             isStatic);
-    property.propertyAccessors.add(getterMethod);
 
+    SwiftMethod setterMethod = null;
     if (!francaAttribute.isReadonly()) {
-      SwiftMethod setterMethod =
+      setterMethod =
           new SwiftMethod(
               "",
               null,
@@ -364,9 +358,18 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
               isStatic,
               false,
               false,
-              Collections.singletonList(new SwiftParameter("newValue", property.type)));
-      property.propertyAccessors.add(setterMethod);
+              Collections.singletonList(new SwiftParameter("newValue", swiftType)));
     }
+
+    SwiftProperty property =
+        new SwiftProperty(
+            SwiftNameRules.getPropertyName(francaAttribute.getName(), swiftType),
+            getVisibility(francaAttribute),
+            swiftType,
+            getterMethod,
+            setterMethod,
+            isStatic);
+    property.comment = CommentHelper.getDescription(francaAttribute);
 
     storeResult(property);
     super.finishBuilding(francaAttribute);
@@ -395,9 +398,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             typeRefs.get(0),
             typeRefs.get(1));
     mapCollector.put(
-        ((SwiftDictionary) swiftDictionary).getKeyType().name
-            + ":"
-            + ((SwiftDictionary) swiftDictionary).getValueType().name,
+        swiftDictionary.getKeyType().name + ":" + swiftDictionary.getValueType().name,
         swiftDictionary);
     storeResult(swiftDictionary);
 
