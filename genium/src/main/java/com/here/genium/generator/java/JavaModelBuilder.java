@@ -177,10 +177,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
             JavaNameRules.getArgumentName(francaArgument.getName()), javaType, isOutput);
     javaParameter.comment = CommentHelper.getDescription(francaArgument);
 
-    if (deploymentModel.isNotNull(francaArgument)) {
-      addNotNullAnnotation(javaParameter);
-    }
-
     storeResult(javaParameter);
     closeContext();
   }
@@ -214,10 +210,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaField javaField = new JavaField(fieldName, javaType, initialValue);
     javaField.visibility = getVisibility(francaField);
     javaField.comment = CommentHelper.getDescription(francaField);
-
-    if (deploymentModel.isNotNull(francaField)) {
-      addNotNullAnnotation(javaField);
-    }
 
     storeResult(javaField);
     closeContext();
@@ -254,7 +246,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
-    storeResult(typeMapper.map(francaTypeRef));
+    storeResult(typeMapper.map(francaTypeRef, deploymentModel));
     closeContext();
   }
 
@@ -326,7 +318,6 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaType javaType = getPreviousResult(JavaType.class);
     String comment = CommentHelper.getDescription(francaAttribute);
     JavaVisibility visibility = getVisibility(francaAttribute);
-    boolean isNotNull = deploymentModel.isNotNull(francaAttribute);
 
     Set<MethodQualifier> qualifiers =
         deploymentModel.isStatic(francaAttribute)
@@ -344,18 +335,11 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
             Collections.emptyList(),
             false,
             qualifiers);
-    if (isNotNull) {
-      addNotNullAnnotation(getterMethod);
-    }
 
     storeResult(getterMethod);
 
     if (!francaAttribute.isReadonly()) {
       JavaParameter setterParameter = new JavaParameter("value", javaType);
-      if (isNotNull) {
-        addNotNullAnnotation(setterParameter);
-      }
-
       JavaMethod setterMethod =
           new JavaMethod(
               JavaNameRules.getSetterName(francaAttribute.getName()),
@@ -504,12 +488,5 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     return deploymentModel.isInternal(francaElement)
         ? JavaVisibility.PACKAGE
         : JavaVisibility.PUBLIC;
-  }
-
-  private void addNotNullAnnotation(final JavaElement annotatedElement) {
-    JavaType notNullAnnotation = typeMapper.getNotNullAnnotation();
-    if (notNullAnnotation != null) {
-      annotatedElement.annotations.add(notNullAnnotation);
-    }
   }
 }

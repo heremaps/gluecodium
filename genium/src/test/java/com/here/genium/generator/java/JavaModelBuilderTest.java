@@ -117,7 +117,7 @@ public class JavaModelBuilderTest {
             typeMapper,
             e -> e == francaEnumerationTypeError);
 
-    when(typeMapper.map(any())).thenReturn(javaCustomType);
+    when(typeMapper.map(any(), any())).thenReturn(javaCustomType);
 
     when(francaConstant.getName()).thenReturn("permanent");
     when(francaField.getName()).thenReturn(FIELD_NAME);
@@ -267,19 +267,6 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaInputArgumentReadsNotNull() {
-    contextStack.injectResult(javaTemplateType);
-    when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
-    when(deploymentModel.isNotNull(any())).thenReturn(true);
-
-    modelBuilder.finishBuildingInputArgument(francaArgument);
-
-    JavaParameter javaParameter = modelBuilder.getFinalResult(JavaParameter.class);
-    assertNotNull(javaParameter);
-    assertTrue(javaParameter.annotations.contains(javaCustomType));
-  }
-
-  @Test
   public void finishBuildingFrancaOutputArgument() {
     contextStack.injectResult(javaCustomType);
 
@@ -289,19 +276,6 @@ public class JavaModelBuilderTest {
     assertNotNull(javaParameter);
     assertEquals(javaCustomType, javaParameter.getType());
     assertTrue(javaParameter.isOutput);
-  }
-
-  @Test
-  public void finishBuildingFrancaOutputArgumentReadsNotNull() {
-    contextStack.injectResult(javaTemplateType);
-    when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
-    when(deploymentModel.isNotNull(any())).thenReturn(true);
-
-    modelBuilder.finishBuildingOutputArgument(francaArgument);
-
-    JavaParameter javaParameter = modelBuilder.getFinalResult(JavaParameter.class);
-    assertNotNull(javaParameter);
-    assertTrue(javaParameter.annotations.contains(javaCustomType));
   }
 
   @Test
@@ -468,18 +442,6 @@ public class JavaModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaFieldReadsNullable() {
-    JavaCustomType customType = JavaCustomType.builder("").isInterface(true).build();
-    contextStack.injectResult(customType);
-
-    modelBuilder.finishBuilding(francaField);
-
-    JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
-    assertNotNull(resultField);
-    assertNull(resultField.getInitial());
-  }
-
-  @Test
   public void finishBuildingFrancaFieldCreatesInternalField() {
     when(deploymentModel.isInternal(any())).thenReturn(true);
     contextStack.injectResult(javaCustomType);
@@ -489,20 +451,6 @@ public class JavaModelBuilderTest {
     JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
     assertNotNull(resultField);
     assertEquals(JavaVisibility.PACKAGE, resultField.visibility);
-  }
-
-  @Test
-  public void finishBuildingFrancaFieldAddsNonNullAnnotation() {
-    when(deploymentModel.isNotNull(francaField)).thenReturn(true);
-    when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
-    contextStack.injectResult(javaCustomType);
-
-    modelBuilder.finishBuilding(francaField);
-
-    JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
-    assertNotNull(resultField);
-    assertEquals(1, resultField.annotations.size());
-    assertEquals(javaCustomType, resultField.annotations.iterator().next());
   }
 
   @Test
@@ -593,7 +541,7 @@ public class JavaModelBuilderTest {
     JavaType javaType = modelBuilder.getFinalResult(JavaType.class);
     assertEquals(javaCustomType, javaType);
 
-    verify(typeMapper).map(francaTypeRef);
+    verify(typeMapper).map(francaTypeRef, deploymentModel);
   }
 
   @Test
@@ -694,33 +642,6 @@ public class JavaModelBuilderTest {
         CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JavaMethod.class);
     assertEquals(2, methods.size());
     assertEquals(JavaVisibility.PACKAGE, methods.get(1).visibility);
-  }
-
-  @Test
-  public void finishBuildingFrancaAttributeGetterReadsNotNullFromAttribute() {
-    when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
-    contextStack.injectResult(JavaCustomType.builder("FooType").build());
-    when(deploymentModel.isNotNull(any())).thenReturn(true);
-    modelBuilder.finishBuilding(francaAttribute);
-
-    JavaMethod javaMethod = modelBuilder.getFinalResult(JavaMethod.class);
-    assertNotNull(javaMethod);
-    assertTrue(javaMethod.annotations.contains(javaCustomType));
-  }
-
-  @Test
-  public void finishBuildingFrancaAttributeSetterReadsNotNullFromAttribute() {
-    when(typeMapper.getNotNullAnnotation()).thenReturn(javaCustomType);
-    contextStack.injectResult(JavaCustomType.builder("FooType").build());
-    when(deploymentModel.isNotNull(any())).thenReturn(true);
-    modelBuilder.finishBuilding(francaAttribute);
-
-    List<JavaMethod> methods =
-        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JavaMethod.class);
-    assertEquals(2, methods.size());
-    JavaMethod setterMethod = methods.get(1);
-    assertEquals(1, setterMethod.getParameters().size());
-    assertTrue(setterMethod.getParameters().get(0).annotations.contains(javaCustomType));
   }
 
   @Test
