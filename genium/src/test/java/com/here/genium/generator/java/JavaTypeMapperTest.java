@@ -81,7 +81,7 @@ public class JavaTypeMapperTest {
   public void mapFrancaBasicTypeToJavaType() {
     when(francaTypeRef.getPredefined()).thenReturn(francaBasicType);
 
-    JavaType returnedJavaType = typeMapper.map(francaTypeRef);
+    JavaType returnedJavaType = typeMapper.map(francaTypeRef, null);
 
     assertEquals(expectedJavaTypeName, returnedJavaType.name);
   }

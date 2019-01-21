@@ -23,6 +23,7 @@ import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.franca.DefinedBy;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.java.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +36,7 @@ import org.franca.core.franca.*;
  * Maps Franca type references to their Java counterparts. These references are used as parameters,
  * in typedefs, array members etc.
  */
+@SuppressWarnings("PMD.GodClass")
 public class JavaTypeMapper {
 
   private static final String NATIVE_BASE_NAME = "NativeBase";
@@ -54,22 +56,24 @@ public class JavaTypeMapper {
     this.notNullAnnotation = notNullAnnotation;
   }
 
-  public JavaType map(final FTypeRef francaTypRef) {
+  public JavaType map(final FTypeRef francaTypRef, final FrancaDeploymentModel deploymentModel) {
 
-    JavaType javaType =
-        francaTypRef.getDerived() != null
-            ? mapDerived(francaTypRef.getDerived())
-            : mapPredefined(francaTypRef.getPredefined());
+    JavaType javaType = mapTypeReference(francaTypRef);
 
     if (FrancaTypeHelper.isImplicitArray(francaTypRef)) {
       javaType = JavaTemplateType.wrapInList(javaType);
     }
-
-    if (notNullAnnotation != null && needsNotNullAnnotation(francaTypRef)) {
+    if (notNullAnnotation != null && needsNotNullAnnotation(francaTypRef, deploymentModel)) {
       javaType.annotations.add(notNullAnnotation);
     }
 
     return javaType;
+  }
+
+  private JavaType mapTypeReference(final FTypeRef francaTypRef) {
+    return francaTypRef.getDerived() != null
+        ? mapDerived(francaTypRef.getDerived())
+        : mapPredefined(francaTypRef.getPredefined());
   }
 
   private static JavaType mapPredefined(final FBasicTypeId basicTypeId) {
@@ -123,12 +127,12 @@ public class JavaTypeMapper {
   }
 
   public JavaType mapArray(final FArrayType arrayType) {
-    return JavaTemplateType.wrapInList(map(arrayType.getElementType()));
+    return JavaTemplateType.wrapInList(mapTypeReference(arrayType.getElementType()));
   }
 
   public JavaType mapMap(final FMapType francaMapType) {
-    JavaType keyType = map(francaMapType.getKeyType());
-    JavaType valueType = map(francaMapType.getValueType());
+    JavaType keyType = mapTypeReference(francaMapType.getKeyType());
+    JavaType valueType = mapTypeReference(francaMapType.getValueType());
 
     if (keyType instanceof JavaPrimitiveType) {
       keyType = JavaReferenceType.boxPrimitiveType((JavaPrimitiveType) keyType);
@@ -219,22 +223,37 @@ public class JavaTypeMapper {
           .isInterface(true)
           .build();
     } else {
-      return map(typeDef.getActualType());
+      return mapTypeReference(typeDef.getActualType());
     }
   }
 
-  private boolean needsNotNullAnnotation(final FTypeRef francaTypeRef) {
+  private boolean needsNotNullAnnotation(
+      final FTypeRef francaTypeRef, final FrancaDeploymentModel deploymentModel) {
 
     EObject parentElement = francaTypeRef.eContainer();
-    FType actualDerived = FrancaHelpers.getActualDerived(francaTypeRef);
+    if (!isNullableElement(parentElement)) {
+      return false;
+    }
 
-    return (parentElement instanceof FField
-            || parentElement instanceof FArgument
-            || parentElement instanceof FAttribute)
-        && (actualDerived instanceof FStructType
-            || actualDerived instanceof FEnumerationType
-            || actualDerived instanceof FArrayType
-            || actualDerived instanceof FMapType
-            || ((FTypedElement) parentElement).isArray());
+    FTypedElement typedElement = (FTypedElement) parentElement;
+    if (deploymentModel.isNotNull(typedElement)) {
+      return true;
+    }
+    if (deploymentModel.isNullable(typedElement)) {
+      return false;
+    }
+
+    FType actualDerived = FrancaHelpers.getActualDerived(francaTypeRef);
+    return actualDerived instanceof FStructType
+        || actualDerived instanceof FEnumerationType
+        || actualDerived instanceof FArrayType
+        || actualDerived instanceof FMapType
+        || typedElement.isArray();
+  }
+
+  private boolean isNullableElement(final EObject francaElement) {
+    return francaElement instanceof FField
+        || francaElement instanceof FArgument
+        || francaElement instanceof FAttribute;
   }
 }
