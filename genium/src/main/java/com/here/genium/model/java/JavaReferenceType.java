@@ -64,16 +64,6 @@ public final class JavaReferenceType extends JavaComplexType {
     this.type = type;
   }
 
-  @Override
-  public String getLiteralName() {
-    switch (type) {
-      case STRING:
-        return "string";
-      default:
-        return type.getValue();
-    }
-  }
-
   /**
    * Wrap primitive types since generic templates don't apply to them
    *

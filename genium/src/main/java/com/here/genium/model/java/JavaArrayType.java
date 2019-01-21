@@ -48,6 +48,6 @@ public final class JavaArrayType extends JavaType {
 
   @Override
   public String getLiteralName() {
-    return type.getValue() + "_array";
+    return type.getValue().toLowerCase() + "_array";
   }
 }
