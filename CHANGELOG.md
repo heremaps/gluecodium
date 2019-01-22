@@ -1,6 +1,8 @@
 # Genium project Release Notes
 
 ## Unreleased
+- Features:
+  + Added generation of custom std::error_category for C++ error codes.
 - Bug fixes:
   + Fixed potential memory leak while returning Swift proxies.
   + Fixed the default value of String type Struct fields in Java to be an empty string.

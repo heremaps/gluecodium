@@ -105,4 +105,11 @@ Errors::method_with_external_error( const bool error_flag )
         return {};
     }
 }
+
+std::string
+Errors::get_error_category_message( const Errors::InternalErrors value )
+{
+    auto error_code = std::error_code{value};
+    return error_code.category( ).message( error_code.value( ) );
+}
 }  // namespace test

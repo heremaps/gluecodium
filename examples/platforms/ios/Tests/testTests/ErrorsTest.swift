@@ -73,6 +73,12 @@ class ErrorsTests: XCTestCase {
       XCTAssertNoThrow(try Errors.methodWithExternalError(errorFlag: false))
     }
 
+    func testGetErrorCategoryMessage() {
+      let result = Errors.getErrorCategoryMessage(value: .crashed)
+
+      XCTAssertEqual(result, "::test::Errors::InternalErrors::CRASHED")
+    }
+
     static var allTests = [
         ("testMethodWithErrorThrows", testMethodWithErrorThrows),
         ("testMethodWithErrorFinishes", testMethodWithErrorFinishes),
@@ -83,6 +89,7 @@ class ErrorsTests: XCTestCase {
         ("testMethodWithGoodAndBadThrows", testMethodWithGoodAndBadThrows),
         ("testMethodWithGoodAndBadFinishes", testMethodWithGoodAndBadFinishes),
         ("testMethodWithExternalErrorThrows", testMethodWithExternalErrorThrows),
-        ("testMethodWithExternalErrorFinishes", testMethodWithExternalErrorFinishes)
+        ("testMethodWithExternalErrorFinishes", testMethodWithExternalErrorFinishes),
+        ("testGetErrorCategoryMessage", testGetErrorCategoryMessage)
     ]
 }

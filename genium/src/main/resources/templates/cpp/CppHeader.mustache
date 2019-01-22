@@ -61,8 +61,7 @@ namespace {{.}} {
 {{/if}}
 
 {{#errorEnums}}
-::std::error_code make_error_code( {{.}} value ) noexcept;
-
+::std::error_code make_error_code( {{fullyQualifiedName}} value ) noexcept;
 {{/errorEnums}}
 {{#namespace}}
 }
@@ -73,8 +72,7 @@ namespace std
 {
 {{#errorEnums}}
 template <>
-struct is_error_code_enum <{{.}}> : public std::true_type { };
-
+struct is_error_code_enum <{{fullyQualifiedName}}> : public std::true_type { };
 {{/errorEnums}}
 }
 {{/if}}

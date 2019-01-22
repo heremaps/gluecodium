@@ -21,6 +21,7 @@
 {{>cpp/CppCommentHeader}}
 
 {{#headerInclude}}{{>common/Include}}{{/headerInclude}}
+{{#if errorEnums}}#include <string>{{/if}}
 
 {{#namespace}}
 namespace {{.}} {
@@ -40,9 +41,35 @@ namespace {{.}} {
 {{/members}}
 {{#errorEnums}}
 std::error_code
-make_error_code( {{.}} value ) noexcept
+make_error_code( {{fullyQualifiedName}} value ) noexcept
 {
-    return std::error_code( static_cast<int>( value ), std::generic_category( ) );
+    class {{name}}ErrorCategory: public ::std::error_category
+    {
+    public:
+        ~{{name}}ErrorCategory( ) override = default;
+
+        const char*
+        name( ) const noexcept override
+        {
+            return "{{name}}ErrorCategory";
+        }
+
+        std::string
+        message( int condition ) const override
+        {
+            switch( {{fullyQualifiedName}}( condition ) )
+            {
+            {{#set enumName=fullyQualifiedName}}{{#items}}
+            case( {{enumName}}::{{name}} ):
+                return "{{enumName}}::{{name}}";
+            {{/items}}{{/set}}
+            }
+            return "Unknown enum value";
+        }
+    };
+    static {{name}}ErrorCategory category{};
+
+    return std::error_code( static_cast<int>( value ), category );
 }
 
 {{/errorEnums}}
