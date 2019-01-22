@@ -41,6 +41,10 @@ define GeniumExtensions for interface test.Errors
     method methodWithExternalError {
         Static = true
     }
+
+    method getErrorCategoryMessage {
+        Static = true
+    }
 }
 
 define ExternalTypes for interface test.Errors

@@ -79,14 +79,18 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     CppGenerator generator =
         new CppGenerator(BaseApiGeneratorSuite.GENERATOR_NAME, internalNamespace);
 
-    Set<String> errorEnums =
-        typeCollections.stream().flatMap(this::collectErrorEnums).collect(Collectors.toSet());
+    Set<String> allErrorEnums =
+        typeCollections
+            .stream()
+            .flatMap(FrancaTypeHelper::getAllErrorEnums)
+            .map(nameResolver::getFullyQualifiedName)
+            .collect(Collectors.toSet());
 
     List<GeneratedFile> generatedFiles = new LinkedList<>();
     for (final FTypeCollection francaTypeCollection : typeCollections) {
 
       CppFile cppModel =
-          mapFrancaTypeCollectionToCppModel(typeMapper, francaTypeCollection, errorEnums);
+          mapFrancaTypeCollectionToCppModel(typeMapper, francaTypeCollection, allErrorEnums);
       String outputFilePathHeader = includeResolver.getOutputFilePath(francaTypeCollection);
       String outputFilePathImpl = includeResolver.getOutputFilePath(francaTypeCollection);
 
@@ -122,8 +126,12 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     List<CppElement> finalResults = builder.getFinalResults();
     List<Include> includes = collectIncludes(finalResults);
 
-    Set<String> errorEnums = collectEnums(finalResults);
-    errorEnums.retainAll(allErrorEnums);
+    List<CppEnum> errorEnums =
+        collectEnums(finalResults)
+            .stream()
+            .filter(cppEnum -> allErrorEnums.contains(cppEnum.fullyQualifiedName))
+            .sorted(Comparator.comparing(cppEnum -> cppEnum.fullyQualifiedName))
+            .collect(Collectors.toList());
     if (!errorEnums.isEmpty()) {
       includes.add(CppLibraryIncludes.SYSTEM_ERROR);
     }
@@ -149,16 +157,10 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
         .collect(Collectors.toList());
   }
 
-  private static Set<String> collectEnums(final List<CppElement> members) {
+  private static Set<CppEnum> collectEnums(final List<CppElement> members) {
     Stream<Streamable> allElementsStream = members.stream().flatMap(CppElement::streamRecursive);
     return CollectionsHelper.getStreamOfType(allElementsStream, CppEnum.class)
         .filter(cppEnum -> !cppEnum.isExternal())
-        .map(cppEnum -> cppEnum.fullyQualifiedName)
         .collect(Collectors.toSet());
-  }
-
-  private Stream<String> collectErrorEnums(final FTypeCollection francaTypeCollection) {
-    return FrancaTypeHelper.getAllErrorEnums(francaTypeCollection)
-        .map(nameResolver::getFullyQualifiedName);
   }
 }
