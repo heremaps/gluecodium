@@ -199,4 +199,21 @@ NullableInterfaceImpl::set_map_attribute( const ::std::shared_ptr< NullableInter
     m_map_value = value;
 }
 
+std::shared_ptr< double >
+NullableInterface::nullable_listener_method_round_trip(
+    const ::std::shared_ptr< ::test::NullableListener >& listener,
+    const ::std::shared_ptr< double >& input )
+{
+    return listener->method_with_double( input );
+}
+
+std::shared_ptr< std::vector< ::std::string > >
+NullableInterface::nullable_listener_attribute_round_trip(
+    const ::std::shared_ptr< ::test::NullableListener >& listener,
+    const ::std::shared_ptr< ::std::vector< ::std::string > >& input )
+{
+    listener->set_array_attribute( input );
+    return listener->get_array_attribute( );
+}
+
 }  // namespace test
