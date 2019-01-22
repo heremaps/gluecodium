@@ -144,6 +144,26 @@ interface NullableInterface {
         }
     }
 
+    method nullableListenerMethodRoundTrip {
+        in {
+            NullableListener.NullableListener listener
+            Double input
+        }
+        out {
+            Double output
+        }
+    }
+
+    method nullableListenerAttributeRoundTrip {
+        in {
+            NullableListener.NullableListener listener
+            String[] input
+        }
+        out {
+            String[] output
+        }
+    }
+
     attribute String stringAttribute
     attribute Boolean boolAttribute
     attribute Double doubleAttribute
@@ -153,4 +173,20 @@ interface NullableInterface {
     attribute SomeArray arrayAttribute
     attribute String[] inlineArrayAttribute
     attribute SomeMap mapAttribute
+}
+
+interface NullableListener {
+
+    public typedef NullableListener is undefined
+
+    method methodWithDouble {
+        in {
+            Double input
+        }
+        out {
+            Double output
+        }
+    }
+
+    attribute String[] arrayAttribute
 }

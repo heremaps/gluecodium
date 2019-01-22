@@ -45,6 +45,25 @@ public class NullableTest {
 
   private final NullableInterface nullableInterface = new NullableInterface();
 
+  private static class NullableListenerImpl implements NullableListener {
+    private List<String> stringList;
+
+    @Override
+    public Double methodWithDouble(final Double value) {
+      return value;
+    }
+
+    @Override
+    public List<String> getArrayAttribute() {
+      return stringList;
+    }
+
+    @Override
+    public void setArrayAttribute(final List<String> value) {
+      stringList = value;
+    }
+  }
+
   @Test
   public void nullableStructConstructor() {
     NullableInterface.NullableStruct struct = new NullableInterface.NullableStruct();
@@ -496,6 +515,46 @@ public class NullableTest {
 
     nullableInterface.setMapAttribute(value);
     Map<Long, String> result = nullableInterface.getMapAttribute();
+
+    assertEquals(result, value);
+  }
+
+  @Test
+  public void nullableMethodListenerRoundtripWithNull() {
+    NullableListener listener = new NullableListenerImpl();
+    Double value = null;
+
+    Double result = NullableInterface.nullableListenerMethodRoundTrip(listener, value);
+
+    assertEquals(result, value);
+  }
+
+  @Test
+  public void nullableMethodListenerRoundtripWithNonNull() {
+    NullableListener listener = new NullableListenerImpl();
+    Double value = 3.14;
+
+    Double result = NullableInterface.nullableListenerMethodRoundTrip(listener, value);
+
+    assertEquals(result, value);
+  }
+
+  @Test
+  public void nullableAttributeListenerRoundtripWithNull() {
+    NullableListener listener = new NullableListenerImpl();
+    List<String> value = null;
+
+    List<String> result = NullableInterface.nullableListenerAttributeRoundTrip(listener, value);
+
+    assertEquals(result, value);
+  }
+
+  @Test
+  public void nullableAttributeListenerRoundtripWithNonNull() {
+    NullableListener listener = new NullableListenerImpl();
+    List<String> value = new LinkedList<>();
+
+    List<String> result = NullableInterface.nullableListenerAttributeRoundTrip(listener, value);
 
     assertEquals(result, value);
   }
