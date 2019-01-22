@@ -212,4 +212,60 @@ define GeniumExtensions for interface test.NullableInterface
     attribute mapAttribute {
         Nullable = true
     }
+
+    method nullableListenerMethodRoundTrip {
+        Static = true
+        in {
+            listener {
+                NotNull = true
+            }
+            input {
+                Nullable = true
+            }
+        }
+        out {
+            output {
+                Nullable = true
+            }
+        }
+    }
+
+    method nullableListenerAttributeRoundTrip {
+        Static = true
+        in {
+            listener {
+                NotNull = true
+            }
+            input {
+                Nullable = true
+            }
+        }
+        out {
+            output {
+                Nullable = true
+            }
+        }
+    }
+}
+
+define GeniumExtensions for interface test.NullableListener
+{
+    IsInterface = true
+
+    method methodWithDouble {
+        in {
+            input {
+                Nullable = true
+            }
+        }
+        out {
+            output {
+                Nullable = true
+            }
+        }
+    }
+
+    attribute arrayAttribute {
+        Nullable = true
+    }
 }
