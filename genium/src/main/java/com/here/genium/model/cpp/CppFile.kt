@@ -29,15 +29,13 @@ class CppFile @JvmOverloads constructor(
     val members: List<CppElement>,
     includes: Collection<Include>,
     forwardDeclarations: Collection<CppForwardDeclaration>,
-    errorEnums: Collection<String>,
+    @Suppress("unused") val errorEnums: Collection<CppEnum>,
     var headerInclude: Include? = null
 ) {
 
     val includes = TreeSet(includes)
     @Suppress("unused")
     val forwardDeclarations = TreeSet(forwardDeclarations)
-    @Suppress("unused")
-    val errorEnums = TreeSet(errorEnums)
 
     @Suppress("unused")
     val sortedMembers: List<CppElement>

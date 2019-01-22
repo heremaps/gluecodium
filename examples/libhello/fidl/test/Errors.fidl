@@ -96,6 +96,15 @@ interface Errors {
         }
         error ExternalErrors
     }
+
+    method getErrorCategoryMessage {
+        in {
+            InternalErrors value
+        }
+        out {
+            String result
+        }
+    }
 }
 
 interface OtherErrors {

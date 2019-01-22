@@ -134,4 +134,11 @@ public class ErrorsTest {
   public void methodWithExternalError_doesNotThrow() throws Errors.ExternalErrorsException {
     Errors.methodWithExternalError(false);
   }
+
+  @Test
+  public void getErrorCategoryMessage() {
+    String result = Errors.getErrorCategoryMessage(Errors.InternalErrors.CRASHED);
+
+    assertEquals("::test::Errors::InternalErrors::CRASHED", result);
+  }
 }
