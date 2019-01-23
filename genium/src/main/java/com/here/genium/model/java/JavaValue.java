@@ -22,15 +22,22 @@ package com.here.genium.model.java;
 public final class JavaValue extends JavaElementWithImports {
 
   public final boolean isNew;
+  public final boolean isCustom;
 
   public JavaValue(final String value) {
+    this(value, false);
+  }
+
+  public JavaValue(final String value, final boolean isCustom) {
     super(value);
-    isNew = false;
+    this.isNew = false;
+    this.isCustom = isCustom;
   }
 
   public JavaValue(final JavaType type) {
     super(type.name);
     isNew = true;
+    isCustom = false;
     imports.addAll(type.imports);
   }
 }

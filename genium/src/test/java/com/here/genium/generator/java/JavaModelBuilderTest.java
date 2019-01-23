@@ -88,7 +88,7 @@ public class JavaModelBuilderTest {
   private final JavaCustomType javaCustomType = new JavaCustomType("typical");
   private final JavaTemplateType javaTemplateType =
       JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaCustomType);
-  private final JavaField javaField = new JavaField(FIELD_NAME, javaCustomType);
+  private final JavaField javaField = new JavaField(FIELD_NAME, javaCustomType, new JavaValue(""));
   private final JavaEnum javaEnum = new JavaEnum(ENUMERATION_NAME);
   private final JavaEnumType enumType =
       new JavaEnumType("myEnum", null, JavaPackage.Companion.getDEFAULT_PACKAGE_NAMES(), null);
@@ -118,6 +118,7 @@ public class JavaModelBuilderTest {
             e -> e == francaEnumerationTypeError);
 
     when(typeMapper.map(any(), any())).thenReturn(javaCustomType);
+    when(JavaValueMapper.mapDefaultValue(any())).thenReturn(new JavaValue(""));
 
     when(francaConstant.getName()).thenReturn("permanent");
     when(francaField.getName()).thenReturn(FIELD_NAME);
@@ -402,17 +403,15 @@ public class JavaModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaCustomTypedElementHasDefaultValue() {
-
     when(deploymentModel.getDefaultValue(francaField)).thenReturn("someValue");
+    when(JavaValueMapper.mapDefaultValue(any(), any())).thenReturn(javaValue);
     contextStack.injectResult(javaCustomType);
 
     modelBuilder.finishBuilding(francaField);
 
     JavaField resultField = modelBuilder.getFinalResult(JavaField.class);
     assertNotNull(resultField);
-    verifyStatic();
-    JavaValueMapper.mapDefaultValue(javaCustomType, "someValue");
-    verify(deploymentModel).getDefaultValue(francaField);
+    assertEquals(javaValue, resultField.getInitial());
   }
 
   @Test

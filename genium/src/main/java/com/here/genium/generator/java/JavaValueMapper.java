@@ -37,13 +37,14 @@ import org.franca.core.franca.*;
 
 public final class JavaValueMapper {
 
-  private static final JavaValue FLOAT_NAN = new JavaValue("Float.NaN");
-  private static final JavaValue FLOAT_INFINITY = new JavaValue("Float.POSITIVE_INFINITY");
-  private static final JavaValue FLOAT_NEGATIVE_INFINITY = new JavaValue("Float.NEGATIVE_INFINITY");
-  private static final JavaValue DOUBLE_NAN = new JavaValue("Double.NaN");
-  private static final JavaValue DOUBLE_INFINITY = new JavaValue("Double.POSITIVE_INFINITY");
+  private static final JavaValue FLOAT_NAN = new JavaValue("Float.NaN", true);
+  private static final JavaValue FLOAT_INFINITY = new JavaValue("Float.POSITIVE_INFINITY", true);
+  private static final JavaValue FLOAT_NEGATIVE_INFINITY =
+      new JavaValue("Float.NEGATIVE_INFINITY", true);
+  private static final JavaValue DOUBLE_NAN = new JavaValue("Double.NaN", true);
+  private static final JavaValue DOUBLE_INFINITY = new JavaValue("Double.POSITIVE_INFINITY", true);
   private static final JavaValue DOUBLE_NEGATIVE_INFINITY =
-      new JavaValue("Double.NEGATIVE_INFINITY");
+      new JavaValue("Double.NEGATIVE_INFINITY", true);
 
   public static void completePartialEnumeratorValues(List<JavaEnumItem> javaEnumItems) {
 
@@ -105,18 +106,20 @@ public final class JavaValueMapper {
       final JavaType javaType, final String deploymentDefaultValue) {
 
     if (javaType instanceof JavaPrimitiveType) {
-      return mapPrimitiveTypeDefaultValue((JavaPrimitiveType) javaType, deploymentDefaultValue);
+      return mapPrimitiveTypeCustomDefaultValue(
+          (JavaPrimitiveType) javaType, deploymentDefaultValue);
     }
     if (javaType instanceof JavaReferenceType
         && ((JavaReferenceType) javaType).type == JavaReferenceType.Type.STRING) {
-      return new JavaValue("\"" + StringEscapeUtils.escapeJava(deploymentDefaultValue) + "\"");
+      return new JavaValue(
+          "\"" + StringEscapeUtils.escapeJava(deploymentDefaultValue) + "\"", true);
     }
     if (javaType instanceof JavaEnumType) {
       String enumeratorName = JavaNameRules.getConstantName(deploymentDefaultValue);
-      return new JavaValue(javaType.name + "." + enumeratorName);
+      return new JavaValue(javaType.name + "." + enumeratorName, true);
     }
 
-    return new JavaValue(deploymentDefaultValue);
+    return new JavaValue(deploymentDefaultValue, true);
   }
 
   public static JavaValue mapDefaultValue(final JavaType javaType) {
@@ -174,7 +177,7 @@ public final class JavaValueMapper {
     return literal.toString();
   }
 
-  private static JavaValue mapPrimitiveTypeDefaultValue(
+  private static JavaValue mapPrimitiveTypeCustomDefaultValue(
       final JavaPrimitiveType javaType, final String deploymentDefaultValue) {
 
     if (JavaPrimitiveType.FLOAT.equals(javaType)) {
@@ -193,6 +196,6 @@ public final class JavaValueMapper {
       }
     }
 
-    return new JavaValue(decorateLiteralValue(javaType, deploymentDefaultValue));
+    return new JavaValue(decorateLiteralValue(javaType, deploymentDefaultValue), true);
   }
 }

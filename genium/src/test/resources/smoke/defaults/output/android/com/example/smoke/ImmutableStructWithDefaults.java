@@ -17,7 +17,15 @@ public class ImmutableStructWithDefaults {
     public ImmutableStructWithDefaults() {
         this(42, 0L, 3.14f, false, "\\Jonny \"Magic\" Smith\n", SomeEnum.BAR_VALUE, DefaultValues.ExternalEnum.ANOTHER_VALUE);
     }
-
+    public ImmutableStructWithDefaults(long uintField, boolean boolField) {
+        this.intField = 42;
+        this.uintField = uintField;
+        this.floatField = 3.14f;
+        this.boolField = boolField;
+        this.stringField = "\\Jonny \"Magic\" Smith\n";
+        this.enumField = SomeEnum.BAR_VALUE;
+        this.externalEnumField = DefaultValues.ExternalEnum.ANOTHER_VALUE;
+    }
     public ImmutableStructWithDefaults(int intField, long uintField, float floatField, boolean boolField, String stringField, SomeEnum enumField, DefaultValues.ExternalEnum externalEnumField) {
         this.intField = intField;
         this.uintField = uintField;
