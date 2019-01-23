@@ -362,7 +362,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
     when(francaTypeRef.eContainer()).thenReturn(francaField);
     when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
-    when(deploymentModel.isNotNull(any())).thenReturn(true);
+    when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(true);
 
     JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
 
@@ -439,6 +439,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.eContainer()).thenReturn(francaField);
     when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
     when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(true);
+    when(deploymentModel.isNullable(any())).thenReturn(true);
 
     JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
 

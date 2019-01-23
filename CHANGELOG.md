@@ -1,5 +1,10 @@
 # Genium project Release Notes
 
+## Unreleased
+- Breaking changes:
+  + Instance-type fields, parameters and attributes are now non-nullable by default.
+  + "NotNull" FDEPL property was removed as it is now the default behavior for all types.
+
 ## 3.20.3
 - Release date: 2019-02-21
 - Bug fixes:

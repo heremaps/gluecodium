@@ -20,40 +20,31 @@
 package com.here.genium.validator
 
 import com.here.genium.common.FrancaTypeHelper
-import com.here.genium.model.common.InstanceRules
 import com.here.genium.model.franca.FrancaDeploymentModel
-import org.franca.core.franca.FTypedElement
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMethod
 
 /**
- * Validate that nullability properties are used correctly:
- *
- * <ul>
- *   <li>"NotNull" property is only used for instance type fields, attributes or parameters.
- *   <li>"Nullable" property is only used for non-instance type fields, attributes or parameters.
- * </ul>
+ * Validate that "Nullable" property cannot be used on constructor return values.
  */
-internal class NullabilityValidatorPredicate : ValidatorPredicate<FTypedElement> {
+internal class NullabilityValidatorPredicate : ValidatorPredicate<FMethod> {
 
-    override fun getElementClass(): Class<FTypedElement> = FTypedElement::class.java
+    override fun getElementClass(): Class<FMethod> = FMethod::class.java
 
-    override fun validate(deploymentModel: FrancaDeploymentModel, francaTypedElement: FTypedElement): String? {
-
-        if (InstanceRules.isInstanceId(francaTypedElement.type)) {
-            if (deploymentModel.isNullable(francaTypedElement)) {
-                return String.format(NULLABLE_MESSAGE_FORMAT, FrancaTypeHelper.getFullName(francaTypedElement))
-            }
+    override fun validate(deploymentModel: FrancaDeploymentModel, francaMethod: FMethod) =
+        if (deploymentModel.isConstructor(francaMethod) &&
+            deploymentModel.isNullable(francaMethod.outArgs[0])) {
+            String.format(
+                CONSTRUCTOR_MESSAGE_FORMAT,
+                FrancaTypeHelper.getFullName(francaMethod),
+                FrancaTypeHelper.getFullName(francaMethod.eContainer() as FInterface)
+            )
         } else {
-            if (deploymentModel.isNotNull(francaTypedElement)) {
-                return String.format(NOT_NULL_MESSAGE_FORMAT, FrancaTypeHelper.getFullName(francaTypedElement))
-            }
+            null
         }
-        return null
-    }
 
     companion object {
-        private const val NOT_NULL_MESSAGE_FORMAT =
-            "Field %s with non-Instance type cannot be marked as 'NotNull'."
-        private const val NULLABLE_MESSAGE_FORMAT =
-            "Field %s with Instance type cannot be marked as 'Nullable'."
+        private const val CONSTRUCTOR_MESSAGE_FORMAT =
+            "Constructor return value cannot be marked as 'Nullable': constructor %s of class %s."
     }
 }
