@@ -53,13 +53,9 @@ public class SwiftTypeMapper {
     }
 
     EObject parentElement = type.eContainer();
-    if (parentElement instanceof FTypedElement) {
-      FTypedElement parentTypedElement = (FTypedElement) parentElement;
-      if (deploymentModel.isNotNull(parentTypedElement)) {
-        swiftType = swiftType.withOptional(false);
-      } else if (deploymentModel.isNullable(parentTypedElement)) {
-        swiftType = swiftType.withOptional(true);
-      }
+    if (parentElement instanceof FTypedElement
+        && deploymentModel.isNullable((FTypedElement) parentElement)) {
+      swiftType = swiftType.withOptional(true);
     }
 
     return swiftType;
@@ -120,8 +116,7 @@ public class SwiftTypeMapper {
         null,
         DICTIONARY,
         null,
-        SwiftNameRules.getTypeName(francaMapType, deploymentModel),
-        false);
+        SwiftNameRules.getTypeName(francaMapType, deploymentModel));
   }
 
   private static SwiftType getTypedef(
@@ -138,13 +133,7 @@ public class SwiftTypeMapper {
 
     String name = SwiftNameRules.getStructName(francaStructType, deploymentModel);
     return new SwiftStruct(
-        name,
-        CBridgeNameRules.getStructBaseName(francaStructType),
-        null,
-        STRUCT,
-        null,
-        null,
-        false);
+        name, CBridgeNameRules.getStructBaseName(francaStructType), null, STRUCT);
   }
 
   private static SwiftType getClassType(
@@ -162,9 +151,7 @@ public class SwiftTypeMapper {
         CBridgeNameRules.getInstanceBaseName(francaTypeDef),
         null,
         CLASS,
-        implementingClass,
-        null,
-        true);
+        implementingClass);
   }
 
   private static SwiftType mapPredefined(FTypeRef type) {

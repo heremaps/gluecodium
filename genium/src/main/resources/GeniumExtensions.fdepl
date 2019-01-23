@@ -37,17 +37,14 @@ specification GeniumExtensions {
     }
 
     for struct_fields {
-        NotNull: Boolean (optional, default: false);
         Nullable: Boolean (optional, default: false);
     }
 
     for arguments {
-        NotNull: Boolean (optional, default: false);
         Nullable: Boolean (optional, default: false);
     }
 
     for attributes {
-        NotNull: Boolean (optional, default: false);
         Nullable: Boolean (optional, default: false);
         Static: Boolean (optional, default: false);
     }

@@ -20,7 +20,7 @@
   !}}
 {{#if hasComment}}
 /**
-{{prefix comment " * "}}
+{{#if comment}}{{prefix comment " * "}}{{/if}}
 {{#parameters}}
 {{#if hasComment}} * \param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{this.comment}}{{/if}}
 {{/parameters}}

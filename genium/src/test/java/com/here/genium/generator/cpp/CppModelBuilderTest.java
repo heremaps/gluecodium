@@ -776,35 +776,6 @@ public final class CppModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaAttributeCreatesNotNullGetter() {
-    when(deploymentModel.isNotNull(any())).thenReturn(true);
-    when(nameResolver.getGetterName(any())).thenReturn(NONSENSE_NAME);
-    contextStack.injectResult(cppComplexTypeRef);
-
-    modelBuilder.finishBuilding(francaAttribute);
-
-    CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
-    assertNotNull(resultMethod);
-    assertTrue(resultMethod.isNotNull());
-  }
-
-  @Test
-  public void finishBuildingFrancaAttributeCreatesNotNullSetter() {
-    when(deploymentModel.isNotNull(any())).thenReturn(true);
-    when(nameResolver.getSetterName(any())).thenReturn(NONSENSE_NAME);
-    contextStack.injectResult(cppComplexTypeRef);
-
-    modelBuilder.finishBuilding(francaAttribute);
-
-    List<CppMethod> methods =
-        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CppMethod.class);
-    assertEquals(2, methods.size());
-    CppMethod setterMethod = methods.get(1);
-    assertEquals(1, setterMethod.getParameters().size());
-    assertTrue(setterMethod.getParameters().get(0).isNotNull());
-  }
-
-  @Test
   public void finishBuildingFrancaAttributeWithStatic() {
     when(deploymentModel.isStatic(any(FAttribute.class))).thenReturn(true);
     contextStack.injectResult(cppComplexTypeRef);

@@ -261,41 +261,23 @@ public class JavaTypeMapper {
     }
 
     FTypedElement typedElement = (FTypedElement) parentElement;
-    if (deploymentModel.isNotNull(typedElement)) {
-      return true;
-    }
     if (deploymentModel.isNullable(typedElement)) {
       return false;
     }
 
-    FType actualDerived = FrancaHelpers.getActualDerived(francaTypeRef);
-    return actualDerived instanceof FStructType
-        || actualDerived instanceof FEnumerationType
-        || actualDerived instanceof FArrayType
-        || actualDerived instanceof FMapType
-        || typedElement.isArray();
+    return typedElement.isArray()
+        || InstanceRules.isInstanceId(francaTypeRef)
+        || FrancaHelpers.getActualDerived(francaTypeRef) != null;
   }
 
   private boolean needsNullableAnnotation(
       final FTypeRef francaTypeRef, final FrancaDeploymentModel deploymentModel) {
 
     EObject parentElement = francaTypeRef.eContainer();
-    if (!isNullableElement(parentElement)) {
-      return false;
-    }
-
-    FTypedElement typedElement = (FTypedElement) parentElement;
-    if (deploymentModel.isNullable(typedElement)) {
-      return true;
-    }
-    if (deploymentModel.isNotNull(typedElement)) {
-      return false;
-    }
-
-    return !typedElement.isArray() && InstanceRules.isInstanceId(francaTypeRef);
+    return isNullableElement(parentElement)
+        && deploymentModel.isNullable((FTypedElement) parentElement);
   }
 
-  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
   private boolean isNullableElement(final EObject francaElement) {
     return francaElement instanceof FField
         || francaElement instanceof FArgument

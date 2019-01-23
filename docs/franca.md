@@ -429,12 +429,8 @@ FDEPL:
 
 ### Struct field, Attribute, Method parameter: Nullable
 
-This FDEPL property controls whether the given element of non-Instance type (see "Instance
-reference" above) can have a `null` value (`nil` in Swift). Default value is `false`, i.e. the field
-is not nullable.
-
-**Note:** This property applies to elements (fields, attributes and parameters) of non-Instance
-type. Instance type elements have the "nullable" behavior by default.
+This FDEPL property controls whether the given element can have a `null` value (`nil` in Swift).
+Default value is `false`, i.e. the field is not nullable.
 
 **Note:** In generated Swift code this property controls whether the field has an "optional" type or
 not, therefore enforcing nullability at compile time. For Java generated code the nullability is
@@ -458,47 +454,6 @@ FDEPL:
         struct exampleStruct {
             structField {
                 Nullable = true
-            }
-        }
-    }
-
-### Struct field, Attribute, Method parameter: NotNull
-
-This FDEPL property controls whether the given element of Instance type (see "Instance reference"
-above) can have a `null` value (`nil` in Swift). Default value is `false`, i.e. the field is
-nullable.
-
-**Note:** This property applies to elements (fields, attributes and parameters) of Instance type.
-For all other types these elements have the "not null" behavior by default.
-
-**Note:** In generated Swift code this property controls whether the field has an "optional" type or
-not, therefore enforcing (non-)nullability on compile time. For Java and C++ generated code the
-non-nullability is expressed as documentation comments, thus not being enforced by compiler.
-
-**Note:** For Android-enabled Java generated code the non-nullability is also expressed through a
-@NonNull annotation, thus enabling compile time enforcing when used with Kotlin language.
-
-FIDL:
-
-    package example
-
-    typeCollection ExampleTypeCollection {
-        struct exampleStruct {
-            Float floatField
-            exampleNestedStruct structField
-        }
-        struct exampleNestedStruct {
-            String stringField
-        }
-    }
-
-FDEPL:
-
-    define GeniumExtensions for typeCollection example.ExampleTypeCollection
-    {
-        struct exampleStruct {
-            structField {
-                NotNull = true
             }
         }
     }
