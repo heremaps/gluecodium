@@ -37,7 +37,7 @@ class JavaClass @JvmOverloads constructor(
     val needsBuilder = fields.size > 2
 
     @Suppress("unused")
-    val uninitializedFields = fields.filter { it.initial == null }
+    val uninitializedFields = fields.filter { !it.initial.isCustom }
 
     @Suppress("unused")
     val hasPartialDefaults =

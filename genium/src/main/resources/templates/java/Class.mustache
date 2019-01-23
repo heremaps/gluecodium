@@ -47,7 +47,7 @@
     }{{#if hasPartialDefaults}}
 
     public {{name}}({{#uninitializedFields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}) {
-{{#fields}}        this.{{name}} = {{#if initial}}{{>java/FieldInitializer}}{{/if}}{{#unless initial}}{{name}}{{/unless}};
+{{#fields}}        this.{{name}} = {{#if initial.isCustom}}{{>java/FieldInitializer}}{{/if}}{{#unless initial.isCustom}}{{name}}{{/unless}};
 {{/fields}}
     }
     {{/if}}
