@@ -20,11 +20,8 @@
 package com.here.genium.generator.swift;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.genium.model.common.InstanceRules;
@@ -116,18 +113,5 @@ public class SwiftTypeMapperTest {
     assertTrue(resultType instanceof SwiftStruct);
     SwiftStruct containerType = (SwiftStruct) resultType;
     assertEquals(INTERFACE_NAME, containerType.cPrefix);
-  }
-
-  @Test
-  public void mapTypeWithInstanceTypeRefReadsNotNull() {
-    when(InstanceRules.isInstanceId(any(FTypeDef.class))).thenReturn(true);
-    when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
-    when(francaTypeRef.eContainer()).thenReturn(mock(FTypedElement.class));
-    when(deploymentModel.isNotNull(any())).thenReturn(true);
-
-    SwiftType resultType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
-
-    assertNotNull(resultType);
-    assertFalse(resultType.optional);
   }
 }

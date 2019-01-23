@@ -34,6 +34,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import org.franca.core.franca.*;
 
+@SuppressWarnings("PMD.GodClass")
 public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
   private final FrancaDeploymentModel deploymentModel;
@@ -127,12 +128,14 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     String name = nameResolver.getName(francaArgument);
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
-    if (deploymentModel.isNullable(francaArgument)) {
+    boolean isNullable = deploymentModel.isNullable(francaArgument);
+    boolean isInstance = InstanceRules.isInstanceId(francaArgument.getType());
+    if (isNullable && !isInstance) {
       cppTypeRef = CppTypeMapper.createSharedPointerType(cppTypeRef);
     }
 
     CppParameter cppParameter =
-        new CppParameter(name, cppTypeRef, isOutput, deploymentModel.isNotNull(francaArgument));
+        new CppParameter(name, cppTypeRef, isOutput, isInstance && !isNullable);
     cppParameter.comment = CommentHelper.getDescription(francaArgument);
 
     storeResult(cppParameter);
@@ -175,7 +178,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     CppValue initializer = valueMapper.mapDeploymentDefaultValue(cppTypeRef, francaField);
     boolean isNullable = deploymentModel.isNullable(francaField);
-    if (isNullable) {
+    boolean isInstance = InstanceRules.isInstanceId(francaField.getType());
+    if (isNullable && !isInstance) {
       cppTypeRef = CppTypeMapper.createSharedPointerType(cppTypeRef);
     }
 
@@ -188,7 +192,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             nameResolver.getName(francaField),
             cppTypeRef,
             initializer,
-            deploymentModel.isNotNull(francaField),
+            isInstance && !isNullable,
             isNullable,
             hasImmutableType);
     cppField.comment = CommentHelper.getDescription(francaField);
@@ -325,12 +329,14 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   public void finishBuilding(FAttribute francaAttribute) {
 
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
-    if (deploymentModel.isNullable(francaAttribute)) {
+    boolean isNullable = deploymentModel.isNullable(francaAttribute);
+    boolean isInstance = InstanceRules.isInstanceId(francaAttribute.getType());
+    boolean isNotNull = !isNullable && isInstance;
+    if (isNullable && !isInstance) {
       cppTypeRef = CppTypeMapper.createSharedPointerType(cppTypeRef);
     }
 
     String francaComment = CommentHelper.getDescription(francaAttribute);
-    boolean isNotNull = deploymentModel.isNotNull(francaAttribute);
 
     boolean isStatic = deploymentModel.isStatic(francaAttribute);
     EnumSet<Specifier> specifiers =

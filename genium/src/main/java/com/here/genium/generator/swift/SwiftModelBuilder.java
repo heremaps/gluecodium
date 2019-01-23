@@ -326,10 +326,6 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     SwiftVisibility propertyVisibility = getVisibility(francaAttribute);
     SwiftType swiftType = getPreviousResult(SwiftType.class);
-
-    if (deploymentModel.isNullable(francaAttribute)) {
-      swiftType = swiftType.withOptional(true);
-    }
     boolean isStatic = deploymentModel.isStatic(francaAttribute);
 
     String nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(francaAttribute);

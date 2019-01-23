@@ -19,36 +19,33 @@
 
 package com.here.genium.validator
 
-import com.here.genium.model.common.InstanceRules
 import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.test.ArrayEList
+import org.franca.core.franca.FArgument
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
-import org.franca.core.franca.FTypeCollection
-import org.franca.core.franca.FTypeRef
-import org.franca.core.franca.FTypedElement
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(InstanceRules::class)
+@RunWith(JUnit4::class)
 class NullabilityValidatorPredicateTest {
     @Mock
     private lateinit var francaModel: FModel
     @Mock
-    private lateinit var francaTypeCollection: FTypeCollection
+    private lateinit var francaInterface: FInterface
     @Mock
-    private lateinit var francaTypedElement: FTypedElement
+    private lateinit var francaMethod: FMethod
     @Mock
-    private lateinit var francaTypeRef: FTypeRef
+    private lateinit var francaArgument: FArgument
 
     @Mock
     private lateinit var deploymentModel: FrancaDeploymentModel
@@ -58,89 +55,39 @@ class NullabilityValidatorPredicateTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        PowerMockito.mockStatic(InstanceRules::class.java)
 
         `when`(francaModel.name).thenReturn("Foo")
-        `when`(francaTypeCollection.name).thenReturn("Bar")
-        `when`(francaTypedElement.name).thenReturn("Baz")
+        `when`(francaInterface.name).thenReturn("Bar")
+        `when`(francaMethod.name).thenReturn("Baz")
 
-        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
-        `when`(francaTypedElement.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaInterface.eContainer()).thenReturn(francaModel)
+        `when`(francaMethod.eContainer()).thenReturn(francaInterface)
 
-        `when`(francaTypedElement.type).thenReturn(francaTypeRef)
+        `when`(francaMethod.outArgs).thenReturn(ArrayEList(listOf(francaArgument)))
     }
 
     @Test
-    fun validateWithNonInstanceTypeNoProperties() {
-        val result = validatorPredicate.validate(deploymentModel, francaTypedElement)
+    fun validateWithNonConstructorMethod() {
+        val result = validatorPredicate.validate(deploymentModel, francaMethod)
 
         assertNull(result)
     }
 
     @Test
-    fun validateWithNonInstanceTypeNotNull() {
-        `when`(deploymentModel.isNotNull(any())).thenReturn(true)
+    fun validateWithConstructorMethodNotNullable() {
+        `when`(deploymentModel.isConstructor(any())).thenReturn(true)
 
-        val result = validatorPredicate.validate(deploymentModel, francaTypedElement)
-
-        assertNotNull(result)
-    }
-
-    @Test
-    fun validateWithNonInstanceTypeNullable() {
-        `when`(deploymentModel.isNullable(any())).thenReturn(true)
-
-        val result = validatorPredicate.validate(deploymentModel, francaTypedElement)
+        val result = validatorPredicate.validate(deploymentModel, francaMethod)
 
         assertNull(result)
     }
 
     @Test
-    fun validateWithNonInstanceTypeBothProperties() {
-        `when`(deploymentModel.isNotNull(any())).thenReturn(true)
+    fun validateWithConstructorMethodNullable() {
+        `when`(deploymentModel.isConstructor(any())).thenReturn(true)
         `when`(deploymentModel.isNullable(any())).thenReturn(true)
 
-        val result = validatorPredicate.validate(deploymentModel, francaTypedElement)
-
-        assertNotNull(result)
-    }
-
-    @Test
-    fun validateWithInstanceTypeNoProperties() {
-        `when`(InstanceRules.isInstanceId(any(FTypeRef::class.java))).thenReturn(true)
-
-        val result = validatorPredicate.validate(deploymentModel, francaTypedElement)
-
-        assertNull(result)
-    }
-
-    @Test
-    fun validateWithInstanceTypeNotNull() {
-        `when`(InstanceRules.isInstanceId(any(FTypeRef::class.java))).thenReturn(true)
-        `when`(deploymentModel.isNotNull(any())).thenReturn(true)
-
-        val result = validatorPredicate.validate(deploymentModel, francaTypedElement)
-
-        assertNull(result)
-    }
-
-    @Test
-    fun validateWithInstanceTypeNullable() {
-        `when`(InstanceRules.isInstanceId(any(FTypeRef::class.java))).thenReturn(true)
-        `when`(deploymentModel.isNullable(any())).thenReturn(true)
-
-        val result = validatorPredicate.validate(deploymentModel, francaTypedElement)
-
-        assertNotNull(result)
-    }
-
-    @Test
-    fun validateWithInstanceTypeBothProperties() {
-        `when`(InstanceRules.isInstanceId(any(FTypeRef::class.java))).thenReturn(true)
-        `when`(deploymentModel.isNotNull(any())).thenReturn(true)
-        `when`(deploymentModel.isNullable(any())).thenReturn(true)
-
-        val result = validatorPredicate.validate(deploymentModel, francaTypedElement)
+        val result = validatorPredicate.validate(deploymentModel, francaMethod)
 
         assertNotNull(result)
     }
