@@ -21,10 +21,10 @@ package com.here.genium.model.java
 
 import java.util.stream.Stream
 
-class JavaField @JvmOverloads constructor(
+class JavaField(
     name: String,
     type: JavaType,
-    val initial: JavaValue? = null
+    val initial: JavaValue
 ) : JavaTypedElement(name, type) {
 
     override fun stream(): Stream<JavaElement> = Stream.concat(super.stream(), Stream.of(initial))

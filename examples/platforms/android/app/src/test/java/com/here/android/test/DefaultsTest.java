@@ -84,6 +84,21 @@ public final class DefaultsTest {
   }
 
   @Test
+  public void checkJavaDefaultsImmutable() {
+    long uintValue = 77L;
+    boolean boolValue = true;
+    Defaults.ImmutableStructWithDefaults myStruct
+        = new Defaults.ImmutableStructWithDefaults(uintValue, boolValue);
+
+    assertEquals(42, myStruct.intField);
+    assertEquals(uintValue, myStruct.uintField);
+    assertEquals(3.14F, myStruct.floatField);
+    assertEquals(boolValue, myStruct.boolField);
+    assertEquals("some string", myStruct.stringField);
+    assertEquals(Defaults.SomeEnum.BAR_VALUE, myStruct.enumField);
+  }
+
+  @Test
   public void checkJavaSpecialDefaults() {
     Defaults.StructWithSpecialDefaults special = new Defaults.StructWithSpecialDefaults();
 

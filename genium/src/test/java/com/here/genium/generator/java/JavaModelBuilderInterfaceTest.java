@@ -57,7 +57,7 @@ public class JavaModelBuilderInterfaceTest {
   private final JavaType javaCustomType = new JavaCustomType("typical");
   private final JavaConstant javaConstant =
       new JavaConstant("permanent", javaCustomType, new JavaValue("valuable"));
-  private final JavaField javaField = new JavaField("flowers", javaCustomType);
+  private final JavaField javaField = new JavaField("flowers", javaCustomType, new JavaValue(""));
   private final JavaMethod javaMethod = new JavaMethod("methodical");
   private final JavaEnum javaEnum = new JavaEnum("enumerable");
 
