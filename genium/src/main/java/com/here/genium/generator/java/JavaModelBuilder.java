@@ -340,11 +340,13 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
     if (!francaAttribute.isReadonly()) {
       JavaParameter setterParameter = new JavaParameter("value", javaType);
+      JavaVisibility setterVisibility =
+          deploymentModel.hasInternalSetter(francaAttribute) ? JavaVisibility.PACKAGE : visibility;
       JavaMethod setterMethod =
           new JavaMethod(
               JavaNameRules.getSetterName(francaAttribute.getName()),
               comment,
-              visibility,
+              setterVisibility,
               JavaPrimitiveType.VOID,
               null,
               null,

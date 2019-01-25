@@ -4,6 +4,7 @@
 - Features:
   + Added generation of custom std::error_category for C++ error codes.
   + Swift enumerations now conform to CaseIterable protocol.
+  + Added "InternalSetter" FDEPL property for attributes.
 - Bug fixes:
   + Fixed potential memory leak while returning Swift proxies.
   + Fixed the default value of String type Struct fields in Java to be an empty string.
