@@ -42,7 +42,8 @@ interface PublicClass {
 
     public typedef PublicClass is undefined
 
-    attribute InternalStruct InternalStructAttribute
+    attribute InternalStruct internalStructAttribute
+    attribute String internalSetterAttribute
 
     method internalMethod {
         in {

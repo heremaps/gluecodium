@@ -59,8 +59,12 @@ define GeniumExtensions for interface smoke.PublicClass
 
 define Visibility for interface smoke.PublicClass
 {
-    attribute InternalStructAttribute {
+    attribute internalStructAttribute {
         Internal = true
+    }
+
+    attribute internalSetterAttribute {
+        InternalSetter = true
     }
 
     method internalMethod {

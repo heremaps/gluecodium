@@ -35,10 +35,13 @@ public:
     void set_struct_attribute( const ::test::Attributes::ExampleStruct& value ) override;
     ::test::Attributes::StringArray get_array_attribute( ) const override;
     void set_array_attribute( const ::test::Attributes::StringArray& value ) override;
+    std::string get_internal_setter_attribute( ) const override;
+    void set_internal_setter_attribute( const std::string& value ) override;
 
 private:
     uint32_t m_build_in_type_attribute = 0;
     ::test::Attributes::ExampleStruct m_struct_attribute;
     ::test::Attributes::StringArray m_array_attribute;
+    std::string m_internal_setter_attribute;
 };
 }  // namespace test

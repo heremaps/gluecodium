@@ -35,6 +35,7 @@ interface Attributes {
     attribute ExampleStruct structAttribute
     attribute StringArray arrayAttribute
     attribute String staticAttribute
+    attribute String internalSetterAttribute
 
     method create {
         out {

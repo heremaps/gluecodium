@@ -30,3 +30,10 @@ define GeniumExtensions for interface test.Attributes
         Static = true
     }
 }
+
+define Visibility for interface test.Attributes
+{
+    attribute internalSetterAttribute {
+        InternalSetter = true
+    }
+}
