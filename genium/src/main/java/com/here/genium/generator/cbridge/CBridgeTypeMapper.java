@@ -21,7 +21,10 @@ package com.here.genium.generator.cbridge;
 
 import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
 import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
-import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.*;
+import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.BUILTIN_BYTEBUFFER;
+import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.CLASS;
+import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.ENUM;
+import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.STRUCT;
 import static com.here.genium.model.cbridge.CType.VOID;
 import static com.here.genium.model.common.InstanceRules.isInstanceId;
 
@@ -32,10 +35,20 @@ import com.here.genium.model.cbridge.CBridgeIncludeResolver;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.CppIncludeResolver;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import lombok.Getter;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FArrayType;
+import org.franca.core.franca.FBasicTypeId;
+import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMapType;
+import org.franca.core.franca.FModelElement;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FType;
+import org.franca.core.franca.FTypeDef;
+import org.franca.core.franca.FTypeRef;
 
 public class CBridgeTypeMapper {
 
@@ -45,7 +58,7 @@ public class CBridgeTypeMapper {
   private final CppIncludeResolver cppIncludeResolver;
   private final CppNameResolver cppNameResolver;
   private final CBridgeIncludeResolver includeResolver;
-  @Getter private final String enumHashType;
+  private final String enumHashType;
   private final CppTypeInfo byteBufferTypeInfo;
 
   public CBridgeTypeMapper(
@@ -59,12 +72,13 @@ public class CBridgeTypeMapper {
     this.includeResolver = includeResolver;
     this.enumHashType = enumHashType;
     this.byteBufferTypeInfo =
-        CppTypeInfo.builder(byteBufferType)
-            .cType(new CType(BASE_REF_NAME))
-            .functionReturnType(CType.BYTE_ARRAY_REF)
-            .category(BUILTIN_BYTEBUFFER)
-            .include(Include.Companion.createInternalInclude(BASE_HANDLE_IMPL_FILE))
-            .build();
+        new CppTypeInfo(
+            byteBufferType,
+            new CType(BASE_REF_NAME),
+            CType.BYTE_ARRAY_REF,
+            BUILTIN_BYTEBUFFER,
+            Collections.singletonList(
+                Include.Companion.createInternalInclude(BASE_HANDLE_IMPL_FILE)));
   }
 
   public CppTypeInfo mapType(final FTypeRef typeRef) {
@@ -135,7 +149,7 @@ public class CBridgeTypeMapper {
       case FBasicTypeId.DOUBLE_VALUE:
         return new CppTypeInfo(CType.DOUBLE);
       case FBasicTypeId.STRING_VALUE:
-        return CppTypeInfo.STRING;
+        return CppTypeInfo.Companion.getSTRING();
       case FBasicTypeId.BYTE_BUFFER_VALUE:
         return byteBufferTypeInfo;
     }
@@ -153,16 +167,17 @@ public class CBridgeTypeMapper {
 
     CType structCType = new CType(BASE_REF_NAME, publicInclude);
 
-    return CppTypeInfo.builder(baseApiCall)
-        .cType(structCType)
-        .functionReturnType(structCType)
-        .category(category)
-        .include(publicInclude)
-        .include(baseApiInclude)
-        .include(BASE_HANDLE_IMPL_INCLUDE)
-        .include(CppLibraryIncludes.MEMORY)
-        .include(CppLibraryIncludes.NEW)
-        .build();
+    return new CppTypeInfo(
+        baseApiCall,
+        structCType,
+        structCType,
+        category,
+        Arrays.asList(
+            publicInclude,
+            baseApiInclude,
+            BASE_HANDLE_IMPL_INCLUDE,
+            CppLibraryIncludes.MEMORY,
+            CppLibraryIncludes.NEW));
   }
 
   public CppTypeInfo createEnumTypeInfo(final FEnumerationType francaEnum) {
@@ -172,18 +187,17 @@ public class CBridgeTypeMapper {
 
     CType enumCType = new CType(CBridgeNameRules.getEnumName(francaEnum), publicInclude);
 
-    return CppTypeInfo.builder(cppNameResolver.getFullyQualifiedName(francaEnum))
-        .cType(enumCType)
-        .functionReturnType(enumCType)
-        .category(ENUM)
-        .include(publicInclude)
-        .include(baseApiInclude)
-        .build();
+    return new CppTypeInfo(
+        cppNameResolver.getFullyQualifiedName(francaEnum),
+        enumCType,
+        enumCType,
+        ENUM,
+        Arrays.asList(publicInclude, baseApiInclude));
   }
 
   public CppTypeInfo createErrorTypeInfo(final FEnumerationType francaEnum) {
     CppTypeInfo errorEnumInfo = createEnumTypeInfo(francaEnum);
-    errorEnumInfo.functionReturnType.includes.add(CType.BOOL_INCLUDE);
+    errorEnumInfo.getFunctionReturnType().includes.add(CType.BOOL_INCLUDE);
     return errorEnumInfo;
   }
 
@@ -198,7 +212,7 @@ public class CBridgeTypeMapper {
     includes.add(CppLibraryIncludes.MAP);
 
     String enumHash = null;
-    if (keyType.typeCategory == CppTypeInfo.TypeCategory.ENUM) {
+    if (keyType.getTypeCategory() == CppTypeInfo.TypeCategory.ENUM) {
       includes.add(CppLibraryIncludes.ENUM_HASH);
       enumHash = enumHashType;
     }
@@ -211,5 +225,9 @@ public class CBridgeTypeMapper {
         keyType,
         valueType,
         enumHash);
+  }
+
+  public String getEnumHashType() {
+    return this.enumHashType;
   }
 }

@@ -324,7 +324,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     Include baseApiInclude = cppIncludeResolver.resolveInclude(francaMapType);
 
     String enumHashType = null;
-    if (keyType.typeCategory == CppTypeInfo.TypeCategory.ENUM) {
+    if (keyType.getTypeCategory() == CppTypeInfo.TypeCategory.ENUM) {
       enumHashType = typeMapper.getEnumHashType();
     }
 
