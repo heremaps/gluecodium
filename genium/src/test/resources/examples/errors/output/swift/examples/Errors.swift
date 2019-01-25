@@ -22,7 +22,7 @@ public class Errors {
     deinit {
         examples_Errors_release_handle(c_instance)
     }
-    public enum InternalErrors : UInt32 {
+    public enum InternalErrors : UInt32, CaseIterable {
         case none
         case crashed
         case exploded
