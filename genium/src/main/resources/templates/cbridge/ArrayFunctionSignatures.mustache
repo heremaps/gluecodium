@@ -19,6 +19,7 @@
   !
   !}}
 _baseRef {{name}}_create_handle();
+_baseRef {{name}}_copy_handle(_baseRef handle);
 void {{name}}_release_handle(_baseRef handle);
 uint64_t {{name}}_count(_baseRef handle);
 {{innerType}} {{name}}_get(_baseRef handle, uint64_t index);

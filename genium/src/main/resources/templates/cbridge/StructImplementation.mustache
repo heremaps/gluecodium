@@ -25,14 +25,9 @@ _baseRef {{name}}_create_handle({{#fields}}{{type.cType}} {{name}}{{#if iter.has
 }}{{#unless isImmutable}}    _struct->{{#if baseLayerSetterName}}{{baseLayerSetterName}}({{/if}}{{!!
 }}{{#unless baseLayerSetterName}}{{baseLayerName}} = {{/unless}}{{/unless}}{{!!
 }}{{#switch type.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{name}}{{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<{{type.name}}>({{name}}){{/case}}{{!!
-    }}{{#case "MAP" break=false}}{{/case}}{{!!
-    }}{{#case "ARRAY"}}*get_pointer<{{type.baseApi}}>({{name}}){{/case}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
-    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT" break=false}}{{/case}}{{!!
-    }}{{#case "CLASS"}}*get_pointer<{{type.name}}>({{name}}){{/case}}{{!!
-    }}{{#default}}{{name}}{{/default}}{{!!
+    }}{{#default}}Conversion<{{type}}>::toCpp({{name}}){{/default}}{{!!
 }}{{/switch}}{{#if baseLayerSetterName}}){{/if}};
 {{/fields}}
 {{#if isImmutable}}    {{baseApiName}}* _struct = new {{baseApiName}}({{#fields}}_{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});{{/if}}
@@ -47,15 +42,10 @@ void {{name}}_release_handle(_baseRef handle) {
 {{#fields}}
 {{type.functionReturnType}} {{structname}}_{{name}}_get(_baseRef handle) {
     auto struct_pointer = get_pointer<{{mappedType.name}}>(handle);
-{{#switch type.typeCategory.toString}}
-    {{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>({{>getBaseLayerFieldValue}});{{/case}}{{!!
-    }}{{#case "MAP" break=false}}{{/case}}{{!!
-    }}{{#case "ARRAY"}}return reinterpret_cast<_baseRef>( new {{type.baseApi}}({{>getBaseLayerFieldValue}}) );{{/case}}{{!!
-    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}return reinterpret_cast<_baseRef>( new {{type.name}}({{>getBaseLayerFieldValue}}) );{{/case}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
-    }}{{#case "CLASS"}}return reinterpret_cast<_baseRef>( checked_pointer_copy({{>getBaseLayerFieldValue}}) );{{/case}}{{!!
-    }}{{#default}}return {{>getBaseLayerFieldValue}};{{/default}}
+{{#switch type.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}return {{>getBaseLayerFieldValue}};{{/case}}{{!!
+    }}{{#case "ENUM"}}return static_cast<{{type.functionReturnType}}>({{>getBaseLayerFieldValue}});{{/case}}{{!!
+    }}{{#default}}return Conversion<{{type}}>::toBaseRef({{>getBaseLayerFieldValue}});{{/default}}
 {{/switch}}
 }
 {{/fields}}

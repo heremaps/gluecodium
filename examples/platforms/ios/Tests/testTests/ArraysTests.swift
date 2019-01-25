@@ -140,6 +140,7 @@ class ArraysTests: XCTestCase {
 
         let instanceArray: [SimpleInstantiableOne] = [instance1, instance2, instance3]
         let result = Arrays.reverseExplicitInstancesArray(input: instanceArray)
+        XCTAssertEqual(result.count, 3)
         for (index, instanceValue) in result.enumerated() {
             XCTAssertEqual(instanceValue.getStringValue(), instanceArray[2-index].getStringValue())
         }
@@ -155,6 +156,7 @@ class ArraysTests: XCTestCase {
 
         let instanceArray: [SimpleInstantiableOne] = [instance1, instance2, instance3]
         let result = Arrays.reverseImplicitInstancesArray(input: instanceArray)
+        XCTAssertEqual(result.count, 3)
         for (index, instanceValue) in result.enumerated() {
             XCTAssertEqual(instanceValue.getStringValue(), instanceArray[2-index].getStringValue())
         }

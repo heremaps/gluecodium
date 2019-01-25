@@ -61,24 +61,16 @@ void {{name}}_iterator_increment(_baseRef iterator_handle) {
 
 }}{{+ConvertToCpp}}{{!!
 }}{{#switch variableType.typeCategory.toString}}{{!!
-    }}{{#case "STRUCT" break=false}}{{/case}}{{!!
-    }}{{#case "CLASS" break=false}}{{/case}}{{!!
-    }}{{#case "MAP" break=false}}{{/case}}{{!!
-    }}{{#case "ARRAY" break=false}}{{/case}}{{!!
-    }}{{#case "BUILTIN_STRING"}}*get_pointer<{{variableType.name}}>({{variableName}}){{/case}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{variableName}}{{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<{{variableType.name}}>({{variableName}}){{/case}}{{!!
-    }}{{#default}}{{variableName}}{{/default}}{{!!
+    }}{{#default}}Conversion<{{variableType}}>::toCpp({{variableName}}){{/default}}{{!!
 }}{{/switch}}{{!!
 }}{{/ConvertToCpp}}{{!!
 
 }}{{+ConvertFromCpp}}{{!!
 }}{{#switch variableType.typeCategory.toString}}{{!!
-    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}reinterpret_cast<_baseRef>(new {{variableType.name}} { {{variableName}} }){{/case}}{{!!
-    }}{{#case "CLASS"}}reinterpret_cast<_baseRef>(checked_pointer_copy({{variableName}})){{/case}}{{!!
-    }}{{#case "MAP" break=false}}{{/case}}{{!!
-    }}{{#case "ARRAY"}}reinterpret_cast<_baseRef>(new {{variableType.baseApi}} { {{variableName}} }){{/case}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{variableName}}{{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<{{variableType.functionReturnType}}>({{variableName}}){{/case}}{{!!
-    }}{{#default}}{{variableName}}{{/default}}{{!!
+    }}{{#default}}Conversion<{{variableType}}>::toBaseRef({{variableName}}){{/default}}{{!!
 }}{{/switch}}{{!!
 }}{{/ConvertFromCpp}}

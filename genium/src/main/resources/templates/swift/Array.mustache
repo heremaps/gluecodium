@@ -41,7 +41,7 @@ internal func moveFromCType(_ handle: _baseRef) -> {{name}} {
     var result: {{name}} = []
     let count = {{refName}}_count(handle)
     for idx in 0..<count {
-        result.append({{underlyingType.className}}{{>elementMoveFunction}}({{refName}}_get(handle, idx)))
+        result.append({{underlyingType.className}}copyFromCType({{refName}}_get(handle, idx)))
     }
     return result
 }
@@ -58,9 +58,4 @@ internal func moveToCType(_ swiftArray: {{name}}) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftArray).ref, release: {{refName}}_release_handle)
 }
 
-{{/arrays}}{{!!
-
-}}{{+elementMoveFunction}}{{#switch underlyingType.category.toString}}{{!!
-}}{{#case "ARRAY"}}moveFromCType{{/case}}{{!!
-}}{{#default}}copyFromCType{{/default}}{{!!
-}}{{/switch}}{{/elementMoveFunction}}
+{{/arrays}}

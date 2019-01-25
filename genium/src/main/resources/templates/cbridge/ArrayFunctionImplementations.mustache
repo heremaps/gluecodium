@@ -19,72 +19,45 @@
   !
   !}}
 _baseRef {{name}}_create_handle() {
-    return reinterpret_cast<_baseRef>( new {{arrayType.baseApi}}() );
+    return reinterpret_cast<_baseRef>( new {{arrayType}}( ) );
+}
+
+_baseRef {{name}}_copy_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new {{arrayType}}( *reinterpret_cast<{{arrayType}}*>( handle ) ) );
 }
 
 void {{name}}_release_handle(_baseRef handle) {
-    delete get_pointer<{{arrayType.baseApi}}>(handle);
+    delete reinterpret_cast< {{arrayType}}* >( handle );
 }
 
 uint64_t {{name}}_count(_baseRef handle) {
-    return get_pointer<{{arrayType.baseApi}}>(handle)->size();
+    return Conversion<{{arrayType}}>::toCpp( handle ).size( );
 }
 
-{{innerType}} {{name}}_get(_baseRef handle, uint64_t index) { {{!!
+{{innerType}} {{name}}_get( _baseRef handle, uint64_t index ) { {{!!
     }}{{#switch underlyingType.typeCategory.toString}}{{!!
-    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
-    }}{{#case "MAP" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}{{prefixPartial 'structGetConversion' '    '}}{{/case}}{{!!
-    }}{{#case "CLASS"}}{{prefixPartial 'classGetConversion' '    '}}{{/case}}{{!!
-    }}{{#case "ARRAY"}}{{prefixPartial 'arrayGetConversion' '    '}}{{/case}}{{!!
     }}{{#case "ENUM"}}{{prefixPartial 'enumGetConversion' '    '}}{{/case}}{{!!
-    }}{{#default}}{{prefixPartial 'defaultGetConversion' '    '}}{{/default}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{prefixPartial 'builtinGetConversion' '    '}}{{/case}}{{!!
+    }}{{#default}}return Conversion<{{underlyingType}}>::referenceBaseRef(Conversion<{{arrayType}}>::toCpp( handle )[index]);{{/default}}{{!!
     }}{{/switch}}
 }
 
-void {{name}}_append(_baseRef handle, {{argument}} item) { {{!!
+void {{name}}_append( _baseRef handle, {{argument}} item ) { {{!!
 }}{{#switch underlyingType.typeCategory.toString}}{{!!
-    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT" break=false}}{{/case}}{{!!
-    }}{{#case "CLASS"  break=false}}{{/case}}{{!!
-    }}{{#case "MAP" break=false}}{{/case}}{{!!
-    }}{{#case "ARRAY"}}{{prefixPartial 'classAppendConversion' '    '}}{{/case}}{{!!
     }}{{#case "ENUM"}}{{prefixPartial 'enumAppendConversion' '    '}}{{/case}}{{!!
-    }}{{#default}}{{prefixPartial 'defaultAppendConversion' '    '}}{{/default}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{prefixPartial 'builtinAppendConversion' '    '}}{{/case}}{{!!
+    }}{{#default}}Conversion<{{arrayType}}>::toCpp(handle).push_back(Conversion<{{underlyingType}}>::toCpp(item));{{/default}}{{!!
     }}{{/switch}}
 }
-
-{{+structGetConversion}}
-return reinterpret_cast<_baseRef>(
-    &(*get_pointer<{{arrayType.baseApi}}>(handle))[index]
-);{{/structGetConversion}}
-
-{{+classGetConversion}}
-return reinterpret_cast<_baseRef>(
-    checked_pointer_copy(get_pointer<{{arrayType.baseApi}}>(handle)->at(index))
-);{{/classGetConversion}}
-
-{{+arrayGetConversion}}
-return reinterpret_cast<_baseRef>(
-    new {{underlyingType.baseApi}} {
-        (*get_pointer<{{arrayType.baseApi}}>(handle))[index]
-    }
-);{{/arrayGetConversion}}
 
 {{+enumGetConversion}}
-return static_cast<{{innerType}}>((*get_pointer<{{arrayType.baseApi}}>(handle))[index]);{{/enumGetConversion}}
+return static_cast<{{innerType}}>(Conversion<{{arrayType}}>::toCpp(handle)[ index ]);{{/enumGetConversion}}
 
-{{+defaultGetConversion}}
-return (*get_pointer<{{arrayType.baseApi}}>(handle))[index];{{/defaultGetConversion}}
+{{+builtinGetConversion}}
+return Conversion<{{arrayType}}>::toCpp(handle)[ index ];{{/builtinGetConversion}}
 
-{{+classAppendConversion}}
-get_pointer<{{arrayType.baseApi}}>(handle)->push_back(*get_pointer<{{underlyingType.name}}>(item));{{/classAppendConversion}}
-
-{{+defaultAppendConversion}}
-get_pointer<{{arrayType.baseApi}}>(handle)->push_back(item);{{/defaultAppendConversion}}
-
-{{+stringAppendConversion}}
-get_pointer<{{arrayType.baseApi}}>(handle)->push_back(std::string(item));{{/stringAppendConversion}}
+{{+builtinAppendConversion}}
+Conversion<{{arrayType}}>::toCpp(handle).push_back( item );{{/builtinAppendConversion}}
 
 {{+enumAppendConversion}}
-get_pointer<{{arrayType.baseApi}}>(handle)->push_back(static_cast<{{arrayType.innerType.name}}>(item));{{/enumAppendConversion}}
+Conversion<{{arrayType}}>::toCpp(handle).push_back( static_cast<{{arrayType.innerType.name}}>( item ) );{{/enumAppendConversion}}
