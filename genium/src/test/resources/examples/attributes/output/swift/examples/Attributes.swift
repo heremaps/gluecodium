@@ -70,13 +70,17 @@ extension _Attributes: NativeBase {
 internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes {
     if let swift_pointer = examples_Attributes_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Attributes {
+        return re_constructed
+    }
+    return _Attributes(cAttributes: examples_Attributes_copy_handle(handle))
+}
+internal func AttributesmoveFromCType(_ handle: _baseRef) -> Attributes {
+    if let swift_pointer = examples_Attributes_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Attributes {
         examples_Attributes_release_handle(handle)
         return re_constructed
     }
     return _Attributes(cAttributes: handle)
-}
-internal func AttributesmoveFromCType(_ handle: _baseRef) -> Attributes {
-    return AttributescopyFromCType(handle)
 }
 internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes? {
     guard handle != 0 else {
@@ -85,7 +89,10 @@ internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes? {
     return AttributesmoveFromCType(handle) as Attributes
 }
 internal func AttributesmoveFromCType(_ handle: _baseRef) -> Attributes? {
-    return AttributescopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return AttributesmoveFromCType(handle) as Attributes
 }
 internal func copyToCType(_ swiftClass: Attributes) -> RefHolder {
     return getRef(swiftClass, owning: false)

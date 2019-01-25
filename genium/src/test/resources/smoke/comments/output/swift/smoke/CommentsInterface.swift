@@ -185,13 +185,17 @@ extension _CommentsInterface: NativeBase {
 internal func CommentsInterfacecopyFromCType(_ handle: _baseRef) -> CommentsInterface {
     if let swift_pointer = smoke_CommentsInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CommentsInterface {
+        return re_constructed
+    }
+    return _CommentsInterface(cCommentsInterface: smoke_CommentsInterface_copy_handle(handle))
+}
+internal func CommentsInterfacemoveFromCType(_ handle: _baseRef) -> CommentsInterface {
+    if let swift_pointer = smoke_CommentsInterface_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CommentsInterface {
         smoke_CommentsInterface_release_handle(handle)
         return re_constructed
     }
     return _CommentsInterface(cCommentsInterface: handle)
-}
-internal func CommentsInterfacemoveFromCType(_ handle: _baseRef) -> CommentsInterface {
-    return CommentsInterfacecopyFromCType(handle)
 }
 internal func CommentsInterfacecopyFromCType(_ handle: _baseRef) -> CommentsInterface? {
     guard handle != 0 else {
@@ -200,7 +204,10 @@ internal func CommentsInterfacecopyFromCType(_ handle: _baseRef) -> CommentsInte
     return CommentsInterfacemoveFromCType(handle) as CommentsInterface
 }
 internal func CommentsInterfacemoveFromCType(_ handle: _baseRef) -> CommentsInterface? {
-    return CommentsInterfacecopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return CommentsInterfacemoveFromCType(handle) as CommentsInterface
 }
 internal func copyToCType(_ swiftClass: CommentsInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

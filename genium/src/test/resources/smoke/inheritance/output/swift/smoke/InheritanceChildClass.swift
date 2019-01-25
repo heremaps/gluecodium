@@ -42,10 +42,10 @@ extension InheritanceChildClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func InheritanceChildClasscopyFromCType(_ handle: _baseRef) -> InheritanceChildClass {
-    return InheritanceChildClass(cInheritanceChildClass: handle)
+    return InheritanceChildClass(cInheritanceChildClass: smoke_InheritanceChildClass_copy_handle(handle))
 }
 internal func InheritanceChildClassmoveFromCType(_ handle: _baseRef) -> InheritanceChildClass {
-    return InheritanceChildClasscopyFromCType(handle)
+    return InheritanceChildClass(cInheritanceChildClass: handle)
 }
 internal func InheritanceChildClasscopyFromCType(_ handle: _baseRef) -> InheritanceChildClass? {
     guard handle != 0 else {
@@ -54,7 +54,10 @@ internal func InheritanceChildClasscopyFromCType(_ handle: _baseRef) -> Inherita
     return InheritanceChildClassmoveFromCType(handle) as InheritanceChildClass
 }
 internal func InheritanceChildClassmoveFromCType(_ handle: _baseRef) -> InheritanceChildClass? {
-    return InheritanceChildClasscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return InheritanceChildClassmoveFromCType(handle) as InheritanceChildClass
 }
 internal func copyToCType(_ swiftClass: InheritanceChildClass) -> RefHolder {
     return getRef(swiftClass, owning: false)

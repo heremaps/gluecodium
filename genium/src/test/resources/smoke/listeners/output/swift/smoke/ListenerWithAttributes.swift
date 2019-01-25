@@ -169,13 +169,17 @@ extension _ListenerWithAttributes: NativeBase {
 internal func ListenerWithAttributescopyFromCType(_ handle: _baseRef) -> ListenerWithAttributes {
     if let swift_pointer = smoke_ListenerWithAttributes_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenerWithAttributes {
+        return re_constructed
+    }
+    return _ListenerWithAttributes(cListenerWithAttributes: smoke_ListenerWithAttributes_copy_handle(handle))
+}
+internal func ListenerWithAttributesmoveFromCType(_ handle: _baseRef) -> ListenerWithAttributes {
+    if let swift_pointer = smoke_ListenerWithAttributes_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenerWithAttributes {
         smoke_ListenerWithAttributes_release_handle(handle)
         return re_constructed
     }
     return _ListenerWithAttributes(cListenerWithAttributes: handle)
-}
-internal func ListenerWithAttributesmoveFromCType(_ handle: _baseRef) -> ListenerWithAttributes {
-    return ListenerWithAttributescopyFromCType(handle)
 }
 internal func ListenerWithAttributescopyFromCType(_ handle: _baseRef) -> ListenerWithAttributes? {
     guard handle != 0 else {
@@ -184,7 +188,10 @@ internal func ListenerWithAttributescopyFromCType(_ handle: _baseRef) -> Listene
     return ListenerWithAttributesmoveFromCType(handle) as ListenerWithAttributes
 }
 internal func ListenerWithAttributesmoveFromCType(_ handle: _baseRef) -> ListenerWithAttributes? {
-    return ListenerWithAttributescopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return ListenerWithAttributesmoveFromCType(handle) as ListenerWithAttributes
 }
 internal func copyToCType(_ swiftClass: ListenerWithAttributes) -> RefHolder {
     return getRef(swiftClass, owning: false)

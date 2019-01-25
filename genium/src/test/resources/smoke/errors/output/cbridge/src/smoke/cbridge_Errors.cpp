@@ -25,7 +25,8 @@ smoke_Errors_ExternalErrors smoke_Errors_methodWithExternalErrors() {
 smoke_Errors_methodWithErrorsAndReturnValue_result smoke_Errors_methodWithErrorsAndReturnValue() {
     auto&& RESULT = ::smoke::Errors::method_with_errors_and_return_value();
     if (RESULT.has_value()) {
-        return {true, .returned_value = reinterpret_cast<_baseRef>( new std::string(RESULT.safe_value()) )};
+        return {true, .returned_value = Conversion<std::string>::toBaseRef(RESULT.safe_value())
+};
     } else {
         return {false, .error_code = static_cast< smoke_Errors_InternalError >(RESULT.error().value())};
     }

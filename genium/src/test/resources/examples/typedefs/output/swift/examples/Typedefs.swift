@@ -32,10 +32,10 @@ extension Typedefs: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func TypedefscopyFromCType(_ handle: _baseRef) -> Typedefs {
-    return Typedefs(cTypedefs: handle)
+    return Typedefs(cTypedefs: examples_Typedefs_copy_handle(handle))
 }
 internal func TypedefsmoveFromCType(_ handle: _baseRef) -> Typedefs {
-    return TypedefscopyFromCType(handle)
+    return Typedefs(cTypedefs: handle)
 }
 internal func TypedefscopyFromCType(_ handle: _baseRef) -> Typedefs? {
     guard handle != 0 else {
@@ -44,7 +44,10 @@ internal func TypedefscopyFromCType(_ handle: _baseRef) -> Typedefs? {
     return TypedefsmoveFromCType(handle) as Typedefs
 }
 internal func TypedefsmoveFromCType(_ handle: _baseRef) -> Typedefs? {
-    return TypedefscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return TypedefsmoveFromCType(handle) as Typedefs
 }
 internal func copyToCType(_ swiftClass: Typedefs) -> RefHolder {
     return getRef(swiftClass, owning: false)

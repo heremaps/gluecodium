@@ -31,10 +31,10 @@ extension Basic: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func BasiccopyFromCType(_ handle: _baseRef) -> Basic {
-    return Basic(cBasic: handle)
+    return Basic(cBasic: examples_Basic_copy_handle(handle))
 }
 internal func BasicmoveFromCType(_ handle: _baseRef) -> Basic {
-    return BasiccopyFromCType(handle)
+    return Basic(cBasic: handle)
 }
 internal func BasiccopyFromCType(_ handle: _baseRef) -> Basic? {
     guard handle != 0 else {
@@ -43,7 +43,10 @@ internal func BasiccopyFromCType(_ handle: _baseRef) -> Basic? {
     return BasicmoveFromCType(handle) as Basic
 }
 internal func BasicmoveFromCType(_ handle: _baseRef) -> Basic? {
-    return BasiccopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return BasicmoveFromCType(handle) as Basic
 }
 internal func copyToCType(_ swiftClass: Basic) -> RefHolder {
     return getRef(swiftClass, owning: false)

@@ -39,10 +39,10 @@ extension ProfileManager: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ProfileManagercopyFromCType(_ handle: _baseRef) -> ProfileManager {
-    return ProfileManager(cProfileManager: handle)
+    return ProfileManager(cProfileManager: examples_ProfileManager_copy_handle(handle))
 }
 internal func ProfileManagermoveFromCType(_ handle: _baseRef) -> ProfileManager {
-    return ProfileManagercopyFromCType(handle)
+    return ProfileManager(cProfileManager: handle)
 }
 internal func ProfileManagercopyFromCType(_ handle: _baseRef) -> ProfileManager? {
     guard handle != 0 else {
@@ -51,7 +51,10 @@ internal func ProfileManagercopyFromCType(_ handle: _baseRef) -> ProfileManager?
     return ProfileManagermoveFromCType(handle) as ProfileManager
 }
 internal func ProfileManagermoveFromCType(_ handle: _baseRef) -> ProfileManager? {
-    return ProfileManagercopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return ProfileManagermoveFromCType(handle) as ProfileManager
 }
 internal func copyToCType(_ swiftClass: ProfileManager) -> RefHolder {
     return getRef(swiftClass, owning: false)

@@ -31,10 +31,10 @@ extension EnumMethods: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func EnumMethodscopyFromCType(_ handle: _baseRef) -> EnumMethods {
-    return EnumMethods(cEnumMethods: handle)
+    return EnumMethods(cEnumMethods: examples_EnumMethods_copy_handle(handle))
 }
 internal func EnumMethodsmoveFromCType(_ handle: _baseRef) -> EnumMethods {
-    return EnumMethodscopyFromCType(handle)
+    return EnumMethods(cEnumMethods: handle)
 }
 internal func EnumMethodscopyFromCType(_ handle: _baseRef) -> EnumMethods? {
     guard handle != 0 else {
@@ -43,7 +43,10 @@ internal func EnumMethodscopyFromCType(_ handle: _baseRef) -> EnumMethods? {
     return EnumMethodsmoveFromCType(handle) as EnumMethods
 }
 internal func EnumMethodsmoveFromCType(_ handle: _baseRef) -> EnumMethods? {
-    return EnumMethodscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return EnumMethodsmoveFromCType(handle) as EnumMethods
 }
 internal func copyToCType(_ swiftClass: EnumMethods) -> RefHolder {
     return getRef(swiftClass, owning: false)

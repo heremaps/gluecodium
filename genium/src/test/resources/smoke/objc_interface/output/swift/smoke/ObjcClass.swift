@@ -28,10 +28,10 @@ extension ObjcClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ObjcClasscopyFromCType(_ handle: _baseRef) -> ObjcClass {
-    return ObjcClass(cObjcClass: handle)
+    return ObjcClass(cObjcClass: smoke_ObjcClass_copy_handle(handle))
 }
 internal func ObjcClassmoveFromCType(_ handle: _baseRef) -> ObjcClass {
-    return ObjcClasscopyFromCType(handle)
+    return ObjcClass(cObjcClass: handle)
 }
 internal func ObjcClasscopyFromCType(_ handle: _baseRef) -> ObjcClass? {
     guard handle != 0 else {
@@ -40,7 +40,10 @@ internal func ObjcClasscopyFromCType(_ handle: _baseRef) -> ObjcClass? {
     return ObjcClassmoveFromCType(handle) as ObjcClass
 }
 internal func ObjcClassmoveFromCType(_ handle: _baseRef) -> ObjcClass? {
-    return ObjcClasscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return ObjcClassmoveFromCType(handle) as ObjcClass
 }
 internal func copyToCType(_ swiftClass: ObjcClass) -> RefHolder {
     return getRef(swiftClass, owning: false)

@@ -95,13 +95,17 @@ extension _NestedInterface: NativeBase {
 internal func NestedInterfacecopyFromCType(_ handle: _baseRef) -> NestedInterface {
     if let swift_pointer = smoke_NestedInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? NestedInterface {
+        return re_constructed
+    }
+    return _NestedInterface(cNestedInterface: smoke_NestedInterface_copy_handle(handle))
+}
+internal func NestedInterfacemoveFromCType(_ handle: _baseRef) -> NestedInterface {
+    if let swift_pointer = smoke_NestedInterface_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? NestedInterface {
         smoke_NestedInterface_release_handle(handle)
         return re_constructed
     }
     return _NestedInterface(cNestedInterface: handle)
-}
-internal func NestedInterfacemoveFromCType(_ handle: _baseRef) -> NestedInterface {
-    return NestedInterfacecopyFromCType(handle)
 }
 internal func NestedInterfacecopyFromCType(_ handle: _baseRef) -> NestedInterface? {
     guard handle != 0 else {
@@ -110,7 +114,10 @@ internal func NestedInterfacecopyFromCType(_ handle: _baseRef) -> NestedInterfac
     return NestedInterfacemoveFromCType(handle) as NestedInterface
 }
 internal func NestedInterfacemoveFromCType(_ handle: _baseRef) -> NestedInterface? {
-    return NestedInterfacecopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return NestedInterfacemoveFromCType(handle) as NestedInterface
 }
 internal func copyToCType(_ swiftClass: NestedInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

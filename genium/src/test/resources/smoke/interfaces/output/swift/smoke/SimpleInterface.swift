@@ -59,13 +59,17 @@ extension _SimpleInterface: NativeBase {
 internal func SimpleInterfacecopyFromCType(_ handle: _baseRef) -> SimpleInterface {
     if let swift_pointer = smoke_SimpleInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleInterface {
+        return re_constructed
+    }
+    return _SimpleInterface(cSimpleInterface: smoke_SimpleInterface_copy_handle(handle))
+}
+internal func SimpleInterfacemoveFromCType(_ handle: _baseRef) -> SimpleInterface {
+    if let swift_pointer = smoke_SimpleInterface_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? SimpleInterface {
         smoke_SimpleInterface_release_handle(handle)
         return re_constructed
     }
     return _SimpleInterface(cSimpleInterface: handle)
-}
-internal func SimpleInterfacemoveFromCType(_ handle: _baseRef) -> SimpleInterface {
-    return SimpleInterfacecopyFromCType(handle)
 }
 internal func SimpleInterfacecopyFromCType(_ handle: _baseRef) -> SimpleInterface? {
     guard handle != 0 else {
@@ -74,7 +78,10 @@ internal func SimpleInterfacecopyFromCType(_ handle: _baseRef) -> SimpleInterfac
     return SimpleInterfacemoveFromCType(handle) as SimpleInterface
 }
 internal func SimpleInterfacemoveFromCType(_ handle: _baseRef) -> SimpleInterface? {
-    return SimpleInterfacecopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return SimpleInterfacemoveFromCType(handle) as SimpleInterface
 }
 internal func copyToCType(_ swiftClass: SimpleInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

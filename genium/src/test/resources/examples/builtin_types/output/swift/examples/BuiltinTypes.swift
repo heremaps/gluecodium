@@ -80,10 +80,10 @@ extension BuiltinTypes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func BuiltinTypescopyFromCType(_ handle: _baseRef) -> BuiltinTypes {
-    return BuiltinTypes(cBuiltinTypes: handle)
+    return BuiltinTypes(cBuiltinTypes: examples_BuiltinTypes_copy_handle(handle))
 }
 internal func BuiltinTypesmoveFromCType(_ handle: _baseRef) -> BuiltinTypes {
-    return BuiltinTypescopyFromCType(handle)
+    return BuiltinTypes(cBuiltinTypes: handle)
 }
 internal func BuiltinTypescopyFromCType(_ handle: _baseRef) -> BuiltinTypes? {
     guard handle != 0 else {
@@ -92,7 +92,10 @@ internal func BuiltinTypescopyFromCType(_ handle: _baseRef) -> BuiltinTypes? {
     return BuiltinTypesmoveFromCType(handle) as BuiltinTypes
 }
 internal func BuiltinTypesmoveFromCType(_ handle: _baseRef) -> BuiltinTypes? {
-    return BuiltinTypescopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return BuiltinTypesmoveFromCType(handle) as BuiltinTypes
 }
 internal func copyToCType(_ swiftClass: BuiltinTypes) -> RefHolder {
     return getRef(swiftClass, owning: false)

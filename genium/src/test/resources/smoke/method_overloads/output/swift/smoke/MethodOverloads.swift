@@ -86,10 +86,10 @@ extension MethodOverloads: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func MethodOverloadscopyFromCType(_ handle: _baseRef) -> MethodOverloads {
-    return MethodOverloads(cMethodOverloads: handle)
+    return MethodOverloads(cMethodOverloads: smoke_MethodOverloads_copy_handle(handle))
 }
 internal func MethodOverloadsmoveFromCType(_ handle: _baseRef) -> MethodOverloads {
-    return MethodOverloadscopyFromCType(handle)
+    return MethodOverloads(cMethodOverloads: handle)
 }
 internal func MethodOverloadscopyFromCType(_ handle: _baseRef) -> MethodOverloads? {
     guard handle != 0 else {
@@ -98,7 +98,10 @@ internal func MethodOverloadscopyFromCType(_ handle: _baseRef) -> MethodOverload
     return MethodOverloadsmoveFromCType(handle) as MethodOverloads
 }
 internal func MethodOverloadsmoveFromCType(_ handle: _baseRef) -> MethodOverloads? {
-    return MethodOverloadscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return MethodOverloadsmoveFromCType(handle) as MethodOverloads
 }
 internal func copyToCType(_ swiftClass: MethodOverloads) -> RefHolder {
     return getRef(swiftClass, owning: false)

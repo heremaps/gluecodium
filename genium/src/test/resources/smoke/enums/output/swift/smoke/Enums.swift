@@ -82,10 +82,10 @@ extension Enums: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func EnumscopyFromCType(_ handle: _baseRef) -> Enums {
-    return Enums(cEnums: handle)
+    return Enums(cEnums: smoke_Enums_copy_handle(handle))
 }
 internal func EnumsmoveFromCType(_ handle: _baseRef) -> Enums {
-    return EnumscopyFromCType(handle)
+    return Enums(cEnums: handle)
 }
 internal func EnumscopyFromCType(_ handle: _baseRef) -> Enums? {
     guard handle != 0 else {
@@ -94,7 +94,10 @@ internal func EnumscopyFromCType(_ handle: _baseRef) -> Enums? {
     return EnumsmoveFromCType(handle) as Enums
 }
 internal func EnumsmoveFromCType(_ handle: _baseRef) -> Enums? {
-    return EnumscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return EnumsmoveFromCType(handle) as Enums
 }
 internal func copyToCType(_ swiftClass: Enums) -> RefHolder {
     return getRef(swiftClass, owning: false)

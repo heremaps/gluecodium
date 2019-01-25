@@ -28,25 +28,31 @@ void smoke_CalculatorListener_ResultStruct_release_handle(_baseRef handle) {
 }
 double smoke_CalculatorListener_ResultStruct_result_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::CalculatorListener::ResultStruct>(handle);
-    return struct_pointer->result;
+return struct_pointer->result;
 }
 void smoke_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {
-    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result(calculationResult);
+    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result(calculationResult)
+;
 }
 void smoke_CalculatorListener_onCalculationResultConst(_baseRef _instance, double calculationResult) {
-    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_const(calculationResult);
+    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_const(calculationResult)
+;
 }
 void smoke_CalculatorListener_onCalculationResultStruct(_baseRef _instance, _baseRef calculationResult) {
-    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_struct(*get_pointer<::smoke::CalculatorListener::ResultStruct>(calculationResult));
+    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_struct(Conversion<::smoke::CalculatorListener::ResultStruct>::toCpp(calculationResult))
+;
 }
 void smoke_CalculatorListener_onCalculationResultArray(_baseRef _instance, _baseRef calculationResult) {
-    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_array(*get_pointer<std::vector<double>>(calculationResult));
+    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_array(Conversion<std::vector<double>>::toCpp(calculationResult))
+;
 }
 void smoke_CalculatorListener_onCalculationResultMap(_baseRef _instance, _baseRef calculationResults) {
-    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_map(*get_pointer<std::unordered_map<std::string, double>>(calculationResults));
+    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_map(Conversion<::smoke::CalculatorListener::NamedCalculationResults>::toCpp(calculationResults))
+;
 }
 void smoke_CalculatorListener_onCalculationResultInstance(_baseRef _instance, _baseRef calculationResult) {
-    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_instance(calculationResult ? *get_pointer<std::shared_ptr<::smoke::CalculationResult>>(calculationResult) : nullptr);
+    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_instance(Conversion<std::shared_ptr<::smoke::CalculationResult>>::toCpp(calculationResult))
+;
 }
 class smoke_CalculatorListenerProxy : public std::shared_ptr<::smoke::CalculatorListener>::element_type, public CachedProxyBase<smoke_CalculatorListenerProxy> {
 public:
@@ -58,23 +64,17 @@ public:
         mFunctions.release(mFunctions.swift_pointer);
     }
     void on_calculation_result(double calculationResult) override {
-        mFunctions.smoke_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);
-    }
+        mFunctions.smoke_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);    }
     void on_calculation_result_const(double calculationResult) const override {
-        mFunctions.smoke_CalculatorListener_onCalculationResultConst(mFunctions.swift_pointer, calculationResult);
-    }
+        mFunctions.smoke_CalculatorListener_onCalculationResultConst(mFunctions.swift_pointer, calculationResult);    }
     void on_calculation_result_struct(const ::smoke::CalculatorListener::ResultStruct& calculationResult) override {
-        mFunctions.smoke_CalculatorListener_onCalculationResultStruct(mFunctions.swift_pointer, reinterpret_cast<_baseRef>(new ::smoke::CalculatorListener::ResultStruct(calculationResult)));
-    }
+        mFunctions.smoke_CalculatorListener_onCalculationResultStruct(mFunctions.swift_pointer, Conversion<::smoke::CalculatorListener::ResultStruct>::toBaseRef(calculationResult));    }
     void on_calculation_result_array(const std::vector<double>& calculationResult) override {
-        mFunctions.smoke_CalculatorListener_onCalculationResultArray(mFunctions.swift_pointer, reinterpret_cast<_baseRef>(new std::vector<double>(calculationResult)));
-    }
+        mFunctions.smoke_CalculatorListener_onCalculationResultArray(mFunctions.swift_pointer, Conversion<std::vector<double>>::toBaseRef(calculationResult));    }
     void on_calculation_result_map(const ::smoke::CalculatorListener::NamedCalculationResults& calculationResults) override {
-        mFunctions.smoke_CalculatorListener_onCalculationResultMap(mFunctions.swift_pointer, reinterpret_cast<_baseRef>(new ::smoke::CalculatorListener::NamedCalculationResults(calculationResults)));
-    }
+        mFunctions.smoke_CalculatorListener_onCalculationResultMap(mFunctions.swift_pointer, Conversion<::smoke::CalculatorListener::NamedCalculationResults>::toBaseRef(calculationResults));    }
     void on_calculation_result_instance(const std::shared_ptr<::smoke::CalculationResult>& calculationResult) override {
-        mFunctions.smoke_CalculatorListener_onCalculationResultInstance(mFunctions.swift_pointer, reinterpret_cast<_baseRef>(new std::shared_ptr<::smoke::CalculationResult>(calculationResult)));
-    }
+        mFunctions.smoke_CalculatorListener_onCalculationResultInstance(mFunctions.swift_pointer, Conversion<std::shared_ptr<::smoke::CalculationResult>>::toBaseRef(calculationResult));    }
 private:
     smoke_CalculatorListener_FunctionTable mFunctions;
 };
@@ -98,7 +98,7 @@ void smoke_CalculatorListener_NamedCalculationResults_iterator_release_handle(_b
     delete reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle );
 }
 void smoke_CalculatorListener_NamedCalculationResults_put(_baseRef handle, _baseRef key, double value) {
-    (*get_pointer<std::unordered_map<std::string, double>>(handle))[*get_pointer<std::string>(key)] = value;
+    (*get_pointer<std::unordered_map<std::string, double>>(handle))[Conversion<std::string>::toCpp(key)] = value;
 }
 bool smoke_CalculatorListener_NamedCalculationResults_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, double>>(handle)->end();
@@ -108,7 +108,7 @@ void smoke_CalculatorListener_NamedCalculationResults_iterator_increment(_baseRe
 }
 _baseRef smoke_CalculatorListener_NamedCalculationResults_iterator_key(_baseRef iterator_handle) {
     auto& key = (*reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle ))->first;
-    return reinterpret_cast<_baseRef>(new std::string { key });
+    return Conversion<std::string>::toBaseRef(key);
 }
 double smoke_CalculatorListener_NamedCalculationResults_iterator_value(_baseRef iterator_handle) {
     auto& value = (*reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle ))->second;

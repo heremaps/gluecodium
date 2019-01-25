@@ -73,10 +73,10 @@ extension Comments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func CommentscopyFromCType(_ handle: _baseRef) -> Comments {
-    return Comments(cComments: handle)
+    return Comments(cComments: examples_Comments_copy_handle(handle))
 }
 internal func CommentsmoveFromCType(_ handle: _baseRef) -> Comments {
-    return CommentscopyFromCType(handle)
+    return Comments(cComments: handle)
 }
 internal func CommentscopyFromCType(_ handle: _baseRef) -> Comments? {
     guard handle != 0 else {
@@ -85,7 +85,10 @@ internal func CommentscopyFromCType(_ handle: _baseRef) -> Comments? {
     return CommentsmoveFromCType(handle) as Comments
 }
 internal func CommentsmoveFromCType(_ handle: _baseRef) -> Comments? {
-    return CommentscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return CommentsmoveFromCType(handle) as Comments
 }
 internal func copyToCType(_ swiftClass: Comments) -> RefHolder {
     return getRef(swiftClass, owning: false)

@@ -51,13 +51,17 @@ extension _ProfileManagerInterface: NativeBase {
 internal func ProfileManagerInterfacecopyFromCType(_ handle: _baseRef) -> ProfileManagerInterface {
     if let swift_pointer = examples_ProfileManagerInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ProfileManagerInterface {
+        return re_constructed
+    }
+    return _ProfileManagerInterface(cProfileManagerInterface: examples_ProfileManagerInterface_copy_handle(handle))
+}
+internal func ProfileManagerInterfacemoveFromCType(_ handle: _baseRef) -> ProfileManagerInterface {
+    if let swift_pointer = examples_ProfileManagerInterface_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ProfileManagerInterface {
         examples_ProfileManagerInterface_release_handle(handle)
         return re_constructed
     }
     return _ProfileManagerInterface(cProfileManagerInterface: handle)
-}
-internal func ProfileManagerInterfacemoveFromCType(_ handle: _baseRef) -> ProfileManagerInterface {
-    return ProfileManagerInterfacecopyFromCType(handle)
 }
 internal func ProfileManagerInterfacecopyFromCType(_ handle: _baseRef) -> ProfileManagerInterface? {
     guard handle != 0 else {
@@ -66,7 +70,10 @@ internal func ProfileManagerInterfacecopyFromCType(_ handle: _baseRef) -> Profil
     return ProfileManagerInterfacemoveFromCType(handle) as ProfileManagerInterface
 }
 internal func ProfileManagerInterfacemoveFromCType(_ handle: _baseRef) -> ProfileManagerInterface? {
-    return ProfileManagerInterfacecopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return ProfileManagerInterfacemoveFromCType(handle) as ProfileManagerInterface
 }
 internal func copyToCType(_ swiftClass: ProfileManagerInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

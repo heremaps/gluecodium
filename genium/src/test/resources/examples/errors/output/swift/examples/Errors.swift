@@ -46,10 +46,10 @@ extension Errors: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ErrorscopyFromCType(_ handle: _baseRef) -> Errors {
-    return Errors(cErrors: handle)
+    return Errors(cErrors: examples_Errors_copy_handle(handle))
 }
 internal func ErrorsmoveFromCType(_ handle: _baseRef) -> Errors {
-    return ErrorscopyFromCType(handle)
+    return Errors(cErrors: handle)
 }
 internal func ErrorscopyFromCType(_ handle: _baseRef) -> Errors? {
     guard handle != 0 else {
@@ -58,7 +58,10 @@ internal func ErrorscopyFromCType(_ handle: _baseRef) -> Errors? {
     return ErrorsmoveFromCType(handle) as Errors
 }
 internal func ErrorsmoveFromCType(_ handle: _baseRef) -> Errors? {
-    return ErrorscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return ErrorsmoveFromCType(handle) as Errors
 }
 internal func copyToCType(_ swiftClass: Errors) -> RefHolder {
     return getRef(swiftClass, owning: false)

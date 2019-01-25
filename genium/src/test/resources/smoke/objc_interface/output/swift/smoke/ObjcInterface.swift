@@ -43,13 +43,17 @@ extension _ObjcInterface: NativeBase {
 internal func ObjcInterfacecopyFromCType(_ handle: _baseRef) -> ObjcInterface {
     if let swift_pointer = smoke_ObjcInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcInterface {
+        return re_constructed
+    }
+    return _ObjcInterface(cObjcInterface: smoke_ObjcInterface_copy_handle(handle))
+}
+internal func ObjcInterfacemoveFromCType(_ handle: _baseRef) -> ObjcInterface {
+    if let swift_pointer = smoke_ObjcInterface_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ObjcInterface {
         smoke_ObjcInterface_release_handle(handle)
         return re_constructed
     }
     return _ObjcInterface(cObjcInterface: handle)
-}
-internal func ObjcInterfacemoveFromCType(_ handle: _baseRef) -> ObjcInterface {
-    return ObjcInterfacecopyFromCType(handle)
 }
 internal func ObjcInterfacecopyFromCType(_ handle: _baseRef) -> ObjcInterface? {
     guard handle != 0 else {
@@ -58,7 +62,10 @@ internal func ObjcInterfacecopyFromCType(_ handle: _baseRef) -> ObjcInterface? {
     return ObjcInterfacemoveFromCType(handle) as ObjcInterface
 }
 internal func ObjcInterfacemoveFromCType(_ handle: _baseRef) -> ObjcInterface? {
-    return ObjcInterfacecopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return ObjcInterfacemoveFromCType(handle) as ObjcInterface
 }
 internal func copyToCType(_ swiftClass: ObjcInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

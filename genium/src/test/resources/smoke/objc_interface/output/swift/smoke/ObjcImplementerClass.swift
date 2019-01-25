@@ -28,10 +28,10 @@ extension ObjcImplementerClass: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ObjcImplementerClasscopyFromCType(_ handle: _baseRef) -> ObjcImplementerClass {
-    return ObjcImplementerClass(cObjcImplementerClass: handle)
+    return ObjcImplementerClass(cObjcImplementerClass: smoke_ObjcImplementerClass_copy_handle(handle))
 }
 internal func ObjcImplementerClassmoveFromCType(_ handle: _baseRef) -> ObjcImplementerClass {
-    return ObjcImplementerClasscopyFromCType(handle)
+    return ObjcImplementerClass(cObjcImplementerClass: handle)
 }
 internal func ObjcImplementerClasscopyFromCType(_ handle: _baseRef) -> ObjcImplementerClass? {
     guard handle != 0 else {
@@ -40,7 +40,10 @@ internal func ObjcImplementerClasscopyFromCType(_ handle: _baseRef) -> ObjcImple
     return ObjcImplementerClassmoveFromCType(handle) as ObjcImplementerClass
 }
 internal func ObjcImplementerClassmoveFromCType(_ handle: _baseRef) -> ObjcImplementerClass? {
-    return ObjcImplementerClasscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return ObjcImplementerClassmoveFromCType(handle) as ObjcImplementerClass
 }
 internal func copyToCType(_ swiftClass: ObjcImplementerClass) -> RefHolder {
     return getRef(swiftClass, owning: false)

@@ -259,10 +259,10 @@ extension Structs: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func StructscopyFromCType(_ handle: _baseRef) -> Structs {
-    return Structs(cStructs: handle)
+    return Structs(cStructs: smoke_Structs_copy_handle(handle))
 }
 internal func StructsmoveFromCType(_ handle: _baseRef) -> Structs {
-    return StructscopyFromCType(handle)
+    return Structs(cStructs: handle)
 }
 internal func StructscopyFromCType(_ handle: _baseRef) -> Structs? {
     guard handle != 0 else {
@@ -271,7 +271,10 @@ internal func StructscopyFromCType(_ handle: _baseRef) -> Structs? {
     return StructsmoveFromCType(handle) as Structs
 }
 internal func StructsmoveFromCType(_ handle: _baseRef) -> Structs? {
-    return StructscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return StructsmoveFromCType(handle) as Structs
 }
 internal func copyToCType(_ swiftClass: Structs) -> RefHolder {
     return getRef(swiftClass, owning: false)

@@ -37,10 +37,10 @@ extension MultiLineComments: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func MultiLineCommentscopyFromCType(_ handle: _baseRef) -> MultiLineComments {
-    return MultiLineComments(cMultiLineComments: handle)
+    return MultiLineComments(cMultiLineComments: smoke_MultiLineComments_copy_handle(handle))
 }
 internal func MultiLineCommentsmoveFromCType(_ handle: _baseRef) -> MultiLineComments {
-    return MultiLineCommentscopyFromCType(handle)
+    return MultiLineComments(cMultiLineComments: handle)
 }
 internal func MultiLineCommentscopyFromCType(_ handle: _baseRef) -> MultiLineComments? {
     guard handle != 0 else {
@@ -49,7 +49,10 @@ internal func MultiLineCommentscopyFromCType(_ handle: _baseRef) -> MultiLineCom
     return MultiLineCommentsmoveFromCType(handle) as MultiLineComments
 }
 internal func MultiLineCommentsmoveFromCType(_ handle: _baseRef) -> MultiLineComments? {
-    return MultiLineCommentscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return MultiLineCommentsmoveFromCType(handle) as MultiLineComments
 }
 internal func copyToCType(_ swiftClass: MultiLineComments) -> RefHolder {
     return getRef(swiftClass, owning: false)

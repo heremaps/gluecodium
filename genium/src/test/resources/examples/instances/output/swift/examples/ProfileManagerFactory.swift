@@ -33,10 +33,10 @@ extension ProfileManagerFactory: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ProfileManagerFactorycopyFromCType(_ handle: _baseRef) -> ProfileManagerFactory {
-    return ProfileManagerFactory(cProfileManagerFactory: handle)
+    return ProfileManagerFactory(cProfileManagerFactory: examples_ProfileManagerFactory_copy_handle(handle))
 }
 internal func ProfileManagerFactorymoveFromCType(_ handle: _baseRef) -> ProfileManagerFactory {
-    return ProfileManagerFactorycopyFromCType(handle)
+    return ProfileManagerFactory(cProfileManagerFactory: handle)
 }
 internal func ProfileManagerFactorycopyFromCType(_ handle: _baseRef) -> ProfileManagerFactory? {
     guard handle != 0 else {
@@ -45,7 +45,10 @@ internal func ProfileManagerFactorycopyFromCType(_ handle: _baseRef) -> ProfileM
     return ProfileManagerFactorymoveFromCType(handle) as ProfileManagerFactory
 }
 internal func ProfileManagerFactorymoveFromCType(_ handle: _baseRef) -> ProfileManagerFactory? {
-    return ProfileManagerFactorycopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return ProfileManagerFactorymoveFromCType(handle) as ProfileManagerFactory
 }
 internal func copyToCType(_ swiftClass: ProfileManagerFactory) -> RefHolder {
     return getRef(swiftClass, owning: false)

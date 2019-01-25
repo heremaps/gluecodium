@@ -25,7 +25,8 @@ smoke_ErrorsInterface_ExternalErrors smoke_ErrorsInterface_methodWithExternalErr
 smoke_ErrorsInterface_methodWithErrorsAndReturnValue_result smoke_ErrorsInterface_methodWithErrorsAndReturnValue(_baseRef _instance) {
     auto&& RESULT = get_pointer<std::shared_ptr<::smoke::ErrorsInterface>>(_instance)->get()->method_with_errors_and_return_value();
     if (RESULT.has_value()) {
-        return {true, .returned_value = reinterpret_cast<_baseRef>( new std::string(RESULT.safe_value()) )};
+        return {true, .returned_value = Conversion<std::string>::toBaseRef(RESULT.safe_value())
+};
     } else {
         return {false, .error_code = static_cast< smoke_ErrorsInterface_InternalError >(RESULT.error().value())};
     }
@@ -40,11 +41,9 @@ public:
         mFunctions.release(mFunctions.swift_pointer);
     }
     ::std::error_code method_with_errors() override {
-        return static_cast<::smoke::ErrorsInterface::InternalError>(mFunctions.smoke_ErrorsInterface_methodWithErrors(mFunctions.swift_pointer));
-    }
+        return static_cast<::smoke::ErrorsInterface::InternalError>(mFunctions.smoke_ErrorsInterface_methodWithErrors(mFunctions.swift_pointer));    }
     ::std::error_code method_with_external_errors() override {
-        return static_cast<::smoke::ErrorsInterface::ExternalErrors>(mFunctions.smoke_ErrorsInterface_methodWithExternalErrors(mFunctions.swift_pointer));
-    }
+        return static_cast<::smoke::ErrorsInterface::ExternalErrors>(mFunctions.smoke_ErrorsInterface_methodWithExternalErrors(mFunctions.swift_pointer));    }
     ::genium::Return< ::std::string, ::std::error_code > method_with_errors_and_return_value() override {
         auto _result_with_error = mFunctions.smoke_ErrorsInterface_methodWithErrorsAndReturnValue(mFunctions.swift_pointer);
         if (!_result_with_error.has_value)
@@ -52,10 +51,7 @@ public:
             return std::error_code{static_cast<::smoke::ErrorsInterface::InternalError>(_result_with_error.error_code)};
         }
         auto _call_result = _result_with_error.returned_value;
-        auto _return_value_ptr = get_pointer<std::string>(_call_result);
-        auto _return_value(*_return_value_ptr);
-        delete _return_value_ptr;
-        return _return_value;
+        return Conversion<std::string>::toCppReturn(_call_result);
     }
 private:
     smoke_ErrorsInterface_FunctionTable mFunctions;

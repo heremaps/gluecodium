@@ -126,10 +126,10 @@ extension Attributes: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes {
-    return Attributes(cAttributes: handle)
+    return Attributes(cAttributes: smoke_Attributes_copy_handle(handle))
 }
 internal func AttributesmoveFromCType(_ handle: _baseRef) -> Attributes {
-    return AttributescopyFromCType(handle)
+    return Attributes(cAttributes: handle)
 }
 internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes? {
     guard handle != 0 else {
@@ -138,7 +138,10 @@ internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes? {
     return AttributesmoveFromCType(handle) as Attributes
 }
 internal func AttributesmoveFromCType(_ handle: _baseRef) -> Attributes? {
-    return AttributescopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return AttributesmoveFromCType(handle) as Attributes
 }
 internal func copyToCType(_ swiftClass: Attributes) -> RefHolder {
     return getRef(swiftClass, owning: false)
