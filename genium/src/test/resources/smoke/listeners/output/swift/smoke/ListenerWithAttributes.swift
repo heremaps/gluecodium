@@ -198,7 +198,7 @@ internal func copyToCType(_ swiftClass: ListenerWithAttributes?) -> RefHolder {
 internal func moveToCType(_ swiftClass: ListenerWithAttributes?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-public enum ResultEnum : UInt32 {
+public enum ResultEnum : UInt32, CaseIterable {
     case none
     case result
 }

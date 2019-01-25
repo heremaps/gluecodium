@@ -33,7 +33,7 @@ public class PublicClass {
     deinit {
         smoke_PublicClass_release_handle(c_instance)
     }
-    internal enum InternalEnum : UInt32 {
+    internal enum InternalEnum : UInt32, CaseIterable {
         case foo
         case bar
     }

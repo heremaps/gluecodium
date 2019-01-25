@@ -23,41 +23,46 @@ import hello
 
 class EnumsTests: XCTestCase {
     func testFlipEnumValue() {
-      XCTAssertEqual(
-        Enums.flipEnumValue(input: Enums.InternalError.errorNone),
-        Enums.InternalError.errorFatal)
-      XCTAssertEqual(
-        Enums.flipEnumValue(input: Enums.InternalError.errorFatal),
-        Enums.InternalError.errorNone)
+        XCTAssertEqual(
+            Enums.flipEnumValue(input: Enums.InternalError.errorNone),
+            Enums.InternalError.errorFatal)
+        XCTAssertEqual(
+            Enums.flipEnumValue(input: Enums.InternalError.errorFatal),
+            Enums.InternalError.errorNone)
     }
 
     func testExtractEnumFromStruct() {
-      XCTAssertEqual(
-        Enums.extractEnumFromStruct(input: Enums.ErrorStruct(
-          type: Enums.InternalError.errorNone,
-          message: "MESSAGE")),
-        Enums.InternalError.errorFatal)
-      XCTAssertEqual(
-        Enums.extractEnumFromStruct(input: Enums.ErrorStruct(
-          type: Enums.InternalError.errorFatal,
-          message: "MESSAGE")),
-        Enums.InternalError.errorNone)
+        XCTAssertEqual(
+            Enums.extractEnumFromStruct(input: Enums.ErrorStruct(
+                type: Enums.InternalError.errorNone,
+                message: "MESSAGE")),
+            Enums.InternalError.errorFatal)
+        XCTAssertEqual(
+            Enums.extractEnumFromStruct(input: Enums.ErrorStruct(
+                type: Enums.InternalError.errorFatal,
+                message: "MESSAGE")),
+            Enums.InternalError.errorNone)
     }
 
     func testCreateStructWithEnumInside() {
         var result = Enums.createStructWithEnumInside(
-          type: Enums.InternalError.errorNone,
-          message: "MESSAGE")
+            type: Enums.InternalError.errorNone,
+            message: "MESSAGE")
         XCTAssertEqual(result.type, Enums.InternalError.errorFatal)
         result = Enums.createStructWithEnumInside(
-          type: Enums.InternalError.errorFatal,
-          message: "MESSAGE")
+            type: Enums.InternalError.errorFatal,
+            message: "MESSAGE")
         XCTAssertEqual(result.type, Enums.InternalError.errorNone)
+    }
+
+    func testCaseIterable() {
+        XCTAssertEqual([.errorNone, .errorFatal], Enums.InternalError.allCases)
     }
 
     static var allTests = [
         ("testFlipEnumValue", testFlipEnumValue),
         ("testExtractEnumFromStruct", testExtractEnumFromStruct),
-        ("testCreateStructWithEnumInside", testCreateStructWithEnumInside)
+        ("testCreateStructWithEnumInside", testCreateStructWithEnumInside),
+        ("testCaseIterable", testCaseIterable)
     ]
 }

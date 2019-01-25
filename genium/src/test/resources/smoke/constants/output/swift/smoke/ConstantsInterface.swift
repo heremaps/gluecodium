@@ -29,7 +29,7 @@ public class ConstantsInterface {
     deinit {
         smoke_ConstantsInterface_release_handle(c_instance)
     }
-    public enum StateEnum : UInt32 {
+    public enum StateEnum : UInt32, CaseIterable {
         case off
         case on
     }

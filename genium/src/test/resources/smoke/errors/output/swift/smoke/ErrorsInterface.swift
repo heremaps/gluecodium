@@ -128,7 +128,7 @@ internal func copyToCType(_ swiftClass: ErrorsInterface?) -> RefHolder {
 internal func moveToCType(_ swiftClass: ErrorsInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-public enum InternalError : UInt32 {
+public enum InternalError : UInt32, CaseIterable {
     case errorNone
     case errorFatal
 }
@@ -144,7 +144,7 @@ internal func copyToCType(_ swiftType: InternalError) -> PrimitiveHolder<UInt32>
 internal func moveToCType(_ swiftType: InternalError) -> PrimitiveHolder<UInt32> {
     return copyToCType(swiftType)
 }
-public enum ExternalErrors : UInt32 {
+public enum ExternalErrors : UInt32, CaseIterable {
     case none
     case boom
     case bust

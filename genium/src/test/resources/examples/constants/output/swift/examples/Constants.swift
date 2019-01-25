@@ -2,7 +2,7 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-public enum StateEnum : UInt32 {
+public enum StateEnum : UInt32, CaseIterable {
     case off
     case on
 }

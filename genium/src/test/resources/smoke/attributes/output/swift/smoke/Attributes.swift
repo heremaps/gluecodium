@@ -104,7 +104,7 @@ public class Attributes {
     deinit {
         smoke_Attributes_release_handle(c_instance)
     }
-    public enum InternalError : UInt32 {
+    public enum InternalError : UInt32, CaseIterable {
         case errorNone
         case errorFatal = 999
     }

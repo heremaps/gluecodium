@@ -24,11 +24,11 @@ public class Arrays {
     deinit {
         smoke_Arrays_release_handle(c_instance)
     }
-    public enum SomeEnum : UInt32 {
+    public enum SomeEnum : UInt32, CaseIterable {
         case foo
         case bar
     }
-    public enum ExternalEnum : UInt32 {
+    public enum ExternalEnum : UInt32, CaseIterable {
         case on
         case off
     }
