@@ -16,11 +16,14 @@ _baseRef smoke_NestedInstantiable_copy_handle(_baseRef handle) {
         : 0;
 }
 void smoke_NestedInstantiable_setSameTypeInstances(_baseRef _instance, _baseRef instanceOne, _baseRef instanceTwo) {
-    return get_pointer<std::shared_ptr<::smoke::NestedInstantiable>>(_instance)->get()->set_same_type_instances(instanceOne ? *get_pointer<std::shared_ptr<::smoke::SimpleInstantiable>>(instanceOne) : nullptr, instanceTwo ? *get_pointer<std::shared_ptr<::smoke::SimpleInstantiable>>(instanceTwo) : nullptr);
+    return get_pointer<std::shared_ptr<::smoke::NestedInstantiable>>(_instance)->get()->set_same_type_instances(Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp(instanceOne), Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp(instanceTwo))
+;
 }
 _baseRef smoke_NestedInstantiable_getInstanceOne(_baseRef _instance) {
-    return reinterpret_cast<_baseRef>( checked_pointer_copy(get_pointer<std::shared_ptr<::smoke::NestedInstantiable>>(_instance)->get()->get_instance_one()) );
+    return Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::NestedInstantiable>>(_instance)->get()->get_instance_one())
+;
 }
 _baseRef smoke_NestedInstantiable_instanceNotNullMethod(_baseRef _instance, _baseRef input) {
-    return reinterpret_cast<_baseRef>( checked_pointer_copy(get_pointer<std::shared_ptr<::smoke::NestedInstantiable>>(_instance)->get()->instance_not_null_method(input ? *get_pointer<std::shared_ptr<::smoke::SimpleInstantiable>>(input) : nullptr)) );
+    return Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::NestedInstantiable>>(_instance)->get()->instance_not_null_method(Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp(input)))
+;
 }

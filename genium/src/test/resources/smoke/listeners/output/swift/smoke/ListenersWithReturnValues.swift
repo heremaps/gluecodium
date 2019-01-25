@@ -99,13 +99,17 @@ extension _ListenersWithReturnValues: NativeBase {
 internal func ListenersWithReturnValuescopyFromCType(_ handle: _baseRef) -> ListenersWithReturnValues {
     if let swift_pointer = smoke_ListenersWithReturnValues_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenersWithReturnValues {
+        return re_constructed
+    }
+    return _ListenersWithReturnValues(cListenersWithReturnValues: smoke_ListenersWithReturnValues_copy_handle(handle))
+}
+internal func ListenersWithReturnValuesmoveFromCType(_ handle: _baseRef) -> ListenersWithReturnValues {
+    if let swift_pointer = smoke_ListenersWithReturnValues_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenersWithReturnValues {
         smoke_ListenersWithReturnValues_release_handle(handle)
         return re_constructed
     }
     return _ListenersWithReturnValues(cListenersWithReturnValues: handle)
-}
-internal func ListenersWithReturnValuesmoveFromCType(_ handle: _baseRef) -> ListenersWithReturnValues {
-    return ListenersWithReturnValuescopyFromCType(handle)
 }
 internal func ListenersWithReturnValuescopyFromCType(_ handle: _baseRef) -> ListenersWithReturnValues? {
     guard handle != 0 else {
@@ -114,7 +118,10 @@ internal func ListenersWithReturnValuescopyFromCType(_ handle: _baseRef) -> List
     return ListenersWithReturnValuesmoveFromCType(handle) as ListenersWithReturnValues
 }
 internal func ListenersWithReturnValuesmoveFromCType(_ handle: _baseRef) -> ListenersWithReturnValues? {
-    return ListenersWithReturnValuescopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return ListenersWithReturnValuesmoveFromCType(handle) as ListenersWithReturnValues
 }
 internal func copyToCType(_ swiftClass: ListenersWithReturnValues) -> RefHolder {
     return getRef(swiftClass, owning: false)

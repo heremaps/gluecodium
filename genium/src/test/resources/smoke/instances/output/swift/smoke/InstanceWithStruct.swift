@@ -70,10 +70,10 @@ extension InstanceWithStruct: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func InstanceWithStructcopyFromCType(_ handle: _baseRef) -> InstanceWithStruct {
-    return InstanceWithStruct(cInstanceWithStruct: handle)
+    return InstanceWithStruct(cInstanceWithStruct: smoke_InstanceWithStruct_copy_handle(handle))
 }
 internal func InstanceWithStructmoveFromCType(_ handle: _baseRef) -> InstanceWithStruct {
-    return InstanceWithStructcopyFromCType(handle)
+    return InstanceWithStruct(cInstanceWithStruct: handle)
 }
 internal func InstanceWithStructcopyFromCType(_ handle: _baseRef) -> InstanceWithStruct? {
     guard handle != 0 else {
@@ -82,7 +82,10 @@ internal func InstanceWithStructcopyFromCType(_ handle: _baseRef) -> InstanceWit
     return InstanceWithStructmoveFromCType(handle) as InstanceWithStruct
 }
 internal func InstanceWithStructmoveFromCType(_ handle: _baseRef) -> InstanceWithStruct? {
-    return InstanceWithStructcopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return InstanceWithStructmoveFromCType(handle) as InstanceWithStruct
 }
 internal func copyToCType(_ swiftClass: InstanceWithStruct) -> RefHolder {
     return getRef(swiftClass, owning: false)

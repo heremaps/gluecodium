@@ -32,10 +32,10 @@ public class ChildConstructors: Constructors {
     }
 }
 internal func ChildConstructorscopyFromCType(_ handle: _baseRef) -> ChildConstructors {
-    return ChildConstructors(cChildConstructors: handle)
+    return ChildConstructors(cChildConstructors: smoke_ChildConstructors_copy_handle(handle))
 }
 internal func ChildConstructorsmoveFromCType(_ handle: _baseRef) -> ChildConstructors {
-    return ChildConstructorscopyFromCType(handle)
+    return ChildConstructors(cChildConstructors: handle)
 }
 internal func ChildConstructorscopyFromCType(_ handle: _baseRef) -> ChildConstructors? {
     guard handle != 0 else {
@@ -44,7 +44,10 @@ internal func ChildConstructorscopyFromCType(_ handle: _baseRef) -> ChildConstru
     return ChildConstructorsmoveFromCType(handle) as ChildConstructors
 }
 internal func ChildConstructorsmoveFromCType(_ handle: _baseRef) -> ChildConstructors? {
-    return ChildConstructorscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return ChildConstructorsmoveFromCType(handle) as ChildConstructors
 }
 internal func copyToCType(_ swiftClass: ChildConstructors) -> RefHolder {
     return getRef(swiftClass, owning: false)

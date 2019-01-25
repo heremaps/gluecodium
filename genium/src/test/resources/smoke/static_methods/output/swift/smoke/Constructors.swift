@@ -91,10 +91,10 @@ extension Constructors: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ConstructorscopyFromCType(_ handle: _baseRef) -> Constructors {
-    return Constructors(cConstructors: handle)
+    return Constructors(cConstructors: smoke_Constructors_copy_handle(handle))
 }
 internal func ConstructorsmoveFromCType(_ handle: _baseRef) -> Constructors {
-    return ConstructorscopyFromCType(handle)
+    return Constructors(cConstructors: handle)
 }
 internal func ConstructorscopyFromCType(_ handle: _baseRef) -> Constructors? {
     guard handle != 0 else {
@@ -103,7 +103,10 @@ internal func ConstructorscopyFromCType(_ handle: _baseRef) -> Constructors? {
     return ConstructorsmoveFromCType(handle) as Constructors
 }
 internal func ConstructorsmoveFromCType(_ handle: _baseRef) -> Constructors? {
-    return ConstructorscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return ConstructorsmoveFromCType(handle) as Constructors
 }
 internal func copyToCType(_ swiftClass: Constructors) -> RefHolder {
     return getRef(swiftClass, owning: false)

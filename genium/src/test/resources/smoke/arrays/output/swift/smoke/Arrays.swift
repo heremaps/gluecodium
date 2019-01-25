@@ -129,10 +129,10 @@ extension Arrays: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ArrayscopyFromCType(_ handle: _baseRef) -> Arrays {
-    return Arrays(cArrays: handle)
+    return Arrays(cArrays: smoke_Arrays_copy_handle(handle))
 }
 internal func ArraysmoveFromCType(_ handle: _baseRef) -> Arrays {
-    return ArrayscopyFromCType(handle)
+    return Arrays(cArrays: handle)
 }
 internal func ArrayscopyFromCType(_ handle: _baseRef) -> Arrays? {
     guard handle != 0 else {
@@ -141,7 +141,10 @@ internal func ArrayscopyFromCType(_ handle: _baseRef) -> Arrays? {
     return ArraysmoveFromCType(handle) as Arrays
 }
 internal func ArraysmoveFromCType(_ handle: _baseRef) -> Arrays? {
-    return ArrayscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return ArraysmoveFromCType(handle) as Arrays
 }
 internal func copyToCType(_ swiftClass: Arrays) -> RefHolder {
     return getRef(swiftClass, owning: false)

@@ -39,10 +39,10 @@ extension NestedInstantiable: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func NestedInstantiablecopyFromCType(_ handle: _baseRef) -> NestedInstantiable {
-    return NestedInstantiable(cNestedInstantiable: handle)
+    return NestedInstantiable(cNestedInstantiable: smoke_NestedInstantiable_copy_handle(handle))
 }
 internal func NestedInstantiablemoveFromCType(_ handle: _baseRef) -> NestedInstantiable {
-    return NestedInstantiablecopyFromCType(handle)
+    return NestedInstantiable(cNestedInstantiable: handle)
 }
 internal func NestedInstantiablecopyFromCType(_ handle: _baseRef) -> NestedInstantiable? {
     guard handle != 0 else {
@@ -51,7 +51,10 @@ internal func NestedInstantiablecopyFromCType(_ handle: _baseRef) -> NestedInsta
     return NestedInstantiablemoveFromCType(handle) as NestedInstantiable
 }
 internal func NestedInstantiablemoveFromCType(_ handle: _baseRef) -> NestedInstantiable? {
-    return NestedInstantiablecopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return NestedInstantiablemoveFromCType(handle) as NestedInstantiable
 }
 internal func copyToCType(_ swiftClass: NestedInstantiable) -> RefHolder {
     return getRef(swiftClass, owning: false)

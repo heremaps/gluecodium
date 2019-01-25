@@ -42,10 +42,10 @@ extension SpecialNames: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func SpecialNamescopyFromCType(_ handle: _baseRef) -> SpecialNames {
-    return SpecialNames(cSpecialNames: handle)
+    return SpecialNames(cSpecialNames: smoke_SpecialNames_copy_handle(handle))
 }
 internal func SpecialNamesmoveFromCType(_ handle: _baseRef) -> SpecialNames {
-    return SpecialNamescopyFromCType(handle)
+    return SpecialNames(cSpecialNames: handle)
 }
 internal func SpecialNamescopyFromCType(_ handle: _baseRef) -> SpecialNames? {
     guard handle != 0 else {
@@ -54,7 +54,10 @@ internal func SpecialNamescopyFromCType(_ handle: _baseRef) -> SpecialNames? {
     return SpecialNamesmoveFromCType(handle) as SpecialNames
 }
 internal func SpecialNamesmoveFromCType(_ handle: _baseRef) -> SpecialNames? {
-    return SpecialNamescopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return SpecialNamesmoveFromCType(handle) as SpecialNames
 }
 internal func copyToCType(_ swiftClass: SpecialNames) -> RefHolder {
     return getRef(swiftClass, owning: false)
