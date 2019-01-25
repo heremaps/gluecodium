@@ -40,11 +40,9 @@
 }}{{+ReturnConversion}}{{#switch returnType.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}{{include delegateToCall}}{{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<{{returnType.functionReturnType}}>({{include delegateToCall}}){{/case}}{{!!
-    }}{{#case "MAP" break=false}}{{/case}}{{!!
-    }}{{#case "ARRAY"}}reinterpret_cast<_baseRef>( new {{returnType.baseApi}}({{include delegateToCall}}) ){{/case}}{{!!
-    }}{{#case "CLASS"}}reinterpret_cast<_baseRef>( checked_pointer_copy({{include delegateToCall}}) ){{/case}}{{!!
-    }}{{#default}}reinterpret_cast<_baseRef>( new {{returnType.name}}({{include delegateToCall}}) ){{/default}}{{!!
-}}{{/switch}}{{/ReturnConversion}}{{!!
+    }}{{#default}}Conversion<{{returnType}}>::toBaseRef({{include delegateToCall}}){{/default}}{{!!
+}}{{/switch}}
+{{/ReturnConversion}}{{!!
 
 
 }}{{+safe_value}}RESULT.safe_value(){{/safe_value}}{{!!
@@ -56,12 +54,7 @@
 
 
 }}{{+delegateConversion}}{{#switch mappedType.typeCategory.toString}}{{!!
-    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
-    }}{{#case "BUILTIN_BYTEBUFFER" break=false}}{{/case}}{{!!
-    }}{{#case "STRUCT"}}*get_pointer<{{mappedType.name}}>({{name}}){{/case}}{{!!
-    }}{{#case "CLASS"}}{{name}} ? *get_pointer<{{mappedType.name}}>({{name}}) : nullptr{{/case}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{name}}{{/case}}{{!!
     }}{{#case "ENUM"}}static_cast<{{mappedType.name}}>({{name}}){{/case}}{{!!
-    }}{{#case "MAP" break=false}}{{/case}}{{!!
-    }}{{#case "ARRAY"}}*get_pointer<{{mappedType.baseApi}}>({{name}}){{/case}}{{!!
-    }}{{#default}}{{name}}{{/default}}{{!!
+    }}{{#default}}Conversion<{{mappedType}}>::toCpp({{name}}){{/default}}{{!!
 }}{{/switch}}{{/delegateConversion}}

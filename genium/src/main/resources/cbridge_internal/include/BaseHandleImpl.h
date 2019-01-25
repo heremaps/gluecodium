@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include <memory>
 #include "cbridge/include/BaseHandle.h"
+#include <memory>
 
 template < typename T >
 inline static T*
@@ -43,3 +43,68 @@ checked_pointer_copy( const std::shared_ptr< T >& pointer )
 {
     return !pointer ? nullptr : new std::shared_ptr< T >( pointer );
 }
+
+template<typename T>
+struct Conversion
+{
+    static _baseRef toBaseRef( const T& t )
+    {
+        return reinterpret_cast<_baseRef>( new T( t ) );
+    }
+
+    static _baseRef toBaseRef( T&& t )
+    {
+        return reinterpret_cast<_baseRef>( new T( std::forward<T>( t ) ) );
+    }
+
+    static _baseRef referenceBaseRef( T& t )
+    {
+        return reinterpret_cast<_baseRef>( &t );
+    }
+
+    static T& toCpp( _baseRef ref )
+    {
+        return *reinterpret_cast<T*>( ref );
+    }
+
+    static T toCppReturn( _baseRef ref )
+    {
+        auto ptr = reinterpret_cast<T*>( ref );
+        T value(*ptr);
+        delete ptr;
+        return value;
+    }
+};
+
+template<class T>
+struct Conversion<std::shared_ptr<T> >
+{
+    static _baseRef toBaseRef( std::shared_ptr<T> ptr )
+    {
+        return !ptr ? 0 : reinterpret_cast<_baseRef>( new std::shared_ptr<T>( std::move( ptr ) ) );
+    }
+
+    static _baseRef referenceBaseRef( std::shared_ptr<T>& t )
+    {
+        return reinterpret_cast<_baseRef>( &t );
+    }
+
+    static std::shared_ptr<T> toCpp( _baseRef ref )
+    {
+        if ( ref == 0 ) {
+            return {};
+        }
+        return *reinterpret_cast<std::shared_ptr<T>*>( ref );
+    }
+
+    static std::shared_ptr<T> toCppReturn( _baseRef ref )
+    {
+        if ( ref == 0 ) {
+            return {};
+        }
+        auto ptr_ptr = reinterpret_cast<std::shared_ptr<T>*>( ref );
+        std::shared_ptr<T> ptr( std::move( *ptr_ptr ) );
+        delete ptr_ptr;
+        return ptr;
+    }
+};
