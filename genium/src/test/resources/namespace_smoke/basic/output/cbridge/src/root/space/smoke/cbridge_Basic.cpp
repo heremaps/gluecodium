@@ -16,5 +16,6 @@ _baseRef smoke_Basic_copy_handle(_baseRef handle) {
         : 0;
 }
 _baseRef smoke_Basic_basicMethod(_baseRef inputString) {
-    return reinterpret_cast<_baseRef>( new std::string(::root::space::smoke::Basic::basic_method(*get_pointer<std::string>(inputString))) );
+    return Conversion<std::string>::toBaseRef(::root::space::smoke::Basic::basic_method(Conversion<std::string>::toCpp(inputString)))
+;
 }

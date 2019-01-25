@@ -91,10 +91,10 @@ extension TypeDefs: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func TypeDefscopyFromCType(_ handle: _baseRef) -> TypeDefs {
-    return TypeDefs(cTypeDefs: handle)
+    return TypeDefs(cTypeDefs: smoke_TypeDefs_copy_handle(handle))
 }
 internal func TypeDefsmoveFromCType(_ handle: _baseRef) -> TypeDefs {
-    return TypeDefscopyFromCType(handle)
+    return TypeDefs(cTypeDefs: handle)
 }
 internal func TypeDefscopyFromCType(_ handle: _baseRef) -> TypeDefs? {
     guard handle != 0 else {
@@ -103,7 +103,10 @@ internal func TypeDefscopyFromCType(_ handle: _baseRef) -> TypeDefs? {
     return TypeDefsmoveFromCType(handle) as TypeDefs
 }
 internal func TypeDefsmoveFromCType(_ handle: _baseRef) -> TypeDefs? {
-    return TypeDefscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return TypeDefsmoveFromCType(handle) as TypeDefs
 }
 internal func copyToCType(_ swiftClass: TypeDefs) -> RefHolder {
     return getRef(swiftClass, owning: false)

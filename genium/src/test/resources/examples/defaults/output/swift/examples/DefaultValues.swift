@@ -60,10 +60,10 @@ extension DefaultValues: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func DefaultValuescopyFromCType(_ handle: _baseRef) -> DefaultValues {
-    return DefaultValues(cDefaultValues: handle)
+    return DefaultValues(cDefaultValues: examples_DefaultValues_copy_handle(handle))
 }
 internal func DefaultValuesmoveFromCType(_ handle: _baseRef) -> DefaultValues {
-    return DefaultValuescopyFromCType(handle)
+    return DefaultValues(cDefaultValues: handle)
 }
 internal func DefaultValuescopyFromCType(_ handle: _baseRef) -> DefaultValues? {
     guard handle != 0 else {
@@ -72,7 +72,10 @@ internal func DefaultValuescopyFromCType(_ handle: _baseRef) -> DefaultValues? {
     return DefaultValuesmoveFromCType(handle) as DefaultValues
 }
 internal func DefaultValuesmoveFromCType(_ handle: _baseRef) -> DefaultValues? {
-    return DefaultValuescopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return DefaultValuesmoveFromCType(handle) as DefaultValues
 }
 internal func copyToCType(_ swiftClass: DefaultValues) -> RefHolder {
     return getRef(swiftClass, owning: false)

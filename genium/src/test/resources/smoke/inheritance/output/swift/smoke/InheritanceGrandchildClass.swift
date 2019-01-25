@@ -20,10 +20,10 @@ public class InheritanceGrandchildClass: InheritanceChildClass {
     }
 }
 internal func InheritanceGrandchildClasscopyFromCType(_ handle: _baseRef) -> InheritanceGrandchildClass {
-    return InheritanceGrandchildClass(cInheritanceGrandchildClass: handle)
+    return InheritanceGrandchildClass(cInheritanceGrandchildClass: smoke_InheritanceGrandchildClass_copy_handle(handle))
 }
 internal func InheritanceGrandchildClassmoveFromCType(_ handle: _baseRef) -> InheritanceGrandchildClass {
-    return InheritanceGrandchildClasscopyFromCType(handle)
+    return InheritanceGrandchildClass(cInheritanceGrandchildClass: handle)
 }
 internal func InheritanceGrandchildClasscopyFromCType(_ handle: _baseRef) -> InheritanceGrandchildClass? {
     guard handle != 0 else {
@@ -32,7 +32,10 @@ internal func InheritanceGrandchildClasscopyFromCType(_ handle: _baseRef) -> Inh
     return InheritanceGrandchildClassmoveFromCType(handle) as InheritanceGrandchildClass
 }
 internal func InheritanceGrandchildClassmoveFromCType(_ handle: _baseRef) -> InheritanceGrandchildClass? {
-    return InheritanceGrandchildClasscopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return InheritanceGrandchildClassmoveFromCType(handle) as InheritanceGrandchildClass
 }
 internal func copyToCType(_ swiftClass: InheritanceGrandchildClass) -> RefHolder {
     return getRef(swiftClass, owning: false)

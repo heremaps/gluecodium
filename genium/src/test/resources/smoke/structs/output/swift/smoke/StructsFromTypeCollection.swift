@@ -50,10 +50,10 @@ extension StructsFromTypeCollection: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func StructsFromTypeCollectioncopyFromCType(_ handle: _baseRef) -> StructsFromTypeCollection {
-    return StructsFromTypeCollection(cStructsFromTypeCollection: handle)
+    return StructsFromTypeCollection(cStructsFromTypeCollection: smoke_StructsFromTypeCollection_copy_handle(handle))
 }
 internal func StructsFromTypeCollectionmoveFromCType(_ handle: _baseRef) -> StructsFromTypeCollection {
-    return StructsFromTypeCollectioncopyFromCType(handle)
+    return StructsFromTypeCollection(cStructsFromTypeCollection: handle)
 }
 internal func StructsFromTypeCollectioncopyFromCType(_ handle: _baseRef) -> StructsFromTypeCollection? {
     guard handle != 0 else {
@@ -62,7 +62,10 @@ internal func StructsFromTypeCollectioncopyFromCType(_ handle: _baseRef) -> Stru
     return StructsFromTypeCollectionmoveFromCType(handle) as StructsFromTypeCollection
 }
 internal func StructsFromTypeCollectionmoveFromCType(_ handle: _baseRef) -> StructsFromTypeCollection? {
-    return StructsFromTypeCollectioncopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return StructsFromTypeCollectionmoveFromCType(handle) as StructsFromTypeCollection
 }
 internal func copyToCType(_ swiftClass: StructsFromTypeCollection) -> RefHolder {
     return getRef(swiftClass, owning: false)

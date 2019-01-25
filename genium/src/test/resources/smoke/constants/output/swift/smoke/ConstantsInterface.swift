@@ -38,10 +38,10 @@ extension ConstantsInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
 internal func ConstantsInterfacecopyFromCType(_ handle: _baseRef) -> ConstantsInterface {
-    return ConstantsInterface(cConstantsInterface: handle)
+    return ConstantsInterface(cConstantsInterface: smoke_ConstantsInterface_copy_handle(handle))
 }
 internal func ConstantsInterfacemoveFromCType(_ handle: _baseRef) -> ConstantsInterface {
-    return ConstantsInterfacecopyFromCType(handle)
+    return ConstantsInterface(cConstantsInterface: handle)
 }
 internal func ConstantsInterfacecopyFromCType(_ handle: _baseRef) -> ConstantsInterface? {
     guard handle != 0 else {
@@ -50,7 +50,10 @@ internal func ConstantsInterfacecopyFromCType(_ handle: _baseRef) -> ConstantsIn
     return ConstantsInterfacemoveFromCType(handle) as ConstantsInterface
 }
 internal func ConstantsInterfacemoveFromCType(_ handle: _baseRef) -> ConstantsInterface? {
-    return ConstantsInterfacecopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return ConstantsInterfacemoveFromCType(handle) as ConstantsInterface
 }
 internal func copyToCType(_ swiftClass: ConstantsInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

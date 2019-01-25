@@ -249,7 +249,7 @@ internal func moveFromCType(_ handle: _baseRef) -> [[String]] {
     var result: [[String]] = []
     let count = arrayCollection_StringArray_count(handle)
     for idx in 0..<count {
-        result.append(moveFromCType(arrayCollection_StringArray_get(handle, idx)))
+        result.append(copyFromCType(arrayCollection_StringArray_get(handle, idx)))
     }
     return result
 }
@@ -278,7 +278,7 @@ internal func moveFromCType(_ handle: _baseRef) -> [[UInt8]] {
     var result: [[UInt8]] = []
     let count = arrayCollection_UInt8Array_count(handle)
     for idx in 0..<count {
-        result.append(moveFromCType(arrayCollection_UInt8Array_get(handle, idx)))
+        result.append(copyFromCType(arrayCollection_UInt8Array_get(handle, idx)))
     }
     return result
 }

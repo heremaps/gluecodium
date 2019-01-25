@@ -42,13 +42,17 @@ extension _InternalInterface: NativeBase {
 internal func InternalInterfacecopyFromCType(_ handle: _baseRef) -> InternalInterface {
     if let swift_pointer = smoke_InternalInterface_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalInterface {
+        return re_constructed
+    }
+    return _InternalInterface(cInternalInterface: smoke_InternalInterface_copy_handle(handle))
+}
+internal func InternalInterfacemoveFromCType(_ handle: _baseRef) -> InternalInterface {
+    if let swift_pointer = smoke_InternalInterface_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? InternalInterface {
         smoke_InternalInterface_release_handle(handle)
         return re_constructed
     }
     return _InternalInterface(cInternalInterface: handle)
-}
-internal func InternalInterfacemoveFromCType(_ handle: _baseRef) -> InternalInterface {
-    return InternalInterfacecopyFromCType(handle)
 }
 internal func InternalInterfacecopyFromCType(_ handle: _baseRef) -> InternalInterface? {
     guard handle != 0 else {
@@ -57,7 +61,10 @@ internal func InternalInterfacecopyFromCType(_ handle: _baseRef) -> InternalInte
     return InternalInterfacemoveFromCType(handle) as InternalInterface
 }
 internal func InternalInterfacemoveFromCType(_ handle: _baseRef) -> InternalInterface? {
-    return InternalInterfacecopyFromCType(handle)
+    guard handle != 0 else {
+        return nil
+    }
+    return InternalInterfacemoveFromCType(handle) as InternalInterface
 }
 internal func copyToCType(_ swiftClass: InternalInterface) -> RefHolder {
     return getRef(swiftClass, owning: false)

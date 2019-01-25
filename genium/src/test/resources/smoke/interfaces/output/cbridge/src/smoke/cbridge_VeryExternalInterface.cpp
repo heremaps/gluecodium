@@ -17,7 +17,7 @@ _baseRef smoke_VeryExternalInterface_copy_handle(_baseRef handle) {
 }
 _baseRef smoke_VeryExternalInterface_SomeStruct_create_handle(_baseRef someField) {
     ::fire::Baz::some_Struct* _struct = new ::fire::Baz::some_Struct();
-    _struct->some_Field = *get_pointer<std::string>(someField);
+    _struct->some_Field = Conversion<std::string>::toCpp(someField);
     return reinterpret_cast<_baseRef>(_struct);
 }
 void smoke_VeryExternalInterface_SomeStruct_release_handle(_baseRef handle) {
@@ -25,14 +25,17 @@ void smoke_VeryExternalInterface_SomeStruct_release_handle(_baseRef handle) {
 }
 _baseRef smoke_VeryExternalInterface_SomeStruct_someField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::fire::Baz::some_Struct>(handle);
-    return reinterpret_cast<_baseRef>( new std::string(struct_pointer->some_Field) );
+return Conversion<std::string>::toBaseRef(struct_pointer->some_Field);
 }
 void smoke_VeryExternalInterface_someMethod(_baseRef _instance, int8_t some_Parameter) {
-    return get_pointer<std::shared_ptr<::fire::Baz>>(_instance)->get()->some_Method(some_Parameter);
+    return get_pointer<std::shared_ptr<::fire::Baz>>(_instance)->get()->some_Method(some_Parameter)
+;
 }
 _baseRef smoke_VeryExternalInterface_someAttribute_get(_baseRef _instance) {
-    return reinterpret_cast<_baseRef>( new std::string(get_pointer<std::shared_ptr<::fire::Baz>>(_instance)->get()->get_Me()) );
+    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::fire::Baz>>(_instance)->get()->get_Me())
+;
 }
 void smoke_VeryExternalInterface_someAttribute_set(_baseRef _instance, _baseRef newValue) {
-    return get_pointer<std::shared_ptr<::fire::Baz>>(_instance)->get()->set_Me(*get_pointer<std::string>(newValue));
+    return get_pointer<std::shared_ptr<::fire::Baz>>(_instance)->get()->set_Me(Conversion<std::string>::toCpp(newValue))
+;
 }

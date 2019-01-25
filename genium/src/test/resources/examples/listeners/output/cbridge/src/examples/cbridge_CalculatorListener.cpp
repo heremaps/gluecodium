@@ -16,7 +16,8 @@ _baseRef examples_CalculatorListener_copy_handle(_baseRef handle) {
         : 0;
 }
 void examples_CalculatorListener_onCalculationResult(_baseRef _instance, double calculationResult) {
-    return get_pointer<std::shared_ptr<::examples::CalculatorListener>>(_instance)->get()->on_calculation_result(calculationResult);
+    return get_pointer<std::shared_ptr<::examples::CalculatorListener>>(_instance)->get()->on_calculation_result(calculationResult)
+;
 }
 class examples_CalculatorListenerProxy : public std::shared_ptr<::examples::CalculatorListener>::element_type, public CachedProxyBase<examples_CalculatorListenerProxy> {
 public:
@@ -28,8 +29,7 @@ public:
         mFunctions.release(mFunctions.swift_pointer);
     }
     void on_calculation_result(double calculationResult) override {
-        mFunctions.examples_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);
-    }
+        mFunctions.examples_CalculatorListener_onCalculationResult(mFunctions.swift_pointer, calculationResult);    }
 private:
     examples_CalculatorListener_FunctionTable mFunctions;
 };
