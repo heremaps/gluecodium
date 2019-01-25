@@ -476,20 +476,20 @@ FDEPL:
 This FDEPL property controls the access modifier of the given element. Default value is `false`,
 i.e. by default all elements are generated as `public`. The `true` value corresponds to `internal`
 for generated Swift code code and to "package-private" (i.e. empty access modifier) for generated
-Java code. This property currently has no effect on generated code for C++
+Java code. This property currently has no effect on generated code for C++.
 
 **Note:** This property can be applied explicitly (by specifying it in the FDEPL file) to any of the
 following Franca element types:
+* array
 * attribute
+* enumeration
 * interface
 * method
 * struct
 * struct field
-* enumeration
-* array
 
-**Note:** This property is applied implicitly (automatically) to Franca typedefs and Franca maps if
-one of the types referenced by those is itself "internal" (it is not possible to mark these
+**Note:** This property is applied implicitly (automatically) to Franca typedefs, constants and maps
+if one of the types referenced by those is itself "internal" (it is not possible to mark these types
 explicitly due to FDEPL syntax restrictions).
 
 FIDL:
@@ -514,6 +514,30 @@ FDEPL:
             floatField {
                 Internal = true
             }
+        }
+    }
+
+### Attribute: InternalSetter
+
+This FDEPL property controls the access modifier of the given attribute's setter accessor. Default
+value is `false`, i.e. by default the setter has the same visibility as the attribute. The `true`
+value corresponds to `internal` for generated Swift code code and to "package-private" (i.e. empty
+access modifier) for generated Java code. This property currently has no effect on generated code
+for C++.
+
+FIDL:
+
+    package example
+
+    interface ExampleInterface {
+        attribute String exampleAttribute
+    }
+
+FDEPL:
+
+    define Visibility for interface example.ExampleInterface {
+        attribute exampleAttribute {
+            InternalSetter = true
         }
     }
 

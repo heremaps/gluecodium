@@ -23,6 +23,15 @@ public class PublicClass {
             return moveFromCType(smoke_PublicClass_internalStructAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
+    public internal(set) var internalSetterAttribute: String {
+        get {
+            return moveFromCType(smoke_PublicClass_internalSetterAttribute_get(self.c_instance))
+        }
+        set {
+                let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_PublicClass_internalSetterAttribute_set(self.c_instance, c_newValue.ref))
+        }
+    }
     let c_instance : _baseRef
     init(cPublicClass: _baseRef) {
         guard cPublicClass != 0 else {

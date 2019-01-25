@@ -326,15 +326,15 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FAttribute francaAttribute) {
 
+    SwiftVisibility propertyVisibility = getVisibility(francaAttribute);
     SwiftType swiftType = getPreviousResult(SwiftType.class);
     boolean isStatic = deploymentModel.isStatic(francaAttribute);
 
     String nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(francaAttribute);
-    SwiftMethod getterMethod = null;
-    getterMethod =
+    SwiftMethod getterMethod =
         new SwiftMethod(
             "",
-            null,
+            propertyVisibility,
             null,
             swiftType,
             null,
@@ -345,10 +345,14 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     SwiftMethod setterMethod = null;
     if (!francaAttribute.isReadonly()) {
+      SwiftVisibility setterVisibility =
+          deploymentModel.hasInternalSetter(francaAttribute)
+              ? SwiftVisibility.INTERNAL
+              : propertyVisibility;
       setterMethod =
           new SwiftMethod(
               "",
-              null,
+              setterVisibility,
               null,
               SwiftType.VOID,
               null,
@@ -364,7 +368,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     SwiftProperty property =
         new SwiftProperty(
             SwiftNameRules.getPropertyName(francaAttribute.getName(), swiftType),
-            getVisibility(francaAttribute),
+            propertyVisibility,
             swiftType,
             getterMethod,
             setterMethod,

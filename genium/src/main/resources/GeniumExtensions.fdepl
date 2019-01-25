@@ -67,6 +67,7 @@ specification Visibility {
 
     for attributes {
         Internal: Boolean (optional, default: false);
+        InternalSetter: Boolean (optional, default: false);
     }
 
     for methods {

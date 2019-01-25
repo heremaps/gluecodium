@@ -80,6 +80,18 @@ Attributes::set_static_attribute( const std::string& value )
     s_static_attribute = value;
 }
 
+std::string
+AttributesImpl::get_internal_setter_attribute( ) const
+{
+    return m_internal_setter_attribute;
+}
+
+void
+AttributesImpl::set_internal_setter_attribute( const std::string& value )
+{
+    m_internal_setter_attribute = value;
+}
+
 ::std::shared_ptr< Attributes >
 Attributes::create( )
 {

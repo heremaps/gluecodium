@@ -115,6 +115,10 @@ public class FrancaDeploymentModel {
         && getBoolean((FModelElement) francaElement, "Internal");
   }
 
+  public boolean hasInternalSetter(final FAttribute francaAttribute) {
+    return getBoolean(francaAttribute, "InternalSetter");
+  }
+
   public String getDefaultValue(final FField francaField) {
     return getString(francaField, "DefaultValue");
   }
