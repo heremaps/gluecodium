@@ -22,11 +22,11 @@ public class Errors {
     deinit {
         smoke_Errors_release_handle(c_instance)
     }
-    public enum InternalError : UInt32 {
+    public enum InternalError : UInt32, CaseIterable {
         case errorNone
         case errorFatal
     }
-    public enum ExternalErrors : UInt32 {
+    public enum ExternalErrors : UInt32, CaseIterable {
         case none
         case boom
         case bust

@@ -3,7 +3,7 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
 public typealias ErrorCodeToMessageMap = [Int32: String]
-public enum SomeEnum : UInt32 {
+public enum SomeEnum : UInt32, CaseIterable {
     case foo
     case bar
 }

@@ -22,7 +22,7 @@ public class DefaultValues {
     deinit {
         examples_DefaultValues_release_handle(c_instance)
     }
-    public enum SomeEnum : UInt32 {
+    public enum SomeEnum : UInt32, CaseIterable {
         case fooValue
         case barValue
     }
