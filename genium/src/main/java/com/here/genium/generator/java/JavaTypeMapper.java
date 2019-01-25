@@ -24,14 +24,36 @@ import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.franca.DefinedBy;
 import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.java.*;
+import com.here.genium.model.java.JavaArrayType;
+import com.here.genium.model.java.JavaCustomType;
+import com.here.genium.model.java.JavaEnumType;
+import com.here.genium.model.java.JavaExceptionType;
+import com.here.genium.model.java.JavaImport;
+import com.here.genium.model.java.JavaPackage;
+import com.here.genium.model.java.JavaPrimitiveType;
+import com.here.genium.model.java.JavaReferenceType;
+import com.here.genium.model.java.JavaTemplateType;
+import com.here.genium.model.java.JavaType;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import lombok.Getter;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.framework.FrancaHelpers;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FArrayType;
+import org.franca.core.franca.FAttribute;
+import org.franca.core.franca.FBasicTypeId;
+import org.franca.core.franca.FEnumerationType;
+import org.franca.core.franca.FField;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMapType;
+import org.franca.core.franca.FModelElement;
+import org.franca.core.franca.FStructType;
+import org.franca.core.franca.FType;
+import org.franca.core.franca.FTypeCollection;
+import org.franca.core.franca.FTypeDef;
+import org.franca.core.franca.FTypeRef;
+import org.franca.core.franca.FTypedElement;
 
 /**
  * Maps Franca type references to their Java counterparts. These references are used as parameters,
@@ -43,9 +65,9 @@ public class JavaTypeMapper {
   private static final String NATIVE_BASE_NAME = "NativeBase";
 
   private final JavaPackage basePackage;
-  @Getter private final JavaType nativeBase;
-  @Getter private final JavaType serializationBase;
-  @Getter private final JavaType notNullAnnotation;
+  private final JavaType nativeBase;
+  private final JavaType serializationBase;
+  private final JavaType notNullAnnotation;
 
   public JavaTypeMapper(
       final JavaPackage basePackage,
@@ -249,5 +271,13 @@ public class JavaTypeMapper {
     return francaElement instanceof FField
         || francaElement instanceof FArgument
         || francaElement instanceof FAttribute;
+  }
+
+  public JavaType getNativeBase() {
+    return this.nativeBase;
+  }
+
+  public JavaType getSerializationBase() {
+    return this.serializationBase;
   }
 }

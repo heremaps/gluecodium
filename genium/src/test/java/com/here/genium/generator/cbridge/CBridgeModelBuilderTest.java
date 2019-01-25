@@ -218,7 +218,7 @@ public final class CBridgeModelBuilderTest {
 
     CFunction function = modelBuilder.getFinalResult(CFunction.class);
     assertNotNull(function);
-    assertEquals(CType.VOID, function.getReturnType().functionReturnType);
+    assertEquals(CType.VOID, function.getReturnType().getFunctionReturnType());
     assertEquals(0, function.getParameters().size());
     assertEquals(DELEGATE_NAME, function.getDelegateCall());
   }
@@ -234,7 +234,7 @@ public final class CBridgeModelBuilderTest {
 
     CFunction function = modelBuilder.getFinalResult(CFunction.class);
     assertNotNull(function);
-    assertEquals(CType.VOID, function.getReturnType().functionReturnType);
+    assertEquals(CType.VOID, function.getReturnType().getFunctionReturnType());
     assertEquals(DELEGATE_NAME, function.getDelegateCall());
     assertEquals(1, function.getParameters().size());
     assertSame(param, function.getParameters().get(0));
@@ -582,7 +582,7 @@ public final class CBridgeModelBuilderTest {
             new CType("ArrayTest"),
             Collections.emptyList(),
             cppTypeInfo);
-    arrayType.typeCategory = CppTypeInfo.TypeCategory.ARRAY;
+    arrayType.setTypeCategory(CppTypeInfo.TypeCategory.ARRAY);
     when(typeMapper.mapType(any())).thenReturn(arrayType);
     CArray cArray = new CArray("FooArray", cppArrayTypeInfo);
     when(CArrayMapper.createArrayDefinition(any(), any(), any())).thenReturn(cArray);
@@ -601,7 +601,7 @@ public final class CBridgeModelBuilderTest {
     assertEquals(CBRIDGE_ATTR_SETTER_NAME, cSetter.name);
     assertEquals(CPP_ATTR_SETTER_NAME, cSetter.getFunctionName());
     assertSame(classTypeInfo, cSetter.getSelfParameter().mappedType);
-    assertSame(CType.VOID, cSetter.getReturnType().functionReturnType);
+    assertSame(CType.VOID, cSetter.getReturnType().getFunctionReturnType());
     assertEquals(
         "Setter should have two parameters, new value and instance (not included here)",
         1,
@@ -639,7 +639,7 @@ public final class CBridgeModelBuilderTest {
   @Test
   public void finishBuildingFrancaMapType() {
     when(CBridgeNameRules.getMapName(any())).thenReturn("FooMap");
-    contextStack.injectResult(CppTypeInfo.STRING);
+    contextStack.injectResult(CppTypeInfo.Companion.getSTRING());
     contextStack.injectResult(cppTypeInfo);
     Include fooInclude = Include.Companion.createInternalInclude("Foo");
     when(cppIncludeResolver.resolveInclude(any())).thenReturn(fooInclude);
@@ -649,7 +649,7 @@ public final class CBridgeModelBuilderTest {
     CMap cMap = modelBuilder.getFinalResult(CMap.class);
     assertNotNull(cMap);
     assertEquals("FooMap", cMap.name);
-    assertEquals(CppTypeInfo.STRING, cMap.keyType);
+    assertEquals(CppTypeInfo.Companion.getSTRING(), cMap.keyType);
     assertEquals(cppTypeInfo, cMap.valueType);
     assertEquals(fooInclude, cMap.include);
   }

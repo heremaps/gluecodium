@@ -75,7 +75,7 @@ public final class CBridgeTypeMapperTest {
 
     typeMapper =
         new CBridgeTypeMapper(
-            cppIncludeResolver, cppNameResolver, includeResolver, "::FooHash", null);
+            cppIncludeResolver, cppNameResolver, includeResolver, "::FooHash", "");
 
     when(francaStructType.getName()).thenReturn("someStruct");
 
@@ -117,8 +117,8 @@ public final class CBridgeTypeMapperTest {
     CppTypeInfo resultType = typeMapper.mapType(francaTypeRef);
 
     assertEquals("::Foo", resultType.name);
-    assertTrue(resultType.includes.contains(CPP_INCLUDE));
-    assertTrue(resultType.includes.contains(CBRIDGE_INCLUDE));
+    assertTrue(resultType.getIncludes().contains(CPP_INCLUDE));
+    assertTrue(resultType.getIncludes().contains(CBRIDGE_INCLUDE));
   }
 
   @Test
@@ -137,8 +137,8 @@ public final class CBridgeTypeMapperTest {
     CppTypeInfo resultType = typeMapper.mapType(francaTypeRef);
 
     assertEquals("::Foo", resultType.name);
-    assertTrue(resultType.includes.contains(CPP_INCLUDE));
-    assertTrue(resultType.includes.contains(CBRIDGE_INCLUDE));
+    assertTrue(resultType.getIncludes().contains(CPP_INCLUDE));
+    assertTrue(resultType.getIncludes().contains(CBRIDGE_INCLUDE));
   }
 
   @Test
@@ -148,12 +148,12 @@ public final class CBridgeTypeMapperTest {
 
     CppTypeInfo actualType = typeMapper.mapType(francaTypeRef);
 
-    assertEquals(CppTypeInfo.TypeCategory.ARRAY, actualType.typeCategory);
+    assertEquals(CppTypeInfo.TypeCategory.ARRAY, actualType.getTypeCategory());
     assertTrue(actualType instanceof CppArrayTypeInfo);
 
     CppArrayTypeInfo actualArrayType = (CppArrayTypeInfo) actualType;
     assertNotNull(actualArrayType.getInnerType());
-    assertEquals(actualArrayType.getInnerType().functionReturnType.name, "uint64_t");
+    assertEquals(actualArrayType.getInnerType().getFunctionReturnType().name, "uint64_t");
   }
 
   @Test
@@ -167,17 +167,17 @@ public final class CBridgeTypeMapperTest {
 
     CppTypeInfo result = typeMapper.mapType(francaTypeRef);
 
-    assertEquals(CppTypeInfo.TypeCategory.MAP, result.typeCategory);
+    assertEquals(CppTypeInfo.TypeCategory.MAP, result.getTypeCategory());
     assertTrue(result instanceof CppMapTypeInfo);
 
     CppMapTypeInfo resultMapType = (CppMapTypeInfo) result;
     assertEquals("::FooMap", resultMapType.name);
-    assertEquals(BASE_REF_NAME, resultMapType.cType.name);
-    assertEquals(BASE_REF_NAME, resultMapType.functionReturnType.name);
+    assertEquals(BASE_REF_NAME, resultMapType.getCType().name);
+    assertEquals(BASE_REF_NAME, resultMapType.getFunctionReturnType().name);
     assertEquals("std::unordered_map<std::string, ::Foo>", resultMapType.getBaseApi());
-    assertEquals(2, resultMapType.includes.size());
-    assertEquals(BASE_HANDLE_IMPL_FILE, resultMapType.includes.get(0).getFileName());
-    assertEquals(CppLibraryIncludes.MAP, resultMapType.includes.get(1));
+    assertEquals(2, resultMapType.getIncludes().size());
+    assertEquals(BASE_HANDLE_IMPL_FILE, resultMapType.getIncludes().get(0).getFileName());
+    assertEquals(CppLibraryIncludes.MAP, resultMapType.getIncludes().get(1));
   }
 
   @Test
@@ -191,12 +191,12 @@ public final class CBridgeTypeMapperTest {
 
     CppTypeInfo result = typeMapper.mapType(francaTypeRef);
 
-    assertEquals(CppTypeInfo.TypeCategory.MAP, result.typeCategory);
+    assertEquals(CppTypeInfo.TypeCategory.MAP, result.getTypeCategory());
     assertTrue(result instanceof CppMapTypeInfo);
 
     CppMapTypeInfo resultMapType = (CppMapTypeInfo) result;
     assertEquals("std::unordered_map<::Foo, ::Bar, ::FooHash>", resultMapType.getBaseApi());
-    assertEquals(3, resultMapType.includes.size());
-    assertEquals(CppLibraryIncludes.ENUM_HASH, resultMapType.includes.get(2));
+    assertEquals(3, resultMapType.getIncludes().size());
+    assertEquals(CppLibraryIncludes.ENUM_HASH, resultMapType.getIncludes().get(2));
   }
 }

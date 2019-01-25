@@ -17,72 +17,56 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge;
+package com.here.genium.generator.cbridge
 
-import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
-import static com.here.genium.generator.cbridge.CBridgeNameRules.STRING_HANDLE_FILE;
-import static java.util.Collections.emptyList;
+import com.here.genium.generator.cpp.CppLibraryIncludes
+import com.here.genium.model.cbridge.CElement
+import com.here.genium.model.cbridge.CType
+import com.here.genium.model.common.Include
 
-import com.here.genium.generator.cpp.CppLibraryIncludes;
-import com.here.genium.model.cbridge.CElement;
-import com.here.genium.model.cbridge.CType;
-import com.here.genium.model.common.Include;
-import java.util.List;
-import lombok.Singular;
+open class CppTypeInfo(
+    name: String,
+    val cType: CType,
+    val functionReturnType: CType,
+    var typeCategory: TypeCategory,
+    val includes: List<Include>
+) : CElement(name) {
 
-public class CppTypeInfo extends CElement {
+    enum class TypeCategory {
+        BUILTIN_SIMPLE,
+        BUILTIN_STRING,
+        BUILTIN_BYTEBUFFER,
+        STRUCT,
+        CLASS,
+        ENUM,
+        ARRAY,
+        MAP
+    }
 
-  public final CType cType;
-  public final CType functionReturnType;
-  public TypeCategory typeCategory;
-  public final List<Include> includes;
+    @JvmOverloads
+    constructor(type: CType, typeCategory: TypeCategory = TypeCategory.BUILTIN_SIMPLE) : this(
+        type.name,
+        type,
+        type,
+        typeCategory,
+        emptyList()
+    )
 
-  public enum TypeCategory {
-    BUILTIN_SIMPLE,
-    BUILTIN_STRING,
-    BUILTIN_BYTEBUFFER,
-    STRUCT,
-    CLASS,
-    ENUM,
-    ARRAY,
-    MAP
-  }
+    // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
+    @Suppress("unused")
+    fun getcType() = cType
 
-  public static final CppTypeInfo STRING =
-      CppTypeInfo.builder("std::string")
-          .cType(CType.STRING_REF)
-          .functionReturnType(CType.STRING_REF)
-          .category(TypeCategory.BUILTIN_STRING)
-          .include(CppLibraryIncludes.STRING)
-          .include(CppLibraryIncludes.NEW)
-          .include(Include.Companion.createInternalInclude(BASE_HANDLE_IMPL_FILE))
-          .include(Include.Companion.createInternalInclude(STRING_HANDLE_FILE))
-          .build();
-
-  @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterNumber"})
-  @lombok.Builder(builderClassName = "Builder")
-  protected CppTypeInfo(
-      final String name,
-      final CType cType,
-      final CType functionReturnType,
-      final TypeCategory category,
-      @Singular final List<Include> includes) {
-    super(name);
-    this.cType = cType;
-    this.functionReturnType = functionReturnType;
-    this.typeCategory = category;
-    this.includes = includes;
-  }
-
-  public CppTypeInfo(CType type, TypeCategory category) {
-    this(type.name, type, type, category, emptyList());
-  }
-
-  public CppTypeInfo(CType type) {
-    this(type, TypeCategory.BUILTIN_SIMPLE);
-  }
-
-  public static Builder builder(final String name) {
-    return new Builder().name(name);
-  }
+    companion object {
+        val STRING = CppTypeInfo(name = "std::string",
+            cType = CType.STRING_REF,
+            functionReturnType = CType.STRING_REF,
+            typeCategory = TypeCategory.BUILTIN_STRING,
+            includes = listOf(
+                CppLibraryIncludes.STRING,
+                CppLibraryIncludes.NEW,
+                Include.createInternalInclude(CBridgeNameRules.BASE_HANDLE_IMPL_FILE),
+                Include.createInternalInclude(CBridgeNameRules.STRING_HANDLE_FILE)
+            )
+        )
+    }
 }
