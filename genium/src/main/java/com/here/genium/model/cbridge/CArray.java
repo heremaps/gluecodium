@@ -37,11 +37,11 @@ public final class CArray extends CElement {
   }
 
   public String getType() {
-    return arrayType.functionReturnType.toString();
+    return arrayType.getFunctionReturnType().toString();
   }
 
   public String getInnerType() {
-    return underlyingType.functionReturnType.toString();
+    return underlyingType.getFunctionReturnType().toString();
   }
 
   @SuppressWarnings("unused")
@@ -51,20 +51,20 @@ public final class CArray extends CElement {
 
   @SuppressWarnings("unused")
   public String getArgument() {
-    return underlyingType.cType.toString();
+    return underlyingType.getCType().toString();
   }
 
   public List<Include> returnTypeIncludes() {
     List<Include> includes = new ArrayList<>();
-    includes.addAll(getLastType(underlyingType).functionReturnType.includes);
-    includes.addAll(arrayType.functionReturnType.includes);
+    includes.addAll(getLastType(underlyingType).getFunctionReturnType().includes);
+    includes.addAll(arrayType.getFunctionReturnType().includes);
     return includes;
   }
 
   public List<Include> includes() {
     List<Include> includes = new ArrayList<>();
-    includes.addAll(getLastType(underlyingType).includes);
-    includes.addAll(arrayType.includes);
+    includes.addAll(getLastType(underlyingType).getIncludes());
+    includes.addAll(arrayType.getIncludes());
     return includes;
   }
 

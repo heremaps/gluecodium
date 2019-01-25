@@ -34,13 +34,13 @@ public class CParameter extends CElement {
   }
 
   public List<Include> getSignatureIncludes() {
-    List<Include> includes = new ArrayList<>(mappedType.functionReturnType.includes);
-    includes.addAll(mappedType.cType.includes);
+    List<Include> includes = new ArrayList<>(mappedType.getFunctionReturnType().includes);
+    includes.addAll(mappedType.getCType().includes);
     return includes;
   }
 
   @Override
   public String toString() {
-    return mappedType.functionReturnType + " " + name;
+    return mappedType.getFunctionReturnType() + " " + name;
   }
 }

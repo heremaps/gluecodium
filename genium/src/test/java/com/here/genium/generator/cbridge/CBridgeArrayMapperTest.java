@@ -136,13 +136,14 @@ public final class CBridgeArrayMapperTest {
     when(francaStructType.getName()).thenReturn("StructTest");
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
-    CppTypeInfo innerType = CppTypeInfo.STRING;
+    CppTypeInfo innerType = CppTypeInfo.Companion.getSTRING();
     CppArrayTypeInfo arrayType = CArrayMapper.createArrayReference(innerType);
 
     assertNotNull("Array type should not be null", arrayType);
     assertNotNull("Inner type should not be null", arrayType.getInnerType());
-    assertEquals("Should return array type", ARRAY, arrayType.typeCategory);
-    assertEquals("Return type name should match", "_baseRef", arrayType.functionReturnType.name);
+    assertEquals("Should return array type", ARRAY, arrayType.getTypeCategory());
+    assertEquals(
+        "Return type name should match", "_baseRef", arrayType.getFunctionReturnType().name);
   }
 
   @Test
@@ -150,15 +151,16 @@ public final class CBridgeArrayMapperTest {
     when(francaStructType.getName()).thenReturn("StructTest");
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
-    CppTypeInfo innerType = CppTypeInfo.STRING;
+    CppTypeInfo innerType = CppTypeInfo.Companion.getSTRING();
     CppArrayTypeInfo arrayType = CArrayMapper.createArrayReference(innerType);
     CppArrayTypeInfo nestedArrayType = CArrayMapper.createArrayReference(arrayType);
 
     assertNotNull("Array type should not be null", nestedArrayType);
     assertNotNull("Inner type should not be null", nestedArrayType.getInnerType());
-    assertEquals("Should return array type", ARRAY, nestedArrayType.typeCategory);
-    assertEquals("Should return array type", ARRAY, nestedArrayType.getInnerType().typeCategory);
+    assertEquals("Should return array type", ARRAY, nestedArrayType.getTypeCategory());
     assertEquals(
-        "Return type name should match", "_baseRef", nestedArrayType.functionReturnType.name);
+        "Should return array type", ARRAY, nestedArrayType.getInnerType().getTypeCategory());
+    assertEquals(
+        "Return type name should match", "_baseRef", nestedArrayType.getFunctionReturnType().name);
   }
 }

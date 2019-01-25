@@ -42,6 +42,6 @@ public final class CStruct extends CType {
   }
 
   public String getType() {
-    return mappedType.functionReturnType.toString();
+    return mappedType.getFunctionReturnType().toString();
   }
 }

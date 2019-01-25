@@ -43,9 +43,6 @@ dependencies {
     compile 'org.slf4j:slf4j-jdk14:1.7.25'
     compile 'org.trimou:trimou-core:2.2.0.Final'
 
-    compileOnly 'org.projectlombok:lombok:1.18.2'
-    annotationProcessor 'org.projectlombok:lombok:1.18.2'
-
     testCompile 'com.github.stefanbirkner:system-rules:1.16.1'
     testCompile "io.mockk:mockk:1.8.13"
     testCompile 'junit:junit:4.12'
@@ -54,9 +51,6 @@ dependencies {
     testCompile 'org.powermock:powermock-classloading-xstream:1.7.0'
     testCompile 'org.powermock:powermock-module-junit4:1.7.0'
     testCompile 'org.powermock:powermock-module-junit4-rule:1.7.0'
-
-    testCompileOnly 'org.projectlombok:lombok:1.18.2'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
 }
 
 task downloadFrancaZip(type: Download) {

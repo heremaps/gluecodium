@@ -44,19 +44,19 @@ public final class CBridgeComponents {
       includes.addAll(collectFunctionBodyIncludes(function));
     }
     for (CStruct struct : cInterface.structs) {
-      includes.addAll(struct.mappedType.includes);
+      includes.addAll(struct.mappedType.getIncludes());
       for (CField field : struct.fields) {
-        includes.addAll(field.getType().includes);
+        includes.addAll(field.getType().getIncludes());
       }
     }
     if (cInterface.selfType != null) {
-      includes.addAll(cInterface.selfType.includes);
+      includes.addAll(cInterface.selfType.getIncludes());
     }
     for (CMap map : cInterface.maps) {
       includes.add(map.include);
     }
     for (final CEnum enumeration : cInterface.enums) {
-      includes.addAll(enumeration.mappedType.includes);
+      includes.addAll(enumeration.mappedType.getIncludes());
     }
 
     return includes;
@@ -65,10 +65,10 @@ public final class CBridgeComponents {
   public static Collection<Include> collectPrivateHeaderIncludes(CInterface cInterface) {
     Collection<Include> includes = new LinkedList<>();
     for (CStruct struct : cInterface.structs) {
-      includes.addAll(struct.mappedType.includes);
+      includes.addAll(struct.mappedType.getIncludes());
     }
     if (cInterface.selfType != null) {
-      includes.addAll(cInterface.selfType.includes);
+      includes.addAll(cInterface.selfType.getIncludes());
     }
     return includes;
   }
@@ -82,16 +82,16 @@ public final class CBridgeComponents {
     }
     for (CStruct struct : cInterface.structs) {
       for (CField field : struct.fields) {
-        includes.addAll(field.getType().functionReturnType.includes);
-        includes.addAll(field.getType().cType.includes);
+        includes.addAll(field.getType().getFunctionReturnType().includes);
+        includes.addAll(field.getType().getCType().includes);
       }
     }
     for (CEnum enumType : cInterface.enums) {
       includes.addAll(enumType.includes);
     }
     for (final CMap map : cInterface.maps) {
-      includes.addAll(map.keyType.functionReturnType.includes);
-      includes.addAll(map.valueType.functionReturnType.includes);
+      includes.addAll(map.keyType.getFunctionReturnType().includes);
+      includes.addAll(map.valueType.getFunctionReturnType().includes);
     }
 
     return includes;
@@ -113,9 +113,9 @@ public final class CBridgeComponents {
     for (CParameter parameter : function.getParameters()) {
       includes.addAll(parameter.getSignatureIncludes());
     }
-    includes.addAll(function.getReturnType().functionReturnType.includes);
+    includes.addAll(function.getReturnType().getFunctionReturnType().includes);
     if (function.getError() != null) {
-      includes.addAll(function.getError().functionReturnType.includes);
+      includes.addAll(function.getError().getFunctionReturnType().includes);
     }
     return includes;
   }
@@ -123,12 +123,12 @@ public final class CBridgeComponents {
   private static Collection<Include> collectFunctionBodyIncludes(CFunction function) {
     Collection<Include> includes = new LinkedList<>();
     for (CParameter parameter : function.getParameters()) {
-      includes.addAll(parameter.mappedType.includes);
+      includes.addAll(parameter.mappedType.getIncludes());
     }
-    includes.addAll(function.getReturnType().includes);
+    includes.addAll(function.getReturnType().getIncludes());
     includes.addAll(function.getDelegateCallIncludes());
     if (function.getSelfParameter() != null) {
-      includes.addAll(function.getSelfParameter().mappedType.includes);
+      includes.addAll(function.getSelfParameter().mappedType.getIncludes());
     }
     return includes;
   }
