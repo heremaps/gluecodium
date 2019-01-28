@@ -20,4 +20,4 @@
   !}}
 {{>swift/MethodComment}}
 {{#if isConstructor}}private {{/if}}{{#unless isConstructor}}{{#visibilityPrefix}}{{.}} {{/visibilityPrefix}}{{/unless}}{{!!
-}}{{#isStatic}}static {{/isStatic}}func {{name}}{{>swift/MethodGenericParameters}}({{>swift/MethodParameterDeclaration}}){{#if error}} throws{{/if}} -> {{returnType.publicName}}{{#if returnType.optional}}?{{/if}}{{>swift/MethodGenericConstraints}}
+}}{{#isStatic}}static {{/isStatic}}func {{name}}({{>swift/MethodParameterDeclaration}}){{#if error}} throws{{/if}} -> {{returnType.publicName}}{{#if returnType.optional}}?{{/if}}

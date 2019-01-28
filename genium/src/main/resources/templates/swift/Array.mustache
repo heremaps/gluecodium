@@ -25,58 +25,42 @@
 import Foundation
 
 {{#arrays}}
-internal class {{implementingClass}}: CollectionOf<{{underlyingType.publicName}}> {
-    var c_element: _baseRef?
-
-    init(_ c_element: _baseRef) {
-        self.c_element = c_element
-        super.init()
-        self.startIndex = 0
-        self.endIndex = Int({{refName}}_count(c_element))
+internal func copyFromCType(_ handle: _baseRef) -> {{name}} {
+    var result: {{name}} = []
+    let count = {{refName}}_count(handle)
+    for idx in 0..<count {
+        result.append({{underlyingType.className}}copyFromCType({{refName}}_get(handle, idx)))
     }
-
-    deinit {
-        {{refName}}_release_handle(c_element!)
-    }
-
-    public override subscript(index: Int) -> {{underlyingType.publicName}} {
-        let handle = {{refName}}_get(c_element!, UInt64(index))
-        return {{underlyingType.className}}copyFromCType(handle)
-    }
-
-    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
-    required public init(arrayLiteral elements: Element...) {
-        super.init(elements)
-    }
+    return result
 }
 
-
-internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<{{underlyingType.publicName}}> {
-    return {{implementingClass}}(handle)
+internal func moveFromCType(_ handle: _baseRef) -> {{name}} {
+    defer {
+        {{refName}}_release_handle(handle)
+    }
+    var result: {{name}} = []
+    let count = {{refName}}_count(handle)
+    for idx in 0..<count {
+        result.append({{underlyingType.className}}{{>elementMoveFunction}}({{refName}}_get(handle, idx)))
+    }
+    return result
 }
 
-{{!! Array is taking over and owning _baseRef instead of releasing it directly }}
-internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<{{underlyingType.publicName}}> {
-    return copyFromCType(handle)
-}
-
-internal func copyToCType<T: Collection>(_ swiftArray: T) -> RefHolder {{>GenericConstraintsRule}} {
+internal func copyToCType(_ swiftArray: {{name}}) -> RefHolder {
     let handle = {{refName}}_create_handle()
-
     for item in swiftArray {
-        let c_item = moveToCType(item)
-        {{refName}}_append(handle, c_item.ref)
+        {{refName}}_append(handle, moveToCType(item).ref)
     }
     return RefHolder(handle)
 }
 
-internal func moveToCType<T: Collection>(_ swiftArray: T) -> RefHolder {{>GenericConstraintsRule}} {
+internal func moveToCType(_ swiftArray: {{name}}) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftArray).ref, release: {{refName}}_release_handle)
 }
 
-{{/arrays}}
+{{/arrays}}{{!!
 
-{{+GenericConstraintsRule}}{{!!
- }}where {{#genericParameter.constraints}}T.{{name}}{{!!
- }}{{#if isProtocol}}:{{/if}}{{#unless isProtocol}} =={{/unless}} {{typeName}}{{!!
- }}{{#if iter.hasNext}}, {{/if}}{{/genericParameter.constraints}}{{/GenericConstraintsRule}}
+}}{{+elementMoveFunction}}{{#switch underlyingType.category.toString}}{{!!
+}}{{#case "ARRAY"}}moveFromCType{{/case}}{{!!
+}}{{#default}}copyFromCType{{/default}}{{!!
+}}{{/switch}}{{/elementMoveFunction}}

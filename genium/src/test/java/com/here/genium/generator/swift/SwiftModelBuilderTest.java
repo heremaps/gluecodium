@@ -122,66 +122,18 @@ public final class SwiftModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingInputArgumentCreatesGenericParameters() {
-    contextStack.injectResult(new SwiftArray(swiftType));
-
-    modelBuilder.finishBuildingInputArgument(francaArgument);
-
-    SwiftGenericParameter genericParameter =
-        modelBuilder.getFinalResult(SwiftGenericParameter.class);
-    assertNotNull(genericParameter);
-
-    assertEquals(PARAM_NAME, genericParameter.name);
-    assertEquals(SwiftGenericParameter.COLLECTION_TYPE_NAME, genericParameter.typeName);
-    assertEquals(1, genericParameter.constraints.size());
-
-    SwiftGenericParameter.Constraint constraint = genericParameter.constraints.get(0);
-    assertEquals(PARAM_NAME + "." + SwiftGenericParameter.ELEMENT_FIELD_NAME, constraint.name);
-    assertEquals(swiftType.name, constraint.typeName);
-    assertFalse(constraint.isProtocol);
-  }
-
-  @Test
-  public void finishBuildingCreatesMethodWithArrayOfArraysParam() {
-    contextStack.injectResult(new SwiftArray(new SwiftArray(swiftType)));
-
-    modelBuilder.finishBuildingInputArgument(francaArgument);
-
-    SwiftGenericParameter genericParameter =
-        modelBuilder.getFinalResult(SwiftGenericParameter.class);
-    assertNotNull(genericParameter);
-    assertEquals(2, genericParameter.constraints.size());
-
-    SwiftGenericParameter.Constraint constraint1 = genericParameter.constraints.get(0);
-    assertEquals(PARAM_NAME + "." + SwiftGenericParameter.ELEMENT_FIELD_NAME, constraint1.name);
-    assertEquals(SwiftGenericParameter.COLLECTION_TYPE_NAME, constraint1.typeName);
-    assertTrue(constraint1.isProtocol);
-
-    SwiftGenericParameter.Constraint constraint2 = genericParameter.constraints.get(1);
-    assertEquals(
-        constraint1.name + "." + SwiftGenericParameter.ELEMENT_FIELD_NAME, constraint2.name);
-    assertEquals(swiftType.name, constraint2.typeName);
-    assertFalse(constraint2.isProtocol);
-  }
-
-  @Test
   public void finishBuildingDeclareArray() {
     when(SwiftTypeMapper.mapType(any(), any())).thenReturn(swiftType);
 
     modelBuilder.finishBuilding(francaArray);
 
     SwiftArray swiftArray = modelBuilder.arraysCollector.values().iterator().next();
-
-    assertNotNull(swiftArray);
-    assertEquals(1, swiftArray.genericParameter.constraints.size());
-
-    SwiftGenericParameter.Constraint constraint1 = swiftArray.genericParameter.constraints.get(0);
-    assertEquals(SwiftGenericParameter.ELEMENT_FIELD_NAME, constraint1.name);
+    assertEquals("[VerySwiftType]", swiftArray.name);
   }
 
   @Test
   public void finishBuildingDeclareNestedArray() {
-    SwiftArray array = new SwiftArray(SwiftType.STRING);
+    SwiftArray array = new SwiftArray(SwiftType.STRING, null, null);
     when(SwiftTypeMapper.mapType(any(), any())).thenReturn(array);
 
     modelBuilder.finishBuilding(francaArray);
@@ -189,19 +141,7 @@ public final class SwiftModelBuilderTest {
     SwiftArray swiftArray = modelBuilder.arraysCollector.values().iterator().next();
 
     assertNotNull(swiftArray);
-    assertEquals(2, swiftArray.genericParameter.constraints.size());
-
-    SwiftGenericParameter.Constraint constraint1 = swiftArray.genericParameter.constraints.get(0);
-    assertEquals(SwiftGenericParameter.ELEMENT_FIELD_NAME, constraint1.name);
-    assertEquals(SwiftGenericParameter.COLLECTION_TYPE_NAME, constraint1.typeName);
-    assertTrue(constraint1.isProtocol);
-
-    SwiftGenericParameter.Constraint constraint2 = swiftArray.genericParameter.constraints.get(1);
-    assertEquals(
-        SwiftGenericParameter.ELEMENT_FIELD_NAME + "." + SwiftGenericParameter.ELEMENT_FIELD_NAME,
-        constraint2.name);
-    assertEquals(array.underlyingType.name, constraint2.typeName);
-    assertFalse(constraint2.isProtocol);
+    assertEquals("[[String]]", swiftArray.name);
   }
 
   @Test
@@ -279,19 +219,6 @@ public final class SwiftModelBuilderTest {
     assertNotNull(method);
     assertEquals(1, method.getParameters().size());
     assertSame(param, method.getParameters().get(0));
-  }
-
-  @Test
-  public void finishBuildingMethodReadsGenericParameters() {
-    SwiftGenericParameter genericParameter = new SwiftGenericParameter("foo", "bar");
-    contextStack.injectResult(genericParameter);
-
-    modelBuilder.finishBuilding(francaMethod);
-
-    SwiftMethod method = modelBuilder.getFinalResult(SwiftMethod.class);
-    assertNotNull(method);
-    assertEquals(1, method.getGenericParameters().size());
-    assertSame(genericParameter, method.getGenericParameters().get(0));
   }
 
   @Test

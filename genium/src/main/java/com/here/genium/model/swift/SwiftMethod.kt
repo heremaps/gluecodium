@@ -34,8 +34,7 @@ class SwiftMethod @JvmOverloads constructor(
     val isStatic: Boolean = false,
     val isConstructor: Boolean = false,
     val isOverriding: Boolean = false,
-    val parameters: List<SwiftParameter> = emptyList(),
-    val genericParameters: List<SwiftGenericParameter> = emptyList()
+    val parameters: List<SwiftParameter> = emptyList()
 ) : SwiftModelElement(name, visibility) {
 
     init {
@@ -44,11 +43,6 @@ class SwiftMethod @JvmOverloads constructor(
 
     @Suppress("unused")
     val isReturningVoid = returnType == SwiftType.VOID
-
-    @Suppress("unused")
-    val genericConstraints
-        get() = genericParameters
-            .flatMap { parameter -> parameter.constraints }
 
     // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
     @Suppress("unused")
