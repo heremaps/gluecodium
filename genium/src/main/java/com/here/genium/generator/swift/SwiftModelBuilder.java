@@ -230,11 +230,6 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     swiftParameter.comment = CommentHelper.getDescription(francaArgument);
 
     storeResult(swiftParameter);
-
-    if (swiftType instanceof SwiftArray) {
-      storeResult(new SwiftGenericParameter(swiftParameter.name, (SwiftArray) swiftParameter.type));
-    }
-
     super.finishBuildingInputArgument(francaArgument);
   }
 
@@ -293,8 +288,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             deploymentModel.isStatic(francaMethod) || isConstructor,
             isConstructor,
             isConstructor && signatureResolver.hasSignatureClash(francaMethod),
-            inParams,
-            getPreviousResults(SwiftGenericParameter.class));
+            inParams);
 
     storeResult(method);
     super.finishBuilding(francaMethod);

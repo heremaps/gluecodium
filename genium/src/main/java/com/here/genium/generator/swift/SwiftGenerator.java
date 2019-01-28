@@ -41,7 +41,6 @@ public class SwiftGenerator {
       Arrays.asList(
           GeneratorSuite.copyTarget("swift/RefHolder.swift", ""),
           GeneratorSuite.copyTarget("swift/BuiltinConversions.swift", ""),
-          GeneratorSuite.copyTarget("swift/CollectionOf.swift", ""),
           GeneratorSuite.copyTarget("swift/NativeBase.swift", ""));
 
   private final FrancaDeploymentModel deploymentModel;

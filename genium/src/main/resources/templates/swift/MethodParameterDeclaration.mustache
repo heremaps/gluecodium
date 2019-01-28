@@ -18,15 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{! Adding method parameters.
-}}{{#parameters}}{{name}}{{!!
+{{#parameters}}{{name}}{{!!
 }}{{#if differentInterfaceAndVariableName}} {{!!
     }}{{variableName}}{{!!
-    }}{{/if}}: {{>argumentName}}{{#if iter.hasNext}}, {{/if}}{{!!
-}}{{/parameters}}{{!!
-
-}}{{+argumentName}}{{!!
-}}{{#switch type.category.toString}}{{!!
-}}{{#case "ARRAY"}}T{{variableName}}{{/case}}{{!!
-}}{{#default}}{{type.publicName}}{{#if type.optional}}?{{/if}}{{/default}}{{!!
-}}{{/switch}}{{/argumentName}}
+    }}{{/if}}: {{type.publicName}}{{#if type.optional}}?{{/if}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/parameters}}
