@@ -22,12 +22,7 @@ package com.here.genium.model.swift;
 public final class SwiftArray extends SwiftType {
 
   public final SwiftType underlyingType;
-  public final SwiftGenericParameter genericParameter;
   public final String refName;
-
-  public SwiftArray(final SwiftType underlyingType) {
-    this(null, null, getImplName(underlyingType), false, underlyingType, null);
-  }
 
   public SwiftArray(
       final SwiftType underlyingType, final String implementingClass, final String refName) {
@@ -49,7 +44,6 @@ public final class SwiftArray extends SwiftType {
         publicName,
         optional);
     this.underlyingType = underlyingType;
-    this.genericParameter = new SwiftGenericParameter(null, this);
     this.refName = refName;
   }
 
@@ -60,6 +54,6 @@ public final class SwiftArray extends SwiftType {
   }
 
   private static String getImplName(SwiftType underlyingType) {
-    return "CollectionOf<" + underlyingType.publicName + ">";
+    return "[" + underlyingType.publicName + "]";
   }
 }
