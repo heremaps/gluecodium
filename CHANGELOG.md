@@ -9,6 +9,7 @@
 - Bug fixes:
   + Fixed potential memory leak while returning Swift proxies.
   + Fixed the default value of String type Struct fields in Java to be an empty string.
+  + Fixed JNI warnings about "removing non-JNI local reference".
 
 ## 3.19.4
 - Release date: 2019-01-15

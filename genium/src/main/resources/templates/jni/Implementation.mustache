@@ -39,7 +39,9 @@ extern "C" {
 {
 {{#parameters}}
 {{#if type.isComplex}}
-    {{type.cppName}} {{name}} = {{internalNamespace}}::jni::convert_from_jni( _jenv, {{internalNamespace}}::jni::make_local_ref(_jenv, j{{name}}), ({{type.cppName}}*)nullptr );
+    {{type.cppName}} {{name}} = {{internalNamespace}}::jni::convert_from_jni(_jenv,
+            {{internalNamespace}}::jni::make_non_releasing_ref(j{{name}}),
+            ({{type.cppName}}*)nullptr);
 {{/if}}
 {{#unless type.isComplex}}
     {{type.cppName}} {{name}} = j{{name}};
@@ -47,7 +49,7 @@ extern "C" {
 {{/parameters}}
 {{#unless isStatic}}
     auto pointerAsLong = {{internalNamespace}}::jni::get_long_field(_jenv,
-            {{internalNamespace}}::jni::make_local_ref(_jenv, _jinstance),
+            {{internalNamespace}}::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (pointerAsLong);
 {{/unless}}
