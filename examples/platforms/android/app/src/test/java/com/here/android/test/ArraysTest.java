@@ -260,7 +260,7 @@ public class ArraysTest {
   }
 
   @Test
-  public void reverseMapArray() {
+  public void reverseMapsArray() {
     Map<Short, String> map0 = Collections.emptyMap();
     Map<Short, String> map1 = new HashMap<>();
     map1.put((short)42, STRING_LIST_ITEM_1);
@@ -268,6 +268,21 @@ public class ArraysTest {
     List<Map<Short, String>> input = java.util.Arrays.asList(map0, map1);
 
     List<Map<Short, String>> result = Arrays.reverseMapsArray(input);
+    assertNotNull(result);
+    assertEquals(2, result.size());
+    assertEquals(map1, result.get(0));
+    assertEquals(map0, result.get(1));
+  }
+
+  @Test
+  public void reverseArrayMapsArray() {
+    Map<Short, List<String>> map0 = Collections.emptyMap();
+    Map<Short, List<String>> map1 = new HashMap<>();
+    map1.put((short)42, Collections.singletonList(STRING_LIST_ITEM_1));
+
+    List<Map<Short, List<String>>> input = java.util.Arrays.asList(map0, map1);
+
+    List<Map<Short, List<String>>> result = Arrays.reverseArrayMapsArray(input);
     assertNotNull(result);
     assertEquals(2, result.size());
     assertEquals(map1, result.get(0));

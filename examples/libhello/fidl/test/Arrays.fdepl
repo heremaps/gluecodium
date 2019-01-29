@@ -118,6 +118,10 @@ define GeniumExtensions for interface test.Arrays
         Static = true
     }
 
+    method reverseArrayMapsArray {
+        Static = true
+    }
+
     method createFancyStruct {
         Static = true
     }

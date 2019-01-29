@@ -40,7 +40,7 @@ public class Constructors {
         }
         c_instance = _result
     }
-    public init<Tinput: Collection>(input: Tinput) where Tinput.Element == Double {
+    public init(input: [Double]) {
         let _result = Constructors.create(input: input)
         guard _result != 0 else {
             fatalError("Nullptr value is not supported for initializers")
@@ -82,7 +82,7 @@ public class Constructors {
             throw Constructors.ErrorEnum(rawValue: RESULT.error_code)!
         }
     }
-    private static func create<Tinput: Collection>(input: Tinput) -> _baseRef where Tinput.Element == Double {
+    private static func create(input: [Double]) -> _baseRef {
             let c_input = moveToCType(input)
         return moveFromCType(smoke_Constructors_create_withArray(c_input.ref))
     }

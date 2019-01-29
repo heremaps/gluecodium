@@ -51,7 +51,7 @@ public protocol CalculatorListener : AnyObject {
     func onCalculationResult(calculationResult: Double) -> Void
     func onCalculationResultConst(calculationResult: Double) -> Void
     func onCalculationResultStruct(calculationResult: ResultStruct) -> Void
-    func onCalculationResultArray<TcalculationResult: Collection>(calculationResult: TcalculationResult) -> Void where TcalculationResult.Element == Double
+    func onCalculationResultArray(calculationResult: [Double]) -> Void
     func onCalculationResultMap(calculationResults: CalculatorListener.NamedCalculationResults) -> Void
     func onCalculationResultInstance(calculationResult: CalculationResult?) -> Void
 }
@@ -78,7 +78,7 @@ internal class _CalculatorListener: CalculatorListener {
             let c_calculationResult = moveToCType(calculationResult)
         return moveFromCType(smoke_CalculatorListener_onCalculationResultStruct(self.c_instance, c_calculationResult.ref))
     }
-    public func onCalculationResultArray<TcalculationResult: Collection>(calculationResult: TcalculationResult) -> Void where TcalculationResult.Element == Double {
+    public func onCalculationResultArray(calculationResult: [Double]) -> Void {
             let c_calculationResult = moveToCType(calculationResult)
         return moveFromCType(smoke_CalculatorListener_onCalculationResultArray(self.c_instance, c_calculationResult.ref))
     }

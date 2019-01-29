@@ -25,7 +25,7 @@ class ExternalTypesTests: XCTestCase {
 
     let externalStruct = ExternalStruct(stringField: "foo",
                                         externalStringField: "bar",
-                                        externalArrayField: CollectionOf<Int32>([7, 11]),
+                                        externalArrayField: [7, 11],
                                         externalStructField: AnotherExternalStruct(intField: 42))
 
     func testUseExternalTypesExternalStruct() {

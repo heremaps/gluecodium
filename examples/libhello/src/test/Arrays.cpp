@@ -197,6 +197,12 @@ Arrays::reverse_maps_array( const Arrays::ArrayOfMaps& input )
     return {input.rbegin( ), input.rend( )};
 }
 
+Arrays::ArrayOfMapsOfArray
+Arrays::reverse_array_maps_array( const Arrays::ArrayOfMapsOfArray& input )
+{
+    return {input.rbegin( ), input.rend( )};
+}
+
 Arrays::FancyStruct
 Arrays::create_fancy_struct( )
 {

@@ -27,35 +27,6 @@ internal func copyToCType(_ swiftDict: [Int32: String]) -> RefHolder {
 internal func moveToCType(_ swiftDict: [Int32: String]) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftDict).ref, release: smoke_Maps_ErrorCodeToMessageMap_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [String: CollectionOf<Int32>] {
-    var swiftDict: [String: CollectionOf<Int32>] = [:]
-    let iterator_handle = smoke_Maps_StringToArray_iterator(handle)
-    while smoke_Maps_StringToArray_iterator_is_valid(handle, iterator_handle) {
-        swiftDict[moveFromCType(smoke_Maps_StringToArray_iterator_key(iterator_handle))] =
-            moveFromCType(smoke_Maps_StringToArray_iterator_value(iterator_handle))
-        smoke_Maps_StringToArray_iterator_increment(iterator_handle)
-    }
-    smoke_Maps_StringToArray_iterator_release_handle(iterator_handle)
-    return swiftDict
-}
-internal func moveFromCType(_ handle: _baseRef) -> [String: CollectionOf<Int32>] {
-    defer {
-        smoke_Maps_StringToArray_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftDict: [String: CollectionOf<Int32>]) -> RefHolder {
-    let c_handle = smoke_Maps_StringToArray_create_handle()
-    for (key, value) in swiftDict {
-        let c_key = moveToCType(key)
-        let c_value = moveToCType(value)
-        smoke_Maps_StringToArray_put(c_handle, c_key.ref, c_value.ref)
-    }
-    return RefHolder(c_handle)
-}
-internal func moveToCType(_ swiftDict: [String: CollectionOf<Int32>]) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftDict).ref, release: smoke_Maps_StringToArray_release_handle)
-}
 internal func copyFromCType(_ handle: _baseRef) -> [Maps.SomeId: UInt8] {
     var swiftDict: [Maps.SomeId: UInt8] = [:]
     let iterator_handle = smoke_Maps_TypeDefToNumber_iterator(handle)
@@ -84,6 +55,35 @@ internal func copyToCType(_ swiftDict: [Maps.SomeId: UInt8]) -> RefHolder {
 }
 internal func moveToCType(_ swiftDict: [Maps.SomeId: UInt8]) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftDict).ref, release: smoke_Maps_TypeDefToNumber_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> [String: [Int32]] {
+    var swiftDict: [String: [Int32]] = [:]
+    let iterator_handle = smoke_Maps_StringToArray_iterator(handle)
+    while smoke_Maps_StringToArray_iterator_is_valid(handle, iterator_handle) {
+        swiftDict[moveFromCType(smoke_Maps_StringToArray_iterator_key(iterator_handle))] =
+            moveFromCType(smoke_Maps_StringToArray_iterator_value(iterator_handle))
+        smoke_Maps_StringToArray_iterator_increment(iterator_handle)
+    }
+    smoke_Maps_StringToArray_iterator_release_handle(iterator_handle)
+    return swiftDict
+}
+internal func moveFromCType(_ handle: _baseRef) -> [String: [Int32]] {
+    defer {
+        smoke_Maps_StringToArray_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftDict: [String: [Int32]]) -> RefHolder {
+    let c_handle = smoke_Maps_StringToArray_create_handle()
+    for (key, value) in swiftDict {
+        let c_key = moveToCType(key)
+        let c_value = moveToCType(value)
+        smoke_Maps_StringToArray_put(c_handle, c_key.ref, c_value.ref)
+    }
+    return RefHolder(c_handle)
+}
+internal func moveToCType(_ swiftDict: [String: [Int32]]) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftDict).ref, release: smoke_Maps_StringToArray_release_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> [UInt8: Maps.SomeStruct] {
     var swiftDict: [UInt8: Maps.SomeStruct] = [:]

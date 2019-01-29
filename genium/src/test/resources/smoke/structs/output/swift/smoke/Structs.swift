@@ -166,9 +166,9 @@ public class Structs {
     public struct ExternalStruct {
         public var stringField: String
         public var externalStringField: String
-        public var externalArrayField: CollectionOf<Int8>
+        public var externalArrayField: [Int8]
         public var externalStructField: Structs.AnotherExternalStruct
-        public init(stringField: String, externalStringField: String, externalArrayField: CollectionOf<Int8>, externalStructField: Structs.AnotherExternalStruct) {
+        public init(stringField: String, externalStringField: String, externalArrayField: [Int8], externalStructField: Structs.AnotherExternalStruct) {
             self.stringField = stringField
             self.externalStringField = externalStringField
             self.externalArrayField = externalArrayField

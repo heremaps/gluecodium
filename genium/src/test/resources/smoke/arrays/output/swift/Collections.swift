@@ -2,373 +2,293 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-internal class BasicStructList: CollectionOf<Arrays.BasicStruct> {
-    var c_element: _baseRef?
-    init(_ c_element: _baseRef) {
-        self.c_element = c_element
-        super.init()
-        self.startIndex = 0
-        self.endIndex = Int(arrayCollection_BasicStruct_count(c_element))
+internal func copyFromCType(_ handle: _baseRef) -> [Arrays.BasicStruct] {
+    var result: [Arrays.BasicStruct] = []
+    let count = arrayCollection_BasicStruct_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_BasicStruct_get(handle, idx)))
     }
-    deinit {
-        arrayCollection_BasicStruct_release_handle(c_element!)
-    }
-    public override subscript(index: Int) -> Arrays.BasicStruct {
-        let handle = arrayCollection_BasicStruct_get(c_element!, UInt64(index))
-        return copyFromCType(handle)
-    }
-    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
-    required public init(arrayLiteral elements: Element...) {
-        super.init(elements)
-    }
+    return result
 }
-internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.BasicStruct> {
-    return BasicStructList(handle)
+internal func moveFromCType(_ handle: _baseRef) -> [Arrays.BasicStruct] {
+    defer {
+        arrayCollection_BasicStruct_release_handle(handle)
+    }
+    var result: [Arrays.BasicStruct] = []
+    let count = arrayCollection_BasicStruct_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_BasicStruct_get(handle, idx)))
+    }
+    return result
 }
-internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.BasicStruct> {
-    return copyFromCType(handle)
-}
-internal func copyToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == Arrays.BasicStruct {
+internal func copyToCType(_ swiftArray: [Arrays.BasicStruct]) -> RefHolder {
     let handle = arrayCollection_BasicStruct_create_handle()
     for item in swiftArray {
-        let c_item = moveToCType(item)
-        arrayCollection_BasicStruct_append(handle, c_item.ref)
+        arrayCollection_BasicStruct_append(handle, moveToCType(item).ref)
     }
     return RefHolder(handle)
 }
-internal func moveToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == Arrays.BasicStruct {
+internal func moveToCType(_ swiftArray: [Arrays.BasicStruct]) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_BasicStruct_release_handle)
 }
-internal class ExternalEnumList: CollectionOf<Arrays.ExternalEnum> {
-    var c_element: _baseRef?
-    init(_ c_element: _baseRef) {
-        self.c_element = c_element
-        super.init()
-        self.startIndex = 0
-        self.endIndex = Int(arrayCollection_ExternalEnum_count(c_element))
+internal func copyFromCType(_ handle: _baseRef) -> [Arrays.ExternalEnum] {
+    var result: [Arrays.ExternalEnum] = []
+    let count = arrayCollection_ExternalEnum_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_ExternalEnum_get(handle, idx)))
     }
-    deinit {
-        arrayCollection_ExternalEnum_release_handle(c_element!)
-    }
-    public override subscript(index: Int) -> Arrays.ExternalEnum {
-        let handle = arrayCollection_ExternalEnum_get(c_element!, UInt64(index))
-        return copyFromCType(handle)
-    }
-    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
-    required public init(arrayLiteral elements: Element...) {
-        super.init(elements)
-    }
+    return result
 }
-internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.ExternalEnum> {
-    return ExternalEnumList(handle)
+internal func moveFromCType(_ handle: _baseRef) -> [Arrays.ExternalEnum] {
+    defer {
+        arrayCollection_ExternalEnum_release_handle(handle)
+    }
+    var result: [Arrays.ExternalEnum] = []
+    let count = arrayCollection_ExternalEnum_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_ExternalEnum_get(handle, idx)))
+    }
+    return result
 }
-internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.ExternalEnum> {
-    return copyFromCType(handle)
-}
-internal func copyToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == Arrays.ExternalEnum {
+internal func copyToCType(_ swiftArray: [Arrays.ExternalEnum]) -> RefHolder {
     let handle = arrayCollection_ExternalEnum_create_handle()
     for item in swiftArray {
-        let c_item = moveToCType(item)
-        arrayCollection_ExternalEnum_append(handle, c_item.ref)
+        arrayCollection_ExternalEnum_append(handle, moveToCType(item).ref)
     }
     return RefHolder(handle)
 }
-internal func moveToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == Arrays.ExternalEnum {
+internal func moveToCType(_ swiftArray: [Arrays.ExternalEnum]) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_ExternalEnum_release_handle)
 }
-internal class ExternalStructList: CollectionOf<Arrays.ExternalStruct> {
-    var c_element: _baseRef?
-    init(_ c_element: _baseRef) {
-        self.c_element = c_element
-        super.init()
-        self.startIndex = 0
-        self.endIndex = Int(arrayCollection_ExternalStruct_count(c_element))
+internal func copyFromCType(_ handle: _baseRef) -> [Arrays.ExternalStruct] {
+    var result: [Arrays.ExternalStruct] = []
+    let count = arrayCollection_ExternalStruct_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_ExternalStruct_get(handle, idx)))
     }
-    deinit {
-        arrayCollection_ExternalStruct_release_handle(c_element!)
-    }
-    public override subscript(index: Int) -> Arrays.ExternalStruct {
-        let handle = arrayCollection_ExternalStruct_get(c_element!, UInt64(index))
-        return copyFromCType(handle)
-    }
-    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
-    required public init(arrayLiteral elements: Element...) {
-        super.init(elements)
-    }
+    return result
 }
-internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.ExternalStruct> {
-    return ExternalStructList(handle)
+internal func moveFromCType(_ handle: _baseRef) -> [Arrays.ExternalStruct] {
+    defer {
+        arrayCollection_ExternalStruct_release_handle(handle)
+    }
+    var result: [Arrays.ExternalStruct] = []
+    let count = arrayCollection_ExternalStruct_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_ExternalStruct_get(handle, idx)))
+    }
+    return result
 }
-internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.ExternalStruct> {
-    return copyFromCType(handle)
-}
-internal func copyToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == Arrays.ExternalStruct {
+internal func copyToCType(_ swiftArray: [Arrays.ExternalStruct]) -> RefHolder {
     let handle = arrayCollection_ExternalStruct_create_handle()
     for item in swiftArray {
-        let c_item = moveToCType(item)
-        arrayCollection_ExternalStruct_append(handle, c_item.ref)
+        arrayCollection_ExternalStruct_append(handle, moveToCType(item).ref)
     }
     return RefHolder(handle)
 }
-internal func moveToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == Arrays.ExternalStruct {
+internal func moveToCType(_ swiftArray: [Arrays.ExternalStruct]) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_ExternalStruct_release_handle)
 }
-internal class FancyStructList: CollectionOf<Arrays.FancyStruct> {
-    var c_element: _baseRef?
-    init(_ c_element: _baseRef) {
-        self.c_element = c_element
-        super.init()
-        self.startIndex = 0
-        self.endIndex = Int(arrayCollection_FancyStruct_count(c_element))
+internal func copyFromCType(_ handle: _baseRef) -> [Arrays.FancyStruct] {
+    var result: [Arrays.FancyStruct] = []
+    let count = arrayCollection_FancyStruct_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_FancyStruct_get(handle, idx)))
     }
-    deinit {
-        arrayCollection_FancyStruct_release_handle(c_element!)
-    }
-    public override subscript(index: Int) -> Arrays.FancyStruct {
-        let handle = arrayCollection_FancyStruct_get(c_element!, UInt64(index))
-        return copyFromCType(handle)
-    }
-    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
-    required public init(arrayLiteral elements: Element...) {
-        super.init(elements)
-    }
+    return result
 }
-internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.FancyStruct> {
-    return FancyStructList(handle)
+internal func moveFromCType(_ handle: _baseRef) -> [Arrays.FancyStruct] {
+    defer {
+        arrayCollection_FancyStruct_release_handle(handle)
+    }
+    var result: [Arrays.FancyStruct] = []
+    let count = arrayCollection_FancyStruct_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_FancyStruct_get(handle, idx)))
+    }
+    return result
 }
-internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.FancyStruct> {
-    return copyFromCType(handle)
-}
-internal func copyToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == Arrays.FancyStruct {
+internal func copyToCType(_ swiftArray: [Arrays.FancyStruct]) -> RefHolder {
     let handle = arrayCollection_FancyStruct_create_handle()
     for item in swiftArray {
-        let c_item = moveToCType(item)
-        arrayCollection_FancyStruct_append(handle, c_item.ref)
+        arrayCollection_FancyStruct_append(handle, moveToCType(item).ref)
     }
     return RefHolder(handle)
 }
-internal func moveToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == Arrays.FancyStruct {
+internal func moveToCType(_ swiftArray: [Arrays.FancyStruct]) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_FancyStruct_release_handle)
 }
-internal class SomeEnumList: CollectionOf<Arrays.SomeEnum> {
-    var c_element: _baseRef?
-    init(_ c_element: _baseRef) {
-        self.c_element = c_element
-        super.init()
-        self.startIndex = 0
-        self.endIndex = Int(arrayCollection_SomeEnum_count(c_element))
+internal func copyFromCType(_ handle: _baseRef) -> [Arrays.SomeEnum] {
+    var result: [Arrays.SomeEnum] = []
+    let count = arrayCollection_SomeEnum_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_SomeEnum_get(handle, idx)))
     }
-    deinit {
-        arrayCollection_SomeEnum_release_handle(c_element!)
-    }
-    public override subscript(index: Int) -> Arrays.SomeEnum {
-        let handle = arrayCollection_SomeEnum_get(c_element!, UInt64(index))
-        return copyFromCType(handle)
-    }
-    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
-    required public init(arrayLiteral elements: Element...) {
-        super.init(elements)
-    }
+    return result
 }
-internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.SomeEnum> {
-    return SomeEnumList(handle)
+internal func moveFromCType(_ handle: _baseRef) -> [Arrays.SomeEnum] {
+    defer {
+        arrayCollection_SomeEnum_release_handle(handle)
+    }
+    var result: [Arrays.SomeEnum] = []
+    let count = arrayCollection_SomeEnum_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_SomeEnum_get(handle, idx)))
+    }
+    return result
 }
-internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.SomeEnum> {
-    return copyFromCType(handle)
-}
-internal func copyToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == Arrays.SomeEnum {
+internal func copyToCType(_ swiftArray: [Arrays.SomeEnum]) -> RefHolder {
     let handle = arrayCollection_SomeEnum_create_handle()
     for item in swiftArray {
-        let c_item = moveToCType(item)
-        arrayCollection_SomeEnum_append(handle, c_item.ref)
+        arrayCollection_SomeEnum_append(handle, moveToCType(item).ref)
     }
     return RefHolder(handle)
 }
-internal func moveToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == Arrays.SomeEnum {
+internal func moveToCType(_ swiftArray: [Arrays.SomeEnum]) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_SomeEnum_release_handle)
 }
-internal class ArraysErrorCodeToMessageMapList: CollectionOf<Arrays.ErrorCodeToMessageMap> {
-    var c_element: _baseRef?
-    init(_ c_element: _baseRef) {
-        self.c_element = c_element
-        super.init()
-        self.startIndex = 0
-        self.endIndex = Int(arrayCollection_Int32StringMap_count(c_element))
+internal func copyFromCType(_ handle: _baseRef) -> [Arrays.ErrorCodeToMessageMap] {
+    var result: [Arrays.ErrorCodeToMessageMap] = []
+    let count = arrayCollection_Int32StringMap_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_Int32StringMap_get(handle, idx)))
     }
-    deinit {
-        arrayCollection_Int32StringMap_release_handle(c_element!)
-    }
-    public override subscript(index: Int) -> Arrays.ErrorCodeToMessageMap {
-        let handle = arrayCollection_Int32StringMap_get(c_element!, UInt64(index))
-        return copyFromCType(handle)
-    }
-    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
-    required public init(arrayLiteral elements: Element...) {
-        super.init(elements)
-    }
+    return result
 }
-internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.ErrorCodeToMessageMap> {
-    return ArraysErrorCodeToMessageMapList(handle)
+internal func moveFromCType(_ handle: _baseRef) -> [Arrays.ErrorCodeToMessageMap] {
+    defer {
+        arrayCollection_Int32StringMap_release_handle(handle)
+    }
+    var result: [Arrays.ErrorCodeToMessageMap] = []
+    let count = arrayCollection_Int32StringMap_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_Int32StringMap_get(handle, idx)))
+    }
+    return result
 }
-internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<Arrays.ErrorCodeToMessageMap> {
-    return copyFromCType(handle)
-}
-internal func copyToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == Arrays.ErrorCodeToMessageMap {
+internal func copyToCType(_ swiftArray: [Arrays.ErrorCodeToMessageMap]) -> RefHolder {
     let handle = arrayCollection_Int32StringMap_create_handle()
     for item in swiftArray {
-        let c_item = moveToCType(item)
-        arrayCollection_Int32StringMap_append(handle, c_item.ref)
+        arrayCollection_Int32StringMap_append(handle, moveToCType(item).ref)
     }
     return RefHolder(handle)
 }
-internal func moveToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == Arrays.ErrorCodeToMessageMap {
+internal func moveToCType(_ swiftArray: [Arrays.ErrorCodeToMessageMap]) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_Int32StringMap_release_handle)
 }
-internal class StringListList: CollectionOf<CollectionOf<String>> {
-    var c_element: _baseRef?
-    init(_ c_element: _baseRef) {
-        self.c_element = c_element
-        super.init()
-        self.startIndex = 0
-        self.endIndex = Int(arrayCollection_StringArray_count(c_element))
+internal func copyFromCType(_ handle: _baseRef) -> [String] {
+    var result: [String] = []
+    let count = arrayCollection_String_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_String_get(handle, idx)))
     }
-    deinit {
-        arrayCollection_StringArray_release_handle(c_element!)
-    }
-    public override subscript(index: Int) -> CollectionOf<String> {
-        let handle = arrayCollection_StringArray_get(c_element!, UInt64(index))
-        return copyFromCType(handle)
-    }
-    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
-    required public init(arrayLiteral elements: Element...) {
-        super.init(elements)
-    }
+    return result
 }
-internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<CollectionOf<String>> {
-    return StringListList(handle)
-}
-internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<CollectionOf<String>> {
-    return copyFromCType(handle)
-}
-internal func copyToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element: Collection, T.Element.Element == String {
-    let handle = arrayCollection_StringArray_create_handle()
-    for item in swiftArray {
-        let c_item = moveToCType(item)
-        arrayCollection_StringArray_append(handle, c_item.ref)
+internal func moveFromCType(_ handle: _baseRef) -> [String] {
+    defer {
+        arrayCollection_String_release_handle(handle)
     }
-    return RefHolder(handle)
-}
-internal func moveToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element: Collection, T.Element.Element == String {
-    return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_StringArray_release_handle)
-}
-internal class UInt8ListList: CollectionOf<CollectionOf<UInt8>> {
-    var c_element: _baseRef?
-    init(_ c_element: _baseRef) {
-        self.c_element = c_element
-        super.init()
-        self.startIndex = 0
-        self.endIndex = Int(arrayCollection_UInt8Array_count(c_element))
+    var result: [String] = []
+    let count = arrayCollection_String_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_String_get(handle, idx)))
     }
-    deinit {
-        arrayCollection_UInt8Array_release_handle(c_element!)
-    }
-    public override subscript(index: Int) -> CollectionOf<UInt8> {
-        let handle = arrayCollection_UInt8Array_get(c_element!, UInt64(index))
-        return copyFromCType(handle)
-    }
-    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
-    required public init(arrayLiteral elements: Element...) {
-        super.init(elements)
-    }
+    return result
 }
-internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<CollectionOf<UInt8>> {
-    return UInt8ListList(handle)
-}
-internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<CollectionOf<UInt8>> {
-    return copyFromCType(handle)
-}
-internal func copyToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element: Collection, T.Element.Element == UInt8 {
-    let handle = arrayCollection_UInt8Array_create_handle()
-    for item in swiftArray {
-        let c_item = moveToCType(item)
-        arrayCollection_UInt8Array_append(handle, c_item.ref)
-    }
-    return RefHolder(handle)
-}
-internal func moveToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element: Collection, T.Element.Element == UInt8 {
-    return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_UInt8Array_release_handle)
-}
-internal class StringList: CollectionOf<String> {
-    var c_element: _baseRef?
-    init(_ c_element: _baseRef) {
-        self.c_element = c_element
-        super.init()
-        self.startIndex = 0
-        self.endIndex = Int(arrayCollection_String_count(c_element))
-    }
-    deinit {
-        arrayCollection_String_release_handle(c_element!)
-    }
-    public override subscript(index: Int) -> String {
-        let handle = arrayCollection_String_get(c_element!, UInt64(index))
-        return copyFromCType(handle)
-    }
-    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
-    required public init(arrayLiteral elements: Element...) {
-        super.init(elements)
-    }
-}
-internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<String> {
-    return StringList(handle)
-}
-internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<String> {
-    return copyFromCType(handle)
-}
-internal func copyToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == String {
+internal func copyToCType(_ swiftArray: [String]) -> RefHolder {
     let handle = arrayCollection_String_create_handle()
     for item in swiftArray {
-        let c_item = moveToCType(item)
-        arrayCollection_String_append(handle, c_item.ref)
+        arrayCollection_String_append(handle, moveToCType(item).ref)
     }
     return RefHolder(handle)
 }
-internal func moveToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == String {
+internal func moveToCType(_ swiftArray: [String]) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_String_release_handle)
 }
-internal class UInt8List: CollectionOf<UInt8> {
-    var c_element: _baseRef?
-    init(_ c_element: _baseRef) {
-        self.c_element = c_element
-        super.init()
-        self.startIndex = 0
-        self.endIndex = Int(arrayCollection_UInt8_count(c_element))
+internal func copyFromCType(_ handle: _baseRef) -> [UInt8] {
+    var result: [UInt8] = []
+    let count = arrayCollection_UInt8_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_UInt8_get(handle, idx)))
     }
-    deinit {
-        arrayCollection_UInt8_release_handle(c_element!)
-    }
-    public override subscript(index: Int) -> UInt8 {
-        let handle = arrayCollection_UInt8_get(c_element!, UInt64(index))
-        return copyFromCType(handle)
-    }
-    // This constructor is never called but it's required to conform to ExpressibleByArrayLiteral
-    required public init(arrayLiteral elements: Element...) {
-        super.init(elements)
-    }
+    return result
 }
-internal func copyFromCType(_ handle: _baseRef) -> CollectionOf<UInt8> {
-    return UInt8List(handle)
+internal func moveFromCType(_ handle: _baseRef) -> [UInt8] {
+    defer {
+        arrayCollection_UInt8_release_handle(handle)
+    }
+    var result: [UInt8] = []
+    let count = arrayCollection_UInt8_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_UInt8_get(handle, idx)))
+    }
+    return result
 }
-internal func moveFromCType(_ handle: _baseRef) -> CollectionOf<UInt8> {
-    return copyFromCType(handle)
-}
-internal func copyToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == UInt8 {
+internal func copyToCType(_ swiftArray: [UInt8]) -> RefHolder {
     let handle = arrayCollection_UInt8_create_handle()
     for item in swiftArray {
-        let c_item = moveToCType(item)
-        arrayCollection_UInt8_append(handle, c_item.ref)
+        arrayCollection_UInt8_append(handle, moveToCType(item).ref)
     }
     return RefHolder(handle)
 }
-internal func moveToCType<T: Collection>(_ swiftArray: T) -> RefHolder where T.Element == UInt8 {
+internal func moveToCType(_ swiftArray: [UInt8]) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_UInt8_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> [[String]] {
+    var result: [[String]] = []
+    let count = arrayCollection_StringArray_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_StringArray_get(handle, idx)))
+    }
+    return result
+}
+internal func moveFromCType(_ handle: _baseRef) -> [[String]] {
+    defer {
+        arrayCollection_StringArray_release_handle(handle)
+    }
+    var result: [[String]] = []
+    let count = arrayCollection_StringArray_count(handle)
+    for idx in 0..<count {
+        result.append(moveFromCType(arrayCollection_StringArray_get(handle, idx)))
+    }
+    return result
+}
+internal func copyToCType(_ swiftArray: [[String]]) -> RefHolder {
+    let handle = arrayCollection_StringArray_create_handle()
+    for item in swiftArray {
+        arrayCollection_StringArray_append(handle, moveToCType(item).ref)
+    }
+    return RefHolder(handle)
+}
+internal func moveToCType(_ swiftArray: [[String]]) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_StringArray_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> [[UInt8]] {
+    var result: [[UInt8]] = []
+    let count = arrayCollection_UInt8Array_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_UInt8Array_get(handle, idx)))
+    }
+    return result
+}
+internal func moveFromCType(_ handle: _baseRef) -> [[UInt8]] {
+    defer {
+        arrayCollection_UInt8Array_release_handle(handle)
+    }
+    var result: [[UInt8]] = []
+    let count = arrayCollection_UInt8Array_count(handle)
+    for idx in 0..<count {
+        result.append(moveFromCType(arrayCollection_UInt8Array_get(handle, idx)))
+    }
+    return result
+}
+internal func copyToCType(_ swiftArray: [[UInt8]]) -> RefHolder {
+    let handle = arrayCollection_UInt8Array_create_handle()
+    for item in swiftArray {
+        arrayCollection_UInt8Array_append(handle, moveToCType(item).ref)
+    }
+    return RefHolder(handle)
+}
+internal func moveToCType(_ swiftArray: [[UInt8]]) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_UInt8Array_release_handle)
 }

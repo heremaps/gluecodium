@@ -56,7 +56,7 @@ public protocol ListenersWithReturnValues : AnyObject {
     func fetchData() -> String
     func fetchData() -> ResultStruct
     func fetchData() -> ResultEnum
-    func fetchData() -> CollectionOf<Double>
+    func fetchData() -> [Double]
     func fetchData() -> ListenersWithReturnValues.StringToDouble
     func fetchData() -> CalculationResult?
 }
@@ -83,7 +83,7 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
     public func fetchData() -> ResultEnum {
         return moveFromCType(smoke_ListenersWithReturnValues_fetchData_enum(self.c_instance))
     }
-    public func fetchData() -> CollectionOf<Double> {
+    public func fetchData() -> [Double] {
         return moveFromCType(smoke_ListenersWithReturnValues_fetchData_Array(self.c_instance))
     }
     public func fetchData() -> ListenersWithReturnValues.StringToDouble {

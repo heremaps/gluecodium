@@ -14,10 +14,10 @@ internal func getRef(_ ref: TypeDefs?, owning: Bool = true) -> RefHolder {
 public class TypeDefs {
     public typealias NestedIntTypeDef = TypeDefs.PrimitiveTypeDef
     public typealias PrimitiveTypeDef = Double
-    public typealias ComplexTypeDef = CollectionOf<TypeDefs.TestStruct>
+    public typealias ComplexTypeDef = [TypeDefs.TestStruct]
     public typealias TestStructTypeDef = TypeDefs.TestStruct
     public typealias NestedStructTypeDef = TypeDefs.TestStructTypeDef
-    public var primitiveTypeAttribute: CollectionOf<TypeDefs.PrimitiveTypeDef> {
+    public var primitiveTypeAttribute: [TypeDefs.PrimitiveTypeDef] {
         get {
             return moveFromCType(smoke_TypeDefs_primitiveTypeAttribute_get(self.c_instance))
         }
@@ -66,7 +66,7 @@ public class TypeDefs {
             let c_input = moveToCType(input)
         return moveFromCType(smoke_TypeDefs_methodWithPrimitiveTypeDef(c_input.ref))
     }
-    public static func methodWithComplexTypeDef<Tinput: Collection>(input: Tinput) -> TypeDefs.ComplexTypeDef where Tinput.Element == TypeDefs.TestStruct {
+    public static func methodWithComplexTypeDef(input: TypeDefs.ComplexTypeDef) -> TypeDefs.ComplexTypeDef {
             let c_input = moveToCType(input)
         return moveFromCType(smoke_TypeDefs_methodWithComplexTypeDef(c_input.ref))
     }

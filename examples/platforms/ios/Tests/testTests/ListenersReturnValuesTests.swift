@@ -50,7 +50,7 @@ class ListenersReturnValuesTests: XCTestCase {
               return .yes
           }
 
-          public func getArrayedMessage() -> CollectionOf<String> {
+          public func getArrayedMessage() -> [String] {
               return ["Works"]
           }
 

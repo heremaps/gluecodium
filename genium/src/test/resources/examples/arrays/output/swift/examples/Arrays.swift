@@ -39,11 +39,11 @@ public class Arrays {
             return examples_Arrays_SyncResult_create_handle(c_lastUpdatedTimeStamp.ref, c_numberOfChanges.ref)
         }
     }
-    public static func explicitArrayMethod<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SyncResult> where Tinput.Element == Arrays.SyncResult {
+    public static func explicitArrayMethod(input: [Arrays.SyncResult]) -> [Arrays.SyncResult] {
             let c_input = moveToCType(input)
         return moveFromCType(examples_Arrays_explicitArrayMethod(c_input.ref))
     }
-    public static func implicitArrayMethod<Tinput: Collection>(input: Tinput) -> CollectionOf<Arrays.SyncResult> where Tinput.Element == Arrays.SyncResult {
+    public static func implicitArrayMethod(input: [Arrays.SyncResult]) -> [Arrays.SyncResult] {
             let c_input = moveToCType(input)
         return moveFromCType(examples_Arrays_implicitArrayMethod(c_input.ref))
     }
