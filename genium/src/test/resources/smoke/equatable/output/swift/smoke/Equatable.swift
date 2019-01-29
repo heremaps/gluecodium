@@ -28,9 +28,9 @@ public struct EquatableStruct: Equatable {
     public var stringField: String
     public var structField: NestedEquatableStruct
     public var enumField: SomeEnum
-    public var arrayField: CollectionOf<String>
+    public var arrayField: [String]
     public var mapField: ErrorCodeToMessageMap
-    public init(boolField: Bool, intField: Int32, longField: Int64, floatField: Float, doubleField: Double, stringField: String, structField: NestedEquatableStruct, enumField: SomeEnum, arrayField: CollectionOf<String>, mapField: ErrorCodeToMessageMap) {
+    public init(boolField: Bool, intField: Int32, longField: Int64, floatField: Float, doubleField: Double, stringField: String, structField: NestedEquatableStruct, enumField: SomeEnum, arrayField: [String], mapField: ErrorCodeToMessageMap) {
         self.boolField = boolField
         self.intField = intField
         self.longField = longField

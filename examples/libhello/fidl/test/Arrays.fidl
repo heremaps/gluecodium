@@ -82,6 +82,8 @@ interface Arrays {
 
     array ArrayOfMaps of NumberToIdMap
     map NumberToIdMap { UInt8 to ProfileId }
+    array ArrayOfMapsOfArray of NumberToStringListMap
+    map NumberToStringListMap { UInt8 to StringArray }
 
     struct StructWithEnumArray {
         ArrayEnum[] enumArrayField
@@ -418,6 +420,20 @@ interface Arrays {
         out {
             <** @description: Output array **>
             ArrayOfMaps output
+        }
+    }
+
+    <** @description:
+    Static method which takes an array and returns an array of same type in reversed order.
+    **>
+    method reverseArrayMapsArray {
+        in {
+            <** @description: Input array **>
+            ArrayOfMapsOfArray input
+        }
+        out {
+            <** @description: Output array **>
+            ArrayOfMapsOfArray output
         }
     }
 

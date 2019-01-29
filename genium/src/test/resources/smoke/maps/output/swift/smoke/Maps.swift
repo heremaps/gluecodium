@@ -18,7 +18,7 @@ public class Maps {
     public typealias NumberToTypeDef = [UInt8: Maps.SomeId]
     public typealias TypeDefToNumber = [Maps.SomeId: UInt8]
     public typealias SomeId = String
-    public typealias StringToArray = [String: CollectionOf<Int32>]
+    public typealias StringToArray = [String: [Int32]]
     public typealias NumberToInstance = [UInt8: MapsInstance]
     let c_instance : _baseRef
     init(cMaps: _baseRef) {

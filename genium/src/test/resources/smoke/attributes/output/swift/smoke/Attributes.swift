@@ -35,7 +35,7 @@ public class Attributes {
             return moveFromCType(smoke_Attributes_structAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var arrayAttribute: CollectionOf<String> {
+    public var arrayAttribute: [String] {
         get {
             return moveFromCType(smoke_Attributes_arrayAttribute_get(self.c_instance))
         }
