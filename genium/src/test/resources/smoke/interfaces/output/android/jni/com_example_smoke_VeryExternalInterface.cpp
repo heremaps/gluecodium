@@ -20,7 +20,7 @@ Java_com_example_smoke_VeryExternalInterface_someMethod(JNIEnv* _jenv, jobject _
 {
     int8_t someParameter = jsomeParameter;
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::make_local_ref(_jenv, _jinstance),
+            genium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::fire::Baz>*> (pointerAsLong);
     (*pInstanceSharedPointer)->some_Method(someParameter);
@@ -29,7 +29,7 @@ jstring
 Java_com_example_smoke_VeryExternalInterface_getSomeAttribute(JNIEnv* _jenv, jobject _jinstance)
 {
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::make_local_ref(_jenv, _jinstance),
+            genium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::fire::Baz>*> (pointerAsLong);
     auto result = (*pInstanceSharedPointer)->get_Me();
@@ -38,9 +38,11 @@ Java_com_example_smoke_VeryExternalInterface_getSomeAttribute(JNIEnv* _jenv, job
 void
 Java_com_example_smoke_VeryExternalInterface_setSomeAttribute(JNIEnv* _jenv, jobject _jinstance, jstring jvalue)
 {
-    ::std::string value = genium::jni::convert_from_jni( _jenv, genium::jni::make_local_ref(_jenv, jvalue), (::std::string*)nullptr );
+    ::std::string value = genium::jni::convert_from_jni(_jenv,
+            genium::jni::make_non_releasing_ref(jvalue),
+            (::std::string*)nullptr);
     auto pointerAsLong = genium::jni::get_long_field(_jenv,
-            genium::jni::make_local_ref(_jenv, _jinstance),
+            genium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle");
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::fire::Baz>*> (pointerAsLong);
     (*pInstanceSharedPointer)->set_Me(value);

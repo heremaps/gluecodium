@@ -18,7 +18,9 @@ extern "C" {
 jstring
 Java_com_example_smoke_Basic_basicMethod(JNIEnv* _jenv, jobject _jinstance, jstring jinputString)
 {
-    ::std::string inputString = genium::jni::convert_from_jni( _jenv, genium::jni::make_local_ref(_jenv, jinputString), (::std::string*)nullptr );
+    ::std::string inputString = genium::jni::convert_from_jni(_jenv,
+            genium::jni::make_non_releasing_ref(jinputString),
+            (::std::string*)nullptr);
     auto result = ::root::space::smoke::Basic::basic_method(inputString);
     return genium::jni::convert_to_jni(_jenv, result).release();
 }
