@@ -84,7 +84,7 @@ public protocol ListenerWithAttributes : AnyObject {
     var packedMessage: CalculationResult? { get set }
     var structuredMessage: ResultStruct { get set }
     var enumeratedMessage: ResultEnum { get set }
-    var arrayedMessage: CollectionOf<String> { get set }
+    var arrayedMessage: [String] { get set }
     var mappedMessage: ListenerWithAttributes.StringToDouble { get set }
     var bufferedMessage: Data { get set }
 }
@@ -125,7 +125,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
             return moveFromCType(smoke_ListenerWithAttributes_enumeratedMessage_set(self.c_instance, c_newValue.ref))
         }
     }
-    var arrayedMessage: CollectionOf<String> {
+    var arrayedMessage: [String] {
         get {
             return moveFromCType(smoke_ListenerWithAttributes_arrayedMessage_get(self.c_instance))
         }

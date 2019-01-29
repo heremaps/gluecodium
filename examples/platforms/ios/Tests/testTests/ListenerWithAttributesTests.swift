@@ -75,7 +75,7 @@ class ListenerWithAttributesTests: XCTestCase {
               }
           }
 
-          public var arrayedMessage: CollectionOf<String> {
+          public var arrayedMessage: [String] {
               get {
                   return [data]
               }

@@ -138,7 +138,7 @@ class MapsTests: XCTestCase {
     }
 
     func testMethodWithMapToArrayEmpty() {
-        let inputDict: [UInt8: CollectionOf<String>] = [:]
+        let inputDict: [UInt8: [String]] = [:]
 
         let resultsDict = Maps.methodWithMapOfArrays(input: inputDict)
 
@@ -146,9 +146,7 @@ class MapsTests: XCTestCase {
     }
 
     func testMethodWithMapToArrayMultipleItems() {
-        let inputDict: [UInt8: CollectionOf<String>] = [11: CollectionOf<String>([inputValue1]),
-                                                        42: CollectionOf<String>([inputValue2,
-                                                                                  inputValue3])]
+        let inputDict: [UInt8: [String]] = [11: [inputValue1], 42: [inputValue2, inputValue3]]
 
         let resultsDict = Maps.methodWithMapOfArrays(input: inputDict)
 
