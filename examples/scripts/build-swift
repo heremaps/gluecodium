@@ -105,12 +105,15 @@ safe cmake \
 TEST_EXECUTABLE="./testhello"
 
 if [ "$USE_VALGRIND" = true ]; then
+    REPORT_ARGS=""
+    if [ "$TEST_REPORTS" = true ] ; then
+        REPORT_ARGS="--xml=yes --xml-file=swift_valgrind_report.xml"
+    fi
     TEST_EXECUTABLE="valgrind \
         --leak-check=full \
-        --xml=yes \
-        --xml-file=swift_valgrind_report.xml \
         --suppressions=${SCRIPT_DIR}/valgrind_suppressions \
         --gen-suppressions=all \
+        $REPORT_ARGS \
         $TEST_EXECUTABLE"
 fi
 
