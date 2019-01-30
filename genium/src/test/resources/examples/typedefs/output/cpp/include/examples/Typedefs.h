@@ -9,11 +9,12 @@
 
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 
 namespace examples {
 
-class Typedefs {
+class _GENIUM_CPP_EXPORT Typedefs {
 public:
     virtual ~Typedefs() = 0;
 public:

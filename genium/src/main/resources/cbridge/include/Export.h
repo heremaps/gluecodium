@@ -20,21 +20,12 @@
 
 #pragma once
 
-#include "BaseHandle.h"
-#include "Export.h"
-#include <stddef.h>
-#include <stdint.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-_GENIUM_C_EXPORT _baseRef byteArray_create_handle( );
-_GENIUM_C_EXPORT void byteArray_release_handle( _baseRef handle );
-_GENIUM_C_EXPORT void byteArray_assign( _baseRef handle, const uint8_t* data, const size_t size );
-_GENIUM_C_EXPORT const uint8_t* byteArray_data_get( _baseRef handle );
-_GENIUM_C_EXPORT size_t byteArray_size_get( _baseRef handle );
-
-#ifdef __cplusplus
-}
+// NOTE: Always export on Windows, since these symbols are intended to be loaded dynamically rather
+// than used directly.
+#ifndef _GENIUM_C_EXPORT
+#   if defined(_WIN32) || defined(__CYGWIN)
+#       define _GENIUM_C_EXPORT __declspec( dllexport )
+#   else
+#       define _GENIUM_C_EXPORT __attribute__( ( visibility( "default" ) ) )
+#   endif
 #endif

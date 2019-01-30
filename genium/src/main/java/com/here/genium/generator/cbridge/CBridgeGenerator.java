@@ -60,6 +60,7 @@ public class CBridgeGenerator {
           GeneratorSuite.copyTarget(CBridgeNameRules.BASE_HANDLE_FILE, ""),
           GeneratorSuite.copyTarget(CBridgeNameRules.BASE_HANDLE_IMPL_FILE, ""),
           GeneratorSuite.copyTarget(CBridgeNameRules.STRING_HANDLE_FILE, ""),
+          GeneratorSuite.copyTarget(CBridgeNameRules.EXPORT_FILE, ""),
           GeneratorSuite.copyTarget(
               Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "StringHandle.cpp").toString(), ""),
           GeneratorSuite.copyTarget(

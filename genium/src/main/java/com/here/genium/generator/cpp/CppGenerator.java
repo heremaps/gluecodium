@@ -84,7 +84,11 @@ public final class CppGenerator {
   }
 
   public GeneratedFile generateHelperHeader(final String headerName) {
-    String content = TemplateEngine.INSTANCE.render("cpp/" + headerName, internalNamespace);
+    return generateHelperHeader(headerName, internalNamespace);
+  }
+
+  public GeneratedFile generateHelperHeader(final String headerName, final String extraInfo) {
+    String content = TemplateEngine.INSTANCE.render("cpp/" + headerName, extraInfo);
     String resultFileName =
         Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE, headerName)
             + CppNameRules.HEADER_FILE_SUFFIX;

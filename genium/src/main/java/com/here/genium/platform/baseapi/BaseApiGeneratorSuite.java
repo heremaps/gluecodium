@@ -56,12 +56,14 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   private final FrancaDeploymentModel deploymentModel;
   private final CppIncludeResolver includeResolver;
   private final CppNameResolver nameResolver;
+  private final String exportName;
 
   public BaseApiGeneratorSuite(
       final Genium.Options options, final FrancaDeploymentModel deploymentModel) {
     super();
     this.internalNamespace = options.getCppInternalNamespace();
     this.rootNamespace = options.getCppRootNamespace();
+    this.exportName = options.getCppExport();
     this.deploymentModel = deploymentModel;
     this.includeResolver = new CppIncludeResolver(deploymentModel, rootNamespace);
     this.nameResolver = new CppNameResolver(deploymentModel, rootNamespace);
@@ -102,6 +104,10 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
       generatedFiles.add(generator.generateHelperHeader(header));
     }
 
+    if (exportName != null) {
+      generatedFiles.add(generator.generateHelperHeader("Export", exportName));
+    }
+
     return generatedFiles;
   }
 
@@ -125,6 +131,10 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
 
     List<CppElement> finalResults = builder.getFinalResults();
     List<Include> includes = collectIncludes(finalResults);
+    if (exportName != null) {
+      includes.add(
+          Include.Companion.createInternalInclude("Export" + CppNameRules.HEADER_FILE_SUFFIX));
+    }
 
     List<CppEnum> errorEnums =
         collectEnums(finalResults)
@@ -137,7 +147,13 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
     }
 
     return new CppFile(
-        namespaces, finalResults, includes, collectForwardDeclarations(finalResults), errorEnums);
+        namespaces,
+        finalResults,
+        includes,
+        collectForwardDeclarations(finalResults),
+        errorEnums,
+        null,
+        exportName);
   }
 
   private static List<Include> collectIncludes(final List<CppElement> members) {

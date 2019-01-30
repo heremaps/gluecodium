@@ -7,12 +7,13 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+#include "Export.h"
 #include <string>
 namespace smoke {
 /**
  * This is some very useful interface. There is a lot to say about this interface. at least it has a long comment.
  */
-class LongComments {
+class _GENIUM_CPP_EXPORT LongComments {
 public:
     virtual ~LongComments() = 0;
 public:

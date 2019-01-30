@@ -7,6 +7,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+#include "Export.h"
 #include "Return.h"
 #include "smoke/CommentsInstantiable.h"
 #include <memory>
@@ -21,7 +22,7 @@ namespace smoke {
 /**
  * This is some very useful interface.
  */
-class Comments {
+class _GENIUM_CPP_EXPORT Comments {
 public:
     virtual ~Comments() = 0;
 public:
@@ -53,7 +54,7 @@ using SomeMap = ::std::unordered_map< ::std::string, ::smoke::Comments::Usefulne
 /**
  * This is some very useful struct.
  */
-struct SomeStruct {
+struct _GENIUM_CPP_EXPORT SomeStruct {
     /**
      * How useful this struct is
      */
@@ -64,7 +65,7 @@ struct SomeStruct {
 /**
  * This is some very useful constant.
  */
-static const ::smoke::Comments::Usefulness VERY_USEFUL;
+_GENIUM_CPP_EXPORT static const ::smoke::Comments::Usefulness VERY_USEFUL;
 public:
 /**
  * This is some very useful method that measures the usefulness of its input.
@@ -134,7 +135,7 @@ virtual ::std::shared_ptr< ::smoke::CommentsInstantiable > get_instance_attribut
  */
 virtual void set_instance_attribute( const ::std::shared_ptr< ::smoke::CommentsInstantiable >& value ) = 0;
 };
-::std::error_code make_error_code( ::smoke::Comments::SomeEnum value ) noexcept;
+_GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::Comments::SomeEnum value ) noexcept;
 }
 namespace std
 {

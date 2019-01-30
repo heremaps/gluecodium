@@ -9,13 +9,14 @@
 
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 #include <memory>
 #include <vector>
 
 namespace examples {
 
-class BuiltinTypes {
+class _GENIUM_CPP_EXPORT BuiltinTypes {
 public:
     virtual ~BuiltinTypes() = 0;
 public:

@@ -38,6 +38,8 @@ public final class CBridgeNameRules {
       Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "BaseHandleImpl.h").toString();
   public static final String BASE_HANDLE_FILE =
       Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BaseHandle.h").toString();
+  public static final String EXPORT_FILE =
+      Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "Export.h").toString();
   public static final String SRC_DIR = "src";
 
   public static final String BASE_REF_NAME = "_baseRef";

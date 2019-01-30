@@ -45,7 +45,8 @@ public final class BaseApiGeneratorSuiteTest {
   public void generateFilesEmptyModel() {
     generatedFiles = baseApiGeneratorSuite.generate(new LinkedList<>());
     assertNotNull(generatedFiles);
-    final int expectedGeneratedFiles = BaseApiGeneratorSuite.ADDITIONAL_HEADERS.size();
+    // + 1 for Export.h
+    final int expectedGeneratedFiles = BaseApiGeneratorSuite.ADDITIONAL_HEADERS.size() + 1;
     assertEquals(
         "Expected cpp/internal files and test generated file",
         expectedGeneratedFiles,
@@ -53,5 +54,6 @@ public final class BaseApiGeneratorSuiteTest {
 
     assertEquals("cpp/include/EnumHash.h", getTargetFile(0));
     assertEquals("cpp/include/Return.h", getTargetFile(1));
+    assertEquals("cpp/include/Export.h", getTargetFile(2));
   }
 }

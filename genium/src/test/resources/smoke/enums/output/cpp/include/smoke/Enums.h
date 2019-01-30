@@ -10,6 +10,7 @@
 #pragma once
 
 #include "EnumHash.h"
+#include "Export.h"
 #include "foo/Bar.h"
 #include <cstdint>
 #include <string>
@@ -17,7 +18,7 @@
 
 namespace smoke {
 
-class Enums {
+class _GENIUM_CPP_EXPORT Enums {
 public:
     virtual ~Enums() = 0;
 public:
@@ -30,7 +31,7 @@ enum class InternalError {
     ERROR_FATAL = 999
 };
 using ExampleMap = ::std::unordered_map< ::smoke::Enums::SimpleEnum, uint64_t, ::genium::EnumHash >;
-struct ErrorStruct {
+struct _GENIUM_CPP_EXPORT ErrorStruct {
     ::smoke::Enums::InternalError type;
     ::std::string message;
     ErrorStruct( );

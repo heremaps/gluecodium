@@ -7,14 +7,15 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+#include "Export.h"
 #include <string>
 namespace smoke {
 namespace off {
-class NestedPackages {
+class _GENIUM_CPP_EXPORT NestedPackages {
 public:
     virtual ~NestedPackages() = 0;
 public:
-struct SomeStruct {
+struct _GENIUM_CPP_EXPORT SomeStruct {
     ::std::string some_field;
     SomeStruct( );
     SomeStruct( const ::std::string& some_field );

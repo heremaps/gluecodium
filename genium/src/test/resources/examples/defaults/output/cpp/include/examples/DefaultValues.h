@@ -9,12 +9,13 @@
 
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 #include <string>
 
 namespace examples {
 
-class DefaultValues {
+class _GENIUM_CPP_EXPORT DefaultValues {
 public:
     virtual ~DefaultValues() = 0;
 
@@ -24,7 +25,7 @@ enum class SomeEnum {
     BAR_VALUE
 };
 
-struct StructWithDefaults {
+struct _GENIUM_CPP_EXPORT StructWithDefaults {
     int32_t int_field = 42;
     float float_field = 3.14;
     bool bool_field = true;

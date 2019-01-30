@@ -9,11 +9,12 @@
 
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 
 namespace examples {
 
-class Attributes {
+class _GENIUM_CPP_EXPORT Attributes {
 public:
     virtual ~Attributes() = 0;
 

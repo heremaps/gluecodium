@@ -21,20 +21,21 @@
 #pragma once
 
 #include "BaseHandle.h"
+#include "Export.h"
 #include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-_baseRef std_string_create_handle( const char* c_str );
-const char* std_string_data_get( _baseRef handle );
-int64_t std_string_size_get( _baseRef handle );
-void std_string_release_handle( _baseRef handle );
+_GENIUM_C_EXPORT _baseRef std_string_create_handle( const char* c_str );
+_GENIUM_C_EXPORT const char* std_string_data_get( _baseRef handle );
+_GENIUM_C_EXPORT int64_t std_string_size_get( _baseRef handle );
+_GENIUM_C_EXPORT void std_string_release_handle( _baseRef handle );
 
-_baseRef std_string_create_optional_handle( const char* c_str );
-void std_string_release_optional_handle( _baseRef handle );
-_baseRef std_string_unwrap_optional_handle( _baseRef handle );
+_GENIUM_C_EXPORT _baseRef std_string_create_optional_handle( const char* c_str );
+_GENIUM_C_EXPORT void std_string_release_optional_handle( _baseRef handle );
+_GENIUM_C_EXPORT _baseRef std_string_unwrap_optional_handle( _baseRef handle );
 
 #ifdef __cplusplus
 }

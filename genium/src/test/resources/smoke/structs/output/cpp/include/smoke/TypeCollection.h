@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -16,33 +17,33 @@
 
 namespace smoke {
 
-struct Point {
+struct _GENIUM_CPP_EXPORT Point {
     double x;
     double y;
     Point( );
     Point( const double x, const double y );
 };
 using PointTypedef = ::smoke::Point;
-struct Color {
+struct _GENIUM_CPP_EXPORT Color {
     uint8_t red;
     uint8_t green;
     uint8_t blue;
     Color( );
     Color( const uint8_t red, const uint8_t green, const uint8_t blue );
 };
-struct Line {
+struct _GENIUM_CPP_EXPORT Line {
     ::smoke::Point a;
     ::smoke::Point b;
     Line( );
     Line( const ::smoke::Point& a, const ::smoke::Point& b );
 };
-struct ColoredLine {
+struct _GENIUM_CPP_EXPORT ColoredLine {
     ::smoke::Line line;
     ::smoke::Color color;
     ColoredLine( );
     ColoredLine( const ::smoke::Line& line, const ::smoke::Color& color );
 };
-struct AllTypesStruct {
+struct _GENIUM_CPP_EXPORT AllTypesStruct {
     int8_t int8_field;
     uint8_t uint8_field;
     int16_t int16_field;

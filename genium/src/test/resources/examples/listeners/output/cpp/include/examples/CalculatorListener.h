@@ -9,9 +9,11 @@
 
 #pragma once
 
+#include "Export.h"
+
 namespace examples {
 
-class CalculatorListener {
+class _GENIUM_CPP_EXPORT CalculatorListener {
 public:
     virtual ~CalculatorListener() = 0;
 

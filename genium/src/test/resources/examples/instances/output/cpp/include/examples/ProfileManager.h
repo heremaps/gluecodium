@@ -9,11 +9,12 @@
 
 #pragma once
 
+#include "Export.h"
 #include <string>
 
 namespace examples {
 
-class ProfileManager {
+class _GENIUM_CPP_EXPORT ProfileManager {
 public:
     virtual ~ProfileManager() = 0;
 

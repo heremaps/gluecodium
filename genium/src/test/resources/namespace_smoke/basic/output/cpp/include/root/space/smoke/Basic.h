@@ -7,11 +7,12 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+#include "Export.h"
 #include <string>
 namespace root {
 namespace space {
 namespace smoke {
-class Basic {
+class _GENIUM_CPP_EXPORT Basic {
 public:
     virtual ~Basic() = 0;
 public:

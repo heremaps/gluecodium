@@ -7,6 +7,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+#include "Export.h"
 #include "smoke/SomeInterface.h"
 #include <cstdint>
 #include <memory>
@@ -17,7 +18,7 @@ namespace smoke {
     class SomeInterface;
 }
 namespace smoke {
-class Nullable {
+class _GENIUM_CPP_EXPORT Nullable {
 public:
     virtual ~Nullable() = 0;
 public:
@@ -27,12 +28,12 @@ enum class SomeEnum {
 };
 using SomeArray = ::std::vector< ::std::string >;
 using SomeMap = ::std::unordered_map< int64_t, ::std::string >;
-struct SomeStruct {
+struct _GENIUM_CPP_EXPORT SomeStruct {
     ::std::string string_field;
     SomeStruct( );
     SomeStruct( const ::std::string& string_field );
 };
-struct NullableStruct {
+struct _GENIUM_CPP_EXPORT NullableStruct {
     ::std::shared_ptr< ::std::string > string_field;
     ::std::shared_ptr< bool > bool_field;
     ::std::shared_ptr< double > double_field;
@@ -45,7 +46,7 @@ struct NullableStruct {
     NullableStruct( );
     NullableStruct( const ::std::shared_ptr< ::std::string >& string_field, const ::std::shared_ptr< bool >& bool_field, const ::std::shared_ptr< double >& double_field, const ::std::shared_ptr< ::smoke::Nullable::SomeStruct >& struct_field, const ::std::shared_ptr< ::smoke::Nullable::SomeEnum >& enum_field, const ::std::shared_ptr< ::smoke::Nullable::SomeArray >& array_field, const ::std::shared_ptr< ::std::vector< ::std::string > >& inline_array_field, const ::std::shared_ptr< ::smoke::Nullable::SomeMap >& map_field, const ::std::shared_ptr< ::smoke::SomeInterface >& instance_field );
 };
-struct NullableIntsStruct {
+struct _GENIUM_CPP_EXPORT NullableIntsStruct {
     ::std::shared_ptr< int8_t > int8_field;
     ::std::shared_ptr< int16_t > int16_field;
     ::std::shared_ptr< int32_t > int32_field;

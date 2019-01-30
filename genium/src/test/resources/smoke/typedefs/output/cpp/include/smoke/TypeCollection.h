@@ -9,12 +9,13 @@
 
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 
 
 namespace smoke {
 
-struct Point {
+struct _GENIUM_CPP_EXPORT Point {
     double x;
     double y;
     Point( );
@@ -23,9 +24,9 @@ struct Point {
 using PointTypeDef = ::smoke::Point;
 
 using StorageId = uint64_t;
-extern const ::smoke::StorageId INVALID_STORAGE_ID;
+_GENIUM_CPP_EXPORT extern const ::smoke::StorageId INVALID_STORAGE_ID;
 
-struct StructHavingAliasFieldDefinedBelow {
+struct _GENIUM_CPP_EXPORT StructHavingAliasFieldDefinedBelow {
     ::smoke::StorageId field;
     StructHavingAliasFieldDefinedBelow( );
     StructHavingAliasFieldDefinedBelow( const ::smoke::StorageId field );

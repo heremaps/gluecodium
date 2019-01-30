@@ -18,13 +18,13 @@
   ! License-Filename: LICENSE
   !
   !}}
-_baseRef {{name}}_create_handle();
-_baseRef {{name}}_copy_handle(_baseRef handle);
-void {{name}}_release_handle(_baseRef handle);
-uint64_t {{name}}_count(_baseRef handle);
-{{innerType}} {{name}}_get(_baseRef handle, uint64_t index);
-void {{name}}_append(_baseRef handle, {{argument}} item);
+_GENIUM_C_EXPORT _baseRef {{name}}_create_handle();
+_GENIUM_C_EXPORT _baseRef {{name}}_copy_handle(_baseRef handle);
+_GENIUM_C_EXPORT void {{name}}_release_handle(_baseRef handle);
+_GENIUM_C_EXPORT uint64_t {{name}}_count(_baseRef handle);
+_GENIUM_C_EXPORT {{innerType}} {{name}}_get(_baseRef handle, uint64_t index);
+_GENIUM_C_EXPORT void {{name}}_append(_baseRef handle, {{argument}} item);
 
-_baseRef {{name}}_create_optional_handle();
-void {{name}}_release_optional_handle(_baseRef handle);
-_baseRef {{name}}_unwrap_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef {{name}}_create_optional_handle();
+_GENIUM_C_EXPORT void {{name}}_release_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef {{name}}_unwrap_optional_handle(_baseRef handle);

@@ -90,7 +90,12 @@ EOF
 # or 3.9.1. To ensure compatibility, use the shipped cmake binary. See
 # https://github.com/android-ndk/ndk/issues/254 or
 # https://gitlab.kitware.com/cmake/cmake/issues/16708
-NDK_CMAKE_BINARY=$(find $ANDROID_HOME/cmake -perm -u+x -type f  -name cmake)
+if [ -d "$ANDROID_HOME/cmake" ]; then
+    NDK_CMAKE_BINARY=$(find $ANDROID_HOME/cmake -perm -u+x -type f  -name cmake)
+fi
+if [ -z "$NDK_CMAKE_BINARY" ]; then
+    NDK_CMAKE_BINARY=cmake
+fi
 
 # Do cross-compilation build for generating a proper Android Archive
 for arch in x86 armeabi-v7a ${HOST_ARCH} ; do

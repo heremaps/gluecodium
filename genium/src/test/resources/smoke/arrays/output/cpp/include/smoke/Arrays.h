@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 
+#include "Export.h"
 #include "alien/FooEnum.h"
 #include "alien/FooStruct.h"
 #include <cstdint>
@@ -17,7 +18,7 @@
 #include <vector>
 
 namespace smoke {
-class Arrays {
+class _GENIUM_CPP_EXPORT Arrays {
 public:
     virtual ~Arrays() = 0;
 
@@ -39,14 +40,14 @@ using ArrayOfArrays = ::std::vector< ::smoke::Arrays::StringArray >;
 using ArrayOfEnums = ::std::vector< ::smoke::Arrays::SomeEnum >;
 using ArrayOfExternalEnums = ::std::vector< ::alien::FooEnum >;
 
-struct BasicStruct {
+struct _GENIUM_CPP_EXPORT BasicStruct {
     double value;
     BasicStruct( );
     BasicStruct( const double value );
 };
 using StructArray = ::std::vector< ::smoke::Arrays::BasicStruct >;
 using ExternalStructArray = ::std::vector< ::alien::FooStruct >;
-struct FancyStruct {
+struct _GENIUM_CPP_EXPORT FancyStruct {
     ::smoke::Arrays::StringArray messages;
     ::std::vector< uint8_t > numbers;
     ::std::shared_ptr< ::std::vector< uint8_t > > image;

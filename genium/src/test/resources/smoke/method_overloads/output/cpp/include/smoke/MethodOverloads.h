@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 
 #include <string>
@@ -16,14 +17,14 @@
 
 namespace smoke {
 
-class MethodOverloads {
+class _GENIUM_CPP_EXPORT MethodOverloads {
 public:
     virtual ~MethodOverloads() = 0;
 
 public:
 using StringArray = ::std::vector< ::std::string >;
 using IntArray = ::std::vector< int8_t >;
-struct Point {
+struct _GENIUM_CPP_EXPORT Point {
     double x;
     double y;
     Point( );

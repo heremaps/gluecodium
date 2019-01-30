@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "Export.h"
 #include "foo/Bar.h"
 #include <cstdint>
 #include <limits>
@@ -16,7 +17,7 @@
 
 namespace smoke {
 
-class DefaultValues {
+class _GENIUM_CPP_EXPORT DefaultValues {
 public:
     virtual ~DefaultValues() = 0;
 
@@ -26,7 +27,7 @@ enum class SomeEnum {
     BAR_VALUE
 };
 
-struct StructWithDefaults {
+struct _GENIUM_CPP_EXPORT StructWithDefaults {
     int32_t int_field = 42;
     uint32_t uint_field = 4294967295;
     float float_field = 3.14;
@@ -37,7 +38,7 @@ struct StructWithDefaults {
     StructWithDefaults( );
     StructWithDefaults( const int32_t int_field, const uint32_t uint_field, const float float_field, const bool bool_field, const ::std::string& string_field, const ::smoke::DefaultValues::SomeEnum enum_field, const ::fire::SomeVeryExternalEnum external_enum_field );
 };
-struct StructWithSpecialDefaults {
+struct _GENIUM_CPP_EXPORT StructWithSpecialDefaults {
     float float_nan_field = std::numeric_limits<float>::quiet_NaN();
     float float_infinity_field = std::numeric_limits<float>::infinity();
     float float_negative_infinity_field = -std::numeric_limits<float>::infinity();

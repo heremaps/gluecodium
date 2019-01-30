@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "Export.h"
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -17,7 +18,7 @@ namespace examples {
 /**
  * This is some very useful interface.
  */
-class Comments {
+class _GENIUM_CPP_EXPORT Comments {
 public:
     virtual ~Comments() = 0;
 public:
@@ -49,7 +50,7 @@ using SomeMap = ::std::unordered_map< ::std::string, ::examples::Comments::Usefu
 /**
  * This is some very useful struct.
  */
-struct SomeStruct {
+struct _GENIUM_CPP_EXPORT SomeStruct {
     /**
      * How useful this struct is
      */
@@ -61,7 +62,7 @@ struct SomeStruct {
 /**
  * This is some very useful constant.
  */
-static const ::examples::Comments::Usefulness VERY_USEFUL;
+_GENIUM_CPP_EXPORT static const ::examples::Comments::Usefulness VERY_USEFUL;
 
 public:
 /**
