@@ -27,3 +27,7 @@ bool {{name}}_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
 void {{name}}_iterator_increment(_baseRef iterator_handle);
 {{keyType.functionReturnType}} {{name}}_iterator_key(_baseRef iterator_handle);
 {{valueType.functionReturnType}} {{name}}_iterator_value(_baseRef iterator_handle);
+
+_baseRef {{name}}_create_optional_handle();
+void {{name}}_release_optional_handle(_baseRef handle);
+_baseRef {{name}}_unwrap_optional_handle(_baseRef handle);

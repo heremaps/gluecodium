@@ -22,6 +22,25 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include <new>
 #include <string>
+#include <memory>
+
+namespace {
+template<class T>
+_baseRef create_handle( T t ) {
+    return reinterpret_cast< _baseRef >(
+        new ( std::nothrow ) std::shared_ptr< T >( new ( std::nothrow ) T( t ) ) );
+}
+template<class T>
+void release_handle( _baseRef handle )
+{
+    delete reinterpret_cast< std::shared_ptr< T >*>( handle );
+}
+template<class T>
+T value_get( _baseRef handle )
+{
+    return **reinterpret_cast< std::shared_ptr< T >*>( handle );
+}
+}
 
 _baseRef
 std_string_create_handle( const char* c_str )
@@ -45,4 +64,23 @@ int64_t
 std_string_size_get( _baseRef handle )
 {
     return get_pointer< std::string >( handle )->size( );
+}
+
+_baseRef
+std_string_create_optional_handle( const char* c_str )
+{
+    return reinterpret_cast< _baseRef >(
+        new ( std::nothrow ) std::shared_ptr<std::string>( new ( std::nothrow ) std::string( c_str ) ) );
+}
+
+void
+std_string_release_optional_handle( _baseRef handle )
+{
+    delete reinterpret_cast<std::shared_ptr<std::string>*>(handle);
+}
+
+_baseRef
+std_string_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast< _baseRef >( reinterpret_cast<std::shared_ptr<std::string>*>( handle )->get( ) );
 }

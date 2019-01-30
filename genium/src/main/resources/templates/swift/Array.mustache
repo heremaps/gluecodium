@@ -27,35 +27,63 @@ import Foundation
 {{#arrays}}
 internal func copyFromCType(_ handle: _baseRef) -> {{name}} {
     var result: {{name}} = []
-    let count = {{refName}}_count(handle)
+    let count = {{cPrefix}}_count(handle)
     for idx in 0..<count {
-        result.append({{underlyingType.className}}copyFromCType({{refName}}_get(handle, idx)))
+        result.append({{underlyingType.className}}copyFromCType({{cPrefix}}_get(handle, idx)))
     }
     return result
 }
 
 internal func moveFromCType(_ handle: _baseRef) -> {{name}} {
     defer {
-        {{refName}}_release_handle(handle)
+        {{cPrefix}}_release_handle(handle)
     }
-    var result: {{name}} = []
-    let count = {{refName}}_count(handle)
-    for idx in 0..<count {
-        result.append({{underlyingType.className}}copyFromCType({{refName}}_get(handle, idx)))
-    }
-    return result
+    return copyFromCType(handle)
 }
 
 internal func copyToCType(_ swiftArray: {{name}}) -> RefHolder {
-    let handle = {{refName}}_create_handle()
+    let handle = {{cPrefix}}_create_handle()
     for item in swiftArray {
-        {{refName}}_append(handle, moveToCType(item).ref)
+        {{cPrefix}}_append(handle, moveToCType(item).ref)
     }
     return RefHolder(handle)
 }
 
 internal func moveToCType(_ swiftArray: {{name}}) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftArray).ref, release: {{refName}}_release_handle)
+    return RefHolder(ref: copyToCType(swiftArray).ref, release: {{cPrefix}}_release_handle)
+}
+{{!!
+Optionals
+}}
+internal func copyToCType(_ swiftArray: {{name}}?) -> RefHolder {
+    guard let swiftArray = swiftArray else {
+        return RefHolder(0)
+    }
+    let optionalHandle = {{cPrefix}}_create_optional_handle()
+    let handle = {{cPrefix}}_unwrap_optional_handle(optionalHandle)
+    for item in swiftArray {
+        {{cPrefix}}_append(handle, moveToCType(item).ref)
+    }
+    return RefHolder(optionalHandle)
+}
+
+internal func moveToCType(_ swiftType: {{name}}?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: {{cPrefix}}_release_optional_handle)
+}
+
+internal func copyFromCType(_ handle: _baseRef) -> {{name}}? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = {{cPrefix}}_unwrap_optional_handle(handle)
+    return copyFromCType(unwrappedHandle) as {{name}}
+}
+
+internal func moveFromCType(_ handle: _baseRef) -> {{name}}? {
+    defer {
+        {{cPrefix}}_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
 }
 
 {{/arrays}}

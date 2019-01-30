@@ -91,7 +91,7 @@ public class SwiftTypeMapperTest {
     assertTrue(resultType instanceof SwiftStruct);
     SwiftStruct containerType = (SwiftStruct) resultType;
     final String expectedCName = TYPE_COLLECTION_NAME + "_" + STRUCT_NAME;
-    assertEquals(expectedCName, containerType.getcPrefix());
+    assertEquals(expectedCName, containerType.cPrefix);
   }
 
   @Test
@@ -115,7 +115,7 @@ public class SwiftTypeMapperTest {
 
     assertTrue(resultType instanceof SwiftStruct);
     SwiftStruct containerType = (SwiftStruct) resultType;
-    assertEquals(INTERFACE_NAME, containerType.getcPrefix());
+    assertEquals(INTERFACE_NAME, containerType.cPrefix);
   }
 
   @Test

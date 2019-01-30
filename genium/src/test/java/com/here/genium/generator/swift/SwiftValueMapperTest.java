@@ -62,7 +62,7 @@ public final class SwiftValueMapperTest {
 
   @Test
   public void mapDefaultValueForEnum() {
-    SwiftType swiftType = new SwiftType("SomeType", SwiftType.TypeCategory.ENUM);
+    SwiftType swiftType = new SwiftType("SomeType", "", SwiftType.TypeCategory.ENUM);
 
     SwiftValue result = SwiftValueMapper.mapDefaultValue(swiftType, "SomeString");
 
@@ -89,7 +89,7 @@ public final class SwiftValueMapperTest {
 
   @Test
   public void mapDefaultValueForInteger() {
-    SwiftType swiftType = new SwiftType("UInt64");
+    SwiftType swiftType = new SwiftType("UInt64", "uint64_t");
 
     SwiftValue result = SwiftValueMapper.mapDefaultValue(swiftType, "SomeString");
 

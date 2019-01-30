@@ -130,3 +130,14 @@
    fun:swift_getTupleTypeMetadata2
    fun:*
 }
+{
+   Mirror
+
+   Memcheck:Value8
+   fun:$Ss15LazyMapSequenceVwxx
+   fun:$Ss14_CollectionBoxCfD
+   fun:_swift_release_dealloc
+   fun:$Ss6MirrorVWOh
+   fun:*
+}
+

@@ -35,6 +35,7 @@ import com.here.genium.model.cbridge.CBridgeIncludeResolver;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.CppIncludeResolver;
+import com.here.genium.model.cpp.CppTypeRef;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -178,6 +179,18 @@ public class CBridgeTypeMapper {
             BASE_HANDLE_IMPL_INCLUDE,
             CppLibraryIncludes.MEMORY,
             CppLibraryIncludes.NEW));
+  }
+
+  public static CppTypeInfo createNullableTypeInfo(
+      final CppTypeInfo baseTypeInfo, final CppTypeRef cppTypeRef) {
+
+    List<Include> includes = new LinkedList<>();
+    includes.addAll(baseTypeInfo.getIncludes());
+    includes.addAll(cppTypeRef.includes);
+
+    CType structCType = new CType(BASE_REF_NAME);
+    return new CppTypeInfo(
+        cppTypeRef.fullyQualifiedName, structCType, structCType, CLASS, includes);
   }
 
   public CppTypeInfo createEnumTypeInfo(final FEnumerationType francaEnum) {

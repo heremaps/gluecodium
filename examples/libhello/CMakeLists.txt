@@ -364,8 +364,7 @@ feature(Nullability cpp android swift SOURCES
     fidl/test/NotNull.fdepl
 )
 
-# TODO: merge with Nullability when it's done for Swift
-feature(Nullable cpp android SOURCES
+feature(Nullable cpp android swift SOURCES
     src/test/NullableInterface.cpp
 
     fidl/test/NullableInterface.fidl

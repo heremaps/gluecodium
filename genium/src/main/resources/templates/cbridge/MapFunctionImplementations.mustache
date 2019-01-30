@@ -19,7 +19,7 @@
   !
   !}}
 _baseRef {{name}}_create_handle() {
-    return reinterpret_cast<_baseRef>( new {{>baseApi}}() );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) {{>baseApi}}() );
 }
 
 void {{name}}_release_handle(_baseRef handle) {
@@ -27,7 +27,7 @@ void {{name}}_release_handle(_baseRef handle) {
 }
 
 _baseRef {{name}}_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new {{>baseApi}}::iterator( get_pointer<{{>baseApi}}>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) {{>baseApi}}::iterator( get_pointer<{{>baseApi}}>(handle)->begin() ) );
 }
 
 void {{name}}_iterator_release_handle(_baseRef iterator_handle) {
@@ -55,7 +55,21 @@ void {{name}}_iterator_increment(_baseRef iterator_handle) {
 {{valueType.functionReturnType}} {{name}}_iterator_value(_baseRef iterator_handle) {
     auto& value = (*reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle ))->second;
     return {{#set variableName="value" variableType=valueType}}{{>ConvertFromCpp}}{{/set}};
-}{{!!
+}
+
+_baseRef {{name}}_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<{{>baseApi}}>( new ( std::nothrow ) {{>baseApi}}( ) ) );
+}
+
+void {{name}}_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<{{>baseApi}}>*>( handle );
+}
+
+_baseRef {{name}}_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<{{>baseApi}}>*>( handle )->get( ) );
+}
+
+{{!!
 
 }}{{+baseApi}}std::unordered_map<{{keyType.name}}, {{valueType.name}}{{#enumHashType}}, {{.}}{{/enumHashType}}>{{/baseApi}}{{!!
 

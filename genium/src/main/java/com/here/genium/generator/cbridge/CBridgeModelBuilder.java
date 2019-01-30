@@ -32,6 +32,7 @@ import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.CppField;
 import com.here.genium.model.cpp.CppIncludeResolver;
 import com.here.genium.model.cpp.CppMethod;
+import com.here.genium.model.cpp.CppParameter;
 import com.here.genium.model.cpp.CppStruct;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.swift.SwiftField;
@@ -195,13 +196,29 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
 
   @Override
   public void finishBuildingInputArgument(FArgument francaArgument) {
-    storeResult(new CInParameter(francaArgument.getName(), getPreviousResult(CppTypeInfo.class)));
+
+    CppTypeInfo cppTypeInfo = getPreviousResult(CppTypeInfo.class);
+    if (deploymentModel.isNullable(francaArgument)) {
+      cppTypeInfo =
+          CBridgeTypeMapper.createNullableTypeInfo(
+              cppTypeInfo, cppBuilder.getFinalResult(CppParameter.class).type);
+    }
+
+    storeResult(new CInParameter(francaArgument.getName(), cppTypeInfo));
     closeContext();
   }
 
   @Override
   public void finishBuildingOutputArgument(FArgument francaArgument) {
-    storeResult(new COutParameter("result", getPreviousResult(CppTypeInfo.class)));
+
+    CppTypeInfo cppTypeInfo = getPreviousResult(CppTypeInfo.class);
+    if (deploymentModel.isNullable(francaArgument)) {
+      cppTypeInfo =
+          CBridgeTypeMapper.createNullableTypeInfo(
+              cppTypeInfo, cppBuilder.getFinalResult(CppParameter.class).type);
+    }
+
+    storeResult(new COutParameter("result", cppTypeInfo));
     closeContext();
   }
 
@@ -234,13 +251,20 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
   @Override
   public void finishBuilding(FField francaField) {
 
+    CppTypeInfo cppTypeInfo = getPreviousResult(CppTypeInfo.class);
+    if (deploymentModel.isNullable(francaField)) {
+      cppTypeInfo =
+          CBridgeTypeMapper.createNullableTypeInfo(
+              cppTypeInfo, cppBuilder.getFinalResult(CppField.class).type);
+    }
+
     CppField cppField = cppBuilder.getFinalResult(CppField.class);
     SwiftField swiftField = swiftBuilder.getFinalResult(SwiftField.class);
     CField cField =
         new CField(
             swiftField.name,
             cppField.name,
-            getPreviousResult(CppTypeInfo.class),
+            cppTypeInfo,
             deploymentModel.getExternalGetter(francaField),
             deploymentModel.getExternalSetter(francaField));
 
@@ -276,7 +300,13 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
         !deploymentModel.isStatic(francaAttribute)
             ? new CInParameter("_instance", classInfo)
             : null;
+
     CppTypeInfo attributeTypeInfo = getPreviousResult(CppTypeInfo.class);
+    if (deploymentModel.isNullable(francaAttribute)) {
+      attributeTypeInfo =
+          CBridgeTypeMapper.createNullableTypeInfo(
+              attributeTypeInfo, cppBuilder.getFinalResult(CppMethod.class).getReturnType());
+    }
 
     SwiftMethod getterSwiftMethod = property.getter;
     CppMethod cppGetterMethod = cppMethods.get(0);

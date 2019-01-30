@@ -496,7 +496,7 @@ public final class CBridgeModelBuilderTest {
         new SwiftProperty(
             "",
             null,
-            new SwiftType(""),
+            new SwiftType("", ""),
             new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_GETTER_NAME),
             new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_SETTER_NAME),
             false);
@@ -525,7 +525,7 @@ public final class CBridgeModelBuilderTest {
         new SwiftProperty(
             "",
             null,
-            new SwiftType(""),
+            new SwiftType("", ""),
             new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_GETTER_NAME),
             null,
             false);
@@ -546,7 +546,7 @@ public final class CBridgeModelBuilderTest {
   public void finishBuildingStaticAttribute() {
     SwiftProperty swiftProperty =
         new SwiftProperty(
-            "", null, new SwiftType(""), new SwiftMethod(""), new SwiftMethod(""), false);
+            "", null, new SwiftType("", ""), new SwiftMethod(""), new SwiftMethod(""), false);
     when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
     when(cppModelbuilder.getFinalResults())
         .thenReturn(asList(new CppMethod(""), new CppMethod("")));

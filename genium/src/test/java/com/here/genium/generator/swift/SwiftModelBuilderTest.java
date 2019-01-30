@@ -58,6 +58,7 @@ public final class SwiftModelBuilderTest {
   private static final String FIELD_NAME = "flowers";
   private static final String CBRIDGE_GETTER_NAME = "CBRIDGE_GETTER_NAME";
   private static final String CBRIDGE_SETTER_NAME = "CBRIDGE_SETTER_NAME";
+  private static final String CBRIDGE_STRUCT_BASE_NAME = "CBase";
 
   private final MockContextStack<SwiftModelElement> contextStack = new MockContextStack<>();
 
@@ -78,7 +79,7 @@ public final class SwiftModelBuilderTest {
   @Mock private FConstantDef francaConstant;
   @Mock private FInitializerExpression francaInitializer;
 
-  private final SwiftType swiftType = new SwiftType("VerySwiftType");
+  private final SwiftType swiftType = new SwiftType("VerySwiftType", "c_ish_type");
   private final SwiftValue swiftValue = new SwiftValue("");
   private final SwiftField swiftField = new SwiftField("flowers", null, swiftType, swiftValue);
 
@@ -100,6 +101,7 @@ public final class SwiftModelBuilderTest {
     when(francaMethod.getName()).thenReturn(FUNCTION_NAME);
     when(CBridgeNameRules.getPropertyGetterName(any())).thenReturn(CBRIDGE_GETTER_NAME);
     when(CBridgeNameRules.getPropertySetterName(any())).thenReturn(CBRIDGE_SETTER_NAME);
+    when(CBridgeNameRules.getStructBaseName(any())).thenReturn(CBRIDGE_STRUCT_BASE_NAME);
 
     when(francaArgument.getName()).thenReturn(PARAM_NAME);
     when(francaField.getName()).thenReturn(FIELD_NAME);
@@ -603,14 +605,13 @@ public final class SwiftModelBuilderTest {
   @Test
   public void finishBuildingFrancaStructTypeReadsName() {
     when(francaStruct.getName()).thenReturn("Structural");
-    when(CBridgeNameRules.getStructBaseName(any())).thenReturn("CBase");
 
     modelBuilder.finishBuilding(francaStruct);
 
     SwiftStruct swiftStruct = modelBuilder.getFinalResult(SwiftStruct.class);
     assertNotNull(swiftStruct);
     assertEquals("Structural", swiftStruct.name);
-    assertEquals("CBase", swiftStruct.getcPrefix());
+    assertEquals(CBRIDGE_STRUCT_BASE_NAME, swiftStruct.cPrefix);
   }
 
   @Test
@@ -671,7 +672,7 @@ public final class SwiftModelBuilderTest {
     assertNotNull(swiftDictionary);
     assertEquals("SomeMap", swiftDictionary.name);
     assertEquals("SomeMap", swiftDictionary.publicName);
-    assertEquals("SomeMapBaz", swiftDictionary.getcPrefix());
+    assertEquals("SomeMapBaz", swiftDictionary.cPrefix);
     assertEquals(SwiftType.STRING, swiftDictionary.getKeyType());
     assertEquals(swiftType, swiftDictionary.getValueType());
 

@@ -41,18 +41,45 @@ internal func copyFromCType(_ handle: _baseRef) -> String {
                   count: Int(std_string_size_get(handle))), encoding: .utf8)!
 }
 
-internal func copyToCType(_ swiftType: String) -> RefHolder {
-    return RefHolder(std_string_create_handle(swiftType))
-}
-internal func moveToCType(_ swiftType: String) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: std_string_release_handle)
-}
-
 internal func moveFromCType(_ handle: _baseRef) -> String {
     defer {
         std_string_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: String) -> RefHolder {
+    return RefHolder(std_string_create_handle(swiftType))
+}
+
+internal func moveToCType(_ swiftType: String) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: std_string_release_handle)
+}
+
+internal func copyFromCType(_ handle: _baseRef) -> String? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = std_string_unwrap_optional_handle(handle)
+    return copyFromCType(unwrappedHandle) as String
+}
+
+internal func moveFromCType(_ handle: _baseRef) -> String? {
+    defer {
+        std_string_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: String?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(std_string_create_optional_handle(swiftType))
+}
+
+internal func moveToCType(_ swiftType: String?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: std_string_release_optional_handle)
 }
 
 internal func copyFromCType(_ handle: _baseRef) -> Data {

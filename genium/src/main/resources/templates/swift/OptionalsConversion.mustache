@@ -1,0 +1,27 @@
+internal func copyToCType(_ swiftType: {{name}}?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return copyToCType(swiftType)
+}
+
+internal func moveToCType(_ swiftType: {{name}}?) -> RefHolder {
+  guard let swiftType = swiftType else {
+      return RefHolder(0)
+  }
+  return moveToCType(swiftType)
+}
+
+internal func copyFromCType(_ handle: _baseRef) -> {{name}}? {
+    guard handle != 0 else {
+        return nil
+    }
+    return copyFromCType(handle) as {{name}}
+}
+
+internal func moveFromCType(_ handle: _baseRef) -> {{name}}? {
+    guard handle != 0 else {
+        return nil
+    }
+    return moveFromCType(handle) as {{name}}
+}

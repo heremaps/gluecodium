@@ -35,4 +35,31 @@ internal func copyToCType(_ swiftType: {{name}}) -> RefHolder {
 internal func moveToCType(_ swiftType: {{name}}) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: {{cPrefix}}_release_handle)
 }
+{{!!
+Optionals
+}}
+internal func copyFromCType(_ handle: _baseRef) -> {{name}}? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = {{cPrefix}}_unwrap_optional_handle(handle)
+    return {{name}}(cHandle: unwrappedHandle) as {{name}}
+}
+internal func moveFromCType(_ handle: _baseRef) -> {{name}}? {
+    defer {
+        {{cPrefix}}_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: {{name}}?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder({{cPrefix}}_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: {{name}}?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: {{cPrefix}}_release_optional_handle)
+}
+
 {{/if}}
