@@ -40,10 +40,10 @@ class ArraysViewController: UIViewController {
         dismissKeyboard()
         resultView.isHidden = false
         if indexSelected == 0 {
-            let result: CollectionOf<Int64> = HelloWorldArrays.methodWithSimpleArray(input: arrayInput1.intArray)
+            let result = HelloWorldArrays.methodWithSimpleArray(input: arrayInput1.intArray)
             resultLabel.text = result.stringRepresentation
         } else {
-            let result: CollectionOf<CollectionOf<Int64>> =
+            let result =
                 HelloWorldArrays.methodWithNestedArraysInline(input: [arrayInput1.intArray, arrayInput2.intArray])
             resultLabel.text = result.stringRepresentation
         }
@@ -78,10 +78,10 @@ extension UITextField {
     }
 }
 
-extension CollectionOf {
+extension Array {
     var stringRepresentation: String {
         let representation = self.map { value -> String in
-            if let array = value as? CollectionOf<Int64> {
+            if let array = value as? Array {
                 return array.stringRepresentation
             } else {
                 return String(describing: value)
