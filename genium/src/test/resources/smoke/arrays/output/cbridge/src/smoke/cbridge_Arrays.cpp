@@ -18,39 +18,90 @@ _baseRef smoke_Arrays_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::Arrays>>(handle)))
         : 0;
 }
-_baseRef smoke_Arrays_BasicStruct_create_handle(double value) {
-    ::smoke::Arrays::BasicStruct* _struct = new ::smoke::Arrays::BasicStruct();
+_baseRef
+smoke_Arrays_BasicStruct_create_handle( double value )
+{
+    ::smoke::Arrays::BasicStruct* _struct = new ( std::nothrow ) ::smoke::Arrays::BasicStruct();
     _struct->value = value;
-    return reinterpret_cast<_baseRef>(_struct);
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_Arrays_BasicStruct_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::Arrays::BasicStruct>(handle);
+void
+smoke_Arrays_BasicStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::Arrays::BasicStruct>( handle );
+}
+_baseRef
+smoke_Arrays_BasicStruct_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::Arrays::BasicStruct>( reinterpret_cast<::smoke::Arrays::BasicStruct*>( handle ) ) );
+}
+_baseRef
+smoke_Arrays_BasicStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::Arrays::BasicStruct>*>( handle )->get( ) );
+}
+void smoke_Arrays_BasicStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::smoke::Arrays::BasicStruct>*>( handle );
 }
 double smoke_Arrays_BasicStruct_value_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Arrays::BasicStruct>(handle);
 return struct_pointer->value;
 }
-_baseRef smoke_Arrays_ExternalStruct_create_handle(_baseRef string) {
-    ::alien::FooStruct* _struct = new ::alien::FooStruct();
-    _struct->string = Conversion<std::string>::toCpp(string);
-    return reinterpret_cast<_baseRef>(_struct);
+_baseRef
+smoke_Arrays_ExternalStruct_create_handle( _baseRef string )
+{
+    ::alien::FooStruct* _struct = new ( std::nothrow ) ::alien::FooStruct();
+    _struct->string = Conversion<std::string>::toCpp( string );
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_Arrays_ExternalStruct_release_handle(_baseRef handle) {
-    delete get_pointer<::alien::FooStruct>(handle);
+void
+smoke_Arrays_ExternalStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::alien::FooStruct>( handle );
+}
+_baseRef
+smoke_Arrays_ExternalStruct_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::alien::FooStruct>( reinterpret_cast<::alien::FooStruct*>( handle ) ) );
+}
+_baseRef
+smoke_Arrays_ExternalStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::alien::FooStruct>*>( handle )->get( ) );
+}
+void smoke_Arrays_ExternalStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::alien::FooStruct>*>( handle );
 }
 _baseRef smoke_Arrays_ExternalStruct_string_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::alien::FooStruct>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->string);
 }
-_baseRef smoke_Arrays_FancyStruct_create_handle(_baseRef messages, _baseRef numbers, _baseRef image) {
-    ::smoke::Arrays::FancyStruct* _struct = new ::smoke::Arrays::FancyStruct();
-    _struct->messages = Conversion<std::vector<std::string>>::toCpp(messages);
-    _struct->numbers = Conversion<std::vector<uint8_t>>::toCpp(numbers);
-    _struct->image = Conversion<::std::shared_ptr< ::std::vector< uint8_t > >>::toCpp(image);
-    return reinterpret_cast<_baseRef>(_struct);
+_baseRef
+smoke_Arrays_FancyStruct_create_handle( _baseRef messages, _baseRef numbers, _baseRef image )
+{
+    ::smoke::Arrays::FancyStruct* _struct = new ( std::nothrow ) ::smoke::Arrays::FancyStruct();
+    _struct->messages = Conversion<std::vector<std::string>>::toCpp( messages );
+    _struct->numbers = Conversion<std::vector<uint8_t>>::toCpp( numbers );
+    _struct->image = Conversion<::std::shared_ptr< ::std::vector< uint8_t > >>::toCpp( image );
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_Arrays_FancyStruct_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::Arrays::FancyStruct>(handle);
+void
+smoke_Arrays_FancyStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::Arrays::FancyStruct>( handle );
+}
+_baseRef
+smoke_Arrays_FancyStruct_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::Arrays::FancyStruct>( reinterpret_cast<::smoke::Arrays::FancyStruct*>( handle ) ) );
+}
+_baseRef
+smoke_Arrays_FancyStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::Arrays::FancyStruct>*>( handle )->get( ) );
+}
+void smoke_Arrays_FancyStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::smoke::Arrays::FancyStruct>*>( handle );
 }
 _baseRef smoke_Arrays_FancyStruct_messages_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Arrays::FancyStruct>(handle);
@@ -109,13 +160,13 @@ _baseRef smoke_Arrays_methodWithExternalEnumArray(_baseRef input) {
 ;
 }
 _baseRef smoke_Arrays_ErrorCodeToMessageMap_create_handle() {
-    return reinterpret_cast<_baseRef>( new std::unordered_map<int32_t, std::string>() );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<int32_t, std::string>() );
 }
 void smoke_Arrays_ErrorCodeToMessageMap_release_handle(_baseRef handle) {
     delete get_pointer<std::unordered_map<int32_t, std::string>>(handle);
 }
 _baseRef smoke_Arrays_ErrorCodeToMessageMap_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new std::unordered_map<int32_t, std::string>::iterator( get_pointer<std::unordered_map<int32_t, std::string>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<int32_t, std::string>::iterator( get_pointer<std::unordered_map<int32_t, std::string>>(handle)->begin() ) );
 }
 void smoke_Arrays_ErrorCodeToMessageMap_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, std::string>::iterator*>( iterator_handle );
@@ -136,4 +187,13 @@ int32_t smoke_Arrays_ErrorCodeToMessageMap_iterator_key(_baseRef iterator_handle
 _baseRef smoke_Arrays_ErrorCodeToMessageMap_iterator_value(_baseRef iterator_handle) {
     auto& value = (*reinterpret_cast<std::unordered_map<int32_t, std::string>::iterator*>( iterator_handle ))->second;
     return Conversion<std::string>::toBaseRef(value);
+}
+_baseRef smoke_Arrays_ErrorCodeToMessageMap_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<int32_t, std::string>>( new ( std::nothrow ) std::unordered_map<int32_t, std::string>( ) ) );
+}
+void smoke_Arrays_ErrorCodeToMessageMap_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<std::unordered_map<int32_t, std::string>>*>( handle );
+}
+_baseRef smoke_Arrays_ErrorCodeToMessageMap_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<int32_t, std::string>>*>( handle )->get( ) );
 }

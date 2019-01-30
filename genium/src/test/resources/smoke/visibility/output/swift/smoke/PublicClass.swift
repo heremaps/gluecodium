@@ -125,6 +125,28 @@ internal func copyToCType(_ swiftType: PublicClass.InternalStruct) -> RefHolder 
 internal func moveToCType(_ swiftType: PublicClass.InternalStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicClass_InternalStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> PublicClass.InternalStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_PublicClass_InternalStruct_unwrap_optional_handle(handle)
+    return PublicClass.InternalStruct(cHandle: unwrappedHandle) as PublicClass.InternalStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> PublicClass.InternalStruct? {
+    defer {
+        smoke_PublicClass_InternalStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: PublicClass.InternalStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_PublicClass_InternalStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: PublicClass.InternalStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicClass_InternalStruct_release_optional_handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> PublicClass.PublicStruct {
     return PublicClass.PublicStruct(cHandle: handle)
 }
@@ -140,15 +162,55 @@ internal func copyToCType(_ swiftType: PublicClass.PublicStruct) -> RefHolder {
 internal func moveToCType(_ swiftType: PublicClass.PublicStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicClass_PublicStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> PublicClass.PublicStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_PublicClass_PublicStruct_unwrap_optional_handle(handle)
+    return PublicClass.PublicStruct(cHandle: unwrappedHandle) as PublicClass.PublicStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> PublicClass.PublicStruct? {
+    defer {
+        smoke_PublicClass_PublicStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: PublicClass.PublicStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_PublicClass_PublicStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: PublicClass.PublicStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicClass_PublicStruct_release_optional_handle)
+}
+internal func copyToCType(_ swiftEnum: PublicClass.InternalEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: PublicClass.InternalEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: PublicClass.InternalEnum?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: PublicClass.InternalEnum?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
+}
 internal func copyFromCType(_ cValue: UInt32) -> PublicClass.InternalEnum {
     return PublicClass.InternalEnum(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> PublicClass.InternalEnum {
     return copyFromCType(cValue)
 }
-internal func copyToCType(_ swiftType: PublicClass.InternalEnum) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftType.rawValue)
+internal func copyFromCType(_ handle: _baseRef) -> PublicClass.InternalEnum? {
+    guard handle != 0 else {
+        return nil
+    }
+    return PublicClass.InternalEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveToCType(_ swiftType: PublicClass.InternalEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftType)
+internal func moveFromCType(_ handle: _baseRef) -> PublicClass.InternalEnum? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

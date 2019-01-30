@@ -11,6 +11,9 @@ extern "C" {
 #include <stdbool.h>
 _baseRef smoke_CalculatorListener_ResultStruct_create_handle(double result);
 void smoke_CalculatorListener_ResultStruct_release_handle(_baseRef handle);
+_baseRef smoke_CalculatorListener_ResultStruct_make_optional_handle(_baseRef handle);
+_baseRef smoke_CalculatorListener_ResultStruct_unwrap_optional_handle(_baseRef handle);
+void smoke_CalculatorListener_ResultStruct_release_optional_handle(_baseRef handle);
 double smoke_CalculatorListener_ResultStruct_result_get(_baseRef handle);
 void smoke_CalculatorListener_release_handle(_baseRef handle);
 _baseRef smoke_CalculatorListener_copy_handle(_baseRef handle);
@@ -41,6 +44,9 @@ bool smoke_CalculatorListener_NamedCalculationResults_iterator_is_valid(_baseRef
 void smoke_CalculatorListener_NamedCalculationResults_iterator_increment(_baseRef iterator_handle);
 _baseRef smoke_CalculatorListener_NamedCalculationResults_iterator_key(_baseRef iterator_handle);
 double smoke_CalculatorListener_NamedCalculationResults_iterator_value(_baseRef iterator_handle);
+_baseRef smoke_CalculatorListener_NamedCalculationResults_create_optional_handle();
+void smoke_CalculatorListener_NamedCalculationResults_release_optional_handle(_baseRef handle);
+_baseRef smoke_CalculatorListener_NamedCalculationResults_unwrap_optional_handle(_baseRef handle);
 #ifdef __cplusplus
 }
 #endif

@@ -130,3 +130,25 @@ internal func copyToCType(_ swiftType: MethodOverloads.Point) -> RefHolder {
 internal func moveToCType(_ swiftType: MethodOverloads.Point) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_MethodOverloads_Point_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> MethodOverloads.Point? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_MethodOverloads_Point_unwrap_optional_handle(handle)
+    return MethodOverloads.Point(cHandle: unwrappedHandle) as MethodOverloads.Point
+}
+internal func moveFromCType(_ handle: _baseRef) -> MethodOverloads.Point? {
+    defer {
+        smoke_MethodOverloads_Point_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: MethodOverloads.Point?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_MethodOverloads_Point_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: MethodOverloads.Point?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_MethodOverloads_Point_release_optional_handle)
+}

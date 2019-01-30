@@ -129,6 +129,28 @@ internal func copyToCType(_ swiftType: Maps.SomeStruct) -> RefHolder {
 internal func moveToCType(_ swiftType: Maps.SomeStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_SomeStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Maps.SomeStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Maps_SomeStruct_unwrap_optional_handle(handle)
+    return Maps.SomeStruct(cHandle: unwrappedHandle) as Maps.SomeStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> Maps.SomeStruct? {
+    defer {
+        smoke_Maps_SomeStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Maps.SomeStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Maps_SomeStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Maps.SomeStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_SomeStruct_release_optional_handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Maps.StructWithMap {
     return Maps.StructWithMap(cHandle: handle)
 }
@@ -143,4 +165,26 @@ internal func copyToCType(_ swiftType: Maps.StructWithMap) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: Maps.StructWithMap) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_StructWithMap_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Maps.StructWithMap? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Maps_StructWithMap_unwrap_optional_handle(handle)
+    return Maps.StructWithMap(cHandle: unwrappedHandle) as Maps.StructWithMap
+}
+internal func moveFromCType(_ handle: _baseRef) -> Maps.StructWithMap? {
+    defer {
+        smoke_Maps_StructWithMap_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Maps.StructWithMap?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Maps_StructWithMap_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Maps.StructWithMap?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_StructWithMap_release_optional_handle)
 }
