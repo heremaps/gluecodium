@@ -19,13 +19,30 @@ _baseRef smoke_ListenersWithReturnValues_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)))
         : 0;
 }
-_baseRef smoke_ListenersWithReturnValues_ResultStruct_create_handle(double result) {
-    ::smoke::ListenersWithReturnValues::ResultStruct* _struct = new ::smoke::ListenersWithReturnValues::ResultStruct();
+_baseRef
+smoke_ListenersWithReturnValues_ResultStruct_create_handle( double result )
+{
+    ::smoke::ListenersWithReturnValues::ResultStruct* _struct = new ( std::nothrow ) ::smoke::ListenersWithReturnValues::ResultStruct();
     _struct->result = result;
-    return reinterpret_cast<_baseRef>(_struct);
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_ListenersWithReturnValues_ResultStruct_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::ListenersWithReturnValues::ResultStruct>(handle);
+void
+smoke_ListenersWithReturnValues_ResultStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::ListenersWithReturnValues::ResultStruct>( handle );
+}
+_baseRef
+smoke_ListenersWithReturnValues_ResultStruct_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::ListenersWithReturnValues::ResultStruct>( reinterpret_cast<::smoke::ListenersWithReturnValues::ResultStruct*>( handle ) ) );
+}
+_baseRef
+smoke_ListenersWithReturnValues_ResultStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle )->get( ) );
+}
+void smoke_ListenersWithReturnValues_ResultStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle );
 }
 double smoke_ListenersWithReturnValues_ResultStruct_result_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::ListenersWithReturnValues::ResultStruct>(handle);
@@ -107,13 +124,13 @@ const void* smoke_ListenersWithReturnValues_get_swift_object_from_cache(_baseRef
     return handle ? smoke_ListenersWithReturnValuesProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get()) : nullptr;
 }
 _baseRef smoke_ListenersWithReturnValues_StringToDouble_create_handle() {
-    return reinterpret_cast<_baseRef>( new std::unordered_map<std::string, double>() );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, double>() );
 }
 void smoke_ListenersWithReturnValues_StringToDouble_release_handle(_baseRef handle) {
     delete get_pointer<std::unordered_map<std::string, double>>(handle);
 }
 _baseRef smoke_ListenersWithReturnValues_StringToDouble_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new std::unordered_map<std::string, double>::iterator( get_pointer<std::unordered_map<std::string, double>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, double>::iterator( get_pointer<std::unordered_map<std::string, double>>(handle)->begin() ) );
 }
 void smoke_ListenersWithReturnValues_StringToDouble_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle );
@@ -134,4 +151,13 @@ _baseRef smoke_ListenersWithReturnValues_StringToDouble_iterator_key(_baseRef it
 double smoke_ListenersWithReturnValues_StringToDouble_iterator_value(_baseRef iterator_handle) {
     auto& value = (*reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle ))->second;
     return value;
+}
+_baseRef smoke_ListenersWithReturnValues_StringToDouble_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<std::string, double>>( new ( std::nothrow ) std::unordered_map<std::string, double>( ) ) );
+}
+void smoke_ListenersWithReturnValues_StringToDouble_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<std::unordered_map<std::string, double>>*>( handle );
+}
+_baseRef smoke_ListenersWithReturnValues_StringToDouble_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<std::string, double>>*>( handle )->get( ) );
 }

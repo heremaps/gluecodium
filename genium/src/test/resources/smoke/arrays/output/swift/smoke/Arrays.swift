@@ -173,6 +173,28 @@ internal func copyToCType(_ swiftType: Arrays.BasicStruct) -> RefHolder {
 internal func moveToCType(_ swiftType: Arrays.BasicStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Arrays_BasicStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Arrays.BasicStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Arrays_BasicStruct_unwrap_optional_handle(handle)
+    return Arrays.BasicStruct(cHandle: unwrappedHandle) as Arrays.BasicStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> Arrays.BasicStruct? {
+    defer {
+        smoke_Arrays_BasicStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Arrays.BasicStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Arrays_BasicStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Arrays.BasicStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Arrays_BasicStruct_release_optional_handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Arrays.ExternalStruct {
     return Arrays.ExternalStruct(cHandle: handle)
 }
@@ -187,6 +209,28 @@ internal func copyToCType(_ swiftType: Arrays.ExternalStruct) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: Arrays.ExternalStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Arrays_ExternalStruct_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Arrays.ExternalStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Arrays_ExternalStruct_unwrap_optional_handle(handle)
+    return Arrays.ExternalStruct(cHandle: unwrappedHandle) as Arrays.ExternalStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> Arrays.ExternalStruct? {
+    defer {
+        smoke_Arrays_ExternalStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Arrays.ExternalStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Arrays_ExternalStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Arrays.ExternalStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Arrays_ExternalStruct_release_optional_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> Arrays.FancyStruct {
     return Arrays.FancyStruct(cHandle: handle)
@@ -203,17 +247,69 @@ internal func copyToCType(_ swiftType: Arrays.FancyStruct) -> RefHolder {
 internal func moveToCType(_ swiftType: Arrays.FancyStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Arrays_FancyStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Arrays.FancyStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Arrays_FancyStruct_unwrap_optional_handle(handle)
+    return Arrays.FancyStruct(cHandle: unwrappedHandle) as Arrays.FancyStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> Arrays.FancyStruct? {
+    defer {
+        smoke_Arrays_FancyStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Arrays.FancyStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Arrays_FancyStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Arrays.FancyStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Arrays_FancyStruct_release_optional_handle)
+}
+internal func copyToCType(_ swiftEnum: Arrays.SomeEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: Arrays.SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: Arrays.SomeEnum?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: Arrays.SomeEnum?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
+}
 internal func copyFromCType(_ cValue: UInt32) -> Arrays.SomeEnum {
     return Arrays.SomeEnum(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> Arrays.SomeEnum {
     return copyFromCType(cValue)
 }
-internal func copyToCType(_ swiftType: Arrays.SomeEnum) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftType.rawValue)
+internal func copyFromCType(_ handle: _baseRef) -> Arrays.SomeEnum? {
+    guard handle != 0 else {
+        return nil
+    }
+    return Arrays.SomeEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveToCType(_ swiftType: Arrays.SomeEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftType)
+internal func moveFromCType(_ handle: _baseRef) -> Arrays.SomeEnum? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftEnum: Arrays.ExternalEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: Arrays.ExternalEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: Arrays.ExternalEnum?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: Arrays.ExternalEnum?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
 }
 internal func copyFromCType(_ cValue: UInt32) -> Arrays.ExternalEnum {
     return Arrays.ExternalEnum(rawValue: cValue)!
@@ -221,9 +317,15 @@ internal func copyFromCType(_ cValue: UInt32) -> Arrays.ExternalEnum {
 internal func moveFromCType(_ cValue: UInt32) -> Arrays.ExternalEnum {
     return copyFromCType(cValue)
 }
-internal func copyToCType(_ swiftType: Arrays.ExternalEnum) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftType.rawValue)
+internal func copyFromCType(_ handle: _baseRef) -> Arrays.ExternalEnum? {
+    guard handle != 0 else {
+        return nil
+    }
+    return Arrays.ExternalEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveToCType(_ swiftType: Arrays.ExternalEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftType)
+internal func moveFromCType(_ handle: _baseRef) -> Arrays.ExternalEnum? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

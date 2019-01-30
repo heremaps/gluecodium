@@ -88,3 +88,25 @@ internal func copyToCType(_ swiftType: EquatableInterface.EquatableStruct) -> Re
 internal func moveToCType(_ swiftType: EquatableInterface.EquatableStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_EquatableInterface_EquatableStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> EquatableInterface.EquatableStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_EquatableInterface_EquatableStruct_unwrap_optional_handle(handle)
+    return EquatableInterface.EquatableStruct(cHandle: unwrappedHandle) as EquatableInterface.EquatableStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> EquatableInterface.EquatableStruct? {
+    defer {
+        smoke_EquatableInterface_EquatableStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: EquatableInterface.EquatableStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_EquatableInterface_EquatableStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: EquatableInterface.EquatableStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_EquatableInterface_EquatableStruct_release_optional_handle)
+}

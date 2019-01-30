@@ -6,17 +6,35 @@ public enum StateEnum : UInt32, CaseIterable {
     case off
     case on
 }
+internal func copyToCType(_ swiftEnum: StateEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: StateEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: StateEnum?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: StateEnum?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
+}
 internal func copyFromCType(_ cValue: UInt32) -> StateEnum {
     return StateEnum(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> StateEnum {
     return copyFromCType(cValue)
 }
-internal func copyToCType(_ swiftType: StateEnum) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftType.rawValue)
+internal func copyFromCType(_ handle: _baseRef) -> StateEnum? {
+    guard handle != 0 else {
+        return nil
+    }
+    return StateEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveToCType(_ swiftType: StateEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftType)
+internal func moveFromCType(_ handle: _baseRef) -> StateEnum? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }
 public struct Constants {
     public static let boolConstant: Bool = true

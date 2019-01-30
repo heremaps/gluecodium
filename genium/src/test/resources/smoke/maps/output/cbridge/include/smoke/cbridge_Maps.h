@@ -12,9 +12,15 @@ extern "C" {
 #include <stdbool.h>
 _baseRef smoke_Maps_SomeStruct_create_handle(_baseRef value);
 void smoke_Maps_SomeStruct_release_handle(_baseRef handle);
+_baseRef smoke_Maps_SomeStruct_make_optional_handle(_baseRef handle);
+_baseRef smoke_Maps_SomeStruct_unwrap_optional_handle(_baseRef handle);
+void smoke_Maps_SomeStruct_release_optional_handle(_baseRef handle);
 _baseRef smoke_Maps_SomeStruct_value_get(_baseRef handle);
 _baseRef smoke_Maps_StructWithMap_create_handle(_baseRef errorMapping);
 void smoke_Maps_StructWithMap_release_handle(_baseRef handle);
+_baseRef smoke_Maps_StructWithMap_make_optional_handle(_baseRef handle);
+_baseRef smoke_Maps_StructWithMap_unwrap_optional_handle(_baseRef handle);
+void smoke_Maps_StructWithMap_release_optional_handle(_baseRef handle);
 _baseRef smoke_Maps_StructWithMap_errorMapping_get(_baseRef handle);
 void smoke_Maps_release_handle(_baseRef handle);
 _baseRef smoke_Maps_copy_handle(_baseRef handle);
@@ -33,6 +39,9 @@ bool smoke_Maps_ErrorCodeToMessageMap_iterator_is_valid(_baseRef handle, _baseRe
 void smoke_Maps_ErrorCodeToMessageMap_iterator_increment(_baseRef iterator_handle);
 int32_t smoke_Maps_ErrorCodeToMessageMap_iterator_key(_baseRef iterator_handle);
 _baseRef smoke_Maps_ErrorCodeToMessageMap_iterator_value(_baseRef iterator_handle);
+_baseRef smoke_Maps_ErrorCodeToMessageMap_create_optional_handle();
+void smoke_Maps_ErrorCodeToMessageMap_release_optional_handle(_baseRef handle);
+_baseRef smoke_Maps_ErrorCodeToMessageMap_unwrap_optional_handle(_baseRef handle);
 _baseRef smoke_Maps_NumberToStruct_create_handle();
 void smoke_Maps_NumberToStruct_release_handle(_baseRef handle);
 _baseRef smoke_Maps_NumberToStruct_iterator(_baseRef handle);
@@ -42,6 +51,9 @@ bool smoke_Maps_NumberToStruct_iterator_is_valid(_baseRef handle, _baseRef itera
 void smoke_Maps_NumberToStruct_iterator_increment(_baseRef iterator_handle);
 uint8_t smoke_Maps_NumberToStruct_iterator_key(_baseRef iterator_handle);
 _baseRef smoke_Maps_NumberToStruct_iterator_value(_baseRef iterator_handle);
+_baseRef smoke_Maps_NumberToStruct_create_optional_handle();
+void smoke_Maps_NumberToStruct_release_optional_handle(_baseRef handle);
+_baseRef smoke_Maps_NumberToStruct_unwrap_optional_handle(_baseRef handle);
 _baseRef smoke_Maps_NestedMap_create_handle();
 void smoke_Maps_NestedMap_release_handle(_baseRef handle);
 _baseRef smoke_Maps_NestedMap_iterator(_baseRef handle);
@@ -51,6 +63,9 @@ bool smoke_Maps_NestedMap_iterator_is_valid(_baseRef handle, _baseRef iterator_h
 void smoke_Maps_NestedMap_iterator_increment(_baseRef iterator_handle);
 uint8_t smoke_Maps_NestedMap_iterator_key(_baseRef iterator_handle);
 _baseRef smoke_Maps_NestedMap_iterator_value(_baseRef iterator_handle);
+_baseRef smoke_Maps_NestedMap_create_optional_handle();
+void smoke_Maps_NestedMap_release_optional_handle(_baseRef handle);
+_baseRef smoke_Maps_NestedMap_unwrap_optional_handle(_baseRef handle);
 _baseRef smoke_Maps_NumberToTypeDef_create_handle();
 void smoke_Maps_NumberToTypeDef_release_handle(_baseRef handle);
 _baseRef smoke_Maps_NumberToTypeDef_iterator(_baseRef handle);
@@ -60,6 +75,9 @@ bool smoke_Maps_NumberToTypeDef_iterator_is_valid(_baseRef handle, _baseRef iter
 void smoke_Maps_NumberToTypeDef_iterator_increment(_baseRef iterator_handle);
 uint8_t smoke_Maps_NumberToTypeDef_iterator_key(_baseRef iterator_handle);
 _baseRef smoke_Maps_NumberToTypeDef_iterator_value(_baseRef iterator_handle);
+_baseRef smoke_Maps_NumberToTypeDef_create_optional_handle();
+void smoke_Maps_NumberToTypeDef_release_optional_handle(_baseRef handle);
+_baseRef smoke_Maps_NumberToTypeDef_unwrap_optional_handle(_baseRef handle);
 _baseRef smoke_Maps_TypeDefToNumber_create_handle();
 void smoke_Maps_TypeDefToNumber_release_handle(_baseRef handle);
 _baseRef smoke_Maps_TypeDefToNumber_iterator(_baseRef handle);
@@ -69,6 +87,9 @@ bool smoke_Maps_TypeDefToNumber_iterator_is_valid(_baseRef handle, _baseRef iter
 void smoke_Maps_TypeDefToNumber_iterator_increment(_baseRef iterator_handle);
 _baseRef smoke_Maps_TypeDefToNumber_iterator_key(_baseRef iterator_handle);
 uint8_t smoke_Maps_TypeDefToNumber_iterator_value(_baseRef iterator_handle);
+_baseRef smoke_Maps_TypeDefToNumber_create_optional_handle();
+void smoke_Maps_TypeDefToNumber_release_optional_handle(_baseRef handle);
+_baseRef smoke_Maps_TypeDefToNumber_unwrap_optional_handle(_baseRef handle);
 _baseRef smoke_Maps_StringToArray_create_handle();
 void smoke_Maps_StringToArray_release_handle(_baseRef handle);
 _baseRef smoke_Maps_StringToArray_iterator(_baseRef handle);
@@ -78,6 +99,9 @@ bool smoke_Maps_StringToArray_iterator_is_valid(_baseRef handle, _baseRef iterat
 void smoke_Maps_StringToArray_iterator_increment(_baseRef iterator_handle);
 _baseRef smoke_Maps_StringToArray_iterator_key(_baseRef iterator_handle);
 _baseRef smoke_Maps_StringToArray_iterator_value(_baseRef iterator_handle);
+_baseRef smoke_Maps_StringToArray_create_optional_handle();
+void smoke_Maps_StringToArray_release_optional_handle(_baseRef handle);
+_baseRef smoke_Maps_StringToArray_unwrap_optional_handle(_baseRef handle);
 _baseRef smoke_Maps_NumberToInstance_create_handle();
 void smoke_Maps_NumberToInstance_release_handle(_baseRef handle);
 _baseRef smoke_Maps_NumberToInstance_iterator(_baseRef handle);
@@ -87,6 +111,9 @@ bool smoke_Maps_NumberToInstance_iterator_is_valid(_baseRef handle, _baseRef ite
 void smoke_Maps_NumberToInstance_iterator_increment(_baseRef iterator_handle);
 uint8_t smoke_Maps_NumberToInstance_iterator_key(_baseRef iterator_handle);
 _baseRef smoke_Maps_NumberToInstance_iterator_value(_baseRef iterator_handle);
+_baseRef smoke_Maps_NumberToInstance_create_optional_handle();
+void smoke_Maps_NumberToInstance_release_optional_handle(_baseRef handle);
+_baseRef smoke_Maps_NumberToInstance_unwrap_optional_handle(_baseRef handle);
 #ifdef __cplusplus
 }
 #endif

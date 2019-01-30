@@ -96,3 +96,25 @@ internal func copyToCType(_ swiftType: Arrays.SyncResult) -> RefHolder {
 internal func moveToCType(_ swiftType: Arrays.SyncResult) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Arrays_SyncResult_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Arrays.SyncResult? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = examples_Arrays_SyncResult_unwrap_optional_handle(handle)
+    return Arrays.SyncResult(cHandle: unwrappedHandle) as Arrays.SyncResult
+}
+internal func moveFromCType(_ handle: _baseRef) -> Arrays.SyncResult? {
+    defer {
+        examples_Arrays_SyncResult_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Arrays.SyncResult?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(examples_Arrays_SyncResult_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Arrays.SyncResult?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Arrays_SyncResult_release_optional_handle)
+}

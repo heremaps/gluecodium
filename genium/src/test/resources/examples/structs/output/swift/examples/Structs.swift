@@ -130,6 +130,28 @@ internal func copyToCType(_ swiftType: Structs.SyncResult) -> RefHolder {
 internal func moveToCType(_ swiftType: Structs.SyncResult) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Structs_SyncResult_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Structs.SyncResult? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = examples_Structs_SyncResult_unwrap_optional_handle(handle)
+    return Structs.SyncResult(cHandle: unwrappedHandle) as Structs.SyncResult
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.SyncResult? {
+    defer {
+        examples_Structs_SyncResult_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.SyncResult?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(examples_Structs_SyncResult_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Structs.SyncResult?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Structs_SyncResult_release_optional_handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Structs.IdentifiableSyncResult {
     return Structs.IdentifiableSyncResult(cHandle: handle)
 }
@@ -145,6 +167,28 @@ internal func copyToCType(_ swiftType: Structs.IdentifiableSyncResult) -> RefHol
 internal func moveToCType(_ swiftType: Structs.IdentifiableSyncResult) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Structs_IdentifiableSyncResult_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Structs.IdentifiableSyncResult? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = examples_Structs_IdentifiableSyncResult_unwrap_optional_handle(handle)
+    return Structs.IdentifiableSyncResult(cHandle: unwrappedHandle) as Structs.IdentifiableSyncResult
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.IdentifiableSyncResult? {
+    defer {
+        examples_Structs_IdentifiableSyncResult_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.IdentifiableSyncResult?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(examples_Structs_IdentifiableSyncResult_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Structs.IdentifiableSyncResult?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Structs_IdentifiableSyncResult_release_optional_handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Structs.ImmutableSyncResult {
     return Structs.ImmutableSyncResult(cHandle: handle)
 }
@@ -159,4 +203,26 @@ internal func copyToCType(_ swiftType: Structs.ImmutableSyncResult) -> RefHolder
 }
 internal func moveToCType(_ swiftType: Structs.ImmutableSyncResult) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Structs_ImmutableSyncResult_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.ImmutableSyncResult? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = examples_Structs_ImmutableSyncResult_unwrap_optional_handle(handle)
+    return Structs.ImmutableSyncResult(cHandle: unwrappedHandle) as Structs.ImmutableSyncResult
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.ImmutableSyncResult? {
+    defer {
+        examples_Structs_ImmutableSyncResult_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.ImmutableSyncResult?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(examples_Structs_ImmutableSyncResult_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Structs.ImmutableSyncResult?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Structs_ImmutableSyncResult_release_optional_handle)
 }

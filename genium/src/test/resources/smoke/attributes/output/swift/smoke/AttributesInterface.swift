@@ -124,3 +124,25 @@ internal func copyToCType(_ swiftType: ExampleStruct) -> RefHolder {
 internal func moveToCType(_ swiftType: ExampleStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_AttributesInterface_ExampleStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> ExampleStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_AttributesInterface_ExampleStruct_unwrap_optional_handle(handle)
+    return ExampleStruct(cHandle: unwrappedHandle) as ExampleStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> ExampleStruct? {
+    defer {
+        smoke_AttributesInterface_ExampleStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: ExampleStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_AttributesInterface_ExampleStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: ExampleStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_AttributesInterface_ExampleStruct_release_optional_handle)
+}

@@ -35,6 +35,28 @@ internal func copyToCType(_ swiftType: Point) -> RefHolder {
 internal func moveToCType(_ swiftType: Point) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_Point_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Point? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_TypeCollection_Point_unwrap_optional_handle(handle)
+    return Point(cHandle: unwrappedHandle) as Point
+}
+internal func moveFromCType(_ handle: _baseRef) -> Point? {
+    defer {
+        smoke_TypeCollection_Point_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Point?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_TypeCollection_Point_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Point?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_Point_release_optional_handle)
+}
 public struct Color {
     public var red: UInt8
     public var green: UInt8
@@ -71,6 +93,28 @@ internal func copyToCType(_ swiftType: Color) -> RefHolder {
 internal func moveToCType(_ swiftType: Color) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_Color_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Color? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_TypeCollection_Color_unwrap_optional_handle(handle)
+    return Color(cHandle: unwrappedHandle) as Color
+}
+internal func moveFromCType(_ handle: _baseRef) -> Color? {
+    defer {
+        smoke_TypeCollection_Color_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Color?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_TypeCollection_Color_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Color?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_Color_release_optional_handle)
+}
 public struct Line {
     public var a: Point
     public var b: Point
@@ -103,6 +147,28 @@ internal func copyToCType(_ swiftType: Line) -> RefHolder {
 internal func moveToCType(_ swiftType: Line) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_Line_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Line? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_TypeCollection_Line_unwrap_optional_handle(handle)
+    return Line(cHandle: unwrappedHandle) as Line
+}
+internal func moveFromCType(_ handle: _baseRef) -> Line? {
+    defer {
+        smoke_TypeCollection_Line_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Line?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_TypeCollection_Line_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Line?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_Line_release_optional_handle)
+}
 public struct ColoredLine {
     public var line: Line
     public var color: Color
@@ -134,6 +200,28 @@ internal func copyToCType(_ swiftType: ColoredLine) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: ColoredLine) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_ColoredLine_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> ColoredLine? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_TypeCollection_ColoredLine_unwrap_optional_handle(handle)
+    return ColoredLine(cHandle: unwrappedHandle) as ColoredLine
+}
+internal func moveFromCType(_ handle: _baseRef) -> ColoredLine? {
+    defer {
+        smoke_TypeCollection_ColoredLine_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: ColoredLine?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_TypeCollection_ColoredLine_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: ColoredLine?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_ColoredLine_release_optional_handle)
 }
 public struct AllTypesStruct {
     public var int8Field: Int8
@@ -214,4 +302,26 @@ internal func copyToCType(_ swiftType: AllTypesStruct) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: AllTypesStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_AllTypesStruct_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> AllTypesStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_TypeCollection_AllTypesStruct_unwrap_optional_handle(handle)
+    return AllTypesStruct(cHandle: unwrappedHandle) as AllTypesStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> AllTypesStruct? {
+    defer {
+        smoke_TypeCollection_AllTypesStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: AllTypesStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_TypeCollection_AllTypesStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: AllTypesStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_AllTypesStruct_release_optional_handle)
 }

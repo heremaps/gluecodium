@@ -303,6 +303,28 @@ internal func copyToCType(_ swiftType: Structs.Point) -> RefHolder {
 internal func moveToCType(_ swiftType: Structs.Point) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_Point_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Structs.Point? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Structs_Point_unwrap_optional_handle(handle)
+    return Structs.Point(cHandle: unwrappedHandle) as Structs.Point
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.Point? {
+    defer {
+        smoke_Structs_Point_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.Point?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Structs_Point_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Structs.Point?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_Point_release_optional_handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Structs.Color {
     return Structs.Color(cHandle: handle)
 }
@@ -317,6 +339,28 @@ internal func copyToCType(_ swiftType: Structs.Color) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: Structs.Color) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_Color_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.Color? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Structs_Color_unwrap_optional_handle(handle)
+    return Structs.Color(cHandle: unwrappedHandle) as Structs.Color
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.Color? {
+    defer {
+        smoke_Structs_Color_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.Color?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Structs_Color_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Structs.Color?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_Color_release_optional_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> Structs.Line {
     return Structs.Line(cHandle: handle)
@@ -333,6 +377,28 @@ internal func copyToCType(_ swiftType: Structs.Line) -> RefHolder {
 internal func moveToCType(_ swiftType: Structs.Line) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_Line_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Structs.Line? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Structs_Line_unwrap_optional_handle(handle)
+    return Structs.Line(cHandle: unwrappedHandle) as Structs.Line
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.Line? {
+    defer {
+        smoke_Structs_Line_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.Line?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Structs_Line_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Structs.Line?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_Line_release_optional_handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Structs.ColoredLine {
     return Structs.ColoredLine(cHandle: handle)
 }
@@ -347,6 +413,28 @@ internal func copyToCType(_ swiftType: Structs.ColoredLine) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: Structs.ColoredLine) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_ColoredLine_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.ColoredLine? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Structs_ColoredLine_unwrap_optional_handle(handle)
+    return Structs.ColoredLine(cHandle: unwrappedHandle) as Structs.ColoredLine
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.ColoredLine? {
+    defer {
+        smoke_Structs_ColoredLine_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.ColoredLine?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Structs_ColoredLine_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Structs.ColoredLine?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_ColoredLine_release_optional_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> Structs.AllTypesStruct {
     return Structs.AllTypesStruct(cHandle: handle)
@@ -363,6 +451,28 @@ internal func copyToCType(_ swiftType: Structs.AllTypesStruct) -> RefHolder {
 internal func moveToCType(_ swiftType: Structs.AllTypesStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_AllTypesStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Structs.AllTypesStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Structs_AllTypesStruct_unwrap_optional_handle(handle)
+    return Structs.AllTypesStruct(cHandle: unwrappedHandle) as Structs.AllTypesStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.AllTypesStruct? {
+    defer {
+        smoke_Structs_AllTypesStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.AllTypesStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Structs_AllTypesStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Structs.AllTypesStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_AllTypesStruct_release_optional_handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Structs.ExternalStruct {
     return Structs.ExternalStruct(cHandle: handle)
 }
@@ -377,6 +487,28 @@ internal func copyToCType(_ swiftType: Structs.ExternalStruct) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: Structs.ExternalStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_ExternalStruct_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.ExternalStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Structs_ExternalStruct_unwrap_optional_handle(handle)
+    return Structs.ExternalStruct(cHandle: unwrappedHandle) as Structs.ExternalStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.ExternalStruct? {
+    defer {
+        smoke_Structs_ExternalStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.ExternalStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Structs_ExternalStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Structs.ExternalStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_ExternalStruct_release_optional_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> Structs.AnotherExternalStruct {
     return Structs.AnotherExternalStruct(cHandle: handle)
@@ -393,6 +525,28 @@ internal func copyToCType(_ swiftType: Structs.AnotherExternalStruct) -> RefHold
 internal func moveToCType(_ swiftType: Structs.AnotherExternalStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_AnotherExternalStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Structs.AnotherExternalStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Structs_AnotherExternalStruct_unwrap_optional_handle(handle)
+    return Structs.AnotherExternalStruct(cHandle: unwrappedHandle) as Structs.AnotherExternalStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.AnotherExternalStruct? {
+    defer {
+        smoke_Structs_AnotherExternalStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.AnotherExternalStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Structs_AnotherExternalStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Structs.AnotherExternalStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_AnotherExternalStruct_release_optional_handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Structs.YetAnotherExternalStruct {
     return Structs.YetAnotherExternalStruct(cHandle: handle)
 }
@@ -408,15 +562,55 @@ internal func copyToCType(_ swiftType: Structs.YetAnotherExternalStruct) -> RefH
 internal func moveToCType(_ swiftType: Structs.YetAnotherExternalStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_YetAnotherExternalStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Structs.YetAnotherExternalStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Structs_YetAnotherExternalStruct_unwrap_optional_handle(handle)
+    return Structs.YetAnotherExternalStruct(cHandle: unwrappedHandle) as Structs.YetAnotherExternalStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.YetAnotherExternalStruct? {
+    defer {
+        smoke_Structs_YetAnotherExternalStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.YetAnotherExternalStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Structs_YetAnotherExternalStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Structs.YetAnotherExternalStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_YetAnotherExternalStruct_release_optional_handle)
+}
+internal func copyToCType(_ swiftEnum: Structs.FooBar) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: Structs.FooBar) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: Structs.FooBar?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: Structs.FooBar?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
+}
 internal func copyFromCType(_ cValue: UInt32) -> Structs.FooBar {
     return Structs.FooBar(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> Structs.FooBar {
     return copyFromCType(cValue)
 }
-internal func copyToCType(_ swiftType: Structs.FooBar) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftType.rawValue)
+internal func copyFromCType(_ handle: _baseRef) -> Structs.FooBar? {
+    guard handle != 0 else {
+        return nil
+    }
+    return Structs.FooBar(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveToCType(_ swiftType: Structs.FooBar) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftType)
+internal func moveFromCType(_ handle: _baseRef) -> Structs.FooBar? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

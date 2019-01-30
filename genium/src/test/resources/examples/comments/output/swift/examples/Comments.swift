@@ -117,15 +117,55 @@ internal func copyToCType(_ swiftType: Comments.SomeStruct) -> RefHolder {
 internal func moveToCType(_ swiftType: Comments.SomeStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Comments_SomeStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = examples_Comments_SomeStruct_unwrap_optional_handle(handle)
+    return Comments.SomeStruct(cHandle: unwrappedHandle) as Comments.SomeStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeStruct? {
+    defer {
+        examples_Comments_SomeStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Comments.SomeStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(examples_Comments_SomeStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Comments.SomeStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Comments_SomeStruct_release_optional_handle)
+}
+internal func copyToCType(_ swiftEnum: Comments.SomeEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: Comments.SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: Comments.SomeEnum?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: Comments.SomeEnum?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
+}
 internal func copyFromCType(_ cValue: UInt32) -> Comments.SomeEnum {
     return Comments.SomeEnum(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> Comments.SomeEnum {
     return copyFromCType(cValue)
 }
-internal func copyToCType(_ swiftType: Comments.SomeEnum) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftType.rawValue)
+internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeEnum? {
+    guard handle != 0 else {
+        return nil
+    }
+    return Comments.SomeEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveToCType(_ swiftType: Comments.SomeEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftType)
+internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeEnum? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

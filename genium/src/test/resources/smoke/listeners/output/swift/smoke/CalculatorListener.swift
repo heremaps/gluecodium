@@ -161,3 +161,25 @@ internal func copyToCType(_ swiftType: ResultStruct) -> RefHolder {
 internal func moveToCType(_ swiftType: ResultStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_CalculatorListener_ResultStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> ResultStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_CalculatorListener_ResultStruct_unwrap_optional_handle(handle)
+    return ResultStruct(cHandle: unwrappedHandle) as ResultStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> ResultStruct? {
+    defer {
+        smoke_CalculatorListener_ResultStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: ResultStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_CalculatorListener_ResultStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: ResultStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_CalculatorListener_ResultStruct_release_optional_handle)
+}

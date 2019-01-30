@@ -38,6 +38,28 @@ internal func copyToCType(_ swiftType: EquatableStruct) -> RefHolder {
 internal func moveToCType(_ swiftType: EquatableStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Equatable_EquatableStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> EquatableStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = examples_Equatable_EquatableStruct_unwrap_optional_handle(handle)
+    return EquatableStruct(cHandle: unwrappedHandle) as EquatableStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> EquatableStruct? {
+    defer {
+        examples_Equatable_EquatableStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: EquatableStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(examples_Equatable_EquatableStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: EquatableStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Equatable_EquatableStruct_release_optional_handle)
+}
 public struct NestedEquatableStruct: Equatable {
     public var fooField: String
     public init(fooField: String) {
@@ -65,4 +87,26 @@ internal func copyToCType(_ swiftType: NestedEquatableStruct) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: NestedEquatableStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Equatable_NestedEquatableStruct_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> NestedEquatableStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = examples_Equatable_NestedEquatableStruct_unwrap_optional_handle(handle)
+    return NestedEquatableStruct(cHandle: unwrappedHandle) as NestedEquatableStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> NestedEquatableStruct? {
+    defer {
+        examples_Equatable_NestedEquatableStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: NestedEquatableStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(examples_Equatable_NestedEquatableStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: NestedEquatableStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Equatable_NestedEquatableStruct_release_optional_handle)
 }

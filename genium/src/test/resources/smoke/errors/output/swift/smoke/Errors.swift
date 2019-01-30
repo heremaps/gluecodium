@@ -85,17 +85,47 @@ internal func copyToCType(_ swiftClass: Errors?) -> RefHolder {
 internal func moveToCType(_ swiftClass: Errors?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
+internal func copyToCType(_ swiftEnum: Errors.InternalError) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: Errors.InternalError) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: Errors.InternalError?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: Errors.InternalError?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
+}
 internal func copyFromCType(_ cValue: UInt32) -> Errors.InternalError {
     return Errors.InternalError(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> Errors.InternalError {
     return copyFromCType(cValue)
 }
-internal func copyToCType(_ swiftType: Errors.InternalError) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftType.rawValue)
+internal func copyFromCType(_ handle: _baseRef) -> Errors.InternalError? {
+    guard handle != 0 else {
+        return nil
+    }
+    return Errors.InternalError(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveToCType(_ swiftType: Errors.InternalError) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftType)
+internal func moveFromCType(_ handle: _baseRef) -> Errors.InternalError? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftEnum: Errors.ExternalErrors) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: Errors.ExternalErrors) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: Errors.ExternalErrors?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: Errors.ExternalErrors?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
 }
 internal func copyFromCType(_ cValue: UInt32) -> Errors.ExternalErrors {
     return Errors.ExternalErrors(rawValue: cValue)!
@@ -103,9 +133,15 @@ internal func copyFromCType(_ cValue: UInt32) -> Errors.ExternalErrors {
 internal func moveFromCType(_ cValue: UInt32) -> Errors.ExternalErrors {
     return copyFromCType(cValue)
 }
-internal func copyToCType(_ swiftType: Errors.ExternalErrors) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftType.rawValue)
+internal func copyFromCType(_ handle: _baseRef) -> Errors.ExternalErrors? {
+    guard handle != 0 else {
+        return nil
+    }
+    return Errors.ExternalErrors(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveToCType(_ swiftType: Errors.ExternalErrors) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftType)
+internal func moveFromCType(_ handle: _baseRef) -> Errors.ExternalErrors? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }

@@ -11,6 +11,9 @@ extern "C" {
 #include <stdint.h>
 _baseRef smoke_MethodOverloads_Point_create_handle(double x, double y);
 void smoke_MethodOverloads_Point_release_handle(_baseRef handle);
+_baseRef smoke_MethodOverloads_Point_make_optional_handle(_baseRef handle);
+_baseRef smoke_MethodOverloads_Point_unwrap_optional_handle(_baseRef handle);
+void smoke_MethodOverloads_Point_release_optional_handle(_baseRef handle);
 double smoke_MethodOverloads_Point_x_get(_baseRef handle);
 double smoke_MethodOverloads_Point_y_get(_baseRef handle);
 void smoke_MethodOverloads_release_handle(_baseRef handle);

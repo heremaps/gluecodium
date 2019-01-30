@@ -18,14 +18,31 @@ _baseRef smoke_Structs_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::Structs>>(handle)))
         : 0;
 }
-_baseRef smoke_Structs_Point_create_handle(double x, double y) {
-    ::smoke::Structs::Point* _struct = new ::smoke::Structs::Point();
+_baseRef
+smoke_Structs_Point_create_handle( double x, double y )
+{
+    ::smoke::Structs::Point* _struct = new ( std::nothrow ) ::smoke::Structs::Point();
     _struct->x = x;
     _struct->y = y;
-    return reinterpret_cast<_baseRef>(_struct);
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_Structs_Point_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::Structs::Point>(handle);
+void
+smoke_Structs_Point_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::Structs::Point>( handle );
+}
+_baseRef
+smoke_Structs_Point_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::Structs::Point>( reinterpret_cast<::smoke::Structs::Point*>( handle ) ) );
+}
+_baseRef
+smoke_Structs_Point_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::Structs::Point>*>( handle )->get( ) );
+}
+void smoke_Structs_Point_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::smoke::Structs::Point>*>( handle );
 }
 double smoke_Structs_Point_x_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::Point>(handle);
@@ -35,15 +52,32 @@ double smoke_Structs_Point_y_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::Point>(handle);
 return struct_pointer->y;
 }
-_baseRef smoke_Structs_Color_create_handle(uint8_t red, uint8_t green, uint8_t blue) {
-    ::smoke::Structs::Color* _struct = new ::smoke::Structs::Color();
+_baseRef
+smoke_Structs_Color_create_handle( uint8_t red, uint8_t green, uint8_t blue )
+{
+    ::smoke::Structs::Color* _struct = new ( std::nothrow ) ::smoke::Structs::Color();
     _struct->red = red;
     _struct->green = green;
     _struct->blue = blue;
-    return reinterpret_cast<_baseRef>(_struct);
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_Structs_Color_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::Structs::Color>(handle);
+void
+smoke_Structs_Color_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::Structs::Color>( handle );
+}
+_baseRef
+smoke_Structs_Color_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::Structs::Color>( reinterpret_cast<::smoke::Structs::Color*>( handle ) ) );
+}
+_baseRef
+smoke_Structs_Color_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::Structs::Color>*>( handle )->get( ) );
+}
+void smoke_Structs_Color_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::smoke::Structs::Color>*>( handle );
 }
 uint8_t smoke_Structs_Color_red_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::Color>(handle);
@@ -57,14 +91,31 @@ uint8_t smoke_Structs_Color_blue_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::Color>(handle);
 return struct_pointer->blue;
 }
-_baseRef smoke_Structs_Line_create_handle(_baseRef a, _baseRef b) {
-    ::smoke::Structs::Line* _struct = new ::smoke::Structs::Line();
-    _struct->a = Conversion<::smoke::Structs::Point>::toCpp(a);
-    _struct->b = Conversion<::smoke::Structs::Point>::toCpp(b);
-    return reinterpret_cast<_baseRef>(_struct);
+_baseRef
+smoke_Structs_Line_create_handle( _baseRef a, _baseRef b )
+{
+    ::smoke::Structs::Line* _struct = new ( std::nothrow ) ::smoke::Structs::Line();
+    _struct->a = Conversion<::smoke::Structs::Point>::toCpp( a );
+    _struct->b = Conversion<::smoke::Structs::Point>::toCpp( b );
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_Structs_Line_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::Structs::Line>(handle);
+void
+smoke_Structs_Line_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::Structs::Line>( handle );
+}
+_baseRef
+smoke_Structs_Line_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::Structs::Line>( reinterpret_cast<::smoke::Structs::Line*>( handle ) ) );
+}
+_baseRef
+smoke_Structs_Line_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::Structs::Line>*>( handle )->get( ) );
+}
+void smoke_Structs_Line_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::smoke::Structs::Line>*>( handle );
 }
 _baseRef smoke_Structs_Line_a_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::Line>(handle);
@@ -74,14 +125,31 @@ _baseRef smoke_Structs_Line_b_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::Line>(handle);
 return Conversion<::smoke::Structs::Point>::toBaseRef(struct_pointer->b);
 }
-_baseRef smoke_Structs_ColoredLine_create_handle(_baseRef line, _baseRef color) {
-    ::smoke::Structs::ColoredLine* _struct = new ::smoke::Structs::ColoredLine();
-    _struct->line = Conversion<::smoke::Structs::Line>::toCpp(line);
-    _struct->color = Conversion<::smoke::Structs::Color>::toCpp(color);
-    return reinterpret_cast<_baseRef>(_struct);
+_baseRef
+smoke_Structs_ColoredLine_create_handle( _baseRef line, _baseRef color )
+{
+    ::smoke::Structs::ColoredLine* _struct = new ( std::nothrow ) ::smoke::Structs::ColoredLine();
+    _struct->line = Conversion<::smoke::Structs::Line>::toCpp( line );
+    _struct->color = Conversion<::smoke::Structs::Color>::toCpp( color );
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_Structs_ColoredLine_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::Structs::ColoredLine>(handle);
+void
+smoke_Structs_ColoredLine_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::Structs::ColoredLine>( handle );
+}
+_baseRef
+smoke_Structs_ColoredLine_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::Structs::ColoredLine>( reinterpret_cast<::smoke::Structs::ColoredLine*>( handle ) ) );
+}
+_baseRef
+smoke_Structs_ColoredLine_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::Structs::ColoredLine>*>( handle )->get( ) );
+}
+void smoke_Structs_ColoredLine_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::smoke::Structs::ColoredLine>*>( handle );
 }
 _baseRef smoke_Structs_ColoredLine_line_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::ColoredLine>(handle);
@@ -91,7 +159,9 @@ _baseRef smoke_Structs_ColoredLine_color_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::ColoredLine>(handle);
 return Conversion<::smoke::Structs::Color>::toBaseRef(struct_pointer->color);
 }
-_baseRef smoke_Structs_AllTypesStruct_create_handle(int8_t int8Field, uint8_t uint8Field, int16_t int16Field, uint16_t uint16Field, int32_t int32Field, uint32_t uint32Field, int64_t int64Field, uint64_t uint64Field, float floatField, double doubleField, _baseRef stringField, bool booleanField, _baseRef bytesField, _baseRef pointField) {
+_baseRef
+smoke_Structs_AllTypesStruct_create_handle( int8_t int8Field, uint8_t uint8Field, int16_t int16Field, uint16_t uint16Field, int32_t int32Field, uint32_t uint32Field, int64_t int64Field, uint64_t uint64Field, float floatField, double doubleField, _baseRef stringField, bool booleanField, _baseRef bytesField, _baseRef pointField )
+{
     auto _int8Field = int8Field;
     auto _uint8Field = uint8Field;
     auto _int16Field = int16Field;
@@ -102,15 +172,30 @@ _baseRef smoke_Structs_AllTypesStruct_create_handle(int8_t int8Field, uint8_t ui
     auto _uint64Field = uint64Field;
     auto _floatField = floatField;
     auto _doubleField = doubleField;
-    auto _stringField = Conversion<std::string>::toCpp(stringField);
+    auto _stringField = Conversion<std::string>::toCpp( stringField );
     auto _booleanField = booleanField;
-    auto _bytesField = Conversion<::std::shared_ptr< ::std::vector< uint8_t > >>::toCpp(bytesField);
-    auto _pointField = Conversion<::smoke::Structs::Point>::toCpp(pointField);
-    ::smoke::Structs::AllTypesStruct* _struct = new ::smoke::Structs::AllTypesStruct(_int8Field, _uint8Field, _int16Field, _uint16Field, _int32Field, _uint32Field, _int64Field, _uint64Field, _floatField, _doubleField, _stringField, _booleanField, _bytesField, _pointField);
-    return reinterpret_cast<_baseRef>(_struct);
+    auto _bytesField = Conversion<::std::shared_ptr< ::std::vector< uint8_t > >>::toCpp( bytesField );
+    auto _pointField = Conversion<::smoke::Structs::Point>::toCpp( pointField );
+    ::smoke::Structs::AllTypesStruct* _struct = new ( std::nothrow ) ::smoke::Structs::AllTypesStruct( _int8Field, _uint8Field, _int16Field, _uint16Field, _int32Field, _uint32Field, _int64Field, _uint64Field, _floatField, _doubleField, _stringField, _booleanField, _bytesField, _pointField );
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_Structs_AllTypesStruct_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::Structs::AllTypesStruct>(handle);
+void
+smoke_Structs_AllTypesStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::Structs::AllTypesStruct>( handle );
+}
+_baseRef
+smoke_Structs_AllTypesStruct_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::Structs::AllTypesStruct>( reinterpret_cast<::smoke::Structs::AllTypesStruct*>( handle ) ) );
+}
+_baseRef
+smoke_Structs_AllTypesStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::Structs::AllTypesStruct>*>( handle )->get( ) );
+}
+void smoke_Structs_AllTypesStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::smoke::Structs::AllTypesStruct>*>( handle );
 }
 int8_t smoke_Structs_AllTypesStruct_int8Field_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
@@ -168,16 +253,33 @@ _baseRef smoke_Structs_AllTypesStruct_pointField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
 return Conversion<::smoke::Structs::Point>::toBaseRef(struct_pointer->point_field);
 }
-_baseRef smoke_Structs_ExternalStruct_create_handle(_baseRef stringField, _baseRef externalStringField, _baseRef externalArrayField, _baseRef externalStructField) {
-    ::smoke::Structs::ExternalStruct* _struct = new ::smoke::Structs::ExternalStruct();
-    _struct->stringField = Conversion<std::string>::toCpp(stringField);
-    _struct->set_some_string(Conversion<std::string>::toCpp(externalStringField));
-    _struct->set_some_array(Conversion<std::vector<int8_t>>::toCpp(externalArrayField));
-    _struct->set_some_struct(Conversion<::fire::SomeVeryExternalStruct>::toCpp(externalStructField));
-    return reinterpret_cast<_baseRef>(_struct);
+_baseRef
+smoke_Structs_ExternalStruct_create_handle( _baseRef stringField, _baseRef externalStringField, _baseRef externalArrayField, _baseRef externalStructField )
+{
+    ::smoke::Structs::ExternalStruct* _struct = new ( std::nothrow ) ::smoke::Structs::ExternalStruct();
+    _struct->stringField = Conversion<std::string>::toCpp( stringField );
+    _struct->set_some_string( Conversion<std::string>::toCpp( externalStringField ) );
+    _struct->set_some_array( Conversion<std::vector<int8_t>>::toCpp( externalArrayField ) );
+    _struct->set_some_struct( Conversion<::fire::SomeVeryExternalStruct>::toCpp( externalStructField ) );
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_Structs_ExternalStruct_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::Structs::ExternalStruct>(handle);
+void
+smoke_Structs_ExternalStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::Structs::ExternalStruct>( handle );
+}
+_baseRef
+smoke_Structs_ExternalStruct_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::Structs::ExternalStruct>( reinterpret_cast<::smoke::Structs::ExternalStruct*>( handle ) ) );
+}
+_baseRef
+smoke_Structs_ExternalStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::Structs::ExternalStruct>*>( handle )->get( ) );
+}
+void smoke_Structs_ExternalStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::smoke::Structs::ExternalStruct>*>( handle );
 }
 _baseRef smoke_Structs_ExternalStruct_stringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::ExternalStruct>(handle);
@@ -195,25 +297,59 @@ _baseRef smoke_Structs_ExternalStruct_externalStructField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::ExternalStruct>(handle);
 return Conversion<::fire::SomeVeryExternalStruct>::toBaseRef(struct_pointer->get_some_struct());
 }
-_baseRef smoke_Structs_AnotherExternalStruct_create_handle(int8_t intField) {
-    ::fire::SomeVeryExternalStruct* _struct = new ::fire::SomeVeryExternalStruct();
+_baseRef
+smoke_Structs_AnotherExternalStruct_create_handle( int8_t intField )
+{
+    ::fire::SomeVeryExternalStruct* _struct = new ( std::nothrow ) ::fire::SomeVeryExternalStruct();
     _struct->intField = intField;
-    return reinterpret_cast<_baseRef>(_struct);
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_Structs_AnotherExternalStruct_release_handle(_baseRef handle) {
-    delete get_pointer<::fire::SomeVeryExternalStruct>(handle);
+void
+smoke_Structs_AnotherExternalStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::fire::SomeVeryExternalStruct>( handle );
+}
+_baseRef
+smoke_Structs_AnotherExternalStruct_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::fire::SomeVeryExternalStruct>( reinterpret_cast<::fire::SomeVeryExternalStruct*>( handle ) ) );
+}
+_baseRef
+smoke_Structs_AnotherExternalStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::fire::SomeVeryExternalStruct>*>( handle )->get( ) );
+}
+void smoke_Structs_AnotherExternalStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::fire::SomeVeryExternalStruct>*>( handle );
 }
 int8_t smoke_Structs_AnotherExternalStruct_intField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::fire::SomeVeryExternalStruct>(handle);
 return struct_pointer->intField;
 }
-_baseRef smoke_Structs_YetAnotherExternalStruct_create_handle(_baseRef stringField) {
-    ::smoke::Structs::Yet_Another_External_Struct* _struct = new ::smoke::Structs::Yet_Another_External_Struct();
-    _struct->string_Field = Conversion<std::string>::toCpp(stringField);
-    return reinterpret_cast<_baseRef>(_struct);
+_baseRef
+smoke_Structs_YetAnotherExternalStruct_create_handle( _baseRef stringField )
+{
+    ::smoke::Structs::Yet_Another_External_Struct* _struct = new ( std::nothrow ) ::smoke::Structs::Yet_Another_External_Struct();
+    _struct->string_Field = Conversion<std::string>::toCpp( stringField );
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_Structs_YetAnotherExternalStruct_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::Structs::Yet_Another_External_Struct>(handle);
+void
+smoke_Structs_YetAnotherExternalStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::Structs::Yet_Another_External_Struct>( handle );
+}
+_baseRef
+smoke_Structs_YetAnotherExternalStruct_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::Structs::Yet_Another_External_Struct>( reinterpret_cast<::smoke::Structs::Yet_Another_External_Struct*>( handle ) ) );
+}
+_baseRef
+smoke_Structs_YetAnotherExternalStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::Structs::Yet_Another_External_Struct>*>( handle )->get( ) );
+}
+void smoke_Structs_YetAnotherExternalStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::smoke::Structs::Yet_Another_External_Struct>*>( handle );
 }
 _baseRef smoke_Structs_YetAnotherExternalStruct_stringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::Yet_Another_External_Struct>(handle);

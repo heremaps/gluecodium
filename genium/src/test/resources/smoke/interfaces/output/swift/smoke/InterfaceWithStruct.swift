@@ -115,3 +115,25 @@ internal func copyToCType(_ swiftType: InnerStruct) -> RefHolder {
 internal func moveToCType(_ swiftType: InnerStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InterfaceWithStruct_InnerStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> InnerStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_InterfaceWithStruct_InnerStruct_unwrap_optional_handle(handle)
+    return InnerStruct(cHandle: unwrappedHandle) as InnerStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> InnerStruct? {
+    defer {
+        smoke_InterfaceWithStruct_InnerStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: InnerStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_InterfaceWithStruct_InnerStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: InnerStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InterfaceWithStruct_InnerStruct_release_optional_handle)
+}

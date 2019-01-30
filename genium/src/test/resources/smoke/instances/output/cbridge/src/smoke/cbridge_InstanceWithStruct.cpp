@@ -15,27 +15,61 @@ _baseRef smoke_InstanceWithStruct_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::InstanceWithStruct>>(handle)))
         : 0;
 }
-_baseRef smoke_InstanceWithStruct_InnerStruct_create_handle(int8_t value) {
-    ::smoke::InstanceWithStruct::InnerStruct* _struct = new ::smoke::InstanceWithStruct::InnerStruct();
+_baseRef
+smoke_InstanceWithStruct_InnerStruct_create_handle( int8_t value )
+{
+    ::smoke::InstanceWithStruct::InnerStruct* _struct = new ( std::nothrow ) ::smoke::InstanceWithStruct::InnerStruct();
     _struct->value = value;
-    return reinterpret_cast<_baseRef>(_struct);
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_InstanceWithStruct_InnerStruct_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::InstanceWithStruct::InnerStruct>(handle);
+void
+smoke_InstanceWithStruct_InnerStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::InstanceWithStruct::InnerStruct>( handle );
+}
+_baseRef
+smoke_InstanceWithStruct_InnerStruct_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::InstanceWithStruct::InnerStruct>( reinterpret_cast<::smoke::InstanceWithStruct::InnerStruct*>( handle ) ) );
+}
+_baseRef
+smoke_InstanceWithStruct_InnerStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::InstanceWithStruct::InnerStruct>*>( handle )->get( ) );
+}
+void smoke_InstanceWithStruct_InnerStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::smoke::InstanceWithStruct::InnerStruct>*>( handle );
 }
 int8_t smoke_InstanceWithStruct_InnerStruct_value_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::InstanceWithStruct::InnerStruct>(handle);
 return struct_pointer->value;
 }
-_baseRef smoke_InstanceWithStruct_StructWithInstance_create_handle(_baseRef instance, _baseRef instanceNotNull, _baseRef instanceNotNullWithComment) {
-    ::smoke::InstanceWithStruct::StructWithInstance* _struct = new ::smoke::InstanceWithStruct::StructWithInstance();
-    _struct->instance = Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp(instance);
-    _struct->instance_not_null = Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp(instanceNotNull);
-    _struct->instance_not_null_with_comment = Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp(instanceNotNullWithComment);
-    return reinterpret_cast<_baseRef>(_struct);
+_baseRef
+smoke_InstanceWithStruct_StructWithInstance_create_handle( _baseRef instance, _baseRef instanceNotNull, _baseRef instanceNotNullWithComment )
+{
+    ::smoke::InstanceWithStruct::StructWithInstance* _struct = new ( std::nothrow ) ::smoke::InstanceWithStruct::StructWithInstance();
+    _struct->instance = Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp( instance );
+    _struct->instance_not_null = Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp( instanceNotNull );
+    _struct->instance_not_null_with_comment = Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp( instanceNotNullWithComment );
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_InstanceWithStruct_StructWithInstance_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::InstanceWithStruct::StructWithInstance>(handle);
+void
+smoke_InstanceWithStruct_StructWithInstance_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::InstanceWithStruct::StructWithInstance>( handle );
+}
+_baseRef
+smoke_InstanceWithStruct_StructWithInstance_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::InstanceWithStruct::StructWithInstance>( reinterpret_cast<::smoke::InstanceWithStruct::StructWithInstance*>( handle ) ) );
+}
+_baseRef
+smoke_InstanceWithStruct_StructWithInstance_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::InstanceWithStruct::StructWithInstance>*>( handle )->get( ) );
+}
+void smoke_InstanceWithStruct_StructWithInstance_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::smoke::InstanceWithStruct::StructWithInstance>*>( handle );
 }
 _baseRef smoke_InstanceWithStruct_StructWithInstance_instance_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::InstanceWithStruct::StructWithInstance>(handle);

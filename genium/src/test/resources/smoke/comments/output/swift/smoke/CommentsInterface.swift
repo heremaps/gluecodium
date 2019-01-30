@@ -228,17 +228,35 @@ public enum SomeEnum : UInt32, CaseIterable {
     /// Somewhat useful
     case useful
 }
+internal func copyToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
+}
 internal func copyFromCType(_ cValue: UInt32) -> SomeEnum {
     return SomeEnum(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> SomeEnum {
     return copyFromCType(cValue)
 }
-internal func copyToCType(_ swiftType: SomeEnum) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftType.rawValue)
+internal func copyFromCType(_ handle: _baseRef) -> SomeEnum? {
+    guard handle != 0 else {
+        return nil
+    }
+    return SomeEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveToCType(_ swiftType: SomeEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftType)
+internal func moveFromCType(_ handle: _baseRef) -> SomeEnum? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }
 /// This is some very useful struct.
 public struct SomeStruct {
@@ -269,4 +287,26 @@ internal func copyToCType(_ swiftType: SomeStruct) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: SomeStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_CommentsInterface_SomeStruct_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> SomeStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_CommentsInterface_SomeStruct_unwrap_optional_handle(handle)
+    return SomeStruct(cHandle: unwrappedHandle) as SomeStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> SomeStruct? {
+    defer {
+        smoke_CommentsInterface_SomeStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: SomeStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_CommentsInterface_SomeStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: SomeStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_CommentsInterface_SomeStruct_release_optional_handle)
 }

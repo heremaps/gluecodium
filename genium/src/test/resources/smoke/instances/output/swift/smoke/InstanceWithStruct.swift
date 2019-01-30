@@ -40,7 +40,7 @@ public class InstanceWithStruct {
         public var instanceNotNull: SimpleInstantiable
         /// This is some very useful field.
         public var instanceNotNullWithComment: SimpleInstantiable
-        public init(instance: SimpleInstantiable?, instanceNotNull: SimpleInstantiable, instanceNotNullWithComment: SimpleInstantiable) {
+        public init(instance: SimpleInstantiable? = nil, instanceNotNull: SimpleInstantiable, instanceNotNullWithComment: SimpleInstantiable) {
             self.instance = instance
             self.instanceNotNull = instanceNotNull
             self.instanceNotNullWithComment = instanceNotNullWithComment
@@ -114,6 +114,28 @@ internal func copyToCType(_ swiftType: InstanceWithStruct.InnerStruct) -> RefHol
 internal func moveToCType(_ swiftType: InstanceWithStruct.InnerStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InstanceWithStruct_InnerStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> InstanceWithStruct.InnerStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_InstanceWithStruct_InnerStruct_unwrap_optional_handle(handle)
+    return InstanceWithStruct.InnerStruct(cHandle: unwrappedHandle) as InstanceWithStruct.InnerStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> InstanceWithStruct.InnerStruct? {
+    defer {
+        smoke_InstanceWithStruct_InnerStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: InstanceWithStruct.InnerStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_InstanceWithStruct_InnerStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: InstanceWithStruct.InnerStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InstanceWithStruct_InnerStruct_release_optional_handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> InstanceWithStruct.StructWithInstance {
     return InstanceWithStruct.StructWithInstance(cHandle: handle)
 }
@@ -128,4 +150,26 @@ internal func copyToCType(_ swiftType: InstanceWithStruct.StructWithInstance) ->
 }
 internal func moveToCType(_ swiftType: InstanceWithStruct.StructWithInstance) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InstanceWithStruct_StructWithInstance_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> InstanceWithStruct.StructWithInstance? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_InstanceWithStruct_StructWithInstance_unwrap_optional_handle(handle)
+    return InstanceWithStruct.StructWithInstance(cHandle: unwrappedHandle) as InstanceWithStruct.StructWithInstance
+}
+internal func moveFromCType(_ handle: _baseRef) -> InstanceWithStruct.StructWithInstance? {
+    defer {
+        smoke_InstanceWithStruct_StructWithInstance_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: InstanceWithStruct.StructWithInstance?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_InstanceWithStruct_StructWithInstance_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: InstanceWithStruct.StructWithInstance?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InstanceWithStruct_StructWithInstance_release_optional_handle)
 }

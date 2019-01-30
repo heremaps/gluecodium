@@ -15,13 +15,30 @@ _baseRef smoke_ExternalInterface_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(handle)))
         : 0;
 }
-_baseRef smoke_ExternalInterface_SomeStruct_create_handle(_baseRef someField) {
-    ::smoke::ExternalInterface::some_Struct* _struct = new ::smoke::ExternalInterface::some_Struct();
-    _struct->some_Field = Conversion<std::string>::toCpp(someField);
-    return reinterpret_cast<_baseRef>(_struct);
+_baseRef
+smoke_ExternalInterface_SomeStruct_create_handle( _baseRef someField )
+{
+    ::smoke::ExternalInterface::some_Struct* _struct = new ( std::nothrow ) ::smoke::ExternalInterface::some_Struct();
+    _struct->some_Field = Conversion<std::string>::toCpp( someField );
+    return reinterpret_cast<_baseRef>( _struct );
 }
-void smoke_ExternalInterface_SomeStruct_release_handle(_baseRef handle) {
-    delete get_pointer<::smoke::ExternalInterface::some_Struct>(handle);
+void
+smoke_ExternalInterface_SomeStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::ExternalInterface::some_Struct>( handle );
+}
+_baseRef
+smoke_ExternalInterface_SomeStruct_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::ExternalInterface::some_Struct>( reinterpret_cast<::smoke::ExternalInterface::some_Struct*>( handle ) ) );
+}
+_baseRef
+smoke_ExternalInterface_SomeStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::ExternalInterface::some_Struct>*>( handle )->get( ) );
+}
+void smoke_ExternalInterface_SomeStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::smoke::ExternalInterface::some_Struct>*>( handle );
 }
 _baseRef smoke_ExternalInterface_SomeStruct_someField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::ExternalInterface::some_Struct>(handle);
