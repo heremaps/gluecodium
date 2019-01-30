@@ -243,7 +243,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
 
     CppTypeInfo innerType = typeMapper.mapType(francaArray.getElementType());
     CArray cArray = CArrayMapper.createArrayDefinition(francaArray, innerType);
-    arraysCollector.put(cArray.name, cArray);
+    arraysCollector.putIfAbsent(cArray.name, cArray);
 
     closeContext();
   }
@@ -279,7 +279,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
       CppArrayTypeInfo arrayTypeInfo = (CppArrayTypeInfo) type;
       CArray cArray =
           CArrayMapper.createArrayDefinition(typeRef, arrayTypeInfo.getInnerType(), arrayTypeInfo);
-      arraysCollector.put(cArray.name, cArray);
+      arraysCollector.putIfAbsent(cArray.name, cArray);
     }
 
     storeResult(type);

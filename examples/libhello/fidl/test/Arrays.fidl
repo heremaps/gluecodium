@@ -83,7 +83,7 @@ interface Arrays {
     array ArrayOfMaps of NumberToIdMap
     map NumberToIdMap { UInt8 to ProfileId }
     array ArrayOfMapsOfArray of NumberToStringListMap
-    map NumberToStringListMap { UInt8 to StringArray }
+    map NumberToStringListMap { UInt8 to ProfileIdList }
 
     struct StructWithEnumArray {
         ArrayEnum[] enumArrayField

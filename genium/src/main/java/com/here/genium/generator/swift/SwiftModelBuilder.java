@@ -24,6 +24,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.annotations.VisibleForTesting;
 import com.here.genium.common.CollectionsHelper;
 import com.here.genium.common.FrancaSignatureResolver;
+import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.cbridge.CBridgeNameRules;
 import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
@@ -33,6 +34,7 @@ import com.here.genium.model.franca.DefinedBy;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.swift.*;
 import java.util.*;
+import org.franca.core.framework.FrancaHelpers;
 import org.franca.core.franca.*;
 
 public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
@@ -307,7 +309,12 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     SwiftType swiftType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
     if (swiftType instanceof SwiftArray) {
       SwiftArray array = (SwiftArray) swiftType;
-      arraysCollector.put(array.underlyingType.name, array);
+      FTypeRef elementType =
+          FrancaTypeHelper.isImplicitArray(francaTypeRef)
+              ? francaTypeRef
+              : ((FArrayType) FrancaHelpers.getActualDerived(francaTypeRef)).getElementType();
+      String elementTypeKey = SwiftTypeMapper.getActualTypeKey(elementType, deploymentModel);
+      arraysCollector.putIfAbsent(elementTypeKey, array);
     }
 
     storeResult(swiftType);
@@ -377,7 +384,9 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(FArrayType francaArray) {
     SwiftArray arrayType = SwiftTypeMapper.mapArrayType(francaArray, deploymentModel);
-    arraysCollector.put(arrayType.underlyingType.name, arrayType);
+    String elementTypeKey =
+        SwiftTypeMapper.getActualTypeKey(francaArray.getElementType(), deploymentModel);
+    arraysCollector.putIfAbsent(elementTypeKey, arrayType);
     super.finishBuilding(francaArray);
   }
 
@@ -395,9 +404,12 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             CBridgeNameRules.getStructBaseName(francaMapType),
             typeRefs.get(0),
             typeRefs.get(1));
-    mapCollector.put(
-        swiftDictionary.getKeyType().name + ":" + swiftDictionary.getValueType().name,
-        swiftDictionary);
+
+    String keyTypeKey =
+        SwiftTypeMapper.getActualTypeKey(francaMapType.getKeyType(), deploymentModel);
+    String valueTypeKey =
+        SwiftTypeMapper.getActualTypeKey(francaMapType.getValueType(), deploymentModel);
+    mapCollector.putIfAbsent(keyTypeKey + ":" + valueTypeKey, swiftDictionary);
     storeResult(swiftDictionary);
 
     SwiftVisibility visibility = getVisibility(francaMapType);

@@ -22,6 +22,7 @@ package com.here.genium.generator.cbridge;
 import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
 import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 
+import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.cpp.CppLibraryIncludes;
 import com.here.genium.model.cbridge.CArray;
 import com.here.genium.model.cbridge.CType;
@@ -61,32 +62,31 @@ public final class CArrayMapper {
   }
 
   private static String getName(final EObject object) {
-    String elementName = null;
 
     if (object instanceof FTypeDef) {
       FTypeDef francaDef = (FTypeDef) object;
-      elementName =
-          InstanceRules.isInstanceId(francaDef)
-              ? francaDef.getName()
-              : getName(francaDef.getActualType());
+      return InstanceRules.isInstanceId(francaDef)
+          ? francaDef.getName()
+          : getName(francaDef.getActualType());
     } else if (object instanceof FTypeRef) {
       FTypeRef francaRef = (FTypeRef) object;
+      String elementName;
       if (francaRef.getDerived() != null) {
         elementName = getName(francaRef.getDerived());
       } else {
         elementName = francaRef.getPredefined().getName();
       }
+      return FrancaTypeHelper.isImplicitArray(francaRef) ? elementName + "Array" : elementName;
     } else if (object instanceof FStructType || object instanceof FEnumerationType) {
-      elementName = ((FType) object).getName();
+      return ((FType) object).getName();
     } else if (object instanceof FArrayType) {
       FTypeRef francaRef = ((FArrayType) object).getElementType();
-      elementName = getName(francaRef) + "Array";
+      return getName(francaRef) + "Array";
     } else if (object instanceof FMapType) {
       FMapType francaMap = (FMapType) object;
-      elementName =
-          getName(francaMap.getKeyType()) + "To" + getName(francaMap.getValueType()) + "Map";
+      return getName(francaMap.getKeyType()) + "To" + getName(francaMap.getValueType()) + "Map";
+    } else {
+      return null;
     }
-
-    return elementName;
   }
 }

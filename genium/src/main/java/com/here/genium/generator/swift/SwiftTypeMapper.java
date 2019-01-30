@@ -38,7 +38,8 @@ public class SwiftTypeMapper {
 
   public static final String OBJC_PARENT_CLASS = "NSObject";
 
-  public static SwiftType mapType(final FTypeRef type, FrancaDeploymentModel deploymentModel) {
+  public static SwiftType mapType(
+      final FTypeRef type, final FrancaDeploymentModel deploymentModel) {
     FType derived = type.getDerived();
 
     SwiftType swiftType;
@@ -62,6 +63,30 @@ public class SwiftTypeMapper {
     }
 
     return swiftType;
+  }
+
+  public static String getActualTypeKey(
+      final FTypeRef francaTypeRef, final FrancaDeploymentModel deploymentModel) {
+
+    FType derivedType = francaTypeRef.getDerived();
+    if (derivedType == null) {
+      return mapPredefined(francaTypeRef).name;
+    } else if (InstanceRules.isInstanceId(francaTypeRef)) {
+      return mapDerived(derivedType, deploymentModel).name;
+    } else if (derivedType instanceof FTypeDef) {
+      return getActualTypeKey(((FTypeDef) derivedType).getActualType(), deploymentModel);
+    } else if (derivedType instanceof FArrayType) {
+      String innerTypeKey =
+          getActualTypeKey(((FArrayType) derivedType).getElementType(), deploymentModel);
+      return "[" + innerTypeKey + "]";
+    } else if (derivedType instanceof FMapType) {
+      FMapType francaMapType = (FMapType) derivedType;
+      String keyTypeKey = getActualTypeKey(francaMapType.getKeyType(), deploymentModel);
+      String valueTypeKey = getActualTypeKey(francaMapType.getValueType(), deploymentModel);
+      return "[" + keyTypeKey + ":" + valueTypeKey + "]";
+    } else {
+      return mapDerived(derivedType, deploymentModel).name;
+    }
   }
 
   public static SwiftArray mapArrayType(
