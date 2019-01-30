@@ -85,6 +85,7 @@ class OptionReader {
             "C++ namespace for internal (non-API) headers."
         )
         addOption("cppnamespace", true, "C++ namespace for public (API) headers.")
+        addOption("cppexport", true, "C++ export macro name for explicit symbol exporting.")
     }
 
     @Throws(OptionReaderException::class)
@@ -135,6 +136,11 @@ class OptionReader {
             }
 
             options.cppInternalNamespace = getSingleOptionValue(cmd, "intnamespace")
+
+            val cppExport = getSingleOptionValue(cmd, "cppexport")
+            if (cppExport != null) {
+                options.cppExport = cppExport
+            }
 
             val copyrightHeader = cmd.getOptionValue("copyright")
             if (copyrightHeader != null) {

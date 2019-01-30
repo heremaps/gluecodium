@@ -18,15 +18,20 @@
   ! License-Filename: LICENSE
   !
   !}}
-_GENIUM_C_EXPORT _baseRef {{name}}_create_handle({{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
-_GENIUM_C_EXPORT void {{name}}_release_handle(_baseRef handle);
+{{>cpp/CppCommentHeader}}
 
-_GENIUM_C_EXPORT _baseRef {{name}}_make_optional_handle(_baseRef handle);
-_GENIUM_C_EXPORT _baseRef {{name}}_unwrap_optional_handle(_baseRef handle);
-_GENIUM_C_EXPORT void {{name}}_release_optional_handle(_baseRef handle);
+#pragma once
 
-{{#set structname=name}}
-{{#fields}}
-_GENIUM_C_EXPORT {{type.functionReturnType}} {{structname}}_{{name}}_get(_baseRef handle);
-{{/fields}}
-{{/set}}
+#ifdef {{.}}_SHARED
+#   if defined(_WIN32) || defined(__CYGWIN)
+#       ifdef {{.}}_INTERNAL
+#           define {{.}}_EXPORT __declspec( dllexport )
+#       else
+#           define {{.}}_EXPORT __declspec( dllimport )
+#       endif
+#   else
+#       define {{.}}_EXPORT __attribute__( ( visibility( "default" ) ) )
+#   endif
+#else
+#   define {{.}}_EXPORT
+#endif

@@ -7,6 +7,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+#include "Export.h"
 #include "smoke/SimpleInstantiable.h"
 #include <cstdint>
 #include <memory>
@@ -16,16 +17,16 @@ namespace smoke {
 }
 
 namespace smoke {
-class InstanceWithStruct {
+class _GENIUM_CPP_EXPORT InstanceWithStruct {
 public:
     virtual ~InstanceWithStruct() = 0;
 public:
-struct InnerStruct {
+struct _GENIUM_CPP_EXPORT InnerStruct {
     int8_t value;
     InnerStruct( );
     InnerStruct( const int8_t value );
 };
-struct StructWithInstance {
+struct _GENIUM_CPP_EXPORT StructWithInstance {
     /// \warning @NotNull
     ::std::shared_ptr< ::smoke::SimpleInstantiable > instance;
     /**

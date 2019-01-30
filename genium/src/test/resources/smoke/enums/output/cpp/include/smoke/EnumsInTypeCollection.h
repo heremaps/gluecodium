@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include "Export.h"
+
 namespace smoke {
 
 enum class TCEnum {

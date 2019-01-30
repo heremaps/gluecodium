@@ -9,12 +9,13 @@
 
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 #include <string>
 
 namespace examples {
 
-struct NestedEquatableStruct {
+struct _GENIUM_CPP_EXPORT NestedEquatableStruct {
     ::std::string foo_field;
 
     NestedEquatableStruct( );
@@ -24,7 +25,7 @@ struct NestedEquatableStruct {
     bool operator!=( const NestedEquatableStruct& rhs ) const;
 };
 
-struct EquatableStruct {
+struct _GENIUM_CPP_EXPORT EquatableStruct {
     int32_t int_field;
     ::std::string string_field;
     ::examples::NestedEquatableStruct struct_field;

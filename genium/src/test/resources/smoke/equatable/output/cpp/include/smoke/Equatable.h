@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -17,7 +18,7 @@
 
 namespace smoke {
 
-struct NestedEquatableStruct {
+struct _GENIUM_CPP_EXPORT NestedEquatableStruct {
     ::std::string foo_field;
 
     NestedEquatableStruct( );
@@ -34,7 +35,7 @@ enum class SomeEnum {
 
 using ErrorCodeToMessageMap = ::std::unordered_map< int32_t, ::std::string >;
 
-struct EquatableStruct {
+struct _GENIUM_CPP_EXPORT EquatableStruct {
     bool bool_field;
     int32_t int_field;
     int64_t long_field;
@@ -53,7 +54,7 @@ struct EquatableStruct {
     bool operator!=( const EquatableStruct& rhs ) const;
 };
 
-struct EquatableNullableStruct {
+struct _GENIUM_CPP_EXPORT EquatableNullableStruct {
     ::std::shared_ptr< bool > bool_field;
     ::std::shared_ptr< int32_t > int_field;
     ::std::shared_ptr< uint16_t > uint_field;

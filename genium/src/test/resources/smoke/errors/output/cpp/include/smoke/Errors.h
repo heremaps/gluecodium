@@ -9,13 +9,14 @@
 
 #pragma once
 
+#include "Export.h"
 #include "Return.h"
 #include <string>
 #include <system_error>
 
 namespace smoke {
 
-class Errors {
+class _GENIUM_CPP_EXPORT Errors {
 public:
     virtual ~Errors() = 0;
 public:
@@ -30,7 +31,7 @@ static ::std::error_code method_with_external_errors(  );
 static ::genium::Return< ::std::string, ::std::error_code > method_with_errors_and_return_value(  );
 };
 
-::std::error_code make_error_code( ::smoke::Errors::InternalError value ) noexcept;
+_GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::Errors::InternalError value ) noexcept;
 }
 
 namespace std

@@ -18,16 +18,16 @@
   ! License-Filename: LICENSE
   !
   !}}
-_baseRef {{name}}_create_handle();
-void {{name}}_release_handle(_baseRef handle);
-_baseRef {{name}}_iterator(_baseRef handle);
-void {{name}}_iterator_release_handle(_baseRef iterator_handle);
-void {{name}}_put(_baseRef handle, {{keyType.functionReturnType}} key, {{valueType.functionReturnType}} value);
-bool {{name}}_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
-void {{name}}_iterator_increment(_baseRef iterator_handle);
-{{keyType.functionReturnType}} {{name}}_iterator_key(_baseRef iterator_handle);
-{{valueType.functionReturnType}} {{name}}_iterator_value(_baseRef iterator_handle);
+_GENIUM_C_EXPORT _baseRef {{name}}_create_handle();
+_GENIUM_C_EXPORT void {{name}}_release_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef {{name}}_iterator(_baseRef handle);
+_GENIUM_C_EXPORT void {{name}}_iterator_release_handle(_baseRef iterator_handle);
+_GENIUM_C_EXPORT void {{name}}_put(_baseRef handle, {{keyType.functionReturnType}} key, {{valueType.functionReturnType}} value);
+_GENIUM_C_EXPORT bool {{name}}_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
+_GENIUM_C_EXPORT void {{name}}_iterator_increment(_baseRef iterator_handle);
+_GENIUM_C_EXPORT {{keyType.functionReturnType}} {{name}}_iterator_key(_baseRef iterator_handle);
+_GENIUM_C_EXPORT {{valueType.functionReturnType}} {{name}}_iterator_value(_baseRef iterator_handle);
 
-_baseRef {{name}}_create_optional_handle();
-void {{name}}_release_optional_handle(_baseRef handle);
-_baseRef {{name}}_unwrap_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef {{name}}_create_optional_handle();
+_GENIUM_C_EXPORT void {{name}}_release_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef {{name}}_unwrap_optional_handle(_baseRef handle);

@@ -7,6 +7,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+#include "Export.h"
 #include "Return.h"
 #include <cstdint>
 #include <memory>
@@ -17,7 +18,7 @@ namespace smoke {
     class Constructors;
 }
 namespace smoke {
-class Constructors {
+class _GENIUM_CPP_EXPORT Constructors {
 public:
     virtual ~Constructors() = 0;
 public:
@@ -48,7 +49,7 @@ static ::genium::Return< ::std::shared_ptr< ::smoke::Constructors >, ::std::erro
  */
 static ::std::shared_ptr< ::smoke::Constructors > create( const ::std::vector< double >& input );
 };
-::std::error_code make_error_code( ::smoke::Constructors::ErrorEnum value ) noexcept;
+_GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::Constructors::ErrorEnum value ) noexcept;
 }
 namespace std
 {

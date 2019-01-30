@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "Export.h"
 #include "examples/ProfileManager.h"
 #include "examples/ProfileManagerInterface.h"
 #include <memory>
@@ -22,7 +23,7 @@ namespace examples {
 
 namespace examples {
 
-class ProfileManagerFactory {
+class _GENIUM_CPP_EXPORT ProfileManagerFactory {
 public:
     virtual ~ProfileManagerFactory() = 0;
 

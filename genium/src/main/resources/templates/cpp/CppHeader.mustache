@@ -61,7 +61,7 @@ namespace {{.}} {
 {{/if}}
 
 {{#errorEnums}}
-::std::error_code make_error_code( {{fullyQualifiedName}} value ) noexcept;
+{{>cpp/CppExportMacro}}::std::error_code make_error_code( {{fullyQualifiedName}} value ) noexcept;
 {{/errorEnums}}
 {{#namespace}}
 }

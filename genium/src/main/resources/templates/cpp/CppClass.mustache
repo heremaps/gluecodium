@@ -20,7 +20,7 @@
   !}}
 {{#unless isExternal}}{{!!
 }}{{>common/DocComment}}
-class {{name}}{{>cpp/CppInheritance}} {
+class {{>cpp/CppExportMacro}}{{name}}{{>cpp/CppInheritance}} {
 public:
     virtual ~{{name}}() = 0;
 

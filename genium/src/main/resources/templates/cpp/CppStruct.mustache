@@ -19,7 +19,7 @@
   !
   !}}
 {{#unless isExternal}}
-struct {{name}} {
+struct {{>cpp/CppExportMacro}}{{name}} {
 {{#fields}}
 {{#if hasComment}}
 {{prefixPartial "cpp/CppFieldComment" "    "}}

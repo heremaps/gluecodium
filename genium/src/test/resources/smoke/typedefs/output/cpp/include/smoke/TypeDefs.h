@@ -9,24 +9,25 @@
 
 #pragma once
 
+#include "Export.h"
 #include "smoke/TypeCollection.h"
 #include <string>
 #include <vector>
 
 namespace smoke {
 
-class TypeDefs {
+class _GENIUM_CPP_EXPORT TypeDefs {
 public:
     virtual ~TypeDefs() = 0;
 public:
 using PrimitiveTypeDef = double;
 using NestedIntTypeDef = ::smoke::TypeDefs::PrimitiveTypeDef;
-struct StructHavingAliasFieldDefinedBelow {
+struct _GENIUM_CPP_EXPORT StructHavingAliasFieldDefinedBelow {
     ::smoke::TypeDefs::PrimitiveTypeDef field;
     StructHavingAliasFieldDefinedBelow( );
     StructHavingAliasFieldDefinedBelow( const ::smoke::TypeDefs::PrimitiveTypeDef field );
 };
-struct TestStruct {
+struct _GENIUM_CPP_EXPORT TestStruct {
     ::std::string something;
     TestStruct( );
     TestStruct( const ::std::string& something );
