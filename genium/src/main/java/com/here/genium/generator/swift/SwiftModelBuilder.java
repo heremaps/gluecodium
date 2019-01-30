@@ -146,12 +146,12 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     SwiftStruct swiftStruct =
         new SwiftStruct(
             SwiftNameRules.getStructName(francaStruct, deploymentModel),
+            CBridgeNameRules.getStructBaseName(francaStruct),
             getVisibility(francaStruct),
             SwiftType.TypeCategory.STRUCT,
             null,
             null,
             false,
-            CBridgeNameRules.getStructBaseName(francaStruct),
             deploymentModel.isEquatable(francaStruct),
             deploymentModel.isImmutable(francaStruct));
     String comment = CommentHelper.getDescription(francaStruct);
@@ -207,10 +207,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     String fieldName = SwiftNameRules.getFieldName(francaField.getName());
     String deploymentDefaultValue = deploymentModel.getDefaultValue(francaField);
-    SwiftValue defaultValue =
-        deploymentDefaultValue != null
-            ? SwiftValueMapper.mapDefaultValue(fieldType, deploymentDefaultValue)
-            : null;
+    SwiftValue defaultValue = SwiftValueMapper.mapDefaultValue(fieldType, deploymentDefaultValue);
     SwiftVisibility visibility = getVisibility(francaField);
 
     SwiftField structField = new SwiftField(fieldName, visibility, fieldType, defaultValue);
@@ -280,7 +277,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             SwiftNameRules.getMethodName(francaMethod),
             getVisibility(francaMethod),
             comment,
-            isConstructor ? new SwiftType(CBridgeNameRules.BASE_REF_NAME) : returnParam.type,
+            isConstructor ? new SwiftType(CBridgeNameRules.BASE_REF_NAME, null) : returnParam.type,
             returnParam.comment,
             CBridgeNameRules.getNestedSpecifierString(francaMethod),
             CBridgeNameRules.getShortMethodName(francaMethod),
@@ -322,6 +319,10 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
     SwiftVisibility propertyVisibility = getVisibility(francaAttribute);
     SwiftType swiftType = getPreviousResult(SwiftType.class);
+
+    if (deploymentModel.isNullable(francaAttribute)) {
+      swiftType = swiftType.withOptional(true);
+    }
     boolean isStatic = deploymentModel.isStatic(francaAttribute);
 
     String nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(francaAttribute);
@@ -401,7 +402,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     storeResult(swiftDictionary);
 
     SwiftVisibility visibility = getVisibility(francaMapType);
-    SwiftType namelessDictionary = new SwiftType(swiftDictionary.implementingClass);
+    SwiftType namelessDictionary = new SwiftType(swiftDictionary.implementingClass, null);
 
     SwiftTypeDef swiftTypeDef = new SwiftTypeDef(typeDefName, visibility, namelessDictionary);
     swiftTypeDef.comment = CommentHelper.getDescription(francaMapType);

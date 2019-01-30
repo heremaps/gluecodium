@@ -23,16 +23,17 @@ import java.util.LinkedList
 
 class SwiftStruct @JvmOverloads constructor(
     name: String,
+    cPrefix: String = "",
     visibility: SwiftVisibility?,
     category: SwiftType.TypeCategory = SwiftType.TypeCategory.STRUCT,
     implementingClass: String? = null,
     publicName: String? = null,
     optional: Boolean = false,
-    private val cPrefix: String? = null,
     val isEquatable: Boolean = false,
     val isImmutable: Boolean = false
 ) : SwiftType(
     name,
+    cPrefix,
     visibility,
     category,
     implementingClass,
@@ -44,24 +45,42 @@ class SwiftStruct @JvmOverloads constructor(
     val constants: MutableList<SwiftConstant> = LinkedList()
     val isInterface: Boolean = name != implementingClass
 
-    // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
-    @Suppress("unused")
-    fun getcPrefix() = cPrefix
-
     override fun withAlias(aliasName: String): SwiftType {
         val container = SwiftStruct(
             name,
+            cPrefix,
             visibility,
             category,
             implementingClass,
             aliasName,
             optional,
-            cPrefix,
             isEquatable,
             isImmutable
         )
         container.comment = this.comment
         container.fields.addAll(fields)
         return container
+    }
+
+    override fun withOptional(optional: Boolean): SwiftType {
+        if (this.optional == optional) {
+            return this
+        }
+
+        val swiftStruct = SwiftStruct(
+            name,
+            cPrefix,
+            visibility,
+            category,
+            implementingClass,
+            publicName,
+            optional,
+            isEquatable,
+            isImmutable
+        )
+        swiftStruct.comment = comment
+        swiftStruct.fields.addAll(fields)
+
+        return swiftStruct
     }
 }

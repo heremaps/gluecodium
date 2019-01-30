@@ -82,6 +82,7 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
     result.addAll(cBridgeGenerator.arrayGenerator.generate());
     result.addAll(swiftGenerator.arrayGenerator.generate());
     result.addAll(swiftGenerator.mapGenerator.generate());
+    result.addAll(swiftGenerator.builtinOptionalsGenerator.generate());
     result.add(swiftGenerator.generateErrors());
 
     return result.stream().filter(Objects::nonNull).collect(toList());

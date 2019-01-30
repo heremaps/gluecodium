@@ -22,19 +22,30 @@
 
 #include "BaseHandle.h"
 #include <stdint.h>
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-_baseRef std_string_create_handle( const char* c_str );
-const char* std_string_data_get( _baseRef handle );
-int64_t std_string_size_get( _baseRef handle );
-void std_string_release_handle( _baseRef handle );
+#define DECLARE_HANDLE_METHODS(T) \
+_baseRef T##_create_handle( T t ); \
+void T##_release_handle( _baseRef handle );\
+T T##_value_get( _baseRef handle );
 
-_baseRef std_string_create_optional_handle( const char* c_str );
-void std_string_release_optional_handle( _baseRef handle );
-_baseRef std_string_unwrap_optional_handle( _baseRef handle );
+DECLARE_HANDLE_METHODS(bool);
+DECLARE_HANDLE_METHODS(float);
+DECLARE_HANDLE_METHODS(double);
+DECLARE_HANDLE_METHODS(int8_t);
+DECLARE_HANDLE_METHODS(uint8_t);
+DECLARE_HANDLE_METHODS(int16_t);
+DECLARE_HANDLE_METHODS(uint16_t);
+DECLARE_HANDLE_METHODS(int32_t);
+DECLARE_HANDLE_METHODS(uint32_t);
+DECLARE_HANDLE_METHODS(int64_t);
+DECLARE_HANDLE_METHODS(uint64_t);
+
+#undef DECLARE_HANDLE_METHODS
 
 #ifdef __cplusplus
 }

@@ -23,14 +23,10 @@ class SwiftDictionary(
     name: String,
     visibility: SwiftVisibility?,
     publicName: String,
-    private val cPrefix: String?,
+    cPrefix: String?,
     val keyType: SwiftType,
     val valueType: SwiftType
 ) : SwiftType(
-    name, visibility, SwiftType.TypeCategory.DICTIONARY,
+    name, cPrefix, visibility, SwiftType.TypeCategory.DICTIONARY,
     "[" + keyType.publicName + ": " + valueType.publicName + "]", publicName, false
-) {
-    // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
-    @Suppress("unused")
-    fun getcPrefix() = cPrefix
-}
+)

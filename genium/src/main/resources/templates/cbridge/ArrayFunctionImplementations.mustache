@@ -27,7 +27,7 @@ _baseRef {{name}}_copy_handle(_baseRef handle) {
 }
 
 void {{name}}_release_handle(_baseRef handle) {
-    delete reinterpret_cast< {{arrayType}}* >( handle );
+    delete reinterpret_cast<{{arrayType}}*>( handle );
 }
 
 uint64_t {{name}}_count(_baseRef handle) {
@@ -48,6 +48,18 @@ void {{name}}_append( _baseRef handle, {{argument}} item ) { {{!!
     }}{{#case "BUILTIN_SIMPLE"}}{{prefixPartial 'builtinAppendConversion' '    '}}{{/case}}{{!!
     }}{{#default}}Conversion<{{arrayType}}>::toCpp(handle).push_back(Conversion<{{underlyingType}}>::toCpp(item));{{/default}}{{!!
     }}{{/switch}}
+}
+
+_baseRef {{name}}_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<{{arrayType}}>( new ( std::nothrow ) {{arrayType}}( ) ) );
+}
+
+void {{name}}_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<{{arrayType}}>*>( handle );
+}
+
+_baseRef {{name}}_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<{{arrayType}}>*>( handle )->get( ) );
 }
 
 {{+enumGetConversion}}

@@ -50,6 +50,10 @@ public final class SwiftValueMapper {
   public static SwiftValue mapDefaultValue(
       final SwiftType swiftType, final String deploymentDefaultValue) {
 
+    if (deploymentDefaultValue == null) {
+      return swiftType.optional ? new SwiftValue("nil") : null;
+    }
+
     switch (swiftType.category) {
       case BUILTIN_STRING:
         return new SwiftValue("\"" + StringEscapeUtils.escapeJava(deploymentDefaultValue) + "\"");

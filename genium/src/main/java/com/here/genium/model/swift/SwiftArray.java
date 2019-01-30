@@ -22,35 +22,42 @@ package com.here.genium.model.swift;
 public final class SwiftArray extends SwiftType {
 
   public final SwiftType underlyingType;
-  public final String refName;
 
   public SwiftArray(
-      final SwiftType underlyingType, final String implementingClass, final String refName) {
-    this(implementingClass, null, getImplName(underlyingType), false, underlyingType, refName);
+      final SwiftType underlyingType, final String implementingClass, final String cPrefix) {
+    this(underlyingType, null, implementingClass, getImplName(underlyingType), false, cPrefix);
   }
 
   private SwiftArray(
-      final String implementingClass,
+      final SwiftType underlyingType,
       final SwiftVisibility visibility,
+      final String implementingClass,
       final String publicName,
       final boolean optional,
-      final SwiftType underlyingType,
-      final String refName) {
+      final String cPrefix) {
     super(
         getImplName(underlyingType),
+        cPrefix,
         visibility,
         TypeCategory.ARRAY,
         implementingClass,
         publicName,
         optional);
     this.underlyingType = underlyingType;
-    this.refName = refName;
   }
 
   @Override
   public SwiftType withAlias(String aliasName) {
     return new SwiftArray(
-        implementingClass, visibility, aliasName, optional, underlyingType, refName);
+        underlyingType, visibility, implementingClass, aliasName, optional, cPrefix);
+  }
+
+  @Override
+  public SwiftType withOptional(final boolean optional) {
+    return this.optional != optional
+        ? new SwiftArray(
+            underlyingType, visibility, implementingClass, publicName, optional, cPrefix)
+        : this;
   }
 
   private static String getImplName(SwiftType underlyingType) {

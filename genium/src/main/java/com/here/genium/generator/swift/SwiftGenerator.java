@@ -36,6 +36,8 @@ public class SwiftGenerator {
 
   public final SwiftArrayGenerator arrayGenerator = new SwiftArrayGenerator();
   public final SwiftMapGenerator mapGenerator = new SwiftMapGenerator();
+  public final SwiftBuiltinOptionalsGenerator builtinOptionalsGenerator =
+      new SwiftBuiltinOptionalsGenerator();
   public final Set<String> enumsAsErrors = new HashSet<>();
   public static final List<GeneratedFile> STATIC_FILES =
       Arrays.asList(

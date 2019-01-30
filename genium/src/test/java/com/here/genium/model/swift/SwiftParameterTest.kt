@@ -31,7 +31,7 @@ import org.junit.runners.JUnit4
 class SwiftParameterTest {
     @Test
     fun emptyVariableName() {
-        val parameter = SwiftParameter(INTERFACE_NAME, SwiftType("String"))
+        val parameter = SwiftParameter(INTERFACE_NAME, SwiftType.STRING)
 
         assertFalse(parameter.differentInterfaceAndVariableName)
     }
@@ -39,7 +39,7 @@ class SwiftParameterTest {
     @Test
     fun differentVariableName() {
         val variableName = "variableName"
-        val parameter = SwiftParameter(INTERFACE_NAME, SwiftType("String"), variableName)
+        val parameter = SwiftParameter(INTERFACE_NAME, SwiftType.STRING, variableName)
 
         assertTrue(parameter.differentInterfaceAndVariableName)
         assertEquals(variableName, parameter.variableName)

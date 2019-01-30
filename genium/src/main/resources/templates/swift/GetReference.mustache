@@ -73,7 +73,7 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
     }
 {{/functionTableEntry}}{{!!
 }}{{+swiftParameter}}{{name}}{{/swiftParameter}}{{!!
-}}{{+swiftReturn}}{{returnPrefix}} copyToCType({{include delegateToCall}}{{#if returnType.optional}}!{{/if}}).ref{{/swiftReturn}}{{!!
+}}{{+swiftReturn}}{{returnPrefix}} copyToCType({{include delegateToCall}}).ref{{/swiftReturn}}{{!!
 }}{{+delegateCall2}}swift_class.{{name}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}{{!!
 }}{{+callPropertyGetter}}swift_class.{{propertyName}}{{/callPropertyGetter}}{{!!
 }}{{+callPropertySetter}}swift_class.{{propertyName}} = {{#parameters.0}}{{>swiftParameterConversion}}{{/parameters.0}}{{/callPropertySetter}}{{!!

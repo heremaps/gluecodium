@@ -51,9 +51,13 @@ public class SwiftTypeMapper {
     }
 
     EObject parentElement = type.eContainer();
-    if (parentElement instanceof FTypedElement
-        && deploymentModel.isNotNull((FTypedElement) parentElement)) {
-      swiftType = swiftType.asNonOptional();
+    if (parentElement instanceof FTypedElement) {
+      FTypedElement parentTypedElement = (FTypedElement) parentElement;
+      if (deploymentModel.isNotNull(parentTypedElement)) {
+        swiftType = swiftType.withOptional(false);
+      } else if (deploymentModel.isNullable(parentTypedElement)) {
+        swiftType = swiftType.withOptional(true);
+      }
     }
 
     return swiftType;
@@ -81,12 +85,12 @@ public class SwiftTypeMapper {
 
     return new SwiftStruct(
         SwiftNameRules.getMapName(francaMapType, deploymentModel),
+        CBridgeNameRules.getStructBaseName(francaMapType),
         null,
         DICTIONARY,
         null,
         SwiftNameRules.getTypeName(francaMapType, deploymentModel),
-        false,
-        CBridgeNameRules.getStructBaseName(francaMapType));
+        false);
   }
 
   private static SwiftType getTypedef(
@@ -104,12 +108,12 @@ public class SwiftTypeMapper {
     String name = SwiftNameRules.getStructName(francaStructType, deploymentModel);
     return new SwiftStruct(
         name,
+        CBridgeNameRules.getStructBaseName(francaStructType),
         null,
         STRUCT,
         null,
         null,
-        false,
-        CBridgeNameRules.getStructBaseName(francaStructType));
+        false);
   }
 
   private static SwiftType getClassType(
@@ -124,12 +128,12 @@ public class SwiftTypeMapper {
 
     return new SwiftStruct(
         swiftName,
+        CBridgeNameRules.getInstanceBaseName(francaTypeDef),
         null,
         CLASS,
         implementingClass,
         null,
-        true,
-        CBridgeNameRules.getInstanceBaseName(francaTypeDef));
+        true);
   }
 
   private static SwiftType mapPredefined(FTypeRef type) {
@@ -138,21 +142,21 @@ public class SwiftTypeMapper {
       case FBasicTypeId.UNDEFINED_VALUE:
         return SwiftType.VOID;
       case FBasicTypeId.INT8_VALUE:
-        return new SwiftType("Int8");
+        return SwiftType.INT8;
       case FBasicTypeId.UINT8_VALUE:
-        return new SwiftType("UInt8");
+        return SwiftType.UINT8;
       case FBasicTypeId.INT16_VALUE:
-        return new SwiftType("Int16");
+        return SwiftType.INT16;
       case FBasicTypeId.UINT16_VALUE:
-        return new SwiftType("UInt16");
+        return SwiftType.UINT16;
       case FBasicTypeId.INT32_VALUE:
-        return new SwiftType("Int32");
+        return SwiftType.INT32;
       case FBasicTypeId.UINT32_VALUE:
-        return new SwiftType("UInt32");
+        return SwiftType.UINT32;
       case FBasicTypeId.INT64_VALUE:
-        return new SwiftType("Int64");
+        return SwiftType.INT64;
       case FBasicTypeId.UINT64_VALUE:
-        return new SwiftType("UInt64");
+        return SwiftType.UINT64;
       case FBasicTypeId.BOOLEAN_VALUE:
         return SwiftType.BOOL;
       case FBasicTypeId.STRING_VALUE:

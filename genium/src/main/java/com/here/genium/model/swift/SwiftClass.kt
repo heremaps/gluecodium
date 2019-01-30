@@ -31,7 +31,7 @@ class SwiftClass @JvmOverloads constructor(
     val functionTableName: String? = null,
     val useParentCInstance: Boolean = false,
     @Suppress("unused") val isObjcInterface: Boolean = false
-) : SwiftType(name, visibility, SwiftType.TypeCategory.CLASS, null, name, false) {
+) : SwiftType(name, null, visibility, SwiftType.TypeCategory.CLASS, null, name, false) {
 
     val implementsProtocols: List<String> = LinkedList()
     val properties: List<SwiftProperty> = LinkedList()
