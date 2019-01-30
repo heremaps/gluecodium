@@ -143,6 +143,10 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     cInterface.maps.addAll(getPreviousResults(CMap.class));
 
     cInterface.headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(cInterface));
+    if (cppBuilder.getExportName() != null) {
+      cInterface.headerIncludes.add(
+          Include.Companion.createInternalInclude(CBridgeNameRules.EXPORT_FILE));
+    }
     cInterface.implementationIncludes.addAll(
         CBridgeComponents.collectImplementationIncludes(cInterface));
 
@@ -176,7 +180,8 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
             .delegateCallIncludes(
                 Collections.singleton(cppIncludeResolver.resolveInclude(francaMethod)))
             .functionName(cppMethod.name)
-            .isConst(deploymentModel.isConst(francaMethod));
+            .isConst(deploymentModel.isConst(francaMethod))
+            .exportName(cppBuilder.getExportName());
 
     if (!deploymentModel.isStatic(francaMethod) && !deploymentModel.isConstructor(francaMethod)) {
       CppTypeInfo classInfo =
@@ -223,7 +228,8 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
   public void finishBuilding(FArrayType francaArray) {
 
     CppTypeInfo innerType = typeMapper.mapType(francaArray.getElementType());
-    CArray cArray = CArrayMapper.createArrayDefinition(francaArray, innerType);
+    CArray cArray =
+        CArrayMapper.createArrayDefinition(francaArray, innerType, cppBuilder.getExportName());
     arraysCollector.put(cArray.name, cArray);
 
     closeContext();
@@ -253,7 +259,8 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     if (type instanceof CppArrayTypeInfo) {
       CppArrayTypeInfo arrayTypeInfo = (CppArrayTypeInfo) type;
       CArray cArray =
-          CArrayMapper.createArrayDefinition(typeRef, arrayTypeInfo.innerType, arrayTypeInfo);
+          CArrayMapper.createArrayDefinition(
+              typeRef, arrayTypeInfo.innerType, arrayTypeInfo, cppBuilder.getExportName());
       arraysCollector.put(cArray.name, cArray);
     }
 
@@ -290,6 +297,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
             .delegateCallIncludes(
                 Collections.singleton(cppIncludeResolver.resolveInclude(francaAttribute)))
             .isConst(true)
+            .exportName(cppBuilder.getExportName())
             .build();
     storeResult(getterFunction);
 
@@ -307,6 +315,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
               .delegateCall(cppSetterMethod.fullyQualifiedName)
               .delegateCallIncludes(
                   Collections.singleton(cppIncludeResolver.resolveInclude(francaAttribute)))
+              .exportName(cppBuilder.getExportName())
               .build();
       storeResult(setterFunction);
     }

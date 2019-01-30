@@ -61,6 +61,7 @@ public final class JniGenerator extends AbstractGenerator {
   private final String internalNamespace;
   private final CppIncludeResolver cppIncludeResolver;
   private final CppNameResolver cppNameResolver;
+  private String cppExportName;
 
   public JniGenerator(
       final FrancaDeploymentModel deploymentModel,
@@ -78,6 +79,13 @@ public final class JniGenerator extends AbstractGenerator {
     this.internalNamespace = internalNamespace;
     this.cppIncludeResolver = new CppIncludeResolver(deploymentModel, rootNamespace);
     this.cppNameResolver = new CppNameResolver(deploymentModel, rootNamespace);
+    this.cppExportName = null;
+  }
+
+  // NOTE: Arbitrary limit on number of parameters prevents this from being passed in the
+  // constructor.
+  public void setCppExportName(String name) {
+    this.cppExportName = name;
   }
 
   public Collection<ModelElement> generateModel(final FTypeCollection francaTypeCollection) {
@@ -97,7 +105,8 @@ public final class JniGenerator extends AbstractGenerator {
         new CppTypeMapper(cppIncludeResolver, cppNameResolver, internalNamespace);
     CppValueMapper valueMapper = new CppValueMapper(deploymentModel, cppNameResolver);
     CppModelBuilder cppBuilder =
-        new CppModelBuilder(deploymentModel, typeMapper, valueMapper, cppNameResolver);
+        new CppModelBuilder(
+            deploymentModel, typeMapper, valueMapper, cppNameResolver, cppExportName);
     JniModelBuilder jniBuilder =
         new JniModelBuilder(deploymentModel, javaBuilder, cppBuilder, cppIncludeResolver);
 

@@ -77,7 +77,8 @@ public class CppModelBuilderCommentsTest {
     PowerMockito.mockStatic(CommentHelper.class, DefinedBy.class, InstanceRules.class);
 
     modelBuilder =
-        new CppModelBuilder(contextStack, deploymentModel, typeMapper, valueMapper, nameResolver);
+        new CppModelBuilder(
+            contextStack, deploymentModel, typeMapper, valueMapper, nameResolver, null);
 
     when(CommentHelper.getDescription(any())).thenReturn(COMMENT);
 

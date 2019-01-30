@@ -260,7 +260,8 @@ class Genium(private val options: Options) {
         var isLoggingTimes: Boolean = false,
         var copyrightHeaderContents: String? = null,
         var cppInternalNamespace: String? = null,
-        var cppRootNamespace: List<String> = listOf()
+        var cppRootNamespace: List<String> = listOf(),
+        var cppExport: String? = null
     )
 
     companion object {

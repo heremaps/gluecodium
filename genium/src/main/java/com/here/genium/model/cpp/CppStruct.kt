@@ -26,7 +26,8 @@ class CppStruct @JvmOverloads constructor(
     val fields: List<CppField> = emptyList(),
     val isExternal: Boolean = false,
     val isEquatable: Boolean = false,
-    val isImmutable: Boolean = false
+    val isImmutable: Boolean = false,
+    val exportName: String? = null
 ) : CppElementWithComment(name, fullyQualifiedName, comment) {
 
     @Suppress("unused")

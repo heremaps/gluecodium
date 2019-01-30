@@ -1,8 +1,8 @@
-_baseRef {{name}}_create_handle({{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
-void {{name}}_release_handle(_baseRef handle);
+{{>cbridge/FunctionExport}}_baseRef {{name}}_create_handle({{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+{{>cbridge/FunctionExport}}void {{name}}_release_handle(_baseRef handle);
 
 {{#set structname=name}}
 {{#fields}}
-{{type.functionReturnType}} {{structname}}_{{name}}_get(_baseRef handle);
+{{>cbridge/FunctionExport}}{{type.functionReturnType}} {{structname}}_{{name}}_get(_baseRef handle);
 {{/fields}}
 {{/set}}

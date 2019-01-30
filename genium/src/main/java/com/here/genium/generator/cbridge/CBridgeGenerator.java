@@ -20,7 +20,6 @@
 package com.here.genium.generator.cbridge;
 
 import static com.here.genium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC;
-import static com.here.genium.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
 import static com.here.genium.generator.cbridge.CBridgeNameRules.SRC_DIR;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -52,6 +51,7 @@ public class CBridgeGenerator {
   private final CBridgeIncludeResolver includeResolver;
   private final CppNameResolver cppNameResolver;
   private final String internalNamespace;
+  private final String exportName;
 
   public final CArrayGenerator arrayGenerator = new CArrayGenerator();
 
@@ -59,11 +59,8 @@ public class CBridgeGenerator {
       Arrays.asList(
           GeneratorSuite.copyTarget(CBridgeNameRules.BASE_HANDLE_FILE, ""),
           GeneratorSuite.copyTarget(CBridgeNameRules.BASE_HANDLE_IMPL_FILE, ""),
-          GeneratorSuite.copyTarget(CBridgeNameRules.STRING_HANDLE_FILE, ""),
           GeneratorSuite.copyTarget(
               Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "StringHandle.cpp").toString(), ""),
-          GeneratorSuite.copyTarget(
-              Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""),
           GeneratorSuite.copyTarget(
               Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "ByteArrayHandle.cpp").toString(), ""),
           GeneratorSuite.copyTarget(CBridgeComponents.PROXY_CACHE_FILENAME, ""));
@@ -73,12 +70,14 @@ public class CBridgeGenerator {
       final CppIncludeResolver cppIncludeResolver,
       final CBridgeIncludeResolver includeResolver,
       final CppNameResolver cppNameResolver,
-      final String internalNamespace) {
+      final String internalNamespace,
+      final String exportName) {
     this.deploymentModel = deploymentModel;
     this.cppIncludeResolver = cppIncludeResolver;
     this.includeResolver = includeResolver;
     this.cppNameResolver = cppNameResolver;
     this.internalNamespace = internalNamespace;
+    this.exportName = exportName;
     this.signatureResolver = new FrancaSignatureResolver();
   }
 
@@ -91,6 +90,17 @@ public class CBridgeGenerator {
             new GeneratedFile(
                 generateImplementationContent(cModel),
                 includeResolver.getImplementationFileNameWithPath(francaTypeCollection)))
+        .filter(file -> !file.getContent().isEmpty());
+  }
+
+  public Stream<GeneratedFile> generateInternalHeaders() {
+    return Stream.of(
+            new GeneratedFile(
+                TemplateEngine.INSTANCE.render("cbridge/ByteArrayHandle", exportName),
+                CBridgeNameRules.BYTE_ARRAY_HANDLE_FILE),
+            new GeneratedFile(
+                TemplateEngine.INSTANCE.render("cbridge/StringHandle", exportName),
+                CBridgeNameRules.STRING_HANDLE_FILE))
         .filter(file -> !file.getContent().isEmpty());
   }
 
@@ -110,7 +120,8 @@ public class CBridgeGenerator {
         new CppTypeMapper(cppIncludeResolver, cppNameResolver, internalNamespace);
     CppValueMapper valueMapper = new CppValueMapper(deploymentModel, cppNameResolver);
     CppModelBuilder cppBuilder =
-        new CppModelBuilder(deploymentModel, cppTypeMapper, valueMapper, cppNameResolver);
+        new CppModelBuilder(
+            deploymentModel, cppTypeMapper, valueMapper, cppNameResolver, exportName);
     SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(deploymentModel, signatureResolver);
     CBridgeTypeMapper typeMapper =
         new CBridgeTypeMapper(
@@ -133,6 +144,7 @@ public class CBridgeGenerator {
 
     treeWalker.walkTree(francaTypeCollection);
     CInterface cModel = modelBuilder.getFinalResult(CInterface.class);
+    cModel.exportName = cppBuilder.getExportName();
 
     removeRedundantIncludes(francaTypeCollection, cModel);
     arrayGenerator.collect(modelBuilder.arraysCollector);

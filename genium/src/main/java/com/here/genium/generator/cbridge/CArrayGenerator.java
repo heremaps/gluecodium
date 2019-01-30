@@ -45,13 +45,16 @@ public final class CArrayGenerator {
     this.arrayCollector.putAll(arrays);
   }
 
-  public List<GeneratedFile> generate() {
+  public List<GeneratedFile> generate(String exportName) {
 
     Collection<CArray> arrays = arrayCollector.values();
 
     Collection<Include> headerIncludes =
         new TreeSet<>(CBridgeComponents.collectHeaderIncludes(arrays));
     headerIncludes.add(FIXED_WIDTH_INTEGERS_INCLUDE);
+    if (exportName != null) {
+      headerIncludes.add(Include.Companion.createInternalInclude(CBridgeNameRules.EXPORT_FILE));
+    }
 
     Map<String, Object> headerData = new HashMap<>();
     headerData.put("arrays", arrays);

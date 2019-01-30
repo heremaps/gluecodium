@@ -1,6 +1,6 @@
 {{#unless isExternal}}{{!!
 }}{{>common/DocComment}}
-class {{name}}{{>cpp/CppInheritance}} {
+class {{#if exportName}}{{exportName}}_EXPORT {{/if}}{{name}}{{>cpp/CppInheritance}} {
 public:
     virtual ~{{name}}() = 0;
 

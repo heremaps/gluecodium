@@ -76,6 +76,7 @@ public class JniModelBuilderTest {
   private static final List<String> JAVA_PACKAGES = Arrays.asList("my", "java", "test");
   private static final List<String> CPP_NAMESPACE_MEMBERS =
       Arrays.asList("my", "cpp", "stuffs", "namespace");
+  private static final String CPP_EXPORT = "MY_LIBRARY";
 
   @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private FInterface francaInterface;
@@ -102,7 +103,8 @@ public class JniModelBuilderTest {
           false,
           new LinkedList<>(),
           new LinkedList<>(),
-          new LinkedList<>());
+          new LinkedList<>(),
+          CPP_EXPORT);
   private final JavaEnum javaEnum = new JavaEnum(JAVA_CLASS_NAME);
   private final CppEnum cppEnum =
       new CppEnum(CPP_CLASS_NAME, "::" + CPP_CLASS_NAME, false, Collections.emptyList());
@@ -161,6 +163,7 @@ public class JniModelBuilderTest {
 
     when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppClass);
+    when(cppBuilder.getExportName()).thenReturn(CPP_EXPORT);
     when(cppIncludeResolver.resolveInclude(any())).thenReturn(cppInclude);
 
     when(francaInterface.eContainer()).thenReturn(fModel);
@@ -463,7 +466,7 @@ public class JniModelBuilderTest {
 
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
-    assertEquals(1, jniContainer.getIncludes().size());
+    assertEquals(2, jniContainer.getIncludes().size());
     verify(cppIncludeResolver).resolveInclude(francaInterface);
   }
 
@@ -477,7 +480,7 @@ public class JniModelBuilderTest {
 
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
-    assertEquals(2, jniContainer.getIncludes().size());
+    assertEquals(3, jniContainer.getIncludes().size());
     verify(cppIncludeResolver).resolveInclude(francaStructType);
   }
 

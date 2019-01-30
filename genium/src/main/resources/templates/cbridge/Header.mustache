@@ -18,15 +18,15 @@ extern "C" {
 {{#structs}}{{>cbridge/StructFunctionDeclarations}}{{/structs}}
 
 {{#if selfType}}
-void {{name}}_release_handle(_baseRef handle);
-_baseRef {{name}}_copy_handle(_baseRef handle);
+{{>cbridge/FunctionExport}}void {{name}}_release_handle(_baseRef handle);
+{{>cbridge/FunctionExport}}_baseRef {{name}}_copy_handle(_baseRef handle);
 
 {{/if}}
 {{#isInterface}}
 {{>cbridge/FunctionTable}}
 
-_baseRef {{name}}_create_proxy({{functionTableName}} functionTable);
-const void* {{name}}_get_swift_object_from_cache(_baseRef handle);
+{{>cbridge/FunctionExport}}_baseRef {{name}}_create_proxy({{functionTableName}} functionTable);
+{{>cbridge/FunctionExport}}const void* {{name}}_get_swift_object_from_cache(_baseRef handle);
 {{/isInterface}}
 {{#functions}}
 {{>cbridge/FunctionSignature}};

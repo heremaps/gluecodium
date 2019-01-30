@@ -39,6 +39,7 @@ public final class CFunction extends CElement {
   public final CppTypeInfo error;
   public final String shortName;
   public final boolean isConst;
+  public final String exportName;
 
   public boolean isReturningVoid() {
     return returnType.functionReturnType.equals(CType.VOID);
@@ -61,7 +62,8 @@ public final class CFunction extends CElement {
       CppTypeInfo error,
       String nestedSpecifier,
       String shortName,
-      final boolean isConst) {
+      final boolean isConst,
+      String exportName) {
     super(NameHelper.joinNames(nestedSpecifier, shortName, CBridgeNameRules.UNDERSCORE_DELIMITER));
     this.parameters = parameters != null ? parameters : emptyList();
     this.returnType = returnType != null ? returnType : new CppTypeInfo(CType.VOID);
@@ -74,5 +76,6 @@ public final class CFunction extends CElement {
     this.error = error;
     this.shortName = shortName;
     this.isConst = isConst;
+    this.exportName = exportName;
   }
 }

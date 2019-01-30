@@ -29,11 +29,13 @@ public final class CArray extends CElement {
 
   public final CppTypeInfo arrayType;
   public final CppTypeInfo underlyingType;
+  public final String exportName;
 
-  public CArray(final String name, final CppArrayTypeInfo typeInfo) {
+  public CArray(final String name, final CppArrayTypeInfo typeInfo, final String exportName) {
     super(name);
     this.arrayType = typeInfo;
     this.underlyingType = typeInfo.innerType;
+    this.exportName = exportName;
   }
 
   public String getType() {

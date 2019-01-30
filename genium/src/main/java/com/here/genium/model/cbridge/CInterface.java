@@ -35,6 +35,7 @@ public final class CInterface extends CElement {
   public final CppTypeInfo selfType;
   public final List<CEnum> enums = new LinkedList<>();
   public final List<CMap> maps = new LinkedList<>();
+  public String exportName;
 
   public CInterface(final String name) {
     this(name, null);

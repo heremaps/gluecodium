@@ -1,0 +1,22 @@
+{{>cpp/CppCommentHeader}}
+
+#pragma once
+
+#include "BaseHandle.h"
+{{#if .}}#include "cpp/include/Export.h"{{/if}}
+#include <stddef.h>
+#include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+{{>cbridge/InternalFunctionExport}}_baseRef byteArray_create_handle( );
+{{>cbridge/InternalFunctionExport}}void byteArray_release_handle( _baseRef handle );
+{{>cbridge/InternalFunctionExport}}void byteArray_assign( _baseRef handle, const uint8_t* data, const size_t size );
+{{>cbridge/InternalFunctionExport}}const uint8_t* byteArray_data_get( _baseRef handle );
+{{>cbridge/InternalFunctionExport}}size_t byteArray_size_get( _baseRef handle );
+
+#ifdef __cplusplus
+}
+#endif

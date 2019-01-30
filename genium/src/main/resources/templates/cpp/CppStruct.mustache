@@ -15,8 +15,8 @@ struct {{name}} {
 {{/if}}{{!!
 }}{{#if isEquatable}}
 
-    bool operator==( const {{name}}& rhs ) const;
-    bool operator!=( const {{name}}& rhs ) const;
+    {{#if exportName}}{{exportName}}_EXPORT {{/if}}bool operator==( const {{name}}& rhs ) const;
+    {{#if exportName}}{{exportName}}_EXPORT {{/if}}bool operator!=( const {{name}}& rhs ) const;
 
 {{/if}}
 };

@@ -45,14 +45,19 @@ public final class CArrayMapper {
         .build();
   }
 
-  public static CArray createArrayDefinition(final FType francaArray, final CppTypeInfo innerType) {
-    return createArrayDefinition(francaArray, innerType, createArrayReference(innerType));
+  public static CArray createArrayDefinition(
+      final FType francaArray, final CppTypeInfo innerType, final String exportName) {
+    return createArrayDefinition(
+        francaArray, innerType, createArrayReference(innerType), exportName);
   }
 
   public static CArray createArrayDefinition(
-      final EObject francaArray, final CppTypeInfo innerType, final CppArrayTypeInfo cppTypeRef) {
+      final EObject francaArray,
+      final CppTypeInfo innerType,
+      final CppArrayTypeInfo cppTypeRef,
+      final String exportName) {
     String fullName = addPrefix(getName(francaArray) + addNestedSuffixIfNeeded(innerType));
-    return new CArray(fullName, cppTypeRef);
+    return new CArray(fullName, cppTypeRef, exportName);
   }
 
   public static String getName(final EObject object) {

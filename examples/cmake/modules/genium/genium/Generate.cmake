@@ -64,6 +64,7 @@ function(apigen_generate)
       JAVA_PACKAGE
       COPYRIGHT_HEADER
       CPP_INTERNAL_NAMESPACE
+      CPP_EXPORT
       OUTPUT_DIR)
   set(multiValueArgs FRANCA_SOURCES)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
@@ -137,10 +138,19 @@ function(apigen_generate)
   if(apigen_generate_CPP_INTERNAL_NAMESPACE)
     string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " --cpp-internal-namespace ${apigen_generate_CPP_INTERNAL_NAMESPACE}")
   endif()
+  if(apigen_generate_CPP_EXPORT)
+    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -cppexport ${apigen_generate_CPP_EXPORT}")
+    get_target_property(apigen_target_type ${apigen_generate_TARGET} TYPE)
+    if (apigen_target_type STREQUAL SHARED_LIBRARY)
+      target_compile_definitions(${apigen_generate_TARGET}
+        PUBLIC ${apigen_generate_CPP_EXPORT}_SHARED
+        PRIVATE ${apigen_generate_CPP_EXPORT}_INTERNAL)
+    endif()
+  endif()
 
   execute_process(
     COMMAND ${CMAKE_COMMAND} -E make_directory ${GENIUM_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
-    COMMAND ${APIGEN_GENIUM_GRADLE_WRAPPER} -Pversion=${apigen_generate_VERSION} run --args="${APIGEN_GENIUM_ARGS}"
+    COMMAND ${APIGEN_GENIUM_GRADLE_WRAPPER} -Pversion=${apigen_generate_VERSION} run --args=${APIGEN_GENIUM_ARGS}
     WORKING_DIRECTORY ${APIGEN_GENIUM_DIR}
     RESULT_VARIABLE GENERATE_RESULT)
   if(NOT "${GENERATE_RESULT}" STREQUAL "0")

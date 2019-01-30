@@ -48,6 +48,7 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
 
   private final String internalNamespace;
   private final List<String> rootNamespace;
+  private final String exportName;
   private final FrancaDeploymentModel deploymentModel;
   private final CppNameResolver cppNameResolver;
 
@@ -56,6 +57,7 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
     super();
     this.internalNamespace = options.getCppInternalNamespace();
     this.rootNamespace = options.getCppRootNamespace();
+    this.exportName = options.getCppExport();
     this.deploymentModel = deploymentModel;
     this.cppNameResolver = new CppNameResolver(deploymentModel, rootNamespace);
   }
@@ -70,16 +72,20 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
             new CppIncludeResolver(deploymentModel, rootNamespace),
             new CBridgeIncludeResolver(rootNamespace),
             cppNameResolver,
-            internalNamespace);
+            internalNamespace,
+            exportName);
 
     Stream<GeneratedFile> swiftStream = typeCollections.stream().map(swiftGenerator::generate);
     Stream<GeneratedFile> cBridgeStream =
         typeCollections.stream().map(cBridgeGenerator::generate).flatMap(Function.identity());
+    Stream<GeneratedFile> cBridgeInternalHeaderStream = cBridgeGenerator.generateInternalHeaders();
 
-    List<GeneratedFile> result = Stream.concat(swiftStream, cBridgeStream).collect(toList());
+    List<GeneratedFile> result =
+        Stream.concat(Stream.concat(swiftStream, cBridgeStream), cBridgeInternalHeaderStream)
+            .collect(toList());
     result.addAll(CBridgeGenerator.STATIC_FILES);
     result.addAll(SwiftGenerator.STATIC_FILES);
-    result.addAll(cBridgeGenerator.arrayGenerator.generate());
+    result.addAll(cBridgeGenerator.arrayGenerator.generate(exportName));
     result.addAll(swiftGenerator.arrayGenerator.generate());
     result.addAll(swiftGenerator.mapGenerator.generate());
     result.add(swiftGenerator.generateErrors());

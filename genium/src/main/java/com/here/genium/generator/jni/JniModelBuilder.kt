@@ -24,6 +24,7 @@ import com.here.genium.common.CollectionsHelper
 import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
 import com.here.genium.generator.cpp.CppModelBuilder
+import com.here.genium.generator.cpp.CppNameRules
 import com.here.genium.generator.java.JavaModelBuilder
 import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppClass
@@ -132,6 +133,10 @@ internal constructor(
 
         jniContainer.includes.add(cppIncludeResolver.resolveInclude(francaInterface))
         jniContainer.includes.addAll(getIncludes(francaInterface))
+        if (cppBuilder.exportName != null) {
+            jniContainer.includes.add(
+                Include.createInternalInclude("Export" + CppNameRules.HEADER_FILE_SUFFIX))
+        }
 
         storeResult(jniContainer)
         closeContext()
@@ -157,7 +162,8 @@ internal constructor(
             isConst = cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST),
             isOverloaded = francaMethod.selector != null,
             isConstructor = javaMethod.isConstructor,
-            exception = jniException
+            exception = jniException,
+            exportName = cppBuilder.exportName
         )
         jniMethod.parameters.addAll(getPreviousResults(JniParameter::class.java))
 
@@ -263,7 +269,8 @@ internal constructor(
                 cppMethodName = cppGetter.name,
                 returnType = jniType,
                 isConst = true,
-                isStatic = isStatic
+                isStatic = isStatic,
+                exportName = cppBuilder.exportName
             )
         )
         if (!francaAttribute.isReadonly) {
@@ -273,7 +280,8 @@ internal constructor(
                 javaMethodName = javaSetter.name,
                 cppMethodName = cppSetter.name,
                 returnType = JniType.VOID,
-                isStatic = isStatic
+                isStatic = isStatic,
+                exportName = cppBuilder.exportName
             )
 
             val javaParameter = javaSetter.parameters[0]

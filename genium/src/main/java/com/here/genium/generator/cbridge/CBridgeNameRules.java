@@ -20,6 +20,7 @@
 package com.here.genium.generator.cbridge;
 
 import com.here.genium.generator.common.NameHelper;
+import com.here.genium.generator.cpp.CppNameRules;
 import com.here.genium.model.franca.DefinedBy;
 import java.nio.file.Paths;
 import java.util.LinkedList;
@@ -38,6 +39,10 @@ public final class CBridgeNameRules {
       Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "BaseHandleImpl.h").toString();
   public static final String BASE_HANDLE_FILE =
       Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BaseHandle.h").toString();
+  public static final String BYTE_ARRAY_HANDLE_FILE =
+      Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString();
+  public static final String EXPORT_FILE =
+      Paths.get("cpp", INCLUDE_DIR, "Export" + CppNameRules.HEADER_FILE_SUFFIX).toString();
   public static final String SRC_DIR = "src";
 
   public static final String BASE_REF_NAME = "_baseRef";

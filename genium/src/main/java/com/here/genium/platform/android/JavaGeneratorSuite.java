@@ -76,6 +76,7 @@ public class JavaGeneratorSuite extends GeneratorSuite {
   private final boolean enableAndroidFeatures;
   private final String internalNamespace;
   private final List<String> rootNamespace;
+  private final String exportName;
   private final FrancaDeploymentModel deploymentModel;
 
   public JavaGeneratorSuite(
@@ -92,6 +93,7 @@ public class JavaGeneratorSuite extends GeneratorSuite {
     this.enableAndroidFeatures = enableAndroidFeatures;
     this.internalNamespace = options.getCppInternalNamespace();
     this.rootNamespace = options.getCppRootNamespace();
+    this.exportName = options.getCppExport();
     this.deploymentModel = deploymentModel;
   }
 
@@ -123,6 +125,9 @@ public class JavaGeneratorSuite extends GeneratorSuite {
             enableAndroidFeatures,
             internalNamespace,
             rootNamespace);
+    // NOTE: Arbitrary limit on the number of parameters prevents this from being passed in the
+    // constructor.
+    jniGenerator.setCppExportName(exportName);
 
     Collection<ModelElement> model =
         typeCollections

@@ -86,6 +86,7 @@ public final class CBridgeModelBuilderTest {
   private static final String CPP_ATTR_SETTER_NAME = "CPP_ATTR_SETTER";
   private static final String CPP_FIELD_NAME = "CppFieldName";
   private static final String SWIFT_FIELD_NAME = "SwiftFieldName";
+  private static final String CPP_EXPORT = "MY_LIBRARY";
 
   private final MockContextStack<CElement> contextStack = new MockContextStack<>();
 
@@ -128,6 +129,7 @@ public final class CBridgeModelBuilderTest {
 
     when(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
 
+    when(cppModelbuilder.getExportName()).thenReturn(CPP_EXPORT);
     when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(new CppMethod(""));
     when(cppModelbuilder.getFinalResult(CppStruct.class)).thenReturn(new CppStruct(STRUCT_NAME));
     when(swiftModelBuilder.getFinalResult(SwiftMethod.class)).thenReturn(swiftMethod);
@@ -321,7 +323,7 @@ public final class CBridgeModelBuilderTest {
 
     CInterface iface = modelBuilder.getFinalResult(CInterface.class);
     assertNotNull(iface);
-    assertEquals(0, iface.headerIncludes.size());
+    assertEquals(1, iface.headerIncludes.size());
     assertEquals(1, iface.implementationIncludes.size());
     assertEquals(0, iface.privateHeaderIncludes.size());
   }
@@ -341,7 +343,7 @@ public final class CBridgeModelBuilderTest {
 
     CInterface iface = modelBuilder.getFinalResult(CInterface.class);
     assertNotNull(iface);
-    assertEquals(0, iface.headerIncludes.size());
+    assertEquals(1, iface.headerIncludes.size());
     assertEquals(2, iface.implementationIncludes.size());
     assertEquals(0, iface.privateHeaderIncludes.size());
   }
@@ -560,8 +562,8 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaArrayTypeCreatesArray() {
-    CArray cArray = new CArray("FooArray", cppArrayTypeInfo);
-    when(CArrayMapper.createArrayDefinition(any(), any())).thenReturn(cArray);
+    CArray cArray = new CArray("FooArray", cppArrayTypeInfo, null);
+    when(CArrayMapper.createArrayDefinition(any(), any(), any())).thenReturn(cArray);
 
     modelBuilder.finishBuilding(francaArray);
 
@@ -579,7 +581,7 @@ public final class CBridgeModelBuilderTest {
             .build();
     arrayType.typeCategory = CppTypeInfo.TypeCategory.ARRAY;
     when(typeMapper.mapType(any())).thenReturn(arrayType);
-    CArray cArray = new CArray("FooArray", cppArrayTypeInfo);
+    CArray cArray = new CArray("FooArray", cppArrayTypeInfo, null);
     when(CArrayMapper.createArrayDefinition(any(), any(), any())).thenReturn(cArray);
 
     modelBuilder.finishBuilding(francaTypeRef);
@@ -589,7 +591,7 @@ public final class CBridgeModelBuilderTest {
     assertEquals("FooArray", arrays.iterator().next().name);
 
     PowerMockito.verifyStatic();
-    CArrayMapper.createArrayDefinition(francaTypeRef, arrayType.innerType, arrayType);
+    CArrayMapper.createArrayDefinition(francaTypeRef, arrayType.innerType, arrayType, null);
   }
 
   private void verifyAttributeSetter(CppTypeInfo classTypeInfo, CFunction cSetter) {

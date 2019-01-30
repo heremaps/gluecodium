@@ -40,6 +40,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   private final CppTypeMapper typeMapper;
   private final CppValueMapper valueMapper;
   private final CppNameResolver nameResolver;
+  private final String exportName;
 
   @VisibleForTesting
   CppModelBuilder(
@@ -47,20 +48,33 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
       final FrancaDeploymentModel deploymentModel,
       final CppTypeMapper typeMapper,
       final CppValueMapper valueMapper,
-      final CppNameResolver nameResolver) {
+      final CppNameResolver nameResolver,
+      final String exportName) {
     super(contextStack);
     this.deploymentModel = deploymentModel;
     this.typeMapper = typeMapper;
     this.valueMapper = valueMapper;
     this.nameResolver = nameResolver;
+    this.exportName = exportName;
   }
 
   public CppModelBuilder(
       final FrancaDeploymentModel deploymentModel,
       final CppTypeMapper typeMapper,
       final CppValueMapper valueMapper,
-      final CppNameResolver nameResolver) {
-    this(new ModelBuilderContextStack<>(), deploymentModel, typeMapper, valueMapper, nameResolver);
+      final CppNameResolver nameResolver,
+      final String exportName) {
+    this(
+        new ModelBuilderContextStack<>(),
+        deploymentModel,
+        typeMapper,
+        valueMapper,
+        nameResolver,
+        exportName);
+  }
+
+  public String getExportName() {
+    return exportName;
   }
 
   @Override
@@ -87,7 +101,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             deploymentModel.isExternalType(francaInterface),
             members,
             getPreviousResults(CppMethod.class),
-            inheritances);
+            inheritances,
+            exportName);
 
     storeResult(cppClass);
     closeContext();
@@ -201,7 +216,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             getPreviousResults(CppField.class),
             deploymentModel.isExternalType(francaStructType),
             deploymentModel.isEquatable(francaStructType),
-            deploymentModel.isImmutable(francaStructType));
+            deploymentModel.isImmutable(francaStructType),
+            exportName);
 
     storeResult(cppStruct);
     closeContext();

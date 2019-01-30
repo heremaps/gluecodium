@@ -1,0 +1,20 @@
+{{>cpp/CppCommentHeader}}
+
+#pragma once
+
+#include "BaseHandle.h"
+{{#if .}}#include "cpp/include/Export.h"{{/if}}
+#include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+{{>cbridge/InternalFunctionExport}}_baseRef std_string_create_handle( const char* c_str );
+{{>cbridge/InternalFunctionExport}}const char* std_string_data_get( _baseRef handle );
+{{>cbridge/InternalFunctionExport}}int64_t std_string_size_get( _baseRef handle );
+{{>cbridge/InternalFunctionExport}}void std_string_release_handle( _baseRef handle );
+
+#ifdef __cplusplus
+}
+#endif

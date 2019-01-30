@@ -20,11 +20,11 @@
 package com.here.genium.model.cbridge;
 
 import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
+import static com.here.genium.generator.cbridge.CBridgeNameRules.BYTE_ARRAY_HANDLE_FILE;
+import static com.here.genium.generator.cbridge.CBridgeNameRules.STRING_HANDLE_FILE;
 import static java.util.Collections.emptyList;
 
-import com.here.genium.generator.cbridge.CBridgeNameRules;
 import com.here.genium.model.common.Include;
-import java.nio.file.Paths;
 import java.util.*;
 import lombok.EqualsAndHashCode;
 
@@ -50,16 +50,9 @@ public class CType extends CElement {
   public static final CType FLOAT = new CType("float");
   public static final CType DOUBLE = new CType("double");
   public static final CType STRING_REF =
-      new CType(
-          BASE_REF_NAME,
-          Include.Companion.createInternalInclude(
-              Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "StringHandle.h").toString()));
+      new CType(BASE_REF_NAME, Include.Companion.createInternalInclude(STRING_HANDLE_FILE));
   public static final CType BYTE_ARRAY_REF =
-      new CType(
-          BASE_REF_NAME,
-          Include.Companion.createInternalInclude(
-              Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "ByteArrayHandle.h")
-                  .toString()));
+      new CType(BASE_REF_NAME, Include.Companion.createInternalInclude(BYTE_ARRAY_HANDLE_FILE));
 
   public Boolean isConst = false;
   public final Set<Include> includes;

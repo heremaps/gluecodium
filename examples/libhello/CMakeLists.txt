@@ -395,6 +395,7 @@ apigen_generate(TARGET hello
         VERSION ${HELLO_APIGEN_GENIUM_VERSION}
         JAVA_PACKAGE com.here.android
         CPP_INTERNAL_NAMESPACE lorem_ipsum
+        CPP_EXPORT LOREM_IPSUM
         COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT")
 apigen_target_include_directories(hello)
 apigen_target_sources(hello)

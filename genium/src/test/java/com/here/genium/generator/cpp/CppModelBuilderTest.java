@@ -51,6 +51,7 @@ public final class CppModelBuilderTest {
   private static final String DUMMY_NAME = "Foo";
   private static final String NONSENSE_NAME = "nonsense";
   private static final String DUMMY_FQN = "::bar::Baz";
+  private static final String DUMMY_EXPORT = "FOO";
 
   private final MockContextStack<CppElement> contextStack = new MockContextStack<>();
 
@@ -102,7 +103,8 @@ public final class CppModelBuilderTest {
     MockitoAnnotations.initMocks(this);
 
     modelBuilder =
-        new CppModelBuilder(contextStack, deploymentModel, typeMapper, valueMapper, nameResolver);
+        new CppModelBuilder(
+            contextStack, deploymentModel, typeMapper, valueMapper, nameResolver, DUMMY_EXPORT);
 
     when(nameResolver.getName(any())).thenReturn(DUMMY_NAME);
     when(nameResolver.getFullyQualifiedName(any())).thenReturn(DUMMY_FQN);
