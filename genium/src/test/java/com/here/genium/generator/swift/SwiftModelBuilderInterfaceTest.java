@@ -170,7 +170,7 @@ public class SwiftModelBuilderInterfaceTest {
   @Test
   public void finishBuildingFrancaInterfaceReadsConstants() {
     SwiftConstant swiftConstant =
-        new SwiftConstant("Foo", SwiftVisibility.PUBLIC, new SwiftType("Bar"), swiftValue);
+        new SwiftConstant("Foo", SwiftVisibility.PUBLIC, new SwiftType("Bar", "bar"), swiftValue);
     contextStack.injectResult(swiftConstant);
 
     modelBuilder.finishBuilding(francaInterface);
