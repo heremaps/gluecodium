@@ -27,6 +27,9 @@ using NumberToTypeDef = ::std::unordered_map< uint8_t, ::smoke::Maps::SomeId >;
 using TypeDefToNumber = ::std::unordered_map< ::smoke::Maps::SomeId, uint8_t >;
 using ArrayOfInts = ::std::vector< int32_t >;
 using StringToArray = ::std::unordered_map< ::std::string, ::smoke::Maps::ArrayOfInts >;
+using SomeInt = int32_t;
+using ArrayOfTypeDefs = ::std::vector< ::smoke::Maps::SomeInt >;
+using StringToArrayOfTypeDefs = ::std::unordered_map< ::std::string, ::smoke::Maps::ArrayOfTypeDefs >;
 using NumberToInstance = ::std::unordered_map< uint8_t, ::std::shared_ptr< ::smoke::MapsInstance > >;
 struct SomeStruct {
     ::std::string value;

@@ -326,6 +326,44 @@ void smoke_Maps_StringToArray_release_optional_handle(_baseRef handle) {
 _baseRef smoke_Maps_StringToArray_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<std::string, std::vector<int32_t>>>*>( handle )->get( ) );
 }
+_baseRef smoke_Maps_StringToArrayOfTypeDefs_create_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, std::vector<int32_t>>() );
+}
+void smoke_Maps_StringToArrayOfTypeDefs_release_handle(_baseRef handle) {
+    delete get_pointer<std::unordered_map<std::string, std::vector<int32_t>>>(handle);
+}
+_baseRef smoke_Maps_StringToArrayOfTypeDefs_iterator(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, std::vector<int32_t>>::iterator( get_pointer<std::unordered_map<std::string, std::vector<int32_t>>>(handle)->begin() ) );
+}
+void smoke_Maps_StringToArrayOfTypeDefs_iterator_release_handle(_baseRef iterator_handle) {
+    delete reinterpret_cast<std::unordered_map<std::string, std::vector<int32_t>>::iterator*>( iterator_handle );
+}
+void smoke_Maps_StringToArrayOfTypeDefs_put(_baseRef handle, _baseRef key, _baseRef value) {
+    (*get_pointer<std::unordered_map<std::string, std::vector<int32_t>>>(handle))[Conversion<std::string>::toCpp(key)] = Conversion<std::vector<int32_t>>::toCpp(value);
+}
+bool smoke_Maps_StringToArrayOfTypeDefs_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
+    return *reinterpret_cast<std::unordered_map<std::string, std::vector<int32_t>>::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, std::vector<int32_t>>>(handle)->end();
+}
+void smoke_Maps_StringToArrayOfTypeDefs_iterator_increment(_baseRef iterator_handle) {
+    ++*reinterpret_cast<std::unordered_map<std::string, std::vector<int32_t>>::iterator*>( iterator_handle );
+}
+_baseRef smoke_Maps_StringToArrayOfTypeDefs_iterator_key(_baseRef iterator_handle) {
+    auto& key = (*reinterpret_cast<std::unordered_map<std::string, std::vector<int32_t>>::iterator*>( iterator_handle ))->first;
+    return Conversion<std::string>::toBaseRef(key);
+}
+_baseRef smoke_Maps_StringToArrayOfTypeDefs_iterator_value(_baseRef iterator_handle) {
+    auto& value = (*reinterpret_cast<std::unordered_map<std::string, std::vector<int32_t>>::iterator*>( iterator_handle ))->second;
+    return Conversion<std::vector<int32_t>>::toBaseRef(value);
+}
+_baseRef smoke_Maps_StringToArrayOfTypeDefs_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<std::string, std::vector<int32_t>>>( new ( std::nothrow ) std::unordered_map<std::string, std::vector<int32_t>>( ) ) );
+}
+void smoke_Maps_StringToArrayOfTypeDefs_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<std::unordered_map<std::string, std::vector<int32_t>>>*>( handle );
+}
+_baseRef smoke_Maps_StringToArrayOfTypeDefs_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<std::string, std::vector<int32_t>>>*>( handle )->get( ) );
+}
 _baseRef smoke_Maps_NumberToInstance_create_handle() {
     return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>() );
 }

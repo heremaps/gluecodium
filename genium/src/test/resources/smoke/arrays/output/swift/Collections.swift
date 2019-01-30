@@ -262,58 +262,6 @@ internal func moveFromCType(_ handle: _baseRef) -> [Arrays.SomeEnum]? {
     }
     return copyFromCType(handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [Arrays.ErrorCodeToMessageMap] {
-    var result: [Arrays.ErrorCodeToMessageMap] = []
-    let count = arrayCollection_Int32ToStringMapArray_count(handle)
-    for idx in 0..<count {
-        result.append(copyFromCType(arrayCollection_Int32ToStringMapArray_get(handle, idx)))
-    }
-    return result
-}
-internal func moveFromCType(_ handle: _baseRef) -> [Arrays.ErrorCodeToMessageMap] {
-    defer {
-        arrayCollection_Int32ToStringMapArray_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftArray: [Arrays.ErrorCodeToMessageMap]) -> RefHolder {
-    let handle = arrayCollection_Int32ToStringMapArray_create_handle()
-    for item in swiftArray {
-        let value = moveToCType(item)
-        arrayCollection_Int32ToStringMapArray_append(handle, value.ref)
-    }
-    return RefHolder(handle)
-}
-internal func moveToCType(_ swiftArray: [Arrays.ErrorCodeToMessageMap]) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_Int32ToStringMapArray_release_handle)
-}
-internal func copyToCType(_ swiftArray: [Arrays.ErrorCodeToMessageMap]?) -> RefHolder {
-    guard let swiftArray = swiftArray else {
-        return RefHolder(0)
-    }
-    let optionalHandle = arrayCollection_Int32ToStringMapArray_create_optional_handle()
-    let handle = arrayCollection_Int32ToStringMapArray_unwrap_optional_handle(optionalHandle)
-    for item in swiftArray {
-        arrayCollection_Int32ToStringMapArray_append(handle, moveToCType(item).ref)
-    }
-    return RefHolder(optionalHandle)
-}
-internal func moveToCType(_ swiftType: [Arrays.ErrorCodeToMessageMap]?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: arrayCollection_Int32ToStringMapArray_release_optional_handle)
-}
-internal func copyFromCType(_ handle: _baseRef) -> [Arrays.ErrorCodeToMessageMap]? {
-    guard handle != 0 else {
-        return nil
-    }
-    let unwrappedHandle = arrayCollection_Int32ToStringMapArray_unwrap_optional_handle(handle)
-    return copyFromCType(unwrappedHandle) as [Arrays.ErrorCodeToMessageMap]
-}
-internal func moveFromCType(_ handle: _baseRef) -> [Arrays.ErrorCodeToMessageMap]? {
-    defer {
-        arrayCollection_Int32ToStringMapArray_release_optional_handle(handle)
-    }
-    return copyFromCType(handle)
-}
 internal func copyFromCType(_ handle: _baseRef) -> [String] {
     var result: [String] = []
     let count = arrayCollection_StringArray_count(handle)
@@ -418,6 +366,58 @@ internal func moveFromCType(_ handle: _baseRef) -> [UInt8]? {
     }
     return copyFromCType(handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> [Arrays.ErrorCodeToMessageMap] {
+    var result: [Arrays.ErrorCodeToMessageMap] = []
+    let count = arrayCollection_Int32ToStringMapArray_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(arrayCollection_Int32ToStringMapArray_get(handle, idx)))
+    }
+    return result
+}
+internal func moveFromCType(_ handle: _baseRef) -> [Arrays.ErrorCodeToMessageMap] {
+    defer {
+        arrayCollection_Int32ToStringMapArray_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftArray: [Arrays.ErrorCodeToMessageMap]) -> RefHolder {
+    let handle = arrayCollection_Int32ToStringMapArray_create_handle()
+    for item in swiftArray {
+        let value = moveToCType(item)
+        arrayCollection_Int32ToStringMapArray_append(handle, value.ref)
+    }
+    return RefHolder(handle)
+}
+internal func moveToCType(_ swiftArray: [Arrays.ErrorCodeToMessageMap]) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_Int32ToStringMapArray_release_handle)
+}
+internal func copyToCType(_ swiftArray: [Arrays.ErrorCodeToMessageMap]?) -> RefHolder {
+    guard let swiftArray = swiftArray else {
+        return RefHolder(0)
+    }
+    let optionalHandle = arrayCollection_Int32ToStringMapArray_create_optional_handle()
+    let handle = arrayCollection_Int32ToStringMapArray_unwrap_optional_handle(optionalHandle)
+    for item in swiftArray {
+        arrayCollection_Int32ToStringMapArray_append(handle, moveToCType(item).ref)
+    }
+    return RefHolder(optionalHandle)
+}
+internal func moveToCType(_ swiftType: [Arrays.ErrorCodeToMessageMap]?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: arrayCollection_Int32ToStringMapArray_release_optional_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> [Arrays.ErrorCodeToMessageMap]? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = arrayCollection_Int32ToStringMapArray_unwrap_optional_handle(handle)
+    return copyFromCType(unwrappedHandle) as [Arrays.ErrorCodeToMessageMap]
+}
+internal func moveFromCType(_ handle: _baseRef) -> [Arrays.ErrorCodeToMessageMap]? {
+    defer {
+        arrayCollection_Int32ToStringMapArray_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> [[String]] {
     var result: [[String]] = []
     let count = arrayCollection_StringArrayArray_count(handle)
@@ -472,53 +472,53 @@ internal func moveFromCType(_ handle: _baseRef) -> [[String]]? {
 }
 internal func copyFromCType(_ handle: _baseRef) -> [[UInt8]] {
     var result: [[UInt8]] = []
-    let count = arrayCollection_UInt8Array_count(handle)
+    let count = arrayCollection_UInt8ArrayArray_count(handle)
     for idx in 0..<count {
-        result.append(copyFromCType(arrayCollection_UInt8Array_get(handle, idx)))
+        result.append(copyFromCType(arrayCollection_UInt8ArrayArray_get(handle, idx)))
     }
     return result
 }
 internal func moveFromCType(_ handle: _baseRef) -> [[UInt8]] {
     defer {
-        arrayCollection_UInt8Array_release_handle(handle)
+        arrayCollection_UInt8ArrayArray_release_handle(handle)
     }
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftArray: [[UInt8]]) -> RefHolder {
-    let handle = arrayCollection_UInt8Array_create_handle()
+    let handle = arrayCollection_UInt8ArrayArray_create_handle()
     for item in swiftArray {
         let value = moveToCType(item)
-        arrayCollection_UInt8Array_append(handle, value.ref)
+        arrayCollection_UInt8ArrayArray_append(handle, value.ref)
     }
     return RefHolder(handle)
 }
 internal func moveToCType(_ swiftArray: [[UInt8]]) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_UInt8Array_release_handle)
+    return RefHolder(ref: copyToCType(swiftArray).ref, release: arrayCollection_UInt8ArrayArray_release_handle)
 }
 internal func copyToCType(_ swiftArray: [[UInt8]]?) -> RefHolder {
     guard let swiftArray = swiftArray else {
         return RefHolder(0)
     }
-    let optionalHandle = arrayCollection_UInt8Array_create_optional_handle()
-    let handle = arrayCollection_UInt8Array_unwrap_optional_handle(optionalHandle)
+    let optionalHandle = arrayCollection_UInt8ArrayArray_create_optional_handle()
+    let handle = arrayCollection_UInt8ArrayArray_unwrap_optional_handle(optionalHandle)
     for item in swiftArray {
-        arrayCollection_UInt8Array_append(handle, moveToCType(item).ref)
+        arrayCollection_UInt8ArrayArray_append(handle, moveToCType(item).ref)
     }
     return RefHolder(optionalHandle)
 }
 internal func moveToCType(_ swiftType: [[UInt8]]?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: arrayCollection_UInt8Array_release_optional_handle)
+    return RefHolder(ref: copyToCType(swiftType).ref, release: arrayCollection_UInt8ArrayArray_release_optional_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> [[UInt8]]? {
     guard handle != 0 else {
         return nil
     }
-    let unwrappedHandle = arrayCollection_UInt8Array_unwrap_optional_handle(handle)
+    let unwrappedHandle = arrayCollection_UInt8ArrayArray_unwrap_optional_handle(handle)
     return copyFromCType(unwrappedHandle) as [[UInt8]]
 }
 internal func moveFromCType(_ handle: _baseRef) -> [[UInt8]]? {
     defer {
-        arrayCollection_UInt8Array_release_optional_handle(handle)
+        arrayCollection_UInt8ArrayArray_release_optional_handle(handle)
     }
     return copyFromCType(handle)
 }

@@ -20,19 +20,13 @@
 package smoke
 
 interface Maps {
-    version {
-        major 0
-        minor 1
-    }
 
     map ErrorCodeToMessageMap { Int32 to String }
 
     struct SomeStruct {
         String value
     }
-
     map NumberToStruct {UInt8 to SomeStruct}
-
     map NestedMap {UInt8 to NumberToStruct}
 
     struct StructWithMap{
@@ -40,14 +34,15 @@ interface Maps {
     }
 
     map NumberToTypeDef {UInt8 to SomeId}
-
     map TypeDefToNumber {SomeId to UInt8}
-
     typedef SomeId is String
 
     map StringToArray {String to ArrayOfInts}
-
     array ArrayOfInts of Int32
+
+    map StringToArrayOfTypeDefs {String to ArrayOfTypeDefs}
+    typedef SomeInt is Int32
+    array ArrayOfTypeDefs of SomeInt
 
     map NumberToInstance {UInt8 to MapsInstance.MapsInstance}
 
