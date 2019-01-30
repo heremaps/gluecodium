@@ -25,15 +25,15 @@ internal func getRef(_ ref: NestedInterface?, owning: Bool = true) -> RefHolder 
     }
     functions.smoke_NestedInterface_getInstanceOne = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
-        return copyToCType(swift_class.getInstanceOne()!).ref
+        return copyToCType(swift_class.getInstanceOne()).ref
     }
     functions.smoke_NestedInterface_getInstanceTwo = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
-        return copyToCType(swift_class.getInstanceTwo()!).ref
+        return copyToCType(swift_class.getInstanceTwo()).ref
     }
     functions.smoke_NestedInterface_makeMoreExternal_withInterface = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface
-        return copyToCType(swift_class.makeMoreExternal(input: ExternalInterfacemoveFromCType(input))!).ref
+        return copyToCType(swift_class.makeMoreExternal(input: ExternalInterfacemoveFromCType(input))).ref
     }
     functions.smoke_NestedInterface_makeMoreExternal_withStruct = {(swift_class_pointer, input) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! NestedInterface

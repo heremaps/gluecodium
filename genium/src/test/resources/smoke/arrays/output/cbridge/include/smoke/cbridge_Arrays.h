@@ -14,12 +14,21 @@ typedef uint32_t smoke_Arrays_SomeEnum;
 typedef uint32_t smoke_Arrays_ExternalEnum;
 _baseRef smoke_Arrays_BasicStruct_create_handle(double value);
 void smoke_Arrays_BasicStruct_release_handle(_baseRef handle);
+_baseRef smoke_Arrays_BasicStruct_make_optional_handle(_baseRef handle);
+_baseRef smoke_Arrays_BasicStruct_unwrap_optional_handle(_baseRef handle);
+void smoke_Arrays_BasicStruct_release_optional_handle(_baseRef handle);
 double smoke_Arrays_BasicStruct_value_get(_baseRef handle);
 _baseRef smoke_Arrays_ExternalStruct_create_handle(_baseRef string);
 void smoke_Arrays_ExternalStruct_release_handle(_baseRef handle);
+_baseRef smoke_Arrays_ExternalStruct_make_optional_handle(_baseRef handle);
+_baseRef smoke_Arrays_ExternalStruct_unwrap_optional_handle(_baseRef handle);
+void smoke_Arrays_ExternalStruct_release_optional_handle(_baseRef handle);
 _baseRef smoke_Arrays_ExternalStruct_string_get(_baseRef handle);
 _baseRef smoke_Arrays_FancyStruct_create_handle(_baseRef messages, _baseRef numbers, _baseRef image);
 void smoke_Arrays_FancyStruct_release_handle(_baseRef handle);
+_baseRef smoke_Arrays_FancyStruct_make_optional_handle(_baseRef handle);
+_baseRef smoke_Arrays_FancyStruct_unwrap_optional_handle(_baseRef handle);
+void smoke_Arrays_FancyStruct_release_optional_handle(_baseRef handle);
 _baseRef smoke_Arrays_FancyStruct_messages_get(_baseRef handle);
 _baseRef smoke_Arrays_FancyStruct_numbers_get(_baseRef handle);
 _baseRef smoke_Arrays_FancyStruct_image_get(_baseRef handle);
@@ -45,6 +54,9 @@ bool smoke_Arrays_ErrorCodeToMessageMap_iterator_is_valid(_baseRef handle, _base
 void smoke_Arrays_ErrorCodeToMessageMap_iterator_increment(_baseRef iterator_handle);
 int32_t smoke_Arrays_ErrorCodeToMessageMap_iterator_key(_baseRef iterator_handle);
 _baseRef smoke_Arrays_ErrorCodeToMessageMap_iterator_value(_baseRef iterator_handle);
+_baseRef smoke_Arrays_ErrorCodeToMessageMap_create_optional_handle();
+void smoke_Arrays_ErrorCodeToMessageMap_release_optional_handle(_baseRef handle);
+_baseRef smoke_Arrays_ErrorCodeToMessageMap_unwrap_optional_handle(_baseRef handle);
 #ifdef __cplusplus
 }
 #endif

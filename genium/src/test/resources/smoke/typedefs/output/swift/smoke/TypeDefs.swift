@@ -135,6 +135,28 @@ internal func copyToCType(_ swiftType: TypeDefs.StructHavingAliasFieldDefinedBel
 internal func moveToCType(_ swiftType: TypeDefs.StructHavingAliasFieldDefinedBelow) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> TypeDefs.StructHavingAliasFieldDefinedBelow? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_unwrap_optional_handle(handle)
+    return TypeDefs.StructHavingAliasFieldDefinedBelow(cHandle: unwrappedHandle) as TypeDefs.StructHavingAliasFieldDefinedBelow
+}
+internal func moveFromCType(_ handle: _baseRef) -> TypeDefs.StructHavingAliasFieldDefinedBelow? {
+    defer {
+        smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: TypeDefs.StructHavingAliasFieldDefinedBelow?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: TypeDefs.StructHavingAliasFieldDefinedBelow?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_release_optional_handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> TypeDefs.TestStruct {
     return TypeDefs.TestStruct(cHandle: handle)
 }
@@ -149,4 +171,26 @@ internal func copyToCType(_ swiftType: TypeDefs.TestStruct) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: TypeDefs.TestStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeDefs_TestStruct_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> TypeDefs.TestStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_TypeDefs_TestStruct_unwrap_optional_handle(handle)
+    return TypeDefs.TestStruct(cHandle: unwrappedHandle) as TypeDefs.TestStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> TypeDefs.TestStruct? {
+    defer {
+        smoke_TypeDefs_TestStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: TypeDefs.TestStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_TypeDefs_TestStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: TypeDefs.TestStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeDefs_TestStruct_release_optional_handle)
 }

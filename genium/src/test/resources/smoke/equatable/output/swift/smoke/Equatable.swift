@@ -7,17 +7,35 @@ public enum SomeEnum : UInt32, CaseIterable {
     case foo
     case bar
 }
+internal func copyToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: SomeEnum) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+internal func copyToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: SomeEnum?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
+}
 internal func copyFromCType(_ cValue: UInt32) -> SomeEnum {
     return SomeEnum(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> SomeEnum {
     return copyFromCType(cValue)
 }
-internal func copyToCType(_ swiftType: SomeEnum) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftType.rawValue)
+internal func copyFromCType(_ handle: _baseRef) -> SomeEnum? {
+    guard handle != 0 else {
+        return nil
+    }
+    return SomeEnum(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveToCType(_ swiftType: SomeEnum) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftType)
+internal func moveFromCType(_ handle: _baseRef) -> SomeEnum? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
 }
 public struct EquatableStruct: Equatable {
     public var boolField: Bool
@@ -83,6 +101,28 @@ internal func copyToCType(_ swiftType: EquatableStruct) -> RefHolder {
 internal func moveToCType(_ swiftType: EquatableStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Equatable_EquatableStruct_release_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> EquatableStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Equatable_EquatableStruct_unwrap_optional_handle(handle)
+    return EquatableStruct(cHandle: unwrappedHandle) as EquatableStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> EquatableStruct? {
+    defer {
+        smoke_Equatable_EquatableStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: EquatableStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Equatable_EquatableStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: EquatableStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Equatable_EquatableStruct_release_optional_handle)
+}
 public struct NestedEquatableStruct: Equatable {
     public var fooField: String
     public init(fooField: String) {
@@ -110,4 +150,26 @@ internal func copyToCType(_ swiftType: NestedEquatableStruct) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: NestedEquatableStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Equatable_NestedEquatableStruct_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> NestedEquatableStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Equatable_NestedEquatableStruct_unwrap_optional_handle(handle)
+    return NestedEquatableStruct(cHandle: unwrappedHandle) as NestedEquatableStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> NestedEquatableStruct? {
+    defer {
+        smoke_Equatable_NestedEquatableStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: NestedEquatableStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Equatable_NestedEquatableStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: NestedEquatableStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Equatable_NestedEquatableStruct_release_optional_handle)
 }
