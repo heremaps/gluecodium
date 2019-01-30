@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "Export.h"
 #include "foo/Bar.h"
 #include "foo/Bazz.h"
 #include <cstdint>
@@ -17,7 +18,7 @@
 #include <vector>
 
 namespace smoke {
-class Structs {
+class _GENIUM_CPP_EXPORT Structs {
 public:
     virtual ~Structs() = 0;
 public:
@@ -25,32 +26,32 @@ enum class FooBar {
     FOO,
     BAR
 };
-struct Point {
+struct _GENIUM_CPP_EXPORT Point {
     double x;
     double y;
     Point( );
     Point( const double x, const double y );
 };
-struct Color {
+struct _GENIUM_CPP_EXPORT Color {
     uint8_t red;
     uint8_t green;
     uint8_t blue;
     Color( );
     Color( const uint8_t red, const uint8_t green, const uint8_t blue );
 };
-struct Line {
+struct _GENIUM_CPP_EXPORT Line {
     ::smoke::Structs::Point a;
     ::smoke::Structs::Point b;
     Line( );
     Line( const ::smoke::Structs::Point& a, const ::smoke::Structs::Point& b );
 };
-struct ColoredLine {
+struct _GENIUM_CPP_EXPORT ColoredLine {
     ::smoke::Structs::Line line;
     ::smoke::Structs::Color color;
     ColoredLine( );
     ColoredLine( const ::smoke::Structs::Line& line, const ::smoke::Structs::Color& color );
 };
-struct AllTypesStruct {
+struct _GENIUM_CPP_EXPORT AllTypesStruct {
     const int8_t int8_field;
     const uint8_t uint8_field;
     const int16_t int16_field;
@@ -68,7 +69,7 @@ struct AllTypesStruct {
     AllTypesStruct( );
     AllTypesStruct( const int8_t int8_field, const uint8_t uint8_field, const int16_t int16_field, const uint16_t uint16_field, const int32_t int32_field, const uint32_t uint32_field, const int64_t int64_field, const uint64_t uint64_field, const float float_field, const double double_field, const ::std::string& string_field, const bool boolean_field, const ::std::shared_ptr< ::std::vector< uint8_t > >& bytes_field, const ::smoke::Structs::Point& point_field );
 };
-struct NestingImmutableStruct {
+struct _GENIUM_CPP_EXPORT NestingImmutableStruct {
     ::smoke::Structs::AllTypesStruct struct_field;
     NestingImmutableStruct( );
     NestingImmutableStruct( const ::smoke::Structs::AllTypesStruct& struct_field );

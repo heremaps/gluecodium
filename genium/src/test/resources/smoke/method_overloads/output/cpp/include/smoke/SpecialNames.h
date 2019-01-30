@@ -7,8 +7,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+#include "Export.h"
 namespace smoke {
-class SpecialNames {
+class _GENIUM_CPP_EXPORT SpecialNames {
 public:
     virtual ~SpecialNames() = 0;
 public:

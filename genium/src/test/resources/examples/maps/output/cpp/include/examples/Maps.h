@@ -9,13 +9,14 @@
 
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 #include <string>
 #include <unordered_map>
 
 namespace examples {
 
-class Maps {
+class _GENIUM_CPP_EXPORT Maps {
 public:
     virtual ~Maps() = 0;
 public:

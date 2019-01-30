@@ -9,11 +9,12 @@
 
 #pragma once
 
+#include "Export.h"
 #include <string>
 
 namespace smoke {
 
-class InheritanceRoot {
+class _GENIUM_CPP_EXPORT InheritanceRoot {
 public:
     virtual ~InheritanceRoot() = 0;
 public:

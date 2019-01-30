@@ -7,6 +7,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+
+#include "Export.h"
 #include "smoke/AttributesInterface.h"
 #include <cstdint>
 #include <memory>
@@ -16,7 +18,7 @@ namespace smoke {
     class AttributesInterface;
 }
 namespace smoke {
-class Attributes {
+class _GENIUM_CPP_EXPORT Attributes {
 public:
     virtual ~Attributes() = 0;
 public:
@@ -24,7 +26,7 @@ enum class InternalError {
     ERROR_NONE,
     ERROR_FATAL = 999
 };
-struct ExampleStruct {
+struct _GENIUM_CPP_EXPORT ExampleStruct {
     double value;
     ExampleStruct( );
     ExampleStruct( const double value );

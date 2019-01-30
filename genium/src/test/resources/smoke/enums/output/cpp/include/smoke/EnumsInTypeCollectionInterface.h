@@ -9,11 +9,12 @@
 
 #pragma once
 
+#include "Export.h"
 #include "smoke/EnumsInTypeCollection.h"
 
 namespace smoke {
 
-class EnumsInTypeCollectionInterface {
+class _GENIUM_CPP_EXPORT EnumsInTypeCollectionInterface {
 public:
     virtual ~EnumsInTypeCollectionInterface() = 0;
 public:

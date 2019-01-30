@@ -9,10 +9,11 @@
 
 #pragma once
 
+#include "Export.h"
 #include "smoke/InheritanceChildClass.h"
 namespace smoke {
 
-class InheritanceGrandchildClass: public ::smoke::InheritanceChildClass {
+class _GENIUM_CPP_EXPORT InheritanceGrandchildClass: public ::smoke::InheritanceChildClass {
 public:
     virtual ~InheritanceGrandchildClass() = 0;
 public:

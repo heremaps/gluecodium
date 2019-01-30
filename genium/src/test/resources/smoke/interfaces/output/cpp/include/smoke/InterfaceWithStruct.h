@@ -9,16 +9,17 @@
 
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 
 namespace smoke {
 
-class InterfaceWithStruct {
+class _GENIUM_CPP_EXPORT InterfaceWithStruct {
 public:
     virtual ~InterfaceWithStruct() = 0;
 
 public:
-struct InnerStruct {
+struct _GENIUM_CPP_EXPORT InnerStruct {
     int8_t value;
     InnerStruct( );
     InnerStruct( const int8_t value );

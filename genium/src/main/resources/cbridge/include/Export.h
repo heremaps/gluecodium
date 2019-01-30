@@ -20,34 +20,12 @@
 
 #pragma once
 
-#include "BaseHandle.h"
-#include "Export.h"
-#include <stdint.h>
-#include <stdbool.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#define DECLARE_HANDLE_METHODS(T) \
-_GENIUM_C_EXPORT _baseRef T##_create_handle( T t ); \
-_GENIUM_C_EXPORT void T##_release_handle( _baseRef handle );\
-_GENIUM_C_EXPORT T T##_value_get( _baseRef handle );
-
-DECLARE_HANDLE_METHODS(bool);
-DECLARE_HANDLE_METHODS(float);
-DECLARE_HANDLE_METHODS(double);
-DECLARE_HANDLE_METHODS(int8_t);
-DECLARE_HANDLE_METHODS(uint8_t);
-DECLARE_HANDLE_METHODS(int16_t);
-DECLARE_HANDLE_METHODS(uint16_t);
-DECLARE_HANDLE_METHODS(int32_t);
-DECLARE_HANDLE_METHODS(uint32_t);
-DECLARE_HANDLE_METHODS(int64_t);
-DECLARE_HANDLE_METHODS(uint64_t);
-
-#undef DECLARE_HANDLE_METHODS
-
-#ifdef __cplusplus
-}
+// NOTE: Always export on Windows, since these symbols are intended to be loaded dynamically rather
+// than used directly.
+#ifndef _GENIUM_C_EXPORT
+#   if defined(_WIN32) || defined(__CYGWIN)
+#       define _GENIUM_C_EXPORT __declspec( dllexport )
+#   else
+#       define _GENIUM_C_EXPORT __attribute__( ( visibility( "default" ) ) )
+#   endif
 #endif

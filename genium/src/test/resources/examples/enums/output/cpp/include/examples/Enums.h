@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include "Export.h"
+
 namespace examples {
 
 enum class ShoeSizes {

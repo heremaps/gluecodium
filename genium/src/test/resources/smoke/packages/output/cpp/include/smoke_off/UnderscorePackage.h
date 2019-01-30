@@ -9,11 +9,12 @@
 
 #pragma once
 
+#include "Export.h"
 #include <string>
 
 namespace smoke_off {
 
-class UnderscorePackage {
+class _GENIUM_CPP_EXPORT UnderscorePackage {
 public:
     virtual ~UnderscorePackage() = 0;
 public:

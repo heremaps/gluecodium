@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "Export.h"
 #include "smoke/CalculationResult.h"
 #include <memory>
 #include <string>
@@ -20,13 +21,13 @@ namespace smoke {
 }
 namespace smoke {
 
-class CalculatorListener {
+class _GENIUM_CPP_EXPORT CalculatorListener {
 public:
     virtual ~CalculatorListener() = 0;
 
 public:
 using NamedCalculationResults = ::std::unordered_map< ::std::string, double >;
-struct ResultStruct {
+struct _GENIUM_CPP_EXPORT ResultStruct {
     double result;
     ResultStruct( );
     ResultStruct( const double result );

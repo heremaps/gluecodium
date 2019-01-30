@@ -9,11 +9,12 @@
 
 #pragma once
 
+#include "Export.h"
 #include "examples/Enums.h"
 
 namespace examples {
 
-class EnumMethods {
+class _GENIUM_CPP_EXPORT EnumMethods {
 public:
     virtual ~EnumMethods() = 0;
 public:

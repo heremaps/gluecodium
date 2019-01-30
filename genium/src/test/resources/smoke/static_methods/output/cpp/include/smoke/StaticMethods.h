@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -15,7 +16,7 @@
 
 namespace smoke {
 
-class StaticMethods {
+class _GENIUM_CPP_EXPORT StaticMethods {
 public:
     virtual ~StaticMethods() = 0;
 public:

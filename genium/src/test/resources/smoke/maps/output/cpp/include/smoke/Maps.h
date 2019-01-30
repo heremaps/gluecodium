@@ -7,6 +7,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+#include "Export.h"
 #include "smoke/MapsInstance.h"
 #include <cstdint>
 #include <memory>
@@ -17,7 +18,7 @@ namespace smoke {
     class MapsInstance;
 }
 namespace smoke {
-class Maps {
+class _GENIUM_CPP_EXPORT Maps {
 public:
     virtual ~Maps() = 0;
 public:
@@ -31,14 +32,14 @@ using SomeInt = int32_t;
 using ArrayOfTypeDefs = ::std::vector< ::smoke::Maps::SomeInt >;
 using StringToArrayOfTypeDefs = ::std::unordered_map< ::std::string, ::smoke::Maps::ArrayOfTypeDefs >;
 using NumberToInstance = ::std::unordered_map< uint8_t, ::std::shared_ptr< ::smoke::MapsInstance > >;
-struct SomeStruct {
+struct _GENIUM_CPP_EXPORT SomeStruct {
     ::std::string value;
     SomeStruct( );
     SomeStruct( const ::std::string& value );
 };
 using NumberToStruct = ::std::unordered_map< uint8_t, ::smoke::Maps::SomeStruct >;
 using NestedMap = ::std::unordered_map< uint8_t, ::smoke::Maps::NumberToStruct >;
-struct StructWithMap {
+struct _GENIUM_CPP_EXPORT StructWithMap {
     ::smoke::Maps::ErrorCodeToMessageMap error_mapping;
     StructWithMap( );
     StructWithMap( const ::smoke::Maps::ErrorCodeToMessageMap& error_mapping );

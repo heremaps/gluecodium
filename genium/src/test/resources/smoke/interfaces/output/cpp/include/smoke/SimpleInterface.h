@@ -9,11 +9,12 @@
 
 #pragma once
 
+#include "Export.h"
 #include <string>
 
 namespace smoke {
 
-class SimpleInterface {
+class _GENIUM_CPP_EXPORT SimpleInterface {
 public:
     virtual ~SimpleInterface() = 0;
 

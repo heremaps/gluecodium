@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "Export.h"
 #include "examples/CalculatorListener.h"
 #include <memory>
 
@@ -18,7 +19,7 @@ namespace examples {
 
 namespace examples {
 
-class Calculator {
+class _GENIUM_CPP_EXPORT Calculator {
 public:
     virtual ~Calculator() = 0;
 public:

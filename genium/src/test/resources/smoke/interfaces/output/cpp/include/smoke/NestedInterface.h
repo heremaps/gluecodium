@@ -7,6 +7,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+
+#include "Export.h"
 #include "foo/Bar.h"
 #include "smoke/SimpleInterface.h"
 #include <memory>
@@ -20,7 +22,7 @@ namespace smoke {
     class SimpleInterface;
 }
 namespace smoke {
-class NestedInterface {
+class _GENIUM_CPP_EXPORT NestedInterface {
 public:
     virtual ~NestedInterface() = 0;
 public:

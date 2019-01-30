@@ -30,7 +30,8 @@ class CppFile @JvmOverloads constructor(
     includes: Collection<Include>,
     forwardDeclarations: Collection<CppForwardDeclaration>,
     @Suppress("unused") val errorEnums: Collection<CppEnum>,
-    var headerInclude: Include? = null
+    var headerInclude: Include? = null,
+    var exportName: String? = null
 ) {
 
     val includes = TreeSet(includes)

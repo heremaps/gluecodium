@@ -21,6 +21,7 @@
 #pragma once
 
 #include "BaseHandle.h"
+#include "Export.h"
 #include <stddef.h>
 #include <stdint.h>
 
@@ -28,11 +29,11 @@
 extern "C" {
 #endif
 
-_baseRef byteArray_create_handle( );
-void byteArray_release_handle( _baseRef handle );
-void byteArray_assign( _baseRef handle, const uint8_t* data, const size_t size );
-const uint8_t* byteArray_data_get( _baseRef handle );
-size_t byteArray_size_get( _baseRef handle );
+_GENIUM_C_EXPORT _baseRef byteArray_create_handle( );
+_GENIUM_C_EXPORT void byteArray_release_handle( _baseRef handle );
+_GENIUM_C_EXPORT void byteArray_assign( _baseRef handle, const uint8_t* data, const size_t size );
+_GENIUM_C_EXPORT const uint8_t* byteArray_data_get( _baseRef handle );
+_GENIUM_C_EXPORT size_t byteArray_size_get( _baseRef handle );
 
 #ifdef __cplusplus
 }

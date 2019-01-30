@@ -9,16 +9,17 @@
 
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 #include <string>
 
 namespace smoke {
 
-class EquatableInterface {
+class _GENIUM_CPP_EXPORT EquatableInterface {
 public:
     virtual ~EquatableInterface() = 0;
 public:
-struct EquatableStruct {
+struct _GENIUM_CPP_EXPORT EquatableStruct {
     int32_t int_field;
     ::std::string string_field;
     EquatableStruct( );

@@ -7,13 +7,14 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+#include "Export.h"
 #include "smoke/SimpleInstantiable.h"
 #include <memory>
 namespace smoke {
     class SimpleInstantiable;
 }
 namespace smoke {
-class NestedInstantiable {
+class _GENIUM_CPP_EXPORT NestedInstantiable {
 public:
     virtual ~NestedInstantiable() = 0;
 public:

@@ -7,13 +7,15 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+
+#include "Export.h"
 #include "smoke/CalculatorListener.h"
 #include <memory>
 namespace smoke {
     class CalculatorListener;
 }
 namespace smoke {
-class Calculator {
+class _GENIUM_CPP_EXPORT Calculator {
 public:
     virtual ~Calculator() = 0;
 public:

@@ -9,11 +9,12 @@
 
 #pragma once
 
+#include "Export.h"
 #include "smoke/TypeCollection.h"
 
 namespace smoke {
 
-class StructsFromTypeCollection {
+class _GENIUM_CPP_EXPORT StructsFromTypeCollection {
 public:
     virtual ~StructsFromTypeCollection() = 0;
 public:

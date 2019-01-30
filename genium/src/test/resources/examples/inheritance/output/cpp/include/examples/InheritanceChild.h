@@ -9,12 +9,13 @@
 
 #pragma once
 
+#include "Export.h"
 #include "examples/InheritanceParent.h"
 #include <cstdint>
 
 namespace examples {
 
-class InheritanceChild: public ::examples::InheritanceParent {
+class _GENIUM_CPP_EXPORT InheritanceChild: public ::examples::InheritanceParent {
 public:
     virtual ~InheritanceChild() = 0;
 

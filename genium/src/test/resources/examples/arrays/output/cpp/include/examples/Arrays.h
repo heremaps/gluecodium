@@ -9,16 +9,17 @@
 
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 #include <vector>
 
 namespace examples {
 
-class Arrays {
+class _GENIUM_CPP_EXPORT Arrays {
 public:
     virtual ~Arrays() = 0;
 public:
-struct SyncResult {
+struct _GENIUM_CPP_EXPORT SyncResult {
     uint64_t last_updated_time_stamp;
     uint32_t number_of_changes;
 
