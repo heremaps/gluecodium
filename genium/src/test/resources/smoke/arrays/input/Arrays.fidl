@@ -20,10 +20,6 @@
 package smoke
 
 interface Arrays {
-    version {
-        major 0
-        minor 1
-    }
 
     struct BasicStruct {
         Double value
@@ -61,6 +57,8 @@ interface Arrays {
 
     array ArrayOfMaps of ErrorCodeToMessageMap
     map ErrorCodeToMessageMap { Int32 to String }
+    array ArrayOfAliasedMaps of ErrorCodeToProfileIdMap
+    map ErrorCodeToProfileIdMap { Int32 to ProfileId }
 
     array ArrayOfArrays of StringArray
     array ArrayOfEnums of SomeEnum

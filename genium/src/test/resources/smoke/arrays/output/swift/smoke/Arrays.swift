@@ -14,6 +14,7 @@ internal func getRef(_ ref: Arrays?, owning: Bool = true) -> RefHolder {
 public class Arrays {
     public typealias ProfileId = String
     public typealias ErrorCodeToMessageMap = [Int32: String]
+    public typealias ErrorCodeToProfileIdMap = [Int32: Arrays.ProfileId]
     let c_instance : _baseRef
     init(cArrays: _baseRef) {
         guard cArrays != 0 else {

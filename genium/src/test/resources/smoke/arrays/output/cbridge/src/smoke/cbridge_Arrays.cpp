@@ -197,3 +197,41 @@ void smoke_Arrays_ErrorCodeToMessageMap_release_optional_handle(_baseRef handle)
 _baseRef smoke_Arrays_ErrorCodeToMessageMap_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<int32_t, std::string>>*>( handle )->get( ) );
 }
+_baseRef smoke_Arrays_ErrorCodeToProfileIdMap_create_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<int32_t, std::string>() );
+}
+void smoke_Arrays_ErrorCodeToProfileIdMap_release_handle(_baseRef handle) {
+    delete get_pointer<std::unordered_map<int32_t, std::string>>(handle);
+}
+_baseRef smoke_Arrays_ErrorCodeToProfileIdMap_iterator(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<int32_t, std::string>::iterator( get_pointer<std::unordered_map<int32_t, std::string>>(handle)->begin() ) );
+}
+void smoke_Arrays_ErrorCodeToProfileIdMap_iterator_release_handle(_baseRef iterator_handle) {
+    delete reinterpret_cast<std::unordered_map<int32_t, std::string>::iterator*>( iterator_handle );
+}
+void smoke_Arrays_ErrorCodeToProfileIdMap_put(_baseRef handle, int32_t key, _baseRef value) {
+    (*get_pointer<std::unordered_map<int32_t, std::string>>(handle))[key] = Conversion<std::string>::toCpp(value);
+}
+bool smoke_Arrays_ErrorCodeToProfileIdMap_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
+    return *reinterpret_cast<std::unordered_map<int32_t, std::string>::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<int32_t, std::string>>(handle)->end();
+}
+void smoke_Arrays_ErrorCodeToProfileIdMap_iterator_increment(_baseRef iterator_handle) {
+    ++*reinterpret_cast<std::unordered_map<int32_t, std::string>::iterator*>( iterator_handle );
+}
+int32_t smoke_Arrays_ErrorCodeToProfileIdMap_iterator_key(_baseRef iterator_handle) {
+    auto& key = (*reinterpret_cast<std::unordered_map<int32_t, std::string>::iterator*>( iterator_handle ))->first;
+    return key;
+}
+_baseRef smoke_Arrays_ErrorCodeToProfileIdMap_iterator_value(_baseRef iterator_handle) {
+    auto& value = (*reinterpret_cast<std::unordered_map<int32_t, std::string>::iterator*>( iterator_handle ))->second;
+    return Conversion<std::string>::toBaseRef(value);
+}
+_baseRef smoke_Arrays_ErrorCodeToProfileIdMap_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<int32_t, std::string>>( new ( std::nothrow ) std::unordered_map<int32_t, std::string>( ) ) );
+}
+void smoke_Arrays_ErrorCodeToProfileIdMap_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<std::unordered_map<int32_t, std::string>>*>( handle );
+}
+_baseRef smoke_Arrays_ErrorCodeToProfileIdMap_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<int32_t, std::string>>*>( handle )->get( ) );
+}
