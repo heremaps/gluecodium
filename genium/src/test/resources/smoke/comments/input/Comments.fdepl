@@ -20,26 +20,6 @@
 import "classpath:/GeniumExtensions.fdepl"
 import "./Comments.fidl"
 
-define GeniumExtensions for interface smoke.Comments
-{
-    method instanceNotNullMethod {
-        in {
-            input {
-                NotNull = true
-            }
-        }
-        out {
-            output {
-                NotNull = true
-            }
-        }
-    }
-
-    attribute instanceNotNullAttribute {
-        NotNull = true
-    }
-}
-
 define GeniumExtensions for interface smoke.CommentsInstantiable
 {
     method create {

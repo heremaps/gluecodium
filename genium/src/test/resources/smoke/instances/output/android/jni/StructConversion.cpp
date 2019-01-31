@@ -56,24 +56,15 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::I
         "Lcom/example/smoke/SimpleInstantiable;"),
         (::std::shared_ptr< ::smoke::SimpleInstantiable >*)nullptr );
     _nout.instance = n_instance;
-    ::std::shared_ptr< ::smoke::SimpleInstantiable > n_instance_not_null = convert_from_jni(
+    ::std::shared_ptr< ::smoke::SimpleInstantiable > n_instance_with_comment = convert_from_jni(
         _jenv,
         genium::jni::get_object_field_value(
         _jenv,
         _jinput,
-        "instanceNotNull",
+        "instanceWithComment",
         "Lcom/example/smoke/SimpleInstantiable;"),
         (::std::shared_ptr< ::smoke::SimpleInstantiable >*)nullptr );
-    _nout.instance_not_null = n_instance_not_null;
-    ::std::shared_ptr< ::smoke::SimpleInstantiable > n_instance_not_null_with_comment = convert_from_jni(
-        _jenv,
-        genium::jni::get_object_field_value(
-        _jenv,
-        _jinput,
-        "instanceNotNullWithComment",
-        "Lcom/example/smoke/SimpleInstantiable;"),
-        (::std::shared_ptr< ::smoke::SimpleInstantiable >*)nullptr );
-    _nout.instance_not_null_with_comment = n_instance_not_null_with_comment;
+    _nout.instance_with_comment = n_instance_with_comment;
     return _nout;
 }
 std::shared_ptr<::smoke::InstanceWithStruct::StructWithInstance>
@@ -92,12 +83,9 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::StructWithInsta
     auto jinstance = convert_to_jni(_jenv, _ninput.instance);
     genium::jni::set_object_field_value(_jenv, _jresult, "instance",
         "Lcom/example/smoke/SimpleInstantiable;", jinstance);
-    auto jinstance_not_null = convert_to_jni(_jenv, _ninput.instance_not_null);
-    genium::jni::set_object_field_value(_jenv, _jresult, "instanceNotNull",
-        "Lcom/example/smoke/SimpleInstantiable;", jinstance_not_null);
-    auto jinstance_not_null_with_comment = convert_to_jni(_jenv, _ninput.instance_not_null_with_comment);
-    genium::jni::set_object_field_value(_jenv, _jresult, "instanceNotNullWithComment",
-        "Lcom/example/smoke/SimpleInstantiable;", jinstance_not_null_with_comment);
+    auto jinstance_with_comment = convert_to_jni(_jenv, _ninput.instance_with_comment);
+    genium::jni::set_object_field_value(_jenv, _jresult, "instanceWithComment",
+        "Lcom/example/smoke/SimpleInstantiable;", jinstance_with_comment);
     return _jresult;
 }
 JniReference<jobject>

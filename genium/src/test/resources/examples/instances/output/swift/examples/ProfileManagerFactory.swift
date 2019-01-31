@@ -22,10 +22,10 @@ public class ProfileManagerFactory {
     deinit {
         examples_ProfileManagerFactory_release_handle(c_instance)
     }
-    public static func createProfileManager() -> ProfileManager? {
+    public static func createProfileManager() -> ProfileManager {
         return ProfileManagermoveFromCType(examples_ProfileManagerFactory_createProfileManager())
     }
-    public static func createProfileManagerInterface() -> ProfileManagerInterface? {
+    public static func createProfileManagerInterface() -> ProfileManagerInterface {
         return ProfileManagerInterfacemoveFromCType(examples_ProfileManagerFactory_createProfileManagerInterface())
     }
 }

@@ -16,7 +16,7 @@ public class ChildConstructors: Constructors {
         let _result = ChildConstructors.create()
         super.init(cConstructors: _result)
     }
-    public override init(other: Constructors?) {
+    public override init(other: Constructors) {
         let _result = ChildConstructors.create(other: other)
         super.init(cConstructors: _result)
     }
@@ -26,7 +26,7 @@ public class ChildConstructors: Constructors {
     private static func create() -> _baseRef {
         return moveFromCType(smoke_ChildConstructors_create_noArgsChild())
     }
-    private static func create(other: Constructors?) -> _baseRef {
+    private static func create(other: Constructors) -> _baseRef {
         let c_other = moveToCType(other)
         return moveFromCType(smoke_ChildConstructors_create_copyFromParent(c_other.ref))
     }

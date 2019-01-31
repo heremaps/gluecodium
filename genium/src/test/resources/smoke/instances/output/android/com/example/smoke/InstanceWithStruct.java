@@ -4,7 +4,6 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import com.example.NativeBase;
 public class InstanceWithStruct extends NativeBase {
     public static class InnerStruct {
@@ -17,44 +16,19 @@ public class InstanceWithStruct extends NativeBase {
         }
     }
     public static class StructWithInstance {
-        @Nullable
-        public SimpleInstantiable instance;
         @NonNull
-        public SimpleInstantiable instanceNotNull;
+        public SimpleInstantiable instance;
         /**
          * This is some very useful field.
          */
         @NonNull
-        public SimpleInstantiable instanceNotNullWithComment;
+        public SimpleInstantiable instanceWithComment;
         public StructWithInstance() {
-            this((SimpleInstantiable)null, (SimpleInstantiable)null, (SimpleInstantiable)null);
+            this((SimpleInstantiable)null, (SimpleInstantiable)null);
         }
-        public StructWithInstance(SimpleInstantiable instance, SimpleInstantiable instanceNotNull, SimpleInstantiable instanceNotNullWithComment) {
+        public StructWithInstance(SimpleInstantiable instance, SimpleInstantiable instanceWithComment) {
             this.instance = instance;
-            this.instanceNotNull = instanceNotNull;
-            this.instanceNotNullWithComment = instanceNotNullWithComment;
-        }
-        public static class Builder {
-            private SimpleInstantiable instance = (SimpleInstantiable)null;
-            private SimpleInstantiable instanceNotNull = (SimpleInstantiable)null;
-            private SimpleInstantiable instanceNotNullWithComment = (SimpleInstantiable)null;
-            public Builder() {
-            }
-            public Builder setInstance(SimpleInstantiable instance) {
-                this.instance = instance;
-                return this;
-            }
-            public Builder setInstanceNotNull(SimpleInstantiable instanceNotNull) {
-                this.instanceNotNull = instanceNotNull;
-                return this;
-            }
-            public Builder setInstanceNotNullWithComment(SimpleInstantiable instanceNotNullWithComment) {
-                this.instanceNotNullWithComment = instanceNotNullWithComment;
-                return this;
-            }
-            public StructWithInstance build() {
-                return new StructWithInstance(instance, instanceNotNull, instanceNotNullWithComment);
-            }
+            this.instanceWithComment = instanceWithComment;
         }
     }
     /** For internal use only */
