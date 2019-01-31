@@ -150,6 +150,21 @@ Java_com_example_smoke_Nullable_methodWithSomeMap(JNIEnv* _jenv, jobject _jinsta
     auto result = (*pInstanceSharedPointer)->method_with_some_map(input);
     return genium::jni::convert_to_jni(_jenv, result).release();
 }
+jobject
+Java_com_example_smoke_Nullable_methodWithInstance(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
+{
+    ::std::shared_ptr< ::smoke::SomeInterface > input = genium::jni::convert_from_jni(_jenv,
+            genium::jni::make_non_releasing_ref(jinput),
+            (::std::shared_ptr< ::smoke::SomeInterface >*)nullptr);
+    auto pointerAsLong = genium::jni::get_field_value(
+            _jenv,
+            genium::jni::make_non_releasing_ref(_jinstance),
+            "nativeHandle",
+            (int64_t*)nullptr);
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Nullable>*> (pointerAsLong);
+    auto result = (*pInstanceSharedPointer)->method_with_instance(input);
+    return genium::jni::convert_to_jni(_jenv, result).release();
+}
 jstring
 Java_com_example_smoke_Nullable_getStringAttribute(JNIEnv* _jenv, jobject _jinstance)
 {
@@ -383,6 +398,32 @@ Java_com_example_smoke_Nullable_setMapAttribute(JNIEnv* _jenv, jobject _jinstanc
             (int64_t*)nullptr);
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Nullable>*> (pointerAsLong);
     (*pInstanceSharedPointer)->set_map_attribute(value);
+}
+jobject
+Java_com_example_smoke_Nullable_getInstanceAttribute(JNIEnv* _jenv, jobject _jinstance)
+{
+    auto pointerAsLong = genium::jni::get_field_value(
+            _jenv,
+            genium::jni::make_non_releasing_ref(_jinstance),
+            "nativeHandle",
+            (int64_t*)nullptr);
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Nullable>*> (pointerAsLong);
+    auto result = (*pInstanceSharedPointer)->get_instance_attribute();
+    return genium::jni::convert_to_jni(_jenv, result).release();
+}
+void
+Java_com_example_smoke_Nullable_setInstanceAttribute(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
+{
+    ::std::shared_ptr< ::smoke::SomeInterface > value = genium::jni::convert_from_jni(_jenv,
+            genium::jni::make_non_releasing_ref(jvalue),
+            (::std::shared_ptr< ::smoke::SomeInterface >*)nullptr);
+    auto pointerAsLong = genium::jni::get_field_value(
+            _jenv,
+            genium::jni::make_non_releasing_ref(_jinstance),
+            "nativeHandle",
+            (int64_t*)nullptr);
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Nullable>*> (pointerAsLong);
+    (*pInstanceSharedPointer)->set_instance_attribute(value);
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_Nullable_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

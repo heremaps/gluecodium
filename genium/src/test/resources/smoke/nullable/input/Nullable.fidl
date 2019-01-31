@@ -43,6 +43,7 @@ interface Nullable {
         SomeArray arrayField
         String[] inlineArrayField
         SomeMap mapField
+        SomeInterface.SomeInterface instanceField
     }
 
     struct NullableIntsStruct {
@@ -137,6 +138,15 @@ interface Nullable {
         }
     }
 
+    method methodWithInstance {
+        in {
+            SomeInterface.SomeInterface input
+        }
+        out {
+            SomeInterface.SomeInterface output
+        }
+    }
+
     attribute String stringAttribute
     attribute Boolean boolAttribute
     attribute Double doubleAttribute
@@ -146,4 +156,9 @@ interface Nullable {
     attribute SomeArray arrayAttribute
     attribute String[] inlineArrayAttribute
     attribute SomeMap mapAttribute
+    attribute SomeInterface.SomeInterface instanceAttribute
+}
+
+interface SomeInterface {
+    public typedef SomeInterface is undefined
 }

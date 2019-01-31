@@ -7,11 +7,15 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
+#include "smoke/SomeInterface.h"
 #include <cstdint>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
+namespace smoke {
+    class SomeInterface;
+}
 namespace smoke {
 class Nullable {
 public:
@@ -37,8 +41,9 @@ struct NullableStruct {
     ::std::shared_ptr< ::smoke::Nullable::SomeArray > array_field;
     ::std::shared_ptr< ::std::vector< ::std::string > > inline_array_field;
     ::std::shared_ptr< ::smoke::Nullable::SomeMap > map_field;
+    ::std::shared_ptr< ::smoke::SomeInterface > instance_field;
     NullableStruct( );
-    NullableStruct( const ::std::shared_ptr< ::std::string >& string_field, const ::std::shared_ptr< bool >& bool_field, const ::std::shared_ptr< double >& double_field, const ::std::shared_ptr< ::smoke::Nullable::SomeStruct >& struct_field, const ::std::shared_ptr< ::smoke::Nullable::SomeEnum >& enum_field, const ::std::shared_ptr< ::smoke::Nullable::SomeArray >& array_field, const ::std::shared_ptr< ::std::vector< ::std::string > >& inline_array_field, const ::std::shared_ptr< ::smoke::Nullable::SomeMap >& map_field );
+    NullableStruct( const ::std::shared_ptr< ::std::string >& string_field, const ::std::shared_ptr< bool >& bool_field, const ::std::shared_ptr< double >& double_field, const ::std::shared_ptr< ::smoke::Nullable::SomeStruct >& struct_field, const ::std::shared_ptr< ::smoke::Nullable::SomeEnum >& enum_field, const ::std::shared_ptr< ::smoke::Nullable::SomeArray >& array_field, const ::std::shared_ptr< ::std::vector< ::std::string > >& inline_array_field, const ::std::shared_ptr< ::smoke::Nullable::SomeMap >& map_field, const ::std::shared_ptr< ::smoke::SomeInterface >& instance_field );
 };
 struct NullableIntsStruct {
     ::std::shared_ptr< int8_t > int8_field;
@@ -62,6 +67,7 @@ virtual ::std::shared_ptr< ::smoke::Nullable::SomeEnum > method_with_some_enum( 
 virtual ::std::shared_ptr< ::smoke::Nullable::SomeArray > method_with_some_array( const ::std::shared_ptr< ::smoke::Nullable::SomeArray >& input ) = 0;
 virtual ::std::shared_ptr< ::std::vector< ::std::string > > method_with_inline_array( const ::std::shared_ptr< ::std::vector< ::std::string > >& input ) = 0;
 virtual ::std::shared_ptr< ::smoke::Nullable::SomeMap > method_with_some_map( const ::std::shared_ptr< ::smoke::Nullable::SomeMap >& input ) = 0;
+virtual ::std::shared_ptr< ::smoke::SomeInterface > method_with_instance( const ::std::shared_ptr< ::smoke::SomeInterface >& input ) = 0;
 virtual ::std::shared_ptr< ::std::string > get_string_attribute(  ) const = 0;
 virtual void set_string_attribute( const ::std::shared_ptr< ::std::string >& value ) = 0;
 virtual ::std::shared_ptr< bool > is_bool_attribute(  ) const = 0;
@@ -80,5 +86,7 @@ virtual ::std::shared_ptr< ::std::vector< ::std::string > > get_inline_array_att
 virtual void set_inline_array_attribute( const ::std::shared_ptr< ::std::vector< ::std::string > >& value ) = 0;
 virtual ::std::shared_ptr< ::smoke::Nullable::SomeMap > get_map_attribute(  ) const = 0;
 virtual void set_map_attribute( const ::std::shared_ptr< ::smoke::Nullable::SomeMap >& value ) = 0;
+virtual ::std::shared_ptr< ::smoke::SomeInterface > get_instance_attribute(  ) const = 0;
+virtual void set_instance_attribute( const ::std::shared_ptr< ::smoke::SomeInterface >& value ) = 0;
 };
 }

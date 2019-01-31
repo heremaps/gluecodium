@@ -21,34 +21,56 @@
 import XCTest
 import hello
 
-class NotNullTests: XCTestCase {
+class NullableInstancesTests: XCTestCase {
 
-    class NotNullListenerImpl: NotNullListener {
-        public func notNullBottomUpRoundTrip(input: NotNullPayload) -> NotNullPayload {
+    class NullableInstanceListenerImpl: NullableInstanceListener {
+        public func nullableBottomUpRoundTrip(input: NullablePayload?) -> NullablePayload? {
             return input
         }
 
-        public var notNullAttribute: NotNullPayload = NotNullPayload.create()
+        public var nullableAttribute: NullablePayload?
+    }
+
+    func testTopDownNilRoundTrip() {
+        let result = NullableStatic.nullableTopDownRoundTrip(input: nil)
+        XCTAssertNil(result)
     }
 
     func testTopDownRoundTrip() {
-        let result = NotNullStatic.notNullTopDownRoundTrip(input: NotNullPayload.create()).poke()
+        let result = NullableStatic.nullableTopDownRoundTrip(input: NullablePayload())
+        XCTAssertNotNil(result)
+    }
+
+    func testBottomUpNilRoundTrip() {
+        let result
+            = NullableStatic.nullableBottomUpNullRoundTrip(listener: NullableInstanceListenerImpl())
         XCTAssertTrue(result)
     }
 
     func testBottomUpRoundTrip() {
-        let result = NotNullStatic.notNullBottomUpRoundTrip(listener: NotNullListenerImpl())
+        let result
+            = NullableStatic.nullableBottomUpRoundTrip(listener: NullableInstanceListenerImpl())
+        XCTAssertTrue(result)
+    }
+
+    func testBottomUpAttributeNilRoundTrip() {
+        let result
+            = NullableStatic.nullableBottomUpAttributeNullRoundTrip(listener: NullableInstanceListenerImpl())
         XCTAssertTrue(result)
     }
 
     func testBottomUpAttributeRoundTrip() {
-        let result = NotNullStatic.notNullBottomUpAttributeRoundTrip(listener: NotNullListenerImpl())
+        let result
+            = NullableStatic.nullableBottomUpAttributeRoundTrip(listener: NullableInstanceListenerImpl())
         XCTAssertTrue(result)
     }
 
     static var allTests = [
+        ("testTopDownNilRoundTrip", testTopDownNilRoundTrip),
         ("testTopDownRoundTrip", testTopDownRoundTrip),
+        ("testBottomUpNilRoundTrip", testBottomUpNilRoundTrip),
         ("testBottomUpRoundTrip", testBottomUpRoundTrip),
+        ("testBottomUpAttributeNilRoundTrip", testBottomUpAttributeNilRoundTrip),
         ("testBottomUpAttributeRoundTrip", testBottomUpAttributeRoundTrip)
     ]
 }

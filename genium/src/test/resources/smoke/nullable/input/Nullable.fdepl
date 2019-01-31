@@ -47,6 +47,9 @@ define GeniumExtensions for interface smoke.Nullable
         mapField {
             Nullable = true
         }
+        instanceField {
+            Nullable = true
+        }
     }
 
     struct NullableIntsStruct {
@@ -193,6 +196,19 @@ define GeniumExtensions for interface smoke.Nullable
         }
     }
 
+    method methodWithInstance {
+        in {
+            input {
+                Nullable = true
+            }
+        }
+        out {
+            output {
+                Nullable = true
+            }
+        }
+    }
+
     attribute stringAttribute {
         Nullable = true
     }
@@ -226,6 +242,10 @@ define GeniumExtensions for interface smoke.Nullable
     }
 
     attribute mapAttribute {
+        Nullable = true
+    }
+
+    attribute instanceAttribute {
         Nullable = true
     }
 }
