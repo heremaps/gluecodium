@@ -38,6 +38,9 @@ virtual void on_calculation_result_const( const double calculation_result ) cons
 virtual void on_calculation_result_struct( const ::smoke::CalculatorListener::ResultStruct& calculation_result ) = 0;
 virtual void on_calculation_result_array( const ::std::vector< double >& calculation_result ) = 0;
 virtual void on_calculation_result_map( const ::smoke::CalculatorListener::NamedCalculationResults& calculation_results ) = 0;
+/**
+ * \param[in] calculation_result @NotNull
+ */
 virtual void on_calculation_result_instance( const ::std::shared_ptr< ::smoke::CalculationResult >& calculation_result ) = 0;
 };
 

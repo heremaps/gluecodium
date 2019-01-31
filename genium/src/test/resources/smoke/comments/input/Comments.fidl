@@ -139,7 +139,7 @@ interface Comments {
     attribute Usefulness SomeAttribute
 
     <** @description: This is some very useful instance method. **>
-    method instanceNotNullMethod {
+    method instanceMethod {
         in {
             <** @description: This is some very useful instance method parameter. **>
             CommentsInstantiable.CommentsInstantiable input
@@ -151,7 +151,7 @@ interface Comments {
     }
 
     <** @description: This is some very useful attribute. **>
-    attribute CommentsInstantiable.CommentsInstantiable instanceNotNullAttribute
+    attribute CommentsInstantiable.CommentsInstantiable instanceAttribute
 }
 
 <** @description: This is some very useful interface.
