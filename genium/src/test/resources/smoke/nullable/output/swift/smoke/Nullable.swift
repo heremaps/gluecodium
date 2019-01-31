@@ -12,6 +12,7 @@ internal func getRef(_ ref: Nullable?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 public class Nullable {
+    public typealias SomeArray = [String]
     public typealias SomeMap = [Int64: String]
     public var stringAttribute: String? {
         get {

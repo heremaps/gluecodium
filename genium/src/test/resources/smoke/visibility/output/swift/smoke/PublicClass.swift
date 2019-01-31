@@ -12,6 +12,7 @@ internal func getRef(_ ref: PublicClass?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 public class PublicClass {
+    internal typealias InternalArray = [PublicClass.InternalStruct]
     internal typealias InternalStructTypeDef = PublicClass.InternalStruct
     internal typealias StringToInternalStructMap = [String: PublicClass.InternalStruct]
     internal var internalStructAttribute: PublicClass.InternalStruct {

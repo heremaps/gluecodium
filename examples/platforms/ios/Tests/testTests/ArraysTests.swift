@@ -24,7 +24,7 @@ import hello
 class ArraysTests: XCTestCase {
 
     func testArrayString() {
-        let stringArray: [String] = ["Hello", "test", "world"]
+        let stringArray: Arrays.StringArray = ["Hello", "test", "world"]
         let result = Arrays.reverseStringArray(input: stringArray)
         for (index, string) in result.enumerated() {
             XCTAssertEqual(string, stringArray[2-index])
@@ -32,15 +32,23 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayInt16Inline() {
-        let intArray: [Int16] = [1, 2, 3]
+        let intArray: Arrays.Int16Array = [1, 2, 3]
         let result = Arrays.reverseArrayInline(input: intArray)
         for (index, intValue) in result.enumerated() {
             XCTAssertEqual(intValue, intArray[2-index])
         }
     }
 
+    func testArrayUInt16() {
+        let intArray: Arrays.UInt16Array = [1, 2, 3]
+        let result = Arrays.reverseUint16Array(input: intArray)
+        for (index, intValue) in result.enumerated() {
+            XCTAssertEqual(intValue, intArray[2-index])
+        }
+    }
+
     func testArrayInt16() {
-        let intArray: [Int16] = [1, 2, 3]
+        let intArray: Arrays.Int16Array = [1, 2, 3]
         let result = Arrays.reverseInt16Array(input: intArray)
         for (index, intValue) in result.enumerated() {
             XCTAssertEqual(intValue, intArray[2-index])
@@ -48,7 +56,7 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayUInt8() {
-        let intArray: [UInt8] = [1, 2, 3]
+        let intArray: Arrays.UInt8Array = [1, 2, 3]
         let result = Arrays.reverseUint8Array(input: intArray)
         for (index, intValue) in result.enumerated() {
             XCTAssertEqual(intValue, intArray[2-index])
@@ -56,7 +64,7 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayInt8() {
-        let intArray: [Int8] = [1, 2, 3]
+        let intArray: Arrays.Int8Array = [1, 2, 3]
         let result = Arrays.reverseInt8Array(input: intArray)
         for (index, intValue) in result.enumerated() {
             XCTAssertEqual(intValue, intArray[2-index])
@@ -64,7 +72,7 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayInt32() {
-        let intArray: [Int32] = [1, 2, 3]
+        let intArray: Arrays.Int32Array = [1, 2, 3]
         let result = Arrays.reverseInt32Array(input: intArray)
         for (index, intValue) in result.enumerated() {
             XCTAssertEqual(intValue, intArray[2-index])
@@ -72,7 +80,7 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayUInt32() {
-        let intArray: [UInt32] = [1, 2, 3]
+        let intArray: Arrays.UInt32Array = [1, 2, 3]
         let result = Arrays.reverseUint32Array(input: intArray)
         for (index, intValue) in result.enumerated() {
             XCTAssertEqual(intValue, intArray[2-index])
@@ -80,7 +88,7 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayInt64() {
-        let intArray: [Int64] = [1, 2, 3]
+        let intArray: Arrays.Int64Array = [1, 2, 3]
         let result = Arrays.reverseInt64Array(input: intArray)
         for (index, intValue) in result.enumerated() {
             XCTAssertEqual(intValue, intArray[2-index])
@@ -88,7 +96,7 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayUInt64() {
-        let intArray: [UInt64] = [1, 2, 3]
+        let intArray: Arrays.UInt64Array = [1, 2, 3]
         let result = Arrays.reverseUint64Array(input: intArray)
         for (index, intValue) in result.enumerated() {
             XCTAssertEqual(intValue, intArray[2-index])
@@ -96,7 +104,7 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayFloat() {
-        let floatArray: [Float] = [1.0, 2.2, 3.4]
+        let floatArray: Arrays.FloatArray = [1.0, 2.2, 3.4]
         let result = Arrays.reverseFloatArray(input: floatArray)
         for (index, floatValue) in result.enumerated() {
             XCTAssertEqual(floatValue, floatArray[2-index])
@@ -104,7 +112,7 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayDouble() {
-        let doubleArray: [Double] = [1.0, 2.2, 3.4]
+        let doubleArray: Arrays.DoubleArray = [1.0, 2.2, 3.4]
         let result = Arrays.reverseDoubleArray(input: doubleArray)
         for (index, doubleValue) in result.enumerated() {
             XCTAssertEqual(doubleValue, doubleArray[2-index])
@@ -112,7 +120,7 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayBool() {
-        let boolArray: [Bool] = [true, false, true]
+        let boolArray: Arrays.BoolArray = [true, false, true]
         let result = Arrays.reverseBoolArray(input: boolArray)
         for (index, boolValue) in result.enumerated() {
             XCTAssertEqual(boolValue, boolArray[2-index])
@@ -120,12 +128,11 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayStruct() {
-        let structArray: [Arrays.BasicStruct] = [Arrays.BasicStruct(value: 3.2),
-                                                  Arrays.BasicStruct(value: 2.2),
-                                                  Arrays.BasicStruct(value: 1.2)]
+        let structArray: Arrays.StructArray = [Arrays.BasicStruct(value: 3.2),
+                                               Arrays.BasicStruct(value: 2.2),
+                                               Arrays.BasicStruct(value: 1.2)]
         let result = Arrays.reverseStructArray(input: structArray)
         for (index, structValue) in result.enumerated() {
-            //TODO: Implement Equatable protocol by default. (APIGEN-870)
             XCTAssertEqual(structValue.value, structArray[2-index].value)
         }
     }
@@ -163,7 +170,7 @@ class ArraysTests: XCTestCase {
     }
 
     func testNestedPrimitives() {
-        let nested: [[Double]] = [[1, 2, 3], [3, 4, 5], [5, 6, 7]]
+        let nested: [Arrays.DoubleArray] = [[1, 2, 3], [3, 4, 5], [5, 6, 7]]
         let result = Arrays.reverseNestedPrimitiveArray(input: nested)
         for (indexArray, subarray) in result.enumerated() {
             for (indexElement, doubleValue) in subarray.enumerated() {
@@ -271,6 +278,7 @@ class ArraysTests: XCTestCase {
         ("testArrayInt8", testArrayInt8),
         ("testArrayUInt8", testArrayUInt8),
         ("testArrayInt16", testArrayInt16),
+        ("testArrayUInt16", testArrayUInt16),
         ("testArrayInt16Inline", testArrayInt16Inline),
         ("testArrayInt32", testArrayInt32),
         ("testArrayUInt32", testArrayUInt32),

@@ -15,6 +15,8 @@ internal func getRef(_ ref: Comments?, owning: Bool = true) -> RefHolder {
 public class Comments {
     /// This is some very useful typedef.
     public typealias Usefulness = Bool
+    /// This is some very useful array.
+    public typealias SomeArray = [String]
     /// This is some very useful map.
     public typealias SomeMap = [String: Comments.Usefulness]
     /// This is some very useful constant.
