@@ -110,6 +110,15 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::N
         "Ljava/util/Map;"),
         (::std::shared_ptr< ::smoke::Nullable::SomeMap >*)nullptr );
     _nout.map_field = n_map_field;
+    ::std::shared_ptr< ::smoke::SomeInterface > n_instance_field = convert_from_jni(
+        _jenv,
+        genium::jni::get_object_field_value(
+        _jenv,
+        _jinput,
+        "instanceField",
+        "Lcom/example/smoke/SomeInterface;"),
+        (::std::shared_ptr< ::smoke::SomeInterface >*)nullptr );
+    _nout.instance_field = n_instance_field;
     return _nout;
 }
 std::shared_ptr<::smoke::Nullable::NullableStruct>
@@ -146,6 +155,9 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Nullable::NullableStruct& _ninput)
     auto jmap_field = convert_to_jni(_jenv, _ninput.map_field);
     genium::jni::set_object_field_value(_jenv, _jresult, "mapField",
         "Ljava/util/Map;", jmap_field);
+    auto jinstance_field = convert_to_jni(_jenv, _ninput.instance_field);
+    genium::jni::set_object_field_value(_jenv, _jresult, "instanceField",
+        "Lcom/example/smoke/SomeInterface;", jinstance_field);
     return _jresult;
 }
 JniReference<jobject>

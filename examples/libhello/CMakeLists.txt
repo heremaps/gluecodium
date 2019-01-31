@@ -357,16 +357,12 @@ feature(Equatable cpp android swift SOURCES
     fidl/test/Equatable.fdepl
 )
 
-feature(Nullability cpp android swift SOURCES
-    src/test/NotNull.cpp
-
-    fidl/test/NotNull.fidl
-    fidl/test/NotNull.fdepl
-)
-
 feature(Nullable cpp android swift SOURCES
+    src/test/NullableInstances.cpp
     src/test/NullableInterface.cpp
 
+    fidl/test/NullableInstances.fidl
+    fidl/test/NullableInstances.fdepl
     fidl/test/NullableInterface.fidl
     fidl/test/NullableInterface.fdepl
 )
