@@ -12,6 +12,7 @@ internal func getRef(_ ref: Arrays?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 public class Arrays {
+    public typealias SyncResults = [Arrays.SyncResult]
     let c_instance : _baseRef
     init(cArrays: _baseRef) {
         guard cArrays != 0 else {

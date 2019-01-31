@@ -14,6 +14,7 @@ internal func getRef(_ ref: TypeDefs?, owning: Bool = true) -> RefHolder {
 public class TypeDefs {
     public typealias NestedIntTypeDef = TypeDefs.PrimitiveTypeDef
     public typealias PrimitiveTypeDef = Double
+    public typealias StructArray = [TypeDefs.TestStruct]
     public typealias ComplexTypeDef = [TypeDefs.TestStruct]
     public typealias TestStructTypeDef = TypeDefs.TestStruct
     public typealias NestedStructTypeDef = TypeDefs.TestStructTypeDef
