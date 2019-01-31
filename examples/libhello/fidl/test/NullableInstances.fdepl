@@ -18,69 +18,72 @@
  */
 
 import "classpath:/GeniumExtensions.fdepl"
-import "./NotNull.fidl"
+import "./NullableInstances.fidl"
 
-define GeniumExtensions for interface test.NotNullStatic
+define GeniumExtensions for interface test.NullableStatic
 {
-    struct NotNullStruct {
-        notNullField {
-            NotNull = true
+    struct NullableStruct {
+        nullableField {
+            Nullable = true
         }
     }
 
-    method notNullTopDownRoundTrip {
+    method nullableTopDownRoundTrip {
         Static = true
         in {
             input {
-                NotNull = true
+                Nullable = true
             }
         }
         out {
             output {
-                NotNull = true
+                Nullable = true
             }
         }
     }
 
-    method notNullBottomUpRoundTrip {
+    method nullableBottomUpRoundTrip {
         Static = true
     }
 
-    method notNullBottomUpAttributeRoundTrip {
+    method nullableBottomUpNullRoundTrip {
+        Static = true
+    }
+
+    method nullableBottomUpAttributeRoundTrip {
+        Static = true
+    }
+
+    method nullableBottomUpAttributeNullRoundTrip {
         Static = true
     }
 }
 
-define GeniumExtensions for interface test.NotNullListener
+define GeniumExtensions for interface test.NullableInstanceListener
 {
     IsInterface = true
 
-    method notNullBottomUpRoundTrip {
+    method nullableBottomUpRoundTrip {
         in {
             input {
-                NotNull = true
+                Nullable = true
             }
         }
         out {
             output {
-                NotNull = true
+                Nullable = true
             }
         }
     }
 
-    attribute notNullAttribute {
-        NotNull = true
+    attribute nullableAttribute {
+        Nullable = true
     }
 }
 
-define GeniumExtensions for interface test.NotNullPayload
+define GeniumExtensions for interface test.NullablePayload
 {
     method create {
-        Static = true
-        out {
-            result {
-                NotNull = true
-            }
-        }
+        Constructor = true
     }
 }

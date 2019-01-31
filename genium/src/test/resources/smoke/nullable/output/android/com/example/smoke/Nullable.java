@@ -42,10 +42,12 @@ public class Nullable extends NativeBase {
         public List<String> inlineArrayField;
         @Nullable
         public Map<Long, String> mapField;
+        @Nullable
+        public SomeInterface instanceField;
         public NullableStruct() {
-            this((String)null, (Boolean)null, (Double)null, (Nullable.SomeStruct)null, (Nullable.SomeEnum)null, (List<String>)null, (List<String>)null, (Map<Long, String>)null);
+            this((String)null, (Boolean)null, (Double)null, (Nullable.SomeStruct)null, (Nullable.SomeEnum)null, (List<String>)null, (List<String>)null, (Map<Long, String>)null, (SomeInterface)null);
         }
-        public NullableStruct(String stringField, Boolean boolField, Double doubleField, Nullable.SomeStruct structField, Nullable.SomeEnum enumField, List<String> arrayField, List<String> inlineArrayField, Map<Long, String> mapField) {
+        public NullableStruct(String stringField, Boolean boolField, Double doubleField, Nullable.SomeStruct structField, Nullable.SomeEnum enumField, List<String> arrayField, List<String> inlineArrayField, Map<Long, String> mapField, SomeInterface instanceField) {
             this.stringField = stringField;
             this.boolField = boolField;
             this.doubleField = doubleField;
@@ -54,6 +56,7 @@ public class Nullable extends NativeBase {
             this.arrayField = arrayField;
             this.inlineArrayField = inlineArrayField;
             this.mapField = mapField;
+            this.instanceField = instanceField;
         }
         public static class Builder {
             private String stringField = (String)null;
@@ -64,6 +67,7 @@ public class Nullable extends NativeBase {
             private List<String> arrayField = (List<String>)null;
             private List<String> inlineArrayField = (List<String>)null;
             private Map<Long, String> mapField = (Map<Long, String>)null;
+            private SomeInterface instanceField = (SomeInterface)null;
             public Builder() {
             }
             public Builder setStringField(String stringField) {
@@ -98,8 +102,12 @@ public class Nullable extends NativeBase {
                 this.mapField = mapField;
                 return this;
             }
+            public Builder setInstanceField(SomeInterface instanceField) {
+                this.instanceField = instanceField;
+                return this;
+            }
             public NullableStruct build() {
-                return new NullableStruct(stringField, boolField, doubleField, structField, enumField, arrayField, inlineArrayField, mapField);
+                return new NullableStruct(stringField, boolField, doubleField, structField, enumField, arrayField, inlineArrayField, mapField, instanceField);
             }
         }
     }
@@ -210,6 +218,8 @@ public class Nullable extends NativeBase {
     @Nullable
     public native Map<Long, String> methodWithSomeMap(@Nullable final Map<Long, String> input);
     @Nullable
+    public native SomeInterface methodWithInstance(@Nullable final SomeInterface input);
+    @Nullable
     public native String getStringAttribute();
     public native void setStringAttribute(@Nullable final String value);
     @Nullable
@@ -236,4 +246,7 @@ public class Nullable extends NativeBase {
     @Nullable
     public native Map<Long, String> getMapAttribute();
     public native void setMapAttribute(@Nullable final Map<Long, String> value);
+    @Nullable
+    public native SomeInterface getInstanceAttribute();
+    public native void setInstanceAttribute(@Nullable final SomeInterface value);
 }

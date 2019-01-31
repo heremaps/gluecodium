@@ -95,6 +95,15 @@ public class Nullable {
             return moveFromCType(smoke_Nullable_mapAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
+    public var instanceAttribute: SomeInterface? {
+        get {
+            return SomeInterfacemoveFromCType(smoke_Nullable_instanceAttribute_get(self.c_instance))
+        }
+        set {
+            let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_Nullable_instanceAttribute_set(self.c_instance, c_newValue.ref))
+        }
+    }
     let c_instance : _baseRef
     init(cNullable: _baseRef) {
         guard cNullable != 0 else {
@@ -131,7 +140,8 @@ public class Nullable {
         public var arrayField: [String]?
         public var inlineArrayField: [String]?
         public var mapField: Nullable.SomeMap?
-        public init(stringField: String? = nil, boolField: Bool? = nil, doubleField: Double? = nil, structField: Nullable.SomeStruct? = nil, enumField: Nullable.SomeEnum? = nil, arrayField: [String]? = nil, inlineArrayField: [String]? = nil, mapField: Nullable.SomeMap? = nil) {
+        public var instanceField: SomeInterface?
+        public init(stringField: String? = nil, boolField: Bool? = nil, doubleField: Double? = nil, structField: Nullable.SomeStruct? = nil, enumField: Nullable.SomeEnum? = nil, arrayField: [String]? = nil, inlineArrayField: [String]? = nil, mapField: Nullable.SomeMap? = nil, instanceField: SomeInterface? = nil) {
             self.stringField = stringField
             self.boolField = boolField
             self.doubleField = doubleField
@@ -140,6 +150,7 @@ public class Nullable {
             self.arrayField = arrayField
             self.inlineArrayField = inlineArrayField
             self.mapField = mapField
+            self.instanceField = instanceField
         }
         internal init(cHandle: _baseRef) {
             stringField = moveFromCType(smoke_Nullable_NullableStruct_stringField_get(cHandle))
@@ -150,6 +161,7 @@ public class Nullable {
             arrayField = moveFromCType(smoke_Nullable_NullableStruct_arrayField_get(cHandle))
             inlineArrayField = moveFromCType(smoke_Nullable_NullableStruct_inlineArrayField_get(cHandle))
             mapField = moveFromCType(smoke_Nullable_NullableStruct_mapField_get(cHandle))
+            instanceField = SomeInterfacemoveFromCType(smoke_Nullable_NullableStruct_instanceField_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let c_stringField = moveToCType(stringField)
@@ -160,7 +172,8 @@ public class Nullable {
             let c_arrayField = moveToCType(arrayField)
             let c_inlineArrayField = moveToCType(inlineArrayField)
             let c_mapField = moveToCType(mapField)
-            return smoke_Nullable_NullableStruct_create_handle(c_stringField.ref, c_boolField.ref, c_doubleField.ref, c_structField.ref, c_enumField.ref, c_arrayField.ref, c_inlineArrayField.ref, c_mapField.ref)
+            let c_instanceField = moveToCType(instanceField)
+            return smoke_Nullable_NullableStruct_create_handle(c_stringField.ref, c_boolField.ref, c_doubleField.ref, c_structField.ref, c_enumField.ref, c_arrayField.ref, c_inlineArrayField.ref, c_mapField.ref, c_instanceField.ref)
         }
     }
     public struct NullableIntsStruct {
@@ -239,6 +252,10 @@ public class Nullable {
     public func methodWithSomeMap(input: Nullable.SomeMap?) -> Nullable.SomeMap? {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Nullable_methodWithSomeMap(self.c_instance, c_input.ref))
+    }
+    public func methodWithInstance(input: SomeInterface?) -> SomeInterface? {
+        let c_input = moveToCType(input)
+        return SomeInterfacemoveFromCType(smoke_Nullable_methodWithInstance(self.c_instance, c_input.ref))
     }
 }
 extension Nullable: NativeBase {

@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include "test/NotNullPayload.h"
+#include "test/NullablePayload.h"
 
 namespace test
 {
-class NotNullPayloadImpl : public NotNullPayload
+class NullablePayloadImpl : public NullablePayload
 {
 public:
     bool poke( ) override;
