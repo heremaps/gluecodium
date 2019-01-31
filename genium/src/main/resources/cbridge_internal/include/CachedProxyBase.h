@@ -27,6 +27,26 @@
 template < class ProxyType >
 class CachedProxyBase
 {
+private:
+    using CacheEntryType = std::pair< std::weak_ptr< ProxyType >, void* >;
+    struct Cache
+    {
+        std::unordered_map< const void*, CacheEntryType > cache;
+        std::unordered_map< const void*, const void* > reverse_cache;
+        std::mutex mutex;
+        bool alive;
+
+        Cache( )
+            : alive(true)
+        {
+        }
+
+        ~Cache( )
+        {
+            alive = false;
+        }
+    };
+
 protected:
     CachedProxyBase( ) = default;
 
@@ -36,9 +56,11 @@ public:
     get_proxy( FunctionTable&& function_table )
     {
         const void* key = function_table.swift_pointer;
-        std::lock_guard< std::mutex > cache_lock( s_cache_mutex );
-        auto cached_weak = s_cache.find( key );
-        if ( cached_weak != s_cache.end( ) )
+        Cache& cache = get_cache( );
+        std::lock_guard< std::mutex > cache_lock( cache.mutex );
+
+        auto cached_weak = cache.cache.find( key );
+        if ( cached_weak != cache.cache.end( ) )
         {
             auto cached = cached_weak->second.first.lock( );
             if ( cached )
@@ -54,8 +76,8 @@ public:
         if ( proxy )
         {
             proxy->m_key = key;
-            s_cache[ key ] = std::make_pair( proxy, proxy.get( ) );
-            s_reverse_cache[ proxy.get( ) ] = key;
+            cache.cache[ key ] = std::make_pair( proxy, proxy.get( ) );
+            cache.reverse_cache[ proxy.get( ) ] = key;
         }
         return proxy;
     }
@@ -63,9 +85,11 @@ public:
     static const void*
     get_swift_object( const void* proxy )
     {
-        std::lock_guard< std::mutex > cache_lock( s_cache_mutex );
-        auto it = s_reverse_cache.find( proxy );
-        if ( it != s_reverse_cache.end( ) )
+        Cache& cache = get_cache( );
+        std::lock_guard< std::mutex > cache_lock( cache.mutex );
+
+        auto it = cache.reverse_cache.find( proxy );
+        if ( it != cache.reverse_cache.end( ) )
         {
             return it->second;
         }
@@ -74,27 +98,36 @@ public:
 
     virtual ~CachedProxyBase( )
     {
-        std::lock_guard< std::mutex > cache_lock( s_cache_mutex );
-        s_reverse_cache.erase( s_cache[ m_key ].second );
-        s_cache.erase( m_key );
+        Cache& cache = get_cache( );
+        if ( !cache.alive )
+        {
+            // The cache may have been destroyed if this was stored in a global varaible and
+            // destructed after the static variable for the cache.
+            return;
+        }
+
+        std::lock_guard< std::mutex > cache_lock( cache.mutex );
+
+        auto it = cache.cache.find( m_key );
+        if ( it != cache.cache.end( ) )
+        {
+            cache.reverse_cache.erase( it->second.second );
+            cache.cache.erase( it );
+        }
+    }
+
+private:
+    // Handle cases of non-deterministic ordering of construction and destruction of global
+    // variables. This is on two ends:
+    // 1. Use function static variable to ensure it's constructed on first use.
+    // 2. Use an "alive" flag to ensure it won't crash if destructed early. (e.g. storing a
+    //    shared_ptr to a proxy object as a static variable)
+    static Cache& get_cache( )
+    {
+        static Cache cache;
+        return cache;
     }
 
 private:
     const void* m_key;
-
-private:
-    using CacheEntryType = std::pair< std::weak_ptr< ProxyType >, void* >;
-    static std::unordered_map< const void*, CacheEntryType > s_cache;
-    static std::unordered_map< const void*, const void* > s_reverse_cache;
-    static std::mutex s_cache_mutex;
 };
-
-template < class ProxyType >
-std::unordered_map< const void*, typename CachedProxyBase< ProxyType >::CacheEntryType >
-    CachedProxyBase< ProxyType >::s_cache;
-
-template < class ProxyType >
-std::unordered_map< const void*, const void* > CachedProxyBase< ProxyType >::s_reverse_cache;
-
-template < class ProxyType >
-std::mutex CachedProxyBase< ProxyType >::s_cache_mutex;
