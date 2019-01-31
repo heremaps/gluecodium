@@ -158,8 +158,8 @@ class MapsTests: XCTestCase {
 
     func testMethodWithMapToInstance() {
         let inputDict: [String: SimpleInterfaceOne] = [
-            "One": InstancesFactory.createSimpleInterfaceOne()!,
-            "Two": InstancesFactory.createSimpleInterfaceOne()!
+            "One": InstancesFactory.createSimpleInterfaceOne(),
+            "Two": InstancesFactory.createSimpleInterfaceOne()
         ]
         inputDict["One"]?.setStringValue(stringValue: "Hello")
         inputDict["Two"]?.setStringValue(stringValue: "Hello")

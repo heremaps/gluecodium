@@ -24,12 +24,12 @@ import hello
 class ListenersWithDictionaries: XCTestCase {
 
   let expectedData = "Berlin -> [-2, 26]\nMadrid -> [1, 33]\nMarrakesh -> [8, 40]\n"
-  let provider = ForecastFactory.createProvider()!
+  let provider = ForecastFactory.createProvider()
 
   func testCheckNativeListener() {
     HelloWorldStaticLogger.clearLog()
 
-    let listener = ForecastFactory.createListener()!
+    let listener = ForecastFactory.createListener()
 
     provider.inform(listener: listener)
 
