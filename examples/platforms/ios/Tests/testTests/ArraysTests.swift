@@ -138,11 +138,11 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayExplicitInstances() {
-        let instance1 = InstancesFactory.createSimpleInstantiableOne()!
+        let instance1 = InstancesFactory.createSimpleInstantiableOne()
         instance1.setStringValue(stringValue: "Hello")
-        let instance2 = InstancesFactory.createSimpleInstantiableOne()!
+        let instance2 = InstancesFactory.createSimpleInstantiableOne()
         instance2.setStringValue(stringValue: "World")
-        let instance3 = InstancesFactory.createSimpleInstantiableOne()!
+        let instance3 = InstancesFactory.createSimpleInstantiableOne()
         instance3.setStringValue(stringValue: "Test")
 
         let instanceArray: [SimpleInstantiableOne] = [instance1, instance2, instance3]
@@ -154,11 +154,11 @@ class ArraysTests: XCTestCase {
     }
 
     func testArrayImplicitInstances() {
-        let instance1 = InstancesFactory.createSimpleInstantiableOne()!
+        let instance1 = InstancesFactory.createSimpleInstantiableOne()
         instance1.setStringValue(stringValue: "Hello")
-        let instance2 = InstancesFactory.createSimpleInstantiableOne()!
+        let instance2 = InstancesFactory.createSimpleInstantiableOne()
         instance2.setStringValue(stringValue: "World")
-        let instance3 = InstancesFactory.createSimpleInstantiableOne()!
+        let instance3 = InstancesFactory.createSimpleInstantiableOne()
         instance3.setStringValue(stringValue: "Test")
 
         let instanceArray: [SimpleInstantiableOne] = [instance1, instance2, instance3]
@@ -215,11 +215,11 @@ class ArraysTests: XCTestCase {
     }
 
     func getFancyStruct(_ values: [UInt8]) -> Arrays.FancyStruct {
-        let instance1 = InstancesFactory.createSimpleInstantiableOne()!
+        let instance1 = InstancesFactory.createSimpleInstantiableOne()
         instance1.setStringValue(stringValue: "Hello")
-        let instance2 = InstancesFactory.createSimpleInstantiableOne()!
+        let instance2 = InstancesFactory.createSimpleInstantiableOne()
         instance2.setStringValue(stringValue: "World")
-        let instance3 = InstancesFactory.createSimpleInstantiableOne()!
+        let instance3 = InstancesFactory.createSimpleInstantiableOne()
         instance3.setStringValue(stringValue: "Test")
         return Arrays.FancyStruct(messages: ["Hello", "Test"],
                                   numbers: values,

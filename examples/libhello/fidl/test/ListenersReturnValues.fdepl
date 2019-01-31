@@ -23,6 +23,22 @@ import "./ListenersReturnValues.fidl"
 define GeniumExtensions for interface test.ListenerWithReturn
 {
     IsInterface = true
+
+    method getPackedMessage {
+        out {
+            message {
+              Nullable = true
+            }
+        }
+    }
+
+    method getBoxedMessage {
+        out {
+            message {
+              Nullable = true
+            }
+        }
+    }
 }
 
 define GeniumExtensions for interface test.MessagePackage
