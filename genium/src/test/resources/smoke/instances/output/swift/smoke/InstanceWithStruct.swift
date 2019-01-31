@@ -36,25 +36,21 @@ public class InstanceWithStruct {
         }
     }
     public struct StructWithInstance {
-        public var instance: SimpleInstantiable?
-        public var instanceNotNull: SimpleInstantiable
+        public var instance: SimpleInstantiable
         /// This is some very useful field.
-        public var instanceNotNullWithComment: SimpleInstantiable
-        public init(instance: SimpleInstantiable? = nil, instanceNotNull: SimpleInstantiable, instanceNotNullWithComment: SimpleInstantiable) {
+        public var instanceWithComment: SimpleInstantiable
+        public init(instance: SimpleInstantiable, instanceWithComment: SimpleInstantiable) {
             self.instance = instance
-            self.instanceNotNull = instanceNotNull
-            self.instanceNotNullWithComment = instanceNotNullWithComment
+            self.instanceWithComment = instanceWithComment
         }
         internal init(cHandle: _baseRef) {
             instance = SimpleInstantiablemoveFromCType(smoke_InstanceWithStruct_StructWithInstance_instance_get(cHandle))
-            instanceNotNull = SimpleInstantiablemoveFromCType(smoke_InstanceWithStruct_StructWithInstance_instanceNotNull_get(cHandle))
-            instanceNotNullWithComment = SimpleInstantiablemoveFromCType(smoke_InstanceWithStruct_StructWithInstance_instanceNotNullWithComment_get(cHandle))
+            instanceWithComment = SimpleInstantiablemoveFromCType(smoke_InstanceWithStruct_StructWithInstance_instanceWithComment_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let c_instance = moveToCType(instance)
-            let c_instanceNotNull = moveToCType(instanceNotNull)
-            let c_instanceNotNullWithComment = moveToCType(instanceNotNullWithComment)
-            return smoke_InstanceWithStruct_StructWithInstance_create_handle(c_instance.ref, c_instanceNotNull.ref, c_instanceNotNullWithComment.ref)
+            let c_instanceWithComment = moveToCType(instanceWithComment)
+            return smoke_InstanceWithStruct_StructWithInstance_create_handle(c_instance.ref, c_instanceWithComment.ref)
         }
     }
     public func innerStructMethod(inputStruct: InstanceWithStruct.InnerStruct) -> InstanceWithStruct.InnerStruct {

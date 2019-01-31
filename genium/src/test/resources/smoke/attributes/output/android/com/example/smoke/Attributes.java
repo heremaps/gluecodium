@@ -4,7 +4,6 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import com.example.NativeBase;
 import java.util.List;
 public class Attributes extends NativeBase {
@@ -49,9 +48,9 @@ public class Attributes extends NativeBase {
     public native void setComplexTypeAttribute(@NonNull final Attributes.InternalError value);
     public native byte[] getByteBufferAttribute();
     public native void setByteBufferAttribute(final byte[] value);
-    @Nullable
+    @NonNull
     public native AttributesInterface getInstanceAttribute();
-    public native void setInstanceAttribute(@Nullable final AttributesInterface value);
+    public native void setInstanceAttribute(@NonNull final AttributesInterface value);
     public native boolean isBooleanAttribute();
     public native void setBooleanAttribute(final boolean value);
     public static native String getStaticAttribute();

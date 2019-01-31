@@ -3,12 +3,12 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 public class ChildConstructors extends Constructors {
     public ChildConstructors() {
         this(createNoArgsChild());
     }
-    public ChildConstructors(@Nullable final Constructors other) {
+    public ChildConstructors(@NonNull final Constructors other) {
         this(createCopyFromParent(other));
     }
     /** For internal use only */
@@ -16,5 +16,5 @@ public class ChildConstructors extends Constructors {
         super(nativeHandle);
     }
     private static native long createNoArgsChild();
-    private static native long createCopyFromParent(@Nullable final Constructors other);
+    private static native long createCopyFromParent(@NonNull final Constructors other);
 }

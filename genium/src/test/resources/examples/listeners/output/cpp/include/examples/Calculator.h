@@ -22,7 +22,13 @@ class Calculator {
 public:
     virtual ~Calculator() = 0;
 public:
+/**
+ * \param[in] listener @NotNull
+ */
 static void register_listener( const ::std::shared_ptr< ::examples::CalculatorListener >& listener );
+/**
+ * \param[in] listener @NotNull
+ */
 static void unregister_listener( const ::std::shared_ptr< ::examples::CalculatorListener >& listener );
 static void calculate(  );
 

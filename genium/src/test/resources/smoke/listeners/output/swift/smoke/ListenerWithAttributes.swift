@@ -81,7 +81,7 @@ internal func getRef(_ ref: ListenerWithAttributes?, owning: Bool = true) -> Ref
 public protocol ListenerWithAttributes : AnyObject {
     typealias StringToDouble = [String: Double]
     var message: String { get set }
-    var packedMessage: CalculationResult? { get set }
+    var packedMessage: CalculationResult { get set }
     var structuredMessage: ResultStruct { get set }
     var enumeratedMessage: ResultEnum { get set }
     var arrayedMessage: [String] { get set }
@@ -98,7 +98,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
             return moveFromCType(smoke_ListenerWithAttributes_message_set(self.c_instance, c_newValue.ref))
         }
     }
-    var packedMessage: CalculationResult? {
+    var packedMessage: CalculationResult {
         get {
             return CalculationResultmoveFromCType(smoke_ListenerWithAttributes_packedMessage_get(self.c_instance))
         }

@@ -52,15 +52,6 @@ interface NestedInstantiable {
             SimpleInstantiable.SimpleInstantiable instanceOne
         }
     }
-
-    method instanceNotNullMethod {
-        in {
-            SimpleInstantiable.SimpleInstantiable input
-        }
-        out {
-            SimpleInstantiable.SimpleInstantiable output
-        }
-    }
 }
 
 interface InstanceWithStruct {
@@ -87,9 +78,8 @@ interface InstanceWithStruct {
 
     struct StructWithInstance {
         SimpleInstantiable.SimpleInstantiable instance
-        SimpleInstantiable.SimpleInstantiable instanceNotNull
         <** @description: This is some very useful field. **>
-        SimpleInstantiable.SimpleInstantiable instanceNotNullWithComment
+        SimpleInstantiable.SimpleInstantiable instanceWithComment
     }
 
     method structWithInstanceMethod {

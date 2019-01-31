@@ -47,10 +47,10 @@ internal func getRef(_ ref: NestedInterface?, owning: Bool = true) -> RefHolder 
     return owning ? RefHolder(ref: proxy, release: smoke_NestedInterface_release_handle) : RefHolder(proxy)
 }
 public protocol NestedInterface : AnyObject {
-    func setSameTypeInstances(interfaceOne: SimpleInterface?, interfaceTwo: SimpleInterface?) -> Void
-    func getInstanceOne() -> SimpleInterface?
-    func getInstanceTwo() -> SimpleInterface?
-    func makeMoreExternal(input: ExternalInterface?) -> VeryExternalInterface?
+    func setSameTypeInstances(interfaceOne: SimpleInterface, interfaceTwo: SimpleInterface) -> Void
+    func getInstanceOne() -> SimpleInterface
+    func getInstanceTwo() -> SimpleInterface
+    func makeMoreExternal(input: ExternalInterface) -> VeryExternalInterface
     func makeMoreExternal(input: ExternalInterface.SomeStruct) -> VeryExternalInterface.SomeStruct
     func makeMoreExternal(input: ExternalInterface.SomeEnum) -> VeryExternalInterface.SomeEnum
 }
@@ -65,18 +65,18 @@ internal class _NestedInterface: NestedInterface {
     deinit {
         smoke_NestedInterface_release_handle(c_instance)
     }
-    public func setSameTypeInstances(interfaceOne: SimpleInterface?, interfaceTwo: SimpleInterface?) -> Void {
+    public func setSameTypeInstances(interfaceOne: SimpleInterface, interfaceTwo: SimpleInterface) -> Void {
         let c_interfaceOne = moveToCType(interfaceOne)
         let c_interfaceTwo = moveToCType(interfaceTwo)
         return moveFromCType(smoke_NestedInterface_setSameTypeInstances(self.c_instance, c_interfaceOne.ref, c_interfaceTwo.ref))
     }
-    public func getInstanceOne() -> SimpleInterface? {
+    public func getInstanceOne() -> SimpleInterface {
         return SimpleInterfacemoveFromCType(smoke_NestedInterface_getInstanceOne(self.c_instance))
     }
-    public func getInstanceTwo() -> SimpleInterface? {
+    public func getInstanceTwo() -> SimpleInterface {
         return SimpleInterfacemoveFromCType(smoke_NestedInterface_getInstanceTwo(self.c_instance))
     }
-    public func makeMoreExternal(input: ExternalInterface?) -> VeryExternalInterface? {
+    public func makeMoreExternal(input: ExternalInterface) -> VeryExternalInterface {
         let c_input = moveToCType(input)
         return VeryExternalInterfacemoveFromCType(smoke_NestedInterface_makeMoreExternal_withInterface(self.c_instance, c_input.ref))
     }

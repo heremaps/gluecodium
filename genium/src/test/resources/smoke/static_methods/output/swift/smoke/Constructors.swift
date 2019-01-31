@@ -19,7 +19,7 @@ public class Constructors {
         }
         c_instance = _result
     }
-    public init(other: Constructors?) {
+    public init(other: Constructors) {
         let _result = Constructors.create(other: other)
         guard _result != 0 else {
             fatalError("Nullptr value is not supported for initializers")
@@ -64,7 +64,7 @@ public class Constructors {
     private static func create() -> _baseRef {
         return moveFromCType(smoke_Constructors_create_noArgs())
     }
-    private static func create(other: Constructors?) -> _baseRef {
+    private static func create(other: Constructors) -> _baseRef {
         let c_other = moveToCType(other)
         return moveFromCType(smoke_Constructors_create_copyCtor(c_other.ref))
     }

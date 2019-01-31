@@ -45,12 +45,11 @@ int8_t smoke_InstanceWithStruct_InnerStruct_value_get(_baseRef handle) {
 return struct_pointer->value;
 }
 _baseRef
-smoke_InstanceWithStruct_StructWithInstance_create_handle( _baseRef instance, _baseRef instanceNotNull, _baseRef instanceNotNullWithComment )
+smoke_InstanceWithStruct_StructWithInstance_create_handle( _baseRef instance, _baseRef instanceWithComment )
 {
     ::smoke::InstanceWithStruct::StructWithInstance* _struct = new ( std::nothrow ) ::smoke::InstanceWithStruct::StructWithInstance();
     _struct->instance = Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp( instance );
-    _struct->instance_not_null = Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp( instanceNotNull );
-    _struct->instance_not_null_with_comment = Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp( instanceNotNullWithComment );
+    _struct->instance_with_comment = Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp( instanceWithComment );
     return reinterpret_cast<_baseRef>( _struct );
 }
 void
@@ -75,13 +74,9 @@ _baseRef smoke_InstanceWithStruct_StructWithInstance_instance_get(_baseRef handl
     auto struct_pointer = get_pointer<::smoke::InstanceWithStruct::StructWithInstance>(handle);
 return Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toBaseRef(struct_pointer->instance);
 }
-_baseRef smoke_InstanceWithStruct_StructWithInstance_instanceNotNull_get(_baseRef handle) {
+_baseRef smoke_InstanceWithStruct_StructWithInstance_instanceWithComment_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::InstanceWithStruct::StructWithInstance>(handle);
-return Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toBaseRef(struct_pointer->instance_not_null);
-}
-_baseRef smoke_InstanceWithStruct_StructWithInstance_instanceNotNullWithComment_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::InstanceWithStruct::StructWithInstance>(handle);
-return Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toBaseRef(struct_pointer->instance_not_null_with_comment);
+return Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toBaseRef(struct_pointer->instance_with_comment);
 }
 _baseRef smoke_InstanceWithStruct_innerStructMethod(_baseRef _instance, _baseRef inputStruct) {
     return Conversion<::smoke::InstanceWithStruct::InnerStruct>::toBaseRef(get_pointer<std::shared_ptr<::smoke::InstanceWithStruct>>(_instance)->get()->inner_struct_method(Conversion<::smoke::InstanceWithStruct::InnerStruct>::toCpp(inputStruct)))

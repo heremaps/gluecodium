@@ -27,7 +27,13 @@ public:
     virtual ~ProfileManagerFactory() = 0;
 
 public:
+/**
+ * \return @NotNull
+ */
 static ::std::shared_ptr< ::examples::ProfileManager > create_profile_manager(  );
+/**
+ * \return @NotNull
+ */
 static ::std::shared_ptr< ::examples::ProfileManagerInterface > create_profile_manager_interface(  );
 };
 

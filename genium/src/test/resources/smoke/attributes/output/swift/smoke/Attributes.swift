@@ -62,7 +62,7 @@ public class Attributes {
             return moveFromCType(smoke_Attributes_byteBufferAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var instanceAttribute: AttributesInterface? {
+    public var instanceAttribute: AttributesInterface {
         get {
             return AttributesInterfacemoveFromCType(smoke_Attributes_instanceAttribute_get(self.c_instance))
         }

@@ -112,7 +112,7 @@ public class Comments extends NativeBase {
      * @return This is some very useful instance method result.
      */
     @NonNull
-    public native CommentsInstantiable instanceNotNullMethod(@NonNull final CommentsInstantiable input);
+    public native CommentsInstantiable instanceMethod(@NonNull final CommentsInstantiable input);
     /**
      * This is some very useful attribute.
      */
@@ -125,9 +125,9 @@ public class Comments extends NativeBase {
      * This is some very useful attribute.
      */
     @NonNull
-    public native CommentsInstantiable getInstanceNotNullAttribute();
+    public native CommentsInstantiable getInstanceAttribute();
     /**
      * This is some very useful attribute.
      */
-    public native void setInstanceNotNullAttribute(@NonNull final CommentsInstantiable value);
+    public native void setInstanceAttribute(@NonNull final CommentsInstantiable value);
 }

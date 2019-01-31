@@ -4,7 +4,6 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 public interface CalculatorListener {
@@ -22,5 +21,5 @@ public interface CalculatorListener {
     void onCalculationResultStruct(@NonNull final CalculatorListener.ResultStruct calculationResult);
     void onCalculationResultArray(@NonNull final List<Double> calculationResult);
     void onCalculationResultMap(@NonNull final Map<String, Double> calculationResults);
-    void onCalculationResultInstance(@Nullable final CalculationResult calculationResult);
+    void onCalculationResultInstance(@NonNull final CalculationResult calculationResult);
 }

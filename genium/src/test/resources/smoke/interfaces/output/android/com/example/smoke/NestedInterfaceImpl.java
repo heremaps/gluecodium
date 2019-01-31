@@ -4,7 +4,6 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import com.example.NativeBase;
 class NestedInterfaceImpl extends NativeBase implements NestedInterface {
     protected NestedInterfaceImpl(final long nativeHandle) {
@@ -16,13 +15,13 @@ class NestedInterfaceImpl extends NativeBase implements NestedInterface {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    public native void setSameTypeInstances(@Nullable final SimpleInterface interfaceOne, @Nullable final SimpleInterface interfaceTwo);
-    @Nullable
+    public native void setSameTypeInstances(@NonNull final SimpleInterface interfaceOne, @NonNull final SimpleInterface interfaceTwo);
+    @NonNull
     public native SimpleInterface getInstanceOne();
-    @Nullable
+    @NonNull
     public native SimpleInterface getInstanceTwo();
-    @Nullable
-    public native VeryExternalInterface makeMoreExternal(@Nullable final ExternalInterface input);
+    @NonNull
+    public native VeryExternalInterface makeMoreExternal(@NonNull final ExternalInterface input);
     @NonNull
     public native VeryExternalInterface.SomeStruct makeMoreExternal(@NonNull final ExternalInterface.SomeStruct input);
     @NonNull

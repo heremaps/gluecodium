@@ -4,7 +4,6 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import com.example.NativeBase;
 public class NestedInstantiable extends NativeBase {
     /** For internal use only */
@@ -17,9 +16,7 @@ public class NestedInstantiable extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    public native void setSameTypeInstances(@Nullable final SimpleInstantiable instanceOne, @Nullable final SimpleInstantiable instanceTwo);
-    @Nullable
-    public native SimpleInstantiable getInstanceOne();
+    public native void setSameTypeInstances(@NonNull final SimpleInstantiable instanceOne, @NonNull final SimpleInstantiable instanceTwo);
     @NonNull
-    public native SimpleInstantiable instanceNotNullMethod(@NonNull final SimpleInstantiable input);
+    public native SimpleInstantiable getInstanceOne();
 }
