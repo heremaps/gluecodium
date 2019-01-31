@@ -39,47 +39,47 @@ class InheritanceTests: XCTestCase {
     func testCreateChildClassInstance() {
         let instance = ChildClass.createChildClass()
 
-        XCTAssertEqual(instance?.getName(), "Johnny")
-        XCTAssertEqual(instance?.luckyNumber, 7)
+        XCTAssertEqual(instance.getName(), "Johnny")
+        XCTAssertEqual(instance.luckyNumber, 7)
     }
 
     func testCastChildClassInstanceToParent() {
-        let instance: ParentInterface? = ChildClass.createChildClass()?.castToParent()
+        let instance: ParentInterface = ChildClass.createChildClass().castToParent()
 
-        XCTAssertEqual(instance?.getName(), "Johnny")
-        XCTAssertEqual(instance?.luckyNumber, 7)
+        XCTAssertEqual(instance.getName(), "Johnny")
+        XCTAssertEqual(instance.luckyNumber, 7)
     }
 
     func testCreateGrandchildClassInstance() {
         let instance = GrandchildClass.createGrandchildClass()
 
-        XCTAssertEqual(instance?.getName(), "John F. Kimberly")
-        XCTAssertEqual(instance?.luckyNumber, 42)
+        XCTAssertEqual(instance.getName(), "John F. Kimberly")
+        XCTAssertEqual(instance.luckyNumber, 42)
     }
 
     func testCastGrandchildClassInstanceToParent() {
-        let instance: ParentInterface? = GrandchildClass.createGrandchildClass()?.castToParent()
+        let instance: ParentInterface = GrandchildClass.createGrandchildClass().castToParent()
 
-        XCTAssertEqual(instance?.getName(), "John F. Kimberly")
-        XCTAssertEqual(instance?.luckyNumber, 42)
+        XCTAssertEqual(instance.getName(), "John F. Kimberly")
+        XCTAssertEqual(instance.luckyNumber, 42)
     }
 
     func testNativeCastChildClassInstanceToParent() {
-        let instance: ParentInterface = ChildClass.createChildClass()!
+        let instance: ParentInterface = ChildClass.createChildClass()
 
         XCTAssertEqual(instance.getName(), "Johnny")
         XCTAssertEqual(instance.luckyNumber, 7)
     }
 
     func testNativeCastGrandchildClassInstanceToChildClass() {
-        let instance: ChildClass = GrandchildClass.createGrandchildClass()!
+        let instance: ChildClass = GrandchildClass.createGrandchildClass()
 
         XCTAssertEqual(instance.getName(), "John F. Kimberly")
         XCTAssertEqual(instance.luckyNumber, 42)
     }
 
     func testNativeCastGrandchildClassInstanceToParent() {
-        let instance: ParentInterface = GrandchildClass.createGrandchildClass()!
+        let instance: ParentInterface = GrandchildClass.createGrandchildClass()
 
         XCTAssertEqual(instance.getName(), "John F. Kimberly")
         XCTAssertEqual(instance.luckyNumber, 42)
@@ -104,7 +104,7 @@ class InheritanceTests: XCTestCase {
     }
 
     func testChildClassDoesNotCrash() {
-        let instance = GrandchildClass.createGrandchildClass()!
+        let instance = GrandchildClass.createGrandchildClass()
         instance.doSomething(value: "Foo")
     }
 
@@ -120,8 +120,7 @@ class InheritanceTests: XCTestCase {
 
     func testDoSomethingToChildClassDoesNotCrash() {
         let child = ChildClass.createChildClass()
-        XCTAssertNotNil(child)
-        child!.doSomethingToChildClass(input: child!)
+        child.doSomethingToChildClass(input: child)
     }
 
     class SwiftChild: ChildInterface {
@@ -162,12 +161,12 @@ class InheritanceTests: XCTestCase {
             (SwiftChild(), "Swift Child data is 'Custom data'"),
             (SwiftGrandChild(), "Swift GrandChild data is 'Custom data'"),
             (SwiftAnotherChild(), "Swift AnotherChild data is 'Custom data'"),
-            (InheritanceTestHelper.createChild()!, "C++ Child data is 'Custom data'"),
-            (InheritanceTestHelper.createConcreteChild()!, "C++ ConcreteChild data is 'Custom data'"),
-            (InheritanceTestHelper.createConcreteGrandChild()!, "C++ ConcreteGrandChild data is 'Custom data'"),
-            (InheritanceTestHelper.createAnotherChild()!, "C++ AnotherChild data is 'Custom data'"),
-            (InheritanceTestHelper.createAnotherConcreteChild()!, "C++ AnotherConcreteChild data is 'Custom data'"),
-            (InheritanceTestHelper.createAnotherConcreteGrandChild()!,
+            (InheritanceTestHelper.createChild(), "C++ Child data is 'Custom data'"),
+            (InheritanceTestHelper.createConcreteChild(), "C++ ConcreteChild data is 'Custom data'"),
+            (InheritanceTestHelper.createConcreteGrandChild(), "C++ ConcreteGrandChild data is 'Custom data'"),
+            (InheritanceTestHelper.createAnotherChild(), "C++ AnotherChild data is 'Custom data'"),
+            (InheritanceTestHelper.createAnotherConcreteChild(), "C++ AnotherConcreteChild data is 'Custom data'"),
+            (InheritanceTestHelper.createAnotherConcreteGrandChild(),
                 "C++ AnotherConcreteGrandChild data is 'Custom data'")
         ]
     }

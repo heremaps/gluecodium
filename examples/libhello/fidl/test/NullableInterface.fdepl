@@ -240,9 +240,6 @@ define GeniumExtensions for interface test.NullableInterface
     method nullableListenerMethodRoundTrip {
         Static = true
         in {
-            listener {
-                NotNull = true
-            }
             input {
                 Nullable = true
             }
@@ -257,9 +254,6 @@ define GeniumExtensions for interface test.NullableInterface
     method nullableListenerAttributeRoundTrip {
         Static = true
         in {
-            listener {
-                NotNull = true
-            }
             input {
                 Nullable = true
             }

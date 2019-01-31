@@ -25,33 +25,27 @@ class StructWithInstanceTests: XCTestCase {
 
     func testAssignInstanceToStruct() {
         let simpleOne = hello.InstanceInStruct.SelfHolder(mySelf: hello.InstanceInStruct.create())
-        simpleOne.mySelf?.setStringValue(stringValue: "Hello")
+        simpleOne.mySelf.setStringValue(stringValue: "Hello")
 
-        XCTAssertEqual(simpleOne.mySelf?.getStringValue(), "Hello")
+        XCTAssertEqual(simpleOne.mySelf.getStringValue(), "Hello")
     }
 
     func testCopyInstanceInStruct() {
         let one = hello.InstanceInStruct.SelfHolder(mySelf: hello.InstanceInStruct.create())
         do {
            let other = one
-           other.mySelf?.setStringValue(stringValue: "Hello")
+           other.mySelf.setStringValue(stringValue: "Hello")
         }
-        XCTAssertEqual(one.mySelf?.getStringValue(), "Hello")
+        XCTAssertEqual(one.mySelf.getStringValue(), "Hello")
     }
 
     func testCopyInstanceInStructFromMethod() {
         let one = hello.InstanceInStruct.createInStruct()
         do {
            let other = one
-           other.mySelf?.setStringValue(stringValue: "Hello")
+           other.mySelf.setStringValue(stringValue: "Hello")
         }
-        XCTAssertEqual(one.mySelf?.getStringValue(), "Hello")
-    }
-
-    func testNullInstanceInStruct() {
-        let emptyStruct = hello.InstanceInStruct.createNullInStruct()
-        XCTAssertNotNil(emptyStruct)
-        XCTAssertNil(emptyStruct.mySelf)
+        XCTAssertEqual(one.mySelf.getStringValue(), "Hello")
     }
 
     func testInstanceInNotNullStruct() {
@@ -64,7 +58,6 @@ class StructWithInstanceTests: XCTestCase {
         ("testAssignInstanceToStruct", testAssignInstanceToStruct),
         ("testCopyInstanceInStruct", testCopyInstanceInStruct),
         ("testCopyInstanceInStructFromMethod", testCopyInstanceInStructFromMethod),
-        ("testNullInstanceInStruct", testNullInstanceInStruct),
         ("testInstanceInNotNullStruct", testInstanceInNotNullStruct)
     ]
 }

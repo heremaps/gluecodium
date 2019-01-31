@@ -30,30 +30,23 @@ class HelloWorldInstancesTests: XCTestCase {
 
     func testInstanceMethod() {
         let simple = HelloWorldFactory.createSimple()
-        simple!.setStringValue(stringValue: "HelloSimple")
-        let stringReturned = simple!.getStringValue()
+        simple.setStringValue(stringValue: "HelloSimple")
+        let stringReturned = simple.getStringValue()
         XCTAssertEqual(stringReturned, "HelloSimple")
     }
 
     func testNestedInstances() {
         let simple = HelloWorldFactory.createSimple()
-        simple?.setStringValue(stringValue: "Hello")
+        simple.setStringValue(stringValue: "Hello")
         XCTAssertNotNil(simple)
-        let complex = HelloWorldFactory.createNested(simpleInstanceRef: simple!)
+        let complex = HelloWorldFactory.createNested(simpleInstanceRef: simple)
         XCTAssertNotNil(complex)
-        XCTAssertEqual(complex?.getInstantiable()?.getStringValue(), "Hello")
-    }
-
-    func testInvalidInstance() {
-        let instance = InstancesFactory.createNestedInstantiableOne()
-        let invalid = instance!.getInstanceOne()
-        XCTAssertNil(invalid)
+        XCTAssertEqual(complex.getInstantiable().getStringValue(), "Hello")
     }
 
     static var allTests = [
         ("testInstanceCreation", testInstanceCreation),
         ("testInstanceMethod", testInstanceMethod),
-        ("testNestedInstances", testNestedInstances),
-        ("testInvalidInstance", testInvalidInstance)
+        ("testNestedInstances", testNestedInstances)
     ]
 }

@@ -22,12 +22,6 @@ import "./StructWithInstance.fidl"
 
 define GeniumExtensions for interface test.InstanceInStruct
 {
-    struct NotNullSelfHolder {
-        mySelf {
-            NotNull = true
-        }
-    }
-
     method create {
         Static = true
     }

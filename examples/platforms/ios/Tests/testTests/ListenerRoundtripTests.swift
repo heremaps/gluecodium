@@ -38,7 +38,7 @@ class ListenerRoundtripTests: XCTestCase {
             self.parent = parent
         }
 
-        public func setRoute(route: Route?) {
+        public func setRoute(route: Route) {
             parent.providerImplWasCalled = true
             parent.route = route
             parent.routeImpl = route as? RouteImpl

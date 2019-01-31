@@ -19,7 +19,6 @@
 package com.here.android.test;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
 import android.os.Build;

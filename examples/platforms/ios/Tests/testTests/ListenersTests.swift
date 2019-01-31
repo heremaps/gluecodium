@@ -24,7 +24,7 @@ import hello
 class ListenersTests: XCTestCase {
     let fromPosition = Calculator.Position(x: 3, y: 7, z: 2)
     let toPosition = Calculator.Position(x: 7, y: 7, z: 5)
-    let calculator = CalculatorFactory.createCalculator()!
+    let calculator = CalculatorFactory.createCalculator()
 
     class EmptyListener: CalculatorListener {
         public func onCalculationResult(calculationResult: Double) { }
@@ -195,10 +195,10 @@ class ListenersTests: XCTestCase {
             var image = Data()
 
             func onTrajectoryCompleted(
-                    distanceMetric: DistanceMetric?, trajectory: [NamedPoint3D],
+                    distanceMetric: DistanceMetric, trajectory: [NamedPoint3D],
                     quality: TrajectoryQuality, image: Data) {
 
-                self.length = distanceMetric?.getLength(input: trajectory) ?? 0
+                self.length = distanceMetric.getLength(input: trajectory)
                 self.trajectory = Array(trajectory)
                 self.trajectoryQuality = quality
                 self.image = image
@@ -206,7 +206,7 @@ class ListenersTests: XCTestCase {
         }
 
         let listener = SwiftComplexListener()
-        let notifier = ComplexListenerFactory.createComplexNotifier()!
+        let notifier = ComplexListenerFactory.createComplexNotifier()
         let trajectory = [
             NamedPoint3D(name: "zero point", pt: Point3D(x: 0, y: 0, z: 0)),
             NamedPoint3D(name: "intermediate point", pt: Point3D(x: 10, y: 10, z: 10)),
