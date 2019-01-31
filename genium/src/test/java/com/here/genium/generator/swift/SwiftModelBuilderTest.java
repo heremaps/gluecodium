@@ -107,6 +107,7 @@ public final class SwiftModelBuilderTest {
     when(francaField.getName()).thenReturn(FIELD_NAME);
     when(francaTypeDef.getName()).thenReturn("definite");
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
+    when(francaArray.getName()).thenReturn("someArray");
 
     modelBuilder = new SwiftModelBuilder(contextStack, deploymentModel, signatureResolver);
   }
@@ -132,6 +133,19 @@ public final class SwiftModelBuilderTest {
 
     SwiftArray resultSwiftArray = modelBuilder.arraysCollector.values().iterator().next();
     assertEquals("[VerySwiftType]", resultSwiftArray.name);
+  }
+
+  @Test
+  public void finishBuildingArrayCreatesTypeDef() {
+    SwiftArray swiftArray = new SwiftArray(swiftType, "Impl", "c_prefix");
+    when(SwiftTypeMapper.mapArrayType(any(), any())).thenReturn(swiftArray);
+
+    modelBuilder.finishBuilding(francaArray);
+
+    SwiftTypeDef result = modelBuilder.getFinalResult(SwiftTypeDef.class);
+    assertNotNull(result);
+    assertEquals("SomeArray", result.name);
+    assertEquals("[VerySwiftType]", result.type.name);
   }
 
   @Test

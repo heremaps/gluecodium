@@ -12,9 +12,20 @@ internal func getRef(_ ref: Arrays?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 public class Arrays {
+    public typealias StructArray = [Arrays.BasicStruct]
+    public typealias ExternalStructArray = [Arrays.ExternalStruct]
+    public typealias UIntArray = [UInt8]
+    public typealias StringArray = [String]
+    public typealias FancyArray = [Arrays.FancyStruct]
+    public typealias ProfileIdList = [Arrays.ProfileId]
     public typealias ProfileId = String
+    public typealias ArrayOfMaps = [Arrays.ErrorCodeToMessageMap]
     public typealias ErrorCodeToMessageMap = [Int32: String]
+    public typealias ArrayOfAliasedMaps = [Arrays.ErrorCodeToProfileIdMap]
     public typealias ErrorCodeToProfileIdMap = [Int32: Arrays.ProfileId]
+    public typealias ArrayOfArrays = [[String]]
+    public typealias ArrayOfEnums = [Arrays.SomeEnum]
+    public typealias ArrayOfExternalEnums = [Arrays.ExternalEnum]
     let c_instance : _baseRef
     init(cArrays: _baseRef) {
         guard cArrays != 0 else {

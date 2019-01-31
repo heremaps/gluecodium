@@ -12,6 +12,8 @@ internal func getRef(_ ref: MethodOverloads?, owning: Bool = true) -> RefHolder 
         : RefHolder(handle_copy)
 }
 public class MethodOverloads {
+    public typealias StringArray = [String]
+    public typealias IntArray = [Int8]
     let c_instance : _baseRef
     init(cMethodOverloads: _baseRef) {
         guard cMethodOverloads != 0 else {

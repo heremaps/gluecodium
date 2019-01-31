@@ -382,11 +382,20 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   }
 
   @Override
-  public void finishBuilding(FArrayType francaArray) {
+  public void finishBuilding(final FArrayType francaArray) {
     SwiftArray arrayType = SwiftTypeMapper.mapArrayType(francaArray, deploymentModel);
     String elementTypeKey =
         SwiftTypeMapper.getActualTypeKey(francaArray.getElementType(), deploymentModel);
     arraysCollector.putIfAbsent(elementTypeKey, arrayType);
+
+    SwiftTypeDef swiftTypeDef =
+        new SwiftTypeDef(
+            SwiftNameRules.getTypeDefName(francaArray, deploymentModel),
+            getVisibility(francaArray),
+            new SwiftType(arrayType.name, null));
+    swiftTypeDef.comment = CommentHelper.getDescription(francaArray);
+
+    storeResult(swiftTypeDef);
     super.finishBuilding(francaArray);
   }
 
