@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed Swift compiling error for arrays nested multiple layers deep in arrays.
+
 ## 3.20.0
 - Release date: 2019-02-01
 - Features:
