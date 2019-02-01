@@ -208,4 +208,16 @@ interface LongComments {
 
 interface CommentsInstantiable {
     public typedef CommentsInstantiable is undefined
+
+    <** @description: This is some very useful constructor. **>
+    method create {
+        in {
+            <** @description: Very useful input parameter **>
+            String input
+        }
+        out {
+            <** @description: Very useful result **>
+            CommentsInstantiable output
+        }
+    }
 }

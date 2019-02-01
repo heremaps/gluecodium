@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed generation of documentation comments for constructors in Java and Swift.
+
 ## 3.20.1
 - Release date: 2019-02-11
 - Bug fixes:

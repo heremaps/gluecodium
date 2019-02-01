@@ -34,6 +34,7 @@
 {{#innerClasses}}{{prefixPartial "java/Class" "    "}}
 {{/innerClasses}}
 {{#set className=name}}{{#constructors}}
+{{prefixPartial "java/MethodComment" "    "}}
     {{visibility}} {{className}}({{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}} {
         this({{name}}({{join parameters delimiter=", " }}));
     }
