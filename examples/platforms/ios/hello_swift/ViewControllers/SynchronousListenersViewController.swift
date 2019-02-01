@@ -31,8 +31,8 @@ class SynchronousListenersViewController: UIViewController, CalculatorListener {
     @IBOutlet var swiftResult: UITextField!
     @IBOutlet var cppResult: UITextField!
 
-    let calculator = hello.CalculatorFactory.createCalculator()!
-    let cppListener = hello.HelloWorldCalculatorListenerFactory.createCalculatorListener()!
+    let calculator = hello.CalculatorFactory.createCalculator()
+    let cppListener = hello.HelloWorldCalculatorListenerFactory.createCalculatorListener()
 
     private func getPositions() -> (start: Calculator.Position, finish: Calculator.Position)? {
         guard
