@@ -61,11 +61,11 @@ class InheritanceViewController: UIViewController, UIPickerViewDataSource, UIPic
 
     var objects: [ObjectWithLabel] = [
         (SwiftCircle(), "swiftCircle"),
-        (InheritanceHelper.createCircle()!, "nativeImplCircle"),
-        (InheritanceHelper.createRectangle()!, "nativeImplRectangle"),
+        (InheritanceHelper.createCircle(), "nativeImplCircle"),
+        (InheritanceHelper.createRectangle(), "nativeImplRectangle"),
         (SwiftRectangle(), "swiftParentRectangle"),
         (SwiftChildRectangle(), "swiftChildRectangle"),
-        (InheritanceHelper.createSquare()!, "nativeImplSquare")]
+        (InheritanceHelper.createSquare(), "nativeImplSquare")]
     var types: [Any] = [Shape.self, Circle.self, Rectangle.self, Square.self]
 
     lazy var emptyInheritanceTable: String = HTML.renderInheritanceTable(
