@@ -24,7 +24,7 @@ public class Maps {
         examples_Maps_release_handle(c_instance)
     }
     public static func mapMethod(input: Maps.NameMap) -> Maps.NameMap {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(examples_Maps_mapMethod(c_input.ref))
     }
 }

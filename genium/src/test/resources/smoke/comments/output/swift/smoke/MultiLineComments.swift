@@ -28,8 +28,8 @@ public class MultiLineComments {
     /// - Parameter ratio: Not as useful as the first parameter. But still useful. use a positive value for more happiness.
     /// - Returns: If you provide a useful input, and a useful ratio you can expect a useful output. Just kidding do not expect anything from a method until you see its body.
     public func someMethodWithLongComment(input: String, ratio: Double) -> Float {
-            let c_input = moveToCType(input)
-            let c_ratio = moveToCType(ratio)
+        let c_input = moveToCType(input)
+        let c_ratio = moveToCType(ratio)
         return moveFromCType(smoke_MultiLineComments_someMethodWithLongComment(self.c_instance, c_input.ref, c_ratio.ref))
     }
 }

@@ -245,8 +245,6 @@ class ArraysTests: XCTestCase {
         XCTAssertEqual(messages[1], "World")
     }
 
-// TODO: APIGEN-1524: investigate and fix these, as they currently crash
-/*
     func testArrayOfMaps() {
         let inputArray: [Arrays.NumberToIdMap] = [[1: "Hello"], [2: "test", 3: "world"]]
 
@@ -267,7 +265,6 @@ class ArraysTests: XCTestCase {
         XCTAssertEqual(resultArray[0], inputArray[1])
         XCTAssertEqual(resultArray[1], inputArray[0])
     }
-*/
 
     static var allTests = [
         ("testArrayString", testArrayString),
@@ -291,8 +288,8 @@ class ArraysTests: XCTestCase {
         ("testEnumsArray", testEnumsArray),
         ("testOtherEnumsArray", testOtherEnumsArray),
         ("testArrayOfAliases", testArrayOfAliases),
-        ("testArrayInStructOutlivesStruct", testArrayInStructOutlivesStruct)/*,
+        ("testArrayInStructOutlivesStruct", testArrayInStructOutlivesStruct),
         ("testArrayOfMaps", testArrayOfMaps),
-        ("testArrayOfArrayMaps", testArrayOfArrayMaps)*/
+        ("testArrayOfArrayMaps", testArrayOfArrayMaps)
     ]
 }

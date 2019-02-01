@@ -22,6 +22,7 @@ package com.here.genium.generator.swift;
 import static com.here.genium.model.swift.SwiftType.TypeCategory.*;
 
 import com.here.genium.common.FrancaTypeHelper;
+import com.here.genium.generator.cbridge.CArrayMapper;
 import com.here.genium.generator.cbridge.CBridgeNameRules;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.franca.FrancaDeploymentModel;
@@ -47,7 +48,7 @@ public class SwiftTypeMapper {
       swiftType = mapPredefined(type);
     }
     if (FrancaTypeHelper.isImplicitArray(type)) {
-      swiftType = SwiftArrayMapper.create(swiftType, type);
+      swiftType = createArrayType(swiftType, type);
     }
 
     EObject parentElement = type.eContainer();
@@ -63,6 +64,12 @@ public class SwiftTypeMapper {
     return swiftType;
   }
 
+  public static SwiftArray mapArrayType(
+      final FArrayType arrayType, final FrancaDeploymentModel deploymentModel) {
+    SwiftType innerType = mapType(arrayType.getElementType(), deploymentModel);
+    return createArrayType(innerType, arrayType);
+  }
+
   private static SwiftType mapDerived(
       final FType derived, final FrancaDeploymentModel deploymentModel) {
     if (derived instanceof FStructType) {
@@ -72,8 +79,7 @@ public class SwiftTypeMapper {
     } else if (derived instanceof FTypeDef) {
       return getTypedef((FTypeDef) derived, deploymentModel);
     } else if (derived instanceof FArrayType) {
-      SwiftType innerType = mapType(((FArrayType) derived).getElementType(), deploymentModel);
-      return SwiftArrayMapper.create(innerType, derived);
+      return mapArrayType((FArrayType) derived, deploymentModel);
     } else if (derived instanceof FMapType) {
       return mapMapType((FMapType) derived, deploymentModel);
     }
@@ -169,5 +175,13 @@ public class SwiftTypeMapper {
         return SwiftType.DATA;
     }
     return SwiftType.VOID;
+  }
+
+  private static SwiftArray createArrayType(
+      final SwiftType underlyingType, final EObject francaElement) {
+    return new SwiftArray(
+        underlyingType,
+        SwiftNameRules.getArrayName(underlyingType),
+        CArrayMapper.getArrayName(francaElement));
   }
 }

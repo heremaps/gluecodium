@@ -36,7 +36,7 @@ internal class InternalClass {
         }
     }
     internal func internalMethod(input: InternalClass.InternalStruct) -> Void {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(examples_InternalClass_internalMethod(self.c_instance, c_input.ref))
     }
 }

@@ -67,27 +67,27 @@ internal class _CalculatorListener: CalculatorListener {
         smoke_CalculatorListener_release_handle(c_instance)
     }
     public func onCalculationResult(calculationResult: Double) -> Void {
-            let c_calculationResult = moveToCType(calculationResult)
+        let c_calculationResult = moveToCType(calculationResult)
         return moveFromCType(smoke_CalculatorListener_onCalculationResult(self.c_instance, c_calculationResult.ref))
     }
     public func onCalculationResultConst(calculationResult: Double) -> Void {
-            let c_calculationResult = moveToCType(calculationResult)
+        let c_calculationResult = moveToCType(calculationResult)
         return moveFromCType(smoke_CalculatorListener_onCalculationResultConst(self.c_instance, c_calculationResult.ref))
     }
     public func onCalculationResultStruct(calculationResult: ResultStruct) -> Void {
-            let c_calculationResult = moveToCType(calculationResult)
+        let c_calculationResult = moveToCType(calculationResult)
         return moveFromCType(smoke_CalculatorListener_onCalculationResultStruct(self.c_instance, c_calculationResult.ref))
     }
     public func onCalculationResultArray(calculationResult: [Double]) -> Void {
-            let c_calculationResult = moveToCType(calculationResult)
+        let c_calculationResult = moveToCType(calculationResult)
         return moveFromCType(smoke_CalculatorListener_onCalculationResultArray(self.c_instance, c_calculationResult.ref))
     }
     public func onCalculationResultMap(calculationResults: CalculatorListener.NamedCalculationResults) -> Void {
-            let c_calculationResults = moveToCType(calculationResults)
+        let c_calculationResults = moveToCType(calculationResults)
         return moveFromCType(smoke_CalculatorListener_onCalculationResultMap(self.c_instance, c_calculationResults.ref))
     }
     public func onCalculationResultInstance(calculationResult: CalculationResult?) -> Void {
-            let c_calculationResult = moveToCType(calculationResult)
+        let c_calculationResult = moveToCType(calculationResult)
         return moveFromCType(smoke_CalculatorListener_onCalculationResultInstance(self.c_instance, c_calculationResult.ref))
     }
 }

@@ -57,27 +57,27 @@ public class Maps {
         }
     }
     public static func methodWithMap(input: Maps.ErrorCodeToMessageMap) -> Maps.ErrorCodeToMessageMap {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Maps_methodWithMap(c_input.ref))
     }
     public static func methodWithMapToStruct(input: Maps.NumberToStruct) -> Maps.NumberToStruct {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Maps_methodWithMapToStruct(c_input.ref))
     }
     public static func methodWithNestedMap(input: Maps.NestedMap) -> Maps.NestedMap {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Maps_methodWithNestedMap(c_input.ref))
     }
     public static func methodWithStructWithMap(input: Maps.StructWithMap) -> Maps.StructWithMap {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Maps_methodWithStructWithMap(c_input.ref))
     }
     public static func methodWithMapOfArrays(input: Maps.StringToArray) -> Maps.StringToArray {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Maps_methodWithMapOfArrays(c_input.ref))
     }
     public static func methodWithMapOfInstances(input: Maps.NumberToInstance) -> Maps.NumberToInstance {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Maps_methodWithMapOfInstances(c_input.ref))
     }
 }

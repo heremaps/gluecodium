@@ -376,9 +376,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FArrayType francaArray) {
-    SwiftType innerType = SwiftTypeMapper.mapType(francaArray.getElementType(), deploymentModel);
-    SwiftArray arrayType = SwiftArrayMapper.create(innerType, francaArray);
-    arraysCollector.put(innerType.name, arrayType);
+    SwiftArray arrayType = SwiftTypeMapper.mapArrayType(francaArray, deploymentModel);
+    arraysCollector.put(arrayType.underlyingType.name, arrayType);
     super.finishBuilding(francaArray);
   }
 

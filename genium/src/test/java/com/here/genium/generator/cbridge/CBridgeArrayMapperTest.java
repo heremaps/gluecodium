@@ -22,8 +22,8 @@ package com.here.genium.generator.cbridge;
 import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.ARRAY;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.here.genium.model.common.InstanceRules;
@@ -46,6 +46,7 @@ public final class CBridgeArrayMapperTest {
   @Mock private FStructType francaStructType;
   @Mock private FEnumerationType francaEnumerationType;
   @Mock private FArrayType francaArray;
+  private static final String PREFIX = "arrayCollection_";
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FTypeDef francaTypeDef;
@@ -60,9 +61,9 @@ public final class CBridgeArrayMapperTest {
   public void structArrayName() {
     when(francaStructType.getName()).thenReturn("StructTest");
 
-    String arrayName = CArrayMapper.getName(francaStructType);
+    String arrayName = CArrayMapper.getArrayName(francaStructType);
 
-    assertEquals("Should have the same name", "StructTest", arrayName);
+    assertEquals("Should have the same name", PREFIX + "StructTest", arrayName);
   }
 
   @Test
@@ -70,9 +71,9 @@ public final class CBridgeArrayMapperTest {
     when(francaTypeDef.getActualType().getDerived()).thenReturn(null);
     when(francaTypeDef.getActualType().getPredefined()).thenReturn(FBasicTypeId.STRING);
 
-    String arrayName = CArrayMapper.getName(francaTypeDef);
+    String arrayName = CArrayMapper.getArrayName(francaTypeDef);
 
-    assertEquals("Should have the same name", "String", arrayName);
+    assertEquals("Should have the same name", PREFIX + "String", arrayName);
   }
 
   @Test
@@ -80,9 +81,9 @@ public final class CBridgeArrayMapperTest {
     when(InstanceRules.isInstanceId(any(FTypeDef.class))).thenReturn(true);
     when(francaTypeDef.getName()).thenReturn("TypeDefTest");
 
-    String arrayName = CArrayMapper.getName(francaTypeDef);
+    String arrayName = CArrayMapper.getArrayName(francaTypeDef);
 
-    assertEquals("Should have the same name", "TypeDefTest", arrayName);
+    assertEquals("Should have the same name", PREFIX + "TypeDefTest", arrayName);
 
     PowerMockito.verifyStatic();
     InstanceRules.isInstanceId(francaTypeDef);
@@ -93,18 +94,18 @@ public final class CBridgeArrayMapperTest {
     when(francaStructType.getName()).thenReturn("StructTest");
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
-    String arrayName = CArrayMapper.getName(francaTypeRef);
+    String arrayName = CArrayMapper.getArrayName(francaTypeRef);
 
-    assertEquals("Should have the same name", "StructTest", arrayName);
+    assertEquals("Should have the same name", PREFIX + "StructTest", arrayName);
   }
 
   @Test
   public void typeRefArrayNameWithoutDerived() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT32);
 
-    String arrayName = CArrayMapper.getName(francaTypeRef);
+    String arrayName = CArrayMapper.getArrayName(francaTypeRef);
 
-    assertEquals("Should have the same name", "Int32", arrayName);
+    assertEquals("Should have the same name", PREFIX + "Int32", arrayName);
   }
 
   @Test
@@ -112,23 +113,18 @@ public final class CBridgeArrayMapperTest {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT32);
     when(francaArray.getElementType()).thenReturn(francaTypeRef);
 
-    String arrayName = CArrayMapper.getName(francaArray);
+    String arrayName = CArrayMapper.getArrayName(francaArray);
 
-    assertEquals("Should have the same name", "Int32", arrayName);
+    assertEquals("Should have the same name", PREFIX + "Int32Array", arrayName);
   }
 
   @Test
   public void enumArrayName() {
     when(francaEnumerationType.getName()).thenReturn("EnumTest");
 
-    String arrayName = CArrayMapper.getName(francaEnumerationType);
+    String arrayName = CArrayMapper.getArrayName(francaEnumerationType);
 
-    assertEquals("Should have the same name", "EnumTest", arrayName);
-  }
-
-  @Test
-  public void unknownTypeReturnNull() {
-    assertNull("Should return null", CArrayMapper.getName(null));
+    assertEquals("Should have the same name", PREFIX + "EnumTest", arrayName);
   }
 
   @Test
@@ -162,5 +158,41 @@ public final class CBridgeArrayMapperTest {
         "Should return array type", ARRAY, nestedArrayType.getInnerType().getTypeCategory());
     assertEquals(
         "Return type name should match", "_baseRef", nestedArrayType.getFunctionReturnType().name);
+  }
+
+  @Test
+  public void multipleNestedArraysGetArraySuffix() {
+    FTypeRef innerRef = mock(FTypeRef.class);
+    FTypeRef innerInnerRef = mock(FTypeRef.class);
+    FArrayType innerArray = mock(FArrayType.class);
+    FArrayType innerInnerArray = mock(FArrayType.class);
+
+    when(innerRef.getDerived()).thenReturn(innerArray);
+    when(innerInnerRef.getDerived()).thenReturn(innerInnerArray);
+
+    when(francaArray.getElementType()).thenReturn(innerRef);
+    when(innerArray.getElementType()).thenReturn(innerInnerRef);
+    when(innerInnerArray.getElementType()).thenReturn(francaTypeRef);
+    when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT32);
+
+    String arrayName = CArrayMapper.getArrayName(francaArray);
+
+    assertEquals("All arrays have array suffix", "arrayCollection_Int32ArrayArrayArray", arrayName);
+  }
+
+  @Test
+  public void mapName() {
+    FMapType map = mock(FMapType.class);
+    FTypeRef key = mock(FTypeRef.class);
+    FTypeRef value = mock(FTypeRef.class);
+
+    when(map.getKeyType()).thenReturn(key);
+    when(map.getValueType()).thenReturn(value);
+    when(key.getPredefined()).thenReturn(FBasicTypeId.INT32);
+    when(value.getPredefined()).thenReturn(FBasicTypeId.STRING);
+
+    String arrayName = CArrayMapper.getArrayName(map);
+
+    assertEquals(PREFIX + "Int32ToStringMap", arrayName);
   }
 }

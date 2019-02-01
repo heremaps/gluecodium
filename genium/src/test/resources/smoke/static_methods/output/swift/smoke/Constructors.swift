@@ -65,16 +65,16 @@ public class Constructors {
         return moveFromCType(smoke_Constructors_create_noArgs())
     }
     private static func create(other: Constructors?) -> _baseRef {
-            let c_other = moveToCType(other)
+        let c_other = moveToCType(other)
         return moveFromCType(smoke_Constructors_create_copyCtor(c_other.ref))
     }
     private static func create(foo: String, bar: UInt64) -> _baseRef {
-            let c_foo = moveToCType(foo)
-            let c_bar = moveToCType(bar)
+        let c_foo = moveToCType(foo)
+        let c_bar = moveToCType(bar)
         return moveFromCType(smoke_Constructors_create_twoArgs(c_foo.ref, c_bar.ref))
     }
     private static func create(input: String) throws -> _baseRef {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         let RESULT = smoke_Constructors_create_withError(c_input.ref)
         if (RESULT.has_value) {
             return moveFromCType(RESULT.returned_value)
@@ -83,7 +83,7 @@ public class Constructors {
         }
     }
     private static func create(input: [Double]) -> _baseRef {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Constructors_create_withArray(c_input.ref))
     }
 }

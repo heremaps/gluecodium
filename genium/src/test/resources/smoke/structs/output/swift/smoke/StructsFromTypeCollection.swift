@@ -23,26 +23,26 @@ public class StructsFromTypeCollection {
         smoke_StructsFromTypeCollection_release_handle(c_instance)
     }
     public static func createPoint(x: Double, y: Double) -> Point {
-            let c_x = moveToCType(x)
-            let c_y = moveToCType(y)
+        let c_x = moveToCType(x)
+        let c_y = moveToCType(y)
         return moveFromCType(smoke_StructsFromTypeCollection_createPoint(c_x.ref, c_y.ref))
     }
     public static func swapPointCoordinates(input: Point) -> Point {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_StructsFromTypeCollection_swapPointCoordinates(c_input.ref))
     }
     public static func createLine(pointA: Point, pointB: Point) -> Line {
-            let c_pointA = moveToCType(pointA)
-            let c_pointB = moveToCType(pointB)
+        let c_pointA = moveToCType(pointA)
+        let c_pointB = moveToCType(pointB)
         return moveFromCType(smoke_StructsFromTypeCollection_createLine(c_pointA.ref, c_pointB.ref))
     }
     public static func createColoredLine(line: Line, color: Color) -> ColoredLine {
-            let c_line = moveToCType(line)
-            let c_color = moveToCType(color)
+        let c_line = moveToCType(line)
+        let c_color = moveToCType(color)
         return moveFromCType(smoke_StructsFromTypeCollection_createColoredLine(c_line.ref, c_color.ref))
     }
     public static func modifyAllTypesStruct(input: AllTypesStruct) -> AllTypesStruct {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_StructsFromTypeCollection_modifyAllTypesStruct(c_input.ref))
     }
 }

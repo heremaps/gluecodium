@@ -23,7 +23,7 @@ public class EnumMethods {
         examples_EnumMethods_release_handle(c_instance)
     }
     public static func methodWithEnumeration(input: ShoeSizes) -> ShoeSizes {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(examples_EnumMethods_methodWithEnumeration(c_input.ref))
     }
 }

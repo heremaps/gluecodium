@@ -41,7 +41,7 @@ internal class _InheritanceParent: InheritanceParent {
         examples_InheritanceParent_release_handle(c_instance)
     }
     public func parentMethod(input: String) -> String {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(examples_InheritanceParent_parentMethod(self.c_instance, c_input.ref))
     }
 }

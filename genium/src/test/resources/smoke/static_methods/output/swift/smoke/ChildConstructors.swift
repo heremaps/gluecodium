@@ -27,7 +27,7 @@ public class ChildConstructors: Constructors {
         return moveFromCType(smoke_ChildConstructors_create_noArgsChild())
     }
     private static func create(other: Constructors?) -> _baseRef {
-            let c_other = moveToCType(other)
+        let c_other = moveToCType(other)
         return moveFromCType(smoke_ChildConstructors_create_copyFromParent(c_other.ref))
     }
 }

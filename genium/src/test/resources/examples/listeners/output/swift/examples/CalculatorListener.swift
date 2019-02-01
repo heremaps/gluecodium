@@ -41,7 +41,7 @@ internal class _CalculatorListener: CalculatorListener {
         examples_CalculatorListener_release_handle(c_instance)
     }
     public func onCalculationResult(calculationResult: Double) -> Void {
-            let c_calculationResult = moveToCType(calculationResult)
+        let c_calculationResult = moveToCType(calculationResult)
         return moveFromCType(examples_CalculatorListener_onCalculationResult(self.c_instance, c_calculationResult.ref))
     }
 }

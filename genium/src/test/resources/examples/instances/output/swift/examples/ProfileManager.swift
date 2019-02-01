@@ -23,15 +23,15 @@ public class ProfileManager {
         examples_ProfileManager_release_handle(c_instance)
     }
     public func createProfile(username: String) -> Void {
-            let c_username = moveToCType(username)
+        let c_username = moveToCType(username)
         return moveFromCType(examples_ProfileManager_createProfile(self.c_instance, c_username.ref))
     }
     public func changeProfile(username: String) -> String {
-            let c_username = moveToCType(username)
+        let c_username = moveToCType(username)
         return moveFromCType(examples_ProfileManager_changeProfile(self.c_instance, c_username.ref))
     }
     public func deleteProfile(username: String) -> Void {
-            let c_username = moveToCType(username)
+        let c_username = moveToCType(username)
         return moveFromCType(examples_ProfileManager_deleteProfile(self.c_instance, c_username.ref))
     }
 }

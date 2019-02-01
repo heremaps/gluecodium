@@ -113,7 +113,7 @@ internal class _CommentsInterface: CommentsInterface {
             return moveFromCType(smoke_CommentsInterface_someAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_CommentsInterface_someAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -131,35 +131,35 @@ internal class _CommentsInterface: CommentsInterface {
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
     public func someMethodWithAllComments(input: String) -> CommentsInterface.Usefulness {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_CommentsInterface_someMethodWithAllComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     public func someMethodWithInputComments(input: String) -> CommentsInterface.Usefulness {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_CommentsInterface_someMethodWithInputComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Returns: Usefulness of the input
     public func someMethodWithOutputComments(input: String) -> CommentsInterface.Usefulness {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_CommentsInterface_someMethodWithOutputComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that measures the usefulness of its input.
     public func someMethodWithNoComments(input: String) -> CommentsInterface.Usefulness {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_CommentsInterface_someMethodWithNoComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that does not measure the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     public func someMethodWithoutReturnTypeWithAllComments(input: String) -> Void {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_CommentsInterface_someMethodWithoutReturnTypeWithAllComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that does not measure the usefulness of its input.
     public func someMethodWithoutReturnTypeWithNoComments(input: String) -> Void {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_CommentsInterface_someMethodWithoutReturnTypeWithNoComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that measures the usefulness of something.

@@ -46,7 +46,7 @@ internal class _SimpleInterface: SimpleInterface {
         smoke_SimpleInterface_release_handle(c_instance)
     }
     public func setStringValue(stringValue: String) -> Void {
-            let c_stringValue = moveToCType(stringValue)
+        let c_stringValue = moveToCType(stringValue)
         return moveFromCType(smoke_SimpleInterface_setStringValue(self.c_instance, c_stringValue.ref))
     }
     public func getStringValue() -> String {

@@ -41,7 +41,7 @@ internal class _ProfileManagerInterface: ProfileManagerInterface {
         examples_ProfileManagerInterface_release_handle(c_instance)
     }
     public func createProfile(username: String) -> Void {
-            let c_username = moveToCType(username)
+        let c_username = moveToCType(username)
         return moveFromCType(examples_ProfileManagerInterface_createProfile(self.c_instance, c_username.ref))
     }
 }

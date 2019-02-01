@@ -17,7 +17,7 @@ public class Attributes {
             return moveFromCType(smoke_Attributes_builtInTypeAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_Attributes_builtInTypeAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -31,7 +31,7 @@ public class Attributes {
             return moveFromCType(smoke_Attributes_structAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_Attributes_structAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -40,7 +40,7 @@ public class Attributes {
             return moveFromCType(smoke_Attributes_arrayAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_Attributes_arrayAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -49,7 +49,7 @@ public class Attributes {
             return moveFromCType(smoke_Attributes_complexTypeAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_Attributes_complexTypeAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -58,7 +58,7 @@ public class Attributes {
             return moveFromCType(smoke_Attributes_byteBufferAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_Attributes_byteBufferAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -67,7 +67,7 @@ public class Attributes {
             return AttributesInterfacemoveFromCType(smoke_Attributes_instanceAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_Attributes_instanceAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -76,7 +76,7 @@ public class Attributes {
             return moveFromCType(smoke_Attributes_booleanAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_Attributes_booleanAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -85,7 +85,7 @@ public class Attributes {
             return moveFromCType(smoke_Attributes_staticAttribute_get())
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_Attributes_staticAttribute_set(c_newValue.ref))
         }
     }

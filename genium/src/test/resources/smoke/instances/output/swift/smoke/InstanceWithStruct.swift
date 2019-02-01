@@ -58,11 +58,11 @@ public class InstanceWithStruct {
         }
     }
     public func innerStructMethod(inputStruct: InstanceWithStruct.InnerStruct) -> InstanceWithStruct.InnerStruct {
-            let c_inputStruct = moveToCType(inputStruct)
+        let c_inputStruct = moveToCType(inputStruct)
         return moveFromCType(smoke_InstanceWithStruct_innerStructMethod(self.c_instance, c_inputStruct.ref))
     }
     public func structWithInstanceMethod(input: InstanceWithStruct.StructWithInstance) -> InstanceWithStruct.StructWithInstance {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_InstanceWithStruct_structWithInstanceMethod(self.c_instance, c_input.ref))
     }
 }

@@ -23,15 +23,15 @@ public class NestedInstantiable {
         smoke_NestedInstantiable_release_handle(c_instance)
     }
     public func setSameTypeInstances(instanceOne: SimpleInstantiable?, instanceTwo: SimpleInstantiable?) -> Void {
-            let c_instanceOne = moveToCType(instanceOne)
-            let c_instanceTwo = moveToCType(instanceTwo)
+        let c_instanceOne = moveToCType(instanceOne)
+        let c_instanceTwo = moveToCType(instanceTwo)
         return moveFromCType(smoke_NestedInstantiable_setSameTypeInstances(self.c_instance, c_instanceOne.ref, c_instanceTwo.ref))
     }
     public func getInstanceOne() -> SimpleInstantiable? {
         return SimpleInstantiablemoveFromCType(smoke_NestedInstantiable_getInstanceOne(self.c_instance))
     }
     public func instanceNotNullMethod(input: SimpleInstantiable) -> SimpleInstantiable {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return SimpleInstantiablemoveFromCType(smoke_NestedInstantiable_instanceNotNullMethod(self.c_instance, c_input.ref))
     }
 }

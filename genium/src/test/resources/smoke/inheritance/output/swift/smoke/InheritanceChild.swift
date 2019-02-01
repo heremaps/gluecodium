@@ -49,7 +49,7 @@ internal class _InheritanceChild: InheritanceChild {
             return moveFromCType(smoke_InheritanceRoot_rootAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_InheritanceRoot_rootAttribute_set(self.c_instance, c_newValue.ref))
         }
     }

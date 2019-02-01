@@ -41,7 +41,7 @@ internal class _InterfaceWithStruct: InterfaceWithStruct {
         smoke_InterfaceWithStruct_release_handle(c_instance)
     }
     public func innerStructMethod(inputStruct: InnerStruct) -> InnerStruct {
-            let c_inputStruct = moveToCType(inputStruct)
+        let c_inputStruct = moveToCType(inputStruct)
         return moveFromCType(smoke_InterfaceWithStruct_innerStructMethod(self.c_instance, c_inputStruct.ref))
     }
 }

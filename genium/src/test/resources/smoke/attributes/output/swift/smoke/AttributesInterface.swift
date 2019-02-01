@@ -39,7 +39,7 @@ internal class _AttributesInterface: AttributesInterface {
             return moveFromCType(smoke_AttributesInterface_structAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_AttributesInterface_structAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
