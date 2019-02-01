@@ -66,8 +66,8 @@ internal class _NestedInterface: NestedInterface {
         smoke_NestedInterface_release_handle(c_instance)
     }
     public func setSameTypeInstances(interfaceOne: SimpleInterface?, interfaceTwo: SimpleInterface?) -> Void {
-            let c_interfaceOne = moveToCType(interfaceOne)
-            let c_interfaceTwo = moveToCType(interfaceTwo)
+        let c_interfaceOne = moveToCType(interfaceOne)
+        let c_interfaceTwo = moveToCType(interfaceTwo)
         return moveFromCType(smoke_NestedInterface_setSameTypeInstances(self.c_instance, c_interfaceOne.ref, c_interfaceTwo.ref))
     }
     public func getInstanceOne() -> SimpleInterface? {
@@ -77,15 +77,15 @@ internal class _NestedInterface: NestedInterface {
         return SimpleInterfacemoveFromCType(smoke_NestedInterface_getInstanceTwo(self.c_instance))
     }
     public func makeMoreExternal(input: ExternalInterface?) -> VeryExternalInterface? {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return VeryExternalInterfacemoveFromCType(smoke_NestedInterface_makeMoreExternal_withInterface(self.c_instance, c_input.ref))
     }
     public func makeMoreExternal(input: ExternalInterface.SomeStruct) -> VeryExternalInterface.SomeStruct {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_NestedInterface_makeMoreExternal_withStruct(self.c_instance, c_input.ref))
     }
     public func makeMoreExternal(input: ExternalInterface.SomeEnum) -> VeryExternalInterface.SomeEnum {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_NestedInterface_makeMoreExternal_withEnum(self.c_instance, c_input.ref))
     }
 }

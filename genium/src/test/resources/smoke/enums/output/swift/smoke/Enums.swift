@@ -57,24 +57,24 @@ public class Enums {
         }
     }
     public static func methodWithEnumeration(input: Enums.SimpleEnum) -> Enums.SimpleEnum {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Enums_methodWithEnumeration(c_input.ref))
     }
     public static func flipEnumValue(input: Enums.InternalError) -> Enums.InternalError {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Enums_flipEnumValue(c_input.ref))
     }
     public static func extractEnumFromStruct(input: Enums.ErrorStruct) -> Enums.InternalError {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Enums_extractEnumFromStruct(c_input.ref))
     }
     public static func createStructWithEnumInside(type: Enums.InternalError, message: String) -> Enums.ErrorStruct {
-            let c_type = moveToCType(type)
-            let c_message = moveToCType(message)
+        let c_type = moveToCType(type)
+        let c_message = moveToCType(message)
         return moveFromCType(smoke_Enums_createStructWithEnumInside(c_type.ref, c_message.ref))
     }
     public static func methodWithExternalEnum(input: Enums.ExternalEnum) -> Void {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Enums_methodWithExternalEnum(c_input.ref))
     }
 }

@@ -19,7 +19,7 @@ public class PublicClass {
             return moveFromCType(smoke_PublicClass_internalStructAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_PublicClass_internalStructAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -28,7 +28,7 @@ public class PublicClass {
             return moveFromCType(smoke_PublicClass_internalSetterAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_PublicClass_internalSetterAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -73,7 +73,7 @@ public class PublicClass {
         }
     }
     internal func internalMethod(input: PublicClass.InternalStruct) -> PublicClass.InternalStructTypeDef {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_PublicClass_internalMethod(self.c_instance, c_input.ref))
     }
 }

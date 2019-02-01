@@ -101,7 +101,7 @@ public class DefaultValues {
         }
     }
     public static func processStructWithDefaults(input: DefaultValues.StructWithDefaults) -> DefaultValues.StructWithDefaults {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_DefaultValues_processStructWithDefaults(c_input.ref))
     }
 }

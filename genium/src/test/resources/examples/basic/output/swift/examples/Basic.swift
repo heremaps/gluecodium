@@ -23,7 +23,7 @@ public class Basic {
         examples_Basic_release_handle(c_instance)
     }
     public static func basicMethod(inputString: String) -> String {
-            let c_inputString = moveToCType(inputString)
+        let c_inputString = moveToCType(inputString)
         return moveFromCType(examples_Basic_basicMethod(c_inputString.ref))
     }
 }

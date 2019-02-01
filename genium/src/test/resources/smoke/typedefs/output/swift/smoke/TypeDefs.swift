@@ -22,7 +22,7 @@ public class TypeDefs {
             return moveFromCType(smoke_TypeDefs_primitiveTypeAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_TypeDefs_primitiveTypeAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -63,27 +63,27 @@ public class TypeDefs {
         }
     }
     public static func methodWithPrimitiveTypeDef(input: TypeDefs.PrimitiveTypeDef) -> TypeDefs.PrimitiveTypeDef {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_TypeDefs_methodWithPrimitiveTypeDef(c_input.ref))
     }
     public static func methodWithComplexTypeDef(input: TypeDefs.ComplexTypeDef) -> TypeDefs.ComplexTypeDef {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_TypeDefs_methodWithComplexTypeDef(c_input.ref))
     }
     public static func returnNestedIntTypeDef(input: TypeDefs.NestedIntTypeDef) -> TypeDefs.NestedIntTypeDef {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_TypeDefs_returnNestedIntTypeDef(c_input.ref))
     }
     public static func returnTestStructTypeDef(input: TypeDefs.TestStructTypeDef) -> TypeDefs.TestStructTypeDef {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_TypeDefs_returnTestStructTypeDef(c_input.ref))
     }
     public static func returnNestedStructTypeDef(input: TypeDefs.NestedStructTypeDef) -> TypeDefs.NestedStructTypeDef {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_TypeDefs_returnNestedStructTypeDef(c_input.ref))
     }
     public static func returnTypeDefPointFromTypeCollection(input: PointTypeDef) -> PointTypeDef {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_TypeDefs_returnTypeDefPointFromTypeCollection(c_input.ref))
     }
 }

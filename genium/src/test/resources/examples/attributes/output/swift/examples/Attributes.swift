@@ -44,7 +44,7 @@ internal class _Attributes: Attributes {
             return moveFromCType(examples_Attributes_builtInTypeAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(examples_Attributes_builtInTypeAttribute_set(self.c_instance, c_newValue.ref))
         }
     }

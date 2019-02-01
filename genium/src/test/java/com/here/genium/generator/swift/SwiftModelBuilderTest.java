@@ -125,25 +125,13 @@ public final class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingDeclareArray() {
-    when(SwiftTypeMapper.mapType(any(), any())).thenReturn(swiftType);
+    SwiftArray swiftArray = new SwiftArray(swiftType, "Impl", "c_prefix");
+    when(SwiftTypeMapper.mapArrayType(any(), any())).thenReturn(swiftArray);
 
     modelBuilder.finishBuilding(francaArray);
 
-    SwiftArray swiftArray = modelBuilder.arraysCollector.values().iterator().next();
-    assertEquals("[VerySwiftType]", swiftArray.name);
-  }
-
-  @Test
-  public void finishBuildingDeclareNestedArray() {
-    SwiftArray array = new SwiftArray(SwiftType.STRING, null, null);
-    when(SwiftTypeMapper.mapType(any(), any())).thenReturn(array);
-
-    modelBuilder.finishBuilding(francaArray);
-
-    SwiftArray swiftArray = modelBuilder.arraysCollector.values().iterator().next();
-
-    assertNotNull(swiftArray);
-    assertEquals("[[String]]", swiftArray.name);
+    SwiftArray resultSwiftArray = modelBuilder.arraysCollector.values().iterator().next();
+    assertEquals("[VerySwiftType]", resultSwiftArray.name);
   }
 
   @Test

@@ -53,11 +53,14 @@ public final class CArrayMapper {
 
   public static CArray createArrayDefinition(
       final EObject francaArray, final CppTypeInfo innerType, final CppArrayTypeInfo cppTypeRef) {
-    String fullName = addPrefix(getName(francaArray) + addNestedSuffixIfNeeded(innerType));
-    return new CArray(fullName, cppTypeRef);
+    return new CArray(getArrayName(francaArray), cppTypeRef);
   }
 
-  public static String getName(final EObject object) {
+  public static String getArrayName(final EObject francaArray) {
+    return "arrayCollection_" + getName(francaArray);
+  }
+
+  private static String getName(final EObject object) {
     String elementName = null;
 
     if (object instanceof FTypeDef) {
@@ -77,22 +80,13 @@ public final class CArrayMapper {
       elementName = ((FType) object).getName();
     } else if (object instanceof FArrayType) {
       FTypeRef francaRef = ((FArrayType) object).getElementType();
-      elementName = getName(francaRef);
+      elementName = getName(francaRef) + "Array";
     } else if (object instanceof FMapType) {
       FMapType francaMap = (FMapType) object;
-      elementName = getName(francaMap.getKeyType()) + getName(francaMap.getValueType()) + "Map";
+      elementName =
+          getName(francaMap.getKeyType()) + "To" + getName(francaMap.getValueType()) + "Map";
     }
 
     return elementName;
-  }
-
-  private static String addNestedSuffixIfNeeded(final CppTypeInfo innerType) {
-    return innerType instanceof CppArrayTypeInfo
-        ? addNestedSuffixIfNeeded(((CppArrayTypeInfo) innerType).getInnerType()) + "Array"
-        : "";
-  }
-
-  public static String addPrefix(final String typeString) {
-    return "arrayCollection_" + typeString;
   }
 }

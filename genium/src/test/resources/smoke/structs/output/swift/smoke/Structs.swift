@@ -215,34 +215,34 @@ public class Structs {
         }
     }
     public static func createPoint(x: Double, y: Double) -> Structs.Point {
-            let c_x = moveToCType(x)
-            let c_y = moveToCType(y)
+        let c_x = moveToCType(x)
+        let c_y = moveToCType(y)
         return moveFromCType(smoke_Structs_createPoint(c_x.ref, c_y.ref))
     }
     public static func swapPointCoordinates(input: Structs.Point) -> Structs.Point {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Structs_swapPointCoordinates(c_input.ref))
     }
     public static func createLine(pointA: Structs.Point, pointB: Structs.Point) -> Structs.Line {
-            let c_pointA = moveToCType(pointA)
-            let c_pointB = moveToCType(pointB)
+        let c_pointA = moveToCType(pointA)
+        let c_pointB = moveToCType(pointB)
         return moveFromCType(smoke_Structs_createLine(c_pointA.ref, c_pointB.ref))
     }
     public static func createColoredLine(line: Structs.Line, color: Structs.Color) -> Structs.ColoredLine {
-            let c_line = moveToCType(line)
-            let c_color = moveToCType(color)
+        let c_line = moveToCType(line)
+        let c_color = moveToCType(color)
         return moveFromCType(smoke_Structs_createColoredLine(c_line.ref, c_color.ref))
     }
     public static func returnColoredLine(input: Structs.ColoredLine) -> Structs.ColoredLine {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Structs_returnColoredLine(c_input.ref))
     }
     public static func returnAllTypesStruct(input: Structs.AllTypesStruct) -> Structs.AllTypesStruct {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Structs_returnAllTypesStruct(c_input.ref))
     }
     public static func modifyAllTypesStruct(input: Structs.AllTypesStruct) -> Structs.AllTypesStruct {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Structs_modifyAllTypesStruct(c_input.ref))
     }
     public static func getExternalStruct() -> Structs.ExternalStruct {

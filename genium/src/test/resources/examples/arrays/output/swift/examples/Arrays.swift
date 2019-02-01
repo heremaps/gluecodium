@@ -40,11 +40,11 @@ public class Arrays {
         }
     }
     public static func explicitArrayMethod(input: [Arrays.SyncResult]) -> [Arrays.SyncResult] {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(examples_Arrays_explicitArrayMethod(c_input.ref))
     }
     public static func implicitArrayMethod(input: [Arrays.SyncResult]) -> [Arrays.SyncResult] {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(examples_Arrays_implicitArrayMethod(c_input.ref))
     }
 }
