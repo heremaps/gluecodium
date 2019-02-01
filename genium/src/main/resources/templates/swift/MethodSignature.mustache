@@ -18,6 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>swift/MethodComment}}
+{{#unless isConstructor}}{{>swift/MethodComment}}{{/unless}}
 {{#if isConstructor}}private {{/if}}{{#unless isConstructor}}{{#visibilityPrefix}}{{.}} {{/visibilityPrefix}}{{/unless}}{{!!
 }}{{#isStatic}}static {{/isStatic}}func {{name}}({{>swift/MethodParameterDeclaration}}){{#if error}} throws{{/if}} -> {{returnType.publicName}}{{#if returnType.optional}}?{{/if}}
