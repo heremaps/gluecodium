@@ -94,7 +94,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
             return moveFromCType(smoke_ListenerWithAttributes_message_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_ListenerWithAttributes_message_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -103,7 +103,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
             return CalculationResultmoveFromCType(smoke_ListenerWithAttributes_packedMessage_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_ListenerWithAttributes_packedMessage_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -112,7 +112,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
             return moveFromCType(smoke_ListenerWithAttributes_structuredMessage_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_ListenerWithAttributes_structuredMessage_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -121,7 +121,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
             return moveFromCType(smoke_ListenerWithAttributes_enumeratedMessage_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_ListenerWithAttributes_enumeratedMessage_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -130,7 +130,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
             return moveFromCType(smoke_ListenerWithAttributes_arrayedMessage_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_ListenerWithAttributes_arrayedMessage_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -139,7 +139,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
             return moveFromCType(smoke_ListenerWithAttributes_mappedMessage_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_ListenerWithAttributes_mappedMessage_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -148,7 +148,7 @@ internal class _ListenerWithAttributes: ListenerWithAttributes {
             return moveFromCType(smoke_ListenerWithAttributes_bufferedMessage_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_ListenerWithAttributes_bufferedMessage_set(self.c_instance, c_newValue.ref))
         }
     }

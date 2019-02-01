@@ -74,11 +74,11 @@ public class Structs {
         }
     }
     public static func methodWithNonNestedType(input: Structs.SyncResult) -> Structs.SyncResult {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(examples_Structs_methodWithNonNestedType(c_input.ref))
     }
     public static func methodWithNestedType(input: Structs.IdentifiableSyncResult) -> Structs.IdentifiableSyncResult {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(examples_Structs_methodWithNestedType(c_input.ref))
     }
 }

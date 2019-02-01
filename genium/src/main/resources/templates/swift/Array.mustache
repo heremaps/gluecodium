@@ -44,7 +44,8 @@ internal func moveFromCType(_ handle: _baseRef) -> {{name}} {
 internal func copyToCType(_ swiftArray: {{name}}) -> RefHolder {
     let handle = {{cPrefix}}_create_handle()
     for item in swiftArray {
-        {{cPrefix}}_append(handle, moveToCType(item).ref)
+        let value = moveToCType(item)
+        {{cPrefix}}_append(handle, value.ref)
     }
     return RefHolder(handle)
 }

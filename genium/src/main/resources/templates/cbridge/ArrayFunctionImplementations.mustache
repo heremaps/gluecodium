@@ -42,8 +42,9 @@ uint64_t {{name}}_count(_baseRef handle) {
     }}{{/switch}}
 }
 
-void {{name}}_append( _baseRef handle, {{argument}} item ) { {{!!
-}}{{#switch underlyingType.typeCategory.toString}}{{!!
+void {{name}}_append( _baseRef handle, {{argument}} item )
+{
+{{#switch underlyingType.typeCategory.toString}}{{!!
     }}{{#case "ENUM"}}{{prefixPartial 'enumAppendConversion' '    '}}{{/case}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}{{prefixPartial 'builtinAppendConversion' '    '}}{{/case}}{{!!
     }}{{#default}}Conversion<{{arrayType}}>::toCpp(handle).push_back(Conversion<{{underlyingType}}>::toCpp(item));{{/default}}{{!!

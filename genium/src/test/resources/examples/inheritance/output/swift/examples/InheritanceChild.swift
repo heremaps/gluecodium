@@ -46,11 +46,11 @@ internal class _InheritanceChild: InheritanceChild {
         examples_InheritanceChild_release_handle(c_instance)
     }
     public func parentMethod(input: String) -> String {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(examples_InheritanceParent_parentMethod(self.c_instance, c_input.ref))
     }
     public func childMethod(input: UInt8) -> Int16 {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(examples_InheritanceChild_childMethod(self.c_instance, c_input.ref))
     }
 }

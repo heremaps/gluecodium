@@ -80,48 +80,48 @@ public class Arrays {
         }
     }
     public static func methodWithArray(input: [String]) -> [String] {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Arrays_methodWithArray(c_input.ref))
     }
     public static func methodWithArrayInline(input: [UInt8]) -> [UInt8] {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Arrays_methodWithArrayInline(c_input.ref))
     }
     public static func methodWithStructArray(input: [Arrays.BasicStruct]) -> [Arrays.BasicStruct] {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Arrays_methodWithStructArray(c_input.ref))
     }
     public static func methodWithExternalStructArray(input: [Arrays.ExternalStruct]) -> [Arrays.ExternalStruct] {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Arrays_methodWithExternalStructArray(c_input.ref))
     }
     public static func methodWithArrayOfArrays(input: [[UInt8]]) -> [[UInt8]] {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Arrays_methodWithArrayOfArrays(c_input.ref))
     }
     public static func mergeArraysOfStructsWithArrays(inlineFancyArray: [Arrays.FancyStruct], fancyArray: [Arrays.FancyStruct]) -> [Arrays.FancyStruct] {
-            let c_inlineFancyArray = moveToCType(inlineFancyArray)
-            let c_fancyArray = moveToCType(fancyArray)
+        let c_inlineFancyArray = moveToCType(inlineFancyArray)
+        let c_fancyArray = moveToCType(fancyArray)
         return moveFromCType(smoke_Arrays_mergeArraysOfStructsWithArrays(c_inlineFancyArray.ref, c_fancyArray.ref))
     }
     public static func methodWithArrayOfAliases(input: [Arrays.ProfileId]) -> [Arrays.ProfileId] {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Arrays_methodWithArrayOfAliases(c_input.ref))
     }
     public static func methodWithArrayOfMaps(input: [Arrays.ErrorCodeToMessageMap]) -> [Arrays.ErrorCodeToMessageMap] {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Arrays_methodWithArrayOfMaps(c_input.ref))
     }
     public static func methodWithByteBuffer(input: Data) -> Data {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Arrays_methodWithByteBuffer(c_input.ref))
     }
     public static func methodWithEnumArray(input: [Arrays.SomeEnum]) -> [Arrays.SomeEnum] {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Arrays_methodWithEnumArray(c_input.ref))
     }
     public static func methodWithExternalEnumArray(input: [Arrays.ExternalEnum]) -> [Arrays.ExternalEnum] {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(smoke_Arrays_methodWithExternalEnumArray(c_input.ref))
     }
 }

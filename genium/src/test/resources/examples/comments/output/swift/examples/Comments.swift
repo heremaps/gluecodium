@@ -25,7 +25,7 @@ public class Comments {
             return moveFromCType(examples_Comments_someAttribute_get(self.c_instance))
         }
         set {
-                let c_newValue = moveToCType(newValue)
+            let c_newValue = moveToCType(newValue)
             return moveFromCType(examples_Comments_someAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
@@ -65,7 +65,7 @@ public class Comments {
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
     public func someMethod(input: String) -> Comments.Usefulness {
-            let c_input = moveToCType(input)
+        let c_input = moveToCType(input)
         return moveFromCType(examples_Comments_someMethod(self.c_instance, c_input.ref))
     }
 }
