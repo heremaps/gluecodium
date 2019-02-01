@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.20.0
+- Release date: 2019-02-01
 - Features:
   + Added generation of custom std::error_category for C++ error codes.
   + Swift enumerations now conform to CaseIterable protocol.
