@@ -1,4 +1,4 @@
-{{>java/MethodComment}}
+{{#unless isConstructor}}{{>java/MethodComment}}{{/unless}}
 {{#allAnnotations}}
 @{{name}}
 {{/allAnnotations}}

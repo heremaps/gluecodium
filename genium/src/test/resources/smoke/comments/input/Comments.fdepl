@@ -39,3 +39,10 @@ define GeniumExtensions for interface smoke.Comments
         NotNull = true
     }
 }
+
+define GeniumExtensions for interface smoke.CommentsInstantiable
+{
+    method create {
+        Constructor = true
+    }
+}
