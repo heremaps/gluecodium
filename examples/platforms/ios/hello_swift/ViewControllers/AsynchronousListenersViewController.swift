@@ -50,7 +50,7 @@ class AsynchronousListenersViewController: UIViewController, UITableViewDataSour
     @IBOutlet var y2label: UITextField!
     @IBOutlet var z2label: UITextField!
 
-    let calculator = hello.CalculatorFactory.createCalculator()!
+    let calculator = hello.CalculatorFactory.createCalculator()
     var listeners = [CalculatorListener]()
 
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
@@ -105,7 +105,7 @@ class AsynchronousListenersViewController: UIViewController, UITableViewDataSour
     }
 
     @IBAction func addCppListener(_: Any) {
-        addListener(hello.HelloWorldCalculatorListenerFactory.createCalculatorListener()!)
+        addListener(hello.HelloWorldCalculatorListenerFactory.createCalculatorListener())
     }
 
     private func getPositions() -> (from: Calculator.Position, destination: Calculator.Position)? {

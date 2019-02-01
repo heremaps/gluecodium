@@ -26,7 +26,7 @@ class InstancesViewController: UIViewController {
     @IBOutlet weak var profileTextView: UITextField!
     @IBOutlet weak var profileLabel: UILabel!
 
-    var profile: ProfileManager = HelloWorldProfileManagerFactory.createProfileManagerInstance()!
+    var profile: ProfileManager = HelloWorldProfileManagerFactory.createProfileManagerInstance()
 
     override func viewDidLoad() {
         profile.createProfile(username: "Default Profile")
