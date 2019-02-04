@@ -3,6 +3,7 @@
 ## Unreleased
 - Bug fixes:
   + Fixed Swift compiling error for arrays nested multiple layers deep in arrays.
+  + Fixed crashes in Swift when holding static variables pointing to proxy objects.
 
 ## 3.20.0
 - Release date: 2019-02-01
@@ -15,7 +16,6 @@
   + Fixed potential memory leak while returning Swift proxies.
   + Fixed the default value of String type Struct fields in Java to be an empty string.
   + Fixed JNI warnings about "removing non-JNI local reference".
-  + Fixed crashes in Swift when holding static variables pointing to proxy objects.
 
 ## 3.19.4
 - Release date: 2019-01-15
