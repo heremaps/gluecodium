@@ -22,6 +22,7 @@
 {{>common/Include}}
 {{/includes}}
 #include "ArrayConversionUtils.h"
+#include "JniClassCache.h"
 
 namespace {{internalNamespace}}
 {
@@ -58,10 +59,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         : std::shared_ptr<{{cppStruct.fullyQualifiedName}}>{};
 }
 
+REGISTER_JNI_CLASS_CACHE({{cppStruct.fullyQualifiedName}}, "{{>jni/JavaClassSignaturePrefix}}{{javaClass.name}}")
+
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const {{cppStruct.fullyQualifiedName}}& _ninput)
 {
-    auto javaClass = find_class(_jenv, "{{>jni/JavaClassSignaturePrefix}}{{javaClass.name}}");
+    auto& javaClass = CachedJavaClass<{{cppStruct.fullyQualifiedName}}>::java_class;
     auto _jresult = {{internalNamespace}}::jni::create_object(_jenv, javaClass);
 {{#fields}}{{#if hasCustomType}}
     auto j{{cppField.name}} = convert_to_jni(_jenv, {{>getCppFieldValue}});

@@ -45,6 +45,15 @@
 
 namespace
 {
+template<typename T>
+{{.}}::jni::JniReference<jobject>
+box_value_in_object( JNIEnv* env, const char* className, const char* signature, T param )
+{
+    auto javaClass = {{.}}::jni::find_class(env, className );
+    auto theConstructor = env->GetMethodID( javaClass.get(), "<init>", signature );
+    return {{.}}::jni::new_object(env, javaClass, theConstructor, param );
+}
+
 jint
 unbox_int_value( JNIEnv* env, const {{.}}::jni::JniReference<jobject>& jvalue )
 {

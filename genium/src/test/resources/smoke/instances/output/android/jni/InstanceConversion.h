@@ -18,12 +18,13 @@ namespace genium
 {
 namespace jni
 {
+JniReference<jclass>& get_cached_native_base_class();
 template < typename T >
 ::std::shared_ptr< T >
 convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::std::shared_ptr< T >* dummy)
 {
     ::std::shared_ptr< T > _nresult{};
-    auto nativeBaseClass = find_class(_env, "com/example/NativeBase");
+    auto& nativeBaseClass = get_cached_native_base_class();
     if (_env->IsInstanceOf(_jobj.get(), nativeBaseClass.get()))
     {
         if (_jobj != nullptr)
