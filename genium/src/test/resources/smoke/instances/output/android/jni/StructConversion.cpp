@@ -4,6 +4,7 @@
 #include "FieldAccessMethods.h"
 #include "EnumConversion.h"
 #include "ArrayConversionUtils.h"
+#include "JniClassCache.h"
 namespace genium
 {
 namespace jni
@@ -23,10 +24,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::InstanceWithStruct::InnerStruct>(convert_from_jni(_jenv, _jinput, (::smoke::InstanceWithStruct::InnerStruct*)nullptr))
         : std::shared_ptr<::smoke::InstanceWithStruct::InnerStruct>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::InstanceWithStruct::InnerStruct, "com/example/smoke/InstanceWithStruct$InnerStruct")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::InnerStruct& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/InstanceWithStruct$InnerStruct");
+    auto& javaClass = CachedJavaClass<::smoke::InstanceWithStruct::InnerStruct>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jvalue = _ninput.value;
     genium::jni::set_byte_field(_jenv, _jresult, "value", jvalue);
@@ -77,10 +79,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::InstanceWithStruct::StructWithInstance>(convert_from_jni(_jenv, _jinput, (::smoke::InstanceWithStruct::StructWithInstance*)nullptr))
         : std::shared_ptr<::smoke::InstanceWithStruct::StructWithInstance>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::InstanceWithStruct::StructWithInstance, "com/example/smoke/InstanceWithStruct$StructWithInstance")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::StructWithInstance& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/InstanceWithStruct$StructWithInstance");
+    auto& javaClass = CachedJavaClass<::smoke::InstanceWithStruct::StructWithInstance>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jinstance = convert_to_jni(_jenv, _ninput.instance);
     genium::jni::set_object_field(_jenv, _jresult, "instance",

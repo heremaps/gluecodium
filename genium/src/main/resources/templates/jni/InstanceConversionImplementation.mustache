@@ -22,12 +22,28 @@
 {{>common/Include}}
 {{/includes}}
 #include "ArrayConversionUtils.h"
+#include "JniClassCache.h"
+
+namespace
+{
+struct DummyNativeBaseType {};
+}
 
 namespace {{internalNamespace}}
 {
 namespace jni
 {
+
+REGISTER_JNI_CLASS_CACHE(DummyNativeBaseType, "{{join basePackages delimiter="/"}}/NativeBase")
+
+JniReference<jclass>& get_cached_native_base_class()
+{
+    return CachedJavaClass<DummyNativeBaseType>::java_class;
+}
+
 {{#models}}
+REGISTER_JNI_CLASS_CACHE({{cppFullyQualifiedName}}, "{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}")
+
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}> & _ninput)
 {
@@ -42,7 +58,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}>
         return jResult;
     }
 
-    auto javaClass = find_class(_jenv, "{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}" );
+    auto &javaClass = CachedJavaClass<{{cppFullyQualifiedName}}>::java_class;
     auto pInstanceSharedPointer =
         new (::std::nothrow) ::std::shared_ptr<{{cppFullyQualifiedName}}>( _ninput );
     if ( pInstanceSharedPointer == nullptr )

@@ -4,6 +4,7 @@
 #include "FieldAccessMethods.h"
 #include "EnumConversion.h"
 #include "ArrayConversionUtils.h"
+#include "JniClassCache.h"
 namespace genium
 {
 namespace jni
@@ -25,10 +26,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::Point>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::Point*)nullptr))
         : std::shared_ptr<::smoke::Structs::Point>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::Structs::Point, "com/example/smoke/Structs$Point")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Point& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/Structs$Point");
+    auto& javaClass = CachedJavaClass<::smoke::Structs::Point>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jx = _ninput.x;
     genium::jni::set_double_field(_jenv, _jresult, "x", jx);
@@ -60,10 +62,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::Color>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::Color*)nullptr))
         : std::shared_ptr<::smoke::Structs::Color>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::Structs::Color, "com/example/smoke/Structs$Color")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Color& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/Structs$Color");
+    auto& javaClass = CachedJavaClass<::smoke::Structs::Color>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jred = _ninput.red;
     genium::jni::set_short_field(_jenv, _jresult, "red", jred);
@@ -109,10 +112,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::Line>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::Line*)nullptr))
         : std::shared_ptr<::smoke::Structs::Line>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::Structs::Line, "com/example/smoke/Structs$Line")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Line& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/Structs$Line");
+    auto& javaClass = CachedJavaClass<::smoke::Structs::Line>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto ja = convert_to_jni(_jenv, _ninput.a);
     genium::jni::set_object_field(_jenv, _jresult, "a",
@@ -158,10 +162,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::ColoredLine>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::ColoredLine*)nullptr))
         : std::shared_ptr<::smoke::Structs::ColoredLine>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::Structs::ColoredLine, "com/example/smoke/Structs$ColoredLine")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ColoredLine& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/Structs$ColoredLine");
+    auto& javaClass = CachedJavaClass<::smoke::Structs::ColoredLine>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jline = convert_to_jni(_jenv, _ninput.line);
     genium::jni::set_object_field(_jenv, _jresult, "line",
@@ -209,10 +214,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::AllTypesStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::AllTypesStruct*)nullptr))
         : std::shared_ptr<::smoke::Structs::AllTypesStruct>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::Structs::AllTypesStruct, "com/example/smoke/Structs$AllTypesStruct")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AllTypesStruct& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/Structs$AllTypesStruct");
+    auto& javaClass = CachedJavaClass<::smoke::Structs::AllTypesStruct>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jint8_field = _ninput.int8_field;
     genium::jni::set_byte_field(_jenv, _jresult, "int8Field", jint8_field);
@@ -285,10 +291,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::ExternalStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::ExternalStruct*)nullptr))
         : std::shared_ptr<::smoke::Structs::ExternalStruct>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::Structs::ExternalStruct, "com/example/smoke/Structs$ExternalStruct")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ExternalStruct& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/Structs$ExternalStruct");
+    auto& javaClass = CachedJavaClass<::smoke::Structs::ExternalStruct>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jstringField = _ninput.stringField;
     genium::jni::set_string_field(_jenv, _jresult, "stringField", jstringField);
@@ -322,10 +329,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::fire::SomeVeryExternalStruct>(convert_from_jni(_jenv, _jinput, (::fire::SomeVeryExternalStruct*)nullptr))
         : std::shared_ptr<::fire::SomeVeryExternalStruct>{};
 }
+REGISTER_JNI_CLASS_CACHE(::fire::SomeVeryExternalStruct, "com/example/smoke/Structs$AnotherExternalStruct")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::fire::SomeVeryExternalStruct& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/Structs$AnotherExternalStruct");
+    auto& javaClass = CachedJavaClass<::fire::SomeVeryExternalStruct>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jintField = _ninput.intField;
     genium::jni::set_byte_field(_jenv, _jresult, "intField", jintField);
@@ -351,10 +359,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::Yet_Another_External_Struct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::Yet_Another_External_Struct*)nullptr))
         : std::shared_ptr<::smoke::Structs::Yet_Another_External_Struct>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::Structs::Yet_Another_External_Struct, "com/example/smoke/Structs$YetAnotherExternalStruct")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Yet_Another_External_Struct& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/Structs$YetAnotherExternalStruct");
+    auto& javaClass = CachedJavaClass<::smoke::Structs::Yet_Another_External_Struct>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jstring_Field = _ninput.string_Field;
     genium::jni::set_string_field(_jenv, _jresult, "stringField", jstring_Field);
@@ -441,10 +450,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::fire::StructsQualifiedType::QualifiedType>(convert_from_jni(_jenv, _jinput, (::fire::StructsQualifiedType::QualifiedType*)nullptr))
         : std::shared_ptr<::fire::StructsQualifiedType::QualifiedType>{};
 }
+REGISTER_JNI_CLASS_CACHE(::fire::StructsQualifiedType::QualifiedType, "com/example/fire/StructsQualifiedType$QualifiedType")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::fire::StructsQualifiedType::QualifiedType& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/fire/StructsQualifiedType$QualifiedType");
+    auto& javaClass = CachedJavaClass<::fire::StructsQualifiedType::QualifiedType>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jtype_collection_point = convert_to_jni(_jenv, _ninput.type_collection_point);
     genium::jni::set_object_field(_jenv, _jresult, "typeCollectionPoint",
@@ -491,10 +501,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Point>(convert_from_jni(_jenv, _jinput, (::smoke::Point*)nullptr))
         : std::shared_ptr<::smoke::Point>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::Point, "com/example/smoke/Point")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Point& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/Point");
+    auto& javaClass = CachedJavaClass<::smoke::Point>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jx = _ninput.x;
     genium::jni::set_double_field(_jenv, _jresult, "x", jx);
@@ -526,10 +537,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Color>(convert_from_jni(_jenv, _jinput, (::smoke::Color*)nullptr))
         : std::shared_ptr<::smoke::Color>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::Color, "com/example/smoke/Color")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Color& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/Color");
+    auto& javaClass = CachedJavaClass<::smoke::Color>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jred = _ninput.red;
     genium::jni::set_short_field(_jenv, _jresult, "red", jred);
@@ -575,10 +587,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Line>(convert_from_jni(_jenv, _jinput, (::smoke::Line*)nullptr))
         : std::shared_ptr<::smoke::Line>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::Line, "com/example/smoke/Line")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Line& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/Line");
+    auto& javaClass = CachedJavaClass<::smoke::Line>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto ja = convert_to_jni(_jenv, _ninput.a);
     genium::jni::set_object_field(_jenv, _jresult, "a",
@@ -624,10 +637,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::ColoredLine>(convert_from_jni(_jenv, _jinput, (::smoke::ColoredLine*)nullptr))
         : std::shared_ptr<::smoke::ColoredLine>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::ColoredLine, "com/example/smoke/ColoredLine")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::ColoredLine& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/ColoredLine");
+    auto& javaClass = CachedJavaClass<::smoke::ColoredLine>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jline = convert_to_jni(_jenv, _ninput.line);
     genium::jni::set_object_field(_jenv, _jresult, "line",
@@ -690,10 +704,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::AllTypesStruct>(convert_from_jni(_jenv, _jinput, (::smoke::AllTypesStruct*)nullptr))
         : std::shared_ptr<::smoke::AllTypesStruct>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::AllTypesStruct, "com/example/smoke/AllTypesStruct")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::AllTypesStruct& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/AllTypesStruct");
+    auto& javaClass = CachedJavaClass<::smoke::AllTypesStruct>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jint8_field = _ninput.int8_field;
     genium::jni::set_byte_field(_jenv, _jresult, "int8Field", jint8_field);

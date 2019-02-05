@@ -56,6 +56,7 @@ public class JavaGeneratorSuite extends GeneratorSuite {
   private static final String JNI_TEMPLATE_METAINFO = "JniTemplateMetainfo";
   private static final String JNI_REFERENCE = "JniReference";
   private static final String JNI_CALL_JAVA_METHOD = "JniCallJavaMethod";
+  private static final String JNI_CLASS_CACHE = "JniClassCache";
 
   private static final List<String> UTILS_FILES =
       Arrays.asList(
@@ -63,7 +64,8 @@ public class JavaGeneratorSuite extends GeneratorSuite {
           FIELD_ACCESS_UTILS,
           JNI_BASE,
           JNI_CPP_CONVERSION_UTILS,
-          BOXING_CONVERSION_UTILS);
+          BOXING_CONVERSION_UTILS,
+          JNI_CLASS_CACHE);
   private static final List<String> UTILS_FILES_HEADER_ONLY =
       Arrays.asList(
           JNI_TEMPLATE_METAINFO, JNI_REFERENCE, JNI_CALL_JAVA_METHOD, ARRAY_CONVERSION_UTILS);
