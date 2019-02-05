@@ -4,6 +4,7 @@
 #include "FieldAccessMethods.h"
 #include "EnumConversion.h"
 #include "ArrayConversionUtils.h"
+#include "JniClassCache.h"
 namespace genium
 {
 namespace jni
@@ -23,10 +24,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::InterfaceWithStruct::InnerStruct>(convert_from_jni(_jenv, _jinput, (::smoke::InterfaceWithStruct::InnerStruct*)nullptr))
         : std::shared_ptr<::smoke::InterfaceWithStruct::InnerStruct>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::InterfaceWithStruct::InnerStruct, "com/example/smoke/InterfaceWithStruct$InnerStruct")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::InterfaceWithStruct::InnerStruct& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/InterfaceWithStruct$InnerStruct");
+    auto& javaClass = CachedJavaClass<::smoke::InterfaceWithStruct::InnerStruct>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jvalue = _ninput.value;
     genium::jni::set_byte_field(_jenv, _jresult, "value", jvalue);
@@ -52,10 +54,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::ExternalInterface::some_Struct>(convert_from_jni(_jenv, _jinput, (::smoke::ExternalInterface::some_Struct*)nullptr))
         : std::shared_ptr<::smoke::ExternalInterface::some_Struct>{};
 }
+REGISTER_JNI_CLASS_CACHE(::smoke::ExternalInterface::some_Struct, "com/example/smoke/ExternalInterface$SomeStruct")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::ExternalInterface::some_Struct& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/ExternalInterface$SomeStruct");
+    auto& javaClass = CachedJavaClass<::smoke::ExternalInterface::some_Struct>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jsome_Field = _ninput.some_Field;
     genium::jni::set_string_field(_jenv, _jresult, "someField", jsome_Field);
@@ -81,10 +84,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::fire::Baz::some_Struct>(convert_from_jni(_jenv, _jinput, (::fire::Baz::some_Struct*)nullptr))
         : std::shared_ptr<::fire::Baz::some_Struct>{};
 }
+REGISTER_JNI_CLASS_CACHE(::fire::Baz::some_Struct, "com/example/smoke/VeryExternalInterface$SomeStruct")
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::fire::Baz::some_Struct& _ninput)
 {
-    auto javaClass = find_class(_jenv, "com/example/smoke/VeryExternalInterface$SomeStruct");
+    auto& javaClass = CachedJavaClass<::fire::Baz::some_Struct>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jsome_Field = _ninput.some_Field;
     genium::jni::set_string_field(_jenv, _jresult, "someField", jsome_Field);

@@ -1,6 +1,7 @@
 {{>java/CopyrightHeader}}
 
 #include "JniBase.h"
+#include "JniClassCache.h"
 
 #include <pthread.h>
 
@@ -56,6 +57,7 @@ JNI_OnLoad( JavaVM* vm, void* )
     }
 
     jvm = vm;
+    {{.}}::jni::CachedJavaClassBase::init(env);
     return JNI_VERSION_1_6;
 }
 

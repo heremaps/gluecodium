@@ -1,0 +1,48 @@
+{{>java/CopyrightHeader}}
+
+#include "JniClassCache.h"
+
+#include <list>
+
+namespace
+{
+std::list<{{.}}::jni::CachedJavaClassBase*>& get_registered_class_cache_list()
+{
+    static std::list<{{.}}::jni::CachedJavaClassBase*> list;
+    return list;
+}
+}
+
+namespace {{.}}
+{
+
+namespace jni
+{
+
+void
+CachedJavaClassBase::init(JNIEnv* env)
+{
+    for (auto registered_class_base : get_registered_class_cache_list())
+    {
+        registered_class_base->do_init(env);
+    }
+    get_registered_class_cache_list().clear();
+}
+
+CachedJavaClassBase::CachedJavaClassBase(const char* name) : m_name(name)
+{
+    get_registered_class_cache_list().push_back(this);
+}
+
+CachedJavaClassBase::~CachedJavaClassBase() = default;
+
+void
+CachedJavaClassBase::do_init(JNIEnv* env)
+{
+    auto global_ref = new_global_ref(env, find_class(env, m_name).get());
+    set_java_class(make_non_releasing_ref(global_ref.release()));
+}
+
+}
+
+}

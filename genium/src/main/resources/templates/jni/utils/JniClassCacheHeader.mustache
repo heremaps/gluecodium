@@ -1,0 +1,56 @@
+{{>java/CopyrightHeader}}
+
+#pragma once
+
+#include "JniReference.h"
+
+namespace {{.}}
+{
+
+namespace jni
+{
+
+class CachedJavaClassBase
+{
+public:
+    explicit CachedJavaClassBase(const char* name);
+    virtual ~CachedJavaClassBase();
+
+    static void init(JNIEnv* env);
+
+private:
+    void do_init(JNIEnv* env);
+    virtual void set_java_class(JniReference<jclass> java_class_reference) = 0;
+
+    const char* m_name;
+};
+
+template <class CppType>
+class CachedJavaClass : public CachedJavaClassBase
+{
+public:
+    using CachedJavaClassBase::CachedJavaClassBase;
+
+    static JniReference<jclass> java_class;
+
+private:
+    void set_java_class(JniReference<jclass> java_class_reference) override
+    {
+        java_class = std::move(java_class_reference);
+    }
+};
+
+template<class CppType>
+JniReference<jclass> CachedJavaClass<CppType>::java_class;
+
+#define REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS2(x, y) x ## y
+#define REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS(x, y) REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS2(x, y)
+
+#define REGISTER_JNI_CLASS_CACHE(type, name) \
+  namespace { \
+  CachedJavaClass<type> REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS(__registered_jni_class_cache__, __LINE__)(name); \
+  }
+
+}
+
+}
