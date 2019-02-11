@@ -44,7 +44,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiabl
         new (::std::nothrow) ::std::shared_ptr<::smoke::SimpleInstantiable>( _ninput );
     if ( pInstanceSharedPointer == nullptr )
     {
-        auto exceptionClass = find_class(_jenv, "java/lang/RuntimeException" );
+        auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
     jResult = genium::jni::create_instance_object(
@@ -69,7 +69,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiabl
         new (::std::nothrow) ::std::shared_ptr<::smoke::NestedInstantiable>( _ninput );
     if ( pInstanceSharedPointer == nullptr )
     {
-        auto exceptionClass = find_class(_jenv, "java/lang/RuntimeException" );
+        auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
     jResult = genium::jni::create_instance_object(
@@ -94,7 +94,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceWithStruc
         new (::std::nothrow) ::std::shared_ptr<::smoke::InstanceWithStruct>( _ninput );
     if ( pInstanceSharedPointer == nullptr )
     {
-        auto exceptionClass = find_class(_jenv, "java/lang/RuntimeException" );
+        auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
     jResult = genium::jni::create_instance_object(
