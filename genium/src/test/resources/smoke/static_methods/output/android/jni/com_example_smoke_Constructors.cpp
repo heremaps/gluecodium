@@ -22,7 +22,7 @@ Java_com_example_smoke_Constructors_create__(JNIEnv* _jenv, jobject _jinstance)
     auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(result);
     if (nSharedPtr == nullptr)
     {
-        auto exceptionClass = genium::jni::find_class(_jenv, "");
+        auto exceptionClass = genium::jni::find_class(_jenv, "java/lang/OutOfMemoryError");
         _jenv->ThrowNew(exceptionClass.get(), "Cannot allocate native memory.");
         return 0;
     }
@@ -38,7 +38,7 @@ Java_com_example_smoke_Constructors_create__Lcom_example_smoke_Constructors_2(JN
     auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(result);
     if (nSharedPtr == nullptr)
     {
-        auto exceptionClass = genium::jni::find_class(_jenv, "");
+        auto exceptionClass = genium::jni::find_class(_jenv, "java/lang/OutOfMemoryError");
         _jenv->ThrowNew(exceptionClass.get(), "Cannot allocate native memory.");
         return 0;
     }
@@ -55,7 +55,7 @@ Java_com_example_smoke_Constructors_create__Ljava_lang_String_2J(JNIEnv* _jenv, 
     auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(result);
     if (nSharedPtr == nullptr)
     {
-        auto exceptionClass = genium::jni::find_class(_jenv, "");
+        auto exceptionClass = genium::jni::find_class(_jenv, "java/lang/OutOfMemoryError");
         _jenv->ThrowNew(exceptionClass.get(), "Cannot allocate native memory.");
         return 0;
     }
@@ -83,7 +83,7 @@ Java_com_example_smoke_Constructors_create__Ljava_lang_String_2(JNIEnv* _jenv, j
     auto nSharedPtr = new (::std::nothrow) ::genium::Return< ::std::shared_ptr< ::smoke::Constructors >, ::std::error_code >::value_type(result);
     if (nSharedPtr == nullptr)
     {
-        auto exceptionClass = genium::jni::find_class(_jenv, "");
+        auto exceptionClass = genium::jni::find_class(_jenv, "java/lang/OutOfMemoryError");
         _jenv->ThrowNew(exceptionClass.get(), "Cannot allocate native memory.");
         return 0;
     }
@@ -99,7 +99,7 @@ Java_com_example_smoke_Constructors_create__Ljava_util_List_2(JNIEnv* _jenv, job
     auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(result);
     if (nSharedPtr == nullptr)
     {
-        auto exceptionClass = genium::jni::find_class(_jenv, "");
+        auto exceptionClass = genium::jni::find_class(_jenv, "java/lang/OutOfMemoryError");
         _jenv->ThrowNew(exceptionClass.get(), "Cannot allocate native memory.");
         return 0;
     }
