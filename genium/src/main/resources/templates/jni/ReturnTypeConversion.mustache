@@ -38,7 +38,7 @@
     {{#if isConstructor}}auto nSharedPtr = new (::std::nothrow) {{returnType.cppFullyQualifiedName}}{{#if exception}}::value_type{{/if}}(result);
     if (nSharedPtr == nullptr)
     {
-        auto exceptionClass = {{internalNamespace}}::jni::find_class(_jenv, "{{javaClassName}}");
+        auto exceptionClass = {{internalNamespace}}::jni::find_class(_jenv, "java/lang/OutOfMemoryError");
         _jenv->ThrowNew(exceptionClass.get(), "Cannot allocate native memory.");
         return 0;
     }
