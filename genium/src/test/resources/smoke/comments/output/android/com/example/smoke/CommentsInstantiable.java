@@ -8,7 +8,6 @@ public class CommentsInstantiable extends NativeBase {
     /**
      * This is some very useful constructor.
      * @param input Very useful input parameter
-     * @return Very useful result
      */
     public CommentsInstantiable(final String input) {
         this(create(input));
