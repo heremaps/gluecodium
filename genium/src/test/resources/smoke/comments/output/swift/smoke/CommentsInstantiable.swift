@@ -14,7 +14,6 @@ internal func getRef(_ ref: CommentsInstantiable?, owning: Bool = true) -> RefHo
 public class CommentsInstantiable {
     /// This is some very useful constructor.
     /// - Parameter input: Very useful input parameter
-    /// - Returns: Very useful result
     public init(input: String) {
         let _result = CommentsInstantiable.create(input: input)
         guard _result != 0 else {
