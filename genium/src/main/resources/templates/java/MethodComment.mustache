@@ -27,5 +27,8 @@
 {{#unless isConstructor}}{{#if returnComment}}
  * @return {{returnComment}}
 {{/if}}{{/unless}}
+{{#if exception}}
+ * @throws {{exception.name}}
+{{/if}}
  */
 {{/if}}

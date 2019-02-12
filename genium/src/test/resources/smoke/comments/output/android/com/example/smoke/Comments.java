@@ -3,7 +3,6 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
-
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 /**
@@ -30,6 +29,13 @@ public class Comments extends NativeBase {
         SomeEnum(final int value) {
             this.value = value;
         }
+    }
+    public static class SomeEnumException extends Exception {
+        SomeEnumException(final Comments.SomeEnum error) {
+            super(Integer.toString(error.value));
+            this.error = error;
+        }
+        public final Comments.SomeEnum error;
     }
     /**
      * This is some very useful struct.
@@ -60,8 +66,9 @@ public class Comments extends NativeBase {
      * This is some very useful method that measures the usefulness of its input.
      * @param input Very useful input parameter
      * @return Usefulness of the input
+     * @throws Comments.SomeEnumException
      */
-    public native boolean someMethodWithAllComments(final String input);
+    public native boolean someMethodWithAllComments(final String input) throws Comments.SomeEnumException;
     /**
      * This is some very useful method that measures the usefulness of its input.
      * @param input Very useful input parameter
