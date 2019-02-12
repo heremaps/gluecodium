@@ -107,8 +107,8 @@ protected:
 
     template< typename ResultType, class ... Args >
     typename std::conditional<IsDerivedFromJObject<ResultType>::value, JniReference<ResultType>, ResultType>::type
-    callJavaMethod( const ::std::string& methodName,
-                    const ::std::string& jniSignature,
+    callJavaMethod( const char* methodName,
+                    const char* jniSignature,
                     JNIEnv* jniEnv,
                     const Args& ... args ) const
     {

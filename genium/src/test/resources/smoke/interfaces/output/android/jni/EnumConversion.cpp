@@ -21,13 +21,13 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::ExternalInterface::some_Enum _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::ExternalInterface::some_Enum>::java_class;
-    ::std::string enumeratorName;
+    const char* enumeratorName = nullptr;
     switch(_ninput) {
         case(::smoke::ExternalInterface::some_Enum::some_Value):
             enumeratorName = "SOME_VALUE";
             break;
     }
-    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName.c_str(), "Lcom/example/smoke/ExternalInterface$SomeEnum;");
+    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "Lcom/example/smoke/ExternalInterface$SomeEnum;");
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }
 JniReference<jobject>
@@ -52,13 +52,13 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::fire::Baz::some_Enum _ninput)
 {
     auto& javaClass = CachedJavaClass<::fire::Baz::some_Enum>::java_class;
-    ::std::string enumeratorName;
+    const char* enumeratorName = nullptr;
     switch(_ninput) {
         case(::fire::Baz::some_Enum::some_Value):
             enumeratorName = "SOME_VALUE";
             break;
     }
-    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName.c_str(), "Lcom/example/smoke/VeryExternalInterface$SomeEnum;");
+    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "Lcom/example/smoke/VeryExternalInterface$SomeEnum;");
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }
 JniReference<jobject>
