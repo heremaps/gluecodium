@@ -24,8 +24,8 @@
 {{#parameters}}{{#if this.comment}}
  * @param {{name}} {{comment}}
 {{/if}}{{/parameters}}
-{{#if returnComment}}
+{{#unless isConstructor}}{{#if returnComment}}
  * @return {{returnComment}}
-{{/if}}
+{{/if}}{{/unless}}
  */
 {{/if}}

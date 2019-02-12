@@ -23,7 +23,7 @@
 {{#parameters}}
 {{#if this.comment}}/// - Parameter {{name}}: {{comment}}{{/if}}
 {{/parameters}}
-{{#if returnComment}}
+{{#unless isConstructor}}{{#if returnComment}}
 /// - Returns: {{returnComment}}
-{{/if}}
+{{/if}}{{/unless}}
 {{/if}}
