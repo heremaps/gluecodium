@@ -7,13 +7,13 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-
+#include "Return.h"
 #include "smoke/CommentsInstantiable.h"
 #include <memory>
 #include <string>
+#include <system_error>
 #include <unordered_map>
 #include <vector>
-
 namespace smoke {
     class CommentsInstantiable;
 }
@@ -65,14 +65,13 @@ struct SomeStruct {
  * This is some very useful constant.
  */
 static const ::smoke::Comments::Usefulness VERY_USEFUL;
-
 public:
 /**
  * This is some very useful method that measures the usefulness of its input.
  * \param[in] input Very useful input parameter
  * \return Usefulness of the input
  */
-virtual ::smoke::Comments::Usefulness some_method_with_all_comments( const ::std::string& input ) = 0;
+virtual ::genium::Return< ::smoke::Comments::Usefulness, ::std::error_code > some_method_with_all_comments( const ::std::string& input ) = 0;
 /**
  * This is some very useful method that measures the usefulness of its input.
  * \param[in] input Very useful input parameter
@@ -134,6 +133,11 @@ virtual ::std::shared_ptr< ::smoke::CommentsInstantiable > get_instance_not_null
  * \param[in] value @NotNull
  */
 virtual void set_instance_not_null_attribute( const ::std::shared_ptr< ::smoke::CommentsInstantiable >& value ) = 0;
-
 };
+::std::error_code make_error_code( ::smoke::Comments::SomeEnum value ) noexcept;
+}
+namespace std
+{
+template <>
+struct is_error_code_enum <::smoke::Comments::SomeEnum> : public std::true_type { };
 }

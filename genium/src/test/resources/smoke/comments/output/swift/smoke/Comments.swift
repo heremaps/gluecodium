@@ -74,9 +74,15 @@ public class Comments {
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
-    public func someMethodWithAllComments(input: String) -> Comments.Usefulness {
+    /// - Throws: Comments.SomeEnum
+    public func someMethodWithAllComments(input: String) throws -> Comments.Usefulness {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Comments_someMethodWithAllComments(self.c_instance, c_input.ref))
+        let RESULT = smoke_Comments_someMethodWithAllComments(self.c_instance, c_input.ref)
+        if (RESULT.has_value) {
+            return moveFromCType(RESULT.returned_value)
+        } else {
+            throw Comments.SomeEnum(rawValue: RESULT.error_code)!
+        }
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter

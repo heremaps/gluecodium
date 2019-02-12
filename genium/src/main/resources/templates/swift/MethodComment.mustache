@@ -6,4 +6,7 @@
 {{#unless isConstructor}}{{#if returnComment}}
 /// - Returns: {{returnComment}}
 {{/if}}{{/unless}}
+{{#if error}}
+/// - Throws: {{error.name}}
+{{/if}}
 {{/if}}

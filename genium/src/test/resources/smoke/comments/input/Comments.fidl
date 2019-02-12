@@ -32,6 +32,7 @@ interface Comments {
             <** @description: Usefulness of the input **>
             Usefulness output
         }
+        error SomeEnum
     }
 
     <** @description: This is some very useful method that measures the usefulness of its input. **>
