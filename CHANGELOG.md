@@ -1,8 +1,11 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.20.2
+- Release date: 2019-02-12
 - Bug fixes:
   + Fixed generation of documentation comments for constructors in Java and Swift.
+  + Updated JNI generated code to correctly throw OutOfMemoryError when appropriate.
+  + Fixed several issues with typedefs to Arrays and Maps in Swift.
 
 ## 3.20.1
 - Release date: 2019-02-11
