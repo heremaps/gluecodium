@@ -109,12 +109,12 @@ template< class ResultType, class JavaObject, class ... Args >
 typename std::conditional<IsDerivedFromJObject<ResultType>::value, JniReference<ResultType>, ResultType>::type
 call_java_method( JNIEnv* jni_env,
                   const JavaObject& java_object,
-                  const ::std::string& method_name,
-                  const ::std::string& jni_signature,
+                  const char* method_name,
+                  const char* jni_signature,
                   const Args& ... args )
 {
     auto jClass = get_object_class( jni_env, java_object );
-    jmethodID method_id = jni_env->GetMethodID( jClass.get( ), method_name.c_str( ), jni_signature.c_str( ) );
+    jmethodID method_id = jni_env->GetMethodID( jClass.get( ), method_name, jni_signature );
     return call_java_method<ResultType>(jni_env, java_object, method_id, args...);
 }
 

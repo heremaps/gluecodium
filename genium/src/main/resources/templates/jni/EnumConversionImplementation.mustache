@@ -49,7 +49,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const {{cppEnumName}} _ninput)
 {
     auto& javaClass = CachedJavaClass<{{cppEnumName}}>::java_class;
-    ::std::string enumeratorName;
+    const char* enumeratorName = nullptr;
     switch(_ninput) {
 {{#enumerators}}
         case({{cppEnumName}}::{{cppName}}):
@@ -57,7 +57,7 @@ convert_to_jni(JNIEnv* _jenv, const {{cppEnumName}} _ninput)
             break;
 {{/enumerators}}
     }
-    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName.c_str(), "L{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}};");
+    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "L{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}};");
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }
 
