@@ -32,14 +32,21 @@ struct NullableStruct {
     ::std::shared_ptr< ::std::string > string_field;
     ::std::shared_ptr< bool > bool_field;
     ::std::shared_ptr< double > double_field;
-    ::std::shared_ptr< int64_t > int_field;
     ::std::shared_ptr< ::smoke::Nullable::SomeStruct > struct_field;
     ::std::shared_ptr< ::smoke::Nullable::SomeEnum > enum_field;
     ::std::shared_ptr< ::smoke::Nullable::SomeArray > array_field;
     ::std::shared_ptr< ::std::vector< ::std::string > > inline_array_field;
     ::std::shared_ptr< ::smoke::Nullable::SomeMap > map_field;
     NullableStruct( );
-    NullableStruct( const ::std::shared_ptr< ::std::string >& string_field, const ::std::shared_ptr< bool >& bool_field, const ::std::shared_ptr< double >& double_field, const ::std::shared_ptr< int64_t >& int_field, const ::std::shared_ptr< ::smoke::Nullable::SomeStruct >& struct_field, const ::std::shared_ptr< ::smoke::Nullable::SomeEnum >& enum_field, const ::std::shared_ptr< ::smoke::Nullable::SomeArray >& array_field, const ::std::shared_ptr< ::std::vector< ::std::string > >& inline_array_field, const ::std::shared_ptr< ::smoke::Nullable::SomeMap >& map_field );
+    NullableStruct( const ::std::shared_ptr< ::std::string >& string_field, const ::std::shared_ptr< bool >& bool_field, const ::std::shared_ptr< double >& double_field, const ::std::shared_ptr< ::smoke::Nullable::SomeStruct >& struct_field, const ::std::shared_ptr< ::smoke::Nullable::SomeEnum >& enum_field, const ::std::shared_ptr< ::smoke::Nullable::SomeArray >& array_field, const ::std::shared_ptr< ::std::vector< ::std::string > >& inline_array_field, const ::std::shared_ptr< ::smoke::Nullable::SomeMap >& map_field );
+};
+struct NullableIntsStruct {
+    ::std::shared_ptr< int8_t > int8_field;
+    ::std::shared_ptr< int16_t > int16_field;
+    ::std::shared_ptr< int32_t > int32_field;
+    ::std::shared_ptr< int64_t > int64_field;
+    NullableIntsStruct( );
+    NullableIntsStruct( const ::std::shared_ptr< int8_t >& int8_field, const ::std::shared_ptr< int16_t >& int16_field, const ::std::shared_ptr< int32_t >& int32_field, const ::std::shared_ptr< int64_t >& int64_field );
 };
 public:
 virtual ::std::shared_ptr< ::std::string > method_with_string( const ::std::shared_ptr< ::std::string >& input ) = 0;

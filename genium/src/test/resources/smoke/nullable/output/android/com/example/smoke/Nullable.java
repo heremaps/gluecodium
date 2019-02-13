@@ -33,8 +33,6 @@ public class Nullable extends NativeBase {
         @Nullable
         public Double doubleField;
         @Nullable
-        public Long intField;
-        @Nullable
         public Nullable.SomeStruct structField;
         @Nullable
         public Nullable.SomeEnum enumField;
@@ -45,13 +43,12 @@ public class Nullable extends NativeBase {
         @Nullable
         public Map<Long, String> mapField;
         public NullableStruct() {
-            this((String)null, (Boolean)null, (Double)null, (Long)null, (Nullable.SomeStruct)null, (Nullable.SomeEnum)null, (List<String>)null, (List<String>)null, (Map<Long, String>)null);
+            this((String)null, (Boolean)null, (Double)null, (Nullable.SomeStruct)null, (Nullable.SomeEnum)null, (List<String>)null, (List<String>)null, (Map<Long, String>)null);
         }
-        public NullableStruct(String stringField, Boolean boolField, Double doubleField, Long intField, Nullable.SomeStruct structField, Nullable.SomeEnum enumField, List<String> arrayField, List<String> inlineArrayField, Map<Long, String> mapField) {
+        public NullableStruct(String stringField, Boolean boolField, Double doubleField, Nullable.SomeStruct structField, Nullable.SomeEnum enumField, List<String> arrayField, List<String> inlineArrayField, Map<Long, String> mapField) {
             this.stringField = stringField;
             this.boolField = boolField;
             this.doubleField = doubleField;
-            this.intField = intField;
             this.structField = structField;
             this.enumField = enumField;
             this.arrayField = arrayField;
@@ -62,7 +59,6 @@ public class Nullable extends NativeBase {
             private String stringField = (String)null;
             private Boolean boolField = (Boolean)null;
             private Double doubleField = (Double)null;
-            private Long intField = (Long)null;
             private Nullable.SomeStruct structField = (Nullable.SomeStruct)null;
             private Nullable.SomeEnum enumField = (Nullable.SomeEnum)null;
             private List<String> arrayField = (List<String>)null;
@@ -80,10 +76,6 @@ public class Nullable extends NativeBase {
             }
             public Builder setDoubleField(Double doubleField) {
                 this.doubleField = doubleField;
-                return this;
-            }
-            public Builder setIntField(Long intField) {
-                this.intField = intField;
                 return this;
             }
             public Builder setStructField(Nullable.SomeStruct structField) {
@@ -107,7 +99,53 @@ public class Nullable extends NativeBase {
                 return this;
             }
             public NullableStruct build() {
-                return new NullableStruct(stringField, boolField, doubleField, intField, structField, enumField, arrayField, inlineArrayField, mapField);
+                return new NullableStruct(stringField, boolField, doubleField, structField, enumField, arrayField, inlineArrayField, mapField);
+            }
+        }
+    }
+    public static class NullableIntsStruct {
+        @Nullable
+        public Byte int8Field;
+        @Nullable
+        public Short int16Field;
+        @Nullable
+        public Integer int32Field;
+        @Nullable
+        public Long int64Field;
+        public NullableIntsStruct() {
+            this((Byte)null, (Short)null, (Integer)null, (Long)null);
+        }
+        public NullableIntsStruct(Byte int8Field, Short int16Field, Integer int32Field, Long int64Field) {
+            this.int8Field = int8Field;
+            this.int16Field = int16Field;
+            this.int32Field = int32Field;
+            this.int64Field = int64Field;
+        }
+        public static class Builder {
+            private Byte int8Field = (Byte)null;
+            private Short int16Field = (Short)null;
+            private Integer int32Field = (Integer)null;
+            private Long int64Field = (Long)null;
+            public Builder() {
+            }
+            public Builder setInt8Field(Byte int8Field) {
+                this.int8Field = int8Field;
+                return this;
+            }
+            public Builder setInt16Field(Short int16Field) {
+                this.int16Field = int16Field;
+                return this;
+            }
+            public Builder setInt32Field(Integer int32Field) {
+                this.int32Field = int32Field;
+                return this;
+            }
+            public Builder setInt64Field(Long int64Field) {
+                this.int64Field = int64Field;
+                return this;
+            }
+            public NullableIntsStruct build() {
+                return new NullableIntsStruct(int8Field, int16Field, int32Field, int64Field);
             }
         }
     }
