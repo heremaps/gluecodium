@@ -113,6 +113,7 @@ function(apigen_swift_compile target architecture)
   endif()
 
   set(MODULE_NAME ${target}$<TARGET_PROPERTY:${target},DEBUG_POSTFIX>)
+  get_target_property(TARGET_TYPE ${target} TYPE)
   if(APPLE)
     # CMakes compiler check is outdated and fails for Swift 4.0, force it to pass.
     set(CMAKE_Swift_COMPILER_FORCED TRUE)
@@ -143,6 +144,7 @@ function(apigen_swift_compile target architecture)
       -emit-library
       -module-name ${target}
       -o "lib${MODULE_NAME}.so"
+      -Xlinker "-rpath=$$ORIGIN"
       )
 
     string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
@@ -158,11 +160,14 @@ function(apigen_swift_compile target architecture)
 
     install(
       FILES
-        "${SWIFT_OUTPUT_DIR}/lib${MODULE_NAME}.so"
         "${SWIFT_OUTPUT_DIR}/${target}.swiftmodule"
         "${SWIFT_OUTPUT_DIR}/${target}.swiftdoc"
         "${SWIFT_OUTPUT_DIR}/module.modulemap"
       DESTINATION .)
+    install(PROGRAMS "${SWIFT_OUTPUT_DIR}/lib${MODULE_NAME}.so" DESTINATION .)
+    if(${TARGET_TYPE} STREQUAL SHARED_LIBRARY)
+      install(TARGETS ${target} DESTINATION .)
+    endif()
   endif()
 
   apigen_swift_test(${target} "${swift_target_flag}" ${MODULE_NAME})

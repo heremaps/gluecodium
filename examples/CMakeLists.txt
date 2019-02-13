@@ -24,6 +24,10 @@ option(HELLO_BUILD_CPP_APP "Build example C++ apps" OFF)
 option(HELLO_BUILD_IOS_APP "Build example iOS apps" OFF)
 set(HELLO_APIGEN_GENIUM_GENERATOR "cpp,android,swift" CACHE STRING "Genium generator(s) to use [defaults to: cpp,android,swift]")
 
+# Ensure that symbols are properly exported.
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_C_VISIBILITY_PRESET hidden)
+
 enable_testing()
 add_subdirectory(libhello)
 add_subdirectory(platforms)

@@ -64,6 +64,7 @@ function(apigen_generate)
       JAVA_PACKAGE
       COPYRIGHT_HEADER
       CPP_INTERNAL_NAMESPACE
+      CPP_EXPORT
       OUTPUT_DIR)
   set(multiValueArgs FRANCA_SOURCES)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
@@ -136,6 +137,18 @@ function(apigen_generate)
   endif()
   if(apigen_generate_CPP_INTERNAL_NAMESPACE)
     string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " --cpp-internal-namespace ${apigen_generate_CPP_INTERNAL_NAMESPACE}")
+  endif()
+
+  if(apigen_generate_CPP_EXPORT)
+    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -cppexport ${apigen_generate_CPP_EXPORT}")
+  else()
+    set(apigen_generate_CPP_EXPORT _GENIUM_CPP)
+  endif()
+  get_target_property(apigen_target_type ${apigen_generate_TARGET} TYPE)
+  if (apigen_target_type STREQUAL SHARED_LIBRARY)
+    target_compile_definitions(${apigen_generate_TARGET}
+      PUBLIC ${apigen_generate_CPP_EXPORT}_SHARED
+      PRIVATE ${apigen_generate_CPP_EXPORT}_INTERNAL)
   endif()
 
   execute_process(

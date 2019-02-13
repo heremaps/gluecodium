@@ -25,6 +25,7 @@ endif()
 set(SOURCES
     src/main.cpp)
 
+set(CMAKE_INSTALL_RPATH $ORIGIN/../lib)
 add_executable(cpp_app ${SOURCES})
 
 target_compile_features(cpp_app PUBLIC cxx_range_for)
