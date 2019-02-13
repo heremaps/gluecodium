@@ -71,7 +71,6 @@ public class NullableTest {
     assertNull(struct.stringField);
     assertNull(struct.boolField);
     assertNull(struct.doubleField);
-    assertNull(struct.intField);
     assertNull(struct.structField);
     assertNull(struct.enumField);
     assertNull(struct.arrayField);
@@ -88,7 +87,6 @@ public class NullableTest {
     assertNull(result.stringField);
     assertNull(result.boolField);
     assertNull(result.doubleField);
-    assertNull(result.intField);
     assertNull(result.structField);
     assertNull(result.enumField);
     assertNull(result.arrayField);
@@ -102,7 +100,6 @@ public class NullableTest {
     struct.stringField = "";
     struct.boolField = false;
     struct.doubleField = 0.0;
-    struct.intField = 0L;
     struct.structField = new NullableInterface.SomeStruct();
     struct.enumField = NullableInterface.SomeEnum.OFF;
     struct.arrayField = new LinkedList<>();
@@ -114,7 +111,6 @@ public class NullableTest {
     assertEquals(struct.stringField, result.stringField);
     assertEquals(struct.boolField, result.boolField);
     assertEquals(struct.doubleField, result.doubleField);
-    assertEquals(struct.intField, result.intField);
     assertEquals(struct.structField, result.structField);
     assertEquals(struct.enumField, result.enumField);
     assertEquals(struct.arrayField, result.arrayField);
@@ -128,7 +124,6 @@ public class NullableTest {
     struct.stringField = "Foo";
     struct.boolField = true;
     struct.doubleField = 3.14;
-    struct.intField = 42L;
     struct.structField = new NullableInterface.SomeStruct();
     struct.structField.stringField = "Woo";
     struct.enumField = NullableInterface.SomeEnum.ON;
@@ -142,12 +137,68 @@ public class NullableTest {
     assertEquals(struct.stringField, result.stringField);
     assertEquals(struct.boolField, result.boolField);
     assertEquals(struct.doubleField, result.doubleField);
-    assertEquals(struct.intField, result.intField);
     assertEquals(struct.structField, result.structField);
     assertEquals(struct.enumField, result.enumField);
     assertEquals(struct.arrayField, result.arrayField);
     assertEquals(struct.inlineArrayField, result.inlineArrayField);
     assertEquals(struct.mapField, result.mapField);
+  }
+
+  @Test
+  public void nullableIntsStructConstructor() {
+    NullableInterface.NullableIntsStruct struct = new NullableInterface.NullableIntsStruct();
+
+    assertNull(struct.int8Field);
+    assertNull(struct.int16Field);
+    assertNull(struct.int32Field);
+    assertNull(struct.int64Field);
+  }
+
+  @Test
+  public void nullableIntsNullStructRoundTrip() {
+    NullableInterface.NullableIntsStruct struct = new NullableInterface.NullableIntsStruct();
+
+    NullableInterface.NullableIntsStruct result
+        = nullableInterface.methodWithNullableIntsStruct(struct);
+
+    assertNull(result.int8Field);
+    assertNull(result.int16Field);
+    assertNull(result.int32Field);
+    assertNull(result.int64Field);
+  }
+
+  @Test
+  public void nullableIntsZeroStructRoundTrip() {
+    NullableInterface.NullableIntsStruct struct = new NullableInterface.NullableIntsStruct();
+    struct.int8Field = (byte)0;
+    struct.int16Field = (short)0;
+    struct.int32Field = 0;
+    struct.int64Field = 0L;
+
+    NullableInterface.NullableIntsStruct result
+        = nullableInterface.methodWithNullableIntsStruct(struct);
+
+    assertEquals(struct.int8Field, result.int8Field);
+    assertEquals(struct.int16Field, result.int16Field);
+    assertEquals(struct.int32Field, result.int32Field);
+    assertEquals(struct.int64Field, result.int64Field);
+  }
+
+  @Test
+  public void nullableIntsFilledStructRoundTrip() {
+    NullableInterface.NullableIntsStruct struct = new NullableInterface.NullableIntsStruct();
+    struct.int8Field = (byte)42;
+    struct.int16Field = (short)71;
+    struct.int32Field = 1337;
+    struct.int64Field = 3735928559L;
+
+    NullableInterface.NullableIntsStruct result
+        = nullableInterface.methodWithNullableIntsStruct(struct);
+
+    assertEquals(struct.int8Field, result.int8Field);
+    assertEquals(struct.int16Field, result.int16Field);
+    assertEquals(struct.int32Field, result.int32Field);
+    assertEquals(struct.int64Field, result.int64Field);
   }
 
   @Test

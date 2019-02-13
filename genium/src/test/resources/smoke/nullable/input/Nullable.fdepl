@@ -32,9 +32,6 @@ define GeniumExtensions for interface smoke.Nullable
         doubleField {
             Nullable = true
         }
-        intField {
-            Nullable = true
-        }
         structField {
             Nullable = true
         }
@@ -50,6 +47,34 @@ define GeniumExtensions for interface smoke.Nullable
         mapField {
             Nullable = true
         }
+    }
+
+    struct NullableIntsStruct {
+        int8Field {
+            Nullable = true
+        }
+        int16Field {
+            Nullable = true
+        }
+        int32Field {
+            Nullable = true
+        }
+        int64Field {
+            Nullable = true
+        }
+// TODO: needs more conversion functions in JNI, should be fixed in APIGEN-1538
+//        uint8Field {
+//            Nullable = true
+//        }
+//        uint16Field {
+//            Nullable = true
+//        }
+//        uint32Field {
+//            Nullable = true
+//        }
+//        uint64Field {
+//            Nullable = true
+//        }
     }
 
     method methodWithString {

@@ -34,6 +34,12 @@ NullableInterfaceImpl::method_with_nullable_struct( const NullableStruct& input 
     return input;
 }
 
+NullableInterface::NullableIntsStruct
+NullableInterfaceImpl::method_with_nullable_ints_struct( const NullableIntsStruct& input )
+{
+    return input;
+}
+
 ::std::shared_ptr< ::std::string >
 NullableInterfaceImpl::method_with_string( const ::std::shared_ptr< ::std::string >& input )
 {
