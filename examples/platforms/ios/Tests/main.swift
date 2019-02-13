@@ -47,6 +47,7 @@ let allTests = [
     testCase(NullableAttributesTests.allTests),
     testCase(NullableListenersTests.allTests),
     testCase(NullableMethodArgumentsTests.allTests),
+    testCase(NullableStructsTests.allTests),
     testCase(PlainDataStructuresFromTypeCollectionTests.allTests),
     testCase(PlainDataStructuresTests.allTests),
     testCase(StaticBooleanMethodsTests.allTests),
