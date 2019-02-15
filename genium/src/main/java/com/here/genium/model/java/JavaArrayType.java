@@ -45,9 +45,4 @@ public final class JavaArrayType extends JavaType {
   public Stream<JavaElement> stream() {
     return Stream.empty();
   }
-
-  @Override
-  public String getLiteralName() {
-    return type.getValue().toLowerCase() + "_array";
-  }
 }

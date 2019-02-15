@@ -30,9 +30,4 @@ public abstract class JavaType extends JavaElementWithImports {
   public JavaType(final String name, final Collection<JavaImport> imports) {
     super(name, imports);
   }
-
-  @SuppressWarnings("unused")
-  public String getLiteralName() {
-    return name.toLowerCase();
-  }
 }

@@ -26,10 +26,9 @@ import com.here.genium.model.java.JavaField
 class JniField @JvmOverloads constructor(
     val javaField: JavaField,
     val cppField: CppField,
-    val type: JniType? = null,
-    val isNullable: Boolean = false,
     val cppGetterName: String? = null,
     val cppSetterName: String? = null
 ) : JniElement {
+    @Suppress("unused")
     val hasCustomType = javaField.type is JavaCustomType
 }

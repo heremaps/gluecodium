@@ -539,19 +539,6 @@ public class JniModelBuilderTest {
   }
 
   @Test
-  public void finishBuildingFrancaFieldReadsJniType() {
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaField);
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppField);
-    contextStack.injectResult(jniType);
-
-    modelBuilder.finishBuilding(francaField);
-
-    JniField jniField = modelBuilder.getFinalResult(JniField.class);
-    assertNotNull(jniField);
-    assertEquals(jniType, jniField.getType());
-  }
-
-  @Test
   public void finishBuildingFrancaFieldReadsExternalAccessors() {
     when(javaBuilder.getFinalResult(any())).thenReturn(javaField);
     when(cppBuilder.getFinalResult(any())).thenReturn(cppField);
@@ -564,19 +551,6 @@ public class JniModelBuilderTest {
     assertNotNull(jniField);
     assertEquals("get_foo", jniField.getCppGetterName());
     assertEquals("setFoo", jniField.getCppSetterName());
-  }
-
-  @Test
-  public void finishBuildingFrancaFieldReadsNullable() {
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaField);
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppField);
-    when(deploymentModel.isNullable(any())).thenReturn(true);
-
-    modelBuilder.finishBuilding(francaField);
-
-    JniField jniField = modelBuilder.getFinalResult(JniField.class);
-    assertNotNull(jniField);
-    assertTrue("get_foo", jniField.isNullable());
   }
 
   @Test

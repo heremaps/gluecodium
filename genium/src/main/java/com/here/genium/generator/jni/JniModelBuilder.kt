@@ -214,12 +214,9 @@ internal constructor(
     override fun finishBuilding(francaField: FField) {
         val javaField = javaBuilder.getFinalResult(JavaField::class.java)
         val cppField = cppBuilder.getFinalResult(CppField::class.java)
-        val jniType = getPreviousResult(JniType::class.java)
         val jniField = JniField(
             javaField = javaField,
             cppField = cppField,
-            type = jniType,
-            isNullable = deploymentModel.isNullable(francaField),
             cppGetterName = deploymentModel.getExternalGetter(francaField),
             cppSetterName = deploymentModel.getExternalSetter(francaField)
         )
