@@ -13,7 +13,11 @@ namespace jni
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::root::space::smoke::SomeStruct* dummy)
 {
     ::root::space::smoke::SomeStruct _nout{};
-    ::std::string n_some_field = genium::jni::get_string_field(_jenv, _jinput, "someField");
+    ::std::string n_some_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "someField",
+        (::std::string*)nullptr );
     _nout.some_field = n_some_field;
     return _nout;
 }

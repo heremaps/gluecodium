@@ -14,7 +14,7 @@ ErrorsInterfaceCppProxy::ErrorsInterfaceCppProxy( JNIEnv* _jenv, JniReference<jo
     auto jException = genium::jni::make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
-        auto jEnumValue = genium::jni::get_object_field(
+        auto jEnumValue = genium::jni::get_object_field_value(
             jniEnv,
             jException,
             "error",
@@ -37,7 +37,7 @@ ErrorsInterfaceCppProxy::ErrorsInterfaceCppProxy( JNIEnv* _jenv, JniReference<jo
     auto jException = genium::jni::make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
-        auto jEnumValue = genium::jni::get_object_field(
+        auto jEnumValue = genium::jni::get_object_field_value(
             jniEnv,
             jException,
             "error",
@@ -60,7 +60,7 @@ ErrorsInterfaceCppProxy::ErrorsInterfaceCppProxy( JNIEnv* _jenv, JniReference<jo
     auto jException = genium::jni::make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
-        auto jEnumValue = genium::jni::get_object_field(
+        auto jEnumValue = genium::jni::get_object_field_value(
             jniEnv,
             jException,
             "error",
