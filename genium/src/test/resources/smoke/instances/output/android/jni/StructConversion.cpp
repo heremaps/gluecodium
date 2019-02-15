@@ -35,7 +35,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::InnerStruct& _n
     auto& javaClass = CachedJavaClass<::smoke::InstanceWithStruct::InnerStruct>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jvalue = _ninput.value;
-    genium::jni::set_byte_field(_jenv, _jresult, "value", jvalue);
+    genium::jni::set_field_value(_jenv, _jresult, "value", jvalue);
     return _jresult;
 }
 JniReference<jobject>
@@ -90,13 +90,13 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::StructWithInsta
     auto& javaClass = CachedJavaClass<::smoke::InstanceWithStruct::StructWithInstance>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jinstance = convert_to_jni(_jenv, _ninput.instance);
-    genium::jni::set_object_field(_jenv, _jresult, "instance",
+    genium::jni::set_object_field_value(_jenv, _jresult, "instance",
         "Lcom/example/smoke/SimpleInstantiable;", jinstance);
     auto jinstance_not_null = convert_to_jni(_jenv, _ninput.instance_not_null);
-    genium::jni::set_object_field(_jenv, _jresult, "instanceNotNull",
+    genium::jni::set_object_field_value(_jenv, _jresult, "instanceNotNull",
         "Lcom/example/smoke/SimpleInstantiable;", jinstance_not_null);
     auto jinstance_not_null_with_comment = convert_to_jni(_jenv, _ninput.instance_not_null_with_comment);
-    genium::jni::set_object_field(_jenv, _jresult, "instanceNotNullWithComment",
+    genium::jni::set_object_field_value(_jenv, _jresult, "instanceNotNullWithComment",
         "Lcom/example/smoke/SimpleInstantiable;", jinstance_not_null_with_comment);
     return _jresult;
 }

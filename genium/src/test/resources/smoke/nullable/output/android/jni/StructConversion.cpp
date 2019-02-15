@@ -35,7 +35,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Nullable::SomeStruct& _ninput)
     auto& javaClass = CachedJavaClass<::smoke::Nullable::SomeStruct>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jstring_field = _ninput.string_field;
-    genium::jni::set_string_field(_jenv, _jresult, "stringField", jstring_field);
+    genium::jni::set_field_value(_jenv, _jresult, "stringField", jstring_field);
     return _jresult;
 }
 JniReference<jobject>
@@ -126,25 +126,25 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Nullable::NullableStruct& _ninput)
     auto& javaClass = CachedJavaClass<::smoke::Nullable::NullableStruct>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jstring_field = _ninput.string_field;
-    genium::jni::set_nullable_string_field(_jenv, _jresult, "stringField", jstring_field);
+    genium::jni::set_field_value(_jenv, _jresult, "stringField", jstring_field);
     auto jbool_field = _ninput.bool_field;
-    genium::jni::set_nullable_boolean_field(_jenv, _jresult, "boolField", jbool_field);
+    genium::jni::set_field_value(_jenv, _jresult, "boolField", jbool_field);
     auto jdouble_field = _ninput.double_field;
-    genium::jni::set_nullable_double_field(_jenv, _jresult, "doubleField", jdouble_field);
+    genium::jni::set_field_value(_jenv, _jresult, "doubleField", jdouble_field);
     auto jstruct_field = convert_to_jni(_jenv, _ninput.struct_field);
-    genium::jni::set_object_field(_jenv, _jresult, "structField",
+    genium::jni::set_object_field_value(_jenv, _jresult, "structField",
         "Lcom/example/smoke/Nullable$SomeStruct;", jstruct_field);
     auto jenum_field = convert_to_jni(_jenv, _ninput.enum_field);
-    genium::jni::set_object_field(_jenv, _jresult, "enumField",
+    genium::jni::set_object_field_value(_jenv, _jresult, "enumField",
         "Lcom/example/smoke/Nullable$SomeEnum;", jenum_field);
     auto jarray_field = convert_to_jni(_jenv, _ninput.array_field);
-    genium::jni::set_object_field(_jenv, _jresult, "arrayField",
+    genium::jni::set_object_field_value(_jenv, _jresult, "arrayField",
         "Ljava/util/List;", jarray_field);
     auto jinline_array_field = convert_to_jni(_jenv, _ninput.inline_array_field);
-    genium::jni::set_object_field(_jenv, _jresult, "inlineArrayField",
+    genium::jni::set_object_field_value(_jenv, _jresult, "inlineArrayField",
         "Ljava/util/List;", jinline_array_field);
     auto jmap_field = convert_to_jni(_jenv, _ninput.map_field);
-    genium::jni::set_object_field(_jenv, _jresult, "mapField",
+    genium::jni::set_object_field_value(_jenv, _jresult, "mapField",
         "Ljava/util/Map;", jmap_field);
     return _jresult;
 }
@@ -181,6 +181,30 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::N
         "int64Field",
         (::std::shared_ptr< int64_t >*)nullptr );
     _nout.int64_field = n_int64_field;
+    ::std::shared_ptr< uint8_t > n_uint8_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "uint8Field",
+        (::std::shared_ptr< uint8_t >*)nullptr );
+    _nout.uint8_field = n_uint8_field;
+    ::std::shared_ptr< uint16_t > n_uint16_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "uint16Field",
+        (::std::shared_ptr< uint16_t >*)nullptr );
+    _nout.uint16_field = n_uint16_field;
+    ::std::shared_ptr< uint32_t > n_uint32_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "uint32Field",
+        (::std::shared_ptr< uint32_t >*)nullptr );
+    _nout.uint32_field = n_uint32_field;
+    ::std::shared_ptr< uint64_t > n_uint64_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "uint64Field",
+        (::std::shared_ptr< uint64_t >*)nullptr );
+    _nout.uint64_field = n_uint64_field;
     return _nout;
 }
 std::shared_ptr<::smoke::Nullable::NullableIntsStruct>
@@ -197,13 +221,21 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Nullable::NullableIntsStruct& _ninp
     auto& javaClass = CachedJavaClass<::smoke::Nullable::NullableIntsStruct>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jint8_field = _ninput.int8_field;
-    genium::jni::set_nullable_byte_field(_jenv, _jresult, "int8Field", jint8_field);
+    genium::jni::set_field_value(_jenv, _jresult, "int8Field", jint8_field);
     auto jint16_field = _ninput.int16_field;
-    genium::jni::set_nullable_short_field(_jenv, _jresult, "int16Field", jint16_field);
+    genium::jni::set_field_value(_jenv, _jresult, "int16Field", jint16_field);
     auto jint32_field = _ninput.int32_field;
-    genium::jni::set_nullable_integer_field(_jenv, _jresult, "int32Field", jint32_field);
+    genium::jni::set_field_value(_jenv, _jresult, "int32Field", jint32_field);
     auto jint64_field = _ninput.int64_field;
-    genium::jni::set_nullable_long_field(_jenv, _jresult, "int64Field", jint64_field);
+    genium::jni::set_field_value(_jenv, _jresult, "int64Field", jint64_field);
+    auto juint8_field = _ninput.uint8_field;
+    genium::jni::set_field_value(_jenv, _jresult, "uint8Field", juint8_field);
+    auto juint16_field = _ninput.uint16_field;
+    genium::jni::set_field_value(_jenv, _jresult, "uint16Field", juint16_field);
+    auto juint32_field = _ninput.uint32_field;
+    genium::jni::set_field_value(_jenv, _jresult, "uint32Field", juint32_field);
+    auto juint64_field = _ninput.uint64_field;
+    genium::jni::set_field_value(_jenv, _jresult, "uint64Field", juint64_field);
     return _jresult;
 }
 JniReference<jobject>
