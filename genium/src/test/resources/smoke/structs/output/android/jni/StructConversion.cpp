@@ -13,9 +13,17 @@ namespace jni
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::Point* dummy)
 {
     ::smoke::Structs::Point _nout{};
-    double n_x = genium::jni::get_double_field(_jenv, _jinput, "x");
+    double n_x = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "x",
+        (double*)nullptr );
     _nout.x = n_x;
-    double n_y = genium::jni::get_double_field(_jenv, _jinput, "y");
+    double n_y = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "y",
+        (double*)nullptr );
     _nout.y = n_y;
     return _nout;
 }
@@ -47,11 +55,23 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::Point> _ni
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::Color* dummy)
 {
     ::smoke::Structs::Color _nout{};
-    uint8_t n_red = genium::jni::get_short_field(_jenv, _jinput, "red");
+    uint8_t n_red = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "red",
+        (uint8_t*)nullptr );
     _nout.red = n_red;
-    uint8_t n_green = genium::jni::get_short_field(_jenv, _jinput, "green");
+    uint8_t n_green = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "green",
+        (uint8_t*)nullptr );
     _nout.green = n_green;
-    uint8_t n_blue = genium::jni::get_short_field(_jenv, _jinput, "blue");
+    uint8_t n_blue = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "blue",
+        (uint8_t*)nullptr );
     _nout.blue = n_blue;
     return _nout;
 }
@@ -87,7 +107,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     ::smoke::Structs::Line _nout{};
     ::smoke::Structs::Point n_a = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "a",
@@ -96,7 +116,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     _nout.a = n_a;
     ::smoke::Structs::Point n_b = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "b",
@@ -137,7 +157,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     ::smoke::Structs::ColoredLine _nout{};
     ::smoke::Structs::Line n_line = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "line",
@@ -146,7 +166,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     _nout.line = n_line;
     ::smoke::Structs::Color n_color = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "color",
@@ -184,22 +204,74 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::ColoredLin
 ::smoke::Structs::AllTypesStruct
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::AllTypesStruct* dummy)
 {
-    int8_t n_int8_field = genium::jni::get_byte_field(_jenv, _jinput, "int8Field");
-    uint8_t n_uint8_field = genium::jni::get_short_field(_jenv, _jinput, "uint8Field");
-    int16_t n_int16_field = genium::jni::get_short_field(_jenv, _jinput, "int16Field");
-    uint16_t n_uint16_field = genium::jni::get_int_field(_jenv, _jinput, "uint16Field");
-    int32_t n_int32_field = genium::jni::get_int_field(_jenv, _jinput, "int32Field");
-    uint32_t n_uint32_field = genium::jni::get_long_field(_jenv, _jinput, "uint32Field");
-    int64_t n_int64_field = genium::jni::get_long_field(_jenv, _jinput, "int64Field");
-    uint64_t n_uint64_field = genium::jni::get_long_field(_jenv, _jinput, "uint64Field");
-    float n_float_field = genium::jni::get_float_field(_jenv, _jinput, "floatField");
-    double n_double_field = genium::jni::get_double_field(_jenv, _jinput, "doubleField");
-    ::std::string n_string_field = genium::jni::get_string_field(_jenv, _jinput, "stringField");
-    bool n_boolean_field = genium::jni::get_boolean_field(_jenv, _jinput, "booleanField");
-    ::std::shared_ptr< ::std::vector< uint8_t > > n_bytes_field = genium::jni::get_byte_array_field(_jenv, _jinput, "bytesField");
+    int8_t n_int8_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "int8Field",
+        (int8_t*)nullptr );
+    uint8_t n_uint8_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "uint8Field",
+        (uint8_t*)nullptr );
+    int16_t n_int16_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "int16Field",
+        (int16_t*)nullptr );
+    uint16_t n_uint16_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "uint16Field",
+        (uint16_t*)nullptr );
+    int32_t n_int32_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "int32Field",
+        (int32_t*)nullptr );
+    uint32_t n_uint32_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "uint32Field",
+        (uint32_t*)nullptr );
+    int64_t n_int64_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "int64Field",
+        (int64_t*)nullptr );
+    uint64_t n_uint64_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "uint64Field",
+        (uint64_t*)nullptr );
+    float n_float_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "floatField",
+        (float*)nullptr );
+    double n_double_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "doubleField",
+        (double*)nullptr );
+    ::std::string n_string_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "stringField",
+        (::std::string*)nullptr );
+    bool n_boolean_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "booleanField",
+        (bool*)nullptr );
+    ::std::shared_ptr< ::std::vector< uint8_t > > n_bytes_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "bytesField",
+        (::std::shared_ptr< ::std::vector< uint8_t > >*)nullptr );
     ::smoke::Structs::Point n_point_field = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "pointField",
@@ -260,13 +332,21 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::AllTypesSt
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::ExternalStruct* dummy)
 {
     ::smoke::Structs::ExternalStruct _nout{};
-    ::std::string n_stringField = genium::jni::get_string_field(_jenv, _jinput, "stringField");
+    ::std::string n_stringField = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "stringField",
+        (::std::string*)nullptr );
     _nout.stringField = n_stringField;
-    ::std::string n_externalStringField = genium::jni::get_string_field(_jenv, _jinput, "externalStringField");
+    ::std::string n_externalStringField = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "externalStringField",
+        (::std::string*)nullptr );
     _nout.set_some_string(n_externalStringField);
     ::std::vector< int8_t > n_externalArrayField = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "externalArrayField",
@@ -275,7 +355,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     _nout.set_some_array(n_externalArrayField);
     ::fire::SomeVeryExternalStruct n_externalStructField = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "externalStructField",
@@ -318,7 +398,11 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::ExternalSt
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::SomeVeryExternalStruct* dummy)
 {
     ::fire::SomeVeryExternalStruct _nout{};
-    int8_t n_intField = genium::jni::get_byte_field(_jenv, _jinput, "intField");
+    int8_t n_intField = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "intField",
+        (int8_t*)nullptr );
     _nout.intField = n_intField;
     return _nout;
 }
@@ -348,7 +432,11 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::fire::SomeVeryExternalStru
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::Yet_Another_External_Struct* dummy)
 {
     ::smoke::Structs::Yet_Another_External_Struct _nout{};
-    ::std::string n_string_Field = genium::jni::get_string_field(_jenv, _jinput, "stringField");
+    ::std::string n_string_Field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "stringField",
+        (::std::string*)nullptr );
     _nout.string_Field = n_string_Field;
     return _nout;
 }
@@ -380,7 +468,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::St
     ::fire::StructsQualifiedType::QualifiedType _nout{};
     ::smoke::Point n_type_collection_point = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "typeCollectionPoint",
@@ -389,7 +477,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::St
     _nout.type_collection_point = n_type_collection_point;
     ::smoke::Structs::Point n_interface_point = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "interfacePoint",
@@ -398,7 +486,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::St
     _nout.interface_point = n_interface_point;
     ::fire::StructsQualifiedType::TypeCollectionPointsArray n_type_collection_explicit_points = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "typeCollectionExplicitPoints",
@@ -407,7 +495,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::St
     _nout.type_collection_explicit_points = n_type_collection_explicit_points;
     ::fire::StructsQualifiedType::InterfacePointsArray n_interface_explicit_points = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "interfaceExplicitPoints",
@@ -416,7 +504,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::St
     _nout.interface_explicit_points = n_interface_explicit_points;
     ::std::vector< ::smoke::Point > n_type_collection_implicit_points = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "typeCollectionImplicitPoints",
@@ -425,7 +513,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::St
     _nout.type_collection_implicit_points = n_type_collection_implicit_points;
     ::std::vector< ::smoke::Structs::Point > n_interface_implicit_points = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "interfaceImplicitPoints",
@@ -434,7 +522,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::St
     _nout.interface_implicit_points = n_interface_implicit_points;
     ::std::shared_ptr< ::smoke::StructsInstance > n_structs_instance = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "structsInstance",
@@ -488,9 +576,17 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::fire::StructsQualifiedType
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Point* dummy)
 {
     ::smoke::Point _nout{};
-    double n_x = genium::jni::get_double_field(_jenv, _jinput, "x");
+    double n_x = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "x",
+        (double*)nullptr );
     _nout.x = n_x;
-    double n_y = genium::jni::get_double_field(_jenv, _jinput, "y");
+    double n_y = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "y",
+        (double*)nullptr );
     _nout.y = n_y;
     return _nout;
 }
@@ -522,11 +618,23 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Point> _ninput)
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Color* dummy)
 {
     ::smoke::Color _nout{};
-    uint8_t n_red = genium::jni::get_short_field(_jenv, _jinput, "red");
+    uint8_t n_red = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "red",
+        (uint8_t*)nullptr );
     _nout.red = n_red;
-    uint8_t n_green = genium::jni::get_short_field(_jenv, _jinput, "green");
+    uint8_t n_green = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "green",
+        (uint8_t*)nullptr );
     _nout.green = n_green;
-    uint8_t n_blue = genium::jni::get_short_field(_jenv, _jinput, "blue");
+    uint8_t n_blue = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "blue",
+        (uint8_t*)nullptr );
     _nout.blue = n_blue;
     return _nout;
 }
@@ -562,7 +670,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::L
     ::smoke::Line _nout{};
     ::smoke::Point n_a = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "a",
@@ -571,7 +679,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::L
     _nout.a = n_a;
     ::smoke::Point n_b = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "b",
@@ -612,7 +720,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::C
     ::smoke::ColoredLine _nout{};
     ::smoke::Line n_line = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "line",
@@ -621,7 +729,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::C
     _nout.line = n_line;
     ::smoke::Color n_color = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "color",
@@ -660,35 +768,87 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::ColoredLine> _ninpu
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::AllTypesStruct* dummy)
 {
     ::smoke::AllTypesStruct _nout{};
-    int8_t n_int8_field = genium::jni::get_byte_field(_jenv, _jinput, "int8Field");
+    int8_t n_int8_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "int8Field",
+        (int8_t*)nullptr );
     _nout.int8_field = n_int8_field;
-    uint8_t n_uint8_field = genium::jni::get_short_field(_jenv, _jinput, "uint8Field");
+    uint8_t n_uint8_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "uint8Field",
+        (uint8_t*)nullptr );
     _nout.uint8_field = n_uint8_field;
-    int16_t n_int16_field = genium::jni::get_short_field(_jenv, _jinput, "int16Field");
+    int16_t n_int16_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "int16Field",
+        (int16_t*)nullptr );
     _nout.int16_field = n_int16_field;
-    uint16_t n_uint16_field = genium::jni::get_int_field(_jenv, _jinput, "uint16Field");
+    uint16_t n_uint16_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "uint16Field",
+        (uint16_t*)nullptr );
     _nout.uint16_field = n_uint16_field;
-    int32_t n_int32_field = genium::jni::get_int_field(_jenv, _jinput, "int32Field");
+    int32_t n_int32_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "int32Field",
+        (int32_t*)nullptr );
     _nout.int32_field = n_int32_field;
-    uint32_t n_uint32_field = genium::jni::get_long_field(_jenv, _jinput, "uint32Field");
+    uint32_t n_uint32_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "uint32Field",
+        (uint32_t*)nullptr );
     _nout.uint32_field = n_uint32_field;
-    int64_t n_int64_field = genium::jni::get_long_field(_jenv, _jinput, "int64Field");
+    int64_t n_int64_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "int64Field",
+        (int64_t*)nullptr );
     _nout.int64_field = n_int64_field;
-    uint64_t n_uint64_field = genium::jni::get_long_field(_jenv, _jinput, "uint64Field");
+    uint64_t n_uint64_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "uint64Field",
+        (uint64_t*)nullptr );
     _nout.uint64_field = n_uint64_field;
-    float n_float_field = genium::jni::get_float_field(_jenv, _jinput, "floatField");
+    float n_float_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "floatField",
+        (float*)nullptr );
     _nout.float_field = n_float_field;
-    double n_double_field = genium::jni::get_double_field(_jenv, _jinput, "doubleField");
+    double n_double_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "doubleField",
+        (double*)nullptr );
     _nout.double_field = n_double_field;
-    ::std::string n_string_field = genium::jni::get_string_field(_jenv, _jinput, "stringField");
+    ::std::string n_string_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "stringField",
+        (::std::string*)nullptr );
     _nout.string_field = n_string_field;
-    bool n_boolean_field = genium::jni::get_boolean_field(_jenv, _jinput, "booleanField");
+    bool n_boolean_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "booleanField",
+        (bool*)nullptr );
     _nout.boolean_field = n_boolean_field;
-    ::std::shared_ptr< ::std::vector< uint8_t > > n_bytes_field = genium::jni::get_byte_array_field(_jenv, _jinput, "bytesField");
+    ::std::shared_ptr< ::std::vector< uint8_t > > n_bytes_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "bytesField",
+        (::std::shared_ptr< ::std::vector< uint8_t > >*)nullptr );
     _nout.bytes_field = n_bytes_field;
     ::smoke::Point n_point_field = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "pointField",

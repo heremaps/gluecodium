@@ -29,8 +29,12 @@ convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::std::shared
     {
         if (_jobj != nullptr)
         {
-            auto long_ptr = genium::jni::get_long_field(_env, _jobj, "nativeHandle");
-            _nresult = *reinterpret_cast<::std::shared_ptr< T >*> (long_ptr);
+            auto long_ptr = genium::jni::get_field_value(
+                _env,
+                _jobj,
+                "nativeHandle",
+                (int64_t*)nullptr);
+            _nresult = *reinterpret_cast<::std::shared_ptr< T >*>(long_ptr);
         }
     }
     else
