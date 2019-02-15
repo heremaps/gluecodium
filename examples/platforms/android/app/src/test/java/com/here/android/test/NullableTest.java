@@ -152,6 +152,10 @@ public class NullableTest {
     assertNull(struct.int16Field);
     assertNull(struct.int32Field);
     assertNull(struct.int64Field);
+    assertNull(struct.uint8Field);
+    assertNull(struct.uint16Field);
+    assertNull(struct.uint32Field);
+    assertNull(struct.uint64Field);
   }
 
   @Test
@@ -165,6 +169,10 @@ public class NullableTest {
     assertNull(result.int16Field);
     assertNull(result.int32Field);
     assertNull(result.int64Field);
+    assertNull(result.uint8Field);
+    assertNull(result.uint16Field);
+    assertNull(result.uint32Field);
+    assertNull(result.uint64Field);
   }
 
   @Test
@@ -174,6 +182,10 @@ public class NullableTest {
     struct.int16Field = (short)0;
     struct.int32Field = 0;
     struct.int64Field = 0L;
+    struct.uint8Field = (short)0;
+    struct.uint16Field = 0;
+    struct.uint32Field = 0L;
+    struct.uint64Field = 0L;
 
     NullableInterface.NullableIntsStruct result
         = nullableInterface.methodWithNullableIntsStruct(struct);
@@ -182,15 +194,23 @@ public class NullableTest {
     assertEquals(struct.int16Field, result.int16Field);
     assertEquals(struct.int32Field, result.int32Field);
     assertEquals(struct.int64Field, result.int64Field);
+    assertEquals(struct.uint8Field, result.uint8Field);
+    assertEquals(struct.uint16Field, result.uint16Field);
+    assertEquals(struct.uint32Field, result.uint32Field);
+    assertEquals(struct.uint64Field, result.uint64Field);
   }
 
   @Test
   public void nullableIntsFilledStructRoundTrip() {
     NullableInterface.NullableIntsStruct struct = new NullableInterface.NullableIntsStruct();
     struct.int8Field = (byte)42;
-    struct.int16Field = (short)71;
-    struct.int32Field = 1337;
-    struct.int64Field = 3735928559L;
+    struct.int16Field = (short)-71;
+    struct.int32Field = -1337;
+    struct.int64Field = -3735928559L;
+    struct.uint8Field = (short)71;
+    struct.uint16Field = 1337;
+    struct.uint32Field = 2735718543L;
+    struct.uint64Field = 3735928559L;
 
     NullableInterface.NullableIntsStruct result
         = nullableInterface.methodWithNullableIntsStruct(struct);
@@ -199,6 +219,10 @@ public class NullableTest {
     assertEquals(struct.int16Field, result.int16Field);
     assertEquals(struct.int32Field, result.int32Field);
     assertEquals(struct.int64Field, result.int64Field);
+    assertEquals(struct.uint8Field, result.uint8Field);
+    assertEquals(struct.uint16Field, result.uint16Field);
+    assertEquals(struct.uint32Field, result.uint32Field);
+    assertEquals(struct.uint64Field, result.uint64Field);
   }
 
   @Test

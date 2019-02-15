@@ -35,7 +35,7 @@ convert_to_jni(JNIEnv* _jenv, const ::root::space::smoke::SomeStruct& _ninput)
     auto& javaClass = CachedJavaClass<::root::space::smoke::SomeStruct>::java_class;
     auto _jresult = genium::jni::create_object(_jenv, javaClass);
     auto jsome_field = _ninput.some_field;
-    genium::jni::set_string_field(_jenv, _jresult, "someField", jsome_field);
+    genium::jni::set_field_value(_jenv, _jresult, "someField", jsome_field);
     return _jresult;
 }
 JniReference<jobject>

@@ -66,19 +66,18 @@ define GeniumExtensions for interface test.NullableInterface
         int64Field {
             Nullable = true
         }
-// TODO: needs more conversion functions in JNI, should be fixed in APIGEN-1538
-//        uint8Field {
-//            Nullable = true
-//        }
-//        uint16Field {
-//            Nullable = true
-//        }
-//        uint32Field {
-//            Nullable = true
-//        }
-//        uint64Field {
-//            Nullable = true
-//        }
+        uint8Field {
+            Nullable = true
+        }
+        uint16Field {
+            Nullable = true
+        }
+        uint32Field {
+            Nullable = true
+        }
+        uint64Field {
+            Nullable = true
+        }
     }
 
     method create {
