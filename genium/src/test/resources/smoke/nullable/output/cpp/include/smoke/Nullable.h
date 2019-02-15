@@ -45,8 +45,12 @@ struct NullableIntsStruct {
     ::std::shared_ptr< int16_t > int16_field;
     ::std::shared_ptr< int32_t > int32_field;
     ::std::shared_ptr< int64_t > int64_field;
+    ::std::shared_ptr< uint8_t > uint8_field;
+    ::std::shared_ptr< uint16_t > uint16_field;
+    ::std::shared_ptr< uint32_t > uint32_field;
+    ::std::shared_ptr< uint64_t > uint64_field;
     NullableIntsStruct( );
-    NullableIntsStruct( const ::std::shared_ptr< int8_t >& int8_field, const ::std::shared_ptr< int16_t >& int16_field, const ::std::shared_ptr< int32_t >& int32_field, const ::std::shared_ptr< int64_t >& int64_field );
+    NullableIntsStruct( const ::std::shared_ptr< int8_t >& int8_field, const ::std::shared_ptr< int16_t >& int16_field, const ::std::shared_ptr< int32_t >& int32_field, const ::std::shared_ptr< int64_t >& int64_field, const ::std::shared_ptr< uint8_t >& uint8_field, const ::std::shared_ptr< uint16_t >& uint16_field, const ::std::shared_ptr< uint32_t >& uint32_field, const ::std::shared_ptr< uint64_t >& uint64_field );
 };
 public:
 virtual ::std::shared_ptr< ::std::string > method_with_string( const ::std::shared_ptr< ::std::string >& input ) = 0;

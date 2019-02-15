@@ -112,20 +112,36 @@ public class Nullable extends NativeBase {
         public Integer int32Field;
         @Nullable
         public Long int64Field;
+        @Nullable
+        public Short uint8Field;
+        @Nullable
+        public Integer uint16Field;
+        @Nullable
+        public Long uint32Field;
+        @Nullable
+        public Long uint64Field;
         public NullableIntsStruct() {
-            this((Byte)null, (Short)null, (Integer)null, (Long)null);
+            this((Byte)null, (Short)null, (Integer)null, (Long)null, (Short)null, (Integer)null, (Long)null, (Long)null);
         }
-        public NullableIntsStruct(Byte int8Field, Short int16Field, Integer int32Field, Long int64Field) {
+        public NullableIntsStruct(Byte int8Field, Short int16Field, Integer int32Field, Long int64Field, Short uint8Field, Integer uint16Field, Long uint32Field, Long uint64Field) {
             this.int8Field = int8Field;
             this.int16Field = int16Field;
             this.int32Field = int32Field;
             this.int64Field = int64Field;
+            this.uint8Field = uint8Field;
+            this.uint16Field = uint16Field;
+            this.uint32Field = uint32Field;
+            this.uint64Field = uint64Field;
         }
         public static class Builder {
             private Byte int8Field = (Byte)null;
             private Short int16Field = (Short)null;
             private Integer int32Field = (Integer)null;
             private Long int64Field = (Long)null;
+            private Short uint8Field = (Short)null;
+            private Integer uint16Field = (Integer)null;
+            private Long uint32Field = (Long)null;
+            private Long uint64Field = (Long)null;
             public Builder() {
             }
             public Builder setInt8Field(Byte int8Field) {
@@ -144,8 +160,24 @@ public class Nullable extends NativeBase {
                 this.int64Field = int64Field;
                 return this;
             }
+            public Builder setUint8Field(Short uint8Field) {
+                this.uint8Field = uint8Field;
+                return this;
+            }
+            public Builder setUint16Field(Integer uint16Field) {
+                this.uint16Field = uint16Field;
+                return this;
+            }
+            public Builder setUint32Field(Long uint32Field) {
+                this.uint32Field = uint32Field;
+                return this;
+            }
+            public Builder setUint64Field(Long uint64Field) {
+                this.uint64Field = uint64Field;
+                return this;
+            }
             public NullableIntsStruct build() {
-                return new NullableIntsStruct(int8Field, int16Field, int32Field, int64Field);
+                return new NullableIntsStruct(int8Field, int16Field, int32Field, int64Field, uint8Field, uint16Field, uint32Field, uint64Field);
             }
         }
     }

@@ -106,6 +106,10 @@ class NullableStructsTests: XCTestCase {
         XCTAssertNil(nullable.int16Field)
         XCTAssertNil(nullable.int32Field)
         XCTAssertNil(nullable.int64Field)
+        XCTAssertNil(nullable.uint8Field)
+        XCTAssertNil(nullable.uint16Field)
+        XCTAssertNil(nullable.uint32Field)
+        XCTAssertNil(nullable.uint64Field)
     }
 
     func testNullableIntsNullStructRoundTrip() {
@@ -117,6 +121,10 @@ class NullableStructsTests: XCTestCase {
         XCTAssertNil(result.int16Field)
         XCTAssertNil(result.int32Field)
         XCTAssertNil(result.int64Field)
+        XCTAssertNil(result.uint8Field)
+        XCTAssertNil(result.uint16Field)
+        XCTAssertNil(result.uint32Field)
+        XCTAssertNil(result.uint64Field)
     }
 
     func testNullableIntsZeroStructRoundTrip() {
@@ -124,7 +132,11 @@ class NullableStructsTests: XCTestCase {
             int8Field: 0,
             int16Field: 0,
             int32Field: 0,
-            int64Field: 0
+            int64Field: 0,
+            uint8Field: 0,
+            uint16Field: 0,
+            uint32Field: 0,
+            uint64Field: 0
         )
 
         let result = nullableInterface.methodWithNullableIntsStruct(input: nullable)
@@ -133,14 +145,22 @@ class NullableStructsTests: XCTestCase {
         XCTAssertEqual(nullable.int16Field, result.int16Field)
         XCTAssertEqual(nullable.int32Field, result.int32Field)
         XCTAssertEqual(nullable.int64Field, result.int64Field)
+        XCTAssertEqual(nullable.uint8Field, result.uint8Field)
+        XCTAssertEqual(nullable.uint16Field, result.uint16Field)
+        XCTAssertEqual(nullable.uint32Field, result.uint32Field)
+        XCTAssertEqual(nullable.uint64Field, result.uint64Field)
     }
 
     func testNullableIntsFilledStructRoundTrip() {
         let nullable = NullableInterface.NullableIntsStruct(
-            int8Field: 42,
-            int16Field: 71,
-            int32Field: 1337,
-            int64Field: 3735928559
+            int8Field: -42,
+            int16Field: -71,
+            int32Field: -1337,
+            int64Field: -3735928559,
+            uint8Field: 71,
+            uint16Field: 1337,
+            uint32Field: 2735718543,
+            uint64Field: 3735928559
         )
 
         let result = nullableInterface.methodWithNullableIntsStruct(input: nullable)
@@ -149,6 +169,10 @@ class NullableStructsTests: XCTestCase {
         XCTAssertEqual(nullable.int16Field, result.int16Field)
         XCTAssertEqual(nullable.int32Field, result.int32Field)
         XCTAssertEqual(nullable.int64Field, result.int64Field)
+        XCTAssertEqual(nullable.uint8Field, result.uint8Field)
+        XCTAssertEqual(nullable.uint16Field, result.uint16Field)
+        XCTAssertEqual(nullable.uint32Field, result.uint32Field)
+        XCTAssertEqual(nullable.uint64Field, result.uint64Field)
     }
 
     static var allTests = [

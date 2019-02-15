@@ -168,24 +168,40 @@ public class Nullable {
         public var int16Field: Int16?
         public var int32Field: Int32?
         public var int64Field: Int64?
-        public init(int8Field: Int8? = nil, int16Field: Int16? = nil, int32Field: Int32? = nil, int64Field: Int64? = nil) {
+        public var uint8Field: UInt8?
+        public var uint16Field: UInt16?
+        public var uint32Field: UInt32?
+        public var uint64Field: UInt64?
+        public init(int8Field: Int8? = nil, int16Field: Int16? = nil, int32Field: Int32? = nil, int64Field: Int64? = nil, uint8Field: UInt8? = nil, uint16Field: UInt16? = nil, uint32Field: UInt32? = nil, uint64Field: UInt64? = nil) {
             self.int8Field = int8Field
             self.int16Field = int16Field
             self.int32Field = int32Field
             self.int64Field = int64Field
+            self.uint8Field = uint8Field
+            self.uint16Field = uint16Field
+            self.uint32Field = uint32Field
+            self.uint64Field = uint64Field
         }
         internal init(cHandle: _baseRef) {
             int8Field = moveFromCType(smoke_Nullable_NullableIntsStruct_int8Field_get(cHandle))
             int16Field = moveFromCType(smoke_Nullable_NullableIntsStruct_int16Field_get(cHandle))
             int32Field = moveFromCType(smoke_Nullable_NullableIntsStruct_int32Field_get(cHandle))
             int64Field = moveFromCType(smoke_Nullable_NullableIntsStruct_int64Field_get(cHandle))
+            uint8Field = moveFromCType(smoke_Nullable_NullableIntsStruct_uint8Field_get(cHandle))
+            uint16Field = moveFromCType(smoke_Nullable_NullableIntsStruct_uint16Field_get(cHandle))
+            uint32Field = moveFromCType(smoke_Nullable_NullableIntsStruct_uint32Field_get(cHandle))
+            uint64Field = moveFromCType(smoke_Nullable_NullableIntsStruct_uint64Field_get(cHandle))
         }
         internal func convertToCType() -> _baseRef {
             let c_int8Field = moveToCType(int8Field)
             let c_int16Field = moveToCType(int16Field)
             let c_int32Field = moveToCType(int32Field)
             let c_int64Field = moveToCType(int64Field)
-            return smoke_Nullable_NullableIntsStruct_create_handle(c_int8Field.ref, c_int16Field.ref, c_int32Field.ref, c_int64Field.ref)
+            let c_uint8Field = moveToCType(uint8Field)
+            let c_uint16Field = moveToCType(uint16Field)
+            let c_uint32Field = moveToCType(uint32Field)
+            let c_uint64Field = moveToCType(uint64Field)
+            return smoke_Nullable_NullableIntsStruct_create_handle(c_int8Field.ref, c_int16Field.ref, c_int32Field.ref, c_int64Field.ref, c_uint8Field.ref, c_uint16Field.ref, c_uint32Field.ref, c_uint64Field.ref)
         }
     }
     public func methodWithString(input: String?) -> String? {

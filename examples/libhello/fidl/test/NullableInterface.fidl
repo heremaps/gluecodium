@@ -52,11 +52,10 @@ interface NullableInterface {
         Int16 int16Field
         Int32 int32Field
         Int64 int64Field
-// TODO: needs more conversion functions in JNI, should be fixed in APIGEN-1538
-//        UInt8 uint8Field
-//        UInt16 uint16Field
-//        UInt32 uint32Field
-//        UInt64 uint64Field
+        UInt8 uint8Field
+        UInt16 uint16Field
+        UInt32 uint32Field
+        UInt64 uint64Field
     }
 
     method create {
