@@ -57,66 +57,87 @@ namespace jni
 
 // -------------------- JNI object field getters --------------------------------------------------
 
-bool get_boolean_field(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName );
+bool get_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, bool* dummy );
+int8_t get_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int8_t* dummy );
+int16_t get_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int16_t* dummy );
+int32_t get_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int32_t* dummy );
+int64_t get_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int64_t* dummy );
+uint8_t get_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint8_t* dummy );
+uint16_t get_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint16_t* dummy );
+uint32_t get_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint32_t* dummy );
+uint64_t get_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint64_t* dummy );
+float get_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, float* dummy );
+double get_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, double* dummy );
+::std::string get_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, ::std::string* dummy );
 
-int8_t get_byte_field(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName );
+::std::shared_ptr< bool > get_field_value( JNIEnv* env,
+                                           const JniReference< jobject >& object,
+                                           const char* fieldName,
+                                           ::std::shared_ptr< bool >* dummy );
+::std::shared_ptr< int8_t > get_field_value( JNIEnv* env,
+                                             const JniReference< jobject >& object,
+                                             const char* fieldName,
+                                             ::std::shared_ptr< int8_t >* dummy );
+::std::shared_ptr< int16_t > get_field_value( JNIEnv* env,
+                                              const JniReference< jobject >& object,
+                                              const char* fieldName,
+                                              ::std::shared_ptr< int16_t >* dummy );
+::std::shared_ptr< int32_t > get_field_value( JNIEnv* env,
+                                              const JniReference< jobject >& object,
+                                              const char* fieldName,
+                                              ::std::shared_ptr< int32_t >* dummy );
+::std::shared_ptr< int64_t > get_field_value( JNIEnv* env,
+                                              const JniReference< jobject >& object,
+                                              const char* fieldName,
+                                              ::std::shared_ptr< int64_t >* dummy );
+::std::shared_ptr< uint8_t > get_field_value( JNIEnv* env,
+                                              const JniReference< jobject >& object,
+                                              const char* fieldName,
+                                              ::std::shared_ptr< uint8_t >* dummy );
+::std::shared_ptr< uint16_t > get_field_value( JNIEnv* env,
+                                               const JniReference< jobject >& object,
+                                               const char* fieldName,
+                                               ::std::shared_ptr< uint16_t >* dummy );
+::std::shared_ptr< uint32_t > get_field_value( JNIEnv* env,
+                                               const JniReference< jobject >& object,
+                                               const char* fieldName,
+                                               ::std::shared_ptr< uint32_t >* dummy );
+::std::shared_ptr< uint64_t > get_field_value( JNIEnv* env,
+                                               const JniReference< jobject >& object,
+                                               const char* fieldName,
+                                               ::std::shared_ptr< uint64_t >* dummy );
+::std::shared_ptr< float > get_field_value( JNIEnv* env,
+                                            const JniReference< jobject >& object,
+                                            const char* fieldName,
+                                            ::std::shared_ptr< float >* dummy );
+::std::shared_ptr< double > get_field_value( JNIEnv* env,
+                                             const JniReference< jobject >& object,
+                                             const char* fieldName,
+                                             ::std::shared_ptr< double >* dummy );
+::std::shared_ptr< ::std::string > get_field_value( JNIEnv* env,
+                                                    const JniReference< jobject >& object,
+                                                    const char* fieldName,
+                                                    ::std::shared_ptr< ::std::string >* dummy );
 
-int16_t get_short_field(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName );
+::std::shared_ptr< ::std::vector< uint8_t > > get_field_value(
+    JNIEnv* env,
+    const JniReference< jobject >& object,
+    const char* fieldName,
+    ::std::shared_ptr< ::std::vector< uint8_t > >* dummy );
 
-int32_t get_int_field(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName );
-
-int64_t get_long_field(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName );
-
-float get_float_field(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName );
-
-double get_double_field(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName );
-
-std::string get_string_field(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName );
-
-::std::shared_ptr< bool > get_nullable_boolean_field( JNIEnv* env,
-                                                      const JniReference< jobject >& object,
-                                                      const char* fieldName );
-
-::std::shared_ptr< int8_t > get_nullable_byte_field( JNIEnv* env,
-                                                     const JniReference< jobject >& object,
-                                                     const char* fieldName );
-
-::std::shared_ptr< int16_t > get_nullable_short_field( JNIEnv* env,
-                                                       const JniReference< jobject >& object,
-                                                       const char* fieldName );
-
-::std::shared_ptr< int32_t > get_nullable_integer_field( JNIEnv* env,
-                                                         const JniReference< jobject >& object,
-                                                         const char* fieldName );
-
-::std::shared_ptr< int64_t > get_nullable_long_field( JNIEnv* env,
-                                                      const JniReference< jobject >& object,
-                                                      const char* fieldName );
-
-::std::shared_ptr< float > get_nullable_float_field( JNIEnv* env,
-                                                     const JniReference< jobject >& object,
-                                                     const char* fieldName );
-
-::std::shared_ptr< double > get_nullable_double_field( JNIEnv* env,
-                                                       const JniReference< jobject >& object,
-                                                       const char* fieldName );
-
-::std::shared_ptr< ::std::string > get_nullable_string_field( JNIEnv* env,
-                                                              const JniReference< jobject >& object,
-                                                              const char* fieldName );
-
-::std::shared_ptr< ::std::vector< uint8_t > > get_byte_array_field(
-    JNIEnv* env, const JniReference< jobject >& object, const char* fieldName );
-
-JniReference< jobject > get_object_field( JNIEnv* env,
+JniReference< jobject > get_object_field_value( JNIEnv* env,
                                        const JniReference<jobject>& object,
                                        const char* fieldName,
                                        const char* fieldSignature );

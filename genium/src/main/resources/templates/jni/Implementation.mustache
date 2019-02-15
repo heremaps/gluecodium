@@ -48,9 +48,11 @@ extern "C" {
 {{/unless}}
 {{/parameters}}
 {{#unless isStatic}}
-    auto pointerAsLong = {{internalNamespace}}::jni::get_long_field(_jenv,
+    auto pointerAsLong = {{internalNamespace}}::jni::get_field_value(
+            _jenv,
             {{internalNamespace}}::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle");
+            "nativeHandle",
+            (int64_t*)nullptr);
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (pointerAsLong);
 {{/unless}}
 {{>jni/ReturnTypeConversion}}
