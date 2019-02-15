@@ -13,7 +13,11 @@ namespace jni
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::InstanceWithStruct::InnerStruct* dummy)
 {
     ::smoke::InstanceWithStruct::InnerStruct _nout{};
-    int8_t n_value = genium::jni::get_byte_field(_jenv, _jinput, "value");
+    int8_t n_value = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "value",
+        (int8_t*)nullptr );
     _nout.value = n_value;
     return _nout;
 }
@@ -45,7 +49,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::I
     ::smoke::InstanceWithStruct::StructWithInstance _nout{};
     ::std::shared_ptr< ::smoke::SimpleInstantiable > n_instance = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "instance",
@@ -54,7 +58,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::I
     _nout.instance = n_instance;
     ::std::shared_ptr< ::smoke::SimpleInstantiable > n_instance_not_null = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "instanceNotNull",
@@ -63,7 +67,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::I
     _nout.instance_not_null = n_instance_not_null;
     ::std::shared_ptr< ::smoke::SimpleInstantiable > n_instance_not_null_with_comment = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "instanceNotNullWithComment",

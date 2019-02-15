@@ -7,7 +7,8 @@ namespace jni
 ::smoke::ExternalInterface::some_Enum
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::ExternalInterface::some_Enum* dummy)
 {
-    return ::smoke::ExternalInterface::some_Enum(genium::jni::get_int_field(_jenv, _jinput, "value"));
+    return ::smoke::ExternalInterface::some_Enum(
+        genium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
 std::shared_ptr<::smoke::ExternalInterface::some_Enum>
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::ExternalInterface::some_Enum>* dummy)
@@ -38,7 +39,8 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::ExternalInterface::
 ::fire::Baz::some_Enum
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::Baz::some_Enum* dummy)
 {
-    return ::fire::Baz::some_Enum(genium::jni::get_int_field(_jenv, _jinput, "value"));
+    return ::fire::Baz::some_Enum(
+        genium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
 std::shared_ptr<::fire::Baz::some_Enum>
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::fire::Baz::some_Enum>* dummy)

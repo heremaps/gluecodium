@@ -13,7 +13,11 @@ namespace jni
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Nullable::SomeStruct* dummy)
 {
     ::smoke::Nullable::SomeStruct _nout{};
-    ::std::string n_string_field = genium::jni::get_string_field(_jenv, _jinput, "stringField");
+    ::std::string n_string_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "stringField",
+        (::std::string*)nullptr );
     _nout.string_field = n_string_field;
     return _nout;
 }
@@ -43,15 +47,27 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Nullable::SomeStruc
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Nullable::NullableStruct* dummy)
 {
     ::smoke::Nullable::NullableStruct _nout{};
-    ::std::shared_ptr< ::std::string > n_string_field = genium::jni::get_nullable_string_field(_jenv, _jinput, "stringField");
+    ::std::shared_ptr< ::std::string > n_string_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "stringField",
+        (::std::shared_ptr< ::std::string >*)nullptr );
     _nout.string_field = n_string_field;
-    ::std::shared_ptr< bool > n_bool_field = genium::jni::get_nullable_boolean_field(_jenv, _jinput, "boolField");
+    ::std::shared_ptr< bool > n_bool_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "boolField",
+        (::std::shared_ptr< bool >*)nullptr );
     _nout.bool_field = n_bool_field;
-    ::std::shared_ptr< double > n_double_field = genium::jni::get_nullable_double_field(_jenv, _jinput, "doubleField");
+    ::std::shared_ptr< double > n_double_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "doubleField",
+        (::std::shared_ptr< double >*)nullptr );
     _nout.double_field = n_double_field;
     ::std::shared_ptr< ::smoke::Nullable::SomeStruct > n_struct_field = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "structField",
@@ -60,7 +76,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::N
     _nout.struct_field = n_struct_field;
     ::std::shared_ptr< ::smoke::Nullable::SomeEnum > n_enum_field = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "enumField",
@@ -69,7 +85,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::N
     _nout.enum_field = n_enum_field;
     ::std::shared_ptr< ::smoke::Nullable::SomeArray > n_array_field = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "arrayField",
@@ -78,7 +94,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::N
     _nout.array_field = n_array_field;
     ::std::shared_ptr< ::std::vector< ::std::string > > n_inline_array_field = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "inlineArrayField",
@@ -87,7 +103,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::N
     _nout.inline_array_field = n_inline_array_field;
     ::std::shared_ptr< ::smoke::Nullable::SomeMap > n_map_field = convert_from_jni(
         _jenv,
-        genium::jni::get_object_field(
+        genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "mapField",
@@ -141,13 +157,29 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Nullable::NullableS
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Nullable::NullableIntsStruct* dummy)
 {
     ::smoke::Nullable::NullableIntsStruct _nout{};
-    ::std::shared_ptr< int8_t > n_int8_field = genium::jni::get_nullable_byte_field(_jenv, _jinput, "int8Field");
+    ::std::shared_ptr< int8_t > n_int8_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "int8Field",
+        (::std::shared_ptr< int8_t >*)nullptr );
     _nout.int8_field = n_int8_field;
-    ::std::shared_ptr< int16_t > n_int16_field = genium::jni::get_nullable_short_field(_jenv, _jinput, "int16Field");
+    ::std::shared_ptr< int16_t > n_int16_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "int16Field",
+        (::std::shared_ptr< int16_t >*)nullptr );
     _nout.int16_field = n_int16_field;
-    ::std::shared_ptr< int32_t > n_int32_field = genium::jni::get_nullable_integer_field(_jenv, _jinput, "int32Field");
+    ::std::shared_ptr< int32_t > n_int32_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "int32Field",
+        (::std::shared_ptr< int32_t >*)nullptr );
     _nout.int32_field = n_int32_field;
-    ::std::shared_ptr< int64_t > n_int64_field = genium::jni::get_nullable_long_field(_jenv, _jinput, "int64Field");
+    ::std::shared_ptr< int64_t > n_int64_field = genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "int64Field",
+        (::std::shared_ptr< int64_t >*)nullptr );
     _nout.int64_field = n_int64_field;
     return _nout;
 }
