@@ -3,7 +3,8 @@
 ## Unreleased
 - Bug fixes:
   + Fixed compilation issues for nullable Int32 struct fields in JNI.
-  + Fixed leaking JNI local references
+  + Fixed compilation issues for nullable unsigned integer struct fields in JNI.
+  + Fixed leaking JNI local references.
 
 ## 3.20.2
 - Release date: 2019-02-12

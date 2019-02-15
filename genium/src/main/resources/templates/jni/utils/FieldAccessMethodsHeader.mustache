@@ -152,83 +152,91 @@ JniReference<jobject> create_instance_object( JNIEnv* env, const JniReference<jc
 
 // -------------------- JNI object field setters --------------------------------------------------
 
-void set_boolean_field(
+void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, bool value );
-
-void set_byte_field(
+void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int8_t value );
-
-void set_short_field(
+void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int16_t value );
-
-void set_int_field(
+void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int32_t value );
-
-void set_long_field(
+void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int64_t value );
-
-void set_float_field(
+void set_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint8_t value );
+void set_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint16_t value );
+void set_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint32_t value );
+void set_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint64_t value );
+void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, float value );
-
-void set_double_field(
+void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, double value );
+void set_field_value( JNIEnv* env,
+                      const JniReference<jobject>& object,
+                      const char* fieldName,
+                      const std::string& fieldValue );
 
-void set_string_field( JNIEnv* env,
-                       const JniReference<jobject>& object,
-                       const char* fieldName,
-                       const std::string& fieldValue );
+void set_field_value( JNIEnv* env,
+                      const JniReference< jobject >& object,
+                      const char* fieldName,
+                      ::std::shared_ptr< bool > value );
+void set_field_value( JNIEnv* env,
+                      const JniReference< jobject >& object,
+                      const char* fieldName,
+                      ::std::shared_ptr< int8_t > value );
+void set_field_value( JNIEnv* env,
+                      const JniReference< jobject >& object,
+                      const char* fieldName,
+                      ::std::shared_ptr< int16_t > value );
+void set_field_value( JNIEnv* env,
+                      const JniReference< jobject >& object,
+                      const char* fieldName,
+                      ::std::shared_ptr< int32_t > value );
+void set_field_value( JNIEnv* env,
+                      const JniReference< jobject >& object,
+                      const char* fieldName,
+                      ::std::shared_ptr< int64_t > value );
+void set_field_value( JNIEnv* env,
+                      const JniReference< jobject >& object,
+                      const char* fieldName,
+                      ::std::shared_ptr< uint8_t > value );
+void set_field_value( JNIEnv* env,
+                      const JniReference< jobject >& object,
+                      const char* fieldName,
+                      ::std::shared_ptr< uint16_t > value );
+void set_field_value( JNIEnv* env,
+                      const JniReference< jobject >& object,
+                      const char* fieldName,
+                      ::std::shared_ptr< uint32_t > value );
+void set_field_value( JNIEnv* env,
+                      const JniReference< jobject >& object,
+                      const char* fieldName,
+                      ::std::shared_ptr< uint64_t > value );
+void set_field_value( JNIEnv* env,
+                      const JniReference< jobject >& object,
+                      const char* fieldName,
+                      ::std::shared_ptr< float > value );
+void set_field_value( JNIEnv* env,
+                      const JniReference< jobject >& object,
+                      const char* fieldName,
+                      ::std::shared_ptr< double > value );
+void set_field_value( JNIEnv* env,
+                      const JniReference< jobject >& object,
+                      const char* fieldName,
+                      ::std::shared_ptr< ::std::string > value );
+void set_field_value( JNIEnv* env,
+                      const JniReference<jobject>& object,
+                      const char* fieldName,
+                      const std::shared_ptr< ::std::vector< uint8_t > >& fieldValue );
 
-void set_nullable_boolean_field( JNIEnv* env,
-                                 const JniReference< jobject >& object,
-                                 const char* fieldName,
-                                 ::std::shared_ptr< bool > value );
-
-void set_nullable_byte_field( JNIEnv* env,
-                              const JniReference< jobject >& object,
-                              const char* fieldName,
-                              ::std::shared_ptr< int8_t > value );
-
-void set_nullable_short_field( JNIEnv* env,
-                               const JniReference< jobject >& object,
-                               const char* fieldName,
-                               ::std::shared_ptr< int16_t > value );
-
-void set_nullable_integer_field( JNIEnv* env,
-                                 const JniReference< jobject >& object,
-                                 const char* fieldName,
-                                 ::std::shared_ptr< int32_t > value );
-
-void set_nullable_long_field( JNIEnv* env,
-                              const JniReference< jobject >& object,
-                              const char* fieldName,
-                              ::std::shared_ptr< int64_t > value );
-
-
-void set_nullable_float_field( JNIEnv* env,
-                               const JniReference< jobject >& object,
-                               const char* fieldName,
-                               ::std::shared_ptr< float > value );
-
-void set_nullable_double_field( JNIEnv* env,
-                                const JniReference< jobject >& object,
-                                const char* fieldName,
-                                ::std::shared_ptr< double > value );
-
-void set_nullable_string_field( JNIEnv* env,
-                                const JniReference< jobject >& object,
-                                const char* fieldName,
-                                ::std::shared_ptr< ::std::string > value );
-
-void set_byte_array_field( JNIEnv* env,
-                           const JniReference<jobject>& object,
-                           const char* fieldName,
-                           const std::shared_ptr< ::std::vector< uint8_t > >& fieldValue );
-
-void set_object_field( JNIEnv* env,
-                       const JniReference<jobject>& object,
-                       const char* fieldName,
-                       const char* fieldSignature,
-                       const JniReference<jobject>& fieldValue );
+void set_object_field_value( JNIEnv* env,
+                             const JniReference<jobject>& object,
+                             const char* fieldName,
+                             const char* fieldSignature,
+                             const JniReference<jobject>& fieldValue );
 
 }
 }
