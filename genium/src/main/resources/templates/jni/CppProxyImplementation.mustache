@@ -67,7 +67,7 @@ using namespace ::{{internalNamespace}}::jni;
     auto jException = {{internalNamespace}}::jni::make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
-        auto jEnumValue = {{internalNamespace}}::jni::get_object_field(
+        auto jEnumValue = {{internalNamespace}}::jni::get_object_field_value(
             jniEnv,
             jException,
             "error",

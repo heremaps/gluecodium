@@ -32,7 +32,8 @@ namespace jni
 {{cppEnumName}}
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppEnumName}}* dummy)
 {
-    return {{cppEnumName}}({{internalNamespace}}::jni::get_int_field(_jenv, _jinput, "value"));
+    return {{cppEnumName}}(
+        {{internalNamespace}}::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
 
 std::shared_ptr<{{cppEnumName}}>

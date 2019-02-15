@@ -36,14 +36,18 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppStruc
 {{#fields}}{{#if hasCustomType}}
     {{cppField.type.name}} n_{{cppField.name}} = convert_from_jni(
         _jenv,
-        {{internalNamespace}}::jni::get_object_field(
+        {{internalNamespace}}::jni::get_object_field_value(
         _jenv,
         _jinput,
         "{{javaField.name}}",
         "L{{join javaField.type.packageNames delimiter="/"}}/{{join javaField.type.classNames delimiter="$"}};"),
         ({{cppField.type.name}}*)nullptr );
 {{/if}}{{#unless hasCustomType}}
-    {{cppField.type.name}} n_{{cppField.name}} = {{internalNamespace}}::jni::get_{{#if isNullable}}nullable_{{/if}}{{javaField.type.literalName}}_field(_jenv, _jinput, "{{javaField.name}}");
+    {{cppField.type.name}} n_{{cppField.name}} = {{internalNamespace}}::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "{{javaField.name}}",
+        ({{cppField.type.name}}*)nullptr );
 {{/unless}}
     {{#unless cppStruct.isImmutable}}_nout.{{#if cppSetterName}}{{cppSetterName}}({{/if}}{{#unless cppSetterName}}{{cppField.name}} = {{/unless}}n_{{cppField.name}}{{#if cppSetterName}}){{/if}};{{/unless}}
 {{/fields}}
