@@ -55,7 +55,7 @@ get_field_value( JNIEnv* env,
                  const char* fieldName,
                  bool* dummy )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "Z" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "Z" );
 
     return env->GetBooleanField( object.get(), fieldId );
 }
@@ -66,7 +66,7 @@ get_field_value( JNIEnv* env,
                  const char* fieldName,
                  int8_t* dummy )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "B" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "B" );
 
     return env->GetByteField( object.get(), fieldId );
 }
@@ -77,7 +77,7 @@ get_field_value( JNIEnv* env,
                  const char* fieldName,
                  int16_t* dummy )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "S" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "S" );
 
     return env->GetShortField( object.get(), fieldId );
 }
@@ -88,7 +88,7 @@ get_field_value( JNIEnv* env,
                  const char* fieldName,
                  int32_t* dummy )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "I" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "I" );
 
     return env->GetIntField( object.get(), fieldId );
 }
@@ -99,7 +99,7 @@ get_field_value( JNIEnv* env,
                  const char* fieldName,
                  int64_t* dummy )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "J" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "J" );
 
     return env->GetLongField( object.get(), fieldId );
 }
@@ -110,7 +110,7 @@ get_field_value( JNIEnv* env,
                  const char* fieldName,
                  uint8_t* dummy )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "S" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "S" );
 
     return static_cast<uint8_t>( env->GetShortField( object.get(), fieldId ) );
 }
@@ -121,7 +121,7 @@ get_field_value( JNIEnv* env,
                  const char* fieldName,
                  uint16_t* dummy )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "I" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "I" );
 
     return static_cast<uint16_t>( env->GetIntField( object.get(), fieldId ) );
 }
@@ -132,7 +132,7 @@ get_field_value( JNIEnv* env,
                  const char* fieldName,
                  uint32_t* dummy )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "J" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "J" );
 
     return static_cast<uint32_t>( env->GetLongField( object.get(), fieldId ) );
 }
@@ -143,7 +143,7 @@ get_field_value( JNIEnv* env,
                  const char* fieldName,
                  uint64_t* dummy )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "J" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "J" );
 
     return static_cast<uint64_t>( env->GetLongField( object.get(), fieldId ) );
 }
@@ -154,7 +154,7 @@ get_field_value( JNIEnv* env,
                  const char* fieldName,
                  float* dummy )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "F" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "F" );
 
     return env->GetFloatField( object.get(), fieldId );
 }
@@ -165,7 +165,7 @@ get_field_value( JNIEnv* env,
                  const char* fieldName,
                  double* dummy )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "D" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "D" );
 
     return env->GetDoubleField( object.get(), fieldId );
 }
@@ -319,7 +319,7 @@ get_field_value( JNIEnv* env,
                  const char* fieldName,
                  std::shared_ptr<std::vector<uint8_t>>* dummy )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "[B" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "[B" );
     auto fieldValue = make_local_ref( env, static_cast<jbyteArray>( env->GetObjectField( object.get(), fieldId ) ) );
 
     return convert_from_jni( env, fieldValue, (std::shared_ptr<std::vector<uint8_t>>*)nullptr );
@@ -331,7 +331,7 @@ get_object_field_value( JNIEnv* env,
                         const char* fieldName,
                         const char* fieldSignature )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, fieldSignature );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, fieldSignature );
 
     return make_local_ref(env, env->GetObjectField( object.get(), fieldId ));
 }
@@ -368,7 +368,7 @@ set_boolean_field( JNIEnv* env,
                    const char* fieldName,
                    bool value )
 {
-    auto fieldID = env->GetFieldID( get_object_class(env, object).release(), fieldName, "Z" );
+    auto fieldID = env->GetFieldID( get_object_class(env, object).get(), fieldName, "Z" );
     env->SetBooleanField( object.get(), fieldID, value );
 }
 
@@ -378,7 +378,7 @@ set_byte_field( JNIEnv* env,
                 const char* fieldName,
                 int8_t value )
 {
-    auto fieldID = env->GetFieldID( get_object_class(env, object).release(), fieldName, "B" );
+    auto fieldID = env->GetFieldID( get_object_class(env, object).get(), fieldName, "B" );
     env->SetByteField( object.get(), fieldID, value );
 }
 
@@ -388,7 +388,7 @@ set_short_field( JNIEnv* env,
                  const char* fieldName,
                  int16_t value )
 {
-    auto fieldID = env->GetFieldID( get_object_class(env, object).release(), fieldName, "S" );
+    auto fieldID = env->GetFieldID( get_object_class(env, object).get(), fieldName, "S" );
     env->SetShortField( object.get(), fieldID, value );
 }
 
@@ -398,7 +398,7 @@ set_int_field( JNIEnv* env,
                const char* fieldName,
                int32_t value )
 {
-    auto fieldID = env->GetFieldID( get_object_class(env, object).release(), fieldName, "I" );
+    auto fieldID = env->GetFieldID( get_object_class(env, object).get(), fieldName, "I" );
     env->SetIntField( object.get(), fieldID, value );
 }
 
@@ -408,7 +408,7 @@ set_long_field( JNIEnv* env,
                 const char* fieldName,
                 int64_t value )
 {
-    auto fieldID = env->GetFieldID( get_object_class(env, object).release(), fieldName, "J" );
+    auto fieldID = env->GetFieldID( get_object_class(env, object).get(), fieldName, "J" );
     env->SetLongField( object.get(), fieldID, value );
 }
 
@@ -418,7 +418,7 @@ set_float_field( JNIEnv* env,
                  const char* fieldName,
                  float value )
 {
-    auto fieldID = env->GetFieldID( get_object_class(env, object).release(), fieldName, "F" );
+    auto fieldID = env->GetFieldID( get_object_class(env, object).get(), fieldName, "F" );
     env->SetFloatField( object.get(), fieldID, value );
 }
 
@@ -428,7 +428,7 @@ set_double_field( JNIEnv* env,
                   const char* fieldName,
                   double value )
 {
-    auto fieldID = env->GetFieldID( get_object_class(env, object).release(), fieldName, "D" );
+    auto fieldID = env->GetFieldID( get_object_class(env, object).get(), fieldName, "D" );
     env->SetDoubleField( object.get(), fieldID, value );
 }
 
@@ -438,9 +438,9 @@ set_string_field( JNIEnv* env,
                   const char* fieldName,
                   const std::string& fieldValue )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "Ljava/lang/String;" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "Ljava/lang/String;" );
     auto jValue = {{.}}::jni::convert_to_jni( env, fieldValue );
-    env->SetObjectField( object.get(), fieldId, jValue.release() );
+    env->SetObjectField( object.get(), fieldId, jValue.get() );
 }
 
 void
@@ -519,7 +519,7 @@ set_nullable_string_field( JNIEnv* env,
                            const char* fieldName,
                            std::shared_ptr<std::string> fieldValue )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "Ljava/lang/String;" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "Ljava/lang/String;" );
     auto jValue = {{.}}::jni::convert_to_jni( env, fieldValue );
     env->SetObjectField( object.get(), fieldId, jValue.get() );
 }
@@ -530,7 +530,7 @@ set_byte_array_field( JNIEnv* env,
                       const char* fieldName,
                       const std::shared_ptr<std::vector<uint8_t>>& fieldValue )
 {
-    auto fieldId = env->GetFieldID( get_object_class(env, object).release(), fieldName, "[B" );
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "[B" );
     auto jValue = {{.}}::jni::convert_to_jni( env, fieldValue );
     env->SetObjectField( object.get(), fieldId, jValue.get() );
 }
@@ -541,7 +541,7 @@ void set_object_field( JNIEnv* env,
                        const char* fieldSignature,
                        const JniReference<jobject>& fieldValue )
 {
-    auto fieldID = env->GetFieldID( get_object_class(env, object).release(), fieldName, fieldSignature );
+    auto fieldID = env->GetFieldID( get_object_class(env, object).get(), fieldName, fieldSignature );
     env->SetObjectField( object.get(), fieldID, fieldValue.get() );
 }
 
