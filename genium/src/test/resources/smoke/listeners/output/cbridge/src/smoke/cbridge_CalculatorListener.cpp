@@ -115,7 +115,7 @@ void smoke_CalculatorListener_NamedCalculationResults_iterator_release_handle(_b
     delete reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle );
 }
 void smoke_CalculatorListener_NamedCalculationResults_put(_baseRef handle, _baseRef key, double value) {
-    (*get_pointer<std::unordered_map<std::string, double>>(handle))[Conversion<std::string>::toCpp(key)] = value;
+    (*get_pointer<std::unordered_map<std::string, double>>(handle)).emplace(std::move(Conversion<std::string>::toCpp(key)), std::move(value));
 }
 bool smoke_CalculatorListener_NamedCalculationResults_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, double>>(handle)->end();

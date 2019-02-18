@@ -22,6 +22,13 @@
 
 namespace test
 {
+PlainDataStructures::MapToImmutableStruct
+PlainDataStructures::map_of_immutables_round_trip(
+    const PlainDataStructures::MapToImmutableStruct& input )
+{
+    return input;
+}
+
 PlainDataStructures::Point
 PlainDataStructures::create_point( const double x, const double y )
 {
@@ -93,6 +100,7 @@ PlainDataStructures::modify_all_types_struct( const PlainDataStructures::AllType
     output.point_field = PlainDataStructures::swap_point_coordinates( input.point_field );
     return output;
 }
+
 bool
 PlainDataStructures::check_all_fields_are_initialized( )
 {

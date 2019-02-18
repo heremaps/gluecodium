@@ -207,7 +207,7 @@ convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jMap, ::std::unord
         auto jValue = call_java_method<jobject>( _env, jEntry, getValueMethodId );
         V nValue = convert_from_jni( _env, jValue, (V*)nullptr );
 
-        _nresult[ nKey ] = nValue;
+        _nresult.emplace( std::move( nKey ), std::move( nValue ) );
     }
 
     return _nresult;

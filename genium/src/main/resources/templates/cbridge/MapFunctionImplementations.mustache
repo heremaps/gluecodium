@@ -35,8 +35,8 @@ void {{name}}_iterator_release_handle(_baseRef iterator_handle) {
 }
 
 void {{name}}_put(_baseRef handle, {{keyType.functionReturnType}} key, {{valueType.functionReturnType}} value) {
-    (*get_pointer<{{>baseApi}}>(handle))[{{#set variableName="key" variableType=keyType}}{{>ConvertToCpp}}{{/set}}]{{!!
-       }} = {{#set variableName="value" variableType=valueType}}{{>ConvertToCpp}}{{/set}};
+    (*get_pointer<{{>baseApi}}>(handle)).emplace(std::move({{#set variableName="key" variableType=keyType}}{{>ConvertToCpp}}{{/set}}),{{!!
+       }} std::move({{#set variableName="value" variableType=valueType}}{{>ConvertToCpp}}{{/set}}));
 }
 
 bool {{name}}_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {

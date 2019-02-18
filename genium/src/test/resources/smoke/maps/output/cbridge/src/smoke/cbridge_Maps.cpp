@@ -111,7 +111,7 @@ void smoke_Maps_ErrorCodeToMessageMap_iterator_release_handle(_baseRef iterator_
     delete reinterpret_cast<std::unordered_map<int32_t, std::string>::iterator*>( iterator_handle );
 }
 void smoke_Maps_ErrorCodeToMessageMap_put(_baseRef handle, int32_t key, _baseRef value) {
-    (*get_pointer<std::unordered_map<int32_t, std::string>>(handle))[key] = Conversion<std::string>::toCpp(value);
+    (*get_pointer<std::unordered_map<int32_t, std::string>>(handle)).emplace(std::move(key), std::move(Conversion<std::string>::toCpp(value)));
 }
 bool smoke_Maps_ErrorCodeToMessageMap_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, std::string>::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<int32_t, std::string>>(handle)->end();
@@ -149,7 +149,7 @@ void smoke_Maps_NumberToStruct_iterator_release_handle(_baseRef iterator_handle)
     delete reinterpret_cast<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>::iterator*>( iterator_handle );
 }
 void smoke_Maps_NumberToStruct_put(_baseRef handle, uint8_t key, _baseRef value) {
-    (*get_pointer<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>>(handle))[key] = Conversion<::smoke::Maps::SomeStruct>::toCpp(value);
+    (*get_pointer<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>>(handle)).emplace(std::move(key), std::move(Conversion<::smoke::Maps::SomeStruct>::toCpp(value)));
 }
 bool smoke_Maps_NumberToStruct_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>>(handle)->end();
@@ -187,7 +187,7 @@ void smoke_Maps_NestedMap_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>::iterator*>( iterator_handle );
 }
 void smoke_Maps_NestedMap_put(_baseRef handle, uint8_t key, _baseRef value) {
-    (*get_pointer<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>>(handle))[key] = Conversion<::smoke::Maps::NumberToStruct>::toCpp(value);
+    (*get_pointer<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>>(handle)).emplace(std::move(key), std::move(Conversion<::smoke::Maps::NumberToStruct>::toCpp(value)));
 }
 bool smoke_Maps_NestedMap_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>>(handle)->end();
@@ -225,7 +225,7 @@ void smoke_Maps_NumberToTypeDef_iterator_release_handle(_baseRef iterator_handle
     delete reinterpret_cast<std::unordered_map<uint8_t, std::string>::iterator*>( iterator_handle );
 }
 void smoke_Maps_NumberToTypeDef_put(_baseRef handle, uint8_t key, _baseRef value) {
-    (*get_pointer<std::unordered_map<uint8_t, std::string>>(handle))[key] = Conversion<std::string>::toCpp(value);
+    (*get_pointer<std::unordered_map<uint8_t, std::string>>(handle)).emplace(std::move(key), std::move(Conversion<std::string>::toCpp(value)));
 }
 bool smoke_Maps_NumberToTypeDef_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<uint8_t, std::string>::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<uint8_t, std::string>>(handle)->end();
@@ -263,7 +263,7 @@ void smoke_Maps_TypeDefToNumber_iterator_release_handle(_baseRef iterator_handle
     delete reinterpret_cast<std::unordered_map<std::string, uint8_t>::iterator*>( iterator_handle );
 }
 void smoke_Maps_TypeDefToNumber_put(_baseRef handle, _baseRef key, uint8_t value) {
-    (*get_pointer<std::unordered_map<std::string, uint8_t>>(handle))[Conversion<std::string>::toCpp(key)] = value;
+    (*get_pointer<std::unordered_map<std::string, uint8_t>>(handle)).emplace(std::move(Conversion<std::string>::toCpp(key)), std::move(value));
 }
 bool smoke_Maps_TypeDefToNumber_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::string, uint8_t>::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, uint8_t>>(handle)->end();
@@ -301,7 +301,7 @@ void smoke_Maps_StringToArray_iterator_release_handle(_baseRef iterator_handle) 
     delete reinterpret_cast<std::unordered_map<std::string, std::vector<int32_t>>::iterator*>( iterator_handle );
 }
 void smoke_Maps_StringToArray_put(_baseRef handle, _baseRef key, _baseRef value) {
-    (*get_pointer<std::unordered_map<std::string, std::vector<int32_t>>>(handle))[Conversion<std::string>::toCpp(key)] = Conversion<std::vector<int32_t>>::toCpp(value);
+    (*get_pointer<std::unordered_map<std::string, std::vector<int32_t>>>(handle)).emplace(std::move(Conversion<std::string>::toCpp(key)), std::move(Conversion<std::vector<int32_t>>::toCpp(value)));
 }
 bool smoke_Maps_StringToArray_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::string, std::vector<int32_t>>::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, std::vector<int32_t>>>(handle)->end();
@@ -339,7 +339,7 @@ void smoke_Maps_StringToArrayOfTypeDefs_iterator_release_handle(_baseRef iterato
     delete reinterpret_cast<std::unordered_map<std::string, std::vector<int32_t>>::iterator*>( iterator_handle );
 }
 void smoke_Maps_StringToArrayOfTypeDefs_put(_baseRef handle, _baseRef key, _baseRef value) {
-    (*get_pointer<std::unordered_map<std::string, std::vector<int32_t>>>(handle))[Conversion<std::string>::toCpp(key)] = Conversion<std::vector<int32_t>>::toCpp(value);
+    (*get_pointer<std::unordered_map<std::string, std::vector<int32_t>>>(handle)).emplace(std::move(Conversion<std::string>::toCpp(key)), std::move(Conversion<std::vector<int32_t>>::toCpp(value)));
 }
 bool smoke_Maps_StringToArrayOfTypeDefs_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::string, std::vector<int32_t>>::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, std::vector<int32_t>>>(handle)->end();
@@ -377,7 +377,7 @@ void smoke_Maps_NumberToInstance_iterator_release_handle(_baseRef iterator_handl
     delete reinterpret_cast<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>::iterator*>( iterator_handle );
 }
 void smoke_Maps_NumberToInstance_put(_baseRef handle, uint8_t key, _baseRef value) {
-    (*get_pointer<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>>(handle))[key] = Conversion<std::shared_ptr<::smoke::MapsInstance>>::toCpp(value);
+    (*get_pointer<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>>(handle)).emplace(std::move(key), std::move(Conversion<std::shared_ptr<::smoke::MapsInstance>>::toCpp(value)));
 }
 bool smoke_Maps_NumberToInstance_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
     return *reinterpret_cast<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>>(handle)->end();
