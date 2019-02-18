@@ -26,6 +26,10 @@ define GeniumExtensions for interface test.PlainDataStructures
         Immutable = true
     }
 
+    method MapOfImmutablesRoundTrip {
+        Static = true
+    }
+
     method createPoint {
         Static = true
     }

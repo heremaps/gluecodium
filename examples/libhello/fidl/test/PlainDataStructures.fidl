@@ -86,6 +86,17 @@ interface PlainDataStructures {
         Point pointField
     }
 
+    map MapToImmutableStruct { Int32 to AllTypesImmutableStruct }
+
+    method MapOfImmutablesRoundTrip {
+        in {
+            MapToImmutableStruct input
+        }
+        out {
+            MapToImmutableStruct output
+        }
+    }
+
     <** @description: Static method to create a point **>
     method createPoint {
         in {
