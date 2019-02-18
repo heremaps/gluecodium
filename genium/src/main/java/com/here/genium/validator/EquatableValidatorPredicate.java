@@ -36,7 +36,7 @@ public class EquatableValidatorPredicate extends FieldValidatorPredicate {
   private static final String INSTANCE_MESSAGE =
       "Instance fields are not supported for equatable structs: " + "field '%s' in struct '%s'.";
   private static final String NON_EQUATABLE_MESSAGE =
-      "Fields of non-serializable struct types are not supported for equatable structs: "
+      "Fields of non-equatable struct types are not supported for equatable structs: "
           + "field '%s' in struct '%s'.";
 
   @Override
