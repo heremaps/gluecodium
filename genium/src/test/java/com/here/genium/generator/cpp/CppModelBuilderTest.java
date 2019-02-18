@@ -471,6 +471,7 @@ public final class CppModelBuilderTest {
 
     CppField cppField = modelBuilder.getFinalResult(CppField.class);
     assertNotNull(cppField);
+    assertTrue(cppField.isNullable());
     assertTrue(cppField.type instanceof CppTemplateTypeRef);
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) cppField.type;
     assertEquals(TemplateClass.SHARED_POINTER, cppTemplateTypeRef.getTemplateClass());

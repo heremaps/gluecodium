@@ -50,4 +50,5 @@ bool {{#className}}{{.}}::{{/className}}{{name}}::operator!=( const {{name}}& rh
 }
 
 {{/if}}{{/unless}}{{!!
-}}{{+fieldEq}}{{name}} == rhs.{{name}}{{/fieldEq}}
+}}{{+fieldEq}}{{#if isNullable}}( ( {{name}} && rhs.{{name}} ) ? ( *{{name}} == *rhs.{{name}} ) : ( {{name}} == rhs.{{name}} ) ){{/if}}{{!!
+}}{{#unless isNullable}}{{name}} == rhs.{{name}}{{/unless}}{{/fieldEq}}
