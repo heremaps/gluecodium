@@ -34,6 +34,18 @@ typeCollection Equatable {
         String[] arrayField
     }
 
+    struct EquatableNullableStruct {
+        Boolean boolField
+        Int32 intField
+        UInt16 uintField
+        Float floatField
+        String stringField
+        NestedEquatableStruct structField
+        SomeSomeEnum enumField
+        SomeMap mapField
+        String[] arrayField
+    }
+
     struct NestedEquatableStruct {
         String fooField
     }
@@ -69,6 +81,16 @@ interface EquatableInterface {
         in {
             Equatable.EquatableStruct lhs
             Equatable.EquatableStruct rhs
+        }
+        out {
+            Boolean result
+        }
+    }
+
+    method areEqual:foreignNullableStruct {
+        in {
+            Equatable.EquatableNullableStruct lhs
+            Equatable.EquatableNullableStruct rhs
         }
         out {
             Boolean result

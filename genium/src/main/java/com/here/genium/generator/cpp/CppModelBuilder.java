@@ -174,7 +174,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppTypeRef cppTypeRef = getPreviousResult(CppTypeRef.class);
     CppValue initializer = valueMapper.mapDeploymentDefaultValue(cppTypeRef, francaField);
-    if (deploymentModel.isNullable(francaField)) {
+    boolean isNullable = deploymentModel.isNullable(francaField);
+    if (isNullable) {
       cppTypeRef = CppTypeMapper.createSharedPointerType(cppTypeRef);
     }
 
@@ -183,7 +184,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             nameResolver.getName(francaField),
             cppTypeRef,
             initializer,
-            deploymentModel.isNotNull(francaField));
+            deploymentModel.isNotNull(francaField),
+            isNullable);
     cppField.comment = CommentHelper.getDescription(francaField);
 
     storeResult(cppField);

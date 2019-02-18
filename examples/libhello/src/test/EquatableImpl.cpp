@@ -35,4 +35,11 @@ EquatableInterface::are_equal( const EquatableStruct& lhs, const EquatableStruct
     return lhs == rhs;
 }
 
+bool
+EquatableInterface::are_equal( const EquatableNullableStruct& lhs,
+                               const EquatableNullableStruct& rhs )
+{
+    return lhs == rhs;
+}
+
 }  // namespace test

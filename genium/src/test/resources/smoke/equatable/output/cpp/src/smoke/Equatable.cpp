@@ -40,6 +40,33 @@ bool EquatableStruct::operator!=( const EquatableStruct& rhs ) const
     return !( *this == rhs );
 }
 
+EquatableNullableStruct::EquatableNullableStruct( )
+    : bool_field{ }, int_field{ }, uint_field{ }, float_field{ }, string_field{ }, struct_field{ }, enum_field{ }, array_field{ }, map_field{ }
+{
+}
+
+EquatableNullableStruct::EquatableNullableStruct( const ::std::shared_ptr< bool >& bool_field, const ::std::shared_ptr< int32_t >& int_field, const ::std::shared_ptr< uint16_t >& uint_field, const ::std::shared_ptr< float >& float_field, const ::std::shared_ptr< ::std::string >& string_field, const ::std::shared_ptr< ::smoke::NestedEquatableStruct >& struct_field, const ::std::shared_ptr< ::smoke::SomeEnum >& enum_field, const ::std::shared_ptr< ::std::vector< ::std::string > >& array_field, const ::std::shared_ptr< ::smoke::ErrorCodeToMessageMap >& map_field )
+    : bool_field( bool_field ), int_field( int_field ), uint_field( uint_field ), float_field( float_field ), string_field( string_field ), struct_field( struct_field ), enum_field( enum_field ), array_field( array_field ), map_field( map_field )
+{
+}
+
+bool EquatableNullableStruct::operator==( const EquatableNullableStruct& rhs ) const
+{
+    return ( ( bool_field && rhs.bool_field ) ? ( *bool_field == *rhs.bool_field ) : ( bool_field == rhs.bool_field ) ) &&
+        ( ( int_field && rhs.int_field ) ? ( *int_field == *rhs.int_field ) : ( int_field == rhs.int_field ) ) &&
+        ( ( uint_field && rhs.uint_field ) ? ( *uint_field == *rhs.uint_field ) : ( uint_field == rhs.uint_field ) ) &&
+        ( ( float_field && rhs.float_field ) ? ( *float_field == *rhs.float_field ) : ( float_field == rhs.float_field ) ) &&
+        ( ( string_field && rhs.string_field ) ? ( *string_field == *rhs.string_field ) : ( string_field == rhs.string_field ) ) &&
+        ( ( struct_field && rhs.struct_field ) ? ( *struct_field == *rhs.struct_field ) : ( struct_field == rhs.struct_field ) ) &&
+        ( ( enum_field && rhs.enum_field ) ? ( *enum_field == *rhs.enum_field ) : ( enum_field == rhs.enum_field ) ) &&
+        ( ( array_field && rhs.array_field ) ? ( *array_field == *rhs.array_field ) : ( array_field == rhs.array_field ) ) &&
+        ( ( map_field && rhs.map_field ) ? ( *map_field == *rhs.map_field ) : ( map_field == rhs.map_field ) );
+}
+bool EquatableNullableStruct::operator!=( const EquatableNullableStruct& rhs ) const
+{
+    return !( *this == rhs );
+}
+
 NestedEquatableStruct::NestedEquatableStruct( )
     : foo_field{ }
 {

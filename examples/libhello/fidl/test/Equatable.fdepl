@@ -25,6 +25,38 @@ define GeniumExtensions for typeCollection test.Equatable {
         Equatable = true
     }
 
+    struct EquatableNullableStruct {
+        Equatable = true
+
+        boolField {
+            Nullable = true
+        }
+        intField {
+            Nullable = true
+        }
+        uintField {
+            Nullable = true
+        }
+        floatField {
+            Nullable = true
+        }
+        stringField {
+            Nullable = true
+        }
+        structField {
+            Nullable = true
+        }
+        enumField {
+            Nullable = true
+        }
+        mapField {
+            Nullable = true
+        }
+        arrayField {
+            Nullable = true
+        }
+    }
+
     struct NestedEquatableStruct {
         Equatable = true
     }
@@ -40,6 +72,10 @@ define GeniumExtensions for interface test.EquatableInterface {
     }
 
     method areEqual:foreignStruct {
+        Static = true
+    }
+
+    method areEqual:foreignNullableStruct {
         Static = true
     }
 }
