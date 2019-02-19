@@ -5,6 +5,7 @@
   + Fixed compilation issues for nullable Int32 struct fields in JNI.
   + Fixed compilation issues for nullable unsigned integer struct fields in JNI.
   + Fixed generated equality operator implementation for nullable struct fields in C++.
+  + Fixed compilation issues for immutable structs that are used inside other container types.
   + Fixed leaking JNI local references.
 
 ## 3.20.2

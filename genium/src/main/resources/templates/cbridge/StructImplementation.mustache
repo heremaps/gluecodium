@@ -21,10 +21,10 @@
 _baseRef
 {{name}}_create_handle( {{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}} )
 {
-{{#unless isImmutable}}    {{baseApiName}}* _struct = new ( std::nothrow ) {{baseApiName}}();{{/unless}}
+{{#unless hasImmutableFields}}    {{baseApiName}}* _struct = new ( std::nothrow ) {{baseApiName}}();{{/unless}}
 {{#fields}}
-{{#if isImmutable}}    auto _{{name}} = {{/if}}{{!!
-}}{{#unless isImmutable}}    _struct->{{#if baseLayerSetterName}}{{baseLayerSetterName}}( {{/if}}{{!!
+{{#if hasImmutableFields}}    auto _{{name}} = {{/if}}{{!!
+}}{{#unless hasImmutableFields}}    _struct->{{#if baseLayerSetterName}}{{baseLayerSetterName}}( {{/if}}{{!!
 }}{{#unless baseLayerSetterName}}{{baseLayerName}} = {{/unless}}{{/unless}}{{!!
 }}{{#switch type.typeCategory.toString}}{{!!
     }}{{#case "BUILTIN_SIMPLE"}}{{name}}{{/case}}{{!!
@@ -32,7 +32,7 @@ _baseRef
     }}{{#default}}Conversion<{{type}}>::toCpp( {{name}} ){{/default}}{{!!
 }}{{/switch}}{{#if baseLayerSetterName}} ){{/if}};
 {{/fields}}
-{{#if isImmutable}}    {{baseApiName}}* _struct = new ( std::nothrow ) {{baseApiName}}( {{#fields}}_{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}} );{{/if}}
+{{#if hasImmutableFields}}    {{baseApiName}}* _struct = new ( std::nothrow ) {{baseApiName}}( {{#fields}}_{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}} );{{/if}}
     return reinterpret_cast<_baseRef>( _struct );
 }
 

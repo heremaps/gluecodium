@@ -27,7 +27,8 @@ class CppField @JvmOverloads constructor(
     type: CppTypeRef,
     val initializer: CppValue? = null,
     val isNotNull: Boolean = false,
-    val isNullable: Boolean = false
+    val isNullable: Boolean = false,
+    val hasImmutableType: Boolean = false
 ) : CppTypedElement(name, type) {
 
     override fun stream() = Stream.of(type, initializer)
