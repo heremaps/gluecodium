@@ -231,7 +231,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
             CBridgeNameRules.getStructBaseName(francaStruct),
             cppStruct.fullyQualifiedName,
             typeMapper.createCustomTypeInfo(francaStruct, STRUCT),
-            cppStruct.isImmutable());
+            cppStruct.getHasImmutableFields());
     cStruct.fields.addAll(getPreviousResults(CField.class));
 
     storeResult(cStruct);

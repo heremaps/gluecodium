@@ -385,7 +385,23 @@ public final class CBridgeModelBuilderTest {
 
     CStruct cStruct = modelBuilder.getFinalResult(CStruct.class);
     assertNotNull(cStruct);
-    assertTrue(cStruct.isImmutable);
+    assertTrue(cStruct.hasImmutableFields);
+  }
+
+  @Test
+  public void finishBuildingStructReadsHasImmutableFields() {
+    CppField immutableTypeField =
+        new CppField("", CppPrimitiveTypeRef.Companion.getBOOL(), null, false, false, true);
+    when(cppModelbuilder.getFinalResult(CppStruct.class))
+        .thenReturn(
+            new CppStruct(
+                STRUCT_NAME, STRUCT_NAME, "", Collections.singletonList(immutableTypeField)));
+
+    modelBuilder.finishBuilding(francaStruct);
+
+    CStruct cStruct = modelBuilder.getFinalResult(CStruct.class);
+    assertNotNull(cStruct);
+    assertTrue(cStruct.hasImmutableFields);
   }
 
   @Test

@@ -35,5 +35,8 @@ class CppStruct @JvmOverloads constructor(
     @Suppress("unused")
     val hasPartialDefaults = uninitializedFields.isNotEmpty() && uninitializedFields.size < fields.size
 
+    @Suppress("unused")
+    val hasImmutableFields = isImmutable || fields.any { it.hasImmutableType }
+
     override fun stream() = fields.stream()
 }
