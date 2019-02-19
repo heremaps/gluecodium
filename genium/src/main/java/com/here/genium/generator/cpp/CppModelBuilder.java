@@ -179,13 +179,18 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
       cppTypeRef = CppTypeMapper.createSharedPointerType(cppTypeRef);
     }
 
+    FType fieldType = francaField.getType().getDerived();
+    boolean hasImmutableType =
+        fieldType instanceof FStructType && deploymentModel.isImmutable((FStructType) fieldType);
+
     CppField cppField =
         new CppField(
             nameResolver.getName(francaField),
             cppTypeRef,
             initializer,
             deploymentModel.isNotNull(francaField),
-            isNullable);
+            isNullable,
+            hasImmutableType);
     cppField.comment = CommentHelper.getDescription(francaField);
 
     storeResult(cppField);

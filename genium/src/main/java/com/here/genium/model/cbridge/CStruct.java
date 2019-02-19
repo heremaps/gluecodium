@@ -28,17 +28,17 @@ public final class CStruct extends CType {
   public final String baseApiName;
   public final CppTypeInfo mappedType;
   public final List<CField> fields = new LinkedList<>();
-  public final boolean isImmutable;
+  public final boolean hasImmutableFields;
 
   public CStruct(
       final String name,
       final String baseApiName,
       final CppTypeInfo mappedType,
-      final boolean isImmutable) {
+      final boolean hasImmutableFields) {
     super(name);
     this.baseApiName = baseApiName;
     this.mappedType = mappedType;
-    this.isImmutable = isImmutable;
+    this.hasImmutableFields = hasImmutableFields;
   }
 
   public String getType() {

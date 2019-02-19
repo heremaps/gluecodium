@@ -80,6 +80,7 @@ public class CppModelBuilderCommentsTest {
         new CppModelBuilder(contextStack, deploymentModel, typeMapper, valueMapper, nameResolver);
 
     when(CommentHelper.getDescription(any())).thenReturn(COMMENT);
+    when(francaField.getType()).thenReturn(mock(FTypeRef.class));
 
     when(nameResolver.getName(any())).thenReturn("");
     when(nameResolver.getFullyQualifiedName(any())).thenReturn("");

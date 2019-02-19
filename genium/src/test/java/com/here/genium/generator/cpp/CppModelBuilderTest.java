@@ -114,6 +114,7 @@ public final class CppModelBuilderTest {
     when(francaMapType.getKeyType()).thenReturn(francaTypeRef);
     when(francaMapType.getValueType()).thenReturn(francaAnotherTypeRef);
     when(francaConstant.getRhs()).thenReturn(francaInitializerExpression);
+    when(francaField.getType()).thenReturn(francaTypeRef);
 
     when(nameResolver.getFullyQualifiedGetterName(any())).thenReturn(DUMMY_FQN);
     when(nameResolver.getFullyQualifiedSetterName(any())).thenReturn(DUMMY_FQN);
@@ -476,6 +477,19 @@ public final class CppModelBuilderTest {
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) cppField.type;
     assertEquals(TemplateClass.SHARED_POINTER, cppTemplateTypeRef.getTemplateClass());
     assertEquals(cppComplexTypeRef, cppTemplateTypeRef.getTemplateParameters().get(0));
+  }
+
+  @Test
+  public void finishBuildingFrancaFieldReadsImmutable() {
+    when(francaTypeRef.getDerived()).thenReturn(mock(FStructType.class));
+    when(deploymentModel.isImmutable(any())).thenReturn(true);
+    contextStack.injectResult(cppComplexTypeRef);
+
+    modelBuilder.finishBuilding(francaField);
+
+    CppField cppField = modelBuilder.getFinalResult(CppField.class);
+    assertNotNull(cppField);
+    assertTrue(cppField.getHasImmutableType());
   }
 
   @Test

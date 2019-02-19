@@ -32,7 +32,7 @@ namespace jni
 {{cppStruct.fullyQualifiedName}}
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppStruct.fullyQualifiedName}}* dummy)
 {
-    {{#unless cppStruct.isImmutable}}{{cppStruct.fullyQualifiedName}} _nout{};{{/unless}}
+    {{#unless cppStruct.hasImmutableFields}}{{cppStruct.fullyQualifiedName}} _nout{};{{/unless}}
 {{#fields}}{{#if hasCustomType}}
     {{cppField.type.name}} n_{{cppField.name}} = convert_from_jni(
         _jenv,
@@ -49,10 +49,10 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppStruc
         "{{javaField.name}}",
         ({{cppField.type.name}}*)nullptr );
 {{/unless}}
-    {{#unless cppStruct.isImmutable}}_nout.{{#if cppSetterName}}{{cppSetterName}}({{/if}}{{#unless cppSetterName}}{{cppField.name}} = {{/unless}}n_{{cppField.name}}{{#if cppSetterName}}){{/if}};{{/unless}}
+    {{#unless cppStruct.hasImmutableFields}}_nout.{{#if cppSetterName}}{{cppSetterName}}({{/if}}{{#unless cppSetterName}}{{cppField.name}} = {{/unless}}n_{{cppField.name}}{{#if cppSetterName}}){{/if}};{{/unless}}
 {{/fields}}
-    {{#if cppStruct.isImmutable}}return {{cppStruct.fullyQualifiedName}}({{#fields}}n_{{cppField.name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});{{/if}}{{!!
-    }}{{#unless cppStruct.isImmutable}}return _nout;{{/unless}}
+    {{#if cppStruct.hasImmutableFields}}return {{cppStruct.fullyQualifiedName}}({{#fields}}std::move(n_{{cppField.name}}){{#if iter.hasNext}}, {{/if}}{{/fields}});{{/if}}{{!!
+    }}{{#unless cppStruct.hasImmutableFields}}return _nout;{{/unless}}
 }
 
 std::shared_ptr<{{cppStruct.fullyQualifiedName}}>

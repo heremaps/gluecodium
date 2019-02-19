@@ -30,19 +30,10 @@ public class JniStruct extends JniTopLevelElement {
   public final List<JniField> fields;
 
   public JniStruct(
-      final JniContainer owningContainer,
-      final JavaClass javaClass,
-      final CppStruct cppStruct,
-      final List<JniField> fields) {
+      final JavaClass javaClass, final CppStruct cppStruct, final List<JniField> fields) {
     super(javaClass.javaPackage);
-    this.owningContainer = owningContainer;
     this.javaClass = javaClass;
     this.cppStruct = cppStruct;
     this.fields = fields;
-  }
-
-  public JniStruct(
-      final JavaClass javaClass, final CppStruct cppStruct, final List<JniField> fields) {
-    this(null, javaClass, cppStruct, fields);
   }
 }

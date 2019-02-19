@@ -86,6 +86,10 @@ interface PlainDataStructures {
         Point pointField
     }
 
+    struct NestingImmutableStruct {
+        AllTypesImmutableStruct structField
+    }
+
     map MapToImmutableStruct { Int32 to AllTypesImmutableStruct }
 
     method MapOfImmutablesRoundTrip {
