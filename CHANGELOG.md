@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.20.3
+- Release date: 2019-02-21
 - Bug fixes:
   + Fixed compilation issues for nullable Int32 struct fields in JNI.
   + Fixed compilation issues for nullable unsigned integer struct fields in JNI.
