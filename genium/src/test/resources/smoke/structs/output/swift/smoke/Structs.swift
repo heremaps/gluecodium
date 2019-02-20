@@ -214,6 +214,19 @@ public class Structs {
             return smoke_Structs_YetAnotherExternalStruct_create_handle(c_stringField.ref)
         }
     }
+    public struct NestingImmutableStruct {
+        public var structField: Structs.AllTypesStruct
+        public init(structField: Structs.AllTypesStruct) {
+            self.structField = structField
+        }
+        internal init(cHandle: _baseRef) {
+            structField = moveFromCType(smoke_Structs_NestingImmutableStruct_structField_get(cHandle))
+        }
+        internal func convertToCType() -> _baseRef {
+            let c_structField = moveToCType(structField)
+            return smoke_Structs_NestingImmutableStruct_create_handle(c_structField.ref)
+        }
+    }
     public static func createPoint(x: Double, y: Double) -> Structs.Point {
         let c_x = moveToCType(x)
         let c_y = moveToCType(y)
@@ -583,6 +596,43 @@ internal func copyToCType(_ swiftType: Structs.YetAnotherExternalStruct?) -> Ref
 }
 internal func moveToCType(_ swiftType: Structs.YetAnotherExternalStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_YetAnotherExternalStruct_release_optional_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.NestingImmutableStruct {
+    return Structs.NestingImmutableStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.NestingImmutableStruct {
+    defer {
+        smoke_Structs_NestingImmutableStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.NestingImmutableStruct) -> RefHolder {
+    return RefHolder(swiftType.convertToCType())
+}
+internal func moveToCType(_ swiftType: Structs.NestingImmutableStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_NestingImmutableStruct_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.NestingImmutableStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Structs_NestingImmutableStruct_unwrap_optional_handle(handle)
+    return Structs.NestingImmutableStruct(cHandle: unwrappedHandle) as Structs.NestingImmutableStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.NestingImmutableStruct? {
+    defer {
+        smoke_Structs_NestingImmutableStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.NestingImmutableStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(smoke_Structs_NestingImmutableStruct_make_optional_handle(copyToCType(swiftType).ref))
+}
+internal func moveToCType(_ swiftType: Structs.NestingImmutableStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_NestingImmutableStruct_release_optional_handle)
 }
 internal func copyToCType(_ swiftEnum: Structs.FooBar) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
