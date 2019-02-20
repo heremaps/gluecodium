@@ -52,6 +52,10 @@ JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::fire
 std::shared_ptr<::smoke::Structs::Yet_Another_External_Struct> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Structs::Yet_Another_External_Struct>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Yet_Another_External_Struct& _ninput);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::Yet_Another_External_Struct> _ninput);
+::smoke::Structs::NestingImmutableStruct convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::NestingImmutableStruct* dummy);
+std::shared_ptr<::smoke::Structs::NestingImmutableStruct> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Structs::NestingImmutableStruct>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::NestingImmutableStruct& _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::NestingImmutableStruct> _ninput);
 ::fire::StructsQualifiedType::QualifiedType convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::StructsQualifiedType::QualifiedType* dummy);
 std::shared_ptr<::fire::StructsQualifiedType::QualifiedType> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::fire::StructsQualifiedType::QualifiedType>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::fire::StructsQualifiedType::QualifiedType& _ninput);

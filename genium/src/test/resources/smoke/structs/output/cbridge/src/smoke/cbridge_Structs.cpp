@@ -355,6 +355,35 @@ _baseRef smoke_Structs_YetAnotherExternalStruct_stringField_get(_baseRef handle)
     auto struct_pointer = get_pointer<::smoke::Structs::Yet_Another_External_Struct>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->string_Field);
 }
+_baseRef
+smoke_Structs_NestingImmutableStruct_create_handle( _baseRef structField )
+{
+    auto _structField = Conversion<::smoke::Structs::AllTypesStruct>::toCpp( structField );
+    ::smoke::Structs::NestingImmutableStruct* _struct = new ( std::nothrow ) ::smoke::Structs::NestingImmutableStruct( _structField );
+    return reinterpret_cast<_baseRef>( _struct );
+}
+void
+smoke_Structs_NestingImmutableStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::Structs::NestingImmutableStruct>( handle );
+}
+_baseRef
+smoke_Structs_NestingImmutableStruct_make_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::Structs::NestingImmutableStruct>( reinterpret_cast<::smoke::Structs::NestingImmutableStruct*>( handle ) ) );
+}
+_baseRef
+smoke_Structs_NestingImmutableStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::Structs::NestingImmutableStruct>*>( handle )->get( ) );
+}
+void smoke_Structs_NestingImmutableStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<::smoke::Structs::NestingImmutableStruct>*>( handle );
+}
+_baseRef smoke_Structs_NestingImmutableStruct_structField_get(_baseRef handle) {
+    auto struct_pointer = get_pointer<::smoke::Structs::NestingImmutableStruct>(handle);
+return Conversion<::smoke::Structs::AllTypesStruct>::toBaseRef(struct_pointer->struct_field);
+}
 _baseRef smoke_Structs_createPoint(double x, double y) {
     return Conversion<::smoke::Structs::Point>::toBaseRef(::smoke::Structs::create_point(x, y))
 ;
