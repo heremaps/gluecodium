@@ -53,7 +53,7 @@ Java_com_example_smoke_VeryExternalInterface_setSomeAttribute(JNIEnv* _jenv, job
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::fire::Baz>*> (pointerAsLong);
     (*pInstanceSharedPointer)->set_Me(value);
 }
-void
+JNIEXPORT void JNICALL
 Java_com_example_smoke_VeryExternalInterface_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
     delete reinterpret_cast<std::shared_ptr<::fire::Baz>*> (_jpointerRef);

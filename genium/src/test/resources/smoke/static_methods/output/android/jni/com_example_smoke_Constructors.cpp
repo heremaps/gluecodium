@@ -105,7 +105,7 @@ Java_com_example_smoke_Constructors_create__Ljava_util_List_2(JNIEnv* _jenv, job
     }
     return reinterpret_cast<jlong>(nSharedPtr);
 }
-void
+JNIEXPORT void JNICALL
 Java_com_example_smoke_Constructors_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
     delete reinterpret_cast<std::shared_ptr<::smoke::Constructors>*> (_jpointerRef);
