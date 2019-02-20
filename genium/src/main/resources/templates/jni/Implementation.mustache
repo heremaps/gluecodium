@@ -59,7 +59,7 @@ extern "C" {
 }
 
 {{/methods}}
-void
+JNIEXPORT void JNICALL
 Java_{{#javaPackages}}{{.}}_{{/javaPackages}}{{javaName}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
     delete reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (_jpointerRef);

@@ -119,7 +119,7 @@ Java_com_example_smoke_Arrays_methodWithExternalEnumArray(JNIEnv* _jenv, jobject
     auto result = ::smoke::Arrays::method_with_external_enum_array(input);
     return genium::jni::convert_to_jni(_jenv, result).release();
 }
-void
+JNIEXPORT void JNICALL
 Java_com_example_smoke_Arrays_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
     delete reinterpret_cast<std::shared_ptr<::smoke::Arrays>*> (_jpointerRef);

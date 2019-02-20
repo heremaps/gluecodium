@@ -384,7 +384,7 @@ Java_com_example_smoke_Nullable_setMapAttribute(JNIEnv* _jenv, jobject _jinstanc
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Nullable>*> (pointerAsLong);
     (*pInstanceSharedPointer)->set_map_attribute(value);
 }
-void
+JNIEXPORT void JNICALL
 Java_com_example_smoke_Nullable_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
     delete reinterpret_cast<std::shared_ptr<::smoke::Nullable>*> (_jpointerRef);
