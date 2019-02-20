@@ -277,7 +277,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
         "pointField",
         "Lcom/example/smoke/Structs$Point;"),
         (::smoke::Structs::Point*)nullptr );
-    return ::smoke::Structs::AllTypesStruct(n_int8_field, n_uint8_field, n_int16_field, n_uint16_field, n_int32_field, n_uint32_field, n_int64_field, n_uint64_field, n_float_field, n_double_field, n_string_field, n_boolean_field, n_bytes_field, n_point_field);
+    return ::smoke::Structs::AllTypesStruct(std::move(n_int8_field), std::move(n_uint8_field), std::move(n_int16_field), std::move(n_uint16_field), std::move(n_int32_field), std::move(n_uint32_field), std::move(n_int64_field), std::move(n_uint64_field), std::move(n_float_field), std::move(n_double_field), std::move(n_string_field), std::move(n_boolean_field), std::move(n_bytes_field), std::move(n_point_field));
 }
 std::shared_ptr<::smoke::Structs::AllTypesStruct>
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Structs::AllTypesStruct>* dummy)
@@ -459,6 +459,42 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Yet_Another_External_Struc
 }
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::Yet_Another_External_Struct> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
+::smoke::Structs::NestingImmutableStruct
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::NestingImmutableStruct* dummy)
+{
+    ::smoke::Structs::AllTypesStruct n_struct_field = convert_from_jni(
+        _jenv,
+        genium::jni::get_object_field_value(
+        _jenv,
+        _jinput,
+        "structField",
+        "Lcom/example/smoke/Structs$AllTypesStruct;"),
+        (::smoke::Structs::AllTypesStruct*)nullptr );
+    return ::smoke::Structs::NestingImmutableStruct(std::move(n_struct_field));
+}
+std::shared_ptr<::smoke::Structs::NestingImmutableStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Structs::NestingImmutableStruct>* dummy)
+{
+    return _jinput
+        ? std::make_shared<::smoke::Structs::NestingImmutableStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::NestingImmutableStruct*)nullptr))
+        : std::shared_ptr<::smoke::Structs::NestingImmutableStruct>{};
+}
+REGISTER_JNI_CLASS_CACHE(::smoke::Structs::NestingImmutableStruct, "com/example/smoke/Structs$NestingImmutableStruct")
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::NestingImmutableStruct& _ninput)
+{
+    auto& javaClass = CachedJavaClass<::smoke::Structs::NestingImmutableStruct>::java_class;
+    auto _jresult = genium::jni::create_object(_jenv, javaClass);
+    auto jstruct_field = convert_to_jni(_jenv, _ninput.struct_field);
+    genium::jni::set_object_field_value(_jenv, _jresult, "structField",
+        "Lcom/example/smoke/Structs$AllTypesStruct;", jstruct_field);
+    return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Structs::NestingImmutableStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

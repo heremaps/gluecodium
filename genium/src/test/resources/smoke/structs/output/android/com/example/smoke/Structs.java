@@ -263,6 +263,16 @@ public class Structs extends NativeBase {
             this.stringField = stringField;
         }
     }
+    public static class NestingImmutableStruct {
+        @NonNull
+        public Structs.AllTypesStruct structField;
+        public NestingImmutableStruct() {
+            this(new Structs.AllTypesStruct());
+        }
+        public NestingImmutableStruct(Structs.AllTypesStruct structField) {
+            this.structField = structField;
+        }
+    }
     /** For internal use only */
     protected Structs(final long nativeHandle) {
         super(nativeHandle, new Disposer() {

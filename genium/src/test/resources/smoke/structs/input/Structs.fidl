@@ -81,6 +81,10 @@ interface Structs {
         String string_Field
     }
 
+    struct NestingImmutableStruct {
+        AllTypesStruct structField
+    }
+
     enumeration FooBar {
         FOO
         BAR

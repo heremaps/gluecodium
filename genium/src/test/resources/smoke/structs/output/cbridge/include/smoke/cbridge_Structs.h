@@ -80,6 +80,12 @@ _baseRef smoke_Structs_YetAnotherExternalStruct_make_optional_handle(_baseRef ha
 _baseRef smoke_Structs_YetAnotherExternalStruct_unwrap_optional_handle(_baseRef handle);
 void smoke_Structs_YetAnotherExternalStruct_release_optional_handle(_baseRef handle);
 _baseRef smoke_Structs_YetAnotherExternalStruct_stringField_get(_baseRef handle);
+_baseRef smoke_Structs_NestingImmutableStruct_create_handle(_baseRef structField);
+void smoke_Structs_NestingImmutableStruct_release_handle(_baseRef handle);
+_baseRef smoke_Structs_NestingImmutableStruct_make_optional_handle(_baseRef handle);
+_baseRef smoke_Structs_NestingImmutableStruct_unwrap_optional_handle(_baseRef handle);
+void smoke_Structs_NestingImmutableStruct_release_optional_handle(_baseRef handle);
+_baseRef smoke_Structs_NestingImmutableStruct_structField_get(_baseRef handle);
 void smoke_Structs_release_handle(_baseRef handle);
 _baseRef smoke_Structs_copy_handle(_baseRef handle);
 _baseRef smoke_Structs_createPoint(double x, double y);

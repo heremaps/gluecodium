@@ -49,4 +49,12 @@ Structs::AllTypesStruct::AllTypesStruct( const int8_t int8_field, const uint8_t 
     : int8_field( int8_field ), uint8_field( uint8_field ), int16_field( int16_field ), uint16_field( uint16_field ), int32_field( int32_field ), uint32_field( uint32_field ), int64_field( int64_field ), uint64_field( uint64_field ), float_field( float_field ), double_field( double_field ), string_field( string_field ), boolean_field( boolean_field ), bytes_field( bytes_field ), point_field( point_field )
 {
 }
+Structs::NestingImmutableStruct::NestingImmutableStruct( )
+    : struct_field{ }
+{
+}
+Structs::NestingImmutableStruct::NestingImmutableStruct( const ::smoke::Structs::AllTypesStruct& struct_field )
+    : struct_field( struct_field )
+{
+}
 }
