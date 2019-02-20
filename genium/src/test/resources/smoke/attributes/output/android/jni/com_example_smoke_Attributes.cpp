@@ -225,7 +225,7 @@ Java_com_example_smoke_Attributes_getStaticReadonlyAttribute(JNIEnv* _jenv, jobj
     auto result = ::smoke::Attributes::get_static_readonly_attribute();
     return genium::jni::convert_to_jni(_jenv, result).release();
 }
-void
+JNIEXPORT void JNICALL
 Java_com_example_smoke_Attributes_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
     delete reinterpret_cast<std::shared_ptr<::smoke::Attributes>*> (_jpointerRef);

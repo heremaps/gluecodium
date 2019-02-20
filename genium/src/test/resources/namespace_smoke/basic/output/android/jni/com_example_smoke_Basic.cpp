@@ -24,7 +24,7 @@ Java_com_example_smoke_Basic_basicMethod(JNIEnv* _jenv, jobject _jinstance, jstr
     auto result = ::root::space::smoke::Basic::basic_method(inputString);
     return genium::jni::convert_to_jni(_jenv, result).release();
 }
-void
+JNIEXPORT void JNICALL
 Java_com_example_smoke_Basic_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
     delete reinterpret_cast<std::shared_ptr<::root::space::smoke::Basic>*> (_jpointerRef);

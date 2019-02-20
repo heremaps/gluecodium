@@ -163,7 +163,7 @@ Java_com_example_smoke_MethodOverloads_isFloat__Ljava_util_List_2(JNIEnv* _jenv,
     auto result = (*pInstanceSharedPointer)->is_float(input);
     return result;
 }
-void
+JNIEXPORT void JNICALL
 Java_com_example_smoke_MethodOverloads_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
     delete reinterpret_cast<std::shared_ptr<::smoke::MethodOverloads>*> (_jpointerRef);

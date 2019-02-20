@@ -64,7 +64,7 @@ Java_com_example_smoke_Errors_methodWithErrorsAndReturnValue(JNIEnv* _jenv, jobj
     auto result = nativeCallResult.safe_value();
     return genium::jni::convert_to_jni(_jenv, result).release();
 }
-void
+JNIEXPORT void JNICALL
 Java_com_example_smoke_Errors_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
     delete reinterpret_cast<std::shared_ptr<::smoke::Errors>*> (_jpointerRef);
