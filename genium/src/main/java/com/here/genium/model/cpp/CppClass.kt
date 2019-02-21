@@ -26,11 +26,11 @@ class CppClass(
     name: String,
     fullyQualifiedName: String,
     comment: String?,
-    val isExternal: Boolean,
+    isExternal: Boolean,
     val members: List<CppElement>,
     val methods: List<CppMethod>,
     val inheritances: List<CppInheritance>
-) : CppElementWithComment(name, fullyQualifiedName, comment) {
+) : CppExternableElement(name, fullyQualifiedName, comment, isExternal) {
 
     @Suppress("unused")
     val sortedMembers

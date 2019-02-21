@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2018 HERE Europe B.V.
+ * Copyright (c) 2016-2019 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,9 @@
 
 package com.here.genium.model.cpp
 
-class CppEnum(
+abstract class CppExternableElement(
     name: String,
     fullyQualifiedName: String,
-    isExternal: Boolean,
-    val items: List<CppEnumItem>
-) : CppExternableElement(name, fullyQualifiedName, null, isExternal) {
-
-    override fun stream() = items.stream()
-}
+    comment: String?,
+    val isExternal: Boolean
+) : CppElementWithComment(name, fullyQualifiedName, comment)

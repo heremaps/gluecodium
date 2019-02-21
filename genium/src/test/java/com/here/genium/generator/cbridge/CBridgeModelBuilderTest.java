@@ -379,7 +379,7 @@ public final class CBridgeModelBuilderTest {
     when(cppModelbuilder.getFinalResult(CppStruct.class))
         .thenReturn(
             new CppStruct(
-                STRUCT_NAME, STRUCT_NAME, "", Collections.emptyList(), false, false, true));
+                STRUCT_NAME, STRUCT_NAME, "", false, Collections.emptyList(), false, true));
 
     modelBuilder.finishBuilding(francaStruct);
 
@@ -395,7 +395,11 @@ public final class CBridgeModelBuilderTest {
     when(cppModelbuilder.getFinalResult(CppStruct.class))
         .thenReturn(
             new CppStruct(
-                STRUCT_NAME, STRUCT_NAME, "", Collections.singletonList(immutableTypeField)));
+                STRUCT_NAME,
+                STRUCT_NAME,
+                "",
+                false,
+                Collections.singletonList(immutableTypeField)));
 
     modelBuilder.finishBuilding(francaStruct);
 
