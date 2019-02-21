@@ -22,9 +22,9 @@ package com.here.genium.model.cpp
 class CppEnum(
     name: String,
     fullyQualifiedName: String,
-    val isExternal: Boolean,
+    isExternal: Boolean,
     val items: List<CppEnumItem>
-) : CppElementWithComment(name, fullyQualifiedName) {
+) : CppExternableElement(name, fullyQualifiedName, null, isExternal) {
 
     override fun stream() = items.stream()
 }

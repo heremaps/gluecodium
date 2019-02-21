@@ -209,8 +209,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             nameResolver.getName(francaStructType),
             nameResolver.getFullyQualifiedName(francaStructType),
             CommentHelper.getDescription(francaStructType),
-            getPreviousResults(CppField.class),
             deploymentModel.isExternalType(francaStructType),
+            getPreviousResults(CppField.class),
             deploymentModel.isEquatable(francaStructType),
             deploymentModel.isImmutable(francaStructType));
 
