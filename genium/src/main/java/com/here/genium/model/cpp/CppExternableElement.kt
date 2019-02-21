@@ -19,24 +19,9 @@
 
 package com.here.genium.model.cpp
 
-class CppStruct @JvmOverloads constructor(
+abstract class CppExternableElement(
     name: String,
-    fullyQualifiedName: String = name,
-    comment: String = "",
-    isExternal: Boolean = false,
-    val fields: List<CppField> = emptyList(),
-    val isEquatable: Boolean = false,
-    val isImmutable: Boolean = false
-) : CppExternableElement(name, fullyQualifiedName, comment, isExternal) {
-
-    @Suppress("unused")
-    val uninitializedFields = fields.filter { it.initializer == null }
-
-    @Suppress("unused")
-    val hasPartialDefaults = uninitializedFields.isNotEmpty() && uninitializedFields.size < fields.size
-
-    @Suppress("unused")
-    val hasImmutableFields = isImmutable || fields.any { it.hasImmutableType }
-
-    override fun stream() = fields.stream()
-}
+    fullyQualifiedName: String,
+    comment: String?,
+    val isExternal: Boolean
+) : CppElementWithComment(name, fullyQualifiedName, comment)

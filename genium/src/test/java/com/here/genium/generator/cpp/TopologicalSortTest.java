@@ -196,6 +196,7 @@ public class TopologicalSortTest {
         name,
         name,
         "",
+        false,
         Arrays.asList(
             new CppField("x", createComplex(firstType)),
             new CppField("y", createComplex(secondType))));
