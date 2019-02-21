@@ -19,9 +19,12 @@
 
 package com.here.genium.generator.cpp;
 
+import com.here.genium.common.CollectionsHelper;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.model.common.Include;
+import com.here.genium.model.cpp.CppConstant;
+import com.here.genium.model.cpp.CppExternableElement;
 import com.here.genium.model.cpp.CppFile;
 import java.nio.file.Paths;
 import java.util.*;
@@ -39,6 +42,18 @@ public final class CppGenerator {
   public List<GeneratedFile> generateCode(
       final CppFile cppModel, final String relativeHeaderPath, final String relativeImplPath) {
 
+    List<GeneratedFile> result = new LinkedList<>();
+
+    boolean hasConstants = cppModel.getMembers().stream().anyMatch(CppConstant.class::isInstance);
+    boolean hasNonExternalElements =
+        !CollectionsHelper.getStreamOfType(cppModel.getMembers(), CppExternableElement.class)
+            .allMatch(CppExternableElement::isExternal);
+    boolean hasErrorEnums = !cppModel.getErrorEnums().isEmpty();
+    boolean hasCode = hasConstants || hasNonExternalElements || hasErrorEnums;
+    if (!hasCode) {
+      return result;
+    }
+
     String absoluteHeaderPath =
         Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE, relativeHeaderPath)
                 .toString()
@@ -54,7 +69,6 @@ public final class CppGenerator {
             include ->
                 include.getFileName().equals(relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX));
 
-    List<GeneratedFile> result = new LinkedList<>();
     String headerContent = TemplateEngine.INSTANCE.render("cpp/CppHeader", cppModel);
     result.add(new GeneratedFile(headerContent, absoluteHeaderPath));
 
