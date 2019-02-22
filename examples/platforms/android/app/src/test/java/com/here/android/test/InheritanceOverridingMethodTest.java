@@ -22,7 +22,8 @@ import static junit.framework.Assert.assertEquals;
 import static org.robolectric.ParameterizedRobolectricTestRunner.Parameters;
 
 import android.os.Build;
-import android.support.compat.BuildConfig;
+
+import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.Collection;
 import org.junit.Test;

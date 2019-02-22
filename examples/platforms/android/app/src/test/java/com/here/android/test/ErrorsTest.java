@@ -21,7 +21,8 @@ package com.here.android.test;
 import static junit.framework.Assert.assertEquals;
 
 import android.os.Build;
-import android.support.compat.BuildConfig;
+
+import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import com.here.android.another.*;
 import com.here.android.matchers.FieldMatcher;
