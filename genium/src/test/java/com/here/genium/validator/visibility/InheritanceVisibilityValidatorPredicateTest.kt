@@ -39,7 +39,7 @@ import org.powermock.modules.junit4.PowerMockRunner
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(FrancaTypeHelper::class)
-class InterfaceVisibilityValidatorPredicateTest {
+class InheritanceVisibilityValidatorPredicateTest {
     @Mock
     private lateinit var francaInterface: FInterface
     @Mock
@@ -48,7 +48,8 @@ class InterfaceVisibilityValidatorPredicateTest {
     @Mock
     private lateinit var deploymentModel: FrancaDeploymentModel
 
-    private val validatorPredicate = InterfaceVisibilityValidatorPredicate()
+    private val validatorPredicate =
+        InheritanceVisibilityValidatorPredicate()
 
     @Before
     fun setUp() {
