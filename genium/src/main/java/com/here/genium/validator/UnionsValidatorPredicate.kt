@@ -17,30 +17,29 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator;
+package com.here.genium.validator
 
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.*;
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.model.franca.FrancaDeploymentModel
+import org.franca.core.franca.FTypeCollection
+import org.franca.core.franca.FUnionType
 
-/** Validates Franca unions are not used. */
-public final class UnionsValidatorPredicate implements ValidatorPredicate<FUnionType> {
+/** Validates that Franca unions are not used.  */
+class UnionsValidatorPredicate : ValidatorPredicate<FUnionType> {
 
-  private static final String UNION_MESSAGE =
-      "Unions are not supported: union '%s' in type collection '%s'.";
+    override val elementClass = FUnionType::class.java
 
-  @Override
-  public Class<FUnionType> getElementClass() {
-    return FUnionType.class;
-  }
+    override fun validate(
+        deploymentModel: FrancaDeploymentModel,
+        francaElement: FUnionType
+    ) = String.format(
+            UNION_MESSAGE,
+            francaElement.name,
+            FrancaTypeHelper.getFullName(francaElement.eContainer() as FTypeCollection)
+        )
 
-  @Override
-  public String validate(
-      final FrancaDeploymentModel deploymentModel, final FUnionType francaUnion) {
-
-    return String.format(
-        UNION_MESSAGE,
-        francaUnion.getName(),
-        FrancaTypeHelper.getFullName((FTypeCollection) francaUnion.eContainer()));
-  }
+    companion object {
+        private const val UNION_MESSAGE =
+                "Unions are not supported: union '%s' in type collection '%s'."
+    }
 }

@@ -22,10 +22,10 @@ package com.here.genium.validator
 import com.here.genium.model.franca.FrancaDeploymentModel
 import org.franca.core.franca.FMethod
 
-/** Validate that static methods are not contained in Franca interfaces with IsInterface "true".  */
+/** Validate that static methods are not contained in Franca interfaces with IsInterface "true". */
 class StaticMethodsValidatorPredicate : StaticElementsValidatorPredicate<FMethod>() {
 
-    override fun getElementClass() = FMethod::class.java
+    override val elementClass = FMethod::class.java
 
     override fun isStatic(deploymentModel: FrancaDeploymentModel, francaElement: FMethod) =
         deploymentModel.isStatic(francaElement) || deploymentModel.isConstructor(francaElement)

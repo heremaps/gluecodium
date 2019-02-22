@@ -19,6 +19,7 @@
 
 package com.here.genium.validator
 
+import com.here.genium.model.franca.FrancaDeploymentModel
 import org.franca.core.franca.FConstant
 import org.franca.core.franca.FConstantDef
 import org.franca.core.franca.FEnumerationType
@@ -63,6 +64,9 @@ class ExpressionValidatorPredicateTest {
     @Mock
     private lateinit var francaEvaluableElement: FEvaluableElement
 
+    @Mock
+    private lateinit var deploymentModel: FrancaDeploymentModel
+
     private val validatorPredicate = ExpressionValidatorPredicate()
 
     @Before
@@ -84,39 +88,38 @@ class ExpressionValidatorPredicateTest {
 
     @Test
     fun validateWithConstantExpression() {
-        assertNull(validatorPredicate.validate(null, francaConstantExpression))
+        assertNull(validatorPredicate.validate(deploymentModel, francaConstantExpression))
     }
 
     @Test
     fun validateWithNonConstantExpressionInEnumerator() {
         `when`(francaCompoundExpression.eContainer()).thenReturn(francaEnumerator)
 
-        assertNotNull(validatorPredicate.validate(null, francaCompoundExpression))
+        assertNotNull(validatorPredicate.validate(deploymentModel, francaCompoundExpression))
     }
 
     @Test
     fun validateWithNonConstantExpressionInConstant() {
         `when`(francaCompoundExpression.eContainer()).thenReturn(francaConstantDef)
-
-        assertNotNull(validatorPredicate.validate(null, francaCompoundExpression))
+        assertNotNull(validatorPredicate.validate(deploymentModel, francaCompoundExpression))
     }
 
     @Test
     fun validateWithEnumeratorReferenceExpression() {
         `when`(francaElementRef.element).thenReturn(francaEnumerator)
 
-        assertNull(validatorPredicate.validate(null, francaElementRef))
+        assertNull(validatorPredicate.validate(deploymentModel, francaElementRef))
     }
 
     @Test
     fun validateWithNonEnumeratorReferenceExpression() {
         `when`(francaElementRef.element).thenReturn(francaEvaluableElement)
 
-        assertNotNull(validatorPredicate.validate(null, francaElementRef))
+        assertNotNull(validatorPredicate.validate(deploymentModel, francaElementRef))
     }
 
     @Test
     fun validateWithUnaryOperationExpression() {
-        assertNull(validatorPredicate.validate(null, francaUnaryOperation))
+        assertNull(validatorPredicate.validate(deploymentModel, francaUnaryOperation))
     }
 }

@@ -25,6 +25,7 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 
 import com.here.genium.model.franca.DefinedBy
+import com.here.genium.model.franca.FrancaDeploymentModel
 import java.util.Arrays
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FEnumerationType
@@ -58,6 +59,9 @@ class MapKeyValidatorPredicateTest(
     @Mock
     private lateinit var keyTypeRef: FTypeRef
 
+    @Mock
+    private lateinit var deploymentModel: FrancaDeploymentModel
+
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
@@ -77,9 +81,9 @@ class MapKeyValidatorPredicateTest(
 
         // act & assert
         if (expectNull) {
-            assertNull(MapKeyValidatorPredicate().validate(null, mapType))
+            assertNull(MapKeyValidatorPredicate().validate(deploymentModel, mapType))
         } else {
-            assertNotNull(MapKeyValidatorPredicate().validate(null, mapType))
+            assertNotNull(MapKeyValidatorPredicate().validate(deploymentModel, mapType))
         }
     }
 
@@ -97,9 +101,9 @@ class MapKeyValidatorPredicateTest(
 
         // act & assert
         if (expectNull) {
-            assertNull(MapKeyValidatorPredicate().validate(null, mapType))
+            assertNull(MapKeyValidatorPredicate().validate(deploymentModel, mapType))
         } else {
-            assertNotNull(MapKeyValidatorPredicate().validate(null, mapType))
+            assertNotNull(MapKeyValidatorPredicate().validate(deploymentModel, mapType))
         }
     }
 

@@ -19,6 +19,7 @@
 
 package com.here.genium.validator
 
+import com.here.genium.model.franca.FrancaDeploymentModel
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FUnionType
@@ -29,6 +30,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
@@ -55,5 +57,8 @@ class UnionsValidatorPredicateTest {
     }
 
     @Test
-    fun validateWithUnion() = assertNotNull(validatorPredicate.validate(null, francaUnionType))
+    fun validateWithUnion() = assertNotNull(validatorPredicate.validate(
+        mock(FrancaDeploymentModel::class.java),
+        francaUnionType)
+    )
 }

@@ -19,6 +19,7 @@
 
 package com.here.genium.validator
 
+import com.here.genium.model.franca.FrancaDeploymentModel
 import org.franca.core.franca.FIntegerInterval
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
@@ -30,6 +31,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
@@ -60,5 +62,8 @@ class IntegerIntervalValidatorPredicateTest {
 
     @Test
     fun validateWithIntegerInterval() =
-        assertNotNull(validatorPredicate.validate(null, francaIntegerInterval))
+        assertNotNull(validatorPredicate.validate(
+            mock(FrancaDeploymentModel::class.java),
+            francaIntegerInterval)
+        )
 }

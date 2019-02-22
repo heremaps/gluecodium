@@ -17,35 +17,33 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator;
+package com.here.genium.validator
 
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.model.franca.FrancaDeploymentModel
+import org.franca.core.franca.FStructType
+import org.franca.core.franca.FTypeCollection
 
-/** Validates that Franca struct iheritance is not used. */
-public final class StructInheritanceValidatorPredicate implements ValidatorPredicate<FStructType> {
+/** Validates that Franca struct inheritance is not used. */
+class StructInheritanceValidatorPredicate : ValidatorPredicate<FStructType> {
 
-  private static final String INHERITANCE_MESSAGE =
-      "Struct Inheritance is not supported: struct '%s' in type collection '%s'.";
+    override val elementClass = FStructType::class.java
 
-  @Override
-  public Class<FStructType> getElementClass() {
-    return FStructType.class;
-  }
-
-  @Override
-  public String validate(
-      final FrancaDeploymentModel deploymentModel, final FStructType francaStruct) {
-
-    if (francaStruct.getBase() == null) {
-      return null;
+    override fun validate(
+        deploymentModel: FrancaDeploymentModel,
+        francaElement: FStructType
+    ) = if (francaElement.base != null) {
+        String.format(
+            INHERITANCE_MESSAGE,
+            francaElement.name,
+            FrancaTypeHelper.getFullName(francaElement.eContainer() as FTypeCollection)
+        )
+    } else {
+        null
     }
 
-    return String.format(
-        INHERITANCE_MESSAGE,
-        francaStruct.getName(),
-        FrancaTypeHelper.getFullName((FTypeCollection) francaStruct.eContainer()));
-  }
+    companion object {
+        private const val INHERITANCE_MESSAGE =
+            "Struct Inheritance is not supported: struct '%s' in type collection '%s'."
+    }
 }

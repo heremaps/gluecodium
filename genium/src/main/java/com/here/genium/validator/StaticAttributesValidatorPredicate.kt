@@ -27,7 +27,7 @@ import org.franca.core.franca.FAttribute
  */
 class StaticAttributesValidatorPredicate : StaticElementsValidatorPredicate<FAttribute>() {
 
-    override fun getElementClass() = FAttribute::class.java
+    override val elementClass = FAttribute::class.java
 
     override fun isStatic(deploymentModel: FrancaDeploymentModel, francaElement: FAttribute) =
             deploymentModel.isStatic(francaElement)
