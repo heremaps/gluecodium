@@ -17,37 +17,36 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator;
+package com.here.genium.validator
 
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.model.franca.FrancaDeploymentModel
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMethod
 
 /**
  * Validate that methods don't use inline error enums since these are not usable with
  * std::error_code.
  */
-public final class ErrorEnumsValidatorPredicate implements ValidatorPredicate<FMethod> {
+class ErrorEnumsValidatorPredicate : ValidatorPredicate<FMethod> {
 
-  private static final String ENUMS_METHOD_MESSAGE =
-      "Inline error enums in methods are not allowed: method '%s' in interface '%s'.";
+    override val elementClass = FMethod::class.java
 
-  @Override
-  public Class<FMethod> getElementClass() {
-    return FMethod.class;
-  }
-
-  @Override
-  public String validate(final FrancaDeploymentModel deploymentModel, final FMethod francaMethod) {
-
-    if (francaMethod.getErrors() == null) {
-      return null;
+    override fun validate(
+        deploymentModel: FrancaDeploymentModel,
+        francaElement: FMethod
+    ) = if (francaElement.errors != null) {
+        String.format(
+            ENUMS_METHOD_MESSAGE,
+            francaElement.name,
+            FrancaTypeHelper.getFullName(francaElement.eContainer() as FInterface)
+        )
+    } else {
+        null
     }
 
-    return String.format(
-        ENUMS_METHOD_MESSAGE,
-        francaMethod.getName(),
-        FrancaTypeHelper.getFullName((FInterface) francaMethod.eContainer()));
-  }
+    companion object {
+        private const val ENUMS_METHOD_MESSAGE =
+            "Inline error enums in methods are not allowed: method '%s' in interface '%s'."
+    }
 }

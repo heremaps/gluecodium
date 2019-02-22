@@ -17,81 +17,73 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator;
+package com.here.genium.validator
 
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.*;
-import org.jetbrains.annotations.NotNull;
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.model.franca.FrancaDeploymentModel
+import org.franca.core.franca.FArrayType
+import org.franca.core.franca.FBasicTypeId
+import org.franca.core.franca.FField
+import org.franca.core.franca.FMapType
+import org.franca.core.franca.FStructType
+import org.franca.core.franca.FTypeDef
+import org.franca.core.franca.FTypeRef
 
 /**
  * Validate each field in structs marked with specific Boolean deployment property against the
  * following conditions:
- *
- * <ul>
- *   <li>Should not contain Instance type fields.
- *   <li>All Struct type fields should be of a Struct type marked with the same deployment property.
- * </ul>
+ *  * Should not contain Instance type fields.
+ *  * All Struct type fields should be of a Struct type marked with the same deployment property.
  */
-public abstract class FieldValidatorPredicate implements ValidatorPredicate<FField> {
+abstract class FieldValidatorPredicate : ValidatorPredicate<FField> {
 
-  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-  protected abstract boolean hasDeploymentProperty(
-      FrancaDeploymentModel deploymentModel, FStructType francaStruct);
+    protected abstract val instanceErrorMessageFormat: String
 
-  @NotNull
-  protected abstract String getInstanceErrorMessageFormat();
+    protected abstract val mismatchErrorMessageFormat: String
 
-  @NotNull
-  protected abstract String getMismatchErrorMessageFormat();
+    override val elementClass = FField::class.java
 
-  @Override
-  public Class<FField> getElementClass() {
-    return FField.class;
-  }
+    protected abstract fun hasDeploymentProperty(
+        deploymentModel: FrancaDeploymentModel,
+        francaStruct: FStructType
+    ): Boolean
 
-  @Override
-  public String validate(final FrancaDeploymentModel deploymentModel, final FField francaField) {
+    override fun validate(deploymentModel: FrancaDeploymentModel, francaElement: FField): String? {
 
-    FStructType francaStruct = (FStructType) francaField.eContainer();
-    if (!hasDeploymentProperty(deploymentModel, francaStruct)) {
-      return null;
+        val francaStruct = francaElement.eContainer() as FStructType
+        if (!hasDeploymentProperty(deploymentModel, francaStruct)) {
+            return null
+        }
+
+        var messageFormat: String? = null
+        val underlyingType = getUnderlyingType(francaElement.type)
+        val derivedType = underlyingType.derived
+        if (derivedType == null) {
+            if (underlyingType.predefined == FBasicTypeId.UNDEFINED) {
+                messageFormat = instanceErrorMessageFormat
+            }
+        } else if (derivedType is FStructType &&
+            !hasDeploymentProperty(deploymentModel, derivedType)
+        ) {
+            messageFormat = mismatchErrorMessageFormat
+        }
+
+        return if (messageFormat != null) String.format(
+            messageFormat, francaElement.name, FrancaTypeHelper.getFullName(francaStruct)
+        ) else {
+            null
+        }
     }
 
-    String messageFormat = null;
-    FTypeRef underlyingType = getUnderlyingType(francaField.getType());
-    FType derivedType = underlyingType.getDerived();
-    if (derivedType == null) {
-      if (underlyingType.getPredefined() == FBasicTypeId.UNDEFINED) {
-        messageFormat = getInstanceErrorMessageFormat();
-      }
-    } else if (derivedType instanceof FStructType
-        && !hasDeploymentProperty(deploymentModel, (FStructType) derivedType)) {
-      messageFormat = getMismatchErrorMessageFormat();
+    private fun getUnderlyingType(declaredType: FTypeRef): FTypeRef {
+        val derivedType = declaredType.derived
+        return when (derivedType) {
+            is FTypeDef -> getUnderlyingType(derivedType.actualType)
+            is FArrayType -> getUnderlyingType(derivedType.elementType)
+            is FMapType ->
+                // No validation against Map keys, since only primitive and enum keys are supported.
+                getUnderlyingType(derivedType.valueType)
+            else -> declaredType
+        }
     }
-
-    if (messageFormat == null) {
-      return null;
-    }
-
-    return String.format(
-        messageFormat, francaField.getName(), FrancaTypeHelper.getFullName(francaStruct));
-  }
-
-  private static FTypeRef getUnderlyingType(final FTypeRef declaredType) {
-
-    FType derivedType = declaredType.getDerived();
-    if (derivedType instanceof FTypeDef) {
-      return getUnderlyingType(((FTypeDef) derivedType).getActualType());
-    }
-    if (derivedType instanceof FArrayType) {
-      return getUnderlyingType(((FArrayType) derivedType).getElementType());
-    }
-    if (derivedType instanceof FMapType) {
-      // No validation against Map keys, since only primitive and enum keys are supported.
-      return getUnderlyingType(((FMapType) derivedType).getValueType());
-    }
-
-    return declaredType;
-  }
 }
