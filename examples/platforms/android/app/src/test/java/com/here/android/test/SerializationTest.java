@@ -23,7 +23,8 @@ import static junit.framework.Assert.assertNotNull;
 
 import android.os.Build;
 import android.os.Parcel;
-import android.support.compat.BuildConfig;
+
+import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.Arrays;
 import java.util.HashMap;

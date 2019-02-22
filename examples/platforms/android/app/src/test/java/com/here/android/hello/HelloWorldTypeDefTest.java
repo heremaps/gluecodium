@@ -21,7 +21,8 @@ package com.here.android.hello;
 import static org.junit.Assert.assertEquals;
 
 import android.os.Build;
-import android.support.compat.BuildConfig;
+
+import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;

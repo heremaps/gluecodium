@@ -21,11 +21,11 @@ package com.here.android.test;
 import static junit.framework.Assert.assertEquals;
 
 import android.os.Build;
-import android.support.compat.BuildConfig;
+
+import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.Collections;
 import java.util.List;
-import java.util.HashMap;
 import java.util.Map;
 import org.junit.Ignore;
 import org.junit.Test;

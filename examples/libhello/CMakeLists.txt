@@ -406,7 +406,7 @@ elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL android)
     # Android customers want an Android Archive and it's pre-requirements...
     include(genium/Android)
     if(NOT DEFINED ANDROID_NATIVE_API_LEVEL)
-        set(ANDROID_NATIVE_API_LEVEL "27")
+        set(ANDROID_NATIVE_API_LEVEL "28")
     endif()
     if(NOT DEFINED ANDROID_PLATFORM)
         set(ANDROID_PLATFORM "android-${ANDROID_NATIVE_API_LEVEL}")
@@ -414,7 +414,7 @@ elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL android)
     apigen_java_compile(TARGET hello
         LOCAL_DEPENDENCIES "android"
         LOCAL_DEPENDENCIES_DIRS "$ENV{ANDROID_HOME}/platforms/${ANDROID_PLATFORM}"
-        REMOTE_DEPENDENCIES "com.android.support:support-annotations:27.1.0")
+        REMOTE_DEPENDENCIES "com.android.support:support-annotations:28.0.0")
     apigen_java_jar(hello)
     apigen_android_archive(TARGET hello)
 elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL swift)
