@@ -17,43 +17,33 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator;
+package com.here.genium.validator
 
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.*;
-import org.jetbrains.annotations.NotNull;
+import com.here.genium.model.franca.FrancaDeploymentModel
+import org.franca.core.franca.FStructType
 
 /**
  * Validate each field in "Serializable" structs against the following conditions:
- *
- * <ul>
- *   <li>Should not contain Instance type fields.
- *   <li>All Struct type fields should be of some "Serializable" Struct type.
- * </ul>
+ *  * Should not contain Instance type fields.
+ *  * All Struct type fields should be of some "Serializable" Struct type.
  */
-public class SerializationValidatorPredicate extends FieldValidatorPredicate {
+class SerializationValidatorPredicate : FieldValidatorPredicate() {
 
-  private static final String INSTANCE_MESSAGE =
-      "Instance fields are not supported for serializable structs: " + "field '%s' in struct '%s'.";
-  private static final String NON_SERIALIZABLE_MESSAGE =
-      "Fields of non-serializable struct types are not supported for serializable structs: "
-          + "field '%s' in struct '%s'.";
+    override fun hasDeploymentProperty(
+        deploymentModel: FrancaDeploymentModel,
+        francaStruct: FStructType
+    ) = deploymentModel.isSerializable(francaStruct)
 
-  @Override
-  protected boolean hasDeploymentProperty(
-      final FrancaDeploymentModel deploymentModel, final FStructType francaStruct) {
-    return deploymentModel.isSerializable(francaStruct);
-  }
+    override val instanceErrorMessageFormat = INSTANCE_MESSAGE
 
-  @NotNull
-  @Override
-  protected String getInstanceErrorMessageFormat() {
-    return INSTANCE_MESSAGE;
-  }
+    override val mismatchErrorMessageFormat = NON_SERIALIZABLE_MESSAGE
 
-  @NotNull
-  @Override
-  protected String getMismatchErrorMessageFormat() {
-    return NON_SERIALIZABLE_MESSAGE;
-  }
+    companion object {
+        private const val INSTANCE_MESSAGE =
+            "Instance fields are not supported for serializable structs: " +
+                    "field '%s' in struct '%s'."
+        private const val NON_SERIALIZABLE_MESSAGE =
+            "Fields of non-serializable struct types are not supported for serializable structs: " +
+                    "field '%s' in struct '%s'."
+    }
 }

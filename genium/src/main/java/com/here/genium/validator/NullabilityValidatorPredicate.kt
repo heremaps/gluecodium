@@ -29,15 +29,15 @@ import org.franca.core.franca.FMethod
  */
 internal class NullabilityValidatorPredicate : ValidatorPredicate<FMethod> {
 
-    override fun getElementClass(): Class<FMethod> = FMethod::class.java
+    override val elementClass = FMethod::class.java
 
-    override fun validate(deploymentModel: FrancaDeploymentModel, francaMethod: FMethod) =
-        if (deploymentModel.isConstructor(francaMethod) &&
-            deploymentModel.isNullable(francaMethod.outArgs[0])) {
+    override fun validate(deploymentModel: FrancaDeploymentModel, francaElement: FMethod) =
+        if (deploymentModel.isConstructor(francaElement) &&
+            deploymentModel.isNullable(francaElement.outArgs[0])) {
             String.format(
                 CONSTRUCTOR_MESSAGE_FORMAT,
-                FrancaTypeHelper.getFullName(francaMethod),
-                FrancaTypeHelper.getFullName(francaMethod.eContainer() as FInterface)
+                FrancaTypeHelper.getFullName(francaElement),
+                FrancaTypeHelper.getFullName(francaElement.eContainer() as FInterface)
             )
         } else {
             null

@@ -17,52 +17,45 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator;
+package com.here.genium.validator
 
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypeRef;
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.model.franca.FrancaDeploymentModel
+import org.franca.core.franca.FBasicTypeId
+import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FMapType
+import org.franca.core.franca.FTypeDef
+import org.franca.core.franca.FTypeRef
 
-/** Validates that the Map types have either Primitive or Enum keys. */
-public final class MapKeyValidatorPredicate implements ValidatorPredicate<FMapType> {
+/** Validates that the Map types have either Primitive or Enum keys.  */
+class MapKeyValidatorPredicate : ValidatorPredicate<FMapType> {
 
-  private static final String INVALID_KEY_TYPE_MESSAGE = "Complex keys are not allowed: map '%s'.";
+    override val elementClass = FMapType::class.java
 
-  @Override
-  public Class<FMapType> getElementClass() {
-    return FMapType.class;
-  }
+    override fun validate(
+        deploymentModel: FrancaDeploymentModel,
+        francaElement: FMapType
+    ) = if (isComplexType(francaElement.keyType)) String.format(
+            INVALID_KEY_TYPE_MESSAGE,
+            FrancaTypeHelper.getFullName(francaElement)
+        ) else {
+            null
+        }
 
-  @Override
-  public String validate(
-      final FrancaDeploymentModel deploymentModel, final FMapType francaMapType) {
+    companion object {
+        private const val INVALID_KEY_TYPE_MESSAGE = "Complex keys are not allowed: map '%s'."
 
-    if (!isComplexType(francaMapType.getKeyType())) {
-      return null;
+        private fun isComplexType(francaTypeRef: FTypeRef): Boolean {
+            val derivedType = francaTypeRef.derived
+            return when {
+                derivedType is FTypeDef -> isComplexType(derivedType.actualType)
+                derivedType != null -> derivedType !is FEnumerationType
+                else ->
+                    // ByteBuffers are not allowed as keys. "Undefined" means either an Instance or
+                    // a broken type reference, neither of those are allowed too.
+                    francaTypeRef.predefined == FBasicTypeId.BYTE_BUFFER ||
+                            francaTypeRef.predefined == FBasicTypeId.UNDEFINED
+            }
+        }
     }
-
-    return String.format(INVALID_KEY_TYPE_MESSAGE, FrancaTypeHelper.getFullName(francaMapType));
-  }
-
-  private static boolean isComplexType(final FTypeRef francaTypeRef) {
-
-    FType derivedType = francaTypeRef.getDerived();
-    if (derivedType instanceof FTypeDef) {
-      return isComplexType(((FTypeDef) derivedType).getActualType());
-    }
-
-    if (derivedType != null) {
-      return !(derivedType instanceof FEnumerationType);
-    } else {
-      // ByteBuffers are not allowed as keys. "Undefined" means either an Instance or a broken type
-      // reference, neither of those are allowed too.
-      return francaTypeRef.getPredefined() == FBasicTypeId.BYTE_BUFFER
-          || francaTypeRef.getPredefined() == FBasicTypeId.UNDEFINED;
-    }
-  }
 }

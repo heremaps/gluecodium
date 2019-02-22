@@ -36,17 +36,20 @@ abstract class StaticElementsValidatorPredicate<T : FModelElement> : ValidatorPr
 
         val francaInterface = francaElement.eContainer() as FInterface
         return if (isStatic(deploymentModel, francaElement) &&
-            deploymentModel.isInterface(francaInterface))
-
+            deploymentModel.isInterface(francaInterface)
+        ) {
             String.format(
-            STATIC_ELEMENTS_MESSAGE,
-            francaElement.name,
-            FrancaTypeHelper.getFullName(francaInterface)
-        ) else null
+                STATIC_ELEMENTS_MESSAGE,
+                francaElement.name,
+                FrancaTypeHelper.getFullName(francaInterface)
+            )
+        } else {
+            null
+        }
     }
 
     companion object {
-        private val STATIC_ELEMENTS_MESSAGE =
+        private const val STATIC_ELEMENTS_MESSAGE =
             "Static elements are not allowed in interfaces : elements '%s' in interface '%s'."
     }
 }

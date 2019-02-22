@@ -36,7 +36,7 @@ import org.franca.core.franca.FTypedElement
  */
 class ExternalElementsValidatorPredicate : ValidatorPredicate<FTypedElement> {
 
-    override fun getElementClass() = FTypedElement::class.java
+    override val elementClass = FTypedElement::class.java
 
     override fun validate(
         deploymentModel: FrancaDeploymentModel,
@@ -74,16 +74,16 @@ class ExternalElementsValidatorPredicate : ValidatorPredicate<FTypedElement> {
     }
 
     companion object {
-        private val BOTH_PROPERTIES_MESSAGE =
+        private const val BOTH_PROPERTIES_MESSAGE =
             "External elements should have both 'ExternalGetter' and 'ExternalSetter' properties " +
                     "set: element '%s' in type '%s'."
-        private val NON_EXTERNAL_TYPE_MESSAGE =
+        private const val NON_EXTERNAL_TYPE_MESSAGE =
             "The type containing external elements should have 'ExternalType' property set: " +
                     "element '%s' in type '%s'."
-        private val EXTERNAL_ATTRIBUTES_MESSAGE =
+        private const val EXTERNAL_ATTRIBUTES_MESSAGE =
             "Attributes in an external interface should have both 'ExternalGetter' and " +
                     "'ExternalSetter' properties set: attribute '%s' in interface '%s'."
-        private val READONLY_EXTERNAL_ATTRIBUTES_MESSAGE =
+        private const val READONLY_EXTERNAL_ATTRIBUTES_MESSAGE =
             "Readonly attributes in an external interface should have 'ExternalGetter' property " +
                     "set: attribute '%s' in interface '%s'."
     }

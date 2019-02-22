@@ -27,24 +27,27 @@ import org.franca.core.franca.FInterface
 /** Validate that there is no signature clash between different constructors of the same class. */
 class ConstructorsValidatorPredicate : ValidatorPredicate<FInterface> {
 
-    override fun getElementClass() = FInterface::class.java
+    override val elementClass = FInterface::class.java
 
-    override fun validate(deploymentModel: FrancaDeploymentModel, francaInterface: FInterface): String? {
+    override fun validate(
+        deploymentModel: FrancaDeploymentModel,
+        francaElement: FInterface
+    ): String? {
 
         val signatureResolver = FrancaSignatureResolver()
-        val allConstructorSignatures = francaInterface.methods
+        val allConstructorSignatures = francaElement.methods
             .filter(deploymentModel::isConstructor)
             .map(signatureResolver::getSignature)
 
         return if (allConstructorSignatures.size != allConstructorSignatures.toSet().size) {
-            String.format(SIGNATURE_CLASH_MESSAGE, FrancaTypeHelper.getFullName(francaInterface))
+            String.format(SIGNATURE_CLASH_MESSAGE, FrancaTypeHelper.getFullName(francaElement))
         } else {
             null
         }
     }
 
     companion object {
-        private val SIGNATURE_CLASH_MESSAGE =
+        private const val SIGNATURE_CLASH_MESSAGE =
             "There is a signature clash among the constructors of the interface '%s'."
     }
 }

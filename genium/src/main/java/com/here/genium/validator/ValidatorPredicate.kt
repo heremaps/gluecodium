@@ -17,20 +17,18 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator;
+package com.here.genium.validator
 
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.eclipse.emf.ecore.EObject;
+import com.here.genium.model.franca.FrancaDeploymentModel
+import org.eclipse.emf.ecore.EObject
 
-public interface ValidatorPredicate<T extends EObject> {
+interface ValidatorPredicate<T : EObject> {
+    /** Get Class of T  */
+    val elementClass: Class<T>
 
-  /** Get Class of T */
-  Class<T> getElementClass();
-
-  /**
-   * Validate the given element using the given deployment model.
-   *
-   * @return null if validation passed; validation message if it does not.
-   */
-  String validate(FrancaDeploymentModel deploymentModel, T element);
+    /**
+     * Validate the given element using the given deployment model.
+     * @return null if validation passed; validation message if it does not.
+     */
+    fun validate(deploymentModel: FrancaDeploymentModel, francaElement: T): String?
 }

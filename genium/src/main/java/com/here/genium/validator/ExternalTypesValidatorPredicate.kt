@@ -17,37 +17,33 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator;
+package com.here.genium.validator
 
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.FModelElement;
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.model.franca.FrancaDeploymentModel
+import org.franca.core.franca.FModelElement
 
 /**
  * Validate each type with "ExternalName" property set against the following conditions:
- *
- * <ul>
- *   <li>Should have "ExternalType" property set.
- * </ul>
+ *  * Should have "ExternalType" property set.
  */
-public class ExternalTypesValidatorPredicate implements ValidatorPredicate<FModelElement> {
+class ExternalTypesValidatorPredicate : ValidatorPredicate<FModelElement> {
 
-  private static final String NON_EXTERNAL_TYPE_MESSAGE =
-      "The type with 'ExternalName' should have 'ExternalType' property set: type '%s'.";
+    override val elementClass = FModelElement::class.java
 
-  @Override
-  public Class<FModelElement> getElementClass() {
-    return FModelElement.class;
-  }
+    override fun validate(
+        deploymentModel: FrancaDeploymentModel,
+        francaElement: FModelElement
+    ) = if (deploymentModel.getExternalName(francaElement) != null &&
+        !deploymentModel.isExternalType(francaElement)) {
 
-  @Override
-  public String validate(
-      final FrancaDeploymentModel deploymentModel, final FModelElement francaElement) {
+        String.format(NON_EXTERNAL_TYPE_MESSAGE, FrancaTypeHelper.getFullName(francaElement))
+    } else {
+        null
+    }
 
-    boolean hasExternalName = deploymentModel.getExternalName(francaElement) != null;
-
-    return hasExternalName && !deploymentModel.isExternalType(francaElement)
-        ? String.format(NON_EXTERNAL_TYPE_MESSAGE, FrancaTypeHelper.getFullName(francaElement))
-        : null;
-  }
+    companion object {
+        private const val NON_EXTERNAL_TYPE_MESSAGE =
+            "The type with 'ExternalName' should have 'ExternalType' property set: type '%s'."
+    }
 }

@@ -17,43 +17,33 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator;
+package com.here.genium.validator
 
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.FStructType;
-import org.jetbrains.annotations.NotNull;
+import com.here.genium.model.franca.FrancaDeploymentModel
+import org.franca.core.franca.FStructType
 
 /**
  * Validate each field in "Equatable" structs against the following conditions:
- *
- * <ul>
- *   <li>Should not contain Instance type fields.
- *   <li>All Struct type fields should be of some "Equatable" Struct type.
- * </ul>
+ *  * Should not contain Instance type fields.
+ *  * All Struct type fields should be of some "Equatable" Struct type.
  */
-public class EquatableValidatorPredicate extends FieldValidatorPredicate {
+class EquatableValidatorPredicate : FieldValidatorPredicate() {
 
-  private static final String INSTANCE_MESSAGE =
-      "Instance fields are not supported for equatable structs: " + "field '%s' in struct '%s'.";
-  private static final String NON_EQUATABLE_MESSAGE =
-      "Fields of non-equatable struct types are not supported for equatable structs: "
-          + "field '%s' in struct '%s'.";
+    override val instanceErrorMessageFormat = INSTANCE_MESSAGE
 
-  @Override
-  protected boolean hasDeploymentProperty(
-      final FrancaDeploymentModel deploymentModel, final FStructType francaStruct) {
-    return deploymentModel.isEquatable(francaStruct);
-  }
+    override val mismatchErrorMessageFormat = NON_EQUATABLE_MESSAGE
 
-  @NotNull
-  @Override
-  protected String getInstanceErrorMessageFormat() {
-    return INSTANCE_MESSAGE;
-  }
+    override fun hasDeploymentProperty(
+        deploymentModel: FrancaDeploymentModel,
+        francaStruct: FStructType
+    ) = deploymentModel.isEquatable(francaStruct)
 
-  @NotNull
-  @Override
-  protected String getMismatchErrorMessageFormat() {
-    return NON_EQUATABLE_MESSAGE;
-  }
+    companion object {
+        private const val INSTANCE_MESSAGE =
+            "Instance fields are not supported for equatable structs: " +
+                    "field '%s' in struct '%s'."
+        private const val NON_EQUATABLE_MESSAGE =
+            "Fields of non-equatable struct types are not supported for equatable structs: " +
+                    "field '%s' in struct '%s'."
+    }
 }

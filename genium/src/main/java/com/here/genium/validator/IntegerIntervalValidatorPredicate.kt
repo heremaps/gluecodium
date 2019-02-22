@@ -17,30 +17,28 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator;
+package com.here.genium.validator
 
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import org.franca.core.franca.*;
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.model.franca.FrancaDeploymentModel
+import org.franca.core.franca.FIntegerInterval
+import org.franca.core.franca.FModelElement
 
-/** Validates that none of the Franca type collections or interfaces contain integer ranges. */
-public final class IntegerIntervalValidatorPredicate
-    implements ValidatorPredicate<FIntegerInterval> {
+/** Validates that none of the Franca type collections or interfaces contain integer ranges.  */
+class IntegerIntervalValidatorPredicate : ValidatorPredicate<FIntegerInterval> {
 
-  private static final String INTEGER_INTERVAL_MESSAGE =
-      "Integer ranges are not supported: element '%s'.";
+    override val elementClass = FIntegerInterval::class.java
 
-  @Override
-  public Class<FIntegerInterval> getElementClass() {
-    return FIntegerInterval.class;
-  }
+    override fun validate(
+        deploymentModel: FrancaDeploymentModel,
+        francaElement: FIntegerInterval
+    ) = String.format(
+            INTEGER_INTERVAL_MESSAGE,
+            FrancaTypeHelper.getFullName(francaElement.eContainer() as FModelElement)
+        )
 
-  @Override
-  public String validate(
-      final FrancaDeploymentModel deploymentModel, final FIntegerInterval francaIntegerInterval) {
-
-    return String.format(
-        INTEGER_INTERVAL_MESSAGE,
-        FrancaTypeHelper.getFullName((FModelElement) francaIntegerInterval.eContainer()));
-  }
+    companion object {
+        private const val INTEGER_INTERVAL_MESSAGE =
+            "Integer ranges are not supported: element '%s'."
+    }
 }
