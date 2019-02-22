@@ -60,6 +60,7 @@ import com.here.genium.validator.visibility.ArrayVisibilityValidatorPredicate
 import com.here.genium.validator.visibility.AttributeVisibilityValidatorPredicate
 import com.here.genium.validator.visibility.FieldVisibilityValidatorPredicate
 import com.here.genium.validator.visibility.InheritanceVisibilityValidatorPredicate
+import com.here.genium.validator.visibility.InterfaceMethodVisibilityValidatorPredicate
 import com.here.genium.validator.visibility.MethodVisibilityValidatorPredicate
 import org.franca.core.franca.FTypeCollection
 import java.io.File
@@ -244,7 +245,8 @@ class Genium(private val options: Options) {
             ExternalTypesValidatorPredicate(),
             StructInheritanceValidatorPredicate(),
             NullabilityValidatorPredicate(),
-            ConstructorsValidatorPredicate()
+            ConstructorsValidatorPredicate(),
+            InterfaceMethodVisibilityValidatorPredicate()
         )
     ).validate(deploymentModel, typeCollections)
 
