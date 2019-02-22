@@ -21,7 +21,8 @@ package com.here.android.hello;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
-import android.support.compat.BuildConfig;
+
+import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import org.junit.Before;
 import org.junit.BeforeClass;
