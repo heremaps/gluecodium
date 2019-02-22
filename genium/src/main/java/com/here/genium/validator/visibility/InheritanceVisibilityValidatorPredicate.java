@@ -24,14 +24,14 @@ import java.util.Collections;
 import org.franca.core.franca.*;
 
 /**
- * Visibility predicate for interfaces. Conditions checked against:
+ * Visibility predicate for interface inheritance. Conditions checked against:
  *
  * <ul>
  *   <li>A "public" interface should inherit from an "internal" interface.
  *   <li>An "internal" interface should inherit from an "internal" interface from a foreign package.
  * </ul>
  */
-public final class InterfaceVisibilityValidatorPredicate
+public final class InheritanceVisibilityValidatorPredicate
     extends VisibilityValidatorPredicate<FInterface> {
 
   private static final String ERROR_MESSAGE_FORMAT =
