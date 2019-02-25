@@ -19,8 +19,8 @@
   !
   !}}
 {{#dictionaries}}
-internal func copyFromCType(_ handle: _baseRef) -> {{implementingClass}} {
-    var swiftDict: {{implementingClass}} = [:]
+internal func copyFromCType(_ handle: _baseRef) -> {{publicName}} {
+    var swiftDict: {{publicName}} = [:]
     let iterator_handle = {{cPrefix}}_iterator(handle)
     while {{cPrefix}}_iterator_is_valid(handle, iterator_handle) {
 
@@ -32,14 +32,14 @@ internal func copyFromCType(_ handle: _baseRef) -> {{implementingClass}} {
     return swiftDict
 }
 
-internal func moveFromCType(_ handle: _baseRef) -> {{implementingClass}} {
+internal func moveFromCType(_ handle: _baseRef) -> {{publicName}} {
     defer {
         {{cPrefix}}_release_handle(handle)
     }
     return copyFromCType(handle)
 }
 
-internal func copyToCType(_ swiftDict: {{implementingClass}}) -> RefHolder {
+internal func copyToCType(_ swiftDict: {{publicName}}) -> RefHolder {
     let c_handle = {{cPrefix}}_create_handle()
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
@@ -49,28 +49,28 @@ internal func copyToCType(_ swiftDict: {{implementingClass}}) -> RefHolder {
     return RefHolder(c_handle)
 }
 
-internal func moveToCType(_ swiftDict: {{implementingClass}}) -> RefHolder {
+internal func moveToCType(_ swiftDict: {{publicName}}) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftDict).ref, release: {{cPrefix}}_release_handle)
 }
 {{!!
 Optionals
 }}
-internal func copyFromCType(_ handle: _baseRef) -> {{implementingClass}}? {
+internal func copyFromCType(_ handle: _baseRef) -> {{publicName}}? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = {{cPrefix}}_unwrap_optional_handle(handle)
-    return copyFromCType(unwrappedHandle) as {{implementingClass}}
+    return copyFromCType(unwrappedHandle) as {{publicName}}
 }
 
-internal func moveFromCType(_ handle: _baseRef) -> {{implementingClass}}? {
+internal func moveFromCType(_ handle: _baseRef) -> {{publicName}}? {
     defer {
         {{cPrefix}}_release_optional_handle(handle)
     }
     return copyFromCType(handle)
 }
 
-internal func copyToCType(_ swiftDict: {{implementingClass}}?) -> RefHolder {
+internal func copyToCType(_ swiftDict: {{publicName}}?) -> RefHolder {
     guard let swiftDict = swiftDict else {
         return RefHolder(0)
     }
@@ -84,7 +84,7 @@ internal func copyToCType(_ swiftDict: {{implementingClass}}?) -> RefHolder {
     return RefHolder(optionalHandle)
 }
 
-internal func moveToCType(_ swiftType: {{implementingClass}}?) -> RefHolder {
+internal func moveToCType(_ swiftType: {{publicName}}?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: {{cPrefix}}_release_optional_handle)
 }
 

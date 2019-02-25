@@ -26,7 +26,7 @@ class SwiftStruct @JvmOverloads constructor(
     cPrefix: String = "",
     visibility: SwiftVisibility?,
     category: SwiftType.TypeCategory = SwiftType.TypeCategory.STRUCT,
-    implementingClass: String? = null,
+    val isInterface: Boolean = false,
     publicName: String? = null,
     optional: Boolean = false,
     val isEquatable: Boolean = false,
@@ -36,14 +36,12 @@ class SwiftStruct @JvmOverloads constructor(
     cPrefix,
     visibility,
     category,
-    implementingClass,
     publicName ?: name,
     optional
 ) {
 
     val fields: MutableList<SwiftField> = LinkedList()
     val constants: MutableList<SwiftConstant> = LinkedList()
-    val isInterface: Boolean = name != implementingClass
 
     override fun withAlias(aliasName: String): SwiftType {
         val container = SwiftStruct(
@@ -51,7 +49,7 @@ class SwiftStruct @JvmOverloads constructor(
             cPrefix,
             visibility,
             category,
-            implementingClass,
+            isInterface,
             aliasName,
             optional,
             isEquatable,
@@ -72,7 +70,7 @@ class SwiftStruct @JvmOverloads constructor(
             cPrefix,
             visibility,
             category,
-            implementingClass,
+            isInterface,
             publicName,
             optional,
             isEquatable,

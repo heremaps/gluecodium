@@ -23,4 +23,4 @@ class SwiftEnum @JvmOverloads constructor(
     name: String,
     visibility: SwiftVisibility? = null,
     val items: List<SwiftEnumItem> = listOf()
-) : SwiftType(name, null, visibility, SwiftType.TypeCategory.ENUM, null, name, false)
+) : SwiftType(name, null, visibility, SwiftType.TypeCategory.ENUM, name, false)
