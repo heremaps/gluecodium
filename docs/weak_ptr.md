@@ -135,3 +135,32 @@ Complexity
 The solution is quite complex difficult to follow and reason about. This will put a big burden on future maintainers. Also it will very likely lead to lots of difficult to debug memory related issues.
 
 [Swift ARC]: https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html
+
+Possible Solutions
+==================
+
+There are some implementations possible to mitigate some of the above mentioned problems, but these were not tested in detail.
+
+Move proxy cache to Swift
+-------------------------
+
+This would be a simple solution to allow storing the weak reference on Swift side without obfuscating it behind a raw pointer to Unmanaged object.
+
+Move pointer members to CachedProxyBase
+---------------------------------------
+
+Moving the pointers to the base class instead of the cache would reduce the number of necessary lookups to creation and deletion.
+
+Use Objective C associated object
+---------------------------------
+
+This only works on Apple platforms as it needs the Objective C runtime.
+If there is a similar solution for Java available it would be worth considering though.
+The idea is to associate an Objective C object with the proxy.
+This allows to get a callback on object destruction.
+With such a callback it should be possible to modify proxy to:
+* store a non-owning shared_ptr
+* on destruction of Swift object invalidate pointer
+This means no custom std::weak_ptr implementation would be necessary.
+
+If there is a similar possibility to get a callback on finalizing available for Java, then this approach should be investigated further.
