@@ -33,6 +33,7 @@ import com.here.genium.generator.cpp.CppNameResolver;
 import com.here.genium.generator.cpp.CppTypeMapper;
 import com.here.genium.generator.cpp.CppValueMapper;
 import com.here.genium.generator.swift.SwiftModelBuilder;
+import com.here.genium.generator.swift.SwiftTypeMapper;
 import com.here.genium.model.cbridge.CBridgeIncludeResolver;
 import com.here.genium.model.cbridge.CInterface;
 import com.here.genium.model.common.Include;
@@ -48,6 +49,7 @@ public class CBridgeGenerator {
 
   private final FrancaDeploymentModel deploymentModel;
   private final FrancaSignatureResolver signatureResolver;
+  private final SwiftTypeMapper swiftTypeMapper;
   private final CppIncludeResolver cppIncludeResolver;
   private final CBridgeIncludeResolver includeResolver;
   private final CppNameResolver cppNameResolver;
@@ -85,6 +87,7 @@ public class CBridgeGenerator {
     this.cppNameResolver = cppNameResolver;
     this.internalNamespace = internalNamespace;
     this.signatureResolver = new FrancaSignatureResolver();
+    this.swiftTypeMapper = new SwiftTypeMapper(deploymentModel);
   }
 
   public Stream<GeneratedFile> generate(final FTypeCollection francaTypeCollection) {
@@ -116,7 +119,8 @@ public class CBridgeGenerator {
     CppValueMapper valueMapper = new CppValueMapper(deploymentModel, cppNameResolver);
     CppModelBuilder cppBuilder =
         new CppModelBuilder(deploymentModel, cppTypeMapper, valueMapper, cppNameResolver);
-    SwiftModelBuilder swiftBuilder = new SwiftModelBuilder(deploymentModel, signatureResolver);
+    SwiftModelBuilder swiftBuilder =
+        new SwiftModelBuilder(deploymentModel, signatureResolver, swiftTypeMapper);
     CBridgeTypeMapper typeMapper =
         new CBridgeTypeMapper(
             cppIncludeResolver,

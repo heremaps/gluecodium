@@ -45,21 +45,25 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   private final FrancaDeploymentModel deploymentModel;
   private final FrancaSignatureResolver signatureResolver;
+  private final SwiftTypeMapper typeMapper;
 
   public SwiftModelBuilder(
       final FrancaDeploymentModel deploymentModel,
-      final FrancaSignatureResolver signatureResolver) {
-    this(new ModelBuilderContextStack<>(), deploymentModel, signatureResolver);
+      final FrancaSignatureResolver signatureResolver,
+      final SwiftTypeMapper typeMapper) {
+    this(new ModelBuilderContextStack<>(), deploymentModel, signatureResolver, typeMapper);
   }
 
   @VisibleForTesting
   SwiftModelBuilder(
       final ModelBuilderContextStack<SwiftModelElement> contextStack,
       final FrancaDeploymentModel deploymentModel,
-      final FrancaSignatureResolver signatureResolver) {
+      final FrancaSignatureResolver signatureResolver,
+      final SwiftTypeMapper typeMapper) {
     super(contextStack);
     this.deploymentModel = deploymentModel;
     this.signatureResolver = signatureResolver;
+    this.typeMapper = typeMapper;
   }
 
   @Override
@@ -306,14 +310,14 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
 
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
-    SwiftType swiftType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
+    SwiftType swiftType = typeMapper.mapType(francaTypeRef);
     if (swiftType instanceof SwiftArray) {
       SwiftArray array = (SwiftArray) swiftType;
       FTypeRef elementType =
           FrancaTypeHelper.isImplicitArray(francaTypeRef)
               ? francaTypeRef
               : ((FArrayType) FrancaHelpers.getActualDerived(francaTypeRef)).getElementType();
-      String elementTypeKey = SwiftTypeMapper.getActualTypeKey(elementType, deploymentModel);
+      String elementTypeKey = typeMapper.getActualTypeKey(elementType);
       arraysCollector.putIfAbsent(elementTypeKey, array);
     }
 
@@ -380,11 +384,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
   @Override
   public void finishBuilding(final FArrayType francaArray) {
     String typeDefName = SwiftNameRules.getTypeDefName(francaArray, deploymentModel);
-    SwiftArray arrayType =
-        (SwiftArray)
-            SwiftTypeMapper.mapArrayType(francaArray, deploymentModel).withAlias(typeDefName);
-    String elementTypeKey =
-        SwiftTypeMapper.getActualTypeKey(francaArray.getElementType(), deploymentModel);
+    SwiftArray arrayType = (SwiftArray) typeMapper.mapArrayType(francaArray).withAlias(typeDefName);
+    String elementTypeKey = typeMapper.getActualTypeKey(francaArray.getElementType());
     arraysCollector.putIfAbsent(elementTypeKey, arrayType);
 
     SwiftTypeDef swiftTypeDef =
@@ -411,10 +412,8 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             typeRefs.get(0),
             typeRefs.get(1));
 
-    String keyTypeKey =
-        SwiftTypeMapper.getActualTypeKey(francaMapType.getKeyType(), deploymentModel);
-    String valueTypeKey =
-        SwiftTypeMapper.getActualTypeKey(francaMapType.getValueType(), deploymentModel);
+    String keyTypeKey = typeMapper.getActualTypeKey(francaMapType.getKeyType());
+    String valueTypeKey = typeMapper.getActualTypeKey(francaMapType.getValueType());
     mapCollector.putIfAbsent(keyTypeKey + ":" + valueTypeKey, swiftDictionary);
     storeResult(swiftDictionary);
 

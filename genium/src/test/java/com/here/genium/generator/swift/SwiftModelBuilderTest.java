@@ -43,7 +43,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({
-  SwiftTypeMapper.class,
   CBridgeNameRules.class,
   InstanceRules.class,
   DefinedBy.class,
@@ -64,6 +63,7 @@ public final class SwiftModelBuilderTest {
 
   @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private FrancaSignatureResolver signatureResolver;
+  @Mock private SwiftTypeMapper typeMapper;
 
   @Mock private FMethod francaMethod;
   @Mock private FArgument francaArgument;
@@ -88,11 +88,7 @@ public final class SwiftModelBuilderTest {
   @Before
   public void setUp() {
     mockStatic(
-        SwiftTypeMapper.class,
-        CBridgeNameRules.class,
-        InstanceRules.class,
-        DefinedBy.class,
-        SwiftValueMapper.class);
+        CBridgeNameRules.class, InstanceRules.class, DefinedBy.class, SwiftValueMapper.class);
     initMocks(this);
 
     when(francaArgument.getType()).thenReturn(francaTypeRef);
@@ -109,7 +105,8 @@ public final class SwiftModelBuilderTest {
     when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
     when(francaArray.getName()).thenReturn("someArray");
 
-    modelBuilder = new SwiftModelBuilder(contextStack, deploymentModel, signatureResolver);
+    modelBuilder =
+        new SwiftModelBuilder(contextStack, deploymentModel, signatureResolver, typeMapper);
   }
 
   @Test
@@ -127,7 +124,7 @@ public final class SwiftModelBuilderTest {
   @Test
   public void finishBuildingDeclareArray() {
     SwiftArray swiftArray = new SwiftArray(swiftType, "c_prefix");
-    when(SwiftTypeMapper.mapArrayType(any(), any())).thenReturn(swiftArray);
+    when(typeMapper.mapArrayType(any())).thenReturn(swiftArray);
 
     modelBuilder.finishBuilding(francaArray);
 
@@ -139,7 +136,7 @@ public final class SwiftModelBuilderTest {
   @Test
   public void finishBuildingArrayCreatesTypeDef() {
     SwiftArray swiftArray = new SwiftArray(swiftType, "c_prefix");
-    when(SwiftTypeMapper.mapArrayType(any(), any())).thenReturn(swiftArray);
+    when(typeMapper.mapArrayType(any())).thenReturn(swiftArray);
 
     modelBuilder.finishBuilding(francaArray);
 
@@ -456,7 +453,7 @@ public final class SwiftModelBuilderTest {
   @Test
   public void finishBuildingFrancaTypeRef() {
     when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(false);
-    when(SwiftTypeMapper.mapType(any(FTypeRef.class), any())).thenReturn(swiftType);
+    when(typeMapper.mapType(any(FTypeRef.class))).thenReturn(swiftType);
 
     modelBuilder.finishBuilding(francaTypeRef);
 
@@ -464,13 +461,13 @@ public final class SwiftModelBuilderTest {
     assertNotNull("Should be 1 type item created", resultType);
     assertSame(swiftType, resultType);
     PowerMockito.verifyStatic();
-    SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
+    typeMapper.mapType(francaTypeRef);
   }
 
   @Test
   public void finishBuildingFrancaInstanceTypeRef() {
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
-    when(SwiftTypeMapper.mapType(francaTypeRef, deploymentModel)).thenReturn(swiftType);
+    when(typeMapper.mapType(francaTypeRef)).thenReturn(swiftType);
     when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(true);
     when(deploymentModel.isInterface(any())).thenReturn(false);
 
@@ -480,13 +477,13 @@ public final class SwiftModelBuilderTest {
     assertNotNull("Should be 1 type item created", resultType);
     assertSame(swiftType, resultType);
     PowerMockito.verifyStatic();
-    SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
+    typeMapper.mapType(francaTypeRef);
   }
 
   @Test
   public void finishBuildingFrancaInterfaceInstanceTypeRef() {
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
-    when(SwiftTypeMapper.mapType(francaTypeRef, deploymentModel)).thenReturn(swiftType);
+    when(typeMapper.mapType(francaTypeRef)).thenReturn(swiftType);
     when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(true);
     when(deploymentModel.isInterface(any())).thenReturn(true);
 
@@ -496,7 +493,7 @@ public final class SwiftModelBuilderTest {
     assertNotNull("Should be 1 type item created", resultType);
     assertEquals(swiftType.name, resultType.name);
     PowerMockito.verifyStatic();
-    SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
+    typeMapper.mapType(francaTypeRef);
   }
 
   @Test
