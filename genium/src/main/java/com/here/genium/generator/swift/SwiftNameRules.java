@@ -116,15 +116,6 @@ public final class SwiftNameRules {
         : NameHelper.toLowerCamelCase(name);
   }
 
-  public static String getArrayName(SwiftType innerType) {
-    String name =
-        innerType.implementingClass != null
-            ? innerType.implementingClass
-            : innerType.getSimpleName();
-    name = SwiftNameRules.getClassName(name.replace("_", ""));
-    return name + "List";
-  }
-
   public static String getTypeDefName(
       final FModelElement francaModelElement, final FrancaDeploymentModel deploymentModel) {
     return getTypeName(francaModelElement, deploymentModel);

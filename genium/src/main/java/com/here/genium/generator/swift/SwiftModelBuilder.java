@@ -151,7 +151,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             CBridgeNameRules.getStructBaseName(francaStruct),
             getVisibility(francaStruct),
             SwiftType.TypeCategory.STRUCT,
-            null,
+            false,
             null,
             false,
             deploymentModel.isEquatable(francaStruct),
@@ -417,10 +417,9 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     mapCollector.putIfAbsent(keyTypeKey + ":" + valueTypeKey, swiftDictionary);
     storeResult(swiftDictionary);
 
-    SwiftVisibility visibility = getVisibility(francaMapType);
-    SwiftType namelessDictionary = new SwiftType(swiftDictionary.implementingClass, null);
-
-    SwiftTypeDef swiftTypeDef = new SwiftTypeDef(typeDefName, visibility, namelessDictionary);
+    SwiftType namelessDictionary = new SwiftType(swiftDictionary.getDictionaryDefinition(), null);
+    SwiftTypeDef swiftTypeDef =
+        new SwiftTypeDef(typeDefName, getVisibility(francaMapType), namelessDictionary);
     swiftTypeDef.comment = CommentHelper.getDescription(francaMapType);
 
     storeResult(swiftTypeDef);

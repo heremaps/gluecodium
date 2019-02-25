@@ -115,7 +115,7 @@ public class SwiftTypeMapper {
         CBridgeNameRules.getStructBaseName(francaMapType),
         null,
         DICTIONARY,
-        null,
+        false,
         SwiftNameRules.getTypeName(francaMapType, deploymentModel));
   }
 
@@ -140,18 +140,12 @@ public class SwiftTypeMapper {
       final FTypeDef francaTypeDef, final FrancaDeploymentModel deploymentModel) {
 
     String swiftName = SwiftNameRules.getClassName(francaTypeDef.getName());
-    String implementingClass = swiftName;
-    if (deploymentModel != null
-        && deploymentModel.isInterface((FInterface) francaTypeDef.eContainer())) {
-      implementingClass = "_" + swiftName;
-    }
-
     return new SwiftStruct(
         swiftName,
         CBridgeNameRules.getInstanceBaseName(francaTypeDef),
         null,
         CLASS,
-        implementingClass);
+        deploymentModel.isInterface((FInterface) francaTypeDef.eContainer()));
   }
 
   private static SwiftType mapPredefined(FTypeRef type) {
@@ -191,9 +185,6 @@ public class SwiftTypeMapper {
 
   private static SwiftArray createArrayType(
       final SwiftType underlyingType, final EObject francaElement) {
-    return new SwiftArray(
-        underlyingType,
-        SwiftNameRules.getArrayName(underlyingType),
-        CArrayMapper.getArrayName(francaElement));
+    return new SwiftArray(underlyingType, CArrayMapper.getArrayName(francaElement));
   }
 }
