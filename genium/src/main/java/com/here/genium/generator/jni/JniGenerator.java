@@ -93,6 +93,7 @@ public final class JniGenerator extends AbstractGenerator {
             basePackage.createChildPackage(DefinedBy.getPackages(francaTypeCollection)),
             new JavaTypeMapper(
                 basePackage,
+                deploymentModel,
                 enableAndroidFeatures ? PARCELABLE : null,
                 enableAndroidFeatures ? NON_NULL : null,
                 enableAndroidFeatures ? NULLABLE : null),

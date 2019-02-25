@@ -117,7 +117,7 @@ public class JavaModelBuilderTest {
             typeMapper,
             e -> e == francaEnumerationTypeError);
 
-    when(typeMapper.map(any(), any())).thenReturn(javaCustomType);
+    when(typeMapper.map(any())).thenReturn(javaCustomType);
     when(JavaValueMapper.mapDefaultValue(any())).thenReturn(new JavaValue(""));
 
     when(francaConstant.getName()).thenReturn("permanent");
@@ -553,7 +553,7 @@ public class JavaModelBuilderTest {
     JavaType javaType = modelBuilder.getFinalResult(JavaType.class);
     assertEquals(javaCustomType, javaType);
 
-    verify(typeMapper).map(francaTypeRef, deploymentModel);
+    verify(typeMapper).map(francaTypeRef);
   }
 
   @Test

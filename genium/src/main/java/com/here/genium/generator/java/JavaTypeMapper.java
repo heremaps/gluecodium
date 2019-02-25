@@ -65,6 +65,7 @@ public class JavaTypeMapper {
   private static final String NATIVE_BASE_NAME = "NativeBase";
 
   private final JavaPackage basePackage;
+  private final FrancaDeploymentModel deploymentModel;
   private final JavaType nativeBase;
   private final JavaType serializationBase;
   private final JavaType notNullAnnotation;
@@ -72,30 +73,32 @@ public class JavaTypeMapper {
 
   public JavaTypeMapper(
       final JavaPackage basePackage,
+      final FrancaDeploymentModel deploymentModel,
       final JavaType serializationBase,
       final JavaType notNullAnnotation,
       final JavaType nullableAnnotation) {
     this.basePackage = basePackage;
+    this.deploymentModel = deploymentModel;
     this.nativeBase = new JavaCustomType(NATIVE_BASE_NAME, basePackage);
     this.serializationBase = serializationBase;
     this.notNullAnnotation = notNullAnnotation;
     this.nullableAnnotation = nullableAnnotation;
   }
 
-  public JavaType map(final FTypeRef francaTypRef, final FrancaDeploymentModel deploymentModel) {
+  public JavaType map(final FTypeRef francaTypRef) {
 
     JavaType javaType = mapTypeReference(francaTypRef);
 
     if (FrancaTypeHelper.isImplicitArray(francaTypRef)) {
       javaType = JavaTemplateType.wrapInList(javaType);
     }
-    if (nullableAnnotation != null && needsNullableAnnotation(francaTypRef, deploymentModel)) {
+    if (nullableAnnotation != null && needsNullableAnnotation(francaTypRef)) {
       if (javaType instanceof JavaPrimitiveType) {
         javaType = JavaReferenceType.boxPrimitiveType((JavaPrimitiveType) javaType);
       }
       javaType.annotations.add(nullableAnnotation);
     }
-    if (notNullAnnotation != null && needsNotNullAnnotation(francaTypRef, deploymentModel)) {
+    if (notNullAnnotation != null && needsNotNullAnnotation(francaTypRef)) {
       javaType.annotations.add(notNullAnnotation);
     }
 
@@ -252,8 +255,7 @@ public class JavaTypeMapper {
     }
   }
 
-  private boolean needsNotNullAnnotation(
-      final FTypeRef francaTypeRef, final FrancaDeploymentModel deploymentModel) {
+  private boolean needsNotNullAnnotation(final FTypeRef francaTypeRef) {
 
     EObject parentElement = francaTypeRef.eContainer();
     if (!isNullableElement(parentElement)) {
@@ -270,8 +272,7 @@ public class JavaTypeMapper {
         || FrancaHelpers.getActualDerived(francaTypeRef) != null;
   }
 
-  private boolean needsNullableAnnotation(
-      final FTypeRef francaTypeRef, final FrancaDeploymentModel deploymentModel) {
+  private boolean needsNullableAnnotation(final FTypeRef francaTypeRef) {
 
     EObject parentElement = francaTypeRef.eContainer();
     return isNullableElement(parentElement)

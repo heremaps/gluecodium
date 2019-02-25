@@ -252,7 +252,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
 
   @Override
   public void finishBuilding(FTypeRef francaTypeRef) {
-    storeResult(typeMapper.map(francaTypeRef, deploymentModel));
+    storeResult(typeMapper.map(francaTypeRef));
     closeContext();
   }
 
