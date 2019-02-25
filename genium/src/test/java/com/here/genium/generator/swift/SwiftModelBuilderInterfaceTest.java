@@ -66,9 +66,11 @@ public class SwiftModelBuilderInterfaceTest {
           false,
           Collections.singletonList(new SwiftParameter("MethodValue", SwiftType.STRING)));
 
+  @Mock private FInterface francaInterface;
+
   @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private FrancaSignatureResolver signatureResolver;
-  @Mock private FInterface francaInterface;
+  @Mock private SwiftTypeMapper typeMapper;
 
   private SwiftModelBuilder modelBuilder;
 
@@ -81,7 +83,8 @@ public class SwiftModelBuilderInterfaceTest {
     when(CBridgeNameRules.getInterfaceName(francaInterface)).thenReturn("package_classy");
     when(CBridgeNameRules.getFunctionTableName(francaInterface)).thenReturn("fun_table");
 
-    modelBuilder = new SwiftModelBuilder(contextStack, deploymentModel, signatureResolver);
+    modelBuilder =
+        new SwiftModelBuilder(contextStack, deploymentModel, signatureResolver, typeMapper);
   }
 
   // Creates instantiable Swift class
