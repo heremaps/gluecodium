@@ -47,10 +47,12 @@ public class SwiftGenerator {
 
   private final FrancaDeploymentModel deploymentModel;
   private final FrancaSignatureResolver signatureResolver;
+  private final SwiftTypeMapper typeMapper;
 
   public SwiftGenerator(final FrancaDeploymentModel deploymentModel) {
     this.deploymentModel = deploymentModel;
     this.signatureResolver = new FrancaSignatureResolver();
+    this.typeMapper = new SwiftTypeMapper(deploymentModel);
   }
 
   public GeneratedFile generate(final FTypeCollection francaTypeCollection) {
@@ -77,7 +79,8 @@ public class SwiftGenerator {
 
   @VisibleForTesting
   SwiftFile buildSwiftModel(final FTypeCollection francaTypeCollection) {
-    SwiftModelBuilder modelBuilder = new SwiftModelBuilder(deploymentModel, signatureResolver);
+    SwiftModelBuilder modelBuilder =
+        new SwiftModelBuilder(deploymentModel, signatureResolver, typeMapper);
     FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
 
     treeWalker.walkTree(francaTypeCollection);

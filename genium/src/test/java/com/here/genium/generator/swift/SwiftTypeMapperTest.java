@@ -54,9 +54,13 @@ public class SwiftTypeMapperTest {
   @Mock private FStructType francaStructType;
   @Mock private FTypeDef francaTypeDef;
 
+  private SwiftTypeMapper typeMapper;
+
   @Before
   public void setUp() {
     PowerMockito.mockStatic(DefinedBy.class, InstanceRules.class);
+
+    typeMapper = new SwiftTypeMapper(deploymentModel);
 
     when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
     when(francaInterface.getName()).thenReturn(INTERFACE_NAME);
@@ -72,7 +76,7 @@ public class SwiftTypeMapperTest {
   public void mapTypeWithStructTypeRefCreatesStructTypeRef() {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
-    SwiftType resultType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
+    SwiftType resultType = typeMapper.mapType(francaTypeRef);
 
     assertTrue(resultType instanceof SwiftStruct);
     assertEquals(SwiftType.TypeCategory.STRUCT, resultType.category);
@@ -83,7 +87,7 @@ public class SwiftTypeMapperTest {
   public void mapTypeWithStructTypeRefSetsCNames() {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
-    SwiftType resultType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
+    SwiftType resultType = typeMapper.mapType(francaTypeRef);
 
     assertTrue(resultType instanceof SwiftStruct);
     SwiftStruct containerType = (SwiftStruct) resultType;
@@ -96,7 +100,7 @@ public class SwiftTypeMapperTest {
     when(InstanceRules.isInstanceId(any(FTypeDef.class))).thenReturn(true);
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
 
-    SwiftType resultType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
+    SwiftType resultType = typeMapper.mapType(francaTypeRef);
 
     assertTrue(resultType instanceof SwiftStruct);
     assertEquals(SwiftType.TypeCategory.CLASS, resultType.category);
@@ -108,7 +112,7 @@ public class SwiftTypeMapperTest {
     when(InstanceRules.isInstanceId(any(FTypeDef.class))).thenReturn(true);
     when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
 
-    SwiftType resultType = SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
+    SwiftType resultType = typeMapper.mapType(francaTypeRef);
 
     assertTrue(resultType instanceof SwiftStruct);
     SwiftStruct containerType = (SwiftStruct) resultType;
