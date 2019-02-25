@@ -133,6 +133,7 @@ public final class SwiftModelBuilderTest {
 
     SwiftArray resultSwiftArray = modelBuilder.arraysCollector.values().iterator().next();
     assertEquals("[VerySwiftType]", resultSwiftArray.name);
+    assertEquals("SomeArray", resultSwiftArray.publicName);
   }
 
   @Test
