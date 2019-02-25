@@ -26,7 +26,6 @@ class SwiftDictionary(
     cPrefix: String?,
     val keyType: SwiftType,
     val valueType: SwiftType
-) : SwiftType(
-    name, cPrefix, visibility, SwiftType.TypeCategory.DICTIONARY,
-    "[" + keyType.publicName + ": " + valueType.publicName + "]", publicName, false
-)
+) : SwiftType(name, cPrefix, visibility, SwiftType.TypeCategory.DICTIONARY, publicName, false) {
+    val dictionaryDefinition = "[" + keyType.publicName + ": " + valueType.publicName + "]"
+}

@@ -126,7 +126,7 @@ public final class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingDeclareArray() {
-    SwiftArray swiftArray = new SwiftArray(swiftType, "Impl", "c_prefix");
+    SwiftArray swiftArray = new SwiftArray(swiftType, "c_prefix");
     when(SwiftTypeMapper.mapArrayType(any(), any())).thenReturn(swiftArray);
 
     modelBuilder.finishBuilding(francaArray);
@@ -137,7 +137,7 @@ public final class SwiftModelBuilderTest {
 
   @Test
   public void finishBuildingArrayCreatesTypeDef() {
-    SwiftArray swiftArray = new SwiftArray(swiftType, "Impl", "c_prefix");
+    SwiftArray swiftArray = new SwiftArray(swiftType, "c_prefix");
     when(SwiftTypeMapper.mapArrayType(any(), any())).thenReturn(swiftArray);
 
     modelBuilder.finishBuilding(francaArray);
@@ -494,7 +494,6 @@ public final class SwiftModelBuilderTest {
     SwiftType resultType = modelBuilder.getFinalResult(SwiftType.class);
     assertNotNull("Should be 1 type item created", resultType);
     assertEquals(swiftType.name, resultType.name);
-    assertEquals(swiftType.implementingClass, resultType.implementingClass);
     PowerMockito.verifyStatic();
     SwiftTypeMapper.mapType(francaTypeRef, deploymentModel);
   }

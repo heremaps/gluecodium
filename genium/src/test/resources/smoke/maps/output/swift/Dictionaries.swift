@@ -1,5 +1,5 @@
-internal func copyFromCType(_ handle: _baseRef) -> [Int32: String] {
-    var swiftDict: [Int32: String] = [:]
+internal func copyFromCType(_ handle: _baseRef) -> Maps.ErrorCodeToMessageMap {
+    var swiftDict: Maps.ErrorCodeToMessageMap = [:]
     let iterator_handle = smoke_Maps_ErrorCodeToMessageMap_iterator(handle)
     while smoke_Maps_ErrorCodeToMessageMap_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(smoke_Maps_ErrorCodeToMessageMap_iterator_key(iterator_handle))] =
@@ -9,13 +9,13 @@ internal func copyFromCType(_ handle: _baseRef) -> [Int32: String] {
     smoke_Maps_ErrorCodeToMessageMap_iterator_release_handle(iterator_handle)
     return swiftDict
 }
-internal func moveFromCType(_ handle: _baseRef) -> [Int32: String] {
+internal func moveFromCType(_ handle: _baseRef) -> Maps.ErrorCodeToMessageMap {
     defer {
         smoke_Maps_ErrorCodeToMessageMap_release_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftDict: [Int32: String]) -> RefHolder {
+internal func copyToCType(_ swiftDict: Maps.ErrorCodeToMessageMap) -> RefHolder {
     let c_handle = smoke_Maps_ErrorCodeToMessageMap_create_handle()
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
@@ -24,23 +24,23 @@ internal func copyToCType(_ swiftDict: [Int32: String]) -> RefHolder {
     }
     return RefHolder(c_handle)
 }
-internal func moveToCType(_ swiftDict: [Int32: String]) -> RefHolder {
+internal func moveToCType(_ swiftDict: Maps.ErrorCodeToMessageMap) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftDict).ref, release: smoke_Maps_ErrorCodeToMessageMap_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [Int32: String]? {
+internal func copyFromCType(_ handle: _baseRef) -> Maps.ErrorCodeToMessageMap? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_Maps_ErrorCodeToMessageMap_unwrap_optional_handle(handle)
-    return copyFromCType(unwrappedHandle) as [Int32: String]
+    return copyFromCType(unwrappedHandle) as Maps.ErrorCodeToMessageMap
 }
-internal func moveFromCType(_ handle: _baseRef) -> [Int32: String]? {
+internal func moveFromCType(_ handle: _baseRef) -> Maps.ErrorCodeToMessageMap? {
     defer {
         smoke_Maps_ErrorCodeToMessageMap_release_optional_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftDict: [Int32: String]?) -> RefHolder {
+internal func copyToCType(_ swiftDict: Maps.ErrorCodeToMessageMap?) -> RefHolder {
     guard let swiftDict = swiftDict else {
         return RefHolder(0)
     }
@@ -53,11 +53,11 @@ internal func copyToCType(_ swiftDict: [Int32: String]?) -> RefHolder {
     }
     return RefHolder(optionalHandle)
 }
-internal func moveToCType(_ swiftType: [Int32: String]?) -> RefHolder {
+internal func moveToCType(_ swiftType: Maps.ErrorCodeToMessageMap?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_ErrorCodeToMessageMap_release_optional_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [Maps.SomeId: UInt8] {
-    var swiftDict: [Maps.SomeId: UInt8] = [:]
+internal func copyFromCType(_ handle: _baseRef) -> Maps.TypeDefToNumber {
+    var swiftDict: Maps.TypeDefToNumber = [:]
     let iterator_handle = smoke_Maps_TypeDefToNumber_iterator(handle)
     while smoke_Maps_TypeDefToNumber_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(smoke_Maps_TypeDefToNumber_iterator_key(iterator_handle))] =
@@ -67,13 +67,13 @@ internal func copyFromCType(_ handle: _baseRef) -> [Maps.SomeId: UInt8] {
     smoke_Maps_TypeDefToNumber_iterator_release_handle(iterator_handle)
     return swiftDict
 }
-internal func moveFromCType(_ handle: _baseRef) -> [Maps.SomeId: UInt8] {
+internal func moveFromCType(_ handle: _baseRef) -> Maps.TypeDefToNumber {
     defer {
         smoke_Maps_TypeDefToNumber_release_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftDict: [Maps.SomeId: UInt8]) -> RefHolder {
+internal func copyToCType(_ swiftDict: Maps.TypeDefToNumber) -> RefHolder {
     let c_handle = smoke_Maps_TypeDefToNumber_create_handle()
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
@@ -82,23 +82,23 @@ internal func copyToCType(_ swiftDict: [Maps.SomeId: UInt8]) -> RefHolder {
     }
     return RefHolder(c_handle)
 }
-internal func moveToCType(_ swiftDict: [Maps.SomeId: UInt8]) -> RefHolder {
+internal func moveToCType(_ swiftDict: Maps.TypeDefToNumber) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftDict).ref, release: smoke_Maps_TypeDefToNumber_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [Maps.SomeId: UInt8]? {
+internal func copyFromCType(_ handle: _baseRef) -> Maps.TypeDefToNumber? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_Maps_TypeDefToNumber_unwrap_optional_handle(handle)
-    return copyFromCType(unwrappedHandle) as [Maps.SomeId: UInt8]
+    return copyFromCType(unwrappedHandle) as Maps.TypeDefToNumber
 }
-internal func moveFromCType(_ handle: _baseRef) -> [Maps.SomeId: UInt8]? {
+internal func moveFromCType(_ handle: _baseRef) -> Maps.TypeDefToNumber? {
     defer {
         smoke_Maps_TypeDefToNumber_release_optional_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftDict: [Maps.SomeId: UInt8]?) -> RefHolder {
+internal func copyToCType(_ swiftDict: Maps.TypeDefToNumber?) -> RefHolder {
     guard let swiftDict = swiftDict else {
         return RefHolder(0)
     }
@@ -111,11 +111,11 @@ internal func copyToCType(_ swiftDict: [Maps.SomeId: UInt8]?) -> RefHolder {
     }
     return RefHolder(optionalHandle)
 }
-internal func moveToCType(_ swiftType: [Maps.SomeId: UInt8]?) -> RefHolder {
+internal func moveToCType(_ swiftType: Maps.TypeDefToNumber?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_TypeDefToNumber_release_optional_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [String: [Int32]] {
-    var swiftDict: [String: [Int32]] = [:]
+internal func copyFromCType(_ handle: _baseRef) -> Maps.StringToArray {
+    var swiftDict: Maps.StringToArray = [:]
     let iterator_handle = smoke_Maps_StringToArray_iterator(handle)
     while smoke_Maps_StringToArray_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(smoke_Maps_StringToArray_iterator_key(iterator_handle))] =
@@ -125,13 +125,13 @@ internal func copyFromCType(_ handle: _baseRef) -> [String: [Int32]] {
     smoke_Maps_StringToArray_iterator_release_handle(iterator_handle)
     return swiftDict
 }
-internal func moveFromCType(_ handle: _baseRef) -> [String: [Int32]] {
+internal func moveFromCType(_ handle: _baseRef) -> Maps.StringToArray {
     defer {
         smoke_Maps_StringToArray_release_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftDict: [String: [Int32]]) -> RefHolder {
+internal func copyToCType(_ swiftDict: Maps.StringToArray) -> RefHolder {
     let c_handle = smoke_Maps_StringToArray_create_handle()
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
@@ -140,23 +140,23 @@ internal func copyToCType(_ swiftDict: [String: [Int32]]) -> RefHolder {
     }
     return RefHolder(c_handle)
 }
-internal func moveToCType(_ swiftDict: [String: [Int32]]) -> RefHolder {
+internal func moveToCType(_ swiftDict: Maps.StringToArray) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftDict).ref, release: smoke_Maps_StringToArray_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [String: [Int32]]? {
+internal func copyFromCType(_ handle: _baseRef) -> Maps.StringToArray? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_Maps_StringToArray_unwrap_optional_handle(handle)
-    return copyFromCType(unwrappedHandle) as [String: [Int32]]
+    return copyFromCType(unwrappedHandle) as Maps.StringToArray
 }
-internal func moveFromCType(_ handle: _baseRef) -> [String: [Int32]]? {
+internal func moveFromCType(_ handle: _baseRef) -> Maps.StringToArray? {
     defer {
         smoke_Maps_StringToArray_release_optional_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftDict: [String: [Int32]]?) -> RefHolder {
+internal func copyToCType(_ swiftDict: Maps.StringToArray?) -> RefHolder {
     guard let swiftDict = swiftDict else {
         return RefHolder(0)
     }
@@ -169,11 +169,11 @@ internal func copyToCType(_ swiftDict: [String: [Int32]]?) -> RefHolder {
     }
     return RefHolder(optionalHandle)
 }
-internal func moveToCType(_ swiftType: [String: [Int32]]?) -> RefHolder {
+internal func moveToCType(_ swiftType: Maps.StringToArray?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_StringToArray_release_optional_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [UInt8: Maps.SomeStruct] {
-    var swiftDict: [UInt8: Maps.SomeStruct] = [:]
+internal func copyFromCType(_ handle: _baseRef) -> Maps.NumberToStruct {
+    var swiftDict: Maps.NumberToStruct = [:]
     let iterator_handle = smoke_Maps_NumberToStruct_iterator(handle)
     while smoke_Maps_NumberToStruct_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(smoke_Maps_NumberToStruct_iterator_key(iterator_handle))] =
@@ -183,13 +183,13 @@ internal func copyFromCType(_ handle: _baseRef) -> [UInt8: Maps.SomeStruct] {
     smoke_Maps_NumberToStruct_iterator_release_handle(iterator_handle)
     return swiftDict
 }
-internal func moveFromCType(_ handle: _baseRef) -> [UInt8: Maps.SomeStruct] {
+internal func moveFromCType(_ handle: _baseRef) -> Maps.NumberToStruct {
     defer {
         smoke_Maps_NumberToStruct_release_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftDict: [UInt8: Maps.SomeStruct]) -> RefHolder {
+internal func copyToCType(_ swiftDict: Maps.NumberToStruct) -> RefHolder {
     let c_handle = smoke_Maps_NumberToStruct_create_handle()
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
@@ -198,23 +198,23 @@ internal func copyToCType(_ swiftDict: [UInt8: Maps.SomeStruct]) -> RefHolder {
     }
     return RefHolder(c_handle)
 }
-internal func moveToCType(_ swiftDict: [UInt8: Maps.SomeStruct]) -> RefHolder {
+internal func moveToCType(_ swiftDict: Maps.NumberToStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftDict).ref, release: smoke_Maps_NumberToStruct_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [UInt8: Maps.SomeStruct]? {
+internal func copyFromCType(_ handle: _baseRef) -> Maps.NumberToStruct? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_Maps_NumberToStruct_unwrap_optional_handle(handle)
-    return copyFromCType(unwrappedHandle) as [UInt8: Maps.SomeStruct]
+    return copyFromCType(unwrappedHandle) as Maps.NumberToStruct
 }
-internal func moveFromCType(_ handle: _baseRef) -> [UInt8: Maps.SomeStruct]? {
+internal func moveFromCType(_ handle: _baseRef) -> Maps.NumberToStruct? {
     defer {
         smoke_Maps_NumberToStruct_release_optional_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftDict: [UInt8: Maps.SomeStruct]?) -> RefHolder {
+internal func copyToCType(_ swiftDict: Maps.NumberToStruct?) -> RefHolder {
     guard let swiftDict = swiftDict else {
         return RefHolder(0)
     }
@@ -227,11 +227,11 @@ internal func copyToCType(_ swiftDict: [UInt8: Maps.SomeStruct]?) -> RefHolder {
     }
     return RefHolder(optionalHandle)
 }
-internal func moveToCType(_ swiftType: [UInt8: Maps.SomeStruct]?) -> RefHolder {
+internal func moveToCType(_ swiftType: Maps.NumberToStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_NumberToStruct_release_optional_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [UInt8: MapsInstance] {
-    var swiftDict: [UInt8: MapsInstance] = [:]
+internal func copyFromCType(_ handle: _baseRef) -> Maps.NumberToInstance {
+    var swiftDict: Maps.NumberToInstance = [:]
     let iterator_handle = smoke_Maps_NumberToInstance_iterator(handle)
     while smoke_Maps_NumberToInstance_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(smoke_Maps_NumberToInstance_iterator_key(iterator_handle))] =
@@ -241,13 +241,13 @@ internal func copyFromCType(_ handle: _baseRef) -> [UInt8: MapsInstance] {
     smoke_Maps_NumberToInstance_iterator_release_handle(iterator_handle)
     return swiftDict
 }
-internal func moveFromCType(_ handle: _baseRef) -> [UInt8: MapsInstance] {
+internal func moveFromCType(_ handle: _baseRef) -> Maps.NumberToInstance {
     defer {
         smoke_Maps_NumberToInstance_release_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftDict: [UInt8: MapsInstance]) -> RefHolder {
+internal func copyToCType(_ swiftDict: Maps.NumberToInstance) -> RefHolder {
     let c_handle = smoke_Maps_NumberToInstance_create_handle()
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
@@ -256,23 +256,23 @@ internal func copyToCType(_ swiftDict: [UInt8: MapsInstance]) -> RefHolder {
     }
     return RefHolder(c_handle)
 }
-internal func moveToCType(_ swiftDict: [UInt8: MapsInstance]) -> RefHolder {
+internal func moveToCType(_ swiftDict: Maps.NumberToInstance) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftDict).ref, release: smoke_Maps_NumberToInstance_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [UInt8: MapsInstance]? {
+internal func copyFromCType(_ handle: _baseRef) -> Maps.NumberToInstance? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_Maps_NumberToInstance_unwrap_optional_handle(handle)
-    return copyFromCType(unwrappedHandle) as [UInt8: MapsInstance]
+    return copyFromCType(unwrappedHandle) as Maps.NumberToInstance
 }
-internal func moveFromCType(_ handle: _baseRef) -> [UInt8: MapsInstance]? {
+internal func moveFromCType(_ handle: _baseRef) -> Maps.NumberToInstance? {
     defer {
         smoke_Maps_NumberToInstance_release_optional_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftDict: [UInt8: MapsInstance]?) -> RefHolder {
+internal func copyToCType(_ swiftDict: Maps.NumberToInstance?) -> RefHolder {
     guard let swiftDict = swiftDict else {
         return RefHolder(0)
     }
@@ -285,11 +285,11 @@ internal func copyToCType(_ swiftDict: [UInt8: MapsInstance]?) -> RefHolder {
     }
     return RefHolder(optionalHandle)
 }
-internal func moveToCType(_ swiftType: [UInt8: MapsInstance]?) -> RefHolder {
+internal func moveToCType(_ swiftType: Maps.NumberToInstance?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_NumberToInstance_release_optional_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [UInt8: Maps.SomeId] {
-    var swiftDict: [UInt8: Maps.SomeId] = [:]
+internal func copyFromCType(_ handle: _baseRef) -> Maps.NumberToTypeDef {
+    var swiftDict: Maps.NumberToTypeDef = [:]
     let iterator_handle = smoke_Maps_NumberToTypeDef_iterator(handle)
     while smoke_Maps_NumberToTypeDef_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(smoke_Maps_NumberToTypeDef_iterator_key(iterator_handle))] =
@@ -299,13 +299,13 @@ internal func copyFromCType(_ handle: _baseRef) -> [UInt8: Maps.SomeId] {
     smoke_Maps_NumberToTypeDef_iterator_release_handle(iterator_handle)
     return swiftDict
 }
-internal func moveFromCType(_ handle: _baseRef) -> [UInt8: Maps.SomeId] {
+internal func moveFromCType(_ handle: _baseRef) -> Maps.NumberToTypeDef {
     defer {
         smoke_Maps_NumberToTypeDef_release_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftDict: [UInt8: Maps.SomeId]) -> RefHolder {
+internal func copyToCType(_ swiftDict: Maps.NumberToTypeDef) -> RefHolder {
     let c_handle = smoke_Maps_NumberToTypeDef_create_handle()
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
@@ -314,23 +314,23 @@ internal func copyToCType(_ swiftDict: [UInt8: Maps.SomeId]) -> RefHolder {
     }
     return RefHolder(c_handle)
 }
-internal func moveToCType(_ swiftDict: [UInt8: Maps.SomeId]) -> RefHolder {
+internal func moveToCType(_ swiftDict: Maps.NumberToTypeDef) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftDict).ref, release: smoke_Maps_NumberToTypeDef_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [UInt8: Maps.SomeId]? {
+internal func copyFromCType(_ handle: _baseRef) -> Maps.NumberToTypeDef? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_Maps_NumberToTypeDef_unwrap_optional_handle(handle)
-    return copyFromCType(unwrappedHandle) as [UInt8: Maps.SomeId]
+    return copyFromCType(unwrappedHandle) as Maps.NumberToTypeDef
 }
-internal func moveFromCType(_ handle: _baseRef) -> [UInt8: Maps.SomeId]? {
+internal func moveFromCType(_ handle: _baseRef) -> Maps.NumberToTypeDef? {
     defer {
         smoke_Maps_NumberToTypeDef_release_optional_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftDict: [UInt8: Maps.SomeId]?) -> RefHolder {
+internal func copyToCType(_ swiftDict: Maps.NumberToTypeDef?) -> RefHolder {
     guard let swiftDict = swiftDict else {
         return RefHolder(0)
     }
@@ -343,11 +343,11 @@ internal func copyToCType(_ swiftDict: [UInt8: Maps.SomeId]?) -> RefHolder {
     }
     return RefHolder(optionalHandle)
 }
-internal func moveToCType(_ swiftType: [UInt8: Maps.SomeId]?) -> RefHolder {
+internal func moveToCType(_ swiftType: Maps.NumberToTypeDef?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_NumberToTypeDef_release_optional_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [UInt8: Maps.NumberToStruct] {
-    var swiftDict: [UInt8: Maps.NumberToStruct] = [:]
+internal func copyFromCType(_ handle: _baseRef) -> Maps.NestedMap {
+    var swiftDict: Maps.NestedMap = [:]
     let iterator_handle = smoke_Maps_NestedMap_iterator(handle)
     while smoke_Maps_NestedMap_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(smoke_Maps_NestedMap_iterator_key(iterator_handle))] =
@@ -357,13 +357,13 @@ internal func copyFromCType(_ handle: _baseRef) -> [UInt8: Maps.NumberToStruct] 
     smoke_Maps_NestedMap_iterator_release_handle(iterator_handle)
     return swiftDict
 }
-internal func moveFromCType(_ handle: _baseRef) -> [UInt8: Maps.NumberToStruct] {
+internal func moveFromCType(_ handle: _baseRef) -> Maps.NestedMap {
     defer {
         smoke_Maps_NestedMap_release_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftDict: [UInt8: Maps.NumberToStruct]) -> RefHolder {
+internal func copyToCType(_ swiftDict: Maps.NestedMap) -> RefHolder {
     let c_handle = smoke_Maps_NestedMap_create_handle()
     for (key, value) in swiftDict {
         let c_key = moveToCType(key)
@@ -372,23 +372,23 @@ internal func copyToCType(_ swiftDict: [UInt8: Maps.NumberToStruct]) -> RefHolde
     }
     return RefHolder(c_handle)
 }
-internal func moveToCType(_ swiftDict: [UInt8: Maps.NumberToStruct]) -> RefHolder {
+internal func moveToCType(_ swiftDict: Maps.NestedMap) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftDict).ref, release: smoke_Maps_NestedMap_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> [UInt8: Maps.NumberToStruct]? {
+internal func copyFromCType(_ handle: _baseRef) -> Maps.NestedMap? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = smoke_Maps_NestedMap_unwrap_optional_handle(handle)
-    return copyFromCType(unwrappedHandle) as [UInt8: Maps.NumberToStruct]
+    return copyFromCType(unwrappedHandle) as Maps.NestedMap
 }
-internal func moveFromCType(_ handle: _baseRef) -> [UInt8: Maps.NumberToStruct]? {
+internal func moveFromCType(_ handle: _baseRef) -> Maps.NestedMap? {
     defer {
         smoke_Maps_NestedMap_release_optional_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftDict: [UInt8: Maps.NumberToStruct]?) -> RefHolder {
+internal func copyToCType(_ swiftDict: Maps.NestedMap?) -> RefHolder {
     guard let swiftDict = swiftDict else {
         return RefHolder(0)
     }
@@ -401,6 +401,6 @@ internal func copyToCType(_ swiftDict: [UInt8: Maps.NumberToStruct]?) -> RefHold
     }
     return RefHolder(optionalHandle)
 }
-internal func moveToCType(_ swiftType: [UInt8: Maps.NumberToStruct]?) -> RefHolder {
+internal func moveToCType(_ swiftType: Maps.NestedMap?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_NestedMap_release_optional_handle)
 }

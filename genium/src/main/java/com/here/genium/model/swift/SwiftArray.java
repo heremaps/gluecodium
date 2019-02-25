@@ -23,40 +23,30 @@ public final class SwiftArray extends SwiftType {
 
   public final SwiftType underlyingType;
 
-  public SwiftArray(
-      final SwiftType underlyingType, final String implementingClass, final String cPrefix) {
-    this(underlyingType, null, implementingClass, getImplName(underlyingType), false, cPrefix);
+  public SwiftArray(final SwiftType underlyingType, final String cPrefix) {
+    this(underlyingType, null, getImplName(underlyingType), false, cPrefix);
   }
 
   private SwiftArray(
       final SwiftType underlyingType,
       final SwiftVisibility visibility,
-      final String implementingClass,
       final String publicName,
       final boolean optional,
       final String cPrefix) {
     super(
-        getImplName(underlyingType),
-        cPrefix,
-        visibility,
-        TypeCategory.ARRAY,
-        implementingClass,
-        publicName,
-        optional);
+        getImplName(underlyingType), cPrefix, visibility, TypeCategory.ARRAY, publicName, optional);
     this.underlyingType = underlyingType;
   }
 
   @Override
   public SwiftType withAlias(String aliasName) {
-    return new SwiftArray(
-        underlyingType, visibility, implementingClass, aliasName, optional, cPrefix);
+    return new SwiftArray(underlyingType, visibility, aliasName, optional, cPrefix);
   }
 
   @Override
   public SwiftType withOptional(final boolean optional) {
     return this.optional != optional
-        ? new SwiftArray(
-            underlyingType, visibility, implementingClass, publicName, optional, cPrefix)
+        ? new SwiftArray(underlyingType, visibility, publicName, optional, cPrefix)
         : this;
   }
 

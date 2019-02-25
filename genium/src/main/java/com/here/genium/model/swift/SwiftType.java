@@ -52,7 +52,6 @@ public class SwiftType extends SwiftModelElement {
 
   public final String cPrefix;
   public final TypeCategory category;
-  public final String implementingClass;
   public final String publicName;
   public final String className;
   public final boolean optional;
@@ -62,7 +61,7 @@ public class SwiftType extends SwiftModelElement {
   }
 
   public SwiftType(final String name, final String cPrefix, final TypeCategory category) {
-    this(name, cPrefix, null, category, null, name, false);
+    this(name, cPrefix, null, category, name, false);
   }
 
   protected SwiftType(
@@ -70,27 +69,23 @@ public class SwiftType extends SwiftModelElement {
       final String cPrefix,
       final SwiftVisibility visibility,
       final TypeCategory category,
-      final String implementingClass,
       final String publicName,
       final boolean optional) {
     super(name, visibility);
     this.cPrefix = cPrefix;
     this.optional = optional;
     this.category = category;
-    this.implementingClass = implementingClass;
     this.publicName = publicName;
     this.className = category == TypeCategory.CLASS ? publicName : "";
   }
 
   public SwiftType withAlias(final String aliasName) {
-    return new SwiftType(
-        name, cPrefix, visibility, category, implementingClass, aliasName, optional);
+    return new SwiftType(name, cPrefix, visibility, category, aliasName, optional);
   }
 
   public SwiftType withOptional(final boolean isOptional) {
     return this.optional != isOptional
-        ? new SwiftType(
-            name, cPrefix, visibility, category, implementingClass, publicName, isOptional)
+        ? new SwiftType(name, cPrefix, visibility, category, publicName, isOptional)
         : this;
   }
 }
