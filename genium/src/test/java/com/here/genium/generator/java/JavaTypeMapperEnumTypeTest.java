@@ -62,7 +62,7 @@ public final class JavaTypeMapperEnumTypeTest {
   @Mock private FInterface fInterface;
 
   private final JavaTypeMapper typeMapper =
-      new JavaTypeMapper(new JavaPackage(Collections.emptyList()), null, null, null);
+      new JavaTypeMapper(new JavaPackage(Collections.emptyList()), null, null, null, null);
 
   @Before
   public void setUp() {
@@ -107,7 +107,8 @@ public final class JavaTypeMapperEnumTypeTest {
 
     // assert
     assertEquals(EXCEPTION_NAME_TYPE_COLLECTION, javaExceptionType.name);
-    assertEquals(Arrays.asList(EXCEPTION_NAME_TYPE_COLLECTION), javaExceptionType.classNames);
+    assertEquals(
+        Collections.singletonList(EXCEPTION_NAME_TYPE_COLLECTION), javaExceptionType.classNames);
     assertEquals(MY_PACKAGE_NAMES, javaExceptionType.packageNames);
     assertEquals(1, javaExceptionType.imports.size());
     assertEquals(

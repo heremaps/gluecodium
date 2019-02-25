@@ -79,15 +79,20 @@ public class JavaTypeMapperCustomTypeTest {
   private final JavaType notNullAnnotation = new JavaCustomType("foo");
   private final JavaType nullableAnnotation = new JavaCustomType("bar");
 
-  private final JavaTypeMapper typeMapper =
-      new JavaTypeMapper(
-          new JavaPackage(Collections.emptyList()), null, notNullAnnotation, nullableAnnotation);
+  private JavaTypeMapper typeMapper;
 
   @Before
   public void setUp() {
     PowerMockito.mockStatic(InstanceRules.class, JavaValueMapper.class);
-
     MockitoAnnotations.initMocks(this);
+
+    typeMapper =
+        new JavaTypeMapper(
+            new JavaPackage(Collections.emptyList()),
+            deploymentModel,
+            null,
+            notNullAnnotation,
+            nullableAnnotation);
 
     when(theModel.getName()).thenReturn(FMODEL_NAME);
 
@@ -114,7 +119,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaStructType.eContainer()).thenReturn(fTypeCollection);
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertEquals(STRUCT_NAME_TYPECOLLECTION, result.name);
     assertTrue(result instanceof JavaCustomType);
@@ -132,7 +137,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaStructType.getName()).thenReturn(STRUCT_NAME_INTERFACE);
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertEquals(INTERFACE_NAME + "." + STRUCT_NAME_INTERFACE, result.name);
     assertTrue(result instanceof JavaCustomType);
@@ -154,7 +159,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeDef.getActualType()).thenReturn(mockFloatType);
     when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(false);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertTrue(result instanceof JavaPrimitiveType);
     JavaPrimitiveType javaPrimitiveTypeResult = (JavaPrimitiveType) result;
@@ -173,7 +178,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(theModel.getName()).thenReturn(String.join(".", packageNames));
     when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertTrue(result instanceof JavaCustomType);
     JavaCustomType customResult = (JavaCustomType) result;
@@ -227,7 +232,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.getDerived()).thenReturn(francaEnumerationType);
 
     // act
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     // assert
     assertEquals(ENUMERATION_NAME_TYPECOLLECTION, result.name);
@@ -250,7 +255,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.getDerived()).thenReturn(francaEnumerationType);
 
     // act
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     // assert
     assertEquals(INTERFACE_NAME + "." + ENUMERATION_NAME_INTERFACE, result.name);
@@ -303,7 +308,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
     when(francaTypeRef.eContainer()).thenReturn(francaField);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertNotNull(result);
     assertTrue(result.annotations.contains(notNullAnnotation));
@@ -314,7 +319,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.getDerived()).thenReturn(francaEnumerationType);
     when(francaTypeRef.eContainer()).thenReturn(francaField);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertNotNull(result);
     assertTrue(result.annotations.contains(notNullAnnotation));
@@ -326,7 +331,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.getDerived()).thenReturn(francaArrayType);
     when(francaTypeRef.eContainer()).thenReturn(francaField);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertNotNull(result);
     assertTrue(result.annotations.contains(notNullAnnotation));
@@ -339,7 +344,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.getDerived()).thenReturn(francaMapType);
     when(francaTypeRef.eContainer()).thenReturn(francaField);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertNotNull(result);
     assertTrue(result.annotations.contains(notNullAnnotation));
@@ -351,7 +356,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.eContainer()).thenReturn(francaField);
     when(francaField.isArray()).thenReturn(true);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertNotNull(result);
     assertTrue(result.annotations.contains(notNullAnnotation));
@@ -364,7 +369,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(InstanceRules.isInstanceId(francaTypeDef)).thenReturn(true);
     when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(true);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertNotNull(result);
     assertTrue(result.annotations.contains(notNullAnnotation));
@@ -376,7 +381,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.eContainer()).thenReturn(francaField);
     when(deploymentModel.isNullable(any())).thenReturn(true);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertNotNull(result);
     assertTrue(result.annotations.contains(nullableAnnotation));
@@ -388,7 +393,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.eContainer()).thenReturn(francaField);
     when(deploymentModel.isNullable(any())).thenReturn(true);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertNotNull(result);
     assertTrue(result.annotations.contains(nullableAnnotation));
@@ -401,7 +406,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.eContainer()).thenReturn(francaField);
     when(deploymentModel.isNullable(any())).thenReturn(true);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertNotNull(result);
     assertTrue(result.annotations.contains(nullableAnnotation));
@@ -415,7 +420,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.eContainer()).thenReturn(francaField);
     when(deploymentModel.isNullable(any())).thenReturn(true);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertNotNull(result);
     assertTrue(result.annotations.contains(nullableAnnotation));
@@ -427,7 +432,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(francaTypeRef.eContainer()).thenReturn(francaField);
     when(deploymentModel.isNullable(any())).thenReturn(true);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertNotNull(result);
     assertTrue(result.annotations.contains(nullableAnnotation));
@@ -441,7 +446,7 @@ public class JavaTypeMapperCustomTypeTest {
     when(InstanceRules.isInstanceId(francaTypeRef)).thenReturn(true);
     when(deploymentModel.isNullable(any())).thenReturn(true);
 
-    JavaType result = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType result = typeMapper.map(francaTypeRef);
 
     assertNotNull(result);
     assertTrue(result.annotations.contains(nullableAnnotation));

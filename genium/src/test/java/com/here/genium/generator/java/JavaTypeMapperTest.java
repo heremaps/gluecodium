@@ -55,8 +55,7 @@ public class JavaTypeMapperTest {
 
   @Mock private FrancaDeploymentModel deploymentModel;
 
-  private final JavaTypeMapper typeMapper =
-      new JavaTypeMapper(JavaPackage.Companion.getDEFAULT(), null, null, JavaPrimitiveType.BOOL);
+  private JavaTypeMapper typeMapper;
 
   public JavaTypeMapperTest(
       final FBasicTypeId francaBasicType,
@@ -92,13 +91,21 @@ public class JavaTypeMapperTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
+    typeMapper =
+        new JavaTypeMapper(
+            JavaPackage.Companion.getDEFAULT(),
+            deploymentModel,
+            null,
+            null,
+            JavaPrimitiveType.BOOL);
+
     when(francaTypeRef.getPredefined()).thenReturn(francaBasicType);
     when(francaTypeRef.eContainer()).thenReturn(mock(FField.class));
   }
 
   @Test
   public void mapFrancaBasicTypeToJavaType() {
-    JavaType returnedJavaType = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType returnedJavaType = typeMapper.map(francaTypeRef);
 
     assertEquals(expectedJavaTypeName, returnedJavaType.name);
   }
@@ -109,7 +116,7 @@ public class JavaTypeMapperTest {
 
     when(deploymentModel.isNullable(any())).thenReturn(true);
 
-    JavaType returnedJavaType = typeMapper.map(francaTypeRef, deploymentModel);
+    JavaType returnedJavaType = typeMapper.map(francaTypeRef);
 
     assertTrue(returnedJavaType instanceof JavaReferenceType);
     JavaReferenceType referenceType = (JavaReferenceType) returnedJavaType;
