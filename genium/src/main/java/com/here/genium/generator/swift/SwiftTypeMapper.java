@@ -49,7 +49,7 @@ public class SwiftTypeMapper {
 
     SwiftType swiftType = derived != null ? mapDerived(derived) : mapPredefined(type);
     if (FrancaTypeHelper.isImplicitArray(type)) {
-      swiftType = createArrayType(swiftType, type);
+      swiftType = new SwiftArray(swiftType, CArrayMapper.INSTANCE.getArrayName(type));
     }
 
     EObject parentElement = type.eContainer();
@@ -85,7 +85,7 @@ public class SwiftTypeMapper {
 
   public SwiftArray mapArrayType(final FArrayType arrayType) {
     SwiftType innerType = mapType(arrayType.getElementType());
-    return createArrayType(innerType, arrayType);
+    return new SwiftArray(innerType, CArrayMapper.INSTANCE.getArrayName(arrayType));
   }
 
   private SwiftType mapDerived(final FType derived) {
@@ -173,10 +173,5 @@ public class SwiftTypeMapper {
         return SwiftType.DATA;
     }
     return SwiftType.VOID;
-  }
-
-  private static SwiftArray createArrayType(
-      final SwiftType underlyingType, final EObject francaElement) {
-    return new SwiftArray(underlyingType, CArrayMapper.getArrayName(francaElement));
   }
 }

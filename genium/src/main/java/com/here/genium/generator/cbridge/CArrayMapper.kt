@@ -17,66 +17,73 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge;
+package com.here.genium.generator.cbridge
 
-import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
-import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE
+import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME
+import com.here.genium.generator.cpp.CppLibraryIncludes
+import com.here.genium.model.cbridge.CType
+import com.here.genium.model.common.Include
+import com.here.genium.model.common.InstanceRules
+import org.franca.core.franca.FArrayType
+import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FMapType
+import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FStructType
+import org.franca.core.franca.FType
+import org.franca.core.franca.FTypeDef
+import org.franca.core.franca.FTypeRef
 
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.generator.cpp.CppLibraryIncludes;
-import com.here.genium.model.cbridge.CType;
-import com.here.genium.model.common.Include;
-import com.here.genium.model.common.InstanceRules;
-import java.util.Arrays;
-import org.eclipse.emf.ecore.EObject;
-import org.franca.core.franca.*;
+object CArrayMapper {
+    private val BASE_REF_TYPE = CType(BASE_REF_NAME)
 
-public final class CArrayMapper {
+    fun createArrayReference(innerType: CppTypeInfo) =
+        CppArrayTypeInfo(
+            "std::vector<" + innerType.name + ">",
+            BASE_REF_TYPE,
+            BASE_REF_TYPE,
+            listOf(
+                Include.createInternalInclude(BASE_HANDLE_IMPL_FILE),
+                CppLibraryIncludes.VECTOR
+            ),
+            innerType
+        )
 
-  private static final CType BASE_REF_TYPE = new CType(BASE_REF_NAME);
-
-  public static CppArrayTypeInfo createArrayReference(final CppTypeInfo innerType) {
-
-    return new CppArrayTypeInfo(
-        "std::vector<" + innerType.name + ">",
-        BASE_REF_TYPE,
-        BASE_REF_TYPE,
-        Arrays.asList(
-            Include.Companion.createInternalInclude(BASE_HANDLE_IMPL_FILE),
-            CppLibraryIncludes.VECTOR),
-        innerType);
-  }
-
-  public static String getArrayName(final EObject francaArray) {
-    return "arrayCollection_" + getName(francaArray);
-  }
-
-  private static String getName(final EObject object) {
-
-    if (object instanceof FTypeDef) {
-      FTypeDef francaDef = (FTypeDef) object;
-      return InstanceRules.isInstanceId(francaDef)
-          ? francaDef.getName()
-          : getName(francaDef.getActualType());
-    } else if (object instanceof FTypeRef) {
-      FTypeRef francaRef = (FTypeRef) object;
-      String elementName;
-      if (francaRef.getDerived() != null) {
-        elementName = getName(francaRef.getDerived());
-      } else {
-        elementName = francaRef.getPredefined().getName();
-      }
-      return FrancaTypeHelper.isImplicitArray(francaRef) ? elementName + "Array" : elementName;
-    } else if (object instanceof FStructType || object instanceof FEnumerationType) {
-      return ((FType) object).getName();
-    } else if (object instanceof FArrayType) {
-      FTypeRef francaRef = ((FArrayType) object).getElementType();
-      return getName(francaRef) + "Array";
-    } else if (object instanceof FMapType) {
-      FMapType francaMap = (FMapType) object;
-      return getName(francaMap.getKeyType()) + "To" + getName(francaMap.getValueType()) + "Map";
-    } else {
-      return null;
+    fun getArrayName(elementType: FTypeRef): String {
+        return "arrayCollection_" + getName(elementType)
     }
-  }
+
+    fun getArrayName(elementType: FModelElement): String {
+        return "arrayCollection_" + getName(elementType)
+    }
+
+    private fun getName(francaElement: FModelElement) =
+        when (francaElement) {
+            is FTypeDef -> if (InstanceRules.isInstanceId(francaElement)) {
+                francaElement.name
+            } else {
+                getName(francaElement.actualType)
+            }
+            is FStructType, is FEnumerationType -> (francaElement as FType).name
+            is FArrayType -> {
+                getName(francaElement.elementType) + "Array"
+            }
+            is FMapType ->
+                getName(francaElement.keyType) + "To" + getName(francaElement.valueType) + "Map"
+            else -> ""
+        }
+
+    private fun getName(francaTypeRef: FTypeRef): String {
+        val elementName = if (francaTypeRef.derived != null) {
+            getName(francaTypeRef.derived)
+        } else {
+            francaTypeRef.predefined.getName()
+        }
+        return if (FrancaTypeHelper.isImplicitArray(francaTypeRef)) {
+            elementName + "Array"
+        } else {
+            elementName
+        }
+    }
 }

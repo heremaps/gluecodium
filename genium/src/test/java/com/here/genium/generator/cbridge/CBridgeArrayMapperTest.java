@@ -61,7 +61,7 @@ public final class CBridgeArrayMapperTest {
   public void structArrayName() {
     when(francaStructType.getName()).thenReturn("StructTest");
 
-    String arrayName = CArrayMapper.getArrayName(francaStructType);
+    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaStructType);
 
     assertEquals("Should have the same name", PREFIX + "StructTest", arrayName);
   }
@@ -71,7 +71,7 @@ public final class CBridgeArrayMapperTest {
     when(francaTypeDef.getActualType().getDerived()).thenReturn(null);
     when(francaTypeDef.getActualType().getPredefined()).thenReturn(FBasicTypeId.STRING);
 
-    String arrayName = CArrayMapper.getArrayName(francaTypeDef);
+    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaTypeDef);
 
     assertEquals("Should have the same name", PREFIX + "String", arrayName);
   }
@@ -81,7 +81,7 @@ public final class CBridgeArrayMapperTest {
     when(InstanceRules.isInstanceId(any(FTypeDef.class))).thenReturn(true);
     when(francaTypeDef.getName()).thenReturn("TypeDefTest");
 
-    String arrayName = CArrayMapper.getArrayName(francaTypeDef);
+    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaTypeDef);
 
     assertEquals("Should have the same name", PREFIX + "TypeDefTest", arrayName);
 
@@ -94,7 +94,7 @@ public final class CBridgeArrayMapperTest {
     when(francaStructType.getName()).thenReturn("StructTest");
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
-    String arrayName = CArrayMapper.getArrayName(francaTypeRef);
+    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaTypeRef);
 
     assertEquals("Should have the same name", PREFIX + "StructTest", arrayName);
   }
@@ -103,7 +103,7 @@ public final class CBridgeArrayMapperTest {
   public void typeRefArrayNameWithoutDerived() {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT32);
 
-    String arrayName = CArrayMapper.getArrayName(francaTypeRef);
+    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaTypeRef);
 
     assertEquals("Should have the same name", PREFIX + "Int32", arrayName);
   }
@@ -113,7 +113,7 @@ public final class CBridgeArrayMapperTest {
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT32);
     when(francaArray.getElementType()).thenReturn(francaTypeRef);
 
-    String arrayName = CArrayMapper.getArrayName(francaArray);
+    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaArray);
 
     assertEquals("Should have the same name", PREFIX + "Int32Array", arrayName);
   }
@@ -122,7 +122,7 @@ public final class CBridgeArrayMapperTest {
   public void enumArrayName() {
     when(francaEnumerationType.getName()).thenReturn("EnumTest");
 
-    String arrayName = CArrayMapper.getArrayName(francaEnumerationType);
+    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaEnumerationType);
 
     assertEquals("Should have the same name", PREFIX + "EnumTest", arrayName);
   }
@@ -133,7 +133,7 @@ public final class CBridgeArrayMapperTest {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
     CppTypeInfo innerType = CppTypeInfo.Companion.getSTRING();
-    CppArrayTypeInfo arrayType = CArrayMapper.createArrayReference(innerType);
+    CppArrayTypeInfo arrayType = CArrayMapper.INSTANCE.createArrayReference(innerType);
 
     assertNotNull("Array type should not be null", arrayType);
     assertNotNull("Inner type should not be null", arrayType.getInnerType());
@@ -148,8 +148,8 @@ public final class CBridgeArrayMapperTest {
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
 
     CppTypeInfo innerType = CppTypeInfo.Companion.getSTRING();
-    CppArrayTypeInfo arrayType = CArrayMapper.createArrayReference(innerType);
-    CppArrayTypeInfo nestedArrayType = CArrayMapper.createArrayReference(arrayType);
+    CppArrayTypeInfo arrayType = CArrayMapper.INSTANCE.createArrayReference(innerType);
+    CppArrayTypeInfo nestedArrayType = CArrayMapper.INSTANCE.createArrayReference(arrayType);
 
     assertNotNull("Array type should not be null", nestedArrayType);
     assertNotNull("Inner type should not be null", nestedArrayType.getInnerType());
@@ -175,7 +175,7 @@ public final class CBridgeArrayMapperTest {
     when(innerInnerArray.getElementType()).thenReturn(francaTypeRef);
     when(francaTypeRef.getPredefined()).thenReturn(FBasicTypeId.INT32);
 
-    String arrayName = CArrayMapper.getArrayName(francaArray);
+    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaArray);
 
     assertEquals("All arrays have array suffix", "arrayCollection_Int32ArrayArrayArray", arrayName);
   }
@@ -191,7 +191,7 @@ public final class CBridgeArrayMapperTest {
     when(key.getPredefined()).thenReturn(FBasicTypeId.INT32);
     when(value.getPredefined()).thenReturn(FBasicTypeId.STRING);
 
-    String arrayName = CArrayMapper.getArrayName(map);
+    String arrayName = CArrayMapper.INSTANCE.getArrayName(map);
 
     assertEquals(PREFIX + "Int32ToStringMap", arrayName);
   }

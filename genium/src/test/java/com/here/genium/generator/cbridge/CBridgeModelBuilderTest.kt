@@ -17,655 +17,691 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge;
+package com.here.genium.generator.cbridge
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.singleton;
-import static java.util.Collections.singletonList;
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import com.here.genium.common.CollectionsHelper
+import com.here.genium.generator.cpp.CppModelBuilder
+import com.here.genium.generator.swift.SwiftModelBuilder
+import com.here.genium.generator.swift.SwiftNameRules
+import com.here.genium.model.cbridge.CBridgeIncludeResolver
+import com.here.genium.model.cbridge.CElement
+import com.here.genium.model.cbridge.CEnum
+import com.here.genium.model.cbridge.CField
+import com.here.genium.model.cbridge.CFunction
+import com.here.genium.model.cbridge.CInParameter
+import com.here.genium.model.cbridge.CInterface
+import com.here.genium.model.cbridge.CMap
+import com.here.genium.model.cbridge.COutParameter
+import com.here.genium.model.cbridge.CStruct
+import com.here.genium.model.cbridge.CType
+import com.here.genium.model.common.Include
+import com.here.genium.model.cpp.CppComplexTypeRef
+import com.here.genium.model.cpp.CppElement
+import com.here.genium.model.cpp.CppField
+import com.here.genium.model.cpp.CppIncludeResolver
+import com.here.genium.model.cpp.CppMethod
+import com.here.genium.model.cpp.CppPrimitiveTypeRef
+import com.here.genium.model.cpp.CppStruct
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.swift.SwiftField
+import com.here.genium.model.swift.SwiftMethod
+import com.here.genium.model.swift.SwiftProperty
+import com.here.genium.model.swift.SwiftType
+import com.here.genium.test.MockContextStack
+import io.mockk.every
+import io.mockk.mockkObject
+import org.franca.core.franca.FArgument
+import org.franca.core.franca.FArrayType
+import org.franca.core.franca.FAttribute
+import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FField
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMapType
+import org.franca.core.franca.FMethod
+import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FStructType
+import org.franca.core.franca.FTypeCollection
+import org.franca.core.franca.FTypeRef
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertSame
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations.initMocks
+import org.powermock.api.mockito.PowerMockito.mockStatic
+import org.powermock.core.classloader.annotations.PrepareForTest
+import org.powermock.modules.junit4.PowerMockRunner
+import java.util.Arrays.asList
 
-import com.here.genium.common.CollectionsHelper;
-import com.here.genium.generator.cpp.CppModelBuilder;
-import com.here.genium.generator.swift.SwiftModelBuilder;
-import com.here.genium.generator.swift.SwiftNameRules;
-import com.here.genium.model.cbridge.*;
-import com.here.genium.model.cbridge.CBridgeIncludeResolver;
-import com.here.genium.model.cbridge.CElement;
-import com.here.genium.model.cbridge.CEnum;
-import com.here.genium.model.cbridge.CField;
-import com.here.genium.model.cbridge.CFunction;
-import com.here.genium.model.cbridge.CInParameter;
-import com.here.genium.model.cbridge.CInterface;
-import com.here.genium.model.cbridge.COutParameter;
-import com.here.genium.model.cbridge.CStruct;
-import com.here.genium.model.cbridge.CType;
-import com.here.genium.model.common.Include;
-import com.here.genium.model.cpp.*;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.swift.SwiftField;
-import com.here.genium.model.swift.SwiftMethod;
-import com.here.genium.model.swift.SwiftProperty;
-import com.here.genium.model.swift.SwiftType;
-import com.here.genium.test.MockContextStack;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import org.franca.core.franca.*;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+@RunWith(PowerMockRunner::class)
+@PrepareForTest(CBridgeNameRules::class, SwiftNameRules::class)
+class CBridgeModelBuilderTest {
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({CBridgeNameRules.class, SwiftNameRules.class})
-public final class CBridgeModelBuilderTest {
+    private val contextStack = MockContextStack<CElement>()
 
-  private static final String FULL_FUNCTION_NAME = "NOT_SHORT_FUNCTION_NAME";
-  private static final String NESTED_SPECIFIER_NAME = "NOT";
-  private static final String SHORT_FUNCTION_NAME = "SHORT_FUNCTION_NAME";
-  private static final String DELEGATE_NAME = "DELEGATE_NAME";
-  private static final String PARAM_NAME = "inputParam";
-  private static final String STRUCT_NAME = "SomeStruct";
-  private static final String ATTRIBUTE_NAME = "someAttributeName";
-  private static final String CBRIDGE_ATTR_GETTER_NAME = "C_ATTR_GETTER";
-  private static final String CBRIDGE_ATTR_SETTER_NAME = "C_ATTR_SETTER";
-  private static final String CPP_ATTR_GETTER_NAME = "CPP_ATTR_GETTER";
-  private static final String CPP_ATTR_SETTER_NAME = "CPP_ATTR_SETTER";
-  private static final String CPP_FIELD_NAME = "CppFieldName";
-  private static final String SWIFT_FIELD_NAME = "SwiftFieldName";
+    @Mock
+    private lateinit var deploymentModel: FrancaDeploymentModel
 
-  private final MockContextStack<CElement> contextStack = new MockContextStack<>();
+    @Mock
+    private lateinit var cppModelbuilder: CppModelBuilder
+    @Mock
+    private lateinit var swiftModelBuilder: SwiftModelBuilder
+    @Mock
+    private lateinit var cppIncludeResolver: CppIncludeResolver
+    @Mock
+    private lateinit var includeResolver: CBridgeIncludeResolver
+    @Mock
+    private lateinit var typeMapper: CBridgeTypeMapper
 
-  @Mock private FrancaDeploymentModel deploymentModel;
+    @Mock
+    private lateinit var francaInterface: FInterface
+    @Mock
+    private lateinit var francaMethod: FMethod
+    @Mock
+    private lateinit var francaArgument: FArgument
+    @Mock
+    private lateinit var francaStruct: FStructType
+    @Mock
+    private lateinit var francaField: FField
+    @Mock
+    private lateinit var francaTypeCollection: FTypeCollection
+    @Mock
+    private lateinit var francaAttribute: FAttribute
+    @Mock
+    private lateinit var francaTypeRef: FTypeRef
+    @Mock
+    private lateinit var francaArray: FArrayType
+    @Mock
+    private lateinit var francaMap: FMapType
 
-  @Mock private CppModelBuilder cppModelbuilder;
-  @Mock private SwiftModelBuilder swiftModelBuilder;
-  @Mock private CppIncludeResolver cppIncludeResolver;
-  @Mock private CBridgeIncludeResolver includeResolver;
-  @Mock private CBridgeTypeMapper typeMapper;
+    private val cppTypeInfo = CppTypeInfo(CType.FLOAT)
+    private val cppArrayTypeInfo = CppArrayTypeInfo(
+        "FooArrayType", CType.BOOL, CType.BOOL, listOf(), cppTypeInfo
+    )
+    private val swiftMethod = SwiftMethod(
+        "swiftFoo", null, null, SwiftType.VOID, null, "NOT", "SHORT_FUNCTION_NAME"
+    )
+    private val cppField = CppField("CppFieldName", CppPrimitiveTypeRef.BOOL)
 
-  @Mock private FInterface francaInterface;
-  @Mock private FMethod francaMethod;
-  @Mock private FArgument francaArgument;
-  @Mock private FStructType francaStruct;
-  @Mock private FField francaField;
-  @Mock private FTypeCollection francaTypeCollection;
-  @Mock private FAttribute francaAttribute;
-  @Mock private FTypeRef francaTypeRef;
-  @Mock private FArrayType francaArray;
-  @Mock private FMapType francaMap;
+    private lateinit var modelBuilder: CBridgeModelBuilder
 
-  private final CppTypeInfo cppTypeInfo = new CppTypeInfo(CType.FLOAT);
-  private final CppArrayTypeInfo cppArrayTypeInfo =
-      new CppArrayTypeInfo(
-          "FooArrayType", CType.BOOL, CType.BOOL, Collections.emptyList(), cppTypeInfo);
-  private final SwiftMethod swiftMethod =
-      new SwiftMethod(
-          "swiftFoo", null, null, SwiftType.VOID, null, NESTED_SPECIFIER_NAME, SHORT_FUNCTION_NAME);
-  private final CppField cppField =
-      new CppField(CPP_FIELD_NAME, CppPrimitiveTypeRef.Companion.getBOOL());
+    @Before
+    fun setUp() {
+        initMocks(this)
+        mockStatic(CBridgeNameRules::class.java, SwiftNameRules::class.java)
+        mockkObject(CArrayMapper)
 
-  private CBridgeModelBuilder modelBuilder;
+        val typeInfo = CppTypeInfo(CType(""))
 
-  @Before
-  public void setUp() {
-    mockStatic(CBridgeNameRules.class, SwiftNameRules.class);
-    initMocks(this);
+        `when`(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME)
 
-    CppTypeInfo typeInfo = new CppTypeInfo(new CType(""));
+        `when`(cppModelbuilder.getFinalResult(CppMethod::class.java)).thenReturn(CppMethod(""))
+        `when`(cppModelbuilder.getFinalResult(CppStruct::class.java)).thenReturn(
+            CppStruct(STRUCT_NAME)
+        )
+        `when`(swiftModelBuilder.getFinalResult(SwiftMethod::class.java)).thenReturn(swiftMethod)
 
-    when(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME);
+        `when`(typeMapper.createCustomTypeInfo(any(), any())).thenReturn(typeInfo)
 
-    when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(new CppMethod(""));
-    when(cppModelbuilder.getFinalResult(CppStruct.class)).thenReturn(new CppStruct(STRUCT_NAME));
-    when(swiftModelBuilder.getFinalResult(SwiftMethod.class)).thenReturn(swiftMethod);
+        `when`(francaArgument.name).thenReturn(PARAM_NAME)
+        `when`(francaAttribute.name).thenReturn("someAttributeName")
 
-    when(typeMapper.createCustomTypeInfo(any(), any())).thenReturn(typeInfo);
+        `when`(includeResolver.resolveInclude(any())).thenReturn(Include.createInternalInclude(""))
 
-    when(francaArgument.getName()).thenReturn(PARAM_NAME);
-    when(francaAttribute.getName()).thenReturn(ATTRIBUTE_NAME);
-
-    when(includeResolver.resolveInclude(any()))
-        .thenReturn(Include.Companion.createInternalInclude(""));
-
-    modelBuilder =
-        new CBridgeModelBuilder(
+        modelBuilder = CBridgeModelBuilder(
             contextStack,
             deploymentModel,
             cppIncludeResolver,
             includeResolver,
             cppModelbuilder,
             swiftModelBuilder,
-            typeMapper);
-  }
+            typeMapper
+        )
+    }
 
-  @Test
-  public void finishBuildingOutputArgumentReturnsCreatedParam() {
-    contextStack.injectResult(cppTypeInfo);
+    @Test
+    fun finishBuildingOutputArgumentReturnsCreatedParam() {
+        contextStack.injectResult(cppTypeInfo)
 
-    modelBuilder.finishBuildingOutputArgument(francaArgument);
+        modelBuilder.finishBuildingOutputArgument(francaArgument)
 
-    COutParameter param = modelBuilder.getFinalResult(COutParameter.class);
-    assertNotNull(param);
+        val param = modelBuilder.getFinalResult(COutParameter::class.java)
+        assertNotNull(param)
 
-    assertEquals("result", param.name);
-    assertSame(cppTypeInfo, param.mappedType);
-  }
+        assertEquals("result", param.name)
+        assertSame(cppTypeInfo, param.mappedType)
+    }
 
-  @Test
-  public void finishBuildingInstanceMethodNoParams() {
-    contextStack.getParentContext().currentResults.add(new CppTypeInfo(CType.VOID));
+    @Test
+    fun finishBuildingInstanceMethodNoParams() {
+        contextStack.parentContext.currentResults.add(CppTypeInfo(CType.VOID))
 
-    modelBuilder.finishBuilding(francaMethod);
+        modelBuilder.finishBuilding(francaMethod)
 
-    CFunction interfaceFunction = modelBuilder.getFinalResult(CFunction.class);
-    assertNotNull(interfaceFunction.getSelfParameter());
-    assertEquals(
-        "Instance parameter should not be part of normal parameters",
-        0,
-        interfaceFunction.getParameters().size());
-    assertNotNull(
-        "Instance should be part of C signature parameters", interfaceFunction.getSelfParameter());
-  }
+        val interfaceFunction = modelBuilder.getFinalResult(CFunction::class.java)
+        assertNotNull(interfaceFunction.selfParameter)
+        assertEquals(
+            "Instance parameter should not be part of normal parameters",
+            0,
+            interfaceFunction.parameters.size.toLong()
+        )
+        assertNotNull(
+            "Instance should be part of C signature parameters", interfaceFunction.selfParameter
+        )
+    }
 
-  @Test
-  public void finishBuildingInstanceMethodWithParams() {
-    contextStack.getParentContext().currentResults.add(new CppTypeInfo(CType.VOID));
-    contextStack.injectResult(new CInParameter(PARAM_NAME, new CppTypeInfo(CType.DOUBLE)));
+    @Test
+    fun finishBuildingInstanceMethodWithParams() {
+        contextStack.parentContext.currentResults.add(CppTypeInfo(CType.VOID))
+        contextStack.injectResult(CInParameter(PARAM_NAME, CppTypeInfo(CType.DOUBLE)))
 
-    modelBuilder.finishBuilding(francaMethod);
+        modelBuilder.finishBuilding(francaMethod)
 
-    CFunction interfaceFunction = modelBuilder.getFinalResult(CFunction.class);
-    assertEquals(
-        "Instance function should only take normal parameters",
-        1,
-        interfaceFunction.getParameters().size());
-    assertNotNull(
-        "Instance parameter should be part of signature", interfaceFunction.getSelfParameter());
-  }
+        val interfaceFunction = modelBuilder.getFinalResult(CFunction::class.java)
+        assertEquals(
+            "Instance function should only take normal parameters",
+            1,
+            interfaceFunction.parameters.size.toLong()
+        )
+        assertNotNull(
+            "Instance parameter should be part of signature", interfaceFunction.selfParameter
+        )
+    }
 
-  @Test
-  public void finishBuildingFrancaMethodReadsName() {
-    when(CBridgeNameRules.getNestedSpecifierString(any())).thenReturn("NOT");
+    @Test
+    fun finishBuildingFrancaMethodReadsName() {
+        `when`(CBridgeNameRules.getNestedSpecifierString(any())).thenReturn("NOT")
 
-    modelBuilder.finishBuilding(francaMethod);
+        modelBuilder.finishBuilding(francaMethod)
 
-    CFunction function = modelBuilder.getFinalResult(CFunction.class);
-    assertNotNull(function);
-    assertEquals(FULL_FUNCTION_NAME, function.name);
-    assertEquals(SHORT_FUNCTION_NAME, function.getShortName());
-  }
+        val function = modelBuilder.getFinalResult(CFunction::class.java)
+        assertNotNull(function)
+        assertEquals("NOT_SHORT_FUNCTION_NAME", function.name)
+        assertEquals("SHORT_FUNCTION_NAME", function.shortName)
+    }
 
-  @Test
-  public void finishBuildingCreatesMethodWithoutParams() {
-    CppMethod cppMethod = new CppMethod(DELEGATE_NAME);
-    when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(cppMethod);
+    @Test
+    fun finishBuildingCreatesMethodWithoutParams() {
+        val cppMethod = CppMethod(DELEGATE_NAME)
+        `when`(cppModelbuilder.getFinalResult(CppMethod::class.java)).thenReturn(cppMethod)
 
-    modelBuilder.finishBuilding(francaMethod);
+        modelBuilder.finishBuilding(francaMethod)
 
-    CFunction function = modelBuilder.getFinalResult(CFunction.class);
-    assertNotNull(function);
-    assertEquals(CType.VOID, function.getReturnType().getFunctionReturnType());
-    assertEquals(0, function.getParameters().size());
-    assertEquals(DELEGATE_NAME, function.getDelegateCall());
-  }
+        val function = modelBuilder.getFinalResult(CFunction::class.java)
+        assertNotNull(function)
+        assertEquals(CType.VOID, function.returnType.functionReturnType)
+        assertEquals(0, function.parameters.size.toLong())
+        assertEquals(DELEGATE_NAME, function.delegateCall)
+    }
 
-  @Test
-  public void finishBuildingCreatesMethodWithParam() {
-    CppMethod cppMethod = new CppMethod(DELEGATE_NAME);
-    when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(cppMethod);
-    CInParameter param = new CInParameter(PARAM_NAME, new CppTypeInfo(CType.DOUBLE));
-    contextStack.injectResult(param);
+    @Test
+    fun finishBuildingCreatesMethodWithParam() {
+        val cppMethod = CppMethod(DELEGATE_NAME)
+        `when`(cppModelbuilder.getFinalResult(CppMethod::class.java)).thenReturn(cppMethod)
+        val param = CInParameter(PARAM_NAME, CppTypeInfo(CType.DOUBLE))
+        contextStack.injectResult(param)
 
-    modelBuilder.finishBuilding(francaMethod);
+        modelBuilder.finishBuilding(francaMethod)
 
-    CFunction function = modelBuilder.getFinalResult(CFunction.class);
-    assertNotNull(function);
-    assertEquals(CType.VOID, function.getReturnType().getFunctionReturnType());
-    assertEquals(DELEGATE_NAME, function.getDelegateCall());
-    assertEquals(1, function.getParameters().size());
-    assertSame(param, function.getParameters().get(0));
-  }
+        val function = modelBuilder.getFinalResult(CFunction::class.java)
+        assertNotNull(function)
+        assertEquals(CType.VOID, function.returnType.functionReturnType)
+        assertEquals(DELEGATE_NAME, function.delegateCall)
+        assertEquals(1, function.parameters.size.toLong())
+        assertSame(param, function.parameters[0])
+    }
 
-  @Test
-  public void finishBuildingFrancaMethodReadsIsConst() {
-    when(deploymentModel.isConst(any())).thenReturn(true);
+    @Test
+    fun finishBuildingFrancaMethodReadsIsConst() {
+        `when`(deploymentModel.isConst(any())).thenReturn(true)
 
-    modelBuilder.finishBuilding(francaMethod);
+        modelBuilder.finishBuilding(francaMethod)
 
-    CFunction function = modelBuilder.getFinalResult(CFunction.class);
-    assertNotNull(function);
-    assertTrue(function.isConst());
-  }
+        val function = modelBuilder.getFinalResult(CFunction::class.java)
+        assertNotNull(function)
+        assertTrue(function.isConst)
+    }
 
-  @Test
-  public void finishBuildingFrancaMethodReadsCppTypeName() {
-    CppMethod cppMethod =
-        new CppMethod(DELEGATE_NAME, DELEGATE_NAME, "", new CppComplexTypeRef("::std::FooType"));
-    when(cppModelbuilder.getFinalResult(CppMethod.class)).thenReturn(cppMethod);
-    when(CBridgeNameRules.getNestedSpecifierString(any())).thenReturn("NOT");
+    @Test
+    fun finishBuildingFrancaMethodReadsCppTypeName() {
+        val cppMethod =
+            CppMethod(DELEGATE_NAME, DELEGATE_NAME, "", CppComplexTypeRef("::std::FooType"))
+        `when`(cppModelbuilder.getFinalResult(CppMethod::class.java)).thenReturn(cppMethod)
+        `when`(CBridgeNameRules.getNestedSpecifierString(any())).thenReturn("NOT")
 
-    modelBuilder.finishBuilding(francaMethod);
+        modelBuilder.finishBuilding(francaMethod)
 
-    CFunction function = modelBuilder.getFinalResult(CFunction.class);
-    assertNotNull(function);
-    assertEquals("::std::FooType", function.getCppReturnTypeName());
-  }
+        val function = modelBuilder.getFinalResult(CFunction::class.java)
+        assertNotNull(function)
+        assertEquals("::std::FooType", function.cppReturnTypeName)
+    }
 
-  @Test
-  public void finishBuildingFrancaMethodReadsIsStatic() {
-    when(deploymentModel.isStatic(any(FMethod.class))).thenReturn(true);
+    @Test
+    fun finishBuildingFrancaMethodReadsIsStatic() {
+        `when`(deploymentModel.isStatic(any(FMethod::class.java))).thenReturn(true)
 
-    modelBuilder.finishBuilding(francaMethod);
+        modelBuilder.finishBuilding(francaMethod)
 
-    CFunction function = modelBuilder.getFinalResult(CFunction.class);
-    assertNotNull(function);
-    assertNull(function.getSelfParameter());
-  }
+        val function = modelBuilder.getFinalResult(CFunction::class.java)
+        assertNotNull(function)
+        assertNull(function.selfParameter)
+    }
 
-  @Test
-  public void finishBuildingFrancaMethodReadsIsCosntructor() {
-    when(deploymentModel.isConstructor(any())).thenReturn(true);
+    @Test
+    fun finishBuildingFrancaMethodReadsIsCosntructor() {
+        `when`(deploymentModel.isConstructor(any())).thenReturn(true)
 
-    modelBuilder.finishBuilding(francaMethod);
+        modelBuilder.finishBuilding(francaMethod)
 
-    CFunction function = modelBuilder.getFinalResult(CFunction.class);
-    assertNotNull(function);
-    assertNull(function.getSelfParameter());
-  }
+        val function = modelBuilder.getFinalResult(CFunction::class.java)
+        assertNotNull(function)
+        assertNull(function.selfParameter)
+    }
 
-  @Test
-  public void finishBuildingCreatesCInterfaceForFInterface() {
-    CFunction function = new CFunction("SomeName", "foo");
-    contextStack.injectResult(function);
+    @Test
+    fun finishBuildingCreatesCInterfaceForFInterface() {
+        val function = CFunction("SomeName", "foo")
+        contextStack.injectResult(function)
 
-    modelBuilder.finishBuilding(francaInterface);
+        modelBuilder.finishBuilding(francaInterface)
 
-    CInterface iface = modelBuilder.getFinalResult(CInterface.class);
-    assertNotNull(iface);
-    assertEquals(1, iface.functions.size());
-    assertSame(function, iface.functions.get(0));
-  }
+        val iface = modelBuilder.getFinalResult(CInterface::class.java)
+        assertNotNull(iface)
+        assertEquals(1, iface.functions.size.toLong())
+        assertSame(function, iface.functions[0])
+    }
 
-  @Test
-  public void finishBuildingCreatesCInterfaceForFTypeCollection() {
-    CFunction function = new CFunction("SomeName", "foo");
-    contextStack.injectResult(function);
+    @Test
+    fun finishBuildingCreatesCInterfaceForFTypeCollection() {
+        val function = CFunction("SomeName", "foo")
+        contextStack.injectResult(function)
 
-    modelBuilder.finishBuilding(francaTypeCollection);
+        modelBuilder.finishBuilding(francaTypeCollection)
 
-    CInterface iface = modelBuilder.getFinalResult(CInterface.class);
-    assertNotNull(iface);
-    assertEquals(1, iface.functions.size());
-    assertSame(function, iface.functions.get(0));
-  }
+        val iface = modelBuilder.getFinalResult(CInterface::class.java)
+        assertNotNull(iface)
+        assertEquals(1, iface.functions.size.toLong())
+        assertSame(function, iface.functions[0])
+    }
 
-  @Test
-  public void properIncludesForVoidFunctionNotCallingToBaseApi() {
-    CFunction function = new CFunction("SomeName", "foo");
-    contextStack.injectResult(function);
+    @Test
+    fun properIncludesForVoidFunctionNotCallingToBaseApi() {
+        val function = CFunction("SomeName", "foo")
+        contextStack.injectResult(function)
 
-    modelBuilder.finishBuilding(francaInterface);
+        modelBuilder.finishBuilding(francaInterface)
 
-    CInterface iface = modelBuilder.getFinalResult(CInterface.class);
-    assertNotNull(iface);
-    assertEquals(0, iface.headerIncludes.size());
-    assertEquals(1, iface.implementationIncludes.size());
-    assertEquals(0, iface.privateHeaderIncludes.size());
-  }
+        val iface = modelBuilder.getFinalResult(CInterface::class.java)
+        assertNotNull(iface)
+        assertEquals(0, iface.headerIncludes.size.toLong())
+        assertEquals(1, iface.implementationIncludes.size.toLong())
+        assertEquals(0, iface.privateHeaderIncludes.size.toLong())
+    }
 
-  @Test
-  public void properIncludesForVoidFunctionCallingToBaseApi() {
-    CFunction function =
-        new CFunction(
+    @Test
+    fun properIncludesForVoidFunctionCallingToBaseApi() {
+        val function = CFunction(
             "SomeName",
             "foo",
-            new CppTypeInfo(CType.VOID),
-            Collections.emptyList(),
-            null,
+            CppTypeInfo(CType.VOID),
+            emptyList(), null,
             "someBaseApiFunc()",
-            singleton(Include.Companion.createInternalInclude("baseApiInclude.h")));
-    contextStack.injectResult(function);
+            setOf(Include.createInternalInclude("baseApiInclude.h"))
+        )
+        contextStack.injectResult(function)
 
-    modelBuilder.finishBuilding(francaInterface);
+        modelBuilder.finishBuilding(francaInterface)
 
-    CInterface iface = modelBuilder.getFinalResult(CInterface.class);
-    assertNotNull(iface);
-    assertEquals(0, iface.headerIncludes.size());
-    assertEquals(2, iface.implementationIncludes.size());
-    assertEquals(0, iface.privateHeaderIncludes.size());
-  }
+        val iface = modelBuilder.getFinalResult(CInterface::class.java)
+        assertNotNull(iface)
+        assertEquals(0, iface.headerIncludes.size.toLong())
+        assertEquals(2, iface.implementationIncludes.size.toLong())
+        assertEquals(0, iface.privateHeaderIncludes.size.toLong())
+    }
 
-  @Test
-  public void finishBuildingStructContainsFields() {
-    contextStack.injectResult(new CField("SwiftName1", "CppName1", cppTypeInfo));
-    contextStack.injectResult(new CField("SwiftName2", "CppName2", cppTypeInfo));
+    @Test
+    fun finishBuildingStructContainsFields() {
+        contextStack.injectResult(CField("SwiftName1", "CppName1", cppTypeInfo))
+        contextStack.injectResult(CField("SwiftName2", "CppName2", cppTypeInfo))
 
-    modelBuilder.finishBuilding(francaStruct);
+        modelBuilder.finishBuilding(francaStruct)
 
-    CStruct cStruct = modelBuilder.getFinalResult(CStruct.class);
-    assertNotNull(cStruct);
-    assertEquals("There should be 2 fields in struct", 2, cStruct.fields.size());
-    assertEquals("SwiftName1", cStruct.fields.get(0).name);
-    assertEquals("CppName1", cStruct.fields.get(0).getBaseLayerName());
-    assertEquals("SwiftName2", cStruct.fields.get(1).name);
-    assertEquals("CppName2", cStruct.fields.get(1).getBaseLayerName());
-  }
+        val cStruct = modelBuilder.getFinalResult(CStruct::class.java)
+        assertNotNull(cStruct)
+        assertEquals("There should be 2 fields in struct", 2, cStruct.fields.size.toLong())
+        assertEquals("SwiftName1", cStruct.fields[0].name)
+        assertEquals("CppName1", cStruct.fields[0].baseLayerName)
+        assertEquals("SwiftName2", cStruct.fields[1].name)
+        assertEquals("CppName2", cStruct.fields[1].baseLayerName)
+    }
 
-  @Test
-  public void finishBuildingStructCreatesStructWithProperName() {
-    modelBuilder.finishBuilding(francaStruct);
+    @Test
+    fun finishBuildingStructCreatesStructWithProperName() {
+        modelBuilder.finishBuilding(francaStruct)
 
-    CStruct cStruct = modelBuilder.getFinalResult(CStruct.class);
-    assertNotNull(cStruct);
-    assertEquals(STRUCT_NAME, cStruct.name);
-  }
+        val cStruct = modelBuilder.getFinalResult(CStruct::class.java)
+        assertNotNull(cStruct)
+        assertEquals(STRUCT_NAME, cStruct.name)
+    }
 
-  @Test
-  public void finishBuildingStructReadsImmutable() {
-    when(cppModelbuilder.getFinalResult(CppStruct.class))
-        .thenReturn(
-            new CppStruct(
-                STRUCT_NAME, STRUCT_NAME, "", false, Collections.emptyList(), false, true));
+    @Test
+    fun finishBuildingStructReadsImmutable() {
+        `when`(cppModelbuilder.getFinalResult(CppStruct::class.java))
+            .thenReturn(
+                CppStruct(
+                    STRUCT_NAME, STRUCT_NAME, "", false, listOf(), false, true
+                )
+            )
 
-    modelBuilder.finishBuilding(francaStruct);
+        modelBuilder.finishBuilding(francaStruct)
 
-    CStruct cStruct = modelBuilder.getFinalResult(CStruct.class);
-    assertNotNull(cStruct);
-    assertTrue(cStruct.hasImmutableFields);
-  }
+        val cStruct = modelBuilder.getFinalResult(CStruct::class.java)
+        assertNotNull(cStruct)
+        assertTrue(cStruct.hasImmutableFields)
+    }
 
-  @Test
-  public void finishBuildingStructReadsHasImmutableFields() {
-    CppField immutableTypeField =
-        new CppField("", CppPrimitiveTypeRef.Companion.getBOOL(), null, false, false, true);
-    when(cppModelbuilder.getFinalResult(CppStruct.class))
-        .thenReturn(
-            new CppStruct(
-                STRUCT_NAME,
-                STRUCT_NAME,
-                "",
-                false,
-                Collections.singletonList(immutableTypeField)));
+    @Test
+    fun finishBuildingStructReadsHasImmutableFields() {
+        val immutableTypeField = CppField("", CppPrimitiveTypeRef.BOOL, null, false, false, true)
+        `when`(cppModelbuilder.getFinalResult(CppStruct::class.java))
+            .thenReturn(
+                CppStruct(
+                    STRUCT_NAME,
+                    STRUCT_NAME,
+                    "",
+                    false,
+                    listOf(immutableTypeField)
+                )
+            )
 
-    modelBuilder.finishBuilding(francaStruct);
+        modelBuilder.finishBuilding(francaStruct)
 
-    CStruct cStruct = modelBuilder.getFinalResult(CStruct.class);
-    assertNotNull(cStruct);
-    assertTrue(cStruct.hasImmutableFields);
-  }
+        val cStruct = modelBuilder.getFinalResult(CStruct::class.java)
+        assertNotNull(cStruct)
+        assertTrue(cStruct.hasImmutableFields)
+    }
 
-  @Test
-  public void finishBuildingInterfaceDoesNotAddStructs() {
-    CStruct struct = new CStruct("name", "baseApiName", new CppTypeInfo(CType.VOID), false);
-    contextStack.injectResult(struct);
+    @Test
+    fun finishBuildingInterfaceDoesNotAddStructs() {
+        val struct = CStruct("name", "baseApiName", CppTypeInfo(CType.VOID), false)
+        contextStack.injectResult(struct)
 
-    modelBuilder.finishBuilding(francaInterface);
+        modelBuilder.finishBuilding(francaInterface)
 
-    CInterface iface = modelBuilder.getFinalResult(CInterface.class);
-    assertNotNull(iface);
-    assertEquals(
-        "There should be 1 struct typedefs (structRef and function table)",
-        1,
-        iface.structs.size());
-    assertSame(struct, iface.structs.get(0));
-  }
+        val iface = modelBuilder.getFinalResult(CInterface::class.java)
+        assertNotNull(iface)
+        assertEquals(
+            "There should be 1 struct typedefs (structRef and function table)",
+            1,
+            iface.structs.size.toLong()
+        )
+        assertSame(struct, iface.structs[0])
+    }
 
-  @Test
-  public void finishBuildingTypeCollectionContainsStructs() {
-    CStruct struct = new CStruct("name", "baseApiName", new CppTypeInfo(CType.VOID), false);
-    contextStack.injectResult(struct);
+    @Test
+    fun finishBuildingTypeCollectionContainsStructs() {
+        val struct = CStruct("name", "baseApiName", CppTypeInfo(CType.VOID), false)
+        contextStack.injectResult(struct)
 
-    modelBuilder.finishBuilding(francaTypeCollection);
+        modelBuilder.finishBuilding(francaTypeCollection)
 
-    CInterface iface = modelBuilder.getFinalResult(CInterface.class);
-    assertNotNull(iface);
-    assertEquals("There should be 1 struct typedefs (structRef)", 1, iface.structs.size());
-    assertSame(struct, iface.structs.get(0));
-  }
+        val iface = modelBuilder.getFinalResult(CInterface::class.java)
+        assertNotNull(iface)
+        assertEquals(
+            "There should be 1 struct typedefs (structRef)",
+            1,
+            iface.structs.size.toLong()
+        )
+        assertSame(struct, iface.structs[0])
+    }
 
-  @Test
-  public void finishBuildingFrancaFieldReadsName() {
-    when(cppModelbuilder.getFinalResult(any())).thenReturn(cppField);
-    when(swiftModelBuilder.getFinalResult(any()))
-        .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null, null, null));
-    contextStack.injectResult(cppTypeInfo);
+    @Test
+    fun finishBuildingFrancaFieldReadsName() {
+        `when`<Any>(cppModelbuilder.getFinalResult(any())).thenReturn(cppField)
+        `when`<Any>(swiftModelBuilder.getFinalResult(any()))
+            .thenReturn(SwiftField(SWIFT_FIELD_NAME, null, null, null))
+        contextStack.injectResult(cppTypeInfo)
 
-    modelBuilder.finishBuilding(francaField);
+        modelBuilder.finishBuilding(francaField)
 
-    CField field = modelBuilder.getFinalResult(CField.class);
-    assertNotNull(field);
-    assertEquals(SWIFT_FIELD_NAME, field.name);
-    assertEquals(CPP_FIELD_NAME, field.getBaseLayerName());
-  }
+        val field = modelBuilder.getFinalResult(CField::class.java)
+        assertNotNull(field)
+        assertEquals(SWIFT_FIELD_NAME, field.name)
+        assertEquals("CppFieldName", field.baseLayerName)
+    }
 
-  @Test
-  public void finishBuildingFrancaFieldReadsTypeInfo() {
-    when(cppModelbuilder.getFinalResult(any())).thenReturn(cppField);
-    when(swiftModelBuilder.getFinalResult(any()))
-        .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null, null, null));
-    contextStack.injectResult(cppTypeInfo);
+    @Test
+    fun finishBuildingFrancaFieldReadsTypeInfo() {
+        `when`<Any>(cppModelbuilder.getFinalResult(any())).thenReturn(cppField)
+        `when`<Any>(swiftModelBuilder.getFinalResult(any()))
+            .thenReturn(SwiftField(SWIFT_FIELD_NAME, null, null, null))
+        contextStack.injectResult(cppTypeInfo)
 
-    modelBuilder.finishBuilding(francaField);
+        modelBuilder.finishBuilding(francaField)
 
-    CField field = modelBuilder.getFinalResult(CField.class);
-    assertNotNull(field);
-    assertEquals(cppTypeInfo, field.getType());
-  }
+        val field = modelBuilder.getFinalResult(CField::class.java)
+        assertNotNull(field)
+        assertEquals(cppTypeInfo, field.type)
+    }
 
-  @Test
-  public void finishBuildingFrancaFieldReadsExternalAccessors() {
-    when(cppModelbuilder.getFinalResult(any())).thenReturn(cppField);
-    when(swiftModelBuilder.getFinalResult(any()))
-        .thenReturn(new SwiftField(SWIFT_FIELD_NAME, null, null, null));
-    when(deploymentModel.getExternalGetter(any())).thenReturn("get_foo");
-    when(deploymentModel.getExternalSetter(any())).thenReturn("setFoo");
-    contextStack.injectResult(cppTypeInfo);
+    @Test
+    fun finishBuildingFrancaFieldReadsExternalAccessors() {
+        `when`<Any>(cppModelbuilder.getFinalResult(any())).thenReturn(cppField)
+        `when`<Any>(swiftModelBuilder.getFinalResult(any()))
+            .thenReturn(SwiftField(SWIFT_FIELD_NAME, null, null, null))
+        `when`(deploymentModel.getExternalGetter(any())).thenReturn("get_foo")
+        `when`(deploymentModel.getExternalSetter(any())).thenReturn("setFoo")
+        contextStack.injectResult(cppTypeInfo)
 
-    modelBuilder.finishBuilding(francaField);
+        modelBuilder.finishBuilding(francaField)
 
-    CField field = modelBuilder.getFinalResult(CField.class);
-    assertNotNull(field);
-    assertEquals("get_foo", field.getBaseLayerGetterName());
-    assertEquals("setFoo", field.getBaseLayerSetterName());
-  }
+        val field = modelBuilder.getFinalResult(CField::class.java)
+        assertNotNull(field)
+        assertEquals("get_foo", field.baseLayerGetterName)
+        assertEquals("setFoo", field.baseLayerSetterName)
+    }
 
-  @Test
-  public void finishBuildingCreatesCEnum() {
-    FEnumerationType francaEnumerationType = mock(FEnumerationType.class);
+    @Test
+    fun finishBuildingCreatesCEnum() {
+        val francaEnumerationType = mock(FEnumerationType::class.java)
 
-    modelBuilder.finishBuilding(francaEnumerationType);
+        modelBuilder.finishBuilding(francaEnumerationType)
 
-    CEnum anEnum = modelBuilder.getFinalResult(CEnum.class);
-    assertNotNull("Should be 1 enum created", anEnum);
-  }
+        val anEnum = modelBuilder.getFinalResult(CEnum::class.java)
+        assertNotNull("Should be 1 enum created", anEnum)
+    }
 
-  @Test
-  public void finishBuildingCreatesCppTypeInfo() {
-    when(typeMapper.mapType(any())).thenReturn(cppTypeInfo);
+    @Test
+    fun finishBuildingCreatesCppTypeInfo() {
+        `when`(typeMapper.mapType(any())).thenReturn(cppTypeInfo)
 
-    modelBuilder.finishBuilding(francaTypeRef);
+        modelBuilder.finishBuilding(francaTypeRef)
 
-    CppTypeInfo typeInfo = modelBuilder.getFinalResult(CppTypeInfo.class);
-    assertNotNull("Should be 1 CppTypeInfo created", typeInfo);
-    assertSame(cppTypeInfo, typeInfo);
-  }
+        val typeInfo = modelBuilder.getFinalResult(CppTypeInfo::class.java)
+        assertNotNull("Should be 1 CppTypeInfo created", typeInfo)
+        assertSame(cppTypeInfo, typeInfo)
+    }
 
-  @Test
-  public void finishBuildingCreatesFunctionsForAttribute() {
-    CppTypeInfo classTypeInfo = new CppTypeInfo(new CType(""));
-    List<CppElement> cppMethods =
-        asList(new CppMethod(CPP_ATTR_GETTER_NAME), new CppMethod(CPP_ATTR_SETTER_NAME));
-    when(cppModelbuilder.getFinalResults()).thenReturn(cppMethods);
+    @Test
+    fun finishBuildingCreatesFunctionsForAttribute() {
+        val classTypeInfo = CppTypeInfo(CType(""))
+        val cppMethods =
+            asList<CppElement>(CppMethod(CPP_ATTR_GETTER_NAME), CppMethod(CPP_ATTR_SETTER_NAME))
+        `when`(cppModelbuilder.finalResults).thenReturn(cppMethods)
 
-    when(francaAttribute.isReadonly()).thenReturn(false);
-    SwiftProperty swiftProperty =
-        new SwiftProperty(
-            "",
-            null,
-            new SwiftType("", ""),
-            new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_GETTER_NAME),
-            new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_SETTER_NAME),
-            false);
-    when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
+        `when`(francaAttribute.isReadonly).thenReturn(false)
+        val swiftProperty = SwiftProperty(
+            "", null,
+            SwiftType("", ""),
+            SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_GETTER_NAME),
+            SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_SETTER_NAME),
+            false
+        )
+        `when`<Any>(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty)
 
-    contextStack.injectResult(cppTypeInfo);
-    contextStack.getParentContext().currentResults.add(classTypeInfo);
+        contextStack.injectResult(cppTypeInfo)
+        contextStack.parentContext.currentResults.add(classTypeInfo)
 
-    modelBuilder.finishBuilding(francaAttribute);
+        modelBuilder.finishBuilding(francaAttribute)
 
-    List<CFunction> functions =
-        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CFunction.class);
-    assertEquals("There should be getter and setter", 2, functions.size());
-    verifyAttributeGetter(classTypeInfo, functions.get(0));
-    verifyAttributeSetter(classTypeInfo, functions.get(1));
-  }
+        val functions =
+            CollectionsHelper.getAllOfType(modelBuilder.finalResults, CFunction::class.java)
+        assertEquals("There should be getter and setter", 2, functions.size.toLong())
+        verifyAttributeGetter(classTypeInfo, functions[0])
+        verifyAttributeSetter(classTypeInfo, functions[1])
+    }
 
-  @Test
-  public void finishBuildingCreatesFunctionForReadonlyAttribute() {
-    CppTypeInfo classTypeInfo = new CppTypeInfo(new CType(""));
-    List<CppElement> cppMethods = singletonList(new CppMethod(CPP_ATTR_GETTER_NAME));
-    when(cppModelbuilder.getFinalResults()).thenReturn(cppMethods);
+    @Test
+    fun finishBuildingCreatesFunctionForReadonlyAttribute() {
+        val classTypeInfo = CppTypeInfo(CType(""))
+        val cppMethods = listOf<CppElement>(CppMethod(CPP_ATTR_GETTER_NAME))
+        `when`(cppModelbuilder.finalResults).thenReturn(cppMethods)
 
-    when(francaAttribute.isReadonly()).thenReturn(true);
-    SwiftProperty swiftProperty =
-        new SwiftProperty(
-            "",
-            null,
-            new SwiftType("", ""),
-            new SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_GETTER_NAME),
-            null,
-            false);
-    when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
+        `when`(francaAttribute.isReadonly).thenReturn(true)
+        val swiftProperty = SwiftProperty(
+            "", null,
+            SwiftType("", ""),
+            SwiftMethod("", null, null, SwiftType.VOID, null, null, CBRIDGE_ATTR_GETTER_NAME), null,
+            false
+        )
+        `when`<Any>(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty)
 
-    contextStack.injectResult(cppTypeInfo);
-    contextStack.getParentContext().currentResults.add(classTypeInfo);
+        contextStack.injectResult(cppTypeInfo)
+        contextStack.parentContext.currentResults.add(classTypeInfo)
 
-    modelBuilder.finishBuilding(francaAttribute);
+        modelBuilder.finishBuilding(francaAttribute)
 
-    List<CFunction> functions =
-        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CFunction.class);
-    assertEquals("There should be only getter", 1, functions.size());
-    verifyAttributeGetter(classTypeInfo, functions.get(0));
-  }
+        val functions =
+            CollectionsHelper.getAllOfType(modelBuilder.finalResults, CFunction::class.java)
+        assertEquals("There should be only getter", 1, functions.size.toLong())
+        verifyAttributeGetter(classTypeInfo, functions[0])
+    }
 
-  @Test
-  public void finishBuildingStaticAttribute() {
-    SwiftProperty swiftProperty =
-        new SwiftProperty(
-            "", null, new SwiftType("", ""), new SwiftMethod(""), new SwiftMethod(""), false);
-    when(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty);
-    when(cppModelbuilder.getFinalResults())
-        .thenReturn(asList(new CppMethod(""), new CppMethod("")));
-    when(deploymentModel.isStatic(any(FAttribute.class))).thenReturn(true);
-    contextStack.injectResult(cppTypeInfo);
+    @Test
+    fun finishBuildingStaticAttribute() {
+        val swiftProperty = SwiftProperty(
+            "", null, SwiftType("", ""), SwiftMethod(""), SwiftMethod(""), false
+        )
+        `when`<Any>(swiftModelBuilder.getFinalResult(any())).thenReturn(swiftProperty)
+        `when`(cppModelbuilder.finalResults)
+            .thenReturn(asList<CppElement>(CppMethod(""), CppMethod("")))
+        `when`(deploymentModel.isStatic(any(FAttribute::class.java))).thenReturn(true)
+        contextStack.injectResult(cppTypeInfo)
 
-    modelBuilder.finishBuilding(francaAttribute);
+        modelBuilder.finishBuilding(francaAttribute)
 
-    List<CFunction> functions =
-        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CFunction.class);
-    assertNull(functions.get(0).getSelfParameter());
-    assertNull(functions.get(1).getSelfParameter());
-  }
+        val functions =
+            CollectionsHelper.getAllOfType(modelBuilder.finalResults, CFunction::class.java)
+        assertNull(functions[0].selfParameter)
+        assertNull(functions[1].selfParameter)
+    }
 
-  @Test
-  public void finishBuildingFrancaArrayTypeCreatesArray() {
-    when(CArrayMapper.INSTANCE.getArrayName(any(FModelElement.class))).thenReturn("FooArray");
-    when(CArrayMapper.INSTANCE.createArrayReference(any())).thenReturn(cppArrayTypeInfo);
+    @Test
+    fun finishBuildingFrancaArrayTypeCreatesArray() {
+        every { CArrayMapper.getArrayName(any<FModelElement>()) } returns "FooArray"
+        every { CArrayMapper.createArrayReference(any()) } returns cppArrayTypeInfo
 
-    modelBuilder.finishBuilding(francaArray);
+        modelBuilder.finishBuilding(francaArray)
 
-    Collection<CArray> arrays = modelBuilder.arraysCollector.values();
-    assertEquals("There should one array", 1, arrays.size());
-    assertEquals("FooArray", arrays.iterator().next().name);
-  }
+        val arrays = modelBuilder.arraysCollector.values
+        assertEquals("There should one array", 1, arrays.size.toLong())
+        assertEquals("FooArray", arrays.iterator().next().name)
+    }
 
-  @Test
-  public void finishBuildingFrancaTypeRefCreatesInlineArray() {
-    CppArrayTypeInfo arrayType =
-        new CppArrayTypeInfo(
+    @Test
+    fun finishBuildingFrancaTypeRefCreatesInlineArray() {
+        val arrayType = CppArrayTypeInfo(
             "ArrayTest",
-            new CType("ArrayTest"),
-            new CType("ArrayTest"),
-            Collections.emptyList(),
-            cppTypeInfo);
-    arrayType.setTypeCategory(CppTypeInfo.TypeCategory.ARRAY);
-    when(typeMapper.mapType(any())).thenReturn(arrayType);
-    when(CArrayMapper.INSTANCE.getArrayName(any(FTypeRef.class))).thenReturn("FooArray");
+            CType("ArrayTest"),
+            CType("ArrayTest"),
+            listOf(),
+            cppTypeInfo
+        )
+        arrayType.typeCategory = CppTypeInfo.TypeCategory.ARRAY
+        `when`(typeMapper.mapType(any())).thenReturn(arrayType)
+        every { CArrayMapper.getArrayName(any<FTypeRef>()) } returns "FooArray"
 
-    modelBuilder.finishBuilding(francaTypeRef);
+        modelBuilder.finishBuilding(francaTypeRef)
 
-    Collection<CArray> arrays = modelBuilder.arraysCollector.values();
-    assertEquals("There should one array", 1, arrays.size());
-    assertEquals("FooArray", arrays.iterator().next().name);
-  }
+        val arrays = modelBuilder.arraysCollector.values
+        assertEquals("There should one array", 1, arrays.size.toLong())
+        assertEquals("FooArray", arrays.iterator().next().name)
+    }
 
-  private void verifyAttributeSetter(CppTypeInfo classTypeInfo, CFunction cSetter) {
-    assertEquals(CBRIDGE_ATTR_SETTER_NAME, cSetter.name);
-    assertEquals(CPP_ATTR_SETTER_NAME, cSetter.getFunctionName());
-    assertSame(classTypeInfo, cSetter.getSelfParameter().mappedType);
-    assertSame(CType.VOID, cSetter.getReturnType().getFunctionReturnType());
-    assertEquals(
-        "Setter should have two parameters, new value and instance (not included here)",
-        1,
-        cSetter.getParameters().size());
-  }
+    private fun verifyAttributeSetter(classTypeInfo: CppTypeInfo, cSetter: CFunction) {
+        assertEquals(CBRIDGE_ATTR_SETTER_NAME, cSetter.name)
+        assertEquals(CPP_ATTR_SETTER_NAME, cSetter.functionName)
+        assertSame(classTypeInfo, cSetter.selfParameter?.mappedType)
+        assertSame(CType.VOID, cSetter.returnType.functionReturnType)
+        assertEquals(
+            "Setter should have two parameters, new value and instance (not included here)",
+            1,
+            cSetter.parameters.size.toLong()
+        )
+    }
 
-  private void verifyAttributeGetter(CppTypeInfo classTypeInfo, CFunction cGetter) {
-    assertEquals(CBRIDGE_ATTR_GETTER_NAME, cGetter.name);
-    assertEquals(CPP_ATTR_GETTER_NAME, cGetter.getFunctionName());
-    assertSame(classTypeInfo, cGetter.getSelfParameter().mappedType);
-    assertSame(cppTypeInfo, cGetter.getReturnType());
-    assertEquals(
-        "Getter should have only one parameter, instance but not included here",
-        0,
-        cGetter.getParameters().size());
-  }
+    private fun verifyAttributeGetter(classTypeInfo: CppTypeInfo, cGetter: CFunction) {
+        assertEquals(CBRIDGE_ATTR_GETTER_NAME, cGetter.name)
+        assertEquals(CPP_ATTR_GETTER_NAME, cGetter.functionName)
+        assertSame(classTypeInfo, cGetter.selfParameter?.mappedType)
+        assertSame(cppTypeInfo, cGetter.returnType)
+        assertEquals(
+            "Getter should have only one parameter, instance but not included here",
+            0,
+            cGetter.parameters.size.toLong()
+        )
+    }
 
-  @Test
-  public void finishBuildingInterfacePropagatesFunctionsFromBase() {
-    CInterface base = new CInterface("Base");
-    base.inheritedFunctions.add(new CFunction("GrandParentFunction"));
-    base.functions.add(new CFunction("ParentFunction"));
-    contextStack.injectResult(base);
-    CFunction function = new CFunction("ChildFunction");
-    contextStack.injectResult(function);
+    @Test
+    fun finishBuildingInterfacePropagatesFunctionsFromBase() {
+        val base = CInterface("Base")
+        base.inheritedFunctions.add(CFunction("GrandParentFunction"))
+        base.functions.add(CFunction("ParentFunction"))
+        contextStack.injectResult(base)
+        val function = CFunction("ChildFunction")
+        contextStack.injectResult(function)
 
-    modelBuilder.finishBuilding(francaInterface);
+        modelBuilder.finishBuilding(francaInterface)
 
-    CInterface iface = modelBuilder.getFinalResult(CInterface.class);
-    assertNotNull(iface);
-    assertEquals(2, iface.inheritedFunctions.size());
-    assertEquals(1, iface.functions.size());
-  }
+        val iface = modelBuilder.getFinalResult(CInterface::class.java)
+        assertNotNull(iface)
+        assertEquals(2, iface.inheritedFunctions.size.toLong())
+        assertEquals(1, iface.functions.size.toLong())
+    }
 
-  @Test
-  public void finishBuildingFrancaMapType() {
-    when(CBridgeNameRules.getMapName(any())).thenReturn("FooMap");
-    contextStack.injectResult(CppTypeInfo.Companion.getSTRING());
-    contextStack.injectResult(cppTypeInfo);
-    Include fooInclude = Include.Companion.createInternalInclude("Foo");
-    when(cppIncludeResolver.resolveInclude(any())).thenReturn(fooInclude);
+    @Test
+    fun finishBuildingFrancaMapType() {
+        `when`(CBridgeNameRules.getMapName(any())).thenReturn("FooMap")
+        contextStack.injectResult(CppTypeInfo.STRING)
+        contextStack.injectResult(cppTypeInfo)
+        val fooInclude = Include.createInternalInclude("Foo")
+        `when`(cppIncludeResolver.resolveInclude(any())).thenReturn(fooInclude)
 
-    modelBuilder.finishBuilding(francaMap);
+        modelBuilder.finishBuilding(francaMap)
 
-    CMap cMap = modelBuilder.getFinalResult(CMap.class);
-    assertNotNull(cMap);
-    assertEquals("FooMap", cMap.name);
-    assertEquals(CppTypeInfo.Companion.getSTRING(), cMap.keyType);
-    assertEquals(cppTypeInfo, cMap.valueType);
-    assertEquals(fooInclude, cMap.include);
-  }
+        val cMap = modelBuilder.getFinalResult(CMap::class.java)
+        assertNotNull(cMap)
+        assertEquals("FooMap", cMap.name)
+        assertEquals(CppTypeInfo.STRING, cMap.keyType)
+        assertEquals(cppTypeInfo, cMap.valueType)
+        assertEquals(fooInclude, cMap.include)
+    }
+
+    companion object {
+        private const val DELEGATE_NAME = "DELEGATE_NAME"
+        private const val PARAM_NAME = "inputParam"
+        private const val STRUCT_NAME = "SomeStruct"
+        private const val CBRIDGE_ATTR_GETTER_NAME = "C_ATTR_GETTER"
+        private const val CBRIDGE_ATTR_SETTER_NAME = "C_ATTR_SETTER"
+        private const val CPP_ATTR_GETTER_NAME = "CPP_ATTR_GETTER"
+        private const val CPP_ATTR_SETTER_NAME = "CPP_ATTR_SETTER"
+        private const val SWIFT_FIELD_NAME = "SwiftFieldName"
+    }
 }
