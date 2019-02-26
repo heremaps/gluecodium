@@ -69,7 +69,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({CArrayMapper.class, CBridgeNameRules.class, SwiftNameRules.class})
+@PrepareForTest({CBridgeNameRules.class, SwiftNameRules.class})
 public final class CBridgeModelBuilderTest {
 
   private static final String FULL_FUNCTION_NAME = "NOT_SHORT_FUNCTION_NAME";
@@ -121,7 +121,7 @@ public final class CBridgeModelBuilderTest {
 
   @Before
   public void setUp() {
-    mockStatic(CBridgeNameRules.class, CArrayMapper.class, SwiftNameRules.class);
+    mockStatic(CBridgeNameRules.class, SwiftNameRules.class);
     initMocks(this);
 
     CppTypeInfo typeInfo = new CppTypeInfo(new CType(""));
@@ -582,8 +582,8 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaArrayTypeCreatesArray() {
-    when(CArrayMapper.getArrayName(any())).thenReturn("FooArray");
-    when(CArrayMapper.createArrayReference(any())).thenReturn(cppArrayTypeInfo);
+    when(CArrayMapper.INSTANCE.getArrayName(any(FModelElement.class))).thenReturn("FooArray");
+    when(CArrayMapper.INSTANCE.createArrayReference(any())).thenReturn(cppArrayTypeInfo);
 
     modelBuilder.finishBuilding(francaArray);
 
@@ -603,7 +603,7 @@ public final class CBridgeModelBuilderTest {
             cppTypeInfo);
     arrayType.setTypeCategory(CppTypeInfo.TypeCategory.ARRAY);
     when(typeMapper.mapType(any())).thenReturn(arrayType);
-    when(CArrayMapper.getArrayName(any())).thenReturn("FooArray");
+    when(CArrayMapper.INSTANCE.getArrayName(any(FTypeRef.class))).thenReturn("FooArray");
 
     modelBuilder.finishBuilding(francaTypeRef);
 
