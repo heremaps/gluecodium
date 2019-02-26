@@ -24,7 +24,6 @@ import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.cpp.CppLibraryIncludes;
-import com.here.genium.model.cbridge.CArray;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.common.InstanceRules;
@@ -34,27 +33,18 @@ import org.franca.core.franca.*;
 
 public final class CArrayMapper {
 
-  public static CppArrayTypeInfo createArrayReference(final CppTypeInfo innerType) {
+  private static final CType BASE_REF_TYPE = new CType(BASE_REF_NAME);
 
-    CType arrayType = new CType(BASE_REF_NAME);
+  public static CppArrayTypeInfo createArrayReference(final CppTypeInfo innerType) {
 
     return new CppArrayTypeInfo(
         "std::vector<" + innerType.name + ">",
-        arrayType,
-        arrayType,
+        BASE_REF_TYPE,
+        BASE_REF_TYPE,
         Arrays.asList(
             Include.Companion.createInternalInclude(BASE_HANDLE_IMPL_FILE),
             CppLibraryIncludes.VECTOR),
         innerType);
-  }
-
-  public static CArray createArrayDefinition(final FType francaArray, final CppTypeInfo innerType) {
-    return createArrayDefinition(francaArray, innerType, createArrayReference(innerType));
-  }
-
-  public static CArray createArrayDefinition(
-      final EObject francaArray, final CppTypeInfo innerType, final CppArrayTypeInfo cppTypeRef) {
-    return new CArray(getArrayName(francaArray), cppTypeRef);
   }
 
   public static String getArrayName(final EObject francaArray) {

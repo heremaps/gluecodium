@@ -65,7 +65,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -583,8 +582,8 @@ public final class CBridgeModelBuilderTest {
 
   @Test
   public void finishBuildingFrancaArrayTypeCreatesArray() {
-    CArray cArray = new CArray("FooArray", cppArrayTypeInfo);
-    when(CArrayMapper.createArrayDefinition(any(), any())).thenReturn(cArray);
+    when(CArrayMapper.getArrayName(any())).thenReturn("FooArray");
+    when(CArrayMapper.createArrayReference(any())).thenReturn(cppArrayTypeInfo);
 
     modelBuilder.finishBuilding(francaArray);
 
@@ -604,17 +603,13 @@ public final class CBridgeModelBuilderTest {
             cppTypeInfo);
     arrayType.setTypeCategory(CppTypeInfo.TypeCategory.ARRAY);
     when(typeMapper.mapType(any())).thenReturn(arrayType);
-    CArray cArray = new CArray("FooArray", cppArrayTypeInfo);
-    when(CArrayMapper.createArrayDefinition(any(), any(), any())).thenReturn(cArray);
+    when(CArrayMapper.getArrayName(any())).thenReturn("FooArray");
 
     modelBuilder.finishBuilding(francaTypeRef);
 
     Collection<CArray> arrays = modelBuilder.arraysCollector.values();
     assertEquals("There should one array", 1, arrays.size());
     assertEquals("FooArray", arrays.iterator().next().name);
-
-    PowerMockito.verifyStatic();
-    CArrayMapper.createArrayDefinition(francaTypeRef, arrayType.getInnerType(), arrayType);
   }
 
   private void verifyAttributeSetter(CppTypeInfo classTypeInfo, CFunction cSetter) {
