@@ -92,7 +92,7 @@ public class CBridgeTypeMapper {
     }
 
     if (FrancaTypeHelper.isImplicitArray(typeRef)) {
-      typeResult = CArrayMapper.createArrayReference(typeResult);
+      typeResult = CArrayMapper.INSTANCE.createArrayReference(typeResult);
     }
     return typeResult;
   }
@@ -106,7 +106,7 @@ public class CBridgeTypeMapper {
       return createEnumTypeInfo((FEnumerationType) derived);
     } else if (derived instanceof FArrayType) {
       CppTypeInfo innerType = mapType(((FArrayType) derived).getElementType());
-      return CArrayMapper.createArrayReference(innerType);
+      return CArrayMapper.INSTANCE.createArrayReference(innerType);
     } else if (derived instanceof FMapType) {
       return mapMapType((FMapType) derived);
     } else {
