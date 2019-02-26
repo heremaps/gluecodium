@@ -7,6 +7,8 @@
   + "NotNull" FDEPL property was removed as it is now the default behavior for all types.
 - Features:
   + Added support for explicitly exporting library symbols.
+- Bug fixes:
+  + Fixed crash regarding UInt8 and UInt16 conversions on Android
 
 ## 3.20.3
 - Release date: 2019-02-21

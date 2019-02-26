@@ -55,6 +55,14 @@ box_value_in_object( JNIEnv* env, const char* className, const char* signature, 
 }
 
 jint
+unbox_short_value( JNIEnv* env, const {{.}}::jni::JniReference<jobject>& jvalue )
+{
+    auto javaIntegerClass = {{.}}::jni::find_class( env, "java/lang/Short" );
+    auto intValueMethodId = env->GetMethodID( javaIntegerClass.get(), "shortValue", "()S" );
+    return {{.}}::jni::call_java_method<jshort>( env, jvalue, intValueMethodId );
+}
+
+jint
 unbox_int_value( JNIEnv* env, const {{.}}::jni::JniReference<jobject>& jvalue )
 {
     auto javaIntegerClass = {{.}}::jni::find_class( env, "java/lang/Integer" );
@@ -223,13 +231,13 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, int64_t* dum
 uint8_t
 convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint8_t* dummy )
 {
-    return unbox_long_value( env, jvalue );
+    return unbox_short_value( env, jvalue );
 }
 
 uint16_t
 convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint16_t* dummy )
 {
-    return unbox_long_value( env, jvalue );
+    return unbox_int_value( env, jvalue );
 }
 
 uint32_t
