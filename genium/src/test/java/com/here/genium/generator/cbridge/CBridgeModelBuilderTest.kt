@@ -20,6 +20,7 @@
 package com.here.genium.generator.cbridge
 
 import com.here.genium.common.CollectionsHelper
+import com.here.genium.common.FrancaTypeHelper
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.swift.SwiftModelBuilder
 import com.here.genium.generator.swift.SwiftNameRules
@@ -50,6 +51,7 @@ import com.here.genium.model.swift.SwiftType
 import com.here.genium.test.MockContextStack
 import io.mockk.every
 import io.mockk.mockkObject
+import io.mockk.mockkStatic
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FArrayType
 import org.franca.core.franca.FAttribute
@@ -58,7 +60,6 @@ import org.franca.core.franca.FField
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMapType
 import org.franca.core.franca.FMethod
-import org.franca.core.franca.FModelElement
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeRef
@@ -605,7 +606,7 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingFrancaArrayTypeCreatesArray() {
-        every { CArrayMapper.getArrayName(any<FModelElement>()) } returns "FooArray"
+        every { CArrayMapper.getArrayName(any<FArrayType>()) } returns "FooArray"
         every { CArrayMapper.createArrayReference(any()) } returns cppArrayTypeInfo
 
         modelBuilder.finishBuilding(francaArray)
@@ -626,6 +627,8 @@ class CBridgeModelBuilderTest {
         )
         arrayType.typeCategory = CppTypeInfo.TypeCategory.ARRAY
         `when`(typeMapper.mapType(any())).thenReturn(arrayType)
+        mockkStatic(FrancaTypeHelper::class)
+        every { FrancaTypeHelper.isImplicitArray(any()) } returns true
         every { CArrayMapper.getArrayName(any<FTypeRef>()) } returns "FooArray"
 
         modelBuilder.finishBuilding(francaTypeRef)

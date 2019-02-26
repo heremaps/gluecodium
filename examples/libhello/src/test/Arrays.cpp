@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Arrays.h"
+#include "test/ArrayNameClash.h"
 #include <cstdint>
 #include <sstream>
 #include <string>
@@ -207,6 +208,12 @@ Arrays::FancyStruct
 Arrays::create_fancy_struct( )
 {
     return Arrays::FancyStruct{{"Hello", "World"}, {1, 2, 3}, {}};
+}
+
+std::vector< ArrayNameClash::StringArray >
+ArrayNameClash::double_speak( const std::vector< ArrayNameClash::CakeArray >& input )
+{
+    return std::vector< ArrayNameClash::StringArray >{input.size( ), {true}};
 }
 
 }  // namespace test

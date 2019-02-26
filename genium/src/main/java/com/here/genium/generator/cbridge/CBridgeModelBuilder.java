@@ -23,6 +23,7 @@ import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.*;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.genium.common.CollectionsHelper;
+import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
 import com.here.genium.generator.cpp.CppModelBuilder;
@@ -276,7 +277,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
   @Override
   public void finishBuilding(FTypeRef typeRef) {
     CppTypeInfo type = typeMapper.mapType(typeRef);
-    if (type instanceof CppArrayTypeInfo) {
+    if (FrancaTypeHelper.isImplicitArray(typeRef)) {
       String arrayName = CArrayMapper.INSTANCE.getArrayName(typeRef);
       arraysCollector.putIfAbsent(arrayName, new CArray(arrayName, (CppArrayTypeInfo) type));
     }
