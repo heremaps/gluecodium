@@ -19,7 +19,6 @@
 
 package com.here.genium.generator.cbridge
 
-import com.here.genium.common.FrancaTypeHelper
 import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE
 import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME
 import com.here.genium.generator.cpp.CppLibraryIncludes
@@ -27,10 +26,7 @@ import com.here.genium.model.cbridge.CType
 import com.here.genium.model.common.Include
 import com.here.genium.model.common.InstanceRules
 import org.franca.core.franca.FArrayType
-import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FMapType
-import org.franca.core.franca.FModelElement
-import org.franca.core.franca.FStructType
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FTypeRef
@@ -50,40 +46,27 @@ object CArrayMapper {
             innerType
         )
 
-    fun getArrayName(elementType: FTypeRef): String {
-        return "arrayCollection_" + getName(elementType)
-    }
+    fun getArrayName(francaTypeRef: FTypeRef) = getArrayName(getTypeName(francaTypeRef))
 
-    fun getArrayName(elementType: FModelElement): String {
-        return "arrayCollection_" + getName(elementType)
-    }
+    fun getArrayName(francaArray: FArrayType): String = getTypeName(francaArray)
 
-    private fun getName(francaElement: FModelElement) =
-        when (francaElement) {
-            is FTypeDef -> if (InstanceRules.isInstanceId(francaElement)) {
-                francaElement.name
-            } else {
-                getName(francaElement.actualType)
+    private fun getArrayName(elementName: String) = "ArrayOf_$elementName"
+
+    private fun getTypeName(francaType: FType): String =
+        when (francaType) {
+            is FTypeDef -> when {
+                InstanceRules.isInstanceId(francaType) -> francaType.name
+                else -> getTypeName(francaType.actualType)
             }
-            is FStructType, is FEnumerationType -> (francaElement as FType).name
-            is FArrayType -> {
-                getName(francaElement.elementType) + "Array"
-            }
+            is FArrayType -> getArrayName(getTypeName(francaType.elementType))
             is FMapType ->
-                getName(francaElement.keyType) + "To" + getName(francaElement.valueType) + "Map"
-            else -> ""
+                "MapOf_${getTypeName(francaType.keyType)}_To_${getTypeName(francaType.valueType)}"
+            else -> francaType.name
         }
 
-    private fun getName(francaTypeRef: FTypeRef): String {
-        val elementName = if (francaTypeRef.derived != null) {
-            getName(francaTypeRef.derived)
-        } else {
-            francaTypeRef.predefined.getName()
+    private fun getTypeName(francaTypeRef: FTypeRef): String =
+        when {
+            francaTypeRef.derived != null -> getTypeName(francaTypeRef.derived)
+            else -> francaTypeRef.predefined.getName()
         }
-        return if (FrancaTypeHelper.isImplicitArray(francaTypeRef)) {
-            elementName + "Array"
-        } else {
-            elementName
-        }
-    }
 }

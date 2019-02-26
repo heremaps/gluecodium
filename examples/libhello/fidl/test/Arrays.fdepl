@@ -126,3 +126,9 @@ define GeniumExtensions for interface test.Arrays
         Static = true
     }
 }
+
+define GeniumExtensions for interface test.ArrayNameClash {
+    method doubleSpeak {
+        Static = true
+    }
+}

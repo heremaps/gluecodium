@@ -273,6 +273,19 @@ class ArraysTests: XCTestCase {
         XCTAssertEqual(resultArray[1], inputArray[0])
     }
 
+    // This test crashes if CBridge function names fail to disambiguate between [[String]] and
+    // [StringArray], where StringArray is actually a struct.
+    func testArrayNameClash() {
+        let inputArray: [[String]] = [["Foo"], ["Bar"]]
+
+        let result: [ArrayNameClash.StringArray] = ArrayNameClash.doubleSpeak(cakes: inputArray)
+
+        XCTAssertEqual(result.count, inputArray.count)
+        for (index, stringArray) in result.enumerated() {
+            XCTAssertTrue(stringArray.theCakeIsLie)
+        }
+    }
+
     static var allTests = [
         ("testArrayString", testArrayString),
         ("testArrayInt8", testArrayInt8),
@@ -298,6 +311,7 @@ class ArraysTests: XCTestCase {
         ("testArrayOfAliases", testArrayOfAliases),
         ("testArrayInStructOutlivesStruct", testArrayInStructOutlivesStruct),
         ("testArrayOfMaps", testArrayOfMaps),
-        ("testArrayOfArrayMaps", testArrayOfArrayMaps)
+        ("testArrayOfArrayMaps", testArrayOfArrayMaps),
+        ("testArrayNameClash", testArrayNameClash)
     ]
 }

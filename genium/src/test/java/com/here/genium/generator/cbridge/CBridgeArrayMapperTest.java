@@ -46,7 +46,7 @@ public final class CBridgeArrayMapperTest {
   @Mock private FStructType francaStructType;
   @Mock private FEnumerationType francaEnumerationType;
   @Mock private FArrayType francaArray;
-  private static final String PREFIX = "arrayCollection_";
+  private static final String PREFIX = "ArrayOf_";
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private FTypeDef francaTypeDef;
@@ -59,29 +59,32 @@ public final class CBridgeArrayMapperTest {
 
   @Test
   public void structArrayName() {
+    when(francaTypeRef.getDerived()).thenReturn(francaStructType);
     when(francaStructType.getName()).thenReturn("StructTest");
 
-    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaStructType);
+    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaTypeRef);
 
     assertEquals("Should have the same name", PREFIX + "StructTest", arrayName);
   }
 
   @Test
   public void typeDefArrayName() {
+    when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
     when(francaTypeDef.getActualType().getDerived()).thenReturn(null);
     when(francaTypeDef.getActualType().getPredefined()).thenReturn(FBasicTypeId.STRING);
 
-    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaTypeDef);
+    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaTypeRef);
 
     assertEquals("Should have the same name", PREFIX + "String", arrayName);
   }
 
   @Test
   public void typeDefInstanceIdArrayName() {
+    when(francaTypeRef.getDerived()).thenReturn(francaTypeDef);
     when(InstanceRules.isInstanceId(any(FTypeDef.class))).thenReturn(true);
     when(francaTypeDef.getName()).thenReturn("TypeDefTest");
 
-    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaTypeDef);
+    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaTypeRef);
 
     assertEquals("Should have the same name", PREFIX + "TypeDefTest", arrayName);
 
@@ -91,8 +94,8 @@ public final class CBridgeArrayMapperTest {
 
   @Test
   public void typeRefArrayNameWithDerived() {
-    when(francaStructType.getName()).thenReturn("StructTest");
     when(francaTypeRef.getDerived()).thenReturn(francaStructType);
+    when(francaStructType.getName()).thenReturn("StructTest");
 
     String arrayName = CArrayMapper.INSTANCE.getArrayName(francaTypeRef);
 
@@ -115,14 +118,15 @@ public final class CBridgeArrayMapperTest {
 
     String arrayName = CArrayMapper.INSTANCE.getArrayName(francaArray);
 
-    assertEquals("Should have the same name", PREFIX + "Int32Array", arrayName);
+    assertEquals("Should have the same name", PREFIX + "Int32", arrayName);
   }
 
   @Test
   public void enumArrayName() {
+    when(francaTypeRef.getDerived()).thenReturn(francaEnumerationType);
     when(francaEnumerationType.getName()).thenReturn("EnumTest");
 
-    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaEnumerationType);
+    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaTypeRef);
 
     assertEquals("Should have the same name", PREFIX + "EnumTest", arrayName);
   }
@@ -177,7 +181,7 @@ public final class CBridgeArrayMapperTest {
 
     String arrayName = CArrayMapper.INSTANCE.getArrayName(francaArray);
 
-    assertEquals("All arrays have array suffix", "arrayCollection_Int32ArrayArrayArray", arrayName);
+    assertEquals("All arrays have array prefix", PREFIX + PREFIX + PREFIX + "Int32", arrayName);
   }
 
   @Test
@@ -190,9 +194,10 @@ public final class CBridgeArrayMapperTest {
     when(map.getValueType()).thenReturn(value);
     when(key.getPredefined()).thenReturn(FBasicTypeId.INT32);
     when(value.getPredefined()).thenReturn(FBasicTypeId.STRING);
+    when(francaTypeRef.getDerived()).thenReturn(map);
 
-    String arrayName = CArrayMapper.INSTANCE.getArrayName(map);
+    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaTypeRef);
 
-    assertEquals(PREFIX + "Int32ToStringMap", arrayName);
+    assertEquals(PREFIX + "MapOf_Int32_To_String", arrayName);
   }
 }

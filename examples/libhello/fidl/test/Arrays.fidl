@@ -444,3 +444,22 @@ interface Arrays {
         }
     }
 }
+
+interface ArrayNameClash {
+
+    struct StringArray {
+        Boolean theCakeIsLie
+    }
+
+    array CakeArray of String
+
+    <** @description: Static method that takes a matrix of cakes and returns a matrix of strings.**>
+    method doubleSpeak {
+        in {
+            CakeArray[] cakes
+        }
+        out {
+            StringArray[] lies
+        }
+    }
+}
