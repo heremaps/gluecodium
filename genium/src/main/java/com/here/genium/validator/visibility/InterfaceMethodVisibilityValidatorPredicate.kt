@@ -31,16 +31,16 @@ import org.franca.core.franca.FMethod
  */
 class InterfaceMethodVisibilityValidatorPredicate : ValidatorPredicate<FMethod> {
 
-    override fun getElementClass() = FMethod::class.java
+    override val elementClass = FMethod::class.java
 
-    override fun validate(deploymentModel: FrancaDeploymentModel, element: FMethod): String? {
-        val parentInterface = element.eContainer() as FInterface
+    override fun validate(deploymentModel: FrancaDeploymentModel, francaElement: FMethod): String? {
+        val parentInterface = francaElement.eContainer() as FInterface
         return if (deploymentModel.isInterface(parentInterface) &&
-            deploymentModel.isInternal(element)) {
+            deploymentModel.isInternal(francaElement)) {
 
             String.format(
                 InterfaceMethodVisibilityValidatorPredicate.INTERNAL_METHOD_MESSAGE,
-                FrancaTypeHelper.getFullName(element),
+                FrancaTypeHelper.getFullName(francaElement),
                 FrancaTypeHelper.getFullName(parentInterface)
             )
         } else {
