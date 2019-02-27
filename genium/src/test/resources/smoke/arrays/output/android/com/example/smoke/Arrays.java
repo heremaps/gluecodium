@@ -50,7 +50,7 @@ public class Arrays extends NativeBase {
         public List<Short> numbers;
         public byte[] image;
         public FancyStruct() {
-            this(new ArrayList<>(), new ArrayList<>(), (byte[])null);
+            this(new ArrayList<>(), new ArrayList<>(), new byte[0]);
         }
         public FancyStruct(List<String> messages, List<Short> numbers, byte[] image) {
             this.messages = messages;
@@ -60,7 +60,7 @@ public class Arrays extends NativeBase {
         public static class Builder {
             private List<String> messages = new ArrayList<>();
             private List<Short> numbers = new ArrayList<>();
-            private byte[] image = (byte[])null;
+            private byte[] image = new byte[0];
             public Builder() {
             }
             public Builder setMessages(List<String> messages) {
