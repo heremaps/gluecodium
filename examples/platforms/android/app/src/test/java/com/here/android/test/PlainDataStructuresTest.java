@@ -194,4 +194,24 @@ public final class PlainDataStructuresTest {
   public void checkAllFieldsAreInitialized() {
     assertTrue(PlainDataStructures.checkAllFieldsAreInitialized());
   }
+
+  @Test
+  public void checkDefaultConstructorInitializesFields() {
+    PlainDataStructures.AllTypesStruct struct = new PlainDataStructures.AllTypesStruct();
+    assertEquals(false, struct.booleanField);
+    assertEquals(0, struct.int8Field);
+    assertEquals(0, struct.uint8Field);
+    assertEquals(0, struct.int16Field);
+    assertEquals(0, struct.uint16Field);
+    assertEquals(0, struct.int32Field);
+    assertEquals(0, struct.uint32Field);
+    assertEquals(0, struct.int64Field);
+    assertEquals(0, struct.uint64Field);
+    assertEquals(0f, struct.floatField);
+    assertEquals(0., struct.doubleField);
+    assertEquals("", struct.stringField);
+    assertNotNull(struct.bytesField);
+    assertEquals(0, struct.bytesField.length);
+    assertNotNull(struct.pointField);
+  }
 }

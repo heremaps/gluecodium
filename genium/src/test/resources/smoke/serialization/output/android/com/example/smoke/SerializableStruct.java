@@ -2,9 +2,7 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.smoke;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -12,9 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 public class SerializableStruct implements Parcelable {
-
     public static final Parcelable.Creator<SerializableStruct> CREATOR = new Parcelable.Creator<SerializableStruct>() {
         public SerializableStruct createFromParcel(final Parcel in_parcel) {
             return new SerializableStruct(in_parcel);
@@ -23,7 +19,6 @@ public class SerializableStruct implements Parcelable {
             return new SerializableStruct[size];
         }
     };
-
     public boolean boolField;
     public byte byteField;
     public short shortField;
@@ -44,9 +39,8 @@ public class SerializableStruct implements Parcelable {
     @NonNull
     public SomeEnum enumField;
     public SerializableStruct() {
-        this(false, (byte)0, (short)0, 0, 0L, 0f, 0, "", new NestedSerializableStruct(), (byte[])null, new ArrayList<>(), new ArrayList<>(), new HashMap<>(), SomeEnum.values()[0]);
+        this(false, (byte)0, (short)0, 0, 0L, 0f, 0, "", new NestedSerializableStruct(), new byte[0], new ArrayList<>(), new ArrayList<>(), new HashMap<>(), SomeEnum.values()[0]);
     }
-
     public SerializableStruct(boolean boolField, byte byteField, short shortField, int intField, long longField, float floatField, double doubleField, String stringField, NestedSerializableStruct structField, byte[] byteBufferField, List<String> arrayField, List<NestedSerializableStruct> structArrayField, Map<Integer, String> mapField, SomeEnum enumField) {
         this.boolField = boolField;
         this.byteField = byteField;
@@ -63,7 +57,6 @@ public class SerializableStruct implements Parcelable {
         this.mapField = mapField;
         this.enumField = enumField;
     }
-
     private SerializableStruct(final Parcel in_parcel) {
         this.boolField = in_parcel.readByte() != 0;
         this.byteField = in_parcel.readByte();
@@ -83,12 +76,10 @@ public class SerializableStruct implements Parcelable {
         in_parcel.readMap(this.mapField, Thread.currentThread().getContextClassLoader());
         this.enumField = SomeEnum.values()[in_parcel.readInt()];
     }
-
     @Override
     public int describeContents() {
         return 0;
     }
-
     @Override
     public void writeToParcel(final Parcel out_parcel, final int flags) {
         out_parcel.writeByte((byte)(boolField ? 1 : 0));
@@ -106,7 +97,6 @@ public class SerializableStruct implements Parcelable {
         out_parcel.writeMap(mapField);
         out_parcel.writeInt(enumField.ordinal());
     }
-
     public static class Builder {
         private boolean boolField = false;
         private byte byteField = (byte)0;
@@ -117,7 +107,7 @@ public class SerializableStruct implements Parcelable {
         private double doubleField = 0;
         private String stringField = "";
         private NestedSerializableStruct structField = new NestedSerializableStruct();
-        private byte[] byteBufferField = (byte[])null;
+        private byte[] byteBufferField = new byte[0];
         private List<String> arrayField = new ArrayList<>();
         private List<NestedSerializableStruct> structArrayField = new ArrayList<>();
         private Map<Integer, String> mapField = new HashMap<>();
