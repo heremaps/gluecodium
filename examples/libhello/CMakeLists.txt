@@ -27,6 +27,9 @@ set(HELLO_VERSION_MINOR 0)
 set(HELLO_VERSION_PATCH 1)
 set(HELLO_VERSION ${HELLO_VERSION_MAJOR}.${HELLO_VERSION_MINOR}.${HELLO_VERSION_PATCH})
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 set(HELLO_SOURCES)
 set(HELLO_FRANCA_SOURCES)
 
@@ -367,6 +370,14 @@ feature(Nullable cpp android swift SOURCES
     fidl/test/NullableInterface.fdepl
 )
 
+feature(ListenersWithThreads cpp android SOURCES
+    src/test/ListenersThreads.cpp
+
+    fidl/test/ListenersThreads.fidl
+    fidl/test/ListenersThreads.fdepl
+)
+
+
 if(APPLE)
     #This feature is intended for Swift only. It also does not compile outside of Apple platforms.
     feature(ObjcInterface swift SOURCES
@@ -382,6 +393,7 @@ set_target_properties(hello PROPERTIES
         SOVERSION ${HELLO_VERSION_MAJOR}
         VERSION ${HELLO_VERSION})
 target_include_directories(hello PRIVATE "src/test/")
+target_link_libraries(hello Threads::Threads)
 
 include(genium/Genium)
 apigen_generate(TARGET hello
