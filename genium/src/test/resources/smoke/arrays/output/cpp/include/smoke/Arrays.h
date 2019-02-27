@@ -7,7 +7,6 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-
 #include "Export.h"
 #include "alien/FooEnum.h"
 #include "alien/FooStruct.h"
@@ -16,19 +15,17 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-
 namespace smoke {
 class _GENIUM_CPP_EXPORT Arrays {
 public:
     virtual ~Arrays() = 0;
-
 public:
 enum class SomeEnum {
     FOO,
     BAR
 };
-
-using UIntArray = ::std::vector< uint8_t >;
+using UintArray = ::std::vector< uint8_t >;
+using NestedUintArray = ::std::vector< ::smoke::Arrays::UintArray >;
 using StringArray = ::std::vector< ::std::string >;
 using ProfileId = ::std::string;
 using ProfileIdList = ::std::vector< ::smoke::Arrays::ProfileId >;
@@ -39,7 +36,6 @@ using ArrayOfAliasedMaps = ::std::vector< ::smoke::Arrays::ErrorCodeToProfileIdM
 using ArrayOfArrays = ::std::vector< ::smoke::Arrays::StringArray >;
 using ArrayOfEnums = ::std::vector< ::smoke::Arrays::SomeEnum >;
 using ArrayOfExternalEnums = ::std::vector< ::alien::FooEnum >;
-
 struct _GENIUM_CPP_EXPORT BasicStruct {
     double value;
     BasicStruct( );
@@ -60,7 +56,7 @@ static ::smoke::Arrays::StringArray method_with_array( const ::smoke::Arrays::St
 static ::std::vector< uint8_t > method_with_array_inline( const ::std::vector< uint8_t >& input );
 static ::smoke::Arrays::StructArray method_with_struct_array( const ::std::vector< ::smoke::Arrays::BasicStruct >& input );
 static ::smoke::Arrays::ExternalStructArray method_with_external_struct_array( const ::std::vector< ::alien::FooStruct >& input );
-static ::std::vector< ::smoke::Arrays::UIntArray > method_with_array_of_arrays( const ::std::vector< ::smoke::Arrays::UIntArray >& input );
+static ::std::vector< ::smoke::Arrays::UintArray > method_with_array_of_arrays( const ::smoke::Arrays::NestedUintArray& input );
 static ::smoke::Arrays::FancyArray merge_arrays_of_structs_with_arrays( const ::std::vector< ::smoke::Arrays::FancyStruct >& inline_fancy_array, const ::smoke::Arrays::FancyArray& fancy_array );
 static ::smoke::Arrays::ProfileIdList method_with_array_of_aliases( const ::smoke::Arrays::ProfileIdList& input );
 static ::smoke::Arrays::ArrayOfMaps method_with_array_of_maps( const ::smoke::Arrays::ArrayOfMaps& input );

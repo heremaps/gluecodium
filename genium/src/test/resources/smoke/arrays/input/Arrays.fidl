@@ -48,7 +48,8 @@ interface Arrays {
     array StructArray of BasicStruct
     array ExternalStructArray of ExternalStruct
 
-    array UIntArray of UInt8
+    array UintArray of UInt8
+    array NestedUintArray of UintArray
     array StringArray of String
     array FancyArray of FancyStruct
 
@@ -102,10 +103,10 @@ interface Arrays {
 
     method methodWithArrayOfArrays {
         in {
-            UIntArray[] input
+            NestedUintArray input
         }
         out {
-            UIntArray[] output
+            UintArray[] output
         }
     }
 

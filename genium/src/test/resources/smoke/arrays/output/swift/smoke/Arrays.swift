@@ -14,7 +14,8 @@ internal func getRef(_ ref: Arrays?, owning: Bool = true) -> RefHolder {
 public class Arrays {
     public typealias StructArray = [Arrays.BasicStruct]
     public typealias ExternalStructArray = [Arrays.ExternalStruct]
-    public typealias UIntArray = [UInt8]
+    public typealias UintArray = [UInt8]
+    public typealias NestedUintArray = [[UInt8]]
     public typealias StringArray = [String]
     public typealias FancyArray = [Arrays.FancyStruct]
     public typealias ProfileIdList = [Arrays.ProfileId]
