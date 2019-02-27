@@ -20,6 +20,7 @@
 package com.here.genium.generator.java;
 
 import com.here.genium.generator.common.StringValueMapper;
+import com.here.genium.model.java.JavaArrayType;
 import com.here.genium.model.java.JavaCustomType;
 import com.here.genium.model.java.JavaEnumItem;
 import com.here.genium.model.java.JavaEnumType;
@@ -35,6 +36,7 @@ import java.util.List;
 import org.apache.commons.text.StringEscapeUtils;
 import org.franca.core.franca.*;
 
+@SuppressWarnings("PMD.GodClass")
 public final class JavaValueMapper {
 
   private static final JavaValue FLOAT_NAN = new JavaValue("Float.NaN", true);
@@ -145,6 +147,9 @@ public final class JavaValueMapper {
     }
     if (javaType instanceof JavaPrimitiveType) {
       return new JavaValue(decorateLiteralValue((JavaPrimitiveType) javaType, "0"));
+    }
+    if (javaType instanceof JavaArrayType) {
+      return new JavaValue("new " + ((JavaArrayType) javaType).type.getValue() + "[0]");
     }
 
     return mapNullValue(javaType);
