@@ -56,9 +56,9 @@ Java_com_example_smoke_Arrays_methodWithExternalStructArray(JNIEnv* _jenv, jobje
 jobject
 Java_com_example_smoke_Arrays_methodWithArrayOfArrays(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
 {
-    ::std::vector< ::smoke::Arrays::UIntArray > input = genium::jni::convert_from_jni(_jenv,
+    ::smoke::Arrays::NestedUintArray input = genium::jni::convert_from_jni(_jenv,
             genium::jni::make_non_releasing_ref(jinput),
-            (::std::vector< ::smoke::Arrays::UIntArray >*)nullptr);
+            (::smoke::Arrays::NestedUintArray*)nullptr);
     auto result = ::smoke::Arrays::method_with_array_of_arrays(input);
     return genium::jni::convert_to_jni(_jenv, result).release();
 }
