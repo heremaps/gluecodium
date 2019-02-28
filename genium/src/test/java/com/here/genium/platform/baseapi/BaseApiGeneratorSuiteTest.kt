@@ -23,8 +23,10 @@ import com.here.genium.Genium
 import com.here.genium.model.franca.FrancaDeploymentModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
+import org.junit.matchers.JUnitMatchers.hasItems
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
@@ -32,7 +34,8 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class BaseApiGeneratorSuiteTest {
-    @Mock private lateinit var deploymentModel: FrancaDeploymentModel
+    @Mock
+    private lateinit var deploymentModel: FrancaDeploymentModel
 
     private lateinit var baseApiGeneratorSuite: BaseApiGeneratorSuite
 
@@ -49,13 +52,17 @@ class BaseApiGeneratorSuiteTest {
         // + 1 for Export.h
         val expectedGeneratedFiles = BaseApiGeneratorSuite.ADDITIONAL_HEADERS.size + 1
         assertEquals(
-            "Expected cpp/internal files and test generated file",
-            expectedGeneratedFiles,
-            generatedFiles.size
+                "Expected cpp/internal files and test generated file",
+                expectedGeneratedFiles,
+                generatedFiles.size
         )
 
-        assertEquals("cpp/include/EnumHash.h", generatedFiles[0].targetFile.toString())
-        assertEquals("cpp/include/Return.h", generatedFiles[1].targetFile.toString())
-        assertEquals("cpp/include/Export.h", generatedFiles[2].targetFile.toString())
+        assertThat(generatedFiles.map { it.targetFile.toString() }, hasItems(
+                "cpp/include/EnumHash.h",
+                "cpp/include/Return.h",
+                "cpp/include/Export.h",
+                "cpp/include/Optional.h",
+                "cpp/include/OptionalImpl.h",
+                "cpp/include/Export.h"))
     }
 }

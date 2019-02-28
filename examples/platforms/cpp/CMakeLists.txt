@@ -51,7 +51,17 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
                  EXCLUDE_FROM_ALL)
 
 set(SOURCES
-  src/dummy.cpp)
+  src/dummy.cpp
+  tests/OptionalTest.cpp)
+
+if(HELLO_TEST_CPP_VERSION LESS 17)
+ list(APPEND SOURCES
+   tests/OptionalTestCxx11.cpp)
+#TODO: APIGEN-1590: CI fails to find optional header even with C++17 and Clang++5.0.0
+#else()
+# list(APPEND SOURCES
+#   tests/OptionalTestCxx17.cpp)
+endif()
 
 # Set search path for libhello.so so it's easier to run the test
 set(CMAKE_INSTALL_RPATH $ORIGIN/../lib)

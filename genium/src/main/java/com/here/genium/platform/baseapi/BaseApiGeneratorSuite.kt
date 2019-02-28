@@ -129,7 +129,7 @@ class BaseApiGeneratorSuite(
         const val GENERATOR_NAME = "cpp"
 
         @VisibleForTesting
-        internal val ADDITIONAL_HEADERS = listOf("EnumHash", "Return")
+        internal val ADDITIONAL_HEADERS = listOf("EnumHash", "Return", "Optional", "OptionalImpl")
 
         private fun flattenCppModel(members: List<CppElement>) =
             members.stream().flatMap(CppElement::streamRecursive).collect(Collectors.toList())
