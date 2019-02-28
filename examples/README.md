@@ -8,17 +8,17 @@ The project is structured as follows:
     │   ├── android         Android related projects
     │   │   ├── app         Android example app
     │   │   └── test        Functional tests for generated Android library
-    │   ├── base_api        C++ example app
-    │   └── ios             iOS example app
+    │   ├── base_api        C++ example app
+    │   └── ios             iOS example app
     ├── cmake
     │   └── modules         [Genium CMake modules subtree](https://github.com/heremaps/genium-cmake)
     ├── libhello            Example library that provides Genium-generated public API
-    │   ├── fidl            Franca interface definitions for the public API
-    │   └── src             Example library implementation
+    │   ├── fidl            Franca interface definitions for the public API
+    │   └── src             Example library implementation
     └── scripts             Usefule scripts
-       ├── build-cpp        Builds the entire project for C++ users
-       ├── build-android    Builds the entire project for Android users
-       └── build-swift      Builds the entire project for Swift users
+       ├── build-cpp        Builds the entire project for C++ users
+       ├── build-android    Builds the entire project for Android users
+       └── build-swift      Builds the entire project for Swift users
 
 
 ## Building and testing
@@ -33,7 +33,7 @@ Install artifacts end up in the dist/ folder and are ready for re-distribution.
 
 ## Run iOS example app
 
-If not already done, you need to install cmake and ninja:
+Prerequisites:
 ```
 brew install cmake
 brew install ninja
