@@ -45,7 +45,7 @@ Activation of caching feature in Genium tool is done by passing the command line
 ```
 
 Running Genium tool with this option will generate a directory called *.cache* inside *output folder*
-(regardless of -enableCaching option, caching gets automatically deactivated in case no valid output
+(regardless of `-enableCaching` option, caching gets automatically deactivated in case no valid output
 directory is given). Inside this folder Genium creates the cache index files (*cpp*,*android* &
 *swift*) which contain hash values of all output files written in current run by the corresponding
 generator. By utilizing the hash values, Genium is able to prevent files from being overwritten
