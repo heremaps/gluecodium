@@ -397,13 +397,13 @@ apigen_target_sources(hello)
 
 # Target platform specific rules to follow...
 if(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL cpp)
-    # Only install the shared library for C++ customers, others don't care...
+    # Only install the shared library for C++ users, others don't care...
     install(TARGETS hello EXPORT helloTargets
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
         INCLUDES DESTINATION hello)
 elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL android)
-    # Android customers want an Android Archive and it's pre-requirements...
+    # Android users want an Android Archive and it's pre-requirements...
     include(genium/Android)
     if(NOT DEFINED ANDROID_NATIVE_API_LEVEL)
         set(ANDROID_NATIVE_API_LEVEL "28")
@@ -418,7 +418,7 @@ elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL android)
     apigen_java_jar(hello)
     apigen_android_archive(TARGET hello)
 elseif(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL swift)
-    # Swift customers want a module...
+    # Swift users want a module...
     include(genium/Swift)
     if(HELLO_SWIFT_TESTS)
         set_target_properties(hello PROPERTIES APIGEN_SWIFT_TESTS_SHARED ${HELLO_SWIFT_TESTS})
