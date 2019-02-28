@@ -1,4 +1,4 @@
-# Genium
+# Genium [![Build Status](https://travis-ci.com/heremaps/genium.svg?token=kvrUHaaizXLydRxV4KKk&branch=master)](https://travis-ci.com/heremaps/genium)
 
 This repository contains the Genium project.
 
