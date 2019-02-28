@@ -1,4 +1,4 @@
-# HERE Genium project Release Notes
+# Genium project Release Notes
 
 ## 3.21.0
 - Release date: 2019-02-26
