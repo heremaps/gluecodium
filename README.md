@@ -1,8 +1,9 @@
 # Genium [![Build Status](https://travis-ci.com/heremaps/genium.svg?token=kvrUHaaizXLydRxV4KKk&branch=master)](https://travis-ci.com/heremaps/genium)
 
-Genium **generates C++, Swift and Java** code. The main purpose is generating C++ interfaces and
-corresponding Swift and Java bindings mainly for Android and iOS. Once implemented in C++ the code can be
-used directly from Java and Swift, eliminating the need for writing conversions and bindings manually.
+Genium **generates C++, Swift** and **Java** code. The main purpose is generating C++ interfaces and
+corresponding Swift and Java bindings mainly for **Android** and **iOS**, but other platforms like **OS X**
+and **Linux** work as well. Once implemented in C++ the code can be used directly from Java and Swift,
+eliminating the need for writing conversions and bindings manually.
 To simplify use of platform specific functions, Genium is also able to generate interfaces and protocols
 allowing use of Java and Swift implementations from C++.
 
