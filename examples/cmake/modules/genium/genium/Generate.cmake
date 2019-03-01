@@ -153,7 +153,7 @@ function(apigen_generate)
 
   execute_process(
     COMMAND ${CMAKE_COMMAND} -E make_directory ${GENIUM_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
-    COMMAND ${APIGEN_GENIUM_GRADLE_WRAPPER} -Pversion=${apigen_generate_VERSION} run --args="${APIGEN_GENIUM_ARGS}"
+    COMMAND ${APIGEN_GENIUM_GRADLE_WRAPPER} -Pversion=${apigen_generate_VERSION} run --args=${APIGEN_GENIUM_ARGS}
     WORKING_DIRECTORY ${APIGEN_GENIUM_DIR}
     RESULT_VARIABLE GENERATE_RESULT)
   if(NOT "${GENERATE_RESULT}" STREQUAL "0")
