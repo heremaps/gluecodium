@@ -21,9 +21,14 @@
 # Script to build the "hello" library for a C++ consumer. This is demonstrated
 # by the base_api application.
 
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+. "${SCRIPT_DIR}/inc.functions"
+
 USAGE=$(cat <<EOF
 $0 [options]
     --publish             Build and publish Genium locally and use it for code generation
+    --buildGenium         Build and use local Genium version
+    --geniumPath [PATH]   Implies --buildGenium, path to local genium (default: ${GENIUM_PATH})
     --debug               Build with debug symbols
     --valgrind            Run with valgrind
     --junit               Generate junit xml test report
@@ -33,9 +38,7 @@ $0 [options]
 EOF
 )
 
-SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-. "${SCRIPT_DIR}/inc.functions"
-
+BUILD_LOCAL_GENIUM=false
 CMAKE_EXTRA_PARAMETERS=()
 CPP_VERSION=11
 while [[ $# -gt 0 ]]; do
@@ -43,6 +46,15 @@ while [[ $# -gt 0 ]]; do
         --publish)
             publish_local
             shift
+            ;;
+        --buildGenium)
+            BUILD_LOCAL_GENIUM=true
+            shift
+            ;;
+        --geniumPath)
+            BUILD_LOCAL_GENIUM=true
+            GENIUM_PATH="$2"
+            shift 2
             ;;
         --debug)
             CMAKE_EXTRA_PARAMETERS+=("-DCMAKE_BUILD_TYPE=RelWithDebInfo")

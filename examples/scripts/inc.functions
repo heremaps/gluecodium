@@ -21,6 +21,8 @@
 # Collection of shared functions
 #
 
+GENIUM_PATH="$(cd ${SCRIPT_DIR}/../.. && pwd)"
+
 function die {
     echo -e "$@"
     exit 1
@@ -50,9 +52,7 @@ function cmake_generator {
 }
 
 function publish_local {
-    GENIUM_DIRECTORY=${SCRIPT_DIR}/../../
-
-    pushd "${GENIUM_DIRECTORY}"
+    pushd "${GENIUM_PATH}"
     safe ./gradlew publishToMavenLocal
     GENIUM_VERSION=$(sed 's/version[ \t]*=[ \t]*//' genium/src/main/resources/version.properties)
     popd

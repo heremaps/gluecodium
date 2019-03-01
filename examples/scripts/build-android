@@ -21,25 +21,36 @@
 # Script to build the "hello" library for an Android consumer. This is
 # demonstrated by the platforms/android/app application which is build externally.
 
-USAGE=$(cat <<EOF
-$0 [options]
-    --publish    Build and publish Genium locally and use it for code generation
-    --debug      Build with debug symbols
-    --jemalloc   Run tests with jemalloc
-    --help       Print this message
-EOF
-)
-
-
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
+USAGE=$(cat <<EOF
+$0 [options]
+    --publish             Build and publish Genium locally and use it for code generation
+    --buildGenium         Build and use local Genium version
+    --geniumPath [PATH]   Implies --buildGenium, path to local genium (default: ${GENIUM_PATH})
+    --debug               Build with debug symbols
+    --jemalloc            Run tests with jemalloc
+    --help                Print this message
+EOF
+)
+
 CMAKE_BUILD_TYPE=
+BUILD_LOCAL_GENIUM=false
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --publish)
             publish_local
             shift
+            ;;
+        --buildGenium)
+            BUILD_LOCAL_GENIUM=true
+            shift
+            ;;
+        --geniumPath)
+            BUILD_LOCAL_GENIUM=true
+            GENIUM_PATH="$2"
+            shift 2
             ;;
         --jemalloc)
             USE_JEMALLOC=true
