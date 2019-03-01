@@ -1,8 +1,11 @@
 # Genium project Release Notes
 
-## Unreleased
+## 3.21.1
+- Release date: 2019-03-04
 - Bug fixes
-  + Headers containing only typedefs were not generated
+  + Fixed an issue where headers containing only typedefs were not generated for C++
+  + Fixed default initialization of ByteBuffer fields for structs in Java.
+  + Fixed JNI type conversion for UInt8 and UInt16 types.
 
 ## 3.21.0
 - Release date: 2019-02-26
