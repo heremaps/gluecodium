@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes
+  + Headers containing only typedefs were not generated
+
 ## 3.21.0
 - Release date: 2019-02-26
 - Breaking changes:

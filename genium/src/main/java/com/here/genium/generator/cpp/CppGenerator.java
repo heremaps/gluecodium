@@ -26,6 +26,7 @@ import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.CppConstant;
 import com.here.genium.model.cpp.CppExternableElement;
 import com.here.genium.model.cpp.CppFile;
+import com.here.genium.model.cpp.CppUsing;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -45,11 +46,13 @@ public final class CppGenerator {
     List<GeneratedFile> result = new LinkedList<>();
 
     boolean hasConstants = cppModel.getMembers().stream().anyMatch(CppConstant.class::isInstance);
+    boolean hasTypedefs =
+        !CollectionsHelper.getAllOfType(cppModel.getMembers(), CppUsing.class).isEmpty();
     boolean hasNonExternalElements =
         !CollectionsHelper.getStreamOfType(cppModel.getMembers(), CppExternableElement.class)
             .allMatch(CppExternableElement::isExternal);
     boolean hasErrorEnums = !cppModel.getErrorEnums().isEmpty();
-    boolean hasCode = hasConstants || hasNonExternalElements || hasErrorEnums;
+    boolean hasCode = hasConstants || hasNonExternalElements || hasErrorEnums || hasTypedefs;
     if (!hasCode) {
       return result;
     }
