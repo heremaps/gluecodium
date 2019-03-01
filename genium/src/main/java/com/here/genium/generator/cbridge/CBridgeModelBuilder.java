@@ -50,6 +50,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
   private final CppModelBuilder cppBuilder;
   private final SwiftModelBuilder swiftBuilder;
   private final CBridgeTypeMapper typeMapper;
+  private final String internalNamespace;
 
   public final Map<String, CArray> arraysCollector = new HashMap<>();
 
@@ -59,7 +60,8 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
       final CBridgeIncludeResolver includeResolver,
       final CppModelBuilder cppBuilder,
       final SwiftModelBuilder swiftBuilder,
-      final CBridgeTypeMapper typeMapper) {
+      final CBridgeTypeMapper typeMapper,
+      final String internalNamespace) {
     this(
         new ModelBuilderContextStack<>(),
         deploymentModel,
@@ -67,10 +69,12 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
         includeResolver,
         cppBuilder,
         swiftBuilder,
-        typeMapper);
+        typeMapper,
+        internalNamespace);
   }
 
   @VisibleForTesting
+  @SuppressWarnings("checkstyle:ParameterNumber")
   CBridgeModelBuilder(
       final ModelBuilderContextStack<CElement> contextStack,
       final FrancaDeploymentModel deploymentModel,
@@ -78,7 +82,8 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
       final CBridgeIncludeResolver includeResolver,
       final CppModelBuilder cppBuilder,
       final SwiftModelBuilder swiftBuilder,
-      final CBridgeTypeMapper typeMapper) {
+      final CBridgeTypeMapper typeMapper,
+      final String internalNamespace) {
     super(contextStack);
     this.deploymentModel = deploymentModel;
     this.cppIncludeResolver = cppIncludeResolver;
@@ -86,6 +91,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     this.cppBuilder = cppBuilder;
     this.swiftBuilder = swiftBuilder;
     this.typeMapper = typeMapper;
+    this.internalNamespace = internalNamespace;
   }
 
   @Override
@@ -134,7 +140,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
       final String name, final CppTypeInfo selfType, final FTypeCollection francaTypeCollection) {
 
     CInterface parentClass = getPreviousResult(CInterface.class);
-    CInterface cInterface = new CInterface(name, selfType);
+    CInterface cInterface = new CInterface(name, selfType, internalNamespace);
     if (parentClass != null) {
       cInterface.inheritedFunctions.addAll(parentClass.inheritedFunctions);
       cInterface.inheritedFunctions.addAll(parentClass.functions);

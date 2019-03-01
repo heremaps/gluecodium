@@ -176,6 +176,7 @@ public class CBridgeTypeMapper {
         Arrays.asList(
             publicInclude,
             baseApiInclude,
+            CppLibraryIncludes.OPTIONAL,
             BASE_HANDLE_IMPL_INCLUDE,
             CppLibraryIncludes.MEMORY,
             CppLibraryIncludes.NEW));
@@ -187,6 +188,7 @@ public class CBridgeTypeMapper {
     List<Include> includes = new LinkedList<>();
     includes.addAll(baseTypeInfo.getIncludes());
     includes.addAll(cppTypeRef.includes);
+    includes.add(CppLibraryIncludes.OPTIONAL);
 
     CType structCType = new CType(BASE_REF_NAME);
     return new CppTypeInfo(

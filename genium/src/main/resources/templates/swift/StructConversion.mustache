@@ -30,7 +30,10 @@ internal func moveFromCType(_ handle: _baseRef) -> {{name}} {
 }
 
 internal func copyToCType(_ swiftType: {{name}}) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+{{#fields}}
+    let c_{{name}} = moveToCType(swiftType.{{name}})
+{{/fields}}
+    return RefHolder({{cPrefix}}_create_handle({{#fields}}c_{{name}}.ref{{#if iter.hasNext}}, {{/if}}{{/fields}}))
 }
 internal func moveToCType(_ swiftType: {{name}}) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: {{cPrefix}}_release_handle)
@@ -56,7 +59,10 @@ internal func copyToCType(_ swiftType: {{name}}?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder({{cPrefix}}_make_optional_handle(copyToCType(swiftType).ref))
+{{#fields}}
+    let c_{{name}} = moveToCType(swiftType.{{name}})
+{{/fields}}
+    return RefHolder({{cPrefix}}_create_optional_handle({{#fields}}c_{{name}}.ref{{#if iter.hasNext}}, {{/if}}{{/fields}}))
 }
 internal func moveToCType(_ swiftType: {{name}}?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: {{cPrefix}}_release_optional_handle)

@@ -87,19 +87,22 @@ internal constructor(
     private val deploymentModel: FrancaDeploymentModel,
     private val javaBuilder: JavaModelBuilder,
     private val cppBuilder: CppModelBuilder,
-    private val cppIncludeResolver: CppIncludeResolver
+    private val cppIncludeResolver: CppIncludeResolver,
+    private val internalNamespace: String
 ) : AbstractModelBuilder<JniElement>(contextStack) {
     constructor(
         deploymentModel: FrancaDeploymentModel,
         javaBuilder: JavaModelBuilder,
         cppBuilder: CppModelBuilder,
-        cppIncludeResolver: CppIncludeResolver
+        cppIncludeResolver: CppIncludeResolver,
+        internalNamespace: String
     ) : this(
         ModelBuilderContextStack<JniElement>(),
         deploymentModel,
         javaBuilder,
         cppBuilder,
-        cppIncludeResolver
+        cppIncludeResolver,
+        internalNamespace
     )
 
     override fun finishBuilding(francaInterface: FInterface) {
@@ -118,7 +121,8 @@ internal constructor(
             javaInterfaceName = javaTopLevelElement.name,
             cppName = cppClass!!.name,
             cppFullyQualifiedName = cppClass.fullyQualifiedName,
-            containerType = containerType
+            containerType = containerType,
+            internalNamespace = internalNamespace
         )
 
         val parentContainer = getPreviousResult(JniContainer::class.java)
@@ -235,7 +239,8 @@ internal constructor(
         val jniContainer = JniContainer(
             javaPackages = packageNames,
             cppNameSpaces = DefinedBy.getPackages(francaTypeCollection),
-            containerType = JniContainer.ContainerType.TYPE_COLLECTION
+            containerType = JniContainer.ContainerType.TYPE_COLLECTION,
+            internalNamespace = internalNamespace
         )
         CollectionsHelper.getStreamOfType(currentContext.previousResults, JniStruct::class.java)
             .forEach { jniContainer.add(it) }

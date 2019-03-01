@@ -50,5 +50,8 @@ bool {{#className}}{{.}}::{{/className}}{{name}}::operator!=( const {{name}}& rh
 }
 
 {{/if}}{{/unless}}{{!!
-}}{{+fieldEq}}{{#if isNullable}}( ( {{name}} && rhs.{{name}} ) ? ( *{{name}} == *rhs.{{name}} ) : ( {{name}} == rhs.{{name}} ) ){{/if}}{{!!
+}}{{+fieldEq}}{{#if isNullable}}{{!!
+}}( ( {{name}} && rhs.{{name}} )
+            ? ( *{{name}} == *rhs.{{name}} )
+            : ( static_cast< bool >( {{name}} ) == static_cast< bool >( rhs.{{name}} ) ) ){{/if}}{{!!
 }}{{#unless isNullable}}{{name}} == rhs.{{name}}{{/unless}}{{/fieldEq}}

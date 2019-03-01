@@ -71,7 +71,13 @@ class JniGenerator(
         val valueMapper = CppValueMapper(deploymentModel, cppNameResolver)
         val cppBuilder = CppModelBuilder(deploymentModel, typeMapper, valueMapper, cppNameResolver)
         val jniBuilder =
-            JniModelBuilder(deploymentModel, javaBuilder, cppBuilder, cppIncludeResolver)
+            JniModelBuilder(
+                deploymentModel,
+                javaBuilder,
+                cppBuilder,
+                cppIncludeResolver,
+                internalNamespace
+            )
 
         val treeWalker = FrancaTreeWalker(listOf(javaBuilder, cppBuilder, jniBuilder))
         treeWalker.walkTree(francaTypeCollection)
@@ -86,7 +92,7 @@ class JniGenerator(
         val includes = mutableListOf<String>()
         if (jniContainer.containerType != JniContainer.ContainerType.TYPE_COLLECTION) {
             includes +=
-                JniNameRules.getHeaderFileName(JniNameRules.getJniClassFileName(jniContainer))
+                    JniNameRules.getHeaderFileName(JniNameRules.getJniClassFileName(jniContainer))
         }
         includes += additionalIncludes
 

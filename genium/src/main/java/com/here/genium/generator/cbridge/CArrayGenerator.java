@@ -40,6 +40,11 @@ public final class CArrayGenerator {
       Paths.get(CBRIDGE_PUBLIC, SRC_DIR, ARRAY_FILE + ".cpp").toString();
 
   private final Map<String, CArray> arrayCollector = new HashMap<>();
+  private final String internalNamespace;
+
+  CArrayGenerator(final String internalNamespace) {
+    this.internalNamespace = internalNamespace;
+  }
 
   public void collect(final Map<String, CArray> arrays) {
     this.arrayCollector.putAll(arrays);
@@ -69,6 +74,7 @@ public final class CArrayGenerator {
     Map<String, Object> implementationData = new HashMap<>();
     implementationData.put("arrays", arrays);
     implementationData.put("includes", implementationIncludes);
+    implementationData.put("internalNamespace", internalNamespace);
 
     GeneratedFile implementationFile =
         new GeneratedFile(

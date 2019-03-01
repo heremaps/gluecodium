@@ -361,7 +361,7 @@ feature(Equatable cpp android swift SOURCES
 
 feature(Nullable cpp android swift SOURCES
     src/test/NullableInstances.cpp
-    src/test/NullableInterface.cpp
+    src/test/NullableInterfaceImpl.cpp
 
     fidl/test/NullableInstances.fidl
     fidl/test/NullableInstances.fdepl

@@ -121,7 +121,8 @@ class BaseApiGeneratorSuite(
             includes = includes,
             forwardDeclarations = collectForwardDeclarations(finalResults),
             errorEnums = errorEnums,
-            exportName = exportName
+            exportName = exportName,
+            internalNamespace = internalNamespace
         )
     }
 

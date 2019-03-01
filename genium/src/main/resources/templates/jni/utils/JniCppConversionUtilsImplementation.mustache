@@ -39,6 +39,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "JniCppConversionUtils.h"
+#include "Optional.h"
 
 namespace {{.}}
 {
@@ -72,12 +73,12 @@ convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string*
         : std::string{};
 }
 
-std::shared_ptr<std::string>
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<std::string>* )
+{{.}}::optional<std::string>
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, {{.}}::optional<std::string>* )
 {
     return jvalue
-        ? std::make_shared<std::string>( convert_string_from_jni( env, static_cast<jstring>( jvalue.get( ) ) ) )
-        : std::shared_ptr<std::string>{};
+        ? {{.}}::optional<std::string>( convert_string_from_jni( env, static_cast<jstring>( jvalue.get( ) ) ) )
+        : {{.}}::optional<std::string>{};
 }
 
 std::shared_ptr< std::vector< uint8_t > >
@@ -105,7 +106,7 @@ convert_to_jni( JNIEnv* env, const std::string& nvalue )
 }
 
 JniReference<jstring>
-convert_to_jni( JNIEnv* env, const std::shared_ptr<std::string>& nvalue )
+convert_to_jni( JNIEnv* env, const {{.}}::optional<std::string>& nvalue )
 {
     return nvalue
         ? make_local_ref(env, env->NewStringUTF( nvalue->c_str( ) ))

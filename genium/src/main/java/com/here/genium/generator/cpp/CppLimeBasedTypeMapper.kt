@@ -44,7 +44,8 @@ class CppLimeBasedTypeMapper(
     private val includeResolver: CppLimeBasedIncludeResolver,
     private val internalNamespace: String
 ) {
-    @VisibleForTesting internal val enumHashType =
+    @VisibleForTesting
+    internal val enumHashType =
         CppComplexTypeRef(
             CppNameRules.joinFullyQualifiedName(internalNamespace, "EnumHash"),
             listOf(CppLibraryIncludes.ENUM_HASH)
@@ -63,6 +64,13 @@ class CppLimeBasedTypeMapper(
         includes = listOf(includeResolver.resolveInclude(limeContainer)),
         needsForwardDeclaration = needsForwardDeclaration
     )
+
+    fun createOptionalType(cppTypeRef: CppTypeRef): CppTemplateTypeRef {
+        return CppTemplateTypeRef.create(
+            internalNamespace,
+            TemplateClass.OPTIONAL, cppTypeRef
+        )
+    }
 
     private fun mapType(limeType: LimeType): CppTypeRef =
         when (limeType) {
@@ -120,11 +128,13 @@ class CppLimeBasedTypeMapper(
             CppComplexTypeRef("::std::error_code", listOf(CppLibraryIncludes.SYSTEM_ERROR))
         private val BASIC_STRING_CHAR_TYPE =
             CppTemplateTypeRef.create(TemplateClass.BASIC_STRING, CppPrimitiveTypeRef.CHAR)
-        @VisibleForTesting internal val STRING_TYPE =
+        @VisibleForTesting
+        internal val STRING_TYPE =
             CppTypeDefRef("::std::string", BASIC_STRING_CHAR_TYPE.includes, BASIC_STRING_CHAR_TYPE)
         private val BYTE_BUFFER_ARRAY_TYPE =
             CppTemplateTypeRef.create(TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8)
-        @VisibleForTesting internal val BYTE_BUFFER_POINTER_TYPE =
+        @VisibleForTesting
+        internal val BYTE_BUFFER_POINTER_TYPE =
             CppTemplateTypeRef.create(TemplateClass.SHARED_POINTER, BYTE_BUFFER_ARRAY_TYPE)
     }
 }

@@ -65,8 +65,10 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class CppLimeBasedModelBuilderTest {
-    @MockK private lateinit var typeMapper: CppLimeBasedTypeMapper
-    @MockK private lateinit var nameResolver: CppLimeBasedNameResolver
+    @MockK
+    private lateinit var typeMapper: CppLimeBasedTypeMapper
+    @MockK
+    private lateinit var nameResolver: CppLimeBasedNameResolver
 
     private val limeEnumerator = LimeEnumerator(EMPTY_PATH)
     private val limeEnumeration = LimeEnumeration(EMPTY_PATH)
@@ -84,6 +86,8 @@ class CppLimeBasedModelBuilderTest {
     private val cppStruct = CppStruct("")
     private val cppConstant = CppConstant("", "", CppPrimitiveTypeRef.BOOL, CppValue(""))
     private val cppTypeRef = CppComplexTypeRef("foobarbaz")
+    private val cppTemplateTypeRef =
+        CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.OPTIONAL, cppTypeRef)
 
     private val contextStack = MockContextStack<CppElement>()
 
@@ -229,17 +233,12 @@ class CppLimeBasedModelBuilderTest {
         )
         val limeElement = LimeMethod(EMPTY_PATH, returnType = limeReturnType)
         every { typeMapper.mapType(any()) } returns cppTypeRef
+        every { typeMapper.createOptionalType(cppTypeRef) } returns cppTemplateTypeRef
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(CppMethod::class.java)
-        val returnType = result.returnType
-        assertTrue(returnType is CppTemplateTypeRef)
-        assertEquals(
-            CppTemplateTypeRef.TemplateClass.SHARED_POINTER,
-            (returnType as CppTemplateTypeRef).templateClass
-        )
-        assertEquals(cppTypeRef, returnType.templateParameters.first())
+        assertEquals(cppTemplateTypeRef, result.returnType)
     }
 
     @Test
@@ -310,17 +309,12 @@ class CppLimeBasedModelBuilderTest {
             typeRef = LimeBasicTypeRef.DOUBLE,
             attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.NULLABLE).build()
         )
+        every { typeMapper.createOptionalType(cppTypeRef) } returns cppTemplateTypeRef
 
         modelBuilder.finishBuilding(limeParameter)
 
         val result = modelBuilder.getFinalResult(CppParameter::class.java)
-        val parameterType = result.type
-        assertTrue(parameterType is CppTemplateTypeRef)
-        assertEquals(
-            CppTemplateTypeRef.TemplateClass.SHARED_POINTER,
-            (parameterType as CppTemplateTypeRef).templateClass
-        )
-        assertEquals(cppTypeRef, parameterType.templateParameters.first())
+        assertEquals(cppTemplateTypeRef, result.type)
     }
 
     @Test
@@ -419,18 +413,13 @@ class CppLimeBasedModelBuilderTest {
             typeRef = LimeBasicTypeRef.DOUBLE,
             attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.NULLABLE).build()
         )
+        every { typeMapper.createOptionalType(cppTypeRef) } returns cppTemplateTypeRef
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(CppField::class.java)
         assertTrue(result.isNullable)
-        val fieldType = result.type
-        assertTrue(fieldType is CppTemplateTypeRef)
-        assertEquals(
-            CppTemplateTypeRef.TemplateClass.SHARED_POINTER,
-            (fieldType as CppTemplateTypeRef).templateClass
-        )
-        assertEquals(cppTypeRef, fieldType.templateParameters.first())
+        assertEquals(cppTemplateTypeRef, result.type)
     }
 
     @Test
@@ -533,17 +522,12 @@ class CppLimeBasedModelBuilderTest {
             typeRef = LimeBasicTypeRef.DOUBLE,
             attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.NULLABLE).build()
         )
+        every { typeMapper.createOptionalType(cppTypeRef) } returns cppTemplateTypeRef
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(CppMethod::class.java)
-        val returnType = result.returnType
-        assertTrue(returnType is CppTemplateTypeRef)
-        assertEquals(
-            CppTemplateTypeRef.TemplateClass.SHARED_POINTER,
-            (returnType as CppTemplateTypeRef).templateClass
-        )
-        assertEquals(cppTypeRef, returnType.templateParameters.first())
+        assertEquals(cppTemplateTypeRef, result.returnType)
     }
 
     @Test
@@ -554,17 +538,14 @@ class CppLimeBasedModelBuilderTest {
             typeRef = LimeBasicTypeRef.DOUBLE,
             attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.NULLABLE).build()
         )
+        every { typeMapper.createOptionalType(cppTypeRef) } returns cppTemplateTypeRef
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.finalResults.last()
         val setterParameterType = (result as CppMethod).parameters.first().type
-        assertTrue(setterParameterType is CppTemplateTypeRef)
-        assertEquals(
-            CppTemplateTypeRef.TemplateClass.SHARED_POINTER,
-            (setterParameterType as CppTemplateTypeRef).templateClass
-        )
-        assertEquals(cppTypeRef, setterParameterType.templateParameters.first())
+
+        assertEquals(cppTemplateTypeRef, setterParameterType)
     }
 
     @Test

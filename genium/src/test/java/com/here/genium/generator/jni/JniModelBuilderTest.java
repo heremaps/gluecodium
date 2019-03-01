@@ -78,6 +78,8 @@ public class JniModelBuilderTest {
   private static final List<String> CPP_NAMESPACE_MEMBERS =
       Arrays.asList("my", "cpp", "stuffs", "namespace");
 
+  private static final String INTERNAL_NAMESPACE = "::very::internal";
+
   @Mock private FrancaDeploymentModel deploymentModel;
   @Mock private FInterface francaInterface;
   @Mock private FTypeCollection francaTypeCollection;
@@ -156,7 +158,12 @@ public class JniModelBuilderTest {
 
     modelBuilder =
         new JniModelBuilder(
-            contextStack, deploymentModel, javaBuilder, cppBuilder, cppIncludeResolver);
+            contextStack,
+            deploymentModel,
+            javaBuilder,
+            cppBuilder,
+            cppIncludeResolver,
+            INTERNAL_NAMESPACE);
 
     javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
 
@@ -340,6 +347,7 @@ public class JniModelBuilderTest {
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
     assertEquals(ContainerType.CLASS, jniContainer.getContainerType());
+    assertEquals(INTERNAL_NAMESPACE, jniContainer.getInternalNamespace());
   }
 
   @Test
@@ -572,6 +580,7 @@ public class JniModelBuilderTest {
     assertEquals(expectedNamespace, String.join("::", jniContainer.getCppNameSpaces()));
     assertNull(jniContainer.getJavaName());
     assertNull(jniContainer.getCppName());
+    assertEquals(INTERNAL_NAMESPACE, jniContainer.getInternalNamespace());
   }
 
   @Test

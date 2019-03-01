@@ -131,7 +131,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     boolean isNullable = deploymentModel.isNullable(francaArgument);
     boolean isInstance = InstanceRules.isInstanceId(francaArgument.getType());
     if (isNullable && !isInstance) {
-      cppTypeRef = CppTypeMapper.createSharedPointerType(cppTypeRef);
+      cppTypeRef = typeMapper.createOptionalType(cppTypeRef);
     }
 
     CppParameter cppParameter =
@@ -180,7 +180,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     boolean isNullable = deploymentModel.isNullable(francaField);
     boolean isInstance = InstanceRules.isInstanceId(francaField.getType());
     if (isNullable && !isInstance) {
-      cppTypeRef = CppTypeMapper.createSharedPointerType(cppTypeRef);
+      cppTypeRef = typeMapper.createOptionalType(cppTypeRef);
     }
 
     FType fieldType = francaField.getType().getDerived();
@@ -333,7 +333,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
     boolean isInstance = InstanceRules.isInstanceId(francaAttribute.getType());
     boolean isNotNull = !isNullable && isInstance;
     if (isNullable && !isInstance) {
-      cppTypeRef = CppTypeMapper.createSharedPointerType(cppTypeRef);
+      cppTypeRef = typeMapper.createOptionalType(cppTypeRef);
     }
 
     String francaComment = CommentHelper.getDescription(francaAttribute);

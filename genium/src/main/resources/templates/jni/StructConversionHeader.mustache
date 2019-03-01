@@ -25,6 +25,7 @@
 {{/includes}}
 #include <jni.h>
 #include <memory>
+#include "Optional.h"
 
 namespace {{internalNamespace}}
 {
@@ -32,9 +33,9 @@ namespace jni
 {
 {{#models}}{{#structs}}
 {{cppStruct.fullyQualifiedName}} convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppStruct.fullyQualifiedName}}* dummy);
-std::shared_ptr<{{cppStruct.fullyQualifiedName}}> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<{{cppStruct.fullyQualifiedName}}>* dummy);
+{{internalNamespace}}::optional<{{cppStruct.fullyQualifiedName}}> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{internalNamespace}}::optional<{{cppStruct.fullyQualifiedName}}>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{cppStruct.fullyQualifiedName}}& _ninput);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<{{cppStruct.fullyQualifiedName}}> _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{internalNamespace}}::optional<{{cppStruct.fullyQualifiedName}}> _ninput);
 {{/structs}}{{/models}}
 }
 }

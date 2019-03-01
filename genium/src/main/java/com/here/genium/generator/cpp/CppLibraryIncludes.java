@@ -35,4 +35,5 @@ public final class CppLibraryIncludes {
   // Custom
   public static final Include RETURN = Include.Companion.createInternalInclude("Return.h");
   public static final Include ENUM_HASH = Include.Companion.createInternalInclude("EnumHash.h");
+  public static final Include OPTIONAL = Include.Companion.createInternalInclude("Optional.h");
 }

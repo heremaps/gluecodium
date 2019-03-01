@@ -36,7 +36,8 @@ data class JniContainer @JvmOverloads constructor(
     val javaInterfaceName: String? = null,
     val cppName: String? = null,
     val cppFullyQualifiedName: String? = null,
-    val containerType: ContainerType = ContainerType.TYPE_COLLECTION
+    val containerType: ContainerType = ContainerType.TYPE_COLLECTION,
+    var internalNamespace: String? = null
 ) : JniElement {
     val methods: MutableList<JniMethod> = LinkedList()
     val parentMethods: MutableList<JniMethod> = LinkedList()

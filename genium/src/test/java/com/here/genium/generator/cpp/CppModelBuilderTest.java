@@ -95,6 +95,8 @@ public final class CppModelBuilderTest {
   private final CppUsing cppUsing = new CppUsing(NONSENSE_NAME, NONSENSE_NAME, cppTypeDefRef);
   private final CppConstant cppConstant =
       new CppConstant(NONSENSE_NAME, NONSENSE_NAME, cppTypeRef, cppValue);
+  private final CppTemplateTypeRef cppTemplateTypeRef =
+      CppTemplateTypeRef.Companion.create(TemplateClass.OPTIONAL, cppTypeDefRef);
 
   @Before
   public void setUp() {
@@ -313,16 +315,14 @@ public final class CppModelBuilderTest {
   @Test
   public void finishBuildingInputArgumentReadsNullable() {
     when(deploymentModel.isNullable(any())).thenReturn(true);
+    when(typeMapper.createOptionalType(cppComplexTypeRef)).thenReturn(cppTemplateTypeRef);
     contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuildingInputArgument(francaArgument);
 
     CppParameter cppParameter = modelBuilder.getFinalResult(CppParameter.class);
     assertNotNull(cppParameter);
-    assertTrue(cppParameter.type instanceof CppTemplateTypeRef);
-    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) cppParameter.type;
-    assertEquals(TemplateClass.SHARED_POINTER, cppTemplateTypeRef.getTemplateClass());
-    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.getTemplateParameters().get(0));
+    assertEquals(cppTemplateTypeRef, cppParameter.type);
   }
 
   @Test
@@ -351,16 +351,14 @@ public final class CppModelBuilderTest {
   @Test
   public void finishBuildingOutputArgumentReadsNullable() {
     when(deploymentModel.isNullable(any())).thenReturn(true);
+    when(typeMapper.createOptionalType(cppComplexTypeRef)).thenReturn(cppTemplateTypeRef);
     contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuildingOutputArgument(francaArgument);
 
     CppParameter cppParameter = modelBuilder.getFinalResult(CppParameter.class);
     assertNotNull(cppParameter);
-    assertTrue(cppParameter.type instanceof CppTemplateTypeRef);
-    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) cppParameter.type;
-    assertEquals(TemplateClass.SHARED_POINTER, cppTemplateTypeRef.getTemplateClass());
-    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.getTemplateParameters().get(0));
+    assertEquals(cppTemplateTypeRef, cppParameter.type);
   }
 
   @Test
@@ -466,6 +464,7 @@ public final class CppModelBuilderTest {
   @Test
   public void finishBuildingFrancaFieldReadsNullable() {
     when(deploymentModel.isNullable(any())).thenReturn(true);
+    when(typeMapper.createOptionalType(cppComplexTypeRef)).thenReturn(cppTemplateTypeRef);
     contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaField);
@@ -473,10 +472,7 @@ public final class CppModelBuilderTest {
     CppField cppField = modelBuilder.getFinalResult(CppField.class);
     assertNotNull(cppField);
     assertTrue(cppField.isNullable());
-    assertTrue(cppField.type instanceof CppTemplateTypeRef);
-    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) cppField.type;
-    assertEquals(TemplateClass.SHARED_POINTER, cppTemplateTypeRef.getTemplateClass());
-    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.getTemplateParameters().get(0));
+    assertEquals(cppTemplateTypeRef, cppField.type);
   }
 
   @Test
@@ -586,10 +582,10 @@ public final class CppModelBuilderTest {
     assertEquals(DUMMY_FQN, resultUsing.fullyQualifiedName);
     assertTrue(resultUsing.getDefinition() instanceof CppTemplateTypeRef);
 
-    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) resultUsing.getDefinition();
-    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, cppTemplateTypeRef.getTemplateClass());
-    assertEquals(1, cppTemplateTypeRef.getTemplateParameters().size());
-    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.getTemplateParameters().get(0));
+    CppTemplateTypeRef templateTypeRef = (CppTemplateTypeRef) resultUsing.getDefinition();
+    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, templateTypeRef.getTemplateClass());
+    assertEquals(1, templateTypeRef.getTemplateParameters().size());
+    assertEquals(cppComplexTypeRef, templateTypeRef.getTemplateParameters().get(0));
   }
 
   @Test
@@ -633,10 +629,10 @@ public final class CppModelBuilderTest {
     CppComplexTypeRef result = modelBuilder.getFinalResult(CppComplexTypeRef.class);
     assertTrue(result instanceof CppTemplateTypeRef);
 
-    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) result;
-    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, cppTemplateTypeRef.getTemplateClass());
-    assertEquals(1, cppTemplateTypeRef.getTemplateParameters().size());
-    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.getTemplateParameters().get(0));
+    CppTemplateTypeRef templateTypeRef = (CppTemplateTypeRef) result;
+    assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, templateTypeRef.getTemplateClass());
+    assertEquals(1, templateTypeRef.getTemplateParameters().size());
+    assertEquals(cppComplexTypeRef, templateTypeRef.getTemplateParameters().get(0));
 
     verify(typeMapper).map(francaTypeRef);
   }
@@ -793,22 +789,21 @@ public final class CppModelBuilderTest {
   public void finishBuildingFrancaAttributeCreatesNullableGetter() {
     when(deploymentModel.isNullable(any())).thenReturn(true);
     when(nameResolver.getGetterName(any())).thenReturn(NONSENSE_NAME);
+    when(typeMapper.createOptionalType(cppComplexTypeRef)).thenReturn(cppTemplateTypeRef);
     contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaAttribute);
 
     CppMethod resultMethod = modelBuilder.getFinalResult(CppMethod.class);
     assertNotNull(resultMethod);
-    assertTrue(resultMethod.getReturnType() instanceof CppTemplateTypeRef);
-    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) resultMethod.getReturnType();
-    assertEquals(TemplateClass.SHARED_POINTER, cppTemplateTypeRef.getTemplateClass());
-    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.getTemplateParameters().get(0));
+    assertEquals(cppTemplateTypeRef, resultMethod.getReturnType());
   }
 
   @Test
   public void finishBuildingFrancaAttributeCreatesNullableSetter() {
     when(deploymentModel.isNullable(any())).thenReturn(true);
     when(nameResolver.getSetterName(any())).thenReturn(NONSENSE_NAME);
+    when(typeMapper.createOptionalType(cppComplexTypeRef)).thenReturn(cppTemplateTypeRef);
     contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaAttribute);
@@ -817,24 +812,19 @@ public final class CppModelBuilderTest {
         CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), CppMethod.class);
     assertEquals(2, methods.size());
     CppParameter setterMethodParameter = methods.get(1).getParameters().get(0);
-    assertTrue(setterMethodParameter.type instanceof CppTemplateTypeRef);
-    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) setterMethodParameter.type;
-    assertEquals(TemplateClass.SHARED_POINTER, cppTemplateTypeRef.getTemplateClass());
-    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.getTemplateParameters().get(0));
+    assertEquals(cppTemplateTypeRef, setterMethodParameter.type);
   }
 
   @Test
   public void finishBuildingFrancaAttributeReadsNullable() {
     when(deploymentModel.isNullable(any())).thenReturn(true);
+    when(typeMapper.createOptionalType(cppComplexTypeRef)).thenReturn(cppTemplateTypeRef);
     contextStack.injectResult(cppComplexTypeRef);
 
     modelBuilder.finishBuilding(francaField);
 
     CppField cppField = modelBuilder.getFinalResult(CppField.class);
     assertNotNull(cppField);
-    assertTrue(cppField.type instanceof CppTemplateTypeRef);
-    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) cppField.type;
-    assertEquals(TemplateClass.SHARED_POINTER, cppTemplateTypeRef.getTemplateClass());
-    assertEquals(cppComplexTypeRef, cppTemplateTypeRef.getTemplateParameters().get(0));
+    assertEquals(cppTemplateTypeRef, cppField.type);
   }
 }

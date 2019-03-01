@@ -22,6 +22,7 @@ package com.here.genium.generator.cpp;
 import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
+import com.here.genium.model.cpp.CppTemplateTypeRef.TemplateClass;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.Collections;
 import org.franca.core.franca.*;
@@ -85,9 +86,9 @@ public class CppTypeMapper {
   }
 
   @NotNull
-  public static CppTemplateTypeRef createSharedPointerType(final CppTypeRef cppTypeRef) {
+  public CppTemplateTypeRef createOptionalType(final CppTypeRef cppTypeRef) {
     return CppTemplateTypeRef.Companion.create(
-        CppTemplateTypeRef.TemplateClass.SHARED_POINTER, cppTypeRef);
+        internalNamespace, TemplateClass.OPTIONAL, cppTypeRef);
   }
 
   private CppTypeRef mapDerived(FType derived) {
@@ -129,7 +130,8 @@ public class CppTypeMapper {
             false,
             !deploymentModel.isExternalType(parentInterface));
 
-    return createSharedPointerType(instanceType);
+    return CppTemplateTypeRef.Companion.create(
+        CppTemplateTypeRef.TemplateClass.SHARED_POINTER, instanceType);
   }
 
   private CppTypeRef mapArray(final FArrayType francaArrayType) {

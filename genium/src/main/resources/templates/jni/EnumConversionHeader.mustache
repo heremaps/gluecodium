@@ -25,6 +25,7 @@
 {{/includes}}
 #include <jni.h>
 #include <memory>
+#include "Optional.h"
 
 namespace {{internalNamespace}}
 {
@@ -32,9 +33,9 @@ namespace jni
 {
 {{#models}}{{#enums}}
 {{cppEnumName}} convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppEnumName}}* dummy);
-std::shared_ptr<{{cppEnumName}}> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<{{cppEnumName}}>* dummy);
+{{internalNamespace}}::optional<{{cppEnumName}}> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{internalNamespace}}::optional<{{cppEnumName}}>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{cppEnumName}} _ninput);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<{{cppEnumName}}> _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{internalNamespace}}::optional<{{cppEnumName}}> _ninput);
 {{/enums}}{{/models}}
 }
 }

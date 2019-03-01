@@ -34,8 +34,6 @@ import com.here.genium.model.cpp.CppMethod
 import com.here.genium.model.cpp.CppParameter
 import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppStruct
-import com.here.genium.model.cpp.CppTemplateTypeRef
-import com.here.genium.model.cpp.CppTemplateTypeRef.TemplateClass
 import com.here.genium.model.cpp.CppTypeRef
 import com.here.genium.model.cpp.CppUsing
 import com.here.genium.model.cpp.CppValue
@@ -119,7 +117,7 @@ class CppLimeBasedModelBuilder @VisibleForTesting internal constructor(
         val isInstance = limeMethod.returnType.typeRef.type is LimeContainer
         var cppReturnType = typeMapper.mapType(limeMethod.returnType.typeRef)
         if (isNullable && !isInstance) {
-            cppReturnType = CppTemplateTypeRef.create(TemplateClass.SHARED_POINTER, cppReturnType)
+            cppReturnType = typeMapper.createOptionalType(cppReturnType)
         }
         val errorEnum = getPreviousResultOrNull(CppTypeRef::class.java)
         val returnType = when {
@@ -154,7 +152,7 @@ class CppLimeBasedModelBuilder @VisibleForTesting internal constructor(
         val isInstance = limeParameter.typeRef.type is LimeContainer
         var cppTypeRef = getPreviousResult(CppTypeRef::class.java)
         if (isNullable && !isInstance) {
-            cppTypeRef = CppTemplateTypeRef.create(TemplateClass.SHARED_POINTER, cppTypeRef)
+            cppTypeRef = typeMapper.createOptionalType(cppTypeRef)
         }
 
         val cppParameter = CppParameter(
@@ -188,10 +186,7 @@ class CppLimeBasedModelBuilder @VisibleForTesting internal constructor(
         val isNullable = limeField.attributes.have(LimeAttributeType.NULLABLE)
         val isInstance = limeField.typeRef.type is LimeContainer
         if (isNullable && !isInstance) {
-            cppTypeRef = CppTemplateTypeRef.create(
-                CppTemplateTypeRef.TemplateClass.SHARED_POINTER,
-                cppTypeRef
-            )
+            cppTypeRef = typeMapper.createOptionalType(cppTypeRef)
         }
 
         val cppField = CppField(
@@ -226,10 +221,7 @@ class CppLimeBasedModelBuilder @VisibleForTesting internal constructor(
         val isInstance = limeProperty.typeRef.type is LimeContainer
         val isNotNull = !isNullable && isInstance
         if (isNullable && !isInstance) {
-            cppTypeRef = CppTemplateTypeRef.create(
-                CppTemplateTypeRef.TemplateClass.SHARED_POINTER,
-                cppTypeRef
-            )
+            cppTypeRef = typeMapper.createOptionalType(cppTypeRef)
         }
 
         val specifiers = when {

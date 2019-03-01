@@ -55,7 +55,7 @@ spotless {
     format 'misc', {
         target project.fileTree(project.rootDir) {
             include '**/*.gradle', '**/*.md', '**/*.gitignore'
-            exclude '.gradle', '.idea', 'examples/cmake'
+            exclude '**/build*', '.gradle', '.idea', 'examples/cmake'
         }
         trimTrailingWhitespace()
         endWithNewline()

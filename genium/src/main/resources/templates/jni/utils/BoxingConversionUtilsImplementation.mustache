@@ -253,177 +253,177 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint64_t* du
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::shared_ptr<bool> nvalue )
+convert_to_jni( JNIEnv* env, {{.}}::optional<bool> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::shared_ptr<float> nvalue )
+convert_to_jni( JNIEnv* env, {{.}}::optional<float> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::shared_ptr<double> nvalue )
+convert_to_jni( JNIEnv* env, {{.}}::optional<double> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::shared_ptr<int8_t> nvalue )
+convert_to_jni( JNIEnv* env, {{.}}::optional<int8_t> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::shared_ptr<int16_t> nvalue )
+convert_to_jni( JNIEnv* env, {{.}}::optional<int16_t> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::shared_ptr<int32_t> nvalue )
+convert_to_jni( JNIEnv* env, {{.}}::optional<int32_t> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::shared_ptr<int64_t> nvalue )
+convert_to_jni( JNIEnv* env, {{.}}::optional<int64_t> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 
-std::shared_ptr<bool>
+{{.}}::optional<bool>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<bool>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{.}}::optional<bool>* dummy )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<jboolean>( env, jvalue, "booleanValue", "()Z" );
-    return std::make_shared<bool>( unboxedValue );
+    return {{.}}::optional<bool>( unboxedValue );
 }
 
-std::shared_ptr<float>
+{{.}}::optional<float>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<float>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{.}}::optional<float>* dummy )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<jfloat>( env, jvalue, "floatValue", "()F" );
-    return std::make_shared<float>( unboxedValue );
+    return {{.}}::optional<float>( unboxedValue );
 }
 
-std::shared_ptr<double>
+{{.}}::optional<double>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<double>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{.}}::optional<double>* dummy )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<jdouble>( env, jvalue, "doubleValue", "()D" );
-    return std::make_shared<double>( unboxedValue );
+    return {{.}}::optional<double>( unboxedValue );
 }
 
-std::shared_ptr<int8_t>
+{{.}}::optional<int8_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<int8_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{.}}::optional<int8_t>* dummy )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int8_t>( env, jvalue, "byteValue", "()B" );
-    return std::make_shared<int8_t>( unboxedValue );
+    return {{.}}::optional<int8_t>( unboxedValue );
 }
 
-std::shared_ptr<int16_t>
+{{.}}::optional<int16_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<int16_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{.}}::optional<int16_t>* dummy )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int16_t>( env, jvalue, "shortValue", "()S" );
-    return std::make_shared<int16_t>( unboxedValue );
+    return {{.}}::optional<int16_t>( unboxedValue );
 }
 
-std::shared_ptr<int32_t>
+{{.}}::optional<int32_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<int32_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{.}}::optional<int32_t>* dummy )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int32_t>( env, jvalue, "intValue", "()I" );
-    return std::make_shared<int32_t>( unboxedValue );
+    return {{.}}::optional<int32_t>( unboxedValue );
 }
 
-std::shared_ptr<int64_t>
+{{.}}::optional<int64_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<int64_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{.}}::optional<int64_t>* dummy )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int64_t>( env, jvalue, "longValue", "()J" );
-    return std::make_shared<int64_t>( unboxedValue );
+    return {{.}}::optional<int64_t>( unboxedValue );
 }
 
-std::shared_ptr<uint8_t>
+{{.}}::optional<uint8_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<uint8_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{.}}::optional<uint8_t>* dummy )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int16_t>( env, jvalue, "shortValue", "()S" );
-    return std::make_shared<uint8_t>( static_cast<uint8_t>( unboxedValue ) );
+    return {{.}}::optional<uint8_t>( static_cast<uint8_t>( unboxedValue ) );
 }
 
-std::shared_ptr<uint16_t>
+{{.}}::optional<uint16_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<uint16_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{.}}::optional<uint16_t>* dummy )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int32_t>( env, jvalue, "intValue", "()I" );
-    return std::make_shared<uint16_t>( static_cast<uint16_t>( unboxedValue ) );
+    return {{.}}::optional<uint16_t>( static_cast<uint16_t>( unboxedValue ) );
 }
 
-std::shared_ptr<uint32_t>
+{{.}}::optional<uint32_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<uint32_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{.}}::optional<uint32_t>* dummy )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int64_t>( env, jvalue, "longValue", "()J" );
-    return std::make_shared<uint32_t>( static_cast<uint32_t>( unboxedValue ) );
+    return {{.}}::optional<uint32_t>( static_cast<uint32_t>( unboxedValue ) );
 }
 
-std::shared_ptr<uint64_t>
+{{.}}::optional<uint64_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::shared_ptr<uint64_t>* dummy )
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{.}}::optional<uint64_t>* dummy )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int64_t>( env, jvalue, "longValue", "()J" );
-    return std::make_shared<uint64_t>( static_cast<uint64_t>( unboxedValue ) );
+    return {{.}}::optional<uint64_t>( static_cast<uint64_t>( unboxedValue ) );
 }
 
 }

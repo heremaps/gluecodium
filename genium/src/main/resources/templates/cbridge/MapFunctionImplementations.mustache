@@ -58,15 +58,15 @@ void {{name}}_iterator_increment(_baseRef iterator_handle) {
 }
 
 _baseRef {{name}}_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<{{>baseApi}}>( new ( std::nothrow ) {{>baseApi}}( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) {{internalNamespace}}::optional<{{>baseApi}}>( {{>baseApi}}( ) ) );
 }
 
 void {{name}}_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<{{>baseApi}}>*>( handle );
+    delete reinterpret_cast<{{internalNamespace}}::optional<{{>baseApi}}>*>( handle );
 }
 
 _baseRef {{name}}_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<{{>baseApi}}>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<{{internalNamespace}}::optional<{{>baseApi}}>*>( handle ) );
 }
 
 {{!!

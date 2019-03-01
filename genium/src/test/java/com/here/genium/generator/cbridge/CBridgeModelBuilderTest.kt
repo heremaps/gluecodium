@@ -160,7 +160,8 @@ class CBridgeModelBuilderTest {
             includeResolver,
             cppModelbuilder,
             swiftModelBuilder,
-            typeMapper
+            typeMapper,
+            INTERNAL_NAMESPACE
         )
     }
 
@@ -663,7 +664,7 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingInterfacePropagatesFunctionsFromBase() {
-        val base = CInterface("Base")
+        val base = CInterface("Base", INTERNAL_NAMESPACE)
         base.inheritedFunctions.add(CFunction("GrandParentFunction"))
         base.functions.add(CFunction("ParentFunction"))
         contextStack.injectResult(base)
@@ -705,5 +706,6 @@ class CBridgeModelBuilderTest {
         private const val CPP_ATTR_GETTER_NAME = "CPP_ATTR_GETTER"
         private const val CPP_ATTR_SETTER_NAME = "CPP_ATTR_SETTER"
         private const val SWIFT_FIELD_NAME = "SwiftFieldName"
+        private const val INTERNAL_NAMESPACE = "::very::internal"
     }
 }

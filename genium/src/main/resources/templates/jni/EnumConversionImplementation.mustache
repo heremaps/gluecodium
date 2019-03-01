@@ -36,12 +36,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppEnumN
         {{internalNamespace}}::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
 
-std::shared_ptr<{{cppEnumName}}>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<{{cppEnumName}}>* dummy)
+{{internalNamespace}}::optional<{{cppEnumName}}>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{internalNamespace}}::optional<{{cppEnumName}}>* dummy)
 {
     return _jinput
-        ? std::make_shared<{{cppEnumName}}>(convert_from_jni(_jenv, _jinput, ({{cppEnumName}}*)nullptr))
-        : std::shared_ptr<{{cppEnumName}}>{};
+        ? {{internalNamespace}}::optional<{{cppEnumName}}>(convert_from_jni(_jenv, _jinput, ({{cppEnumName}}*)nullptr))
+        : {{internalNamespace}}::optional<{{cppEnumName}}>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}}", {{cppEnumName}})
@@ -63,7 +63,7 @@ convert_to_jni(JNIEnv* _jenv, const {{cppEnumName}} _ninput)
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<{{cppEnumName}}> _ninput)
+convert_to_jni(JNIEnv* _jenv, const {{internalNamespace}}::optional<{{cppEnumName}}> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

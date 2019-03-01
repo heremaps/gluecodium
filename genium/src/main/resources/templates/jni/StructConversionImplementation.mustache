@@ -55,12 +55,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppStruc
     }}{{#unless cppStruct.hasImmutableFields}}return _nout;{{/unless}}
 }
 
-std::shared_ptr<{{cppStruct.fullyQualifiedName}}>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<{{cppStruct.fullyQualifiedName}}>* dummy)
+{{internalNamespace}}::optional<{{cppStruct.fullyQualifiedName}}>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{internalNamespace}}::optional<{{cppStruct.fullyQualifiedName}}>* dummy)
 {
     return _jinput
-        ? std::make_shared<{{cppStruct.fullyQualifiedName}}>(convert_from_jni(_jenv, _jinput, ({{cppStruct.fullyQualifiedName}}*)nullptr))
-        : std::shared_ptr<{{cppStruct.fullyQualifiedName}}>{};
+        ? {{internalNamespace}}::optional<{{cppStruct.fullyQualifiedName}}>(convert_from_jni(_jenv, _jinput, ({{cppStruct.fullyQualifiedName}}*)nullptr))
+        : {{internalNamespace}}::optional<{{cppStruct.fullyQualifiedName}}>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("{{>jni/JavaClassSignaturePrefix}}{{javaClass.name}}", {{cppStruct.fullyQualifiedName}})
@@ -82,7 +82,7 @@ convert_to_jni(JNIEnv* _jenv, const {{cppStruct.fullyQualifiedName}}& _ninput)
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<{{cppStruct.fullyQualifiedName}}> _ninput)
+convert_to_jni(JNIEnv* _jenv, const {{internalNamespace}}::optional<{{cppStruct.fullyQualifiedName}}> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

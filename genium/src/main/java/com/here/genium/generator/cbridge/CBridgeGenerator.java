@@ -19,9 +19,7 @@
 
 package com.here.genium.generator.cbridge;
 
-import static com.here.genium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC;
-import static com.here.genium.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
-import static com.here.genium.generator.cbridge.CBridgeNameRules.SRC_DIR;
+import static com.here.genium.generator.cbridge.CBridgeNameRules.*;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.here.genium.common.FrancaSignatureResolver;
@@ -54,26 +52,21 @@ public class CBridgeGenerator {
   private final CBridgeIncludeResolver includeResolver;
   private final CppNameResolver cppNameResolver;
   private final String internalNamespace;
-
-  public final CArrayGenerator arrayGenerator = new CArrayGenerator();
+  public final CArrayGenerator arrayGenerator;
 
   public static final List<GeneratedFile> STATIC_FILES =
       Arrays.asList(
           GeneratorSuite.copyTarget(CBridgeNameRules.BASE_HANDLE_FILE, ""),
-          GeneratorSuite.copyTarget(CBridgeNameRules.BASE_HANDLE_IMPL_FILE, ""),
           GeneratorSuite.copyTarget(CBridgeNameRules.STRING_HANDLE_FILE, ""),
           GeneratorSuite.copyTarget(CBridgeNameRules.EXPORT_FILE, ""),
           GeneratorSuite.copyTarget(
-              Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "StringHandle.cpp").toString(), ""),
-          GeneratorSuite.copyTarget(
               Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BuiltinHandle.h").toString(), ""),
-          GeneratorSuite.copyTarget(
-              Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "BuiltinHandle.cpp").toString(), ""),
           GeneratorSuite.copyTarget(
               Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""),
           GeneratorSuite.copyTarget(
               Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "ByteArrayHandle.cpp").toString(), ""),
           GeneratorSuite.copyTarget(CBridgeComponents.PROXY_CACHE_FILENAME, ""));
+  public static final List<String> HELPER_FILES = Arrays.asList(BASE_HANDLE_IMPL_FILE);
 
   public CBridgeGenerator(
       final FrancaDeploymentModel deploymentModel,
@@ -88,6 +81,7 @@ public class CBridgeGenerator {
     this.internalNamespace = internalNamespace;
     this.signatureResolver = new FrancaSignatureResolver();
     this.swiftTypeMapper = new SwiftTypeMapper(deploymentModel);
+    this.arrayGenerator = new CArrayGenerator(internalNamespace);
   }
 
   public Stream<GeneratedFile> generate(final FTypeCollection francaTypeCollection) {
@@ -110,6 +104,20 @@ public class CBridgeGenerator {
   @VisibleForTesting
   public static String generateImplementationContent(CInterface model) {
     return TemplateEngine.INSTANCE.render("cbridge/Implementation", model);
+  }
+
+  public List<GeneratedFile> generateHelpers() {
+    return Arrays.asList(
+        generateHelperContent("BaseHandleImpl", BASE_HANDLE_IMPL_FILE),
+        generateHelperContent(
+            "StringHandle", Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "StringHandle.cpp").toString()),
+        generateHelperContent(
+            "BuiltinHandle", Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "BuildintHandle.cpp").toString()));
+  }
+
+  private GeneratedFile generateHelperContent(String template, String path) {
+    return new GeneratedFile(
+        TemplateEngine.INSTANCE.render("cbridge/" + template, internalNamespace), path);
   }
 
   public CInterface buildCBridgeModel(final FTypeCollection francaTypeCollection) {
@@ -136,7 +144,8 @@ public class CBridgeGenerator {
             includeResolver,
             cppBuilder,
             swiftBuilder,
-            typeMapper);
+            typeMapper,
+            internalNamespace);
     FrancaTreeWalker treeWalker =
         new FrancaTreeWalker(Arrays.asList(cppBuilder, swiftBuilder, modelBuilder));
 

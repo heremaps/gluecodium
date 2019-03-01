@@ -43,19 +43,31 @@ void
 }
 
 _baseRef
-{{name}}_make_optional_handle( _baseRef handle )
+{{name}}_create_optional_handle({{#fields}}{{type.cType}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}})
 {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<{{baseApiName}}>( reinterpret_cast<{{baseApiName}}*>( handle ) ) );
+{{#unless hasImmutableFields}}    auto _struct = new ( std::nothrow ) {{internalNamespace}}::optional<{{baseApiName}}>( {{baseApiName}}( ) );{{/unless}}
+{{#fields}}
+{{#if hasImmutableFields}}    auto _{{name}} = {{/if}}{{!!
+}}{{#unless hasImmutableFields}}    (*_struct)->{{#if baseLayerSetterName}}{{baseLayerSetterName}}( {{/if}}{{!!
+}}{{#unless baseLayerSetterName}}{{baseLayerName}} = {{/unless}}{{/unless}}{{!!
+}}{{#switch type.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{name}}{{/case}}{{!!
+    }}{{#case "ENUM"}}static_cast<{{type.name}}>( {{name}} ){{/case}}{{!!
+    }}{{#default}}Conversion<{{type}}>::toCpp( {{name}} ){{/default}}{{!!
+}}{{/switch}}{{#if baseLayerSetterName}} ){{/if}};
+{{/fields}}
+{{#if hasImmutableFields}}    auto _struct = new ( std::nothrow ) {{internalNamespace}}::optional<{{baseApiName}}>( {{baseApiName}}( {{#fields}}_{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}} ) );{{/if}}
+    return reinterpret_cast<_baseRef>( _struct );
 }
 
 _baseRef
 {{name}}_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<{{baseApiName}}>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<{{internalNamespace}}::optional<{{baseApiName}}>*>( handle ) );
 }
 
 void {{name}}_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<{{baseApiName}}>*>( handle );
+    delete reinterpret_cast<{{internalNamespace}}::optional<{{baseApiName}}>*>( handle );
 }
 
 {{#set structname=name}}
