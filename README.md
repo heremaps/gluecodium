@@ -1,8 +1,9 @@
 # Genium [![Build Status](https://travis-ci.com/heremaps/genium.svg?token=kvrUHaaizXLydRxV4KKk&branch=master)](https://travis-ci.com/heremaps/genium)
 
-Genium **generates C++, Swift and Java** code. The main purpose is generating C++ interfaces and
-corresponding Swift and Java bindings mainly for Android and iOS. Once implemented in C++ the code can be
-used directly from Java and Swift, eliminating the need for writing conversions and bindings manually.
+Genium **generates C++, Swift** and **Java** code. The main purpose is generating C++ interfaces and
+corresponding Swift and Java bindings mainly for **Android** and **iOS**, but other platforms like **OS X**
+and **Linux** work as well. Once implemented in C++ the code can be used directly from Java and Swift,
+eliminating the need for writing conversions and bindings manually.
 To simplify use of platform specific functions, Genium is also able to generate interfaces and protocols
 allowing use of Java and Swift implementations from C++.
 
@@ -44,10 +45,10 @@ Activation of caching feature in Genium tool is done by passing the command line
 ./generate -enableCaching -input <input folder> -output <output folder>
 ```
 
-Running Genium tool with this option will generate a directory called *.cache* inside *output folder*
+Running Genium tool with this option will generate a directory called `.cache` inside `<output folder>`
 (regardless of `-enableCaching` option, caching gets automatically deactivated in case no valid output
-directory is given). Inside this folder Genium creates the cache index files (*cpp*,*android* &
-*swift*) which contain hash values of all output files written in current run by the corresponding
+directory is given). Inside this folder Genium creates the cache index files (`cpp`, `android` and
+`swift`) which contain hash values of all output files written in current run by the corresponding
 generator. By utilizing the hash values, Genium is able to prevent files from being overwritten
 with exact same content on subsequent runs.
 
