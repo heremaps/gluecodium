@@ -138,6 +138,7 @@ class CBridgeModelBuilderTest {
         initMocks(this)
         mockStatic(CBridgeNameRules::class.java, SwiftNameRules::class.java)
         mockkObject(CArrayMapper)
+        mockkStatic(FrancaTypeHelper::class)
 
         val typeInfo = CppTypeInfo(CType(""))
 
@@ -627,7 +628,6 @@ class CBridgeModelBuilderTest {
         )
         arrayType.typeCategory = CppTypeInfo.TypeCategory.ARRAY
         `when`(typeMapper.mapType(any())).thenReturn(arrayType)
-        mockkStatic(FrancaTypeHelper::class)
         every { FrancaTypeHelper.isImplicitArray(any()) } returns true
         every { CArrayMapper.getArrayName(any<FTypeRef>()) } returns "FooArray"
 
