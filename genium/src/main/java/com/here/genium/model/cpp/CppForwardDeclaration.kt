@@ -28,9 +28,11 @@ class CppForwardDeclaration(fullName: String) : Comparable<CppForwardDeclaration
         get() = (namespaces + type).joinToString("::")
 
     init {
-        val nameComponents = fullName.split("::".toRegex()).toTypedArray().filter { !it.isEmpty() }
-        namespaces = nameComponents.take(nameComponents.size - 1)
-        type = nameComponents.last()
+        val namespaceTypeSplit = Regex("((?>[^:<]+::)*)([^:<].*)$")
+        val nameComponents = namespaceTypeSplit.find(fullName, 0)
+        type = nameComponents!!.groupValues[2]
+        namespaces =
+            nameComponents.groupValues[1].split("::".toRegex()).filter { !it.isEmpty() }
     }
 
     override fun compareTo(other: CppForwardDeclaration) = fullName.compareTo(other.fullName)
