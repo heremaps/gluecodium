@@ -17,33 +17,21 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.jetbrains.annotations.NotNull;
+class CppForwardDeclaration(fullName: String) : Comparable<CppForwardDeclaration> {
+    @Suppress("MemberVisibilityCanBePrivate")
+    val namespaces: List<String>
+    val type: String
 
-public class CppForwardDeclaration implements Comparable<CppForwardDeclaration> {
+    private val fullName: String
+        get() = (namespaces + type).joinToString("::")
 
-  public final List<String> namespaces;
-  public final String type;
+    init {
+        val nameComponents = fullName.split("::".toRegex()).toTypedArray().filter { !it.isEmpty() }
+        namespaces = nameComponents.take(nameComponents.size - 1)
+        type = nameComponents.last()
+    }
 
-  public CppForwardDeclaration(final String fullName) {
-    List<String> split =
-        Arrays.stream(fullName.split("::"))
-            .filter(string -> !string.isEmpty())
-            .collect(Collectors.toList());
-    type = split.get(split.size() - 1);
-    namespaces = split.subList(0, split.size() - 1);
-  }
-
-  private String getFullName() {
-    return String.join("::", namespaces) + "::" + type;
-  }
-
-  @Override
-  public int compareTo(@NotNull CppForwardDeclaration cppForwardDeclaration) {
-    return getFullName().compareTo(cppForwardDeclaration.getFullName());
-  }
+    override fun compareTo(other: CppForwardDeclaration) = fullName.compareTo(other.fullName)
 }
