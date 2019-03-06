@@ -1,0 +1,53 @@
+{{#includes}}
+{{>common/Include}}
+{{/includes}}
+
+#include "JniClassCache.h"
+
+namespace {{internalNamespace}}
+{
+namespace jni
+{
+{{#models}}{{#enums}}
+{{cppEnumName}}
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppEnumName}}* dummy)
+{
+    return {{cppEnumName}}(
+        {{internalNamespace}}::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
+}
+
+std::shared_ptr<{{cppEnumName}}>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<{{cppEnumName}}>* dummy)
+{
+    return _jinput
+        ? std::make_shared<{{cppEnumName}}>(convert_from_jni(_jenv, _jinput, ({{cppEnumName}}*)nullptr))
+        : std::shared_ptr<{{cppEnumName}}>{};
+}
+
+REGISTER_JNI_CLASS_CACHE({{cppEnumName}}, "{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}}")
+
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const {{cppEnumName}} _ninput)
+{
+    auto& javaClass = CachedJavaClass<{{cppEnumName}}>::java_class;
+    const char* enumeratorName = nullptr;
+    switch(_ninput) {
+{{#enumerators}}
+        case({{cppEnumName}}::{{cppName}}):
+            enumeratorName = "{{javaName}}";
+            break;
+{{/enumerators}}
+    }
+    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "L{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}};");
+    return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
+}
+
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<{{cppEnumName}}> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
+
+{{/enums}}{{/models}}
+}
+}

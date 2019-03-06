@@ -1,0 +1,45 @@
+repositories {
+    mavenLocal()
+    google()
+    flatDir {
+        if (project.hasProperty('localDependenciesDirs')) {
+            project.localDependenciesDirs.split(';').each {
+                if (it) {
+                    dirs it
+                }
+            }
+        }
+    }
+}
+
+apply plugin: 'java'
+
+sourceSets {
+    main {
+        java {
+            srcDirs = [project.srcDir]
+            outputDir = file(project.outputDir)
+        }
+    }
+}
+
+compileJava {
+    options.encoding = "UTF-8"
+}
+
+dependencies {
+    if (project.hasProperty('remoteDependencies')) {
+        project.remoteDependencies.split(';').each {
+            if (it) {
+                compile it
+            }
+        }
+    }
+    if (project.hasProperty('localDependencies')) {
+        project.localDependencies.split(';').each {
+            if (it) {
+                compile name: it
+            }
+        }
+    }
+}

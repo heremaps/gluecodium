@@ -1,0 +1,58 @@
+{{>cpp/CppCommentHeader}}
+
+#pragma once
+
+{{#if includes}}
+{{#includes}}
+{{>common/Include}}
+{{/includes}}
+
+{{/if}}
+{{#if forwardDeclarations}}
+{{#forwardDeclarations}}
+{{#namespaces}}
+namespace {{.}} {
+{{/namespaces}}
+    class {{type}};
+{{#namespaces}}
+}
+{{/namespaces}}
+{{/forwardDeclarations}}
+
+{{/if}}
+{{#namespace}}
+namespace {{.}} {
+
+{{/namespace}}
+{{#if members}}
+{{#sortedMembers}}
+{{#instanceOf this "CppEnum"}}{{>cpp/CppEnum}}{{/instanceOf}}
+{{#instanceOf this "CppConstant"}}{{#set storageQualifier="extern"}}{{>cpp/CppConstant}}{{/set}}{{/instanceOf}}
+{{#instanceOf this "CppUsing"}}{{>cpp/CppUsing}}{{/instanceOf}}
+{{#instanceOf this "CppStruct"}}
+{{>common/DocComment}}
+{{>cpp/CppStruct}}
+{{/instanceOf}}
+{{/sortedMembers}}
+{{#classes}}
+{{>cpp/CppClass}}
+{{/classes}}
+
+{{/if}}
+
+{{#errorEnums}}
+{{>cpp/CppExportMacro}}::std::error_code make_error_code( {{fullyQualifiedName}} value ) noexcept;
+{{/errorEnums}}
+{{#namespace}}
+}
+{{/namespace}}
+{{#if errorEnums}}
+
+namespace std
+{
+{{#errorEnums}}
+template <>
+struct is_error_code_enum <{{fullyQualifiedName}}> : public std::true_type { };
+{{/errorEnums}}
+}
+{{/if}}

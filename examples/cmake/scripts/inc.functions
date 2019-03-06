@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# Collection of shared functions
+#
+
+function die {
+    echo -e "$@"
+    exit 1
+}
+
+function safe {
+    "$@"
+    local status=$?
+    if [ $status -ne 0 ]; then
+        die "\nBUILD FAILED\nAfter invoking \"$@\"\n" >&2
+    fi
+    return $status
+}
+
+function is_number {
+    case $1 in
+        ''|*[!0-9]*) return 1 ;;
+        *) return 0 ;;
+    esac
+}
+
+function sed2 {
+    sed -i'.bak' "$1" $2
+    rm "$2.bak"
+}

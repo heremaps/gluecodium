@@ -1,0 +1,44 @@
+spotless {
+    java {
+        target project.fileTree(project.projectDir) {
+            include '**/*.java'
+            exclude '**/build', '**/test/resources'
+        }
+        googleJavaFormat()
+        licenseHeaderFile rootProject.file('config/spotless/here_java.license')
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    kotlin {
+        ktlint()
+        licenseHeaderFile rootProject.file('config/spotless/here_java.license')
+    }
+    format 'cpp', {
+        target project.fileTree(project.projectDir) {
+            include '**/*.h', '**/*.cpp'
+            exclude '**/build', '**/test/resources'
+        }
+        licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'),
+                '(#pragma|#include)'
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    format 'swift', {
+        target project.fileTree(project.projectDir) {
+            include '**/*.swift'
+            exclude '**/build', '**/test/resources'
+        }
+        licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'),
+                '(import|class|public class|protocol)'
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    format 'misc', {
+        target project.fileTree(project.rootDir) {
+            include '**/*.gradle', '**/*.md', '**/*.gitignore'
+            exclude '.gradle', '.idea', 'examples/cmake'
+        }
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}

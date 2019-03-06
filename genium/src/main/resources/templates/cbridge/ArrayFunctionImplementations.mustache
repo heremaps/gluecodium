@@ -1,0 +1,56 @@
+_baseRef {{name}}_create_handle() {
+    return reinterpret_cast<_baseRef>( new {{arrayType}}( ) );
+}
+
+_baseRef {{name}}_copy_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new {{arrayType}}( *reinterpret_cast<{{arrayType}}*>( handle ) ) );
+}
+
+void {{name}}_release_handle(_baseRef handle) {
+    delete reinterpret_cast<{{arrayType}}*>( handle );
+}
+
+uint64_t {{name}}_count(_baseRef handle) {
+    return Conversion<{{arrayType}}>::toCpp( handle ).size( );
+}
+
+{{innerType}} {{name}}_get( _baseRef handle, uint64_t index ) { {{!!
+    }}{{#switch underlyingType.typeCategory.toString}}{{!!
+    }}{{#case "ENUM"}}{{prefixPartial 'enumGetConversion' '    '}}{{/case}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{prefixPartial 'builtinGetConversion' '    '}}{{/case}}{{!!
+    }}{{#default}}return Conversion<{{underlyingType}}>::referenceBaseRef(Conversion<{{arrayType}}>::toCpp( handle )[index]);{{/default}}{{!!
+    }}{{/switch}}
+}
+
+void {{name}}_append( _baseRef handle, {{argument}} item )
+{
+{{#switch underlyingType.typeCategory.toString}}{{!!
+    }}{{#case "ENUM"}}{{prefixPartial 'enumAppendConversion' '    '}}{{/case}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{prefixPartial 'builtinAppendConversion' '    '}}{{/case}}{{!!
+    }}{{#default}}Conversion<{{arrayType}}>::toCpp(handle).push_back(Conversion<{{underlyingType}}>::toCpp(item));{{/default}}{{!!
+    }}{{/switch}}
+}
+
+_baseRef {{name}}_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<{{arrayType}}>( new ( std::nothrow ) {{arrayType}}( ) ) );
+}
+
+void {{name}}_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<{{arrayType}}>*>( handle );
+}
+
+_baseRef {{name}}_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<{{arrayType}}>*>( handle )->get( ) );
+}
+
+{{+enumGetConversion}}
+return static_cast<{{innerType}}>(Conversion<{{arrayType}}>::toCpp(handle)[ index ]);{{/enumGetConversion}}
+
+{{+builtinGetConversion}}
+return Conversion<{{arrayType}}>::toCpp(handle)[ index ];{{/builtinGetConversion}}
+
+{{+builtinAppendConversion}}
+Conversion<{{arrayType}}>::toCpp(handle).push_back( item );{{/builtinAppendConversion}}
+
+{{+enumAppendConversion}}
+Conversion<{{arrayType}}>::toCpp(handle).push_back( static_cast<{{arrayType.innerType.name}}>( item ) );{{/enumAppendConversion}}

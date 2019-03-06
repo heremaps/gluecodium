@@ -1,0 +1,40 @@
+{{>cbridge/FunctionSignature}} {
+{{>FunctionBody}}
+}
+
+{{+FunctionBody}}{{!!
+}}{{#if error}}{{!!
+}}{{#if isReturningVoid}}    return {{>callBaseApi}}.value();{{/if}}{{!!
+}}{{#unless isReturningVoid}}    auto&& RESULT = {{>callBaseApi}};
+    if (RESULT.has_value()) {
+        return {true, .returned_value = {{#set delegateToCall="safe_value"}}{{>ReturnConversion}}{{/set}}};
+    } else {
+        return {false, .error_code = static_cast< {{error.functionReturnType}} >(RESULT.error().value())};
+    }{{!!
+}}{{/unless}}{{!!
+}}{{/if}}{{!!
+}}{{#unless error}}    return {{#set delegateToCall="callBaseApi"}}{{>ReturnConversion}}{{/set}};{{/unless}}
+{{/FunctionBody}}{{!!
+
+
+}}{{+ReturnConversion}}{{#switch returnType.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{include delegateToCall}}{{/case}}{{!!
+    }}{{#case "ENUM"}}static_cast<{{returnType.functionReturnType}}>({{include delegateToCall}}){{/case}}{{!!
+    }}{{#default}}Conversion<{{returnType}}>::toBaseRef({{include delegateToCall}}){{/default}}{{!!
+}}{{/switch}}
+{{/ReturnConversion}}{{!!
+
+
+}}{{+safe_value}}RESULT.safe_value(){{/safe_value}}{{!!
+
+
+}}{{+callBaseApi}}{{!!
+}}{{^selfParameter}}{{delegateCall}}{{/selfParameter}}{{#selfParameter}}get_pointer<{{selfParameter.mappedType.name}}>({{name}})->get()->{{functionName}}{{/selfParameter}}({{joinPartial parameters "delegateConversion" ", "}}){{!!
+}}{{/callBaseApi}}{{!!
+
+
+}}{{+delegateConversion}}{{#switch mappedType.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{name}}{{/case}}{{!!
+    }}{{#case "ENUM"}}static_cast<{{mappedType.name}}>({{name}}){{/case}}{{!!
+    }}{{#default}}Conversion<{{mappedType}}>::toCpp({{name}}){{/default}}{{!!
+}}{{/switch}}{{/delegateConversion}}

@@ -1,0 +1,27 @@
+    {{#exception}}
+    auto nativeCallResult = {{>jni/CppMethodCall}}
+    auto errorCode = nativeCallResult{{#unless returnType.isJavaVoid}}.error(){{/unless}};
+    if ({{#unless returnType.isJavaVoid}}!nativeCallResult.has_value(){{/unless}}{{#if returnType.isJavaVoid}}errorCode{{/if}})
+    {
+        auto nEnumValue = static_cast<{{jniEnum.cppFullyQualifiedName}}>(errorCode.value());
+        auto jEnumValue = {{internalNamespace}}::jni::convert_to_jni(_jenv, nEnumValue);
+        auto exceptionClass = {{internalNamespace}}::jni::find_class(_jenv, "{{javaClassName}}");
+        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "({{jniEnum.jniTypeSignature}})V");
+        auto exception = {{internalNamespace}}::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
+        _jenv->Throw(static_cast<jthrowable>(exception.release()));{{#unless returnType.isJavaVoid}}
+        return {{#if isConstructor}}0{{/if}}{{#unless isConstructor}}{{!!
+        }}{{#if returnType.isComplex}}nullptr{{/if}}{{#unless returnType.isComplex}}nativeCallResult.safe_value(){{/unless}}{{/unless}};{{/unless}}
+    }{{#unless returnType.isJavaVoid}}
+    auto result = nativeCallResult.safe_value();{{/unless}}
+    {{/exception}}
+{{^exception}}    {{#unless returnType.isJavaVoid}}auto result = {{/unless}}{{>jni/CppMethodCall}}{{/exception}}{{#unless returnType.isJavaVoid}}
+    {{#if isConstructor}}auto nSharedPtr = new (::std::nothrow) {{returnType.cppFullyQualifiedName}}{{#if exception}}::value_type{{/if}}(result);
+    if (nSharedPtr == nullptr)
+    {
+        auto exceptionClass = {{internalNamespace}}::jni::find_class(_jenv, "java/lang/OutOfMemoryError");
+        _jenv->ThrowNew(exceptionClass.get(), "Cannot allocate native memory.");
+        return 0;
+    }
+    return reinterpret_cast<jlong>(nSharedPtr);{{/if}}{{!!
+}}{{#unless isConstructor}}return {{#if returnType.isComplex}}{{internalNamespace}}::jni::convert_to_jni(_jenv, result).release(){{/if}}{{!!
+}}{{#unless returnType.isComplex}}result{{/unless}};{{/unless}}{{/unless}}

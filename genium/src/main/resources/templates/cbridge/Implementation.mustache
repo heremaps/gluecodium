@@ -1,0 +1,34 @@
+{{>cbridge/FileHeader}}
+
+{{#implementationIncludes}}
+{{>common/Include}}
+{{/implementationIncludes}}
+
+{{#if selfType}}
+void {{name}}_release_handle(_baseRef handle) {
+    delete get_pointer<{{selfType.name}}>(handle);
+}
+
+_baseRef {{name}}_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<{{selfType.name}}>(handle)))
+        : 0;
+}
+{{/if}}
+
+{{#structs}}
+{{>cbridge/StructImplementation}}
+{{/structs}}
+
+{{#functions}}
+{{>cbridge/FunctionDefinition}}
+{{/functions}}
+
+{{#isInterface}}
+{{>cbridge/CppProxy}}
+{{/isInterface}}
+
+{{#maps}}
+{{>cbridge/MapFunctionImplementations}}
+
+{{/maps}}

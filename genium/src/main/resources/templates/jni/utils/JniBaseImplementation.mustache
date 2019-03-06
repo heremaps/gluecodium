@@ -1,0 +1,94 @@
+{{>java/CopyrightHeader}}
+
+#include "JniBase.h"
+#include "JniClassCache.h"
+
+#include <pthread.h>
+
+namespace
+{
+
+static JavaVM* jvm;
+
+static pthread_key_t s_thread_key;
+
+JNIEnv*
+attach_current_thread( )
+{
+    JNIEnv* jniEnv;
+    int envState = jvm->GetEnv( reinterpret_cast< void** >( &jniEnv ), JNI_VERSION_1_6 );
+    if ( envState == JNI_EDETACHED )
+    {
+#ifdef __ANDROID__
+        jvm->AttachCurrentThread( &jniEnv, nullptr );
+#else   // ifdef __ANDROID__
+        jvm->AttachCurrentThread( reinterpret_cast< void** >( &jniEnv ), nullptr );
+#endif  // ifdef __ANDROID__
+    }
+
+    return jniEnv;
+}
+
+void
+detach_current_thread( void* )
+{
+    jvm->DetachCurrentThread( );
+}
+
+void
+initialize_thread_data_key( )
+{
+    pthread_key_create( &s_thread_key, detach_current_thread );
+}
+
+}
+
+// JNI_OnLoad() gets automatically called by java vm while loading the library.
+// To make this work neither 'static' keyword (causes "static declaration of 'JNI_OnLoad' follows
+// non-static declaration" - error) nor adding to anonymous namespace (prevents method from being
+// called) is allowed.
+jint
+JNI_OnLoad( JavaVM* vm, void* )
+{
+    JNIEnv* env = nullptr;
+    if ( vm->GetEnv( (void**)&env, JNI_VERSION_1_6 ) != JNI_OK )
+    {
+        return 0;
+    }
+
+    jvm = vm;
+    {{.}}::jni::CachedJavaClassBase::init(env);
+    return JNI_VERSION_1_6;
+}
+
+namespace {{.}}
+{
+namespace jni
+{
+
+JavaVM*
+get_java_vm( )
+{
+    return jvm;
+}
+
+
+JNIEnv* getJniEnvironmentForCurrentThread( )
+{
+    // Add cleanup callback to current thread when called the first time
+    static pthread_once_t s_key_once = PTHREAD_ONCE_INIT;
+    pthread_once( &s_key_once, initialize_thread_data_key );
+
+    JNIEnv* env;
+    if ( ( env = static_cast< JNIEnv* >( pthread_getspecific( s_thread_key ) ) ) == nullptr )
+    {
+        env = attach_current_thread( );
+        pthread_setspecific( s_thread_key, env );
+    }
+
+    return env;
+}
+
+}
+
+}

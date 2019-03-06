@@ -1,0 +1,3 @@
+#!/bin/bash -e
+cd platforms/ios/
+xcodebuild -sdk iphonesimulator

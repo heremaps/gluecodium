@@ -1,0 +1,51 @@
+{{>common/DocComment}}
+{{#if visibility.toString}}{{visibility}} {{/if}}{{#qualifiers}}{{.}} {{/qualifiers}}class {{name}} {{#if this.extendedClass}}extends {{extendedClass.name}} {{/if}}{{#if parentInterfaces}}implements {{join parentInterfaces delimiter=", " }} {{/if}}{
+{{#if isParcelable}}{{prefixPartial "java/ParcelableCreator" "    "}}
+
+{{/if}}
+{{#constants}}{{prefixPartial "java/Constant" "    "}}
+{{/constants}}
+{{#fields}}{{prefixPartial "java/Field" "    "}}
+{{/fields}}
+{{#enums}}{{prefixPartial "java/Enum" "    "}}
+{{/enums}}
+{{#exceptions}}{{#set static=true}}{{prefixPartial "java/ExceptionDefinition" "    "}}{{/set}}
+{{/exceptions}}
+{{#innerClasses}}{{prefixPartial "java/Class" "    "}}
+{{/innerClasses}}
+{{#set className=name}}{{#constructors}}
+{{prefixPartial "java/MethodComment" "    "}}
+    {{visibility}} {{className}}({{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}} {
+        this({{name}}({{join parameters delimiter=", " }}));
+    }
+{{/constructors}}{{/set}}
+{{#if isImplClass}}
+{{prefixPartial "java/NativeConstructor" "    "}}
+{{/if}}
+{{#if fields}}
+    public {{name}}() {
+        this({{joinPartial fields "java/FieldInitializer" ", "}});
+    }{{#if hasPartialDefaults}}
+
+    public {{name}}({{#uninitializedFields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}) {
+{{#fields}}        this.{{name}} = {{#if initial.isCustom}}{{>java/FieldInitializer}}{{/if}}{{#unless initial.isCustom}}{{name}}{{/unless}};
+{{/fields}}
+    }
+    {{/if}}
+
+    public {{name}}({{#fields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
+{{#fields}}        this.{{name}} = {{name}};
+{{/fields}}
+    }
+{{/if}}
+{{#if isParcelable}}{{prefixPartial "java/ParcelableImpl" "    "}}
+
+{{/if}}
+{{#if isEquatable}}{{prefixPartial "java/EqualsAndHashCode" "    "}}
+{{/if}}
+{{#if needsBuilder}}{{prefixPartial "java/FieldsBuilder" "    "}}
+
+{{/if}}
+{{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
+{{/methods}}
+}

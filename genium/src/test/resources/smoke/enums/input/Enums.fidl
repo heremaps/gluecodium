@@ -1,0 +1,114 @@
+/*
+ *
+ */
+
+package smoke
+
+interface Enums {
+    version {
+        major 0
+        minor 1
+    }
+
+    enumeration SimpleEnum {
+        // Check that lower case chars are handled correctly
+        First
+        SECOND
+    }
+
+    map ExampleMap {
+        SimpleEnum to UInt64
+    }
+
+    method methodWithEnumeration {
+        in {
+            SimpleEnum input
+        }
+        out {
+            SimpleEnum output
+        }
+    }
+
+    enumeration InternalError {
+        ERROR_NONE
+        ERROR_FATAL = 999
+    }
+
+    struct ErrorStruct {
+        InternalError type
+        String message
+    }
+
+    enumeration External_Enum {
+        Foo_Value
+        Bar_Value
+    }
+
+    enumeration VeryExternalEnum {
+        FOO
+        BAR
+    }
+
+    method flipEnumValue {
+        in {
+            InternalError input
+        }
+        out {
+            InternalError output
+        }
+    }
+
+    method extractEnumFromStruct {
+        in {
+            ErrorStruct input
+        }
+        out {
+            InternalError output
+        }
+    }
+
+    method createStructWithEnumInside {
+        in {
+            InternalError type
+            String message
+        }
+        out {
+            ErrorStruct output
+        }
+    }
+
+    method methodWithExternalEnum {
+        in {
+            External_Enum input
+        }
+    }
+}
+
+typeCollection EnumsInTypeCollection {
+    version {
+        major 0
+        minor 1
+    }
+
+    enumeration TCEnum {
+        FIRST
+        SECOND
+    }
+
+}
+
+interface EnumsInTypeCollectionInterface {
+    version {
+        major 0
+        minor 1
+    }
+
+    method flipEnumValue {
+        in {
+            EnumsInTypeCollection.TCEnum input
+        }
+        out {
+            EnumsInTypeCollection.TCEnum output
+        }
+    }
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="38cm" height="15cm" viewBox="-100 54 742 289" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-60" y="80">
+    <tspan x="-60" y="80">Swift generated layers and language boundaries</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-100" y="140">
+    <tspan x="-100" y="140">BaseAPI</tspan>
+    <tspan x="-100" y="156"></tspan>
+    <tspan x="-100" y="172">generated C++ API</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="120" y="140">
+    <tspan x="120" y="140">C-Bridge</tspan>
+    <tspan x="120" y="156"></tspan>
+    <tspan x="120" y="172">generated C interface with C++</tspan>
+    <tspan x="120" y="188">implementation</tspan>
+    <tspan x="120" y="204"></tspan>
+    <tspan x="120" y="220">C functions are object oriented style</tspan>
+    <tspan x="120" y="236">with object pointer passed as first</tspan>
+    <tspan x="120" y="252">argument</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="380" y="140">
+    <tspan x="380" y="140">Swift</tspan>
+    <tspan x="380" y="156"></tspan>
+    <tspan x="380" y="172">generated Swift code which uses</tspan>
+    <tspan x="380" y="188">C interface of C-Bridge to convert</tspan>
+    <tspan x="380" y="204">data and call functions</tspan>
+    <tspan x="380" y="220"></tspan>
+    <tspan x="380" y="236">C-Bridge object pointer (_baseRef) is</tspan>
+    <tspan x="380" y="252">hold as a raw pointer and managed here</tspan>
+  </text>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="80" y1="100" x2="80" y2="320"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="360" y1="100" x2="360" y2="320"/>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="40" y="340">
+    <tspan x="40" y="340">C++ interface</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="320" y="340">
+    <tspan x="320" y="340">C interface</tspan>
+  </text>
+</svg>

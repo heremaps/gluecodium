@@ -1,0 +1,3 @@
+{{>cbridge/FunctionReturnType}}{{$functionName}} {{name}}{{/functionName}}({{#selfParameter}}{{>signatureParameter}}{{#if parameters}}, {{/if}}{{/selfParameter}}{{joinPartial parameters "signatureParameter" ", "}}){{!!
+
+}}{{+signatureParameter}}{{mappedType.cType}} {{name}}{{/signatureParameter}}

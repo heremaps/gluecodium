@@ -1,0 +1,23 @@
+{{#unless isExternal}}
+struct {{>cpp/CppExportMacro}}{{name}} {
+{{#fields}}
+{{#if hasComment}}
+{{prefixPartial "cpp/CppFieldComment" "    "}}
+{{/if}}
+    {{#if isImmutable}}const {{/if}}{{type.name}} {{name}}{{#initializer}} = {{name}}{{/initializer}};
+{{/fields}}{{!!
+}}{{#if fields}}
+
+    {{name}}( );{{#if hasPartialDefaults}}
+    {{name}}( {{joinPartial uninitializedFields "cpp/CppMethodParameter" ", "}} );{{/if}}
+    {{name}}( {{joinPartial fields "cpp/CppMethodParameter" ", "}} );
+
+{{/if}}{{!!
+}}{{#if isEquatable}}
+
+    bool operator==( const {{name}}& rhs ) const;
+    bool operator!=( const {{name}}& rhs ) const;
+
+{{/if}}
+};
+{{/unless}}

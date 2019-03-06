@@ -1,0 +1,42 @@
+{{>java/CopyrightHeader}}
+
+#pragma once
+
+#include <jni.h>
+
+#include "JniReference.h"
+
+{{#container}}{{#includes}}
+{{>common/Include}}
+{{/includes}}
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+{{#cppNameSpaces}}
+namespace {{.}} {
+
+{{/cppNameSpaces}}
+
+class {{cppName}}CppProxy : public {{internalNamespace}}::jni::CppProxyBase, public {{cppName}} {
+
+public:
+
+    {{cppName}}CppProxy( JNIEnv* _jenv, {{internalNamespace}}::jni::JniReference<jobject> globalRef, jint _jHashCode );
+
+{{#parentMethods}}
+    {{returnType.cppName}} {{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} override;
+{{/parentMethods}}
+{{#methods}}
+    {{returnType.cppName}} {{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} override;
+{{/methods}}
+};
+
+{{#cppNameSpaces}}
+}
+{{/cppNameSpaces}}{{/container}}
+
+#ifdef __cplusplus
+}
+#endif

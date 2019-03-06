@@ -1,0 +1,76 @@
+
+{{#headerInclude}}{{>common/Include}}{{/headerInclude}}
+#include "InstanceConversion.h"
+#include "StructConversion.h"
+#include "ArrayConversionUtils.h"
+#include "EnumConversion.h"
+
+{{#container}}
+{{#cppNameSpaces}}
+namespace {{.}} {
+
+{{/cppNameSpaces}}
+
+using namespace ::{{internalNamespace}}::jni;
+
+{{cppName}}CppProxy::{{cppName}}CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
+    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode ) {
+}
+{{#parentMethods}}
+{{>proxyMethod}}
+{{/parentMethods}}{{!!
+
+}}{{#methods}}
+{{>proxyMethod}}
+{{/methods}}
+
+{{#cppNameSpaces}}
+}
+{{/cppNameSpaces}}
+{{/container}}{{!!
+
+}}{{+proxyMethod}}
+{{returnType.cppName}} {{cppName}}CppProxy::{{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} {
+    JNIEnv* jniEnv = getJniEnvironment( );{{!!
+}}{{#parameters}}{{!!
+}}{{#if type.isComplex}}
+    auto j{{name}} = convert_to_jni( jniEnv, n{{name}} );{{!!
+}}{{/if}}{{!!
+}}{{#unless type.isComplex}}
+    j{{type.javaName}} j{{name}} = n{{name}};{{!!
+}}{{/unless}}{{!!
+}}{{/parameters}}
+    {{#unless returnType.isJavaVoid}}auto result = {{/unless}}callJavaMethod<{{returnType.name}}>( "{{javaMethodName}}", {{!!
+    }}"({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{returnType.jniTypeSignature}}", {{!!
+    }}jniEnv {{#if parameters}},{{/if}} {{#parameters}}j{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+{{#if exception}}
+    auto jException = {{internalNamespace}}::jni::make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
+    if ( jException )
+    {
+        auto jEnumValue = {{internalNamespace}}::jni::get_object_field_value(
+            jniEnv,
+            jException,
+            "error",
+            "{{exception.jniEnum.jniTypeSignature}}" );
+        auto nEnumValue = {{internalNamespace}}::jni::convert_from_jni(
+            jniEnv,
+            jEnumValue,
+            ({{exception.jniEnum.cppFullyQualifiedName}}*)nullptr );
+
+        jniEnv->ExceptionClear( );
+        return ::std::error_code{nEnumValue};
+    }
+    else
+    {
+{{/if}}{{!!
+}}{{#unless returnType.isJavaVoid}}
+    return {{#if returnType.isComplex}}{{internalNamespace}}::jni::convert_from_jni( jniEnv, result, ({{returnType.cppName}}{{#if exception}}::value_type{{/if}}*)nullptr ){{/if}}{{!!
+    }}{{#unless returnType.isComplex}}result{{/unless}};
+{{/unless}}
+{{#if exception}}{{#if returnType.isJavaVoid}}
+        return ::std::error_code{};
+{{/if}}
+    }
+{{/if}}
+}
+{{/proxyMethod}}

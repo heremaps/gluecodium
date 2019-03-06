@@ -1,0 +1,25 @@
+//
+{{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
+//
+// Automatically generated. Do not modify. Your changes will be lost.
+
+import Foundation
+
+{{#classes}}
+{{>swift/Class}}
+{{/classes}}{{!!
+
+}}{{#typeDefs}}
+{{>swift/Typedefs}}
+{{/typeDefs}}{{!!
+
+}}{{#enums}}
+{{>swift/Enum}}
+{{>swift/EnumConversion}}
+{{/enums}}{{!!
+
+}}
+{{#structs}}
+{{>swift/Struct}}
+{{>swift/StructConversion}}
+{{/structs}}

@@ -1,0 +1,62 @@
+internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
+
+    guard let reference = ref else {
+        return RefHolder(0)
+    }
+
+    if let instanceReference = reference as? NativeBase {
+        let handle_copy = {{cInstance}}_copy_handle(instanceReference.c_handle)
+        return owning
+            ? RefHolder(ref: handle_copy, release: {{cInstance}}_release_handle)
+            : RefHolder(handle_copy)
+    }
+
+    var functions = {{functionTableName}}()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
+    functions.release = {swift_class_pointer in
+        if let swift_class = swift_class_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swift_class).release()
+        }
+    }
+
+{{#set className=name}}
+{{#methods}}
+{{#set delegateToCall="delegateCall2"}}{{>functionTableEntry}}{{/set}}
+{{/methods}}
+{{#properties}}
+{{#set propertyName=name}}{{#getter}}{{#set delegateToCall="callPropertyGetter"}}{{>functionTableEntry}}{{/set}}{{/getter}}
+{{#setter}}{{#set delegateToCall="callPropertySetter"}}{{>functionTableEntry}}{{/set}}{{/setter}}{{/set}}
+{{/properties}}
+    let proxy = {{cInstance}}_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: {{cInstance}}_release_handle) : RefHolder(proxy)
+}
+{{/set}}{{!!
+}}{{+functionTableEntry}}
+    functions.{{cBaseName}} = {(swift_class_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! {{className}}
+        {{#if error}}do { {{#if isReturningVoid}}
+            try {{include delegateToCall}}
+            return 0
+        } catch let error as {{error}} {
+            return error.rawValue{{/if}}{{!!
+        }}{{#unless isReturningVoid}}
+            let call_result = try {{include delegateToCall}}
+            {{#set delegateToCall="callResult" returnPrefix="let result_handle ="}}{{>swiftReturn}}{{/set}}
+            return {{cBaseName}}_result(has_value: true, .init(returned_value: result_handle))
+        } catch let error as {{error}} {
+            return {{cBaseName}}_result(has_value: false, .init(error_code: error.rawValue)){{/unless}}
+        } catch {
+            fatalError("Unexpected error: \(error)")
+        }{{/if}}{{!!
+        }}{{#unless error}}{{#if isReturningVoid}}{{include delegateToCall}}{{/if}}{{!!
+        }}{{#unless isReturningVoid}}{{#set returnPrefix="return"}}{{>swiftReturn}}{{/set}}{{/unless}}{{/unless}}
+    }
+{{/functionTableEntry}}{{!!
+}}{{+swiftParameter}}{{name}}{{/swiftParameter}}{{!!
+}}{{+swiftReturn}}{{returnPrefix}} copyToCType({{include delegateToCall}}).ref{{/swiftReturn}}{{!!
+}}{{+delegateCall2}}swift_class.{{name}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}{{!!
+}}{{+callPropertyGetter}}swift_class.{{propertyName}}{{/callPropertyGetter}}{{!!
+}}{{+callPropertySetter}}swift_class.{{propertyName}} = {{#parameters.0}}{{>swiftParameterConversion}}{{/parameters.0}}{{/callPropertySetter}}{{!!
+}}{{+callResult}}call_result{{/callResult}}{{!!
+}}{{+swiftParameter2}}{{name}}: {{>swiftParameterConversion}}{{/swiftParameter2}}{{!!
+}}{{+swiftParameterConversion}}{{type.className}}moveFromCType({{name}}){{/swiftParameterConversion}}
