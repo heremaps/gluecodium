@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        google()
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.3.1'
+    }
+}
+
+plugins {
+    id 'com.diffplug.gradle.spotless' version '3.15.0'
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenLocal()
+        jcenter()
+    }
+}
+
+clean {
+    delete rootProject.buildDir
+}
+
+apply plugin: 'com.diffplug.gradle.spotless'
+
+spotless {
+    freshmark { }
+    java {
+        target project.fileTree(project.projectDir) {
+            include '**/*.java'
+            exclude '**/build'
+        }
+
+        googleJavaFormat()
+        licenseHeaderFile rootProject.file('config/here_java.license')
+        trimTrailingWhitespace()
+        endWithNewline()
+        paddedCell()
+    }
+}

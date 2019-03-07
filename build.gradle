@@ -1,0 +1,35 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+allprojects {
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            if (details.requested.name == 'junit-dep') {
+                // Prefer more recent versions published under the new 'junit' artifact name instead of under the
+                // deprecated 'junit-dep' artifact name.
+                details.useTarget group: details.requested.group, name: 'junit', version: details.requested.version
+            }
+        }
+    }
+
+    apply plugin: 'java'
+
+    compileJava {
+        options.encoding = "UTF-8"
+    }
+
+    javadoc {
+        options.tags = [
+                "generated:a:Generated",
+                "implNote:a:Implementation note",
+                "model:a:Model",
+                "ordered:a:Ordered" ]
+    }
+
+    test {
+        maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+    }
+}

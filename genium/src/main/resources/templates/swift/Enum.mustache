@@ -1,0 +1,9 @@
+{{>swift/Comment}}
+{{visibility}} enum {{simpleName}} : UInt32, CaseIterable {
+{{#items}}{{prefixPartial "enumItem" "    "}}
+{{/items}}
+}
+
+{{+enumItem}}{{>swift/Comment}}
+case {{name}}{{#if value}} = {{value}}{{/if}}{{/enumItem}}
+

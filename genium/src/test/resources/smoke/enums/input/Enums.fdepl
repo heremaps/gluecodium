@@ -1,0 +1,48 @@
+/*
+ *
+ */
+
+import "classpath:/GeniumExtensions.fdepl"
+import "./Enums.fidl"
+
+define GeniumExtensions for interface smoke.Enums
+{
+    method methodWithEnumeration {
+        Static = true
+    }
+
+    method flipEnumValue {
+        Static = true
+    }
+
+    method extractEnumFromStruct {
+        Static = true
+    }
+
+    method createStructWithEnumInside {
+        Static = true
+    }
+
+    method methodWithExternalEnum {
+        Static = true
+    }
+}
+
+define GeniumExtensions for interface smoke.EnumsInTypeCollectionInterface
+{
+    method flipEnumValue {
+        Static = true
+    }
+}
+
+define ExternalTypes for interface smoke.Enums
+{
+    enumeration External_Enum {
+        ExternalType = "foo/Bar.h"
+    }
+
+    enumeration VeryExternalEnum {
+        ExternalType = "foo/Bar.h"
+        ExternalName = "::fire::SomeVeryExternalEnum"
+    }
+}

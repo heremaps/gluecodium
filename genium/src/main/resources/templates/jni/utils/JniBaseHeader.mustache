@@ -1,0 +1,17 @@
+{{>java/CopyrightHeader}}
+
+#pragma once
+
+#include <jni.h>
+
+namespace {{.}}
+{
+namespace jni
+{
+
+JavaVM* get_java_vm( );
+
+JNIEnv* getJniEnvironmentForCurrentThread( );
+
+}
+}

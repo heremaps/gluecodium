@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# Script to create a new version commit
+#
+# Semantic Versioning: MAJOR.MINOR.PATCH
+
+SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+. "${SCRIPT_DIR}/inc.constants"
+. "${SCRIPT_DIR}/inc.functions"
+
+# Compare given old and new versions
+#
+# Usage: is_newer_than $old_version $new_version
+#
+# Return 0 if new_version is newer than old_version, 1 otherwise
+function is_newer_than() {
+    local old="$1"
+    local new="$2"
+    local newer=$(echo -e "$old\n$new" | sort --version-sort | tail -n1)
+
+    if [ "$new" = "$newer" -a "$old" != "$newer" ]; then
+        return 0
+    fi
+    return 1
+}
+
+OLD_VERSION=$(get_version "${GENIUM_VERSION_FILE}")
+
+if [ $# -ne 1 ] ; then
+    die "Usage: $0 MAJOR.MINOR.PATCH\n\n\tExample: $0 0.0.1\n\nCurrent version is ${OLD_VERSION}"
+fi
+
+# Increase SDK version (used as versionName in most modules)
+NEW_VERSION=$1
+
+if ! is_newer_than "$OLD_VERSION" "$NEW_VERSION"; then
+    die "Error: We are already at version $OLD_VERSION"
+fi
+
+sed -i -e "s|version = $OLD_VERSION|version = $NEW_VERSION|" "${GENIUM_VERSION_FILE}"
+
+# Create a commit with appropriate git tag
+git commit \
+    "${GENIUM_VERSION_FILE}" \
+    -m "Release version $NEW_VERSION"

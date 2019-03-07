@@ -1,0 +1,54 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply plugin: 'application'
+
+dependencies {
+    runtime "com.here:genium:$version"
+}
+
+mainClassName = 'com.here.genium.Genium'
+
+class TimingsListener implements TaskExecutionListener, BuildListener {
+    private long startTime
+    private timings = []
+
+    @Override
+    void beforeExecute(Task task) {
+        startTime = System.currentTimeMillis()
+    }
+
+    @Override
+    void afterExecute(Task task, TaskState taskState) {
+        def ms = System.currentTimeMillis() - startTime
+        timings.add([ms, task.path])
+        startTime = System.currentTimeMillis()
+    }
+
+    @Override
+    void buildFinished(BuildResult result) {
+        println "Task timings:"
+        for (timing in timings) {
+            printf "%7s ms  %s\n", timing
+        }
+    }
+
+    @Override
+    void buildStarted(Gradle gradle) {}
+
+    @Override
+    void projectsEvaluated(Gradle gradle) {}
+
+    @Override
+    void projectsLoaded(Gradle gradle) {}
+
+    @Override
+    void settingsEvaluated(Settings settings) {}
+}
+
+gradle.addListener new TimingsListener()

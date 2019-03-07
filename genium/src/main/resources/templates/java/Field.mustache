@@ -1,0 +1,9 @@
+{{#if comment}}
+/**
+{{prefix comment " * "}}
+ */
+{{/if}}
+{{#allAnnotations}}
+@{{name}}
+{{/allAnnotations}}
+{{#if visibility.toString}}{{visibility}} {{/if}}{{#if isImmutable}}final {{/if}}{{type.name}} {{name}};

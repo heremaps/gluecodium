@@ -1,0 +1,28 @@
+{{#unless isExternal}}{{!!
+}}{{>common/DocComment}}
+class {{>cpp/CppExportMacro}}{{name}}{{>cpp/CppInheritance}} {
+public:
+    virtual ~{{name}}() = 0;
+
+{{#if members}}
+public:
+{{#sortedMembers}}
+{{#instanceOf this "CppEnum"}}{{>cpp/CppEnum}}{{/instanceOf}}
+{{#instanceOf this "CppConstant"}}{{#set storageQualifier="static"}}{{>cpp/CppConstant}}{{/set}}{{/instanceOf}}
+{{#instanceOf this "CppUsing"}}{{>cpp/CppUsing}}{{/instanceOf}}
+{{#instanceOf this "CppStruct"}}
+{{>common/DocComment}}
+{{>cpp/CppStruct}}
+{{/instanceOf}}
+{{/sortedMembers}}
+
+{{/if}}
+{{#if methods}}
+public:
+{{#methods}}
+{{>cpp/CppMethodSignature}};
+{{/methods}}
+
+{{/if}}
+};{{!!
+}}{{/unless}}

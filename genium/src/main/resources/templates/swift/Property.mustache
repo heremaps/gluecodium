@@ -1,0 +1,15 @@
+{{>swift/Comment}}
+{{^isInterface}}{{visibility}} {{/isInterface}}{{>setterVisibility}}{{#if isStatic}}static {{/if}}var {{name}}: {{type.publicName}}{{#if type.optional}}?{{/if}} {
+{{#getter}}
+    get {
+{{prefixPartial 'swift/ParametersConversion' '        '}}
+    }
+{{/getter}}
+{{#setter}}
+    set {
+{{prefixPartial 'swift/ParametersConversion' '        '}}
+    }
+{{/setter}}
+}{{!!
+
+}}{{+setterVisibility}}{{#if setter}}{{#isNotEq visibility setter.visibility}}{{setter.visibility}}(set) {{/isNotEq}}{{/if}}{{/setterVisibility}}

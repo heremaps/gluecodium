@@ -1,0 +1,145 @@
+{{#isInterface}}{{>ClassWithProtocol}}{{/isInterface}}
+{{^isInterface}}{{>ClassWithoutProtocol}}{{/isInterface}}{{!!
+
+}}{{^useParentCInstance}}
+
+extension {{#isInterface}}_{{/isInterface}}{{name}}: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}{{/useParentCInstance}}{{!!
+
+}}{{+ClassWithoutProtocol}}
+
+internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = {{cInstance}}_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: {{cInstance}}_release_handle)
+        : RefHolder(handle_copy)
+}
+
+{{>swift/Comment}}{{!!
+}}{{#if isObjcInterface}}@objcMembers
+{{/if}}{{!!
+}}{{visibility}} class {{name}}{{#if hasParents}}: {{/if}}{{#parentClass}}{{.}}{{#if implementsProtocols}}, {{/if}}{{/parentClass}}{{join implementsProtocols delimiter=', '}} {
+
+{{#typedefs}}
+{{prefixPartial 'swift/Typedefs' '    '}}
+{{/typedefs}}{{#set className=name}}{{#constructors}}
+{{prefixPartial "swift/MethodComment" "    "}}
+    {{visibility}} {{#if overriding}}override {{/if}}init({{>swift/MethodParameterDeclaration}}){{#if error}} throws{{/if}} {
+        let _result = {{#if error}}try {{/if}}{{className}}.{{name}}({{#parameters}}{{name}}: {{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+        {{#if useParentCInstance}}super.init(c{{parentClass}}: _result){{/if}}{{!!
+        }}{{#unless useParentCInstance}}guard _result != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = _result{{/unless}}
+    }
+
+{{/constructors}}{{/set}}{{!!
+
+}}{{>CommonClassParts}}
+}
+{{/ClassWithoutProtocol}}{{!!
+
+}}{{+ClassWithProtocol}}
+{{>swift/GetReference}}
+
+{{>swift/Comment}}{{!!
+}}{{#if isObjcInterface}}@objc
+{{/if}}{{!!
+}}{{visibility}} protocol {{name}} : {{#if implementsProtocols}}{{join implementsProtocols delimiter=', '}}{{/if}}{{#unless implementsProtocols}}AnyObject{{/unless}} {
+{{#typedefs}}{{prefixPartial 'swift/Typedefs' '    '}}
+{{/typedefs}}
+{{#properties}}
+{{prefixPartial "swift/Comment" "    "}}
+    {{#if isStatic}}static {{/if}}var {{name}}: {{type.publicName}}{{#if type.optional}}?{{/if}} { get {{#setter}}set {{/setter}}}
+{{/properties}}
+{{#methods}}{{prefixPartial 'swift/MethodSignature' '    '}}
+{{/methods}}
+}
+
+internal class _{{name}}: {{name}} {
+
+{{>CommonClassParts}}
+}
+{{/ClassWithProtocol}}
+
+internal func {{name}}copyFromCType(_ handle: _baseRef) -> {{name}} {
+{{#if isInterface}}
+    if let swift_pointer = {{cInstance}}_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{name}} {
+        return re_constructed
+    }{{/if}}
+    return {{#isInterface}}_{{/isInterface}}{{name}}(c{{name}}: {{cInstance}}_copy_handle(handle))
+}
+internal func {{name}}moveFromCType(_ handle: _baseRef) -> {{name}} {
+{{#if isInterface}}
+    if let swift_pointer = {{cInstance}}_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{name}} {
+        {{cInstance}}_release_handle(handle)
+        return re_constructed
+    }{{/if}}
+    return {{#isInterface}}_{{/isInterface}}{{name}}(c{{name}}: handle)
+}
+
+internal func {{name}}copyFromCType(_ handle: _baseRef) -> {{name}}? {
+    guard handle != 0 else {
+        return nil
+    }
+    return {{name}}moveFromCType(handle) as {{name}}
+}
+internal func {{name}}moveFromCType(_ handle: _baseRef) -> {{name}}? {
+    guard handle != 0 else {
+        return nil
+    }
+    return {{name}}moveFromCType(handle) as {{name}}
+}
+
+internal func copyToCType(_ swiftClass: {{name}}) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+
+internal func moveToCType(_ swiftClass: {{name}}) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+
+internal func copyToCType(_ swiftClass: {{name}}?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+
+internal func moveToCType(_ swiftClass: {{name}}?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+
+{{#structs}}
+{{>swift/StructConversion}}{{!!
+}}{{/structs}}
+{{#enums}}
+{{>swift/EnumConversion}}{{!!
+}}{{/enums}}
+{{!!
+
+}}{{+CommonClassParts}}{{!!
+}}{{#constants}}
+{{prefixPartial "swift/Constant" "    "}}
+{{/constants}}{{!!
+}}{{#properties}}
+{{prefixPartial 'swift/Property' '    '}}
+{{/properties}}{{!!
+
+}}{{prefixPartial 'swift/Constructor' '    '}}{{!!
+
+}}{{#enums}}
+{{prefixPartial 'swift/Enum' '    '}}
+{{/enums}}{{!!
+
+}}{{#structs}}
+{{prefixPartial 'swift/Struct' '    '}}
+{{/structs}}{{!!
+
+}}{{#methods}}
+{{prefixPartial 'swift/Method' '    '}}
+{{/methods}}{{!!
+}}{{/CommonClassParts}}

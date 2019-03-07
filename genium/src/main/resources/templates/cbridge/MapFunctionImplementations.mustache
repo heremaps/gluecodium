@@ -1,0 +1,70 @@
+_baseRef {{name}}_create_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) {{>baseApi}}() );
+}
+
+void {{name}}_release_handle(_baseRef handle) {
+    delete get_pointer<{{>baseApi}}>(handle);
+}
+
+_baseRef {{name}}_iterator(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) {{>baseApi}}::iterator( get_pointer<{{>baseApi}}>(handle)->begin() ) );
+}
+
+void {{name}}_iterator_release_handle(_baseRef iterator_handle) {
+    delete reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle );
+}
+
+void {{name}}_put(_baseRef handle, {{keyType.functionReturnType}} key, {{valueType.functionReturnType}} value) {
+    (*get_pointer<{{>baseApi}}>(handle)).emplace(std::move({{#set variableName="key" variableType=keyType}}{{>ConvertToCpp}}{{/set}}),{{!!
+       }} std::move({{#set variableName="value" variableType=valueType}}{{>ConvertToCpp}}{{/set}}));
+}
+
+bool {{name}}_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
+    return *reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle ) != get_pointer<{{>baseApi}}>(handle)->end();
+}
+
+void {{name}}_iterator_increment(_baseRef iterator_handle) {
+    ++*reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle );
+}
+
+{{keyType.functionReturnType}} {{name}}_iterator_key(_baseRef iterator_handle) {
+    auto& key = (*reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle ))->first;
+    return {{#set variableName="key" variableType=keyType}}{{>ConvertFromCpp}}{{/set}};
+}
+
+{{valueType.functionReturnType}} {{name}}_iterator_value(_baseRef iterator_handle) {
+    auto& value = (*reinterpret_cast<{{>baseApi}}::iterator*>( iterator_handle ))->second;
+    return {{#set variableName="value" variableType=valueType}}{{>ConvertFromCpp}}{{/set}};
+}
+
+_baseRef {{name}}_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<{{>baseApi}}>( new ( std::nothrow ) {{>baseApi}}( ) ) );
+}
+
+void {{name}}_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<std::shared_ptr<{{>baseApi}}>*>( handle );
+}
+
+_baseRef {{name}}_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<{{>baseApi}}>*>( handle )->get( ) );
+}
+
+{{!!
+
+}}{{+baseApi}}std::unordered_map<{{keyType.name}}, {{valueType.name}}{{#enumHashType}}, {{.}}{{/enumHashType}}>{{/baseApi}}{{!!
+
+}}{{+ConvertToCpp}}{{!!
+}}{{#switch variableType.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{variableName}}{{/case}}{{!!
+    }}{{#case "ENUM"}}static_cast<{{variableType.name}}>({{variableName}}){{/case}}{{!!
+    }}{{#default}}Conversion<{{variableType}}>::toCpp({{variableName}}){{/default}}{{!!
+}}{{/switch}}{{!!
+}}{{/ConvertToCpp}}{{!!
+
+}}{{+ConvertFromCpp}}{{!!
+}}{{#switch variableType.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{variableName}}{{/case}}{{!!
+    }}{{#case "ENUM"}}static_cast<{{variableType.functionReturnType}}>({{variableName}}){{/case}}{{!!
+    }}{{#default}}Conversion<{{variableType}}>::toBaseRef({{variableName}}){{/default}}{{!!
+}}{{/switch}}{{!!
+}}{{/ConvertFromCpp}}

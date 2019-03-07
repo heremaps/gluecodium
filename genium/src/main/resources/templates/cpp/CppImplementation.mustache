@@ -1,0 +1,58 @@
+{{>cpp/CppCommentHeader}}
+
+{{#headerInclude}}{{>common/Include}}{{/headerInclude}}
+{{#if errorEnums}}#include <string>{{/if}}
+
+{{#namespace}}
+namespace {{.}} {
+
+{{/namespace}}
+{{#classes}}{{#unless isExternal}}
+{{name}}::~{{name}}() = default;
+
+{{#set className=name}}{{#members}}
+{{#instanceOf this "CppConstant"}}const {{type.name}} {{className}}::{{name}} = {{value.name}};{{/instanceOf}}
+{{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}
+{{/members}}{{/set}}
+{{/unless}}{{/classes}}
+{{#members}}
+{{#instanceOf this "CppConstant"}}const {{type.name}} {{name}} = {{value.name}};{{/instanceOf}}
+{{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}
+{{/members}}
+{{#errorEnums}}
+std::error_code
+make_error_code( {{fullyQualifiedName}} value ) noexcept
+{
+    class {{name}}ErrorCategory: public ::std::error_category
+    {
+    public:
+        ~{{name}}ErrorCategory( ) override = default;
+
+        const char*
+        name( ) const noexcept override
+        {
+            return "{{name}}ErrorCategory";
+        }
+
+        std::string
+        message( int condition ) const override
+        {
+            switch( {{fullyQualifiedName}}( condition ) )
+            {
+            {{#set enumName=fullyQualifiedName}}{{#items}}
+            case( {{enumName}}::{{name}} ):
+                return "{{enumName}}::{{name}}";
+            {{/items}}{{/set}}
+            }
+            return "Unknown enum value";
+        }
+    };
+    static {{name}}ErrorCategory category{};
+
+    return std::error_code( static_cast<int>( value ), category );
+}
+
+{{/errorEnums}}
+{{#namespace}}
+}
+{{/namespace}}

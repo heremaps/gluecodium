@@ -1,0 +1,19 @@
+{{>java/CopyrightHeader}}
+
+#pragma once
+
+#include <jni.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+{{#container}}{{#methods}}
+JNIEXPORT {{returnType.name}} JNICALL
+{{>jni/FunctionSignature}};
+
+{{/methods}}{{/container}}
+
+#ifdef __cplusplus
+}
+#endif

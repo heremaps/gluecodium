@@ -1,0 +1,11 @@
+disabled_rules:
+  - todo
+  - nesting
+excluded:
+  - .build
+  - build-ios
+  - Playground
+reporter: "junit"
+
+type_name:
+  max_length: 50

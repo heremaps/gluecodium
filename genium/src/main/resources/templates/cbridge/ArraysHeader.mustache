@@ -1,0 +1,17 @@
+{{>cbridge/FileHeader}}
+
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "cbridge/include/BaseHandle.h"
+#include "cbridge/include/Export.h"
+{{#includes}}{{>common/Include}}{{/includes}}
+
+{{#arrays}}{{>cbridge/ArrayFunctionSignatures}}{{/arrays}}
+
+#ifdef __cplusplus
+}
+#endif

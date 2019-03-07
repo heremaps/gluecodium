@@ -1,0 +1,13 @@
+{{#if comment}}
+/**
+{{prefix comment " * "}}
+{{#if isNotNull}}
+ * {{>notNullWarning}}
+{{/if}}
+ */
+{{/if}}
+{{#unless comment}}{{#if isNotNull}}
+/// {{>notNullWarning}}
+{{/if}}{{/unless}}{{!!
+
+}}{{+notNullWarning}}\warning @NotNull{{/notNullWarning}}

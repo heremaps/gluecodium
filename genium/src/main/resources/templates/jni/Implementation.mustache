@@ -1,0 +1,48 @@
+{{>java/CopyrightHeader}}
+
+{{#container}}{{#includes}}
+{{>common/Include}}
+{{/includes}}
+#include "InstanceConversion.h"
+#include "StructConversion.h"
+#include "ProxyConversion.h"
+#include "EnumConversion.h"
+#include "ArrayConversionUtils.h"
+#include "JniReference.h"
+
+extern "C" {
+
+{{#methods}}
+{{returnType.name}}
+{{>jni/FunctionSignature}}
+
+{
+{{#parameters}}
+{{#if type.isComplex}}
+    {{type.cppName}} {{name}} = {{internalNamespace}}::jni::convert_from_jni(_jenv,
+            {{internalNamespace}}::jni::make_non_releasing_ref(j{{name}}),
+            ({{type.cppName}}*)nullptr);
+{{/if}}
+{{#unless type.isComplex}}
+    {{type.cppName}} {{name}} = j{{name}};
+{{/unless}}
+{{/parameters}}
+{{#unless isStatic}}
+    auto pointerAsLong = {{internalNamespace}}::jni::get_field_value(
+            _jenv,
+            {{internalNamespace}}::jni::make_non_releasing_ref(_jinstance),
+            "nativeHandle",
+            (int64_t*)nullptr);
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (pointerAsLong);
+{{/unless}}
+{{>jni/ReturnTypeConversion}}
+}
+
+{{/methods}}
+JNIEXPORT void JNICALL
+Java_{{#javaPackages}}{{.}}_{{/javaPackages}}{{javaName}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
+{
+    delete reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (_jpointerRef);
+}
+}
+{{/container}}

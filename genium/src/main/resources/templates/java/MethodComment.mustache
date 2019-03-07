@@ -1,0 +1,14 @@
+{{#if comment}}
+/**
+{{prefix comment " * "}}
+{{#parameters}}{{#if this.comment}}
+ * @param {{name}} {{comment}}
+{{/if}}{{/parameters}}
+{{#unless isConstructor}}{{#if returnComment}}
+ * @return {{returnComment}}
+{{/if}}{{/unless}}
+{{#if exception}}
+ * @throws {{exception.name}}
+{{/if}}
+ */
+{{/if}}

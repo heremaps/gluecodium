@@ -1,0 +1,60 @@
+class {{name}}Proxy : public {{selfType.name}}::element_type, public CachedProxyBase<{{name}}Proxy> {
+public:
+    {{name}}Proxy({{functionTableName}}&& functions)
+     : mFunctions(std::move(functions))
+    {
+    }
+
+    virtual ~{{name}}Proxy() {
+        mFunctions.release(mFunctions.swift_pointer);
+    }
+
+    {{#each inheritedFunctions functions}}
+    {{#if selfParameter}}
+    {{cppReturnTypeName}} {{functionName}}({{joinPartial parameters "baseApiParameter" ", "}}){{#if isConst}} const{{/if}} override {
+        {{#if isReturningVoid}}{{#if error}}return static_cast<{{error.name}}>({{/if}}{{>swiftDelegateCall}}{{#if error}}){{/if}};{{/if}}{{!!
+        }}{{#unless isReturningVoid}}
+        {{#if error}}auto _result_with_error = {{>swiftDelegateCall}};
+        if (!_result_with_error.has_value)
+        {
+            return std::error_code{static_cast<{{error.name}}>(_result_with_error.error_code)};
+        }
+        auto _call_result = _result_with_error.returned_value;
+        {{/if}}{{!!
+        }}{{#unless error}}auto _call_result = {{>swiftDelegateCall}};{{/unless}}
+        {{>returnConversion}}
+        {{/unless}}
+    }
+    {{/if}}
+    {{/each}}
+
+private:
+    {{functionTableName}} mFunctions;
+};
+
+_baseRef {{name}}_create_proxy({{functionTableName}} functionTable) {
+    auto proxy = {{name}}Proxy::get_proxy(std::move(functionTable));
+    return proxy ? reinterpret_cast<_baseRef>(new {{selfType}}(std::move(proxy))) : 0;
+}
+
+const void* {{name}}_get_swift_object_from_cache(_baseRef handle) {
+    return handle ? {{name}}Proxy::get_swift_object(get_pointer<{{selfType}}>(handle)->get()) : nullptr;
+}
+
+{{+baseApiParameter}}{{#switch mappedType.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{mappedType}}{{/case}}{{!!
+    }}{{#case "ENUM"}}const {{mappedType}}{{/case}}{{!!
+    }}{{#default}}const {{mappedType}}&{{/default}}{{!!
+}}{{/switch}} {{name}}{{/baseApiParameter}}
+{{+swiftParameter}}{{#switch mappedType.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}{{name}}{{/case}}{{!!
+    }}{{#case "ENUM"}}static_cast<uint32_t>({{name}}){{/case}}{{!!
+    }}{{#default}}Conversion<{{mappedType}}>::toBaseRef({{name}}){{/default}}{{!!
+}}{{/switch}}{{/swiftParameter}}
+{{+returnConversion}}{{#switch returnType.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_SIMPLE"}}return _call_result;{{/case}}{{!!
+    }}{{#case "ENUM"}}return static_cast<{{returnType}}>(_call_result);{{/case}}{{!!
+    }}{{#default}}return Conversion<{{returnType}}>::toCppReturn(_call_result);{{/default}}{{!!
+}}{{/switch}}
+{{/returnConversion}}
+{{+swiftDelegateCall}}mFunctions.{{name}}(mFunctions.swift_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}){{/swiftDelegateCall}}

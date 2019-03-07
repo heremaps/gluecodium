@@ -1,0 +1,40 @@
+{{>cbridge/FileHeader}}
+
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "cbridge/include/BaseHandle.h"
+#include "cbridge/include/Export.h"
+{{#headerIncludes}}{{>common/Include}}{{/headerIncludes}}
+{{#if maps}}#include <stdbool.h>{{/if}}
+
+{{#enums}}{{>cbridge/Enumeration}}{{/enums}}
+
+{{#functions}}{{#if error}}{{#unless isReturningVoid}}{{>cbridge/ThrowingFunctionReturnType}}
+{{/unless}}{{/if}}{{/functions}}
+
+{{#structs}}{{>cbridge/StructFunctionDeclarations}}{{/structs}}
+
+{{#if selfType}}
+_GENIUM_C_EXPORT void {{name}}_release_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef {{name}}_copy_handle(_baseRef handle);
+
+{{/if}}
+{{#isInterface}}
+{{>cbridge/FunctionTable}}
+
+_GENIUM_C_EXPORT _baseRef {{name}}_create_proxy({{functionTableName}} functionTable);
+_GENIUM_C_EXPORT const void* {{name}}_get_swift_object_from_cache(_baseRef handle);
+{{/isInterface}}
+{{#functions}}
+_GENIUM_C_EXPORT {{>cbridge/FunctionSignature}};
+{{/functions}}
+
+{{#maps}}{{>cbridge/MapFunctionSignatures}}{{/maps}}
+
+#ifdef __cplusplus
+}
+#endif

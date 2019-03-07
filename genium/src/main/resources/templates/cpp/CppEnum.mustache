@@ -1,0 +1,14 @@
+{{#unless isExternal}}
+{{>common/DocComment}}
+enum class {{name}} {
+{{joinPartial items "enumItem" ",
+"}}
+};
+{{/unless}}{{!!
+
+}}{{+enumItem}}
+{{#if comment}}
+{{prefixPartial "common/DocComment" "    "}}
+{{/if}}
+    {{name}}{{#value}} = {{name}}{{/value}}{{!!
+}}{{/enumItem}}
