@@ -90,8 +90,8 @@ public class FrancaTreeWalker extends GenericTreeWalker<ModelBuilder> {
         FrancaTreeWalker::walkChildNodes);
 
     // Leaf nodes
-    initTreeNode(FExpression.class, ModelBuilder::finishBuilding, FrancaTreeWalker::noChildNodes);
-    initTreeNode(FTypeRef.class, ModelBuilder::finishBuilding, FrancaTreeWalker::noChildNodes);
+    initTreeNode(FExpression.class, ModelBuilder::finishBuilding, FrancaTreeWalker.Companion::noChildNodes);
+    initTreeNode(FTypeRef.class, ModelBuilder::finishBuilding, FrancaTreeWalker.Companion::noChildNodes);
   }
 
   public FrancaTreeWalker(final Collection<ModelBuilder> builders) {
