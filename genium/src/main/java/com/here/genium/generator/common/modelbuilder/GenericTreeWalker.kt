@@ -17,109 +17,75 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.modelbuilder;
+package com.here.genium.generator.common.modelbuilder
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.logging.Logger;
+import java.util.function.BiConsumer
+import java.util.logging.Logger
 
-public class GenericTreeWalker<MB> {
+open class GenericTreeWalker<MB> protected constructor(
+    protected val builders: Collection<MB>,
+    private val treeInfo: Map<Any, TreeNodeInfo<MB, *>>
+) {
+    protected class TreeNodeInfo<B, T> internal constructor(
+        private val clazz: Class<T>,
+        private val startMethod: BiConsumer<B, T>,
+        private val finishMethod: BiConsumer<B, T>,
+        private val walkChildNodes: BiConsumer<GenericTreeWalker<B>, T>
+    ) {
 
-  private static final Logger LOGGER = Logger.getLogger(GenericTreeWalker.class.getName());
-
-  private final Collection<MB> builders;
-  private final Map<Object, TreeNodeInfo<MB, ?>> treeInfo;
-
-  protected static class TreeNodeInfo<B, T> {
-
-    private final Class<T> clazz;
-    private final BiConsumer<B, T> startMethod;
-    private final BiConsumer<B, T> finishMethod;
-    private final BiConsumer<GenericTreeWalker<B>, T> walkChildNodes;
-
-    TreeNodeInfo(
-        final Class<T> clazz,
-        final BiConsumer<B, T> startMethod,
-        final BiConsumer<B, T> finishMethod,
-        final BiConsumer<GenericTreeWalker<B>, T> walkChildNodes) {
-      this.clazz = clazz;
-      this.startMethod = startMethod;
-      this.finishMethod = finishMethod;
-      this.walkChildNodes = walkChildNodes;
+        fun walk(walker: GenericTreeWalker<B>, element: Any) {
+            val francaElement = clazz.cast(element)
+            for (builder in walker.builders) {
+                startMethod.accept(builder, francaElement)
+            }
+            walkChildNodes.accept(walker, francaElement)
+            for (builder in walker.builders) {
+                finishMethod.accept(builder, francaElement)
+            }
+        }
     }
 
-    private void walk(final GenericTreeWalker<B> walker, final Object element) {
-
-      T francaElement = clazz.cast(element);
-      for (B builder : walker.getBuilders()) {
-        startMethod.accept(builder, francaElement);
-      }
-      walkChildNodes.accept(walker, francaElement);
-      for (B builder : walker.getBuilders()) {
-        finishMethod.accept(builder, francaElement);
-      }
+    private fun walk(key: Any, element: Any?) {
+        if (element != null) {
+            treeInfo[key]?.walk(this, element)
+        }
     }
-  }
 
-  protected GenericTreeWalker(
-      final Collection<MB> builders, Map<Object, TreeNodeInfo<MB, ?>> treeInfo) {
-    this.builders = builders;
-    this.treeInfo = treeInfo;
-  }
-
-  protected void walk(final Object key, final Object element) {
-    if (element != null) {
-      treeInfo.get(key).walk(this, element);
+    protected fun walk(element: Any?) {
+        if (element == null) return
+        val anInterface = findSupportedInterface(element.javaClass)
+        if (anInterface != null) {
+            treeInfo[anInterface]?.walk(this, element)
+        } else {
+            val message = element.javaClass.interfaces[0].name + " is not supported"
+            LOGGER.warning(message)
+        }
     }
-  }
 
-  protected void walk(final Object element) {
-    if (element != null) {
-      Class<?> anInterface = findSupportedInterface(element.getClass());
-      if (anInterface != null) {
-        treeInfo.get(anInterface).walk(this, element);
-      } else {
-        String message = element.getClass().getInterfaces()[0].getName() + " is not supported";
-        LOGGER.warning(message);
-      }
+    protected fun walkCollection(key: Any, collection: Iterable<*>?) {
+        collection?.forEach { walk(key, it) }
     }
-  }
 
-  protected void walkCollection(final Object key, final Iterable<?> collection) {
-    if (collection != null) {
-      collection.forEach(element -> walk(key, element));
+    protected fun walkCollection(collection: Iterable<*>?) {
+        collection?.forEach { this.walk(it) }
     }
-  }
 
-  protected void walkCollection(final Iterable<?> collection) {
-    if (collection != null) {
-      collection.forEach(this::walk);
+    private fun findSupportedInterface(aClass: Class<*>): Class<*>? {
+        for (anInterface in aClass.interfaces) {
+            if (treeInfo.containsKey(anInterface)) {
+                return anInterface
+            }
+        }
+        for (anInterface in aClass.interfaces) {
+            val result = findSupportedInterface(anInterface)
+            if (result != null) {
+                return result
+            }
+        }
+        return null
     }
-  }
 
-  protected static <MB> void noChildNodes(
-      @SuppressWarnings("unused") final GenericTreeWalker<MB> walker,
-      @SuppressWarnings("unused") final Object element) {
-    // Do nothing
-  }
-
-  protected Collection<MB> getBuilders() {
-    return builders;
-  }
-
-  private Class<?> findSupportedInterface(final Class<?> aClass) {
-    for (Class<?> anInterface : aClass.getInterfaces()) {
-      if (treeInfo.containsKey(anInterface)) {
-        return anInterface;
-      }
+    companion object {
+        private val LOGGER = Logger.getLogger(GenericTreeWalker::class.java.name)
     }
-    for (Class<?> anInterface : aClass.getInterfaces()) {
-      Class<?> result = findSupportedInterface(anInterface);
-      if (result != null) {
-        return result;
-      }
-    }
-    return null;
-  }
 }
