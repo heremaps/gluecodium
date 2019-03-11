@@ -22,6 +22,7 @@ package com.here.genium.generator.cpp;
 import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.Collections;
 import org.franca.core.franca.*;
 import org.jetbrains.annotations.NotNull;
@@ -48,14 +49,17 @@ public class CppTypeMapper {
   private final CppIncludeResolver includeResolver;
   private final CppNameResolver nameResolver;
   private final String internalNamespace;
+  private final FrancaDeploymentModel deploymentModel;
 
   public CppTypeMapper(
       final CppIncludeResolver includeResolver,
       final CppNameResolver nameResolver,
-      final String internalNamespace) {
+      final String internalNamespace,
+      final FrancaDeploymentModel deploymentModel) {
     this.includeResolver = includeResolver;
     this.nameResolver = nameResolver;
     this.internalNamespace = internalNamespace;
+    this.deploymentModel = deploymentModel;
   }
 
   public CppTypeRef getEnumHashType() {
@@ -105,9 +109,11 @@ public class CppTypeMapper {
   private CppTypeRef mapTypeDef(final FTypeDef francaTypeDef) {
 
     if (InstanceRules.isInstanceId(francaTypeDef)) {
-      String fullyQualifiedName =
-          nameResolver.getFullyQualifiedName((FInterface) francaTypeDef.eContainer());
-      CppComplexTypeRef instanceType = new CppInstanceTypeRef(fullyQualifiedName);
+      FInterface parentInterface = (FInterface) francaTypeDef.eContainer();
+      String fullyQualifiedName = nameResolver.getFullyQualifiedName(parentInterface);
+      CppComplexTypeRef instanceType =
+          new CppInstanceTypeRef(
+              fullyQualifiedName, deploymentModel.isExternalType(parentInterface));
       instanceType.includes.add(includeResolver.resolveInclude(francaTypeDef));
 
       return createSharedPointerType(instanceType);

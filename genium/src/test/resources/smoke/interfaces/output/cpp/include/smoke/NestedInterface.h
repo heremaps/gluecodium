@@ -12,12 +12,6 @@
 #include "foo/Bar.h"
 #include "smoke/SimpleInterface.h"
 #include <memory>
-namespace fire {
-    class Baz;
-}
-namespace smoke {
-    class ExternalInterface;
-}
 namespace smoke {
     class SimpleInterface;
 }

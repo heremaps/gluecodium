@@ -115,7 +115,7 @@ public class CBridgeGenerator {
   public CInterface buildCBridgeModel(final FTypeCollection francaTypeCollection) {
 
     CppTypeMapper cppTypeMapper =
-        new CppTypeMapper(cppIncludeResolver, cppNameResolver, internalNamespace);
+        new CppTypeMapper(cppIncludeResolver, cppNameResolver, internalNamespace, deploymentModel);
     CppValueMapper valueMapper = new CppValueMapper(deploymentModel, cppNameResolver);
     CppModelBuilder cppBuilder =
         new CppModelBuilder(deploymentModel, cppTypeMapper, valueMapper, cppNameResolver);

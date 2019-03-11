@@ -29,6 +29,7 @@ import com.here.genium.model.common.Include;
 import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
 import com.here.genium.model.franca.DefinedBy;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Rule;
@@ -67,6 +68,7 @@ public class CppTypeMapperComplexTest {
 
   @Mock private CppIncludeResolver includeResolver;
   @Mock private CppNameResolver nameResolver;
+  @Mock private FrancaDeploymentModel deploymentModel;
 
   private final Include internalInclude = Include.Companion.createInternalInclude("nonsense");
 
@@ -77,7 +79,7 @@ public class CppTypeMapperComplexTest {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(InstanceRules.class, DefinedBy.class);
 
-    typeMapper = new CppTypeMapper(includeResolver, nameResolver, "lorem_ipsum");
+    typeMapper = new CppTypeMapper(includeResolver, nameResolver, "lorem_ipsum", deploymentModel);
 
     when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
         .thenReturn(francaTypeCollection);
@@ -247,6 +249,27 @@ public class CppTypeMapperComplexTest {
     assertEquals(2, cppTemplateTypeRef.includes.size());
     assertTrue(cppTemplateTypeRef.includes.contains(CppLibraryIncludes.MEMORY));
     assertTrue(cppTemplateTypeRef.includes.contains(internalInclude));
+  }
+
+  @Test
+  public void mapInstanceTypeDefExternal() {
+    // Arrange
+    FTypeDef fTypeDef = mock(FTypeDef.class);
+    when(francaTypeRef.getDerived()).thenReturn(fTypeDef);
+    when(InstanceRules.isInstanceId(fTypeDef)).thenReturn(true);
+    when(nameResolver.getFullyQualifiedName(any())).thenReturn(DUMMY_NAME);
+    when(deploymentModel.isExternalType(any())).thenReturn(true);
+
+    // Act
+    CppTypeRef cppTypeRef = typeMapper.map(francaTypeRef);
+
+    // Assert
+    assertTrue(cppTypeRef instanceof CppTemplateTypeRef);
+    CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) cppTypeRef;
+    assertEquals(1, cppTemplateTypeRef.getTemplateParameters().size());
+    CppTypeRef templateParameterTypeRef = cppTemplateTypeRef.getTemplateParameters().get(0);
+    assertTrue(templateParameterTypeRef instanceof CppInstanceTypeRef);
+    assertTrue(((CppInstanceTypeRef) templateParameterTypeRef).getRefersToExternalType());
   }
 
   private FTypeRef mockPredefinedType(FBasicTypeId predefinedType) {

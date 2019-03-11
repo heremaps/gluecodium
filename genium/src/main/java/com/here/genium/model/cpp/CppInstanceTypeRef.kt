@@ -19,5 +19,7 @@
 
 package com.here.genium.model.cpp
 
-class CppInstanceTypeRef(fullyQualifiedName: String) :
-    CppComplexTypeRef(fullyQualifiedName)
+class CppInstanceTypeRef @JvmOverloads constructor(
+    fullyQualifiedName: String,
+    val refersToExternalType: Boolean = false
+) : CppComplexTypeRef(fullyQualifiedName)

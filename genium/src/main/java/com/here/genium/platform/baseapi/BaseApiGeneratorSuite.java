@@ -77,7 +77,8 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
   @Override
   public List<GeneratedFile> generate(final List<FTypeCollection> typeCollections) {
 
-    CppTypeMapper typeMapper = new CppTypeMapper(includeResolver, nameResolver, internalNamespace);
+    CppTypeMapper typeMapper =
+        new CppTypeMapper(includeResolver, nameResolver, internalNamespace, deploymentModel);
     CppGenerator generator =
         new CppGenerator(BaseApiGeneratorSuite.GENERATOR_NAME, internalNamespace);
 
@@ -168,6 +169,7 @@ public final class BaseApiGeneratorSuite extends GeneratorSuite {
       final List<CppElement> members) {
     Stream<Streamable> allElementsStream = members.stream().flatMap(CppElement::streamRecursive);
     return CollectionsHelper.getStreamOfType(allElementsStream, CppInstanceTypeRef.class)
+        .filter(instanceTypeRef -> !instanceTypeRef.getRefersToExternalType())
         .map(instanceTypeRef -> instanceTypeRef.name)
         .map(CppForwardDeclaration::new)
         .collect(Collectors.toList());
