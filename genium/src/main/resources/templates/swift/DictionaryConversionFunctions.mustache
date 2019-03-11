@@ -1,0 +1,147 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2018 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+func convert{{name}}ToCType(_ swiftDict: {{publicName}}) -> _baseRef {
+    let cHandle = {{cPrefix}}_create()
+    for (swift_key, swift_value) in swiftDict {
+{{#set variableName="key" variableType=keyType}}{{prefixPartial "ConvertFromSwift" "        "}}{{/set}}
+{{#set variableName="value" variableType=valueType}}{{prefixPartial "ConvertFromSwift" "        "}}{{/set}}
+        {{cPrefix}}_put(cHandle, c_key, c_value)
+    }
+    return cHandle
+}
+
+func convert{{name}}FromCType(_ cHandle: _baseRef) -> {{publicName}} {
+    var swiftDict: {{publicName}} = [:]
+    let iteratorHandle = {{cPrefix}}_iterator(cHandle)
+    while {{cPrefix}}_iterator_is_valid(cHandle, iteratorHandle) {
+{{#set variableName="key" variableType=keyType}}{{prefixPartial "ConvertToSwift" "        "}}{{/set}}
+{{#set variableName="value" variableType=valueType}}{{prefixPartial "ConvertToSwift" "        "}}{{/set}}
+        swiftDict[swift_key{{#isEq keyType.category.toString "BUILTIN_STRING"}}!{{/isEq}}] = swift_value
+        {{cPrefix}}_iterator_increment(iteratorHandle)
+    }
+    {{cPrefix}}_iterator_release(iteratorHandle)
+    return swiftDict
+}{{!!
+
+}}{{+ConvertFromSwift}}{{!!
+}}{{#switch variableType.category.toString}}{{!!
+    }}{{#case "BUILTIN_STRING"}}{{>ConvertFromSwiftString}}{{/case}}{{!!
+    }}{{#case "STRUCT"}}{{>ConvertFromSwiftStruct}}{{/case}}{{!!
+    }}{{#case "DICTIONARY"}}{{>ConvertFromSwiftDictionary}}{{/case}}{{!!
+    }}{{#case "ENUM"}}{{>ConvertFromSwiftEnum}}{{/case}}{{!!
+    }}{{#case "CLASS"}}{{>ConvertFromSwiftClass}}{{/case}}{{!!
+    }}{{#case "ARRAY"}}{{>ConvertFromSwiftArray}}{{/case}}{{!!
+    }}{{#default}}let c_{{variableName}} = swift_{{variableName}}
+{{/default}}{{!!
+}}{{/switch}}{{!!
+}}{{/ConvertFromSwift}}{{!!
+
+}}{{+ConvertFromSwiftString}}{{!!
+}}let c_{{variableName}} = swift_{{variableName}}.convertToCType()
+defer {
+    std_string_release(c_{{variableName}})
+}
+{{/ConvertFromSwiftString}}{{!!
+
+}}{{+ConvertFromSwiftStruct}}{{!!
+}}let c_{{variableName}} = swift_{{variableName}}.convertToCType()
+defer {
+    {{variableType.cPrefix}}_release(c_{{variableName}})
+}
+{{/ConvertFromSwiftStruct}}{{!!
+
+}}{{+ConvertFromSwiftDictionary}}{{!!
+}}let c_{{variableName}} = convert{{variableType.name}}ToCType(swift_{{variableName}})
+defer {
+    {{variableType.cPrefix}}_release(c_{{variableName}})
+}
+{{/ConvertFromSwiftDictionary}}{{!!
+
+}}{{+ConvertFromSwiftEnum}}{{!!
+}}let c_{{variableName}} = swift_{{variableName}}.rawValue
+{{/ConvertFromSwiftEnum}}{{!!
+
+}}{{+ConvertFromSwiftClass}}{{!!
+}}let c_{{variableName}} = getRef(swift_{{variableName}}).ref
+{{/ConvertFromSwiftClass}}{{!!
+
+}}{{+ConvertFromSwiftArray}}{{!!
+}}let c_conversion = swift_{{variableName}}.c_conversion()
+defer {
+    c_conversion.cleanup()
+}
+let c_{{variableName}} = c_conversion.c_type
+{{/ConvertFromSwiftArray}}{{!!
+
+
+
+}}{{+ConvertToSwift}}{{!!
+}}let c_{{variableName}} = {{cPrefix}}_iterator_{{variableName}}(iteratorHandle)
+{{#switch variableType.category.toString}}{{!!
+    }}{{#case "BUILTIN_STRING"}}{{>ConvertToSwiftString}}{{/case}}{{!!
+    }}{{#case "STRUCT"}}{{>ConvertToSwiftStruct}}{{/case}}{{!!
+    }}{{#case "DICTIONARY"}}{{>ConvertToSwiftDictionary}}{{/case}}{{!!
+    }}{{#case "ENUM"}}{{>ConvertToSwiftEnum}}{{/case}}{{!!
+    }}{{#case "CLASS"}}{{>ConvertToSwiftClass}}{{/case}}{{!!
+    }}{{#case "ARRAY"}}{{>ConvertToSwiftArray}}{{/case}}{{!!
+    }}{{#default}}let swift_{{variableName}} = c_{{variableName}}
+{{/default}}{{!!
+}}{{/switch}}{{!!
+}}{{/ConvertToSwift}}{{!!
+
+}}{{+ConvertToSwiftString}}{{!!
+}}defer {
+    std_string_release(c_{{variableName}})
+}
+let swift_{{variableName}} = String(data: Data(bytes: std_string_data_get(c_{{variableName}}),
+                                    count: Int(std_string_size_get(c_{{variableName}}))),
+                                    encoding: .utf8)
+{{/ConvertToSwiftString}}{{!!
+
+}}{{+ConvertToSwiftStruct}}{{!!
+}}defer {
+    {{variableType.cPrefix}}_release(c_{{variableName}})
+}
+let swift_{{variableName}} = {{variableType}}(c{{variableType.simpleName}}: c_{{variableName}})
+{{/ConvertToSwiftStruct}}{{!!
+
+}}{{+ConvertToSwiftDictionary}}{{!!
+}}defer {
+    {{variableType.cPrefix}}_release(c_{{variableName}})
+}
+let swift_{{variableName}} = convert{{variableType.name}}FromCType(c_{{variableName}})
+{{/ConvertToSwiftDictionary}}{{!!
+
+}}{{+ConvertToSwiftEnum}}{{!!
+}}let swift_{{variableName}} = {{variableType}}(rawValue: c_{{variableName}})!
+{{/ConvertToSwiftEnum}}{{!!
+
+}}{{+ConvertToSwiftClass}}{{!!
+}}guard let swift_{{variableName}} = {{variableType.implementingClass}}(c{{variableType.simpleName}}: c_{{variableName}}) else {
+    fatalError("Nullptr entries for arrays of {{variableType}} are not supported")
+}
+{{/ConvertToSwiftClass}}{{!!
+
+}}{{+ConvertToSwiftArray}}{{!!
+}}let swift_{{variableName}} = {{variableType.implementingClass}}(c_{{variableName}})
+{{/ConvertToSwiftArray}}
+
+

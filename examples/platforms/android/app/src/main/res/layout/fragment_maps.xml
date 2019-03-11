@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/maps_description" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="5dp" />
+    <TextView
+        android:id="@+id/maps_input_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/maps_input_label" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/map_entry_key"
+            android:inputType="number"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/map_key_hint"/>
+
+        <EditText
+            android:id="@+id/map_entry_value"
+            android:inputType="text"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/map_value_hint"/>
+
+        <ImageButton
+            android:id="@+id/add_entry_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="@string/add_button_description"
+            android:src="@android:drawable/ic_input_add" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <ListView
+        android:id="@+id/input_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <Button
+        android:id="@+id/process_map_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/process_map_btn_txt" />
+</LinearLayout>

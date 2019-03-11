@@ -1,0 +1,267 @@
+/*
+ * Copyright (C) 2016-2018 HERE Europe B.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * License-Filename: LICENSE
+ */
+
+package smoke
+
+interface StaticMethods {
+    version {
+        major 0
+        minor 1
+    }
+
+    method returnInvertedBoolean {
+        in {
+            Boolean input
+        }
+        out {
+            Boolean output
+        }
+    }
+
+    method returnAndBoolean {
+        in {
+            Boolean input1
+            Boolean input2
+        }
+        out {
+            Boolean output
+        }
+    }
+
+    method returnInputByteBuffer {
+        in {
+            ByteBuffer inputBuffer
+        }
+        out {
+            ByteBuffer outputBuffer
+        }
+    }
+
+    method returnReverseByteBuffer {
+        in {
+            ByteBuffer inputBuffer
+        }
+        out {
+            ByteBuffer outputBuffer
+        }
+    }
+
+    method concatenateByteBuffers {
+        in {
+            ByteBuffer input1
+            ByteBuffer input2
+        }
+        out {
+            ByteBuffer outputBuffer
+        }
+    }
+
+    method returnFloat {
+        in { Float inputNumber }
+        out { Float outputNumber }
+    }
+
+    method returnIncrementedFloat {
+        in { Float inputNumber }
+        out { Float outputNumber }
+    }
+
+    method sumTwoFloats {
+        in {
+            Float inputNumber1
+            Float inputNumber2
+        }
+        out { Float sum }
+    }
+
+    method returnDouble {
+        in { Double inputNumber }
+        out { Double outputNumber }
+    }
+
+    method returnIncrementedDouble {
+        in { Double inputNumber }
+        out { Double outputNumber }
+    }
+
+    method sumTwoDoubles {
+        in {
+            Double inputNumber1
+            Double inputNumber2
+        }
+        out { Double sum }
+    }
+
+    method returnNextNumberINT8 {
+        in { Int8 inputNumber }
+        out { Int8 outputNumber }
+    }
+
+    method sumTwoNumbersINT8 {
+        in {
+            Int8 inputNumber1
+            Int8 inputNumber2
+        }
+        out { Int8 sum }
+    }
+
+    method returnPrimeINT8 {
+        out { Int8 firstPrime }
+    }
+
+    method returnNextNumberUINT8 {
+        in { UInt8 inputNumber }
+        out { UInt8 outputNumber }
+    }
+
+    method sumTwoNumbersUINT8 {
+        in {
+            UInt8 inputNumber1
+            UInt8 inputNumber2
+        }
+        out { UInt8 sum }
+    }
+
+    method returnPrimeUINT8 {
+        out { UInt8 prime }
+    }
+
+    method returnNextNumberINT16 {
+        in { Int16 inputNumber }
+        out { Int16 outputNumber }
+    }
+
+    method sumTwoNumbersINT16 {
+        in {
+            Int16 inputNumber1
+            Int16 inputNumber2
+        }
+        out { Int16 sum }
+    }
+
+    method returnPrimeINT16 {
+        out { Int16 prime }
+    }
+
+    method returnNextNumberUINT16 {
+        in { UInt16 inputNumber }
+        out { UInt16 outputNumber }
+    }
+
+    method sumTwoNumbersUINT16 {
+        in {
+            UInt16 inputNumber1
+            UInt16 inputNumber2
+        }
+        out { UInt16 sum }
+    }
+
+    method returnPrimeUINT16 {
+        out { UInt16 prime }
+    }
+
+    method returnNextNumberINT32 {
+        in { Int32 inputNumber }
+        out { Int32 outputNumber }
+    }
+
+    method sumTwoNumbersINT32 {
+        in {
+            Int32 inputNumber1
+            Int32 inputNumber2
+        }
+        out { Int32 sum }
+    }
+
+    method returnPrimeINT32 {
+        out { Int32 prime }
+    }
+
+    method returnNextNumberUINT32 {
+        in { UInt32 inputNumber }
+        out { UInt32 outputNumber }
+    }
+
+    method sumTwoNumbersUINT32 {
+        in {
+            UInt32 inputNumber1
+            UInt32 inputNumber2
+        }
+        out { UInt32 sum }
+    }
+
+    method returnPrimeUINT32 {
+        out { UInt32 prime }
+    }
+
+    method returnNextNumberINT64 {
+        in { Int64 inputNumber }
+        out { Int64 outputNumber }
+    }
+
+    method sumTwoNumbersINT64 {
+        in {
+            Int64 inputNumber1
+            Int64 inputNumber2
+        }
+        out { Int64 sum }
+    }
+
+    method returnPrimeINT64 {
+        out { Int64 prime }
+    }
+
+    method returnNextNumberUINT64 {
+        in { UInt64 inputNumber }
+        out { UInt64 outputNumber }
+    }
+
+    method sumTwoNumbersUINT64 {
+        in {
+            UInt64 inputNumber1
+            UInt64 inputNumber2
+        }
+        out { UInt64 sum }
+    }
+
+    method returnPrimeUINT64 {
+        out { UInt64 prime }
+    }
+
+    method returnInputString {
+        in { String inputString }
+        out { String outputString }
+    }
+
+    method concatenateStrings {
+        in {
+            String inputString1
+            String inputString2
+        }
+        out { String inputConcatenationString }
+    }
+
+    method returnHelloString {
+        out { String helloString }
+    }
+
+    method returnEmpty {
+        out { String emptyString }
+    }
+}

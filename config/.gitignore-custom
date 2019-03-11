@@ -1,0 +1,32 @@
+### Genium custom rules on top of github .gitignore templates
+#
+# Update .gitignore with github.com/simonwhitaker/gibo like this:
+#
+#   $ { cat config/.gitignore-custom ; gibo Java Android JetBrains Vim } > .gitignore
+#
+.idea/.name
+.idea/compiler.xml
+.idea/encodings.xml
+.idea/inspectionProfiles/
+.idea/jenkinsSettings.xml
+.idea/modules.xml
+.idea/runConfigurations.xml
+.idea/runConfigurations
+.idea/vcs.xml
+# User-specific stuff:
+.idea/find.xml
+.idea/misc.xml
+.idea/libraries
+# JIRA plugin
+.idea/atlassian-ide-plugin.xml
+# Checkstyle / FindBugs plugin (we still have project config)
+.idea/checkstyle-idea.xml
+.idea/findbugs-idea.xml
+# XText / xtend
+.idea/xtextAutoBuilderState.xml
+
+### Generated AppCode
+genium/generated/*
+
+
+

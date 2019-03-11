@@ -1,0 +1,70 @@
+/*
+ * Copyright (C) 2016-2018 HERE Europe B.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * License-Filename: LICENSE
+ */
+
+plugins {
+    id 'com.jfrog.artifactory' version '4.7.0'
+}
+
+allprojects {
+    repositories {
+        mavenLocal()
+    }
+
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            if (details.requested.name == 'junit-dep') {
+                // Prefer more recent versions published under the new 'junit' artifact name instead of under the
+                // deprecated 'junit-dep' artifact name.
+                details.useTarget group: details.requested.group, name: 'junit', version: details.requested.version
+            }
+        }
+    }
+
+    apply plugin: 'java'
+
+    compileJava {
+        options.encoding = "UTF-8"
+    }
+
+    configurations {
+        umljavadoclet
+        javadocTaglets
+    }
+    dependencies {
+        umljavadoclet 'info.leadinglight:uml-java-doclet:1.0-SNAPSHOT.3'
+        javadocTaglets "org.jdrupes.taglets:plantuml-taglet:+"
+    }
+
+    javadoc {
+        options.docletpath = configurations.umljavadoclet.files.asType(List)
+        options.doclet = "info.leadinglight.umljavadoclet.UmlJavaDoclet"
+        options.tagletPath = configurations.javadocTaglets.files as List
+        options.taglets = ["org.jdrupes.taglets.plantUml.Taglet"]
+        options.overview = "../doc/overview.html"
+        options.tags = [
+                "generated:a:Generated",
+                "implNote:a:Implementation note",
+                "model:a:Model",
+                "ordered:a:Ordered" ]
+    }
+
+    test {
+        maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+    }
+}

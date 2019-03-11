@@ -1,0 +1,87 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2018 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{#isInterface}}{{>ClassWithProtocol}}{{/isInterface}}
+{{^isInterface}}{{>ClassWithoutProtocol}}{{/isInterface}}{{!!
+
+}}{{^useParentCInstance}}
+
+extension {{#isInterface}}_{{/isInterface}}{{name}}: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}{{/useParentCInstance}}{{!!
+
+}}{{+ClassWithoutProtocol}}
+
+internal func getRef(_ ref: {{name}}?) -> RefHolder {
+    return RefHolder(ref?.c_instance ?? 0)
+}
+
+{{>swift/Comment}}{{!!
+}}{{visibility}} class {{name}}{{#if baseAndProtocols}}: {{join baseAndProtocols delimiter=', '}}{{/if}} {
+
+{{#typedefs}}
+{{prefixPartial 'swift/Typedefs' '    '}}
+{{/typedefs}}{{!!
+
+}}{{>CommonClassParts}}
+}
+{{/ClassWithoutProtocol}}{{!!
+
+}}{{+ClassWithProtocol}}
+{{>swift/GetReference}}
+
+{{>swift/Comment}}{{!!
+}}{{visibility}} protocol {{name}} : {{#if implementsProtocols}}{{join implementsProtocols delimiter=', '}}{{/if}}{{#unless implementsProtocols}}AnyObject{{/unless}} {
+{{#typedefs}}{{prefixPartial 'swift/Typedefs' '    '}}
+{{/typedefs}}
+{{#properties}}
+    var {{name}}: {{type}} { get {{^readonly}}set {{/readonly}}}
+{{/properties}}
+{{#methods}}{{prefixPartial 'swift/MethodSignature' '    '}}
+{{/methods}}
+}
+
+internal class _{{name}}: {{name}} {
+
+{{>CommonClassParts}}
+}
+{{/ClassWithProtocol}}{{!!
+
+
+
+}}{{+CommonClassParts}}{{!!
+}}{{#properties}}
+{{prefixPartial 'swift/Property' '    '}}
+{{/properties}}{{!!
+
+}}{{prefixPartial 'swift/Constructor' '    '}}{{!!
+
+}}{{#enums}}
+{{prefixPartial 'swift/Enum' '    '}}
+{{/enums}}{{!!
+
+}}{{#structs}}
+{{prefixPartial 'swift/Struct' '    '}}
+{{/structs}}{{!!
+
+}}{{#methods}}
+{{prefixPartial 'swift/Method' '    '}}
+{{/methods}}{{!!
+}}{{/CommonClassParts}}

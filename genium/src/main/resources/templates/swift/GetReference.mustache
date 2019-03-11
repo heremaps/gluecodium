@@ -1,0 +1,78 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2018 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+internal func getRef(_ ref: {{name}}) -> RefHolder {
+    if let instanceReference = ref as? NativeBase {
+        return RefHolder(instanceReference.c_handle)
+    }
+
+    var functions = {{functionTableName}}()
+    functions.swift_pointer = Unmanaged<AnyObject>.passRetained(ref).toOpaque()
+    functions.release = {swiftClass_pointer in
+        if let swiftClass = swiftClass_pointer {
+            Unmanaged<AnyObject>.fromOpaque(swiftClass).release()
+        }
+    }
+
+{{#set className=name}}
+    {{#methods}}
+    functions.{{cBaseName}} = {(swiftClass_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
+        let swiftClass = Unmanaged<AnyObject>.fromOpaque(swiftClass_pointer!).takeUnretainedValue() as! {{className}}
+        {{#parameters}}{{#switch type.category.toString}}{{!!
+        }}{{#case "BUILTIN_STRING"}}
+        defer {
+            std_string_release({{name}})
+        }
+        {{/case}}{{!!
+        }}{{#case "DICTIONARY"}}
+        defer {
+            {{type.cPrefix}}_release({{name}})
+        }
+        {{/case}}{{!!
+        }}{{/switch}}{{/parameters}}
+        return {{>swiftReturn}}
+    }
+    {{/methods}}
+    let proxy = {{cInstance}}_createProxy(functions)
+    return RefHolder(ref: proxy, release: {{cInstance}}_release)
+}
+{{/set}}
+{{+swiftParameter}}{{#switch type.category.toString}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER"}}{{name}}_ptr, {{name}}_size{{/case}}{{!!
+    }}{{#default}}{{name}}{{/default}}{{!!
+}}{{/switch}}{{/swiftParameter}}
+{{+swiftReturn}}{{#switch returnType.category.toString}}{{!!
+    }}{{#case "BUILTIN_STRING"}}({{>delegateCall2}}!).convertToCType(){{/case}}{{!!
+    }}{{#case "STRUCT"}}get_pointer(({{>delegateCall2}}!).convertToCType()){{/case}}{{!!
+    }}{{#case "CLASS"}}getRef({{>delegateCall2}}!).ref{{/case}}{{!!
+    }}{{#default}}{{>delegateCall2}}{{/default}}{{!!
+}}{{/switch}}{{/swiftReturn}}
+{{+delegateCall2}}swiftClass.{{name}}({{joinPartial parameters "swiftParameter2" ", "}}){{/delegateCall2}}
+{{+swiftParameter2}}{{name}}: {{#switch type.category.toString}}{{!!
+    }}{{#case "CLASS"}}{{#type.implementingClass}}{{.}}{{/type.implementingClass}}{{^type.implementingClass}}{{type}}{{/type.implementingClass}}(c{{type}}: {{name}})!{{/case}}{{!!
+    }}{{#case "STRUCT"}}{{type}}(c{{type}}: {{name}})!{{/case}}{{!!
+    }}{{#case "DICTIONARY"}}convert{{type}}FromCType({{name}}){{/case}}{{!!
+    }}{{#case "ARRAY"}}{{type.implementingClass}}({{name}}){{/case}}{{!!
+    }}{{#case "BUILTIN_BYTEBUFFER"}}Data(bytes: {{name}}_ptr!, count: Int({{name}}_size)){{/case}}{{!!
+    }}{{#case "BUILTIN_STRING"}}String(data: Data(bytes: std_string_data_get({{name}}),
+                                                count: Int(std_string_size_get({{name}}))), encoding: .utf8)!{{/case}}{{!!
+    }}{{#case "ENUM"}}{{type}}(rawValue: {{name}})!{{/case}}{{!!
+    }}{{#default}}{{name}}{{/default}}{{!!
+}}{{/switch}}{{/swiftParameter2}}

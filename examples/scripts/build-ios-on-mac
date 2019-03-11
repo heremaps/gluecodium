@@ -1,0 +1,77 @@
+#!/bin/bash
+#
+# Copyright (C) 2016-2018 HERE Europe B.V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+
+# Usage: ./scripts/build-ios-on-mac [--publish] [framework_output_path]
+#
+# Script to build the "hello" library for an iOS consumer. This is demonstrated
+# by the apps/swift application.
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+. "${SCRIPT_DIR}/inc.functions"
+
+if [ "$1" == "--publish" ]; then
+    publish_local
+    shift
+fi
+
+GENIUM_VERSION="${GENIUM_VERSION:-+}"
+BUILD_DIR=build-ios
+INSTALL_DIR=dist
+if [ -n "${1}" ]; then
+    INSTALL_DIR="$1"
+fi
+
+CWD="$PWD"
+
+CMAKE_EXTRA_PARAMETERS=
+# Chose platform-native CMake generator
+if [ "$(cmake_generator)" ] ; then
+CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
+    -G $(cmake_generator)"
+fi
+
+function build {
+    local build_dir="$1"
+    local target="$2"
+    if [ ! -f "${build_dir}/build.ninja" ] ; then
+        mkdir -p "${build_dir}"
+        pushd "${build_dir}"
+        safe cmake \
+            -DBUILD_SHARED_LIBS=ON \
+            -DCMAKE_TOOLCHAIN_FILE="${SCRIPT_DIR}/../../cmake/toolchains/iOS.cmake" \
+            -DIOS_PLATFORM="${target}" \
+            -DCMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET=9.3 \
+            -DCMAKE_INSTALL_PREFIX="${build_dir}/dist" \
+            -DHELLO_APIGEN_GENIUM_GENERATOR=swift \
+            -DHELLO_APIGEN_GENIUM_VERSION=${GENIUM_VERSION} \
+            -DHELLO_BUILD_IOS_APP=ON \
+            ${CMAKE_EXTRA_PARAMETERS} \
+            "${SCRIPT_DIR}/.."
+        popd
+    fi
+    safe cmake --build "${build_dir}" --target install
+}
+
+BUILD_DIR_SIMULATOR="${CWD}/${BUILD_DIR}/simulator"
+
+build "${BUILD_DIR_SIMULATOR}" SIMULATOR
+
+mkdir -p ${INSTALL_DIR}
+cp -R "${BUILD_DIR_SIMULATOR}/dist/hello.framework" "${INSTALL_DIR}"

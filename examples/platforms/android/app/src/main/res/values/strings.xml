@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">Hello Genium!</string>
+    <string name="fragment_base_title">Base</string>
+    <string name="fragment_builtin_title">BuiltIn Types</string>
+    <string name="fragment_attributes">Attributes</string>
+    <string name="fragment_plain_old_data_title">Plain Old Data</string>
+    <string name="fragment_instance_methods">Instance methods</string>
+    <string name="fragment_typedef">TypeDef</string>
+    <string name="fragment_listeners_title">Listeners</string>
+    <string name="fragment_enumerations_title">Enumerations</string>
+    <string name="fragment_arrays_title">Arrays</string>
+    <string name="fragment_arrays_usage">Provide array elements separated by a comma.\nExample: 1,2,3,4</string>
+    <string name="fragment_errors_title">Errors</string>
+    <string name="fragment_defaults_title">Default values</string>
+    <string name="fragment_inheritance_title">Inheritance</string>
+    <string name="fragment_parcelable_title">Parcelable</string>
+    <string name="fragment_maps_title">Maps</string>
+    <string name="number_of_usages_input">Insert numberOfUsages</string>
+    <string name="profile_name_input">Insert new profile name</string>
+    <string name="parameter_value">Value</string>
+    <string name="array_elements_hint">Arrays elements</string>
+    <string name="submit">Submit!</string>
+    <string name="defaults_retrieve">Retrieve Struct with default values!</string>
+    <string name="defaults_expectedValues">Expected result struct {\n
+        intField=42\n floatField=3.14\n boolField=true\n
+        stringField= \"some string\"\n enumField= BAR_VALUE\n}</string>
+    <string name="text_input">Insert any text</string>
+    <string name="text_result">Result</string>
+    <string name="text_success">Success</string>
+    <string name="text_error">Error</string>
+    <string name="java_listener_result_label">Java Listener: </string>
+    <string name="native_listener_result_label">Native Listener: </string>
+    <string name="text_result_not_calculated">Was not calculated</string>
+    <string name="java_listener_registered">Java listener is <b>registered</b></string>
+    <string name="java_listener_not_registered">Java listener is <b>not</b> registered</string>
+    <string name="native_listener_registered">Native listener is <b>registered</b></string>
+    <string name="native_listener_not_registered">Native listener is <b>not</b> registered</string>
+    <string name="instance_methods_description">Invokes an instance method with the given value and returns the return value of this method.</string>
+    <string name="attributes_setter_success">Value is set successfully. You can see the result using according get method.</string>
+    <string name="typedef_method_details">METHOD DETAILS</string>
+    <string name="typedef_method_description">Example static method which takes a typedef of a struct and returns same struct with UPPER_CASE text.</string>
+    <string name="typedef_parameter_value">Input struct text</string>
+    <string name="typedef_result_value">Output struct text</string>
+    <string name="register_java_listener">Register Java listener</string>
+    <string name="unregister_java_listener">Unregister Java listener</string>
+    <string name="register_native_listener">Register Native listener</string>
+    <string name="unregister_native_listener">Unregister Native listener</string>
+    <string name="enumeration_methods_description">Example static method which takes any InternalError and returns the opposite one (e.g. if ERROR_NONE is given, ERROR_FATAL is returned).</string>
+    <string name="number_format_exception">Number format exception:</string>
+    <string name="no_exception_thrown">No exception thrown.</string>
+    <string name="defaults_retrieval_message">Result retrieved from:</string>
+    <string name="invalid_input">Invalid input argument</string>
+    <string name="x">x</string>
+    <string name="y">y</string>
+    <string name="z">z</string>
+    <string name="position_start">Position start</string>
+    <string name="position_start_value">0</string>
+    <string name="position_end">Position end</string>
+    <string name="position_end_value">1000</string>
+    <string name="parcelable_description">Showcase for parcelable that displays current and previous state.\n
+        A state consists of device dimension and orientation.\n
+        Rotate screen to display current and previous states.\n
+        At first this displays only the current state.\n
+    </string>
+    <string name="maps_input_label">Input map of type { Int32 => String }</string>
+    <string name="maps_description">
+        Showcase for maps that create from map\n{ Int32 => String } another map with the same
+        type and keys but with corresponding values converted to upper case.
+    </string>
+    <string name="process_map_btn_txt">Process map in C++</string>
+    <string name="map_key_hint">code</string>
+    <string name="map_value_hint">message</string>
+    <string name="add_button_description">Add map entry</string>
+    <string name="delete_button_description">Remove map entry</string>
+    <string name="inheritance_table_header_shape">Shape</string>
+    <string name="inheritance_table_header_circle">Circle</string>
+    <string name="inheritance_table_header_rectangle">Rectangle</string>
+    <string name="inheritance_table_header_square">Square</string>
+</resources>

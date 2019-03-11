@@ -1,0 +1,401 @@
+/*
+ * Copyright (C) 2016-2018 HERE Europe B.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * License-Filename: LICENSE
+ */
+
+package test
+
+import test.SimpleInstantiableOne.SimpleInstantiableOne from "./Instances.fidl"
+
+interface Arrays {
+    version {
+        major 0
+        minor 1
+    }
+
+    struct BasicStruct {
+        Double value
+    }
+
+    struct FancyStruct {
+        StringArray messages
+        UInt8[] numbers
+        InstancesArray instances
+    }
+
+    enumeration ArrayEnum {
+        ENUM_ONE = 0
+        ENUM_TWO
+        ENUM_THREE
+    }
+
+    array Int8Array of Int8
+    array Int16Array of Int16
+    array Int32Array of Int32
+    array Int64Array of Int64
+
+    array UInt8Array of UInt8
+    array UInt16Array of UInt16
+    array UInt32Array of UInt32
+    array UInt64Array of UInt64
+
+    array StringArray of String
+    array BoolArray of Boolean
+    array FloatArray of Float
+    array DoubleArray of Double
+
+    array FancyArray of FancyStruct
+    array StructArray of BasicStruct
+
+    array NestedPrimitiveArray of DoubleArray
+    array NestedStructArray of StructArray
+    array InstancesArray of SimpleInstantiableOne
+    array ArrayEnumArray of ArrayEnum
+
+    typedef ProfileId is String
+    array ProfileIdList of ProfileId
+
+    array ArrayOfMaps of NumberToIdMap
+    map NumberToIdMap { UInt8 to ProfileId }
+
+    <** @description:
+    Static method which takes a string array and returns an array of same type in reversed order.
+    **>
+    method reverseStringArray {
+        in {
+            <** @description: Input array **>
+            StringArray input
+        }
+        out {
+            <** @description: Output array **>
+            StringArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes an array and returns it in reversed order using inline declarations
+    **>
+    method reverseArrayInline {
+        in {
+            <** @description: Input array **>
+            Int16[] input
+        }
+        out {
+            <** @description: Output array **>
+            Int16[] output
+        }
+    }
+
+    <** @description:
+    Static method which takes an int8 array and returns an array of same type in reversed order.
+    **>
+    method reverseInt8Array {
+        in {
+            <** @description: Input array **>
+            Int8Array input
+        }
+        out {
+            <** @description: Output array **>
+            Int8Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes an int16 array and returns an array of same type in reversed order.
+    **>
+    method reverseInt16Array {
+        in {
+            <** @description: Input array **>
+            Int16Array input
+        }
+        out {
+            <** @description: Output array **>
+            Int16Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes an int32 array and returns an array of same type in reversed order.
+    **>
+    method reverseInt32Array {
+        in {
+            <** @description: Input array **>
+            Int32Array input
+        }
+        out {
+            <** @description: Output array **>
+            Int32Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes an int64 array and returns an array of same type in reversed order.
+    **>
+    method reverseInt64Array {
+        in {
+            <** @description: Input array **>
+            Int64Array input
+        }
+        out {
+            <** @description: Output array **>
+            Int64Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes an uint8 array and returns an array of same type in reversed order.
+    **>
+    method reverseUint8Array {
+        in {
+            <** @description: Input array **>
+            UInt8Array input
+        }
+        out {
+            <** @description: Output array **>
+            UInt8Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes an uint16 array and returns an array of same type in reversed order.
+    **>
+    method reverseUint16Array {
+        in {
+            <** @description: Input array **>
+            UInt16Array input
+        }
+        out {
+            <** @description: Output array **>
+            UInt16Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes an uint32 array and returns an array of same type in reversed order.
+    **>
+    method reverseUint32Array {
+        in {
+            <** @description: Input array **>
+            UInt32Array input
+        }
+        out {
+            <** @description: Output array **>
+            UInt32Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes an uint64 array and returns an array of same type in reversed order.
+    **>
+    method reverseUint64Array {
+        in {
+            <** @description: Input array **>
+            UInt64Array input
+        }
+        out {
+            <** @description: Output array **>
+            UInt64Array output
+        }
+    }
+
+    <** @description:
+    Static method which takes a float array and returns an array of same type in reversed order.
+    **>
+    method reverseFloatArray {
+        in {
+            <** @description: Input array **>
+            FloatArray input
+        }
+        out {
+            <** @description: Output array **>
+            FloatArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes a double array and returns an array of same type in reversed order.
+    **>
+    method reverseDoubleArray {
+        in {
+            <** @description: Input array **>
+            DoubleArray input
+        }
+        out {
+            <** @description: Output array **>
+            DoubleArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes a bool array and returns an array of same type in reversed order.
+    **>
+    method reverseBoolArray {
+        in {
+            <** @description: Input array **>
+            BoolArray input
+        }
+        out {
+            <** @description: Output array **>
+            BoolArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes an inline array of structs and returns it in reversed order
+    **>
+    method reverseStructArray {
+        in {
+            <** @description: Input array **>
+            BasicStruct[] input
+        }
+        out {
+            <** @description: Output array **>
+            StructArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes an array of instances and returns it in reversed order.
+    **>
+    method reverseExplicitInstancesArray {
+        in {
+            <** @description: Input array **>
+            InstancesArray input
+        }
+        out {
+            <** @description: Output array **>
+            InstancesArray output
+        }
+    }
+
+
+    <** @description:
+    Static method which takes an array of instances and returns it in reversed order.
+    **>
+    method reverseImplicitInstancesArray {
+        in {
+            SimpleInstantiableOne[] input
+        }
+        out {
+            SimpleInstantiableOne[] output
+        }
+    }
+
+    <** @description:
+    Function takes NestedPrimitiveArray and reverses elements in each dimension
+    **>
+    method reverseNestedPrimitiveArray {
+        in {
+            <** @description: Input array **>
+            NestedPrimitiveArray input
+        }
+        out {
+            <** @description: Output array **>
+            NestedPrimitiveArray output
+        }
+    }
+
+    <** @description:
+    Function takes NestedStructArray and reverses elements in each dimension
+    **>
+    method reverseNestedStructArray {
+        in {
+            <** @description: Input array **>
+            NestedStructArray input
+        }
+        out {
+            <** @description: Output array **>
+            NestedStructArray output
+        }
+    }
+
+    <** @description:
+    Function takes inline array of int64 arrays and reverses elements in each dimension
+    **>
+    method reverseNestedArraysInline {
+        in {
+            <** @description: Input array **>
+            Int64Array[] input
+        }
+        out {
+            <** @description: Output array **>
+            Int64Array[] output
+        }
+    }
+
+    <** @description:
+    Function takes arrays in two forms merge them and then reverse order of elements
+    First element of inlineFancyArray will be last in result
+    Last element of fancyArray will be first in result
+    **>
+    method mergeArraysOfStructsWithArrays {
+        in {
+            FancyStruct[] inlineFancyArray
+            FancyArray fancyArray
+        }
+        out {
+            FancyArray result
+        }
+    }
+
+    <** @description:
+    Static method which takes an array of aliases and returns it in reversed order.
+    **>
+    method reverseArrayOfAliases {
+        in {
+            ProfileIdList input
+        }
+        out {
+            ProfileIdList output
+        }
+    }
+
+    <** @description:
+    Static method which takes an array and returns an array of same type in reversed order.
+    **>
+    method reverseEnumsArray {
+        in {
+            <** @description: Input array **>
+            ArrayEnumArray input
+        }
+        out {
+            <** @description: Output array **>
+            ArrayEnumArray output
+        }
+    }
+
+    <** @description:
+    Static method which takes an array and returns an array of same type in reversed order.
+    **>
+    method reverseMapsArray {
+        in {
+            <** @description: Input array **>
+            ArrayOfMaps input
+        }
+        out {
+            <** @description: Output array **>
+            ArrayOfMaps output
+        }
+    }
+
+    <** @description: Return a struct containing arrays **>
+    method createFancyStruct {
+        out {
+            FancyStruct output
+        }
+    }
+}

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="builtin_methods">
+        <item>byte methodWithInt8(byte)</item>
+        <item>long methodWithUint8(long)</item>
+        <item>short methodWithInt16(short)</item>
+        <item>long methodWithUint16(long)</item>
+        <item>int methodWithInt32(int)</item>
+        <item>long methodWithUint32(long)</item>
+        <item>long methodWithInt64(long)</item>
+        <item>long methodWithUint64(long)</item>
+        <item>boolean methodWithBoolean(boolean)</item>
+        <item>float methodWithFloat(float)</item>
+        <item>double methodWithDouble(double)</item>
+        <item>byte[] methodWithByteBuffer(byte[])</item>
+        <item>double methodWithFloatAndInteger(float, byte)</item>
+    </string-array>
+
+    <string-array name="attributes_methods">
+        <item>long getBuiltInTypeAttribute()</item>
+        <item>void setBuiltInTypeAttribute(long)</item>
+        <item>float getReadonlyAttribute()</item>
+        <item>HelloWorldAttributes.ExampleStruct getStructAttribute()</item>
+        <item>void setStructAttribute(HelloWorldAttributes.ExampleStruct)</item>
+    </string-array>
+
+    <string-array name="attributes_methods_description">
+        <item>Get <b>long</b> attribute value. Default is 0.</item>
+        <item>Please enter a <b>long</b> value</item>
+        <item>This is a <b>read only</b> value. Will always return 3.14</item>
+        <item>Get <b>HelloWorldAttributes.ExampleStruct</b> attribute value. \nDefault is NaN</item>
+        <item>Please enter a <b>double</b> value for HelloWorldAttributes.ExampleStruct attribute</item>
+    </string-array>
+
+    <string-array name="builtin_methods_description">
+        <item>Returns the input 8 bit int increased by 1</item>
+        <item>Returns the input unsigned 8 bit int increased by 1</item>
+        <item>Returns the input 16 bit int increased by 1</item>
+        <item>Returns the input unsigned 16 bit int increased by 1</item>
+        <item>Returns the input 32 bit int increased by 1</item>
+        <item>Returns the input unsigned 32 bit int increased by 1</item>
+        <item>Returns the input 64 bit int increased by 1</item>
+        <item>Returns the input unsigned 64 bit int increased by 1</item>
+        <item>Returns the inverted value of the input boolean</item>
+        <item>Returns a float, half of the input value</item>
+        <item>Returns a double, two times the value of the input</item>
+        <item>Returns the given string (encoded as a sequence of bytes) in inverted order</item>
+        <item>Returns a double equal to: inputFloat * (0.01 * inputInteger)\n\nParameters must be passed as "inputFloat,inputInteger" in the text field below.\n\nExample: 3.0,1</item>
+    </string-array>
+
+    <string-array name="listeners_methods">
+        <item>Java listener with native method</item>
+        <item>Native listener with native method</item>
+        <item>Listeners in the background</item>
+    </string-array>
+
+    <string-array name="listeners_methods_button">
+        <item>Calculate with Java listener</item>
+        <item>Calculate with native listener</item>
+        <item>Calculate in background</item>
+    </string-array>
+
+    <string-array name="plain_old_data_methods">
+        <item>SyncResult methodWithNonNestedType(SyncResult)</item>
+        <item>IdSyncResult methodWithNestedType(IdSyncResult)</item>
+        <item>NumericSyncResult methodWithInheritedStruct(NumericSyncResult)</item>
+    </string-array>
+
+    <string-array name="plain_old_data_methods_description">
+        <item>Returns input struct with numberOfUsage increased by 1.\n\nINPUT:\nSyncResult{\n\t\tlong timeStamp = 42\n\t\tlong numberOfUsages = ?\n}</item>
+        <item>Returns input struct with numberOfUsage increased by 1.\n\nINPUT:\nIdSyncResult{\n\t\tint id = 99\n\t\tSyncResult {\n\t\t\t\tlong timeStamp = 42\n\t\t\t\tlong numberOfUsages = ?\n\t\t}\n}</item>
+        <item>Returns input struct with result increased by 1.\n\nINPUT:\nNumericSyncResult{\n\t\tlong timeStamp = 42\n\t\tlong numberOfUsages = ?\n\t\tresult = 99\n}</item>
+    </string-array>
+
+    <string-array name="enumeration_enumerators">
+        <item>ERROR_NONE</item>
+        <item>ERROR_FATAL</item>
+    </string-array>
+
+    <string-array name="arrays_methods">
+        <item>List&lt;String&gt; methodWithArray(List&lt;String&gt;)</item>
+        <item>List&lt;Long&gt; methodWithSimpleArray(List&lt;Long&gt;)</item>
+        <item>List&lt;Long&gt; methodWithArrayInline(List&lt;Long&gt;)</item>
+        <item>List&lt;ExampleStruct&gt; methodWithStructArray(List&lt;ExampleStruct&gt;)</item>
+        <item>List&lt;List&lt;Long&gt;&gt; methodWithNestedArraysInline(List&lt;List&lt;Long&gt;&gt;)</item>
+    </string-array>
+
+    <string-array name="array_methods_description">
+        <item>Returns given String array in reversed order.</item>
+        <item>Returns given Int64 array in reversed order.</item>
+        <item>Returns given UInt32 array in reversed order.\nArrays are defined inline in FIDL file.</item>
+        <item>Returns given ExampleStruct array in reversed order.\n\nExampleStruct {\n\tdouble value\n}</item>
+        <item>Returns given array of Int64 arrays in reversed order.\nArrays are created by adding 10¹, 10² and 10³ to input element.</item>
+    </string-array>
+
+    <string-array name="errors_methods">
+        <item>void method(bool) throws InternalErrorsException</item>
+        <item>String method(bool) throws InternalErrorsException</item>
+    </string-array>
+
+    <string-array name="defaults_source">
+        <item>java</item>
+        <item>base API</item>
+    </string-array>
+
+    <string-array name="inheritance_methods">
+        <item>Check inheritances</item>
+        <item>Apply scale</item>
+    </string-array>
+
+    <string-array name="inheritance_methods_description">
+        <item>
+            Do a cross inheritance check for each variable against interfaces:\n
+            Shape, Circle, Rectangle and Square.
+        </item>
+        <item>
+            Returns static logger content after executing:\n
+            List &lt;Shape&gt; shapes =\n
+              Arrays.asList(\n
+                  javaImplCircle,\n
+                  nativeImplCircle,\n
+                  nativeImplRectangle,\n
+                  parentJavaImplRectangle,\n
+                  childJavaImplRectangle,\n
+                  nativeImplSquare);\n
+            \n
+            InheritanceHelper.applyScaleOn(2.0, shapes);
+        </item>
+    </string-array>
+</resources>

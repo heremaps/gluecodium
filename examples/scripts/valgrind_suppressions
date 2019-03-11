@@ -1,0 +1,51 @@
+{
+   XCTest date format
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:_ZN6icu_5513UnicodeString8allocateEi
+   fun:_ZN6icu_5513UnicodeString8copyFromERKS0_a
+   fun:udat_applyPattern_55
+   fun:CFDateFormatterSetFormat
+   fun:_T010Foundation13DateFormatterC9_cfObject33_66CE11EE7A5521424C6DC1071C50CDCFLLSo06CFDateC0Cfg
+   fun:_T010Foundation13DateFormatterC6stringSSAA0B0V4from_tF
+   fun:_T06XCTest13PrintObserverC18testSuiteWillStartyAA0aE0CFTf4gn_n
+   fun:_T06XCTest13PrintObserverCAA0A11ObservationA2aDP18testSuiteWillStartyAA0aF0CFTW
+   fun:_T06XCTest0A5SuiteC7performyAA0A3RunCFTf4gn_n
+   fun:_T06XCTest7XCTMains5NeverOSayAA0A4CaseCm04testD5Class_SaySS_yAFKctG8allTeststGF
+   fun:main
+}
+{
+   getGenericWitnessTable
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:_Znam
+   fun:_ZN5swift17MetadataAllocator8AllocateEmm
+   fun:_ZL20allocateWitnessTablePN5swift25TargetGenericWitnessTableINS_9InProcessEEERNS_17MetadataAllocatorEPPKvm
+   fun:swift_getGenericWitnessTable
+   fun:*
+}
+{
+   getGenericMetadata
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:_Znam
+   fun:_ZN5swift17MetadataAllocator8AllocateEmm
+   ...
+   fun:swift_getGenericMetadata
+   fun:*
+}
+{
+   getTupleTypeMetadata
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:_Znam
+   fun:_ZN5swift17MetadataAllocator8AllocateEmm
+   fun:swift_getTupleTypeMetadata
+   fun:swift_getTupleTypeMetadata2
+   fun:*
+}

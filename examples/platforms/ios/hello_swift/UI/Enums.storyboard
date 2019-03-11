@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="2eh-oH-KM3">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Enums-->
+        <scene sceneID="Udz-9e-Gis">
+            <objects>
+                <viewController id="2eh-oH-KM3" customClass="EnumsViewController" customModule="hello_swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dVu-s1-Emq"/>
+                        <viewControllerLayoutGuide type="bottom" id="abk-qy-QWP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="nad-RO-C9X">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RXq-Tz-PNy">
+                                <rect key="frame" x="27.5" y="40" width="320" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="xhJ-is-cRm"/>
+                                </constraints>
+                            </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="260" verticalCompressionResistancePriority="752" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4yQ-gk-3Lp">
+                                <rect key="frame" x="16" y="164" width="343" height="52"/>
+                                <string key="text">Expected behaviour: After pressing 'Flip enum value' button text field below should contain other value of enum than the one selected.</string>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bHk-Mp-bqx">
+                                <rect key="frame" x="112.5" y="236" width="150" height="30"/>
+                                <color key="backgroundColor" red="0.36111787812240259" green="0.63215633887409328" blue="0.052343061681349438" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Mxn-1i-4jf"/>
+                                    <constraint firstAttribute="width" constant="150" id="lsz-6C-t2T"/>
+                                </constraints>
+                                <state key="normal" title="Flip enum value">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="didPress:" destination="2eh-oH-KM3" eventType="touchUpInside" id="oIR-8s-17g"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="260" verticalCompressionResistancePriority="752" text="result:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XU1-4u-3Vt">
+                                <rect key="frame" x="93.5" y="291" width="58" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="58" id="6Np-ab-gWs"/>
+                                    <constraint firstAttribute="height" constant="29" id="fhs-L5-wRQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JAJ-sS-2ao">
+                                <rect key="frame" x="159.5" y="290" width="148" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="148" id="CHB-7k-dmQ"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="Fr1-HC-MY3"/>
+                                    <constraint firstAttribute="height" constant="30" id="oqQ-Lu-2bw"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="148" id="tSO-2U-HLW"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="XU1-4u-3Vt" firstAttribute="centerY" secondItem="JAJ-sS-2ao" secondAttribute="centerY" id="6xv-mn-si6"/>
+                            <constraint firstItem="4yQ-gk-3Lp" firstAttribute="top" secondItem="RXq-Tz-PNy" secondAttribute="bottom" constant="24" id="9CJ-QR-QOY"/>
+                            <constraint firstItem="JAJ-sS-2ao" firstAttribute="top" secondItem="bHk-Mp-bqx" secondAttribute="bottom" constant="24" id="Ate-dH-yHp"/>
+                            <constraint firstItem="JAJ-sS-2ao" firstAttribute="leading" secondItem="XU1-4u-3Vt" secondAttribute="trailing" constant="8" id="Auk-QS-5ME"/>
+                            <constraint firstItem="RXq-Tz-PNy" firstAttribute="centerX" secondItem="nad-RO-C9X" secondAttribute="centerX" id="H75-Ko-8PT"/>
+                            <constraint firstItem="bHk-Mp-bqx" firstAttribute="centerX" secondItem="nad-RO-C9X" secondAttribute="centerX" id="HfG-qF-CjN"/>
+                            <constraint firstItem="RXq-Tz-PNy" firstAttribute="top" secondItem="dVu-s1-Emq" secondAttribute="bottom" constant="20" id="Mn7-a9-Qnu"/>
+                            <constraint firstItem="4yQ-gk-3Lp" firstAttribute="centerX" secondItem="nad-RO-C9X" secondAttribute="centerX" id="TR6-Sg-Gl4"/>
+                            <constraint firstItem="bHk-Mp-bqx" firstAttribute="top" secondItem="4yQ-gk-3Lp" secondAttribute="bottom" constant="20" id="VmW-HV-uJS"/>
+                            <constraint firstItem="4yQ-gk-3Lp" firstAttribute="centerX" secondItem="nad-RO-C9X" secondAttribute="centerX" id="YVF-Yj-bv7"/>
+                            <constraint firstAttribute="trailing" secondItem="4yQ-gk-3Lp" secondAttribute="trailing" constant="16" id="bQh-U1-J3M"/>
+                            <constraint firstItem="4yQ-gk-3Lp" firstAttribute="leading" secondItem="nad-RO-C9X" secondAttribute="leading" constant="16" id="ezZ-aQ-FHY"/>
+                            <constraint firstItem="JAJ-sS-2ao" firstAttribute="centerX" secondItem="nad-RO-C9X" secondAttribute="centerX" constant="46" id="fwo-3l-XRh"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Enums" id="2Az-gI-pEa">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-15"/>
+                    </tabBarItem>
+                    <connections>
+                        <outlet property="picker" destination="RXq-Tz-PNy" id="UPN-CZ-1BZ"/>
+                        <outlet property="resultField" destination="JAJ-sS-2ao" id="RxZ-ta-8O4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xb9-yy-RjP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-163.125" y="918.75"/>
+        </scene>
+    </scenes>
+</document>
