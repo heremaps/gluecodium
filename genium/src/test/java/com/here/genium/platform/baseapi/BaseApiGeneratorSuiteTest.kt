@@ -17,44 +17,45 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.baseapi;
+package com.here.genium.platform.baseapi
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.here.genium.Genium
+import com.here.genium.model.franca.FrancaDeploymentModel
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 
-import com.here.genium.Genium;
-import com.here.genium.generator.common.GeneratedFile;
-import java.util.LinkedList;
-import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+@RunWith(JUnit4::class)
+class BaseApiGeneratorSuiteTest {
+    @Mock private lateinit var deploymentModel: FrancaDeploymentModel
 
-@RunWith(JUnit4.class)
-public final class BaseApiGeneratorSuiteTest {
+    private lateinit var baseApiGeneratorSuite: BaseApiGeneratorSuite
 
-  private final BaseApiGeneratorSuite baseApiGeneratorSuite =
-      new BaseApiGeneratorSuite(Genium.Companion.getDEFAULT_OPTIONS(), null);
-  private List<GeneratedFile> generatedFiles;
+    @Before
+    fun setUp() {
+        MockitoAnnotations.initMocks(this)
+        baseApiGeneratorSuite = BaseApiGeneratorSuite(Genium.DEFAULT_OPTIONS, deploymentModel)
+    }
 
-  private String getTargetFile(int i) {
-    return generatedFiles.get(i).getTargetFile().toString();
-  }
+    @Test
+    fun generateFilesEmptyModel() {
+        val generatedFiles = baseApiGeneratorSuite.generate(emptyList())
+        assertNotNull(generatedFiles)
+        // + 1 for Export.h
+        val expectedGeneratedFiles = BaseApiGeneratorSuite.ADDITIONAL_HEADERS.size + 1
+        assertEquals(
+            "Expected cpp/internal files and test generated file",
+            expectedGeneratedFiles,
+            generatedFiles.size
+        )
 
-  @Test
-  public void generateFilesEmptyModel() {
-    generatedFiles = baseApiGeneratorSuite.generate(new LinkedList<>());
-    assertNotNull(generatedFiles);
-    // + 1 for Export.h
-    final int expectedGeneratedFiles = BaseApiGeneratorSuite.ADDITIONAL_HEADERS.size() + 1;
-    assertEquals(
-        "Expected cpp/internal files and test generated file",
-        expectedGeneratedFiles,
-        generatedFiles.size());
-
-    assertEquals("cpp/include/EnumHash.h", getTargetFile(0));
-    assertEquals("cpp/include/Return.h", getTargetFile(1));
-    assertEquals("cpp/include/Export.h", getTargetFile(2));
-  }
+        assertEquals("cpp/include/EnumHash.h", generatedFiles[0].targetFile.toString())
+        assertEquals("cpp/include/Return.h", generatedFiles[1].targetFile.toString())
+        assertEquals("cpp/include/Export.h", generatedFiles[2].targetFile.toString())
+    }
 }
-

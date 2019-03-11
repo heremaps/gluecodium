@@ -17,168 +17,158 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.baseapi;
+package com.here.genium.platform.baseapi
 
-import com.google.common.annotations.VisibleForTesting;
-import com.here.genium.Genium;
-import com.here.genium.common.CollectionsHelper;
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
-import com.here.genium.generator.cpp.*;
-import com.here.genium.model.common.Include;
-import com.here.genium.model.common.Streamable;
-import com.here.genium.model.cpp.*;
-import com.here.genium.model.franca.DefinedBy;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.platform.common.GeneratorSuite;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.franca.core.franca.FTypeCollection;
+import com.google.common.annotations.VisibleForTesting
+import com.here.genium.Genium
+import com.here.genium.common.CollectionsHelper
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
+import com.here.genium.generator.cpp.CppGenerator
+import com.here.genium.generator.cpp.CppLibraryIncludes
+import com.here.genium.generator.cpp.CppModelBuilder
+import com.here.genium.generator.cpp.CppNameResolver
+import com.here.genium.generator.cpp.CppNameRules
+import com.here.genium.generator.cpp.CppTypeMapper
+import com.here.genium.generator.cpp.CppValueMapper
+import com.here.genium.model.common.Include
+import com.here.genium.model.cpp.CppElement
+import com.here.genium.model.cpp.CppElementWithIncludes
+import com.here.genium.model.cpp.CppEnum
+import com.here.genium.model.cpp.CppFile
+import com.here.genium.model.cpp.CppForwardDeclaration
+import com.here.genium.model.cpp.CppIncludeResolver
+import com.here.genium.model.cpp.CppInstanceTypeRef
+import com.here.genium.model.franca.DefinedBy
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.platform.common.GeneratorSuite
+import org.franca.core.franca.FTypeCollection
+import java.util.Comparator
+import java.util.stream.Collectors
 
 /**
  * This generator will build all the BaseApis that will have to be implemented on the client
  * side @ref CppMapper as well as the data used by @ref TypeCollectionMapper.
  *
- * <p>It is the underlying generator, that all others depend on, as they will invoke the actual
+ * It is the underlying generator, that all others depend on, as they will invoke the actual
  * implementation through the C++ interfaces.
  */
-public final class BaseApiGeneratorSuite extends GeneratorSuite {
+class BaseApiGeneratorSuite(
+    options: Genium.Options,
+    private val deploymentModel: FrancaDeploymentModel
+) : GeneratorSuite() {
 
-  public static final String GENERATOR_NAME = "cpp";
+    private val internalNamespace: String? = options.cppInternalNamespace
+    private val rootNamespace: List<String> = options.cppRootNamespace
+    private val exportName: String? = options.cppExport
+    private val includeResolver: CppIncludeResolver =
+        CppIncludeResolver(deploymentModel, rootNamespace)
+    private val nameResolver: CppNameResolver = CppNameResolver(deploymentModel, rootNamespace)
 
-  @VisibleForTesting
-  static final List<String> ADDITIONAL_HEADERS = Arrays.asList("EnumHash", "Return");
+    override fun getName() = "com.here.BaseApiGenerator"
 
-  private final String internalNamespace;
-  private final List<String> rootNamespace;
-  private final FrancaDeploymentModel deploymentModel;
-  private final CppIncludeResolver includeResolver;
-  private final CppNameResolver nameResolver;
-  private final String exportName;
+    override fun generate(typeCollections: List<FTypeCollection>): List<GeneratedFile> {
+        val typeMapper =
+            CppTypeMapper(includeResolver, nameResolver, internalNamespace, deploymentModel)
+        val generator = CppGenerator(BaseApiGeneratorSuite.GENERATOR_NAME, internalNamespace)
 
-  public BaseApiGeneratorSuite(
-      final Genium.Options options, final FrancaDeploymentModel deploymentModel) {
-    super();
-    this.internalNamespace = options.getCppInternalNamespace();
-    this.rootNamespace = options.getCppRootNamespace();
-    this.exportName = options.getCppExport();
-    this.deploymentModel = deploymentModel;
-    this.includeResolver = new CppIncludeResolver(deploymentModel, rootNamespace);
-    this.nameResolver = new CppNameResolver(deploymentModel, rootNamespace);
-  }
-
-  @Override
-  public String getName() {
-    return "com.here.BaseApiGenerator";
-  }
-
-  @Override
-  public List<GeneratedFile> generate(final List<FTypeCollection> typeCollections) {
-
-    CppTypeMapper typeMapper =
-        new CppTypeMapper(includeResolver, nameResolver, internalNamespace, deploymentModel);
-    CppGenerator generator =
-        new CppGenerator(BaseApiGeneratorSuite.GENERATOR_NAME, internalNamespace);
-
-    Set<String> allErrorEnums =
-        typeCollections
+        val allErrorEnums = typeCollections
             .stream()
             .flatMap(FrancaTypeHelper::getAllErrorEnums)
             .map(nameResolver::getFullyQualifiedName)
-            .collect(Collectors.toSet());
+            .collect(Collectors.toSet())
 
-    List<GeneratedFile> generatedFiles = new LinkedList<>();
-    for (final FTypeCollection francaTypeCollection : typeCollections) {
+        val generatedFiles = mutableListOf<GeneratedFile>()
+        for (francaTypeCollection in typeCollections) {
+            val cppModel =
+                mapFrancaTypeCollectionToCppModel(typeMapper, francaTypeCollection, allErrorEnums)
+            val outputFilePathHeader = includeResolver.getOutputFilePath(francaTypeCollection)
+            val outputFilePathImpl = includeResolver.getOutputFilePath(francaTypeCollection)
 
-      CppFile cppModel =
-          mapFrancaTypeCollectionToCppModel(typeMapper, francaTypeCollection, allErrorEnums);
-      String outputFilePathHeader = includeResolver.getOutputFilePath(francaTypeCollection);
-      String outputFilePathImpl = includeResolver.getOutputFilePath(francaTypeCollection);
+            generatedFiles +=
+                generator.generateCode(cppModel, outputFilePathHeader, outputFilePathImpl)
+        }
 
-      generatedFiles.addAll(
-          generator.generateCode(cppModel, outputFilePathHeader, outputFilePathImpl));
+        generatedFiles += ADDITIONAL_HEADERS.map(generator::generateHelperHeader)
+        if (exportName != null) {
+            generatedFiles += generator.generateHelperHeader("Export", exportName)
+        }
+
+        return generatedFiles
     }
 
-    for (String header : ADDITIONAL_HEADERS) {
-      generatedFiles.add(generator.generateHelperHeader(header));
-    }
+    private fun mapFrancaTypeCollectionToCppModel(
+        typeMapper: CppTypeMapper,
+        francaTypeCollection: FTypeCollection,
+        allErrorEnums: Set<String>
+    ): CppFile {
 
-    if (exportName != null) {
-      generatedFiles.add(generator.generateHelperHeader("Export", exportName));
-    }
-
-    return generatedFiles;
-  }
-
-  private CppFile mapFrancaTypeCollectionToCppModel(
-      final CppTypeMapper typeMapper,
-      final FTypeCollection francaTypeCollection,
-      final Set<String> allErrorEnums) {
-
-    CppModelBuilder builder =
-        new CppModelBuilder(
+        val builder = CppModelBuilder(
             deploymentModel,
             typeMapper,
-            new CppValueMapper(deploymentModel, nameResolver),
-            nameResolver);
-    FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(builder));
+            CppValueMapper(deploymentModel, nameResolver),
+            nameResolver
+        )
+        val treeWalker = FrancaTreeWalker(listOf(builder))
+        treeWalker.walkTree(francaTypeCollection)
 
-    treeWalker.walkTree(francaTypeCollection);
+        val finalResults = builder.finalResults
+        val includes = collectIncludes(finalResults)
+        if (exportName != null) {
+            includes.add(
+                Include.createInternalInclude("Export" + CppNameRules.HEADER_FILE_SUFFIX)
+            )
+        }
 
-    LinkedList<String> namespaces = new LinkedList<>(rootNamespace);
-    namespaces.addAll(DefinedBy.getPackages(francaTypeCollection));
-
-    List<CppElement> finalResults = builder.getFinalResults();
-    List<Include> includes = collectIncludes(finalResults);
-    if (exportName != null) {
-      includes.add(
-          Include.Companion.createInternalInclude("Export" + CppNameRules.HEADER_FILE_SUFFIX));
-    }
-
-    List<CppEnum> errorEnums =
-        collectEnums(finalResults)
+        val errorEnums = collectEnums(finalResults)
             .stream()
-            .filter(cppEnum -> allErrorEnums.contains(cppEnum.fullyQualifiedName))
-            .sorted(Comparator.comparing(cppEnum -> cppEnum.fullyQualifiedName))
-            .collect(Collectors.toList());
-    if (!errorEnums.isEmpty()) {
-      includes.add(CppLibraryIncludes.SYSTEM_ERROR);
+            .filter { allErrorEnums.contains(it.fullyQualifiedName) }
+            .sorted(Comparator.comparing<CppEnum, String>(CppEnum::fullyQualifiedName))
+            .collect(Collectors.toList())
+        if (!errorEnums.isEmpty()) {
+            includes.add(CppLibraryIncludes.SYSTEM_ERROR)
+        }
+
+        return CppFile(
+            rootNamespace + DefinedBy.getPackages(francaTypeCollection),
+            finalResults,
+            includes,
+            collectForwardDeclarations(finalResults),
+            errorEnums,
+            null,
+            exportName
+        )
     }
 
-    return new CppFile(
-        namespaces,
-        finalResults,
-        includes,
-        collectForwardDeclarations(finalResults),
-        errorEnums,
-        null,
-        exportName);
-  }
+    companion object {
+        const val GENERATOR_NAME = "cpp"
 
-  private static List<Include> collectIncludes(final List<CppElement> members) {
-    Stream<Streamable> allElementsStream = members.stream().flatMap(CppElement::streamRecursive);
-    return CollectionsHelper.getStreamOfType(allElementsStream, CppElementWithIncludes.class)
-        .map(elementWithIncludes -> elementWithIncludes.includes)
-        .flatMap(List::stream)
-        .collect(Collectors.toList());
-  }
+        @VisibleForTesting
+        internal val ADDITIONAL_HEADERS = listOf("EnumHash", "Return")
 
-  private static List<CppForwardDeclaration> collectForwardDeclarations(
-      final List<CppElement> members) {
-    Stream<Streamable> allElementsStream = members.stream().flatMap(CppElement::streamRecursive);
-    return CollectionsHelper.getStreamOfType(allElementsStream, CppInstanceTypeRef.class)
-        .filter(instanceTypeRef -> !instanceTypeRef.getRefersToExternalType())
-        .map(instanceTypeRef -> instanceTypeRef.name)
-        .map(CppForwardDeclaration::new)
-        .collect(Collectors.toList());
-  }
+        private fun collectIncludes(members: List<CppElement>) =
+            CollectionsHelper.getStreamOfType(
+                members.stream().flatMap(CppElement::streamRecursive),
+                CppElementWithIncludes::class.java
+            ).map(CppElementWithIncludes::includes)
+                .flatMap(MutableList<Include>::stream)
+                .collect(Collectors.toList())
 
-  private static Set<CppEnum> collectEnums(final List<CppElement> members) {
-    Stream<Streamable> allElementsStream = members.stream().flatMap(CppElement::streamRecursive);
-    return CollectionsHelper.getStreamOfType(allElementsStream, CppEnum.class)
-        .filter(cppEnum -> !cppEnum.isExternal())
-        .collect(Collectors.toSet());
-  }
+        private fun collectForwardDeclarations(members: List<CppElement>) =
+            CollectionsHelper.getStreamOfType(
+                members.stream().flatMap(CppElement::streamRecursive),
+                CppInstanceTypeRef::class.java
+            ).filter { instanceTypeRef -> !instanceTypeRef.refersToExternalType }
+                .map { instanceTypeRef -> instanceTypeRef.name }
+                .map(::CppForwardDeclaration)
+                .collect(Collectors.toList())
+
+        private fun collectEnums(members: List<CppElement>) =
+            CollectionsHelper.getStreamOfType(
+                members.stream().flatMap(CppElement::streamRecursive),
+                CppEnum::class.java
+            ).filter { cppEnum -> !cppEnum.isExternal }
+                .collect(Collectors.toSet())
+    }
 }
