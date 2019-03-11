@@ -57,3 +57,4 @@ public final class BaseApiGeneratorSuiteTest {
     assertEquals("cpp/include/Export.h", getTargetFile(2));
   }
 }
+
