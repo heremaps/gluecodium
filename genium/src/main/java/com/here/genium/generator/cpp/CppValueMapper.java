@@ -119,6 +119,8 @@ public class CppValueMapper {
         return FLOAT_NAN;
       } else if (parsedFloat.isInfinite()) {
         return parsedFloat > 0 ? FLOAT_INFINITY : FLOAT_NEGATIVE_INFINITY;
+      } else {
+        return new CppValue(deploymentDefaultValue + "f");
       }
     } else if (CppPrimitiveTypeRef.Companion.getDOUBLE().equals(cppTypeRef)) {
       Double parsedDouble = Double.parseDouble(deploymentDefaultValue);

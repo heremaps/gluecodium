@@ -26,6 +26,7 @@ public class DefaultValues extends NativeBase {
         public int intField;
         public long uintField;
         public float floatField;
+        public double doubleField;
         public boolean boolField;
         public String stringField;
         @NonNull
@@ -33,12 +34,13 @@ public class DefaultValues extends NativeBase {
         @NonNull
         public DefaultValues.ExternalEnum externalEnumField;
         public StructWithDefaults() {
-            this(42, 4294967295L, 3.14f, true, "\\Jonny \"Magic\" Smith\n", DefaultValues.SomeEnum.BAR_VALUE, DefaultValues.ExternalEnum.ANOTHER_VALUE);
+            this(42, 4294967295L, 3.14f, -1.4142, true, "\\Jonny \"Magic\" Smith\n", DefaultValues.SomeEnum.BAR_VALUE, DefaultValues.ExternalEnum.ANOTHER_VALUE);
         }
-        public StructWithDefaults(int intField, long uintField, float floatField, boolean boolField, String stringField, DefaultValues.SomeEnum enumField, DefaultValues.ExternalEnum externalEnumField) {
+        public StructWithDefaults(int intField, long uintField, float floatField, double doubleField, boolean boolField, String stringField, DefaultValues.SomeEnum enumField, DefaultValues.ExternalEnum externalEnumField) {
             this.intField = intField;
             this.uintField = uintField;
             this.floatField = floatField;
+            this.doubleField = doubleField;
             this.boolField = boolField;
             this.stringField = stringField;
             this.enumField = enumField;
@@ -48,6 +50,7 @@ public class DefaultValues extends NativeBase {
             private int intField = 42;
             private long uintField = 4294967295L;
             private float floatField = 3.14f;
+            private double doubleField = -1.4142;
             private boolean boolField = true;
             private String stringField = "\\Jonny \"Magic\" Smith\n";
             private DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
@@ -64,6 +67,10 @@ public class DefaultValues extends NativeBase {
             }
             public Builder setFloatField(float floatField) {
                 this.floatField = floatField;
+                return this;
+            }
+            public Builder setDoubleField(double doubleField) {
+                this.doubleField = doubleField;
                 return this;
             }
             public Builder setBoolField(boolean boolField) {
@@ -83,7 +90,7 @@ public class DefaultValues extends NativeBase {
                 return this;
             }
             public StructWithDefaults build() {
-                return new StructWithDefaults(intField, uintField, floatField, boolField, stringField, enumField, externalEnumField);
+                return new StructWithDefaults(intField, uintField, floatField, doubleField, boolField, stringField, enumField, externalEnumField);
             }
         }
     }

@@ -135,6 +135,16 @@ public final class CppValueMapperTest {
   }
 
   @Test
+  public void mapDeploymentDefaultValueForFloat() {
+    when(deploymentModel.getDefaultValue(francaField)).thenReturn("-3.14");
+    CppTypeRef cppTypeRef = CppPrimitiveTypeRef.Companion.getFLOAT();
+
+    CppValue result = valueMapper.mapDeploymentDefaultValue(cppTypeRef, francaField);
+
+    assertEquals("-3.14f", result.name);
+  }
+
+  @Test
   public void mapDeploymentDefaultFloatNan() {
     when(deploymentModel.getDefaultValue(francaField)).thenReturn("NaN");
     CppTypeRef cppTypeRef = CppPrimitiveTypeRef.Companion.getFLOAT();

@@ -32,6 +32,9 @@ define Defaults for interface smoke.DefaultValues
         floatField {
             DefaultValue = "3.14"
         }
+        doubleField {
+            DefaultValue = "-1.4142"
+        }
         boolField {
             DefaultValue = "true"
         }
@@ -87,6 +90,9 @@ define Defaults for typeCollection smoke.TypesWithDefaults
         floatField {
             DefaultValue = "3.14"
         }
+        doubleField {
+            DefaultValue = "-1.4142"
+        }
         boolField {
             DefaultValue = "true"
         }
@@ -104,6 +110,9 @@ define Defaults for typeCollection smoke.TypesWithDefaults
         }
         floatField {
             DefaultValue = "3.14"
+        }
+        doubleField {
+            DefaultValue = "-1.4142"
         }
         stringField {
             DefaultValue = "\\Jonny \"Magic\" Smith\n"

@@ -34,14 +34,16 @@ public class DefaultValues {
         public var intField: Int32
         public var uintField: UInt32
         public var floatField: Float
+        public var doubleField: Double
         public var boolField: Bool
         public var stringField: String
         public var enumField: DefaultValues.SomeEnum
         public var externalEnumField: DefaultValues.ExternalEnum
-        public init(intField: Int32 = 42, uintField: UInt32 = 4294967295, floatField: Float = 3.14, boolField: Bool = true, stringField: String = "\\Jonny \"Magic\" Smith\n", enumField: DefaultValues.SomeEnum = DefaultValues.SomeEnum.barValue, externalEnumField: DefaultValues.ExternalEnum = DefaultValues.ExternalEnum.anotherValue) {
+        public init(intField: Int32 = 42, uintField: UInt32 = 4294967295, floatField: Float = 3.14, doubleField: Double = -1.4142, boolField: Bool = true, stringField: String = "\\Jonny \"Magic\" Smith\n", enumField: DefaultValues.SomeEnum = DefaultValues.SomeEnum.barValue, externalEnumField: DefaultValues.ExternalEnum = DefaultValues.ExternalEnum.anotherValue) {
             self.intField = intField
             self.uintField = uintField
             self.floatField = floatField
+            self.doubleField = doubleField
             self.boolField = boolField
             self.stringField = stringField
             self.enumField = enumField
@@ -51,6 +53,7 @@ public class DefaultValues {
             intField = moveFromCType(smoke_DefaultValues_StructWithDefaults_intField_get(cHandle))
             uintField = moveFromCType(smoke_DefaultValues_StructWithDefaults_uintField_get(cHandle))
             floatField = moveFromCType(smoke_DefaultValues_StructWithDefaults_floatField_get(cHandle))
+            doubleField = moveFromCType(smoke_DefaultValues_StructWithDefaults_doubleField_get(cHandle))
             boolField = moveFromCType(smoke_DefaultValues_StructWithDefaults_boolField_get(cHandle))
             stringField = moveFromCType(smoke_DefaultValues_StructWithDefaults_stringField_get(cHandle))
             enumField = moveFromCType(smoke_DefaultValues_StructWithDefaults_enumField_get(cHandle))
@@ -60,11 +63,12 @@ public class DefaultValues {
             let c_intField = moveToCType(intField)
             let c_uintField = moveToCType(uintField)
             let c_floatField = moveToCType(floatField)
+            let c_doubleField = moveToCType(doubleField)
             let c_boolField = moveToCType(boolField)
             let c_stringField = moveToCType(stringField)
             let c_enumField = moveToCType(enumField)
             let c_externalEnumField = moveToCType(externalEnumField)
-            return smoke_DefaultValues_StructWithDefaults_create_handle(c_intField.ref, c_uintField.ref, c_floatField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref, c_externalEnumField.ref)
+            return smoke_DefaultValues_StructWithDefaults_create_handle(c_intField.ref, c_uintField.ref, c_floatField.ref, c_doubleField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref, c_externalEnumField.ref)
         }
     }
     public struct StructWithSpecialDefaults {

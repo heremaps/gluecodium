@@ -27,7 +27,7 @@ enum class SomeEnum {
 
 struct _GENIUM_CPP_EXPORT StructWithDefaults {
     int32_t int_field = 42;
-    float float_field = 3.14;
+    float float_field = 3.14f;
     bool bool_field = true;
     ::std::string string_field = "some string";
     ::examples::DefaultValues::SomeEnum enum_field = ::examples::DefaultValues::SomeEnum::BAR_VALUE;
