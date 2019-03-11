@@ -1,0 +1,60 @@
+/*
+ * Copyright (C) 2016-2018 HERE Europe B.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * License-Filename: LICENSE
+ */
+
+package com.here.genium.model.cpp;
+
+import com.here.genium.generator.cpp.TopologicalSort;
+import java.util.*;
+import java.util.stream.Stream;
+
+public final class CppClass extends CppElementWithComment {
+
+  public final List<CppElement> members = new LinkedList<>();
+  public final Set<CppMethod> methods = new LinkedHashSet<>();
+  public final Set<CppField> fields = new LinkedHashSet<>();
+  public final Set<CppInheritance> inheritances = new LinkedHashSet<>();
+
+  public CppClass(final String name) {
+    this(name, null);
+  }
+
+  public CppClass(final String name, final String comment) {
+    super(name, name, comment);
+  }
+
+  @SuppressWarnings("unused")
+  public boolean hasSortedMembers() {
+    return !members.isEmpty();
+  }
+
+  /**
+   * Returns topologically sorted list of members
+   *
+   * @return sorted class members
+   */
+  @SuppressWarnings("unused")
+  public List<CppElement> getSortedMembers() {
+    return new TopologicalSort(members).sort();
+  }
+
+  @Override
+  public Stream<? extends CppElement> stream() {
+    return Stream.of(methods, members, inheritances).flatMap(Collection::stream);
+  }
+}

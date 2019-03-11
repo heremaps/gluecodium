@@ -1,0 +1,241 @@
+/*
+ * Copyright (C) 2016-2018 HERE Europe B.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * License-Filename: LICENSE
+ */
+
+package hello
+
+interface HelloWorldBuiltinTypes {
+    version {
+        major 0
+        minor 1
+    }
+
+    <** @description:
+    Example static method for HelloWorld which takes a signed byte and returns a signed byte
+    **>
+    method methodWithInt8 {
+        in {
+            <** @description: Input number **>
+            Int8 inputNumber
+        }
+        out {
+            <** @description: Output number **>
+            Int8 outputNumber
+        }
+    }
+
+    <** @description:
+    Example static method for HelloWorld which takes an unsigned byte and returns an unsigned byte
+    **>
+    method methodWithUint8 {
+        in {
+            <** @description: Input number **>
+            UInt8 inputNumber
+        }
+        out {
+            <** @description: Output number **>
+            UInt8 outputNumber
+        }
+    }
+
+    <** @description:
+    Example static method for HelloWorld which takes a signed 16 bits integer and returns a signed
+    16 bits integer
+    **>
+    method methodWithInt16 {
+        in {
+            <** @description: Input number **>
+            Int16 inputNumber
+        }
+        out {
+            <** @description: Output number **>
+            Int16 outputNumber
+        }
+    }
+
+    <** @description:
+    Example static method for HelloWorld which takes an unsigned 16 bits integer and returns an
+    unsigned 16 bits integer
+    **>
+    method methodWithUint16 {
+        in {
+            <** @description: Input number **>
+            UInt16 inputNumber
+        }
+        out {
+            <** @description: Output number **>
+            UInt16 outputNumber
+        }
+    }
+
+    <** @description:
+    Example static method for HelloWorld which takes a signed 32 bits integer and returns a signed
+    32 bits integer
+    **>
+    method methodWithInt32 {
+        in {
+            <** @description: Input number **>
+            Int32 inputNumber
+        }
+        out {
+            <** @description: Output number **>
+            Int32 outputNumber
+        }
+    }
+
+    <** @description:
+    Example static method for HelloWorld which takes an unsigned 32 bits integer and returns an
+    unsigned 32 bits integer
+    **>
+    method methodWithUint32 {
+        in {
+            <** @description: Input number **>
+            UInt32 inputNumber
+        }
+        out {
+            <** @description: Output number **>
+            UInt32 outputNumber
+        }
+    }
+
+    <** @description:
+    Example static method for HelloWorld which takes a signed 64 bits integer and returns a signed
+    64 bits integer
+    **>
+    method methodWithInt64 {
+        in {
+            <** @description: Input number **>
+            Int64 inputNumber
+        }
+        out {
+            <** @description: Output number **>
+            Int64 outputNumber
+        }
+    }
+
+    <** @description:
+    Example static method for HelloWorld which takes an unsigned 64 bits integer and returns an
+    unsigned 64 bits integer
+    **>
+    method methodWithUint64 {
+        in {
+            <** @description: Input number **>
+            UInt64 inputNumber
+        }
+        out {
+            <** @description: Output number **>
+            UInt64 outputNumber
+        }
+    }
+
+    <** @description:
+    Example static method for HelloWorld which takes a boolean and returns a boolean
+    **>
+    method methodWithBoolean {
+        in {
+            <** @description: Input condition **>
+            Boolean inputCondition
+        }
+        out {
+            <** @description: Output condition **>
+            Boolean outputCondition
+        }
+    }
+
+    <** @description:
+    Example static method for HelloWorld which takes a float and returns a float
+    **>
+    method methodWithFloat {
+        in {
+            <** @description: Input number **>
+            Float inputNumber
+        }
+        out {
+            <** @description: Output number **>
+            Float outputNumber
+        }
+    }
+
+    <** @description:
+    Example static method for HelloWorld which takes a double and returns a double
+    **>
+    method methodWithDouble {
+        in {
+            <** @description: Input number **>
+            Double inputNumber
+        }
+        out {
+            <** @description: Output number **>
+            Double outputNumber
+        }
+    }
+
+    <** @description:
+    Example static method for HelloWorld which takes a byte buffer and returns a byte buffer
+    **>
+    method methodWithByteBuffer {
+        in {
+            <** @description: Input buffer **>
+            ByteBuffer inputBuffer
+        }
+        out {
+            <** @description: Output buffer **>
+            ByteBuffer outputBuffer
+        }
+    }
+
+    <** @description:
+    Example static method for HelloWorld which takes a float and an 8 bits integer
+    **>
+    method methodWithFloatAndInteger {
+        in {
+            <** @description: input number **>
+            Float inputFloat
+            <** @description: input number **>
+            Int8 inputInteger
+        }
+        out {
+            <** @description: Output **>
+            Double outputNumber
+        }
+    }
+
+    <** @description:
+    Example static test method without out params and therefore with void return type
+    **>
+    method voidMethod {
+        in {
+            <** @description: Input number which can later be queried with getVoidMethodParameter() **>
+            Int32 inputNumber
+        }
+        out {
+        }
+    }
+
+    <** @description:
+    Example static method that returns the last number passed to voidMethod
+    **>
+    method getVoidMethodParameter {
+        in {
+        }
+        out {
+            <** @description: the last number passed to voidMethod **>
+            Int32 output
+        }
+    }
+}

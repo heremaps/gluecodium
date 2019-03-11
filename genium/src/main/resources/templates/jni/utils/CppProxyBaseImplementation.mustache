@@ -1,0 +1,162 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2018 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+// -------------------------------------------------------------------------------------------------
+// Copyright (C) 2016-2018 HERE Europe B.V.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// SPDX-License-Identifier: Apache-2.0
+// License-Filename: LICENSE
+//
+// -------------------------------------------------------------------------------------------------
+
+#include "CppProxyBase.h"
+#include "JniBase.h"
+#include <pthread.h>
+
+namespace
+{
+static pthread_key_t s_thread_key;
+
+JNIEnv*
+attach_current_thread( )
+{
+    JNIEnv* jniEnv;
+    JavaVM* jvm = {{.}}::jni::get_java_vm( );
+    int envState = jvm->GetEnv( reinterpret_cast< void** >( &jniEnv ), JNI_VERSION_1_6 );
+    if ( envState == JNI_EDETACHED )
+    {
+#ifdef __ANDROID__
+        jvm->AttachCurrentThread( &jniEnv, nullptr );
+#else   // ifdef __ANDROID__
+        jvm->AttachCurrentThread( reinterpret_cast< void** >( &jniEnv ), nullptr );
+#endif  // ifdef __ANDROID__
+    }
+
+    return jniEnv;
+}
+
+void
+detach_current_thread( void* )
+{
+    {{.}}::jni::get_java_vm( )->DetachCurrentThread( );
+}
+
+inline void
+callJavaMethodVaList( JNIEnv* jniEnv, jobject jObj, jmethodID jmid, va_list iParams )
+{
+    jniEnv->CallVoidMethodV( jObj, jmid, iParams );
+}
+
+void
+make_key_once( )
+{
+    pthread_key_create( &s_thread_key, NULL );
+}
+
+}
+
+namespace {{.}}
+{
+namespace jni
+{
+CppProxyBase::ProxyCache CppProxyBase::sProxyCache{};
+::std::mutex CppProxyBase::sCacheMutex{};
+
+void
+CppProxyBase::callJavaMethod( const ::std::string& methodName,
+                              const ::std::string& jniSignature,
+                              JNIEnv* jniEnv,
+                              ... ) const
+{
+    jclass jClass = jniEnv->GetObjectClass( jGlobalRef );
+    jmethodID jmethodId = jniEnv->GetMethodID( jClass, methodName.c_str( ), jniSignature.c_str( ) );
+    va_list vaList;
+    va_start( vaList, jniEnv );
+    ::callJavaMethodVaList( jniEnv, jGlobalRef, jmethodId, vaList );
+    va_end( vaList );
+}
+
+JNIEnv*
+CppProxyBase::getJniEnvironment( )
+{
+    // Add cleanup callback to current thread when called the first time
+    static pthread_once_t s_key_once = PTHREAD_ONCE_INIT;
+    pthread_once( &s_key_once, make_key_once );
+
+    JNIEnv* env;
+    if ( ( env = static_cast< JNIEnv* >( pthread_getspecific( s_thread_key ) ) ) == nullptr )
+    {
+        env = attach_current_thread( );
+        pthread_setspecific( s_thread_key, env );
+    }
+
+    return env;
+}
+
+CppProxyBase::CppProxyBase( JNIEnv* jenv, jobject jGlobalRef, jint jHashCode )
+    : jGlobalRef( jGlobalRef )
+    , jHashCode( jHashCode )
+{
+}
+
+CppProxyBase::~CppProxyBase( )
+{
+    JNIEnv* jniEnv = getJniEnvironment( );
+
+    {
+        ::std::lock_guard< std::mutex > lock( sCacheMutex );
+        sProxyCache.erase( ProxyCacheKey{jniEnv, jGlobalRef, jHashCode} );
+    }
+
+    jniEnv->DeleteGlobalRef( jGlobalRef );
+}
+
+bool
+CppProxyBase::ProxyCacheKey::operator==( const CppProxyBase::ProxyCacheKey& other ) const
+{
+    return jHashCode == other.jHashCode && jniEnv->IsSameObject( jObject, other.jObject );
+}
+
+jint
+CppProxyBase::getHashCode( JNIEnv* jniEnv, jobject jObj )
+{
+    jclass jClass = jniEnv->FindClass( "java/lang/System" );
+    jmethodID jMethodId
+        = jniEnv->GetStaticMethodID( jClass, "identityHashCode", "(Ljava/lang/Object;)I" );
+
+    jint jResult = jniEnv->CallStaticIntMethod( jClass, jMethodId, jObj );
+    jniEnv->DeleteLocalRef( jClass );
+    return jResult;
+}
+
+}
+}

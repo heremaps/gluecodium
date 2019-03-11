@@ -1,0 +1,67 @@
+/*
+ * Copyright (C) 2016-2018 HERE Europe B.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * License-Filename: LICENSE
+ */
+
+package smoke
+
+typeCollection TypeCollection {
+    version {
+        major 0
+        minor 1
+    }
+
+    typedef PointTypedef is Point
+
+    struct Point {
+        Double x
+        Double y
+    }
+
+    struct Color {
+        UInt8 red
+        UInt8 green
+        UInt8 blue
+    }
+
+    struct Line {
+        Point a
+        Point b
+    }
+
+    struct ColoredLine {
+        Line line
+        Color color
+    }
+
+    struct AllTypesStruct {
+        Int8 int8Field
+        UInt8 uint8Field
+        Int16 int16Field
+        UInt16 uint16Field
+        Int32 int32Field
+        UInt32 uint32Field
+        Int64 int64Field
+        UInt64 uint64Field
+        Float floatField
+        Double doubleField
+        String stringField
+        Boolean booleanField
+        ByteBuffer bytesField
+        Point pointField
+    }
+}

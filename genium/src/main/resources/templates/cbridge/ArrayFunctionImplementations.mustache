@@ -1,0 +1,96 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2018 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+_baseRef {{name}}_create() {
+    return reinterpret_cast<_baseRef>( new {{arrayType.baseApi}}() );
+}
+
+void {{name}}_release(_baseRef handle) {
+    delete get_pointer<{{arrayType.baseApi}}>(handle);
+}
+
+uint64_t {{name}}_count(_baseRef handle) {
+    return get_pointer<{{arrayType.baseApi}}>(handle)->size();
+}
+
+{{innerType}} {{name}}_get(_baseRef handle, uint64_t index) { {{!!
+    }}{{#switch underlyingType.typeCategory.toString}}{{!!
+    }}{{#case "BUILTIN_STRING" break=false}}{{/case}}{{!!
+    }}{{#case "STRUCT"}}{{prefixPartial 'structGetConversion' '    '}}{{/case}}{{!!
+    }}{{#case "CLASS"}}{{prefixPartial 'classGetConversion' '    '}}{{/case}}{{!!
+    }}{{#case "MAP"}}{{prefixPartial 'mapGetConversion' '    '}}{{/case}}{{!!
+    }}{{#case "ARRAY"}}{{prefixPartial 'arrayGetConversion' '    '}}{{/case}}{{!!
+    }}{{#case "ENUM"}}{{prefixPartial 'enumGetConversion' '    '}}{{/case}}{{!!
+    }}{{#default}}{{prefixPartial 'defaultGetConversion' '    '}}{{/default}}{{!!
+    }}{{/switch}}
+}
+
+void {{name}}_append(_baseRef handle, {{argument}} item) { {{!!
+}}{{#switch underlyingType.typeCategory.toString}}{{!!
+    }}{{#case "STRUCT" break=false}}{{/case}}{{!!
+    }}{{#case "CLASS"  break=false}}{{/case}}{{!!
+    }}{{#case "MAP" break=false}}{{/case}}{{!!
+    }}{{#case "ARRAY"}}{{prefixPartial 'classAppendConversion' '    '}}{{/case}}{{!!
+    }}{{#case "ENUM"}}{{prefixPartial 'enumAppendConversion' '    '}}{{/case}}{{!!
+    }}{{#case "BUILTIN_STRING"}}{{prefixPartial 'stringAppendConversion' '    '}}{{/case}}{{!!
+    }}{{#default}}{{prefixPartial 'defaultAppendConversion' '    '}}{{/default}}{{!!
+    }}{{/switch}}
+}
+
+{{+structGetConversion}}
+return reinterpret_cast<_baseRef>(
+    new {{underlyingType.name}} {
+        (*get_pointer<{{arrayType.baseApi}}>(handle))[index]
+    }
+);{{/structGetConversion}}
+
+{{+classGetConversion}}
+return reinterpret_cast<_baseRef>(
+    checked_pointer_copy(get_pointer<{{arrayType.baseApi}}>(handle)->at(index))
+);{{/classGetConversion}}
+
+{{+arrayGetConversion}}
+return reinterpret_cast<_baseRef>(
+    new {{underlyingType.baseApi}} {
+        (*get_pointer<{{arrayType.baseApi}}>(handle))[index]
+    }
+);{{/arrayGetConversion}}
+
+{{+mapGetConversion}}
+return reinterpret_cast<_baseRef>( &(*get_pointer<{{arrayType.baseApi}}>(handle))[index] );
+{{/mapGetConversion}}
+
+{{+enumGetConversion}}
+return static_cast<{{innerType}}>((*get_pointer<{{arrayType.baseApi}}>(handle))[index]);{{/enumGetConversion}}
+
+{{+defaultGetConversion}}
+return (*get_pointer<{{arrayType.baseApi}}>(handle))[index];{{/defaultGetConversion}}
+
+{{+classAppendConversion}}
+get_pointer<{{arrayType.baseApi}}>(handle)->push_back(*get_pointer<{{underlyingType.name}}>(item));{{/classAppendConversion}}
+
+{{+defaultAppendConversion}}
+get_pointer<{{arrayType.baseApi}}>(handle)->push_back(item);{{/defaultAppendConversion}}
+
+{{+stringAppendConversion}}
+get_pointer<{{arrayType.baseApi}}>(handle)->push_back(std::string(item));{{/stringAppendConversion}}
+
+{{+enumAppendConversion}}
+get_pointer<{{arrayType.baseApi}}>(handle)->push_back(static_cast<{{arrayType.innerType.name}}>(item));{{/enumAppendConversion}}
