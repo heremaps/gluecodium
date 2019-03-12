@@ -224,7 +224,7 @@ public class CppModelBuilderCommentsTest {
 
   @Test
   public void finishBuildingFrancaMapTypeReadsComment() {
-    when(typeMapper.wrapMap(any(), any())).thenReturn(new CppInstanceTypeRef("foo"));
+    when(typeMapper.wrapMap(any(), any())).thenReturn(new CppComplexTypeRef("foo"));
     contextStack.injectResult(CppPrimitiveTypeRef.Companion.getINT8());
     contextStack.injectResult(cppComplexTypeRef);
 

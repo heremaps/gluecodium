@@ -112,9 +112,11 @@ public class CppTypeMapper {
       FInterface parentInterface = (FInterface) francaTypeDef.eContainer();
       String fullyQualifiedName = nameResolver.getFullyQualifiedName(parentInterface);
       CppComplexTypeRef instanceType =
-          new CppInstanceTypeRef(
-              fullyQualifiedName, deploymentModel.isExternalType(parentInterface));
-      instanceType.includes.add(includeResolver.resolveInclude(francaTypeDef));
+          new CppComplexTypeRef(
+              fullyQualifiedName,
+              Collections.singletonList(includeResolver.resolveInclude(francaTypeDef)),
+              false,
+              !deploymentModel.isExternalType(parentInterface));
 
       return createSharedPointerType(instanceType);
     } else {

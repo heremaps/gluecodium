@@ -33,13 +33,13 @@ import com.here.genium.generator.cpp.CppNameRules
 import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.generator.cpp.CppValueMapper
 import com.here.genium.model.common.Include
+import com.here.genium.model.cpp.CppComplexTypeRef
 import com.here.genium.model.cpp.CppElement
 import com.here.genium.model.cpp.CppElementWithIncludes
 import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppFile
 import com.here.genium.model.cpp.CppForwardDeclaration
 import com.here.genium.model.cpp.CppIncludeResolver
-import com.here.genium.model.cpp.CppInstanceTypeRef
 import com.here.genium.model.franca.DefinedBy
 import com.here.genium.model.franca.FrancaDeploymentModel
 import com.here.genium.platform.common.GeneratorSuite
@@ -158,17 +158,16 @@ class BaseApiGeneratorSuite(
         private fun collectForwardDeclarations(members: List<CppElement>) =
             CollectionsHelper.getStreamOfType(
                 members.stream().flatMap(CppElement::streamRecursive),
-                CppInstanceTypeRef::class.java
-            ).filter { instanceTypeRef -> !instanceTypeRef.refersToExternalType }
-                .map { instanceTypeRef -> instanceTypeRef.name }
-                .map(::CppForwardDeclaration)
+                CppComplexTypeRef::class.java
+            ).filter(CppComplexTypeRef::needsForwardDeclaration)
+                .map { CppForwardDeclaration(it.name) }
                 .collect(Collectors.toList())
 
         private fun collectEnums(members: List<CppElement>) =
             CollectionsHelper.getStreamOfType(
                 members.stream().flatMap(CppElement::streamRecursive),
                 CppEnum::class.java
-            ).filter { cppEnum -> !cppEnum.isExternal }
+            ).filter { !it.isExternal }
                 .collect(Collectors.toSet())
     }
 }

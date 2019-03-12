@@ -20,6 +20,7 @@
 package com.here.genium.generator.cpp;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -268,8 +269,8 @@ public class CppTypeMapperComplexTest {
     CppTemplateTypeRef cppTemplateTypeRef = (CppTemplateTypeRef) cppTypeRef;
     assertEquals(1, cppTemplateTypeRef.getTemplateParameters().size());
     CppTypeRef templateParameterTypeRef = cppTemplateTypeRef.getTemplateParameters().get(0);
-    assertTrue(templateParameterTypeRef instanceof CppInstanceTypeRef);
-    assertTrue(((CppInstanceTypeRef) templateParameterTypeRef).getRefersToExternalType());
+    assertTrue(templateParameterTypeRef instanceof CppComplexTypeRef);
+    assertFalse(((CppComplexTypeRef) templateParameterTypeRef).getNeedsForwardDeclaration());
   }
 
   private FTypeRef mockPredefinedType(FBasicTypeId predefinedType) {
