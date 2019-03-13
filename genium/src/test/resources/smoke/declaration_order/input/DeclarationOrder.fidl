@@ -34,13 +34,13 @@ typeCollection DeclarationOrder {
         BAR = 7
     }
 
-    struct NestedStruct {
-        String someField
-    }
-
     typedef SomeTypeDef is Int32
+
+    map ErrorCodeToMessageMap { Int32 to NestedStructArray }
 
     array NestedStructArray of NestedStruct
 
-    map ErrorCodeToMessageMap { Int32 to String }
+    struct NestedStruct {
+        String someField
+    }
 }
