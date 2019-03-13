@@ -40,8 +40,7 @@ public final class CppGenerator {
     this.internalNamespace = internalNamespace;
   }
 
-  public List<GeneratedFile> generateCode(
-      final CppFile cppModel, final String relativeHeaderPath, final String relativeImplPath) {
+  public List<GeneratedFile> generateCode(final CppFile cppModel, final String relativeFilePath) {
 
     List<GeneratedFile> result = new LinkedList<>();
 
@@ -58,11 +57,11 @@ public final class CppGenerator {
     }
 
     String absoluteHeaderPath =
-        Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE, relativeHeaderPath)
+        Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE, relativeFilePath)
                 .toString()
             + CppNameRules.HEADER_FILE_SUFFIX;
     String absoluteImplPath =
-        Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_SRC, relativeImplPath).toString()
+        Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_SRC, relativeFilePath).toString()
             + CppNameRules.IMPLEMENTATION_FILE_SUFFIX;
 
     // Filter out self-includes
@@ -70,14 +69,14 @@ public final class CppGenerator {
         .getIncludes()
         .removeIf(
             include ->
-                include.getFileName().equals(relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX));
+                include.getFileName().equals(relativeFilePath + CppNameRules.HEADER_FILE_SUFFIX));
 
     String headerContent = TemplateEngine.INSTANCE.render("cpp/CppHeader", cppModel);
     result.add(new GeneratedFile(headerContent, absoluteHeaderPath));
 
     cppModel.setHeaderInclude(
         Include.Companion.createInternalInclude(
-            relativeHeaderPath + CppNameRules.HEADER_FILE_SUFFIX));
+            relativeFilePath + CppNameRules.HEADER_FILE_SUFFIX));
 
     String implementationContent =
         TemplateEngine.INSTANCE.render("cpp/CppImplementation", cppModel);

@@ -79,16 +79,12 @@ class BaseApiGeneratorSuite(
             .map(nameResolver::getFullyQualifiedName)
             .collect(Collectors.toSet())
 
-        val generatedFiles = mutableListOf<GeneratedFile>()
-        for (francaTypeCollection in typeCollections) {
-            val cppModel =
-                mapFrancaTypeCollectionToCppModel(typeMapper, francaTypeCollection, allErrorEnums)
-            val outputFilePathHeader = includeResolver.getOutputFilePath(francaTypeCollection)
-            val outputFilePathImpl = includeResolver.getOutputFilePath(francaTypeCollection)
-
-            generatedFiles +=
-                generator.generateCode(cppModel, outputFilePathHeader, outputFilePathImpl)
-        }
+        val generatedFiles = typeCollections.flatMap {
+            generator.generateCode(
+                mapFrancaTypeCollectionToCppModel(typeMapper, it, allErrorEnums),
+                includeResolver.getOutputFilePath(it)
+            )
+        }.toMutableList()
 
         generatedFiles += ADDITIONAL_HEADERS.map(generator::generateHelperHeader)
         if (exportName != null) {
