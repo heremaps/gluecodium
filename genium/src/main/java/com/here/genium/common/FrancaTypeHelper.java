@@ -68,20 +68,27 @@ public final class FrancaTypeHelper {
     return (container instanceof FInterface) ? ((FInterface) container).getName() : null;
   }
 
-  public static String getFullName(final FModelElement modelElement) {
+  public static List<String> getElementPath(final FModelElement modelElement) {
 
     String suffix = modelElement instanceof FMethod ? ((FMethod) modelElement).getSelector() : null;
     String elementName =
         suffix != null ? modelElement.getName() + ":" + suffix : modelElement.getName();
 
+    LinkedList<String> result = new LinkedList<>();
+    result.add(elementName);
+
     EObject parent = modelElement.eContainer();
     if (parent instanceof FModelElement) {
-      return getFullName((FModelElement) parent) + "." + elementName;
+      result.addAll(0, getElementPath((FModelElement) parent));
     } else if (parent instanceof FModel) {
-      return ((FModel) parent).getName() + "." + elementName;
-    } else {
-      return elementName;
+      result.addFirst(((FModel) parent).getName());
     }
+
+    return result;
+  }
+
+  public static String getFullName(final FModelElement modelElement) {
+    return String.join(".", getElementPath(modelElement));
   }
 
   public static boolean haveSamePackage(

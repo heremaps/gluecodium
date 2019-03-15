@@ -41,4 +41,8 @@ class MockContextStack<E> : ModelBuilderContextStack<E>() {
     fun injectResult(element: E) {
         currentContext.previousResults.add(element)
     }
+
+    fun injectParentResult(element: E) {
+        parentContext.previousResults.add(element)
+    }
 }
