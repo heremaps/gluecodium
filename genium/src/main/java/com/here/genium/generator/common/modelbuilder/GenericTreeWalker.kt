@@ -47,11 +47,11 @@ open class GenericTreeWalker<MB> protected constructor(
 
     protected fun walk(element: Any?) {
         if (element == null) return
-        val anInterface = findSupportedInterface(element.javaClass)
+        val anInterface = findSupportedClass(element.javaClass)
         if (anInterface != null) {
             treeInfo[anInterface]?.walk(this, element)
         } else {
-            val message = element.javaClass.interfaces[0].name + " is not supported"
+            val message = element.javaClass.name + " is not supported"
             LOGGER.warning(message)
         }
     }
@@ -64,19 +64,20 @@ open class GenericTreeWalker<MB> protected constructor(
         collection?.forEach { walk(it) }
     }
 
-    private fun findSupportedInterface(aClass: Class<*>): Class<*>? {
-        for (anInterface in aClass.interfaces) {
-            if (treeInfo.containsKey(anInterface)) {
-                return anInterface
-            }
+    private fun findSupportedClass(aClass: Class<*>?): Class<*>? {
+        if (aClass == null) {
+            return null
+        }
+        if (treeInfo.containsKey(aClass)) {
+            return aClass
         }
         for (anInterface in aClass.interfaces) {
-            val result = findSupportedInterface(anInterface)
+            val result = findSupportedClass(anInterface)
             if (result != null) {
                 return result
             }
         }
-        return null
+        return findSupportedClass(aClass.superclass)
     }
 
     companion object {
