@@ -19,7 +19,6 @@
 
 package com.here.genium.generator.common.modelbuilder
 
-import java.util.function.BiConsumer
 import java.util.logging.Logger
 
 open class GenericTreeWalker<MB> protected constructor(
@@ -28,20 +27,15 @@ open class GenericTreeWalker<MB> protected constructor(
 ) {
     protected class TreeNodeInfo<B, T> internal constructor(
         private val clazz: Class<T>,
-        private val startMethod: BiConsumer<B, T>,
-        private val finishMethod: BiConsumer<B, T>,
-        private val walkChildNodes: BiConsumer<GenericTreeWalker<B>, T>
+        private val startMethod: B.(T) -> Unit,
+        private val finishMethod: B.(T) -> Unit,
+        private val walkChildNodes: GenericTreeWalker<B>.(T) -> Unit
     ) {
-
         fun walk(walker: GenericTreeWalker<B>, element: Any) {
             val francaElement = clazz.cast(element)
-            for (builder in walker.builders) {
-                startMethod.accept(builder, francaElement)
-            }
-            walkChildNodes.accept(walker, francaElement)
-            for (builder in walker.builders) {
-                finishMethod.accept(builder, francaElement)
-            }
+            walker.builders.forEach { it.startMethod(francaElement) }
+            walker.walkChildNodes(francaElement)
+            walker.builders.forEach { it.finishMethod(francaElement) }
         }
     }
 
@@ -67,7 +61,7 @@ open class GenericTreeWalker<MB> protected constructor(
     }
 
     protected fun walkCollection(collection: Iterable<*>?) {
-        collection?.forEach { this.walk(it) }
+        collection?.forEach { walk(it) }
     }
 
     private fun findSupportedInterface(aClass: Class<*>): Class<*>? {

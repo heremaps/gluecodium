@@ -36,8 +36,6 @@ import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
-import java.util.HashMap
-import java.util.function.BiConsumer
 
 /**
  * Tree walker for the Franca model tree decouples tree traversal from the creation of
@@ -121,133 +119,131 @@ class FrancaTreeWalker(builders: Collection<ModelBuilder>) :
         private const val IN_ARG_KEY = "InputArgument"
         private const val OUT_ARG_KEY = "OutputArgument"
         private val FRANCA_TREE_STRUCTURE =
-            HashMap<Any, GenericTreeWalker.TreeNodeInfo<ModelBuilder, *>>()
+            mutableMapOf<Any, GenericTreeWalker.TreeNodeInfo<ModelBuilder, *>>()
 
         init {
             // Regular nodes
             initTreeNode(
                 FInterface::class.java,
-                BiConsumer(ModelBuilder::startBuilding),
-                BiConsumer(ModelBuilder::finishBuilding),
-                BiConsumer(FrancaTreeWalker::walkChildNodes)
+                ModelBuilder::startBuilding,
+                ModelBuilder::finishBuilding,
+                FrancaTreeWalker::walkChildNodes
             )
-            initTreeNode(
+            initTreeNode<FTypeCollection>(
                 FTypeCollection::class.java,
-                BiConsumer<ModelBuilder, FTypeCollection>(ModelBuilder::startBuilding),
-                BiConsumer(ModelBuilder::finishBuilding),
-                BiConsumer(FrancaTreeWalker::walkChildNodes)
+                ModelBuilder::startBuilding,
+                ModelBuilder::finishBuilding,
+                FrancaTreeWalker::walkChildNodes
             )
             initTreeNode(
                 FMethod::class.java,
-                BiConsumer(ModelBuilder::finishBuilding),
-                BiConsumer(FrancaTreeWalker::walkChildNodes)
+                ModelBuilder::finishBuilding,
+                FrancaTreeWalker::walkChildNodes
             )
             initTreeNode(
                 FAttribute::class.java,
-                BiConsumer(ModelBuilder::finishBuilding),
-                BiConsumer(FrancaTreeWalker::walkChildNodes)
+                ModelBuilder::finishBuilding,
+                FrancaTreeWalker::walkChildNodes
             )
             initTreeNode(
                 FConstantDef::class.java,
-                BiConsumer(ModelBuilder::finishBuilding),
-                BiConsumer(FrancaTreeWalker::walkChildNodes)
+                ModelBuilder::finishBuilding,
+                FrancaTreeWalker::walkChildNodes
             )
             initTreeNode(
                 FStructType::class.java,
-                BiConsumer(ModelBuilder::finishBuilding),
-                BiConsumer(FrancaTreeWalker::walkChildNodes)
+                ModelBuilder::finishBuilding,
+                FrancaTreeWalker::walkChildNodes
             )
             initTreeNode(
                 FEnumerationType::class.java,
-                BiConsumer(ModelBuilder::finishBuilding),
-                BiConsumer(FrancaTreeWalker::walkChildNodes)
+                ModelBuilder::finishBuilding,
+                FrancaTreeWalker::walkChildNodes
             )
             initTreeNode(
                 FEnumerator::class.java,
-                BiConsumer(ModelBuilder::finishBuilding),
-                BiConsumer(FrancaTreeWalker::walkChildNodes)
+                ModelBuilder::finishBuilding,
+                FrancaTreeWalker::walkChildNodes
             )
             initTreeNode(
                 FField::class.java,
-                BiConsumer(ModelBuilder::finishBuilding),
-                BiConsumer(FrancaTreeWalker::walkChildNodes)
+                ModelBuilder::finishBuilding,
+                FrancaTreeWalker::walkChildNodes
             )
             initTreeNode(
                 FTypeDef::class.java,
-                BiConsumer(ModelBuilder::finishBuilding),
-                BiConsumer(FrancaTreeWalker::walkChildNodes)
+                ModelBuilder::finishBuilding,
+                FrancaTreeWalker::walkChildNodes
             )
             initTreeNode(
                 FArrayType::class.java,
-                BiConsumer(ModelBuilder::finishBuilding),
-                BiConsumer(FrancaTreeWalker::walkChildNodes)
+                ModelBuilder::finishBuilding,
+                FrancaTreeWalker::walkChildNodes
             )
             initTreeNode(
                 FMapType::class.java,
-                BiConsumer(ModelBuilder::finishBuilding),
-                BiConsumer(FrancaTreeWalker::walkChildNodes)
+                ModelBuilder::finishBuilding,
+                FrancaTreeWalker::walkChildNodes
             )
             initTreeNode(
                 IN_ARG_KEY,
                 FArgument::class.java,
-                BiConsumer(ModelBuilder::startBuildingInputArgument),
-                BiConsumer(ModelBuilder::finishBuildingInputArgument),
-                BiConsumer(FrancaTreeWalker::walkChildNodes)
+                ModelBuilder::startBuildingInputArgument,
+                ModelBuilder::finishBuildingInputArgument,
+                FrancaTreeWalker::walkChildNodes
             )
             initTreeNode(
                 OUT_ARG_KEY,
                 FArgument::class.java,
-                BiConsumer(ModelBuilder::startBuildingOutputArgument),
-                BiConsumer(ModelBuilder::finishBuildingOutputArgument),
-                BiConsumer(FrancaTreeWalker::walkChildNodes)
+                ModelBuilder::startBuildingOutputArgument,
+                ModelBuilder::finishBuildingOutputArgument,
+                FrancaTreeWalker::walkChildNodes
             )
 
             // Leaf nodes
-            initTreeNode<FExpression>(
+            initTreeNode(
                 FExpression::class.java,
-                BiConsumer(ModelBuilder::finishBuilding),
-                BiConsumer(Companion::noChildNodes)
+                ModelBuilder::finishBuilding,
+                Companion::noChildNodes
             )
-            initTreeNode<FTypeRef>(
+            initTreeNode(
                 FTypeRef::class.java,
-                BiConsumer(ModelBuilder::finishBuilding),
-                BiConsumer(Companion::noChildNodes)
+                ModelBuilder::finishBuilding,
+                Companion::noChildNodes
             )
         }
 
         private fun <T : EObject> initTreeNode(
             clazz: Class<T>,
-            finishMethod: BiConsumer<ModelBuilder, T>,
-            walkChildNodes: BiConsumer<FrancaTreeWalker, T>
+            finishMethod: ModelBuilder.(T) -> Unit,
+            walkChildNodes: FrancaTreeWalker.(T) -> Unit
         ) = initTreeNode(
                 clazz,
                 clazz,
-                BiConsumer<ModelBuilder, T>(ModelBuilder::startBuilding),
+                { this.startBuilding(it) },
                 finishMethod,
                 walkChildNodes
             )
 
         private fun <T : EObject> initTreeNode(
             clazz: Class<T>,
-            startMethod: BiConsumer<ModelBuilder, T>,
-            finishMethod: BiConsumer<ModelBuilder, T>,
-            walkChildNodes: BiConsumer<FrancaTreeWalker, T>
+            startMethod: ModelBuilder.(T) -> Unit,
+            finishMethod: ModelBuilder.(T) -> Unit,
+            walkChildNodes: FrancaTreeWalker.(T) -> Unit
         ) = initTreeNode(clazz, clazz, startMethod, finishMethod, walkChildNodes)
 
         private fun <T> initTreeNode(
             key: Any,
             clazz: Class<T>,
-            startMethod: BiConsumer<ModelBuilder, T>,
-            finishMethod: BiConsumer<ModelBuilder, T>,
-            walkChildNodes: BiConsumer<FrancaTreeWalker, T>
+            startMethod: ModelBuilder.(T) -> Unit,
+            finishMethod: ModelBuilder.(T) -> Unit,
+            walkChildNodes: FrancaTreeWalker.(T) -> Unit
         ) {
             FRANCA_TREE_STRUCTURE[key] = GenericTreeWalker.TreeNodeInfo(
                 clazz,
                 startMethod,
                 finishMethod,
-                BiConsumer { walker, element ->
-                    walkChildNodes.accept(walker as FrancaTreeWalker, element)
-                })
+                { (this as FrancaTreeWalker).walkChildNodes(it) })
         }
 
         @Suppress("UNUSED_PARAMETER")
