@@ -17,169 +17,123 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.android;
+package com.here.genium.platform.android
 
-import com.here.genium.Genium;
-import com.here.genium.common.CollectionsHelper;
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.generator.androidmanifest.AndroidManifestGenerator;
-import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.java.JavaTemplates;
-import com.here.genium.generator.jni.JniGenerator;
-import com.here.genium.generator.jni.JniNameRules;
-import com.here.genium.generator.jni.JniTemplates;
-import com.here.genium.model.common.ModelElement;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.java.JavaElement;
-import com.here.genium.model.java.JavaPackage;
-import com.here.genium.model.jni.JniContainer;
-import com.here.genium.platform.common.GeneratorSuite;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.franca.core.franca.FTypeCollection;
+import com.here.genium.Genium
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.generator.androidmanifest.AndroidManifestGenerator
+import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.java.JavaTemplates
+import com.here.genium.generator.jni.JniGenerator
+import com.here.genium.generator.jni.JniNameRules
+import com.here.genium.generator.jni.JniTemplates
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.java.JavaElement
+import com.here.genium.model.java.JavaPackage
+import com.here.genium.model.jni.JniContainer
+import com.here.genium.platform.common.GeneratorSuite
+import org.franca.core.franca.FTypeCollection
 
 /**
- * Combines generators {@link JniGenerator} and {@link JavaTemplates} to generate Java code and
+ * Combines generators [JniGenerator] and [JavaTemplates] to generate Java code and
  * bindings to BaseAPI layer for Java.
  */
-public class JavaGeneratorSuite extends GeneratorSuite {
+open class JavaGeneratorSuite protected constructor(
+    options: Genium.Options,
+    private val enableAndroidFeatures: Boolean,
+    private val deploymentModel: FrancaDeploymentModel
+) : GeneratorSuite() {
 
-  public static final String GENERATOR_NAME = "java";
+    private val rootPackage = options.javaPackages
+    private val internalNamespace = options.cppInternalNamespace
+    private val rootNamespace = options.cppRootNamespace
 
-  private static final String ARRAY_CONVERSION_UTILS = "ArrayConversionUtils";
-  private static final String CPP_PROXY_BASE = "CppProxyBase";
-  public static final String FIELD_ACCESS_UTILS = "FieldAccessMethods";
-  private static final String BOXING_CONVERSION_UTILS = "BoxingConversionUtils";
-  private static final String JNI_BASE = "JniBase";
-  private static final String JNI_CPP_CONVERSION_UTILS = "JniCppConversionUtils";
-  private static final String JNI_TEMPLATE_METAINFO = "JniTemplateMetainfo";
-  private static final String JNI_REFERENCE = "JniReference";
-  private static final String JNI_CALL_JAVA_METHOD = "JniCallJavaMethod";
-  private static final String JNI_CLASS_CACHE = "JniClassCache";
+    protected open val generatorName = GENERATOR_NAME
 
-  private static final List<String> UTILS_FILES =
-      Arrays.asList(
-          CPP_PROXY_BASE,
-          FIELD_ACCESS_UTILS,
-          JNI_BASE,
-          JNI_CPP_CONVERSION_UTILS,
-          BOXING_CONVERSION_UTILS,
-          JNI_CLASS_CACHE);
-  private static final List<String> UTILS_FILES_HEADER_ONLY =
-      Arrays.asList(
-          JNI_TEMPLATE_METAINFO, JNI_REFERENCE, JNI_CALL_JAVA_METHOD, ARRAY_CONVERSION_UTILS);
-  private static final List<String> UTILS_HEADER_INCLUDES =
-      Arrays.asList(CPP_PROXY_BASE, FIELD_ACCESS_UTILS, JNI_BASE, JNI_CPP_CONVERSION_UTILS);
+    constructor(
+        options: Genium.Options,
+        deploymentModel: FrancaDeploymentModel
+    ) : this(options, false, deploymentModel)
 
-  private static final String NATIVE_BASE_JAVA = "NativeBase.java";
+    override fun getName() = "com.here.JavaGeneratorSuite"
 
-  private final List<String> rootPackage;
-  private final boolean enableAndroidFeatures;
-  private final String internalNamespace;
-  private final List<String> rootNamespace;
-  private final FrancaDeploymentModel deploymentModel;
+    override fun generate(typeCollections: List<FTypeCollection>): List<GeneratedFile> {
+        val javaPackageList =
+            if (!rootPackage.isEmpty()) rootPackage else JavaPackage.DEFAULT_PACKAGE_NAMES
 
-  public JavaGeneratorSuite(
-      final Genium.Options options, final FrancaDeploymentModel deploymentModel) {
-    this(options, false, deploymentModel);
-  }
-
-  protected JavaGeneratorSuite(
-      final Genium.Options options,
-      final boolean enableAndroidFeatures,
-      final FrancaDeploymentModel deploymentModel) {
-    super();
-    this.rootPackage = options.getJavaPackages();
-    this.enableAndroidFeatures = enableAndroidFeatures;
-    this.internalNamespace = options.getCppInternalNamespace();
-    this.rootNamespace = options.getCppRootNamespace();
-    this.deploymentModel = deploymentModel;
-  }
-
-  @Override
-  public String getName() {
-    return "com.here.JavaGeneratorSuite";
-  }
-
-  @Override
-  public List<GeneratedFile> generate(final List<FTypeCollection> typeCollections) {
-
-    List<String> javaPackageList =
-        rootPackage != null && !rootPackage.isEmpty()
-            ? rootPackage
-            : JavaPackage.Companion.getDEFAULT_PACKAGE_NAMES();
-
-    FrancaTypeHelper.ErrorEnumFilter errorEnumFilter =
-        FrancaTypeHelper.getErrorEnumFilter(typeCollections);
-
-    JniGenerator jniGenerator =
-        new JniGenerator(
+        val jniGenerator = JniGenerator(
             deploymentModel,
             javaPackageList,
-            UTILS_HEADER_INCLUDES
-                .stream()
-                .map(JniNameRules::getHeaderFileName)
-                .collect(Collectors.toList()),
-            errorEnumFilter,
+            UTILS_HEADER_INCLUDES.map(JniNameRules::getHeaderFileName),
+            FrancaTypeHelper.getErrorEnumFilter(typeCollections),
             enableAndroidFeatures,
-            internalNamespace,
-            rootNamespace);
+            internalNamespace!!,
+            rootNamespace
+        )
 
-    Collection<ModelElement> model =
-        typeCollections
-            .stream()
-            .map(jniGenerator::generateModel)
-            .flatMap(Collection::stream)
-            .collect(Collectors.toList());
-    List<JavaElement> javaModel = CollectionsHelper.getAllOfType(model, JavaElement.class);
-    List<JniContainer> jniModel = CollectionsHelper.getAllOfType(model, JniContainer.class);
+        val model = typeCollections.map(jniGenerator::generateModel).flatten()
+        val javaModel = model.filterIsInstance(JavaElement::class.java)
+        val jniModel = model.filterIsInstance(JniContainer::class.java)
 
-    JavaTemplates javaTemplates = new JavaTemplates(getGeneratorName());
-    List<GeneratedFile> javaFiles = javaTemplates.generateFiles(javaModel);
+        val javaTemplates = JavaTemplates(generatorName)
+        val javaFiles = javaTemplates.generateFiles(javaModel)
 
-    List<String> nativeBasePath = new LinkedList<>();
-    nativeBasePath.add(getGeneratorName());
-    nativeBasePath.addAll(javaPackageList);
-    nativeBasePath.add(NATIVE_BASE_JAVA);
-    javaFiles.add(
-        JavaTemplates.generateNativeBase(String.join("/", nativeBasePath), javaPackageList));
+        val nativeBasePath = listOf(generatorName) + javaPackageList + NATIVE_BASE_JAVA
+        javaFiles.add(
+            JavaTemplates.generateNativeBase(nativeBasePath.joinToString("/"), javaPackageList)
+        )
 
-    JniTemplates jniTemplates =
-        new JniTemplates(javaPackageList, internalNamespace, getGeneratorName());
-    Stream<List<GeneratedFile>> jniFilesStream =
-        Stream.concat(
-            jniModel
-                .stream()
-                .filter(JniContainer::isFrancaInterface)
-                .map(jniTemplates::generateFiles),
-            Stream.of(jniTemplates.generateConversionFiles(jniModel)));
+        val headers = mutableListOf<GeneratedFile>()
+        if (enableAndroidFeatures) {
+            // This generator is special in that it generates only one file
+            // At the moment it does not need to iterate over all interfaces
+            val androidManifestGenerator = AndroidManifestGenerator(javaPackageList)
+            headers += androidManifestGenerator.generate()
+        }
 
-    List<GeneratedFile> results = new LinkedList<>();
+        val jniTemplates = JniTemplates(javaPackageList, internalNamespace, generatorName)
+        for (fileName in UTILS_FILES) {
+            headers += jniTemplates.generateConversionUtilsHeaderFile(fileName)
+            headers += jniTemplates.generateConversionUtilsImplementationFile(fileName)
+        }
+        for (fileName in UTILS_FILES_HEADER_ONLY) {
+            headers += jniTemplates.generateConversionUtilsHeaderFile(fileName)
+        }
 
-    if (enableAndroidFeatures) {
-      // This generator is special in that it generates only one file
-      // At the moment it does not need to iterate over all interfaces
-      AndroidManifestGenerator androidManifestGenerator =
-          new AndroidManifestGenerator(javaPackageList);
-      results.add(androidManifestGenerator.generate());
+        return headers + javaFiles + jniModel
+            .filter(JniContainer::isFrancaInterface)
+            .map(jniTemplates::generateFiles).flatten() +
+                jniTemplates.generateConversionFiles(jniModel)
     }
 
-    for (final String fileName : UTILS_FILES) {
-      results.add(jniTemplates.generateConversionUtilsHeaderFile(fileName));
-      results.add(jniTemplates.generateConversionUtilsImplementationFile(fileName));
+    companion object {
+        const val GENERATOR_NAME = "java"
+
+        private const val ARRAY_CONVERSION_UTILS = "ArrayConversionUtils"
+        private const val CPP_PROXY_BASE = "CppProxyBase"
+        const val FIELD_ACCESS_UTILS = "FieldAccessMethods"
+        private const val BOXING_CONVERSION_UTILS = "BoxingConversionUtils"
+        private const val JNI_BASE = "JniBase"
+        private const val JNI_CPP_CONVERSION_UTILS = "JniCppConversionUtils"
+        private const val JNI_TEMPLATE_METAINFO = "JniTemplateMetainfo"
+        private const val JNI_REFERENCE = "JniReference"
+        private const val JNI_CALL_JAVA_METHOD = "JniCallJavaMethod"
+        private const val JNI_CLASS_CACHE = "JniClassCache"
+
+        private val UTILS_FILES = listOf(
+            CPP_PROXY_BASE,
+            FIELD_ACCESS_UTILS,
+            JNI_BASE,
+            JNI_CPP_CONVERSION_UTILS,
+            BOXING_CONVERSION_UTILS,
+            JNI_CLASS_CACHE
+        )
+        private val UTILS_FILES_HEADER_ONLY = listOf(
+            JNI_TEMPLATE_METAINFO, JNI_REFERENCE, JNI_CALL_JAVA_METHOD, ARRAY_CONVERSION_UTILS
+        )
+        private val UTILS_HEADER_INCLUDES =
+            listOf(CPP_PROXY_BASE, FIELD_ACCESS_UTILS, JNI_BASE, JNI_CPP_CONVERSION_UTILS)
+
+        private const val NATIVE_BASE_JAVA = "NativeBase.java"
     }
-    for (final String fileName : UTILS_FILES_HEADER_ONLY) {
-      results.add(jniTemplates.generateConversionUtilsHeaderFile(fileName));
-    }
-
-    results.addAll(javaFiles);
-    results.addAll(jniFilesStream.flatMap(Collection::stream).collect(Collectors.toList()));
-
-    return results;
-  }
-
-  protected String getGeneratorName() {
-    return GENERATOR_NAME;
-  }
 }

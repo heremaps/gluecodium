@@ -17,121 +17,95 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.jni;
+package com.here.genium.generator.jni
 
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.generator.common.AbstractGenerator;
-import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
-import com.here.genium.generator.cpp.CppModelBuilder;
-import com.here.genium.generator.cpp.CppNameResolver;
-import com.here.genium.generator.cpp.CppTypeMapper;
-import com.here.genium.generator.cpp.CppValueMapper;
-import com.here.genium.generator.java.JavaModelBuilder;
-import com.here.genium.generator.java.JavaTypeMapper;
-import com.here.genium.model.common.Include;
-import com.here.genium.model.common.ModelElement;
-import com.here.genium.model.cpp.CppIncludeResolver;
-import com.here.genium.model.franca.DefinedBy;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.java.*;
-import com.here.genium.model.jni.JniContainer;
-import java.util.*;
-import java.util.stream.Collectors;
-import org.franca.core.franca.FTypeCollection;
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.generator.common.AbstractGenerator
+import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
+import com.here.genium.generator.cpp.CppModelBuilder
+import com.here.genium.generator.cpp.CppNameResolver
+import com.here.genium.generator.cpp.CppTypeMapper
+import com.here.genium.generator.cpp.CppValueMapper
+import com.here.genium.generator.java.JavaModelBuilder
+import com.here.genium.generator.java.JavaTypeMapper
+import com.here.genium.model.common.Include
+import com.here.genium.model.common.ModelElement
+import com.here.genium.model.cpp.CppIncludeResolver
+import com.here.genium.model.franca.DefinedBy
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.java.JavaCustomType
+import com.here.genium.model.java.JavaImport
+import com.here.genium.model.java.JavaPackage
+import com.here.genium.model.jni.JniContainer
+import org.franca.core.franca.FTypeCollection
 
-public final class JniGenerator extends AbstractGenerator {
+class JniGenerator(
+    private val deploymentModel: FrancaDeploymentModel,
+    packageList: List<String>,
+    private val additionalIncludes: List<String>,
+    private val errorEnumFilter: FrancaTypeHelper.ErrorEnumFilter,
+    private val enableAndroidFeatures: Boolean,
+    private val internalNamespace: String,
+    rootNamespace: List<String>
+) : AbstractGenerator(packageList) {
+    private val cppIncludeResolver = CppIncludeResolver(deploymentModel, rootNamespace)
+    private val cppNameResolver = CppNameResolver(deploymentModel, rootNamespace)
 
-  private static final JavaPackage ANDROID_OS_PACKAGE =
-      new JavaPackage(Arrays.asList("android", "os"));
-  private static final JavaPackage ANDROID_SUPPORT_ANNOTATION_PACKAGE =
-      new JavaPackage(Arrays.asList("android", "support", "annotation"));
-  private static final JavaType PARCELABLE =
-      new JavaCustomType(
-          "Parcelable",
-          null,
-          ANDROID_OS_PACKAGE.getPackageNames(),
-          Arrays.asList(
-              new JavaImport("Parcelable", ANDROID_OS_PACKAGE),
-              new JavaImport("Parcel", ANDROID_OS_PACKAGE)));
-  private static final JavaType NON_NULL =
-      new JavaCustomType("NonNull", ANDROID_SUPPORT_ANNOTATION_PACKAGE);
-  private static final JavaType NULLABLE =
-      new JavaCustomType("Nullable", ANDROID_SUPPORT_ANNOTATION_PACKAGE);
-
-  private final FrancaDeploymentModel deploymentModel;
-  private final List<String> additionalIncludes;
-  private final FrancaTypeHelper.ErrorEnumFilter errorEnumFilter;
-  private final boolean enableAndroidFeatures;
-  private final String internalNamespace;
-  private final CppIncludeResolver cppIncludeResolver;
-  private final CppNameResolver cppNameResolver;
-
-  public JniGenerator(
-      final FrancaDeploymentModel deploymentModel,
-      final List<String> packageList,
-      final List<String> additionalIncludes,
-      final FrancaTypeHelper.ErrorEnumFilter errorEnumFilter,
-      final boolean enableAndroidFeatures,
-      final String internalNamespace,
-      final List<String> rootNamespace) {
-    super(packageList);
-    this.deploymentModel = deploymentModel;
-    this.additionalIncludes = additionalIncludes;
-    this.errorEnumFilter = errorEnumFilter;
-    this.enableAndroidFeatures = enableAndroidFeatures;
-    this.internalNamespace = internalNamespace;
-    this.cppIncludeResolver = new CppIncludeResolver(deploymentModel, rootNamespace);
-    this.cppNameResolver = new CppNameResolver(deploymentModel, rootNamespace);
-  }
-
-  public Collection<ModelElement> generateModel(final FTypeCollection francaTypeCollection) {
-
-    JavaPackage basePackage = new JavaPackage(basePackages);
-    JavaModelBuilder javaBuilder =
-        new JavaModelBuilder(
+    fun generateModel(francaTypeCollection: FTypeCollection): Collection<ModelElement> {
+        val basePackage = JavaPackage(basePackages)
+        val javaBuilder = JavaModelBuilder(
             deploymentModel,
             basePackage.createChildPackage(DefinedBy.getPackages(francaTypeCollection)),
-            new JavaTypeMapper(
+            JavaTypeMapper(
                 basePackage,
                 deploymentModel,
-                enableAndroidFeatures ? PARCELABLE : null,
-                enableAndroidFeatures ? NON_NULL : null,
-                enableAndroidFeatures ? NULLABLE : null),
-            errorEnumFilter);
+                if (enableAndroidFeatures) PARCELABLE else null,
+                if (enableAndroidFeatures) NON_NULL else null,
+                if (enableAndroidFeatures) NULLABLE else null
+            ),
+            errorEnumFilter
+        )
 
-    CppTypeMapper typeMapper =
-        new CppTypeMapper(cppIncludeResolver, cppNameResolver, internalNamespace, deploymentModel);
-    CppValueMapper valueMapper = new CppValueMapper(deploymentModel, cppNameResolver);
-    CppModelBuilder cppBuilder =
-        new CppModelBuilder(deploymentModel, typeMapper, valueMapper, cppNameResolver);
-    JniModelBuilder jniBuilder =
-        new JniModelBuilder(deploymentModel, javaBuilder, cppBuilder, cppIncludeResolver);
+        val typeMapper =
+            CppTypeMapper(cppIncludeResolver, cppNameResolver, internalNamespace, deploymentModel)
+        val valueMapper = CppValueMapper(deploymentModel, cppNameResolver)
+        val cppBuilder = CppModelBuilder(deploymentModel, typeMapper, valueMapper, cppNameResolver)
+        val jniBuilder =
+            JniModelBuilder(deploymentModel, javaBuilder, cppBuilder, cppIncludeResolver)
 
-    FrancaTreeWalker treeWalker =
-        new FrancaTreeWalker(Arrays.asList(javaBuilder, cppBuilder, jniBuilder));
-    treeWalker.walkTree(francaTypeCollection);
+        val treeWalker = FrancaTreeWalker(listOf(javaBuilder, cppBuilder, jniBuilder))
+        treeWalker.walkTree(francaTypeCollection)
 
-    JniContainer jniContainer = jniBuilder.getFinalResult(JniContainer.class);
-    jniContainer.getIncludes().addAll(getIncludes(jniContainer));
+        val jniContainer = jniBuilder.getFinalResult(JniContainer::class.java)
+        jniContainer.includes.addAll(getIncludes(jniContainer))
 
-    List<ModelElement> results = new LinkedList<>(javaBuilder.getFinalResults());
-    results.add(jniContainer);
-
-    return results;
-  }
-
-  private List<Include> getIncludes(final JniContainer jniContainer) {
-
-    List<String> includes = new LinkedList<>();
-    if (jniContainer.isFrancaInterface()) {
-      includes.add(JniNameRules.getHeaderFileName(JniNameRules.getJniClassFileName(jniContainer)));
+        return javaBuilder.finalResults + jniContainer
     }
 
-    includes.addAll(additionalIncludes);
+    private fun getIncludes(jniContainer: JniContainer): List<Include> {
+        val includes = mutableListOf<String>()
+        if (jniContainer.isFrancaInterface) {
+            includes +=
+                JniNameRules.getHeaderFileName(JniNameRules.getJniClassFileName(jniContainer))
+        }
+        includes += additionalIncludes
 
-    return includes
-        .stream()
-        .map(Include.Companion::createInternalInclude)
-        .collect(Collectors.toList());
-  }
+        return includes.map(Include.Companion::createInternalInclude)
+    }
+
+    companion object {
+        private val ANDROID_OS_PACKAGE = JavaPackage(listOf("android", "os"))
+        private val ANDROID_SUPPORT_ANNOTATION_PACKAGE =
+            JavaPackage(listOf("android", "support", "annotation"))
+        private val PARCELABLE = JavaCustomType(
+            "Parcelable", null,
+            ANDROID_OS_PACKAGE.packageNames,
+            listOf(
+                JavaImport("Parcelable", ANDROID_OS_PACKAGE),
+                JavaImport("Parcel", ANDROID_OS_PACKAGE)
+            )
+        )
+        private val NON_NULL = JavaCustomType("NonNull", ANDROID_SUPPORT_ANNOTATION_PACKAGE)
+        private val NULLABLE = JavaCustomType("Nullable", ANDROID_SUPPORT_ANNOTATION_PACKAGE)
+    }
 }

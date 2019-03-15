@@ -19,20 +19,26 @@
 
 package com.here.genium.generator.jni;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.generator.cpp.CppLibraryIncludes;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.jni.JniContainer;
-import com.here.genium.platform.android.AndroidGeneratorSuite;
-import java.util.*;
+import com.here.genium.platform.android.JavaGeneratorSuite;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public final class JniTemplates {
 
-  @VisibleForTesting public static final String INCLUDES_NAME = "includes";
-  @VisibleForTesting public static final String MODELS_NAME = "models";
+  private static final String INCLUDES_NAME = "includes";
+  private static final String MODELS_NAME = "models";
   private static final String BASE_PACKAGES_NAME = "basePackages";
   private static final String CONTAINER_NAME = "container";
   private static final String INTERNAL_NAMESPACE_NAME = "internalNamespace";
@@ -123,7 +129,7 @@ public final class JniTemplates {
             CppLibraryIncludes.INT_TYPES,
             CppLibraryIncludes.VECTOR,
             Include.Companion.createInternalInclude(
-                JniNameRules.getHeaderFileName(AndroidGeneratorSuite.FIELD_ACCESS_UTILS)),
+                JniNameRules.getHeaderFileName(JavaGeneratorSuite.FIELD_ACCESS_UTILS)),
             Include.Companion.createInternalInclude(
                 JniNameRules.getHeaderFileName(JniNameRules.JNI_ENUM_CONVERSION_NAME))));
 
