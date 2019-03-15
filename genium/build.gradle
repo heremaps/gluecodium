@@ -34,6 +34,7 @@ repositories {
 dependencies {
     compile files({ tasks.unzipFrancaZip.extractedJars })
     compile 'com.android.tools.build:manifest-merger:25.3.0'
+    compile 'com.android.tools:annotations:25.3.0'
     compile 'commons-io:commons-io:2.5'
     compile 'org.apache.commons:commons-text:1.1'
     compile 'org.eclipse.core:runtime:3.10.0-v20140318-2214'

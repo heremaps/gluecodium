@@ -21,17 +21,17 @@ package com.here.genium.platform.baseapi
 
 import com.google.common.annotations.VisibleForTesting
 import com.here.genium.Genium
-import com.here.genium.common.CollectionsHelper
-import com.here.genium.common.FrancaTypeHelper
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
+import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.genium.generator.cpp.CppGenerator
 import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.generator.cpp.CppModelBuilder
-import com.here.genium.generator.cpp.CppNameResolver
+import com.here.genium.generator.cpp.CppLimeBasedModelBuilder
+import com.here.genium.generator.cpp.CppLimeBasedNameResolver
+import com.here.genium.generator.cpp.CppLimeBasedTypeMapper
 import com.here.genium.generator.cpp.CppNameRules
-import com.here.genium.generator.cpp.CppTypeMapper
-import com.here.genium.generator.cpp.CppValueMapper
+import com.here.genium.generator.lime.LimeModelBuilder
+import com.here.genium.generator.lime.LimeReferenceResolver
 import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppComplexTypeRef
 import com.here.genium.model.cpp.CppElement
@@ -39,12 +39,12 @@ import com.here.genium.model.cpp.CppElementWithIncludes
 import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppFile
 import com.here.genium.model.cpp.CppForwardDeclaration
-import com.here.genium.model.cpp.CppIncludeResolver
-import com.here.genium.model.franca.DefinedBy
+import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
 import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeMethod
 import com.here.genium.platform.common.GeneratorSuite
 import org.franca.core.franca.FTypeCollection
-import java.util.Comparator
 import java.util.stream.Collectors
 
 /**
@@ -59,81 +59,69 @@ class BaseApiGeneratorSuite(
     private val deploymentModel: FrancaDeploymentModel
 ) : GeneratorSuite() {
 
-    private val internalNamespace: String? = options.cppInternalNamespace
-    private val rootNamespace: List<String> = options.cppRootNamespace
-    private val exportName: String? = options.cppExport
-    private val includeResolver: CppIncludeResolver =
-        CppIncludeResolver(deploymentModel, rootNamespace)
-    private val nameResolver: CppNameResolver = CppNameResolver(deploymentModel, rootNamespace)
+    private val internalNamespace = options.cppInternalNamespace ?: ""
+    private val rootNamespace = options.cppRootNamespace
+    private val exportName = options.cppExport
+    private val limeReferenceResolver = LimeReferenceResolver()
 
     override fun getName() = "com.here.BaseApiGenerator"
 
     override fun generate(typeCollections: List<FTypeCollection>): List<GeneratedFile> {
-        val typeMapper =
-            CppTypeMapper(includeResolver, nameResolver, internalNamespace, deploymentModel)
-        val generator = CppGenerator(BaseApiGeneratorSuite.GENERATOR_NAME, internalNamespace)
+        val limeModelBuilder =
+            LimeModelBuilder(deploymentModel, limeReferenceResolver)
+        val limeModel = typeCollections.map {
+            FrancaTreeWalker(listOf(limeModelBuilder)).walkTree(it)
+            limeModelBuilder.getFinalResult(LimeContainer::class.java)
+        }
 
-        val allErrorEnums = typeCollections
-            .stream()
-            .flatMap(FrancaTypeHelper::getAllErrorEnums)
+        val limeReferenceMap = limeReferenceResolver.referenceMap
+        val includeResolver =
+            CppLimeBasedIncludeResolver(rootNamespace, limeReferenceMap)
+        val nameResolver = CppLimeBasedNameResolver(rootNamespace, limeReferenceMap)
+        val typeMapper = CppLimeBasedTypeMapper(nameResolver, includeResolver, internalNamespace)
+        val cppModelBuilder = CppLimeBasedModelBuilder(typeMapper, nameResolver)
+
+        val allErrorEnums = limeReferenceMap.values
+            .filterIsInstance(LimeMethod::class.java)
+            .mapNotNull { it.errorType?.type }
             .map(nameResolver::getFullyQualifiedName)
-            .collect(Collectors.toSet())
+            .toSet()
 
-        val generatedFiles = typeCollections.flatMap {
+        val generator = CppGenerator(BaseApiGeneratorSuite.GENERATOR_NAME, internalNamespace)
+        return limeModel.flatMap {
             generator.generateCode(
-                mapFrancaTypeCollectionToCppModel(typeMapper, it, allErrorEnums),
+                mapLimeModelToCppModel(it, cppModelBuilder, allErrorEnums),
                 includeResolver.getOutputFilePath(it)
             )
-        }.toMutableList()
-
-        generatedFiles += ADDITIONAL_HEADERS.map(generator::generateHelperHeader)
-        if (exportName != null) {
-            generatedFiles += generator.generateHelperHeader("Export", exportName)
-        }
-
-        return generatedFiles
+        } + ADDITIONAL_HEADERS.map(generator::generateHelperHeader) +
+            generator.generateHelperHeader("Export", exportName)
     }
 
-    private fun mapFrancaTypeCollectionToCppModel(
-        typeMapper: CppTypeMapper,
-        francaTypeCollection: FTypeCollection,
+    private fun mapLimeModelToCppModel(
+        limeModel: LimeContainer,
+        cppModelBuilder: CppLimeBasedModelBuilder,
         allErrorEnums: Set<String>
     ): CppFile {
+        LimeTreeWalker(listOf(cppModelBuilder)).walkTree(limeModel)
+        val finalResults = cppModelBuilder.finalResults
 
-        val builder = CppModelBuilder(
-            deploymentModel,
-            typeMapper,
-            CppValueMapper(deploymentModel, nameResolver),
-            nameResolver
-        )
-        val treeWalker = FrancaTreeWalker(listOf(builder))
-        treeWalker.walkTree(francaTypeCollection)
-
-        val finalResults = builder.finalResults
-        val includes = collectIncludes(finalResults)
-        if (exportName != null) {
-            includes.add(
-                Include.createInternalInclude("Export" + CppNameRules.HEADER_FILE_SUFFIX)
-            )
-        }
+        val includes = collectIncludes(finalResults).toMutableList()
+        includes.add(Include.createInternalInclude("Export" + CppNameRules.HEADER_FILE_SUFFIX))
 
         val errorEnums = collectEnums(finalResults)
-            .stream()
             .filter { allErrorEnums.contains(it.fullyQualifiedName) }
-            .sorted(Comparator.comparing<CppEnum, String>(CppEnum::fullyQualifiedName))
-            .collect(Collectors.toList())
+            .sortedBy(CppEnum::fullyQualifiedName)
         if (!errorEnums.isEmpty()) {
             includes.add(CppLibraryIncludes.SYSTEM_ERROR)
         }
 
         return CppFile(
-            rootNamespace + DefinedBy.getPackages(francaTypeCollection),
-            finalResults,
-            includes,
-            collectForwardDeclarations(finalResults),
-            errorEnums,
-            null,
-            exportName
+            namespace = rootNamespace + limeModel.path.head,
+            members = finalResults,
+            includes = includes,
+            forwardDeclarations = collectForwardDeclarations(finalResults),
+            errorEnums = errorEnums,
+            exportName = exportName
         )
     }
 
@@ -143,27 +131,21 @@ class BaseApiGeneratorSuite(
         @VisibleForTesting
         internal val ADDITIONAL_HEADERS = listOf("EnumHash", "Return")
 
+        private fun flattenCppModel(members: List<CppElement>) =
+            members.stream().flatMap(CppElement::streamRecursive).collect(Collectors.toList())
+
         private fun collectIncludes(members: List<CppElement>) =
-            CollectionsHelper.getStreamOfType(
-                members.stream().flatMap(CppElement::streamRecursive),
-                CppElementWithIncludes::class.java
-            ).map(CppElementWithIncludes::includes)
-                .flatMap(MutableList<Include>::stream)
-                .collect(Collectors.toList())
+            flattenCppModel(members)
+                .filterIsInstance(CppElementWithIncludes::class.java)
+                .flatMap(CppElementWithIncludes::includes)
 
         private fun collectForwardDeclarations(members: List<CppElement>) =
-            CollectionsHelper.getStreamOfType(
-                members.stream().flatMap(CppElement::streamRecursive),
-                CppComplexTypeRef::class.java
-            ).filter(CppComplexTypeRef::needsForwardDeclaration)
+            flattenCppModel(members)
+                .filterIsInstance(CppComplexTypeRef::class.java)
+                .filter { it.needsForwardDeclaration }
                 .map { CppForwardDeclaration(it.name) }
-                .collect(Collectors.toList())
 
         private fun collectEnums(members: List<CppElement>) =
-            CollectionsHelper.getStreamOfType(
-                members.stream().flatMap(CppElement::streamRecursive),
-                CppEnum::class.java
-            ).filter { !it.isExternal }
-                .collect(Collectors.toSet())
+            flattenCppModel(members).filterIsInstance(CppEnum::class.java).filter { !it.isExternal }
     }
 }
