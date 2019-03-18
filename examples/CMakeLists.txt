@@ -20,6 +20,12 @@ project(hello_world)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
+# Allow testing with different C++ standard versions
+if(NOT DEFINED HELLO_TEST_CPP_VERSION)
+  set(HELLO_TEST_CPP_VERSION 11)
+endif()
+set(CMAKE_CXX_STANDARD ${HELLO_TEST_CPP_VERSION})
+
 option(HELLO_BUILD_CPP_APP "Build example C++ apps" OFF)
 option(HELLO_BUILD_IOS_APP "Build example iOS apps" OFF)
 set(HELLO_APIGEN_GENIUM_GENERATOR "cpp,android,swift" CACHE STRING "Genium generator(s) to use [defaults to: cpp,android,swift]")

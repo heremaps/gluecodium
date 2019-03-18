@@ -18,35 +18,16 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include <hello/HelloWorld.h>
-#include <hello/HelloWorldBuiltinTypes.h>
+#include "gtest/gtest.h"
 
-#include <cstdint>
-#include <iostream>
-#include <string>
+namespace {
 
-using namespace hello;
+#define APPEND(A, B) APPEND_(A, B)
+#define APPEND_(A, B) A##B
+#define DummyTest APPEND(DummyTest, HELLO_TEST_CPP_VERSION)
 
-int
-main( )
-{
-    std::string string_buffer;
+TEST(DummyTest, Owl) {
+    ASSERT_EQ(0, 0);
+}
 
-    std::cout << "Write your name: ";
-    std::getline( std::cin, string_buffer );
-
-    std::cout << HelloWorld::hello_world_method( string_buffer ) << std::endl;
-
-    std::cout << "Write the loan amount (NNNN.NN): ";
-    std::getline( std::cin, string_buffer );
-    float amount = std::stof( string_buffer );
-
-    std::cout << "Write the interest rate (percentage): ";
-    std::getline( std::cin, string_buffer );
-    int8_t percentage = (int8_t)std::stoi( string_buffer );
-
-    std::cout << "Repayment due in 1 year: "
-              << amount
-                     + HelloWorldBuiltinTypes::method_with_float_and_integer( amount, percentage )
-              << std::endl;
 }

@@ -20,7 +20,6 @@ cmake_minimum_required(VERSION 3.6)
 # Here we create a new library 'hello' for which to generate target platform bindings.
 # It aims to serve as a blueprint for real-world libraries such as libguidance or librouting.
 project(hello)
-set(CMAKE_CXX_STANDARD 11)
 
 set(HELLO_VERSION_MAJOR 0)
 set(HELLO_VERSION_MINOR 0)

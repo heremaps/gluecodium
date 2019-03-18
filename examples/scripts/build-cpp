@@ -21,8 +21,40 @@
 # Script to build the "hello" library for a C++ consumer. This is demonstrated
 # by the base_api application.
 
+USAGE=$(cat <<EOF
+$0 [options]
+    --publish         Build and publish Genium locally and use it for code generation
+    --debug           Build with debug symbols
+    --cpp <standard>  Build with C++<standard> standard, defaults to 11.
+    --help            Print this message
+EOF
+)
+
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
+
+CMAKE_EXTRA_PARAMETERS=
+CPP_VERSION=11
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --publish)
+            publish_local
+            shift
+            ;;
+        --debug)
+            CMAKE_EXTRA_PARAMETERS="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+            shift
+            ;;
+        --cpp)
+            CPP_VERSION="$2"
+            shift 2
+            ;;
+        --help|*)
+            echo "$USAGE"
+            exit 0
+            ;;
+    esac
+done
 
 if [ "$1" == "--publish" ]; then
     publish_local
@@ -30,12 +62,11 @@ fi
 
 GENIUM_VERSION="${GENIUM_VERSION:-+}"
 BUILD_DIR=${PWD}/build-cpp
-INSTALL_DIR=${PWD}/dist/cpp
+INSTALL_DIR=${PWD}/dist/cpp${CPP_VERSION}
 
 [ -d ${BUILD_DIR} ] || mkdir -p ${BUILD_DIR}
 [ -d ${INSTALL_DIR} ] || mkdir -p ${INSTALL_DIR}
 
-CMAKE_EXTRA_PARAMETERS=
 # Chose platform-native CMake generator
 if [ "$(cmake_generator)" ] ; then
 CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
@@ -51,7 +82,8 @@ safe cmake \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
     -DHELLO_APIGEN_GENIUM_GENERATOR=cpp \
     -DHELLO_APIGEN_GENIUM_VERSION=${GENIUM_VERSION} \
-    -DHELLO_BUILD_CPP_APP=ON \
+    -DHELLO_BUILD_CPP_TESTS=ON \
+    -DHELLO_TEST_CPP_VERSION=${CPP_VERSION} \
     ${CMAKE_EXTRA_PARAMETERS} \
     .. | tee cmake_output.log
 popd

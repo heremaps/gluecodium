@@ -16,21 +16,52 @@
 # License-Filename: LICENSE
 
 cmake_minimum_required(VERSION 3.6)
-project(cpp_app)
+project(test_cpp)
 
-if(NOT HELLO_BUILD_CPP_APP)
-    return()
+if(NOT HELLO_BUILD_CPP_TESTS)
+  return()
 endif()
 
+enable_testing()
+
+# Download and unpack googletest at configure time
+configure_file(googletest-download.cmake.in googletest-download/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
+if(result)
+  message(FATAL_ERROR "CMake step for downloading googletest failed: ${result}")
+endif()
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
+if(result)
+  message(FATAL_ERROR "Build step for googletest failed: ${result}")
+endif()
+
+# Prevent overriding the parent project's compiler/linker
+# settings on Windows
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
+set(BUILD_SHARED_LIBS OFF)
+# Add googletest directly to our build. This defines
+# the gtest and gtest_main targets.
+add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
+                 ${CMAKE_CURRENT_BINARY_DIR}/googletest-build
+                 EXCLUDE_FROM_ALL)
+
 set(SOURCES
-    src/main.cpp)
+  src/dummy.cpp)
 
+# Set search path for libhello.so so it's easier to run the test
 set(CMAKE_INSTALL_RPATH $ORIGIN/../lib)
-add_executable(cpp_app ${SOURCES})
 
-target_compile_features(cpp_app PUBLIC cxx_range_for)
-target_include_directories(cpp_app PRIVATE hello)
-target_link_libraries(cpp_app PRIVATE hello)
+add_executable(test_cpp ${SOURCES})
+target_compile_definitions(test_cpp PRIVATE -DHELLO_TEST_CPP_VERSION=Cxx${HELLO_TEST_CPP_VERSION})
+target_link_libraries(test_cpp
+  gmock_main
+  hello)
 
-install(TARGETS cpp_app
+add_test(unit_tests test_cpp)
+install(TARGETS test_cpp
         RUNTIME DESTINATION bin)
