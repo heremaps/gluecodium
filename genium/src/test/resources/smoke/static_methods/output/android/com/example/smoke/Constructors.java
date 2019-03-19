@@ -37,7 +37,10 @@ public class Constructors extends NativeBase {
     public Constructors(@NonNull final List<Double> input) {
         this(create(input));
     }
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected Constructors(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

@@ -9,7 +9,10 @@ import android.support.annotation.NonNull;
 import com.example.NativeBase;
 
 public class StructsFromTypeCollection extends NativeBase {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected StructsFromTypeCollection(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

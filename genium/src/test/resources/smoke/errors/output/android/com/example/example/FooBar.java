@@ -7,7 +7,10 @@ import com.example.NativeBase;
 import com.example.smoke.Errors;
 import com.example.smoke.SomeTypeCollectionErrorException;
 public class FooBar extends NativeBase {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected FooBar(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

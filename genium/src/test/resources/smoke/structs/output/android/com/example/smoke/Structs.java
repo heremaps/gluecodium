@@ -273,7 +273,10 @@ public class Structs extends NativeBase {
             this.structField = structField;
         }
     }
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected Structs(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

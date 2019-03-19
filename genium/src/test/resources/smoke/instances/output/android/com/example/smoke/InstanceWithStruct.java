@@ -31,7 +31,10 @@ public class InstanceWithStruct extends NativeBase {
             this.instanceWithComment = instanceWithComment;
         }
     }
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected InstanceWithStruct(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

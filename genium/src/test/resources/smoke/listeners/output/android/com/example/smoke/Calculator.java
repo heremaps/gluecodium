@@ -6,7 +6,10 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public class Calculator extends NativeBase {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected Calculator(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

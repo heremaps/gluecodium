@@ -21,7 +21,10 @@ public class MethodOverloads extends NativeBase {
             this.y = y;
         }
     }
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected MethodOverloads(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

@@ -9,7 +9,10 @@ import com.example.NativeBase;
 import java.util.Map;
 
 public class Maps extends NativeBase {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected Maps(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

@@ -8,7 +8,10 @@ package com.example.examples;
 import com.example.NativeBase;
 
 public class ProfileManager extends NativeBase {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected ProfileManager(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

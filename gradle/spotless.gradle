@@ -48,7 +48,7 @@ spotless {
             exclude '**/build', '**/test/resources'
         }
         licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'),
-                '(import|class|public class|protocol)'
+                '(import|class|public class|protocol|/// :nodoc:)'
         trimTrailingWhitespace()
         endWithNewline()
     }

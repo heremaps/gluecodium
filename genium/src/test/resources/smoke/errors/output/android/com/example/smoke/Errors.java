@@ -36,7 +36,10 @@ public class Errors extends NativeBase {
         }
         public final Errors.ExternalErrors error;
     }
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected Errors(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

@@ -5,7 +5,10 @@
 package com.example.smokeoff;
 import com.example.NativeBase;
 public class UnderscorePackage extends NativeBase {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected UnderscorePackage(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

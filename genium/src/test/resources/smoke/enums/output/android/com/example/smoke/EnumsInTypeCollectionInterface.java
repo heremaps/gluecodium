@@ -8,7 +8,10 @@ import android.support.annotation.NonNull;
 import com.example.NativeBase;
 
 public class EnumsInTypeCollectionInterface extends NativeBase {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected EnumsInTypeCollectionInterface(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

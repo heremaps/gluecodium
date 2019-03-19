@@ -8,7 +8,10 @@ import com.example.NativeBase;
  * This is some very useful interface. There is a lot to say about this interface. at least it has multiline comments.
  */
 public class MultiLineComments extends NativeBase {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected MultiLineComments(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

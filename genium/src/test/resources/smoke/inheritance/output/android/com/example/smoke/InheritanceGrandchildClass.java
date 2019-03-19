@@ -6,7 +6,10 @@
 package com.example.smoke;
 
 public class InheritanceGrandchildClass extends InheritanceChildClass {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected InheritanceGrandchildClass(final long nativeHandle) {
         super(nativeHandle);
     }

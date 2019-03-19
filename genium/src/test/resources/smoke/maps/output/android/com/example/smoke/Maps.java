@@ -31,7 +31,10 @@ public class Maps extends NativeBase {
             this.errorMapping = errorMapping;
         }
     }
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected Maps(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

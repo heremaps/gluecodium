@@ -15,7 +15,10 @@ public class NestedPackages extends NativeBase {
             this.someField = someField;
         }
     }
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected NestedPackages(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

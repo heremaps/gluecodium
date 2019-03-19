@@ -189,7 +189,10 @@ public class Nullable extends NativeBase {
             }
         }
     }
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected Nullable(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

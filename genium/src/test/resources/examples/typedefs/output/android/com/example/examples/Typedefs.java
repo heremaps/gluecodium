@@ -5,7 +5,10 @@
 package com.example.examples;
 import com.example.NativeBase;
 public class Typedefs extends NativeBase {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected Typedefs(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

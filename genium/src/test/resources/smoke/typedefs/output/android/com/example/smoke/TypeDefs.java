@@ -28,7 +28,10 @@ public class TypeDefs extends NativeBase {
             this.something = something;
         }
     }
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected TypeDefs(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

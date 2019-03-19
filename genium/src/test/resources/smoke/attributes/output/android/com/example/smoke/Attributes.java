@@ -24,7 +24,10 @@ public class Attributes extends NativeBase {
             this.value = value;
         }
     }
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected Attributes(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

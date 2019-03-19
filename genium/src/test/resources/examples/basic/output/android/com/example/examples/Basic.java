@@ -5,7 +5,10 @@
 package com.example.examples;
 import com.example.NativeBase;
 public class Basic extends NativeBase {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected Basic(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

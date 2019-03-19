@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ArrayMethodOverloads extends NativeBase {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected ArrayMethodOverloads(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

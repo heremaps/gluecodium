@@ -5,7 +5,10 @@
 package com.example.smoke;
 import com.example.NativeBase;
 public class SpecialNames extends NativeBase {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected SpecialNames(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

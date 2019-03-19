@@ -7,7 +7,10 @@ package com.example.smoke;
 
 import com.example.NativeBase;
 public class StaticMethods extends NativeBase {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected StaticMethods(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

@@ -19,7 +19,10 @@
   !
   !}}
 {{#if visibility.toString}}
-/** For internal use only */
+/**
+ * For internal use only.
+ * @exclude
+ */
 {{/if}}protected {{name}}(final long nativeHandle) {
     super(nativeHandle{{#if needsDisposer}}, new Disposer() {
         @Override

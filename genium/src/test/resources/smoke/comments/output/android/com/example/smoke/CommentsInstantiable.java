@@ -12,7 +12,10 @@ public class CommentsInstantiable extends NativeBase {
     public CommentsInstantiable(final String input) {
         this(create(input));
     }
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected CommentsInstantiable(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

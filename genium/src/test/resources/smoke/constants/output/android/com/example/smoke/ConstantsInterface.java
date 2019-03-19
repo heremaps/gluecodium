@@ -20,7 +20,10 @@ public class ConstantsInterface extends NativeBase {
             this.value = value;
         }
     }
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected ConstantsInterface(final long nativeHandle) {
         super(nativeHandle, new Disposer() {
             @Override

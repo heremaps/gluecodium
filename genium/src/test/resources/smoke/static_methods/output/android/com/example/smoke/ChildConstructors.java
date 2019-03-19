@@ -11,7 +11,10 @@ public class ChildConstructors extends Constructors {
     public ChildConstructors(@NonNull final Constructors other) {
         this(createCopyFromParent(other));
     }
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected ChildConstructors(final long nativeHandle) {
         super(nativeHandle);
     }

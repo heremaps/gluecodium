@@ -6,7 +6,10 @@
 package com.example.smoke;
 
 public class InheritanceChildClass extends InheritanceRootImpl {
-    /** For internal use only */
+    /**
+     * For internal use only.
+     * @exclude
+     */
     protected InheritanceChildClass(final long nativeHandle) {
         super(nativeHandle);
     }
