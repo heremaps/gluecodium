@@ -20,12 +20,10 @@
 package com.here.genium.common;
 
 import com.here.genium.model.franca.DefinedBy;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -33,30 +31,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
 public final class FrancaTypeHelper {
-
-  public interface ErrorEnumFilter {
-    boolean isErrorEnum(FEnumerationType enumType);
-  }
-
-  public static Stream<FEnumerationType> getAllErrorEnums(
-      final FTypeCollection francaTypeCollection) {
-    return CollectionsHelper.getStreamOfType(
-            FrancaTypeHelper.getAllChildElements(francaTypeCollection), FMethod.class)
-        .map(FMethod::getErrorEnum)
-        .filter(Objects::nonNull);
-  }
-
-  public static ErrorEnumFilter getErrorEnumFilter(
-      final Collection<FTypeCollection> fTypeCollections) {
-    final Set<String> result =
-        fTypeCollections
-            .stream()
-            .flatMap(FrancaTypeHelper::getAllErrorEnums)
-            .map(FrancaTypeHelper::getFullName)
-            .collect(Collectors.toSet());
-
-    return fEnumType -> result.contains(getFullName(fEnumType));
-  }
 
   public static boolean isImplicitArray(final FTypeRef typeRef) {
     EObject container = typeRef.eContainer();

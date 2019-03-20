@@ -19,25 +19,21 @@
 
 package com.here.genium.generator.jni
 
-import com.here.genium.common.CollectionsHelper
-import com.here.genium.generator.cpp.CppModelBuilder
+import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
+import com.here.genium.generator.cpp.CppLimeBasedModelBuilder
 import com.here.genium.generator.java.JavaModelBuilder
 import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppClass
 import com.here.genium.model.cpp.CppComplexTypeRef
-import com.here.genium.model.cpp.CppElement
 import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppEnumItem
 import com.here.genium.model.cpp.CppField
-import com.here.genium.model.cpp.CppIncludeResolver
 import com.here.genium.model.cpp.CppMethod
 import com.here.genium.model.cpp.CppParameter
 import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppStruct
-import com.here.genium.model.franca.FrancaDeploymentModel
 import com.here.genium.model.java.JavaClass
 import com.here.genium.model.java.JavaCustomType
-import com.here.genium.model.java.JavaElement
 import com.here.genium.model.java.JavaEnum
 import com.here.genium.model.java.JavaEnumItem
 import com.here.genium.model.java.JavaField
@@ -50,7 +46,6 @@ import com.here.genium.model.java.JavaTopLevelElement
 import com.here.genium.model.java.JavaValue
 import com.here.genium.model.java.JavaVisibility
 import com.here.genium.model.jni.JniContainer
-import com.here.genium.model.jni.JniContainer.ContainerType
 import com.here.genium.model.jni.JniElement
 import com.here.genium.model.jni.JniEnum
 import com.here.genium.model.jni.JniEnumerator
@@ -59,96 +54,78 @@ import com.here.genium.model.jni.JniMethod
 import com.here.genium.model.jni.JniParameter
 import com.here.genium.model.jni.JniStruct
 import com.here.genium.model.jni.JniType
-import com.here.genium.test.ArrayEList
+import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributes
+import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeEnumerator
+import com.here.genium.model.lime.LimeField
+import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeParameter
+import com.here.genium.model.lime.LimePath
+import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.genium.model.lime.LimeProperty
+import com.here.genium.model.lime.LimeStruct
+import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.MockContextStack
-import org.franca.core.franca.FArgument
-import org.franca.core.franca.FAttribute
-import org.franca.core.franca.FEnumerationType
-import org.franca.core.franca.FEnumerator
-import org.franca.core.franca.FField
-import org.franca.core.franca.FInterface
-import org.franca.core.franca.FMethod
-import org.franca.core.franca.FModel
-import org.franca.core.franca.FStructType
-import org.franca.core.franca.FType
-import org.franca.core.franca.FTypeCollection
-import org.franca.core.franca.FTypeRef
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
-import org.mockito.MockitoAnnotations
-import java.util.Arrays
 
 @RunWith(JUnit4::class)
 class JniModelBuilderTest {
-    @Mock
-    private lateinit var deploymentModel: FrancaDeploymentModel
-    @Mock
-    private lateinit var francaInterface: FInterface
-    @Mock
-    private lateinit var francaTypeCollection: FTypeCollection
-    @Mock
-    private lateinit var francaMethod: FMethod
-    @Mock
-    private lateinit var francaArgument: FArgument
-    @Mock
-    private lateinit var francaStructType: FStructType
-    @Mock
-    private lateinit var francaEnumType: FEnumerationType
-    @Mock
-    private lateinit var francaEnumerator: FEnumerator
-    @Mock
-    private lateinit var francaField: FField
-    @Mock
-    private lateinit var fModel: FModel
-    @Mock
-    private lateinit var francaAttribute: FAttribute
+    @MockK private lateinit var javaBuilder: JavaModelBuilder
+    @MockK private lateinit var cppBuilder: CppLimeBasedModelBuilder
+    @MockK private lateinit var cppIncludeResolver: CppLimeBasedIncludeResolver
 
-    @Mock
-    private lateinit var javaBuilder: JavaModelBuilder
-    @Mock
-    private lateinit var cppBuilder: CppModelBuilder
-    @Mock
-    private lateinit var cppIncludeResolver: CppIncludeResolver
-
-    private val javaClass = JavaClass(JAVA_CLASS_NAME)
+    private val javaMethod = JavaMethod(
+        name = "fancyMEthoD_integer",
+        returnType = JavaPrimitiveType.INT,
+        parameters = listOf(JavaParameter("theParam", JavaPrimitiveType.INT))
+    )
+    private val cppMethod = CppMethod(
+        name = "cPpWork3R_iNt",
+        fullyQualifiedName = "cPpWork3R_iNt",
+        returnType = CppPrimitiveTypeRef.INT8,
+        parameters = listOf(CppParameter("", CppPrimitiveTypeRef.INT8))
+    )
+    private val javaClass = JavaClass("jAvaClazz")
     private val cppClass = CppClass(
-        CPP_CLASS_NAME,
-        "::$CPP_CLASS_NAME", null,
+        "cPpClass",
+        "::cPpClass",
+        null,
         false,
         emptyList(),
         emptyList(),
         emptyList()
     )
-    private val javaEnum = JavaEnum(JAVA_CLASS_NAME)
-    private val cppEnum = CppEnum(CPP_CLASS_NAME, "::$CPP_CLASS_NAME", false, emptyList())
-    private val javaCustomType = JavaCustomType(JAVA_CLASS_NAME)
+    private val javaEnum = JavaEnum("jAvaClazz")
+    private val cppEnum = CppEnum("cPpClass", "::cPpClass", false, emptyList())
+    private val javaCustomType = JavaCustomType("jAvaClazz")
     private val javaField =
-        JavaField(BASE_NAME_PARAMETER, javaCustomType, JavaValue(javaCustomType))
-    private val cppCustomType = CppComplexTypeRef(CPP_CLASS_NAME)
-    private val cppField = CppField(CPP_CLASS_NAME, cppCustomType)
-
-    private val contextStack = MockContextStack<JniElement>()
-
-    private val jniParameter = JniParameter(BASE_NAME_PARAMETER, null)
+        JavaField("theParam", javaCustomType, JavaValue(javaCustomType))
+    private val cppCustomType = CppComplexTypeRef("cPpClass")
+    private val cppField = CppField("cPpClass", cppCustomType)
+    private val jniParameter = JniParameter("theParam", null)
     private val javaGetter =
         JavaMethod("getFoo", null, JavaVisibility.PUBLIC, JavaCustomType("FooType"))
     private val cppGetter = CppMethod("shootFoot", "shootFoot", "", CppPrimitiveTypeRef.INT32)
     private val javaSetter = JavaMethod(
-        "setFoo", null,
+        "setFoo",
+        null,
         JavaVisibility.PUBLIC,
-        JavaPrimitiveType.VOID, null, null,
+        JavaPrimitiveType.VOID,
+        null,
+        null,
         listOf(JavaParameter("value", JavaPrimitiveType.INT))
     )
     private val cppSetter = CppMethod(
@@ -156,61 +133,193 @@ class JniModelBuilderTest {
         "shootBothFeet",
         "",
         CppPrimitiveTypeRef.VOID,
-        "", null,
+        "",
+        null,
         false,
         listOf(CppParameter("value", CppPrimitiveTypeRef.INT8))
     )
     private val jniType = JniType(javaCustomType, cppCustomType)
     private val cppInclude = Include.createInternalInclude("Foo.h")
-    private val cppStruct = CppStruct(CPP_CLASS_NAME)
+    private val cppStruct = CppStruct("cPpClass")
+
+    private val limeMethod = LimeMethod(EMPTY_PATH)
+    private val limeTypeCollection =
+        LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.TYPE_COLLECTION)
+    private val limeInterface = LimeContainer(
+        LimePath(listOf("foo", "bar"), emptyList()),
+        type = LimeContainer.ContainerType.INTERFACE
+    )
+    private val limeTypeRef = LimeTypeRef(emptyMap(), "")
+    private val limeStruct = LimeStruct(EMPTY_PATH)
+    private val limeEnum = LimeEnumeration(EMPTY_PATH)
+    private val limeProperty = LimeProperty(EMPTY_PATH, typeRef = limeTypeRef)
+
+    private val contextStack = MockContextStack<JniElement>()
 
     private lateinit var modelBuilder: JniModelBuilder
 
-    private val arguments = ArrayEList<FArgument>()
-    private val types = ArrayEList<FType>()
-
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
         modelBuilder = JniModelBuilder(
             contextStack,
-            deploymentModel,
             javaBuilder,
             cppBuilder,
             cppIncludeResolver,
             INTERNAL_NAMESPACE
         )
 
-        javaClass.javaPackage = JavaPackage(JAVA_PACKAGES)
+        javaClass.javaPackage = JavaPackage(listOf("my", "java", "test"))
 
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaClass)
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppClass)
-        `when`(cppIncludeResolver.resolveInclude(any())).thenReturn(cppInclude)
-
-        `when`(francaInterface.eContainer()).thenReturn(fModel)
-        `when`(francaInterface.types).thenReturn(types)
-        `when`(francaTypeCollection.eContainer()).thenReturn(fModel)
-        `when`(francaTypeCollection.types).thenReturn(types)
-        `when`(fModel.name).thenReturn(CPP_NAMESPACE_MEMBERS.joinToString("."))
-        `when`(francaMethod.outArgs).thenReturn(arguments)
-    }
-
-    private fun createJniMethod(jniContainer: JniContainer?): JniMethod {
-        return JniMethod(jniContainer, JAVA_VOID_METHOD_NAME, CPP_VOID_METHOD_NAME)
+        every { cppIncludeResolver.resolveInclude(any()) } returns cppInclude
+        every { javaBuilder.getFinalResult(JavaTopLevelElement::class.java) } returns javaClass
+        every { javaBuilder.getFinalResult(JavaClass::class.java) } returns javaClass
+        every { cppBuilder.getFinalResult(CppClass::class.java) } returns cppClass
+        every { javaBuilder.getFinalResult(JavaMethod::class.java) } returns javaMethod
+        every { cppBuilder.getFinalResult(CppMethod::class.java) } returns cppMethod
+        every { cppBuilder.getFinalResult(CppStruct::class.java) } returns cppStruct
+        every { javaBuilder.getFinalResult(JavaField::class.java) } returns javaField
+        every { cppBuilder.getFinalResult(CppField::class.java) } returns cppField
+        every { javaBuilder.getFinalResult(JavaEnum::class.java) } returns javaEnum
+        every { cppBuilder.getFinalResult(CppEnum::class.java) } returns cppEnum
+        every { javaBuilder.finalResults } returns listOf(javaGetter, javaSetter)
+        every { cppBuilder.finalResults } returns listOf(cppGetter, cppSetter)
     }
 
     @Test
-    fun finishBuildingFrancaMethodReadsJavaCppMethods() {
-        val javaMethod = createJavaMethod()
-        val cppMethod = createCppMethod()
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaMethod)
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppMethod)
+    fun finishBuildingTypeCollectionReadsStructs() {
+        val limeElement =
+            LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.TYPE_COLLECTION)
+        val jniStruct = JniStruct(javaClass, cppStruct, null)
+        contextStack.injectResult(jniStruct)
 
-        modelBuilder.finishBuilding(francaMethod)
+        modelBuilder.finishBuilding(limeElement)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertEquals(jniStruct.javaClass, jniContainer.structs.first().javaClass)
+        assertEquals(emptyList<String>(), jniContainer.cppNameSpaces)
+        assertEquals(INTERNAL_NAMESPACE, jniContainer.internalNamespace)
+    }
+
+    @Test
+    fun finishBuildingTypeCollectionReadsTypeIncludes() {
+        val limeElement = LimeContainer(
+            EMPTY_PATH,
+            type = LimeContainer.ContainerType.TYPE_COLLECTION,
+            structs = listOf(limeStruct)
+        )
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertEquals(1, jniContainer.includes.size)
+        assertContains(cppInclude, jniContainer.includes)
+    }
+
+    @Test
+    fun finishBuildingTypeCollectionReadsEnums() {
+        val jniEnum = JniEnum(JavaPackage.DEFAULT, "MyJavaEnumName", "MyCppEnumName")
+        contextStack.injectResult(jniEnum)
+
+        modelBuilder.finishBuilding(limeTypeCollection)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertContains(jniEnum, jniContainer.enums)
+    }
+
+    @Test
+    fun finishBuildingClass() {
+        val limeElement = LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.CLASS)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertEquals(JniContainer.ContainerType.CLASS, jniContainer.containerType)
+    }
+
+    @Test
+    fun finishBuildingInterface() {
+        modelBuilder.finishBuilding(limeInterface)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertEquals(JniContainer.ContainerType.INTERFACE, jniContainer.containerType)
+        assertEquals("cPpClass", jniContainer.cppName)
+        assertEquals("jAvaClazz", jniContainer.javaName)
+        assertEquals(listOf("foo", "bar"), jniContainer.cppNameSpaces)
+        assertEquals(listOf("my", "java", "test"), jniContainer.javaPackages)
+        assertEquals(INTERNAL_NAMESPACE, jniContainer.internalNamespace)
+    }
+
+    @Test
+    fun finishBuildingInterfaceReadsJavaInterface() {
+        val javaInterface = JavaInterface("javaFAce")
+        javaInterface.javaPackage = JavaPackage(listOf("my", "java", "test"))
+        every { javaBuilder.getFinalResult(JavaTopLevelElement::class.java) } returns javaInterface
+
+        modelBuilder.finishBuilding(limeInterface)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertEquals("javaFAce", jniContainer.javaInterfaceName)
+    }
+
+    @Test
+    fun finishBuildingInterfaceReadsParentMethods() {
+        val parentContainer = JniContainer()
+        parentContainer.parentMethods.add(JniMethod())
+        parentContainer.methods.add(JniMethod())
+        contextStack.injectResult(parentContainer)
+
+        modelBuilder.finishBuilding(limeInterface)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertEquals(2, jniContainer.parentMethods.size)
+        assertEquals(jniContainer, jniContainer.parentMethods.first().owningContainer)
+        assertEquals(jniContainer, jniContainer.parentMethods.last().owningContainer)
+    }
+
+    @Test
+    fun finishBuildingInterfaceReadsInterfaceInclude() {
+        modelBuilder.finishBuilding(limeInterface)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertEquals(1, jniContainer.includes.size)
+        assertContains(cppInclude, jniContainer.includes)
+    }
+
+    @Test
+    fun finishBuildingInterfaceReadsTypeIncludes() {
+        val limeElement = LimeContainer(
+            LimePath(listOf("foo", "bar"), emptyList()),
+            type = LimeContainer.ContainerType.INTERFACE,
+            structs = listOf(limeStruct)
+        )
+        val cppStructInclude = Include.createInternalInclude("Foo")
+        every { cppIncludeResolver.resolveInclude(limeStruct) } returns cppStructInclude
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertEquals(2, jniContainer.includes.size.toLong())
+        assertContains(cppStructInclude, jniContainer.includes)
+    }
+
+    @Test
+    fun finishBuildingInterfaceReadsEnums() {
+        val jniEnum = JniEnum(null, "MyJavaEnumName", "MyCppEnumName")
+        contextStack.injectResult(jniEnum)
+
+        modelBuilder.finishBuilding(limeInterface)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertContains(jniEnum, jniContainer.enums)
+    }
+
+    @Test
+    fun finishBuildingMethodReadsJavaCppMethods() {
+        modelBuilder.finishBuilding(limeMethod)
 
         val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
-        assertNotNull(jniMethod)
         assertEquals(javaMethod.name, jniMethod.javaMethodName)
         assertEquals(cppMethod.name, jniMethod.cppMethodName)
         assertNotNull(jniMethod.returnType)
@@ -219,327 +328,140 @@ class JniModelBuilderTest {
     }
 
     @Test
-    fun finishBuildingFrancaMethodReadsJniParameters() {
+    fun finishBuildingMethodReadsJniParameters() {
         contextStack.injectResult(jniParameter)
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(createJavaMethod())
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod())
 
-        modelBuilder.finishBuilding(francaMethod)
+        modelBuilder.finishBuilding(limeMethod)
 
         val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
-        assertNotNull(jniMethod)
-        assertEquals(1, jniMethod.parameters.size.toLong())
-        assertEquals(jniParameter, jniMethod.parameters[0])
+        assertEquals(jniParameter, jniMethod.parameters.first())
         assertFalse(jniMethod.isStatic)
     }
 
     @Test
-    fun finishBuildingFrancaMethodReadsStaticMethods() {
+    fun finishBuildingMethodReadsStaticMethods() {
         contextStack.injectResult(jniParameter)
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(createJavaMethod())
-        val cppMethod = CppMethod(
-            name = CPP_INT_METHOD_NAME,
-            fullyQualifiedName = CPP_INT_METHOD_NAME,
+        val cppStaticMethod = CppMethod(
+            name = "cPpWork3R_iNt",
+            fullyQualifiedName = "cPpWork3R_iNt",
             returnType = CppPrimitiveTypeRef.INT8,
             parameters = listOf(CppParameter("", CppPrimitiveTypeRef.INT8)),
             specifiers = setOf(CppMethod.Specifier.STATIC)
         )
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppMethod)
+        every { cppBuilder.getFinalResult(CppMethod::class.java) } returns cppStaticMethod
 
-        modelBuilder.finishBuilding(francaMethod)
+        modelBuilder.finishBuilding(limeMethod)
 
         val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
-        assertNotNull(jniMethod)
         assertTrue(jniMethod.isStatic)
     }
 
     @Test
-    fun finishBuildingFrancaMethodReadsConstMethods() {
+    fun finishBuildingMethodReadsConstMethods() {
         contextStack.injectResult(jniParameter)
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(createJavaMethod())
-        val cppMethod = CppMethod(
-            name = CPP_INT_METHOD_NAME,
-            fullyQualifiedName = CPP_INT_METHOD_NAME,
+        val cppConstMethod = CppMethod(
+            name = "cPpWork3R_iNt",
+            fullyQualifiedName = "cPpWork3R_iNt",
             returnType = CppPrimitiveTypeRef.INT8,
             parameters = listOf(CppParameter("", CppPrimitiveTypeRef.INT8)),
             qualifiers = setOf(CppMethod.Qualifier.CONST)
         )
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppMethod)
+        every { cppBuilder.getFinalResult(CppMethod::class.java) } returns cppConstMethod
 
-        modelBuilder.finishBuilding(francaMethod)
+        modelBuilder.finishBuilding(limeMethod)
 
         val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
-        assertNotNull(jniMethod)
         assertTrue(jniMethod.isConst)
     }
 
     @Test
-    fun finishBuildingFrancaMethodReadsSelector() {
-        `when`(francaMethod.selector).thenReturn("Foo")
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(createJavaMethod())
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod())
+    fun finishBuildingMethodReadsDisambiguationSuffix() {
+        val limeElement = LimeMethod(LimePath(emptyList(), emptyList(), "foo"))
 
-        modelBuilder.finishBuilding(francaMethod)
+        modelBuilder.finishBuilding(limeElement)
 
         val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
-        assertNotNull(jniMethod)
         assertTrue(jniMethod.isOverloaded)
-
-        verify(francaMethod).selector
     }
 
     @Test
-    fun finishBuildingFrancaMethodReadsExceptionName() {
-        val javaMethod = JavaMethod(
-            JAVA_INT_METHOD_NAME, null,
+    fun finishBuildingMethodReadsExceptionName() {
+        contextStack.injectResult(jniType)
+        val javaThrowingMethod = JavaMethod(
+            "fancyMEthoD_integer", null,
             JavaVisibility.PUBLIC,
             JavaPrimitiveType.INT, null,
             JavaCustomType("FooException", JavaPackage.DEFAULT),
-            listOf(JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT))
+            listOf(JavaParameter("theParam", JavaPrimitiveType.INT))
         )
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaMethod)
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod())
+        every { javaBuilder.getFinalResult(JavaMethod::class.java) } returns javaThrowingMethod
 
-        modelBuilder.finishBuilding(francaMethod)
+        modelBuilder.finishBuilding(limeMethod)
 
         val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
-        assertNotNull(jniMethod)
-        assertNotNull(jniMethod.exception)
         assertEquals("com/example/FooException", jniMethod.exception?.javaClassName)
     }
 
     @Test
-    fun finishBuildingFrancaMethodReadsExceptionEnum() {
-        val javaMethod = JavaMethod(
-            JAVA_INT_METHOD_NAME, null,
+    fun finishBuildingMethodReadsExceptionEnum() {
+        contextStack.injectResult(jniType)
+        val javaThrowingMethod = JavaMethod(
+            "fancyMEthoD_integer", null,
             JavaVisibility.PUBLIC,
             JavaPrimitiveType.INT, null,
             JavaCustomType("FooException", JavaPackage.DEFAULT),
-            listOf(JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT))
+            listOf(JavaParameter("theParam", JavaPrimitiveType.INT))
         )
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaMethod)
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod())
-        contextStack.injectResult(jniType)
+        every { javaBuilder.getFinalResult(JavaMethod::class.java) } returns javaThrowingMethod
 
-        modelBuilder.finishBuilding(francaMethod)
+        modelBuilder.finishBuilding(limeMethod)
 
         val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
-        assertNotNull(jniMethod)
-        assertNotNull(jniMethod.exception)
         assertEquals(jniType, jniMethod.exception?.jniEnum)
     }
 
     @Test
-    fun finishBuildingInstantiableFrancaInterface() {
-//        // arrange
-//        cppClass.methods.add(CppMethod("nonStaticMethod"))
-
-        // act
-        modelBuilder.finishBuilding(francaInterface)
-
-        // assert
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertNotNull(jniContainer)
-        assertEquals(ContainerType.CLASS, jniContainer.containerType)
-        assertEquals(INTERNAL_NAMESPACE, jniContainer.internalNamespace)
-    }
-
-    @Test
-    fun finishBuildingInstantiableFrancaInterfaceReadsJavaCppClasses() {
-        // act
-        modelBuilder.finishBuilding(francaInterface)
-
-        // assert
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertNotNull(jniContainer)
-        assertEquals(CPP_CLASS_NAME, jniContainer.cppName)
-        assertEquals(JAVA_CLASS_NAME, jniContainer.javaName)
-        assertEquals(CPP_NAMESPACE_MEMBERS, jniContainer.cppNameSpaces)
-        assertEquals(JAVA_PACKAGES, jniContainer.javaPackages)
-        assertEquals(ContainerType.CLASS, jniContainer.containerType)
-    }
-
-    @Test
-    fun finishBuildingInstantiableFrancaInterfaceReadsJavaInterface() {
-        val javaInterface = JavaInterface(JAVA_INTERFACE_NAME)
-        javaInterface.javaPackage = JavaPackage(JAVA_PACKAGES)
-        `when`(javaBuilder.getFinalResult(JavaTopLevelElement::class.java)).thenReturn(
-            javaInterface
-        )
-        `when`(javaBuilder.getFinalResult(JavaClass::class.java)).thenReturn(javaClass)
-
-        modelBuilder.finishBuilding(francaInterface)
-
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertNotNull(jniContainer)
-        assertEquals(ContainerType.CLASS, jniContainer.containerType)
-        assertEquals(JAVA_CLASS_NAME, jniContainer.javaName)
-        assertEquals(JAVA_INTERFACE_NAME, jniContainer.javaInterfaceName)
-        assertEquals(JAVA_PACKAGES, jniContainer.javaPackages)
-    }
-
-    @Test
-    fun finishBuildingInstantiableFrancaInterfaceReadsMethods() {
-        contextStack.injectResult(createJniMethod(null))
-
-        // act
-        modelBuilder.finishBuilding(francaInterface)
-
-        // assert
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertNotNull(jniContainer)
-        assertFalse(jniContainer.methods.isEmpty())
-        assertEquals(ContainerType.CLASS, jniContainer.containerType)
-        assertEquals(createJniMethod(jniContainer), jniContainer.methods[0])
-    }
-
-    @Test
-    fun finishBuildingFrancaInterfaceReadsIsInterface() {
-        // arrange
-        `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
-
-        // act
-        modelBuilder.finishBuilding(francaInterface)
-
-        // assert
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertNotNull(jniContainer)
-        assertEquals(ContainerType.INTERFACE, jniContainer.containerType)
-    }
-
-    @Test
-    fun finishBuildingFrancaInterfaceReadsJavaCppClasses() {
-        // arrange
-        `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
-
-        // act
-        modelBuilder.finishBuilding(francaInterface)
-
-        // assert
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertNotNull(jniContainer)
-        assertEquals(ContainerType.INTERFACE, jniContainer.containerType)
-        assertEquals(CPP_CLASS_NAME, jniContainer.cppName)
-        assertEquals(JAVA_CLASS_NAME, jniContainer.javaName)
-        assertEquals(CPP_NAMESPACE_MEMBERS, jniContainer.cppNameSpaces)
-        assertEquals(JAVA_PACKAGES, jniContainer.javaPackages)
-    }
-
-    @Test
-    fun finishBuildingFrancaInterfaceReadsJavaInterface() {
-        `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
-        val javaInterface = JavaInterface(JAVA_INTERFACE_NAME)
-        javaInterface.javaPackage = JavaPackage(JAVA_PACKAGES)
-        `when`(javaBuilder.getFinalResult(JavaTopLevelElement::class.java)).thenReturn(
-            javaInterface
-        )
-        `when`(javaBuilder.getFinalResult(JavaClass::class.java)).thenReturn(javaClass)
-
-        modelBuilder.finishBuilding(francaInterface)
-
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertNotNull(jniContainer)
-        assertEquals(ContainerType.INTERFACE, jniContainer.containerType)
-        assertEquals(JAVA_CLASS_NAME, jniContainer.javaName)
-        assertEquals(JAVA_INTERFACE_NAME, jniContainer.javaInterfaceName)
-        assertEquals(JAVA_PACKAGES, jniContainer.javaPackages)
-    }
-
-    @Test
-    fun finishBuildingFrancaInterfaceReadsParentMethods() {
-        // Arrange
-        val parentContainer = JniContainer()
-        parentContainer.parentMethods.add(createJniMethod(null))
-        parentContainer.methods.add(createJniMethod(null))
-
-        contextStack.injectResult(parentContainer)
-
-        // Act
-        modelBuilder.finishBuilding(francaInterface)
-
-        // Assert
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertNotNull(jniContainer)
-        assertEquals(2, jniContainer.parentMethods.size.toLong())
-        assertEquals(jniContainer, jniContainer.parentMethods[0].owningContainer)
-        assertEquals(jniContainer, jniContainer.parentMethods[1].owningContainer)
-    }
-
-    @Test
-    fun finishBuildingFrancaInterfaceReadsInterfaceInclude() {
-        modelBuilder.finishBuilding(francaInterface)
-
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertNotNull(jniContainer)
-        assertEquals(1, jniContainer.includes.size.toLong())
-        verify<CppIncludeResolver>(cppIncludeResolver).resolveInclude(francaInterface)
-    }
-
-    @Test
-    fun finishBuildingFrancaInterfaceReadsTypeIncludes() {
-        types.add(francaStructType)
-        `when`(cppIncludeResolver.resolveInclude(any(FType::class.java)))
-            .thenReturn(Include.createInternalInclude("Bar.h"))
-
-        modelBuilder.finishBuilding(francaInterface)
-
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertNotNull(jniContainer)
-        assertEquals(2, jniContainer.includes.size.toLong())
-        verify(cppIncludeResolver).resolveInclude(francaStructType)
-    }
-
-    @Test
-    fun finishBuildingInputArgumentReadsJavaCppParameters() {
+    fun finishBuildingParameterReadsJavaCppParameters() {
         val javaParameter = JavaParameter("relative", javaCustomType)
-        val cppParameter = CppParameter("absolute", CppComplexTypeRef(CPP_CLASS_NAME))
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaParameter)
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppParameter)
-        `when`(francaArgument.type).thenReturn(mock(FTypeRef::class.java))
+        val cppParameter = CppParameter("absolute", CppComplexTypeRef("foobar"))
+        every { javaBuilder.getFinalResult(JavaParameter::class.java) } returns javaParameter
+        every { cppBuilder.getFinalResult(CppParameter::class.java) } returns cppParameter
+        val limeParameter = LimeParameter(EMPTY_PATH, typeRef = limeTypeRef)
 
-        modelBuilder.finishBuildingInputArgument(francaArgument)
+        modelBuilder.finishBuilding(limeParameter)
 
         val resultParameter = modelBuilder.getFinalResult(JniParameter::class.java)
-        assertNotNull(resultParameter)
         assertEquals(javaParameter.name, resultParameter.name)
         assertEquals(javaParameter.type.name, resultParameter.type.javaName)
         assertEquals(cppParameter.type.name, resultParameter.type.cppName)
     }
 
     @Test
-    fun finishBuildingFrancaStructReadsJavaCppClasses() {
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppStruct)
-
-        modelBuilder.finishBuilding(francaStructType)
+    fun finishBuildingStructReadsJavaCppClasses() {
+        modelBuilder.finishBuilding(limeStruct)
 
         val jniStruct = modelBuilder.getFinalResult(JniStruct::class.java)
-        assertNotNull(jniStruct)
         assertEquals(javaClass, jniStruct.javaClass)
         assertEquals(cppStruct, jniStruct.cppStruct)
         assertEquals(javaClass.javaPackage, jniStruct.javaPackage)
     }
 
     @Test
-    fun finishBuildingFrancaStructReadsFields() {
+    fun finishBuildingStructReadsFields() {
         val jniField = JniField(javaField, cppField)
         contextStack.injectResult(jniField)
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaClass)
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(null)
 
-        modelBuilder.finishBuilding(francaStructType)
+        modelBuilder.finishBuilding(limeStruct)
 
         val jniStruct = modelBuilder.getFinalResult(JniStruct::class.java)
-        assertNotNull(jniStruct)
-        assertFalse(jniStruct.fields.isEmpty())
-        assertEquals(jniField, jniStruct.fields[0])
+        assertContains(jniField, jniStruct.fields)
     }
 
     @Test
-    fun finishBuildingFrancaFieldReadsJavaCppFields() {
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaField)
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppField)
+    fun finishBuildingFieldReadsJavaCppFields() {
+        val limeElement = LimeField(EMPTY_PATH, typeRef = limeTypeRef)
 
-        modelBuilder.finishBuilding(francaField)
+        modelBuilder.finishBuilding(limeElement)
 
         val jniField = modelBuilder.getFinalResult(JniField::class.java)
         assertNotNull(jniField)
@@ -548,13 +470,17 @@ class JniModelBuilderTest {
     }
 
     @Test
-    fun finishBuildingFrancaFieldReadsExternalAccessors() {
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaField)
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppField)
-        `when`(deploymentModel.getExternalGetter(any())).thenReturn("get_foo")
-        `when`(deploymentModel.getExternalSetter(any())).thenReturn("setFoo")
+    fun finishBuildingFieldReadsExternalAccessors() {
+        val limeElement = LimeField(
+            EMPTY_PATH,
+            typeRef = limeTypeRef,
+            attributes = LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.EXTERNAL_GETTER, "get_foo")
+                .addAttribute(LimeAttributeType.EXTERNAL_SETTER, "setFoo")
+                .build()
+        )
 
-        modelBuilder.finishBuilding(francaField)
+        modelBuilder.finishBuilding(limeElement)
 
         val jniField = modelBuilder.getFinalResult(JniField::class.java)
         assertNotNull(jniField)
@@ -563,329 +489,103 @@ class JniModelBuilderTest {
     }
 
     @Test
-    fun finishBuildingFrancaTypeCollectionReadsStructs() {
-        `when`(francaTypeCollection.name).thenReturn(TYPE_COLLECTION_NAME)
-        val jniStruct = JniStruct(javaClass, cppStruct, null)
-        contextStack.injectResult(jniStruct)
+    fun finishBuildingEnumerationsReadsNames() {
+        modelBuilder.finishBuilding(limeEnum)
 
-        modelBuilder.finishBuilding(francaTypeCollection)
-
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertNotNull(jniContainer)
-        assertFalse(jniContainer.structs.isEmpty())
-        assertEquals(jniStruct.javaClass, jniContainer.structs[0].javaClass)
-        val expectedNamespace = "my::cpp::stuffs::namespace"
-        assertEquals(expectedNamespace, jniContainer.cppNameSpaces.joinToString("::"))
-        assertNull(jniContainer.javaName)
-        assertNull(jniContainer.cppName)
-        assertEquals(INTERNAL_NAMESPACE, jniContainer.internalNamespace)
+        val jniEnum = modelBuilder.getFinalResult(JniEnum::class.java)
+        assertEquals(javaEnum.name, jniEnum.javaEnumName)
+        assertEquals(cppEnum.fullyQualifiedName, jniEnum.cppEnumName)
     }
 
     @Test
-    fun finishBuildingFrancaTypeCollectionWithNoStruct() {
-        `when`(francaTypeCollection.name).thenReturn(TYPE_COLLECTION_NAME)
+    fun finishBuildingEnumerationsReadsEnumerators() {
+        val jniEnumerator = JniEnumerator("oneJ", "oneC")
+        contextStack.injectResult(jniEnumerator)
 
-        modelBuilder.finishBuilding(francaTypeCollection)
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        modelBuilder.finishBuilding(limeEnum)
 
-        assertNotNull(jniContainer)
-        assertTrue(jniContainer.structs.isEmpty())
-        assertTrue(jniContainer.javaPackages.isEmpty())
-        assertEquals("my.cpp.stuffs.namespace", jniContainer.cppNameSpaces.joinToString("."))
-        assertNull(jniContainer.javaName)
-        assertNull(jniContainer.cppName)
+        val jniEnum = modelBuilder.getFinalResult(JniEnum::class.java)
+        assertContains(jniEnumerator, jniEnum.enumerators)
     }
 
     @Test
-    fun finishBuildingFrancaTypeCollectionReadsTypeIncludes() {
-        types.add(francaStructType)
-        `when`(cppIncludeResolver.resolveInclude(any(FType::class.java)))
-            .thenReturn(Include.createInternalInclude("Bar.h"))
+    fun finishBuildingEnumerator() {
+        val javaEnumItem = JavaEnumItem("javaEnumerator")
+        val cppEnumItem = CppEnumItem("cppEnumerator", null)
+        every { javaBuilder.getFinalResult(JavaEnumItem::class.java) } returns javaEnumItem
+        every { cppBuilder.getFinalResult(CppEnumItem::class.java) } returns cppEnumItem
+        val limeElement = LimeEnumerator(EMPTY_PATH)
 
-        modelBuilder.finishBuilding(francaTypeCollection)
+        modelBuilder.finishBuilding(limeElement)
 
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertNotNull(jniContainer)
-        assertEquals(1, jniContainer.includes.size.toLong())
-        verify(cppIncludeResolver).resolveInclude(francaStructType)
+        val jniEnumItem = modelBuilder.getFinalResult(JniEnumerator::class.java)
+        assertEquals(jniEnumItem.cppName, "cppEnumerator")
+        assertEquals(jniEnumItem.javaName, "javaEnumerator")
     }
 
     @Test
-    fun finishBuildingFrancaAttributeCreatesGetter() {
-        `when`(javaBuilder.finalResults).thenReturn(
-            Arrays.asList<JavaElement>(
-                javaGetter,
-                javaSetter
-            )
-        )
-        `when`(cppBuilder.finalResults).thenReturn(
-            Arrays.asList<CppElement>(
-                cppGetter,
-                cppSetter
-            )
-        )
-
-        modelBuilder.finishBuilding(francaAttribute)
+    fun finishBuildingAttributeCreatesGetter() {
+        modelBuilder.finishBuilding(limeProperty)
 
         val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
-        assertNotNull(jniMethod)
         assertEquals(javaGetter.name, jniMethod.javaMethodName)
         assertEquals(cppGetter.name, jniMethod.cppMethodName)
-        assertNotNull(jniMethod.returnType)
         assertEquals(javaGetter.returnType.name, jniMethod.returnType.javaName)
         assertEquals(cppGetter.returnType.name, jniMethod.returnType.cppName)
         assertTrue(jniMethod.isConst)
     }
 
     @Test
-    fun finishBuildingFrancaAttributeCreatesSetter() {
-        `when`(javaBuilder.finalResults).thenReturn(
-            Arrays.asList<JavaElement>(
-                javaGetter,
-                javaSetter
-            )
-        )
-        `when`(cppBuilder.finalResults).thenReturn(
-            Arrays.asList<CppElement>(
-                cppGetter,
-                cppSetter
-            )
-        )
+    fun finishBuildingAttributeCreatesSetter() {
+        modelBuilder.finishBuilding(limeProperty)
 
-        modelBuilder.finishBuilding(francaAttribute)
-
-        val methods =
-            CollectionsHelper.getAllOfType(modelBuilder.finalResults, JniMethod::class.java)
-        assertEquals("Both a getter and a setter should be created", 2, methods.size.toLong())
-
-        val (_, javaMethodName, cppMethodName, returnType) = methods[1]
-        assertEquals(javaSetter.name, javaMethodName)
-        assertEquals(cppSetter.name, cppMethodName)
-        assertEquals("void", returnType.cppName)
-        assertEquals("void", returnType.javaName)
+        val methods = modelBuilder.finalResults.filterIsInstance<JniMethod>()
+        assertEquals(2, methods.size)
+        assertEquals(javaSetter.name, methods.last().javaMethodName)
+        assertEquals(cppSetter.name, methods.last().cppMethodName)
+        assertEquals("void", methods.last().returnType.cppName)
+        assertEquals("void", methods.last().returnType.javaName)
     }
 
     @Test
-    fun finishBuildingFrancaAttributeReadsParametersIntoSetter() {
-        // Arrange
-        `when`(javaBuilder.finalResults).thenReturn(
-            Arrays.asList<JavaElement>(
-                javaGetter,
-                javaSetter
-            )
-        )
-        `when`(cppBuilder.finalResults).thenReturn(
-            Arrays.asList<CppElement>(
-                cppGetter,
-                cppSetter
-            )
-        )
+    fun finishBuildingAttributeReadsParametersIntoSetter() {
+        modelBuilder.finishBuilding(limeProperty)
 
-        // Act
-        modelBuilder.finishBuilding(francaAttribute)
-
-        // Assert
-        val methods =
-            CollectionsHelper.getAllOfType(modelBuilder.finalResults, JniMethod::class.java)
-        assertEquals("Both a getter and a setter should be created", 2, methods.size.toLong())
-        val (_, _, _, _, _, _, _, _, _, parameters) = methods[1]
-        assertEquals(1, parameters.size.toLong())
-        val setterParameter = parameters[0]
-        assertEquals(javaSetter.parameters[0].name, setterParameter.name)
-        assertEquals(javaSetter.parameters[0].type.name, setterParameter.type.javaName)
-        assertEquals(cppSetter.parameters[0].type.name, setterParameter.type.cppName)
+        val methods = modelBuilder.finalResults.filterIsInstance<JniMethod>()
+        assertEquals(2, methods.size)
+        val setterParameter = methods.last().parameters.first()
+        assertEquals(javaSetter.parameters.first().name, setterParameter.name)
+        assertEquals(javaSetter.parameters.first().type.name, setterParameter.type.javaName)
+        assertEquals(cppSetter.parameters.first().type.name, setterParameter.type.cppName)
     }
 
     @Test
-    fun finishBuildingFrancaAttributeReadonly() {
-        // Arrange
-        `when`(francaAttribute.isReadonly).thenReturn(true)
-        `when`(javaBuilder.finalResults).thenReturn(listOf<JavaElement>(javaGetter))
-        `when`(cppBuilder.finalResults).thenReturn(listOf<CppElement>(cppGetter))
+    fun finishBuildingAttributeReadonly() {
+        val limeElement = LimeProperty(EMPTY_PATH, typeRef = limeTypeRef, isReadonly = true)
 
-        // Act
-        modelBuilder.finishBuilding(francaAttribute)
+        modelBuilder.finishBuilding(limeElement)
 
-        // Assert
-        val methods =
-            CollectionsHelper.getAllOfType(modelBuilder.finalResults, JniMethod::class.java)
-        assertEquals("Only a getter should be created", 1, methods.size.toLong())
-        val (_, javaMethodName, cppMethodName, returnType) = methods[0]
-        assertEquals(javaGetter.name, javaMethodName)
-        assertEquals(cppGetter.name, cppMethodName)
-        assertNotNull(returnType)
-        assertEquals(javaGetter.returnType.name, returnType.javaName)
-        assertEquals(cppGetter.returnType.name, returnType.cppName)
+        val methods = modelBuilder.finalResults.filterIsInstance<JniMethod>()
+        assertEquals(1, methods.size)
+        assertEquals(javaGetter.name, methods.first().javaMethodName)
+        assertEquals(cppGetter.name, methods.first().cppMethodName)
+        assertEquals(javaGetter.returnType.name, methods.first().returnType.javaName)
+        assertEquals(cppGetter.returnType.name, methods.first().returnType.cppName)
     }
 
     @Test
-    fun finishBuildingFrancaAttributeStatic() {
-        `when`(deploymentModel.isStatic(any(FAttribute::class.java))).thenReturn(true)
-        `when`(javaBuilder.finalResults).thenReturn(
-            Arrays.asList<JavaElement>(
-                javaGetter,
-                javaSetter
-            )
-        )
-        `when`(cppBuilder.finalResults).thenReturn(
-            Arrays.asList<CppElement>(
-                cppGetter,
-                cppSetter
-            )
-        )
+    fun finishBuildingAttributeStatic() {
+        val limeElement = LimeProperty(EMPTY_PATH, typeRef = limeTypeRef, isStatic = true)
 
-        modelBuilder.finishBuilding(francaAttribute)
+        modelBuilder.finishBuilding(limeElement)
 
-        val methods =
-            CollectionsHelper.getAllOfType(modelBuilder.finalResults, JniMethod::class.java)
-        assertTrue(methods[0].isStatic)
-        assertTrue(methods[1].isStatic)
-    }
-
-    @Test
-    fun finishBuildingFrancaEnumerationsReadsNames() {
-        // Arrange
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppEnum, cppCustomType)
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaEnum, javaCustomType)
-
-        // Act
-        modelBuilder.finishBuilding(francaEnumType)
-
-        // Assert
-        val jniEnum = modelBuilder.getFinalResult(JniEnum::class.java)
-        assertNotNull(jniEnum)
-        assertEquals(javaEnum.name, jniEnum.javaEnumName)
-        assertEquals(cppEnum.fullyQualifiedName, jniEnum.cppEnumName)
-    }
-
-    @Test
-    fun finishBuildingFrancaEnumerationsReadsEnumerators() {
-        // Arrange
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppEnum, cppCustomType)
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaEnum, javaCustomType)
-        contextStack.injectResult(JniEnumerator("oneJ", "oneC"))
-        contextStack.injectResult(JniEnumerator("twoJ", "twoC"))
-        contextStack.injectResult(JniEnumerator("threeJ", "threeC"))
-
-        // Act
-        modelBuilder.finishBuilding(francaEnumType)
-
-        // Assert
-        val jniEnum = modelBuilder.getFinalResult(JniEnum::class.java)
-        assertNotNull(jniEnum)
-        assertEquals(3, jniEnum.enumerators.size.toLong())
-        assertEquals("oneC", jniEnum.enumerators[0].cppName)
-        assertEquals("oneJ", jniEnum.enumerators[0].javaName)
-        assertEquals("twoC", jniEnum.enumerators[1].cppName)
-        assertEquals("twoJ", jniEnum.enumerators[1].javaName)
-        assertEquals("threeC", jniEnum.enumerators[2].cppName)
-        assertEquals("threeJ", jniEnum.enumerators[2].javaName)
-    }
-
-    @Test
-    fun finishBuildingFrancaEnumerationsReadsTypeReferences() {
-        // Arrange
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppEnum, cppCustomType)
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaEnum, javaCustomType)
-
-        // Act
-        modelBuilder.finishBuilding(francaEnumType)
-
-        // Assert
-        val resultType = modelBuilder.getFinalResult(JniType::class.java)
-        assertNotNull(resultType)
-        assertEquals(javaCustomType.name, resultType.javaName)
-        assertEquals(cppCustomType.name, resultType.cppName)
-    }
-
-    @Test
-    fun finishBuildingFEnumerator() {
-        // Arrange
-        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(
-            CppEnumItem(
-                "cppEnumerator",
-                null
-            )
-        )
-        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(JavaEnumItem("javaEnumerator"))
-
-        // Act
-        modelBuilder.finishBuilding(francaEnumerator)
-
-        // Assert
-        val jniEnumItem = modelBuilder.getFinalResult(JniEnumerator::class.java)
-        assertNotNull(jniEnumItem)
-        assertEquals(jniEnumItem.cppName, "cppEnumerator")
-        assertEquals(jniEnumItem.javaName, "javaEnumerator")
-    }
-
-    @Test
-    fun finishBuildingFrancaTypeCollectionReadsEnums() {
-        // Arrange
-        `when`(francaTypeCollection.name).thenReturn(TYPE_COLLECTION_NAME)
-        val jniEnum = JniEnum(JavaPackage.DEFAULT, "MyJavaEnumName", "MyCppEnumName")
-        contextStack.injectResult(jniEnum)
-
-        // Act
-        modelBuilder.finishBuilding(francaTypeCollection)
-
-        // Assert
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertNotNull(jniContainer)
-        assertFalse(jniContainer.enums.isEmpty())
-        assertEquals(jniEnum, jniContainer.enums[0])
-    }
-
-    @Test
-    fun finishBuildingFrancaInterfaceReadsEnums() {
-        // Arrange
-        val jniEnum = JniEnum(null, "MyJavaEnumName", "MyCppEnumName")
-        contextStack.injectResult(jniEnum)
-
-        // Act
-        modelBuilder.finishBuilding(francaInterface)
-
-        // Assert
-        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
-        assertNotNull(jniContainer)
-        assertFalse(jniContainer.enums.isEmpty())
-        assertEquals(jniEnum, jniContainer.enums[0])
+        val methods = modelBuilder.finalResults.filterIsInstance<JniMethod>()
+        assertEquals(2, methods.size)
+        assertTrue(methods.first().isStatic)
+        assertTrue(methods.last().isStatic)
     }
 
     companion object {
-        private const val JAVA_CLASS_NAME = "jAvaClazz"
-        private const val JAVA_INTERFACE_NAME = "javaFAce"
-        private const val CPP_CLASS_NAME = "cPpClass"
-
-        private const val CPP_VOID_METHOD_NAME = "cPpWork3R_vOid"
-        private const val CPP_INT_METHOD_NAME = "cPpWork3R_iNt"
-
-        private val JAVA_VOID_METHOD_NAME = "fancyMEthoD_v0id"
-        private const val JAVA_INT_METHOD_NAME = "fancyMEthoD_integer"
-
-        private const val BASE_NAME_PARAMETER = "theParam"
-        private const val TYPE_COLLECTION_NAME = "TestTypeCollection"
-
-        private val JAVA_PACKAGES = Arrays.asList("my", "java", "test")
-        private val CPP_NAMESPACE_MEMBERS = Arrays.asList("my", "cpp", "stuffs", "namespace")
-
         private const val INTERNAL_NAMESPACE = "::very::internal"
-
-        private fun createJavaMethod(): JavaMethod {
-            return JavaMethod(
-                JAVA_INT_METHOD_NAME, null,
-                JavaVisibility.PUBLIC,
-                JavaPrimitiveType.INT, null, null,
-                listOf(JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT))
-            )
-        }
-
-        private fun createCppMethod() =
-            CppMethod(
-                name = CPP_INT_METHOD_NAME,
-                fullyQualifiedName = CPP_INT_METHOD_NAME,
-                returnType = CppPrimitiveTypeRef.INT8,
-                parameters = listOf(CppParameter("", CppPrimitiveTypeRef.INT8))
-            )
     }
 }

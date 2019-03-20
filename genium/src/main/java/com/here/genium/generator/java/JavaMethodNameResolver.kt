@@ -19,24 +19,26 @@
 
 package com.here.genium.generator.java
 
-import com.here.genium.common.FrancaSignatureResolver
-import org.franca.core.franca.FMethod
-import org.franca.core.franca.FTypeRef
+import com.here.genium.common.LimeSignatureResolver
+import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeTypeRef
 
-open class JavaMethodNameResolver : FrancaSignatureResolver() {
+class JavaMethodNameResolver(
+    limeReferenceMap: Map<String, LimeElement>
+) : LimeSignatureResolver(limeReferenceMap) {
 
-    open fun getName(francaMethod: FMethod): String {
-        val selector = if (hasSignatureClash(francaMethod)) {
-            francaMethod.selector
-        } else {
-            ""
+    fun getName(limeMethod: LimeMethod): String {
+        val selector = when {
+            hasSignatureClash(limeMethod) -> limeMethod.path.disambiguationSuffix
+            else -> ""
         }
-        return JavaNameRules.getMethodName(francaMethod.name, selector)
+        return JavaNameRules.getMethodName(limeMethod.name, selector)
     }
 
-    override fun getArrayName(elementType: FTypeRef) = TYPE_ERASED_ARRAY
+    override fun getArrayName(elementType: LimeTypeRef) = TYPE_ERASED_ARRAY
 
-    override fun getMapName(keyType: FTypeRef, valueType: FTypeRef) = TYPE_ERASED_MAP
+    override fun getMapName(keyType: LimeTypeRef, valueType: LimeTypeRef) = TYPE_ERASED_MAP
 
     companion object {
         private const val TYPE_ERASED_ARRAY = "List<>"

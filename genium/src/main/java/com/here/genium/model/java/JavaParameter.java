@@ -20,15 +20,7 @@
 package com.here.genium.model.java;
 
 public final class JavaParameter extends JavaTypedElement {
-
-  public final boolean isOutput;
-
   public JavaParameter(final String name, final JavaType type) {
-    this(name, type, false);
-  }
-
-  public JavaParameter(final String name, final JavaType type, final boolean isOutput) {
     super(name, type);
-    this.isOutput = isOutput;
   }
 }

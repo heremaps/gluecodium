@@ -228,8 +228,8 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
 
     override fun finishBuilding(francaExpression: FInitializerExpression) {
         val francaType = parentContext.previousResults
-            .filterIsInstance(LimeTypeRef::class.java)
-            .firstOrNull() ?: LimeTypeRef(referenceResolver.referenceMap, TypeId.INT64.name)
+            .filterIsInstance<LimeTypeRef>()
+            .firstOrNull() ?: LimeTypeRef(referenceResolver.referenceMap, TypeId.INT32.name)
         val limeValue = when (francaExpression) {
             is FConstant, is FUnaryOperation -> {
                 val stringValue = StringValueMapper.map(francaExpression)

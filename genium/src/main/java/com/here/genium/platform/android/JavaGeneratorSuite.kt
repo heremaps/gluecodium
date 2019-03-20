@@ -20,22 +20,25 @@
 package com.here.genium.platform.android
 
 import com.here.genium.Genium
-import com.here.genium.common.FrancaTypeHelper
 import com.here.genium.generator.androidmanifest.AndroidManifestGenerator
 import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
 import com.here.genium.generator.java.JavaTemplates
 import com.here.genium.generator.jni.JniGenerator
 import com.here.genium.generator.jni.JniNameRules
 import com.here.genium.generator.jni.JniTemplates
+import com.here.genium.generator.lime.LimeModelBuilder
+import com.here.genium.generator.lime.LimeReferenceResolver
 import com.here.genium.model.franca.FrancaDeploymentModel
 import com.here.genium.model.java.JavaElement
 import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.jni.JniContainer
+import com.here.genium.model.lime.LimeContainer
 import com.here.genium.platform.common.GeneratorSuite
 import org.franca.core.franca.FTypeCollection
 
 /**
- * Combines generators [JniGenerator] and [JavaTemplates] to generate Java code and
+ * Combines generators [JniGenerator], [JniTemplates] and [JavaTemplates] to generate Java code and
  * bindings to BaseAPI layer for Java.
  */
 open class JavaGeneratorSuite protected constructor(
@@ -45,7 +48,7 @@ open class JavaGeneratorSuite protected constructor(
 ) : GeneratorSuite() {
 
     private val rootPackage = options.javaPackages
-    private val internalNamespace = options.cppInternalNamespace
+    private val internalNamespace = options.cppInternalNamespace ?: ""
     private val rootNamespace = options.cppRootNamespace
 
     protected open val generatorName = GENERATOR_NAME
@@ -61,19 +64,25 @@ open class JavaGeneratorSuite protected constructor(
         val javaPackageList =
             if (!rootPackage.isEmpty()) rootPackage else JavaPackage.DEFAULT_PACKAGE_NAMES
 
+        val referenceResolver = LimeReferenceResolver()
+        val limeModelBuilder = LimeModelBuilder(deploymentModel, referenceResolver)
+        val limeModel = typeCollections.map {
+            FrancaTreeWalker(listOf(limeModelBuilder)).walkTree(it)
+            limeModelBuilder.getFinalResult(LimeContainer::class.java)
+        }
+
         val jniGenerator = JniGenerator(
-            deploymentModel,
+            referenceResolver.referenceMap,
             javaPackageList,
-            UTILS_HEADER_INCLUDES.map(JniNameRules::getHeaderFileName),
-            FrancaTypeHelper.getErrorEnumFilter(typeCollections),
+            UTILS_HEADER_INCLUDES.map { JniNameRules.getHeaderFileName(it) },
             enableAndroidFeatures,
-            internalNamespace!!,
+            internalNamespace,
             rootNamespace
         )
 
-        val model = typeCollections.map(jniGenerator::generateModel).flatten()
-        val javaModel = model.filterIsInstance(JavaElement::class.java)
-        val jniModel = model.filterIsInstance(JniContainer::class.java)
+        val model = limeModel.map { jniGenerator.generateModel(it) }.flatten()
+        val javaModel = model.filterIsInstance<JavaElement>()
+        val jniModel = model.filterIsInstance<JniContainer>()
 
         val javaTemplates = JavaTemplates(generatorName)
         val javaFiles = javaTemplates.generateFiles(javaModel)

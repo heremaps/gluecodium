@@ -20,23 +20,19 @@
 package com.here.genium.generator.jni
 
 import com.google.common.annotations.VisibleForTesting
-import com.here.genium.common.CollectionsHelper
-import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder
+import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
-import com.here.genium.generator.cpp.CppModelBuilder
+import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
+import com.here.genium.generator.cpp.CppLimeBasedModelBuilder
 import com.here.genium.generator.java.JavaModelBuilder
-import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppClass
 import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppEnumItem
 import com.here.genium.model.cpp.CppField
-import com.here.genium.model.cpp.CppIncludeResolver
 import com.here.genium.model.cpp.CppMethod
 import com.here.genium.model.cpp.CppParameter
 import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.cpp.CppTypeRef
-import com.here.genium.model.franca.DefinedBy
-import com.here.genium.model.franca.FrancaDeploymentModel
 import com.here.genium.model.java.JavaClass
 import com.here.genium.model.java.JavaEnum
 import com.here.genium.model.java.JavaEnumItem
@@ -56,113 +52,130 @@ import com.here.genium.model.jni.JniParameter
 import com.here.genium.model.jni.JniStruct
 import com.here.genium.model.jni.JniTopLevelElement
 import com.here.genium.model.jni.JniType
-import org.franca.core.franca.FArgument
-import org.franca.core.franca.FAttribute
-import org.franca.core.franca.FEnumerationType
-import org.franca.core.franca.FEnumerator
-import org.franca.core.franca.FField
-import org.franca.core.franca.FInterface
-import org.franca.core.franca.FMethod
-import org.franca.core.franca.FStructType
-import org.franca.core.franca.FTypeCollection
-import java.util.function.Consumer
-import kotlin.streams.toList
+import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeEnumerator
+import com.here.genium.model.lime.LimeField
+import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeParameter
+import com.here.genium.model.lime.LimeProperty
+import com.here.genium.model.lime.LimeStruct
+import com.here.genium.model.lime.LimeTypeRef
 
 /**
- * This class builds a correspondence-tree containing correspondences between java and cpp model
+ * This class builds a correspondence-tree containing correspondences between Java and C++ model
  * elements. Currently only corresponding classes and theirs corresponding methods are calculated.
  *
  * Preconditions:
  *
- * For correspondence calculation it is assumed to have one to one mapping, i.e. one franca
+ * For correspondence calculation it is assumed to have one to one mapping, i.e. one LIME
  * element is mapped to at least one target model element.
  *
  * It is assumed that Java- and CppModelBuilder's finishBuilding methods are called in advance of
- * calling finishBuilding on JniModelBuilder (constructed java and cpp elements need to be
- * accessible via getResults(..) ).
+ * calling finishBuilding on JniModelBuilder (constructed Java and C++ elements need to be
+ * accessible via getResults() ).
  */
 class JniModelBuilder @VisibleForTesting
 internal constructor(
     contextStack: ModelBuilderContextStack<JniElement>,
-    private val deploymentModel: FrancaDeploymentModel,
     private val javaBuilder: JavaModelBuilder,
-    private val cppBuilder: CppModelBuilder,
-    private val cppIncludeResolver: CppIncludeResolver,
+    private val cppBuilder: CppLimeBasedModelBuilder,
+    private val cppIncludeResolver: CppLimeBasedIncludeResolver,
     private val internalNamespace: String
-) : AbstractModelBuilder<JniElement>(contextStack) {
+) : AbstractLimeBasedModelBuilder<JniElement>(contextStack) {
     constructor(
-        deploymentModel: FrancaDeploymentModel,
         javaBuilder: JavaModelBuilder,
-        cppBuilder: CppModelBuilder,
-        cppIncludeResolver: CppIncludeResolver,
+        cppBuilder: CppLimeBasedModelBuilder,
+        cppIncludeResolver: CppLimeBasedIncludeResolver,
         internalNamespace: String
     ) : this(
         ModelBuilderContextStack<JniElement>(),
-        deploymentModel,
         javaBuilder,
         cppBuilder,
         cppIncludeResolver,
         internalNamespace
     )
 
-    override fun finishBuilding(francaInterface: FInterface) {
-        val cppClass = cppBuilder.getFinalResult(CppClass::class.java)
-        val javaTopLevelElement = javaBuilder.getFinalResult(JavaTopLevelElement::class.java)
-        val javaClass = javaBuilder.getFinalResult(JavaClass::class.java)
-
-        val containerType = when {
-            deploymentModel.isInterface(francaInterface) -> JniContainer.ContainerType.INTERFACE
-            else -> JniContainer.ContainerType.CLASS
+    override fun finishBuilding(limeContainer: LimeContainer) {
+        val jniContainer = when {
+            limeContainer.type == LimeContainer.ContainerType.TYPE_COLLECTION ->
+                finishBuildingTypeCollection(limeContainer)
+            else -> finishBuildingInterfaceOrClass(limeContainer)
         }
-        val jniContainer = JniContainer(
-            javaPackages = javaTopLevelElement!!.javaPackage.packageNames,
-            cppNameSpaces = DefinedBy.getPackages(francaInterface),
-            javaName = javaClass!!.name,
-            javaInterfaceName = javaTopLevelElement.name,
-            cppName = cppClass!!.name,
-            cppFullyQualifiedName = cppClass.fullyQualifiedName,
-            containerType = containerType,
-            internalNamespace = internalNamespace
-        )
-
-        val parentContainer = getPreviousResult(JniContainer::class.java)
-        if (parentContainer != null) {
-            parentContainer.parentMethods.forEach(Consumer<JniMethod> {
-                jniContainer.addParentMethod(it)
-            })
-            parentContainer.methods.forEach(Consumer<JniMethod> { jniContainer.addParentMethod(it) })
-        }
-
-        getPreviousResults(JniMethod::class.java).forEach(Consumer<JniMethod> { jniContainer.add(it) })
-        getPreviousResults(JniStruct::class.java).forEach(Consumer<JniStruct> { jniContainer.add(it) })
-        getPreviousResults(JniEnum::class.java).forEach(Consumer<JniEnum> { jniContainer.add(it) })
-
-        jniContainer.includes.add(cppIncludeResolver.resolveInclude(francaInterface))
-        jniContainer.includes.addAll(getIncludes(francaInterface))
 
         storeResult(jniContainer)
         closeContext()
     }
 
-    override fun finishBuilding(francaMethod: FMethod) {
+    private fun finishBuildingTypeCollection(limeContainer: LimeContainer): JniContainer {
+        val jniTopLevelElement = getPreviousResultOrNull(JniTopLevelElement::class.java)
+        val packageNames = jniTopLevelElement?.javaPackage?.packageNames ?: emptyList()
+
+        val cppNameSpace = limeContainer.path.head
+        val jniContainer = JniContainer(
+            javaPackages = packageNames,
+            cppNameSpaces = cppNameSpace,
+            containerType = getContainerType(limeContainer),
+            internalNamespace = internalNamespace
+        )
+        getPreviousResults(JniStruct::class.java).forEach { jniContainer.add(it) }
+        getPreviousResults(JniEnum::class.java).forEach { jniContainer.add(it) }
+
+        val types = limeContainer.structs + limeContainer.enumerations + limeContainer.typeDefs
+        jniContainer.includes += types.map { cppIncludeResolver.resolveInclude(it) }
+
+        return jniContainer
+    }
+
+    private fun finishBuildingInterfaceOrClass(limeContainer: LimeContainer): JniContainer {
+        val cppClass = cppBuilder.getFinalResult(CppClass::class.java)
+        val javaTopLevelElement = javaBuilder.getFinalResult(JavaTopLevelElement::class.java)
+        val javaClass = javaBuilder.getFinalResult(JavaClass::class.java)
+
+        val jniContainer = JniContainer(
+            javaPackages = javaTopLevelElement.javaPackage.packageNames,
+            cppNameSpaces = limeContainer.path.head,
+            javaName = javaClass.name,
+            javaInterfaceName = javaTopLevelElement.name,
+            cppName = cppClass.name,
+            cppFullyQualifiedName = cppClass.fullyQualifiedName,
+            containerType = getContainerType(limeContainer),
+            internalNamespace = internalNamespace
+        )
+
+        val parentContainer = getPreviousResultOrNull(JniContainer::class.java)
+        if (parentContainer != null) {
+            parentContainer.parentMethods.forEach { jniContainer.addParentMethod(it) }
+            parentContainer.methods.forEach { jniContainer.addParentMethod(it) }
+        }
+
+        getPreviousResults(JniMethod::class.java).forEach { jniContainer.add(it) }
+        getPreviousResults(JniStruct::class.java).forEach { jniContainer.add(it) }
+        getPreviousResults(JniEnum::class.java).forEach { jniContainer.add(it) }
+
+        val types = listOf(limeContainer) + limeContainer.structs + limeContainer.enumerations +
+                limeContainer.typeDefs
+        jniContainer.includes += types.map { cppIncludeResolver.resolveInclude(it) }
+
+        return jniContainer
+    }
+
+    override fun finishBuilding(limeMethod: LimeMethod) {
         val javaMethod = javaBuilder.getFinalResult(JavaMethod::class.java)
         val cppMethod = cppBuilder.getFinalResult(CppMethod::class.java)
 
-        var jniException: JniException? = null
-        if (javaMethod?.exception != null) {
-            jniException = JniException(
-                JniNameRules.getFullClassName(javaMethod.exception),
-                getPreviousResult(JniType::class.java)
-            )
+        val jniException = javaMethod.exception?.let {
+            JniException(JniNameRules.getFullClassName(it), getPreviousResult(JniType::class.java))
         }
 
         val jniMethod = JniMethod(
             javaMethodName = javaMethod.name,
-            cppMethodName = cppMethod!!.name,
+            cppMethodName = cppMethod.name,
             returnType = JniType(javaMethod.returnType, cppMethod.returnType),
             isStatic = cppMethod.specifiers.contains(CppMethod.Specifier.STATIC),
             isConst = cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST),
-            isOverloaded = francaMethod.selector != null,
+            isOverloaded = !limeMethod.path.disambiguationSuffix.isEmpty(),
             isConstructor = javaMethod.isConstructor,
             exception = jniException
         )
@@ -172,16 +185,16 @@ internal constructor(
         closeContext()
     }
 
-    override fun finishBuildingInputArgument(francaArgument: FArgument) {
+    override fun finishBuilding(limeParameter: LimeParameter) {
         val javaParameter = javaBuilder.getFinalResult(JavaParameter::class.java)
         val cppParameter = cppBuilder.getFinalResult(CppParameter::class.java)
-        val jniType = JniType(javaParameter!!.type, cppParameter!!.type)
+        val jniType = JniType(javaParameter.type, cppParameter.type)
 
         storeResult(JniParameter(javaParameter.name, jniType))
         closeContext()
     }
 
-    override fun finishBuilding(francaStructType: FStructType) {
+    override fun finishBuilding(limeStruct: LimeStruct) {
         val javaClass = javaBuilder.getFinalResult(JavaClass::class.java)
         val cppStruct = cppBuilder.getFinalResult(CppStruct::class.java)
         val jniStruct = JniStruct(javaClass, cppStruct, getPreviousResults(JniField::class.java))
@@ -190,78 +203,53 @@ internal constructor(
         closeContext()
     }
 
-    override fun finishBuilding(francaEnumType: FEnumerationType) {
-        // Type definition
-        val javaEnum = javaBuilder.getFinalResult(JavaEnum::class.java)
-        val cppEnum = cppBuilder.getFinalResult(CppEnum::class.java)
-        storeResult(
-            JniEnum(
-                javaEnumName = javaEnum!!.name,
-                cppEnumName = cppEnum!!.fullyQualifiedName,
-                javaPackage = javaEnum.javaPackage,
-                enumerators = getPreviousResults(JniEnumerator::class.java)
-            )
-        )
-
-        // Type reference
-        val javaType = javaBuilder.getFinalResult(JavaType::class.java)
-        val cppTypeRef = cppBuilder.getFinalResult(CppTypeRef::class.java)
-        storeResult(JniType(javaType, cppTypeRef))
-
-        closeContext()
-    }
-
-    override fun finishBuilding(francaEnumerator: FEnumerator) {
-        val javaEnumItem = javaBuilder.getFinalResult(JavaEnumItem::class.java)
-        val cppEnumItem = cppBuilder.getFinalResult(CppEnumItem::class.java)
-        storeResult(JniEnumerator(javaEnumItem!!.name, cppEnumItem!!.name))
-        closeContext()
-    }
-
-    override fun finishBuilding(francaField: FField) {
+    override fun finishBuilding(limeField: LimeField) {
         val javaField = javaBuilder.getFinalResult(JavaField::class.java)
         val cppField = cppBuilder.getFinalResult(CppField::class.java)
         val jniField = JniField(
             javaField = javaField,
             cppField = cppField,
-            cppGetterName = deploymentModel.getExternalGetter(francaField),
-            cppSetterName = deploymentModel.getExternalSetter(francaField)
+            cppGetterName = limeField.attributes.get(
+                LimeAttributeType.EXTERNAL_GETTER,
+                String::class.java
+            ),
+            cppSetterName = limeField.attributes.get(
+                LimeAttributeType.EXTERNAL_SETTER,
+                String::class.java
+            )
         )
 
         storeResult(jniField)
         closeContext()
     }
 
-    override fun finishBuilding(francaTypeCollection: FTypeCollection) {
-        val jniTopLevelElement = getPreviousResult(JniTopLevelElement::class.java)
-        val packageNames = jniTopLevelElement?.javaPackage?.packageNames ?: emptyList()
-
-        val jniContainer = JniContainer(
-            javaPackages = packageNames,
-            cppNameSpaces = DefinedBy.getPackages(francaTypeCollection),
-            containerType = JniContainer.ContainerType.TYPE_COLLECTION,
-            internalNamespace = internalNamespace
+    override fun finishBuilding(limeEnumeration: LimeEnumeration) {
+        val javaEnum = javaBuilder.getFinalResult(JavaEnum::class.java)
+        val cppEnum = cppBuilder.getFinalResult(CppEnum::class.java)
+        val jniEnum = JniEnum(
+            javaEnumName = javaEnum.name,
+            cppEnumName = cppEnum.fullyQualifiedName,
+            javaPackage = javaEnum.javaPackage,
+            enumerators = getPreviousResults(JniEnumerator::class.java)
         )
-        CollectionsHelper.getStreamOfType(currentContext.previousResults, JniStruct::class.java)
-            .forEach { jniContainer.add(it) }
-        CollectionsHelper.getStreamOfType(currentContext.previousResults, JniEnum::class.java)
-            .forEach { jniContainer.add(it) }
 
-        jniContainer.includes.addAll(getIncludes(francaTypeCollection))
-
-        storeResult(jniContainer)
+        storeResult(jniEnum)
         closeContext()
     }
 
-    override fun finishBuilding(francaAttribute: FAttribute) {
-        val javaMethods =
-            CollectionsHelper.getAllOfType(javaBuilder.finalResults, JavaMethod::class.java)
-        val cppMethods =
-            CollectionsHelper.getAllOfType(cppBuilder.finalResults, CppMethod::class.java)
+    override fun finishBuilding(limeEnumerator: LimeEnumerator) {
+        val javaEnumItem = javaBuilder.getFinalResult(JavaEnumItem::class.java)
+        val cppEnumItem = cppBuilder.getFinalResult(CppEnumItem::class.java)
+        storeResult(JniEnumerator(javaEnumItem.name, cppEnumItem.name))
+        closeContext()
+    }
 
-        val javaGetter = javaMethods[0]
-        val cppGetter = cppMethods[0]
-        val isStatic = deploymentModel.isStatic(francaAttribute)
+    override fun finishBuilding(limeProperty: LimeProperty) {
+        val javaMethods = javaBuilder.finalResults.filterIsInstance<JavaMethod>()
+        val cppMethods = cppBuilder.finalResults.filterIsInstance<CppMethod>()
+
+        val javaGetter = javaMethods.first()
+        val cppGetter = cppMethods.first()
         val jniType = JniType(javaGetter.returnType, cppGetter.returnType)
         storeResult(
             JniMethod(
@@ -269,21 +257,21 @@ internal constructor(
                 cppMethodName = cppGetter.name,
                 returnType = jniType,
                 isConst = true,
-                isStatic = isStatic
+                isStatic = limeProperty.isStatic
             )
         )
-        if (!francaAttribute.isReadonly) {
-            val javaSetter = javaMethods[1]
-            val cppSetter = cppMethods[1]
+        if (!limeProperty.isReadonly) {
+            val javaSetter = javaMethods.last()
+            val cppSetter = cppMethods.last()
             val jniSetter = JniMethod(
                 javaMethodName = javaSetter.name,
                 cppMethodName = cppSetter.name,
                 returnType = JniType.VOID,
-                isStatic = isStatic
+                isStatic = limeProperty.isStatic
             )
 
-            val javaParameter = javaSetter.parameters[0]
-            val cppParameter = cppSetter.parameters[0]
+            val javaParameter = javaSetter.parameters.first()
+            val cppParameter = cppSetter.parameters.first()
             val parameterType = JniType(javaParameter.type, cppParameter.type)
             jniSetter.parameters.add(JniParameter(javaParameter.name, parameterType))
 
@@ -293,10 +281,21 @@ internal constructor(
         closeContext()
     }
 
-    private fun getIncludes(francaTypeCollection: FTypeCollection) =
-        francaTypeCollection
-            .types
-            .stream()
-            .map<Include> { cppIncludeResolver.resolveInclude(it) }
-            .toList()
+    override fun finishBuilding(limeTypeRef: LimeTypeRef) {
+        val jniType = JniType(
+            javaBuilder.getFinalResult(JavaType::class.java),
+            cppBuilder.getFinalResult(CppTypeRef::class.java)
+        )
+
+        storeResult(jniType)
+        closeContext()
+    }
+
+    private fun getContainerType(limeContainer: LimeContainer) =
+        when (limeContainer.type) {
+            LimeContainer.ContainerType.TYPE_COLLECTION ->
+                JniContainer.ContainerType.TYPE_COLLECTION
+            LimeContainer.ContainerType.INTERFACE -> JniContainer.ContainerType.INTERFACE
+            LimeContainer.ContainerType.CLASS -> JniContainer.ContainerType.CLASS
+        }
 }

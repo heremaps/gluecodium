@@ -19,10 +19,8 @@
 
 package com.here.genium.generator.java
 
-import com.here.genium.generator.common.StringValueMapper
 import com.here.genium.model.java.JavaArrayType
 import com.here.genium.model.java.JavaCustomType
-import com.here.genium.model.java.JavaEnumItem
 import com.here.genium.model.java.JavaEnumType
 import com.here.genium.model.java.JavaPrimitiveType
 import com.here.genium.model.java.JavaReferenceType
@@ -30,144 +28,87 @@ import com.here.genium.model.java.JavaReferenceType.Type
 import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaType
 import com.here.genium.model.java.JavaValue
-import org.apache.commons.text.StringEscapeUtils
-import org.franca.core.franca.FConstant
-import org.franca.core.franca.FEnumerationType
-import org.franca.core.franca.FEnumerator
-import org.franca.core.franca.FFloatConstant
-import org.franca.core.franca.FInitializerExpression
-import org.franca.core.franca.FIntegerConstant
-import org.franca.core.franca.FInterface
-import org.franca.core.franca.FQualifiedElementRef
-import org.franca.core.franca.FTypeCollection
-import org.franca.core.franca.FUnaryOperation
-import java.math.BigInteger
+import com.here.genium.model.lime.LimeBasicType
+import com.here.genium.model.lime.LimeBasicType.TypeId
+import com.here.genium.model.lime.LimeBasicTypeRef
+import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeValue
 
-object JavaValueMapper {
-    private val FLOAT_NAN = JavaValue("Float.NaN", true)
-    private val FLOAT_INFINITY = JavaValue("Float.POSITIVE_INFINITY", true)
-    private val FLOAT_NEGATIVE_INFINITY = JavaValue("Float.NEGATIVE_INFINITY", true)
-    private val DOUBLE_NAN = JavaValue("Double.NaN", true)
-    private val DOUBLE_INFINITY = JavaValue("Double.POSITIVE_INFINITY", true)
-    private val DOUBLE_NEGATIVE_INFINITY = JavaValue("Double.NEGATIVE_INFINITY", true)
+class JavaValueMapper(private val limeReferenceMap: Map<String, LimeElement>) {
 
-    fun completePartialEnumeratorValues(javaEnumItems: List<JavaEnumItem>) {
-        var lastValue = 0
-        for (e in javaEnumItems) {
-            if (e.value == null) {
-                e.value = JavaValue(lastValue.toString())
-            } else {
-                lastValue = Integer.parseInt(e.value.name)
-            }
-            lastValue++
-        }
-    }
-
-    fun map(francaExpression: FInitializerExpression): JavaValue? {
-        when (francaExpression) {
-            is FConstant, is FUnaryOperation -> {
-                val stringValue = StringValueMapper.map(francaExpression) ?: return null
-
+    fun mapValue(limeValue: LimeValue) =
+        when (limeValue) {
+            is LimeValue.Literal -> {
+                val limeType = limeValue.typeRef.type
                 val suffix = when {
-                    francaExpression is FFloatConstant -> "f"
-                    francaExpression is FIntegerConstant &&
-                            !fitsIntoInteger(francaExpression.getVal()) -> "L"
-                    else -> ""
+                        limeType !is LimeBasicType -> ""
+                        limeType.typeId == TypeId.FLOAT -> "f"
+                        limeType.typeId == TypeId.UINT32 || limeType.typeId == TypeId.UINT64 ||
+                            limeType.typeId == TypeId.INT64 -> "L"
+                        else -> ""
+                    }
+                JavaValue(limeValue.value + suffix, true)
+            }
+            is LimeValue.Enumerator -> {
+                val limeEnumerator = limeValue.valueRef.enumerator
+                val limeEnumeration = limeValue.typeRef.type
+                var names = listOf(JavaNameRules.getClassName(limeEnumeration.name)) +
+                    JavaNameRules.getConstantName(limeEnumerator.name)
+                val parentContainer =
+                    limeReferenceMap[limeEnumeration.path.parent.toString()] as LimeContainer
+                if (parentContainer.type != LimeContainer.ContainerType.TYPE_COLLECTION) {
+                    names = listOf(JavaNameRules.getClassName(parentContainer.name)) + names
                 }
-
-                return JavaValue(stringValue + suffix)
+                JavaValue(names.joinToString("."), true)
             }
-            is FQualifiedElementRef -> return map(francaExpression)
-            else -> return null
-        }
+            is LimeValue.Special -> mapSpecialValue(limeValue)
     }
 
-    private fun map(francaElementRef: FQualifiedElementRef): JavaValue? {
-        val value = francaElementRef.element as? FEnumerator ?: return null
-
-        val names = mutableListOf(
-            JavaNameRules.getClassName((value.eContainer() as FEnumerationType).name),
-            JavaNameRules.getConstantName(value.name))
-        val typeCollection = value.eContainer().eContainer() as FTypeCollection
-        if (typeCollection is FInterface) {
-            names.add(0, JavaNameRules.getClassName(typeCollection.getName()))
+    private fun mapSpecialValue(limeValue: LimeValue.Special): JavaValue {
+        val prefix = if (limeValue.typeRef == LimeBasicTypeRef.FLOAT) "Float" else "Double"
+        val value = when (limeValue.value) {
+            LimeValue.Special.ValueId.NAN -> "NaN"
+            LimeValue.Special.ValueId.INFINITY -> "POSITIVE_INFINITY"
+            LimeValue.Special.ValueId.NEGATIVE_INFINITY -> "NEGATIVE_INFINITY"
         }
-
-        return JavaValue(names.joinToString("."))
+        return JavaValue("$prefix.$value", true)
     }
 
-    fun mapDefaultValue(javaType: JavaType, deploymentDefaultValue: String) =
-        when {
-            javaType is JavaPrimitiveType -> mapPrimitiveTypeCustomDefaultValue(
-                javaType, deploymentDefaultValue
-            )
-            javaType is JavaReferenceType && javaType.type == JavaReferenceType.Type.STRING ->
-                JavaValue(
-                    "\"" + StringEscapeUtils.escapeJava(deploymentDefaultValue) + "\"", true
-                )
-            javaType is JavaEnumType -> JavaValue(
-                javaType.name + "." + JavaNameRules.getConstantName(deploymentDefaultValue),
-                true
-            )
-            else -> JavaValue(deploymentDefaultValue, true)
-        }
+    companion object {
+        fun inferNextEnumValue(previousEnumValue: JavaValue?) =
+            previousEnumValue?.let {
+                JavaValue((Integer.parseInt(it.name) + 1).toString())
+            } ?: JavaValue("0")
 
-    fun mapDefaultValue(javaType: JavaType) =
-        when {
-            javaType is JavaTemplateType -> JavaValue(javaType.implementationType)
-            javaType is JavaEnumType -> JavaValue(javaType.name + ".values()[0]")
-            javaType is JavaCustomType && !javaType.isInterface -> JavaValue(javaType)
-            javaType is JavaReferenceType && javaType.type == Type.STRING -> JavaValue("\"\"")
-            javaType == JavaPrimitiveType.BOOL -> JavaValue("false")
-            javaType is JavaPrimitiveType -> JavaValue(decorateLiteralValue(javaType, "0"))
-            javaType is JavaArrayType -> JavaValue("new " + javaType.type.value + "[0]")
-            else -> mapNullValue(javaType)
-        }
+        fun mapNullValue(javaType: JavaType) = JavaValue("(${javaType.name})null")
 
-    fun mapNullValue(javaType: JavaType) = JavaValue("(" + javaType.name + ")null")
-
-    private fun fitsIntoInteger(bigInteger: BigInteger): Boolean {
-        val longValue = bigInteger.toLong()
-        return longValue <= Integer.MAX_VALUE && longValue >= Integer.MIN_VALUE
-    }
-
-    private fun decorateLiteralValue(javaType: JavaPrimitiveType, defaultValue: String): String {
-        val literal = StringBuilder()
-
-        when (javaType) {
-            JavaPrimitiveType.BYTE -> literal.append("(byte)")
-            JavaPrimitiveType.SHORT -> literal.append("(short)")
-        }
-        literal.append(defaultValue)
-        when (javaType) {
-            JavaPrimitiveType.FLOAT -> literal.append('f')
-            JavaPrimitiveType.LONG -> literal.append('L')
-        }
-
-        return literal.toString()
-    }
-
-    private fun mapPrimitiveTypeCustomDefaultValue(
-        javaType: JavaPrimitiveType,
-        deploymentDefaultValue: String
-    ): JavaValue {
-
-        if (JavaPrimitiveType.FLOAT == javaType) {
-            val parsedFloat = java.lang.Float.parseFloat(deploymentDefaultValue)
+        fun mapDefaultValue(javaType: JavaType) =
             when {
-                parsedFloat.isNaN() -> return FLOAT_NAN
-                parsedFloat.isInfinite() ->
-                    return if (parsedFloat > 0) FLOAT_INFINITY else FLOAT_NEGATIVE_INFINITY
+                javaType is JavaTemplateType -> JavaValue(javaType.implementationType)
+                javaType is JavaEnumType -> JavaValue(javaType.name + ".values()[0]")
+                javaType is JavaCustomType && !javaType.isInterface -> JavaValue(javaType)
+                javaType is JavaReferenceType && javaType.type == Type.STRING -> JavaValue("\"\"")
+                javaType == JavaPrimitiveType.BOOL -> JavaValue("false")
+                javaType is JavaPrimitiveType -> JavaValue(decorateLiteralValue(javaType, "0"))
+                javaType is JavaArrayType -> JavaValue("new " + javaType.type.value + "[0]")
+                else -> mapNullValue(javaType)
             }
-        } else if (JavaPrimitiveType.DOUBLE == javaType) {
-            val parsedDouble = java.lang.Double.parseDouble(deploymentDefaultValue)
-            when {
-                parsedDouble.isNaN() -> return DOUBLE_NAN
-                parsedDouble.isInfinite() ->
-                    return if (parsedDouble > 0) DOUBLE_INFINITY else DOUBLE_NEGATIVE_INFINITY
-            }
-        }
 
-        return JavaValue(decorateLiteralValue(javaType, deploymentDefaultValue), true)
+        private fun decorateLiteralValue(javaType: JavaPrimitiveType, value: String): String {
+            val literal = StringBuilder()
+
+            when (javaType) {
+                JavaPrimitiveType.BYTE -> literal.append("(byte)")
+                JavaPrimitiveType.SHORT -> literal.append("(short)")
+            }
+            literal.append(value)
+            when (javaType) {
+                JavaPrimitiveType.FLOAT -> literal.append('f')
+                JavaPrimitiveType.LONG -> literal.append('L')
+            }
+
+            return literal.toString()
+        }
     }
 }

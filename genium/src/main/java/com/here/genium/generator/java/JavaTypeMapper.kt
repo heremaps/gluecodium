@@ -20,10 +20,6 @@
 package com.here.genium.generator.java
 
 import com.here.genium.cli.GeniumExecutionException
-import com.here.genium.common.FrancaTypeHelper
-import com.here.genium.model.common.InstanceRules
-import com.here.genium.model.franca.DefinedBy
-import com.here.genium.model.franca.FrancaDeploymentModel
 import com.here.genium.model.java.JavaArrayType
 import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaEnumType
@@ -34,77 +30,71 @@ import com.here.genium.model.java.JavaPrimitiveType
 import com.here.genium.model.java.JavaReferenceType
 import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaType
-import org.eclipse.emf.ecore.EObject
-import org.franca.core.framework.FrancaHelpers
-import org.franca.core.franca.FArgument
-import org.franca.core.franca.FArrayType
-import org.franca.core.franca.FAttribute
-import org.franca.core.franca.FBasicTypeId
-import org.franca.core.franca.FEnumerationType
-import org.franca.core.franca.FField
-import org.franca.core.franca.FInterface
-import org.franca.core.franca.FMapType
-import org.franca.core.franca.FModelElement
-import org.franca.core.franca.FStructType
-import org.franca.core.franca.FType
-import org.franca.core.franca.FTypeDef
-import org.franca.core.franca.FTypeRef
-import org.franca.core.franca.FTypedElement
+import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributes
+import com.here.genium.model.lime.LimeBasicType
+import com.here.genium.model.lime.LimeBasicType.TypeId
+import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeMap
+import com.here.genium.model.lime.LimeStruct
+import com.here.genium.model.lime.LimeType
+import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeRef
 
-/**
- * Maps Franca type references to their Java counterparts. These references are used as parameters,
- * in typedefs, array members etc.
- */
-open class JavaTypeMapper(
+class JavaTypeMapper(
+    private val limeReferenceMap: Map<String, LimeElement>,
     private val basePackage: JavaPackage,
-    private val deploymentModel: FrancaDeploymentModel,
     val serializationBase: JavaType?,
     private val notNullAnnotation: JavaType?,
     private val nullableAnnotation: JavaType?
 ) {
-    val nativeBase = JavaCustomType(NATIVE_BASE_NAME, basePackage)
+    val nativeBase: JavaType = JavaCustomType(NATIVE_BASE_NAME, basePackage)
 
-    fun map(francaTypRef: FTypeRef): JavaType {
-        var javaType = mapTypeReference(francaTypRef)
-
-        if (FrancaTypeHelper.isImplicitArray(francaTypRef)) {
-            javaType = JavaTemplateType.wrapInList(javaType)
-        }
-        if (nullableAnnotation != null && needsNullableAnnotation(francaTypRef)) {
+    fun applyNullability(javaType: JavaType, limeAttributes: LimeAttributes): JavaType {
+        var resultType = javaType
+        val isNullable = limeAttributes.have(LimeAttributeType.NULLABLE)
+        if (nullableAnnotation != null && isNullable) {
             if (javaType is JavaPrimitiveType) {
-                javaType = JavaReferenceType.boxPrimitiveType(javaType)
+                resultType = JavaReferenceType.boxPrimitiveType(javaType)
             }
-            javaType.annotations.add(nullableAnnotation)
+            resultType.annotations.add(nullableAnnotation)
         }
-        if (notNullAnnotation != null && needsNotNullAnnotation(francaTypRef)) {
-            javaType.annotations.add(notNullAnnotation)
+        if (notNullAnnotation != null && !isNullable && needsNotNullAnnotation(javaType)) {
+            resultType.annotations.add(notNullAnnotation)
         }
 
-        return javaType
+        return resultType
     }
 
-    private fun mapTypeReference(francaTypRef: FTypeRef): JavaType =
-        when {
-            francaTypRef.derived != null -> mapDerived(francaTypRef.derived)
-            else -> mapPredefined(francaTypRef.predefined)
+    fun mapType(limeTypeRef: LimeTypeRef): JavaType {
+        val limeType = limeTypeRef.type
+        return when (limeType) {
+            is LimeBasicType -> mapBasicType(limeType)
+            is LimeTypeDef -> mapType(limeType.typeRef)
+            is LimeArray -> JavaTemplateType.wrapInList(mapType(limeType.elementType))
+            is LimeMap -> mapMapType(limeType)
+            is LimeStruct, is LimeEnumeration -> mapCustomType(limeType)
+            is LimeContainer -> {
+                val packageNames =
+                    basePackage.createChildPackage(limeType.path.head).packageNames
+                val className = JavaNameRules.getClassName(limeType.name)
+                JavaCustomType(
+                    fullName = className,
+                    packageNames = packageNames,
+                    javaImports = listOf(JavaImport(className, JavaPackage(packageNames))),
+                    isInterface = true
+                )
+            }
+            else -> throw GeniumExecutionException("Unmapped type: " + limeType.name)
         }
+    }
 
-    private fun mapDerived(francaType: FType): JavaType =
-        when (francaType) {
-            is FTypeDef -> mapTypeDef(francaType)
-            is FArrayType -> mapArray(francaType)
-            is FMapType -> mapMap(francaType)
-            is FStructType -> mapCustomType(francaType)
-            is FEnumerationType -> mapCustomType(francaType)
-            else -> throw GeniumExecutionException("Unmapped derived type: " + francaType.name)
-        }
-
-    fun mapArray(arrayType: FArrayType) =
-        JavaTemplateType.wrapInList(mapTypeReference(arrayType.elementType))
-
-    fun mapMap(francaMapType: FMapType): JavaType {
-        var keyType = mapTypeReference(francaMapType.keyType)
-        var valueType = mapTypeReference(francaMapType.valueType)
+    private fun mapMapType(francaMapType: LimeMap): JavaType {
+        var keyType = mapType(francaMapType.keyType)
+        var valueType = mapType(francaMapType.valueType)
 
         if (keyType is JavaPrimitiveType) {
             keyType = JavaReferenceType.boxPrimitiveType(keyType)
@@ -116,60 +106,58 @@ open class JavaTypeMapper(
         return JavaTemplateType.create(JavaTemplateType.TemplateClass.MAP, keyType, valueType)
     }
 
-    @JvmOverloads
     fun mapCustomType(
-        francaElement: FModelElement,
-        className: String = JavaNameRules.getClassName(francaElement.name)
+        limeType: LimeType,
+        className: String = JavaNameRules.getClassName(limeType.name)
     ): JavaType {
 
-        val typeCollection = DefinedBy.findDefiningTypeCollection(francaElement)
-        val packageNames =
-            basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).packageNames
+        if (limeType is LimeContainer) {
+            val packageNames = basePackage.createChildPackage(limeType.path.head).packageNames
 
-        val typeName: String
+            return JavaCustomType(
+                className,
+                null,
+                packageNames,
+                listOf(JavaImport(className, JavaPackage(packageNames)))
+            )
+        }
+
+        val parentContainer = limeReferenceMap[limeType.path.parent.toString()] as LimeContainer
+        val packageNames = basePackage.createChildPackage(parentContainer.path.head).packageNames
+
         val importClassName: String
-
-        val classNames = mutableListOf<String>()
-        classNames.add(className)
-        // type is nested inside defining class
-        if (francaElement !is FInterface && typeCollection is FInterface) {
-            importClassName = JavaNameRules.getClassName(typeCollection.getName())
-            classNames.add(0, importClassName)
-            typeName = "$importClassName.$className"
-        } else { // non-nested type
+        val typeName: String
+        val classNames = mutableListOf(className)
+        if (parentContainer.type == LimeContainer.ContainerType.TYPE_COLLECTION) {
             importClassName = className
             typeName = className
+        } else {
+            importClassName = JavaNameRules.getClassName(parentContainer.name)
+            typeName = "$importClassName.$className"
+            classNames.add(0, importClassName)
         }
 
         val javaImport = JavaImport(importClassName, JavaPackage(packageNames))
 
-        return if (francaElement is FEnumerationType) {
-            JavaEnumType(typeName, classNames, packageNames, javaImport)
-        } else {
-            JavaCustomType(
-                typeName, classNames, packageNames, listOf(javaImport)
-            )
+        return when (limeType) {
+            is LimeEnumeration -> JavaEnumType(typeName, classNames, packageNames, javaImport)
+            else -> JavaCustomType(typeName, classNames, packageNames, listOf(javaImport))
         }
     }
 
-    fun mapExceptionType(francaEnum: FEnumerationType): JavaExceptionType {
-        val exceptionName = JavaNameRules.getExceptionName(francaEnum.name)
-        val typeCollection = DefinedBy.findDefiningTypeCollection(francaEnum)
-        val javaPackage = JavaPackage(
-            basePackage
-                .createChildPackage(DefinedBy.getPackages(typeCollection))
-                .packageNames
-        )
+    fun mapExceptionType(limeType: LimeType): JavaExceptionType {
+        val exceptionName = JavaNameRules.getExceptionName(limeType.name)
+        val parentContainer = limeReferenceMap[limeType.path.parent.toString()] as LimeContainer
+        val javaPackage =
+            JavaPackage(basePackage.createChildPackage(parentContainer.path.head).packageNames)
 
         val importClassName: String
-        val classNames = mutableListOf<String>()
-        classNames.add(exceptionName)
-        // type is nested inside defining class
-        if (typeCollection is FInterface) {
-            importClassName = JavaNameRules.getClassName(typeCollection.getName())
-            classNames.add(0, importClassName)
-        } else { // non-nested type
+        val classNames = mutableListOf(exceptionName)
+        if (parentContainer.type == LimeContainer.ContainerType.TYPE_COLLECTION) {
             importClassName = exceptionName
+        } else {
+            importClassName = JavaNameRules.getClassName(parentContainer.name)
+            classNames.add(0, importClassName)
         }
 
         return JavaExceptionType(
@@ -179,58 +167,25 @@ open class JavaTypeMapper(
         )
     }
 
-    private fun mapTypeDef(typeDef: FTypeDef) =
-        if (InstanceRules.isInstanceId(typeDef)) {
-            val typeCollection = DefinedBy.findDefiningTypeCollection(typeDef)
-            val packageNames =
-                basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).packageNames
-            val className = JavaNameRules.getClassName(typeCollection.name)
-            val classImport = JavaImport(className, JavaPackage(packageNames))
-
-            JavaCustomType(className, null, packageNames, listOf(classImport), true)
-        } else {
-            mapTypeReference(typeDef.actualType)
+    private fun mapBasicType(limeBasicType: LimeBasicType) =
+        when (limeBasicType.typeId) {
+            TypeId.BOOLEAN -> JavaPrimitiveType.BOOL
+            TypeId.FLOAT -> JavaPrimitiveType.FLOAT
+            TypeId.DOUBLE -> JavaPrimitiveType.DOUBLE
+            TypeId.INT8 -> JavaPrimitiveType.BYTE
+            TypeId.INT16, TypeId.UINT8 -> JavaPrimitiveType.SHORT
+            TypeId.INT32, TypeId.UINT16 -> JavaPrimitiveType.INT
+            TypeId.INT64, TypeId.UINT32, TypeId.UINT64 -> JavaPrimitiveType.LONG
+            TypeId.STRING -> JavaReferenceType(JavaReferenceType.Type.STRING)
+            TypeId.BLOB -> JavaArrayType(JavaPrimitiveType.Type.BYTE)
+            else -> JavaPrimitiveType.VOID
         }
 
-    private fun needsNotNullAnnotation(francaTypeRef: FTypeRef): Boolean {
-        val parentElement = francaTypeRef.eContainer()
-        if (!isNullableElement(parentElement)) {
-            return false
-        }
-
-        val typedElement = parentElement as FTypedElement
-        return !deploymentModel.isNullable(typedElement) && (typedElement.isArray ||
-                InstanceRules.isInstanceId(francaTypeRef) ||
-                FrancaHelpers.getActualDerived(francaTypeRef) != null)
-    }
-
-    private fun needsNullableAnnotation(francaTypeRef: FTypeRef): Boolean {
-        val parentElement = francaTypeRef.eContainer()
-        return isNullableElement(parentElement) &&
-            deploymentModel.isNullable(parentElement as FTypedElement)
-    }
-
-    private fun isNullableElement(francaElement: EObject) =
-        francaElement is FField ||
-            francaElement is FArgument ||
-            francaElement is FAttribute
+    private fun needsNotNullAnnotation(javaType: JavaType) =
+        javaType !is JavaPrimitiveType && javaType !is JavaArrayType &&
+            !(javaType is JavaReferenceType && javaType.type == JavaReferenceType.Type.STRING)
 
     companion object {
         private const val NATIVE_BASE_NAME = "NativeBase"
-
-        private fun mapPredefined(basicTypeId: FBasicTypeId) =
-            when (basicTypeId) {
-                FBasicTypeId.BOOLEAN -> JavaPrimitiveType.BOOL
-                FBasicTypeId.FLOAT -> JavaPrimitiveType.FLOAT
-                FBasicTypeId.DOUBLE -> JavaPrimitiveType.DOUBLE
-                FBasicTypeId.INT8 -> JavaPrimitiveType.BYTE
-                FBasicTypeId.INT16, FBasicTypeId.UINT8 -> JavaPrimitiveType.SHORT
-                FBasicTypeId.INT32, FBasicTypeId.UINT16 -> JavaPrimitiveType.INT
-                FBasicTypeId.INT64, FBasicTypeId.UINT32, FBasicTypeId.UINT64 ->
-                    JavaPrimitiveType.LONG
-                FBasicTypeId.STRING -> JavaReferenceType(JavaReferenceType.Type.STRING)
-                FBasicTypeId.BYTE_BUFFER -> JavaArrayType(JavaPrimitiveType.Type.BYTE)
-                else -> JavaPrimitiveType.VOID
-            }
     }
 }

@@ -19,68 +19,71 @@
 
 package com.here.genium.generator.jni
 
-import com.here.genium.common.FrancaTypeHelper
 import com.here.genium.generator.common.AbstractGenerator
-import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
-import com.here.genium.generator.cpp.CppModelBuilder
-import com.here.genium.generator.cpp.CppNameResolver
-import com.here.genium.generator.cpp.CppTypeMapper
-import com.here.genium.generator.cpp.CppValueMapper
+import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
+import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
+import com.here.genium.generator.cpp.CppLimeBasedModelBuilder
+import com.here.genium.generator.cpp.CppLimeBasedNameResolver
+import com.here.genium.generator.cpp.CppLimeBasedTypeMapper
+import com.here.genium.generator.java.JavaMethodNameResolver
 import com.here.genium.generator.java.JavaModelBuilder
 import com.here.genium.generator.java.JavaTypeMapper
+import com.here.genium.generator.java.JavaValueMapper
 import com.here.genium.model.common.Include
 import com.here.genium.model.common.ModelElement
-import com.here.genium.model.cpp.CppIncludeResolver
-import com.here.genium.model.franca.DefinedBy
-import com.here.genium.model.franca.FrancaDeploymentModel
 import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaImport
 import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.jni.JniContainer
-import org.franca.core.franca.FTypeCollection
+import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeMethod
 
 class JniGenerator(
-    private val deploymentModel: FrancaDeploymentModel,
+    private val limeReferenceMap: Map<String, LimeElement>,
     packageList: List<String>,
     private val additionalIncludes: List<String>,
-    private val errorEnumFilter: FrancaTypeHelper.ErrorEnumFilter,
     private val enableAndroidFeatures: Boolean,
     private val internalNamespace: String,
-    rootNamespace: List<String>
+    private val rootNamespace: List<String>
 ) : AbstractGenerator(packageList) {
-    private val cppIncludeResolver = CppIncludeResolver(deploymentModel, rootNamespace)
-    private val cppNameResolver = CppNameResolver(deploymentModel, rootNamespace)
+    private val cppNameResolver = CppLimeBasedNameResolver(rootNamespace, limeReferenceMap)
+    private val errorEnums =
+        limeReferenceMap.values
+            .filterIsInstance<LimeMethod>()
+            .mapNotNull { it.errorType?.elementFullName }
+            .toSet()
 
-    fun generateModel(francaTypeCollection: FTypeCollection): Collection<ModelElement> {
+    fun generateModel(limeContainer: LimeContainer): Collection<ModelElement> {
         val basePackage = JavaPackage(basePackages)
+        val javaTypeMapper = JavaTypeMapper(
+            limeReferenceMap,
+            basePackage,
+            if (enableAndroidFeatures) PARCELABLE else null,
+            if (enableAndroidFeatures) NON_NULL else null,
+            if (enableAndroidFeatures) NULLABLE else null
+        )
         val javaBuilder = JavaModelBuilder(
-            deploymentModel,
-            basePackage.createChildPackage(DefinedBy.getPackages(francaTypeCollection)),
-            JavaTypeMapper(
-                basePackage,
-                deploymentModel,
-                if (enableAndroidFeatures) PARCELABLE else null,
-                if (enableAndroidFeatures) NON_NULL else null,
-                if (enableAndroidFeatures) NULLABLE else null
-            ),
-            errorEnumFilter
+            basePackage.createChildPackage(limeContainer.path.head),
+            javaTypeMapper,
+            JavaValueMapper(limeReferenceMap),
+            JavaMethodNameResolver(limeReferenceMap),
+            errorEnums
         )
 
-        val typeMapper =
-            CppTypeMapper(cppIncludeResolver, cppNameResolver, internalNamespace, deploymentModel)
-        val valueMapper = CppValueMapper(deploymentModel, cppNameResolver)
-        val cppBuilder = CppModelBuilder(deploymentModel, typeMapper, valueMapper, cppNameResolver)
-        val jniBuilder =
-            JniModelBuilder(
-                deploymentModel,
-                javaBuilder,
-                cppBuilder,
-                cppIncludeResolver,
-                internalNamespace
-            )
+        val includeResolver = CppLimeBasedIncludeResolver(rootNamespace, limeReferenceMap)
+        val typeMapper = CppLimeBasedTypeMapper(cppNameResolver, includeResolver, internalNamespace)
+        val cppBuilder = CppLimeBasedModelBuilder(typeMapper, cppNameResolver)
 
-        val treeWalker = FrancaTreeWalker(listOf(javaBuilder, cppBuilder, jniBuilder))
-        treeWalker.walkTree(francaTypeCollection)
+        val jniBuilder = JniModelBuilder(
+            javaBuilder,
+            cppBuilder,
+            includeResolver,
+            internalNamespace
+        )
+
+        val treeWalker = LimeTreeWalker(listOf(javaBuilder, cppBuilder, jniBuilder))
+        treeWalker.walkTree(limeContainer)
 
         val jniContainer = jniBuilder.getFinalResult(JniContainer::class.java)
         jniContainer.includes.addAll(getIncludes(jniContainer))
@@ -92,11 +95,11 @@ class JniGenerator(
         val includes = mutableListOf<String>()
         if (jniContainer.containerType != JniContainer.ContainerType.TYPE_COLLECTION) {
             includes +=
-                    JniNameRules.getHeaderFileName(JniNameRules.getJniClassFileName(jniContainer))
+                JniNameRules.getHeaderFileName(JniNameRules.getJniClassFileName(jniContainer))
         }
         includes += additionalIncludes
 
-        return includes.map(Include.Companion::createInternalInclude)
+        return includes.map { Include.createInternalInclude(it) }
     }
 
     companion object {
