@@ -19,15 +19,13 @@
 
 package com.here.genium.model.lime
 
-class LimeBasicTypeRef private constructor(
+class LimeBasicTypeRef(
     typeId: LimeBasicType.TypeId
 ) : LimeTypeRef(typeId.name) {
     override val type = LimeBasicType(typeId)
 
     companion object {
-        val VOID = LimeBasicTypeRef(LimeBasicType.TypeId.VOID)
         val FLOAT = LimeBasicTypeRef(LimeBasicType.TypeId.FLOAT)
         val DOUBLE = LimeBasicTypeRef(LimeBasicType.TypeId.DOUBLE)
-        val STRING = LimeBasicTypeRef(LimeBasicType.TypeId.STRING)
     }
 }

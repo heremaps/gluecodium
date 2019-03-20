@@ -25,6 +25,6 @@ class LimeReturnType(
     val attributes: LimeAttributes = LimeAttributes.Builder().build()
 ) : LimeElement {
     companion object {
-        val VOID = LimeReturnType(LimeBasicTypeRef.VOID, "")
+        val VOID = LimeReturnType(LimeBasicTypeRef(LimeBasicType.TypeId.VOID), "")
     }
 }

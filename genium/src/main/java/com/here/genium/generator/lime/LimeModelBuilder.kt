@@ -338,7 +338,7 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
             returnType = getPreviousResult(LimeReturnType::class.java) ?: LimeReturnType.VOID,
             parameters = getPreviousResults(LimeParameter::class.java),
             errorType = errorType,
-            static = isConstructor || deploymentModel.isStatic(francaMethod)
+            isStatic = isConstructor || deploymentModel.isStatic(francaMethod)
         )
 
         storeResultAndCloseContext(limeMethod)

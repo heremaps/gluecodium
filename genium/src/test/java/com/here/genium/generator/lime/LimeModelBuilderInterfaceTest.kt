@@ -274,7 +274,7 @@ class LimeModelBuilderInterfaceTest {
 
         val result = modelBuilder.getFinalResult(LimeMethod::class.java)
         assertHasAttribute(LimeAttributeType.CONSTRUCTOR, result)
-        assertTrue(result.static)
+        assertTrue(result.isStatic)
     }
 
     @Test
@@ -284,7 +284,7 @@ class LimeModelBuilderInterfaceTest {
         modelBuilder.finishBuilding(francaMethod)
 
         val result = modelBuilder.getFinalResult(LimeMethod::class.java)
-        assertTrue(result.static)
+        assertTrue(result.isStatic)
     }
 
     @Test

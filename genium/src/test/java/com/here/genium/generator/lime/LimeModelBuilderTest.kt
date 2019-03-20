@@ -24,6 +24,7 @@ import com.here.genium.model.common.InstanceRules
 import com.here.genium.model.franca.CommentHelper
 import com.here.genium.model.franca.FrancaDeploymentModel
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
@@ -530,7 +531,7 @@ class LimeModelBuilderTest {
     @Test
     fun finishBuildingMap() {
         contextStack.injectResult(limeTypeRef)
-        contextStack.injectResult(LimeBasicTypeRef.STRING)
+        contextStack.injectResult(LimeBasicTypeRef(LimeBasicType.TypeId.STRING))
 
         modelBuilder.finishBuilding(francaMap)
 
@@ -544,7 +545,7 @@ class LimeModelBuilderTest {
     @Test
     fun finishBuildingMapReadsVisibility() {
         contextStack.injectResult(limeTypeRef)
-        contextStack.injectResult(LimeBasicTypeRef.STRING)
+        contextStack.injectResult(LimeBasicTypeRef(LimeBasicType.TypeId.STRING))
         every { deploymentModel.isInternal(francaMap) } returns true
 
         modelBuilder.finishBuilding(francaMap)
