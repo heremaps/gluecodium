@@ -28,23 +28,28 @@ enum class ErrorEnum {
 };
 public:
 /**
+ *
  * \return @NotNull
  */
 static ::std::shared_ptr< ::smoke::Constructors > create(  );
 /**
+ *
  * \param[in] other @NotNull
  * \return @NotNull
  */
 static ::std::shared_ptr< ::smoke::Constructors > create( const ::std::shared_ptr< ::smoke::Constructors >& other );
 /**
+ *
  * \return @NotNull
  */
 static ::std::shared_ptr< ::smoke::Constructors > create( const ::std::string& foo, const uint64_t bar );
 /**
+ *
  * \return @NotNull
  */
 static ::genium::Return< ::std::shared_ptr< ::smoke::Constructors >, ::std::error_code > create( const ::std::string& input );
 /**
+ *
  * \return @NotNull
  */
 static ::std::shared_ptr< ::smoke::Constructors > create( const ::std::vector< double >& input );

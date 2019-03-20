@@ -20,13 +20,14 @@
   !}}
 {{#if hasComment}}
 /**
-{{#if comment}}{{prefix comment " * "}}{{/if}}
-{{#parameters}}
-{{#if hasComment}} * \param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{this.comment}}{{/if}}
-{{/parameters}}
-{{#if hasReturnComment}}
- * \return {{#if isNotNull}}@NotNull {{/if}}{{returnComment}}
-{{/if}}
+{{prefixPartial "combinedComment" " * "}}
  */
 {{/if}}
-{{#specifiers}}{{.}} {{/specifiers}}{{returnType.name}} {{name}}( {{joinPartial parameters "cpp/CppMethodParameter" ", "}} ){{#qualifiers}} {{.}}{{/qualifiers}}
+{{#specifiers}}{{.}} {{/specifiers}}{{returnType.name}} {{name}}( {{joinPartial parameters "cpp/CppMethodParameter" ", "}} ){{#qualifiers}} {{.}}{{/qualifiers}}{{!!
+
+}}{{+combinedComment}}{{comment}}{{!!
+}}{{#parameters}}{{#if hasComment}}
+\param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{this.comment}}{{/if}}{{/parameters}}{{!!
+}}{{#if hasReturnComment}}
+\return {{#if isNotNull}}@NotNull {{/if}}{{returnComment}}{{/if}}{{!!
+}}{{/combinedComment}}

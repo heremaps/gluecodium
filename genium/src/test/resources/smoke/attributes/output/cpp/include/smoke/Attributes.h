@@ -7,7 +7,6 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-
 #include "Export.h"
 #include "smoke/AttributesInterface.h"
 #include <cstdint>
@@ -44,10 +43,12 @@ virtual void set_complex_type_attribute( const ::smoke::Attributes::InternalErro
 virtual ::std::shared_ptr< ::std::vector< uint8_t > > get_byte_buffer_attribute(  ) const = 0;
 virtual void set_byte_buffer_attribute( const ::std::shared_ptr< ::std::vector< uint8_t > >& value ) = 0;
 /**
+ *
  * \return @NotNull
  */
 virtual ::std::shared_ptr< ::smoke::AttributesInterface > get_instance_attribute(  ) const = 0;
 /**
+ *
  * \param[in] value @NotNull
  */
 virtual void set_instance_attribute( const ::std::shared_ptr< ::smoke::AttributesInterface >& value ) = 0;

@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Whitespace (including line breaks) is now preserved in the documentation comments.
+
 ## 3.21.1
 - Release date: 2019-03-04
 - Bug fixes

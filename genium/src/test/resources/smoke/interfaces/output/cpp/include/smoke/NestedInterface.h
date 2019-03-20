@@ -7,7 +7,6 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-
 #include "Export.h"
 #include "foo/Bar.h"
 #include "smoke/SimpleInterface.h"
@@ -21,19 +20,23 @@ public:
     virtual ~NestedInterface() = 0;
 public:
 /**
+ *
  * \param[in] interface_one @NotNull
  * \param[in] interface_two @NotNull
  */
 virtual void set_same_type_instances( const ::std::shared_ptr< ::smoke::SimpleInterface >& interface_one, const ::std::shared_ptr< ::smoke::SimpleInterface >& interface_two ) = 0;
 /**
+ *
  * \return @NotNull
  */
 virtual ::std::shared_ptr< ::smoke::SimpleInterface > get_instance_one(  ) = 0;
 /**
+ *
  * \return @NotNull
  */
 virtual ::std::shared_ptr< ::smoke::SimpleInterface > get_instance_two(  ) = 0;
 /**
+ *
  * \param[in] input @NotNull
  * \return @NotNull
  */

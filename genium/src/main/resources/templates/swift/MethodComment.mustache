@@ -19,14 +19,14 @@
   !
   !}}
 {{#if comment}}
-{{prefix comment '/// '}}
-{{#parameters}}
-{{#if this.comment}}/// - Parameter {{name}}: {{comment}}{{/if}}
-{{/parameters}}
-{{#unless isConstructor}}{{#if returnComment}}
-/// - Returns: {{returnComment}}
-{{/if}}{{/unless}}
-{{#if error}}
-/// - Throws: {{error.name}}
-{{/if}}
-{{/if}}
+{{prefixPartial "combinedComment" "/// "}}
+{{/if}}{{!!
+
+}}{{+combinedComment}}{{comment}}{{!!
+}}{{#parameters}}{{#if this.comment}}
+- Parameter {{name}}: {{this.comment}}{{/if}}{{/parameters}}{{!!
+}}{{#unless isConstructor}}{{#if returnComment}}
+- Returns: {{returnComment}}{{/if}}{{/unless}}{{!!
+}}{{#if error}}
+- Throws: {{error.name}}{{/if}}{{!!
+}}{{/combinedComment}}
