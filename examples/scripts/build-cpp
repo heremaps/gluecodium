@@ -25,6 +25,8 @@ USAGE=$(cat <<EOF
 $0 [options]
     --publish         Build and publish Genium locally and use it for code generation
     --debug           Build with debug symbols
+    --valgrind        Run with valgrind
+    --junit           Generate junit xml test report
     --cpp <standard>  Build with C++<standard> standard, defaults to 11.
     --help            Print this message
 EOF
@@ -43,6 +45,14 @@ while [[ $# -gt 0 ]]; do
             ;;
         --debug)
             CMAKE_EXTRA_PARAMETERS="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+            shift
+            ;;
+        --valgrind)
+            USE_VALGRIND=true
+            shift
+            ;;
+        --junit)
+            TEST_REPORTS=true
             shift
             ;;
         --cpp)
@@ -91,3 +101,26 @@ popd
 safe cmake \
     --build ${BUILD_DIR} \
     --target install
+
+TEST_COMMAND="./test_cpp"
+
+if [ "$USE_VALGRIND" = true ]; then
+    REPORT_ARGS=""
+    if [ "$TEST_REPORTS" = true ] ; then
+        REPORT_ARGS="--xml=yes --xml-file=cpp_valgrind_report.xml"
+    fi
+    TEST_COMMAND="valgrind \
+        --leak-check=full \
+        --suppressions=${SCRIPT_DIR}/valgrind_suppressions \
+        --gen-suppressions=all \
+        $REPORT_ARGS \
+        $TEST_COMMAND"
+fi
+
+pushd "${INSTALL_DIR}/bin"
+    REPORT_ARGS=""
+    if [ "$TEST_REPORTS" = true ] ; then
+        REPORT_ARGS="--gtest_output=xml"
+    fi
+    exec $TEST_COMMAND $REPORT_ARGS
+popd
