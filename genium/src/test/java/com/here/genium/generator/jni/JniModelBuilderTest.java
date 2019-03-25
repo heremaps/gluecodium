@@ -136,6 +136,7 @@ public class JniModelBuilderTest {
           "",
           CppPrimitiveTypeRef.Companion.getVOID(),
           "",
+          null,
           false,
           Collections.singletonList(
               new CppParameter("value", CppPrimitiveTypeRef.Companion.getINT8())));
@@ -192,6 +193,7 @@ public class JniModelBuilderTest {
         "",
         cppPrimitiveType,
         "",
+        null,
         false,
         Collections.singletonList(cppParameter));
   }

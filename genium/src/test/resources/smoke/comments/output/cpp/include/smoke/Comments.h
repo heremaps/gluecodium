@@ -71,6 +71,7 @@ public:
  * This is some very useful method that measures the usefulness of its input.
  * \param[in] input Very useful input parameter
  * \return Usefulness of the input
+ * \retval ::smoke::Comments::SomeEnum
  */
 virtual ::genium::Return< ::smoke::Comments::Usefulness, ::std::error_code > some_method_with_all_comments( const ::std::string& input ) = 0;
 /**

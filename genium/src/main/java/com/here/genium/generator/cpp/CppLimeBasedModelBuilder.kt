@@ -137,6 +137,7 @@ class CppLimeBasedModelBuilder @VisibleForTesting internal constructor(
             limeMethod.comment,
             returnType,
             limeMethod.returnType.comment,
+            errorEnum?.fullyQualifiedName,
             isInstance && !isNullable,
             getPreviousResults(CppParameter::class.java),
             specifiers,

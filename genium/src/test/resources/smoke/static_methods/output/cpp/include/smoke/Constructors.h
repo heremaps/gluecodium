@@ -46,6 +46,7 @@ static ::std::shared_ptr< ::smoke::Constructors > create( const ::std::string& f
 /**
  *
  * \return @NotNull
+ * \retval ::smoke::Constructors::ErrorEnum
  */
 static ::genium::Return< ::std::shared_ptr< ::smoke::Constructors >, ::std::error_code > create( const ::std::string& input );
 /**

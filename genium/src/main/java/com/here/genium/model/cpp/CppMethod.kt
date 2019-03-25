@@ -19,7 +19,6 @@
 
 package com.here.genium.model.cpp
 
-import org.apache.commons.lang3.StringUtils
 import java.util.EnumSet
 import java.util.stream.Stream
 
@@ -30,6 +29,7 @@ class CppMethod
     comment: String = "",
     val returnType: CppTypeRef = CppPrimitiveTypeRef.VOID,
     val returnComment: String? = null,
+    val errorEnumName: String? = null,
     val isNotNull: Boolean = false,
     val parameters: List<CppParameter> = emptyList(),
     val specifiers: Set<Specifier> = EnumSet.noneOf(Specifier::class.java),
@@ -54,11 +54,12 @@ class CppMethod
     }
 
     @Suppress("unused")
-    fun hasComment() = StringUtils.isNotEmpty(comment) ||
+    fun hasComment() = !comment.isEmpty() ||
         hasReturnComment() ||
         parameters.stream().anyMatch(CppParameter::hasComment)
 
-    fun hasReturnComment() = StringUtils.isNotEmpty(returnComment) || isNotNull
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun hasReturnComment() = !returnComment.isNullOrEmpty() || isNotNull
 
     override fun stream() = Stream.concat(Stream.of(returnType), parameters.stream())
 }

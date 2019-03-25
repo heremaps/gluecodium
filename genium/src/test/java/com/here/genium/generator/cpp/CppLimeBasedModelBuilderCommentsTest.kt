@@ -20,6 +20,7 @@
 package com.here.genium.generator.cpp
 
 import com.here.genium.model.cpp.CppClass
+import com.here.genium.model.cpp.CppComplexTypeRef
 import com.here.genium.model.cpp.CppConstant
 import com.here.genium.model.cpp.CppElement
 import com.here.genium.model.cpp.CppEnum
@@ -111,6 +112,17 @@ class CppLimeBasedModelBuilderCommentsTest {
 
         val cppMethod = modelBuilder.getFinalResult(CppMethod::class.java)
         assertEquals("Foo", cppMethod.returnComment)
+    }
+
+    @Test
+    fun finishBuildingMethodReadsErrorEnumName() {
+        contextStack.injectResult(CppComplexTypeRef("::foo::bar"))
+        val limeElement = LimeMethod(EMPTY_PATH)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val cppMethod = modelBuilder.getFinalResult(CppMethod::class.java)
+        assertEquals("::foo::bar", cppMethod.errorEnumName)
     }
 
     @Test

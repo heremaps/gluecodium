@@ -30,4 +30,6 @@
 \param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{this.comment}}{{/if}}{{/parameters}}{{!!
 }}{{#if hasReturnComment}}
 \return {{#if isNotNull}}@NotNull {{/if}}{{returnComment}}{{/if}}{{!!
+}}{{#if errorEnumName}}
+\retval {{errorEnumName}}{{/if}}{{!!
 }}{{/combinedComment}}
