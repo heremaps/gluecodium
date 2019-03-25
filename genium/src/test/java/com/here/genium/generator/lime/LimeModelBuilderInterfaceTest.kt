@@ -401,6 +401,17 @@ class LimeModelBuilderInterfaceTest {
     }
 
     @Test
+    fun finishBuildingAttributeReadsInternalSetter() {
+        contextStack.injectResult(limeTypeRef)
+        every { deploymentModel.hasInternalSetter(francaAttribute) } returns true
+
+        modelBuilder.finishBuilding(francaAttribute)
+
+        val result = modelBuilder.getFinalResult(LimeProperty::class.java)
+        assertTrue(result.attributes.have(LimeAttributeType.INTERNAL_SETTER))
+    }
+
+    @Test
     fun finishBuildingAttributeReadsInlineArray() {
         contextStack.injectResult(limeTypeRef)
         every { francaAttribute.isArray } returns true

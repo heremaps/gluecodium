@@ -50,12 +50,12 @@ abstract class AbstractLimeBasedModelBuilder<E> protected constructor(
         get() = resultContext?.currentResults ?: emptyList()
 
     private val previousResults: List<E>
-        get() = currentContext?.previousResults ?: emptyList()
+        get() = currentContext.previousResults ?: emptyList()
 
-    protected val currentContext: ModelBuilderContext<E>?
+    protected val currentContext: ModelBuilderContext<E>
         get() = contextStack.currentContext
 
-    protected val parentContext: ModelBuilderContext<E>?
+    protected val parentContext: ModelBuilderContext<E>
         get() = contextStack.parentContext
 
     override fun startBuilding(limeElement: LimeElement) = openContext()

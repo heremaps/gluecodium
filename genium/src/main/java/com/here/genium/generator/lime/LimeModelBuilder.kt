@@ -393,6 +393,9 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
         if (deploymentModel.isNullable(francaAttribute)) {
             attributes.addAttribute(LimeAttributeType.NULLABLE)
         }
+        if (deploymentModel.hasInternalSetter(francaAttribute)) {
+            attributes.addAttribute(LimeAttributeType.INTERNAL_SETTER)
+        }
 
         var attributeType = getPreviousResult(LimeTypeRef::class.java)
         if (francaAttribute.isArray) {

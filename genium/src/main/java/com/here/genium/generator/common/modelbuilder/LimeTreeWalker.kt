@@ -41,6 +41,7 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
     }
 
     private fun walkChildNodes(limeContainer: LimeContainer) {
+        walk(limeContainer.parent?.type)
         walkCollection(limeContainer.methods)
         walkCollection(limeContainer.structs)
         walkCollection(limeContainer.typeDefs)

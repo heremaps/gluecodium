@@ -22,7 +22,7 @@ package com.here.genium.model.lime
 class LimePath(
     val head: List<String>,
     private val tail: List<String>,
-    private val disambiguationSuffix: String = ""
+    val disambiguationSuffix: String = ""
 ) {
     val container
         get() = tail.first()

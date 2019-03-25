@@ -21,6 +21,7 @@ package com.here.genium.generator.common.modelbuilder
 
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
@@ -42,6 +43,8 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class LimeTreeWalkerTest {
+    private val limeParentContainer = LimeContainer(EMPTY_PATH, type = ContainerType.INTERFACE)
+    private val limeParentTypeRef = LimeTypeRef(mapOf("foo" to limeParentContainer), "foo")
     private val limeErrorTypeRef = LimeTypeRef(emptyMap(), "bar")
     private val limeParameterTypeRef = LimeTypeRef(emptyMap(), "baz")
     private val limeFieldTypeRef = LimeTypeRef(emptyMap(), "foobar")
@@ -74,7 +77,8 @@ class LimeTreeWalkerTest {
     )
     private val limeContainer = LimeContainer(
         path = EMPTY_PATH,
-        type = LimeContainer.ContainerType.TYPE_COLLECTION,
+        type = ContainerType.TYPE_COLLECTION,
+        parent = limeParentTypeRef,
         methods = listOf(limeMethod),
         structs = listOf(limeStruct),
         typeDefs = listOf(limeTypeDef),
@@ -100,6 +104,14 @@ class LimeTreeWalkerTest {
 
         verify { modelBuilder.startBuilding(limeContainer) }
         verify { modelBuilder.finishBuilding(limeContainer) }
+    }
+
+    @Test
+    fun walkContainerWalksParentContainer() {
+        treeWalker.walkTree(limeContainer)
+
+        verify { modelBuilder.startBuilding(limeParentContainer) }
+        verify { modelBuilder.finishBuilding(limeParentContainer) }
     }
 
     @Test
