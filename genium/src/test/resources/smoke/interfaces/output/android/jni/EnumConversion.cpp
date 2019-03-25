@@ -17,7 +17,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::ExternalInterface::some_Enum>(convert_from_jni(_jenv, _jinput, (::smoke::ExternalInterface::some_Enum*)nullptr))
         : std::shared_ptr<::smoke::ExternalInterface::some_Enum>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::ExternalInterface::some_Enum, "com/example/smoke/ExternalInterface$SomeEnum")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/ExternalInterface$SomeEnum", ::smoke::ExternalInterface::some_Enum)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::ExternalInterface::some_Enum _ninput)
 {
@@ -49,7 +49,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::fire::Baz::some_Enum>(convert_from_jni(_jenv, _jinput, (::fire::Baz::some_Enum*)nullptr))
         : std::shared_ptr<::fire::Baz::some_Enum>{};
 }
-REGISTER_JNI_CLASS_CACHE(::fire::Baz::some_Enum, "com/example/smoke/VeryExternalInterface$SomeEnum")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/VeryExternalInterface$SomeEnum", ::fire::Baz::some_Enum)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::fire::Baz::some_Enum _ninput)
 {

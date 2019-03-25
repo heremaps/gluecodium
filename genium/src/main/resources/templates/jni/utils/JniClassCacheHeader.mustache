@@ -45,7 +45,7 @@ private:
     const char* m_name;
 };
 
-template <class CppType>
+template <class ... CppTypes>
 class CachedJavaClass : public CachedJavaClassBase
 {
 public:
@@ -60,15 +60,15 @@ private:
     }
 };
 
-template<class CppType>
-JniReference<jclass> CachedJavaClass<CppType>::java_class;
+template<class ... CppTypes>
+JniReference<jclass> CachedJavaClass<CppTypes...>::java_class;
 
 #define REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS2(x, y) x ## y
 #define REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS(x, y) REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS2(x, y)
 
-#define REGISTER_JNI_CLASS_CACHE(type, name) \
+#define REGISTER_JNI_CLASS_CACHE(name, ...) \
   namespace { \
-  CachedJavaClass<type> REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS(__registered_jni_class_cache__, __LINE__)(name); \
+  CachedJavaClass<__VA_ARGS__> REGISTER_JNI_CLASS_CACHE_JOIN_TOKENS(__registered_jni_class_cache__, __LINE__)(name); \
   }
 
 }

@@ -28,7 +28,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::root::space::smoke::SomeStruct>(convert_from_jni(_jenv, _jinput, (::root::space::smoke::SomeStruct*)nullptr))
         : std::shared_ptr<::root::space::smoke::SomeStruct>{};
 }
-REGISTER_JNI_CLASS_CACHE(::root::space::smoke::SomeStruct, "com/example/smoke/SomeStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/SomeStruct", ::root::space::smoke::SomeStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::root::space::smoke::SomeStruct& _ninput)
 {

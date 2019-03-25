@@ -34,7 +34,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::Point>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::Point*)nullptr))
         : std::shared_ptr<::smoke::Structs::Point>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Structs::Point, "com/example/smoke/Structs$Point")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$Point", ::smoke::Structs::Point)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Point& _ninput)
 {
@@ -82,7 +82,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::Color>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::Color*)nullptr))
         : std::shared_ptr<::smoke::Structs::Color>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Structs::Color, "com/example/smoke/Structs$Color")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$Color", ::smoke::Structs::Color)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Color& _ninput)
 {
@@ -132,7 +132,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::Line>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::Line*)nullptr))
         : std::shared_ptr<::smoke::Structs::Line>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Structs::Line, "com/example/smoke/Structs$Line")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$Line", ::smoke::Structs::Line)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Line& _ninput)
 {
@@ -182,7 +182,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::ColoredLine>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::ColoredLine*)nullptr))
         : std::shared_ptr<::smoke::Structs::ColoredLine>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Structs::ColoredLine, "com/example/smoke/Structs$ColoredLine")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$ColoredLine", ::smoke::Structs::ColoredLine)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ColoredLine& _ninput)
 {
@@ -286,7 +286,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::AllTypesStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::AllTypesStruct*)nullptr))
         : std::shared_ptr<::smoke::Structs::AllTypesStruct>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Structs::AllTypesStruct, "com/example/smoke/Structs$AllTypesStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$AllTypesStruct", ::smoke::Structs::AllTypesStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AllTypesStruct& _ninput)
 {
@@ -371,7 +371,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::ExternalStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::ExternalStruct*)nullptr))
         : std::shared_ptr<::smoke::Structs::ExternalStruct>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Structs::ExternalStruct, "com/example/smoke/Structs$ExternalStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$ExternalStruct", ::smoke::Structs::ExternalStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ExternalStruct& _ninput)
 {
@@ -413,7 +413,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::fire::SomeVeryExternalStruct>(convert_from_jni(_jenv, _jinput, (::fire::SomeVeryExternalStruct*)nullptr))
         : std::shared_ptr<::fire::SomeVeryExternalStruct>{};
 }
-REGISTER_JNI_CLASS_CACHE(::fire::SomeVeryExternalStruct, "com/example/smoke/Structs$AnotherExternalStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$AnotherExternalStruct", ::fire::SomeVeryExternalStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::fire::SomeVeryExternalStruct& _ninput)
 {
@@ -447,7 +447,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::Yet_Another_External_Struct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::Yet_Another_External_Struct*)nullptr))
         : std::shared_ptr<::smoke::Structs::Yet_Another_External_Struct>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Structs::Yet_Another_External_Struct, "com/example/smoke/Structs$YetAnotherExternalStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$YetAnotherExternalStruct", ::smoke::Structs::Yet_Another_External_Struct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Yet_Another_External_Struct& _ninput)
 {
@@ -482,7 +482,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Structs::NestingImmutableStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::NestingImmutableStruct*)nullptr))
         : std::shared_ptr<::smoke::Structs::NestingImmutableStruct>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Structs::NestingImmutableStruct, "com/example/smoke/Structs$NestingImmutableStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$NestingImmutableStruct", ::smoke::Structs::NestingImmutableStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::NestingImmutableStruct& _ninput)
 {
@@ -574,7 +574,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::fire::StructsQualifiedType::QualifiedType>(convert_from_jni(_jenv, _jinput, (::fire::StructsQualifiedType::QualifiedType*)nullptr))
         : std::shared_ptr<::fire::StructsQualifiedType::QualifiedType>{};
 }
-REGISTER_JNI_CLASS_CACHE(::fire::StructsQualifiedType::QualifiedType, "com/example/fire/StructsQualifiedType$QualifiedType")
+REGISTER_JNI_CLASS_CACHE("com/example/fire/StructsQualifiedType$QualifiedType", ::fire::StructsQualifiedType::QualifiedType)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::fire::StructsQualifiedType::QualifiedType& _ninput)
 {
@@ -633,7 +633,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Point>(convert_from_jni(_jenv, _jinput, (::smoke::Point*)nullptr))
         : std::shared_ptr<::smoke::Point>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Point, "com/example/smoke/Point")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Point", ::smoke::Point)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Point& _ninput)
 {
@@ -681,7 +681,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Color>(convert_from_jni(_jenv, _jinput, (::smoke::Color*)nullptr))
         : std::shared_ptr<::smoke::Color>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Color, "com/example/smoke/Color")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Color", ::smoke::Color)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Color& _ninput)
 {
@@ -731,7 +731,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Line>(convert_from_jni(_jenv, _jinput, (::smoke::Line*)nullptr))
         : std::shared_ptr<::smoke::Line>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Line, "com/example/smoke/Line")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Line", ::smoke::Line)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Line& _ninput)
 {
@@ -781,7 +781,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::ColoredLine>(convert_from_jni(_jenv, _jinput, (::smoke::ColoredLine*)nullptr))
         : std::shared_ptr<::smoke::ColoredLine>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::ColoredLine, "com/example/smoke/ColoredLine")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/ColoredLine", ::smoke::ColoredLine)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::ColoredLine& _ninput)
 {
@@ -900,7 +900,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::AllTypesStruct>(convert_from_jni(_jenv, _jinput, (::smoke::AllTypesStruct*)nullptr))
         : std::shared_ptr<::smoke::AllTypesStruct>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::AllTypesStruct, "com/example/smoke/AllTypesStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/AllTypesStruct", ::smoke::AllTypesStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::AllTypesStruct& _ninput)
 {

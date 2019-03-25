@@ -28,7 +28,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::InterfaceWithStruct::InnerStruct>(convert_from_jni(_jenv, _jinput, (::smoke::InterfaceWithStruct::InnerStruct*)nullptr))
         : std::shared_ptr<::smoke::InterfaceWithStruct::InnerStruct>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::InterfaceWithStruct::InnerStruct, "com/example/smoke/InterfaceWithStruct$InnerStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/InterfaceWithStruct$InnerStruct", ::smoke::InterfaceWithStruct::InnerStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::InterfaceWithStruct::InnerStruct& _ninput)
 {
@@ -62,7 +62,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::ExternalInterface::some_Struct>(convert_from_jni(_jenv, _jinput, (::smoke::ExternalInterface::some_Struct*)nullptr))
         : std::shared_ptr<::smoke::ExternalInterface::some_Struct>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::ExternalInterface::some_Struct, "com/example/smoke/ExternalInterface$SomeStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/ExternalInterface$SomeStruct", ::smoke::ExternalInterface::some_Struct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::ExternalInterface::some_Struct& _ninput)
 {
@@ -96,7 +96,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::fire::Baz::some_Struct>(convert_from_jni(_jenv, _jinput, (::fire::Baz::some_Struct*)nullptr))
         : std::shared_ptr<::fire::Baz::some_Struct>{};
 }
-REGISTER_JNI_CLASS_CACHE(::fire::Baz::some_Struct, "com/example/smoke/VeryExternalInterface$SomeStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/VeryExternalInterface$SomeStruct", ::fire::Baz::some_Struct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::fire::Baz::some_Struct& _ninput)
 {

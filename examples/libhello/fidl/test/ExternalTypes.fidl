@@ -41,6 +41,11 @@ typeCollection ExternalTypes {
         String string_Field
     }
 
+    struct ExternalStringPair {
+        String first
+        String second
+    }
+
     enumeration ExternalEnum {
         Foo
         Bar

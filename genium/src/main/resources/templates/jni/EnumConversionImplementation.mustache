@@ -44,7 +44,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         : std::shared_ptr<{{cppEnumName}}>{};
 }
 
-REGISTER_JNI_CLASS_CACHE({{cppEnumName}}, "{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}}")
+REGISTER_JNI_CLASS_CACHE("{{>jni/JavaClassSignaturePrefix}}{{javaEnumName}}", {{cppEnumName}})
 
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const {{cppEnumName}} _ninput)

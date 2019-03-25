@@ -47,6 +47,11 @@ define ExternalTypes for typeCollection external.ExternalTypes
         ExternalType = "include/ExternalTypes.h"
     }
 
+    struct ExternalStringPair {
+        ExternalType = "utility"
+        ExternalName = "::std::pair< ::std::string, ::std::string >"
+    }
+
     enumeration ExternalEnum {
         ExternalType = "include/ExternalTypes.h"
         ExternalName = "::external::even_more_external::AlienEnum"

@@ -28,7 +28,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Nullable::SomeStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Nullable::SomeStruct*)nullptr))
         : std::shared_ptr<::smoke::Nullable::SomeStruct>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Nullable::SomeStruct, "com/example/smoke/Nullable$SomeStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Nullable$SomeStruct", ::smoke::Nullable::SomeStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Nullable::SomeStruct& _ninput)
 {
@@ -128,7 +128,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Nullable::NullableStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Nullable::NullableStruct*)nullptr))
         : std::shared_ptr<::smoke::Nullable::NullableStruct>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Nullable::NullableStruct, "com/example/smoke/Nullable$NullableStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Nullable$NullableStruct", ::smoke::Nullable::NullableStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Nullable::NullableStruct& _ninput)
 {
@@ -226,7 +226,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Nullable::NullableIntsStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Nullable::NullableIntsStruct*)nullptr))
         : std::shared_ptr<::smoke::Nullable::NullableIntsStruct>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Nullable::NullableIntsStruct, "com/example/smoke/Nullable$NullableIntsStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Nullable$NullableIntsStruct", ::smoke::Nullable::NullableIntsStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Nullable::NullableIntsStruct& _ninput)
 {

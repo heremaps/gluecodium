@@ -28,7 +28,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::InstanceWithStruct::InnerStruct>(convert_from_jni(_jenv, _jinput, (::smoke::InstanceWithStruct::InnerStruct*)nullptr))
         : std::shared_ptr<::smoke::InstanceWithStruct::InnerStruct>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::InstanceWithStruct::InnerStruct, "com/example/smoke/InstanceWithStruct$InnerStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/InstanceWithStruct$InnerStruct", ::smoke::InstanceWithStruct::InnerStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::InnerStruct& _ninput)
 {
@@ -74,7 +74,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::InstanceWithStruct::StructWithInstance>(convert_from_jni(_jenv, _jinput, (::smoke::InstanceWithStruct::StructWithInstance*)nullptr))
         : std::shared_ptr<::smoke::InstanceWithStruct::StructWithInstance>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::InstanceWithStruct::StructWithInstance, "com/example/smoke/InstanceWithStruct$StructWithInstance")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/InstanceWithStruct$StructWithInstance", ::smoke::InstanceWithStruct::StructWithInstance)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::StructWithInstance& _ninput)
 {

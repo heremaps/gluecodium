@@ -17,7 +17,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Enums::SimpleEnum>(convert_from_jni(_jenv, _jinput, (::smoke::Enums::SimpleEnum*)nullptr))
         : std::shared_ptr<::smoke::Enums::SimpleEnum>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Enums::SimpleEnum, "com/example/smoke/Enums$SimpleEnum")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Enums$SimpleEnum", ::smoke::Enums::SimpleEnum)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::SimpleEnum _ninput)
 {
@@ -52,7 +52,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Enums::InternalError>(convert_from_jni(_jenv, _jinput, (::smoke::Enums::InternalError*)nullptr))
         : std::shared_ptr<::smoke::Enums::InternalError>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Enums::InternalError, "com/example/smoke/Enums$InternalError")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Enums$InternalError", ::smoke::Enums::InternalError)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::InternalError _ninput)
 {
@@ -87,7 +87,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::Enums::External_Enum>(convert_from_jni(_jenv, _jinput, (::smoke::Enums::External_Enum*)nullptr))
         : std::shared_ptr<::smoke::Enums::External_Enum>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::Enums::External_Enum, "com/example/smoke/Enums$ExternalEnum")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Enums$ExternalEnum", ::smoke::Enums::External_Enum)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::External_Enum _ninput)
 {
@@ -122,7 +122,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::fire::SomeVeryExternalEnum>(convert_from_jni(_jenv, _jinput, (::fire::SomeVeryExternalEnum*)nullptr))
         : std::shared_ptr<::fire::SomeVeryExternalEnum>{};
 }
-REGISTER_JNI_CLASS_CACHE(::fire::SomeVeryExternalEnum, "com/example/smoke/Enums$VeryExternalEnum")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Enums$VeryExternalEnum", ::fire::SomeVeryExternalEnum)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::fire::SomeVeryExternalEnum _ninput)
 {
@@ -157,7 +157,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         ? std::make_shared<::smoke::TCEnum>(convert_from_jni(_jenv, _jinput, (::smoke::TCEnum*)nullptr))
         : std::shared_ptr<::smoke::TCEnum>{};
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::TCEnum, "com/example/smoke/TCEnum")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/TCEnum", ::smoke::TCEnum)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::TCEnum _ninput)
 {

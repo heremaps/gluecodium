@@ -34,7 +34,7 @@ namespace {{internalNamespace}}
 namespace jni
 {
 
-REGISTER_JNI_CLASS_CACHE(DummyNativeBaseType, "{{join basePackages delimiter="/"}}/NativeBase")
+REGISTER_JNI_CLASS_CACHE("{{join basePackages delimiter="/"}}/NativeBase", DummyNativeBaseType)
 
 JniReference<jclass>& get_cached_native_base_class()
 {
@@ -42,7 +42,7 @@ JniReference<jclass>& get_cached_native_base_class()
 }
 
 {{#models}}
-REGISTER_JNI_CLASS_CACHE({{cppFullyQualifiedName}}, "{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}")
+REGISTER_JNI_CLASS_CACHE("{{#javaPackages}}{{.}}/{{/javaPackages}}{{javaName}}", {{cppFullyQualifiedName}})
 
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}> & _ninput)

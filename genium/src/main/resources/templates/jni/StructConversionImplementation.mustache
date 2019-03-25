@@ -63,7 +63,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::share
         : std::shared_ptr<{{cppStruct.fullyQualifiedName}}>{};
 }
 
-REGISTER_JNI_CLASS_CACHE({{cppStruct.fullyQualifiedName}}, "{{>jni/JavaClassSignaturePrefix}}{{javaClass.name}}")
+REGISTER_JNI_CLASS_CACHE("{{>jni/JavaClassSignaturePrefix}}{{javaClass.name}}", {{cppStruct.fullyQualifiedName}})
 
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const {{cppStruct.fullyQualifiedName}}& _ninput)

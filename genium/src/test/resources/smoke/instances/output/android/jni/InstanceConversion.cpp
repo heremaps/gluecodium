@@ -21,12 +21,12 @@ namespace genium
 {
 namespace jni
 {
-REGISTER_JNI_CLASS_CACHE(DummyNativeBaseType, "com/example/NativeBase")
+REGISTER_JNI_CLASS_CACHE("com/example/NativeBase", DummyNativeBaseType)
 JniReference<jclass>& get_cached_native_base_class()
 {
     return CachedJavaClass<DummyNativeBaseType>::java_class;
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::SimpleInstantiable, "com/example/smoke/SimpleInstantiable")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/SimpleInstantiable", ::smoke::SimpleInstantiable)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiable> & _ninput)
 {
@@ -51,7 +51,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiabl
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::NestedInstantiable, "com/example/smoke/NestedInstantiable")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/NestedInstantiable", ::smoke::NestedInstantiable)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiable> & _ninput)
 {
@@ -76,7 +76,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiabl
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
-REGISTER_JNI_CLASS_CACHE(::smoke::InstanceWithStruct, "com/example/smoke/InstanceWithStruct")
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/InstanceWithStruct", ::smoke::InstanceWithStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceWithStruct> & _ninput)
 {
