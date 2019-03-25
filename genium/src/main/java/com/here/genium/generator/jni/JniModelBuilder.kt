@@ -107,6 +107,10 @@ internal constructor(
         val javaTopLevelElement = javaBuilder.getFinalResult(JavaTopLevelElement::class.java)
         val javaClass = javaBuilder.getFinalResult(JavaClass::class.java)
 
+        val containerType = when {
+            deploymentModel.isInterface(francaInterface) -> JniContainer.ContainerType.INTERFACE
+            else -> JniContainer.ContainerType.CLASS
+        }
         val jniContainer = JniContainer(
             javaPackages = javaTopLevelElement!!.javaPackage.packageNames,
             cppNameSpaces = DefinedBy.getPackages(francaInterface),
@@ -114,8 +118,7 @@ internal constructor(
             javaInterfaceName = javaTopLevelElement.name,
             cppName = cppClass!!.name,
             cppFullyQualifiedName = cppClass.fullyQualifiedName,
-            isFrancaInterface = true,
-            isInterface = deploymentModel.isInterface(francaInterface)
+            containerType = containerType
         )
 
         val parentContainer = getPreviousResult(JniContainer::class.java)
@@ -232,8 +235,11 @@ internal constructor(
         else
             emptyList()
 
-        val cppNameSpace = DefinedBy.getPackages(francaTypeCollection)
-        val jniContainer = JniContainer(javaPackages = packageNames, cppNameSpaces = cppNameSpace)
+        val jniContainer = JniContainer(
+            javaPackages = packageNames,
+            cppNameSpaces = DefinedBy.getPackages(francaTypeCollection),
+            containerType = JniContainer.ContainerType.TYPE_COLLECTION
+        )
         CollectionsHelper.getStreamOfType(currentContext.previousResults, JniStruct::class.java)
             .forEach { jniContainer.add(it) }
         CollectionsHelper.getStreamOfType(currentContext.previousResults, JniEnum::class.java)

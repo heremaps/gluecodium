@@ -40,7 +40,7 @@ class JniTemplatesTest {
         javaName = "classy",
         javaInterfaceName = "classy",
         cppName = "classy",
-        isFrancaInterface = true
+        containerType = JniContainer.ContainerType.CLASS
     )
     private val templates = JniTemplates(null, null, "")
 
@@ -57,8 +57,7 @@ class JniTemplatesTest {
             javaName = "classy",
             javaInterfaceName = "classy",
             cppName = "classy",
-            isFrancaInterface = true,
-            isInterface = true
+            containerType = JniContainer.ContainerType.INTERFACE
         )
 
         // Act
@@ -75,17 +74,8 @@ class JniTemplatesTest {
 
     @Test
     fun isNoInterfaceProxyIsNotGenerated() {
-        // Arrange
-        val instantiableJniContainer = JniContainer(
-            javaName = "classy",
-            javaInterfaceName = "classy",
-            cppName = "classy",
-            isFrancaInterface = true,
-            isInterface = false
-        )
-
         // Act
-        val files = templates.generateConversionFiles(listOf(instantiableJniContainer))
+        val files = templates.generateConversionFiles(listOf(jniContainer))
 
         // Assert
         assertFalse(
@@ -117,8 +107,7 @@ class JniTemplatesTest {
             javaName = "classy",
             javaInterfaceName = "classy",
             cppName = "classy",
-            isFrancaInterface = true,
-            isInterface = true
+            containerType = JniContainer.ContainerType.INTERFACE
         )
 
         // Act

@@ -84,7 +84,7 @@ class JniGenerator(
 
     private fun getIncludes(jniContainer: JniContainer): List<Include> {
         val includes = mutableListOf<String>()
-        if (jniContainer.isFrancaInterface) {
+        if (jniContainer.containerType != JniContainer.ContainerType.TYPE_COLLECTION) {
             includes +=
                 JniNameRules.getHeaderFileName(JniNameRules.getJniClassFileName(jniContainer))
         }

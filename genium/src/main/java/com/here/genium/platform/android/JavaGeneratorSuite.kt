@@ -101,8 +101,8 @@ open class JavaGeneratorSuite protected constructor(
         }
 
         return headers + javaFiles + jniModel
-            .filter(JniContainer::isFrancaInterface)
-            .map(jniTemplates::generateFiles).flatten() +
+            .filter { it.containerType != JniContainer.ContainerType.TYPE_COLLECTION }
+            .map { jniTemplates.generateFiles(it) }.flatten() +
                 jniTemplates.generateConversionFiles(jniModel)
     }
 

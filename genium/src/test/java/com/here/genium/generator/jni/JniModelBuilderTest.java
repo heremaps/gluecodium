@@ -38,6 +38,7 @@ import com.here.genium.model.cpp.*;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.java.*;
 import com.here.genium.model.jni.*;
+import com.here.genium.model.jni.JniContainer.ContainerType;
 import com.here.genium.test.ArrayEList;
 import com.here.genium.test.MockContextStack;
 import java.util.Arrays;
@@ -336,7 +337,7 @@ public class JniModelBuilderTest {
     // assert
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
-    assertFalse(jniContainer.isInterface());
+    assertEquals(ContainerType.CLASS, jniContainer.getContainerType());
   }
 
   @Test
@@ -351,7 +352,7 @@ public class JniModelBuilderTest {
     assertEquals(JAVA_CLASS_NAME, jniContainer.getJavaName());
     assertEquals(CPP_NAMESPACE_MEMBERS, jniContainer.getCppNameSpaces());
     assertEquals(JAVA_PACKAGES, jniContainer.getJavaPackages());
-    assertFalse(jniContainer.isInterface());
+    assertEquals(ContainerType.CLASS, jniContainer.getContainerType());
   }
 
   @Test
@@ -365,7 +366,7 @@ public class JniModelBuilderTest {
 
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
-    assertFalse(jniContainer.isInterface());
+    assertEquals(ContainerType.CLASS, jniContainer.getContainerType());
     assertEquals(JAVA_CLASS_NAME, jniContainer.getJavaName());
     assertEquals(JAVA_INTERFACE_NAME, jniContainer.getJavaInterfaceName());
     assertEquals(JAVA_PACKAGES, jniContainer.getJavaPackages());
@@ -382,7 +383,7 @@ public class JniModelBuilderTest {
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
     assertFalse(jniContainer.getMethods().isEmpty());
-    assertFalse(jniContainer.isInterface());
+    assertEquals(ContainerType.CLASS, jniContainer.getContainerType());
     assertEquals(createJniMethod(jniContainer), jniContainer.getMethods().get(0));
   }
 
@@ -397,7 +398,7 @@ public class JniModelBuilderTest {
     // assert
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
-    assertTrue(jniContainer.isInterface());
+    assertEquals(ContainerType.INTERFACE, jniContainer.getContainerType());
   }
 
   @Test
@@ -411,7 +412,7 @@ public class JniModelBuilderTest {
     // assert
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
-    assertTrue(jniContainer.isInterface());
+    assertEquals(ContainerType.INTERFACE, jniContainer.getContainerType());
     assertEquals(CPP_CLASS_NAME, jniContainer.getCppName());
     assertEquals(JAVA_CLASS_NAME, jniContainer.getJavaName());
     assertEquals(CPP_NAMESPACE_MEMBERS, jniContainer.getCppNameSpaces());
@@ -430,7 +431,7 @@ public class JniModelBuilderTest {
 
     JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
     assertNotNull(jniContainer);
-    assertTrue(jniContainer.isInterface());
+    assertEquals(ContainerType.INTERFACE, jniContainer.getContainerType());
     assertEquals(JAVA_CLASS_NAME, jniContainer.getJavaName());
     assertEquals(JAVA_INTERFACE_NAME, jniContainer.getJavaInterfaceName());
     assertEquals(JAVA_PACKAGES, jniContainer.getJavaPackages());

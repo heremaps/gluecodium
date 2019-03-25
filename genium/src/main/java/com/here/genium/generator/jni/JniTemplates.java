@@ -24,6 +24,7 @@ import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.generator.cpp.CppLibraryIncludes;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.jni.JniContainer;
+import com.here.genium.model.jni.JniContainer.ContainerType;
 import com.here.genium.platform.android.JavaGeneratorSuite;
 import java.util.Arrays;
 import java.util.Collections;
@@ -107,8 +108,11 @@ public final class JniTemplates {
   private void addStructConversionFiles(
       List<JniContainer> jniContainers, List<GeneratedFile> results) {
 
-    final Set<Include> includes = new LinkedHashSet<>();
-    jniContainers.forEach(model -> includes.addAll(model.getIncludes()));
+    final Set<Include> includes =
+        jniContainers
+            .stream()
+            .flatMap(model -> model.getIncludes().stream())
+            .collect(Collectors.toCollection(LinkedHashSet::new));
 
     Map<String, Object> mustacheData = new HashMap<>();
     mustacheData.put(INCLUDES_NAME, includes);
@@ -173,7 +177,10 @@ public final class JniTemplates {
       List<JniContainer> jniContainers, List<GeneratedFile> results) {
 
     List<JniContainer> instanceContainers =
-        jniContainers.stream().filter(JniContainer::isFrancaInterface).collect(Collectors.toList());
+        jniContainers
+            .stream()
+            .filter(container -> container.getContainerType() != ContainerType.TYPE_COLLECTION)
+            .collect(Collectors.toList());
 
     Map<String, Object> instanceData = new HashMap<>();
     final Set<Include> instanceIncludes = new LinkedHashSet<>();
@@ -206,7 +213,10 @@ public final class JniTemplates {
       final List<JniContainer> jniContainers, final List<GeneratedFile> results) {
 
     List<JniContainer> listeners =
-        jniContainers.stream().filter(JniContainer::isInterface).collect(Collectors.toList());
+        jniContainers
+            .stream()
+            .filter(container -> container.getContainerType() == ContainerType.INTERFACE)
+            .collect(Collectors.toList());
 
     List<Include> proxyIncludes = new LinkedList<>();
 

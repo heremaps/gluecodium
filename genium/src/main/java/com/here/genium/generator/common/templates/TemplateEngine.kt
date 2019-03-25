@@ -46,6 +46,7 @@ object TemplateEngine {
             .registerHelpers(
                 HelpersBuilder.empty()
                     .addIsEqual()
+                    .addIsNotEqual()
                     .addFmt()
                     .addInclude()
                     .addIsNotEqual()

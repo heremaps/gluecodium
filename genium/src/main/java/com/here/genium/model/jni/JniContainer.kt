@@ -36,14 +36,19 @@ data class JniContainer @JvmOverloads constructor(
     val javaInterfaceName: String? = null,
     val cppName: String? = null,
     val cppFullyQualifiedName: String? = null,
-    val isFrancaInterface: Boolean = false,
-    var isInterface: Boolean = false
+    val containerType: ContainerType = ContainerType.TYPE_COLLECTION
 ) : JniElement {
     val methods: MutableList<JniMethod> = LinkedList()
     val parentMethods: MutableList<JniMethod> = LinkedList()
     val structs: MutableList<JniStruct> = LinkedList()
     val enums: MutableList<JniEnum> = LinkedList()
     val includes: MutableSet<Include> = mutableSetOf()
+
+    enum class ContainerType {
+        TYPE_COLLECTION,
+        INTERFACE,
+        CLASS
+    }
 
     fun add(struct: JniStruct) {
         struct.owningContainer = this
