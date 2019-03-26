@@ -259,8 +259,8 @@ class CppLimeBasedModelBuilderCommentsTest {
 
         val results = modelBuilder.finalResults
         assertEquals(2, results.size)
-        assertEquals("Foo", (results.first() as CppMethod).comment)
-        assertEquals("Foo", (results.last() as CppMethod).comment)
+        assertEquals("Gets foo", (results.first() as CppMethod).comment)
+        assertEquals("Sets foo", (results.last() as CppMethod).comment)
     }
 
     @Test

@@ -47,7 +47,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest(CommentHelper.class)
 public class JavaModelBuilderCommentsTest {
 
-  private static final String COMMENT = "nonsense";
+  private static final String COMMENT = "Nonsense";
 
   private static final List<String> BASE_PACKAGE_NAMES =
       Arrays.asList("these", "are", "prefix", "packages");
@@ -234,8 +234,8 @@ public class JavaModelBuilderCommentsTest {
     List<JavaMethod> methods =
         CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JavaMethod.class);
     assertEquals(2, methods.size());
-    assertEquals(COMMENT, methods.get(0).comment);
-    assertEquals(COMMENT, methods.get(1).comment);
+    assertEquals("Gets nonsense", methods.get(0).comment);
+    assertEquals("Sets nonsense", methods.get(1).comment);
 
     PowerMockito.verifyStatic();
     CommentHelper.getDescription(francaAttribute);

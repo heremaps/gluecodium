@@ -24,6 +24,7 @@ import com.here.genium.common.CollectionsHelper;
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
+import com.here.genium.model.common.CommentsPreprocessor;
 import com.here.genium.model.franca.CommentHelper;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import com.here.genium.model.java.*;
@@ -333,7 +334,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
     JavaMethod getterMethod =
         new JavaMethod(
             JavaNameRules.getGetterName(francaAttribute.getName(), javaType),
-            comment,
+            CommentsPreprocessor.INSTANCE.preprocessGetterComment(comment),
             visibility,
             javaType,
             null,
@@ -351,7 +352,7 @@ public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
       JavaMethod setterMethod =
           new JavaMethod(
               JavaNameRules.getSetterName(francaAttribute.getName()),
-              comment,
+              CommentsPreprocessor.INSTANCE.preprocessSetterComment(comment),
               setterVisibility,
               JavaPrimitiveType.VOID,
               null,

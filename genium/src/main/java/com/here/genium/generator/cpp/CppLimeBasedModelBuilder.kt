@@ -22,6 +22,7 @@ package com.here.genium.generator.cpp
 import com.google.common.annotations.VisibleForTesting
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
+import com.here.genium.model.common.CommentsPreprocessor
 import com.here.genium.model.cpp.CppClass
 import com.here.genium.model.cpp.CppConstant
 import com.here.genium.model.cpp.CppElement
@@ -237,7 +238,7 @@ class CppLimeBasedModelBuilder @VisibleForTesting internal constructor(
         val getterMethod = CppMethod(
             name = nameResolver.getGetterName(limeProperty),
             fullyQualifiedName = nameResolver.getFullyQualifiedGetterName(limeProperty),
-            comment = limeProperty.comment,
+            comment = CommentsPreprocessor.preprocessGetterComment(limeProperty.comment),
             returnType = cppTypeRef,
             isNotNull = isNotNull,
             specifiers = specifiers,
@@ -254,7 +255,7 @@ class CppLimeBasedModelBuilder @VisibleForTesting internal constructor(
             val setterMethod = CppMethod(
                 name = nameResolver.getSetterName(limeProperty),
                 fullyQualifiedName = nameResolver.getFullyQualifiedSetterName(limeProperty),
-                comment = limeProperty.comment,
+                comment = CommentsPreprocessor.preprocessSetterComment(limeProperty.comment),
                 parameters = listOf(setterParameter),
                 specifiers = specifiers,
                 qualifiers = setterQualifiers
