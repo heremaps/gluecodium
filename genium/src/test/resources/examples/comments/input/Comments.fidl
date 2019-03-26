@@ -60,6 +60,6 @@ interface Comments {
         Useful
     }
 
-    <** @description: This is some very useful attribute. **>
+    <** @description: Some very useful attribute. **>
     attribute Usefulness SomeAttribute
 }

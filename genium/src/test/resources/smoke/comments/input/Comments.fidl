@@ -135,7 +135,7 @@ interface Comments {
         Useful
     }
 
-    <** @description: This is some very useful attribute. **>
+    <** @description: Some very useful attribute. **>
     attribute Usefulness SomeAttribute
 
     <** @description: This is some very useful instance method. **>
@@ -150,7 +150,7 @@ interface Comments {
         }
     }
 
-    <** @description: This is some very useful attribute. **>
+    <** @description: Some very useful attribute. **>
     attribute CommentsInstantiable.CommentsInstantiable instanceAttribute
 }
 

@@ -6,14 +6,11 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 //
 // -------------------------------------------------------------------------------------------------
-
 #pragma once
-
 #include "Export.h"
 #include <string>
 #include <unordered_map>
 #include <vector>
-
 namespace examples {
 /**
  * This is some very useful interface.
@@ -55,7 +52,6 @@ struct _GENIUM_CPP_EXPORT SomeStruct {
      * How useful this struct is
      */
     ::examples::Comments::Usefulness some_field;
-
     SomeStruct( );
     SomeStruct( const ::examples::Comments::Usefulness some_field );
 };
@@ -63,7 +59,6 @@ struct _GENIUM_CPP_EXPORT SomeStruct {
  * This is some very useful constant.
  */
 _GENIUM_CPP_EXPORT static const ::examples::Comments::Usefulness VERY_USEFUL;
-
 public:
 /**
  * This is some very useful method that measures the usefulness of its input.
@@ -72,11 +67,11 @@ public:
  */
 virtual ::examples::Comments::Usefulness some_method( const ::std::string& input ) = 0;
 /**
- * This is some very useful attribute.
+ * Gets some very useful attribute.
  */
 virtual ::examples::Comments::Usefulness is_some_attribute(  ) const = 0;
 /**
- * This is some very useful attribute.
+ * Sets some very useful attribute.
  */
 virtual void set_some_attribute( const ::examples::Comments::Usefulness value ) = 0;
 };

@@ -21,7 +21,7 @@ public class Comments {
     public typealias SomeMap = [String: Comments.Usefulness]
     /// This is some very useful constant.
     public static let veryUseful: Comments.Usefulness = true
-    /// This is some very useful attribute.
+    /// Some very useful attribute.
     public var someAttribute: Comments.Usefulness {
         get {
             return moveFromCType(examples_Comments_someAttribute_get(self.c_instance))

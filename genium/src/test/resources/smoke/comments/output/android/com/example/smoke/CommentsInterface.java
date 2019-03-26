@@ -87,11 +87,11 @@ public interface CommentsInterface {
      */
     void someMethodWithoutReturnTypeOrInputParameters();
     /**
-     * This is some very useful attribute.
+     * Gets some very useful attribute.
      */
     boolean isSomeAttribute();
     /**
-     * This is some very useful attribute.
+     * Sets some very useful attribute.
      */
     void setSomeAttribute(final boolean value);
 }

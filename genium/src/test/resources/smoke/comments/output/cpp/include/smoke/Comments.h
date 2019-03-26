@@ -118,20 +118,20 @@ virtual void some_method_without_return_type_or_input_parameters(  ) = 0;
  */
 virtual ::std::shared_ptr< ::smoke::CommentsInstantiable > instance_method( const ::std::shared_ptr< ::smoke::CommentsInstantiable >& input ) = 0;
 /**
- * This is some very useful attribute.
+ * Gets some very useful attribute.
  */
 virtual ::smoke::Comments::Usefulness is_some_attribute(  ) const = 0;
 /**
- * This is some very useful attribute.
+ * Sets some very useful attribute.
  */
 virtual void set_some_attribute( const ::smoke::Comments::Usefulness value ) = 0;
 /**
- * This is some very useful attribute.
+ * Gets some very useful attribute.
  * \return @NotNull
  */
 virtual ::std::shared_ptr< ::smoke::CommentsInstantiable > get_instance_attribute(  ) const = 0;
 /**
- * This is some very useful attribute.
+ * Sets some very useful attribute.
  * \param[in] value @NotNull
  */
 virtual void set_instance_attribute( const ::std::shared_ptr< ::smoke::CommentsInstantiable >& value ) = 0;

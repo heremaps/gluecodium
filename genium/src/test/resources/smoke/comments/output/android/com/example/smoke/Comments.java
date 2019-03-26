@@ -117,20 +117,20 @@ public class Comments extends NativeBase {
     @NonNull
     public native CommentsInstantiable instanceMethod(@NonNull final CommentsInstantiable input);
     /**
-     * This is some very useful attribute.
+     * Gets some very useful attribute.
      */
     public native boolean isSomeAttribute();
     /**
-     * This is some very useful attribute.
+     * Sets some very useful attribute.
      */
     public native void setSomeAttribute(final boolean value);
     /**
-     * This is some very useful attribute.
+     * Gets some very useful attribute.
      */
     @NonNull
     public native CommentsInstantiable getInstanceAttribute();
     /**
-     * This is some very useful attribute.
+     * Sets some very useful attribute.
      */
     public native void setInstanceAttribute(@NonNull final CommentsInstantiable value);
 }

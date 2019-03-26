@@ -78,7 +78,7 @@ public protocol CommentsInterface : AnyObject {
     typealias SomeArray = [String]
     /// This is some very useful map.
     typealias SomeMap = [String: CommentsInterface.Usefulness]
-    /// This is some very useful attribute.
+    /// Some very useful attribute.
     var someAttribute: CommentsInterface.Usefulness { get set }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
@@ -109,7 +109,7 @@ public protocol CommentsInterface : AnyObject {
 internal class _CommentsInterface: CommentsInterface {
     /// This is some very useful constant.
     public static let veryUseful: CommentsInterface.Usefulness = true
-    /// This is some very useful attribute.
+    /// Some very useful attribute.
     var someAttribute: CommentsInterface.Usefulness {
         get {
             return moveFromCType(smoke_CommentsInterface_someAttribute_get(self.c_instance))

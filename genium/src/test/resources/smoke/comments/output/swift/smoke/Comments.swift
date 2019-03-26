@@ -21,7 +21,7 @@ public class Comments {
     public typealias SomeMap = [String: Comments.Usefulness]
     /// This is some very useful constant.
     public static let veryUseful: Comments.Usefulness = true
-    /// This is some very useful attribute.
+    /// Some very useful attribute.
     public var someAttribute: Comments.Usefulness {
         get {
             return moveFromCType(smoke_Comments_someAttribute_get(self.c_instance))
@@ -31,7 +31,7 @@ public class Comments {
             return moveFromCType(smoke_Comments_someAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
-    /// This is some very useful attribute.
+    /// Some very useful attribute.
     public var instanceAttribute: CommentsInstantiable {
         get {
             return CommentsInstantiablemoveFromCType(smoke_Comments_instanceAttribute_get(self.c_instance))
