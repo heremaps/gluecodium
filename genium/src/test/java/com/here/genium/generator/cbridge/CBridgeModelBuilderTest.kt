@@ -23,7 +23,6 @@ import com.here.genium.common.CollectionsHelper
 import com.here.genium.common.FrancaTypeHelper
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.swift.SwiftModelBuilder
-import com.here.genium.generator.swift.SwiftNameRules
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
 import com.here.genium.model.cbridge.CElement
 import com.here.genium.model.cbridge.CEnum
@@ -71,18 +70,15 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
-import org.mockito.MockitoAnnotations.initMocks
-import org.powermock.api.mockito.PowerMockito.mockStatic
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
+import org.mockito.MockitoAnnotations
 import java.util.Arrays.asList
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(CBridgeNameRules::class, SwiftNameRules::class)
+@RunWith(JUnit4::class)
 class CBridgeModelBuilderTest {
 
     private val contextStack = MockContextStack<CElement>()
@@ -135,14 +131,14 @@ class CBridgeModelBuilderTest {
 
     @Before
     fun setUp() {
-        initMocks(this)
-        mockStatic(CBridgeNameRules::class.java, SwiftNameRules::class.java)
+        MockitoAnnotations.initMocks(this)
         mockkObject(CArrayMapper)
-        mockkStatic(FrancaTypeHelper::class)
+        mockkStatic(FrancaTypeHelper::class, CBridgeNameRules::class)
 
         val typeInfo = CppTypeInfo(CType(""))
 
-        `when`(CBridgeNameRules.getStructBaseName(any())).thenReturn(STRUCT_NAME)
+        every { CBridgeNameRules.getStructBaseName(any()) } returns STRUCT_NAME
+        every { CBridgeNameRules.getInterfaceName(any()) } returns null
 
         `when`(cppModelbuilder.getFinalResult(CppMethod::class.java)).thenReturn(CppMethod(""))
         `when`(cppModelbuilder.getFinalResult(CppStruct::class.java)).thenReturn(
@@ -219,7 +215,7 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingFrancaMethodReadsName() {
-        `when`(CBridgeNameRules.getNestedSpecifierString(any())).thenReturn("NOT")
+        every { CBridgeNameRules.getNestedSpecifierString(any()) } returns "NOT"
 
         modelBuilder.finishBuilding(francaMethod)
 
@@ -276,7 +272,7 @@ class CBridgeModelBuilderTest {
         val cppMethod =
             CppMethod(DELEGATE_NAME, DELEGATE_NAME, "", CppComplexTypeRef("::std::FooType"))
         `when`(cppModelbuilder.getFinalResult(CppMethod::class.java)).thenReturn(cppMethod)
-        `when`(CBridgeNameRules.getNestedSpecifierString(any())).thenReturn("NOT")
+        every { CBridgeNameRules.getNestedSpecifierString(any()) } returns "NOT"
 
         modelBuilder.finishBuilding(francaMethod)
 
@@ -297,14 +293,16 @@ class CBridgeModelBuilderTest {
     }
 
     @Test
-    fun finishBuildingFrancaMethodReadsIsCosntructor() {
+    fun finishBuildingFrancaMethodReadsIsConstructor() {
         `when`(deploymentModel.isConstructor(any())).thenReturn(true)
+        `when`(typeMapper.createCustomTypeInfo(any(), any())).thenReturn(cppTypeInfo)
 
         modelBuilder.finishBuilding(francaMethod)
 
         val function = modelBuilder.getFinalResult(CFunction::class.java)
         assertNotNull(function)
         assertNull(function.selfParameter)
+        assertEquals(cppTypeInfo, function.returnType)
     }
 
     @Test
@@ -513,6 +511,7 @@ class CBridgeModelBuilderTest {
     @Test
     fun finishBuildingCreatesCEnum() {
         val francaEnumerationType = mock(FEnumerationType::class.java)
+        every { CBridgeNameRules.getEnumName(francaEnumerationType) } returns null
 
         modelBuilder.finishBuilding(francaEnumerationType)
 
@@ -681,7 +680,7 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingFrancaMapType() {
-        `when`(CBridgeNameRules.getMapName(any())).thenReturn("FooMap")
+        every { CBridgeNameRules.getMapName(any()) } returns "FooMap"
         contextStack.injectResult(CppTypeInfo.STRING)
         contextStack.injectResult(cppTypeInfo)
         val fooInclude = Include.createInternalInclude("Foo")

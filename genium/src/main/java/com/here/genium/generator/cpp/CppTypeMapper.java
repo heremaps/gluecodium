@@ -109,18 +109,8 @@ public class CppTypeMapper {
   private CppTypeRef mapTypeDef(final FTypeDef francaTypeDef) {
 
     if (InstanceRules.isInstanceId(francaTypeDef)) {
-      FInterface parentInterface = (FInterface) francaTypeDef.eContainer();
-      String fullyQualifiedName = nameResolver.getFullyQualifiedName(parentInterface);
-      CppComplexTypeRef instanceType =
-          new CppComplexTypeRef(
-              fullyQualifiedName,
-              Collections.singletonList(includeResolver.resolveInclude(francaTypeDef)),
-              false,
-              !deploymentModel.isExternalType(parentInterface));
-
-      return createSharedPointerType(instanceType);
+      return mapInstanceType((FInterface) francaTypeDef.eContainer());
     } else {
-
       String fullyQualifiedName = nameResolver.getFullyQualifiedName(francaTypeDef);
       CppTypeRef actualType = map(francaTypeDef.getActualType());
 
@@ -129,6 +119,17 @@ public class CppTypeMapper {
           Collections.singletonList(includeResolver.resolveInclude(francaTypeDef)),
           actualType);
     }
+  }
+
+  public CppTypeRef mapInstanceType(FInterface parentInterface) {
+    CppComplexTypeRef instanceType =
+        new CppComplexTypeRef(
+            nameResolver.getFullyQualifiedName(parentInterface),
+            Collections.singletonList(includeResolver.resolveInclude(parentInterface)),
+            false,
+            !deploymentModel.isExternalType(parentInterface));
+
+    return createSharedPointerType(instanceType);
   }
 
   private CppTypeRef mapArray(final FArrayType francaArrayType) {

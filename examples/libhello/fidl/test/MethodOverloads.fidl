@@ -120,9 +120,6 @@ interface ConstructorOverloads {
     }
 
     method create:noParameters {
-        out {
-            ConstructorOverloads output
-        }
     }
 
     method create:singleStringParameter {
@@ -130,16 +127,13 @@ interface ConstructorOverloads {
             String input
         }
         out {
-            ConstructorOverloads output
+            Boolean dummy
         }
     }
 
     method create:singleBoolParameter {
         in {
             Boolean input
-        }
-        out {
-            ConstructorOverloads output
         }
     }
 
@@ -148,17 +142,11 @@ interface ConstructorOverloads {
             String stringInput
             Boolean booleanInput
         }
-        out {
-            ConstructorOverloads output
-        }
     }
 
     method create:withError {
         in {
             Double input
-        }
-        out {
-            ConstructorOverloads output
         }
         error ErrorEnum
     }
@@ -166,9 +154,6 @@ interface ConstructorOverloads {
     method create:arrayParameter {
         in {
             Double[] input
-        }
-        out {
-            ConstructorOverloads output
         }
     }
 }
@@ -179,7 +164,7 @@ interface ChildConstructorOverloads extends ConstructorOverloads {
 
     method create:noParametersChild {
         out {
-            ChildConstructorOverloads output
+            String dummy
         }
     }
 
@@ -188,7 +173,7 @@ interface ChildConstructorOverloads extends ConstructorOverloads {
             Double input
         }
         out {
-            ChildConstructorOverloads output
+            Float dummy
         }
         error ConstructorOverloads.ErrorEnum
     }

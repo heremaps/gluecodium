@@ -50,7 +50,6 @@ import com.here.genium.validator.InheritanceValidatorPredicate
 import com.here.genium.validator.IntegerIntervalValidatorPredicate
 import com.here.genium.validator.MapKeyValidatorPredicate
 import com.here.genium.validator.NameValidator
-import com.here.genium.validator.NullabilityValidatorPredicate
 import com.here.genium.validator.SerializationValidatorPredicate
 import com.here.genium.validator.StaticAttributesValidatorPredicate
 import com.here.genium.validator.StaticMethodsValidatorPredicate
@@ -244,7 +243,6 @@ class Genium(private val options: Options) {
             ExternalElementsValidatorPredicate(),
             ExternalTypesValidatorPredicate(),
             StructInheritanceValidatorPredicate(),
-            NullabilityValidatorPredicate(),
             ConstructorsValidatorPredicate(),
             InterfaceMethodVisibilityValidatorPredicate()
         )

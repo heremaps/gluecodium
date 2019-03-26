@@ -164,8 +164,8 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
         CollectionsHelper.getFirstOfType(
             getCurrentContext().previousResults, COutParameter.class, new COutParameter());
 
-    boolean isStatic =
-        !deploymentModel.isStatic(francaMethod) && !deploymentModel.isConstructor(francaMethod);
+    boolean isConstructor = deploymentModel.isConstructor(francaMethod);
+    boolean isStatic = !isConstructor && !deploymentModel.isStatic(francaMethod);
     CParameter parameterSelf = null;
     if (isStatic) {
       CppTypeInfo cppTypeInfo =
@@ -177,11 +177,15 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
       errorTypeInfo = typeMapper.createErrorTypeInfo(francaMethod.getErrorEnum());
     }
 
+    CppTypeInfo returnType =
+        isConstructor
+            ? typeMapper.createCustomTypeInfo((FInterface) francaMethod.eContainer(), CLASS)
+            : returnParam.mappedType;
     CFunction result =
         new CFunction(
             swiftMethod.getCShortName(),
             swiftMethod.getCNestedSpecifier(),
-            returnParam.mappedType,
+            returnType,
             inParams,
             parameterSelf,
             cppMethod.fullyQualifiedName,

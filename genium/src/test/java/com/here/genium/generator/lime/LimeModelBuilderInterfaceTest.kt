@@ -82,7 +82,7 @@ class LimeModelBuilderInterfaceTest {
     private val limeTypeDef = LimeTypeDef(EMPTY_PATH, typeRef = limeTypeRef)
     private val limeMethod = LimeMethod(EMPTY_PATH)
     private val limeProperty = LimeProperty(EMPTY_PATH, typeRef = limeTypeRef)
-    private val limeReturnType = LimeReturnType(limeTypeRef)
+    private val limeReturnType = LimeReturnType(limeTypeRef, comment = "Foo comment")
     private val limeParameter = LimeParameter(EMPTY_PATH, typeRef = limeTypeRef)
 
     private val contextStack = MockContextStack<LimeElement>()
@@ -268,6 +268,7 @@ class LimeModelBuilderInterfaceTest {
 
     @Test
     fun finishBuildingMethodReadsConstructor() {
+        contextStack.injectResult(limeReturnType)
         every { deploymentModel.isConstructor(francaMethod) } returns true
 
         modelBuilder.finishBuilding(francaMethod)
@@ -275,6 +276,8 @@ class LimeModelBuilderInterfaceTest {
         val result = modelBuilder.getFinalResult(LimeMethod::class.java)
         assertHasAttribute(LimeAttributeType.CONSTRUCTOR, result)
         assertTrue(result.isStatic)
+        assertEquals("the.model.SomeInterface", result.returnType.typeRef.elementFullName)
+        assertEquals("Foo comment", result.returnType.comment)
     }
 
     @Test

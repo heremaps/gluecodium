@@ -276,17 +276,11 @@ interface Constructors {
     }
 
     method create:noArgs {
-        out {
-            Constructors result
-        }
     }
 
     method create:copyCtor {
         in {
             Constructors other
-        }
-        out {
-            Constructors result
         }
     }
 
@@ -295,17 +289,11 @@ interface Constructors {
             String foo
             UInt64 bar
         }
-        out {
-            Constructors result
-        }
     }
 
     method create:withError {
         in {
             String input
-        }
-        out {
-            Constructors result
         }
         error ErrorEnum
     }
@@ -316,7 +304,7 @@ interface Constructors {
             Double[] input
         }
         out {
-            Constructors result
+            String dummy
         }
     }
 }
@@ -327,7 +315,7 @@ interface ChildConstructors extends Constructors {
 
     method create:noArgsChild {
         out {
-            ChildConstructors result
+            Boolean dummy
         }
     }
 

@@ -229,7 +229,7 @@ interface CommentsInstantiable {
         }
         out {
             <** @description: Very useful result **>
-            CommentsInstantiable output
+            Boolean dummy
         }
     }
 }

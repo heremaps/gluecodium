@@ -106,8 +106,8 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
 
     CppTypeRef errorEnumTypeRef = getPreviousResult(CppTypeRef.class);
     CppTypeRef errorType = errorEnumTypeRef != null ? CppTypeMapper.STD_ERROR_CODE_TYPE : null;
-    CppTypeRef returnType = mapMethodReturnType(outputParameter, errorType);
-    CppMethod cppMethod = buildCppMethod(francaMethod, returnType, returnTypeComment);
+    CppMethod cppMethod =
+        buildCppMethod(francaMethod, outputParameter, errorType, returnTypeComment);
 
     storeResult(cppMethod);
     closeContext();
@@ -379,12 +379,16 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
   }
 
   private CppMethod buildCppMethod(
-      final FMethod francaMethod, final CppTypeRef returnType, final String returnComment) {
+      final FMethod francaMethod,
+      CppParameter outputParameter,
+      CppTypeRef errorType,
+      final String returnComment) {
 
     Set<CppMethod.Specifier> specifiers = EnumSet.noneOf(CppMethod.Specifier.class);
     Set<CppMethod.Qualifier> qualifiers = EnumSet.noneOf(CppMethod.Qualifier.class);
 
-    if (deploymentModel.isStatic(francaMethod) || deploymentModel.isConstructor(francaMethod)) {
+    boolean isConstructor = deploymentModel.isConstructor(francaMethod);
+    if (isConstructor || deploymentModel.isStatic(francaMethod)) {
       specifiers.add(CppMethod.Specifier.STATIC);
     } else {
       if (deploymentModel.isConst(francaMethod)) {
@@ -400,30 +404,30 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
             .filter(parameter -> !parameter.isOutput())
             .collect(Collectors.toList());
 
-    CppParameter returnTypeParameter =
-        CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, CppParameter.class)
-            .filter(CppParameter::isOutput)
-            .findFirst()
-            .orElse(null);
-    boolean isNotNull = returnTypeParameter != null && returnTypeParameter.isNotNull();
+    CppTypeRef outArgType;
+    if (isConstructor) {
+      outArgType = typeMapper.mapInstanceType((FInterface) francaMethod.eContainer());
+    } else if (outputParameter != null) {
+      outArgType = outputParameter.type;
+    } else {
+      outArgType = null;
+    }
 
     return new CppMethod(
         nameResolver.getName(francaMethod),
         nameResolver.getFullyQualifiedName(francaMethod),
         CommentHelper.getDescription(francaMethod),
-        returnType,
+        mapMethodReturnType(errorType, outArgType),
         returnComment,
         null,
-        isNotNull,
+        outputParameter != null && outputParameter.isNotNull(),
         parameters,
         specifiers,
         qualifiers);
   }
 
-  private CppTypeRef mapMethodReturnType(
-      final CppParameter outputParameter, final CppTypeRef errorType) {
+  private CppTypeRef mapMethodReturnType(final CppTypeRef errorType, final CppTypeRef outArgType) {
 
-    CppTypeRef outArgType = outputParameter != null ? outputParameter.type : null;
     if (errorType == null && outArgType == null) {
       return CppPrimitiveTypeRef.Companion.getVOID();
     } else if (errorType != null && outArgType == null) {

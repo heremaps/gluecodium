@@ -330,12 +330,22 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
             LimeTypeRef(referenceResolver.referenceMap, it.path.toString())
         }
 
+        val methodLimePath = createElementPath(francaMethod)
+        val limeReturnType = getPreviousResult(LimeReturnType::class.java)
+        val returnType = when {
+            isConstructor -> {
+                val containerTypeRef =
+                    LimeTypeRef(referenceResolver.referenceMap, methodLimePath.parent.toString())
+                LimeReturnType(containerTypeRef, limeReturnType?.comment ?: "")
+            }
+            else -> limeReturnType ?: LimeReturnType.VOID
+        }
         val limeMethod = LimeMethod(
-            path = createElementPath(francaMethod),
+            path = methodLimePath,
             visibility = getLimeVisibility(francaMethod),
             comment = CommentHelper.getDescription(francaMethod),
             attributes = attributes.build(),
-            returnType = getPreviousResult(LimeReturnType::class.java) ?: LimeReturnType.VOID,
+            returnType = returnType,
             parameters = getPreviousResults(LimeParameter::class.java),
             errorType = errorType,
             isStatic = isConstructor || deploymentModel.isStatic(francaMethod)
