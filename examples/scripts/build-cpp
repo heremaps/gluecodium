@@ -23,19 +23,20 @@
 
 USAGE=$(cat <<EOF
 $0 [options]
-    --publish         Build and publish Genium locally and use it for code generation
-    --debug           Build with debug symbols
-    --valgrind        Run with valgrind
-    --junit           Generate junit xml test report
-    --cpp <standard>  Build with C++<standard> standard, defaults to 11.
-    --help            Print this message
+    --publish             Build and publish Genium locally and use it for code generation
+    --debug               Build with debug symbols
+    --valgrind            Run with valgrind
+    --junit               Generate junit xml test report
+    --cpp <standard>      Build with C++<standard> standard, defaults to 11.
+    --cmake <parameter>   Pass additional parameter to cmake
+    --help                Print this message
 EOF
 )
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
-CMAKE_EXTRA_PARAMETERS=
+CMAKE_EXTRA_PARAMETERS=()
 CPP_VERSION=11
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -44,7 +45,7 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         --debug)
-            CMAKE_EXTRA_PARAMETERS="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+            CMAKE_EXTRA_PARAMETERS+=("-DCMAKE_BUILD_TYPE=RelWithDebInfo")
             shift
             ;;
         --valgrind)
@@ -59,16 +60,16 @@ while [[ $# -gt 0 ]]; do
             CPP_VERSION="$2"
             shift 2
             ;;
+        --cmake)
+            CMAKE_EXTRA_PARAMETERS+=("$2")
+            shift 2
+            ;;
         --help|*)
             echo "$USAGE"
             exit 0
             ;;
     esac
 done
-
-if [ "$1" == "--publish" ]; then
-    publish_local
-fi
 
 GENIUM_VERSION="${GENIUM_VERSION:-+}"
 BUILD_DIR=${PWD}/build-cpp
@@ -79,8 +80,7 @@ INSTALL_DIR=${PWD}/dist/cpp${CPP_VERSION}
 
 # Chose platform-native CMake generator
 if [ "$(cmake_generator)" ] ; then
-CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
-    -G $(cmake_generator)"
+    CMAKE_EXTRA_PARAMETERS+=("-G$(cmake_generator)")
 fi
 
 set -o pipefail
@@ -94,7 +94,7 @@ safe cmake \
     -DHELLO_APIGEN_GENIUM_VERSION=${GENIUM_VERSION} \
     -DHELLO_BUILD_CPP_TESTS=ON \
     -DHELLO_TEST_CPP_VERSION=${CPP_VERSION} \
-    ${CMAKE_EXTRA_PARAMETERS} \
+    "${CMAKE_EXTRA_PARAMETERS[@]}" \
     .. | tee cmake_output.log
 popd
 
