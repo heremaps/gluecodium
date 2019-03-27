@@ -72,19 +72,6 @@ public struct EquatableStruct: Equatable {
         arrayField = moveFromCType(smoke_Equatable_EquatableStruct_arrayField_get(cHandle))
         mapField = moveFromCType(smoke_Equatable_EquatableStruct_mapField_get(cHandle))
     }
-    internal func convertToCType() -> _baseRef {
-        let c_boolField = moveToCType(boolField)
-        let c_intField = moveToCType(intField)
-        let c_longField = moveToCType(longField)
-        let c_floatField = moveToCType(floatField)
-        let c_doubleField = moveToCType(doubleField)
-        let c_stringField = moveToCType(stringField)
-        let c_structField = moveToCType(structField)
-        let c_enumField = moveToCType(enumField)
-        let c_arrayField = moveToCType(arrayField)
-        let c_mapField = moveToCType(mapField)
-        return smoke_Equatable_EquatableStruct_create_handle(c_boolField.ref, c_intField.ref, c_longField.ref, c_floatField.ref, c_doubleField.ref, c_stringField.ref, c_structField.ref, c_enumField.ref, c_arrayField.ref, c_mapField.ref)
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> EquatableStruct {
     return EquatableStruct(cHandle: handle)
@@ -96,7 +83,17 @@ internal func moveFromCType(_ handle: _baseRef) -> EquatableStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: EquatableStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_intField = moveToCType(swiftType.intField)
+    let c_longField = moveToCType(swiftType.longField)
+    let c_floatField = moveToCType(swiftType.floatField)
+    let c_doubleField = moveToCType(swiftType.doubleField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_structField = moveToCType(swiftType.structField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    let c_arrayField = moveToCType(swiftType.arrayField)
+    let c_mapField = moveToCType(swiftType.mapField)
+    return RefHolder(smoke_Equatable_EquatableStruct_create_handle(c_boolField.ref, c_intField.ref, c_longField.ref, c_floatField.ref, c_doubleField.ref, c_stringField.ref, c_structField.ref, c_enumField.ref, c_arrayField.ref, c_mapField.ref))
 }
 internal func moveToCType(_ swiftType: EquatableStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Equatable_EquatableStruct_release_handle)
@@ -118,7 +115,17 @@ internal func copyToCType(_ swiftType: EquatableStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_Equatable_EquatableStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_intField = moveToCType(swiftType.intField)
+    let c_longField = moveToCType(swiftType.longField)
+    let c_floatField = moveToCType(swiftType.floatField)
+    let c_doubleField = moveToCType(swiftType.doubleField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_structField = moveToCType(swiftType.structField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    let c_arrayField = moveToCType(swiftType.arrayField)
+    let c_mapField = moveToCType(swiftType.mapField)
+    return RefHolder(smoke_Equatable_EquatableStruct_create_optional_handle(c_boolField.ref, c_intField.ref, c_longField.ref, c_floatField.ref, c_doubleField.ref, c_stringField.ref, c_structField.ref, c_enumField.ref, c_arrayField.ref, c_mapField.ref))
 }
 internal func moveToCType(_ swiftType: EquatableStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Equatable_EquatableStruct_release_optional_handle)
@@ -155,18 +162,6 @@ public struct EquatableNullableStruct: Equatable {
         arrayField = moveFromCType(smoke_Equatable_EquatableNullableStruct_arrayField_get(cHandle))
         mapField = moveFromCType(smoke_Equatable_EquatableNullableStruct_mapField_get(cHandle))
     }
-    internal func convertToCType() -> _baseRef {
-        let c_boolField = moveToCType(boolField)
-        let c_intField = moveToCType(intField)
-        let c_uintField = moveToCType(uintField)
-        let c_floatField = moveToCType(floatField)
-        let c_stringField = moveToCType(stringField)
-        let c_structField = moveToCType(structField)
-        let c_enumField = moveToCType(enumField)
-        let c_arrayField = moveToCType(arrayField)
-        let c_mapField = moveToCType(mapField)
-        return smoke_Equatable_EquatableNullableStruct_create_handle(c_boolField.ref, c_intField.ref, c_uintField.ref, c_floatField.ref, c_stringField.ref, c_structField.ref, c_enumField.ref, c_arrayField.ref, c_mapField.ref)
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> EquatableNullableStruct {
     return EquatableNullableStruct(cHandle: handle)
@@ -178,7 +173,16 @@ internal func moveFromCType(_ handle: _baseRef) -> EquatableNullableStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: EquatableNullableStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_intField = moveToCType(swiftType.intField)
+    let c_uintField = moveToCType(swiftType.uintField)
+    let c_floatField = moveToCType(swiftType.floatField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_structField = moveToCType(swiftType.structField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    let c_arrayField = moveToCType(swiftType.arrayField)
+    let c_mapField = moveToCType(swiftType.mapField)
+    return RefHolder(smoke_Equatable_EquatableNullableStruct_create_handle(c_boolField.ref, c_intField.ref, c_uintField.ref, c_floatField.ref, c_stringField.ref, c_structField.ref, c_enumField.ref, c_arrayField.ref, c_mapField.ref))
 }
 internal func moveToCType(_ swiftType: EquatableNullableStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Equatable_EquatableNullableStruct_release_handle)
@@ -200,7 +204,16 @@ internal func copyToCType(_ swiftType: EquatableNullableStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_Equatable_EquatableNullableStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_intField = moveToCType(swiftType.intField)
+    let c_uintField = moveToCType(swiftType.uintField)
+    let c_floatField = moveToCType(swiftType.floatField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_structField = moveToCType(swiftType.structField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    let c_arrayField = moveToCType(swiftType.arrayField)
+    let c_mapField = moveToCType(swiftType.mapField)
+    return RefHolder(smoke_Equatable_EquatableNullableStruct_create_optional_handle(c_boolField.ref, c_intField.ref, c_uintField.ref, c_floatField.ref, c_stringField.ref, c_structField.ref, c_enumField.ref, c_arrayField.ref, c_mapField.ref))
 }
 internal func moveToCType(_ swiftType: EquatableNullableStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Equatable_EquatableNullableStruct_release_optional_handle)
@@ -213,10 +226,6 @@ public struct NestedEquatableStruct: Equatable {
     internal init(cHandle: _baseRef) {
         fooField = moveFromCType(smoke_Equatable_NestedEquatableStruct_fooField_get(cHandle))
     }
-    internal func convertToCType() -> _baseRef {
-        let c_fooField = moveToCType(fooField)
-        return smoke_Equatable_NestedEquatableStruct_create_handle(c_fooField.ref)
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> NestedEquatableStruct {
     return NestedEquatableStruct(cHandle: handle)
@@ -228,7 +237,8 @@ internal func moveFromCType(_ handle: _baseRef) -> NestedEquatableStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: NestedEquatableStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_fooField = moveToCType(swiftType.fooField)
+    return RefHolder(smoke_Equatable_NestedEquatableStruct_create_handle(c_fooField.ref))
 }
 internal func moveToCType(_ swiftType: NestedEquatableStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Equatable_NestedEquatableStruct_release_handle)
@@ -250,7 +260,8 @@ internal func copyToCType(_ swiftType: NestedEquatableStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_Equatable_NestedEquatableStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_fooField = moveToCType(swiftType.fooField)
+    return RefHolder(smoke_Equatable_NestedEquatableStruct_create_optional_handle(c_fooField.ref))
 }
 internal func moveToCType(_ swiftType: NestedEquatableStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Equatable_NestedEquatableStruct_release_optional_handle)

@@ -12,7 +12,7 @@ extern "C" {
 typedef uint32_t smoke_ExternalInterface_SomeEnum;
 _GENIUM_C_EXPORT _baseRef smoke_ExternalInterface_SomeStruct_create_handle(_baseRef someField);
 _GENIUM_C_EXPORT void smoke_ExternalInterface_SomeStruct_release_handle(_baseRef handle);
-_GENIUM_C_EXPORT _baseRef smoke_ExternalInterface_SomeStruct_make_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_ExternalInterface_SomeStruct_create_optional_handle(_baseRef someField);
 _GENIUM_C_EXPORT _baseRef smoke_ExternalInterface_SomeStruct_unwrap_optional_handle(_baseRef handle);
 _GENIUM_C_EXPORT void smoke_ExternalInterface_SomeStruct_release_optional_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_ExternalInterface_SomeStruct_someField_get(_baseRef handle);

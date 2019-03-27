@@ -13,13 +13,13 @@ extern "C" {
 #include <stdbool.h>
 _GENIUM_C_EXPORT _baseRef smoke_Maps_SomeStruct_create_handle(_baseRef value);
 _GENIUM_C_EXPORT void smoke_Maps_SomeStruct_release_handle(_baseRef handle);
-_GENIUM_C_EXPORT _baseRef smoke_Maps_SomeStruct_make_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_SomeStruct_create_optional_handle(_baseRef value);
 _GENIUM_C_EXPORT _baseRef smoke_Maps_SomeStruct_unwrap_optional_handle(_baseRef handle);
 _GENIUM_C_EXPORT void smoke_Maps_SomeStruct_release_optional_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_Maps_SomeStruct_value_get(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_Maps_StructWithMap_create_handle(_baseRef errorMapping);
 _GENIUM_C_EXPORT void smoke_Maps_StructWithMap_release_handle(_baseRef handle);
-_GENIUM_C_EXPORT _baseRef smoke_Maps_StructWithMap_make_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_StructWithMap_create_optional_handle(_baseRef errorMapping);
 _GENIUM_C_EXPORT _baseRef smoke_Maps_StructWithMap_unwrap_optional_handle(_baseRef handle);
 _GENIUM_C_EXPORT void smoke_Maps_StructWithMap_release_optional_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_Maps_StructWithMap_errorMapping_get(_baseRef handle);

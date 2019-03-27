@@ -21,12 +21,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::N
     _nout.string_field = n_string_field;
     return _nout;
 }
-std::shared_ptr<::smoke::Nullable::SomeStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Nullable::SomeStruct>* dummy)
+genium::optional<::smoke::Nullable::SomeStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, genium::optional<::smoke::Nullable::SomeStruct>* dummy)
 {
     return _jinput
-        ? std::make_shared<::smoke::Nullable::SomeStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Nullable::SomeStruct*)nullptr))
-        : std::shared_ptr<::smoke::Nullable::SomeStruct>{};
+        ? genium::optional<::smoke::Nullable::SomeStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Nullable::SomeStruct*)nullptr))
+        : genium::optional<::smoke::Nullable::SomeStruct>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Nullable$SomeStruct", ::smoke::Nullable::SomeStruct)
 JniReference<jobject>
@@ -39,7 +39,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Nullable::SomeStruct& _ninput)
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Nullable::SomeStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const genium::optional<::smoke::Nullable::SomeStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
@@ -47,68 +47,68 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Nullable::SomeStruc
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Nullable::NullableStruct* dummy)
 {
     ::smoke::Nullable::NullableStruct _nout{};
-    ::std::shared_ptr< ::std::string > n_string_field = genium::jni::get_field_value(
+    ::genium::optional< ::std::string > n_string_field = genium::jni::get_field_value(
         _jenv,
         _jinput,
         "stringField",
-        (::std::shared_ptr< ::std::string >*)nullptr );
+        (::genium::optional< ::std::string >*)nullptr );
     _nout.string_field = n_string_field;
-    ::std::shared_ptr< bool > n_bool_field = genium::jni::get_field_value(
+    ::genium::optional< bool > n_bool_field = genium::jni::get_field_value(
         _jenv,
         _jinput,
         "boolField",
-        (::std::shared_ptr< bool >*)nullptr );
+        (::genium::optional< bool >*)nullptr );
     _nout.bool_field = n_bool_field;
-    ::std::shared_ptr< double > n_double_field = genium::jni::get_field_value(
+    ::genium::optional< double > n_double_field = genium::jni::get_field_value(
         _jenv,
         _jinput,
         "doubleField",
-        (::std::shared_ptr< double >*)nullptr );
+        (::genium::optional< double >*)nullptr );
     _nout.double_field = n_double_field;
-    ::std::shared_ptr< ::smoke::Nullable::SomeStruct > n_struct_field = convert_from_jni(
+    ::genium::optional< ::smoke::Nullable::SomeStruct > n_struct_field = convert_from_jni(
         _jenv,
         genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "structField",
         "Lcom/example/smoke/Nullable$SomeStruct;"),
-        (::std::shared_ptr< ::smoke::Nullable::SomeStruct >*)nullptr );
+        (::genium::optional< ::smoke::Nullable::SomeStruct >*)nullptr );
     _nout.struct_field = n_struct_field;
-    ::std::shared_ptr< ::smoke::Nullable::SomeEnum > n_enum_field = convert_from_jni(
+    ::genium::optional< ::smoke::Nullable::SomeEnum > n_enum_field = convert_from_jni(
         _jenv,
         genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "enumField",
         "Lcom/example/smoke/Nullable$SomeEnum;"),
-        (::std::shared_ptr< ::smoke::Nullable::SomeEnum >*)nullptr );
+        (::genium::optional< ::smoke::Nullable::SomeEnum >*)nullptr );
     _nout.enum_field = n_enum_field;
-    ::std::shared_ptr< ::smoke::Nullable::SomeArray > n_array_field = convert_from_jni(
+    ::genium::optional< ::smoke::Nullable::SomeArray > n_array_field = convert_from_jni(
         _jenv,
         genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "arrayField",
         "Ljava/util/List;"),
-        (::std::shared_ptr< ::smoke::Nullable::SomeArray >*)nullptr );
+        (::genium::optional< ::smoke::Nullable::SomeArray >*)nullptr );
     _nout.array_field = n_array_field;
-    ::std::shared_ptr< ::std::vector< ::std::string > > n_inline_array_field = convert_from_jni(
+    ::genium::optional< ::std::vector< ::std::string > > n_inline_array_field = convert_from_jni(
         _jenv,
         genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "inlineArrayField",
         "Ljava/util/List;"),
-        (::std::shared_ptr< ::std::vector< ::std::string > >*)nullptr );
+        (::genium::optional< ::std::vector< ::std::string > >*)nullptr );
     _nout.inline_array_field = n_inline_array_field;
-    ::std::shared_ptr< ::smoke::Nullable::SomeMap > n_map_field = convert_from_jni(
+    ::genium::optional< ::smoke::Nullable::SomeMap > n_map_field = convert_from_jni(
         _jenv,
         genium::jni::get_object_field_value(
         _jenv,
         _jinput,
         "mapField",
         "Ljava/util/Map;"),
-        (::std::shared_ptr< ::smoke::Nullable::SomeMap >*)nullptr );
+        (::genium::optional< ::smoke::Nullable::SomeMap >*)nullptr );
     _nout.map_field = n_map_field;
     ::std::shared_ptr< ::smoke::SomeInterface > n_instance_field = convert_from_jni(
         _jenv,
@@ -121,12 +121,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::N
     _nout.instance_field = n_instance_field;
     return _nout;
 }
-std::shared_ptr<::smoke::Nullable::NullableStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Nullable::NullableStruct>* dummy)
+genium::optional<::smoke::Nullable::NullableStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, genium::optional<::smoke::Nullable::NullableStruct>* dummy)
 {
     return _jinput
-        ? std::make_shared<::smoke::Nullable::NullableStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Nullable::NullableStruct*)nullptr))
-        : std::shared_ptr<::smoke::Nullable::NullableStruct>{};
+        ? genium::optional<::smoke::Nullable::NullableStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Nullable::NullableStruct*)nullptr))
+        : genium::optional<::smoke::Nullable::NullableStruct>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Nullable$NullableStruct", ::smoke::Nullable::NullableStruct)
 JniReference<jobject>
@@ -161,7 +161,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Nullable::NullableStruct& _ninput)
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Nullable::NullableStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const genium::optional<::smoke::Nullable::NullableStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
@@ -169,62 +169,62 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Nullable::NullableS
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Nullable::NullableIntsStruct* dummy)
 {
     ::smoke::Nullable::NullableIntsStruct _nout{};
-    ::std::shared_ptr< int8_t > n_int8_field = genium::jni::get_field_value(
+    ::genium::optional< int8_t > n_int8_field = genium::jni::get_field_value(
         _jenv,
         _jinput,
         "int8Field",
-        (::std::shared_ptr< int8_t >*)nullptr );
+        (::genium::optional< int8_t >*)nullptr );
     _nout.int8_field = n_int8_field;
-    ::std::shared_ptr< int16_t > n_int16_field = genium::jni::get_field_value(
+    ::genium::optional< int16_t > n_int16_field = genium::jni::get_field_value(
         _jenv,
         _jinput,
         "int16Field",
-        (::std::shared_ptr< int16_t >*)nullptr );
+        (::genium::optional< int16_t >*)nullptr );
     _nout.int16_field = n_int16_field;
-    ::std::shared_ptr< int32_t > n_int32_field = genium::jni::get_field_value(
+    ::genium::optional< int32_t > n_int32_field = genium::jni::get_field_value(
         _jenv,
         _jinput,
         "int32Field",
-        (::std::shared_ptr< int32_t >*)nullptr );
+        (::genium::optional< int32_t >*)nullptr );
     _nout.int32_field = n_int32_field;
-    ::std::shared_ptr< int64_t > n_int64_field = genium::jni::get_field_value(
+    ::genium::optional< int64_t > n_int64_field = genium::jni::get_field_value(
         _jenv,
         _jinput,
         "int64Field",
-        (::std::shared_ptr< int64_t >*)nullptr );
+        (::genium::optional< int64_t >*)nullptr );
     _nout.int64_field = n_int64_field;
-    ::std::shared_ptr< uint8_t > n_uint8_field = genium::jni::get_field_value(
+    ::genium::optional< uint8_t > n_uint8_field = genium::jni::get_field_value(
         _jenv,
         _jinput,
         "uint8Field",
-        (::std::shared_ptr< uint8_t >*)nullptr );
+        (::genium::optional< uint8_t >*)nullptr );
     _nout.uint8_field = n_uint8_field;
-    ::std::shared_ptr< uint16_t > n_uint16_field = genium::jni::get_field_value(
+    ::genium::optional< uint16_t > n_uint16_field = genium::jni::get_field_value(
         _jenv,
         _jinput,
         "uint16Field",
-        (::std::shared_ptr< uint16_t >*)nullptr );
+        (::genium::optional< uint16_t >*)nullptr );
     _nout.uint16_field = n_uint16_field;
-    ::std::shared_ptr< uint32_t > n_uint32_field = genium::jni::get_field_value(
+    ::genium::optional< uint32_t > n_uint32_field = genium::jni::get_field_value(
         _jenv,
         _jinput,
         "uint32Field",
-        (::std::shared_ptr< uint32_t >*)nullptr );
+        (::genium::optional< uint32_t >*)nullptr );
     _nout.uint32_field = n_uint32_field;
-    ::std::shared_ptr< uint64_t > n_uint64_field = genium::jni::get_field_value(
+    ::genium::optional< uint64_t > n_uint64_field = genium::jni::get_field_value(
         _jenv,
         _jinput,
         "uint64Field",
-        (::std::shared_ptr< uint64_t >*)nullptr );
+        (::genium::optional< uint64_t >*)nullptr );
     _nout.uint64_field = n_uint64_field;
     return _nout;
 }
-std::shared_ptr<::smoke::Nullable::NullableIntsStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::shared_ptr<::smoke::Nullable::NullableIntsStruct>* dummy)
+genium::optional<::smoke::Nullable::NullableIntsStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, genium::optional<::smoke::Nullable::NullableIntsStruct>* dummy)
 {
     return _jinput
-        ? std::make_shared<::smoke::Nullable::NullableIntsStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Nullable::NullableIntsStruct*)nullptr))
-        : std::shared_ptr<::smoke::Nullable::NullableIntsStruct>{};
+        ? genium::optional<::smoke::Nullable::NullableIntsStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Nullable::NullableIntsStruct*)nullptr))
+        : genium::optional<::smoke::Nullable::NullableIntsStruct>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Nullable$NullableIntsStruct", ::smoke::Nullable::NullableIntsStruct)
 JniReference<jobject>
@@ -251,7 +251,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Nullable::NullableIntsStruct& _ninp
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::Nullable::NullableIntsStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const genium::optional<::smoke::Nullable::NullableIntsStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

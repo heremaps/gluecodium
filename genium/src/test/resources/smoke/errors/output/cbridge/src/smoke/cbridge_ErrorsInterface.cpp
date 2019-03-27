@@ -1,6 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
+#include "Optional.h"
 #include "cbridge/include/smoke/cbridge_ErrorsInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"

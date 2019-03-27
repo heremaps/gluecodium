@@ -34,11 +34,6 @@ public class Arrays {
             lastUpdatedTimeStamp = moveFromCType(examples_Arrays_SyncResult_lastUpdatedTimeStamp_get(cHandle))
             numberOfChanges = moveFromCType(examples_Arrays_SyncResult_numberOfChanges_get(cHandle))
         }
-        internal func convertToCType() -> _baseRef {
-            let c_lastUpdatedTimeStamp = moveToCType(lastUpdatedTimeStamp)
-            let c_numberOfChanges = moveToCType(numberOfChanges)
-            return examples_Arrays_SyncResult_create_handle(c_lastUpdatedTimeStamp.ref, c_numberOfChanges.ref)
-        }
     }
     public static func explicitArrayMethod(input: [Arrays.SyncResult]) -> [Arrays.SyncResult] {
         let c_input = moveToCType(input)
@@ -92,7 +87,9 @@ internal func moveFromCType(_ handle: _baseRef) -> Arrays.SyncResult {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Arrays.SyncResult) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_lastUpdatedTimeStamp = moveToCType(swiftType.lastUpdatedTimeStamp)
+    let c_numberOfChanges = moveToCType(swiftType.numberOfChanges)
+    return RefHolder(examples_Arrays_SyncResult_create_handle(c_lastUpdatedTimeStamp.ref, c_numberOfChanges.ref))
 }
 internal func moveToCType(_ swiftType: Arrays.SyncResult) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Arrays_SyncResult_release_handle)
@@ -114,7 +111,9 @@ internal func copyToCType(_ swiftType: Arrays.SyncResult?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(examples_Arrays_SyncResult_make_optional_handle(copyToCType(swiftType).ref))
+    let c_lastUpdatedTimeStamp = moveToCType(swiftType.lastUpdatedTimeStamp)
+    let c_numberOfChanges = moveToCType(swiftType.numberOfChanges)
+    return RefHolder(examples_Arrays_SyncResult_create_optional_handle(c_lastUpdatedTimeStamp.ref, c_numberOfChanges.ref))
 }
 internal func moveToCType(_ swiftType: Arrays.SyncResult?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Arrays_SyncResult_release_optional_handle)

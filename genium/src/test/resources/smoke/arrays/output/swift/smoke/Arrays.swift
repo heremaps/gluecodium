@@ -53,10 +53,6 @@ public class Arrays {
         internal init(cHandle: _baseRef) {
             value = moveFromCType(smoke_Arrays_BasicStruct_value_get(cHandle))
         }
-        internal func convertToCType() -> _baseRef {
-            let c_value = moveToCType(value)
-            return smoke_Arrays_BasicStruct_create_handle(c_value.ref)
-        }
     }
     public struct ExternalStruct {
         public var string: String
@@ -65,10 +61,6 @@ public class Arrays {
         }
         internal init(cHandle: _baseRef) {
             string = moveFromCType(smoke_Arrays_ExternalStruct_string_get(cHandle))
-        }
-        internal func convertToCType() -> _baseRef {
-            let c_string = moveToCType(string)
-            return smoke_Arrays_ExternalStruct_create_handle(c_string.ref)
         }
     }
     public struct FancyStruct {
@@ -84,12 +76,6 @@ public class Arrays {
             messages = moveFromCType(smoke_Arrays_FancyStruct_messages_get(cHandle))
             numbers = moveFromCType(smoke_Arrays_FancyStruct_numbers_get(cHandle))
             image = moveFromCType(smoke_Arrays_FancyStruct_image_get(cHandle))
-        }
-        internal func convertToCType() -> _baseRef {
-            let c_messages = moveToCType(messages)
-            let c_numbers = moveToCType(numbers)
-            let c_image = moveToCType(image)
-            return smoke_Arrays_FancyStruct_create_handle(c_messages.ref, c_numbers.ref, c_image.ref)
         }
     }
     public static func methodWithArray(input: [String]) -> [String] {
@@ -181,7 +167,8 @@ internal func moveFromCType(_ handle: _baseRef) -> Arrays.BasicStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Arrays.BasicStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_value = moveToCType(swiftType.value)
+    return RefHolder(smoke_Arrays_BasicStruct_create_handle(c_value.ref))
 }
 internal func moveToCType(_ swiftType: Arrays.BasicStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Arrays_BasicStruct_release_handle)
@@ -203,7 +190,8 @@ internal func copyToCType(_ swiftType: Arrays.BasicStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_Arrays_BasicStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_value = moveToCType(swiftType.value)
+    return RefHolder(smoke_Arrays_BasicStruct_create_optional_handle(c_value.ref))
 }
 internal func moveToCType(_ swiftType: Arrays.BasicStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Arrays_BasicStruct_release_optional_handle)
@@ -218,7 +206,8 @@ internal func moveFromCType(_ handle: _baseRef) -> Arrays.ExternalStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Arrays.ExternalStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_string = moveToCType(swiftType.string)
+    return RefHolder(smoke_Arrays_ExternalStruct_create_handle(c_string.ref))
 }
 internal func moveToCType(_ swiftType: Arrays.ExternalStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Arrays_ExternalStruct_release_handle)
@@ -240,7 +229,8 @@ internal func copyToCType(_ swiftType: Arrays.ExternalStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_Arrays_ExternalStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_string = moveToCType(swiftType.string)
+    return RefHolder(smoke_Arrays_ExternalStruct_create_optional_handle(c_string.ref))
 }
 internal func moveToCType(_ swiftType: Arrays.ExternalStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Arrays_ExternalStruct_release_optional_handle)
@@ -255,7 +245,10 @@ internal func moveFromCType(_ handle: _baseRef) -> Arrays.FancyStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Arrays.FancyStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_messages = moveToCType(swiftType.messages)
+    let c_numbers = moveToCType(swiftType.numbers)
+    let c_image = moveToCType(swiftType.image)
+    return RefHolder(smoke_Arrays_FancyStruct_create_handle(c_messages.ref, c_numbers.ref, c_image.ref))
 }
 internal func moveToCType(_ swiftType: Arrays.FancyStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Arrays_FancyStruct_release_handle)
@@ -277,7 +270,10 @@ internal func copyToCType(_ swiftType: Arrays.FancyStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_Arrays_FancyStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_messages = moveToCType(swiftType.messages)
+    let c_numbers = moveToCType(swiftType.numbers)
+    let c_image = moveToCType(swiftType.image)
+    return RefHolder(smoke_Arrays_FancyStruct_create_optional_handle(c_messages.ref, c_numbers.ref, c_image.ref))
 }
 internal func moveToCType(_ swiftType: Arrays.FancyStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Arrays_FancyStruct_release_optional_handle)

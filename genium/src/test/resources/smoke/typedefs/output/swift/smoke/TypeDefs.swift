@@ -45,10 +45,6 @@ public class TypeDefs {
         internal init(cHandle: _baseRef) {
             field = moveFromCType(smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_field_get(cHandle))
         }
-        internal func convertToCType() -> _baseRef {
-            let c_field = moveToCType(field)
-            return smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_handle(c_field.ref)
-        }
     }
     public struct TestStruct {
         public var something: String
@@ -57,10 +53,6 @@ public class TypeDefs {
         }
         internal init(cHandle: _baseRef) {
             something = moveFromCType(smoke_TypeDefs_TestStruct_something_get(cHandle))
-        }
-        internal func convertToCType() -> _baseRef {
-            let c_something = moveToCType(something)
-            return smoke_TypeDefs_TestStruct_create_handle(c_something.ref)
         }
     }
     public static func methodWithPrimitiveTypeDef(input: TypeDefs.PrimitiveTypeDef) -> TypeDefs.PrimitiveTypeDef {
@@ -131,7 +123,8 @@ internal func moveFromCType(_ handle: _baseRef) -> TypeDefs.StructHavingAliasFie
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: TypeDefs.StructHavingAliasFieldDefinedBelow) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_field = moveToCType(swiftType.field)
+    return RefHolder(smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_handle(c_field.ref))
 }
 internal func moveToCType(_ swiftType: TypeDefs.StructHavingAliasFieldDefinedBelow) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_release_handle)
@@ -153,7 +146,8 @@ internal func copyToCType(_ swiftType: TypeDefs.StructHavingAliasFieldDefinedBel
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_make_optional_handle(copyToCType(swiftType).ref))
+    let c_field = moveToCType(swiftType.field)
+    return RefHolder(smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_optional_handle(c_field.ref))
 }
 internal func moveToCType(_ swiftType: TypeDefs.StructHavingAliasFieldDefinedBelow?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_release_optional_handle)
@@ -168,7 +162,8 @@ internal func moveFromCType(_ handle: _baseRef) -> TypeDefs.TestStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: TypeDefs.TestStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_something = moveToCType(swiftType.something)
+    return RefHolder(smoke_TypeDefs_TestStruct_create_handle(c_something.ref))
 }
 internal func moveToCType(_ swiftType: TypeDefs.TestStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeDefs_TestStruct_release_handle)
@@ -190,7 +185,8 @@ internal func copyToCType(_ swiftType: TypeDefs.TestStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_TypeDefs_TestStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_something = moveToCType(swiftType.something)
+    return RefHolder(smoke_TypeDefs_TestStruct_create_optional_handle(c_something.ref))
 }
 internal func moveToCType(_ swiftType: TypeDefs.TestStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeDefs_TestStruct_release_optional_handle)

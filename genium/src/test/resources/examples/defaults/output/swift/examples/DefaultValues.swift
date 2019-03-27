@@ -46,14 +46,6 @@ public class DefaultValues {
             stringField = moveFromCType(examples_DefaultValues_StructWithDefaults_stringField_get(cHandle))
             enumField = moveFromCType(examples_DefaultValues_StructWithDefaults_enumField_get(cHandle))
         }
-        internal func convertToCType() -> _baseRef {
-            let c_intField = moveToCType(intField)
-            let c_floatField = moveToCType(floatField)
-            let c_boolField = moveToCType(boolField)
-            let c_stringField = moveToCType(stringField)
-            let c_enumField = moveToCType(enumField)
-            return examples_DefaultValues_StructWithDefaults_create_handle(c_intField.ref, c_floatField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref)
-        }
     }
 }
 extension DefaultValues: NativeBase {
@@ -99,7 +91,12 @@ internal func moveFromCType(_ handle: _baseRef) -> DefaultValues.StructWithDefau
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: DefaultValues.StructWithDefaults) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_intField = moveToCType(swiftType.intField)
+    let c_floatField = moveToCType(swiftType.floatField)
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    return RefHolder(examples_DefaultValues_StructWithDefaults_create_handle(c_intField.ref, c_floatField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref))
 }
 internal func moveToCType(_ swiftType: DefaultValues.StructWithDefaults) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_DefaultValues_StructWithDefaults_release_handle)
@@ -121,7 +118,12 @@ internal func copyToCType(_ swiftType: DefaultValues.StructWithDefaults?) -> Ref
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(examples_DefaultValues_StructWithDefaults_make_optional_handle(copyToCType(swiftType).ref))
+    let c_intField = moveToCType(swiftType.intField)
+    let c_floatField = moveToCType(swiftType.floatField)
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    return RefHolder(examples_DefaultValues_StructWithDefaults_create_optional_handle(c_intField.ref, c_floatField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref))
 }
 internal func moveToCType(_ swiftType: DefaultValues.StructWithDefaults?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_DefaultValues_StructWithDefaults_release_optional_handle)

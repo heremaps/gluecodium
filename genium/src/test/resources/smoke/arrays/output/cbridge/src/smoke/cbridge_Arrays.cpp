@@ -1,6 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
+#include "Optional.h"
 #include "alien/FooEnum.h"
 #include "alien/FooStruct.h"
 #include "cbridge/include/smoke/cbridge_Arrays.h"
@@ -31,17 +32,19 @@ smoke_Arrays_BasicStruct_release_handle( _baseRef handle )
     delete get_pointer<::smoke::Arrays::BasicStruct>( handle );
 }
 _baseRef
-smoke_Arrays_BasicStruct_make_optional_handle( _baseRef handle )
+smoke_Arrays_BasicStruct_create_optional_handle(double value)
 {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::Arrays::BasicStruct>( reinterpret_cast<::smoke::Arrays::BasicStruct*>( handle ) ) );
+    auto _struct = new ( std::nothrow ) genium::optional<::smoke::Arrays::BasicStruct>( ::smoke::Arrays::BasicStruct( ) );
+    (*_struct)->value = value;
+    return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_Arrays_BasicStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::Arrays::BasicStruct>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::Arrays::BasicStruct>*>( handle ) );
 }
 void smoke_Arrays_BasicStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<::smoke::Arrays::BasicStruct>*>( handle );
+    delete reinterpret_cast<genium::optional<::smoke::Arrays::BasicStruct>*>( handle );
 }
 double smoke_Arrays_BasicStruct_value_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Arrays::BasicStruct>(handle);
@@ -60,17 +63,19 @@ smoke_Arrays_ExternalStruct_release_handle( _baseRef handle )
     delete get_pointer<::alien::FooStruct>( handle );
 }
 _baseRef
-smoke_Arrays_ExternalStruct_make_optional_handle( _baseRef handle )
+smoke_Arrays_ExternalStruct_create_optional_handle(_baseRef string)
 {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::alien::FooStruct>( reinterpret_cast<::alien::FooStruct*>( handle ) ) );
+    auto _struct = new ( std::nothrow ) genium::optional<::alien::FooStruct>( ::alien::FooStruct( ) );
+    (*_struct)->string = Conversion<std::string>::toCpp( string );
+    return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_Arrays_ExternalStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::alien::FooStruct>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::alien::FooStruct>*>( handle ) );
 }
 void smoke_Arrays_ExternalStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<::alien::FooStruct>*>( handle );
+    delete reinterpret_cast<genium::optional<::alien::FooStruct>*>( handle );
 }
 _baseRef smoke_Arrays_ExternalStruct_string_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::alien::FooStruct>(handle);
@@ -91,17 +96,21 @@ smoke_Arrays_FancyStruct_release_handle( _baseRef handle )
     delete get_pointer<::smoke::Arrays::FancyStruct>( handle );
 }
 _baseRef
-smoke_Arrays_FancyStruct_make_optional_handle( _baseRef handle )
+smoke_Arrays_FancyStruct_create_optional_handle(_baseRef messages, _baseRef numbers, _baseRef image)
 {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::Arrays::FancyStruct>( reinterpret_cast<::smoke::Arrays::FancyStruct*>( handle ) ) );
+    auto _struct = new ( std::nothrow ) genium::optional<::smoke::Arrays::FancyStruct>( ::smoke::Arrays::FancyStruct( ) );
+    (*_struct)->messages = Conversion<std::vector<std::string>>::toCpp( messages );
+    (*_struct)->numbers = Conversion<std::vector<uint8_t>>::toCpp( numbers );
+    (*_struct)->image = Conversion<::std::shared_ptr< ::std::vector< uint8_t > >>::toCpp( image );
+    return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_Arrays_FancyStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::Arrays::FancyStruct>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::Arrays::FancyStruct>*>( handle ) );
 }
 void smoke_Arrays_FancyStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<::smoke::Arrays::FancyStruct>*>( handle );
+    delete reinterpret_cast<genium::optional<::smoke::Arrays::FancyStruct>*>( handle );
 }
 _baseRef smoke_Arrays_FancyStruct_messages_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Arrays::FancyStruct>(handle);
@@ -189,13 +198,13 @@ _baseRef smoke_Arrays_ErrorCodeToMessageMap_iterator_value(_baseRef iterator_han
     return Conversion<std::string>::toBaseRef(value);
 }
 _baseRef smoke_Arrays_ErrorCodeToMessageMap_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<int32_t, std::string>>( new ( std::nothrow ) std::unordered_map<int32_t, std::string>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::unordered_map<int32_t, std::string>>( std::unordered_map<int32_t, std::string>( ) ) );
 }
 void smoke_Arrays_ErrorCodeToMessageMap_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<std::unordered_map<int32_t, std::string>>*>( handle );
+    delete reinterpret_cast<genium::optional<std::unordered_map<int32_t, std::string>>*>( handle );
 }
 _baseRef smoke_Arrays_ErrorCodeToMessageMap_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<int32_t, std::string>>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::unordered_map<int32_t, std::string>>*>( handle ) );
 }
 _baseRef smoke_Arrays_ErrorCodeToProfileIdMap_create_handle() {
     return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<int32_t, std::string>() );
@@ -227,11 +236,11 @@ _baseRef smoke_Arrays_ErrorCodeToProfileIdMap_iterator_value(_baseRef iterator_h
     return Conversion<std::string>::toBaseRef(value);
 }
 _baseRef smoke_Arrays_ErrorCodeToProfileIdMap_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<int32_t, std::string>>( new ( std::nothrow ) std::unordered_map<int32_t, std::string>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::unordered_map<int32_t, std::string>>( std::unordered_map<int32_t, std::string>( ) ) );
 }
 void smoke_Arrays_ErrorCodeToProfileIdMap_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<std::unordered_map<int32_t, std::string>>*>( handle );
+    delete reinterpret_cast<genium::optional<std::unordered_map<int32_t, std::string>>*>( handle );
 }
 _baseRef smoke_Arrays_ErrorCodeToProfileIdMap_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<int32_t, std::string>>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::unordered_map<int32_t, std::string>>*>( handle ) );
 }

@@ -30,10 +30,6 @@ internal class InternalClass {
         internal init(cHandle: _baseRef) {
             stringField = moveFromCType(examples_InternalClass_InternalStruct_stringField_get(cHandle))
         }
-        internal func convertToCType() -> _baseRef {
-            let c_stringField = moveToCType(stringField)
-            return examples_InternalClass_InternalStruct_create_handle(c_stringField.ref)
-        }
     }
     internal func internalMethod(input: InternalClass.InternalStruct) -> Void {
         let c_input = moveToCType(input)
@@ -83,7 +79,8 @@ internal func moveFromCType(_ handle: _baseRef) -> InternalClass.InternalStruct 
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: InternalClass.InternalStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_stringField = moveToCType(swiftType.stringField)
+    return RefHolder(examples_InternalClass_InternalStruct_create_handle(c_stringField.ref))
 }
 internal func moveToCType(_ swiftType: InternalClass.InternalStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_InternalClass_InternalStruct_release_handle)
@@ -105,7 +102,8 @@ internal func copyToCType(_ swiftType: InternalClass.InternalStruct?) -> RefHold
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(examples_InternalClass_InternalStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_stringField = moveToCType(swiftType.stringField)
+    return RefHolder(examples_InternalClass_InternalStruct_create_optional_handle(c_stringField.ref))
 }
 internal func moveToCType(_ swiftType: InternalClass.InternalStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_InternalClass_InternalStruct_release_optional_handle)

@@ -8,8 +8,8 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "Export.h"
+#include "Optional.h"
 #include <cstdint>
-#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -43,17 +43,17 @@ struct _GENIUM_CPP_EXPORT EquatableStruct {
     bool operator!=( const EquatableStruct& rhs ) const;
 };
 struct _GENIUM_CPP_EXPORT EquatableNullableStruct {
-    ::std::shared_ptr< bool > bool_field;
-    ::std::shared_ptr< int32_t > int_field;
-    ::std::shared_ptr< uint16_t > uint_field;
-    ::std::shared_ptr< float > float_field;
-    ::std::shared_ptr< ::std::string > string_field;
-    ::std::shared_ptr< ::smoke::NestedEquatableStruct > struct_field;
-    ::std::shared_ptr< ::smoke::SomeEnum > enum_field;
-    ::std::shared_ptr< ::std::vector< ::std::string > > array_field;
-    ::std::shared_ptr< ::smoke::ErrorCodeToMessageMap > map_field;
+    ::genium::optional< bool > bool_field;
+    ::genium::optional< int32_t > int_field;
+    ::genium::optional< uint16_t > uint_field;
+    ::genium::optional< float > float_field;
+    ::genium::optional< ::std::string > string_field;
+    ::genium::optional< ::smoke::NestedEquatableStruct > struct_field;
+    ::genium::optional< ::smoke::SomeEnum > enum_field;
+    ::genium::optional< ::std::vector< ::std::string > > array_field;
+    ::genium::optional< ::smoke::ErrorCodeToMessageMap > map_field;
     EquatableNullableStruct( );
-    EquatableNullableStruct( const ::std::shared_ptr< bool >& bool_field, const ::std::shared_ptr< int32_t >& int_field, const ::std::shared_ptr< uint16_t >& uint_field, const ::std::shared_ptr< float >& float_field, const ::std::shared_ptr< ::std::string >& string_field, const ::std::shared_ptr< ::smoke::NestedEquatableStruct >& struct_field, const ::std::shared_ptr< ::smoke::SomeEnum >& enum_field, const ::std::shared_ptr< ::std::vector< ::std::string > >& array_field, const ::std::shared_ptr< ::smoke::ErrorCodeToMessageMap >& map_field );
+    EquatableNullableStruct( const ::genium::optional< bool >& bool_field, const ::genium::optional< int32_t >& int_field, const ::genium::optional< uint16_t >& uint_field, const ::genium::optional< float >& float_field, const ::genium::optional< ::std::string >& string_field, const ::genium::optional< ::smoke::NestedEquatableStruct >& struct_field, const ::genium::optional< ::smoke::SomeEnum >& enum_field, const ::genium::optional< ::std::vector< ::std::string > >& array_field, const ::genium::optional< ::smoke::ErrorCodeToMessageMap >& map_field );
     bool operator==( const EquatableNullableStruct& rhs ) const;
     bool operator!=( const EquatableNullableStruct& rhs ) const;
 };

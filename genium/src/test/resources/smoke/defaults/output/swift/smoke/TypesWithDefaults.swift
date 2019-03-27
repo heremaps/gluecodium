@@ -62,16 +62,6 @@ public struct StructWithDefaults {
         stringField = moveFromCType(smoke_TypesWithDefaults_StructWithDefaults_stringField_get(cHandle))
         enumField = moveFromCType(smoke_TypesWithDefaults_StructWithDefaults_enumField_get(cHandle))
     }
-    internal func convertToCType() -> _baseRef {
-        let c_intField = moveToCType(intField)
-        let c_uintField = moveToCType(uintField)
-        let c_floatField = moveToCType(floatField)
-        let c_doubleField = moveToCType(doubleField)
-        let c_boolField = moveToCType(boolField)
-        let c_stringField = moveToCType(stringField)
-        let c_enumField = moveToCType(enumField)
-        return smoke_TypesWithDefaults_StructWithDefaults_create_handle(c_intField.ref, c_uintField.ref, c_floatField.ref, c_doubleField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref)
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> StructWithDefaults {
     return StructWithDefaults(cHandle: handle)
@@ -83,7 +73,14 @@ internal func moveFromCType(_ handle: _baseRef) -> StructWithDefaults {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: StructWithDefaults) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_intField = moveToCType(swiftType.intField)
+    let c_uintField = moveToCType(swiftType.uintField)
+    let c_floatField = moveToCType(swiftType.floatField)
+    let c_doubleField = moveToCType(swiftType.doubleField)
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    return RefHolder(smoke_TypesWithDefaults_StructWithDefaults_create_handle(c_intField.ref, c_uintField.ref, c_floatField.ref, c_doubleField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref))
 }
 internal func moveToCType(_ swiftType: StructWithDefaults) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_StructWithDefaults_release_handle)
@@ -105,7 +102,14 @@ internal func copyToCType(_ swiftType: StructWithDefaults?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_TypesWithDefaults_StructWithDefaults_make_optional_handle(copyToCType(swiftType).ref))
+    let c_intField = moveToCType(swiftType.intField)
+    let c_uintField = moveToCType(swiftType.uintField)
+    let c_floatField = moveToCType(swiftType.floatField)
+    let c_doubleField = moveToCType(swiftType.doubleField)
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    return RefHolder(smoke_TypesWithDefaults_StructWithDefaults_create_optional_handle(c_intField.ref, c_uintField.ref, c_floatField.ref, c_doubleField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref))
 }
 internal func moveToCType(_ swiftType: StructWithDefaults?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_StructWithDefaults_release_optional_handle)
@@ -139,17 +143,6 @@ public struct ImmutableStructWithDefaults {
         enumField = moveFromCType(smoke_TypesWithDefaults_ImmutableStructWithDefaults_enumField_get(cHandle))
         externalEnumField = moveFromCType(smoke_TypesWithDefaults_ImmutableStructWithDefaults_externalEnumField_get(cHandle))
     }
-    internal func convertToCType() -> _baseRef {
-        let c_intField = moveToCType(intField)
-        let c_uintField = moveToCType(uintField)
-        let c_floatField = moveToCType(floatField)
-        let c_doubleField = moveToCType(doubleField)
-        let c_boolField = moveToCType(boolField)
-        let c_stringField = moveToCType(stringField)
-        let c_enumField = moveToCType(enumField)
-        let c_externalEnumField = moveToCType(externalEnumField)
-        return smoke_TypesWithDefaults_ImmutableStructWithDefaults_create_handle(c_intField.ref, c_uintField.ref, c_floatField.ref, c_doubleField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref, c_externalEnumField.ref)
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> ImmutableStructWithDefaults {
     return ImmutableStructWithDefaults(cHandle: handle)
@@ -161,7 +154,15 @@ internal func moveFromCType(_ handle: _baseRef) -> ImmutableStructWithDefaults {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: ImmutableStructWithDefaults) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_intField = moveToCType(swiftType.intField)
+    let c_uintField = moveToCType(swiftType.uintField)
+    let c_floatField = moveToCType(swiftType.floatField)
+    let c_doubleField = moveToCType(swiftType.doubleField)
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    let c_externalEnumField = moveToCType(swiftType.externalEnumField)
+    return RefHolder(smoke_TypesWithDefaults_ImmutableStructWithDefaults_create_handle(c_intField.ref, c_uintField.ref, c_floatField.ref, c_doubleField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref, c_externalEnumField.ref))
 }
 internal func moveToCType(_ swiftType: ImmutableStructWithDefaults) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_ImmutableStructWithDefaults_release_handle)
@@ -183,7 +184,15 @@ internal func copyToCType(_ swiftType: ImmutableStructWithDefaults?) -> RefHolde
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_TypesWithDefaults_ImmutableStructWithDefaults_make_optional_handle(copyToCType(swiftType).ref))
+    let c_intField = moveToCType(swiftType.intField)
+    let c_uintField = moveToCType(swiftType.uintField)
+    let c_floatField = moveToCType(swiftType.floatField)
+    let c_doubleField = moveToCType(swiftType.doubleField)
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    let c_externalEnumField = moveToCType(swiftType.externalEnumField)
+    return RefHolder(smoke_TypesWithDefaults_ImmutableStructWithDefaults_create_optional_handle(c_intField.ref, c_uintField.ref, c_floatField.ref, c_doubleField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref, c_externalEnumField.ref))
 }
 internal func moveToCType(_ swiftType: ImmutableStructWithDefaults?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_ImmutableStructWithDefaults_release_optional_handle)

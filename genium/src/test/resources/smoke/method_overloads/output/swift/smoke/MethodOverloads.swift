@@ -35,11 +35,6 @@ public class MethodOverloads {
             x = moveFromCType(smoke_MethodOverloads_Point_x_get(cHandle))
             y = moveFromCType(smoke_MethodOverloads_Point_y_get(cHandle))
         }
-        internal func convertToCType() -> _baseRef {
-            let c_x = moveToCType(x)
-            let c_y = moveToCType(y)
-            return smoke_MethodOverloads_Point_create_handle(c_x.ref, c_y.ref)
-        }
     }
     public func isBoolean(input: Bool) -> Bool {
         let c_input = moveToCType(input)
@@ -127,7 +122,9 @@ internal func moveFromCType(_ handle: _baseRef) -> MethodOverloads.Point {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: MethodOverloads.Point) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_x = moveToCType(swiftType.x)
+    let c_y = moveToCType(swiftType.y)
+    return RefHolder(smoke_MethodOverloads_Point_create_handle(c_x.ref, c_y.ref))
 }
 internal func moveToCType(_ swiftType: MethodOverloads.Point) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_MethodOverloads_Point_release_handle)
@@ -149,7 +146,9 @@ internal func copyToCType(_ swiftType: MethodOverloads.Point?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_MethodOverloads_Point_make_optional_handle(copyToCType(swiftType).ref))
+    let c_x = moveToCType(swiftType.x)
+    let c_y = moveToCType(swiftType.y)
+    return RefHolder(smoke_MethodOverloads_Point_create_optional_handle(c_x.ref, c_y.ref))
 }
 internal func moveToCType(_ swiftType: MethodOverloads.Point?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_MethodOverloads_Point_release_optional_handle)

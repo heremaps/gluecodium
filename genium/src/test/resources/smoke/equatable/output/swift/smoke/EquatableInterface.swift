@@ -33,11 +33,6 @@ public class EquatableInterface {
             intField = moveFromCType(smoke_EquatableInterface_EquatableStruct_intField_get(cHandle))
             stringField = moveFromCType(smoke_EquatableInterface_EquatableStruct_stringField_get(cHandle))
         }
-        internal func convertToCType() -> _baseRef {
-            let c_intField = moveToCType(intField)
-            let c_stringField = moveToCType(stringField)
-            return smoke_EquatableInterface_EquatableStruct_create_handle(c_intField.ref, c_stringField.ref)
-        }
     }
 }
 extension EquatableInterface: NativeBase {
@@ -83,7 +78,9 @@ internal func moveFromCType(_ handle: _baseRef) -> EquatableInterface.EquatableS
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: EquatableInterface.EquatableStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_intField = moveToCType(swiftType.intField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    return RefHolder(smoke_EquatableInterface_EquatableStruct_create_handle(c_intField.ref, c_stringField.ref))
 }
 internal func moveToCType(_ swiftType: EquatableInterface.EquatableStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_EquatableInterface_EquatableStruct_release_handle)
@@ -105,7 +102,9 @@ internal func copyToCType(_ swiftType: EquatableInterface.EquatableStruct?) -> R
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_EquatableInterface_EquatableStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_intField = moveToCType(swiftType.intField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    return RefHolder(smoke_EquatableInterface_EquatableStruct_create_optional_handle(c_intField.ref, c_stringField.ref))
 }
 internal func moveToCType(_ swiftType: EquatableInterface.EquatableStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_EquatableInterface_EquatableStruct_release_optional_handle)

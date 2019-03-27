@@ -1,6 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
+#include "Optional.h"
 #include "cbridge/include/smoke/cbridge_ListenersWithReturnValues.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
@@ -32,17 +33,19 @@ smoke_ListenersWithReturnValues_ResultStruct_release_handle( _baseRef handle )
     delete get_pointer<::smoke::ListenersWithReturnValues::ResultStruct>( handle );
 }
 _baseRef
-smoke_ListenersWithReturnValues_ResultStruct_make_optional_handle( _baseRef handle )
+smoke_ListenersWithReturnValues_ResultStruct_create_optional_handle(double result)
 {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::ListenersWithReturnValues::ResultStruct>( reinterpret_cast<::smoke::ListenersWithReturnValues::ResultStruct*>( handle ) ) );
+    auto _struct = new ( std::nothrow ) genium::optional<::smoke::ListenersWithReturnValues::ResultStruct>( ::smoke::ListenersWithReturnValues::ResultStruct( ) );
+    (*_struct)->result = result;
+    return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_ListenersWithReturnValues_ResultStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle ) );
 }
 void smoke_ListenersWithReturnValues_ResultStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle );
+    delete reinterpret_cast<genium::optional<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle );
 }
 double smoke_ListenersWithReturnValues_ResultStruct_result_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::ListenersWithReturnValues::ResultStruct>(handle);
@@ -153,11 +156,11 @@ double smoke_ListenersWithReturnValues_StringToDouble_iterator_value(_baseRef it
     return value;
 }
 _baseRef smoke_ListenersWithReturnValues_StringToDouble_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<std::string, double>>( new ( std::nothrow ) std::unordered_map<std::string, double>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::unordered_map<std::string, double>>( std::unordered_map<std::string, double>( ) ) );
 }
 void smoke_ListenersWithReturnValues_StringToDouble_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<std::unordered_map<std::string, double>>*>( handle );
+    delete reinterpret_cast<genium::optional<std::unordered_map<std::string, double>>*>( handle );
 }
 _baseRef smoke_ListenersWithReturnValues_StringToDouble_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<std::string, double>>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::unordered_map<std::string, double>>*>( handle ) );
 }

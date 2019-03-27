@@ -12,7 +12,7 @@ extern "C" {
 #include <stdint.h>
 _GENIUM_C_EXPORT _baseRef smoke_MethodOverloads_Point_create_handle(double x, double y);
 _GENIUM_C_EXPORT void smoke_MethodOverloads_Point_release_handle(_baseRef handle);
-_GENIUM_C_EXPORT _baseRef smoke_MethodOverloads_Point_make_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_MethodOverloads_Point_create_optional_handle(double x, double y);
 _GENIUM_C_EXPORT _baseRef smoke_MethodOverloads_Point_unwrap_optional_handle(_baseRef handle);
 _GENIUM_C_EXPORT void smoke_MethodOverloads_Point_release_optional_handle(_baseRef handle);
 _GENIUM_C_EXPORT double smoke_MethodOverloads_Point_x_get(_baseRef handle);

@@ -68,10 +68,6 @@ public class Comments {
         internal init(cHandle: _baseRef) {
             someField = moveFromCType(smoke_Comments_SomeStruct_someField_get(cHandle))
         }
-        internal func convertToCType() -> _baseRef {
-            let c_someField = moveToCType(someField)
-            return smoke_Comments_SomeStruct_create_handle(c_someField.ref)
-        }
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
@@ -181,7 +177,8 @@ internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Comments.SomeStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_someField = moveToCType(swiftType.someField)
+    return RefHolder(smoke_Comments_SomeStruct_create_handle(c_someField.ref))
 }
 internal func moveToCType(_ swiftType: Comments.SomeStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Comments_SomeStruct_release_handle)
@@ -203,7 +200,8 @@ internal func copyToCType(_ swiftType: Comments.SomeStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_Comments_SomeStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_someField = moveToCType(swiftType.someField)
+    return RefHolder(smoke_Comments_SomeStruct_create_optional_handle(c_someField.ref))
 }
 internal func moveToCType(_ swiftType: Comments.SomeStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Comments_SomeStruct_release_optional_handle)

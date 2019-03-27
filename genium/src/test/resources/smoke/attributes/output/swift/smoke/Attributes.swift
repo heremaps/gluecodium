@@ -116,10 +116,6 @@ public class Attributes {
         internal init(cHandle: _baseRef) {
             value = moveFromCType(smoke_Attributes_ExampleStruct_value_get(cHandle))
         }
-        internal func convertToCType() -> _baseRef {
-            let c_value = moveToCType(value)
-            return smoke_Attributes_ExampleStruct_create_handle(c_value.ref)
-        }
     }
 }
 extension Attributes: NativeBase {
@@ -165,7 +161,8 @@ internal func moveFromCType(_ handle: _baseRef) -> Attributes.ExampleStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Attributes.ExampleStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_value = moveToCType(swiftType.value)
+    return RefHolder(smoke_Attributes_ExampleStruct_create_handle(c_value.ref))
 }
 internal func moveToCType(_ swiftType: Attributes.ExampleStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Attributes_ExampleStruct_release_handle)
@@ -187,7 +184,8 @@ internal func copyToCType(_ swiftType: Attributes.ExampleStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_Attributes_ExampleStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_value = moveToCType(swiftType.value)
+    return RefHolder(smoke_Attributes_ExampleStruct_create_optional_handle(c_value.ref))
 }
 internal func moveToCType(_ swiftType: Attributes.ExampleStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Attributes_ExampleStruct_release_optional_handle)

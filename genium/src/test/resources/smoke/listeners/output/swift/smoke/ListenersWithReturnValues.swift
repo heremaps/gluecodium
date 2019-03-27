@@ -177,10 +177,6 @@ public struct ResultStruct {
     internal init(cHandle: _baseRef) {
         result = moveFromCType(smoke_ListenersWithReturnValues_ResultStruct_result_get(cHandle))
     }
-    internal func convertToCType() -> _baseRef {
-        let c_result = moveToCType(result)
-        return smoke_ListenersWithReturnValues_ResultStruct_create_handle(c_result.ref)
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> ResultStruct {
     return ResultStruct(cHandle: handle)
@@ -192,7 +188,8 @@ internal func moveFromCType(_ handle: _baseRef) -> ResultStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: ResultStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_result = moveToCType(swiftType.result)
+    return RefHolder(smoke_ListenersWithReturnValues_ResultStruct_create_handle(c_result.ref))
 }
 internal func moveToCType(_ swiftType: ResultStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_ListenersWithReturnValues_ResultStruct_release_handle)
@@ -214,7 +211,8 @@ internal func copyToCType(_ swiftType: ResultStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_ListenersWithReturnValues_ResultStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_result = moveToCType(swiftType.result)
+    return RefHolder(smoke_ListenersWithReturnValues_ResultStruct_create_optional_handle(c_result.ref))
 }
 internal func moveToCType(_ swiftType: ResultStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_ListenersWithReturnValues_ResultStruct_release_optional_handle)

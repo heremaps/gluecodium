@@ -1,6 +1,7 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
+#include "Optional.h"
 #include "cbridge/include/smoke/cbridge_Maps.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "smoke/Maps.h"
@@ -29,17 +30,19 @@ smoke_Maps_SomeStruct_release_handle( _baseRef handle )
     delete get_pointer<::smoke::Maps::SomeStruct>( handle );
 }
 _baseRef
-smoke_Maps_SomeStruct_make_optional_handle( _baseRef handle )
+smoke_Maps_SomeStruct_create_optional_handle(_baseRef value)
 {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::Maps::SomeStruct>( reinterpret_cast<::smoke::Maps::SomeStruct*>( handle ) ) );
+    auto _struct = new ( std::nothrow ) genium::optional<::smoke::Maps::SomeStruct>( ::smoke::Maps::SomeStruct( ) );
+    (*_struct)->value = Conversion<std::string>::toCpp( value );
+    return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_Maps_SomeStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::Maps::SomeStruct>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::Maps::SomeStruct>*>( handle ) );
 }
 void smoke_Maps_SomeStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<::smoke::Maps::SomeStruct>*>( handle );
+    delete reinterpret_cast<genium::optional<::smoke::Maps::SomeStruct>*>( handle );
 }
 _baseRef smoke_Maps_SomeStruct_value_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Maps::SomeStruct>(handle);
@@ -58,17 +61,19 @@ smoke_Maps_StructWithMap_release_handle( _baseRef handle )
     delete get_pointer<::smoke::Maps::StructWithMap>( handle );
 }
 _baseRef
-smoke_Maps_StructWithMap_make_optional_handle( _baseRef handle )
+smoke_Maps_StructWithMap_create_optional_handle(_baseRef errorMapping)
 {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<::smoke::Maps::StructWithMap>( reinterpret_cast<::smoke::Maps::StructWithMap*>( handle ) ) );
+    auto _struct = new ( std::nothrow ) genium::optional<::smoke::Maps::StructWithMap>( ::smoke::Maps::StructWithMap( ) );
+    (*_struct)->error_mapping = Conversion<::smoke::Maps::ErrorCodeToMessageMap>::toCpp( errorMapping );
+    return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_Maps_StructWithMap_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<::smoke::Maps::StructWithMap>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::Maps::StructWithMap>*>( handle ) );
 }
 void smoke_Maps_StructWithMap_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<::smoke::Maps::StructWithMap>*>( handle );
+    delete reinterpret_cast<genium::optional<::smoke::Maps::StructWithMap>*>( handle );
 }
 _baseRef smoke_Maps_StructWithMap_errorMapping_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Maps::StructWithMap>(handle);
@@ -128,13 +133,13 @@ _baseRef smoke_Maps_ErrorCodeToMessageMap_iterator_value(_baseRef iterator_handl
     return Conversion<std::string>::toBaseRef(value);
 }
 _baseRef smoke_Maps_ErrorCodeToMessageMap_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<int32_t, std::string>>( new ( std::nothrow ) std::unordered_map<int32_t, std::string>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::unordered_map<int32_t, std::string>>( std::unordered_map<int32_t, std::string>( ) ) );
 }
 void smoke_Maps_ErrorCodeToMessageMap_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<std::unordered_map<int32_t, std::string>>*>( handle );
+    delete reinterpret_cast<genium::optional<std::unordered_map<int32_t, std::string>>*>( handle );
 }
 _baseRef smoke_Maps_ErrorCodeToMessageMap_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<int32_t, std::string>>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::unordered_map<int32_t, std::string>>*>( handle ) );
 }
 _baseRef smoke_Maps_NumberToStruct_create_handle() {
     return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>() );
@@ -166,13 +171,13 @@ _baseRef smoke_Maps_NumberToStruct_iterator_value(_baseRef iterator_handle) {
     return Conversion<::smoke::Maps::SomeStruct>::toBaseRef(value);
 }
 _baseRef smoke_Maps_NumberToStruct_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>>( new ( std::nothrow ) std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>>( std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>( ) ) );
 }
 void smoke_Maps_NumberToStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>>*>( handle );
+    delete reinterpret_cast<genium::optional<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>>*>( handle );
 }
 _baseRef smoke_Maps_NumberToStruct_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::unordered_map<uint8_t, ::smoke::Maps::SomeStruct>>*>( handle ) );
 }
 _baseRef smoke_Maps_NestedMap_create_handle() {
     return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>() );
@@ -204,13 +209,13 @@ _baseRef smoke_Maps_NestedMap_iterator_value(_baseRef iterator_handle) {
     return Conversion<::smoke::Maps::NumberToStruct>::toBaseRef(value);
 }
 _baseRef smoke_Maps_NestedMap_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>>( new ( std::nothrow ) std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>>( std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>( ) ) );
 }
 void smoke_Maps_NestedMap_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>>*>( handle );
+    delete reinterpret_cast<genium::optional<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>>*>( handle );
 }
 _baseRef smoke_Maps_NestedMap_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::unordered_map<uint8_t, ::smoke::Maps::NumberToStruct>>*>( handle ) );
 }
 _baseRef smoke_Maps_NumberToTypeDef_create_handle() {
     return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<uint8_t, std::string>() );
@@ -242,13 +247,13 @@ _baseRef smoke_Maps_NumberToTypeDef_iterator_value(_baseRef iterator_handle) {
     return Conversion<std::string>::toBaseRef(value);
 }
 _baseRef smoke_Maps_NumberToTypeDef_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<uint8_t, std::string>>( new ( std::nothrow ) std::unordered_map<uint8_t, std::string>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::unordered_map<uint8_t, std::string>>( std::unordered_map<uint8_t, std::string>( ) ) );
 }
 void smoke_Maps_NumberToTypeDef_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<std::unordered_map<uint8_t, std::string>>*>( handle );
+    delete reinterpret_cast<genium::optional<std::unordered_map<uint8_t, std::string>>*>( handle );
 }
 _baseRef smoke_Maps_NumberToTypeDef_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<uint8_t, std::string>>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::unordered_map<uint8_t, std::string>>*>( handle ) );
 }
 _baseRef smoke_Maps_TypeDefToNumber_create_handle() {
     return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, uint8_t>() );
@@ -280,13 +285,13 @@ uint8_t smoke_Maps_TypeDefToNumber_iterator_value(_baseRef iterator_handle) {
     return value;
 }
 _baseRef smoke_Maps_TypeDefToNumber_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<std::string, uint8_t>>( new ( std::nothrow ) std::unordered_map<std::string, uint8_t>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::unordered_map<std::string, uint8_t>>( std::unordered_map<std::string, uint8_t>( ) ) );
 }
 void smoke_Maps_TypeDefToNumber_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<std::unordered_map<std::string, uint8_t>>*>( handle );
+    delete reinterpret_cast<genium::optional<std::unordered_map<std::string, uint8_t>>*>( handle );
 }
 _baseRef smoke_Maps_TypeDefToNumber_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<std::string, uint8_t>>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::unordered_map<std::string, uint8_t>>*>( handle ) );
 }
 _baseRef smoke_Maps_StringToArray_create_handle() {
     return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, std::vector<int32_t>>() );
@@ -318,13 +323,13 @@ _baseRef smoke_Maps_StringToArray_iterator_value(_baseRef iterator_handle) {
     return Conversion<std::vector<int32_t>>::toBaseRef(value);
 }
 _baseRef smoke_Maps_StringToArray_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<std::string, std::vector<int32_t>>>( new ( std::nothrow ) std::unordered_map<std::string, std::vector<int32_t>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::unordered_map<std::string, std::vector<int32_t>>>( std::unordered_map<std::string, std::vector<int32_t>>( ) ) );
 }
 void smoke_Maps_StringToArray_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<std::unordered_map<std::string, std::vector<int32_t>>>*>( handle );
+    delete reinterpret_cast<genium::optional<std::unordered_map<std::string, std::vector<int32_t>>>*>( handle );
 }
 _baseRef smoke_Maps_StringToArray_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<std::string, std::vector<int32_t>>>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::unordered_map<std::string, std::vector<int32_t>>>*>( handle ) );
 }
 _baseRef smoke_Maps_StringToArrayOfTypeDefs_create_handle() {
     return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, std::vector<int32_t>>() );
@@ -356,13 +361,13 @@ _baseRef smoke_Maps_StringToArrayOfTypeDefs_iterator_value(_baseRef iterator_han
     return Conversion<std::vector<int32_t>>::toBaseRef(value);
 }
 _baseRef smoke_Maps_StringToArrayOfTypeDefs_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<std::string, std::vector<int32_t>>>( new ( std::nothrow ) std::unordered_map<std::string, std::vector<int32_t>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::unordered_map<std::string, std::vector<int32_t>>>( std::unordered_map<std::string, std::vector<int32_t>>( ) ) );
 }
 void smoke_Maps_StringToArrayOfTypeDefs_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<std::unordered_map<std::string, std::vector<int32_t>>>*>( handle );
+    delete reinterpret_cast<genium::optional<std::unordered_map<std::string, std::vector<int32_t>>>*>( handle );
 }
 _baseRef smoke_Maps_StringToArrayOfTypeDefs_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<std::string, std::vector<int32_t>>>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::unordered_map<std::string, std::vector<int32_t>>>*>( handle ) );
 }
 _baseRef smoke_Maps_NumberToInstance_create_handle() {
     return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>() );
@@ -394,11 +399,11 @@ _baseRef smoke_Maps_NumberToInstance_iterator_value(_baseRef iterator_handle) {
     return Conversion<std::shared_ptr<::smoke::MapsInstance>>::toBaseRef(value);
 }
 _baseRef smoke_Maps_NumberToInstance_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::shared_ptr<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>>( new ( std::nothrow ) std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>>( std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>( ) ) );
 }
 void smoke_Maps_NumberToInstance_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::shared_ptr<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>>*>( handle );
+    delete reinterpret_cast<genium::optional<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>>*>( handle );
 }
 _baseRef smoke_Maps_NumberToInstance_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( reinterpret_cast<std::shared_ptr<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>>*>( handle )->get( ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance>>>*>( handle ) );
 }

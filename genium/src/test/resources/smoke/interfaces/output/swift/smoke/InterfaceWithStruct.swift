@@ -95,10 +95,6 @@ public struct InnerStruct {
     internal init(cHandle: _baseRef) {
         value = moveFromCType(smoke_InterfaceWithStruct_InnerStruct_value_get(cHandle))
     }
-    internal func convertToCType() -> _baseRef {
-        let c_value = moveToCType(value)
-        return smoke_InterfaceWithStruct_InnerStruct_create_handle(c_value.ref)
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> InnerStruct {
     return InnerStruct(cHandle: handle)
@@ -110,7 +106,8 @@ internal func moveFromCType(_ handle: _baseRef) -> InnerStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: InnerStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_value = moveToCType(swiftType.value)
+    return RefHolder(smoke_InterfaceWithStruct_InnerStruct_create_handle(c_value.ref))
 }
 internal func moveToCType(_ swiftType: InnerStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InterfaceWithStruct_InnerStruct_release_handle)
@@ -132,7 +129,8 @@ internal func copyToCType(_ swiftType: InnerStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_InterfaceWithStruct_InnerStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_value = moveToCType(swiftType.value)
+    return RefHolder(smoke_InterfaceWithStruct_InnerStruct_create_optional_handle(c_value.ref))
 }
 internal func moveToCType(_ swiftType: InnerStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InterfaceWithStruct_InnerStruct_release_optional_handle)

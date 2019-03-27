@@ -14,11 +14,6 @@ public struct Point {
         x = moveFromCType(smoke_TypeCollection_Point_x_get(cHandle))
         y = moveFromCType(smoke_TypeCollection_Point_y_get(cHandle))
     }
-    internal func convertToCType() -> _baseRef {
-        let c_x = moveToCType(x)
-        let c_y = moveToCType(y)
-        return smoke_TypeCollection_Point_create_handle(c_x.ref, c_y.ref)
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> Point {
     return Point(cHandle: handle)
@@ -30,7 +25,9 @@ internal func moveFromCType(_ handle: _baseRef) -> Point {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Point) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_x = moveToCType(swiftType.x)
+    let c_y = moveToCType(swiftType.y)
+    return RefHolder(smoke_TypeCollection_Point_create_handle(c_x.ref, c_y.ref))
 }
 internal func moveToCType(_ swiftType: Point) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_Point_release_handle)
@@ -52,7 +49,9 @@ internal func copyToCType(_ swiftType: Point?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_TypeCollection_Point_make_optional_handle(copyToCType(swiftType).ref))
+    let c_x = moveToCType(swiftType.x)
+    let c_y = moveToCType(swiftType.y)
+    return RefHolder(smoke_TypeCollection_Point_create_optional_handle(c_x.ref, c_y.ref))
 }
 internal func moveToCType(_ swiftType: Point?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_Point_release_optional_handle)
@@ -71,12 +70,6 @@ public struct Color {
         green = moveFromCType(smoke_TypeCollection_Color_green_get(cHandle))
         blue = moveFromCType(smoke_TypeCollection_Color_blue_get(cHandle))
     }
-    internal func convertToCType() -> _baseRef {
-        let c_red = moveToCType(red)
-        let c_green = moveToCType(green)
-        let c_blue = moveToCType(blue)
-        return smoke_TypeCollection_Color_create_handle(c_red.ref, c_green.ref, c_blue.ref)
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> Color {
     return Color(cHandle: handle)
@@ -88,7 +81,10 @@ internal func moveFromCType(_ handle: _baseRef) -> Color {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Color) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_red = moveToCType(swiftType.red)
+    let c_green = moveToCType(swiftType.green)
+    let c_blue = moveToCType(swiftType.blue)
+    return RefHolder(smoke_TypeCollection_Color_create_handle(c_red.ref, c_green.ref, c_blue.ref))
 }
 internal func moveToCType(_ swiftType: Color) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_Color_release_handle)
@@ -110,7 +106,10 @@ internal func copyToCType(_ swiftType: Color?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_TypeCollection_Color_make_optional_handle(copyToCType(swiftType).ref))
+    let c_red = moveToCType(swiftType.red)
+    let c_green = moveToCType(swiftType.green)
+    let c_blue = moveToCType(swiftType.blue)
+    return RefHolder(smoke_TypeCollection_Color_create_optional_handle(c_red.ref, c_green.ref, c_blue.ref))
 }
 internal func moveToCType(_ swiftType: Color?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_Color_release_optional_handle)
@@ -126,11 +125,6 @@ public struct Line {
         a = moveFromCType(smoke_TypeCollection_Line_a_get(cHandle))
         b = moveFromCType(smoke_TypeCollection_Line_b_get(cHandle))
     }
-    internal func convertToCType() -> _baseRef {
-        let c_a = moveToCType(a)
-        let c_b = moveToCType(b)
-        return smoke_TypeCollection_Line_create_handle(c_a.ref, c_b.ref)
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> Line {
     return Line(cHandle: handle)
@@ -142,7 +136,9 @@ internal func moveFromCType(_ handle: _baseRef) -> Line {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Line) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_a = moveToCType(swiftType.a)
+    let c_b = moveToCType(swiftType.b)
+    return RefHolder(smoke_TypeCollection_Line_create_handle(c_a.ref, c_b.ref))
 }
 internal func moveToCType(_ swiftType: Line) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_Line_release_handle)
@@ -164,7 +160,9 @@ internal func copyToCType(_ swiftType: Line?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_TypeCollection_Line_make_optional_handle(copyToCType(swiftType).ref))
+    let c_a = moveToCType(swiftType.a)
+    let c_b = moveToCType(swiftType.b)
+    return RefHolder(smoke_TypeCollection_Line_create_optional_handle(c_a.ref, c_b.ref))
 }
 internal func moveToCType(_ swiftType: Line?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_Line_release_optional_handle)
@@ -180,11 +178,6 @@ public struct ColoredLine {
         line = moveFromCType(smoke_TypeCollection_ColoredLine_line_get(cHandle))
         color = moveFromCType(smoke_TypeCollection_ColoredLine_color_get(cHandle))
     }
-    internal func convertToCType() -> _baseRef {
-        let c_line = moveToCType(line)
-        let c_color = moveToCType(color)
-        return smoke_TypeCollection_ColoredLine_create_handle(c_line.ref, c_color.ref)
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> ColoredLine {
     return ColoredLine(cHandle: handle)
@@ -196,7 +189,9 @@ internal func moveFromCType(_ handle: _baseRef) -> ColoredLine {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: ColoredLine) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_line = moveToCType(swiftType.line)
+    let c_color = moveToCType(swiftType.color)
+    return RefHolder(smoke_TypeCollection_ColoredLine_create_handle(c_line.ref, c_color.ref))
 }
 internal func moveToCType(_ swiftType: ColoredLine) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_ColoredLine_release_handle)
@@ -218,7 +213,9 @@ internal func copyToCType(_ swiftType: ColoredLine?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_TypeCollection_ColoredLine_make_optional_handle(copyToCType(swiftType).ref))
+    let c_line = moveToCType(swiftType.line)
+    let c_color = moveToCType(swiftType.color)
+    return RefHolder(smoke_TypeCollection_ColoredLine_create_optional_handle(c_line.ref, c_color.ref))
 }
 internal func moveToCType(_ swiftType: ColoredLine?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_ColoredLine_release_optional_handle)
@@ -270,23 +267,6 @@ public struct AllTypesStruct {
         bytesField = moveFromCType(smoke_TypeCollection_AllTypesStruct_bytesField_get(cHandle))
         pointField = moveFromCType(smoke_TypeCollection_AllTypesStruct_pointField_get(cHandle))
     }
-    internal func convertToCType() -> _baseRef {
-        let c_int8Field = moveToCType(int8Field)
-        let c_uint8Field = moveToCType(uint8Field)
-        let c_int16Field = moveToCType(int16Field)
-        let c_uint16Field = moveToCType(uint16Field)
-        let c_int32Field = moveToCType(int32Field)
-        let c_uint32Field = moveToCType(uint32Field)
-        let c_int64Field = moveToCType(int64Field)
-        let c_uint64Field = moveToCType(uint64Field)
-        let c_floatField = moveToCType(floatField)
-        let c_doubleField = moveToCType(doubleField)
-        let c_stringField = moveToCType(stringField)
-        let c_booleanField = moveToCType(booleanField)
-        let c_bytesField = moveToCType(bytesField)
-        let c_pointField = moveToCType(pointField)
-        return smoke_TypeCollection_AllTypesStruct_create_handle(c_int8Field.ref, c_uint8Field.ref, c_int16Field.ref, c_uint16Field.ref, c_int32Field.ref, c_uint32Field.ref, c_int64Field.ref, c_uint64Field.ref, c_floatField.ref, c_doubleField.ref, c_stringField.ref, c_booleanField.ref, c_bytesField.ref, c_pointField.ref)
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> AllTypesStruct {
     return AllTypesStruct(cHandle: handle)
@@ -298,7 +278,21 @@ internal func moveFromCType(_ handle: _baseRef) -> AllTypesStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: AllTypesStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_int8Field = moveToCType(swiftType.int8Field)
+    let c_uint8Field = moveToCType(swiftType.uint8Field)
+    let c_int16Field = moveToCType(swiftType.int16Field)
+    let c_uint16Field = moveToCType(swiftType.uint16Field)
+    let c_int32Field = moveToCType(swiftType.int32Field)
+    let c_uint32Field = moveToCType(swiftType.uint32Field)
+    let c_int64Field = moveToCType(swiftType.int64Field)
+    let c_uint64Field = moveToCType(swiftType.uint64Field)
+    let c_floatField = moveToCType(swiftType.floatField)
+    let c_doubleField = moveToCType(swiftType.doubleField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_booleanField = moveToCType(swiftType.booleanField)
+    let c_bytesField = moveToCType(swiftType.bytesField)
+    let c_pointField = moveToCType(swiftType.pointField)
+    return RefHolder(smoke_TypeCollection_AllTypesStruct_create_handle(c_int8Field.ref, c_uint8Field.ref, c_int16Field.ref, c_uint16Field.ref, c_int32Field.ref, c_uint32Field.ref, c_int64Field.ref, c_uint64Field.ref, c_floatField.ref, c_doubleField.ref, c_stringField.ref, c_booleanField.ref, c_bytesField.ref, c_pointField.ref))
 }
 internal func moveToCType(_ swiftType: AllTypesStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_AllTypesStruct_release_handle)
@@ -320,7 +314,21 @@ internal func copyToCType(_ swiftType: AllTypesStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_TypeCollection_AllTypesStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_int8Field = moveToCType(swiftType.int8Field)
+    let c_uint8Field = moveToCType(swiftType.uint8Field)
+    let c_int16Field = moveToCType(swiftType.int16Field)
+    let c_uint16Field = moveToCType(swiftType.uint16Field)
+    let c_int32Field = moveToCType(swiftType.int32Field)
+    let c_uint32Field = moveToCType(swiftType.uint32Field)
+    let c_int64Field = moveToCType(swiftType.int64Field)
+    let c_uint64Field = moveToCType(swiftType.uint64Field)
+    let c_floatField = moveToCType(swiftType.floatField)
+    let c_doubleField = moveToCType(swiftType.doubleField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_booleanField = moveToCType(swiftType.booleanField)
+    let c_bytesField = moveToCType(swiftType.bytesField)
+    let c_pointField = moveToCType(swiftType.pointField)
+    return RefHolder(smoke_TypeCollection_AllTypesStruct_create_optional_handle(c_int8Field.ref, c_uint8Field.ref, c_int16Field.ref, c_uint16Field.ref, c_int32Field.ref, c_uint32Field.ref, c_int64Field.ref, c_uint64Field.ref, c_floatField.ref, c_doubleField.ref, c_stringField.ref, c_booleanField.ref, c_bytesField.ref, c_pointField.ref))
 }
 internal func moveToCType(_ swiftType: AllTypesStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypeCollection_AllTypesStruct_release_optional_handle)

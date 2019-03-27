@@ -16,12 +16,6 @@ public struct EquatableStruct: Equatable {
         stringField = moveFromCType(examples_Equatable_EquatableStruct_stringField_get(cHandle))
         structField = moveFromCType(examples_Equatable_EquatableStruct_structField_get(cHandle))
     }
-    internal func convertToCType() -> _baseRef {
-        let c_intField = moveToCType(intField)
-        let c_stringField = moveToCType(stringField)
-        let c_structField = moveToCType(structField)
-        return examples_Equatable_EquatableStruct_create_handle(c_intField.ref, c_stringField.ref, c_structField.ref)
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> EquatableStruct {
     return EquatableStruct(cHandle: handle)
@@ -33,7 +27,10 @@ internal func moveFromCType(_ handle: _baseRef) -> EquatableStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: EquatableStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_intField = moveToCType(swiftType.intField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_structField = moveToCType(swiftType.structField)
+    return RefHolder(examples_Equatable_EquatableStruct_create_handle(c_intField.ref, c_stringField.ref, c_structField.ref))
 }
 internal func moveToCType(_ swiftType: EquatableStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Equatable_EquatableStruct_release_handle)
@@ -55,7 +52,10 @@ internal func copyToCType(_ swiftType: EquatableStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(examples_Equatable_EquatableStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_intField = moveToCType(swiftType.intField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_structField = moveToCType(swiftType.structField)
+    return RefHolder(examples_Equatable_EquatableStruct_create_optional_handle(c_intField.ref, c_stringField.ref, c_structField.ref))
 }
 internal func moveToCType(_ swiftType: EquatableStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Equatable_EquatableStruct_release_optional_handle)
@@ -68,10 +68,6 @@ public struct NestedEquatableStruct: Equatable {
     internal init(cHandle: _baseRef) {
         fooField = moveFromCType(examples_Equatable_NestedEquatableStruct_fooField_get(cHandle))
     }
-    internal func convertToCType() -> _baseRef {
-        let c_fooField = moveToCType(fooField)
-        return examples_Equatable_NestedEquatableStruct_create_handle(c_fooField.ref)
-    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> NestedEquatableStruct {
     return NestedEquatableStruct(cHandle: handle)
@@ -83,7 +79,8 @@ internal func moveFromCType(_ handle: _baseRef) -> NestedEquatableStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: NestedEquatableStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_fooField = moveToCType(swiftType.fooField)
+    return RefHolder(examples_Equatable_NestedEquatableStruct_create_handle(c_fooField.ref))
 }
 internal func moveToCType(_ swiftType: NestedEquatableStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Equatable_NestedEquatableStruct_release_handle)
@@ -105,7 +102,8 @@ internal func copyToCType(_ swiftType: NestedEquatableStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(examples_Equatable_NestedEquatableStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_fooField = moveToCType(swiftType.fooField)
+    return RefHolder(examples_Equatable_NestedEquatableStruct_create_optional_handle(c_fooField.ref))
 }
 internal func moveToCType(_ swiftType: NestedEquatableStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Equatable_NestedEquatableStruct_release_optional_handle)

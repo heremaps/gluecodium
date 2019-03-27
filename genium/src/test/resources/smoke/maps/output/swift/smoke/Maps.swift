@@ -42,10 +42,6 @@ public class Maps {
         internal init(cHandle: _baseRef) {
             value = moveFromCType(smoke_Maps_SomeStruct_value_get(cHandle))
         }
-        internal func convertToCType() -> _baseRef {
-            let c_value = moveToCType(value)
-            return smoke_Maps_SomeStruct_create_handle(c_value.ref)
-        }
     }
     public struct StructWithMap {
         public var errorMapping: Maps.ErrorCodeToMessageMap
@@ -54,10 +50,6 @@ public class Maps {
         }
         internal init(cHandle: _baseRef) {
             errorMapping = moveFromCType(smoke_Maps_StructWithMap_errorMapping_get(cHandle))
-        }
-        internal func convertToCType() -> _baseRef {
-            let c_errorMapping = moveToCType(errorMapping)
-            return smoke_Maps_StructWithMap_create_handle(c_errorMapping.ref)
         }
     }
     public static func methodWithMap(input: Maps.ErrorCodeToMessageMap) -> Maps.ErrorCodeToMessageMap {
@@ -128,7 +120,8 @@ internal func moveFromCType(_ handle: _baseRef) -> Maps.SomeStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Maps.SomeStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_value = moveToCType(swiftType.value)
+    return RefHolder(smoke_Maps_SomeStruct_create_handle(c_value.ref))
 }
 internal func moveToCType(_ swiftType: Maps.SomeStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_SomeStruct_release_handle)
@@ -150,7 +143,8 @@ internal func copyToCType(_ swiftType: Maps.SomeStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_Maps_SomeStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_value = moveToCType(swiftType.value)
+    return RefHolder(smoke_Maps_SomeStruct_create_optional_handle(c_value.ref))
 }
 internal func moveToCType(_ swiftType: Maps.SomeStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_SomeStruct_release_optional_handle)
@@ -165,7 +159,8 @@ internal func moveFromCType(_ handle: _baseRef) -> Maps.StructWithMap {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Maps.StructWithMap) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_errorMapping = moveToCType(swiftType.errorMapping)
+    return RefHolder(smoke_Maps_StructWithMap_create_handle(c_errorMapping.ref))
 }
 internal func moveToCType(_ swiftType: Maps.StructWithMap) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_StructWithMap_release_handle)
@@ -187,7 +182,8 @@ internal func copyToCType(_ swiftType: Maps.StructWithMap?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_Maps_StructWithMap_make_optional_handle(copyToCType(swiftType).ref))
+    let c_errorMapping = moveToCType(swiftType.errorMapping)
+    return RefHolder(smoke_Maps_StructWithMap_create_optional_handle(c_errorMapping.ref))
 }
 internal func moveToCType(_ swiftType: Maps.StructWithMap?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_StructWithMap_release_optional_handle)

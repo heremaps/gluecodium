@@ -126,10 +126,6 @@ public class Nullable {
         internal init(cHandle: _baseRef) {
             stringField = moveFromCType(smoke_Nullable_SomeStruct_stringField_get(cHandle))
         }
-        internal func convertToCType() -> _baseRef {
-            let c_stringField = moveToCType(stringField)
-            return smoke_Nullable_SomeStruct_create_handle(c_stringField.ref)
-        }
     }
     public struct NullableStruct {
         public var stringField: String?
@@ -163,18 +159,6 @@ public class Nullable {
             mapField = moveFromCType(smoke_Nullable_NullableStruct_mapField_get(cHandle))
             instanceField = SomeInterfacemoveFromCType(smoke_Nullable_NullableStruct_instanceField_get(cHandle))
         }
-        internal func convertToCType() -> _baseRef {
-            let c_stringField = moveToCType(stringField)
-            let c_boolField = moveToCType(boolField)
-            let c_doubleField = moveToCType(doubleField)
-            let c_structField = moveToCType(structField)
-            let c_enumField = moveToCType(enumField)
-            let c_arrayField = moveToCType(arrayField)
-            let c_inlineArrayField = moveToCType(inlineArrayField)
-            let c_mapField = moveToCType(mapField)
-            let c_instanceField = moveToCType(instanceField)
-            return smoke_Nullable_NullableStruct_create_handle(c_stringField.ref, c_boolField.ref, c_doubleField.ref, c_structField.ref, c_enumField.ref, c_arrayField.ref, c_inlineArrayField.ref, c_mapField.ref, c_instanceField.ref)
-        }
     }
     public struct NullableIntsStruct {
         public var int8Field: Int8?
@@ -204,17 +188,6 @@ public class Nullable {
             uint16Field = moveFromCType(smoke_Nullable_NullableIntsStruct_uint16Field_get(cHandle))
             uint32Field = moveFromCType(smoke_Nullable_NullableIntsStruct_uint32Field_get(cHandle))
             uint64Field = moveFromCType(smoke_Nullable_NullableIntsStruct_uint64Field_get(cHandle))
-        }
-        internal func convertToCType() -> _baseRef {
-            let c_int8Field = moveToCType(int8Field)
-            let c_int16Field = moveToCType(int16Field)
-            let c_int32Field = moveToCType(int32Field)
-            let c_int64Field = moveToCType(int64Field)
-            let c_uint8Field = moveToCType(uint8Field)
-            let c_uint16Field = moveToCType(uint16Field)
-            let c_uint32Field = moveToCType(uint32Field)
-            let c_uint64Field = moveToCType(uint64Field)
-            return smoke_Nullable_NullableIntsStruct_create_handle(c_int8Field.ref, c_int16Field.ref, c_int32Field.ref, c_int64Field.ref, c_uint8Field.ref, c_uint16Field.ref, c_uint32Field.ref, c_uint64Field.ref)
         }
     }
     public func methodWithString(input: String?) -> String? {
@@ -301,7 +274,8 @@ internal func moveFromCType(_ handle: _baseRef) -> Nullable.SomeStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Nullable.SomeStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_stringField = moveToCType(swiftType.stringField)
+    return RefHolder(smoke_Nullable_SomeStruct_create_handle(c_stringField.ref))
 }
 internal func moveToCType(_ swiftType: Nullable.SomeStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Nullable_SomeStruct_release_handle)
@@ -323,7 +297,8 @@ internal func copyToCType(_ swiftType: Nullable.SomeStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_Nullable_SomeStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_stringField = moveToCType(swiftType.stringField)
+    return RefHolder(smoke_Nullable_SomeStruct_create_optional_handle(c_stringField.ref))
 }
 internal func moveToCType(_ swiftType: Nullable.SomeStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Nullable_SomeStruct_release_optional_handle)
@@ -338,7 +313,16 @@ internal func moveFromCType(_ handle: _baseRef) -> Nullable.NullableStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Nullable.NullableStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_doubleField = moveToCType(swiftType.doubleField)
+    let c_structField = moveToCType(swiftType.structField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    let c_arrayField = moveToCType(swiftType.arrayField)
+    let c_inlineArrayField = moveToCType(swiftType.inlineArrayField)
+    let c_mapField = moveToCType(swiftType.mapField)
+    let c_instanceField = moveToCType(swiftType.instanceField)
+    return RefHolder(smoke_Nullable_NullableStruct_create_handle(c_stringField.ref, c_boolField.ref, c_doubleField.ref, c_structField.ref, c_enumField.ref, c_arrayField.ref, c_inlineArrayField.ref, c_mapField.ref, c_instanceField.ref))
 }
 internal func moveToCType(_ swiftType: Nullable.NullableStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Nullable_NullableStruct_release_handle)
@@ -360,7 +344,16 @@ internal func copyToCType(_ swiftType: Nullable.NullableStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_Nullable_NullableStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_doubleField = moveToCType(swiftType.doubleField)
+    let c_structField = moveToCType(swiftType.structField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    let c_arrayField = moveToCType(swiftType.arrayField)
+    let c_inlineArrayField = moveToCType(swiftType.inlineArrayField)
+    let c_mapField = moveToCType(swiftType.mapField)
+    let c_instanceField = moveToCType(swiftType.instanceField)
+    return RefHolder(smoke_Nullable_NullableStruct_create_optional_handle(c_stringField.ref, c_boolField.ref, c_doubleField.ref, c_structField.ref, c_enumField.ref, c_arrayField.ref, c_inlineArrayField.ref, c_mapField.ref, c_instanceField.ref))
 }
 internal func moveToCType(_ swiftType: Nullable.NullableStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Nullable_NullableStruct_release_optional_handle)
@@ -375,7 +368,15 @@ internal func moveFromCType(_ handle: _baseRef) -> Nullable.NullableIntsStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: Nullable.NullableIntsStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_int8Field = moveToCType(swiftType.int8Field)
+    let c_int16Field = moveToCType(swiftType.int16Field)
+    let c_int32Field = moveToCType(swiftType.int32Field)
+    let c_int64Field = moveToCType(swiftType.int64Field)
+    let c_uint8Field = moveToCType(swiftType.uint8Field)
+    let c_uint16Field = moveToCType(swiftType.uint16Field)
+    let c_uint32Field = moveToCType(swiftType.uint32Field)
+    let c_uint64Field = moveToCType(swiftType.uint64Field)
+    return RefHolder(smoke_Nullable_NullableIntsStruct_create_handle(c_int8Field.ref, c_int16Field.ref, c_int32Field.ref, c_int64Field.ref, c_uint8Field.ref, c_uint16Field.ref, c_uint32Field.ref, c_uint64Field.ref))
 }
 internal func moveToCType(_ swiftType: Nullable.NullableIntsStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Nullable_NullableIntsStruct_release_handle)
@@ -397,7 +398,15 @@ internal func copyToCType(_ swiftType: Nullable.NullableIntsStruct?) -> RefHolde
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_Nullable_NullableIntsStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_int8Field = moveToCType(swiftType.int8Field)
+    let c_int16Field = moveToCType(swiftType.int16Field)
+    let c_int32Field = moveToCType(swiftType.int32Field)
+    let c_int64Field = moveToCType(swiftType.int64Field)
+    let c_uint8Field = moveToCType(swiftType.uint8Field)
+    let c_uint16Field = moveToCType(swiftType.uint16Field)
+    let c_uint32Field = moveToCType(swiftType.uint32Field)
+    let c_uint64Field = moveToCType(swiftType.uint64Field)
+    return RefHolder(smoke_Nullable_NullableIntsStruct_create_optional_handle(c_int8Field.ref, c_int16Field.ref, c_int32Field.ref, c_int64Field.ref, c_uint8Field.ref, c_uint16Field.ref, c_uint32Field.ref, c_uint64Field.ref))
 }
 internal func moveToCType(_ swiftType: Nullable.NullableIntsStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Nullable_NullableIntsStruct_release_optional_handle)

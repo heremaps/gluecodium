@@ -30,10 +30,6 @@ public class InstanceWithStruct {
         internal init(cHandle: _baseRef) {
             value = moveFromCType(smoke_InstanceWithStruct_InnerStruct_value_get(cHandle))
         }
-        internal func convertToCType() -> _baseRef {
-            let c_value = moveToCType(value)
-            return smoke_InstanceWithStruct_InnerStruct_create_handle(c_value.ref)
-        }
     }
     public struct StructWithInstance {
         public var instance: SimpleInstantiable
@@ -46,11 +42,6 @@ public class InstanceWithStruct {
         internal init(cHandle: _baseRef) {
             instance = SimpleInstantiablemoveFromCType(smoke_InstanceWithStruct_StructWithInstance_instance_get(cHandle))
             instanceWithComment = SimpleInstantiablemoveFromCType(smoke_InstanceWithStruct_StructWithInstance_instanceWithComment_get(cHandle))
-        }
-        internal func convertToCType() -> _baseRef {
-            let c_instance = moveToCType(instance)
-            let c_instanceWithComment = moveToCType(instanceWithComment)
-            return smoke_InstanceWithStruct_StructWithInstance_create_handle(c_instance.ref, c_instanceWithComment.ref)
         }
     }
     public func innerStructMethod(inputStruct: InstanceWithStruct.InnerStruct) -> InstanceWithStruct.InnerStruct {
@@ -105,7 +96,8 @@ internal func moveFromCType(_ handle: _baseRef) -> InstanceWithStruct.InnerStruc
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: InstanceWithStruct.InnerStruct) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_value = moveToCType(swiftType.value)
+    return RefHolder(smoke_InstanceWithStruct_InnerStruct_create_handle(c_value.ref))
 }
 internal func moveToCType(_ swiftType: InstanceWithStruct.InnerStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InstanceWithStruct_InnerStruct_release_handle)
@@ -127,7 +119,8 @@ internal func copyToCType(_ swiftType: InstanceWithStruct.InnerStruct?) -> RefHo
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_InstanceWithStruct_InnerStruct_make_optional_handle(copyToCType(swiftType).ref))
+    let c_value = moveToCType(swiftType.value)
+    return RefHolder(smoke_InstanceWithStruct_InnerStruct_create_optional_handle(c_value.ref))
 }
 internal func moveToCType(_ swiftType: InstanceWithStruct.InnerStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InstanceWithStruct_InnerStruct_release_optional_handle)
@@ -142,7 +135,9 @@ internal func moveFromCType(_ handle: _baseRef) -> InstanceWithStruct.StructWith
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: InstanceWithStruct.StructWithInstance) -> RefHolder {
-    return RefHolder(swiftType.convertToCType())
+    let c_instance = moveToCType(swiftType.instance)
+    let c_instanceWithComment = moveToCType(swiftType.instanceWithComment)
+    return RefHolder(smoke_InstanceWithStruct_StructWithInstance_create_handle(c_instance.ref, c_instanceWithComment.ref))
 }
 internal func moveToCType(_ swiftType: InstanceWithStruct.StructWithInstance) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InstanceWithStruct_StructWithInstance_release_handle)
@@ -164,7 +159,9 @@ internal func copyToCType(_ swiftType: InstanceWithStruct.StructWithInstance?) -
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(smoke_InstanceWithStruct_StructWithInstance_make_optional_handle(copyToCType(swiftType).ref))
+    let c_instance = moveToCType(swiftType.instance)
+    let c_instanceWithComment = moveToCType(swiftType.instanceWithComment)
+    return RefHolder(smoke_InstanceWithStruct_StructWithInstance_create_optional_handle(c_instance.ref, c_instanceWithComment.ref))
 }
 internal func moveToCType(_ swiftType: InstanceWithStruct.StructWithInstance?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_InstanceWithStruct_StructWithInstance_release_optional_handle)
