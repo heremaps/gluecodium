@@ -63,11 +63,6 @@ public final class FrancaTypeHelper {
     return (container instanceof FTypedElement) && ((FTypedElement) container).isArray();
   }
 
-  public static String getNamespace(final FType type) {
-    EObject container = type.eContainer();
-    return (container instanceof FInterface) ? ((FInterface) container).getName() : null;
-  }
-
   public static List<String> getElementPath(final FModelElement modelElement) {
 
     String suffix = modelElement instanceof FMethod ? ((FMethod) modelElement).getSelector() : null;

@@ -34,7 +34,6 @@ class SwiftBuiltinOptionalsGenerator {
     }
 
     companion object {
-
-        private val SWIFT_BUILTIN_OPTIONALS = "swift/BuiltinOptionals.swift"
+        private const val SWIFT_BUILTIN_OPTIONALS = "swift/BuiltinOptionals.swift"
     }
 }

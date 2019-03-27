@@ -37,16 +37,15 @@ class SwiftMapGenerator {
         val mapFile = SwiftFile()
         mapFile.dictionaries.addAll(TreeMap(mapCollector).values)
 
-        if (mapFile.isEmpty) {
-            return listOf()
+        return if (mapFile.isEmpty) {
+            emptyList()
         } else {
             val content = TemplateEngine.render("swift/Dictionary", mapFile)
-            return listOf(GeneratedFile(content, SWIFT_DICTONARY))
+            listOf(GeneratedFile(content, SWIFT_DICTONARY))
         }
     }
 
     companion object {
-
-        private val SWIFT_DICTONARY = "swift/Dictionaries.swift"
+        private const val SWIFT_DICTONARY = "swift/Dictionaries.swift"
     }
 }

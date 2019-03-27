@@ -500,7 +500,7 @@ class LimeModelBuilderTest {
 
         modelBuilder.finishBuilding(francaTypeDef)
 
-        val results = modelBuilder.getFinalResults()
+        val results = modelBuilder.finalResults
         assertTrue(results.isEmpty())
     }
 

@@ -188,7 +188,10 @@ class CppLimeBasedModelBuilder @VisibleForTesting internal constructor(
         val isNullable = limeField.attributes.have(LimeAttributeType.NULLABLE)
         val isInstance = limeField.typeRef.type is LimeContainer
         if (isNullable && !isInstance) {
-            cppTypeRef = CppTypeMapper.createSharedPointerType(cppTypeRef)
+            cppTypeRef = CppTemplateTypeRef.create(
+                CppTemplateTypeRef.TemplateClass.SHARED_POINTER,
+                cppTypeRef
+            )
         }
 
         val cppField = CppField(
@@ -223,7 +226,10 @@ class CppLimeBasedModelBuilder @VisibleForTesting internal constructor(
         val isInstance = limeProperty.typeRef.type is LimeContainer
         val isNotNull = !isNullable && isInstance
         if (isNullable && !isInstance) {
-            cppTypeRef = CppTypeMapper.createSharedPointerType(cppTypeRef)
+            cppTypeRef = CppTemplateTypeRef.create(
+                CppTemplateTypeRef.TemplateClass.SHARED_POINTER,
+                cppTypeRef
+            )
         }
 
         val specifiers = when {

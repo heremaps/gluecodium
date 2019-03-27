@@ -22,7 +22,6 @@ package com.here.genium.model.cpp
 import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppNameRules
 import com.here.genium.model.common.Include
-import java.util.Arrays
 
 class CppTemplateTypeRef private constructor(
     fullyQualifiedName: String,
@@ -45,7 +44,6 @@ class CppTemplateTypeRef private constructor(
     override fun stream() = templateParameters.stream()
 
     companion object {
-
         fun create(templateClass: TemplateClass, vararg parameters: CppTypeRef) =
                 create(templateClass.namespace, templateClass, *parameters)
 
@@ -54,14 +52,14 @@ class CppTemplateTypeRef private constructor(
             templateClass: TemplateClass,
             vararg parameters: CppTypeRef
         ): CppTemplateTypeRef {
-            val templateParameters = Arrays.asList(*parameters)
-            val parametersString = templateParameters.map { param -> param.name }.joinToString(", ")
+            val parametersString = parameters.joinToString(", ") { it.name }
             val fullyQualifiedName =
                 CppNameRules.joinFullyQualifiedName(namespace, templateClass.templateName)
 
             val templateTypeRef = CppTemplateTypeRef(
-                "$fullyQualifiedName< $parametersString >", templateClass, templateParameters)
-            templateTypeRef.includes.addAll(templateParameters.flatMap { it.includes })
+                "$fullyQualifiedName< $parametersString >", templateClass, parameters.toList()
+            )
+            templateTypeRef.includes.addAll(parameters.flatMap { it.includes })
             templateTypeRef.includes.add(templateClass.include)
 
             return templateTypeRef

@@ -19,7 +19,6 @@
 
 package com.here.genium.common
 
-import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import org.mockito.Mockito.mock
@@ -79,16 +78,5 @@ class FrancaTypeHelperTest {
         assertTrue(FrancaTypeHelper.isImplicitArray(typeRef))
         verify(typeRef).eContainer()
         verify(typedElement).isArray
-    }
-
-    @Test
-    fun namespaceContainer() {
-        // Arrange
-        `when`(type.eContainer()).thenReturn(francaInterface)
-        `when`(francaInterface.name).thenReturn("testBase")
-
-        // Act. assert
-        assertEquals("testBase", FrancaTypeHelper.getNamespace(type))
-        verify(type).eContainer()
     }
 }

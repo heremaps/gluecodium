@@ -230,10 +230,7 @@ internal constructor(
 
     override fun finishBuilding(francaTypeCollection: FTypeCollection) {
         val jniTopLevelElement = getPreviousResult(JniTopLevelElement::class.java)
-        val packageNames = if (jniTopLevelElement != null)
-            jniTopLevelElement.javaPackage.packageNames
-        else
-            emptyList()
+        val packageNames = jniTopLevelElement?.javaPackage?.packageNames ?: emptyList()
 
         val jniContainer = JniContainer(
             javaPackages = packageNames,
