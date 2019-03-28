@@ -1,6 +1,8 @@
 # Genium project Release Notes
 
 ## Unreleased
+- Breaking changes:
+  - Replaced `std::shared_ptr` with `optional` for Nullable types.
 - Bug fixes:
   + Whitespace (including line breaks) is now preserved in the documentation comments.
 
@@ -47,7 +49,7 @@
 ## 3.20.0
 - Release date: 2019-02-01
 - Features:
-  + Added generation of custom std::error_category for C++ error codes.
+  + Added generation of custom `std::error_category` for C++ error codes.
   + Swift enumerations now conform to CaseIterable protocol.
   + Added "InternalSetter" FDEPL property for attributes.
   + Added "Nullable" property support.

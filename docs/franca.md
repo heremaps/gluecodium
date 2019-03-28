@@ -435,7 +435,12 @@ Default value is `false`, i.e. the field is not nullable.
 **Note:** In generated Swift code this property controls whether the field has an "optional" type or
 not, therefore enforcing nullability at compile time. For Java generated code the nullability is
 expressed through a @Nullable annotation, enabling compile time enforcing when used with Kotlin
-language. For C++ generated code the nullability is expressed as a documentation comment.
+language. For C++ generated code for Interfaces the nullability is expressed as a documentation comment.
+
+**Note:** The C++ generated code will use `optional` to express nullability for non-Interface types.
+Which implementation is used depends on the compiler version: Genium uses `std::optional` if available,
+but falls back to a custom implementation of it otherwise. This behavior can be overwritten with defines,
+see generated `Optional.h` header.
 
 FIDL:
 
