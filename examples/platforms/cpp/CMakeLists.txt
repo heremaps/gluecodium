@@ -55,12 +55,11 @@ set(SOURCES
   tests/OptionalTest.cpp)
 
 if(HELLO_TEST_CPP_VERSION LESS 17)
- list(APPEND SOURCES
-   tests/OptionalTestCxx11.cpp)
-#TODO: APIGEN-1590: CI fails to find optional header even with C++17 and Clang++5.0.0
-#else()
-# list(APPEND SOURCES
-#   tests/OptionalTestCxx17.cpp)
+  list(APPEND SOURCES
+    tests/OptionalTestCxx11.cpp)
+else()
+  list(APPEND SOURCES
+    tests/OptionalTestCxx17.cpp)
 endif()
 
 # Set search path for libhello.so so it's easier to run the test
