@@ -60,7 +60,9 @@ class CppLimeBasedTypeMapperTest {
         typeMapper = CppLimeBasedTypeMapper(nameResolver, includeResolver, "")
 
         every { nameResolver.getFullyQualifiedName(any()) } returns "Foo"
-        every { includeResolver.resolveInclude(any()) } returns Include.createInternalInclude("Bar")
+        every {
+            includeResolver.resolveIncludes(any())
+        } returns listOf(Include.createInternalInclude("Bar"))
     }
 
     @Test

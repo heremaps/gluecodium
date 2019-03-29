@@ -195,7 +195,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
             inParams,
             parameterSelf,
             cppMethod.fullyQualifiedName,
-            Collections.singleton(cppIncludeResolver.resolveInclude(francaMethod)),
+            new LinkedHashSet<>(cppIncludeResolver.resolveIncludes(francaMethod)),
             isStatic ? cppBuilder.getFinalResult(CppMethod.class).name : cppMethod.name,
             cppMethod.getReturnType().fullyQualifiedName,
             deploymentModel.isConst(francaMethod),
@@ -328,7 +328,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
             Collections.emptyList(),
             selfParameter,
             cppGetterMethod.fullyQualifiedName,
-            Collections.singleton(cppIncludeResolver.resolveInclude(francaAttribute)),
+            new LinkedHashSet<>(cppIncludeResolver.resolveIncludes(francaAttribute)),
             cppGetterMethod.name,
             cppGetterMethod.getReturnType().fullyQualifiedName,
             true);
@@ -345,7 +345,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
               Collections.singletonList(new CInParameter("newValue", attributeTypeInfo)),
               selfParameter,
               cppSetterMethod.fullyQualifiedName,
-              Collections.singleton(cppIncludeResolver.resolveInclude(francaAttribute)),
+              new LinkedHashSet<>(cppIncludeResolver.resolveIncludes(francaAttribute)),
               cppSetterMethod.name,
               cppSetterMethod.getReturnType().fullyQualifiedName);
       storeResult(setterFunction);
@@ -361,7 +361,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
     List<CppTypeInfo> typeInfos = getPreviousResults(CppTypeInfo.class);
     CppTypeInfo keyType = typeInfos.get(0);
     CppTypeInfo valueType = typeInfos.get(1);
-    Include baseApiInclude = cppIncludeResolver.resolveInclude(francaMapType);
+    Include baseApiInclude = cppIncludeResolver.resolveIncludes(francaMapType).get(0);
 
     String enumHashType = null;
     if (keyType.getTypeCategory() == CppTypeInfo.TypeCategory.ENUM) {

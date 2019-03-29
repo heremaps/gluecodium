@@ -12,6 +12,7 @@
 #include "Export.h"
 #include "foo/Bar.h"
 #include "foo/Bazz.h"
+#include "non/Sense.h"
 #include <cstdint>
 #include <memory>
 #include <string>

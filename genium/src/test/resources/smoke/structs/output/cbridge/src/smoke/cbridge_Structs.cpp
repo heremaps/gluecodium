@@ -6,6 +6,7 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "foo/Bar.h"
 #include "foo/Bazz.h"
+#include "non/Sense.h"
 #include "smoke/Structs.h"
 #include <memory>
 #include <new>

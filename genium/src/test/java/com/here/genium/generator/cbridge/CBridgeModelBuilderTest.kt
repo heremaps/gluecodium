@@ -685,7 +685,7 @@ class CBridgeModelBuilderTest {
         contextStack.injectResult(CppTypeInfo.STRING)
         contextStack.injectResult(cppTypeInfo)
         val fooInclude = Include.createInternalInclude("Foo")
-        `when`(cppIncludeResolver.resolveInclude(any())).thenReturn(fooInclude)
+        `when`(cppIncludeResolver.resolveIncludes(any())).thenReturn(listOf(fooInclude))
 
         modelBuilder.finishBuilding(francaMap)
 

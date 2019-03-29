@@ -40,18 +40,18 @@ class CppLimeBasedIncludeResolverTest {
     fun resolveRegularInclude() {
         val limeElement = object : LimeNamedElement(limeRootPath.child("bar")) {}
 
-        val result = includeResolver.resolveInclude(limeElement)
+        val result = includeResolver.resolveIncludes(limeElement)
 
-        assertEquals("ro/ot/mo/del/Foo.h", result.fileName)
+        assertEquals("ro/ot/mo/del/Foo.h", result.first().fileName)
     }
 
     @Test
     fun getOutputFilePathForContainer() {
         val limeElement = object : LimeNamedElement(limeRootPath) {}
 
-        val result = includeResolver.resolveInclude(limeElement)
+        val result = includeResolver.resolveIncludes(limeElement)
 
-        assertEquals("ro/ot/mo/del/Foo.h", result.fileName)
+        assertEquals("ro/ot/mo/del/Foo.h", result.first().fileName)
     }
 
     @Test
@@ -61,9 +61,23 @@ class CppLimeBasedIncludeResolverTest {
             .build()
         val limeElement = object : LimeNamedElement(limeRootPath, attributes = limeAttributes) {}
 
-        val result = includeResolver.resolveInclude(limeElement)
+        val result = includeResolver.resolveIncludes(limeElement)
 
-        assertEquals("bar/Baz.h", result.fileName)
+        assertEquals("bar/Baz.h", result.first().fileName)
+    }
+
+    @Test
+    fun resolveExternalTypeMultipleIncludes() {
+        val limeAttributes = LimeAttributes.Builder()
+            .addAttribute(LimeAttributeType.EXTERNAL_TYPE, "bar/Baz.h, non/Sense.h")
+            .build()
+        val limeElement = object : LimeNamedElement(limeRootPath, attributes = limeAttributes) {}
+
+        val result = includeResolver.resolveIncludes(limeElement)
+
+        assertEquals(2, result.size)
+        assertEquals("bar/Baz.h", result.first().fileName)
+        assertEquals("non/Sense.h", result.last().fileName)
     }
 
     @Test
@@ -75,8 +89,8 @@ class CppLimeBasedIncludeResolverTest {
         val limeElement = object : LimeNamedElement(limeRootPath.child("bar")) {}
         limeReferenceMap[parentElement.path.toString()] = parentElement
 
-        val result = includeResolver.resolveInclude(limeElement)
+        val result = includeResolver.resolveIncludes(limeElement)
 
-        assertEquals("bar/Baz.h", result.fileName)
+        assertEquals("bar/Baz.h", result.first().fileName)
     }
 }

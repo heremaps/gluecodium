@@ -86,7 +86,7 @@ define ExternalTypes for interface smoke.Structs
     }
 
     struct AnotherExternalStruct {
-        ExternalType = "foo/Bazz.h"
+        ExternalType = "foo/Bazz.h, non/Sense.h"
         ExternalName = "::fire::SomeVeryExternalStruct"
     }
 

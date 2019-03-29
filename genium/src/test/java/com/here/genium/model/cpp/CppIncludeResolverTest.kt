@@ -70,17 +70,17 @@ class CppIncludeResolverTest {
     fun resolveExternalType() {
         `when`(deploymentModel.getExternalType(any<FModelElement>())).thenReturn(EXTERNAL_INCLUDE)
 
-        val result = includeResolver.resolveInclude(francaStruct)
+        val result = includeResolver.resolveIncludes(francaStruct)
 
-        assertEquals(EXTERNAL_INCLUDE, result.fileName)
+        assertEquals(EXTERNAL_INCLUDE, result.first().fileName)
         verify(deploymentModel).getExternalType(francaStruct)
     }
 
     @Test
     fun resolveRegularInclude() {
-        val result = includeResolver.resolveInclude(francaStruct)
+        val result = includeResolver.resolveIncludes(francaStruct)
 
-        assertEquals("SomeModel/SomeTypeCollection.h", result.fileName)
+        assertEquals("SomeModel/SomeTypeCollection.h", result.first().fileName)
     }
 
     @Test

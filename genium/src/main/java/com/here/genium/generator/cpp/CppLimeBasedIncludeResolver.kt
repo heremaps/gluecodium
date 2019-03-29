@@ -29,12 +29,18 @@ class CppLimeBasedIncludeResolver(
     private val rootNamespace: List<String>,
     private val limeReferenceMap: Map<String, LimeElement>
 ) {
-    private val resolvedIncludes = mutableMapOf<String, Include>()
+    private val resolvedIncludes = mutableMapOf<String, List<Include>>()
 
-    fun resolveInclude(limeNamedElement: LimeNamedElement): Include {
+    fun resolveIncludes(limeNamedElement: LimeNamedElement): List<Include> {
         return resolvedIncludes.getOrPut(limeNamedElement.fullName) {
-            Include.createInternalInclude(inferExternalType(limeNamedElement)
-                ?: (getOutputFilePath(limeNamedElement) + CppNameRules.HEADER_FILE_SUFFIX))
+            val externalType = inferExternalType(limeNamedElement)
+            if (externalType != null) {
+                externalType.split(',').map { Include.createInternalInclude(it.trim()) }
+            } else {
+                listOf(Include.createInternalInclude(
+                    getOutputFilePath(limeNamedElement) + CppNameRules.HEADER_FILE_SUFFIX)
+                )
+            }
         }
     }
 

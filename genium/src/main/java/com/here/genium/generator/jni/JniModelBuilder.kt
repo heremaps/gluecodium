@@ -123,7 +123,7 @@ internal constructor(
         getPreviousResults(JniEnum::class.java).forEach { jniContainer.add(it) }
 
         val types = limeContainer.structs + limeContainer.enumerations + limeContainer.typeDefs
-        jniContainer.includes += types.map { cppIncludeResolver.resolveInclude(it) }
+        jniContainer.includes += types.flatMap { cppIncludeResolver.resolveIncludes(it) }
 
         return jniContainer
     }
@@ -156,7 +156,7 @@ internal constructor(
 
         val types = listOf(limeContainer) + limeContainer.structs + limeContainer.enumerations +
                 limeContainer.typeDefs
-        jniContainer.includes += types.map { cppIncludeResolver.resolveInclude(it) }
+        jniContainer.includes += types.flatMap { cppIncludeResolver.resolveIncludes(it) }
 
         return jniContainer
     }

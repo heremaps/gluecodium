@@ -172,7 +172,7 @@ class JniModelBuilderTest {
 
         javaClass.javaPackage = JavaPackage(listOf("my", "java", "test"))
 
-        every { cppIncludeResolver.resolveInclude(any()) } returns cppInclude
+        every { cppIncludeResolver.resolveIncludes(any()) } returns listOf(cppInclude)
         every { javaBuilder.getFinalResult(JavaTopLevelElement::class.java) } returns javaClass
         every { javaBuilder.getFinalResult(JavaClass::class.java) } returns javaClass
         every { cppBuilder.getFinalResult(CppClass::class.java) } returns cppClass
@@ -295,7 +295,7 @@ class JniModelBuilderTest {
             structs = listOf(limeStruct)
         )
         val cppStructInclude = Include.createInternalInclude("Foo")
-        every { cppIncludeResolver.resolveInclude(limeStruct) } returns cppStructInclude
+        every { cppIncludeResolver.resolveIncludes(limeStruct) } returns listOf(cppStructInclude)
 
         modelBuilder.finishBuilding(limeElement)
 

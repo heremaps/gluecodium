@@ -31,6 +31,7 @@ import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
 import com.here.genium.model.franca.DefinedBy;
 import com.here.genium.model.franca.FrancaDeploymentModel;
+import java.util.Collections;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Rule;
@@ -86,7 +87,8 @@ public class CppTypeMapperComplexTest {
         .thenReturn(francaTypeCollection);
     when(DefinedBy.getModelName(any())).thenReturn("foo");
 
-    when(includeResolver.resolveInclude(any())).thenReturn(internalInclude);
+    when(includeResolver.resolveIncludes(any()))
+        .thenReturn(Collections.singletonList(internalInclude));
   }
 
   @Test

@@ -25,16 +25,19 @@ import com.here.genium.model.common.Include;
 import com.here.genium.model.franca.DefinedBy;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.franca.core.franca.FModelElement;
 import org.franca.core.franca.FTypeCollection;
 
 public class CppIncludeResolver {
 
-  private final Map<String, Include> resolvedIncludes = new HashMap<>();
+  private final Map<String, List<Include>> resolvedIncludes = new HashMap<>();
   private final FrancaDeploymentModel deploymentModel;
   private final List<String> rootNamespace;
 
@@ -44,29 +47,32 @@ public class CppIncludeResolver {
     this.rootNamespace = rootNamespace;
   }
 
-  public Include resolveInclude(final FModelElement modelElement) {
+  public List<Include> resolveIncludes(final FModelElement modelElement) {
 
     String cacheKey = FrancaTypeHelper.getFullName(modelElement);
-    Include include = resolvedIncludes.get(cacheKey);
-    if (include != null) {
-      return include;
+    List<Include> includes = resolvedIncludes.get(cacheKey);
+    if (includes != null) {
+      return includes;
     }
 
     String externalType = deploymentModel.getExternalType(modelElement);
     if (externalType != null) {
-      include = Include.Companion.createInternalInclude(externalType);
+      includes =
+          Arrays.stream(externalType.split(","))
+              .map(fileName -> Include.Companion.createInternalInclude(fileName.trim()))
+              .collect(Collectors.toList());
     } else if (modelElement instanceof FTypeCollection) {
       String includeName =
           getOutputFilePath((FTypeCollection) modelElement) + CppNameRules.HEADER_FILE_SUFFIX;
-      include = Include.Companion.createInternalInclude(includeName);
+      includes = Collections.singletonList(Include.Companion.createInternalInclude(includeName));
     } else {
       FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
-      include = resolveInclude(typeCollection);
+      includes = resolveIncludes(typeCollection);
     }
 
-    resolvedIncludes.put(cacheKey, include);
+    resolvedIncludes.put(cacheKey, includes);
 
-    return include;
+    return includes;
   }
 
   public String getOutputFilePath(final FTypeCollection typeCollection) {

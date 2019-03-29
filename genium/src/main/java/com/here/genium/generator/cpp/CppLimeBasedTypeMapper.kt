@@ -61,7 +61,7 @@ class CppLimeBasedTypeMapper(
         needsForwardDeclaration: Boolean
     ) = CppComplexTypeRef(
         fullyQualifiedName = nameResolver.getFullyQualifiedName(limeContainer),
-        includes = listOf(includeResolver.resolveInclude(limeContainer)),
+        includes = includeResolver.resolveIncludes(limeContainer),
         needsForwardDeclaration = needsForwardDeclaration
     )
 
@@ -77,12 +77,12 @@ class CppLimeBasedTypeMapper(
             is LimeBasicType -> mapPredefined(limeType)
             is LimeTypeDef -> CppTypeDefRef(
                 nameResolver.getFullyQualifiedName(limeType),
-                listOf(includeResolver.resolveInclude(limeType)),
+                includeResolver.resolveIncludes(limeType),
                 mapType(limeType.typeRef)
             )
             is LimeStruct, is LimeEnumeration -> CppComplexTypeRef(
                 nameResolver.getFullyQualifiedName(limeType),
-                listOf(includeResolver.resolveInclude(limeType)),
+                includeResolver.resolveIncludes(limeType),
                 limeType is LimeEnumeration
             )
             is LimeArray ->

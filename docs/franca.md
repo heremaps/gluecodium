@@ -269,9 +269,9 @@ FDEPL:
 
 This FDEPL property controls whether the C++ header file is generated for the given Franca type.
 Default value is `null`, i.e. the type is not external and thus a header file is generated. If a
-non-empty value is given, no header file is generated, but the given String value is used as a path
-to a pre-existing header file instead. This property has no effect on generated code for Java or
-Swift.
+non-empty value is given, no header file is generated, but the given String value is used as a
+comma-separated list of paths to pre-existing header files instead. This property has no effect on
+generated code for Java or Swift.
 
 For an external type, the name is assumed to match its "external" counterpart in the source file,
 and thus is taken verbatim in generated C++ and conversion code (i.e. without any naming convention

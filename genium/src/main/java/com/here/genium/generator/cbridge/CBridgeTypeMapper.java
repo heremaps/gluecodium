@@ -164,22 +164,21 @@ public class CBridgeTypeMapper {
     String baseApiCall = CBridgeNameRules.getBaseApiCall(category, baseApiName);
 
     Include publicInclude = includeResolver.resolveInclude(modelElement);
-    Include baseApiInclude = cppIncludeResolver.resolveInclude(modelElement);
+    List<Include> baseApiIncludes = cppIncludeResolver.resolveIncludes(modelElement);
 
     CType structCType = new CType(BASE_REF_NAME, publicInclude);
 
-    return new CppTypeInfo(
-        baseApiCall,
-        structCType,
-        structCType,
-        category,
-        Arrays.asList(
-            publicInclude,
-            baseApiInclude,
-            CppLibraryIncludes.OPTIONAL,
-            BASE_HANDLE_IMPL_INCLUDE,
-            CppLibraryIncludes.MEMORY,
-            CppLibraryIncludes.NEW));
+    List<Include> includes =
+        new LinkedList<>(
+            Arrays.asList(
+                publicInclude,
+                CppLibraryIncludes.OPTIONAL,
+                BASE_HANDLE_IMPL_INCLUDE,
+                CppLibraryIncludes.MEMORY,
+                CppLibraryIncludes.NEW));
+    includes.addAll(1, baseApiIncludes);
+
+    return new CppTypeInfo(baseApiCall, structCType, structCType, category, includes);
   }
 
   public static CppTypeInfo createNullableTypeInfo(
@@ -198,16 +197,15 @@ public class CBridgeTypeMapper {
   public CppTypeInfo createEnumTypeInfo(final FEnumerationType francaEnum) {
 
     Include publicInclude = includeResolver.resolveInclude(francaEnum);
-    Include baseApiInclude = cppIncludeResolver.resolveInclude(francaEnum);
+    List<Include> baseApiIncludes = cppIncludeResolver.resolveIncludes(francaEnum);
 
     CType enumCType = new CType(CBridgeNameRules.getEnumName(francaEnum), publicInclude);
 
+    List<Include> includes = new LinkedList<>(baseApiIncludes);
+    includes.add(0, publicInclude);
+
     return new CppTypeInfo(
-        cppNameResolver.getFullyQualifiedName(francaEnum),
-        enumCType,
-        enumCType,
-        ENUM,
-        Arrays.asList(publicInclude, baseApiInclude));
+        cppNameResolver.getFullyQualifiedName(francaEnum), enumCType, enumCType, ENUM, includes);
   }
 
   public CppTypeInfo createErrorTypeInfo(final FEnumerationType francaEnum) {

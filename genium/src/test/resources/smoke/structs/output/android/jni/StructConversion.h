@@ -2,6 +2,7 @@
 #include "smoke/Structs.h"
 #include "foo/Bar.h"
 #include "foo/Bazz.h"
+#include "non/Sense.h"
 #include "com_example_smoke_Structs.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"

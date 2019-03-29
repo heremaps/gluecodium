@@ -5,6 +5,8 @@
   - Replaced `std::shared_ptr` with `optional` for Nullable types.
 - Bug fixes:
   + Whitespace (including line breaks) is now preserved in the documentation comments.
+- Features:
+  + Added support for multiple includes for "External" types.
 
 ## 3.21.1
 - Release date: 2019-03-04

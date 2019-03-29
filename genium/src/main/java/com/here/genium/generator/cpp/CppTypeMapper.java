@@ -116,9 +116,7 @@ public class CppTypeMapper {
       CppTypeRef actualType = map(francaTypeDef.getActualType());
 
       return new CppTypeDefRef(
-          fullyQualifiedName,
-          Collections.singletonList(includeResolver.resolveInclude(francaTypeDef)),
-          actualType);
+          fullyQualifiedName, includeResolver.resolveIncludes(francaTypeDef), actualType);
     }
   }
 
@@ -126,7 +124,7 @@ public class CppTypeMapper {
     CppComplexTypeRef instanceType =
         new CppComplexTypeRef(
             nameResolver.getFullyQualifiedName(parentInterface),
-            Collections.singletonList(includeResolver.resolveInclude(parentInterface)),
+            includeResolver.resolveIncludes(parentInterface),
             false,
             !deploymentModel.isExternalType(parentInterface));
 
@@ -142,9 +140,7 @@ public class CppTypeMapper {
         CppTemplateTypeRef.Companion.create(CppTemplateTypeRef.TemplateClass.VECTOR, elementType);
 
     return new CppTypeDefRef(
-        fullyQualifiedName,
-        Collections.singletonList(includeResolver.resolveInclude(francaArrayType)),
-        arrayType);
+        fullyQualifiedName, includeResolver.resolveIncludes(francaArrayType), arrayType);
   }
 
   private CppTypeRef mapMapType(final FMapType francaMapType) {
@@ -154,9 +150,7 @@ public class CppTypeMapper {
         wrapMap(map(francaMapType.getKeyType()), map(francaMapType.getValueType()));
 
     return new CppTypeDefRef(
-        fullyQualifiedName,
-        Collections.singletonList(includeResolver.resolveInclude(francaMapType)),
-        mapType);
+        fullyQualifiedName, includeResolver.resolveIncludes(francaMapType), mapType);
   }
 
   public CppTypeRef wrapMap(final CppTypeRef key, final CppTypeRef value) {
@@ -172,7 +166,7 @@ public class CppTypeMapper {
 
     return new CppComplexTypeRef(
         nameResolver.getFullyQualifiedName(francaElement),
-        Collections.singletonList(includeResolver.resolveInclude(francaElement)),
+        includeResolver.resolveIncludes(francaElement),
         francaElement instanceof FEnumerationType);
   }
 

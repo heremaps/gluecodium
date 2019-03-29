@@ -48,7 +48,7 @@ define ExternalTypes for typeCollection external.ExternalTypes
     }
 
     struct ExternalStringPair {
-        ExternalType = "utility"
+        ExternalType = "string, utility"
         ExternalName = "::std::pair< ::std::string, ::std::string >"
     }
 

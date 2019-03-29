@@ -36,6 +36,7 @@ import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.cpp.CppIncludeResolver;
 import com.here.genium.model.franca.DefinedBy;
+import java.util.Collections;
 import org.franca.core.franca.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -82,7 +83,8 @@ public final class CBridgeTypeMapperTest {
     when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
         .thenReturn(francaTypeCollection);
 
-    when(cppIncludeResolver.resolveInclude(any())).thenReturn(CPP_INCLUDE);
+    when(cppIncludeResolver.resolveIncludes(any()))
+        .thenReturn(Collections.singletonList(CPP_INCLUDE));
     when(includeResolver.resolveInclude(any())).thenReturn(CBRIDGE_INCLUDE);
   }
 
