@@ -17,796 +17,875 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.jni;
+package com.here.genium.generator.jni
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import com.here.genium.common.CollectionsHelper
+import com.here.genium.generator.cpp.CppModelBuilder
+import com.here.genium.generator.java.JavaModelBuilder
+import com.here.genium.model.common.Include
+import com.here.genium.model.cpp.CppClass
+import com.here.genium.model.cpp.CppComplexTypeRef
+import com.here.genium.model.cpp.CppElement
+import com.here.genium.model.cpp.CppEnum
+import com.here.genium.model.cpp.CppEnumItem
+import com.here.genium.model.cpp.CppField
+import com.here.genium.model.cpp.CppIncludeResolver
+import com.here.genium.model.cpp.CppMethod
+import com.here.genium.model.cpp.CppParameter
+import com.here.genium.model.cpp.CppPrimitiveTypeRef
+import com.here.genium.model.cpp.CppStruct
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.java.JavaClass
+import com.here.genium.model.java.JavaCustomType
+import com.here.genium.model.java.JavaElement
+import com.here.genium.model.java.JavaEnum
+import com.here.genium.model.java.JavaEnumItem
+import com.here.genium.model.java.JavaField
+import com.here.genium.model.java.JavaInterface
+import com.here.genium.model.java.JavaMethod
+import com.here.genium.model.java.JavaPackage
+import com.here.genium.model.java.JavaParameter
+import com.here.genium.model.java.JavaPrimitiveType
+import com.here.genium.model.java.JavaTopLevelElement
+import com.here.genium.model.java.JavaValue
+import com.here.genium.model.java.JavaVisibility
+import com.here.genium.model.jni.JniContainer
+import com.here.genium.model.jni.JniContainer.ContainerType
+import com.here.genium.model.jni.JniElement
+import com.here.genium.model.jni.JniEnum
+import com.here.genium.model.jni.JniEnumerator
+import com.here.genium.model.jni.JniField
+import com.here.genium.model.jni.JniMethod
+import com.here.genium.model.jni.JniParameter
+import com.here.genium.model.jni.JniStruct
+import com.here.genium.model.jni.JniType
+import com.here.genium.test.ArrayEList
+import com.here.genium.test.MockContextStack
+import org.franca.core.franca.FArgument
+import org.franca.core.franca.FAttribute
+import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FEnumerator
+import org.franca.core.franca.FField
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMethod
+import org.franca.core.franca.FModel
+import org.franca.core.franca.FStructType
+import org.franca.core.franca.FType
+import org.franca.core.franca.FTypeCollection
+import org.franca.core.franca.FTypeRef
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
+import org.mockito.MockitoAnnotations
+import java.util.Arrays
 
-import com.here.genium.common.CollectionsHelper;
-import com.here.genium.generator.cpp.CppModelBuilder;
-import com.here.genium.generator.java.JavaModelBuilder;
-import com.here.genium.model.common.Include;
-import com.here.genium.model.common.InstanceRules;
-import com.here.genium.model.cpp.*;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.java.*;
-import com.here.genium.model.jni.*;
-import com.here.genium.model.jni.JniContainer.ContainerType;
-import com.here.genium.test.ArrayEList;
-import com.here.genium.test.MockContextStack;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import org.eclipse.emf.common.util.EList;
-import org.franca.core.franca.*;
-import org.franca.core.franca.FTypeRef;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+@RunWith(JUnit4::class)
+class JniModelBuilderTest {
+    @Mock
+    private lateinit var deploymentModel: FrancaDeploymentModel
+    @Mock
+    private lateinit var francaInterface: FInterface
+    @Mock
+    private lateinit var francaTypeCollection: FTypeCollection
+    @Mock
+    private lateinit var francaMethod: FMethod
+    @Mock
+    private lateinit var francaArgument: FArgument
+    @Mock
+    private lateinit var francaStructType: FStructType
+    @Mock
+    private lateinit var francaEnumType: FEnumerationType
+    @Mock
+    private lateinit var francaEnumerator: FEnumerator
+    @Mock
+    private lateinit var francaField: FField
+    @Mock
+    private lateinit var fModel: FModel
+    @Mock
+    private lateinit var francaAttribute: FAttribute
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(InstanceRules.class)
-public class JniModelBuilderTest {
+    @Mock
+    private lateinit var javaBuilder: JavaModelBuilder
+    @Mock
+    private lateinit var cppBuilder: CppModelBuilder
+    @Mock
+    private lateinit var cppIncludeResolver: CppIncludeResolver
 
-  private static final String JAVA_CLASS_NAME = "jAvaClazz";
-  private static final String JAVA_INTERFACE_NAME = "javaFAce";
-  private static final String CPP_CLASS_NAME = "cPpClass";
+    private val javaClass = JavaClass(JAVA_CLASS_NAME)
+    private val cppClass = CppClass(
+        CPP_CLASS_NAME,
+        "::$CPP_CLASS_NAME", null,
+        false,
+        emptyList(),
+        emptyList(),
+        emptyList()
+    )
+    private val javaEnum = JavaEnum(JAVA_CLASS_NAME)
+    private val cppEnum = CppEnum(CPP_CLASS_NAME, "::$CPP_CLASS_NAME", false, emptyList())
+    private val javaCustomType = JavaCustomType(JAVA_CLASS_NAME)
+    private val javaField =
+        JavaField(BASE_NAME_PARAMETER, javaCustomType, JavaValue(javaCustomType))
+    private val cppCustomType = CppComplexTypeRef(CPP_CLASS_NAME)
+    private val cppField = CppField(CPP_CLASS_NAME, cppCustomType)
 
-  private static final String CPP_VOID_METHOD_NAME = "cPpWork3R_vOid";
-  private static final String CPP_INT_METHOD_NAME = "cPpWork3R_iNt";
+    private val contextStack = MockContextStack<JniElement>()
 
-  private static final String JAVA_VOID_METHOD_NAME = "fancyMEthoD_v0id";
-  private static final String JAVA_INT_METHOD_NAME = "fancyMEthoD_integer";
+    private val jniParameter = JniParameter(BASE_NAME_PARAMETER, null)
+    private val javaGetter =
+        JavaMethod("getFoo", null, JavaVisibility.PUBLIC, JavaCustomType("FooType"))
+    private val cppGetter = CppMethod("shootFoot", "shootFoot", "", CppPrimitiveTypeRef.INT32)
+    private val javaSetter = JavaMethod(
+        "setFoo", null,
+        JavaVisibility.PUBLIC,
+        JavaPrimitiveType.VOID, null, null,
+        listOf(JavaParameter("value", JavaPrimitiveType.INT))
+    )
+    private val cppSetter = CppMethod(
+        "shootBothFeet",
+        "shootBothFeet",
+        "",
+        CppPrimitiveTypeRef.VOID,
+        "", null,
+        false,
+        listOf(CppParameter("value", CppPrimitiveTypeRef.INT8))
+    )
+    private val jniType = JniType(javaCustomType, cppCustomType)
+    private val cppInclude = Include.createInternalInclude("Foo.h")
+    private val cppStruct = CppStruct(CPP_CLASS_NAME)
 
-  private static final String BASE_NAME_PARAMETER = "theParam";
-  private static final String TYPE_COLLECTION_NAME = "TestTypeCollection";
+    private lateinit var modelBuilder: JniModelBuilder
 
-  private static final List<String> JAVA_PACKAGES = Arrays.asList("my", "java", "test");
-  private static final List<String> CPP_NAMESPACE_MEMBERS =
-      Arrays.asList("my", "cpp", "stuffs", "namespace");
+    private val arguments = ArrayEList<FArgument>()
+    private val types = ArrayEList<FType>()
 
-  private static final String INTERNAL_NAMESPACE = "::very::internal";
+    @Before
+    fun setUp() {
+        MockitoAnnotations.initMocks(this)
 
-  @Mock private FrancaDeploymentModel deploymentModel;
-  @Mock private FInterface francaInterface;
-  @Mock private FTypeCollection francaTypeCollection;
-  @Mock private FMethod francaMethod;
-  @Mock private FArgument francaArgument;
-  @Mock private FStructType francaStructType;
-  @Mock private FEnumerationType francaEnumType;
-  @Mock private FEnumerator francaEnumerator;
-  @Mock private FField francaField;
-  @Mock private FModel fModel;
-  @Mock private FAttribute francaAttribute;
-
-  @Mock private JavaModelBuilder javaBuilder;
-  @Mock private CppModelBuilder cppBuilder;
-  @Mock private CppIncludeResolver cppIncludeResolver;
-
-  private final JavaClass javaClass = new JavaClass(JAVA_CLASS_NAME);
-  private final CppClass cppClass =
-      new CppClass(
-          CPP_CLASS_NAME,
-          "::" + CPP_CLASS_NAME,
-          null,
-          false,
-          new LinkedList<>(),
-          new LinkedList<>(),
-          new LinkedList<>());
-  private final JavaEnum javaEnum = new JavaEnum(JAVA_CLASS_NAME);
-  private final CppEnum cppEnum =
-      new CppEnum(CPP_CLASS_NAME, "::" + CPP_CLASS_NAME, false, Collections.emptyList());
-  private final JavaCustomType javaCustomType = new JavaCustomType(JAVA_CLASS_NAME);
-  private final JavaField javaField =
-      new JavaField(BASE_NAME_PARAMETER, javaCustomType, new JavaValue(javaCustomType));
-  private final CppComplexTypeRef cppCustomType = new CppComplexTypeRef(CPP_CLASS_NAME);
-  private final CppField cppField = new CppField(CPP_CLASS_NAME, cppCustomType);
-
-  private final MockContextStack<JniElement> contextStack = new MockContextStack<>();
-
-  private final JniParameter jniParameter = new JniParameter(BASE_NAME_PARAMETER, null);
-  private final JavaMethod javaGetter =
-      new JavaMethod("getFoo", null, JavaVisibility.PUBLIC, new JavaCustomType("FooType"));
-  private final CppMethod cppGetter =
-      new CppMethod("shootFoot", "shootFoot", "", CppPrimitiveTypeRef.Companion.getINT32());
-  private final JavaMethod javaSetter =
-      new JavaMethod(
-          "setFoo",
-          null,
-          JavaVisibility.PUBLIC,
-          JavaPrimitiveType.VOID,
-          null,
-          null,
-          Collections.singletonList(new JavaParameter("value", JavaPrimitiveType.INT)));
-  private final CppMethod cppSetter =
-      new CppMethod(
-          "shootBothFeet",
-          "shootBothFeet",
-          "",
-          CppPrimitiveTypeRef.Companion.getVOID(),
-          "",
-          null,
-          false,
-          Collections.singletonList(
-              new CppParameter("value", CppPrimitiveTypeRef.Companion.getINT8())));
-  private final JniType jniType = new JniType(javaCustomType, cppCustomType);
-  private final Include cppInclude = Include.Companion.createInternalInclude("Foo.h");
-  private final CppStruct cppStruct = new CppStruct(CPP_CLASS_NAME);
-
-  private JniModelBuilder modelBuilder;
-
-  private final EList<FArgument> arguments = new ArrayEList<>();
-  private final EList<FType> types = new ArrayEList<>();
-
-  @Before
-  public void setUp() {
-    MockitoAnnotations.initMocks(this);
-    PowerMockito.mockStatic(InstanceRules.class);
-
-    modelBuilder =
-        new JniModelBuilder(
+        modelBuilder = JniModelBuilder(
             contextStack,
             deploymentModel,
             javaBuilder,
             cppBuilder,
             cppIncludeResolver,
-            INTERNAL_NAMESPACE);
+            INTERNAL_NAMESPACE
+        )
 
-    javaClass.javaPackage = new JavaPackage(JAVA_PACKAGES);
+        javaClass.javaPackage = JavaPackage(JAVA_PACKAGES)
 
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppClass);
-    when(cppIncludeResolver.resolveInclude(any())).thenReturn(cppInclude);
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaClass)
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppClass)
+        `when`(cppIncludeResolver.resolveInclude(any())).thenReturn(cppInclude)
 
-    when(francaInterface.eContainer()).thenReturn(fModel);
-    when(francaInterface.getTypes()).thenReturn(types);
-    when(francaTypeCollection.eContainer()).thenReturn(fModel);
-    when(francaTypeCollection.getTypes()).thenReturn(types);
-    when(fModel.getName()).thenReturn(String.join(".", CPP_NAMESPACE_MEMBERS));
-    when(francaMethod.getOutArgs()).thenReturn(arguments);
-  }
+        `when`(francaInterface.eContainer()).thenReturn(fModel)
+        `when`(francaInterface.types).thenReturn(types)
+        `when`(francaTypeCollection.eContainer()).thenReturn(fModel)
+        `when`(francaTypeCollection.types).thenReturn(types)
+        `when`(fModel.name).thenReturn(CPP_NAMESPACE_MEMBERS.joinToString("."))
+        `when`(francaMethod.outArgs).thenReturn(arguments)
+    }
 
-  private static JavaMethod createJavaMethod() {
-    return new JavaMethod(
-        JAVA_INT_METHOD_NAME,
-        null,
-        JavaVisibility.PUBLIC,
-        JavaPrimitiveType.INT,
-        null,
-        null,
-        Collections.singletonList(new JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT)));
-  }
+    private fun createJniMethod(jniContainer: JniContainer?): JniMethod {
+        return JniMethod(jniContainer, JAVA_VOID_METHOD_NAME, CPP_VOID_METHOD_NAME)
+    }
 
-  private static CppMethod createCppMethod() {
-    CppPrimitiveTypeRef cppPrimitiveType = CppPrimitiveTypeRef.Companion.getINT8();
-    CppParameter cppParameter = new CppParameter("", cppPrimitiveType);
+    @Test
+    fun finishBuildingFrancaMethodReadsJavaCppMethods() {
+        val javaMethod = createJavaMethod()
+        val cppMethod = createCppMethod()
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaMethod)
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppMethod)
 
-    return new CppMethod(
-        CPP_INT_METHOD_NAME,
-        CPP_INT_METHOD_NAME,
-        "",
-        cppPrimitiveType,
-        "",
-        null,
-        false,
-        Collections.singletonList(cppParameter));
-  }
+        modelBuilder.finishBuilding(francaMethod)
 
-  private JniMethod createJniMethod(JniContainer jniContainer) {
-    return new JniMethod(jniContainer, JAVA_VOID_METHOD_NAME, CPP_VOID_METHOD_NAME);
-  }
+        val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
+        assertNotNull(jniMethod)
+        assertEquals(javaMethod.name, jniMethod.javaMethodName)
+        assertEquals(cppMethod.name, jniMethod.cppMethodName)
+        assertNotNull(jniMethod.returnType)
+        assertEquals(javaMethod.returnType.name, jniMethod.returnType.javaName)
+        assertEquals(cppMethod.returnType.name, jniMethod.returnType.cppName)
+    }
 
-  @Test
-  public void finishBuildingFrancaMethodReadsJavaCppMethods() {
-    JavaMethod javaMethod = createJavaMethod();
-    CppMethod cppMethod = createCppMethod();
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaMethod);
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppMethod);
+    @Test
+    fun finishBuildingFrancaMethodReadsJniParameters() {
+        contextStack.injectResult(jniParameter)
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(createJavaMethod())
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod())
 
-    modelBuilder.finishBuilding(francaMethod);
+        modelBuilder.finishBuilding(francaMethod)
 
-    JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
-    assertNotNull(jniMethod);
-    assertEquals(javaMethod.name, jniMethod.getJavaMethodName());
-    assertEquals(cppMethod.name, jniMethod.getCppMethodName());
-    assertNotNull(jniMethod.getReturnType());
-    assertEquals(javaMethod.getReturnType().name, jniMethod.getReturnType().javaName);
-    assertEquals(cppMethod.getReturnType().name, jniMethod.getReturnType().cppName);
-  }
+        val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
+        assertNotNull(jniMethod)
+        assertEquals(1, jniMethod.parameters.size.toLong())
+        assertEquals(jniParameter, jniMethod.parameters[0])
+        assertFalse(jniMethod.isStatic)
+    }
 
-  @Test
-  public void finishBuildingFrancaMethodReadsJniParameters() {
-    contextStack.injectResult(jniParameter);
-    when(javaBuilder.getFinalResult(any())).thenReturn(createJavaMethod());
-    when(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod());
+    @Test
+    fun finishBuildingFrancaMethodReadsStaticMethods() {
+        contextStack.injectResult(jniParameter)
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(createJavaMethod())
+        val cppMethod = CppMethod(
+            name = CPP_INT_METHOD_NAME,
+            fullyQualifiedName = CPP_INT_METHOD_NAME,
+            returnType = CppPrimitiveTypeRef.INT8,
+            parameters = listOf(CppParameter("", CppPrimitiveTypeRef.INT8)),
+            specifiers = setOf(CppMethod.Specifier.STATIC)
+        )
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppMethod)
 
-    modelBuilder.finishBuilding(francaMethod);
+        modelBuilder.finishBuilding(francaMethod)
 
-    JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
-    assertNotNull(jniMethod);
-    assertEquals(1, jniMethod.getParameters().size());
-    assertEquals(jniParameter, jniMethod.getParameters().get(0));
-    assertFalse(jniMethod.isStatic());
-  }
+        val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
+        assertNotNull(jniMethod)
+        assertTrue(jniMethod.isStatic)
+    }
 
-  @Test
-  public void finishBuildingFrancaMethodReadsStaticMethods() {
-    contextStack.injectResult(jniParameter);
-    when(javaBuilder.getFinalResult(any())).thenReturn(createJavaMethod());
-    CppMethod cppMethod = createCppMethod();
-    cppMethod.getSpecifiers().add(CppMethod.Specifier.STATIC);
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppMethod);
+    @Test
+    fun finishBuildingFrancaMethodReadsConstMethods() {
+        contextStack.injectResult(jniParameter)
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(createJavaMethod())
+        val cppMethod = CppMethod(
+            name = CPP_INT_METHOD_NAME,
+            fullyQualifiedName = CPP_INT_METHOD_NAME,
+            returnType = CppPrimitiveTypeRef.INT8,
+            parameters = listOf(CppParameter("", CppPrimitiveTypeRef.INT8)),
+            qualifiers = setOf(CppMethod.Qualifier.CONST)
+        )
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppMethod)
 
-    modelBuilder.finishBuilding(francaMethod);
+        modelBuilder.finishBuilding(francaMethod)
 
-    JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
-    assertNotNull(jniMethod);
-    assertTrue(jniMethod.isStatic());
-  }
+        val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
+        assertNotNull(jniMethod)
+        assertTrue(jniMethod.isConst)
+    }
 
-  @Test
-  public void finishBuildingFrancaMethodReadsConstMethods() {
-    contextStack.injectResult(jniParameter);
-    when(javaBuilder.getFinalResult(any())).thenReturn(createJavaMethod());
-    CppMethod cppMethod = createCppMethod();
-    cppMethod.getQualifiers().add(CppMethod.Qualifier.CONST);
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppMethod);
+    @Test
+    fun finishBuildingFrancaMethodReadsSelector() {
+        `when`(francaMethod.selector).thenReturn("Foo")
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(createJavaMethod())
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod())
 
-    modelBuilder.finishBuilding(francaMethod);
+        modelBuilder.finishBuilding(francaMethod)
 
-    JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
-    assertNotNull(jniMethod);
-    assertTrue(jniMethod.isConst());
-  }
+        val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
+        assertNotNull(jniMethod)
+        assertTrue(jniMethod.isOverloaded)
 
-  @Test
-  public void finishBuildingFrancaMethodReadsSelector() {
-    when(francaMethod.getSelector()).thenReturn("Foo");
-    when(javaBuilder.getFinalResult(any())).thenReturn(createJavaMethod());
-    when(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod());
+        verify(francaMethod).selector
+    }
 
-    modelBuilder.finishBuilding(francaMethod);
-
-    JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
-    assertNotNull(jniMethod);
-    assertTrue(jniMethod.isOverloaded());
-
-    verify(francaMethod).getSelector();
-  }
-
-  @Test
-  public void finishBuildingFrancaMethodReadsExceptionName() {
-    JavaMethod javaMethod =
-        new JavaMethod(
-            JAVA_INT_METHOD_NAME,
-            null,
+    @Test
+    fun finishBuildingFrancaMethodReadsExceptionName() {
+        val javaMethod = JavaMethod(
+            JAVA_INT_METHOD_NAME, null,
             JavaVisibility.PUBLIC,
-            JavaPrimitiveType.INT,
-            null,
-            new JavaCustomType("FooException", JavaPackage.Companion.getDEFAULT()),
-            Collections.singletonList(
-                new JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT)));
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaMethod);
-    when(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod());
+            JavaPrimitiveType.INT, null,
+            JavaCustomType("FooException", JavaPackage.DEFAULT),
+            listOf(JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT))
+        )
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaMethod)
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod())
 
-    modelBuilder.finishBuilding(francaMethod);
+        modelBuilder.finishBuilding(francaMethod)
 
-    JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
-    assertNotNull(jniMethod);
-    assertNotNull(jniMethod.getException());
-    assertEquals("com/example/FooException", jniMethod.getException().getJavaClassName());
-  }
+        val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
+        assertNotNull(jniMethod)
+        assertNotNull(jniMethod.exception)
+        assertEquals("com/example/FooException", jniMethod.exception?.javaClassName)
+    }
 
-  @Test
-  public void finishBuildingFrancaMethodReadsExceptionEnum() {
-    JavaMethod javaMethod =
-        new JavaMethod(
-            JAVA_INT_METHOD_NAME,
-            null,
+    @Test
+    fun finishBuildingFrancaMethodReadsExceptionEnum() {
+        val javaMethod = JavaMethod(
+            JAVA_INT_METHOD_NAME, null,
             JavaVisibility.PUBLIC,
-            JavaPrimitiveType.INT,
-            null,
-            new JavaCustomType("FooException", JavaPackage.Companion.getDEFAULT()),
-            Collections.singletonList(
-                new JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT)));
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaMethod);
-    when(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod());
-    contextStack.injectResult(jniType);
-
-    modelBuilder.finishBuilding(francaMethod);
-
-    JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
-    assertNotNull(jniMethod);
-    assertNotNull(jniMethod.getException());
-    assertEquals(jniType, jniMethod.getException().getJniEnum());
-  }
-
-  @Test
-  public void finishBuildingInstantiableFrancaInterface() {
-    // arrange
-    CppMethod nonStaticMethod = new CppMethod("nonStaticMethod");
-    cppClass.getMethods().add(nonStaticMethod);
-
-    // act
-    modelBuilder.finishBuilding(francaInterface);
-
-    // assert
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertEquals(ContainerType.CLASS, jniContainer.getContainerType());
-    assertEquals(INTERNAL_NAMESPACE, jniContainer.getInternalNamespace());
-  }
-
-  @Test
-  public void finishBuildingInstantiableFrancaInterfaceReadsJavaCppClasses() {
-    // act
-    modelBuilder.finishBuilding(francaInterface);
-
-    // assert
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertEquals(CPP_CLASS_NAME, jniContainer.getCppName());
-    assertEquals(JAVA_CLASS_NAME, jniContainer.getJavaName());
-    assertEquals(CPP_NAMESPACE_MEMBERS, jniContainer.getCppNameSpaces());
-    assertEquals(JAVA_PACKAGES, jniContainer.getJavaPackages());
-    assertEquals(ContainerType.CLASS, jniContainer.getContainerType());
-  }
-
-  @Test
-  public void finishBuildingInstantiableFrancaInterfaceReadsJavaInterface() {
-    JavaInterface javaInterface = new JavaInterface(JAVA_INTERFACE_NAME);
-    javaInterface.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(javaBuilder.getFinalResult(JavaTopLevelElement.class)).thenReturn(javaInterface);
-    when(javaBuilder.getFinalResult(JavaClass.class)).thenReturn(javaClass);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertEquals(ContainerType.CLASS, jniContainer.getContainerType());
-    assertEquals(JAVA_CLASS_NAME, jniContainer.getJavaName());
-    assertEquals(JAVA_INTERFACE_NAME, jniContainer.getJavaInterfaceName());
-    assertEquals(JAVA_PACKAGES, jniContainer.getJavaPackages());
-  }
-
-  @Test
-  public void finishBuildingInstantiableFrancaInterfaceReadsMethods() {
-    contextStack.injectResult(createJniMethod(null));
-
-    // act
-    modelBuilder.finishBuilding(francaInterface);
-
-    // assert
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertFalse(jniContainer.getMethods().isEmpty());
-    assertEquals(ContainerType.CLASS, jniContainer.getContainerType());
-    assertEquals(createJniMethod(jniContainer), jniContainer.getMethods().get(0));
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsIsInterface() {
-    // arrange
-    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-
-    // act
-    modelBuilder.finishBuilding(francaInterface);
-
-    // assert
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertEquals(ContainerType.INTERFACE, jniContainer.getContainerType());
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsJavaCppClasses() {
-    // arrange
-    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-
-    // act
-    modelBuilder.finishBuilding(francaInterface);
-
-    // assert
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertEquals(ContainerType.INTERFACE, jniContainer.getContainerType());
-    assertEquals(CPP_CLASS_NAME, jniContainer.getCppName());
-    assertEquals(JAVA_CLASS_NAME, jniContainer.getJavaName());
-    assertEquals(CPP_NAMESPACE_MEMBERS, jniContainer.getCppNameSpaces());
-    assertEquals(JAVA_PACKAGES, jniContainer.getJavaPackages());
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsJavaInterface() {
-    when(deploymentModel.isInterface(francaInterface)).thenReturn(true);
-    JavaInterface javaInterface = new JavaInterface(JAVA_INTERFACE_NAME);
-    javaInterface.javaPackage = new JavaPackage(JAVA_PACKAGES);
-    when(javaBuilder.getFinalResult(JavaTopLevelElement.class)).thenReturn(javaInterface);
-    when(javaBuilder.getFinalResult(JavaClass.class)).thenReturn(javaClass);
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertEquals(ContainerType.INTERFACE, jniContainer.getContainerType());
-    assertEquals(JAVA_CLASS_NAME, jniContainer.getJavaName());
-    assertEquals(JAVA_INTERFACE_NAME, jniContainer.getJavaInterfaceName());
-    assertEquals(JAVA_PACKAGES, jniContainer.getJavaPackages());
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsParentMethods() {
-    // Arrange
-    JniContainer parentContainer = new JniContainer();
-    parentContainer.getParentMethods().add(createJniMethod(null));
-    parentContainer.getMethods().add(createJniMethod(null));
-
-    contextStack.injectResult(parentContainer);
-
-    // Act
-    modelBuilder.finishBuilding(francaInterface);
-
-    // Assert
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertEquals(2, jniContainer.getParentMethods().size());
-    assertEquals(jniContainer, jniContainer.getParentMethods().get(0).getOwningContainer());
-    assertEquals(jniContainer, jniContainer.getParentMethods().get(1).getOwningContainer());
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsInterfaceInclude() {
-    modelBuilder.finishBuilding(francaInterface);
-
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertEquals(1, jniContainer.getIncludes().size());
-    verify(cppIncludeResolver).resolveInclude(francaInterface);
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsTypeIncludes() {
-    types.add(francaStructType);
-    when(cppIncludeResolver.resolveInclude(any(FType.class)))
-        .thenReturn(Include.Companion.createInternalInclude("Bar.h"));
-
-    modelBuilder.finishBuilding(francaInterface);
-
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertEquals(2, jniContainer.getIncludes().size());
-    verify(cppIncludeResolver).resolveInclude(francaStructType);
-  }
-
-  @Test
-  public void finishBuildingInputArgumentReadsJavaCppParameters() {
-    JavaParameter javaParameter = new JavaParameter("relative", javaCustomType);
-    CppParameter cppParameter = new CppParameter("absolute", new CppComplexTypeRef(CPP_CLASS_NAME));
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaParameter);
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppParameter);
-    when(francaArgument.getType()).thenReturn(mock(FTypeRef.class));
-
-    modelBuilder.finishBuildingInputArgument(francaArgument);
-
-    JniParameter resultParameter = modelBuilder.getFinalResult(JniParameter.class);
-    assertNotNull(resultParameter);
-    assertEquals(javaParameter.name, resultParameter.name);
-    assertEquals(javaParameter.getType().name, resultParameter.type.javaName);
-    assertEquals(cppParameter.type.name, resultParameter.type.cppName);
-  }
-
-  @Test
-  public void finishBuildingFrancaStructReadsJavaCppClasses() {
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppStruct);
-
-    modelBuilder.finishBuilding(francaStructType);
-
-    JniStruct jniStruct = modelBuilder.getFinalResult(JniStruct.class);
-    assertNotNull(jniStruct);
-    assertEquals(javaClass, jniStruct.javaClass);
-    assertEquals(cppStruct, jniStruct.cppStruct);
-    assertEquals(javaClass.javaPackage, jniStruct.javaPackage);
-  }
-
-  @Test
-  public void finishBuildingFrancaStructReadsFields() {
-    JniField jniField = new JniField(javaField, cppField);
-    contextStack.injectResult(jniField);
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaClass);
-    when(cppBuilder.getFinalResult(any())).thenReturn(null);
-
-    modelBuilder.finishBuilding(francaStructType);
-
-    JniStruct jniStruct = modelBuilder.getFinalResult(JniStruct.class);
-    assertNotNull(jniStruct);
-    assertFalse(jniStruct.fields.isEmpty());
-    assertEquals(jniField, jniStruct.fields.get(0));
-  }
-
-  @Test
-  public void finishBuildingFrancaFieldReadsJavaCppFields() {
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaField);
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppField);
-
-    modelBuilder.finishBuilding(francaField);
-
-    JniField jniField = modelBuilder.getFinalResult(JniField.class);
-    assertNotNull(jniField);
-    assertEquals(javaField, jniField.getJavaField());
-    assertEquals(cppField, jniField.getCppField());
-  }
-
-  @Test
-  public void finishBuildingFrancaFieldReadsExternalAccessors() {
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaField);
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppField);
-    when(deploymentModel.getExternalGetter(any())).thenReturn("get_foo");
-    when(deploymentModel.getExternalSetter(any())).thenReturn("setFoo");
-
-    modelBuilder.finishBuilding(francaField);
-
-    JniField jniField = modelBuilder.getFinalResult(JniField.class);
-    assertNotNull(jniField);
-    assertEquals("get_foo", jniField.getCppGetterName());
-    assertEquals("setFoo", jniField.getCppSetterName());
-  }
-
-  @Test
-  public void finishBuildingFrancaTypeCollectionReadsStructs() {
-    when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
-    JniStruct jniStruct = new JniStruct(javaClass, cppStruct, null);
-    contextStack.injectResult(jniStruct);
-
-    modelBuilder.finishBuilding(francaTypeCollection);
-
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertFalse(jniContainer.getStructs().isEmpty());
-    assertEquals(jniStruct.javaClass, jniContainer.getStructs().get(0).javaClass);
-    String expectedNamespace = "my::cpp::stuffs::namespace";
-    assertEquals(expectedNamespace, String.join("::", jniContainer.getCppNameSpaces()));
-    assertNull(jniContainer.getJavaName());
-    assertNull(jniContainer.getCppName());
-    assertEquals(INTERNAL_NAMESPACE, jniContainer.getInternalNamespace());
-  }
-
-  @Test
-  public void finishBuildingFrancaTypeCollectionWithNoStruct() {
-    when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
-
-    modelBuilder.finishBuilding(francaTypeCollection);
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-
-    assertNotNull(jniContainer);
-    assertTrue(jniContainer.getStructs().isEmpty());
-    assertTrue(jniContainer.getJavaPackages().isEmpty());
-    assertEquals("my.cpp.stuffs.namespace", String.join(".", jniContainer.getCppNameSpaces()));
-    assertNull(jniContainer.getJavaName());
-    assertNull(jniContainer.getCppName());
-  }
-
-  @Test
-  public void finishBuildingFrancaTypeCollectionReadsTypeIncludes() {
-    types.add(francaStructType);
-    when(cppIncludeResolver.resolveInclude(any(FType.class)))
-        .thenReturn(Include.Companion.createInternalInclude("Bar.h"));
-
-    modelBuilder.finishBuilding(francaTypeCollection);
-
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertEquals(1, jniContainer.getIncludes().size());
-    verify(cppIncludeResolver).resolveInclude(francaStructType);
-  }
-
-  @Test
-  public void finishBuildingFrancaAttributeCreatesGetter() {
-    when(javaBuilder.getFinalResults()).thenReturn(Arrays.asList(javaGetter, javaSetter));
-    when(cppBuilder.getFinalResults()).thenReturn(Arrays.asList(cppGetter, cppSetter));
-
-    modelBuilder.finishBuilding(francaAttribute);
-
-    JniMethod jniMethod = modelBuilder.getFinalResult(JniMethod.class);
-    assertNotNull(jniMethod);
-    assertEquals(javaGetter.name, jniMethod.getJavaMethodName());
-    assertEquals(cppGetter.name, jniMethod.getCppMethodName());
-    assertNotNull(jniMethod.getReturnType());
-    assertEquals(javaGetter.getReturnType().name, jniMethod.getReturnType().javaName);
-    assertEquals(cppGetter.getReturnType().name, jniMethod.getReturnType().cppName);
-    assertTrue(jniMethod.isConst());
-  }
-
-  @Test
-  public void finishBuildingFrancaAttributeCreatesSetter() {
-    when(javaBuilder.getFinalResults()).thenReturn(Arrays.asList(javaGetter, javaSetter));
-    when(cppBuilder.getFinalResults()).thenReturn(Arrays.asList(cppGetter, cppSetter));
-
-    modelBuilder.finishBuilding(francaAttribute);
-
-    List<JniMethod> methods =
-        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JniMethod.class);
-    assertEquals("Both a getter and a setter should be created", 2, methods.size());
-
-    JniMethod jniMethod = methods.get(1);
-    assertEquals(javaSetter.name, jniMethod.getJavaMethodName());
-    assertEquals(cppSetter.name, jniMethod.getCppMethodName());
-    assertEquals("void", jniMethod.getReturnType().cppName);
-    assertEquals("void", jniMethod.getReturnType().javaName);
-  }
-
-  @Test
-  public void finishBuildingFrancaAttributeReadsParametersIntoSetter() {
-    // Arrange
-    when(javaBuilder.getFinalResults()).thenReturn(Arrays.asList(javaGetter, javaSetter));
-    when(cppBuilder.getFinalResults()).thenReturn(Arrays.asList(cppGetter, cppSetter));
-
-    // Act
-    modelBuilder.finishBuilding(francaAttribute);
-
-    // Assert
-    List<JniMethod> methods =
-        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JniMethod.class);
-    assertEquals("Both a getter and a setter should be created", 2, methods.size());
-    JniMethod jniMethod = methods.get(1);
-    assertEquals(1, jniMethod.getParameters().size());
-    JniParameter setterParameter = jniMethod.getParameters().get(0);
-    assertEquals(javaSetter.getParameters().get(0).name, setterParameter.name);
-    assertEquals(javaSetter.getParameters().get(0).getType().name, setterParameter.type.javaName);
-    assertEquals(cppSetter.getParameters().get(0).type.name, setterParameter.type.cppName);
-  }
-
-  @Test
-  public void finishBuildingFrancaAttributeReadonly() {
-    // Arrange
-    when(francaAttribute.isReadonly()).thenReturn(true);
-    when(javaBuilder.getFinalResults()).thenReturn(Collections.singletonList(javaGetter));
-    when(cppBuilder.getFinalResults()).thenReturn(Collections.singletonList(cppGetter));
-
-    // Act
-    modelBuilder.finishBuilding(francaAttribute);
-
-    // Assert
-    List<JniMethod> methods =
-        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JniMethod.class);
-    assertEquals("Only a getter should be created", 1, methods.size());
-    JniMethod jniMethod = methods.get(0);
-    assertEquals(javaGetter.name, jniMethod.getJavaMethodName());
-    assertEquals(cppGetter.name, jniMethod.getCppMethodName());
-    assertNotNull(jniMethod.getReturnType());
-    assertEquals(javaGetter.getReturnType().name, jniMethod.getReturnType().javaName);
-    assertEquals(cppGetter.getReturnType().name, jniMethod.getReturnType().cppName);
-  }
-
-  @Test
-  public void finishBuildingFrancaAttributeStatic() {
-    when(deploymentModel.isStatic(any(FAttribute.class))).thenReturn(true);
-    when(javaBuilder.getFinalResults()).thenReturn(Arrays.asList(javaGetter, javaSetter));
-    when(cppBuilder.getFinalResults()).thenReturn(Arrays.asList(cppGetter, cppSetter));
-
-    modelBuilder.finishBuilding(francaAttribute);
-
-    List<JniMethod> methods =
-        CollectionsHelper.getAllOfType(modelBuilder.getFinalResults(), JniMethod.class);
-    assertTrue(methods.get(0).isStatic());
-    assertTrue(methods.get(1).isStatic());
-  }
-
-  @Test
-  public void finishBuildingFrancaEnumerationsReadsNames() {
-    // Arrange
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppEnum, cppCustomType);
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaEnum, javaCustomType);
-
-    // Act
-    modelBuilder.finishBuilding(francaEnumType);
-
-    // Assert
-    JniEnum jniEnum = modelBuilder.getFinalResult(JniEnum.class);
-    assertNotNull(jniEnum);
-    assertEquals(javaEnum.name, jniEnum.getJavaEnumName());
-    assertEquals(cppEnum.fullyQualifiedName, jniEnum.getCppEnumName());
-  }
-
-  @Test
-  public void finishBuildingFrancaEnumerationsReadsEnumerators() {
-    // Arrange
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppEnum, cppCustomType);
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaEnum, javaCustomType);
-    contextStack.injectResult(new JniEnumerator("oneJ", "oneC"));
-    contextStack.injectResult(new JniEnumerator("twoJ", "twoC"));
-    contextStack.injectResult(new JniEnumerator("threeJ", "threeC"));
-
-    // Act
-    modelBuilder.finishBuilding(francaEnumType);
-
-    // Assert
-    JniEnum jniEnum = modelBuilder.getFinalResult(JniEnum.class);
-    assertNotNull(jniEnum);
-    assertEquals(3, jniEnum.getEnumerators().size());
-    assertEquals("oneC", jniEnum.getEnumerators().get(0).cppName);
-    assertEquals("oneJ", jniEnum.getEnumerators().get(0).javaName);
-    assertEquals("twoC", jniEnum.getEnumerators().get(1).cppName);
-    assertEquals("twoJ", jniEnum.getEnumerators().get(1).javaName);
-    assertEquals("threeC", jniEnum.getEnumerators().get(2).cppName);
-    assertEquals("threeJ", jniEnum.getEnumerators().get(2).javaName);
-  }
-
-  @Test
-  public void finishBuildingFrancaEnumerationsReadsTypeReferences() {
-    // Arrange
-    when(cppBuilder.getFinalResult(any())).thenReturn(cppEnum, cppCustomType);
-    when(javaBuilder.getFinalResult(any())).thenReturn(javaEnum, javaCustomType);
-
-    // Act
-    modelBuilder.finishBuilding(francaEnumType);
-
-    // Assert
-    JniType resultType = modelBuilder.getFinalResult(JniType.class);
-    assertNotNull(resultType);
-    assertEquals(javaCustomType.name, resultType.javaName);
-    assertEquals(cppCustomType.name, resultType.cppName);
-  }
-
-  @Test
-  public void finishBuildingFEnumerator() {
-    // Arrange
-    when(cppBuilder.getFinalResult(any())).thenReturn(new CppEnumItem("cppEnumerator", null));
-    when(javaBuilder.getFinalResult(any())).thenReturn(new JavaEnumItem("javaEnumerator"));
-
-    // Act
-    modelBuilder.finishBuilding(francaEnumerator);
-
-    // Assert
-    JniEnumerator jniEnumItem = modelBuilder.getFinalResult(JniEnumerator.class);
-    assertNotNull(jniEnumItem);
-    assertEquals(jniEnumItem.cppName, "cppEnumerator");
-    assertEquals(jniEnumItem.javaName, "javaEnumerator");
-  }
-
-  @Test
-  public void finishBuildingFrancaTypeCollectionReadsEnums() {
-    // Arrange
-    when(francaTypeCollection.getName()).thenReturn(TYPE_COLLECTION_NAME);
-    JniEnum jniEnum =
-        new JniEnum(JavaPackage.Companion.getDEFAULT(), "MyJavaEnumName", "MyCppEnumName");
-    contextStack.injectResult(jniEnum);
-
-    // Act
-    modelBuilder.finishBuilding(francaTypeCollection);
-
-    // Assert
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertFalse(jniContainer.getEnums().isEmpty());
-    assertEquals(jniEnum, jniContainer.getEnums().get(0));
-  }
-
-  @Test
-  public void finishBuildingFrancaInterfaceReadsEnums() {
-    // Arrange
-    JniEnum jniEnum = new JniEnum(null, "MyJavaEnumName", "MyCppEnumName");
-    contextStack.injectResult(jniEnum);
-
-    // Act
-    modelBuilder.finishBuilding(francaInterface);
-
-    // Assert
-    JniContainer jniContainer = modelBuilder.getFinalResult(JniContainer.class);
-    assertNotNull(jniContainer);
-    assertFalse(jniContainer.getEnums().isEmpty());
-    assertEquals(jniEnum, jniContainer.getEnums().get(0));
-  }
+            JavaPrimitiveType.INT, null,
+            JavaCustomType("FooException", JavaPackage.DEFAULT),
+            listOf(JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT))
+        )
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaMethod)
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(createCppMethod())
+        contextStack.injectResult(jniType)
+
+        modelBuilder.finishBuilding(francaMethod)
+
+        val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
+        assertNotNull(jniMethod)
+        assertNotNull(jniMethod.exception)
+        assertEquals(jniType, jniMethod.exception?.jniEnum)
+    }
+
+    @Test
+    fun finishBuildingInstantiableFrancaInterface() {
+//        // arrange
+//        cppClass.methods.add(CppMethod("nonStaticMethod"))
+
+        // act
+        modelBuilder.finishBuilding(francaInterface)
+
+        // assert
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertNotNull(jniContainer)
+        assertEquals(ContainerType.CLASS, jniContainer.containerType)
+        assertEquals(INTERNAL_NAMESPACE, jniContainer.internalNamespace)
+    }
+
+    @Test
+    fun finishBuildingInstantiableFrancaInterfaceReadsJavaCppClasses() {
+        // act
+        modelBuilder.finishBuilding(francaInterface)
+
+        // assert
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertNotNull(jniContainer)
+        assertEquals(CPP_CLASS_NAME, jniContainer.cppName)
+        assertEquals(JAVA_CLASS_NAME, jniContainer.javaName)
+        assertEquals(CPP_NAMESPACE_MEMBERS, jniContainer.cppNameSpaces)
+        assertEquals(JAVA_PACKAGES, jniContainer.javaPackages)
+        assertEquals(ContainerType.CLASS, jniContainer.containerType)
+    }
+
+    @Test
+    fun finishBuildingInstantiableFrancaInterfaceReadsJavaInterface() {
+        val javaInterface = JavaInterface(JAVA_INTERFACE_NAME)
+        javaInterface.javaPackage = JavaPackage(JAVA_PACKAGES)
+        `when`(javaBuilder.getFinalResult(JavaTopLevelElement::class.java)).thenReturn(
+            javaInterface
+        )
+        `when`(javaBuilder.getFinalResult(JavaClass::class.java)).thenReturn(javaClass)
+
+        modelBuilder.finishBuilding(francaInterface)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertNotNull(jniContainer)
+        assertEquals(ContainerType.CLASS, jniContainer.containerType)
+        assertEquals(JAVA_CLASS_NAME, jniContainer.javaName)
+        assertEquals(JAVA_INTERFACE_NAME, jniContainer.javaInterfaceName)
+        assertEquals(JAVA_PACKAGES, jniContainer.javaPackages)
+    }
+
+    @Test
+    fun finishBuildingInstantiableFrancaInterfaceReadsMethods() {
+        contextStack.injectResult(createJniMethod(null))
+
+        // act
+        modelBuilder.finishBuilding(francaInterface)
+
+        // assert
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertNotNull(jniContainer)
+        assertFalse(jniContainer.methods.isEmpty())
+        assertEquals(ContainerType.CLASS, jniContainer.containerType)
+        assertEquals(createJniMethod(jniContainer), jniContainer.methods[0])
+    }
+
+    @Test
+    fun finishBuildingFrancaInterfaceReadsIsInterface() {
+        // arrange
+        `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
+
+        // act
+        modelBuilder.finishBuilding(francaInterface)
+
+        // assert
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertNotNull(jniContainer)
+        assertEquals(ContainerType.INTERFACE, jniContainer.containerType)
+    }
+
+    @Test
+    fun finishBuildingFrancaInterfaceReadsJavaCppClasses() {
+        // arrange
+        `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
+
+        // act
+        modelBuilder.finishBuilding(francaInterface)
+
+        // assert
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertNotNull(jniContainer)
+        assertEquals(ContainerType.INTERFACE, jniContainer.containerType)
+        assertEquals(CPP_CLASS_NAME, jniContainer.cppName)
+        assertEquals(JAVA_CLASS_NAME, jniContainer.javaName)
+        assertEquals(CPP_NAMESPACE_MEMBERS, jniContainer.cppNameSpaces)
+        assertEquals(JAVA_PACKAGES, jniContainer.javaPackages)
+    }
+
+    @Test
+    fun finishBuildingFrancaInterfaceReadsJavaInterface() {
+        `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
+        val javaInterface = JavaInterface(JAVA_INTERFACE_NAME)
+        javaInterface.javaPackage = JavaPackage(JAVA_PACKAGES)
+        `when`(javaBuilder.getFinalResult(JavaTopLevelElement::class.java)).thenReturn(
+            javaInterface
+        )
+        `when`(javaBuilder.getFinalResult(JavaClass::class.java)).thenReturn(javaClass)
+
+        modelBuilder.finishBuilding(francaInterface)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertNotNull(jniContainer)
+        assertEquals(ContainerType.INTERFACE, jniContainer.containerType)
+        assertEquals(JAVA_CLASS_NAME, jniContainer.javaName)
+        assertEquals(JAVA_INTERFACE_NAME, jniContainer.javaInterfaceName)
+        assertEquals(JAVA_PACKAGES, jniContainer.javaPackages)
+    }
+
+    @Test
+    fun finishBuildingFrancaInterfaceReadsParentMethods() {
+        // Arrange
+        val parentContainer = JniContainer()
+        parentContainer.parentMethods.add(createJniMethod(null))
+        parentContainer.methods.add(createJniMethod(null))
+
+        contextStack.injectResult(parentContainer)
+
+        // Act
+        modelBuilder.finishBuilding(francaInterface)
+
+        // Assert
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertNotNull(jniContainer)
+        assertEquals(2, jniContainer.parentMethods.size.toLong())
+        assertEquals(jniContainer, jniContainer.parentMethods[0].owningContainer)
+        assertEquals(jniContainer, jniContainer.parentMethods[1].owningContainer)
+    }
+
+    @Test
+    fun finishBuildingFrancaInterfaceReadsInterfaceInclude() {
+        modelBuilder.finishBuilding(francaInterface)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertNotNull(jniContainer)
+        assertEquals(1, jniContainer.includes.size.toLong())
+        verify<CppIncludeResolver>(cppIncludeResolver).resolveInclude(francaInterface)
+    }
+
+    @Test
+    fun finishBuildingFrancaInterfaceReadsTypeIncludes() {
+        types.add(francaStructType)
+        `when`(cppIncludeResolver.resolveInclude(any(FType::class.java)))
+            .thenReturn(Include.createInternalInclude("Bar.h"))
+
+        modelBuilder.finishBuilding(francaInterface)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertNotNull(jniContainer)
+        assertEquals(2, jniContainer.includes.size.toLong())
+        verify(cppIncludeResolver).resolveInclude(francaStructType)
+    }
+
+    @Test
+    fun finishBuildingInputArgumentReadsJavaCppParameters() {
+        val javaParameter = JavaParameter("relative", javaCustomType)
+        val cppParameter = CppParameter("absolute", CppComplexTypeRef(CPP_CLASS_NAME))
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaParameter)
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppParameter)
+        `when`(francaArgument.type).thenReturn(mock(FTypeRef::class.java))
+
+        modelBuilder.finishBuildingInputArgument(francaArgument)
+
+        val resultParameter = modelBuilder.getFinalResult(JniParameter::class.java)
+        assertNotNull(resultParameter)
+        assertEquals(javaParameter.name, resultParameter.name)
+        assertEquals(javaParameter.type.name, resultParameter.type.javaName)
+        assertEquals(cppParameter.type.name, resultParameter.type.cppName)
+    }
+
+    @Test
+    fun finishBuildingFrancaStructReadsJavaCppClasses() {
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppStruct)
+
+        modelBuilder.finishBuilding(francaStructType)
+
+        val jniStruct = modelBuilder.getFinalResult(JniStruct::class.java)
+        assertNotNull(jniStruct)
+        assertEquals(javaClass, jniStruct.javaClass)
+        assertEquals(cppStruct, jniStruct.cppStruct)
+        assertEquals(javaClass.javaPackage, jniStruct.javaPackage)
+    }
+
+    @Test
+    fun finishBuildingFrancaStructReadsFields() {
+        val jniField = JniField(javaField, cppField)
+        contextStack.injectResult(jniField)
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaClass)
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(null)
+
+        modelBuilder.finishBuilding(francaStructType)
+
+        val jniStruct = modelBuilder.getFinalResult(JniStruct::class.java)
+        assertNotNull(jniStruct)
+        assertFalse(jniStruct.fields.isEmpty())
+        assertEquals(jniField, jniStruct.fields[0])
+    }
+
+    @Test
+    fun finishBuildingFrancaFieldReadsJavaCppFields() {
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaField)
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppField)
+
+        modelBuilder.finishBuilding(francaField)
+
+        val jniField = modelBuilder.getFinalResult(JniField::class.java)
+        assertNotNull(jniField)
+        assertEquals(javaField, jniField.javaField)
+        assertEquals(cppField, jniField.cppField)
+    }
+
+    @Test
+    fun finishBuildingFrancaFieldReadsExternalAccessors() {
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaField)
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppField)
+        `when`(deploymentModel.getExternalGetter(any())).thenReturn("get_foo")
+        `when`(deploymentModel.getExternalSetter(any())).thenReturn("setFoo")
+
+        modelBuilder.finishBuilding(francaField)
+
+        val jniField = modelBuilder.getFinalResult(JniField::class.java)
+        assertNotNull(jniField)
+        assertEquals("get_foo", jniField.cppGetterName)
+        assertEquals("setFoo", jniField.cppSetterName)
+    }
+
+    @Test
+    fun finishBuildingFrancaTypeCollectionReadsStructs() {
+        `when`(francaTypeCollection.name).thenReturn(TYPE_COLLECTION_NAME)
+        val jniStruct = JniStruct(javaClass, cppStruct, null)
+        contextStack.injectResult(jniStruct)
+
+        modelBuilder.finishBuilding(francaTypeCollection)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertNotNull(jniContainer)
+        assertFalse(jniContainer.structs.isEmpty())
+        assertEquals(jniStruct.javaClass, jniContainer.structs[0].javaClass)
+        val expectedNamespace = "my::cpp::stuffs::namespace"
+        assertEquals(expectedNamespace, jniContainer.cppNameSpaces.joinToString("::"))
+        assertNull(jniContainer.javaName)
+        assertNull(jniContainer.cppName)
+        assertEquals(INTERNAL_NAMESPACE, jniContainer.internalNamespace)
+    }
+
+    @Test
+    fun finishBuildingFrancaTypeCollectionWithNoStruct() {
+        `when`(francaTypeCollection.name).thenReturn(TYPE_COLLECTION_NAME)
+
+        modelBuilder.finishBuilding(francaTypeCollection)
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+
+        assertNotNull(jniContainer)
+        assertTrue(jniContainer.structs.isEmpty())
+        assertTrue(jniContainer.javaPackages.isEmpty())
+        assertEquals("my.cpp.stuffs.namespace", jniContainer.cppNameSpaces.joinToString("."))
+        assertNull(jniContainer.javaName)
+        assertNull(jniContainer.cppName)
+    }
+
+    @Test
+    fun finishBuildingFrancaTypeCollectionReadsTypeIncludes() {
+        types.add(francaStructType)
+        `when`(cppIncludeResolver.resolveInclude(any(FType::class.java)))
+            .thenReturn(Include.createInternalInclude("Bar.h"))
+
+        modelBuilder.finishBuilding(francaTypeCollection)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertNotNull(jniContainer)
+        assertEquals(1, jniContainer.includes.size.toLong())
+        verify(cppIncludeResolver).resolveInclude(francaStructType)
+    }
+
+    @Test
+    fun finishBuildingFrancaAttributeCreatesGetter() {
+        `when`(javaBuilder.finalResults).thenReturn(
+            Arrays.asList<JavaElement>(
+                javaGetter,
+                javaSetter
+            )
+        )
+        `when`(cppBuilder.finalResults).thenReturn(
+            Arrays.asList<CppElement>(
+                cppGetter,
+                cppSetter
+            )
+        )
+
+        modelBuilder.finishBuilding(francaAttribute)
+
+        val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
+        assertNotNull(jniMethod)
+        assertEquals(javaGetter.name, jniMethod.javaMethodName)
+        assertEquals(cppGetter.name, jniMethod.cppMethodName)
+        assertNotNull(jniMethod.returnType)
+        assertEquals(javaGetter.returnType.name, jniMethod.returnType.javaName)
+        assertEquals(cppGetter.returnType.name, jniMethod.returnType.cppName)
+        assertTrue(jniMethod.isConst)
+    }
+
+    @Test
+    fun finishBuildingFrancaAttributeCreatesSetter() {
+        `when`(javaBuilder.finalResults).thenReturn(
+            Arrays.asList<JavaElement>(
+                javaGetter,
+                javaSetter
+            )
+        )
+        `when`(cppBuilder.finalResults).thenReturn(
+            Arrays.asList<CppElement>(
+                cppGetter,
+                cppSetter
+            )
+        )
+
+        modelBuilder.finishBuilding(francaAttribute)
+
+        val methods =
+            CollectionsHelper.getAllOfType(modelBuilder.finalResults, JniMethod::class.java)
+        assertEquals("Both a getter and a setter should be created", 2, methods.size.toLong())
+
+        val (_, javaMethodName, cppMethodName, returnType) = methods[1]
+        assertEquals(javaSetter.name, javaMethodName)
+        assertEquals(cppSetter.name, cppMethodName)
+        assertEquals("void", returnType.cppName)
+        assertEquals("void", returnType.javaName)
+    }
+
+    @Test
+    fun finishBuildingFrancaAttributeReadsParametersIntoSetter() {
+        // Arrange
+        `when`(javaBuilder.finalResults).thenReturn(
+            Arrays.asList<JavaElement>(
+                javaGetter,
+                javaSetter
+            )
+        )
+        `when`(cppBuilder.finalResults).thenReturn(
+            Arrays.asList<CppElement>(
+                cppGetter,
+                cppSetter
+            )
+        )
+
+        // Act
+        modelBuilder.finishBuilding(francaAttribute)
+
+        // Assert
+        val methods =
+            CollectionsHelper.getAllOfType(modelBuilder.finalResults, JniMethod::class.java)
+        assertEquals("Both a getter and a setter should be created", 2, methods.size.toLong())
+        val (_, _, _, _, _, _, _, _, _, parameters) = methods[1]
+        assertEquals(1, parameters.size.toLong())
+        val setterParameter = parameters[0]
+        assertEquals(javaSetter.parameters[0].name, setterParameter.name)
+        assertEquals(javaSetter.parameters[0].type.name, setterParameter.type.javaName)
+        assertEquals(cppSetter.parameters[0].type.name, setterParameter.type.cppName)
+    }
+
+    @Test
+    fun finishBuildingFrancaAttributeReadonly() {
+        // Arrange
+        `when`(francaAttribute.isReadonly).thenReturn(true)
+        `when`(javaBuilder.finalResults).thenReturn(listOf<JavaElement>(javaGetter))
+        `when`(cppBuilder.finalResults).thenReturn(listOf<CppElement>(cppGetter))
+
+        // Act
+        modelBuilder.finishBuilding(francaAttribute)
+
+        // Assert
+        val methods =
+            CollectionsHelper.getAllOfType(modelBuilder.finalResults, JniMethod::class.java)
+        assertEquals("Only a getter should be created", 1, methods.size.toLong())
+        val (_, javaMethodName, cppMethodName, returnType) = methods[0]
+        assertEquals(javaGetter.name, javaMethodName)
+        assertEquals(cppGetter.name, cppMethodName)
+        assertNotNull(returnType)
+        assertEquals(javaGetter.returnType.name, returnType.javaName)
+        assertEquals(cppGetter.returnType.name, returnType.cppName)
+    }
+
+    @Test
+    fun finishBuildingFrancaAttributeStatic() {
+        `when`(deploymentModel.isStatic(any(FAttribute::class.java))).thenReturn(true)
+        `when`(javaBuilder.finalResults).thenReturn(
+            Arrays.asList<JavaElement>(
+                javaGetter,
+                javaSetter
+            )
+        )
+        `when`(cppBuilder.finalResults).thenReturn(
+            Arrays.asList<CppElement>(
+                cppGetter,
+                cppSetter
+            )
+        )
+
+        modelBuilder.finishBuilding(francaAttribute)
+
+        val methods =
+            CollectionsHelper.getAllOfType(modelBuilder.finalResults, JniMethod::class.java)
+        assertTrue(methods[0].isStatic)
+        assertTrue(methods[1].isStatic)
+    }
+
+    @Test
+    fun finishBuildingFrancaEnumerationsReadsNames() {
+        // Arrange
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppEnum, cppCustomType)
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaEnum, javaCustomType)
+
+        // Act
+        modelBuilder.finishBuilding(francaEnumType)
+
+        // Assert
+        val jniEnum = modelBuilder.getFinalResult(JniEnum::class.java)
+        assertNotNull(jniEnum)
+        assertEquals(javaEnum.name, jniEnum.javaEnumName)
+        assertEquals(cppEnum.fullyQualifiedName, jniEnum.cppEnumName)
+    }
+
+    @Test
+    fun finishBuildingFrancaEnumerationsReadsEnumerators() {
+        // Arrange
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppEnum, cppCustomType)
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaEnum, javaCustomType)
+        contextStack.injectResult(JniEnumerator("oneJ", "oneC"))
+        contextStack.injectResult(JniEnumerator("twoJ", "twoC"))
+        contextStack.injectResult(JniEnumerator("threeJ", "threeC"))
+
+        // Act
+        modelBuilder.finishBuilding(francaEnumType)
+
+        // Assert
+        val jniEnum = modelBuilder.getFinalResult(JniEnum::class.java)
+        assertNotNull(jniEnum)
+        assertEquals(3, jniEnum.enumerators.size.toLong())
+        assertEquals("oneC", jniEnum.enumerators[0].cppName)
+        assertEquals("oneJ", jniEnum.enumerators[0].javaName)
+        assertEquals("twoC", jniEnum.enumerators[1].cppName)
+        assertEquals("twoJ", jniEnum.enumerators[1].javaName)
+        assertEquals("threeC", jniEnum.enumerators[2].cppName)
+        assertEquals("threeJ", jniEnum.enumerators[2].javaName)
+    }
+
+    @Test
+    fun finishBuildingFrancaEnumerationsReadsTypeReferences() {
+        // Arrange
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(cppEnum, cppCustomType)
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(javaEnum, javaCustomType)
+
+        // Act
+        modelBuilder.finishBuilding(francaEnumType)
+
+        // Assert
+        val resultType = modelBuilder.getFinalResult(JniType::class.java)
+        assertNotNull(resultType)
+        assertEquals(javaCustomType.name, resultType.javaName)
+        assertEquals(cppCustomType.name, resultType.cppName)
+    }
+
+    @Test
+    fun finishBuildingFEnumerator() {
+        // Arrange
+        `when`<Any>(cppBuilder.getFinalResult(any())).thenReturn(
+            CppEnumItem(
+                "cppEnumerator",
+                null
+            )
+        )
+        `when`<Any>(javaBuilder.getFinalResult(any())).thenReturn(JavaEnumItem("javaEnumerator"))
+
+        // Act
+        modelBuilder.finishBuilding(francaEnumerator)
+
+        // Assert
+        val jniEnumItem = modelBuilder.getFinalResult(JniEnumerator::class.java)
+        assertNotNull(jniEnumItem)
+        assertEquals(jniEnumItem.cppName, "cppEnumerator")
+        assertEquals(jniEnumItem.javaName, "javaEnumerator")
+    }
+
+    @Test
+    fun finishBuildingFrancaTypeCollectionReadsEnums() {
+        // Arrange
+        `when`(francaTypeCollection.name).thenReturn(TYPE_COLLECTION_NAME)
+        val jniEnum = JniEnum(JavaPackage.DEFAULT, "MyJavaEnumName", "MyCppEnumName")
+        contextStack.injectResult(jniEnum)
+
+        // Act
+        modelBuilder.finishBuilding(francaTypeCollection)
+
+        // Assert
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertNotNull(jniContainer)
+        assertFalse(jniContainer.enums.isEmpty())
+        assertEquals(jniEnum, jniContainer.enums[0])
+    }
+
+    @Test
+    fun finishBuildingFrancaInterfaceReadsEnums() {
+        // Arrange
+        val jniEnum = JniEnum(null, "MyJavaEnumName", "MyCppEnumName")
+        contextStack.injectResult(jniEnum)
+
+        // Act
+        modelBuilder.finishBuilding(francaInterface)
+
+        // Assert
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertNotNull(jniContainer)
+        assertFalse(jniContainer.enums.isEmpty())
+        assertEquals(jniEnum, jniContainer.enums[0])
+    }
+
+    companion object {
+        private const val JAVA_CLASS_NAME = "jAvaClazz"
+        private const val JAVA_INTERFACE_NAME = "javaFAce"
+        private const val CPP_CLASS_NAME = "cPpClass"
+
+        private const val CPP_VOID_METHOD_NAME = "cPpWork3R_vOid"
+        private const val CPP_INT_METHOD_NAME = "cPpWork3R_iNt"
+
+        private val JAVA_VOID_METHOD_NAME = "fancyMEthoD_v0id"
+        private const val JAVA_INT_METHOD_NAME = "fancyMEthoD_integer"
+
+        private const val BASE_NAME_PARAMETER = "theParam"
+        private const val TYPE_COLLECTION_NAME = "TestTypeCollection"
+
+        private val JAVA_PACKAGES = Arrays.asList("my", "java", "test")
+        private val CPP_NAMESPACE_MEMBERS = Arrays.asList("my", "cpp", "stuffs", "namespace")
+
+        private const val INTERNAL_NAMESPACE = "::very::internal"
+
+        private fun createJavaMethod(): JavaMethod {
+            return JavaMethod(
+                JAVA_INT_METHOD_NAME, null,
+                JavaVisibility.PUBLIC,
+                JavaPrimitiveType.INT, null, null,
+                listOf(JavaParameter(BASE_NAME_PARAMETER, JavaPrimitiveType.INT))
+            )
+        }
+
+        private fun createCppMethod() =
+            CppMethod(
+                name = CPP_INT_METHOD_NAME,
+                fullyQualifiedName = CPP_INT_METHOD_NAME,
+                returnType = CppPrimitiveTypeRef.INT8,
+                parameters = listOf(CppParameter("", CppPrimitiveTypeRef.INT8))
+            )
+    }
 }

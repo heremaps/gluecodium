@@ -17,485 +17,453 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java;
+package com.here.genium.generator.java
 
-import com.google.common.annotations.VisibleForTesting;
-import com.here.genium.common.CollectionsHelper;
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
-import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
-import com.here.genium.model.common.CommentsPreprocessor;
-import com.here.genium.model.franca.CommentHelper;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.java.*;
-import com.here.genium.model.java.JavaMethod.MethodQualifier;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import org.franca.core.franca.*;
+import com.google.common.annotations.VisibleForTesting
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder
+import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
+import com.here.genium.model.common.CommentsPreprocessor
+import com.here.genium.model.franca.CommentHelper
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.java.JavaClass
+import com.here.genium.model.java.JavaConstant
+import com.here.genium.model.java.JavaCustomType
+import com.here.genium.model.java.JavaElement
+import com.here.genium.model.java.JavaEnum
+import com.here.genium.model.java.JavaEnumItem
+import com.here.genium.model.java.JavaEnumType
+import com.here.genium.model.java.JavaExceptionClass
+import com.here.genium.model.java.JavaExceptionType
+import com.here.genium.model.java.JavaField
+import com.here.genium.model.java.JavaInterface
+import com.here.genium.model.java.JavaMethod
+import com.here.genium.model.java.JavaMethod.MethodQualifier
+import com.here.genium.model.java.JavaPackage
+import com.here.genium.model.java.JavaParameter
+import com.here.genium.model.java.JavaPrimitiveType
+import com.here.genium.model.java.JavaTopLevelElement
+import com.here.genium.model.java.JavaType
+import com.here.genium.model.java.JavaValue
+import com.here.genium.model.java.JavaVisibility
+import org.franca.core.franca.FArgument
+import org.franca.core.franca.FArrayType
+import org.franca.core.franca.FAttribute
+import org.franca.core.franca.FConstantDef
+import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FEnumerator
+import org.franca.core.franca.FField
+import org.franca.core.franca.FInitializerExpression
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMapType
+import org.franca.core.franca.FMethod
+import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FStructType
+import org.franca.core.franca.FTypeCollection
+import org.franca.core.franca.FTypeRef
+import java.util.EnumSet
 
-@SuppressWarnings("PMD.GodClass")
-public class JavaModelBuilder extends AbstractModelBuilder<JavaElement> {
+open class JavaModelBuilder @VisibleForTesting
+internal constructor(
+    contextStack: ModelBuilderContextStack<JavaElement>,
+    private val methodNameResolver: JavaMethodNameResolver,
+    private val deploymentModel: FrancaDeploymentModel,
+    private val rootPackage: JavaPackage,
+    private val typeMapper: JavaTypeMapper,
+    private val errorEnums: FrancaTypeHelper.ErrorEnumFilter
+) : AbstractModelBuilder<JavaElement>(contextStack) {
+    private val nativeBase: JavaType
 
-  private final FrancaDeploymentModel deploymentModel;
-  private final JavaPackage rootPackage;
-  private final JavaTypeMapper typeMapper;
-  private final JavaType nativeBase;
-  private final FrancaTypeHelper.ErrorEnumFilter errorEnums;
-  private final JavaMethodNameResolver methodNameResolver;
+    init {
+        this.nativeBase = typeMapper.nativeBase
+    }
 
-  @VisibleForTesting
-  JavaModelBuilder(
-      final ModelBuilderContextStack<JavaElement> contextStack,
-      final JavaMethodNameResolver methodNameResolver,
-      final FrancaDeploymentModel deploymentModel,
-      final JavaPackage rootPackage,
-      final JavaTypeMapper typeMapper,
-      final FrancaTypeHelper.ErrorEnumFilter errorEnums) {
-    super(contextStack);
-    this.deploymentModel = deploymentModel;
-    this.rootPackage = rootPackage;
-    this.typeMapper = typeMapper;
-    this.nativeBase = typeMapper.getNativeBase();
-    this.errorEnums = errorEnums;
-    this.methodNameResolver = methodNameResolver;
-  }
-
-  public JavaModelBuilder(
-      final FrancaDeploymentModel deploymentModel,
-      final JavaPackage rootPackage,
-      final JavaTypeMapper typeMapper,
-      final FrancaTypeHelper.ErrorEnumFilter errorEnums) {
-    this(
-        new ModelBuilderContextStack<>(),
-        new JavaMethodNameResolver(),
+    constructor(
+        deploymentModel: FrancaDeploymentModel,
+        rootPackage: JavaPackage,
+        typeMapper: JavaTypeMapper,
+        errorEnums: FrancaTypeHelper.ErrorEnumFilter
+    ) : this(
+        ModelBuilderContextStack<JavaElement>(),
+        JavaMethodNameResolver(),
         deploymentModel,
         rootPackage,
         typeMapper,
-        errorEnums);
-  }
+        errorEnums
+    )
 
-  @Override
-  public void finishBuilding(FInterface francaInterface) {
+    override fun finishBuilding(francaInterface: FInterface) {
+        when {
+            deploymentModel.isInterface(francaInterface) ->
+                finishBuildingFrancaInterface(francaInterface)
+            else -> finishBuildingFrancaClass(francaInterface)
+        }
 
-    if (deploymentModel.isInterface(francaInterface)) {
-      finishBuildingFrancaInterface(francaInterface);
-    } else {
-      finishBuildingFrancaClass(francaInterface);
+        closeContext()
     }
 
-    closeContext();
-  }
+    override fun finishBuilding(francaTypeCollection: FTypeCollection) {
+        getPreviousResults(JavaTopLevelElement::class.java).forEach { this.storeResult(it) }
 
-  @Override
-  public void finishBuilding(FTypeCollection francaTypeCollection) {
+        val constants = getPreviousResults(JavaConstant::class.java)
+        if (!constants.isEmpty()) {
+            val name = JavaNameRules.getClassName(francaTypeCollection.name)
+            val javaClass = JavaClass(name)
+            javaClass.visibility = getVisibility(francaTypeCollection)
+            javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
+            javaClass.javaPackage = rootPackage
+            javaClass.comment = CommentHelper.getDescription(francaTypeCollection)
+            javaClass.constants.addAll(constants)
 
-    getPreviousResults(JavaTopLevelElement.class).forEach(this::storeResult);
+            storeResult(javaClass)
+        }
 
-    List<JavaConstant> constants = getPreviousResults(JavaConstant.class);
-    if (!constants.isEmpty()) {
-      String name = JavaNameRules.getClassName(francaTypeCollection.getName());
-      JavaClass javaClass = new JavaClass(name);
-      javaClass.visibility = getVisibility(francaTypeCollection);
-      javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL);
-      javaClass.javaPackage = rootPackage;
-      javaClass.comment = CommentHelper.getDescription(francaTypeCollection);
-      javaClass.constants.addAll(constants);
-
-      storeResult(javaClass);
+        closeContext()
     }
 
-    closeContext();
-  }
+    override fun finishBuilding(francaMethod: FMethod) {
+        // Map return type
+        val outputParameter = currentContext.previousResults
+            .filterIsInstance<JavaParameter>()
+            .firstOrNull { it.isOutput }
 
-  @Override
-  public void finishBuilding(FMethod francaMethod) {
+        val returnType: JavaType
+        val returnComment: String?
+        val annotations: Set<JavaType>
+        if (outputParameter == null) { // Void return type
+            returnType = JavaPrimitiveType.VOID
+            returnComment = null
+            annotations = emptySet()
+        } else {
+            returnType = outputParameter.type
+            returnComment = outputParameter.comment
+            annotations = outputParameter.annotations
+        }
 
-    // Map return type
-    JavaParameter outputParameter =
-        CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaParameter.class)
-            .filter(parameter -> parameter.isOutput)
-            .findFirst()
-            .orElse(null);
+        val inputParameters = currentContext.previousResults
+            .filterIsInstance<JavaParameter>()
+            .filterNot { it.isOutput }
 
-    JavaType returnType;
-    String returnComment;
-    Set<JavaType> annotations;
-    if (outputParameter == null) { // Void return type
-      returnType = JavaPrimitiveType.VOID;
-      returnComment = null;
-      annotations = Collections.emptySet();
-    } else {
-      returnType = outputParameter.getType();
-      returnComment = outputParameter.comment;
-      annotations = outputParameter.annotations;
-    }
-
-    List<JavaParameter> inputParameters =
-        CollectionsHelper.getStreamOfType(getCurrentContext().previousResults, JavaParameter.class)
-            .filter(parameter -> !parameter.isOutput)
-            .collect(Collectors.toList());
-
-    boolean isConstructor = deploymentModel.isConstructor(francaMethod);
-    JavaMethod javaMethod =
-        new JavaMethod(
+        val isConstructor = deploymentModel.isConstructor(francaMethod)
+        val qualifiers = if (isConstructor || deploymentModel.isStatic(francaMethod))
+            setOf(MethodQualifier.STATIC)
+        else
+            emptySet()
+        val javaMethod = JavaMethod(
             methodNameResolver.getName(francaMethod),
             CommentHelper.getDescription(francaMethod),
             getVisibility(francaMethod),
-            isConstructor ? JavaPrimitiveType.LONG : returnType,
+            if (isConstructor) JavaPrimitiveType.LONG else returnType,
             returnComment,
-            getPreviousResult(JavaExceptionType.class),
+            getPreviousResult(JavaExceptionType::class.java),
             inputParameters,
             isConstructor,
-            (isConstructor || deploymentModel.isStatic(francaMethod))
-                ? Collections.singleton(MethodQualifier.STATIC)
-                : Collections.emptySet(),
-            annotations);
+            qualifiers,
+            annotations
+        )
 
-    storeResult(javaMethod);
-    closeContext();
-  }
-
-  @Override
-  public void finishBuildingInputArgument(FArgument francaArgument) {
-    finishBuildingFrancaArgument(francaArgument, false);
-  }
-
-  @Override
-  public void finishBuildingOutputArgument(FArgument francaArgument) {
-    finishBuildingFrancaArgument(francaArgument, true);
-  }
-
-  private void finishBuildingFrancaArgument(
-      final FArgument francaArgument, final boolean isOutput) {
-
-    JavaType javaType = getPreviousResult(JavaType.class);
-
-    JavaParameter javaParameter =
-        new JavaParameter(
-            JavaNameRules.getArgumentName(francaArgument.getName()), javaType, isOutput);
-    javaParameter.comment = CommentHelper.getDescription(francaArgument);
-
-    storeResult(javaParameter);
-    closeContext();
-  }
-
-  @Override
-  public void finishBuilding(FConstantDef francaConstant) {
-
-    JavaType javaType = getPreviousResult(JavaType.class);
-    String name = JavaNameRules.getConstantName(francaConstant.getName());
-    JavaValue value = getPreviousResult(JavaValue.class);
-
-    JavaConstant javaConstant = new JavaConstant(name, javaType, value);
-    javaConstant.visibility = getVisibility(francaConstant);
-    javaConstant.comment = CommentHelper.getDescription(francaConstant);
-
-    storeResult(javaConstant);
-    closeContext();
-  }
-
-  @Override
-  public void finishBuilding(FField francaField) {
-
-    String fieldName = JavaNameRules.getFieldName(francaField.getName());
-    JavaType javaType = getPreviousResult(JavaType.class);
-
-    String defaultValue = deploymentModel.getDefaultValue(francaField);
-    JavaValue initialValue;
-    if (defaultValue != null) {
-      initialValue = JavaValueMapper.mapDefaultValue(javaType, defaultValue);
-    } else {
-      initialValue =
-          deploymentModel.isNullable(francaField)
-              ? JavaValueMapper.mapNullValue(javaType)
-              : JavaValueMapper.mapDefaultValue(javaType);
+        storeResult(javaMethod)
+        closeContext()
     }
 
-    JavaField javaField = new JavaField(fieldName, javaType, initialValue);
-    javaField.visibility = getVisibility(francaField);
-    javaField.comment = CommentHelper.getDescription(francaField);
+    override fun finishBuildingInputArgument(francaArgument: FArgument) {
+        finishBuildingFrancaArgument(francaArgument, false)
+    }
 
-    storeResult(javaField);
-    closeContext();
-  }
+    override fun finishBuildingOutputArgument(francaArgument: FArgument) {
+        finishBuildingFrancaArgument(francaArgument, true)
+    }
 
-  @Override
-  public void finishBuilding(FStructType francaStructType) {
+    private fun finishBuildingFrancaArgument(francaArgument: FArgument, isOutput: Boolean) {
+        val javaType = getPreviousResult(JavaType::class.java)
 
-    JavaType serializationBase = typeMapper.getSerializationBase();
-    boolean isSerializable =
-        serializationBase != null && deploymentModel.isSerializable(francaStructType);
+        val javaParameter = JavaParameter(
+            JavaNameRules.getArgumentName(francaArgument.name), javaType, isOutput
+        )
+        javaParameter.comment = CommentHelper.getDescription(francaArgument)
 
-    JavaClass javaClass =
-        new JavaClass(
-            JavaNameRules.getClassName(francaStructType.getName()),
-            null,
-            getPreviousResults(JavaField.class),
+        storeResult(javaParameter)
+        closeContext()
+    }
+
+    override fun finishBuilding(francaConstant: FConstantDef) {
+        val javaType = getPreviousResult(JavaType::class.java)
+        val name = JavaNameRules.getConstantName(francaConstant.name)
+        val value = getPreviousResult(JavaValue::class.java)
+
+        val javaConstant = JavaConstant(name, javaType, value)
+        javaConstant.visibility = getVisibility(francaConstant)
+        javaConstant.comment = CommentHelper.getDescription(francaConstant)
+
+        storeResult(javaConstant)
+        closeContext()
+    }
+
+    override fun finishBuilding(francaField: FField) {
+        val fieldName = JavaNameRules.getFieldName(francaField.name)
+        val javaType = getPreviousResult(JavaType::class.java)
+
+        val defaultValue = deploymentModel.getDefaultValue(francaField)
+        val initialValue = when {
+            defaultValue != null -> JavaValueMapper.mapDefaultValue(javaType, defaultValue)
+            deploymentModel.isNullable(francaField) -> JavaValueMapper.mapNullValue(javaType)
+            else -> JavaValueMapper.mapDefaultValue(javaType)
+        }
+
+        val javaField = JavaField(fieldName, javaType, initialValue)
+        javaField.visibility = getVisibility(francaField)
+        javaField.comment = CommentHelper.getDescription(francaField)
+
+        storeResult(javaField)
+        closeContext()
+    }
+
+    override fun finishBuilding(francaStructType: FStructType) {
+        val serializationBase = typeMapper.serializationBase
+        val isSerializable =
+            serializationBase != null && deploymentModel.isSerializable(francaStructType)
+
+        val javaClass = JavaClass(
+            JavaNameRules.getClassName(francaStructType.name), null,
+            getPreviousResults(JavaField::class.java),
             false,
             false,
             isSerializable,
             deploymentModel.isEquatable(francaStructType),
-            deploymentModel.isImmutable(francaStructType));
-    javaClass.visibility = getVisibility(francaStructType);
-    javaClass.javaPackage = rootPackage;
-    javaClass.comment = CommentHelper.getDescription(francaStructType);
+            deploymentModel.isImmutable(francaStructType)
+        )
+        javaClass.visibility = getVisibility(francaStructType)
+        javaClass.javaPackage = rootPackage
+        javaClass.comment = CommentHelper.getDescription(francaStructType)
 
-    if (isSerializable) {
-      javaClass.parentInterfaces.add(serializationBase);
+        if (isSerializable) {
+            javaClass.parentInterfaces.add(serializationBase)
+        }
+
+        storeResult(javaClass)
+        closeContext()
     }
 
-    storeResult(javaClass);
-    closeContext();
-  }
-
-  @Override
-  public void finishBuilding(FTypeRef francaTypeRef) {
-    storeResult(typeMapper.map(francaTypeRef));
-    closeContext();
-  }
-
-  @Override
-  public void finishBuilding(FEnumerationType francaEnumType) {
-
-    // Type definition
-    JavaEnum javaEnum = new JavaEnum(JavaNameRules.getClassName(francaEnumType.getName()));
-    javaEnum.visibility = getVisibility(francaEnumType);
-    javaEnum.javaPackage = rootPackage;
-
-    javaEnum.comment = CommentHelper.getDescription(francaEnumType);
-    javaEnum.items.addAll(getPreviousResults(JavaEnumItem.class));
-    JavaValueMapper.completePartialEnumeratorValues(javaEnum.items);
-    storeResult(javaEnum);
-
-    // Type reference
-    JavaEnumType javaEnumType = (JavaEnumType) typeMapper.mapCustomType(francaEnumType);
-    storeResult(javaEnumType);
-
-    if (errorEnums.isErrorEnum(francaEnumType)) {
-      // Exception definition & reference
-      JavaExceptionClass javaException =
-          new JavaExceptionClass(JavaNameRules.getExceptionName(javaEnum.name), javaEnumType);
-      javaException.visibility = getVisibility(francaEnumType);
-
-      storeResult(javaException);
-      storeResult(typeMapper.mapExceptionType(francaEnumType));
+    override fun finishBuilding(francaTypeRef: FTypeRef) {
+        storeResult(typeMapper.map(francaTypeRef))
+        closeContext()
     }
-    closeContext();
-  }
 
-  @Override
-  public void finishBuilding(FInitializerExpression francaExpression) {
-    storeResult(JavaValueMapper.map(francaExpression));
-    closeContext();
-  }
+    override fun finishBuilding(francaEnumType: FEnumerationType) {
+        // Type definition
+        val javaEnum = JavaEnum(JavaNameRules.getClassName(francaEnumType.name))
+        javaEnum.visibility = getVisibility(francaEnumType)
+        javaEnum.javaPackage = rootPackage
 
-  @Override
-  public void finishBuilding(FEnumerator francaEnumerator) {
+        javaEnum.comment = CommentHelper.getDescription(francaEnumType)
+        javaEnum.items.addAll(getPreviousResults(JavaEnumItem::class.java))
+        JavaValueMapper.completePartialEnumeratorValues(javaEnum.items)
+        storeResult(javaEnum)
 
-    String enumItemName = JavaNameRules.getConstantName(francaEnumerator.getName());
-    JavaValue javaValue = getPreviousResult(JavaValue.class);
-    JavaEnumItem javaEnumItem = new JavaEnumItem(enumItemName, javaValue);
+        // Type reference
+        val javaEnumType = typeMapper.mapCustomType(francaEnumType) as JavaEnumType
+        storeResult(javaEnumType)
 
-    javaEnumItem.comment = CommentHelper.getDescription(francaEnumerator);
+        if (errorEnums.isErrorEnum(francaEnumType)) {
+            // Exception definition & reference
+            val javaException =
+                JavaExceptionClass(JavaNameRules.getExceptionName(javaEnum.name), javaEnumType)
+            javaException.visibility = getVisibility(francaEnumType)
 
-    storeResult(javaEnumItem);
-    closeContext();
-  }
+            storeResult(javaException)
+            storeResult(typeMapper.mapExceptionType(francaEnumType))
+        }
+        closeContext()
+    }
 
-  @Override
-  public void finishBuilding(FArrayType francaArrayType) {
+    override fun finishBuilding(francaExpression: FInitializerExpression) {
+        storeResult(JavaValueMapper.map(francaExpression))
+        closeContext()
+    }
 
-    storeResult(typeMapper.mapArray(francaArrayType));
-    closeContext();
-  }
+    override fun finishBuilding(francaEnumerator: FEnumerator) {
+        val enumItemName = JavaNameRules.getConstantName(francaEnumerator.name)
+        val javaValue = getPreviousResult(JavaValue::class.java)
+        val javaEnumItem = JavaEnumItem(enumItemName, javaValue)
 
-  @Override
-  public void finishBuilding(FMapType francaMapType) {
+        javaEnumItem.comment = CommentHelper.getDescription(francaEnumerator)
 
-    storeResult(typeMapper.mapMap(francaMapType));
-    closeContext();
-  }
+        storeResult(javaEnumItem)
+        closeContext()
+    }
 
-  @Override
-  public void finishBuilding(FAttribute francaAttribute) {
+    override fun finishBuilding(francaArrayType: FArrayType) {
+        storeResult(typeMapper.mapArray(francaArrayType))
+        closeContext()
+    }
 
-    JavaType javaType = getPreviousResult(JavaType.class);
-    String comment = CommentHelper.getDescription(francaAttribute);
-    JavaVisibility visibility = getVisibility(francaAttribute);
+    override fun finishBuilding(francaMapType: FMapType) {
+        storeResult(typeMapper.mapMap(francaMapType))
+        closeContext()
+    }
 
-    Set<MethodQualifier> qualifiers =
-        deploymentModel.isStatic(francaAttribute)
-            ? EnumSet.of(MethodQualifier.STATIC)
-            : EnumSet.noneOf(MethodQualifier.class);
+    override fun finishBuilding(francaAttribute: FAttribute) {
+        val javaType = getPreviousResult(JavaType::class.java)
+        val comment = CommentHelper.getDescription(francaAttribute)
+        val visibility = getVisibility(francaAttribute)
 
-    JavaMethod getterMethod =
-        new JavaMethod(
-            JavaNameRules.getGetterName(francaAttribute.getName(), javaType),
-            CommentsPreprocessor.INSTANCE.preprocessGetterComment(comment),
+        val qualifiers = if (deploymentModel.isStatic(francaAttribute))
+            EnumSet.of(MethodQualifier.STATIC)
+        else
+            EnumSet.noneOf(MethodQualifier::class.java)
+
+        val getterMethod = JavaMethod(
+            JavaNameRules.getGetterName(francaAttribute.name, javaType),
+            CommentsPreprocessor.preprocessGetterComment(comment),
             visibility,
-            javaType,
-            null,
-            null,
-            Collections.emptyList(),
+            javaType, null, null,
+            emptyList(),
             false,
-            qualifiers);
+            qualifiers
+        )
 
-    storeResult(getterMethod);
+        storeResult(getterMethod)
 
-    if (!francaAttribute.isReadonly()) {
-      JavaParameter setterParameter = new JavaParameter("value", javaType);
-      JavaVisibility setterVisibility =
-          deploymentModel.hasInternalSetter(francaAttribute) ? JavaVisibility.PACKAGE : visibility;
-      JavaMethod setterMethod =
-          new JavaMethod(
-              JavaNameRules.getSetterName(francaAttribute.getName()),
-              CommentsPreprocessor.INSTANCE.preprocessSetterComment(comment),
-              setterVisibility,
-              JavaPrimitiveType.VOID,
-              null,
-              null,
-              Collections.singletonList(setterParameter),
-              false,
-              qualifiers);
+        if (!francaAttribute.isReadonly) {
+            val setterParameter = JavaParameter("value", javaType)
+            val setterVisibility = if (deploymentModel.hasInternalSetter(francaAttribute))
+                JavaVisibility.PACKAGE
+            else
+                visibility
+            val setterMethod = JavaMethod(
+                JavaNameRules.getSetterName(francaAttribute.name),
+                CommentsPreprocessor.preprocessSetterComment(comment),
+                setterVisibility,
+                JavaPrimitiveType.VOID, null, null,
+                listOf(setterParameter),
+                false,
+                qualifiers
+            )
 
-      storeResult(setterMethod);
+            storeResult(setterMethod)
+        }
+
+        closeContext()
     }
 
-    closeContext();
-  }
+    private fun createJavaClass(
+        francaInterface: FInterface,
+        methods: List<JavaMethod>,
+        extendedClass: JavaType
+    ): JavaClass {
 
-  private JavaClass createJavaClass(
-      final FInterface francaInterface,
-      final List<JavaMethod> methods,
-      final JavaType extendedClass) {
-
-    JavaClass javaClass =
-        new JavaClass(
-            JavaNameRules.getClassName(francaInterface.getName()),
+        val javaClass = JavaClass(
+            JavaNameRules.getClassName(francaInterface.name),
             extendedClass,
-            getPreviousResults(JavaField.class),
+            getPreviousResults(JavaField::class.java),
             true,
-            nativeBase.equals(extendedClass));
-    javaClass.visibility = getVisibility(francaInterface);
-    javaClass.javaPackage = rootPackage;
+            nativeBase == extendedClass
+        )
+        javaClass.visibility = getVisibility(francaInterface)
+        javaClass.javaPackage = rootPackage
 
-    javaClass.comment = CommentHelper.getDescription(francaInterface);
-    javaClass.constants.addAll(getPreviousResults(JavaConstant.class));
-    javaClass.methods.addAll(methods);
-    javaClass.methods.forEach(method -> method.getQualifiers().add(MethodQualifier.NATIVE));
-    javaClass.enums.addAll(getPreviousResults(JavaEnum.class));
-    javaClass.exceptions.addAll(getPreviousResults(JavaExceptionClass.class));
+        javaClass.comment = CommentHelper.getDescription(francaInterface)
+        javaClass.constants.addAll(getPreviousResults(JavaConstant::class.java))
+        javaClass.methods.addAll(methods)
+        javaClass.methods.forEach { it.qualifiers.add(MethodQualifier.NATIVE) }
+        javaClass.enums.addAll(getPreviousResults(JavaEnum::class.java))
+        javaClass.exceptions.addAll(getPreviousResults(JavaExceptionClass::class.java))
 
-    addInnerClasses(javaClass);
+        addInnerClasses(javaClass)
 
-    return javaClass;
-  }
+        return javaClass
+    }
 
-  private JavaInterface createJavaInterface(final FInterface francaInterface) {
+    private fun createJavaInterface(francaInterface: FInterface): JavaInterface {
+        val javaInterface = JavaInterface(JavaNameRules.getClassName(francaInterface.name))
+        javaInterface.visibility = getVisibility(francaInterface)
+        javaInterface.javaPackage = rootPackage
 
-    JavaInterface javaInterface =
-        new JavaInterface(JavaNameRules.getClassName(francaInterface.getName()));
-    javaInterface.visibility = getVisibility(francaInterface);
-    javaInterface.javaPackage = rootPackage;
+        javaInterface.comment = CommentHelper.getDescription(francaInterface)
+        javaInterface.constants.addAll(getPreviousResults(JavaConstant::class.java))
+        javaInterface.enums.addAll(getPreviousResults(JavaEnum::class.java))
+        javaInterface.exceptions.addAll(getPreviousResults(JavaExceptionClass::class.java))
+        javaInterface.methods.addAll(getPreviousResults(JavaMethod::class.java))
 
-    javaInterface.comment = CommentHelper.getDescription(francaInterface);
-    javaInterface.constants.addAll(getPreviousResults(JavaConstant.class));
-    javaInterface.enums.addAll(getPreviousResults(JavaEnum.class));
-    javaInterface.exceptions.addAll(getPreviousResults(JavaExceptionClass.class));
-    javaInterface.methods.addAll(getPreviousResults(JavaMethod.class));
+        addInnerClasses(javaInterface)
 
-    addInnerClasses(javaInterface);
+        return javaInterface
+    }
 
-    return javaInterface;
-  }
+    private fun createJavaImplementationClass(
+        francaInterface: FInterface,
+        javaInterface: JavaInterface,
+        extendedClass: JavaType
+    ): JavaClass {
 
-  private JavaClass createJavaImplementationClass(
-      final FInterface francaInterface,
-      final JavaInterface javaInterface,
-      final JavaType extendedClass) {
-
-    JavaClass javaClass =
-        new JavaClass(
-            JavaNameRules.getImplementationClassName(francaInterface.getName()),
+        val javaClass = JavaClass(
+            JavaNameRules.getImplementationClassName(francaInterface.name),
             extendedClass,
-            getPreviousResults(JavaField.class),
+            getPreviousResults(JavaField::class.java),
             true,
-            nativeBase.equals(extendedClass));
-    javaClass.visibility = JavaVisibility.PACKAGE;
-    javaClass.javaPackage = rootPackage;
+            nativeBase == extendedClass
+        )
+        javaClass.visibility = JavaVisibility.PACKAGE
+        javaClass.javaPackage = rootPackage
 
-    List<JavaMethod> classMethods =
-        getPreviousResults(JavaMethod.class)
-            .stream()
-            .map(JavaMethod::shallowCopy)
-            .peek(javaMethod -> javaMethod.getQualifiers().add(MethodQualifier.NATIVE))
-            .collect(Collectors.toList());
-    javaClass.methods.addAll(classMethods);
+        val classMethods = getPreviousResults(JavaMethod::class.java).map { it.shallowCopy() }
+        classMethods.forEach { it.qualifiers.add(MethodQualifier.NATIVE) }
+        javaClass.methods.addAll(classMethods)
 
-    JavaCustomType interfaceTypeReference =
-        new JavaCustomType(javaInterface.name, javaInterface.javaPackage);
-    javaClass.parentInterfaces.add(interfaceTypeReference);
+        val interfaceTypeReference = JavaCustomType(javaInterface.name, javaInterface.javaPackage)
+        javaClass.parentInterfaces.add(interfaceTypeReference)
 
-    return javaClass;
-  }
-
-  private void addInnerClasses(final JavaTopLevelElement javaTopLevelElement) {
-    List<JavaClass> innerClasses =
-        getPreviousResults(JavaClass.class)
-            .stream()
-            .filter(javaClass -> !javaClass.isImplClass())
-            .collect(Collectors.toList());
-    innerClasses.forEach(innerClass -> innerClass.qualifiers.add(JavaClass.Qualifier.STATIC));
-    javaTopLevelElement.innerClasses.addAll(innerClasses);
-  }
-
-  private void finishBuildingFrancaClass(final FInterface francaInterface) {
-
-    JavaType extendedClass = nativeBase;
-
-    FInterface parentInterface = francaInterface.getBase();
-    if (parentInterface != null) {
-      if (deploymentModel.isInterface(parentInterface)) {
-        String parentImplementationClassName =
-            JavaNameRules.getImplementationClassName(parentInterface.getName());
-        extendedClass = typeMapper.mapCustomType(parentInterface, parentImplementationClassName);
-      } else {
-        extendedClass = typeMapper.mapCustomType(parentInterface);
-      }
+        return javaClass
     }
 
-    List<JavaMethod> methods = getPreviousResults(JavaMethod.class);
-    JavaClass javaClass = createJavaClass(francaInterface, methods, extendedClass);
-
-    storeResult(javaClass);
-  }
-
-  private void finishBuildingFrancaInterface(final FInterface francaInterface) {
-
-    JavaInterface javaInterface = createJavaInterface(francaInterface);
-
-    JavaType extendedClass = nativeBase;
-    FInterface parentInterface = francaInterface.getBase();
-    if (parentInterface != null) {
-      javaInterface.parentInterfaces.add(typeMapper.mapCustomType(parentInterface));
-      String parentImplementationClassName =
-          JavaNameRules.getImplementationClassName(parentInterface.getName());
-      extendedClass = typeMapper.mapCustomType(parentInterface, parentImplementationClassName);
+    private fun addInnerClasses(javaTopLevelElement: JavaTopLevelElement) {
+        val innerClasses = getPreviousResults(JavaClass::class.java).filterNot { it.isImplClass }
+        innerClasses.forEach { it.qualifiers.add(JavaTopLevelElement.Qualifier.STATIC) }
+        javaTopLevelElement.innerClasses.addAll(innerClasses)
     }
 
-    JavaClass javaImplementationClass =
-        createJavaImplementationClass(francaInterface, javaInterface, extendedClass);
+    private fun finishBuildingFrancaClass(francaInterface: FInterface) {
+        var extendedClass = nativeBase
 
-    storeResult(javaInterface);
-    storeResult(javaImplementationClass);
-  }
+        val parentInterface = francaInterface.base
+        if (parentInterface != null) {
+            extendedClass = if (deploymentModel.isInterface(parentInterface)) {
+                val parentImplementationClassName =
+                    JavaNameRules.getImplementationClassName(parentInterface.name)
+                typeMapper.mapCustomType(parentInterface, parentImplementationClassName)
+            } else {
+                typeMapper.mapCustomType(parentInterface)
+            }
+        }
 
-  private JavaVisibility getVisibility(final FModelElement francaElement) {
-    return deploymentModel.isInternal(francaElement)
-        ? JavaVisibility.PACKAGE
-        : JavaVisibility.PUBLIC;
-  }
+        val methods = getPreviousResults(JavaMethod::class.java)
+        val javaClass = createJavaClass(francaInterface, methods, extendedClass)
+
+        storeResult(javaClass)
+    }
+
+    private fun finishBuildingFrancaInterface(francaInterface: FInterface) {
+        val javaInterface = createJavaInterface(francaInterface)
+
+        var extendedClass = nativeBase
+        val parentInterface = francaInterface.base
+        if (parentInterface != null) {
+            javaInterface.parentInterfaces.add(typeMapper.mapCustomType(parentInterface))
+            val parentImplementationClassName =
+                JavaNameRules.getImplementationClassName(parentInterface.name)
+            extendedClass = typeMapper.mapCustomType(parentInterface, parentImplementationClassName)
+        }
+
+        val javaImplementationClass =
+            createJavaImplementationClass(francaInterface, javaInterface, extendedClass)
+
+        storeResult(javaInterface)
+        storeResult(javaImplementationClass)
+    }
+
+    private fun getVisibility(francaElement: FModelElement) =
+        if (deploymentModel.isInternal(francaElement))
+            JavaVisibility.PACKAGE
+        else
+            JavaVisibility.PUBLIC
 }

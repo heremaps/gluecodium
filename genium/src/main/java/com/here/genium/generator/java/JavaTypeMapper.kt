@@ -17,279 +17,220 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java;
+package com.here.genium.generator.java
 
-import com.here.genium.cli.GeniumExecutionException;
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.model.common.InstanceRules;
-import com.here.genium.model.franca.DefinedBy;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.java.JavaArrayType;
-import com.here.genium.model.java.JavaCustomType;
-import com.here.genium.model.java.JavaEnumType;
-import com.here.genium.model.java.JavaExceptionType;
-import com.here.genium.model.java.JavaImport;
-import com.here.genium.model.java.JavaPackage;
-import com.here.genium.model.java.JavaPrimitiveType;
-import com.here.genium.model.java.JavaReferenceType;
-import com.here.genium.model.java.JavaTemplateType;
-import com.here.genium.model.java.JavaType;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import org.eclipse.emf.ecore.EObject;
-import org.franca.core.framework.FrancaHelpers;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FArrayType;
-import org.franca.core.franca.FAttribute;
-import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FField;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FModelElement;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypeRef;
-import org.franca.core.franca.FTypedElement;
+import com.here.genium.cli.GeniumExecutionException
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.model.common.InstanceRules
+import com.here.genium.model.franca.DefinedBy
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.java.JavaArrayType
+import com.here.genium.model.java.JavaCustomType
+import com.here.genium.model.java.JavaEnumType
+import com.here.genium.model.java.JavaExceptionType
+import com.here.genium.model.java.JavaImport
+import com.here.genium.model.java.JavaPackage
+import com.here.genium.model.java.JavaPrimitiveType
+import com.here.genium.model.java.JavaReferenceType
+import com.here.genium.model.java.JavaTemplateType
+import com.here.genium.model.java.JavaType
+import org.eclipse.emf.ecore.EObject
+import org.franca.core.framework.FrancaHelpers
+import org.franca.core.franca.FArgument
+import org.franca.core.franca.FArrayType
+import org.franca.core.franca.FAttribute
+import org.franca.core.franca.FBasicTypeId
+import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FField
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMapType
+import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FStructType
+import org.franca.core.franca.FType
+import org.franca.core.franca.FTypeDef
+import org.franca.core.franca.FTypeRef
+import org.franca.core.franca.FTypedElement
 
 /**
  * Maps Franca type references to their Java counterparts. These references are used as parameters,
  * in typedefs, array members etc.
  */
-@SuppressWarnings("PMD.GodClass")
-public class JavaTypeMapper {
+open class JavaTypeMapper(
+    private val basePackage: JavaPackage,
+    private val deploymentModel: FrancaDeploymentModel,
+    val serializationBase: JavaType?,
+    private val notNullAnnotation: JavaType?,
+    private val nullableAnnotation: JavaType?
+) {
+    val nativeBase = JavaCustomType(NATIVE_BASE_NAME, basePackage)
 
-  private static final String NATIVE_BASE_NAME = "NativeBase";
+    fun map(francaTypRef: FTypeRef): JavaType {
+        var javaType = mapTypeReference(francaTypRef)
 
-  private final JavaPackage basePackage;
-  private final FrancaDeploymentModel deploymentModel;
-  private final JavaType nativeBase;
-  private final JavaType serializationBase;
-  private final JavaType notNullAnnotation;
-  private final JavaType nullableAnnotation;
+        if (FrancaTypeHelper.isImplicitArray(francaTypRef)) {
+            javaType = JavaTemplateType.wrapInList(javaType)
+        }
+        if (nullableAnnotation != null && needsNullableAnnotation(francaTypRef)) {
+            if (javaType is JavaPrimitiveType) {
+                javaType = JavaReferenceType.boxPrimitiveType(javaType)
+            }
+            javaType.annotations.add(nullableAnnotation)
+        }
+        if (notNullAnnotation != null && needsNotNullAnnotation(francaTypRef)) {
+            javaType.annotations.add(notNullAnnotation)
+        }
 
-  public JavaTypeMapper(
-      final JavaPackage basePackage,
-      final FrancaDeploymentModel deploymentModel,
-      final JavaType serializationBase,
-      final JavaType notNullAnnotation,
-      final JavaType nullableAnnotation) {
-    this.basePackage = basePackage;
-    this.deploymentModel = deploymentModel;
-    this.nativeBase = new JavaCustomType(NATIVE_BASE_NAME, basePackage);
-    this.serializationBase = serializationBase;
-    this.notNullAnnotation = notNullAnnotation;
-    this.nullableAnnotation = nullableAnnotation;
-  }
-
-  public JavaType map(final FTypeRef francaTypRef) {
-
-    JavaType javaType = mapTypeReference(francaTypRef);
-
-    if (FrancaTypeHelper.isImplicitArray(francaTypRef)) {
-      javaType = JavaTemplateType.wrapInList(javaType);
-    }
-    if (nullableAnnotation != null && needsNullableAnnotation(francaTypRef)) {
-      if (javaType instanceof JavaPrimitiveType) {
-        javaType = JavaReferenceType.boxPrimitiveType((JavaPrimitiveType) javaType);
-      }
-      javaType.annotations.add(nullableAnnotation);
-    }
-    if (notNullAnnotation != null && needsNotNullAnnotation(francaTypRef)) {
-      javaType.annotations.add(notNullAnnotation);
+        return javaType
     }
 
-    return javaType;
-  }
+    private fun mapTypeReference(francaTypRef: FTypeRef): JavaType =
+        when {
+            francaTypRef.derived != null -> mapDerived(francaTypRef.derived)
+            else -> mapPredefined(francaTypRef.predefined)
+        }
 
-  private JavaType mapTypeReference(final FTypeRef francaTypRef) {
-    return francaTypRef.getDerived() != null
-        ? mapDerived(francaTypRef.getDerived())
-        : mapPredefined(francaTypRef.getPredefined());
-  }
+    private fun mapDerived(francaType: FType): JavaType =
+        when (francaType) {
+            is FTypeDef -> mapTypeDef(francaType)
+            is FArrayType -> mapArray(francaType)
+            is FMapType -> mapMap(francaType)
+            is FStructType -> mapCustomType(francaType)
+            is FEnumerationType -> mapCustomType(francaType)
+            else -> throw GeniumExecutionException("Unmapped derived type: " + francaType.name)
+        }
 
-  private static JavaType mapPredefined(final FBasicTypeId basicTypeId) {
-    switch (basicTypeId) {
-      case BOOLEAN:
-        return JavaPrimitiveType.BOOL;
-      case FLOAT:
-        return JavaPrimitiveType.FLOAT;
-      case DOUBLE:
-        return JavaPrimitiveType.DOUBLE;
-      case INT8:
-        return JavaPrimitiveType.BYTE;
-      case INT16:
-      case UINT8:
-        return JavaPrimitiveType.SHORT;
-      case INT32:
-      case UINT16:
-        return JavaPrimitiveType.INT;
-      case INT64:
-      case UINT32:
-      case UINT64:
-        return JavaPrimitiveType.LONG;
-      case STRING:
-        return new JavaReferenceType(JavaReferenceType.Type.STRING);
-      case BYTE_BUFFER:
-        return new JavaArrayType(JavaPrimitiveType.Type.BYTE);
-      default:
-        return JavaPrimitiveType.VOID;
-    }
-  }
+    fun mapArray(arrayType: FArrayType) =
+        JavaTemplateType.wrapInList(mapTypeReference(arrayType.elementType))
 
-  private JavaType mapDerived(final FType francaType) {
+    fun mapMap(francaMapType: FMapType): JavaType {
+        var keyType = mapTypeReference(francaMapType.keyType)
+        var valueType = mapTypeReference(francaMapType.valueType)
 
-    if (francaType instanceof FTypeDef) {
-      return mapTypeDef((FTypeDef) francaType);
-    }
-    if (francaType instanceof FArrayType) {
-      return mapArray((FArrayType) francaType);
-    }
-    if (francaType instanceof FMapType) {
-      return mapMap((FMapType) francaType);
-    }
-    if (francaType instanceof FStructType) {
-      return mapCustomType(francaType);
-    }
-    if (francaType instanceof FEnumerationType) {
-      return mapCustomType(francaType);
+        if (keyType is JavaPrimitiveType) {
+            keyType = JavaReferenceType.boxPrimitiveType(keyType)
+        }
+        if (valueType is JavaPrimitiveType) {
+            valueType = JavaReferenceType.boxPrimitiveType(valueType)
+        }
+
+        return JavaTemplateType.create(JavaTemplateType.TemplateClass.MAP, keyType, valueType)
     }
 
-    throw new GeniumExecutionException("Unmapped derived type: " + francaType.getName());
-  }
+    @JvmOverloads
+    fun mapCustomType(
+        francaElement: FModelElement,
+        className: String = JavaNameRules.getClassName(francaElement.name)
+    ): JavaType {
 
-  public JavaType mapArray(final FArrayType arrayType) {
-    return JavaTemplateType.wrapInList(mapTypeReference(arrayType.getElementType()));
-  }
+        val typeCollection = DefinedBy.findDefiningTypeCollection(francaElement)
+        val packageNames =
+            basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).packageNames
 
-  public JavaType mapMap(final FMapType francaMapType) {
-    JavaType keyType = mapTypeReference(francaMapType.getKeyType());
-    JavaType valueType = mapTypeReference(francaMapType.getValueType());
+        val typeName: String
+        val importClassName: String
 
-    if (keyType instanceof JavaPrimitiveType) {
-      keyType = JavaReferenceType.boxPrimitiveType((JavaPrimitiveType) keyType);
-    }
-    if (valueType instanceof JavaPrimitiveType) {
-      valueType = JavaReferenceType.boxPrimitiveType((JavaPrimitiveType) valueType);
-    }
+        val classNames = mutableListOf<String>()
+        classNames.add(className)
+        // type is nested inside defining class
+        if (francaElement !is FInterface && typeCollection is FInterface) {
+            importClassName = JavaNameRules.getClassName(typeCollection.getName())
+            classNames.add(0, importClassName)
+            typeName = "$importClassName.$className"
+        } else { // non-nested type
+            importClassName = className
+            typeName = className
+        }
 
-    return JavaTemplateType.create(JavaTemplateType.TemplateClass.MAP, keyType, valueType);
-  }
+        val javaImport = JavaImport(importClassName, JavaPackage(packageNames))
 
-  public JavaType mapCustomType(final FModelElement francaElement) {
-    return mapCustomType(francaElement, JavaNameRules.getClassName(francaElement.getName()));
-  }
-
-  public JavaType mapCustomType(final FModelElement francaElement, final String className) {
-
-    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(francaElement);
-    List<String> packageNames =
-        basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).getPackageNames();
-
-    String typeName;
-    String importClassName;
-
-    List<String> classNames = new LinkedList<>();
-    classNames.add(className);
-    // type is nested inside defining class
-    if (!(francaElement instanceof FInterface) && typeCollection instanceof FInterface) {
-      importClassName = JavaNameRules.getClassName(typeCollection.getName());
-      classNames.add(0, importClassName);
-      typeName = importClassName + "." + className;
-    } else { // non-nested type
-      importClassName = className;
-      typeName = className;
+        return if (francaElement is FEnumerationType) {
+            JavaEnumType(typeName, classNames, packageNames, javaImport)
+        } else {
+            JavaCustomType(
+                typeName, classNames, packageNames, listOf(javaImport)
+            )
+        }
     }
 
-    JavaImport javaImport = new JavaImport(importClassName, new JavaPackage(packageNames));
-
-    if (francaElement instanceof FEnumerationType) {
-      return new JavaEnumType(typeName, classNames, packageNames, javaImport);
-    } else {
-      return new JavaCustomType(
-          typeName, classNames, packageNames, Collections.singletonList(javaImport));
-    }
-  }
-
-  public JavaExceptionType mapExceptionType(final FEnumerationType francaEnum) {
-
-    String exceptionName = JavaNameRules.getExceptionName(francaEnum.getName());
-    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(francaEnum);
-    JavaPackage javaPackage =
-        new JavaPackage(
+    fun mapExceptionType(francaEnum: FEnumerationType): JavaExceptionType {
+        val exceptionName = JavaNameRules.getExceptionName(francaEnum.name)
+        val typeCollection = DefinedBy.findDefiningTypeCollection(francaEnum)
+        val javaPackage = JavaPackage(
             basePackage
                 .createChildPackage(DefinedBy.getPackages(typeCollection))
-                .getPackageNames());
+                .packageNames
+        )
 
-    String importClassName;
-    List<String> classNames = new LinkedList<>();
-    classNames.add(exceptionName);
-    // type is nested inside defining class
-    if (typeCollection instanceof FInterface) {
-      importClassName = JavaNameRules.getClassName(typeCollection.getName());
-      classNames.add(0, importClassName);
-    } else { // non-nested type
-      importClassName = exceptionName;
+        val importClassName: String
+        val classNames = mutableListOf<String>()
+        classNames.add(exceptionName)
+        // type is nested inside defining class
+        if (typeCollection is FInterface) {
+            importClassName = JavaNameRules.getClassName(typeCollection.getName())
+            classNames.add(0, importClassName)
+        } else { // non-nested type
+            importClassName = exceptionName
+        }
+
+        return JavaExceptionType(
+            classNames.joinToString("."),
+            classNames,
+            JavaImport(importClassName, javaPackage)
+        )
     }
 
-    JavaImport javaImport = new JavaImport(importClassName, javaPackage);
-    return new JavaExceptionType(String.join(".", classNames), classNames, javaImport);
-  }
+    private fun mapTypeDef(typeDef: FTypeDef) =
+        if (InstanceRules.isInstanceId(typeDef)) {
+            val typeCollection = DefinedBy.findDefiningTypeCollection(typeDef)
+            val packageNames =
+                basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).packageNames
+            val className = JavaNameRules.getClassName(typeCollection.name)
+            val classImport = JavaImport(className, JavaPackage(packageNames))
 
-  private JavaType mapTypeDef(final FTypeDef typeDef) {
+            JavaCustomType(className, null, packageNames, listOf(classImport), true)
+        } else {
+            mapTypeReference(typeDef.actualType)
+        }
 
-    if (InstanceRules.isInstanceId(typeDef)) {
-      FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(typeDef);
-      List<String> packageNames =
-          basePackage.createChildPackage(DefinedBy.getPackages(typeCollection)).getPackageNames();
-      String className = JavaNameRules.getClassName(typeCollection.getName());
-      JavaImport classImport = new JavaImport(className, new JavaPackage(packageNames));
+    private fun needsNotNullAnnotation(francaTypeRef: FTypeRef): Boolean {
+        val parentElement = francaTypeRef.eContainer()
+        if (!isNullableElement(parentElement)) {
+            return false
+        }
 
-      return new JavaCustomType(
-          className, null, packageNames, Collections.singletonList(classImport), true);
-    } else {
-      return mapTypeReference(typeDef.getActualType());
-    }
-  }
-
-  private boolean needsNotNullAnnotation(final FTypeRef francaTypeRef) {
-
-    EObject parentElement = francaTypeRef.eContainer();
-    if (!isNullableElement(parentElement)) {
-      return false;
+        val typedElement = parentElement as FTypedElement
+        return !deploymentModel.isNullable(typedElement) && (typedElement.isArray ||
+                InstanceRules.isInstanceId(francaTypeRef) ||
+                FrancaHelpers.getActualDerived(francaTypeRef) != null)
     }
 
-    FTypedElement typedElement = (FTypedElement) parentElement;
-    if (deploymentModel.isNullable(typedElement)) {
-      return false;
+    private fun needsNullableAnnotation(francaTypeRef: FTypeRef): Boolean {
+        val parentElement = francaTypeRef.eContainer()
+        return isNullableElement(parentElement) &&
+            deploymentModel.isNullable(parentElement as FTypedElement)
     }
 
-    return typedElement.isArray()
-        || InstanceRules.isInstanceId(francaTypeRef)
-        || FrancaHelpers.getActualDerived(francaTypeRef) != null;
-  }
+    private fun isNullableElement(francaElement: EObject) =
+        francaElement is FField ||
+            francaElement is FArgument ||
+            francaElement is FAttribute
 
-  private boolean needsNullableAnnotation(final FTypeRef francaTypeRef) {
+    companion object {
+        private const val NATIVE_BASE_NAME = "NativeBase"
 
-    EObject parentElement = francaTypeRef.eContainer();
-    return isNullableElement(parentElement)
-        && deploymentModel.isNullable((FTypedElement) parentElement);
-  }
-
-  private boolean isNullableElement(final EObject francaElement) {
-    return francaElement instanceof FField
-        || francaElement instanceof FArgument
-        || francaElement instanceof FAttribute;
-  }
-
-  public JavaType getNativeBase() {
-    return this.nativeBase;
-  }
-
-  public JavaType getSerializationBase() {
-    return this.serializationBase;
-  }
+        private fun mapPredefined(basicTypeId: FBasicTypeId) =
+            when (basicTypeId) {
+                FBasicTypeId.BOOLEAN -> JavaPrimitiveType.BOOL
+                FBasicTypeId.FLOAT -> JavaPrimitiveType.FLOAT
+                FBasicTypeId.DOUBLE -> JavaPrimitiveType.DOUBLE
+                FBasicTypeId.INT8 -> JavaPrimitiveType.BYTE
+                FBasicTypeId.INT16, FBasicTypeId.UINT8 -> JavaPrimitiveType.SHORT
+                FBasicTypeId.INT32, FBasicTypeId.UINT16 -> JavaPrimitiveType.INT
+                FBasicTypeId.INT64, FBasicTypeId.UINT32, FBasicTypeId.UINT64 ->
+                    JavaPrimitiveType.LONG
+                FBasicTypeId.STRING -> JavaReferenceType(JavaReferenceType.Type.STRING)
+                FBasicTypeId.BYTE_BUFFER -> JavaArrayType(JavaPrimitiveType.Type.BYTE)
+                else -> JavaPrimitiveType.VOID
+            }
+    }
 }

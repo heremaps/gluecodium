@@ -35,7 +35,7 @@ class JavaMethod @JvmOverloads constructor(
     annotations: Set<JavaType> = emptySet()
 ) : JavaElement(name) {
 
-    val qualifiers: Set<MethodQualifier> = LinkedHashSet(qualifiers)
+    val qualifiers: MutableSet<MethodQualifier> = LinkedHashSet(qualifiers)
 
     init {
         this.comment = comment
