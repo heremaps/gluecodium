@@ -59,6 +59,7 @@ abstract class AbstractLimeBasedModelBuilder<E> protected constructor(
         get() = contextStack.parentContext
 
     override fun startBuilding(limeElement: LimeElement) = openContext()
+    override fun startBuilding(limeContainer: LimeContainer) = openContext()
 
     override fun finishBuilding(limeNamedElement: LimeNamedElement) = closeContext()
     override fun finishBuilding(limeContainer: LimeContainer) = closeContext()

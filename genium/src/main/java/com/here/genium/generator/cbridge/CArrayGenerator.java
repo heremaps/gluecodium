@@ -19,9 +19,6 @@
 
 package com.here.genium.generator.cbridge;
 
-import static com.here.genium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC;
-import static com.here.genium.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
-import static com.here.genium.generator.cbridge.CBridgeNameRules.SRC_DIR;
 import static com.here.genium.model.cbridge.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
 
 import com.here.genium.generator.common.GeneratedFile;
@@ -36,9 +33,11 @@ public final class CArrayGenerator {
 
   private static final String ARRAY_FILE = "ArrayCollection";
   public static final String CBRIDGE_ARRAY_HEADER =
-      Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, ARRAY_FILE + ".h").toString();
+      Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, CBridgeNameRules.INCLUDE_DIR, ARRAY_FILE + ".h")
+          .toString();
   public static final String CBRIDGE_ARRAY_IMPL =
-      Paths.get(CBRIDGE_PUBLIC, SRC_DIR, ARRAY_FILE + ".cpp").toString();
+      Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, CBridgeNameRules.SRC_DIR, ARRAY_FILE + ".cpp")
+          .toString();
 
   private final Map<String, CArray> arrayCollector = new HashMap<>();
   private final List<String> internalNamespace;

@@ -20,26 +20,16 @@
 package com.here.genium.generator.cbridge
 
 import com.here.genium.generator.common.NameHelper
-import com.here.genium.model.franca.DefinedBy
-import org.franca.core.franca.FAttribute
-import org.franca.core.franca.FEnumerator
-import org.franca.core.franca.FInterface
-import org.franca.core.franca.FMethod
-import org.franca.core.franca.FModelElement
-import org.franca.core.franca.FTypeCollection
+import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeNamedElement
+import com.here.genium.model.lime.LimeType
 import java.nio.file.Paths
 
 object CBridgeNameRules {
     const val CBRIDGE_PUBLIC = "cbridge"
     const val CBRIDGE_INTERNAL = "cbridge_internal"
     const val INCLUDE_DIR = "include"
-
-    val STRING_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "StringHandle.h").toString()
-    val BASE_HANDLE_IMPL_FILE =
-        Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "BaseHandleImpl.h").toString()
-    val BASE_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BaseHandle.h").toString()
-    val EXPORT_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "Export.h").toString()
-    const val SRC_DIR = "src"
 
     const val BASE_REF_NAME = "_baseRef"
 
@@ -48,74 +38,62 @@ object CBridgeNameRules {
     const val IMPL_SUFFIX = ".cpp"
     const val CBRIDGE_PREFIX = "cbridge_"
 
-    fun getName(francaTypeCollection: FTypeCollection) =
-        NameHelper.toUpperCamelCase(francaTypeCollection.name)
+    val STRING_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "StringHandle.h").toString()
+    val BASE_HANDLE_IMPL_FILE =
+        Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "BaseHandleImpl.h").toString()
+    val BASE_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BaseHandle.h").toString()
+    val EXPORT_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "Export.h").toString()
+    const val SRC_DIR = "src"
 
-    fun getFunctionTableName(francaInterface: FInterface) =
-        getInterfaceName(francaInterface) + "_FunctionTable"
+    fun getName(limeElement: LimeNamedElement) = NameHelper.toUpperCamelCase(limeElement.name)
 
-    fun getInterfaceName(francaInterface: FInterface) =
-        getNestedNameSpecifier(francaInterface).joinToString(UNDERSCORE_DELIMITER)
+    fun getFunctionTableName(limeContainer: LimeContainer) =
+        getInterfaceName(limeContainer) + "_FunctionTable"
 
-    fun getShortMethodName(method: FMethod) =
-        if (method.selector != null && !method.selector.isEmpty()) {
-            (NameHelper.toLowerCamelCase(method.name) +
-                    UNDERSCORE_DELIMITER +
-                    method.selector)
-        } else {
-            NameHelper.toLowerCamelCase(method.name)
-        }
+    fun getInterfaceName(limeContainer: LimeContainer) = getNestedSpecifierString(limeContainer)
 
-    fun getStructBaseName(francaElement: FModelElement) =
+    fun getShortMethodName(limeMethod: LimeMethod) =
+        NameHelper.toLowerCamelCase(limeMethod.name) +
+            if (!limeMethod.path.disambiguationSuffix.isEmpty()) {
+                UNDERSCORE_DELIMITER + limeMethod.path.disambiguationSuffix
+            } else {
+                ""
+            }
+
+    fun getStructBaseName(limeType: LimeType) =
         joinQualifiedName(
-            getNestedNameSpecifier(francaElement),
-            NameHelper.toUpperCamelCase(francaElement.name)
+            getNestedNameSpecifier(limeType),
+            NameHelper.toUpperCamelCase(limeType.name)
         )
-
-    fun getInstanceBaseName(francaElement: FModelElement) =
-        getNestedNameSpecifier(francaElement).joinToString(UNDERSCORE_DELIMITER)
 
     private fun joinQualifiedName(nameSpecifier: List<String>, name: String) =
         (nameSpecifier + name).joinToString(UNDERSCORE_DELIMITER)
 
-    private fun getNestedNameSpecifier(modelElement: FModelElement): List<String> {
-        val typeCollection = DefinedBy.findDefiningTypeCollection(modelElement)
-        return DefinedBy.getPackages(typeCollection) +
-            NameHelper.toUpperCamelCase(typeCollection.name)
-    }
+    private fun getNestedNameSpecifier(limeElement: LimeNamedElement) =
+        limeElement.path.head + NameHelper.toUpperCamelCase(limeElement.path.container)
 
-    fun getNestedSpecifierString(modelElement: FModelElement) =
-        getNestedNameSpecifier(modelElement).joinToString(UNDERSCORE_DELIMITER)
+    fun getNestedSpecifierString(limeElement: LimeNamedElement) =
+        getNestedNameSpecifier(limeElement).joinToString(UNDERSCORE_DELIMITER)
 
-    fun getEnumItemName(francaEnumItem: FEnumerator) =
+    fun getEnumName(limeElement: LimeNamedElement) =
         joinQualifiedName(
-            getNestedNameSpecifier(francaEnumItem), francaEnumItem.name.toLowerCase()
+            getNestedNameSpecifier(limeElement),
+            NameHelper.toUpperCamelCase(limeElement.name)
         )
 
-    fun getEnumName(francaEnumerator: FModelElement) =
+    fun getBaseApiCall(category: CppTypeInfo.TypeCategory, baseAPIName: String) =
+        if (category === CppTypeInfo.TypeCategory.CLASS)
+            "std::shared_ptr<$baseAPIName>"
+        else
+            baseAPIName
+
+    fun getPropertySetterName(name: String) = NameHelper.toLowerCamelCase(name) + "_set"
+
+    fun getPropertyGetterName(name: String) = NameHelper.toLowerCamelCase(name) + "_get"
+
+    fun getMapName(limeElement: LimeNamedElement) =
         joinQualifiedName(
-            getNestedNameSpecifier(francaEnumerator),
-            NameHelper.toUpperCamelCase(francaEnumerator.name)
-        )
-
-    fun getBaseApiCall(
-        category: CppTypeInfo.TypeCategory,
-        baseAPIName: String
-    ): String =
-        when {
-            category === CppTypeInfo.TypeCategory.CLASS -> "std::shared_ptr<$baseAPIName>"
-            else -> baseAPIName
-        }
-
-    fun getPropertySetterName(attribute: FAttribute) =
-        NameHelper.toLowerCamelCase(attribute.name) + "_set"
-
-    fun getPropertyGetterName(attribute: FAttribute) =
-        NameHelper.toLowerCamelCase(attribute.name) + "_get"
-
-    fun getMapName(francaElement: FModelElement) =
-        joinQualifiedName(
-            getNestedNameSpecifier(francaElement),
-            NameHelper.toUpperCamelCase(francaElement.name)
+            getNestedNameSpecifier(limeElement),
+            NameHelper.toUpperCamelCase(limeElement.name)
         )
 }

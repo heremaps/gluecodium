@@ -22,11 +22,15 @@ package com.here.genium.platform.swift
 import com.here.genium.Genium
 import com.here.genium.generator.cbridge.CBridgeGenerator
 import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.cpp.CppNameResolver
+import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
+import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
+import com.here.genium.generator.cpp.CppLimeBasedNameResolver
+import com.here.genium.generator.lime.LimeModelBuilder
+import com.here.genium.generator.lime.LimeReferenceResolver
 import com.here.genium.generator.swift.SwiftGenerator
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
-import com.here.genium.model.cpp.CppIncludeResolver
 import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.lime.LimeContainer
 import com.here.genium.platform.common.GeneratorSuite
 import org.franca.core.franca.FTypeCollection
 
@@ -43,33 +47,36 @@ class SwiftGeneratorSuite(
 
     private val internalNamespace = options.cppInternalNamespace ?: emptyList()
     private val rootNamespace = options.cppRootNamespace
-    private val cppNameResolver = CppNameResolver(deploymentModel, rootNamespace)
+    private val limeReferenceResolver = LimeReferenceResolver()
 
     override fun generate(typeCollections: List<FTypeCollection>): List<GeneratedFile> {
+        val limeModel = typeCollections.map { generateLimeModel(it) }
 
-        val swiftGenerator = SwiftGenerator(deploymentModel)
+        val limeReferenceMap = limeReferenceResolver.referenceMap
+        val swiftGenerator = SwiftGenerator(limeReferenceMap)
         val cBridgeGenerator = CBridgeGenerator(
-            deploymentModel,
-            CppIncludeResolver(deploymentModel, rootNamespace),
-            CBridgeIncludeResolver(rootNamespace),
-            cppNameResolver,
+            limeReferenceMap,
+            CppLimeBasedIncludeResolver(rootNamespace, limeReferenceMap),
+            CBridgeIncludeResolver(rootNamespace, limeReferenceMap),
+            CppLimeBasedNameResolver(rootNamespace, limeReferenceMap),
             internalNamespace
         )
 
-        val swiftStream = typeCollections.map { swiftGenerator.generate(it) }
-        val cBridgeStream = typeCollections.flatMap { cBridgeGenerator.generate(it) }
-
-        val result = (swiftStream + cBridgeStream).toMutableList()
-        result.addAll(CBridgeGenerator.STATIC_FILES)
-        result.addAll(SwiftGenerator.STATIC_FILES)
-        result.addAll(cBridgeGenerator.arrayGenerator.generate())
-        result.addAll(swiftGenerator.arrayGenerator.generate())
-        result.addAll(swiftGenerator.mapGenerator.generate())
-        result.addAll(swiftGenerator.builtinOptionalsGenerator.generate())
-        result.add(swiftGenerator.generateErrors())
-        result.addAll(cBridgeGenerator.generateHelpers())
+        val result = limeModel.map { swiftGenerator.generate(it) } +
+            limeModel.flatMap { cBridgeGenerator.generate(it) } +
+            CBridgeGenerator.STATIC_FILES + SwiftGenerator.STATIC_FILES +
+            cBridgeGenerator.arrayGenerator.generate() + swiftGenerator.arrayGenerator.generate() +
+            swiftGenerator.mapGenerator.generate() +
+            swiftGenerator.builtinOptionalsGenerator.generate() + swiftGenerator.generateErrors() +
+            cBridgeGenerator.generateHelpers()
 
         return result.filterNotNull()
+    }
+
+    private fun generateLimeModel(francaTypeCollection: FTypeCollection): LimeContainer {
+        val limeModelBuilder = LimeModelBuilder(deploymentModel, limeReferenceResolver)
+        FrancaTreeWalker(listOf(limeModelBuilder)).walkTree(francaTypeCollection)
+        return limeModelBuilder.getFinalResult(LimeContainer::class.java)
     }
 
     override fun getName() = "com.here.SwiftGenerator"

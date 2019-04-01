@@ -20,16 +20,29 @@
 package com.here.genium.generator.swift
 
 import com.google.common.annotations.VisibleForTesting
-import com.here.genium.common.CollectionsHelper
-import com.here.genium.common.FrancaSignatureResolver
-import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.common.LimeSignatureResolver
 import com.here.genium.generator.cbridge.CBridgeNameRules
-import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder
+import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
-import com.here.genium.model.common.InstanceRules
-import com.here.genium.model.franca.CommentHelper
-import com.here.genium.model.franca.DefinedBy
-import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeBasicTypeRef
+import com.here.genium.model.lime.LimeConstant
+import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeEnumerator
+import com.here.genium.model.lime.LimeField
+import com.here.genium.model.lime.LimeMap
+import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeNamedElement
+import com.here.genium.model.lime.LimeParameter
+import com.here.genium.model.lime.LimeProperty
+import com.here.genium.model.lime.LimeStruct
+import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeHelper
+import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeValue
+import com.here.genium.model.lime.LimeVisibility
 import com.here.genium.model.swift.SwiftArray
 import com.here.genium.model.swift.SwiftClass
 import com.here.genium.model.swift.SwiftConstant
@@ -38,10 +51,8 @@ import com.here.genium.model.swift.SwiftEnum
 import com.here.genium.model.swift.SwiftEnumItem
 import com.here.genium.model.swift.SwiftField
 import com.here.genium.model.swift.SwiftFile
-import com.here.genium.model.swift.SwiftInParameter
 import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftModelElement
-import com.here.genium.model.swift.SwiftOutParameter
 import com.here.genium.model.swift.SwiftParameter
 import com.here.genium.model.swift.SwiftProperty
 import com.here.genium.model.swift.SwiftStruct
@@ -49,50 +60,42 @@ import com.here.genium.model.swift.SwiftType
 import com.here.genium.model.swift.SwiftTypeDef
 import com.here.genium.model.swift.SwiftValue
 import com.here.genium.model.swift.SwiftVisibility
-import org.franca.core.framework.FrancaHelpers
-import org.franca.core.franca.FArgument
-import org.franca.core.franca.FArrayType
-import org.franca.core.franca.FAttribute
-import org.franca.core.franca.FConstantDef
-import org.franca.core.franca.FEnumerationType
-import org.franca.core.franca.FEnumerator
-import org.franca.core.franca.FField
-import org.franca.core.franca.FInitializerExpression
-import org.franca.core.franca.FInterface
-import org.franca.core.franca.FMapType
-import org.franca.core.franca.FMethod
-import org.franca.core.franca.FModelElement
-import org.franca.core.franca.FStructType
-import org.franca.core.franca.FTypeCollection
-import org.franca.core.franca.FTypeDef
-import org.franca.core.franca.FTypeRef
-import java.util.HashMap
-import java.util.HashSet
 
 class SwiftModelBuilder @VisibleForTesting
 internal constructor(
     contextStack: ModelBuilderContextStack<SwiftModelElement>,
-    private val deploymentModel: FrancaDeploymentModel,
-    private val signatureResolver: FrancaSignatureResolver,
+    private val signatureResolver: LimeSignatureResolver,
+    private val nameResolver: SwiftNameResolver,
     private val typeMapper: SwiftTypeMapper
-) : AbstractModelBuilder<SwiftModelElement>(contextStack) {
+) : AbstractLimeBasedModelBuilder<SwiftModelElement>(contextStack) {
 
-    val arraysCollector: MutableMap<String, SwiftArray> = HashMap()
-    val mapCollector: MutableMap<String, SwiftDictionary> = HashMap()
-    val enumsAsErrors: MutableSet<String> = HashSet()
+    val arraysCollector = mutableMapOf<String, SwiftArray>()
+    val mapCollector = mutableMapOf<String, SwiftDictionary>()
+    val enumsAsErrors = mutableSetOf<String>()
 
     constructor(
-        deploymentModel: FrancaDeploymentModel,
-        signatureResolver: FrancaSignatureResolver,
+        signatureResolver: LimeSignatureResolver,
+        nameResolver: SwiftNameResolver,
         typeMapper: SwiftTypeMapper
     ) : this(
         ModelBuilderContextStack<SwiftModelElement>(),
-        deploymentModel,
         signatureResolver,
+        nameResolver,
         typeMapper
     )
 
-    override fun finishBuilding(francaTypeCollection: FTypeCollection) {
+    override fun finishBuilding(limeContainer: LimeContainer) {
+        when (limeContainer.type) {
+            LimeContainer.ContainerType.TYPE_COLLECTION ->
+                finishBuildingTypeCollection(limeContainer)
+            LimeContainer.ContainerType.CLASS -> finishBuildingClass(limeContainer)
+            LimeContainer.ContainerType.INTERFACE -> finishBuildingInterface(limeContainer)
+        }
+
+        closeContext()
+    }
+
+    private fun finishBuildingTypeCollection(limeContainer: LimeContainer) {
         val file = SwiftFile()
         file.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         file.enums.addAll(getPreviousResults(SwiftEnum::class.java))
@@ -102,351 +105,326 @@ internal constructor(
         val constants = getPreviousResults(SwiftConstant::class.java)
         if (!constants.isEmpty()) {
             val swiftStruct = SwiftStruct(
-                SwiftNameRules.getClassName(francaTypeCollection.name),
-                "",
-                getVisibility(francaTypeCollection)
+                name = SwiftNameRules.getTypeName(limeContainer.name),
+                visibility = getVisibility(limeContainer)
             )
             swiftStruct.constants.addAll(constants)
             file.structs.add(swiftStruct)
         }
 
         storeResult(file)
-        super.finishBuilding(francaTypeCollection)
     }
 
-    override fun finishBuilding(francaInterface: FInterface) {
-        val isInterface = deploymentModel.isInterface(francaInterface)
-        val parentClass = getPreviousResult(SwiftClass::class.java)
-        val parentIsInterface = parentClass != null && parentClass.isInterface
-        val parentIsClass = parentClass != null && !parentClass.isInterface
-
-        val isObjcInterface = deploymentModel.isObjcInterface(francaInterface)
-        var parentClassName: String? = if (parentIsClass) parentClass.name else null
-        if (parentClassName == null && isObjcInterface && !isInterface) {
-            parentClassName = SwiftTypeMapper.OBJC_PARENT_CLASS
+    private fun finishBuildingClass(limeContainer: LimeContainer) {
+        val parentClass = getPreviousResultOrNull(SwiftClass::class.java)
+        val isObjcInterface = limeContainer.attributes.have(LimeAttributeType.LEGACY_COMPATIBLE)
+        val parentClassName = when {
+            parentClass != null && !parentClass.isInterface -> parentClass.name
+            isObjcInterface -> SwiftTypeMapper.OBJC_PARENT_CLASS
+            else -> null
         }
 
-        val clazz = SwiftClass(
-            SwiftNameRules.getClassName(francaInterface.name),
-            getVisibility(francaInterface),
-            isInterface,
-            parentClassName,
-            DefinedBy.getPackages(francaInterface).joinToString("_"),
-            CBridgeNameRules.getInterfaceName(francaInterface),
-            if (isInterface) CBridgeNameRules.getFunctionTableName(francaInterface) else null,
-            parentIsClass && !isInterface,
-            isObjcInterface
+        val swiftClass = SwiftClass(
+            name = SwiftNameRules.getTypeName(limeContainer.name),
+            visibility = getVisibility(limeContainer),
+            parentClass = parentClassName,
+            nameSpace = limeContainer.path.head.joinToString("_"),
+            cInstance = CBridgeNameRules.getInterfaceName(limeContainer),
+            useParentCInstance = parentClass != null && !parentClass.isInterface,
+            isObjcInterface = isObjcInterface
         )
+        swiftClass.comment = limeContainer.comment
 
-        if (parentIsInterface) {
-            clazz.implementsProtocols.add(parentClass.name)
-            clazz.methods.addAll(parentClass.methods)
-            clazz.properties.addAll(parentClass.properties)
+        val swiftFile = addMembersAndParent(swiftClass)
+        swiftClass.structs.addAll(getPreviousResults(SwiftStruct::class.java))
+        swiftClass.enums.addAll(getPreviousResults(SwiftEnum::class.java))
+
+        storeResult(swiftClass)
+        storeResult(swiftFile)
+    }
+
+    private fun finishBuildingInterface(limeContainer: LimeContainer) {
+        val swiftClass = SwiftClass(
+            name = SwiftNameRules.getTypeName(limeContainer.name),
+            visibility = getVisibility(limeContainer),
+            isInterface = true,
+            parentClass = getPreviousResultOrNull(SwiftClass::class.java)?.name,
+            nameSpace = limeContainer.path.head.joinToString("_"),
+            cInstance = CBridgeNameRules.getInterfaceName(limeContainer),
+            functionTableName = CBridgeNameRules.getFunctionTableName(limeContainer),
+            isObjcInterface = limeContainer.attributes.have(LimeAttributeType.LEGACY_COMPATIBLE)
+        )
+        swiftClass.comment = limeContainer.comment
+
+        val swiftFile = addMembersAndParent(swiftClass)
+        swiftFile.structs.addAll(getPreviousResults(SwiftStruct::class.java))
+        swiftFile.enums.addAll(getPreviousResults(SwiftEnum::class.java))
+
+        storeResult(swiftClass)
+        storeResult(swiftFile)
+    }
+
+    private fun addMembersAndParent(swiftClass: SwiftClass): SwiftFile {
+        val parentClass = getPreviousResultOrNull(SwiftClass::class.java)
+        if (parentClass != null && parentClass.isInterface) {
+            swiftClass.implementsProtocols.add(parentClass.name)
+            swiftClass.methods.addAll(parentClass.methods)
+            swiftClass.properties.addAll(parentClass.properties)
         }
 
-        clazz.methods.addAll(getPreviousResults(SwiftMethod::class.java))
-        clazz.properties.addAll(getPreviousResults(SwiftProperty::class.java))
-        clazz.typedefs.addAll(getPreviousResults(SwiftTypeDef::class.java))
-        clazz.constants.addAll(getPreviousResults(SwiftConstant::class.java))
-
-        val comment = CommentHelper.getDescription(francaInterface)
-        clazz.comment = comment ?: ""
+        swiftClass.methods.addAll(getPreviousResults(SwiftMethod::class.java))
+        swiftClass.properties.addAll(getPreviousResults(SwiftProperty::class.java))
+        swiftClass.typedefs.addAll(getPreviousResults(SwiftTypeDef::class.java))
+        swiftClass.constants.addAll(getPreviousResults(SwiftConstant::class.java))
 
         val file = SwiftFile()
-        file.classes.add(clazz)
+        file.classes.add(swiftClass)
         file.dictionaries.addAll(getPreviousResults(SwiftDictionary::class.java))
-
-        if (isInterface) {
-            file.structs.addAll(getPreviousResults(SwiftStruct::class.java))
-            file.enums.addAll(getPreviousResults(SwiftEnum::class.java))
-        } else {
-            clazz.structs.addAll(getPreviousResults(SwiftStruct::class.java))
-            clazz.enums.addAll(getPreviousResults(SwiftEnum::class.java))
-        }
-
-        storeResult(clazz)
-        storeResult(file)
-        super.finishBuilding(francaInterface)
+        return file
     }
 
-    override fun finishBuilding(francaStruct: FStructType) {
+    override fun finishBuilding(limeMethod: LimeMethod) {
+        val isConstructor = limeMethod.attributes.have(LimeAttributeType.CONSTRUCTOR)
+        val returnType = when {
+            isConstructor -> SwiftType(CBridgeNameRules.BASE_REF_NAME, null)
+            else -> {
+                val isNullable = limeMethod.returnType.attributes.have(LimeAttributeType.NULLABLE)
+                typeMapper.mapType(limeMethod.returnType.typeRef.type).withOptional(isNullable)
+            }
+        }
+        if (returnType is SwiftArray) {
+            val actualType = LimeTypeHelper.getActualType(limeMethod.returnType.typeRef.type)
+            val elementType = (actualType as LimeArray).elementType.type
+            val elementTypeKey = typeMapper.getActualTypeKey(elementType)
+            arraysCollector.putIfAbsent(elementTypeKey, returnType.withoutAlias())
+        }
 
-        val swiftStruct = SwiftStruct(
-            SwiftNameRules.getStructName(francaStruct, deploymentModel),
-            CBridgeNameRules.getStructBaseName(francaStruct),
-            getVisibility(francaStruct),
-            SwiftType.TypeCategory.STRUCT,
-            false, null,
-            false,
-            deploymentModel.isEquatable(francaStruct),
-            deploymentModel.isImmutable(francaStruct)
+        val errorType = limeMethod.errorType?.let {
+            val swiftEnumName = nameResolver.getFullName(it.type)
+            enumsAsErrors.add(swiftEnumName)
+            SwiftEnum(swiftEnumName)
+        }
+
+        val method = SwiftMethod(
+            SwiftNameRules.getMethodName(limeMethod.name),
+            getVisibility(limeMethod),
+            limeMethod.comment,
+            returnType,
+            limeMethod.returnType.comment,
+            CBridgeNameRules.getNestedSpecifierString(limeMethod),
+            CBridgeNameRules.getShortMethodName(limeMethod),
+            errorType,
+            limeMethod.isStatic || isConstructor,
+            isConstructor,
+            isConstructor && signatureResolver.hasSignatureClash(limeMethod),
+            getPreviousResults(SwiftParameter::class.java)
         )
-        val comment = CommentHelper.getDescription(francaStruct)
-        swiftStruct.comment = comment ?: ""
+
+        storeResult(method)
+        closeContext()
+    }
+
+    override fun finishBuilding(limeParameter: LimeParameter) {
+        val swiftType = getPreviousResult(SwiftType::class.java)
+            .withOptional(limeParameter.attributes.have(LimeAttributeType.NULLABLE))
+
+        val swiftParameter =
+            SwiftParameter(SwiftNameRules.getParameterName(limeParameter.name), swiftType)
+        swiftParameter.comment = limeParameter.comment
+
+        storeResult(swiftParameter)
+        closeContext()
+    }
+
+    override fun finishBuilding(limeStruct: LimeStruct) {
+        val swiftStruct = SwiftStruct(
+            name = nameResolver.getFullName(limeStruct),
+            cPrefix = CBridgeNameRules.getStructBaseName(limeStruct),
+            visibility = getVisibility(limeStruct),
+            isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
+            isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)
+        )
+        swiftStruct.comment = limeStruct.comment
 
         swiftStruct.fields.addAll(getPreviousResults(SwiftField::class.java))
 
         storeResult(swiftStruct)
-        super.finishBuilding(francaStruct)
+        closeContext()
     }
 
-    override fun finishBuilding(francaEnumerationType: FEnumerationType) {
+    override fun finishBuilding(limeField: LimeField) {
+        val isNullable = limeField.attributes.have(LimeAttributeType.NULLABLE)
+        val swiftType = getPreviousResult(SwiftType::class.java).withOptional(isNullable)
 
-        val enumItems = CollectionsHelper.getAllOfType(
-            currentContext.previousResults,
-            SwiftEnumItem::class.java
+        val swiftValue = getPreviousResultOrNull(SwiftValue::class.java)
+            ?: if (isNullable) SwiftValue("nil") else null
+
+        val swiftField = SwiftField(
+            SwiftNameRules.getFieldName(limeField.name),
+            getVisibility(limeField),
+            swiftType,
+            swiftValue
         )
+        swiftField.comment = limeField.comment
 
+        storeResult(swiftField)
+        closeContext()
+    }
+
+    override fun finishBuilding(limeEnumeration: LimeEnumeration) {
         val swiftEnum = SwiftEnum(
-            SwiftNameRules.getEnumTypeName(francaEnumerationType, deploymentModel),
-            getVisibility(francaEnumerationType),
-            enumItems
+            nameResolver.getFullName(limeEnumeration),
+            getVisibility(limeEnumeration),
+            getPreviousResults(SwiftEnumItem::class.java)
         )
-        swiftEnum.comment = CommentHelper.getDescription(francaEnumerationType)
+        swiftEnum.comment = limeEnumeration.comment
 
         storeResult(swiftEnum)
-        super.finishBuilding(francaEnumerationType)
+        closeContext()
     }
 
-    override fun finishBuilding(enumerator: FEnumerator) {
-
+    override fun finishBuilding(limeEnumerator: LimeEnumerator) {
         val swiftEnumItem = SwiftEnumItem(
-            SwiftNameRules.getEnumItemName(enumerator),
-            CollectionsHelper.getFirstOfType(
-                currentContext.previousResults, SwiftValue::class.java
-            )
+            SwiftNameRules.getEnumItemName(limeEnumerator.name),
+            getPreviousResultOrNull(SwiftValue::class.java)
         )
-        swiftEnumItem.comment = CommentHelper.getDescription(enumerator)
+        swiftEnumItem.comment = limeEnumerator.comment
 
         storeResult(swiftEnumItem)
-        super.finishBuilding(enumerator)
+        closeContext()
     }
 
-    override fun finishBuilding(expression: FInitializerExpression) {
-        storeResult(SwiftValueMapper.map(expression))
-        super.finishBuilding(expression)
-    }
-
-    override fun finishBuilding(francaField: FField) {
-
-        val fieldType = getPreviousResult(SwiftType::class.java)
-
-        val fieldName = SwiftNameRules.getFieldName(francaField.name)
-        val deploymentDefaultValue = deploymentModel.getDefaultValue(francaField)
-        val defaultValue = SwiftValueMapper.mapDefaultValue(fieldType, deploymentDefaultValue)
-        val visibility = getVisibility(francaField)
-
-        val structField = SwiftField(fieldName, visibility, fieldType, defaultValue)
-        structField.comment = CommentHelper.getDescription(francaField)
-
-        storeResult(structField)
-        super.finishBuilding(francaField)
-    }
-
-    override fun finishBuildingInputArgument(francaArgument: FArgument) {
-
-        val swiftType = getPreviousResult(SwiftType::class.java)
-
-        val swiftParameter =
-            SwiftInParameter(SwiftNameRules.getParameterName(francaArgument), swiftType)
-        swiftParameter.comment = CommentHelper.getDescription(francaArgument)
-
-        storeResult(swiftParameter)
-        super.finishBuildingInputArgument(francaArgument)
-    }
-
-    override fun finishBuildingOutputArgument(francaArgument: FArgument) {
-
-        val swiftParameter = SwiftOutParameter(
-            SwiftNameRules.getParameterName(francaArgument),
-            getPreviousResult(SwiftType::class.java)
-        )
-        swiftParameter.comment = CommentHelper.getDescription(francaArgument)
-
-        storeResult(swiftParameter)
-        super.finishBuildingOutputArgument(francaArgument)
-    }
-
-    override fun finishBuilding(francaTypeDef: FTypeDef) {
-
-        if (!InstanceRules.isInstanceId(francaTypeDef)) {
-
-            val typedefValue = SwiftTypeDef(
-                SwiftNameRules.getTypeDefName(francaTypeDef, deploymentModel),
-                getVisibility(francaTypeDef),
-                getPreviousResult(SwiftType::class.java)
+    override fun finishBuilding(limeTypeDef: LimeTypeDef) {
+        val typeDefName = nameResolver.getFullName(limeTypeDef)
+        val limeActualType = LimeTypeHelper.getActualType(limeTypeDef.typeRef.type)
+        val swiftActualType: SwiftType
+        if (limeActualType is LimeMap) {
+            val mapName = nameResolver.getMapName(limeTypeDef)
+            val swiftDictionary = SwiftDictionary(
+                mapName,
+                null,
+                typeDefName,
+                CBridgeNameRules.getStructBaseName(limeTypeDef),
+                typeMapper.mapType(limeActualType.keyType.type),
+                typeMapper.mapType(limeActualType.valueType.type)
             )
-            typedefValue.comment = CommentHelper.getDescription(francaTypeDef)
-            storeResult(typedefValue)
-        }
-        super.finishBuilding(francaTypeDef)
-    }
 
-    override fun finishBuilding(francaMethod: FMethod) {
+            val keyTypeKey = typeMapper.getActualTypeKey(limeActualType.keyType.type)
+            val valueTypeKey = typeMapper.getActualTypeKey(limeActualType.valueType.type)
+            mapCollector.putIfAbsent("$keyTypeKey:$valueTypeKey", swiftDictionary)
+            storeResult(swiftDictionary)
 
-        val inParams = getPreviousResults(SwiftInParameter::class.java)
-
-        val comment = CommentHelper.getDescription(francaMethod)
-        val returnParam = CollectionsHelper.getFirstOfType(
-            currentContext.previousResults, SwiftOutParameter::class.java, SwiftOutParameter()
-        )
-        val isConstructor = deploymentModel.isConstructor(francaMethod)
-        val method = SwiftMethod(
-            SwiftNameRules.getMethodName(francaMethod),
-            getVisibility(francaMethod),
-            comment,
-            if (isConstructor) SwiftType(
-                CBridgeNameRules.BASE_REF_NAME,
-                null
-            ) else returnParam.type,
-            returnParam.comment,
-            CBridgeNameRules.getNestedSpecifierString(francaMethod),
-            CBridgeNameRules.getShortMethodName(francaMethod),
-            createErrorIfNeeded(francaMethod),
-            deploymentModel.isStatic(francaMethod) || isConstructor,
-            isConstructor,
-            isConstructor && signatureResolver.hasSignatureClash(francaMethod),
-            inParams
-        )
-
-        storeResult(method)
-        super.finishBuilding(francaMethod)
-    }
-
-    private fun createErrorIfNeeded(francaMethod: FMethod): SwiftEnum? {
-        val errorEnum = francaMethod.errorEnum
-        if (errorEnum != null) {
-            val swiftEnumName = SwiftNameRules.getEnumTypeName(errorEnum, deploymentModel)
-            enumsAsErrors.add(swiftEnumName)
-            return SwiftEnum(swiftEnumName)
+            swiftActualType = SwiftType(swiftDictionary.dictionaryDefinition, null)
         } else {
-            return null
-        }
-    }
-
-    override fun finishBuilding(francaTypeRef: FTypeRef) {
-        val swiftType = typeMapper.mapType(francaTypeRef)
-        if (swiftType is SwiftArray) {
-            val elementType = if (FrancaTypeHelper.isImplicitArray(francaTypeRef))
-                francaTypeRef
-            else
-                (FrancaHelpers.getActualDerived(francaTypeRef) as FArrayType).elementType
-            val elementTypeKey = typeMapper.getActualTypeKey(elementType)
-            arraysCollector.putIfAbsent(elementTypeKey, swiftType.withoutAlias())
+            swiftActualType = getPreviousResult(SwiftType::class.java)
         }
 
-        storeResult(swiftType)
-        super.finishBuilding(francaTypeRef)
+        val swiftTypeDef = SwiftTypeDef(typeDefName, getVisibility(limeTypeDef), swiftActualType)
+        swiftTypeDef.comment = limeTypeDef.comment
+
+        storeResult(swiftTypeDef)
+        closeContext()
     }
 
-    override fun finishBuilding(francaAttribute: FAttribute) {
+    override fun finishBuilding(limeConstant: LimeConstant) {
+        val swiftConstant = SwiftConstant(
+            SwiftNameRules.getConstantName(limeConstant.name),
+            getVisibility(limeConstant),
+            getPreviousResult(SwiftType::class.java),
+            getPreviousResult(SwiftValue::class.java)
+        )
+        swiftConstant.comment = limeConstant.comment
 
-        val propertyVisibility = getVisibility(francaAttribute)
+        storeResult(swiftConstant)
+        closeContext()
+    }
+
+    override fun finishBuilding(limeProperty: LimeProperty) {
+        val propertyVisibility = getVisibility(limeProperty)
         val swiftType = getPreviousResult(SwiftType::class.java)
-        val isStatic = deploymentModel.isStatic(francaAttribute)
+            .withOptional(limeProperty.attributes.have(LimeAttributeType.NULLABLE))
 
-        val nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(francaAttribute)
+        val nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(limeProperty)
         val getterMethod = SwiftMethod(
-            "",
-            propertyVisibility, null,
-            swiftType, null,
-            nestedSpecifier,
-            CBridgeNameRules.getPropertyGetterName(francaAttribute), null,
-            isStatic
+            name = "",
+            visibility = propertyVisibility,
+            returnType = swiftType,
+            cNestedSpecifier = nestedSpecifier,
+            cShortName = CBridgeNameRules.getPropertyGetterName(limeProperty.name),
+            isStatic = limeProperty.isStatic
         )
 
-        var setterMethod: SwiftMethod? = null
-        if (!francaAttribute.isReadonly) {
-            val setterVisibility = if (deploymentModel.hasInternalSetter(francaAttribute))
-                SwiftVisibility.INTERNAL
-            else
-                propertyVisibility
-            setterMethod = SwiftMethod(
-                "",
-                setterVisibility, null,
-                SwiftType.VOID, null,
-                nestedSpecifier,
-                CBridgeNameRules.getPropertySetterName(francaAttribute), null,
-                isStatic,
-                false,
-                false,
-                listOf(SwiftParameter("newValue", swiftType))
+        val setterMethod =
+        if (!limeProperty.isReadonly) {
+            val setterVisibility = when {
+                limeProperty.attributes.have(LimeAttributeType.INTERNAL_SETTER) ->
+                    SwiftVisibility.INTERNAL
+                else -> propertyVisibility
+            }
+            SwiftMethod(
+                name = "",
+                visibility = setterVisibility,
+                cNestedSpecifier = nestedSpecifier,
+                cShortName = CBridgeNameRules.getPropertySetterName(limeProperty.name),
+                isStatic = limeProperty.isStatic,
+                parameters = listOf(SwiftParameter("newValue", swiftType))
             )
-        }
+        } else null
 
         val property = SwiftProperty(
-            SwiftNameRules.getPropertyName(francaAttribute.name, swiftType),
+            SwiftNameRules.getPropertyName(limeProperty.name, swiftType),
             propertyVisibility,
             swiftType,
             getterMethod,
             setterMethod,
-            isStatic
+            limeProperty.isStatic
         )
-        property.comment = CommentHelper.getDescription(francaAttribute)
+        property.comment = limeProperty.comment
 
         storeResult(property)
-        super.finishBuilding(francaAttribute)
+        closeContext()
     }
 
-    override fun finishBuilding(francaArray: FArrayType) {
-        val typeDefName = SwiftNameRules.getTypeDefName(francaArray, deploymentModel)
-        val arrayType = typeMapper.mapArrayType(francaArray).withAlias(typeDefName) as SwiftArray
-        val elementTypeKey = typeMapper.getActualTypeKey(francaArray.elementType)
-        arraysCollector.putIfAbsent(elementTypeKey, arrayType.withoutAlias())
+    override fun finishBuilding(limeValue: LimeValue) {
+        val swiftValue = when (limeValue) {
+            is LimeValue.Literal -> SwiftValue(limeValue.value)
+            is LimeValue.Enumerator -> {
+                val typeName = nameResolver.getFullName(limeValue.typeRef.type)
+                val valueName = SwiftNameRules.getConstantName(limeValue.valueRef.enumerator.name)
+                SwiftValue("$typeName.$valueName")
+            }
+            is LimeValue.Special -> {
+                val signPrefix =
+                    if (limeValue.value == LimeValue.Special.ValueId.NEGATIVE_INFINITY) "-" else ""
+                val typeName =
+                    if (limeValue.typeRef == LimeBasicTypeRef.FLOAT) "Float" else "Double"
+                val valueName =
+                    if (limeValue.value == LimeValue.Special.ValueId.NAN) "nan" else "infinity"
+                SwiftValue("$signPrefix$typeName.$valueName")
+            }
+        }
 
-        val swiftTypeDef = SwiftTypeDef(
-            typeDefName, getVisibility(francaArray), SwiftType(arrayType.name, null)
-        )
-        swiftTypeDef.comment = CommentHelper.getDescription(francaArray)
-
-        storeResult(swiftTypeDef)
-        super.finishBuilding(francaArray)
+        storeResult(swiftValue)
+        closeContext()
     }
 
-    override fun finishBuilding(francaMapType: FMapType) {
+    override fun finishBuilding(limeTypeRef: LimeTypeRef) {
+        val swiftType = typeMapper.mapType(limeTypeRef.type)
+        if (swiftType is SwiftArray) {
+            val actualType = LimeTypeHelper.getActualType(limeTypeRef.type)
+            val elementType = (actualType as LimeArray).elementType
+            val elementTypeKey = typeMapper.getActualTypeKey(elementType.type)
+            arraysCollector.putIfAbsent(elementTypeKey, swiftType.withoutAlias())
+        }
 
-        val typeDefName = SwiftNameRules.getTypeDefName(francaMapType, deploymentModel)
-        val mapName = SwiftNameRules.getMapName(francaMapType, deploymentModel)
-        val typeRefs = getPreviousResults(SwiftType::class.java)
-        val swiftDictionary = SwiftDictionary(
-            mapName, null,
-            typeDefName,
-            CBridgeNameRules.getStructBaseName(francaMapType),
-            typeRefs[0],
-            typeRefs[1]
-        )
-
-        val keyTypeKey = typeMapper.getActualTypeKey(francaMapType.keyType)
-        val valueTypeKey = typeMapper.getActualTypeKey(francaMapType.valueType)
-        mapCollector.putIfAbsent("$keyTypeKey:$valueTypeKey", swiftDictionary)
-        storeResult(swiftDictionary)
-
-        val namelessDictionary = SwiftType(swiftDictionary.dictionaryDefinition, null)
-        val swiftTypeDef =
-            SwiftTypeDef(typeDefName, getVisibility(francaMapType), namelessDictionary)
-        swiftTypeDef.comment = CommentHelper.getDescription(francaMapType)
-
-        storeResult(swiftTypeDef)
-        super.finishBuilding(francaMapType)
+        storeResult(swiftType)
+        closeContext()
     }
 
-    override fun finishBuilding(francaConstant: FConstantDef) {
-
-        val name = SwiftNameRules.getConstantName(francaConstant.name)
-        val type = getPreviousResult(SwiftType::class.java)
-        val visibility = getVisibility(francaConstant)
-        val value = getPreviousResult(SwiftValue::class.java)
-
-        val swiftConstant = SwiftConstant(name, visibility, type, value)
-        swiftConstant.comment = CommentHelper.getDescription(francaConstant)
-
-        storeResult(swiftConstant)
-        super.finishBuilding(francaConstant)
-    }
-
-    private fun getVisibility(francaModelElement: FModelElement) =
-        when {
-            deploymentModel.isInternal(francaModelElement) -> SwiftVisibility.INTERNAL
-            else -> SwiftVisibility.PUBLIC
+    private fun getVisibility(limeElement: LimeNamedElement) =
+        when (limeElement.visibility) {
+            LimeVisibility.INTERNAL -> SwiftVisibility.INTERNAL
+            LimeVisibility.PUBLIC -> SwiftVisibility.PUBLIC
+            LimeVisibility.OPEN -> SwiftVisibility.OPEN
         }
 }

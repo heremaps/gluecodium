@@ -17,14 +17,19 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.generator.cbridge
 
-public final class SwiftOutParameter extends SwiftParameter {
-  public SwiftOutParameter(String interfaceName, SwiftType type) {
-    super(interfaceName, type);
-  }
+import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeMap
+import com.here.genium.model.lime.LimeType
+import com.here.genium.model.lime.LimeTypeDef
 
-  public SwiftOutParameter() {
-    this("", SwiftType.VOID);
-  }
+object CBridgeNameResolver {
+    fun getTypeName(limeType: LimeType): String = when (limeType) {
+        is LimeTypeDef -> getTypeName(limeType.typeRef.type)
+        is LimeArray -> "ArrayOf_${getTypeName(limeType.elementType.type)}"
+        is LimeMap ->
+            "MapOf_${getTypeName(limeType.keyType.type)}_To_${getTypeName(limeType.valueType.type)}"
+        else -> CBridgeNameRules.getName(limeType)
+    }
 }

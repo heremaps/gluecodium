@@ -151,33 +151,60 @@ void ArrayOf_BasicStruct_release_optional_handle(_baseRef handle) {
 _baseRef ArrayOf_BasicStruct_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<::smoke::Arrays::BasicStruct>>*>( handle ) );
 }
-_baseRef ArrayOf_UInt8_create_handle() {
+_baseRef ArrayOf_Uint8_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<uint8_t>( ) );
 }
-_baseRef ArrayOf_UInt8_copy_handle(_baseRef handle) {
+_baseRef ArrayOf_Uint8_copy_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( new std::vector<uint8_t>( *reinterpret_cast<std::vector<uint8_t>*>( handle ) ) );
 }
-void ArrayOf_UInt8_release_handle(_baseRef handle) {
+void ArrayOf_Uint8_release_handle(_baseRef handle) {
     delete reinterpret_cast<std::vector<uint8_t>*>( handle );
 }
-uint64_t ArrayOf_UInt8_count(_baseRef handle) {
+uint64_t ArrayOf_Uint8_count(_baseRef handle) {
     return Conversion<std::vector<uint8_t>>::toCpp( handle ).size( );
 }
-uint8_t ArrayOf_UInt8_get( _baseRef handle, uint64_t index ) {
+uint8_t ArrayOf_Uint8_get( _baseRef handle, uint64_t index ) {
     return Conversion<std::vector<uint8_t>>::toCpp(handle)[ index ];
 }
-void ArrayOf_UInt8_append( _baseRef handle, uint8_t item )
+void ArrayOf_Uint8_append( _baseRef handle, uint8_t item )
 {
     Conversion<std::vector<uint8_t>>::toCpp(handle).push_back( item );
 }
-_baseRef ArrayOf_UInt8_create_optional_handle() {
+_baseRef ArrayOf_Uint8_create_optional_handle() {
     return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::vector<uint8_t>>( std::vector<uint8_t>( ) ) );
 }
-void ArrayOf_UInt8_release_optional_handle(_baseRef handle) {
+void ArrayOf_Uint8_release_optional_handle(_baseRef handle) {
     delete reinterpret_cast<::genium::optional<std::vector<uint8_t>>*>( handle );
 }
-_baseRef ArrayOf_UInt8_unwrap_optional_handle(_baseRef handle) {
+_baseRef ArrayOf_Uint8_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<uint8_t>>*>( handle ) );
+}
+_baseRef ArrayOf_ArrayOf_Uint8_create_handle() {
+    return reinterpret_cast<_baseRef>( new std::vector<std::vector<uint8_t>>( ) );
+}
+_baseRef ArrayOf_ArrayOf_Uint8_copy_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new std::vector<std::vector<uint8_t>>( *reinterpret_cast<std::vector<std::vector<uint8_t>>*>( handle ) ) );
+}
+void ArrayOf_ArrayOf_Uint8_release_handle(_baseRef handle) {
+    delete reinterpret_cast<std::vector<std::vector<uint8_t>>*>( handle );
+}
+uint64_t ArrayOf_ArrayOf_Uint8_count(_baseRef handle) {
+    return Conversion<std::vector<std::vector<uint8_t>>>::toCpp( handle ).size( );
+}
+_baseRef ArrayOf_ArrayOf_Uint8_get( _baseRef handle, uint64_t index ) { return Conversion<std::vector<uint8_t>>::referenceBaseRef(Conversion<std::vector<std::vector<uint8_t>>>::toCpp( handle )[index]);
+}
+void ArrayOf_ArrayOf_Uint8_append( _baseRef handle, _baseRef item )
+{
+Conversion<std::vector<std::vector<uint8_t>>>::toCpp(handle).push_back(Conversion<std::vector<uint8_t>>::toCpp(item));
+}
+_baseRef ArrayOf_ArrayOf_Uint8_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::vector<std::vector<uint8_t>>>( std::vector<std::vector<uint8_t>>( ) ) );
+}
+void ArrayOf_ArrayOf_Uint8_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::genium::optional<std::vector<std::vector<uint8_t>>>*>( handle );
+}
+_baseRef ArrayOf_ArrayOf_Uint8_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<std::vector<uint8_t>>>*>( handle ) );
 }
 _baseRef ArrayOf_MapOf_Int32_To_String_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<::smoke::Arrays::ErrorCodeToMessageMap>( ) );
@@ -232,33 +259,6 @@ void ArrayOf_ExternalStruct_release_optional_handle(_baseRef handle) {
 }
 _baseRef ArrayOf_ExternalStruct_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<::alien::FooStruct>>*>( handle ) );
-}
-_baseRef ArrayOf_ArrayOf_UInt8_create_handle() {
-    return reinterpret_cast<_baseRef>( new std::vector<std::vector<uint8_t>>( ) );
-}
-_baseRef ArrayOf_ArrayOf_UInt8_copy_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new std::vector<std::vector<uint8_t>>( *reinterpret_cast<std::vector<std::vector<uint8_t>>*>( handle ) ) );
-}
-void ArrayOf_ArrayOf_UInt8_release_handle(_baseRef handle) {
-    delete reinterpret_cast<std::vector<std::vector<uint8_t>>*>( handle );
-}
-uint64_t ArrayOf_ArrayOf_UInt8_count(_baseRef handle) {
-    return Conversion<std::vector<std::vector<uint8_t>>>::toCpp( handle ).size( );
-}
-_baseRef ArrayOf_ArrayOf_UInt8_get( _baseRef handle, uint64_t index ) { return Conversion<std::vector<uint8_t>>::referenceBaseRef(Conversion<std::vector<std::vector<uint8_t>>>::toCpp( handle )[index]);
-}
-void ArrayOf_ArrayOf_UInt8_append( _baseRef handle, _baseRef item )
-{
-Conversion<std::vector<std::vector<uint8_t>>>::toCpp(handle).push_back(Conversion<std::vector<uint8_t>>::toCpp(item));
-}
-_baseRef ArrayOf_ArrayOf_UInt8_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::vector<std::vector<uint8_t>>>( std::vector<std::vector<uint8_t>>( ) ) );
-}
-void ArrayOf_ArrayOf_UInt8_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<std::vector<std::vector<uint8_t>>>*>( handle );
-}
-_baseRef ArrayOf_ArrayOf_UInt8_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<std::vector<uint8_t>>>*>( handle ) );
 }
 _baseRef ArrayOf_FancyStruct_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<::smoke::Arrays::FancyStruct>( ) );

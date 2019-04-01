@@ -20,13 +20,11 @@
 package com.here.genium.model.lime
 
 object LimeTypeHelper {
-    fun getActualType(limeTypeRef: LimeTypeRef): LimeType {
-        val type = limeTypeRef.type
-        return when (type) {
-            is LimeTypeDef -> getActualType(type.typeRef)
-            else -> type
+    fun getActualType(limeType: LimeType): LimeType =
+        when (limeType) {
+            is LimeTypeDef -> getActualType(limeType.typeRef.type)
+            else -> limeType
         }
-    }
 
     fun getLeafType(limeType: LimeType): LimeType =
         when (limeType) {

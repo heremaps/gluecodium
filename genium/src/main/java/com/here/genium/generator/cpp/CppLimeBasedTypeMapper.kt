@@ -133,8 +133,7 @@ class CppLimeBasedTypeMapper(
             CppTypeDefRef("::std::string", BASIC_STRING_CHAR_TYPE.includes, BASIC_STRING_CHAR_TYPE)
         private val BYTE_BUFFER_ARRAY_TYPE =
             CppTemplateTypeRef.create(TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8)
-        @VisibleForTesting
-        internal val BYTE_BUFFER_POINTER_TYPE =
+        val BYTE_BUFFER_POINTER_TYPE =
             CppTemplateTypeRef.create(TemplateClass.SHARED_POINTER, BYTE_BUFFER_ARRAY_TYPE)
     }
 }

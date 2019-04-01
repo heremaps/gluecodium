@@ -21,57 +21,39 @@ package com.here.genium.model.cbridge
 
 import com.here.genium.generator.cbridge.CBridgeNameRules
 import com.here.genium.model.common.Include
-import com.here.genium.model.franca.DefinedBy
-import org.franca.core.franca.FModelElement
-import org.franca.core.franca.FTypeCollection
+import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeNamedElement
 import java.io.File
+import java.util.HashMap
 
-class CBridgeIncludeResolver(private val rootNamespace: List<String>) {
-    private val resolvedIncludes = mutableMapOf<FTypeCollection, Include>()
+class CBridgeIncludeResolver(
+    private val rootNamespace: List<String>,
+    private val limeReferenceMap: Map<String, LimeElement>
+) {
+    private val resolvedIncludes = HashMap<String, Include>()
 
-    fun resolveInclude(modelElement: FModelElement): Include {
-        val typeCollection = DefinedBy.findDefiningTypeCollection(modelElement)
-        var include = resolvedIncludes[typeCollection]
-
-        if (include == null) {
-            val includeName = getHeaderFileNameWithPath(typeCollection)
-            include = Include.createInternalInclude(includeName)
-            resolvedIncludes[typeCollection] = include
+    fun resolveInclude(limeElement: LimeNamedElement): Include =
+        resolvedIncludes.getOrPut(limeElement.path.toString()) {
+            val parentElementKey = limeElement.path.parent.toString()
+            val parentElement = limeReferenceMap[parentElementKey] as? LimeNamedElement
+            parentElement?.let { resolveInclude(parentElement) }
+                ?: Include.createInternalInclude(getHeaderFileNameWithPath(limeElement))
         }
 
-        return include
-    }
+    fun getHeaderFileNameWithPath(limeElement: LimeNamedElement) =
+        createPath(limeElement, CBridgeNameRules.INCLUDE_DIR, CBridgeNameRules.PUBLIC_HEADER_SUFFIX)
 
-    fun getHeaderFileNameWithPath(francaTypeCollection: FTypeCollection) =
-        getPathComponents(
-            francaTypeCollection,
-            CBridgeNameRules.INCLUDE_DIR,
-            CBridgeNameRules.PUBLIC_HEADER_SUFFIX
-        )
+    fun getImplementationFileNameWithPath(limeElement: LimeNamedElement) =
+        createPath(limeElement, CBridgeNameRules.SRC_DIR, CBridgeNameRules.IMPL_SUFFIX)
 
-    fun getImplementationFileNameWithPath(francaTypeCollection: FTypeCollection) =
-        getPathComponents(
-            francaTypeCollection,
-            CBridgeNameRules.SRC_DIR,
-            CBridgeNameRules.IMPL_SUFFIX
-        )
-
-    private fun getPathComponents(
-        francaTypeCollection: FTypeCollection,
+    private fun createPath(
+        limeElement: LimeNamedElement,
         subfolder: String,
         suffix: String
     ): String {
-
-        val pathComponents = mutableListOf<String>()
-        pathComponents.add(CBridgeNameRules.CBRIDGE_PUBLIC)
-        pathComponents.add(subfolder)
-        pathComponents.addAll(rootNamespace)
-        pathComponents.addAll(DefinedBy.getPackages(francaTypeCollection))
-        pathComponents.add(
-            CBridgeNameRules.CBRIDGE_PREFIX + CBridgeNameRules.getName(francaTypeCollection) +
-                suffix
-        )
-
-        return pathComponents.joinToString(File.separator)
+        val fileName =
+            CBridgeNameRules.CBRIDGE_PREFIX + CBridgeNameRules.getName(limeElement) + suffix
+        return (listOf(CBridgeNameRules.CBRIDGE_PUBLIC, subfolder) + rootNamespace +
+                limeElement.path.head + fileName).joinToString(File.separator)
     }
 }

@@ -20,11 +20,13 @@
 package com.here.genium.platform.swift;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import com.here.genium.Genium;
 import com.here.genium.generator.cbridge.CBridgeGenerator;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.generator.swift.SwiftGenerator;
+import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
@@ -35,17 +37,18 @@ import org.junit.runners.JUnit4;
 public final class SwiftGeneratorSuiteTest {
 
   private final SwiftGeneratorSuite suite =
-      new SwiftGeneratorSuite(Genium.Companion.getDEFAULT_OPTIONS(), null);
+      new SwiftGeneratorSuite(
+          Genium.Companion.getDEFAULT_OPTIONS(), mock(FrancaDeploymentModel.class));
 
   @Test
   public void generatedFilesContainStaticFiles() {
     List<GeneratedFile> generatedFiles = suite.generate(new LinkedList<>());
 
     assertTrue(
-        generatedFiles + " must contain all " + SwiftGenerator.STATIC_FILES,
-        generatedFiles.containsAll(SwiftGenerator.STATIC_FILES));
+        generatedFiles + " must contain all " + SwiftGenerator.Companion.getSTATIC_FILES(),
+        generatedFiles.containsAll(SwiftGenerator.Companion.getSTATIC_FILES()));
     assertTrue(
-        generatedFiles + " must contain all " + CBridgeGenerator.STATIC_FILES,
-        generatedFiles.containsAll(CBridgeGenerator.STATIC_FILES));
+        generatedFiles + " must contain all " + CBridgeGenerator.Companion.getSTATIC_FILES(),
+        generatedFiles.containsAll(CBridgeGenerator.Companion.getSTATIC_FILES()));
   }
 }

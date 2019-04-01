@@ -97,6 +97,7 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
             // Regular nodes
             initTreeNode(
                 LimeContainer::class.java,
+                LimeBasedModelBuilder::startBuilding,
                 LimeBasedModelBuilder::finishBuilding,
                 LimeTreeWalker::walkChildNodes
             )
@@ -164,9 +165,18 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
             finishMethod: LimeBasedModelBuilder.(T) -> Unit,
             walkChildNodes: LimeTreeWalker.(T) -> Unit
         ) {
+            initTreeNode(clazz, { startBuilding(it) }, finishMethod, { this.walkChildNodes(it) })
+        }
+
+        private fun <T : LimeElement> initTreeNode(
+            clazz: Class<T>,
+            startMethod: LimeBasedModelBuilder.(T) -> Unit,
+            finishMethod: LimeBasedModelBuilder.(T) -> Unit,
+            walkChildNodes: LimeTreeWalker.(T) -> Unit
+        ) {
             LIME_TREE_STRUCTURE[clazz] = TreeNodeInfo(
                 clazz,
-                LimeBasedModelBuilder::startBuilding,
+                startMethod,
                 finishMethod,
                 { (this as LimeTreeWalker).walkChildNodes(it) }
             )

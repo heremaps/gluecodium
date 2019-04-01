@@ -19,7 +19,6 @@
 
 package com.here.genium.model.cbridge;
 
-import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
 import static java.util.Collections.emptyList;
 
 import com.here.genium.generator.cbridge.CBridgeNameRules;
@@ -47,12 +46,12 @@ public class CType extends CElement {
   public static final CType DOUBLE = new CType("double");
   public static final CType STRING_REF =
       new CType(
-          BASE_REF_NAME,
+          CBridgeNameRules.BASE_REF_NAME,
           Include.Companion.createInternalInclude(
               Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "StringHandle.h").toString()));
   public static final CType BYTE_ARRAY_REF =
       new CType(
-          BASE_REF_NAME,
+          CBridgeNameRules.BASE_REF_NAME,
           Include.Companion.createInternalInclude(
               Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "ByteArrayHandle.h")
                   .toString()));

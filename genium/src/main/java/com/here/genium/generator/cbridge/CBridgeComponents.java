@@ -19,9 +19,6 @@
 
 package com.here.genium.generator.cbridge;
 
-import static com.here.genium.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERNAL;
-import static com.here.genium.generator.cbridge.CBridgeNameRules.INCLUDE_DIR;
-
 import com.google.common.collect.Iterables;
 import com.here.genium.model.cbridge.*;
 import com.here.genium.model.common.Include;
@@ -32,7 +29,9 @@ import java.util.stream.Collectors;
 public final class CBridgeComponents {
 
   public static final String PROXY_CACHE_FILENAME =
-      Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "CachedProxyBase.h").toString();
+      Paths.get(
+              CBridgeNameRules.CBRIDGE_INTERNAL, CBridgeNameRules.INCLUDE_DIR, "CachedProxyBase.h")
+          .toString();
 
   @SuppressWarnings("OperatorWrap")
   public static Collection<Include> collectImplementationIncludes(CInterface cInterface) {

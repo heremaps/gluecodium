@@ -128,7 +128,7 @@ class CppLimeBasedNameResolver(
         }
 
     private fun isBooleanProperty(limeProperty: LimeProperty): Boolean {
-        val type = LimeTypeHelper.getActualType(limeProperty.typeRef)
+        val type = LimeTypeHelper.getActualType(limeProperty.typeRef.type)
         return type is LimeBasicType && type.typeId == TypeId.BOOLEAN
     }
 }

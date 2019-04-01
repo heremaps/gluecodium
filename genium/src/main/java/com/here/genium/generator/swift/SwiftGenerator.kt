@@ -19,58 +19,57 @@
 
 package com.here.genium.generator.swift
 
-import com.google.common.annotations.VisibleForTesting
-import com.here.genium.common.FrancaSignatureResolver
+import com.here.genium.common.LimeSignatureResolver
 import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
+import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.swift.SwiftFile
 import com.here.genium.platform.common.GeneratorSuite
-import org.franca.core.franca.FTypeCollection
 import java.util.HashSet
 
-class SwiftGenerator(private val deploymentModel: FrancaDeploymentModel) {
+class SwiftGenerator(private val limeReferenceMap: Map<String, LimeElement>) {
     val arrayGenerator = SwiftArrayGenerator()
     val mapGenerator = SwiftMapGenerator()
     val builtinOptionalsGenerator = SwiftBuiltinOptionalsGenerator()
-    val enumsAsErrors: MutableSet<String> = HashSet()
-    private val signatureResolver: FrancaSignatureResolver = FrancaSignatureResolver()
-    private val typeMapper: SwiftTypeMapper = SwiftTypeMapper(deploymentModel)
+    val enumsAsErrors = HashSet<String>()
+    private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
+    private val nameResolver = SwiftNameResolver(limeReferenceMap)
+    private val typeMapper = SwiftTypeMapper(nameResolver)
 
-    fun generate(francaTypeCollection: FTypeCollection): GeneratedFile? {
-        val file = buildSwiftModel(francaTypeCollection)
-        return if (file.isEmpty) {
-            null
-        } else {
-            GeneratedFile(
+    fun generate(limeContainer: LimeContainer): GeneratedFile? {
+        val modelBuilder = SwiftModelBuilder(
+            signatureResolver,
+            nameResolver,
+            typeMapper
+        )
+        val treeWalker = LimeTreeWalker(listOf(modelBuilder))
+
+        treeWalker.walkTree(limeContainer)
+
+        arrayGenerator.collect(modelBuilder.arraysCollector)
+        mapGenerator.collect(modelBuilder.mapCollector)
+        enumsAsErrors.addAll(modelBuilder.enumsAsErrors)
+        val file = modelBuilder.getFinalResult(SwiftFile::class.java)
+
+        return when {
+            file.isEmpty -> null
+            else -> GeneratedFile(
                 TemplateEngine.render("swift/File", file),
-                SwiftNameRules.getImplementationFileName(francaTypeCollection)
+                SwiftNameRules.getImplementationFileName(limeContainer)
             )
         }
     }
 
     fun generateErrors() =
-        if (enumsAsErrors.isEmpty()) {
-            null
-        } else {
-            GeneratedFile(
+        when {
+            enumsAsErrors.isEmpty() -> null
+            else -> GeneratedFile(
                 TemplateEngine.render("swift/Errors", enumsAsErrors.sorted()),
                 SwiftNameRules.TARGET_DIRECTORY + "ErrorsExtensions.swift"
             )
         }
-
-    @VisibleForTesting
-    internal fun buildSwiftModel(francaTypeCollection: FTypeCollection): SwiftFile {
-        val modelBuilder = SwiftModelBuilder(deploymentModel, signatureResolver, typeMapper)
-        val treeWalker = FrancaTreeWalker(listOf(modelBuilder))
-
-        treeWalker.walkTree(francaTypeCollection)
-        arrayGenerator.collect(modelBuilder.arraysCollector)
-        mapGenerator.collect(modelBuilder.mapCollector)
-        enumsAsErrors.addAll(modelBuilder.enumsAsErrors)
-        return modelBuilder.getFinalResult(SwiftFile::class.java)
-    }
 
     companion object {
         val STATIC_FILES = listOf(

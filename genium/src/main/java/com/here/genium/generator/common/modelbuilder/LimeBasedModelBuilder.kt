@@ -37,6 +37,7 @@ import com.here.genium.model.lime.LimeValue
 /** An interface for a model builder, used by [LimeTreeWalker].  */
 interface LimeBasedModelBuilder {
     fun startBuilding(limeElement: LimeElement)
+    fun startBuilding(limeContainer: LimeContainer)
 
     fun finishBuilding(limeNamedElement: LimeNamedElement)
     fun finishBuilding(limeContainer: LimeContainer)

@@ -24,7 +24,7 @@ import java.util.LinkedList
 class SwiftStruct @JvmOverloads constructor(
     name: String,
     cPrefix: String = "",
-    visibility: SwiftVisibility?,
+    visibility: SwiftVisibility? = null,
     category: SwiftType.TypeCategory = SwiftType.TypeCategory.STRUCT,
     val isInterface: Boolean = false,
     publicName: String? = null,

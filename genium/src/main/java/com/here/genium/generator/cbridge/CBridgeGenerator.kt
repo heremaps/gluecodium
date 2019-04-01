@@ -20,114 +20,115 @@
 package com.here.genium.generator.cbridge
 
 import com.google.common.annotations.VisibleForTesting
-import com.here.genium.common.FrancaSignatureResolver
-import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE
+import com.here.genium.common.LimeSignatureResolver
 import com.here.genium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC
 import com.here.genium.generator.cbridge.CBridgeNameRules.INCLUDE_DIR
 import com.here.genium.generator.cbridge.CBridgeNameRules.SRC_DIR
 import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
+import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.generator.cpp.CppModelBuilder
-import com.here.genium.generator.cpp.CppNameResolver
-import com.here.genium.generator.cpp.CppTypeMapper
-import com.here.genium.generator.cpp.CppValueMapper
+import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
+import com.here.genium.generator.cpp.CppLimeBasedModelBuilder
+import com.here.genium.generator.cpp.CppLimeBasedNameResolver
+import com.here.genium.generator.cpp.CppLimeBasedTypeMapper
 import com.here.genium.generator.swift.SwiftModelBuilder
+import com.here.genium.generator.swift.SwiftNameResolver
 import com.here.genium.generator.swift.SwiftTypeMapper
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
 import com.here.genium.model.cbridge.CInterface
 import com.here.genium.model.common.Include
-import com.here.genium.model.cpp.CppIncludeResolver
-import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeElement
 import com.here.genium.platform.common.GeneratorSuite
-import org.franca.core.franca.FTypeCollection
 import java.nio.file.Paths
 
 class CBridgeGenerator(
-    private val deploymentModel: FrancaDeploymentModel,
-    private val cppIncludeResolver: CppIncludeResolver,
+    private val limeReferenceMap: Map<String, LimeElement>,
+    private val cppIncludeResolver: CppLimeBasedIncludeResolver,
     private val includeResolver: CBridgeIncludeResolver,
-    private val cppNameResolver: CppNameResolver,
+    private val cppNameResolver: CppLimeBasedNameResolver,
     private val internalNamespace: List<String>
 ) {
-    private val signatureResolver: FrancaSignatureResolver
-    private val swiftTypeMapper: SwiftTypeMapper
-    val arrayGenerator: CArrayGenerator
+    private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
+    private val nameResolver = SwiftNameResolver(limeReferenceMap)
+    private val swiftTypeMapper = SwiftTypeMapper(nameResolver)
 
-    init {
-        this.signatureResolver = FrancaSignatureResolver()
-        this.swiftTypeMapper = SwiftTypeMapper(deploymentModel)
-        this.arrayGenerator = CArrayGenerator(internalNamespace)
-    }
+    val arrayGenerator = CArrayGenerator(internalNamespace)
 
-    fun generate(francaTypeCollection: FTypeCollection): List<GeneratedFile> {
-        val cModel = buildCBridgeModel(francaTypeCollection)
+    fun generate(limeContainer: LimeContainer): List<GeneratedFile> {
+        val cModel = buildCBridgeModel(limeContainer)
         return listOf(
             GeneratedFile(
                 generateHeaderContent(cModel),
-                includeResolver.getHeaderFileNameWithPath(francaTypeCollection)
+                includeResolver.getHeaderFileNameWithPath(limeContainer)
             ),
             GeneratedFile(
                 generateImplementationContent(cModel),
-                includeResolver.getImplementationFileNameWithPath(francaTypeCollection)
+                includeResolver.getImplementationFileNameWithPath(limeContainer)
             )
         ).filterNot { it.content.isEmpty() }
     }
 
     fun generateHelpers() =
         listOf(
-            generateHelperContent("BaseHandleImpl", BASE_HANDLE_IMPL_FILE),
+            generateHelperContent("BaseHandleImpl", CBridgeNameRules.BASE_HANDLE_IMPL_FILE),
             generateHelperContent(
-                "StringHandle", Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "StringHandle.cpp").toString()
-            ),
+                "StringHandle", Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "StringHandle.cpp").toString()),
             generateHelperContent(
-                "BuiltinHandle", Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "BuildintHandle.cpp").toString()
+                "BuiltinHandle",
+                Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "BuildintHandle.cpp").toString()
             )
         )
 
-    private fun generateHelperContent(template: String, path: String) =
-        GeneratedFile(TemplateEngine.render("cbridge/$template", internalNamespace), path)
+    private fun generateHelperContent(template: String, path: String): GeneratedFile {
+        val content = TemplateEngine.render(
+            "cbridge/$template",
+            mapOf("internalNamespace" to internalNamespace)
+        )
+        return GeneratedFile(content, path)
+    }
 
-    fun buildCBridgeModel(francaTypeCollection: FTypeCollection): CInterface {
-
+    private fun buildCBridgeModel(limeContainer: LimeContainer): CInterface {
         val cppTypeMapper =
-            CppTypeMapper(cppIncludeResolver, cppNameResolver, internalNamespace, deploymentModel)
-        val valueMapper = CppValueMapper(deploymentModel, cppNameResolver)
+            CppLimeBasedTypeMapper(cppNameResolver, cppIncludeResolver, internalNamespace)
         val cppBuilder =
-            CppModelBuilder(deploymentModel, cppTypeMapper, valueMapper, cppNameResolver)
-        val swiftBuilder = SwiftModelBuilder(deploymentModel, signatureResolver, swiftTypeMapper)
+            CppLimeBasedModelBuilder(cppTypeMapper, cppNameResolver)
+        val swiftBuilder = SwiftModelBuilder(
+            signatureResolver,
+            nameResolver,
+            swiftTypeMapper
+        )
         val typeMapper = CBridgeTypeMapper(
             cppIncludeResolver,
             cppNameResolver,
             includeResolver,
-            cppTypeMapper.enumHashType.name,
-            cppTypeMapper.byteBufferType.name
+            cppTypeMapper.enumHashType.name
         )
 
         val modelBuilder = CBridgeModelBuilder(
-            deploymentModel,
-            cppIncludeResolver,
+            limeReferenceMap,
             includeResolver,
+            cppIncludeResolver,
             cppBuilder,
             swiftBuilder,
             typeMapper,
             internalNamespace
         )
-        val treeWalker = FrancaTreeWalker(listOf(cppBuilder, swiftBuilder, modelBuilder))
+        val treeWalker = LimeTreeWalker(listOf(cppBuilder, swiftBuilder, modelBuilder))
 
-        treeWalker.walkTree(francaTypeCollection)
+        treeWalker.walkTree(limeContainer)
         val cModel = modelBuilder.getFinalResult(CInterface::class.java)
 
-        removeRedundantIncludes(francaTypeCollection, cModel!!)
+        removeRedundantIncludes(limeContainer, cModel)
         arrayGenerator.collect(modelBuilder.arraysCollector)
 
         return cModel
     }
 
-    private fun removeRedundantIncludes(francaTypeCollection: FTypeCollection, cModel: CInterface) {
+    private fun removeRedundantIncludes(limeContainer: LimeContainer, cModel: CInterface) {
         cModel.headerIncludes.remove(
             Include.createInternalInclude(
-                includeResolver.getHeaderFileNameWithPath(francaTypeCollection)
+                includeResolver.getHeaderFileNameWithPath(limeContainer)
             )
         )
         cModel.implementationIncludes.removeAll(cModel.headerIncludes)
