@@ -22,7 +22,7 @@ package com.here.genium.model.java
 import java.util.function.Function
 import java.util.stream.Stream
 
-class JavaClass @JvmOverloads constructor(
+class JavaClass(
     name: String,
     val extendedClass: JavaType? = null,
     val fields: List<JavaField> = emptyList(),

@@ -21,7 +21,7 @@ package com.here.genium.model.jni
 
 import com.here.genium.model.java.JavaPackage
 
-class JniEnum @JvmOverloads constructor(
+class JniEnum(
     javaPackage: JavaPackage? = null,
     val javaEnumName: String,
     val cppEnumName: String,

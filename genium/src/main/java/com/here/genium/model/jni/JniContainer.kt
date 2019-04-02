@@ -29,7 +29,7 @@ import java.util.LinkedList
  * represent the name of the owning container which is the name of the containing class in case of
  * interface or the name of the package in case of type collection.
  */
-data class JniContainer @JvmOverloads constructor(
+class JniContainer(
     val javaPackages: List<String> = listOf(),
     val cppNameSpaces: List<String> = listOf(),
     val javaName: String? = null,

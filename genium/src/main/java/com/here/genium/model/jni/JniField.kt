@@ -23,7 +23,7 @@ import com.here.genium.model.cpp.CppField
 import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaField
 
-class JniField @JvmOverloads constructor(
+class JniField(
     val javaField: JavaField,
     val cppField: CppField,
     val cppGetterName: String? = null,

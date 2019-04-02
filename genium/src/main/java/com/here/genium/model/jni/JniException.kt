@@ -19,7 +19,4 @@
 
 package com.here.genium.model.jni
 
-data class JniException @JvmOverloads constructor(
-    val javaClassName: String,
-    val jniEnum: JniType? = null
-) : JniElement
+class JniException(val javaClassName: String, val jniEnum: JniType? = null) : JniElement

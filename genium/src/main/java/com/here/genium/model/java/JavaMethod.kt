@@ -22,7 +22,7 @@ package com.here.genium.model.java
 import java.util.EnumSet
 import java.util.stream.Stream
 
-class JavaMethod @JvmOverloads constructor(
+class JavaMethod(
     name: String,
     comment: String? = null,
     visibility: JavaVisibility = JavaVisibility.PUBLIC,

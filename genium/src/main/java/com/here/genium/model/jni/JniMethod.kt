@@ -19,7 +19,7 @@
 
 package com.here.genium.model.jni
 
-data class JniMethod @JvmOverloads constructor(
+class JniMethod(
     var owningContainer: JniContainer? = null,
     val javaMethodName: String? = null,
     val cppMethodName: String? = null,

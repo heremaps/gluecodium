@@ -248,7 +248,7 @@ class Genium(private val options: Options) {
         )
     ).validate(deploymentModel, typeCollections)
 
-    class Options @JvmOverloads constructor(
+    class Options(
         var inputDirs: List<String> = listOf(),
         var outputDir: String? = null,
         var javaPackages: List<String> = listOf(),
