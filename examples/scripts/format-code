@@ -67,7 +67,7 @@ fi
 pushd swift
     if command -v swiftlint  >/dev/null ; then
         echo "Formatting Swift files with 'swiftlint'..."
-        safe swiftlint autocorrect
+        safe swiftlint --path . autocorrect
     else
         echo "Formatting Swift files with dockerized 'swiftlint'..."
         safe docker run \
@@ -75,6 +75,6 @@ pushd swift
             --security-opt label=disable \
             --volume ${PWD}:/opt \
             --workdir /opt \
-            saschpe/swiftlint autocorrect
+            saschpe/swiftlint --path . autocorrect
     fi
 popd
