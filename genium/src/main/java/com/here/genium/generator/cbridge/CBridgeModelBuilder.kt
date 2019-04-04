@@ -24,8 +24,8 @@ import com.here.genium.generator.cbridge.CBridgeNameResolver.getTypeName
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
 import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
-import com.here.genium.generator.cpp.CppLimeBasedModelBuilder
+import com.here.genium.generator.cpp.CppIncludeResolver
+import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.swift.SwiftModelBuilder
 import com.here.genium.model.cbridge.CArray
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
@@ -66,8 +66,8 @@ internal constructor(
     contextStack: ModelBuilderContextStack<CElement>,
     private val limeReferenceMap: Map<String, LimeElement>,
     private val includeResolver: CBridgeIncludeResolver,
-    private val cppIncludeResolver: CppLimeBasedIncludeResolver,
-    private val cppBuilder: CppLimeBasedModelBuilder,
+    private val cppIncludeResolver: CppIncludeResolver,
+    private val cppBuilder: CppModelBuilder,
     private val swiftBuilder: SwiftModelBuilder,
     private val typeMapper: CBridgeTypeMapper,
     private val internalNamespace: List<String>
@@ -78,8 +78,8 @@ internal constructor(
     constructor(
         limeReferenceMap: Map<String, LimeElement>,
         includeResolver: CBridgeIncludeResolver,
-        cppIncludeResolver: CppLimeBasedIncludeResolver,
-        cppBuilder: CppLimeBasedModelBuilder,
+        cppIncludeResolver: CppIncludeResolver,
+        cppBuilder: CppModelBuilder,
         swiftBuilder: SwiftModelBuilder,
         typeMapper: CBridgeTypeMapper,
         internalNamespace: List<String>

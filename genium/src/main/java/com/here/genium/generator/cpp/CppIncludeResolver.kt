@@ -25,7 +25,7 @@ import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
 import java.io.File
 
-class CppLimeBasedIncludeResolver(
+class CppIncludeResolver(
     private val rootNamespace: List<String>,
     private val limeReferenceMap: Map<String, LimeElement>
 ) {

@@ -22,9 +22,9 @@ package com.here.genium.generator.cbridge
 import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE
 import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME
 import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
-import com.here.genium.generator.cpp.CppLimeBasedNameResolver
-import com.here.genium.generator.cpp.CppLimeBasedTypeMapper
+import com.here.genium.generator.cpp.CppIncludeResolver
+import com.here.genium.generator.cpp.CppNameResolver
+import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
 import com.here.genium.model.cbridge.CType
 import com.here.genium.model.cbridge.CType.VOID
@@ -43,13 +43,13 @@ import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.lime.LimeTypeHelper
 
 class CBridgeTypeMapper(
-    private val cppIncludeResolver: CppLimeBasedIncludeResolver,
-    private val cppNameResolver: CppLimeBasedNameResolver,
+    private val cppIncludeResolver: CppIncludeResolver,
+    private val cppNameResolver: CppNameResolver,
     private val includeResolver: CBridgeIncludeResolver,
     val enumHashType: String
 ) {
     private val byteBufferTypeInfo = CppTypeInfo(
-        CppLimeBasedTypeMapper.BYTE_BUFFER_POINTER_TYPE.name,
+        CppTypeMapper.BYTE_BUFFER_POINTER_TYPE.name,
         CType(BASE_REF_NAME),
         CType.BYTE_ARRAY_REF,
         CppTypeInfo.TypeCategory.BUILTIN_BYTEBUFFER,

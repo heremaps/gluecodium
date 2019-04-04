@@ -19,8 +19,8 @@
 
 package com.here.genium.generator.jni
 
-import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
-import com.here.genium.generator.cpp.CppLimeBasedModelBuilder
+import com.here.genium.generator.cpp.CppIncludeResolver
+import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.java.JavaModelBuilder
 import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppClass
@@ -84,8 +84,8 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class JniModelBuilderTest {
     @MockK private lateinit var javaBuilder: JavaModelBuilder
-    @MockK private lateinit var cppBuilder: CppLimeBasedModelBuilder
-    @MockK private lateinit var cppIncludeResolver: CppLimeBasedIncludeResolver
+    @MockK private lateinit var cppBuilder: CppModelBuilder
+    @MockK private lateinit var cppIncludeResolver: CppIncludeResolver
 
     private val javaMethod = JavaMethod(
         name = "fancyMEthoD_integer",

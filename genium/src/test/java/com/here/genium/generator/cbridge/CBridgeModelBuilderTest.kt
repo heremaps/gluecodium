@@ -19,9 +19,9 @@
 
 package com.here.genium.generator.cbridge
 
+import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
-import com.here.genium.generator.cpp.CppLimeBasedModelBuilder
+import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.swift.SwiftModelBuilder
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
 import com.here.genium.model.cbridge.CElement
@@ -81,8 +81,8 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class CBridgeModelBuilderTest {
     @MockK private lateinit var includeResolver: CBridgeIncludeResolver
-    @MockK private lateinit var cppIncludeResolver: CppLimeBasedIncludeResolver
-    @MockK private lateinit var cppModelBuilder: CppLimeBasedModelBuilder
+    @MockK private lateinit var cppIncludeResolver: CppIncludeResolver
+    @MockK private lateinit var cppModelBuilder: CppModelBuilder
     @MockK private lateinit var swiftModelBuilder: SwiftModelBuilder
     @MockK private lateinit var typeMapper: CBridgeTypeMapper
 

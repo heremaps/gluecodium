@@ -30,11 +30,11 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class CppLimeBasedIncludeResolverTest {
+class CppIncludeResolverTest {
     private val limeRootPath = LimePath(listOf("mo", "del"), listOf("foo"))
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
 
-    private var includeResolver = CppLimeBasedIncludeResolver(listOf("ro", "ot"), limeReferenceMap)
+    private var includeResolver = CppIncludeResolver(listOf("ro", "ot"), limeReferenceMap)
 
     @Test
     fun resolveRegularInclude() {

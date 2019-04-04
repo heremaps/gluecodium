@@ -27,10 +27,10 @@ import com.here.genium.generator.cbridge.CBridgeNameRules.SRC_DIR
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
-import com.here.genium.generator.cpp.CppLimeBasedModelBuilder
-import com.here.genium.generator.cpp.CppLimeBasedNameResolver
-import com.here.genium.generator.cpp.CppLimeBasedTypeMapper
+import com.here.genium.generator.cpp.CppIncludeResolver
+import com.here.genium.generator.cpp.CppModelBuilder
+import com.here.genium.generator.cpp.CppNameResolver
+import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.generator.swift.SwiftModelBuilder
 import com.here.genium.generator.swift.SwiftNameResolver
 import com.here.genium.generator.swift.SwiftTypeMapper
@@ -44,9 +44,9 @@ import java.nio.file.Paths
 
 class CBridgeGenerator(
     private val limeReferenceMap: Map<String, LimeElement>,
-    private val cppIncludeResolver: CppLimeBasedIncludeResolver,
+    private val cppIncludeResolver: CppIncludeResolver,
     private val includeResolver: CBridgeIncludeResolver,
-    private val cppNameResolver: CppLimeBasedNameResolver,
+    private val cppNameResolver: CppNameResolver,
     private val internalNamespace: List<String>
 ) {
     private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
@@ -90,9 +90,9 @@ class CBridgeGenerator(
 
     private fun buildCBridgeModel(limeContainer: LimeContainer): CInterface {
         val cppTypeMapper =
-            CppLimeBasedTypeMapper(cppNameResolver, cppIncludeResolver, internalNamespace)
+            CppTypeMapper(cppNameResolver, cppIncludeResolver, internalNamespace)
         val cppBuilder =
-            CppLimeBasedModelBuilder(cppTypeMapper, cppNameResolver)
+            CppModelBuilder(cppTypeMapper, cppNameResolver)
         val swiftBuilder = SwiftModelBuilder(
             signatureResolver,
             nameResolver,

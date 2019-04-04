@@ -65,11 +65,11 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class CppLimeBasedModelBuilderTest {
+class CppModelBuilderTest {
     @MockK
-    private lateinit var typeMapper: CppLimeBasedTypeMapper
+    private lateinit var typeMapper: CppTypeMapper
     @MockK
-    private lateinit var nameResolver: CppLimeBasedNameResolver
+    private lateinit var nameResolver: CppNameResolver
 
     private val limeEnumerator = LimeEnumerator(EMPTY_PATH)
     private val limeEnumeration = LimeEnumeration(EMPTY_PATH)
@@ -92,13 +92,13 @@ class CppLimeBasedModelBuilderTest {
 
     private val contextStack = MockContextStack<CppElement>()
 
-    private lateinit var modelBuilder: CppLimeBasedModelBuilder
+    private lateinit var modelBuilder: CppModelBuilder
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        modelBuilder = CppLimeBasedModelBuilder(contextStack, typeMapper, nameResolver)
+        modelBuilder = CppModelBuilder(contextStack, typeMapper, nameResolver)
 
         every { nameResolver.getName(any()) } returns "Foo"
         every { nameResolver.getFullyQualifiedName(any()) } returns "Bar"
@@ -250,7 +250,7 @@ class CppLimeBasedModelBuilderTest {
         modelBuilder.finishBuilding(limeMethod)
 
         val result = modelBuilder.getFinalResult(CppMethod::class.java)
-        assertEquals(CppLimeBasedTypeMapper.STD_ERROR_CODE_TYPE, result.returnType)
+        assertEquals(CppTypeMapper.STD_ERROR_CODE_TYPE, result.returnType)
     }
 
     @Test

@@ -48,16 +48,16 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class CppLimeBasedTypeMapperTest {
-    @MockK private lateinit var includeResolver: CppLimeBasedIncludeResolver
-    @MockK private lateinit var nameResolver: CppLimeBasedNameResolver
+class CppTypeMapperTest {
+    @MockK private lateinit var includeResolver: CppIncludeResolver
+    @MockK private lateinit var nameResolver: CppNameResolver
 
-    private lateinit var typeMapper: CppLimeBasedTypeMapper
+    private lateinit var typeMapper: CppTypeMapper
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        typeMapper = CppLimeBasedTypeMapper(nameResolver, includeResolver, listOf())
+        typeMapper = CppTypeMapper(nameResolver, includeResolver, emptyList())
 
         every { nameResolver.getFullyQualifiedName(any()) } returns "Foo"
         every {
@@ -129,7 +129,7 @@ class CppLimeBasedTypeMapperTest {
             CppTemplateTypeRef.TemplateClass.MAP,
             (result as CppTemplateTypeRef).templateClass
         )
-        assertEquals(CppLimeBasedTypeMapper.STRING_TYPE, result.templateParameters.first())
+        assertEquals(CppTypeMapper.STRING_TYPE, result.templateParameters.first())
         assertEquals(CppPrimitiveTypeRef.DOUBLE, result.templateParameters.last())
     }
 

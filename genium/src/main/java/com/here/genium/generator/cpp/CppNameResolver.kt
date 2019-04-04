@@ -38,7 +38,7 @@ import com.here.genium.model.lime.LimeTypeHelper
 import java.util.HashMap
 import java.util.function.BiFunction
 
-class CppLimeBasedNameResolver(
+class CppNameResolver(
     rootNamespace: List<String>,
     private val limeReferenceMap: Map<String, LimeElement>
 ) {

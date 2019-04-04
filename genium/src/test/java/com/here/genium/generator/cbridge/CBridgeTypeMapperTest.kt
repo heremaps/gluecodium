@@ -21,8 +21,8 @@ package com.here.genium.generator.cbridge
 
 import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME
 import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
-import com.here.genium.generator.cpp.CppLimeBasedNameResolver
+import com.here.genium.generator.cpp.CppIncludeResolver
+import com.here.genium.generator.cpp.CppNameResolver
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
 import com.here.genium.model.cbridge.CType
 import com.here.genium.model.common.Include
@@ -48,8 +48,8 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class CBridgeTypeMapperTest {
-    @MockK private lateinit var cppIncludeResolver: CppLimeBasedIncludeResolver
-    @MockK private lateinit var cppNameResolver: CppLimeBasedNameResolver
+    @MockK private lateinit var cppIncludeResolver: CppIncludeResolver
+    @MockK private lateinit var cppNameResolver: CppNameResolver
     @MockK private lateinit var includeResolver: CBridgeIncludeResolver
 
     private lateinit var typeMapper: CBridgeTypeMapper

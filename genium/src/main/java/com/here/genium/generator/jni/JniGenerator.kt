@@ -21,11 +21,11 @@ package com.here.genium.generator.jni
 
 import com.here.genium.generator.common.AbstractGenerator
 import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
+import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
-import com.here.genium.generator.cpp.CppLimeBasedModelBuilder
-import com.here.genium.generator.cpp.CppLimeBasedNameResolver
-import com.here.genium.generator.cpp.CppLimeBasedTypeMapper
+import com.here.genium.generator.cpp.CppModelBuilder
+import com.here.genium.generator.cpp.CppNameResolver
+import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.generator.java.JavaMethodNameResolver
 import com.here.genium.generator.java.JavaModelBuilder
 import com.here.genium.generator.java.JavaTypeMapper
@@ -48,7 +48,7 @@ class JniGenerator(
     private val internalNamespace: List<String>,
     private val rootNamespace: List<String>
 ) : AbstractGenerator(packageList) {
-    private val cppNameResolver = CppLimeBasedNameResolver(rootNamespace, limeReferenceMap)
+    private val cppNameResolver = CppNameResolver(rootNamespace, limeReferenceMap)
     private val errorEnums =
         limeReferenceMap.values
             .filterIsInstance<LimeMethod>()
@@ -72,9 +72,9 @@ class JniGenerator(
             errorEnums
         )
 
-        val includeResolver = CppLimeBasedIncludeResolver(rootNamespace, limeReferenceMap)
-        val typeMapper = CppLimeBasedTypeMapper(cppNameResolver, includeResolver, internalNamespace)
-        val cppBuilder = CppLimeBasedModelBuilder(typeMapper, cppNameResolver)
+        val includeResolver = CppIncludeResolver(rootNamespace, limeReferenceMap)
+        val typeMapper = CppTypeMapper(cppNameResolver, includeResolver, internalNamespace)
+        val cppBuilder = CppModelBuilder(typeMapper, cppNameResolver)
 
         val jniBuilder = JniModelBuilder(
             javaBuilder,

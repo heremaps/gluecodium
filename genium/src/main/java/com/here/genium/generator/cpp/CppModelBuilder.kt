@@ -55,15 +55,15 @@ import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeValue.Special.ValueId
 import java.util.EnumSet
 
-class CppLimeBasedModelBuilder @VisibleForTesting internal constructor(
+class CppModelBuilder @VisibleForTesting internal constructor(
     contextStack: ModelBuilderContextStack<CppElement>,
-    private val typeMapper: CppLimeBasedTypeMapper,
-    private val nameResolver: CppLimeBasedNameResolver
+    private val typeMapper: CppTypeMapper,
+    private val nameResolver: CppNameResolver
 ) : AbstractLimeBasedModelBuilder<CppElement>(contextStack) {
 
     constructor(
-        typeMapper: CppLimeBasedTypeMapper,
-        nameResolver: CppLimeBasedNameResolver
+        typeMapper: CppTypeMapper,
+        nameResolver: CppNameResolver
     ) : this(ModelBuilderContextStack<CppElement>(), typeMapper, nameResolver)
 
     override fun finishBuilding(limeContainer: LimeContainer) {
@@ -125,9 +125,9 @@ class CppLimeBasedModelBuilder @VisibleForTesting internal constructor(
             errorEnum != null && cppReturnType != CppPrimitiveTypeRef.VOID ->
                 typeMapper.getReturnWrapperType(
                     cppReturnType,
-                    CppLimeBasedTypeMapper.STD_ERROR_CODE_TYPE
+                    CppTypeMapper.STD_ERROR_CODE_TYPE
                 )
-            errorEnum != null -> CppLimeBasedTypeMapper.STD_ERROR_CODE_TYPE
+            errorEnum != null -> CppTypeMapper.STD_ERROR_CODE_TYPE
             else -> cppReturnType
         }
 

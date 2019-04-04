@@ -23,8 +23,8 @@ import com.here.genium.Genium
 import com.here.genium.generator.cbridge.CBridgeGenerator
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
-import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
-import com.here.genium.generator.cpp.CppLimeBasedNameResolver
+import com.here.genium.generator.cpp.CppIncludeResolver
+import com.here.genium.generator.cpp.CppNameResolver
 import com.here.genium.generator.lime.LimeModelBuilder
 import com.here.genium.generator.lime.LimeReferenceResolver
 import com.here.genium.generator.swift.SwiftGenerator
@@ -56,9 +56,9 @@ class SwiftGeneratorSuite(
         val swiftGenerator = SwiftGenerator(limeReferenceMap)
         val cBridgeGenerator = CBridgeGenerator(
             limeReferenceMap,
-            CppLimeBasedIncludeResolver(rootNamespace, limeReferenceMap),
+            CppIncludeResolver(rootNamespace, limeReferenceMap),
             CBridgeIncludeResolver(rootNamespace, limeReferenceMap),
-            CppLimeBasedNameResolver(rootNamespace, limeReferenceMap),
+            CppNameResolver(rootNamespace, limeReferenceMap),
             internalNamespace
         )
 

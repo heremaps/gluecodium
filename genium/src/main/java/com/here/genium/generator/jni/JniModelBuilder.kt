@@ -22,8 +22,8 @@ package com.here.genium.generator.jni
 import com.google.common.annotations.VisibleForTesting
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
-import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
-import com.here.genium.generator.cpp.CppLimeBasedModelBuilder
+import com.here.genium.generator.cpp.CppIncludeResolver
+import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.java.JavaModelBuilder
 import com.here.genium.model.cpp.CppClass
 import com.here.genium.model.cpp.CppEnum
@@ -80,14 +80,14 @@ class JniModelBuilder @VisibleForTesting
 internal constructor(
     contextStack: ModelBuilderContextStack<JniElement>,
     private val javaBuilder: JavaModelBuilder,
-    private val cppBuilder: CppLimeBasedModelBuilder,
-    private val cppIncludeResolver: CppLimeBasedIncludeResolver,
+    private val cppBuilder: CppModelBuilder,
+    private val cppIncludeResolver: CppIncludeResolver,
     private val internalNamespace: List<String>
 ) : AbstractLimeBasedModelBuilder<JniElement>(contextStack) {
     constructor(
         javaBuilder: JavaModelBuilder,
-        cppBuilder: CppLimeBasedModelBuilder,
-        cppIncludeResolver: CppLimeBasedIncludeResolver,
+        cppBuilder: CppModelBuilder,
+        cppIncludeResolver: CppIncludeResolver,
         internalNamespace: List<String>
     ) : this(
         ModelBuilderContextStack<JniElement>(),

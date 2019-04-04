@@ -58,9 +58,9 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class CppLimeBasedModelBuilderCommentsTest {
-    @MockK private lateinit var typeMapper: CppLimeBasedTypeMapper
-    @MockK private lateinit var nameResolver: CppLimeBasedNameResolver
+class CppModelBuilderCommentsTest {
+    @MockK private lateinit var typeMapper: CppTypeMapper
+    @MockK private lateinit var nameResolver: CppNameResolver
 
     private val limeContainer = LimeContainer(
         EMPTY_PATH,
@@ -70,13 +70,13 @@ class CppLimeBasedModelBuilderCommentsTest {
 
     private val contextStack = MockContextStack<CppElement>()
 
-    private lateinit var modelBuilder: CppLimeBasedModelBuilder
+    private lateinit var modelBuilder: CppModelBuilder
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        modelBuilder = CppLimeBasedModelBuilder(contextStack, typeMapper, nameResolver)
+        modelBuilder = CppModelBuilder(contextStack, typeMapper, nameResolver)
     }
 
     @Test

@@ -39,9 +39,9 @@ import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.lime.LimeTypeRef
 
-class CppLimeBasedTypeMapper(
-    private val nameResolver: CppLimeBasedNameResolver,
-    private val includeResolver: CppLimeBasedIncludeResolver,
+class CppTypeMapper(
+    private val nameResolver: CppNameResolver,
+    private val includeResolver: CppIncludeResolver,
     private val internalNamespace: List<String>
 ) {
     @VisibleForTesting

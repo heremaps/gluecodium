@@ -30,13 +30,13 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class CppLimeBasedNameResolverTest(
+class CppNameResolverTest(
     private val parentElement: LimeNamedElement?,
     private val expectedNormalResult: String,
     private val expectedExternalResult: String
 ) {
     private val elementPath = (parentElement?.path ?: LIME_ROOT_PATH).child("an_Element")
-    private var nameResolver = CppLimeBasedNameResolver(
+    private var nameResolver = CppNameResolver(
         listOf("ro", "ot"),
         parentElement?.let { mapOf(parentElement.fullName to parentElement) } ?: emptyMap()
     )

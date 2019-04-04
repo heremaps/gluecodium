@@ -26,9 +26,9 @@ import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
 import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.genium.generator.cpp.CppGenerator
 import com.here.genium.generator.cpp.CppLibraryIncludes
-import com.here.genium.generator.cpp.CppLimeBasedModelBuilder
-import com.here.genium.generator.cpp.CppLimeBasedNameResolver
-import com.here.genium.generator.cpp.CppLimeBasedTypeMapper
+import com.here.genium.generator.cpp.CppModelBuilder
+import com.here.genium.generator.cpp.CppNameResolver
+import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.generator.cpp.CppNameRules
 import com.here.genium.generator.lime.LimeModelBuilder
 import com.here.genium.generator.lime.LimeReferenceResolver
@@ -39,7 +39,7 @@ import com.here.genium.model.cpp.CppElementWithIncludes
 import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppFile
 import com.here.genium.model.cpp.CppForwardDeclaration
-import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
+import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.model.franca.FrancaDeploymentModel
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeMethod
@@ -78,10 +78,10 @@ class BaseApiGeneratorSuite(
 
         val limeReferenceMap = limeReferenceResolver.referenceMap
         val includeResolver =
-            CppLimeBasedIncludeResolver(rootNamespace, limeReferenceMap)
-        val nameResolver = CppLimeBasedNameResolver(rootNamespace, limeReferenceMap)
-        val typeMapper = CppLimeBasedTypeMapper(nameResolver, includeResolver, internalNamespace)
-        val cppModelBuilder = CppLimeBasedModelBuilder(typeMapper, nameResolver)
+            CppIncludeResolver(rootNamespace, limeReferenceMap)
+        val nameResolver = CppNameResolver(rootNamespace, limeReferenceMap)
+        val typeMapper = CppTypeMapper(nameResolver, includeResolver, internalNamespace)
+        val cppModelBuilder = CppModelBuilder(typeMapper, nameResolver)
 
         val allErrorEnums = limeReferenceMap.values
             .filterIsInstance(LimeMethod::class.java)
@@ -101,7 +101,7 @@ class BaseApiGeneratorSuite(
 
     private fun mapLimeModelToCppModel(
         limeModel: LimeContainer,
-        cppModelBuilder: CppLimeBasedModelBuilder,
+        cppModelBuilder: CppModelBuilder,
         allErrorEnums: Set<String>
     ): CppFile {
         LimeTreeWalker(listOf(cppModelBuilder)).walkTree(limeModel)
