@@ -68,17 +68,4 @@ class DefinedByTest {
         // Assert
         assertEquals("MyFTypeCollection", definingTypeCollection.name)
     }
-
-    @Test
-    fun findDefiningTypeCollection_forQualifiedRef_returnsParentTypeCollection() {
-        // Arrange
-        `when`(francaTypeCollection.name).thenReturn("MyFTypeCollection")
-        `when`(francaQualifiedElementRef.eContainer()).thenReturn(francaTypeCollection)
-
-        // Act
-        val definingTypeCollection = DefinedBy.findDefiningTypeCollection(francaQualifiedElementRef)
-
-        // Assert
-        assertEquals("MyFTypeCollection", definingTypeCollection.name)
-    }
 }

@@ -36,14 +36,6 @@ open class FrancaSignatureResolver {
         return signatureCache.getOrPut(key) { computeSignature(francaMethod) }
     }
 
-    open fun hasSignatureClash(francaMethod: FMethod): Boolean {
-        val signature = getSignature(francaMethod)
-        return FrancaTypeHelper.getAllOverloads(francaMethod)
-            .map { getSignature(it) }
-            .filter { signature == it }
-            .count() > 1
-    }
-
     protected open fun getArrayName(elementType: FTypeRef) = "[${getTypeName(elementType)}]"
 
     protected open fun getMapName(keyType: FTypeRef, valueType: FTypeRef) =

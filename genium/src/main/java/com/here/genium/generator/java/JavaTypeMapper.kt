@@ -92,9 +92,9 @@ class JavaTypeMapper(
         }
     }
 
-    private fun mapMapType(francaMapType: LimeMap): JavaType {
-        var keyType = mapType(francaMapType.keyType)
-        var valueType = mapType(francaMapType.valueType)
+    private fun mapMapType(limeMap: LimeMap): JavaType {
+        var keyType = mapType(limeMap.keyType)
+        var valueType = mapType(limeMap.valueType)
 
         if (keyType is JavaPrimitiveType) {
             keyType = JavaReferenceType.boxPrimitiveType(keyType)

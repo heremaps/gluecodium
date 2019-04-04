@@ -24,7 +24,7 @@ import com.here.genium.generator.cpp.TopologicalSort
 import com.here.genium.model.common.Include
 import java.util.TreeSet
 
-class CppFile @JvmOverloads constructor(
+class CppFile(
     val namespace: List<String>,
     val members: List<CppElement>,
     includes: Collection<Include>,

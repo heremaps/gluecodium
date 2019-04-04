@@ -19,9 +19,9 @@
 
 package com.here.genium.generator.common;
 
+import com.android.annotations.VisibleForTesting;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.franca.core.franca.FVersion;
 
 public class Version {
 
@@ -35,7 +35,8 @@ public class Version {
   public final int patch;
   public final String suffix;
 
-  public Version(int major, int minor, int patch, String suffix) {
+  @VisibleForTesting
+  Version(int major, int minor, int patch, String suffix) {
     this.major = major;
     this.minor = minor;
     this.patch = patch;
@@ -46,10 +47,6 @@ public class Version {
   public String toString() {
     final String versionFormat = suffix.isEmpty() ? VERSION_FORMAT : VERSION_FORMAT_WITH_SUFFIX;
     return String.format(versionFormat, major, minor, patch, suffix);
-  }
-
-  public static Version createFromFrancaVersion(FVersion version) {
-    return new Version(version.getMajor(), version.getMinor(), 0, "");
   }
 
   public static Version createFromString(final String versionString) {

@@ -22,8 +22,7 @@ package com.here.genium.model.cpp
 import java.util.EnumSet
 import java.util.stream.Stream
 
-class CppMethod
-@JvmOverloads constructor(
+class CppMethod(
     name: String,
     fullyQualifiedName: String = name,
     comment: String = "",

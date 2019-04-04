@@ -19,9 +19,6 @@
 
 package com.here.genium.generator.common
 
-import io.mockk.every
-import io.mockk.mockk
-import org.franca.core.franca.FVersion
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -45,23 +42,6 @@ class VersionTest {
 
         // Assert
         assertEquals(VERSION_WITH_SUFFIX, versionString)
-    }
-
-    @Test
-    fun createFromFrancaVersion() {
-        // Arrange
-        val francaVersion = mockk<FVersion>()
-        every { francaVersion.major } returns MAJOR_VERSION
-        every { francaVersion.minor } returns MINOR_VERSION
-
-        // Act
-        val version = Version.createFromFrancaVersion(francaVersion)
-
-        // Assert
-        assertEquals(MAJOR_VERSION, version.major)
-        assertEquals(MINOR_VERSION, version.minor)
-        assertEquals(0, version.patch)
-        assertEquals("", version.suffix)
     }
 
     @Test

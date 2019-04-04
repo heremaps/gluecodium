@@ -23,7 +23,6 @@ import java.util.List;
 import org.eclipse.xtext.util.Strings;
 import org.franca.core.franca.FModel;
 import org.franca.core.franca.FModelElement;
-import org.franca.core.franca.FQualifiedElementRef;
 import org.franca.core.franca.FTypeCollection;
 
 /** This class is used for resolving namespaces and includes. */
@@ -39,11 +38,6 @@ public final class DefinedBy {
     return modelElement instanceof FTypeCollection
         ? (FTypeCollection) modelElement
         : findDefiningTypeCollection((FModelElement) modelElement.eContainer());
-  }
-
-  public static FTypeCollection findDefiningTypeCollection(
-      final FQualifiedElementRef qualifiedElementRef) {
-    return findDefiningTypeCollection((FModelElement) qualifiedElementRef.eContainer());
   }
 
   public static List<String> getPackages(final FTypeCollection francaTypeCollection) {

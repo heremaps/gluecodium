@@ -249,7 +249,7 @@ class CppLimeBasedModelBuilder @VisibleForTesting internal constructor(
         storeResult(getterMethod)
 
         if (!limeProperty.isReadonly) {
-            val setterParameter = CppParameter("value", cppTypeRef, false, isNotNull)
+            val setterParameter = CppParameter("value", cppTypeRef, isNotNull)
             val setterQualifiers = when {
                 limeProperty.isStatic -> EnumSet.noneOf(CppMethod.Qualifier::class.java)
                 else -> EnumSet.of(CppMethod.Qualifier.PURE_VIRTUAL)

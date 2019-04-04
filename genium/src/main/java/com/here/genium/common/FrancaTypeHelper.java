@@ -20,22 +20,15 @@
 package com.here.genium.common;
 
 import com.here.genium.model.franca.DefinedBy;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;
 
 public final class FrancaTypeHelper {
-
-  public static boolean isImplicitArray(final FTypeRef typeRef) {
-    EObject container = typeRef.eContainer();
-    return (container instanceof FTypedElement) && ((FTypedElement) container).isArray();
-  }
 
   public static List<String> getElementPath(final FModelElement modelElement) {
 
@@ -75,36 +68,5 @@ public final class FrancaTypeHelper {
   public static Stream<EObject> getAllElements(final FTypeCollection francaTypeCollection) {
     return Stream.concat(
         Stream.of(francaTypeCollection), getAllChildElements(francaTypeCollection));
-  }
-
-  public static List<FMethod> getAllOverloads(final FMethod francaMethod) {
-    EObject parent = francaMethod.eContainer();
-    return parent instanceof FInterface
-        ? getAllMethods((FInterface) parent)
-            .stream()
-            .filter(method -> method.getName().equals(francaMethod.getName()))
-            .collect(Collectors.toList())
-        : Collections.emptyList();
-  }
-
-  private static List<FMethod> getAllMethods(final FInterface francaInterface) {
-    List<FMethod> result = new LinkedList<>(francaInterface.getMethods());
-    if (francaInterface.getBase() != null) {
-      result.addAll(getAllMethods(francaInterface.getBase()));
-    }
-    return result;
-  }
-
-  public static FType getLeafType(final FTypeRef francaTypeRef) {
-    FType francaType = francaTypeRef.getDerived();
-    if (francaType instanceof FTypeDef) {
-      return getLeafType(((FTypeDef) francaType).getActualType());
-    } else if (francaType instanceof FArrayType) {
-      return getLeafType(((FArrayType) francaType).getElementType());
-    } else if (francaType instanceof FMapType) {
-      return getLeafType(((FMapType) francaType).getValueType());
-    } else {
-      return francaType;
-    }
   }
 }

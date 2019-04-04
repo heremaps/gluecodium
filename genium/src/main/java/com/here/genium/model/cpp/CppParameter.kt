@@ -22,14 +22,11 @@ package com.here.genium.model.cpp
 import org.apache.commons.lang3.StringUtils
 import java.util.stream.Stream
 
-class CppParameter @JvmOverloads constructor(
+class CppParameter(
     name: String,
     type: CppTypeRef?,
-    val isOutput: Boolean = false,
     val isNotNull: Boolean = false
-) :
-    CppTypedElement(name, type) {
-
+) : CppTypedElement(name, type) {
     override fun stream() = Stream.of(type)
 
     @Suppress("unused")

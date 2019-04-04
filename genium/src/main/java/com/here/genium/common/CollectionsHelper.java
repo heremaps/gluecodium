@@ -31,13 +31,8 @@ public final class CollectionsHelper {
     return getStreamOfType(collection, clazz).collect(Collectors.toList());
   }
 
-  public static <T> T getFirstOfType(
-      final Collection<? super T> collection, final Class<T> clazz, final T defaultValue) {
-    return getStreamOfType(collection, clazz).findFirst().orElse(defaultValue);
-  }
-
   public static <T> T getFirstOfType(final Collection<? super T> collection, final Class<T> clazz) {
-    return getFirstOfType(collection, clazz, null);
+    return getStreamOfType(collection, clazz).findFirst().orElse(null);
   }
 
   public static <T> Stream<T> getStreamOfType(
@@ -52,11 +47,6 @@ public final class CollectionsHelper {
 
   public static <E, T extends E> List<E> getAllNotOfType(
       final Collection<E> collection, final Class<T> clazz) {
-    return getStreamNotOfType(collection, clazz).collect(Collectors.toList());
-  }
-
-  public static <E, T extends E> Stream<E> getStreamNotOfType(
-      final Collection<E> collection, final Class<T> clazz) {
-    return collection.stream().filter(obj -> !clazz.isInstance(obj));
+    return collection.stream().filter(obj -> !clazz.isInstance(obj)).collect(Collectors.toList());
   }
 }

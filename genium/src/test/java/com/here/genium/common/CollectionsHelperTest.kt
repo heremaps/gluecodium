@@ -56,16 +56,6 @@ class CollectionsHelperTest {
     }
 
     @Test
-    fun getFirstOfTypeNoneWithDefault() {
-        // Arrange, act
-        val result =
-            CollectionsHelper.getFirstOfType(NUMBER_LIST, Byte::class.java, DEFAULT_VALUE.toByte())
-
-        // Assert
-        assertEquals(DEFAULT_VALUE.toLong(), result.toLong())
-    }
-
-    @Test
     fun getFirstOfTypeSome() {
         // Arrange, act
         val result = CollectionsHelper.getFirstOfType(NUMBER_LIST, Integer::class.java)

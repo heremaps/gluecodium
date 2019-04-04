@@ -32,10 +32,10 @@ open class GenericTreeWalker<MB> protected constructor(
         private val walkChildNodes: GenericTreeWalker<B>.(T) -> Unit
     ) {
         fun walk(walker: GenericTreeWalker<B>, element: Any) {
-            val francaElement = clazz.cast(element)
-            walker.builders.forEach { it.startMethod(francaElement) }
-            walker.walkChildNodes(francaElement)
-            walker.builders.forEach { it.finishMethod(francaElement) }
+            val castElement = clazz.cast(element)
+            walker.builders.forEach { it.startMethod(castElement) }
+            walker.walkChildNodes(castElement)
+            walker.builders.forEach { it.finishMethod(castElement) }
         }
     }
 
