@@ -15,7 +15,7 @@ public class TypeDefs {
     public typealias NestedIntTypeDef = TypeDefs.PrimitiveTypeDef
     public typealias PrimitiveTypeDef = Double
     public typealias StructArray = [TypeDefs.TestStruct]
-    public typealias ComplexTypeDef = [TypeDefs.TestStruct]
+    public typealias ComplexTypeDef = TypeDefs.StructArray
     public typealias TestStructTypeDef = TypeDefs.TestStruct
     public typealias NestedStructTypeDef = TypeDefs.TestStructTypeDef
     public var primitiveTypeAttribute: [TypeDefs.PrimitiveTypeDef] {

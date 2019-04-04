@@ -119,7 +119,7 @@ internal func copyFromCType(_ handle: _baseRef) -> Maps.StringToArray {
     let iterator_handle = smoke_Maps_StringToArray_iterator(handle)
     while smoke_Maps_StringToArray_iterator_is_valid(handle, iterator_handle) {
         swiftDict[moveFromCType(smoke_Maps_StringToArray_iterator_key(iterator_handle))] =
-            moveFromCType(smoke_Maps_StringToArray_iterator_value(iterator_handle)) as [Int32]
+            moveFromCType(smoke_Maps_StringToArray_iterator_value(iterator_handle)) as Maps.ArrayOfInts
         smoke_Maps_StringToArray_iterator_increment(iterator_handle)
     }
     smoke_Maps_StringToArray_iterator_release_handle(iterator_handle)

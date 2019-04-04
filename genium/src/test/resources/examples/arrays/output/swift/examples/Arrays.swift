@@ -35,7 +35,7 @@ public class Arrays {
             numberOfChanges = moveFromCType(examples_Arrays_SyncResult_numberOfChanges_get(cHandle))
         }
     }
-    public static func explicitArrayMethod(input: [Arrays.SyncResult]) -> [Arrays.SyncResult] {
+    public static func explicitArrayMethod(input: Arrays.SyncResults) -> Arrays.SyncResults {
         let c_input = moveToCType(input)
         return moveFromCType(examples_Arrays_explicitArrayMethod(c_input.ref))
     }

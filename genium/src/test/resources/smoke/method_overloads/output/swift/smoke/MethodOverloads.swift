@@ -59,11 +59,11 @@ public class MethodOverloads {
         let c_input4 = moveToCType(input4)
         return moveFromCType(smoke_MethodOverloads_isBoolean_everythingOverload(self.c_instance, c_input1.ref, c_input2.ref, c_input3.ref, c_input4.ref))
     }
-    public func isBoolean(input: [String]) -> Bool {
+    public func isBoolean(input: MethodOverloads.StringArray) -> Bool {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_MethodOverloads_isBoolean_stringArrayOverload(self.c_instance, c_input.ref))
     }
-    public func isBoolean(input: [Int8]) -> Bool {
+    public func isBoolean(input: MethodOverloads.IntArray) -> Bool {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_MethodOverloads_isBoolean_intArrayOverload(self.c_instance, c_input.ref))
     }
@@ -74,7 +74,7 @@ public class MethodOverloads {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_MethodOverloads_isFloat_stringOverload(self.c_instance, c_input.ref))
     }
-    public func isFloat(input: [Int8]) -> Bool {
+    public func isFloat(input: MethodOverloads.IntArray) -> Bool {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_MethodOverloads_isFloat_intArrayOverload(self.c_instance, c_input.ref))
     }

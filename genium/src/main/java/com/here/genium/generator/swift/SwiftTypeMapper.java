@@ -94,9 +94,10 @@ public class SwiftTypeMapper {
     } else if (derived instanceof FEnumerationType) {
       return new SwiftEnum(SwiftNameRules.getEnumTypeName(derived, deploymentModel));
     } else if (derived instanceof FTypeDef) {
-      return getTypedef((FTypeDef) derived);
+      return mapTypeDef((FTypeDef) derived);
     } else if (derived instanceof FArrayType) {
-      return mapArrayType((FArrayType) derived);
+      return mapArrayType((FArrayType) derived)
+          .withAlias(SwiftNameRules.getTypeDefName(derived, deploymentModel));
     } else if (derived instanceof FMapType) {
       return mapMapType((FMapType) derived);
     }
@@ -114,7 +115,7 @@ public class SwiftTypeMapper {
         SwiftNameRules.getTypeName(francaMapType, deploymentModel));
   }
 
-  private SwiftType getTypedef(final FTypeDef francaTypeDef) {
+  private SwiftType mapTypeDef(final FTypeDef francaTypeDef) {
     if (InstanceRules.isInstanceId(francaTypeDef)) {
       return getClassType(francaTypeDef);
     }

@@ -18,9 +18,9 @@ public class Maps {
     public typealias NumberToTypeDef = [UInt8: Maps.SomeId]
     public typealias TypeDefToNumber = [Maps.SomeId: UInt8]
     public typealias SomeId = String
-    public typealias StringToArray = [String: [Int32]]
+    public typealias StringToArray = [String: Maps.ArrayOfInts]
     public typealias ArrayOfInts = [Int32]
-    public typealias StringToArrayOfTypeDefs = [String: [Maps.SomeInt]]
+    public typealias StringToArrayOfTypeDefs = [String: Maps.ArrayOfTypeDefs]
     public typealias SomeInt = Int32
     public typealias ArrayOfTypeDefs = [Maps.SomeInt]
     public typealias NumberToInstance = [UInt8: MapsInstance]

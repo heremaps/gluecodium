@@ -68,7 +68,7 @@ public class Nullable {
             return moveFromCType(smoke_Nullable_enumAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var arrayAttribute: [String]? {
+    public var arrayAttribute: Nullable.SomeArray? {
         get {
             return moveFromCType(smoke_Nullable_arrayAttribute_get(self.c_instance))
         }
@@ -133,11 +133,11 @@ public class Nullable {
         public var doubleField: Double?
         public var structField: Nullable.SomeStruct?
         public var enumField: Nullable.SomeEnum?
-        public var arrayField: [String]?
+        public var arrayField: Nullable.SomeArray?
         public var inlineArrayField: [String]?
         public var mapField: Nullable.SomeMap?
         public var instanceField: SomeInterface?
-        public init(stringField: String? = nil, boolField: Bool? = nil, doubleField: Double? = nil, structField: Nullable.SomeStruct? = nil, enumField: Nullable.SomeEnum? = nil, arrayField: [String]? = nil, inlineArrayField: [String]? = nil, mapField: Nullable.SomeMap? = nil, instanceField: SomeInterface? = nil) {
+        public init(stringField: String? = nil, boolField: Bool? = nil, doubleField: Double? = nil, structField: Nullable.SomeStruct? = nil, enumField: Nullable.SomeEnum? = nil, arrayField: Nullable.SomeArray? = nil, inlineArrayField: [String]? = nil, mapField: Nullable.SomeMap? = nil, instanceField: SomeInterface? = nil) {
             self.stringField = stringField
             self.boolField = boolField
             self.doubleField = doubleField
@@ -214,7 +214,7 @@ public class Nullable {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Nullable_methodWithSomeEnum(self.c_instance, c_input.ref))
     }
-    public func methodWithSomeArray(input: [String]?) -> [String]? {
+    public func methodWithSomeArray(input: Nullable.SomeArray?) -> Nullable.SomeArray? {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Nullable_methodWithSomeArray(self.c_instance, c_input.ref))
     }
