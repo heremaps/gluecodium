@@ -19,8 +19,8 @@
 
 package com.here.genium.model.swift
 
-class SwiftEnum @JvmOverloads constructor(
+class SwiftEnum(
     name: String,
     visibility: SwiftVisibility? = null,
-    val items: List<SwiftEnumItem> = listOf()
+    val items: List<SwiftEnumItem> = emptyList()
 ) : SwiftType(name, null, visibility, SwiftType.TypeCategory.ENUM, name, false)

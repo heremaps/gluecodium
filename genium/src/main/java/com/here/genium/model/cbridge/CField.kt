@@ -21,7 +21,7 @@ package com.here.genium.model.cbridge
 
 import com.here.genium.generator.cbridge.CppTypeInfo
 
-class CField @JvmOverloads constructor(
+class CField(
     swiftLayerName: String,
     val baseLayerName: String,
     val type: CppTypeInfo,

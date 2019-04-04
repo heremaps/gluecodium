@@ -24,7 +24,7 @@ import com.here.genium.generator.cbridge.CppTypeInfo
 import com.here.genium.generator.common.NameHelper
 import com.here.genium.model.common.Include
 
-class CFunction @JvmOverloads constructor(
+class CFunction(
     val shortName: String?,
     nestedSpecifier: String? = null,
     val returnType: CppTypeInfo = CppTypeInfo(CType.VOID),

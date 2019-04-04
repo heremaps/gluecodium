@@ -19,9 +19,7 @@
 
 package com.here.genium.model.swift
 
-import java.util.LinkedList
-
-class SwiftStruct @JvmOverloads constructor(
+class SwiftStruct(
     name: String,
     cPrefix: String = "",
     visibility: SwiftVisibility? = null,
@@ -39,9 +37,8 @@ class SwiftStruct @JvmOverloads constructor(
     publicName ?: name,
     optional
 ) {
-
-    val fields: MutableList<SwiftField> = LinkedList()
-    val constants: MutableList<SwiftConstant> = LinkedList()
+    val fields = mutableListOf<SwiftField>()
+    val constants = mutableListOf<SwiftConstant>()
 
     override fun withAlias(aliasName: String): SwiftType {
         val container = SwiftStruct(

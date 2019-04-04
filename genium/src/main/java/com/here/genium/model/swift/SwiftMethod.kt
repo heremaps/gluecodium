@@ -22,7 +22,7 @@ package com.here.genium.model.swift
 import com.here.genium.generator.cbridge.CBridgeNameRules
 import com.here.genium.generator.common.NameHelper
 
-class SwiftMethod @JvmOverloads constructor(
+class SwiftMethod(
     name: String,
     visibility: SwiftVisibility? = null,
     comment: String? = null,

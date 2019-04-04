@@ -19,7 +19,7 @@
 
 package com.here.genium.model.swift
 
-class SwiftClass @JvmOverloads constructor(
+class SwiftClass(
     name: String,
     visibility: SwiftVisibility? = null,
     val isInterface: Boolean = false,
