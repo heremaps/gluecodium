@@ -12,8 +12,8 @@
 namespace smoke {
 /**
  * This is some very useful interface.
- *     There is a lot to say about this interface.
- *     at least it has multiline comments.
+ * There is a lot to say about this interface.
+ * at least it has multiline comments.
  *
  * I am a heading
  * --------------

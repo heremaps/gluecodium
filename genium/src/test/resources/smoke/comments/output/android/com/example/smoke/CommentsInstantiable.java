@@ -6,8 +6,10 @@ package com.example.smoke;
 import com.example.NativeBase;
 public class CommentsInstantiable extends NativeBase {
     /**
-     * This is some very useful constructor.
-     * @param input Very useful input parameter
+     * <p>This is some very useful constructor.</p>
+     *
+     * @param input <p>Very useful input parameter</p>
+     *
      */
     public CommentsInstantiable(final String input) {
         this(create(input));

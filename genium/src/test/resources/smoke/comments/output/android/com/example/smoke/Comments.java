@@ -6,23 +6,28 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 /**
- * This is some very useful interface.
+ * <p>This is some very useful interface.</p>
+ *
  */
 public class Comments extends NativeBase {
     /**
-     * This is some very useful constant.
+     * <p>This is some very useful constant.</p>
+     *
      */
     public static final boolean VERY_USEFUL = true;
     /**
-     * This is some very useful enum.
+     * <p>This is some very useful enum.</p>
+     *
      */
     public enum SomeEnum {
         /**
-         * Not quite useful
+         * <p>Not quite useful</p>
+         *
          */
         USELESS(0),
         /**
-         * Somewhat useful
+         * <p>Somewhat useful</p>
+         *
          */
         USEFUL(1);
         public final int value;
@@ -38,11 +43,13 @@ public class Comments extends NativeBase {
         public final Comments.SomeEnum error;
     }
     /**
-     * This is some very useful struct.
+     * <p>This is some very useful struct.</p>
+     *
      */
     public static class SomeStruct {
         /**
-         * How useful this struct is
+         * <p>How useful this struct is</p>
+         *
          */
         public boolean someField;
         public SomeStruct() {
@@ -66,58 +73,73 @@ public class Comments extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     /**
-     * This is some very useful method that measures the usefulness of its input.
-     * @param input Very useful input parameter
+     * <p>This is some very useful method that measures the usefulness of its input.</p>
+     *
+     * @param input <p>Very useful input parameter</p>
+     *
      * @return Usefulness of the input
      * @throws Comments.SomeEnumException
      */
     public native boolean someMethodWithAllComments(final String input) throws Comments.SomeEnumException;
     /**
-     * This is some very useful method that measures the usefulness of its input.
-     * @param input Very useful input parameter
+     * <p>This is some very useful method that measures the usefulness of its input.</p>
+     *
+     * @param input <p>Very useful input parameter</p>
+     *
      */
     public native boolean someMethodWithInputComments(final String input);
     /**
-     * This is some very useful method that measures the usefulness of its input.
+     * <p>This is some very useful method that measures the usefulness of its input.</p>
+     *
      * @return Usefulness of the input
      */
     public native boolean someMethodWithOutputComments(final String input);
     /**
-     * This is some very useful method that measures the usefulness of its input.
+     * <p>This is some very useful method that measures the usefulness of its input.</p>
+     *
      */
     public native boolean someMethodWithNoComments(final String input);
     /**
-     * This is some very useful method that does not measure the usefulness of its input.
-     * @param input Very useful input parameter
+     * <p>This is some very useful method that does not measure the usefulness of its input.</p>
+     *
+     * @param input <p>Very useful input parameter</p>
+     *
      */
     public native void someMethodWithoutReturnTypeWithAllComments(final String input);
     /**
-     * This is some very useful method that does not measure the usefulness of its input.
+     * <p>This is some very useful method that does not measure the usefulness of its input.</p>
+     *
      */
     public native void someMethodWithoutReturnTypeWithNoComments(final String input);
     /**
-     * This is some very useful method that measures the usefulness of something.
+     * <p>This is some very useful method that measures the usefulness of something.</p>
+     *
      * @return Usefulness of the input
      */
     public native boolean someMethodWithoutInputParametersWithAllComments();
     /**
-     * This is some very useful method that measures the usefulness of something.
+     * <p>This is some very useful method that measures the usefulness of something.</p>
+     *
      */
     public native boolean someMethodWithoutInputParametersWithNoComments();
     public native void someMethodWithNothing();
     /**
-     * This is some very useful method that does nothing.
+     * <p>This is some very useful method that does nothing.</p>
+     *
      */
     public native void someMethodWithoutReturnTypeOrInputParameters();
     /**
-     * This is some very useful instance method.
-     * @param input This is some very useful instance method parameter.
+     * <p>This is some very useful instance method.</p>
+     *
+     * @param input <p>This is some very useful instance method parameter.</p>
+     *
      * @return This is some very useful instance method result.
      */
     @NonNull
     public native CommentsInstantiable instanceMethod(@NonNull final CommentsInstantiable input);
     /**
-     * Gets some very useful attribute.
+     * <p>Gets some very useful attribute.</p>
+     *
      */
     public native boolean isSomeAttribute();
     /**
@@ -125,7 +147,8 @@ public class Comments extends NativeBase {
      */
     public native void setSomeAttribute(final boolean value);
     /**
-     * Gets some very useful attribute.
+     * <p>Gets some very useful attribute.</p>
+     *
      */
     @NonNull
     public native CommentsInstantiable getInstanceAttribute();

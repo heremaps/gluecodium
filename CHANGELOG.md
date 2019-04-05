@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features
+  + Java comments are generated as JavaDoc HTML and links to classes and members are supported now
+
 ## 4.1.0
 - Release date: 2019-05-06
 - Bug fixes:

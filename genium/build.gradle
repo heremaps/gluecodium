@@ -23,6 +23,7 @@ dependencies {
 
     compile 'com.android.tools.build:manifest-merger:25.3.0'
     compile 'com.android.tools:annotations:25.3.0'
+    compile 'com.vladsch.flexmark:flexmark-all:0.42.6'
     compile 'commons-cli:commons-cli:1.4'
     compile 'commons-io:commons-io:2.5'
     compile 'org.apache.commons:commons-text:1.1'

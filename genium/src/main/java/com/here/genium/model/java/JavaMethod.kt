@@ -55,7 +55,7 @@ class JavaMethod(
     }
 
     override fun stream() = Stream.concat(
-        Stream.of(returnType, exception),
+        Stream.of(returnType, exception).filter { it != null },
         Stream.concat(parameters.stream(), super.stream()))
 
     fun shallowCopy() = JavaMethod(

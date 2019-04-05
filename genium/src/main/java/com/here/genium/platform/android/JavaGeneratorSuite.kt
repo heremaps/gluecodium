@@ -23,11 +23,13 @@ import com.here.genium.Genium
 import com.here.genium.generator.androidmanifest.AndroidManifestGenerator
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.java.JavaTemplates
+import com.here.genium.generator.jni.JavaModel
 import com.here.genium.generator.jni.JniGenerator
 import com.here.genium.generator.jni.JniNameRules
 import com.here.genium.generator.jni.JniTemplates
 import com.here.genium.model.java.JavaElement
 import com.here.genium.model.java.JavaPackage
+import com.here.genium.model.java.JavaTopLevelElement
 import com.here.genium.model.jni.JniContainer
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.platform.common.GeneratorSuite
@@ -45,6 +47,7 @@ open class JavaGeneratorSuite protected constructor(
     private val internalPackage = options.javaInternalPackages
     private val internalNamespace = options.cppInternalNamespace ?: listOf()
     private val rootNamespace = options.cppRootNamespace
+    private val commentsProcessor = JavaDocProcessor()
 
     protected open val generatorName = GENERATOR_NAME
 
@@ -67,9 +70,14 @@ open class JavaGeneratorSuite protected constructor(
             rootNamespace
         )
 
-        val model = limeModel.containers.map { jniGenerator.generateModel(it) }.flatten()
-        val javaModel = model.filterIsInstance<JavaElement>()
-        val jniModel = model.filterIsInstance<JniContainer>()
+        val combinedModel =
+            limeModel.containers.fold(JavaModel(emptyMap(), emptyList())) { model, limeContainer ->
+                model.merge(jniGenerator.generateModel(limeContainer))
+            }
+        val javaModel = combinedModel.containers.filterIsInstance<JavaElement>()
+        val jniModel = combinedModel.containers.filterIsInstance<JniContainer>()
+
+        processCommentLinks(javaModel, combinedModel.referenceMap)
 
         val javaTemplates = JavaTemplates(generatorName)
         val javaFiles = javaTemplates.generateFiles(javaModel)
@@ -87,7 +95,8 @@ open class JavaGeneratorSuite protected constructor(
             headers += androidManifestGenerator.generate()
         }
 
-        val jniTemplates = JniTemplates(javaPackageList, internalPackage, internalNamespace, generatorName)
+        val jniTemplates =
+            JniTemplates(javaPackageList, internalPackage, internalNamespace, generatorName)
         for (fileName in UTILS_FILES) {
             headers += jniTemplates.generateConversionUtilsHeaderFile(fileName)
             headers += jniTemplates.generateConversionUtilsImplementationFile(fileName)
@@ -100,6 +109,48 @@ open class JavaGeneratorSuite protected constructor(
             .filter { it.containerType != JniContainer.ContainerType.TYPE_COLLECTION }
             .map { jniTemplates.generateFiles(it) }.flatten() +
                 jniTemplates.generateConversionFiles(jniModel)
+    }
+
+    private fun processCommentLinks(
+        javaModel: List<JavaElement>,
+        referenceMap: Map<String, JavaElement>
+    ) {
+        val elementToJavaName = mutableMapOf<JavaElement, String>()
+
+        javaModel.forEach { resolveFullName(it, "", elementToJavaName) }
+
+        val limeToJavaName = referenceMap.mapValues { elementToJavaName[it.value] ?: "" }
+        val elementToLimeName = referenceMap.entries.associate { it.value to it.key }
+
+        javaModel.stream().flatMap { it.streamRecursive() }.forEach { element ->
+            if (element !is JavaElement) {
+                return@forEach
+            }
+            val fullLimeName = elementToLimeName[element]
+            if (fullLimeName != null) {
+                element.comment = commentsProcessor.processLinks(
+                    fullLimeName,
+                    element.comment,
+                    limeToJavaName
+                )
+            }
+        }
+    }
+
+    private fun resolveFullName(
+        element: JavaElement,
+        name: String,
+        elementToJavaName: MutableMap<JavaElement, String>
+    ) {
+        val fullName = when (element) {
+            is JavaTopLevelElement ->
+                if (name.isEmpty()) (element.javaPackage.packageNames + element.name).joinToString(separator = ".")
+                else name + "." + element.name
+            else -> name + "#" + element.name
+        }
+
+        elementToJavaName[element] = fullName
+        element.stream().forEach { resolveFullName(it, fullName, elementToJavaName) }
     }
 
     companion object {

@@ -128,7 +128,7 @@ interface Comments {
     map SomeMap { String to Usefulness }
 
     <** @description: This is some very useful enum. **>
-    enumeration SomeEnum {
+    public enumeration SomeEnum {
         <** @description: Not quite useful **>
         Useless
         <** @description: Somewhat useful **>
@@ -158,15 +158,15 @@ interface Comments {
     There is a lot to say about this interface.
     at least it has multiline comments.
 
-I am a heading
---------------
+    I am a heading
+    --------------
 
-And now comes a list:
-\* asterisk
-\* needs
-\* escaping
+    And now comes a list:
+    \* asterisk
+    \* needs
+    \* escaping
 
-```Some example code;```
+    ```Some example code;```
 
 **>
 interface MultiLineComments {
@@ -231,5 +231,51 @@ interface CommentsInstantiable {
             <** @description: Very useful result **>
             Boolean dummy
         }
+    }
+}
+
+<** @description: The nested types like [random_method] don't need full name prefix, but it's
+possible to references other interfaces like [smoke.CommentsInterface] or other members
+[Comments.someMethodWithAllComments].
+**>
+interface CommentsLinks {
+    public typedef CommentsLinks is undefined
+
+    enumeration TooUseful {
+        Twice,
+        ThreeTimes
+    }
+
+    <** @description:
+    Link types:
+    \* constant: [Comments.VeryUseful]
+    \* struct: [Comments.SomeStruct]
+    \* struct field: [Comments.SomeStruct.someField]
+    \* enum: [Comments.SomeEnum]
+    \* enum item: [Comments.SomeEnum.Useful]
+    \* attribute: [Comments.SomeAttribute]
+    \* method: [Comments.instanceMethod]
+
+    Not working for Java:
+
+    \* typedef: [Comments.Usefulness]
+    \* array: [Comments.SomeArray]
+    \* map: [Comments.SomeMap]
+
+    Not working:
+
+    \* error: [TooUsefulException]
+    \* input parameter: [inputParameter]
+    \* output parameter: [outputParameter]
+
+    **>
+    method random_method{
+        in {
+            Comments.SomeEnum inputParameter
+        }
+        out {
+            Comments.SomeEnum outputParameter
+        }
+        error TooUseful
     }
 }

@@ -31,7 +31,6 @@ import com.here.genium.generator.java.JavaModelBuilder
 import com.here.genium.generator.java.JavaTypeMapper
 import com.here.genium.generator.java.JavaValueMapper
 import com.here.genium.model.common.Include
-import com.here.genium.model.common.ModelElement
 import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaImport
 import com.here.genium.model.java.JavaPackage
@@ -56,7 +55,7 @@ class JniGenerator(
             .mapNotNull { it.errorType?.elementFullName }
             .toSet()
 
-    fun generateModel(limeContainer: LimeContainer): Collection<ModelElement> {
+    fun generateModel(limeContainer: LimeContainer): JavaModel {
         val basePackage = JavaPackage(basePackages)
         val internalPackage = JavaPackage(basePackages + internalPackageList)
         val javaTypeMapper = JavaTypeMapper(
@@ -92,7 +91,7 @@ class JniGenerator(
         val jniContainer = jniBuilder.getFinalResult(JniContainer::class.java)
         jniContainer.includes.addAll(getIncludes(jniContainer))
 
-        return javaBuilder.finalResults + jniContainer
+        return JavaModel(javaBuilder.referenceMap, javaBuilder.finalResults + jniContainer)
     }
 
     private fun getIncludes(jniContainer: JniContainer): Set<Include> {

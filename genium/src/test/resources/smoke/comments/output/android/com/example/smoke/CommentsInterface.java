@@ -4,23 +4,28 @@
  */
 package com.example.smoke;
 /**
- * This is some very useful interface.
+ * <p>This is some very useful interface.</p>
+ *
  */
 public interface CommentsInterface {
     /**
-     * This is some very useful constant.
+     * <p>This is some very useful constant.</p>
+     *
      */
     public static final boolean VERY_USEFUL = true;
     /**
-     * This is some very useful enum.
+     * <p>This is some very useful enum.</p>
+     *
      */
     public enum SomeEnum {
         /**
-         * Not quite useful
+         * <p>Not quite useful</p>
+         *
          */
         USELESS(0),
         /**
-         * Somewhat useful
+         * <p>Somewhat useful</p>
+         *
          */
         USEFUL(1);
         public final int value;
@@ -29,11 +34,13 @@ public interface CommentsInterface {
         }
     }
     /**
-     * This is some very useful struct.
+     * <p>This is some very useful struct.</p>
+     *
      */
     public static class SomeStruct {
         /**
-         * How useful this struct is
+         * <p>How useful this struct is</p>
+         *
          */
         public boolean someField;
         public SomeStruct() {
@@ -44,50 +51,63 @@ public interface CommentsInterface {
         }
     }
     /**
-     * This is some very useful method that measures the usefulness of its input.
-     * @param input Very useful input parameter
+     * <p>This is some very useful method that measures the usefulness of its input.</p>
+     *
+     * @param input <p>Very useful input parameter</p>
+     *
      * @return Usefulness of the input
      */
     boolean someMethodWithAllComments(final String input);
     /**
-     * This is some very useful method that measures the usefulness of its input.
-     * @param input Very useful input parameter
+     * <p>This is some very useful method that measures the usefulness of its input.</p>
+     *
+     * @param input <p>Very useful input parameter</p>
+     *
      */
     boolean someMethodWithInputComments(final String input);
     /**
-     * This is some very useful method that measures the usefulness of its input.
+     * <p>This is some very useful method that measures the usefulness of its input.</p>
+     *
      * @return Usefulness of the input
      */
     boolean someMethodWithOutputComments(final String input);
     /**
-     * This is some very useful method that measures the usefulness of its input.
+     * <p>This is some very useful method that measures the usefulness of its input.</p>
+     *
      */
     boolean someMethodWithNoComments(final String input);
     /**
-     * This is some very useful method that does not measure the usefulness of its input.
-     * @param input Very useful input parameter
+     * <p>This is some very useful method that does not measure the usefulness of its input.</p>
+     *
+     * @param input <p>Very useful input parameter</p>
+     *
      */
     void someMethodWithoutReturnTypeWithAllComments(final String input);
     /**
-     * This is some very useful method that does not measure the usefulness of its input.
+     * <p>This is some very useful method that does not measure the usefulness of its input.</p>
+     *
      */
     void someMethodWithoutReturnTypeWithNoComments(final String input);
     /**
-     * This is some very useful method that measures the usefulness of something.
+     * <p>This is some very useful method that measures the usefulness of something.</p>
+     *
      * @return Usefulness of the input
      */
     boolean someMethodWithoutInputParametersWithAllComments();
     /**
-     * This is some very useful method that measures the usefulness of something.
+     * <p>This is some very useful method that measures the usefulness of something.</p>
+     *
      */
     boolean someMethodWithoutInputParametersWithNoComments();
     void someMethodWithNothing();
     /**
-     * This is some very useful method that does nothing.
+     * <p>This is some very useful method that does nothing.</p>
+     *
      */
     void someMethodWithoutReturnTypeOrInputParameters();
     /**
-     * Gets some very useful attribute.
+     * <p>Gets some very useful attribute.</p>
+     *
      */
     boolean isSomeAttribute();
     /**
