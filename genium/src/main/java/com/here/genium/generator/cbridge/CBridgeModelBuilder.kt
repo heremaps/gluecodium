@@ -17,363 +17,367 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge;
+package com.here.genium.generator.cbridge
 
-import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.*;
+import com.google.common.annotations.VisibleForTesting
+import com.here.genium.common.CollectionsHelper
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.CLASS
+import com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.STRUCT
+import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder
+import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
+import com.here.genium.generator.cpp.CppLibraryIncludes
+import com.here.genium.generator.cpp.CppModelBuilder
+import com.here.genium.generator.swift.SwiftModelBuilder
+import com.here.genium.model.cbridge.CArray
+import com.here.genium.model.cbridge.CBridgeIncludeResolver
+import com.here.genium.model.cbridge.CElement
+import com.here.genium.model.cbridge.CEnum
+import com.here.genium.model.cbridge.CField
+import com.here.genium.model.cbridge.CFunction
+import com.here.genium.model.cbridge.CInParameter
+import com.here.genium.model.cbridge.CInterface
+import com.here.genium.model.cbridge.CMap
+import com.here.genium.model.cbridge.COutParameter
+import com.here.genium.model.cbridge.CParameter
+import com.here.genium.model.cbridge.CStruct
+import com.here.genium.model.cbridge.CType
+import com.here.genium.model.common.Include
+import com.here.genium.model.cpp.CppField
+import com.here.genium.model.cpp.CppIncludeResolver
+import com.here.genium.model.cpp.CppMethod
+import com.here.genium.model.cpp.CppParameter
+import com.here.genium.model.cpp.CppStruct
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.swift.SwiftField
+import com.here.genium.model.swift.SwiftMethod
+import com.here.genium.model.swift.SwiftProperty
+import org.franca.core.franca.FArgument
+import org.franca.core.franca.FArrayType
+import org.franca.core.franca.FAttribute
+import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FField
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMapType
+import org.franca.core.franca.FMethod
+import org.franca.core.franca.FStructType
+import org.franca.core.franca.FTypeCollection
+import org.franca.core.franca.FTypeRef
+import java.util.HashMap
+import java.util.LinkedHashSet
 
-import com.google.common.annotations.VisibleForTesting;
-import com.here.genium.common.CollectionsHelper;
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
-import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
-import com.here.genium.generator.cpp.CppLibraryIncludes;
-import com.here.genium.generator.cpp.CppModelBuilder;
-import com.here.genium.generator.swift.SwiftModelBuilder;
-import com.here.genium.model.cbridge.*;
-import com.here.genium.model.common.Include;
-import com.here.genium.model.cpp.CppField;
-import com.here.genium.model.cpp.CppIncludeResolver;
-import com.here.genium.model.cpp.CppMethod;
-import com.here.genium.model.cpp.CppParameter;
-import com.here.genium.model.cpp.CppStruct;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.swift.SwiftField;
-import com.here.genium.model.swift.SwiftMethod;
-import com.here.genium.model.swift.SwiftProperty;
-import java.util.*;
-import org.franca.core.franca.*;
+class CBridgeModelBuilder @VisibleForTesting
+internal constructor(
+    contextStack: ModelBuilderContextStack<CElement>,
+    private val deploymentModel: FrancaDeploymentModel,
+    private val cppIncludeResolver: CppIncludeResolver,
+    private val includeResolver: CBridgeIncludeResolver,
+    private val cppBuilder: CppModelBuilder,
+    private val swiftBuilder: SwiftModelBuilder,
+    private val typeMapper: CBridgeTypeMapper,
+    private val internalNamespace: List<String>
+) : AbstractModelBuilder<CElement>(contextStack) {
 
-public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
+    val arraysCollector: MutableMap<String, CArray> = HashMap()
 
-  private final FrancaDeploymentModel deploymentModel;
-  private final CppIncludeResolver cppIncludeResolver;
-  private final CBridgeIncludeResolver includeResolver;
-  private final CppModelBuilder cppBuilder;
-  private final SwiftModelBuilder swiftBuilder;
-  private final CBridgeTypeMapper typeMapper;
-  private final List<String> internalNamespace;
-
-  public final Map<String, CArray> arraysCollector = new HashMap<>();
-
-  public CBridgeModelBuilder(
-      final FrancaDeploymentModel deploymentModel,
-      final CppIncludeResolver cppIncludeResolver,
-      final CBridgeIncludeResolver includeResolver,
-      final CppModelBuilder cppBuilder,
-      final SwiftModelBuilder swiftBuilder,
-      final CBridgeTypeMapper typeMapper,
-      final List<String> internalNamespace) {
-    this(
-        new ModelBuilderContextStack<>(),
+    constructor(
+        deploymentModel: FrancaDeploymentModel,
+        cppIncludeResolver: CppIncludeResolver,
+        includeResolver: CBridgeIncludeResolver,
+        cppBuilder: CppModelBuilder,
+        swiftBuilder: SwiftModelBuilder,
+        typeMapper: CBridgeTypeMapper,
+        internalNamespace: List<String>
+    ) : this(
+        ModelBuilderContextStack<CElement>(),
         deploymentModel,
         cppIncludeResolver,
         includeResolver,
         cppBuilder,
         swiftBuilder,
         typeMapper,
-        internalNamespace);
-  }
+        internalNamespace
+    )
 
-  @VisibleForTesting
-  @SuppressWarnings("checkstyle:ParameterNumber")
-  CBridgeModelBuilder(
-      final ModelBuilderContextStack<CElement> contextStack,
-      final FrancaDeploymentModel deploymentModel,
-      final CppIncludeResolver cppIncludeResolver,
-      final CBridgeIncludeResolver includeResolver,
-      final CppModelBuilder cppBuilder,
-      final SwiftModelBuilder swiftBuilder,
-      final CBridgeTypeMapper typeMapper,
-      final List<String> internalNamespace) {
-    super(contextStack);
-    this.deploymentModel = deploymentModel;
-    this.cppIncludeResolver = cppIncludeResolver;
-    this.includeResolver = includeResolver;
-    this.cppBuilder = cppBuilder;
-    this.swiftBuilder = swiftBuilder;
-    this.typeMapper = typeMapper;
-    this.internalNamespace = internalNamespace;
-  }
-
-  @Override
-  public void startBuilding(FInterface francaInterface) {
-    super.startBuilding(francaInterface);
-    storeResult(typeMapper.createCustomTypeInfo(francaInterface, CLASS));
-  }
-
-  @Override
-  public void finishBuilding(FEnumerationType enumerationType) {
-    storeResult(
-        new CEnum(
-            CBridgeNameRules.getEnumName(enumerationType),
-            typeMapper.createEnumTypeInfo(enumerationType)));
-    super.finishBuilding(enumerationType);
-  }
-
-  @Override
-  public void finishBuilding(FInterface francaInterface) {
-    CppTypeInfo classInfo =
-        CollectionsHelper.getFirstOfType(getCurrentContext().currentResults, CppTypeInfo.class);
-    CInterface cInterface =
-        finishBuildingInterfaceOrTypeCollection(
-            CBridgeNameRules.getInterfaceName(francaInterface), classInfo, francaInterface);
-
-    if (deploymentModel.isInterface(francaInterface)) {
-      cInterface.functionTableName = CBridgeNameRules.getFunctionTableName(francaInterface);
-      cInterface.implementationIncludes.add(
-          Include.Companion.createInternalInclude(CBridgeComponents.PROXY_CACHE_FILENAME));
+    override fun startBuilding(francaInterface: FInterface) {
+        super.startBuilding(francaInterface)
+        storeResult(typeMapper.createCustomTypeInfo(francaInterface, CLASS))
     }
 
-    storeResult(cInterface);
-    super.finishBuilding(francaInterface);
-  }
-
-  @Override
-  public void finishBuilding(FTypeCollection francaTypeCollection) {
-    CInterface cInterface =
-        finishBuildingInterfaceOrTypeCollection(
-            francaTypeCollection.getName(), null, francaTypeCollection);
-    storeResult(cInterface);
-    closeContext();
-  }
-
-  private CInterface finishBuildingInterfaceOrTypeCollection(
-      final String name, final CppTypeInfo selfType, final FTypeCollection francaTypeCollection) {
-
-    CInterface parentClass = getPreviousResult(CInterface.class);
-    CInterface cInterface = new CInterface(name, selfType, internalNamespace);
-    if (parentClass != null) {
-      cInterface.inheritedFunctions.addAll(parentClass.inheritedFunctions);
-      cInterface.inheritedFunctions.addAll(parentClass.functions);
-    }
-    cInterface.functions.addAll(getPreviousResults(CFunction.class));
-    cInterface.structs.addAll(getPreviousResults(CStruct.class));
-    cInterface.enums.addAll(getPreviousResults(CEnum.class));
-    cInterface.maps.addAll(getPreviousResults(CMap.class));
-
-    cInterface.headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(cInterface));
-    cInterface.implementationIncludes.addAll(
-        CBridgeComponents.collectImplementationIncludes(cInterface));
-
-    cInterface.implementationIncludes.add(includeResolver.resolveInclude(francaTypeCollection));
-    CppLibraryIncludes.filterIncludes(cInterface.implementationIncludes, internalNamespace);
-
-    cInterface.privateHeaderIncludes.addAll(
-        CBridgeComponents.collectPrivateHeaderIncludes(cInterface));
-    return cInterface;
-  }
-
-  @Override
-  public void finishBuilding(FMethod francaMethod) {
-
-    SwiftMethod swiftMethod = swiftBuilder.getFinalResult(SwiftMethod.class);
-    CppMethod cppMethod = cppBuilder.getFinalResult(CppMethod.class);
-    List<CInParameter> inParams = getPreviousResults(CInParameter.class);
-    COutParameter returnParam =
-        CollectionsHelper.getFirstOfType(
-            getCurrentContext().previousResults, COutParameter.class, new COutParameter());
-
-    boolean isConstructor = deploymentModel.isConstructor(francaMethod);
-    boolean isStatic = !isConstructor && !deploymentModel.isStatic(francaMethod);
-    CParameter parameterSelf = null;
-    if (isStatic) {
-      CppTypeInfo cppTypeInfo =
-          CollectionsHelper.getFirstOfType(getParentContext().currentResults, CppTypeInfo.class);
-      parameterSelf = new CInParameter("_instance", cppTypeInfo);
-    }
-    CppTypeInfo errorTypeInfo = null;
-    if (francaMethod.getErrorEnum() != null) {
-      errorTypeInfo = typeMapper.createErrorTypeInfo(francaMethod.getErrorEnum());
+    override fun finishBuilding(enumerationType: FEnumerationType) {
+        storeResult(
+            CEnum(
+                CBridgeNameRules.getEnumName(enumerationType),
+                typeMapper.createEnumTypeInfo(enumerationType)
+            )
+        )
+        super.finishBuilding(enumerationType)
     }
 
-    CppTypeInfo returnType =
-        isConstructor
-            ? typeMapper.createCustomTypeInfo((FInterface) francaMethod.eContainer(), CLASS)
-            : returnParam.mappedType;
-    CFunction result =
-        new CFunction(
-            swiftMethod.getCShortName(),
-            swiftMethod.getCNestedSpecifier(),
+    override fun finishBuilding(francaInterface: FInterface) {
+        val classInfo =
+            CollectionsHelper.getFirstOfType(currentContext.currentResults, CppTypeInfo::class.java)
+        val cInterface = finishBuildingInterfaceOrTypeCollection(
+            CBridgeNameRules.getInterfaceName(francaInterface), classInfo, francaInterface
+        )
+
+        if (deploymentModel.isInterface(francaInterface)) {
+            cInterface.functionTableName = CBridgeNameRules.getFunctionTableName(francaInterface)
+            cInterface.implementationIncludes.add(
+                Include.createInternalInclude(CBridgeComponents.PROXY_CACHE_FILENAME)
+            )
+        }
+
+        storeResult(cInterface)
+        super.finishBuilding(francaInterface)
+    }
+
+    override fun finishBuilding(francaTypeCollection: FTypeCollection) {
+        val cInterface = finishBuildingInterfaceOrTypeCollection(
+            francaTypeCollection.name, null, francaTypeCollection
+        )
+        storeResult(cInterface)
+        closeContext()
+    }
+
+    private fun finishBuildingInterfaceOrTypeCollection(
+        name: String,
+        selfType: CppTypeInfo?,
+        francaTypeCollection: FTypeCollection
+    ): CInterface {
+
+        val parentClass = getPreviousResult(CInterface::class.java)
+        val cInterface = CInterface(name, selfType, internalNamespace)
+        if (parentClass != null) {
+            cInterface.inheritedFunctions.addAll(parentClass.inheritedFunctions)
+            cInterface.inheritedFunctions.addAll(parentClass.functions)
+        }
+        cInterface.functions.addAll(getPreviousResults(CFunction::class.java))
+        cInterface.structs.addAll(getPreviousResults(CStruct::class.java))
+        cInterface.enums.addAll(getPreviousResults(CEnum::class.java))
+        cInterface.maps.addAll(getPreviousResults(CMap::class.java))
+
+        cInterface.headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(cInterface))
+        cInterface.implementationIncludes.addAll(
+            CBridgeComponents.collectImplementationIncludes(cInterface)
+        )
+        CppLibraryIncludes.filterIncludes(cInterface.implementationIncludes, internalNamespace)
+
+        cInterface.implementationIncludes.add(includeResolver.resolveInclude(francaTypeCollection))
+        cInterface.privateHeaderIncludes.addAll(
+            CBridgeComponents.collectPrivateHeaderIncludes(cInterface)
+        )
+        return cInterface
+    }
+
+    override fun finishBuilding(francaMethod: FMethod) {
+
+        val swiftMethod = swiftBuilder.getFinalResult(SwiftMethod::class.java)
+        val cppMethod = cppBuilder.getFinalResult(CppMethod::class.java)
+        val inParams = getPreviousResults(CInParameter::class.java)
+        val returnParam = CollectionsHelper.getFirstOfType(
+            currentContext.previousResults, COutParameter::class.java, COutParameter()
+        )
+
+        val isConstructor = deploymentModel.isConstructor(francaMethod)
+        val isStatic = !isConstructor && !deploymentModel.isStatic(francaMethod)
+        var parameterSelf: CParameter? = null
+        if (isStatic) {
+            val cppTypeInfo = CollectionsHelper.getFirstOfType(
+                parentContext.currentResults,
+                CppTypeInfo::class.java
+            )
+            parameterSelf = CInParameter("_instance", cppTypeInfo)
+        }
+        var errorTypeInfo: CppTypeInfo? = null
+        if (francaMethod.errorEnum != null) {
+            errorTypeInfo = typeMapper.createErrorTypeInfo(francaMethod.errorEnum)
+        }
+
+        val returnType = if (isConstructor)
+            typeMapper.createCustomTypeInfo(francaMethod.eContainer() as FInterface, CLASS)
+        else
+            returnParam.mappedType
+        val result = CFunction(
+            swiftMethod.cShortName,
+            swiftMethod.cNestedSpecifier,
             returnType,
             inParams,
             parameterSelf,
             cppMethod.fullyQualifiedName,
-            new LinkedHashSet<>(cppIncludeResolver.resolveIncludes(francaMethod)),
-            isStatic ? cppBuilder.getFinalResult(CppMethod.class).name : cppMethod.name,
-            cppMethod.getReturnType().fullyQualifiedName,
+            LinkedHashSet(cppIncludeResolver.resolveIncludes(francaMethod)),
+            if (isStatic) cppBuilder.getFinalResult(CppMethod::class.java).name else cppMethod.name,
+            cppMethod.returnType.fullyQualifiedName,
             deploymentModel.isConst(francaMethod),
-            errorTypeInfo);
+            errorTypeInfo
+        )
 
-    storeResult(result);
-    closeContext();
-  }
-
-  @Override
-  public void finishBuildingInputArgument(FArgument francaArgument) {
-
-    CppTypeInfo cppTypeInfo = getPreviousResult(CppTypeInfo.class);
-    if (deploymentModel.isNullable(francaArgument)) {
-      cppTypeInfo =
-          CBridgeTypeMapper.createNullableTypeInfo(
-              cppTypeInfo, cppBuilder.getFinalResult(CppParameter.class).type);
+        storeResult(result)
+        closeContext()
     }
 
-    storeResult(new CInParameter(francaArgument.getName(), cppTypeInfo));
-    closeContext();
-  }
+    override fun finishBuildingInputArgument(francaArgument: FArgument) {
 
-  @Override
-  public void finishBuildingOutputArgument(FArgument francaArgument) {
+        var cppTypeInfo = getPreviousResult(CppTypeInfo::class.java)
+        if (deploymentModel.isNullable(francaArgument)) {
+            cppTypeInfo = CBridgeTypeMapper.createNullableTypeInfo(
+                cppTypeInfo, cppBuilder.getFinalResult(CppParameter::class.java).type
+            )
+        }
 
-    CppTypeInfo cppTypeInfo = getPreviousResult(CppTypeInfo.class);
-    if (deploymentModel.isNullable(francaArgument)) {
-      cppTypeInfo =
-          CBridgeTypeMapper.createNullableTypeInfo(
-              cppTypeInfo, cppBuilder.getFinalResult(CppParameter.class).type);
+        storeResult(CInParameter(francaArgument.name, cppTypeInfo))
+        closeContext()
     }
 
-    storeResult(new COutParameter("result", cppTypeInfo));
-    closeContext();
-  }
+    override fun finishBuildingOutputArgument(francaArgument: FArgument) {
 
-  @Override
-  public void finishBuilding(FStructType francaStruct) {
+        var cppTypeInfo = getPreviousResult(CppTypeInfo::class.java)
+        if (deploymentModel.isNullable(francaArgument)) {
+            cppTypeInfo = CBridgeTypeMapper.createNullableTypeInfo(
+                cppTypeInfo, cppBuilder.getFinalResult(CppParameter::class.java).type
+            )
+        }
 
-    CppStruct cppStruct = cppBuilder.getFinalResult(CppStruct.class);
-    CStruct cStruct =
-        new CStruct(
+        storeResult(COutParameter("result", cppTypeInfo))
+        closeContext()
+    }
+
+    override fun finishBuilding(francaStruct: FStructType) {
+
+        val cppStruct = cppBuilder.getFinalResult(CppStruct::class.java)
+        val cStruct = CStruct(
             CBridgeNameRules.getStructBaseName(francaStruct),
             cppStruct.fullyQualifiedName,
             typeMapper.createCustomTypeInfo(francaStruct, STRUCT),
-            cppStruct.getHasImmutableFields());
-    cStruct.fields.addAll(getPreviousResults(CField.class));
+            cppStruct.hasImmutableFields
+        )
+        cStruct.fields.addAll(getPreviousResults(CField::class.java))
 
-    storeResult(cStruct);
-    super.finishBuilding(francaStruct);
-  }
-
-  @Override
-  public void finishBuilding(FArrayType francaArray) {
-
-    CppTypeInfo innerType = typeMapper.mapType(francaArray.getElementType());
-    String arrayName = CArrayMapper.INSTANCE.getArrayName(francaArray);
-    arraysCollector.putIfAbsent(
-        arrayName, new CArray(arrayName, CArrayMapper.INSTANCE.createArrayReference(innerType)));
-
-    closeContext();
-  }
-
-  @Override
-  public void finishBuilding(FField francaField) {
-
-    CppTypeInfo cppTypeInfo = getPreviousResult(CppTypeInfo.class);
-    if (deploymentModel.isNullable(francaField)) {
-      cppTypeInfo =
-          CBridgeTypeMapper.createNullableTypeInfo(
-              cppTypeInfo, cppBuilder.getFinalResult(CppField.class).type);
+        storeResult(cStruct)
+        super.finishBuilding(francaStruct)
     }
 
-    CppField cppField = cppBuilder.getFinalResult(CppField.class);
-    SwiftField swiftField = swiftBuilder.getFinalResult(SwiftField.class);
-    CField cField =
-        new CField(
+    override fun finishBuilding(francaArray: FArrayType) {
+
+        val innerType = typeMapper.mapType(francaArray.elementType)
+        val arrayName = CArrayMapper.getArrayName(francaArray)
+        arraysCollector.putIfAbsent(
+            arrayName, CArray(arrayName, CArrayMapper.createArrayReference(innerType))
+        )
+
+        closeContext()
+    }
+
+    override fun finishBuilding(francaField: FField) {
+
+        var cppTypeInfo = getPreviousResult(CppTypeInfo::class.java)
+        if (deploymentModel.isNullable(francaField)) {
+            cppTypeInfo = CBridgeTypeMapper.createNullableTypeInfo(
+                cppTypeInfo, cppBuilder.getFinalResult(CppField::class.java).type
+            )
+        }
+
+        val cppField = cppBuilder.getFinalResult(CppField::class.java)
+        val swiftField = swiftBuilder.getFinalResult(SwiftField::class.java)
+        val cField = CField(
             swiftField.name,
             cppField.name,
             cppTypeInfo,
             deploymentModel.getExternalGetter(francaField),
-            deploymentModel.getExternalSetter(francaField));
+            deploymentModel.getExternalSetter(francaField)
+        )
 
-    storeResult(cField);
-    super.finishBuilding(francaField);
-  }
-
-  @Override
-  public void finishBuilding(FTypeRef typeRef) {
-    CppTypeInfo type = typeMapper.mapType(typeRef);
-    if (FrancaTypeHelper.isImplicitArray(typeRef)) {
-      String arrayName = CArrayMapper.INSTANCE.getArrayName(typeRef);
-      arraysCollector.putIfAbsent(arrayName, new CArray(arrayName, (CppArrayTypeInfo) type));
+        storeResult(cField)
+        super.finishBuilding(francaField)
     }
 
-    storeResult(type);
-    super.finishBuilding(typeRef);
-  }
+    override fun finishBuilding(typeRef: FTypeRef) {
+        val type = typeMapper.mapType(typeRef)
+        if (FrancaTypeHelper.isImplicitArray(typeRef)) {
+            val arrayName = CArrayMapper.getArrayName(typeRef)
+            arraysCollector.putIfAbsent(
+                arrayName,
+                CArray(arrayName, type as CppArrayTypeInfo)
+            )
+        }
 
-  @Override
-  public void finishBuilding(FAttribute francaAttribute) {
-
-    List<CppMethod> cppMethods =
-        CollectionsHelper.getAllOfType(cppBuilder.getFinalResults(), CppMethod.class);
-
-    SwiftProperty property = swiftBuilder.getFinalResult(SwiftProperty.class);
-
-    CppTypeInfo classInfo =
-        CollectionsHelper.getFirstOfType(getParentContext().currentResults, CppTypeInfo.class);
-    CInParameter selfParameter =
-        !deploymentModel.isStatic(francaAttribute)
-            ? new CInParameter("_instance", classInfo)
-            : null;
-
-    CppTypeInfo attributeTypeInfo = getPreviousResult(CppTypeInfo.class);
-    if (deploymentModel.isNullable(francaAttribute)) {
-      attributeTypeInfo =
-          CBridgeTypeMapper.createNullableTypeInfo(
-              attributeTypeInfo, cppBuilder.getFinalResult(CppMethod.class).getReturnType());
+        storeResult(type)
+        super.finishBuilding(typeRef)
     }
 
-    SwiftMethod getterSwiftMethod = property.getter;
-    CppMethod cppGetterMethod = cppMethods.get(0);
-    CFunction getterFunction =
-        new CFunction(
-            getterSwiftMethod.getCShortName(),
-            getterSwiftMethod.getCNestedSpecifier(),
+    override fun finishBuilding(francaAttribute: FAttribute) {
+
+        val cppMethods =
+            CollectionsHelper.getAllOfType(cppBuilder.finalResults, CppMethod::class.java)
+
+        val property = swiftBuilder.getFinalResult(SwiftProperty::class.java)
+
+        val classInfo =
+            CollectionsHelper.getFirstOfType(parentContext.currentResults, CppTypeInfo::class.java)
+        val selfParameter = if (!deploymentModel.isStatic(francaAttribute))
+            CInParameter("_instance", classInfo)
+        else
+            null
+
+        var attributeTypeInfo = getPreviousResult(CppTypeInfo::class.java)
+        if (deploymentModel.isNullable(francaAttribute)) {
+            attributeTypeInfo = CBridgeTypeMapper.createNullableTypeInfo(
+                attributeTypeInfo, cppBuilder.getFinalResult(CppMethod::class.java).returnType
+            )
+        }
+
+        val getterSwiftMethod = property.getter
+        val cppGetterMethod = cppMethods[0]
+        val getterFunction = CFunction(
+            getterSwiftMethod.cShortName,
+            getterSwiftMethod.cNestedSpecifier,
             attributeTypeInfo,
-            Collections.emptyList(),
+            emptyList(),
             selfParameter,
             cppGetterMethod.fullyQualifiedName,
-            new LinkedHashSet<>(cppIncludeResolver.resolveIncludes(francaAttribute)),
+            LinkedHashSet(cppIncludeResolver.resolveIncludes(francaAttribute)),
             cppGetterMethod.name,
-            cppGetterMethod.getReturnType().fullyQualifiedName,
-            true);
-    storeResult(getterFunction);
+            cppGetterMethod.returnType.fullyQualifiedName,
+            true
+        )
+        storeResult(getterFunction)
 
-    if (!francaAttribute.isReadonly()) {
-      SwiftMethod setterSwiftMethod = property.setter;
-      CppMethod cppSetterMethod = cppMethods.get(1);
-      CFunction setterFunction =
-          new CFunction(
-              setterSwiftMethod.getCShortName(),
-              setterSwiftMethod.getCNestedSpecifier(),
-              new CppTypeInfo(CType.VOID),
-              Collections.singletonList(new CInParameter("newValue", attributeTypeInfo)),
-              selfParameter,
-              cppSetterMethod.fullyQualifiedName,
-              new LinkedHashSet<>(cppIncludeResolver.resolveIncludes(francaAttribute)),
-              cppSetterMethod.name,
-              cppSetterMethod.getReturnType().fullyQualifiedName);
-      storeResult(setterFunction);
+        if (!francaAttribute.isReadonly) {
+            val setterSwiftMethod = property.setter
+            val cppSetterMethod = cppMethods[1]
+            val setterFunction = CFunction(
+                setterSwiftMethod.cShortName,
+                setterSwiftMethod.cNestedSpecifier,
+                CppTypeInfo(CType.VOID),
+                listOf(CInParameter("newValue", attributeTypeInfo)),
+                selfParameter,
+                cppSetterMethod.fullyQualifiedName,
+                LinkedHashSet(cppIncludeResolver.resolveIncludes(francaAttribute)),
+                cppSetterMethod.name,
+                cppSetterMethod.returnType.fullyQualifiedName
+            )
+            storeResult(setterFunction)
+        }
+
+        super.finishBuilding(francaAttribute)
     }
 
-    super.finishBuilding(francaAttribute);
-  }
+    override fun finishBuilding(francaMapType: FMapType) {
 
-  @Override
-  public void finishBuilding(final FMapType francaMapType) {
+        val name = CBridgeNameRules.getMapName(francaMapType)
+        val typeInfos = getPreviousResults(CppTypeInfo::class.java)
+        val keyType = typeInfos[0]
+        val valueType = typeInfos[1]
+        val baseApiInclude = cppIncludeResolver.resolveIncludes(francaMapType)[0]
 
-    String name = CBridgeNameRules.getMapName(francaMapType);
-    List<CppTypeInfo> typeInfos = getPreviousResults(CppTypeInfo.class);
-    CppTypeInfo keyType = typeInfos.get(0);
-    CppTypeInfo valueType = typeInfos.get(1);
-    Include baseApiInclude = cppIncludeResolver.resolveIncludes(francaMapType).get(0);
+        var enumHashType: String? = null
+        if (keyType.typeCategory === CppTypeInfo.TypeCategory.ENUM) {
+            enumHashType = typeMapper.enumHashType
+        }
 
-    String enumHashType = null;
-    if (keyType.getTypeCategory() == CppTypeInfo.TypeCategory.ENUM) {
-      enumHashType = typeMapper.getEnumHashType();
+        val cMap = CMap(name, keyType, valueType, enumHashType, baseApiInclude)
+
+        storeResult(cMap)
+        super.finishBuilding(francaMapType)
     }
-
-    CMap cMap = new CMap(name, keyType, valueType, enumHashType, baseApiInclude);
-
-    storeResult(cMap);
-    super.finishBuilding(francaMapType);
-  }
 }

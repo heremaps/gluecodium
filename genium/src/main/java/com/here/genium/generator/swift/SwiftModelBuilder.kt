@@ -17,273 +17,288 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.swift;
+package com.here.genium.generator.swift
 
-import static java.util.stream.Collectors.toList;
+import com.google.common.annotations.VisibleForTesting
+import com.here.genium.common.CollectionsHelper
+import com.here.genium.common.FrancaSignatureResolver
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.generator.cbridge.CBridgeNameRules
+import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder
+import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
+import com.here.genium.model.common.InstanceRules
+import com.here.genium.model.franca.CommentHelper
+import com.here.genium.model.franca.DefinedBy
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.swift.SwiftArray
+import com.here.genium.model.swift.SwiftClass
+import com.here.genium.model.swift.SwiftConstant
+import com.here.genium.model.swift.SwiftDictionary
+import com.here.genium.model.swift.SwiftEnum
+import com.here.genium.model.swift.SwiftEnumItem
+import com.here.genium.model.swift.SwiftField
+import com.here.genium.model.swift.SwiftFile
+import com.here.genium.model.swift.SwiftInParameter
+import com.here.genium.model.swift.SwiftMethod
+import com.here.genium.model.swift.SwiftModelElement
+import com.here.genium.model.swift.SwiftOutParameter
+import com.here.genium.model.swift.SwiftParameter
+import com.here.genium.model.swift.SwiftProperty
+import com.here.genium.model.swift.SwiftStruct
+import com.here.genium.model.swift.SwiftType
+import com.here.genium.model.swift.SwiftTypeDef
+import com.here.genium.model.swift.SwiftValue
+import com.here.genium.model.swift.SwiftVisibility
+import org.franca.core.framework.FrancaHelpers
+import org.franca.core.franca.FArgument
+import org.franca.core.franca.FArrayType
+import org.franca.core.franca.FAttribute
+import org.franca.core.franca.FConstantDef
+import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FEnumerator
+import org.franca.core.franca.FField
+import org.franca.core.franca.FInitializerExpression
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMapType
+import org.franca.core.franca.FMethod
+import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FStructType
+import org.franca.core.franca.FTypeCollection
+import org.franca.core.franca.FTypeDef
+import org.franca.core.franca.FTypeRef
+import java.util.HashMap
+import java.util.HashSet
 
-import com.google.common.annotations.VisibleForTesting;
-import com.here.genium.common.CollectionsHelper;
-import com.here.genium.common.FrancaSignatureResolver;
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.generator.cbridge.CBridgeNameRules;
-import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
-import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
-import com.here.genium.model.common.InstanceRules;
-import com.here.genium.model.franca.CommentHelper;
-import com.here.genium.model.franca.DefinedBy;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.swift.*;
-import java.util.*;
-import org.franca.core.framework.FrancaHelpers;
-import org.franca.core.franca.*;
+class SwiftModelBuilder @VisibleForTesting
+internal constructor(
+    contextStack: ModelBuilderContextStack<SwiftModelElement>,
+    private val deploymentModel: FrancaDeploymentModel,
+    private val signatureResolver: FrancaSignatureResolver,
+    private val typeMapper: SwiftTypeMapper
+) : AbstractModelBuilder<SwiftModelElement>(contextStack) {
 
-public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
+    val arraysCollector: MutableMap<String, SwiftArray> = HashMap()
+    val mapCollector: MutableMap<String, SwiftDictionary> = HashMap()
+    val enumsAsErrors: MutableSet<String> = HashSet()
 
-  public final Map<String, SwiftArray> arraysCollector = new HashMap<>();
-  public final Map<String, SwiftDictionary> mapCollector = new HashMap<>();
-  public final Set<String> enumsAsErrors = new HashSet<>();
+    constructor(
+        deploymentModel: FrancaDeploymentModel,
+        signatureResolver: FrancaSignatureResolver,
+        typeMapper: SwiftTypeMapper
+    ) : this(
+        ModelBuilderContextStack<SwiftModelElement>(),
+        deploymentModel,
+        signatureResolver,
+        typeMapper
+    )
 
-  private final FrancaDeploymentModel deploymentModel;
-  private final FrancaSignatureResolver signatureResolver;
-  private final SwiftTypeMapper typeMapper;
+    override fun finishBuilding(francaTypeCollection: FTypeCollection) {
+        val file = SwiftFile()
+        file.structs.addAll(getPreviousResults(SwiftStruct::class.java))
+        file.enums.addAll(getPreviousResults(SwiftEnum::class.java))
+        file.typeDefs.addAll(getPreviousResults(SwiftTypeDef::class.java))
+        file.dictionaries.addAll(getPreviousResults(SwiftDictionary::class.java))
 
-  public SwiftModelBuilder(
-      final FrancaDeploymentModel deploymentModel,
-      final FrancaSignatureResolver signatureResolver,
-      final SwiftTypeMapper typeMapper) {
-    this(new ModelBuilderContextStack<>(), deploymentModel, signatureResolver, typeMapper);
-  }
+        val constants = getPreviousResults(SwiftConstant::class.java)
+        if (!constants.isEmpty()) {
+            val swiftStruct = SwiftStruct(
+                SwiftNameRules.getClassName(francaTypeCollection.name),
+                "",
+                getVisibility(francaTypeCollection)
+            )
+            swiftStruct.constants.addAll(constants)
+            file.structs.add(swiftStruct)
+        }
 
-  @VisibleForTesting
-  SwiftModelBuilder(
-      final ModelBuilderContextStack<SwiftModelElement> contextStack,
-      final FrancaDeploymentModel deploymentModel,
-      final FrancaSignatureResolver signatureResolver,
-      final SwiftTypeMapper typeMapper) {
-    super(contextStack);
-    this.deploymentModel = deploymentModel;
-    this.signatureResolver = signatureResolver;
-    this.typeMapper = typeMapper;
-  }
-
-  @Override
-  public void finishBuilding(FTypeCollection francaTypeCollection) {
-
-    SwiftFile file = new SwiftFile();
-    file.structs.addAll(getPreviousResults(SwiftStruct.class));
-    file.enums.addAll(getPreviousResults(SwiftEnum.class));
-    file.typeDefs.addAll(getPreviousResults(SwiftTypeDef.class));
-    file.dictionaries.addAll(getPreviousResults(SwiftDictionary.class));
-
-    List<SwiftConstant> constants = getPreviousResults(SwiftConstant.class);
-    if (!constants.isEmpty()) {
-      SwiftStruct swiftStruct =
-          new SwiftStruct(
-              SwiftNameRules.getClassName(francaTypeCollection.getName()),
-              getVisibility(francaTypeCollection));
-      swiftStruct.getConstants().addAll(constants);
-      file.structs.add(swiftStruct);
+        storeResult(file)
+        super.finishBuilding(francaTypeCollection)
     }
 
-    storeResult(file);
-    super.finishBuilding(francaTypeCollection);
-  }
+    override fun finishBuilding(francaInterface: FInterface) {
+        val isInterface = deploymentModel.isInterface(francaInterface)
+        val parentClass = getPreviousResult(SwiftClass::class.java)
+        val parentIsInterface = parentClass != null && parentClass.isInterface
+        val parentIsClass = parentClass != null && !parentClass.isInterface
 
-  @Override
-  public void finishBuilding(FInterface francaInterface) {
+        val isObjcInterface = deploymentModel.isObjcInterface(francaInterface)
+        var parentClassName: String? = if (parentIsClass) parentClass.name else null
+        if (parentClassName == null && isObjcInterface && !isInterface) {
+            parentClassName = SwiftTypeMapper.OBJC_PARENT_CLASS
+        }
 
-    boolean isInterface = deploymentModel.isInterface(francaInterface);
-    SwiftClass parentClass = getPreviousResult(SwiftClass.class);
-    boolean parentIsInterface = parentClass != null && parentClass.isInterface();
-    boolean parentIsClass = parentClass != null && !parentClass.isInterface();
-
-    boolean isObjcInterface = deploymentModel.isObjcInterface(francaInterface);
-    String parentClassName = parentIsClass ? parentClass.name : null;
-    if (parentClassName == null && isObjcInterface && !isInterface) {
-      parentClassName = SwiftTypeMapper.OBJC_PARENT_CLASS;
-    }
-
-    SwiftClass clazz =
-        new SwiftClass(
-            SwiftNameRules.getClassName(francaInterface.getName()),
+        val clazz = SwiftClass(
+            SwiftNameRules.getClassName(francaInterface.name),
             getVisibility(francaInterface),
             isInterface,
             parentClassName,
-            String.join("_", DefinedBy.getPackages(francaInterface)),
+            DefinedBy.getPackages(francaInterface).joinToString("_"),
             CBridgeNameRules.getInterfaceName(francaInterface),
-            isInterface ? CBridgeNameRules.getFunctionTableName(francaInterface) : null,
+            if (isInterface) CBridgeNameRules.getFunctionTableName(francaInterface) else null,
             parentIsClass && !isInterface,
-            isObjcInterface);
+            isObjcInterface
+        )
 
-    if (parentIsInterface) {
-      clazz.getImplementsProtocols().add(parentClass.name);
-      clazz.getMethods().addAll(parentClass.getMethods());
-      clazz.getProperties().addAll(parentClass.getProperties());
+        if (parentIsInterface) {
+            clazz.implementsProtocols.add(parentClass.name)
+            clazz.methods.addAll(parentClass.methods)
+            clazz.properties.addAll(parentClass.properties)
+        }
+
+        clazz.methods.addAll(getPreviousResults(SwiftMethod::class.java))
+        clazz.properties.addAll(getPreviousResults(SwiftProperty::class.java))
+        clazz.typedefs.addAll(getPreviousResults(SwiftTypeDef::class.java))
+        clazz.constants.addAll(getPreviousResults(SwiftConstant::class.java))
+
+        val comment = CommentHelper.getDescription(francaInterface)
+        clazz.comment = comment ?: ""
+
+        val file = SwiftFile()
+        file.classes.add(clazz)
+        file.dictionaries.addAll(getPreviousResults(SwiftDictionary::class.java))
+
+        if (isInterface) {
+            file.structs.addAll(getPreviousResults(SwiftStruct::class.java))
+            file.enums.addAll(getPreviousResults(SwiftEnum::class.java))
+        } else {
+            clazz.structs.addAll(getPreviousResults(SwiftStruct::class.java))
+            clazz.enums.addAll(getPreviousResults(SwiftEnum::class.java))
+        }
+
+        storeResult(clazz)
+        storeResult(file)
+        super.finishBuilding(francaInterface)
     }
 
-    clazz.getMethods().addAll(getPreviousResults(SwiftMethod.class));
-    clazz.getProperties().addAll(getPreviousResults(SwiftProperty.class));
-    clazz.getTypedefs().addAll(getPreviousResults(SwiftTypeDef.class));
-    clazz.getConstants().addAll(getPreviousResults(SwiftConstant.class));
+    override fun finishBuilding(francaStruct: FStructType) {
 
-    String comment = CommentHelper.getDescription(francaInterface);
-    clazz.comment = comment != null ? comment : "";
-
-    SwiftFile file = new SwiftFile();
-    file.classes.add(clazz);
-    file.dictionaries.addAll(getPreviousResults(SwiftDictionary.class));
-
-    if (isInterface) {
-      file.structs.addAll(getPreviousResults(SwiftStruct.class));
-      file.enums.addAll(getPreviousResults(SwiftEnum.class));
-    } else {
-      clazz.getStructs().addAll(getPreviousResults(SwiftStruct.class));
-      clazz.getEnums().addAll(getPreviousResults(SwiftEnum.class));
-    }
-
-    storeResult(clazz);
-    storeResult(file);
-    super.finishBuilding(francaInterface);
-  }
-
-  @Override
-  public void finishBuilding(FStructType francaStruct) {
-
-    SwiftStruct swiftStruct =
-        new SwiftStruct(
+        val swiftStruct = SwiftStruct(
             SwiftNameRules.getStructName(francaStruct, deploymentModel),
             CBridgeNameRules.getStructBaseName(francaStruct),
             getVisibility(francaStruct),
             SwiftType.TypeCategory.STRUCT,
-            false,
-            null,
+            false, null,
             false,
             deploymentModel.isEquatable(francaStruct),
-            deploymentModel.isImmutable(francaStruct));
-    String comment = CommentHelper.getDescription(francaStruct);
-    swiftStruct.comment = comment != null ? comment : "";
+            deploymentModel.isImmutable(francaStruct)
+        )
+        val comment = CommentHelper.getDescription(francaStruct)
+        swiftStruct.comment = comment ?: ""
 
-    swiftStruct.getFields().addAll(getPreviousResults(SwiftField.class));
+        swiftStruct.fields.addAll(getPreviousResults(SwiftField::class.java))
 
-    storeResult(swiftStruct);
-    super.finishBuilding(francaStruct);
-  }
+        storeResult(swiftStruct)
+        super.finishBuilding(francaStruct)
+    }
 
-  @Override
-  public void finishBuilding(FEnumerationType francaEnumerationType) {
+    override fun finishBuilding(francaEnumerationType: FEnumerationType) {
 
-    List<SwiftEnumItem> enumItems =
-        CollectionsHelper.getAllOfType(getCurrentContext().previousResults, SwiftEnumItem.class);
+        val enumItems = CollectionsHelper.getAllOfType(
+            currentContext.previousResults,
+            SwiftEnumItem::class.java
+        )
 
-    SwiftEnum swiftEnum =
-        new SwiftEnum(
+        val swiftEnum = SwiftEnum(
             SwiftNameRules.getEnumTypeName(francaEnumerationType, deploymentModel),
             getVisibility(francaEnumerationType),
-            enumItems);
-    swiftEnum.comment = CommentHelper.getDescription(francaEnumerationType);
+            enumItems
+        )
+        swiftEnum.comment = CommentHelper.getDescription(francaEnumerationType)
 
-    storeResult(swiftEnum);
-    super.finishBuilding(francaEnumerationType);
-  }
+        storeResult(swiftEnum)
+        super.finishBuilding(francaEnumerationType)
+    }
 
-  @Override
-  public void finishBuilding(FEnumerator enumerator) {
+    override fun finishBuilding(enumerator: FEnumerator) {
 
-    SwiftEnumItem swiftEnumItem =
-        new SwiftEnumItem(
+        val swiftEnumItem = SwiftEnumItem(
             SwiftNameRules.getEnumItemName(enumerator),
             CollectionsHelper.getFirstOfType(
-                getCurrentContext().previousResults, SwiftValue.class));
-    swiftEnumItem.comment = CommentHelper.getDescription(enumerator);
+                currentContext.previousResults, SwiftValue::class.java
+            )
+        )
+        swiftEnumItem.comment = CommentHelper.getDescription(enumerator)
 
-    storeResult(swiftEnumItem);
-    super.finishBuilding(enumerator);
-  }
-
-  @Override
-  public void finishBuilding(FInitializerExpression expression) {
-    storeResult(SwiftValueMapper.map(expression));
-    super.finishBuilding(expression);
-  }
-
-  @Override
-  public void finishBuilding(FField francaField) {
-
-    SwiftType fieldType = getPreviousResult(SwiftType.class);
-
-    String fieldName = SwiftNameRules.getFieldName(francaField.getName());
-    String deploymentDefaultValue = deploymentModel.getDefaultValue(francaField);
-    SwiftValue defaultValue = SwiftValueMapper.mapDefaultValue(fieldType, deploymentDefaultValue);
-    SwiftVisibility visibility = getVisibility(francaField);
-
-    SwiftField structField = new SwiftField(fieldName, visibility, fieldType, defaultValue);
-    structField.comment = CommentHelper.getDescription(francaField);
-
-    storeResult(structField);
-    super.finishBuilding(francaField);
-  }
-
-  @Override
-  public void finishBuildingInputArgument(FArgument francaArgument) {
-
-    SwiftType swiftType = getPreviousResult(SwiftType.class);
-
-    SwiftInParameter swiftParameter =
-        new SwiftInParameter(SwiftNameRules.getParameterName(francaArgument), swiftType);
-    swiftParameter.comment = CommentHelper.getDescription(francaArgument);
-
-    storeResult(swiftParameter);
-    super.finishBuildingInputArgument(francaArgument);
-  }
-
-  @Override
-  public void finishBuildingOutputArgument(FArgument francaArgument) {
-
-    SwiftParameter swiftParameter =
-        new SwiftOutParameter(
-            SwiftNameRules.getParameterName(francaArgument), getPreviousResult(SwiftType.class));
-    swiftParameter.comment = CommentHelper.getDescription(francaArgument);
-
-    storeResult(swiftParameter);
-    super.finishBuildingOutputArgument(francaArgument);
-  }
-
-  @Override
-  public void finishBuilding(FTypeDef francaTypeDef) {
-
-    if (!InstanceRules.isInstanceId(francaTypeDef)) {
-
-      SwiftTypeDef typedefValue =
-          new SwiftTypeDef(
-              SwiftNameRules.getTypeDefName(francaTypeDef, deploymentModel),
-              getVisibility(francaTypeDef),
-              getPreviousResult(SwiftType.class));
-      typedefValue.comment = CommentHelper.getDescription(francaTypeDef);
-      storeResult(typedefValue);
+        storeResult(swiftEnumItem)
+        super.finishBuilding(enumerator)
     }
-    super.finishBuilding(francaTypeDef);
-  }
 
-  @Override
-  public void finishBuilding(FMethod francaMethod) {
+    override fun finishBuilding(expression: FInitializerExpression) {
+        storeResult(SwiftValueMapper.map(expression))
+        super.finishBuilding(expression)
+    }
 
-    List<SwiftParameter> inParams =
-        getPreviousResults(SwiftInParameter.class)
-            .stream()
-            .map(SwiftParameter.class::cast)
-            .collect(toList());
+    override fun finishBuilding(francaField: FField) {
 
-    String comment = CommentHelper.getDescription(francaMethod);
-    SwiftParameter returnParam =
-        CollectionsHelper.getFirstOfType(
-            getCurrentContext().previousResults, SwiftOutParameter.class, new SwiftOutParameter());
-    boolean isConstructor = deploymentModel.isConstructor(francaMethod);
-    SwiftMethod method =
-        new SwiftMethod(
+        val fieldType = getPreviousResult(SwiftType::class.java)
+
+        val fieldName = SwiftNameRules.getFieldName(francaField.name)
+        val deploymentDefaultValue = deploymentModel.getDefaultValue(francaField)
+        val defaultValue = SwiftValueMapper.mapDefaultValue(fieldType, deploymentDefaultValue)
+        val visibility = getVisibility(francaField)
+
+        val structField = SwiftField(fieldName, visibility, fieldType, defaultValue)
+        structField.comment = CommentHelper.getDescription(francaField)
+
+        storeResult(structField)
+        super.finishBuilding(francaField)
+    }
+
+    override fun finishBuildingInputArgument(francaArgument: FArgument) {
+
+        val swiftType = getPreviousResult(SwiftType::class.java)
+
+        val swiftParameter =
+            SwiftInParameter(SwiftNameRules.getParameterName(francaArgument), swiftType)
+        swiftParameter.comment = CommentHelper.getDescription(francaArgument)
+
+        storeResult(swiftParameter)
+        super.finishBuildingInputArgument(francaArgument)
+    }
+
+    override fun finishBuildingOutputArgument(francaArgument: FArgument) {
+
+        val swiftParameter = SwiftOutParameter(
+            SwiftNameRules.getParameterName(francaArgument),
+            getPreviousResult(SwiftType::class.java)
+        )
+        swiftParameter.comment = CommentHelper.getDescription(francaArgument)
+
+        storeResult(swiftParameter)
+        super.finishBuildingOutputArgument(francaArgument)
+    }
+
+    override fun finishBuilding(francaTypeDef: FTypeDef) {
+
+        if (!InstanceRules.isInstanceId(francaTypeDef)) {
+
+            val typedefValue = SwiftTypeDef(
+                SwiftNameRules.getTypeDefName(francaTypeDef, deploymentModel),
+                getVisibility(francaTypeDef),
+                getPreviousResult(SwiftType::class.java)
+            )
+            typedefValue.comment = CommentHelper.getDescription(francaTypeDef)
+            storeResult(typedefValue)
+        }
+        super.finishBuilding(francaTypeDef)
+    }
+
+    override fun finishBuilding(francaMethod: FMethod) {
+
+        val inParams = getPreviousResults(SwiftInParameter::class.java)
+
+        val comment = CommentHelper.getDescription(francaMethod)
+        val returnParam = CollectionsHelper.getFirstOfType(
+            currentContext.previousResults, SwiftOutParameter::class.java, SwiftOutParameter()
+        )
+        val isConstructor = deploymentModel.isConstructor(francaMethod)
+        val method = SwiftMethod(
             SwiftNameRules.getMethodName(francaMethod),
             getVisibility(francaMethod),
             comment,
-            isConstructor ? new SwiftType(CBridgeNameRules.BASE_REF_NAME, null) : returnParam.type,
+            if (isConstructor) SwiftType(
+                CBridgeNameRules.BASE_REF_NAME,
+                null
+            ) else returnParam.type,
             returnParam.comment,
             CBridgeNameRules.getNestedSpecifierString(francaMethod),
             CBridgeNameRules.getShortMethodName(francaMethod),
@@ -291,159 +306,147 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
             deploymentModel.isStatic(francaMethod) || isConstructor,
             isConstructor,
             isConstructor && signatureResolver.hasSignatureClash(francaMethod),
-            inParams);
+            inParams
+        )
 
-    storeResult(method);
-    super.finishBuilding(francaMethod);
-  }
-
-  private SwiftEnum createErrorIfNeeded(FMethod francaMethod) {
-    FEnumerationType errorEnum = francaMethod.getErrorEnum();
-    if (errorEnum != null) {
-      String swiftEnumName = SwiftNameRules.getEnumTypeName(errorEnum, deploymentModel);
-      enumsAsErrors.add(swiftEnumName);
-      return new SwiftEnum(swiftEnumName);
-    } else {
-      return null;
-    }
-  }
-
-  @Override
-  public void finishBuilding(FTypeRef francaTypeRef) {
-    SwiftType swiftType = typeMapper.mapType(francaTypeRef);
-    if (swiftType instanceof SwiftArray) {
-      SwiftArray array = (SwiftArray) swiftType;
-      FTypeRef elementType =
-          FrancaTypeHelper.isImplicitArray(francaTypeRef)
-              ? francaTypeRef
-              : ((FArrayType) FrancaHelpers.getActualDerived(francaTypeRef)).getElementType();
-      String elementTypeKey = typeMapper.getActualTypeKey(elementType);
-      arraysCollector.putIfAbsent(elementTypeKey, array.withoutAlias());
+        storeResult(method)
+        super.finishBuilding(francaMethod)
     }
 
-    storeResult(swiftType);
-    super.finishBuilding(francaTypeRef);
-  }
+    private fun createErrorIfNeeded(francaMethod: FMethod): SwiftEnum? {
+        val errorEnum = francaMethod.errorEnum
+        if (errorEnum != null) {
+            val swiftEnumName = SwiftNameRules.getEnumTypeName(errorEnum, deploymentModel)
+            enumsAsErrors.add(swiftEnumName)
+            return SwiftEnum(swiftEnumName)
+        } else {
+            return null
+        }
+    }
 
-  @Override
-  public void finishBuilding(FAttribute francaAttribute) {
+    override fun finishBuilding(francaTypeRef: FTypeRef) {
+        val swiftType = typeMapper.mapType(francaTypeRef)
+        if (swiftType is SwiftArray) {
+            val elementType = if (FrancaTypeHelper.isImplicitArray(francaTypeRef))
+                francaTypeRef
+            else
+                (FrancaHelpers.getActualDerived(francaTypeRef) as FArrayType).elementType
+            val elementTypeKey = typeMapper.getActualTypeKey(elementType)
+            arraysCollector.putIfAbsent(elementTypeKey, swiftType.withoutAlias())
+        }
 
-    SwiftVisibility propertyVisibility = getVisibility(francaAttribute);
-    SwiftType swiftType = getPreviousResult(SwiftType.class);
-    boolean isStatic = deploymentModel.isStatic(francaAttribute);
+        storeResult(swiftType)
+        super.finishBuilding(francaTypeRef)
+    }
 
-    String nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(francaAttribute);
-    SwiftMethod getterMethod =
-        new SwiftMethod(
+    override fun finishBuilding(francaAttribute: FAttribute) {
+
+        val propertyVisibility = getVisibility(francaAttribute)
+        val swiftType = getPreviousResult(SwiftType::class.java)
+        val isStatic = deploymentModel.isStatic(francaAttribute)
+
+        val nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(francaAttribute)
+        val getterMethod = SwiftMethod(
             "",
-            propertyVisibility,
-            null,
-            swiftType,
-            null,
+            propertyVisibility, null,
+            swiftType, null,
             nestedSpecifier,
-            CBridgeNameRules.getPropertyGetterName(francaAttribute),
-            null,
-            isStatic);
+            CBridgeNameRules.getPropertyGetterName(francaAttribute), null,
+            isStatic
+        )
 
-    SwiftMethod setterMethod = null;
-    if (!francaAttribute.isReadonly()) {
-      SwiftVisibility setterVisibility =
-          deploymentModel.hasInternalSetter(francaAttribute)
-              ? SwiftVisibility.INTERNAL
-              : propertyVisibility;
-      setterMethod =
-          new SwiftMethod(
-              "",
-              setterVisibility,
-              null,
-              SwiftType.VOID,
-              null,
-              nestedSpecifier,
-              CBridgeNameRules.getPropertySetterName(francaAttribute),
-              null,
-              isStatic,
-              false,
-              false,
-              Collections.singletonList(new SwiftParameter("newValue", swiftType)));
-    }
+        var setterMethod: SwiftMethod? = null
+        if (!francaAttribute.isReadonly) {
+            val setterVisibility = if (deploymentModel.hasInternalSetter(francaAttribute))
+                SwiftVisibility.INTERNAL
+            else
+                propertyVisibility
+            setterMethod = SwiftMethod(
+                "",
+                setterVisibility, null,
+                SwiftType.VOID, null,
+                nestedSpecifier,
+                CBridgeNameRules.getPropertySetterName(francaAttribute), null,
+                isStatic,
+                false,
+                false,
+                listOf(SwiftParameter("newValue", swiftType))
+            )
+        }
 
-    SwiftProperty property =
-        new SwiftProperty(
-            SwiftNameRules.getPropertyName(francaAttribute.getName(), swiftType),
+        val property = SwiftProperty(
+            SwiftNameRules.getPropertyName(francaAttribute.name, swiftType),
             propertyVisibility,
             swiftType,
             getterMethod,
             setterMethod,
-            isStatic);
-    property.comment = CommentHelper.getDescription(francaAttribute);
+            isStatic
+        )
+        property.comment = CommentHelper.getDescription(francaAttribute)
 
-    storeResult(property);
-    super.finishBuilding(francaAttribute);
-  }
+        storeResult(property)
+        super.finishBuilding(francaAttribute)
+    }
 
-  @Override
-  public void finishBuilding(final FArrayType francaArray) {
-    String typeDefName = SwiftNameRules.getTypeDefName(francaArray, deploymentModel);
-    SwiftArray arrayType = (SwiftArray) typeMapper.mapArrayType(francaArray).withAlias(typeDefName);
-    String elementTypeKey = typeMapper.getActualTypeKey(francaArray.getElementType());
-    arraysCollector.putIfAbsent(elementTypeKey, arrayType.withoutAlias());
+    override fun finishBuilding(francaArray: FArrayType) {
+        val typeDefName = SwiftNameRules.getTypeDefName(francaArray, deploymentModel)
+        val arrayType = typeMapper.mapArrayType(francaArray).withAlias(typeDefName) as SwiftArray
+        val elementTypeKey = typeMapper.getActualTypeKey(francaArray.elementType)
+        arraysCollector.putIfAbsent(elementTypeKey, arrayType.withoutAlias())
 
-    SwiftTypeDef swiftTypeDef =
-        new SwiftTypeDef(
-            typeDefName, getVisibility(francaArray), new SwiftType(arrayType.name, null));
-    swiftTypeDef.comment = CommentHelper.getDescription(francaArray);
+        val swiftTypeDef = SwiftTypeDef(
+            typeDefName, getVisibility(francaArray), SwiftType(arrayType.name, null)
+        )
+        swiftTypeDef.comment = CommentHelper.getDescription(francaArray)
 
-    storeResult(swiftTypeDef);
-    super.finishBuilding(francaArray);
-  }
+        storeResult(swiftTypeDef)
+        super.finishBuilding(francaArray)
+    }
 
-  @Override
-  public void finishBuilding(final FMapType francaMapType) {
+    override fun finishBuilding(francaMapType: FMapType) {
 
-    String typeDefName = SwiftNameRules.getTypeDefName(francaMapType, deploymentModel);
-    String mapName = SwiftNameRules.getMapName(francaMapType, deploymentModel);
-    List<SwiftType> typeRefs = getPreviousResults(SwiftType.class);
-    SwiftDictionary swiftDictionary =
-        new SwiftDictionary(
-            mapName,
-            null,
+        val typeDefName = SwiftNameRules.getTypeDefName(francaMapType, deploymentModel)
+        val mapName = SwiftNameRules.getMapName(francaMapType, deploymentModel)
+        val typeRefs = getPreviousResults(SwiftType::class.java)
+        val swiftDictionary = SwiftDictionary(
+            mapName, null,
             typeDefName,
             CBridgeNameRules.getStructBaseName(francaMapType),
-            typeRefs.get(0),
-            typeRefs.get(1));
+            typeRefs[0],
+            typeRefs[1]
+        )
 
-    String keyTypeKey = typeMapper.getActualTypeKey(francaMapType.getKeyType());
-    String valueTypeKey = typeMapper.getActualTypeKey(francaMapType.getValueType());
-    mapCollector.putIfAbsent(keyTypeKey + ":" + valueTypeKey, swiftDictionary);
-    storeResult(swiftDictionary);
+        val keyTypeKey = typeMapper.getActualTypeKey(francaMapType.keyType)
+        val valueTypeKey = typeMapper.getActualTypeKey(francaMapType.valueType)
+        mapCollector.putIfAbsent("$keyTypeKey:$valueTypeKey", swiftDictionary)
+        storeResult(swiftDictionary)
 
-    SwiftType namelessDictionary = new SwiftType(swiftDictionary.getDictionaryDefinition(), null);
-    SwiftTypeDef swiftTypeDef =
-        new SwiftTypeDef(typeDefName, getVisibility(francaMapType), namelessDictionary);
-    swiftTypeDef.comment = CommentHelper.getDescription(francaMapType);
+        val namelessDictionary = SwiftType(swiftDictionary.dictionaryDefinition, null)
+        val swiftTypeDef =
+            SwiftTypeDef(typeDefName, getVisibility(francaMapType), namelessDictionary)
+        swiftTypeDef.comment = CommentHelper.getDescription(francaMapType)
 
-    storeResult(swiftTypeDef);
-    super.finishBuilding(francaMapType);
-  }
+        storeResult(swiftTypeDef)
+        super.finishBuilding(francaMapType)
+    }
 
-  @Override
-  public void finishBuilding(final FConstantDef francaConstant) {
+    override fun finishBuilding(francaConstant: FConstantDef) {
 
-    String name = SwiftNameRules.getConstantName(francaConstant.getName());
-    SwiftType type = getPreviousResult(SwiftType.class);
-    SwiftVisibility visibility = getVisibility(francaConstant);
-    SwiftValue value = getPreviousResult(SwiftValue.class);
+        val name = SwiftNameRules.getConstantName(francaConstant.name)
+        val type = getPreviousResult(SwiftType::class.java)
+        val visibility = getVisibility(francaConstant)
+        val value = getPreviousResult(SwiftValue::class.java)
 
-    SwiftConstant swiftConstant = new SwiftConstant(name, visibility, type, value);
-    swiftConstant.comment = CommentHelper.getDescription(francaConstant);
+        val swiftConstant = SwiftConstant(name, visibility, type, value)
+        swiftConstant.comment = CommentHelper.getDescription(francaConstant)
 
-    storeResult(swiftConstant);
-    super.finishBuilding(francaConstant);
-  }
+        storeResult(swiftConstant)
+        super.finishBuilding(francaConstant)
+    }
 
-  private SwiftVisibility getVisibility(final FModelElement francaModelElement) {
-    return deploymentModel.isInternal(francaModelElement)
-        ? SwiftVisibility.INTERNAL
-        : SwiftVisibility.PUBLIC;
-  }
+    private fun getVisibility(francaModelElement: FModelElement) =
+        when {
+            deploymentModel.isInternal(francaModelElement) -> SwiftVisibility.INTERNAL
+            else -> SwiftVisibility.PUBLIC
+        }
 }

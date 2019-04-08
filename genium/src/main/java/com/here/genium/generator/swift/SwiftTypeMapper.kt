@@ -17,162 +17,139 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.swift;
+package com.here.genium.generator.swift
 
-import static com.here.genium.model.swift.SwiftType.TypeCategory.*;
-
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.generator.cbridge.CArrayMapper;
-import com.here.genium.generator.cbridge.CBridgeNameRules;
-import com.here.genium.model.common.InstanceRules;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.swift.*;
-import org.eclipse.emf.ecore.EObject;
-import org.franca.core.franca.*;
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.generator.cbridge.CArrayMapper
+import com.here.genium.generator.cbridge.CBridgeNameRules
+import com.here.genium.model.common.InstanceRules
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.swift.SwiftArray
+import com.here.genium.model.swift.SwiftEnum
+import com.here.genium.model.swift.SwiftStruct
+import com.here.genium.model.swift.SwiftType
+import com.here.genium.model.swift.SwiftType.TypeCategory.CLASS
+import com.here.genium.model.swift.SwiftType.TypeCategory.DICTIONARY
+import com.here.genium.model.swift.SwiftType.TypeCategory.STRUCT
+import org.franca.core.franca.FArrayType
+import org.franca.core.franca.FBasicTypeId
+import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMapType
+import org.franca.core.franca.FStructType
+import org.franca.core.franca.FType
+import org.franca.core.franca.FTypeDef
+import org.franca.core.franca.FTypeRef
+import org.franca.core.franca.FTypedElement
 
 /**
  * Maps Franca type references to their Swift counterparts. These references are used as parameters,
  * in typedefs, array members etc.
  */
-public class SwiftTypeMapper {
+class SwiftTypeMapper(private val deploymentModel: FrancaDeploymentModel) {
 
-  public static final String OBJC_PARENT_CLASS = "NSObject";
+    fun mapType(type: FTypeRef): SwiftType {
+        val derived = type.derived
 
-  private final FrancaDeploymentModel deploymentModel;
+        var swiftType = derived?.let { mapDerived(it) } ?: mapPredefined(type)
+        if (FrancaTypeHelper.isImplicitArray(type)) {
+            swiftType = SwiftArray(swiftType, CArrayMapper.getArrayName(type))
+        }
 
-  public SwiftTypeMapper(final FrancaDeploymentModel deploymentModel) {
-    this.deploymentModel = deploymentModel;
-  }
+        val parentElement = type.eContainer()
+        if (parentElement is FTypedElement && deploymentModel.isNullable(parentElement)) {
+            swiftType = swiftType.withOptional(true)
+        }
 
-  public SwiftType mapType(final FTypeRef type) {
-    FType derived = type.getDerived();
-
-    SwiftType swiftType = derived != null ? mapDerived(derived) : mapPredefined(type);
-    if (FrancaTypeHelper.isImplicitArray(type)) {
-      swiftType = new SwiftArray(swiftType, CArrayMapper.INSTANCE.getArrayName(type));
+        return swiftType
     }
 
-    EObject parentElement = type.eContainer();
-    if (parentElement instanceof FTypedElement
-        && deploymentModel.isNullable((FTypedElement) parentElement)) {
-      swiftType = swiftType.withOptional(true);
+    fun getActualTypeKey(francaTypeRef: FTypeRef): String {
+        val derivedType = francaTypeRef.derived
+        return when {
+            derivedType == null -> mapPredefined(francaTypeRef).name
+            InstanceRules.isInstanceId(francaTypeRef) -> mapDerived(derivedType).name
+            derivedType is FTypeDef -> getActualTypeKey(derivedType.actualType)
+            derivedType is FArrayType -> {
+                val innerTypeKey = getActualTypeKey(derivedType.elementType)
+                "[$innerTypeKey]"
+            }
+            derivedType is FMapType -> {
+                val keyTypeKey = getActualTypeKey(derivedType.keyType)
+                val valueTypeKey = getActualTypeKey(derivedType.valueType)
+                "[$keyTypeKey:$valueTypeKey]"
+            }
+            else -> mapDerived(derivedType).name
+        }
     }
 
-    return swiftType;
-  }
+    fun mapArrayType(arrayType: FArrayType) =
+        SwiftArray(mapType(arrayType.elementType), CArrayMapper.getArrayName(arrayType))
 
-  public String getActualTypeKey(final FTypeRef francaTypeRef) {
+    private fun mapDerived(derived: FType) =
+        when (derived) {
+            is FStructType -> getStructType(derived)
+            is FEnumerationType ->
+                SwiftEnum(SwiftNameRules.getEnumTypeName(derived, deploymentModel))
+            is FTypeDef -> mapTypeDef(derived)
+            is FArrayType -> mapArrayType(derived)
+                .withAlias(SwiftNameRules.getTypeDefName(derived, deploymentModel))
+            is FMapType -> mapMapType(derived)
+            else -> SwiftType.VOID
+        }
 
-    FType derivedType = francaTypeRef.getDerived();
-    if (derivedType == null) {
-      return mapPredefined(francaTypeRef).name;
-    } else if (InstanceRules.isInstanceId(francaTypeRef)) {
-      return mapDerived(derivedType).name;
-    } else if (derivedType instanceof FTypeDef) {
-      return getActualTypeKey(((FTypeDef) derivedType).getActualType());
-    } else if (derivedType instanceof FArrayType) {
-      String innerTypeKey = getActualTypeKey(((FArrayType) derivedType).getElementType());
-      return "[" + innerTypeKey + "]";
-    } else if (derivedType instanceof FMapType) {
-      FMapType francaMapType = (FMapType) derivedType;
-      String keyTypeKey = getActualTypeKey(francaMapType.getKeyType());
-      String valueTypeKey = getActualTypeKey(francaMapType.getValueType());
-      return "[" + keyTypeKey + ":" + valueTypeKey + "]";
-    } else {
-      return mapDerived(derivedType).name;
+    private fun mapMapType(francaMapType: FMapType) =
+        SwiftStruct(
+            SwiftNameRules.getMapName(francaMapType, deploymentModel),
+            CBridgeNameRules.getStructBaseName(francaMapType), null,
+            DICTIONARY,
+            false,
+            SwiftNameRules.getTypeName(francaMapType, deploymentModel)
+        )
+
+    private fun mapTypeDef(francaTypeDef: FTypeDef): SwiftType {
+        if (InstanceRules.isInstanceId(francaTypeDef)) {
+            return getClassType(francaTypeDef)
+        }
+        val typedefType = mapType(francaTypeDef.actualType)
+        return typedefType.withAlias(SwiftNameRules.getTypeDefName(francaTypeDef, deploymentModel))
     }
-  }
 
-  public SwiftArray mapArrayType(final FArrayType arrayType) {
-    SwiftType innerType = mapType(arrayType.getElementType());
-    return new SwiftArray(innerType, CArrayMapper.INSTANCE.getArrayName(arrayType));
-  }
+    private fun getStructType(francaStructType: FStructType) =
+        SwiftStruct(
+            SwiftNameRules.getStructName(francaStructType, deploymentModel),
+            CBridgeNameRules.getStructBaseName(francaStructType),
+            null,
+            STRUCT
+        )
 
-  private SwiftType mapDerived(final FType derived) {
-    if (derived instanceof FStructType) {
-      return getStructType((FStructType) derived);
-    } else if (derived instanceof FEnumerationType) {
-      return new SwiftEnum(SwiftNameRules.getEnumTypeName(derived, deploymentModel));
-    } else if (derived instanceof FTypeDef) {
-      return mapTypeDef((FTypeDef) derived);
-    } else if (derived instanceof FArrayType) {
-      return mapArrayType((FArrayType) derived)
-          .withAlias(SwiftNameRules.getTypeDefName(derived, deploymentModel));
-    } else if (derived instanceof FMapType) {
-      return mapMapType((FMapType) derived);
+    private fun getClassType(francaTypeDef: FTypeDef) =
+        SwiftStruct(
+            SwiftNameRules.getClassName(francaTypeDef.name),
+            CBridgeNameRules.getInstanceBaseName(francaTypeDef), null,
+            CLASS,
+            deploymentModel.isInterface(francaTypeDef.eContainer() as FInterface)
+        )
+
+    companion object {
+        const val OBJC_PARENT_CLASS = "NSObject"
+
+        private fun mapPredefined(type: FTypeRef) =
+            when (type.predefined.value) {
+                FBasicTypeId.INT8_VALUE -> SwiftType.INT8
+                FBasicTypeId.UINT8_VALUE -> SwiftType.UINT8
+                FBasicTypeId.INT16_VALUE -> SwiftType.INT16
+                FBasicTypeId.UINT16_VALUE -> SwiftType.UINT16
+                FBasicTypeId.INT32_VALUE -> SwiftType.INT32
+                FBasicTypeId.UINT32_VALUE -> SwiftType.UINT32
+                FBasicTypeId.INT64_VALUE -> SwiftType.INT64
+                FBasicTypeId.UINT64_VALUE -> SwiftType.UINT64
+                FBasicTypeId.BOOLEAN_VALUE -> SwiftType.BOOL
+                FBasicTypeId.STRING_VALUE -> SwiftType.STRING
+                FBasicTypeId.FLOAT_VALUE -> SwiftType.FLOAT
+                FBasicTypeId.DOUBLE_VALUE -> SwiftType.DOUBLE
+                FBasicTypeId.BYTE_BUFFER_VALUE -> SwiftType.DATA
+                else -> SwiftType.VOID
+            }
     }
-    return SwiftType.VOID;
-  }
-
-  private SwiftType mapMapType(final FMapType francaMapType) {
-
-    return new SwiftStruct(
-        SwiftNameRules.getMapName(francaMapType, deploymentModel),
-        CBridgeNameRules.getStructBaseName(francaMapType),
-        null,
-        DICTIONARY,
-        false,
-        SwiftNameRules.getTypeName(francaMapType, deploymentModel));
-  }
-
-  private SwiftType mapTypeDef(final FTypeDef francaTypeDef) {
-    if (InstanceRules.isInstanceId(francaTypeDef)) {
-      return getClassType(francaTypeDef);
-    }
-    SwiftType typedefType = mapType(francaTypeDef.getActualType());
-    return typedefType.withAlias(SwiftNameRules.getTypeDefName(francaTypeDef, deploymentModel));
-  }
-
-  private SwiftType getStructType(final FStructType francaStructType) {
-
-    String name = SwiftNameRules.getStructName(francaStructType, deploymentModel);
-    return new SwiftStruct(
-        name, CBridgeNameRules.getStructBaseName(francaStructType), null, STRUCT);
-  }
-
-  private SwiftType getClassType(final FTypeDef francaTypeDef) {
-
-    String swiftName = SwiftNameRules.getClassName(francaTypeDef.getName());
-    return new SwiftStruct(
-        swiftName,
-        CBridgeNameRules.getInstanceBaseName(francaTypeDef),
-        null,
-        CLASS,
-        deploymentModel.isInterface((FInterface) francaTypeDef.eContainer()));
-  }
-
-  private static SwiftType mapPredefined(FTypeRef type) {
-    FBasicTypeId typeId = type.getPredefined();
-    switch (typeId.getValue()) {
-      case FBasicTypeId.UNDEFINED_VALUE:
-        return SwiftType.VOID;
-      case FBasicTypeId.INT8_VALUE:
-        return SwiftType.INT8;
-      case FBasicTypeId.UINT8_VALUE:
-        return SwiftType.UINT8;
-      case FBasicTypeId.INT16_VALUE:
-        return SwiftType.INT16;
-      case FBasicTypeId.UINT16_VALUE:
-        return SwiftType.UINT16;
-      case FBasicTypeId.INT32_VALUE:
-        return SwiftType.INT32;
-      case FBasicTypeId.UINT32_VALUE:
-        return SwiftType.UINT32;
-      case FBasicTypeId.INT64_VALUE:
-        return SwiftType.INT64;
-      case FBasicTypeId.UINT64_VALUE:
-        return SwiftType.UINT64;
-      case FBasicTypeId.BOOLEAN_VALUE:
-        return SwiftType.BOOL;
-      case FBasicTypeId.STRING_VALUE:
-        return SwiftType.STRING;
-      case FBasicTypeId.FLOAT_VALUE:
-        return SwiftType.FLOAT;
-      case FBasicTypeId.DOUBLE_VALUE:
-        return SwiftType.DOUBLE;
-      case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return SwiftType.DATA;
-    }
-    return SwiftType.VOID;
-  }
 }

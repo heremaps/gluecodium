@@ -58,7 +58,7 @@ public final class SwiftValueMapper {
       case BUILTIN_STRING:
         return new SwiftValue("\"" + StringEscapeUtils.escapeJava(deploymentDefaultValue) + "\"");
       case ENUM:
-        String enumItemName = SwiftNameRules.getEnumItemName(deploymentDefaultValue);
+        String enumItemName = SwiftNameRules.INSTANCE.getEnumItemName(deploymentDefaultValue);
         return new SwiftValue(swiftType.name + "." + enumItemName);
       case BUILTIN_SIMPLE:
         return mapSimpleDefaultValue(swiftType, deploymentDefaultValue);
@@ -75,12 +75,12 @@ public final class SwiftValueMapper {
     }
 
     LinkedList<String> names = new LinkedList<>();
-    names.add(SwiftNameRules.getConstantName(value.getName()));
+    names.add(SwiftNameRules.INSTANCE.getConstantName(value.getName()));
     FEnumerationType enumerationType = (FEnumerationType) value.eContainer();
-    names.addFirst(SwiftNameRules.getClassName(enumerationType.getName()));
+    names.addFirst(SwiftNameRules.INSTANCE.getClassName(enumerationType.getName()));
     FTypeCollection typeCollection = (FTypeCollection) enumerationType.eContainer();
     if (typeCollection instanceof FInterface) {
-      names.addFirst(SwiftNameRules.getClassName(typeCollection.getName()));
+      names.addFirst(SwiftNameRules.INSTANCE.getClassName(typeCollection.getName()));
     }
 
     return new SwiftValue(String.join(".", names));

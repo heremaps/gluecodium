@@ -17,230 +17,182 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge;
+package com.here.genium.generator.cbridge
 
-import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE;
-import static com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME;
-import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.BUILTIN_BYTEBUFFER;
-import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.CLASS;
-import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.ENUM;
-import static com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.STRUCT;
-import static com.here.genium.model.cbridge.CType.VOID;
-import static com.here.genium.model.common.InstanceRules.isInstanceId;
+import com.here.genium.common.FrancaTypeHelper
+import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE
+import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME
+import com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.BUILTIN_BYTEBUFFER
+import com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.CLASS
+import com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.ENUM
+import com.here.genium.generator.cbridge.CppTypeInfo.TypeCategory.STRUCT
+import com.here.genium.generator.cpp.CppLibraryIncludes
+import com.here.genium.generator.cpp.CppNameResolver
+import com.here.genium.model.cbridge.CBridgeIncludeResolver
+import com.here.genium.model.cbridge.CType
+import com.here.genium.model.cbridge.CType.VOID
+import com.here.genium.model.common.Include
+import com.here.genium.model.common.InstanceRules.isInstanceId
+import com.here.genium.model.cpp.CppIncludeResolver
+import com.here.genium.model.cpp.CppTypeRef
+import org.franca.core.franca.FArrayType
+import org.franca.core.franca.FBasicTypeId
+import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMapType
+import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FStructType
+import org.franca.core.franca.FType
+import org.franca.core.franca.FTypeDef
+import org.franca.core.franca.FTypeRef
+import java.util.LinkedList
 
-import com.here.genium.common.FrancaTypeHelper;
-import com.here.genium.generator.cpp.CppLibraryIncludes;
-import com.here.genium.generator.cpp.CppNameResolver;
-import com.here.genium.model.cbridge.CBridgeIncludeResolver;
-import com.here.genium.model.cbridge.CType;
-import com.here.genium.model.common.Include;
-import com.here.genium.model.cpp.CppIncludeResolver;
-import com.here.genium.model.cpp.CppTypeRef;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import org.franca.core.franca.FArrayType;
-import org.franca.core.franca.FBasicTypeId;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FModelElement;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypeRef;
-
-public class CBridgeTypeMapper {
-
-  private static final Include BASE_HANDLE_IMPL_INCLUDE =
-      Include.Companion.createInternalInclude(CBridgeNameRules.BASE_HANDLE_IMPL_FILE);
-
-  private final CppIncludeResolver cppIncludeResolver;
-  private final CppNameResolver cppNameResolver;
-  private final CBridgeIncludeResolver includeResolver;
-  private final String enumHashType;
-  private final CppTypeInfo byteBufferTypeInfo;
-
-  public CBridgeTypeMapper(
-      final CppIncludeResolver cppIncludeResolver,
-      final CppNameResolver cppNameResolver,
-      final CBridgeIncludeResolver includeResolver,
-      final String enumHashType,
-      final String byteBufferType) {
-    this.cppIncludeResolver = cppIncludeResolver;
-    this.cppNameResolver = cppNameResolver;
-    this.includeResolver = includeResolver;
-    this.enumHashType = enumHashType;
-    this.byteBufferTypeInfo =
-        new CppTypeInfo(
+class CBridgeTypeMapper(
+    private val cppIncludeResolver: CppIncludeResolver,
+    private val cppNameResolver: CppNameResolver,
+    private val includeResolver: CBridgeIncludeResolver,
+    val enumHashType: String,
+    byteBufferType: String
+) {
+    private val byteBufferTypeInfo =
+        CppTypeInfo(
             byteBufferType,
-            new CType(BASE_REF_NAME),
+            CType(BASE_REF_NAME),
             CType.BYTE_ARRAY_REF,
             BUILTIN_BYTEBUFFER,
-            Collections.singletonList(
-                Include.Companion.createInternalInclude(BASE_HANDLE_IMPL_FILE)));
-  }
+            listOf(Include.createInternalInclude(BASE_HANDLE_IMPL_FILE))
+        )
 
-  public CppTypeInfo mapType(final FTypeRef typeRef) {
-    FType derived = typeRef.getDerived();
-    CppTypeInfo typeResult;
-    if (derived != null) {
-      typeResult = mapType(derived);
-    } else {
-      typeResult = mapPredefined(typeRef);
+    fun mapType(typeRef: FTypeRef): CppTypeInfo {
+        var typeResult = typeRef.derived?.let { mapType(it) } ?: mapPredefined(typeRef)
+        if (FrancaTypeHelper.isImplicitArray(typeRef)) {
+            typeResult = CArrayMapper.createArrayReference(typeResult)
+        }
+        return typeResult
     }
 
-    if (FrancaTypeHelper.isImplicitArray(typeRef)) {
-      typeResult = CArrayMapper.INSTANCE.createArrayReference(typeResult);
-    }
-    return typeResult;
-  }
+    private fun mapType(derived: FType) =
+        when (derived) {
+            is FStructType -> createCustomTypeInfo(derived, STRUCT)
+            is FTypeDef -> mapTypeDef(derived)
+            is FEnumerationType -> createEnumTypeInfo(derived)
+            is FArrayType -> CArrayMapper.createArrayReference(mapType(derived.elementType))
+            else -> (derived as? FMapType)?.let { mapMapType(it) } ?: CppTypeInfo(VOID)
+        }
 
-  private CppTypeInfo mapType(final FType derived) {
-    if (derived instanceof FStructType) {
-      return createCustomTypeInfo(derived, STRUCT);
-    } else if (derived instanceof FTypeDef) {
-      return mapTypeDef((FTypeDef) derived);
-    } else if (derived instanceof FEnumerationType) {
-      return createEnumTypeInfo((FEnumerationType) derived);
-    } else if (derived instanceof FArrayType) {
-      CppTypeInfo innerType = mapType(((FArrayType) derived).getElementType());
-      return CArrayMapper.INSTANCE.createArrayReference(innerType);
-    } else if (derived instanceof FMapType) {
-      return mapMapType((FMapType) derived);
-    } else {
-      return new CppTypeInfo(VOID);
-    }
-  }
+    private fun mapTypeDef(derived: FTypeDef) =
+        when {
+            isInstanceId(derived) -> createCustomTypeInfo(derived.eContainer() as FInterface, CLASS)
+            else -> mapType(derived.actualType)
+        }
 
-  private CppTypeInfo mapTypeDef(FTypeDef derived) {
-    if (isInstanceId(derived)) {
-      return createCustomTypeInfo((FInterface) derived.eContainer(), CLASS);
-    } else {
-      return mapType(derived.getActualType());
-    }
-  }
+    private fun mapPredefined(type: FTypeRef) =
+        when (type.predefined.value) {
+            FBasicTypeId.INT8_VALUE -> CppTypeInfo(CType.INT8)
+            FBasicTypeId.UINT8_VALUE -> CppTypeInfo(CType.UINT8)
+            FBasicTypeId.INT16_VALUE -> CppTypeInfo(CType.INT16)
+            FBasicTypeId.UINT16_VALUE -> CppTypeInfo(CType.UINT16)
+            FBasicTypeId.INT32_VALUE -> CppTypeInfo(CType.INT32)
+            FBasicTypeId.UINT32_VALUE -> CppTypeInfo(CType.UINT32)
+            FBasicTypeId.INT64_VALUE -> CppTypeInfo(CType.INT64)
+            FBasicTypeId.UINT64_VALUE -> CppTypeInfo(CType.UINT64)
+            FBasicTypeId.BOOLEAN_VALUE -> CppTypeInfo(CType.BOOL)
+            FBasicTypeId.FLOAT_VALUE -> CppTypeInfo(CType.FLOAT)
+            FBasicTypeId.DOUBLE_VALUE -> CppTypeInfo(CType.DOUBLE)
+            FBasicTypeId.STRING_VALUE -> CppTypeInfo.STRING
+            FBasicTypeId.BYTE_BUFFER_VALUE -> byteBufferTypeInfo
+            else -> CppTypeInfo(VOID)
+        }
 
-  private CppTypeInfo mapPredefined(final FTypeRef type) {
-    FBasicTypeId typeId = type.getPredefined();
-    switch (typeId.getValue()) {
-      case FBasicTypeId.UNDEFINED_VALUE:
-        return new CppTypeInfo(CType.VOID);
-      case FBasicTypeId.INT8_VALUE:
-        return new CppTypeInfo(CType.INT8);
-      case FBasicTypeId.UINT8_VALUE:
-        return new CppTypeInfo(CType.UINT8);
-      case FBasicTypeId.INT16_VALUE:
-        return new CppTypeInfo(CType.INT16);
-      case FBasicTypeId.UINT16_VALUE:
-        return new CppTypeInfo(CType.UINT16);
-      case FBasicTypeId.INT32_VALUE:
-        return new CppTypeInfo(CType.INT32);
-      case FBasicTypeId.UINT32_VALUE:
-        return new CppTypeInfo(CType.UINT32);
-      case FBasicTypeId.INT64_VALUE:
-        return new CppTypeInfo(CType.INT64);
-      case FBasicTypeId.UINT64_VALUE:
-        return new CppTypeInfo(CType.UINT64);
-      case FBasicTypeId.BOOLEAN_VALUE:
-        return new CppTypeInfo(CType.BOOL);
-      case FBasicTypeId.FLOAT_VALUE:
-        return new CppTypeInfo(CType.FLOAT);
-      case FBasicTypeId.DOUBLE_VALUE:
-        return new CppTypeInfo(CType.DOUBLE);
-      case FBasicTypeId.STRING_VALUE:
-        return CppTypeInfo.Companion.getSTRING();
-      case FBasicTypeId.BYTE_BUFFER_VALUE:
-        return byteBufferTypeInfo;
-    }
-    return new CppTypeInfo(VOID);
-  }
+    fun createCustomTypeInfo(
+        modelElement: FModelElement,
+        category: CppTypeInfo.TypeCategory
+    ): CppTypeInfo {
 
-  public CppTypeInfo createCustomTypeInfo(
-      final FModelElement modelElement, final CppTypeInfo.TypeCategory category) {
+        val baseApiName = cppNameResolver.getFullyQualifiedName(modelElement)
+        val baseApiCall = CBridgeNameRules.getBaseApiCall(category, baseApiName)
 
-    String baseApiName = cppNameResolver.getFullyQualifiedName(modelElement);
-    String baseApiCall = CBridgeNameRules.getBaseApiCall(category, baseApiName);
+        val publicInclude = includeResolver.resolveInclude(modelElement)
+        val baseApiIncludes = cppIncludeResolver.resolveIncludes(modelElement)
 
-    Include publicInclude = includeResolver.resolveInclude(modelElement);
-    List<Include> baseApiIncludes = cppIncludeResolver.resolveIncludes(modelElement);
+        val structCType = CType(BASE_REF_NAME, publicInclude)
 
-    CType structCType = new CType(BASE_REF_NAME, publicInclude);
-
-    List<Include> includes =
-        new LinkedList<>(
-            Arrays.asList(
+        val includes = LinkedList(
+            listOf(
                 publicInclude,
                 CppLibraryIncludes.OPTIONAL,
                 BASE_HANDLE_IMPL_INCLUDE,
                 CppLibraryIncludes.MEMORY,
-                CppLibraryIncludes.NEW));
-    includes.addAll(1, baseApiIncludes);
+                CppLibraryIncludes.NEW
+            )
+        )
+        includes.addAll(1, baseApiIncludes)
 
-    return new CppTypeInfo(baseApiCall, structCType, structCType, category, includes);
-  }
-
-  public static CppTypeInfo createNullableTypeInfo(
-      final CppTypeInfo baseTypeInfo, final CppTypeRef cppTypeRef) {
-
-    List<Include> includes = new LinkedList<>();
-    includes.addAll(baseTypeInfo.getIncludes());
-    includes.addAll(cppTypeRef.includes);
-    includes.add(CppLibraryIncludes.OPTIONAL);
-
-    CType structCType = new CType(BASE_REF_NAME);
-    return new CppTypeInfo(
-        cppTypeRef.fullyQualifiedName, structCType, structCType, CLASS, includes);
-  }
-
-  public CppTypeInfo createEnumTypeInfo(final FEnumerationType francaEnum) {
-
-    Include publicInclude = includeResolver.resolveInclude(francaEnum);
-    List<Include> baseApiIncludes = cppIncludeResolver.resolveIncludes(francaEnum);
-
-    CType enumCType = new CType(CBridgeNameRules.getEnumName(francaEnum), publicInclude);
-
-    List<Include> includes = new LinkedList<>(baseApiIncludes);
-    includes.add(0, publicInclude);
-
-    return new CppTypeInfo(
-        cppNameResolver.getFullyQualifiedName(francaEnum), enumCType, enumCType, ENUM, includes);
-  }
-
-  public CppTypeInfo createErrorTypeInfo(final FEnumerationType francaEnum) {
-    CppTypeInfo errorEnumInfo = createEnumTypeInfo(francaEnum);
-    errorEnumInfo.getFunctionReturnType().includes.add(CType.BOOL_INCLUDE);
-    return errorEnumInfo;
-  }
-
-  private CppTypeInfo mapMapType(final FMapType francaMapType) {
-
-    CType cType = new CType(BASE_REF_NAME);
-    CppTypeInfo keyType = mapType(francaMapType.getKeyType());
-    CppTypeInfo valueType = mapType(francaMapType.getValueType());
-
-    List<Include> includes = new LinkedList<>();
-    includes.add(Include.Companion.createInternalInclude(BASE_HANDLE_IMPL_FILE));
-    includes.add(CppLibraryIncludes.MAP);
-
-    String enumHash = null;
-    if (keyType.getTypeCategory() == CppTypeInfo.TypeCategory.ENUM) {
-      includes.add(CppLibraryIncludes.ENUM_HASH);
-      enumHash = enumHashType;
+        return CppTypeInfo(baseApiCall, structCType, structCType, category, includes)
     }
 
-    return new CppMapTypeInfo(
-        cppNameResolver.getFullyQualifiedName(francaMapType),
-        cType,
-        cType,
-        includes,
-        keyType,
-        valueType,
-        enumHash);
-  }
+    fun createEnumTypeInfo(francaEnum: FEnumerationType): CppTypeInfo {
+        val publicInclude = includeResolver.resolveInclude(francaEnum)
+        val baseApiIncludes = cppIncludeResolver.resolveIncludes(francaEnum)
 
-  public String getEnumHashType() {
-    return this.enumHashType;
-  }
+        val enumCType = CType(CBridgeNameRules.getEnumName(francaEnum), publicInclude)
+
+        return CppTypeInfo(
+            cppNameResolver.getFullyQualifiedName(francaEnum),
+            enumCType,
+            enumCType,
+            ENUM,
+            listOf(publicInclude) + baseApiIncludes
+        )
+    }
+
+    fun createErrorTypeInfo(francaEnum: FEnumerationType): CppTypeInfo {
+        val errorEnumInfo = createEnumTypeInfo(francaEnum)
+        errorEnumInfo.functionReturnType.includes.add(CType.BOOL_INCLUDE)
+        return errorEnumInfo
+    }
+
+    private fun mapMapType(francaMapType: FMapType): CppTypeInfo {
+
+        val cType = CType(BASE_REF_NAME)
+        val keyType = mapType(francaMapType.keyType)
+        val valueType = mapType(francaMapType.valueType)
+
+        val includes = mutableListOf(
+            Include.createInternalInclude(BASE_HANDLE_IMPL_FILE),
+            CppLibraryIncludes.MAP
+        )
+
+        var enumHash: String? = null
+        if (keyType.typeCategory === CppTypeInfo.TypeCategory.ENUM) {
+            includes.add(CppLibraryIncludes.ENUM_HASH)
+            enumHash = enumHashType
+        }
+
+        return CppMapTypeInfo(
+            cppNameResolver.getFullyQualifiedName(francaMapType),
+            cType,
+            cType,
+            includes,
+            keyType,
+            valueType,
+            enumHash
+        )
+    }
+
+    companion object {
+        private val BASE_HANDLE_IMPL_INCLUDE =
+            Include.createInternalInclude(CBridgeNameRules.BASE_HANDLE_IMPL_FILE)
+
+        fun createNullableTypeInfo(baseTypeInfo: CppTypeInfo, cppTypeRef: CppTypeRef): CppTypeInfo {
+            val structCType = CType(BASE_REF_NAME)
+            return CppTypeInfo(
+                cppTypeRef.fullyQualifiedName,
+                structCType,
+                structCType,
+                CLASS,
+                baseTypeInfo.includes + cppTypeRef.includes + CppLibraryIncludes.OPTIONAL
+            )
+        }
+    }
 }

@@ -17,60 +17,61 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge;
+package com.here.genium.model.cbridge
 
-import com.here.genium.generator.cbridge.CBridgeNameRules;
-import com.here.genium.model.common.Include;
-import com.here.genium.model.franca.DefinedBy;
-import java.io.File;
-import java.util.*;
-import org.franca.core.franca.FModelElement;
-import org.franca.core.franca.FTypeCollection;
+import com.here.genium.generator.cbridge.CBridgeNameRules
+import com.here.genium.model.common.Include
+import com.here.genium.model.franca.DefinedBy
+import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FTypeCollection
+import java.io.File
 
-public class CBridgeIncludeResolver {
+class CBridgeIncludeResolver(private val rootNamespace: List<String>) {
+    private val resolvedIncludes = mutableMapOf<FTypeCollection, Include>()
 
-  private final Map<FTypeCollection, Include> resolvedIncludes = new HashMap<>();
-  private final List<String> rootNamespace;
+    fun resolveInclude(modelElement: FModelElement): Include {
+        val typeCollection = DefinedBy.findDefiningTypeCollection(modelElement)
+        var include = resolvedIncludes[typeCollection]
 
-  public CBridgeIncludeResolver(final List<String> rootNamespace) {
-    this.rootNamespace = rootNamespace;
-  }
+        if (include == null) {
+            val includeName = getHeaderFileNameWithPath(typeCollection)
+            include = Include.createInternalInclude(includeName)
+            resolvedIncludes[typeCollection] = include
+        }
 
-  public Include resolveInclude(final FModelElement modelElement) {
-
-    FTypeCollection typeCollection = DefinedBy.findDefiningTypeCollection(modelElement);
-    Include include = resolvedIncludes.get(typeCollection);
-
-    if (include == null) {
-      String includeName = getHeaderFileNameWithPath(typeCollection);
-      include = Include.Companion.createInternalInclude(includeName);
-      resolvedIncludes.put(typeCollection, include);
+        return include
     }
 
-    return include;
-  }
+    fun getHeaderFileNameWithPath(francaTypeCollection: FTypeCollection) =
+        getPathComponents(
+            francaTypeCollection,
+            CBridgeNameRules.INCLUDE_DIR,
+            CBridgeNameRules.PUBLIC_HEADER_SUFFIX
+        )
 
-  public String getHeaderFileNameWithPath(final FTypeCollection francaTypeCollection) {
-    return getPathComponents(
-        francaTypeCollection, CBridgeNameRules.INCLUDE_DIR, CBridgeNameRules.PUBLIC_HEADER_SUFFIX);
-  }
+    fun getImplementationFileNameWithPath(francaTypeCollection: FTypeCollection) =
+        getPathComponents(
+            francaTypeCollection,
+            CBridgeNameRules.SRC_DIR,
+            CBridgeNameRules.IMPL_SUFFIX
+        )
 
-  public String getImplementationFileNameWithPath(final FTypeCollection francaTypeCollection) {
-    return getPathComponents(
-        francaTypeCollection, CBridgeNameRules.SRC_DIR, CBridgeNameRules.IMPL_SUFFIX);
-  }
+    private fun getPathComponents(
+        francaTypeCollection: FTypeCollection,
+        subfolder: String,
+        suffix: String
+    ): String {
 
-  private String getPathComponents(
-      final FTypeCollection francaTypeCollection, final String subfolder, final String suffix) {
+        val pathComponents = mutableListOf<String>()
+        pathComponents.add(CBridgeNameRules.CBRIDGE_PUBLIC)
+        pathComponents.add(subfolder)
+        pathComponents.addAll(rootNamespace)
+        pathComponents.addAll(DefinedBy.getPackages(francaTypeCollection))
+        pathComponents.add(
+            CBridgeNameRules.CBRIDGE_PREFIX + CBridgeNameRules.getName(francaTypeCollection) +
+                suffix
+        )
 
-    List<String> pathComponents = new LinkedList<>();
-    pathComponents.add(CBridgeNameRules.CBRIDGE_PUBLIC);
-    pathComponents.add(subfolder);
-    pathComponents.addAll(rootNamespace);
-    pathComponents.addAll(DefinedBy.getPackages(francaTypeCollection));
-    pathComponents.add(
-        CBridgeNameRules.CBRIDGE_PREFIX + CBridgeNameRules.getName(francaTypeCollection) + suffix);
-
-    return String.join(File.separator, pathComponents);
-  }
+        return pathComponents.joinToString(File.separator)
+    }
 }

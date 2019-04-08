@@ -17,112 +17,99 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.swift;
+package com.here.genium.generator.swift
 
-import com.here.genium.generator.common.NameHelper;
-import com.here.genium.model.franca.DefinedBy;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.swift.SwiftType;
-import java.io.File;
-import org.franca.core.franca.*;
+import com.here.genium.generator.common.NameHelper
+import com.here.genium.model.franca.DefinedBy
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.swift.SwiftType
+import org.franca.core.franca.FArgument
+import org.franca.core.franca.FEnumerator
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMapType
+import org.franca.core.franca.FMethod
+import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FStructType
+import org.franca.core.franca.FTypeCollection
+import org.franca.core.franca.FTypeDef
+import java.io.File
 
-public final class SwiftNameRules {
+object SwiftNameRules {
 
-  public static final String TARGET_DIRECTORY = "swift" + File.separator;
+    val TARGET_DIRECTORY = "swift${File.separator}"
 
-  private SwiftNameRules() {}
+    fun getImplementationFileName(francaTypeCollection: FTypeCollection) =
+        (TARGET_DIRECTORY +
+            DefinedBy.getPackages(francaTypeCollection).joinToString(File.separator) +
+            File.separator +
+            getFileName(francaTypeCollection) +
+            ".swift")
 
-  public static String getImplementationFileName(final FTypeCollection francaTypeCollection) {
-    return TARGET_DIRECTORY
-        + String.join(File.separator, DefinedBy.getPackages(francaTypeCollection))
-        + File.separator
-        + getFileName(francaTypeCollection)
-        + ".swift";
-  }
+    private fun getFileName(francaTypeCollection: FTypeCollection) =
+        when (francaTypeCollection) {
+            is FInterface -> SwiftNameRules.getClassName(francaTypeCollection.getName())
+            else -> getTypeCollectionName(francaTypeCollection)
+        }
 
-  private static String getFileName(final FTypeCollection francaTypeCollection) {
-    if (francaTypeCollection instanceof FInterface) {
-      return SwiftNameRules.getClassName(francaTypeCollection.getName());
-    } else {
-      return getTypeCollectionName(francaTypeCollection);
+    fun getMethodName(method: FMethod) = NameHelper.toLowerCamelCase(method.name)
+
+    fun getParameterName(argument: FArgument) = NameHelper.toLowerCamelCase(argument.name)
+
+    fun getClassName(name: String) = NameHelper.toUpperCamelCase(name)
+
+    fun getStructName(structName: FStructType, deploymentModel: FrancaDeploymentModel) =
+        getTypeName(structName, deploymentModel)
+
+    fun getTypeName(element: FModelElement, deploymentModel: FrancaDeploymentModel) =
+        getNamespacePrefix(
+            element,
+            deploymentModel
+        ) + NameHelper.toUpperCamelCase(element.name)
+
+    private fun getNamespacePrefix(
+        elem: FModelElement,
+        deploymentModel: FrancaDeploymentModel
+    ): String {
+        val definingTypeCollection = DefinedBy.findDefiningTypeCollection(elem)
+        if (definingTypeCollection is FInterface) {
+            if (elem is FTypeDef ||
+                elem is FMapType ||
+                !deploymentModel.isInterface(definingTypeCollection)
+            ) {
+                return getClassName(definingTypeCollection.getName()) + "."
+            }
+        }
+        return ""
     }
-  }
 
-  public static String getMethodName(final FMethod method) {
-    return NameHelper.toLowerCamelCase(method.getName());
-  }
+    fun getFieldName(fieldName: String) = NameHelper.toLowerCamelCase(fieldName)
 
-  public static String getParameterName(final FArgument argument) {
-    return NameHelper.toLowerCamelCase(argument.getName());
-  }
+    private fun getTypeCollectionName(base: FTypeCollection) =
+        NameHelper.toUpperCamelCase(base.name)
 
-  public static String getClassName(final String name) {
-    return NameHelper.toUpperCamelCase(name);
-  }
+    fun getEnumTypeName(francaEnumerator: FModelElement, deploymentModel: FrancaDeploymentModel) =
+        getTypeName(francaEnumerator, deploymentModel)
 
-  public static String getStructName(
-      final FStructType structName, final FrancaDeploymentModel deploymentModel) {
-    return getTypeName(structName, deploymentModel);
-  }
+    fun getEnumItemName(francaEnumerator: FEnumerator) =
+        getEnumItemName(francaEnumerator.name)
 
-  public static String getTypeName(
-      final FModelElement element, final FrancaDeploymentModel deploymentModel) {
-    return getNamespacePrefix(element, deploymentModel)
-        + NameHelper.toUpperCamelCase(element.getName());
-  }
+    fun getEnumItemName(enumItemName: String) = NameHelper.toLowerCamelCase(enumItemName)
 
-  private static String getNamespacePrefix(
-      FModelElement elem, FrancaDeploymentModel deploymentModel) {
-    FTypeCollection definingTypeCollection = DefinedBy.findDefiningTypeCollection(elem);
-    if (definingTypeCollection instanceof FInterface) {
-      FInterface iface = (FInterface) definingTypeCollection;
-      if (elem instanceof FTypeDef
-          || elem instanceof FMapType
-          || !deploymentModel.isInterface(iface)) {
-        return getClassName(definingTypeCollection.getName()) + ".";
-      }
-    }
-    return "";
-  }
+    fun getConstantName(name: String) = NameHelper.toLowerCamelCase(name)
 
-  public static String getFieldName(final String fieldName) {
-    return NameHelper.toLowerCamelCase(fieldName);
-  }
+    fun getPropertyName(name: String, swiftType: SwiftType) =
+        when {
+            swiftType === SwiftType.BOOL -> "is" + NameHelper.toUpperCamelCase(name)
+            else -> NameHelper.toLowerCamelCase(name)
+        }
 
-  private static String getTypeCollectionName(final FTypeCollection base) {
-    return NameHelper.toUpperCamelCase(base.getName());
-  }
+    fun getTypeDefName(
+        francaModelElement: FModelElement,
+        deploymentModel: FrancaDeploymentModel
+    ) = getTypeName(francaModelElement, deploymentModel)
 
-  public static String getEnumTypeName(
-      FModelElement francaEnumerator, FrancaDeploymentModel deploymentModel) {
-    return getTypeName(francaEnumerator, deploymentModel);
-  }
-
-  public static String getEnumItemName(FEnumerator francaEnumerator) {
-    return getEnumItemName(francaEnumerator.getName());
-  }
-
-  public static String getEnumItemName(final String enumItemName) {
-    return NameHelper.toLowerCamelCase(enumItemName);
-  }
-
-  public static String getConstantName(final String name) {
-    return NameHelper.toLowerCamelCase(name);
-  }
-
-  public static String getPropertyName(final String name, final SwiftType swiftType) {
-    return swiftType == SwiftType.BOOL
-        ? "is" + NameHelper.toUpperCamelCase(name)
-        : NameHelper.toLowerCamelCase(name);
-  }
-
-  public static String getTypeDefName(
-      final FModelElement francaModelElement, final FrancaDeploymentModel deploymentModel) {
-    return getTypeName(francaModelElement, deploymentModel);
-  }
-
-  public static String getMapName(
-      final FModelElement francaModelElement, final FrancaDeploymentModel deploymentModel) {
-    return getTypeName(francaModelElement, deploymentModel).replace('.', '_');
-  }
+    fun getMapName(
+        francaModelElement: FModelElement,
+        deploymentModel: FrancaDeploymentModel
+    ) = getTypeName(francaModelElement, deploymentModel).replace('.', '_')
 }

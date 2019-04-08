@@ -19,8 +19,6 @@
 
 package com.here.genium.model.swift
 
-import java.util.LinkedList
-
 class SwiftClass @JvmOverloads constructor(
     name: String,
     visibility: SwiftVisibility? = null,
@@ -33,13 +31,13 @@ class SwiftClass @JvmOverloads constructor(
     @Suppress("unused") val isObjcInterface: Boolean = false
 ) : SwiftType(name, null, visibility, SwiftType.TypeCategory.CLASS, name, false) {
 
-    val implementsProtocols: List<String> = LinkedList()
-    val properties: List<SwiftProperty> = LinkedList()
-    val methods: List<SwiftMethod> = LinkedList()
-    val structs: List<SwiftStruct> = LinkedList()
-    val enums: List<SwiftEnum> = LinkedList()
-    val typedefs: List<SwiftTypeDef> = LinkedList()
-    val constants: List<SwiftConstant> = LinkedList()
+    val implementsProtocols = mutableListOf<String>()
+    val properties = mutableListOf<SwiftProperty>()
+    val methods = mutableListOf<SwiftMethod>()
+    val structs = mutableListOf<SwiftStruct>()
+    val enums = mutableListOf<SwiftEnum>()
+    val typedefs = mutableListOf<SwiftTypeDef>()
+    val constants = mutableListOf<SwiftConstant>()
 
     // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
     @Suppress("unused")

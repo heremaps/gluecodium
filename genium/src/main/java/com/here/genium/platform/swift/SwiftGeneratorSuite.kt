@@ -17,80 +17,64 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.platform.swift;
+package com.here.genium.platform.swift
 
-import static java.util.stream.Collectors.toList;
-
-import com.here.genium.Genium;
-import com.here.genium.generator.cbridge.CBridgeGenerator;
-import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.cpp.CppNameResolver;
-import com.here.genium.generator.swift.SwiftGenerator;
-import com.here.genium.model.cbridge.CBridgeIncludeResolver;
-import com.here.genium.model.cpp.CppIncludeResolver;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.platform.common.GeneratorSuite;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.stream.Stream;
-import org.franca.core.franca.FTypeCollection;
+import com.here.genium.Genium
+import com.here.genium.generator.cbridge.CBridgeGenerator
+import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.cpp.CppNameResolver
+import com.here.genium.generator.swift.SwiftGenerator
+import com.here.genium.model.cbridge.CBridgeIncludeResolver
+import com.here.genium.model.cpp.CppIncludeResolver
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.platform.common.GeneratorSuite
+import org.franca.core.franca.FTypeCollection
 
 /**
- * Combines {@link SwiftGenerator} and {@link CBridgeGenerator} to generate Swift bindings on top of
+ * Combines [SwiftGenerator] and [CBridgeGenerator] to generate Swift bindings on top of
  * BaseAPI.
  *
- * <p>The bindings are used to build a framework for iOS, Mac and a Swift module for Linux.
+ * The bindings are used to build a framework for iOS, Mac and a Swift module for Linux.
  */
-public final class SwiftGeneratorSuite extends GeneratorSuite {
+class SwiftGeneratorSuite(
+    options: Genium.Options,
+    private val deploymentModel: FrancaDeploymentModel
+) : GeneratorSuite() {
 
-  public static final String GENERATOR_NAME = "swift";
+    private val internalNamespace = options.cppInternalNamespace ?: emptyList()
+    private val rootNamespace = options.cppRootNamespace
+    private val cppNameResolver = CppNameResolver(deploymentModel, rootNamespace)
 
-  private final List<String> internalNamespace;
-  private final List<String> rootNamespace;
-  private final FrancaDeploymentModel deploymentModel;
-  private final CppNameResolver cppNameResolver;
+    override fun generate(typeCollections: List<FTypeCollection>): List<GeneratedFile> {
 
-  public SwiftGeneratorSuite(
-      final Genium.Options options, final FrancaDeploymentModel deploymentModel) {
-    super();
-    this.internalNamespace = options.getCppInternalNamespace();
-    this.rootNamespace = options.getCppRootNamespace();
-    this.deploymentModel = deploymentModel;
-    this.cppNameResolver = new CppNameResolver(deploymentModel, rootNamespace);
-  }
-
-  @Override
-  public List<GeneratedFile> generate(final List<FTypeCollection> typeCollections) {
-
-    SwiftGenerator swiftGenerator = new SwiftGenerator(deploymentModel);
-    CBridgeGenerator cBridgeGenerator =
-        new CBridgeGenerator(
+        val swiftGenerator = SwiftGenerator(deploymentModel)
+        val cBridgeGenerator = CBridgeGenerator(
             deploymentModel,
-            new CppIncludeResolver(deploymentModel, rootNamespace),
-            new CBridgeIncludeResolver(rootNamespace),
+            CppIncludeResolver(deploymentModel, rootNamespace),
+            CBridgeIncludeResolver(rootNamespace),
             cppNameResolver,
-            internalNamespace);
+            internalNamespace
+        )
 
-    Stream<GeneratedFile> swiftStream = typeCollections.stream().map(swiftGenerator::generate);
-    Stream<GeneratedFile> cBridgeStream =
-        typeCollections.stream().map(cBridgeGenerator::generate).flatMap(Function.identity());
+        val swiftStream = typeCollections.map { swiftGenerator.generate(it) }
+        val cBridgeStream = typeCollections.flatMap { cBridgeGenerator.generate(it) }
 
-    List<GeneratedFile> result = Stream.concat(swiftStream, cBridgeStream).collect(toList());
-    result.addAll(CBridgeGenerator.STATIC_FILES);
-    result.addAll(SwiftGenerator.STATIC_FILES);
-    result.addAll(cBridgeGenerator.arrayGenerator.generate());
-    result.addAll(swiftGenerator.arrayGenerator.generate());
-    result.addAll(swiftGenerator.mapGenerator.generate());
-    result.addAll(swiftGenerator.builtinOptionalsGenerator.generate());
-    result.add(swiftGenerator.generateErrors());
-    result.addAll(cBridgeGenerator.generateHelpers());
+        val result = (swiftStream + cBridgeStream).toMutableList()
+        result.addAll(CBridgeGenerator.STATIC_FILES)
+        result.addAll(SwiftGenerator.STATIC_FILES)
+        result.addAll(cBridgeGenerator.arrayGenerator.generate())
+        result.addAll(swiftGenerator.arrayGenerator.generate())
+        result.addAll(swiftGenerator.mapGenerator.generate())
+        result.addAll(swiftGenerator.builtinOptionalsGenerator.generate())
+        result.add(swiftGenerator.generateErrors())
+        result.addAll(cBridgeGenerator.generateHelpers())
 
-    return result.stream().filter(Objects::nonNull).collect(toList());
-  }
+        return result.filterNotNull()
+    }
 
-  @Override
-  public String getName() {
-    return "com.here.SwiftGenerator";
-  }
+    override fun getName() = "com.here.SwiftGenerator"
+
+    companion object {
+        const val GENERATOR_NAME = "swift"
+    }
 }

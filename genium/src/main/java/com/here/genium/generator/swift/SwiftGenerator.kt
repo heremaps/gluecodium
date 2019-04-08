@@ -17,76 +17,66 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.swift;
+package com.here.genium.generator.swift
 
-import static java.util.stream.Collectors.toList;
+import com.google.common.annotations.VisibleForTesting
+import com.here.genium.common.FrancaSignatureResolver
+import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
+import com.here.genium.generator.common.templates.TemplateEngine
+import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.swift.SwiftFile
+import com.here.genium.platform.common.GeneratorSuite
+import org.franca.core.franca.FTypeCollection
+import java.util.HashSet
 
-import com.google.common.annotations.VisibleForTesting;
-import com.here.genium.common.FrancaSignatureResolver;
-import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker;
-import com.here.genium.generator.common.templates.TemplateEngine;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import com.here.genium.model.swift.SwiftFile;
-import com.here.genium.platform.common.GeneratorSuite;
-import java.util.*;
-import org.franca.core.franca.FTypeCollection;
+class SwiftGenerator(private val deploymentModel: FrancaDeploymentModel) {
+    val arrayGenerator = SwiftArrayGenerator()
+    val mapGenerator = SwiftMapGenerator()
+    val builtinOptionalsGenerator = SwiftBuiltinOptionalsGenerator()
+    val enumsAsErrors: MutableSet<String> = HashSet()
+    private val signatureResolver: FrancaSignatureResolver = FrancaSignatureResolver()
+    private val typeMapper: SwiftTypeMapper = SwiftTypeMapper(deploymentModel)
 
-public class SwiftGenerator {
-
-  public final SwiftArrayGenerator arrayGenerator = new SwiftArrayGenerator();
-  public final SwiftMapGenerator mapGenerator = new SwiftMapGenerator();
-  public final SwiftBuiltinOptionalsGenerator builtinOptionalsGenerator =
-      new SwiftBuiltinOptionalsGenerator();
-  public final Set<String> enumsAsErrors = new HashSet<>();
-  public static final List<GeneratedFile> STATIC_FILES =
-      Arrays.asList(
-          GeneratorSuite.copyTarget("swift/RefHolder.swift", ""),
-          GeneratorSuite.copyTarget("swift/BuiltinConversions.swift", ""),
-          GeneratorSuite.copyTarget("swift/NativeBase.swift", ""));
-
-  private final FrancaDeploymentModel deploymentModel;
-  private final FrancaSignatureResolver signatureResolver;
-  private final SwiftTypeMapper typeMapper;
-
-  public SwiftGenerator(final FrancaDeploymentModel deploymentModel) {
-    this.deploymentModel = deploymentModel;
-    this.signatureResolver = new FrancaSignatureResolver();
-    this.typeMapper = new SwiftTypeMapper(deploymentModel);
-  }
-
-  public GeneratedFile generate(final FTypeCollection francaTypeCollection) {
-    SwiftFile file = buildSwiftModel(francaTypeCollection);
-    if (file.isEmpty()) {
-      return null;
-    } else {
-      return new GeneratedFile(
-          TemplateEngine.INSTANCE.render("swift/File", file),
-          SwiftNameRules.getImplementationFileName(francaTypeCollection));
+    fun generate(francaTypeCollection: FTypeCollection): GeneratedFile? {
+        val file = buildSwiftModel(francaTypeCollection)
+        return if (file.isEmpty) {
+            null
+        } else {
+            GeneratedFile(
+                TemplateEngine.render("swift/File", file),
+                SwiftNameRules.getImplementationFileName(francaTypeCollection)
+            )
+        }
     }
-  }
 
-  public GeneratedFile generateErrors() {
-    if (enumsAsErrors.isEmpty()) {
-      return null;
-    } else {
-      return new GeneratedFile(
-          TemplateEngine.INSTANCE.render(
-              "swift/Errors", enumsAsErrors.stream().sorted().collect(toList())),
-          SwiftNameRules.TARGET_DIRECTORY + "ErrorsExtensions.swift");
+    fun generateErrors() =
+        if (enumsAsErrors.isEmpty()) {
+            null
+        } else {
+            GeneratedFile(
+                TemplateEngine.render("swift/Errors", enumsAsErrors.sorted()),
+                SwiftNameRules.TARGET_DIRECTORY + "ErrorsExtensions.swift"
+            )
+        }
+
+    @VisibleForTesting
+    internal fun buildSwiftModel(francaTypeCollection: FTypeCollection): SwiftFile {
+        val modelBuilder = SwiftModelBuilder(deploymentModel, signatureResolver, typeMapper)
+        val treeWalker = FrancaTreeWalker(listOf(modelBuilder))
+
+        treeWalker.walkTree(francaTypeCollection)
+        arrayGenerator.collect(modelBuilder.arraysCollector)
+        mapGenerator.collect(modelBuilder.mapCollector)
+        enumsAsErrors.addAll(modelBuilder.enumsAsErrors)
+        return modelBuilder.getFinalResult(SwiftFile::class.java)
     }
-  }
 
-  @VisibleForTesting
-  SwiftFile buildSwiftModel(final FTypeCollection francaTypeCollection) {
-    SwiftModelBuilder modelBuilder =
-        new SwiftModelBuilder(deploymentModel, signatureResolver, typeMapper);
-    FrancaTreeWalker treeWalker = new FrancaTreeWalker(Collections.singletonList(modelBuilder));
-
-    treeWalker.walkTree(francaTypeCollection);
-    arrayGenerator.collect(modelBuilder.arraysCollector);
-    mapGenerator.collect(modelBuilder.mapCollector);
-    enumsAsErrors.addAll(modelBuilder.enumsAsErrors);
-    return modelBuilder.getFinalResult(SwiftFile.class);
-  }
+    companion object {
+        val STATIC_FILES = listOf(
+            GeneratorSuite.copyTarget("swift/RefHolder.swift", ""),
+            GeneratorSuite.copyTarget("swift/BuiltinConversions.swift", ""),
+            GeneratorSuite.copyTarget("swift/NativeBase.swift", "")
+        )
+    }
 }
