@@ -76,13 +76,13 @@ class OptionReader {
             "copyright",
             "copyright-header",
             true,
-            "Specify the path for the file containing the copyright header that will be appended to" + " all the generated files."
+            "Specify the path for the file containing the copyright header that will be appended to all the generated files."
         )
         addOption(
             "intnamespace",
             "cpp-internal-namespace",
             true,
-            "C++ namespace for internal (non-API) headers."
+            "C++ namespace for internal (non-API) headers. Multiple namespace levels may be separated with '.'."
         )
         addOption("cppnamespace", true, "C++ namespace for public (API) headers.")
         addOption("cppexport", true, "C++ export macro name for explicit symbol exporting.")
@@ -135,7 +135,8 @@ class OptionReader {
                 listOf()
             }
 
-            options.cppInternalNamespace = getSingleOptionValue(cmd, "intnamespace")
+            val internalNamespaces = getSingleOptionValue(cmd, "intnamespace")
+            options.cppInternalNamespace = internalNamespaces?.split(".")
 
             val cppExport = getSingleOptionValue(cmd, "cppexport")
             if (cppExport != null) {

@@ -82,13 +82,13 @@ internal constructor(
     private val javaBuilder: JavaModelBuilder,
     private val cppBuilder: CppLimeBasedModelBuilder,
     private val cppIncludeResolver: CppLimeBasedIncludeResolver,
-    private val internalNamespace: String
+    private val internalNamespace: List<String>
 ) : AbstractLimeBasedModelBuilder<JniElement>(contextStack) {
     constructor(
         javaBuilder: JavaModelBuilder,
         cppBuilder: CppLimeBasedModelBuilder,
         cppIncludeResolver: CppLimeBasedIncludeResolver,
-        internalNamespace: String
+        internalNamespace: List<String>
     ) : this(
         ModelBuilderContextStack<JniElement>(),
         javaBuilder,

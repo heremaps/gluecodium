@@ -27,9 +27,10 @@
 
 #include <string>
 
+{{#internalNamespace}}
 namespace {{.}}
 {
-
+{{/internalNamespace}}
 namespace jni
 {
 
@@ -119,5 +120,6 @@ call_java_method( JNIEnv* jni_env,
 }
 
 }
-
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

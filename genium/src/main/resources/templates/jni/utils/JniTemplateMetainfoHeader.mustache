@@ -26,9 +26,10 @@
 
 #include <type_traits>
 
+{{#internalNamespace}}
 namespace {{.}}
 {
-
+{{/internalNamespace}}
 namespace jni
 {
 
@@ -149,5 +150,6 @@ struct JniMethodReturnTypeChecker<void>
 };
 
 }
-
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

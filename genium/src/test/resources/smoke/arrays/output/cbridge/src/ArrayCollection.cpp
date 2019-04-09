@@ -1,13 +1,13 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-#include "Optional.h"
 #include "alien/FooEnum.h"
 #include "alien/FooStruct.h"
 #include "cbridge/include/ArrayCollection.h"
 #include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_Arrays.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
+#include "genium/Optional.h"
 #include "smoke/Arrays.h"
 #include <memory>
 #include <new>
@@ -33,13 +33,13 @@ void ArrayOf_ArrayOf_String_append( _baseRef handle, _baseRef item )
 Conversion<std::vector<std::vector<std::string>>>::toCpp(handle).push_back(Conversion<std::vector<std::string>>::toCpp(item));
 }
 _baseRef ArrayOf_ArrayOf_String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::vector<std::vector<std::string>>>( std::vector<std::vector<std::string>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::vector<std::vector<std::string>>>( std::vector<std::vector<std::string>>( ) ) );
 }
 void ArrayOf_ArrayOf_String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<std::vector<std::vector<std::string>>>*>( handle );
+    delete reinterpret_cast<::genium::optional<std::vector<std::vector<std::string>>>*>( handle );
 }
 _baseRef ArrayOf_ArrayOf_String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::vector<std::vector<std::string>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<std::vector<std::string>>>*>( handle ) );
 }
 _baseRef ArrayOf_ExternalEnum_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<::alien::FooEnum>( ) );
@@ -61,13 +61,13 @@ void ArrayOf_ExternalEnum_append( _baseRef handle, smoke_Arrays_ExternalEnum ite
     Conversion<std::vector<::alien::FooEnum>>::toCpp(handle).push_back( static_cast<::alien::FooEnum>( item ) );
 }
 _baseRef ArrayOf_ExternalEnum_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::vector<::alien::FooEnum>>( std::vector<::alien::FooEnum>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::vector<::alien::FooEnum>>( std::vector<::alien::FooEnum>( ) ) );
 }
 void ArrayOf_ExternalEnum_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<std::vector<::alien::FooEnum>>*>( handle );
+    delete reinterpret_cast<::genium::optional<std::vector<::alien::FooEnum>>*>( handle );
 }
 _baseRef ArrayOf_ExternalEnum_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::vector<::alien::FooEnum>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<::alien::FooEnum>>*>( handle ) );
 }
 _baseRef ArrayOf_String_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<std::string>( ) );
@@ -88,13 +88,13 @@ void ArrayOf_String_append( _baseRef handle, _baseRef item )
 Conversion<std::vector<std::string>>::toCpp(handle).push_back(Conversion<std::string>::toCpp(item));
 }
 _baseRef ArrayOf_String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::vector<std::string>>( std::vector<std::string>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::vector<std::string>>( std::vector<std::string>( ) ) );
 }
 void ArrayOf_String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<std::vector<std::string>>*>( handle );
+    delete reinterpret_cast<::genium::optional<std::vector<std::string>>*>( handle );
 }
 _baseRef ArrayOf_String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::vector<std::string>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<std::string>>*>( handle ) );
 }
 _baseRef ArrayOf_SomeEnum_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<::smoke::Arrays::SomeEnum>( ) );
@@ -116,13 +116,13 @@ void ArrayOf_SomeEnum_append( _baseRef handle, smoke_Arrays_SomeEnum item )
     Conversion<std::vector<::smoke::Arrays::SomeEnum>>::toCpp(handle).push_back( static_cast<::smoke::Arrays::SomeEnum>( item ) );
 }
 _baseRef ArrayOf_SomeEnum_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::vector<::smoke::Arrays::SomeEnum>>( std::vector<::smoke::Arrays::SomeEnum>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::vector<::smoke::Arrays::SomeEnum>>( std::vector<::smoke::Arrays::SomeEnum>( ) ) );
 }
 void ArrayOf_SomeEnum_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<std::vector<::smoke::Arrays::SomeEnum>>*>( handle );
+    delete reinterpret_cast<::genium::optional<std::vector<::smoke::Arrays::SomeEnum>>*>( handle );
 }
 _baseRef ArrayOf_SomeEnum_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::vector<::smoke::Arrays::SomeEnum>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<::smoke::Arrays::SomeEnum>>*>( handle ) );
 }
 _baseRef ArrayOf_BasicStruct_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<::smoke::Arrays::BasicStruct>( ) );
@@ -143,13 +143,13 @@ void ArrayOf_BasicStruct_append( _baseRef handle, _baseRef item )
 Conversion<std::vector<::smoke::Arrays::BasicStruct>>::toCpp(handle).push_back(Conversion<::smoke::Arrays::BasicStruct>::toCpp(item));
 }
 _baseRef ArrayOf_BasicStruct_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::vector<::smoke::Arrays::BasicStruct>>( std::vector<::smoke::Arrays::BasicStruct>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::vector<::smoke::Arrays::BasicStruct>>( std::vector<::smoke::Arrays::BasicStruct>( ) ) );
 }
 void ArrayOf_BasicStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<std::vector<::smoke::Arrays::BasicStruct>>*>( handle );
+    delete reinterpret_cast<::genium::optional<std::vector<::smoke::Arrays::BasicStruct>>*>( handle );
 }
 _baseRef ArrayOf_BasicStruct_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::vector<::smoke::Arrays::BasicStruct>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<::smoke::Arrays::BasicStruct>>*>( handle ) );
 }
 _baseRef ArrayOf_UInt8_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<uint8_t>( ) );
@@ -171,13 +171,13 @@ void ArrayOf_UInt8_append( _baseRef handle, uint8_t item )
     Conversion<std::vector<uint8_t>>::toCpp(handle).push_back( item );
 }
 _baseRef ArrayOf_UInt8_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::vector<uint8_t>>( std::vector<uint8_t>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::vector<uint8_t>>( std::vector<uint8_t>( ) ) );
 }
 void ArrayOf_UInt8_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<std::vector<uint8_t>>*>( handle );
+    delete reinterpret_cast<::genium::optional<std::vector<uint8_t>>*>( handle );
 }
 _baseRef ArrayOf_UInt8_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::vector<uint8_t>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<uint8_t>>*>( handle ) );
 }
 _baseRef ArrayOf_MapOf_Int32_To_String_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<::smoke::Arrays::ErrorCodeToMessageMap>( ) );
@@ -198,13 +198,13 @@ void ArrayOf_MapOf_Int32_To_String_append( _baseRef handle, _baseRef item )
 Conversion<std::vector<::smoke::Arrays::ErrorCodeToMessageMap>>::toCpp(handle).push_back(Conversion<::smoke::Arrays::ErrorCodeToMessageMap>::toCpp(item));
 }
 _baseRef ArrayOf_MapOf_Int32_To_String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::vector<::smoke::Arrays::ErrorCodeToMessageMap>>( std::vector<::smoke::Arrays::ErrorCodeToMessageMap>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::vector<::smoke::Arrays::ErrorCodeToMessageMap>>( std::vector<::smoke::Arrays::ErrorCodeToMessageMap>( ) ) );
 }
 void ArrayOf_MapOf_Int32_To_String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<std::vector<::smoke::Arrays::ErrorCodeToMessageMap>>*>( handle );
+    delete reinterpret_cast<::genium::optional<std::vector<::smoke::Arrays::ErrorCodeToMessageMap>>*>( handle );
 }
 _baseRef ArrayOf_MapOf_Int32_To_String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::vector<::smoke::Arrays::ErrorCodeToMessageMap>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<::smoke::Arrays::ErrorCodeToMessageMap>>*>( handle ) );
 }
 _baseRef ArrayOf_ExternalStruct_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<::alien::FooStruct>( ) );
@@ -225,13 +225,13 @@ void ArrayOf_ExternalStruct_append( _baseRef handle, _baseRef item )
 Conversion<std::vector<::alien::FooStruct>>::toCpp(handle).push_back(Conversion<::alien::FooStruct>::toCpp(item));
 }
 _baseRef ArrayOf_ExternalStruct_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::vector<::alien::FooStruct>>( std::vector<::alien::FooStruct>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::vector<::alien::FooStruct>>( std::vector<::alien::FooStruct>( ) ) );
 }
 void ArrayOf_ExternalStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<std::vector<::alien::FooStruct>>*>( handle );
+    delete reinterpret_cast<::genium::optional<std::vector<::alien::FooStruct>>*>( handle );
 }
 _baseRef ArrayOf_ExternalStruct_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::vector<::alien::FooStruct>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<::alien::FooStruct>>*>( handle ) );
 }
 _baseRef ArrayOf_ArrayOf_UInt8_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<std::vector<uint8_t>>( ) );
@@ -252,13 +252,13 @@ void ArrayOf_ArrayOf_UInt8_append( _baseRef handle, _baseRef item )
 Conversion<std::vector<std::vector<uint8_t>>>::toCpp(handle).push_back(Conversion<std::vector<uint8_t>>::toCpp(item));
 }
 _baseRef ArrayOf_ArrayOf_UInt8_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::vector<std::vector<uint8_t>>>( std::vector<std::vector<uint8_t>>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::vector<std::vector<uint8_t>>>( std::vector<std::vector<uint8_t>>( ) ) );
 }
 void ArrayOf_ArrayOf_UInt8_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<std::vector<std::vector<uint8_t>>>*>( handle );
+    delete reinterpret_cast<::genium::optional<std::vector<std::vector<uint8_t>>>*>( handle );
 }
 _baseRef ArrayOf_ArrayOf_UInt8_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::vector<std::vector<uint8_t>>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<std::vector<uint8_t>>>*>( handle ) );
 }
 _baseRef ArrayOf_FancyStruct_create_handle() {
     return reinterpret_cast<_baseRef>( new std::vector<::smoke::Arrays::FancyStruct>( ) );
@@ -279,11 +279,11 @@ void ArrayOf_FancyStruct_append( _baseRef handle, _baseRef item )
 Conversion<std::vector<::smoke::Arrays::FancyStruct>>::toCpp(handle).push_back(Conversion<::smoke::Arrays::FancyStruct>::toCpp(item));
 }
 _baseRef ArrayOf_FancyStruct_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::vector<::smoke::Arrays::FancyStruct>>( std::vector<::smoke::Arrays::FancyStruct>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::vector<::smoke::Arrays::FancyStruct>>( std::vector<::smoke::Arrays::FancyStruct>( ) ) );
 }
 void ArrayOf_FancyStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<std::vector<::smoke::Arrays::FancyStruct>>*>( handle );
+    delete reinterpret_cast<::genium::optional<std::vector<::smoke::Arrays::FancyStruct>>*>( handle );
 }
 _baseRef ArrayOf_FancyStruct_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::vector<::smoke::Arrays::FancyStruct>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::vector<::smoke::Arrays::FancyStruct>>*>( handle ) );
 }

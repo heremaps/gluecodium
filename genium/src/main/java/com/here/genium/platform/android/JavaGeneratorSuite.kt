@@ -48,7 +48,7 @@ open class JavaGeneratorSuite protected constructor(
 ) : GeneratorSuite() {
 
     private val rootPackage = options.javaPackages
-    private val internalNamespace = options.cppInternalNamespace ?: ""
+    private val internalNamespace = options.cppInternalNamespace ?: listOf()
     private val rootNamespace = options.cppRootNamespace
 
     protected open val generatorName = GENERATOR_NAME

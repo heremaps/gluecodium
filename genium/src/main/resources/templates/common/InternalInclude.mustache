@@ -18,19 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-#pragma once
-
-{{#includes}}
-{{>common/Include}}
-{{/includes}}
-
-template<class T>
-inline void createCppProxy(JNIEnv* env, const {{>common/InternalNamespace}}jni::JniReference<jobject>& obj, ::std::shared_ptr<T>& result) {
-}
-
-{{#models}}
-template<>
-inline void createCppProxy(JNIEnv* env, const {{>common/InternalNamespace}}jni::JniReference<jobject>& obj, ::std::shared_ptr<{{cppFullyQualifiedName}}>& result) {
-    {{>common/InternalNamespace}}jni::CppProxyBase::createProxy<{{cppFullyQualifiedName}}, {{cppFullyQualifiedName}}CppProxy>(env, obj, result);
-}
-{{/models}}
+{{#internalNamespace}}{{.}}/{{/internalNamespace}}

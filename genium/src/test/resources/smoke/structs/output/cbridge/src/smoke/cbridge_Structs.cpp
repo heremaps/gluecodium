@@ -1,11 +1,11 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-#include "Optional.h"
 #include "cbridge/include/smoke/cbridge_Structs.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "foo/Bar.h"
 #include "foo/Bazz.h"
+#include "genium/Optional.h"
 #include "non/Sense.h"
 #include "smoke/Structs.h"
 #include <memory>
@@ -36,7 +36,7 @@ smoke_Structs_Point_release_handle( _baseRef handle )
 _baseRef
 smoke_Structs_Point_create_optional_handle(double x, double y)
 {
-    auto _struct = new ( std::nothrow ) genium::optional<::smoke::Structs::Point>( ::smoke::Structs::Point( ) );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Structs::Point>( ::smoke::Structs::Point( ) );
     (*_struct)->x = x;
     (*_struct)->y = y;
     return reinterpret_cast<_baseRef>( _struct );
@@ -44,10 +44,10 @@ smoke_Structs_Point_create_optional_handle(double x, double y)
 _baseRef
 smoke_Structs_Point_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::Structs::Point>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Structs::Point>*>( handle ) );
 }
 void smoke_Structs_Point_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<::smoke::Structs::Point>*>( handle );
+    delete reinterpret_cast<::genium::optional<::smoke::Structs::Point>*>( handle );
 }
 double smoke_Structs_Point_x_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::Point>(handle);
@@ -74,7 +74,7 @@ smoke_Structs_Color_release_handle( _baseRef handle )
 _baseRef
 smoke_Structs_Color_create_optional_handle(uint8_t red, uint8_t green, uint8_t blue)
 {
-    auto _struct = new ( std::nothrow ) genium::optional<::smoke::Structs::Color>( ::smoke::Structs::Color( ) );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Structs::Color>( ::smoke::Structs::Color( ) );
     (*_struct)->red = red;
     (*_struct)->green = green;
     (*_struct)->blue = blue;
@@ -83,10 +83,10 @@ smoke_Structs_Color_create_optional_handle(uint8_t red, uint8_t green, uint8_t b
 _baseRef
 smoke_Structs_Color_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::Structs::Color>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Structs::Color>*>( handle ) );
 }
 void smoke_Structs_Color_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<::smoke::Structs::Color>*>( handle );
+    delete reinterpret_cast<::genium::optional<::smoke::Structs::Color>*>( handle );
 }
 uint8_t smoke_Structs_Color_red_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::Color>(handle);
@@ -116,7 +116,7 @@ smoke_Structs_Line_release_handle( _baseRef handle )
 _baseRef
 smoke_Structs_Line_create_optional_handle(_baseRef a, _baseRef b)
 {
-    auto _struct = new ( std::nothrow ) genium::optional<::smoke::Structs::Line>( ::smoke::Structs::Line( ) );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Structs::Line>( ::smoke::Structs::Line( ) );
     (*_struct)->a = Conversion<::smoke::Structs::Point>::toCpp( a );
     (*_struct)->b = Conversion<::smoke::Structs::Point>::toCpp( b );
     return reinterpret_cast<_baseRef>( _struct );
@@ -124,10 +124,10 @@ smoke_Structs_Line_create_optional_handle(_baseRef a, _baseRef b)
 _baseRef
 smoke_Structs_Line_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::Structs::Line>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Structs::Line>*>( handle ) );
 }
 void smoke_Structs_Line_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<::smoke::Structs::Line>*>( handle );
+    delete reinterpret_cast<::genium::optional<::smoke::Structs::Line>*>( handle );
 }
 _baseRef smoke_Structs_Line_a_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::Line>(handle);
@@ -153,7 +153,7 @@ smoke_Structs_ColoredLine_release_handle( _baseRef handle )
 _baseRef
 smoke_Structs_ColoredLine_create_optional_handle(_baseRef line, _baseRef color)
 {
-    auto _struct = new ( std::nothrow ) genium::optional<::smoke::Structs::ColoredLine>( ::smoke::Structs::ColoredLine( ) );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Structs::ColoredLine>( ::smoke::Structs::ColoredLine( ) );
     (*_struct)->line = Conversion<::smoke::Structs::Line>::toCpp( line );
     (*_struct)->color = Conversion<::smoke::Structs::Color>::toCpp( color );
     return reinterpret_cast<_baseRef>( _struct );
@@ -161,10 +161,10 @@ smoke_Structs_ColoredLine_create_optional_handle(_baseRef line, _baseRef color)
 _baseRef
 smoke_Structs_ColoredLine_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::Structs::ColoredLine>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Structs::ColoredLine>*>( handle ) );
 }
 void smoke_Structs_ColoredLine_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<::smoke::Structs::ColoredLine>*>( handle );
+    delete reinterpret_cast<::genium::optional<::smoke::Structs::ColoredLine>*>( handle );
 }
 _baseRef smoke_Structs_ColoredLine_line_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::ColoredLine>(handle);
@@ -216,16 +216,16 @@ smoke_Structs_AllTypesStruct_create_optional_handle(int8_t int8Field, uint8_t ui
     auto _booleanField = booleanField;
     auto _bytesField = Conversion<::std::shared_ptr< ::std::vector< uint8_t > >>::toCpp( bytesField );
     auto _pointField = Conversion<::smoke::Structs::Point>::toCpp( pointField );
-    auto _struct = new ( std::nothrow ) genium::optional<::smoke::Structs::AllTypesStruct>( ::smoke::Structs::AllTypesStruct( _int8Field, _uint8Field, _int16Field, _uint16Field, _int32Field, _uint32Field, _int64Field, _uint64Field, _floatField, _doubleField, _stringField, _booleanField, _bytesField, _pointField ) );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Structs::AllTypesStruct>( ::smoke::Structs::AllTypesStruct( _int8Field, _uint8Field, _int16Field, _uint16Field, _int32Field, _uint32Field, _int64Field, _uint64Field, _floatField, _doubleField, _stringField, _booleanField, _bytesField, _pointField ) );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_Structs_AllTypesStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::Structs::AllTypesStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Structs::AllTypesStruct>*>( handle ) );
 }
 void smoke_Structs_AllTypesStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<::smoke::Structs::AllTypesStruct>*>( handle );
+    delete reinterpret_cast<::genium::optional<::smoke::Structs::AllTypesStruct>*>( handle );
 }
 int8_t smoke_Structs_AllTypesStruct_int8Field_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::AllTypesStruct>(handle);
@@ -301,7 +301,7 @@ smoke_Structs_ExternalStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_Structs_ExternalStruct_create_optional_handle(_baseRef stringField, _baseRef externalStringField, _baseRef externalArrayField, _baseRef externalStructField)
 {
-    auto _struct = new ( std::nothrow ) genium::optional<::smoke::Structs::ExternalStruct>( ::smoke::Structs::ExternalStruct( ) );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Structs::ExternalStruct>( ::smoke::Structs::ExternalStruct( ) );
     (*_struct)->stringField = Conversion<std::string>::toCpp( stringField );
     (*_struct)->set_some_string( Conversion<std::string>::toCpp( externalStringField ) );
     (*_struct)->set_some_array( Conversion<std::vector<int8_t>>::toCpp( externalArrayField ) );
@@ -311,10 +311,10 @@ smoke_Structs_ExternalStruct_create_optional_handle(_baseRef stringField, _baseR
 _baseRef
 smoke_Structs_ExternalStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::Structs::ExternalStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Structs::ExternalStruct>*>( handle ) );
 }
 void smoke_Structs_ExternalStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<::smoke::Structs::ExternalStruct>*>( handle );
+    delete reinterpret_cast<::genium::optional<::smoke::Structs::ExternalStruct>*>( handle );
 }
 _baseRef smoke_Structs_ExternalStruct_stringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::ExternalStruct>(handle);
@@ -347,17 +347,17 @@ smoke_Structs_AnotherExternalStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_Structs_AnotherExternalStruct_create_optional_handle(int8_t intField)
 {
-    auto _struct = new ( std::nothrow ) genium::optional<::fire::SomeVeryExternalStruct>( ::fire::SomeVeryExternalStruct( ) );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::fire::SomeVeryExternalStruct>( ::fire::SomeVeryExternalStruct( ) );
     (*_struct)->intField = intField;
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_Structs_AnotherExternalStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::fire::SomeVeryExternalStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::fire::SomeVeryExternalStruct>*>( handle ) );
 }
 void smoke_Structs_AnotherExternalStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<::fire::SomeVeryExternalStruct>*>( handle );
+    delete reinterpret_cast<::genium::optional<::fire::SomeVeryExternalStruct>*>( handle );
 }
 int8_t smoke_Structs_AnotherExternalStruct_intField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::fire::SomeVeryExternalStruct>(handle);
@@ -378,17 +378,17 @@ smoke_Structs_YetAnotherExternalStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_Structs_YetAnotherExternalStruct_create_optional_handle(_baseRef stringField)
 {
-    auto _struct = new ( std::nothrow ) genium::optional<::smoke::Structs::Yet_Another_External_Struct>( ::smoke::Structs::Yet_Another_External_Struct( ) );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Structs::Yet_Another_External_Struct>( ::smoke::Structs::Yet_Another_External_Struct( ) );
     (*_struct)->string_Field = Conversion<std::string>::toCpp( stringField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_Structs_YetAnotherExternalStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::Structs::Yet_Another_External_Struct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Structs::Yet_Another_External_Struct>*>( handle ) );
 }
 void smoke_Structs_YetAnotherExternalStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<::smoke::Structs::Yet_Another_External_Struct>*>( handle );
+    delete reinterpret_cast<::genium::optional<::smoke::Structs::Yet_Another_External_Struct>*>( handle );
 }
 _baseRef smoke_Structs_YetAnotherExternalStruct_stringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::Yet_Another_External_Struct>(handle);
@@ -410,16 +410,16 @@ _baseRef
 smoke_Structs_NestingImmutableStruct_create_optional_handle(_baseRef structField)
 {
     auto _structField = Conversion<::smoke::Structs::AllTypesStruct>::toCpp( structField );
-    auto _struct = new ( std::nothrow ) genium::optional<::smoke::Structs::NestingImmutableStruct>( ::smoke::Structs::NestingImmutableStruct( _structField ) );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Structs::NestingImmutableStruct>( ::smoke::Structs::NestingImmutableStruct( _structField ) );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_Structs_NestingImmutableStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::Structs::NestingImmutableStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Structs::NestingImmutableStruct>*>( handle ) );
 }
 void smoke_Structs_NestingImmutableStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<::smoke::Structs::NestingImmutableStruct>*>( handle );
+    delete reinterpret_cast<::genium::optional<::smoke::Structs::NestingImmutableStruct>*>( handle );
 }
 _baseRef smoke_Structs_NestingImmutableStruct_structField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::NestingImmutableStruct>(handle);
@@ -441,16 +441,16 @@ _baseRef
 smoke_Structs_StructWithArrayOfImmutable_create_optional_handle(_baseRef arrayField)
 {
     auto _arrayField = Conversion<std::vector<::smoke::Structs::AllTypesStruct>>::toCpp( arrayField );
-    auto _struct = new ( std::nothrow ) genium::optional<::smoke::Structs::StructWithArrayOfImmutable>( ::smoke::Structs::StructWithArrayOfImmutable( _arrayField ) );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Structs::StructWithArrayOfImmutable>( ::smoke::Structs::StructWithArrayOfImmutable( _arrayField ) );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_Structs_StructWithArrayOfImmutable_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::Structs::StructWithArrayOfImmutable>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Structs::StructWithArrayOfImmutable>*>( handle ) );
 }
 void smoke_Structs_StructWithArrayOfImmutable_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<::smoke::Structs::StructWithArrayOfImmutable>*>( handle );
+    delete reinterpret_cast<::genium::optional<::smoke::Structs::StructWithArrayOfImmutable>*>( handle );
 }
 _baseRef smoke_Structs_StructWithArrayOfImmutable_arrayField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::StructWithArrayOfImmutable>(handle);

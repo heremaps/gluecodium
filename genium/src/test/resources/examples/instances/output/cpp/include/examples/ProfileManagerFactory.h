@@ -7,9 +7,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "Export.h"
 #include "examples/ProfileManager.h"
 #include "examples/ProfileManagerInterface.h"
+#include "genium/Export.h"
 #include <memory>
 namespace examples {
     class ProfileManager;

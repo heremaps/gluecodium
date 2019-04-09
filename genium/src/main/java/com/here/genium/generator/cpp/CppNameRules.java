@@ -21,6 +21,7 @@ package com.here.genium.generator.cpp;
 
 import com.here.genium.generator.common.NameHelper;
 import com.here.genium.generator.common.NameRules;
+import java.util.List;
 
 public final class CppNameRules implements NameRules {
 
@@ -61,7 +62,19 @@ public final class CppNameRules implements NameRules {
     return "set_";
   }
 
+  public static String joinFullyQualifiedName(final List<String> nameList) {
+    return "::" + String.join("::", nameList);
+  }
+
+  public static String joinFullyQualifiedName(final List<String> namespace, final String name) {
+    return "::" + String.join("::", namespace) + "::" + name;
+  }
+
   public static String joinFullyQualifiedName(final String namespace, final String name) {
-    return "::" + namespace + "::" + name;
+    if (namespace.startsWith("::")) {
+      return namespace + "::" + name;
+    } else {
+      return "::" + namespace + "::" + name;
+    }
   }
 }

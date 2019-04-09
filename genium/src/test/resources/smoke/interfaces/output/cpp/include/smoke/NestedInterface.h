@@ -7,8 +7,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "Export.h"
 #include "foo/Bar.h"
+#include "genium/Export.h"
 #include "smoke/SimpleInterface.h"
 #include <memory>
 namespace smoke {

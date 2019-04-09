@@ -54,8 +54,10 @@
 #include <unordered_map>
 #include <vector>
 
+{{#internalNamespace}}
 namespace {{.}}
 {
+{{/internalNamespace}}
 namespace jni
 {
 // Forward declare map conversion routines
@@ -65,10 +67,10 @@ std::unordered_map< K, V, Hash >
 convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jMap, std::unordered_map< K, V, Hash >* dummy );
 
 template<typename K, typename V, typename Hash>
-{{.}}::optional<std::unordered_map<K, V, Hash>>
+{{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>
 convert_from_jni(JNIEnv* _env,
                  const JniReference<jobject>& _jMap,
-                 {{.}}::optional<std::unordered_map<K, V, Hash>>* dummy);
+                 {{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>* dummy);
 
 template < typename K, typename V, typename Hash >
 JniReference<jobject>
@@ -76,7 +78,7 @@ convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput );
 
 template<typename K, typename V, typename Hash>
 JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const {{.}}::optional<std::unordered_map<K, V, Hash>>& _ninput);
+convert_to_jni(JNIEnv* _env, const {{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>& _ninput);
 
 // Templated functions to create ArrayLists from C++ vectors and vice versa
 
@@ -99,7 +101,7 @@ convert_to_jni( JNIEnv* _env, const std::vector< T >& _ninput )
 
 template<typename T>
 JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const {{.}}::optional<std::vector<T>>& _ninput)
+convert_to_jni(JNIEnv* _env, const {{>common/InternalNamespace}}optional<std::vector<T>>& _ninput)
 {
     return _ninput ? convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
@@ -131,15 +133,15 @@ convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _arrayList, std::ve
 }
 
 template<typename T>
-{{.}}::optional<std::vector<T>>
+{{>common/InternalNamespace}}optional<std::vector<T>>
 convert_from_jni(JNIEnv* _env,
                  const JniReference<jobject>& _arrayList,
-                 {{.}}::optional<std::vector<T>>* dummy)
+                 {{>common/InternalNamespace}}optional<std::vector<T>>* dummy)
 {
     return _arrayList
-        ? {{.}}::optional<std::vector<T>>(
+        ? {{>common/InternalNamespace}}optional<std::vector<T>>(
             convert_from_jni(_env, _arrayList, (std::vector<T>*)nullptr))
-        : {{.}}::optional<std::vector<T>>{};
+        : {{>common/InternalNamespace}}optional<std::vector<T>>{};
 }
 
 // Templated functions to create HashMaps from C++ unordered_maps and vice versa
@@ -165,7 +167,7 @@ convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput )
 
 template<typename K, typename V, typename Hash>
 JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const {{.}}::optional<std::unordered_map<K, V, Hash>>& _ninput)
+convert_to_jni(JNIEnv* _env, const {{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>& _ninput)
 {
     return _ninput ? convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
@@ -215,16 +217,18 @@ convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jMap, ::std::unord
 
 
 template<typename K, typename V, typename Hash>
-{{.}}::optional<std::unordered_map<K, V, Hash>>
+{{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>
 convert_from_jni(JNIEnv* _env,
                  const JniReference<jobject>& _jMap,
-                 {{.}}::optional<std::unordered_map<K, V, Hash>>* dummy)
+                 {{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>* dummy)
 {
     return _jMap
-        ? {{.}}::optional<std::unordered_map<K, V, Hash>>(
+        ? {{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>(
             convert_from_jni(_env, _jMap, (std::unordered_map<K, V, Hash>*)nullptr))
-        : {{.}}::optional<std::unordered_map<K, V, Hash>>{};
+        : {{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>{};
 }
 
 }
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

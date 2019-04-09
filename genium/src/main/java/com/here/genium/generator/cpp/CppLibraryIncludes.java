@@ -20,6 +20,10 @@
 package com.here.genium.generator.cpp;
 
 import com.here.genium.model.common.Include;
+import java.io.File;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Set;
 
 public final class CppLibraryIncludes {
   // Standard
@@ -36,4 +40,17 @@ public final class CppLibraryIncludes {
   public static final Include RETURN = Include.Companion.createInternalInclude("Return.h");
   public static final Include ENUM_HASH = Include.Companion.createInternalInclude("EnumHash.h");
   public static final Include OPTIONAL = Include.Companion.createInternalInclude("Optional.h");
+
+  private static final String[] INTERNAL_INCLUDES = {"EnumHash.h", "Return.h", "Optional.h"};
+
+  public static void filterIncludes(Set<Include> includes, List<String> internalNamespace) {
+    // Internal includes: need to replace with the internal path
+    for (String include : INTERNAL_INCLUDES) {
+      if (includes.remove(Include.Companion.createInternalInclude(include))) {
+        includes.add(
+            Include.Companion.createInternalInclude(
+                Paths.get(String.join(File.separator, internalNamespace), include).toString()));
+      }
+    }
+  }
 }

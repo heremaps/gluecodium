@@ -7,7 +7,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "Export.h"
+#include "genium/Export.h"
 #include <string>
 #include <unordered_map>
 #include <vector>

@@ -15,7 +15,7 @@ void InheritanceGrandchildCppProxy::root_method(  ) {
 ::std::string InheritanceGrandchildCppProxy::get_root_attribute(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jstring>( "getRootAttribute", "()Ljava/lang/String;", jniEnv  );
-    return genium::jni::convert_from_jni( jniEnv, result, (::std::string*)nullptr );
+    return ::genium::jni::convert_from_jni( jniEnv, result, (::std::string*)nullptr );
 }
 void InheritanceGrandchildCppProxy::set_root_attribute( const ::std::string& nvalue ) {
     JNIEnv* jniEnv = getJniEnvironment( );

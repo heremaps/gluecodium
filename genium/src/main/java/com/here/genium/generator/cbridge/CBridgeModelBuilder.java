@@ -26,6 +26,7 @@ import com.here.genium.common.CollectionsHelper;
 import com.here.genium.common.FrancaTypeHelper;
 import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder;
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack;
+import com.here.genium.generator.cpp.CppLibraryIncludes;
 import com.here.genium.generator.cpp.CppModelBuilder;
 import com.here.genium.generator.swift.SwiftModelBuilder;
 import com.here.genium.model.cbridge.*;
@@ -50,7 +51,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
   private final CppModelBuilder cppBuilder;
   private final SwiftModelBuilder swiftBuilder;
   private final CBridgeTypeMapper typeMapper;
-  private final String internalNamespace;
+  private final List<String> internalNamespace;
 
   public final Map<String, CArray> arraysCollector = new HashMap<>();
 
@@ -61,7 +62,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
       final CppModelBuilder cppBuilder,
       final SwiftModelBuilder swiftBuilder,
       final CBridgeTypeMapper typeMapper,
-      final String internalNamespace) {
+      final List<String> internalNamespace) {
     this(
         new ModelBuilderContextStack<>(),
         deploymentModel,
@@ -83,7 +84,7 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
       final CppModelBuilder cppBuilder,
       final SwiftModelBuilder swiftBuilder,
       final CBridgeTypeMapper typeMapper,
-      final String internalNamespace) {
+      final List<String> internalNamespace) {
     super(contextStack);
     this.deploymentModel = deploymentModel;
     this.cppIncludeResolver = cppIncludeResolver;
@@ -155,6 +156,8 @@ public class CBridgeModelBuilder extends AbstractModelBuilder<CElement> {
         CBridgeComponents.collectImplementationIncludes(cInterface));
 
     cInterface.implementationIncludes.add(includeResolver.resolveInclude(francaTypeCollection));
+    CppLibraryIncludes.filterIncludes(cInterface.implementationIncludes, internalNamespace);
+
     cInterface.privateHeaderIncludes.addAll(
         CBridgeComponents.collectPrivateHeaderIncludes(cInterface));
     return cInterface;

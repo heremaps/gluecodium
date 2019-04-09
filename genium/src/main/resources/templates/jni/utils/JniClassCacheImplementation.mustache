@@ -26,16 +26,17 @@
 
 namespace
 {
-std::list<{{.}}::jni::CachedJavaClassBase*>& get_registered_class_cache_list()
+std::list<{{>common/InternalNamespace}}jni::CachedJavaClassBase*>& get_registered_class_cache_list()
 {
-    static std::list<{{.}}::jni::CachedJavaClassBase*> list;
+    static std::list<{{>common/InternalNamespace}}jni::CachedJavaClassBase*> list;
     return list;
 }
 }
 
+{{#internalNamespace}}
 namespace {{.}}
 {
-
+{{/internalNamespace}}
 namespace jni
 {
 
@@ -64,5 +65,6 @@ CachedJavaClassBase::do_init(JNIEnv* env)
 }
 
 }
-
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

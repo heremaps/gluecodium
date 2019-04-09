@@ -47,8 +47,9 @@
 #include <type_traits>
 #include <utility>
 
-namespace {{.}}
-{
+{{#internalNamespace}}
+namespace {{.}} {
+{{/internalNamespace}}
 
 /**
  * Adapter to allow functions to return values or error conditions at the same time.
@@ -225,4 +226,6 @@ Return< Value, Error >::reset( ) noexcept
     }
 }
 
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

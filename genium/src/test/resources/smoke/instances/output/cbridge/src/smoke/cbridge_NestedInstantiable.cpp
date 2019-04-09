@@ -1,9 +1,9 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-#include "Optional.h"
 #include "cbridge/include/smoke/cbridge_NestedInstantiable.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
+#include "genium/Optional.h"
 #include "smoke/NestedInstantiable.h"
 #include "smoke/SimpleInstantiable.h"
 #include <memory>

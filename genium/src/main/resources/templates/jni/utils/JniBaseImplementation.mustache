@@ -95,12 +95,14 @@ JNI_OnLoad( JavaVM* vm, void* )
     }
 
     jvm = vm;
-    {{.}}::jni::CachedJavaClassBase::init(env);
+    {{>common/InternalNamespace}}jni::CachedJavaClassBase::init(env);
     return JNI_VERSION_1_6;
 }
 
+{{#internalNamespace}}
 namespace {{.}}
 {
+{{/internalNamespace}}
 namespace jni
 {
 
@@ -128,5 +130,6 @@ JNIEnv* getJniEnvironmentForCurrentThread( )
 }
 
 }
-
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

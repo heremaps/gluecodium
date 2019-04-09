@@ -46,7 +46,9 @@
 #include <stdexcept>
 #include <type_traits>
 
+{{#internalNamespace}}
 namespace {{.}} {
+{{/internalNamespace}}
 
 namespace details {
 template <
@@ -583,13 +585,15 @@ make_optional(ValueType&& value)
     return Optional<typename std::decay<ValueType>::type>(std::forward<ValueType>(value));
 }
 
+{{#internalNamespace}}
 }
+{{/internalNamespace}}
 
 namespace std {
 template <class ValueType>
-struct hash<{{.}}::Optional<ValueType>>
+struct hash<{{>common/InternalNamespace}}Optional<ValueType>>
 {
-    typedef {{.}}::Optional<ValueType> argument_type;
+    typedef {{>common/InternalNamespace}}Optional<ValueType> argument_type;
     typedef size_t result_type;
 
     result_type

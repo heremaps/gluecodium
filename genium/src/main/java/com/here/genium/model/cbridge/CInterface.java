@@ -35,13 +35,14 @@ public final class CInterface extends CElement {
   public final CppTypeInfo selfType;
   public final List<CEnum> enums = new LinkedList<>();
   public final List<CMap> maps = new LinkedList<>();
-  public final String internalNamespace;
+  public final List<String> internalNamespace;
 
-  public CInterface(final String name, final String internalNamespace) {
+  public CInterface(final String name, final List<String> internalNamespace) {
     this(name, null, internalNamespace);
   }
 
-  public CInterface(final String name, final CppTypeInfo selfType, final String internalNamespace) {
+  public CInterface(
+      final String name, final CppTypeInfo selfType, final List<String> internalNamespace) {
     super(name);
     this.selfType = selfType;
     this.internalNamespace = internalNamespace;

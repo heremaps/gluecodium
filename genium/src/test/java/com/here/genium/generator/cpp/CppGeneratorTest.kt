@@ -34,7 +34,7 @@ import org.junit.Test
 import org.mockito.Mockito.withSettings
 
 class CppGeneratorTest {
-    private val generator: CppGenerator = CppGenerator("", "")
+    private val generator: CppGenerator = CppGenerator("", listOf())
 
     @Before
     fun setUp() {

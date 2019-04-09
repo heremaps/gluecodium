@@ -27,7 +27,7 @@ namespace test
 class ErrorMessengerImpl : public ErrorMessenger
 {
 public:
-    virtual ::lorem_ipsum::Return< ::std::string, ::std::error_code > get_message(
+    virtual ::lorem_ipsum::test::Return< ::std::string, ::std::error_code > get_message(
         const std::shared_ptr< ListenerWithErrors >& listener ) override;
     virtual ::std::error_code set_message( const std::shared_ptr< ListenerWithErrors >& listener,
                                            const std::string& message ) override;

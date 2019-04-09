@@ -34,7 +34,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiabl
     {
         return {};
     }
-    auto jResult = genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    auto jResult = ::genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
     if ( jResult )
     {
         return jResult;
@@ -47,7 +47,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiabl
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
-    jResult = genium::jni::create_instance_object(
+    jResult = ::genium::jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
@@ -59,7 +59,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiabl
     {
         return {};
     }
-    auto jResult = genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    auto jResult = ::genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
     if ( jResult )
     {
         return jResult;
@@ -72,7 +72,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiabl
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
-    jResult = genium::jni::create_instance_object(
+    jResult = ::genium::jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
@@ -84,7 +84,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceWithStruc
     {
         return {};
     }
-    auto jResult = genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    auto jResult = ::genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
     if ( jResult )
     {
         return jResult;
@@ -97,7 +97,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceWithStruc
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
-    jResult = genium::jni::create_instance_object(
+    jResult = ::genium::jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }

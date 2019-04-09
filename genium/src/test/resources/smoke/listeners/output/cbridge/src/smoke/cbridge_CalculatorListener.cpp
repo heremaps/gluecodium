@@ -1,10 +1,10 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-#include "Optional.h"
 #include "cbridge/include/smoke/cbridge_CalculatorListener.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
+#include "genium/Optional.h"
 #include "smoke/CalculationResult.h"
 #include "smoke/CalculatorListener.h"
 #include <memory>
@@ -34,17 +34,17 @@ smoke_CalculatorListener_ResultStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_CalculatorListener_ResultStruct_create_optional_handle(double result)
 {
-    auto _struct = new ( std::nothrow ) genium::optional<::smoke::CalculatorListener::ResultStruct>( ::smoke::CalculatorListener::ResultStruct( ) );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::CalculatorListener::ResultStruct>( ::smoke::CalculatorListener::ResultStruct( ) );
     (*_struct)->result = result;
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_CalculatorListener_ResultStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::CalculatorListener::ResultStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::CalculatorListener::ResultStruct>*>( handle ) );
 }
 void smoke_CalculatorListener_ResultStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<::smoke::CalculatorListener::ResultStruct>*>( handle );
+    delete reinterpret_cast<::genium::optional<::smoke::CalculatorListener::ResultStruct>*>( handle );
 }
 double smoke_CalculatorListener_ResultStruct_result_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::CalculatorListener::ResultStruct>(handle);
@@ -135,11 +135,11 @@ double smoke_CalculatorListener_NamedCalculationResults_iterator_value(_baseRef 
     return value;
 }
 _baseRef smoke_CalculatorListener_NamedCalculationResults_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) genium::optional<std::unordered_map<std::string, double>>( std::unordered_map<std::string, double>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::unordered_map<std::string, double>>( std::unordered_map<std::string, double>( ) ) );
 }
 void smoke_CalculatorListener_NamedCalculationResults_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<std::unordered_map<std::string, double>>*>( handle );
+    delete reinterpret_cast<::genium::optional<std::unordered_map<std::string, double>>*>( handle );
 }
 _baseRef smoke_CalculatorListener_NamedCalculationResults_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<std::unordered_map<std::string, double>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_map<std::string, double>>*>( handle ) );
 }

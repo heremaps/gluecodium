@@ -9,9 +9,9 @@
 
 #pragma once
 
-#include "EnumHash.h"
-#include "Export.h"
 #include "foo/Bar.h"
+#include "genium/EnumHash.h"
+#include "genium/Export.h"
 #include <cstdint>
 #include <string>
 #include <unordered_map>

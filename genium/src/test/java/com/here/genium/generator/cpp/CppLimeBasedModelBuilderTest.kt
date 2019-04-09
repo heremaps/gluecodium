@@ -88,7 +88,7 @@ class CppLimeBasedModelBuilderTest {
     private val cppConstant = CppConstant("", "", CppPrimitiveTypeRef.BOOL, CppValue(""))
     private val cppTypeRef = CppComplexTypeRef("foobarbaz")
     private val cppTemplateTypeRef =
-        CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.OPTIONAL, cppTypeRef)
+        CppTemplateTypeRef.create("foo", CppTemplateTypeRef.TemplateClass.OPTIONAL, cppTypeRef)
 
     private val contextStack = MockContextStack<CppElement>()
 

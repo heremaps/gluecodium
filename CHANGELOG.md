@@ -6,6 +6,7 @@
 - Bug fixes:
   + Whitespace (including line breaks) is now preserved in the documentation comments.
   + Fixed compilation issues caused by arrays of immutable structs.
+  + Use internal namespace as path for helper includes.
 - Features:
   + Added support for multiple includes for "External" types.
 

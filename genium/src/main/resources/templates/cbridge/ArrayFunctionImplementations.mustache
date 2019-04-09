@@ -52,15 +52,15 @@ void {{name}}_append( _baseRef handle, {{argument}} item )
 }
 
 _baseRef {{name}}_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) {{internalNamespace}}::optional<{{arrayType}}>( {{arrayType}}( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) {{>common/InternalNamespace}}optional<{{arrayType}}>( {{arrayType}}( ) ) );
 }
 
 void {{name}}_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<{{internalNamespace}}::optional<{{arrayType}}>*>( handle );
+    delete reinterpret_cast<{{>common/InternalNamespace}}optional<{{arrayType}}>*>( handle );
 }
 
 _baseRef {{name}}_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<{{internalNamespace}}::optional<{{arrayType}}>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<{{>common/InternalNamespace}}optional<{{arrayType}}>*>( handle ) );
 }
 
 {{+enumGetConversion}}

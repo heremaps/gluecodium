@@ -35,7 +35,7 @@ HelloWorldErrors::hello_world_method_with_error( const bool error_flag )
     }
 }
 
-lorem_ipsum::Return< std::string, std::error_code >
+lorem_ipsum::test::Return< std::string, std::error_code >
 HelloWorldErrors::hello_world_method_with_error_and_string( const bool error_flag )
 {
     if ( error_flag )

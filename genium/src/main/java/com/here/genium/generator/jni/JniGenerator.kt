@@ -21,6 +21,7 @@ package com.here.genium.generator.jni
 
 import com.here.genium.generator.common.AbstractGenerator
 import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
+import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppLimeBasedIncludeResolver
 import com.here.genium.generator.cpp.CppLimeBasedModelBuilder
 import com.here.genium.generator.cpp.CppLimeBasedNameResolver
@@ -44,7 +45,7 @@ class JniGenerator(
     packageList: List<String>,
     private val additionalIncludes: List<String>,
     private val enableAndroidFeatures: Boolean,
-    private val internalNamespace: String,
+    private val internalNamespace: List<String>,
     private val rootNamespace: List<String>
 ) : AbstractGenerator(packageList) {
     private val cppNameResolver = CppLimeBasedNameResolver(rootNamespace, limeReferenceMap)
@@ -91,7 +92,7 @@ class JniGenerator(
         return javaBuilder.finalResults + jniContainer
     }
 
-    private fun getIncludes(jniContainer: JniContainer): List<Include> {
+    private fun getIncludes(jniContainer: JniContainer): Set<Include> {
         val includes = mutableListOf<String>()
         if (jniContainer.containerType != JniContainer.ContainerType.TYPE_COLLECTION) {
             includes +=
@@ -99,7 +100,9 @@ class JniGenerator(
         }
         includes += additionalIncludes
 
-        return includes.map { Include.createInternalInclude(it) }
+        val includeSet = includes.map { Include.createInternalInclude(it) }.toSet()
+        CppLibraryIncludes.filterIncludes(includeSet, internalNamespace)
+        return includeSet
     }
 
     companion object {

@@ -41,8 +41,10 @@
 #include "CppProxyBase.h"
 #include "JniBase.h"
 
+{{#internalNamespace}}
 namespace {{.}}
 {
+{{/internalNamespace}}
 namespace jni
 {
 CppProxyBase::ProxyCache CppProxyBase::sProxyCache{};
@@ -52,10 +54,10 @@ CppProxyBase::GlobalJniLock CppProxyBase::sGlobalJniLock{};
 JNIEnv*
 CppProxyBase::getJniEnvironment( )
 {
-    return {{.}}::jni::getJniEnvironmentForCurrentThread( );
+    return {{>common/InternalNamespace}}jni::getJniEnvironmentForCurrentThread( );
 }
 
-CppProxyBase::CppProxyBase( JNIEnv* jenv, {{.}}::jni::JniReference<jobject> globalRef, jint jHashCode )
+CppProxyBase::CppProxyBase( JNIEnv* jenv, {{>common/InternalNamespace}}jni::JniReference<jobject> globalRef, jint jHashCode )
     : mGlobalRef( std::move( globalRef ) )
     , jHashCode( jHashCode )
 {
@@ -151,4 +153,6 @@ CppProxyBase::getJavaObjectFromReverseCache( ReverseCacheKey reverseCacheKey )
 }
 
 }
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

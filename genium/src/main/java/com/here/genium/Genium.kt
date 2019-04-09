@@ -259,14 +259,14 @@ class Genium(private val options: Options) {
         var androidMergeManifestPath: String? = null,
         var isLoggingTimes: Boolean = false,
         var copyrightHeaderContents: String? = null,
-        var cppInternalNamespace: String? = null,
+        var cppInternalNamespace: List<String>? = null,
         var cppRootNamespace: List<String> = listOf(),
         var cppExport: String = "_GENIUM_CPP"
     )
 
     companion object {
         private val LOGGER = Logger.getLogger(Genium::class.java.name)
-        const val DEFAULT_INTERNAL_NAMESPACE = "genium"
+        val DEFAULT_INTERNAL_NAMESPACE = listOf("genium")
         val DEFAULT_OPTIONS = Options(cppInternalNamespace = DEFAULT_INTERNAL_NAMESPACE)
 
         private fun parseVersion(): Version {

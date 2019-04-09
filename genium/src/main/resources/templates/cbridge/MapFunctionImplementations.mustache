@@ -58,15 +58,15 @@ void {{name}}_iterator_increment(_baseRef iterator_handle) {
 }
 
 _baseRef {{name}}_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) {{internalNamespace}}::optional<{{>baseApi}}>( {{>baseApi}}( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) {{>common/InternalNamespace}}optional<{{>baseApi}}>( {{>baseApi}}( ) ) );
 }
 
 void {{name}}_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<{{internalNamespace}}::optional<{{>baseApi}}>*>( handle );
+    delete reinterpret_cast<{{>common/InternalNamespace}}optional<{{>baseApi}}>*>( handle );
 }
 
 _baseRef {{name}}_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<{{internalNamespace}}::optional<{{>baseApi}}>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<{{>common/InternalNamespace}}optional<{{>baseApi}}>*>( handle ) );
 }
 
 {{!!

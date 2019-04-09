@@ -9,8 +9,8 @@
 
 #pragma once
 
-#include "Export.h"
 #include "examples/InheritanceParent.h"
+#include "genium/Export.h"
 #include <cstdint>
 
 namespace examples {

@@ -51,7 +51,7 @@ public class CBridgeGenerator {
   private final CppIncludeResolver cppIncludeResolver;
   private final CBridgeIncludeResolver includeResolver;
   private final CppNameResolver cppNameResolver;
-  private final String internalNamespace;
+  private final List<String> internalNamespace;
   public final CArrayGenerator arrayGenerator;
 
   public static final List<GeneratedFile> STATIC_FILES =
@@ -73,7 +73,7 @@ public class CBridgeGenerator {
       final CppIncludeResolver cppIncludeResolver,
       final CBridgeIncludeResolver includeResolver,
       final CppNameResolver cppNameResolver,
-      final String internalNamespace) {
+      final List<String> internalNamespace) {
     this.deploymentModel = deploymentModel;
     this.cppIncludeResolver = cppIncludeResolver;
     this.includeResolver = includeResolver;
@@ -116,8 +116,9 @@ public class CBridgeGenerator {
   }
 
   private GeneratedFile generateHelperContent(String template, String path) {
-    return new GeneratedFile(
-        TemplateEngine.INSTANCE.render("cbridge/" + template, internalNamespace), path);
+    Map<String, Object> values = new HashMap<>();
+    values.put("internalNamespace", internalNamespace);
+    return new GeneratedFile(TemplateEngine.INSTANCE.render("cbridge/" + template, values), path);
   }
 
   public CInterface buildCBridgeModel(final FTypeCollection francaTypeCollection) {

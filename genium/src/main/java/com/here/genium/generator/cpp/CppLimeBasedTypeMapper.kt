@@ -42,7 +42,7 @@ import com.here.genium.model.lime.LimeTypeRef
 class CppLimeBasedTypeMapper(
     private val nameResolver: CppLimeBasedNameResolver,
     private val includeResolver: CppLimeBasedIncludeResolver,
-    private val internalNamespace: String
+    private val internalNamespace: List<String>
 ) {
     @VisibleForTesting
     internal val enumHashType =
@@ -52,7 +52,7 @@ class CppLimeBasedTypeMapper(
         )
 
     fun getReturnWrapperType(outArgType: CppTypeRef, errorType: CppTypeRef): CppTypeRef =
-        CppTemplateTypeRef.create(internalNamespace, TemplateClass.RETURN, outArgType, errorType)
+        CppTemplateTypeRef.create(CppNameRules.joinFullyQualifiedName(internalNamespace), TemplateClass.RETURN, outArgType, errorType)
 
     fun mapType(limeTypeRef: LimeTypeRef): CppTypeRef = mapType(limeTypeRef.type)
 
@@ -67,7 +67,7 @@ class CppLimeBasedTypeMapper(
 
     fun createOptionalType(cppTypeRef: CppTypeRef): CppTemplateTypeRef {
         return CppTemplateTypeRef.create(
-            internalNamespace,
+            CppNameRules.joinFullyQualifiedName(internalNamespace),
             TemplateClass.OPTIONAL, cppTypeRef
         )
     }

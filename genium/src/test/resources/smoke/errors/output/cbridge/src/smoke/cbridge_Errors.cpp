@@ -1,10 +1,10 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-#include "Optional.h"
 #include "cbridge/include/smoke/cbridge_Errors.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "foo/Bar.h"
+#include "genium/Optional.h"
 #include "smoke/Errors.h"
 #include <memory>
 #include <new>

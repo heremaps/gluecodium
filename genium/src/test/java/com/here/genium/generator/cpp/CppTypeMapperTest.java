@@ -40,7 +40,8 @@ public final class CppTypeMapperTest {
 
   @Mock private FTypeRef francaTypeRef;
 
-  private final CppTypeMapper typeMapper = new CppTypeMapper(null, null, "", null);
+  private final CppTypeMapper typeMapper =
+      new CppTypeMapper(null, null, Collections.emptyList(), null);
 
   @Before
   public void setUp() {

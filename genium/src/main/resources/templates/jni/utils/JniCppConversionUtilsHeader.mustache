@@ -43,15 +43,17 @@
 #include <jni.h>
 
 #include "JniReference.h"
-#include "Optional.h"
+#include "{{>common/InternalInclude}}Optional.h"
 
 #include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
 
+{{#internalNamespace}}
 namespace {{.}}
 {
+{{/internalNamespace}}
 namespace jni
 {
 
@@ -62,8 +64,8 @@ namespace jni
  */
 std::string convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::string* dummy );
 std::string convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string* dummy );
-{{.}}::optional<std::string> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{.}}::optional<std::string>* dummy );
+{{>common/InternalNamespace}}optional<std::string> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<std::string>* dummy );
 
 /**
  * Converts a jbyteArray to a byte buffer
@@ -77,7 +79,7 @@ std::shared_ptr< ::std::vector< uint8_t > > convert_from_jni(
  * Converts a std string to a JNI jstring
  */
 JniReference<jstring> convert_to_jni( JNIEnv* env, const std::string& nvalue );
-JniReference<jstring> convert_to_jni( JNIEnv* env, const {{.}}::optional<std::string>& nvalue );
+JniReference<jstring> convert_to_jni( JNIEnv* env, const {{>common/InternalNamespace}}optional<std::string>& nvalue );
 
 /**
  * Converts a byte buffer to a jbyteArray
@@ -85,4 +87,6 @@ JniReference<jstring> convert_to_jni( JNIEnv* env, const {{.}}::optional<std::st
 JniReference<jbyteArray> convert_to_jni( JNIEnv* env, const std::shared_ptr< ::std::vector< uint8_t > >& nvalue );
 
 }
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

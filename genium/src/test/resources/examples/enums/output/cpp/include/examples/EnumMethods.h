@@ -9,8 +9,8 @@
 
 #pragma once
 
-#include "Export.h"
 #include "examples/Enums.h"
+#include "genium/Export.h"
 
 namespace examples {
 

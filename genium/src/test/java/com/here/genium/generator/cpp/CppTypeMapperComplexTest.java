@@ -31,6 +31,7 @@ import com.here.genium.model.common.InstanceRules;
 import com.here.genium.model.cpp.*;
 import com.here.genium.model.franca.DefinedBy;
 import com.here.genium.model.franca.FrancaDeploymentModel;
+import java.util.Arrays;
 import java.util.Collections;
 import org.franca.core.franca.*;
 import org.junit.Before;
@@ -81,7 +82,9 @@ public class CppTypeMapperComplexTest {
     MockitoAnnotations.initMocks(this);
     PowerMockito.mockStatic(InstanceRules.class, DefinedBy.class);
 
-    typeMapper = new CppTypeMapper(includeResolver, nameResolver, "lorem_ipsum", deploymentModel);
+    typeMapper =
+        new CppTypeMapper(
+            includeResolver, nameResolver, Arrays.asList("lorem", "ipsum"), deploymentModel);
 
     when(DefinedBy.findDefiningTypeCollection(any(FModelElement.class)))
         .thenReturn(francaTypeCollection);

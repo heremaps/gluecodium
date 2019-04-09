@@ -49,11 +49,13 @@ public final class JniTemplates {
   private static final String IMPL_TEMPLATE_SUFFIX = "Implementation";
 
   private final List<String> basePackages;
-  private final String internalNamespace;
+  private final List<String> internalNamespace;
   private final JniNameRules jniNameRules;
 
   public JniTemplates(
-      final List<String> basePackages, final String internalNamespace, final String generatorName) {
+      final List<String> basePackages,
+      final List<String> internalNamespace,
+      final String generatorName) {
     this.basePackages = basePackages;
     this.internalNamespace = internalNamespace;
     this.jniNameRules = new JniNameRules(generatorName);
@@ -92,16 +94,20 @@ public final class JniTemplates {
   }
 
   public GeneratedFile generateConversionUtilsHeaderFile(final String fileName) {
+    Map<String, Object> mustacheData = new HashMap<>();
+    mustacheData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
     return generateFile(
         JNI_UTILS_TEMPLATE_PREFIX + fileName + HEADER_TEMPLATE_SUFFIX,
-        internalNamespace,
+        mustacheData,
         jniNameRules.getHeaderFilePath(fileName));
   }
 
   public GeneratedFile generateConversionUtilsImplementationFile(final String fileName) {
+    Map<String, Object> mustacheData = new HashMap<>();
+    mustacheData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
     return generateFile(
         JNI_UTILS_TEMPLATE_PREFIX + fileName + IMPL_TEMPLATE_SUFFIX,
-        internalNamespace,
+        mustacheData,
         jniNameRules.getImplementationFilePath(fileName));
   }
 

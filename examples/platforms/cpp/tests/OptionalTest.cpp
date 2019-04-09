@@ -18,7 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "Optional.h"
+#include "lorem_ipsum/test/Optional.h"
 
 #include "optional_types/NonTrivial.h"
 #include "optional_types/ThrowableNonTrivial.h"
@@ -30,10 +30,10 @@
 namespace test
 {
 using namespace ::testing;
-using ::lorem_ipsum::optional;
-using ::lorem_ipsum::nullopt;
-using ::lorem_ipsum::in_place;
-using ::lorem_ipsum::bad_optional_access;
+using ::lorem_ipsum::test::optional;
+using ::lorem_ipsum::test::nullopt;
+using ::lorem_ipsum::test::in_place;
+using ::lorem_ipsum::test::bad_optional_access;
 
 #define APPEND( A, B ) APPEND_( A, B )
 #define APPEND_( A, B ) A##B

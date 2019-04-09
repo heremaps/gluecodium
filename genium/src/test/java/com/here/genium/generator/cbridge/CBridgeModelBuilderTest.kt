@@ -706,6 +706,6 @@ class CBridgeModelBuilderTest {
         private const val CPP_ATTR_GETTER_NAME = "CPP_ATTR_GETTER"
         private const val CPP_ATTR_SETTER_NAME = "CPP_ATTR_SETTER"
         private const val SWIFT_FIELD_NAME = "SwiftFieldName"
-        private const val INTERNAL_NAMESPACE = "::very::internal"
+        private final val INTERNAL_NAMESPACE = listOf("very", "internal")
     }
 }

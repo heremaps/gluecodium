@@ -7,7 +7,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "Export.h"
+#include "genium/Export.h"
 #include <cstdint>
 #include <string>
 namespace examples {

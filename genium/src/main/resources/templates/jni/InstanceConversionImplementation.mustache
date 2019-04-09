@@ -29,8 +29,10 @@ namespace
 struct DummyNativeBaseType {};
 }
 
-namespace {{internalNamespace}}
+{{#internalNamespace}}
+namespace {{.}}
 {
+{{/internalNamespace}}
 namespace jni
 {
 
@@ -52,7 +54,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}>
         return {};
     }
 
-    auto jResult = {{internalNamespace}}::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    auto jResult = {{>common/InternalNamespace}}jni::CppProxyBase::getJavaObject( _ninput.get( ) );
     if ( jResult )
     {
         return jResult;
@@ -66,7 +68,7 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}>
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
         _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
     }
-    jResult = {{internalNamespace}}::jni::create_instance_object(
+    jResult = {{>common/InternalNamespace}}jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
 
     return jResult;
@@ -74,4 +76,6 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}>
 
 {{/models}}
 }
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

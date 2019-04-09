@@ -44,15 +44,16 @@
 
 #include "JniCppConversionUtils.h"
 #include "JniReference.h"
-#include "Optional.h"
+#include "{{>common/InternalInclude}}Optional.h"
 
 #include <cstdint>
 #include <memory>
 #include <vector>
 
-
+{{#internalNamespace}}
 namespace {{.}}
 {
+{{/internalNamespace}}
 namespace jni
 {
 
@@ -83,54 +84,54 @@ double get_field_value(
 ::std::string get_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, ::std::string* dummy );
 
-{{.}}::optional< bool > get_field_value( JNIEnv* env,
+{{>common/InternalNamespace}}optional< bool > get_field_value( JNIEnv* env,
                                            const JniReference< jobject >& object,
                                            const char* fieldName,
-                                           {{.}}::optional< bool >* dummy );
-{{.}}::optional< int8_t > get_field_value( JNIEnv* env,
+                                           {{>common/InternalNamespace}}optional< bool >* dummy );
+{{>common/InternalNamespace}}optional< int8_t > get_field_value( JNIEnv* env,
                                              const JniReference< jobject >& object,
                                              const char* fieldName,
-                                             {{.}}::optional< int8_t >* dummy );
-{{.}}::optional< int16_t > get_field_value( JNIEnv* env,
+                                             {{>common/InternalNamespace}}optional< int8_t >* dummy );
+{{>common/InternalNamespace}}optional< int16_t > get_field_value( JNIEnv* env,
                                               const JniReference< jobject >& object,
                                               const char* fieldName,
-                                              {{.}}::optional< int16_t >* dummy );
-{{.}}::optional< int32_t > get_field_value( JNIEnv* env,
+                                              {{>common/InternalNamespace}}optional< int16_t >* dummy );
+{{>common/InternalNamespace}}optional< int32_t > get_field_value( JNIEnv* env,
                                               const JniReference< jobject >& object,
                                               const char* fieldName,
-                                              {{.}}::optional< int32_t >* dummy );
-{{.}}::optional< int64_t > get_field_value( JNIEnv* env,
+                                              {{>common/InternalNamespace}}optional< int32_t >* dummy );
+{{>common/InternalNamespace}}optional< int64_t > get_field_value( JNIEnv* env,
                                               const JniReference< jobject >& object,
                                               const char* fieldName,
-                                              {{.}}::optional< int64_t >* dummy );
-{{.}}::optional< uint8_t > get_field_value( JNIEnv* env,
+                                              {{>common/InternalNamespace}}optional< int64_t >* dummy );
+{{>common/InternalNamespace}}optional< uint8_t > get_field_value( JNIEnv* env,
                                               const JniReference< jobject >& object,
                                               const char* fieldName,
-                                              {{.}}::optional< uint8_t >* dummy );
-{{.}}::optional< uint16_t > get_field_value( JNIEnv* env,
+                                              {{>common/InternalNamespace}}optional< uint8_t >* dummy );
+{{>common/InternalNamespace}}optional< uint16_t > get_field_value( JNIEnv* env,
                                                const JniReference< jobject >& object,
                                                const char* fieldName,
-                                               {{.}}::optional< uint16_t >* dummy );
-{{.}}::optional< uint32_t > get_field_value( JNIEnv* env,
+                                               {{>common/InternalNamespace}}optional< uint16_t >* dummy );
+{{>common/InternalNamespace}}optional< uint32_t > get_field_value( JNIEnv* env,
                                                const JniReference< jobject >& object,
                                                const char* fieldName,
-                                               {{.}}::optional< uint32_t >* dummy );
-{{.}}::optional< uint64_t > get_field_value( JNIEnv* env,
+                                               {{>common/InternalNamespace}}optional< uint32_t >* dummy );
+{{>common/InternalNamespace}}optional< uint64_t > get_field_value( JNIEnv* env,
                                                const JniReference< jobject >& object,
                                                const char* fieldName,
-                                               {{.}}::optional< uint64_t >* dummy );
-{{.}}::optional< float > get_field_value( JNIEnv* env,
+                                               {{>common/InternalNamespace}}optional< uint64_t >* dummy );
+{{>common/InternalNamespace}}optional< float > get_field_value( JNIEnv* env,
                                             const JniReference< jobject >& object,
                                             const char* fieldName,
-                                            {{.}}::optional< float >* dummy );
-{{.}}::optional< double > get_field_value( JNIEnv* env,
+                                            {{>common/InternalNamespace}}optional< float >* dummy );
+{{>common/InternalNamespace}}optional< double > get_field_value( JNIEnv* env,
                                              const JniReference< jobject >& object,
                                              const char* fieldName,
-                                             {{.}}::optional< double >* dummy );
-{{.}}::optional< ::std::string > get_field_value( JNIEnv* env,
+                                             {{>common/InternalNamespace}}optional< double >* dummy );
+{{>common/InternalNamespace}}optional< ::std::string > get_field_value( JNIEnv* env,
                                                     const JniReference< jobject >& object,
                                                     const char* fieldName,
-                                                    {{.}}::optional< ::std::string >* dummy );
+                                                    {{>common/InternalNamespace}}optional< ::std::string >* dummy );
 
 ::std::shared_ptr< ::std::vector< uint8_t > > get_field_value(
     JNIEnv* env,
@@ -183,51 +184,51 @@ void set_field_value( JNIEnv* env,
 void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
-                      {{.}}::optional< bool > value );
+                      {{>common/InternalNamespace}}optional< bool > value );
 void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
-                      {{.}}::optional< int8_t > value );
+                      {{>common/InternalNamespace}}optional< int8_t > value );
 void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
-                      {{.}}::optional< int16_t > value );
+                      {{>common/InternalNamespace}}optional< int16_t > value );
 void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
-                      {{.}}::optional< int32_t > value );
+                      {{>common/InternalNamespace}}optional< int32_t > value );
 void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
-                      {{.}}::optional< int64_t > value );
+                      {{>common/InternalNamespace}}optional< int64_t > value );
 void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
-                      {{.}}::optional< uint8_t > value );
+                      {{>common/InternalNamespace}}optional< uint8_t > value );
 void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
-                      {{.}}::optional< uint16_t > value );
+                      {{>common/InternalNamespace}}optional< uint16_t > value );
 void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
-                      {{.}}::optional< uint32_t > value );
+                      {{>common/InternalNamespace}}optional< uint32_t > value );
 void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
-                      {{.}}::optional< uint64_t > value );
+                      {{>common/InternalNamespace}}optional< uint64_t > value );
 void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
-                      {{.}}::optional< float > value );
+                      {{>common/InternalNamespace}}optional< float > value );
 void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
-                      {{.}}::optional< double > value );
+                      {{>common/InternalNamespace}}optional< double > value );
 void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
-                      {{.}}::optional< ::std::string > value );
+                      {{>common/InternalNamespace}}optional< ::std::string > value );
 void set_field_value( JNIEnv* env,
                       const JniReference<jobject>& object,
                       const char* fieldName,
@@ -240,4 +241,6 @@ void set_object_field_value( JNIEnv* env,
                              const JniReference<jobject>& fieldValue );
 
 }
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

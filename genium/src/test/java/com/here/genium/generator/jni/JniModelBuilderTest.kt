@@ -586,6 +586,6 @@ class JniModelBuilderTest {
     }
 
     companion object {
-        private const val INTERNAL_NAMESPACE = "::very::internal"
+        private final val INTERNAL_NAMESPACE = listOf("very", "internal")
     }
 }

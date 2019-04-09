@@ -58,11 +58,11 @@ class BaseApiGeneratorSuiteTest {
         )
 
         assertThat(generatedFiles.map { it.targetFile.toString() }, hasItems(
-                "cpp/include/EnumHash.h",
-                "cpp/include/Return.h",
-                "cpp/include/Export.h",
-                "cpp/include/Optional.h",
-                "cpp/include/OptionalImpl.h",
-                "cpp/include/Export.h"))
+                "cpp/include/genium/EnumHash.h",
+                "cpp/include/genium/Return.h",
+                "cpp/include/genium/Export.h",
+                "cpp/include/genium/Optional.h",
+                "cpp/include/genium/OptionalImpl.h",
+                "cpp/include/genium/Export.h"))
     }
 }

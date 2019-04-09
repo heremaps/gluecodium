@@ -31,7 +31,7 @@ namespace {{.}} {
 
 {{/cppNameSpaces}}
 
-using namespace ::{{internalNamespace}}::jni;
+using namespace {{>common/InternalNamespace}}jni;
 
 {{cppName}}CppProxy::{{cppName}}CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
     : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode ) {
@@ -64,15 +64,15 @@ using namespace ::{{internalNamespace}}::jni;
     }}"({{#parameters}}{{type.jniTypeSignature}}{{/parameters}}){{returnType.jniTypeSignature}}", {{!!
     }}jniEnv {{#if parameters}},{{/if}} {{#parameters}}j{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{#if exception}}
-    auto jException = {{internalNamespace}}::jni::make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
+    auto jException = {{>common/InternalNamespace}}jni::make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
-        auto jEnumValue = {{internalNamespace}}::jni::get_object_field_value(
+        auto jEnumValue = {{>common/InternalNamespace}}jni::get_object_field_value(
             jniEnv,
             jException,
             "error",
             "{{exception.jniEnum.jniTypeSignature}}" );
-        auto nEnumValue = {{internalNamespace}}::jni::convert_from_jni(
+        auto nEnumValue = {{>common/InternalNamespace}}jni::convert_from_jni(
             jniEnv,
             jEnumValue,
             ({{exception.jniEnum.cppFullyQualifiedName}}*)nullptr );
@@ -84,7 +84,7 @@ using namespace ::{{internalNamespace}}::jni;
     {
 {{/if}}{{!!
 }}{{#unless returnType.isJavaVoid}}
-    return {{#if returnType.isComplex}}{{internalNamespace}}::jni::convert_from_jni( jniEnv, result, ({{returnType.cppName}}{{#if exception}}::value_type{{/if}}*)nullptr ){{/if}}{{!!
+    return {{#if returnType.isComplex}}{{>common/InternalNamespace}}jni::convert_from_jni( jniEnv, result, ({{returnType.cppName}}{{#if exception}}::value_type{{/if}}*)nullptr ){{/if}}{{!!
     }}{{#unless returnType.isComplex}}result{{/unless}};
 {{/unless}}
 {{#if exception}}{{#if returnType.isJavaVoid}}

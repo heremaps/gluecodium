@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "Export.h"
+#include "genium/Export.h"
 #include "smoke/TypeCollection.h"
 #include <string>
 #include <vector>

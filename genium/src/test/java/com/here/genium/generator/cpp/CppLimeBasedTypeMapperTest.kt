@@ -57,7 +57,7 @@ class CppLimeBasedTypeMapperTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        typeMapper = CppLimeBasedTypeMapper(nameResolver, includeResolver, "")
+        typeMapper = CppLimeBasedTypeMapper(nameResolver, includeResolver, listOf())
 
         every { nameResolver.getFullyQualifiedName(any()) } returns "Foo"
         every {

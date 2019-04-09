@@ -1,9 +1,9 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-#include "Optional.h"
 #include "cbridge/include/smoke/cbridge_InstanceWithStruct.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
+#include "genium/Optional.h"
 #include "smoke/InstanceWithStruct.h"
 #include "smoke/SimpleInstantiable.h"
 #include <memory>
@@ -31,17 +31,17 @@ smoke_InstanceWithStruct_InnerStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_InstanceWithStruct_InnerStruct_create_optional_handle(int8_t value)
 {
-    auto _struct = new ( std::nothrow ) genium::optional<::smoke::InstanceWithStruct::InnerStruct>( ::smoke::InstanceWithStruct::InnerStruct( ) );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::InstanceWithStruct::InnerStruct>( ::smoke::InstanceWithStruct::InnerStruct( ) );
     (*_struct)->value = value;
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_InstanceWithStruct_InnerStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::InstanceWithStruct::InnerStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::InstanceWithStruct::InnerStruct>*>( handle ) );
 }
 void smoke_InstanceWithStruct_InnerStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<::smoke::InstanceWithStruct::InnerStruct>*>( handle );
+    delete reinterpret_cast<::genium::optional<::smoke::InstanceWithStruct::InnerStruct>*>( handle );
 }
 int8_t smoke_InstanceWithStruct_InnerStruct_value_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::InstanceWithStruct::InnerStruct>(handle);
@@ -63,7 +63,7 @@ smoke_InstanceWithStruct_StructWithInstance_release_handle( _baseRef handle )
 _baseRef
 smoke_InstanceWithStruct_StructWithInstance_create_optional_handle(_baseRef instance, _baseRef instanceWithComment)
 {
-    auto _struct = new ( std::nothrow ) genium::optional<::smoke::InstanceWithStruct::StructWithInstance>( ::smoke::InstanceWithStruct::StructWithInstance( ) );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::InstanceWithStruct::StructWithInstance>( ::smoke::InstanceWithStruct::StructWithInstance( ) );
     (*_struct)->instance = Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp( instance );
     (*_struct)->instance_with_comment = Conversion<std::shared_ptr<::smoke::SimpleInstantiable>>::toCpp( instanceWithComment );
     return reinterpret_cast<_baseRef>( _struct );
@@ -71,10 +71,10 @@ smoke_InstanceWithStruct_StructWithInstance_create_optional_handle(_baseRef inst
 _baseRef
 smoke_InstanceWithStruct_StructWithInstance_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::InstanceWithStruct::StructWithInstance>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::InstanceWithStruct::StructWithInstance>*>( handle ) );
 }
 void smoke_InstanceWithStruct_StructWithInstance_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<::smoke::InstanceWithStruct::StructWithInstance>*>( handle );
+    delete reinterpret_cast<::genium::optional<::smoke::InstanceWithStruct::StructWithInstance>*>( handle );
 }
 _baseRef smoke_InstanceWithStruct_StructWithInstance_instance_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::InstanceWithStruct::StructWithInstance>(handle);

@@ -18,7 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "Optional.h"
+#include "lorem_ipsum/test/Optional.h"
 #include <optional>
 
 #include <gmock/gmock.h>
@@ -29,6 +29,7 @@ using namespace ::testing;
 
 TEST( OptionalTestCxx17, choose_std_type_if_available )
 {
-    static_assert( std::is_same< lorem_ipsum::optional< bool >, std::optional< bool > >::value );
+    static_assert(
+        std::is_same< lorem_ipsum::test::optional< bool >, std::optional< bool > >::value );
 }
-}
+}  // namespace test

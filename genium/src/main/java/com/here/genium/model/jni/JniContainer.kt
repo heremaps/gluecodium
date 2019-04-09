@@ -37,7 +37,7 @@ class JniContainer(
     val cppName: String? = null,
     val cppFullyQualifiedName: String? = null,
     val containerType: ContainerType = ContainerType.TYPE_COLLECTION,
-    var internalNamespace: String? = null
+    var internalNamespace: List<String>? = null
 ) : JniElement {
     val methods: MutableList<JniMethod> = LinkedList()
     val parentMethods: MutableList<JniMethod> = LinkedList()

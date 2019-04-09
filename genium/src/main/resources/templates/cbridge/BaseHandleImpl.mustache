@@ -41,7 +41,7 @@
 #pragma once
 
 #include "cbridge/include/BaseHandle.h"
-#include "Optional.h"
+#include "{{>common/InternalInclude}}/Optional.h"
 
 #include <memory>
 
@@ -144,41 +144,41 @@ struct Conversion< std::shared_ptr< T > >
 };
 
 template < class T >
-struct Conversion< {{.}}::optional< T > >
+struct Conversion< {{>common/InternalNamespace}}optional< T > >
 {
     static _baseRef
-    toBaseRef( {{.}}::optional< T > ptr )
+    toBaseRef( {{>common/InternalNamespace}}optional< T > ptr )
     {
         return !ptr ? 0
                     : reinterpret_cast< _baseRef >(
-                          new {{.}}::optional< T >( std::move( ptr ) ) );
+                          new {{>common/InternalNamespace}}optional< T >( std::move( ptr ) ) );
     }
 
     static _baseRef
-    referenceBaseRef( {{.}}::optional< T >& t )
+    referenceBaseRef( {{>common/InternalNamespace}}optional< T >& t )
     {
         return reinterpret_cast< _baseRef >( &t );
     }
 
-    static {{.}}::optional< T >
+    static {{>common/InternalNamespace}}optional< T >
     toCpp( _baseRef ref )
     {
         if ( ref == 0 )
         {
             return {};
         }
-        return *reinterpret_cast< {{.}}::optional< T >* >( ref );
+        return *reinterpret_cast< {{>common/InternalNamespace}}optional< T >* >( ref );
     }
 
-    static {{.}}::optional< T >
+    static {{>common/InternalNamespace}}optional< T >
     toCppReturn( _baseRef ref )
     {
         if ( ref == 0 )
         {
             return {};
         }
-        auto ptr_ptr = reinterpret_cast< {{.}}::optional< T >* >( ref );
-        {{.}}::optional< T > ptr( std::move( *ptr_ptr ) );
+        auto ptr_ptr = reinterpret_cast< {{>common/InternalNamespace}}optional< T >* >( ref );
+        {{>common/InternalNamespace}}optional< T > ptr( std::move( *ptr_ptr ) );
         delete ptr_ptr;
         return ptr;
     }

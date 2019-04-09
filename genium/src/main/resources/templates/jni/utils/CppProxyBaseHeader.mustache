@@ -52,8 +52,10 @@
 #include <string>
 #include <unordered_map>
 
+{{#internalNamespace}}
 namespace {{.}}
 {
+{{/internalNamespace}}
 namespace jni
 {
 
@@ -176,4 +178,6 @@ protected:
 };
 
 }
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

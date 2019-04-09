@@ -39,11 +39,11 @@ namespace {{.}} {
 
 {{/cppNameSpaces}}
 
-class {{cppName}}CppProxy : public {{internalNamespace}}::jni::CppProxyBase, public {{cppName}} {
+class {{cppName}}CppProxy : public {{>common/InternalNamespace}}jni::CppProxyBase, public {{cppName}} {
 
 public:
 
-    {{cppName}}CppProxy( JNIEnv* _jenv, {{internalNamespace}}::jni::JniReference<jobject> globalRef, jint _jHashCode );
+    {{cppName}}CppProxy( JNIEnv* _jenv, {{>common/InternalNamespace}}jni::JniReference<jobject> globalRef, jint _jHashCode );
 
 {{#parentMethods}}
     {{returnType.cppName}} {{cppMethodName}}( {{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{#if isConst}} const{{/if}} override;

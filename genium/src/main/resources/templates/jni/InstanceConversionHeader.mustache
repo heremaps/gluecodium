@@ -27,8 +27,10 @@
 #include "JniReference.h"
 #include "ProxyConversion.h"
 
-namespace {{internalNamespace}}
+{{#internalNamespace}}
+namespace {{.}}
 {
+{{/internalNamespace}}
 namespace jni
 {
 
@@ -44,7 +46,7 @@ convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::std::shared
     {
         if (_jobj != nullptr)
         {
-            auto long_ptr = {{internalNamespace}}::jni::get_field_value(
+            auto long_ptr = {{>common/InternalNamespace}}jni::get_field_value(
                 _env,
                 _jobj,
                 "nativeHandle",
@@ -63,4 +65,6 @@ convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::std::shared
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<{{cppFullyQualifiedName}}> & _ninput);
 {{/models}}
 }
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

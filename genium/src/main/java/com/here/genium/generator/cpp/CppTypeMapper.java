@@ -25,6 +25,7 @@ import com.here.genium.model.cpp.*;
 import com.here.genium.model.cpp.CppTemplateTypeRef.TemplateClass;
 import com.here.genium.model.franca.FrancaDeploymentModel;
 import java.util.Collections;
+import java.util.List;
 import org.franca.core.franca.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,13 +50,13 @@ public class CppTypeMapper {
 
   private final CppIncludeResolver includeResolver;
   private final CppNameResolver nameResolver;
-  private final String internalNamespace;
+  private final List<String> internalNamespace;
   private final FrancaDeploymentModel deploymentModel;
 
   public CppTypeMapper(
       final CppIncludeResolver includeResolver,
       final CppNameResolver nameResolver,
-      final String internalNamespace,
+      final List<String> internalNamespace,
       final FrancaDeploymentModel deploymentModel) {
     this.includeResolver = includeResolver;
     this.nameResolver = nameResolver;

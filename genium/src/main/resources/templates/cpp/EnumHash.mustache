@@ -42,8 +42,9 @@
 
 #include <cstddef>
 
-namespace {{.}}
-{
+{{#internalNamespace}}
+namespace {{.}} {
+{{/internalNamespace}}
 /**
  * A hash function for enums.
  */
@@ -56,4 +57,6 @@ struct EnumHash
         return static_cast< std::size_t >( t );
     }
 };
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

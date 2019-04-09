@@ -11,7 +11,7 @@ ListenerWithAttributesCppProxy::ListenerWithAttributesCppProxy( JNIEnv* _jenv, J
 ::std::string ListenerWithAttributesCppProxy::get_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jstring>( "getMessage", "()Ljava/lang/String;", jniEnv  );
-    return genium::jni::convert_from_jni( jniEnv, result, (::std::string*)nullptr );
+    return ::genium::jni::convert_from_jni( jniEnv, result, (::std::string*)nullptr );
 }
 void ListenerWithAttributesCppProxy::set_message( const ::std::string& nvalue ) {
     JNIEnv* jniEnv = getJniEnvironment( );
@@ -21,7 +21,7 @@ void ListenerWithAttributesCppProxy::set_message( const ::std::string& nvalue ) 
 ::std::shared_ptr< ::smoke::CalculationResult > ListenerWithAttributesCppProxy::get_packed_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jobject>( "getPackedMessage", "()Lcom/example/smoke/CalculationResult;", jniEnv  );
-    return genium::jni::convert_from_jni( jniEnv, result, (::std::shared_ptr< ::smoke::CalculationResult >*)nullptr );
+    return ::genium::jni::convert_from_jni( jniEnv, result, (::std::shared_ptr< ::smoke::CalculationResult >*)nullptr );
 }
 void ListenerWithAttributesCppProxy::set_packed_message( const ::std::shared_ptr< ::smoke::CalculationResult >& nvalue ) {
     JNIEnv* jniEnv = getJniEnvironment( );
@@ -31,7 +31,7 @@ void ListenerWithAttributesCppProxy::set_packed_message( const ::std::shared_ptr
 ::smoke::ListenerWithAttributes::ResultStruct ListenerWithAttributesCppProxy::get_structured_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jobject>( "getStructuredMessage", "()Lcom/example/smoke/ListenerWithAttributes$ResultStruct;", jniEnv  );
-    return genium::jni::convert_from_jni( jniEnv, result, (::smoke::ListenerWithAttributes::ResultStruct*)nullptr );
+    return ::genium::jni::convert_from_jni( jniEnv, result, (::smoke::ListenerWithAttributes::ResultStruct*)nullptr );
 }
 void ListenerWithAttributesCppProxy::set_structured_message( const ::smoke::ListenerWithAttributes::ResultStruct& nvalue ) {
     JNIEnv* jniEnv = getJniEnvironment( );
@@ -41,7 +41,7 @@ void ListenerWithAttributesCppProxy::set_structured_message( const ::smoke::List
 ::smoke::ListenerWithAttributes::ResultEnum ListenerWithAttributesCppProxy::get_enumerated_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jobject>( "getEnumeratedMessage", "()Lcom/example/smoke/ListenerWithAttributes$ResultEnum;", jniEnv  );
-    return genium::jni::convert_from_jni( jniEnv, result, (::smoke::ListenerWithAttributes::ResultEnum*)nullptr );
+    return ::genium::jni::convert_from_jni( jniEnv, result, (::smoke::ListenerWithAttributes::ResultEnum*)nullptr );
 }
 void ListenerWithAttributesCppProxy::set_enumerated_message( const ::smoke::ListenerWithAttributes::ResultEnum nvalue ) {
     JNIEnv* jniEnv = getJniEnvironment( );
@@ -51,7 +51,7 @@ void ListenerWithAttributesCppProxy::set_enumerated_message( const ::smoke::List
 ::std::vector< ::std::string > ListenerWithAttributesCppProxy::get_arrayed_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jobject>( "getArrayedMessage", "()Ljava/util/List;", jniEnv  );
-    return genium::jni::convert_from_jni( jniEnv, result, (::std::vector< ::std::string >*)nullptr );
+    return ::genium::jni::convert_from_jni( jniEnv, result, (::std::vector< ::std::string >*)nullptr );
 }
 void ListenerWithAttributesCppProxy::set_arrayed_message( const ::std::vector< ::std::string >& nvalue ) {
     JNIEnv* jniEnv = getJniEnvironment( );
@@ -61,7 +61,7 @@ void ListenerWithAttributesCppProxy::set_arrayed_message( const ::std::vector< :
 ::smoke::ListenerWithAttributes::StringToDouble ListenerWithAttributesCppProxy::get_mapped_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jobject>( "getMappedMessage", "()Ljava/util/Map;", jniEnv  );
-    return genium::jni::convert_from_jni( jniEnv, result, (::smoke::ListenerWithAttributes::StringToDouble*)nullptr );
+    return ::genium::jni::convert_from_jni( jniEnv, result, (::smoke::ListenerWithAttributes::StringToDouble*)nullptr );
 }
 void ListenerWithAttributesCppProxy::set_mapped_message( const ::smoke::ListenerWithAttributes::StringToDouble& nvalue ) {
     JNIEnv* jniEnv = getJniEnvironment( );
@@ -71,7 +71,7 @@ void ListenerWithAttributesCppProxy::set_mapped_message( const ::smoke::Listener
 ::std::shared_ptr< ::std::vector< uint8_t > > ListenerWithAttributesCppProxy::get_buffered_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jbyteArray>( "getBufferedMessage", "()[B", jniEnv  );
-    return genium::jni::convert_from_jni( jniEnv, result, (::std::shared_ptr< ::std::vector< uint8_t > >*)nullptr );
+    return ::genium::jni::convert_from_jni( jniEnv, result, (::std::shared_ptr< ::std::vector< uint8_t > >*)nullptr );
 }
 void ListenerWithAttributesCppProxy::set_buffered_message( const ::std::shared_ptr< ::std::vector< uint8_t > >& nvalue ) {
     JNIEnv* jniEnv = getJniEnvironment( );

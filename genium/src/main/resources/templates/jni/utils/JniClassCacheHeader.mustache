@@ -24,9 +24,10 @@
 
 #include "JniReference.h"
 
+{{#internalNamespace}}
 namespace {{.}}
 {
-
+{{/internalNamespace}}
 namespace jni
 {
 
@@ -72,5 +73,6 @@ JniReference<jclass> CachedJavaClass<CppTypes...>::java_class;
   }
 
 }
-
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

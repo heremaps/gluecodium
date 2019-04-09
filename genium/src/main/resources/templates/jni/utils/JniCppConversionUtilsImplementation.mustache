@@ -39,10 +39,12 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "JniCppConversionUtils.h"
-#include "Optional.h"
+#include "{{>common/InternalInclude}}Optional.h"
 
+{{#internalNamespace}}
 namespace {{.}}
 {
+{{/internalNamespace}}
 namespace jni
 {
 
@@ -73,12 +75,12 @@ convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string*
         : std::string{};
 }
 
-{{.}}::optional<std::string>
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, {{.}}::optional<std::string>* )
+{{>common/InternalNamespace}}optional<std::string>
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<std::string>* )
 {
     return jvalue
-        ? {{.}}::optional<std::string>( convert_string_from_jni( env, static_cast<jstring>( jvalue.get( ) ) ) )
-        : {{.}}::optional<std::string>{};
+        ? {{>common/InternalNamespace}}optional<std::string>( convert_string_from_jni( env, static_cast<jstring>( jvalue.get( ) ) ) )
+        : {{>common/InternalNamespace}}optional<std::string>{};
 }
 
 std::shared_ptr< std::vector< uint8_t > >
@@ -106,7 +108,7 @@ convert_to_jni( JNIEnv* env, const std::string& nvalue )
 }
 
 JniReference<jstring>
-convert_to_jni( JNIEnv* env, const {{.}}::optional<std::string>& nvalue )
+convert_to_jni( JNIEnv* env, const {{>common/InternalNamespace}}optional<std::string>& nvalue )
 {
     return nvalue
         ? make_local_ref(env, env->NewStringUTF( nvalue->c_str( ) ))
@@ -130,4 +132,6 @@ convert_to_jni( JNIEnv* env, const std::shared_ptr< std::vector< uint8_t > >& nv
 }
 
 }
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

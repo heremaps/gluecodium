@@ -15,9 +15,9 @@
 extern "C" {
 #endif
 namespace smoke {
-class CalculatorListenerCppProxy : public genium::jni::CppProxyBase, public CalculatorListener {
+class CalculatorListenerCppProxy : public ::genium::jni::CppProxyBase, public CalculatorListener {
 public:
-    CalculatorListenerCppProxy( JNIEnv* _jenv, genium::jni::JniReference<jobject> globalRef, jint _jHashCode );
+    CalculatorListenerCppProxy( JNIEnv* _jenv, ::genium::jni::JniReference<jobject> globalRef, jint _jHashCode );
     void on_calculation_result( const double ncalculationResult ) override;
     void on_calculation_result_const( const double ncalculationResult ) const override;
     void on_calculation_result_struct( const ::smoke::CalculatorListener::ResultStruct& ncalculationResult ) override;

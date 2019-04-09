@@ -33,9 +33,9 @@ import java.util.*;
 public final class CppGenerator {
 
   private final String pathPrefix;
-  private final String internalNamespace;
+  private final List<String> internalNamespace;
 
-  public CppGenerator(final String pathPrefix, final String internalNamespace) {
+  public CppGenerator(final String pathPrefix, final List<String> internalNamespace) {
     this.pathPrefix = pathPrefix;
     this.internalNamespace = internalNamespace;
   }
@@ -65,11 +65,12 @@ public final class CppGenerator {
             + CppNameRules.IMPLEMENTATION_FILE_SUFFIX;
 
     // Filter out self-includes
-    cppModel
-        .getIncludes()
-        .removeIf(
-            include ->
-                include.getFileName().equals(relativeFilePath + CppNameRules.HEADER_FILE_SUFFIX));
+    TreeSet<Include> includes = cppModel.getIncludes();
+    includes.removeIf(
+        include ->
+            include.getFileName().equals(relativeFilePath + CppNameRules.HEADER_FILE_SUFFIX));
+
+    CppLibraryIncludes.filterIncludes(includes, internalNamespace);
 
     String headerContent = TemplateEngine.INSTANCE.render("cpp/CppHeader", cppModel);
     result.add(new GeneratedFile(headerContent, absoluteHeaderPath));
@@ -86,13 +87,19 @@ public final class CppGenerator {
   }
 
   public GeneratedFile generateHelperHeader(final String headerName) {
-    return generateHelperHeader(headerName, internalNamespace);
+    Map<String, Object> values = new HashMap<>();
+    values.put("internalNamespace", internalNamespace);
+    return generateHelperHeader(headerName, values);
   }
 
-  public GeneratedFile generateHelperHeader(final String headerName, final String extraInfo) {
+  public GeneratedFile generateHelperHeader(final String headerName, final Object extraInfo) {
     String content = TemplateEngine.INSTANCE.render("cpp/" + headerName, extraInfo);
     String resultFileName =
-        Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE, headerName)
+        Paths.get(
+                pathPrefix,
+                CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE,
+                String.join("/", internalNamespace),
+                headerName)
             + CppNameRules.HEADER_FILE_SUFFIX;
     return new GeneratedFile(content, resultFileName);
   }

@@ -96,7 +96,7 @@ public final class CppModelBuilderTest {
   private final CppConstant cppConstant =
       new CppConstant(NONSENSE_NAME, NONSENSE_NAME, cppTypeRef, cppValue);
   private final CppTemplateTypeRef cppTemplateTypeRef =
-      CppTemplateTypeRef.Companion.create(TemplateClass.OPTIONAL, cppTypeDefRef);
+      CppTemplateTypeRef.Companion.create(NONSENSE_NAME, TemplateClass.OPTIONAL, cppTypeDefRef);
 
   @Before
   public void setUp() {

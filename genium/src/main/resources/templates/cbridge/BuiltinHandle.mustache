@@ -44,18 +44,18 @@
 #include <memory>
 #include <new>
 
-#define DEFINE_HANDLE_METHODS( T )                                                                \
-    _baseRef T##_create_handle( T t )                                                             \
-    {                                                                                             \
-        return reinterpret_cast< _baseRef >( new ( std::nothrow ) {{.}}::optional< T >( t ) );    \
-    }                                                                                             \
-    void T##_release_handle( _baseRef handle )                                                    \
-    {                                                                                             \
-        delete reinterpret_cast< {{.}}::optional< T >* >( handle );                               \
-    }                                                                                             \
-    T T##_value_get( _baseRef handle )                                                            \
-    {                                                                                             \
-        return **reinterpret_cast< {{.}}::optional< T >* >( handle );                             \
+#define DEFINE_HANDLE_METHODS( T )                                                                                      \
+    _baseRef T##_create_handle( T t )                                                                                   \
+    {                                                                                                                   \
+        return reinterpret_cast< _baseRef >( new ( std::nothrow ) {{>common/InternalNamespace}}optional< T >( t ) );    \
+    }                                                                                                                   \
+    void T##_release_handle( _baseRef handle )                                                                          \
+    {                                                                                                                   \
+        delete reinterpret_cast< {{>common/InternalNamespace}}optional< T >* >( handle );                               \
+    }                                                                                                                   \
+    T T##_value_get( _baseRef handle )                                                                                  \
+    {                                                                                                                   \
+        return **reinterpret_cast< {{>common/InternalNamespace}}optional< T >* >( handle );                             \
     }
 
 DEFINE_HANDLE_METHODS( bool );

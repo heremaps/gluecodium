@@ -49,6 +49,12 @@ class CppTemplateTypeRef private constructor(
                 create(templateClass.namespace, templateClass, *parameters)
 
         fun create(
+            namespace: List<String>?,
+            templateClass: TemplateClass,
+            vararg parameters: CppTypeRef
+        ) = create(CppNameRules.joinFullyQualifiedName(namespace), templateClass, *parameters)
+
+        fun create(
             namespace: String?,
             templateClass: TemplateClass,
             vararg parameters: CppTypeRef

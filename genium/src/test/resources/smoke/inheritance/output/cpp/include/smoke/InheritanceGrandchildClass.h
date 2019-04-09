@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "Export.h"
+#include "genium/Export.h"
 #include "smoke/InheritanceChildClass.h"
 namespace smoke {
 

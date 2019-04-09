@@ -45,6 +45,8 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.platform.common.GeneratorSuite
 import org.franca.core.franca.FTypeCollection
+import java.io.File
+import java.nio.file.Paths
 import java.util.stream.Collectors
 
 /**
@@ -59,7 +61,7 @@ class BaseApiGeneratorSuite(
     private val deploymentModel: FrancaDeploymentModel
 ) : GeneratorSuite() {
 
-    private val internalNamespace = options.cppInternalNamespace ?: ""
+    private val internalNamespace = options.cppInternalNamespace ?: listOf("")
     private val rootNamespace = options.cppRootNamespace
     private val exportName = options.cppExport
     private val limeReferenceResolver = LimeReferenceResolver()
@@ -106,7 +108,8 @@ class BaseApiGeneratorSuite(
         val finalResults = cppModelBuilder.finalResults
 
         val includes = collectIncludes(finalResults).toMutableList()
-        includes.add(Include.createInternalInclude("Export" + CppNameRules.HEADER_FILE_SUFFIX))
+        val exportPath = Paths.get(internalNamespace.joinToString(File.separator), "Export" + CppNameRules.HEADER_FILE_SUFFIX).toString()
+        includes.add(Include.createInternalInclude(exportPath))
 
         val errorEnums = collectEnums(finalResults)
             .filter { allErrorEnums.contains(it.fullyQualifiedName) }

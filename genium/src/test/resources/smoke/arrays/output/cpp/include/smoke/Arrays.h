@@ -7,9 +7,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "Export.h"
 #include "alien/FooEnum.h"
 #include "alien/FooStruct.h"
+#include "genium/Export.h"
 #include <cstdint>
 #include <memory>
 #include <string>

@@ -29,9 +29,10 @@
 #include <cstddef>
 #include <memory>
 
+{{#internalNamespace}}
 namespace {{.}}
 {
-
+{{/internalNamespace}}
 namespace jni
 {
 
@@ -68,7 +69,7 @@ public:
             m_jni_env->DeleteLocalRef( obj );
             break;
         case DeleteReferenceMethod::GLOBAL:
-            if (JNIEnv* jni_env = {{.}}::jni::getJniEnvironmentForCurrentThread( ))
+            if (JNIEnv* jni_env = {{>common/InternalNamespace}}jni::getJniEnvironmentForCurrentThread( ))
             {
                 jni_env->DeleteGlobalRef( obj );
             }
@@ -172,5 +173,6 @@ JniReference<jobject> new_object(JNIEnv* env,
 }
 
 }
-
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

@@ -1,10 +1,10 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
-#include "Optional.h"
 #include "cbridge/include/smoke/cbridge_VeryExternalInterface.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "foo/Bar.h"
+#include "genium/Optional.h"
 #include <memory>
 #include <new>
 #include <string>
@@ -31,17 +31,17 @@ smoke_VeryExternalInterface_SomeStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_VeryExternalInterface_SomeStruct_create_optional_handle(_baseRef someField)
 {
-    auto _struct = new ( std::nothrow ) genium::optional<::fire::Baz::some_Struct>( ::fire::Baz::some_Struct( ) );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::fire::Baz::some_Struct>( ::fire::Baz::some_Struct( ) );
     (*_struct)->some_Field = Conversion<std::string>::toCpp( someField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_VeryExternalInterface_SomeStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::fire::Baz::some_Struct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::fire::Baz::some_Struct>*>( handle ) );
 }
 void smoke_VeryExternalInterface_SomeStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<genium::optional<::fire::Baz::some_Struct>*>( handle );
+    delete reinterpret_cast<::genium::optional<::fire::Baz::some_Struct>*>( handle );
 }
 _baseRef smoke_VeryExternalInterface_SomeStruct_someField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::fire::Baz::some_Struct>(handle);

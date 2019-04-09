@@ -23,15 +23,15 @@
 
 namespace test
 {
-::lorem_ipsum::Return< ::std::string, ::std::error_code >
+::lorem_ipsum::test::Return< ::std::string, ::std::error_code >
 ErrorMessengerImpl::get_message( const std::shared_ptr< ListenerWithErrors >& listener )
 {
     return listener->get_message( );
 }
 
 ::std::error_code
-ErrorMessengerImpl::set_message(
-    const std::shared_ptr< ListenerWithErrors >& listener, const std::string& message )
+ErrorMessengerImpl::set_message( const std::shared_ptr< ListenerWithErrors >& listener,
+                                 const std::string& message )
 {
     return listener->set_message( message );
 }

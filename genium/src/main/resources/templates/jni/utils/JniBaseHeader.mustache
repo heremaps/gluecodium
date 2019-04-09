@@ -42,8 +42,10 @@
 
 #include <jni.h>
 
+{{#internalNamespace}}
 namespace {{.}}
 {
+{{/internalNamespace}}
 namespace jni
 {
 
@@ -52,4 +54,6 @@ JavaVM* get_java_vm( );
 JNIEnv* getJniEnvironmentForCurrentThread( );
 
 }
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

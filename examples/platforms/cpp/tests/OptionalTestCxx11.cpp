@@ -18,8 +18,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "Optional.h"
-#include "OptionalImpl.h"
+#include "lorem_ipsum/test/Optional.h"
+#include "lorem_ipsum/test/OptionalImpl.h"
 
 #include <gmock/gmock.h>
 
@@ -29,8 +29,8 @@ using namespace ::testing;
 
 TEST( OptionalTestCxx11, choose_builtin_type_if_no_std_optional_is_available )
 {
-    static_assert(
-        std::is_same< lorem_ipsum::optional< bool >, lorem_ipsum::Optional< bool > >::value,
-        "Choose builtin Optional type if std::optional is not available." );
+    static_assert( std::is_same< lorem_ipsum::test::optional< bool >,
+                                 lorem_ipsum::test::Optional< bool > >::value,
+                   "Choose builtin Optional type if std::optional is not available." );
 }
-}
+}  // namespace test

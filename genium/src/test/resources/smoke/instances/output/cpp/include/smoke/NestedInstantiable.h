@@ -7,7 +7,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "Export.h"
+#include "genium/Export.h"
 #include "smoke/SimpleInstantiable.h"
 #include <memory>
 namespace smoke {

@@ -38,7 +38,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "Optional.h"
+#include "{{>common/InternalInclude}}/Optional.h"
 #include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include <new>
@@ -91,17 +91,17 @@ _baseRef
 std_string_create_optional_handle( const char* c_str )
 {
     return reinterpret_cast< _baseRef >(
-        new ( std::nothrow ) {{.}}::optional<std::string>( std::string( c_str ) ) );
+        new ( std::nothrow ) {{>common/InternalNamespace}}optional<std::string>( std::string( c_str ) ) );
 }
 
 void
 std_string_release_optional_handle( _baseRef handle )
 {
-    delete reinterpret_cast<{{.}}::optional<std::string>*>(handle);
+    delete reinterpret_cast<{{>common/InternalNamespace}}optional<std::string>*>(handle);
 }
 
 _baseRef
 std_string_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast< _baseRef >( &**reinterpret_cast<{{.}}::optional<std::string>*>( handle ) );
+    return reinterpret_cast< _baseRef >( &**reinterpret_cast<{{>common/InternalNamespace}}optional<std::string>*>( handle ) );
 }

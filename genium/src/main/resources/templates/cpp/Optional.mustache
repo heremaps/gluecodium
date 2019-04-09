@@ -88,15 +88,19 @@
 
 #if !defined(GENIUM_OPTIONAL_HEADER) && !defined(GENIUM_OPTIONAL_TYPE)
 # define GENIUM_OPTIONAL_HEADER "OptionalImpl.h"
-# define GENIUM_OPTIONAL_TYPE {{.}}::Optional
+# define GENIUM_OPTIONAL_TYPE {{>common/InternalNamespace}}Optional
 #endif
 
 #include GENIUM_OPTIONAL_HEADER
 
+{{#internalNamespace}}
 namespace {{.}} {
+{{/internalNamespace}}
 template<typename T>
 using optional = GENIUM_OPTIONAL_TYPE<T>;
 #ifdef GENIUM_OPTIONAL_HELPER_TYPES
 GENIUM_OPTIONAL_HELPER_TYPES
 #endif
+{{#internalNamespace}}
 }
+{{/internalNamespace}}

@@ -46,7 +46,7 @@ public final class SwiftGeneratorSuite extends GeneratorSuite {
 
   public static final String GENERATOR_NAME = "swift";
 
-  private final String internalNamespace;
+  private final List<String> internalNamespace;
   private final List<String> rootNamespace;
   private final FrancaDeploymentModel deploymentModel;
   private final CppNameResolver cppNameResolver;
