@@ -273,6 +273,16 @@ public class Structs extends NativeBase {
             this.structField = structField;
         }
     }
+    public static class StructWithArrayOfImmutable {
+        @NonNull
+        public List<Structs.AllTypesStruct> arrayField;
+        public StructWithArrayOfImmutable() {
+            this(new ArrayList<>());
+        }
+        public StructWithArrayOfImmutable(List<Structs.AllTypesStruct> arrayField) {
+            this.arrayField = arrayField;
+        }
+    }
     /**
      * For internal use only.
      * @exclude

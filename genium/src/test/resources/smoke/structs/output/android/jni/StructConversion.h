@@ -58,6 +58,10 @@ JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const genium::optional<::smo
 genium::optional<::smoke::Structs::NestingImmutableStruct> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, genium::optional<::smoke::Structs::NestingImmutableStruct>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::NestingImmutableStruct& _ninput);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const genium::optional<::smoke::Structs::NestingImmutableStruct> _ninput);
+::smoke::Structs::StructWithArrayOfImmutable convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::StructWithArrayOfImmutable* dummy);
+genium::optional<::smoke::Structs::StructWithArrayOfImmutable> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, genium::optional<::smoke::Structs::StructWithArrayOfImmutable>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::StructWithArrayOfImmutable& _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const genium::optional<::smoke::Structs::StructWithArrayOfImmutable> _ninput);
 ::fire::StructsQualifiedType::QualifiedType convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::StructsQualifiedType::QualifiedType* dummy);
 genium::optional<::fire::StructsQualifiedType::QualifiedType> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, genium::optional<::fire::StructsQualifiedType::QualifiedType>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::fire::StructsQualifiedType::QualifiedType& _ninput);

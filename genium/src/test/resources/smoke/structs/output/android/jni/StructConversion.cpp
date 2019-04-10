@@ -498,6 +498,42 @@ convert_to_jni(JNIEnv* _jenv, const genium::optional<::smoke::Structs::NestingIm
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
+::smoke::Structs::StructWithArrayOfImmutable
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::StructWithArrayOfImmutable* dummy)
+{
+    ::smoke::Structs::ArrayOfImmutable n_array_field = convert_from_jni(
+        _jenv,
+        genium::jni::get_object_field_value(
+        _jenv,
+        _jinput,
+        "arrayField",
+        "Ljava/util/List;"),
+        (::smoke::Structs::ArrayOfImmutable*)nullptr );
+    return ::smoke::Structs::StructWithArrayOfImmutable(std::move(n_array_field));
+}
+genium::optional<::smoke::Structs::StructWithArrayOfImmutable>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, genium::optional<::smoke::Structs::StructWithArrayOfImmutable>* dummy)
+{
+    return _jinput
+        ? genium::optional<::smoke::Structs::StructWithArrayOfImmutable>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::StructWithArrayOfImmutable*)nullptr))
+        : genium::optional<::smoke::Structs::StructWithArrayOfImmutable>{};
+}
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$StructWithArrayOfImmutable", ::smoke::Structs::StructWithArrayOfImmutable)
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::StructWithArrayOfImmutable& _ninput)
+{
+    auto& javaClass = CachedJavaClass<::smoke::Structs::StructWithArrayOfImmutable>::java_class;
+    auto _jresult = genium::jni::create_object(_jenv, javaClass);
+    auto jarray_field = convert_to_jni(_jenv, _ninput.array_field);
+    genium::jni::set_object_field_value(_jenv, _jresult, "arrayField",
+        "Ljava/util/List;", jarray_field);
+    return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const genium::optional<::smoke::Structs::StructWithArrayOfImmutable> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
 ::fire::StructsQualifiedType::QualifiedType
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::StructsQualifiedType::QualifiedType* dummy)
 {

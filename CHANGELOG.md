@@ -5,6 +5,7 @@
   - Replaced `std::shared_ptr` with `optional` for Nullable types.
 - Bug fixes:
   + Whitespace (including line breaks) is now preserved in the documentation comments.
+  + Fixed compilation issues caused by arrays of immutable structs.
 - Features:
   + Added support for multiple includes for "External" types.
 

@@ -183,7 +183,7 @@ public class CppModelBuilder extends AbstractModelBuilder<CppElement> {
       cppTypeRef = typeMapper.createOptionalType(cppTypeRef);
     }
 
-    FType fieldType = francaField.getType().getDerived();
+    FType fieldType = FrancaTypeHelper.getLeafType(francaField.getType());
     boolean hasImmutableType =
         fieldType instanceof FStructType && deploymentModel.isImmutable((FStructType) fieldType);
 

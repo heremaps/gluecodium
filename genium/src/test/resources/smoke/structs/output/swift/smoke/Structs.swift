@@ -12,6 +12,7 @@ internal func getRef(_ ref: Structs?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 public class Structs {
+    public typealias ArrayOfImmutable = [Structs.AllTypesStruct]
     let c_instance : _baseRef
     init(cStructs: _baseRef) {
         guard cStructs != 0 else {
@@ -168,6 +169,15 @@ public class Structs {
         }
         internal init(cHandle: _baseRef) {
             structField = moveFromCType(smoke_Structs_NestingImmutableStruct_structField_get(cHandle))
+        }
+    }
+    public struct StructWithArrayOfImmutable {
+        public var arrayField: Structs.ArrayOfImmutable
+        public init(arrayField: Structs.ArrayOfImmutable) {
+            self.arrayField = arrayField
+        }
+        internal init(cHandle: _baseRef) {
+            arrayField = moveFromCType(smoke_Structs_StructWithArrayOfImmutable_arrayField_get(cHandle))
         }
     }
     public static func createPoint(x: Double, y: Double) -> Structs.Point {
@@ -636,6 +646,45 @@ internal func copyToCType(_ swiftType: Structs.NestingImmutableStruct?) -> RefHo
 }
 internal func moveToCType(_ swiftType: Structs.NestingImmutableStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_NestingImmutableStruct_release_optional_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.StructWithArrayOfImmutable {
+    return Structs.StructWithArrayOfImmutable(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.StructWithArrayOfImmutable {
+    defer {
+        smoke_Structs_StructWithArrayOfImmutable_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.StructWithArrayOfImmutable) -> RefHolder {
+    let c_arrayField = moveToCType(swiftType.arrayField)
+    return RefHolder(smoke_Structs_StructWithArrayOfImmutable_create_handle(c_arrayField.ref))
+}
+internal func moveToCType(_ swiftType: Structs.StructWithArrayOfImmutable) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_StructWithArrayOfImmutable_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Structs.StructWithArrayOfImmutable? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Structs_StructWithArrayOfImmutable_unwrap_optional_handle(handle)
+    return Structs.StructWithArrayOfImmutable(cHandle: unwrappedHandle) as Structs.StructWithArrayOfImmutable
+}
+internal func moveFromCType(_ handle: _baseRef) -> Structs.StructWithArrayOfImmutable? {
+    defer {
+        smoke_Structs_StructWithArrayOfImmutable_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: Structs.StructWithArrayOfImmutable?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let c_arrayField = moveToCType(swiftType.arrayField)
+    return RefHolder(smoke_Structs_StructWithArrayOfImmutable_create_optional_handle(c_arrayField.ref))
+}
+internal func moveToCType(_ swiftType: Structs.StructWithArrayOfImmutable?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_StructWithArrayOfImmutable_release_optional_handle)
 }
 internal func copyToCType(_ swiftEnum: Structs.FooBar) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)

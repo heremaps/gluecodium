@@ -85,6 +85,12 @@ interface Structs {
         AllTypesStruct structField
     }
 
+    struct StructWithArrayOfImmutable {
+        ArrayOfImmutable arrayField
+    }
+
+    array ArrayOfImmutable of AllTypesStruct
+
     enumeration FooBar {
         FOO
         BAR

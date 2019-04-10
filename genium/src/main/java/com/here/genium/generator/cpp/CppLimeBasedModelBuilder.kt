@@ -49,6 +49,7 @@ import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeValue.Special.ValueId
@@ -189,13 +190,16 @@ class CppLimeBasedModelBuilder @VisibleForTesting internal constructor(
             cppTypeRef = typeMapper.createOptionalType(cppTypeRef)
         }
 
+        val limeLeafType = LimeTypeHelper.getLeafType(limeField.typeRef.type)
+        val hasImmutableType = limeLeafType.attributes.have(LimeAttributeType.IMMUTABLE)
+
         val cppField = CppField(
             nameResolver.getName(limeField),
             cppTypeRef,
             getPreviousResultOrNull(CppValue::class.java),
             isInstance && !isNullable,
             isNullable,
-            limeField.typeRef.type.attributes.have(LimeAttributeType.IMMUTABLE)
+            hasImmutableType
         )
         cppField.comment = limeField.comment
 

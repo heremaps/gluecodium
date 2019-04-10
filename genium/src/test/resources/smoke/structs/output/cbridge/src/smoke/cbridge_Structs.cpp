@@ -425,6 +425,37 @@ _baseRef smoke_Structs_NestingImmutableStruct_structField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::NestingImmutableStruct>(handle);
 return Conversion<::smoke::Structs::AllTypesStruct>::toBaseRef(struct_pointer->struct_field);
 }
+_baseRef
+smoke_Structs_StructWithArrayOfImmutable_create_handle( _baseRef arrayField )
+{
+    auto _arrayField = Conversion<std::vector<::smoke::Structs::AllTypesStruct>>::toCpp( arrayField );
+    ::smoke::Structs::StructWithArrayOfImmutable* _struct = new ( std::nothrow ) ::smoke::Structs::StructWithArrayOfImmutable( _arrayField );
+    return reinterpret_cast<_baseRef>( _struct );
+}
+void
+smoke_Structs_StructWithArrayOfImmutable_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::Structs::StructWithArrayOfImmutable>( handle );
+}
+_baseRef
+smoke_Structs_StructWithArrayOfImmutable_create_optional_handle(_baseRef arrayField)
+{
+    auto _arrayField = Conversion<std::vector<::smoke::Structs::AllTypesStruct>>::toCpp( arrayField );
+    auto _struct = new ( std::nothrow ) genium::optional<::smoke::Structs::StructWithArrayOfImmutable>( ::smoke::Structs::StructWithArrayOfImmutable( _arrayField ) );
+    return reinterpret_cast<_baseRef>( _struct );
+}
+_baseRef
+smoke_Structs_StructWithArrayOfImmutable_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<genium::optional<::smoke::Structs::StructWithArrayOfImmutable>*>( handle ) );
+}
+void smoke_Structs_StructWithArrayOfImmutable_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<genium::optional<::smoke::Structs::StructWithArrayOfImmutable>*>( handle );
+}
+_baseRef smoke_Structs_StructWithArrayOfImmutable_arrayField_get(_baseRef handle) {
+    auto struct_pointer = get_pointer<::smoke::Structs::StructWithArrayOfImmutable>(handle);
+return Conversion<std::vector<::smoke::Structs::AllTypesStruct>>::toBaseRef(struct_pointer->array_field);
+}
 _baseRef smoke_Structs_createPoint(double x, double y) {
     return Conversion<::smoke::Structs::Point>::toBaseRef(::smoke::Structs::create_point(x, y))
 ;

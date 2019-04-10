@@ -27,4 +27,12 @@ object LimeTypeHelper {
             else -> type
         }
     }
+
+    fun getLeafType(limeType: LimeType): LimeType =
+        when (limeType) {
+            is LimeTypeDef -> getLeafType(limeType.typeRef.type)
+            is LimeArray -> getLeafType(limeType.elementType.type)
+            is LimeMap -> getLeafType(limeType.valueType.type)
+            else -> limeType
+        }
 }

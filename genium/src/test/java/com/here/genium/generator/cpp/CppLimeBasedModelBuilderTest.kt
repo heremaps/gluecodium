@@ -34,6 +34,7 @@ import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.cpp.CppTemplateTypeRef
 import com.here.genium.model.cpp.CppUsing
 import com.here.genium.model.cpp.CppValue
+import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
@@ -431,6 +432,23 @@ class CppLimeBasedModelBuilderTest {
         )
         val structTypeRef = LimeTypeRef(mapOf("foo" to structType), "foo")
         val limeElement = LimeField(EMPTY_PATH, typeRef = structTypeRef)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(CppField::class.java)
+        assertTrue(result.hasImmutableType)
+    }
+
+    @Test
+    fun finishBuildingFieldReadsImmutableArray() {
+        contextStack.injectResult(cppTypeRef)
+        val structType = LimeStruct(
+            EMPTY_PATH,
+            attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.IMMUTABLE).build()
+        )
+        val limeArray = LimeArray(LimeTypeRef(mapOf("foo" to structType), "foo"))
+        val limeElement =
+            LimeField(EMPTY_PATH, typeRef = LimeTypeRef(mapOf("bar" to limeArray), "bar"))
 
         modelBuilder.finishBuilding(limeElement)
 

@@ -94,4 +94,17 @@ public final class FrancaTypeHelper {
     }
     return result;
   }
+
+  public static FType getLeafType(final FTypeRef francaTypeRef) {
+    FType francaType = francaTypeRef.getDerived();
+    if (francaType instanceof FTypeDef) {
+      return getLeafType(((FTypeDef) francaType).getActualType());
+    } else if (francaType instanceof FArrayType) {
+      return getLeafType(((FArrayType) francaType).getElementType());
+    } else if (francaType instanceof FMapType) {
+      return getLeafType(((FMapType) francaType).getValueType());
+    } else {
+      return francaType;
+    }
+  }
 }

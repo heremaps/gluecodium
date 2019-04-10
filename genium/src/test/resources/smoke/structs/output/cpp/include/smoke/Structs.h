@@ -6,9 +6,7 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 //
 // -------------------------------------------------------------------------------------------------
-
 #pragma once
-
 #include "Export.h"
 #include "foo/Bar.h"
 #include "foo/Bazz.h"
@@ -17,7 +15,6 @@
 #include <memory>
 #include <string>
 #include <vector>
-
 namespace smoke {
 class _GENIUM_CPP_EXPORT Structs {
 public:
@@ -70,12 +67,17 @@ struct _GENIUM_CPP_EXPORT AllTypesStruct {
     AllTypesStruct( );
     AllTypesStruct( const int8_t int8_field, const uint8_t uint8_field, const int16_t int16_field, const uint16_t uint16_field, const int32_t int32_field, const uint32_t uint32_field, const int64_t int64_field, const uint64_t uint64_field, const float float_field, const double double_field, const ::std::string& string_field, const bool boolean_field, const ::std::shared_ptr< ::std::vector< uint8_t > >& bytes_field, const ::smoke::Structs::Point& point_field );
 };
+using ArrayOfImmutable = ::std::vector< ::smoke::Structs::AllTypesStruct >;
 struct _GENIUM_CPP_EXPORT NestingImmutableStruct {
     ::smoke::Structs::AllTypesStruct struct_field;
     NestingImmutableStruct( );
     NestingImmutableStruct( const ::smoke::Structs::AllTypesStruct& struct_field );
 };
-
+struct _GENIUM_CPP_EXPORT StructWithArrayOfImmutable {
+    ::smoke::Structs::ArrayOfImmutable array_field;
+    StructWithArrayOfImmutable( );
+    StructWithArrayOfImmutable( const ::smoke::Structs::ArrayOfImmutable& array_field );
+};
 public:
 static ::smoke::Structs::Point create_point( const double x, const double y );
 static ::smoke::Structs::Point swap_point_coordinates( const ::smoke::Structs::Point& input );
@@ -88,5 +90,4 @@ static ::smoke::Structs::ExternalStruct get_external_struct(  );
 static ::fire::SomeVeryExternalStruct get_another_external_struct(  );
 static ::smoke::Structs::Yet_Another_External_Struct get_yet_another_external_struct(  );
 };
-
 }

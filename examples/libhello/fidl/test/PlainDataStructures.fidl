@@ -90,6 +90,12 @@ interface PlainDataStructures {
         AllTypesImmutableStruct structField
     }
 
+    struct StructWithArrayOfImmutable {
+        ArrayOfImmutable arrayField
+    }
+
+    array ArrayOfImmutable of AllTypesImmutableStruct
+
     map MapToImmutableStruct { Int32 to AllTypesImmutableStruct }
 
     method MapOfImmutablesRoundTrip {
