@@ -17,17 +17,18 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp
+package com.here.genium.validator
 
-import java.util.stream.Stream
+import com.here.genium.franca.FrancaDeploymentModel
+import org.eclipse.emf.ecore.EObject
 
-class CppParameter(
-    name: String,
-    type: CppTypeRef?,
-    val isNotNull: Boolean = false
-) : CppTypedElement(name, type) {
-    override fun stream() = Stream.of(type)
+interface ValidatorPredicate<T : EObject> {
+    /** Get Class of T  */
+    val elementClass: Class<T>
 
-    @Suppress("unused")
-    fun hasComment() = isNotNull || !comment.isNullOrEmpty()
+    /**
+     * Validate the given element using the given deployment model.
+     * @return null if validation passed; validation message if it does not.
+     */
+    fun validate(deploymentModel: FrancaDeploymentModel, francaElement: T): String?
 }

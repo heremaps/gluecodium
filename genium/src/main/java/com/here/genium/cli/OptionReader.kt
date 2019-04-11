@@ -28,7 +28,7 @@ import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Option
 import org.apache.commons.cli.Options
 import org.apache.commons.cli.ParseException
-import org.eclipse.xtext.util.Files
+import java.io.File
 
 class OptionReader {
     private val options: Options = Options().run {
@@ -152,7 +152,7 @@ class OptionReader {
 
             val copyrightHeader = cmd.getOptionValue("copyright")
             if (copyrightHeader != null) {
-                val contents = Files.readFileIntoString(copyrightHeader)
+                val contents = File(copyrightHeader).readText()
                 options.copyrightHeaderContents = contents
             }
         } catch (e: ParseException) {

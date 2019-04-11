@@ -37,8 +37,6 @@ import org.apache.commons.io.IOUtils;
 /** The base interface for all the generators. */
 public abstract class GeneratorSuite {
 
-  public static final String SPEC_PATH = "classpath:/GeniumExtensions.fdepl";
-
   /** @return the human readable name of this generator */
   public abstract String getName();
 

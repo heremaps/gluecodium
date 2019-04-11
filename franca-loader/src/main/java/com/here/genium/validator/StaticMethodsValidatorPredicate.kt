@@ -17,17 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp
+package com.here.genium.validator
 
-import java.util.stream.Stream
+import com.here.genium.franca.FrancaDeploymentModel
+import org.franca.core.franca.FMethod
 
-class CppParameter(
-    name: String,
-    type: CppTypeRef?,
-    val isNotNull: Boolean = false
-) : CppTypedElement(name, type) {
-    override fun stream() = Stream.of(type)
+/** Validate that static methods are not contained in Franca interfaces with IsInterface "true". */
+class StaticMethodsValidatorPredicate : StaticElementsValidatorPredicate<FMethod>() {
 
-    @Suppress("unused")
-    fun hasComment() = isNotNull || !comment.isNullOrEmpty()
+    override val elementClass = FMethod::class.java
+
+    override fun isStatic(deploymentModel: FrancaDeploymentModel, francaElement: FMethod) =
+        deploymentModel.isStatic(francaElement) || deploymentModel.isConstructor(francaElement)
 }

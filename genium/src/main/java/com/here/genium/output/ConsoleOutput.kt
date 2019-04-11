@@ -20,20 +20,15 @@
 package com.here.genium.output
 
 import com.here.genium.generator.common.GeneratedFile
-import org.eclipse.xtend2.lib.StringConcatenation
 
 /** Write generated files to standard console output.  */
 class ConsoleOutput : GeneratorOutput {
     override fun output(files: List<GeneratedFile>) {
-        files.forEach { file ->
-            println(StringConcatenation().apply {
-                append("Generated ${file.targetFile.path}:")
-                newLineIfNotEmpty()
-                newLine()
-                append("        ")
-                append(file.content, "        ")
-                newLineIfNotEmpty()
-            }.toString())
+        files.forEach {
+            println("Generated ${it.targetFile.path}:")
+            println()
+            println(it.content)
+            println()
         }
         println("Done.")
     }

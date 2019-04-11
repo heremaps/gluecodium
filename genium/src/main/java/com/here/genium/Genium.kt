@@ -31,7 +31,7 @@ import com.here.genium.generator.common.Version
 import com.here.genium.generator.common.templates.TemplateEngine
 import com.here.genium.loader.FrancaBasedLimeModelLoader
 import com.here.genium.loader.FrancaLoadingException
-import com.here.genium.logger.GeniumLogger
+import com.here.genium.loader.FrancaLogger
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeModelLoader
 import com.here.genium.output.ConsoleOutput
@@ -59,7 +59,7 @@ class Genium @VisibleForTesting internal constructor(
     )
 
     init {
-        GeniumLogger.initialize("logging.properties")
+        FrancaLogger.initialize("logging.properties")
     }
 
     @VisibleForTesting

@@ -17,17 +17,16 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp
+package com.here.genium.franca;
 
-import java.util.stream.Stream
+import com.google.inject.Injector;
+import org.franca.deploymodel.dsl.FDeployStandaloneSetup;
 
-class CppParameter(
-    name: String,
-    type: CppTypeRef?,
-    val isNotNull: Boolean = false
-) : CppTypedElement(name, type) {
-    override fun stream() = Stream.of(type)
+public class ModelHelper {
+  private static final Injector FDEPL_INJECTOR =
+      new FDeployStandaloneSetup().createInjectorAndDoEMFRegistration();
 
-    @Suppress("unused")
-    fun hasComment() = isNotNull || !comment.isNullOrEmpty()
+  public static Injector getFdeplInjector() {
+    return FDEPL_INJECTOR;
+  }
 }

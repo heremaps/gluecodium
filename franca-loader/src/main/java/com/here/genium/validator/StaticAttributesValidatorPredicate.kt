@@ -17,17 +17,18 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp
+package com.here.genium.validator
 
-import java.util.stream.Stream
+import com.here.genium.franca.FrancaDeploymentModel
+import org.franca.core.franca.FAttribute
 
-class CppParameter(
-    name: String,
-    type: CppTypeRef?,
-    val isNotNull: Boolean = false
-) : CppTypedElement(name, type) {
-    override fun stream() = Stream.of(type)
+/**
+ * Validate that static attributes are not contained in Franca interfaces with IsInterface "true".
+ */
+class StaticAttributesValidatorPredicate : StaticElementsValidatorPredicate<FAttribute>() {
 
-    @Suppress("unused")
-    fun hasComment() = isNotNull || !comment.isNullOrEmpty()
+    override val elementClass = FAttribute::class.java
+
+    override fun isStatic(deploymentModel: FrancaDeploymentModel, francaElement: FAttribute) =
+            deploymentModel.isStatic(francaElement)
 }

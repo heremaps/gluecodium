@@ -17,17 +17,5 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp
-
-import java.util.stream.Stream
-
-class CppParameter(
-    name: String,
-    type: CppTypeRef?,
-    val isNotNull: Boolean = false
-) : CppTypedElement(name, type) {
-    override fun stream() = Stream.of(type)
-
-    @Suppress("unused")
-    fun hasComment() = isNotNull || !comment.isNullOrEmpty()
-}
+/** Helper classes to work with Franca model. */
+package com.here.genium.franca;
