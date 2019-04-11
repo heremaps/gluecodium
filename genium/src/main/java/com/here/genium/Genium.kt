@@ -29,39 +29,15 @@ import com.here.genium.common.TimeLogger
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.Version
 import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.loader.FrancaModelLoader
+import com.here.genium.loader.FrancaBasedLimeModelLoader
+import com.here.genium.loader.FrancaLoadingException
 import com.here.genium.logger.GeniumLogger
-import com.here.genium.model.franca.FrancaDeploymentModel
-import com.here.genium.model.franca.ModelHelper
+import com.here.genium.model.lime.LimeModel
+import com.here.genium.model.lime.LimeModelLoader
 import com.here.genium.output.ConsoleOutput
 import com.here.genium.output.FileOutput
 import com.here.genium.platform.android.AndroidGeneratorSuite
 import com.here.genium.platform.common.GeneratorSuite
-import com.here.genium.validator.ConstructorsValidatorPredicate
-import com.here.genium.validator.DefaultsValidatorPredicate
-import com.here.genium.validator.EquatableValidatorPredicate
-import com.here.genium.validator.ErrorEnumsValidatorPredicate
-import com.here.genium.validator.ExpressionValidatorPredicate
-import com.here.genium.validator.ExternalElementsValidatorPredicate
-import com.here.genium.validator.ExternalTypesValidatorPredicate
-import com.here.genium.validator.FrancaModelValidator
-import com.here.genium.validator.FrancaResourcesValidator
-import com.here.genium.validator.InheritanceValidatorPredicate
-import com.here.genium.validator.IntegerIntervalValidatorPredicate
-import com.here.genium.validator.MapKeyValidatorPredicate
-import com.here.genium.validator.NameValidator
-import com.here.genium.validator.SerializationValidatorPredicate
-import com.here.genium.validator.StaticAttributesValidatorPredicate
-import com.here.genium.validator.StaticMethodsValidatorPredicate
-import com.here.genium.validator.StructInheritanceValidatorPredicate
-import com.here.genium.validator.UnionsValidatorPredicate
-import com.here.genium.validator.visibility.ArrayVisibilityValidatorPredicate
-import com.here.genium.validator.visibility.AttributeVisibilityValidatorPredicate
-import com.here.genium.validator.visibility.FieldVisibilityValidatorPredicate
-import com.here.genium.validator.visibility.InheritanceVisibilityValidatorPredicate
-import com.here.genium.validator.visibility.InterfaceMethodVisibilityValidatorPredicate
-import com.here.genium.validator.visibility.MethodVisibilityValidatorPredicate
-import org.franca.core.franca.FTypeCollection
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -71,7 +47,10 @@ import java.util.concurrent.TimeUnit
 import java.util.logging.Level
 import java.util.logging.Logger
 
-class Genium(private val options: Options) {
+class Genium @VisibleForTesting internal constructor(
+    private val modelLoader: LimeModelLoader,
+    private val options: Options
+) {
     private val version = parseVersion()
     private val cacheStrategy = CachingStrategyCreator.initializeCaching(
         options.isEnableCaching,
@@ -79,30 +58,27 @@ class Genium(private val options: Options) {
         GeneratorSuite.generatorShortNames()
     )
 
-    val francaModelLoader: FrancaModelLoader
-        get() {
-            val francaModelLoader = FrancaModelLoader()
-            ModelHelper.getFdeplInjector().injectMembers(francaModelLoader)
-            return francaModelLoader
-        }
-
     init {
         GeniumLogger.initialize("logging.properties")
     }
 
+    @VisibleForTesting
+    constructor(options: Options) : this(FrancaBasedLimeModelLoader, options)
+
     fun execute(): Boolean {
         LOGGER.info("Version: $version")
 
-        val inputDirs = options.inputDirs.map { File(it) }
-        val typeCollections = mutableListOf<FTypeCollection>()
         val times = TimeLogger(LOGGER, TimeUnit.MILLISECONDS, Level.INFO)
         times.start()
-        val deploymentModel = loadModel(inputDirs, typeCollections)
-        times.addLogEntry("model loading")
-
-        if (deploymentModel == null) {
+        val limeModel: LimeModel
+        try {
+            limeModel = modelLoader.loadModel(options.inputDirs)
+            times.addLogEntry("model loading")
+        } catch (e: FrancaLoadingException) {
+            LOGGER.severe(e.message)
             return false
         }
+
         if (options.isValidatingOnly) {
             return true
         }
@@ -112,10 +88,9 @@ class Genium(private val options: Options) {
         val fileNamesCache = hashMapOf<String, String>()
         var executionSucceeded = false
         try {
-            executionSucceeded = discoverGenerators()
-                .all {
-                    executeGenerator(it, deploymentModel, typeCollections, fileNamesCache)
-                }
+            executionSucceeded = discoverGenerators().all {
+                executeGenerator(it, limeModel, fileNamesCache)
+            }
         } finally {
             // cache has to be updated in any case
             executionSucceeded = cacheStrategy.write(executionSucceeded)
@@ -129,49 +104,20 @@ class Genium(private val options: Options) {
     }
 
     @VisibleForTesting
-    fun loadModel(
-        inputDirs: List<File>,
-        typeCollections: MutableList<FTypeCollection>
-    ): FrancaDeploymentModel? {
-        val inputFiles = FrancaModelLoader.listFilesRecursively(inputDirs)
-
-        val francaModelLoader = francaModelLoader
-        if (!FrancaResourcesValidator.validate(
-                francaModelLoader.resourceSetProvider.get(), inputFiles
-            )
-        ) {
-            LOGGER.severe("Validation of Franca files Failed")
-            return null
-        }
-
-        val deploymentModel =
-            francaModelLoader.load(GeneratorSuite.SPEC_PATH, inputFiles, typeCollections)
-        LOGGER.fine("Built franca model")
-
-        if (!validateFrancaModel(deploymentModel, typeCollections)) {
-            LOGGER.severe("Validation of Franca model Failed")
-            return null
-        }
-        return deploymentModel
-    }
-
-    @VisibleForTesting
     fun executeGenerator(
         generatorName: String,
-        deploymentModel: FrancaDeploymentModel,
-        typeCollections: List<FTypeCollection>,
+        limeModel: LimeModel,
         fileNamesCache: MutableMap<String, String>
     ): Boolean {
         LOGGER.fine("Using generator $generatorName")
-        val generator =
-            GeneratorSuite.instantiateByShortName(generatorName, options, deploymentModel)
+        val generator = GeneratorSuite.instantiateByShortName(generatorName, options)
         if (generator == null) {
             LOGGER.severe("Failed instantiation of generator '$generatorName'")
             return false
         }
         LOGGER.fine("Instantiated generator " + generator.name)
 
-        val outputFiles = generator.generate(typeCollections)
+        val outputFiles = generator.generate(limeModel)
         val outputSuccessful = output(generatorName, outputFiles)
         val processedWithoutCollisions =
             checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName)
@@ -209,44 +155,9 @@ class Genium(private val options: Options) {
             val co = ConsoleOutput()
             co.output(files)
         }
-        val filesToBeWritten = cacheStrategy.updateCache(generatorName, files) ?: listOf()
+        val filesToBeWritten = cacheStrategy.updateCache(generatorName, files) ?: emptyList()
         return saveToDirectory(options.outputDir, filesToBeWritten)
     }
-
-    /**
-     * Uses the internal validators to validate the model.
-     *
-     * @return boolean True if the model is valid, false otherwise.
-     */
-    @VisibleForTesting
-    internal fun validateFrancaModel(
-        deploymentModel: FrancaDeploymentModel,
-        typeCollections: List<FTypeCollection>
-    ) = NameValidator.validate(typeCollections) && FrancaModelValidator(
-        listOf(
-            DefaultsValidatorPredicate(),
-            ExpressionValidatorPredicate(),
-            MapKeyValidatorPredicate(),
-            IntegerIntervalValidatorPredicate(),
-            StaticMethodsValidatorPredicate(),
-            StaticAttributesValidatorPredicate(),
-            ErrorEnumsValidatorPredicate(),
-            InheritanceValidatorPredicate(),
-            UnionsValidatorPredicate(),
-            SerializationValidatorPredicate(),
-            EquatableValidatorPredicate(),
-            InheritanceVisibilityValidatorPredicate(),
-            AttributeVisibilityValidatorPredicate(),
-            MethodVisibilityValidatorPredicate(),
-            FieldVisibilityValidatorPredicate(),
-            ArrayVisibilityValidatorPredicate(),
-            ExternalElementsValidatorPredicate(),
-            ExternalTypesValidatorPredicate(),
-            StructInheritanceValidatorPredicate(),
-            ConstructorsValidatorPredicate(),
-            InterfaceMethodVisibilityValidatorPredicate()
-        )
-    ).validate(deploymentModel, typeCollections)
 
     class Options(
         var inputDirs: List<String> = listOf(),

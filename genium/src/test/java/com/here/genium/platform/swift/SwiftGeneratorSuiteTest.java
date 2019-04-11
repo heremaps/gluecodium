@@ -20,14 +20,13 @@
 package com.here.genium.platform.swift;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import com.here.genium.Genium;
 import com.here.genium.generator.cbridge.CBridgeGenerator;
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.generator.swift.SwiftGenerator;
-import com.here.genium.model.franca.FrancaDeploymentModel;
-import java.util.LinkedList;
+import com.here.genium.model.lime.LimeModel;
+import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,12 +36,12 @@ import org.junit.runners.JUnit4;
 public final class SwiftGeneratorSuiteTest {
 
   private final SwiftGeneratorSuite suite =
-      new SwiftGeneratorSuite(
-          Genium.Companion.getDEFAULT_OPTIONS(), mock(FrancaDeploymentModel.class));
+      new SwiftGeneratorSuite(Genium.Companion.getDEFAULT_OPTIONS());
 
   @Test
   public void generatedFilesContainStaticFiles() {
-    List<GeneratedFile> generatedFiles = suite.generate(new LinkedList<>());
+    List<GeneratedFile> generatedFiles =
+        suite.generate(new LimeModel(Collections.emptyMap(), Collections.emptyList()));
 
     assertTrue(
         generatedFiles + " must contain all " + SwiftGenerator.Companion.getSTATIC_FILES(),

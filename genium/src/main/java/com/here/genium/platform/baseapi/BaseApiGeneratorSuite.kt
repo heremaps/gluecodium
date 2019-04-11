@@ -22,16 +22,14 @@ package com.here.genium.platform.baseapi
 import com.google.common.annotations.VisibleForTesting
 import com.here.genium.Genium
 import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
 import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.genium.generator.cpp.CppGenerator
+import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.cpp.CppNameResolver
-import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.generator.cpp.CppNameRules
-import com.here.genium.generator.lime.LimeModelBuilder
-import com.here.genium.generator.lime.LimeReferenceResolver
+import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppComplexTypeRef
 import com.here.genium.model.cpp.CppElement
@@ -39,12 +37,10 @@ import com.here.genium.model.cpp.CppElementWithIncludes
 import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppFile
 import com.here.genium.model.cpp.CppForwardDeclaration
-import com.here.genium.generator.cpp.CppIncludeResolver
-import com.here.genium.model.franca.FrancaDeploymentModel
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeModel
 import com.here.genium.platform.common.GeneratorSuite
-import org.franca.core.franca.FTypeCollection
 import java.io.File
 import java.nio.file.Paths
 import java.util.stream.Collectors
@@ -56,27 +52,16 @@ import java.util.stream.Collectors
  * It is the underlying generator, that all others depend on, as they will invoke the actual
  * implementation through the C++ interfaces.
  */
-class BaseApiGeneratorSuite(
-    options: Genium.Options,
-    private val deploymentModel: FrancaDeploymentModel
-) : GeneratorSuite() {
+class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
 
     private val internalNamespace = options.cppInternalNamespace ?: listOf("")
     private val rootNamespace = options.cppRootNamespace
     private val exportName = options.cppExport
-    private val limeReferenceResolver = LimeReferenceResolver()
 
     override fun getName() = "com.here.BaseApiGenerator"
 
-    override fun generate(typeCollections: List<FTypeCollection>): List<GeneratedFile> {
-        val limeModelBuilder =
-            LimeModelBuilder(deploymentModel, limeReferenceResolver)
-        val limeModel = typeCollections.map {
-            FrancaTreeWalker(listOf(limeModelBuilder)).walkTree(it)
-            limeModelBuilder.getFinalResult(LimeContainer::class.java)
-        }
-
-        val limeReferenceMap = limeReferenceResolver.referenceMap
+    override fun generate(limeModel: LimeModel): List<GeneratedFile> {
+        val limeReferenceMap = limeModel.referenceMap
         val includeResolver =
             CppIncludeResolver(rootNamespace, limeReferenceMap)
         val nameResolver = CppNameResolver(rootNamespace, limeReferenceMap)
@@ -90,7 +75,7 @@ class BaseApiGeneratorSuite(
             .toSet()
 
         val generator = CppGenerator(BaseApiGeneratorSuite.GENERATOR_NAME, internalNamespace)
-        return limeModel.flatMap {
+        return limeModel.containers.flatMap {
             generator.generateCode(
                 mapLimeModelToCppModel(it, cppModelBuilder, allErrorEnums),
                 includeResolver.getOutputFilePath(it)

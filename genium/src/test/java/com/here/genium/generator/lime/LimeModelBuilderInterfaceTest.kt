@@ -20,6 +20,8 @@
 package com.here.genium.generator.lime
 
 import com.here.genium.generator.common.StringValueMapper
+import com.here.genium.loader.LimeModelBuilder
+import com.here.genium.loader.LimeReferenceResolver
 import com.here.genium.model.common.InstanceRules
 import com.here.genium.model.franca.CommentHelper
 import com.here.genium.model.franca.FrancaDeploymentModel

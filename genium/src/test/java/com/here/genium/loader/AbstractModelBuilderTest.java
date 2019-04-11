@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.modelbuilder;
+package com.here.genium.loader;
 
 import static org.junit.Assert.assertTrue;
 

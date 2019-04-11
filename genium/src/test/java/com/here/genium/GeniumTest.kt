@@ -23,16 +23,12 @@ import com.here.genium.Genium.Options
 import com.here.genium.cache.CachingStrategy
 import com.here.genium.cache.CachingStrategyCreator
 import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.loader.FrancaModelLoader
-import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.lime.LimeModel
+import com.here.genium.model.lime.LimeModelLoader
 import com.here.genium.output.ConsoleOutput
 import com.here.genium.output.FileOutput
 import com.here.genium.platform.common.GeneratorSuite
-import com.here.genium.validator.FrancaResourcesValidator
-import io.mockk.every
 import io.mockk.spyk
-import org.eclipse.emf.ecore.resource.ResourceSet
-import org.franca.core.franca.FTypeCollection
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -42,10 +38,10 @@ import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
-import org.mockito.Answers
 import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyBoolean
+import org.mockito.ArgumentMatchers.anyList
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
@@ -63,22 +59,16 @@ import java.io.IOException
 import java.io.PrintStream
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.LinkedList
 
 @RunWith(PowerMockRunner::class)
-@PrepareForTest(
-    GeneratorSuite::class,
-    FrancaResourcesValidator::class,
-    CachingStrategyCreator::class
-)
+@PrepareForTest(GeneratorSuite::class, CachingStrategyCreator::class)
 class GeniumTest {
+    @Mock
+    private lateinit var modelLoader: LimeModelLoader
     @Mock
     private lateinit var generator: GeneratorSuite
     @Mock
     private lateinit var cache: CachingStrategy
-
-    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-    private lateinit var francaModelLoader: FrancaModelLoader
 
     @Rule
     val expectedException: ExpectedException = ExpectedException.none()
@@ -88,28 +78,19 @@ class GeniumTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        PowerMockito.mockStatic(
-            GeneratorSuite::class.java,
-            FrancaResourcesValidator::class.java,
-            CachingStrategyCreator::class.java
-        )
+        PowerMockito.mockStatic(GeneratorSuite::class.java, CachingStrategyCreator::class.java)
 
-        `when`(CachingStrategyCreator.initializeCaching(anyBoolean(), any(), any())).thenReturn(
-            cache
-        )
-        Mockito.`when`(cache.updateCache(any(), any())).thenReturn(LinkedList())
-        Mockito.`when`(cache.write(true)).thenReturn(true)
-        Mockito.`when`(cache.write(false)).thenReturn(false)
-
-        `when`(FrancaResourcesValidator.validate(any<ResourceSet>(), any())).thenReturn(true)
-        `when`(generator.name).thenReturn("")
         `when`(
-            GeneratorSuite.instantiateByShortName(
-                any(),
-                any(),
-                any<FrancaDeploymentModel>()
-            )
-        ).thenReturn(generator)
+            CachingStrategyCreator.initializeCaching(anyBoolean(), any(), any())
+        ).thenReturn(cache)
+        `when`(cache.updateCache(any(), any())).thenReturn(emptyList())
+        `when`(cache.write(true)).thenReturn(true)
+        `when`(cache.write(false)).thenReturn(false)
+
+        `when`(generator.name).thenReturn("")
+        `when`(GeneratorSuite.instantiateByShortName(any(), any())).thenReturn(generator)
+
+        `when`(modelLoader.loadModel(anyList())).thenReturn(LimeModel(emptyMap(), emptyList()))
     }
 
     @Test
@@ -127,13 +108,7 @@ class GeniumTest {
     @Test
     fun failedInstantiationOfGenerator() {
         // Arrange
-        `when`(
-            GeneratorSuite.instantiateByShortName(
-                any(),
-                any(),
-                any<FrancaDeploymentModel>()
-            )
-        ).thenReturn(null)
+        `when`(GeneratorSuite.instantiateByShortName(any(), any())).thenReturn(null)
         val options = Options(
             inputDirs = listOf(""),
             generators = setOf("invalidGenerator")
@@ -146,13 +121,7 @@ class GeniumTest {
     @Test
     fun fileNameCollisionsResolved() {
         // Arrange
-        `when`(generator.generate(any<List<FTypeCollection>>())).thenReturn(
-            listOf(
-                FILE,
-                FILE,
-                FILE
-            )
-        )
+        `when`(generator.generate(any())).thenReturn(listOf(FILE, FILE, FILE))
         val options = Options(
             inputDirs = listOf(""),
             generators = setOf(SHORT_NAME),
@@ -176,7 +145,7 @@ class GeniumTest {
         createGenium(options).execute()
 
         // Assert
-        verify(generator, never()).generate(any<List<FTypeCollection>>())
+        verify(generator, never()).generate(any())
     }
 
     @Test
@@ -222,7 +191,6 @@ class GeniumTest {
         Genium::class,
         FileOutput::class,
         GeneratorSuite::class,
-        FrancaResourcesValidator::class,
         CachingStrategyCreator::class
     )
     @Throws(Exception::class)
@@ -243,7 +211,6 @@ class GeniumTest {
     @PrepareForTest(
         Genium::class,
         GeneratorSuite::class,
-        FrancaResourcesValidator::class,
         CachingStrategyCreator::class
     )
     @Throws(Exception::class)
@@ -327,12 +294,7 @@ class GeniumTest {
         )
     }
 
-    private fun createGenium(options: Options): Genium {
-        val genium = spyk(Genium(options))
-        every { genium.francaModelLoader } returns francaModelLoader
-        every { genium.validateFrancaModel(any(), any()) } returns(true)
-        return genium
-    }
+    private fun createGenium(options: Options) = spyk(Genium(modelLoader, options))
 
     companion object {
         private const val SHORT_NAME = "android"

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.modelbuilder
+package com.here.genium.loader
 
 import com.here.genium.common.GenericTreeWalker
 import org.eclipse.emf.ecore.EObject
@@ -120,7 +120,7 @@ class FrancaTreeWalker(builders: Collection<ModelBuilder>) :
         private const val IN_ARG_KEY = "InputArgument"
         private const val OUT_ARG_KEY = "OutputArgument"
         private val FRANCA_TREE_STRUCTURE =
-            mutableMapOf<Any, GenericTreeWalker.TreeNodeInfo<ModelBuilder, *>>()
+            mutableMapOf<Any, TreeNodeInfo<ModelBuilder, *>>()
 
         init {
             // Regular nodes
@@ -218,13 +218,7 @@ class FrancaTreeWalker(builders: Collection<ModelBuilder>) :
             clazz: Class<T>,
             finishMethod: ModelBuilder.(T) -> Unit,
             walkChildNodes: FrancaTreeWalker.(T) -> Unit
-        ) = initTreeNode(
-                clazz,
-                clazz,
-                { this.startBuilding(it) },
-                finishMethod,
-                walkChildNodes
-            )
+        ) = initTreeNode(clazz, clazz, { startBuilding(it) }, finishMethod, walkChildNodes)
 
         private fun <T : EObject> initTreeNode(
             clazz: Class<T>,
@@ -240,11 +234,13 @@ class FrancaTreeWalker(builders: Collection<ModelBuilder>) :
             finishMethod: ModelBuilder.(T) -> Unit,
             walkChildNodes: FrancaTreeWalker.(T) -> Unit
         ) {
-            FRANCA_TREE_STRUCTURE[key] = GenericTreeWalker.TreeNodeInfo(
-                clazz,
-                startMethod,
-                finishMethod,
-                { (this as FrancaTreeWalker).walkChildNodes(it) })
+            FRANCA_TREE_STRUCTURE[key] =
+                TreeNodeInfo(
+                    clazz,
+                    startMethod,
+                    finishMethod,
+                    { (this as FrancaTreeWalker).walkChildNodes(it) }
+                )
         }
 
         @Suppress("UNUSED_PARAMETER")

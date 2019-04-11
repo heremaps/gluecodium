@@ -22,20 +22,15 @@ package com.here.genium.platform.android
 import com.here.genium.Genium
 import com.here.genium.generator.androidmanifest.AndroidManifestGenerator
 import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
 import com.here.genium.generator.java.JavaTemplates
 import com.here.genium.generator.jni.JniGenerator
 import com.here.genium.generator.jni.JniNameRules
 import com.here.genium.generator.jni.JniTemplates
-import com.here.genium.generator.lime.LimeModelBuilder
-import com.here.genium.generator.lime.LimeReferenceResolver
-import com.here.genium.model.franca.FrancaDeploymentModel
 import com.here.genium.model.java.JavaElement
 import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.jni.JniContainer
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeModel
 import com.here.genium.platform.common.GeneratorSuite
-import org.franca.core.franca.FTypeCollection
 
 /**
  * Combines generators [JniGenerator], [JniTemplates] and [JavaTemplates] to generate Java code and
@@ -43,8 +38,7 @@ import org.franca.core.franca.FTypeCollection
  */
 open class JavaGeneratorSuite protected constructor(
     options: Genium.Options,
-    private val enableAndroidFeatures: Boolean,
-    private val deploymentModel: FrancaDeploymentModel
+    private val enableAndroidFeatures: Boolean
 ) : GeneratorSuite() {
 
     private val rootPackage = options.javaPackages
@@ -54,27 +48,17 @@ open class JavaGeneratorSuite protected constructor(
 
     protected open val generatorName = GENERATOR_NAME
 
-    constructor(
-        options: Genium.Options,
-        deploymentModel: FrancaDeploymentModel
-    ) : this(options, false, deploymentModel)
+    constructor(options: Genium.Options) : this(options, false)
 
     override fun getName() = "com.here.JavaGeneratorSuite"
 
-    override fun generate(typeCollections: List<FTypeCollection>): List<GeneratedFile> {
+    override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val javaPackageList =
             if (!rootPackage.isEmpty()) rootPackage else JavaPackage.DEFAULT_PACKAGE_NAMES
         val internalPackageList = javaPackageList + internalPackage
 
-        val referenceResolver = LimeReferenceResolver()
-        val limeModelBuilder = LimeModelBuilder(deploymentModel, referenceResolver)
-        val limeModel = typeCollections.map {
-            FrancaTreeWalker(listOf(limeModelBuilder)).walkTree(it)
-            limeModelBuilder.getFinalResult(LimeContainer::class.java)
-        }
-
         val jniGenerator = JniGenerator(
-            referenceResolver.referenceMap,
+            limeModel.referenceMap,
             javaPackageList,
             internalPackage,
             UTILS_HEADER_INCLUDES.map { JniNameRules.getHeaderFileName(it) },
@@ -83,7 +67,7 @@ open class JavaGeneratorSuite protected constructor(
             rootNamespace
         )
 
-        val model = limeModel.map { jniGenerator.generateModel(it) }.flatten()
+        val model = limeModel.containers.map { jniGenerator.generateModel(it) }.flatten()
         val javaModel = model.filterIsInstance<JavaElement>()
         val jniModel = model.filterIsInstance<JniContainer>()
 

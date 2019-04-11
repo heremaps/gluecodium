@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.lime
+package com.here.genium.loader
 
 import com.here.genium.generator.common.StringValueMapper
 import com.here.genium.model.common.InstanceRules

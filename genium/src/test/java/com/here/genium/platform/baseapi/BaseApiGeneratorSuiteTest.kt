@@ -20,34 +20,30 @@
 package com.here.genium.platform.baseapi
 
 import com.here.genium.Genium
-import com.here.genium.model.franca.FrancaDeploymentModel
+import com.here.genium.model.lime.LimeModel
+import com.here.genium.test.AssertHelpers.assertContains
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
-import org.junit.matchers.JUnitMatchers.hasItems
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class BaseApiGeneratorSuiteTest {
-    @Mock
-    private lateinit var deploymentModel: FrancaDeploymentModel
 
     private lateinit var baseApiGeneratorSuite: BaseApiGeneratorSuite
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        baseApiGeneratorSuite = BaseApiGeneratorSuite(Genium.DEFAULT_OPTIONS, deploymentModel)
+        baseApiGeneratorSuite = BaseApiGeneratorSuite(Genium.DEFAULT_OPTIONS)
     }
 
     @Test
     fun generateFilesEmptyModel() {
-        val generatedFiles = baseApiGeneratorSuite.generate(emptyList())
+        val generatedFiles = baseApiGeneratorSuite.generate(LimeModel(emptyMap(), emptyList()))
         assertNotNull(generatedFiles)
         // + 1 for Export.h
         val expectedGeneratedFiles = BaseApiGeneratorSuite.ADDITIONAL_HEADERS.size + 1
@@ -57,12 +53,12 @@ class BaseApiGeneratorSuiteTest {
                 generatedFiles.size
         )
 
-        assertThat(generatedFiles.map { it.targetFile.toString() }, hasItems(
-                "cpp/include/genium/EnumHash.h",
-                "cpp/include/genium/Return.h",
-                "cpp/include/genium/Export.h",
-                "cpp/include/genium/Optional.h",
-                "cpp/include/genium/OptionalImpl.h",
-                "cpp/include/genium/Export.h"))
+        val generatedFileNames = generatedFiles.map { it.targetFile.toString() }
+        assertContains( "cpp/include/genium/EnumHash.h", generatedFileNames)
+        assertContains( "cpp/include/genium/Return.h", generatedFileNames)
+        assertContains( "cpp/include/genium/Export.h", generatedFileNames)
+        assertContains( "cpp/include/genium/Optional.h", generatedFileNames)
+        assertContains( "cpp/include/genium/OptionalImpl.h", generatedFileNames)
+        assertContains( "cpp/include/genium/Export.h", generatedFileNames)
     }
 }

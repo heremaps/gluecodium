@@ -20,14 +20,13 @@
 package com.here.genium
 
 import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.loader.FrancaBasedLimeModelLoader
 import com.here.genium.platform.android.AndroidGeneratorSuite
 import com.here.genium.platform.baseapi.BaseApiGeneratorSuite
 import com.here.genium.platform.swift.SwiftGeneratorSuite
 import com.here.genium.test.NiceErrorCollector
 import io.mockk.every
 import io.mockk.spyk
-import org.franca.core.franca.FTypeCollection
-import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Assume.assumeFalse
@@ -70,18 +69,10 @@ abstract class AcceptanceTestBase protected constructor(
 
         assumeFalse("No reference files were found", referenceFiles.isEmpty())
 
-        val typeCollections = mutableListOf<FTypeCollection>()
-        val deploymentModel = genium.loadModel(listOf(inputDirectory), typeCollections)
-        assertNotNull(deploymentModel)
-        assertTrue(
-            genium.executeGenerator(generatorName, deploymentModel!!, typeCollections, HashMap())
-        )
+        val limeModel = FrancaBasedLimeModelLoader.loadModel(listOf(inputDirectory.toString()))
+        assertTrue(genium.executeGenerator(generatorName, limeModel, HashMap()))
 
-        val generatedContents = results.associateBy({
-            it.targetFile.path
-        }, {
-            it.content
-        })
+        val generatedContents = results.associateBy({ it.targetFile.path }, { it.content })
 
         referenceFiles.forEach { referenceFile ->
             val relativePath = getRelativePath(outputDirectory, referenceFile)

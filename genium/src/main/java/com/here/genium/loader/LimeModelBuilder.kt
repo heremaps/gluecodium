@@ -17,12 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.lime
+package com.here.genium.loader
 
 import com.google.common.annotations.VisibleForTesting
 import com.here.genium.common.FrancaTypeHelper
 import com.here.genium.generator.common.StringValueMapper
-import com.here.genium.generator.common.modelbuilder.AbstractModelBuilder
 import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.model.common.InstanceRules
 import com.here.genium.model.franca.CommentHelper

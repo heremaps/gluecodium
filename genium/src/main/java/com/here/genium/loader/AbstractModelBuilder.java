@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.modelbuilder;
+package com.here.genium.loader;
 
 import com.here.genium.common.CollectionsHelper;
 import com.here.genium.common.ModelBuilderContext;

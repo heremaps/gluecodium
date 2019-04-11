@@ -22,17 +22,12 @@ package com.here.genium.platform.swift
 import com.here.genium.Genium
 import com.here.genium.generator.cbridge.CBridgeGenerator
 import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.modelbuilder.FrancaTreeWalker
 import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppNameResolver
-import com.here.genium.generator.lime.LimeModelBuilder
-import com.here.genium.generator.lime.LimeReferenceResolver
 import com.here.genium.generator.swift.SwiftGenerator
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
-import com.here.genium.model.franca.FrancaDeploymentModel
-import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeModel
 import com.here.genium.platform.common.GeneratorSuite
-import org.franca.core.franca.FTypeCollection
 
 /**
  * Combines [SwiftGenerator] and [CBridgeGenerator] to generate Swift bindings on top of
@@ -40,19 +35,12 @@ import org.franca.core.franca.FTypeCollection
  *
  * The bindings are used to build a framework for iOS, Mac and a Swift module for Linux.
  */
-class SwiftGeneratorSuite(
-    options: Genium.Options,
-    private val deploymentModel: FrancaDeploymentModel
-) : GeneratorSuite() {
-
+class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
     private val internalNamespace = options.cppInternalNamespace ?: emptyList()
     private val rootNamespace = options.cppRootNamespace
-    private val limeReferenceResolver = LimeReferenceResolver()
 
-    override fun generate(typeCollections: List<FTypeCollection>): List<GeneratedFile> {
-        val limeModel = typeCollections.map { generateLimeModel(it) }
-
-        val limeReferenceMap = limeReferenceResolver.referenceMap
+    override fun generate(limeModel: LimeModel): List<GeneratedFile> {
+        val limeReferenceMap = limeModel.referenceMap
         val swiftGenerator = SwiftGenerator(limeReferenceMap)
         val cBridgeGenerator = CBridgeGenerator(
             limeReferenceMap,
@@ -62,8 +50,8 @@ class SwiftGeneratorSuite(
             internalNamespace
         )
 
-        val result = limeModel.map { swiftGenerator.generate(it) } +
-            limeModel.flatMap { cBridgeGenerator.generate(it) } +
+        val result = limeModel.containers.map { swiftGenerator.generate(it) } +
+                limeModel.containers.flatMap { cBridgeGenerator.generate(it) } +
             CBridgeGenerator.STATIC_FILES + SwiftGenerator.STATIC_FILES +
             cBridgeGenerator.arrayGenerator.generate() + swiftGenerator.arrayGenerator.generate() +
             swiftGenerator.mapGenerator.generate() +
@@ -71,12 +59,6 @@ class SwiftGeneratorSuite(
             cBridgeGenerator.generateHelpers()
 
         return result.filterNotNull()
-    }
-
-    private fun generateLimeModel(francaTypeCollection: FTypeCollection): LimeContainer {
-        val limeModelBuilder = LimeModelBuilder(deploymentModel, limeReferenceResolver)
-        FrancaTreeWalker(listOf(limeModelBuilder)).walkTree(francaTypeCollection)
-        return limeModelBuilder.getFinalResult(LimeContainer::class.java)
     }
 
     override fun getName() = "com.here.SwiftGenerator"

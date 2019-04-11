@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.modelbuilder;
+package com.here.genium.loader;
 
 import org.eclipse.emf.ecore.EObject;
 import org.franca.core.franca.*;

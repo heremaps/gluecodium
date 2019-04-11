@@ -22,7 +22,7 @@ package com.here.genium.platform.common;
 import com.here.genium.Genium;
 import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.model.franca.FrancaDeploymentModel;
+import com.here.genium.model.lime.LimeModel;
 import com.here.genium.platform.android.AndroidGeneratorSuite;
 import com.here.genium.platform.android.JavaGeneratorSuite;
 import com.here.genium.platform.baseapi.BaseApiGeneratorSuite;
@@ -33,7 +33,6 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.*;
 import org.apache.commons.io.IOUtils;
-import org.franca.core.franca.FTypeCollection;
 
 /** The base interface for all the generators. */
 public abstract class GeneratorSuite {
@@ -46,26 +45,24 @@ public abstract class GeneratorSuite {
   /**
    * Triggers the generation. The model is assumed to be valid.
    *
-   * @param typeCollections type collections and interfaces (interfaces are type collection as well)
+   * @param limeModel LIME model
    * @return a list of generated files with their relative destination paths
    */
-  public abstract List<GeneratedFile> generate(List<FTypeCollection> typeCollections);
+  public abstract List<GeneratedFile> generate(LimeModel limeModel);
 
   /** Creates a new instance of a generator suite by its short identifier */
   public static GeneratorSuite instantiateByShortName(
-      final String shortName,
-      final Genium.Options options,
-      final FrancaDeploymentModel deploymentModel) {
+      final String shortName, final Genium.Options options) {
 
     switch (shortName) {
       case AndroidGeneratorSuite.GENERATOR_NAME:
-        return new AndroidGeneratorSuite(options, deploymentModel);
+        return new AndroidGeneratorSuite(options);
       case JavaGeneratorSuite.GENERATOR_NAME:
-        return new JavaGeneratorSuite(options, deploymentModel);
+        return new JavaGeneratorSuite(options);
       case BaseApiGeneratorSuite.GENERATOR_NAME:
-        return new BaseApiGeneratorSuite(options, deploymentModel);
+        return new BaseApiGeneratorSuite(options);
       case SwiftGeneratorSuite.GENERATOR_NAME:
-        return new SwiftGeneratorSuite(options, deploymentModel);
+        return new SwiftGeneratorSuite(options);
     }
 
     return null;

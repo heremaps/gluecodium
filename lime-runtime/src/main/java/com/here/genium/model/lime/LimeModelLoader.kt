@@ -17,15 +17,8 @@
  * License-Filename: LICENSE
  */
 
-/**
- * Load input model from disk.
- *
- * <h1>Input</h1>
- *
- * List of files or directories containing FIDL and FDEPL files.
- *
- * <h1>Output</h1>
- *
- * Language independent LIME model.
- */
-package com.here.genium.loader;
+package com.here.genium.model.lime
+
+interface LimeModelLoader {
+    fun loadModel(fileNames: List<String>): LimeModel
+}

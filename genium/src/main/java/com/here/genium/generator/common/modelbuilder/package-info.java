@@ -22,11 +22,10 @@
  *
  * <h1>Overview</h1>
  *
- * Generators use {@link com.here.genium.generator.common.modelbuilder.ModelBuilder ModelBuilders}
- * to generate a language specific model. The {@code ModelBuilder} itself is a visitor for the
- * language independent Franca model which is traversed by the {@link
- * com.here.genium.generator.common.modelbuilder.FrancaTreeWalker}. Intermediate and final results
- * are stored in {@link com.here.genium.common.ModelBuilderContext}.
+ * Generators use {@link com.here.genium.loader.ModelBuilder ModelBuilders} to generate a language
+ * specific model. The {@code ModelBuilder} itself is a visitor for the language independent Franca
+ * model which is traversed by the {@link com.here.genium.loader.FrancaTreeWalker}. Intermediate and
+ * final results are stored in {@link com.here.genium.common.ModelBuilderContext}.
  *
  * <h1>Rationale</h1>
  *
