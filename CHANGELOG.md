@@ -1,12 +1,14 @@
 # Genium project Release Notes
 
-## Unreleased
+## 4.0.0
+- Release date: 2019-04-11
 - Breaking changes:
   - Replaced `std::shared_ptr` with `optional` for Nullable types.
 - Bug fixes:
   + Whitespace (including line breaks) is now preserved in the documentation comments.
   + Fixed compilation issues caused by arrays of immutable structs.
-  + Use internal namespace as path for helper includes.
+  + Fixed compilation issues caused by "external" types that are C++ templates.
+  + C++ internal namespace is now used as path for helper includes.
   + Gradle dependencies are locked now.
 - Features:
   + Added support for multiple includes for "External" types.
