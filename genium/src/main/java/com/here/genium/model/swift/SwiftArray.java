@@ -50,6 +50,11 @@ public final class SwiftArray extends SwiftType {
         : this;
   }
 
+  public SwiftArray withoutAlias() {
+    return new SwiftArray(
+        underlyingType, visibility, getImplName(underlyingType), optional, cPrefix);
+  }
+
   private static String getImplName(SwiftType underlyingType) {
     return "[" + underlyingType.publicName + "]";
   }

@@ -318,7 +318,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
               ? francaTypeRef
               : ((FArrayType) FrancaHelpers.getActualDerived(francaTypeRef)).getElementType();
       String elementTypeKey = typeMapper.getActualTypeKey(elementType);
-      arraysCollector.putIfAbsent(elementTypeKey, array);
+      arraysCollector.putIfAbsent(elementTypeKey, array.withoutAlias());
     }
 
     storeResult(swiftType);
@@ -386,7 +386,7 @@ public class SwiftModelBuilder extends AbstractModelBuilder<SwiftModelElement> {
     String typeDefName = SwiftNameRules.getTypeDefName(francaArray, deploymentModel);
     SwiftArray arrayType = (SwiftArray) typeMapper.mapArrayType(francaArray).withAlias(typeDefName);
     String elementTypeKey = typeMapper.getActualTypeKey(francaArray.getElementType());
-    arraysCollector.putIfAbsent(elementTypeKey, arrayType);
+    arraysCollector.putIfAbsent(elementTypeKey, arrayType.withoutAlias());
 
     SwiftTypeDef swiftTypeDef =
         new SwiftTypeDef(
