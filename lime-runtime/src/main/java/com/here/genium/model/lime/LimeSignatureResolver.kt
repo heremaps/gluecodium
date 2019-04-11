@@ -17,15 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.common
-
-import com.here.genium.model.lime.LimeArray
-import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeMap
-import com.here.genium.model.lime.LimeMethod
-import com.here.genium.model.lime.LimeTypeDef
-import com.here.genium.model.lime.LimeTypeRef
+package com.here.genium.model.lime
 
 open class LimeSignatureResolver(private val referenceMap: Map<String, LimeElement>) {
 

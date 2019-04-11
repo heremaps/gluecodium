@@ -16,6 +16,7 @@
  * SPDX-License-Identifier: Apache-2.0
  * License-Filename: LICENSE
  */
+apply plugin: 'com.diffplug.gradle.spotless'
 
 spotless {
     java {
@@ -31,26 +32,6 @@ spotless {
     kotlin {
         ktlint()
         licenseHeaderFile rootProject.file('config/spotless/here_java.license')
-    }
-    format 'cpp', {
-        target project.fileTree(project.projectDir) {
-            include '**/*.h', '**/*.cpp'
-            exclude '**/build', '**/test/resources'
-        }
-        licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'),
-                '(#pragma|#include)'
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-    format 'swift', {
-        target project.fileTree(project.projectDir) {
-            include '**/*.swift'
-            exclude '**/build', '**/test/resources'
-        }
-        licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'),
-                '(import|class|public class|protocol|/// :nodoc:)'
-        trimTrailingWhitespace()
-        endWithNewline()
     }
     format 'misc', {
         target project.fileTree(project.rootDir) {

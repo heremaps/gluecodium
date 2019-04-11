@@ -17,11 +17,22 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package com.here.genium.common
 
-class LimeEnumeratorRef(
-    referenceMap: Map<String, LimeElement>,
-    internal val elementFullName: String
-) : LimeElement {
-    val enumerator by lazy { referenceMap[elementFullName] as LimeEnumerator }
+import java.util.LinkedList
+
+open class ModelBuilderContextStack<E> {
+    private val contextStack = LinkedList<ModelBuilderContext<E>>()
+
+    open val currentContext: ModelBuilderContext<E>
+        get() = contextStack.peek()
+
+    open val parentContext: ModelBuilderContext<E>?
+        get() = if (contextStack.size > 1) contextStack[1] else null
+
+    open fun openContext() = contextStack.push(ModelBuilderContext())
+
+    open fun closeContext() {
+        contextStack.poll()
+    }
 }

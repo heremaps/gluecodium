@@ -19,8 +19,8 @@
 
 package com.here.genium.test
 
-import com.here.genium.generator.common.modelbuilder.ModelBuilderContext
-import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
+import com.here.genium.common.ModelBuilderContext
+import com.here.genium.common.ModelBuilderContextStack
 
 class MockContextStack<E> : ModelBuilderContextStack<E>() {
     override val currentContext = ModelBuilderContext<E>()

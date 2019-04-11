@@ -19,9 +19,9 @@
 
 package com.here.genium.generator.java
 
-import com.here.genium.common.LimeSignatureResolver
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeTypeRef
 
 class JavaMethodNameResolver(

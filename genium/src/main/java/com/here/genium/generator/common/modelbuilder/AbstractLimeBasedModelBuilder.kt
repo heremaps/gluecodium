@@ -19,6 +19,8 @@
 
 package com.here.genium.generator.common.modelbuilder
 
+import com.here.genium.common.ModelBuilderContext
+import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement

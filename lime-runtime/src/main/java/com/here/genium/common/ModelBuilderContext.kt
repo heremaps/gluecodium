@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.modelbuilder
+package com.here.genium.common
 
 /** Context of each building step. Used to propagate data between parent- and child-steps. */
 class ModelBuilderContext<E> {

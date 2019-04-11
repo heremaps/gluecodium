@@ -27,7 +27,7 @@ repositories {
 apply plugin: 'application'
 
 dependencies {
-    runtime "com.here:genium:$version"
+    runtime "com.here.genium:genium:$version"
 }
 
 mainClassName = 'com.here.genium.Genium'

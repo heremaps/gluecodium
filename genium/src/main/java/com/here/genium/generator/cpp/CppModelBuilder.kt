@@ -21,7 +21,7 @@ package com.here.genium.generator.cpp
 
 import com.google.common.annotations.VisibleForTesting
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
-import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
+import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.model.common.CommentsPreprocessor
 import com.here.genium.model.cpp.CppClass
 import com.here.genium.model.cpp.CppConstant
@@ -78,10 +78,11 @@ class CppModelBuilder @VisibleForTesting internal constructor(
             return
         }
 
+        val limeParentType = limeContainer.parent
         val inheritances = when {
-            limeContainer.parent != null -> {
+            limeParentType != null -> {
                 val parentType =
-                    typeMapper.mapInstanceType(limeContainer.parent.type as LimeContainer, false)
+                    typeMapper.mapInstanceType(limeParentType.type as LimeContainer, false)
                 listOf(CppInheritance(parentType, CppInheritance.Type.Public))
             }
             else -> emptyList()

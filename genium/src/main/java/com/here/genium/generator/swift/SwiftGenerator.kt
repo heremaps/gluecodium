@@ -19,12 +19,12 @@
 
 package com.here.genium.generator.swift
 
-import com.here.genium.common.LimeSignatureResolver
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.genium.generator.common.templates.TemplateEngine
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.swift.SwiftFile
 import com.here.genium.platform.common.GeneratorSuite
 import java.util.HashSet

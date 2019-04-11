@@ -17,22 +17,20 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.modelbuilder
+package com.here.genium.model.lime
 
-import java.util.LinkedList
+abstract class LimeNamedElement protected constructor(
+    val path: LimePath,
+    val visibility: LimeVisibility = LimeVisibility.PUBLIC,
+    val comment: String = "",
+    attributes: LimeAttributes? = null
+) : LimeElement {
 
-open class ModelBuilderContextStack<E> {
-    private val contextStack = LinkedList<ModelBuilderContext<E>>()
+    open val name
+        get() = path.name
 
-    open val currentContext: ModelBuilderContext<E>
-        get() = contextStack.peek()
+    open val fullName
+        get() = path.toString()
 
-    open val parentContext: ModelBuilderContext<E>?
-        get() = if (contextStack.size > 1) contextStack[1] else null
-
-    open fun openContext() = contextStack.push(ModelBuilderContext())
-
-    open fun closeContext() {
-        contextStack.poll()
-    }
+    val attributes = attributes ?: LimeAttributes.Builder().build()
 }

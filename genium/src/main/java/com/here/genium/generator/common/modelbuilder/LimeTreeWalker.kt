@@ -19,6 +19,7 @@
 
 package com.here.genium.generator.common.modelbuilder
 
+import com.here.genium.common.GenericTreeWalker
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement

@@ -19,13 +19,13 @@
 
 package com.here.genium.generator.swift
 
-import com.here.genium.common.LimeSignatureResolver
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeVisibility
 import com.here.genium.model.swift.SwiftClass
 import com.here.genium.model.swift.SwiftConstant

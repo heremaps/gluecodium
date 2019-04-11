@@ -20,7 +20,6 @@
 package com.here.genium.generator.cbridge
 
 import com.google.common.annotations.VisibleForTesting
-import com.here.genium.common.LimeSignatureResolver
 import com.here.genium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC
 import com.here.genium.generator.cbridge.CBridgeNameRules.INCLUDE_DIR
 import com.here.genium.generator.cbridge.CBridgeNameRules.SRC_DIR
@@ -39,6 +38,7 @@ import com.here.genium.model.cbridge.CInterface
 import com.here.genium.model.common.Include
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.platform.common.GeneratorSuite
 import java.nio.file.Paths
 

@@ -22,9 +22,18 @@ buildscript {
         mavenLocal()
         jcenter()
     }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.21"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.8.1"
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:3.15.0"
+    }
 }
 
 allprojects {
+    repositories {
+        jcenter()
+    }
+
     configurations.all {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             if (details.requested.name == 'junit-dep') {
@@ -36,9 +45,20 @@ allprojects {
     }
 
     apply plugin: 'java'
+    apply plugin: 'org.jetbrains.kotlin.jvm'
 
     compileJava {
         options.encoding = "UTF-8"
+    }
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
     }
 
     configurations {

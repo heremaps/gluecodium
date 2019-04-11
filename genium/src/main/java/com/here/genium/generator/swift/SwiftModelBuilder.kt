@@ -20,10 +20,9 @@
 package com.here.genium.generator.swift
 
 import com.google.common.annotations.VisibleForTesting
-import com.here.genium.common.LimeSignatureResolver
 import com.here.genium.generator.cbridge.CBridgeNameRules
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
-import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
+import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeBasicTypeRef
@@ -37,6 +36,7 @@ import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
+import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.lime.LimeTypeHelper

@@ -1,0 +1,61 @@
+apply plugin: 'maven-publish'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('genium/src/main/resources/version.properties').newDataInputStream())
+version = properties.getProperty('version')
+group = 'com.here.genium'
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    classifier = 'javadoc'
+}
+
+publishing.publications {
+    mavenJava(MavenPublication) {
+        groupId
+        artifactId project.name
+        version this.version
+
+        from components.java
+        artifact sourcesJar
+        artifact javadocJar
+
+        pom {
+            name = project.ext.longName
+            description = 'Cross-language bindings generator'
+            url = 'https://github.com/heremaps/genium'
+            licenses {
+                license {
+                    name = 'The Apache License, Version 2.0'
+                    url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                }
+            }
+            scm {
+                connection = 'scm:git:git://github.com/heremaps/genium.git'
+                developerConnection = 'scm:git:ssh://github.com/heremaps/genium.git'
+                url = 'https://github.com/heremaps/genium'
+            }
+        }
+    }
+}
+
+apply plugin: 'com.jfrog.artifactory'
+
+artifactory {
+    contextUrl = project.properties['artifactory.contextUrl']
+    publish {
+        repository {
+            username = project.properties['artifactory.username']
+            password = project.properties['artifactory.password']
+            repoKey = project.properties['artifactory.repoKey']
+        }
+        defaults {
+            publications 'mavenJava'
+        }
+    }
+}

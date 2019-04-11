@@ -18,21 +18,13 @@
  */
 
 plugins {
-    id 'com.diffplug.gradle.spotless' version '3.15.0'
-    id 'com.jfrog.artifactory' version '4.8.1'
-    id 'com.jfrog.bintray' version '1.8.4'
-    id 'maven-publish'
-    id 'org.jetbrains.kotlin.jvm' version '1.3.11'
     id "de.undercouch.download" version "3.4.3"
-}
-
-repositories {
-    jcenter()
-    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     compile files({ tasks.unzipFrancaZip.extractedJars })
+
+    compile project(":lime-runtime")
     compile 'com.android.tools.build:manifest-merger:25.3.0'
     compile 'com.android.tools:annotations:25.3.0'
     compile 'commons-io:commons-io:2.5'
@@ -79,6 +71,7 @@ dependencies {
     compile 'org.eclipse.platform:org.eclipse.text:3.8.100'
     compile 'org.eclipse:osgi:3.10.0-v20140606-1445'
 
+    testCompile files({ project(":lime-runtime").sourceSets.test.output })
     testCompile 'com.github.stefanbirkner:system-rules:1.16.1'
     testCompile "io.mockk:mockk:1.8.13"
     testCompile 'junit:junit:4.12'
@@ -118,7 +111,7 @@ mainClassName = 'com.here.genium.Genium'
 jar {
     manifest {
         attributes('Main-Class': 'com.here.genium.Genium',
-                'Class-Path': configurations.runtime.files.collect { it.getName() }.join(' '))
+                   'Class-Path': configurations.runtime.files.collect { it.getName() }.join(' '))
     }
     from {
         tasks.unzipFrancaZip.extractedJars.collect { it.isDirectory() ? it : zipTree(it) }
@@ -179,106 +172,28 @@ tasks.withType(Checkstyle).each { checkstyleTask ->
 }
 
 apply from: "$rootDir/gradle/spotless.gradle"
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
-// Publishing
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('genium/src/main/resources/version.properties').newDataInputStream())
-version = properties.getProperty('version')
-group = 'com.here'
-
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allJava
-    classifier = 'sources'
-}
-
-task javadocJar(type: Jar) {
-    from javadoc
-    classifier = 'javadoc'
-}
-
-publishing.publications {
-    mavenJava(MavenPublication) {
-        groupId
-        artifactId project.name
-        version this.version
-
-        from components.java
-        artifact sourcesJar
-        artifact javadocJar
-
-        pom {
-            name = 'Genium'
-            description = 'Cross-language bindings generator'
-            url = 'https://github.com/heremaps/genium'
-            licenses {
-                license {
-                    name = 'The Apache License, Version 2.0'
-                    url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                }
-            }
-            scm {
-                connection = 'scm:git:git://github.com/heremaps/genium.git'
-                developerConnection = 'scm:git:ssh://github.com/heremaps/genium.git'
-                url = 'https://github.com/heremaps/genium'
-            }
+spotless {
+    format 'cpp', {
+        target project.fileTree(project.projectDir) {
+            include '**/*.h', '**/*.cpp'
+            exclude '**/build', '**/test/resources'
         }
+        licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'),
+                '(#pragma|#include)'
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    format 'swift', {
+        target project.fileTree(project.projectDir) {
+            include '**/*.swift'
+            exclude '**/build', '**/test/resources'
+        }
+        licenseHeaderFile rootProject.file('config/spotless/here_cpp.license'),
+                '(import|class|public class|protocol|/// :nodoc:)'
+        trimTrailingWhitespace()
+        endWithNewline()
     }
 }
 
-artifactory {
-    contextUrl = project.properties['artifactory.contextUrl']
-    publish {
-        repository {
-            username = project.properties['artifactory.username']
-            password = project.properties['artifactory.password']
-            repoKey = project.properties['artifactory.repoKey']
-        }
-        defaults {
-            publications 'mavenJava'
-        }
-    }
-}
-
-bintray {
-    user = project.properties["bintray.user"]
-    key = project.properties["bintray.apikey"]
-    publications = ['mavenJava']
-    configurations = ['archives']
-    override = true
-    pkg {
-        repo = 'maven'
-        name = 'genium'
-        userOrg = 'heremaps'
-        websiteUrl = 'https://github.com/heremaps/genium'
-        issueTrackerUrl = 'https://github.com/heremaps/genium/issues'
-        vcsUrl = 'https://github.com/heremaps/genium.git'
-        licenses = ['Apache-2.0']
-        desc = 'Cross-language bindings generator'
-        labels = ['aar', 'android']
-        publish = true
-        publicDownloadNumbers = true
-        githubRepo = 'heremaps/genium'
-        githubReleaseNotesFile = 'CHANGELOG.md'
-        version {
-            name = this.version
-            desc = "${project.name} ${this.version}"
-            released = new Date()
-            vcsTag = this.version
-            gpg {
-                sign = true
-            }
-        }
-    }
-}
+project.ext.longName = 'Genium command-line tool'
+apply from: "$rootDir/gradle/publishing.gradle"

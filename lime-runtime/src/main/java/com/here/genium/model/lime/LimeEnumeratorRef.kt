@@ -19,17 +19,9 @@
 
 package com.here.genium.model.lime
 
-open class LimeTypeRef private constructor(
-    internal val elementFullName: String,
-    referenceMap: Map<String, LimeElement>?
+class LimeEnumeratorRef(
+    referenceMap: Map<String, LimeElement>,
+    val elementFullName: String
 ) : LimeElement {
-
-    protected constructor(elementFullName: String) : this(elementFullName, null)
-
-    constructor(
-        referenceMap: Map<String, LimeElement>,
-        elementFullName: String
-    ) : this(elementFullName, referenceMap)
-
-    open val type by lazy { referenceMap?.get(elementFullName) as LimeType }
+    val enumerator by lazy { referenceMap[elementFullName] as LimeEnumerator }
 }

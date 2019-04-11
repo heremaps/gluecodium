@@ -19,6 +19,7 @@
 
 package com.here.genium.generator.common.modelbuilder
 
+import com.here.genium.common.GenericTreeWalker
 import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FArrayType

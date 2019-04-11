@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.modelbuilder
+package com.here.genium.common
 
 import java.util.logging.Logger
 
@@ -25,7 +25,7 @@ open class GenericTreeWalker<MB> protected constructor(
     protected val builders: Collection<MB>,
     private val treeInfo: Map<Any, TreeNodeInfo<MB, *>>
 ) {
-    protected class TreeNodeInfo<B, T> internal constructor(
+    protected class TreeNodeInfo<B, T>(
         private val clazz: Class<T>,
         private val startMethod: B.(T) -> Unit,
         private val finishMethod: B.(T) -> Unit,

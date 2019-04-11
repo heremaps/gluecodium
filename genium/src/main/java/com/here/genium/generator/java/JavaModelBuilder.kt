@@ -21,7 +21,7 @@ package com.here.genium.generator.java
 
 import com.google.common.annotations.VisibleForTesting
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
-import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
+import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.model.common.CommentsPreprocessor
 import com.here.genium.model.java.JavaClass
 import com.here.genium.model.java.JavaConstant

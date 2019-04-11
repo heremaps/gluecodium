@@ -21,6 +21,7 @@ package com.here.genium.generator.common.modelbuilder;
 
 import static org.junit.Assert.assertTrue;
 
+import com.here.genium.common.ModelBuilderContextStack;
 import com.here.genium.test.MockContextStack;
 import org.junit.Test;
 import org.junit.runner.RunWith;

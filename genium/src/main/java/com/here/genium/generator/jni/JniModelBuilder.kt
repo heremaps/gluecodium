@@ -21,7 +21,7 @@ package com.here.genium.generator.jni
 
 import com.google.common.annotations.VisibleForTesting
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
-import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
+import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.java.JavaModelBuilder

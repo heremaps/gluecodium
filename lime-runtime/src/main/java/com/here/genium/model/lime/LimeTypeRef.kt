@@ -19,18 +19,17 @@
 
 package com.here.genium.model.lime
 
-abstract class LimeNamedElement protected constructor(
-    internal val path: LimePath,
-    val visibility: LimeVisibility = LimeVisibility.PUBLIC,
-    val comment: String = "",
-    attributes: LimeAttributes? = null
+open class LimeTypeRef private constructor(
+    val elementFullName: String,
+    referenceMap: Map<String, LimeElement>?
 ) : LimeElement {
 
-    open val name
-        get() = path.name
+    protected constructor(elementFullName: String) : this(elementFullName, null)
 
-    open val fullName
-        get() = path.toString()
+    constructor(
+        referenceMap: Map<String, LimeElement>,
+        elementFullName: String
+    ) : this(elementFullName, referenceMap)
 
-    val attributes = attributes ?: LimeAttributes.Builder().build()
+    open val type by lazy { referenceMap?.get(elementFullName) as LimeType }
 }
