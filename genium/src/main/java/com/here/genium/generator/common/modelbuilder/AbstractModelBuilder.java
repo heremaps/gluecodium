@@ -147,7 +147,7 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
    * @return A list of results
    */
   public List<E> getFinalResults() {
-    return resultContext != null ? resultContext.currentResults : Collections.emptyList();
+    return resultContext != null ? resultContext.getCurrentResults() : Collections.emptyList();
   }
 
   /**
@@ -161,7 +161,7 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
    */
   public <T extends E> T getFinalResult(final Class<T> clazz) {
     return resultContext != null
-        ? CollectionsHelper.getFirstOfType(resultContext.currentResults, clazz)
+        ? CollectionsHelper.getFirstOfType(resultContext.getCurrentResults(), clazz)
         : null;
   }
 
@@ -171,7 +171,7 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
    * @return A list of results
    */
   protected <T extends E> T getPreviousResult(final Class<T> clazz) {
-    return CollectionsHelper.getFirstOfType(getCurrentContext().previousResults, clazz);
+    return CollectionsHelper.getFirstOfType(getCurrentContext().getPreviousResults(), clazz);
   }
 
   /**
@@ -183,7 +183,7 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
    * @return A result item
    */
   protected <T extends E> List<T> getPreviousResults(final Class<T> clazz) {
-    return CollectionsHelper.getAllOfType(getCurrentContext().previousResults, clazz);
+    return CollectionsHelper.getAllOfType(getCurrentContext().getPreviousResults(), clazz);
   }
 
   protected final void openContext() {
@@ -192,11 +192,9 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
 
   protected final void closeContext() {
     resultContext = contextStack.getCurrentContext();
-    if (resultContext != null) {
-      ModelBuilderContext<E> parentContext = contextStack.getParentContext();
-      if (parentContext != null) {
-        parentContext.previousResults.addAll(resultContext.currentResults);
-      }
+    ModelBuilderContext<E> parentContext = contextStack.getParentContext();
+    if (parentContext != null) {
+      parentContext.getPreviousResults().addAll(resultContext.getCurrentResults());
     }
 
     contextStack.closeContext();
@@ -211,9 +209,6 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   }
 
   protected final void storeResult(final E element) {
-    ModelBuilderContext<E> currentContext = contextStack.getCurrentContext();
-    if (currentContext != null) {
-      currentContext.currentResults.add(element);
-    }
+    contextStack.getCurrentContext().getCurrentResults().add(element);
   }
 }

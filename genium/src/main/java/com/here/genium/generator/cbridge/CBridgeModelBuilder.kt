@@ -145,7 +145,7 @@ internal constructor(
         val isConstructor = limeMethod.attributes.have(LimeAttributeType.CONSTRUCTOR)
         var parameterSelf: CParameter? = null
         if (!isConstructor && !limeMethod.isStatic) {
-            val cppTypeInfo = parentContext.currentResults.filterIsInstance<CppTypeInfo>().first()
+            val cppTypeInfo = parentContext!!.currentResults.filterIsInstance<CppTypeInfo>().first()
             parameterSelf = CParameter("_instance", cppTypeInfo)
         }
 
@@ -252,7 +252,7 @@ internal constructor(
         val cppMethods = cppBuilder.finalResults.filterIsInstance<CppMethod>()
         val swiftProperty = swiftBuilder.getFinalResult(SwiftProperty::class.java)
 
-        val classInfo = parentContext.currentResults.filterIsInstance<CppTypeInfo>().first()
+        val classInfo = parentContext!!.currentResults.filterIsInstance<CppTypeInfo>().first()
         val selfParameter = when {
             limeProperty.isStatic -> null
             else -> CParameter("_instance", classInfo)

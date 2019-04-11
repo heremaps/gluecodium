@@ -17,28 +17,22 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.modelbuilder;
+package com.here.genium.generator.common.modelbuilder
 
-import java.util.LinkedList;
+import java.util.LinkedList
 
-public class ModelBuilderContextStack<E> {
+open class ModelBuilderContextStack<E> {
+    private val contextStack = LinkedList<ModelBuilderContext<E>>()
 
-  @SuppressWarnings({"PMD.LooseCoupling"})
-  private final LinkedList<ModelBuilderContext<E>> contextStack = new LinkedList<>();
+    open val currentContext: ModelBuilderContext<E>
+        get() = contextStack.peek()
 
-  public void openContext() {
-    contextStack.push(new ModelBuilderContext<>());
-  }
+    open val parentContext: ModelBuilderContext<E>?
+        get() = if (contextStack.size > 1) contextStack[1] else null
 
-  public void closeContext() {
-    contextStack.poll();
-  }
+    open fun openContext() = contextStack.push(ModelBuilderContext())
 
-  public ModelBuilderContext<E> getCurrentContext() {
-    return contextStack.peek();
-  }
-
-  public ModelBuilderContext<E> getParentContext() {
-    return contextStack.size() > 1 ? contextStack.get(1) : null;
-  }
+    open fun closeContext() {
+        contextStack.poll()
+    }
 }

@@ -17,17 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common.modelbuilder;
+package com.here.genium.generator.common.modelbuilder
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Context of each building step. Used to propagate data between parent- and child-steps. Additional
- * fields should be added if more data is needed in the future.
- */
-public final class ModelBuilderContext<E> {
-
-  public final List<E> previousResults = new ArrayList<>();
-  public final List<E> currentResults = new ArrayList<>();
+/** Context of each building step. Used to propagate data between parent- and child-steps. */
+class ModelBuilderContext<E> {
+    val previousResults = mutableListOf<E>()
+    val currentResults = mutableListOf<E>()
 }

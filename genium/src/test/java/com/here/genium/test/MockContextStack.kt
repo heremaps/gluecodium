@@ -23,8 +23,8 @@ import com.here.genium.generator.common.modelbuilder.ModelBuilderContext
 import com.here.genium.generator.common.modelbuilder.ModelBuilderContextStack
 
 class MockContextStack<E> : ModelBuilderContextStack<E>() {
-    private val currentContext = ModelBuilderContext<E>()
-    private val parentContext = ModelBuilderContext<E>()
+    override val currentContext = ModelBuilderContext<E>()
+    override val parentContext = ModelBuilderContext<E>()
 
     override fun openContext() {
         // Do nothing
@@ -33,10 +33,6 @@ class MockContextStack<E> : ModelBuilderContextStack<E>() {
     override fun closeContext() {
         // Do nothing
     }
-
-    override fun getCurrentContext() = currentContext
-
-    override fun getParentContext() = parentContext
 
     fun injectResult(element: E) {
         currentContext.previousResults.add(element)

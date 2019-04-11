@@ -223,7 +223,7 @@ internal constructor(
     override fun finishBuilding(limeEnumerator: LimeEnumerator) {
         val javaValue = getPreviousResultOrNull(JavaValue::class.java)
             ?: JavaValueMapper.inferNextEnumValue(
-                parentContext.previousResults
+                parentContext!!.previousResults
                     .filterIsInstance<JavaEnumItem>()
                     .lastOrNull()?.value
             )

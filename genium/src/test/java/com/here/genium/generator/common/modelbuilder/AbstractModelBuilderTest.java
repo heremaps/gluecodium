@@ -42,22 +42,22 @@ public class AbstractModelBuilderTest {
 
   @Test
   public void closeContextPropagatesResults() {
-    contextStack.getCurrentContext().currentResults.add(resultObject);
+    contextStack.getCurrentContext().getCurrentResults().add(resultObject);
 
     modelBuilder.closeContext();
 
-    assertTrue(contextStack.getParentContext().previousResults.contains(resultObject));
+    assertTrue(contextStack.getParentContext().getPreviousResults().contains(resultObject));
   }
 
   @Test
   public void closeContextAppendsResults() {
     final Object anotherResultObject = new Object();
-    contextStack.getCurrentContext().currentResults.add(anotherResultObject);
-    contextStack.getParentContext().previousResults.add(resultObject);
+    contextStack.getCurrentContext().getCurrentResults().add(anotherResultObject);
+    contextStack.getParentContext().getPreviousResults().add(resultObject);
 
     modelBuilder.closeContext();
 
-    assertTrue(contextStack.getParentContext().previousResults.contains(resultObject));
-    assertTrue(contextStack.getParentContext().previousResults.contains(anotherResultObject));
+    assertTrue(contextStack.getParentContext().getPreviousResults().contains(resultObject));
+    assertTrue(contextStack.getParentContext().getPreviousResults().contains(anotherResultObject));
   }
 }
