@@ -26,6 +26,7 @@ import com.here.genium.model.common.Include;
 import com.here.genium.model.jni.JniContainer;
 import com.here.genium.model.jni.JniContainer.ContainerType;
 import com.here.genium.platform.android.JavaGeneratorSuite;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -41,6 +42,7 @@ public final class JniTemplates {
   private static final String INCLUDES_NAME = "includes";
   private static final String MODELS_NAME = "models";
   private static final String BASE_PACKAGES_NAME = "basePackages";
+  private static final String INTERNAL_PACKAGES_NAME = "internalPackages";
   private static final String CONTAINER_NAME = "container";
   private static final String INTERNAL_NAMESPACE_NAME = "internalNamespace";
 
@@ -49,14 +51,17 @@ public final class JniTemplates {
   private static final String IMPL_TEMPLATE_SUFFIX = "Implementation";
 
   private final List<String> basePackages;
+  private final List<String> internalPackages;
   private final List<String> internalNamespace;
   private final JniNameRules jniNameRules;
 
   public JniTemplates(
       final List<String> basePackages,
+      final List<String> internalPackages,
       final List<String> internalNamespace,
       final String generatorName) {
     this.basePackages = basePackages;
+    this.internalPackages = internalPackages;
     this.internalNamespace = internalNamespace;
     this.jniNameRules = new JniNameRules(generatorName);
   }
@@ -188,6 +193,10 @@ public final class JniTemplates {
             .filter(container -> container.getContainerType() != ContainerType.TYPE_COLLECTION)
             .collect(Collectors.toList());
 
+    List<String> combinedPackages = new ArrayList<String>();
+    combinedPackages.addAll(basePackages);
+    combinedPackages.addAll(internalPackages);
+
     Map<String, Object> instanceData = new HashMap<>();
     final Set<Include> instanceIncludes = new LinkedHashSet<>();
     instanceIncludes.add(CppLibraryIncludes.MEMORY);
@@ -196,6 +205,7 @@ public final class JniTemplates {
     instanceData.put(INCLUDES_NAME, instanceIncludes);
     instanceData.put(MODELS_NAME, instanceContainers);
     instanceData.put(BASE_PACKAGES_NAME, basePackages);
+    instanceData.put(INTERNAL_PACKAGES_NAME, combinedPackages);
     instanceData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
 
     results.add(

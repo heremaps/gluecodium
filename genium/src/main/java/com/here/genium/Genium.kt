@@ -252,6 +252,7 @@ class Genium(private val options: Options) {
         var inputDirs: List<String> = listOf(),
         var outputDir: String? = null,
         var javaPackages: List<String> = listOf(),
+        var javaInternalPackages: List<String> = listOf(),
         var isDumpingToStdout: Boolean = false,
         var isValidatingOnly: Boolean = false,
         var generators: Set<String> = setOf(),

@@ -48,6 +48,7 @@ open class JavaGeneratorSuite protected constructor(
 ) : GeneratorSuite() {
 
     private val rootPackage = options.javaPackages
+    private val internalPackage = options.javaInternalPackages
     private val internalNamespace = options.cppInternalNamespace ?: listOf()
     private val rootNamespace = options.cppRootNamespace
 
@@ -63,6 +64,7 @@ open class JavaGeneratorSuite protected constructor(
     override fun generate(typeCollections: List<FTypeCollection>): List<GeneratedFile> {
         val javaPackageList =
             if (!rootPackage.isEmpty()) rootPackage else JavaPackage.DEFAULT_PACKAGE_NAMES
+        val internalPackageList = javaPackageList + internalPackage
 
         val referenceResolver = LimeReferenceResolver()
         val limeModelBuilder = LimeModelBuilder(deploymentModel, referenceResolver)
@@ -74,6 +76,7 @@ open class JavaGeneratorSuite protected constructor(
         val jniGenerator = JniGenerator(
             referenceResolver.referenceMap,
             javaPackageList,
+            internalPackage,
             UTILS_HEADER_INCLUDES.map { JniNameRules.getHeaderFileName(it) },
             enableAndroidFeatures,
             internalNamespace,
@@ -87,9 +90,9 @@ open class JavaGeneratorSuite protected constructor(
         val javaTemplates = JavaTemplates(generatorName)
         val javaFiles = javaTemplates.generateFiles(javaModel)
 
-        val nativeBasePath = listOf(generatorName) + javaPackageList + NATIVE_BASE_JAVA
+        val nativeBasePath = listOf(generatorName) + internalPackageList + NATIVE_BASE_JAVA
         javaFiles.add(
-            JavaTemplates.generateNativeBase(nativeBasePath.joinToString("/"), javaPackageList)
+            JavaTemplates.generateNativeBase(nativeBasePath.joinToString("/"), internalPackageList)
         )
 
         val headers = mutableListOf<GeneratedFile>()
@@ -100,7 +103,7 @@ open class JavaGeneratorSuite protected constructor(
             headers += androidManifestGenerator.generate()
         }
 
-        val jniTemplates = JniTemplates(javaPackageList, internalNamespace, generatorName)
+        val jniTemplates = JniTemplates(javaPackageList, internalPackage, internalNamespace, generatorName)
         for (fileName in UTILS_FILES) {
             headers += jniTemplates.generateConversionUtilsHeaderFile(fileName)
             headers += jniTemplates.generateConversionUtilsImplementationFile(fileName)

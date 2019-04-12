@@ -47,11 +47,12 @@ import com.here.genium.model.lime.LimeTypeRef
 class JavaTypeMapper(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val basePackage: JavaPackage,
+    private val internalPackage: JavaPackage,
     val serializationBase: JavaType?,
     private val notNullAnnotation: JavaType?,
     private val nullableAnnotation: JavaType?
 ) {
-    val nativeBase: JavaType = JavaCustomType(NATIVE_BASE_NAME, basePackage)
+    val nativeBase: JavaType = JavaCustomType(NATIVE_BASE_NAME, internalPackage)
 
     fun applyNullability(javaType: JavaType, limeAttributes: LimeAttributes): JavaType {
         var resultType = javaType

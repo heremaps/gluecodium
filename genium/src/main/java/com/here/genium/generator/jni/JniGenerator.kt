@@ -43,6 +43,7 @@ import com.here.genium.model.lime.LimeMethod
 class JniGenerator(
     private val limeReferenceMap: Map<String, LimeElement>,
     packageList: List<String>,
+    private val internalPackageList: List<String>,
     private val additionalIncludes: List<String>,
     private val enableAndroidFeatures: Boolean,
     private val internalNamespace: List<String>,
@@ -57,9 +58,11 @@ class JniGenerator(
 
     fun generateModel(limeContainer: LimeContainer): Collection<ModelElement> {
         val basePackage = JavaPackage(basePackages)
+        val internalPackage = JavaPackage(basePackages + internalPackageList)
         val javaTypeMapper = JavaTypeMapper(
             limeReferenceMap,
             basePackage,
+            internalPackage,
             if (enableAndroidFeatures) PARCELABLE else null,
             if (enableAndroidFeatures) NON_NULL else null,
             if (enableAndroidFeatures) NULLABLE else null

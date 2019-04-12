@@ -45,6 +45,7 @@ public final class NamespaceSmokeTest extends AcceptanceTestBase {
     Options options = new Genium.Options();
     options.setCppInternalNamespace(Genium.Companion.getDEFAULT_INTERNAL_NAMESPACE());
     options.setCppRootNamespace(Arrays.asList("root", "space"));
+    options.setJavaInternalPackages(Arrays.asList("foo", "bar"));
     return options;
   }
 

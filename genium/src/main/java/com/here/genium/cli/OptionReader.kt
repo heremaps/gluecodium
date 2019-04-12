@@ -35,6 +35,7 @@ class OptionReader {
         addOption("input", true, "The path or the file to use for generation")
         addOption("output", true, "Generated files output destination")
         addOption("javapackage", true, "Java package name")
+        addOption("intpackage", "java-internal-package", true, "Java package name to append to 'javapackage' for internal types.")
         addOption(
             "mergemanifest",
             "android-merge-manifest",
@@ -109,6 +110,12 @@ class OptionReader {
             val javaPackage = getSingleOptionValue(cmd, "javapackage")
             options.javaPackages = if (javaPackage != null)
                 Splitter.on(".").split(javaPackage).toList()
+            else
+                listOf()
+
+            val javaInternalPackage = getSingleOptionValue(cmd, "intpackage")
+            options.javaInternalPackages = if (javaInternalPackage != null)
+                Splitter.on(".").split(javaInternalPackage).toList()
             else
                 listOf()
 

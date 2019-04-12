@@ -42,7 +42,7 @@ class JniTemplatesTest {
         cppName = "classy",
         containerType = JniContainer.ContainerType.CLASS
     )
-    private val templates = JniTemplates(null, null, "")
+    private val templates = JniTemplates(listOf(), listOf(), null, "")
 
     @Before
     fun beforeMocks() {

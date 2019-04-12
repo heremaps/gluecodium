@@ -62,6 +62,7 @@ function(apigen_generate)
   set(oneValueArgs TARGET GENERATOR VERSION
       ANDROID_MERGE_MANIFEST
       JAVA_PACKAGE
+      JAVA_INTERNAL_PACKAGE
       COPYRIGHT_HEADER
       CPP_INTERNAL_NAMESPACE
       CPP_EXPORT
@@ -131,6 +132,9 @@ function(apigen_generate)
   endif()
   if(apigen_generate_JAVA_PACKAGE)
     string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -javapackage ${apigen_generate_JAVA_PACKAGE}")
+  endif()
+  if(apigen_generate_JAVA_INTERNAL_PACKAGE)
+    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " --java-internal-package ${apigen_generate_JAVA_INTERNAL_PACKAGE}")
   endif()
   if(apigen_generate_COPYRIGHT_HEADER)
     string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " --copyright-header ${apigen_generate_COPYRIGHT_HEADER}")

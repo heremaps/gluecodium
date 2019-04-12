@@ -56,6 +56,7 @@ class JavaTypeMapperTest {
     private val typeMapper = JavaTypeMapper(
         limeReferenceMap,
         JavaPackage.DEFAULT,
+        JavaPackage(listOf("foo", "bar", "baz")),
         null,
         notNullAnnotation,
         nullableAnnotation
@@ -267,6 +268,18 @@ class JavaTypeMapperTest {
         assertEquals("Nonsense", result.imports.first().className)
         assertEquals(
             listOf("com", "example", "baz"),
+            result.imports.first().javaPackage.packageNames
+        )
+    }
+
+    @Test
+    fun mapNativeBase() {
+        val result = typeMapper.nativeBase
+
+        assertEquals("NativeBase", result.name)
+        assertEquals(listOf("foo", "bar", "baz"), (result as JavaCustomType).packageNames)
+        assertEquals(
+            listOf("foo", "bar", "baz"),
             result.imports.first().javaPackage.packageNames
         )
     }

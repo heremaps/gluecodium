@@ -36,7 +36,7 @@ namespace {{.}}
 namespace jni
 {
 
-REGISTER_JNI_CLASS_CACHE("{{join basePackages delimiter="/"}}/NativeBase", DummyNativeBaseType)
+REGISTER_JNI_CLASS_CACHE("{{join internalPackages delimiter="/"}}/NativeBase", DummyNativeBaseType)
 
 JniReference<jclass>& get_cached_native_base_class()
 {

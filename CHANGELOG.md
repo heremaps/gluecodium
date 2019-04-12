@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features
+  + Allow for the internal package for Java files (like NativeBase) to be specified.
+
 ## 4.0.1
 - Release date: 2019-04-16
 - Bug fixes:

@@ -21,6 +21,7 @@ package com.here.android;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.util.Log;
+import com.here.android.lorem.ipsum.NativeBase;
 import java.io.File;
 import java.io.FilenameFilter;
 import org.powermock.reflect.Whitebox;
