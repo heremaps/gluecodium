@@ -24,16 +24,8 @@ import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
-import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeMethod
-import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeParameter
-import com.here.genium.model.lime.LimeProperty
-import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
-import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 
 abstract class AbstractLimeBasedModelBuilder<E> protected constructor(
@@ -63,16 +55,7 @@ abstract class AbstractLimeBasedModelBuilder<E> protected constructor(
     override fun startBuilding(limeElement: LimeElement) = openContext()
     override fun startBuilding(limeContainer: LimeContainer) = openContext()
 
-    override fun finishBuilding(limeNamedElement: LimeNamedElement) = closeContext()
-    override fun finishBuilding(limeContainer: LimeContainer) = closeContext()
-    override fun finishBuilding(limeTypeRef: LimeTypeRef) = closeContext()
-    override fun finishBuilding(limeMethod: LimeMethod) = closeContext()
-    override fun finishBuilding(limeParameter: LimeParameter) = closeContext()
-    override fun finishBuilding(limeStruct: LimeStruct) = closeContext()
-    override fun finishBuilding(limeField: LimeField) = closeContext()
     override fun finishBuilding(limeTypeDef: LimeTypeDef) = closeContext()
-    override fun finishBuilding(limeProperty: LimeProperty) = closeContext()
-    override fun finishBuilding(limeEnumeration: LimeEnumeration) = closeContext()
     override fun finishBuilding(limeEnumerator: LimeEnumerator) = closeContext()
     override fun finishBuilding(limeConstant: LimeConstant) = closeContext()
     override fun finishBuilding(limeValue: LimeValue) = closeContext()
