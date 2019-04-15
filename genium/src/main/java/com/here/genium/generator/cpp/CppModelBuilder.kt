@@ -190,8 +190,8 @@ class CppModelBuilder @VisibleForTesting internal constructor(
             cppTypeRef = typeMapper.createOptionalType(cppTypeRef)
         }
 
-        val limeLeafType = LimeTypeHelper.getLeafType(limeField.typeRef.type)
-        val hasImmutableType = limeLeafType.attributes.have(LimeAttributeType.IMMUTABLE)
+        val allTypes = LimeTypeHelper.getAllFieldTypes(limeField.typeRef.type)
+        val hasImmutableType = allTypes.any { it.attributes.have(LimeAttributeType.IMMUTABLE) }
 
         val cppField = CppField(
             nameResolver.getName(limeField),

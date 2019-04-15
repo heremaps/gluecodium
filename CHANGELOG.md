@@ -1,9 +1,13 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed compilation issues caused by deep nesting of immutable structs.
+
 ## 4.0.0
 - Release date: 2019-04-11
 - Breaking changes:
-  - Replaced `std::shared_ptr` with `optional` for Nullable types.
+  + Replaced `std::shared_ptr` with `optional` for Nullable types.
 - Bug fixes:
   + Whitespace (including line breaks) is now preserved in the documentation comments.
   + Fixed compilation issues caused by arrays of immutable structs.

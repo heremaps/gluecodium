@@ -498,6 +498,42 @@ convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::Nesting
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
+::smoke::Structs::DoubleNestingImmutableStruct
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::DoubleNestingImmutableStruct* dummy)
+{
+    ::smoke::Structs::NestingImmutableStruct n_nesting_struct_field = convert_from_jni(
+        _jenv,
+        ::genium::jni::get_object_field_value(
+        _jenv,
+        _jinput,
+        "nestingStructField",
+        "Lcom/example/smoke/Structs$NestingImmutableStruct;"),
+        (::smoke::Structs::NestingImmutableStruct*)nullptr );
+    return ::smoke::Structs::DoubleNestingImmutableStruct(std::move(n_nesting_struct_field));
+}
+::genium::optional<::smoke::Structs::DoubleNestingImmutableStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Structs::DoubleNestingImmutableStruct>* dummy)
+{
+    return _jinput
+        ? ::genium::optional<::smoke::Structs::DoubleNestingImmutableStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::DoubleNestingImmutableStruct*)nullptr))
+        : ::genium::optional<::smoke::Structs::DoubleNestingImmutableStruct>{};
+}
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$DoubleNestingImmutableStruct", ::smoke::Structs::DoubleNestingImmutableStruct)
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::DoubleNestingImmutableStruct& _ninput)
+{
+    auto& javaClass = CachedJavaClass<::smoke::Structs::DoubleNestingImmutableStruct>::java_class;
+    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto jnesting_struct_field = convert_to_jni(_jenv, _ninput.nesting_struct_field);
+    ::genium::jni::set_object_field_value(_jenv, _jresult, "nestingStructField",
+        "Lcom/example/smoke/Structs$NestingImmutableStruct;", jnesting_struct_field);
+    return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::DoubleNestingImmutableStruct> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
 ::smoke::Structs::StructWithArrayOfImmutable
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::StructWithArrayOfImmutable* dummy)
 {

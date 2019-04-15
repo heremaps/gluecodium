@@ -457,6 +457,25 @@ class CppModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingFieldReadsNestedImmutable() {
+        contextStack.injectResult(cppTypeRef)
+        val structType = LimeStruct(
+            EMPTY_PATH,
+            attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.IMMUTABLE).build()
+        )
+        val nestingField =
+            LimeField(EMPTY_PATH, typeRef = LimeTypeRef(mapOf("foo" to structType), "foo"))
+        val nestingStructType = LimeStruct(EMPTY_PATH, fields = listOf(nestingField))
+        val limeElement =
+            LimeField(EMPTY_PATH, typeRef = LimeTypeRef(mapOf("bar" to nestingStructType), "bar"))
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(CppField::class.java)
+        assertTrue(result.hasImmutableType)
+    }
+
+    @Test
     fun finishBuildingTypeDefReadsName() {
         contextStack.injectResult(cppTypeRef)
         val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)

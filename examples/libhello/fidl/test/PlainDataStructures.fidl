@@ -90,6 +90,10 @@ interface PlainDataStructures {
         AllTypesImmutableStruct structField
     }
 
+    struct DoubleNestingImmutableStruct {
+        NestingImmutableStruct nestingStructField
+    }
+
     struct StructWithArrayOfImmutable {
         ArrayOfImmutable arrayField
     }

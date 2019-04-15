@@ -57,6 +57,14 @@ Structs::NestingImmutableStruct::NestingImmutableStruct( const ::smoke::Structs:
     : struct_field( struct_field )
 {
 }
+Structs::DoubleNestingImmutableStruct::DoubleNestingImmutableStruct( )
+    : nesting_struct_field{ }
+{
+}
+Structs::DoubleNestingImmutableStruct::DoubleNestingImmutableStruct( const ::smoke::Structs::NestingImmutableStruct& nesting_struct_field )
+    : nesting_struct_field( nesting_struct_field )
+{
+}
 Structs::StructWithArrayOfImmutable::StructWithArrayOfImmutable( )
     : array_field{ }
 {

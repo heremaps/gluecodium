@@ -273,6 +273,16 @@ public class Structs extends NativeBase {
             this.structField = structField;
         }
     }
+    public static class DoubleNestingImmutableStruct {
+        @NonNull
+        public Structs.NestingImmutableStruct nestingStructField;
+        public DoubleNestingImmutableStruct() {
+            this(new Structs.NestingImmutableStruct());
+        }
+        public DoubleNestingImmutableStruct(Structs.NestingImmutableStruct nestingStructField) {
+            this.nestingStructField = nestingStructField;
+        }
+    }
     public static class StructWithArrayOfImmutable {
         @NonNull
         public List<Structs.AllTypesStruct> arrayField;

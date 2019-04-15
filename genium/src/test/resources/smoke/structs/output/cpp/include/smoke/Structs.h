@@ -73,6 +73,11 @@ struct _GENIUM_CPP_EXPORT NestingImmutableStruct {
     NestingImmutableStruct( );
     NestingImmutableStruct( const ::smoke::Structs::AllTypesStruct& struct_field );
 };
+struct _GENIUM_CPP_EXPORT DoubleNestingImmutableStruct {
+    ::smoke::Structs::NestingImmutableStruct nesting_struct_field;
+    DoubleNestingImmutableStruct( );
+    DoubleNestingImmutableStruct( const ::smoke::Structs::NestingImmutableStruct& nesting_struct_field );
+};
 struct _GENIUM_CPP_EXPORT StructWithArrayOfImmutable {
     ::smoke::Structs::ArrayOfImmutable array_field;
     StructWithArrayOfImmutable( );

@@ -426,6 +426,37 @@ _baseRef smoke_Structs_NestingImmutableStruct_structField_get(_baseRef handle) {
 return Conversion<::smoke::Structs::AllTypesStruct>::toBaseRef(struct_pointer->struct_field);
 }
 _baseRef
+smoke_Structs_DoubleNestingImmutableStruct_create_handle( _baseRef nestingStructField )
+{
+    auto _nestingStructField = Conversion<::smoke::Structs::NestingImmutableStruct>::toCpp( nestingStructField );
+    ::smoke::Structs::DoubleNestingImmutableStruct* _struct = new ( std::nothrow ) ::smoke::Structs::DoubleNestingImmutableStruct( _nestingStructField );
+    return reinterpret_cast<_baseRef>( _struct );
+}
+void
+smoke_Structs_DoubleNestingImmutableStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::Structs::DoubleNestingImmutableStruct>( handle );
+}
+_baseRef
+smoke_Structs_DoubleNestingImmutableStruct_create_optional_handle(_baseRef nestingStructField)
+{
+    auto _nestingStructField = Conversion<::smoke::Structs::NestingImmutableStruct>::toCpp( nestingStructField );
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Structs::DoubleNestingImmutableStruct>( ::smoke::Structs::DoubleNestingImmutableStruct( _nestingStructField ) );
+    return reinterpret_cast<_baseRef>( _struct );
+}
+_baseRef
+smoke_Structs_DoubleNestingImmutableStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Structs::DoubleNestingImmutableStruct>*>( handle ) );
+}
+void smoke_Structs_DoubleNestingImmutableStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::genium::optional<::smoke::Structs::DoubleNestingImmutableStruct>*>( handle );
+}
+_baseRef smoke_Structs_DoubleNestingImmutableStruct_nestingStructField_get(_baseRef handle) {
+    auto struct_pointer = get_pointer<::smoke::Structs::DoubleNestingImmutableStruct>(handle);
+return Conversion<::smoke::Structs::NestingImmutableStruct>::toBaseRef(struct_pointer->nesting_struct_field);
+}
+_baseRef
 smoke_Structs_StructWithArrayOfImmutable_create_handle( _baseRef arrayField )
 {
     auto _arrayField = Conversion<std::vector<::smoke::Structs::AllTypesStruct>>::toCpp( arrayField );

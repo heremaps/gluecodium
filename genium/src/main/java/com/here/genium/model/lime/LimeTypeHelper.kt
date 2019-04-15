@@ -26,7 +26,15 @@ object LimeTypeHelper {
             else -> limeType
         }
 
-    fun getLeafType(limeType: LimeType): LimeType =
+    fun getAllFieldTypes(limeType: LimeType): List<LimeType> {
+        val leafType = getLeafType(limeType)
+        return listOf(leafType) + when (leafType) {
+            is LimeStruct -> leafType.fields.flatMap { getAllFieldTypes(it.typeRef.type) }
+            else -> emptyList()
+        }
+    }
+
+    private fun getLeafType(limeType: LimeType): LimeType =
         when (limeType) {
             is LimeTypeDef -> getLeafType(limeType.typeRef.type)
             is LimeArray -> getLeafType(limeType.elementType.type)

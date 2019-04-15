@@ -85,6 +85,10 @@ interface Structs {
         AllTypesStruct structField
     }
 
+    struct DoubleNestingImmutableStruct {
+        NestingImmutableStruct nestingStructField
+    }
+
     struct StructWithArrayOfImmutable {
         ArrayOfImmutable arrayField
     }
