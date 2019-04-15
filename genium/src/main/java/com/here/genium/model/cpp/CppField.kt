@@ -22,7 +22,7 @@ package com.here.genium.model.cpp
 import com.google.common.base.Strings
 import java.util.stream.Stream
 
-class CppField @JvmOverloads constructor(
+class CppField(
     name: String,
     type: CppTypeRef,
     val initializer: CppValue? = null,

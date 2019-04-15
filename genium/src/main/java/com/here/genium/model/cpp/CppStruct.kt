@@ -19,7 +19,7 @@
 
 package com.here.genium.model.cpp
 
-class CppStruct @JvmOverloads constructor(
+class CppStruct(
     name: String,
     fullyQualifiedName: String = name,
     comment: String = "",

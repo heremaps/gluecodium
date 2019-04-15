@@ -19,7 +19,7 @@
 
 package com.here.genium.model.java
 
-open class JavaCustomType @JvmOverloads constructor(
+open class JavaCustomType(
     fullName: String,
     classNames: List<String>? = null,
     packageNames: List<String>? = null,

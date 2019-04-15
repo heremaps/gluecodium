@@ -43,7 +43,6 @@ open class CppTypeInfo(
         MAP
     }
 
-    @JvmOverloads
     constructor(type: CType, typeCategory: TypeCategory = TypeCategory.BUILTIN_SIMPLE) : this(
         type.name,
         type,

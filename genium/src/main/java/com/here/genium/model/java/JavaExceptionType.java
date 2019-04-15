@@ -30,6 +30,7 @@ public final class JavaExceptionType extends JavaCustomType {
         fullName,
         classNames,
         anImport.getJavaPackage().getPackageNames(),
-        Collections.singletonList(anImport));
+        Collections.singletonList(anImport),
+        false);
   }
 }

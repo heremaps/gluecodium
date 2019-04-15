@@ -45,14 +45,20 @@ public final class JavaTemplateType extends JavaCustomType {
               implementationTypeName + IMPLICIT_TEMPLATE_DECLARATION,
               null,
               javaPackage.getPackageNames(),
-              Collections.singletonList(new JavaImport(implementationTypeName, javaPackage)));
+              Collections.singletonList(new JavaImport(implementationTypeName, javaPackage)),
+              false);
       this.javaImport = new JavaImport(name, javaPackage);
       this.packageNames = javaPackage.getPackageNames();
     }
   }
 
   private JavaTemplateType(final String name, final TemplateClass templateClass) {
-    super(name, Collections.singletonList(templateClass.name), templateClass.packageNames);
+    super(
+        name,
+        Collections.singletonList(templateClass.name),
+        templateClass.packageNames,
+        null,
+        false);
     implementationType = templateClass.implementationType;
   }
 

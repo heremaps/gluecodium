@@ -188,7 +188,7 @@ public class TopologicalSortTest {
   }
 
   private static CppComplexTypeRef createComplex(String name) {
-    return new CppComplexTypeRef(name);
+    return new CppComplexTypeRef(name, Collections.emptyList(), false, false);
   }
 
   private static CppStruct createCppStruct(String name, String firstType, String secondType) {
@@ -198,16 +198,19 @@ public class TopologicalSortTest {
         "",
         false,
         Arrays.asList(
-            new CppField("x", createComplex(firstType)),
-            new CppField("y", createComplex(secondType))));
+            new CppField("x", createComplex(firstType), null, false, false, false),
+            new CppField("y", createComplex(secondType), null, false, false, false)),
+        false,
+        false);
   }
 
   private static CppUsing createUsing(final String name, final CppTypeRef typeRef) {
-    return new CppUsing(name, name, typeRef);
+    return new CppUsing(name, name, null, typeRef);
   }
 
   private static CppConstant createConstant(String typeName) {
-    return new CppConstant("fixed", "fixed", createComplex(typeName), new CppValue(""));
+    return new CppConstant(
+        "fixed", "fixed", createComplex(typeName), new CppValue("", Collections.emptyList()));
   }
 
   private static CppConstant createConstantWithUsing(String typeName) {
@@ -218,7 +221,7 @@ public class TopologicalSortTest {
             typeName,
             Collections.singletonList(Include.Companion.createInternalInclude("foo")),
             createComplex("nonsense")),
-        new CppValue(""));
+        new CppValue("", Collections.emptyList()));
   }
 
   @Test

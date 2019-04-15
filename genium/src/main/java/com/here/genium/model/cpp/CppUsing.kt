@@ -21,7 +21,7 @@ package com.here.genium.model.cpp
 
 import java.util.stream.Stream
 
-class CppUsing @JvmOverloads constructor(
+class CppUsing(
     name: String,
     fullyQualifiedName: String,
     comment: String? = null,

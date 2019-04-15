@@ -21,7 +21,7 @@ package com.here.genium.model.cpp
 
 import com.here.genium.model.common.Include
 
-open class CppComplexTypeRef @JvmOverloads constructor(
+open class CppComplexTypeRef(
     fullyQualifiedName: String,
     includes: List<Include> = emptyList(),
     refersToEnum: Boolean = false,
