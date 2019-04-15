@@ -22,8 +22,8 @@ package com.here.genium.cli
 import com.google.common.base.Splitter
 import com.here.genium.Genium
 import com.here.genium.platform.common.GeneratorSuite
-import org.apache.commons.cli.BasicParser
 import org.apache.commons.cli.CommandLine
+import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Option
 import org.apache.commons.cli.Options
@@ -92,7 +92,7 @@ class OptionReader {
     @Throws(OptionReaderException::class)
     fun read(args: Array<String>): Genium.Options? {
         val options = Genium.Options()
-        val parser = BasicParser()
+        val parser = DefaultParser()
 
         try {
             val cmd = parser.parse(this.options, args)

@@ -48,11 +48,12 @@ abstract class AcceptanceTestBase protected constructor(
 
     private val results = mutableListOf<GeneratedFile>()
 
-    protected open fun getGeniumOptions(): Genium.Options = Genium.DEFAULT_OPTIONS
+    protected open fun getGeniumOptions() = Genium.DEFAULT_OPTIONS
 
     @Before
     fun setUp() {
         every { genium.output(any(), any()) }.answers {
+            @Suppress("UNCHECKED_CAST")
             results.addAll(it.invocation.args[1] as List<GeneratedFile>)
             true
         }
@@ -64,8 +65,8 @@ abstract class AcceptanceTestBase protected constructor(
 
         val referenceFiles = GENERATOR_DIRECTORIES[generatorName]!!
             .map { generatorDirectoryName -> File(outputDirectory, generatorDirectoryName) }
-            .flatMap { generatorDirectory -> listFilesRecursively(generatorDirectory) }
-            .filter { !it.name.toLowerCase().startsWith(IGNORE_PREFIX) }
+            .flatMap { listFilesRecursively(it) }
+            .filterNot { it.name.toLowerCase().startsWith(IGNORE_PREFIX) }
 
         assumeFalse("No reference files were found", referenceFiles.isEmpty())
 
@@ -74,8 +75,8 @@ abstract class AcceptanceTestBase protected constructor(
 
         val generatedContents = results.associateBy({ it.targetFile.path }, { it.content })
 
-        referenceFiles.forEach { referenceFile ->
-            val relativePath = getRelativePath(outputDirectory, referenceFile)
+        referenceFiles.forEach {
+            val relativePath = getRelativePath(outputDirectory, it)
             val generatedContent = generatedContents[relativePath]
             errorCollector.checkNotNull(
                 "File was not generated: $relativePath, generated files: ${generatedContents.keys}",
@@ -83,7 +84,7 @@ abstract class AcceptanceTestBase protected constructor(
             )
 
             if (generatedContent != null) {
-                val expected = referenceFile.readText()
+                val expected = it.readText()
                 errorCollector.checkEquals(
                     "File content differs for file: $relativePath",
                     ignoreWhitespace(expected),
@@ -148,11 +149,11 @@ abstract class AcceptanceTestBase protected constructor(
         private fun listFilesRecursively(directory: File): Collection<File> {
             val files = directory.listFiles() ?: return emptyList()
             val result = mutableListOf<File>()
-            files.forEach { file ->
-                if (file.isDirectory) {
-                    result.addAll(listFilesRecursively(file))
+            files.forEach {
+                if (it.isDirectory) {
+                    result.addAll(listFilesRecursively(it))
                 } else {
-                    result.add(file)
+                    result.add(it)
                 }
             }
             return result

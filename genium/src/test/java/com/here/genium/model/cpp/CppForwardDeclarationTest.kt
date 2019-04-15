@@ -19,7 +19,7 @@
 
 package com.here.genium.model.cpp
 
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -72,14 +72,14 @@ class CppForwardDeclarationTest {
     @Test
     fun noNamespaceWithGlobalModifier() {
         val forward = CppForwardDeclaration("::Bar")
-        assertEquals(listOf<String>(), forward.namespaces)
+        assertEquals(emptyList<String>(), forward.namespaces)
         assertEquals("Bar", forward.type)
     }
 
     @Test
     fun noNamespaceWithoutGlobalModifier() {
         val forward = CppForwardDeclaration("Bar")
-        assertEquals(listOf<String>(), forward.namespaces)
+        assertEquals(emptyList<String>(), forward.namespaces)
         assertEquals("Bar", forward.type)
     }
 
