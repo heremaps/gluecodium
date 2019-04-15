@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 4.0.1
+- Release date: 2019-04-16
 - Bug fixes:
   + Fixed compilation issues caused by deep nesting of immutable structs.
 
