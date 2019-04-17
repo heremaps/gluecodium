@@ -1,8 +1,9 @@
 # Genium project Release Notes
 
-## Unreleased
+## 4.0.2
+- Release date: 2019-04-17
 - Features
-  + Allow for the internal package for Java files (like NativeBase) to be specified.
+  + Added a command line parameter to specify package for Genium-internal classes (e.g. NativeBase)
 
 ## 4.0.1
 - Release date: 2019-04-16
