@@ -83,7 +83,10 @@ internal func moveToCType(_ swiftType: String?) -> RefHolder {
 }
 
 internal func copyFromCType(_ handle: _baseRef) -> Data {
-    return Data(bytes: byteArray_data_get(handle), count: Int(byteArray_size_get(handle)))
+    guard let byteArrayData = byteArray_data_get(handle) else {
+        return Data()
+    }
+    return Data(bytes: byteArrayData, count: Int(byteArray_size_get(handle)))
 }
 
 internal func moveFromCType(_ handle: _baseRef) -> Data {

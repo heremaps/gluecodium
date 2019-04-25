@@ -45,6 +45,40 @@ class PlainDataStructuresTests: XCTestCase {
         XCTAssertEqual(line.b.y, end.y)
     }
 
+    func testAllBasicTypesZeroesInStruct() {
+        let allTypes = PlainDataStructures.AllTypesStruct(
+            int8Field: 0,
+            uint8Field: 0,
+            int16Field: 0,
+            uint16Field: 0,
+            int32Field: 0,
+            uint32Field: 0,
+            int64Field: 0,
+            uint64Field: 0,
+            floatField: 0,
+            doubleField: 0,
+            stringField: "",
+            booleanField: false,
+            bytesField: Data(),
+            pointField: PlainDataStructures.Point(x: 0, y: 0))
+        let result = PlainDataStructures.returnAllTypesStruct(input: allTypes)
+        XCTAssertEqual(result.int8Field, 0)
+        XCTAssertEqual(result.uint8Field, 0)
+        XCTAssertEqual(result.int16Field, 0)
+        XCTAssertEqual(result.uint16Field, 0)
+        XCTAssertEqual(result.int32Field, 0)
+        XCTAssertEqual(result.uint32Field, 0)
+        XCTAssertEqual(result.int64Field, 0)
+        XCTAssertEqual(result.uint64Field, 0)
+        XCTAssertEqual(result.floatField, 0)
+        XCTAssertEqual(result.doubleField, 0)
+        XCTAssertEqual(result.stringField, "")
+        XCTAssertEqual(result.booleanField, false)
+        XCTAssertEqual(result.bytesField, Data())
+        XCTAssertEqual(result.pointField.x, 0)
+        XCTAssertEqual(result.pointField.y, 0)
+    }
+
     func testAllBasicTypesCanBePassedInStruct() {
         let allTypes = PlainDataStructures.AllTypesStruct(
             int8Field: 0,
@@ -87,6 +121,7 @@ class PlainDataStructuresTests: XCTestCase {
         ("testReturnStruct", testReturnStruct),
         ("testCreatePassAndReturnStruct", testCreatePassAndReturnStruct),
         ("testReturnNestedStruct", testReturnNestedStruct),
+        ("testAllBasicTypesZeroesInStruct", testAllBasicTypesZeroesInStruct),
         ("testAllBasicTypesCanBePassedInStruct", testAllBasicTypesCanBePassedInStruct),
         ("testAllFieldsAreInitialized", testAllFieldsAreInitialized)
     ]

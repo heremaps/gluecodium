@@ -103,6 +103,45 @@ public final class PlainDataStructuresTest {
   }
 
   @Test
+  public void allTypesZeroesRoundTrip() {
+    PlainDataStructures.AllTypesStruct allTypesStruct = new PlainDataStructures.AllTypesStruct();
+    allTypesStruct.booleanField = false;
+    allTypesStruct.bytesField = new byte[0];
+    allTypesStruct.doubleField = 0.0;
+    allTypesStruct.floatField = 0.0f;
+    allTypesStruct.int8Field = 0;
+    allTypesStruct.int16Field = 0;
+    allTypesStruct.int32Field = 0;
+    allTypesStruct.int64Field = 0;
+    allTypesStruct.uint8Field = 0;
+    allTypesStruct.uint16Field = 0;
+    allTypesStruct.uint32Field = 0;
+    allTypesStruct.uint64Field = 0;
+    allTypesStruct.stringField = "";
+    allTypesStruct.pointField = PlainDataStructures.createPoint(0.0, 0.0);
+
+    PlainDataStructures.AllTypesStruct result =
+        PlainDataStructures.returnAllTypesStruct(allTypesStruct);
+
+    assertNotNull(result);
+    assertEquals(false, result.booleanField);
+    assertTrue(Arrays.equals(new byte[0], result.bytesField));
+    assertEquals(0.0, result.doubleField);
+    assertEquals(0.0f, result.floatField);
+    assertEquals(0, result.int8Field);
+    assertEquals(0, result.int16Field);
+    assertEquals(0, result.int32Field);
+    assertEquals(0, result.int64Field);
+    assertEquals(0, result.uint8Field);
+    assertEquals(0, result.uint16Field);
+    assertEquals(0, result.uint32Field);
+    assertEquals(0, result.uint64Field);
+    assertEquals("", result.stringField);
+    assertEquals(0.0, result.pointField.x);
+    assertEquals(0.0, result.pointField.y);
+  }
+
+  @Test
   public void modifyAllBuiltInAndCustomTypesDataStructure() {
     PlainDataStructures.AllTypesStruct allTypesStruct = new PlainDataStructures.AllTypesStruct();
     allTypesStruct.booleanField = true;

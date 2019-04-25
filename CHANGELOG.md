@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed runtime issues caused by empty ByteBuffer in Swift.
+
 ## 4.0.2
 - Release date: 2019-04-17
 - Features
