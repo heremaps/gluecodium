@@ -39,6 +39,7 @@
    match-leak-kinds: possible
    fun:_Znam
    fun:_ZN5swift17MetadataAllocator8AllocateEmm
+   ...
    fun:swift_getTupleTypeMetadata
    fun:swift_getTupleTypeMetadata2
    fun:*
@@ -119,18 +120,6 @@
    fun:*
 }
 {
-   swiftMetadataAllocator
-
-   Memcheck:Leak
-   match-leak-kinds: possible
-   fun:_Znam
-   fun:_ZN5swift17MetadataAllocator8AllocateEmm
-   fun:_ZN5swift20LockingConcurrentMapIN12_GLOBAL__N_115TupleCacheEntryELb0ENS1_10TupleCacheEE11getOrInsertINS2_3KeyEJRNS_15MetadataRequestERPKNS_17ValueWitnessTableEEEESt4pairIPS2_NS_16MetadataResponseEET_DpOT0_
-   fun:swift_getTupleTypeMetadata
-   fun:swift_getTupleTypeMetadata2
-   fun:*
-}
-{
    Mirror
 
    Memcheck:Value8
@@ -161,27 +150,12 @@
    fun:*
 }
 {
-   TODO: APIGEN-1598 check if leak is legit
-   Memcheck:Leak
-   match-leak-kinds: possible
-   fun:_Znam
-   fun:_ZN5swift17MetadataAllocator8AllocateEmm
-   fun:swift_getWitnessTable
-   ...
-   fun:$s5hello13copyFromCTypeySaySaySdGGs5Int64VF
-}
-{
-   TODO: APIGEN-1598 check if leak is legit
+   getWitnessTable
 
    Memcheck:Leak
    match-leak-kinds: possible
    fun:_Znam
    fun:_ZN5swift17MetadataAllocator8AllocateEmm
-   fun:_ZN5swift20LockingConcurrentMapIN12_GLOBAL__N_115TupleCacheEntryENS1_17TupleCacheStorageEE11getOrInsertINS2_3KeyEJRNS_15MetadataRequestERPKNS_23TargetValueWitnessTableINS_9InProcessEEEEEESt4pairIPS2_NS_16MetadataResponseEET_DpOT0_
-   fun:swift_getTupleTypeMetadata
-   fun:swift_getTupleTypeMetadata2
-   fun:$sSqsSQRzlE2eeoiySbxSg_ABtFZ
-   fun:$s5hello23EquatableNullableStructV23__derived_struct_equalsySbAC_ACtFZ
-   fun:$s5hello23EquatableNullableStructVSQAASQ2eeoiySbx_xtFZTW
+   fun:swift_getWitnessTable
    fun:*
 }
