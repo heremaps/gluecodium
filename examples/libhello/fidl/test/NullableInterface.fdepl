@@ -51,6 +51,9 @@ define GeniumExtensions for interface test.NullableInterface
         mapField {
             Nullable = true
         }
+        blobField {
+            Nullable = true
+        }
     }
 
     struct NullableIntsStruct {

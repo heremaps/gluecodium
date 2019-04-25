@@ -139,6 +139,12 @@ double get_field_value(
     const char* fieldName,
     ::std::shared_ptr< ::std::vector< uint8_t > >* dummy );
 
+{{>common/InternalNamespace}}optional< ::std::shared_ptr< ::std::vector< uint8_t > > > get_field_value(
+    JNIEnv* env,
+    const JniReference< jobject >& object,
+    const char* fieldName,
+    {{>common/InternalNamespace}}optional< ::std::shared_ptr< ::std::vector< uint8_t > > >* dummy );
+
 JniReference< jobject > get_object_field_value( JNIEnv* env,
                                        const JniReference<jobject>& object,
                                        const char* fieldName,
@@ -233,6 +239,10 @@ void set_field_value( JNIEnv* env,
                       const JniReference<jobject>& object,
                       const char* fieldName,
                       const std::shared_ptr< ::std::vector< uint8_t > >& fieldValue );
+void set_field_value( JNIEnv* env,
+                      const JniReference<jobject>& object,
+                      const char* fieldName,
+                      {{>common/InternalNamespace}}optional< std::shared_ptr< ::std::vector< uint8_t > > > fieldValue );
 
 void set_object_field_value( JNIEnv* env,
                              const JniReference<jobject>& object,

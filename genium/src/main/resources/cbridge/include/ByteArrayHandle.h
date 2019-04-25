@@ -35,6 +35,11 @@ _GENIUM_C_EXPORT void byteArray_assign( _baseRef handle, const uint8_t* data, co
 _GENIUM_C_EXPORT const uint8_t* byteArray_data_get( _baseRef handle );
 _GENIUM_C_EXPORT size_t byteArray_size_get( _baseRef handle );
 
+_GENIUM_C_EXPORT _baseRef byteArray_create_optional_handle( );
+_GENIUM_C_EXPORT void byteArray_release_optional_handle( _baseRef handle );
+_GENIUM_C_EXPORT _baseRef byteArray_unwrap_optional_handle( _baseRef handle );
+_GENIUM_C_EXPORT void byteArray_assign_optional( _baseRef handle, const uint8_t* data, const size_t size );
+
 #ifdef __cplusplus
 }
 #endif

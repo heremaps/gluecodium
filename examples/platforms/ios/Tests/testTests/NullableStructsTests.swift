@@ -35,6 +35,7 @@ class NullableStructsTests: XCTestCase {
         XCTAssertNil(nullable.arrayField)
         XCTAssertNil(nullable.inlineArrayField)
         XCTAssertNil(nullable.mapField)
+        XCTAssertNil(nullable.blobField)
     }
 
     func testNullableNullStructRoundTrip() {
@@ -50,6 +51,7 @@ class NullableStructsTests: XCTestCase {
         XCTAssertNil(result.arrayField)
         XCTAssertNil(result.inlineArrayField)
         XCTAssertNil(result.mapField)
+        XCTAssertNil(result.blobField)
     }
 
     func testNullableZeroStructRoundTrip() {
@@ -61,7 +63,8 @@ class NullableStructsTests: XCTestCase {
             enumField: NullableInterface.SomeEnum.off,
             arrayField: [],
             inlineArrayField: [],
-            mapField: [:]
+            mapField: [:],
+            blobField: Data()
         )
 
         let result = nullableInterface.methodWithNullableStruct(input: nullable)
@@ -74,6 +77,7 @@ class NullableStructsTests: XCTestCase {
         XCTAssertEqual(nullable.arrayField, result.arrayField)
         XCTAssertEqual(nullable.inlineArrayField, result.inlineArrayField)
         XCTAssertEqual(nullable.mapField, result.mapField)
+        XCTAssertEqual(nullable.blobField, result.blobField)
     }
 
     func testNullableFilledStructRoundTrip() {
@@ -85,7 +89,8 @@ class NullableStructsTests: XCTestCase {
             enumField: NullableInterface.SomeEnum.on,
             arrayField: ["Bar"],
             inlineArrayField: ["Baz"],
-            mapField: [7: "Wee"])
+            mapField: [7: "Wee"],
+            blobField: Data([42]))
 
         let result = nullableInterface.methodWithNullableStruct(input: nullable)
 
@@ -97,6 +102,7 @@ class NullableStructsTests: XCTestCase {
         XCTAssertEqual(nullable.arrayField, result.arrayField)
         XCTAssertEqual(nullable.inlineArrayField, result.inlineArrayField)
         XCTAssertEqual(nullable.mapField, result.mapField)
+        XCTAssertEqual(nullable.blobField, result.blobField)
     }
 
     func testNullableIntsStructConstructor() {

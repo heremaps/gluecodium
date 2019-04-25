@@ -75,6 +75,10 @@ class CBridgeGenerator(
             generateHelperContent(
                 "StringHandle", Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "StringHandle.cpp").toString()),
             generateHelperContent(
+                "ByteArrayHandle",
+                Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "ByteArrayHandle.cpp").toString()
+            ),
+            generateHelperContent(
                 "BuiltinHandle",
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "BuildintHandle.cpp").toString()
             )
@@ -145,9 +149,6 @@ class CBridgeGenerator(
             ),
             GeneratorSuite.copyTarget(
                 Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""
-            ),
-            GeneratorSuite.copyTarget(
-                Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "ByteArrayHandle.cpp").toString(), ""
             ),
             GeneratorSuite.copyTarget(CBridgeComponents.PROXY_CACHE_FILENAME, "")
         )

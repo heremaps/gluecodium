@@ -108,6 +108,36 @@ internal func moveToCType(_ swiftType: Data) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: byteArray_release_handle)
 }
 
+internal func copyFromCType(_ handle: _baseRef) -> Data? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = byteArray_unwrap_optional_handle(handle)
+    return copyFromCType(unwrappedHandle) as Data
+}
+
+internal func moveFromCType(_ handle: _baseRef) -> Data? {
+    defer {
+        byteArray_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: Data?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let handle = byteArray_create_optional_handle()
+    swiftType.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) in
+        byteArray_assign_optional(handle, ptr, swiftType.count)
+    }
+    return RefHolder(handle)
+}
+
+internal func moveToCType(_ swiftType: Data?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: byteArray_release_optional_handle)
+}
+
 // catch primitive types
 internal func copyFromCType<T>(_ primitive: T) -> T {
     return primitive

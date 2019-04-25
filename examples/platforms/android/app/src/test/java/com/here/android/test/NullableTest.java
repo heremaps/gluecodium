@@ -76,6 +76,7 @@ public class NullableTest {
     assertNull(struct.arrayField);
     assertNull(struct.inlineArrayField);
     assertNull(struct.mapField);
+    assertNull(struct.blobField);
   }
 
   @Test
@@ -92,6 +93,7 @@ public class NullableTest {
     assertNull(result.arrayField);
     assertNull(result.inlineArrayField);
     assertNull(result.mapField);
+    assertNull(result.blobField);
   }
 
   @Test
@@ -105,6 +107,7 @@ public class NullableTest {
     struct.arrayField = new LinkedList<>();
     struct.inlineArrayField = new LinkedList<>();
     struct.mapField = new HashMap<>();
+    struct.blobField = new byte[0];
 
     NullableInterface.NullableStruct result = nullableInterface.methodWithNullableStruct(struct);
 
@@ -116,6 +119,7 @@ public class NullableTest {
     assertEquals(struct.arrayField, result.arrayField);
     assertEquals(struct.inlineArrayField, result.inlineArrayField);
     assertEquals(struct.mapField, result.mapField);
+    assertEquals(0, result.blobField.length);
   }
 
   @Test
@@ -131,6 +135,7 @@ public class NullableTest {
     struct.inlineArrayField = new LinkedList<>(Collections.singletonList("Baz"));
     struct.mapField = new HashMap<>();
     struct.mapField.put(7L, "Wee");
+    struct.blobField = new byte[]{(byte)42};
 
     NullableInterface.NullableStruct result = nullableInterface.methodWithNullableStruct(struct);
 
@@ -142,6 +147,8 @@ public class NullableTest {
     assertEquals(struct.arrayField, result.arrayField);
     assertEquals(struct.inlineArrayField, result.inlineArrayField);
     assertEquals(struct.mapField, result.mapField);
+    assertEquals(1, result.blobField.length);
+    assertEquals((byte)42, result.blobField[0]);
   }
 
   @Test

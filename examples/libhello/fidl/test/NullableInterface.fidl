@@ -45,6 +45,7 @@ interface NullableInterface {
         SomeArray arrayField
         String[] inlineArrayField
         SomeMap mapField
+        ByteBuffer blobField
     }
 
     struct NullableIntsStruct {

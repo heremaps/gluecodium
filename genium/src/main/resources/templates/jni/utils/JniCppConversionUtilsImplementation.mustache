@@ -99,6 +99,17 @@ convert_from_jni( JNIEnv* env, const JniReference<jbyteArray>& jvalue,
     return nresult;
 }
 
+{{>common/InternalNamespace}}optional< std::shared_ptr< std::vector< uint8_t > > >
+convert_from_jni( JNIEnv* env,
+                  const JniReference<jbyteArray>& jvalue,
+                  {{>common/InternalNamespace}}optional< std::shared_ptr< std::vector< uint8_t > > >* )
+{
+    return jvalue
+        ? {{>common/InternalNamespace}}optional< std::shared_ptr< std::vector< uint8_t > > >(
+            convert_from_jni( env, jvalue, (std::shared_ptr< std::vector< uint8_t > >*)nullptr ) )
+        : {{>common/InternalNamespace}}optional< std::shared_ptr< std::vector< uint8_t > > >{};
+}
+
 // -------------------- C++ to JNI conversion functions --------------------------------------------
 
 JniReference<jstring>
@@ -129,6 +140,12 @@ convert_to_jni( JNIEnv* env, const std::shared_ptr< std::vector< uint8_t > >& nv
     env->SetByteArrayRegion( jresult.get(), 0, size, jbuffer );
 
     return jresult;
+}
+
+JniReference< jbyteArray >
+convert_to_jni( JNIEnv* env, const {{>common/InternalNamespace}}optional< std::shared_ptr< std::vector< uint8_t > > >& nvalue )
+{
+    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference< jbyteArray >{};
 }
 
 }

@@ -3,6 +3,7 @@
 ## Unreleased
 - Bug fixes:
   + Fixed runtime issues caused by empty ByteBuffer in Swift.
+  + Fixed compilation issues caused by nullable ByteBuffer fields in Swift and Java.
 
 ## 4.0.2
 - Release date: 2019-04-17
