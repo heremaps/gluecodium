@@ -68,6 +68,7 @@ public final class JniTypeNameMapper {
       case LONG:
       case FLOAT:
       case DOUBLE:
+      case DATE:
         return "jobject";
       default:
         throw new IllegalArgumentException(

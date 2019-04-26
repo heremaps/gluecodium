@@ -22,9 +22,13 @@ package com.here.genium.model.java
 import com.here.genium.cli.GeniumExecutionException
 
 class JavaReferenceType(val type: Type) :
-    JavaComplexType(type.value, listOf(type.value), JAVA_PACKAGE_NAMES, emptyList()) {
+    JavaComplexType(type.value, listOf(type.value), type.packageNames, type.imports) {
 
-    enum class Type(val value: String) {
+    enum class Type(
+        val value: String,
+        val packageNames: List<String> = JAVA_LANG_PACKAGE,
+        val imports: List<JavaImport> = emptyList()
+    ) {
         OBJECT("Object"), // All java objects
         CLASS("Class"), // java.lang.Class objects
         STRING("String"), // java.lang.String objects
@@ -36,11 +40,13 @@ class JavaReferenceType(val type: Type) :
         INT("Integer"),
         LONG("Long"),
         FLOAT("Float"),
-        DOUBLE("Double")
+        DOUBLE("Double"),
+        DATE("Date", JAVA_UTIL_PACKAGE, listOf(JavaImport("Date", JavaPackage(JAVA_UTIL_PACKAGE))))
     }
 
     companion object {
-        private val JAVA_PACKAGE_NAMES = listOf("java", "lang")
+        private val JAVA_LANG_PACKAGE = listOf("java", "lang")
+        private val JAVA_UTIL_PACKAGE = listOf("java", "util")
 
         /**
          * Wrap primitive types since generic templates don't apply to them

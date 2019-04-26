@@ -46,6 +46,7 @@
 #include "JniReference.h"
 #include "{{>common/InternalInclude}}Optional.h"
 
+#include <chrono>
 #include <cstdint>
 #include <memory>
 #include <vector>
@@ -138,25 +139,27 @@ double get_field_value(
     const JniReference< jobject >& object,
     const char* fieldName,
     ::std::shared_ptr< ::std::vector< uint8_t > >* dummy );
-
 {{>common/InternalNamespace}}optional< ::std::shared_ptr< ::std::vector< uint8_t > > > get_field_value(
     JNIEnv* env,
     const JniReference< jobject >& object,
     const char* fieldName,
     {{>common/InternalNamespace}}optional< ::std::shared_ptr< ::std::vector< uint8_t > > >* dummy );
 
+::std::chrono::system_clock::time_point get_field_value(
+    JNIEnv* env,
+    const JniReference< jobject >& object,
+    const char* fieldName,
+    ::std::chrono::system_clock::time_point* dummy );
+{{>common/InternalNamespace}}optional< ::std::chrono::system_clock::time_point > get_field_value(
+    JNIEnv* env,
+    const JniReference< jobject >& object,
+    const char* fieldName,
+    {{>common/InternalNamespace}}optional< ::std::chrono::system_clock::time_point >* dummy );
+
 JniReference< jobject > get_object_field_value( JNIEnv* env,
                                        const JniReference<jobject>& object,
                                        const char* fieldName,
                                        const char* fieldSignature );
-
-// -------------------- JNI object constructor ----------------------------------------------------
-
-JniReference<jobject> create_object( JNIEnv* env, const JniReference<jclass>& javaClass );
-
-// -------------------- JNI instance object constructor -------------------------------------------
-
-JniReference<jobject> create_instance_object( JNIEnv* env, const JniReference<jclass>& javaClass, jlong instancePointer );
 
 // -------------------- JNI object field setters --------------------------------------------------
 
@@ -235,6 +238,7 @@ void set_field_value( JNIEnv* env,
                       const JniReference< jobject >& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< ::std::string > value );
+
 void set_field_value( JNIEnv* env,
                       const JniReference<jobject>& object,
                       const char* fieldName,
@@ -243,6 +247,15 @@ void set_field_value( JNIEnv* env,
                       const JniReference<jobject>& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< std::shared_ptr< ::std::vector< uint8_t > > > fieldValue );
+
+void set_field_value( JNIEnv* env,
+                      const JniReference<jobject>& object,
+                      const char* fieldName,
+                      const ::std::chrono::system_clock::time_point& fieldValue );
+void set_field_value( JNIEnv* env,
+                      const JniReference<jobject>& object,
+                      const char* fieldName,
+                      {{>common/InternalNamespace}}optional< ::std::chrono::system_clock::time_point > fieldValue );
 
 void set_object_field_value( JNIEnv* env,
                              const JniReference<jobject>& object,

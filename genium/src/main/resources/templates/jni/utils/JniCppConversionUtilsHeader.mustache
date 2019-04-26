@@ -45,6 +45,7 @@
 #include "JniReference.h"
 #include "{{>common/InternalInclude}}Optional.h"
 
+#include <chrono>
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -76,6 +77,15 @@ std::shared_ptr< ::std::vector< uint8_t > > convert_from_jni(
     JNIEnv* env, const JniReference<jbyteArray>& jvalue,
     {{>common/InternalNamespace}}optional< std::shared_ptr< ::std::vector< uint8_t > > >* dummy );
 
+/**
+ * Converts a Java Date object to an std::chrono::time_point.
+ */
+std::chrono::system_clock::time_point convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::chrono::system_clock::time_point* dummy );
+{{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue,
+    {{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point>* dummy );
+
 // -------------------- C++ to JNI conversion functions --------------------------------------------
 
 /**
@@ -90,6 +100,13 @@ JniReference<jstring> convert_to_jni( JNIEnv* env, const {{>common/InternalNames
 JniReference<jbyteArray> convert_to_jni( JNIEnv* env, const std::shared_ptr< ::std::vector< uint8_t > >& nvalue );
 JniReference<jbyteArray> convert_to_jni(
     JNIEnv* env, const {{>common/InternalNamespace}}optional< std::shared_ptr< ::std::vector< uint8_t > > >& nvalue );
+
+/**
+ * Converts an std::chrono::time_point to a Java Date object.
+ */
+JniReference<jobject> convert_to_jni( JNIEnv* env, const std::chrono::system_clock::time_point& nvalue );
+JniReference<jobject> convert_to_jni(
+    JNIEnv* env, const {{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point>& nvalue );
 
 }
 {{#internalNamespace}}

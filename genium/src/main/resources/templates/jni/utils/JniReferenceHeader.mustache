@@ -172,6 +172,26 @@ JniReference<jobject> new_object(JNIEnv* env,
     return new_object_impl(env, jni_reference_unwrap(java_class), constructor_id, jni_reference_unwrap(args)...);
 }
 
+inline JniReference<jobject>
+create_object( JNIEnv* env, const JniReference<jclass>& javaClass )
+{
+    const char* name = "<init>";
+    const char* signature = "()V";
+    auto theConstructor = env->GetMethodID( javaClass.get(), name, signature );
+
+    return new_object(env, javaClass, theConstructor );
+}
+
+inline JniReference<jobject>
+create_instance_object( JNIEnv* env, const JniReference<jclass>& javaClass, jlong instancePointer )
+{
+    const char* name = "<init>";
+    const char* signature = "(J)V";
+    auto theConstructor = env->GetMethodID( javaClass.get(), name, signature );
+
+    return new_object(env, javaClass, theConstructor, instancePointer );
+}
+
 }
 {{#internalNamespace}}
 }

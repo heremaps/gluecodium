@@ -376,7 +376,7 @@ feature(ListenersWithThreads cpp android SOURCES
     fidl/test/ListenersThreads.fdepl
 )
 
-feature(Dates cpp SOURCES
+feature(Dates cpp android SOURCES
     src/test/Dates.cpp
 
     fidl/test/Dates.fidl

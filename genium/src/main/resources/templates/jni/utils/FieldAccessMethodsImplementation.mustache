@@ -339,6 +339,30 @@ get_field_value( JNIEnv* env,
     return convert_from_jni( env, fieldValue, ({{>common/InternalNamespace}}optional<std::shared_ptr<std::vector<uint8_t>>>*)nullptr );
 }
 
+std::chrono::system_clock::time_point
+get_field_value( JNIEnv* env,
+                 const JniReference<jobject>& object,
+                 const char* fieldName,
+                 std::chrono::system_clock::time_point* dummy )
+{
+    auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/util/Date;" );
+
+    return {{>common/InternalNamespace}}jni::convert_from_jni(
+        env, fieldValue, (std::chrono::system_clock::time_point*)nullptr );
+}
+
+{{>common/InternalNamespace}}optional< std::chrono::system_clock::time_point >
+get_field_value( JNIEnv* env,
+                 const JniReference<jobject>& object,
+                 const char* fieldName,
+                 {{>common/InternalNamespace}}optional< std::chrono::system_clock::time_point >* dummy )
+{
+    auto fieldValue = get_object_field_value( env, object, fieldName, "Ljava/util/Date;" );
+
+    return {{>common/InternalNamespace}}jni::convert_from_jni(
+        env, fieldValue, ({{>common/InternalNamespace}}optional< std::chrono::system_clock::time_point >*)nullptr );
+}
+
 JniReference<jobject>
 get_object_field_value( JNIEnv* env,
                         const JniReference<jobject>& object,
@@ -348,30 +372,6 @@ get_object_field_value( JNIEnv* env,
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, fieldSignature );
 
     return make_local_ref(env, env->GetObjectField( object.get(), fieldId ));
-}
-
-// -------------------- JNI object constructor ----------------------------------------------------
-
-JniReference<jobject>
-create_object( JNIEnv* env, const JniReference<jclass>& javaClass )
-{
-    const char* name = "<init>";
-    const char* signature = "()V";
-    auto theConstructor = env->GetMethodID( javaClass.get(), name, signature );
-
-    return new_object(env, javaClass, theConstructor );
-}
-
-// -------------------- JNI instance object constructor -------------------------------------------
-
-JniReference<jobject>
-create_instance_object( JNIEnv* env, const JniReference<jclass>& javaClass, jlong instancePointer )
-{
-    const char* name = "<init>";
-    const char* signature = "(J)V";
-    auto theConstructor = env->GetMethodID( javaClass.get(), name, signature );
-
-    return new_object(env, javaClass, theConstructor, instancePointer );
 }
 
 // -------------------- JNI object field setters --------------------------------------------------
@@ -648,6 +648,28 @@ set_field_value( JNIEnv* env,
                  {{>common/InternalNamespace}}optional<std::shared_ptr<std::vector<uint8_t>>> fieldValue )
 {
     auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "[B" );
+    auto jValue = {{>common/InternalNamespace}}jni::convert_to_jni( env, fieldValue );
+    env->SetObjectField( object.get(), fieldId, jValue.get() );
+}
+
+void
+set_field_value( JNIEnv* env,
+                 const JniReference<jobject>& object,
+                 const char* fieldName,
+                 const std::chrono::system_clock::time_point& fieldValue )
+{
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "Ljava/util/Date;" );
+    auto jValue = {{>common/InternalNamespace}}jni::convert_to_jni( env, fieldValue );
+    env->SetObjectField( object.get(), fieldId, jValue.get() );
+}
+
+void
+set_field_value( JNIEnv* env,
+                 const JniReference<jobject>& object,
+                 const char* fieldName,
+                 {{>common/InternalNamespace}}optional< std::chrono::system_clock::time_point > fieldValue )
+{
+    auto fieldId = env->GetFieldID( get_object_class(env, object).get(), fieldName, "Ljava/util/Date;" );
     auto jValue = {{>common/InternalNamespace}}jni::convert_to_jni( env, fieldValue );
     env->SetObjectField( object.get(), fieldId, jValue.get() );
 }

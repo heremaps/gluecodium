@@ -47,7 +47,7 @@ import com.here.genium.model.lime.LimeTypeRef
 class JavaTypeMapper(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val basePackage: JavaPackage,
-    private val internalPackage: JavaPackage,
+    internalPackage: JavaPackage,
     val serializationBase: JavaType?,
     private val notNullAnnotation: JavaType?,
     private val nullableAnnotation: JavaType?
@@ -179,7 +179,8 @@ class JavaTypeMapper(
             TypeId.INT64, TypeId.UINT32, TypeId.UINT64 -> JavaPrimitiveType.LONG
             TypeId.STRING -> JavaReferenceType(JavaReferenceType.Type.STRING)
             TypeId.BLOB -> JavaArrayType(JavaPrimitiveType.Type.BYTE)
-            else -> JavaPrimitiveType.VOID
+            TypeId.DATE -> JavaReferenceType(JavaReferenceType.Type.DATE)
+            TypeId.VOID -> JavaPrimitiveType.VOID
         }
 
     private fun needsNotNullAnnotation(javaType: JavaType) =

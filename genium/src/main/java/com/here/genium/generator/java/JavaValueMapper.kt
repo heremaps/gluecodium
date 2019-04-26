@@ -88,10 +88,16 @@ class JavaValueMapper(private val limeReferenceMap: Map<String, LimeElement>) {
                 javaType is JavaTemplateType -> JavaValue(javaType.implementationType)
                 javaType is JavaEnumType -> JavaValue(javaType.name + ".values()[0]")
                 javaType is JavaCustomType && !javaType.isInterface -> JavaValue(javaType)
-                javaType is JavaReferenceType && javaType.type == Type.STRING -> JavaValue("\"\"")
                 javaType == JavaPrimitiveType.BOOL -> JavaValue("false")
                 javaType is JavaPrimitiveType -> JavaValue(decorateLiteralValue(javaType, "0"))
                 javaType is JavaArrayType -> JavaValue("new " + javaType.type.value + "[0]")
+                javaType is JavaReferenceType -> {
+                    when (javaType.type) {
+                        Type.STRING -> JavaValue("\"\"")
+                        Type.DATE -> JavaValue("new Date()")
+                        else -> mapNullValue(javaType)
+                    }
+                }
                 else -> mapNullValue(javaType)
             }
 
