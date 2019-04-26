@@ -43,6 +43,7 @@
 #include "cbridge/include/BaseHandle.h"
 #include "{{>common/InternalInclude}}/Optional.h"
 
+#include <chrono>
 #include <memory>
 
 template < typename T >
@@ -181,5 +182,48 @@ struct Conversion< {{>common/InternalNamespace}}optional< T > >
         {{>common/InternalNamespace}}optional< T > ptr( std::move( *ptr_ptr ) );
         delete ptr_ptr;
         return ptr;
+    }
+};
+
+template<>
+struct Conversion< std::chrono::system_clock::time_point >
+{
+    static int64_t
+    toBaseRef( const std::chrono::system_clock::time_point& t )
+    {
+        return get_ns_since_epoch( t );
+    }
+
+    static int64_t
+    toBaseRef( std::chrono::system_clock::time_point&& t )
+    {
+        return get_ns_since_epoch( t );
+    }
+
+    static int64_t
+    referenceBaseRef( std::chrono::system_clock::time_point& t )
+    {
+        return get_ns_since_epoch( t );
+    }
+
+    static std::chrono::system_clock::time_point
+    toCpp( int64_t ref )
+    {
+        return std::chrono::system_clock::time_point( std::chrono::nanoseconds( ref ) );
+    }
+
+    static std::chrono::system_clock::time_point
+    toCppReturn( int64_t ref )
+    {
+        return std::chrono::system_clock::time_point( std::chrono::nanoseconds( ref ) );
+    }
+
+private:
+
+    static inline int64_t
+    get_ns_since_epoch( const std::chrono::system_clock::time_point& t )
+    {
+        using namespace std::chrono;
+        return duration_cast< nanoseconds >( t.time_since_epoch( ) ).count( );
     }
 };

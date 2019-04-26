@@ -1,3 +1,4 @@
+import Foundation
 internal func copyFromCType(_ handle: _baseRef) -> Maps.ErrorCodeToMessageMap {
     var swiftDict: Maps.ErrorCodeToMessageMap = [:]
     let iterator_handle = smoke_Maps_ErrorCodeToMessageMap_iterator(handle)

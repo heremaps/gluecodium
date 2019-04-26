@@ -50,6 +50,26 @@ followed by a period and then the same name again:
 **Note:** There is no guarantee for pointer equality on Java and Swift side for the same wrapped
 C++ object.
 
+### `Date` type
+
+Genium provides a "built-in" `Date` type in FIDL files. The following types are generated for this
+"built-in" type in target languages:
+* C++: `std::chrono::system_clock::time_point`
+* Java: `java.util.Date`
+* Swift: `Foundation.Date`
+
+FIDL:
+
+    package example
+
+    import genium.Extensions.Date from "classpath:/GeniumExtensions.fidl"
+
+    typeCollection ExampleTypes {
+        struct exampleStruct {
+            Date exampleField
+        }
+    }
+
 Custom FDEPL syntax
 -------------------
 

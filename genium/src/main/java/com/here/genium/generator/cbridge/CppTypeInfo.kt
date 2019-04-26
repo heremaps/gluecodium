@@ -36,6 +36,7 @@ open class CppTypeInfo(
         BUILTIN_SIMPLE,
         BUILTIN_STRING,
         BUILTIN_BYTEBUFFER,
+        BUILTIN_DATE,
         STRUCT,
         CLASS,
         ENUM,
@@ -67,17 +68,15 @@ open class CppTypeInfo(
                 Include.createInternalInclude(CBridgeNameRules.STRING_HANDLE_FILE)
             )
         )
-        // TODO: APIGEN-1594: implement
-        val DATE = CppTypeInfo(name = "std::string",
-            cType = CType.STRING_REF,
-            functionReturnType = CType.STRING_REF,
-            typeCategory = TypeCategory.BUILTIN_STRING,
+        val DATE = CppTypeInfo(name = "std::chrono::system_clock::time_point",
+            cType = CType.INT64,
+            functionReturnType = CType.INT64,
+            typeCategory = TypeCategory.BUILTIN_DATE,
             includes = listOf(
-                CppLibraryIncludes.STRING,
+                CppLibraryIncludes.CHRONO,
                 CppLibraryIncludes.NEW,
                 Include.createInternalInclude(CBridgeNameRules.BASE_HANDLE_IMPL_FILE),
-                Include.createInternalInclude(CBridgeNameRules.STRING_HANDLE_FILE)
-            )
+                Include.createInternalInclude(CBridgeNameRules.DATE_HANDLE_FILE))
         )
     }
 }

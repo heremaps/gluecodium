@@ -138,6 +138,49 @@ internal func moveToCType(_ swiftType: Data?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: byteArray_release_optional_handle)
 }
 
+internal func copyFromCType(_ time_ns_epoch: Int64) -> Date {
+    return Date(timeIntervalSince1970: Double(time_ns_epoch) / 1e9)
+}
+
+internal func moveFromCType(_ time_ns_epoch: Int64) -> Date {
+    return copyFromCType(time_ns_epoch)
+}
+
+internal func copyToCType(_ swiftType: Date) -> PrimitiveHolder<Int64> {
+    return PrimitiveHolder(Int64(swiftType.timeIntervalSince1970 * 1e9))
+}
+
+internal func moveToCType(_ swiftType: Date) -> PrimitiveHolder<Int64> {
+    return copyToCType(swiftType)
+}
+
+internal func copyFromCType(_ handle: _baseRef) -> Date? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = chrono_time_point_unwrap_optional_handle(handle)
+    return copyFromCType(unwrappedHandle) as Date
+}
+
+internal func moveFromCType(_ handle: _baseRef) -> Date? {
+    defer {
+        chrono_time_point_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: Date?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    return RefHolder(chrono_time_point_create_optional_handle(copyToCType(swiftType).ref))
+}
+
+internal func moveToCType(_ swiftType: Date?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref,
+                     release: chrono_time_point_release_optional_handle)
+}
+
 // catch primitive types
 internal func copyFromCType<T>(_ primitive: T) -> T {
     return primitive

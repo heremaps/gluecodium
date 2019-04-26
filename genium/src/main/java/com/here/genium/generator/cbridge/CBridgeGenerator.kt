@@ -79,6 +79,10 @@ class CBridgeGenerator(
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "ByteArrayHandle.cpp").toString()
             ),
             generateHelperContent(
+                "DateHandle",
+                Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "DateHandle.cpp").toString()
+            ),
+            generateHelperContent(
                 "BuiltinHandle",
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "BuildintHandle.cpp").toString()
             )
@@ -143,6 +147,7 @@ class CBridgeGenerator(
         val STATIC_FILES = listOf(
             GeneratorSuite.copyTarget(CBridgeNameRules.BASE_HANDLE_FILE, ""),
             GeneratorSuite.copyTarget(CBridgeNameRules.STRING_HANDLE_FILE, ""),
+            GeneratorSuite.copyTarget(CBridgeNameRules.DATE_HANDLE_FILE, ""),
             GeneratorSuite.copyTarget(CBridgeNameRules.EXPORT_FILE, ""),
             GeneratorSuite.copyTarget(
                 Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BuiltinHandle.h").toString(), ""
