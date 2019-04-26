@@ -52,7 +52,7 @@ public final class JniTypeNameMapper {
   }
 
   private static String map(final JavaReferenceType refType) {
-    switch (refType.type) {
+    switch (refType.getType()) {
       case CLASS:
         return "jclass";
       case STRING:

@@ -17,79 +17,52 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-import com.here.genium.cli.GeniumExecutionException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import com.here.genium.cli.GeniumExecutionException
 
-public final class JavaReferenceType extends JavaComplexType {
+class JavaReferenceType(val type: Type) :
+    JavaComplexType(type.value, listOf(type.value), JAVA_PACKAGE_NAMES, emptyList()) {
 
-  private static final List<String> JAVA_PACKAGE_NAMES = Arrays.asList("java", "lang");
-
-  public enum Type {
-    OBJECT("Object"), // All java objects
-    CLASS("Class"), // java.lang.Class objects
-    STRING("String"), // java.lang.String objects
-    THROWABLE("Throwable"), // java.lang.Throwable objects
-    BOOL("Boolean"),
-    BYTE("Byte"),
-    CHAR("Character"),
-    SHORT("Short"),
-    INT("Integer"),
-    LONG("Long"),
-    FLOAT("Float"),
-    DOUBLE("Double");
-
-    private final String value;
-
-    Type(final String value) {
-      this.value = value;
+    enum class Type(val value: String) {
+        OBJECT("Object"), // All java objects
+        CLASS("Class"), // java.lang.Class objects
+        STRING("String"), // java.lang.String objects
+        THROWABLE("Throwable"), // java.lang.Throwable objects
+        BOOL("Boolean"),
+        BYTE("Byte"),
+        CHAR("Character"),
+        SHORT("Short"),
+        INT("Integer"),
+        LONG("Long"),
+        FLOAT("Float"),
+        DOUBLE("Double")
     }
 
-    public String getValue() {
-      return value;
+    companion object {
+        private val JAVA_PACKAGE_NAMES = listOf("java", "lang")
+
+        /**
+         * Wrap primitive types since generic templates don't apply to them
+         *
+         * @param primitiveType a primitive type
+         * @return custom type wrapper of the primitive type
+         */
+        fun boxPrimitiveType(primitiveType: JavaPrimitiveType): JavaReferenceType {
+            val boxedType = when (primitiveType) {
+                JavaPrimitiveType.BOOL -> Type.BOOL
+                JavaPrimitiveType.CHAR -> Type.CHAR
+                JavaPrimitiveType.INT -> Type.INT
+                JavaPrimitiveType.FLOAT -> Type.FLOAT
+                JavaPrimitiveType.DOUBLE -> Type.DOUBLE
+                JavaPrimitiveType.BYTE -> Type.BYTE
+                JavaPrimitiveType.SHORT -> Type.SHORT
+                JavaPrimitiveType.LONG -> Type.LONG
+                else -> throw GeniumExecutionException(
+                    "Cannot box primitive type ${primitiveType.name}"
+                )
+            }
+            return JavaReferenceType(boxedType)
+        }
     }
-  }
-
-  public final Type type;
-
-  public JavaReferenceType(final Type type) {
-    super(
-        type.getValue(),
-        Collections.singletonList(type.getValue()),
-        JAVA_PACKAGE_NAMES,
-        Collections.emptyList());
-    this.type = type;
-  }
-
-  /**
-   * Wrap primitive types since generic templates don't apply to them
-   *
-   * @param primitiveType a primitive type
-   * @return custom type wrapper of the primitive type
-   */
-  public static JavaReferenceType boxPrimitiveType(JavaPrimitiveType primitiveType) {
-    if (primitiveType == JavaPrimitiveType.BOOL) {
-      return new JavaReferenceType(JavaReferenceType.Type.BOOL);
-    } else if (primitiveType == JavaPrimitiveType.CHAR) {
-      return new JavaReferenceType(JavaReferenceType.Type.CHAR);
-    } else if (primitiveType == JavaPrimitiveType.INT) {
-      return new JavaReferenceType(JavaReferenceType.Type.INT);
-    } else if (primitiveType == JavaPrimitiveType.FLOAT) {
-      return new JavaReferenceType(JavaReferenceType.Type.FLOAT);
-    } else if (primitiveType == JavaPrimitiveType.DOUBLE) {
-      return new JavaReferenceType(JavaReferenceType.Type.DOUBLE);
-    } else if (primitiveType == JavaPrimitiveType.BYTE) {
-      return new JavaReferenceType(JavaReferenceType.Type.BYTE);
-    } else if (primitiveType == JavaPrimitiveType.SHORT) {
-      return new JavaReferenceType(JavaReferenceType.Type.SHORT);
-    } else if (primitiveType == JavaPrimitiveType.LONG) {
-      return new JavaReferenceType(JavaReferenceType.Type.LONG);
-    } else {
-      // No array for void type
-      throw new GeniumExecutionException("Can not wrap primitive type " + primitiveType.name);
-    }
-  }
 }

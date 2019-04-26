@@ -80,7 +80,7 @@ public final class JavaTemplateType extends JavaCustomType {
 
   public static JavaTemplateType wrapInList(JavaType elementType) {
     if (elementType instanceof JavaPrimitiveType) {
-      elementType = JavaReferenceType.boxPrimitiveType((JavaPrimitiveType) elementType);
+      elementType = JavaReferenceType.Companion.boxPrimitiveType((JavaPrimitiveType) elementType);
     }
     return JavaTemplateType.create(TemplateClass.LIST, elementType);
   }
