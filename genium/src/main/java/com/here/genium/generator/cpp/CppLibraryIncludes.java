@@ -35,6 +35,7 @@ public final class CppLibraryIncludes {
   public static final Include NEW = Include.Companion.createSystemInclude("new");
   public static final Include SYSTEM_ERROR = Include.Companion.createSystemInclude("system_error");
   public static final Include LIMITS = Include.Companion.createSystemInclude("limits");
+  public static final Include CHRONO = Include.Companion.createSystemInclude("chrono");
 
   // Custom
   public static final Include RETURN = Include.Companion.createInternalInclude("Return.h");

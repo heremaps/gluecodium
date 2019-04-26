@@ -17,27 +17,30 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package smoke
 
-class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
-    enum class TypeId {
-        VOID,
-        INT8,
-        UINT8,
-        INT16,
-        UINT16,
-        INT32,
-        UINT32,
-        INT64,
-        UINT64,
-        BOOLEAN,
-        STRING,
-        FLOAT,
-        DOUBLE,
-        BLOB,
-        DATE
+import genium.Extensions.Date from "classpath:/GeniumExtensions.fidl"
+
+interface Dates {
+
+    struct DateStruct {
+        Date dateField
     }
 
-    override val name = typeId.name
-    override val fullName = typeId.name
+    attribute Date dateAttribute
+
+    typedef DateTypeDef is Date
+
+    array DateArray of Date
+
+    map DateMap {String to Date}
+
+    method dateMethod {
+        in {
+            Date input
+        }
+        out {
+            Date output
+        }
+    }
 }

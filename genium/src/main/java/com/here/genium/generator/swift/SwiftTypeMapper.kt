@@ -91,6 +91,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
                 TypeId.FLOAT -> SwiftType.FLOAT
                 TypeId.DOUBLE -> SwiftType.DOUBLE
                 TypeId.BLOB -> SwiftType.DATA
+                TypeId.DATE -> SwiftType.DATE
             }
     }
 }

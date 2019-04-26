@@ -19,7 +19,7 @@
 
 package com.here.genium.loader
 
-import com.here.genium.franca.InstanceRules
+import com.here.genium.franca.SpecialTypeRules
 import com.here.genium.franca.CommentHelper
 import com.here.genium.franca.FrancaDeploymentModel
 import com.here.genium.model.lime.LimeAttributeType
@@ -102,7 +102,7 @@ class LimeModelBuilderTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        mockkStatic(CommentHelper::class, InstanceRules::class, StringValueMapper::class)
+        mockkStatic(CommentHelper::class, SpecialTypeRules::class, StringValueMapper::class)
 
         modelBuilder = LimeModelBuilder(
             contextStack,
@@ -325,6 +325,16 @@ class LimeModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingTypeRefDate() {
+        every { SpecialTypeRules.isDateType(francaTypeRef) } returns true
+
+        modelBuilder.finishBuilding(francaTypeRef)
+
+        val result = modelBuilder.getFinalResult(LimeTypeRef::class.java)
+        assertEquals("DATE", result.elementFullName)
+    }
+
+    @Test
     fun finishBuildingEnumeration() {
         modelBuilder.finishBuilding(francaEnumeration)
 
@@ -495,7 +505,7 @@ class LimeModelBuilderTest {
 
     @Test
     fun finishBuildingTypeDefInstanceUnmapped() {
-        every { InstanceRules.isInstanceId(francaTypeDef) } returns true
+        every { SpecialTypeRules.isInstanceId(francaTypeDef) } returns true
 
         modelBuilder.finishBuilding(francaTypeDef)
 

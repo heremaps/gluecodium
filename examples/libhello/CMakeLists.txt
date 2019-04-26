@@ -376,6 +376,13 @@ feature(ListenersWithThreads cpp android SOURCES
     fidl/test/ListenersThreads.fdepl
 )
 
+feature(Dates cpp SOURCES
+    src/test/Dates.cpp
+
+    fidl/test/Dates.fidl
+    fidl/test/Dates.fdepl
+)
+
 
 if(APPLE)
     #This feature is intended for Swift only. It also does not compile outside of Apple platforms.

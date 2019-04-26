@@ -19,23 +19,30 @@
 
 package com.here.genium.franca;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeDef;
 import org.franca.core.franca.FTypeRef;
 
 /**
- * This class handles the specific rules for identifying instance references.
+ * This class handles special rules for identifying Franca types that require special processing:
  *
- * <p>Each generator has to use the rules to determine if instances of another type.
+ * <ul>
+ *   <li>instance references
+ *   <li>Date type
+ * </ul>
  */
-public final class InstanceRules {
+public final class SpecialTypeRules {
+
+  @VisibleForTesting static final String DATE_TYPE_KEY = "genium.Extensions.Date";
+
   /**
    * This method is used to check if a typedef is for an instance by checking that the typedef
-   * refers to undefined and that has the same name as a the containing class.
+   * refers to `undefined` and that has the same name as a the containing class.
    *
    * @param typedef a Franca TypeDef to check.
-   * @return `true` if the given TypeDef represents and instance, `false` otherwise.
+   * @return `true` if the given TypeDef represents an instance, `false` otherwise.
    */
   public static boolean isInstanceId(FTypeDef typedef) {
     FTypeRef type = typedef.getActualType();
@@ -48,9 +55,27 @@ public final class InstanceRules {
     return typedef.getName().equals(className);
   }
 
+  /**
+   * This method is used to check if a type reference is an instance type reference by checking that
+   * the it's a typedef that refers to `undefined` with the same name as a the containing class.
+   *
+   * @param typeRef a Franca TypeRef to check.
+   * @return `true` if the given TypeRef represents an instance, `false` otherwise.
+   */
   public static boolean isInstanceId(FTypeRef typeRef) {
     FType derived = typeRef.getDerived();
 
-    return derived instanceof FTypeDef && InstanceRules.isInstanceId((FTypeDef) derived);
+    return derived instanceof FTypeDef && isInstanceId((FTypeDef) derived);
+  }
+
+  /**
+   * This method checks if a type reference is an reference to the special `Date` type.
+   *
+   * @param typeRef a Franca TypeRef to check.
+   * @return `true` if the given TypeRef represents `Date` type, `false` otherwise.
+   */
+  public static boolean isDateType(FTypeRef typeRef) {
+    FType derivedType = typeRef.getDerived();
+    return derivedType != null && DATE_TYPE_KEY.equals(FrancaTypeHelper.getFullName(derivedType));
   }
 }

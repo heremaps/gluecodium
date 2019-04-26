@@ -19,7 +19,7 @@
 
 package com.here.genium.loader
 
-import com.here.genium.franca.InstanceRules
+import com.here.genium.franca.SpecialTypeRules
 import com.here.genium.franca.CommentHelper
 import com.here.genium.franca.FrancaDeploymentModel
 import com.here.genium.model.lime.LimeAttributeType
@@ -91,7 +91,7 @@ class LimeModelBuilderInterfaceTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        mockkStatic(CommentHelper::class, InstanceRules::class, StringValueMapper::class)
+        mockkStatic(CommentHelper::class, SpecialTypeRules::class, StringValueMapper::class)
 
         modelBuilder = LimeModelBuilder(
             contextStack,
@@ -206,7 +206,7 @@ class LimeModelBuilderInterfaceTest {
 
     @Test
     fun finishBuildingTypeRefInstance() {
-        every { InstanceRules.isInstanceId(any<FTypeRef>()) } returns true
+        every { SpecialTypeRules.isInstanceId(any<FTypeRef>()) } returns true
         every { francaTypeRef.derived.eContainer() } returns francaInterface
 
         modelBuilder.finishBuilding(francaTypeRef)

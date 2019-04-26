@@ -17,27 +17,26 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+import "classpath:/GeniumExtensions.fdepl"
+import "./Dates.fidl"
 
-class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
-    enum class TypeId {
-        VOID,
-        INT8,
-        UINT8,
-        INT16,
-        UINT16,
-        INT32,
-        UINT32,
-        INT64,
-        UINT64,
-        BOOLEAN,
-        STRING,
-        FLOAT,
-        DOUBLE,
-        BLOB,
-        DATE
+define GeniumExtensions for interface test.Dates
+{
+    attribute dateAttribute {
+        Static = true
     }
 
-    override val name = typeId.name
-    override val fullName = typeId.name
+    method increaseDate {
+        Static = true
+    }
+
+    method increaseDateMaybe {
+        Static = true
+        in {
+            input { Nullable = true }
+        }
+        out {
+            output { Nullable = true }
+        }
+    }
 }

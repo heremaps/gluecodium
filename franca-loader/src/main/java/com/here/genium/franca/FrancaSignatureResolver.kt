@@ -51,7 +51,7 @@ open class FrancaSignatureResolver {
         }
 
     private fun getTypeName(francaTypeRef: FTypeRef): String {
-        if (InstanceRules.isInstanceId(francaTypeRef)) {
+        if (SpecialTypeRules.isInstanceId(francaTypeRef)) {
             return francaTypeRef.derived.name
         }
 

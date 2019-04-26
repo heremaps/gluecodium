@@ -121,6 +121,7 @@ class CppTypeMapper(
             TypeId.DOUBLE -> CppPrimitiveTypeRef.DOUBLE
             TypeId.STRING -> STRING_TYPE
             TypeId.BLOB -> BYTE_BUFFER_POINTER_TYPE
+            TypeId.DATE -> DATE_TYPE
         }
 
     companion object {
@@ -135,5 +136,10 @@ class CppTypeMapper(
             CppTemplateTypeRef.create(TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8)
         val BYTE_BUFFER_POINTER_TYPE =
             CppTemplateTypeRef.create(TemplateClass.SHARED_POINTER, BYTE_BUFFER_ARRAY_TYPE)
+        private val DATE_TYPE =
+            CppComplexTypeRef(
+                "::std::chrono::system_clock::time_point",
+                listOf(CppLibraryIncludes.CHRONO)
+            )
     }
 }

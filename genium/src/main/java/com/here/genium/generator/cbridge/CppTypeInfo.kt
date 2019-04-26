@@ -67,5 +67,17 @@ open class CppTypeInfo(
                 Include.createInternalInclude(CBridgeNameRules.STRING_HANDLE_FILE)
             )
         )
+        // TODO: APIGEN-1594: implement
+        val DATE = CppTypeInfo(name = "std::string",
+            cType = CType.STRING_REF,
+            functionReturnType = CType.STRING_REF,
+            typeCategory = TypeCategory.BUILTIN_STRING,
+            includes = listOf(
+                CppLibraryIncludes.STRING,
+                CppLibraryIncludes.NEW,
+                Include.createInternalInclude(CBridgeNameRules.BASE_HANDLE_IMPL_FILE),
+                Include.createInternalInclude(CBridgeNameRules.STRING_HANDLE_FILE)
+            )
+        )
     }
 }

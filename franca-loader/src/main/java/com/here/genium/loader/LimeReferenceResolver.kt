@@ -20,6 +20,7 @@
 package com.here.genium.loader
 
 import com.here.genium.franca.FrancaTypeHelper
+import com.here.genium.franca.SpecialTypeRules
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeElement
@@ -42,6 +43,7 @@ class LimeReferenceResolver {
     companion object {
         fun getTypeKey(francaTypeRef: FTypeRef): String =
             when {
+                SpecialTypeRules.isDateType(francaTypeRef) -> LimeBasicType.TypeId.DATE.name
                 francaTypeRef.derived != null -> FrancaTypeHelper.getFullName(francaTypeRef.derived)
                 else -> francaTypeRef.predefined.name
             }

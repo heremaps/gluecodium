@@ -115,6 +115,7 @@ class CBridgeTypeMapper(
             TypeId.DOUBLE -> CppTypeInfo(CType.DOUBLE)
             TypeId.STRING -> CppTypeInfo.STRING
             TypeId.BLOB -> byteBufferTypeInfo
+            TypeId.DATE -> CppTypeInfo.DATE
         }
 
     private fun mapTypeDef(limeTypeDef: LimeTypeDef): CppTypeInfo {

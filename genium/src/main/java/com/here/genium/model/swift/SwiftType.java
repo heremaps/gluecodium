@@ -49,6 +49,8 @@ public class SwiftType extends SwiftModelElement {
       new SwiftType("String", "std_string", TypeCategory.BUILTIN_STRING);
   public static final SwiftType DATA =
       new SwiftType("Data", "data", TypeCategory.BUILTIN_BYTEBUFFER);
+  // TODO: APIGEN-1594: implement
+  public static final SwiftType DATE = new SwiftType("Date", "date", TypeCategory.BUILTIN_SIMPLE);
 
   public final String cPrefix;
   public final TypeCategory category;

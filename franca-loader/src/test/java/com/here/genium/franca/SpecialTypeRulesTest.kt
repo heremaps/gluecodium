@@ -40,8 +40,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 
 @RunWith(PowerMockRunner::class)
-@PrepareForTest(DefinedBy::class)
-class InstanceRulesTest {
+@PrepareForTest(DefinedBy::class, FrancaTypeHelper::class)
+class SpecialTypeRulesTest {
     @Mock
     private lateinit var francaTypeDef: FTypeDef
     @Mock
@@ -54,7 +54,7 @@ class InstanceRulesTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        PowerMockito.mockStatic(DefinedBy::class.java)
+        PowerMockito.mockStatic(DefinedBy::class.java, FrancaTypeHelper::class.java)
 
         `when`(francaTypeDef.actualType).thenReturn(francaTypeRef)
         `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.UNDEFINED)
@@ -69,21 +69,21 @@ class InstanceRulesTest {
     fun checkDerived() {
         `when`(francaTypeRef.derived).thenReturn(derivedType)
 
-        assertFalse(InstanceRules.isInstanceId(francaTypeDef))
+        assertFalse(SpecialTypeRules.isInstanceId(francaTypeDef))
     }
 
     @Test
     fun checkUndefined() {
         `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.INT32)
 
-        assertFalse(InstanceRules.isInstanceId(francaTypeDef))
+        assertFalse(SpecialTypeRules.isInstanceId(francaTypeDef))
     }
 
     @Test
     fun checkTypedefWithDifferentNameThanClass() {
         `when`(francaTypeDef.name).thenReturn("Not$CLASS_NAME")
 
-        assertFalse(InstanceRules.isInstanceId(francaTypeDef))
+        assertFalse(SpecialTypeRules.isInstanceId(francaTypeDef))
 
         verifyStatic()
         DefinedBy.findDefiningTypeCollection(francaTypeDef)
@@ -93,10 +93,20 @@ class InstanceRulesTest {
     fun checkTypedefWithSameNameAsClass() {
         `when`(francaTypeDef.name).thenReturn(CLASS_NAME)
 
-        assertTrue(InstanceRules.isInstanceId(francaTypeDef))
+        assertTrue(SpecialTypeRules.isInstanceId(francaTypeDef))
 
         verifyStatic()
         DefinedBy.findDefiningTypeCollection(francaTypeDef)
+    }
+
+    @Test
+    fun checkDateType() {
+        `when`(francaTypeRef.derived).thenReturn(derivedType)
+        `when`(FrancaTypeHelper.getFullName(any())).thenReturn(SpecialTypeRules.DATE_TYPE_KEY)
+
+        val result = SpecialTypeRules.isDateType(francaTypeRef)
+
+        assertTrue(result)
     }
 
     companion object {

@@ -22,7 +22,7 @@ package com.here.genium.loader
 import com.google.common.annotations.VisibleForTesting
 import com.here.genium.franca.FrancaTypeHelper
 import com.here.genium.common.ModelBuilderContextStack
-import com.here.genium.franca.InstanceRules
+import com.here.genium.franca.SpecialTypeRules
 import com.here.genium.franca.CommentHelper
 import com.here.genium.franca.FrancaDeploymentModel
 import com.here.genium.model.lime.LimeArray
@@ -188,11 +188,9 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
 
     override fun finishBuilding(francaTypeRef: FTypeRef) {
         val typeKey = when {
-            InstanceRules.isInstanceId(francaTypeRef) ->
+            SpecialTypeRules.isInstanceId(francaTypeRef) ->
                 FrancaTypeHelper.getFullName(francaTypeRef.derived.eContainer() as FTypeCollection)
-            else -> LimeReferenceResolver.getTypeKey(
-                francaTypeRef
-            )
+            else -> LimeReferenceResolver.getTypeKey(francaTypeRef)
         }
         val limeTypeRef = LimeTypeRef(referenceResolver.referenceMap, typeKey)
 
@@ -266,7 +264,7 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
     }
 
     override fun finishBuilding(francaTypeDef: FTypeDef) {
-        if (!InstanceRules.isInstanceId(francaTypeDef)) {
+        if (!SpecialTypeRules.isInstanceId(francaTypeDef)) {
             val limeTypeDef = LimeTypeDef(
                 path = createElementPath(francaTypeDef),
                 visibility = getLimeVisibility(francaTypeDef),
