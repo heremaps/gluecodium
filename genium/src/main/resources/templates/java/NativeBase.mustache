@@ -82,6 +82,8 @@ public abstract class NativeBase {
    * This interface is used by subclasses to provide dispose functionality without
    * DisposableReference holding a reference to the instance of the subclass which would prevent
    * garbage collection.
+   *
+   * @exclude
    */
   protected interface Disposer {
     void disposeNative(long handle);
