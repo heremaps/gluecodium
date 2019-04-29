@@ -46,6 +46,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import org.franca.core.franca.FArrayType
 import org.franca.core.franca.FBasicTypeId
@@ -102,7 +103,8 @@ class LimeModelBuilderTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        mockkStatic(CommentHelper::class, SpecialTypeRules::class, StringValueMapper::class)
+        mockkStatic(SpecialTypeRules::class, StringValueMapper::class)
+        mockkObject(CommentHelper)
 
         modelBuilder = LimeModelBuilder(
             contextStack,

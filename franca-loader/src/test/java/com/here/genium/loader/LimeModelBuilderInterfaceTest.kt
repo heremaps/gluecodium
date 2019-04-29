@@ -47,6 +47,7 @@ import com.here.genium.test.MockContextStack
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FAttribute
@@ -91,7 +92,8 @@ class LimeModelBuilderInterfaceTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        mockkStatic(CommentHelper::class, SpecialTypeRules::class, StringValueMapper::class)
+        mockkStatic(SpecialTypeRules::class, StringValueMapper::class)
+        mockkObject(CommentHelper)
 
         modelBuilder = LimeModelBuilder(
             contextStack,

@@ -29,7 +29,7 @@ import com.here.genium.test.MockContextStack
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockkStatic
+import io.mockk.mockkObject
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FField
@@ -64,7 +64,7 @@ class LimeModelBuilderDefaultValuesTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        mockkStatic(CommentHelper::class)
+        mockkObject(CommentHelper)
 
         modelBuilder = LimeModelBuilder(
             contextStack,

@@ -17,27 +17,20 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.franca;
+package com.here.genium.franca
 
-import java.util.stream.Collectors;
-import org.franca.core.franca.FAnnotation;
-import org.franca.core.franca.FAnnotationBlock;
-import org.franca.core.franca.FAnnotationType;
-import org.franca.core.franca.FModelElement;
+import org.franca.core.franca.FAnnotationType
+import org.franca.core.franca.FModelElement
 
-public final class CommentHelper {
+object CommentHelper {
 
-  public static String getDescription(final FModelElement francaElement) {
-    FAnnotationBlock annotationBlock = francaElement.getComment();
-    if (annotationBlock == null) {
-      return "";
+    fun getDescription(francaElement: FModelElement): String {
+        val annotationBlock = francaElement.comment ?: return ""
+
+        return annotationBlock
+                .elements
+                .filter { annotation -> annotation.type == FAnnotationType.DESCRIPTION }
+                .map { it.comment }
+                .joinToString(separator = "\\n")
     }
-
-    return annotationBlock
-        .getElements()
-        .stream()
-        .filter(annotation -> annotation.getType() == FAnnotationType.DESCRIPTION)
-        .map(FAnnotation::getComment)
-        .collect(Collectors.joining("\\n"));
-  }
 }
