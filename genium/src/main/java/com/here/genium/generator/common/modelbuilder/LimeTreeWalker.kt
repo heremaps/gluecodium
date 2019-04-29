@@ -62,6 +62,7 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
 
     private fun walkChildNodes(limeStruct: LimeStruct) {
         walkCollection(limeStruct.fields)
+        walkCollection(limeStruct.methods)
     }
 
     private fun walkChildNodes(limeField: LimeField) {
@@ -92,7 +93,7 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
 
     companion object {
         private val LIME_TREE_STRUCTURE =
-            mutableMapOf<Any, GenericTreeWalker.TreeNodeInfo<LimeBasedModelBuilder, *>>()
+            mutableMapOf<Any, TreeNodeInfo<LimeBasedModelBuilder, *>>()
 
         init {
             // Regular nodes

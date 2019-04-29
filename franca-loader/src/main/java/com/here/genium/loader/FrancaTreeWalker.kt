@@ -54,10 +54,10 @@ import org.franca.core.franca.FTypedElement
  * language models the method elements might need to know the class name to be built. The class name
  * could be calculated at startBuilding() step and thus made available to the children.
  */
-class FrancaTreeWalker(builders: Collection<ModelBuilder>) :
-    GenericTreeWalker<ModelBuilder>(builders,
-        FRANCA_TREE_STRUCTURE
-    ) {
+class FrancaTreeWalker(
+    builders: Collection<ModelBuilder>,
+    private val companionHelper: FrancaCompanionHelper
+) : GenericTreeWalker<ModelBuilder>(builders, FRANCA_TREE_STRUCTURE) {
 
     fun walkTree(francaTypeCollection: FTypeCollection) {
         walk(francaTypeCollection)
@@ -86,6 +86,7 @@ class FrancaTreeWalker(builders: Collection<ModelBuilder>) :
 
     private fun walkChildNodes(francaStructType: FStructType) {
         walkCollection(francaStructType.elements)
+        walkCollection(companionHelper.getCompanion(francaStructType)?.methods)
     }
 
     private fun walkChildNodes(francaTypedElement: FTypedElement) {

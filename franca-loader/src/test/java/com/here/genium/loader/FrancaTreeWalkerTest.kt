@@ -50,6 +50,7 @@ import org.junit.runners.JUnit4
 class FrancaTreeWalkerTest {
 
     @MockK private lateinit var modelBuilder: ModelBuilder
+    @MockK private lateinit var companionHelper: FrancaCompanionHelper
 
     @MockK private lateinit var francaTypeCollection: FTypeCollection
     @MockK private lateinit var francaInterface: FInterface
@@ -83,7 +84,7 @@ class FrancaTreeWalkerTest {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        treeWalker = FrancaTreeWalker(listOf(modelBuilder))
+        treeWalker = FrancaTreeWalker(listOf(modelBuilder), companionHelper)
 
         methods.add(francaMethod)
         arguments.add(francaArgument)

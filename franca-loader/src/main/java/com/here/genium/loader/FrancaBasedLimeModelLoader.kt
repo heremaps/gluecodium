@@ -24,6 +24,7 @@ import com.here.genium.franca.ModelHelper
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeModelLoader
+import com.here.genium.validator.CompanionValidator
 import com.here.genium.validator.ConstructorsValidatorPredicate
 import com.here.genium.validator.DefaultsValidatorPredicate
 import com.here.genium.validator.EquatableValidatorPredicate
@@ -67,16 +68,21 @@ object FrancaBasedLimeModelLoader : LimeModelLoader {
     )
 
     override fun loadModel(fileNames: List<String>): LimeModel {
-        val francaModel =
-            loadFrancaModel(fileNames)
+        val francaModel = loadFrancaModel(fileNames)
 
         val limeReferenceResolver = LimeReferenceResolver()
         val limeModelBuilder = LimeModelBuilder(
             francaModel.deploymentModel,
             limeReferenceResolver
         )
-        val limeContainers = francaModel.typeCollections.map {
-            FrancaTreeWalker(listOf(limeModelBuilder)).walkTree(it)
+
+        val companionHelper =
+            FrancaCompanionHelper(francaModel.typeCollections, francaModel.deploymentModel)
+        val filteredTypeCollections =
+            francaModel.typeCollections - companionHelper.getAllCompanions()
+        val francaTreeWalker = FrancaTreeWalker(listOf(limeModelBuilder), companionHelper)
+        val limeContainers = filteredTypeCollections.map {
+            francaTreeWalker.walkTree(it)
             limeModelBuilder.getFinalResult(LimeContainer::class.java)
         }
 
@@ -114,29 +120,29 @@ object FrancaBasedLimeModelLoader : LimeModelLoader {
     private fun validateFrancaModel(
         deploymentModel: FrancaDeploymentModel,
         typeCollections: List<FTypeCollection>
-    ) = NameValidator.validate(typeCollections) && FrancaModelValidator(
-        listOf(
-            DefaultsValidatorPredicate(),
-            ExpressionValidatorPredicate(),
-            MapKeyValidatorPredicate(),
-            IntegerIntervalValidatorPredicate(),
-            StaticMethodsValidatorPredicate(),
-            StaticAttributesValidatorPredicate(),
-            ErrorEnumsValidatorPredicate(),
-            InheritanceValidatorPredicate(),
-            UnionsValidatorPredicate(),
-            SerializationValidatorPredicate(),
-            EquatableValidatorPredicate(),
-            InheritanceVisibilityValidatorPredicate(),
-            AttributeVisibilityValidatorPredicate(),
-            MethodVisibilityValidatorPredicate(),
-            FieldVisibilityValidatorPredicate(),
-            ArrayVisibilityValidatorPredicate(),
-            ExternalElementsValidatorPredicate(),
-            ExternalTypesValidatorPredicate(),
-            StructInheritanceValidatorPredicate(),
-            ConstructorsValidatorPredicate(),
-            InterfaceMethodVisibilityValidatorPredicate()
-        )
-    ).validate(deploymentModel, typeCollections)
+    ) = NameValidator.validate(typeCollections) &&
+            CompanionValidator.validate(deploymentModel, typeCollections) &&
+            FrancaModelValidator(listOf(
+                DefaultsValidatorPredicate(),
+                ExpressionValidatorPredicate(),
+                MapKeyValidatorPredicate(),
+                IntegerIntervalValidatorPredicate(),
+                StaticMethodsValidatorPredicate(),
+                StaticAttributesValidatorPredicate(),
+                ErrorEnumsValidatorPredicate(),
+                InheritanceValidatorPredicate(),
+                UnionsValidatorPredicate(),
+                SerializationValidatorPredicate(),
+                EquatableValidatorPredicate(),
+                InheritanceVisibilityValidatorPredicate(),
+                AttributeVisibilityValidatorPredicate(),
+                MethodVisibilityValidatorPredicate(),
+                FieldVisibilityValidatorPredicate(),
+                ArrayVisibilityValidatorPredicate(),
+                ExternalElementsValidatorPredicate(),
+                ExternalTypesValidatorPredicate(),
+                StructInheritanceValidatorPredicate(),
+                ConstructorsValidatorPredicate(),
+                InterfaceMethodVisibilityValidatorPredicate()
+            )).validate(deploymentModel, typeCollections)
 }

@@ -17,13 +17,19 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+import "classpath:/GeniumExtensions.fdepl"
+import "./StructsWithMethods.fidl"
 
-class LimeStruct(
-    path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
-    comment: String = "",
-    attributes: LimeAttributes? = null,
-    val fields: List<LimeField> = emptyList(),
-    val methods: List<LimeMethod> = emptyList()
-) : LimeType(path, visibility, comment, attributes)
+define GeniumExtensions for typeCollection test.StructsWithMethods
+{
+    struct Vector {
+        Companion = "test.StructsWithMethods_Vector_Companion"
+    }
+}
+
+define GeniumExtensions for interface test.StructsWithMethodsInterface
+{
+    struct Vector3 {
+        Companion = "test.StructsWithMethodsInterface_Vector3_Companion"
+    }
+}

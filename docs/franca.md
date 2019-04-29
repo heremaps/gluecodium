@@ -553,5 +553,42 @@ FDEPL:
         }
     }
 
+### Struct: Companion
+
+This FDEPL property controls whether the struct type has methods. Default value is `null`, i.e. by
+default a struct type does not have any methods generated. A non-empty value should correspond to a
+fully-qualified name of a FIDL interface.
+
+**Note:** Any FIDL interface that is a target of a `Companion` property of a FIDL struct is itself
+excluded from the code generation. All methods defined in it are attached to the struct. All other
+definitions inside the interface are ignored.
+
+**Note:** Struct methods are generated with a `const` qualifier in C++.
+
+FIDL:
+
+    package example
+
+    typeCollection ExampleTypeCollection {
+        struct ExampleStruct {
+        }
+    }
+
+    interface ExampleTypeCollection_ExampleStruct_Companion {
+        method exampleMethod {
+            out {
+                Double result
+            }
+        }
+    }
+
+FDEPL:
+
+    define GeniumExtensions for typeCollection example.ExampleTypeCollection {
+        struct ExampleStruct {
+            Companion = "example.ExampleInterface"
+        }
+    }
+
 [franca]: http://franca.github.io/franca/
 [userguide]: https://drive.google.com/file/d/0B7JseVbR6jvhMXhNb1VMRWM0Z3M/view?usp=sharing

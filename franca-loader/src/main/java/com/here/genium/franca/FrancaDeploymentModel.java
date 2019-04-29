@@ -142,6 +142,10 @@ public class FrancaDeploymentModel {
     return getBoolean(francaInterface, "ObjcInterface");
   }
 
+  public String getCompanion(final FStructType francaStruct) {
+    return getString(francaStruct, "Companion");
+  }
+
   private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {
 
     List<MappingGenericPropertyAccessor> propertyAccessorsForModelElement =

@@ -32,6 +32,7 @@ import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
+import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
@@ -95,6 +96,7 @@ class LimeModelBuilderTest {
     private val limeConstant = LimeConstant(EMPTY_PATH, typeRef = limeTypeRef, value = limeValue)
     private val limeTypeDef = LimeTypeDef(EMPTY_PATH, typeRef = limeTypeRef)
     private val limeField = LimeField(EMPTY_PATH, typeRef = limeTypeRef)
+    private val limeMethod = LimeMethod(EMPTY_PATH)
 
     private val contextStack = MockContextStack<LimeElement>()
 
@@ -201,6 +203,16 @@ class LimeModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(LimeStruct::class.java)
         assertContains(limeField, result.fields)
+    }
+
+    @Test
+    fun finishBuildingStructReadsMethods() {
+        contextStack.injectResult(limeMethod)
+
+        modelBuilder.finishBuilding(francaStruct)
+
+        val result = modelBuilder.getFinalResult(LimeStruct::class.java)
+        assertContains(limeMethod, result.methods)
     }
 
     @Test
