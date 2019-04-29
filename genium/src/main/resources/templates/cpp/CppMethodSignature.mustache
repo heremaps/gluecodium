@@ -27,9 +27,9 @@
 
 }}{{+combinedComment}}{{comment}}{{!!
 }}{{#parameters}}{{#if hasComment}}
-\param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{this.comment}}{{/if}}{{/parameters}}{{!!
+\param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{prefix this.comment "    " skipFirstLine=true}}{{/if}}{{/parameters}}{{!!
 }}{{#if hasReturnComment}}
-\return {{#if isNotNull}}@NotNull {{/if}}{{returnComment}}{{/if}}{{!!
+\return {{#if isNotNull}}@NotNull {{/if}}{{prefix returnComment "    " skipFirstLine=true}}{{/if}}{{!!
 }}{{#if errorEnumName}}
 \retval {{errorEnumName}}{{/if}}{{!!
 }}{{/combinedComment}}

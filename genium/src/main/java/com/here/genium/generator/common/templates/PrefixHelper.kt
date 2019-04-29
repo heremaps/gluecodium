@@ -21,21 +21,32 @@ package com.here.genium.generator.common.templates
 
 import org.trimou.handlebars.BasicHelper
 import org.trimou.handlebars.Options
+import org.trimou.util.ImmutableSet
 
 /**
  * Prefix each line of a multi-line value with a prefix. Trim each line at the end to avoid trailing
- * whitespace.<br>
- * Usage: {{prefix value "prefix"}}<br>
+ * whitespace. If skipFirstLine=true is set, the first line will not be prefixed.<br>
+ * Usage: {{prefix value "prefix"}} or {{prefix value "prefix" skipFirstLine=true}}<br>
  * Example: {{prefix comment "// "}}
  */
 internal open class PrefixHelper : BasicHelper() {
     override fun execute(options: Options) {
         val parameters = options.parameters
         if (parameters.isNotEmpty()) {
-            val prefix = if (parameters.size > 1) parameters[1].toString() else ""
+            val prefix = parameters.getOrNull(1)?.toString() ?: ""
+            var skipFirstLine = options.hash["skipFirstLine"]?.toString()?.toBoolean() ?: false
             val value = getValue(options, parameters[0])
-            options.append(value.split("\n").joinToString(separator = "\n") { prefix + it.trimEnd() })
+            options.append(value.lineSequence().joinToString("\n") { if (skipFirstLine) {
+                skipFirstLine = false
+                it.trimEnd()
+            } else {
+                prefix + it.trimEnd()
+            } })
         }
+    }
+
+    override fun getSupportedHashKeys(): MutableSet<String> {
+        return ImmutableSet.of("skipFirstLine")
     }
 
     protected open operator fun getValue(options: Options, dataObject: Any?) =

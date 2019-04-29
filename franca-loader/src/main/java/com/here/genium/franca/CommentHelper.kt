@@ -27,10 +27,12 @@ object CommentHelper {
     fun getDescription(francaElement: FModelElement): String {
         val annotationBlock = francaElement.comment ?: return ""
 
-        return annotationBlock
+        val commentLines = annotationBlock
                 .elements
-                .filter { annotation -> annotation.type == FAnnotationType.DESCRIPTION }
-                .map { it.comment }
-                .joinToString(separator = "\\n")
+                .filter { it.type == FAnnotationType.DESCRIPTION }
+                .flatMap { it.comment.lines() }
+
+        // Franca already trims first line so use only remaining lines to determine indent
+        return (commentLines.take(1) + commentLines.drop(1).joinToString("\n").trimIndent()).joinToString("\n").trimEnd()
     }
 }

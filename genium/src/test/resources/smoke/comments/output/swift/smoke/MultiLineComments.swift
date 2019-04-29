@@ -36,18 +36,18 @@ public class MultiLineComments {
         smoke_MultiLineComments_release_handle(c_instance)
     }
     /// This is very important method.
-    ///        It has very important parameters.
-    ///        It has side effects.
+    /// It has very important parameters.
+    /// It has side effects.
     /// - Parameter input: Very useful input parameter.
-    ///               You must not confuse it with the second parameter.
-    ///               But they are similar.
+    ///     You must not confuse it with the second parameter.
+    ///     But they are similar.
     /// - Parameter ratio: Not as useful as the first parameter.
-    ///               But still useful.
-    ///               use a positive value for more happiness.
+    ///     But still useful.
+    ///     use a positive value for more happiness.
     /// - Returns: If you provide a useful input,
-    ///               and a useful ratio you can expect a useful output.
-    ///               Just kidding do not expect anything from a method until
-    ///               you see its body.
+    ///     and a useful ratio you can expect a useful output.
+    ///     Just kidding do not expect anything from a method until
+    ///     you see its body.
     public func someMethodWithLongComment(input: String, ratio: Double) -> Float {
         let c_input = moveToCType(input)
         let c_ratio = moveToCType(ratio)

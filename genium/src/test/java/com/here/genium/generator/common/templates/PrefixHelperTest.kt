@@ -31,12 +31,14 @@ import org.trimou.handlebars.Options
 @RunWith(JUnit4::class)
 class PrefixHelperTest {
     private val parameters = mutableListOf<Any>()
+    private val hash = mutableMapOf<String, Any>()
     private val options = spyk<Options>()
     private val helper = PrefixHelper()
 
     @Before
     fun beforeMocks() {
         every { options.parameters } returns parameters
+        every { options.hash } returns hash
     }
 
     @Test
@@ -92,6 +94,17 @@ class PrefixHelperTest {
         helper.execute(options)
 
         verify(exactly = 1) { options.append("$PREFIX$FIRST_LINE\n$PREFIX\n$PREFIX$SECOND_LINE") }
+    }
+
+    @Test
+    fun executeMultilineSkipFirstLine() {
+        parameters.add("$FIRST_LINE\n\n$SECOND_LINE")
+        parameters.add(PREFIX)
+        hash["skipFirstLine"] = true
+
+        helper.execute(options)
+
+        verify(exactly = 1) { options.append("$FIRST_LINE\n$PREFIX\n$PREFIX$SECOND_LINE") }
     }
 
     companion object {

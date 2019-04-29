@@ -24,9 +24,9 @@
 
 }}{{+combinedComment}}{{comment}}{{!!
 }}{{#parameters}}{{#if this.comment}}
-- Parameter {{name}}: {{this.comment}}{{/if}}{{/parameters}}{{!!
+- Parameter {{name}}: {{prefix this.comment "    " skipFirstLine=true}}{{/if}}{{/parameters}}{{!!
 }}{{#unless isConstructor}}{{#if returnComment}}
-- Returns: {{returnComment}}{{/if}}{{/unless}}{{!!
+- Returns: {{prefix returnComment "    " skipFirstLine=true}}{{/if}}{{/unless}}{{!!
 }}{{#if error}}
 - Throws: {{error.name}}{{/if}}{{!!
 }}{{/combinedComment}}

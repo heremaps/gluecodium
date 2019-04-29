@@ -31,12 +31,14 @@ import org.trimou.handlebars.Options
 @RunWith(JUnit4::class)
 class PrefixPartialHelperTest {
     private val parameters = mutableListOf<Any>(TEMPLATE_NAME)
+    private val hash = mutableMapOf<String, Any>()
     private val options = spyk<Options>()
     private val helper = PrefixPartialHelper()
 
     @Before
     fun setupMocks() {
         every { options.parameters } returns parameters
+        every { options.hash } returns hash
     }
 
     @Test
