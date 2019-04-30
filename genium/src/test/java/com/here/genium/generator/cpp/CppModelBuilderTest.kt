@@ -339,6 +339,25 @@ class CppModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingStructTypeReadsMethods() {
+        val cppMethod = CppMethod(
+            name = "nonsense",
+            specifiers = setOf(CppMethod.Specifier.VIRTUAL),
+            qualifiers = setOf(CppMethod.Qualifier.PURE_VIRTUAL)
+        )
+        contextStack.injectResult(cppMethod)
+
+        modelBuilder.finishBuilding(limeStruct)
+
+        val result = modelBuilder.getFinalResult(CppStruct::class.java)
+        val resultMethod = result.methods.first()
+        assertEquals("nonsense", resultMethod.name)
+        assertTrue(resultMethod.specifiers.isEmpty())
+        assertEquals(1, resultMethod.qualifiers.size)
+        assertEquals(CppMethod.Qualifier.CONST, resultMethod.qualifiers.first())
+    }
+
+    @Test
     fun finishBuildingStructTypeReadsExternalType() {
         val limeElement = LimeStruct(
             EMPTY_PATH,

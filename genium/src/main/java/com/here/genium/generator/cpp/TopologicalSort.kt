@@ -22,6 +22,7 @@ package com.here.genium.generator.cpp
 import com.here.genium.cli.GeniumExecutionException
 import com.here.genium.model.cpp.CppElement
 import com.here.genium.model.cpp.CppInheritance
+import com.here.genium.model.cpp.CppMethod
 import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.cpp.CppTemplateTypeRef
 import com.here.genium.model.cpp.CppTypeDefRef
@@ -65,10 +66,11 @@ class TopologicalSort(private val elements: List<CppElement>) {
 
     private fun getTypeDependencies(typeRef: CppTypeRef): MutableSet<String> {
         val dependencies = when (typeRef) {
-            is CppTemplateTypeRef -> typeRef.templateParameters.flatMap { getTypeDependencies(it) }
+            is CppTemplateTypeRef ->
+                typeRef.templateParameters.flatMapTo(mutableSetOf()) { getTypeDependencies(it) }
             is CppTypeDefRef -> getTypeDependencies(typeRef.actualType)
             else -> mutableSetOf()
-        }.toMutableSet()
+        }
 
         if (fullyQualifiedNames.contains(typeRef.name)) {
             dependencies.add(typeRef.name)
@@ -77,8 +79,8 @@ class TopologicalSort(private val elements: List<CppElement>) {
         return dependencies
     }
 
-    private fun getElementDependencies(cppElement: CppElement): MutableSet<String> =
-        when (cppElement) {
+    private fun getElementDependencies(cppElement: CppElement): MutableSet<String> {
+        val result = when (cppElement) {
             is CppTypedElement -> {
                 val dependencies = getTypeDependencies(cppElement.type)
                 if (fullyQualifiedNames.contains(cppElement.type.name)) {
@@ -98,6 +100,11 @@ class TopologicalSort(private val elements: List<CppElement>) {
                     else -> mutableSetOf()
                 }
             }
+            is CppMethod -> (cppElement.parameters.map { it.type } + cppElement.returnType)
+                .flatMapTo(mutableSetOf()) { getTypeDependencies(it) }
             else -> mutableSetOf()
         }
+        result.remove(cppElement.fullyQualifiedName)
+        return result
+    }
 }

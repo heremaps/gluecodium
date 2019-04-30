@@ -33,8 +33,13 @@ struct {{>cpp/CppExportMacro}}{{name}} {
     {{name}}( {{joinPartial fields "cpp/CppMethodParameter" ", "}} );
 
 {{/if}}{{!!
-}}{{#if isEquatable}}
+}}{{#if methods}}
+{{#methods}}
+    {{>cpp/CppMethodSignature}};
+{{/methods}}
 
+{{/if}}{{!!
+}}{{#if isEquatable}}
     bool operator==( const {{name}}& rhs ) const;
     bool operator!=( const {{name}}& rhs ) const;
 

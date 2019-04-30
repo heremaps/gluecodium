@@ -383,6 +383,13 @@ feature(Dates cpp android swift SOURCES
     fidl/test/Dates.fdepl
 )
 
+feature(StructsWithMethods cpp SOURCES
+    src/test/StructsWithMethods.cpp
+
+    fidl/test/StructsWithMethods.fidl
+    fidl/test/StructsWithMethods.fdepl
+)
+
 
 if(APPLE)
     #This feature is intended for Swift only. It also does not compile outside of Apple platforms.

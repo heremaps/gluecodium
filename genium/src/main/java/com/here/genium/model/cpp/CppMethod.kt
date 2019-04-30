@@ -61,4 +61,18 @@ class CppMethod(
     fun hasReturnComment() = !returnComment.isNullOrEmpty() || isNotNull
 
     override fun stream() = Stream.concat(Stream.of(returnType), parameters.stream())
+
+    fun copy(specifiers: Set<Specifier>? = null, qualifiers: Set<Qualifier>? = null) =
+        CppMethod(
+            name,
+            fullyQualifiedName,
+            comment,
+            returnType,
+            returnComment,
+            errorEnumName,
+            isNotNull,
+            parameters,
+            specifiers ?: this.specifiers,
+            qualifiers ?: this.qualifiers
+        )
 }

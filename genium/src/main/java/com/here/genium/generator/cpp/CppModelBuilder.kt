@@ -169,12 +169,16 @@ class CppModelBuilder @VisibleForTesting internal constructor(
     }
 
     override fun finishBuilding(limeStruct: LimeStruct) {
+        val methods = getPreviousResults(CppMethod::class.java).map {
+            it.copy(emptySet(), setOf(CppMethod.Qualifier.CONST))
+        }
         val cppStruct = CppStruct(
             nameResolver.getName(limeStruct),
             nameResolver.getFullyQualifiedName(limeStruct),
             limeStruct.comment,
             limeStruct.attributes.have(LimeAttributeType.EXTERNAL_TYPE),
             getPreviousResults(CppField::class.java),
+            methods,
             limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
             limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)
         )

@@ -19,12 +19,15 @@
 
 package com.here.genium.model.cpp
 
+import java.util.stream.Stream
+
 class CppStruct(
     name: String,
     fullyQualifiedName: String = name,
     comment: String = "",
     isExternal: Boolean = false,
     val fields: List<CppField> = emptyList(),
+    val methods: List<CppMethod> = emptyList(),
     val isEquatable: Boolean = false,
     val isImmutable: Boolean = false
 ) : CppExternableElement(name, fullyQualifiedName, comment, isExternal) {
@@ -38,5 +41,5 @@ class CppStruct(
     @Suppress("unused")
     val hasImmutableFields = isImmutable || fields.any { it.hasImmutableType }
 
-    override fun stream() = fields.stream()
+    override fun stream() = Stream.concat(fields.stream(), methods.stream())
 }

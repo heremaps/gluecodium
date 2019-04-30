@@ -25,6 +25,8 @@ import com.here.genium.model.cpp.CppConstant
 import com.here.genium.model.cpp.CppElement
 import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppField
+import com.here.genium.model.cpp.CppMethod
+import com.here.genium.model.cpp.CppParameter
 import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.cpp.CppTypeDefRef
 import com.here.genium.model.cpp.CppTypeRef
@@ -186,6 +188,44 @@ class TopologicalSortTest(
                         createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
                         createUsing(TYPE_DEF_NAME, CppComplexTypeRef(TYPE_C))
                     ), listOf(0, 1)
+                ), arrayOf(
+                    "sortStructsDependentThroughMethodReturnType", listOf(
+                        CppStruct(
+                            name = FIRST_STRUCT_NAME,
+                            fullyQualifiedName = FIRST_STRUCT_NAME,
+                            methods = listOf(
+                                CppMethod("x", returnType = CppComplexTypeRef(SECOND_STRUCT_NAME))
+                            )
+                        ),
+                        createCppStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                    ), listOf(1, 0)
+                ), arrayOf(
+                    "sortStructsDependentThroughMethodParameter", listOf(
+                        CppStruct(
+                            name = FIRST_STRUCT_NAME,
+                            fullyQualifiedName = FIRST_STRUCT_NAME,
+                            methods = listOf(
+                                CppMethod(
+                                    "x",
+                                    parameters = listOf(CppParameter(
+                                        "foo",
+                                        CppComplexTypeRef(SECOND_STRUCT_NAME)
+                                    ))
+                                )
+                            )
+                        ),
+                        createCppStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                    ), listOf(1, 0)
+                ), arrayOf(
+                    "sortStructDependentOnSelfDoesNotCrash", listOf(
+                        CppStruct(
+                            name = FIRST_STRUCT_NAME,
+                            fullyQualifiedName = FIRST_STRUCT_NAME,
+                            methods = listOf(
+                                CppMethod("x", returnType = CppComplexTypeRef(FIRST_STRUCT_NAME))
+                            )
+                        )
+                    ), listOf(0)
                 )
             )
         }
