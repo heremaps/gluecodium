@@ -9,6 +9,7 @@ import com.example.NativeBase;
  * <p>The nested types like {@link com.example.smoke.CommentsLinks#randomMethod} don't need full name prefix, but it's
  * possible to references other interfaces like {@link com.example.smoke.CommentsInterface} or other members
  * {@link com.example.smoke.Comments#someMethodWithAllComments}.</p>
+ * <p>Weblinks are not modified like this <a href="http://example.com">example</a> or [www.example.com].</p>
  *
  */
 public class CommentsLinks extends NativeBase {
@@ -53,9 +54,13 @@ public class CommentsLinks extends NativeBase {
      * </ul>
      * <p>Not working for Java:</p>
      * <ul>
-     * <li>typedef: [Comments.Usefulness]</li>
-     * <li>array: [Comments.SomeArray]</li>
-     * <li>map: [Comments.SomeMap]</li>
+     * <li>typedef: [comments.Usefulness]</li>
+     * <li>array: [comments.SomeArray]</li>
+     * <li>map: [comments.SomeMap]</li>
+     * </ul>
+     * <p>Not working for Swift:</p>
+     * <ul>
+     * <li>named comment: {@link com.example.smoke.Comments#VERY_USEFUL}</li>
      * </ul>
      * <p>Not working:</p>
      * <ul>

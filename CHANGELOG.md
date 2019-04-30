@@ -3,6 +3,7 @@
 ## Unreleased
 - Features
   + Java comments are generated as JavaDoc HTML and links to classes and members are supported now
+  + Links to members in Swift comments are now supported
 
 ## 4.1.0
 - Release date: 2019-05-06

@@ -34,14 +34,14 @@ class SwiftMapGenerator {
     }
 
     fun generate(): List<GeneratedFile> {
-        val mapFile = SwiftFile()
+        val mapFile = SwiftFile(SWIFT_DICTONARY)
         mapFile.dictionaries.addAll(TreeMap(mapCollector).values)
 
         return if (mapFile.isEmpty) {
             emptyList()
         } else {
             val content = TemplateEngine.render("swift/Dictionary", mapFile)
-            listOf(GeneratedFile(content, SWIFT_DICTONARY))
+            listOf(GeneratedFile(content, mapFile.fileName))
         }
     }
 

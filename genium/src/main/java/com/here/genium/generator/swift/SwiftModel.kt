@@ -17,27 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.generator.swift
 
-import java.util.stream.Stream;
+import com.here.genium.model.swift.SwiftFile
+import com.here.genium.model.swift.SwiftModelElement
 
-public final class SwiftField extends SwiftTypedModelElement {
-
-  public final SwiftValue defaultValue;
-
-  public SwiftField(
-      final String name,
-      final SwiftVisibility visibility,
-      final SwiftType type,
-      final SwiftValue defaultValue) {
-    super(name, visibility, type);
-    this.defaultValue = defaultValue;
-  }
-
-  @Override
-  public Stream<SwiftModelElement> stream() {
-    return defaultValue == null
-        ? super.stream()
-        : Stream.concat(super.stream(), Stream.of(defaultValue));
-  }
+class SwiftModel(val referenceMap: Map<String, SwiftModelElement>, val containers: Collection<SwiftFile>) {
+    fun merge(model: SwiftModel): SwiftModel {
+        return SwiftModel(referenceMap + model.referenceMap, containers + model.containers)
+    }
 }

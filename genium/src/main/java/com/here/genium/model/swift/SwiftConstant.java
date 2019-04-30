@@ -19,6 +19,8 @@
 
 package com.here.genium.model.swift;
 
+import java.util.stream.Stream;
+
 public final class SwiftConstant extends SwiftTypedModelElement {
 
   public final SwiftValue value;
@@ -30,5 +32,10 @@ public final class SwiftConstant extends SwiftTypedModelElement {
       final SwiftValue value) {
     super(name, visibility, type);
     this.value = value;
+  }
+
+  @Override
+  public Stream<SwiftModelElement> stream() {
+    return Stream.concat(super.stream(), Stream.of(value));
   }
 }

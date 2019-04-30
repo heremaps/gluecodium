@@ -29,7 +29,7 @@ import com.here.genium.model.swift.SwiftFile
 import com.here.genium.platform.common.GeneratorSuite
 import java.util.HashSet
 
-class SwiftGenerator(private val limeReferenceMap: Map<String, LimeElement>) {
+class SwiftGenerator(limeReferenceMap: Map<String, LimeElement>) {
     val arrayGenerator = SwiftArrayGenerator()
     val mapGenerator = SwiftMapGenerator()
     val builtinOptionalsGenerator = SwiftBuiltinOptionalsGenerator()
@@ -38,7 +38,7 @@ class SwiftGenerator(private val limeReferenceMap: Map<String, LimeElement>) {
     private val nameResolver = SwiftNameResolver(limeReferenceMap)
     private val typeMapper = SwiftTypeMapper(nameResolver)
 
-    fun generate(limeContainer: LimeContainer): GeneratedFile? {
+    fun generateModel(limeContainer: LimeContainer): SwiftModel {
         val modelBuilder = SwiftModelBuilder(
             signatureResolver,
             nameResolver,
@@ -51,15 +51,8 @@ class SwiftGenerator(private val limeReferenceMap: Map<String, LimeElement>) {
         arrayGenerator.collect(modelBuilder.arraysCollector)
         mapGenerator.collect(modelBuilder.mapCollector)
         enumsAsErrors.addAll(modelBuilder.enumsAsErrors)
-        val file = modelBuilder.getFinalResult(SwiftFile::class.java)
 
-        return when {
-            file.isEmpty -> null
-            else -> GeneratedFile(
-                TemplateEngine.render("swift/File", file),
-                SwiftNameRules.getImplementationFileName(limeContainer)
-            )
-        }
+        return SwiftModel(modelBuilder.referenceMap, setOf(modelBuilder.getFinalResult(SwiftFile::class.java)))
     }
 
     fun generateErrors() =

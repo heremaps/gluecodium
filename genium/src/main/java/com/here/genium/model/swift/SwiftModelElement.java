@@ -19,10 +19,12 @@
 
 package com.here.genium.model.swift;
 
+import com.here.genium.model.common.Streamable;
 import java.util.List;
+import java.util.stream.Stream;
 import org.trimou.util.Strings;
 
-public abstract class SwiftModelElement {
+public abstract class SwiftModelElement extends Streamable<SwiftModelElement> {
 
   public final String name;
   public final SwiftVisibility visibility;
@@ -33,6 +35,7 @@ public abstract class SwiftModelElement {
   }
 
   public SwiftModelElement(final String name, final SwiftVisibility visibility) {
+    super();
     this.name = name;
     this.visibility = visibility != null ? visibility : SwiftVisibility.PUBLIC;
   }
@@ -46,5 +49,10 @@ public abstract class SwiftModelElement {
   public String getSimpleName() {
     List<String> parts = Strings.split(name, ".");
     return parts.get(parts.size() - 1);
+  }
+
+  @Override
+  public Stream<SwiftModelElement> stream() {
+    return Stream.empty();
   }
 }

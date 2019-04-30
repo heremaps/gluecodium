@@ -72,6 +72,7 @@ internal constructor(
     val arraysCollector = mutableMapOf<String, SwiftArray>()
     val mapCollector = mutableMapOf<String, SwiftDictionary>()
     val enumsAsErrors = mutableSetOf<String>()
+    val referenceMap = mutableMapOf<String, SwiftModelElement>()
 
     constructor(
         signatureResolver: LimeSignatureResolver,
@@ -95,8 +96,13 @@ internal constructor(
         closeContext()
     }
 
+    fun storeNamedResult(name: String, element: SwiftModelElement) {
+        storeResult(element)
+        referenceMap[name] = element
+    }
+
     private fun finishBuildingTypeCollection(limeContainer: LimeContainer) {
-        val file = SwiftFile()
+        val file = SwiftFile(SwiftNameRules.getImplementationFileName(limeContainer))
         file.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         file.enums.addAll(getPreviousResults(SwiftEnum::class.java))
         file.typeDefs.addAll(getPreviousResults(SwiftTypeDef::class.java))
@@ -135,11 +141,12 @@ internal constructor(
         )
         swiftClass.comment = limeContainer.comment
 
-        val swiftFile = addMembersAndParent(swiftClass)
+        val swiftFile = SwiftFile(SwiftNameRules.getImplementationFileName(limeContainer))
+        addMembersAndParent(swiftFile, swiftClass)
         swiftClass.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftClass.enums.addAll(getPreviousResults(SwiftEnum::class.java))
 
-        storeResult(swiftClass)
+        storeNamedResult(limeContainer.fullName, swiftClass)
         storeResult(swiftFile)
     }
 
@@ -156,15 +163,16 @@ internal constructor(
         )
         swiftClass.comment = limeContainer.comment
 
-        val swiftFile = addMembersAndParent(swiftClass)
+        val swiftFile = SwiftFile(SwiftNameRules.getImplementationFileName(limeContainer))
+        addMembersAndParent(swiftFile, swiftClass)
         swiftFile.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftFile.enums.addAll(getPreviousResults(SwiftEnum::class.java))
 
-        storeResult(swiftClass)
+        storeNamedResult(limeContainer.fullName, swiftClass)
         storeResult(swiftFile)
     }
 
-    private fun addMembersAndParent(swiftClass: SwiftClass): SwiftFile {
+    private fun addMembersAndParent(swiftFile: SwiftFile, swiftClass: SwiftClass): SwiftFile {
         val parentClass = getPreviousResultOrNull(SwiftClass::class.java)
         if (parentClass != null && parentClass.isInterface) {
             swiftClass.implementsProtocols.add(parentClass.name)
@@ -177,10 +185,9 @@ internal constructor(
         swiftClass.typedefs.addAll(getPreviousResults(SwiftTypeDef::class.java))
         swiftClass.constants.addAll(getPreviousResults(SwiftConstant::class.java))
 
-        val file = SwiftFile()
-        file.classes.add(swiftClass)
-        file.dictionaries.addAll(getPreviousResults(SwiftDictionary::class.java))
-        return file
+        swiftFile.classes.add(swiftClass)
+        swiftFile.dictionaries.addAll(getPreviousResults(SwiftDictionary::class.java))
+        return swiftFile
     }
 
     override fun finishBuilding(limeMethod: LimeMethod) {
@@ -220,7 +227,7 @@ internal constructor(
             getPreviousResults(SwiftParameter::class.java)
         )
 
-        storeResult(method)
+        storeNamedResult(limeMethod.fullName, method)
         closeContext()
     }
 
@@ -232,7 +239,7 @@ internal constructor(
             SwiftParameter(SwiftNameRules.getParameterName(limeParameter.name), swiftType)
         swiftParameter.comment = limeParameter.comment
 
-        storeResult(swiftParameter)
+        storeNamedResult(limeParameter.fullName, swiftParameter)
         closeContext()
     }
 
@@ -248,7 +255,7 @@ internal constructor(
 
         swiftStruct.fields.addAll(getPreviousResults(SwiftField::class.java))
 
-        storeResult(swiftStruct)
+        storeNamedResult(limeStruct.fullName, swiftStruct)
         closeContext()
     }
 
@@ -267,7 +274,7 @@ internal constructor(
         )
         swiftField.comment = limeField.comment
 
-        storeResult(swiftField)
+        storeNamedResult(limeField.fullName, swiftField)
         closeContext()
     }
 
@@ -279,7 +286,7 @@ internal constructor(
         )
         swiftEnum.comment = limeEnumeration.comment
 
-        storeResult(swiftEnum)
+        storeNamedResult(limeEnumeration.fullName, swiftEnum)
         closeContext()
     }
 
@@ -290,7 +297,7 @@ internal constructor(
         )
         swiftEnumItem.comment = limeEnumerator.comment
 
-        storeResult(swiftEnumItem)
+        storeNamedResult(limeEnumerator.fullName, swiftEnumItem)
         closeContext()
     }
 
@@ -312,7 +319,7 @@ internal constructor(
             val keyTypeKey = typeMapper.getActualTypeKey(limeActualType.keyType.type)
             val valueTypeKey = typeMapper.getActualTypeKey(limeActualType.valueType.type)
             mapCollector.putIfAbsent("$keyTypeKey:$valueTypeKey", swiftDictionary)
-            storeResult(swiftDictionary)
+            storeNamedResult(limeTypeDef.fullName, swiftDictionary)
 
             swiftActualType = SwiftType(swiftDictionary.dictionaryDefinition, null)
         } else {
@@ -322,7 +329,7 @@ internal constructor(
         val swiftTypeDef = SwiftTypeDef(typeDefName, getVisibility(limeTypeDef), swiftActualType)
         swiftTypeDef.comment = limeTypeDef.comment
 
-        storeResult(swiftTypeDef)
+        storeNamedResult(limeTypeDef.fullName, swiftTypeDef)
         closeContext()
     }
 
@@ -335,7 +342,7 @@ internal constructor(
         )
         swiftConstant.comment = limeConstant.comment
 
-        storeResult(swiftConstant)
+        storeNamedResult(limeConstant.fullName, swiftConstant)
         closeContext()
     }
 
@@ -381,7 +388,7 @@ internal constructor(
         )
         property.comment = limeProperty.comment
 
-        storeResult(property)
+        storeNamedResult(limeProperty.fullName, property)
         closeContext()
     }
 

@@ -19,8 +19,13 @@
 
 package com.here.genium.model.swift
 
+import java.util.stream.Stream
+
 class SwiftEnum(
     name: String,
     visibility: SwiftVisibility? = null,
     val items: List<SwiftEnumItem> = emptyList()
-) : SwiftType(name, null, visibility, SwiftType.TypeCategory.ENUM, name, false)
+) : SwiftType(name, null, visibility, SwiftType.TypeCategory.ENUM, name, false) {
+
+    override fun stream(): Stream<SwiftModelElement>? = Stream.concat(super.stream(), items.stream())
+}

@@ -19,6 +19,8 @@
 
 package com.here.genium.model.swift
 
+import java.util.stream.Stream
+
 class SwiftDictionary(
     name: String,
     visibility: SwiftVisibility?,
@@ -28,4 +30,6 @@ class SwiftDictionary(
     val valueType: SwiftType
 ) : SwiftType(name, cPrefix, visibility, SwiftType.TypeCategory.DICTIONARY, publicName, false) {
     val dictionaryDefinition = "[" + keyType.publicName + ": " + valueType.publicName + "]"
+
+    override fun stream(): Stream<SwiftModelElement>? = Stream.concat(super.stream(), Stream.of(keyType, valueType))
 }

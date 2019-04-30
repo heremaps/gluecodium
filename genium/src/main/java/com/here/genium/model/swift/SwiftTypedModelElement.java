@@ -19,6 +19,8 @@
 
 package com.here.genium.model.swift;
 
+import java.util.stream.Stream;
+
 public abstract class SwiftTypedModelElement extends SwiftModelElement {
 
   public final SwiftType type;
@@ -27,5 +29,10 @@ public abstract class SwiftTypedModelElement extends SwiftModelElement {
       final String name, final SwiftVisibility visibility, final SwiftType type) {
     super(name, visibility);
     this.type = type;
+  }
+
+  @Override
+  public Stream<SwiftModelElement> stream() {
+    return Stream.concat(super.stream(), Stream.of(type));
   }
 }

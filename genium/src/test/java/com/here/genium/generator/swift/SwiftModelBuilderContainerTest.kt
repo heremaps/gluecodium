@@ -24,7 +24,6 @@ import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimePath
-import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeVisibility
 import com.here.genium.model.swift.SwiftClass
@@ -83,7 +82,7 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingTypeCollectionReadsMembers() {
-        val limeElement = LimeContainer(EMPTY_PATH, type = ContainerType.TYPE_COLLECTION)
+        val limeElement = LimeContainer(fooPath, type = ContainerType.TYPE_COLLECTION)
         contextStack.injectResult(swiftStruct)
         contextStack.injectResult(swiftEnum)
         contextStack.injectResult(swiftTypeDef)

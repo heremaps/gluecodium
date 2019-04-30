@@ -21,6 +21,9 @@ package com.here.genium.model.swift;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Stream;
+import org.jetbrains.annotations.NotNull;
 
 public final class SwiftFile extends SwiftModelElement {
 
@@ -30,9 +33,11 @@ public final class SwiftFile extends SwiftModelElement {
   public final List<SwiftTypeDef> typeDefs = new LinkedList<>();
   public final List<SwiftArray> arrays = new LinkedList<>();
   public final List<SwiftDictionary> dictionaries = new LinkedList<>();
+  @NotNull public final String fileName;
 
-  public SwiftFile() {
+  public SwiftFile(@NotNull String fileName) {
     super("");
+    this.fileName = fileName;
   }
 
   public boolean isEmpty() {
@@ -41,5 +46,18 @@ public final class SwiftFile extends SwiftModelElement {
         && enums.isEmpty()
         && arrays.isEmpty()
         && dictionaries.isEmpty();
+  }
+
+  @Override
+  public Stream<SwiftModelElement> stream() {
+    return Stream.of(
+            super.stream(),
+            classes.stream(),
+            structs.stream(),
+            enums.stream(),
+            typeDefs.stream(),
+            arrays.stream(),
+            dictionaries.stream())
+        .flatMap(Function.identity());
   }
 }

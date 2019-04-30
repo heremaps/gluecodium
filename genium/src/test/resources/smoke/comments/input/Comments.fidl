@@ -20,7 +20,7 @@
 package smoke
 
 <** @description: This is some very useful interface. **>
-interface Comments {
+interface comments {
 
     <** @description: This is some very useful method that measures the usefulness of its input. **>
     method someMethodWithAllComments {
@@ -236,7 +236,11 @@ interface CommentsInstantiable {
 
 <** @description: The nested types like [random_method] don't need full name prefix, but it's
 possible to references other interfaces like [smoke.CommentsInterface] or other members
-[Comments.someMethodWithAllComments].
+[comments.someMethodWithAllComments].
+
+Weblinks are not modified like this [example] or [www.example.com].
+
+[example]: http://example.com
 **>
 interface CommentsLinks {
     public typedef CommentsLinks is undefined
@@ -247,23 +251,25 @@ interface CommentsLinks {
     }
 
     <** @description:
+
     Link types:
-    \* constant: [Comments.VeryUseful]
-    \* struct: [Comments.SomeStruct]
-    \* struct field: [Comments.SomeStruct.someField]
-    \* enum: [Comments.SomeEnum]
-    \* enum item: [Comments.SomeEnum.Useful]
-    \* attribute: [Comments.SomeAttribute]
-    \* method: [Comments.instanceMethod]
+    \* constant: [comments.VeryUseful]
+    \* struct: [comments.SomeStruct]
+    \* struct field: [comments.SomeStruct.someField]
+    \* enum: [comments.SomeEnum]
+    \* enum item: [comments.SomeEnum.Useful]
+    \* attribute: [comments.SomeAttribute]
+    \* method: [comments.instanceMethod]
 
     Not working for Java:
+    \* typedef: [comments.Usefulness]
+    \* array: [comments.SomeArray]
+    \* map: [comments.SomeMap]
 
-    \* typedef: [Comments.Usefulness]
-    \* array: [Comments.SomeArray]
-    \* map: [Comments.SomeMap]
+    Not working for Swift:
+    \* named comment: [Alternative name for the link, stripped for Swift][comments.VeryUseful]
 
     Not working:
-
     \* error: [TooUsefulException]
     \* input parameter: [inputParameter]
     \* output parameter: [outputParameter]
@@ -271,10 +277,10 @@ interface CommentsLinks {
     **>
     method random_method{
         in {
-            Comments.SomeEnum inputParameter
+            comments.SomeEnum inputParameter
         }
         out {
-            Comments.SomeEnum outputParameter
+            comments.SomeEnum outputParameter
         }
         error TooUseful
     }

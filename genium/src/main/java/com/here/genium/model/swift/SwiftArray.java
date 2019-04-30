@@ -19,6 +19,8 @@
 
 package com.here.genium.model.swift;
 
+import java.util.stream.Stream;
+
 public final class SwiftArray extends SwiftType {
 
   public final SwiftType underlyingType;
@@ -57,5 +59,10 @@ public final class SwiftArray extends SwiftType {
 
   private static String getImplName(SwiftType underlyingType) {
     return "[" + underlyingType.publicName + "]";
+  }
+
+  @Override
+  public Stream<SwiftModelElement> stream() {
+    return Stream.concat(super.stream(), Stream.of(underlyingType));
   }
 }

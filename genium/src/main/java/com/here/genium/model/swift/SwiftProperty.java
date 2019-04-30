@@ -19,6 +19,8 @@
 
 package com.here.genium.model.swift;
 
+import java.util.stream.Stream;
+
 public final class SwiftProperty extends SwiftTypedModelElement {
 
   public final SwiftMethod getter;
@@ -36,5 +38,12 @@ public final class SwiftProperty extends SwiftTypedModelElement {
     this.getter = getter;
     this.setter = setter;
     this.isStatic = isStatic;
+  }
+
+  @Override
+  public Stream<SwiftModelElement> stream() {
+    return setter != null
+        ? Stream.concat(super.stream(), Stream.of(getter, setter))
+        : Stream.concat(super.stream(), Stream.of(getter));
   }
 }

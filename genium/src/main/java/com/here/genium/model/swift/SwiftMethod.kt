@@ -21,6 +21,8 @@ package com.here.genium.model.swift
 
 import com.here.genium.generator.cbridge.CBridgeNameRules
 import com.here.genium.generator.common.NameHelper
+import java.util.function.Function
+import java.util.stream.Stream
 
 class SwiftMethod(
     name: String,
@@ -47,5 +49,11 @@ class SwiftMethod(
     // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
     @Suppress("unused")
     fun getcBaseName() = NameHelper.joinNames(
-        cNestedSpecifier, cShortName, CBridgeNameRules.UNDERSCORE_DELIMITER)
+        cNestedSpecifier, cShortName, CBridgeNameRules.UNDERSCORE_DELIMITER
+    )
+
+    override fun stream(): Stream<SwiftModelElement>? =
+        Stream.of(super.stream(), parameters.stream(), Stream.of(returnType)).flatMap(
+            Function.identity()
+        )
 }
