@@ -21,7 +21,10 @@ package com.here.genium.generator.jni;
 
 import com.here.genium.model.java.JavaCustomType;
 import com.here.genium.model.jni.JniContainer;
+import com.here.genium.model.jni.JniStruct;
 import java.io.File;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public final class JniNameRules {
@@ -69,11 +72,27 @@ public final class JniNameRules {
   }
 
   private static String formatPackageName(List<String> packageNames) {
-    return packageNames.isEmpty() ? "" : String.join("_", packageNames) + "_";
+    return packageNames.isEmpty() ? "" : String.join("_", packageNames);
   }
 
   public static String getJniClassFileName(final JniContainer jniContainer) {
-    return formatPackageName(jniContainer.getJavaPackages()) + jniContainer.getJavaName();
+    List<String> nameComponents =
+        Arrays.asList(
+            formatPackageName(jniContainer.getJavaPackages()), jniContainer.getJavaName());
+    return String.join("_", nameComponents);
+  }
+
+  public static String getJniStructFileName(
+      final JniContainer jniContainer, final JniStruct jniStruct) {
+
+    List<String> nameComponents = new LinkedList<>();
+    nameComponents.add(formatPackageName(jniContainer.getJavaPackages()));
+    if (jniContainer.getJavaName() != null) {
+      nameComponents.add(jniContainer.getJavaName());
+    }
+    nameComponents.add(jniStruct.getJavaClass().name);
+
+    return String.join("_", nameComponents);
   }
 
   private String getJniPathPrefix() {

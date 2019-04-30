@@ -26,12 +26,17 @@ class JavaClass(
     name: String,
     val extendedClass: JavaType? = null,
     val fields: List<JavaField> = emptyList(),
+    methods: List<JavaMethod> = emptyList(),
     @Suppress("unused") val isImplClass: Boolean = false,
     @Suppress("unused") val needsDisposer: Boolean = false,
     @Suppress("unused") val isParcelable: Boolean = false,
     val isEquatable: Boolean = false,
     val isImmutable: Boolean = false
 ) : JavaTopLevelElement(name) {
+
+    init {
+        this.methods += methods
+    }
 
     @Suppress("unused")
     val needsBuilder = fields.size > 2

@@ -383,7 +383,7 @@ feature(Dates cpp android swift SOURCES
     fidl/test/Dates.fdepl
 )
 
-feature(StructsWithMethods cpp SOURCES
+feature(StructsWithMethods cpp android SOURCES
     src/test/StructsWithMethods.cpp
 
     fidl/test/StructsWithMethods.fidl

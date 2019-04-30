@@ -308,14 +308,26 @@ class JavaModelBuilderTest {
     fun finishBuildingStructReadsFields() {
         val javaField = JavaField("", javaType, javaValue)
         contextStack.injectResult(javaField)
-        val limeElement = LimeStruct(
-            LimePath(emptyList(), listOf("foo"))
-        )
+        val limeElement = LimeStruct(LimePath(emptyList(), listOf("foo")))
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(JavaClass::class.java)
         assertContains(javaField, result.fields)
+    }
+
+    @Test
+    fun finishBuildingStructReadsMethods() {
+        val javaMethod = JavaMethod("bar")
+        contextStack.injectResult(javaMethod)
+        val limeElement = LimeStruct(LimePath(emptyList(), listOf("foo")))
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(JavaClass::class.java)
+        val resultMethod = result.methods.first()
+        assertEquals("bar", resultMethod.name)
+        assertContains(JavaMethod.MethodQualifier.NATIVE, resultMethod.qualifiers)
     }
 
     @Test

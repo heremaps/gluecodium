@@ -100,6 +100,11 @@ class JniGenerator(
             includes +=
                 JniNameRules.getHeaderFileName(JniNameRules.getJniClassFileName(jniContainer))
         }
+        includes += jniContainer.structs
+            .filterNot { it.methods.isEmpty() }
+            .map {
+                JniNameRules.getHeaderFileName(JniNameRules.getJniStructFileName(jniContainer, it))
+            }
         includes += additionalIncludes
 
         val includeSet = includes.map { Include.createInternalInclude(it) }.toSet()

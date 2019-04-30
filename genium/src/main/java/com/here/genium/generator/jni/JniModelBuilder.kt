@@ -197,7 +197,12 @@ internal constructor(
     override fun finishBuilding(limeStruct: LimeStruct) {
         val javaClass = javaBuilder.getFinalResult(JavaClass::class.java)
         val cppStruct = cppBuilder.getFinalResult(CppStruct::class.java)
-        val jniStruct = JniStruct(javaClass, cppStruct, getPreviousResults(JniField::class.java))
+        val jniStruct = JniStruct(
+            javaClass,
+            cppStruct,
+            getPreviousResults(JniField::class.java),
+            getPreviousResults(JniMethod::class.java)
+        )
 
         storeResult(jniStruct)
         closeContext()

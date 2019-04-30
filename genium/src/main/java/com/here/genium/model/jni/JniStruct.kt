@@ -19,11 +19,25 @@
 
 package com.here.genium.model.jni
 
+import com.here.genium.generator.jni.JniNameRules
 import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.java.JavaClass
 
 class JniStruct(
     val javaClass: JavaClass,
     val cppStruct: CppStruct,
-    val fields: List<JniField>
-) : JniTopLevelElement(javaClass.javaPackage)
+    val fields: List<JniField> = emptyList(),
+    val methods: List<JniMethod> = emptyList()
+) : JniTopLevelElement(javaClass.javaPackage) {
+
+    val includes get() = owningContainer.includes
+    val javaPackages get() = owningContainer.javaPackages
+    val javaName get() = JniNameRules.getMangledName(getContainerPrefix() + javaClass.name)
+    val cppFullyQualifiedName = cppStruct.fullyQualifiedName
+
+    private fun getContainerPrefix() =
+        when (owningContainer.containerType) {
+            JniContainer.ContainerType.TYPE_COLLECTION -> ""
+            else -> owningContainer.javaName + "$"
+        }
+}

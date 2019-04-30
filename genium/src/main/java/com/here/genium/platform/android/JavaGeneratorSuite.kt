@@ -105,10 +105,8 @@ open class JavaGeneratorSuite protected constructor(
             headers += jniTemplates.generateConversionUtilsHeaderFile(fileName)
         }
 
-        return headers + javaFiles + jniModel
-            .filter { it.containerType != JniContainer.ContainerType.TYPE_COLLECTION }
-            .map { jniTemplates.generateFiles(it) }.flatten() +
-                jniTemplates.generateConversionFiles(jniModel)
+        return headers + javaFiles + jniModel.map { jniTemplates.generateFiles(it) }.flatten() +
+            jniTemplates.generateConversionFiles(jniModel)
     }
 
     private fun processCommentLinks(

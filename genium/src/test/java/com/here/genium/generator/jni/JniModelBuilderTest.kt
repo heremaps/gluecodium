@@ -456,6 +456,17 @@ class JniModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingStructReadsMethods() {
+        val jniMethod = JniMethod("foo", "bar")
+        contextStack.injectResult(jniMethod)
+
+        modelBuilder.finishBuilding(limeStruct)
+
+        val jniStruct = modelBuilder.getFinalResult(JniStruct::class.java)
+        assertContains(jniMethod, jniStruct.methods)
+    }
+
+    @Test
     fun finishBuildingFieldReadsJavaCppFields() {
         val limeElement = LimeField(EMPTY_PATH, typeRef = limeTypeRef)
 

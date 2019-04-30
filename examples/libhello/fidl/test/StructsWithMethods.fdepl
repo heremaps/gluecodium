@@ -23,6 +23,7 @@ import "./StructsWithMethods.fidl"
 define GeniumExtensions for typeCollection test.StructsWithMethods
 {
     struct Vector {
+        Equatable = true
         Companion = "test.StructsWithMethods_Vector_Companion"
     }
 }
@@ -30,6 +31,7 @@ define GeniumExtensions for typeCollection test.StructsWithMethods
 define GeniumExtensions for interface test.StructsWithMethodsInterface
 {
     struct Vector3 {
+        Equatable = true
         Companion = "test.StructsWithMethodsInterface_Vector3_Companion"
     }
 }

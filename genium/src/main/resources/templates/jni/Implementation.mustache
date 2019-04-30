@@ -47,22 +47,29 @@ extern "C" {
     {{type.cppName}} {{name}} = j{{name}};
 {{/unless}}
 {{/parameters}}
-{{#unless isStatic}}
+{{#instanceOf container "JniContainer"}}{{#unless isStatic}}
     auto pointerAsLong = {{>common/InternalNamespace}}jni::get_field_value(
             _jenv,
             {{>common/InternalNamespace}}jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr);
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (pointerAsLong);
-{{/unless}}
+{{/unless}}{{/instanceOf}}{{!!
+}}{{#notInstanceOf container "JniContainer"}}
+    auto _ninstance = {{>common/InternalNamespace}}jni::convert_from_jni(_jenv,
+        {{>common/InternalNamespace}}jni::make_non_releasing_ref(_jinstance),
+        ({{container.cppFullyQualifiedName}}*)nullptr);
+{{/notInstanceOf}}
 {{>jni/ReturnTypeConversion}}
 }
 
 {{/methods}}
+{{#instanceOf container "JniContainer"}}
 JNIEXPORT void JNICALL
 Java_{{#javaPackages}}{{.}}_{{/javaPackages}}{{javaName}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
     delete reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (_jpointerRef);
 }
+{{/instanceOf}}
 }
 {{/container}}

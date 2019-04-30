@@ -25,6 +25,8 @@ import com.here.genium.generator.cpp.CppLibraryIncludes;
 import com.here.genium.model.common.Include;
 import com.here.genium.model.jni.JniContainer;
 import com.here.genium.model.jni.JniContainer.ContainerType;
+import com.here.genium.model.jni.JniElement;
+import com.here.genium.model.jni.JniStruct;
 import com.here.genium.platform.android.JavaGeneratorSuite;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,18 +75,30 @@ public final class JniTemplates {
       return results;
     }
 
-    Map<String, Object> containerData = new HashMap<>();
-    containerData.put(CONTAINER_NAME, jniContainer);
-    containerData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
-
-    String fileName = JniNameRules.getJniClassFileName(jniContainer);
-    results.add(
-        generateFile("jni/Header", containerData, jniNameRules.getHeaderFilePath(fileName)));
-    results.add(
-        generateFile(
-            "jni/Implementation", containerData, jniNameRules.getImplementationFilePath(fileName)));
+    if (jniContainer.getContainerType() != ContainerType.TYPE_COLLECTION) {
+      results.addAll(
+          generateFilesForElement(JniNameRules.getJniClassFileName(jniContainer), jniContainer));
+    }
+    for (JniStruct jniStruct : jniContainer.getStructs()) {
+      if (!jniStruct.getMethods().isEmpty()) {
+        results.addAll(
+            generateFilesForElement(
+                JniNameRules.getJniStructFileName(jniContainer, jniStruct), jniStruct));
+      }
+    }
 
     return results;
+  }
+
+  private List<GeneratedFile> generateFilesForElement(String fileName, JniElement jniElement) {
+    Map<String, Object> containerData = new HashMap<>();
+    containerData.put(CONTAINER_NAME, jniElement);
+    containerData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
+
+    return Arrays.asList(
+        generateFile("jni/Header", containerData, jniNameRules.getHeaderFilePath(fileName)),
+        generateFile(
+            "jni/Implementation", containerData, jniNameRules.getImplementationFilePath(fileName)));
   }
 
   public List<GeneratedFile> generateConversionFiles(final List<JniContainer> jniContainers) {
@@ -193,7 +207,7 @@ public final class JniTemplates {
             .filter(container -> container.getContainerType() != ContainerType.TYPE_COLLECTION)
             .collect(Collectors.toList());
 
-    List<String> combinedPackages = new ArrayList<String>();
+    List<String> combinedPackages = new ArrayList<>();
     combinedPackages.addAll(basePackages);
     combinedPackages.addAll(internalPackages);
 

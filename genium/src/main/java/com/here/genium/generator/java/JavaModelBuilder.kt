@@ -158,6 +158,9 @@ internal constructor(
     }
 
     override fun finishBuilding(limeStruct: LimeStruct) {
+        val methods = getPreviousResults(JavaMethod::class.java).map { it.shallowCopy() }
+        methods.forEach { it.qualifiers.add(MethodQualifier.NATIVE) }
+
         val serializationBase = typeMapper.serializationBase
         val isSerializable =
             serializationBase != null && limeStruct.attributes.have(LimeAttributeType.SERIALIZABLE)
@@ -165,6 +168,7 @@ internal constructor(
         val javaClass = JavaClass(
             name = JavaNameRules.getClassName(limeStruct.name),
             fields = getPreviousResults(JavaField::class.java),
+            methods = methods,
             isParcelable = isSerializable,
             isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)
@@ -320,19 +324,18 @@ internal constructor(
         extendedClass: JavaType
     ): JavaClass {
 
+        val classMethods = getPreviousResults(JavaMethod::class.java).map { it.shallowCopy() }
+        classMethods.forEach { it.qualifiers.add(MethodQualifier.NATIVE) }
+
         val javaClass = JavaClass(
-            JavaNameRules.getImplementationClassName(limeContainer.name),
-            extendedClass,
-            emptyList(),
-            true,
-            nativeBase == extendedClass
+            name = JavaNameRules.getImplementationClassName(limeContainer.name),
+            extendedClass = extendedClass,
+            methods = classMethods,
+            isImplClass = true,
+            needsDisposer = nativeBase == extendedClass
         )
         javaClass.visibility = JavaVisibility.PACKAGE
         javaClass.javaPackage = rootPackage
-
-        val classMethods = getPreviousResults(JavaMethod::class.java).map { it.shallowCopy() }
-        classMethods.forEach { it.qualifiers.add(MethodQualifier.NATIVE) }
-        javaClass.methods.addAll(classMethods)
 
         val interfaceTypeReference = JavaCustomType(javaInterface.name, javaInterface.javaPackage)
         javaClass.parentInterfaces.add(interfaceTypeReference)
@@ -369,11 +372,11 @@ internal constructor(
         }
 
         val javaClass = JavaClass(
-            JavaNameRules.getClassName(limeContainer.name),
-            extendedClass,
-            getPreviousResults(JavaField::class.java),
-            true,
-            parentContainer == null
+            name = JavaNameRules.getClassName(limeContainer.name),
+            extendedClass = extendedClass,
+            fields = getPreviousResults(JavaField::class.java),
+            isImplClass = true,
+            needsDisposer = parentContainer == null
         )
         javaClass.visibility = getVisibility(limeContainer)
         javaClass.javaPackage = rootPackage
