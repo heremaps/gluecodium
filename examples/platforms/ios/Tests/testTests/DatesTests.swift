@@ -32,6 +32,15 @@ class DatesTests: XCTestCase {
         XCTAssertEqual(result.timeIntervalSince1970, date.timeIntervalSince1970)
     }
 
+    func testDateAttributeRoundTripRounding() {
+        let date = Date(timeIntervalSince1970: 1556782831.41675)
+
+        Dates.dateAttribute = date
+        let result = Dates.dateAttribute
+
+        XCTAssertEqual(result.timeIntervalSince1970, date.timeIntervalSince1970)
+    }
+
     func testDateMethodRoundTrip() {
         let calendar = Calendar.current
         let dateComponents = DateComponents(calendar: calendar,
@@ -73,6 +82,7 @@ class DatesTests: XCTestCase {
 
     static var allTests = [
         ("testDateAttributeRoundTrip", testDateAttributeRoundTrip),
+        ("testDateAttributeRoundTripRounding", testDateAttributeRoundTripRounding),
         ("testDateMethodRoundTrip", testDateMethodRoundTrip),
         ("testMethodNullableNullRoundTrip", testMethodNullableNullRoundTrip),
         ("testMethodNullableRoundTrip", testMethodNullableRoundTrip)

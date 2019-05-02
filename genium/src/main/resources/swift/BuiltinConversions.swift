@@ -139,7 +139,10 @@ internal func moveToCType(_ swiftType: Data?) -> RefHolder {
 }
 
 internal func copyFromCType(_ time_ns_epoch: Int64) -> Date {
-    return Date(timeIntervalSince1970: Double(time_ns_epoch) / 1e9)
+    // Double can represent Int32 without a loss of precision, but not Int64.
+    // So big integers should be divided as integers, not as doubles.
+    let (quotient, reminder) = time_ns_epoch.quotientAndRemainder(dividingBy: 1_000_000_000)
+    return Date(timeIntervalSince1970: Double(quotient) + Double(reminder) / 1e9)
 }
 
 internal func moveFromCType(_ time_ns_epoch: Int64) -> Date {
@@ -147,7 +150,11 @@ internal func moveFromCType(_ time_ns_epoch: Int64) -> Date {
 }
 
 internal func copyToCType(_ swiftType: Date) -> PrimitiveHolder<Int64> {
-    return PrimitiveHolder(Int64(swiftType.timeIntervalSince1970 * 1e9))
+    // Double can represent Int32 without a loss of precision, but not Int64.
+    // So big integers should be multiplied as integers, not as doubles.
+    let integerPart = floor(swiftType.timeIntervalSince1970)
+    let decimalPart = swiftType.timeIntervalSince1970 - integerPart
+    return PrimitiveHolder(Int64(integerPart) * 1_000_000_000 + Int64(decimalPart * 1e9))
 }
 
 internal func moveToCType(_ swiftType: Date) -> PrimitiveHolder<Int64> {
