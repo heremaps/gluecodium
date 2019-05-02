@@ -60,14 +60,4 @@ class JniContainer(
         enumeration.owningContainer = this
         enums.add(enumeration)
     }
-
-    fun add(method: JniMethod) {
-        method.owningContainer = this
-        methods.add(method)
-    }
-
-    fun addParentMethod(method: JniMethod) {
-        method.owningContainer = this
-        parentMethods.add(method)
-    }
 }

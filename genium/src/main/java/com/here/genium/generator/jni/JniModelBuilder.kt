@@ -146,11 +146,11 @@ internal constructor(
 
         val parentContainer = getPreviousResultOrNull(JniContainer::class.java)
         if (parentContainer != null) {
-            parentContainer.parentMethods.forEach { jniContainer.addParentMethod(it) }
-            parentContainer.methods.forEach { jniContainer.addParentMethod(it) }
+            jniContainer.parentMethods += parentContainer.parentMethods
+            jniContainer.parentMethods += parentContainer.methods
         }
 
-        getPreviousResults(JniMethod::class.java).forEach { jniContainer.add(it) }
+        jniContainer.methods += getPreviousResults(JniMethod::class.java)
         getPreviousResults(JniStruct::class.java).forEach { jniContainer.add(it) }
         getPreviousResults(JniEnum::class.java).forEach { jniContainer.add(it) }
 

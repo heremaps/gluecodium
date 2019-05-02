@@ -274,8 +274,6 @@ class JniModelBuilderTest {
 
         val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
         assertEquals(2, jniContainer.parentMethods.size)
-        assertEquals(jniContainer, jniContainer.parentMethods.first().owningContainer)
-        assertEquals(jniContainer, jniContainer.parentMethods.last().owningContainer)
     }
 
     @Test

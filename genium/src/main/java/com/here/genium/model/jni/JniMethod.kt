@@ -20,7 +20,6 @@
 package com.here.genium.model.jni
 
 class JniMethod(
-    var owningContainer: JniContainer? = null,
     val javaMethodName: String? = null,
     val cppMethodName: String? = null,
     val returnType: JniType = JniType.VOID,

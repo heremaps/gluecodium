@@ -18,4 +18,5 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>jni/CppMethodReferer}}{{{cppMethodName}}}({{#parameters}}{{{name}}}{{#iter.hasNext}},{{/iter.hasNext}}{{/parameters}});
+{{#if isStatic}}{{container.cppFullyQualifiedName}}::{{/if}}{{#unless isStatic}}(*pInstanceSharedPointer)->{{/unless}}{{!!
+}}{{cppMethodName}}({{#parameters}}{{name}}{{#iter.hasNext}},{{/iter.hasNext}}{{/parameters}});
