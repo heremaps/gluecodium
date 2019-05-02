@@ -23,7 +23,9 @@ import static org.junit.Assert.assertEquals;
 import android.os.Build;
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -35,6 +37,9 @@ import org.robolectric.annotation.Config;
   constants = BuildConfig.class
 )
 public final class HelloWorldTest {
+
+  @Rule public final ExpectedException expectedException = ExpectedException.none();
+
   private static final String HELLO_PREFIX = "Hello ";
 
   @Test
@@ -60,10 +65,10 @@ public final class HelloWorldTest {
 
   @Test
   public void helloWorldMethod_Null() {
-    // Arrange, act
-    String result = HelloWorld.helloWorldMethod(null);
+    // Arrange
+    expectedException.expect(NullPointerException.class);
 
-    // Assert
-    assertEquals(HELLO_PREFIX, result);
+    // Act
+    String result = HelloWorld.helloWorldMethod(null);
   }
 }

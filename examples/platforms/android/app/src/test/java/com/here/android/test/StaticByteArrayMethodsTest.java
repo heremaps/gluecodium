@@ -27,7 +27,9 @@ import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import java.util.Arrays;
 import java.util.Random;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -39,6 +41,9 @@ import org.robolectric.annotation.Config;
   constants = BuildConfig.class
 )
 public final class StaticByteArrayMethodsTest {
+
+  @Rule public final ExpectedException expectedException = ExpectedException.none();
+
   private static final int LARGE_BYTE_ARRAY_SIZE = 100000;
 
   @Test
@@ -93,9 +98,8 @@ public final class StaticByteArrayMethodsTest {
 
   @Test
   public void checkByteBufferNull() {
+    expectedException.expect(NullPointerException.class);
 
     boolean result = StaticByteArrayMethods.isByteBufferNull(null);
-
-    assertTrue(result);
   }
 }

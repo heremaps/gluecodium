@@ -29,7 +29,9 @@ import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
 import com.here.android.hello.HelloWorldBuiltinTypes;
 import java.util.Arrays;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -41,6 +43,9 @@ import org.robolectric.annotation.Config;
   constants = BuildConfig.class
 )
 public final class PlainDataStructuresTest {
+
+  @Rule public final ExpectedException expectedException = ExpectedException.none();
+
   @Test
   public void returnSimpleDataStructure() {
     PlainDataStructures.Point point = PlainDataStructures.createPoint(1.0, 2.0);
@@ -181,18 +186,16 @@ public final class PlainDataStructuresTest {
   }
 
   @Test
-  public void setStringAndByteArrayToNull() {
+  public void setStringToNull() {
+    expectedException.expect(NullPointerException.class);
+
     PlainDataStructures.AllTypesStruct allTypesStruct = new PlainDataStructures.AllTypesStruct();
     allTypesStruct.pointField = PlainDataStructures.createPoint(11.0, 12.0);
     allTypesStruct.stringField = null;
-    allTypesStruct.bytesField = null;
+    allTypesStruct.bytesField = new byte[0];
 
     PlainDataStructures.AllTypesStruct result =
         PlainDataStructures.returnAllTypesStruct(allTypesStruct);
-
-    assertEquals(
-        "Strings set to null are converted and returned as empty strings", "", result.stringField);
-    assertNull("Byte arrays set to null are returned as null", result.bytesField);
   }
 
   @Test

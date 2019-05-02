@@ -5,6 +5,7 @@
   + Fixed runtime issues caused by empty ByteBuffer in Swift.
   + Fixed compilation issues caused by nullable ByteBuffer fields in Swift and Java.
   + Common indentation of comments is stripped to preserve markdown indentation properly
+  + Passing `null` to @NonNull String or ByteBuffer in Java now causes a NullPointerException.
 - Features
   + Added built-in Date type.
 

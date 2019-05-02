@@ -63,17 +63,27 @@ convert_string_from_jni( JNIEnv* env, jstring java_string )
 std::string
 convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::string* )
 {
-    return jvalue
-        ? convert_string_from_jni( env, static_cast<jstring>( jvalue.get( ) ) )
-        : std::string{};
+    if ( !jvalue )
+    {
+        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(env, "java/lang/NullPointerException");
+        env->ThrowNew(exceptionClass.get(), "");
+        return {};
+    }
+
+    return convert_string_from_jni( env, static_cast<jstring>( jvalue.get( ) ) );
 }
 
 std::string
 convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string* )
 {
-    return jvalue
-        ? convert_string_from_jni( env, jvalue.get( ) )
-        : std::string{};
+    if ( !jvalue )
+    {
+        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(env, "java/lang/NullPointerException");
+        env->ThrowNew(exceptionClass.get(), "");
+        return {};
+    }
+
+    return convert_string_from_jni( env, jvalue.get( ) );
 }
 
 {{>common/InternalNamespace}}optional<std::string>
@@ -90,6 +100,8 @@ convert_from_jni( JNIEnv* env, const JniReference<jbyteArray>& jvalue,
 {
     if ( !jvalue )
     {
+        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(env, "java/lang/NullPointerException");
+        env->ThrowNew(exceptionClass.get(), "");
         return {};
     }
 

@@ -24,7 +24,9 @@ import android.os.Build;
 
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -36,6 +38,9 @@ import org.robolectric.annotation.Config;
   constants = BuildConfig.class
 )
 public class HelloWorldTypeDefTest {
+
+  @Rule public final ExpectedException expectedException = ExpectedException.none();
+
   private final HelloWorldTypedefs.SomeStruct inputStruct = new HelloWorldTypedefs.SomeStruct();
 
   @Test
@@ -89,12 +94,10 @@ public class HelloWorldTypeDefTest {
   @Test
   public void methodWithTypeDef_nullString() {
     // Arrange
+    expectedException.expect(NullPointerException.class);
     inputStruct.text = null;
 
     // Act
     HelloWorldTypedefs.SomeStruct outputStruct = HelloWorldTypedefs.methodWithTypeDef(inputStruct);
-
-    // Assert
-    assertEquals("", outputStruct.text);
   }
 }
