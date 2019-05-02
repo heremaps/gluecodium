@@ -209,13 +209,17 @@ struct Conversion< std::chrono::system_clock::time_point >
     static std::chrono::system_clock::time_point
     toCpp( int64_t ref )
     {
-        return std::chrono::system_clock::time_point( std::chrono::nanoseconds( ref ) );
+        using namespace std::chrono;
+        return system_clock::time_point(
+            duration_cast< system_clock::duration >( nanoseconds( ref ) ) );
     }
 
     static std::chrono::system_clock::time_point
     toCppReturn( int64_t ref )
     {
-        return std::chrono::system_clock::time_point( std::chrono::nanoseconds( ref ) );
+        using namespace std::chrono;
+        return system_clock::time_point(
+            duration_cast< system_clock::duration >( nanoseconds( ref ) ) );
     }
 
 private:

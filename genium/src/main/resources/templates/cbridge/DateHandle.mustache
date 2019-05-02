@@ -52,7 +52,7 @@ chrono_time_point_create_optional_handle( int64_t time_ns_epoch )
 {
     return reinterpret_cast< _baseRef >(
         new ( std::nothrow ) {{>common/InternalNamespace}}optional< system_clock::time_point >(
-            system_clock::time_point( nanoseconds( time_ns_epoch ) ) ) );
+            system_clock::time_point( duration_cast< system_clock::duration >( nanoseconds( time_ns_epoch ) ) ) ) );
 }
 
 void
