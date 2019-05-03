@@ -17,157 +17,151 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.loader;
+package com.here.genium.loader
 
-import static org.junit.Assert.*;
+import com.here.genium.franca.ModelHelper
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FModel
+import org.franca.core.franca.FTypeCollection
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotSame
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.ExpectedException
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
+import java.io.File
+import java.net.URISyntaxException
+import java.util.Arrays
 
-import com.here.genium.franca.FrancaDeploymentModel;
-import com.here.genium.franca.ModelHelper;
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import org.eclipse.emf.common.util.EList;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FModel;
-import org.franca.core.franca.FType;
-import org.franca.core.franca.FTypeCollection;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+@RunWith(JUnit4::class)
+class FrancaModelLoaderTest {
 
-@RunWith(JUnit4.class)
-public class FrancaModelLoaderTest {
+    @Rule @JvmField val exception = ExpectedException.none()
 
-  @Rule public final ExpectedException exception = ExpectedException.none();
+    private val loader = FrancaModelLoader()
 
-  private final FrancaModelLoader loader = new FrancaModelLoader();
+    @Before
+    fun setUp() {
+        ModelHelper.getFdeplInjector().injectMembers(loader)
+    }
 
-  @Before
-  public void setUp() {
-    ModelHelper.getFdeplInjector().injectMembers(loader);
-  }
+    /**
+     * The test reproduces bug APIGEN-82. Each fidl got a single fdepl file assigned based on the
+     * includes in the fdepl. When two fdepl files included the same fidl, the second one read would
+     * replace the first one in the mapping. The test reads two fdepls, the first defines a method
+     * const, the second one just includes the fidl. If the mapping would get overridden the method
+     * would lose the constness information.
+     */
+    @Test
+    @Throws(URISyntaxException::class)
+    fun multipleDeploymentsIncludingSameFidl() {
+        val simpleFidl =
+            ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Simple.fidl")
+        val simpleFdepl =
+            ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Simple.fdepl")
+        // Additional deployment rule also includes Simple.fidl
+        // and would replace the information from Simple.fdepl
+        val additionalFdepl = ClassLoader.getSystemClassLoader()
+            .getResource("francamodelloadertest/DependentOnSimple.fdepl")
 
-  /**
-   * The test reproduces bug APIGEN-82. Each fidl got a single fdepl file assigned based on the
-   * includes in the fdepl. When two fdepl files included the same fidl, the second one read would
-   * replace the first one in the mapping. The test reads two fdepls, the first defines a method
-   * const, the second one just includes the fidl. If the mapping would get overridden the method
-   * would lose the constness information.
-   */
-  @Test
-  public void multipleDeploymentsIncludingSameFidl() throws URISyntaxException {
-    URL simpleFidl =
-        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Simple.fidl");
-    URL simpleFdepl =
-        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Simple.fdepl");
-    // Additional deployment rule also includes Simple.fidl
-    // and would replace the information from Simple.fdepl
-    URL additionalFdepl =
-        ClassLoader.getSystemClassLoader()
-            .getResource("francamodelloadertest/DependentOnSimple.fdepl");
+        val currentFiles = listOf(
+            File(simpleFdepl.toURI()),
+            File(simpleFidl.toURI()),
+            File(additionalFdepl.toURI())
+        )
+        val typeCollections = mutableListOf<FTypeCollection>()
+        val deploymentModel =
+            loader.load(FrancaBasedLimeModelLoader.SPEC_PATH, currentFiles, typeCollections)
 
-    Collection<File> currentFiles =
-        Arrays.asList(
-            new File(simpleFdepl.toURI()),
-            new File(simpleFidl.toURI()),
-            new File(additionalFdepl.toURI()));
-    List<FTypeCollection> typeCollections = new LinkedList<>();
-    FrancaDeploymentModel deploymentModel =
-        loader.load(FrancaBasedLimeModelLoader.SPEC_PATH, currentFiles, typeCollections);
+        assertEquals(1, typeCollections.size.toLong())
+        assertTrue(typeCollections[0] is FInterface)
+        val iface = typeCollections[0] as FInterface
 
-    Assert.assertEquals(1, typeCollections.size());
-    Assert.assertTrue(typeCollections.get(0) instanceof FInterface);
-    FInterface iface = (FInterface) typeCollections.get(0);
+        val methods = iface.methods
+        assertEquals(1, methods.size.toLong())
+        val constMethod = methods[0]
 
-    EList<FMethod> methods = iface.getMethods();
-    assertEquals(1, methods.size());
-    FMethod constMethod = methods.get(0);
+        assertTrue(deploymentModel.isConst(constMethod))
+    }
 
-    Assert.assertTrue(deploymentModel.isConst(constMethod));
-  }
+    @Test
+    @Throws(URISyntaxException::class)
+    fun getDeploymentPropertiesForAlternativeRepresentation() {
+        val instanceFidl =
+            ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Instance.fidl")
+        val instanceFdepl =
+            ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Instance.fdepl")
+        val refersToInstanceFidl = ClassLoader.getSystemClassLoader()
+            .getResource("francamodelloadertest/RefersToInstance.fidl")
 
-  @Test
-  public void getDeploymentPropertiesForAlternativeRepresentation() throws URISyntaxException {
-    URL instanceFidl =
-        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Instance.fidl");
-    URL instanceFdepl =
-        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Instance.fdepl");
-    URL refersToInstanceFidl =
-        ClassLoader.getSystemClassLoader()
-            .getResource("francamodelloadertest/RefersToInstance.fidl");
+        val currentFiles = listOf(
+            File(instanceFidl.toURI()),
+            File(instanceFdepl.toURI()),
+            File(refersToInstanceFidl.toURI())
+        )
+        val typeCollections = mutableListOf<FTypeCollection>()
+        val deploymentModel =
+            loader.load(FrancaBasedLimeModelLoader.SPEC_PATH, currentFiles, typeCollections)
 
-    Collection<File> currentFiles =
-        Arrays.asList(
-            new File(instanceFidl.toURI()),
-            new File(instanceFdepl.toURI()),
-            new File(refersToInstanceFidl.toURI()));
-    List<FTypeCollection> typeCollections = new LinkedList<>();
-    FrancaDeploymentModel deploymentModel =
-        loader.load(FrancaBasedLimeModelLoader.SPEC_PATH, currentFiles, typeCollections);
+        assertEquals(2, typeCollections.size.toLong())
 
-    Assert.assertEquals(2, typeCollections.size());
+        val barInterface = typeCollections[0] as FInterface
+        assertEquals("Bar", barInterface.name)
 
-    FInterface barInterface = (FInterface) typeCollections.get(0);
-    assertEquals("Bar", barInterface.getName());
+        val factoryInterface = typeCollections[1] as FInterface
+        assertEquals("BarFactory", factoryInterface.name)
 
-    FInterface factoryInterface = (FInterface) typeCollections.get(1);
-    assertEquals("BarFactory", factoryInterface.getName());
+        val factoryMethod = factoryInterface.methods[0]
+        val parameterType = factoryMethod.outArgs[0].type.derived
+        assertEquals("Bar", parameterType.name)
 
-    FMethod factoryMethod = factoryInterface.getMethods().get(0);
-    FType parameterType = factoryMethod.getOutArgs().get(0).getType().getDerived();
-    assertEquals("Bar", parameterType.getName());
+        // barInterface and barInterfaceThroughReferrer are two *different* in-memory
+        // representations of the same Franca interface.
+        val barInterfaceThroughReferrer = parameterType.eContainer() as FInterface
+        assertNotSame(barInterfaceThroughReferrer, barInterface)
 
-    // barInterface and barInterfaceThroughReferrer are two *different* in-memory representations
-    // of the same Franca interface.
-    FInterface barInterfaceThroughReferrer = (FInterface) parameterType.eContainer();
-    Assert.assertNotSame(barInterfaceThroughReferrer, barInterface);
+        // barInterfaceThroughReferrer deployment properties should be, nevertheless, accessible
+        // through its cousin's wrapper.
+        assertTrue(deploymentModel.isInterface(barInterfaceThroughReferrer))
+    }
 
-    // barInterfaceThroughReferrer deployment properties should be, nevertheless, accessible through
-    // its cousin's wrapper.
-    Assert.assertTrue(deploymentModel.isInterface(barInterfaceThroughReferrer));
-  }
+    @Test
+    @Throws(URISyntaxException::class)
+    fun getDeploymentPropertiesForSameNameInterfaces() {
+        val instanceFidl =
+            ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Instance.fidl")
+        val instanceFdepl =
+            ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Instance.fdepl")
+        val otherInstanceFidl = ClassLoader.getSystemClassLoader()
+            .getResource("francamodelloadertest/OtherInstance.fidl")
+        val otherInstanceFdepl = ClassLoader.getSystemClassLoader()
+            .getResource("francamodelloadertest/OtherInstance.fdepl")
 
-  @Test
-  public void getDeploymentPropertiesForSameNameInterfaces() throws URISyntaxException {
-    URL instanceFidl =
-        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Instance.fidl");
-    URL instanceFdepl =
-        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/Instance.fdepl");
-    URL otherInstanceFidl =
-        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/OtherInstance.fidl");
-    URL otherInstanceFdepl =
-        ClassLoader.getSystemClassLoader().getResource("francamodelloadertest/OtherInstance.fdepl");
+        val currentFiles = Arrays.asList(
+            File(instanceFidl.toURI()),
+            File(instanceFdepl.toURI()),
+            File(otherInstanceFidl.toURI()),
+            File(otherInstanceFdepl.toURI())
+        )
+        val typeCollections = mutableListOf<FTypeCollection>()
+        val deploymentModel =
+            loader.load(FrancaBasedLimeModelLoader.SPEC_PATH, currentFiles, typeCollections)
 
-    Collection<File> currentFiles =
-        Arrays.asList(
-            new File(instanceFidl.toURI()),
-            new File(instanceFdepl.toURI()),
-            new File(otherInstanceFidl.toURI()),
-            new File(otherInstanceFdepl.toURI()));
-    List<FTypeCollection> typeCollections = new LinkedList<>();
-    FrancaDeploymentModel deploymentModel =
-        loader.load(FrancaBasedLimeModelLoader.SPEC_PATH, currentFiles, typeCollections);
+        assertEquals(2, typeCollections.size.toLong())
 
-    Assert.assertEquals(2, typeCollections.size());
+        val fooBarInterface = typeCollections[0] as FInterface
+        assertEquals("Bar", fooBarInterface.name)
+        assertEquals("foo", (fooBarInterface.eContainer() as FModel).name)
 
-    FInterface fooBarInterface = (FInterface) typeCollections.get(0);
-    assertEquals("Bar", fooBarInterface.getName());
-    assertEquals("foo", ((FModel) fooBarInterface.eContainer()).getName());
+        val weeBarInterface = typeCollections[1] as FInterface
+        assertEquals("Bar", weeBarInterface.name)
+        assertEquals("wee", (weeBarInterface.eContainer() as FModel).name)
 
-    FInterface weeBarInterface = (FInterface) typeCollections.get(1);
-    assertEquals("Bar", weeBarInterface.getName());
-    assertEquals("wee", ((FModel) weeBarInterface.eContainer()).getName());
-
-    Assert.assertTrue(deploymentModel.isInterface(fooBarInterface));
-    Assert.assertFalse(deploymentModel.isInterface(weeBarInterface));
-  }
+        assertTrue(deploymentModel.isInterface(fooBarInterface))
+        assertFalse(deploymentModel.isInterface(weeBarInterface))
+    }
 }

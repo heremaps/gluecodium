@@ -17,111 +17,77 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.loader;
+package com.here.genium.loader
 
-import com.here.genium.common.ModelBuilderContextStack;
-import com.here.genium.test.MockContextStack;
-import org.franca.core.franca.FArgument;
-import org.franca.core.franca.FArrayType;
-import org.franca.core.franca.FAttribute;
-import org.franca.core.franca.FConstantDef;
-import org.franca.core.franca.FEnumerationType;
-import org.franca.core.franca.FEnumerator;
-import org.franca.core.franca.FField;
-import org.franca.core.franca.FInitializerExpression;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMapType;
-import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FStructType;
-import org.franca.core.franca.FTypeCollection;
-import org.franca.core.franca.FTypeDef;
-import org.franca.core.franca.FTypeRef;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import com.here.genium.common.ModelBuilderContextStack
+import com.here.genium.test.AssertHelpers.assertContains
+import com.here.genium.test.MockContextStack
+import org.franca.core.franca.FArgument
+import org.franca.core.franca.FArrayType
+import org.franca.core.franca.FAttribute
+import org.franca.core.franca.FConstantDef
+import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FEnumerator
+import org.franca.core.franca.FField
+import org.franca.core.franca.FInitializerExpression
+import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMapType
+import org.franca.core.franca.FMethod
+import org.franca.core.franca.FStructType
+import org.franca.core.franca.FTypeCollection
+import org.franca.core.franca.FTypeDef
+import org.franca.core.franca.FTypeRef
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
-@RunWith(JUnit4.class)
-public class AbstractModelBuilderTest {
+@RunWith(JUnit4::class)
+class AbstractModelBuilderTest {
 
-  private final Object resultObject = new Object();
+    private val resultObject = Any()
 
-  private final MockContextStack<Object> contextStack = new MockContextStack<>();
-  private final TestableModelBuilder modelBuilder = new TestableModelBuilder(contextStack);
+    private val contextStack = MockContextStack<Any>()
+    private val modelBuilder = TestableModelBuilder(contextStack)
 
-  private static class TestableModelBuilder extends AbstractModelBuilder<Object> {
-    TestableModelBuilder(ModelBuilderContextStack<Object> contextStack) {
-      super(contextStack);
+    private class TestableModelBuilder(contextStack: ModelBuilderContextStack<Any>) :
+        AbstractModelBuilder<Any>(contextStack) {
+
+        override fun finishBuilding(francaInterface: FInterface) {}
+        override fun finishBuilding(francaTypeCollection: FTypeCollection) {}
+        override fun finishBuilding(francaMethod: FMethod) {}
+        override fun finishBuildingInputArgument(francaArgument: FArgument) {}
+        override fun finishBuildingOutputArgument(francaArgument: FArgument) {}
+        override fun finishBuilding(francaTypeRef: FTypeRef) {}
+        override fun finishBuilding(francaConstant: FConstantDef) {}
+        override fun finishBuilding(francaField: FField) {}
+        override fun finishBuilding(francaStructType: FStructType) {}
+        override fun finishBuilding(francaTypeDef: FTypeDef) {}
+        override fun finishBuilding(francaArrayType: FArrayType) {}
+        override fun finishBuilding(francaMapType: FMapType) {}
+        override fun finishBuilding(francaEnumerationType: FEnumerationType) {}
+        override fun finishBuilding(francaEnumerator: FEnumerator) {}
+        override fun finishBuilding(francaExpression: FInitializerExpression) {}
+        override fun finishBuilding(francaAttribute: FAttribute) {}
     }
 
-    @Override
-    public void finishBuilding(FInterface francaInterface) {}
+    @Test
+    fun closeContextPropagatesResults() {
+        contextStack.currentContext.currentResults.add(resultObject)
 
-    @Override
-    public void finishBuilding(FTypeCollection francaTypeCollection) {}
+        modelBuilder.closeContext()
 
-    @Override
-    public void finishBuilding(FMethod francaMethod) {}
+        assertContains(resultObject, contextStack.parentContext.previousResults)
+    }
 
-    @Override
-    public void finishBuildingInputArgument(FArgument francaArgument) {}
+    @Test
+    fun closeContextAppendsResults() {
+        val anotherResultObject = Any()
+        contextStack.currentContext.currentResults.add(anotherResultObject)
+        contextStack.parentContext.previousResults.add(resultObject)
 
-    @Override
-    public void finishBuildingOutputArgument(FArgument francaArgument) {}
+        modelBuilder.closeContext()
 
-    @Override
-    public void finishBuilding(FTypeRef francaTypeRef) {}
-
-    @Override
-    public void finishBuilding(FConstantDef francaConstant) {}
-
-    @Override
-    public void finishBuilding(FField francaField) {}
-
-    @Override
-    public void finishBuilding(FStructType francaStructType) {}
-
-    @Override
-    public void finishBuilding(FTypeDef francaTypeDef) {}
-
-    @Override
-    public void finishBuilding(FArrayType francaArrayType) {}
-
-    @Override
-    public void finishBuilding(FMapType francaMapType) {}
-
-    @Override
-    public void finishBuilding(FEnumerationType francaEnumerationType) {}
-
-    @Override
-    public void finishBuilding(FEnumerator francaEnumerator) {}
-
-    @Override
-    public void finishBuilding(FInitializerExpression francaExpression) {}
-
-    @Override
-    public void finishBuilding(FAttribute francaAttribute) {}
-  }
-
-  @Test
-  public void closeContextPropagatesResults() {
-    contextStack.getCurrentContext().getCurrentResults().add(resultObject);
-
-    modelBuilder.closeContext();
-
-    Assert.assertTrue(contextStack.getParentContext().getPreviousResults().contains(resultObject));
-  }
-
-  @Test
-  public void closeContextAppendsResults() {
-    final Object anotherResultObject = new Object();
-    contextStack.getCurrentContext().getCurrentResults().add(anotherResultObject);
-    contextStack.getParentContext().getPreviousResults().add(resultObject);
-
-    modelBuilder.closeContext();
-
-    Assert.assertTrue(contextStack.getParentContext().getPreviousResults().contains(resultObject));
-    Assert.assertTrue(
-        contextStack.getParentContext().getPreviousResults().contains(anotherResultObject));
-  }
+        assertContains(resultObject, contextStack.parentContext.previousResults)
+        assertContains(anotherResultObject, contextStack.parentContext.previousResults)
+    }
 }
