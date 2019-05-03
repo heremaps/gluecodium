@@ -48,11 +48,11 @@
 using namespace std::chrono;
 
 _baseRef
-chrono_time_point_create_optional_handle( int64_t time_ns_epoch )
+chrono_time_point_create_optional_handle( double seconds_since_epoch )
 {
     return reinterpret_cast< _baseRef >(
         new ( std::nothrow ) {{>common/InternalNamespace}}optional< system_clock::time_point >(
-            system_clock::time_point( duration_cast< system_clock::duration >( nanoseconds( time_ns_epoch ) ) ) ) );
+            seconds_since_epoch_to_time_point( seconds_since_epoch ) ) );
 }
 
 void
@@ -61,9 +61,9 @@ chrono_time_point_release_optional_handle( _baseRef handle )
     delete reinterpret_cast<{{>common/InternalNamespace}}optional< system_clock::time_point >* >(handle);
 }
 
-int64_t
+double
 chrono_time_point_unwrap_optional_handle( _baseRef handle )
 {
     auto& time_point = **reinterpret_cast< {{>common/InternalNamespace}}optional< system_clock::time_point >* >( handle );
-    return duration_cast< nanoseconds >( time_point.time_since_epoch( ) ).count( );
+    return time_point_to_seconds_since_epoch( time_point );
 }

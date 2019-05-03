@@ -22,15 +22,14 @@
 
 #include "BaseHandle.h"
 #include "Export.h"
-#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-_GENIUM_C_EXPORT _baseRef chrono_time_point_create_optional_handle( int64_t time_ns_epoch );
+_GENIUM_C_EXPORT _baseRef chrono_time_point_create_optional_handle( double time_ns_epoch );
 _GENIUM_C_EXPORT void chrono_time_point_release_optional_handle( _baseRef handle );
-_GENIUM_C_EXPORT int64_t chrono_time_point_unwrap_optional_handle( _baseRef handle );
+_GENIUM_C_EXPORT double chrono_time_point_unwrap_optional_handle( _baseRef handle );
 
 #ifdef __cplusplus
 }

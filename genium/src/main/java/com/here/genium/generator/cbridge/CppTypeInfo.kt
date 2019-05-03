@@ -69,8 +69,8 @@ open class CppTypeInfo(
             )
         )
         val DATE = CppTypeInfo(name = "std::chrono::system_clock::time_point",
-            cType = CType.INT64,
-            functionReturnType = CType.INT64,
+            cType = CType.DOUBLE,
+            functionReturnType = CType.DOUBLE,
             typeCategory = TypeCategory.BUILTIN_DATE,
             includes = listOf(
                 CppLibraryIncludes.CHRONO,

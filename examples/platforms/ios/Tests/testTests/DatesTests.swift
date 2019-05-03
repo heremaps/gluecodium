@@ -29,7 +29,7 @@ class DatesTests: XCTestCase {
         Dates.dateAttribute = date
         let result = Dates.dateAttribute
 
-        XCTAssertEqual(result.timeIntervalSince1970, date.timeIntervalSince1970)
+        XCTAssertEqual(result.timeIntervalSince1970, date.timeIntervalSince1970, accuracy: 1e-6)
     }
 
     func testDateAttributeRoundTripRounding() {
@@ -38,7 +38,7 @@ class DatesTests: XCTestCase {
         Dates.dateAttribute = date
         let result = Dates.dateAttribute
 
-        XCTAssertEqual(result.timeIntervalSince1970, date.timeIntervalSince1970)
+        XCTAssertEqual(result.timeIntervalSince1970, date.timeIntervalSince1970, accuracy: 1e-6)
     }
 
     func testDateMethodRoundTrip() {
