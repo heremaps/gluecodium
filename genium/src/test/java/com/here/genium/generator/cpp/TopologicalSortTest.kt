@@ -17,222 +17,205 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp;
+package com.here.genium.generator.cpp
 
-import static org.junit.Assert.assertEquals;
+import com.here.genium.model.common.Include
+import com.here.genium.model.cpp.CppComplexTypeRef
+import com.here.genium.model.cpp.CppConstant
+import com.here.genium.model.cpp.CppElement
+import com.here.genium.model.cpp.CppEnum
+import com.here.genium.model.cpp.CppField
+import com.here.genium.model.cpp.CppStruct
+import com.here.genium.model.cpp.CppTypeDefRef
+import com.here.genium.model.cpp.CppTypeRef
+import com.here.genium.model.cpp.CppUsing
+import com.here.genium.model.cpp.CppValue
+import org.junit.Assert.assertEquals
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 
-import com.here.genium.model.common.Include;
-import com.here.genium.model.cpp.*;
-import java.util.*;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+@RunWith(Parameterized::class)
+class TopologicalSortTest(
+    @Suppress("UNUSED_PARAMETER") testName: String,
+    private val elements: List<CppElement>,
+    private val expectedOrder: List<Int>
+) {
 
-@RunWith(Parameterized.class)
-public class TopologicalSortTest {
-  private static final String TYPE_A = "A";
-  private static final String TYPE_B = "B";
-  private static final String TYPE_C = "C";
-  private static final String FIRST_STRUCT_NAME = "StructA";
-  private static final String SECOND_STRUCT_NAME = "StructB";
-  private static final String THIRD_STRUCT_NAME = "StructC";
+    @Test
+    fun checkOrder() {
+        val sortedElements = TopologicalSort(elements).sort()
 
-  private static final String ENUM_NAME = "Kind";
-  private static final String TYPE_DEF_NAME = "shortcut";
+        assertEquals(elements.size, sortedElements.size)
 
-  private static final CppEnum CPP_ENUM =
-      new CppEnum(ENUM_NAME, ENUM_NAME, false, Collections.emptyList());
-  private static final CppUsing CPP_USING = createUsing(TYPE_DEF_NAME, createComplex(TYPE_A));
-
-  private final List<CppElement> elements;
-  private final List<Integer> expectedOrder;
-
-  public TopologicalSortTest(
-      @SuppressWarnings("unused") final String testName,
-      final List<CppElement> elements,
-      final List<Integer> expectedOrder) {
-    this.elements = elements;
-    this.expectedOrder = expectedOrder;
-  }
-
-  @Parameterized.Parameters(name = "{0}")
-  public static Collection<Object[]> testData() {
-    return Arrays.asList(
-        new Object[][] {
-          {
-            "sortIndependentStructsKeepsSameOrder",
-            Arrays.asList(
-                createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
-                createCppStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)),
-            Arrays.asList(0, 1)
-          },
-          {
-            "sortDependentStructs",
-            Arrays.asList(
-                createCppStruct(FIRST_STRUCT_NAME, TYPE_A, SECOND_STRUCT_NAME),
-                createCppStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)),
-            Arrays.asList(1, 0)
-          },
-          {
-            "sortSortedDependentStructsKeepsSameOrder",
-            Arrays.asList(
-                createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
-                createCppStruct(SECOND_STRUCT_NAME, TYPE_B, FIRST_STRUCT_NAME)),
-            Arrays.asList(0, 1)
-          },
-          {
-            "sortMultipleStructsWithDependencies",
-            Arrays.asList(
-                createCppStruct(FIRST_STRUCT_NAME, SECOND_STRUCT_NAME, THIRD_STRUCT_NAME),
-                createCppStruct(SECOND_STRUCT_NAME, TYPE_B, THIRD_STRUCT_NAME),
-                createCppStruct(THIRD_STRUCT_NAME, TYPE_A, TYPE_B)),
-            Arrays.asList(2, 1, 0)
-          },
-          {
-            "sortEnumWithStructDependingOnIt",
-            Arrays.asList(createCppStruct(FIRST_STRUCT_NAME, TYPE_A, ENUM_NAME), CPP_ENUM),
-            Arrays.asList(1, 0)
-          },
-          {
-            "enumWithStructNotDependingOnItKeepsSameOrder",
-            Arrays.asList(createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B), CPP_ENUM),
-            Arrays.asList(0, 1)
-          },
-          {
-            "enumWithUsingDependingOnIt",
-            Arrays.asList(createUsing(TYPE_DEF_NAME, createComplex(ENUM_NAME)), CPP_ENUM),
-            Arrays.asList(1, 0)
-          },
-          {
-            "enumWithUsingNotDependingOnItKeepsSameOrder",
-            Arrays.asList(CPP_USING, CPP_ENUM),
-            Arrays.asList(0, 1)
-          },
-          {
-            "enumWithConstantDependingOnIt",
-            Arrays.asList(createConstant(ENUM_NAME), CPP_ENUM),
-            Arrays.asList(1, 0)
-          },
-          {
-            "enumWithConstantNotDependingOnItKeepsSameOrder",
-            Arrays.asList(createConstant(TYPE_A), CPP_ENUM),
-            Arrays.asList(0, 1)
-          },
-          {
-            "constantDependingOnStruct",
-            Arrays.asList(
-                createConstant(FIRST_STRUCT_NAME),
-                createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)),
-            Arrays.asList(1, 0)
-          },
-          {
-            "constantNotDependingOnStructKeepsSameOrder",
-            Arrays.asList(
-                createConstant(TYPE_A), createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)),
-            Arrays.asList(0, 1)
-          },
-          {
-            "constantDependingOnDefinition",
-            Arrays.asList(createConstantWithUsing(TYPE_DEF_NAME), CPP_USING),
-            Arrays.asList(1, 0)
-          },
-          {
-            "constantNotDependingOnDefinitionKeepsSameOrder",
-            Arrays.asList(createConstant(TYPE_B), CPP_USING),
-            Arrays.asList(0, 1)
-          },
-          {
-            "usingDependingOnUsing",
-            Arrays.asList(
-                createUsing(
-                    "anotherShortcut",
-                    new CppTypeDefRef(
-                        TYPE_DEF_NAME,
-                        Collections.singletonList(Include.Companion.createInternalInclude("foo")),
-                        createComplex(TYPE_A))),
-                CPP_USING),
-            Arrays.asList(1, 0)
-          },
-          {
-            "usingNotDependingOnUsingKeepsSameOrder",
-            Arrays.asList(CPP_USING, createUsing("anotherShortcut", createComplex(TYPE_B))),
-            Arrays.asList(0, 1)
-          },
-          {
-            "usingDependingOnStruct",
-            Arrays.asList(
-                createUsing(TYPE_DEF_NAME, createComplex(FIRST_STRUCT_NAME)),
-                createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)),
-            Arrays.asList(1, 0)
-          },
-          {
-            "usingNotDependingOnStructKeepsSameOrder",
-            Arrays.asList(
-                createUsing(TYPE_DEF_NAME, createComplex(TYPE_C)),
-                createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)),
-            Arrays.asList(0, 1)
-          },
-          {
-            "structDependingOnDefinition",
-            Arrays.asList(createCppStruct(FIRST_STRUCT_NAME, TYPE_DEF_NAME, TYPE_B), CPP_USING),
-            Arrays.asList(1, 0)
-          },
-          {
-            "structNotDependingOnDefinitionKeepsSameOrder",
-            Arrays.asList(
-                createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
-                createUsing(TYPE_DEF_NAME, createComplex(TYPE_C))),
-            Arrays.asList(0, 1)
-          }
-        });
-  }
-
-  private static CppComplexTypeRef createComplex(String name) {
-    return new CppComplexTypeRef(name, Collections.emptyList(), false, false);
-  }
-
-  private static CppStruct createCppStruct(String name, String firstType, String secondType) {
-    return new CppStruct(
-        name,
-        name,
-        "",
-        false,
-        Arrays.asList(
-            new CppField("x", createComplex(firstType), null, false, false, false),
-            new CppField("y", createComplex(secondType), null, false, false, false)),
-        false,
-        false);
-  }
-
-  private static CppUsing createUsing(final String name, final CppTypeRef typeRef) {
-    return new CppUsing(name, name, null, typeRef);
-  }
-
-  private static CppConstant createConstant(String typeName) {
-    return new CppConstant(
-        "fixed", "fixed", createComplex(typeName), new CppValue("", Collections.emptyList()));
-  }
-
-  private static CppConstant createConstantWithUsing(String typeName) {
-    return new CppConstant(
-        "fixed",
-        "fixed",
-        new CppTypeDefRef(
-            typeName,
-            Collections.singletonList(Include.Companion.createInternalInclude("foo")),
-            createComplex("nonsense")),
-        new CppValue("", Collections.emptyList()));
-  }
-
-  @Test
-  public void checkOrder() {
-    List<CppElement> sortedElements = new TopologicalSort(elements).sort();
-
-    assertEquals(elements.size(), sortedElements.size());
-
-    for (int i = 0; i < elements.size(); ++i) {
-      int index = expectedOrder.get(i);
-      assertEquals(elements.get(index), sortedElements.get(i));
+        for (i in elements.indices) {
+            val index = expectedOrder[i]
+            assertEquals(elements[index], sortedElements[i])
+        }
     }
-  }
+
+    companion object {
+        private const val TYPE_A = "A"
+        private const val TYPE_B = "B"
+        private const val TYPE_C = "C"
+        private const val FIRST_STRUCT_NAME = "StructA"
+        private const val SECOND_STRUCT_NAME = "StructB"
+        private const val THIRD_STRUCT_NAME = "StructC"
+
+        private const val ENUM_NAME = "Kind"
+        private const val TYPE_DEF_NAME = "shortcut"
+
+        private val CPP_ENUM = CppEnum(ENUM_NAME, ENUM_NAME, false, emptyList())
+        private val CPP_USING = createUsing(TYPE_DEF_NAME, CppComplexTypeRef(TYPE_A))
+
+        @JvmStatic
+        @Parameterized.Parameters(name = "{0}")
+        fun testData(): Collection<Array<Any>> {
+            return listOf(
+                arrayOf(
+                    "sortIndependentStructsKeepsSameOrder", listOf(
+                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
+                        createCppStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                    ), listOf(0, 1)
+                ), arrayOf(
+                    "sortDependentStructs", listOf(
+                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, SECOND_STRUCT_NAME),
+                        createCppStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                    ), listOf(1, 0)
+                ), arrayOf(
+                    "sortSortedDependentStructsKeepsSameOrder", listOf(
+                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
+                        createCppStruct(SECOND_STRUCT_NAME, TYPE_B, FIRST_STRUCT_NAME)
+                    ), listOf(0, 1)
+                ), arrayOf(
+                    "sortMultipleStructsWithDependencies", listOf(
+                        createCppStruct(
+                            FIRST_STRUCT_NAME,
+                            SECOND_STRUCT_NAME,
+                            THIRD_STRUCT_NAME
+                        ),
+                        createCppStruct(SECOND_STRUCT_NAME, TYPE_B, THIRD_STRUCT_NAME),
+                        createCppStruct(THIRD_STRUCT_NAME, TYPE_A, TYPE_B)
+                    ), listOf(2, 1, 0)
+                ), arrayOf(
+                    "sortEnumWithStructDependingOnIt",
+                    listOf(
+                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, ENUM_NAME),
+                        CPP_ENUM
+                    ),
+                    listOf(1, 0)
+                ), arrayOf(
+                    "enumWithStructNotDependingOnItKeepsSameOrder",
+                    listOf(createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B), CPP_ENUM),
+                    listOf(0, 1)
+                ), arrayOf(
+                    "enumWithUsingDependingOnIt",
+                    listOf(
+                        createUsing(TYPE_DEF_NAME, CppComplexTypeRef(ENUM_NAME)),
+                        CPP_ENUM
+                    ),
+                    listOf(1, 0)
+                ), arrayOf(
+                    "enumWithUsingNotDependingOnItKeepsSameOrder",
+                    listOf(CPP_USING, CPP_ENUM),
+                    listOf(0, 1)
+                ), arrayOf(
+                    "enumWithConstantDependingOnIt",
+                    listOf(createConstant(ENUM_NAME), CPP_ENUM),
+                    listOf(1, 0)
+                ), arrayOf(
+                    "enumWithConstantNotDependingOnItKeepsSameOrder",
+                    listOf(createConstant(TYPE_A), CPP_ENUM),
+                    listOf(0, 1)
+                ), arrayOf(
+                    "constantDependingOnStruct", listOf(
+                        createConstant(FIRST_STRUCT_NAME),
+                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                    ), listOf(1, 0)
+                ), arrayOf(
+                    "constantNotDependingOnStructKeepsSameOrder", listOf(
+                        createConstant(TYPE_A),
+                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                    ), listOf(0, 1)
+                ), arrayOf(
+                    "constantDependingOnDefinition",
+                    listOf(createConstantWithUsing(TYPE_DEF_NAME), CPP_USING),
+                    listOf(1, 0)
+                ), arrayOf(
+                    "constantNotDependingOnDefinitionKeepsSameOrder",
+                    listOf(createConstant(TYPE_B), CPP_USING),
+                    listOf(0, 1)
+                ), arrayOf(
+                    "usingDependingOnUsing", listOf(
+                        createUsing(
+                            "anotherShortcut",
+                            CppTypeDefRef(
+                                TYPE_DEF_NAME,
+                                listOf(Include.createInternalInclude("foo")),
+                                CppComplexTypeRef(TYPE_A)
+                            )
+                        ),
+                        CPP_USING
+                    ), listOf(1, 0)
+                ), arrayOf(
+                    "usingNotDependingOnUsingKeepsSameOrder",
+                    listOf(
+                        CPP_USING,
+                        createUsing("anotherShortcut", CppComplexTypeRef(TYPE_B))
+                    ),
+                    listOf(0, 1)
+                ), arrayOf(
+                    "usingDependingOnStruct", listOf(
+                        createUsing(TYPE_DEF_NAME, CppComplexTypeRef(FIRST_STRUCT_NAME)),
+                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                    ), listOf(1, 0)
+                ), arrayOf(
+                    "usingNotDependingOnStructKeepsSameOrder", listOf(
+                        createUsing(TYPE_DEF_NAME, CppComplexTypeRef(TYPE_C)),
+                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                    ), listOf(0, 1)
+                ), arrayOf(
+                    "structDependingOnDefinition",
+                    listOf(
+                        createCppStruct(FIRST_STRUCT_NAME, TYPE_DEF_NAME, TYPE_B),
+                        CPP_USING
+                    ),
+                    listOf(1, 0)
+                ), arrayOf(
+                    "structNotDependingOnDefinitionKeepsSameOrder", listOf(
+                        createCppStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
+                        createUsing(TYPE_DEF_NAME, CppComplexTypeRef(TYPE_C))
+                    ), listOf(0, 1)
+                )
+            )
+        }
+
+        private fun createCppStruct(name: String, firstType: String, secondType: String) =
+            CppStruct(
+                name = name,
+                fullyQualifiedName = name,
+                fields = listOf(
+                    CppField("x", CppComplexTypeRef(firstType)),
+                    CppField("y", CppComplexTypeRef(secondType))
+                )
+            )
+
+        private fun createUsing(name: String, typeRef: CppTypeRef) =
+            CppUsing(name = name, fullyQualifiedName = name, definition = typeRef)
+
+        private fun createConstant(typeName: String) =
+            CppConstant("fixed", "fixed", CppComplexTypeRef(typeName), CppValue(""))
+
+        private fun createConstantWithUsing(typeName: String) =
+            CppConstant(
+                "fixed",
+                "fixed",
+                CppTypeDefRef(
+                    typeName,
+                    listOf(Include.createInternalInclude("foo")),
+                    CppComplexTypeRef("nonsense")
+                ),
+                CppValue("")
+            )
+    }
 }
