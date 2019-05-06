@@ -191,7 +191,7 @@ class JniModelBuilderTest {
     fun finishBuildingTypeCollectionReadsStructs() {
         val limeElement =
             LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.TYPE_COLLECTION)
-        val jniStruct = JniStruct(javaClass, cppStruct, null)
+        val jniStruct = JniStruct(javaClass, cppStruct, emptyList())
         contextStack.injectResult(jniStruct)
 
         modelBuilder.finishBuilding(limeElement)
@@ -584,6 +584,6 @@ class JniModelBuilderTest {
     }
 
     companion object {
-        private final val INTERNAL_NAMESPACE = listOf("very", "internal")
+        private val INTERNAL_NAMESPACE = listOf("very", "internal")
     }
 }

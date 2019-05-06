@@ -17,23 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.jni;
+package com.here.genium.model.jni
 
-import com.here.genium.model.cpp.CppStruct;
-import com.here.genium.model.java.JavaClass;
-import java.util.List;
+import com.here.genium.model.cpp.CppStruct
+import com.here.genium.model.java.JavaClass
 
-public class JniStruct extends JniTopLevelElement {
-
-  public final JavaClass javaClass;
-  public final CppStruct cppStruct;
-  public final List<JniField> fields;
-
-  public JniStruct(
-      final JavaClass javaClass, final CppStruct cppStruct, final List<JniField> fields) {
-    super(javaClass.javaPackage);
-    this.javaClass = javaClass;
-    this.cppStruct = cppStruct;
-    this.fields = fields;
-  }
-}
+class JniStruct(
+    val javaClass: JavaClass,
+    val cppStruct: CppStruct,
+    val fields: List<JniField>
+) : JniTopLevelElement(javaClass.javaPackage)
