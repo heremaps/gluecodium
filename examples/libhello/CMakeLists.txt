@@ -390,6 +390,14 @@ feature(StructsWithMethods cpp android swift SOURCES
     fidl/test/StructsWithMethods.fdepl
 )
 
+feature(Comments cpp android swift SOURCES
+    src/test/Comments.cpp
+
+    fidl/test/Comments.fidl
+    fidl/test/Comments.fdepl
+    fidl/test/CommentsInterface.fidl
+    fidl/test/CommentsInterface.fdepl
+)
 
 if(APPLE)
     #This feature is intended for Swift only. It also does not compile outside of Apple platforms.
