@@ -57,6 +57,7 @@ let allTests = [
     testCase(StaticFloatDoubleMethodsTests.allTests),
     testCase(StaticIntMethodsTests.allTests),
     testCase(StaticStringMethodsTests.allTests),
+    testCase(StructsWithMethodsTests.allTests),
     testCase(StructWithInstanceTests.allTests),
     testCase(TypeDefTests.allTests)
 ]
