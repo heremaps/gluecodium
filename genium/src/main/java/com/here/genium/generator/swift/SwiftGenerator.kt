@@ -27,23 +27,19 @@ import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.swift.SwiftFile
 import com.here.genium.platform.common.GeneratorSuite
-import java.util.HashSet
 
-class SwiftGenerator(limeReferenceMap: Map<String, LimeElement>) {
+class SwiftGenerator(private val limeReferenceMap: Map<String, LimeElement>) {
     val arrayGenerator = SwiftArrayGenerator()
     val mapGenerator = SwiftMapGenerator()
     val builtinOptionalsGenerator = SwiftBuiltinOptionalsGenerator()
-    val enumsAsErrors = HashSet<String>()
+    private val enumsAsErrors = mutableSetOf<String>()
     private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
     private val nameResolver = SwiftNameResolver(limeReferenceMap)
     private val typeMapper = SwiftTypeMapper(nameResolver)
 
     fun generateModel(limeContainer: LimeContainer): SwiftModel {
-        val modelBuilder = SwiftModelBuilder(
-            signatureResolver,
-            nameResolver,
-            typeMapper
-        )
+        val modelBuilder =
+            SwiftModelBuilder(limeReferenceMap, signatureResolver, nameResolver, typeMapper)
         val treeWalker = LimeTreeWalker(listOf(modelBuilder))
 
         treeWalker.walkTree(limeContainer)
@@ -52,7 +48,10 @@ class SwiftGenerator(limeReferenceMap: Map<String, LimeElement>) {
         mapGenerator.collect(modelBuilder.mapCollector)
         enumsAsErrors.addAll(modelBuilder.enumsAsErrors)
 
-        return SwiftModel(modelBuilder.referenceMap, setOf(modelBuilder.getFinalResult(SwiftFile::class.java)))
+        return SwiftModel(
+            modelBuilder.referenceMap,
+            setOf(modelBuilder.getFinalResult(SwiftFile::class.java))
+        )
     }
 
     fun generateErrors() =

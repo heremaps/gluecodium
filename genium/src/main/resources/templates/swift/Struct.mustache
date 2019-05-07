@@ -42,6 +42,11 @@
         {{name}} = {{type.className}}moveFromCType({{cPrefix}}_{{name}}_get(cHandle))
 {{/fields}}
     }
-{{/if}}
+{{/if}}{{!!
+}}{{#if methods}}
+
+{{#set selfIsStruct=true}}{{#methods}}
+{{prefixPartial 'swift/Method' '    '}}
+{{/methods}}{{/set}}{{/if}}
 }
 {{+initParameter}}{{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}{{#if defaultValue}} = {{defaultValue}}{{/if}}{{/initParameter}}

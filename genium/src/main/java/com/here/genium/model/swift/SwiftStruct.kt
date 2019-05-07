@@ -26,12 +26,15 @@ class SwiftStruct(
     name: String,
     cPrefix: String = "",
     visibility: SwiftVisibility? = null,
-    category: SwiftType.TypeCategory = SwiftType.TypeCategory.STRUCT,
+    category: TypeCategory = TypeCategory.STRUCT,
     val isInterface: Boolean = false,
     publicName: String? = null,
     optional: Boolean = false,
     val isEquatable: Boolean = false,
-    val isImmutable: Boolean = false
+    val isImmutable: Boolean = false,
+    val fields: List<SwiftField> = emptyList(),
+    val constants: List<SwiftConstant> = emptyList(),
+    val methods: List<SwiftMethod> = emptyList()
 ) : SwiftType(
     name,
     cPrefix,
@@ -40,11 +43,9 @@ class SwiftStruct(
     publicName ?: name,
     optional
 ) {
-    val fields = mutableListOf<SwiftField>()
-    val constants = mutableListOf<SwiftConstant>()
 
     override fun withAlias(aliasName: String): SwiftType {
-        val container = SwiftStruct(
+        val swiftStruct = SwiftStruct(
             name,
             cPrefix,
             visibility,
@@ -53,11 +54,13 @@ class SwiftStruct(
             aliasName,
             optional,
             isEquatable,
-            isImmutable
+            isImmutable,
+            fields,
+            constants,
+            methods
         )
-        container.comment = this.comment
-        container.fields.addAll(fields)
-        return container
+        swiftStruct.comment = this.comment
+        return swiftStruct
     }
 
     override fun withOptional(optional: Boolean): SwiftType {
@@ -74,11 +77,12 @@ class SwiftStruct(
             publicName,
             optional,
             isEquatable,
-            isImmutable
+            isImmutable,
+            fields,
+            constants,
+            methods
         )
         swiftStruct.comment = comment
-        swiftStruct.fields.addAll(fields)
-
         return swiftStruct
     }
 

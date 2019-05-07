@@ -90,7 +90,8 @@ class SwiftModelBuilderTest {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        modelBuilder = SwiftModelBuilder(contextStack, signatureResolver, nameResolver, typeMapper)
+        modelBuilder =
+            SwiftModelBuilder(contextStack, emptyMap(), signatureResolver, nameResolver, typeMapper)
 
         every { nameResolver.getFullName(any()) } returns "nonsense"
     }
@@ -313,6 +314,18 @@ class SwiftModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(SwiftStruct::class.java)
         assertContains(swiftField, result.fields)
+    }
+
+    @Test
+    fun finishBuildingStructReadsMethods() {
+        val limeElement = LimeStruct(fooPath)
+        val swiftMethod = SwiftMethod("")
+        contextStack.injectResult(swiftMethod)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(SwiftStruct::class.java)
+        assertContains(swiftMethod, result.methods)
     }
 
     @Test

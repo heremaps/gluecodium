@@ -75,7 +75,8 @@ class SwiftModelBuilderContainerTest {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        modelBuilder = SwiftModelBuilder(contextStack, signatureResolver, nameResolver, typeMapper)
+        modelBuilder =
+            SwiftModelBuilder(contextStack, emptyMap(), signatureResolver, nameResolver, typeMapper)
 
         every { nameResolver.getFullName(any()) } returns "nonsense"
     }

@@ -28,6 +28,7 @@ import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
@@ -64,6 +65,7 @@ import com.here.genium.model.swift.SwiftVisibility
 class SwiftModelBuilder @VisibleForTesting
 internal constructor(
     contextStack: ModelBuilderContextStack<SwiftModelElement>,
+    private val limeReferenceMap: Map<String, LimeElement>,
     private val signatureResolver: LimeSignatureResolver,
     private val nameResolver: SwiftNameResolver,
     private val typeMapper: SwiftTypeMapper
@@ -75,11 +77,13 @@ internal constructor(
     val referenceMap = mutableMapOf<String, SwiftModelElement>()
 
     constructor(
+        limeReferenceMap: Map<String, LimeElement>,
         signatureResolver: LimeSignatureResolver,
         nameResolver: SwiftNameResolver,
         typeMapper: SwiftTypeMapper
     ) : this(
         ModelBuilderContextStack<SwiftModelElement>(),
+        limeReferenceMap,
         signatureResolver,
         nameResolver,
         typeMapper
@@ -109,12 +113,12 @@ internal constructor(
         file.dictionaries.addAll(getPreviousResults(SwiftDictionary::class.java))
 
         val constants = getPreviousResults(SwiftConstant::class.java)
-        if (!constants.isEmpty()) {
+        if (constants.isNotEmpty()) {
             val swiftStruct = SwiftStruct(
                 name = SwiftNameRules.getTypeName(limeContainer.name),
-                visibility = getVisibility(limeContainer)
+                visibility = getVisibility(limeContainer),
+                constants = constants
             )
-            swiftStruct.constants.addAll(constants)
             file.structs.add(swiftStruct)
         }
 
@@ -212,6 +216,7 @@ internal constructor(
             SwiftEnum(swiftEnumName)
         }
 
+        val limeParent = limeReferenceMap[limeMethod.path.parent.toString()]
         val method = SwiftMethod(
             SwiftNameRules.getMethodName(limeMethod.name),
             getVisibility(limeMethod),
@@ -219,7 +224,7 @@ internal constructor(
             returnType,
             limeMethod.returnType.comment,
             CBridgeNameRules.getNestedSpecifierString(limeMethod),
-            CBridgeNameRules.getShortMethodName(limeMethod),
+            CBridgeNameRules.getShortMethodName(limeParent, limeMethod),
             errorType,
             limeMethod.isStatic || isConstructor,
             isConstructor,
@@ -249,11 +254,11 @@ internal constructor(
             cPrefix = CBridgeNameRules.getStructBaseName(limeStruct),
             visibility = getVisibility(limeStruct),
             isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
-            isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)
+            isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
+            fields = getPreviousResults(SwiftField::class.java),
+            methods = getPreviousResults(SwiftMethod::class.java)
         )
         swiftStruct.comment = limeStruct.comment
-
-        swiftStruct.fields.addAll(getPreviousResults(SwiftField::class.java))
 
         storeNamedResult(limeStruct.fullName, swiftStruct)
         closeContext()
