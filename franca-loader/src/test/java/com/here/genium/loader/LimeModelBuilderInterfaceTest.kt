@@ -54,6 +54,7 @@ import org.franca.core.franca.FAttribute
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
+import org.franca.core.franca.FStructType
 import org.franca.core.franca.FTypeRef
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -70,9 +71,11 @@ class LimeModelBuilderInterfaceTest {
     @MockK private lateinit var francaMethod: FMethod
     @MockK private lateinit var francaArgument: FArgument
     @MockK private lateinit var francaAttribute: FAttribute
+    @MockK private lateinit var francaStruct: FStructType
 
     @MockK private lateinit var deploymentModel: FrancaDeploymentModel
     @MockK private lateinit var referenceResolver: LimeReferenceResolver
+    @MockK private lateinit var companionHelper: FrancaCompanionHelper
 
     private val limeTypeRef = LimeBasicTypeRef.DOUBLE
     private val limeValue = LimeValue.Literal(limeTypeRef, "")
@@ -95,24 +98,25 @@ class LimeModelBuilderInterfaceTest {
         mockkStatic(SpecialTypeRules::class, StringValueMapper::class)
         mockkObject(CommentHelper)
 
-        modelBuilder = LimeModelBuilder(
-            contextStack,
-            deploymentModel,
-            referenceResolver
-        )
+        modelBuilder =
+            LimeModelBuilder(contextStack, deploymentModel, referenceResolver, companionHelper)
 
         every { CommentHelper.getDescription(any()) } returns "some comment"
+        every { referenceResolver.referenceMap } returns emptyMap()
+        every { companionHelper.getStructForCompanion(any()) } returns null
 
         every { francaModel.name } returns "the.model"
         every { francaInterface.name } returns "SomeInterface"
         every { francaMethod.name } returns "SomeMethod"
         every { francaArgument.name } returns "SomeArg"
         every { francaAttribute.name } returns "SomeAttribute"
+        every { francaStruct.name } returns "SomeStruct"
 
         every { francaInterface.eContainer() } returns francaModel
         every { francaMethod.eContainer() } returns francaInterface
         every { francaArgument.eContainer() } returns francaMethod
         every { francaAttribute.eContainer() } returns francaInterface
+        every { francaStruct.eContainer() } returns francaInterface
 
         every { francaMethod.selector } returns null
     }
@@ -225,6 +229,16 @@ class LimeModelBuilderInterfaceTest {
         assertEquals("SomeMethod", result.name)
         assertEquals("the.model.SomeInterface.SomeMethod", result.fullName)
         assertEquals("some comment", result.comment)
+    }
+
+    @Test
+    fun finishBuildingCompanionMethod() {
+        every { companionHelper.getStructForCompanion(francaInterface) } returns francaStruct
+
+        modelBuilder.finishBuilding(francaMethod)
+
+        val result = modelBuilder.getFinalResult(LimeMethod::class.java)
+        assertEquals("the.model.SomeInterface.SomeStruct.SomeMethod", result.fullName)
     }
 
     @Test

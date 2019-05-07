@@ -87,6 +87,7 @@ class LimeModelBuilderTest {
 
     @MockK private lateinit var deploymentModel: FrancaDeploymentModel
     @MockK private lateinit var referenceResolver: LimeReferenceResolver
+    @MockK private lateinit var companionHelper: FrancaCompanionHelper
 
     private val limeTypeRef = LimeBasicTypeRef.DOUBLE
     private val limeValue = LimeValue.Literal(limeTypeRef, "")
@@ -108,11 +109,8 @@ class LimeModelBuilderTest {
         mockkStatic(SpecialTypeRules::class, StringValueMapper::class)
         mockkObject(CommentHelper)
 
-        modelBuilder = LimeModelBuilder(
-            contextStack,
-            deploymentModel,
-            referenceResolver
-        )
+        modelBuilder =
+            LimeModelBuilder(contextStack, deploymentModel, referenceResolver, companionHelper)
 
         every { CommentHelper.getDescription(any()) } returns "some comment"
 

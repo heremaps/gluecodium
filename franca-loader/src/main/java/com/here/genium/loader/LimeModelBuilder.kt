@@ -76,13 +76,15 @@ import org.franca.core.franca.FUnaryOperation
 class LimeModelBuilder @VisibleForTesting internal constructor(
     contextStack: ModelBuilderContextStack<LimeElement>,
     private val deploymentModel: FrancaDeploymentModel,
-    private val referenceResolver: LimeReferenceResolver
+    private val referenceResolver: LimeReferenceResolver,
+    private val companionHelper: FrancaCompanionHelper
 ) : AbstractModelBuilder<LimeElement>(contextStack) {
 
     constructor(
         deploymentModel: FrancaDeploymentModel,
-        referenceResolver: LimeReferenceResolver
-    ) : this(ModelBuilderContextStack(), deploymentModel, referenceResolver)
+        referenceResolver: LimeReferenceResolver,
+        companionHelper: FrancaCompanionHelper
+    ) : this(ModelBuilderContextStack(), deploymentModel, referenceResolver, companionHelper)
 
     override fun finishBuilding(francaInterface: FInterface) {
         val attributes = LimeAttributes.Builder()
@@ -425,11 +427,15 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
 
     private fun createElementPath(francaElement: FModelElement): LimePath {
         val elementPath = FrancaTypeHelper.getElementPath(francaElement)
-        val head = elementPath.first().split('.')
-        val tail = elementPath.take(elementPath.size - 1).takeLast(elementPath.size - 2)
-        val nameParts = elementPath.last().split(':')
-        val disambiguationSuffix = if (nameParts.size > 1) nameParts.last() else ""
-        return LimePath(head, tail + nameParts.first(), disambiguationSuffix)
+        return LimePath(elementPath.first().split('.'), elementPath.drop(1))
+    }
+
+    private fun createElementPath(francaMethod: FMethod): LimePath {
+        val parentInterface = francaMethod.eContainer() as FInterface
+        val parentElement =
+            companionHelper.getStructForCompanion(parentInterface) ?: parentInterface
+        val parentPath = createElementPath(parentElement)
+        return parentPath.child(francaMethod.name, francaMethod.selector ?: "")
     }
 
     private fun registerArrayType(elementTypeKey: String): String {

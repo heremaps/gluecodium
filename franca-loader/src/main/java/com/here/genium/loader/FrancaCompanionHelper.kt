@@ -30,9 +30,11 @@ class FrancaCompanionHelper(
     deploymentModel: FrancaDeploymentModel
 ) {
     private val structKeyToCompanionMap: Map<String, FInterface>
+    private val companionKeyToStructMap: Map<String, FStructType>
 
     init {
         val companionMap = mutableMapOf<String, FInterface>()
+        val structMap = mutableMapOf<String, FStructType>()
 
         val interfaceKeyToInterface = typeCollections
             .filterIsInstance<FInterface>()
@@ -45,15 +47,20 @@ class FrancaCompanionHelper(
                 if (companion != null) {
                     val structKey = FrancaTypeHelper.getFullName(francaStruct)
                     companionMap[structKey] = companion
+                    structMap[companionKey] = francaStruct
                 }
             }
         }
 
         structKeyToCompanionMap = companionMap
+        companionKeyToStructMap = structMap
     }
 
     fun getCompanion(francaStruct: FStructType) =
         structKeyToCompanionMap[FrancaTypeHelper.getFullName(francaStruct)]
 
     fun getAllCompanions() = structKeyToCompanionMap.values
+
+    fun getStructForCompanion(companionInterface: FInterface) =
+        companionKeyToStructMap[FrancaTypeHelper.getFullName(companionInterface)]
 }

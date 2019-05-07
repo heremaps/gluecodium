@@ -33,7 +33,8 @@ class LimePath(
     val parent: LimePath
         get() = LimePath(head, tail.take(tail.size - 1))
 
-    fun child(childName: String) = LimePath(head, tail + childName)
+    fun child(childName: String, disambiguationSuffix: String = "") =
+        LimePath(head, tail + childName, disambiguationSuffix)
 
     override fun toString() = (head + tail).joinToString(separator = ".") + disambiguationSuffix
 

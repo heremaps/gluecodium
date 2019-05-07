@@ -71,13 +71,11 @@ object FrancaBasedLimeModelLoader : LimeModelLoader {
         val francaModel = loadFrancaModel(fileNames)
 
         val limeReferenceResolver = LimeReferenceResolver()
-        val limeModelBuilder = LimeModelBuilder(
-            francaModel.deploymentModel,
-            limeReferenceResolver
-        )
-
         val companionHelper =
             FrancaCompanionHelper(francaModel.typeCollections, francaModel.deploymentModel)
+        val limeModelBuilder =
+            LimeModelBuilder(francaModel.deploymentModel, limeReferenceResolver, companionHelper)
+
         val filteredTypeCollections =
             francaModel.typeCollections - companionHelper.getAllCompanions()
         val francaTreeWalker = FrancaTreeWalker(listOf(limeModelBuilder), companionHelper)

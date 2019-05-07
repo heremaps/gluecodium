@@ -54,6 +54,7 @@ class LimeModelBuilderDefaultValuesTest {
 
     @MockK private lateinit var deploymentModel: FrancaDeploymentModel
     @MockK private lateinit var referenceResolver: LimeReferenceResolver
+    @MockK private lateinit var companionHelper: FrancaCompanionHelper
 
     private val limeTypeRef = LimeBasicTypeRef.DOUBLE
 
@@ -66,11 +67,8 @@ class LimeModelBuilderDefaultValuesTest {
         MockKAnnotations.init(this, relaxed = true)
         mockkObject(CommentHelper)
 
-        modelBuilder = LimeModelBuilder(
-            contextStack,
-            deploymentModel,
-            referenceResolver
-        )
+        modelBuilder =
+            LimeModelBuilder(contextStack, deploymentModel, referenceResolver, companionHelper)
 
         every { CommentHelper.getDescription(any()) } returns "some comment"
 
