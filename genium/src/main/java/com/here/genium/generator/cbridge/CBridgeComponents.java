@@ -43,8 +43,8 @@ public final class CBridgeComponents {
       includes.addAll(collectFunctionBodyIncludes(function));
     }
     for (CStruct struct : cInterface.structs) {
-      includes.addAll(struct.mappedType.getIncludes());
-      for (CField field : struct.fields) {
+      includes.addAll(struct.getMappedType().getIncludes());
+      for (CField field : struct.getFields()) {
         includes.addAll(field.getType().getIncludes());
       }
     }
@@ -64,7 +64,7 @@ public final class CBridgeComponents {
   public static Collection<Include> collectPrivateHeaderIncludes(CInterface cInterface) {
     Collection<Include> includes = new LinkedList<>();
     for (CStruct struct : cInterface.structs) {
-      includes.addAll(struct.mappedType.getIncludes());
+      includes.addAll(struct.getMappedType().getIncludes());
     }
     if (cInterface.selfType != null) {
       includes.addAll(cInterface.selfType.getIncludes());
@@ -80,7 +80,7 @@ public final class CBridgeComponents {
       includes.addAll(collectFunctionSignatureIncludes(function));
     }
     for (CStruct struct : cInterface.structs) {
-      for (CField field : struct.fields) {
+      for (CField field : struct.getFields()) {
         includes.addAll(field.getType().getFunctionReturnType().includes);
         includes.addAll(field.getType().getCType().includes);
       }

@@ -17,31 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge;
+package com.here.genium.model.cbridge
 
-import com.here.genium.generator.cbridge.CppTypeInfo;
-import java.util.LinkedList;
-import java.util.List;
+import com.here.genium.generator.cbridge.CppTypeInfo
 
-public final class CStruct extends CType {
+class CStruct(
+    name: String,
+    val baseApiName: String,
+    val mappedType: CppTypeInfo,
+    val hasImmutableFields: Boolean = false,
+    val fields: List<CField> = emptyList()
+) : CType(name) {
 
-  public final String baseApiName;
-  public final CppTypeInfo mappedType;
-  public final List<CField> fields = new LinkedList<>();
-  public final boolean hasImmutableFields;
-
-  public CStruct(
-      final String name,
-      final String baseApiName,
-      final CppTypeInfo mappedType,
-      final boolean hasImmutableFields) {
-    super(name);
-    this.baseApiName = baseApiName;
-    this.mappedType = mappedType;
-    this.hasImmutableFields = hasImmutableFields;
-  }
-
-  public String getType() {
-    return mappedType.getFunctionReturnType().toString();
-  }
+    val type = mappedType.functionReturnType.toString()
 }

@@ -209,9 +209,9 @@ internal constructor(
             CBridgeNameRules.getStructBaseName(limeStruct),
             cppStruct.fullyQualifiedName,
             typeMapper.createCustomTypeInfo(limeStruct, CppTypeInfo.TypeCategory.STRUCT),
-            cppStruct.hasImmutableFields
+            cppStruct.hasImmutableFields,
+            getPreviousResults(CField::class.java)
         )
-        cStruct.fields.addAll(getPreviousResults(CField::class.java))
 
         storeResult(cStruct)
         closeContext()
