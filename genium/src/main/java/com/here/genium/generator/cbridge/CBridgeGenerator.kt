@@ -97,15 +97,10 @@ class CBridgeGenerator(
     }
 
     private fun buildCBridgeModel(limeContainer: LimeContainer): CInterface {
-        val cppTypeMapper =
-            CppTypeMapper(cppNameResolver, cppIncludeResolver, internalNamespace)
-        val cppBuilder =
-            CppModelBuilder(cppTypeMapper, cppNameResolver)
-        val swiftBuilder = SwiftModelBuilder(
-            signatureResolver,
-            nameResolver,
-            swiftTypeMapper
-        )
+        val cppTypeMapper = CppTypeMapper(cppNameResolver, cppIncludeResolver, internalNamespace)
+        val cppBuilder = CppModelBuilder(cppTypeMapper, cppNameResolver)
+        val swiftBuilder =
+            SwiftModelBuilder(limeReferenceMap, signatureResolver, nameResolver, swiftTypeMapper)
         val typeMapper = CBridgeTypeMapper(
             cppIncludeResolver,
             cppNameResolver,

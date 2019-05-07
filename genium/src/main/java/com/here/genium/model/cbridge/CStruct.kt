@@ -26,7 +26,8 @@ class CStruct(
     val baseApiName: String,
     val mappedType: CppTypeInfo,
     val hasImmutableFields: Boolean = false,
-    val fields: List<CField> = emptyList()
+    val fields: List<CField> = emptyList(),
+    val methods: List<CFunction> = emptyList()
 ) : CType(name) {
 
     val type = mappedType.functionReturnType.toString()

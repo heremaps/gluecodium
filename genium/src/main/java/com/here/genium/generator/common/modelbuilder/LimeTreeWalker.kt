@@ -115,6 +115,7 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
             )
             initTreeNode(
                 LimeStruct::class.java,
+                LimeBasedModelBuilder::startBuilding,
                 LimeBasedModelBuilder::finishBuilding,
                 LimeTreeWalker::walkChildNodes
             )

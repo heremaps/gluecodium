@@ -167,6 +167,19 @@ class CBridgeModelBuilderTest {
     }
 
     @Test
+    fun startBuildingStruct() {
+        val limeElement = LimeStruct(EMPTY_PATH)
+        every {
+            typeMapper.createCustomTypeInfo(limeElement, CppTypeInfo.TypeCategory.STRUCT)
+        } returns cppTypeInfo
+
+        modelBuilder.startBuilding(limeElement)
+
+        val result = contextStack.currentContext.currentResults.first()
+        assertEquals(cppTypeInfo, result)
+    }
+
+    @Test
     fun finishBuildingContainer() {
         every { includeResolver.resolveInclude(limeContainer) } returns fooInclude
 
@@ -381,9 +394,7 @@ class CBridgeModelBuilderTest {
         val limeElement = LimeStruct(LimePath(emptyList(), listOf("foo", "bar")))
         val cppStruct = CppStruct("Baz")
         every { cppModelBuilder.getFinalResult(CppStruct::class.java) } returns cppStruct
-        every {
-            typeMapper.createCustomTypeInfo(limeElement, CppTypeInfo.TypeCategory.STRUCT)
-        } returns cppTypeInfo
+        contextStack.injectCurrentResult(cppTypeInfo)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -399,6 +410,7 @@ class CBridgeModelBuilderTest {
         val cField = CField("", "", cppTypeInfo)
         contextStack.injectResult(cField)
         every { cppModelBuilder.getFinalResult(CppStruct::class.java) } returns CppStruct("")
+        contextStack.injectCurrentResult(cppTypeInfo)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -407,11 +419,26 @@ class CBridgeModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingStructReadsMethods() {
+        val limeElement = LimeStruct(LimePath(emptyList(), listOf("foo")))
+        val cFunction = CFunction("bar")
+        contextStack.injectResult(cFunction)
+        every { cppModelBuilder.getFinalResult(CppStruct::class.java) } returns CppStruct("")
+        contextStack.injectCurrentResult(cppTypeInfo)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(CStruct::class.java)
+        assertContains(cFunction, result.methods)
+    }
+
+    @Test
     fun finishBuildingStructReadsImmutableFields() {
         val limeElement = LimeStruct(LimePath(emptyList(), listOf("foo")))
         every {
             cppModelBuilder.getFinalResult(CppStruct::class.java)
         } returns CppStruct("", isImmutable = true)
+        contextStack.injectCurrentResult(cppTypeInfo)
 
         modelBuilder.finishBuilding(limeElement)
 

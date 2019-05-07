@@ -21,8 +21,10 @@ package com.here.genium.generator.cbridge
 
 import com.here.genium.generator.common.NameHelper
 import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeNamedElement
+import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
 import java.nio.file.Paths
 
@@ -53,13 +55,18 @@ object CBridgeNameRules {
 
     fun getInterfaceName(limeContainer: LimeContainer) = getNestedSpecifierString(limeContainer)
 
-    fun getShortMethodName(limeMethod: LimeMethod) =
-        NameHelper.toLowerCamelCase(limeMethod.name) +
-            if (!limeMethod.path.disambiguationSuffix.isEmpty()) {
+    fun getShortMethodName(limeParent: LimeElement?, limeMethod: LimeMethod): String {
+        val prefix = when (limeParent) {
+            is LimeStruct -> getName(limeParent) + UNDERSCORE_DELIMITER
+            else -> ""
+        }
+        val suffix = when {
+            limeMethod.path.disambiguationSuffix.isNotEmpty() ->
                 UNDERSCORE_DELIMITER + limeMethod.path.disambiguationSuffix
-            } else {
-                ""
-            }
+            else -> ""
+        }
+        return prefix + NameHelper.toLowerCamelCase(limeMethod.name) + suffix
+    }
 
     fun getStructBaseName(limeType: LimeType) =
         joinQualifiedName(

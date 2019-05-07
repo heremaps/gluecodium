@@ -18,6 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>cbridge/FunctionReturnType}}{{$functionName}} {{name}}{{/functionName}}({{#selfParameter}}{{>signatureParameter}}{{#if parameters}}, {{/if}}{{/selfParameter}}{{joinPartial parameters "signatureParameter" ", "}}){{!!
+{{>cbridge/FunctionReturnType}} {{name}}({{#selfParameter}}{{>signatureParameter}}{{#if parameters}}, {{/if}}{{/selfParameter}}{{joinPartial parameters "signatureParameter" ", "}}){{!!
 
 }}{{+signatureParameter}}{{mappedType.cType}} {{name}}{{/signatureParameter}}

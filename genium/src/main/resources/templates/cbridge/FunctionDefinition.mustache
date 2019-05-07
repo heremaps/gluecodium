@@ -49,7 +49,10 @@
 
 
 }}{{+callBaseApi}}{{!!
-}}{{^selfParameter}}{{delegateCall}}{{/selfParameter}}{{#selfParameter}}get_pointer<{{selfParameter.mappedType.name}}>({{name}})->get()->{{functionName}}{{/selfParameter}}({{joinPartial parameters "delegateConversion" ", "}}){{!!
+}}{{^selfParameter}}{{delegateCall}}{{/selfParameter}}{{!!
+}}{{#selfParameter}}get_pointer<{{selfParameter.mappedType.name}}>({{name}}){{!!
+}}{{^selfIsStruct}}->get(){{/selfIsStruct}}->{{functionName}}{{/selfParameter}}{{!!
+}}({{joinPartial parameters "delegateConversion" ", "}}){{!!
 }}{{/callBaseApi}}{{!!
 
 

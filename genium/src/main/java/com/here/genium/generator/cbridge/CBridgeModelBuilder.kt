@@ -103,6 +103,13 @@ internal constructor(
         }
     }
 
+    override fun startBuilding(limeStruct: LimeStruct) {
+        openContext()
+        val cppTypeInfo =
+            typeMapper.createCustomTypeInfo(limeStruct, CppTypeInfo.TypeCategory.STRUCT)
+        storeResult(cppTypeInfo)
+    }
+
     override fun finishBuilding(limeContainer: LimeContainer) {
         val cInterface = CInterface(
             CBridgeNameRules.getInterfaceName(limeContainer),
@@ -208,9 +215,10 @@ internal constructor(
         val cStruct = CStruct(
             CBridgeNameRules.getStructBaseName(limeStruct),
             cppStruct.fullyQualifiedName,
-            typeMapper.createCustomTypeInfo(limeStruct, CppTypeInfo.TypeCategory.STRUCT),
+            currentContext.currentResults.filterIsInstance<CppTypeInfo>().first(),
             cppStruct.hasImmutableFields,
-            getPreviousResults(CField::class.java)
+            getPreviousResults(CField::class.java),
+            getPreviousResults(CFunction::class.java)
         )
 
         storeResult(cStruct)

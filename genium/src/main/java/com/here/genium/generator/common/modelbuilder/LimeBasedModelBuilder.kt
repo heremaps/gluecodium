@@ -37,6 +37,7 @@ import com.here.genium.model.lime.LimeValue
 interface LimeBasedModelBuilder {
     fun startBuilding(limeElement: LimeElement)
     fun startBuilding(limeContainer: LimeContainer)
+    fun startBuilding(limeStruct: LimeStruct)
 
     fun finishBuilding(limeContainer: LimeContainer)
     fun finishBuilding(limeTypeRef: LimeTypeRef)

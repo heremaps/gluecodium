@@ -36,7 +36,14 @@ extern "C" {
 {{#functions}}{{#if error}}{{#unless isReturningVoid}}{{>cbridge/ThrowingFunctionReturnType}}
 {{/unless}}{{/if}}{{/functions}}
 
-{{#structs}}{{>cbridge/StructFunctionDeclarations}}{{/structs}}
+{{#structs}}
+{{>cbridge/StructFunctionDeclarations}}
+{{#if methods}}
+
+{{#methods}}
+_GENIUM_C_EXPORT {{>cbridge/FunctionSignature}};
+{{/methods}}
+{{/if}}{{/structs}}
 
 {{#if selfType}}
 _GENIUM_C_EXPORT void {{name}}_release_handle(_baseRef handle);

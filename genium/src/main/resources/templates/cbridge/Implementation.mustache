@@ -38,6 +38,10 @@ _baseRef {{name}}_copy_handle(_baseRef handle) {
 
 {{#structs}}
 {{>cbridge/StructImplementation}}
+
+{{#set selfIsStruct=true}}{{#methods}}
+{{>cbridge/FunctionDefinition}}
+{{/methods}}{{/set}}
 {{/structs}}
 
 {{#functions}}
