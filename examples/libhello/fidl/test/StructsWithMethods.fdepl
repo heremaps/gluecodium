@@ -35,3 +35,17 @@ define GeniumExtensions for interface test.StructsWithMethodsInterface
         Companion = "test.StructsWithMethodsInterface_Vector3_Companion"
     }
 }
+
+define GeniumExtensions for interface test.StructsWithMethods_Vector_Companion
+{
+    method validate {
+        Static = true
+    }
+}
+
+define GeniumExtensions for interface test.StructsWithMethodsInterface_Vector3_Companion
+{
+    method validate {
+        Static = true
+    }
+}

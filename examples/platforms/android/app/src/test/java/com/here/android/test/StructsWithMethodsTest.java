@@ -19,7 +19,8 @@
 package com.here.android.test;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
 
@@ -77,6 +78,20 @@ public class StructsWithMethodsTest {
   }
 
   @Test
+  public void vectorValidatePasses() {
+    boolean result = Vector.validate(1, 2);
+
+    assertTrue(result);
+  }
+
+  @Test
+  public void vectorValidateFails() {
+    boolean result = Vector.validate(1, Double.NaN);
+
+    assertFalse(result);
+  }
+
+  @Test
   public void vector3DistanceToSelf() {
     StructsWithMethodsInterface.Vector3 vector = new StructsWithMethodsInterface.Vector3(1, 2, 3);
 
@@ -115,5 +130,20 @@ public class StructsWithMethodsTest {
 
     assertEquals(new StructsWithMethodsInterface.Vector3(-3.0, -5.0, -7.0), result);
   }
+
+  @Test
+  public void vector3ValidatePasses() {
+    boolean result = StructsWithMethodsInterface.Vector3.validate(1, 2, 3);
+
+    assertTrue(result);
+  }
+
+  @Test
+  public void vector3ValidateFails() {
+    boolean result = StructsWithMethodsInterface.Vector3.validate(1, Double.NaN, 3);
+
+    assertFalse(result);
+  }
+
 
 }

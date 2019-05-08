@@ -18,6 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{cBaseName}}({{#selfIsStruct}}c_self_handle.ref{{#if parameters}}, {{/if}}{{/selfIsStruct}}{{!!
-}}{{^selfIsStruct}}{{^isStatic}}self.c_instance{{#if parameters}}, {{/if}}{{/isStatic}}{{/selfIsStruct}}{{!!
+{{cBaseName}}({{^isStatic}}{{#selfIsStruct}}c_self_handle.ref{{#if parameters}}, {{/if}}{{/selfIsStruct}}{{!!
+}}{{^selfIsStruct}}self.c_instance{{#if parameters}}, {{/if}}{{/selfIsStruct}}{{/isStatic}}{{!!
 }}{{#parameters}}c_{{variableName}}.ref{{#if iter.hasNext}}, {{/if}}{{/parameters}})

@@ -170,7 +170,12 @@ class CppModelBuilder @VisibleForTesting internal constructor(
 
     override fun finishBuilding(limeStruct: LimeStruct) {
         val methods = getPreviousResults(CppMethod::class.java).map {
-            it.copy(emptySet(), setOf(CppMethod.Qualifier.CONST))
+            val specifiers = setOf(CppMethod.Specifier.STATIC) intersect it.specifiers
+            val qualifiers = when {
+                specifiers.contains(CppMethod.Specifier.STATIC) -> emptySet()
+                else -> setOf(CppMethod.Qualifier.CONST)
+            }
+            it.copy(specifiers, qualifiers)
         }
         val cppStruct = CppStruct(
             nameResolver.getName(limeStruct),

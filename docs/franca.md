@@ -563,7 +563,8 @@ fully-qualified name of a FIDL interface.
 excluded from the code generation. All methods defined in it are attached to the struct. All other
 definitions inside the interface are ignored.
 
-**Note:** Struct methods are generated with a `const` qualifier in C++.
+**Note:** Non-static methods on a struct are not allowed to modify the underlying data. Consequently
+these methods are generated with a `const` qualifier in C++.
 
 FIDL:
 

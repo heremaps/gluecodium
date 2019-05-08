@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#selfIsStruct}}let c_self_handle = moveToCType(self){{/selfIsStruct}}
+{{#selfIsStruct}}{{^isStatic}}let c_self_handle = moveToCType(self){{/isStatic}}{{/selfIsStruct}}
 {{#parameters}}
 let c_{{variableName}} = moveToCType({{variableName}})
 {{/parameters}}

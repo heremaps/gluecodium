@@ -55,6 +55,16 @@ interface StructsWithMethods_Vector_Companion {
             StructsWithMethods.Vector output
         }
     }
+
+    method validate {
+        in {
+            Double x
+            Double y
+        }
+        out {
+            Boolean result
+        }
+    }
 }
 
 interface StructsWithMethodsInterface_Vector3_Companion {
@@ -74,6 +84,17 @@ interface StructsWithMethodsInterface_Vector3_Companion {
         }
         out {
             StructsWithMethodsInterface.Vector3 output
+        }
+    }
+
+    method validate {
+        in {
+            Double x
+            Double y
+            Double z
+        }
+        out {
+            Boolean result
         }
     }
 }

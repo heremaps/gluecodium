@@ -57,6 +57,18 @@ class StructsWithMethodsTests: XCTestCase {
         XCTAssertEqual(result, Vector(x: -2.0, y: -5.0))
     }
 
+    func testVectorValidatePasses() {
+        let result = Vector.validate(x: 1, y: 2)
+
+        XCTAssertTrue(result)
+    }
+
+    func testVectorValidateFails() {
+        let result = Vector.validate(x: 1, y: Double.nan)
+
+        XCTAssertFalse(result)
+    }
+
     func testVector3DistanceToSelf() {
         let vector = StructsWithMethodsInterface.Vector3(x: 1, y: 2, z: 3)
 
@@ -91,14 +103,30 @@ class StructsWithMethodsTests: XCTestCase {
         XCTAssertEqual(result, StructsWithMethodsInterface.Vector3(x: -3.0, y: -5.0, z: -7.0))
     }
 
+    func testVector3ValidatePasses() {
+        let result = StructsWithMethodsInterface.Vector3.validate(x: 1, y: 2, z: 3)
+
+        XCTAssertTrue(result)
+    }
+
+    func testVector3ValidateFails() {
+        let result = StructsWithMethodsInterface.Vector3.validate(x: 1, y: Double.nan, z: 3)
+
+        XCTAssertFalse(result)
+    }
+
     static var allTests = [
         ("testVectorDistanceToSelf", testVectorDistanceToSelf),
         ("testVectorDistanceToOther", testVectorDistanceToOther),
         ("testVectorAddSelf", testVectorAddSelf),
         ("testVectorAddOther", testVectorAddOther),
+        ("testVectorValidatePasses", testVectorValidatePasses),
+        ("testVectorValidateFails", testVectorValidateFails),
         ("testVector3DistanceToSelf", testVector3DistanceToSelf),
         ("testVector3DistanceToOther", testVector3DistanceToOther),
         ("testVector3AddSelf", testVector3AddSelf),
-        ("testVector3AddOther", testVector3AddOther)
+        ("testVector3AddOther", testVector3AddOther),
+        ("testVector3ValidatePasses", testVector3ValidatePasses),
+        ("testVector3ValidateFails", testVector3ValidateFails)
     ]
 }

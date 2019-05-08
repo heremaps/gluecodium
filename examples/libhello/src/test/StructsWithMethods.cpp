@@ -39,6 +39,12 @@ Vector::add( const Vector& other ) const
     return {x + other.x, y + other.y};
 }
 
+bool
+Vector::validate( const double x, const double y )
+{
+    return !std::isnan( x ) && !std::isnan( y );
+}
+
 double
 StructsWithMethodsInterface::Vector3::distance_to(
     const StructsWithMethodsInterface::Vector3& other ) const
@@ -53,6 +59,12 @@ StructsWithMethodsInterface::Vector3
 StructsWithMethodsInterface::Vector3::add( const StructsWithMethodsInterface::Vector3& other ) const
 {
     return {x + other.x, y + other.y, z + other.z};
+}
+
+bool
+StructsWithMethodsInterface::Vector3::validate( const double x, const double y, const double z )
+{
+    return !std::isnan( x ) && !std::isnan( y ) && !std::isnan( z );
 }
 
 }  // namespace test
