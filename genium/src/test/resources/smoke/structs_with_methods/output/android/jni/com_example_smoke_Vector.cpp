@@ -39,4 +39,12 @@ Java_com_example_smoke_Vector_add(JNIEnv* _jenv, jobject _jinstance, jobject jot
     auto result = _ninstance.add(other);
     return ::genium::jni::convert_to_jni(_jenv, result).release();
 }
+jboolean
+Java_com_example_smoke_Vector_validate(JNIEnv* _jenv, jobject _jinstance, jdouble jx, jdouble jy)
+{
+    double x = jx;
+    double y = jy;
+    auto result = ::smoke::Vector::validate(x,y);
+    return result;
+}
 }

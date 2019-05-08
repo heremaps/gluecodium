@@ -40,4 +40,13 @@ Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_add(JNIEnv* _jen
     auto result = _ninstance.add(other);
     return ::genium::jni::convert_to_jni(_jenv, result).release();
 }
+jboolean
+Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_validate(JNIEnv* _jenv, jobject _jinstance, jdouble jx, jdouble jy, jdouble jz)
+{
+    double x = jx;
+    double y = jy;
+    double z = jz;
+    auto result = ::smoke::StructsWithMethodsInterface::Vector3::validate(x,y,z);
+    return result;
+}
 }

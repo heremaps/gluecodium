@@ -23,6 +23,11 @@ public struct Vector {
         let c_other = moveToCType(other)
         return moveFromCType(smoke_StructsWithMethods_Vector_add(c_self_handle.ref, c_other.ref))
     }
+    public static func validate(x: Double, y: Double) -> Bool {
+        let c_x = moveToCType(x)
+        let c_y = moveToCType(y)
+        return moveFromCType(smoke_StructsWithMethods_Vector_validate(c_x.ref, c_y.ref))
+    }
 }
 internal func copyFromCType(_ handle: _baseRef) -> Vector {
     return Vector(cHandle: handle)

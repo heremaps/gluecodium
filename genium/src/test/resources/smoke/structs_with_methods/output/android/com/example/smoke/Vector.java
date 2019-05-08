@@ -17,4 +17,5 @@ public class Vector {
     public native double distanceTo(@NonNull final Vector other);
     @NonNull
     public native Vector add(@NonNull final Vector other);
+    public static native boolean validate(final double x, final double y);
 }

@@ -52,3 +52,7 @@ _baseRef smoke_StructsWithMethods_Vector_add(_baseRef _instance, _baseRef other)
     return Conversion<::smoke::Vector>::toBaseRef(get_pointer<::smoke::Vector>(_instance)->add(Conversion<::smoke::Vector>::toCpp(other)))
 ;
 }
+bool smoke_StructsWithMethods_Vector_validate(double x, double y) {
+    return ::smoke::Vector::validate(x, y)
+;
+}

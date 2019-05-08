@@ -33,3 +33,17 @@ define GeniumExtensions for interface smoke.StructsWithMethodsInterface
         Companion = "smoke.StructsWithMethodsInterface_Vector3_Companion"
     }
 }
+
+define GeniumExtensions for interface smoke.StructsWithMethods_Vector_Companion
+{
+    method validate {
+        Static = true
+    }
+}
+
+define GeniumExtensions for interface smoke.StructsWithMethodsInterface_Vector3_Companion
+{
+    method validate {
+        Static = true
+    }
+}

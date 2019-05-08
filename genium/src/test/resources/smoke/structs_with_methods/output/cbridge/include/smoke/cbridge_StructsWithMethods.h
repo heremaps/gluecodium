@@ -16,6 +16,7 @@ _GENIUM_C_EXPORT double smoke_StructsWithMethods_Vector_x_get(_baseRef handle);
 _GENIUM_C_EXPORT double smoke_StructsWithMethods_Vector_y_get(_baseRef handle);
 _GENIUM_C_EXPORT double smoke_StructsWithMethods_Vector_distanceTo(_baseRef _instance, _baseRef other);
 _GENIUM_C_EXPORT _baseRef smoke_StructsWithMethods_Vector_add(_baseRef _instance, _baseRef other);
+_GENIUM_C_EXPORT bool smoke_StructsWithMethods_Vector_validate(double x, double y);
 #ifdef __cplusplus
 }
 #endif

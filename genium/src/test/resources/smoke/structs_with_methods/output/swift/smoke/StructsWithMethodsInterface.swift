@@ -46,6 +46,12 @@ public class StructsWithMethodsInterface {
             let c_other = moveToCType(other)
             return moveFromCType(smoke_StructsWithMethodsInterface_Vector3_add(c_self_handle.ref, c_other.ref))
         }
+        public static func validate(x: Double, y: Double, z: Double) -> Bool {
+            let c_x = moveToCType(x)
+            let c_y = moveToCType(y)
+            let c_z = moveToCType(z)
+            return moveFromCType(smoke_StructsWithMethodsInterface_Vector3_validate(c_x.ref, c_y.ref, c_z.ref))
+        }
     }
 }
 extension StructsWithMethodsInterface: NativeBase {

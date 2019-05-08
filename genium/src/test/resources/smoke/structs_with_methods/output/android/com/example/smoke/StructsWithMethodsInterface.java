@@ -43,6 +43,7 @@ public class StructsWithMethodsInterface extends NativeBase {
         public native double distanceTo(@NonNull final StructsWithMethodsInterface.Vector3 other);
         @NonNull
         public native StructsWithMethodsInterface.Vector3 add(@NonNull final StructsWithMethodsInterface.Vector3 other);
+        public static native boolean validate(final double x, final double y, final double z);
     }
     /**
      * For internal use only.

@@ -66,3 +66,7 @@ _baseRef smoke_StructsWithMethodsInterface_Vector3_add(_baseRef _instance, _base
     return Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(get_pointer<::smoke::StructsWithMethodsInterface::Vector3>(_instance)->add(Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toCpp(other)))
 ;
 }
+bool smoke_StructsWithMethodsInterface_Vector3_validate(double x, double y, double z) {
+    return ::smoke::StructsWithMethodsInterface::Vector3::validate(x, y, z)
+;
+}
