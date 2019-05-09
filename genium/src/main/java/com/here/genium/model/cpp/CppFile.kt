@@ -25,6 +25,7 @@ import com.here.genium.model.common.Include
 import java.util.TreeSet
 
 class CppFile(
+    val filename: String,
     val namespace: List<String>,
     val members: List<CppElement>,
     includes: Collection<Include>,

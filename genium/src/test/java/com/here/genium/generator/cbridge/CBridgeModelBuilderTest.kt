@@ -115,7 +115,7 @@ class CBridgeModelBuilderTest {
         cShortName = "nonsenseShortName",
         cNestedSpecifier = "someNestedSpecifier"
     )
-    private val cppField = CppField("cppFooField", type = CppPrimitiveTypeRef.VOID)
+    private val cppField = CppField("cppFooField", "Nested.cppFooField", type = CppPrimitiveTypeRef.VOID)
     private val swiftField = SwiftField("swiftBarField", null, null, null)
 
     private val contextStack = MockContextStack<CElement>()

@@ -33,6 +33,7 @@ import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppComplexTypeRef
 import com.here.genium.model.cpp.CppElement
+import com.here.genium.model.cpp.CppElementWithComment
 import com.here.genium.model.cpp.CppElementWithIncludes
 import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppFile
@@ -44,6 +45,7 @@ import com.here.genium.platform.common.GeneratorSuite
 import java.io.File
 import java.nio.file.Paths
 import java.util.stream.Collectors
+import kotlin.streams.toList
 
 /**
  * This generator will build all the BaseApis that will have to be implemented on the client
@@ -57,6 +59,7 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
     private val internalNamespace = options.cppInternalNamespace ?: listOf("")
     private val rootNamespace = options.cppRootNamespace
     private val exportName = options.cppExport
+    private val commentsProcessor = DoxygenCommentsProcessor()
 
     override fun getName() = "com.here.BaseApiGenerator"
 
@@ -74,36 +77,66 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             .map(nameResolver::getFullyQualifiedName)
             .toSet()
 
-        val generator = CppGenerator(BaseApiGeneratorSuite.GENERATOR_NAME, internalNamespace)
-        return limeModel.containers.flatMap {
-            generator.generateCode(
-                mapLimeModelToCppModel(it, cppModelBuilder, allErrorEnums),
-                includeResolver.getOutputFilePath(it)
+        val generator = CppGenerator(GENERATOR_NAME, internalNamespace)
+
+        val cppReferenceMap = mutableMapOf<String, CppElement>()
+        val cppModel = limeModel.containers.map {
+            mapLimeModelToCppModel(
+                it,
+                includeResolver.getOutputFilePath(it),
+                cppModelBuilder,
+                allErrorEnums,
+                cppReferenceMap
             )
-        } + ADDITIONAL_HEADERS.map(generator::generateHelperHeader) +
-            generator.generateHelperHeader("Export", exportName)
+        }
+        val cppToLimeName = cppReferenceMap.entries.associate { it.value to it.key }
+
+        val limeToCppName = cppReferenceMap.mapValues { it.value.fullyQualifiedName }
+
+        cppModel.flatMap { it.members }.flatMap { it.streamRecursive().toList() }
+            .filterIsInstance<CppElementWithComment>().forEach { element ->
+            val limeName = cppToLimeName[element]
+            if (limeName != null) {
+                element.comment =
+                    commentsProcessor.process(limeName, element.comment, limeToCppName)
+            }
+        }
+
+        return cppModel.flatMap {
+            generator.generateCode(it)
+        } + ADDITIONAL_HEADERS.map(generator::generateHelperHeader) + generator.generateHelperHeader(
+            "Export",
+            exportName
+        )
     }
 
     private fun mapLimeModelToCppModel(
         limeModel: LimeContainer,
+        filename: String,
         cppModelBuilder: CppModelBuilder,
-        allErrorEnums: Set<String>
+        allErrorEnums: Set<String>,
+        mapping: MutableMap<String, CppElement>
     ): CppFile {
         LimeTreeWalker(listOf(cppModelBuilder)).walkTree(limeModel)
         val finalResults = cppModelBuilder.finalResults
+        mapping.putAll(cppModelBuilder.referenceMap)
 
         val includes = collectIncludes(finalResults).toMutableList()
-        val exportPath = Paths.get(internalNamespace.joinToString(File.separator), "Export" + CppNameRules.HEADER_FILE_SUFFIX).toString()
+        val exportPath = Paths.get(
+            internalNamespace.joinToString(File.separator),
+            "Export" + CppNameRules.HEADER_FILE_SUFFIX
+        ).toString()
         includes.add(Include.createInternalInclude(exportPath))
 
         val errorEnums = collectEnums(finalResults)
             .filter { allErrorEnums.contains(it.fullyQualifiedName) }
             .sortedBy(CppEnum::fullyQualifiedName)
-        if (!errorEnums.isEmpty()) {
+        if (errorEnums.isNotEmpty()) {
             includes.add(CppLibraryIncludes.SYSTEM_ERROR)
         }
 
         return CppFile(
+            filename = filename,
             namespace = rootNamespace + limeModel.path.head,
             members = finalResults,
             includes = includes,

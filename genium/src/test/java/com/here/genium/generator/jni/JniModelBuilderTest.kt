@@ -114,7 +114,7 @@ class JniModelBuilderTest {
     private val javaField =
         JavaField("theParam", javaCustomType, JavaValue(javaCustomType))
     private val cppCustomType = CppComplexTypeRef("cPpClass")
-    private val cppField = CppField("cPpClass", cppCustomType)
+    private val cppField = CppField("cPpClass", "neSTed::cPpClass", cppCustomType)
     private val jniParameter = JniParameter("theParam", null)
     private val javaGetter =
         JavaMethod("getFoo", null, JavaVisibility.PUBLIC, JavaCustomType("FooType"))
@@ -533,7 +533,7 @@ class JniModelBuilderTest {
     @Test
     fun finishBuildingEnumerator() {
         val javaEnumItem = JavaEnumItem("javaEnumerator")
-        val cppEnumItem = CppEnumItem("cppEnumerator", null)
+        val cppEnumItem = CppEnumItem("cppEnumerator", "nested::cppEnumerator", null)
         every { javaBuilder.getFinalResult(JavaEnumItem::class.java) } returns javaEnumItem
         every { cppBuilder.getFinalResult(CppEnumItem::class.java) } returns cppEnumItem
         val limeElement = LimeEnumerator(EMPTY_PATH)

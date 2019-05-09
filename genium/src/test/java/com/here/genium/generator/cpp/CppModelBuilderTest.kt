@@ -329,7 +329,7 @@ class CppModelBuilderTest {
 
     @Test
     fun finishBuildingStructTypeReadsFields() {
-        val cppField = CppField("nonsense", cppTypeRef)
+        val cppField = CppField("nonsense", "greater::nonsense", cppTypeRef)
         contextStack.injectResult(cppField)
 
         modelBuilder.finishBuilding(limeStruct)
@@ -615,7 +615,7 @@ class CppModelBuilderTest {
 
     @Test
     fun finishBuildingEnumerationReadsEnumItems() {
-        val cppEnumItem = CppEnumItem("", null)
+        val cppEnumItem = CppEnumItem("", "", null)
         contextStack.injectResult(cppEnumItem)
 
         modelBuilder.finishBuilding(limeEnumeration)

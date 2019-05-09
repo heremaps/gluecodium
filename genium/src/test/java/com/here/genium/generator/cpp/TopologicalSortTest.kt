@@ -235,8 +235,8 @@ class TopologicalSortTest(
                 name = name,
                 fullyQualifiedName = name,
                 fields = listOf(
-                    CppField("x", CppComplexTypeRef(firstType)),
-                    CppField("y", CppComplexTypeRef(secondType))
+                    CppField("x", "z::x", CppComplexTypeRef(firstType)),
+                    CppField("y", "z::y", CppComplexTypeRef(secondType))
                 )
             )
 

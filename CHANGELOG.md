@@ -3,7 +3,7 @@
 ## Unreleased
 - Features
   + Java comments are generated as JavaDoc HTML and links to classes and members are supported now
-  + Links to members in Swift comments are now supported
+  + Links to members in Swift and C++ comments are now supported
   + Added support for structs with methods.
   + Added support for custom constructors for structs.
 

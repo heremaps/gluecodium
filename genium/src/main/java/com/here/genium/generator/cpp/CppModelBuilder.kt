@@ -97,7 +97,7 @@ class CppModelBuilder @VisibleForTesting internal constructor(
             inheritances
         )
 
-        storeResult(cppClass)
+        storeNamedResult(limeContainer, cppClass)
         closeContext()
     }
 
@@ -145,7 +145,7 @@ class CppModelBuilder @VisibleForTesting internal constructor(
             qualifiers
         )
 
-        storeResult(cppMethod)
+        storeNamedResult(limeMethod, cppMethod)
         closeContext()
     }
 
@@ -188,7 +188,7 @@ class CppModelBuilder @VisibleForTesting internal constructor(
             limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)
         )
 
-        storeResult(cppStruct)
+        storeNamedResult(limeStruct, cppStruct)
         closeContext()
     }
 
@@ -205,6 +205,7 @@ class CppModelBuilder @VisibleForTesting internal constructor(
 
         val cppField = CppField(
             nameResolver.getName(limeField),
+            nameResolver.getFullyQualifiedName(limeField),
             cppTypeRef,
             getPreviousResultOrNull(CppValue::class.java),
             isInstance && !isNullable,
@@ -213,7 +214,7 @@ class CppModelBuilder @VisibleForTesting internal constructor(
         )
         cppField.comment = limeField.comment
 
-        storeResult(cppField)
+        storeNamedResult(limeField, cppField)
         closeContext()
     }
 
@@ -225,7 +226,7 @@ class CppModelBuilder @VisibleForTesting internal constructor(
             getPreviousResult(CppTypeRef::class.java)
         )
 
-        storeResult(cppUsing)
+        storeNamedResult(limeTypeDef, cppUsing)
         closeContext()
     }
 
@@ -256,7 +257,7 @@ class CppModelBuilder @VisibleForTesting internal constructor(
             specifiers = specifiers,
             qualifiers = getterQualifiers
         )
-        storeResult(getterMethod)
+        storeNamedResult(limeProperty, getterMethod)
 
         if (!limeProperty.isReadonly) {
             val setterParameter = CppParameter("value", cppTypeRef, isNotNull)
@@ -287,18 +288,19 @@ class CppModelBuilder @VisibleForTesting internal constructor(
         )
         cppEnum.comment = limeEnumeration.comment
 
-        storeResult(cppEnum)
+        storeNamedResult(limeEnumeration, cppEnum)
         closeContext()
     }
 
     override fun finishBuilding(limeEnumerator: LimeEnumerator) {
         val cppEnumItem = CppEnumItem(
             nameResolver.getName(limeEnumerator),
+            nameResolver.getFullyQualifiedName(limeEnumerator),
             getPreviousResultOrNull(CppValue::class.java)
         )
         cppEnumItem.comment = limeEnumerator.comment
 
-        storeResult(cppEnumItem)
+        storeNamedResult(limeEnumerator, cppEnumItem)
         closeContext()
     }
 
@@ -311,7 +313,7 @@ class CppModelBuilder @VisibleForTesting internal constructor(
         )
         cppConstant.comment = limeConstant.comment
 
-        storeResult(cppConstant)
+        storeNamedResult(limeConstant, cppConstant)
         closeContext()
     }
 

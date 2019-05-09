@@ -40,8 +40,7 @@ public final class CppGenerator {
     this.internalNamespace = internalNamespace;
   }
 
-  public List<GeneratedFile> generateCode(final CppFile cppModel, final String relativeFilePath) {
-
+  public List<GeneratedFile> generateCode(final CppFile cppModel) {
     List<GeneratedFile> result = new LinkedList<>();
 
     boolean hasConstants = cppModel.getMembers().stream().anyMatch(CppConstant.class::isInstance);
@@ -56,6 +55,7 @@ public final class CppGenerator {
       return result;
     }
 
+    String relativeFilePath = cppModel.getFilename();
     String absoluteHeaderPath =
         Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE, relativeFilePath)
                 .toString()

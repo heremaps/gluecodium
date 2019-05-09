@@ -42,8 +42,8 @@ class CppGeneratorTest {
 
     @Test
     fun emptyFileWillBeSkipped() {
-        val model = CppFile(listOf(), listOf(), listOf(), listOf(), listOf())
-        val generatedFiles = generator.generateCode(model, "")
+        val model = CppFile("", listOf(), listOf(), listOf(), listOf(), listOf())
+        val generatedFiles = generator.generateCode(model)
         assertEquals(0, generatedFiles.size)
     }
 
@@ -51,16 +51,16 @@ class CppGeneratorTest {
     fun fileWithTypedefWillBeGenerated() {
         val typeRef = mock(CppTypeRef::class.java)
         val using = CppUsing("", "", "", typeRef)
-        val model = CppFile(listOf(), listOf(using), listOf(), listOf(), listOf())
-        val generatedFiles = generator.generateCode(model, "")
+        val model = CppFile("", listOf(), listOf(using), listOf(), listOf(), listOf())
+        val generatedFiles = generator.generateCode(model)
         assertEquals(2, generatedFiles.size)
     }
 
     @Test
     fun fileWithErrorWillBeGenerated() {
         val error = CppEnum("", "", false, listOf())
-        val model = CppFile(listOf(), listOf(), listOf(), listOf(), listOf(error))
-        val generatedFiles = generator.generateCode(model, "")
+        val model = CppFile("", listOf(), listOf(), listOf(), listOf(), listOf(error))
+        val generatedFiles = generator.generateCode(model)
         assertEquals(2, generatedFiles.size)
     }
 
@@ -69,8 +69,8 @@ class CppGeneratorTest {
         val typeRef = mock(CppTypeRef::class.java)
         val value = CppValue("")
         val constant = CppConstant("", "", typeRef, value)
-        val model = CppFile(listOf(), listOf(constant), listOf(), listOf(), listOf())
-        val generatedFiles = generator.generateCode(model, "")
+        val model = CppFile("", listOf(), listOf(constant), listOf(), listOf(), listOf())
+        val generatedFiles = generator.generateCode(model)
         assertEquals(2, generatedFiles.size)
     }
 
@@ -78,8 +78,8 @@ class CppGeneratorTest {
     fun fileWithInternalExternableElementWillBeGenerated() {
         val externable =
             mock(CppExternableElement::class.java, withSettings().useConstructor("", "", "", false))
-        val model = CppFile(listOf(), listOf(externable), listOf(), listOf(), listOf())
-        val generatedFiles = generator.generateCode(model, "")
+        val model = CppFile("", listOf(), listOf(externable), listOf(), listOf(), listOf())
+        val generatedFiles = generator.generateCode(model)
         assertEquals(2, generatedFiles.size)
     }
 
@@ -87,8 +87,8 @@ class CppGeneratorTest {
     fun fileWithExternalElementWillBeSkipped() {
         val externable =
             mock(CppExternableElement::class.java, withSettings().useConstructor("", "", "", true))
-        val model = CppFile(listOf(), listOf(externable), listOf(), listOf(), listOf())
-        val generatedFiles = generator.generateCode(model, "")
+        val model = CppFile("", listOf(), listOf(externable), listOf(), listOf(), listOf())
+        val generatedFiles = generator.generateCode(model)
         assertEquals(0, generatedFiles.size)
     }
 }
