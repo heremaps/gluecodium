@@ -39,11 +39,17 @@ public:
  * * enum item: ::smoke::Comments::SomeEnum::USEFUL
  * * attribute: ::smoke::Comments::is_some_attribute
  * * method: ::smoke::Comments::instance_method
+ * * top level constant: ::smoke::TYPE_COLLECTION_CONSTANT
+ * * top level struct: ::smoke::TypeCollectionStruct
+ * * top level struct field: ::smoke::TypeCollectionStruct::field
+ * * top level enum: ::smoke::TypeCollectionEnum
+ * * top level enum item: ::smoke::TypeCollectionEnum::ITEM
  *
  * Not working for Java:
  * * typedef: ::smoke::Comments::Usefulness
  * * array: ::smoke::Comments::SomeArray
  * * map: ::smoke::Comments::SomeMap
+ * * top level typedef: ::smoke::TypeCollectionTypedef
  *
  * Not working for Swift:
  * * named comment: [Alternative name for the link, stripped for Swift]::smoke::Comments::VERY_USEFUL

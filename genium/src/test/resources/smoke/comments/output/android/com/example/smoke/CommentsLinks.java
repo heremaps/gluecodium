@@ -50,12 +50,18 @@ public class CommentsLinks extends NativeBase {
      * <li>enum item: {@link com.example.smoke.Comments.SomeEnum#USEFUL}</li>
      * <li>attribute: {@link com.example.smoke.Comments#isSomeAttribute}</li>
      * <li>method: {@link com.example.smoke.Comments#instanceMethod}</li>
+     * <li>top level constant: {@link com.example.smoke.CommentsTypeCollection#TYPE_COLLECTION_CONSTANT}</li>
+     * <li>top level struct: {@link com.example.smoke.TypeCollectionStruct}</li>
+     * <li>top level struct field: {@link com.example.smoke.TypeCollectionStruct#field}</li>
+     * <li>top level enum: {@link com.example.smoke.TypeCollectionEnum}</li>
+     * <li>top level enum item: {@link com.example.smoke.TypeCollectionEnum#ITEM}</li>
      * </ul>
      * <p>Not working for Java:</p>
      * <ul>
      * <li>typedef: [comments.Usefulness]</li>
      * <li>array: [comments.SomeArray]</li>
      * <li>map: [comments.SomeMap]</li>
+     * <li>top level typedef: [CommentsTypeCollection.TypeCollectionTypedef]</li>
      * </ul>
      * <p>Not working for Swift:</p>
      * <ul>

@@ -41,11 +41,17 @@ public class CommentsLinks {
     /// * enum item: `Comments.SomeEnum.useful`
     /// * attribute: `Comments.someAttribute`
     /// * method: `Comments.instanceMethod(...)`
+    /// * top level constant: `CommentsTypeCollection.typeCollectionConstant`
+    /// * top level struct: `TypeCollectionStruct`
+    /// * top level struct field: `TypeCollectionStruct.field`
+    /// * top level enum: `TypeCollectionEnum`
+    /// * top level enum item: `TypeCollectionEnum.item`
     ///
     /// Not working for Java:
     /// * typedef: `Comments.Usefulness`
     /// * array: `Comments.SomeArray`
     /// * map: `Comments.SomeMap`
+    /// * top level typedef: `TypeCollectionTypedef`
     ///
     /// Not working for Swift:
     /// * named comment: []`Comments.veryUseful`
