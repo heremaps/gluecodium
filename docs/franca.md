@@ -70,6 +70,31 @@ FIDL:
         }
     }
 
+### Comments
+
+Franca supports different kinds of comments, but Genium only processes `<** @description: ... **>` tag.
+The comment should be formatted in Markdown and links to other types can be added in the form `[package.Interface.method]`.
+
+FIDL:
+
+    <** @description:
+    There is a lot to say about this interface.
+    at least it has multiline comments.
+
+    I am a heading
+    --------------
+
+    And now comes a list:
+    \* asterisk
+    \* needs
+    \* escaping
+
+    ```Some example code;```
+
+    See also: [package.SomeInterface]
+    **>
+    interface ExampleInterface
+
 Custom FDEPL syntax
 -------------------
 
