@@ -10,7 +10,6 @@ import com.example.NativeBase;
  * possible to references other interfaces like {@link com.example.smoke.CommentsInterface} or other members
  * {@link com.example.smoke.Comments#someMethodWithAllComments}.</p>
  * <p>Weblinks are not modified like this <a href="http://example.com">example</a> or [www.example.com].</p>
- *
  */
 public class CommentsLinks extends NativeBase {
     public enum TooUseful {
@@ -65,10 +64,9 @@ public class CommentsLinks extends NativeBase {
      * <p>Not working:</p>
      * <ul>
      * <li>error: [TooUsefulException]</li>
-     * <li>input parameter: {@link com.example.smoke.CommentsLinks#randomMethod#inputParameter}</li>
+     * <li>input parameter: [inputParameter]</li>
      * <li>output parameter: [outputParameter]</li>
      * </ul>
-     *
      * @throws CommentsLinks.TooUsefulException
      */
     @NonNull

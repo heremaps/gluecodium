@@ -54,17 +54,18 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             CppNameResolver(rootNamespace, limeReferenceMap),
             internalNamespace
         )
-        val swiftModel = limeModel.containers.fold(SwiftModel(emptyMap(), emptySet())) { model, limeContainer ->
-            model.merge(swiftGenerator.generateModel(limeContainer))
-        }
+        val swiftModel =
+            limeModel.containers.fold(SwiftModel(emptyMap(), emptySet())) { model, limeContainer ->
+                model.merge(swiftGenerator.generateModel(limeContainer))
+            }
 
         val elementToSwiftName = mutableMapOf<SwiftModelElement, String>()
         fun resolveFullName(element: SwiftModelElement, name: String) {
             var elementName = element.simpleName
             if (element is SwiftMethod) {
-                elementName = elementName + "(...)"
+                elementName = "$elementName(...)"
             }
-            val fullName = if (name.isEmpty()) elementName else name + "." + elementName
+            val fullName = if (name.isEmpty()) elementName else "$name.$elementName"
 
             element.stream().forEach { resolveFullName(it, fullName) }
 
@@ -72,16 +73,17 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
         }
         swiftModel.containers.forEach { resolveFullName(it, "") }
 
-        val limeToSwiftName = swiftModel.referenceMap.mapValues { elementToSwiftName[it.value] ?: "" }
+        val limeToSwiftName =
+            swiftModel.referenceMap.mapValues { elementToSwiftName[it.value] ?: "" }
+        val elementToLimeName = swiftModel.referenceMap.entries.associate { it.value to it.key }
 
         swiftModel.containers.forEach { topLevelElement ->
             topLevelElement.streamRecursive().forEach { element ->
                 if (element is SwiftModelElement) {
-                    val fullLimeName =
-                        swiftModel.referenceMap.entries.firstOrNull { it.value == element }
+                    val fullLimeName = elementToLimeName[element]
                     if (fullLimeName != null) {
-                        element.comment = commentsProcessor.processLinks(
-                            fullLimeName.key,
+                        element.comment = commentsProcessor.process(
+                            fullLimeName,
                             element.comment,
                             limeToSwiftName
                         )
@@ -90,15 +92,18 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             }
         }
 
-        val result = swiftModel.containers.filter { !it.isEmpty }.map { GeneratedFile(
+        val result = swiftModel.containers.filter { !it.isEmpty }.map {
+            GeneratedFile(
                 TemplateEngine.render("swift/File", it),
-                it.fileName) } +
+                it.fileName
+            )
+        } +
                 limeModel.containers.flatMap { cBridgeGenerator.generate(it) } +
-            CBridgeGenerator.STATIC_FILES + SwiftGenerator.STATIC_FILES +
-            cBridgeGenerator.arrayGenerator.generate() + swiftGenerator.arrayGenerator.generate() +
-            swiftGenerator.mapGenerator.generate() +
-            swiftGenerator.builtinOptionalsGenerator.generate() + swiftGenerator.generateErrors() +
-            cBridgeGenerator.generateHelpers()
+                CBridgeGenerator.STATIC_FILES + SwiftGenerator.STATIC_FILES +
+                cBridgeGenerator.arrayGenerator.generate() + swiftGenerator.arrayGenerator.generate() +
+                swiftGenerator.mapGenerator.generate() +
+                swiftGenerator.builtinOptionalsGenerator.generate() + swiftGenerator.generateErrors() +
+                cBridgeGenerator.generateHelpers()
 
         return result.filterNotNull()
     }

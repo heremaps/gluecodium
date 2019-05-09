@@ -26,12 +26,17 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeStruct
+import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.lime.LimeValue
 
 abstract class AbstractLimeBasedModelBuilder<E> protected constructor(
     private val contextStack: ModelBuilderContextStack<E>
 ) : LimeBasedModelBuilder {
+    /**
+     * Mapping of lime name to model element.
+     */
+    val referenceMap = mutableMapOf<String, E>()
 
     private var resultContext: ModelBuilderContext<E>? = null
 
@@ -112,4 +117,13 @@ abstract class AbstractLimeBasedModelBuilder<E> protected constructor(
 
     protected fun storeResult(element: E) =
         contextStack.currentContext.currentResults.add(element)
+
+    /**
+     * Store a result which has a direct mapping to a lime model name. This is used to transform
+     * links in comments from lime to language model.
+     */
+    protected fun storeNamedResult(limeElement: LimeNamedElement, element: E) {
+        storeResult(element)
+        referenceMap[limeElement.fullName] = element
+    }
 }

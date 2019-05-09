@@ -19,46 +19,17 @@
 
 package com.here.genium.platform.android
 
+import com.here.genium.platform.common.CommentsProcessor
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.html.HtmlRenderer
-import com.vladsch.flexmark.parser.Parser
-import com.vladsch.flexmark.util.ast.NodeVisitor
-import com.vladsch.flexmark.util.ast.VisitHandler
-import com.vladsch.flexmark.util.options.DataSet
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
 /**
  * Parse markdown comments and output JavaDoc
  */
-class JavaDocProcessor {
-    private val renderer = HtmlRenderer.builder().build()
-    private val parser = Parser.builder(DataSet()).build()
-
-    fun processLinks(
-        limeFullName: String,
-        comment: String,
-        limeToLanguage: Map<String, String>
-    ): String {
-        val document = parser.parse(comment.trim())
-        val path = limeFullName.split(".")
-
-        val visitor = NodeVisitor(VisitHandler(
-            LinkRef::class.java
-        ) { node ->
-            val reference = node.reference.toString()
-            for (i in path.size downTo 0) {
-                val child = (path.take(i) + reference).joinToString(separator = ".")
-                val element = limeToLanguage[child]
-                if (element != null) {
-                    node.chars = BasedSequenceImpl.of("{@link $element}")
-                    node.firstChild.unlink()
-                    break
-                }
-            }
-        })
-
-        visitor.visit(document)
-
-        return renderer.render(document)
+class JavaDocProcessor : CommentsProcessor(HtmlRenderer.builder().build()) {
+    override fun processLink(linkNode: LinkRef, linkReference: String) {
+        linkNode.chars = BasedSequenceImpl.of("{@link $linkReference}")
+        linkNode.firstChild.unlink()
     }
 }

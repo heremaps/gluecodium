@@ -74,7 +74,6 @@ internal constructor(
     val arraysCollector = mutableMapOf<String, SwiftArray>()
     val mapCollector = mutableMapOf<String, SwiftDictionary>()
     val enumsAsErrors = mutableSetOf<String>()
-    val referenceMap = mutableMapOf<String, SwiftModelElement>()
 
     constructor(
         limeReferenceMap: Map<String, LimeElement>,
@@ -98,11 +97,6 @@ internal constructor(
         }
 
         closeContext()
-    }
-
-    fun storeNamedResult(name: String, element: SwiftModelElement) {
-        storeResult(element)
-        referenceMap[name] = element
     }
 
     private fun finishBuildingTypeCollection(limeContainer: LimeContainer) {
@@ -150,7 +144,7 @@ internal constructor(
         swiftClass.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftClass.enums.addAll(getPreviousResults(SwiftEnum::class.java))
 
-        storeNamedResult(limeContainer.fullName, swiftClass)
+        storeNamedResult(limeContainer, swiftClass)
         storeResult(swiftFile)
     }
 
@@ -172,7 +166,7 @@ internal constructor(
         swiftFile.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftFile.enums.addAll(getPreviousResults(SwiftEnum::class.java))
 
-        storeNamedResult(limeContainer.fullName, swiftClass)
+        storeNamedResult(limeContainer, swiftClass)
         storeResult(swiftFile)
     }
 
@@ -232,7 +226,7 @@ internal constructor(
             getPreviousResults(SwiftParameter::class.java)
         )
 
-        storeNamedResult(limeMethod.fullName, method)
+        storeNamedResult(limeMethod, method)
         closeContext()
     }
 
@@ -244,7 +238,7 @@ internal constructor(
             SwiftParameter(SwiftNameRules.getParameterName(limeParameter.name), swiftType)
         swiftParameter.comment = limeParameter.comment
 
-        storeNamedResult(limeParameter.fullName, swiftParameter)
+        storeResult(swiftParameter)
         closeContext()
     }
 
@@ -260,7 +254,7 @@ internal constructor(
         )
         swiftStruct.comment = limeStruct.comment
 
-        storeNamedResult(limeStruct.fullName, swiftStruct)
+        storeNamedResult(limeStruct, swiftStruct)
         closeContext()
     }
 
@@ -279,7 +273,7 @@ internal constructor(
         )
         swiftField.comment = limeField.comment
 
-        storeNamedResult(limeField.fullName, swiftField)
+        storeNamedResult(limeField, swiftField)
         closeContext()
     }
 
@@ -291,7 +285,7 @@ internal constructor(
         )
         swiftEnum.comment = limeEnumeration.comment
 
-        storeNamedResult(limeEnumeration.fullName, swiftEnum)
+        storeNamedResult(limeEnumeration, swiftEnum)
         closeContext()
     }
 
@@ -302,7 +296,7 @@ internal constructor(
         )
         swiftEnumItem.comment = limeEnumerator.comment
 
-        storeNamedResult(limeEnumerator.fullName, swiftEnumItem)
+        storeNamedResult(limeEnumerator, swiftEnumItem)
         closeContext()
     }
 
@@ -324,7 +318,7 @@ internal constructor(
             val keyTypeKey = typeMapper.getActualTypeKey(limeActualType.keyType.type)
             val valueTypeKey = typeMapper.getActualTypeKey(limeActualType.valueType.type)
             mapCollector.putIfAbsent("$keyTypeKey:$valueTypeKey", swiftDictionary)
-            storeNamedResult(limeTypeDef.fullName, swiftDictionary)
+            storeNamedResult(limeTypeDef, swiftDictionary)
 
             swiftActualType = SwiftType(swiftDictionary.dictionaryDefinition, null)
         } else {
@@ -334,7 +328,7 @@ internal constructor(
         val swiftTypeDef = SwiftTypeDef(typeDefName, getVisibility(limeTypeDef), swiftActualType)
         swiftTypeDef.comment = limeTypeDef.comment
 
-        storeNamedResult(limeTypeDef.fullName, swiftTypeDef)
+        storeNamedResult(limeTypeDef, swiftTypeDef)
         closeContext()
     }
 
@@ -347,7 +341,7 @@ internal constructor(
         )
         swiftConstant.comment = limeConstant.comment
 
-        storeNamedResult(limeConstant.fullName, swiftConstant)
+        storeNamedResult(limeConstant, swiftConstant)
         closeContext()
     }
 
@@ -393,7 +387,7 @@ internal constructor(
         )
         property.comment = limeProperty.comment
 
-        storeNamedResult(limeProperty.fullName, property)
+        storeNamedResult(limeProperty, property)
         closeContext()
     }
 

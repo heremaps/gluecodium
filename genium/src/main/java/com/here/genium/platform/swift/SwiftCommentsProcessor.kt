@@ -19,48 +19,19 @@
 
 package com.here.genium.platform.swift
 
+import com.here.genium.platform.common.CommentsProcessor
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.formatter.Formatter
-import com.vladsch.flexmark.parser.Parser
-import com.vladsch.flexmark.util.ast.NodeVisitor
-import com.vladsch.flexmark.util.ast.VisitHandler
-import com.vladsch.flexmark.util.options.DataSet
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
 /**
  * Parse markdown comments and process links
  */
-class SwiftCommentsProcessor {
-    private val renderer = Formatter.builder().build()
-    private val parser = Parser.builder(DataSet()).build()
-
-    fun processLinks(
-        limeFullName: String,
-        comment: String,
-        limeToLanguage: Map<String, String>
-    ): String {
-        val document = parser.parse(comment.trim())
-        val path = limeFullName.split(".")
-
-        val visitor = NodeVisitor(VisitHandler(
-            LinkRef::class.java
-        ) { node ->
-            val reference = node.reference.toString()
-            for (i in path.size downTo 0) {
-                val child = (path.take(i) + reference).joinToString(separator = ".")
-                val element = limeToLanguage[child]
-                if (element != null) {
-                    node.reference = BasedSequenceImpl.of(element)
-                    node.referenceOpeningMarker = BasedSequenceImpl.of("`")
-                    node.referenceClosingMarker = BasedSequenceImpl.of("`")
-                    node.firstChild.unlink()
-                    break
-                }
-            }
-        })
-
-        visitor.visit(document)
-
-        return renderer.render(document).trim()
+class SwiftCommentsProcessor : CommentsProcessor(Formatter.builder().build()) {
+    override fun processLink(linkNode: LinkRef, linkReference: String) {
+        linkNode.reference = BasedSequenceImpl.of(linkReference)
+        linkNode.referenceOpeningMarker = BasedSequenceImpl.of("`")
+        linkNode.referenceClosingMarker = BasedSequenceImpl.of("`")
+        linkNode.firstChild.unlink()
     }
 }

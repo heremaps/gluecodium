@@ -36,9 +36,9 @@ class JavaDocProcessorTest {
         val limeName = "RandomClass"
         val limeToJava = mapOf("this.is.a.link" to "javaName")
 
-        val processedComment = commentsProcessor.processLinks(limeName, comment, limeToJava)
+        val processedComment = commentsProcessor.process(limeName, comment, limeToJava)
 
-        assertEquals("<p>hello {@link javaName} world</p>\n", processedComment)
+        assertEquals("<p>hello {@link javaName} world</p>", processedComment)
     }
 
     @Test
@@ -47,9 +47,9 @@ class JavaDocProcessorTest {
         val limeName = "this.is.a.class"
         val limeToJava = mapOf("this.is.a.reference.to.other" to "javaName")
 
-        val processedComment = commentsProcessor.processLinks(limeName, comment, limeToJava)
+        val processedComment = commentsProcessor.process(limeName, comment, limeToJava)
 
-        assertEquals("<p>{@link javaName}</p>\n", processedComment)
+        assertEquals("<p>{@link javaName}</p>", processedComment)
     }
 
     @Test
@@ -58,17 +58,17 @@ class JavaDocProcessorTest {
         val limeName = "package.my"
         val limeToJava = mapOf("package.my.child" to "javaName")
 
-        val processedComment = commentsProcessor.processLinks(limeName, comment, limeToJava)
+        val processedComment = commentsProcessor.process(limeName, comment, limeToJava)
 
-        assertEquals("<p>{@link javaName}</p>\n", processedComment)
+        assertEquals("<p>{@link javaName}</p>", processedComment)
     }
 
     @Test
     fun javaDocWithoutLink() {
         val comment = "Hello\nWorld!\n\n"
 
-        val processedComment = commentsProcessor.processLinks("", comment, emptyMap())
+        val processedComment = commentsProcessor.process("", comment, emptyMap())
 
-        assertEquals("<p>Hello\nWorld!</p>\n", processedComment)
+        assertEquals("<p>Hello\nWorld!</p>", processedComment)
     }
 }

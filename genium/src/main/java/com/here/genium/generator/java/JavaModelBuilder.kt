@@ -68,7 +68,6 @@ internal constructor(
     private val methodNameResolver: JavaMethodNameResolver,
     private val errorEnums: Set<String>
 ) : AbstractLimeBasedModelBuilder<JavaElement>(contextStack) {
-    val referenceMap = mutableMapOf<String, JavaElement>()
     private val nativeBase: JavaType = typeMapper.nativeBase
 
     constructor(
@@ -85,11 +84,6 @@ internal constructor(
         methodNameResolver,
         errorEnums
     )
-
-    fun storeNamedResult(name: String, element: JavaElement) {
-        storeResult(element)
-        referenceMap[name] = element
-    }
 
     override fun finishBuilding(limeContainer: LimeContainer) {
         when (limeContainer.type) {
@@ -130,7 +124,7 @@ internal constructor(
             qualifiers
         )
 
-        storeNamedResult(limeMethod.fullName, javaMethod)
+        storeNamedResult(limeMethod, javaMethod)
         closeContext()
     }
 
@@ -143,7 +137,7 @@ internal constructor(
             JavaParameter(JavaNameRules.getArgumentName(limeParameter.name), javaType)
         javaParameter.comment = limeParameter.comment
 
-        storeNamedResult(limeParameter.fullName, javaParameter)
+        storeResult(javaParameter)
         closeContext()
     }
 
@@ -156,7 +150,7 @@ internal constructor(
         javaConstant.visibility = getVisibility(limeConstant)
         javaConstant.comment = limeConstant.comment
 
-        storeNamedResult(limeConstant.fullName, javaConstant)
+        storeNamedResult(limeConstant, javaConstant)
         closeContext()
     }
 
@@ -184,7 +178,7 @@ internal constructor(
             javaClass.parentInterfaces.add(serializationBase)
         }
 
-        storeNamedResult(limeStruct.fullName, javaClass)
+        storeNamedResult(limeStruct, javaClass)
         closeContext()
     }
 
@@ -208,7 +202,7 @@ internal constructor(
         javaField.visibility = getVisibility(limeField)
         javaField.comment = limeField.comment
 
-        storeNamedResult(limeField.fullName, javaField)
+        storeNamedResult(limeField, javaField)
         closeContext()
     }
 
@@ -218,7 +212,7 @@ internal constructor(
         javaEnum.javaPackage = rootPackage
         javaEnum.comment = limeEnumeration.comment
         javaEnum.items.addAll(getPreviousResults(JavaEnumItem::class.java))
-        storeNamedResult(limeEnumeration.fullName, javaEnum)
+        storeNamedResult(limeEnumeration, javaEnum)
 
         if (errorEnums.contains(limeEnumeration.fullName)) {
             // Exception definition & reference
@@ -246,7 +240,7 @@ internal constructor(
         )
         javaEnumItem.comment = limeEnumerator.comment
 
-        storeNamedResult(limeEnumerator.fullName, javaEnumItem)
+        storeNamedResult(limeEnumerator, javaEnumItem)
         closeContext()
     }
 
@@ -270,7 +264,7 @@ internal constructor(
             qualifiers = qualifiers
         )
 
-        storeNamedResult(limeProperty.fullName, getterMethod)
+        storeNamedResult(limeProperty, getterMethod)
 
         if (!limeProperty.isReadonly) {
             val setterVisibility =
@@ -359,7 +353,7 @@ internal constructor(
         javaClass.comment = limeContainer.comment
         javaClass.constants.addAll(constants)
 
-        storeNamedResult(limeContainer.fullName, javaClass)
+        storeNamedResult(limeContainer, javaClass)
     }
 
     private fun finishBuildingClass(limeContainer: LimeContainer) {
@@ -393,7 +387,7 @@ internal constructor(
 
         addInnerClasses(javaClass)
 
-        storeNamedResult(limeContainer.fullName, javaClass)
+        storeNamedResult(limeContainer, javaClass)
     }
 
     private fun finishBuildingInterface(limeContainer: LimeContainer) {
@@ -412,7 +406,7 @@ internal constructor(
         val javaImplementationClass =
             createJavaImplementationClass(limeContainer, javaInterface, extendedClass)
 
-        storeNamedResult(limeContainer.fullName, javaInterface)
+        storeNamedResult(limeContainer, javaInterface)
         storeResult(javaImplementationClass)
     }
 

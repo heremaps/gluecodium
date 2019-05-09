@@ -20,7 +20,6 @@ public class InstanceWithStruct extends NativeBase {
         public SimpleInstantiable instance;
         /**
          * <p>This is some very useful field.</p>
-         *
          */
         @NonNull
         public SimpleInstantiable instanceWithComment;

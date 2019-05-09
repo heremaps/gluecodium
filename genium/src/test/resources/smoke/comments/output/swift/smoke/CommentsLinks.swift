@@ -52,7 +52,7 @@ public class CommentsLinks {
     ///
     /// Not working:
     /// * error: [TooUsefulException]
-    /// * input parameter: `CommentsLinks.randomMethod(...).inputParameter`
+    /// * input parameter: [inputParameter]
     /// * output parameter: [outputParameter]
     /// - Throws: CommentsLinks.TooUseful
     public func randomMethod(inputParameter: Comments.SomeEnum) throws -> Comments.SomeEnum {

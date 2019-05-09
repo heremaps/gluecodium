@@ -71,7 +71,12 @@ open class JavaGeneratorSuite protected constructor(
         )
 
         val combinedModel =
-            limeModel.containers.fold(JavaModel(emptyMap(), emptyList())) { model, limeContainer ->
+            limeModel.containers.fold(
+                JavaModel(
+                    emptyMap(),
+                    emptyList()
+                )
+            ) { model, limeContainer ->
                 model.merge(jniGenerator.generateModel(limeContainer))
             }
         val javaModel = combinedModel.containers.filterIsInstance<JavaElement>()
@@ -126,7 +131,7 @@ open class JavaGeneratorSuite protected constructor(
             }
             val fullLimeName = elementToLimeName[element]
             if (fullLimeName != null) {
-                element.comment = commentsProcessor.processLinks(
+                element.comment = commentsProcessor.process(
                     fullLimeName,
                     element.comment,
                     limeToJavaName
@@ -142,7 +147,9 @@ open class JavaGeneratorSuite protected constructor(
     ) {
         val fullName = when (element) {
             is JavaTopLevelElement ->
-                if (name.isEmpty()) (element.javaPackage.packageNames + element.name).joinToString(separator = ".")
+                if (name.isEmpty()) (element.javaPackage.packageNames + element.name).joinToString(
+                    separator = "."
+                )
                 else name + "." + element.name
             else -> name + "#" + element.name
         }

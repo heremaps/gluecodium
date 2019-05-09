@@ -16,7 +16,6 @@ import com.example.NativeBase;
  * <li>escaping</li>
  * </ul>
  * <p><code>Some example code;</code></p>
- *
  */
 public class MultiLineComments extends NativeBase {
     /**
@@ -36,15 +35,12 @@ public class MultiLineComments extends NativeBase {
      * <p>This is very important method.
      * It has very important parameters.
      * It has side effects.</p>
-     *
-     * @param input <p>Very useful input parameter.
+     * @param input Very useful input parameter.
      *     You must not confuse it with the second parameter.
-     *     But they are similar.</p>
-     *
-     * @param ratio <p>Not as useful as the first parameter.
+     *     But they are similar.
+     * @param ratio Not as useful as the first parameter.
      *     But still useful.
-     *     use a positive value for more happiness.</p>
-     *
+     *     use a positive value for more happiness.
      * @return If you provide a useful input,
      *     and a useful ratio you can expect a useful output.
      *     Just kidding do not expect anything from a method until
