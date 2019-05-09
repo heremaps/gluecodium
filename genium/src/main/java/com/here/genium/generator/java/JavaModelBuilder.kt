@@ -104,7 +104,10 @@ internal constructor(
     override fun finishBuilding(limeMethod: LimeMethod) {
         val isConstructor = limeMethod.attributes.have(LimeAttributeType.CONSTRUCTOR)
         val returnType = when {
-            isConstructor -> JavaPrimitiveType.LONG
+            isConstructor -> {
+                val parentType = typeMapper.mapParentType(limeMethod) as JavaCustomType
+                if (parentType.isInterface) JavaPrimitiveType.LONG else parentType
+            }
             else -> {
                 val cppType = typeMapper.mapType(limeMethod.returnType.typeRef)
                 typeMapper.applyNullability(cppType, limeMethod.returnType.attributes)

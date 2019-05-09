@@ -35,14 +35,11 @@ class SwiftStruct(
     val fields: List<SwiftField> = emptyList(),
     val constants: List<SwiftConstant> = emptyList(),
     val methods: List<SwiftMethod> = emptyList()
-) : SwiftType(
-    name,
-    cPrefix,
-    visibility,
-    category,
-    publicName ?: name,
-    optional
-) {
+) : SwiftType(name, cPrefix, visibility, category, publicName ?: name, optional) {
+
+    @Suppress("unused")
+    val constructors
+        get() = methods.filter { it.isConstructor }
 
     override fun withAlias(aliasName: String): SwiftType {
         val swiftStruct = SwiftStruct(

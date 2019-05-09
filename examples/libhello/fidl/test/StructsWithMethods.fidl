@@ -19,6 +19,14 @@
 
 package test
 
+typeCollection ValidationUtils {
+
+    enumeration ValidationError {
+        NONE
+        VALIDATION_FAILED
+    }
+}
+
 typeCollection StructsWithMethods {
 
     struct Vector {
@@ -65,6 +73,26 @@ interface StructsWithMethods_Vector_Companion {
             Boolean result
         }
     }
+
+    method create:xy {
+        in {
+            Double x
+            Double y
+        }
+        out {
+            StructsWithMethods.Vector output
+        }
+    }
+
+    method create:copy {
+        in {
+            StructsWithMethods.Vector other
+        }
+        out {
+            StructsWithMethods.Vector output
+        }
+        error ValidationUtils.ValidationError
+    }
 }
 
 interface StructsWithMethodsInterface_Vector3_Companion {
@@ -96,5 +124,26 @@ interface StructsWithMethodsInterface_Vector3_Companion {
         out {
             Boolean result
         }
+    }
+
+    method create:xy {
+        in {
+            Double x
+            Double y
+            Double z
+        }
+        out {
+            StructsWithMethodsInterface.Vector3 output
+        }
+    }
+
+    method create:copy {
+        in {
+            StructsWithMethodsInterface.Vector3 other
+        }
+        out {
+            StructsWithMethodsInterface.Vector3 output
+        }
+        error ValidationUtils.ValidationError
     }
 }

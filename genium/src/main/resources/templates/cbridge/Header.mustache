@@ -40,6 +40,9 @@ extern "C" {
 {{>cbridge/StructFunctionDeclarations}}
 {{#if methods}}
 
+{{#methods}}{{#if error}}{{#unless isReturningVoid}}{{>cbridge/ThrowingFunctionReturnType}}
+{{/unless}}{{/if}}{{/methods}}
+
 {{#methods}}
 _GENIUM_C_EXPORT {{>cbridge/FunctionSignature}};
 {{/methods}}

@@ -20,6 +20,7 @@
 
 #include "test/StructsWithMethods.h"
 #include "test/StructsWithMethodsInterface.h"
+#include "test/ValidationUtils.h"
 
 #include <cmath>
 
@@ -45,6 +46,20 @@ Vector::validate( const double x, const double y )
     return !std::isnan( x ) && !std::isnan( y );
 }
 
+Vector
+Vector::create( const double x, const double y )
+{
+    return {x, y};
+}
+
+lorem_ipsum::test::Return< Vector, std::error_code >
+Vector::create( const Vector& other )
+{
+    return validate( other.x, other.y ) ?
+        lorem_ipsum::test::Return< Vector, std::error_code >( Vector( other.x, other.y ) ) :
+        lorem_ipsum::test::Return< Vector, std::error_code >( ValidationError::VALIDATION_FAILED );
+}
+
 double
 StructsWithMethodsInterface::Vector3::distance_to(
     const StructsWithMethodsInterface::Vector3& other ) const
@@ -65,6 +80,22 @@ bool
 StructsWithMethodsInterface::Vector3::validate( const double x, const double y, const double z )
 {
     return !std::isnan( x ) && !std::isnan( y ) && !std::isnan( z );
+}
+
+StructsWithMethodsInterface::Vector3
+StructsWithMethodsInterface::Vector3::create( const double x, const double y, const double z )
+{
+    return {x, y, z};
+}
+
+lorem_ipsum::test::Return< StructsWithMethodsInterface::Vector3, std::error_code >
+StructsWithMethodsInterface::Vector3::create( const StructsWithMethodsInterface::Vector3& other )
+{
+    return validate( other.x, other.y, other.z ) ?
+        lorem_ipsum::test::Return< StructsWithMethodsInterface::Vector3, std::error_code >(
+            StructsWithMethodsInterface::Vector3( other.x, other.y, other.z ) ) :
+        lorem_ipsum::test::Return< StructsWithMethodsInterface::Vector3, std::error_code >(
+            ValidationError::VALIDATION_FAILED );
 }
 
 }  // namespace test

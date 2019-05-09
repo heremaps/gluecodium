@@ -26,7 +26,9 @@ import android.os.Build;
 
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -38,6 +40,8 @@ import org.robolectric.annotation.Config;
   constants = BuildConfig.class
 )
 public class StructsWithMethodsTest {
+
+  @Rule public final ExpectedException expectedException = ExpectedException.none();
 
   @Test
   public void vectorDistanceToSelf() {
@@ -89,6 +93,21 @@ public class StructsWithMethodsTest {
     boolean result = Vector.validate(1, Double.NaN);
 
     assertFalse(result);
+  }
+
+  @Test
+  public void vectorCopyConstructorDoesNotThrow() throws ValidationErrorException {
+    Vector vector = new Vector(1, 2);
+
+    new Vector(vector);
+  }
+
+  @Test
+  public void vectorCopyConstructorThrows() throws ValidationErrorException {
+    Vector vector = new Vector(1, Double.NaN);
+    expectedException.expect(ValidationErrorException.class);
+
+    new Vector(vector);
   }
 
   @Test
@@ -145,5 +164,20 @@ public class StructsWithMethodsTest {
     assertFalse(result);
   }
 
+  @Test
+  public void vector3CopyConstructorDoesNotThrow() throws ValidationErrorException {
+    StructsWithMethodsInterface.Vector3 vector =
+        new StructsWithMethodsInterface.Vector3(1, 2, 3);
 
+    new StructsWithMethodsInterface.Vector3(vector);
+  }
+
+  @Test
+  public void vector3CopyConstructorThrows() throws ValidationErrorException {
+    StructsWithMethodsInterface.Vector3 vector =
+        new StructsWithMethodsInterface.Vector3(1, Double.NaN, 3);
+    expectedException.expect(ValidationErrorException.class);
+
+    new StructsWithMethodsInterface.Vector3(vector);
+  }
 }

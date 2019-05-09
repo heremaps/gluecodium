@@ -66,7 +66,7 @@ class JavaMethod(
         returnComment,
         exception,
         parameters,
-        false,
+        isConstructor,
         qualifiers,
         annotations
     )

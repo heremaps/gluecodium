@@ -69,6 +69,18 @@ class StructsWithMethodsTests: XCTestCase {
         XCTAssertFalse(result)
     }
 
+    func testVectorCopyConstructorDoesNotThrow() {
+        let vector = Vector(x: 1, y: 2)
+
+        XCTAssertNoThrow(try Vector(other: vector))
+    }
+
+    func testVectorCopyConstructorThrows() {
+        let vector = Vector(x: 1, y: Double.nan)
+
+        XCTAssertThrowsError(try Vector(other: vector))
+    }
+
     func testVector3DistanceToSelf() {
         let vector = StructsWithMethodsInterface.Vector3(x: 1, y: 2, z: 3)
 
@@ -115,6 +127,18 @@ class StructsWithMethodsTests: XCTestCase {
         XCTAssertFalse(result)
     }
 
+    func testVector3CopyConstructorDoesNotThrow() {
+        let vector = StructsWithMethodsInterface.Vector3(x: 1, y: 2, z: 3)
+
+        XCTAssertNoThrow(try StructsWithMethodsInterface.Vector3(other: vector))
+    }
+
+    func testVector3CopyConstructorThrows() {
+        let vector = StructsWithMethodsInterface.Vector3(x: 1, y: Double.nan, z: 3)
+
+        XCTAssertThrowsError(try StructsWithMethodsInterface.Vector3(other: vector))
+    }
+
     static var allTests = [
         ("testVectorDistanceToSelf", testVectorDistanceToSelf),
         ("testVectorDistanceToOther", testVectorDistanceToOther),
@@ -122,11 +146,15 @@ class StructsWithMethodsTests: XCTestCase {
         ("testVectorAddOther", testVectorAddOther),
         ("testVectorValidatePasses", testVectorValidatePasses),
         ("testVectorValidateFails", testVectorValidateFails),
+        ("testVectorCopyConstructorDoesNotThrow", testVectorCopyConstructorDoesNotThrow),
+        ("testVectorCopyConstructorThrows", testVectorCopyConstructorThrows),
         ("testVector3DistanceToSelf", testVector3DistanceToSelf),
         ("testVector3DistanceToOther", testVector3DistanceToOther),
         ("testVector3AddSelf", testVector3AddSelf),
         ("testVector3AddOther", testVector3AddOther),
         ("testVector3ValidatePasses", testVector3ValidatePasses),
-        ("testVector3ValidateFails", testVector3ValidateFails)
+        ("testVector3ValidateFails", testVector3ValidateFails),
+        ("testVector3CopyConstructorDoesNotThrow", testVector3CopyConstructorDoesNotThrow),
+        ("testVector3CopyConstructorThrows", testVector3CopyConstructorThrows)
     ]
 }

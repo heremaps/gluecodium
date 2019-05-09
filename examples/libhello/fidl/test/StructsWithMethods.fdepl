@@ -41,11 +41,27 @@ define GeniumExtensions for interface test.StructsWithMethods_Vector_Companion
     method validate {
         Static = true
     }
+
+    method create:xy {
+        Constructor = true
+    }
+
+    method create:copy {
+        Constructor = true
+    }
 }
 
 define GeniumExtensions for interface test.StructsWithMethodsInterface_Vector3_Companion
 {
     method validate {
         Static = true
+    }
+
+    method create:xy {
+        Constructor = true
+    }
+
+    method create:copy {
+        Constructor = true
     }
 }

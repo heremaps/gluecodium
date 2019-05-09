@@ -36,13 +36,19 @@
 {{#set className=name}}{{#constructors}}
 {{prefixPartial "java/MethodComment" "    "}}
     {{visibility}} {{className}}({{joinPartial parameters "java/Parameter" ", "}}){{#exception}} throws {{name}}{{/exception}} {
+{{#if isImplClass}}
         this({{name}}({{join parameters delimiter=", " }}));
+{{/if}}{{#unless isImplClass}}
+        {{className}} _other = {{name}}({{join parameters delimiter=", " }});
+{{#fields}}        this.{{name}} = _other.{{name}};
+{{/fields}}
+{{/unless}}
     }
 {{/constructors}}{{/set}}
 {{#if isImplClass}}
 {{prefixPartial "java/NativeConstructor" "    "}}
 {{/if}}
-{{#if fields}}
+{{#if fields}}{{#unless constructors}}
     public {{name}}() {
         this({{joinPartial fields "java/FieldInitializer" ", "}});
     }{{#if hasPartialDefaults}}
@@ -57,15 +63,20 @@
 {{#fields}}        this.{{name}} = {{name}};
 {{/fields}}
     }
-{{/if}}
+{{/unless}}{{#if constructors}}
+    private {{name}}() {
+{{#fields}}        this.{{name}} = {{>java/FieldInitializer}};
+{{/fields}}
+    }
+{{/if}}{{/if}}
 {{#if isParcelable}}{{prefixPartial "java/ParcelableImpl" "    "}}
 
 {{/if}}
 {{#if isEquatable}}{{prefixPartial "java/EqualsAndHashCode" "    "}}
 {{/if}}
-{{#if needsBuilder}}{{prefixPartial "java/FieldsBuilder" "    "}}
+{{#if needsBuilder}}{{#unless constructors}}{{prefixPartial "java/FieldsBuilder" "    "}}
 
-{{/if}}
+{{/unless}}{{/if}}
 {{#methods}}{{prefixPartial "java/MethodSignature" "    "}}
 {{/methods}}
 }

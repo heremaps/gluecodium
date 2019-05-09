@@ -20,11 +20,11 @@
 package com.here.genium.generator.cbridge
 
 import com.google.common.annotations.VisibleForTesting
+import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.generator.cbridge.CBridgeNameResolver.getTypeName
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
-import com.here.genium.common.ModelBuilderContextStack
-import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppIncludeResolver
+import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.swift.SwiftModelBuilder
 import com.here.genium.model.cbridge.CArray
@@ -50,6 +50,7 @@ import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
@@ -158,11 +159,11 @@ internal constructor(
 
         val swiftMethod = swiftBuilder.getFinalResult(SwiftMethod::class.java)
         val cppMethod = cppBuilder.getFinalResult(CppMethod::class.java)
+        val limeParent =
+            limeReferenceMap[limeMethod.path.parent.toString()] as LimeNamedElement
         val returnType = when {
-            isConstructor -> typeMapper.createCustomTypeInfo(
-                limeReferenceMap[limeMethod.path.parent.toString()] as LimeContainer,
-                CppTypeInfo.TypeCategory.CLASS
-            )
+            isConstructor && limeParent !is LimeStruct ->
+                typeMapper.createCustomTypeInfo(limeParent, CppTypeInfo.TypeCategory.CLASS)
             else -> {
                 val cppTypeInfo = mapType(limeMethod.returnType.typeRef.type)
                 if (limeMethod.returnType.attributes.have(LimeAttributeType.NULLABLE)) {

@@ -212,6 +212,8 @@ methods in C++ (not constructors).
 of constructors overloaded on an Array or Map parameter (i.e. having signatures that differ only in
 array/map element types) will generate uncompilable code in Java (Swift and C++ will still compile).
 
+**Note:** Constructors are also supported for structs (see `Companion` below).
+
 FIDL:
 
     package example

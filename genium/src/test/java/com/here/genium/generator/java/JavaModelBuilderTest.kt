@@ -21,6 +21,7 @@ package com.here.genium.generator.java
 
 import com.here.genium.model.java.JavaClass
 import com.here.genium.model.java.JavaConstant
+import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaElement
 import com.here.genium.model.java.JavaEnum
 import com.here.genium.model.java.JavaEnumItem
@@ -180,6 +181,9 @@ class JavaModelBuilderTest {
                 .addAttribute(LimeAttributeType.CONSTRUCTOR)
                 .build()
         )
+        every {
+            typeMapper.mapParentType(limeElement)
+        } returns JavaCustomType("", isInterface = true)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -187,6 +191,23 @@ class JavaModelBuilderTest {
         assertTrue(result.isConstructor)
         assertContains(JavaMethod.MethodQualifier.STATIC, result.qualifiers)
         assertEquals(JavaPrimitiveType.LONG, result.returnType)
+    }
+
+    @Test
+    fun finishBuildingMethodReadsStructConstructor() {
+        val limeElement = LimeMethod(
+            EMPTY_PATH,
+            attributes = LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.CONSTRUCTOR)
+                .build()
+        )
+        val parentType = JavaCustomType("")
+        every { typeMapper.mapParentType(limeElement) } returns parentType
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(JavaMethod::class.java)
+        assertEquals(parentType, result.returnType)
     }
 
     @Test

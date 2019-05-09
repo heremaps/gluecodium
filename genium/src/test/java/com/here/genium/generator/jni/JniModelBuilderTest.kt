@@ -355,6 +355,19 @@ class JniModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingMethodReadsConstructor() {
+        contextStack.injectResult(jniParameter)
+        val javaConstructor =
+            JavaMethod("", isConstructor = true, returnType = JavaPrimitiveType.LONG)
+        every { javaBuilder.getFinalResult(JavaMethod::class.java) } returns javaConstructor
+
+        modelBuilder.finishBuilding(limeMethod)
+
+        val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
+        assertTrue(jniMethod.returnsOpaqueHandle)
+    }
+
+    @Test
     fun finishBuildingMethodReadsConstMethods() {
         contextStack.injectResult(jniParameter)
         val cppConstMethod = CppMethod(

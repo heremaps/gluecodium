@@ -39,6 +39,7 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeMap
+import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
@@ -90,6 +91,15 @@ class JavaTypeMapper(
                 )
             }
             else -> throw GeniumExecutionException("Unmapped type: " + limeType.name)
+        }
+    }
+
+    fun mapParentType(limeElement: LimeNamedElement): JavaType? {
+        val parentKey = limeElement.path.parent.toString()
+        return when {
+            limeReferenceMap.containsKey(parentKey) ->
+                mapType(LimeTypeRef(limeReferenceMap, parentKey))
+            else -> null
         }
     }
 

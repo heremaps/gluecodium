@@ -39,6 +39,7 @@ import com.here.genium.model.java.JavaEnumItem
 import com.here.genium.model.java.JavaField
 import com.here.genium.model.java.JavaMethod
 import com.here.genium.model.java.JavaParameter
+import com.here.genium.model.java.JavaPrimitiveType
 import com.here.genium.model.java.JavaTopLevelElement
 import com.here.genium.model.java.JavaType
 import com.here.genium.model.jni.JniContainer
@@ -175,8 +176,9 @@ internal constructor(
             returnType = JniType(javaMethod.returnType, cppMethod.returnType),
             isStatic = cppMethod.specifiers.contains(CppMethod.Specifier.STATIC),
             isConst = cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST),
-            isOverloaded = !limeMethod.path.disambiguationSuffix.isEmpty(),
-            isConstructor = javaMethod.isConstructor,
+            isOverloaded = limeMethod.path.disambiguationSuffix.isNotEmpty(),
+            returnsOpaqueHandle =
+                javaMethod.isConstructor && javaMethod.returnType == JavaPrimitiveType.LONG,
             exception = jniException
         )
         jniMethod.parameters.addAll(getPreviousResults(JniParameter::class.java))

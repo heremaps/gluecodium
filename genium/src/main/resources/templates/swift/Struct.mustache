@@ -28,14 +28,14 @@
 {{prefixPartial "swift/Comment" '    '}}
 {{/if}}
     {{visibility}} {{#if isImmutable}}let{{/if}}{{#unless isImmutable}}var{{/unless}} {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}
-{{/fields}}
+{{/fields}}{{#unless constructors}}
 
     public init({{joinPartial fields "initParameter" ", "}}) {
 {{#fields}}
         self.{{name}} = {{name}}
 {{/fields}}
     }
-{{/if}}{{#if fields}}
+{{/unless}}
 
     internal init(cHandle: _baseRef) {
 {{#fields}}
@@ -43,6 +43,20 @@
 {{/fields}}
     }
 {{/if}}{{!!
+}}{{#set className=name}}{{#constructors}}
+{{prefixPartial "swift/MethodComment" "    "}}
+    {{visibility}} {{#if overriding}}override {{/if}}init({{>swift/MethodParameterDeclaration}}){{#if error}} throws{{/if}} {
+        let _result_handle = {{#if error}}try {{/if}}{{className}}.{{name}}({{#parameters}}{{name}}: {{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+        guard _result_handle != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        let _result: {{className}} = moveFromCType(_result_handle)
+{{#fields}}
+        self.{{name}} = _result.{{name}}
+{{/fields}}
+    }
+
+{{/constructors}}{{/set}}{{!!
 }}{{#if methods}}
 
 {{#set selfIsStruct=true}}{{#methods}}
