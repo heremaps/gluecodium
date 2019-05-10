@@ -7,15 +7,24 @@ import android.support.annotation.NonNull;
 public class Vector {
     public double x;
     public double y;
-    public Vector() {
-        this(0, 0);
+    public Vector(final double x, final double y) {
+        Vector _other = create(x, y);
+        this.x = _other.x;
+        this.y = _other.y;
     }
-    public Vector(double x, double y) {
-        this.x = x;
-        this.y = y;
+    public Vector(@NonNull final Vector other) throws ValidationErrorException {
+        Vector _other = create(other);
+        this.x = _other.x;
+        this.y = _other.y;
+    }
+    private Vector() {
+        this.x = 0;
+        this.y = 0;
     }
     public native double distanceTo(@NonNull final Vector other);
     @NonNull
     public native Vector add(@NonNull final Vector other);
     public static native boolean validate(final double x, final double y);
+    private static native Vector create(final double x, final double y);
+    private static native Vector create(@NonNull final Vector other) throws ValidationErrorException;
 }

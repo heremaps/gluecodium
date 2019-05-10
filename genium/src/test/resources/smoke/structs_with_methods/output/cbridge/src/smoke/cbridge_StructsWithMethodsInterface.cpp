@@ -7,6 +7,7 @@
 #include "smoke/StructsWithMethodsInterface.h"
 #include <memory>
 #include <new>
+#include <string>
 void smoke_StructsWithMethodsInterface_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::StructsWithMethodsInterface>>(handle);
 }
@@ -69,4 +70,17 @@ _baseRef smoke_StructsWithMethodsInterface_Vector3_add(_baseRef _instance, _base
 bool smoke_StructsWithMethodsInterface_Vector3_validate(double x, double y, double z) {
     return ::smoke::StructsWithMethodsInterface::Vector3::validate(x, y, z)
 ;
+}
+_baseRef smoke_StructsWithMethodsInterface_Vector3_create_string(_baseRef input) {
+    return Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(::smoke::StructsWithMethodsInterface::Vector3::create(Conversion<std::string>::toCpp(input)))
+;
+}
+smoke_StructsWithMethodsInterface_Vector3_create_copy_result smoke_StructsWithMethodsInterface_Vector3_create_copy(_baseRef other) {
+    auto&& RESULT = ::smoke::StructsWithMethodsInterface::Vector3::create(Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toCpp(other));
+    if (RESULT.has_value()) {
+        return {true, .returned_value = Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(RESULT.safe_value())
+};
+    } else {
+        return {false, .error_code = static_cast< smoke_ValidationUtils_ValidationError >(RESULT.error().value())};
+    }
 }

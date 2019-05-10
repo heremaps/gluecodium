@@ -5,13 +5,27 @@ import Foundation
 public struct Vector {
     public var x: Double
     public var y: Double
-    public init(x: Double, y: Double) {
-        self.x = x
-        self.y = y
-    }
     internal init(cHandle: _baseRef) {
         x = moveFromCType(smoke_StructsWithMethods_Vector_x_get(cHandle))
         y = moveFromCType(smoke_StructsWithMethods_Vector_y_get(cHandle))
+    }
+    public init(x: Double, y: Double) {
+        let _result_handle = Vector.create(x: x, y: y)
+        guard _result_handle != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        let _result: Vector = moveFromCType(_result_handle)
+        self.x = _result.x
+        self.y = _result.y
+    }
+    public init(other: Vector) throws {
+        let _result_handle = try Vector.create(other: other)
+        guard _result_handle != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        let _result: Vector = moveFromCType(_result_handle)
+        self.x = _result.x
+        self.y = _result.y
     }
     public func distanceTo(other: Vector) -> Double {
         let c_self_handle = moveToCType(self)
@@ -27,6 +41,20 @@ public struct Vector {
         let c_x = moveToCType(x)
         let c_y = moveToCType(y)
         return moveFromCType(smoke_StructsWithMethods_Vector_validate(c_x.ref, c_y.ref))
+    }
+    private static func create(x: Double, y: Double) -> _baseRef {
+        let c_x = moveToCType(x)
+        let c_y = moveToCType(y)
+        return moveFromCType(smoke_StructsWithMethods_Vector_create_xy(c_x.ref, c_y.ref))
+    }
+    private static func create(other: Vector) throws -> _baseRef {
+        let c_other = moveToCType(other)
+        let RESULT = smoke_StructsWithMethods_Vector_create_copy(c_other.ref)
+        if (RESULT.has_value) {
+            return moveFromCType(RESULT.returned_value)
+        } else {
+            throw ValidationError(rawValue: RESULT.error_code)!
+        }
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> Vector {

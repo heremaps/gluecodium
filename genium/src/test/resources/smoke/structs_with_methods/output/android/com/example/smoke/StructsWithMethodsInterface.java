@@ -10,40 +10,29 @@ public class StructsWithMethodsInterface extends NativeBase {
         public double x;
         public double y;
         public double z;
-        public Vector3() {
-            this(0, 0, 0);
+        public Vector3(final String input) {
+            Vector3 _other = create(input);
+            this.x = _other.x;
+            this.y = _other.y;
+            this.z = _other.z;
         }
-        public Vector3(double x, double y, double z) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
+        public Vector3(@NonNull final StructsWithMethodsInterface.Vector3 other) throws ValidationErrorException {
+            Vector3 _other = create(other);
+            this.x = _other.x;
+            this.y = _other.y;
+            this.z = _other.z;
         }
-        public static class Builder {
-            private double x = 0;
-            private double y = 0;
-            private double z = 0;
-            public Builder() {
-            }
-            public Builder setX(double x) {
-                this.x = x;
-                return this;
-            }
-            public Builder setY(double y) {
-                this.y = y;
-                return this;
-            }
-            public Builder setZ(double z) {
-                this.z = z;
-                return this;
-            }
-            public Vector3 build() {
-                return new Vector3(x, y, z);
-            }
+        private Vector3() {
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
         }
         public native double distanceTo(@NonNull final StructsWithMethodsInterface.Vector3 other);
         @NonNull
         public native StructsWithMethodsInterface.Vector3 add(@NonNull final StructsWithMethodsInterface.Vector3 other);
         public static native boolean validate(final double x, final double y, final double z);
+        private static native StructsWithMethodsInterface.Vector3 create(final String input);
+        private static native StructsWithMethodsInterface.Vector3 create(@NonNull final StructsWithMethodsInterface.Vector3 other) throws ValidationErrorException;
     }
     /**
      * For internal use only.

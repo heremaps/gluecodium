@@ -39,11 +39,27 @@ define GeniumExtensions for interface smoke.StructsWithMethods_Vector_Companion
     method validate {
         Static = true
     }
+
+    method create:xy {
+        Constructor = true
+    }
+
+    method create:copy {
+        Constructor = true
+    }
 }
 
 define GeniumExtensions for interface smoke.StructsWithMethodsInterface_Vector3_Companion
 {
     method validate {
         Static = true
+    }
+
+    method create:string {
+        Constructor = true
+    }
+
+    method create:copy {
+        Constructor = true
     }
 }

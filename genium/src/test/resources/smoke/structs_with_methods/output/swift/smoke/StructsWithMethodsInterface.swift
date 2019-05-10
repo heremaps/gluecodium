@@ -26,15 +26,30 @@ public class StructsWithMethodsInterface {
         public var x: Double
         public var y: Double
         public var z: Double
-        public init(x: Double, y: Double, z: Double) {
-            self.x = x
-            self.y = y
-            self.z = z
-        }
         internal init(cHandle: _baseRef) {
             x = moveFromCType(smoke_StructsWithMethodsInterface_Vector3_x_get(cHandle))
             y = moveFromCType(smoke_StructsWithMethodsInterface_Vector3_y_get(cHandle))
             z = moveFromCType(smoke_StructsWithMethodsInterface_Vector3_z_get(cHandle))
+        }
+        public init(input: String) {
+            let _result_handle = StructsWithMethodsInterface.Vector3.create(input: input)
+            guard _result_handle != 0 else {
+                fatalError("Nullptr value is not supported for initializers")
+            }
+            let _result: StructsWithMethodsInterface.Vector3 = moveFromCType(_result_handle)
+            self.x = _result.x
+            self.y = _result.y
+            self.z = _result.z
+        }
+        public init(other: StructsWithMethodsInterface.Vector3) throws {
+            let _result_handle = try StructsWithMethodsInterface.Vector3.create(other: other)
+            guard _result_handle != 0 else {
+                fatalError("Nullptr value is not supported for initializers")
+            }
+            let _result: StructsWithMethodsInterface.Vector3 = moveFromCType(_result_handle)
+            self.x = _result.x
+            self.y = _result.y
+            self.z = _result.z
         }
         public func distanceTo(other: StructsWithMethodsInterface.Vector3) -> Double {
             let c_self_handle = moveToCType(self)
@@ -51,6 +66,19 @@ public class StructsWithMethodsInterface {
             let c_y = moveToCType(y)
             let c_z = moveToCType(z)
             return moveFromCType(smoke_StructsWithMethodsInterface_Vector3_validate(c_x.ref, c_y.ref, c_z.ref))
+        }
+        private static func create(input: String) -> _baseRef {
+            let c_input = moveToCType(input)
+            return moveFromCType(smoke_StructsWithMethodsInterface_Vector3_create_string(c_input.ref))
+        }
+        private static func create(other: StructsWithMethodsInterface.Vector3) throws -> _baseRef {
+            let c_other = moveToCType(other)
+            let RESULT = smoke_StructsWithMethodsInterface_Vector3_create_copy(c_other.ref)
+            if (RESULT.has_value) {
+                return moveFromCType(RESULT.returned_value)
+            } else {
+                throw ValidationError(rawValue: RESULT.error_code)!
+            }
         }
     }
 }
