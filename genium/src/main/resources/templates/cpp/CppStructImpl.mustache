@@ -18,7 +18,11 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless isExternal}}{{#if fields}}
+{{#unless isExternal}}{{!!
+}}{{#set structName=name}}{{#constants}}
+const {{type.name}} {{#className}}{{.}}::{{/className}}{{structName}}::{{name}} = {{value.name}};
+{{/constants}}{{/set}}{{!!
+}}{{#if fields}}
 {{#className}}{{.}}::{{/className}}{{name}}::{{name}}( )
     : {{#parentStruct}}{{parent.name}}{ }, {{/parentStruct}}{{#fields}}{{name}}{ {{#initializer}}{{name}} {{/initializer}}}{{#if iter.hasNext}}, {{/if}}{{/fields}}
 {

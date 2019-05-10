@@ -582,13 +582,13 @@ FDEPL:
 
 ### Struct: Companion
 
-This FDEPL property controls whether the struct type has methods. Default value is `null`, i.e. by
-default a struct type does not have any methods generated. A non-empty value should correspond to a
-fully-qualified name of a FIDL interface.
+This FDEPL property controls whether the struct type has methods and/or constants. Default value is
+`null`, i.e. by default a struct type does not have any methods or constants generated. A non-empty
+value should correspond to a fully-qualified name of a FIDL interface.
 
 **Note:** Any FIDL interface that is a target of a `Companion` property of a FIDL struct is itself
-excluded from the code generation. All methods defined in it are attached to the struct. All other
-definitions inside the interface are ignored.
+excluded from the code generation. All methods and constants defined in it are attached to the
+struct. All other definitions inside the interface are ignored.
 
 **Note:** Non-static methods on a struct are not allowed to modify the underlying data. Consequently
 these methods are generated with a `const` qualifier in C++.
@@ -608,6 +608,7 @@ FIDL:
                 Double result
             }
         }
+        const Double exampleConstant = 9.81d
     }
 
 FDEPL:

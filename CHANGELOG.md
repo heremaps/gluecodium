@@ -3,6 +3,8 @@
 ## Unreleased
 - Bug fixes:
   + Constructors of generated exception types in Java are now public.
+- Features
+  + Added support for structs with constants.
 
 ## 4.2.0
 - Release date: 2019-05-14

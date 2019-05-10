@@ -158,7 +158,8 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
             comment = CommentHelper.getDescription(francaStruct),
             attributes = attributes.build(),
             fields = getPreviousResults(LimeField::class.java),
-            methods = getPreviousResults(LimeMethod::class.java)
+            methods = getPreviousResults(LimeMethod::class.java),
+            constants = getPreviousResults(LimeConstant::class.java)
         )
 
         storeResultAndCloseContext(limeStruct)

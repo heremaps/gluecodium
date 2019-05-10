@@ -358,6 +358,16 @@ class CppModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingStructTypeReadsConstants() {
+        contextStack.injectResult(cppConstant)
+
+        modelBuilder.finishBuilding(limeStruct)
+
+        val result = modelBuilder.getFinalResult(CppStruct::class.java)
+        assertContains(cppConstant, result.constants)
+    }
+
+    @Test
     fun finishBuildingStructTypeReadsExternalType() {
         val limeElement = LimeStruct(
             EMPTY_PATH,

@@ -86,7 +86,10 @@ class FrancaTreeWalker(
 
     private fun walkChildNodes(francaStructType: FStructType) {
         walkCollection(francaStructType.elements)
-        walkCollection(companionHelper.getCompanion(francaStructType)?.methods)
+        companionHelper.getCompanion(francaStructType)?.let {
+            walkCollection(it.methods)
+            walkCollection(it.constants)
+        }
     }
 
     private fun walkChildNodes(francaTypedElement: FTypedElement) {

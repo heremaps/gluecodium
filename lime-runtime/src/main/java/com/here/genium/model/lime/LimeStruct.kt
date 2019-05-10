@@ -25,5 +25,6 @@ class LimeStruct(
     comment: String = "",
     attributes: LimeAttributes? = null,
     val fields: List<LimeField> = emptyList(),
-    val methods: List<LimeMethod> = emptyList()
+    val methods: List<LimeMethod> = emptyList(),
+    val constants: List<LimeConstant> = emptyList()
 ) : LimeType(path, visibility, comment, attributes)

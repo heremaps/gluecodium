@@ -214,6 +214,16 @@ class LimeModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingStructReadsConstants() {
+        contextStack.injectResult(limeConstant)
+
+        modelBuilder.finishBuilding(francaStruct)
+
+        val result = modelBuilder.getFinalResult(LimeStruct::class.java)
+        assertContains(limeConstant, result.constants)
+    }
+
+    @Test
     fun finishBuildingStructReadsExternalAttributes() {
         every { deploymentModel.isExternalType(francaStruct) } returns true
         every { deploymentModel.getExternalType(francaStruct) } returns "foo/Bar.h"

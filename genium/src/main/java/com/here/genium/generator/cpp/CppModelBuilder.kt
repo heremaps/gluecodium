@@ -184,6 +184,7 @@ class CppModelBuilder @VisibleForTesting internal constructor(
             limeStruct.attributes.have(LimeAttributeType.EXTERNAL_TYPE),
             getPreviousResults(CppField::class.java),
             methods,
+            getPreviousResults(CppConstant::class.java),
             limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
             limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)
         )

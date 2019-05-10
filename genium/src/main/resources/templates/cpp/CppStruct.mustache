@@ -39,6 +39,12 @@ struct {{>cpp/CppExportMacro}}{{name}} {
 {{/methods}}
 
 {{/if}}{{!!
+}}{{#if constants}}
+{{#constants}}
+    {{#set storageQualifier="static"}}{{>cpp/CppConstant}}{{/set}}
+{{/constants}}
+
+{{/if}}{{!!
 }}{{#if isEquatable}}
     bool operator==( const {{name}}& rhs ) const;
     bool operator!=( const {{name}}& rhs ) const;

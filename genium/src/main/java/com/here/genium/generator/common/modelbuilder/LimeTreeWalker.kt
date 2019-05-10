@@ -63,6 +63,7 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
     private fun walkChildNodes(limeStruct: LimeStruct) {
         walkCollection(limeStruct.fields)
         walkCollection(limeStruct.methods)
+        walkCollection(limeStruct.constants)
     }
 
     private fun walkChildNodes(limeField: LimeField) {
