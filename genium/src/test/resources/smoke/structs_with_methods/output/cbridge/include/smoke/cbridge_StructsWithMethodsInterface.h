@@ -7,6 +7,7 @@ extern "C" {
 #endif
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
+#include <stdbool.h>
 _GENIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_Vector3_create_handle(double x, double y, double z);
 _GENIUM_C_EXPORT void smoke_StructsWithMethodsInterface_Vector3_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_Vector3_create_optional_handle(double x, double y, double z);

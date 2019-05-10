@@ -47,6 +47,9 @@ public final class CBridgeComponents {
       for (CField field : struct.getFields()) {
         includes.addAll(field.getType().getIncludes());
       }
+      for (CFunction function : struct.getMethods()) {
+        includes.addAll(collectFunctionBodyIncludes(function));
+      }
     }
     if (cInterface.selfType != null) {
       includes.addAll(cInterface.selfType.getIncludes());
@@ -83,6 +86,9 @@ public final class CBridgeComponents {
       for (CField field : struct.getFields()) {
         includes.addAll(field.getType().getFunctionReturnType().includes);
         includes.addAll(field.getType().getCType().includes);
+      }
+      for (CFunction function : struct.getMethods()) {
+        includes.addAll(collectFunctionSignatureIncludes(function));
       }
     }
     for (CEnum enumType : cInterface.enums) {
