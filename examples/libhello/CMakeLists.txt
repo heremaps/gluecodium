@@ -383,11 +383,13 @@ feature(Dates cpp android swift SOURCES
     fidl/test/Dates.fdepl
 )
 
-feature(StructsWithMethods cpp android swift SOURCES
+feature(StructsWithCompanion cpp android swift SOURCES
     src/test/StructsWithMethods.cpp
 
     fidl/test/StructsWithMethods.fidl
     fidl/test/StructsWithMethods.fdepl
+    fidl/test/StructsWithConstants.fidl
+    fidl/test/StructsWithConstants.fdepl
 )
 
 feature(Comments cpp android swift SOURCES
