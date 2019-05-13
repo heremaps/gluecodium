@@ -411,6 +411,21 @@ class JavaModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingStructReadsBuilder() {
+        val limeElement = LimeStruct(
+            LimePath(emptyList(), listOf("foo")),
+            attributes = LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.BUILDER)
+                .build()
+        )
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(JavaClass::class.java)
+        assertTrue(result.needsBuilder)
+    }
+
+    @Test
     fun finishBuildingField() {
         contextStack.injectResult(javaType)
         val limeElement = LimeField(

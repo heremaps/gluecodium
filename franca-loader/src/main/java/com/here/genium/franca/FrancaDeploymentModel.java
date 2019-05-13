@@ -146,6 +146,10 @@ public class FrancaDeploymentModel {
     return getString(francaStruct, "Companion");
   }
 
+  public boolean hasJavaBuilder(final FStructType francaStruct) {
+    return getBoolean(francaStruct, "JavaBuilder");
+  }
+
   private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {
 
     List<MappingGenericPropertyAccessor> propertyAccessorsForModelElement =

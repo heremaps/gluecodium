@@ -24,6 +24,7 @@ define GeniumExtensions for typeCollection test.Serialization
 {
     struct SerializableStruct {
         Serializable = true
+        JavaBuilder = true
     }
 
     struct NestedSerializableStruct {

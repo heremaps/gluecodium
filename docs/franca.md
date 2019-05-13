@@ -619,5 +619,28 @@ FDEPL:
         }
     }
 
+### Struct: JavaBuilder
+
+This FDEPL property controls whether a Builder patter is generated for the struct type in Java.
+Default value is `false`, i.e. by default no Builder pattern is generated. This property has no
+effect on generated code for C++ or Swift.
+
+FIDL:
+
+    package example
+
+    typeCollection ExampleTypeCollection {
+        struct ExampleStruct {
+        }
+    }
+
+FDEPL:
+
+    define GeniumExtensions for typeCollection example.ExampleTypeCollection {
+        struct ExampleStruct {
+            JavaBuilder = true
+        }
+    }
+
 [franca]: http://franca.github.io/franca/
 [userguide]: https://drive.google.com/file/d/0B7JseVbR6jvhMXhNb1VMRWM0Z3M/view?usp=sharing

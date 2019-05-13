@@ -23,10 +23,12 @@ import "./Equatable.fidl"
 define GeniumExtensions for typeCollection test.Equatable {
     struct EquatableStruct {
         Equatable = true
+        JavaBuilder = true
     }
 
     struct EquatableNullableStruct {
         Equatable = true
+        JavaBuilder = true
 
         boolField {
             Nullable = true

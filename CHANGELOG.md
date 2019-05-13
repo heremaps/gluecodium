@@ -5,6 +5,10 @@
   + Constructors of generated exception types in Java are now public.
 - Features
   + Added support for structs with constants.
+  + Added explicit support for Builder pattern in Java.
+- Breaking changes:
+  + Builder pattern is no longer automatically generated for all structs in Java. It has to be
+    enabled explicitly for individual structs now.
 
 ## 4.2.0
 - Release date: 2019-05-14

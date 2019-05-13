@@ -169,7 +169,8 @@ internal constructor(
             constants = getPreviousResults(JavaConstant::class.java),
             isParcelable = isSerializable,
             isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
-            isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)
+            isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
+            needsBuilder = limeStruct.attributes.have(LimeAttributeType.BUILDER)
         )
         javaClass.visibility = getVisibility(limeStruct)
         javaClass.javaPackage = rootPackage

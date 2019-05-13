@@ -267,6 +267,16 @@ class LimeModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingStructReadsBuilder() {
+        every { deploymentModel.hasJavaBuilder(francaStruct) } returns true
+
+        modelBuilder.finishBuilding(francaStruct)
+
+        val result = modelBuilder.getFinalResult(LimeStruct::class.java)
+        assertHasAttribute(LimeAttributeType.BUILDER, result)
+    }
+
+    @Test
     fun finishBuildingField() {
         contextStack.injectResult(limeTypeRef)
 

@@ -31,5 +31,6 @@ enum class LimeAttributeType {
     IMMUTABLE,
     NULLABLE,
     CONST,
-    CONSTRUCTOR
+    CONSTRUCTOR,
+    BUILDER
 }

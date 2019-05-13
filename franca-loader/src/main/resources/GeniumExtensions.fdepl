@@ -35,6 +35,7 @@ specification GeniumExtensions {
         Equatable: Boolean (optional, default: false);
         Immutable: Boolean (optional, default: false);
         Companion: String (optional)
+        JavaBuilder: Boolean (optional, default: false)
     }
 
     for struct_fields {

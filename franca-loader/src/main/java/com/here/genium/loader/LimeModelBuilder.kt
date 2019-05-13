@@ -151,6 +151,9 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
         if (deploymentModel.isImmutable(francaStruct)) {
             attributes.addAttribute(LimeAttributeType.IMMUTABLE)
         }
+        if (deploymentModel.hasJavaBuilder(francaStruct)) {
+            attributes.addAttribute(LimeAttributeType.BUILDER)
+        }
 
         val limeStruct = LimeStruct(
             path = createElementPath(francaStruct),

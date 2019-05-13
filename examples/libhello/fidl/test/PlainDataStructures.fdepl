@@ -24,6 +24,7 @@ define GeniumExtensions for interface test.PlainDataStructures
 {
     struct AllTypesImmutableStruct {
         Immutable = true
+        JavaBuilder = true
     }
 
     method MapOfImmutablesRoundTrip {
