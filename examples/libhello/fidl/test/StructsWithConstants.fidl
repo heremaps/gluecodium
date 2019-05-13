@@ -49,10 +49,22 @@ interface StructsWithConstants_SimpleRoute_Companion {
 
     const String DEFAULT_DESCRIPTION = "Nonsense"
     const RouteUtils.RouteType DEFAULT_TYPE = RouteUtils.RouteType.EQUESTRIAN
+
+    method getDefaultDescription {
+        out {
+            String result
+        }
+    }
 }
 
 interface StructsWithConstantsInterface_MultiRoute_Companion {
 
     const String DEFAULT_DESCRIPTION = "Foo"
     const RouteUtils.RouteType DEFAULT_TYPE = RouteUtils.RouteType.NONE
+
+    method getDefaultDescription {
+        out {
+            String result
+        }
+    }
 }

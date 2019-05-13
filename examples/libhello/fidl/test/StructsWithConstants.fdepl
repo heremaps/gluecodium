@@ -33,3 +33,17 @@ define GeniumExtensions for interface test.StructsWithConstantsInterface
         Companion = "test.StructsWithConstantsInterface_MultiRoute_Companion"
     }
 }
+
+define GeniumExtensions for interface test.StructsWithConstants_SimpleRoute_Companion
+{
+    method getDefaultDescription {
+        Static = true
+    }
+}
+
+define GeniumExtensions for interface test.StructsWithConstantsInterface_MultiRoute_Companion
+{
+    method getDefaultDescription {
+        Static = true
+    }
+}

@@ -352,6 +352,18 @@ class JavaModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingStructReadsCosntants() {
+        val javaConstant = JavaConstant("bar", JavaPrimitiveType.BOOL, JavaValue(""))
+        contextStack.injectResult(javaConstant)
+        val limeElement = LimeStruct(LimePath(emptyList(), listOf("foo")))
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(JavaClass::class.java)
+        assertContains(javaConstant, result.constants)
+    }
+
+    @Test
     fun finishBuildingStructReadsSerializable() {
         val limeElement = LimeStruct(
             LimePath(emptyList(), listOf("foo")),

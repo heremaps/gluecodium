@@ -27,6 +27,7 @@ class JavaClass(
     val extendedClass: JavaType? = null,
     val fields: List<JavaField> = emptyList(),
     methods: List<JavaMethod> = emptyList(),
+    constants: List<JavaConstant> = emptyList(),
     @Suppress("unused") val isImplClass: Boolean = false,
     @Suppress("unused") val needsDisposer: Boolean = false,
     @Suppress("unused") val isParcelable: Boolean = false,
@@ -36,6 +37,7 @@ class JavaClass(
 
     init {
         this.methods += methods
+        this.constants += constants
     }
 
     @Suppress("unused")

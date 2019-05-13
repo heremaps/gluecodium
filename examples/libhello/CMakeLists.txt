@@ -385,6 +385,7 @@ feature(Dates cpp android swift SOURCES
 
 feature(StructsWithCompanion cpp android swift SOURCES
     src/test/StructsWithMethods.cpp
+    src/test/StructsWithConstants.cpp
 
     fidl/test/StructsWithMethods.fidl
     fidl/test/StructsWithMethods.fdepl

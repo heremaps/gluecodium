@@ -166,6 +166,7 @@ internal constructor(
             name = JavaNameRules.getClassName(limeStruct.name),
             fields = getPreviousResults(JavaField::class.java),
             methods = methods,
+            constants = getPreviousResults(JavaConstant::class.java),
             isParcelable = isSerializable,
             isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)
