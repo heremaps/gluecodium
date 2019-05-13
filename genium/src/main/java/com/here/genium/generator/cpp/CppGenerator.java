@@ -32,6 +32,11 @@ import java.util.*;
 
 public final class CppGenerator {
 
+  public static final String HEADER_FILE_SUFFIX = ".h";
+  private static final String IMPLEMENTATION_FILE_SUFFIX = ".cpp";
+  private static final String PACKAGE_NAME_SPECIFIER_INCLUDE = "include";
+  private static final String PACKAGE_NAME_SPECIFIER_SRC = "src";
+
   private final String pathPrefix;
   private final List<String> internalNamespace;
 
@@ -57,18 +62,16 @@ public final class CppGenerator {
 
     String relativeFilePath = cppModel.getFilename();
     String absoluteHeaderPath =
-        Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE, relativeFilePath)
-                .toString()
-            + CppNameRules.HEADER_FILE_SUFFIX;
+        Paths.get(pathPrefix, PACKAGE_NAME_SPECIFIER_INCLUDE, relativeFilePath).toString()
+            + HEADER_FILE_SUFFIX;
     String absoluteImplPath =
-        Paths.get(pathPrefix, CppNameRules.PACKAGE_NAME_SPECIFIER_SRC, relativeFilePath).toString()
-            + CppNameRules.IMPLEMENTATION_FILE_SUFFIX;
+        Paths.get(pathPrefix, PACKAGE_NAME_SPECIFIER_SRC, relativeFilePath).toString()
+            + IMPLEMENTATION_FILE_SUFFIX;
 
     // Filter out self-includes
     TreeSet<Include> includes = cppModel.getIncludes();
     includes.removeIf(
-        include ->
-            include.getFileName().equals(relativeFilePath + CppNameRules.HEADER_FILE_SUFFIX));
+        include -> include.getFileName().equals(relativeFilePath + HEADER_FILE_SUFFIX));
 
     CppLibraryIncludes.filterIncludes(includes, internalNamespace);
 
@@ -76,8 +79,7 @@ public final class CppGenerator {
     result.add(new GeneratedFile(headerContent, absoluteHeaderPath));
 
     cppModel.setHeaderInclude(
-        Include.Companion.createInternalInclude(
-            relativeFilePath + CppNameRules.HEADER_FILE_SUFFIX));
+        Include.Companion.createInternalInclude(relativeFilePath + HEADER_FILE_SUFFIX));
 
     String implementationContent =
         TemplateEngine.INSTANCE.render("cpp/CppImplementation", cppModel);
@@ -97,10 +99,10 @@ public final class CppGenerator {
     String resultFileName =
         Paths.get(
                 pathPrefix,
-                CppNameRules.PACKAGE_NAME_SPECIFIER_INCLUDE,
+                PACKAGE_NAME_SPECIFIER_INCLUDE,
                 String.join("/", internalNamespace),
                 headerName)
-            + CppNameRules.HEADER_FILE_SUFFIX;
+            + HEADER_FILE_SUFFIX;
     return new GeneratedFile(content, resultFileName);
   }
 }

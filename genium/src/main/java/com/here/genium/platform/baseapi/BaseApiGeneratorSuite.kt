@@ -28,7 +28,6 @@ import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.cpp.CppNameResolver
-import com.here.genium.generator.cpp.CppNameRules
 import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppComplexTypeRef
@@ -124,7 +123,7 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
         val includes = collectIncludes(finalResults).toMutableList()
         val exportPath = Paths.get(
             internalNamespace.joinToString(File.separator),
-            "Export" + CppNameRules.HEADER_FILE_SUFFIX
+            "Export" + CppGenerator.HEADER_FILE_SUFFIX
         ).toString()
         includes.add(Include.createInternalInclude(exportPath))
 

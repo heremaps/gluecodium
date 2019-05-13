@@ -27,7 +27,8 @@ import java.io.File
 
 class CppIncludeResolver(
     private val rootNamespace: List<String>,
-    private val limeReferenceMap: Map<String, LimeElement>
+    private val limeReferenceMap: Map<String, LimeElement>,
+    private val nameRules: CppNameRules = CppNameRules.INSTANCE
 ) {
     private val resolvedIncludes = mutableMapOf<String, List<Include>>()
 
@@ -37,8 +38,10 @@ class CppIncludeResolver(
             if (externalType != null) {
                 externalType.split(',').map { Include.createInternalInclude(it.trim()) }
             } else {
-                listOf(Include.createInternalInclude(
-                    getOutputFilePath(limeNamedElement) + CppNameRules.HEADER_FILE_SUFFIX)
+                listOf(
+                    Include.createInternalInclude(
+                        getOutputFilePath(limeNamedElement) + CppGenerator.HEADER_FILE_SUFFIX
+                    )
                 )
             }
         }
@@ -57,8 +60,7 @@ class CppIncludeResolver(
     }
 
     fun getOutputFilePath(limeNamedElement: LimeNamedElement) =
-        (rootNamespace +
-                limeNamedElement.path.head +
-                CppNameRules.INSTANCE.getTypeName(limeNamedElement.path.container)
+        (rootNamespace + limeNamedElement.path.head +
+                nameRules.getTypeName(limeNamedElement.path.container)
         ).joinToString(separator = File.separator)
 }

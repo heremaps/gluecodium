@@ -27,11 +27,6 @@ public final class CppNameRules implements NameRules {
 
   public static final CppNameRules INSTANCE = new CppNameRules();
 
-  public static final String HEADER_FILE_SUFFIX = ".h";
-  public static final String IMPLEMENTATION_FILE_SUFFIX = ".cpp";
-  public static final String PACKAGE_NAME_SPECIFIER_INCLUDE = "include";
-  public static final String PACKAGE_NAME_SPECIFIER_SRC = "src";
-
   private CppNameRules() {}
 
   @Override
@@ -64,10 +59,6 @@ public final class CppNameRules implements NameRules {
 
   public static String joinFullyQualifiedName(final List<String> nameList) {
     return "::" + String.join("::", nameList);
-  }
-
-  public static String joinFullyQualifiedName(final List<String> namespace, final String name) {
-    return "::" + String.join("::", namespace) + "::" + name;
   }
 
   public static String joinFullyQualifiedName(final String namespace, final String name) {

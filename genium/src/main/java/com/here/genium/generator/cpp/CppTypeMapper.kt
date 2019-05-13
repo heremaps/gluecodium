@@ -47,7 +47,7 @@ class CppTypeMapper(
     @VisibleForTesting
     internal val enumHashType =
         CppComplexTypeRef(
-            CppNameRules.joinFullyQualifiedName(internalNamespace, "EnumHash"),
+            CppNameRules.joinFullyQualifiedName(internalNamespace + "EnumHash"),
             listOf(CppLibraryIncludes.ENUM_HASH)
         )
 
