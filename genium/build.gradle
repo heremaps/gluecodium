@@ -17,6 +17,9 @@
  * License-Filename: LICENSE
  */
 
+plugins {
+    id "com.lazan.dependency-export" version "0.5"
+}
 dependencies {
     compile project(":lime-runtime")
     compile project(":franca-loader")
@@ -148,3 +151,8 @@ spotless {
 
 project.ext.longName = 'Genium command-line tool'
 apply from: "$rootDir/gradle/publishing.gradle"
+
+apply plugin: "com.lazan.dependency-export"
+mavenDependencyExport {
+    configuration 'runtime'
+}
