@@ -61,32 +61,4 @@ public class SerializableStruct implements Parcelable {
         out_parcel.writeParcelable(structField, 0);
         out_parcel.writeList(arrayField);
     }
-
-    public static class Builder {
-        private int intField = 0;
-        private String stringField = "";
-        private NestedSerializableStruct structField = new NestedSerializableStruct();
-        private List<String> arrayField = new ArrayList<>();
-        public Builder() {
-        }
-        public Builder setIntField(int intField) {
-            this.intField = intField;
-            return this;
-        }
-        public Builder setStringField(String stringField) {
-            this.stringField = stringField;
-            return this;
-        }
-        public Builder setStructField(NestedSerializableStruct structField) {
-            this.structField = structField;
-            return this;
-        }
-        public Builder setArrayField(List<String> arrayField) {
-            this.arrayField = arrayField;
-            return this;
-        }
-        public SerializableStruct build() {
-            return new SerializableStruct(intField, stringField, structField, arrayField);
-        }
-    }
 }

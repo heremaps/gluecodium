@@ -42,27 +42,4 @@ public class EquatableStruct {
         hash = 31 * hash + (this.structField != null ? this.structField.hashCode() : 0);
         return hash;
     }
-
-    public static class Builder {
-        private int intField = 0;
-        private String stringField = "";
-        private NestedEquatableStruct structField = new NestedEquatableStruct();
-        public Builder() {
-        }
-        public Builder setIntField(int intField) {
-            this.intField = intField;
-            return this;
-        }
-        public Builder setStringField(String stringField) {
-            this.stringField = stringField;
-            return this;
-        }
-        public Builder setStructField(NestedEquatableStruct structField) {
-            this.structField = structField;
-            return this;
-        }
-        public EquatableStruct build() {
-            return new EquatableStruct(intField, stringField, structField);
-        }
-    }
 }

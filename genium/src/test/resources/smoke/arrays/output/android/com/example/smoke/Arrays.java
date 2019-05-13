@@ -57,28 +57,6 @@ public class Arrays extends NativeBase {
             this.numbers = numbers;
             this.image = image;
         }
-        public static class Builder {
-            private List<String> messages = new ArrayList<>();
-            private List<Short> numbers = new ArrayList<>();
-            private byte[] image = new byte[0];
-            public Builder() {
-            }
-            public Builder setMessages(List<String> messages) {
-                this.messages = messages;
-                return this;
-            }
-            public Builder setNumbers(List<Short> numbers) {
-                this.numbers = numbers;
-                return this;
-            }
-            public Builder setImage(byte[] image) {
-                this.image = image;
-                return this;
-            }
-            public FancyStruct build() {
-                return new FancyStruct(messages, numbers, image);
-            }
-        }
     }
     /**
      * For internal use only.

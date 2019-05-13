@@ -38,38 +38,6 @@ public class DefaultValues extends NativeBase {
             this.stringField = stringField;
             this.enumField = enumField;
         }
-        public static class Builder {
-            private int intField = 42;
-            private float floatField = 3.14f;
-            private boolean boolField = true;
-            private String stringField = "some string";
-            private DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
-            public Builder() {
-            }
-            public Builder setIntField(int intField) {
-                this.intField = intField;
-                return this;
-            }
-            public Builder setFloatField(float floatField) {
-                this.floatField = floatField;
-                return this;
-            }
-            public Builder setBoolField(boolean boolField) {
-                this.boolField = boolField;
-                return this;
-            }
-            public Builder setStringField(String stringField) {
-                this.stringField = stringField;
-                return this;
-            }
-            public Builder setEnumField(DefaultValues.SomeEnum enumField) {
-                this.enumField = enumField;
-                return this;
-            }
-            public StructWithDefaults build() {
-                return new StructWithDefaults(intField, floatField, boolField, stringField, enumField);
-            }
-        }
     }
     /**
      * For internal use only.

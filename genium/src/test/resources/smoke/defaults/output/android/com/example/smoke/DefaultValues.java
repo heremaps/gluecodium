@@ -46,53 +46,6 @@ public class DefaultValues extends NativeBase {
             this.enumField = enumField;
             this.externalEnumField = externalEnumField;
         }
-        public static class Builder {
-            private int intField = 42;
-            private long uintField = 4294967295L;
-            private float floatField = 3.14f;
-            private double doubleField = -1.4142;
-            private boolean boolField = true;
-            private String stringField = "\\Jonny \"Magic\" Smith\n";
-            private DefaultValues.SomeEnum enumField = DefaultValues.SomeEnum.BAR_VALUE;
-            private DefaultValues.ExternalEnum externalEnumField = DefaultValues.ExternalEnum.ANOTHER_VALUE;
-            public Builder() {
-            }
-            public Builder setIntField(int intField) {
-                this.intField = intField;
-                return this;
-            }
-            public Builder setUintField(long uintField) {
-                this.uintField = uintField;
-                return this;
-            }
-            public Builder setFloatField(float floatField) {
-                this.floatField = floatField;
-                return this;
-            }
-            public Builder setDoubleField(double doubleField) {
-                this.doubleField = doubleField;
-                return this;
-            }
-            public Builder setBoolField(boolean boolField) {
-                this.boolField = boolField;
-                return this;
-            }
-            public Builder setStringField(String stringField) {
-                this.stringField = stringField;
-                return this;
-            }
-            public Builder setEnumField(DefaultValues.SomeEnum enumField) {
-                this.enumField = enumField;
-                return this;
-            }
-            public Builder setExternalEnumField(DefaultValues.ExternalEnum externalEnumField) {
-                this.externalEnumField = externalEnumField;
-                return this;
-            }
-            public StructWithDefaults build() {
-                return new StructWithDefaults(intField, uintField, floatField, doubleField, boolField, stringField, enumField, externalEnumField);
-            }
-        }
     }
     public static class StructWithSpecialDefaults {
         public float floatNanField;
@@ -111,43 +64,6 @@ public class DefaultValues extends NativeBase {
             this.doubleNanField = doubleNanField;
             this.doubleInfinityField = doubleInfinityField;
             this.doubleNegativeInfinityField = doubleNegativeInfinityField;
-        }
-        public static class Builder {
-            private float floatNanField = Float.NaN;
-            private float floatInfinityField = Float.POSITIVE_INFINITY;
-            private float floatNegativeInfinityField = Float.NEGATIVE_INFINITY;
-            private double doubleNanField = Double.NaN;
-            private double doubleInfinityField = Double.POSITIVE_INFINITY;
-            private double doubleNegativeInfinityField = Double.NEGATIVE_INFINITY;
-            public Builder() {
-            }
-            public Builder setFloatNanField(float floatNanField) {
-                this.floatNanField = floatNanField;
-                return this;
-            }
-            public Builder setFloatInfinityField(float floatInfinityField) {
-                this.floatInfinityField = floatInfinityField;
-                return this;
-            }
-            public Builder setFloatNegativeInfinityField(float floatNegativeInfinityField) {
-                this.floatNegativeInfinityField = floatNegativeInfinityField;
-                return this;
-            }
-            public Builder setDoubleNanField(double doubleNanField) {
-                this.doubleNanField = doubleNanField;
-                return this;
-            }
-            public Builder setDoubleInfinityField(double doubleInfinityField) {
-                this.doubleInfinityField = doubleInfinityField;
-                return this;
-            }
-            public Builder setDoubleNegativeInfinityField(double doubleNegativeInfinityField) {
-                this.doubleNegativeInfinityField = doubleNegativeInfinityField;
-                return this;
-            }
-            public StructWithSpecialDefaults build() {
-                return new StructWithSpecialDefaults(floatNanField, floatInfinityField, floatNegativeInfinityField, doubleNanField, doubleInfinityField, doubleNegativeInfinityField);
-            }
         }
     }
     /**

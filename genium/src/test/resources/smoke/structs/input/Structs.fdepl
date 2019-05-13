@@ -24,6 +24,7 @@ define GeniumExtensions for interface smoke.Structs
 {
     struct AllTypesStruct {
         Immutable = true
+        JavaBuilder = true
     }
 
     method createPoint {

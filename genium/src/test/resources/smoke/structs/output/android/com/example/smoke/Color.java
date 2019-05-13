@@ -15,26 +15,4 @@ public class Color {
         this.green = green;
         this.blue = blue;
     }
-    public static class Builder {
-        private short red = (short)0;
-        private short green = (short)0;
-        private short blue = (short)0;
-        public Builder() {
-        }
-        public Builder setRed(short red) {
-            this.red = red;
-            return this;
-        }
-        public Builder setGreen(short green) {
-            this.green = green;
-            return this;
-        }
-        public Builder setBlue(short blue) {
-            this.blue = blue;
-            return this;
-        }
-        public Color build() {
-            return new Color(red, green, blue);
-        }
-    }
 }

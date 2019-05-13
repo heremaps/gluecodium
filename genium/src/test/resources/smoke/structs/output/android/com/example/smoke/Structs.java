@@ -39,28 +39,6 @@ public class Structs extends NativeBase {
             this.green = green;
             this.blue = blue;
         }
-        public static class Builder {
-            private short red = (short)0;
-            private short green = (short)0;
-            private short blue = (short)0;
-            public Builder() {
-            }
-            public Builder setRed(short red) {
-                this.red = red;
-                return this;
-            }
-            public Builder setGreen(short green) {
-                this.green = green;
-                return this;
-            }
-            public Builder setBlue(short blue) {
-                this.blue = blue;
-                return this;
-            }
-            public Color build() {
-                return new Color(red, green, blue);
-            }
-        }
     }
     public static class Line {
         @NonNull
@@ -216,33 +194,6 @@ public class Structs extends NativeBase {
             this.externalStringField = externalStringField;
             this.externalArrayField = externalArrayField;
             this.externalStructField = externalStructField;
-        }
-        public static class Builder {
-            private String stringField = "";
-            private String externalStringField = "";
-            private List<Byte> externalArrayField = new ArrayList<>();
-            private Structs.AnotherExternalStruct externalStructField = new Structs.AnotherExternalStruct();
-            public Builder() {
-            }
-            public Builder setStringField(String stringField) {
-                this.stringField = stringField;
-                return this;
-            }
-            public Builder setExternalStringField(String externalStringField) {
-                this.externalStringField = externalStringField;
-                return this;
-            }
-            public Builder setExternalArrayField(List<Byte> externalArrayField) {
-                this.externalArrayField = externalArrayField;
-                return this;
-            }
-            public Builder setExternalStructField(Structs.AnotherExternalStruct externalStructField) {
-                this.externalStructField = externalStructField;
-                return this;
-            }
-            public ExternalStruct build() {
-                return new ExternalStruct(stringField, externalStringField, externalArrayField, externalStructField);
-            }
         }
     }
     public static class AnotherExternalStruct {
