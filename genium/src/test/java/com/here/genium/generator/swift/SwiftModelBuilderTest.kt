@@ -82,6 +82,8 @@ class SwiftModelBuilderTest {
     private val swiftValue = SwiftValue("")
 
     private val fooPath = LimePath(listOf("mo", "del"), listOf("foo"))
+    private val limeStruct = LimeStruct(fooPath)
+
     private val contextStack = MockContextStack<SwiftModelElement>()
 
     private lateinit var modelBuilder: SwiftModelBuilder
@@ -306,11 +308,10 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingStructReadsFields() {
-        val limeElement = LimeStruct(fooPath)
         val swiftField = SwiftField("", null, null, null)
         contextStack.injectResult(swiftField)
 
-        modelBuilder.finishBuilding(limeElement)
+        modelBuilder.finishBuilding(limeStruct)
 
         val result = modelBuilder.getFinalResult(SwiftStruct::class.java)
         assertContains(swiftField, result.fields)
@@ -318,14 +319,24 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingStructReadsMethods() {
-        val limeElement = LimeStruct(fooPath)
         val swiftMethod = SwiftMethod("")
         contextStack.injectResult(swiftMethod)
 
-        modelBuilder.finishBuilding(limeElement)
+        modelBuilder.finishBuilding(limeStruct)
 
         val result = modelBuilder.getFinalResult(SwiftStruct::class.java)
         assertContains(swiftMethod, result.methods)
+    }
+
+    @Test
+    fun finishBuildingStructReadsConstants() {
+        val swiftConstant = SwiftConstant("", null, SwiftType.VOID, SwiftValue(""))
+        contextStack.injectResult(swiftConstant)
+
+        modelBuilder.finishBuilding(limeStruct)
+
+        val result = modelBuilder.getFinalResult(SwiftStruct::class.java)
+        assertContains(swiftConstant, result.constants)
     }
 
     @Test

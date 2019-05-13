@@ -250,6 +250,7 @@ internal constructor(
             isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
             fields = getPreviousResults(SwiftField::class.java),
+            constants = getPreviousResults(SwiftConstant::class.java),
             methods = getPreviousResults(SwiftMethod::class.java)
         )
         swiftStruct.comment = limeStruct.comment
