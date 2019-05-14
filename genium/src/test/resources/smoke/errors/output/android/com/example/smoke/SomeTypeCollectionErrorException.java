@@ -4,7 +4,7 @@
  */
 package com.example.smoke;
 public class SomeTypeCollectionErrorException extends Exception {
-    SomeTypeCollectionErrorException(final SomeTypeCollectionError error) {
+    public SomeTypeCollectionErrorException(final SomeTypeCollectionError error) {
         super(Integer.toString(error.value));
         this.error = error;
     }

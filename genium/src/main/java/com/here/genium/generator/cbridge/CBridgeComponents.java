@@ -135,6 +135,9 @@ public final class CBridgeComponents {
     if (function.getSelfParameter() != null) {
       includes.addAll(function.getSelfParameter().mappedType.getIncludes());
     }
+    if (function.getError() != null) {
+      includes.addAll(function.getError().getIncludes());
+    }
     return includes;
   }
 }

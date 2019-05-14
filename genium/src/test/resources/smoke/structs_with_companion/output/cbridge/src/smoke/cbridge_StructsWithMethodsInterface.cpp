@@ -5,6 +5,7 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "genium/Optional.h"
 #include "smoke/StructsWithMethodsInterface.h"
+#include "smoke/ValidationUtils.h"
 #include <memory>
 #include <new>
 #include <string>

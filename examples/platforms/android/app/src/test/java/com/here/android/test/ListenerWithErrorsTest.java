@@ -24,6 +24,8 @@ import android.os.Build;
 
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
+import com.here.android.another.AdditionalErrors.ExternalErrors;
+import com.here.android.another.AdditionalErrors.ExternalErrorsException;
 import com.here.android.matchers.FieldMatcher;
 import org.junit.Rule;
 import org.junit.Test;
@@ -47,12 +49,12 @@ public class ListenerWithErrorsTest {
     private String data = "Doesn't work";
 
     @Override
-    public String getMessage() throws ListenerWithErrors.ErrorEnumException {
+    public String getMessage() throws ExternalErrorsException {
       return data;
     }
 
     @Override
-    public void setMessage(String value) throws ListenerWithErrors.ErrorEnumException {
+    public void setMessage(String value) throws ExternalErrorsException {
       data = value;
     }
   }
@@ -60,18 +62,18 @@ public class ListenerWithErrorsTest {
   static class ThrowingListener implements ListenerWithErrors {
 
     @Override
-    public String getMessage() throws ListenerWithErrors.ErrorEnumException {
-      throw new ListenerWithErrors.ErrorEnumException(ListenerWithErrors.ErrorEnum.BROKEN);
+    public String getMessage() throws ExternalErrorsException {
+      throw new ExternalErrorsException(ExternalErrors.FAILED);
     }
 
     @Override
-    public void setMessage(String value) throws ListenerWithErrors.ErrorEnumException {
-      throw new ListenerWithErrors.ErrorEnumException(ListenerWithErrors.ErrorEnum.BROKEN);
+    public void setMessage(String value) throws ExternalErrorsException {
+      throw new ExternalErrorsException(ExternalErrors.FAILED);
     }
   }
 
   @Test
-  public void stringRoundTripWorks() throws ListenerWithErrors.ErrorEnumException {
+  public void stringRoundTripWorks() throws ExternalErrorsException {
     ListenerWithErrors listener = new TestListener();
 
     ErrorMessenger messenger = new ErrorMessenger();
@@ -82,19 +84,19 @@ public class ListenerWithErrorsTest {
   }
 
   @Test
-  public void getMessageErrorRethrown() throws ListenerWithErrors.ErrorEnumException {
-    expectedException.expect(ListenerWithErrors.ErrorEnumException.class);
+  public void getMessageErrorRethrown() throws ExternalErrorsException {
+    expectedException.expect(ExternalErrorsException.class);
     expectedException.expect(
-        FieldMatcher.hasFieldWithValue("error", ListenerWithErrors.ErrorEnum.BROKEN));
+        FieldMatcher.hasFieldWithValue("error", ExternalErrors.FAILED));
 
     new ErrorMessenger().getMessage(new ThrowingListener());
   }
 
   @Test
-  public void setMessageErrorRethrown() throws ListenerWithErrors.ErrorEnumException {
-    expectedException.expect(ListenerWithErrors.ErrorEnumException.class);
+  public void setMessageErrorRethrown() throws ExternalErrorsException {
+    expectedException.expect(ExternalErrorsException.class);
     expectedException.expect(
-        FieldMatcher.hasFieldWithValue("error", ListenerWithErrors.ErrorEnum.BROKEN));
+        FieldMatcher.hasFieldWithValue("error", ExternalErrors.FAILED));
 
     new ErrorMessenger().setMessage(new ThrowingListener(), "Foo");
   }

@@ -23,14 +23,14 @@ public class Errors extends NativeBase {
         }
     }
     public static class InternalErrorException extends Exception {
-        InternalErrorException(final Errors.InternalError error) {
+        public InternalErrorException(final Errors.InternalError error) {
             super(Integer.toString(error.value));
             this.error = error;
         }
         public final Errors.InternalError error;
     }
     public static class ExternalErrorsException extends Exception {
-        ExternalErrorsException(final Errors.ExternalErrors error) {
+        public ExternalErrorsException(final Errors.ExternalErrors error) {
             super(Integer.toString(error.value));
             this.error = error;
         }

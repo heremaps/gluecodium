@@ -21,7 +21,7 @@ public class CommentsLinks extends NativeBase {
         }
     }
     public static class TooUsefulException extends Exception {
-        TooUsefulException(final CommentsLinks.TooUseful error) {
+        public TooUsefulException(final CommentsLinks.TooUseful error) {
             super(Integer.toString(error.value));
             this.error = error;
         }

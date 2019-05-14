@@ -37,11 +37,11 @@ class ListenerWithErrorsTests: XCTestCase {
 
       class ThrowingListener: ListenerWithErrors {
           public func getMessage() throws -> String {
-              throw ErrorEnum.broken
+              throw AdditionalErrors.ExternalErrors.failed
           }
 
           public func setMessage(message: String) throws {
-              throw ErrorEnum.broken
+              throw AdditionalErrors.ExternalErrors.failed
           }
       }
 
@@ -59,7 +59,8 @@ class ListenerWithErrorsTests: XCTestCase {
         let messenger = ErrorMessenger()
 
         XCTAssertThrowsError(try messenger.getMessage(listener: ThrowingListener())) { error in
-            XCTAssertEqual(error as? ErrorEnum, ErrorEnum.broken)
+            XCTAssertEqual(error as? AdditionalErrors.ExternalErrors,
+                AdditionalErrors.ExternalErrors.failed)
         }
     }
 
@@ -67,7 +68,8 @@ class ListenerWithErrorsTests: XCTestCase {
         let messenger = ErrorMessenger()
 
         XCTAssertThrowsError(try messenger.setMessage(listener: ThrowingListener(), message: "Foo")) { error in
-            XCTAssertEqual(error as? ErrorEnum, ErrorEnum.broken)
+            XCTAssertEqual(error as? AdditionalErrors.ExternalErrors,
+                AdditionalErrors.ExternalErrors.failed)
         }
     }
 

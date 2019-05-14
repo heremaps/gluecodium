@@ -22,14 +22,14 @@ public interface ErrorsInterface {
         }
     }
     public static class InternalErrorException extends Exception {
-        InternalErrorException(final ErrorsInterface.InternalError error) {
+        public InternalErrorException(final ErrorsInterface.InternalError error) {
             super(Integer.toString(error.value));
             this.error = error;
         }
         public final ErrorsInterface.InternalError error;
     }
     public static class ExternalErrorsException extends Exception {
-        ExternalErrorsException(final ErrorsInterface.ExternalErrors error) {
+        public ExternalErrorsException(final ErrorsInterface.ExternalErrors error) {
             super(Integer.toString(error.value));
             this.error = error;
         }

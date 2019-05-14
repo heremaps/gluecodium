@@ -1,10 +1,14 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Constructors of generated exception types in Java are now public.
+
 ## 4.2.0
 - Release date: 2019-05-14
-- Features
-  + Java comments are generated as JavaDoc HTML and links to classes and members are supported now
-  + Links to members in Swift and C++ comments are now supported
+- Features:
+  + Java comments are generated as JavaDoc HTML and links to classes and members are supported now.
+  + Links to members in Swift and C++ comments are now supported.
   + Added support for structs with methods.
   + Added support for custom constructors for structs.
 
@@ -13,15 +17,15 @@
 - Bug fixes:
   + Fixed runtime issues caused by empty ByteBuffer in Swift.
   + Fixed compilation issues caused by nullable ByteBuffer fields in Swift and Java.
-  + Common indentation of comments is stripped to preserve markdown indentation properly
+  + Common indentation of comments is stripped to preserve markdown indentation properly.
   + Passing `null` to @NonNull String or ByteBuffer in Java now causes a NullPointerException.
-- Features
+- Features:
   + Added built-in Date type.
 
 ## 4.0.2
 - Release date: 2019-04-17
-- Features
-  + Added a command line parameter to specify package for Genium-internal classes (e.g. NativeBase)
+- Features:
+  + Added a command line parameter to specify package for Genium-internal classes (e.g. NativeBase).
 
 ## 4.0.1
 - Release date: 2019-04-16
@@ -43,7 +47,7 @@
 
 ## 3.21.1
 - Release date: 2019-03-04
-- Bug fixes
+- Bug fixes:
   + Fixed an issue where headers containing only typedefs were not generated for C++
   + Fixed default initialization of ByteBuffer fields for structs in Java.
   + Fixed JNI type conversion for UInt8 and UInt16 types.

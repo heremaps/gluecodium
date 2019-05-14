@@ -19,27 +19,24 @@
 
 package test
 
+import another.AdditionalErrors.ExternalErrors from "./Errors2.fidl"
+
 interface ListenerWithErrors {
 
     public typedef ListenerWithErrors is undefined
-
-    public enumeration ErrorEnum {
-        NONE
-        BROKEN
-    }
 
     method getMessage {
         out {
             String message
         }
-        error ErrorEnum
+        error ExternalErrors
     }
 
     method setMessage {
         in {
             String message
         }
-        error ErrorEnum
+        error ExternalErrors
     }
 }
 
@@ -53,7 +50,7 @@ interface ErrorMessenger {
         out {
             String message
         }
-        error ListenerWithErrors.ErrorEnum
+        error ExternalErrors
     }
 
     method setMessage {
@@ -61,7 +58,7 @@ interface ErrorMessenger {
             ListenerWithErrors.ListenerWithErrors listener
             String message
         }
-        error ListenerWithErrors.ErrorEnum
+        error ExternalErrors
     }
 
     method create {

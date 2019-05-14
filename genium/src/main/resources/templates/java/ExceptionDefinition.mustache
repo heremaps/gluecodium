@@ -19,7 +19,7 @@
   !
   !}}
 {{#if visibility.toString}}{{visibility}} {{/if}}{{#if static}}static {{/if}}class {{name}} extends Exception {
-    {{name}}(final {{enumTypeRef.name}} error) {
+    {{#if visibility.toString}}{{visibility}} {{/if}}{{name}}(final {{enumTypeRef.name}} error) {
         super(Integer.toString(error.value));
         this.error = error;
     }
