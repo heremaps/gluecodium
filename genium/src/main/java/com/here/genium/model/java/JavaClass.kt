@@ -45,8 +45,7 @@ class JavaClass(
     val uninitializedFields = fields.filter { !it.initial.isCustom }
 
     @Suppress("unused")
-    val hasPartialDefaults =
-            uninitializedFields.isNotEmpty() && uninitializedFields.size < fields.size
+    val hasDefaults = uninitializedFields.size < fields.size
 
     @Suppress("unused")
     val constructors
@@ -55,7 +54,17 @@ class JavaClass(
     override fun stream(): Stream<JavaElement> {
         val extendedClassStream =
             if (extendedClass != null) extendedClass.stream() else Stream.empty()
-        return Stream.of(super.stream(), fields.stream(), extendedClassStream)
+        val implClassStream =
+            when {
+                isParcelable || needsBuilder ->
+                    fields
+                        .map { it.type }
+                        .filterIsInstance<JavaTemplateType>()
+                        .map { it.implementationType }
+                        .stream()
+                else -> Stream.empty()
+            }
+        return Stream.of(super.stream(), fields.stream(), extendedClassStream, implClassStream)
             .flatMap(Function.identity())
     }
 

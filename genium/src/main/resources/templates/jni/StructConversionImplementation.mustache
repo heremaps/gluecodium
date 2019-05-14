@@ -71,7 +71,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const {{cppStruct.fullyQualifiedName}}& _ninput)
 {
     auto& javaClass = CachedJavaClass<{{cppStruct.fullyQualifiedName}}>::java_class;
-    auto _jresult = {{>common/InternalNamespace}}jni::create_object(_jenv, javaClass);
+    auto _jresult = {{>common/InternalNamespace}}jni::alloc_object(_jenv, javaClass);
 {{#fields}}{{#if hasCustomType}}
     auto j{{cppField.name}} = convert_to_jni(_jenv, {{>getCppFieldValue}});
     {{>common/InternalNamespace}}jni::set_object_field_value(_jenv, _jresult, "{{javaField.name}}",

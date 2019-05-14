@@ -689,6 +689,10 @@ This FDEPL property controls whether a Builder patter is generated for the struc
 Default value is `false`, i.e. by default no Builder pattern is generated. This property has no
 effect on generated code for C++ or Swift.
 
+**Note:** The Builder initializes unset fields with their explicit defaults if those are provided
+(see `DefaultValue`, `DefaultIsNull`, and `DefaultIsEmpty` above). Unset fields without an explicit
+default are initialized with zero or `null` according to the field type.
+
 FIDL:
 
     package example

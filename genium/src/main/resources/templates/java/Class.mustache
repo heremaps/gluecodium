@@ -49,26 +49,16 @@
 {{prefixPartial "java/NativeConstructor" "    "}}
 {{/if}}
 {{#if fields}}{{#unless constructors}}
-    public {{name}}() {
-        this({{joinPartial fields "java/FieldInitializer" ", "}});
-    }{{#if hasPartialDefaults}}
-
     public {{name}}({{#uninitializedFields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}) {
 {{#fields}}        this.{{name}} = {{#if initial.isCustom}}{{>java/FieldInitializer}}{{/if}}{{#unless initial.isCustom}}{{name}}{{/unless}};
 {{/fields}}
-    }
-    {{/if}}
+    }{{#if hasDefaults}}
 
     public {{name}}({{#fields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
 {{#fields}}        this.{{name}} = {{name}};
 {{/fields}}
-    }
-{{/unless}}{{#if constructors}}
-    private {{name}}() {
-{{#fields}}        this.{{name}} = {{>java/FieldInitializer}};
-{{/fields}}
-    }
-{{/if}}{{/if}}
+    }{{/if}}
+{{/unless}}{{/if}}
 {{#if isParcelable}}{{prefixPartial "java/ParcelableImpl" "    "}}
 
 {{/if}}

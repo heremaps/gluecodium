@@ -19,12 +19,7 @@
 
 package com.here.genium.generator.java
 
-import com.here.genium.model.java.JavaArrayType
-import com.here.genium.model.java.JavaCustomType
-import com.here.genium.model.java.JavaEnumType
 import com.here.genium.model.java.JavaPrimitiveType
-import com.here.genium.model.java.JavaReferenceType
-import com.here.genium.model.java.JavaReferenceType.Type
 import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaType
 import com.here.genium.model.java.JavaValue
@@ -87,20 +82,9 @@ class JavaValueMapper(private val limeReferenceMap: Map<String, LimeElement>) {
         fun mapNullValue(javaType: JavaType) = JavaValue("(${javaType.name})null")
 
         fun mapDefaultValue(javaType: JavaType) =
-            when {
-                javaType is JavaTemplateType -> JavaValue(javaType.implementationType)
-                javaType is JavaEnumType -> JavaValue(javaType.name + ".values()[0]")
-                javaType is JavaCustomType && !javaType.isInterface -> JavaValue(javaType)
-                javaType == JavaPrimitiveType.BOOL -> JavaValue("false")
-                javaType is JavaPrimitiveType -> JavaValue(decorateLiteralValue(javaType, "0"))
-                javaType is JavaArrayType -> JavaValue("new " + javaType.type.value + "[0]")
-                javaType is JavaReferenceType -> {
-                    when (javaType.type) {
-                        Type.STRING -> JavaValue("\"\"")
-                        Type.DATE -> JavaValue("new Date()")
-                        else -> mapNullValue(javaType)
-                    }
-                }
+            when (javaType) {
+                JavaPrimitiveType.BOOL -> JavaValue("false")
+                is JavaPrimitiveType -> JavaValue(decorateLiteralValue(javaType, "0"))
                 else -> mapNullValue(javaType)
             }
 

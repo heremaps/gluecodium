@@ -25,3 +25,22 @@ and a native Java/Swift object is passed to C++, a C++ wrapper needs to be insta
 passed as `std::shared_ptr` and therefore remains valid as long as C++ code keeps a copy of it. If the
 same Java/Swift object is passed again to C++ the same wrapper will be used, i.e. pointer equality
 is guaranteed.
+
+Implicit default values for fields in Java
+------------------------------------------
+
+### Default constructors for structs
+The design decision is to skip generating a default constructor (i.e. a constructor with parameters)
+for struct-type classes in Java, unless every field has an explicit default specified. This avoids
+the situation where some fields are initialized with some implicit default values which were either
+unintended by the API designer or unexpected by the user of the API, or both.
+
+### Builder pattern for structs
+Contrary to the one above, there are implicit defaults for the Builder pattern. The implicit
+defaults (zeroes and nulls) are applied to each field that **both** lacks an explicit default *and*
+was not set by a corresponding `set` call of the Builder class.
+
+The rationale behind this is that Builder pattern is not generated automatically. It has to be
+specified explicitly and it occurs much less often than an unconditional default constructor would.
+Moreover, the Builder has to initialize the field with *something*. Generating a builder that fails
+on uninitialized fields would violate the common behavior of the Builder pattern in Java.

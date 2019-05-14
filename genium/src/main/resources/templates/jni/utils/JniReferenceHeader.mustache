@@ -192,6 +192,12 @@ create_instance_object( JNIEnv* env, const JniReference<jclass>& javaClass, jlon
     return new_object(env, javaClass, theConstructor, instancePointer );
 }
 
+inline JniReference<jobject>
+alloc_object( JNIEnv* env, const JniReference<jclass>& javaClass )
+{
+    return make_local_ref( env, env->AllocObject( javaClass.get( ) ) );
+}
+
 }
 {{#internalNamespace}}
 }
