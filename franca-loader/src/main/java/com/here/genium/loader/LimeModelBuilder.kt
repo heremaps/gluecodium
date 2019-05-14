@@ -29,9 +29,11 @@ import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType.TypeId
+import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
+import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
@@ -46,6 +48,7 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
@@ -99,9 +102,7 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
         }
 
         val parentContainer = getPreviousResult(LimeContainer::class.java)
-        val parentRef = parentContainer?.let {
-            LimeTypeRef(referenceResolver.referenceMap, it.path.toString())
-        }
+        val parentRef = parentContainer?.let { LimeDirectTypeRef(it) }
 
         finishBuildingTypeCollection(francaInterface, containerType, attributes, parentRef)
     }
@@ -178,7 +179,7 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
         var fieldType = getPreviousResult(LimeTypeRef::class.java)
         if (francaField.isArray) {
             val arrayKey = registerArrayType(fieldType.elementFullName)
-            fieldType = LimeTypeRef(referenceResolver.referenceMap, arrayKey)
+            fieldType = LimeLazyTypeRef(arrayKey, referenceResolver.referenceMap)
         }
 
         val limeField = LimeField(
@@ -199,7 +200,7 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
                 FrancaTypeHelper.getFullName(francaTypeRef.derived.eContainer() as FTypeCollection)
             else -> LimeReferenceResolver.getTypeKey(francaTypeRef)
         }
-        val limeTypeRef = LimeTypeRef(referenceResolver.referenceMap, typeKey)
+        val limeTypeRef = LimeLazyTypeRef(typeKey, referenceResolver.referenceMap)
 
         storeResultAndCloseContext(limeTypeRef)
     }
@@ -232,7 +233,7 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
     override fun finishBuilding(francaExpression: FInitializerExpression) {
         val francaType = parentContext.previousResults
             .filterIsInstance<LimeTypeRef>()
-            .firstOrNull() ?: LimeTypeRef(referenceResolver.referenceMap, TypeId.INT32.name)
+            .firstOrNull() ?: LimeBasicTypeRef(TypeId.INT32)
         val limeValue = when (francaExpression) {
             is FConstant, is FUnaryOperation -> {
                 val stringValue = StringValueMapper.map(francaExpression)
@@ -255,7 +256,7 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
         var constantType = getPreviousResult(LimeTypeRef::class.java)
         if (francaConstant.isArray) {
             val arrayKey = registerArrayType(constantType.elementFullName)
-            constantType = LimeTypeRef(referenceResolver.referenceMap, arrayKey)
+            constantType = LimeLazyTypeRef(arrayKey, referenceResolver.referenceMap)
         }
 
         val limeConstant = LimeConstant(
@@ -292,7 +293,7 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
             path = createElementPath(francaArrayType),
             visibility = getLimeVisibility(francaArrayType),
             comment = CommentHelper.getDescription(francaArrayType),
-            typeRef = LimeTypeRef(referenceResolver.referenceMap, arrayKey)
+            typeRef = LimeLazyTypeRef(arrayKey, referenceResolver.referenceMap)
         )
 
         storeResultAndCloseContext(limeTypeDef)
@@ -312,7 +313,7 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
             path = createElementPath(francaMapType),
             visibility = getLimeVisibility(francaMapType),
             comment = CommentHelper.getDescription(francaMapType),
-            typeRef = LimeTypeRef(referenceResolver.referenceMap, mapKey)
+            typeRef = LimeLazyTypeRef(mapKey, referenceResolver.referenceMap)
         )
 
         storeResultAndCloseContext(limeTypeDef)
@@ -329,16 +330,16 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
         }
 
         val errorEnum = getPreviousResult(LimeEnumeration::class.java)
-        val errorType = errorEnum?.let {
-            LimeTypeRef(referenceResolver.referenceMap, it.path.toString())
-        }
+        val errorType = errorEnum?.let { LimeDirectTypeRef(it) }
 
         val methodLimePath = createElementPath(francaMethod)
         val limeReturnType = getPreviousResult(LimeReturnType::class.java)
         val returnType = when {
             isConstructor -> {
-                val containerTypeRef =
-                    LimeTypeRef(referenceResolver.referenceMap, methodLimePath.parent.toString())
+                val containerTypeRef = LimeLazyTypeRef(
+                    methodLimePath.parent.toString(),
+                    referenceResolver.referenceMap
+                )
                 LimeReturnType(containerTypeRef, limeReturnType?.comment ?: "")
             }
             else -> limeReturnType ?: LimeReturnType.VOID
@@ -361,7 +362,7 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
         var parameterType = getPreviousResult(LimeTypeRef::class.java)
         if (francaArgument.isArray) {
             val arrayKey = registerArrayType(parameterType.elementFullName)
-            parameterType = LimeTypeRef(referenceResolver.referenceMap, arrayKey)
+            parameterType = LimeLazyTypeRef(arrayKey, referenceResolver.referenceMap)
         }
 
         val attributes = LimeAttributes.Builder()
@@ -383,7 +384,7 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
         var parameterType = getPreviousResult(LimeTypeRef::class.java)
         if (francaArgument.isArray) {
             val arrayKey = registerArrayType(parameterType.elementFullName)
-            parameterType = LimeTypeRef(referenceResolver.referenceMap, arrayKey)
+            parameterType = LimeLazyTypeRef(arrayKey, referenceResolver.referenceMap)
         }
 
         val attributes = LimeAttributes.Builder()
@@ -413,7 +414,7 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
         var attributeType = getPreviousResult(LimeTypeRef::class.java)
         if (francaAttribute.isArray) {
             val arrayKey = registerArrayType(attributeType.elementFullName)
-            attributeType = LimeTypeRef(referenceResolver.referenceMap, arrayKey)
+            attributeType = LimeLazyTypeRef(arrayKey, referenceResolver.referenceMap)
         }
 
         val limeProperty = LimeProperty(

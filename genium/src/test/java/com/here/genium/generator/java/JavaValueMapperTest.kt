@@ -25,7 +25,7 @@ import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeEnumeratorRef
 import com.here.genium.model.lime.LimePath
-import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeValue
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -47,7 +47,7 @@ class JavaValueMapperTest {
         )
         limeReferenceMap["bar"] = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
         limeReferenceMap["baz"] = LimeEnumerator(LimePath(emptyList(), listOf("baz")))
-        val enumeratorRef = LimeTypeRef(limeReferenceMap, "bar")
+        val enumeratorRef = LimeLazyTypeRef("bar", limeReferenceMap)
         val valueRef = LimeEnumeratorRef(limeReferenceMap, "baz")
         val limeValue = LimeValue.Enumerator(enumeratorRef, valueRef)
 
@@ -65,7 +65,7 @@ class JavaValueMapperTest {
         )
         limeReferenceMap["bar"] = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
         limeReferenceMap["baz"] = LimeEnumerator(LimePath(emptyList(), listOf("baz")))
-        val enumeratorRef = LimeTypeRef(limeReferenceMap, "bar")
+        val enumeratorRef = LimeLazyTypeRef("bar", limeReferenceMap)
         val valueRef = LimeEnumeratorRef(limeReferenceMap, "baz")
         val limeValue = LimeValue.Enumerator(enumeratorRef, valueRef)
 

@@ -36,9 +36,9 @@ import com.here.genium.model.java.JavaValue
 import com.here.genium.model.java.JavaVisibility
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
+import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
-import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeVisibility
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.MockContextStack
@@ -237,7 +237,7 @@ class JavaModelBuilderContainersTest {
         val limeElement = LimeContainer(
             LimePath(emptyList(), listOf("foo")),
             type = ContainerType.INTERFACE,
-            parent = LimeTypeRef(mapOf("bar" to parentContainer), "bar")
+            parent = LimeDirectTypeRef(parentContainer)
         )
         val javaType = object : JavaType("") {}
         every { typeMapper.mapCustomType(parentContainer, "Bar") } returns javaType
@@ -329,7 +329,7 @@ class JavaModelBuilderContainersTest {
         val limeElement = LimeContainer(
             LimePath(emptyList(), listOf("foo")),
             type = ContainerType.CLASS,
-            parent = LimeTypeRef(mapOf("bar" to parentContainer), "bar")
+            parent = LimeDirectTypeRef(parentContainer)
         )
         val javaType = object : JavaType("") {}
         every { typeMapper.mapCustomType(parentContainer, "BarImpl") } returns javaType
@@ -350,7 +350,7 @@ class JavaModelBuilderContainersTest {
         val limeElement = LimeContainer(
             LimePath(emptyList(), listOf("foo")),
             type = ContainerType.CLASS,
-            parent = LimeTypeRef(mapOf("bar" to parentContainer), "bar")
+            parent = LimeDirectTypeRef(parentContainer)
         )
         val javaType = object : JavaType("") {}
         every { typeMapper.mapCustomType(parentContainer, "Bar") } returns javaType

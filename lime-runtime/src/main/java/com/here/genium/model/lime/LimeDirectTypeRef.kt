@@ -19,12 +19,7 @@
 
 package com.here.genium.model.lime
 
-class LimeBasicTypeRef(typeId: LimeBasicType.TypeId) : LimeTypeRef {
-    override val elementFullName = typeId.name
-    override val type = LimeBasicType(typeId)
-
-    companion object {
-        val FLOAT = LimeBasicTypeRef(LimeBasicType.TypeId.FLOAT)
-        val DOUBLE = LimeBasicTypeRef(LimeBasicType.TypeId.DOUBLE)
-    }
+class LimeDirectTypeRef(override val type: LimeType) :
+    LimeTypeRef {
+    override val elementFullName = type.fullName
 }

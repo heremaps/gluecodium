@@ -31,7 +31,7 @@ import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
-import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeValue
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -44,25 +44,25 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class LimeTreeWalkerTest {
     private val limeParentContainer = LimeContainer(EMPTY_PATH, type = ContainerType.INTERFACE)
-    private val limeParentTypeRef = LimeTypeRef(mapOf("foo" to limeParentContainer), "foo")
-    private val limeErrorTypeRef = LimeTypeRef(emptyMap(), "bar")
-    private val limeParameterTypeRef = LimeTypeRef(emptyMap(), "baz")
-    private val limeFieldTypeRef = LimeTypeRef(emptyMap(), "foobar")
-    private val limeTypeDefTypeRef = LimeTypeRef(emptyMap(), "barbaz")
-    private val limeConstantTypeRef = LimeTypeRef(emptyMap(), "bazfoo")
-    private val limePropertyTypeRef = LimeTypeRef(emptyMap(), "foobarbaz")
+    private val limeParentTypeRef = LimeLazyTypeRef("foo", mapOf("foo" to limeParentContainer))
+    private val limeErrorTypeRef = LimeLazyTypeRef("bar", emptyMap())
+    private val limeParameterTypeRef = LimeLazyTypeRef("baz", emptyMap())
+    private val limeFieldTypeRef = LimeLazyTypeRef("foobar", emptyMap())
+    private val limeTypeDefTypeRef = LimeLazyTypeRef("barbaz", emptyMap())
+    private val limeConstantTypeRef = LimeLazyTypeRef("bazfoo", emptyMap())
+    private val limePropertyTypeRef = LimeLazyTypeRef("foobarbaz", emptyMap())
     private val limeProperty = LimeProperty(EMPTY_PATH, typeRef = limePropertyTypeRef)
-    private val limeConstantValue = LimeValue.Literal(LimeTypeRef(emptyMap(), ""), "baz")
+    private val limeConstantValue = LimeValue.Literal(LimeLazyTypeRef("", emptyMap()), "baz")
     private val limeConstant = LimeConstant(
         path = EMPTY_PATH,
         typeRef = limeConstantTypeRef,
         value = limeConstantValue
     )
     private val limeTypeDef = LimeTypeDef(EMPTY_PATH, typeRef = limeTypeDefTypeRef)
-    private val limeEnumeratorValue = LimeValue.Literal(LimeTypeRef(emptyMap(), ""), "bar")
+    private val limeEnumeratorValue = LimeValue.Literal(LimeLazyTypeRef("", emptyMap()), "bar")
     private val limeEnumerator = LimeEnumerator(EMPTY_PATH, value = limeEnumeratorValue)
     private val limeEnumeration = LimeEnumeration(EMPTY_PATH, enumerators = listOf(limeEnumerator))
-    private val limeFieldValue = LimeValue.Literal(LimeTypeRef(emptyMap(), ""), "foo")
+    private val limeFieldValue = LimeValue.Literal(LimeLazyTypeRef("", emptyMap()), "foo")
     private val limeField = LimeField(
         path = EMPTY_PATH,
         typeRef = limeFieldTypeRef,

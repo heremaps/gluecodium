@@ -19,12 +19,10 @@
 
 package com.here.genium.model.lime
 
-class LimeBasicTypeRef(typeId: LimeBasicType.TypeId) : LimeTypeRef {
-    override val elementFullName = typeId.name
-    override val type = LimeBasicType(typeId)
+class LimeLazyTypeRef(
+    override val elementFullName: String,
+    referenceMap: Map<String, LimeElement>
+) : LimeTypeRef {
 
-    companion object {
-        val FLOAT = LimeBasicTypeRef(LimeBasicType.TypeId.FLOAT)
-        val DOUBLE = LimeBasicTypeRef(LimeBasicType.TypeId.DOUBLE)
-    }
+    override val type by lazy { referenceMap.get(elementFullName) as LimeType }
 }

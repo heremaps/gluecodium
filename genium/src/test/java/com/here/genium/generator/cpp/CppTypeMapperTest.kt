@@ -30,12 +30,12 @@ import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
-import com.here.genium.model.lime.LimeTypeRef
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -68,7 +68,7 @@ class CppTypeMapperTest {
     @Test
     fun mapTypeDefRef() {
         val limeType = LimeTypeDef(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
-        val limeTypeRef = LimeTypeRef(mapOf(limeType.fullName to limeType), limeType.fullName)
+        val limeTypeRef = LimeDirectTypeRef(limeType)
 
         val result = typeMapper.mapType(limeTypeRef)
 
@@ -80,7 +80,7 @@ class CppTypeMapperTest {
     @Test
     fun mapStructRef() {
         val limeType = LimeStruct(EMPTY_PATH)
-        val limeTypeRef = LimeTypeRef(mapOf(limeType.fullName to limeType), limeType.fullName)
+        val limeTypeRef = LimeDirectTypeRef(limeType)
 
         val result = typeMapper.mapType(limeTypeRef)
 
@@ -92,7 +92,7 @@ class CppTypeMapperTest {
     @Test
     fun mapEnumRef() {
         val limeType = LimeEnumeration(EMPTY_PATH)
-        val limeTypeRef = LimeTypeRef(mapOf(limeType.fullName to limeType), limeType.fullName)
+        val limeTypeRef = LimeDirectTypeRef(limeType)
 
         val result = typeMapper.mapType(limeTypeRef)
 
@@ -105,7 +105,7 @@ class CppTypeMapperTest {
     @Test
     fun mapArrayRef() {
         val limeType = LimeArray(LimeBasicTypeRef.DOUBLE)
-        val limeTypeRef = LimeTypeRef(mapOf(limeType.fullName to limeType), limeType.fullName)
+        val limeTypeRef = LimeDirectTypeRef(limeType)
 
         val result = typeMapper.mapType(limeTypeRef)
 
@@ -120,7 +120,7 @@ class CppTypeMapperTest {
     @Test
     fun mapMapRef() {
         val limeType = LimeMap(LimeBasicTypeRef(TypeId.STRING), LimeBasicTypeRef.DOUBLE)
-        val limeTypeRef = LimeTypeRef(mapOf(limeType.fullName to limeType), limeType.fullName)
+        val limeTypeRef = LimeDirectTypeRef(limeType)
 
         val result = typeMapper.mapType(limeTypeRef)
 
@@ -136,12 +136,9 @@ class CppTypeMapperTest {
     @Test
     fun mapMapEnumRef() {
         val limeEnumType = LimeEnumeration(EMPTY_PATH)
-        val limeEnumTypeRef = LimeTypeRef(
-            mapOf(limeEnumType.fullName to limeEnumType),
-            limeEnumType.fullName
-        )
+        val limeEnumTypeRef = LimeDirectTypeRef(limeEnumType)
         val limeType = LimeMap(limeEnumTypeRef, LimeBasicTypeRef.DOUBLE)
-        val limeTypeRef = LimeTypeRef(mapOf(limeType.fullName to limeType), limeType.fullName)
+        val limeTypeRef = LimeDirectTypeRef(limeType)
 
         val result = typeMapper.mapType(limeTypeRef)
 
@@ -155,7 +152,7 @@ class CppTypeMapperTest {
     @Test
     fun mapInstanceRef() {
         val limeType = LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.TYPE_COLLECTION)
-        val limeTypeRef = LimeTypeRef(mapOf(limeType.fullName to limeType), limeType.fullName)
+        val limeTypeRef = LimeDirectTypeRef(limeType)
 
         val result = typeMapper.mapType(limeTypeRef)
 
@@ -181,7 +178,7 @@ class CppTypeMapperTest {
                 .addAttribute(LimeAttributeType.EXTERNAL_TYPE)
                 .build()
         )
-        val limeTypeRef = LimeTypeRef(mapOf(limeType.fullName to limeType), limeType.fullName)
+        val limeTypeRef = LimeDirectTypeRef(limeType)
 
         val result = typeMapper.mapType(limeTypeRef)
 

@@ -66,7 +66,7 @@ import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.MockContextStack
 import io.mockk.MockKAnnotations
@@ -149,7 +149,7 @@ class JniModelBuilderTest {
         LimePath(listOf("foo", "bar"), emptyList()),
         type = LimeContainer.ContainerType.INTERFACE
     )
-    private val limeTypeRef = LimeTypeRef(emptyMap(), "")
+    private val limeTypeRef = LimeLazyTypeRef("", emptyMap())
     private val limeStruct = LimeStruct(EMPTY_PATH)
     private val limeEnum = LimeEnumeration(EMPTY_PATH)
     private val limeProperty = LimeProperty(EMPTY_PATH, typeRef = limeTypeRef)

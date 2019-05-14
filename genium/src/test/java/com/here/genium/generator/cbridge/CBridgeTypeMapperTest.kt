@@ -20,8 +20,8 @@
 package com.here.genium.generator.cbridge
 
 import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME
-import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppIncludeResolver
+import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppNameResolver
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
 import com.here.genium.model.cbridge.CType
@@ -29,13 +29,13 @@ import com.here.genium.model.common.Include
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeBasicTypeRef
+import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeTypeDef
-import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.test.AssertHelpers.assertContains
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -74,10 +74,7 @@ class CBridgeTypeMapperTest {
     @Test
     fun mapTypeTypeDefToMapType() {
         val limeMap = LimeMap(LimeBasicTypeRef(TypeId.STRING), LimeBasicTypeRef.DOUBLE)
-        val limeElement = LimeTypeDef(
-            EMPTY_PATH,
-            typeRef = LimeTypeRef(mapOf("foo" to limeMap), "foo")
-        )
+        val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeMap))
         every { cppNameResolver.getFullyQualifiedName(limeElement) } returns "bar.Baz"
 
         val result = typeMapper.mapType(limeElement)
@@ -94,12 +91,8 @@ class CBridgeTypeMapperTest {
     @Test
     fun mapTypeTypeDefToMapTypeWithEnum() {
         val limeEnum = LimeEnumeration(LimePath(emptyList(), listOf("bar")))
-        val limeMap =
-            LimeMap(LimeTypeRef(mapOf("baz" to limeEnum), "baz"), LimeBasicTypeRef.DOUBLE)
-        val limeElement = LimeTypeDef(
-            EMPTY_PATH,
-            typeRef = LimeTypeRef(mapOf("foo" to limeMap), "foo")
-        )
+        val limeMap = LimeMap(LimeDirectTypeRef(limeEnum), LimeBasicTypeRef.DOUBLE)
+        val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeMap))
         every { cppNameResolver.getFullyQualifiedName(limeEnum) } returns "Baz"
         every { cppNameResolver.getFullyQualifiedName(limeElement) } returns ""
 

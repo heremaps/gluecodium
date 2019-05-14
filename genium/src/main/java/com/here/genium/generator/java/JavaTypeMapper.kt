@@ -38,6 +38,7 @@ import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeStruct
@@ -98,7 +99,7 @@ class JavaTypeMapper(
         val parentKey = limeElement.path.parent.toString()
         return when {
             limeReferenceMap.containsKey(parentKey) ->
-                mapType(LimeTypeRef(limeReferenceMap, parentKey))
+                mapType(LimeLazyTypeRef(parentKey, limeReferenceMap))
             else -> null
         }
     }

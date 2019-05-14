@@ -26,6 +26,7 @@ import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
+import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeEnumeratorRef
@@ -41,7 +42,6 @@ import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
-import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
 import com.here.genium.model.swift.SwiftArray
@@ -102,7 +102,7 @@ class SwiftModelBuilderTest {
     fun finishBuildingMethod() {
         val limeType = object : LimeType(EMPTY_PATH) {}
         val limeReturnType =
-            LimeReturnType(LimeTypeRef(mapOf("bar" to limeType), "bar"), "returnComment")
+            LimeReturnType(LimeDirectTypeRef(limeType), "returnComment")
         val limeElement = LimeMethod(fooPath, comment = "some comment", returnType = limeReturnType)
         every { typeMapper.mapType(limeType) } returns swiftType
 
@@ -154,7 +154,7 @@ class SwiftModelBuilderTest {
     fun finishBuildingMethodReadsNullableReturnType() {
         val limeType = object : LimeType(EMPTY_PATH) {}
         val limeReturnType = LimeReturnType(
-            LimeTypeRef(mapOf("bar" to limeType), "bar"),
+            LimeDirectTypeRef(limeType),
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.NULLABLE)
                 .build()
@@ -171,7 +171,7 @@ class SwiftModelBuilderTest {
     @Test
     fun finishBuildingMethodReadsArrayReturnType() {
         val limeArray = LimeArray(LimeBasicTypeRef.DOUBLE)
-        val limeReturnType = LimeReturnType(LimeTypeRef(mapOf("bar" to limeArray), "bar"))
+        val limeReturnType = LimeReturnType(LimeDirectTypeRef(limeArray))
         val swiftArray = SwiftArray(SwiftType.VOID, "")
         val limeElement = LimeMethod(fooPath, returnType = limeReturnType)
         every { typeMapper.mapType(limeArray) } returns swiftArray
@@ -485,8 +485,7 @@ class SwiftModelBuilderTest {
     @Test
     fun finishBuildingTypeDefReadsMap() {
         val limeMap = LimeMap(LimeBasicTypeRef(LimeBasicType.TypeId.STRING), LimeBasicTypeRef.FLOAT)
-        val limeElement =
-            LimeTypeDef(fooPath, typeRef = LimeTypeRef(mapOf("bar" to limeMap), "bar"))
+        val limeElement = LimeTypeDef(fooPath, typeRef = LimeDirectTypeRef(limeMap))
         val swiftValueType = SwiftType("baz", "")
         every { nameResolver.getMapName(limeElement) } returns "barMap"
         every { typeMapper.mapType(any()) }.returnsMany(swiftType, swiftValueType)

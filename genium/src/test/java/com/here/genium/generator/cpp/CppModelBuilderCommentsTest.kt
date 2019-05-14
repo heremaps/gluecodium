@@ -35,6 +35,7 @@ import com.here.genium.model.cpp.CppValue
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
@@ -45,7 +46,6 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
-import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.test.MockContextStack
 import io.mockk.MockKAnnotations
@@ -66,7 +66,7 @@ class CppModelBuilderCommentsTest {
         EMPTY_PATH,
         type = LimeContainer.ContainerType.TYPE_COLLECTION
     )
-    private val limeContainerTypeRef = LimeTypeRef(mapOf("foo" to limeContainer), "foo")
+    private val limeContainerTypeRef = LimeDirectTypeRef(limeContainer)
 
     private val contextStack = MockContextStack<CppElement>()
 

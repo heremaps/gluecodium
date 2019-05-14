@@ -37,7 +37,7 @@ import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
-import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.test.AssertHelpers.assertContains
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -48,7 +48,7 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class JavaTypeMapperTest {
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
-    private val limeTypeRef = LimeTypeRef(limeReferenceMap, "foo")
+    private val limeTypeRef = LimeLazyTypeRef("foo", limeReferenceMap)
 
     private val notNullAnnotation = object : JavaType("Foo") {}
     private val nullableAnnotation = object : JavaType("Bar") {}

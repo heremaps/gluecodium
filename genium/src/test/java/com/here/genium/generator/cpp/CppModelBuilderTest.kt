@@ -40,6 +40,7 @@ import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
@@ -50,7 +51,7 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
-import com.here.genium.model.lime.LimeTypeRef
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.MockContextStack
@@ -162,7 +163,7 @@ class CppModelBuilderTest {
 
     @Test
     fun finishBuildingInterfaceReadsParent() {
-        val limeParentTypeRef = LimeTypeRef(mapOf("foo" to limeInterface), "foo")
+        val limeParentTypeRef = LimeDirectTypeRef(limeInterface)
         val limeElement = LimeContainer(
             EMPTY_PATH,
             type = LimeContainer.ContainerType.INTERFACE,
@@ -459,7 +460,7 @@ class CppModelBuilderTest {
             EMPTY_PATH,
             attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.IMMUTABLE).build()
         )
-        val structTypeRef = LimeTypeRef(mapOf("foo" to structType), "foo")
+        val structTypeRef = LimeDirectTypeRef(structType)
         val limeElement = LimeField(EMPTY_PATH, typeRef = structTypeRef)
 
         modelBuilder.finishBuilding(limeElement)
@@ -475,9 +476,8 @@ class CppModelBuilderTest {
             EMPTY_PATH,
             attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.IMMUTABLE).build()
         )
-        val limeArray = LimeArray(LimeTypeRef(mapOf("foo" to structType), "foo"))
-        val limeElement =
-            LimeField(EMPTY_PATH, typeRef = LimeTypeRef(mapOf("bar" to limeArray), "bar"))
+        val limeArray = LimeArray(LimeDirectTypeRef(structType))
+        val limeElement = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeArray))
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -493,10 +493,9 @@ class CppModelBuilderTest {
             attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.IMMUTABLE).build()
         )
         val nestingField =
-            LimeField(EMPTY_PATH, typeRef = LimeTypeRef(mapOf("foo" to structType), "foo"))
+            LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(structType))
         val nestingStructType = LimeStruct(EMPTY_PATH, fields = listOf(nestingField))
-        val limeElement =
-            LimeField(EMPTY_PATH, typeRef = LimeTypeRef(mapOf("bar" to nestingStructType), "bar"))
+        val limeElement = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(nestingStructType))
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -690,7 +689,7 @@ class CppModelBuilderTest {
 
     @Test
     fun finishBuildingTypeRef() {
-        val limeElement = LimeTypeRef(emptyMap(), "foo")
+        val limeElement = LimeLazyTypeRef("foo", emptyMap())
         every { typeMapper.mapType(limeElement) } returns cppTypeRef
 
         modelBuilder.finishBuilding(limeElement)

@@ -41,9 +41,11 @@ import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
+import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
@@ -52,7 +54,6 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
 import com.here.genium.test.AssertHelpers.assertContains
@@ -78,7 +79,7 @@ class JavaModelBuilderTest {
     private val anotherJavaType = object : JavaType("Nonsense") {}
     private val javaValue = JavaValue("")
 
-    private val limeTypeRef = object : LimeTypeRef("") {}
+    private val limeTypeRef = LimeLazyTypeRef("", emptyMap())
 
     private val contextStack = MockContextStack<JavaElement>()
     private val rootPackage = JavaPackage(listOf("pack", "age"))
@@ -149,7 +150,7 @@ class JavaModelBuilderTest {
     @Test
     fun finishBuildingMethodReadsErrorType() {
         val limeType = object : LimeType(EMPTY_PATH) {}
-        val limeTypeRef = LimeTypeRef(mapOf("bar" to limeType), "bar")
+        val limeTypeRef = LimeDirectTypeRef(limeType)
         val limeElement = LimeMethod(EMPTY_PATH, errorType = limeTypeRef)
         val javaExceptionType =
             JavaExceptionType("", emptyList(), JavaImport("", JavaPackage.DEFAULT))

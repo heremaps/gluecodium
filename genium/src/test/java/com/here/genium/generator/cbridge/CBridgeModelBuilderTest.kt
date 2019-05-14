@@ -46,6 +46,7 @@ import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
+import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeField
@@ -59,7 +60,6 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
-import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.swift.SwiftField
 import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftProperty
@@ -98,7 +98,7 @@ class CBridgeModelBuilderTest {
 
     private val limeTypeDefToMap = LimeTypeDef(
         LimePath(emptyList(), listOf("foo", "bar")),
-        typeRef = LimeTypeRef(mapOf("baz" to limeMap), "baz")
+        typeRef = LimeDirectTypeRef(limeMap)
     )
 
     private val fooInclude = Include.createInternalInclude("")
