@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 4.2.0
+- Release date: 2019-05-14
 - Features
   + Java comments are generated as JavaDoc HTML and links to classes and members are supported now
   + Links to members in Swift and C++ comments are now supported
