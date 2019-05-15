@@ -38,6 +38,7 @@ import org.franca.core.franca.FStructType
 import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeRef
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -218,5 +219,16 @@ class LimeModelBuilderDefaultValuesTest {
 
         val result = modelBuilder.getFinalResult(LimeField::class.java)
         assertEquals("foo", (result.defaultValue as LimeValue.Literal).value)
+    }
+
+    @Test
+    fun finishBuildingFieldReadsDefaultValueNull() {
+        contextStack.injectResult(limeTypeRef)
+        every { deploymentModel.hasNullDefaultValue(francaField) } returns true
+
+        modelBuilder.finishBuilding(francaField)
+
+        val result = modelBuilder.getFinalResult(LimeField::class.java)
+        assertTrue(result.defaultValue is LimeValue.Null)
     }
 }

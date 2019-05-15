@@ -51,6 +51,7 @@ class LimeTreeWalkerTest {
     private val limeTypeDefTypeRef = LimeLazyTypeRef("barbaz", emptyMap())
     private val limeConstantTypeRef = LimeLazyTypeRef("bazfoo", emptyMap())
     private val limePropertyTypeRef = LimeLazyTypeRef("foobarbaz", emptyMap())
+    private val limeValueTypeRef = LimeLazyTypeRef("nonsense", emptyMap())
     private val limeProperty = LimeProperty(EMPTY_PATH, typeRef = limePropertyTypeRef)
     private val limeConstantValue = LimeValue.Literal(LimeLazyTypeRef("", emptyMap()), "baz")
     private val limeConstant = LimeConstant(
@@ -62,7 +63,7 @@ class LimeTreeWalkerTest {
     private val limeEnumeratorValue = LimeValue.Literal(LimeLazyTypeRef("", emptyMap()), "bar")
     private val limeEnumerator = LimeEnumerator(EMPTY_PATH, value = limeEnumeratorValue)
     private val limeEnumeration = LimeEnumeration(EMPTY_PATH, enumerators = listOf(limeEnumerator))
-    private val limeFieldValue = LimeValue.Literal(LimeLazyTypeRef("", emptyMap()), "foo")
+    private val limeFieldValue = LimeValue.Literal(limeValueTypeRef, "foo")
     private val limeField = LimeField(
         path = EMPTY_PATH,
         typeRef = limeFieldTypeRef,
@@ -176,6 +177,14 @@ class LimeTreeWalkerTest {
 
         verify { modelBuilder.startBuilding(limeFieldValue) }
         verify { modelBuilder.finishBuilding(limeFieldValue) }
+    }
+
+    @Test
+    fun walkValueWalksTypeRef() {
+        treeWalker.walkTree(limeContainer)
+
+        verify { modelBuilder.startBuilding(limeValueTypeRef) }
+        verify { modelBuilder.finishBuilding(limeValueTypeRef) }
     }
 
     @Test

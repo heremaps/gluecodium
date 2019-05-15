@@ -74,4 +74,14 @@ class JavaValueMapperTest {
         assertTrue(result.isCustom)
         assertEquals("Bar.BAZ", result.name)
     }
+
+    @Test
+    fun mapNullValue() {
+        val limeValue = LimeValue.Null(LimeLazyTypeRef("", emptyMap()))
+
+        val result = valueMapper.mapValue(limeValue)
+
+        assertTrue(result.isCustom)
+        assertEquals("null", result.name)
+    }
 }

@@ -63,6 +63,7 @@ class JavaValueMapper(private val limeReferenceMap: Map<String, LimeElement>) {
                 JavaValue(names.joinToString("."), true)
             }
             is LimeValue.Special -> mapSpecialValue(limeValue)
+            is LimeValue.Null -> JavaValue("null", true)
     }
 
     private fun mapSpecialValue(limeValue: LimeValue.Special): JavaValue {

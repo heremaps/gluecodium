@@ -55,6 +55,7 @@ specification GeniumExtensions {
 specification Defaults {
     for struct_fields {
         DefaultValue: String (optional);
+        DefaultIsNull: Boolean (optional, default: false);
     }
 }
 

@@ -92,6 +92,10 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
         walk(limeProperty.typeRef)
     }
 
+    private fun walkChildNodes(limeValue: LimeValue) {
+        walk(limeValue.typeRef)
+    }
+
     companion object {
         private val LIME_TREE_STRUCTURE =
             mutableMapOf<Any, TreeNodeInfo<LimeBasedModelBuilder, *>>()
@@ -150,15 +154,15 @@ class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
                 LimeBasedModelBuilder::finishBuilding,
                 LimeTreeWalker::walkChildNodes
             )
+            initTreeNode(
+                LimeValue::class.java,
+                LimeBasedModelBuilder::finishBuilding,
+                LimeTreeWalker::walkChildNodes
+            )
 
             // Leaf nodes
             initTreeNode(
                 LimeTypeRef::class.java,
-                LimeBasedModelBuilder::finishBuilding,
-                Companion::noChildNodes
-            )
-            initTreeNode(
-                LimeValue::class.java,
                 LimeBasedModelBuilder::finishBuilding,
                 Companion::noChildNodes
             )

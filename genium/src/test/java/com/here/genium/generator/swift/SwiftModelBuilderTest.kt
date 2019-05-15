@@ -561,6 +561,16 @@ class SwiftModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingValueNull() {
+        val limeElement = LimeValue.Null(LimeBasicTypeRef.FLOAT)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(SwiftValue::class.java)
+        assertEquals("nil", result.name)
+    }
+
+    @Test
     fun finishBuildingProperty() {
         val limeElement =
             LimeProperty(fooPath, typeRef = LimeBasicTypeRef.FLOAT, comment = "some comment")

@@ -409,6 +409,7 @@ internal constructor(
                     if (limeValue.value == LimeValue.Special.ValueId.NAN) "nan" else "infinity"
                 SwiftValue("$signPrefix$typeName.$valueName")
             }
+            is LimeValue.Null -> SwiftValue("nil")
         }
 
         storeResult(swiftValue)

@@ -474,6 +474,42 @@ FDEPL:
         }
     }
 
+### Struct field: DefaultIsNull
+
+This FDEPL property controls whether the given nullable field in the given Franca struct is
+initialized with a language-appropriate `null` value. Default value is `false`, i.e. no default
+value initializer is generated (unless otherwise specified with `DefaultValue` property, see above).
+
+FIDL:
+
+    package example
+
+    typeCollection ExampleTypeCollection {
+        struct exampleStruct {
+            String stringField
+        }
+    }
+
+FDEPL:
+
+    define GeniumExtensions for typeCollection example.ExampleTypeCollection
+    {
+        struct exampleStruct {
+            stringField {
+                Nullable = true
+            }
+        }
+    }
+
+    define Defaults for typeCollection example.ExampleTypeCollection
+    {
+        struct exampleStruct {
+            stringField {
+                DefaultIsNull = true
+            }
+        }
+    }
+
 ### Struct field, Attribute, Method parameter: Nullable
 
 This FDEPL property controls whether the given element can have a `null` value (`nil` in Swift).

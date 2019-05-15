@@ -27,12 +27,25 @@ import java.util.function.Predicate;
 import org.franca.core.franca.*;
 
 /**
+ * Validates the struct field default values against the following conditions:
+ *
+ * <ul>
+ *   <li>The string content can be converted to the actual type of the field.
+ *   <li>The "null" flag should only be set on a field marked as "nullable".
+ *   <li>The "null" flag and the string value should not be set simultaneously.
+ * </ul>
+ *
  * Defaults are set as strings in the deployment model, validate that the content can be converted
  * to the actual type of the field.
  */
 public final class DefaultsValidatorPredicate implements ValidatorPredicate<FField> {
 
-  private static final String ERROR_MESSAGE_FORMAT = "Invalid %s default value '%s' for %s field.";
+  private static final String INVALID_DEFAULT_FORMAT =
+      "Invalid '%s' default value '%s' for '%s' field.";
+  private static final String INVALID_NULL_FORMAT =
+      "Invalid 'null' default value for non-nullable '%s' field.";
+  private static final String INVALID_COMBINATION_FORMAT =
+      "'null' default value cannot be combined with another default value: '%s' field.";
   private static final Set<String> BOOLEAN_VALUES = new HashSet<>(Arrays.asList("true", "false"));
 
   @Override
@@ -44,6 +57,16 @@ public final class DefaultsValidatorPredicate implements ValidatorPredicate<FFie
   public String validate(final FrancaDeploymentModel deploymentModel, final FField francaField) {
 
     String stringValue = deploymentModel.getDefaultValue(francaField);
+
+    if (deploymentModel.hasNullDefaultValue(francaField)) {
+      if (!deploymentModel.isNullable(francaField)) {
+        return String.format(INVALID_NULL_FORMAT, FrancaTypeHelper.getFullName(francaField));
+      } else if (stringValue != null) {
+        return String.format(INVALID_COMBINATION_FORMAT, FrancaTypeHelper.getFullName(francaField));
+      } else {
+        return null;
+      }
+    }
     if (stringValue == null) {
       return null;
     }
@@ -89,15 +112,9 @@ public final class DefaultsValidatorPredicate implements ValidatorPredicate<FFie
     if (predicate.test(stringValue)) {
       return null;
     } else {
-      return formatErrorMessage(francaField, typeName, stringValue);
+      return String.format(
+          INVALID_DEFAULT_FORMAT, typeName, stringValue, FrancaTypeHelper.getFullName(francaField));
     }
-  }
-
-  private static String formatErrorMessage(
-      final FField francaField, final String typeName, final String stringValue) {
-
-    return String.format(
-        ERROR_MESSAGE_FORMAT, typeName, stringValue, FrancaTypeHelper.getFullName(francaField));
   }
 
   @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -110,7 +127,6 @@ public final class DefaultsValidatorPredicate implements ValidatorPredicate<FFie
     }
   }
 
-  @SuppressWarnings("ResultOfMethodCallIgnored")
   private static boolean checkFloatValue(final String stringValue) {
     try {
       Float.parseFloat(stringValue);

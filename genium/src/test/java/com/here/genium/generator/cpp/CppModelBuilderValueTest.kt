@@ -20,6 +20,7 @@
 package com.here.genium.generator.cpp
 
 import com.here.genium.model.cpp.CppElement
+import com.here.genium.model.cpp.CppTypeRef
 import com.here.genium.model.cpp.CppValue
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeEnumerator
@@ -150,5 +151,18 @@ class CppModelBuilderValueTest {
         val result = modelBuilder.getFinalResult(CppValue::class.java)
         assertEquals("-std::numeric_limits<double>::infinity()", result.name)
         assertContains(CppLibraryIncludes.LIMITS, result.includes)
+    }
+
+    @Test
+    fun finishBuildingNullValue() {
+        val limeElement = LimeValue.Null(LimeBasicTypeRef.DOUBLE)
+        val cppTypeRef = object : CppTypeRef("baz", emptyList()) {}
+        every { typeMapper.optionalTypeName } returns "foobar"
+        contextStack.injectResult(cppTypeRef)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(CppValue::class.java)
+        assertEquals("foobar<baz>()", result.name)
     }
 }

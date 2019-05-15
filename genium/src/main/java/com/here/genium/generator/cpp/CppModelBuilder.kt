@@ -336,6 +336,13 @@ class CppModelBuilder @VisibleForTesting internal constructor(
                     "${signPrefix}std::numeric_limits<$typeString>::$valueString()",
                     listOf(CppLibraryIncludes.LIMITS))
             }
+            is LimeValue.Null -> {
+                val cppType = getPreviousResult(CppTypeRef::class.java)
+                CppValue(
+                    "${typeMapper.optionalTypeName}<${cppType.name}>()",
+                    listOf(CppLibraryIncludes.OPTIONAL)
+                )
+            }
         }
 
         storeResult(cppValue)

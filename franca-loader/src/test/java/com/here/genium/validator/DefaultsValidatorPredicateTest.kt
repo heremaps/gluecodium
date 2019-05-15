@@ -243,4 +243,34 @@ class DefaultsValidatorPredicateTest {
         assertNotNull(result)
         verify(deploymentModel).getDefaultValue(francaField)
     }
+
+    @Test
+    fun validateForNullableNull() {
+        `when`(deploymentModel.isNullable(any())).thenReturn(true)
+        `when`(deploymentModel.hasNullDefaultValue(any())).thenReturn(true)
+
+        val result = validatorPredicate.validate(deploymentModel, francaField)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun validateForNonNullableNull() {
+        `when`(deploymentModel.hasNullDefaultValue(any())).thenReturn(true)
+
+        val result = validatorPredicate.validate(deploymentModel, francaField)
+
+        assertNotNull(result)
+    }
+
+    @Test
+    fun validateForNullableNullWithOtherValue() {
+        `when`(deploymentModel.isNullable(any())).thenReturn(true)
+        `when`(deploymentModel.hasNullDefaultValue(any())).thenReturn(true)
+        `when`(deploymentModel.getDefaultValue(any())).thenReturn("nonsense")
+
+        val result = validatorPredicate.validate(deploymentModel, francaField)
+
+        assertNotNull(result)
+    }
 }

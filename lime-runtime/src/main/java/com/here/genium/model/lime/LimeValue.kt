@@ -41,4 +41,6 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
                 Special(LimeBasicTypeRef.DOUBLE, ValueId.NEGATIVE_INFINITY)
         }
     }
+
+    class Null(type: LimeTypeRef) : LimeValue(type)
 }

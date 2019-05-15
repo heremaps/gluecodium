@@ -50,6 +50,7 @@ class CppTypeMapper(
             CppNameRules.joinFullyQualifiedName(internalNamespace + "EnumHash"),
             listOf(CppLibraryIncludes.ENUM_HASH)
         )
+    val optionalTypeName = internalNamespace.joinToString("::") + "::optional"
 
     fun getReturnWrapperType(outArgType: CppTypeRef, errorType: CppTypeRef): CppTypeRef =
         CppTemplateTypeRef.create(CppNameRules.joinFullyQualifiedName(internalNamespace), TemplateClass.RETURN, outArgType, errorType)
