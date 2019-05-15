@@ -60,6 +60,30 @@ public class DefaultValues {
             externalEnumField = moveFromCType(smoke_DefaultValues_StructWithDefaults_externalEnumField_get(cHandle))
         }
     }
+    public struct NullableStructWithDefaults {
+        public var intField: Int32?
+        public var uintField: UInt32?
+        public var floatField: Float?
+        public var boolField: Bool?
+        public var stringField: String?
+        public var enumField: DefaultValues.SomeEnum?
+        public init(intField: Int32? = nil, uintField: UInt32? = nil, floatField: Float? = nil, boolField: Bool? = nil, stringField: String? = nil, enumField: DefaultValues.SomeEnum? = nil) {
+            self.intField = intField
+            self.uintField = uintField
+            self.floatField = floatField
+            self.boolField = boolField
+            self.stringField = stringField
+            self.enumField = enumField
+        }
+        internal init(cHandle: _baseRef) {
+            intField = moveFromCType(smoke_DefaultValues_NullableStructWithDefaults_intField_get(cHandle))
+            uintField = moveFromCType(smoke_DefaultValues_NullableStructWithDefaults_uintField_get(cHandle))
+            floatField = moveFromCType(smoke_DefaultValues_NullableStructWithDefaults_floatField_get(cHandle))
+            boolField = moveFromCType(smoke_DefaultValues_NullableStructWithDefaults_boolField_get(cHandle))
+            stringField = moveFromCType(smoke_DefaultValues_NullableStructWithDefaults_stringField_get(cHandle))
+            enumField = moveFromCType(smoke_DefaultValues_NullableStructWithDefaults_enumField_get(cHandle))
+        }
+    }
     public struct StructWithSpecialDefaults {
         public var floatNanField: Float
         public var floatInfinityField: Float
@@ -174,6 +198,55 @@ internal func copyToCType(_ swiftType: DefaultValues.StructWithDefaults?) -> Ref
 }
 internal func moveToCType(_ swiftType: DefaultValues.StructWithDefaults?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_StructWithDefaults_release_optional_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> DefaultValues.NullableStructWithDefaults {
+    return DefaultValues.NullableStructWithDefaults(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> DefaultValues.NullableStructWithDefaults {
+    defer {
+        smoke_DefaultValues_NullableStructWithDefaults_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: DefaultValues.NullableStructWithDefaults) -> RefHolder {
+    let c_intField = moveToCType(swiftType.intField)
+    let c_uintField = moveToCType(swiftType.uintField)
+    let c_floatField = moveToCType(swiftType.floatField)
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    return RefHolder(smoke_DefaultValues_NullableStructWithDefaults_create_handle(c_intField.ref, c_uintField.ref, c_floatField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref))
+}
+internal func moveToCType(_ swiftType: DefaultValues.NullableStructWithDefaults) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_NullableStructWithDefaults_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> DefaultValues.NullableStructWithDefaults? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_DefaultValues_NullableStructWithDefaults_unwrap_optional_handle(handle)
+    return DefaultValues.NullableStructWithDefaults(cHandle: unwrappedHandle) as DefaultValues.NullableStructWithDefaults
+}
+internal func moveFromCType(_ handle: _baseRef) -> DefaultValues.NullableStructWithDefaults? {
+    defer {
+        smoke_DefaultValues_NullableStructWithDefaults_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: DefaultValues.NullableStructWithDefaults?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let c_intField = moveToCType(swiftType.intField)
+    let c_uintField = moveToCType(swiftType.uintField)
+    let c_floatField = moveToCType(swiftType.floatField)
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    return RefHolder(smoke_DefaultValues_NullableStructWithDefaults_create_optional_handle(c_intField.ref, c_uintField.ref, c_floatField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref))
+}
+internal func moveToCType(_ swiftType: DefaultValues.NullableStructWithDefaults?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_NullableStructWithDefaults_release_optional_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> DefaultValues.StructWithSpecialDefaults {
     return DefaultValues.StructWithSpecialDefaults(cHandle: handle)

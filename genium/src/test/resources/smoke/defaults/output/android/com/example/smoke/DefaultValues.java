@@ -4,6 +4,7 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.example.NativeBase;
 public class DefaultValues extends NativeBase {
     public enum SomeEnum {
@@ -45,6 +46,31 @@ public class DefaultValues extends NativeBase {
             this.stringField = stringField;
             this.enumField = enumField;
             this.externalEnumField = externalEnumField;
+        }
+    }
+    public static class NullableStructWithDefaults {
+        @Nullable
+        public Integer intField;
+        @Nullable
+        public Long uintField;
+        @Nullable
+        public Float floatField;
+        @Nullable
+        public Boolean boolField;
+        @Nullable
+        public String stringField;
+        @Nullable
+        public DefaultValues.SomeEnum enumField;
+        public NullableStructWithDefaults() {
+            this(null, null, null, null, null, null);
+        }
+        public NullableStructWithDefaults(Integer intField, Long uintField, Float floatField, Boolean boolField, String stringField, DefaultValues.SomeEnum enumField) {
+            this.intField = intField;
+            this.uintField = uintField;
+            this.floatField = floatField;
+            this.boolField = boolField;
+            this.stringField = stringField;
+            this.enumField = enumField;
         }
     }
     public static class StructWithSpecialDefaults {

@@ -77,4 +77,12 @@ Defaults::create_special( )
     return {};
 }
 
+Defaults::NullableStructWithDefaults
+Defaults::get_nullable_defaults( )
+{
+    Defaults::NullableStructWithDefaults result{};
+
+    return result;
+}
+
 }  // namespace test

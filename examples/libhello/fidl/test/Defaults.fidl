@@ -45,6 +45,15 @@ interface Defaults {
         SomeEnum enumField
     }
 
+    struct NullableStructWithDefaults {
+        Int32 intField
+        UInt32 uintField
+        Float floatField
+        Boolean boolField
+        String stringField
+        SomeEnum enumField
+    }
+
     struct StructWithExternalDefaults {
         ExternalEnum enumField
     }
@@ -132,4 +141,11 @@ interface Defaults {
             StructWithSpecialDefaults result
         }
     }
+
+    method getNullableDefaults {
+        out {
+            NullableStructWithDefaults output
+        }
+    }
+
 }

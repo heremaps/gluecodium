@@ -26,6 +26,15 @@ define GeniumExtensions for interface test.Defaults
         Immutable = true
     }
 
+    struct NullableStructWithDefaults {
+        intField { Nullable = true }
+        uintField { Nullable = true }
+        floatField { Nullable = true }
+        boolField { Nullable = true }
+        stringField { Nullable = true }
+        enumField { Nullable = true }
+    }
+
     method getDefault {
         Static = true
     }
@@ -57,6 +66,10 @@ define GeniumExtensions for interface test.Defaults
     method createSpecial {
         Static = true
     }
+
+    method getNullableDefaults {
+        Static = true
+    }
 }
 
 define Defaults for interface test.Defaults
@@ -80,6 +93,15 @@ define Defaults for interface test.Defaults
         enumField {
             DefaultValue = "BarValue"
         }
+    }
+
+    struct NullableStructWithDefaults {
+        intField { DefaultIsNull = true }
+        uintField { DefaultIsNull = true }
+        floatField { DefaultIsNull = true }
+        boolField { DefaultIsNull = true }
+        stringField { DefaultIsNull = true }
+        enumField { DefaultIsNull = true }
     }
 
     struct StructWithExternalDefaults {
