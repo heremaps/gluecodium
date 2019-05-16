@@ -150,4 +150,21 @@ public final class DefaultsTest {
     assertNull(result.enumField);
   }
 
+  @Test
+  public void checkJavaEmptyDefaults() {
+    Defaults.StructWithCollectionsDefaults result = new Defaults.StructWithCollectionsDefaults();
+
+    assertTrue(result.intsField.isEmpty());
+    assertTrue(result.floatsField.isEmpty());
+    assertTrue(result.mapField.isEmpty());
+  }
+
+  @Test
+  public void checkCppEmptyDefaults() {
+    Defaults.StructWithCollectionsDefaults result = Defaults.getEmptyDefaults();
+
+    assertTrue(result.intsField.isEmpty());
+    assertTrue(result.floatsField.isEmpty());
+    assertTrue(result.mapField.isEmpty());
+  }
 }

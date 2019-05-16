@@ -6,6 +6,10 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.example.NativeBase;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 public class DefaultValues extends NativeBase {
     public enum SomeEnum {
         FOO_VALUE(0),
@@ -90,6 +94,22 @@ public class DefaultValues extends NativeBase {
             this.doubleNanField = doubleNanField;
             this.doubleInfinityField = doubleInfinityField;
             this.doubleNegativeInfinityField = doubleNegativeInfinityField;
+        }
+    }
+    public static class StructWithCollectionsDefaults {
+        @NonNull
+        public List<Integer> intsField;
+        @NonNull
+        public List<Float> floatsField;
+        @NonNull
+        public Map<Long, String> mapField;
+        public StructWithCollectionsDefaults() {
+            this(new ArrayList<>(), new ArrayList<>(), new HashMap<>());
+        }
+        public StructWithCollectionsDefaults(List<Integer> intsField, List<Float> floatsField, Map<Long, String> mapField) {
+            this.intsField = intsField;
+            this.floatsField = floatsField;
+            this.mapField = mapField;
         }
     }
     /**

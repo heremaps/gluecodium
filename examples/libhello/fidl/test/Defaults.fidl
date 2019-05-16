@@ -76,6 +76,15 @@ interface Defaults {
         Double doubleNegativeInfinityField
     }
 
+    struct StructWithCollectionsDefaults {
+        Int32[] intsField
+        FloatArray floatsField
+        IdToStringMap mapField
+    }
+
+    array FloatArray of Float
+    map IdToStringMap {UInt32 to String}
+
     <** @description: Get a default-initialized StructWithDefaults object. **>
     method getDefault {
         out {
@@ -148,4 +157,9 @@ interface Defaults {
         }
     }
 
+    method getEmptyDefaults {
+        out {
+            StructWithCollectionsDefaults output
+        }
+    }
 }

@@ -60,6 +60,15 @@ interface DefaultValues {
         Double doubleNegativeInfinityField
     }
 
+    struct StructWithCollectionsDefaults {
+        Int32[] intsField
+        FloatArray floatsField
+        IdToStringMap mapField
+    }
+
+    array FloatArray of Float
+    map IdToStringMap {UInt32 to String}
+
     method processStructWithDefaults {
         in {
             StructWithDefaults input

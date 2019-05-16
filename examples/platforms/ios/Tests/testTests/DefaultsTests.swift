@@ -119,6 +119,22 @@ class DefaultsTests: XCTestCase {
       XCTAssertNil(result.enumField)
     }
 
+    func testSwiftEmptyDefaults() {
+      let result = Defaults.StructWithCollectionsDefaults()
+
+      XCTAssertTrue(result.intsField.isEmpty)
+      XCTAssertTrue(result.floatsField.isEmpty)
+      XCTAssertTrue(result.mapField.isEmpty)
+    }
+
+    func testCppEmptyDefaults() {
+      let result = Defaults.getEmptyDefaults()
+
+      XCTAssertTrue(result.intsField.isEmpty)
+      XCTAssertTrue(result.floatsField.isEmpty)
+      XCTAssertTrue(result.mapField.isEmpty)
+    }
+
     static var allTests = [
         ("testGetDefault", testGetDefault),
         ("testWithAllButOneDefaultFields", testWithAllButOneDefaultFields),
@@ -128,6 +144,8 @@ class DefaultsTests: XCTestCase {
         ("testSwiftSpecialDefaults", testSwiftSpecialDefaults),
         ("testCppSpecialDefaults", testCppSpecialDefaults),
         ("testSwiftNullableDefaults", testSwiftNullableDefaults),
-        ("testCppNullableDefaults", testCppNullableDefaults)
+        ("testCppNullableDefaults", testCppNullableDefaults),
+        ("testSwiftEmptyDefaults", testSwiftEmptyDefaults),
+        ("testCppEmptyDefaults", testCppEmptyDefaults)
     ]
 }

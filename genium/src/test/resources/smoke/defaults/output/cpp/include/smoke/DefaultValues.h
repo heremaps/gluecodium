@@ -13,6 +13,8 @@
 #include <cstdint>
 #include <limits>
 #include <string>
+#include <unordered_map>
+#include <vector>
 namespace smoke {
 class _GENIUM_CPP_EXPORT DefaultValues {
 public:
@@ -22,6 +24,8 @@ enum class SomeEnum {
     FOO_VALUE,
     BAR_VALUE
 };
+using FloatArray = ::std::vector< float >;
+using IdToStringMap = ::std::unordered_map< uint32_t, ::std::string >;
 struct _GENIUM_CPP_EXPORT StructWithDefaults {
     int32_t int_field = 42;
     uint32_t uint_field = 4294967295;
@@ -53,6 +57,13 @@ struct _GENIUM_CPP_EXPORT StructWithSpecialDefaults {
     double double_negative_infinity_field = -std::numeric_limits<double>::infinity();
     StructWithSpecialDefaults( );
     StructWithSpecialDefaults( const float float_nan_field, const float float_infinity_field, const float float_negative_infinity_field, const double double_nan_field, const double double_infinity_field, const double double_negative_infinity_field );
+};
+struct _GENIUM_CPP_EXPORT StructWithCollectionsDefaults {
+    ::std::vector< int32_t > ints_field = {};
+    ::smoke::DefaultValues::FloatArray floats_field = {};
+    ::smoke::DefaultValues::IdToStringMap map_field = {};
+    StructWithCollectionsDefaults( );
+    StructWithCollectionsDefaults( const ::std::vector< int32_t >& ints_field, const ::smoke::DefaultValues::FloatArray& floats_field, const ::smoke::DefaultValues::IdToStringMap& map_field );
 };
 public:
 static ::smoke::DefaultValues::StructWithDefaults process_struct_with_defaults( const ::smoke::DefaultValues::StructWithDefaults& input );

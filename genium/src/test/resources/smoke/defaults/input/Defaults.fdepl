@@ -78,6 +78,18 @@ define Defaults for interface smoke.DefaultValues
             DefaultValue = "-Infinity"
         }
     }
+
+    struct StructWithCollectionsDefaults {
+        intsField {
+            DefaultIsEmpty = true
+        }
+        floatsField {
+            DefaultIsEmpty = true
+        }
+        mapField {
+            DefaultIsEmpty = true
+        }
+    }
 }
 
 define GeniumExtensions for interface smoke.DefaultValues

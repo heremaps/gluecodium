@@ -80,9 +80,13 @@ Defaults::create_special( )
 Defaults::NullableStructWithDefaults
 Defaults::get_nullable_defaults( )
 {
-    Defaults::NullableStructWithDefaults result{};
+    return {};
+}
 
-    return result;
+Defaults::StructWithCollectionsDefaults
+Defaults::get_empty_defaults( )
+{
+    return {};
 }
 
 }  // namespace test

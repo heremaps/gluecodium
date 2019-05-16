@@ -70,6 +70,10 @@ define GeniumExtensions for interface test.Defaults
     method getNullableDefaults {
         Static = true
     }
+
+    method getEmptyDefaults {
+        Static = true
+    }
 }
 
 define Defaults for interface test.Defaults
@@ -143,6 +147,18 @@ define Defaults for interface test.Defaults
         }
         doubleNegativeInfinityField {
             DefaultValue = "-Infinity"
+        }
+    }
+
+    struct StructWithCollectionsDefaults {
+        intsField {
+            DefaultIsEmpty = true
+        }
+        floatsField {
+            DefaultIsEmpty = true
+        }
+        mapField {
+            DefaultIsEmpty = true
         }
     }
 }
