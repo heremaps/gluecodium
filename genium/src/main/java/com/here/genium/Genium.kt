@@ -29,11 +29,10 @@ import com.here.genium.common.TimeLogger
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.Version
 import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.loader.FrancaBasedLimeModelLoader
-import com.here.genium.loader.FrancaLoadingException
-import com.here.genium.loader.FrancaLogger
+import com.here.genium.loader.getLoader
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeModelLoader
+import com.here.genium.model.lime.LimeModelLoaderException
 import com.here.genium.output.ConsoleOutput
 import com.here.genium.output.FileOutput
 import com.here.genium.platform.android.AndroidGeneratorSuite
@@ -45,6 +44,7 @@ import java.nio.file.Paths
 import java.util.Properties
 import java.util.concurrent.TimeUnit
 import java.util.logging.Level
+import java.util.logging.LogManager
 import java.util.logging.Logger
 
 class Genium @VisibleForTesting internal constructor(
@@ -59,11 +59,17 @@ class Genium @VisibleForTesting internal constructor(
     )
 
     init {
-        FrancaLogger.initialize("logging.properties")
+        try {
+            LogManager.getLogManager().readConfiguration(
+                Genium::class.java.classLoader.getResourceAsStream("logging.properties")
+            )
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
     }
 
     @VisibleForTesting
-    constructor(options: Options) : this(FrancaBasedLimeModelLoader, options)
+    constructor(options: Options) : this(LimeModelLoader.getLoader(), options)
 
     fun execute(): Boolean {
         LOGGER.info("Version: $version")
@@ -74,7 +80,7 @@ class Genium @VisibleForTesting internal constructor(
         try {
             limeModel = modelLoader.loadModel(options.inputDirs)
             times.addLogEntry("model loading")
-        } catch (e: FrancaLoadingException) {
+        } catch (e: LimeModelLoaderException) {
             LOGGER.severe(e.message)
             return false
         }

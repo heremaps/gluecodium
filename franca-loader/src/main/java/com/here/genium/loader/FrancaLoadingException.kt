@@ -19,7 +19,9 @@
 
 package com.here.genium.loader
 
-class FrancaLoadingException : RuntimeException {
+import com.here.genium.model.lime.LimeModelLoaderException
+
+internal class FrancaLoadingException : LimeModelLoaderException {
     constructor(message: String) : super(message)
     constructor(message: String, cause: Throwable) : super(message, cause)
 }

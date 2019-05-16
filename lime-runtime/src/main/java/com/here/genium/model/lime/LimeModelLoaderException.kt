@@ -17,14 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.loader
+package com.here.genium.model.lime
 
-import org.apache.log4j.Level
-import org.apache.log4j.Logger
-import org.eclipse.xtext.linking.impl.ImportedNamesAdapter
+import java.lang.RuntimeException
 
-internal object FrancaLogger {
-    init {
-        Logger.getLogger(ImportedNamesAdapter::class.java).level = Level.WARN
-    }
+abstract class LimeModelLoaderException : RuntimeException {
+    constructor(message: String) : super(message)
+    constructor(message: String, cause: Throwable) : super(message, cause)
 }

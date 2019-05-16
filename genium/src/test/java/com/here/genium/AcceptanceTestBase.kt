@@ -20,7 +20,8 @@
 package com.here.genium
 
 import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.loader.FrancaBasedLimeModelLoader
+import com.here.genium.loader.getLoader
+import com.here.genium.model.lime.LimeModelLoader
 import com.here.genium.platform.android.AndroidGeneratorSuite
 import com.here.genium.platform.baseapi.BaseApiGeneratorSuite
 import com.here.genium.platform.swift.SwiftGeneratorSuite
@@ -70,7 +71,7 @@ abstract class AcceptanceTestBase protected constructor(
 
         assumeFalse("No reference files were found", referenceFiles.isEmpty())
 
-        val limeModel = FrancaBasedLimeModelLoader.loadModel(listOf(inputDirectory.toString()))
+        val limeModel = LimeModelLoader.getLoader().loadModel(listOf(inputDirectory.toString()))
         assertTrue(genium.executeGenerator(generatorName, limeModel, HashMap()))
 
         val generatedContents = results.associateBy({ it.targetFile.path }, { it.content })

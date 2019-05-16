@@ -25,7 +25,7 @@
  *
  * <h1>Input</h1>
  *
- * Franca model.
+ * Language independent LIME model.
  *
  * <h1>Output</h1>
  *

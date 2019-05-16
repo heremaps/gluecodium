@@ -21,4 +21,7 @@ package com.here.genium.model.lime
 
 interface LimeModelLoader {
     fun loadModel(fileNames: List<String>): LimeModel
+
+    // Injection point for static "getLoader()" extensions.
+    companion object
 }

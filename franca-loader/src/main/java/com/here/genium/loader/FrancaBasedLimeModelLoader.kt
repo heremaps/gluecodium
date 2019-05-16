@@ -52,7 +52,7 @@ import com.here.genium.validator.visibility.MethodVisibilityValidatorPredicate
 import org.franca.core.franca.FTypeCollection
 import java.io.File
 
-object FrancaBasedLimeModelLoader : LimeModelLoader {
+internal object FrancaBasedLimeModelLoader : LimeModelLoader {
     const val SPEC_PATH = "classpath:/GeniumExtensions.fdepl"
 
     private val francaModelLoader: FrancaModelLoader
@@ -144,3 +144,5 @@ object FrancaBasedLimeModelLoader : LimeModelLoader {
                 InterfaceMethodVisibilityValidatorPredicate()
             )).validate(deploymentModel, typeCollections)
 }
+
+fun LimeModelLoader.Companion.getLoader(): LimeModelLoader = FrancaBasedLimeModelLoader
