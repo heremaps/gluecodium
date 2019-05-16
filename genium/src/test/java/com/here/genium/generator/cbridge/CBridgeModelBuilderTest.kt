@@ -81,11 +81,16 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class CBridgeModelBuilderTest {
-    @MockK private lateinit var includeResolver: CBridgeIncludeResolver
-    @MockK private lateinit var cppIncludeResolver: CppIncludeResolver
-    @MockK private lateinit var cppModelBuilder: CppModelBuilder
-    @MockK private lateinit var swiftModelBuilder: SwiftModelBuilder
-    @MockK private lateinit var typeMapper: CBridgeTypeMapper
+    @MockK
+    private lateinit var includeResolver: CBridgeIncludeResolver
+    @MockK
+    private lateinit var cppIncludeResolver: CppIncludeResolver
+    @MockK
+    private lateinit var cppModelBuilder: CppModelBuilder
+    @MockK
+    private lateinit var swiftModelBuilder: SwiftModelBuilder
+    @MockK
+    private lateinit var typeMapper: CBridgeTypeMapper
 
     private val fooPath = LimePath(emptyList(), listOf("foo"))
     private val limeContainer = LimeContainer(fooPath, type = ContainerType.TYPE_COLLECTION)
@@ -115,7 +120,8 @@ class CBridgeModelBuilderTest {
         cShortName = "nonsenseShortName",
         cNestedSpecifier = "someNestedSpecifier"
     )
-    private val cppField = CppField("cppFooField", "Nested.cppFooField", type = CppPrimitiveTypeRef.VOID)
+    private val cppField =
+        CppField("cppFooField", "Nested.cppFooField", type = CppPrimitiveTypeRef.VOID)
     private val swiftField = SwiftField("swiftBarField", null, null, null)
 
     private val contextStack = MockContextStack<CElement>()
@@ -204,11 +210,15 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingContainerReadsParentFunctions() {
-        val parentInterface = CInterface("", emptyList())
         val parentFunction = CFunction("foo")
         val parentInheritedFunction = CFunction("bar")
-        parentInterface.functions += parentFunction
-        parentInterface.inheritedFunctions += parentInheritedFunction
+        val parentInterface = CInterface(
+            name = "",
+            selfType = null,
+            internalNamespace = listOf(),
+            functions = listOf(parentFunction),
+            inheritedFunctions = listOf(parentInheritedFunction)
+        )
         contextStack.injectResult(parentInterface)
 
         modelBuilder.finishBuilding(limeContainer)

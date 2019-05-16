@@ -17,39 +17,30 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge;
+package com.here.genium.model.cbridge
 
-import com.here.genium.generator.cbridge.CppTypeInfo;
-import com.here.genium.model.common.Include;
-import java.util.*;
+import com.here.genium.generator.cbridge.CppTypeInfo
+import com.here.genium.model.common.Include
+import java.util.TreeSet
 
-/** Collection of related methods and structs forming an interface (like a C header file) */
-public final class CInterface extends CElement {
-  public final Set<Include> headerIncludes = new TreeSet<>();
-  public final Set<Include> implementationIncludes = new TreeSet<>();
-  public final Set<Include> privateHeaderIncludes = new TreeSet<>();
-  public final List<CStruct> structs = new LinkedList<>();
-  public final List<CFunction> inheritedFunctions = new LinkedList<>();
-  public final List<CFunction> functions = new LinkedList<>();
-  public String functionTableName;
-  public final CppTypeInfo selfType;
-  public final List<CEnum> enums = new LinkedList<>();
-  public final List<CMap> maps = new LinkedList<>();
-  public final List<String> internalNamespace;
+/** Collection of related methods and structs forming an interface (like a C header file)  */
+class CInterface(
+    name: String,
+    val selfType: CppTypeInfo?,
+    val internalNamespace: List<String>,
+    val structs: List<CStruct> = listOf(),
+    val inheritedFunctions: List<CFunction> = listOf(),
+    val functions: List<CFunction> = listOf(),
+    val functionTableName: String? = null,
+    val enums: List<CEnum> = listOf(),
+    val maps: List<CMap> = listOf()
+) : CElement(name) {
+    // Tree sets to keep the order of includes consistent
+    val headerIncludes: TreeSet<Include> = TreeSet()
+    val implementationIncludes: TreeSet<Include> = TreeSet()
+    val privateHeaderIncludes: TreeSet<Include> = TreeSet()
 
-  public CInterface(final String name, final List<String> internalNamespace) {
-    this(name, null, internalNamespace);
-  }
-
-  public CInterface(
-      final String name, final CppTypeInfo selfType, final List<String> internalNamespace) {
-    super(name);
-    this.selfType = selfType;
-    this.internalNamespace = internalNamespace;
-  }
-
-  public boolean isInterface() {
     // only interfaces have a functionTableName
-    return functionTableName != null && !functionTableName.isEmpty() && selfType != null;
-  }
+    val isInterface: Boolean
+        get() = functionTableName != null && functionTableName.isNotEmpty() && selfType != null
 }

@@ -112,22 +112,26 @@ internal constructor(
     }
 
     override fun finishBuilding(limeContainer: LimeContainer) {
-        val cInterface = CInterface(
-            CBridgeNameRules.getInterfaceName(limeContainer),
-            currentContext.currentResults.filterIsInstance<CppTypeInfo>().firstOrNull(),
-            internalNamespace
-        )
-
         val parentClass = getPreviousResultOrNull(CInterface::class.java)
+        val inheritedFunctions = mutableListOf<CFunction>()
         if (parentClass != null) {
-            cInterface.inheritedFunctions.addAll(parentClass.inheritedFunctions)
-            cInterface.inheritedFunctions.addAll(parentClass.functions)
+            inheritedFunctions.addAll(parentClass.inheritedFunctions)
+            inheritedFunctions.addAll(parentClass.functions)
         }
 
-        cInterface.functions.addAll(getPreviousResults(CFunction::class.java))
-        cInterface.structs.addAll(getPreviousResults(CStruct::class.java))
-        cInterface.enums.addAll(getPreviousResults(CEnum::class.java))
-        cInterface.maps.addAll(getPreviousResults(CMap::class.java))
+        val cInterface = CInterface(
+            name = CBridgeNameRules.getInterfaceName(limeContainer),
+            selfType = currentContext.currentResults.filterIsInstance<CppTypeInfo>().firstOrNull(),
+            internalNamespace = internalNamespace,
+            structs = getPreviousResults(CStruct::class.java),
+            enums = getPreviousResults(CEnum::class.java),
+            maps = getPreviousResults(CMap::class.java),
+            functions = getPreviousResults(CFunction::class.java),
+            inheritedFunctions = inheritedFunctions,
+            functionTableName = if (limeContainer.type == LimeContainer.ContainerType.INTERFACE)
+                CBridgeNameRules.getFunctionTableName(limeContainer) else null
+        )
+
         cInterface.headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(cInterface))
         cInterface.implementationIncludes.addAll(
             CBridgeComponents.collectImplementationIncludes(cInterface)
@@ -139,7 +143,6 @@ internal constructor(
         )
 
         if (limeContainer.type == LimeContainer.ContainerType.INTERFACE) {
-            cInterface.functionTableName = CBridgeNameRules.getFunctionTableName(limeContainer)
             cInterface.implementationIncludes.add(
                 Include.createInternalInclude(CBridgeComponents.PROXY_CACHE_FILENAME)
             )

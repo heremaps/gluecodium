@@ -39,10 +39,10 @@ public final class CBridgeComponents {
     Collection<Include> includes = new LinkedList<>();
 
     for (CFunction function :
-        Iterables.concat(cInterface.functions, cInterface.inheritedFunctions)) {
+        Iterables.concat(cInterface.getFunctions(), cInterface.getInheritedFunctions())) {
       includes.addAll(collectFunctionBodyIncludes(function));
     }
-    for (CStruct struct : cInterface.structs) {
+    for (CStruct struct : cInterface.getStructs()) {
       includes.addAll(struct.getMappedType().getIncludes());
       for (CField field : struct.getFields()) {
         includes.addAll(field.getType().getIncludes());
@@ -51,13 +51,13 @@ public final class CBridgeComponents {
         includes.addAll(collectFunctionBodyIncludes(function));
       }
     }
-    if (cInterface.selfType != null) {
-      includes.addAll(cInterface.selfType.getIncludes());
+    if (cInterface.getSelfType() != null) {
+      includes.addAll(cInterface.getSelfType().getIncludes());
     }
-    for (CMap map : cInterface.maps) {
+    for (CMap map : cInterface.getMaps()) {
       includes.add(map.include);
     }
-    for (final CEnum enumeration : cInterface.enums) {
+    for (final CEnum enumeration : cInterface.getEnums()) {
       includes.addAll(enumeration.mappedType.getIncludes());
     }
 
@@ -66,11 +66,11 @@ public final class CBridgeComponents {
 
   public static Collection<Include> collectPrivateHeaderIncludes(CInterface cInterface) {
     Collection<Include> includes = new LinkedList<>();
-    for (CStruct struct : cInterface.structs) {
+    for (CStruct struct : cInterface.getStructs()) {
       includes.addAll(struct.getMappedType().getIncludes());
     }
-    if (cInterface.selfType != null) {
-      includes.addAll(cInterface.selfType.getIncludes());
+    if (cInterface.getSelfType() != null) {
+      includes.addAll(cInterface.getSelfType().getIncludes());
     }
     return includes;
   }
@@ -79,10 +79,10 @@ public final class CBridgeComponents {
 
     Collection<Include> includes = new LinkedList<>();
 
-    for (CFunction function : cInterface.functions) {
+    for (CFunction function : cInterface.getFunctions()) {
       includes.addAll(collectFunctionSignatureIncludes(function));
     }
-    for (CStruct struct : cInterface.structs) {
+    for (CStruct struct : cInterface.getStructs()) {
       for (CField field : struct.getFields()) {
         includes.addAll(field.getType().getFunctionReturnType().includes);
         includes.addAll(field.getType().getCType().includes);
@@ -91,10 +91,10 @@ public final class CBridgeComponents {
         includes.addAll(collectFunctionSignatureIncludes(function));
       }
     }
-    for (CEnum enumType : cInterface.enums) {
+    for (CEnum enumType : cInterface.getEnums()) {
       includes.addAll(enumType.includes);
     }
-    for (final CMap map : cInterface.maps) {
+    for (final CMap map : cInterface.getMaps()) {
       includes.addAll(map.keyType.getFunctionReturnType().includes);
       includes.addAll(map.valueType.getFunctionReturnType().includes);
     }
