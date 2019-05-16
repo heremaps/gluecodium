@@ -24,6 +24,7 @@ import com.here.genium.franca.FrancaTypeHelper;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Predicate;
+import org.franca.core.framework.FrancaHelpers;
 import org.franca.core.franca.*;
 
 /**
@@ -32,7 +33,8 @@ import org.franca.core.franca.*;
  * <ul>
  *   <li>The string content can be converted to the actual type of the field.
  *   <li>The "null" flag should only be set on a field marked as "nullable".
- *   <li>The "null" flag and the string value should not be set simultaneously.
+ *   <li>The "empty" flag should only be set on a collection type field.
+ *   <li>No more than one default value property should be set.
  * </ul>
  *
  * Defaults are set as strings in the deployment model, validate that the content can be converted
@@ -44,8 +46,8 @@ public final class DefaultsValidatorPredicate implements ValidatorPredicate<FFie
       "Invalid '%s' default value '%s' for '%s' field.";
   private static final String INVALID_NULL_FORMAT =
       "Invalid 'null' default value for non-nullable '%s' field.";
-  private static final String INVALID_COMBINATION_FORMAT =
-      "'null' default value cannot be combined with another default value: '%s' field.";
+  private static final String CONFLICTING_DEFAULTS_FORMAT =
+      "Several conflicting defaults are specified for '%s' field.";
   private static final Set<String> BOOLEAN_VALUES = new HashSet<>(Arrays.asList("true", "false"));
 
   @Override
@@ -56,15 +58,34 @@ public final class DefaultsValidatorPredicate implements ValidatorPredicate<FFie
   @Override
   public String validate(final FrancaDeploymentModel deploymentModel, final FField francaField) {
 
+    boolean hasNullDefaultValue = deploymentModel.hasNullDefaultValue(francaField);
+    boolean hasEmptyDefaultValue = deploymentModel.hasEmptyDefaultValue(francaField);
     String stringValue = deploymentModel.getDefaultValue(francaField);
 
-    if (deploymentModel.hasNullDefaultValue(francaField)) {
-      if (!deploymentModel.isNullable(francaField)) {
-        return String.format(INVALID_NULL_FORMAT, FrancaTypeHelper.getFullName(francaField));
-      } else if (stringValue != null) {
-        return String.format(INVALID_COMBINATION_FORMAT, FrancaTypeHelper.getFullName(francaField));
-      } else {
+    int numberOfDefaults =
+        (hasNullDefaultValue ? 1 : 0)
+            + (hasEmptyDefaultValue ? 1 : 0)
+            + (stringValue != null ? 1 : 0);
+    if (numberOfDefaults > 1) {
+      return String.format(CONFLICTING_DEFAULTS_FORMAT, FrancaTypeHelper.getFullName(francaField));
+    }
+
+    if (hasEmptyDefaultValue) {
+      if (francaField.isArray()) {
         return null;
+      }
+      FType francaType = FrancaHelpers.getActualDerived(francaField.getType());
+      if (francaType instanceof FArrayType || francaType instanceof FMapType) {
+        return null;
+      } else {
+        return String.format(INVALID_NULL_FORMAT, FrancaTypeHelper.getFullName(francaField));
+      }
+    }
+    if (hasNullDefaultValue) {
+      if (deploymentModel.isNullable(francaField)) {
+        return null;
+      } else {
+        return String.format(INVALID_NULL_FORMAT, FrancaTypeHelper.getFullName(francaField));
       }
     }
     if (stringValue == null) {

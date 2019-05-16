@@ -43,4 +43,6 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
     }
 
     class Null(type: LimeTypeRef) : LimeValue(type)
+
+    class Collection(type: LimeTypeRef, val values: List<String>) : LimeValue(type)
 }

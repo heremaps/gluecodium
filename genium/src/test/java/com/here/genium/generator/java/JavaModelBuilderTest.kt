@@ -242,7 +242,8 @@ class JavaModelBuilderTest {
     @Test
     fun finishBuildingValue() {
         val limeElement = LimeValue.Special.FLOAT_NAN
-        every { valueMapper.mapValue(limeElement) } returns javaValue
+        every { valueMapper.mapValue(limeElement, javaType) } returns javaValue
+        contextStack.injectResult(javaType)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -467,7 +468,7 @@ class JavaModelBuilderTest {
             typeRef = limeTypeRef,
             defaultValue = LimeValue.Special.FLOAT_NAN
         )
-        every { valueMapper.mapValue(any()) } returns javaValue
+        every { valueMapper.mapValue(any(), any()) } returns javaValue
 
         modelBuilder.finishBuilding(limeElement)
 

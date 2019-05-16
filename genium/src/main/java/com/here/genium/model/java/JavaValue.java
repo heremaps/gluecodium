@@ -34,10 +34,14 @@ public final class JavaValue extends JavaElementWithImports {
     this.isCustom = isCustom;
   }
 
-  public JavaValue(final JavaType type) {
+  public JavaValue(final JavaType type, final boolean isCustom) {
     super(type.name);
     isNew = true;
-    isCustom = false;
+    this.isCustom = isCustom;
     imports.addAll(type.imports);
+  }
+
+  public JavaValue(final JavaType type) {
+    this(type, false);
   }
 }

@@ -410,6 +410,10 @@ internal constructor(
                 SwiftValue("$signPrefix$typeName.$valueName")
             }
             is LimeValue.Null -> SwiftValue("nil")
+            is LimeValue.Collection -> {
+                val limeType = LimeTypeHelper.getActualType(limeValue.typeRef.type)
+                SwiftValue(if (limeType is LimeMap) "[:]" else "[]")
+            }
         }
 
         storeResult(swiftValue)

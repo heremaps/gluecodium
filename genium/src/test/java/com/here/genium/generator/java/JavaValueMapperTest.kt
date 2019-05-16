@@ -19,6 +19,8 @@
 
 package com.here.genium.generator.java
 
+import com.here.genium.model.java.JavaTemplateType
+import com.here.genium.model.java.JavaType
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
@@ -36,6 +38,7 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class JavaValueMapperTest {
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
+    private val javaType = object : JavaType("") {}
 
     private val valueMapper = JavaValueMapper(limeReferenceMap)
 
@@ -51,7 +54,7 @@ class JavaValueMapperTest {
         val valueRef = LimeEnumeratorRef(limeReferenceMap, "baz")
         val limeValue = LimeValue.Enumerator(enumeratorRef, valueRef)
 
-        val result = valueMapper.mapValue(limeValue)
+        val result = valueMapper.mapValue(limeValue, javaType)
 
         assertTrue(result.isCustom)
         assertEquals("Foo.Bar.BAZ", result.name)
@@ -69,7 +72,7 @@ class JavaValueMapperTest {
         val valueRef = LimeEnumeratorRef(limeReferenceMap, "baz")
         val limeValue = LimeValue.Enumerator(enumeratorRef, valueRef)
 
-        val result = valueMapper.mapValue(limeValue)
+        val result = valueMapper.mapValue(limeValue, javaType)
 
         assertTrue(result.isCustom)
         assertEquals("Bar.BAZ", result.name)
@@ -79,9 +82,33 @@ class JavaValueMapperTest {
     fun mapNullValue() {
         val limeValue = LimeValue.Null(LimeLazyTypeRef("", emptyMap()))
 
-        val result = valueMapper.mapValue(limeValue)
+        val result = valueMapper.mapValue(limeValue, javaType)
 
         assertTrue(result.isCustom)
         assertEquals("null", result.name)
+    }
+
+    @Test
+    fun mapEmptyListValue() {
+        val limeValue = LimeValue.Collection(LimeLazyTypeRef("", emptyMap()), emptyList())
+        val javaTemplateType =
+            JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaType)
+
+        val result = valueMapper.mapValue(limeValue, javaTemplateType)
+
+        assertTrue(result.isCustom)
+        assertEquals("ArrayList<>", result.name)
+    }
+
+    @Test
+    fun mapEmptyMapValue() {
+        val limeValue = LimeValue.Collection(LimeLazyTypeRef("", emptyMap()), emptyList())
+        val javaTemplateType =
+            JavaTemplateType.create(JavaTemplateType.TemplateClass.MAP, javaType, javaType)
+
+        val result = valueMapper.mapValue(limeValue, javaTemplateType)
+
+        assertTrue(result.isCustom)
+        assertEquals("HashMap<>", result.name)
     }
 }

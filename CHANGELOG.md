@@ -7,6 +7,7 @@
   + Added support for structs with constants.
   + Added explicit support for Builder pattern in Java.
   + Added support for explicit "null" default value for nullable fields in structs.
+  + Added support for explicit "empty" default value for collection fields in structs.
 - Breaking changes:
   + Builder pattern is no longer automatically generated for all structs in Java. It has to be
     enabled explicitly for individual structs now.

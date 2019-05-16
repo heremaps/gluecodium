@@ -194,7 +194,7 @@ internal constructor(
         val defaultValue = limeField.defaultValue
         val initialValue: JavaValue
         initialValue = when {
-            defaultValue != null -> valueMapper.mapValue(defaultValue)
+            defaultValue != null -> valueMapper.mapValue(defaultValue, javaType)
             limeField.attributes.have(LimeAttributeType.NULLABLE) ->
                 JavaValueMapper.mapNullValue(javaType)
             else -> JavaValueMapper.mapDefaultValue(javaType)
@@ -291,7 +291,7 @@ internal constructor(
     }
 
     override fun finishBuilding(limeValue: LimeValue) {
-        storeResult(valueMapper.mapValue(limeValue))
+        storeResult(valueMapper.mapValue(limeValue, getPreviousResult(JavaType::class.java)))
         closeContext()
     }
 

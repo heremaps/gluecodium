@@ -21,10 +21,12 @@ package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
 import com.here.genium.test.ArrayEList
+import org.franca.core.franca.FArrayType
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FEnumerator
 import org.franca.core.franca.FField
+import org.franca.core.franca.FMapType
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FTypeCollection
@@ -264,10 +266,68 @@ class DefaultsValidatorPredicateTest {
     }
 
     @Test
-    fun validateForNullableNullWithOtherValue() {
-        `when`(deploymentModel.isNullable(any())).thenReturn(true)
+    fun validateForNullWithDefaultValue() {
         `when`(deploymentModel.hasNullDefaultValue(any())).thenReturn(true)
         `when`(deploymentModel.getDefaultValue(any())).thenReturn("nonsense")
+
+        val result = validatorPredicate.validate(deploymentModel, francaField)
+
+        assertNotNull(result)
+    }
+
+    @Test
+    fun validateForImplicitArrayEmpty() {
+        `when`(francaField.isArray).thenReturn(true)
+        `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
+
+        val result = validatorPredicate.validate(deploymentModel, francaField)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun validateForExplicitArrayEmpty() {
+        `when`(francaTypeRef.derived).thenReturn(mock(FArrayType::class.java))
+        `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
+
+        val result = validatorPredicate.validate(deploymentModel, francaField)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun validateForMapTypeEmpty() {
+        `when`(francaTypeRef.derived).thenReturn(mock(FMapType::class.java))
+        `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
+
+        val result = validatorPredicate.validate(deploymentModel, francaField)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun validateForNonCollectionTypeEmpty() {
+        `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
+
+        val result = validatorPredicate.validate(deploymentModel, francaField)
+
+        assertNotNull(result)
+    }
+
+    @Test
+    fun validateForEmptyWithDefaultValue() {
+        `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
+        `when`(deploymentModel.getDefaultValue(any())).thenReturn("nonsense")
+
+        val result = validatorPredicate.validate(deploymentModel, francaField)
+
+        assertNotNull(result)
+    }
+
+    @Test
+    fun validateForNullWithEmpty() {
+        `when`(deploymentModel.hasNullDefaultValue(any())).thenReturn(true)
+        `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 

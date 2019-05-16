@@ -343,6 +343,7 @@ class CppModelBuilder @VisibleForTesting internal constructor(
                     listOf(CppLibraryIncludes.OPTIONAL)
                 )
             }
+            is LimeValue.Collection -> CppValue("{}")
         }
 
         storeResult(cppValue)

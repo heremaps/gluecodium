@@ -122,6 +122,10 @@ public class FrancaDeploymentModel {
     return getBoolean(francaField, "DefaultIsNull");
   }
 
+  public boolean hasEmptyDefaultValue(final FField francaField) {
+    return getBoolean(francaField, "DefaultIsEmpty");
+  }
+
   public String getExternalType(final FModelElement francaType) {
     return getString(francaType, "ExternalType");
   }

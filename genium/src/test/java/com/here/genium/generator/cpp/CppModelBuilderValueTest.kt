@@ -165,4 +165,14 @@ class CppModelBuilderValueTest {
         val result = modelBuilder.getFinalResult(CppValue::class.java)
         assertEquals("foobar<baz>()", result.name)
     }
+
+    @Test
+    fun finishBuildingEmptyCollectionValue() {
+        val limeElement = LimeValue.Collection(LimeBasicTypeRef.DOUBLE, emptyList())
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(CppValue::class.java)
+        assertEquals("{}", result.name)
+    }
 }

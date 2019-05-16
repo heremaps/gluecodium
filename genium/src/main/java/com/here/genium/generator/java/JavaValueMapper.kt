@@ -37,7 +37,7 @@ import com.here.genium.model.lime.LimeValue
 
 class JavaValueMapper(private val limeReferenceMap: Map<String, LimeElement>) {
 
-    fun mapValue(limeValue: LimeValue) =
+    fun mapValue(limeValue: LimeValue, javaType: JavaType) =
         when (limeValue) {
             is LimeValue.Literal -> {
                 val limeType = limeValue.typeRef.type
@@ -64,6 +64,8 @@ class JavaValueMapper(private val limeReferenceMap: Map<String, LimeElement>) {
             }
             is LimeValue.Special -> mapSpecialValue(limeValue)
             is LimeValue.Null -> JavaValue("null", true)
+            is LimeValue.Collection ->
+                JavaValue((javaType as JavaTemplateType).implementationType, true)
     }
 
     private fun mapSpecialValue(limeValue: LimeValue.Special): JavaValue {
