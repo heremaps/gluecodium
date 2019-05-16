@@ -28,6 +28,9 @@ buildscript {
         classpath "com.diffplug.spotless:spotless-plugin-gradle:3.15.0"
     }
 }
+plugins {
+    id 'nebula.lint' version '9.3.2'
+}
 
 allprojects {
     repositories {
@@ -80,5 +83,14 @@ allprojects {
 
     test {
         maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+    }
+
+    apply plugin: 'nebula.lint'
+    gradleLint {
+        alwaysRun = false
+        rules = ['all-dependency']
+        // not using 'unused-dependency' rule because we state some transitive dependencies explicitly
+        // for dependency locking
+        excludedRules = ['unused-dependency']
     }
 }
