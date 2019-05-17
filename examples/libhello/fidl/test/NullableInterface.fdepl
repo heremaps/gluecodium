@@ -269,6 +269,72 @@ define GeniumExtensions for interface test.NullableInterface
     }
 }
 
+define Defaults for interface test.NullableInterface
+{
+    struct SomeStruct {
+        stringField {
+            DefaultValue = ""
+        }
+    }
+
+    struct NullableStruct {
+        stringField {
+            DefaultIsNull = true
+        }
+        boolField {
+            DefaultIsNull = true
+        }
+        doubleField {
+            DefaultIsNull = true
+        }
+        structField {
+            DefaultIsNull = true
+        }
+        enumField {
+            DefaultIsNull = true
+        }
+        arrayField {
+            DefaultIsNull = true
+        }
+        inlineArrayField {
+            DefaultIsNull = true
+        }
+        mapField {
+            DefaultIsNull = true
+        }
+        blobField {
+            DefaultIsNull = true
+        }
+    }
+
+    struct NullableIntsStruct {
+        int8Field {
+            DefaultIsNull = true
+        }
+        int16Field {
+            DefaultIsNull = true
+        }
+        int32Field {
+            DefaultIsNull = true
+        }
+        int64Field {
+            DefaultIsNull = true
+        }
+        uint8Field {
+            DefaultIsNull = true
+        }
+        uint16Field {
+            DefaultIsNull = true
+        }
+        uint32Field {
+            DefaultIsNull = true
+        }
+        uint64Field {
+            DefaultIsNull = true
+        }
+    }
+}
+
 define GeniumExtensions for interface test.NullableListener
 {
     IsInterface = true

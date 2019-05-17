@@ -52,23 +52,11 @@ public final class CppProxyWithComplexListenersTest {
 
   @Test
   public void JavaNativeListenerHavingComplexInputParameters() {
-    NamedPoint3D ptOne = new NamedPoint3D();
-    ptOne.name = "zero point";
-    ptOne.pt.x = 0;
-    ptOne.pt.y = 0;
-    ptOne.pt.z = 0;
+    NamedPoint3D ptOne = new NamedPoint3D("zero point", new Point3D());
 
-    NamedPoint3D ptTwo = new NamedPoint3D();
-    ptTwo.name = "intermediate point";
-    ptTwo.pt.x = 10;
-    ptTwo.pt.y = 10;
-    ptTwo.pt.z = 10;
+    NamedPoint3D ptTwo = new NamedPoint3D("intermediate point", new Point3D(10, 10, 10));
 
-    NamedPoint3D ptThree = new NamedPoint3D();
-    ptThree.name = "final destination";
-    ptThree.pt.x = 20;
-    ptThree.pt.y = 20;
-    ptThree.pt.z = 20;
+    NamedPoint3D ptThree = new NamedPoint3D("final destination", new Point3D(20, 20, 20));
 
     final AtomicReference<String> listenerLog = new AtomicReference<>();
 

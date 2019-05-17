@@ -46,8 +46,8 @@ public final class ListenersFragment extends Fragment {
   private static final int JAVA_LISTENER_NATIVE_METHOD = 0;
   private static final int NATIVE_LISTENER_NATIVE_METHOD = 1;
   private static final int LISTENERS_IN_BACKGROUND = 2;
-  private static final Calculator.Position START_POSITION = new Calculator.Position();
-  private static final Calculator.Position END_POSITION = new Calculator.Position();
+  private static final Calculator.Position START_POSITION = new Calculator.Position(0f, 0f, 0f);
+  private static final Calculator.Position END_POSITION = new Calculator.Position(0f, 0f, 0f);
 
   private TextView result;
   private TextView java_listener_result;

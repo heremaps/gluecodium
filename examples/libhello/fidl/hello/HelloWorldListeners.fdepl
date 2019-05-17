@@ -26,3 +26,12 @@ define GeniumExtensions for interface hello.CalculatorFactory
         Static = true
     }
 }
+
+define Defaults for interface hello.Calculator
+{
+    struct Position {
+        x { DefaultValue = "0.0" }
+        y { DefaultValue = "0.0" }
+        z { DefaultValue = "0.0" }
+    }
+}

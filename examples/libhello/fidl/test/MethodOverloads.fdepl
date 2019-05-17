@@ -51,6 +51,14 @@ define GeniumExtensions for interface test.MethodOverloads
     }
 }
 
+define Defaults for interface test.MethodOverloads
+{
+    struct Point {
+        x { DefaultValue = "0.0" }
+        y { DefaultValue = "0.0" }
+    }
+}
+
 define GeniumExtensions for interface test.SpecialNames
 {
     IsInterface = true

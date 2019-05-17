@@ -132,8 +132,8 @@ public final class AttributesFragment extends Fragment {
         result.setText(String.format(Locale.getDefault(), EXAMPLE_STRUCT, structAttribute.value));
         break;
       case SET_STRUCT_ATTRIBUTE:
-        HelloWorldAttributes.ExampleStruct exampleStruct = new HelloWorldAttributes.ExampleStruct();
-        exampleStruct.value = Double.parseDouble(parameterText);
+        HelloWorldAttributes.ExampleStruct exampleStruct =
+            new HelloWorldAttributes.ExampleStruct(Double.parseDouble(parameterText), null);
         helloWorldAttributes.setStructAttribute(exampleStruct);
         result.setText(R.string.attributes_setter_success);
         break;

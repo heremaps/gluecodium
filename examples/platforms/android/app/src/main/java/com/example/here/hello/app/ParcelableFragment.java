@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.here.hello.R;
+import com.here.android.hello.Dimension;
 import com.here.android.hello.Orientation;
 import com.here.android.hello.State;
 
@@ -103,18 +104,16 @@ public class ParcelableFragment extends Fragment {
   }
 
   private void readCurrentState(View view) {
-    if (currentState == null) {
-      currentState = new State();
-    }
+    Dimension dimension = new Dimension(view.getWidth(), view.getHeight());
 
-    currentState.dimension.width = view.getWidth();
-    currentState.dimension.height = view.getHeight();
-
+    Orientation orientation;
     int currentOrientation = getResources().getConfiguration().orientation;
     if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-      currentState.orientation = Orientation.LANDSCAPE;
+      orientation = Orientation.LANDSCAPE;
     } else {
-      currentState.orientation = Orientation.PORTRAIT;
+      orientation = Orientation.PORTRAIT;
     }
+
+    currentState = new State(dimension, orientation);
   }
 }

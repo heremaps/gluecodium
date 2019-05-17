@@ -54,8 +54,7 @@ public class AttributesTest {
 
   @Test
   public void setGetStructAttribute() {
-    Attributes.ExampleStruct expectedStruct = new Attributes.ExampleStruct();
-    expectedStruct.value = 2.71;
+    Attributes.ExampleStruct expectedStruct = new Attributes.ExampleStruct(2.71, null);
 
     attributes.setStructAttribute(expectedStruct);
     Attributes.ExampleStruct result = attributes.getStructAttribute();

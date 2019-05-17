@@ -102,9 +102,10 @@ public class PlainDataStructuresTypeCollectionTest {
 
   @Test
   public void modifyAllBuiltInAndCustomTypesDataStructure() {
-    AllTypesStruct allTypesStruct = new AllTypesStruct();
+    AllTypesStruct allTypesStruct =
+        new AllTypesStruct(
+            "hello".getBytes(), PlainDataStructuresFromTypeCollection.createPoint(11.0, 12.0));
     allTypesStruct.booleanField = true;
-    allTypesStruct.bytesField = "hello".getBytes();
     allTypesStruct.doubleField = 1.0;
     allTypesStruct.floatField = 2.0f;
     allTypesStruct.int8Field = 3;
@@ -116,7 +117,6 @@ public class PlainDataStructuresTypeCollectionTest {
     allTypesStruct.uint32Field = 9;
     allTypesStruct.uint64Field = 10;
     allTypesStruct.stringField = "test string";
-    allTypesStruct.pointField = PlainDataStructuresFromTypeCollection.createPoint(11.0, 12.0);
 
     AllTypesStruct result =
         PlainDataStructuresFromTypeCollection.modifyAllTypesStruct(allTypesStruct);

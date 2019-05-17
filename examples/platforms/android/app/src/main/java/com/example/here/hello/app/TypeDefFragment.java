@@ -74,8 +74,8 @@ public final class TypeDefFragment extends Fragment {
     description.setText(R.string.typedef_method_description);
     submitButton.setOnClickListener(
         v -> {
-          HelloWorldTypedefs.SomeStruct inputStruct = new HelloWorldTypedefs.SomeStruct();
-          inputStruct.text = input.getText().toString();
+          HelloWorldTypedefs.SomeStruct inputStruct =
+              new HelloWorldTypedefs.SomeStruct(input.getText().toString());
 
           HelloWorldTypedefs.SomeStruct outputStruct =
               HelloWorldTypedefs.methodWithTypeDef(inputStruct);

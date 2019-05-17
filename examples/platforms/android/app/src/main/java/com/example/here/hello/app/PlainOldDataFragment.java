@@ -114,9 +114,7 @@ public final class PlainOldDataFragment extends Fragment {
 
   private void executeBuiltinVariablesMethod(
       final int selectedItemPosition, final Long parameterValue) {
-    SyncResult syncResult = new SyncResult();
-    syncResult.lastUpdatedTimeStamp = 42L;
-    syncResult.numberOfChanges = parameterValue;
+    SyncResult syncResult = new SyncResult(42L, parameterValue);
 
     switch (selectedItemPosition) {
       case 0:
@@ -131,9 +129,7 @@ public final class PlainOldDataFragment extends Fragment {
                 outputSyncResult.numberOfChanges));
         break;
       case 1:
-        IdentifiableSyncResult identifiableSyncResult = new IdentifiableSyncResult();
-        identifiableSyncResult.id = 99;
-        identifiableSyncResult.syncResult = syncResult;
+        IdentifiableSyncResult identifiableSyncResult = new IdentifiableSyncResult(99, syncResult);
 
         IdentifiableSyncResult outputIdentifiableSyncResult =
             HelloWorldPlainDataStructures.methodWithNestedType(identifiableSyncResult);

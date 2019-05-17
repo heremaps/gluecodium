@@ -146,6 +146,7 @@ feature(Structs cpp android swift SOURCES
     fidl/test/PlainDataStructures.fidl
     fidl/test/PlainDataStructuresFromTypeCollection.fdepl
     fidl/test/PlainDataStructuresFromTypeCollection.fidl
+    fidl/test/TypeCollection.fdepl
     fidl/test/TypeCollection.fidl
 )
 

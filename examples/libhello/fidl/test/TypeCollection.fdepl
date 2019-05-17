@@ -18,53 +18,9 @@
  */
 
 import "classpath:/GeniumExtensions.fdepl"
-import "./PlainDataStructures.fidl"
+import "./TypeCollection.fidl"
 
-define GeniumExtensions for interface test.PlainDataStructures
-{
-    struct AllTypesImmutableStruct {
-        Immutable = true
-        JavaBuilder = true
-    }
-
-    method MapOfImmutablesRoundTrip {
-        Static = true
-    }
-
-    method createPoint {
-        Static = true
-    }
-
-    method swapPointCoordinates {
-        Static = true
-    }
-
-    method createLine {
-        Static = true
-    }
-
-    method createColoredLine {
-        Static = true
-    }
-
-    method returnColoredLine {
-        Static = true
-    }
-
-    method returnAllTypesStruct {
-        Static = true
-    }
-
-    method modifyAllTypesStruct {
-        Static = true
-    }
-
-    method checkAllFieldsAreInitialized {
-        Static = true
-    }
-}
-
-define Defaults for interface test.PlainDataStructures
+define Defaults for typeCollection test.TypeCollection
 {
     struct Point {
         x { DefaultValue = "0.0" }
@@ -92,3 +48,4 @@ define Defaults for interface test.PlainDataStructures
         booleanField { DefaultValue = "false" }
     }
 }
+

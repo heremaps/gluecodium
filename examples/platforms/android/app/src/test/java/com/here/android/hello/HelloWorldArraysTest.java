@@ -94,10 +94,10 @@ public class HelloWorldArraysTest {
 
   @Test
   public void methodWithStructArray() {
-    HelloWorldArrays.ExampleStruct exampleStruct1 = new HelloWorldArrays.ExampleStruct();
-    HelloWorldArrays.ExampleStruct exampleStruct2 = new HelloWorldArrays.ExampleStruct();
-    exampleStruct1.value = DOUBLE_VALUE_1;
-    exampleStruct2.value = DOUBLE_VALUE_2;
+    HelloWorldArrays.ExampleStruct exampleStruct1 =
+        new HelloWorldArrays.ExampleStruct(DOUBLE_VALUE_1);
+    HelloWorldArrays.ExampleStruct exampleStruct2 =
+        new HelloWorldArrays.ExampleStruct(DOUBLE_VALUE_2);
     List<HelloWorldArrays.ExampleStruct> exampleStructList =
         Arrays.asList(exampleStruct1, exampleStruct2);
 

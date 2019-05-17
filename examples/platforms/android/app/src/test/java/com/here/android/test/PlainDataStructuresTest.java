@@ -109,9 +109,10 @@ public final class PlainDataStructuresTest {
 
   @Test
   public void allTypesZeroesRoundTrip() {
-    PlainDataStructures.AllTypesStruct allTypesStruct = new PlainDataStructures.AllTypesStruct();
+    PlainDataStructures.AllTypesStruct allTypesStruct =
+        new PlainDataStructures.AllTypesStruct(
+            new byte[0], PlainDataStructures.createPoint(0.0, 0.0));
     allTypesStruct.booleanField = false;
-    allTypesStruct.bytesField = new byte[0];
     allTypesStruct.doubleField = 0.0;
     allTypesStruct.floatField = 0.0f;
     allTypesStruct.int8Field = 0;
@@ -123,7 +124,6 @@ public final class PlainDataStructuresTest {
     allTypesStruct.uint32Field = 0;
     allTypesStruct.uint64Field = 0;
     allTypesStruct.stringField = "";
-    allTypesStruct.pointField = PlainDataStructures.createPoint(0.0, 0.0);
 
     PlainDataStructures.AllTypesStruct result =
         PlainDataStructures.returnAllTypesStruct(allTypesStruct);
@@ -148,9 +148,10 @@ public final class PlainDataStructuresTest {
 
   @Test
   public void modifyAllBuiltInAndCustomTypesDataStructure() {
-    PlainDataStructures.AllTypesStruct allTypesStruct = new PlainDataStructures.AllTypesStruct();
+    PlainDataStructures.AllTypesStruct allTypesStruct =
+        new PlainDataStructures.AllTypesStruct(
+            "hello".getBytes(), PlainDataStructures.createPoint(11.0, 12.0));
     allTypesStruct.booleanField = true;
-    allTypesStruct.bytesField = "hello".getBytes();
     allTypesStruct.doubleField = 1.0;
     allTypesStruct.floatField = 2.0f;
     allTypesStruct.int8Field = 3;
@@ -162,7 +163,6 @@ public final class PlainDataStructuresTest {
     allTypesStruct.uint32Field = 9;
     allTypesStruct.uint64Field = 10;
     allTypesStruct.stringField = "test string";
-    allTypesStruct.pointField = PlainDataStructures.createPoint(11.0, 12.0);
 
     PlainDataStructures.AllTypesStruct result =
         PlainDataStructures.modifyAllTypesStruct(allTypesStruct);
@@ -189,26 +189,14 @@ public final class PlainDataStructuresTest {
   public void setStringToNull() {
     expectedException.expect(NullPointerException.class);
 
-    PlainDataStructures.AllTypesStruct allTypesStruct = new PlainDataStructures.AllTypesStruct();
-    allTypesStruct.pointField = PlainDataStructures.createPoint(11.0, 12.0);
+    PlainDataStructures.AllTypesStruct allTypesStruct =
+        new PlainDataStructures.AllTypesStruct(
+            new byte[0], PlainDataStructures.createPoint(11.0, 12.0));
     allTypesStruct.stringField = null;
-    allTypesStruct.bytesField = new byte[0];
 
     PlainDataStructures.AllTypesStruct result =
         PlainDataStructures.returnAllTypesStruct(allTypesStruct);
   }
-
-  @Test
-  public void useUninitializedAllTypesStructure() {
-    PlainDataStructures.AllTypesStruct allTypesStruct = new PlainDataStructures.AllTypesStruct();
-
-    PlainDataStructures.AllTypesStruct result =
-        PlainDataStructures.returnAllTypesStruct(allTypesStruct);
-
-    assertNotNull(allTypesStruct.pointField);
-    assertNotNull(result.pointField);
-  }
-
 
   @Test
   public void allTypesImmutableStructBuilder() {
@@ -267,20 +255,6 @@ public final class PlainDataStructuresTest {
   }
 
   @Test
-  public void useUninitializedNestedStructure() {
-    PlainDataStructures.ColoredLine coloredLine = new PlainDataStructures.ColoredLine();
-
-    PlainDataStructures.ColoredLine result = PlainDataStructures.returnColoredLine(coloredLine);
-
-    assertNotNull(coloredLine.line.a);
-    assertNotNull(coloredLine.line.b);
-    assertNotNull(coloredLine.color);
-    assertNotNull(result.line.a);
-    assertNotNull(result.line.b);
-    assertNotNull(result.color);
-  }
-
-  @Test
   public void executeVoidMethod() {
     final int testValue = 10;
 
@@ -292,25 +266,5 @@ public final class PlainDataStructuresTest {
   @Test
   public void checkAllFieldsAreInitialized() {
     assertTrue(PlainDataStructures.checkAllFieldsAreInitialized());
-  }
-
-  @Test
-  public void checkDefaultConstructorInitializesFields() {
-    PlainDataStructures.AllTypesStruct struct = new PlainDataStructures.AllTypesStruct();
-    assertEquals(false, struct.booleanField);
-    assertEquals(0, struct.int8Field);
-    assertEquals(0, struct.uint8Field);
-    assertEquals(0, struct.int16Field);
-    assertEquals(0, struct.uint16Field);
-    assertEquals(0, struct.int32Field);
-    assertEquals(0, struct.uint32Field);
-    assertEquals(0, struct.int64Field);
-    assertEquals(0, struct.uint64Field);
-    assertEquals(0f, struct.floatField);
-    assertEquals(0., struct.doubleField);
-    assertEquals("", struct.stringField);
-    assertNotNull(struct.bytesField);
-    assertEquals(0, struct.bytesField.length);
-    assertNotNull(struct.pointField);
   }
 }

@@ -35,3 +35,12 @@ define GeniumExtensions for interface test.ComplexListenerFactory
         Static = true
     }
 }
+
+define Defaults for typeCollection test.ComplexListenerTypes
+{
+    struct Point3D {
+        x { DefaultValue = "0.0" }
+        y { DefaultValue = "0.0" }
+        z { DefaultValue = "0.0" }
+    }
+}

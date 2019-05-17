@@ -41,12 +41,10 @@ public class HelloWorldTypeDefTest {
 
   @Rule public final ExpectedException expectedException = ExpectedException.none();
 
-  private final HelloWorldTypedefs.SomeStruct inputStruct = new HelloWorldTypedefs.SomeStruct();
-
   @Test
   public void methodWithTypeDef() {
     // Arrange
-    inputStruct.text = "foo";
+    HelloWorldTypedefs.SomeStruct inputStruct = new HelloWorldTypedefs.SomeStruct("foo");
 
     // Act
     HelloWorldTypedefs.SomeStruct outputStruct = HelloWorldTypedefs.methodWithTypeDef(inputStruct);
@@ -58,7 +56,7 @@ public class HelloWorldTypeDefTest {
   @Test
   public void methodWithTypeDef_stringWithSpace() {
     // Arrange
-    inputStruct.text = "foo bar";
+    HelloWorldTypedefs.SomeStruct inputStruct = new HelloWorldTypedefs.SomeStruct("foo bar");
 
     // Act
     HelloWorldTypedefs.SomeStruct outputStruct = HelloWorldTypedefs.methodWithTypeDef(inputStruct);
@@ -70,7 +68,7 @@ public class HelloWorldTypeDefTest {
   @Test
   public void methodWithTypeDef_stringWithNumber() {
     // Arrange
-    inputStruct.text = "1a";
+    HelloWorldTypedefs.SomeStruct inputStruct = new HelloWorldTypedefs.SomeStruct("1a");
 
     // Act
     HelloWorldTypedefs.SomeStruct outputStruct = HelloWorldTypedefs.methodWithTypeDef(inputStruct);
@@ -82,7 +80,7 @@ public class HelloWorldTypeDefTest {
   @Test
   public void methodWithTypeDef_emptyString() {
     // Arrange
-    inputStruct.text = "";
+    HelloWorldTypedefs.SomeStruct inputStruct = new HelloWorldTypedefs.SomeStruct("");
 
     // Act
     HelloWorldTypedefs.SomeStruct outputStruct = HelloWorldTypedefs.methodWithTypeDef(inputStruct);
@@ -95,7 +93,7 @@ public class HelloWorldTypeDefTest {
   public void methodWithTypeDef_nullString() {
     // Arrange
     expectedException.expect(NullPointerException.class);
-    inputStruct.text = null;
+    HelloWorldTypedefs.SomeStruct inputStruct = new HelloWorldTypedefs.SomeStruct(null);
 
     // Act
     HelloWorldTypedefs.SomeStruct outputStruct = HelloWorldTypedefs.methodWithTypeDef(inputStruct);

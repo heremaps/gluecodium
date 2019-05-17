@@ -132,3 +132,10 @@ define GeniumExtensions for interface test.ArrayNameClash {
         Static = true
     }
 }
+
+define Defaults for interface test.Arrays
+{
+    struct BasicStruct {
+        ^value { DefaultValue = "0.0" }
+    }
+}

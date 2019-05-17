@@ -25,6 +25,7 @@ import android.os.Build;
 
 import com.example.here.hello.BuildConfig;
 import com.here.android.RobolectricApplication;
+import java.util.ArrayList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -61,8 +62,8 @@ public class HelloWorldAttributesTest {
 
   @Test
   public void setGetStructAttribute() {
-    HelloWorldAttributes.ExampleStruct structValue = new HelloWorldAttributes.ExampleStruct();
-    structValue.value = 2.71;
+    HelloWorldAttributes.ExampleStruct structValue =
+        new HelloWorldAttributes.ExampleStruct(2.71, new ArrayList<>());
 
     attributes.setStructAttribute(structValue);
     HelloWorldAttributes.ExampleStruct result = attributes.getStructAttribute();

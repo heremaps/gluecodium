@@ -34,3 +34,11 @@ define GeniumExtensions for interface test.EnumsTypeCollectionMethods
         Static = true
     }
 }
+
+define Defaults for typeCollection test.EnumsTypeCollection
+{
+    struct ErrorStructTypeCollection {
+        type { DefaultValue = "ERROR_NONE" }
+        message { DefaultValue = "" }
+    }
+}

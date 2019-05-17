@@ -24,3 +24,10 @@ define GeniumExtensions for interface test.AttributesInterface
 {
     IsInterface = true
 }
+
+define Defaults for interface test.AttributesInterface
+{
+    struct ExampleStruct {
+        ^value { DefaultValue = "0.0" }
+    }
+}

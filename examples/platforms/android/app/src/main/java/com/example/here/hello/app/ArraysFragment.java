@@ -164,9 +164,7 @@ public final class ArraysFragment extends Fragment {
   }
 
   private ExampleStruct createExampleStruct(final String input) throws NumberFormatException {
-    ExampleStruct exampleStruct = new ExampleStruct();
-    exampleStruct.value = Double.parseDouble(input);
-    return exampleStruct;
+    return new ExampleStruct(Double.parseDouble(input));
   }
 
   private List<Long> createListOfLongs(final String input) throws NumberFormatException {

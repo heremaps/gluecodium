@@ -34,3 +34,11 @@ define GeniumExtensions for interface test.Enums
         Static = true
     }
 }
+
+define Defaults for interface test.Enums
+{
+    struct ErrorStruct {
+        type { DefaultValue = "ERROR_NONE" }
+        message { DefaultValue = "" }
+    }
+}

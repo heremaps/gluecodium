@@ -50,3 +50,14 @@ define GeniumExtensions for interface test.Maps
         Static = true
     }
 }
+
+define Defaults for interface test.Maps
+{
+    struct SomeStruct {
+        ^value { DefaultValue = "" }
+    }
+
+    struct StructWithMap {
+        errorMapping { DefaultIsEmpty = true }
+    }
+}

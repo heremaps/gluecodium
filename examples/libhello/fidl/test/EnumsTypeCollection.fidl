@@ -31,7 +31,7 @@ typeCollection EnumsTypeCollection {
     }
 
     struct ErrorStructTypeCollection {
-        EnumsTypeCollection.InternalErrorTypeCollection type
+        InternalErrorTypeCollection type
         String message
     }
 }

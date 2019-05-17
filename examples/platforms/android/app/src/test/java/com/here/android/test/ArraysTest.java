@@ -402,17 +402,21 @@ public class ArraysTest {
     SimpleInstantiableOne instance2 = InstancesFactory.createSimpleInstantiableOne();
     instance2.setStringValue(STRING_LIST_ITEM_3);
     List<SimpleInstantiableOne> instancesArray2 = Collections.singletonList(instance2);
-    Arrays.FancyStruct struct1 = new Arrays.FancyStruct();
-    Arrays.FancyStruct struct2 = new Arrays.FancyStruct();
-    Arrays.FancyStruct struct3 = new Arrays.FancyStruct();
-    struct1.messages = java.util.Arrays.asList("struct", "1");
-    struct1.numbers = java.util.Arrays.asList(SHORT_ITEM_1, SHORT_ITEM_2);
-    struct1.instances = instancesArray1;
-    struct2.messages = java.util.Arrays.asList("struct", "2");
-    struct2.numbers = java.util.Arrays.asList(SHORT_ITEM_3, SHORT_ITEM_3);
-    struct2.instances = instancesArray2;
-    struct3.messages = java.util.Arrays.asList("struct", "3");
-    struct3.numbers = java.util.Arrays.asList(SHORT_ITEM_4, SHORT_ITEM_4);
+    Arrays.FancyStruct struct1 =
+        new Arrays.FancyStruct(
+            java.util.Arrays.asList("struct", "1"),
+            java.util.Arrays.asList(SHORT_ITEM_1, SHORT_ITEM_2),
+            instancesArray1);
+    Arrays.FancyStruct struct2 =
+        new Arrays.FancyStruct(
+            java.util.Arrays.asList("struct", "2"),
+            java.util.Arrays.asList(SHORT_ITEM_3, SHORT_ITEM_3),
+            instancesArray2);
+    Arrays.FancyStruct struct3 =
+        new Arrays.FancyStruct(
+            java.util.Arrays.asList("struct", "3"),
+            java.util.Arrays.asList(SHORT_ITEM_4, SHORT_ITEM_4),
+            null);
     List<Arrays.FancyStruct> fancyStructList1 = java.util.Arrays.asList(struct1, struct2);
     List<Arrays.FancyStruct> fancyStructList2 = Collections.singletonList(struct3);
 

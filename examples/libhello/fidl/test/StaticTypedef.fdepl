@@ -50,3 +50,10 @@ define GeniumExtensions for interface test.StaticTypedef
         Static = true
     }
 }
+
+define Defaults for interface test.StaticTypedef
+{
+    struct ExampleStruct {
+        exampleString { DefaultValue = "" }
+    }
+}

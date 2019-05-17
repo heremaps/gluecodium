@@ -64,6 +64,38 @@ define GeniumExtensions for typeCollection test.Equatable {
     }
 }
 
+define Defaults for typeCollection test.Equatable {
+    struct EquatableNullableStruct {
+        boolField {
+            DefaultIsNull = true
+        }
+        intField {
+            DefaultIsNull = true
+        }
+        uintField {
+            DefaultIsNull = true
+        }
+        floatField {
+            DefaultIsNull = true
+        }
+        stringField {
+            DefaultIsNull = true
+        }
+        structField {
+            DefaultIsNull = true
+        }
+        enumField {
+            DefaultIsNull = true
+        }
+        mapField {
+            DefaultIsNull = true
+        }
+        arrayField {
+            DefaultIsNull = true
+        }
+    }
+}
+
 define GeniumExtensions for interface test.EquatableInterface {
     struct AnotherEquatableStruct {
         Equatable = true

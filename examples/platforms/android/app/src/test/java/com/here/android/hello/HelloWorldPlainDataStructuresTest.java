@@ -51,9 +51,7 @@ public final class HelloWorldPlainDataStructuresTest {
   @Test
   public void methodWithNonNestedType_nestedPlainDataStructure() {
     HelloWorldPlainDataStructures.IdentifiableSyncResult input =
-        new HelloWorldPlainDataStructures.IdentifiableSyncResult();
-    input.syncResult = createSyncResult();
-    input.id = 20;
+        new HelloWorldPlainDataStructures.IdentifiableSyncResult(20, createSyncResult());
 
     HelloWorldPlainDataStructures.IdentifiableSyncResult result =
         HelloWorldPlainDataStructures.methodWithNestedType(input);
@@ -65,9 +63,6 @@ public final class HelloWorldPlainDataStructuresTest {
 
   @NonNull
   private static HelloWorldPlainDataStructures.SyncResult createSyncResult() {
-    HelloWorldPlainDataStructures.SyncResult input = new HelloWorldPlainDataStructures.SyncResult();
-    input.lastUpdatedTimeStamp = 100L;
-    input.numberOfChanges = 5;
-    return input;
+    return new HelloWorldPlainDataStructures.SyncResult(100L, 5);
   }
 }

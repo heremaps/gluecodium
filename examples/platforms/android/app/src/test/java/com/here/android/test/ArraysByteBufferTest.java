@@ -102,8 +102,8 @@ public class ArraysByteBufferTest {
 
   @Test
   public void methodWithByteBufferInStruct_emptyArray() {
-    ArraysByteBuffer.StructWithByteBuffer struct = new ArraysByteBuffer.StructWithByteBuffer();
-    struct.image = new byte[0];
+    ArraysByteBuffer.StructWithByteBuffer struct =
+        new ArraysByteBuffer.StructWithByteBuffer(new byte[0]);
 
     ArraysByteBuffer.StructWithByteBuffer resultStruct =
         ArraysByteBuffer.methodWithByteBufferInStruct(struct);
@@ -114,8 +114,8 @@ public class ArraysByteBufferTest {
 
   @Test
   public void methodWithByteBufferInStruct_reversesArray() {
-    ArraysByteBuffer.StructWithByteBuffer struct = new ArraysByteBuffer.StructWithByteBuffer();
-    struct.image = "Nonsense".getBytes();
+    ArraysByteBuffer.StructWithByteBuffer struct =
+        new ArraysByteBuffer.StructWithByteBuffer("Nonsense".getBytes());
 
     ArraysByteBuffer.StructWithByteBuffer resultStruct =
         ArraysByteBuffer.methodWithByteBufferInStruct(struct);
@@ -127,8 +127,7 @@ public class ArraysByteBufferTest {
   @Test
   public void methodWithImplicitArrayInStruct_emptyArray() {
     ArraysByteBuffer.StructWithImplicitArray struct =
-        new ArraysByteBuffer.StructWithImplicitArray();
-    struct.image = new ArrayList<>();
+        new ArraysByteBuffer.StructWithImplicitArray(new ArrayList<>());
 
     ArraysByteBuffer.StructWithImplicitArray resultStruct =
         ArraysByteBuffer.methodWithImplicitArrayInStruct(struct);
@@ -140,8 +139,8 @@ public class ArraysByteBufferTest {
   @Test
   public void methodWithImplicitArrayInStruct_reversesArray() {
     ArraysByteBuffer.StructWithImplicitArray struct =
-        new ArraysByteBuffer.StructWithImplicitArray();
-    struct.image = java.util.Arrays.asList((short)1, (short)2, (short)3);
+        new ArraysByteBuffer.StructWithImplicitArray(
+            java.util.Arrays.asList((short)1, (short)2, (short)3));
 
     ArraysByteBuffer.StructWithImplicitArray resultStruct =
         ArraysByteBuffer.methodWithImplicitArrayInStruct(struct);
@@ -153,8 +152,7 @@ public class ArraysByteBufferTest {
   @Test
   public void methodWithExplicitArrayInStruct_emptyArray() {
     ArraysByteBuffer.StructWithExplicitArray struct =
-        new ArraysByteBuffer.StructWithExplicitArray();
-    struct.image = new ArrayList<>();
+        new ArraysByteBuffer.StructWithExplicitArray(new ArrayList<>());
 
     ArraysByteBuffer.StructWithExplicitArray resultStruct =
         ArraysByteBuffer.methodWithExplicitArrayInStruct(struct);
@@ -166,8 +164,8 @@ public class ArraysByteBufferTest {
   @Test
   public void methodWithExplicitArrayInStruct_reversesArray() {
     ArraysByteBuffer.StructWithExplicitArray struct =
-        new ArraysByteBuffer.StructWithExplicitArray();
-    struct.image = java.util.Arrays.asList((short)1, (short)2, (short)3);
+        new ArraysByteBuffer.StructWithExplicitArray(
+            java.util.Arrays.asList((short)1, (short)2, (short)3));
 
     ArraysByteBuffer.StructWithExplicitArray resultStruct =
         ArraysByteBuffer.methodWithExplicitArrayInStruct(struct);
