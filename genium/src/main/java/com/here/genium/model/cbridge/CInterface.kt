@@ -33,7 +33,9 @@ class CInterface(
     val functions: List<CFunction> = listOf(),
     val functionTableName: String? = null,
     val enums: List<CEnum> = listOf(),
-    val maps: List<CMap> = listOf()
+    val maps: List<CMap> = listOf(),
+    val isEquatable: Boolean = false,
+    val isPointerEquatable: Boolean = false
 ) : CElement(name) {
     // Tree sets to keep the order of includes consistent
     val headerIncludes: TreeSet<Include> = TreeSet()
@@ -41,6 +43,8 @@ class CInterface(
     val privateHeaderIncludes: TreeSet<Include> = TreeSet()
 
     // only interfaces have a functionTableName
-    val isInterface: Boolean
-        get() = functionTableName != null && functionTableName.isNotEmpty() && selfType != null
+    val isInterface =
+        functionTableName != null && functionTableName.isNotEmpty() && selfType != null
+
+    val hasEquatableType = isEquatable || isPointerEquatable
 }

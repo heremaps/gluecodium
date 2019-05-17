@@ -196,6 +196,22 @@ class CppModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingInterfaceReadsEquatable() {
+        val limeElement = LimeContainer(
+            EMPTY_PATH,
+            type = LimeContainer.ContainerType.INTERFACE,
+            attributes = LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.EQUATABLE)
+                .build()
+        )
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(CppClass::class.java)
+        assertTrue(result.isEquatable)
+    }
+
+    @Test
     fun finishBuildingMethodReadsNames() {
         modelBuilder.finishBuilding(limeMethod)
 

@@ -35,7 +35,16 @@ _baseRef {{name}}_copy_handle(_baseRef handle) {
         : 0;
 }
 {{/if}}
-
+{{#hasEquatableType}}
+bool {{name}}_equal(_baseRef lhs, _baseRef rhs) {
+{{#isEquatable}}
+    return **get_pointer<{{selfType.name}}>(lhs) == **get_pointer<{{selfType.name}}>(rhs);
+{{/isEquatable}}
+{{#isPointerEquatable}}
+    return *get_pointer<{{selfType.name}}>(lhs) == *get_pointer<{{selfType.name}}>(rhs);
+{{/isPointerEquatable}}
+}
+{{/hasEquatableType}}
 {{#structs}}
 {{>cbridge/StructImplementation}}
 

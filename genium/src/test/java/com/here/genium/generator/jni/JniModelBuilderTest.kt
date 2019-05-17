@@ -106,7 +106,8 @@ class JniModelBuilderTest {
         false,
         emptyList(),
         emptyList(),
-        emptyList()
+        emptyList(),
+        false
     )
     private val javaEnum = JavaEnum("jAvaClazz")
     private val cppEnum = CppEnum("cPpClass", "::cPpClass", false, emptyList())

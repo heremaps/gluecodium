@@ -26,6 +26,7 @@ import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
+import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
@@ -45,6 +46,7 @@ import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
 import com.here.genium.model.swift.SwiftArray
+import com.here.genium.model.swift.SwiftClass
 import com.here.genium.model.swift.SwiftConstant
 import com.here.genium.model.swift.SwiftDictionary
 import com.here.genium.model.swift.SwiftEnum
@@ -702,5 +704,37 @@ class SwiftModelBuilderTest {
         assertTrue(result.isStatic)
         assertTrue(result.getter.isStatic)
         assertTrue(result.setter.isStatic)
+    }
+
+    @Test
+    fun finishBuildingClassReadsEquatable() {
+        val limeElement = LimeContainer(
+            fooPath,
+            type = LimeContainer.ContainerType.CLASS,
+            attributes = LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.EQUATABLE)
+                .build()
+        )
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(SwiftClass::class.java)
+        assertTrue(result.hasEquatableType)
+    }
+
+    @Test
+    fun finishBuildingClassReadsPointerEquatable() {
+        val limeElement = LimeContainer(
+            fooPath,
+            type = LimeContainer.ContainerType.CLASS,
+            attributes = LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.POINTER_EQUATABLE)
+                .build()
+        )
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(SwiftClass::class.java)
+        assertTrue(result.hasEquatableType)
     }
 }

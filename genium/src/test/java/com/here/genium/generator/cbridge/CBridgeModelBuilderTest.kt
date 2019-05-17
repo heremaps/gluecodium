@@ -216,8 +216,8 @@ class CBridgeModelBuilderTest {
             name = "",
             selfType = null,
             internalNamespace = listOf(),
-            functions = listOf(parentFunction),
-            inheritedFunctions = listOf(parentInheritedFunction)
+            inheritedFunctions = listOf(parentInheritedFunction),
+            functions = listOf(parentFunction)
         )
         contextStack.injectResult(parentInterface)
 
@@ -246,6 +246,34 @@ class CBridgeModelBuilderTest {
         assertContains(cStruct, result.structs)
         assertContains(cEnum, result.enums)
         assertContains(cMap, result.maps)
+    }
+
+    @Test
+    fun finishBuildingContainerReadsEquatable() {
+        val limeContainer = LimeContainer(
+            fooPath,
+            type = ContainerType.CLASS,
+            attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.EQUATABLE).build()
+        )
+        modelBuilder.finishBuilding(limeContainer)
+
+        val result = modelBuilder.getFinalResult(CInterface::class.java)
+        assertTrue(result.isEquatable)
+        assertTrue(result.hasEquatableType)
+    }
+
+    @Test
+    fun finishBuildingContainerReadsPointerEquatable() {
+        val limeContainer = LimeContainer(
+            fooPath,
+            type = ContainerType.CLASS,
+            attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.POINTER_EQUATABLE).build()
+        )
+        modelBuilder.finishBuilding(limeContainer)
+
+        val result = modelBuilder.getFinalResult(CInterface::class.java)
+        assertTrue(result.isPointerEquatable)
+        assertTrue(result.hasEquatableType)
     }
 
     @Test

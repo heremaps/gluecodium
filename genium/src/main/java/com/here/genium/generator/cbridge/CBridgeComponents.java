@@ -98,6 +98,9 @@ public final class CBridgeComponents {
       includes.addAll(map.keyType.getFunctionReturnType().includes);
       includes.addAll(map.valueType.getFunctionReturnType().includes);
     }
+    if (!cInterface.getMaps().isEmpty() || cInterface.getHasEquatableType()) {
+      includes.add(CType.BOOL_INCLUDE);
+    }
 
     return includes;
   }

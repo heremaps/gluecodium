@@ -29,7 +29,8 @@ class CppClass(
     isExternal: Boolean,
     val members: List<CppElement>,
     val methods: List<CppMethod>,
-    val inheritances: List<CppInheritance>
+    val inheritances: List<CppInheritance>,
+    val isEquatable: Boolean
 ) : CppExternableElement(name, fullyQualifiedName, comment, isExternal) {
 
     @Suppress("unused")

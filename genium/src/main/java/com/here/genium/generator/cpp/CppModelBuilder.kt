@@ -88,13 +88,14 @@ class CppModelBuilder @VisibleForTesting internal constructor(
             else -> emptyList()
         }
         val cppClass = CppClass(
-            nameResolver.getName(limeContainer),
-            nameResolver.getFullyQualifiedName(limeContainer),
-            limeContainer.comment,
-            limeContainer.attributes.have(LimeAttributeType.EXTERNAL_TYPE),
-            members,
-            getPreviousResults(CppMethod::class.java),
-            inheritances
+            name = nameResolver.getName(limeContainer),
+            fullyQualifiedName = nameResolver.getFullyQualifiedName(limeContainer),
+            comment = limeContainer.comment,
+            isExternal = limeContainer.attributes.have(LimeAttributeType.EXTERNAL_TYPE),
+            members = members,
+            methods = getPreviousResults(CppMethod::class.java),
+            inheritances = inheritances,
+            isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE)
         )
 
         storeNamedResult(limeContainer, cppClass)

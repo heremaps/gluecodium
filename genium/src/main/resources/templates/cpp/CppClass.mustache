@@ -44,5 +44,9 @@ public:
 {{/methods}}
 
 {{/if}}
+{{#isEquatable}}
+public:
+    bool operator==( const {{name}}& rhs );
+{{/isEquatable}}
 };{{!!
 }}{{/unless}}

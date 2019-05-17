@@ -31,6 +31,7 @@ class SwiftClass(
     private val cInstance: String? = null,
     val functionTableName: String? = null,
     val useParentCInstance: Boolean = false,
+    val hasEquatableType: Boolean = false,
     @Suppress("unused") val isObjcInterface: Boolean = false
 ) : SwiftType(name, null, visibility, SwiftType.TypeCategory.CLASS, name, false) {
 

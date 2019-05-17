@@ -129,7 +129,9 @@ internal constructor(
             functions = getPreviousResults(CFunction::class.java),
             inheritedFunctions = inheritedFunctions,
             functionTableName = if (limeContainer.type == LimeContainer.ContainerType.INTERFACE)
-                CBridgeNameRules.getFunctionTableName(limeContainer) else null
+                CBridgeNameRules.getFunctionTableName(limeContainer) else null,
+            isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE),
+            isPointerEquatable = limeContainer.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
         )
 
         cInterface.headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(cInterface))

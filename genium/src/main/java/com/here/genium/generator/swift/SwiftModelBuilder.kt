@@ -135,6 +135,8 @@ internal constructor(
             nameSpace = limeContainer.path.head.joinToString("_"),
             cInstance = CBridgeNameRules.getInterfaceName(limeContainer),
             useParentCInstance = parentClass != null && !parentClass.isInterface,
+            hasEquatableType = limeContainer.attributes.have(LimeAttributeType.EQUATABLE) ||
+                    limeContainer.attributes.have(LimeAttributeType.POINTER_EQUATABLE),
             isObjcInterface = isObjcInterface
         )
         swiftClass.comment = limeContainer.comment
@@ -362,21 +364,21 @@ internal constructor(
         )
 
         val setterMethod =
-        if (!limeProperty.isReadonly) {
-            val setterVisibility = when {
-                limeProperty.attributes.have(LimeAttributeType.INTERNAL_SETTER) ->
-                    SwiftVisibility.INTERNAL
-                else -> propertyVisibility
-            }
-            SwiftMethod(
-                name = "",
-                visibility = setterVisibility,
-                cNestedSpecifier = nestedSpecifier,
-                cShortName = CBridgeNameRules.getPropertySetterName(limeProperty.name),
-                isStatic = limeProperty.isStatic,
-                parameters = listOf(SwiftParameter("newValue", swiftType))
-            )
-        } else null
+            if (!limeProperty.isReadonly) {
+                val setterVisibility = when {
+                    limeProperty.attributes.have(LimeAttributeType.INTERNAL_SETTER) ->
+                        SwiftVisibility.INTERNAL
+                    else -> propertyVisibility
+                }
+                SwiftMethod(
+                    name = "",
+                    visibility = setterVisibility,
+                    cNestedSpecifier = nestedSpecifier,
+                    cShortName = CBridgeNameRules.getPropertySetterName(limeProperty.name),
+                    isStatic = limeProperty.isStatic,
+                    parameters = listOf(SwiftParameter("newValue", swiftType))
+                )
+            } else null
 
         val property = SwiftProperty(
             SwiftNameRules.getPropertyName(limeProperty.name, swiftType),
