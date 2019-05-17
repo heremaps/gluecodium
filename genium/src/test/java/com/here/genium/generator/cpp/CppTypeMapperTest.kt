@@ -34,6 +34,7 @@ import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
 import io.mockk.MockKAnnotations
@@ -187,5 +188,36 @@ class CppTypeMapperTest {
         assertEquals("Foo", instanceType.fullyQualifiedName)
         assertEquals("Bar", instanceType.includes.first().fileName)
         assertFalse((instanceType as CppComplexTypeRef).needsForwardDeclaration)
+    }
+
+    @Test
+    fun mapSetTypeRef() {
+        val limeType = LimeSet(LimeBasicTypeRef.DOUBLE)
+        val limeTypeRef = LimeDirectTypeRef(limeType)
+
+        val result = typeMapper.mapType(limeTypeRef)
+
+        assertTrue(result is CppTemplateTypeRef)
+        assertEquals(
+            CppTemplateTypeRef.TemplateClass.SET,
+            (result as CppTemplateTypeRef).templateClass
+        )
+        assertEquals(CppPrimitiveTypeRef.DOUBLE, result.templateParameters.first())
+    }
+
+    @Test
+    fun mapEnumSetRef() {
+        val limeEnumType = LimeEnumeration(EMPTY_PATH)
+        val limeEnumTypeRef = LimeDirectTypeRef(limeEnumType)
+        val limeType = LimeSet(limeEnumTypeRef)
+        val limeTypeRef = LimeDirectTypeRef(limeType)
+
+        val result = typeMapper.mapType(limeTypeRef)
+
+        assertTrue(result is CppTemplateTypeRef)
+        assertEquals(
+            typeMapper.enumHashType,
+            (result as CppTemplateTypeRef).templateParameters.last()
+        )
     }
 }

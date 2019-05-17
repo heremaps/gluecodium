@@ -573,6 +573,17 @@ class LimeModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingArrayReadsIsSet() {
+        contextStack.injectResult(limeTypeRef)
+        every { deploymentModel.isSetType(francaArray) } returns true
+
+        modelBuilder.finishBuilding(francaArray)
+
+        val result = modelBuilder.getFinalResult(LimeTypeDef::class.java)
+        assertEquals("[DOUBLE:]", result.typeRef.elementFullName)
+    }
+
+    @Test
     fun finishBuildingMap() {
         contextStack.injectResult(limeTypeRef)
         contextStack.injectResult(LimeBasicTypeRef(LimeBasicType.TypeId.STRING))

@@ -34,6 +34,7 @@ import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeMap
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
@@ -96,6 +97,7 @@ class CppTypeMapper(
                 )
                 CppTemplateTypeRef.create(TemplateClass.SHARED_POINTER, instanceType)
             }
+            is LimeSet -> wrapSet(mapType(limeType.elementType))
             else -> throw GeniumExecutionException("Unmapped type: " + limeType.name)
         }
 
@@ -104,6 +106,13 @@ class CppTypeMapper(
             key.refersToEnumType ->
                 CppTemplateTypeRef.create(TemplateClass.MAP, key, value, enumHashType)
             else -> CppTemplateTypeRef.create(TemplateClass.MAP, key, value)
+        }
+
+    private fun wrapSet(elementType: CppTypeRef) =
+        when {
+            elementType.refersToEnumType ->
+                CppTemplateTypeRef.create(TemplateClass.SET, elementType, enumHashType)
+            else -> CppTemplateTypeRef.create(TemplateClass.SET, elementType)
         }
 
     private fun mapPredefined(limeBasicType: LimeBasicType) =

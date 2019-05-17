@@ -166,6 +166,10 @@ public class FrancaDeploymentModel {
     return getBoolean(francaStruct, "JavaBuilder");
   }
 
+  public boolean isSetType(final FArrayType francaArray) {
+    return getBoolean(francaArray, "IsSet");
+  }
+
   private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {
 
     List<MappingGenericPropertyAccessor> propertyAccessorsForModelElement =

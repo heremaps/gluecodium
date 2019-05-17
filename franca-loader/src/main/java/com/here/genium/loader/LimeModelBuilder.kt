@@ -49,6 +49,7 @@ import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.lime.LimeLazyTypeRef
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
@@ -293,7 +294,11 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
 
     override fun finishBuilding(francaArrayType: FArrayType) {
         val elementTypeRef = getPreviousResult(LimeTypeRef::class.java)
-        val arrayKey = registerArrayType(elementTypeRef.elementFullName)
+        val arrayKey = when {
+            deploymentModel.isSetType(francaArrayType) ->
+                registerSetType(elementTypeRef.elementFullName)
+            else -> registerArrayType(elementTypeRef.elementFullName)
+        }
 
         val limeTypeDef = LimeTypeDef(
             path = createElementPath(francaArrayType),
@@ -455,6 +460,14 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
             arrayKey, LimeArray(getPreviousResult(LimeTypeRef::class.java))
         )
         return arrayKey
+    }
+
+    private fun registerSetType(elementTypeKey: String): String {
+        val setKey = LimeReferenceResolver.getSetKey(elementTypeKey)
+        referenceResolver.registerElement(
+            setKey, LimeSet(getPreviousResult(LimeTypeRef::class.java))
+        )
+        return setKey
     }
 
     private fun resolveDefaultValue(francaField: FField, fieldType: LimeTypeRef): LimeValue? {

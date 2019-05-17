@@ -52,6 +52,8 @@ class LimeReferenceResolver {
 
         fun getMapKey(keyTypeKey: String, valueTypeKey: String) = "[$keyTypeKey:$valueTypeKey]"
 
+        fun getSetKey(elementTypeKey: String) = getMapKey(elementTypeKey, "")
+
         fun getChildKey(parentTypeRef: FTypeRef, childName: String) =
             getTypeKey(parentTypeRef) + "." + childName
 

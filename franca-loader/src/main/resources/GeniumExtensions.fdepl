@@ -52,6 +52,10 @@ specification GeniumExtensions {
         Nullable: Boolean (optional, default: false);
         Static: Boolean (optional, default: false);
     }
+
+    for arrays {
+        IsSet: Boolean (optional, default: false);
+    }
 }
 
 specification Defaults {

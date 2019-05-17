@@ -63,6 +63,7 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
             is LimeTypeDef -> getTypeName(limeType.typeRef)
             is LimeArray -> getArrayName(limeType.elementType)
             is LimeMap -> getMapName(limeType.keyType, limeType.valueType)
+            is LimeSet -> getArrayName(limeType.elementType) // TODO: APIGEN-1522: implement
             else -> limeType.name
         }
     }

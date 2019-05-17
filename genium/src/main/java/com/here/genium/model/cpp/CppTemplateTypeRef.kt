@@ -39,7 +39,8 @@ class CppTemplateTypeRef private constructor(
         VECTOR("std", "vector", CppLibraryIncludes.VECTOR),
         BASIC_STRING("std", "basic_string", CppLibraryIncludes.STRING),
         RETURN(null, "Return", CppLibraryIncludes.RETURN),
-        OPTIONAL(null, "optional", CppLibraryIncludes.OPTIONAL);
+        OPTIONAL(null, "optional", CppLibraryIncludes.OPTIONAL),
+        SET("std", "unordered_set", CppLibraryIncludes.SET)
     }
 
     override fun stream() = templateParameters.stream()

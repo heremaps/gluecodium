@@ -21,21 +21,25 @@ package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
 import com.here.genium.franca.FrancaTypeHelper
-import org.franca.core.franca.FMapType
+import org.franca.core.franca.FArrayType
 
-/** Validates that the Map types have either Primitive or Enum keys.  */
-class MapKeyValidatorPredicate : HashableTypesValidatorPredicate<FMapType>() {
+/** Validates that the Array types with "IsSet" flag have either Primitive or Enum keys. */
+class SetElementValidatorPredicate : HashableTypesValidatorPredicate<FArrayType>() {
 
-    override val elementClass = FMapType::class.java
+    override val elementClass = FArrayType::class.java
 
-    override fun validate(deploymentModel: FrancaDeploymentModel, francaElement: FMapType) =
+    override fun validate(deploymentModel: FrancaDeploymentModel, francaElement: FArrayType) =
         when {
-            isHashableType(francaElement.keyType) -> null
-            else ->
-                String.format(INVALID_KEY_TYPE_MESSAGE, FrancaTypeHelper.getFullName(francaElement))
+            !deploymentModel.isSetType(francaElement) ||
+                isHashableType(francaElement.elementType) -> null
+            else -> String.format(
+                INVALID_ELEMENT_TYPE_MESSAGE,
+                FrancaTypeHelper.getFullName(francaElement)
+            )
         }
 
     companion object {
-        private const val INVALID_KEY_TYPE_MESSAGE = "Complex keys are not allowed: map '%s'."
+        private const val INVALID_ELEMENT_TYPE_MESSAGE =
+            "Complex elements are not allowed: set '%s'."
     }
 }

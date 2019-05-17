@@ -685,7 +685,7 @@ FDEPL:
 
 ### Struct: JavaBuilder
 
-This FDEPL property controls whether a Builder patter is generated for the struct type in Java.
+This FDEPL property controls whether a Builder pattern is generated for the struct type in Java.
 Default value is `false`, i.e. by default no Builder pattern is generated. This property has no
 effect on generated code for C++ or Swift.
 
@@ -707,6 +707,30 @@ FDEPL:
     define GeniumExtensions for typeCollection example.ExampleTypeCollection {
         struct ExampleStruct {
             JavaBuilder = true
+        }
+    }
+
+### Array: IsSet
+
+This FDEPL property controls whether the given Franca array type is treated as a set type in the
+generated code. Default value is `false`, i.e. by default arrays are treated normally.
+
+**Note:** Only primitive types (i.e. Boolean, String, and numeric types) and enums are supported as
+set elements currently. Structs and instances are not supported.
+
+FIDL:
+
+    package example
+
+    typeCollection ExampleTypeCollection {
+        array ExampleSet of Double
+    }
+
+FDEPL:
+
+    define GeniumExtensions for typeCollection example.ExampleTypeCollection {
+        array ExampleSet {
+            IsSet = true
         }
     }
 

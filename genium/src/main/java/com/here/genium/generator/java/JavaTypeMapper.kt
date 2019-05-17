@@ -41,6 +41,7 @@ import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeNamedElement
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
@@ -91,6 +92,7 @@ class JavaTypeMapper(
                     isInterface = true
                 )
             }
+            is LimeSet -> JavaTemplateType.wrapInList(mapType(limeType.elementType)) // TODO: APIGEN-1522: implement Set
             else -> throw GeniumExecutionException("Unmapped type: " + limeType.name)
         }
     }

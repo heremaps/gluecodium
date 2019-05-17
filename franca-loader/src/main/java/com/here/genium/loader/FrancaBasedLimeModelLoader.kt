@@ -40,6 +40,7 @@ import com.here.genium.validator.InterfaceEquatableValidatorPredicate
 import com.here.genium.validator.MapKeyValidatorPredicate
 import com.here.genium.validator.NameValidator
 import com.here.genium.validator.SerializationValidatorPredicate
+import com.here.genium.validator.SetElementValidatorPredicate
 import com.here.genium.validator.StaticAttributesValidatorPredicate
 import com.here.genium.validator.StaticMethodsValidatorPredicate
 import com.here.genium.validator.StructInheritanceValidatorPredicate
@@ -134,6 +135,7 @@ internal object FrancaBasedLimeModelLoader : LimeModelLoader {
                 ConstructorsValidatorPredicate(),
                 DefaultsValidatorPredicate(),
                 EquatableValidatorPredicate(),
+                SetElementValidatorPredicate(),
                 ErrorEnumsValidatorPredicate(),
                 ExpressionValidatorPredicate(),
                 ExternalElementsValidatorPredicate(),
