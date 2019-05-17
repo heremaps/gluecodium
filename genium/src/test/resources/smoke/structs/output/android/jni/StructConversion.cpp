@@ -39,7 +39,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Point& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Structs::Point>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jx = _ninput.x;
     ::genium::jni::set_field_value(_jenv, _jresult, "x", jx);
     auto jy = _ninput.y;
@@ -87,7 +87,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Color& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Structs::Color>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jred = _ninput.red;
     ::genium::jni::set_field_value(_jenv, _jresult, "red", jred);
     auto jgreen = _ninput.green;
@@ -137,7 +137,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Line& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Structs::Line>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto ja = convert_to_jni(_jenv, _ninput.a);
     ::genium::jni::set_object_field_value(_jenv, _jresult, "a",
         "Lcom/example/smoke/Structs$Point;", ja);
@@ -187,7 +187,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ColoredLine& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Structs::ColoredLine>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jline = convert_to_jni(_jenv, _ninput.line);
     ::genium::jni::set_object_field_value(_jenv, _jresult, "line",
         "Lcom/example/smoke/Structs$Line;", jline);
@@ -291,7 +291,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AllTypesStruct& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Structs::AllTypesStruct>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jint8_field = _ninput.int8_field;
     ::genium::jni::set_field_value(_jenv, _jresult, "int8Field", jint8_field);
     auto juint8_field = _ninput.uint8_field;
@@ -376,7 +376,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ExternalStruct& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Structs::ExternalStruct>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jstringField = _ninput.stringField;
     ::genium::jni::set_field_value(_jenv, _jresult, "stringField", jstringField);
     auto jexternalStringField = _ninput.get_some_string();
@@ -418,7 +418,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::fire::SomeVeryExternalStruct& _ninput)
 {
     auto& javaClass = CachedJavaClass<::fire::SomeVeryExternalStruct>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jintField = _ninput.intField;
     ::genium::jni::set_field_value(_jenv, _jresult, "intField", jintField);
     return _jresult;
@@ -452,7 +452,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Yet_Another_External_Struct& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Structs::Yet_Another_External_Struct>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jstring_Field = _ninput.string_Field;
     ::genium::jni::set_field_value(_jenv, _jresult, "stringField", jstring_Field);
     return _jresult;
@@ -487,7 +487,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::NestingImmutableStruct& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Structs::NestingImmutableStruct>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jstruct_field = convert_to_jni(_jenv, _ninput.struct_field);
     ::genium::jni::set_object_field_value(_jenv, _jresult, "structField",
         "Lcom/example/smoke/Structs$AllTypesStruct;", jstruct_field);
@@ -523,7 +523,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::DoubleNestingImmutableStruct& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Structs::DoubleNestingImmutableStruct>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jnesting_struct_field = convert_to_jni(_jenv, _ninput.nesting_struct_field);
     ::genium::jni::set_object_field_value(_jenv, _jresult, "nestingStructField",
         "Lcom/example/smoke/Structs$NestingImmutableStruct;", jnesting_struct_field);
@@ -559,7 +559,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::StructWithArrayOfImmutable& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Structs::StructWithArrayOfImmutable>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jarray_field = convert_to_jni(_jenv, _ninput.array_field);
     ::genium::jni::set_object_field_value(_jenv, _jresult, "arrayField",
         "Ljava/util/List;", jarray_field);
@@ -651,7 +651,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::fire::StructsQualifiedType::QualifiedType& _ninput)
 {
     auto& javaClass = CachedJavaClass<::fire::StructsQualifiedType::QualifiedType>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jtype_collection_point = convert_to_jni(_jenv, _ninput.type_collection_point);
     ::genium::jni::set_object_field_value(_jenv, _jresult, "typeCollectionPoint",
         "Lcom/example/smoke/Point;", jtype_collection_point);
@@ -710,7 +710,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Point& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Point>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jx = _ninput.x;
     ::genium::jni::set_field_value(_jenv, _jresult, "x", jx);
     auto jy = _ninput.y;
@@ -758,7 +758,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Color& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Color>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jred = _ninput.red;
     ::genium::jni::set_field_value(_jenv, _jresult, "red", jred);
     auto jgreen = _ninput.green;
@@ -808,7 +808,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Line& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Line>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto ja = convert_to_jni(_jenv, _ninput.a);
     ::genium::jni::set_object_field_value(_jenv, _jresult, "a",
         "Lcom/example/smoke/Point;", ja);
@@ -858,7 +858,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::ColoredLine& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::ColoredLine>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jline = convert_to_jni(_jenv, _ninput.line);
     ::genium::jni::set_object_field_value(_jenv, _jresult, "line",
         "Lcom/example/smoke/Line;", jline);
@@ -977,7 +977,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::AllTypesStruct& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::AllTypesStruct>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jint8_field = _ninput.int8_field;
     ::genium::jni::set_field_value(_jenv, _jresult, "int8Field", jint8_field);
     auto juint8_field = _ninput.uint8_field;

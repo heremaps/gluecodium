@@ -18,9 +18,6 @@ public class Nullable extends NativeBase {
     }
     public static class SomeStruct {
         public String stringField;
-        public SomeStruct() {
-            this("");
-        }
         public SomeStruct(String stringField) {
             this.stringField = stringField;
         }
@@ -44,9 +41,6 @@ public class Nullable extends NativeBase {
         public Map<Long, String> mapField;
         @Nullable
         public SomeInterface instanceField;
-        public NullableStruct() {
-            this((String)null, (Boolean)null, (Double)null, (Nullable.SomeStruct)null, (Nullable.SomeEnum)null, (List<String>)null, (List<String>)null, (Map<Long, String>)null, (SomeInterface)null);
-        }
         public NullableStruct(String stringField, Boolean boolField, Double doubleField, Nullable.SomeStruct structField, Nullable.SomeEnum enumField, List<String> arrayField, List<String> inlineArrayField, Map<Long, String> mapField, SomeInterface instanceField) {
             this.stringField = stringField;
             this.boolField = boolField;
@@ -76,9 +70,6 @@ public class Nullable extends NativeBase {
         public Long uint32Field;
         @Nullable
         public Long uint64Field;
-        public NullableIntsStruct() {
-            this((Byte)null, (Short)null, (Integer)null, (Long)null, (Short)null, (Integer)null, (Long)null, (Long)null);
-        }
         public NullableIntsStruct(Byte int8Field, Short int16Field, Integer int32Field, Long int64Field, Short uint8Field, Integer uint16Field, Long uint32Field, Long uint64Field) {
             this.int8Field = int8Field;
             this.int16Field = int16Field;

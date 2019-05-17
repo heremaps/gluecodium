@@ -8,9 +8,6 @@ import com.example.NativeBase;
 public class NestedPackages extends NativeBase {
     public static class SomeStruct {
         public String someField;
-        public SomeStruct() {
-            this("");
-        }
         public SomeStruct(String someField) {
             this.someField = someField;
         }

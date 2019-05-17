@@ -2,15 +2,10 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.smoke;
-
 import android.support.annotation.NonNull;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 public class EquatableStruct {
     public boolean boolField;
     public int intField;
@@ -26,11 +21,6 @@ public class EquatableStruct {
     public List<String> arrayField;
     @NonNull
     public Map<Integer, String> mapField;
-
-    public EquatableStruct() {
-        this(false, 0, 0L, 0f, 0, "", new NestedEquatableStruct(), SomeEnum.values()[0], new ArrayList<>(), new HashMap<>());
-    }
-
     public EquatableStruct(boolean boolField, int intField, long longField, float floatField, double doubleField, String stringField, NestedEquatableStruct structField, SomeEnum enumField, List<String> arrayField, Map<Integer, String> mapField) {
         this.boolField = boolField;
         this.intField = intField;
@@ -43,7 +33,6 @@ public class EquatableStruct {
         this.arrayField = arrayField;
         this.mapField = mapField;
     }
-
     @Override
     public boolean equals(Object obj) {
         if (obj == this) return true;
@@ -60,7 +49,6 @@ public class EquatableStruct {
                 java.util.Objects.equals(this.arrayField, other.arrayField) &&
                 java.util.Objects.equals(this.mapField, other.mapField);
     }
-
     @Override
     public int hashCode() {
         int hash = 7;

@@ -9,9 +9,6 @@ import java.util.Map;
 public interface CalculatorListener {
     public static class ResultStruct {
         public double result;
-        public ResultStruct() {
-            this(0);
-        }
         public ResultStruct(double result) {
             this.result = result;
         }

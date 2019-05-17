@@ -33,7 +33,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::InnerStruct& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::InstanceWithStruct::InnerStruct>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jvalue = _ninput.value;
     ::genium::jni::set_field_value(_jenv, _jresult, "value", jvalue);
     return _jresult;
@@ -79,7 +79,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::StructWithInstance& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::InstanceWithStruct::StructWithInstance>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jinstance = convert_to_jni(_jenv, _ninput.instance);
     ::genium::jni::set_object_field_value(_jenv, _jresult, "instance",
         "Lcom/example/smoke/SimpleInstantiable;", jinstance);

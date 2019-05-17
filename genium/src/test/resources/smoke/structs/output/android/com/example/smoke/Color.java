@@ -7,9 +7,6 @@ public class Color {
     public short red;
     public short green;
     public short blue;
-    public Color() {
-        this((short)0, (short)0, (short)0);
-    }
     public Color(short red, short green, short blue) {
         this.red = red;
         this.green = green;

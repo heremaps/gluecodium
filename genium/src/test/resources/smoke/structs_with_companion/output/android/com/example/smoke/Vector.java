@@ -17,10 +17,6 @@ public class Vector {
         this.x = _other.x;
         this.y = _other.y;
     }
-    private Vector() {
-        this.x = 0;
-        this.y = 0;
-    }
     public native double distanceTo(@NonNull final Vector other);
     @NonNull
     public native Vector add(@NonNull final Vector other);

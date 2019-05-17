@@ -5,7 +5,6 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-import java.util.ArrayList;
 import java.util.List;
 public class Structs extends NativeBase {
     public enum FooBar {
@@ -19,9 +18,6 @@ public class Structs extends NativeBase {
     public static class Point {
         public double x;
         public double y;
-        public Point() {
-            this(0, 0);
-        }
         public Point(double x, double y) {
             this.x = x;
             this.y = y;
@@ -31,9 +27,6 @@ public class Structs extends NativeBase {
         public short red;
         public short green;
         public short blue;
-        public Color() {
-            this((short)0, (short)0, (short)0);
-        }
         public Color(short red, short green, short blue) {
             this.red = red;
             this.green = green;
@@ -45,9 +38,6 @@ public class Structs extends NativeBase {
         public Structs.Point a;
         @NonNull
         public Structs.Point b;
-        public Line() {
-            this(new Structs.Point(), new Structs.Point());
-        }
         public Line(Structs.Point a, Structs.Point b) {
             this.a = a;
             this.b = b;
@@ -58,9 +48,6 @@ public class Structs extends NativeBase {
         public Structs.Line line;
         @NonNull
         public Structs.Color color;
-        public ColoredLine() {
-            this(new Structs.Line(), new Structs.Color());
-        }
         public ColoredLine(Structs.Line line, Structs.Color color) {
             this.line = line;
             this.color = color;
@@ -82,9 +69,6 @@ public class Structs extends NativeBase {
         public final byte[] bytesField;
         @NonNull
         public final Structs.Point pointField;
-        public AllTypesStruct() {
-            this((byte)0, (short)0, (short)0, 0, 0, 0L, 0L, 0L, 0f, 0, "", false, new byte[0], new Structs.Point());
-        }
         public AllTypesStruct(byte int8Field, short uint8Field, short int16Field, int uint16Field, int int32Field, long uint32Field, long int64Field, long uint64Field, float floatField, double doubleField, String stringField, boolean booleanField, byte[] bytesField, Structs.Point pointField) {
             this.int8Field = int8Field;
             this.uint8Field = uint8Field;
@@ -112,10 +96,10 @@ public class Structs extends NativeBase {
             private long uint64Field = 0L;
             private float floatField = 0f;
             private double doubleField = 0;
-            private String stringField = "";
+            private String stringField = (String)null;
             private boolean booleanField = false;
-            private byte[] bytesField = new byte[0];
-            private Structs.Point pointField = new Structs.Point();
+            private byte[] bytesField = (byte[])null;
+            private Structs.Point pointField = (Structs.Point)null;
             public Builder() {
             }
             public Builder setInt8Field(byte int8Field) {
@@ -186,9 +170,6 @@ public class Structs extends NativeBase {
         public List<Byte> externalArrayField;
         @NonNull
         public Structs.AnotherExternalStruct externalStructField;
-        public ExternalStruct() {
-            this("", "", new ArrayList<>(), new Structs.AnotherExternalStruct());
-        }
         public ExternalStruct(String stringField, String externalStringField, List<Byte> externalArrayField, Structs.AnotherExternalStruct externalStructField) {
             this.stringField = stringField;
             this.externalStringField = externalStringField;
@@ -198,18 +179,12 @@ public class Structs extends NativeBase {
     }
     public static class AnotherExternalStruct {
         public byte intField;
-        public AnotherExternalStruct() {
-            this((byte)0);
-        }
         public AnotherExternalStruct(byte intField) {
             this.intField = intField;
         }
     }
     public static class YetAnotherExternalStruct {
         public String stringField;
-        public YetAnotherExternalStruct() {
-            this("");
-        }
         public YetAnotherExternalStruct(String stringField) {
             this.stringField = stringField;
         }
@@ -217,9 +192,6 @@ public class Structs extends NativeBase {
     public static class NestingImmutableStruct {
         @NonNull
         public Structs.AllTypesStruct structField;
-        public NestingImmutableStruct() {
-            this(new Structs.AllTypesStruct());
-        }
         public NestingImmutableStruct(Structs.AllTypesStruct structField) {
             this.structField = structField;
         }
@@ -227,9 +199,6 @@ public class Structs extends NativeBase {
     public static class DoubleNestingImmutableStruct {
         @NonNull
         public Structs.NestingImmutableStruct nestingStructField;
-        public DoubleNestingImmutableStruct() {
-            this(new Structs.NestingImmutableStruct());
-        }
         public DoubleNestingImmutableStruct(Structs.NestingImmutableStruct nestingStructField) {
             this.nestingStructField = nestingStructField;
         }
@@ -237,9 +206,6 @@ public class Structs extends NativeBase {
     public static class StructWithArrayOfImmutable {
         @NonNull
         public List<Structs.AllTypesStruct> arrayField;
-        public StructWithArrayOfImmutable() {
-            this(new ArrayList<>());
-        }
         public StructWithArrayOfImmutable(List<Structs.AllTypesStruct> arrayField) {
             this.arrayField = arrayField;
         }

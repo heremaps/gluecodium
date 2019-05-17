@@ -38,9 +38,6 @@ public class SerializableStruct implements Parcelable {
     public Map<Integer, String> mapField;
     @NonNull
     public SomeEnum enumField;
-    public SerializableStruct() {
-        this(false, (byte)0, (short)0, 0, 0L, 0f, 0, "", new NestedSerializableStruct(), new byte[0], new ArrayList<>(), new ArrayList<>(), new HashMap<>(), SomeEnum.values()[0]);
-    }
     public SerializableStruct(boolean boolField, byte byteField, short shortField, int intField, long longField, float floatField, double doubleField, String stringField, NestedSerializableStruct structField, byte[] byteBufferField, List<String> arrayField, List<NestedSerializableStruct> structArrayField, Map<Integer, String> mapField, SomeEnum enumField) {
         this.boolField = boolField;
         this.byteField = byteField;

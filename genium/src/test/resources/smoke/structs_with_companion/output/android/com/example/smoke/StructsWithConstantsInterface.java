@@ -5,7 +5,6 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-import java.util.ArrayList;
 import java.util.List;
 public class StructsWithConstantsInterface extends NativeBase {
     public static class MultiRoute {
@@ -15,9 +14,6 @@ public class StructsWithConstantsInterface extends NativeBase {
         public List<String> descriptions;
         @NonNull
         public RouteType type;
-        public MultiRoute() {
-            this(new ArrayList<>(), RouteType.values()[0]);
-        }
         public MultiRoute(List<String> descriptions, RouteType type) {
             this.descriptions = descriptions;
             this.type = type;

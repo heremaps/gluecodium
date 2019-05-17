@@ -5,7 +5,6 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 public class Arrays extends NativeBase {
@@ -27,18 +26,12 @@ public class Arrays extends NativeBase {
     }
     public static class BasicStruct {
         public double value;
-        public BasicStruct() {
-            this(0);
-        }
         public BasicStruct(double value) {
             this.value = value;
         }
     }
     public static class ExternalStruct {
         public String string;
-        public ExternalStruct() {
-            this("");
-        }
         public ExternalStruct(String string) {
             this.string = string;
         }
@@ -49,9 +42,6 @@ public class Arrays extends NativeBase {
         @NonNull
         public List<Short> numbers;
         public byte[] image;
-        public FancyStruct() {
-            this(new ArrayList<>(), new ArrayList<>(), new byte[0]);
-        }
         public FancyStruct(List<String> messages, List<Short> numbers, byte[] image) {
             this.messages = messages;
             this.numbers = numbers;

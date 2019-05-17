@@ -2,21 +2,14 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.smoke;
-
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 public class Maps extends NativeBase {
     public static class SomeStruct {
         public String value;
-        public SomeStruct() {
-            this("");
-        }
         public SomeStruct(String value) {
             this.value = value;
         }
@@ -24,9 +17,6 @@ public class Maps extends NativeBase {
     public static class StructWithMap {
         @NonNull
         public Map<Integer, String> errorMapping;
-        public StructWithMap() {
-            this(new HashMap<>());
-        }
         public StructWithMap(Map<Integer, String> errorMapping) {
             this.errorMapping = errorMapping;
         }

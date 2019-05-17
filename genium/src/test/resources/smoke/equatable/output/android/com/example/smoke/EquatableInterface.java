@@ -2,18 +2,12 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.smoke;
-
 import com.example.NativeBase;
-
 public class EquatableInterface extends NativeBase {
     public static class EquatableStruct {
         public int intField;
         public String stringField;
-        public EquatableStruct() {
-            this(0, "");
-        }
         public EquatableStruct(int intField, String stringField) {
             this.intField = intField;
             this.stringField = stringField;
@@ -34,7 +28,6 @@ public class EquatableInterface extends NativeBase {
             return hash;
         }
     }
-
     /**
      * For internal use only.
      * @exclude

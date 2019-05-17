@@ -15,9 +15,6 @@ public class ImmutableStructWithDefaults {
     public final SomeEnum enumField;
     @NonNull
     public final DefaultValues.ExternalEnum externalEnumField;
-    public ImmutableStructWithDefaults() {
-        this(42, 0L, 3.14f, -1.4142, false, "\\Jonny \"Magic\" Smith\n", SomeEnum.BAR_VALUE, DefaultValues.ExternalEnum.ANOTHER_VALUE);
-    }
     public ImmutableStructWithDefaults(long uintField, boolean boolField) {
         this.intField = 42;
         this.uintField = uintField;

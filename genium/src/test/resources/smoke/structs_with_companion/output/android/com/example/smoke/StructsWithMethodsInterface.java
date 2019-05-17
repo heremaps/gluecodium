@@ -22,11 +22,6 @@ public class StructsWithMethodsInterface extends NativeBase {
             this.y = _other.y;
             this.z = _other.z;
         }
-        private Vector3() {
-            this.x = 0;
-            this.y = 0;
-            this.z = 0;
-        }
         public native double distanceTo(@NonNull final StructsWithMethodsInterface.Vector3 other);
         @NonNull
         public native StructsWithMethodsInterface.Vector3 add(@NonNull final StructsWithMethodsInterface.Vector3 other);

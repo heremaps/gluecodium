@@ -2,20 +2,14 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.smoke;
-
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
-
 public class MethodOverloads extends NativeBase {
     public static class Point {
         public double x;
         public double y;
-        public Point() {
-            this(0, 0);
-        }
         public Point(double x, double y) {
             this.x = x;
             this.y = y;
@@ -33,7 +27,6 @@ public class MethodOverloads extends NativeBase {
             }
         });
     }
-
     private static native void disposeNativeHandle(long nativeHandle);
     public native boolean isBoolean(final boolean input);
     public native boolean isBoolean(final byte input);

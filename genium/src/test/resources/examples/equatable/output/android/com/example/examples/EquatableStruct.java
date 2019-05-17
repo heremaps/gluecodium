@@ -2,28 +2,18 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.examples;
-
 import android.support.annotation.NonNull;
-
 public class EquatableStruct {
-
     public int intField;
     public String stringField;
     @NonNull
     public NestedEquatableStruct structField;
-
-    public EquatableStruct() {
-        this(0, "", new NestedEquatableStruct());
-    }
-
     public EquatableStruct(int intField, String stringField, NestedEquatableStruct structField) {
         this.intField = intField;
         this.stringField = stringField;
         this.structField = structField;
     }
-
     @Override
     public boolean equals(Object obj) {
         if (obj == this) return true;
@@ -33,7 +23,6 @@ public class EquatableStruct {
                 java.util.Objects.equals(this.stringField, other.stringField) &&
                 java.util.Objects.equals(this.structField, other.structField);
     }
-
     @Override
     public int hashCode() {
         int hash = 7;

@@ -39,7 +39,14 @@ public class DefaultValues extends NativeBase {
         @NonNull
         public DefaultValues.ExternalEnum externalEnumField;
         public StructWithDefaults() {
-            this(42, 4294967295L, 3.14f, -1.4142, true, "\\Jonny \"Magic\" Smith\n", DefaultValues.SomeEnum.BAR_VALUE, DefaultValues.ExternalEnum.ANOTHER_VALUE);
+            this.intField = 42;
+            this.uintField = 4294967295L;
+            this.floatField = 3.14f;
+            this.doubleField = -1.4142;
+            this.boolField = true;
+            this.stringField = "\\Jonny \"Magic\" Smith\n";
+            this.enumField = DefaultValues.SomeEnum.BAR_VALUE;
+            this.externalEnumField = DefaultValues.ExternalEnum.ANOTHER_VALUE;
         }
         public StructWithDefaults(int intField, long uintField, float floatField, double doubleField, boolean boolField, String stringField, DefaultValues.SomeEnum enumField, DefaultValues.ExternalEnum externalEnumField) {
             this.intField = intField;
@@ -66,7 +73,12 @@ public class DefaultValues extends NativeBase {
         @Nullable
         public DefaultValues.SomeEnum enumField;
         public NullableStructWithDefaults() {
-            this(null, null, null, null, null, null);
+            this.intField = null;
+            this.uintField = null;
+            this.floatField = null;
+            this.boolField = null;
+            this.stringField = null;
+            this.enumField = null;
         }
         public NullableStructWithDefaults(Integer intField, Long uintField, Float floatField, Boolean boolField, String stringField, DefaultValues.SomeEnum enumField) {
             this.intField = intField;
@@ -85,7 +97,12 @@ public class DefaultValues extends NativeBase {
         public double doubleInfinityField;
         public double doubleNegativeInfinityField;
         public StructWithSpecialDefaults() {
-            this(Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY, Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
+            this.floatNanField = Float.NaN;
+            this.floatInfinityField = Float.POSITIVE_INFINITY;
+            this.floatNegativeInfinityField = Float.NEGATIVE_INFINITY;
+            this.doubleNanField = Double.NaN;
+            this.doubleInfinityField = Double.POSITIVE_INFINITY;
+            this.doubleNegativeInfinityField = Double.NEGATIVE_INFINITY;
         }
         public StructWithSpecialDefaults(float floatNanField, float floatInfinityField, float floatNegativeInfinityField, double doubleNanField, double doubleInfinityField, double doubleNegativeInfinityField) {
             this.floatNanField = floatNanField;
@@ -104,7 +121,9 @@ public class DefaultValues extends NativeBase {
         @NonNull
         public Map<Long, String> mapField;
         public StructWithCollectionsDefaults() {
-            this(new ArrayList<>(), new ArrayList<>(), new HashMap<>());
+            this.intsField = new ArrayList<>();
+            this.floatsField = new ArrayList<>();
+            this.mapField = new HashMap<>();
         }
         public StructWithCollectionsDefaults(List<Integer> intsField, List<Float> floatsField, Map<Long, String> mapField) {
             this.intsField = intsField;

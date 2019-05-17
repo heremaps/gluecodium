@@ -3,18 +3,13 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.examples;
-
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
-
 public class Arrays extends NativeBase {
     public static class SyncResult {
         public long lastUpdatedTimeStamp;
         public long numberOfChanges;
-        public SyncResult() {
-            this(0L, 0L);
-        }
         public SyncResult(long lastUpdatedTimeStamp, long numberOfChanges) {
             this.lastUpdatedTimeStamp = lastUpdatedTimeStamp;
             this.numberOfChanges = numberOfChanges;

@@ -20,9 +20,6 @@ public class AllTypesStruct {
     public byte[] bytesField;
     @NonNull
     public Point pointField;
-    public AllTypesStruct() {
-        this((byte)0, (short)0, (short)0, 0, 0, 0L, 0L, 0L, 0f, 0, "", false, new byte[0], new Point());
-    }
     public AllTypesStruct(byte int8Field, short uint8Field, short int16Field, int uint16Field, int int32Field, long uint32Field, long int64Field, long uint64Field, float floatField, double doubleField, String stringField, boolean booleanField, byte[] bytesField, Point pointField) {
         this.int8Field = int8Field;
         this.uint8Field = uint8Field;

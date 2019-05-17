@@ -8,9 +8,6 @@ import com.example.NativeBase;
 public class InstanceWithStruct extends NativeBase {
     public static class InnerStruct {
         public byte value;
-        public InnerStruct() {
-            this((byte)0);
-        }
         public InnerStruct(byte value) {
             this.value = value;
         }
@@ -23,9 +20,6 @@ public class InstanceWithStruct extends NativeBase {
          */
         @NonNull
         public SimpleInstantiable instanceWithComment;
-        public StructWithInstance() {
-            this((SimpleInstantiable)null, (SimpleInstantiable)null);
-        }
         public StructWithInstance(SimpleInstantiable instance, SimpleInstantiable instanceWithComment) {
             this.instance = instance;
             this.instanceWithComment = instanceWithComment;

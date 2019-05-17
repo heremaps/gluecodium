@@ -33,7 +33,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Nullable::SomeStruct& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Nullable::SomeStruct>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jstring_field = _ninput.string_field;
     ::genium::jni::set_field_value(_jenv, _jresult, "stringField", jstring_field);
     return _jresult;
@@ -133,7 +133,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Nullable::NullableStruct& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Nullable::NullableStruct>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jstring_field = _ninput.string_field;
     ::genium::jni::set_field_value(_jenv, _jresult, "stringField", jstring_field);
     auto jbool_field = _ninput.bool_field;
@@ -231,7 +231,7 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Nullable::NullableIntsStruct& _ninput)
 {
     auto& javaClass = CachedJavaClass<::smoke::Nullable::NullableIntsStruct>::java_class;
-    auto _jresult = ::genium::jni::create_object(_jenv, javaClass);
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
     auto jint8_field = _ninput.int8_field;
     ::genium::jni::set_field_value(_jenv, _jresult, "int8Field", jint8_field);
     auto jint16_field = _ninput.int16_field;

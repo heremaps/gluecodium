@@ -10,9 +10,6 @@ public class Dates extends NativeBase {
     public static class DateStruct {
         @NonNull
         public Date dateField;
-        public DateStruct() {
-            this(new Date());
-        }
         public DateStruct(Date dateField) {
             this.dateField = dateField;
         }

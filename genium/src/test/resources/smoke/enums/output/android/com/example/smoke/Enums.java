@@ -2,36 +2,26 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.smoke;
-
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-
 public class Enums extends NativeBase {
-
     public enum SimpleEnum {
         FIRST(0),
         SECOND(1);
-
         public final int value;
-
         SimpleEnum(final int value) {
             this.value = value;
         }
     }
-
     public enum InternalError {
         ERROR_NONE(0),
         ERROR_FATAL(999);
-
         public final int value;
-
         InternalError(final int value) {
             this.value = value;
         }
     }
-
     public enum ExternalEnum {
         FOO_VALUE(0),
         BAR_VALUE(1);
@@ -40,7 +30,6 @@ public class Enums extends NativeBase {
             this.value = value;
         }
     }
-
     public enum VeryExternalEnum {
         FOO(0),
         BAR(1);
@@ -49,20 +38,15 @@ public class Enums extends NativeBase {
             this.value = value;
         }
     }
-
     public static class ErrorStruct {
         @NonNull
         public Enums.InternalError type;
         public String message;
-        public ErrorStruct() {
-            this(Enums.InternalError.values()[0], "");
-        }
         public ErrorStruct(Enums.InternalError type, String message) {
             this.type = type;
             this.message = message;
         }
     }
-
     /**
      * For internal use only.
      * @exclude
@@ -76,7 +60,6 @@ public class Enums extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-
     @NonNull
     public static native Enums.SimpleEnum methodWithEnumeration(@NonNull final Enums.SimpleEnum input);
     @NonNull

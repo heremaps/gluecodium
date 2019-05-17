@@ -10,9 +10,6 @@ public class Route {
     public String description;
     @NonNull
     public RouteType type;
-    public Route() {
-        this("", RouteType.values()[0]);
-    }
     public Route(String description, RouteType type) {
         this.description = description;
         this.type = type;
