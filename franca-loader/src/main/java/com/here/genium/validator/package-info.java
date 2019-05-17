@@ -18,7 +18,8 @@
  */
 
 /**
- * Module to allow validation on the syntax and the content of fidl/fdepl files.
+ * Module to allow validation on the syntax and the content of fidl/fdepl files. The validators are
+ * run by {@link com.here.genium.loader.FrancaBasedLimeModelLoader}
  *
  * <h1>Input</h1>
  *
@@ -29,6 +30,6 @@
  *
  * Boolean return on valid or invalid. Validation failure diagnostics will be output to the {@link
  * com.here.genium.loader.FrancaLogger}. In the future, when more validation rules comes to mind, we
- * can extend the result to support different types of syntanx/content violations.
+ * can extend the result to support different types of syntax/content violations.
  */
 package com.here.genium.validator;

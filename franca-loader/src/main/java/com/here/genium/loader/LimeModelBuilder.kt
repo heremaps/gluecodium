@@ -95,6 +95,12 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
         if (deploymentModel.isObjcInterface(francaInterface)) {
             attributes.addAttribute(LimeAttributeType.LEGACY_COMPATIBLE)
         }
+        if (deploymentModel.isEquatable(francaInterface)) {
+            attributes.addAttribute(LimeAttributeType.EQUATABLE)
+        }
+        if (deploymentModel.isPointerEquatable(francaInterface)) {
+            attributes.addAttribute(LimeAttributeType.POINTER_EQUATABLE)
+        }
 
         val containerType = when {
             deploymentModel.isInterface(francaInterface) -> ContainerType.INTERFACE

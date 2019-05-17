@@ -74,6 +74,14 @@ public class FrancaDeploymentModel {
     return getBoolean(francaStruct, "Serializable");
   }
 
+  public boolean isPointerEquatable(final FInterface francaInterface) {
+    return getBoolean(francaInterface, "PointerEquatable");
+  }
+
+  public boolean isEquatable(final FInterface francaInterface) {
+    return getBoolean(francaInterface, "Equatable");
+  }
+
   public boolean isEquatable(final FStructType francaStruct) {
     return getBoolean(francaStruct, "Equatable");
   }

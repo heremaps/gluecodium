@@ -32,5 +32,6 @@ enum class LimeAttributeType {
     NULLABLE,
     CONST,
     CONSTRUCTOR,
-    BUILDER
+    BUILDER,
+    POINTER_EQUATABLE
 }

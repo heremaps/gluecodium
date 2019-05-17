@@ -21,6 +21,8 @@ specification GeniumExtensions {
 
     for interfaces {
         IsInterface: Boolean (optional, default: false);
+        PointerEquatable: Boolean (optional, default: false);
+        Equatable: Boolean (optional, default: false);
         ObjcInterface: Boolean (optional, default: false);
     }
 

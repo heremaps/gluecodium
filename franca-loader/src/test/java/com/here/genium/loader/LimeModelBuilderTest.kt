@@ -56,6 +56,7 @@ import org.franca.core.franca.FConstantDef
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FEnumerator
 import org.franca.core.franca.FField
+import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMapType
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FQualifiedElementRef
@@ -75,6 +76,7 @@ import org.junit.runners.JUnit4
 class LimeModelBuilderTest {
     @MockK private lateinit var francaModel: FModel
     @MockK private lateinit var francaTypeCollection: FTypeCollection
+    @MockK private lateinit var francaInterface: FInterface
     @MockK private lateinit var francaStruct: FStructType
     @MockK private lateinit var francaField: FField
     @MockK private lateinit var francaTypeRef: FTypeRef
@@ -116,6 +118,7 @@ class LimeModelBuilderTest {
 
         every { francaModel.name } returns "the.model"
         every { francaTypeCollection.name } returns "SomeTypeCollection"
+        every { francaInterface.name } returns "SomeInterface"
         every { francaStruct.name } returns "SomeStruct"
         every { francaField.name } returns "SomeField"
         every { francaEnumeration.name } returns "SomeEnum"
@@ -593,5 +596,25 @@ class LimeModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(LimeTypeDef::class.java)
         assertEquals(LimeVisibility.INTERNAL, result.visibility)
+    }
+
+    @Test
+    fun finishBuildingInterfaceReadsEquatable() {
+        every { deploymentModel.isEquatable(francaInterface) } returns true
+
+        modelBuilder.finishBuilding(francaInterface)
+
+        val result = modelBuilder.getFinalResult(LimeContainer::class.java)
+        assertHasAttribute(LimeAttributeType.EQUATABLE, result)
+    }
+
+    @Test
+    fun finishBuildingInterfaceReadsPointerEquatable() {
+        every { deploymentModel.isPointerEquatable(francaInterface) } returns true
+
+        modelBuilder.finishBuilding(francaInterface)
+
+        val result = modelBuilder.getFinalResult(LimeContainer::class.java)
+        assertHasAttribute(LimeAttributeType.POINTER_EQUATABLE, result)
     }
 }
