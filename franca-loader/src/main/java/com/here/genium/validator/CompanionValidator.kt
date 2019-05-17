@@ -38,29 +38,43 @@ object CompanionValidator {
         deploymentModel: FrancaDeploymentModel,
         typeCollections: List<FTypeCollection>
     ): Boolean {
-        val allInterfaceNames =
-            typeCollections.filterIsInstance<FInterface>().map { FrancaTypeHelper.getFullName(it) }
+        val allInterfaces =
+            typeCollections
+                .filterIsInstance<FInterface>()
+                .associateBy { FrancaTypeHelper.getFullName(it) }
         val errorMessages = typeCollections
             .flatMap { it.types }
             .filterIsInstance<FStructType>()
-            .mapNotNull { validateCompanionName(it, deploymentModel, allInterfaceNames) }
+            .mapNotNull { validateCompanion(it, deploymentModel, allInterfaces) }
         errorMessages.forEach { LOGGER.severe(it) }
 
         return errorMessages.isEmpty()
     }
 
     @VisibleForTesting
-    internal fun validateCompanionName(
+    internal fun validateCompanion(
         francaStruct: FStructType,
         deploymentModel: FrancaDeploymentModel,
-        allInterfaceNames: List<String>
-    ) =
-        deploymentModel.getCompanion(francaStruct)?.let {
-            if (allInterfaceNames.contains(it)) {
-                null
-            } else {
-                val structName = FrancaTypeHelper.getFullName(francaStruct)
-                "Companion interface '$it' for struct type '$structName' does not exist."
-            }
+        allInterfaces: Map<String, FInterface>
+    ): String? {
+        val companionKey = deploymentModel.getCompanion(francaStruct) ?: return null
+        val companion = allInterfaces[companionKey]
+        if (companion == null) {
+            val structName = FrancaTypeHelper.getFullName(francaStruct)
+            return "Companion interface '$companionKey' " +
+                "for struct type '$structName' does not exist."
         }
+
+        val structFieldNames = francaStruct.elements.map { it.name }.toSet()
+        val companionConstNames = companion.constants.map { it.name }.toSet()
+        val clashingNames = structFieldNames intersect companionConstNames
+        if (clashingNames.isNotEmpty()) {
+            val namesString = clashingNames.joinToString("', '")
+            val structName = FrancaTypeHelper.getFullName(francaStruct)
+            return "Names of constants '$namesString' in companion interface '$companionKey' " +
+                "clash with names of fields in struct type '$structName'."
+        }
+
+        return null
+    }
 }
