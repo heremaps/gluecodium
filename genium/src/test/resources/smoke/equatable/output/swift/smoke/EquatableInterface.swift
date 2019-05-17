@@ -38,6 +38,11 @@ public class EquatableInterface {
 extension EquatableInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
+extension EquatableInterface: Equatable {
+    public static func == (lhs: EquatableInterface, rhs: EquatableInterface) -> Bool {
+        return smoke_EquatableInterface_equal(lhs.c_handle, rhs.c_handle)
+    }
+}
 internal func EquatableInterfacecopyFromCType(_ handle: _baseRef) -> EquatableInterface {
     return EquatableInterface(cEquatableInterface: smoke_EquatableInterface_copy_handle(handle))
 }

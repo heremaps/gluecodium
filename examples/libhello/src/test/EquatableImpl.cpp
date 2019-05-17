@@ -19,9 +19,55 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/EquatableInterface.h"
+#include "test/PointerEquatableInterface.h"
 
 namespace test
 {
+namespace {
+class EquatableInterfaceImpl: public EquatableInterface {
+public:
+    EquatableInterfaceImpl(const std::string& name)
+        : m_name(name)
+    {}
+
+    ~EquatableInterfaceImpl() = default;
+
+    std::string get_name() const override {
+        return m_name;
+    }
+private:
+    std::string m_name;
+};
+
+class PointerEquatableInterfaceImpl: public PointerEquatableInterface {
+public:
+    ~PointerEquatableInterfaceImpl() = default;
+};
+
+static std::shared_ptr<PointerEquatableInterface> s_pointer_equal_instance;
+}
+
+std::shared_ptr<EquatableInterface>
+EquatableInterface::create(const std::string& name) {
+    return std::make_shared<EquatableInterfaceImpl>(name);
+}
+
+bool
+EquatableInterface::operator == (const EquatableInterface& rhs) {
+    return get_name() == rhs.get_name();
+}
+
+std::shared_ptr<PointerEquatableInterface>
+PointerEquatableInterface::create_new() {
+    s_pointer_equal_instance = std::make_shared<PointerEquatableInterfaceImpl>();
+    return s_pointer_equal_instance;
+}
+
+std::shared_ptr<PointerEquatableInterface>
+PointerEquatableInterface::return_last() {
+    return s_pointer_equal_instance;
+}
+
 bool
 EquatableInterface::are_equal( const EquatableInterface::AnotherEquatableStruct& lhs,
                                const EquatableInterface::AnotherEquatableStruct& rhs )

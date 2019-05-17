@@ -61,6 +61,18 @@ typeCollection Equatable {
 }
 
 interface EquatableInterface {
+    typedef EquatableInterface is undefined
+
+    attribute String name readonly
+
+    method create {
+        in {
+            String name
+        }
+        out {
+            EquatableInterface instance
+        }
+    }
 
     struct AnotherEquatableStruct {
         Int32 intField
@@ -94,6 +106,23 @@ interface EquatableInterface {
         }
         out {
             Boolean result
+        }
+    }
+}
+
+interface PointerEquatableInterface {
+    typedef PointerEquatableInterface is undefined
+
+    method createNew {
+        out {
+            PointerEquatableInterface instance
+        }
+    }
+
+    <** @description: Returns the last created instance again **>
+    method returnLast {
+        out {
+            PointerEquatableInterface instance
         }
     }
 }

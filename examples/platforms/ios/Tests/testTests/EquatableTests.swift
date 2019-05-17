@@ -119,6 +119,30 @@ class EquatableTests: XCTestCase {
         XCTAssertNotEqual(otherArray, array)
     }
 
+    func testDifferentInstancesArePointerUnequal() {
+        let one = PointerEquatableInterface.createNew()
+        let other = PointerEquatableInterface.createNew()
+        XCTAssertNotEqual(one, other)
+    }
+
+    func testSameInstancesArePointerEqual() {
+        let one = PointerEquatableInterface.createNew()
+        let other = PointerEquatableInterface.returnLast()
+        XCTAssertEqual(one, other)
+    }
+
+    func testUnequalInstancesAreUnequal() {
+        let one = EquatableInterface(name: "one")
+        let other = EquatableInterface(name: "other")
+        XCTAssertNotEqual(one, other)
+    }
+
+    func testEqualInstancesAreEqual() {
+        let one = EquatableInterface(name: "one")
+        let other = EquatableInterface(name: "one")
+        XCTAssertEqual(one, other)
+    }
+
     static func createEquatableStruct() -> EquatableStruct {
 
         return EquatableStruct(boolField: true, intField: 65542, longField: 2147484000,
@@ -140,6 +164,10 @@ class EquatableTests: XCTestCase {
         ("testStructNotEqualsMapField", testStructNotEqualsMapField),
         ("testStructNotEqualsArrayField", testStructNotEqualsArrayField),
         ("testArrayEquals", testArrayEquals),
-        ("testArrayNotEquals", testArrayNotEquals)
+        ("testArrayNotEquals", testArrayNotEquals),
+        ("testDifferentInstancesArePointerUnequal", testDifferentInstancesArePointerUnequal),
+        ("testSameInstancesArePointerEqual", testSameInstancesArePointerEqual),
+        ("testUnequalInstancesAreUnequal", testUnequalInstancesAreUnequal),
+        ("testEqualInstancesAreEqual", testEqualInstancesAreEqual)
     ]
 }

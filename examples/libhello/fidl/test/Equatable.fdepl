@@ -97,8 +97,13 @@ define Defaults for typeCollection test.Equatable {
 }
 
 define GeniumExtensions for interface test.EquatableInterface {
+    Equatable = true
     struct AnotherEquatableStruct {
         Equatable = true
+    }
+
+    method create {
+        Constructor = true
     }
 
     method areEqual:localStruct {
@@ -110,6 +115,18 @@ define GeniumExtensions for interface test.EquatableInterface {
     }
 
     method areEqual:foreignNullableStruct {
+        Static = true
+    }
+}
+
+define GeniumExtensions for interface test.PointerEquatableInterface {
+    PointerEquatable = true
+
+    method createNew {
+        Static = true
+    }
+
+    method returnLast {
         Static = true
     }
 }

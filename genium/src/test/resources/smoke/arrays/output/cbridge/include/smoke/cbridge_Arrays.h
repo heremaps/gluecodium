@@ -9,6 +9,7 @@ extern "C" {
 #include "cbridge/include/Export.h"
 #include "cbridge/include/ByteArrayHandle.h"
 #include "cbridge/include/StringHandle.h"
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdbool.h>
 typedef uint32_t smoke_Arrays_SomeEnum;

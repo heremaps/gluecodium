@@ -63,7 +63,12 @@ define GeniumExtensions for typeCollection smoke.Equatable {
 }
 
 define GeniumExtensions for interface smoke.EquatableInterface {
+    Equatable = true
     struct EquatableStruct {
         Equatable = true
     }
+}
+
+define GeniumExtensions for interface smoke.PointerEquatableInterface {
+    PointerEquatable = true
 }

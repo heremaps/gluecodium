@@ -9,6 +9,7 @@ extern "C" {
 #include "cbridge/include/Export.h"
 #include "cbridge/include/StringHandle.h"
 #include <stdbool.h>
+#include <stdbool.h>
 _GENIUM_C_EXPORT _baseRef smoke_Dates_DateStruct_create_handle(double dateField);
 _GENIUM_C_EXPORT void smoke_Dates_DateStruct_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_Dates_DateStruct_create_optional_handle(double dateField);

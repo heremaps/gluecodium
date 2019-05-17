@@ -9,6 +9,7 @@ extern "C" {
 #include "cbridge/include/Export.h"
 #include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_MapsInstance.h"
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdbool.h>
 _GENIUM_C_EXPORT _baseRef smoke_Maps_SomeStruct_create_handle(_baseRef value);

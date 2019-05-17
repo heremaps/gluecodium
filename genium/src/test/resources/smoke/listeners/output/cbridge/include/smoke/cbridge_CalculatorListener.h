@@ -10,6 +10,7 @@ extern "C" {
 #include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_CalculationResult.h"
 #include <stdbool.h>
+#include <stdbool.h>
 _GENIUM_C_EXPORT _baseRef smoke_CalculatorListener_ResultStruct_create_handle(double result);
 _GENIUM_C_EXPORT void smoke_CalculatorListener_ResultStruct_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_CalculatorListener_ResultStruct_create_optional_handle(double result);
