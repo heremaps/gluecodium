@@ -83,9 +83,12 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class JniModelBuilderTest {
-    @MockK private lateinit var javaBuilder: JavaModelBuilder
-    @MockK private lateinit var cppBuilder: CppModelBuilder
-    @MockK private lateinit var cppIncludeResolver: CppIncludeResolver
+    @MockK
+    private lateinit var javaBuilder: JavaModelBuilder
+    @MockK
+    private lateinit var cppBuilder: CppModelBuilder
+    @MockK
+    private lateinit var cppIncludeResolver: CppIncludeResolver
 
     private val javaMethod = JavaMethod(
         name = "fancyMEthoD_integer",
@@ -143,13 +146,11 @@ class JniModelBuilderTest {
     private val cppInclude = Include.createInternalInclude("Foo.h")
     private val cppStruct = CppStruct("cPpClass")
 
+    private val fooPath = LimePath(listOf("foo", "bar"), emptyList())
     private val limeMethod = LimeMethod(EMPTY_PATH)
     private val limeTypeCollection =
         LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.TYPE_COLLECTION)
-    private val limeInterface = LimeContainer(
-        LimePath(listOf("foo", "bar"), emptyList()),
-        type = LimeContainer.ContainerType.INTERFACE
-    )
+    private val limeInterface = LimeContainer(fooPath, type = LimeContainer.ContainerType.INTERFACE)
     private val limeTypeRef = LimeLazyTypeRef("", emptyMap())
     private val limeStruct = LimeStruct(EMPTY_PATH)
     private val limeEnum = LimeEnumeration(EMPTY_PATH)
@@ -312,6 +313,36 @@ class JniModelBuilderTest {
 
         val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
         assertContains(jniEnum, jniContainer.enums)
+    }
+
+    @Test
+    fun finishBuildingInterfaceReadsPointerEquatable() {
+        val limeElement = LimeContainer(
+            fooPath,
+            type = LimeContainer.ContainerType.CLASS,
+            attributes = LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.POINTER_EQUATABLE)
+                .build()
+        )
+        modelBuilder.finishBuilding(limeElement)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertTrue(jniContainer.isPointerEquatable)
+    }
+
+    @Test
+    fun finishBuildingInterfaceReadsEquatable() {
+        val limeElement = LimeContainer(
+            fooPath,
+            type = LimeContainer.ContainerType.CLASS,
+            attributes = LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.EQUATABLE)
+                .build()
+        )
+        modelBuilder.finishBuilding(limeElement)
+
+        val jniContainer = modelBuilder.getFinalResult(JniContainer::class.java)
+        assertTrue(jniContainer.isEquatable)
     }
 
     @Test

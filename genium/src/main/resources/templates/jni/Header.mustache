@@ -32,7 +32,15 @@ extern "C" {
 JNIEXPORT {{returnType.name}} JNICALL
 {{>jni/FunctionSignature}};
 
-{{/methods}}{{/container}}
+{{/methods}}
+{{#hasNativeEquatable}}
+JNIEXPORT jboolean JNICALL
+{{#set javaMethodName="equals"}}{{>jni/FunctionSignaturePrefix}}{{/set}}, jobject jrhs);
+
+JNIEXPORT jint JNICALL
+{{#set javaMethodName="hashCode"}}{{>jni/FunctionSignature}}{{/set}};
+{{/hasNativeEquatable}}
+{{/container}}
 
 #ifdef __cplusplus
 }

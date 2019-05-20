@@ -142,7 +142,9 @@ internal constructor(
             cppName = cppClass.name,
             cppFullyQualifiedName = cppClass.fullyQualifiedName,
             containerType = getContainerType(limeContainer),
-            internalNamespace = internalNamespace
+            internalNamespace = internalNamespace,
+            isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE),
+            isPointerEquatable = limeContainer.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
         )
 
         val parentContainer = getPreviousResultOrNull(JniContainer::class.java)

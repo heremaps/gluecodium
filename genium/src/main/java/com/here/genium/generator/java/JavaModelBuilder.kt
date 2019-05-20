@@ -348,7 +348,9 @@ internal constructor(
         val constants = getPreviousResults(JavaConstant::class.java)
         if (constants.isEmpty()) return
 
-        val javaClass = JavaClass(JavaNameRules.getClassName(limeContainer.name))
+        val javaClass = JavaClass(
+            JavaNameRules.getClassName(limeContainer.name)
+        )
         javaClass.visibility = getVisibility(limeContainer)
         javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
         javaClass.javaPackage = rootPackage
@@ -375,7 +377,9 @@ internal constructor(
             extendedClass = extendedClass,
             fields = getPreviousResults(JavaField::class.java),
             isImplClass = true,
-            needsDisposer = parentContainer == null
+            needsDisposer = parentContainer == null,
+            hasNativeEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE) ||
+                    limeContainer.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
         )
         javaClass.visibility = getVisibility(limeContainer)
         javaClass.javaPackage = rootPackage

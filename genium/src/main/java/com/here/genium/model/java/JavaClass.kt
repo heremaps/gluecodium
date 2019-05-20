@@ -32,6 +32,7 @@ class JavaClass(
     val needsDisposer: Boolean = false,
     val isParcelable: Boolean = false,
     val isEquatable: Boolean = false,
+    val hasNativeEquatable: Boolean = false,
     val isImmutable: Boolean = false,
     val needsBuilder: Boolean = false
 ) : JavaTopLevelElement(name) {

@@ -48,12 +48,7 @@ extern "C" {
 {{/unless}}
 {{/parameters}}
 {{#unless isStatic}}{{#instanceOf container "JniContainer"}}
-    auto pointerAsLong = {{>common/InternalNamespace}}jni::get_field_value(
-            _jenv,
-            {{>common/InternalNamespace}}jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr);
-    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (pointerAsLong);
+    auto pInstanceSharedPointer = {{#set jobjectName="_jinstance"}}{{>sharedInstance}}{{/set}}
 {{/instanceOf}}{{!!
 }}{{#notInstanceOf container "JniContainer"}}
     auto _ninstance = {{>common/InternalNamespace}}jni::convert_from_jni(_jenv,
@@ -71,5 +66,49 @@ Java_{{#javaPackages}}{{.}}_{{/javaPackages}}{{javaName}}_disposeNativeHandle(JN
     delete reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (_jpointerRef);
 }
 {{/instanceOf}}
+{{#hasNativeEquatable}}
+jboolean
+{{#set javaMethodName="equals"}}{{>jni/FunctionSignaturePrefix}}{{/set}}, jobject jrhs)
+{
+{{#isPointerEquatable}}
+    auto jclass = {{>common/InternalNamespace}}jni::get_object_class(_jenv, _jinstance);
+{{/isPointerEquatable}}
+{{#isEquatable}}
+    auto& jclass = {{>common/InternalNamespace}}jni::get_cached_native_base_class();
+{{/isEquatable}}
+    if (!_jenv->IsInstanceOf(jrhs, jclass.get())) {
+        return false;
+    }
+    auto lhs = {{#set jobjectName="_jinstance"}}{{>sharedInstance}}{{/set}}
+{{#isPointerEquatable}}
+    auto rhs = {{#set jobjectName="jrhs" cppFullyQualifiedName="void"}}{{>sharedInstance}}{{/set}}
+    return *lhs == *rhs;
+{{/isPointerEquatable}}
+{{#isEquatable}}
+    auto rhs = {{#set jobjectName="jrhs"}}{{>sharedInstance}}{{/set}}
+    return **lhs == **rhs;
+{{/isEquatable}}
+}
+
+jint
+{{#set javaMethodName="hashCode"}}{{>jni/FunctionSignature}}{{/set}}
+{
+    auto pInstanceSharedPointer = {{#set jobjectName="_jinstance"}}{{>sharedInstance}}{{/set}}
+{{#isPointerEquatable}}
+    return reinterpret_cast<int64_t>(pInstanceSharedPointer->get());
+{{/isPointerEquatable}}
+{{#isEquatable}}
+    return 7; //TODO APIGEN-1488 forward to C++ hash
+{{/isEquatable}}
+}
+{{/hasNativeEquatable}}
 }
 {{/container}}
+{{+sharedInstance}}{{!!
+}}reinterpret_cast<std::shared_ptr<{{cppFullyQualifiedName}}>*> (
+        {{>common/InternalNamespace}}jni::get_field_value(
+            _jenv,
+            {{>common/InternalNamespace}}jni::make_non_releasing_ref({{jobjectName}}),
+            "nativeHandle",
+            (int64_t*)nullptr));
+{{/sharedInstance}}

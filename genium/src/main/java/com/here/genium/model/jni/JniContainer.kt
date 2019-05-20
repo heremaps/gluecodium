@@ -37,13 +37,17 @@ class JniContainer(
     val cppName: String? = null,
     val cppFullyQualifiedName: String? = null,
     val containerType: ContainerType = ContainerType.TYPE_COLLECTION,
-    var internalNamespace: List<String>? = null
+    var internalNamespace: List<String>? = null,
+    val isEquatable: Boolean = false,
+    val isPointerEquatable: Boolean = false
 ) : JniElement {
     val methods: MutableList<JniMethod> = LinkedList()
     val parentMethods: MutableList<JniMethod> = LinkedList()
     val structs: MutableList<JniStruct> = LinkedList()
     val enums: MutableList<JniEnum> = LinkedList()
     val includes: MutableSet<Include> = mutableSetOf()
+    val hasNativeEquatable =
+        containerType == ContainerType.CLASS && (isEquatable || isPointerEquatable)
 
     enum class ContainerType {
         TYPE_COLLECTION,

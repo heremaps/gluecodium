@@ -64,6 +64,14 @@
 {{/if}}
 {{#if isEquatable}}{{prefixPartial "java/EqualsAndHashCode" "    "}}
 {{/if}}
+{{#hasNativeEquatable}}
+    @Override
+    public native boolean equals(Object rhs);
+
+    @Override
+    public native int hashCode();
+
+{{/hasNativeEquatable}}
 {{#if needsBuilder}}{{#unless constructors}}{{prefixPartial "java/FieldsBuilder" "    "}}
 
 {{/unless}}{{/if}}

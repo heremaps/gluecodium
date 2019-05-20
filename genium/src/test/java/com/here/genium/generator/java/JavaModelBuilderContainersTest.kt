@@ -34,6 +34,8 @@ import com.here.genium.model.java.JavaTopLevelElement
 import com.here.genium.model.java.JavaType
 import com.here.genium.model.java.JavaValue
 import com.here.genium.model.java.JavaVisibility
+import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimeDirectTypeRef
@@ -279,6 +281,34 @@ class JavaModelBuilderContainersTest {
 
         val result = modelBuilder.getFinalResult(JavaClass::class.java)
         assertEquals(JavaVisibility.PACKAGE, result.visibility)
+    }
+
+    @Test
+    fun finishBuildingClassReadsPointerEquatable() {
+        val limeElement = LimeContainer(
+            LimePath(emptyList(), listOf("foo")),
+            type = ContainerType.CLASS,
+            attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.POINTER_EQUATABLE).build()
+        )
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(JavaClass::class.java)
+        assertTrue(result.hasNativeEquatable)
+    }
+
+    @Test
+    fun finishBuildingClassReadsEquatable() {
+        val limeElement = LimeContainer(
+            LimePath(emptyList(), listOf("foo")),
+            type = ContainerType.CLASS,
+            attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.EQUATABLE).build()
+        )
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(JavaClass::class.java)
+        assertTrue(result.hasNativeEquatable)
     }
 
     @Test

@@ -180,6 +180,49 @@ public final class EquatableTest {
     assertFalse(EquatableInterface.areEqual(mainStruct, otherStruct));
   }
 
+  @Test
+  public void differentInstancesPointerUnequal() {
+    PointerEquatableInterface one = PointerEquatableInterface.createNew();
+    PointerEquatableInterface other = PointerEquatableInterface.createNew();
+
+    assertNotEquals(one, other);
+    assertNotEquals(one.hashCode(), other.hashCode());
+  }
+
+  @Test
+  public void sameInstancesPointerEqual() {
+    PointerEquatableInterface one = PointerEquatableInterface.createNew();
+    PointerEquatableInterface same = PointerEquatableInterface.returnLast();
+
+    assertEquals(one, same);
+    assertEquals(one.hashCode(), same.hashCode());
+  }
+
+  @Test
+  public void classEqual() {
+    EquatableInterface one = new EquatableInterface("one");
+    EquatableInterface other = new EquatableInterface("one");
+
+    assertEquals(one, other);
+    assertEquals(one.hashCode(), other.hashCode());
+  }
+
+  @Test
+  public void classUnequal() {
+    EquatableInterface one = new EquatableInterface("one");
+    EquatableInterface other = new EquatableInterface("two");
+
+    assertNotEquals(one, other);
+    //TODO: APIGEN-1488 assertNotEquals(one.hashCode(), other.hashCode());
+  }
+
+  @Test
+  public void differentTypeUnequal() {
+    EquatableInterface one = new EquatableInterface("one");
+
+    assertNotEquals(one, 7);
+  }
+
   private static EquatableStruct createEquatableStruct() {
 
     Map<Integer, String> someMap = new HashMap<>();
