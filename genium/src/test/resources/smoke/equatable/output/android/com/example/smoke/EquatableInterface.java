@@ -41,4 +41,8 @@ public class EquatableInterface extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
+    @Override
+    public native boolean equals(Object rhs);
+    @Override
+    public native int hashCode();
 }
