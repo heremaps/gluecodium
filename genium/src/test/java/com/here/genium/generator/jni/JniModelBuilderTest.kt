@@ -56,7 +56,9 @@ import com.here.genium.model.jni.JniStruct
 import com.here.genium.model.jni.JniType
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
+import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
@@ -67,6 +69,8 @@ import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeLazyTypeRef
+import com.here.genium.model.lime.LimeSet
+import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.MockContextStack
 import io.mockk.MockKAnnotations
@@ -637,6 +641,40 @@ class JniModelBuilderTest {
         assertEquals(2, methods.size)
         assertTrue(methods.first().isStatic)
         assertTrue(methods.last().isStatic)
+    }
+
+    @Test
+    fun finishBuildingTypeDef() {
+        val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeBasicTypeRef.FLOAT)
+        contextStack.injectResult(jniType)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        assertTrue(modelBuilder.setsCollector.isEmpty())
+    }
+
+    @Test
+    fun finishBuildingSetTypeDef() {
+        val setType = LimeSet(LimeBasicTypeRef.FLOAT)
+        val setTypeDef = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(setType))
+        val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(setTypeDef))
+        contextStack.injectResult(jniType)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        assertTrue(modelBuilder.setsCollector.isEmpty())
+    }
+
+    @Test
+    fun finishBuildingEnumSetTypeDef() {
+        val setType = LimeSet(LimeDirectTypeRef(limeEnum))
+        val setTypeDef = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(setType))
+        val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(setTypeDef))
+        contextStack.injectResult(jniType)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        assertContains(jniType, modelBuilder.setsCollector.values)
     }
 
     companion object {

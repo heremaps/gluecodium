@@ -40,8 +40,11 @@ class JavaMethodNameResolver(
 
     override fun getMapName(keyType: LimeTypeRef, valueType: LimeTypeRef) = TYPE_ERASED_MAP
 
+    override fun getSetName(elementType: LimeTypeRef) = TYPE_ERASED_SET
+
     companion object {
         private const val TYPE_ERASED_ARRAY = "List<>"
         private const val TYPE_ERASED_MAP = "Map<>"
+        private const val TYPE_ERASED_SET = "Set<>"
     }
 }

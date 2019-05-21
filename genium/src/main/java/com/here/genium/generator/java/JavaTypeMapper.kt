@@ -29,6 +29,7 @@ import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.java.JavaPrimitiveType
 import com.here.genium.model.java.JavaReferenceType
 import com.here.genium.model.java.JavaTemplateType
+import com.here.genium.model.java.JavaTemplateType.TemplateClass
 import com.here.genium.model.java.JavaType
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
@@ -78,7 +79,7 @@ class JavaTypeMapper(
         return when (limeType) {
             is LimeBasicType -> mapBasicType(limeType)
             is LimeTypeDef -> mapType(limeType.typeRef)
-            is LimeArray -> JavaTemplateType.wrapInList(mapType(limeType.elementType))
+            is LimeArray -> mapTemplateType(TemplateClass.LIST, limeType.elementType)
             is LimeMap -> mapMapType(limeType)
             is LimeStruct, is LimeEnumeration -> mapCustomType(limeType)
             is LimeContainer -> {
@@ -92,7 +93,14 @@ class JavaTypeMapper(
                     isInterface = true
                 )
             }
-            is LimeSet -> JavaTemplateType.wrapInList(mapType(limeType.elementType)) // TODO: APIGEN-1522: implement Set
+            is LimeSet -> {
+                val elementType = limeType.elementType
+                val templateClass = when {
+                    elementType.type is LimeEnumeration -> TemplateClass.ENUM_SET
+                    else -> TemplateClass.SET
+                }
+                mapTemplateType(templateClass, elementType)
+            }
             else -> throw GeniumExecutionException("Unmapped type: " + limeType.name)
         }
     }
@@ -117,7 +125,20 @@ class JavaTypeMapper(
             valueType = JavaReferenceType.boxPrimitiveType(valueType)
         }
 
-        return JavaTemplateType.create(JavaTemplateType.TemplateClass.MAP, keyType, valueType)
+        return JavaTemplateType.create(TemplateClass.MAP, keyType, valueType)
+    }
+
+    private fun mapTemplateType(
+        templateClass: TemplateClass,
+        limeTypeRef: LimeTypeRef
+    ): JavaTemplateType {
+        val elementType = mapType(limeTypeRef)
+        val objectElementType =
+            when (elementType) {
+                is JavaPrimitiveType -> JavaReferenceType.boxPrimitiveType(elementType)
+                else -> elementType
+            }
+        return JavaTemplateType.create(templateClass, objectElementType)
     }
 
     fun mapCustomType(

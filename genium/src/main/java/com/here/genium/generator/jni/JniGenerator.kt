@@ -91,7 +91,12 @@ class JniGenerator(
         val jniContainer = jniBuilder.getFinalResult(JniContainer::class.java)
         jniContainer.includes.addAll(getIncludes(jniContainer))
 
-        return JavaModel(javaBuilder.referenceMap, javaBuilder.finalResults + jniContainer)
+        return JavaModel(
+            javaBuilder.referenceMap,
+            javaBuilder.finalResults,
+            listOf(jniContainer),
+            jniBuilder.setsCollector.values.toSet()
+        )
     }
 
     private fun getIncludes(jniContainer: JniContainer): Set<Include> {

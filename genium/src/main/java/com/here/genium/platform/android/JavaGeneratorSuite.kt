@@ -30,7 +30,6 @@ import com.here.genium.generator.jni.JniTemplates
 import com.here.genium.model.java.JavaElement
 import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.java.JavaTopLevelElement
-import com.here.genium.model.jni.JniContainer
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.platform.common.GeneratorSuite
 
@@ -71,21 +70,14 @@ open class JavaGeneratorSuite protected constructor(
         )
 
         val combinedModel =
-            limeModel.containers.fold(
-                JavaModel(
-                    emptyMap(),
-                    emptyList()
-                )
-            ) { model, limeContainer ->
+            limeModel.containers.fold(JavaModel()) { model, limeContainer ->
                 model.merge(jniGenerator.generateModel(limeContainer))
             }
-        val javaModel = combinedModel.containers.filterIsInstance<JavaElement>()
-        val jniModel = combinedModel.containers.filterIsInstance<JniContainer>()
 
-        processCommentLinks(javaModel, combinedModel.referenceMap)
+        processCommentLinks(combinedModel.javaElements, combinedModel.referenceMap)
 
         val javaTemplates = JavaTemplates(generatorName)
-        val javaFiles = javaTemplates.generateFiles(javaModel)
+        val javaFiles = javaTemplates.generateFiles(combinedModel.javaElements)
 
         val nativeBasePath = listOf(generatorName) + internalPackageList + NATIVE_BASE_JAVA
         javaFiles.add(
@@ -110,8 +102,9 @@ open class JavaGeneratorSuite protected constructor(
             headers += jniTemplates.generateConversionUtilsHeaderFile(fileName)
         }
 
-        return headers + javaFiles + jniModel.map { jniTemplates.generateFiles(it) }.flatten() +
-            jniTemplates.generateConversionFiles(jniModel)
+        return headers + javaFiles +
+            combinedModel.jniContainers.flatMap { jniTemplates.generateFiles(it) } +
+            jniTemplates.generateConversionFiles(combinedModel)
     }
 
     private fun processCommentLinks(

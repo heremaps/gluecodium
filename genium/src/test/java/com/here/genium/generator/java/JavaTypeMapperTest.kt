@@ -24,6 +24,7 @@ import com.here.genium.model.java.JavaEnumType
 import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.java.JavaPrimitiveType
 import com.here.genium.model.java.JavaReferenceType
+import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaType
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
@@ -31,6 +32,7 @@ import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeMap
@@ -38,6 +40,7 @@ import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.lime.LimeLazyTypeRef
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.test.AssertHelpers.assertContains
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -140,6 +143,31 @@ class JavaTypeMapperTest {
         val result = typeMapper.mapType(limeTypeRef)
 
         assertEquals("Map<String, Float>", result.name)
+    }
+
+    @Test
+    fun mapTypeSet() {
+        limeReferenceMap["foo"] = LimeSet(LimeBasicTypeRef.FLOAT)
+
+        val result = typeMapper.mapType(limeTypeRef)
+
+        assertEquals("Set<Float>", result.name)
+        assertEquals("HashSet<>", (result as JavaTemplateType).implementationType.name)
+    }
+
+    @Test
+    fun mapTypeEnumSet() {
+        val limeEnumeration = LimeEnumeration(LimePath(emptyList(), listOf("bar", "baz")))
+        limeReferenceMap["foo"] = LimeSet(LimeDirectTypeRef(limeEnumeration))
+        limeReferenceMap["bar"] = LimeContainer(
+            LimePath.EMPTY_PATH,
+            type = LimeContainer.ContainerType.TYPE_COLLECTION
+        )
+
+        val result = typeMapper.mapType(limeTypeRef)
+
+        assertEquals("Set<Baz>", result.name)
+        assertEquals("EnumSet<>", (result as JavaTemplateType).implementationType.name)
     }
 
     @Test

@@ -28,10 +28,14 @@ public final class JavaTemplateType extends JavaCustomType {
   public static final String IMPLICIT_TEMPLATE_DECLARATION = "<>";
 
   public final JavaCustomType implementationType;
+  public final TemplateClass templateClass;
+  public final List<JavaType> templateParameters;
 
   public enum TemplateClass {
     LIST("List", JAVA_UTIL, "ArrayList"),
-    MAP("Map", JAVA_UTIL, "HashMap");
+    MAP("Map", JAVA_UTIL, "HashMap"),
+    SET("Set", JAVA_UTIL, "HashSet"),
+    ENUM_SET("Set", JAVA_UTIL, "EnumSet");
 
     public final String name;
     public final JavaCustomType implementationType;
@@ -52,14 +56,19 @@ public final class JavaTemplateType extends JavaCustomType {
     }
   }
 
-  private JavaTemplateType(final String name, final TemplateClass templateClass) {
+  private JavaTemplateType(
+      final String name,
+      final TemplateClass templateClass,
+      final List<JavaType> templateParameters) {
     super(
         name,
         Collections.singletonList(templateClass.name),
         templateClass.packageNames,
         null,
         false);
-    implementationType = templateClass.implementationType;
+    this.implementationType = templateClass.implementationType;
+    this.templateClass = templateClass;
+    this.templateParameters = templateParameters;
   }
 
   public static JavaTemplateType create(final TemplateClass templateClass, JavaType... parameters) {
@@ -70,18 +79,11 @@ public final class JavaTemplateType extends JavaCustomType {
             + templateParameters.stream().map(type -> type.name).collect(Collectors.joining(", "))
             + ">";
 
-    JavaTemplateType templateType = new JavaTemplateType(name, templateClass);
+    JavaTemplateType templateType = new JavaTemplateType(name, templateClass, templateParameters);
 
     templateType.imports.add(templateClass.javaImport);
     templateParameters.forEach(parameter -> templateType.imports.addAll(parameter.imports));
 
     return templateType;
-  }
-
-  public static JavaTemplateType wrapInList(JavaType elementType) {
-    if (elementType instanceof JavaPrimitiveType) {
-      elementType = JavaReferenceType.Companion.boxPrimitiveType((JavaPrimitiveType) elementType);
-    }
-    return JavaTemplateType.create(TemplateClass.LIST, elementType);
   }
 }

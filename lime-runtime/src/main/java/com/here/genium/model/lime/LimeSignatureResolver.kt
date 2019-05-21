@@ -54,17 +54,17 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
     protected open fun getMapName(keyType: LimeTypeRef, valueType: LimeTypeRef) =
         "[${getTypeName(keyType)}:${getTypeName(valueType)}]"
 
+    protected open fun getSetName(elementType: LimeTypeRef) = "[${getTypeName(elementType)}:]"
+
     private fun computeSignature(limeMethod: LimeMethod) =
         limeMethod.parameters.map { getTypeName(it.typeRef) }
 
-    private fun getTypeName(limeTypeRef: LimeTypeRef): String {
-        val limeType = limeTypeRef.type
-        return when (limeType) {
+    private fun getTypeName(limeTypeRef: LimeTypeRef): String =
+        when (val limeType = limeTypeRef.type) {
             is LimeTypeDef -> getTypeName(limeType.typeRef)
             is LimeArray -> getArrayName(limeType.elementType)
             is LimeMap -> getMapName(limeType.keyType, limeType.valueType)
-            is LimeSet -> getArrayName(limeType.elementType) // TODO: APIGEN-1522: implement
+            is LimeSet -> getSetName(limeType.elementType)
             else -> limeType.name
         }
-    }
 }

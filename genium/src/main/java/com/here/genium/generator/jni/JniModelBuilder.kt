@@ -60,7 +60,10 @@ import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
+import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 
 /**
@@ -83,6 +86,8 @@ class JniModelBuilder(
     private val cppIncludeResolver: CppIncludeResolver,
     private val internalNamespace: List<String>
 ) : AbstractLimeBasedModelBuilder<JniElement>(contextStack) {
+
+    val setsCollector = mutableMapOf<String, JniType>()
 
     override fun finishBuilding(limeContainer: LimeContainer) {
         val jniContainer = when {
@@ -283,6 +288,16 @@ class JniModelBuilder(
         )
 
         storeResult(jniType)
+        closeContext()
+    }
+
+    override fun finishBuilding(limeTypeDef: LimeTypeDef) {
+        val actualType = LimeTypeHelper.getActualType(limeTypeDef)
+        if (actualType is LimeSet && actualType.elementType.type is LimeEnumeration) {
+            setsCollector[actualType.elementType.elementFullName] =
+                getPreviousResult(JniType::class.java)
+        }
+
         closeContext()
     }
 

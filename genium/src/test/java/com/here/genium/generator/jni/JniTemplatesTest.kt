@@ -61,7 +61,9 @@ class JniTemplatesTest {
         )
 
         // Act
-        val files = templates.generateConversionFiles(listOf(instantiableJniContainer))
+        val files = templates.generateConversionFiles(
+            JavaModel(jniContainers = listOf(instantiableJniContainer))
+        )
 
         // Assert
         assertTrue(
@@ -75,7 +77,8 @@ class JniTemplatesTest {
     @Test
     fun isNoInterfaceProxyIsNotGenerated() {
         // Act
-        val files = templates.generateConversionFiles(listOf(jniContainer))
+        val files =
+            templates.generateConversionFiles(JavaModel(jniContainers = listOf(jniContainer)))
 
         // Assert
         assertFalse(
@@ -111,7 +114,9 @@ class JniTemplatesTest {
         )
 
         // Act
-        val result = templates.generateConversionFiles(listOf(instantiableJniContainer))
+        val result = templates.generateConversionFiles(
+            JavaModel(jniContainers = listOf(instantiableJniContainer))
+        )
 
         // Assert
         assertEquals(MAIN_FILES_WITH_INSTANCES_COUNT, result.size)

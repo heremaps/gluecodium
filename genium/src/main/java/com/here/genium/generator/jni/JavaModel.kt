@@ -19,11 +19,17 @@
 
 package com.here.genium.generator.jni
 
-import com.here.genium.model.common.ModelElement
 import com.here.genium.model.java.JavaElement
+import com.here.genium.model.jni.JniContainer
+import com.here.genium.model.jni.JniType
 
-class JavaModel(val referenceMap: Map<String, JavaElement>, val containers: Collection<ModelElement>) {
-    fun merge(model: JavaModel): JavaModel {
-        return JavaModel(referenceMap + model.referenceMap, containers + model.containers)
-    }
+class JavaModel(
+    val referenceMap: Map<String, JavaElement> = emptyMap(),
+    val javaElements: List<JavaElement> = emptyList(),
+    val jniContainers: List<JniContainer> = emptyList(),
+    val jniEnumSets: Set<JniType> = emptySet()
+) {
+    fun merge(other: JavaModel) =
+        JavaModel(referenceMap + other.referenceMap, javaElements + other.javaElements,
+            jniContainers + other.jniContainers, jniEnumSets + other.jniEnumSets)
 }

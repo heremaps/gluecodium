@@ -24,13 +24,16 @@ import com.here.genium.generator.jni.JniNameRules;
 import com.here.genium.generator.jni.JniTypeNameMapper;
 import com.here.genium.model.cpp.CppComplexTypeRef;
 import com.here.genium.model.cpp.CppPrimitiveTypeRef;
+import com.here.genium.model.cpp.CppTemplateTypeRef;
+import com.here.genium.model.cpp.CppTypeDefRef;
 import com.here.genium.model.cpp.CppTypeRef;
 import com.here.genium.model.java.JavaArrayType;
 import com.here.genium.model.java.JavaComplexType;
 import com.here.genium.model.java.JavaPrimitiveType;
+import com.here.genium.model.java.JavaTemplateType;
 import com.here.genium.model.java.JavaType;
 
-public final class JniType implements JniElement {
+public class JniType implements JniElement {
 
   public static final JniType VOID =
       new JniType(JavaPrimitiveType.VOID, CppPrimitiveTypeRef.Companion.getVOID());
@@ -40,11 +43,13 @@ public final class JniType implements JniElement {
   public final String javaName;
   public final String jniTypeSignature;
   public final String cppFullyQualifiedName;
-  public final boolean isJavaArray;
 
+  public final boolean isJavaArray;
   public final boolean isComplex;
   public final boolean refersToValueType;
   public final boolean isJavaVoid;
+
+  public final JniType elementType;
 
   public JniType(final JavaType javaType, final CppTypeRef cppType) {
     this.name = JniTypeNameMapper.map(javaType);
@@ -56,6 +61,7 @@ public final class JniType implements JniElement {
     isJavaVoid = javaType == JavaPrimitiveType.VOID;
     jniTypeSignature = createJniSignature(javaType);
     cppFullyQualifiedName = getCppFullyQualifiedName(cppType);
+    elementType = inferElementType(javaType, cppType);
   }
 
   @SuppressWarnings("unused")
@@ -137,5 +143,18 @@ public final class JniType implements JniElement {
     return cppTypeRef instanceof CppComplexTypeRef
         ? ((CppComplexTypeRef) cppTypeRef).fullyQualifiedName
         : null;
+  }
+
+  private static JniType inferElementType(final JavaType javaType, final CppTypeRef cppType) {
+    if (!(javaType instanceof JavaTemplateType)) {
+      return null;
+    }
+    CppTypeRef actualCppType = cppType;
+    while (actualCppType instanceof CppTypeDefRef) {
+      actualCppType = actualCppType.getActualType();
+    }
+    return new JniType(
+        ((JavaTemplateType) javaType).templateParameters.get(0),
+        ((CppTemplateTypeRef) actualCppType).getTemplateParameters().get(0));
   }
 }

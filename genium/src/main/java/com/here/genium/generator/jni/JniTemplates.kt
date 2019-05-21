@@ -26,6 +26,7 @@ import com.here.genium.model.common.Include
 import com.here.genium.model.jni.JniContainer
 import com.here.genium.model.jni.JniContainer.ContainerType
 import com.here.genium.model.jni.JniElement
+import com.here.genium.model.jni.JniType
 import com.here.genium.platform.android.JavaGeneratorSuite
 
 class JniTemplates(
@@ -72,12 +73,14 @@ class JniTemplates(
         )
     }
 
-    fun generateConversionFiles(jniContainers: List<JniContainer>): List<GeneratedFile> {
+    fun generateConversionFiles(combinedModel: JavaModel): List<GeneratedFile> {
         val results = mutableListOf<GeneratedFile>()
-        addStructConversionFiles(jniContainers, results)
-        addInstanceConversionFiles(jniContainers, results)
-        addEnumConversionFiles(jniContainers, results)
-        addCppProxyFiles(jniContainers, results)
+        addStructConversionFiles(combinedModel.jniContainers, results)
+        addInstanceConversionFiles(combinedModel.jniContainers, results)
+        addEnumConversionFiles(combinedModel.jniContainers, results)
+        addCppProxyFiles(combinedModel.jniContainers, results)
+        results +=
+            generateEnumSetConversionFiles(combinedModel.jniContainers, combinedModel.jniEnumSets)
 
         return results
     }
@@ -265,6 +268,44 @@ class JniTemplates(
         )
     }
 
+    private fun generateEnumSetConversionFiles(
+        jniContainers: List<JniContainer>,
+        enumSets: Set<JniType>
+    ): List<GeneratedFile> {
+        if (enumSets.isEmpty()) {
+            return emptyList()
+        }
+
+        val includes = jniContainers.flatMap { it.includes }.toSet()
+        val mustacheData = mutableMapOf(
+            INCLUDES_NAME to includes,
+            MODELS_NAME to enumSets,
+            INTERNAL_NAMESPACE_NAME to internalNamespace
+        )
+
+        val headerFile =
+            generateFile(
+                "jni/EnumSetConversionHeader",
+                mustacheData,
+                jniNameRules.getHeaderFilePath(JNI_ENUM_SET_CONVERSION_NAME)
+            )
+
+        mustacheData[INCLUDES_NAME] = listOf(
+            Include.createInternalInclude(
+                JniNameRules.getHeaderFileName(JNI_ENUM_SET_CONVERSION_NAME)
+            )
+        )
+
+        val implementationFile =
+            generateFile(
+                "jni/EnumSetConversionImplementation",
+                mustacheData,
+                jniNameRules.getImplementationFilePath(JNI_ENUM_SET_CONVERSION_NAME)
+            )
+
+        return listOf(headerFile, implementationFile)
+    }
+
     companion object {
         private const val INCLUDES_NAME = "includes"
         private const val MODELS_NAME = "models"
@@ -276,6 +317,8 @@ class JniTemplates(
         private const val JNI_UTILS_TEMPLATE_PREFIX = "jni/utils/"
         private const val HEADER_TEMPLATE_SUFFIX = "Header"
         private const val IMPL_TEMPLATE_SUFFIX = "Implementation"
+
+        private const val JNI_ENUM_SET_CONVERSION_NAME = "EnumSetConversion"
 
         private fun generateFile(templateName: String, data: Any, fileName: String): GeneratedFile {
             return GeneratedFile(TemplateEngine.render(templateName, data), fileName)
