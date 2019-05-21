@@ -20,6 +20,11 @@
 package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
+import com.here.genium.franca.FrancaTypeHelper
+import com.here.genium.franca.SpecialTypeRules
+import com.here.genium.validator.FieldValidatorPredicate.Companion.getUnderlyingType
+import org.franca.core.franca.FField
+import org.franca.core.franca.FInterface
 import org.franca.core.franca.FStructType
 
 /**
@@ -27,25 +32,44 @@ import org.franca.core.franca.FStructType
  *  * Should not contain Instance type fields.
  *  * All Struct type fields should be of some "Equatable" Struct type.
  */
-class EquatableValidatorPredicate : FieldValidatorPredicate() {
+class EquatableValidatorPredicate : ValidatorPredicate<FField> {
 
-    override val instanceErrorMessageFormat =
-        INSTANCE_MESSAGE
+    override val elementClass = FField::class.java
 
-    override val mismatchErrorMessageFormat =
-        NON_EQUATABLE_MESSAGE
+    override fun validate(deploymentModel: FrancaDeploymentModel, francaElement: FField): String? {
 
-    override fun hasDeploymentProperty(
-        deploymentModel: FrancaDeploymentModel,
-        francaStruct: FStructType
-    ) = deploymentModel.isEquatable(francaStruct)
+        val francaStruct = francaElement.eContainer() as FStructType
+        if (!deploymentModel.isEquatable(francaStruct)) {
+            return null
+        }
+
+        var messageFormat: String? = null
+        val underlyingType = getUnderlyingType(francaElement.type)
+        val derivedType = underlyingType.derived
+
+        if (SpecialTypeRules.isInstanceId(francaElement.type)) {
+            val container = francaElement.type.derived.eContainer() as FInterface
+            val isEquatable =
+                deploymentModel.isEquatable(container) ||
+                        deploymentModel.isPointerEquatable(container)
+            if (!isEquatable) {
+                messageFormat = NON_EQUATABLE_MESSAGE
+            }
+        } else if (derivedType is FStructType && !deploymentModel.isEquatable(derivedType)
+        ) {
+            messageFormat = NON_EQUATABLE_MESSAGE
+        }
+
+        return if (messageFormat != null) String.format(
+            messageFormat, francaElement.name, FrancaTypeHelper.getFullName(francaStruct)
+        ) else {
+            null
+        }
+    }
 
     companion object {
-        private const val INSTANCE_MESSAGE =
-            "Instance fields are not supported for equatable structs: " +
-                    "field '%s' in struct '%s'."
         private const val NON_EQUATABLE_MESSAGE =
-            "Fields of non-equatable struct types are not supported for equatable structs: " +
+            "Fields of non-equatable types are not supported for equatable structs: " +
                     "field '%s' in struct '%s'."
     }
 }

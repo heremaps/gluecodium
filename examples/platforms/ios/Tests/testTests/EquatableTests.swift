@@ -143,6 +143,50 @@ class EquatableTests: XCTestCase {
         XCTAssertEqual(one, other)
     }
 
+    func testEqualInstancesInStruct() {
+        let one = EquatableInterface(name: "one")
+        let other = EquatableInterface(name: "one")
+        let uninteresting = PointerEquatableInterface.createNew()
+        let oneStruct = PointerEquatableInterface.EquatableStruct(equatable: one, pointerEquatable: uninteresting)
+        let otherStruct = PointerEquatableInterface.EquatableStruct(equatable: other, pointerEquatable: uninteresting)
+
+        XCTAssertEqual(oneStruct, otherStruct)
+        XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+    }
+
+    func testUnequalInstancesInStruct() {
+        let one = EquatableInterface(name: "one")
+        let other = EquatableInterface(name: "other")
+        let uninteresting = PointerEquatableInterface.createNew()
+        let oneStruct = PointerEquatableInterface.EquatableStruct(equatable: one, pointerEquatable: uninteresting)
+        let otherStruct = PointerEquatableInterface.EquatableStruct(equatable: other, pointerEquatable: uninteresting)
+
+        XCTAssertNotEqual(oneStruct, otherStruct)
+        XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+    }
+
+    func testPointerUnequalInstancesInStruct() {
+        let one = PointerEquatableInterface.createNew()
+        let other = PointerEquatableInterface.createNew()
+        let uninteresting = EquatableInterface(name: "same for both")
+        let oneStruct = PointerEquatableInterface.EquatableStruct(equatable: uninteresting, pointerEquatable: one)
+        let otherStruct = PointerEquatableInterface.EquatableStruct(equatable: uninteresting, pointerEquatable: other)
+
+        XCTAssertNotEqual(oneStruct, otherStruct)
+        XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+    }
+
+    func testPointerEqualInstancesInStruct() {
+        let one = PointerEquatableInterface.createNew()
+        let other = PointerEquatableInterface.returnLast()
+        let uninteresting = EquatableInterface(name: "same for both")
+        let oneStruct = PointerEquatableInterface.EquatableStruct(equatable: uninteresting, pointerEquatable: one)
+        let otherStruct = PointerEquatableInterface.EquatableStruct(equatable: uninteresting, pointerEquatable: other)
+
+        XCTAssertEqual(oneStruct, otherStruct)
+        XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+    }
+
     static func createEquatableStruct() -> EquatableStruct {
 
         return EquatableStruct(boolField: true, intField: 65542, longField: 2147484000,
@@ -168,6 +212,10 @@ class EquatableTests: XCTestCase {
         ("testDifferentInstancesArePointerUnequal", testDifferentInstancesArePointerUnequal),
         ("testSameInstancesArePointerEqual", testSameInstancesArePointerEqual),
         ("testUnequalInstancesAreUnequal", testUnequalInstancesAreUnequal),
-        ("testEqualInstancesAreEqual", testEqualInstancesAreEqual)
+        ("testEqualInstancesAreEqual", testEqualInstancesAreEqual),
+        ("testUnequalInstancesInStruct", testUnequalInstancesInStruct),
+        ("testEqualInstancesInStruct", testEqualInstancesInStruct),
+        ("testPointerEqualInstancesInStruct", testPointerEqualInstancesInStruct),
+        ("testPointerUnequalInstancesInStruct", testPointerUnequalInstancesInStruct)
     ]
 }

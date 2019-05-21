@@ -20,8 +20,12 @@
 package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
+import com.here.genium.franca.SpecialTypeRules
+import io.mockk.every
+import io.mockk.mockkStatic
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FField
+import org.franca.core.franca.FInterface
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FTypeCollection
@@ -45,6 +49,8 @@ class EquatableValidatorPredicateTest {
     @Mock
     private lateinit var francaTypeCollection: FTypeCollection
     @Mock
+    private lateinit var francaInterface: FInterface
+    @Mock
     private lateinit var francaStructType: FStructType
     @Mock
     private lateinit var francaField: FField
@@ -59,7 +65,7 @@ class EquatableValidatorPredicateTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-
+        mockkStatic(SpecialTypeRules::class)
         `when`(fModel.name).thenReturn("")
         `when`(francaTypeCollection.name).thenReturn("")
         `when`(francaStructType.name).thenReturn("")
@@ -90,18 +96,26 @@ class EquatableValidatorPredicateTest {
     }
 
     @Test
-    fun validateWithUndefined() =
+    fun validateWithInterface() {
+        mockInterface()
+
         assertNotNull(validatorPredicate.validate(deploymentModel, francaField))
+    }
 
     @Test
-    fun validateWithTypeDefToUndefined() {
-        val undefinedTypeRef = mock(FTypeRef::class.java)
-        `when`(undefinedTypeRef.predefined).thenReturn(FBasicTypeId.UNDEFINED)
-        val francaTypeDef = mock(FTypeDef::class.java)
-        `when`(francaTypeDef.actualType).thenReturn(undefinedTypeRef)
-        `when`(francaTypeRef.derived).thenReturn(francaTypeDef)
+    fun validateWithEquatableInterface() {
+        mockInterface()
+        `when`(deploymentModel.isEquatable(francaInterface)).thenReturn( true )
 
-        assertNotNull(validatorPredicate.validate(deploymentModel, francaField))
+        assertNull(validatorPredicate.validate(deploymentModel, francaField))
+    }
+
+    @Test
+    fun validateWithPointerEquatableInterface() {
+        mockInterface()
+        `when`(deploymentModel.isPointerEquatable(francaInterface)).thenReturn( true )
+
+        assertNull(validatorPredicate.validate(deploymentModel, francaField))
     }
 
     @Test
@@ -118,5 +132,15 @@ class EquatableValidatorPredicateTest {
         `when`(francaTypeRef.derived).thenReturn(equatableStruct)
 
         assertNull(validatorPredicate.validate(deploymentModel, francaField))
+    }
+
+    private fun mockInterface() {
+        val undefinedTypeRef = mock(FTypeRef::class.java)
+        `when`(undefinedTypeRef.predefined).thenReturn(FBasicTypeId.UNDEFINED)
+        val francaTypeDef = mock(FTypeDef::class.java)
+        `when`(francaTypeDef.actualType).thenReturn(undefinedTypeRef)
+        `when`(francaTypeRef.derived).thenReturn(francaTypeDef)
+        `when`(francaTypeDef.eContainer()).thenReturn(francaInterface)
+        every { SpecialTypeRules.isInstanceId(francaTypeRef) } returns true
     }
 }

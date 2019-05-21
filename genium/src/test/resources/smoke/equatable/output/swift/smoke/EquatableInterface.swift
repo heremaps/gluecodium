@@ -25,13 +25,19 @@ public class EquatableInterface {
     public struct EquatableStruct: Equatable {
         public var intField: Int32
         public var stringField: String
-        public init(intField: Int32, stringField: String) {
+        public var nestedEquatableInstance: EquatableInterface
+        public var nestedPointerEquatableInstance: PointerEquatableInterface
+        public init(intField: Int32, stringField: String, nestedEquatableInstance: EquatableInterface, nestedPointerEquatableInstance: PointerEquatableInterface) {
             self.intField = intField
             self.stringField = stringField
+            self.nestedEquatableInstance = nestedEquatableInstance
+            self.nestedPointerEquatableInstance = nestedPointerEquatableInstance
         }
         internal init(cHandle: _baseRef) {
             intField = moveFromCType(smoke_EquatableInterface_EquatableStruct_intField_get(cHandle))
             stringField = moveFromCType(smoke_EquatableInterface_EquatableStruct_stringField_get(cHandle))
+            nestedEquatableInstance = EquatableInterfacemoveFromCType(smoke_EquatableInterface_EquatableStruct_nestedEquatableInstance_get(cHandle))
+            nestedPointerEquatableInstance = PointerEquatableInterfacemoveFromCType(smoke_EquatableInterface_EquatableStruct_nestedPointerEquatableInstance_get(cHandle))
         }
     }
 }
@@ -85,7 +91,9 @@ internal func moveFromCType(_ handle: _baseRef) -> EquatableInterface.EquatableS
 internal func copyToCType(_ swiftType: EquatableInterface.EquatableStruct) -> RefHolder {
     let c_intField = moveToCType(swiftType.intField)
     let c_stringField = moveToCType(swiftType.stringField)
-    return RefHolder(smoke_EquatableInterface_EquatableStruct_create_handle(c_intField.ref, c_stringField.ref))
+    let c_nestedEquatableInstance = moveToCType(swiftType.nestedEquatableInstance)
+    let c_nestedPointerEquatableInstance = moveToCType(swiftType.nestedPointerEquatableInstance)
+    return RefHolder(smoke_EquatableInterface_EquatableStruct_create_handle(c_intField.ref, c_stringField.ref, c_nestedEquatableInstance.ref, c_nestedPointerEquatableInstance.ref))
 }
 internal func moveToCType(_ swiftType: EquatableInterface.EquatableStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_EquatableInterface_EquatableStruct_release_handle)
@@ -109,7 +117,9 @@ internal func copyToCType(_ swiftType: EquatableInterface.EquatableStruct?) -> R
     }
     let c_intField = moveToCType(swiftType.intField)
     let c_stringField = moveToCType(swiftType.stringField)
-    return RefHolder(smoke_EquatableInterface_EquatableStruct_create_optional_handle(c_intField.ref, c_stringField.ref))
+    let c_nestedEquatableInstance = moveToCType(swiftType.nestedEquatableInstance)
+    let c_nestedPointerEquatableInstance = moveToCType(swiftType.nestedPointerEquatableInstance)
+    return RefHolder(smoke_EquatableInterface_EquatableStruct_create_optional_handle(c_intField.ref, c_stringField.ref, c_nestedEquatableInstance.ref, c_nestedPointerEquatableInstance.ref))
 }
 internal func moveToCType(_ swiftType: EquatableInterface.EquatableStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_EquatableInterface_EquatableStruct_release_optional_handle)

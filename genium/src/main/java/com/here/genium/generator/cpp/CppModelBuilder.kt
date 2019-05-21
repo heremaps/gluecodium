@@ -206,13 +206,14 @@ class CppModelBuilder @VisibleForTesting internal constructor(
         val hasImmutableType = allTypes.any { it.attributes.have(LimeAttributeType.IMMUTABLE) }
 
         val cppField = CppField(
-            nameResolver.getName(limeField),
-            nameResolver.getFullyQualifiedName(limeField),
-            cppTypeRef,
-            getPreviousResultOrNull(CppValue::class.java),
-            isInstance && !isNullable,
-            isNullable,
-            hasImmutableType
+            name = nameResolver.getName(limeField),
+            fullyQualifiedName = nameResolver.getFullyQualifiedName(limeField),
+            type = cppTypeRef,
+            initializer = getPreviousResultOrNull(CppValue::class.java),
+            isNotNull = isInstance && !isNullable,
+            isNullable = isNullable,
+            hasImmutableType = hasImmutableType,
+            isClassEquatable = isInstance && limeField.typeRef.type.attributes.have(LimeAttributeType.EQUATABLE)
         )
         cppField.comment = limeField.comment
 

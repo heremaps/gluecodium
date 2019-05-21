@@ -61,7 +61,7 @@ typeCollection Equatable {
 }
 
 interface EquatableInterface {
-    typedef EquatableInterface is undefined
+    public typedef EquatableInterface is undefined
 
     attribute String name readonly
 
@@ -123,6 +123,21 @@ interface PointerEquatableInterface {
     method returnLast {
         out {
             PointerEquatableInterface instance
+        }
+    }
+
+    struct EquatableStruct {
+        EquatableInterface.EquatableInterface equatable
+        PointerEquatableInterface pointerEquatable
+    }
+
+    method areEqual {
+        in {
+            EquatableStruct one
+            EquatableStruct other
+        }
+        out {
+            Boolean equal
         }
     }
 }

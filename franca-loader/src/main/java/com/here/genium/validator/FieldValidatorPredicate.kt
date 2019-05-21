@@ -75,15 +75,16 @@ abstract class FieldValidatorPredicate : ValidatorPredicate<FField> {
         }
     }
 
-    private fun getUnderlyingType(declaredType: FTypeRef): FTypeRef {
-        val derivedType = declaredType.derived
-        return when (derivedType) {
-            is FTypeDef -> getUnderlyingType(derivedType.actualType)
-            is FArrayType -> getUnderlyingType(derivedType.elementType)
-            is FMapType ->
-                // No validation against Map keys, since only primitive and enum keys are supported.
-                getUnderlyingType(derivedType.valueType)
-            else -> declaredType
+    companion object {
+        fun getUnderlyingType(declaredType: FTypeRef): FTypeRef {
+            return when (val derivedType = declaredType.derived) {
+                is FTypeDef -> getUnderlyingType(derivedType.actualType)
+                is FArrayType -> getUnderlyingType(derivedType.elementType)
+                is FMapType ->
+                    // No validation against Map keys, since only primitive and enum keys are supported.
+                    getUnderlyingType(derivedType.valueType)
+                else -> declaredType
+            }
         }
     }
 }

@@ -5,6 +5,7 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "genium/Optional.h"
 #include "smoke/EquatableInterface.h"
+#include "smoke/PointerEquatableInterface.h"
 #include <memory>
 #include <new>
 #include <string>
@@ -20,11 +21,13 @@ bool smoke_EquatableInterface_equal(_baseRef lhs, _baseRef rhs) {
     return **get_pointer<std::shared_ptr<::smoke::EquatableInterface>>(lhs) == **get_pointer<std::shared_ptr<::smoke::EquatableInterface>>(rhs);
 }
 _baseRef
-smoke_EquatableInterface_EquatableStruct_create_handle( int32_t intField, _baseRef stringField )
+smoke_EquatableInterface_EquatableStruct_create_handle( int32_t intField, _baseRef stringField, _baseRef nestedEquatableInstance, _baseRef nestedPointerEquatableInstance )
 {
     ::smoke::EquatableInterface::EquatableStruct* _struct = new ( std::nothrow ) ::smoke::EquatableInterface::EquatableStruct();
     _struct->int_field = intField;
     _struct->string_field = Conversion<std::string>::toCpp( stringField );
+    _struct->nested_equatable_instance = Conversion<std::shared_ptr<::smoke::EquatableInterface>>::toCpp( nestedEquatableInstance );
+    _struct->nested_pointer_equatable_instance = Conversion<std::shared_ptr<::smoke::PointerEquatableInterface>>::toCpp( nestedPointerEquatableInstance );
     return reinterpret_cast<_baseRef>( _struct );
 }
 void
@@ -33,11 +36,13 @@ smoke_EquatableInterface_EquatableStruct_release_handle( _baseRef handle )
     delete get_pointer<::smoke::EquatableInterface::EquatableStruct>( handle );
 }
 _baseRef
-smoke_EquatableInterface_EquatableStruct_create_optional_handle(int32_t intField, _baseRef stringField)
+smoke_EquatableInterface_EquatableStruct_create_optional_handle(int32_t intField, _baseRef stringField, _baseRef nestedEquatableInstance, _baseRef nestedPointerEquatableInstance)
 {
     auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::EquatableInterface::EquatableStruct>( ::smoke::EquatableInterface::EquatableStruct( ) );
     (*_struct)->int_field = intField;
     (*_struct)->string_field = Conversion<std::string>::toCpp( stringField );
+    (*_struct)->nested_equatable_instance = Conversion<std::shared_ptr<::smoke::EquatableInterface>>::toCpp( nestedEquatableInstance );
+    (*_struct)->nested_pointer_equatable_instance = Conversion<std::shared_ptr<::smoke::PointerEquatableInterface>>::toCpp( nestedPointerEquatableInstance );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
@@ -55,4 +60,12 @@ return struct_pointer->int_field;
 _baseRef smoke_EquatableInterface_EquatableStruct_stringField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::EquatableInterface::EquatableStruct>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->string_field);
+}
+_baseRef smoke_EquatableInterface_EquatableStruct_nestedEquatableInstance_get(_baseRef handle) {
+    auto struct_pointer = get_pointer<::smoke::EquatableInterface::EquatableStruct>(handle);
+return Conversion<std::shared_ptr<::smoke::EquatableInterface>>::toBaseRef(struct_pointer->nested_equatable_instance);
+}
+_baseRef smoke_EquatableInterface_EquatableStruct_nestedPointerEquatableInstance_get(_baseRef handle) {
+    auto struct_pointer = get_pointer<::smoke::EquatableInterface::EquatableStruct>(handle);
+return Conversion<std::shared_ptr<::smoke::PointerEquatableInterface>>::toBaseRef(struct_pointer->nested_pointer_equatable_instance);
 }

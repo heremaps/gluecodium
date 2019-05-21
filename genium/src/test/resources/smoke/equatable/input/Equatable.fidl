@@ -59,12 +59,16 @@ typeCollection Equatable {
 }
 
 interface EquatableInterface {
+    typedef EquatableInterface is undefined
 
     struct EquatableStruct {
         Int32 intField
         String stringField
+        EquatableInterface nestedEquatableInstance
+        PointerEquatableInterface.PointerEquatableInterface nestedPointerEquatableInstance
     }
 }
 
 interface PointerEquatableInterface {
+    public typedef PointerEquatableInterface is undefined
 }

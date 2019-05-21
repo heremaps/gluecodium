@@ -88,4 +88,11 @@ EquatableInterface::are_equal( const EquatableNullableStruct& lhs,
     return lhs == rhs;
 }
 
+bool
+PointerEquatableInterface::are_equal( const PointerEquatableInterface::EquatableStruct& lhs,
+                                      const PointerEquatableInterface::EquatableStruct& rhs )
+{
+    return lhs == rhs;
+}
+
 }  // namespace test
