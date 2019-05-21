@@ -20,6 +20,9 @@
 package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FModel
 import org.junit.Assert.assertEquals
@@ -27,10 +30,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
-import java.util.Arrays
 
 @RunWith(Parameterized::class)
 class InheritanceValidatorPredicateWithParentTest(
@@ -40,38 +39,38 @@ class InheritanceValidatorPredicateWithParentTest(
     private val secondInterfaceIsObjc: Boolean,
     private val expectedNull: Boolean
 ) {
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
-    @Mock
+    @MockK
     private lateinit var francaInterface: FInterface
-    @Mock
+    @MockK
     private lateinit var francaInterface2: FInterface
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val validatorPredicate = InheritanceValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(francaModel.name).thenReturn("")
-        `when`(francaInterface.name).thenReturn("")
-        `when`(francaInterface2.name).thenReturn("")
+        every { francaModel.name } returns ""
+        every { francaInterface.name } returns ""
+        every { francaInterface2.name } returns ""
 
-        `when`(francaInterface.eContainer()).thenReturn(francaModel)
-        `when`(francaInterface2.eContainer()).thenReturn(francaModel)
+        every { francaInterface.eContainer() } returns francaModel
+        every { francaInterface2.eContainer() } returns francaModel
 
-        `when`(francaInterface.base).thenReturn(francaInterface2)
+        every { francaInterface.base } returns francaInterface2
     }
 
     @Test
     fun test() {
-        `when`(deploymentModel.isInterface(francaInterface)).thenReturn(firstInterfaceIsInterface)
-        `when`(deploymentModel.isObjcInterface(francaInterface)).thenReturn(firstInterfaceIsObjc)
-        `when`(deploymentModel.isInterface(francaInterface2)).thenReturn(secondInterfaceIsInterface)
-        `when`(deploymentModel.isObjcInterface(francaInterface2)).thenReturn(secondInterfaceIsObjc)
+        every { deploymentModel.isInterface(francaInterface) } returns firstInterfaceIsInterface
+        every { deploymentModel.isObjcInterface(francaInterface) } returns firstInterfaceIsObjc
+        every { deploymentModel.isInterface(francaInterface2) } returns secondInterfaceIsInterface
+        every { deploymentModel.isObjcInterface(francaInterface2) } returns secondInterfaceIsObjc
 
         assertEquals(
             expectedNull, validatorPredicate.validate(deploymentModel, francaInterface) == null
@@ -81,7 +80,7 @@ class InheritanceValidatorPredicateWithParentTest(
     companion object {
         @JvmStatic
         @Parameterized.Parameters
-        fun data() = Arrays.asList(
+        fun data() = listOf(
             arrayOf(false, false, false, false, true),
             arrayOf(true, false, false, false, false),
             arrayOf(false, true, false, false, false),

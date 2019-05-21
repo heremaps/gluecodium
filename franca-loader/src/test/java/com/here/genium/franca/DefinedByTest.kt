@@ -19,35 +19,31 @@
 
 package com.here.genium.franca
 
-import org.junit.Assert.assertEquals
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations.initMocks
-
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import org.franca.core.franca.FModelElement
-import org.franca.core.franca.FQualifiedElementRef
 import org.franca.core.franca.FTypeCollection
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
 
 @RunWith(JUnit4::class)
 class DefinedByTest {
-    @Mock
+    @MockK
     private lateinit var francaModelElement: FModelElement
-    @Mock
-    private lateinit var francaQualifiedElementRef: FQualifiedElementRef
-    @Mock
+    @MockK
     private lateinit var francaTypeCollection: FTypeCollection
 
     @Before
-    fun setUp() = initMocks(this)
+    fun setUp() = MockKAnnotations.init(this, relaxed = true)
 
     @Test
     fun findDefiningTypeCollectionReturnsTypeCollection() {
         // Arrange
-        `when`(francaTypeCollection.name).thenReturn("MyFTypeCollection")
+        every { francaTypeCollection.name } returns "MyFTypeCollection"
 
         // Act
         val definingTypeCollection = DefinedBy.findDefiningTypeCollection(francaTypeCollection)
@@ -57,10 +53,10 @@ class DefinedByTest {
     }
 
     @Test
-    fun findDefiningTypeCollection_returnsParentTypeCollection() {
+    fun findDefiningTypeCollectionReturnsParentTypeCollection() {
         // Arrange
-        `when`(francaTypeCollection.name).thenReturn("MyFTypeCollection")
-        `when`(francaModelElement.eContainer()).thenReturn(francaTypeCollection)
+        every { francaTypeCollection.name } returns "MyFTypeCollection"
+        every { francaModelElement.eContainer() } returns francaTypeCollection
 
         // Act
         val definingTypeCollection = DefinedBy.findDefiningTypeCollection(francaModelElement)

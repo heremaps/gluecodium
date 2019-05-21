@@ -21,6 +21,10 @@ package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
 import com.here.genium.test.ArrayEList
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FInterface
@@ -32,26 +36,19 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mock
-import org.mockito.Mockito.RETURNS_DEEP_STUBS
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
-import org.mockito.MockitoAnnotations
-import java.util.Arrays.asList
 
 @RunWith(JUnit4::class)
 class ConstructorsValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
-    @Mock
+    @MockK
     private lateinit var francaInterface: FInterface
-    @Mock
+    @MockK
     private lateinit var francaMethod: FMethod
-    @Mock
+    @MockK
     private lateinit var otherMethod: FMethod
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val methods = ArrayEList<FMethod>()
@@ -62,20 +59,21 @@ class ConstructorsValidatorPredicateTest {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
         methods.add(francaMethod)
-        `when`(francaInterface.methods).thenReturn(methods)
-        `when`(francaMethod.inArgs).thenReturn(arguments)
-        `when`(otherMethod.inArgs).thenReturn(otherArguments)
+        every { francaInterface.methods } returns methods
+        every { francaMethod.inArgs } returns arguments
+        every { otherMethod.inArgs } returns otherArguments
 
-        `when`(francaModel.name).thenReturn("")
-        `when`(francaInterface.name).thenReturn("")
-        `when`(francaMethod.name).thenReturn("")
+        every { francaModel.name } returns ""
+        every { francaInterface.name } returns ""
+        every { francaMethod.name } returns "foo"
+        every { otherMethod.name } returns "bar"
 
-        `when`(francaInterface.eContainer()).thenReturn(francaModel)
-        `when`(francaMethod.eContainer()).thenReturn(francaInterface)
-        `when`(otherMethod.eContainer()).thenReturn(francaInterface)
+        every { francaInterface.eContainer() } returns francaModel
+        every { francaMethod.eContainer() } returns francaInterface
+        every { otherMethod.eContainer() } returns francaInterface
     }
 
     @Test
@@ -92,14 +90,14 @@ class ConstructorsValidatorPredicateTest {
 
     @Test
     fun validateWithOneConstructor() {
-        `when`(deploymentModel.isConstructor(any())).thenReturn(true)
+        every { deploymentModel.isConstructor(any()) } returns true
 
         assertNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }
 
     @Test
     fun validateWithTwoConstructors() {
-        `when`(deploymentModel.isConstructor(any())).thenReturn(true)
+        every { deploymentModel.isConstructor(any()) } returns true
         methods.add(otherMethod)
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaInterface))
@@ -107,7 +105,7 @@ class ConstructorsValidatorPredicateTest {
 
     @Test
     fun validateWithOneConstructorAndOneRegularMethod() {
-        `when`(deploymentModel.isConstructor(francaMethod)).thenReturn(true)
+        every { deploymentModel.isConstructor(francaMethod) } returns true
         methods.add(otherMethod)
 
         assertNull(validatorPredicate.validate(deploymentModel, francaInterface))
@@ -115,10 +113,11 @@ class ConstructorsValidatorPredicateTest {
 
     @Test
     fun validateWithTwoConstructorsDifferentSignatures() {
-        `when`(deploymentModel.isConstructor(any())).thenReturn(true)
+        every { deploymentModel.isConstructor(any()) } returns true
         methods.add(otherMethod)
-        val francaArgument = mock(FArgument::class.java, RETURNS_DEEP_STUBS)
-        `when`(francaArgument.type.predefined).thenReturn(FBasicTypeId.BOOLEAN)
+        val francaArgument = mockk<FArgument>(relaxed = true)
+        every { francaArgument.type.derived } returns null
+        every { francaArgument.type.predefined } returns FBasicTypeId.BOOLEAN
         arguments.add(francaArgument)
 
         assertNull(validatorPredicate.validate(deploymentModel, francaInterface))
@@ -126,11 +125,11 @@ class ConstructorsValidatorPredicateTest {
 
     @Test
     fun validateWithConstructorOverloading() {
-        `when`(deploymentModel.isConstructor(any())).thenReturn(true)
-        val parentInterface = mock(FInterface::class.java)
-        val parentMethods = ArrayEList<FMethod>(asList(otherMethod))
-        `when`(parentInterface.methods).thenReturn(parentMethods)
-        `when`(francaInterface.base).thenReturn(parentInterface)
+        every { deploymentModel.isConstructor(any()) } returns true
+        val parentInterface = mockk<FInterface>()
+        val parentMethods = ArrayEList(listOf(otherMethod))
+        every { parentInterface.methods } returns parentMethods
+        every { francaInterface.base } returns parentInterface
 
         assertNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }

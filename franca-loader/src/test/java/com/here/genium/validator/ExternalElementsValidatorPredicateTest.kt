@@ -20,6 +20,9 @@
 package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import org.franca.core.franca.FAttribute
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
@@ -31,89 +34,88 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class ExternalElementsValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var fModel: FModel
-    @Mock
+    @MockK
     private lateinit var francaTypeCollection: FTypeCollection
-    @Mock
+    @MockK
     private lateinit var externalParent: FModelElement
-    @Mock
+    @MockK
     private lateinit var francaElement: FTypedElement
-    @Mock
+    @MockK
     private lateinit var francaAttribute: FAttribute
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val validatorPredicate = ExternalElementsValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(fModel.name).thenReturn("")
-        `when`(francaTypeCollection.name).thenReturn("")
-        `when`(externalParent.name).thenReturn("")
-        `when`(francaElement.name).thenReturn("")
-        `when`(francaAttribute.name).thenReturn("")
+        every { fModel.name } returns ""
+        every { francaTypeCollection.name } returns ""
+        every { externalParent.name } returns ""
+        every { francaElement.name } returns ""
+        every { francaAttribute.name } returns ""
 
-        `when`(francaTypeCollection.eContainer()).thenReturn(fModel)
-        `when`(externalParent.eContainer()).thenReturn(francaTypeCollection)
-        `when`(francaElement.eContainer()).thenReturn(externalParent)
-        `when`(francaAttribute.eContainer()).thenReturn(externalParent)
+        every { francaTypeCollection.eContainer() } returns fModel
+        every { externalParent.eContainer() } returns francaTypeCollection
+        every { francaElement.eContainer() } returns externalParent
+        every { francaAttribute.eContainer() } returns externalParent
 
-        `when`(deploymentModel.isExternalType(externalParent)).thenReturn(true)
+        every { deploymentModel.isExternalType(externalParent) } returns true
+        every { deploymentModel.getExternalGetter(any()) } returns null
+        every { deploymentModel.getExternalSetter(any()) } returns null
     }
 
     @Test
     fun validateWithExternalElementInNonExternalType() {
-        `when`(deploymentModel.getExternalGetter(francaElement)).thenReturn("Bar")
-        `when`(deploymentModel.getExternalSetter(francaElement)).thenReturn("Baz")
-        `when`(deploymentModel.isExternalType(externalParent)).thenReturn(false)
+        every { deploymentModel.getExternalGetter(francaElement) } returns "Bar"
+        every { deploymentModel.getExternalSetter(francaElement) } returns "Baz"
+        every { deploymentModel.isExternalType(externalParent) } returns false
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaElement))
     }
 
     @Test
     fun validateWithExternalGetterAndWithExternalSetter() {
-        `when`(deploymentModel.getExternalGetter(francaElement)).thenReturn("Bar")
-        `when`(deploymentModel.getExternalSetter(francaElement)).thenReturn("Baz")
+        every { deploymentModel.getExternalGetter(francaElement) } returns "Bar"
+        every { deploymentModel.getExternalSetter(francaElement) } returns "Baz"
 
         assertNull(validatorPredicate.validate(deploymentModel, francaElement))
     }
 
     @Test
     fun validateWithExternalGetterAndWithoutExternalSetter() {
-        `when`(deploymentModel.getExternalGetter(francaElement)).thenReturn("Bar")
+        every { deploymentModel.getExternalGetter(francaElement) } returns "Bar"
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaElement))
     }
 
     @Test
     fun validateWithoutExternalGetterAndWithExternalSetter() {
-        `when`(deploymentModel.getExternalSetter(francaElement)).thenReturn("Baz")
+        every { deploymentModel.getExternalSetter(francaElement) } returns "Baz"
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaElement))
     }
 
     @Test
     fun validateWithExternalGetterAndWithoutExternalSetterReadonly() {
-        `when`(francaAttribute.isReadonly).thenReturn(true)
-        `when`(deploymentModel.getExternalGetter(francaAttribute)).thenReturn("Bar")
+        every { francaAttribute.isReadonly } returns true
+        every { deploymentModel.getExternalGetter(francaAttribute) } returns "Bar"
 
         assertNull(validatorPredicate.validate(deploymentModel, francaAttribute))
     }
 
     @Test
     fun validateWithoutExternalGetterAndWithExternalSetterReadonly() {
-        `when`(francaAttribute.isReadonly).thenReturn(true)
-        `when`(deploymentModel.getExternalSetter(francaAttribute)).thenReturn("Baz")
+        every { francaAttribute.isReadonly } returns true
+        every { deploymentModel.getExternalSetter(francaAttribute) } returns "Baz"
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaAttribute))
     }

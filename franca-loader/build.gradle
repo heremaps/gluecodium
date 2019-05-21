@@ -68,7 +68,6 @@ dependencies {
     testCompile 'io.mockk:mockk-dsl-jvm:1.8.13'
     testCompile 'io.mockk:mockk:1.8.13'
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.9.0'
 }
 
 task downloadFrancaZip(type: Download) {

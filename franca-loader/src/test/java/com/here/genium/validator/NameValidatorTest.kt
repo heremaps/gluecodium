@@ -20,6 +20,10 @@
 package com.here.genium.validator
 
 import com.here.genium.test.ArrayEList
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FType
@@ -30,33 +34,29 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
-import org.mockito.MockitoAnnotations
 import java.util.LinkedList
 
 @RunWith(JUnit4::class)
 class NameValidatorTest {
-    @Mock
+    @MockK
     private lateinit var fModel: FModel
 
-    @Mock
+    @MockK
     private lateinit var francaInterface: FInterface
-    @Mock
+    @MockK
     private lateinit var francaTypeCollection: FTypeCollection
 
     private val typeCollections = LinkedList<FTypeCollection>()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(fModel.name).thenReturn(MODEL_NAME)
-        `when`(francaInterface.name).thenReturn(INTERFACE_NAME)
+        every { fModel.name } returns MODEL_NAME
+        every { francaInterface.name } returns INTERFACE_NAME
 
-        `when`(francaInterface.eContainer()).thenReturn(fModel)
-        `when`(francaTypeCollection.eContainer()).thenReturn(fModel)
+        every { francaInterface.eContainer() } returns fModel
+        every { francaTypeCollection.eContainer() } returns fModel
     }
 
     @Test
@@ -96,8 +96,8 @@ class NameValidatorTest {
 
     @Test
     fun checkTypeNamesWithMultipleTypeCollectionsNonUniqueTypeNamesDifferentPackages() {
-        val fModel2 = mock(FModel::class.java)
-        `when`(fModel2.name).thenReturn("$MODEL_NAME.xtra")
+        val fModel2 = mockk<FModel>()
+        every { fModel2.name } returns "$MODEL_NAME.xtra"
 
         typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel))
         typeCollections.add(mockTypeCollectionContainingType(TYPE_NAME, fModel2))
@@ -125,7 +125,7 @@ class NameValidatorTest {
 
     @Test
     fun checkTypeCollectionNamesWithTwoUniqueNames() {
-        `when`(francaTypeCollection.name).thenReturn(INTERFACE_NAME + "Off")
+        every { francaTypeCollection.name } returns INTERFACE_NAME + "Off"
         typeCollections.add(francaInterface)
         typeCollections.add(francaTypeCollection)
 
@@ -134,7 +134,7 @@ class NameValidatorTest {
 
     @Test
     fun checkTypeCollectionNamesWithTwoNonUniqueNames() {
-        `when`(francaTypeCollection.name).thenReturn(INTERFACE_NAME)
+        every { francaTypeCollection.name } returns INTERFACE_NAME
         typeCollections.add(francaInterface)
         typeCollections.add(francaTypeCollection)
 
@@ -143,11 +143,11 @@ class NameValidatorTest {
 
     @Test
     fun checkTypeCollectionNamesWithTwoNonUniqueNamesDifferentPackages() {
-        val anotherFModel = mock(FModel::class.java)
-        `when`(anotherFModel.name).thenReturn("$MODEL_NAME.xtra")
-        `when`(francaTypeCollection.eContainer()).thenReturn(anotherFModel)
+        val anotherFModel = mockk<FModel>()
+        every { anotherFModel.name } returns "$MODEL_NAME.xtra"
+        every { francaTypeCollection.eContainer() } returns anotherFModel
 
-        `when`(francaTypeCollection.name).thenReturn(INTERFACE_NAME)
+        every { francaTypeCollection.name } returns INTERFACE_NAME
         typeCollections.add(francaInterface)
         typeCollections.add(francaTypeCollection)
 
@@ -158,17 +158,16 @@ class NameValidatorTest {
         typeName: String,
         fModelParam: FModel?
     ): FTypeCollection {
-        val type = mock(FType::class.java)
-        `when`(type.name).thenReturn(typeName)
+        val type = mockk<FType>()
+        every { type.name } returns typeName
 
-        val fTypeCollection = mock(FTypeCollection::class.java)
-
-        `when`(fTypeCollection.eContainer()).thenReturn(fModelParam)
-        `when`(fTypeCollection.eContainer()).thenReturn(fModelParam)
+        val fTypeCollection = mockk<FTypeCollection>()
+        every { fTypeCollection.eContainer() } returns fModelParam
+        every { fTypeCollection.eContainer() } returns fModelParam
 
         val types = ArrayEList<FType>()
         types.add(type)
-        `when`(fTypeCollection.types).thenReturn(types)
+        every { fTypeCollection.types } returns types
         return fTypeCollection
     }
 

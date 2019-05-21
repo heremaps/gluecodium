@@ -20,10 +20,14 @@
 package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import org.franca.core.franca.FConstant
 import org.franca.core.franca.FConstantDef
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FEnumerator
+import org.franca.core.franca.FEvaluableElement
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FOperation
 import org.franca.core.franca.FQualifiedElementRef
@@ -35,55 +39,51 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
-import org.franca.core.franca.FEvaluableElement
 
 @RunWith(JUnit4::class)
 class ExpressionValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var fModel: FModel
 
-    @Mock
+    @MockK
     private lateinit var francaTypeCollection: FTypeCollection
-    @Mock
+    @MockK
     private lateinit var francaEnumerationType: FEnumerationType
-    @Mock
+    @MockK
     private lateinit var francaEnumerator: FEnumerator
-    @Mock
+    @MockK
     private lateinit var francaConstantDef: FConstantDef
-    @Mock
+    @MockK
     private lateinit var francaConstantExpression: FConstant
-    @Mock
+    @MockK
     private lateinit var francaCompoundExpression: FOperation
-    @Mock
+    @MockK
     private lateinit var francaElementRef: FQualifiedElementRef
-    @Mock
+    @MockK
     private lateinit var francaUnaryOperation: FUnaryOperation
-    @Mock
+    @MockK
     private lateinit var francaEvaluableElement: FEvaluableElement
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val validatorPredicate = ExpressionValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(fModel.name).thenReturn("")
-        `when`(francaTypeCollection.name).thenReturn("")
-        `when`(francaEnumerationType.name).thenReturn("")
-        `when`(francaEnumerator.name).thenReturn("")
-        `when`(francaConstantDef.name).thenReturn("")
+        every { fModel.name } returns ""
+        every { francaTypeCollection.name } returns ""
+        every { francaEnumerationType.name } returns ""
+        every { francaEnumerator.name } returns ""
+        every { francaConstantDef.name } returns ""
 
-        `when`(francaTypeCollection.eContainer()).thenReturn(fModel)
-        `when`(francaEnumerationType.eContainer()).thenReturn(francaTypeCollection)
-        `when`(francaEnumerator.eContainer()).thenReturn(francaEnumerationType)
-        `when`(francaConstantDef.eContainer()).thenReturn(francaTypeCollection)
-        `when`(francaElementRef.eContainer()).thenReturn(francaTypeCollection)
+        every { francaTypeCollection.eContainer() } returns fModel
+        every { francaEnumerationType.eContainer() } returns francaTypeCollection
+        every { francaEnumerator.eContainer() } returns francaEnumerationType
+        every { francaConstantDef.eContainer() } returns francaTypeCollection
+        every { francaElementRef.eContainer() } returns francaTypeCollection
     }
 
     @Test
@@ -93,27 +93,27 @@ class ExpressionValidatorPredicateTest {
 
     @Test
     fun validateWithNonConstantExpressionInEnumerator() {
-        `when`(francaCompoundExpression.eContainer()).thenReturn(francaEnumerator)
+        every { francaCompoundExpression.eContainer() } returns francaEnumerator
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaCompoundExpression))
     }
 
     @Test
     fun validateWithNonConstantExpressionInConstant() {
-        `when`(francaCompoundExpression.eContainer()).thenReturn(francaConstantDef)
+        every { francaCompoundExpression.eContainer() } returns francaConstantDef
         assertNotNull(validatorPredicate.validate(deploymentModel, francaCompoundExpression))
     }
 
     @Test
     fun validateWithEnumeratorReferenceExpression() {
-        `when`(francaElementRef.element).thenReturn(francaEnumerator)
+        every { francaElementRef.element } returns francaEnumerator
 
         assertNull(validatorPredicate.validate(deploymentModel, francaElementRef))
     }
 
     @Test
     fun validateWithNonEnumeratorReferenceExpression() {
-        `when`(francaElementRef.element).thenReturn(francaEvaluableElement)
+        every { francaElementRef.element } returns francaEvaluableElement
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaElementRef))
     }

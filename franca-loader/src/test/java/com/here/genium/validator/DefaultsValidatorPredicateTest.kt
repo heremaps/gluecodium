@@ -21,6 +21,10 @@ package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
 import com.here.genium.test.ArrayEList
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.franca.core.franca.FArrayType
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FEnumerationType
@@ -37,59 +41,58 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
-import org.mockito.MockitoAnnotations
-import java.util.Arrays
 
 @RunWith(JUnit4::class)
 class DefaultsValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
-    @Mock
+    @MockK
     private lateinit var francaTypeCollection: FTypeCollection
-    @Mock
+    @MockK
     private lateinit var francaStruct: FStructType
-    @Mock
+    @MockK
     private lateinit var francaField: FField
-    @Mock
+    @MockK
     private lateinit var francaTypeRef: FTypeRef
-    @Mock
+    @MockK
     private lateinit var francaEnum: FEnumerationType
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val validatorPredicate = DefaultsValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(francaModel.name).thenReturn("Foo")
-        `when`(francaTypeCollection.name).thenReturn("Bar")
-        `when`(francaStruct.name).thenReturn("Baz")
-        `when`(francaField.name).thenReturn("Fizz")
+        every { francaModel.name } returns "Foo"
+        every { francaTypeCollection.name } returns "Bar"
+        every { francaStruct.name } returns "Baz"
+        every { francaField.name } returns "Fizz"
 
-        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
-        `when`(francaStruct.eContainer()).thenReturn(francaTypeCollection)
-        `when`(francaField.eContainer()).thenReturn(francaStruct)
-        `when`(francaField.type).thenReturn(francaTypeRef)
+        every { francaModel.name } returns "Foo"
+        every { francaTypeCollection.name } returns "Bar"
+        every { francaStruct.name } returns "Baz"
+        every { francaField.name } returns "Fizz"
 
-        val enumerator1 = mock(FEnumerator::class.java)
-        `when`(enumerator1.name).thenReturn("SomeEnumItem")
-        val enumerator2 = mock(FEnumerator::class.java)
-        `when`(enumerator2.name).thenReturn("SomeOtherEnumItem")
-        `when`(francaEnum.enumerators)
-            .thenReturn(ArrayEList(Arrays.asList(enumerator1, enumerator2)))
+        every { francaTypeCollection.eContainer() } returns francaModel
+        every { francaStruct.eContainer() } returns francaTypeCollection
+        every { francaField.eContainer() } returns francaStruct
+        every { francaField.type } returns francaTypeRef
+
+        every { deploymentModel.getDefaultValue(any()) } returns null
+
+        val enumerator1 = mockk<FEnumerator>()
+        every { enumerator1.name } returns "SomeEnumItem"
+        val enumerator2 = mockk<FEnumerator>()
+        every { enumerator2.name } returns "SomeOtherEnumItem"
+        every { francaEnum.enumerators } returns ArrayEList(listOf(enumerator1, enumerator2))
     }
 
     @Test
     fun validateForStringNone() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.STRING)
+        every { francaTypeRef.predefined } returns FBasicTypeId.STRING
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
@@ -98,158 +101,144 @@ class DefaultsValidatorPredicateTest {
 
     @Test
     fun validateForBooleanNone() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.BOOLEAN)
+        every { francaTypeRef.predefined } returns FBasicTypeId.BOOLEAN
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
         assertNull(result)
-        verify(deploymentModel).getDefaultValue(francaField)
     }
 
     @Test
     fun validateForBooleanValid() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.BOOLEAN)
-        `when`(deploymentModel.getDefaultValue(any())).thenReturn("false")
+        every { francaTypeRef.predefined } returns FBasicTypeId.BOOLEAN
+        every { deploymentModel.getDefaultValue(any()) } returns "false"
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
         assertNull(result)
-        verify(deploymentModel).getDefaultValue(francaField)
     }
 
     @Test
     fun validateForBooleanInvalid() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.BOOLEAN)
-        `when`(deploymentModel.getDefaultValue(any())).thenReturn("nonsense")
+        every { francaTypeRef.predefined } returns FBasicTypeId.BOOLEAN
+        every { deploymentModel.getDefaultValue(any()) } returns "nonsense"
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
         assertNotNull(result)
-        verify(deploymentModel).getDefaultValue(francaField)
     }
 
     @Test
     fun validateForFloatNone() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.FLOAT)
+        every { francaTypeRef.predefined } returns FBasicTypeId.FLOAT
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
         assertNull(result)
-        verify(deploymentModel).getDefaultValue(francaField)
     }
 
     @Test
     fun validateForFloatValid() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.FLOAT)
-        `when`(deploymentModel.getDefaultValue(any())).thenReturn("3.14")
+        every { francaTypeRef.predefined } returns FBasicTypeId.FLOAT
+        every { deploymentModel.getDefaultValue(any()) } returns "3.14"
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
         assertNull(result)
-        verify(deploymentModel).getDefaultValue(francaField)
     }
 
     @Test
     fun validateForFloatInvalid() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.FLOAT)
-        `when`(deploymentModel.getDefaultValue(any())).thenReturn("nonsense")
+        every { francaTypeRef.predefined } returns FBasicTypeId.FLOAT
+        every { deploymentModel.getDefaultValue(any()) } returns "nonsense"
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
         assertNotNull(result)
-        verify(deploymentModel).getDefaultValue(francaField)
     }
 
     @Test
     fun validateForIntegerNone() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.INT8)
+        every { francaTypeRef.predefined } returns FBasicTypeId.INT8
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
         assertNull(result)
-        verify(deploymentModel).getDefaultValue(francaField)
     }
 
     @Test
     fun validateForIntegerValid() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.INT8)
-        `when`(deploymentModel.getDefaultValue(any())).thenReturn("42")
+        every { francaTypeRef.predefined } returns FBasicTypeId.INT8
+        every { deploymentModel.getDefaultValue(any()) } returns "42"
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
         assertNull(result)
-        verify(deploymentModel).getDefaultValue(francaField)
     }
 
     @Test
     fun validateForIntegerValidBig() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.UINT32)
-        `when`(deploymentModel.getDefaultValue(any())).thenReturn("4294967295")
+        every { francaTypeRef.predefined } returns FBasicTypeId.UINT32
+        every { deploymentModel.getDefaultValue(any()) } returns "4294967295"
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
         assertNull(result)
-        verify(deploymentModel).getDefaultValue(francaField)
     }
 
     @Test
     fun validateForIntegerInvalid() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.INT8)
-        `when`(deploymentModel.getDefaultValue(any())).thenReturn("nonsense")
+        every { francaTypeRef.predefined } returns FBasicTypeId.INT8
+        every { deploymentModel.getDefaultValue(any()) } returns "nonsense"
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
         assertNotNull(result)
-        verify(deploymentModel).getDefaultValue(francaField)
     }
 
     @Test
     fun validateForIntegerInvalidBig() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.UINT32)
-        `when`(deploymentModel.getDefaultValue(any())).thenReturn("109223372036854775807")
+        every { francaTypeRef.predefined } returns FBasicTypeId.UINT32
+        every { deploymentModel.getDefaultValue(any()) } returns "109223372036854775807"
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
         assertNotNull(result)
-        verify(deploymentModel).getDefaultValue(francaField)
     }
 
     @Test
     fun validateForEnumNone() {
-        `when`(francaTypeRef.derived).thenReturn(francaEnum)
+        every { francaTypeRef.derived } returns francaEnum
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
         assertNull(result)
-        verify(deploymentModel).getDefaultValue(francaField)
     }
 
     @Test
     fun validateForEnumValid() {
-        `when`(francaTypeRef.derived).thenReturn(francaEnum)
-        `when`(deploymentModel.getDefaultValue(any())).thenReturn("SomeOtherEnumItem")
+        every { francaTypeRef.derived } returns francaEnum
+        every { deploymentModel.getDefaultValue(any()) } returns "SomeOtherEnumItem"
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
         assertNull(result)
-        verify(deploymentModel).getDefaultValue(francaField)
     }
 
     @Test
     fun validateForEnumInvalid() {
-        `when`(francaTypeRef.derived).thenReturn(francaEnum)
-        `when`(deploymentModel.getDefaultValue(any())).thenReturn("nonsense")
+        every { francaTypeRef.derived } returns francaEnum
+        every { deploymentModel.getDefaultValue(any()) } returns "nonsense"
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
         assertNotNull(result)
-        verify(deploymentModel).getDefaultValue(francaField)
     }
 
     @Test
     fun validateForNullableNull() {
-        `when`(deploymentModel.isNullable(any())).thenReturn(true)
-        `when`(deploymentModel.hasNullDefaultValue(any())).thenReturn(true)
+        every { deploymentModel.isNullable(any()) } returns true
+        every { deploymentModel.hasNullDefaultValue(any()) } returns true
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
@@ -258,7 +247,7 @@ class DefaultsValidatorPredicateTest {
 
     @Test
     fun validateForNonNullableNull() {
-        `when`(deploymentModel.hasNullDefaultValue(any())).thenReturn(true)
+        every { deploymentModel.hasNullDefaultValue(any()) } returns true
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
@@ -267,8 +256,8 @@ class DefaultsValidatorPredicateTest {
 
     @Test
     fun validateForNullWithDefaultValue() {
-        `when`(deploymentModel.hasNullDefaultValue(any())).thenReturn(true)
-        `when`(deploymentModel.getDefaultValue(any())).thenReturn("nonsense")
+        every { deploymentModel.hasNullDefaultValue(any()) } returns true
+        every { deploymentModel.getDefaultValue(any()) } returns "nonsense"
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
@@ -277,8 +266,8 @@ class DefaultsValidatorPredicateTest {
 
     @Test
     fun validateForImplicitArrayEmpty() {
-        `when`(francaField.isArray).thenReturn(true)
-        `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
+        every { francaField.isArray } returns true
+        every { deploymentModel.hasEmptyDefaultValue(any()) } returns true
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
@@ -287,8 +276,8 @@ class DefaultsValidatorPredicateTest {
 
     @Test
     fun validateForExplicitArrayEmpty() {
-        `when`(francaTypeRef.derived).thenReturn(mock(FArrayType::class.java))
-        `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
+        every { francaTypeRef.derived } returns mockk<FArrayType>()
+        every { deploymentModel.hasEmptyDefaultValue(any()) } returns true
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
@@ -297,8 +286,8 @@ class DefaultsValidatorPredicateTest {
 
     @Test
     fun validateForMapTypeEmpty() {
-        `when`(francaTypeRef.derived).thenReturn(mock(FMapType::class.java))
-        `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
+        every { francaTypeRef.derived } returns mockk<FMapType>()
+        every { deploymentModel.hasEmptyDefaultValue(any()) } returns true
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
@@ -306,9 +295,9 @@ class DefaultsValidatorPredicateTest {
     }
 
     @Test
-    fun validateForStructTypeEmpty() {
-        `when`(francaTypeRef.derived).thenReturn(francaStruct)
-        `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
+    fun validateForNonCollectionEmpty() {
+        every { francaTypeRef.derived } returns mockk<FStructType>()
+        every { deploymentModel.hasEmptyDefaultValue(any()) } returns true
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
@@ -317,7 +306,7 @@ class DefaultsValidatorPredicateTest {
 
     @Test
     fun validateForInvalidTypeEmpty() {
-        `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
+        every { deploymentModel.hasEmptyDefaultValue(any()) } returns true
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
@@ -326,8 +315,8 @@ class DefaultsValidatorPredicateTest {
 
     @Test
     fun validateForEmptyWithDefaultValue() {
-        `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
-        `when`(deploymentModel.getDefaultValue(any())).thenReturn("nonsense")
+        every { deploymentModel.hasEmptyDefaultValue(any()) } returns true
+        every { deploymentModel.getDefaultValue(any()) } returns "nonsense"
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 
@@ -336,8 +325,8 @@ class DefaultsValidatorPredicateTest {
 
     @Test
     fun validateForNullWithEmpty() {
-        `when`(deploymentModel.hasNullDefaultValue(any())).thenReturn(true)
-        `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
+        every { deploymentModel.hasNullDefaultValue(any()) } returns true
+        every { deploymentModel.hasEmptyDefaultValue(any()) } returns true
 
         val result = validatorPredicate.validate(deploymentModel, francaField)
 

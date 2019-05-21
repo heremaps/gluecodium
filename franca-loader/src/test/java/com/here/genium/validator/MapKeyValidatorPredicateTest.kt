@@ -20,6 +20,10 @@
 package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FMapType
@@ -35,11 +39,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
-import org.mockito.MockitoAnnotations
-import java.util.Arrays
 
 @RunWith(Parameterized::class)
 class MapKeyValidatorPredicateTest(
@@ -47,44 +46,44 @@ class MapKeyValidatorPredicateTest(
     private val derivedType: FType?,
     private val expectNull: Boolean
 ) {
-    @Mock
+    @MockK
     private lateinit var mapType: FMapType
-    @Mock
+    @MockK
     private lateinit var keyTypeRef: FTypeRef
-    @Mock
+    @MockK
     private lateinit var typeDef: FTypeDef
-    @Mock
+    @MockK
     private lateinit var typeDefRef: FTypeRef
-    @Mock
+    @MockK
     private lateinit var typeCollection: FTypeCollection
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(typeCollection.eContainer()).thenReturn(francaModel)
-        `when`(mapType.eContainer()).thenReturn(typeCollection)
-        `when`(typeDef.eContainer()).thenReturn(typeCollection)
+        every { typeCollection.eContainer() } returns francaModel
+        every { mapType.eContainer() } returns typeCollection
+        every { typeDef.eContainer() } returns typeCollection
 
-        `when`(francaModel.name).thenReturn("")
-        `when`(typeCollection.name).thenReturn("")
-        `when`(mapType.name).thenReturn("MyMap")
-        `when`(typeDef.name).thenReturn("")
+        every { francaModel.name } returns ""
+        every { typeCollection.name } returns ""
+        every { mapType.name } returns "MyMap"
+        every { typeDef.name } returns ""
 
-        `when`(typeDefRef.derived).thenReturn(typeDef)
-        `when`(typeDef.actualType).thenReturn(keyTypeRef)
+        every { typeDefRef.derived } returns typeDef
+        every { typeDef.actualType } returns keyTypeRef
     }
 
     @Test
     fun validateKeyType() {
-        `when`(keyTypeRef.predefined).thenReturn(typeId)
-        `when`(keyTypeRef.derived).thenReturn(derivedType)
-        `when`(mapType.keyType).thenReturn(keyTypeRef)
+        every { keyTypeRef.predefined } returns typeId
+        every { keyTypeRef.derived } returns derivedType
+        every { mapType.keyType } returns keyTypeRef
 
         // act & assert
         if (expectNull) {
@@ -96,9 +95,9 @@ class MapKeyValidatorPredicateTest(
 
     @Test
     fun validateTypeDefToKeyType() {
-        `when`(keyTypeRef.predefined).thenReturn(typeId)
-        `when`(keyTypeRef.derived).thenReturn(derivedType)
-        `when`(mapType.keyType).thenReturn(typeDefRef)
+        every { keyTypeRef.predefined } returns typeId
+        every { keyTypeRef.derived } returns derivedType
+        every { mapType.keyType } returns typeDefRef
 
         // act & assert
         if (expectNull) {
@@ -111,7 +110,7 @@ class MapKeyValidatorPredicateTest(
     companion object {
         @JvmStatic
         @Parameterized.Parameters
-        fun testData() = Arrays.asList(
+        fun testData() = listOf(
             arrayOf(FBasicTypeId.BOOLEAN, null, true),
             arrayOf(FBasicTypeId.FLOAT, null, true),
             arrayOf(FBasicTypeId.DOUBLE, null, true),
@@ -126,8 +125,8 @@ class MapKeyValidatorPredicateTest(
             arrayOf(FBasicTypeId.STRING, null, true),
             arrayOf(FBasicTypeId.BYTE_BUFFER, null, false),
             arrayOf(FBasicTypeId.UNDEFINED, null, false),
-            arrayOf(null, mock(FEnumerationType::class.java), true),
-            arrayOf(null, mock(FStructType::class.java), false)
+            arrayOf(null, mockk<FEnumerationType>(), true),
+            arrayOf(null, mockk<FStructType>(), false)
         )
     }
 }

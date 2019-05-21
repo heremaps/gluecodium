@@ -20,7 +20,10 @@
 package com.here.genium.validator.visibility
 
 import com.here.genium.franca.FrancaDeploymentModel
-import org.eclipse.emf.ecore.EObject
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.franca.core.franca.FArrayType
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FType
@@ -32,46 +35,40 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class ArrayVisibilityValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var francaTypeRef: FTypeRef
-    @Mock
+    @MockK
     private lateinit var francaType: FType
-    @Mock
+    @MockK
     private lateinit var francaArray: FArrayType
-    @Mock
+    @MockK
     private lateinit var francaTypeCollection: FTypeCollection
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
-    private val validatorPredicate =
-        ArrayVisibilityValidatorPredicate()
+    private val validatorPredicate = ArrayVisibilityValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(francaArray.elementType).thenReturn(francaTypeRef)
-        `when`(francaTypeRef.derived).thenReturn(francaType)
+        every { francaArray.elementType } returns francaTypeRef
+        every { francaTypeRef.derived } returns francaType
 
-        `when`(francaModel.name).thenReturn("")
-        `when`(francaTypeCollection.name).thenReturn("")
-        `when`(francaArray.name).thenReturn("")
-        `when`(francaType.name).thenReturn("")
+        every { francaModel.name } returns ""
+        every { francaTypeCollection.name } returns ""
+        every { francaArray.name } returns ""
+        every { francaType.name } returns ""
 
-        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
-        `when`(francaArray.eContainer()).thenReturn(francaTypeCollection)
-        `when`(francaType.eContainer()).thenReturn(francaTypeCollection)
+        every { francaTypeCollection.eContainer() } returns francaModel
+        every { francaArray.eContainer() } returns francaTypeCollection
+        every { francaType.eContainer() } returns francaTypeCollection
     }
 
     @Test
@@ -80,34 +77,34 @@ class ArrayVisibilityValidatorPredicateTest {
 
     @Test
     fun validatePublicArrayWithInternalElementType() {
-        `when`(deploymentModel.isInternal(francaType)).thenReturn(true)
+        every { deploymentModel.isInternal(francaType) } returns true
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaArray))
     }
 
     @Test
     fun validateInternalArrayWithPublicElementType() {
-        `when`(deploymentModel.isInternal(francaArray)).thenReturn(true)
+        every { deploymentModel.isInternal(francaArray) } returns true
 
         assertNull(validatorPredicate.validate(deploymentModel, francaArray))
     }
 
     @Test
     fun validateInternalArrayWithInternalElementTypeSamePackage() {
-        `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
+        every { deploymentModel.isInternal(any()) } returns true
 
         assertNull(validatorPredicate.validate(deploymentModel, francaArray))
     }
 
     @Test
     fun validateInternalArrayWithInternalElementTypeForeignPackage() {
-        val otherModel = mock(FModel::class.java)
-        val otherTypeCollection = mock(FTypeCollection::class.java)
-        `when`(otherModel.name).thenReturn("foo")
-        `when`(otherTypeCollection.name).thenReturn("")
-        `when`(otherTypeCollection.eContainer()).thenReturn(otherModel)
-        `when`(francaType.eContainer()).thenReturn(otherTypeCollection)
-        `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
+        val otherModel = mockk<FModel>()
+        val otherTypeCollection = mockk<FTypeCollection>()
+        every { otherModel.name } returns "foo"
+        every { otherTypeCollection.name } returns ""
+        every { otherTypeCollection.eContainer() } returns otherModel
+        every { francaType.eContainer() } returns otherTypeCollection
+        every { deploymentModel.isInternal(any()) } returns true
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaArray))
     }

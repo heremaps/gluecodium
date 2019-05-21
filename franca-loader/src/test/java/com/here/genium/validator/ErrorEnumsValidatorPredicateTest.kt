@@ -20,7 +20,10 @@
 package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
-import org.franca.core.franca.FEnumerationType
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
@@ -30,35 +33,34 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class ErrorEnumsValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
-    @Mock
+    @MockK
     private lateinit var francaInterface: FInterface
-    @Mock
+    @MockK
     private lateinit var francaMethod: FMethod
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val validatorPredicate = ErrorEnumsValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(francaModel.name).thenReturn("")
-        `when`(francaInterface.name).thenReturn("")
-        `when`(francaMethod.name).thenReturn("")
+        every { francaModel.name } returns ""
+        every { francaInterface.name } returns ""
+        every { francaMethod.name } returns ""
 
-        `when`(francaInterface.eContainer()).thenReturn(francaModel)
-        `when`(francaMethod.eContainer()).thenReturn(francaInterface)
+        every { francaInterface.eContainer() } returns francaModel
+        every { francaMethod.eContainer() } returns francaInterface
+
+        every { francaMethod.errorEnum } returns null
+        every { francaMethod.errors } returns null
     }
 
     @Test
@@ -67,14 +69,14 @@ class ErrorEnumsValidatorPredicateTest {
 
     @Test
     fun validateWithErrorEnum() {
-        `when`(francaMethod.errorEnum).thenReturn(mock(FEnumerationType::class.java))
+        every { francaMethod.errorEnum } returns mockk()
 
         assertNull(validatorPredicate.validate(deploymentModel, francaMethod))
     }
 
     @Test
     fun validateWithInlineEnum() {
-        `when`(francaMethod.errors).thenReturn(mock(FEnumerationType::class.java))
+        every { francaMethod.errors } returns mockk()
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaMethod))
     }

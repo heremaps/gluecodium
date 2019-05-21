@@ -20,6 +20,10 @@
 package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FField
 import org.franca.core.franca.FModel
@@ -33,58 +37,55 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class SerializationValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var fModel: FModel
-    @Mock
+    @MockK
     private lateinit var francaTypeCollection: FTypeCollection
-    @Mock
+    @MockK
     private lateinit var francaStructType: FStructType
-    @Mock
+    @MockK
     private lateinit var francaField: FField
-    @Mock
+    @MockK
     private lateinit var francaTypeRef: FTypeRef
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val validatorPredicate = SerializationValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(fModel.name).thenReturn("")
-        `when`(francaTypeCollection.name).thenReturn("")
-        `when`(francaStructType.name).thenReturn("")
-        `when`(francaField.name).thenReturn("")
+        every { fModel.name } returns ""
+        every { francaTypeCollection.name } returns ""
+        every { francaStructType.name } returns ""
+        every { francaField.name } returns ""
 
-        `when`(francaTypeCollection.eContainer()).thenReturn(fModel)
-        `when`(francaStructType.eContainer()).thenReturn(francaTypeCollection)
-        `when`(francaField.eContainer()).thenReturn(francaStructType)
+        every { francaTypeCollection.eContainer() } returns fModel
+        every { francaStructType.eContainer() } returns francaTypeCollection
+        every { francaField.eContainer() } returns francaStructType
 
-        `when`(francaField.type).thenReturn(francaTypeRef)
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.UNDEFINED)
+        every { francaField.type } returns francaTypeRef
+        every { francaTypeRef.derived } returns null
+        every { francaTypeRef.predefined } returns FBasicTypeId.UNDEFINED
 
-        `when`(deploymentModel.isSerializable(francaStructType)).thenReturn(true)
+        every { deploymentModel.isSerializable(francaStructType) } returns true
     }
 
     @Test
     fun validateWithFieldInNonSerializableStruct() {
-        `when`(deploymentModel.isSerializable(francaStructType)).thenReturn(false)
+        every { deploymentModel.isSerializable(francaStructType) } returns false
 
         assertNull(validatorPredicate.validate(deploymentModel, francaField))
     }
 
     @Test
     fun validateWithPrimitiveType() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.BOOLEAN)
+        every { francaTypeRef.predefined } returns FBasicTypeId.BOOLEAN
 
         assertNull(validatorPredicate.validate(deploymentModel, francaField))
     }
@@ -95,27 +96,28 @@ class SerializationValidatorPredicateTest {
 
     @Test
     fun validateWithTypeDefToUndefined() {
-        val undefinedTypeRef = mock(FTypeRef::class.java)
-        `when`(undefinedTypeRef.predefined).thenReturn(FBasicTypeId.UNDEFINED)
-        val francaTypeDef = mock(FTypeDef::class.java)
-        `when`(francaTypeDef.actualType).thenReturn(undefinedTypeRef)
-        `when`(francaTypeRef.derived).thenReturn(francaTypeDef)
+        val undefinedTypeRef = mockk<FTypeRef>(relaxed = true)
+        every { undefinedTypeRef.derived } returns null
+        every { undefinedTypeRef.predefined } returns FBasicTypeId.UNDEFINED
+        val francaTypeDef = mockk<FTypeDef>()
+        every { francaTypeDef.actualType } returns undefinedTypeRef
+        every { francaTypeRef.derived } returns francaTypeDef
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaField))
     }
 
     @Test
     fun validateWithStructType() {
-        `when`(francaTypeRef.derived).thenReturn(mock(FStructType::class.java))
+        every { francaTypeRef.derived } returns mockk<FStructType>()
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaField))
     }
 
     @Test
     fun validateWithSerializableStructType() {
-        val serializableStruct = mock(FStructType::class.java)
-        `when`(deploymentModel.isSerializable(serializableStruct)).thenReturn(true)
-        `when`(francaTypeRef.derived).thenReturn(serializableStruct)
+        val serializableStruct = mockk<FStructType>()
+        every { deploymentModel.isSerializable(serializableStruct) } returns true
+        every { francaTypeRef.derived } returns serializableStruct
 
         assertNull(validatorPredicate.validate(deploymentModel, francaField))
     }

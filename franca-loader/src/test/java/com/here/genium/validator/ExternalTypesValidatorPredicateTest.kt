@@ -20,6 +20,9 @@
 package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
 import org.franca.core.franca.FTypeCollection
@@ -29,59 +32,59 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class ExternalTypesValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var fModel: FModel
-    @Mock
+    @MockK
     private lateinit var francaTypeCollection: FTypeCollection
-    @Mock
+    @MockK
     private lateinit var francaElement: FModelElement
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val validatorPredicate = ExternalTypesValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(fModel.name).thenReturn("")
-        `when`(francaTypeCollection.name).thenReturn("")
-        `when`(francaElement.name).thenReturn("")
+        every { fModel.name } returns ""
+        every { francaTypeCollection.name } returns ""
+        every { francaElement.name } returns ""
 
-        `when`(francaTypeCollection.eContainer()).thenReturn(fModel)
-        `when`(francaElement.eContainer()).thenReturn(francaTypeCollection)
+        every { francaTypeCollection.eContainer() } returns fModel
+        every { francaElement.eContainer() } returns francaTypeCollection
     }
 
     @Test
     fun validateWithExternalNameAndWithExternalType() {
-        `when`(deploymentModel.getExternalName(francaElement)).thenReturn("Bar")
-        `when`(deploymentModel.isExternalType(francaElement)).thenReturn(true)
+        every { deploymentModel.getExternalName(francaElement) } returns "Bar"
+        every { deploymentModel.isExternalType(francaElement) } returns true
 
         assertNull(validatorPredicate.validate(deploymentModel, francaElement))
     }
 
     @Test
     fun validateWithExternalNameAndWithoutExternalType() {
-        `when`(deploymentModel.getExternalName(francaElement)).thenReturn("Bar")
+        every { deploymentModel.getExternalName(francaElement) } returns "Bar"
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaElement))
     }
 
     @Test
     fun validateWithoutExternalNameAndWithExternalType() {
-        `when`(deploymentModel.isExternalType(francaElement)).thenReturn(true)
+        every { deploymentModel.isExternalType(francaElement) } returns true
 
         assertNull(validatorPredicate.validate(deploymentModel, francaElement))
     }
 
     @Test
-    fun validateWithoutExternalNameAndWithoutExternalType() =
+    fun validateWithoutExternalNameAndWithoutExternalType() {
+        every { deploymentModel.getExternalName(francaElement) } returns null
+
         assertNull(validatorPredicate.validate(deploymentModel, francaElement))
+    }
 }

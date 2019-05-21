@@ -19,6 +19,9 @@
 
 package com.here.genium.franca
 
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FType
@@ -31,74 +34,72 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class SpecialTypeRulesTest {
-    @Mock
+    @MockK
     private lateinit var francaTypeDef: FTypeDef
-    @Mock
+    @MockK
     private lateinit var francaTypeRef: FTypeRef
-    @Mock
+    @MockK
     private lateinit var derivedType: FType
-    @Mock
+    @MockK
     private lateinit var typeCollection: FTypeCollection
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(francaTypeDef.actualType).thenReturn(francaTypeRef)
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.UNDEFINED)
+        every { francaTypeDef.actualType } returns francaTypeRef
+        every { francaTypeRef.derived } returns null
+        every { francaTypeRef.predefined } returns FBasicTypeId.UNDEFINED
 
-        `when`(francaTypeDef.name).thenReturn("")
-        `when`(derivedType.name).thenReturn("")
-        `when`(typeCollection.name).thenReturn("MyClass")
-        `when`(francaModel.name).thenReturn("")
+        every { francaTypeDef.name } returns ""
+        every { derivedType.name } returns ""
+        every { typeCollection.name } returns "MyClass"
+        every { francaModel.name } returns ""
 
-        `when`(francaTypeDef.eContainer()).thenReturn(typeCollection)
-        `when`(derivedType.eContainer()).thenReturn(typeCollection)
-        `when`(typeCollection.eContainer()).thenReturn(francaModel)
+        every { francaTypeDef.eContainer() } returns typeCollection
+        every { derivedType.eContainer() } returns typeCollection
+        every { typeCollection.eContainer() } returns francaModel
     }
 
     @Test
     fun checkDerived() {
-        `when`(francaTypeRef.derived).thenReturn(derivedType)
+        every { francaTypeRef.derived } returns derivedType
 
         assertFalse(SpecialTypeRules.isInstanceId(francaTypeDef))
     }
 
     @Test
     fun checkUndefined() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.INT32)
+        every { francaTypeRef.predefined } returns FBasicTypeId.INT32
 
         assertFalse(SpecialTypeRules.isInstanceId(francaTypeDef))
     }
 
     @Test
     fun checkTypedefWithDifferentNameThanClass() {
-        `when`(francaTypeDef.name).thenReturn("NotMyClass")
+        every { francaTypeDef.name } returns "NotMyClass"
 
         assertFalse(SpecialTypeRules.isInstanceId(francaTypeDef))
     }
 
     @Test
     fun checkTypedefWithSameNameAsClass() {
-        `when`(francaTypeDef.name).thenReturn("MyClass")
+        every { francaTypeDef.name } returns "MyClass"
 
         assertTrue(SpecialTypeRules.isInstanceId(francaTypeDef))
     }
 
     @Test
     fun checkDateType() {
-        `when`(francaTypeRef.derived).thenReturn(derivedType)
-        `when`(derivedType.name).thenReturn("Date")
-        `when`(typeCollection.name).thenReturn("Extensions")
-        `when`(francaModel.name).thenReturn("genium")
+        every { francaTypeRef.derived } returns derivedType
+        every { derivedType.name } returns "Date"
+        every { typeCollection.name } returns "Extensions"
+        every { francaModel.name } returns "genium"
 
         val result = SpecialTypeRules.isDateType(francaTypeRef)
 

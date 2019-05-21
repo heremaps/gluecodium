@@ -20,6 +20,9 @@
 package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FModel
 import org.junit.Assert.assertNull
@@ -27,40 +30,36 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 class InheritanceValidatorPredicateNoParentTest(
     private val isInterface: Boolean,
     private val isObjcInteface: Boolean
 ) {
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
-    @Mock
+    @MockK
     private lateinit var francaInterface: FInterface
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val validatorPredicate = InheritanceValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(francaModel.name).thenReturn("")
-        `when`(francaInterface.name).thenReturn("")
+        every { francaModel.name } returns ""
+        every { francaInterface.name } returns ""
 
-        `when`(francaInterface.eContainer()).thenReturn(francaModel)
+        every { francaInterface.eContainer() } returns francaModel
     }
 
     @Test
     fun test() {
-        `when`(deploymentModel.isInterface(any())).thenReturn(isInterface)
-        `when`(deploymentModel.isObjcInterface(any())).thenReturn(isObjcInteface)
+        every { deploymentModel.isInterface(any()) } returns isInterface
+        every { deploymentModel.isObjcInterface(any()) } returns isObjcInteface
 
         assertNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }

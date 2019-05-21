@@ -19,7 +19,10 @@
 
 package com.here.genium.validator
 
-import com.here.genium.franca.FrancaDeploymentModel
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.franca.core.franca.FIntegerInterval
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
@@ -29,41 +32,34 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class IntegerIntervalValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
-    @Mock
+    @MockK
     private lateinit var francaTypeCollection: FTypeCollection
-    @Mock
+    @MockK
     private lateinit var francaModelElement: FModelElement
-    @Mock
+    @MockK
     private lateinit var francaIntegerInterval: FIntegerInterval
 
     private val validatorPredicate = IntegerIntervalValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(francaModel.name).thenReturn("")
-        `when`(francaTypeCollection.name).thenReturn("")
-        `when`(francaModelElement.name).thenReturn("")
+        every { francaModel.name } returns ""
+        every { francaTypeCollection.name } returns ""
+        every { francaModelElement.name } returns ""
 
-        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
-        `when`(francaModelElement.eContainer()).thenReturn(francaTypeCollection)
-        `when`(francaIntegerInterval.eContainer()).thenReturn(francaModelElement)
+        every { francaTypeCollection.eContainer() } returns francaModel
+        every { francaModelElement.eContainer() } returns francaTypeCollection
+        every { francaIntegerInterval.eContainer() } returns francaModelElement
     }
 
     @Test
     fun validateWithIntegerInterval() =
-        assertNotNull(validatorPredicate.validate(
-            mock(FrancaDeploymentModel::class.java),
-            francaIntegerInterval)
-        )
+        assertNotNull(validatorPredicate.validate(mockk(), francaIntegerInterval))
 }

@@ -20,6 +20,9 @@
 package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FModel
 import org.junit.Assert.assertNotNull
@@ -28,29 +31,26 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class InterfaceEquatableValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
-    @Mock
+    @MockK
     private lateinit var francaInterface: FInterface
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val validatorPredicate = InterfaceEquatableValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(francaModel.name).thenReturn("")
-        `when`(francaInterface.name).thenReturn("")
-        `when`(francaInterface.eContainer()).thenReturn(francaModel)
+        every { francaModel.name } returns ""
+        every { francaInterface.name } returns ""
+        every { francaInterface.eContainer() } returns francaModel
     }
 
     @Test
@@ -59,34 +59,39 @@ class InterfaceEquatableValidatorPredicateTest {
 
     @Test
     fun validateWithEquatable() {
-        `when`(deploymentModel.isEquatable(francaInterface)).thenReturn(true)
+        every { deploymentModel.isEquatable(francaInterface) } returns true
+
         assertNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }
 
     @Test
     fun validateWithPointerEquatable() {
-        `when`(deploymentModel.isPointerEquatable(francaInterface)).thenReturn(true)
+        every { deploymentModel.isPointerEquatable(francaInterface) } returns true
+
         assertNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }
 
     @Test
     fun validateWithEquatableAndIsInterface() {
-        `when`(deploymentModel.isEquatable(francaInterface)).thenReturn(true)
-        `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
+        every { deploymentModel.isEquatable(francaInterface) } returns true
+        every { deploymentModel.isInterface(francaInterface) } returns true
+
         assertNotNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }
 
     @Test
     fun validateWithPointerEquatableAndIsInterface() {
-        `when`(deploymentModel.isPointerEquatable(francaInterface)).thenReturn(true)
-        `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
+        every { deploymentModel.isPointerEquatable(francaInterface) } returns true
+        every { deploymentModel.isInterface(francaInterface) } returns true
+
         assertNotNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }
 
     @Test
     fun validateWithPointerEquatableAndEquatable() {
-        `when`(deploymentModel.isPointerEquatable(francaInterface)).thenReturn(true)
-        `when`(deploymentModel.isEquatable(francaInterface)).thenReturn(true)
+        every { deploymentModel.isPointerEquatable(francaInterface) } returns true
+        every { deploymentModel.isEquatable(francaInterface) } returns true
+
         assertNotNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }
 }

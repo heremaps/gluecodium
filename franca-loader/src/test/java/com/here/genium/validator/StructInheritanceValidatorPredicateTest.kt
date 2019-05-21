@@ -20,6 +20,9 @@
 package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FTypeCollection
@@ -29,44 +32,41 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class StructInheritanceValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
-    @Mock
+    @MockK
     private lateinit var francaTypeCollection: FTypeCollection
-    @Mock
+    @MockK
     private lateinit var francaStruct: FStructType
-    @Mock
+    @MockK
     private lateinit var parentStruct: FStructType
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val validatorPredicate = StructInheritanceValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(francaModel.name).thenReturn("Foo")
-        `when`(francaTypeCollection.name).thenReturn("Bar")
-        `when`(francaStruct.name).thenReturn("Baz")
+        every { francaModel.name } returns "Foo"
+        every { francaTypeCollection.name } returns "Bar"
+        every { francaStruct.name } returns "Baz"
 
-        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
-        `when`(francaStruct.eContainer()).thenReturn(francaTypeCollection)
-        `when`(parentStruct.eContainer()).thenReturn(parentStruct)
+        every { francaTypeCollection.eContainer() } returns francaModel
+        every { francaStruct.eContainer() } returns francaTypeCollection
+        every { parentStruct.eContainer() } returns parentStruct
 
-        `when`(francaStruct.base).thenReturn(parentStruct)
+        every { francaStruct.base } returns parentStruct
     }
 
     @Test
     fun validateWithNoParent() {
-        `when`(francaStruct.base).thenReturn(null)
+        every { francaStruct.base } returns null
 
         val result = validatorPredicate.validate(deploymentModel, francaStruct)
 

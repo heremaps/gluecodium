@@ -20,6 +20,9 @@
 package com.here.genium.validator.visibility
 
 import com.here.genium.franca.FrancaDeploymentModel
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
@@ -29,34 +32,31 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class InterfaceMethodVisibilityValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var francaMethod: FMethod
-    @Mock
+    @MockK
     private lateinit var francaInterface: FInterface
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val validatorPredicate = InterfaceMethodVisibilityValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(francaModel.name).thenReturn("")
-        `when`(francaInterface.name).thenReturn("")
-        `when`(francaMethod.name).thenReturn("")
+        every { francaModel.name } returns ""
+        every { francaInterface.name } returns ""
+        every { francaMethod.name } returns ""
 
-        `when`(francaMethod.eContainer()).thenReturn(francaInterface)
-        `when`(francaInterface.eContainer()).thenReturn(francaModel)
+        every { francaMethod.eContainer() } returns francaInterface
+        every { francaInterface.eContainer() } returns francaModel
     }
 
     @Test
@@ -66,22 +66,22 @@ class InterfaceMethodVisibilityValidatorPredicateTest {
 
     @Test
     fun validatePublicMethodInInterface() {
-        `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
+        every { deploymentModel.isInterface(francaInterface) } returns true
 
         assertNull(validatorPredicate.validate(deploymentModel, francaMethod))
     }
 
     @Test
     fun validateInternalMethodInClass() {
-        `when`(deploymentModel.isInternal(francaMethod)).thenReturn(true)
+        every { deploymentModel.isInternal(francaMethod) } returns true
 
         assertNull(validatorPredicate.validate(deploymentModel, francaMethod))
     }
 
     @Test
     fun validateInternalMethodInInterface() {
-        `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
-        `when`(deploymentModel.isInternal(francaMethod)).thenReturn(true)
+        every { deploymentModel.isInterface(francaInterface) } returns true
+        every { deploymentModel.isInternal(francaMethod) } returns true
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaMethod))
     }

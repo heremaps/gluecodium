@@ -20,7 +20,10 @@
 package com.here.genium.validator.visibility
 
 import com.here.genium.franca.FrancaDeploymentModel
-import org.eclipse.emf.ecore.EObject
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FModel
 import org.junit.Assert.assertNotNull
@@ -29,38 +32,33 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class InheritanceVisibilityValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var francaInterface: FInterface
-    @Mock
+    @MockK
     private lateinit var parentInterface: FInterface
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val validatorPredicate = InheritanceVisibilityValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(francaModel.name).thenReturn("")
-        `when`(francaInterface.name).thenReturn("")
-        `when`(parentInterface.name).thenReturn("")
+        every { francaModel.name } returns ""
+        every { francaInterface.name } returns ""
+        every { parentInterface.name } returns ""
 
-        `when`(francaInterface.eContainer()).thenReturn(francaModel)
-        `when`(parentInterface.eContainer()).thenReturn(francaModel)
+        every { francaInterface.eContainer() } returns francaModel
+        every { parentInterface.eContainer() } returns francaModel
 
-        `when`(francaInterface.base).thenReturn(parentInterface)
+        every { francaInterface.base } returns parentInterface
     }
 
     @Test
@@ -69,31 +67,31 @@ class InheritanceVisibilityValidatorPredicateTest {
 
     @Test
     fun validatePublicStructWithInternalParent() {
-        `when`(deploymentModel.isInternal(parentInterface)).thenReturn(true)
+        every { deploymentModel.isInternal(parentInterface) } returns true
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }
 
     @Test
     fun validateInternalStructWithPublicParent() {
-        `when`(deploymentModel.isInternal(francaInterface)).thenReturn(true)
+        every { deploymentModel.isInternal(francaInterface) } returns true
 
         assertNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }
 
     @Test
     fun validateInternalStructWithInternalParentSamePackage() {
-        `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
+        every { deploymentModel.isInternal(any()) } returns true
 
         assertNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }
 
     @Test
     fun validateInternalStructWithInternalParentForeignPackage() {
-        val otherModel = mock(FModel::class.java)
-        `when`(otherModel.name).thenReturn("foo")
-        `when`(parentInterface.eContainer()).thenReturn(otherModel)
-        `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
+        val otherModel = mockk<FModel>()
+        every { otherModel.name } returns "foo"
+        every { parentInterface.eContainer() } returns otherModel
+        every { deploymentModel.isInternal(any()) } returns true
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }

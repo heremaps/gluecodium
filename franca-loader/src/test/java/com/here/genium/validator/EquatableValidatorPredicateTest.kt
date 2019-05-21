@@ -21,7 +21,10 @@ package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
 import com.here.genium.franca.SpecialTypeRules
+import io.mockk.MockKAnnotations
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.mockkStatic
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FField
@@ -37,60 +40,58 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class EquatableValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var fModel: FModel
-    @Mock
+    @MockK
     private lateinit var francaTypeCollection: FTypeCollection
-    @Mock
+    @MockK
     private lateinit var francaInterface: FInterface
-    @Mock
+    @MockK
     private lateinit var francaStructType: FStructType
-    @Mock
+    @MockK
     private lateinit var francaField: FField
-    @Mock
+    @MockK
     private lateinit var francaTypeRef: FTypeRef
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val validatorPredicate = EquatableValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
         mockkStatic(SpecialTypeRules::class)
-        `when`(fModel.name).thenReturn("")
-        `when`(francaTypeCollection.name).thenReturn("")
-        `when`(francaStructType.name).thenReturn("")
-        `when`(francaField.name).thenReturn("")
 
-        `when`(francaTypeCollection.eContainer()).thenReturn(fModel)
-        `when`(francaStructType.eContainer()).thenReturn(francaTypeCollection)
-        `when`(francaField.eContainer()).thenReturn(francaStructType)
+        every { fModel.name } returns ""
+        every { francaTypeCollection.name } returns ""
+        every { francaStructType.name } returns ""
+        every { francaField.name } returns ""
 
-        `when`(francaField.type).thenReturn(francaTypeRef)
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.UNDEFINED)
+        every { francaTypeCollection.eContainer() } returns fModel
+        every { francaStructType.eContainer() } returns francaTypeCollection
+        every { francaField.eContainer() } returns francaStructType
 
-        `when`(deploymentModel.isEquatable(francaStructType)).thenReturn(true)
+        every { francaField.type } returns francaTypeRef
+        every { francaTypeRef.derived } returns null
+        every { francaTypeRef.predefined } returns FBasicTypeId.UNDEFINED
+
+        every { deploymentModel.isEquatable(francaStructType) } returns true
     }
 
     @Test
     fun validateWithFieldInNonEquatableStruct() {
-        `when`(deploymentModel.isEquatable(francaStructType)).thenReturn(false)
+        every { deploymentModel.isEquatable(francaStructType) } returns false
 
         assertNull(validatorPredicate.validate(deploymentModel, francaField))
     }
 
     @Test
     fun validateWithPrimitiveType() {
-        `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.BOOLEAN)
+        every { francaTypeRef.predefined } returns FBasicTypeId.BOOLEAN
 
         assertNull(validatorPredicate.validate(deploymentModel, francaField))
     }
@@ -105,7 +106,7 @@ class EquatableValidatorPredicateTest {
     @Test
     fun validateWithEquatableInterface() {
         mockInterface()
-        `when`(deploymentModel.isEquatable(francaInterface)).thenReturn( true )
+        every { deploymentModel.isEquatable(francaInterface) } returns true
 
         assertNull(validatorPredicate.validate(deploymentModel, francaField))
     }
@@ -113,34 +114,35 @@ class EquatableValidatorPredicateTest {
     @Test
     fun validateWithPointerEquatableInterface() {
         mockInterface()
-        `when`(deploymentModel.isPointerEquatable(francaInterface)).thenReturn( true )
+        every { deploymentModel.isPointerEquatable(francaInterface) } returns true
 
         assertNull(validatorPredicate.validate(deploymentModel, francaField))
     }
 
     @Test
     fun validateWithStructType() {
-        `when`(francaTypeRef.derived).thenReturn(mock(FStructType::class.java))
+        every { francaTypeRef.derived } returns mockk<FStructType>()
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaField))
     }
 
     @Test
     fun validateWithEquatableStructType() {
-        val equatableStruct = mock(FStructType::class.java)
-        `when`(deploymentModel.isEquatable(equatableStruct)).thenReturn(true)
-        `when`(francaTypeRef.derived).thenReturn(equatableStruct)
+        val equatableStruct = mockk<FStructType>()
+        every { deploymentModel.isEquatable(equatableStruct) } returns true
+        every { francaTypeRef.derived } returns equatableStruct
 
         assertNull(validatorPredicate.validate(deploymentModel, francaField))
     }
 
     private fun mockInterface() {
-        val undefinedTypeRef = mock(FTypeRef::class.java)
-        `when`(undefinedTypeRef.predefined).thenReturn(FBasicTypeId.UNDEFINED)
-        val francaTypeDef = mock(FTypeDef::class.java)
-        `when`(francaTypeDef.actualType).thenReturn(undefinedTypeRef)
-        `when`(francaTypeRef.derived).thenReturn(francaTypeDef)
-        `when`(francaTypeDef.eContainer()).thenReturn(francaInterface)
+        val undefinedTypeRef = mockk<FTypeRef>()
+        val francaTypeDef = mockk<FTypeDef>()
+        every { undefinedTypeRef.derived } returns null
+        every { undefinedTypeRef.predefined } returns FBasicTypeId.UNDEFINED
+        every { francaTypeDef.actualType } returns undefinedTypeRef
+        every { francaTypeRef.derived } returns francaTypeDef
+        every { francaTypeDef.eContainer() } returns francaInterface
         every { SpecialTypeRules.isInstanceId(francaTypeRef) } returns true
     }
 }

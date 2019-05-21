@@ -20,6 +20,9 @@
 package com.here.genium.validator
 
 import com.here.genium.franca.FrancaDeploymentModel
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import org.franca.core.franca.FAttribute
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FModel
@@ -29,34 +32,31 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class StaticAttributesValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
-    @Mock
+    @MockK
     private lateinit var francaInterface: FInterface
-    @Mock
+    @MockK
     private lateinit var francaAttribute: FAttribute
 
-    @Mock
+    @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
 
     private val validatorPredicate = StaticAttributesValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(francaModel.name).thenReturn("")
-        `when`(francaInterface.name).thenReturn("")
-        `when`(francaAttribute.name).thenReturn("")
+        every { francaModel.name } returns ""
+        every { francaInterface.name } returns ""
+        every { francaAttribute.name } returns ""
 
-        `when`(francaInterface.eContainer()).thenReturn(francaModel)
-        `when`(francaAttribute.eContainer()).thenReturn(francaInterface)
+        every { francaInterface.eContainer() } returns francaModel
+        every { francaAttribute.eContainer() } returns francaInterface
     }
 
     @Test
@@ -65,22 +65,22 @@ class StaticAttributesValidatorPredicateTest {
 
     @Test
     fun validateWithStaticAttribute() {
-        `when`(deploymentModel.isStatic(francaAttribute)).thenReturn(true)
+        every { deploymentModel.isStatic(francaAttribute) } returns true
 
         assertNull(validatorPredicate.validate(deploymentModel, francaAttribute))
     }
 
     @Test
     fun validateWithIsInterfaceAndInstanceAttribute() {
-        `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
+        every { deploymentModel.isInterface(francaInterface) } returns true
 
         assertNull(validatorPredicate.validate(deploymentModel, francaAttribute))
     }
 
     @Test
     fun validateWithIsInterfaceAndStaticAttribute() {
-        `when`(deploymentModel.isInterface(francaInterface)).thenReturn(true)
-        `when`(deploymentModel.isStatic(francaAttribute)).thenReturn(true)
+        every { deploymentModel.isInterface(francaInterface) } returns true
+        every { deploymentModel.isStatic(francaAttribute) } returns true
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaAttribute))
     }

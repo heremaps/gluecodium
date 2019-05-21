@@ -19,7 +19,10 @@
 
 package com.here.genium.validator
 
-import com.here.genium.franca.FrancaDeploymentModel
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FUnionType
@@ -28,37 +31,30 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
-import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class UnionsValidatorPredicateTest {
-    @Mock
+    @MockK
     private lateinit var francaModel: FModel
-    @Mock
+    @MockK
     private lateinit var francaTypeCollection: FTypeCollection
-    @Mock
+    @MockK
     private lateinit var francaUnionType: FUnionType
 
     private val validatorPredicate = UnionsValidatorPredicate()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
 
-        `when`(francaModel.name).thenReturn("")
-        `when`(francaTypeCollection.name).thenReturn("")
-        `when`(francaUnionType.name).thenReturn("")
+        every { francaModel.name } returns ""
+        every { francaTypeCollection.name } returns ""
+        every { francaUnionType.name } returns ""
 
-        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
-        `when`(francaUnionType.eContainer()).thenReturn(francaTypeCollection)
+        every { francaTypeCollection.eContainer() } returns francaModel
+        every { francaUnionType.eContainer() } returns francaTypeCollection
     }
 
     @Test
-    fun validateWithUnion() = assertNotNull(validatorPredicate.validate(
-        mock(FrancaDeploymentModel::class.java),
-        francaUnionType)
-    )
+    fun validateWithUnion() = assertNotNull(validatorPredicate.validate(mockk(), francaUnionType))
 }
