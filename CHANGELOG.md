@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 4.3.0
+- Release date: 2019-05-21
 - Bug fixes:
   + Constructors of generated exception types in Java are now public.
 - Features
@@ -11,6 +12,8 @@
 - Breaking changes:
   + Builder pattern is no longer automatically generated for all structs in Java. It has to be
     enabled explicitly for individual structs now.
+  + Default constructors are no longer automatically generated for structs in Java unless explicit
+    defaults were specified for all fields.
 
 ## 4.2.0
 - Release date: 2019-05-14
