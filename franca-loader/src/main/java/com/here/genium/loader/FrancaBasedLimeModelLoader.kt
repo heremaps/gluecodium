@@ -50,11 +50,18 @@ import com.here.genium.validator.visibility.FieldVisibilityValidatorPredicate
 import com.here.genium.validator.visibility.InheritanceVisibilityValidatorPredicate
 import com.here.genium.validator.visibility.InterfaceMethodVisibilityValidatorPredicate
 import com.here.genium.validator.visibility.MethodVisibilityValidatorPredicate
+import org.apache.log4j.Level
+import org.apache.log4j.Logger
+import org.eclipse.xtext.linking.impl.ImportedNamesAdapter
 import org.franca.core.franca.FTypeCollection
 import java.io.File
 
 internal object FrancaBasedLimeModelLoader : LimeModelLoader {
     const val SPEC_PATH = "classpath:/GeniumExtensions.fdepl"
+
+    init {
+        Logger.getLogger(ImportedNamesAdapter::class.java).level = Level.WARN
+    }
 
     private val francaModelLoader: FrancaModelLoader
         get() {
