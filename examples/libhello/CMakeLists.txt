@@ -403,6 +403,13 @@ feature(Comments cpp android swift SOURCES
     fidl/test/CommentsInterface.fdepl
 )
 
+feature(SetType cpp SOURCES
+    src/test/SetType.cpp
+
+    fidl/test/SetType.fidl
+    fidl/test/SetType.fdepl
+)
+
 if(APPLE)
     #This feature is intended for Swift only. It also does not compile outside of Apple platforms.
     feature(ObjcInterface swift SOURCES
