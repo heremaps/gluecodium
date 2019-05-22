@@ -83,7 +83,7 @@ Defaults::get_nullable_defaults( )
     return {};
 }
 
-Defaults::StructWithCollectionsDefaults
+Defaults::StructWithEmptyDefaults
 Defaults::get_empty_defaults( )
 {
     return {};

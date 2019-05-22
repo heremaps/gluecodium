@@ -33,12 +33,12 @@ DefaultValues::StructWithSpecialDefaults::StructWithSpecialDefaults( const float
     : float_nan_field( float_nan_field ), float_infinity_field( float_infinity_field ), float_negative_infinity_field( float_negative_infinity_field ), double_nan_field( double_nan_field ), double_infinity_field( double_infinity_field ), double_negative_infinity_field( double_negative_infinity_field )
 {
 }
-DefaultValues::StructWithCollectionsDefaults::StructWithCollectionsDefaults( )
-    : ints_field( {} ), floats_field( {} ), map_field( {} )
+DefaultValues::StructWithEmptyDefaults::StructWithEmptyDefaults( )
+    : ints_field( {} ), floats_field( {} ), map_field( {} ), struct_field( {} )
 {
 }
-DefaultValues::StructWithCollectionsDefaults::StructWithCollectionsDefaults( const ::std::vector< int32_t >& ints_field, const ::smoke::DefaultValues::FloatArray& floats_field, const ::smoke::DefaultValues::IdToStringMap& map_field )
-    : ints_field( ints_field ), floats_field( floats_field ), map_field( map_field )
+DefaultValues::StructWithEmptyDefaults::StructWithEmptyDefaults( const ::std::vector< int32_t >& ints_field, const ::smoke::DefaultValues::FloatArray& floats_field, const ::smoke::DefaultValues::IdToStringMap& map_field, const ::smoke::DefaultValues::StructWithDefaults& struct_field )
+    : ints_field( ints_field ), floats_field( floats_field ), map_field( map_field ), struct_field( struct_field )
 {
 }
 }

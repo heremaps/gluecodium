@@ -35,6 +35,10 @@ define GeniumExtensions for interface test.Defaults
         enumField { Nullable = true }
     }
 
+    struct StructWithDefaults {
+        Equatable = true
+    }
+
     method getDefault {
         Static = true
     }
@@ -150,7 +154,7 @@ define Defaults for interface test.Defaults
         }
     }
 
-    struct StructWithCollectionsDefaults {
+    struct StructWithEmptyDefaults {
         intsField {
             DefaultIsEmpty = true
         }
@@ -158,6 +162,9 @@ define Defaults for interface test.Defaults
             DefaultIsEmpty = true
         }
         mapField {
+            DefaultIsEmpty = true
+        }
+        structField {
             DefaultIsEmpty = true
         }
     }

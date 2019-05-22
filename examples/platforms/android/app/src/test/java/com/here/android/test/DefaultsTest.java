@@ -152,19 +152,21 @@ public final class DefaultsTest {
 
   @Test
   public void checkJavaEmptyDefaults() {
-    Defaults.StructWithCollectionsDefaults result = new Defaults.StructWithCollectionsDefaults();
+    Defaults.StructWithEmptyDefaults result = new Defaults.StructWithEmptyDefaults();
 
     assertTrue(result.intsField.isEmpty());
     assertTrue(result.floatsField.isEmpty());
     assertTrue(result.mapField.isEmpty());
+    assertEquals(new Defaults.StructWithDefaults(), result.structField);
   }
 
   @Test
   public void checkCppEmptyDefaults() {
-    Defaults.StructWithCollectionsDefaults result = Defaults.getEmptyDefaults();
+    Defaults.StructWithEmptyDefaults result = Defaults.getEmptyDefaults();
 
     assertTrue(result.intsField.isEmpty());
     assertTrue(result.floatsField.isEmpty());
     assertTrue(result.mapField.isEmpty());
+    assertEquals(new Defaults.StructWithDefaults(), result.structField);
   }
 }

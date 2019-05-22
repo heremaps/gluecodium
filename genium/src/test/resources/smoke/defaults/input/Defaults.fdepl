@@ -79,7 +79,7 @@ define Defaults for interface smoke.DefaultValues
         }
     }
 
-    struct StructWithCollectionsDefaults {
+    struct StructWithEmptyDefaults {
         intsField {
             DefaultIsEmpty = true
         }
@@ -87,6 +87,9 @@ define Defaults for interface smoke.DefaultValues
             DefaultIsEmpty = true
         }
         mapField {
+            DefaultIsEmpty = true
+        }
+        structField {
             DefaultIsEmpty = true
         }
     }

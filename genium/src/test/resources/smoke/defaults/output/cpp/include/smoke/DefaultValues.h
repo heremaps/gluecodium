@@ -58,12 +58,13 @@ struct _GENIUM_CPP_EXPORT StructWithSpecialDefaults {
     StructWithSpecialDefaults( );
     StructWithSpecialDefaults( const float float_nan_field, const float float_infinity_field, const float float_negative_infinity_field, const double double_nan_field, const double double_infinity_field, const double double_negative_infinity_field );
 };
-struct _GENIUM_CPP_EXPORT StructWithCollectionsDefaults {
+struct _GENIUM_CPP_EXPORT StructWithEmptyDefaults {
     ::std::vector< int32_t > ints_field = {};
     ::smoke::DefaultValues::FloatArray floats_field = {};
     ::smoke::DefaultValues::IdToStringMap map_field = {};
-    StructWithCollectionsDefaults( );
-    StructWithCollectionsDefaults( const ::std::vector< int32_t >& ints_field, const ::smoke::DefaultValues::FloatArray& floats_field, const ::smoke::DefaultValues::IdToStringMap& map_field );
+    ::smoke::DefaultValues::StructWithDefaults struct_field = {};
+    StructWithEmptyDefaults( );
+    StructWithEmptyDefaults( const ::std::vector< int32_t >& ints_field, const ::smoke::DefaultValues::FloatArray& floats_field, const ::smoke::DefaultValues::IdToStringMap& map_field, const ::smoke::DefaultValues::StructWithDefaults& struct_field );
 };
 public:
 static ::smoke::DefaultValues::StructWithDefaults process_struct_with_defaults( const ::smoke::DefaultValues::StructWithDefaults& input );

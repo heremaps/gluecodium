@@ -110,19 +110,22 @@ public class DefaultValues {
             doubleNegativeInfinityField = moveFromCType(smoke_DefaultValues_StructWithSpecialDefaults_doubleNegativeInfinityField_get(cHandle))
         }
     }
-    public struct StructWithCollectionsDefaults {
+    public struct StructWithEmptyDefaults {
         public var intsField: [Int32]
         public var floatsField: DefaultValues.FloatArray
         public var mapField: DefaultValues.IdToStringMap
-        public init(intsField: [Int32] = [], floatsField: DefaultValues.FloatArray = [], mapField: DefaultValues.IdToStringMap = [:]) {
+        public var structField: DefaultValues.StructWithDefaults
+        public init(intsField: [Int32] = [], floatsField: DefaultValues.FloatArray = [], mapField: DefaultValues.IdToStringMap = [:], structField: DefaultValues.StructWithDefaults = DefaultValues.StructWithDefaults()) {
             self.intsField = intsField
             self.floatsField = floatsField
             self.mapField = mapField
+            self.structField = structField
         }
         internal init(cHandle: _baseRef) {
-            intsField = moveFromCType(smoke_DefaultValues_StructWithCollectionsDefaults_intsField_get(cHandle))
-            floatsField = moveFromCType(smoke_DefaultValues_StructWithCollectionsDefaults_floatsField_get(cHandle))
-            mapField = moveFromCType(smoke_DefaultValues_StructWithCollectionsDefaults_mapField_get(cHandle))
+            intsField = moveFromCType(smoke_DefaultValues_StructWithEmptyDefaults_intsField_get(cHandle))
+            floatsField = moveFromCType(smoke_DefaultValues_StructWithEmptyDefaults_floatsField_get(cHandle))
+            mapField = moveFromCType(smoke_DefaultValues_StructWithEmptyDefaults_mapField_get(cHandle))
+            structField = moveFromCType(smoke_DefaultValues_StructWithEmptyDefaults_structField_get(cHandle))
         }
     }
     public static func processStructWithDefaults(input: DefaultValues.StructWithDefaults) -> DefaultValues.StructWithDefaults {
@@ -314,48 +317,50 @@ internal func copyToCType(_ swiftType: DefaultValues.StructWithSpecialDefaults?)
 internal func moveToCType(_ swiftType: DefaultValues.StructWithSpecialDefaults?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_StructWithSpecialDefaults_release_optional_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> DefaultValues.StructWithCollectionsDefaults {
-    return DefaultValues.StructWithCollectionsDefaults(cHandle: handle)
+internal func copyFromCType(_ handle: _baseRef) -> DefaultValues.StructWithEmptyDefaults {
+    return DefaultValues.StructWithEmptyDefaults(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> DefaultValues.StructWithCollectionsDefaults {
+internal func moveFromCType(_ handle: _baseRef) -> DefaultValues.StructWithEmptyDefaults {
     defer {
-        smoke_DefaultValues_StructWithCollectionsDefaults_release_handle(handle)
+        smoke_DefaultValues_StructWithEmptyDefaults_release_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: DefaultValues.StructWithCollectionsDefaults) -> RefHolder {
+internal func copyToCType(_ swiftType: DefaultValues.StructWithEmptyDefaults) -> RefHolder {
     let c_intsField = moveToCType(swiftType.intsField)
     let c_floatsField = moveToCType(swiftType.floatsField)
     let c_mapField = moveToCType(swiftType.mapField)
-    return RefHolder(smoke_DefaultValues_StructWithCollectionsDefaults_create_handle(c_intsField.ref, c_floatsField.ref, c_mapField.ref))
+    let c_structField = moveToCType(swiftType.structField)
+    return RefHolder(smoke_DefaultValues_StructWithEmptyDefaults_create_handle(c_intsField.ref, c_floatsField.ref, c_mapField.ref, c_structField.ref))
 }
-internal func moveToCType(_ swiftType: DefaultValues.StructWithCollectionsDefaults) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_StructWithCollectionsDefaults_release_handle)
+internal func moveToCType(_ swiftType: DefaultValues.StructWithEmptyDefaults) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_StructWithEmptyDefaults_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> DefaultValues.StructWithCollectionsDefaults? {
+internal func copyFromCType(_ handle: _baseRef) -> DefaultValues.StructWithEmptyDefaults? {
     guard handle != 0 else {
         return nil
     }
-    let unwrappedHandle = smoke_DefaultValues_StructWithCollectionsDefaults_unwrap_optional_handle(handle)
-    return DefaultValues.StructWithCollectionsDefaults(cHandle: unwrappedHandle) as DefaultValues.StructWithCollectionsDefaults
+    let unwrappedHandle = smoke_DefaultValues_StructWithEmptyDefaults_unwrap_optional_handle(handle)
+    return DefaultValues.StructWithEmptyDefaults(cHandle: unwrappedHandle) as DefaultValues.StructWithEmptyDefaults
 }
-internal func moveFromCType(_ handle: _baseRef) -> DefaultValues.StructWithCollectionsDefaults? {
+internal func moveFromCType(_ handle: _baseRef) -> DefaultValues.StructWithEmptyDefaults? {
     defer {
-        smoke_DefaultValues_StructWithCollectionsDefaults_release_optional_handle(handle)
+        smoke_DefaultValues_StructWithEmptyDefaults_release_optional_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: DefaultValues.StructWithCollectionsDefaults?) -> RefHolder {
+internal func copyToCType(_ swiftType: DefaultValues.StructWithEmptyDefaults?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_intsField = moveToCType(swiftType.intsField)
     let c_floatsField = moveToCType(swiftType.floatsField)
     let c_mapField = moveToCType(swiftType.mapField)
-    return RefHolder(smoke_DefaultValues_StructWithCollectionsDefaults_create_optional_handle(c_intsField.ref, c_floatsField.ref, c_mapField.ref))
+    let c_structField = moveToCType(swiftType.structField)
+    return RefHolder(smoke_DefaultValues_StructWithEmptyDefaults_create_optional_handle(c_intsField.ref, c_floatsField.ref, c_mapField.ref, c_structField.ref))
 }
-internal func moveToCType(_ swiftType: DefaultValues.StructWithCollectionsDefaults?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_StructWithCollectionsDefaults_release_optional_handle)
+internal func moveToCType(_ swiftType: DefaultValues.StructWithEmptyDefaults?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_StructWithEmptyDefaults_release_optional_handle)
 }
 internal func copyToCType(_ swiftEnum: DefaultValues.SomeEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)

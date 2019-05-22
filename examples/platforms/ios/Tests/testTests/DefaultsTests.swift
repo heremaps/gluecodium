@@ -120,11 +120,12 @@ class DefaultsTests: XCTestCase {
     }
 
     func testSwiftEmptyDefaults() {
-      let result = Defaults.StructWithCollectionsDefaults()
+      let result = Defaults.StructWithEmptyDefaults()
 
       XCTAssertTrue(result.intsField.isEmpty)
       XCTAssertTrue(result.floatsField.isEmpty)
       XCTAssertTrue(result.mapField.isEmpty)
+      XCTAssertEqual(result.structField, Defaults.StructWithDefaults())
     }
 
     func testCppEmptyDefaults() {
@@ -133,6 +134,7 @@ class DefaultsTests: XCTestCase {
       XCTAssertTrue(result.intsField.isEmpty)
       XCTAssertTrue(result.floatsField.isEmpty)
       XCTAssertTrue(result.mapField.isEmpty)
+      XCTAssertEqual(result.structField, Defaults.StructWithDefaults())
     }
 
     static var allTests = [

@@ -113,22 +113,26 @@ public class DefaultValues extends NativeBase {
             this.doubleNegativeInfinityField = doubleNegativeInfinityField;
         }
     }
-    public static class StructWithCollectionsDefaults {
+    public static class StructWithEmptyDefaults {
         @NonNull
         public List<Integer> intsField;
         @NonNull
         public List<Float> floatsField;
         @NonNull
         public Map<Long, String> mapField;
-        public StructWithCollectionsDefaults() {
+        @NonNull
+        public DefaultValues.StructWithDefaults structField;
+        public StructWithEmptyDefaults() {
             this.intsField = new ArrayList<>();
             this.floatsField = new ArrayList<>();
             this.mapField = new HashMap<>();
+            this.structField = new DefaultValues.StructWithDefaults();
         }
-        public StructWithCollectionsDefaults(List<Integer> intsField, List<Float> floatsField, Map<Long, String> mapField) {
+        public StructWithEmptyDefaults(List<Integer> intsField, List<Float> floatsField, Map<Long, String> mapField, DefaultValues.StructWithDefaults structField) {
             this.intsField = intsField;
             this.floatsField = floatsField;
             this.mapField = mapField;
+            this.structField = structField;
         }
     }
     /**
