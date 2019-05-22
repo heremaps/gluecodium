@@ -17,156 +17,150 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.validator;
+package com.here.genium.validator
 
-import com.here.genium.franca.FrancaDeploymentModel;
-import com.here.genium.franca.FrancaTypeHelper;
-import java.math.BigInteger;
-import java.util.*;
-import java.util.function.Predicate;
-import org.franca.core.framework.FrancaHelpers;
-import org.franca.core.franca.*;
+import com.here.genium.franca.FrancaDeploymentModel
+import com.here.genium.franca.FrancaTypeHelper
+import org.franca.core.framework.FrancaHelpers
+import org.franca.core.franca.FArrayType
+import org.franca.core.franca.FBasicTypeId
+import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FField
+import org.franca.core.franca.FMapType
+import java.math.BigInteger
+import java.util.Arrays
+import java.util.HashSet
 
 /**
  * Validates the struct field default values against the following conditions:
  *
- * <ul>
- *   <li>The string content can be converted to the actual type of the field.
- *   <li>The "null" flag should only be set on a field marked as "nullable".
- *   <li>The "empty" flag should only be set on a collection type field.
- *   <li>No more than one default value property should be set.
- * </ul>
+ *  * The string content can be converted to the actual type of the field.
+ *  * The "null" flag should only be set on a field marked as "nullable".
+ *  * The "empty" flag should only be set on a collection type field.
+ *  * No more than one default value property should be set.
  *
  * Defaults are set as strings in the deployment model, validate that the content can be converted
  * to the actual type of the field.
  */
-public final class DefaultsValidatorPredicate implements ValidatorPredicate<FField> {
+class DefaultsValidatorPredicate : ValidatorPredicate<FField> {
 
-  private static final String INVALID_DEFAULT_FORMAT =
-      "Invalid '%s' default value '%s' for '%s' field.";
-  private static final String INVALID_NULL_FORMAT =
-      "Invalid 'null' default value for non-nullable '%s' field.";
-  private static final String CONFLICTING_DEFAULTS_FORMAT =
-      "Several conflicting defaults are specified for '%s' field.";
-  private static final Set<String> BOOLEAN_VALUES = new HashSet<>(Arrays.asList("true", "false"));
+    override val elementClass = FField::class.java
 
-  @Override
-  public Class<FField> getElementClass() {
-    return FField.class;
-  }
+    override fun validate(deploymentModel: FrancaDeploymentModel, francaElement: FField): String? {
 
-  @Override
-  public String validate(final FrancaDeploymentModel deploymentModel, final FField francaField) {
+        val hasNullDefaultValue = deploymentModel.hasNullDefaultValue(francaElement)
+        val hasEmptyDefaultValue = deploymentModel.hasEmptyDefaultValue(francaElement)
+        val stringValue = deploymentModel.getDefaultValue(francaElement)
 
-    boolean hasNullDefaultValue = deploymentModel.hasNullDefaultValue(francaField);
-    boolean hasEmptyDefaultValue = deploymentModel.hasEmptyDefaultValue(francaField);
-    String stringValue = deploymentModel.getDefaultValue(francaField);
+        val numberOfDefaults = (if (hasNullDefaultValue) 1 else 0)
+                + (if (hasEmptyDefaultValue) 1 else 0)
+                + (if (stringValue != null) 1 else 0)
+        if (numberOfDefaults > 1) {
+            return String.format(
+                CONFLICTING_DEFAULTS_FORMAT,
+                FrancaTypeHelper.getFullName(francaElement)
+            )
+        }
 
-    int numberOfDefaults =
-        (hasNullDefaultValue ? 1 : 0)
-            + (hasEmptyDefaultValue ? 1 : 0)
-            + (stringValue != null ? 1 : 0);
-    if (numberOfDefaults > 1) {
-      return String.format(CONFLICTING_DEFAULTS_FORMAT, FrancaTypeHelper.getFullName(francaField));
+        if (hasEmptyDefaultValue) {
+            if (francaElement.isArray) {
+                return null
+            }
+            val francaType = FrancaHelpers.getActualDerived(francaElement.type)
+            return if (francaType is FArrayType || francaType is FMapType) {
+                null
+            } else {
+                String.format(INVALID_NULL_FORMAT, FrancaTypeHelper.getFullName(francaElement))
+            }
+        }
+        if (hasNullDefaultValue) {
+            return if (deploymentModel.isNullable(francaElement)) {
+                null
+            } else {
+                String.format(INVALID_NULL_FORMAT, FrancaTypeHelper.getFullName(francaElement))
+            }
+        }
+        if (stringValue == null) {
+            return null
+        }
+
+        val fieldType = francaElement.type
+        val francaComplexType = FrancaHelpers.getActualDerived(fieldType)
+        if (francaComplexType is FEnumerationType) {
+            return validateDefaultValue(
+                francaElement,
+                stringValue,
+                { checkEnumValue(francaComplexType, it) },
+                "Enumeration"
+            )
+        }
+        return when (fieldType.predefined) {
+            FBasicTypeId.BOOLEAN ->
+                validateDefaultValue(
+                    francaElement,
+                    stringValue,
+                    { checkBooleanValue(it) },
+                    "Boolean"
+                )
+            FBasicTypeId.FLOAT, FBasicTypeId.DOUBLE ->
+                validateDefaultValue(francaElement, stringValue, { checkFloatValue(it) }, "Float")
+            FBasicTypeId.INT8, FBasicTypeId.INT16, FBasicTypeId.INT32, FBasicTypeId.INT64,
+            FBasicTypeId.UINT8, FBasicTypeId.UINT16, FBasicTypeId.UINT32,
+            FBasicTypeId.UINT64 ->
+                validateDefaultValue(
+                    francaElement,
+                    stringValue,
+                    { checkIntegerValue(it) },
+                    "Integer"
+                )
+            else -> null
+        }
     }
 
-    if (hasEmptyDefaultValue) {
-      if (francaField.isArray()) {
-        return null;
-      }
-      FType francaType = FrancaHelpers.getActualDerived(francaField.getType());
-      if (francaType instanceof FArrayType || francaType instanceof FMapType) {
-        return null;
-      } else {
-        return String.format(INVALID_NULL_FORMAT, FrancaTypeHelper.getFullName(francaField));
-      }
-    }
-    if (hasNullDefaultValue) {
-      if (deploymentModel.isNullable(francaField)) {
-        return null;
-      } else {
-        return String.format(INVALID_NULL_FORMAT, FrancaTypeHelper.getFullName(francaField));
-      }
-    }
-    if (stringValue == null) {
-      return null;
+    private fun validateDefaultValue(
+        francaField: FField,
+        defaultValue: String,
+        predicate: (String) -> Boolean,
+        typeName: String
+    ) = when {
+        predicate(defaultValue) -> null
+        else -> String.format(
+            INVALID_DEFAULT_FORMAT,
+            typeName,
+            defaultValue,
+            FrancaTypeHelper.getFullName(francaField)
+        )
     }
 
-    Predicate<String> predicate;
-    String typeName;
+    companion object {
+        private const val INVALID_DEFAULT_FORMAT = "Invalid '%s' default value '%s' for '%s' field."
+        private const val INVALID_NULL_FORMAT =
+            "Invalid 'null' default value for non-nullable '%s' field."
+        private const val CONFLICTING_DEFAULTS_FORMAT =
+            "Several conflicting defaults are specified for '%s' field."
+        private val BOOLEAN_VALUES = HashSet(Arrays.asList("true", "false"))
 
-    FTypeRef fieldType = francaField.getType();
-    FType francaComplexType = fieldType.getDerived();
-    if (francaComplexType instanceof FEnumerationType) {
-      predicate =
-          value ->
-              DefaultsValidatorPredicate.checkEnumValue(
-                  (FEnumerationType) francaComplexType, value);
-      typeName = "Enumeration";
-    } else {
-      switch (fieldType.getPredefined()) {
-        case BOOLEAN:
-          predicate = DefaultsValidatorPredicate::checkBooleanValue;
-          typeName = "Boolean";
-          break;
-        case FLOAT:
-        case DOUBLE:
-          predicate = DefaultsValidatorPredicate::checkFloatValue;
-          typeName = "Float";
-          break;
-        case INT8:
-        case INT16:
-        case INT32:
-        case INT64:
-        case UINT8:
-        case UINT16:
-        case UINT32:
-        case UINT64:
-          predicate = DefaultsValidatorPredicate::checkIntegerValue;
-          typeName = "Integer";
-          break;
-        default:
-          return null;
-      }
+        private fun checkIntegerValue(stringValue: String) =
+            try {
+                BigInteger(stringValue).longValueExact()
+                true
+            } catch (e: NumberFormatException) {
+                false
+            } catch (e: ArithmeticException) {
+                false
+            }
+
+        private fun checkFloatValue(stringValue: String) =
+            try {
+                java.lang.Float.parseFloat(stringValue)
+                true
+            } catch (e: NumberFormatException) {
+                false
+            }
+
+        private fun checkBooleanValue(stringValue: String) = BOOLEAN_VALUES.contains(stringValue)
+
+        private fun checkEnumValue(francaEnum: FEnumerationType, stringValue: String) =
+            francaEnum.enumerators.any { stringValue == it.name }
     }
-
-    if (predicate.test(stringValue)) {
-      return null;
-    } else {
-      return String.format(
-          INVALID_DEFAULT_FORMAT, typeName, stringValue, FrancaTypeHelper.getFullName(francaField));
-    }
-  }
-
-  @SuppressWarnings("ResultOfMethodCallIgnored")
-  private static boolean checkIntegerValue(final String stringValue) {
-    try {
-      new BigInteger(stringValue).longValueExact();
-      return true;
-    } catch (NumberFormatException | ArithmeticException e) {
-      return false;
-    }
-  }
-
-  private static boolean checkFloatValue(final String stringValue) {
-    try {
-      Float.parseFloat(stringValue);
-      return true;
-    } catch (NumberFormatException e) {
-      return false;
-    }
-  }
-
-  private static boolean checkBooleanValue(final String stringValue) {
-    return BOOLEAN_VALUES.contains(stringValue);
-  }
-
-  private static boolean checkEnumValue(
-      final FEnumerationType francaEnum, final String stringValue) {
-
-    return francaEnum
-        .getEnumerators()
-        .stream()
-        .anyMatch(enumerator -> stringValue.equals(enumerator.getName()));
-  }
 }
