@@ -572,8 +572,10 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingValueEmptyArray() {
-        val limeElement =
-            LimeValue.Collection(LimeDirectTypeRef(LimeArray(LimeBasicTypeRef.FLOAT)), emptyList())
+        val limeElement = LimeValue.InitializerList(
+            LimeDirectTypeRef(LimeArray(LimeBasicTypeRef.FLOAT)),
+            emptyList()
+        )
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -583,7 +585,7 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingValueEmptyMap() {
-        val limeElement = LimeValue.Collection(
+        val limeElement = LimeValue.InitializerList(
             LimeDirectTypeRef(LimeMap(LimeBasicTypeRef.DOUBLE, LimeBasicTypeRef.FLOAT)),
             emptyList()
         )
@@ -592,6 +594,17 @@ class SwiftModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(SwiftValue::class.java)
         assertEquals("[:]", result.name)
+    }
+
+    @Test
+    fun finishBuildingValueEmptyStruct() {
+        val limeElement =
+            LimeValue.InitializerList(LimeDirectTypeRef(LimeStruct(EMPTY_PATH)), emptyList())
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(SwiftValue::class.java)
+        assertEquals("nonsense()", result.name)
     }
 
     @Test

@@ -20,9 +20,9 @@
 package com.here.genium.generator.swift
 
 import com.google.common.annotations.VisibleForTesting
+import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.generator.cbridge.CBridgeNameRules
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
-import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeBasicTypeRef
@@ -410,9 +410,13 @@ internal constructor(
                 SwiftValue("$signPrefix$typeName.$valueName")
             }
             is LimeValue.Null -> SwiftValue("nil")
-            is LimeValue.Collection -> {
-                val limeType = LimeTypeHelper.getActualType(limeValue.typeRef.type)
-                SwiftValue(if (limeType is LimeMap) "[:]" else "[]")
+            is LimeValue.InitializerList -> {
+                val initializer = when (LimeTypeHelper.getActualType(limeValue.typeRef.type)) {
+                    is LimeMap -> "[:]"
+                    is LimeArray -> "[]"
+                    else -> nameResolver.getFullName(limeValue.typeRef.type) + "()"
+                }
+                SwiftValue(initializer)
             }
         }
 

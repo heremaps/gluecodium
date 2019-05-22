@@ -27,6 +27,7 @@ import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FField
 import org.franca.core.franca.FMapType
+import org.franca.core.franca.FStructType
 import java.math.BigInteger
 import java.util.Arrays
 import java.util.HashSet
@@ -36,7 +37,7 @@ import java.util.HashSet
  *
  *  * The string content can be converted to the actual type of the field.
  *  * The "null" flag should only be set on a field marked as "nullable".
- *  * The "empty" flag should only be set on a collection type field.
+ *  * The "empty" flag should only be set on a field of collection or struct type.
  *  * No more than one default value property should be set.
  *
  * Defaults are set as strings in the deployment model, validate that the content can be converted
@@ -67,10 +68,11 @@ class DefaultsValidatorPredicate : ValidatorPredicate<FField> {
                 return null
             }
             val francaType = FrancaHelpers.getActualDerived(francaElement.type)
-            return if (francaType is FArrayType || francaType is FMapType) {
+            return if (francaType is FArrayType || francaType is FMapType ||
+                francaType is FStructType) {
                 null
             } else {
-                String.format(INVALID_NULL_FORMAT, FrancaTypeHelper.getFullName(francaElement))
+                String.format(INVALID_EMPTY_FORMAT, FrancaTypeHelper.getFullName(francaElement))
             }
         }
         if (hasNullDefaultValue) {
@@ -136,6 +138,8 @@ class DefaultsValidatorPredicate : ValidatorPredicate<FField> {
         private const val INVALID_DEFAULT_FORMAT = "Invalid '%s' default value '%s' for '%s' field."
         private const val INVALID_NULL_FORMAT =
             "Invalid 'null' default value for non-nullable '%s' field."
+        private const val INVALID_EMPTY_FORMAT =
+            "Invalid 'empty' default value for non-collection non-struct '%s' field."
         private const val CONFLICTING_DEFAULTS_FORMAT =
             "Several conflicting defaults are specified for '%s' field."
         private val BOOLEAN_VALUES = HashSet(Arrays.asList("true", "false"))

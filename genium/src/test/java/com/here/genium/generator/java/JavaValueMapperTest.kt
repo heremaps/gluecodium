@@ -19,6 +19,7 @@
 
 package com.here.genium.generator.java
 
+import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaType
 import com.here.genium.model.lime.LimeContainer
@@ -90,7 +91,7 @@ class JavaValueMapperTest {
 
     @Test
     fun mapEmptyListValue() {
-        val limeValue = LimeValue.Collection(LimeLazyTypeRef("", emptyMap()), emptyList())
+        val limeValue = LimeValue.InitializerList(LimeLazyTypeRef("", emptyMap()), emptyList())
         val javaTemplateType =
             JavaTemplateType.create(JavaTemplateType.TemplateClass.LIST, javaType)
 
@@ -102,7 +103,7 @@ class JavaValueMapperTest {
 
     @Test
     fun mapEmptyMapValue() {
-        val limeValue = LimeValue.Collection(LimeLazyTypeRef("", emptyMap()), emptyList())
+        val limeValue = LimeValue.InitializerList(LimeLazyTypeRef("", emptyMap()), emptyList())
         val javaTemplateType =
             JavaTemplateType.create(JavaTemplateType.TemplateClass.MAP, javaType, javaType)
 
@@ -110,5 +111,16 @@ class JavaValueMapperTest {
 
         assertTrue(result.isCustom)
         assertEquals("HashMap<>", result.name)
+    }
+
+    @Test
+    fun mapEmptyStructValue() {
+        val limeValue = LimeValue.InitializerList(LimeLazyTypeRef("", emptyMap()), emptyList())
+        val javaCustomType = JavaCustomType("Foo")
+
+        val result = valueMapper.mapValue(limeValue, javaCustomType)
+
+        assertTrue(result.isCustom)
+        assertEquals("Foo", result.name)
     }
 }

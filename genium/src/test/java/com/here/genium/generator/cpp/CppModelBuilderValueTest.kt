@@ -167,8 +167,8 @@ class CppModelBuilderValueTest {
     }
 
     @Test
-    fun finishBuildingEmptyCollectionValue() {
-        val limeElement = LimeValue.Collection(LimeBasicTypeRef.DOUBLE, emptyList())
+    fun finishBuildingEmptyInitializerListValue() {
+        val limeElement = LimeValue.InitializerList(LimeBasicTypeRef.DOUBLE, emptyList())
 
         modelBuilder.finishBuilding(limeElement)
 

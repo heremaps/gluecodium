@@ -512,10 +512,10 @@ FDEPL:
 
 ### Struct field: DefaultIsEmpty
 
-This FDEPL property controls whether the given field of a collection type in the given Franca struct
-is initialized with a language-appropriate empty collection value. Default value is `false`, i.e. no
-default value initializer is generated (unless otherwise specified with `DefaultValue` property, see
-above).
+This FDEPL property controls whether the given field of a collection type or a struct type in the
+given Franca struct is initialized with a language-appropriate "empty" value. Default value is
+`false`, i.e. no default value initializer is generated (unless otherwise specified with
+`DefaultValue` property, see above).
 
 FIDL:
 

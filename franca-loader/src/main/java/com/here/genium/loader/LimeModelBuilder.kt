@@ -462,7 +462,7 @@ class LimeModelBuilder @VisibleForTesting internal constructor(
             return LimeValue.Null(fieldType)
         }
         if (deploymentModel.hasEmptyDefaultValue(francaField)) {
-            return LimeValue.Collection(fieldType, emptyList())
+            return LimeValue.InitializerList(fieldType, emptyList())
         }
 
         val literalValue = deploymentModel.getDefaultValue(francaField) ?: return null

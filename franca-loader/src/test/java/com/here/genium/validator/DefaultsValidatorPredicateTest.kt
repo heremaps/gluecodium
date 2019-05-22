@@ -306,7 +306,17 @@ class DefaultsValidatorPredicateTest {
     }
 
     @Test
-    fun validateForNonCollectionTypeEmpty() {
+    fun validateForStructTypeEmpty() {
+        `when`(francaTypeRef.derived).thenReturn(francaStruct)
+        `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
+
+        val result = validatorPredicate.validate(deploymentModel, francaField)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun validateForInvalidTypeEmpty() {
         `when`(deploymentModel.hasEmptyDefaultValue(any())).thenReturn(true)
 
         val result = validatorPredicate.validate(deploymentModel, francaField)

@@ -59,8 +59,11 @@ class JavaValueMapper(private val limeReferenceMap: Map<String, LimeElement>) {
             }
             is LimeValue.Special -> mapSpecialValue(limeValue)
             is LimeValue.Null -> JavaValue("null", true)
-            is LimeValue.Collection ->
-                JavaValue((javaType as JavaTemplateType).implementationType, true)
+            is LimeValue.InitializerList -> {
+                val implementationType =
+                    if (javaType is JavaTemplateType) javaType.implementationType else javaType
+                JavaValue(implementationType, true)
+            }
     }
 
     private fun mapSpecialValue(limeValue: LimeValue.Special): JavaValue {

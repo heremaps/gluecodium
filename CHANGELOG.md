@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features
+  + Added support for explicit "empty" default value for struct-type fields in structs.
+
 ## 4.3.0
 - Release date: 2019-05-21
 - Bug fixes:
