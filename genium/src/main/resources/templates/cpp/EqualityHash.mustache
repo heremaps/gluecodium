@@ -1,0 +1,49 @@
+{{>cpp/CppCommentHeader}}
+
+#pragma once
+
+#include <cstddef>
+
+{{#internalNamespace}}
+namespace {{.}} {
+{{/internalNamespace}}
+/**
+ * `std::hash` compliant function object for std::shared_ptr comparing the contained class instead
+ * of the pointer value. This should be used for classes overloading operator==.
+ */
+template<class T>
+struct EqualityHash
+{
+    std::size_t
+    operator( )( const std::shared_ptr<T>& t ) const
+    {
+        if ( !t ) {
+            return 43;
+        }
+        return 43 ^ std::hash< T >( )( *t );
+    }
+};
+
+/**
+ * std::equal_to compliant comparison function object to be used in conjunction with EqualityHash
+ * when using equatable classes stored in std::shared_ptr as keys of `std::unordered_map` or
+ * `std::unordered_set`.
+ */
+template<class T>
+struct EqualityEqualTo
+{
+    bool operator( )( const std::shared_ptr<T>& lhs, const std::shared_ptr<T>& rhs ) const
+    {
+        if ( !lhs && !rhs ) {
+            return true;
+        }
+        if ( !lhs || !rhs ) {
+            return false;
+        }
+        return *lhs == *rhs;
+    }
+};
+
+{{#internalNamespace}}
+}
+{{/internalNamespace}}
