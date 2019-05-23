@@ -37,7 +37,7 @@ internal func moveFromCType(_ handle: _baseRef) -> SomeEnum? {
     }
     return copyFromCType(handle)
 }
-public struct EquatableStruct: Equatable {
+public struct EquatableStruct: Hashable {
     public var boolField: Bool
     public var intField: Int32
     public var longField: Int64
@@ -130,7 +130,7 @@ internal func copyToCType(_ swiftType: EquatableStruct?) -> RefHolder {
 internal func moveToCType(_ swiftType: EquatableStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Equatable_EquatableStruct_release_optional_handle)
 }
-public struct EquatableNullableStruct: Equatable {
+public struct EquatableNullableStruct: Hashable {
     public var boolField: Bool?
     public var intField: Int32?
     public var uintField: UInt16?
@@ -218,7 +218,7 @@ internal func copyToCType(_ swiftType: EquatableNullableStruct?) -> RefHolder {
 internal func moveToCType(_ swiftType: EquatableNullableStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Equatable_EquatableNullableStruct_release_optional_handle)
 }
-public struct NestedEquatableStruct: Equatable {
+public struct NestedEquatableStruct: Hashable {
     public var fooField: String
     public init(fooField: String) {
         self.fooField = fooField

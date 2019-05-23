@@ -2,7 +2,7 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-public struct EquatableStruct: Equatable {
+public struct EquatableStruct: Hashable {
     public var intField: Int32
     public var stringField: String
     public var structField: NestedEquatableStruct
@@ -60,7 +60,7 @@ internal func copyToCType(_ swiftType: EquatableStruct?) -> RefHolder {
 internal func moveToCType(_ swiftType: EquatableStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Equatable_EquatableStruct_release_optional_handle)
 }
-public struct NestedEquatableStruct: Equatable {
+public struct NestedEquatableStruct: Hashable {
     public var fooField: String
     public init(fooField: String) {
         self.fooField = fooField

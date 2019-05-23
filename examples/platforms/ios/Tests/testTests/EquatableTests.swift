@@ -29,6 +29,7 @@ class EquatableTests: XCTestCase {
         let otherStruct = EquatableTests.createEquatableStruct()
 
         XCTAssertEqual(otherStruct, mainStruct)
+        XCTAssertEqual(hash(otherStruct), hash(mainStruct))
     }
 
     func testStructNotEqualsBooleanField() {
@@ -36,6 +37,7 @@ class EquatableTests: XCTestCase {
         otherStruct.boolField = !otherStruct.boolField
 
         XCTAssertNotEqual(mainStruct, otherStruct)
+        XCTAssertNotEqual(hash(otherStruct), hash(mainStruct))
     }
 
     func testStructNotEqualsIntField() {
@@ -43,6 +45,7 @@ class EquatableTests: XCTestCase {
         otherStruct.intField += 1
 
         XCTAssertNotEqual(mainStruct, otherStruct)
+        XCTAssertNotEqual(hash(otherStruct), hash(mainStruct))
     }
 
     func testStructNotEqualsLongField() {
@@ -50,6 +53,7 @@ class EquatableTests: XCTestCase {
         otherStruct.longField += 1
 
         XCTAssertNotEqual(mainStruct, otherStruct)
+        XCTAssertNotEqual(hash(otherStruct), hash(mainStruct))
     }
 
     func testStructNotEqualsFloatField() {
@@ -57,6 +61,7 @@ class EquatableTests: XCTestCase {
         otherStruct.floatField += 1
 
         XCTAssertNotEqual(mainStruct, otherStruct)
+        XCTAssertNotEqual(hash(otherStruct), hash(mainStruct))
     }
 
     func testStructNotEqualsDoubleField() {
@@ -64,6 +69,7 @@ class EquatableTests: XCTestCase {
         otherStruct.doubleField += 1
 
         XCTAssertNotEqual(mainStruct, otherStruct)
+        XCTAssertNotEqual(hash(otherStruct), hash(mainStruct))
     }
 
     func testStructNotEqualsStringField() {
@@ -71,6 +77,7 @@ class EquatableTests: XCTestCase {
         otherStruct.stringField += "foo"
 
         XCTAssertNotEqual(mainStruct, otherStruct)
+        XCTAssertNotEqual(hash(otherStruct), hash(mainStruct))
     }
 
     func testStructNotEqualsStructField() {
@@ -78,6 +85,7 @@ class EquatableTests: XCTestCase {
         otherStruct.structField.fooField += "bar"
 
         XCTAssertNotEqual(mainStruct, otherStruct)
+        XCTAssertNotEqual(hash(otherStruct), hash(mainStruct))
     }
 
     func testStructNotEqualsEnumField() {
@@ -85,6 +93,7 @@ class EquatableTests: XCTestCase {
         otherStruct.enumField = .foo
 
         XCTAssertNotEqual(mainStruct, otherStruct)
+        XCTAssertNotEqual(hash(otherStruct), hash(mainStruct))
     }
 
     func testStructNotEqualsMapField() {
@@ -92,6 +101,7 @@ class EquatableTests: XCTestCase {
         otherStruct.mapField[2] = "foo"
 
         XCTAssertNotEqual(mainStruct, otherStruct)
+        XCTAssertNotEqual(hash(otherStruct), hash(mainStruct))
     }
 
     func testStructNotEqualsArrayField() {
@@ -99,6 +109,7 @@ class EquatableTests: XCTestCase {
         otherStruct.arrayField = ["one", "two", "foo"]
 
         XCTAssertNotEqual(mainStruct, otherStruct)
+        XCTAssertNotEqual(hash(otherStruct), hash(mainStruct))
     }
 
     func testArrayEquals() {
@@ -108,6 +119,7 @@ class EquatableTests: XCTestCase {
         let otherArray = [mainStruct, otherStruct]
 
         XCTAssertEqual(otherArray, array)
+        XCTAssertEqual(hash(otherArray), hash(array))
     }
 
     func testArrayNotEquals() {
@@ -117,30 +129,35 @@ class EquatableTests: XCTestCase {
         let otherArray = [mainStruct, mainStruct]
 
         XCTAssertNotEqual(otherArray, array)
+        XCTAssertNotEqual(hash(otherArray), hash(array))
     }
 
     func testDifferentInstancesArePointerUnequal() {
         let one = PointerEquatableInterface.createNew()
         let other = PointerEquatableInterface.createNew()
         XCTAssertNotEqual(one, other)
+        XCTAssertNotEqual(hash(one), hash(other))
     }
 
     func testSameInstancesArePointerEqual() {
         let one = PointerEquatableInterface.createNew()
         let other = PointerEquatableInterface.returnLast()
         XCTAssertEqual(one, other)
+        XCTAssertEqual(hash(one), hash(other))
     }
 
     func testUnequalInstancesAreUnequal() {
         let one = EquatableInterface(name: "one")
         let other = EquatableInterface(name: "other")
         XCTAssertNotEqual(one, other)
+        XCTAssertNotEqual(hash(one), hash(other))
     }
 
     func testEqualInstancesAreEqual() {
         let one = EquatableInterface(name: "one")
         let other = EquatableInterface(name: "one")
         XCTAssertEqual(one, other)
+        XCTAssertEqual(hash(one), hash(other))
     }
 
     func testEqualInstancesInStruct() {
@@ -152,6 +169,7 @@ class EquatableTests: XCTestCase {
 
         XCTAssertEqual(oneStruct, otherStruct)
         XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 
     func testUnequalInstancesInStruct() {
@@ -163,6 +181,7 @@ class EquatableTests: XCTestCase {
 
         XCTAssertNotEqual(oneStruct, otherStruct)
         XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
     }
 
     func testPointerUnequalInstancesInStruct() {
@@ -174,6 +193,7 @@ class EquatableTests: XCTestCase {
 
         XCTAssertNotEqual(oneStruct, otherStruct)
         XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
     }
 
     func testPointerEqualInstancesInStruct() {
@@ -185,6 +205,7 @@ class EquatableTests: XCTestCase {
 
         XCTAssertEqual(oneStruct, otherStruct)
         XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 
     static func createEquatableStruct() -> EquatableStruct {
@@ -193,6 +214,12 @@ class EquatableTests: XCTestCase {
             floatField: 1.0, doubleField: 2.0, stringField: "nonsense",
             structField: NestedEquatableStruct(fooField: "foo"), enumField: .bar,
             mapField: [0: "one", 1: "two"], arrayField: ["one", "two"])
+    }
+
+    func hash<H>(_ value: H) -> Int where H: Hashable {
+        var hasher = Hasher()
+        value.hash(into: &hasher)
+        return hasher.finalize()
     }
 
     static var allTests = [

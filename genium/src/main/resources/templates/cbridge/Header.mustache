@@ -55,6 +55,7 @@ _GENIUM_C_EXPORT _baseRef {{name}}_copy_handle(_baseRef handle);
 {{/if}}
 {{#hasEquatableType}}
 _GENIUM_C_EXPORT bool {{name}}_equal(_baseRef lhs, _baseRef rhs);
+_GENIUM_C_EXPORT uint64_t {{name}}_hash(_baseRef handle);
 {{/hasEquatableType}}
 {{#isInterface}}
 {{>cbridge/FunctionTable}}

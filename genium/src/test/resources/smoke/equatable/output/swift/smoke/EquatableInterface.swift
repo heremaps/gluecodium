@@ -22,7 +22,7 @@ public class EquatableInterface {
     deinit {
         smoke_EquatableInterface_release_handle(c_instance)
     }
-    public struct EquatableStruct: Equatable {
+    public struct EquatableStruct: Hashable {
         public var intField: Int32
         public var stringField: String
         public var nestedEquatableInstance: EquatableInterface
@@ -44,9 +44,12 @@ public class EquatableInterface {
 extension EquatableInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-extension EquatableInterface: Equatable {
+extension EquatableInterface: Hashable {
     public static func == (lhs: EquatableInterface, rhs: EquatableInterface) -> Bool {
         return smoke_EquatableInterface_equal(lhs.c_handle, rhs.c_handle)
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(smoke_EquatableInterface_hash(c_handle))
     }
 }
 internal func EquatableInterfacecopyFromCType(_ handle: _baseRef) -> EquatableInterface {

@@ -44,6 +44,14 @@ bool {{name}}_equal(_baseRef lhs, _baseRef rhs) {
     return *get_pointer<{{selfType.name}}>(lhs) == *get_pointer<{{selfType.name}}>(rhs);
 {{/isPointerEquatable}}
 }
+uint64_t {{name}}_hash(_baseRef handle) {
+{{#isEquatable}}
+    return std::hash<{{selfType.name}}::element_type>()(**get_pointer<{{selfType.name}}>(handle));
+{{/isEquatable}}
+{{#isPointerEquatable}}
+    return std::hash<{{selfType.name}}>()(*get_pointer<{{selfType.name}}>(handle));
+{{/isPointerEquatable}}
+}
 {{/hasEquatableType}}
 {{#structs}}
 {{>cbridge/StructImplementation}}

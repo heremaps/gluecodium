@@ -28,9 +28,13 @@ extension {{#isInterface}}_{{/isInterface}}{{name}}: NativeBase {
 }{{/useParentCInstance}}{{!!
 
 }}{{#hasEquatableType}}
-extension {{name}}: Equatable {
+extension {{name}}: Hashable {
     public static func == (lhs: {{name}}, rhs: {{name}}) -> Bool {
         return {{cInstance}}_equal(lhs.c_handle, rhs.c_handle)
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine({{cInstance}}_hash(c_handle))
     }
 }
 {{/hasEquatableType}}{{!!

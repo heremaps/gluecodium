@@ -26,9 +26,12 @@ public class PointerEquatableInterface {
 extension PointerEquatableInterface: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-extension PointerEquatableInterface: Equatable {
+extension PointerEquatableInterface: Hashable {
     public static func == (lhs: PointerEquatableInterface, rhs: PointerEquatableInterface) -> Bool {
         return smoke_PointerEquatableInterface_equal(lhs.c_handle, rhs.c_handle)
+    }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(smoke_PointerEquatableInterface_hash(c_handle))
     }
 }
 internal func PointerEquatableInterfacecopyFromCType(_ handle: _baseRef) -> PointerEquatableInterface {
