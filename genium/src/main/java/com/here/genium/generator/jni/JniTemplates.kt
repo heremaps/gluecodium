@@ -17,279 +17,268 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.jni;
+package com.here.genium.generator.jni
 
-import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.templates.TemplateEngine;
-import com.here.genium.generator.cpp.CppLibraryIncludes;
-import com.here.genium.model.common.Include;
-import com.here.genium.model.jni.JniContainer;
-import com.here.genium.model.jni.JniContainer.ContainerType;
-import com.here.genium.model.jni.JniElement;
-import com.here.genium.model.jni.JniStruct;
-import com.here.genium.platform.android.JavaGeneratorSuite;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.common.templates.TemplateEngine
+import com.here.genium.generator.cpp.CppLibraryIncludes
+import com.here.genium.model.common.Include
+import com.here.genium.model.jni.JniContainer
+import com.here.genium.model.jni.JniContainer.ContainerType
+import com.here.genium.model.jni.JniElement
+import com.here.genium.platform.android.JavaGeneratorSuite
 
-public final class JniTemplates {
+class JniTemplates(
+    private val basePackages: List<String>,
+    private val internalPackages: List<String>,
+    private val internalNamespace: List<String>,
+    generatorName: String
+) {
+    private val jniNameRules = JniNameRules(generatorName)
 
-  private static final String INCLUDES_NAME = "includes";
-  private static final String MODELS_NAME = "models";
-  private static final String BASE_PACKAGES_NAME = "basePackages";
-  private static final String INTERNAL_PACKAGES_NAME = "internalPackages";
-  private static final String CONTAINER_NAME = "container";
-  private static final String INTERNAL_NAMESPACE_NAME = "internalNamespace";
+    fun generateFiles(jniContainer: JniContainer?): List<GeneratedFile> {
+        val results = mutableListOf<GeneratedFile>()
+        if (jniContainer == null) {
+            return results
+        }
 
-  private static final String JNI_UTILS_TEMPLATE_PREFIX = "jni/utils/";
-  private static final String HEADER_TEMPLATE_SUFFIX = "Header";
-  private static final String IMPL_TEMPLATE_SUFFIX = "Implementation";
+        if (jniContainer.containerType !== ContainerType.TYPE_COLLECTION) {
+            results += generateFilesForElement(
+                JniNameRules.getJniClassFileName(jniContainer),
+                jniContainer
+            )
+        }
+        results += jniContainer.structs.filter { it.methods.isNotEmpty() }.flatMap {
+                generateFilesForElement(JniNameRules.getJniStructFileName(jniContainer, it), it)
+            }
 
-  private final List<String> basePackages;
-  private final List<String> internalPackages;
-  private final List<String> internalNamespace;
-  private final JniNameRules jniNameRules;
-
-  public JniTemplates(
-      final List<String> basePackages,
-      final List<String> internalPackages,
-      final List<String> internalNamespace,
-      final String generatorName) {
-    this.basePackages = basePackages;
-    this.internalPackages = internalPackages;
-    this.internalNamespace = internalNamespace;
-    this.jniNameRules = new JniNameRules(generatorName);
-  }
-
-  public List<GeneratedFile> generateFiles(final JniContainer jniContainer) {
-
-    List<GeneratedFile> results = new LinkedList<>();
-    if (jniContainer == null) {
-      return results;
+        return results
     }
 
-    if (jniContainer.getContainerType() != ContainerType.TYPE_COLLECTION) {
-      results.addAll(
-          generateFilesForElement(JniNameRules.getJniClassFileName(jniContainer), jniContainer));
+    private fun generateFilesForElement(
+        fileName: String,
+        jniElement: JniElement
+    ): List<GeneratedFile> {
+        val containerData =
+            mapOf(CONTAINER_NAME to jniElement, INTERNAL_NAMESPACE_NAME to internalNamespace)
+
+        return listOf(
+            generateFile("jni/Header", containerData, jniNameRules.getHeaderFilePath(fileName)),
+            generateFile(
+                "jni/Implementation",
+                containerData,
+                jniNameRules.getImplementationFilePath(fileName)
+            )
+        )
     }
-    for (JniStruct jniStruct : jniContainer.getStructs()) {
-      if (!jniStruct.getMethods().isEmpty()) {
-        results.addAll(
-            generateFilesForElement(
-                JniNameRules.getJniStructFileName(jniContainer, jniStruct), jniStruct));
-      }
+
+    fun generateConversionFiles(jniContainers: List<JniContainer>): List<GeneratedFile> {
+        val results = mutableListOf<GeneratedFile>()
+        addStructConversionFiles(jniContainers, results)
+        addInstanceConversionFiles(jniContainers, results)
+        addEnumConversionFiles(jniContainers, results)
+        addCppProxyFiles(jniContainers, results)
+
+        return results
     }
 
-    return results;
-  }
-
-  private List<GeneratedFile> generateFilesForElement(String fileName, JniElement jniElement) {
-    Map<String, Object> containerData = new HashMap<>();
-    containerData.put(CONTAINER_NAME, jniElement);
-    containerData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
-
-    return Arrays.asList(
-        generateFile("jni/Header", containerData, jniNameRules.getHeaderFilePath(fileName)),
+    fun generateConversionUtilsHeaderFile(fileName: String) =
         generateFile(
-            "jni/Implementation", containerData, jniNameRules.getImplementationFilePath(fileName)));
-  }
+            JNI_UTILS_TEMPLATE_PREFIX + fileName + HEADER_TEMPLATE_SUFFIX,
+            mapOf(INTERNAL_NAMESPACE_NAME to internalNamespace),
+            jniNameRules.getHeaderFilePath(fileName)
+        )
 
-  public List<GeneratedFile> generateConversionFiles(final List<JniContainer> jniContainers) {
-
-    List<GeneratedFile> results = new LinkedList<>();
-    addStructConversionFiles(jniContainers, results);
-    addInstanceConversionFiles(jniContainers, results);
-    addEnumConversionFiles(jniContainers, results);
-    addCppProxyFiles(jniContainers, results);
-
-    return results;
-  }
-
-  public GeneratedFile generateConversionUtilsHeaderFile(final String fileName) {
-    Map<String, Object> mustacheData = new HashMap<>();
-    mustacheData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
-    return generateFile(
-        JNI_UTILS_TEMPLATE_PREFIX + fileName + HEADER_TEMPLATE_SUFFIX,
-        mustacheData,
-        jniNameRules.getHeaderFilePath(fileName));
-  }
-
-  public GeneratedFile generateConversionUtilsImplementationFile(final String fileName) {
-    Map<String, Object> mustacheData = new HashMap<>();
-    mustacheData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
-    return generateFile(
-        JNI_UTILS_TEMPLATE_PREFIX + fileName + IMPL_TEMPLATE_SUFFIX,
-        mustacheData,
-        jniNameRules.getImplementationFilePath(fileName));
-  }
-
-  private void addStructConversionFiles(
-      List<JniContainer> jniContainers, List<GeneratedFile> results) {
-
-    final Set<Include> includes =
-        jniContainers
-            .stream()
-            .flatMap(model -> model.getIncludes().stream())
-            .collect(Collectors.toCollection(LinkedHashSet::new));
-
-    Map<String, Object> mustacheData = new HashMap<>();
-    mustacheData.put(INCLUDES_NAME, includes);
-    mustacheData.put(MODELS_NAME, jniContainers);
-    mustacheData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
-
-    results.add(
+    fun generateConversionUtilsImplementationFile(fileName: String) =
         generateFile(
-            "jni/StructConversionHeader",
-            mustacheData,
-            jniNameRules.getHeaderFilePath(JniNameRules.JNI_STRUCT_CONVERSION_NAME)));
+            JNI_UTILS_TEMPLATE_PREFIX + fileName + IMPL_TEMPLATE_SUFFIX,
+            mapOf(INTERNAL_NAMESPACE_NAME to internalNamespace),
+            jniNameRules.getImplementationFilePath(fileName)
+        )
 
-    mustacheData.put(
-        INCLUDES_NAME,
-        Arrays.asList(
-            Include.Companion.createInternalInclude(
-                JniNameRules.getHeaderFileName(JniNameRules.JNI_STRUCT_CONVERSION_NAME)),
+    private fun addStructConversionFiles(
+        jniContainers: List<JniContainer>,
+        results: MutableList<GeneratedFile>
+    ) {
+        val includes = jniContainers.flatMap { it.includes }.toSet()
+        val mustacheData = mutableMapOf(
+            INCLUDES_NAME to includes,
+            MODELS_NAME to jniContainers,
+            INTERNAL_NAMESPACE_NAME to internalNamespace
+        )
+
+        results.add(
+            generateFile(
+                "jni/StructConversionHeader",
+                mustacheData,
+                jniNameRules.getHeaderFilePath(JniNameRules.JNI_STRUCT_CONVERSION_NAME)
+            )
+        )
+
+        mustacheData[INCLUDES_NAME] = listOf(
+            Include.createInternalInclude(
+                JniNameRules.getHeaderFileName(JniNameRules.JNI_STRUCT_CONVERSION_NAME)
+            ),
             CppLibraryIncludes.INT_TYPES,
             CppLibraryIncludes.VECTOR,
-            Include.Companion.createInternalInclude(
-                JniNameRules.getHeaderFileName(JavaGeneratorSuite.FIELD_ACCESS_UTILS)),
-            Include.Companion.createInternalInclude(
-                JniNameRules.getHeaderFileName(JniNameRules.JNI_ENUM_CONVERSION_NAME))));
+            Include.createInternalInclude(
+                JniNameRules.getHeaderFileName(JavaGeneratorSuite.FIELD_ACCESS_UTILS)
+            ),
+            Include.createInternalInclude(
+                JniNameRules.getHeaderFileName(JniNameRules.JNI_ENUM_CONVERSION_NAME)
+            )
+        )
 
-    results.add(
-        generateFile(
-            "jni/StructConversionImplementation",
-            mustacheData,
-            jniNameRules.getImplementationFilePath(JniNameRules.JNI_STRUCT_CONVERSION_NAME)));
-  }
-
-  private void addEnumConversionFiles(
-      List<JniContainer> jniContainers, List<GeneratedFile> results) {
-    final Set<Include> includes = new LinkedHashSet<>();
-    jniContainers.forEach(model -> includes.addAll(model.getIncludes()));
-
-    Map<String, Object> mustacheData = new HashMap<>();
-    mustacheData.put(INCLUDES_NAME, includes);
-    mustacheData.put(MODELS_NAME, jniContainers);
-    mustacheData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
-
-    results.add(
-        generateFile(
-            "jni/EnumConversionHeader",
-            mustacheData,
-            jniNameRules.getHeaderFilePath(JniNameRules.JNI_ENUM_CONVERSION_NAME)));
-
-    mustacheData.put(
-        INCLUDES_NAME,
-        Collections.singletonList(
-            Include.Companion.createInternalInclude(
-                JniNameRules.getHeaderFileName(JniNameRules.JNI_ENUM_CONVERSION_NAME))));
-
-    results.add(
-        generateFile(
-            "jni/EnumConversionImplementation",
-            mustacheData,
-            jniNameRules.getImplementationFilePath(JniNameRules.JNI_ENUM_CONVERSION_NAME)));
-  }
-
-  private void addInstanceConversionFiles(
-      List<JniContainer> jniContainers, List<GeneratedFile> results) {
-
-    List<JniContainer> instanceContainers =
-        jniContainers
-            .stream()
-            .filter(container -> container.getContainerType() != ContainerType.TYPE_COLLECTION)
-            .collect(Collectors.toList());
-
-    List<String> combinedPackages = new ArrayList<>();
-    combinedPackages.addAll(basePackages);
-    combinedPackages.addAll(internalPackages);
-
-    Map<String, Object> instanceData = new HashMap<>();
-    final Set<Include> instanceIncludes = new LinkedHashSet<>();
-    instanceIncludes.add(CppLibraryIncludes.MEMORY);
-    instanceIncludes.add(CppLibraryIncludes.NEW);
-    instanceContainers.forEach(container -> instanceIncludes.addAll(container.getIncludes()));
-    instanceData.put(INCLUDES_NAME, instanceIncludes);
-    instanceData.put(MODELS_NAME, instanceContainers);
-    instanceData.put(BASE_PACKAGES_NAME, basePackages);
-    instanceData.put(INTERNAL_PACKAGES_NAME, combinedPackages);
-    instanceData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
-
-    results.add(
-        generateFile(
-            "jni/InstanceConversionHeader",
-            instanceData,
-            jniNameRules.getHeaderFilePath(JniNameRules.JNI_INSTANCE_CONVERSION_NAME)));
-
-    instanceIncludes.add(
-        Include.Companion.createInternalInclude(
-            JniNameRules.getHeaderFileName(JniNameRules.JNI_INSTANCE_CONVERSION_NAME)));
-
-    results.add(
-        generateFile(
-            "jni/InstanceConversionImplementation",
-            instanceData,
-            jniNameRules.getImplementationFilePath(JniNameRules.JNI_INSTANCE_CONVERSION_NAME)));
-  }
-
-  private void addCppProxyFiles(
-      final List<JniContainer> jniContainers, final List<GeneratedFile> results) {
-
-    List<JniContainer> listeners =
-        jniContainers
-            .stream()
-            .filter(container -> container.getContainerType() == ContainerType.INTERFACE)
-            .collect(Collectors.toList());
-
-    List<Include> proxyIncludes = new LinkedList<>();
-
-    for (JniContainer jniContainer : listeners) {
-
-      Map<String, Object> containerData = new HashMap<>();
-      containerData.put(CONTAINER_NAME, jniContainer);
-      containerData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
-
-      String fileName =
-          JniNameRules.getJniClassFileName(jniContainer) + JniNameRules.JNI_CPP_PROXY_SUFFIX;
-      results.add(
-          generateFile(
-              "jni/CppProxyHeader", containerData, jniNameRules.getHeaderFilePath(fileName)));
-
-      Include headerInclude =
-          Include.Companion.createInternalInclude(JniNameRules.getHeaderFileName(fileName));
-
-      proxyIncludes.add(headerInclude);
-
-      containerData.put("headerInclude", headerInclude);
-
-      results.add(
-          generateFile(
-              "jni/CppProxyImplementation",
-              containerData,
-              jniNameRules.getImplementationFilePath(fileName)));
+        results.add(
+            generateFile(
+                "jni/StructConversionImplementation",
+                mustacheData,
+                jniNameRules.getImplementationFilePath(JniNameRules.JNI_STRUCT_CONVERSION_NAME)
+            )
+        )
     }
 
-    Map<String, Object> mustacheData = new HashMap<>();
-    mustacheData.put(INCLUDES_NAME, proxyIncludes);
-    mustacheData.put(MODELS_NAME, listeners);
-    mustacheData.put(INTERNAL_NAMESPACE_NAME, internalNamespace);
+    private fun addEnumConversionFiles(
+        jniContainers: List<JniContainer>,
+        results: MutableList<GeneratedFile>
+    ) {
+        val includes = jniContainers.flatMap { it.includes }.toSet()
+        val mustacheData = mutableMapOf(
+            INCLUDES_NAME to includes,
+            MODELS_NAME to jniContainers,
+            INTERNAL_NAMESPACE_NAME to internalNamespace
+        )
 
-    results.add(
-        generateFile(
-            "jni/ProxyGeneratorHeader",
-            mustacheData,
-            jniNameRules.getHeaderFilePath(JniNameRules.JNI_PROXY_CONVERSION_NAME)));
-  }
+        results.add(
+            generateFile(
+                "jni/EnumConversionHeader",
+                mustacheData,
+                jniNameRules.getHeaderFilePath(JniNameRules.JNI_ENUM_CONVERSION_NAME)
+            )
+        )
 
-  private static GeneratedFile generateFile(
-      final String templateName, final Object data, final String fileName) {
-    return new GeneratedFile(TemplateEngine.INSTANCE.render(templateName, data), fileName);
-  }
+        mustacheData[INCLUDES_NAME] = listOf(
+            Include.createInternalInclude(
+                JniNameRules.getHeaderFileName(JniNameRules.JNI_ENUM_CONVERSION_NAME)
+            )
+        )
+
+        results.add(
+            generateFile(
+                "jni/EnumConversionImplementation",
+                mustacheData,
+                jniNameRules.getImplementationFilePath(JniNameRules.JNI_ENUM_CONVERSION_NAME)
+            )
+        )
+    }
+
+    private fun addInstanceConversionFiles(
+        jniContainers: List<JniContainer>,
+        results: MutableList<GeneratedFile>
+    ) {
+        val instanceContainers = jniContainers
+            .filter { it.containerType !== ContainerType.TYPE_COLLECTION }
+
+        val instanceIncludes = (setOf(CppLibraryIncludes.MEMORY, CppLibraryIncludes.NEW) +
+            instanceContainers.flatMap { it.includes }).toMutableSet()
+
+        val instanceData = mapOf(
+            INCLUDES_NAME to instanceIncludes,
+            MODELS_NAME to instanceContainers,
+            BASE_PACKAGES_NAME to basePackages,
+            INTERNAL_PACKAGES_NAME to basePackages + internalPackages,
+            INTERNAL_NAMESPACE_NAME to internalNamespace
+        )
+
+        results.add(
+            generateFile(
+                "jni/InstanceConversionHeader",
+                instanceData,
+                jniNameRules.getHeaderFilePath(JniNameRules.JNI_INSTANCE_CONVERSION_NAME)
+            )
+        )
+
+        instanceIncludes.add(
+            Include.createInternalInclude(
+                JniNameRules.getHeaderFileName(JniNameRules.JNI_INSTANCE_CONVERSION_NAME)
+            )
+        )
+
+        results.add(
+            generateFile(
+                "jni/InstanceConversionImplementation",
+                instanceData,
+                jniNameRules.getImplementationFilePath(JniNameRules.JNI_INSTANCE_CONVERSION_NAME)
+            )
+        )
+    }
+
+    private fun addCppProxyFiles(
+        jniContainers: List<JniContainer>,
+        results: MutableList<GeneratedFile>
+    ) {
+        val listeners = jniContainers.filter { it.containerType === ContainerType.INTERFACE }
+
+        val proxyIncludes = mutableListOf<Include>()
+
+        for (jniContainer in listeners) {
+            val containerData = mutableMapOf(
+                CONTAINER_NAME to jniContainer,
+                INTERNAL_NAMESPACE_NAME to internalNamespace
+            )
+
+            val fileName =
+                JniNameRules.getJniClassFileName(jniContainer) + JniNameRules.JNI_CPP_PROXY_SUFFIX
+            results.add(
+                generateFile(
+                    "jni/CppProxyHeader", containerData, jniNameRules.getHeaderFilePath(fileName)
+                )
+            )
+
+            val headerInclude =
+                Include.createInternalInclude(JniNameRules.getHeaderFileName(fileName))
+
+            proxyIncludes.add(headerInclude)
+            containerData["headerInclude"] = headerInclude
+
+            results.add(
+                generateFile(
+                    "jni/CppProxyImplementation",
+                    containerData,
+                    jniNameRules.getImplementationFilePath(fileName)
+                )
+            )
+        }
+
+        val mustacheData = mapOf(
+            INCLUDES_NAME to proxyIncludes,
+            MODELS_NAME to listeners,
+            INTERNAL_NAMESPACE_NAME to internalNamespace
+        )
+
+        results.add(
+            generateFile(
+                "jni/ProxyGeneratorHeader",
+                mustacheData,
+                jniNameRules.getHeaderFilePath(JniNameRules.JNI_PROXY_CONVERSION_NAME)
+            )
+        )
+    }
+
+    companion object {
+        private const val INCLUDES_NAME = "includes"
+        private const val MODELS_NAME = "models"
+        private const val BASE_PACKAGES_NAME = "basePackages"
+        private const val INTERNAL_PACKAGES_NAME = "internalPackages"
+        private const val CONTAINER_NAME = "container"
+        private const val INTERNAL_NAMESPACE_NAME = "internalNamespace"
+
+        private const val JNI_UTILS_TEMPLATE_PREFIX = "jni/utils/"
+        private const val HEADER_TEMPLATE_SUFFIX = "Header"
+        private const val IMPL_TEMPLATE_SUFFIX = "Implementation"
+
+        private fun generateFile(templateName: String, data: Any, fileName: String): GeneratedFile {
+            return GeneratedFile(TemplateEngine.render(templateName, data), fileName)
+        }
+    }
 }
