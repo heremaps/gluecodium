@@ -215,7 +215,7 @@ public final class EquatableTest {
         EquatableInterface other = new EquatableInterface("two");
 
         assertNotEquals(one, other);
-        //TODO: APIGEN-1488 assertNotEquals(one.hashCode(), other.hashCode());
+        assertNotEquals(one.hashCode(), other.hashCode());
     }
 
     @Test
@@ -251,7 +251,7 @@ public final class EquatableTest {
                 new PointerEquatableInterface.EquatableStruct(other, uninteresting);
 
         assertNotEquals(oneStruct, otherStruct);
-        //TODO: APIGEN-1488 assertNotEquals(oneStruct.hashCode(), otherStruct.hashCode());
+        assertNotEquals(oneStruct.hashCode(), otherStruct.hashCode());
         assertFalse(PointerEquatableInterface.areEqual(oneStruct, otherStruct));
     }
 

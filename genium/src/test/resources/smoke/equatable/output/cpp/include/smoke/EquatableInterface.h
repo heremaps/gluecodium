@@ -40,3 +40,10 @@ public:
     bool operator!=( const EquatableInterface& rhs );
 };
 }
+namespace std
+{
+template<>
+struct hash <::smoke::EquatableInterface> {
+    std::size_t operator( )( const ::smoke::EquatableInterface& t ) const;
+};
+}

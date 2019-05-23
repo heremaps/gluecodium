@@ -46,4 +46,8 @@ class CppFile(
 
     val classes: List<CppClass>
         get() = CollectionsHelper.getAllOfType(members.toMutableList(), CppClass::class.java)
+
+    @Suppress("unused")
+    val hasStdForwardDeclaration: Boolean
+        get() = errorEnums.isNotEmpty() || classes.any { it.isEquatable }
 }

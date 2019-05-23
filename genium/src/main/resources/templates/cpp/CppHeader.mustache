@@ -66,7 +66,7 @@ namespace {{.}} {
 {{#namespace}}
 }
 {{/namespace}}
-{{#if errorEnums}}
+{{#hasStdForwardDeclaration}}
 
 namespace std
 {
@@ -74,5 +74,11 @@ namespace std
 template <>
 struct is_error_code_enum <{{fullyQualifiedName}}> : public std::true_type { };
 {{/errorEnums}}
+{{#classes}}{{#isEquatable}}
+template<>
+struct hash <{{fullyQualifiedName}}> {
+    std::size_t operator( )( const {{fullyQualifiedName}}& t ) const;
+};
+{{/isEquatable}}{{/classes}}
 }
-{{/if}}
+{{/hasStdForwardDeclaration}}

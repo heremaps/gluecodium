@@ -49,6 +49,6 @@ Java_com_example_smoke_EquatableInterface_hashCode(JNIEnv* _jenv, jobject _jinst
             ::genium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    return 7; //TODO APIGEN-1488 forward to C++ hash
+    return std::hash<::smoke::EquatableInterface>()(**pInstanceSharedPointer);
 }
 }

@@ -52,11 +52,6 @@ EquatableInterface::create(const std::string& name) {
     return std::make_shared<EquatableInterfaceImpl>(name);
 }
 
-bool
-EquatableInterface::operator == (const EquatableInterface& rhs) {
-    return get_name() == rhs.get_name();
-}
-
 std::shared_ptr<PointerEquatableInterface>
 PointerEquatableInterface::create_new() {
     s_pointer_equal_instance = std::make_shared<PointerEquatableInterfaceImpl>();
@@ -95,4 +90,16 @@ PointerEquatableInterface::are_equal( const PointerEquatableInterface::Equatable
     return lhs == rhs;
 }
 
+bool
+EquatableInterface::operator == ( const EquatableInterface& rhs ) {
+    return get_name( ) == rhs.get_name( );
+}
+
 }  // namespace test
+
+namespace std {
+std::size_t
+hash <::test::EquatableInterface>::operator( )( const ::test::EquatableInterface& t ) const {
+    return 11 ^ std::hash<std::string>( )( t.get_name( ) );
+}
+}

@@ -95,10 +95,10 @@ jint
 {
     auto pInstanceSharedPointer = {{#set jobjectName="_jinstance"}}{{>sharedInstance}}{{/set}}
 {{#isPointerEquatable}}
-    return reinterpret_cast<int64_t>(pInstanceSharedPointer->get());
+    return std::hash<std::shared_ptr<{{cppFullyQualifiedName}}> >()(*pInstanceSharedPointer);
 {{/isPointerEquatable}}
 {{#isEquatable}}
-    return 7; //TODO APIGEN-1488 forward to C++ hash
+    return std::hash<{{cppFullyQualifiedName}}>()(**pInstanceSharedPointer);
 {{/isEquatable}}
 }
 {{/hasNativeEquatable}}
