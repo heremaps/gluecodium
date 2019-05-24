@@ -29,6 +29,7 @@ let allTests = [
     testCase(DatesTests.allTests),
     testCase(DefaultsTests.allTests),
     testCase(EnumsTests.allTests),
+    testCase(EquatableInstancesTests.allTests),
     testCase(EquatableNullableTests.allTests),
     testCase(EquatableTests.allTests),
     testCase(ErrorsTests.allTests),

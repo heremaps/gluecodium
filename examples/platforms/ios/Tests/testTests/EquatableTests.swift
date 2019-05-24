@@ -132,82 +132,6 @@ class EquatableTests: XCTestCase {
         XCTAssertNotEqual(hash(otherArray), hash(array))
     }
 
-    func testDifferentInstancesArePointerUnequal() {
-        let one = PointerEquatableInterface.createNew()
-        let other = PointerEquatableInterface.createNew()
-        XCTAssertNotEqual(one, other)
-        XCTAssertNotEqual(hash(one), hash(other))
-    }
-
-    func testSameInstancesArePointerEqual() {
-        let one = PointerEquatableInterface.createNew()
-        let other = PointerEquatableInterface.returnLast()
-        XCTAssertEqual(one, other)
-        XCTAssertEqual(hash(one), hash(other))
-    }
-
-    func testUnequalInstancesAreUnequal() {
-        let one = EquatableInterface(name: "one")
-        let other = EquatableInterface(name: "other")
-        XCTAssertNotEqual(one, other)
-        XCTAssertNotEqual(hash(one), hash(other))
-    }
-
-    func testEqualInstancesAreEqual() {
-        let one = EquatableInterface(name: "one")
-        let other = EquatableInterface(name: "one")
-        XCTAssertEqual(one, other)
-        XCTAssertEqual(hash(one), hash(other))
-    }
-
-    func testEqualInstancesInStruct() {
-        let one = EquatableInterface(name: "one")
-        let other = EquatableInterface(name: "one")
-        let uninteresting = PointerEquatableInterface.createNew()
-        let oneStruct = PointerEquatableInterface.EquatableStruct(equatable: one, pointerEquatable: uninteresting)
-        let otherStruct = PointerEquatableInterface.EquatableStruct(equatable: other, pointerEquatable: uninteresting)
-
-        XCTAssertEqual(oneStruct, otherStruct)
-        XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertEqual(hash(oneStruct), hash(otherStruct))
-    }
-
-    func testUnequalInstancesInStruct() {
-        let one = EquatableInterface(name: "one")
-        let other = EquatableInterface(name: "other")
-        let uninteresting = PointerEquatableInterface.createNew()
-        let oneStruct = PointerEquatableInterface.EquatableStruct(equatable: one, pointerEquatable: uninteresting)
-        let otherStruct = PointerEquatableInterface.EquatableStruct(equatable: other, pointerEquatable: uninteresting)
-
-        XCTAssertNotEqual(oneStruct, otherStruct)
-        XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
-    }
-
-    func testPointerUnequalInstancesInStruct() {
-        let one = PointerEquatableInterface.createNew()
-        let other = PointerEquatableInterface.createNew()
-        let uninteresting = EquatableInterface(name: "same for both")
-        let oneStruct = PointerEquatableInterface.EquatableStruct(equatable: uninteresting, pointerEquatable: one)
-        let otherStruct = PointerEquatableInterface.EquatableStruct(equatable: uninteresting, pointerEquatable: other)
-
-        XCTAssertNotEqual(oneStruct, otherStruct)
-        XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
-    }
-
-    func testPointerEqualInstancesInStruct() {
-        let one = PointerEquatableInterface.createNew()
-        let other = PointerEquatableInterface.returnLast()
-        let uninteresting = EquatableInterface(name: "same for both")
-        let oneStruct = PointerEquatableInterface.EquatableStruct(equatable: uninteresting, pointerEquatable: one)
-        let otherStruct = PointerEquatableInterface.EquatableStruct(equatable: uninteresting, pointerEquatable: other)
-
-        XCTAssertEqual(oneStruct, otherStruct)
-        XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
-        XCTAssertEqual(hash(oneStruct), hash(otherStruct))
-    }
-
     static func createEquatableStruct() -> EquatableStruct {
 
         return EquatableStruct(boolField: true, intField: 65542, longField: 2147484000,
@@ -235,14 +159,6 @@ class EquatableTests: XCTestCase {
         ("testStructNotEqualsMapField", testStructNotEqualsMapField),
         ("testStructNotEqualsArrayField", testStructNotEqualsArrayField),
         ("testArrayEquals", testArrayEquals),
-        ("testArrayNotEquals", testArrayNotEquals),
-        ("testDifferentInstancesArePointerUnequal", testDifferentInstancesArePointerUnequal),
-        ("testSameInstancesArePointerEqual", testSameInstancesArePointerEqual),
-        ("testUnequalInstancesAreUnequal", testUnequalInstancesAreUnequal),
-        ("testEqualInstancesAreEqual", testEqualInstancesAreEqual),
-        ("testUnequalInstancesInStruct", testUnequalInstancesInStruct),
-        ("testEqualInstancesInStruct", testEqualInstancesInStruct),
-        ("testPointerEqualInstancesInStruct", testPointerEqualInstancesInStruct),
-        ("testPointerUnequalInstancesInStruct", testPointerUnequalInstancesInStruct)
+        ("testArrayNotEquals", testArrayNotEquals)
     ]
 }

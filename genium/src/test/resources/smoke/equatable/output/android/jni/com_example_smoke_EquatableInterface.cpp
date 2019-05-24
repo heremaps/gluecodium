@@ -23,6 +23,9 @@ Java_com_example_smoke_EquatableInterface_disposeNativeHandle(JNIEnv* _jenv, job
 jboolean
 Java_com_example_smoke_EquatableInterface_equals(JNIEnv* _jenv, jobject _jinstance, jobject jrhs)
 {
+    if (_jinstance == nullptr || jrhs == nullptr) {
+        return _jinstance == jrhs;
+    }
     auto& jclass = ::genium::jni::get_cached_native_base_class();
     if (!_jenv->IsInstanceOf(jrhs, jclass.get())) {
         return false;

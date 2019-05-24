@@ -126,6 +126,12 @@ define GeniumExtensions for interface test.PointerEquatableInterface {
         Equatable = true
     }
 
+    struct OptionalEquatableStruct {
+        Equatable = true
+        equatable { Nullable = true }
+        pointerEquatable {Nullable = true }
+    }
+
     method createNew {
         Static = true
     }
@@ -134,7 +140,11 @@ define GeniumExtensions for interface test.PointerEquatableInterface {
         Static = true
     }
 
-    method areEqual {
+    method areEqual:EquatableStruct {
+        Static = true
+    }
+
+    method areEqual:OptionalEquatableStruct {
         Static = true
     }
 }

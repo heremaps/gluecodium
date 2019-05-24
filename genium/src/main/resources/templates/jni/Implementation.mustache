@@ -70,6 +70,9 @@ Java_{{#javaPackages}}{{.}}_{{/javaPackages}}{{javaName}}_disposeNativeHandle(JN
 jboolean
 {{#set javaMethodName="equals"}}{{>jni/FunctionSignaturePrefix}}{{/set}}, jobject jrhs)
 {
+    if (_jinstance == nullptr || jrhs == nullptr) {
+        return _jinstance == jrhs;
+    }
 {{#isPointerEquatable}}
     auto jclass = {{>common/InternalNamespace}}jni::get_object_class(_jenv, _jinstance);
 {{/isPointerEquatable}}

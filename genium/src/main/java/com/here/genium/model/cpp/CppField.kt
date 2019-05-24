@@ -30,11 +30,15 @@ class CppField(
     val isNotNull: Boolean = false,
     val isNullable: Boolean = false,
     val hasImmutableType: Boolean = false,
-    val isClassEquatable: Boolean = false
+    val isClassEquatable: Boolean = false,
+    val isClassPointerEquatable: Boolean = false
 ) : CppTypedElement(name, fullyQualifiedName, type) {
 
     override fun stream() = Stream.of(type, initializer)
 
     @Suppress("unused")
     fun hasComment() = !Strings.isNullOrEmpty(comment) || isNotNull
+
+    @Suppress("unused")
+    val needsPointerValueEqual = isNullable && !isClassPointerEquatable || isClassEquatable
 }

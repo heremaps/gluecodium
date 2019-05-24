@@ -131,10 +131,25 @@ interface PointerEquatableInterface {
         PointerEquatableInterface pointerEquatable
     }
 
-    method areEqual {
+    struct OptionalEquatableStruct {
+        EquatableInterface.EquatableInterface equatable
+        PointerEquatableInterface pointerEquatable
+    }
+
+    method areEqual:EquatableStruct {
         in {
             EquatableStruct one
             EquatableStruct other
+        }
+        out {
+            Boolean equal
+        }
+    }
+
+    method areEqual:OptionalEquatableStruct {
+        in {
+            OptionalEquatableStruct one
+            OptionalEquatableStruct other
         }
         out {
             Boolean equal

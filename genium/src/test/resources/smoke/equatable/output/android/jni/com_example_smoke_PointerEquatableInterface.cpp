@@ -23,6 +23,9 @@ Java_com_example_smoke_PointerEquatableInterface_disposeNativeHandle(JNIEnv* _je
 jboolean
 Java_com_example_smoke_PointerEquatableInterface_equals(JNIEnv* _jenv, jobject _jinstance, jobject jrhs)
 {
+    if (_jinstance == nullptr || jrhs == nullptr) {
+        return _jinstance == jrhs;
+    }
     auto jclass = ::genium::jni::get_object_class(_jenv, _jinstance);
     if (!_jenv->IsInstanceOf(jrhs, jclass.get())) {
         return false;

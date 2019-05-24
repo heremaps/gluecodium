@@ -55,11 +55,8 @@ bool {{#className}}{{.}}::{{/className}}{{name}}::operator!=( const {{name}}& rh
 }
 
 {{/if}}{{/unless}}{{!!
-}}{{+fieldEq}}{{#isClassEquatable}}{{>pointerValueEq}}{{/isClassEquatable}}{{!!
-}}{{^isClassEquatable}}{{#isNullable}}{{>pointerValueEq}}{{/isNullable}}{{!!
-}}{{^isNullable}}{{name}} == rhs.{{name}}{{/isNullable}}{{/isClassEquatable}}{{/fieldEq}}{{!!
-
-}}{{+pointerValueEq}}( ( {{name}} && rhs.{{name}} )
+}}{{+fieldEq}}{{#needsPointerValueEqual}}( ( {{name}} && rhs.{{name}} )
             ? ( *{{name}} == *rhs.{{name}} )
             : ( static_cast< bool >( {{name}} ) == static_cast< bool >( rhs.{{name}} ) ) ){{!!
-}}{{/pointerValueEq}}
+}}{{/needsPointerValueEqual}}{{^needsPointerValueEqual}}{{!!
+}}{{name}} == rhs.{{name}}{{/needsPointerValueEqual}}{{/fieldEq}}

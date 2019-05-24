@@ -91,6 +91,13 @@ PointerEquatableInterface::are_equal( const PointerEquatableInterface::Equatable
 }
 
 bool
+PointerEquatableInterface::are_equal( const PointerEquatableInterface::OptionalEquatableStruct& lhs,
+                                      const PointerEquatableInterface::OptionalEquatableStruct& rhs )
+{
+    return lhs == rhs;
+}
+
+bool
 EquatableInterface::operator == ( const EquatableInterface& rhs ) {
     return get_name( ) == rhs.get_name( );
 }
