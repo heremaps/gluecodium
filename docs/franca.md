@@ -261,14 +261,17 @@ FDEPL:
         }
     }
 
-### Struct: Equatable
+### Struct, Interface: Equatable
 
-This FDEPL property controls whether any equality comparison helpers are generated for the given
-Franca struct. Default value is `false`, i.e. no equality helpers are generated. This affects C++,
+This FDEPL property controls whether a Franca struct or Franca interface are equal comparable.
+For structs the comparison function implementation is generated, for instances only the declaration.
+Default value is `false`, i.e. no equality helpers are generated. This affects C++,
 Java and Swift generated code.
+Types marked as `Equatable` also support hashing.
 
-**Note:** Structs marked as `Equatable` cannot have instance references as fields. Other struct
-types can be used as field types only if those other struct types are also marked as `Equatable`.
+**Note:** All fields in structs marked as `Equatable` need to be of simple type or be marked as
+`Equatable` or `PointerEquatable` themselves.
+**Note:** Only interfaces with `IsInterface=false` are supported.
 
 FIDL:
 
@@ -286,6 +289,29 @@ FDEPL:
         struct exampleStruct {
             Equatable = true
         }
+    }
+
+### Interface: PointerEquatable
+
+This FDEPL property controls whether a Franca interface is equal comparable by comparing the instances
+raw pointer. Default value is `false`, i.e. no equality helpers are generated. This affects C++,
+Java and Swift generated code.
+Interfaces marked as `PointerEquatable` also support hashing.
+
+**Note:** Only interfaces with `IsInterface=false` are supported.
+
+FIDL:
+
+    package example
+
+    interface PointerEqualInterface {
+    }
+
+FDEPL:
+
+    define GeniumExtensions for interface example.PointerEqualInterface
+    {
+        PointerEquatable = true
     }
 
 ### Struct: Immutable
