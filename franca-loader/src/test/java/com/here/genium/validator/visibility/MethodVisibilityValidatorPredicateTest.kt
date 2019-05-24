@@ -19,30 +19,29 @@
 
 package com.here.genium.validator.visibility
 
-import com.here.genium.franca.FrancaTypeHelper
 import com.here.genium.franca.FrancaDeploymentModel
 import com.here.genium.test.ArrayEList
 import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FMethod
+import org.franca.core.franca.FModel
 import org.franca.core.franca.FType
+import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeRef
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(FrancaTypeHelper::class)
+@RunWith(JUnit4::class)
 class MethodVisibilityValidatorPredicateTest {
     @Mock
     private lateinit var francaMethod: FMethod
@@ -54,6 +53,10 @@ class MethodVisibilityValidatorPredicateTest {
     private lateinit var francaType: FType
     @Mock
     private lateinit var francaEnum: FEnumerationType
+    @Mock
+    private lateinit var francaTypeCollection: FTypeCollection
+    @Mock
+    private lateinit var francaModel: FModel
 
     @Mock
     private lateinit var deploymentModel: FrancaDeploymentModel
@@ -67,15 +70,26 @@ class MethodVisibilityValidatorPredicateTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        PowerMockito.mockStatic(FrancaTypeHelper::class.java)
 
-        `when`(FrancaTypeHelper.getFullName(any())).thenReturn("")
+        `when`(francaModel.name).thenReturn("")
+        `when`(francaTypeCollection.name).thenReturn("")
+        `when`(francaEnum.name).thenReturn("")
+        `when`(francaType.name).thenReturn("")
+        `when`(francaArgument.name).thenReturn("")
+        `when`(francaMethod.name).thenReturn("")
+
+        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
+        `when`(francaEnum.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaType.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaArgument.eContainer()).thenReturn(francaMethod)
+        `when`(francaMethod.eContainer()).thenReturn(francaTypeCollection)
 
         `when`(francaArgument.type).thenReturn(francaTypeRef)
         `when`(francaTypeRef.derived).thenReturn(francaType)
 
         `when`(francaMethod.inArgs).thenReturn(inArgs)
         `when`(francaMethod.outArgs).thenReturn(outArgs)
+        `when`(francaMethod.errorEnum).thenReturn(francaEnum)
     }
 
     // Input arguments
@@ -107,16 +121,20 @@ class MethodVisibilityValidatorPredicateTest {
     fun validateInternalMethodWithInternalInArgSamePackage() {
         inArgs.add(francaArgument)
         `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
-        `when`(FrancaTypeHelper.haveSamePackage(any(), any())).thenReturn(true)
 
         assertNull(validatorPredicate.validate(deploymentModel, francaMethod))
     }
 
     @Test
     fun validateInternalMethodWithInternalInArgForeignPackage() {
+        val otherModel = mock(FModel::class.java)
+        val otherTypeCollection = mock(FTypeCollection::class.java)
+        `when`(otherModel.name).thenReturn("foo")
+        `when`(otherTypeCollection.name).thenReturn("")
+        `when`(otherTypeCollection.eContainer()).thenReturn(otherModel)
+        `when`(francaArgument.eContainer()).thenReturn(otherTypeCollection)
         inArgs.add(francaArgument)
         `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
-        `when`(FrancaTypeHelper.haveSamePackage(any(), any())).thenReturn(false)
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaMethod))
     }
@@ -150,16 +168,20 @@ class MethodVisibilityValidatorPredicateTest {
     fun validateInternalMethodWithInternalOutArgSamePackage() {
         outArgs.add(francaArgument)
         `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
-        `when`(FrancaTypeHelper.haveSamePackage(any(), any())).thenReturn(true)
 
         assertNull(validatorPredicate.validate(deploymentModel, francaMethod))
     }
 
     @Test
     fun validateInternalMethodWithInternalOutArgForeignPackage() {
+        val otherModel = mock(FModel::class.java)
+        val otherTypeCollection = mock(FTypeCollection::class.java)
+        `when`(otherModel.name).thenReturn("foo")
+        `when`(otherTypeCollection.name).thenReturn("")
+        `when`(otherTypeCollection.eContainer()).thenReturn(otherModel)
+        `when`(francaArgument.eContainer()).thenReturn(otherTypeCollection)
         outArgs.add(francaArgument)
         `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
-        `when`(FrancaTypeHelper.haveSamePackage(any(), any())).thenReturn(false)
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaMethod))
     }
@@ -193,16 +215,20 @@ class MethodVisibilityValidatorPredicateTest {
     fun validateInternalMethodWithInternalErrorEnumSamePackage() {
         `when`(francaMethod.errorEnum).thenReturn(francaEnum)
         `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
-        `when`(FrancaTypeHelper.haveSamePackage(any(), any())).thenReturn(true)
 
         assertNull(validatorPredicate.validate(deploymentModel, francaMethod))
     }
 
     @Test
     fun validateInternalMethodWithInternalErrorEnumForeignPackage() {
+        val otherModel = mock(FModel::class.java)
+        val otherTypeCollection = mock(FTypeCollection::class.java)
+        `when`(otherModel.name).thenReturn("foo")
+        `when`(otherTypeCollection.name).thenReturn("")
+        `when`(otherTypeCollection.eContainer()).thenReturn(otherModel)
+        `when`(francaEnum.eContainer()).thenReturn(otherTypeCollection)
         `when`(francaMethod.errorEnum).thenReturn(francaEnum)
         `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
-        `when`(FrancaTypeHelper.haveSamePackage(any(), any())).thenReturn(false)
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaMethod))
     }

@@ -20,7 +20,7 @@
 package com.here.genium.franca
 
 import org.franca.core.franca.FBasicTypeId
-import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FModel
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeDef
@@ -30,17 +30,12 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.any
+import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.api.mockito.PowerMockito.verifyStatic
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(DefinedBy::class, FrancaTypeHelper::class)
+@RunWith(JUnit4::class)
 class SpecialTypeRulesTest {
     @Mock
     private lateinit var francaTypeDef: FTypeDef
@@ -50,19 +45,24 @@ class SpecialTypeRulesTest {
     private lateinit var derivedType: FType
     @Mock
     private lateinit var typeCollection: FTypeCollection
+    @Mock
+    private lateinit var francaModel: FModel
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        PowerMockito.mockStatic(DefinedBy::class.java, FrancaTypeHelper::class.java)
 
         `when`(francaTypeDef.actualType).thenReturn(francaTypeRef)
         `when`(francaTypeRef.predefined).thenReturn(FBasicTypeId.UNDEFINED)
 
-        `when`(DefinedBy.findDefiningTypeCollection(any(FModelElement::class.java))).thenReturn(
-            typeCollection
-        )
-        `when`(typeCollection.name).thenReturn(CLASS_NAME)
+        `when`(francaTypeDef.name).thenReturn("")
+        `when`(derivedType.name).thenReturn("")
+        `when`(typeCollection.name).thenReturn("MyClass")
+        `when`(francaModel.name).thenReturn("")
+
+        `when`(francaTypeDef.eContainer()).thenReturn(typeCollection)
+        `when`(derivedType.eContainer()).thenReturn(typeCollection)
+        `when`(typeCollection.eContainer()).thenReturn(francaModel)
     }
 
     @Test
@@ -81,35 +81,27 @@ class SpecialTypeRulesTest {
 
     @Test
     fun checkTypedefWithDifferentNameThanClass() {
-        `when`(francaTypeDef.name).thenReturn("Not$CLASS_NAME")
+        `when`(francaTypeDef.name).thenReturn("NotMyClass")
 
         assertFalse(SpecialTypeRules.isInstanceId(francaTypeDef))
-
-        verifyStatic()
-        DefinedBy.findDefiningTypeCollection(francaTypeDef)
     }
 
     @Test
     fun checkTypedefWithSameNameAsClass() {
-        `when`(francaTypeDef.name).thenReturn(CLASS_NAME)
+        `when`(francaTypeDef.name).thenReturn("MyClass")
 
         assertTrue(SpecialTypeRules.isInstanceId(francaTypeDef))
-
-        verifyStatic()
-        DefinedBy.findDefiningTypeCollection(francaTypeDef)
     }
 
     @Test
     fun checkDateType() {
         `when`(francaTypeRef.derived).thenReturn(derivedType)
-        `when`(FrancaTypeHelper.getFullName(any())).thenReturn(SpecialTypeRules.DATE_TYPE_KEY)
+        `when`(derivedType.name).thenReturn("Date")
+        `when`(typeCollection.name).thenReturn("Extensions")
+        `when`(francaModel.name).thenReturn("genium")
 
         val result = SpecialTypeRules.isDateType(francaTypeRef)
 
         assertTrue(result)
-    }
-
-    companion object {
-        private const val CLASS_NAME = "MyClass"
     }
 }

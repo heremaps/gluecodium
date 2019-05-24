@@ -19,28 +19,26 @@
 
 package com.here.genium.validator.visibility
 
-import com.here.genium.franca.FrancaTypeHelper
 import com.here.genium.franca.FrancaDeploymentModel
 import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FArrayType
-import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FModel
 import org.franca.core.franca.FType
+import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeRef
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(FrancaTypeHelper::class)
+@RunWith(JUnit4::class)
 class ArrayVisibilityValidatorPredicateTest {
     @Mock
     private lateinit var francaTypeRef: FTypeRef
@@ -48,6 +46,10 @@ class ArrayVisibilityValidatorPredicateTest {
     private lateinit var francaType: FType
     @Mock
     private lateinit var francaArray: FArrayType
+    @Mock
+    private lateinit var francaTypeCollection: FTypeCollection
+    @Mock
+    private lateinit var francaModel: FModel
 
     @Mock
     private lateinit var deploymentModel: FrancaDeploymentModel
@@ -58,12 +60,18 @@ class ArrayVisibilityValidatorPredicateTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        PowerMockito.mockStatic(FrancaTypeHelper::class.java)
-
-        `when`(FrancaTypeHelper.getFullName(any<FModelElement>())).thenReturn("")
 
         `when`(francaArray.elementType).thenReturn(francaTypeRef)
         `when`(francaTypeRef.derived).thenReturn(francaType)
+
+        `when`(francaModel.name).thenReturn("")
+        `when`(francaTypeCollection.name).thenReturn("")
+        `when`(francaArray.name).thenReturn("")
+        `when`(francaType.name).thenReturn("")
+
+        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
+        `when`(francaArray.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaType.eContainer()).thenReturn(francaTypeCollection)
     }
 
     @Test
@@ -87,25 +95,19 @@ class ArrayVisibilityValidatorPredicateTest {
     @Test
     fun validateInternalArrayWithInternalElementTypeSamePackage() {
         `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
-        `when`(
-            FrancaTypeHelper.haveSamePackage(
-                any<FModelElement>(),
-                any<FModelElement>()
-            )
-        ).thenReturn(true)
 
         assertNull(validatorPredicate.validate(deploymentModel, francaArray))
     }
 
     @Test
     fun validateInternalArrayWithInternalElementTypeForeignPackage() {
+        val otherModel = mock(FModel::class.java)
+        val otherTypeCollection = mock(FTypeCollection::class.java)
+        `when`(otherModel.name).thenReturn("foo")
+        `when`(otherTypeCollection.name).thenReturn("")
+        `when`(otherTypeCollection.eContainer()).thenReturn(otherModel)
+        `when`(francaType.eContainer()).thenReturn(otherTypeCollection)
         `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
-        `when`(
-            FrancaTypeHelper.haveSamePackage(
-                any<FModelElement>(),
-                any<FModelElement>()
-            )
-        ).thenReturn(false)
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaArray))
     }

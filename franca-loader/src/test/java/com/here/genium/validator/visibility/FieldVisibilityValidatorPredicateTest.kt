@@ -19,28 +19,26 @@
 
 package com.here.genium.validator.visibility
 
-import com.here.genium.franca.FrancaTypeHelper
 import com.here.genium.franca.FrancaDeploymentModel
 import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FField
-import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FModel
 import org.franca.core.franca.FType
+import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeRef
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(FrancaTypeHelper::class)
+@RunWith(JUnit4::class)
 class FieldVisibilityValidatorPredicateTest {
     @Mock
     private lateinit var francaTypeRef: FTypeRef
@@ -48,19 +46,28 @@ class FieldVisibilityValidatorPredicateTest {
     private lateinit var francaType: FType
     @Mock
     private lateinit var francaField: FField
+    @Mock
+    private lateinit var francaTypeCollection: FTypeCollection
+    @Mock
+    private lateinit var francaModel: FModel
 
     @Mock
     private lateinit var deploymentModel: FrancaDeploymentModel
 
-    private val validatorPredicate =
-        FieldVisibilityValidatorPredicate()
+    private val validatorPredicate = FieldVisibilityValidatorPredicate()
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        PowerMockito.mockStatic(FrancaTypeHelper::class.java)
 
-        `when`(FrancaTypeHelper.getFullName(any<FModelElement>())).thenReturn("")
+        `when`(francaModel.name).thenReturn("")
+        `when`(francaTypeCollection.name).thenReturn("")
+        `when`(francaType.name).thenReturn("")
+        `when`(francaField.name).thenReturn("")
+
+        `when`(francaTypeCollection.eContainer()).thenReturn(francaModel)
+        `when`(francaType.eContainer()).thenReturn(francaTypeCollection)
+        `when`(francaField.eContainer()).thenReturn(francaTypeCollection)
 
         `when`(francaField.type).thenReturn(francaTypeRef)
         `when`(francaTypeRef.derived).thenReturn(francaType)
@@ -87,25 +94,19 @@ class FieldVisibilityValidatorPredicateTest {
     @Test
     fun validateInternalFieldWithInternalTypeSamePackage() {
         `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
-        `when`(
-            FrancaTypeHelper.haveSamePackage(
-                any<FModelElement>(),
-                any<FModelElement>()
-            )
-        ).thenReturn(true)
 
         assertNull(validatorPredicate.validate(deploymentModel, francaField))
     }
 
     @Test
     fun validateInternalFieldWithInternalTypeForeignPackage() {
+        val otherModel = mock(FModel::class.java)
+        val otherTypeCollection = mock(FTypeCollection::class.java)
+        `when`(otherModel.name).thenReturn("foo")
+        `when`(otherTypeCollection.name).thenReturn("")
+        `when`(otherTypeCollection.eContainer()).thenReturn(otherModel)
+        `when`(francaType.eContainer()).thenReturn(otherTypeCollection)
         `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
-        `when`(
-            FrancaTypeHelper.haveSamePackage(
-                any<FModelElement>(),
-                any<FModelElement>()
-            )
-        ).thenReturn(false)
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaField))
     }

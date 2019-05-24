@@ -19,36 +19,29 @@
 
 package com.here.genium.validator
 
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.`when`
-
-import com.here.genium.franca.DefinedBy
 import com.here.genium.franca.FrancaDeploymentModel
-import java.util.Arrays
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FMapType
+import org.franca.core.franca.FModel
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FTypeRef
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
-import org.powermock.modules.junit4.PowerMockRunnerDelegate
+import java.util.Arrays
 
-@RunWith(PowerMockRunner::class)
-@PowerMockRunnerDelegate(Parameterized::class)
-@PrepareForTest(DefinedBy::class)
+@RunWith(Parameterized::class)
 class MapKeyValidatorPredicateTest(
     private val typeId: FBasicTypeId?,
     private val derivedType: FType?,
@@ -58,6 +51,14 @@ class MapKeyValidatorPredicateTest(
     private lateinit var mapType: FMapType
     @Mock
     private lateinit var keyTypeRef: FTypeRef
+    @Mock
+    private lateinit var typeDef: FTypeDef
+    @Mock
+    private lateinit var typeDefRef: FTypeRef
+    @Mock
+    private lateinit var typeCollection: FTypeCollection
+    @Mock
+    private lateinit var francaModel: FModel
 
     @Mock
     private lateinit var deploymentModel: FrancaDeploymentModel
@@ -65,12 +66,18 @@ class MapKeyValidatorPredicateTest(
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        val typeCollection = mock(FTypeCollection::class.java)
-        PowerMockito.mockStatic(DefinedBy::class.java)
-        `when`(DefinedBy.findDefiningTypeCollection(mapType)).thenReturn(typeCollection)
-        `when`(DefinedBy.getModelName(typeCollection)).thenReturn("")
+
+        `when`(typeCollection.eContainer()).thenReturn(francaModel)
+        `when`(mapType.eContainer()).thenReturn(typeCollection)
+        `when`(typeDef.eContainer()).thenReturn(typeCollection)
+
+        `when`(francaModel.name).thenReturn("")
         `when`(typeCollection.name).thenReturn("")
         `when`(mapType.name).thenReturn("MyMap")
+        `when`(typeDef.name).thenReturn("")
+
+        `when`(typeDefRef.derived).thenReturn(typeDef)
+        `when`(typeDef.actualType).thenReturn(keyTypeRef)
     }
 
     @Test
@@ -91,12 +98,6 @@ class MapKeyValidatorPredicateTest(
     fun validateTypeDefToKeyType() {
         `when`(keyTypeRef.predefined).thenReturn(typeId)
         `when`(keyTypeRef.derived).thenReturn(derivedType)
-
-        // map typedef
-        val typeDef = mock(FTypeDef::class.java)
-        val typeDefRef = mock(FTypeRef::class.java)
-        `when`(typeDefRef.derived).thenReturn(typeDef)
-        `when`(typeDef.actualType).thenReturn(keyTypeRef)
         `when`(mapType.keyType).thenReturn(typeDefRef)
 
         // act & assert

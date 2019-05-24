@@ -19,44 +19,46 @@
 
 package com.here.genium.validator.visibility
 
-import com.here.genium.franca.FrancaTypeHelper
 import com.here.genium.franca.FrancaDeploymentModel
 import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FInterface
-import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FModel
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(FrancaTypeHelper::class)
+@RunWith(JUnit4::class)
 class InheritanceVisibilityValidatorPredicateTest {
     @Mock
     private lateinit var francaInterface: FInterface
     @Mock
     private lateinit var parentInterface: FInterface
+    @Mock
+    private lateinit var francaModel: FModel
 
     @Mock
     private lateinit var deploymentModel: FrancaDeploymentModel
 
-    private val validatorPredicate =
-        InheritanceVisibilityValidatorPredicate()
+    private val validatorPredicate = InheritanceVisibilityValidatorPredicate()
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        PowerMockito.mockStatic(FrancaTypeHelper::class.java)
 
-        `when`(FrancaTypeHelper.getFullName(any<FModelElement>())).thenReturn("")
+        `when`(francaModel.name).thenReturn("")
+        `when`(francaInterface.name).thenReturn("")
+        `when`(parentInterface.name).thenReturn("")
+
+        `when`(francaInterface.eContainer()).thenReturn(francaModel)
+        `when`(parentInterface.eContainer()).thenReturn(francaModel)
 
         `when`(francaInterface.base).thenReturn(parentInterface)
     }
@@ -82,25 +84,16 @@ class InheritanceVisibilityValidatorPredicateTest {
     @Test
     fun validateInternalStructWithInternalParentSamePackage() {
         `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
-        `when`(
-            FrancaTypeHelper.haveSamePackage(
-                any<FModelElement>(),
-                any<FModelElement>()
-            )
-        ).thenReturn(true)
 
         assertNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }
 
     @Test
     fun validateInternalStructWithInternalParentForeignPackage() {
+        val otherModel = mock(FModel::class.java)
+        `when`(otherModel.name).thenReturn("foo")
+        `when`(parentInterface.eContainer()).thenReturn(otherModel)
         `when`(deploymentModel.isInternal(any<EObject>())).thenReturn(true)
-        `when`(
-            FrancaTypeHelper.haveSamePackage(
-                any<FModelElement>(),
-                any<FModelElement>()
-            )
-        ).thenReturn(false)
 
         assertNotNull(validatorPredicate.validate(deploymentModel, francaInterface))
     }
