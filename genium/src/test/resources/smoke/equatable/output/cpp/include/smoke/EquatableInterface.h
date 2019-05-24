@@ -37,5 +37,6 @@ struct _GENIUM_CPP_EXPORT EquatableStruct {
 };
 public:
     bool operator==( const EquatableInterface& rhs );
+    bool operator!=( const EquatableInterface& rhs );
 };
 }

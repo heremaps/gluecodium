@@ -9,6 +9,10 @@
 #include "smoke/EquatableInterface.h"
 namespace smoke {
 EquatableInterface::~EquatableInterface() = default;
+bool
+EquatableInterface::operator!=( const EquatableInterface& rhs ) {
+    return !( *this == rhs );
+}
 EquatableInterface::EquatableStruct::EquatableStruct( )
     : int_field{ }, string_field{ }, nested_equatable_instance{ }, nested_pointer_equatable_instance{ }
 {

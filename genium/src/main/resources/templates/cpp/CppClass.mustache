@@ -47,6 +47,7 @@ public:
 {{#isEquatable}}
 public:
     bool operator==( const {{name}}& rhs );
+    bool operator!=( const {{name}}& rhs );
 {{/isEquatable}}
 };{{!!
 }}{{/unless}}

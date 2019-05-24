@@ -30,6 +30,12 @@ namespace {{.}} {
 {{#classes}}{{#unless isExternal}}
 {{name}}::~{{name}}() = default;
 
+{{#isEquatable}}
+bool
+{{name}}::operator!=( const {{name}}& rhs ) {
+    return !( *this == rhs );
+}
+{{/isEquatable}}
 {{#set className=name}}{{#members}}
 {{#instanceOf this "CppConstant"}}const {{type.name}} {{className}}::{{name}} = {{value.name}};{{/instanceOf}}
 {{#instanceOf this "CppStruct"}}{{>cpp/CppStructImpl}}{{/instanceOf}}
