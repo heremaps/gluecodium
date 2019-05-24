@@ -17,55 +17,31 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp;
+package com.here.genium.generator.cpp
 
-import com.here.genium.generator.common.NameHelper;
-import com.here.genium.generator.common.NameRules;
-import java.util.List;
+import com.here.genium.generator.common.NameHelper
+import com.here.genium.generator.common.NameRules
 
-public final class CppNameRules implements NameRules {
+object CppNameRules : NameRules {
+    override fun getTypeName(base: String) = NameHelper.toUpperCamelCase(base) // MyType
 
-  public static final CppNameRules INSTANCE = new CppNameRules();
+    override fun getFunctionName(base: String) = NameHelper.toLowerSnakeCase(base) // do_my_stuff
 
-  private CppNameRules() {}
+    override fun getVariableName(base: String) = NameHelper.toLowerSnakeCase(base) // my_variable
 
-  @Override
-  public String getTypeName(final String base) {
-    return NameHelper.toUpperCamelCase(base); // MyType
-  }
+    override fun getConstantName(base: String) = NameHelper.toUpperSnakeCase(base) // MY_CONSTANT
 
-  @Override
-  public String getFunctionName(final String base) {
-    return NameHelper.toLowerSnakeCase(base); // do_my_stuff
-  }
+    fun getGetterPrefix(isBoolean: Boolean) = if (isBoolean) "is_" else "get_"
 
-  @Override
-  public String getVariableName(final String base) {
-    return NameHelper.toLowerSnakeCase(base); // my_variable
-  }
+    val setterPrefix
+        get() = "set_"
 
-  @Override
-  public String getConstantName(final String base) {
-    return NameHelper.toUpperSnakeCase(base); // MY_CONSTANT
-  }
+    fun joinFullyQualifiedName(nameList: List<String>) = "::" + nameList.joinToString("::")
 
-  public static String getGetterPrefix(final boolean isBoolean) {
-    return isBoolean ? "is_" : "get_";
-  }
-
-  public static String getSetterPrefix() {
-    return "set_";
-  }
-
-  public static String joinFullyQualifiedName(final List<String> nameList) {
-    return "::" + String.join("::", nameList);
-  }
-
-  public static String joinFullyQualifiedName(final String namespace, final String name) {
-    if (namespace.startsWith("::")) {
-      return namespace + "::" + name;
-    } else {
-      return "::" + namespace + "::" + name;
-    }
-  }
+    fun joinFullyQualifiedName(namespace: String?, name: String) =
+        when {
+            namespace == null -> "::$name"
+            namespace.startsWith("::") -> "$namespace::$name"
+            else -> "::$namespace::$name"
+        }
 }

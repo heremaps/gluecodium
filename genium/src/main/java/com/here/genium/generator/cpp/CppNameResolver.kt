@@ -63,7 +63,7 @@ class CppNameResolver(
 
     fun getSetterName(limeProperty: LimeProperty): String {
         return limeProperty.attributes.get(LimeAttributeType.EXTERNAL_SETTER, String::class.java)
-            ?: (CppNameRules.getSetterPrefix() + getName(limeProperty))
+            ?: (CppNameRules.setterPrefix + getName(limeProperty))
     }
 
     fun getFullyQualifiedGetterName(limeProperty: LimeProperty) =
@@ -112,7 +112,7 @@ class CppNameResolver(
             NamesCacheEntry(isExternal, externalName, externalName)
         } else {
             val name = selectNameRule(limeElement).apply(
-                if (isExternal) VerbatimNameRules.INSTANCE else CppNameRules.INSTANCE,
+                if (isExternal) VerbatimNameRules else CppNameRules,
                 limeElement.name
             )
             NamesCacheEntry(isExternal, name, "$parentFullName::$name")

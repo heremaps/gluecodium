@@ -17,83 +17,66 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common;
+package com.here.genium.generator.common
 
-import static org.apache.commons.text.WordUtils.capitalizeFully;
+import org.apache.commons.text.WordUtils.capitalizeFully
 
-import com.google.common.base.CaseFormat;
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Strings;
+import com.google.common.base.CaseFormat
+import com.google.common.base.CharMatcher
+import com.google.common.base.Strings
 
-public final class NameHelper {
+@Suppress("UnstableApiUsage")
+object NameHelper {
+    private const val UNDERSCORE = "_"
 
-  private static final String UNDERSCORE = "_";
+    fun toUpperSnakeCase(input: String?): String =
+        when {
+            input == null -> ""
+            input.contains(UNDERSCORE) ->
+                CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, input)
+            CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input) &&
+                    CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input) ->
+                CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, input)
+            else -> input.toUpperCase()
+        }
 
-  public static String toUpperSnakeCase(String input) {
-    if (input == null) {
-      return "";
-    }
-    if (input.contains(UNDERSCORE)) {
-      return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, input);
-    } else if (CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input)
-        && CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input)) {
-      return CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, input);
-    } else {
-      return input.toUpperCase();
-    }
-  }
+    fun toLowerSnakeCase(input: String?): String =
+        when {
+            input == null -> ""
+                input.contains(UNDERSCORE) ->
+                    CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, input)
+                CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input) &&
+                        CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input) ->
+                    CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, input)
+                else -> input.toLowerCase()
+        }
 
-  public static String toLowerSnakeCase(String input) {
-    if (input == null) {
-      return "";
-    }
-    if (input.contains(UNDERSCORE)) {
-      return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, input);
-    } else if (CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input)
-        && CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input)) {
-      return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, input);
-    } else {
-      return input.toLowerCase();
-    }
-  }
+    fun toUpperCamelCase(input: String?): String =
+        when {
+            input == null -> ""
+            input.contains(UNDERSCORE) ->
+                CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, input)
+            CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input) &&
+                    CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input) ->
+                CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, input)
+            else -> capitalizeFully(input) // Capitalize the first character and lowercase the rest.
+        }
 
-  public static String toUpperCamelCase(String input) {
-    if (input == null) {
-      return "";
-    }
-    if (input.contains(UNDERSCORE)) {
-      return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, input);
-    } else if (CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input)
-        && CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input)) {
-      return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, input);
-    } else {
-      // Capitalize first character and lower rest
-      return capitalizeFully(input);
-    }
-  }
+    fun toLowerCamelCase(input: String?): String =
+        when {
+            input == null -> ""
+            input.contains(UNDERSCORE) ->
+                CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, input)
+            CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input) &&
+                    CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input) ->
+                CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, input)
+            else -> input.toLowerCase()
+        }
 
-  public static String toLowerCamelCase(String input) {
-    if (input == null) {
-      return "";
-    }
-    if (input.contains(UNDERSCORE)) {
-      return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, input);
-    } else if (CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input)
-        && CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input)) {
-      return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, input);
-    } else {
-      return input.toLowerCase();
-    }
-  }
-
-  public static String joinNames(
-      final String firstString, final String secondString, final String delimiter) {
-    if (Strings.isNullOrEmpty(firstString)) {
-      return secondString;
-    } else if (Strings.isNullOrEmpty(secondString)) {
-      return firstString;
-    } else {
-      return firstString + delimiter + secondString;
-    }
-  }
+    fun joinNames(firstString: String?, secondString: String?, delimiter: String): String? =
+        when {
+            Strings.isNullOrEmpty(firstString) -> secondString
+            Strings.isNullOrEmpty(secondString) -> firstString
+            else -> firstString + delimiter + secondString
+        }
 }

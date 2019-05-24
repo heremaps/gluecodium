@@ -17,75 +17,53 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java;
+package com.here.genium.generator.java
 
-import com.here.genium.generator.common.NameHelper;
-import com.here.genium.model.java.JavaPrimitiveType;
-import com.here.genium.model.java.JavaTopLevelElement;
-import com.here.genium.model.java.JavaType;
-import java.io.File;
-import java.util.List;
+import com.here.genium.generator.common.NameHelper
+import com.here.genium.model.java.JavaPrimitiveType
+import com.here.genium.model.java.JavaTopLevelElement
+import com.here.genium.model.java.JavaType
+import java.io.File
 
-public final class JavaNameRules {
+class JavaNameRules(private val generatorName: String) {
+    fun getFileName(javaElement: JavaTopLevelElement) =
+        (generatorName +
+            File.separator +
+            formatPackageName(javaElement.javaPackage.packageNames) +
+            javaElement.name +
+            JAVA_FILE_SUFFIX)
 
-  private static final String JAVA_FILE_SUFFIX = ".java";
+    companion object {
+        private const val JAVA_FILE_SUFFIX = ".java"
 
-  private final String generatorName;
+        private fun formatPackageName(packageNames: List<String>) =
+            when {
+                packageNames.isEmpty() -> ""
+                else -> packageNames.joinToString(File.separator) + File.separator
+            }
 
-  public JavaNameRules(final String generatorName) {
-    this.generatorName = generatorName;
-  }
+        fun getClassName(base: String) = NameHelper.toUpperCamelCase(base)
 
-  private static String formatPackageName(List<String> packageNames) {
-    return packageNames.isEmpty() ? "" : String.join(File.separator, packageNames) + File.separator;
-  }
+        fun getImplementationClassName(base: String) = getClassName(base) + "Impl"
 
-  public String getFileName(final JavaTopLevelElement javaElement) {
-    return generatorName
-        + File.separator
-        + formatPackageName(javaElement.javaPackage.getPackageNames())
-        + javaElement.name
-        + JAVA_FILE_SUFFIX;
-  }
+        fun getMethodName(base: String, selector: String) =
+            NameHelper.toLowerCamelCase(base) + NameHelper.toUpperCamelCase(selector)
 
-  public static String getClassName(String base) {
-    return NameHelper.toUpperCamelCase(base);
-  }
+        fun getGetterName(base: String, javaType: JavaType): String {
+            val prefix = if (javaType === JavaPrimitiveType.BOOL) "is" else "get"
+            return prefix + NameHelper.toUpperCamelCase(base)
+        }
 
-  public static String getImplementationClassName(String base) {
-    return getClassName(base) + "Impl";
-  }
+        fun getSetterName(base: String) = "set" + NameHelper.toUpperCamelCase(base)
 
-  public static String getMethodName(final String base, final String selector) {
-    return NameHelper.toLowerCamelCase(base) + NameHelper.toUpperCamelCase(selector);
-  }
+        fun getArgumentName(base: String) = NameHelper.toLowerCamelCase(base)
 
-  public static String getGetterName(final String base, final JavaType javaType) {
-    final String prefix = javaType == JavaPrimitiveType.BOOL ? "is" : "get";
-    return prefix + NameHelper.toUpperCamelCase(base);
-  }
+        fun getConstantName(base: String) = NameHelper.toUpperSnakeCase(base)
 
-  public static String getSetterName(final String base) {
-    return "set" + NameHelper.toUpperCamelCase(base);
-  }
+        fun getFieldName(base: String) = NameHelper.toLowerCamelCase(base)
 
-  public static String getArgumentName(final String base) {
-    return NameHelper.toLowerCamelCase(base);
-  }
+        fun getExceptionName(base: String) = getClassName(base) + "Exception"
 
-  public static String getConstantName(final String base) {
-    return NameHelper.toUpperSnakeCase(base);
-  }
-
-  public static String getFieldName(final String base) {
-    return NameHelper.toLowerCamelCase(base);
-  }
-
-  public static String getExceptionName(final String base) {
-    return getClassName(base) + "Exception";
-  }
-
-  public static String getPackageName(final String base) {
-    return base.replace("_", "");
-  }
+        fun getPackageName(base: String) = base.replace("_", "")
+    }
 }

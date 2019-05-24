@@ -17,31 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.common;
+package com.here.genium.generator.common
 
-public final class VerbatimNameRules implements NameRules {
+object VerbatimNameRules : NameRules {
+    override fun getTypeName(base: String) = base
 
-  public static final VerbatimNameRules INSTANCE = new VerbatimNameRules();
+    override fun getFunctionName(base: String) = base
 
-  private VerbatimNameRules() {}
+    override fun getVariableName(base: String) = base
 
-  @Override
-  public String getTypeName(final String base) {
-    return base;
-  }
-
-  @Override
-  public String getFunctionName(final String base) {
-    return base;
-  }
-
-  @Override
-  public String getVariableName(final String base) {
-    return base;
-  }
-
-  @Override
-  public String getConstantName(final String base) {
-    return base;
-  }
+    override fun getConstantName(base: String) = base
 }

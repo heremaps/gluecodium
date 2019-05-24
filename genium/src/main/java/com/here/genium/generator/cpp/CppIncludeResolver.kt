@@ -28,7 +28,7 @@ import java.io.File
 class CppIncludeResolver(
     private val rootNamespace: List<String>,
     private val limeReferenceMap: Map<String, LimeElement>,
-    private val nameRules: CppNameRules = CppNameRules.INSTANCE
+    private val nameRules: CppNameRules = CppNameRules
 ) {
     private val resolvedIncludes = mutableMapOf<String, List<Include>>()
 
