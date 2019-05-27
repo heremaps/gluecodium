@@ -41,6 +41,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -85,7 +86,9 @@ class CBridgeTypeMapperTest {
         assertEquals(2, result.includes.size)
         assertEquals(CBridgeNameRules.BASE_HANDLE_IMPL_FILE, result.includes.first().fileName)
         assertEquals(CppLibraryIncludes.MAP, result.includes.last())
-        assertEquals("std::unordered_map<std::string, double>", (result as CppMapTypeInfo).baseApi)
+        assertEquals("std::string", (result as CppMapTypeInfo).keyType.name)
+        assertEquals("double", result.valueType.name)
+        assertNull(result.enumHashType)
     }
 
     @Test
@@ -100,7 +103,9 @@ class CBridgeTypeMapperTest {
 
         assertEquals(3, result.includes.size)
         assertEquals(CppLibraryIncludes.ENUM_HASH, result.includes.last())
-        assertEquals("std::unordered_map<Baz, double, FooHash>", (result as CppMapTypeInfo).baseApi)
+        assertEquals("Baz", (result as CppMapTypeInfo).keyType.name)
+        assertEquals("double", result.valueType.name)
+        assertEquals("FooHash", result.enumHashType)
     }
 
     @Test
@@ -116,7 +121,6 @@ class CBridgeTypeMapperTest {
         assertEquals(CBridgeNameRules.BASE_HANDLE_IMPL_FILE, result.includes.first().fileName)
         assertEquals(CppLibraryIncludes.VECTOR, result.includes.last())
         assertEquals(CType.FLOAT, (result as CppArrayTypeInfo).innerType.cType)
-        assertEquals("std::vector<float>", result.baseApi)
     }
 
     @Test

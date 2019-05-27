@@ -28,19 +28,4 @@ class CppArrayTypeInfo (
     functionReturnType: CType,
     includes: List<Include>,
     val innerType: CppTypeInfo
-) : CppTypeInfo(name, cType, functionReturnType, CppTypeInfo.TypeCategory.ARRAY, includes) {
-
-    @Suppress("unused")
-    val baseApi
-        get() = arrayFindNested(innerType)
-
-    companion object {
-        private fun arrayFindNested(innerType: CppTypeInfo): String {
-            var arrayName = innerType.name
-            if (innerType is CppArrayTypeInfo) {
-                arrayName = arrayFindNested(innerType.innerType)
-            }
-            return "std::vector<$arrayName>"
-        }
-    }
-}
+) : CppTypeInfo(name, cType, functionReturnType, TypeCategory.ARRAY, includes)

@@ -27,32 +27,7 @@ class CppMapTypeInfo(
     cType: CType,
     functionReturnType: CType,
     includes: List<Include>,
-    keyType: CppTypeInfo,
-    valueType: CppTypeInfo,
-    enumHashType: String?
-) : CppTypeInfo(name, cType, functionReturnType, CppTypeInfo.TypeCategory.MAP, includes) {
-
-    val baseApi = createBaseApiTypeString(keyType, valueType, enumHashType)
-
-    companion object {
-        private fun createBaseApiTypeString(
-            keyType: CppTypeInfo,
-            valueType: CppTypeInfo,
-            enumHashType: String?
-        ): String {
-
-            val stringBuilder = StringBuilder()
-            stringBuilder
-                .append("std::unordered_map<")
-                .append(keyType.name)
-                .append(", ")
-                .append(valueType.name)
-            if (enumHashType != null) {
-                stringBuilder.append(", ").append(enumHashType)
-            }
-            stringBuilder.append('>')
-
-            return stringBuilder.toString()
-        }
-    }
-}
+    val keyType: CppTypeInfo,
+    val valueType: CppTypeInfo,
+    val enumHashType: String?
+) : CppTypeInfo(name, cType, functionReturnType, TypeCategory.MAP, includes)
