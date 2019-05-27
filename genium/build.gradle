@@ -94,32 +94,6 @@ jacocoTestReport {
     }
 }
 
-apply plugin: 'checkstyle'
-checkstyle {
-    configFile = rootProject.file('config/checkstyle/checkstyle-hard.xml')
-    toolVersion = '7.8.2'
-    ignoreFailures false
-}
-checkstyleMain {
-    maxErrors = 0
-    maxWarnings = 0
-}
-checkstyleTest {
-    maxErrors = 0
-    maxWarnings = 0
-}
-
-tasks.withType(Checkstyle).each { checkstyleTask ->
-    checkstyleTask.doLast {
-        reports.all { report ->
-            def outputFile = report.destination
-            if (outputFile.exists() && outputFile.text.contains("<error ")) {
-                throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
-            }
-        }
-    }
-}
-
 apply from: "$rootDir/gradle/spotless.gradle"
 spotless {
     format 'cpp', {

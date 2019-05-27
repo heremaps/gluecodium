@@ -19,9 +19,6 @@
 .idea/libraries
 # JIRA plugin
 .idea/atlassian-ide-plugin.xml
-# Checkstyle / FindBugs plugin (we still have project config)
-.idea/checkstyle-idea.xml
-.idea/findbugs-idea.xml
 # XText / xtend
 .idea/xtextAutoBuilderState.xml
 
