@@ -9,11 +9,12 @@
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
+#include "ArrayConversionUtils.h"
+#include "EnumConversion.h"
+#include "EnumSetConversion.h"
 #include "InstanceConversion.h"
 #include "StructConversion.h"
 #include "ProxyConversion.h"
-#include "EnumConversion.h"
-#include "ArrayConversionUtils.h"
 #include "JniReference.h"
 extern "C" {
 jdouble

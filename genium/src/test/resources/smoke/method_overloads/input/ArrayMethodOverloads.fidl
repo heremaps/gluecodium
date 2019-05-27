@@ -24,6 +24,9 @@ interface ArrayMethodOverloads {
     map StringToIdMap { String to UInt64 }
     map IdToStringMap { UInt64 to String }
 
+    array StringSet of String
+    array IntSet of Int8
+
     method doStuff:noArgOverload {
     }
 
@@ -80,6 +83,18 @@ interface ArrayMethodOverloads {
     method doMoreStuff {
         in {
             StringToIdMap input
+        }
+    }
+
+    method doStuff:stringSetOverload {
+        in {
+            StringSet input
+        }
+    }
+
+    method doStuff:intSetOverload {
+        in {
+            IntSet input
         }
     }
 }

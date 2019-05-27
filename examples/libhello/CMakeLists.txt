@@ -403,7 +403,7 @@ feature(Comments cpp android swift SOURCES
     fidl/test/CommentsInterface.fdepl
 )
 
-feature(SetType cpp SOURCES
+feature(SetType cpp android SOURCES
     src/test/SetType.cpp
 
     fidl/test/SetType.fidl

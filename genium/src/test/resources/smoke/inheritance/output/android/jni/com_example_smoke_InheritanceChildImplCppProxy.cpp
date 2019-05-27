@@ -1,8 +1,9 @@
 #include "com_example_smoke_InheritanceChildImplCppProxy.h"
-#include "InstanceConversion.h"
-#include "StructConversion.h"
 #include "ArrayConversionUtils.h"
 #include "EnumConversion.h"
+#include "EnumSetConversion.h"
+#include "InstanceConversion.h"
+#include "StructConversion.h"
 namespace smoke {
 using namespace ::genium::jni;
 InheritanceChildCppProxy::InheritanceChildCppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
