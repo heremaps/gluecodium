@@ -19,28 +19,21 @@
 
 package com.here.genium.generator.cpp
 
-import com.here.genium.generator.common.NameRules
-import com.here.genium.generator.common.VerbatimNameRules
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
-import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeEnumerator
-import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeNamedElement
-import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeTypeHelper
 import java.util.HashMap
-import java.util.function.BiFunction
 
 class CppNameResolver(
     rootNamespace: List<String>,
-    private val limeReferenceMap: Map<String, LimeElement>
+    private val limeReferenceMap: Map<String, LimeElement>,
+    private val nameRules: CppNameRules
 ) {
     private val rootNamespace: String = rootNamespace.joinToString("::")
     private val namesCache = HashMap<String, NamesCacheEntry>()
@@ -59,11 +52,11 @@ class CppNameResolver(
         limeProperty.attributes.get(
             LimeAttributeType.EXTERNAL_GETTER,
             String::class.java
-        ) ?: (CppNameRules.getGetterPrefix(isBooleanProperty(limeProperty)) + getName(limeProperty))
+        ) ?: nameRules.getGetterName(limeProperty)
 
     fun getSetterName(limeProperty: LimeProperty): String {
         return limeProperty.attributes.get(LimeAttributeType.EXTERNAL_SETTER, String::class.java)
-            ?: (CppNameRules.setterPrefix + getName(limeProperty))
+            ?: nameRules.getSetterName(limeProperty)
     }
 
     fun getFullyQualifiedGetterName(limeProperty: LimeProperty) =
@@ -85,7 +78,8 @@ class CppNameResolver(
         var parentPath = limeElement.path.parent
         var parentElement = limeReferenceMap[parentPath.toString()] as? LimeNamedElement
         if (parentElement is LimeContainer &&
-            parentElement.type === ContainerType.TYPE_COLLECTION) {
+            parentElement.type === ContainerType.TYPE_COLLECTION
+        ) {
             // A type collection doesn't correspond to any named entity in C++ generated code.
             // So skip it and use the parent namespace instead.
             parentPath = parentPath.parent
@@ -111,21 +105,10 @@ class CppNameResolver(
         return if (externalName != null) {
             NamesCacheEntry(isExternal, externalName, externalName)
         } else {
-            val name = selectNameRule(limeElement).apply(
-                if (isExternal) VerbatimNameRules else CppNameRules,
-                limeElement.name
-            )
+            val name = if (isExternal) limeElement.name else nameRules.getName(limeElement)
             NamesCacheEntry(isExternal, name, "$parentFullName::$name")
         }
     }
-
-    private fun selectNameRule(limeElement: LimeElement) =
-        when (limeElement) {
-            is LimeField, is LimeParameter -> BiFunction(NameRules::getVariableName)
-            is LimeConstant, is LimeEnumerator -> BiFunction(NameRules::getConstantName)
-            is LimeMethod, is LimeProperty -> BiFunction(NameRules::getFunctionName)
-            else -> BiFunction(NameRules::getTypeName)
-        }
 
     private fun isBooleanProperty(limeProperty: LimeProperty): Boolean {
         val type = LimeTypeHelper.getActualType(limeProperty.typeRef.type)

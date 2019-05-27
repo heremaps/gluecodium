@@ -23,7 +23,7 @@ public class Nullable {
             return moveFromCType(smoke_Nullable_stringAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var boolAttribute: Bool? {
+    public var isBoolAttribute: Bool? {
         get {
             return moveFromCType(smoke_Nullable_boolAttribute_get(self.c_instance))
         }

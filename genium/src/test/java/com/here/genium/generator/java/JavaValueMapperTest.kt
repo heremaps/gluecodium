@@ -41,7 +41,7 @@ class JavaValueMapperTest {
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
     private val javaType = object : JavaType("") {}
 
-    private val valueMapper = JavaValueMapper(limeReferenceMap)
+    private val valueMapper = JavaValueMapper(limeReferenceMap, JavaNameRules())
 
     @Test
     fun mapEnumeratorInContainer() {

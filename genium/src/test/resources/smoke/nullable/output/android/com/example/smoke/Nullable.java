@@ -118,7 +118,7 @@ public class Nullable extends NativeBase {
     public native String getStringAttribute();
     public native void setStringAttribute(@Nullable final String value);
     @Nullable
-    public native Boolean getBoolAttribute();
+    public native Boolean isBoolAttribute();
     public native void setBoolAttribute(@Nullable final Boolean value);
     @Nullable
     public native Double getDoubleAttribute();

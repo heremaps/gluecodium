@@ -20,28 +20,46 @@
 package com.here.genium.generator.cpp
 
 import com.here.genium.generator.common.NameHelper
+import com.here.genium.generator.common.NameRuleSet
+import com.here.genium.generator.common.NameRuleSet.Companion.ignore2
 import com.here.genium.generator.common.NameRules
+import com.here.genium.model.lime.LimeNamedElement
+import java.io.File
 
-object CppNameRules : NameRules {
-    override fun getTypeName(base: String) = NameHelper.toUpperCamelCase(base) // MyType
+class CppNameRules(
+    val rootNamespace: List<String>,
+    nameRuleSet: NameRuleSet = defaultRuleSet
+) : NameRules(nameRuleSet) {
+    fun getOutputFilePath(limeNamedElement: LimeNamedElement) =
+        (rootNamespace + limeNamedElement.path.head +
+                ruleSet.getTypeName(limeNamedElement.path.container)
+                ).joinToString(separator = File.separator)
 
-    override fun getFunctionName(base: String) = NameHelper.toLowerSnakeCase(base) // do_my_stuff
+    companion object {
+        val defaultRuleSet = NameRuleSet(
+            getFieldName = NameHelper::toLowerSnakeCase,
+            getParameterName = NameHelper::toLowerSnakeCase,
+            getConstantName = NameHelper::toUpperSnakeCase,
+            getEnumeratorName = NameHelper::toUpperSnakeCase,
+            getMethodName = ignore2(NameHelper::toLowerSnakeCase),
+            getSetterName = { name: String -> setterPrefix + NameHelper.toLowerSnakeCase(name) },
+            getGetterName = { name: String, isBoolean: Boolean ->
+                getGetterPrefix(isBoolean) + NameHelper.toLowerSnakeCase(name)
+            },
+            getTypeName = NameHelper::toUpperCamelCase
+        )
 
-    override fun getVariableName(base: String) = NameHelper.toLowerSnakeCase(base) // my_variable
+        fun joinFullyQualifiedName(nameList: List<String>) = "::" + nameList.joinToString("::")
 
-    override fun getConstantName(base: String) = NameHelper.toUpperSnakeCase(base) // MY_CONSTANT
+        fun joinFullyQualifiedName(namespace: String?, name: String) =
+            when {
+                namespace == null -> "::$name"
+                namespace.startsWith("::") -> "$namespace::$name"
+                else -> "::$namespace::$name"
+            }
 
-    fun getGetterPrefix(isBoolean: Boolean) = if (isBoolean) "is_" else "get_"
+        private fun getGetterPrefix(isBoolean: Boolean) = if (isBoolean) "is_" else "get_"
 
-    val setterPrefix
-        get() = "set_"
-
-    fun joinFullyQualifiedName(nameList: List<String>) = "::" + nameList.joinToString("::")
-
-    fun joinFullyQualifiedName(namespace: String?, name: String) =
-        when {
-            namespace == null -> "::$name"
-            namespace.startsWith("::") -> "$namespace::$name"
-            else -> "::$namespace::$name"
-        }
+        private const val setterPrefix = "set_"
+    }
 }

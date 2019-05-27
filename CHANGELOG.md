@@ -6,6 +6,8 @@
   + Added support for equality and pointer equality comparisons for classes
   + Added hash support for all equatable types for Swift and Java
   + Added Set type support.
+- Bug fixes:
+  + Nullable boolean properties now have 'is' prefix consistently
 
 ## 4.3.1
 - Release date: 2019-05-23

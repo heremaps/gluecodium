@@ -34,7 +34,7 @@ class CppIncludeResolverTest {
     private val limeRootPath = LimePath(listOf("mo", "del"), listOf("foo"))
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
 
-    private var includeResolver = CppIncludeResolver(listOf("ro", "ot"), limeReferenceMap)
+    private var includeResolver = CppIncludeResolver(limeReferenceMap, CppNameRules(listOf("ro", "ot")))
 
     @Test
     fun resolveRegularInclude() {

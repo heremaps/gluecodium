@@ -76,6 +76,8 @@ class JavaModelBuilderContainersTest {
     private val contextStack = MockContextStack<JavaElement>()
     private val rootPackage = JavaPackage(listOf("pack", "age"))
 
+    private val nameRules = JavaNameRules()
+
     private lateinit var modelBuilder: JavaModelBuilder
 
     @Before
@@ -83,12 +85,13 @@ class JavaModelBuilderContainersTest {
         MockKAnnotations.init(this, relaxed = true)
 
         modelBuilder = JavaModelBuilder(
-            contextStack,
-            rootPackage,
-            typeMapper,
-            valueMapper,
-            methodNameResolver,
-            emptySet()
+            rootPackage = rootPackage,
+            typeMapper = typeMapper,
+            valueMapper = valueMapper,
+            methodNameResolver = methodNameResolver,
+            errorEnums = emptySet(),
+            nameRules = nameRules,
+            contextStack = contextStack
         )
     }
 
@@ -242,7 +245,7 @@ class JavaModelBuilderContainersTest {
             parent = LimeDirectTypeRef(parentContainer)
         )
         val javaType = object : JavaType("") {}
-        every { typeMapper.mapCustomType(parentContainer, "Bar") } returns javaType
+        every { typeMapper.mapCustomType(parentContainer, null) } returns javaType
 
         modelBuilder.finishBuilding(limeElement)
 

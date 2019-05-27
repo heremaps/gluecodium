@@ -55,14 +55,16 @@ class JavaTypeMapperTest {
 
     private val notNullAnnotation = object : JavaType("Foo") {}
     private val nullableAnnotation = object : JavaType("Bar") {}
+    private val nameRules = JavaNameRules()
 
     private val typeMapper = JavaTypeMapper(
         limeReferenceMap,
         JavaPackage.DEFAULT,
         JavaPackage(listOf("foo", "bar", "baz")),
-        null,
-        notNullAnnotation,
-        nullableAnnotation
+        serializationBase = null,
+        notNullAnnotation = notNullAnnotation,
+        nullableAnnotation = nullableAnnotation,
+        nameRules = nameRules
     )
 
     @Test

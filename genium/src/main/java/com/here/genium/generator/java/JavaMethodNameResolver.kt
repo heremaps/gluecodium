@@ -25,7 +25,8 @@ import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeTypeRef
 
 class JavaMethodNameResolver(
-    limeReferenceMap: Map<String, LimeElement>
+    limeReferenceMap: Map<String, LimeElement>,
+    private val nameRules: JavaNameRules
 ) : LimeSignatureResolver(limeReferenceMap) {
 
     fun getName(limeMethod: LimeMethod): String {
@@ -33,7 +34,7 @@ class JavaMethodNameResolver(
             hasSignatureClash(limeMethod) -> limeMethod.path.disambiguationSuffix
             else -> ""
         }
-        return JavaNameRules.getMethodName(limeMethod.name, selector)
+        return nameRules.getMethodName(limeMethod, selector)
     }
 
     override fun getArrayName(elementType: LimeTypeRef) = TYPE_ERASED_ARRAY

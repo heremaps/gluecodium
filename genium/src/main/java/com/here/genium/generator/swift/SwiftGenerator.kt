@@ -29,13 +29,16 @@ import com.here.genium.model.swift.SwiftFile
 import com.here.genium.model.swift.SwiftSet
 import com.here.genium.platform.common.GeneratorSuite
 
-class SwiftGenerator(private val limeReferenceMap: Map<String, LimeElement>) {
+class SwiftGenerator(
+    private val limeReferenceMap: Map<String, LimeElement>,
+    private val nameRules: SwiftNameRules
+) {
     val arrayGenerator = SwiftArrayGenerator()
     val mapGenerator = SwiftMapGenerator()
     val builtinOptionalsGenerator = SwiftBuiltinOptionalsGenerator()
     private val enumsAsErrors = mutableSetOf<String>()
     private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
-    private val nameResolver = SwiftNameResolver(limeReferenceMap)
+    private val nameResolver = SwiftNameResolver(limeReferenceMap, nameRules)
     private val typeMapper = SwiftTypeMapper(nameResolver)
 
     fun generateModel(limeContainer: LimeContainer): SwiftModel {
@@ -44,7 +47,8 @@ class SwiftGenerator(private val limeReferenceMap: Map<String, LimeElement>) {
                 limeReferenceMap = limeReferenceMap,
                 signatureResolver = signatureResolver,
                 nameResolver = nameResolver,
-                typeMapper = typeMapper
+                typeMapper = typeMapper,
+                nameRules = nameRules
             )
         val treeWalker = LimeTreeWalker(listOf(modelBuilder))
 

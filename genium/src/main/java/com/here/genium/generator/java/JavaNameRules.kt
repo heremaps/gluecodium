@@ -20,49 +20,34 @@
 package com.here.genium.generator.java
 
 import com.here.genium.generator.common.NameHelper
-import com.here.genium.model.java.JavaPrimitiveType
-import com.here.genium.model.java.JavaTopLevelElement
-import com.here.genium.model.java.JavaType
-import java.io.File
+import com.here.genium.generator.common.NameRuleSet
+import com.here.genium.generator.common.NameRules
+import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeEnumeration
 
-class JavaNameRules(private val generatorName: String) {
-    fun getFileName(javaElement: JavaTopLevelElement) =
-        (generatorName +
-            File.separator +
-            formatPackageName(javaElement.javaPackage.packageNames) +
-            javaElement.name +
-            JAVA_FILE_SUFFIX)
+class JavaNameRules(nameRuleSet: NameRuleSet = defaultNameRuleSet) : NameRules(nameRuleSet) {
+    fun getImplementationClassName(limeContainer: LimeContainer) = getName(limeContainer) + "Impl"
+
+    fun getExceptionName(limeEnum: LimeEnumeration) = getName(limeEnum) + "Exception"
 
     companion object {
-        private const val JAVA_FILE_SUFFIX = ".java"
-
-        private fun formatPackageName(packageNames: List<String>) =
-            when {
-                packageNames.isEmpty() -> ""
-                else -> packageNames.joinToString(File.separator) + File.separator
-            }
-
-        fun getClassName(base: String) = NameHelper.toUpperCamelCase(base)
-
-        fun getImplementationClassName(base: String) = getClassName(base) + "Impl"
-
-        fun getMethodName(base: String, selector: String) =
-            NameHelper.toLowerCamelCase(base) + NameHelper.toUpperCamelCase(selector)
-
-        fun getGetterName(base: String, javaType: JavaType): String {
-            val prefix = if (javaType === JavaPrimitiveType.BOOL) "is" else "get"
-            return prefix + NameHelper.toUpperCamelCase(base)
-        }
-
-        fun getSetterName(base: String) = "set" + NameHelper.toUpperCamelCase(base)
-
-        fun getArgumentName(base: String) = NameHelper.toLowerCamelCase(base)
-
-        fun getConstantName(base: String) = NameHelper.toUpperSnakeCase(base)
-
-        fun getFieldName(base: String) = NameHelper.toLowerCamelCase(base)
-
-        fun getExceptionName(base: String) = getClassName(base) + "Exception"
+        val defaultNameRuleSet = NameRuleSet(
+            getFieldName = NameHelper::toLowerCamelCase,
+            getParameterName = NameHelper::toLowerCamelCase,
+            getConstantName = NameHelper::toUpperSnakeCase,
+            getEnumeratorName = NameHelper::toUpperSnakeCase,
+            getMethodName = { name: String, selector: String ->
+                NameHelper.toLowerCamelCase(name) + NameHelper.toUpperCamelCase(
+                    selector
+                )
+            },
+            getSetterName = { name: String -> "set" + NameHelper.toUpperCamelCase(name) },
+            getGetterName = { name: String, isBoolean: Boolean ->
+                val prefix = if (isBoolean) "is" else "get"
+                prefix + NameHelper.toUpperCamelCase(name)
+            },
+            getTypeName = NameHelper::toUpperCamelCase
+        )
 
         fun getPackageName(base: String) = base.replace("_", "")
     }

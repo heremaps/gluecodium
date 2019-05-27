@@ -25,9 +25,11 @@ import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.cpp.CppNameResolver
+import com.here.genium.generator.cpp.CppNameRules
 import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.generator.java.JavaMethodNameResolver
 import com.here.genium.generator.java.JavaModelBuilder
+import com.here.genium.generator.java.JavaNameRules
 import com.here.genium.generator.java.JavaTypeMapper
 import com.here.genium.generator.java.JavaValueMapper
 import com.here.genium.model.common.Include
@@ -46,9 +48,11 @@ class JniGenerator(
     private val additionalIncludes: List<String>,
     private val enableAndroidFeatures: Boolean,
     private val internalNamespace: List<String>,
-    private val rootNamespace: List<String>
+    rootNamespace: List<String>,
+    private val cppNameRules: CppNameRules,
+    private val javaNameRules: JavaNameRules
 ) : AbstractGenerator(packageList) {
-    private val cppNameResolver = CppNameResolver(rootNamespace, limeReferenceMap)
+    private val cppNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, cppNameRules)
     private val errorEnums =
         limeReferenceMap.values
             .filterIsInstance<LimeMethod>()
@@ -59,22 +63,24 @@ class JniGenerator(
         val basePackage = JavaPackage(basePackages)
         val internalPackage = JavaPackage(basePackages + internalPackageList)
         val javaTypeMapper = JavaTypeMapper(
-            limeReferenceMap,
-            basePackage,
-            internalPackage,
-            if (enableAndroidFeatures) PARCELABLE else null,
-            if (enableAndroidFeatures) NON_NULL else null,
-            if (enableAndroidFeatures) NULLABLE else null
+            limeReferenceMap = limeReferenceMap,
+            basePackage = basePackage,
+            internalPackage = internalPackage,
+            serializationBase = if (enableAndroidFeatures) PARCELABLE else null,
+            notNullAnnotation = if (enableAndroidFeatures) NON_NULL else null,
+            nullableAnnotation = if (enableAndroidFeatures) NULLABLE else null,
+            nameRules = javaNameRules
         )
         val javaBuilder = JavaModelBuilder(
             rootPackage = basePackage.createChildPackage(limeContainer.path.head),
             typeMapper = javaTypeMapper,
-            valueMapper = JavaValueMapper(limeReferenceMap),
-            methodNameResolver = JavaMethodNameResolver(limeReferenceMap),
-            errorEnums = errorEnums
+            valueMapper = JavaValueMapper(limeReferenceMap, javaNameRules),
+            methodNameResolver = JavaMethodNameResolver(limeReferenceMap, javaNameRules),
+            errorEnums = errorEnums,
+            nameRules = javaNameRules
         )
 
-        val includeResolver = CppIncludeResolver(rootNamespace, limeReferenceMap)
+        val includeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules)
         val typeMapper = CppTypeMapper(cppNameResolver, includeResolver, internalNamespace)
         val cppBuilder = CppModelBuilder(typeMapper = typeMapper, nameResolver = cppNameResolver)
 

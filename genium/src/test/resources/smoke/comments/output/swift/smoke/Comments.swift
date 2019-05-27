@@ -22,7 +22,7 @@ public class Comments {
     /// This is some very useful constant.
     public static let veryUseful: Comments.Usefulness = true
     /// Some very useful attribute.
-    public var someAttribute: Comments.Usefulness {
+    public var isSomeAttribute: Comments.Usefulness {
         get {
             return moveFromCType(smoke_Comments_someAttribute_get(self.c_instance))
         }

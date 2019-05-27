@@ -193,7 +193,7 @@ Java_com_example_smoke_Nullable_setStringAttribute(JNIEnv* _jenv, jobject _jinst
     (*pInstanceSharedPointer)->set_string_attribute(value);
 }
 jobject
-Java_com_example_smoke_Nullable_getBoolAttribute(JNIEnv* _jenv, jobject _jinstance)
+Java_com_example_smoke_Nullable_isBoolAttribute(JNIEnv* _jenv, jobject _jinstance)
 {
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Nullable>*> (
         ::genium::jni::get_field_value(

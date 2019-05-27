@@ -23,12 +23,10 @@ import com.here.genium.model.common.Include
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
-import java.io.File
 
 class CppIncludeResolver(
-    private val rootNamespace: List<String>,
     private val limeReferenceMap: Map<String, LimeElement>,
-    private val nameRules: CppNameRules = CppNameRules
+    private val nameRules: CppNameRules
 ) {
     private val resolvedIncludes = mutableMapOf<String, List<Include>>()
 
@@ -40,7 +38,7 @@ class CppIncludeResolver(
             } else {
                 listOf(
                     Include.createInternalInclude(
-                        getOutputFilePath(limeNamedElement) + CppGenerator.HEADER_FILE_SUFFIX
+                        nameRules.getOutputFilePath(limeNamedElement) + CppGenerator.HEADER_FILE_SUFFIX
                     )
                 )
             }
@@ -58,9 +56,4 @@ class CppIncludeResolver(
         val parentElement = limeReferenceMap[parentElementKey]
         return (parentElement as? LimeNamedElement)?.let { inferExternalType(it) }
     }
-
-    fun getOutputFilePath(limeNamedElement: LimeNamedElement) =
-        (rootNamespace + limeNamedElement.path.head +
-                nameRules.getTypeName(limeNamedElement.path.container)
-        ).joinToString(separator = File.separator)
 }

@@ -45,8 +45,8 @@ class NullableAttributesTests: XCTestCase {
     func testNullableBooleanAttributeWithNull() {
         let value: Bool? = nil
 
-        nullableInterface.boolAttribute = value
-        let result = nullableInterface.boolAttribute
+        nullableInterface.isBoolAttribute = value
+        let result = nullableInterface.isBoolAttribute
 
         XCTAssertEqual(result, value)
     }
@@ -54,8 +54,8 @@ class NullableAttributesTests: XCTestCase {
     func testNullableBooleanAttributeWithNonNull() {
         let value: Bool? = true
 
-        nullableInterface.boolAttribute = value
-        let result = nullableInterface.boolAttribute
+        nullableInterface.isBoolAttribute = value
+        let result = nullableInterface.isBoolAttribute
 
         XCTAssertEqual(result, value)
     }

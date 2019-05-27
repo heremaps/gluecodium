@@ -61,11 +61,11 @@ internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolde
     }
     functions.smoke_CommentsInterface_someAttribute_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return copyToCType(swift_class.someAttribute).ref
+        return copyToCType(swift_class.isSomeAttribute).ref
     }
     functions.smoke_CommentsInterface_someAttribute_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        swift_class.someAttribute = moveFromCType(newValue)
+        swift_class.isSomeAttribute = moveFromCType(newValue)
     }
     let proxy = smoke_CommentsInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_CommentsInterface_release_handle) : RefHolder(proxy)
@@ -79,7 +79,7 @@ public protocol CommentsInterface : AnyObject {
     /// This is some very useful map.
     typealias SomeMap = [String: CommentsInterface.Usefulness]
     /// Some very useful attribute.
-    var someAttribute: CommentsInterface.Usefulness { get set }
+    var isSomeAttribute: CommentsInterface.Usefulness { get set }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
@@ -110,7 +110,7 @@ internal class _CommentsInterface: CommentsInterface {
     /// This is some very useful constant.
     public static let veryUseful: CommentsInterface.Usefulness = true
     /// Some very useful attribute.
-    var someAttribute: CommentsInterface.Usefulness {
+    var isSomeAttribute: CommentsInterface.Usefulness {
         get {
             return moveFromCType(smoke_CommentsInterface_someAttribute_get(self.c_instance))
         }

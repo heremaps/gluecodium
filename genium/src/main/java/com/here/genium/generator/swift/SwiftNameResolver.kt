@@ -25,9 +25,12 @@ import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
 
-class SwiftNameResolver(private val limeReferenceMap: Map<String, LimeElement>) {
+class SwiftNameResolver(
+    private val limeReferenceMap: Map<String, LimeElement>,
+    private val nameRules: SwiftNameRules
+) {
     fun getFullName(limeType: LimeType) =
-        getNamespacePrefix(limeType) + SwiftNameRules.getTypeName(limeType.name)
+        getNamespacePrefix(limeType) + nameRules.getName(limeType)
 
     fun getMapName(limeType: LimeType) = getFullName(limeType).replace('.', '_')
 
@@ -38,9 +41,9 @@ class SwiftNameResolver(private val limeReferenceMap: Map<String, LimeElement>) 
 
         val limeContainer = limeReferenceMap[limeType.path.parent.toString()] as LimeContainer
         return when (limeContainer.type) {
-            ContainerType.CLASS -> SwiftNameRules.getTypeName(limeContainer.name) + "."
+            ContainerType.CLASS -> nameRules.getName(limeContainer) + "."
             ContainerType.INTERFACE -> when (limeType) {
-                is LimeTypeDef -> SwiftNameRules.getTypeName(limeContainer.name) + "."
+                is LimeTypeDef -> nameRules.getName(limeContainer) + "."
                 else -> ""
             }
             ContainerType.TYPE_COLLECTION -> ""

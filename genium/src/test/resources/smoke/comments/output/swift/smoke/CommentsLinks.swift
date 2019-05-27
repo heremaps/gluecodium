@@ -39,7 +39,7 @@ public class CommentsLinks {
     /// * struct field: `Comments.SomeStruct.someField`
     /// * enum: `Comments.SomeEnum`
     /// * enum item: `Comments.SomeEnum.useful`
-    /// * attribute: `Comments.someAttribute`
+    /// * attribute: `Comments.isSomeAttribute`
     /// * method: `Comments.instanceMethod(...)`
     /// * top level constant: `CommentsTypeCollection.typeCollectionConstant`
     /// * top level struct: `TypeCollectionStruct`

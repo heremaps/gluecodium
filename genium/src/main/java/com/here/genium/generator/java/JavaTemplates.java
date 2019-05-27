@@ -30,10 +30,10 @@ import java.util.stream.Stream;
 
 public final class JavaTemplates {
 
-  private final JavaNameRules javaNameRules;
+  private final JavaFileMapper javaFileMapper;
 
   public JavaTemplates(final String generatorName) {
-    this.javaNameRules = new JavaNameRules(generatorName);
+    this.javaFileMapper = new JavaFileMapper(generatorName);
   }
 
   public List<GeneratedFile> generateFiles(final List<JavaElement> javaModel) {
@@ -66,7 +66,7 @@ public final class JavaTemplates {
       final String templateName, final JavaTopLevelElement javaElement) {
 
     String fileContent = TemplateEngine.INSTANCE.render(templateName, javaElement);
-    String fileName = javaNameRules.getFileName(javaElement);
+    String fileName = javaFileMapper.getFileName(javaElement);
 
     return new GeneratedFile(fileContent, fileName);
   }

@@ -25,8 +25,10 @@ import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.templates.TemplateEngine
 import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppNameResolver
+import com.here.genium.generator.cpp.CppNameRules
 import com.here.genium.generator.swift.SwiftGenerator
 import com.here.genium.generator.swift.SwiftModel
+import com.here.genium.generator.swift.SwiftNameRules
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.swift.SwiftMethod
@@ -43,16 +45,19 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
     private val internalNamespace = options.cppInternalNamespace ?: emptyList()
     private val rootNamespace = options.cppRootNamespace
     private val commentsProcessor = SwiftCommentsProcessor()
+    private val swiftNameRules = SwiftNameRules()
+    private val cppNameRules = CppNameRules(rootNamespace)
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeReferenceMap = limeModel.referenceMap
-        val swiftGenerator = SwiftGenerator(limeReferenceMap)
+        val swiftGenerator = SwiftGenerator(limeReferenceMap, swiftNameRules)
         val cBridgeGenerator = CBridgeGenerator(
-            limeReferenceMap,
-            CppIncludeResolver(rootNamespace, limeReferenceMap),
-            CBridgeIncludeResolver(rootNamespace, limeReferenceMap),
-            CppNameResolver(rootNamespace, limeReferenceMap),
-            internalNamespace
+            limeReferenceMap = limeReferenceMap,
+            cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules),
+            includeResolver = CBridgeIncludeResolver(rootNamespace, limeReferenceMap),
+            cppNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, cppNameRules),
+            internalNamespace = internalNamespace,
+            swiftNameRules = swiftNameRules
         )
         val swiftModel =
             limeModel.containers.fold(SwiftModel(emptyMap(), emptyList())) { model, limeContainer ->

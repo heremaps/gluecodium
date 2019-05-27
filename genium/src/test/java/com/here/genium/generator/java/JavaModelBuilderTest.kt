@@ -45,7 +45,6 @@ import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
@@ -79,11 +78,12 @@ class JavaModelBuilderTest {
     private val anotherJavaType = object : JavaType("Nonsense") {}
     private val javaValue = JavaValue("")
 
-    private val limeTypeRef = LimeLazyTypeRef("", emptyMap())
+    private val limeTypeRef = LimeBasicTypeRef.DOUBLE
 
     private val contextStack = MockContextStack<JavaElement>()
     private val rootPackage = JavaPackage(listOf("pack", "age"))
     private val errorEnums = mutableSetOf<String>()
+    private val nameRules = JavaNameRules()
 
     private lateinit var modelBuilder: JavaModelBuilder
 
@@ -93,12 +93,13 @@ class JavaModelBuilderTest {
         mockkObject(JavaValueMapper.Companion)
 
         modelBuilder = JavaModelBuilder(
-            contextStack,
-            rootPackage,
-            typeMapper,
-            valueMapper,
-            methodNameResolver,
-            errorEnums
+            contextStack = contextStack,
+            rootPackage = rootPackage,
+            typeMapper = typeMapper,
+            valueMapper = valueMapper,
+            methodNameResolver = methodNameResolver,
+            errorEnums = errorEnums,
+            nameRules = nameRules
         )
     }
 

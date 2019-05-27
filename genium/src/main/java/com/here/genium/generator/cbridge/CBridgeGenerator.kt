@@ -31,6 +31,7 @@ import com.here.genium.generator.cpp.CppNameResolver
 import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.generator.swift.SwiftModelBuilder
 import com.here.genium.generator.swift.SwiftNameResolver
+import com.here.genium.generator.swift.SwiftNameRules
 import com.here.genium.generator.swift.SwiftTypeMapper
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
 import com.here.genium.model.cbridge.CInterface
@@ -46,10 +47,11 @@ class CBridgeGenerator(
     private val cppIncludeResolver: CppIncludeResolver,
     private val includeResolver: CBridgeIncludeResolver,
     private val cppNameResolver: CppNameResolver,
-    private val internalNamespace: List<String>
+    private val internalNamespace: List<String>,
+    private val swiftNameRules: SwiftNameRules
 ) {
     private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
-    private val nameResolver = SwiftNameResolver(limeReferenceMap)
+    private val nameResolver = SwiftNameResolver(limeReferenceMap, swiftNameRules)
     private val swiftTypeMapper = SwiftTypeMapper(nameResolver)
 
     val arrayGenerator = CArrayGenerator(internalNamespace)
@@ -103,7 +105,8 @@ class CBridgeGenerator(
                 limeReferenceMap = limeReferenceMap,
                 signatureResolver = signatureResolver,
                 nameResolver = nameResolver,
-                typeMapper = swiftTypeMapper
+                typeMapper = swiftTypeMapper,
+                nameRules = swiftNameRules
             )
         val typeMapper = CBridgeTypeMapper(
             cppIncludeResolver,

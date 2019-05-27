@@ -20,35 +20,36 @@
 package com.here.genium.generator.swift
 
 import com.here.genium.generator.common.NameHelper
+import com.here.genium.generator.common.NameRuleSet
+import com.here.genium.generator.common.NameRuleSet.Companion.ignore2
+import com.here.genium.generator.common.NameRules
 import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.swift.SwiftType
 import java.io.File
 
-object SwiftNameRules {
-    val TARGET_DIRECTORY = "swift" + File.separator
-
+class SwiftNameRules(nameRuleSet: NameRuleSet = defaultNameRuleSet) : NameRules(nameRuleSet) {
     fun getImplementationFileName(limeContainer: LimeContainer) =
         (TARGET_DIRECTORY +
                 limeContainer.path.head.joinToString(File.separator) +
                 File.separator +
-                getTypeName(limeContainer.name) +
+                getName(limeContainer) +
                 ".swift")
 
-    fun getMethodName(name: String) = NameHelper.toLowerCamelCase(name)
+    companion object {
+        val defaultNameRuleSet = NameRuleSet(
+            getFieldName = NameHelper::toLowerCamelCase,
+            getParameterName = NameHelper::toLowerCamelCase,
+            getConstantName = NameHelper::toLowerCamelCase,
+            getEnumeratorName = NameHelper::toLowerCamelCase,
+            getMethodName = ignore2(NameHelper::toLowerCamelCase),
+            getPropertyName = { name: String, isBoolean: Boolean ->
+                when {
+                    isBoolean -> "is" + NameHelper.toUpperCamelCase(name)
+                    else -> NameHelper.toLowerCamelCase(name)
+                }
+            },
+            getTypeName = NameHelper::toUpperCamelCase
+        )
 
-    fun getParameterName(name: String) = NameHelper.toLowerCamelCase(name)
-
-    fun getTypeName(name: String) = NameHelper.toUpperCamelCase(name)
-
-    fun getFieldName(name: String) = NameHelper.toLowerCamelCase(name)
-
-    fun getEnumItemName(name: String) = NameHelper.toLowerCamelCase(name)
-
-    fun getConstantName(name: String) = NameHelper.toLowerCamelCase(name)
-
-    fun getPropertyName(name: String, swiftType: SwiftType) =
-        when {
-            swiftType === SwiftType.BOOL -> "is" + NameHelper.toUpperCamelCase(name)
-            else -> NameHelper.toLowerCamelCase(name)
-        }
+        val TARGET_DIRECTORY = "swift" + File.separator
+    }
 }

@@ -64,7 +64,8 @@ class JavaModelBuilder(
     private val typeMapper: JavaTypeMapper,
     private val valueMapper: JavaValueMapper,
     private val methodNameResolver: JavaMethodNameResolver,
-    private val errorEnums: Set<String>
+    private val errorEnums: Set<String>,
+    private val nameRules: JavaNameRules
 ) : AbstractLimeBasedModelBuilder<JavaElement>(contextStack) {
     private val nativeBase: JavaType = typeMapper.nativeBase
 
@@ -117,7 +118,7 @@ class JavaModelBuilder(
             limeParameter.attributes
         )
         val javaParameter =
-            JavaParameter(JavaNameRules.getArgumentName(limeParameter.name), javaType)
+            JavaParameter(nameRules.getName(limeParameter), javaType)
         javaParameter.comment = limeParameter.comment
 
         storeResult(javaParameter)
@@ -126,7 +127,7 @@ class JavaModelBuilder(
 
     override fun finishBuilding(limeConstant: LimeConstant) {
         val javaConstant = JavaConstant(
-            JavaNameRules.getConstantName(limeConstant.name),
+            nameRules.getName(limeConstant),
             getPreviousResult(JavaType::class.java),
             getPreviousResult(JavaValue::class.java)
         )
@@ -146,7 +147,7 @@ class JavaModelBuilder(
             serializationBase != null && limeStruct.attributes.have(LimeAttributeType.SERIALIZABLE)
 
         val javaClass = JavaClass(
-            name = JavaNameRules.getClassName(limeStruct.name),
+            name = nameRules.getName(limeStruct),
             fields = getPreviousResults(JavaField::class.java),
             methods = methods,
             constants = getPreviousResults(JavaConstant::class.java),
@@ -168,7 +169,7 @@ class JavaModelBuilder(
     }
 
     override fun finishBuilding(limeField: LimeField) {
-        val fieldName = JavaNameRules.getFieldName(limeField.name)
+        val fieldName = nameRules.getName(limeField)
         val javaType = typeMapper.applyNullability(
             getPreviousResult(JavaType::class.java),
             limeField.attributes
@@ -192,7 +193,7 @@ class JavaModelBuilder(
     }
 
     override fun finishBuilding(limeEnumeration: LimeEnumeration) {
-        val javaEnum = JavaEnum(JavaNameRules.getClassName(limeEnumeration.name))
+        val javaEnum = JavaEnum(nameRules.getName(limeEnumeration))
         javaEnum.visibility = getVisibility(limeEnumeration)
         javaEnum.javaPackage = rootPackage
         javaEnum.comment = limeEnumeration.comment
@@ -203,7 +204,7 @@ class JavaModelBuilder(
             // Exception definition & reference
             val javaEnumType = typeMapper.mapCustomType(limeEnumeration) as JavaEnumType
             val javaException =
-                JavaExceptionClass(JavaNameRules.getExceptionName(javaEnum.name), javaEnumType)
+                JavaExceptionClass(nameRules.getExceptionName(limeEnumeration), javaEnumType)
             javaException.visibility = getVisibility(limeEnumeration)
 
             storeResult(javaException)
@@ -220,7 +221,7 @@ class JavaModelBuilder(
                     .lastOrNull()?.value
             )
         val javaEnumItem = JavaEnumItem(
-            JavaNameRules.getConstantName(limeEnumerator.name),
+            nameRules.getName(limeEnumerator),
             javaValue
         )
         javaEnumItem.comment = limeEnumerator.comment
@@ -242,7 +243,7 @@ class JavaModelBuilder(
             EnumSet.noneOf(MethodQualifier::class.java)
 
         val getterMethod = JavaMethod(
-            name = JavaNameRules.getGetterName(limeProperty.name, javaType),
+            name = nameRules.getGetterName(limeProperty),
             comment = CommentsPreprocessor.preprocessGetterComment(limeProperty.comment),
             visibility = visibility,
             returnType = javaType,
@@ -259,7 +260,7 @@ class JavaModelBuilder(
                     else -> visibility
                 }
             val setterMethod = JavaMethod(
-                name = JavaNameRules.getSetterName(limeProperty.name),
+                name = nameRules.getSetterName(limeProperty),
                 comment = CommentsPreprocessor.preprocessSetterComment(limeProperty.comment),
                 visibility = setterVisibility,
                 returnType = JavaPrimitiveType.VOID,
@@ -285,7 +286,7 @@ class JavaModelBuilder(
 
     private fun createJavaInterface(limeContainer: LimeContainer): JavaInterface {
 
-        val javaInterface = JavaInterface(JavaNameRules.getClassName(limeContainer.name))
+        val javaInterface = JavaInterface(nameRules.getName(limeContainer))
         javaInterface.visibility = getVisibility(limeContainer)
         javaInterface.javaPackage = rootPackage
 
@@ -310,7 +311,7 @@ class JavaModelBuilder(
         classMethods.forEach { it.qualifiers.add(MethodQualifier.NATIVE) }
 
         val javaClass = JavaClass(
-            name = JavaNameRules.getImplementationClassName(limeContainer.name),
+            name = nameRules.getImplementationClassName(limeContainer),
             extendedClass = extendedClass,
             methods = classMethods,
             isImplClass = true,
@@ -331,9 +332,7 @@ class JavaModelBuilder(
         val constants = getPreviousResults(JavaConstant::class.java)
         if (constants.isEmpty()) return
 
-        val javaClass = JavaClass(
-            JavaNameRules.getClassName(limeContainer.name)
-        )
+        val javaClass = JavaClass(nameRules.getName(limeContainer))
         javaClass.visibility = getVisibility(limeContainer)
         javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
         javaClass.javaPackage = rootPackage
@@ -349,14 +348,14 @@ class JavaModelBuilder(
         if (parentContainer != null) {
             val parentClassName = when {
                 parentContainer.type == ContainerType.INTERFACE ->
-                    JavaNameRules.getImplementationClassName(parentContainer.name)
-                else -> JavaNameRules.getClassName(parentContainer.name)
+                    nameRules.getImplementationClassName(parentContainer)
+                else -> nameRules.getName(parentContainer)
             }
             extendedClass = typeMapper.mapCustomType(parentContainer, parentClassName)
         }
 
         val javaClass = JavaClass(
-            name = JavaNameRules.getClassName(limeContainer.name),
+            name = nameRules.getName(limeContainer),
             extendedClass = extendedClass,
             fields = getPreviousResults(JavaField::class.java),
             isImplClass = true,
@@ -388,7 +387,7 @@ class JavaModelBuilder(
             javaInterface.parentInterfaces.add(typeMapper.mapCustomType(parentContainer))
             extendedClass = typeMapper.mapCustomType(
                 parentContainer,
-                JavaNameRules.getImplementationClassName(parentContainer.name)
+                nameRules.getImplementationClassName(parentContainer)
             )
         }
 

@@ -27,6 +27,7 @@ import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.cpp.CppNameResolver
+import com.here.genium.generator.cpp.CppNameRules
 import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppComplexTypeRef
@@ -63,9 +64,10 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeReferenceMap = limeModel.referenceMap
+        val nameRules = CppNameRules(rootNamespace)
         val includeResolver =
-            CppIncludeResolver(rootNamespace, limeReferenceMap)
-        val nameResolver = CppNameResolver(rootNamespace, limeReferenceMap)
+            CppIncludeResolver(limeReferenceMap, nameRules)
+        val nameResolver = CppNameResolver(rootNamespace, limeReferenceMap, nameRules)
         val typeMapper = CppTypeMapper(nameResolver, includeResolver, internalNamespace)
         val cppModelBuilder = CppModelBuilder(typeMapper = typeMapper, nameResolver = nameResolver)
 
@@ -81,7 +83,7 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
         val cppModel = limeModel.containers.map {
             mapLimeModelToCppModel(
                 it,
-                includeResolver.getOutputFilePath(it),
+                nameRules.getOutputFilePath(it),
                 cppModelBuilder,
                 allErrorEnums,
                 cppReferenceMap

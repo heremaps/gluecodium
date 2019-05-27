@@ -68,7 +68,8 @@ class SwiftModelBuilder(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val signatureResolver: LimeSignatureResolver,
     private val nameResolver: SwiftNameResolver,
-    private val typeMapper: SwiftTypeMapper
+    private val typeMapper: SwiftTypeMapper,
+    private val nameRules: SwiftNameRules
 ) : AbstractLimeBasedModelBuilder<SwiftModelElement>(contextStack) {
 
     val arraysCollector = mutableMapOf<String, SwiftArray>()
@@ -87,7 +88,7 @@ class SwiftModelBuilder(
     }
 
     private fun finishBuildingTypeCollection(limeContainer: LimeContainer) {
-        val file = SwiftFile(SwiftNameRules.getImplementationFileName(limeContainer))
+        val file = SwiftFile(nameRules.getImplementationFileName(limeContainer))
         file.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         file.enums.addAll(getPreviousResults(SwiftEnum::class.java))
         file.typeDefs.addAll(getPreviousResults(SwiftTypeDef::class.java))
@@ -96,7 +97,7 @@ class SwiftModelBuilder(
         val constants = getPreviousResults(SwiftConstant::class.java)
         if (constants.isNotEmpty()) {
             val swiftStruct = SwiftStruct(
-                name = SwiftNameRules.getTypeName(limeContainer.name),
+                name = nameRules.getName(limeContainer),
                 visibility = getVisibility(limeContainer),
                 constants = constants
             )
@@ -116,7 +117,7 @@ class SwiftModelBuilder(
         }
 
         val swiftClass = SwiftClass(
-            name = SwiftNameRules.getTypeName(limeContainer.name),
+            name = nameRules.getName(limeContainer),
             visibility = getVisibility(limeContainer),
             parentClass = parentClassName,
             nameSpace = limeContainer.path.head.joinToString("_"),
@@ -128,7 +129,7 @@ class SwiftModelBuilder(
         )
         swiftClass.comment = limeContainer.comment
 
-        val swiftFile = SwiftFile(SwiftNameRules.getImplementationFileName(limeContainer))
+        val swiftFile = SwiftFile(nameRules.getImplementationFileName(limeContainer))
         addMembersAndParent(swiftFile, swiftClass)
         swiftClass.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftClass.enums.addAll(getPreviousResults(SwiftEnum::class.java))
@@ -139,7 +140,7 @@ class SwiftModelBuilder(
 
     private fun finishBuildingInterface(limeContainer: LimeContainer) {
         val swiftClass = SwiftClass(
-            name = SwiftNameRules.getTypeName(limeContainer.name),
+            name = nameRules.getName(limeContainer),
             visibility = getVisibility(limeContainer),
             isInterface = true,
             parentClass = getPreviousResultOrNull(SwiftClass::class.java)?.name,
@@ -150,7 +151,7 @@ class SwiftModelBuilder(
         )
         swiftClass.comment = limeContainer.comment
 
-        val swiftFile = SwiftFile(SwiftNameRules.getImplementationFileName(limeContainer))
+        val swiftFile = SwiftFile(nameRules.getImplementationFileName(limeContainer))
         addMembersAndParent(swiftFile, swiftClass)
         swiftFile.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftFile.enums.addAll(getPreviousResults(SwiftEnum::class.java))
@@ -201,7 +202,7 @@ class SwiftModelBuilder(
 
         val limeParent = limeReferenceMap[limeMethod.path.parent.toString()]
         val method = SwiftMethod(
-            SwiftNameRules.getMethodName(limeMethod.name),
+            nameRules.getName(limeMethod),
             getVisibility(limeMethod),
             limeMethod.comment,
             returnType,
@@ -224,7 +225,7 @@ class SwiftModelBuilder(
             .withOptional(limeParameter.attributes.have(LimeAttributeType.NULLABLE))
 
         val swiftParameter =
-            SwiftParameter(SwiftNameRules.getParameterName(limeParameter.name), swiftType)
+            SwiftParameter(nameRules.getName(limeParameter), swiftType)
         swiftParameter.comment = limeParameter.comment
 
         storeResult(swiftParameter)
@@ -256,7 +257,7 @@ class SwiftModelBuilder(
             ?: if (isNullable) SwiftValue("nil") else null
 
         val swiftField = SwiftField(
-            SwiftNameRules.getFieldName(limeField.name),
+            nameRules.getName(limeField),
             getVisibility(limeField),
             swiftType,
             swiftValue
@@ -281,7 +282,7 @@ class SwiftModelBuilder(
 
     override fun finishBuilding(limeEnumerator: LimeEnumerator) {
         val swiftEnumItem = SwiftEnumItem(
-            SwiftNameRules.getEnumItemName(limeEnumerator.name),
+            nameRules.getName(limeEnumerator),
             getPreviousResultOrNull(SwiftValue::class.java)
         )
         swiftEnumItem.comment = limeEnumerator.comment
@@ -333,7 +334,7 @@ class SwiftModelBuilder(
 
     override fun finishBuilding(limeConstant: LimeConstant) {
         val swiftConstant = SwiftConstant(
-            SwiftNameRules.getConstantName(limeConstant.name),
+            nameRules.getName(limeConstant),
             getVisibility(limeConstant),
             getPreviousResult(SwiftType::class.java),
             getPreviousResult(SwiftValue::class.java)
@@ -377,7 +378,7 @@ class SwiftModelBuilder(
             } else null
 
         val property = SwiftProperty(
-            SwiftNameRules.getPropertyName(limeProperty.name, swiftType),
+            nameRules.getPropertyName(limeProperty),
             propertyVisibility,
             swiftType,
             getterMethod,
@@ -395,7 +396,7 @@ class SwiftModelBuilder(
             is LimeValue.Literal -> SwiftValue(limeValue.value)
             is LimeValue.Enumerator -> {
                 val typeName = nameResolver.getFullName(limeValue.typeRef.type)
-                val valueName = SwiftNameRules.getConstantName(limeValue.valueRef.enumerator.name)
+                val valueName = nameRules.getName(limeValue.valueRef.enumerator)
                 SwiftValue("$typeName.$valueName")
             }
             is LimeValue.Special -> {

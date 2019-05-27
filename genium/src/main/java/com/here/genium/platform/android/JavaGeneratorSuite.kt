@@ -22,6 +22,8 @@ package com.here.genium.platform.android
 import com.here.genium.Genium
 import com.here.genium.generator.androidmanifest.AndroidManifestGenerator
 import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.cpp.CppNameRules
+import com.here.genium.generator.java.JavaNameRules
 import com.here.genium.generator.java.JavaTemplates
 import com.here.genium.generator.jni.JavaModel
 import com.here.genium.generator.jni.JniGenerator
@@ -47,6 +49,8 @@ open class JavaGeneratorSuite protected constructor(
     private val internalNamespace = options.cppInternalNamespace ?: listOf()
     private val rootNamespace = options.cppRootNamespace
     private val commentsProcessor = JavaDocProcessor()
+    private val javaNameRules = JavaNameRules()
+    private val cppNameRules = CppNameRules(rootNamespace)
 
     protected open val generatorName = GENERATOR_NAME
 
@@ -60,13 +64,15 @@ open class JavaGeneratorSuite protected constructor(
         val internalPackageList = javaPackageList + internalPackage
 
         val jniGenerator = JniGenerator(
-            limeModel.referenceMap,
-            javaPackageList,
-            internalPackage,
-            UTILS_HEADER_INCLUDES.map { JniNameRules.getHeaderFileName(it) },
-            enableAndroidFeatures,
-            internalNamespace,
-            rootNamespace
+            limeReferenceMap = limeModel.referenceMap,
+            packageList = javaPackageList,
+            internalPackageList = internalPackage,
+            additionalIncludes = UTILS_HEADER_INCLUDES.map { JniNameRules.getHeaderFileName(it) },
+            enableAndroidFeatures = enableAndroidFeatures,
+            internalNamespace = internalNamespace,
+            rootNamespace = rootNamespace,
+            cppNameRules = cppNameRules,
+            javaNameRules = javaNameRules
         )
 
         val combinedModel =

@@ -30,7 +30,10 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeValue
 
-class JavaValueMapper(private val limeReferenceMap: Map<String, LimeElement>) {
+class JavaValueMapper(
+    private val limeReferenceMap: Map<String, LimeElement>,
+    private val nameRules: JavaNameRules
+) {
 
     fun mapValue(limeValue: LimeValue, javaType: JavaType) =
         when (limeValue) {
@@ -48,12 +51,12 @@ class JavaValueMapper(private val limeReferenceMap: Map<String, LimeElement>) {
             is LimeValue.Enumerator -> {
                 val limeEnumerator = limeValue.valueRef.enumerator
                 val limeEnumeration = limeValue.typeRef.type
-                var names = listOf(JavaNameRules.getClassName(limeEnumeration.name)) +
-                    JavaNameRules.getConstantName(limeEnumerator.name)
+                var names = listOf(nameRules.getName(limeEnumeration)) +
+                    nameRules.getName(limeEnumerator)
                 val parentContainer =
                     limeReferenceMap[limeEnumeration.path.parent.toString()] as LimeContainer
                 if (parentContainer.type != LimeContainer.ContainerType.TYPE_COLLECTION) {
-                    names = listOf(JavaNameRules.getClassName(parentContainer.name)) + names
+                    names = listOf(nameRules.getName(parentContainer)) + names
                 }
                 JavaValue(names.joinToString("."), true)
             }

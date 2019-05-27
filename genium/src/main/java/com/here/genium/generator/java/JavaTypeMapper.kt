@@ -54,7 +54,8 @@ class JavaTypeMapper(
     internalPackage: JavaPackage,
     val serializationBase: JavaType?,
     private val notNullAnnotation: JavaType?,
-    private val nullableAnnotation: JavaType?
+    private val nullableAnnotation: JavaType?,
+    private val nameRules: JavaNameRules
 ) {
     val nativeBase: JavaType = JavaCustomType(NATIVE_BASE_NAME, internalPackage)
 
@@ -85,7 +86,7 @@ class JavaTypeMapper(
             is LimeContainer -> {
                 val packageNames =
                     basePackage.createChildPackage(limeType.path.head).packageNames
-                val className = JavaNameRules.getClassName(limeType.name)
+                val className = nameRules.getName(limeType)
                 JavaCustomType(
                     fullName = className,
                     packageNames = packageNames,
@@ -143,9 +144,9 @@ class JavaTypeMapper(
 
     fun mapCustomType(
         limeType: LimeType,
-        className: String = JavaNameRules.getClassName(limeType.name)
+        implClassName: String? = null
     ): JavaType {
-
+        val className = implClassName ?: nameRules.getName(limeType)
         if (limeType is LimeContainer) {
             val packageNames = basePackage.createChildPackage(limeType.path.head).packageNames
 
@@ -167,7 +168,7 @@ class JavaTypeMapper(
             importClassName = className
             typeName = className
         } else {
-            importClassName = JavaNameRules.getClassName(parentContainer.name)
+            importClassName = nameRules.getName(parentContainer)
             typeName = "$importClassName.$className"
             classNames.add(0, importClassName)
         }
@@ -181,7 +182,7 @@ class JavaTypeMapper(
     }
 
     fun mapExceptionType(limeType: LimeType): JavaExceptionType {
-        val exceptionName = JavaNameRules.getExceptionName(limeType.name)
+        val exceptionName = nameRules.getExceptionName(limeType as LimeEnumeration)
         val parentContainer = limeReferenceMap[limeType.path.parent.toString()] as LimeContainer
         val javaPackage =
             JavaPackage(basePackage.createChildPackage(parentContainer.path.head).packageNames)
@@ -191,7 +192,7 @@ class JavaTypeMapper(
         if (parentContainer.type == LimeContainer.ContainerType.TYPE_COLLECTION) {
             importClassName = exceptionName
         } else {
-            importClassName = JavaNameRules.getClassName(parentContainer.name)
+            importClassName = nameRules.getName(parentContainer)
             classNames.add(0, importClassName)
         }
 

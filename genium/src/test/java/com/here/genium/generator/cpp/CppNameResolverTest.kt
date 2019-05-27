@@ -22,8 +22,8 @@ package com.here.genium.generator.cpp
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimePath
+import com.here.genium.model.lime.LimeType
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,19 +31,21 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class CppNameResolverTest(
-    private val parentElement: LimeNamedElement?,
+    private val parentElement: LimeType?,
     private val expectedNormalResult: String,
     private val expectedExternalResult: String
 ) {
     private val elementPath = (parentElement?.path ?: LIME_ROOT_PATH).child("an_Element")
+    private val rootNamespace = listOf("ro", "ot")
     private var nameResolver = CppNameResolver(
-        listOf("ro", "ot"),
-        parentElement?.let { mapOf(parentElement.fullName to parentElement) } ?: emptyMap()
+        rootNamespace,
+        parentElement?.let { mapOf(parentElement.fullName to parentElement) } ?: emptyMap(),
+        CppNameRules(rootNamespace)
     )
 
     @Test
     fun getNameForNormalElement() {
-        val limeElement = object : LimeNamedElement(elementPath) { }
+        val limeElement = object : LimeType(elementPath) { }
         val result = nameResolver.getFullyQualifiedName(limeElement)
 
         assertEquals(expectedNormalResult, result)
@@ -53,7 +55,7 @@ class CppNameResolverTest(
     fun getNameForExternalElement() {
         val limeAttributes =
             LimeAttributes.Builder().addAttribute(LimeAttributeType.EXTERNAL_TYPE).build()
-        val limeElement = object : LimeNamedElement(elementPath, attributes = limeAttributes) { }
+        val limeElement = object : LimeType(elementPath, attributes = limeAttributes) { }
 
         val result = nameResolver.getFullyQualifiedName(limeElement)
 
@@ -66,7 +68,7 @@ class CppNameResolverTest(
             .addAttribute(LimeAttributeType.EXTERNAL_TYPE)
             .addAttribute(LimeAttributeType.EXTERNAL_NAME, "EXTERNAL_NAME")
             .build()
-        val limeElement = object : LimeNamedElement(elementPath, attributes = limeAttributes) { }
+        val limeElement = object : LimeType(elementPath, attributes = limeAttributes) { }
 
         val result = nameResolver.getFullyQualifiedName(limeElement)
 
@@ -100,18 +102,18 @@ class CppNameResolverTest(
                     "::ro::ot::mo::del::AnElement",
                     "::ro::ot::mo::del::an_Element"
                 ), arrayOf<Any?>(
-                    object : LimeNamedElement(LIME_ROOT_PATH.child("parent_Element")) {},
+                    object : LimeType(LIME_ROOT_PATH.child("parent_Element")) {},
                     "::ro::ot::mo::del::ParentElement::AnElement",
                     "::ro::ot::mo::del::ParentElement::an_Element"
                 ), arrayOf<Any?>(
-                    object : LimeNamedElement(
+                    object : LimeType(
                         LIME_ROOT_PATH.child("parent_Element"),
                         attributes = limeExternalAttributes
                     ) {},
                     "::ro::ot::mo::del::parent_Element::an_Element",
                     "::ro::ot::mo::del::parent_Element::an_Element"
                 ), arrayOf<Any?>(
-                    object : LimeNamedElement(
+                    object : LimeType(
                         LIME_ROOT_PATH.child("parent_Element"),
                         attributes = limeExternalAttributesWithName
                     ) {},

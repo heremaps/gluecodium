@@ -446,7 +446,7 @@ public class NullableTest {
     Boolean value = null;
 
     nullableInterface.setBoolAttribute(value);
-    Boolean result = nullableInterface.getBoolAttribute();
+    Boolean result = nullableInterface.isBoolAttribute();
 
     assertEquals(result, value);
   }
@@ -456,7 +456,7 @@ public class NullableTest {
     Boolean value = true;
 
     nullableInterface.setBoolAttribute(value);
-    Boolean result = nullableInterface.getBoolAttribute();
+    Boolean result = nullableInterface.isBoolAttribute();
 
     assertEquals(result, value);
   }

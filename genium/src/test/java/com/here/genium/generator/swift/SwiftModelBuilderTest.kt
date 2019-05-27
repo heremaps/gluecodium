@@ -97,7 +97,14 @@ class SwiftModelBuilderTest {
         MockKAnnotations.init(this, relaxed = true)
 
         modelBuilder =
-            SwiftModelBuilder(contextStack, emptyMap(), signatureResolver, nameResolver, typeMapper)
+            SwiftModelBuilder(
+                limeReferenceMap = emptyMap(),
+                signatureResolver = signatureResolver,
+                nameResolver = nameResolver,
+                typeMapper = typeMapper,
+                nameRules = SwiftNameRules(),
+                contextStack = contextStack
+            )
 
         every { nameResolver.getFullName(any()) } returns "nonsense"
     }
