@@ -39,6 +39,7 @@ import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
@@ -56,6 +57,7 @@ import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftModelElement
 import com.here.genium.model.swift.SwiftParameter
 import com.here.genium.model.swift.SwiftProperty
+import com.here.genium.model.swift.SwiftSet
 import com.here.genium.model.swift.SwiftStruct
 import com.here.genium.model.swift.SwiftType
 import com.here.genium.model.swift.SwiftTypeDef
@@ -500,6 +502,21 @@ class SwiftModelBuilderTest {
         assertEquals("nonsense", result.publicName)
         assertEquals(swiftType, result.keyType)
         assertEquals(swiftValueType, result.valueType)
+    }
+
+    @Test
+    fun finishBuildingTypeDefReadsSet() {
+        val limeSet = LimeSet(LimeBasicTypeRef.FLOAT)
+        val limeElement = LimeTypeDef(fooPath, typeRef = LimeDirectTypeRef(limeSet))
+        val swiftBazType = SwiftType("Baz", "")
+        every { typeMapper.mapType(any()) } returns swiftBazType
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(SwiftSet::class.java)
+        assertEquals("Set<Baz>", result.name)
+        assertEquals("Set<Baz>", result.publicName)
+        assertEquals(swiftBazType, result.elementType)
     }
 
     @Test

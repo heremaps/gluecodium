@@ -36,6 +36,7 @@ import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
@@ -55,6 +56,7 @@ import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftModelElement
 import com.here.genium.model.swift.SwiftParameter
 import com.here.genium.model.swift.SwiftProperty
+import com.here.genium.model.swift.SwiftSet
 import com.here.genium.model.swift.SwiftStruct
 import com.here.genium.model.swift.SwiftType
 import com.here.genium.model.swift.SwiftTypeDef
@@ -292,25 +294,34 @@ class SwiftModelBuilder(
         val typeDefName = nameResolver.getFullName(limeTypeDef)
         val limeActualType = LimeTypeHelper.getActualType(limeTypeDef.typeRef.type)
         val swiftActualType: SwiftType
-        if (limeActualType is LimeMap) {
-            val mapName = nameResolver.getMapName(limeTypeDef)
-            val swiftDictionary = SwiftDictionary(
-                mapName,
-                null,
-                typeDefName,
-                CBridgeNameRules.getTypeName(limeTypeDef),
-                typeMapper.mapType(limeActualType.keyType.type),
-                typeMapper.mapType(limeActualType.valueType.type)
-            )
+        when (limeActualType) {
+            is LimeMap -> {
+                val mapName = nameResolver.getMapName(limeTypeDef)
+                val swiftDictionary = SwiftDictionary(
+                    mapName,
+                    null,
+                    typeDefName,
+                    CBridgeNameRules.getTypeName(limeTypeDef),
+                    typeMapper.mapType(limeActualType.keyType.type),
+                    typeMapper.mapType(limeActualType.valueType.type)
+                )
 
-            val keyTypeKey = typeMapper.getActualTypeKey(limeActualType.keyType.type)
-            val valueTypeKey = typeMapper.getActualTypeKey(limeActualType.valueType.type)
-            mapCollector.putIfAbsent("$keyTypeKey:$valueTypeKey", swiftDictionary)
-            storeNamedResult(limeTypeDef, swiftDictionary)
+                val keyTypeKey = typeMapper.getActualTypeKey(limeActualType.keyType.type)
+                val valueTypeKey = typeMapper.getActualTypeKey(limeActualType.valueType.type)
+                mapCollector.putIfAbsent("$keyTypeKey:$valueTypeKey", swiftDictionary)
+                storeNamedResult(limeTypeDef, swiftDictionary)
 
-            swiftActualType = SwiftType(swiftDictionary.dictionaryDefinition, null)
-        } else {
-            swiftActualType = getPreviousResult(SwiftType::class.java)
+                swiftActualType = SwiftType(swiftDictionary.dictionaryDefinition, null)
+            }
+            is LimeSet -> {
+                val swiftSet = SwiftSet(
+                    typeMapper.mapType(limeActualType.elementType.type),
+                    CBridgeNameRules.getTypeName(limeTypeDef)
+                )
+                storeNamedResult(limeTypeDef, swiftSet)
+                swiftActualType = swiftSet
+            }
+            else -> swiftActualType = getPreviousResult(SwiftType::class.java)
         }
 
         val swiftTypeDef = SwiftTypeDef(typeDefName, getVisibility(limeTypeDef), swiftActualType)

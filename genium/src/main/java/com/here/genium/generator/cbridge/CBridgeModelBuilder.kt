@@ -34,6 +34,7 @@ import com.here.genium.model.cbridge.CFunction
 import com.here.genium.model.cbridge.CInterface
 import com.here.genium.model.cbridge.CMap
 import com.here.genium.model.cbridge.CParameter
+import com.here.genium.model.cbridge.CSet
 import com.here.genium.model.cbridge.CStruct
 import com.here.genium.model.cbridge.CType
 import com.here.genium.model.common.Include
@@ -51,6 +52,7 @@ import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
@@ -104,6 +106,7 @@ class CBridgeModelBuilder(
             structs = getPreviousResults(CStruct::class.java),
             enums = getPreviousResults(CEnum::class.java),
             maps = getPreviousResults(CMap::class.java),
+            sets = getPreviousResults(CSet::class.java),
             functions = getPreviousResults(CFunction::class.java),
             inheritedFunctions = inheritedFunctions,
             functionTableName = if (limeContainer.type == LimeContainer.ContainerType.INTERFACE)
@@ -314,6 +317,20 @@ class CBridgeModelBuilder(
             )
 
             storeResult(cMap)
+        } else if (limeActualType is LimeSet) {
+            val elementType = mapType(limeActualType.elementType.type)
+            var enumHashType: String? = null
+            if (elementType.typeCategory === CppTypeInfo.TypeCategory.ENUM) {
+                enumHashType = typeMapper.enumHashType
+            }
+
+            val cSet = CSet(
+                CBridgeNameRules.getTypeName(limeTypeDef),
+                elementType,
+                enumHashType,
+                cppIncludeResolver.resolveIncludes(limeTypeDef).first()
+            )
+            storeResult(cSet)
         }
 
         closeContext()

@@ -27,7 +27,6 @@ import com.here.genium.generator.cpp.CppNameResolver
 import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
 import com.here.genium.model.cbridge.CType
-import com.here.genium.model.cbridge.CType.VOID
 import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppTypeRef
 import com.here.genium.model.lime.LimeArray
@@ -37,6 +36,7 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeNamedElement
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
@@ -64,7 +64,7 @@ class CBridgeTypeMapper(
             is LimeStruct -> createCustomTypeInfo(limeType, CppTypeInfo.TypeCategory.STRUCT)
             is LimeEnumeration -> createEnumTypeInfo(limeType)
             is LimeArray -> createArrayTypeInfo(mapType(limeType.elementType.type))
-            else -> CppTypeInfo(VOID)
+            else -> CppTypeInfo(CType.VOID)
         }
 
     fun createCustomTypeInfo(
@@ -118,13 +118,20 @@ class CBridgeTypeMapper(
             TypeId.DATE -> CppTypeInfo.DATE
         }
 
-    private fun mapTypeDef(limeTypeDef: LimeTypeDef): CppTypeInfo {
-        val actualType = LimeTypeHelper.getActualType(limeTypeDef.typeRef.type)
-        return when (actualType) {
+    private fun mapTypeDef(limeTypeDef: LimeTypeDef) =
+        when (val actualType = LimeTypeHelper.getActualType(limeTypeDef.typeRef.type)) {
             is LimeMap -> mapMapType(actualType, cppNameResolver.getFullyQualifiedName(limeTypeDef))
+            is LimeSet -> CppSetTypeInfo(
+                cppNameResolver.getFullyQualifiedName(limeTypeDef),
+                CType(BASE_REF_NAME),
+                listOf(
+                    Include.createInternalInclude(BASE_HANDLE_IMPL_FILE),
+                    CppLibraryIncludes.SET
+                ),
+                mapType(actualType.elementType.type)
+            )
             else -> mapType(actualType)
         }
-    }
 
     private fun mapMapType(limeMap: LimeMap, cppName: String): CppTypeInfo {
         val keyType = mapType(limeMap.keyType.type)
@@ -155,8 +162,7 @@ class CBridgeTypeMapper(
     }
 
     companion object {
-        val BASE_HANDLE_IMPL_INCLUDE =
-            Include.createInternalInclude(CBridgeNameRules.BASE_HANDLE_IMPL_FILE)
+        val BASE_HANDLE_IMPL_INCLUDE = Include.createInternalInclude(BASE_HANDLE_IMPL_FILE)
 
         private fun createArrayTypeInfo(elementTypeInfo: CppTypeInfo) =
             CppArrayTypeInfo(

@@ -86,7 +86,7 @@ struct Conversion
     }
 
     static _baseRef
-    referenceBaseRef( T& t )
+    referenceBaseRef( const T& t )
     {
         return reinterpret_cast< _baseRef >( &t );
     }

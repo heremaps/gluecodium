@@ -21,6 +21,7 @@ package com.here.genium.generator.cbridge
 
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeMap
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
 
@@ -32,6 +33,7 @@ object CBridgeNameResolver {
         is LimeArray -> "ArrayOf_${getTypeName(limeType.elementType.type)}"
         is LimeMap ->
             "MapOf_${getTypeName(limeType.keyType.type)}_To_${getTypeName(limeType.valueType.type)}"
+        is LimeSet -> "SetOf_${getTypeName(limeType.elementType.type)}"
         else -> CBridgeNameRules.getName(limeType)
     }
 }

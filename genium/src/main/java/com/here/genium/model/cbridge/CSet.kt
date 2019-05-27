@@ -17,13 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.swift
+package com.here.genium.model.cbridge
 
-import com.here.genium.model.swift.SwiftFile
-import com.here.genium.model.swift.SwiftModelElement
+import com.here.genium.generator.cbridge.CppTypeInfo
+import com.here.genium.model.common.Include
 
-class SwiftModel(val referenceMap: Map<String, SwiftModelElement>, val containers: List<SwiftFile>) {
-    fun merge(model: SwiftModel): SwiftModel {
-        return SwiftModel(referenceMap + model.referenceMap, containers + model.containers)
-    }
-}
+class CSet(
+    name: String,
+    val elementType: CppTypeInfo,
+    val enumHashType: String?,
+    val include: Include
+) : CElement(name)

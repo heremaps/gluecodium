@@ -26,6 +26,7 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.swift.SwiftFile
+import com.here.genium.model.swift.SwiftSet
 import com.here.genium.platform.common.GeneratorSuite
 
 class SwiftGenerator(private val limeReferenceMap: Map<String, LimeElement>) {
@@ -55,7 +56,7 @@ class SwiftGenerator(private val limeReferenceMap: Map<String, LimeElement>) {
 
         return SwiftModel(
             modelBuilder.referenceMap,
-            setOf(modelBuilder.getFinalResult(SwiftFile::class.java))
+            listOf(modelBuilder.getFinalResult(SwiftFile::class.java))
         )
     }
 
@@ -67,6 +68,22 @@ class SwiftGenerator(private val limeReferenceMap: Map<String, LimeElement>) {
                 SwiftNameRules.TARGET_DIRECTORY + "ErrorsExtensions.swift"
             )
         }
+
+    fun generateSets(swiftModel: List<SwiftFile>): GeneratedFile? {
+        val allSets = (swiftModel.flatMap { it.typeDefs } +
+            swiftModel.flatMap { it.classes }.flatMap { it.typedefs })
+                .map { it.type }
+                .filterIsInstance<SwiftSet>()
+                .associateBy { it.elementType.name }
+                .values
+        if (allSets.isEmpty()) {
+            return null
+        }
+        return GeneratedFile(
+            TemplateEngine.render("swift/Set", mapOf("sets" to allSets)),
+            SwiftNameRules.TARGET_DIRECTORY + "Sets.swift"
+        )
+    }
 
     companion object {
         val STATIC_FILES = listOf(

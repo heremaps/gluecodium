@@ -35,6 +35,7 @@ import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.test.AssertHelpers.assertContains
 import io.mockk.MockKAnnotations
@@ -106,6 +107,23 @@ class CBridgeTypeMapperTest {
         assertEquals("Baz", (result as CppMapTypeInfo).keyType.name)
         assertEquals("double", result.valueType.name)
         assertEquals("FooHash", result.enumHashType)
+    }
+
+    @Test
+    fun mapTypeTypeDefToSetType() {
+        val limeSet = LimeSet(LimeBasicTypeRef.DOUBLE)
+        val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeSet))
+        every { cppNameResolver.getFullyQualifiedName(limeElement) } returns "bar.Baz"
+
+        val result = typeMapper.mapType(limeElement)
+
+        assertEquals("bar.Baz", result.name)
+        assertEquals(BASE_REF_NAME, result.cType.name)
+        assertEquals(BASE_REF_NAME, result.functionReturnType.name)
+        assertEquals(2, result.includes.size)
+        assertEquals(CBridgeNameRules.BASE_HANDLE_IMPL_FILE, result.includes.first().fileName)
+        assertEquals(CppLibraryIncludes.SET, result.includes.last())
+        assertEquals("double", (result as CppSetTypeInfo).elementType.name)
     }
 
     @Test

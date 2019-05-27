@@ -41,7 +41,8 @@ open class CppTypeInfo(
         CLASS,
         ENUM,
         ARRAY,
-        MAP
+        MAP,
+        SET
     }
 
     constructor(type: CType, typeCategory: TypeCategory = TypeCategory.BUILTIN_SIMPLE) : this(

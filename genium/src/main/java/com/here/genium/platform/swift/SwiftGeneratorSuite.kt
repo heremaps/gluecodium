@@ -55,7 +55,7 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             internalNamespace
         )
         val swiftModel =
-            limeModel.containers.fold(SwiftModel(emptyMap(), emptySet())) { model, limeContainer ->
+            limeModel.containers.fold(SwiftModel(emptyMap(), emptyList())) { model, limeContainer ->
                 model.merge(swiftGenerator.generateModel(limeContainer))
             }
 
@@ -98,12 +98,12 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
                 it.fileName
             )
         } +
-                limeModel.containers.flatMap { cBridgeGenerator.generate(it) } +
-                CBridgeGenerator.STATIC_FILES + SwiftGenerator.STATIC_FILES +
-                cBridgeGenerator.arrayGenerator.generate() + swiftGenerator.arrayGenerator.generate() +
-                swiftGenerator.mapGenerator.generate() +
-                swiftGenerator.builtinOptionalsGenerator.generate() + swiftGenerator.generateErrors() +
-                cBridgeGenerator.generateHelpers()
+            limeModel.containers.flatMap { cBridgeGenerator.generate(it) } +
+            CBridgeGenerator.STATIC_FILES + SwiftGenerator.STATIC_FILES +
+            cBridgeGenerator.arrayGenerator.generate() + swiftGenerator.arrayGenerator.generate() +
+            swiftGenerator.mapGenerator.generate() + swiftGenerator.generateSets(swiftModel.containers) +
+            swiftGenerator.builtinOptionalsGenerator.generate() + swiftGenerator.generateErrors() +
+            cBridgeGenerator.generateHelpers()
 
         return result.filterNotNull()
     }

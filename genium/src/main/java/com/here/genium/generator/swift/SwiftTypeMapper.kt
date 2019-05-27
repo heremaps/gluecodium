@@ -27,6 +27,7 @@ import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeMap
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
@@ -69,6 +70,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
                 val valueTypeKey = getActualTypeKey(limeType.valueType.type)
                 "[$keyTypeKey:$valueTypeKey]"
             }
+            is LimeSet -> "[${getActualTypeKey(limeType.elementType.type)}:]"
             else -> mapType(limeType).name
         }
 

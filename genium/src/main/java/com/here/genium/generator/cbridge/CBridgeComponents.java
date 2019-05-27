@@ -26,6 +26,7 @@ import com.here.genium.model.cbridge.CFunction;
 import com.here.genium.model.cbridge.CInterface;
 import com.here.genium.model.cbridge.CMap;
 import com.here.genium.model.cbridge.CParameter;
+import com.here.genium.model.cbridge.CSet;
 import com.here.genium.model.cbridge.CStruct;
 import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
@@ -68,6 +69,9 @@ public final class CBridgeComponents {
     for (CMap map : cInterface.getMaps()) {
       includes.add(map.include);
     }
+    for (CSet set : cInterface.getSets()) {
+      includes.add(set.getInclude());
+    }
     for (final CEnum enumeration : cInterface.getEnums()) {
       includes.addAll(enumeration.mappedType.getIncludes());
     }
@@ -108,6 +112,9 @@ public final class CBridgeComponents {
     for (final CMap map : cInterface.getMaps()) {
       includes.addAll(map.keyType.getFunctionReturnType().includes);
       includes.addAll(map.valueType.getFunctionReturnType().includes);
+    }
+    for (final CSet set : cInterface.getSets()) {
+      includes.addAll(set.getElementType().getFunctionReturnType().includes);
     }
     if (!cInterface.getMaps().isEmpty() || cInterface.getHasEquatableType()) {
       includes.add(CType.BOOL_INCLUDE);

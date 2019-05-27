@@ -31,6 +31,7 @@ import com.here.genium.model.cbridge.CFunction
 import com.here.genium.model.cbridge.CInterface
 import com.here.genium.model.cbridge.CMap
 import com.here.genium.model.cbridge.CParameter
+import com.here.genium.model.cbridge.CSet
 import com.here.genium.model.cbridge.CStruct
 import com.here.genium.model.cbridge.CType
 import com.here.genium.model.common.Include
@@ -58,6 +59,7 @@ import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.swift.SwiftField
@@ -234,10 +236,12 @@ class CBridgeModelBuilderTest {
         val cStruct = CStruct("", "", cppTypeInfo, false)
         val cEnum = CEnum("", cppTypeInfo)
         val cMap = CMap("", cppTypeInfo, cppTypeInfo, "", fooInclude)
+        val cSet = CSet("", cppTypeInfo, null, fooInclude)
         contextStack.injectResult(cFunction)
         contextStack.injectResult(cStruct)
         contextStack.injectResult(cEnum)
         contextStack.injectResult(cMap)
+        contextStack.injectResult(cSet)
 
         modelBuilder.finishBuilding(limeContainer)
 
@@ -246,6 +250,7 @@ class CBridgeModelBuilderTest {
         assertContains(cStruct, result.structs)
         assertContains(cEnum, result.enums)
         assertContains(cMap, result.maps)
+        assertContains(cSet, result.sets)
     }
 
     @Test
@@ -718,6 +723,42 @@ class CBridgeModelBuilderTest {
         modelBuilder.finishBuilding(limeTypeDefToMap)
 
         assertEquals(cppArrayTypeInfo, modelBuilder.arraysCollector.values.first().arrayType)
+    }
+
+    @Test
+    fun finishBuildingTypeDefToSet() {
+        val limeSet = LimeSet(LimeBasicTypeRef.FLOAT)
+        val limeElement = LimeTypeDef(
+            LimePath(emptyList(), listOf("foo", "bar")),
+            typeRef = LimeDirectTypeRef(limeSet)
+        )
+        every { typeMapper.mapType(any()) } returns cppTypeInfo
+        every { cppIncludeResolver.resolveIncludes(limeElement) } returns listOf(fooInclude)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(CSet::class.java)
+        assertEquals("Foo_Bar", result.name)
+        assertEquals(cppTypeInfo, result.elementType)
+        assertEquals(fooInclude, result.include)
+    }
+
+    @Test
+    fun finishBuildingTypeDefToSetWithEnumKey() {
+        val cppEnumTypeInfo = CppTypeInfo(CType.BOOL, CppTypeInfo.TypeCategory.ENUM)
+        val limeSet = LimeSet(LimeBasicTypeRef.FLOAT)
+        val limeElement = LimeTypeDef(
+            LimePath(emptyList(), listOf("foo", "bar")),
+            typeRef = LimeDirectTypeRef(limeSet)
+        )
+        every { typeMapper.mapType(any()) } returns cppEnumTypeInfo
+        every { cppIncludeResolver.resolveIncludes(limeElement) } returns listOf(fooInclude)
+        every { typeMapper.enumHashType } returns "nonsenseHash"
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(CSet::class.java)
+        assertEquals("nonsenseHash", result.enumHashType)
     }
 
     @Test
