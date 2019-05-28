@@ -22,6 +22,9 @@ import "./MethodOverloads.fidl"
 
 define GeniumExtensions for interface test.MethodOverloads
 {
+    array StringSet { IsSet = true }
+    array IntSet { IsSet = true }
+
     method isBoolean:boolOverload {
         Static = true
     }
@@ -47,6 +50,14 @@ define GeniumExtensions for interface test.MethodOverloads
     }
 
     method isBoolean:intArrayOverload {
+        Static = true
+    }
+
+    method isBoolean:stringSetOverload {
+        Static = true
+    }
+
+    method isBoolean:intSetOverload {
         Static = true
     }
 }

@@ -94,6 +94,27 @@ interface MethodOverloads {
           Boolean output
       }
     }
+
+    array StringSet of String
+    array IntSet of Int8
+
+    method isBoolean:stringSetOverload {
+       in {
+           StringSet input
+       }
+       out {
+           Boolean output
+       }
+    }
+
+    method isBoolean:intSetOverload {
+      in {
+          IntSet input
+      }
+      out {
+          Boolean output
+      }
+    }
 }
 
 interface SpecialNames {

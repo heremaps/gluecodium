@@ -69,6 +69,18 @@ MethodOverloads::is_boolean( const MethodOverloads::IntArray& input )
     return false;
 }
 
+bool
+MethodOverloads::is_boolean( const MethodOverloads::StringSet& input )
+{
+    return false;
+}
+
+bool
+MethodOverloads::is_boolean( const MethodOverloads::IntSet& input )
+{
+    return false;
+}
+
 class ConstructorOverloadsImpl : public ConstructorOverloads
 {
 public:
