@@ -19,7 +19,6 @@
 
 package com.here.genium.model.cpp
 
-import com.google.common.base.Strings
 import java.util.stream.Stream
 
 class CppField(
@@ -37,7 +36,7 @@ class CppField(
     override fun stream() = Stream.of(type, initializer)
 
     @Suppress("unused")
-    fun hasComment() = !Strings.isNullOrEmpty(comment) || isNotNull
+    fun hasComment() = !comment.isNullOrEmpty() || isNotNull
 
     @Suppress("unused")
     val needsPointerValueEqual = isNullable && !isClassPointerEquatable || isClassEquatable

@@ -39,7 +39,12 @@ class SwiftGenerator(private val limeReferenceMap: Map<String, LimeElement>) {
 
     fun generateModel(limeContainer: LimeContainer): SwiftModel {
         val modelBuilder =
-            SwiftModelBuilder(limeReferenceMap, signatureResolver, nameResolver, typeMapper)
+            SwiftModelBuilder(
+                limeReferenceMap = limeReferenceMap,
+                signatureResolver = signatureResolver,
+                nameResolver = nameResolver,
+                typeMapper = typeMapper
+            )
         val treeWalker = LimeTreeWalker(listOf(modelBuilder))
 
         treeWalker.walkTree(limeContainer)

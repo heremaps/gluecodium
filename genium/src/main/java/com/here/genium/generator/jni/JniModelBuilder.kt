@@ -19,9 +19,8 @@
 
 package com.here.genium.generator.jni
 
-import com.google.common.annotations.VisibleForTesting
-import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.common.ModelBuilderContextStack
+import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.java.JavaModelBuilder
@@ -77,26 +76,13 @@ import com.here.genium.model.lime.LimeTypeRef
  * calling finishBuilding on JniModelBuilder (constructed Java and C++ elements need to be
  * accessible via getResults() ).
  */
-class JniModelBuilder @VisibleForTesting
-internal constructor(
-    contextStack: ModelBuilderContextStack<JniElement>,
+class JniModelBuilder(
+    contextStack: ModelBuilderContextStack<JniElement> = ModelBuilderContextStack(),
     private val javaBuilder: JavaModelBuilder,
     private val cppBuilder: CppModelBuilder,
     private val cppIncludeResolver: CppIncludeResolver,
     private val internalNamespace: List<String>
 ) : AbstractLimeBasedModelBuilder<JniElement>(contextStack) {
-    constructor(
-        javaBuilder: JavaModelBuilder,
-        cppBuilder: CppModelBuilder,
-        cppIncludeResolver: CppIncludeResolver,
-        internalNamespace: List<String>
-    ) : this(
-        ModelBuilderContextStack<JniElement>(),
-        javaBuilder,
-        cppBuilder,
-        cppIncludeResolver,
-        internalNamespace
-    )
 
     override fun finishBuilding(limeContainer: LimeContainer) {
         val jniContainer = when {

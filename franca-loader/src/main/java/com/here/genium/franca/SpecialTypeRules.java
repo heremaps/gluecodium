@@ -19,7 +19,6 @@
 
 package com.here.genium.franca;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.franca.core.franca.FBasicTypeId;
 import org.franca.core.franca.FType;
 import org.franca.core.franca.FTypeDef;
@@ -35,7 +34,7 @@ import org.franca.core.franca.FTypeRef;
  */
 public final class SpecialTypeRules {
 
-  @VisibleForTesting static final String DATE_TYPE_KEY = "genium.Extensions.Date";
+  static final String DATE_TYPE_KEY = "genium.Extensions.Date";
 
   /**
    * This method is used to check if a typedef is for an instance by checking that the typedef

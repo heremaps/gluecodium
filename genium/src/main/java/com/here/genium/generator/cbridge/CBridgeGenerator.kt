@@ -19,7 +19,6 @@
 
 package com.here.genium.generator.cbridge
 
-import com.google.common.annotations.VisibleForTesting
 import com.here.genium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC
 import com.here.genium.generator.cbridge.CBridgeNameRules.INCLUDE_DIR
 import com.here.genium.generator.cbridge.CBridgeNameRules.SRC_DIR
@@ -98,9 +97,14 @@ class CBridgeGenerator(
 
     private fun buildCBridgeModel(limeContainer: LimeContainer): CInterface {
         val cppTypeMapper = CppTypeMapper(cppNameResolver, cppIncludeResolver, internalNamespace)
-        val cppBuilder = CppModelBuilder(cppTypeMapper, cppNameResolver)
+        val cppBuilder = CppModelBuilder(typeMapper = cppTypeMapper, nameResolver = cppNameResolver)
         val swiftBuilder =
-            SwiftModelBuilder(limeReferenceMap, signatureResolver, nameResolver, swiftTypeMapper)
+            SwiftModelBuilder(
+                limeReferenceMap = limeReferenceMap,
+                signatureResolver = signatureResolver,
+                nameResolver = nameResolver,
+                typeMapper = swiftTypeMapper
+            )
         val typeMapper = CBridgeTypeMapper(
             cppIncludeResolver,
             cppNameResolver,
@@ -109,13 +113,13 @@ class CBridgeGenerator(
         )
 
         val modelBuilder = CBridgeModelBuilder(
-            limeReferenceMap,
-            includeResolver,
-            cppIncludeResolver,
-            cppBuilder,
-            swiftBuilder,
-            typeMapper,
-            internalNamespace
+            limeReferenceMap = limeReferenceMap,
+            includeResolver = includeResolver,
+            cppIncludeResolver = cppIncludeResolver,
+            cppBuilder = cppBuilder,
+            swiftBuilder = swiftBuilder,
+            typeMapper = typeMapper,
+            internalNamespace = internalNamespace
         )
         val treeWalker = LimeTreeWalker(listOf(cppBuilder, swiftBuilder, modelBuilder))
 
@@ -153,12 +157,10 @@ class CBridgeGenerator(
             GeneratorSuite.copyTarget(CBridgeComponents.PROXY_CACHE_FILENAME, "")
         )
 
-        @VisibleForTesting
-        fun generateHeaderContent(model: CInterface) =
+        private fun generateHeaderContent(model: CInterface) =
             TemplateEngine.render("cbridge/Header", model)
 
-        @VisibleForTesting
-        fun generateImplementationContent(model: CInterface) =
+        private fun generateImplementationContent(model: CInterface) =
             TemplateEngine.render("cbridge/Implementation", model)
     }
 }

@@ -19,7 +19,6 @@
 
 package com.here.genium.validator;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.here.genium.franca.DefinedBy;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -48,7 +47,6 @@ public class NameValidator {
         && checkTypeNamesInTypeCollection(typeCollections);
   }
 
-  @VisibleForTesting
   static boolean checkTypeNamesInTypeCollection(final List<FTypeCollection> typeCollections) {
     Map<String, List<String>> packageNameMapping = new HashMap<>();
     List<FTypeCollection> filteredTypeCollections =
@@ -72,7 +70,6 @@ public class NameValidator {
     return checkForDuplicateNames(packageNameMapping, "type");
   }
 
-  @VisibleForTesting
   static boolean checkTypeCollectionNames(final List<FTypeCollection> typeCollections) {
 
     Map<String, List<String>> packageNameMapping = new HashMap<>();

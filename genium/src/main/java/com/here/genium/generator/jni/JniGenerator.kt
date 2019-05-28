@@ -67,22 +67,22 @@ class JniGenerator(
             if (enableAndroidFeatures) NULLABLE else null
         )
         val javaBuilder = JavaModelBuilder(
-            basePackage.createChildPackage(limeContainer.path.head),
-            javaTypeMapper,
-            JavaValueMapper(limeReferenceMap),
-            JavaMethodNameResolver(limeReferenceMap),
-            errorEnums
+            rootPackage = basePackage.createChildPackage(limeContainer.path.head),
+            typeMapper = javaTypeMapper,
+            valueMapper = JavaValueMapper(limeReferenceMap),
+            methodNameResolver = JavaMethodNameResolver(limeReferenceMap),
+            errorEnums = errorEnums
         )
 
         val includeResolver = CppIncludeResolver(rootNamespace, limeReferenceMap)
         val typeMapper = CppTypeMapper(cppNameResolver, includeResolver, internalNamespace)
-        val cppBuilder = CppModelBuilder(typeMapper, cppNameResolver)
+        val cppBuilder = CppModelBuilder(typeMapper = typeMapper, nameResolver = cppNameResolver)
 
         val jniBuilder = JniModelBuilder(
-            javaBuilder,
-            cppBuilder,
-            includeResolver,
-            internalNamespace
+            javaBuilder = javaBuilder,
+            cppBuilder = cppBuilder,
+            cppIncludeResolver = includeResolver,
+            internalNamespace = internalNamespace
         )
 
         val treeWalker = LimeTreeWalker(listOf(javaBuilder, cppBuilder, jniBuilder))

@@ -19,7 +19,6 @@
 
 package com.here.genium.generator.cpp
 
-import com.android.annotations.VisibleForTesting
 import com.here.genium.cli.GeniumExecutionException
 import com.here.genium.model.cpp.CppComplexTypeRef
 import com.here.genium.model.cpp.CppPrimitiveTypeRef
@@ -45,7 +44,6 @@ class CppTypeMapper(
     private val includeResolver: CppIncludeResolver,
     private val internalNamespace: List<String>
 ) {
-    @VisibleForTesting
     internal val enumHashType =
         CppComplexTypeRef(
             CppNameRules.joinFullyQualifiedName(internalNamespace + "EnumHash"),
@@ -139,7 +137,6 @@ class CppTypeMapper(
             CppComplexTypeRef("::std::error_code", listOf(CppLibraryIncludes.SYSTEM_ERROR))
         private val BASIC_STRING_CHAR_TYPE =
             CppTemplateTypeRef.create(TemplateClass.BASIC_STRING, CppPrimitiveTypeRef.CHAR)
-        @VisibleForTesting
         internal val STRING_TYPE =
             CppTypeDefRef("::std::string", BASIC_STRING_CHAR_TYPE.includes, BASIC_STRING_CHAR_TYPE)
         private val BYTE_BUFFER_ARRAY_TYPE =

@@ -19,7 +19,6 @@
 
 package com.here.genium.cache;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.generator.common.GeneratedFile;
 import java.io.File;
@@ -73,7 +72,6 @@ class FileSetCache {
     }
   }
 
-  @VisibleForTesting
   void writeCache() {
 
     cacheIndexFile.getParentFile().mkdirs();
@@ -87,7 +85,6 @@ class FileSetCache {
     }
   }
 
-  @VisibleForTesting
   List<GeneratedFile> updateCache(final List<GeneratedFile> inputFiles) {
 
     List<GeneratedFile> result = new LinkedList<>();
@@ -102,18 +99,15 @@ class FileSetCache {
     return result;
   }
 
-  @VisibleForTesting
   public void finalizeUpdates() {
     cacheEntries.entrySet().removeIf(entry -> !entry.getValue().touched);
     cacheEntries.values().forEach(value -> value.touched = false);
   }
 
-  @VisibleForTesting
   Predicate<Path> filterOutCachedFiles() {
     return path -> !(cacheEntries.containsKey(path.normalize().toString()));
   }
 
-  @VisibleForTesting
   Map<String, CacheEntry> getCacheEntries() {
     return cacheEntries;
   }

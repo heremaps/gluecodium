@@ -19,11 +19,20 @@
 
 package com.here.genium.generator.cbridge;
 
-import com.google.common.collect.Iterables;
-import com.here.genium.model.cbridge.*;
+import com.here.genium.model.cbridge.CArray;
+import com.here.genium.model.cbridge.CEnum;
+import com.here.genium.model.cbridge.CField;
+import com.here.genium.model.cbridge.CFunction;
+import com.here.genium.model.cbridge.CInterface;
+import com.here.genium.model.cbridge.CMap;
+import com.here.genium.model.cbridge.CParameter;
+import com.here.genium.model.cbridge.CStruct;
+import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public final class CBridgeComponents {
@@ -38,8 +47,10 @@ public final class CBridgeComponents {
 
     Collection<Include> includes = new LinkedList<>();
 
-    for (CFunction function :
-        Iterables.concat(cInterface.getFunctions(), cInterface.getInheritedFunctions())) {
+    List<CFunction> functions = new LinkedList<>();
+    functions.addAll(cInterface.getFunctions());
+    functions.addAll(cInterface.getInheritedFunctions());
+    for (CFunction function : functions) {
       includes.addAll(collectFunctionBodyIncludes(function));
     }
     for (CStruct struct : cInterface.getStructs()) {

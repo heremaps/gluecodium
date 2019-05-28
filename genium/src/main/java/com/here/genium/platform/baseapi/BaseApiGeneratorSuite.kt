@@ -19,7 +19,6 @@
 
 package com.here.genium.platform.baseapi
 
-import com.google.common.annotations.VisibleForTesting
 import com.here.genium.Genium
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
@@ -68,7 +67,7 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             CppIncludeResolver(rootNamespace, limeReferenceMap)
         val nameResolver = CppNameResolver(rootNamespace, limeReferenceMap)
         val typeMapper = CppTypeMapper(nameResolver, includeResolver, internalNamespace)
-        val cppModelBuilder = CppModelBuilder(typeMapper, nameResolver)
+        val cppModelBuilder = CppModelBuilder(typeMapper = typeMapper, nameResolver = nameResolver)
 
         val allErrorEnums = limeReferenceMap.values
             .filterIsInstance(LimeMethod::class.java)
@@ -149,7 +148,6 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
     companion object {
         const val GENERATOR_NAME = "cpp"
 
-        @VisibleForTesting
         internal val ADDITIONAL_HEADERS = listOf("EnumHash", "Return", "Optional", "OptionalImpl")
 
         private fun flattenCppModel(members: List<CppElement>) =

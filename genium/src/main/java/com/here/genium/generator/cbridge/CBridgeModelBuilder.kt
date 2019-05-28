@@ -19,7 +19,6 @@
 
 package com.here.genium.generator.cbridge
 
-import com.google.common.annotations.VisibleForTesting
 import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.generator.cpp.CppIncludeResolver
@@ -61,9 +60,8 @@ import com.here.genium.model.swift.SwiftField
 import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftProperty
 
-class CBridgeModelBuilder @VisibleForTesting
-internal constructor(
-    contextStack: ModelBuilderContextStack<CElement>,
+class CBridgeModelBuilder(
+    contextStack: ModelBuilderContextStack<CElement> = ModelBuilderContextStack(),
     private val limeReferenceMap: Map<String, LimeElement>,
     private val includeResolver: CBridgeIncludeResolver,
     private val cppIncludeResolver: CppIncludeResolver,
@@ -73,26 +71,7 @@ internal constructor(
     private val internalNamespace: List<String>
 ) : AbstractLimeBasedModelBuilder<CElement>(contextStack) {
 
-    val arraysCollector = HashMap<String, CArray>()
-
-    constructor(
-        limeReferenceMap: Map<String, LimeElement>,
-        includeResolver: CBridgeIncludeResolver,
-        cppIncludeResolver: CppIncludeResolver,
-        cppBuilder: CppModelBuilder,
-        swiftBuilder: SwiftModelBuilder,
-        typeMapper: CBridgeTypeMapper,
-        internalNamespace: List<String>
-    ) : this(
-        ModelBuilderContextStack<CElement>(),
-        limeReferenceMap,
-        includeResolver,
-        cppIncludeResolver,
-        cppBuilder,
-        swiftBuilder,
-        typeMapper,
-        internalNamespace
-    )
+    val arraysCollector = mutableMapOf<String, CArray>()
 
     override fun startBuilding(limeContainer: LimeContainer) {
         openContext()

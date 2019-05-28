@@ -19,7 +19,6 @@
 
 package com.here.genium.validator
 
-import com.google.common.annotations.VisibleForTesting
 import com.here.genium.franca.FrancaDeploymentModel
 import com.here.genium.franca.FrancaTypeHelper
 import org.franca.core.franca.FInterface
@@ -51,7 +50,6 @@ object CompanionValidator {
         return errorMessages.isEmpty()
     }
 
-    @VisibleForTesting
     internal fun validateCompanion(
         francaStruct: FStructType,
         deploymentModel: FrancaDeploymentModel,

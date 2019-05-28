@@ -83,7 +83,11 @@ internal object FrancaBasedLimeModelLoader : LimeModelLoader {
         val companionHelper =
             FrancaCompanionHelper(francaModel.typeCollections, francaModel.deploymentModel)
         val limeModelBuilder =
-            LimeModelBuilder(francaModel.deploymentModel, limeReferenceResolver, companionHelper)
+            LimeModelBuilder(
+                deploymentModel = francaModel.deploymentModel,
+                referenceResolver = limeReferenceResolver,
+                companionHelper = companionHelper
+            )
 
         val filteredTypeCollections =
             francaModel.typeCollections - companionHelper.getAllCompanions()

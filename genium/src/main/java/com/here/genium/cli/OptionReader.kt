@@ -19,7 +19,6 @@
 
 package com.here.genium.cli
 
-import com.google.common.base.Splitter
 import com.here.genium.Genium
 import com.here.genium.platform.common.GeneratorSuite
 import org.apache.commons.cli.CommandLine
@@ -35,7 +34,12 @@ class OptionReader {
         addOption("input", true, "The path or the file to use for generation")
         addOption("output", true, "Generated files output destination")
         addOption("javapackage", true, "Java package name")
-        addOption("intpackage", "java-internal-package", true, "Java package name to append to 'javapackage' for internal types.")
+        addOption(
+            "intpackage",
+            "java-internal-package",
+            true,
+            "Java package name to append to 'javapackage' for internal types."
+        )
         addOption(
             "mergemanifest",
             "android-merge-manifest",
@@ -108,16 +112,10 @@ class OptionReader {
 
             options.outputDir = getSingleOptionValue(cmd, "output")
             val javaPackage = getSingleOptionValue(cmd, "javapackage")
-            options.javaPackages = if (javaPackage != null)
-                Splitter.on(".").split(javaPackage).toList()
-            else
-                listOf()
+            options.javaPackages = javaPackage?.split(".") ?: emptyList()
 
             val javaInternalPackage = getSingleOptionValue(cmd, "intpackage")
-            options.javaInternalPackages = if (javaInternalPackage != null)
-                Splitter.on(".").split(javaInternalPackage).toList()
-            else
-                listOf()
+            options.javaInternalPackages = javaInternalPackage?.split(".") ?: emptyList()
 
             options.androidMergeManifestPath = getSingleOptionValue(cmd, "mergemanifest")
 

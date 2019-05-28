@@ -19,7 +19,6 @@
 
 package com.here.genium.generator.swift
 
-import com.google.common.annotations.VisibleForTesting
 import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.generator.cbridge.CBridgeNameRules
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
@@ -62,9 +61,8 @@ import com.here.genium.model.swift.SwiftTypeDef
 import com.here.genium.model.swift.SwiftValue
 import com.here.genium.model.swift.SwiftVisibility
 
-class SwiftModelBuilder @VisibleForTesting
-internal constructor(
-    contextStack: ModelBuilderContextStack<SwiftModelElement>,
+class SwiftModelBuilder(
+    contextStack: ModelBuilderContextStack<SwiftModelElement> = ModelBuilderContextStack(),
     private val limeReferenceMap: Map<String, LimeElement>,
     private val signatureResolver: LimeSignatureResolver,
     private val nameResolver: SwiftNameResolver,
@@ -74,19 +72,6 @@ internal constructor(
     val arraysCollector = mutableMapOf<String, SwiftArray>()
     val mapCollector = mutableMapOf<String, SwiftDictionary>()
     val enumsAsErrors = mutableSetOf<String>()
-
-    constructor(
-        limeReferenceMap: Map<String, LimeElement>,
-        signatureResolver: LimeSignatureResolver,
-        nameResolver: SwiftNameResolver,
-        typeMapper: SwiftTypeMapper
-    ) : this(
-        ModelBuilderContextStack<SwiftModelElement>(),
-        limeReferenceMap,
-        signatureResolver,
-        nameResolver,
-        typeMapper
-    )
 
     override fun finishBuilding(limeContainer: LimeContainer) {
         when (limeContainer.type) {

@@ -19,9 +19,8 @@
 
 package com.here.genium.generator.java
 
-import com.google.common.annotations.VisibleForTesting
-import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.common.ModelBuilderContextStack
+import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.model.common.CommentsPreprocessor
 import com.here.genium.model.java.JavaClass
 import com.here.genium.model.java.JavaConstant
@@ -59,9 +58,8 @@ import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
 import java.util.EnumSet
 
-class JavaModelBuilder @VisibleForTesting
-internal constructor(
-    contextStack: ModelBuilderContextStack<JavaElement>,
+class JavaModelBuilder(
+    contextStack: ModelBuilderContextStack<JavaElement> = ModelBuilderContextStack(),
     private val rootPackage: JavaPackage,
     private val typeMapper: JavaTypeMapper,
     private val valueMapper: JavaValueMapper,
@@ -69,21 +67,6 @@ internal constructor(
     private val errorEnums: Set<String>
 ) : AbstractLimeBasedModelBuilder<JavaElement>(contextStack) {
     private val nativeBase: JavaType = typeMapper.nativeBase
-
-    constructor(
-        rootPackage: JavaPackage,
-        typeMapper: JavaTypeMapper,
-        valueMapper: JavaValueMapper,
-        methodNameResolver: JavaMethodNameResolver,
-        errorEnums: Set<String>
-    ) : this(
-        ModelBuilderContextStack<JavaElement>(),
-        rootPackage,
-        typeMapper,
-        valueMapper,
-        methodNameResolver,
-        errorEnums
-    )
 
     override fun finishBuilding(limeContainer: LimeContainer) {
         when (limeContainer.type) {

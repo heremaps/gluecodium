@@ -94,18 +94,6 @@ class GeniumTest {
     }
 
     @Test
-    fun defaultGeneratorsAreUsed() {
-        // Arrange
-        val options = Options()
-
-        // Act, Assert
-        assertEquals(
-            GeneratorSuite.generatorShortNames(),
-            createGenium(options).discoverGenerators()
-        )
-    }
-
-    @Test
     fun failedInstantiationOfGenerator() {
         // Arrange
         `when`(GeneratorSuite.instantiateByShortName(any(), any())).thenReturn(null)
@@ -294,7 +282,7 @@ class GeniumTest {
         )
     }
 
-    private fun createGenium(options: Options) = spyk(Genium(modelLoader, options))
+    private fun createGenium(options: Options) = spyk(Genium(options, modelLoader))
 
     companion object {
         private const val SHORT_NAME = "android"

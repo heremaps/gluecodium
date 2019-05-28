@@ -19,7 +19,6 @@
 
 package com.here.genium.generator.common;
 
-import com.android.annotations.VisibleForTesting;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,7 +34,6 @@ public class Version {
   public final int patch;
   public final String suffix;
 
-  @VisibleForTesting
   Version(int major, int minor, int patch, String suffix) {
     this.major = major;
     this.minor = minor;

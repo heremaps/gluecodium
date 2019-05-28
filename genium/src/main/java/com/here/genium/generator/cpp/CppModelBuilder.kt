@@ -19,9 +19,8 @@
 
 package com.here.genium.generator.cpp
 
-import com.google.common.annotations.VisibleForTesting
-import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.common.ModelBuilderContextStack
+import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.model.common.CommentsPreprocessor
 import com.here.genium.model.cpp.CppClass
 import com.here.genium.model.cpp.CppConstant
@@ -55,16 +54,11 @@ import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeValue.Special.ValueId
 import java.util.EnumSet
 
-class CppModelBuilder @VisibleForTesting internal constructor(
-    contextStack: ModelBuilderContextStack<CppElement>,
+class CppModelBuilder(
+    contextStack: ModelBuilderContextStack<CppElement> = ModelBuilderContextStack(),
     private val typeMapper: CppTypeMapper,
     private val nameResolver: CppNameResolver
 ) : AbstractLimeBasedModelBuilder<CppElement>(contextStack) {
-
-    constructor(
-        typeMapper: CppTypeMapper,
-        nameResolver: CppNameResolver
-    ) : this(ModelBuilderContextStack<CppElement>(), typeMapper, nameResolver)
 
     override fun finishBuilding(limeContainer: LimeContainer) {
         val members: List<CppElement> = getPreviousResults(CppEnum::class.java) +

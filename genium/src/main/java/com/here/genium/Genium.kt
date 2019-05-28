@@ -20,7 +20,6 @@
 package com.here.genium
 
 import com.android.manifmerger.Merger
-import com.google.common.annotations.VisibleForTesting
 import com.here.genium.cache.CachingStrategyCreator
 import com.here.genium.cli.GeniumExecutionException
 import com.here.genium.cli.OptionReader
@@ -47,9 +46,9 @@ import java.util.logging.Level
 import java.util.logging.LogManager
 import java.util.logging.Logger
 
-class Genium @VisibleForTesting internal constructor(
-    private val modelLoader: LimeModelLoader,
-    private val options: Options
+class Genium(
+    private val options: Options,
+    private val modelLoader: LimeModelLoader = LimeModelLoader.getLoader()
 ) {
     private val version = parseVersion()
     private val cacheStrategy = CachingStrategyCreator.initializeCaching(
@@ -67,9 +66,6 @@ class Genium @VisibleForTesting internal constructor(
             e.printStackTrace()
         }
     }
-
-    @VisibleForTesting
-    constructor(options: Options) : this(LimeModelLoader.getLoader(), options)
 
     fun execute(): Boolean {
         LOGGER.info("Version: $version")
@@ -109,8 +105,7 @@ class Genium @VisibleForTesting internal constructor(
         return executionSucceeded
     }
 
-    @VisibleForTesting
-    fun executeGenerator(
+    internal fun executeGenerator(
         generatorName: String,
         limeModel: LimeModel,
         fileNamesCache: MutableMap<String, String>
@@ -142,8 +137,7 @@ class Genium @VisibleForTesting internal constructor(
         return processedWithoutCollisions && outputSuccessful
     }
 
-    @VisibleForTesting
-    internal fun discoverGenerators(): Set<String> {
+    private fun discoverGenerators(): Set<String> {
         var generators = options.generators
         if (generators.isNotEmpty()) {
             LOGGER.fine("Following generators were specified on command line: $generators")
@@ -154,8 +148,7 @@ class Genium @VisibleForTesting internal constructor(
         return generators
     }
 
-    @VisibleForTesting
-    fun output(generatorName: String, files: List<GeneratedFile>): Boolean {
+    internal fun output(generatorName: String, files: List<GeneratedFile>): Boolean {
         // handle output options
         if (options.isDumpingToStdout) {
             val co = ConsoleOutput()
@@ -223,7 +216,6 @@ class Genium @VisibleForTesting internal constructor(
             return succeeded
         }
 
-        @VisibleForTesting
         internal fun mergeAndroidManifests(
             baseManifestPath: String,
             appendManifestPath: String,

@@ -19,7 +19,6 @@
 
 package com.here.genium.loader
 
-import com.google.common.annotations.VisibleForTesting
 import com.here.genium.franca.FrancaTypeHelper
 import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.franca.SpecialTypeRules
@@ -77,18 +76,12 @@ import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FUnaryOperation
 
-class LimeModelBuilder @VisibleForTesting internal constructor(
-    contextStack: ModelBuilderContextStack<LimeElement>,
+class LimeModelBuilder(
+    contextStack: ModelBuilderContextStack<LimeElement> = ModelBuilderContextStack(),
     private val deploymentModel: FrancaDeploymentModel,
     private val referenceResolver: LimeReferenceResolver,
     private val companionHelper: FrancaCompanionHelper
 ) : AbstractModelBuilder<LimeElement>(contextStack) {
-
-    constructor(
-        deploymentModel: FrancaDeploymentModel,
-        referenceResolver: LimeReferenceResolver,
-        companionHelper: FrancaCompanionHelper
-    ) : this(ModelBuilderContextStack(), deploymentModel, referenceResolver, companionHelper)
 
     override fun finishBuilding(francaInterface: FInterface) {
         val attributes = LimeAttributes.Builder()
