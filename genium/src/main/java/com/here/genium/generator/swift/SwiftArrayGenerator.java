@@ -39,13 +39,13 @@ public final class SwiftArrayGenerator {
 
   public List<GeneratedFile> generate() {
     SwiftFile arrayFile = new SwiftFile(SWIFT_ARRAY);
-    arrayFile.arrays.addAll(new TreeMap<>(arrayCollector).values());
+    arrayFile.getArrays().addAll(new TreeMap<>(arrayCollector).values());
 
     if (arrayFile.isEmpty()) {
       return emptyList();
     } else {
       String content = TemplateEngine.INSTANCE.render("swift/Array", arrayFile);
-      return Collections.singletonList(new GeneratedFile(content, arrayFile.fileName));
+      return Collections.singletonList(new GeneratedFile(content, arrayFile.getFileName()));
     }
   }
 }
