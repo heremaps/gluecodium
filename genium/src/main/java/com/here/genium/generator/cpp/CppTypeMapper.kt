@@ -52,7 +52,12 @@ class CppTypeMapper(
     val optionalTypeName = internalNamespace.joinToString("::") + "::optional"
 
     fun getReturnWrapperType(outArgType: CppTypeRef, errorType: CppTypeRef): CppTypeRef =
-        CppTemplateTypeRef.create(CppNameRules.joinFullyQualifiedName(internalNamespace), TemplateClass.RETURN, outArgType, errorType)
+        CppTemplateTypeRef.create(
+            CppNameRules.joinFullyQualifiedName(internalNamespace),
+            TemplateClass.RETURN,
+            outArgType,
+            errorType
+        )
 
     fun mapType(limeTypeRef: LimeTypeRef): CppTypeRef = mapType(limeTypeRef.type)
 
@@ -80,10 +85,15 @@ class CppTypeMapper(
                 includeResolver.resolveIncludes(limeType),
                 mapType(limeType.typeRef)
             )
-            is LimeStruct, is LimeEnumeration -> CppComplexTypeRef(
+            is LimeStruct -> CppComplexTypeRef(
+                nameResolver.getFullyQualifiedName(limeType),
+                includeResolver.resolveIncludes(limeType)
+            )
+            is LimeEnumeration -> CppComplexTypeRef(
                 nameResolver.getFullyQualifiedName(limeType),
                 includeResolver.resolveIncludes(limeType),
-                limeType is LimeEnumeration
+                enumHashType,
+                refersToValueType = true
             )
             is LimeArray ->
                 CppTemplateTypeRef.create(TemplateClass.VECTOR, mapType(limeType.elementType))
@@ -100,17 +110,15 @@ class CppTypeMapper(
         }
 
     private fun wrapMap(key: CppTypeRef, value: CppTypeRef) =
-        when {
-            key.refersToEnumType ->
-                CppTemplateTypeRef.create(TemplateClass.MAP, key, value, enumHashType)
-            else -> CppTemplateTypeRef.create(TemplateClass.MAP, key, value)
+        when (val hashType = key.hashType) {
+            null -> CppTemplateTypeRef.create(TemplateClass.MAP, key, value)
+            else -> CppTemplateTypeRef.create(TemplateClass.MAP, key, value, hashType)
         }
 
     private fun wrapSet(elementType: CppTypeRef) =
-        when {
-            elementType.refersToEnumType ->
-                CppTemplateTypeRef.create(TemplateClass.SET, elementType, enumHashType)
-            else -> CppTemplateTypeRef.create(TemplateClass.SET, elementType)
+        when (val hashType = elementType.hashType) {
+            null -> CppTemplateTypeRef.create(TemplateClass.SET, elementType)
+            else -> CppTemplateTypeRef.create(TemplateClass.SET, elementType, hashType)
         }
 
     private fun mapPredefined(limeBasicType: LimeBasicType) =

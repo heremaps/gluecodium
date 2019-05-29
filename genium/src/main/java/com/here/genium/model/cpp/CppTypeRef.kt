@@ -21,14 +21,13 @@ package com.here.genium.model.cpp
 
 import com.here.genium.model.common.Include
 
-abstract class CppTypeRef(typeName: String, includes: List<Include>) :
-    CppElementWithIncludes(typeName, includes) {
+abstract class CppTypeRef(
+    typeName: String,
+    includes: List<Include>,
+    val hashType: CppTypeRef? = null,
+    val refersToValueType: Boolean = false
+) : CppElementWithIncludes(typeName, includes) {
 
     open val actualType: CppTypeRef
         get() = this
-
-    open val refersToValueType
-        get() = refersToEnumType
-
-    open val refersToEnumType = false
 }

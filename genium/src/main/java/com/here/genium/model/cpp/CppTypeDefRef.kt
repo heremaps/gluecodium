@@ -25,8 +25,4 @@ class CppTypeDefRef(
     name: String,
     includes: List<Include>,
     override val actualType: CppTypeRef
-) : CppTypeRef(name, includes) {
-
-    override val refersToValueType = actualType.refersToValueType
-    override val refersToEnumType = actualType.refersToEnumType
-}
+) : CppTypeRef(name, includes, refersToValueType = actualType.refersToValueType)

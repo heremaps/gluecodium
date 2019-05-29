@@ -24,9 +24,7 @@ import com.here.genium.model.common.Include
 open class CppComplexTypeRef(
     fullyQualifiedName: String,
     includes: List<Include> = emptyList(),
-    refersToEnum: Boolean = false,
+    hashType: CppTypeRef? = null,
+    refersToValueType: Boolean = false,
     val needsForwardDeclaration: Boolean = false
-) : CppTypeRef(fullyQualifiedName, includes) {
-
-    override val refersToEnumType = refersToEnum
-}
+) : CppTypeRef(fullyQualifiedName, includes, hashType, refersToValueType)

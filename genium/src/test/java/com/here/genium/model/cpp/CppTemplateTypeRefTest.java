@@ -42,13 +42,13 @@ public final class CppTemplateTypeRefTest {
   private static final CppPrimitiveTypeRef INT_TYPE_REF = CppPrimitiveTypeRef.Companion.getINT32();
 
   private static final CppComplexTypeRef COMPLEX_TYPE_REF =
-      new CppComplexTypeRef("Custom", INCLUDES, false, false);
+      new CppComplexTypeRef("Custom", INCLUDES, null, false, false);
 
   private static final List<Include> ERROR_INCLUDES =
       Collections.singletonList(Include.Companion.createInternalInclude("E"));
 
   private static final CppComplexTypeRef ERROR_TYPE_REF =
-      new CppComplexTypeRef("CustomError", ERROR_INCLUDES, false, false);
+      new CppComplexTypeRef("CustomError", ERROR_INCLUDES, null, false, false);
 
   @Test
   public void sharedPointerOfPrimitiveType() {

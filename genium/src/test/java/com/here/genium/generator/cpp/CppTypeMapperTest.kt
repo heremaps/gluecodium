@@ -100,7 +100,8 @@ class CppTypeMapperTest {
         assertTrue(result is CppComplexTypeRef)
         assertEquals("Foo", result.fullyQualifiedName)
         assertEquals("Bar", result.includes.first().fileName)
-        assertTrue((result as CppComplexTypeRef).refersToEnumType)
+        assertEquals(typeMapper.enumHashType, result.hashType)
+        assertTrue(result.refersToValueType)
     }
 
     @Test

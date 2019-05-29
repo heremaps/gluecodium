@@ -40,8 +40,10 @@ public final class CppLibraryIncludes {
 
   // Custom
   public static final Include RETURN = Include.Companion.createInternalInclude("Return.h");
-  public static final Include ENUM_HASH = Include.Companion.createInternalInclude("EnumHash.h");
   public static final Include OPTIONAL = Include.Companion.createInternalInclude("Optional.h");
+  public static final Include ENUM_HASH = Include.Companion.createInternalInclude("EnumHash.h");
+  public static final Include EQUALITY_HASH =
+      Include.Companion.createInternalInclude("EqualityHash.h");
 
   private static final String[] INTERNAL_INCLUDES = {"EnumHash.h", "Return.h", "Optional.h"};
 
