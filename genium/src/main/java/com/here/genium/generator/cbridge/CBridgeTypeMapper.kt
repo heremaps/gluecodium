@@ -88,7 +88,7 @@ class CBridgeTypeMapper(
         val publicInclude = includeResolver.resolveInclude(limeType)
         val baseApiIncludes = cppIncludeResolver.resolveIncludes(limeType)
 
-        val enumCType = CType(CBridgeNameRules.getEnumName(limeType), publicInclude)
+        val enumCType = CType(CBridgeNameRules.getTypeName(limeType), publicInclude)
 
         return CppTypeInfo(
             cppNameResolver.getFullyQualifiedName(limeType),

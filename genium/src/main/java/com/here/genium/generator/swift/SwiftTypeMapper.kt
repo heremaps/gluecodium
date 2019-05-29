@@ -42,7 +42,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
             is LimeBasicType -> mapBasicType(limeType)
             is LimeStruct -> SwiftStruct(
                 nameResolver.getFullName(limeType),
-                CBridgeNameRules.getStructBaseName(limeType)
+                CBridgeNameRules.getTypeName(limeType)
             )
             is LimeEnumeration -> SwiftEnum(nameResolver.getFullName(limeType))
             is LimeTypeDef ->
@@ -55,7 +55,7 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
             )
             is LimeArray -> SwiftArray(
                 mapType(limeType.elementType.type),
-                CBridgeNameResolver.getTypeName(limeType)
+                CBridgeNameResolver.getArrayName(limeType)
             )
             else -> SwiftType.VOID
         }

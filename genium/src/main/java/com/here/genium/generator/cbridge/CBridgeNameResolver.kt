@@ -25,7 +25,9 @@ import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
 
 object CBridgeNameResolver {
-    fun getTypeName(limeType: LimeType): String = when (limeType) {
+    fun getArrayName(limeType: LimeType) = getTypeName(limeType)
+
+    private fun getTypeName(limeType: LimeType): String = when (limeType) {
         is LimeTypeDef -> getTypeName(limeType.typeRef.type)
         is LimeArray -> "ArrayOf_${getTypeName(limeType.elementType.type)}"
         is LimeMap ->

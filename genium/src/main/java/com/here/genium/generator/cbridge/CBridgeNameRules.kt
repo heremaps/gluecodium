@@ -68,12 +68,6 @@ object CBridgeNameRules {
         return prefix + NameHelper.toLowerCamelCase(limeMethod.name) + suffix
     }
 
-    fun getStructBaseName(limeType: LimeType) =
-        joinQualifiedName(
-            getNestedNameSpecifier(limeType),
-            NameHelper.toUpperCamelCase(limeType.name)
-        )
-
     private fun joinQualifiedName(nameSpecifier: List<String>, name: String) =
         (nameSpecifier + name).joinToString(UNDERSCORE_DELIMITER)
 
@@ -83,10 +77,10 @@ object CBridgeNameRules {
     fun getNestedSpecifierString(limeElement: LimeNamedElement) =
         getNestedNameSpecifier(limeElement).joinToString(UNDERSCORE_DELIMITER)
 
-    fun getEnumName(limeElement: LimeNamedElement) =
+    fun getTypeName(limeType: LimeType) =
         joinQualifiedName(
-            getNestedNameSpecifier(limeElement),
-            NameHelper.toUpperCamelCase(limeElement.name)
+            getNestedNameSpecifier(limeType),
+            NameHelper.toUpperCamelCase(limeType.name)
         )
 
     fun getBaseApiCall(category: CppTypeInfo.TypeCategory, baseAPIName: String) =
@@ -98,10 +92,4 @@ object CBridgeNameRules {
     fun getPropertySetterName(name: String) = NameHelper.toLowerCamelCase(name) + "_set"
 
     fun getPropertyGetterName(name: String) = NameHelper.toLowerCamelCase(name) + "_get"
-
-    fun getMapName(limeElement: LimeNamedElement) =
-        joinQualifiedName(
-            getNestedNameSpecifier(limeElement),
-            NameHelper.toUpperCamelCase(limeElement.name)
-        )
 }

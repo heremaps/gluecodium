@@ -21,7 +21,6 @@ package com.here.genium.generator.cbridge
 
 import com.google.common.annotations.VisibleForTesting
 import com.here.genium.common.ModelBuilderContextStack
-import com.here.genium.generator.cbridge.CBridgeNameResolver.getTypeName
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppLibraryIncludes
@@ -219,7 +218,7 @@ internal constructor(
     override fun finishBuilding(limeStruct: LimeStruct) {
         val cppStruct = cppBuilder.getFinalResult(CppStruct::class.java)
         val cStruct = CStruct(
-            CBridgeNameRules.getStructBaseName(limeStruct),
+            CBridgeNameRules.getTypeName(limeStruct),
             cppStruct.fullyQualifiedName,
             currentContext.currentResults.filterIsInstance<CppTypeInfo>().first(),
             cppStruct.hasImmutableFields,
@@ -254,7 +253,7 @@ internal constructor(
 
     override fun finishBuilding(limeEnumeration: LimeEnumeration) {
         val result = CEnum(
-            CBridgeNameRules.getEnumName(limeEnumeration),
+            CBridgeNameRules.getTypeName(limeEnumeration),
             typeMapper.createEnumTypeInfo(limeEnumeration)
         )
 
@@ -328,7 +327,7 @@ internal constructor(
             }
 
             val cMap = CMap(
-                CBridgeNameRules.getMapName(limeTypeDef),
+                CBridgeNameRules.getTypeName(limeTypeDef),
                 keyType,
                 valueType,
                 enumHashType,
@@ -351,7 +350,7 @@ internal constructor(
     private fun mapType(limeType: LimeType): CppTypeInfo {
         val cppTypeInfo = typeMapper.mapType(limeType)
         if (cppTypeInfo is CppArrayTypeInfo) {
-            val arrayName = getTypeName(limeType)
+            val arrayName = CBridgeNameResolver.getArrayName(limeType)
             arraysCollector.putIfAbsent(arrayName, CArray(arrayName, cppTypeInfo))
         }
 

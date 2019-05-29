@@ -247,7 +247,7 @@ internal constructor(
     override fun finishBuilding(limeStruct: LimeStruct) {
         val swiftStruct = SwiftStruct(
             name = nameResolver.getFullName(limeStruct),
-            cPrefix = CBridgeNameRules.getStructBaseName(limeStruct),
+            cPrefix = CBridgeNameRules.getTypeName(limeStruct),
             visibility = getVisibility(limeStruct),
             isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
@@ -313,7 +313,7 @@ internal constructor(
                 mapName,
                 null,
                 typeDefName,
-                CBridgeNameRules.getStructBaseName(limeTypeDef),
+                CBridgeNameRules.getTypeName(limeTypeDef),
                 typeMapper.mapType(limeActualType.keyType.type),
                 typeMapper.mapType(limeActualType.valueType.type)
             )
