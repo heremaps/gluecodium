@@ -19,21 +19,18 @@
 
 package com.here.genium.loader;
 
-import com.here.genium.common.ModelBuilderContext;
+import com.here.genium.common.ContextBasedModelBuilder;
 import com.here.genium.common.ModelBuilderContextStack;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EObject;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FArgument;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FTypeCollection;
 
-public abstract class AbstractModelBuilder<E> implements ModelBuilder {
-
-  private final ModelBuilderContextStack<E> contextStack;
-  private ModelBuilderContext<E> resultContext;
+public abstract class AbstractModelBuilder<E> extends ContextBasedModelBuilder<E>
+    implements ModelBuilder {
 
   protected AbstractModelBuilder(final ModelBuilderContextStack<E> contextStack) {
-    this.contextStack = contextStack;
+    super(contextStack);
   }
 
   @Override
@@ -59,96 +56,5 @@ public abstract class AbstractModelBuilder<E> implements ModelBuilder {
   @Override
   public void startBuildingOutputArgument(FArgument francaArgument) {
     openContext();
-  }
-
-  /**
-   * Get final results of the model builder execution. Intended to be called by clients of the model
-   * builder but not within the model builder itself.
-   *
-   * @return A list of results
-   */
-  public List<E> getFinalResults() {
-    return resultContext != null ? resultContext.getCurrentResults() : Collections.emptyList();
-  }
-
-  /**
-   * Get the first item of the given type from the list of final results of the model builder
-   * execution. Intended to be called by clients of the model builder but not within the model
-   * builder itself.
-   *
-   * @param clazz Class object representing the type of the result to get
-   * @param <T> Type of the result to get
-   * @return A result item
-   */
-  public <T extends E> T getFinalResult(final Class<T> clazz) {
-    return resultContext != null
-        ? resultContext
-            .getCurrentResults()
-            .stream()
-            .filter(clazz::isInstance)
-            .map(clazz::cast)
-            .findFirst()
-            .orElse(null)
-        : null;
-  }
-
-  /**
-   * Get the results of the previous ("child") step of model builder execution.
-   *
-   * @param clazz Class object representing the type of the result to get
-   * @param <T> Type of the result to get
-   * @return A list of results
-   */
-  protected <T extends E> T getPreviousResult(final Class<T> clazz) {
-    return getCurrentContext()
-        .getPreviousResults()
-        .stream()
-        .filter(clazz::isInstance)
-        .map(clazz::cast)
-        .findFirst()
-        .orElse(null);
-  }
-
-  /**
-   * Get the first item of the given type from the list of results of the previous ("child") step of
-   * model builder execution.
-   *
-   * @param clazz Class object representing the type of the result to get
-   * @param <T> Type of the result to get
-   * @return A result item
-   */
-  protected <T extends E> List<T> getPreviousResults(final Class<T> clazz) {
-    return getCurrentContext()
-        .getPreviousResults()
-        .stream()
-        .filter(clazz::isInstance)
-        .map(clazz::cast)
-        .collect(Collectors.toList());
-  }
-
-  protected final void openContext() {
-    contextStack.openContext();
-  }
-
-  protected final void closeContext() {
-    resultContext = contextStack.getCurrentContext();
-    ModelBuilderContext<E> parentContext = contextStack.getParentContext();
-    if (parentContext != null) {
-      parentContext.getPreviousResults().addAll(resultContext.getCurrentResults());
-    }
-
-    contextStack.closeContext();
-  }
-
-  protected final ModelBuilderContext<E> getCurrentContext() {
-    return contextStack.getCurrentContext();
-  }
-
-  protected final ModelBuilderContext<E> getParentContext() {
-    return contextStack.getParentContext();
-  }
-
-  protected final void storeResult(final E element) {
-    contextStack.getCurrentContext().getCurrentResults().add(element);
   }
 }

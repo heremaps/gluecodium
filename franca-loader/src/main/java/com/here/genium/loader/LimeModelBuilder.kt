@@ -101,7 +101,7 @@ class LimeModelBuilder(
             else -> ContainerType.CLASS
         }
 
-        val parentContainer = getPreviousResult(LimeContainer::class.java)
+        val parentContainer = getPreviousResultOrNull(LimeContainer::class.java)
         val parentRef = parentContainer?.let { LimeDirectTypeRef(it) }
 
         finishBuildingTypeCollection(francaInterface, containerType, attributes, parentRef)
@@ -224,16 +224,16 @@ class LimeModelBuilder(
         val limeEnumerator = LimeEnumerator(
             path = createElementPath(francaEnumerator),
             comment = CommentHelper.getDescription(francaEnumerator),
-            value = getPreviousResult(LimeValue::class.java)
+            value = getPreviousResultOrNull(LimeValue::class.java)
         )
 
         storeResultAndCloseContext(limeEnumerator)
     }
 
     override fun finishBuilding(francaExpression: FInitializerExpression) {
-        val francaType = parentContext.previousResults
-            .filterIsInstance<LimeTypeRef>()
-            .firstOrNull() ?: LimeBasicTypeRef(TypeId.INT32)
+        val francaType = parentContext?.previousResults
+            ?.filterIsInstance<LimeTypeRef>()
+            ?.firstOrNull() ?: LimeBasicTypeRef(TypeId.INT32)
         val limeValue = when (francaExpression) {
             is FConstant, is FUnaryOperation -> {
                 val stringValue = StringValueMapper.map(francaExpression)
@@ -333,11 +333,11 @@ class LimeModelBuilder(
             attributes.addAttribute(LimeAttributeType.CONSTRUCTOR)
         }
 
-        val errorEnum = getPreviousResult(LimeEnumeration::class.java)
+        val errorEnum = getPreviousResultOrNull(LimeEnumeration::class.java)
         val errorType = errorEnum?.let { LimeDirectTypeRef(it) }
 
         val methodLimePath = createElementPath(francaMethod)
-        val limeReturnType = getPreviousResult(LimeReturnType::class.java)
+        val limeReturnType = getPreviousResultOrNull(LimeReturnType::class.java)
         val returnType = when {
             isConstructor -> {
                 val containerTypeRef = LimeLazyTypeRef(
