@@ -26,6 +26,7 @@ dependencies {
 
     compile files({ tasks.unzipFrancaZip.extractedJars })
 
+    compile 'com.google.guava:guava:21.0'
     compile 'com.google.inject:guice:3.0'
     compile 'commons-io:commons-io:2.5'
     compile 'log4j:log4j:1.2.17'

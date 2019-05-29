@@ -27,6 +27,7 @@ dependencies {
     compile 'com.android.tools.build:manifest-merger:25.3.0'
     compile 'com.android.tools:annotations:25.3.0'
     compile 'com.google.guava:guava:21.0'
+    compile 'com.android.tools:annotations:25.3.0'
     compile 'com.intellij:annotations:12.0'
     compile 'com.vladsch.flexmark:flexmark-formatter:0.42.6'
     compile 'com.vladsch.flexmark:flexmark-util:0.42.6'

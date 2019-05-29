@@ -64,15 +64,6 @@ allprojects {
         }
     }
 
-    configurations {
-        umljavadoclet
-        javadocTaglets
-    }
-    dependencies {
-        umljavadoclet 'info.leadinglight:uml-java-doclet:1.0-SNAPSHOT.3'
-        javadocTaglets "org.jdrupes.taglets:plantuml-taglet:+"
-    }
-
     javadoc {
         options.tags = [
                 "generated:a:Generated",
