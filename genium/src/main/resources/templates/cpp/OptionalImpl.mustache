@@ -40,6 +40,7 @@
 
 #pragma once
 
+#include "Hash.h"
 #include <functional>
 #include <initializer_list>
 #include <new>
@@ -584,22 +585,6 @@ make_optional(ValueType&& value)
 {
     return Optional<typename std::decay<ValueType>::type>(std::forward<ValueType>(value));
 }
-
 {{#internalNamespace}}
 }
 {{/internalNamespace}}
-
-namespace std {
-template <class ValueType>
-struct hash<{{>common/InternalNamespace}}Optional<ValueType>>
-{
-    typedef {{>common/InternalNamespace}}Optional<ValueType> argument_type;
-    typedef size_t result_type;
-
-    result_type
-    operator()(const argument_type& Optional_value) const noexcept
-    {
-        return static_cast<bool>(Optional_value) ? std::hash<ValueType>()(*Optional_value) : 0;
-    }
-};
-} // namespace std

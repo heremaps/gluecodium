@@ -24,7 +24,6 @@ import com.here.genium.model.common.Include
 open class CppComplexTypeRef(
     fullyQualifiedName: String,
     includes: List<Include> = emptyList(),
-    hashType: CppTypeRef? = null,
     refersToValueType: Boolean = false,
     val needsForwardDeclaration: Boolean = false
-) : CppTypeRef(fullyQualifiedName, includes, hashType, refersToValueType)
+) : CppTypeRef(fullyQualifiedName, includes, refersToValueType)

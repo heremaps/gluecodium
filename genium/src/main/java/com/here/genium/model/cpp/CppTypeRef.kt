@@ -24,7 +24,6 @@ import com.here.genium.model.common.Include
 abstract class CppTypeRef(
     typeName: String,
     includes: List<Include>,
-    val hashType: CppTypeRef? = null,
     val refersToValueType: Boolean = false
 ) : CppElementWithIncludes(typeName, typeName, includes) {
 

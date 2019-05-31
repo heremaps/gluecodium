@@ -74,7 +74,7 @@ class CppTemplateTypeRefTest {
         assertEquals(2, templateTypeRef.templateParameters.size)
         assertEquals(INT_TYPE_REF, templateTypeRef.templateParameters[0])
         assertEquals(COMPLEX_TYPE_REF, templateTypeRef.templateParameters[1])
-        assertEquals(4, templateTypeRef.includes.size)
+        assertEquals(5, templateTypeRef.includes.size)
         assertTrue(templateTypeRef.includes.containsAll(INCLUDES))
         assertTrue(templateTypeRef.includes.contains(CppLibraryIncludes.INT_TYPES))
         assertTrue(templateTypeRef.includes.contains(CppLibraryIncludes.MAP))
@@ -89,7 +89,7 @@ class CppTemplateTypeRefTest {
         assertEquals(1, templateTypeRef.templateParameters.size)
         assertEquals(INT_TYPE_REF, templateTypeRef.templateParameters[0])
 
-        assertEquals(2, templateTypeRef.includes.size)
+        assertEquals(3, templateTypeRef.includes.size)
         assertTrue(templateTypeRef.includes.contains(CppLibraryIncludes.VECTOR))
         assertTrue(templateTypeRef.includes.contains(CppLibraryIncludes.INT_TYPES))
     }
@@ -103,7 +103,7 @@ class CppTemplateTypeRefTest {
         assertEquals(1, templateTypeRef.templateParameters.size)
         assertEquals(COMPLEX_TYPE_REF, templateTypeRef.templateParameters[0])
 
-        assertEquals(3, templateTypeRef.includes.size)
+        assertEquals(4, templateTypeRef.includes.size)
         assertTrue(templateTypeRef.includes.contains(CppLibraryIncludes.VECTOR))
         assertTrue(templateTypeRef.includes.containsAll(INCLUDES))
     }
@@ -132,9 +132,9 @@ class CppTemplateTypeRefTest {
         private val INCLUDES =
             listOf(Include.createInternalInclude("a"), Include.createInternalInclude("b"))
         private val INT_TYPE_REF = CppPrimitiveTypeRef.INT32
-        private val COMPLEX_TYPE_REF = CppComplexTypeRef("Custom", INCLUDES, null, false, false)
+        private val COMPLEX_TYPE_REF = CppComplexTypeRef("Custom", INCLUDES, false, false)
         private val ERROR_INCLUDES = listOf(Include.createInternalInclude("E"))
         private val ERROR_TYPE_REF =
-            CppComplexTypeRef("CustomError", ERROR_INCLUDES, null, false, false)
+            CppComplexTypeRef("CustomError", ERROR_INCLUDES, false, false)
     }
 }

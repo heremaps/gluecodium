@@ -26,6 +26,6 @@ class CMap(
     name: String,
     val keyType: CppTypeInfo,
     val valueType: CppTypeInfo,
-    val enumHashType: String?,
-    val include: Include
+    val include: Include,
+    val hasStdHash: Boolean
 ) : CElement(name)

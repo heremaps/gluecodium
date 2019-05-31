@@ -101,7 +101,6 @@ class CppTypeMapperTest {
         assertTrue(result is CppComplexTypeRef)
         assertEquals("Foo", result.fullyQualifiedName)
         assertEquals("Bar", result.includes.first().fileName)
-        assertEquals(typeMapper.enumHashType, result.hashType)
         assertTrue(result.refersToValueType)
     }
 
@@ -133,7 +132,8 @@ class CppTypeMapperTest {
             (result as CppTemplateTypeRef).templateClass
         )
         assertEquals(CppTypeMapper.STRING_TYPE, result.templateParameters.first())
-        assertEquals(CppPrimitiveTypeRef.DOUBLE, result.templateParameters.last())
+        assertEquals(CppPrimitiveTypeRef.DOUBLE, result.templateParameters[1])
+        assertTrue(result.templateParameters.last() is CppTemplateTypeRef)
     }
 
     @Test
@@ -146,10 +146,6 @@ class CppTypeMapperTest {
         val result = typeMapper.mapType(limeTypeRef)
 
         assertTrue(result is CppTemplateTypeRef)
-        assertEquals(
-            typeMapper.enumHashType,
-            (result as CppTemplateTypeRef).templateParameters.last()
-        )
     }
 
     @Test
@@ -217,10 +213,6 @@ class CppTypeMapperTest {
         val result = typeMapper.mapType(limeTypeRef)
 
         assertTrue(result is CppTemplateTypeRef)
-        assertEquals(
-            typeMapper.enumHashType,
-            (result as CppTemplateTypeRef).templateParameters.last()
-        )
     }
 
     @Test

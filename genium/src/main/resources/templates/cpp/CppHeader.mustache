@@ -66,19 +66,35 @@ namespace {{.}} {
 {{#namespace}}
 }
 {{/namespace}}
-{{#hasStdForwardDeclaration}}
+
+{{#if errorEnums}}
 
 namespace std
 {
 {{#errorEnums}}
 template <>
-struct is_error_code_enum <{{fullyQualifiedName}}> : public std::true_type { };
+struct is_error_code_enum< {{fullyQualifiedName}} > : public std::true_type { };
 {{/errorEnums}}
-{{#classes}}{{#isEquatable}}
+}
+{{/if}}
+{{#if equatables}}
+{{#internalNamespace}}
+namespace {{.}} {
+{{/internalNamespace}}
+{{#equatables}}
 template<>
-struct hash <{{fullyQualifiedName}}> {
+struct hash< {{fullyQualifiedName}} > {
     std::size_t operator( )( const {{fullyQualifiedName}}& t ) const;
 };
-{{/isEquatable}}{{/classes}}
+{{#instanceOf this "CppClass"}}
+template <>
+struct EqualityHash< std::shared_ptr< {{fullyQualifiedName}} > >
+{
+    std::size_t operator( )( const std::shared_ptr< {{fullyQualifiedName}} >& t ) const;
+};
+{{/instanceOf}}
+{{/equatables}}
+{{#internalNamespace}}
 }
-{{/hasStdForwardDeclaration}}
+{{/internalNamespace}}
+{{/if}}

@@ -26,27 +26,26 @@ import com.here.genium.model.common.Include
 class CppTemplateTypeRef(
     val templateClass: TemplateClass,
     vararg parameters: CppTypeRef,
-    namespace: String? = templateClass.namespace,
-    hashType: CppTypeRef? = null
+    namespace: String? = templateClass.namespace
 ) : CppComplexTypeRef(
     composeTemplateName(namespace, templateClass, parameters),
-    parameters.flatMap { it.includes } + templateClass.include,
-    hashType
+    parameters.flatMap { it.includes } + templateClass.includes
 ) {
     val templateParameters: List<CppTypeRef> = parameters.toList()
 
     enum class TemplateClass(
         val namespace: String?,
         val templateName: String,
-        val include: Include
+        val includes: List<Include>
     ) {
-        SHARED_POINTER("std", "shared_ptr", CppLibraryIncludes.MEMORY),
-        MAP("std", "unordered_map", CppLibraryIncludes.MAP),
-        VECTOR("std", "vector", CppLibraryIncludes.VECTOR),
-        BASIC_STRING("std", "basic_string", CppLibraryIncludes.STRING),
-        RETURN(null, "Return", CppLibraryIncludes.RETURN),
-        OPTIONAL(null, "optional", CppLibraryIncludes.OPTIONAL),
-        SET("std", "unordered_set", CppLibraryIncludes.SET)
+        SHARED_POINTER("std", "shared_ptr", listOf(CppLibraryIncludes.MEMORY)),
+        MAP("std", "unordered_map", listOf(CppLibraryIncludes.MAP, CppLibraryIncludes.MAP_HASH)),
+        VECTOR("std", "vector", listOf(CppLibraryIncludes.VECTOR, CppLibraryIncludes.VECTOR_HASH)),
+        BASIC_STRING("std", "basic_string", listOf(CppLibraryIncludes.STRING)),
+        RETURN(null, "Return", listOf(CppLibraryIncludes.RETURN)),
+        OPTIONAL(null, "optional", listOf(CppLibraryIncludes.OPTIONAL)),
+        SET("std", "unordered_set", listOf(CppLibraryIncludes.SET)),
+        HASH(null, "hash", listOf(CppLibraryIncludes.HASH))
     }
 
     override fun stream() = templateParameters.stream()

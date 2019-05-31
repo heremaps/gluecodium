@@ -167,7 +167,7 @@ convert_from_jni(JNIEnv* _env,
 
 // Templated functions to create HashMaps from C++ unordered_maps and vice versa
 
-template < typename K, typename V, typename Hash = ::std::hash< K > >
+template < typename K, typename V, typename Hash >
 JniReference<jobject>
 convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput )
 {
@@ -193,7 +193,7 @@ convert_to_jni(JNIEnv* _env, const {{>common/InternalNamespace}}optional<std::un
     return _ninput ? convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
 
-template < typename K, typename V, typename Hash = ::std::hash< K > >
+template < typename K, typename V, typename Hash >
 ::std::unordered_map< K, V, Hash >
 convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jMap, ::std::unordered_map< K, V, Hash >* dummy )
 {
@@ -250,7 +250,7 @@ convert_from_jni(JNIEnv* _env,
 
 // Templated functions to create HashSet from C++ unordered_set and vice versa
 
-template <typename T, typename Hash = std::hash<T>>
+template <typename T, typename Hash >
 JniReference<jobject>
 convert_to_jni(JNIEnv* _env, const std::unordered_set<T, Hash>& _ninput)
 {
@@ -267,14 +267,14 @@ convert_to_jni(JNIEnv* _env, const std::unordered_set<T, Hash>& _ninput)
     return result;
 }
 
-template<typename T, typename Hash = std::hash<T>>
+template<typename T, typename Hash >
 JniReference<jobject>
 convert_to_jni(JNIEnv* _env, const {{>common/InternalNamespace}}optional<std::unordered_set<T, Hash>>& _ninput)
 {
     return _ninput ? convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
 
-template <typename T, typename Hash = std::hash<T>>
+template <typename T, typename Hash >
 std::unordered_set<T, Hash>
 convert_from_jni( JNIEnv* _env, const JniReference<jobject>& jSet, std::unordered_set<T, Hash>* dummy )
 {
@@ -303,7 +303,7 @@ convert_from_jni( JNIEnv* _env, const JniReference<jobject>& jSet, std::unordere
     return _nresult;
 }
 
-template<typename T, typename Hash = std::hash<T>>
+template<typename T, typename Hash>
 {{>common/InternalNamespace}}optional<std::unordered_set<T, Hash>>
 convert_from_jni(JNIEnv* _env,
                  const JniReference<jobject>& jSet,

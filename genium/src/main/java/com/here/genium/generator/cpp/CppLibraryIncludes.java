@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 public final class CppLibraryIncludes {
+
   // Standard
   public static final Include INT_TYPES = Include.Companion.createSystemInclude("cstdint");
   public static final Include MAP = Include.Companion.createSystemInclude("unordered_map");
@@ -41,11 +42,14 @@ public final class CppLibraryIncludes {
   // Custom
   public static final Include RETURN = Include.Companion.createInternalInclude("Return.h");
   public static final Include OPTIONAL = Include.Companion.createInternalInclude("Optional.h");
-  public static final Include ENUM_HASH = Include.Companion.createInternalInclude("EnumHash.h");
-  public static final Include EQUALITY_HASH =
-      Include.Companion.createInternalInclude("EqualityHash.h");
+  public static final Include HASH = Include.Companion.createInternalInclude("Hash.h");
+  public static final Include VECTOR_HASH = Include.Companion.createInternalInclude("VectorHash.h");
+  public static final Include MAP_HASH =
+      Include.Companion.createInternalInclude("UnorderedMapHash.h");
 
-  private static final String[] INTERNAL_INCLUDES = {"EnumHash.h", "Return.h", "Optional.h"};
+  public static final String[] INTERNAL_INCLUDES = {
+    "Return.h", "Optional.h", "UnorderedMapHash.h", "VectorHash.h", "Hash.h"
+  };
 
   public static void filterIncludes(Set<Include> includes, List<String> internalNamespace) {
     // Internal includes: need to replace with the internal path

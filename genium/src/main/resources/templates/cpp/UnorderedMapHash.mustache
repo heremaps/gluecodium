@@ -39,22 +39,28 @@
 // -------------------------------------------------------------------------------------------------
 
 #pragma once
-
-#include <cstddef>
+#include "Hash.h"
+#include <unordered_map>
 
 {{#internalNamespace}}
 namespace {{.}} {
 {{/internalNamespace}}
-/**
- * A hash function for enums.
- */
-struct EnumHash
+
+template< class Key, class T, class Hash >
+struct hash< std::unordered_map< Key, T, Hash > >
 {
-    template < typename T >
-    std::size_t
-    operator( )( T t ) const
+    size_t
+    operator( )( const std::unordered_map< Key, T, Hash >& vec ) const
     {
-        return static_cast< std::size_t >( t );
+        size_t hash_value = 29;
+        auto key_hasher = Hash();
+        auto value_hasher = hash<T>();
+        for (const auto& entry: vec)
+        {
+            hash_value ^= (809 ^ key_hasher( entry.first ) );
+            hash_value ^= (811 ^ value_hasher( entry.second ) );
+        }
+        return hash_value;
     }
 };
 {{#internalNamespace}}

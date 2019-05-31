@@ -54,7 +54,6 @@ class BaseApiGeneratorSuiteTest {
         )
 
         val generatedFileNames = generatedFiles.map { it.targetFile.toString() }
-        assertContains( "cpp/include/genium/EnumHash.h", generatedFileNames)
         assertContains( "cpp/include/genium/Return.h", generatedFileNames)
         assertContains( "cpp/include/genium/Export.h", generatedFileNames)
         assertContains( "cpp/include/genium/Optional.h", generatedFileNames)

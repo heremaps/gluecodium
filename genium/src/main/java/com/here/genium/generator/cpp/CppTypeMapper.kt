@@ -45,12 +45,6 @@ class CppTypeMapper(
     private val includeResolver: CppIncludeResolver,
     private val internalNamespace: List<String>
 ) {
-    internal val enumHashType =
-        CppComplexTypeRef(
-            CppNameRules.joinFullyQualifiedName(internalNamespace + "EnumHash"),
-            listOf(CppLibraryIncludes.ENUM_HASH)
-        )
-
     fun getReturnWrapperType(outArgType: CppTypeRef, errorType: CppTypeRef): CppTypeRef =
         CppTemplateTypeRef(
             TemplateClass.RETURN,
@@ -96,31 +90,51 @@ class CppTypeMapper(
             is LimeEnumeration -> CppComplexTypeRef(
                 nameResolver.getFullyQualifiedName(limeType),
                 includeResolver.resolveIncludes(limeType),
-                enumHashType,
                 refersToValueType = true
             )
             is LimeArray ->
                 CppTemplateTypeRef(TemplateClass.VECTOR, mapType(limeType.elementType))
-            is LimeMap -> wrapMap(mapType(limeType.keyType), mapType(limeType.valueType))
+            is LimeMap -> {
+                val keyType = mapType(limeType.keyType)
+                if (hasStdHash(limeType.keyType)) {
+                    CppTemplateTypeRef(
+                        TemplateClass.MAP,
+                        keyType,
+                        mapType(limeType.valueType)
+                    )
+                } else {
+                    val hashType = CppTemplateTypeRef(
+                        TemplateClass.HASH,
+                        keyType,
+                        namespace = internalNamespace.joinToString("::")
+                    )
+                    CppTemplateTypeRef(
+                        TemplateClass.MAP,
+                        keyType,
+                        mapType(limeType.valueType),
+                        hashType
+                    )
+                }
+            }
             is LimeContainer -> {
                 val instanceType =
                     mapInstanceType(limeType, !limeType.attributes.have(CPP, EXTERNAL_TYPE))
                 CppTemplateTypeRef(TemplateClass.SHARED_POINTER, instanceType)
             }
-            is LimeSet -> wrapSet(mapType(limeType.elementType))
+            is LimeSet -> {
+                val elementType = mapType(limeType.elementType)
+                if (hasStdHash(limeType.elementType)) {
+                    CppTemplateTypeRef(TemplateClass.SET, elementType)
+                } else {
+                    val hashType = CppTemplateTypeRef(
+                        TemplateClass.HASH,
+                        elementType,
+                        namespace = internalNamespace.joinToString("::")
+                    )
+                    CppTemplateTypeRef(TemplateClass.SET, elementType, hashType)
+                }
+            }
             else -> throw GeniumExecutionException("Unmapped type: " + limeType.name)
-        }
-
-    private fun wrapMap(key: CppTypeRef, value: CppTypeRef) =
-        when (val hashType = key.hashType) {
-            null -> CppTemplateTypeRef(TemplateClass.MAP, key, value)
-            else -> CppTemplateTypeRef(TemplateClass.MAP, key, value, hashType)
-        }
-
-    private fun wrapSet(elementType: CppTypeRef) =
-        when (val hashType = elementType.hashType) {
-            null -> CppTemplateTypeRef(TemplateClass.SET, elementType)
-            else -> CppTemplateTypeRef(TemplateClass.SET, elementType, hashType)
         }
 
     private fun mapPredefined(limeBasicType: LimeBasicType) =
@@ -158,5 +172,10 @@ class CppTypeMapper(
                 "::std::chrono::system_clock::time_point",
                 listOf(CppLibraryIncludes.CHRONO)
             )
+
+        fun hasStdHash(limeType: LimeTypeRef): Boolean {
+            val actualType = limeType.type as? LimeBasicType ?: return false
+            return actualType.typeId != TypeId.BLOB && actualType.typeId != TypeId.DATE
+        }
     }
 }

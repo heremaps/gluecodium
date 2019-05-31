@@ -1083,8 +1083,8 @@ TEST( TEST_NAME, emplace )
 
 TEST( TEST_NAME, hash )
 {
-    std::hash< std::string > string_hash;
-    std::hash< optional< std::string > > optional_hash;
+    lorem_ipsum::test::hash< std::string > string_hash;
+    lorem_ipsum::test::hash< optional< std::string > > optional_hash;
     EXPECT_EQ( string_hash( "test" ), optional_hash( optional< std::string >( "test" ) ) );
     EXPECT_NE( string_hash( "" ), optional_hash( optional< std::string >( nullopt ) ) );
 }

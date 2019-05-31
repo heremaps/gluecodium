@@ -28,6 +28,5 @@ class CppMapTypeInfo(
     functionReturnType: CType,
     includes: List<Include>,
     val keyType: CppTypeInfo,
-    val valueType: CppTypeInfo,
-    val enumHashType: String?
+    val valueType: CppTypeInfo
 ) : CppTypeInfo(name, cType, functionReturnType, TypeCategory.MAP, includes)

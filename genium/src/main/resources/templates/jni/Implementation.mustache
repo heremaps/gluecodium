@@ -98,12 +98,7 @@ jint
 {{#set javaMethodName="hashCode"}}{{>jni/FunctionSignature}}{{/set}}
 {
     auto pInstanceSharedPointer = {{#set jobjectName="_jinstance"}}{{>sharedInstance}}{{/set}}
-{{#isPointerEquatable}}
-    return std::hash<std::shared_ptr<{{cppFullyQualifiedName}}> >()(*pInstanceSharedPointer);
-{{/isPointerEquatable}}
-{{#isEquatable}}
-    return std::hash<{{cppFullyQualifiedName}}>()(**pInstanceSharedPointer);
-{{/isEquatable}}
+    return {{>common/InternalNamespace}}hash<std::shared_ptr<{{cppFullyQualifiedName}}> >()(*pInstanceSharedPointer);
 }
 {{/hasNativeEquatable}}
 }

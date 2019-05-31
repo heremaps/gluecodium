@@ -104,9 +104,7 @@ EquatableInterface::operator == ( const EquatableInterface& rhs ) {
 
 }  // namespace test
 
-namespace std {
 std::size_t
-hash <::test::EquatableInterface>::operator( )( const ::test::EquatableInterface& t ) const {
+lorem_ipsum::test::hash <::test::EquatableInterface>::operator( )( const ::test::EquatableInterface& t ) const {
     return 11 ^ std::hash<std::string>( )( t.get_name( ) );
-}
 }

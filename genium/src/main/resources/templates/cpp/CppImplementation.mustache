@@ -82,3 +82,23 @@ make_error_code( {{fullyQualifiedName}} value ) noexcept
 {{#namespace}}
 }
 {{/namespace}}
+
+{{#if equatables}}
+{{#internalNamespace}}
+namespace {{.}} {
+{{/internalNamespace}}
+{{#equatables}}
+{{#instanceOf this "CppStruct"}}
+{{>cpp/StructHashImpl}}
+{{/instanceOf}}
+{{#instanceOf this "CppEnum"}}
+{{>cpp/EnumHashImpl}}
+{{/instanceOf}}
+{{#instanceOf this "CppClass"}}
+{{>cpp/ClassHashImpl}}
+{{/instanceOf}}
+{{/equatables}}
+{{#internalNamespace}}
+}
+{{/internalNamespace}}
+{{/if}}

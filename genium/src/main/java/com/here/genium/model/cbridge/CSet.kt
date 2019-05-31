@@ -25,6 +25,6 @@ import com.here.genium.model.common.Include
 class CSet(
     name: String,
     val elementType: CppTypeInfo,
-    val enumHashType: String?,
-    val include: Include
+    val include: Include,
+    val hasStdHash: Boolean
 ) : CElement(name)

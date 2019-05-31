@@ -1,0 +1,85 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{>cpp/CppCommentHeader}}
+
+#pragma once
+
+#include <cstddef>
+#include <functional>
+#include <memory>
+
+{{#internalNamespace}}
+namespace {{.}} {
+{{/internalNamespace}}
+/**
+ * `std::hash` compliant function object for std::shared_ptr comparing the contained class instead
+ * of the pointer value. This should be used for classes overloading operator==.
+ */
+template<class T>
+struct EqualityHash
+{
+    EqualityHash() = delete;
+};
+
+/**
+ * std::equal_to compliant comparison function object to be used in conjunction with EqualityHash
+ * when using equatable classes stored in std::shared_ptr as keys of `std::unordered_map` or
+ * `std::unordered_set`.
+ */
+template<class T>
+struct EqualityEqualTo
+{
+    bool operator( )( const std::shared_ptr<T>& lhs, const std::shared_ptr<T>& rhs ) const
+    {
+        if ( !lhs && !rhs ) {
+            return true;
+        }
+        if ( !lhs || !rhs ) {
+            return false;
+        }
+        return *lhs == *rhs;
+    }
+};
+
+template<class T, class HasEqualityHash = void>
+struct SelectHash {
+    using type = std::hash<T>;
+};
+
+template<class T>
+struct SelectHash<T, typename std::enable_if<std::is_constructible<EqualityHash<T>>::value>::type>
+{
+    using type = EqualityHash<T>;
+};
+
+// fallback, specialization for our own types somewhere else
+template<class T>
+struct hash
+{
+    size_t operator( )( const T& t ) const noexcept
+    {
+        return typename SelectHash<T>::type( )( t );
+    }
+};
+
+{{#internalNamespace}}
+}
+{{/internalNamespace}}

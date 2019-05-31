@@ -39,6 +39,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #pragma once
+#include "Hash.h"
 
 /*
  * This header is used to define the optional type used by Genium. If nothing else is defined
@@ -101,6 +102,17 @@ using optional = GENIUM_OPTIONAL_TYPE<T>;
 #ifdef GENIUM_OPTIONAL_HELPER_TYPES
 GENIUM_OPTIONAL_HELPER_TYPES
 #endif
+
+template <class ValueType>
+struct hash<{{>common/InternalNamespace}}optional<ValueType>>
+{
+    size_t
+    operator()(const {{>common/InternalNamespace}}optional<ValueType>& optional_value) const noexcept
+    {
+        return static_cast<bool>( optional_value ) ? {{>common/InternalNamespace}}hash<ValueType>( )( *optional_value ) : 0;
+    }
+};
+
 {{#internalNamespace}}
 }
 {{/internalNamespace}}

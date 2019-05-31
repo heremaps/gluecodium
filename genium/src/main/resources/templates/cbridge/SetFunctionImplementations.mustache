@@ -65,7 +65,7 @@ _baseRef {{name}}_unwrap_optional_handle(_baseRef handle) {
 
 {{!!
 
-}}{{+baseApi}}std::unordered_set<{{elementType.name}}{{#enumHashType}}, {{.}}{{/enumHashType}}>{{/baseApi}}{{!!
+}}{{+baseApi}}std::unordered_set<{{elementType.name}}{{#unless hasStdHash}}, {{>common/InternalNamespace}}hash<{{elementType.name}}> {{/unless}}>{{/baseApi}}{{!!
 
 }}{{+ConvertToCpp}}{{!!
 }}{{#switch elementType.typeCategory.toString}}{{!!

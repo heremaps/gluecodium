@@ -45,8 +45,7 @@ import com.here.genium.model.lime.LimeTypeHelper
 class CBridgeTypeMapper(
     private val cppIncludeResolver: CppIncludeResolver,
     private val cppNameResolver: CppNameResolver,
-    private val includeResolver: CBridgeIncludeResolver,
-    val enumHashType: String
+    private val includeResolver: CBridgeIncludeResolver
 ) {
     private val byteBufferTypeInfo = CppTypeInfo(
         CppTypeMapper.BYTE_BUFFER_POINTER_TYPE.name,
@@ -144,22 +143,13 @@ class CBridgeTypeMapper(
             CppLibraryIncludes.MAP
         )
 
-        val enumHash: String?
-        if (keyType.typeCategory === CppTypeInfo.TypeCategory.ENUM) {
-            includes.add(CppLibraryIncludes.ENUM_HASH)
-            enumHash = enumHashType
-        } else {
-            enumHash = null
-        }
-
         return CppMapTypeInfo(
             cppName,
             CType(BASE_REF_NAME),
             CType(BASE_REF_NAME),
             includes,
             keyType,
-            valueType,
-            enumHash
+            valueType
         )
     }
 

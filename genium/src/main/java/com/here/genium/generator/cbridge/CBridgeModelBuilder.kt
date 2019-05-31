@@ -24,6 +24,7 @@ import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuild
 import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppModelBuilder
+import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.generator.swift.SwiftModelBuilder
 import com.here.genium.model.cbridge.CArray
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
@@ -305,32 +306,22 @@ class CBridgeModelBuilder(
             val keyType = mapType(limeActualType.keyType.type)
             val valueType = mapType(limeActualType.valueType.type)
 
-            var enumHashType: String? = null
-            if (keyType.typeCategory === CppTypeInfo.TypeCategory.ENUM) {
-                enumHashType = typeMapper.enumHashType
-            }
-
             val cMap = CMap(
                 CBridgeNameRules.getTypeName(limeTypeDef),
                 keyType,
                 valueType,
-                enumHashType,
-                cppIncludeResolver.resolveIncludes(limeTypeDef).first()
+                cppIncludeResolver.resolveIncludes(limeTypeDef).first(),
+                CppTypeMapper.hasStdHash(limeActualType.keyType)
             )
 
             storeResult(cMap)
         } else if (limeActualType is LimeSet) {
             val elementType = mapType(limeActualType.elementType.type)
-            var enumHashType: String? = null
-            if (elementType.typeCategory === CppTypeInfo.TypeCategory.ENUM) {
-                enumHashType = typeMapper.enumHashType
-            }
-
             val cSet = CSet(
                 CBridgeNameRules.getTypeName(limeTypeDef),
                 elementType,
-                enumHashType,
-                cppIncludeResolver.resolveIncludes(limeTypeDef).first()
+                cppIncludeResolver.resolveIncludes(limeTypeDef).first(),
+                CppTypeMapper.hasStdHash(limeActualType.elementType)
             )
             storeResult(cSet)
         }

@@ -245,8 +245,8 @@ class CBridgeModelBuilderTest {
         val cFunction = CFunction("")
         val cStruct = CStruct("", "", cppTypeInfo, false)
         val cEnum = CEnum("", cppTypeInfo)
-        val cMap = CMap("", cppTypeInfo, cppTypeInfo, "", fooInclude)
-        val cSet = CSet("", cppTypeInfo, null, fooInclude)
+        val cMap = CMap("", cppTypeInfo, cppTypeInfo, fooInclude, true)
+        val cSet = CSet("", cppTypeInfo, fooInclude, true)
         contextStack.injectResult(cFunction)
         contextStack.injectResult(cStruct)
         contextStack.injectResult(cEnum)
@@ -715,12 +715,10 @@ class CBridgeModelBuilderTest {
         val cppKeyTypeInfo = CppTypeInfo(CType.BOOL, CppTypeInfo.TypeCategory.ENUM)
         every { typeMapper.mapType(any()) }.returnsMany(cppKeyTypeInfo, cppTypeInfo)
         every { cppIncludeResolver.resolveIncludes(limeTypeDefToMap) } returns listOf(fooInclude)
-        every { typeMapper.enumHashType } returns "nonsenseHash"
 
         modelBuilder.finishBuilding(limeTypeDefToMap)
 
         val result = modelBuilder.getFinalResult(CMap::class.java)
-        assertEquals("nonsenseHash", result.enumHashType)
     }
 
     @Test
@@ -761,12 +759,10 @@ class CBridgeModelBuilderTest {
         )
         every { typeMapper.mapType(any()) } returns cppEnumTypeInfo
         every { cppIncludeResolver.resolveIncludes(limeElement) } returns listOf(fooInclude)
-        every { typeMapper.enumHashType } returns "nonsenseHash"
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(CSet::class.java)
-        assertEquals("nonsenseHash", result.enumHashType)
     }
 
     @Test

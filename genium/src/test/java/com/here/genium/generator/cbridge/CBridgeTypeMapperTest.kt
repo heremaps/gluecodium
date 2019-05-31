@@ -42,7 +42,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -61,7 +60,7 @@ class CBridgeTypeMapperTest {
         MockKAnnotations.init(this, relaxed = true)
 
         typeMapper =
-            CBridgeTypeMapper(cppIncludeResolver, cppNameResolver, includeResolver, "FooHash")
+            CBridgeTypeMapper(cppIncludeResolver, cppNameResolver, includeResolver)
     }
 
     @Test
@@ -89,7 +88,6 @@ class CBridgeTypeMapperTest {
         assertEquals(CppLibraryIncludes.MAP, result.includes.last())
         assertEquals("std::string", (result as CppMapTypeInfo).keyType.name)
         assertEquals("double", result.valueType.name)
-        assertNull(result.enumHashType)
     }
 
     @Test
@@ -102,11 +100,9 @@ class CBridgeTypeMapperTest {
 
         val result = typeMapper.mapType(limeElement)
 
-        assertEquals(3, result.includes.size)
-        assertEquals(CppLibraryIncludes.ENUM_HASH, result.includes.last())
+        assertEquals(2, result.includes.size)
         assertEquals("Baz", (result as CppMapTypeInfo).keyType.name)
         assertEquals("double", result.valueType.name)
-        assertEquals("FooHash", result.enumHashType)
     }
 
     @Test

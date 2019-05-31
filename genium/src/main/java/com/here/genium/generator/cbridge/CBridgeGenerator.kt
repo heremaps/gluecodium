@@ -111,8 +111,7 @@ class CBridgeGenerator(
         val typeMapper = CBridgeTypeMapper(
             cppIncludeResolver,
             cppNameResolver,
-            includeResolver,
-            cppTypeMapper.enumHashType.name
+            includeResolver
         )
 
         val modelBuilder = CBridgeModelBuilder(

@@ -71,7 +71,7 @@ _baseRef {{name}}_unwrap_optional_handle(_baseRef handle) {
 
 {{!!
 
-}}{{+baseApi}}std::unordered_map<{{keyType.name}}, {{valueType.name}}{{#enumHashType}}, {{.}}{{/enumHashType}}>{{/baseApi}}{{!!
+}}{{+baseApi}}std::unordered_map<{{keyType.name}}, {{valueType.name}}{{#unless hasStdHash}}, {{>common/InternalNamespace}}hash<{{keyType.name}}>{{/unless}} >{{/baseApi}}{{!!
 
 }}{{+ConvertToCpp}}{{!!
 }}{{#switch variableType.typeCategory.toString}}{{!!

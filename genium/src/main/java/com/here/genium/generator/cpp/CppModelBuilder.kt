@@ -86,16 +86,18 @@ class CppModelBuilder(
             }
             else -> emptyList()
         }
+        val isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE)
+        val includes = if (isEquatable) listOf(CppLibraryIncludes.HASH) else emptyList()
         val cppClass = CppClass(
             name = nameResolver.getName(limeContainer),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeContainer),
-            includes = emptyList(),
+            includes = includes,
             comment = createComments(limeContainer),
             isExternal = limeContainer.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE),
             members = members,
             methods = getPreviousResults(CppMethod::class.java),
             inheritances = inheritances,
-            isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE)
+            isEquatable = isEquatable
         )
 
         storeNamedResult(limeContainer, cppClass)
@@ -171,16 +173,18 @@ class CppModelBuilder(
             }
             it.copy(specifiers, qualifiers)
         }
+        val isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE)
+        val includes = if (isEquatable) listOf(CppLibraryIncludes.HASH) else emptyList()
         val cppStruct = CppStruct(
             name = nameResolver.getName(limeStruct),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeStruct),
-            includes = emptyList(),
+            includes = includes,
             comment = createComments(limeElement = limeStruct),
             isExternal = limeStruct.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE),
             fields = getPreviousResults(CppField::class.java),
             methods = methods,
             constants = getPreviousResults(CppConstant::class.java),
-            isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
+            isEquatable = isEquatable,
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)
         )
 
@@ -284,7 +288,7 @@ class CppModelBuilder(
         val cppEnum = CppEnum(
             name = nameResolver.getName(limeEnumeration),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeEnumeration),
-            includes = emptyList(),
+            includes = listOf(CppLibraryIncludes.HASH),
             isExternal = limeEnumeration.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE),
             items = getPreviousResults(CppEnumItem::class.java)
         )
