@@ -6,21 +6,16 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 //
 // -------------------------------------------------------------------------------------------------
-
 #pragma once
-
 #include "genium/Export.h"
+#include "genium/VectorHash.h"
 #include <cstdint>
-
 #include <string>
 #include <vector>
-
 namespace smoke {
-
 class _GENIUM_CPP_EXPORT MethodOverloads {
 public:
     virtual ~MethodOverloads() = 0;
-
 public:
 using StringArray = ::std::vector< ::std::string >;
 using IntArray = ::std::vector< int8_t >;
@@ -30,7 +25,6 @@ struct _GENIUM_CPP_EXPORT Point {
     Point( );
     Point( const double x, const double y );
 };
-
 public:
 virtual bool is_boolean( const bool input ) = 0;
 virtual bool is_boolean( const int8_t input ) = 0;
@@ -43,5 +37,4 @@ virtual bool is_boolean(  ) const = 0;
 virtual bool is_float( const ::std::string& input ) = 0;
 virtual bool is_float( const ::smoke::MethodOverloads::IntArray& input ) = 0;
 };
-
 }

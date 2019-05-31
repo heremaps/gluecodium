@@ -24,3 +24,10 @@ ImmutableStructWithDefaults::ImmutableStructWithDefaults( const int32_t int_fiel
 {
 }
 }
+namespace genium {
+std::size_t
+hash< ::smoke::SomeEnum >::operator( )( const ::smoke::SomeEnum& t ) const
+{
+    return static_cast< std::size_t >( t );
+}
+}

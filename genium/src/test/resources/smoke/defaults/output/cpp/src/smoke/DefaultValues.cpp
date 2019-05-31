@@ -45,3 +45,10 @@ DefaultValues::StructWithTypedefDefaults::StructWithTypedefDefaults( const ::smo
 {
 }
 }
+namespace genium {
+std::size_t
+hash< ::smoke::DefaultValues::SomeEnum >::operator( )( const ::smoke::DefaultValues::SomeEnum& t ) const
+{
+    return static_cast< std::size_t >( t );
+}
+}

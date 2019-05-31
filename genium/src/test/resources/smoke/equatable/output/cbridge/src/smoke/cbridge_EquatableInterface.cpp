@@ -21,7 +21,7 @@ bool smoke_EquatableInterface_equal(_baseRef lhs, _baseRef rhs) {
     return **get_pointer<std::shared_ptr<::smoke::EquatableInterface>>(lhs) == **get_pointer<std::shared_ptr<::smoke::EquatableInterface>>(rhs);
 }
 uint64_t smoke_EquatableInterface_hash(_baseRef handle) {
-    return std::hash<std::shared_ptr<::smoke::EquatableInterface>::element_type>()(**get_pointer<std::shared_ptr<::smoke::EquatableInterface>>(handle));
+    return ::genium::hash<std::shared_ptr<::smoke::EquatableInterface>::element_type>()(**get_pointer<std::shared_ptr<::smoke::EquatableInterface>>(handle));
 }
 _baseRef
 smoke_EquatableInterface_EquatableStruct_create_handle( int32_t intField, _baseRef stringField, _baseRef nestedEquatableInstance, _baseRef nestedPointerEquatableInstance )

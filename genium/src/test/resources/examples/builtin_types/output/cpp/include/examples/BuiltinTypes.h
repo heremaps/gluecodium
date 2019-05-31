@@ -6,16 +6,13 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 //
 // -------------------------------------------------------------------------------------------------
-
 #pragma once
-
 #include "genium/Export.h"
+#include "genium/VectorHash.h"
 #include <cstdint>
 #include <memory>
 #include <vector>
-
 namespace examples {
-
 class _GENIUM_CPP_EXPORT BuiltinTypes {
 public:
     virtual ~BuiltinTypes() = 0;
@@ -34,5 +31,4 @@ static double method_with_double( const double input_number );
 static ::std::shared_ptr< ::std::vector< uint8_t > > method_with_byte_buffer( const ::std::shared_ptr< ::std::vector< uint8_t > >& input_buffer );
 static double method_with_float_and_integer( const float input_float, const int32_t input_integer );
 };
-
 }

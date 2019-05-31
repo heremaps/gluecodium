@@ -53,6 +53,6 @@ Java_com_example_smoke_EquatableInterface_hashCode(JNIEnv* _jenv, jobject _jinst
             ::genium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    return std::hash<::smoke::EquatableInterface>()(**pInstanceSharedPointer);
+    return ::genium::hash<std::shared_ptr<::smoke::EquatableInterface> >()(*pInstanceSharedPointer);
 }
 }

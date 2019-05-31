@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/Hash.h"
 #include "smoke/PointerEquatableInterface.h"
 #include <cstdint>
 #include <memory>
@@ -40,10 +41,18 @@ public:
     bool operator!=( const EquatableInterface& rhs );
 };
 }
-namespace std
-{
+namespace genium {
 template<>
-struct hash <::smoke::EquatableInterface> {
+struct hash< ::smoke::EquatableInterface > {
     std::size_t operator( )( const ::smoke::EquatableInterface& t ) const;
+};
+template <>
+struct EqualityHash< std::shared_ptr< ::smoke::EquatableInterface > >
+{
+    std::size_t operator( )( const std::shared_ptr< ::smoke::EquatableInterface >& t ) const;
+};
+template<>
+struct hash< ::smoke::EquatableInterface::EquatableStruct > {
+    std::size_t operator( )( const ::smoke::EquatableInterface::EquatableStruct& t ) const;
 };
 }

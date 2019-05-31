@@ -10,6 +10,9 @@
 #include "alien/FooEnum.h"
 #include "alien/FooStruct.h"
 #include "genium/Export.h"
+#include "genium/Hash.h"
+#include "genium/UnorderedMapHash.h"
+#include "genium/VectorHash.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -63,5 +66,11 @@ static ::smoke::Arrays::ArrayOfMaps method_with_array_of_maps( const ::smoke::Ar
 static ::std::shared_ptr< ::std::vector< uint8_t > > method_with_byte_buffer( const ::std::shared_ptr< ::std::vector< uint8_t > >& input );
 static ::smoke::Arrays::ArrayOfEnums method_with_enum_array( const ::std::vector< ::smoke::Arrays::SomeEnum >& input );
 static ::smoke::Arrays::ArrayOfExternalEnums method_with_external_enum_array( const ::std::vector< ::alien::FooEnum >& input );
+};
+}
+namespace genium {
+template<>
+struct hash< ::smoke::Arrays::SomeEnum > {
+    std::size_t operator( )( const ::smoke::Arrays::SomeEnum& t ) const;
 };
 }

@@ -8,7 +8,10 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/Hash.h"
 #include "genium/Optional.h"
+#include "genium/UnorderedMapHash.h"
+#include "genium/VectorHash.h"
 #include <cstdint>
 #include <string>
 #include <unordered_map>
@@ -56,5 +59,23 @@ struct _GENIUM_CPP_EXPORT EquatableNullableStruct {
     EquatableNullableStruct( const ::genium::optional< bool >& bool_field, const ::genium::optional< int32_t >& int_field, const ::genium::optional< uint16_t >& uint_field, const ::genium::optional< float >& float_field, const ::genium::optional< ::std::string >& string_field, const ::genium::optional< ::smoke::NestedEquatableStruct >& struct_field, const ::genium::optional< ::smoke::SomeEnum >& enum_field, const ::genium::optional< ::std::vector< ::std::string > >& array_field, const ::genium::optional< ::smoke::ErrorCodeToMessageMap >& map_field );
     bool operator==( const EquatableNullableStruct& rhs ) const;
     bool operator!=( const EquatableNullableStruct& rhs ) const;
+};
+}
+namespace genium {
+template<>
+struct hash< ::smoke::SomeEnum > {
+    std::size_t operator( )( const ::smoke::SomeEnum& t ) const;
+};
+template<>
+struct hash< ::smoke::EquatableStruct > {
+    std::size_t operator( )( const ::smoke::EquatableStruct& t ) const;
+};
+template<>
+struct hash< ::smoke::EquatableNullableStruct > {
+    std::size_t operator( )( const ::smoke::EquatableNullableStruct& t ) const;
+};
+template<>
+struct hash< ::smoke::NestedEquatableStruct > {
+    std::size_t operator( )( const ::smoke::NestedEquatableStruct& t ) const;
 };
 }

@@ -8,7 +8,10 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/Hash.h"
 #include "genium/Optional.h"
+#include "genium/UnorderedMapHash.h"
+#include "genium/VectorHash.h"
 #include "smoke/SomeInterface.h"
 #include <cstdint>
 #include <memory>
@@ -90,5 +93,11 @@ virtual ::genium::optional< ::smoke::Nullable::SomeMap > get_map_attribute(  ) c
 virtual void set_map_attribute( const ::genium::optional< ::smoke::Nullable::SomeMap >& value ) = 0;
 virtual ::std::shared_ptr< ::smoke::SomeInterface > get_instance_attribute(  ) const = 0;
 virtual void set_instance_attribute( const ::std::shared_ptr< ::smoke::SomeInterface >& value ) = 0;
+};
+}
+namespace genium {
+template<>
+struct hash< ::smoke::Nullable::SomeEnum > {
+    std::size_t operator( )( const ::smoke::Nullable::SomeEnum& t ) const;
 };
 }

@@ -59,6 +59,7 @@ class EquatableInstancesTests: XCTestCase {
 
         XCTAssertEqual(oneStruct, otherStruct)
         XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 
@@ -71,6 +72,7 @@ class EquatableInstancesTests: XCTestCase {
 
         XCTAssertNotEqual(oneStruct, otherStruct)
         XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
     }
 
@@ -83,6 +85,7 @@ class EquatableInstancesTests: XCTestCase {
 
         XCTAssertNotEqual(oneStruct, otherStruct)
         XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
     }
 
@@ -95,6 +98,7 @@ class EquatableInstancesTests: XCTestCase {
 
         XCTAssertEqual(oneStruct, otherStruct)
         XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 
@@ -109,6 +113,7 @@ class EquatableInstancesTests: XCTestCase {
 
         XCTAssertEqual(oneStruct, otherStruct)
         XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 
@@ -123,6 +128,7 @@ class EquatableInstancesTests: XCTestCase {
 
         XCTAssertNotEqual(oneStruct, otherStruct)
         XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
     }
 
@@ -137,6 +143,7 @@ class EquatableInstancesTests: XCTestCase {
 
         XCTAssertNotEqual(oneStruct, otherStruct)
         XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
     }
 
@@ -151,6 +158,7 @@ class EquatableInstancesTests: XCTestCase {
 
         XCTAssertEqual(oneStruct, otherStruct)
         XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 
@@ -165,6 +173,7 @@ class EquatableInstancesTests: XCTestCase {
 
         XCTAssertEqual(oneStruct, otherStruct)
         XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 
@@ -179,6 +188,7 @@ class EquatableInstancesTests: XCTestCase {
 
         XCTAssertNotEqual(oneStruct, otherStruct)
         XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
     }
 
@@ -193,6 +203,7 @@ class EquatableInstancesTests: XCTestCase {
 
         XCTAssertNotEqual(oneStruct, otherStruct)
         XCTAssertFalse(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertFalse(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertNotEqual(hash(oneStruct), hash(otherStruct))
     }
 
@@ -207,6 +218,7 @@ class EquatableInstancesTests: XCTestCase {
 
         XCTAssertEqual(oneStruct, otherStruct)
         XCTAssertTrue(PointerEquatableInterface.areEqual(one: oneStruct, other: otherStruct))
+        XCTAssertTrue(PointerEquatableInterface.haveSameHash(one: oneStruct, other: otherStruct))
         XCTAssertEqual(hash(oneStruct), hash(otherStruct))
     }
 

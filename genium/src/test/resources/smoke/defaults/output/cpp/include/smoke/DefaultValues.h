@@ -9,7 +9,10 @@
 #pragma once
 #include "foo/Bar.h"
 #include "genium/Export.h"
+#include "genium/Hash.h"
 #include "genium/Optional.h"
+#include "genium/UnorderedMapHash.h"
+#include "genium/VectorHash.h"
 #include <cstdint>
 #include <limits>
 #include <string>
@@ -83,5 +86,11 @@ struct _GENIUM_CPP_EXPORT StructWithTypedefDefaults {
 };
 public:
 static ::smoke::DefaultValues::StructWithDefaults process_struct_with_defaults( const ::smoke::DefaultValues::StructWithDefaults& input );
+};
+}
+namespace genium {
+template<>
+struct hash< ::smoke::DefaultValues::SomeEnum > {
+    std::size_t operator( )( const ::smoke::DefaultValues::SomeEnum& t ) const;
 };
 }

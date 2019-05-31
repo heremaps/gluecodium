@@ -132,8 +132,7 @@ class CppTypeMapperTest {
             (result as CppTemplateTypeRef).templateClass
         )
         assertEquals(CppTypeMapper.STRING_TYPE, result.templateParameters.first())
-        assertEquals(CppPrimitiveTypeRef.DOUBLE, result.templateParameters[1])
-        assertTrue(result.templateParameters.last() is CppTemplateTypeRef)
+        assertEquals(CppPrimitiveTypeRef.DOUBLE, result.templateParameters.last())
     }
 
     @Test

@@ -8,6 +8,10 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/Hash.h"
+#include "genium/UnorderedMapHash.h"
+#include "genium/VectorHash.h"
+#include <cstdint>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -89,5 +93,11 @@ virtual ::smoke::DeprecationComments::Usefulness is_some_attribute(  ) const = 0
  * \param[in] value
  */
 virtual void set_some_attribute( const ::smoke::DeprecationComments::Usefulness value ) = 0;
+};
+}
+namespace genium {
+template<>
+struct hash< ::smoke::DeprecationComments::SomeEnum > {
+    std::size_t operator( )( const ::smoke::DeprecationComments::SomeEnum& t ) const;
 };
 }

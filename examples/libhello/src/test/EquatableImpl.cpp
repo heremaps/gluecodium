@@ -98,6 +98,45 @@ PointerEquatableInterface::are_equal( const PointerEquatableInterface::OptionalE
 }
 
 bool
+EquatableInterface::have_same_hash( const EquatableInterface::AnotherEquatableStruct& lhs,
+                                    const EquatableInterface::AnotherEquatableStruct& rhs )
+{
+    auto hasher = lorem_ipsum::test::hash< EquatableInterface::AnotherEquatableStruct >( );
+    return hasher( lhs ) == hasher( rhs );
+}
+
+bool
+EquatableInterface::have_same_hash( const EquatableStruct& lhs, const EquatableStruct& rhs )
+{
+    auto hasher = lorem_ipsum::test::hash< EquatableStruct >( );
+    return hasher( lhs ) == hasher( rhs );
+}
+
+bool
+EquatableInterface::have_same_hash( const EquatableNullableStruct& lhs,
+                                    const EquatableNullableStruct& rhs )
+{
+    auto hasher = lorem_ipsum::test::hash< EquatableNullableStruct >( );
+    return hasher( lhs ) == hasher( rhs );
+}
+
+bool
+PointerEquatableInterface::have_same_hash( const PointerEquatableInterface::EquatableStruct& lhs,
+                                           const PointerEquatableInterface::EquatableStruct& rhs )
+{
+    auto hasher = lorem_ipsum::test::hash< PointerEquatableInterface::EquatableStruct >( );
+    return hasher( lhs ) == hasher( rhs );
+}
+
+bool
+PointerEquatableInterface::have_same_hash( const PointerEquatableInterface::OptionalEquatableStruct& lhs,
+                                           const PointerEquatableInterface::OptionalEquatableStruct& rhs )
+{
+    auto hasher = lorem_ipsum::test::hash< PointerEquatableInterface::OptionalEquatableStruct >( );
+    return hasher( lhs ) == hasher( rhs );
+}
+
+bool
 EquatableInterface::operator == ( const EquatableInterface& rhs ) {
     return get_name( ) == rhs.get_name( );
 }

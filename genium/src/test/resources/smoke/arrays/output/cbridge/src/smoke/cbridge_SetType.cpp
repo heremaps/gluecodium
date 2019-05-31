@@ -97,36 +97,36 @@ _baseRef smoke_SetType_StringSet_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_set<std::string>>*>( handle ) );
 }
 _baseRef smoke_SetType_EnumSet_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_set<::smoke::SetType::SomeEnum, ::genium::EnumHash>() );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >() );
 }
 void smoke_SetType_EnumSet_release_handle(_baseRef handle) {
-    delete get_pointer<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::EnumHash>>(handle);
+    delete get_pointer<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >>(handle);
 }
 void smoke_SetType_EnumSet_insert(_baseRef handle, smoke_SetType_SomeEnum value) {
-    (*get_pointer<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::EnumHash>>(handle)).insert(std::move(static_cast<::smoke::SetType::SomeEnum>(value)));
+    (*get_pointer<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >>(handle)).insert(std::move(static_cast<::smoke::SetType::SomeEnum>(value)));
 }
 _baseRef smoke_SetType_EnumSet_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_set<::smoke::SetType::SomeEnum, ::genium::EnumHash>::iterator( get_pointer<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::EnumHash>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >::iterator( get_pointer<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >>(handle)->begin() ) );
 }
 void smoke_SetType_EnumSet_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::EnumHash>::iterator*>( iterator_handle );
+    delete reinterpret_cast<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >::iterator*>( iterator_handle );
 }
 bool smoke_SetType_EnumSet_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::EnumHash>::iterator*>( iterator_handle ) != get_pointer<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::EnumHash>>(handle)->end();
+    return *reinterpret_cast<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >>(handle)->end();
 }
 void smoke_SetType_EnumSet_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::EnumHash>::iterator*>( iterator_handle );
+    ++*reinterpret_cast<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >::iterator*>( iterator_handle );
 }
 smoke_SetType_SomeEnum smoke_SetType_EnumSet_iterator_get(_baseRef iterator_handle) {
-    auto& value = **reinterpret_cast<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::EnumHash>::iterator*>( iterator_handle );
+    auto& value = **reinterpret_cast<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >::iterator*>( iterator_handle );
     return static_cast<smoke_SetType_SomeEnum>(value);
 }
 _baseRef smoke_SetType_EnumSet_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::EnumHash>>( std::unordered_set<::smoke::SetType::SomeEnum, ::genium::EnumHash>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >>( std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >( ) ) );
 }
 void smoke_SetType_EnumSet_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::EnumHash>>*>( handle );
+    delete reinterpret_cast<::genium::optional<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >>*>( handle );
 }
 _baseRef smoke_SetType_EnumSet_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::EnumHash>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >>*>( handle ) );
 }

@@ -106,40 +106,40 @@ const void* smoke_CalculatorListener_get_swift_object_from_cache(_baseRef handle
     return handle ? smoke_CalculatorListenerProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle)->get()) : nullptr;
 }
 _baseRef smoke_CalculatorListener_NamedCalculationResults_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, double>() );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, double >() );
 }
 void smoke_CalculatorListener_NamedCalculationResults_release_handle(_baseRef handle) {
-    delete get_pointer<std::unordered_map<std::string, double>>(handle);
+    delete get_pointer<std::unordered_map<std::string, double >>(handle);
 }
 _baseRef smoke_CalculatorListener_NamedCalculationResults_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, double>::iterator( get_pointer<std::unordered_map<std::string, double>>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, double >::iterator( get_pointer<std::unordered_map<std::string, double >>(handle)->begin() ) );
 }
 void smoke_CalculatorListener_NamedCalculationResults_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle );
+    delete reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle );
 }
 void smoke_CalculatorListener_NamedCalculationResults_put(_baseRef handle, _baseRef key, double value) {
-    (*get_pointer<std::unordered_map<std::string, double>>(handle)).emplace(std::move(Conversion<std::string>::toCpp(key)), std::move(value));
+    (*get_pointer<std::unordered_map<std::string, double >>(handle)).emplace(std::move(Conversion<std::string>::toCpp(key)), std::move(value));
 }
 bool smoke_CalculatorListener_NamedCalculationResults_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, double>>(handle)->end();
+    return *reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, double >>(handle)->end();
 }
 void smoke_CalculatorListener_NamedCalculationResults_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle );
+    ++*reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle );
 }
 _baseRef smoke_CalculatorListener_NamedCalculationResults_iterator_key(_baseRef iterator_handle) {
-    auto& key = (*reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle ))->first;
+    auto& key = (*reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle ))->first;
     return Conversion<std::string>::toBaseRef(key);
 }
 double smoke_CalculatorListener_NamedCalculationResults_iterator_value(_baseRef iterator_handle) {
-    auto& value = (*reinterpret_cast<std::unordered_map<std::string, double>::iterator*>( iterator_handle ))->second;
+    auto& value = (*reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle ))->second;
     return value;
 }
 _baseRef smoke_CalculatorListener_NamedCalculationResults_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::unordered_map<std::string, double>>( std::unordered_map<std::string, double>( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::unordered_map<std::string, double >>( std::unordered_map<std::string, double >( ) ) );
 }
 void smoke_CalculatorListener_NamedCalculationResults_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<std::unordered_map<std::string, double>>*>( handle );
+    delete reinterpret_cast<::genium::optional<std::unordered_map<std::string, double >>*>( handle );
 }
 _baseRef smoke_CalculatorListener_NamedCalculationResults_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_map<std::string, double>>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_map<std::string, double >>*>( handle ) );
 }

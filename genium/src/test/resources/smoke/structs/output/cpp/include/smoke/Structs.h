@@ -10,6 +10,8 @@
 #include "foo/Bar.h"
 #include "foo/Bazz.h"
 #include "genium/Export.h"
+#include "genium/Hash.h"
+#include "genium/VectorHash.h"
 #include "non/Sense.h"
 #include <cstdint>
 #include <memory>
@@ -90,5 +92,11 @@ static ::smoke::Structs::AllTypesStruct modify_all_types_struct( const ::smoke::
 static ::smoke::Structs::ExternalStruct get_external_struct(  );
 static ::fire::SomeVeryExternalStruct get_another_external_struct(  );
 static ::smoke::Structs::Yet_Another_External_Struct get_yet_another_external_struct(  );
+};
+}
+namespace genium {
+template<>
+struct hash< ::smoke::Structs::FooBar > {
+    std::size_t operator( )( const ::smoke::Structs::FooBar& t ) const;
 };
 }

@@ -6,14 +6,10 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 //
 // -------------------------------------------------------------------------------------------------
-
 #include "smoke/Errors.h"
 #include <string>
-
 namespace smoke {
-
 Errors::~Errors() = default;
-
 std::error_code
 make_error_code( ::smoke::Errors::InternalError value ) noexcept
 {
@@ -42,5 +38,11 @@ make_error_code( ::smoke::Errors::InternalError value ) noexcept
     static InternalErrorErrorCategory category{};
     return std::error_code( static_cast<int>( value ), category );
 }
-
+}
+namespace genium {
+std::size_t
+hash< ::smoke::Errors::InternalError >::operator( )( const ::smoke::Errors::InternalError& t ) const
+{
+    return static_cast< std::size_t >( t );
+}
 }

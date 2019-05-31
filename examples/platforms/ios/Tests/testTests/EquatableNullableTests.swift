@@ -98,11 +98,14 @@ class EquatableNullableTests: XCTestCase {
         let otherStruct = EquatableNullableTests.createEquatableNullableStruct()
 
         XCTAssertTrue(EquatableInterface.areEqual(lhs: otherStruct, rhs: mainStruct))
+        XCTAssertTrue(EquatableInterface.haveSameHash(lhs: otherStruct, rhs: mainStruct))
     }
 
     func testStructEqualsCppWithNulls() {
         XCTAssertTrue(EquatableInterface.areEqual(lhs: EquatableNullableStruct(),
                                                   rhs: EquatableNullableStruct()))
+        XCTAssertTrue(EquatableInterface.haveSameHash(lhs: EquatableNullableStruct(),
+                                                      rhs: EquatableNullableStruct()))
     }
 
     func testStructNotEqualsCpp() {
@@ -110,6 +113,7 @@ class EquatableNullableTests: XCTestCase {
         otherStruct.arrayField!.append("foo")
 
         XCTAssertFalse(EquatableInterface.areEqual(lhs: otherStruct, rhs: mainStruct))
+        XCTAssertFalse(EquatableInterface.haveSameHash(lhs: otherStruct, rhs: mainStruct))
     }
 
     static func createEquatableNullableStruct() -> EquatableNullableStruct {

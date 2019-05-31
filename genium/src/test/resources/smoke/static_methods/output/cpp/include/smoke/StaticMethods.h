@@ -7,15 +7,13 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-
 #include "genium/Export.h"
+#include "genium/VectorHash.h"
 #include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
-
 namespace smoke {
-
 class _GENIUM_CPP_EXPORT StaticMethods {
 public:
     virtual ~StaticMethods() = 0;

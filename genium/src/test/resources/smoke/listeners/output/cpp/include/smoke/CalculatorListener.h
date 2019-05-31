@@ -8,6 +8,8 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/UnorderedMapHash.h"
+#include "genium/VectorHash.h"
 #include "smoke/CalculationResult.h"
 #include <memory>
 #include <string>

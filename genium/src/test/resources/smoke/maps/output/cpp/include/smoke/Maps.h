@@ -8,6 +8,9 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/Hash.h"
+#include "genium/UnorderedMapHash.h"
+#include "genium/VectorHash.h"
 #include "smoke/MapsInstance.h"
 #include <cstdint>
 #include <memory>
@@ -25,7 +28,7 @@ public:
 using ErrorCodeToMessageMap = ::std::unordered_map< int32_t, ::std::string >;
 using SomeId = ::std::string;
 using NumberToTypeDef = ::std::unordered_map< uint8_t, ::smoke::Maps::SomeId >;
-using TypeDefToNumber = ::std::unordered_map< ::smoke::Maps::SomeId, uint8_t >;
+using TypeDefToNumber = ::std::unordered_map< ::smoke::Maps::SomeId, uint8_t, ::genium::hash< ::smoke::Maps::SomeId > >;
 using ArrayOfInts = ::std::vector< int32_t >;
 using StringToArray = ::std::unordered_map< ::std::string, ::smoke::Maps::ArrayOfInts >;
 using SomeInt = int32_t;

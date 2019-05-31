@@ -8,9 +8,13 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/Hash.h"
 #include "genium/Optional.h"
 #include "genium/Return.h"
+#include "genium/UnorderedMapHash.h"
+#include "genium/VectorHash.h"
 #include "smoke/CommentsInstantiable.h"
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <system_error>
@@ -167,5 +171,11 @@ _GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::Comments::SomeEnu
 namespace std
 {
 template <>
-struct is_error_code_enum <::smoke::Comments::SomeEnum> : public std::true_type { };
+struct is_error_code_enum< ::smoke::Comments::SomeEnum > : public std::true_type { };
+}
+namespace genium {
+template<>
+struct hash< ::smoke::Comments::SomeEnum > {
+    std::size_t operator( )( const ::smoke::Comments::SomeEnum& t ) const;
+};
 }

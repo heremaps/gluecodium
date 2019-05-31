@@ -9,6 +9,7 @@
 #pragma once
 #include "foo/Bar.h"
 #include "genium/Export.h"
+#include "genium/Hash.h"
 #include <cstdint>
 #include <string>
 namespace smoke {
@@ -38,5 +39,11 @@ struct _GENIUM_CPP_EXPORT ImmutableStructWithDefaults {
     const ::fire::SomeVeryExternalEnum external_enum_field = ::fire::SomeVeryExternalEnum::Another_Value;
     ImmutableStructWithDefaults( const uint32_t uint_field, const bool bool_field );
     ImmutableStructWithDefaults( const int32_t int_field, const uint32_t uint_field, const float float_field, const double double_field, const bool bool_field, const ::std::string& string_field, const ::smoke::SomeEnum enum_field, const ::fire::SomeVeryExternalEnum external_enum_field );
+};
+}
+namespace genium {
+template<>
+struct hash< ::smoke::SomeEnum > {
+    std::size_t operator( )( const ::smoke::SomeEnum& t ) const;
 };
 }

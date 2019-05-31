@@ -82,6 +82,18 @@ class EquatableInterface {
 
         rhs: Equatable.EquatableNullableStruct
     ): Boolean
+    static fun haveSameHash(
+        lhs: AnotherEquatableStruct,
+        rhs: AnotherEquatableStruct
+    ): Boolean
+    static fun haveSameHash(
+        lhs: Equatable.EquatableStruct,
+        rhs: Equatable.EquatableStruct
+    ): Boolean
+    static fun haveSameHash(
+        lhs: Equatable.EquatableNullableStruct,
+        rhs: Equatable.EquatableNullableStruct
+    ): Boolean
     property name: String {
         get
     }
@@ -107,6 +119,14 @@ class PointerEquatableInterface {
         other: EquatableStruct
     ): Boolean
     static fun areEqual(
+        one: OptionalEquatableStruct,
+        other: OptionalEquatableStruct
+    ): Boolean
+    static fun haveSameHash(
+        one: EquatableStruct,
+        other: EquatableStruct
+    ): Boolean
+    static fun haveSameHash(
         one: OptionalEquatableStruct,
         other: OptionalEquatableStruct
     ): Boolean

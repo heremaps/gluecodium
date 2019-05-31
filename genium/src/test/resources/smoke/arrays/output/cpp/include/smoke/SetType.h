@@ -7,8 +7,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/EnumHash.h"
 #include "genium/Export.h"
+#include "genium/Hash.h"
 #include "genium/Optional.h"
 #include <cstdint>
 #include <string>
@@ -24,10 +24,16 @@ enum class SomeEnum {
 };
 using IntSet = ::std::unordered_set< int32_t >;
 using StringSet = ::std::unordered_set< ::std::string >;
-using EnumSet = ::std::unordered_set< ::smoke::SetType::SomeEnum, ::genium::EnumHash >;
+using EnumSet = ::std::unordered_set< ::smoke::SetType::SomeEnum, ::genium::hash< ::smoke::SetType::SomeEnum > >;
 public:
 static ::smoke::SetType::StringSet string_set_round_trip( const ::smoke::SetType::StringSet& input );
 static ::smoke::SetType::EnumSet enum_set_round_trip( const ::smoke::SetType::EnumSet& input );
 static ::genium::optional< ::smoke::SetType::IntSet > nullable_int_set_round_trip( const ::genium::optional< ::smoke::SetType::IntSet >& input );
+};
+}
+namespace genium {
+template<>
+struct hash< ::smoke::SetType::SomeEnum > {
+    std::size_t operator( )( const ::smoke::SetType::SomeEnum& t ) const;
 };
 }

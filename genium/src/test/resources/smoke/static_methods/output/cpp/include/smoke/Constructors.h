@@ -8,7 +8,9 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/Hash.h"
 #include "genium/Return.h"
+#include "genium/VectorHash.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -64,5 +66,11 @@ _GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::Constructors::Err
 namespace std
 {
 template <>
-struct is_error_code_enum <::smoke::Constructors::ErrorEnum> : public std::true_type { };
+struct is_error_code_enum< ::smoke::Constructors::ErrorEnum > : public std::true_type { };
+}
+namespace genium {
+template<>
+struct hash< ::smoke::Constructors::ErrorEnum > {
+    std::size_t operator( )( const ::smoke::Constructors::ErrorEnum& t ) const;
+};
 }

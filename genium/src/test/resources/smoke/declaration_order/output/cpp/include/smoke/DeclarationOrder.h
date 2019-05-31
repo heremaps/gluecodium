@@ -8,6 +8,9 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/Hash.h"
+#include "genium/UnorderedMapHash.h"
+#include "genium/VectorHash.h"
 #include <cstdint>
 #include <string>
 #include <unordered_map>
@@ -33,5 +36,11 @@ struct _GENIUM_CPP_EXPORT MainStruct {
     ::smoke::SomeEnum enum_field;
     MainStruct( );
     MainStruct( const ::smoke::NestedStruct& struct_field, const ::smoke::SomeTypeDef type_def_field, const ::smoke::NestedStructArray& struct_array_field, const ::smoke::ErrorCodeToMessageMap& map_field, const ::smoke::SomeEnum enum_field );
+};
+}
+namespace genium {
+template<>
+struct hash< ::smoke::SomeEnum > {
+    std::size_t operator( )( const ::smoke::SomeEnum& t ) const;
 };
 }

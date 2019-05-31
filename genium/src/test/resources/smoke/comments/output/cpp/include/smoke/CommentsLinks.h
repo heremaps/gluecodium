@@ -8,8 +8,10 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/Hash.h"
 #include "genium/Return.h"
 #include "smoke/Comments.h"
+#include <cstdint>
 #include <system_error>
 namespace smoke {
 /**
@@ -71,5 +73,11 @@ _GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::CommentsLinks::To
 namespace std
 {
 template <>
-struct is_error_code_enum <::smoke::CommentsLinks::TooUseful> : public std::true_type { };
+struct is_error_code_enum< ::smoke::CommentsLinks::TooUseful > : public std::true_type { };
+}
+namespace genium {
+template<>
+struct hash< ::smoke::CommentsLinks::TooUseful > {
+    std::size_t operator( )( const ::smoke::CommentsLinks::TooUseful& t ) const;
+};
 }

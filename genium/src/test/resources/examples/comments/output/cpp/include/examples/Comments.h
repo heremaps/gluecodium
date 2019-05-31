@@ -8,6 +8,10 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/Hash.h"
+#include "genium/UnorderedMapHash.h"
+#include "genium/VectorHash.h"
+#include <cstdint>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -76,5 +80,11 @@ virtual ::examples::Comments::Usefulness is_some_attribute(  ) const = 0;
  * \param[in] value
  */
 virtual void set_some_attribute( const ::examples::Comments::Usefulness value ) = 0;
+};
+}
+namespace genium {
+template<>
+struct hash< ::examples::Comments::SomeEnum > {
+    std::size_t operator( )( const ::examples::Comments::SomeEnum& t ) const;
 };
 }

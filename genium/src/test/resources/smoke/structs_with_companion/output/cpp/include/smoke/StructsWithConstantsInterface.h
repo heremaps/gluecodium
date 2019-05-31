@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/VectorHash.h"
 #include "smoke/RouteUtils.h"
 #include <string>
 #include <vector>

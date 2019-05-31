@@ -43,3 +43,21 @@ bool NestedEquatableStruct::operator!=( const NestedEquatableStruct& rhs ) const
     return !( *this == rhs );
 }
 }
+namespace genium {
+std::size_t
+hash< ::examples::EquatableStruct >::operator( )( const ::examples::EquatableStruct& t ) const
+{
+    size_t hash_value = 43;
+    hash_value = ( hash_value ^ ::genium::hash< decltype( ::examples::EquatableStruct::int_field ) >( )( t.int_field ) ) << 1;
+hash_value = ( hash_value ^ ::genium::hash< decltype( ::examples::EquatableStruct::string_field ) >( )( t.string_field ) ) << 1;
+hash_value = ( hash_value ^ ::genium::hash< decltype( ::examples::EquatableStruct::struct_field ) >( )( t.struct_field ) ) << 1;
+    return hash_value;
+}
+std::size_t
+hash< ::examples::NestedEquatableStruct >::operator( )( const ::examples::NestedEquatableStruct& t ) const
+{
+    size_t hash_value = 43;
+    hash_value = ( hash_value ^ ::genium::hash< decltype( ::examples::NestedEquatableStruct::foo_field ) >( )( t.foo_field ) ) << 1;
+    return hash_value;
+}
+}

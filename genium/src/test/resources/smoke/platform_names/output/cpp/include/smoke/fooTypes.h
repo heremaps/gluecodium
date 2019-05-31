@@ -8,6 +8,9 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/Hash.h"
+#include "genium/VectorHash.h"
+#include <cstdint>
 #include <string>
 #include <vector>
 namespace smoke {
@@ -21,5 +24,11 @@ struct _GENIUM_CPP_EXPORT fooStruct {
     fooStruct( );
     fooStruct( const ::std::string& FOO_FIELD );
     static ::smoke::fooStruct FooCreate( const ::std::string& FooParameter );
+};
+}
+namespace genium {
+template<>
+struct hash< ::smoke::fooEnum > {
+    std::size_t operator( )( const ::smoke::fooEnum& t ) const;
 };
 }

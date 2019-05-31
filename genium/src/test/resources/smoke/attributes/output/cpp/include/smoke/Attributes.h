@@ -8,6 +8,8 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/Hash.h"
+#include "genium/VectorHash.h"
 #include "smoke/AttributesInterface.h"
 #include <cstdint>
 #include <memory>
@@ -57,5 +59,11 @@ virtual void set_boolean_attribute( const bool value ) = 0;
 static ::std::string get_static_attribute(  );
 static void set_static_attribute( const ::std::string& value );
 static ::smoke::Attributes::ExampleStruct get_static_readonly_attribute(  );
+};
+}
+namespace genium {
+template<>
+struct hash< ::smoke::Attributes::InternalError > {
+    std::size_t operator( )( const ::smoke::Attributes::InternalError& t ) const;
 };
 }

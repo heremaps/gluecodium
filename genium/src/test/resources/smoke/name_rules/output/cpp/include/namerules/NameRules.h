@@ -8,7 +8,9 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "Export.h"
+#include "Hash.h"
 #include "Return.h"
+#include "VectorHash.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -52,5 +54,11 @@ _GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::namerules::NameRules::Ex
 namespace std
 {
 template <>
-struct is_error_code_enum <::namerules::NameRules::ExampleError> : public std::true_type { };
+struct is_error_code_enum< ::namerules::NameRules::ExampleError > : public std::true_type { };
+}
+namespace  {
+template<>
+struct hash< ::namerules::NameRules::ExampleError > {
+    std::size_t operator( )( const ::namerules::NameRules::ExampleError& t ) const;
+};
 }
