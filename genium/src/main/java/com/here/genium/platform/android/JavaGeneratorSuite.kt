@@ -22,6 +22,7 @@ package com.here.genium.platform.android
 import com.here.genium.Genium
 import com.here.genium.generator.androidmanifest.AndroidManifestGenerator
 import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.generator.cpp.CppNameRules
 import com.here.genium.generator.java.JavaNameRules
 import com.here.genium.generator.java.JavaTemplates
@@ -34,6 +35,7 @@ import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.java.JavaTopLevelElement
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.platform.common.GeneratorSuite
+import com.natpryce.konfig.ConfigurationProperties
 
 /**
  * Combines generators [JniGenerator], [JniTemplates] and [JavaTemplates] to generate Java code and
@@ -49,8 +51,6 @@ open class JavaGeneratorSuite protected constructor(
     private val internalNamespace = options.cppInternalNamespace ?: listOf()
     private val rootNamespace = options.cppRootNamespace
     private val commentsProcessor = JavaDocProcessor()
-    private val javaNameRules = JavaNameRules()
-    private val cppNameRules = CppNameRules(rootNamespace)
 
     protected open val generatorName = GENERATOR_NAME
 
@@ -59,6 +59,11 @@ open class JavaGeneratorSuite protected constructor(
     override fun getName() = "com.here.JavaGeneratorSuite"
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
+        val cppNameRuleConfig = ConfigurationProperties.fromResource(javaClass, "/namerules/cpp.properties")
+        val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(cppNameRuleConfig))
+        val javaNameRuleConfig = ConfigurationProperties.fromResource(javaClass, "/namerules/java.properties")
+        val javaNameRules = JavaNameRules(nameRuleSetFromConfig(javaNameRuleConfig))
+
         val javaPackageList =
             if (!rootPackage.isEmpty()) rootPackage else JavaPackage.DEFAULT_PACKAGE_NAMES
         val internalPackageList = javaPackageList + internalPackage

@@ -24,7 +24,7 @@ class NameRuleSet(
     val getParameterName: (name: String) -> String,
     val getConstantName: (name: String) -> String,
     val getEnumeratorName: (name: String) -> String,
-    val getMethodName: (name: String, selector: String) -> String,
+    val getMethodName: (name: String, selector: String?) -> String,
     val getTypeName: (name: String) -> String,
     val getPropertyName: (String, Boolean) -> String = ignore2(::illegal),
     val getSetterName: (name: String) -> String = ::illegal,
@@ -35,6 +35,6 @@ class NameRuleSet(
             throw IllegalArgumentException()
         }
 
-        fun ignore2(fn: (String) -> String) = { name: String, _: Any -> fn(name) }
+        fun ignore2(fn: (String) -> String) = { name: String, _: Any? -> fn(name) }
     }
 }

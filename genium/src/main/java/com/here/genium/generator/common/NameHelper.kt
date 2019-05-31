@@ -40,16 +40,22 @@ object NameHelper {
             else -> input.toUpperCase()
         }
 
+    fun joinToUpperSnakeCase(inputs: List<String?>) =
+        inputs.filterNotNull().joinToString(transform = ::toUpperSnakeCase, separator = UNDERSCORE)
+
     fun toLowerSnakeCase(input: String?): String =
         when {
             input == null -> ""
-                input.contains(UNDERSCORE) ->
-                    CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, input)
-                CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input) &&
-                        CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input) ->
-                    CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, input)
-                else -> input.toLowerCase()
+            input.contains(UNDERSCORE) ->
+                CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, input)
+            CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input) &&
+                    CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input) ->
+                CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, input)
+            else -> input.toLowerCase()
         }
+
+    fun joinToLowerSnakeCase(inputs: List<String?>) =
+        inputs.filterNotNull().joinToString(transform = ::toLowerSnakeCase, separator = UNDERSCORE)
 
     fun toUpperCamelCase(input: String?): String =
         when {
@@ -62,6 +68,9 @@ object NameHelper {
             else -> capitalizeFully(input) // Capitalize the first character and lowercase the rest.
         }
 
+    fun joinToUpperCamelCase(inputs: List<String?>) =
+        inputs.filterNotNull().joinToString(transform = ::toUpperCamelCase, separator = "")
+
     fun toLowerCamelCase(input: String?): String =
         when {
             input == null -> ""
@@ -72,6 +81,11 @@ object NameHelper {
                 CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, input)
             else -> input.toLowerCase()
         }
+
+    fun joinToLowerCamelCase(inputs: List<String?>): String {
+        val filtered = inputs.filterNotNull()
+        return toLowerCamelCase(filtered.firstOrNull()) + joinToUpperCamelCase(filtered.drop(1))
+    }
 
     fun joinNames(firstString: String?, secondString: String?, delimiter: String): String? =
         when {

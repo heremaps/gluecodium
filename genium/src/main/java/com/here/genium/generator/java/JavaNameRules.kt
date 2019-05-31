@@ -36,10 +36,8 @@ class JavaNameRules(nameRuleSet: NameRuleSet = defaultNameRuleSet) : NameRules(n
             getParameterName = NameHelper::toLowerCamelCase,
             getConstantName = NameHelper::toUpperSnakeCase,
             getEnumeratorName = NameHelper::toUpperSnakeCase,
-            getMethodName = { name: String, selector: String ->
-                NameHelper.toLowerCamelCase(name) + NameHelper.toUpperCamelCase(
-                    selector
-                )
+            getMethodName = { name: String, selector: String? ->
+                NameHelper.joinToLowerCamelCase(listOf(name, selector))
             },
             getSetterName = { name: String -> "set" + NameHelper.toUpperCamelCase(name) },
             getGetterName = { name: String, isBoolean: Boolean ->

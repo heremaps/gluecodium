@@ -38,6 +38,7 @@ dependencies {
     compile 'org.jetbrains:annotations:13.0'
     compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'org.trimou:trimou-core:2.2.0.Final'
+    implementation 'com.natpryce:konfig:1.6.10.0'
 
     testCompile files({ project(":lime-runtime").sourceSets.test.output })
     testCompile 'io.mockk:mockk-dsl-jvm:1.8.13'

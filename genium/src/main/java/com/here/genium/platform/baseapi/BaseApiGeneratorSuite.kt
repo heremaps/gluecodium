@@ -22,6 +22,7 @@ package com.here.genium.platform.baseapi
 import com.here.genium.Genium
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
+import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.generator.cpp.CppGenerator
 import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppLibraryIncludes
@@ -41,6 +42,7 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.platform.common.GeneratorSuite
+import com.natpryce.konfig.ConfigurationProperties
 import java.io.File
 import java.nio.file.Paths
 import java.util.stream.Collectors
@@ -63,8 +65,10 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
     override fun getName() = "com.here.BaseApiGenerator"
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
+        val nameRuleConfig = ConfigurationProperties.fromResource(javaClass, "/namerules/cpp.properties")
+        val nameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(nameRuleConfig))
+
         val limeReferenceMap = limeModel.referenceMap
-        val nameRules = CppNameRules(rootNamespace)
         val includeResolver =
             CppIncludeResolver(limeReferenceMap, nameRules)
         val nameResolver = CppNameResolver(rootNamespace, limeReferenceMap, nameRules)

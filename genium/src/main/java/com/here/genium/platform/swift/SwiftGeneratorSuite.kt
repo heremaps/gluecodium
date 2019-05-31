@@ -22,6 +22,7 @@ package com.here.genium.platform.swift
 import com.here.genium.Genium
 import com.here.genium.generator.cbridge.CBridgeGenerator
 import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.generator.common.templates.TemplateEngine
 import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppNameResolver
@@ -34,6 +35,7 @@ import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftModelElement
 import com.here.genium.platform.common.GeneratorSuite
+import com.natpryce.konfig.ConfigurationProperties
 
 /**
  * Combines [SwiftGenerator] and [CBridgeGenerator] to generate Swift bindings on top of
@@ -45,10 +47,14 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
     private val internalNamespace = options.cppInternalNamespace ?: emptyList()
     private val rootNamespace = options.cppRootNamespace
     private val commentsProcessor = SwiftCommentsProcessor()
-    private val swiftNameRules = SwiftNameRules()
-    private val cppNameRules = CppNameRules(rootNamespace)
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
+        val cppNameRuleConfig = ConfigurationProperties.fromResource(javaClass, "/namerules/cpp.properties")
+        val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(cppNameRuleConfig))
+
+        val swiftNameRuleConfig = ConfigurationProperties.fromResource(javaClass, "/namerules/swift.properties")
+        val swiftNameRules = SwiftNameRules(nameRuleSetFromConfig(swiftNameRuleConfig))
+
         val limeReferenceMap = limeModel.referenceMap
         val swiftGenerator = SwiftGenerator(limeReferenceMap, swiftNameRules)
         val cBridgeGenerator = CBridgeGenerator(
