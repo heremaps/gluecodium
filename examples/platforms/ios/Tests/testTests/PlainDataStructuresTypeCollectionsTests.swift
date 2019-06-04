@@ -59,7 +59,7 @@ class PlainDataStructuresFromTypeCollectionTests: XCTestCase {
             doubleField: 9,
             stringField: "You",
             booleanField: true,
-            bytesField: Data(bytes: [1, 2, 3]),
+            bytesField: Data([1, 2, 3]),
             pointField: Point(x: 13, y: 14))
         let result = PlainDataStructuresFromTypeCollection.modifyAllTypesStruct(input: allTypes)
         XCTAssertEqual(result.int8Field, 1)
@@ -74,7 +74,7 @@ class PlainDataStructuresFromTypeCollectionTests: XCTestCase {
         XCTAssertEqual(result.doubleField, 10)
         XCTAssertEqual(result.stringField, "Hello You")
         XCTAssertEqual(result.booleanField, false)
-        XCTAssertEqual(result.bytesField, Data(bytes: [3, 2, 1]))
+        XCTAssertEqual(result.bytesField, Data([3, 2, 1]))
         XCTAssertEqual(result.pointField.x, 14)
         XCTAssertEqual(result.pointField.y, 13)
     }

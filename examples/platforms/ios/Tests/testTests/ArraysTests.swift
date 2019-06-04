@@ -281,7 +281,7 @@ class ArraysTests: XCTestCase {
         let result: [ArrayNameClash.StringArray] = ArrayNameClash.doubleSpeak(cakes: inputArray)
 
         XCTAssertEqual(result.count, inputArray.count)
-        for (index, stringArray) in result.enumerated() {
+        for stringArray in result {
             XCTAssertTrue(stringArray.theCakeIsLie)
         }
     }

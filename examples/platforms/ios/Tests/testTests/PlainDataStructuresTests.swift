@@ -93,7 +93,7 @@ class PlainDataStructuresTests: XCTestCase {
             doubleField: 9,
             stringField: "10",
             booleanField: true,
-            bytesField: Data(bytes: [12]),
+            bytesField: Data([12]),
             pointField: PlainDataStructures.Point(x: 13, y: 14))
         let result = PlainDataStructures.returnAllTypesStruct(input: allTypes)
         XCTAssertEqual(result.int8Field, 0)
@@ -108,7 +108,7 @@ class PlainDataStructuresTests: XCTestCase {
         XCTAssertEqual(result.doubleField, 9)
         XCTAssertEqual(result.stringField, "10")
         XCTAssertEqual(result.booleanField, true)
-        XCTAssertEqual(result.bytesField, Data(bytes: [12]))
+        XCTAssertEqual(result.bytesField, Data([12]))
         XCTAssertEqual(result.pointField.x, 13)
         XCTAssertEqual(result.pointField.y, 14)
     }

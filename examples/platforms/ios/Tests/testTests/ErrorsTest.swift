@@ -50,7 +50,7 @@ class ErrorsTests: XCTestCase {
     }
 
     func testMethodThatExplodesFinishes() {
-      XCTAssertEqual(try Errors.methodThatExplodes(errorFlag: false), Data(bytes: [0x00, 0x01, 0x02]))
+      XCTAssertEqual(try Errors.methodThatExplodes(errorFlag: false), Data([0x00, 0x01, 0x02]))
     }
 
     func testMethodWithGoodAndBadThrows() {
