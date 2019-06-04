@@ -262,6 +262,16 @@ class LimeModelBuilderInterfaceTest {
     }
 
     @Test
+    fun finishBuildingMethodReadsParentVisibility() {
+        every { deploymentModel.isInternal(francaInterface) } returns true
+
+        modelBuilder.finishBuilding(francaMethod)
+
+        val result = modelBuilder.getFinalResult(LimeMethod::class.java)
+        assertEquals(LimeVisibility.INTERNAL, result.visibility)
+    }
+
+    @Test
     fun finishBuildingMethodReadsParameters() {
         contextStack.injectResult(limeParameter)
 

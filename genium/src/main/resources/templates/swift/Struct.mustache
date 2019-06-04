@@ -30,7 +30,7 @@
     {{visibility}} {{#if isImmutable}}let{{/if}}{{#unless isImmutable}}var{{/unless}} {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}
 {{/fields}}{{#unless constructors}}
 
-    public init({{joinPartial fields "initParameter" ", "}}) {
+    {{visibility}} init({{joinPartial fields "initParameter" ", "}}) {
 {{#fields}}
         self.{{name}} = {{name}}
 {{/fields}}

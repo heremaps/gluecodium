@@ -511,11 +511,16 @@ class LimeModelBuilder(
         }
     }
 
-    private fun getLimeVisibility(francaElement: FModelElement) =
-        when {
-            deploymentModel.isInternal(francaElement) -> LimeVisibility.INTERNAL
+    private fun getLimeVisibility(francaElement: FModelElement): LimeVisibility {
+        val isInternal = deploymentModel.isInternal(francaElement)
+        val isParentInternal = (francaElement.eContainer() as? FModelElement)?.let {
+            deploymentModel.isInternal(it)
+        } ?: false
+        return when {
+            isInternal || isParentInternal -> LimeVisibility.INTERNAL
             else -> LimeVisibility.PUBLIC
         }
+    }
 
     private fun addExternalTypeAttributes(
         attributes: LimeAttributes.Builder,

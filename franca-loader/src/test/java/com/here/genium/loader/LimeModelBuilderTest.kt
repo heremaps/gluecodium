@@ -304,6 +304,17 @@ class LimeModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingFieldReadsParentVisibility() {
+        contextStack.injectResult(limeTypeRef)
+        every { deploymentModel.isInternal(francaStruct) } returns true
+
+        modelBuilder.finishBuilding(francaField)
+
+        val result = modelBuilder.getFinalResult(LimeField::class.java)
+        assertEquals(LimeVisibility.INTERNAL, result.visibility)
+    }
+
+    @Test
     fun finishBuildingFieldReadsExternalAttributes() {
         contextStack.injectResult(limeTypeRef)
         every { deploymentModel.getExternalGetter(francaField) } returns "get_foo"

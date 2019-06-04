@@ -23,7 +23,7 @@
 {{joinPartial items "java/EnumItem" ",
 "}}{{#if items}};{{/if}}
 
-    public final int value;
+    {{#if visibility.toString}}{{visibility}} {{/if}}final int value;
 
     {{name}}(final int value) {
         this.value = value;

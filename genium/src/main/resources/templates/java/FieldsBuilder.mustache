@@ -19,22 +19,22 @@
   !
   !}}
 
-public static class Builder {
+{{#if visibility.toString}}{{visibility}} {{/if}}static class Builder {
 {{#fields}}
     private {{type.name}} {{name}}{{#if initial}} = {{>java/FieldInitializer}}{{/if}};
 {{/fields}}
 
-    public Builder() {
+    {{#if visibility.toString}}{{visibility}} {{/if}}Builder() {
     }
 
-    {{#fields}}
-    public Builder set{{capitalize name}}({{type}} {{name}}) {
+    {{#set classVisibility=visibility}}{{#fields}}
+    {{#if classVisibility.toString}}{{visibility}} {{/if}}Builder set{{capitalize name}}({{type}} {{name}}) {
         this.{{name}} = {{name}};
         return this;
     }
-    {{/fields}}
+    {{/fields}}{{/set}}
 
-    public {{name}} build() {
+    {{#if visibility.toString}}{{visibility}} {{/if}}{{name}} build() {
         return new {{name}}({{#fields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
     }
 }
