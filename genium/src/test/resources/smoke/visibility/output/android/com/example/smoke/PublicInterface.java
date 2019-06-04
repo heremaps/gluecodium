@@ -5,8 +5,8 @@
 package com.example.smoke;
 public interface PublicInterface {
     static class InternalStruct {
-        public String stringField;
-        public InternalStruct(String stringField) {
+        String stringField;
+        InternalStruct(String stringField) {
             this.stringField = stringField;
         }
     }

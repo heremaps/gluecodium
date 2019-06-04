@@ -79,8 +79,8 @@ internal func moveToCType(_ swiftClass: PublicInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 internal struct InternalStruct {
-    public var stringField: String
-    public init(stringField: String) {
+    internal var stringField: String
+    internal init(stringField: String) {
         self.stringField = stringField
     }
     internal init(cHandle: _baseRef) {

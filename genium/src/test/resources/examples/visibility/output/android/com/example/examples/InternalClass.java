@@ -7,8 +7,8 @@ import android.support.annotation.NonNull;
 import com.example.NativeBase;
 class InternalClass extends NativeBase {
     static class InternalStruct {
-        public String stringField;
-        public InternalStruct(String stringField) {
+        String stringField;
+        InternalStruct(String stringField) {
             this.stringField = stringField;
         }
     }

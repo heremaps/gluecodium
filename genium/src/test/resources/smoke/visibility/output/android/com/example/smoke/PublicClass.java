@@ -9,14 +9,14 @@ public class PublicClass extends NativeBase {
     enum InternalEnum {
         FOO(0),
         BAR(1);
-        public final int value;
+        final int value;
         InternalEnum(final int value) {
             this.value = value;
         }
     }
     static class InternalStruct {
-        public String stringField;
-        public InternalStruct(String stringField) {
+        String stringField;
+        InternalStruct(String stringField) {
             this.stringField = stringField;
         }
     }

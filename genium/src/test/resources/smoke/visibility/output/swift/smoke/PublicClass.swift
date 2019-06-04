@@ -48,8 +48,8 @@ public class PublicClass {
         case bar
     }
     internal struct InternalStruct {
-        public var stringField: String
-        public init(stringField: String) {
+        internal var stringField: String
+        internal init(stringField: String) {
             self.stringField = stringField
         }
         internal init(cHandle: _baseRef) {
