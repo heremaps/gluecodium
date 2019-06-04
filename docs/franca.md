@@ -267,10 +267,11 @@ This FDEPL property controls whether a Franca struct or Franca interface are equ
 For structs the comparison function implementation is generated, for instances only the declaration.
 Default value is `false`, i.e. no equality helpers are generated. This affects C++,
 Java and Swift generated code.
-Types marked as `Equatable` also support hashing.
+Types marked as `Equatable` also support hashing on Java and Swift side.
 
 **Note:** All fields in structs marked as `Equatable` need to be of simple type or be marked as
 `Equatable` or `PointerEquatable` themselves.
+
 **Note:** Only interfaces with `IsInterface=false` are supported.
 
 FIDL:

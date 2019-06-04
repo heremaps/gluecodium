@@ -3,7 +3,7 @@
 ## Unreleased
 - Features
   + Added support for equality and pointer equality comparisons for classes
-  + Added hash support for all equatable types on all platforms
+  + Added hash support for all equatable types for Swift and Java
   + Added Set type support.
 
 ## 4.3.1
