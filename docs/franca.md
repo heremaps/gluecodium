@@ -742,7 +742,7 @@ This FDEPL property controls whether the given Franca array type is treated as a
 generated code. Default value is `false`, i.e. by default arrays are treated normally.
 
 **Note:** Only primitive types (i.e. Boolean, String, and numeric types) and enums are supported as
-set elements currently. Structs and instances are not supported.
+set elements currently. Structs, instances, arrays, and maps are not supported.
 
 FIDL:
 

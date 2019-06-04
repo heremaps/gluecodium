@@ -4,6 +4,7 @@
 - Features
   + Added support for equality and pointer equality comparisons for classes
   + Added hash support for all equatable types on all platforms
+  + Added Set type support.
 
 ## 4.3.1
 - Release date: 2019-05-23
