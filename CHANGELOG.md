@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 4.4.0
+- Release date: 2019-06-04
 - Features
   + Added support for equality and pointer equality comparisons for classes
   + Added hash support for all equatable types for Swift and Java
