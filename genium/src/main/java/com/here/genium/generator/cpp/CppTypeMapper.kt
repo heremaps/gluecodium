@@ -52,11 +52,11 @@ class CppTypeMapper(
     val optionalTypeName = internalNamespace.joinToString("::") + "::optional"
 
     fun getReturnWrapperType(outArgType: CppTypeRef, errorType: CppTypeRef): CppTypeRef =
-        CppTemplateTypeRef.create(
-            CppNameRules.joinFullyQualifiedName(internalNamespace),
+        CppTemplateTypeRef(
             TemplateClass.RETURN,
             outArgType,
-            errorType
+            errorType,
+            namespace = CppNameRules.joinFullyQualifiedName(internalNamespace)
         )
 
     fun mapType(limeTypeRef: LimeTypeRef): CppTypeRef = mapType(limeTypeRef.type)
@@ -70,12 +70,12 @@ class CppTypeMapper(
         needsForwardDeclaration = needsForwardDeclaration
     )
 
-    fun createOptionalType(cppTypeRef: CppTypeRef): CppTemplateTypeRef {
-        return CppTemplateTypeRef.create(
-            CppNameRules.joinFullyQualifiedName(internalNamespace),
-            TemplateClass.OPTIONAL, cppTypeRef
+    fun createOptionalType(cppTypeRef: CppTypeRef) =
+        CppTemplateTypeRef(
+            TemplateClass.OPTIONAL,
+            cppTypeRef,
+            namespace = CppNameRules.joinFullyQualifiedName(internalNamespace)
         )
-    }
 
     private fun mapType(limeType: LimeType): CppTypeRef =
         when (limeType) {
@@ -96,14 +96,14 @@ class CppTypeMapper(
                 refersToValueType = true
             )
             is LimeArray ->
-                CppTemplateTypeRef.create(TemplateClass.VECTOR, mapType(limeType.elementType))
+                CppTemplateTypeRef(TemplateClass.VECTOR, mapType(limeType.elementType))
             is LimeMap -> wrapMap(mapType(limeType.keyType), mapType(limeType.valueType))
             is LimeContainer -> {
                 val instanceType = mapInstanceType(
                     limeType,
                     !limeType.attributes.have(LimeAttributeType.EXTERNAL_TYPE)
                 )
-                CppTemplateTypeRef.create(TemplateClass.SHARED_POINTER, instanceType)
+                CppTemplateTypeRef(TemplateClass.SHARED_POINTER, instanceType)
             }
             is LimeSet -> wrapSet(mapType(limeType.elementType))
             else -> throw GeniumExecutionException("Unmapped type: " + limeType.name)
@@ -111,14 +111,14 @@ class CppTypeMapper(
 
     private fun wrapMap(key: CppTypeRef, value: CppTypeRef) =
         when (val hashType = key.hashType) {
-            null -> CppTemplateTypeRef.create(TemplateClass.MAP, key, value)
-            else -> CppTemplateTypeRef.create(TemplateClass.MAP, key, value, hashType)
+            null -> CppTemplateTypeRef(TemplateClass.MAP, key, value)
+            else -> CppTemplateTypeRef(TemplateClass.MAP, key, value, hashType)
         }
 
     private fun wrapSet(elementType: CppTypeRef) =
         when (val hashType = elementType.hashType) {
-            null -> CppTemplateTypeRef.create(TemplateClass.SET, elementType)
-            else -> CppTemplateTypeRef.create(TemplateClass.SET, elementType, hashType)
+            null -> CppTemplateTypeRef(TemplateClass.SET, elementType)
+            else -> CppTemplateTypeRef(TemplateClass.SET, elementType, hashType)
         }
 
     private fun mapPredefined(limeBasicType: LimeBasicType) =
@@ -144,13 +144,13 @@ class CppTypeMapper(
         val STD_ERROR_CODE_TYPE: CppTypeRef =
             CppComplexTypeRef("::std::error_code", listOf(CppLibraryIncludes.SYSTEM_ERROR))
         private val BASIC_STRING_CHAR_TYPE =
-            CppTemplateTypeRef.create(TemplateClass.BASIC_STRING, CppPrimitiveTypeRef.CHAR)
+            CppTemplateTypeRef(TemplateClass.BASIC_STRING, CppPrimitiveTypeRef.CHAR)
         internal val STRING_TYPE =
             CppTypeDefRef("::std::string", BASIC_STRING_CHAR_TYPE.includes, BASIC_STRING_CHAR_TYPE)
         private val BYTE_BUFFER_ARRAY_TYPE =
-            CppTemplateTypeRef.create(TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8)
+            CppTemplateTypeRef(TemplateClass.VECTOR, CppPrimitiveTypeRef.UINT8)
         val BYTE_BUFFER_POINTER_TYPE =
-            CppTemplateTypeRef.create(TemplateClass.SHARED_POINTER, BYTE_BUFFER_ARRAY_TYPE)
+            CppTemplateTypeRef(TemplateClass.SHARED_POINTER, BYTE_BUFFER_ARRAY_TYPE)
         private val DATE_TYPE =
             CppComplexTypeRef(
                 "::std::chrono::system_clock::time_point",

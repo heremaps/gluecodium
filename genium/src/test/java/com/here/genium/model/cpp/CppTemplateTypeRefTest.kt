@@ -31,9 +31,10 @@ import org.junit.runners.JUnit4
 class CppTemplateTypeRefTest {
     @Test
     fun sharedPointerOfPrimitiveType() {
-        val templateTypeRef = CppTemplateTypeRef.create(
-            CppTemplateTypeRef.TemplateClass.SHARED_POINTER, INT_TYPE_REF
-        )
+        val templateTypeRef =
+            CppTemplateTypeRef(
+                CppTemplateTypeRef.TemplateClass.SHARED_POINTER, INT_TYPE_REF
+            )
 
         assertEquals(
             CppTemplateTypeRef.TemplateClass.SHARED_POINTER, templateTypeRef.templateClass
@@ -47,9 +48,10 @@ class CppTemplateTypeRefTest {
 
     @Test
     fun sharedPointerOfComplexType() {
-        val templateTypeRef = CppTemplateTypeRef.create(
-            CppTemplateTypeRef.TemplateClass.SHARED_POINTER, COMPLEX_TYPE_REF
-        )
+        val templateTypeRef =
+            CppTemplateTypeRef(
+                CppTemplateTypeRef.TemplateClass.SHARED_POINTER, COMPLEX_TYPE_REF
+            )
 
         assertEquals(
             CppTemplateTypeRef.TemplateClass.SHARED_POINTER, templateTypeRef.templateClass
@@ -63,9 +65,10 @@ class CppTemplateTypeRefTest {
 
     @Test
     fun map() {
-        val templateTypeRef = CppTemplateTypeRef.create(
-            CppTemplateTypeRef.TemplateClass.MAP, INT_TYPE_REF, COMPLEX_TYPE_REF
-        )
+        val templateTypeRef =
+            CppTemplateTypeRef(
+                CppTemplateTypeRef.TemplateClass.MAP, INT_TYPE_REF, COMPLEX_TYPE_REF
+            )
 
         assertEquals(CppTemplateTypeRef.TemplateClass.MAP, templateTypeRef.templateClass)
         assertEquals(2, templateTypeRef.templateParameters.size)
@@ -80,7 +83,7 @@ class CppTemplateTypeRefTest {
     @Test
     fun vectorOfPrimitiveType() {
         val templateTypeRef =
-            CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, INT_TYPE_REF)
+            CppTemplateTypeRef(CppTemplateTypeRef.TemplateClass.VECTOR, INT_TYPE_REF)
 
         assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, templateTypeRef.templateClass)
         assertEquals(1, templateTypeRef.templateParameters.size)
@@ -94,7 +97,7 @@ class CppTemplateTypeRefTest {
     @Test
     fun vectorOfComplexType() {
         val templateTypeRef =
-            CppTemplateTypeRef.create(CppTemplateTypeRef.TemplateClass.VECTOR, COMPLEX_TYPE_REF)
+            CppTemplateTypeRef(CppTemplateTypeRef.TemplateClass.VECTOR, COMPLEX_TYPE_REF)
 
         assertEquals(CppTemplateTypeRef.TemplateClass.VECTOR, templateTypeRef.templateClass)
         assertEquals(1, templateTypeRef.templateParameters.size)
@@ -107,8 +110,11 @@ class CppTemplateTypeRefTest {
 
     @Test
     fun expected() {
-        val templateTypeRef = CppTemplateTypeRef.create(
-            "", CppTemplateTypeRef.TemplateClass.RETURN, COMPLEX_TYPE_REF, ERROR_TYPE_REF
+        val templateTypeRef = CppTemplateTypeRef(
+            CppTemplateTypeRef.TemplateClass.RETURN,
+            COMPLEX_TYPE_REF,
+            ERROR_TYPE_REF,
+            namespace = ""
         )
 
         assertEquals(CppTemplateTypeRef.TemplateClass.RETURN, templateTypeRef.templateClass)

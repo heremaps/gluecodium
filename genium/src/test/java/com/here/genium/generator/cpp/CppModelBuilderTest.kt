@@ -89,7 +89,7 @@ class CppModelBuilderTest {
     private val cppConstant = CppConstant("", "", CppPrimitiveTypeRef.BOOL, CppValue(""))
     private val cppTypeRef = CppComplexTypeRef("foobarbaz")
     private val cppTemplateTypeRef =
-        CppTemplateTypeRef.create("foo", CppTemplateTypeRef.TemplateClass.OPTIONAL, cppTypeRef)
+        CppTemplateTypeRef(CppTemplateTypeRef.TemplateClass.OPTIONAL, cppTypeRef, namespace = "foo")
 
     private val contextStack = MockContextStack<CppElement>()
 

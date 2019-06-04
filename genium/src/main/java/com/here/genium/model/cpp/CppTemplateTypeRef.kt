@@ -23,11 +23,17 @@ import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppNameRules
 import com.here.genium.model.common.Include
 
-class CppTemplateTypeRef private constructor(
-    fullyQualifiedName: String,
+class CppTemplateTypeRef(
     val templateClass: TemplateClass,
-    val templateParameters: List<CppTypeRef>
-) : CppComplexTypeRef(fullyQualifiedName) {
+    vararg parameters: CppTypeRef,
+    namespace: String? = templateClass.namespace,
+    hashType: CppTypeRef? = null
+) : CppComplexTypeRef(
+    composeTemplateName(namespace, templateClass, parameters),
+    parameters.flatMap { it.includes } + templateClass.include,
+    hashType
+) {
+    val templateParameters: List<CppTypeRef> = parameters.toList()
 
     enum class TemplateClass(
         val namespace: String?,
@@ -46,31 +52,15 @@ class CppTemplateTypeRef private constructor(
     override fun stream() = templateParameters.stream()
 
     companion object {
-        fun create(templateClass: TemplateClass, vararg parameters: CppTypeRef) =
-                create(templateClass.namespace, templateClass, *parameters)
-
-        fun create(
-            namespace: List<String>,
-            templateClass: TemplateClass,
-            vararg parameters: CppTypeRef
-        ) = create(CppNameRules.joinFullyQualifiedName(namespace), templateClass, *parameters)
-
-        fun create(
+        private fun composeTemplateName(
             namespace: String?,
             templateClass: TemplateClass,
-            vararg parameters: CppTypeRef
-        ): CppTemplateTypeRef {
-            val parametersString = parameters.joinToString(", ") { it.name }
+            parameters: Array<out CppTypeRef>
+        ): String {
             val fullyQualifiedName =
                 CppNameRules.joinFullyQualifiedName(namespace, templateClass.templateName)
-
-            val templateTypeRef = CppTemplateTypeRef(
-                "$fullyQualifiedName< $parametersString >", templateClass, parameters.toList()
-            )
-            templateTypeRef.includes.addAll(parameters.flatMap { it.includes })
-            templateTypeRef.includes.add(templateClass.include)
-
-            return templateTypeRef
+            val parametersString = parameters.joinToString(", ") { it.name }
+            return "$fullyQualifiedName< $parametersString >"
         }
     }
 }
