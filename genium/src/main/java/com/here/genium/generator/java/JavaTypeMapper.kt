@@ -32,8 +32,6 @@ import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaTemplateType.TemplateClass
 import com.here.genium.model.java.JavaType
 import com.here.genium.model.lime.LimeArray
-import com.here.genium.model.lime.LimeAttributeType
-import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainer
@@ -59,9 +57,8 @@ class JavaTypeMapper(
 ) {
     val nativeBase: JavaType = JavaCustomType(NATIVE_BASE_NAME, internalPackage)
 
-    fun applyNullability(javaType: JavaType, limeAttributes: LimeAttributes): JavaType {
+    fun applyNullability(javaType: JavaType, isNullable: Boolean): JavaType {
         var resultType = javaType
-        val isNullable = limeAttributes.have(LimeAttributeType.NULLABLE)
         if (nullableAnnotation != null && isNullable) {
             if (javaType is JavaPrimitiveType) {
                 resultType = JavaReferenceType.boxPrimitiveType(javaType)

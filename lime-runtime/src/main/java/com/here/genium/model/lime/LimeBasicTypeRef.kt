@@ -19,9 +19,14 @@
 
 package com.here.genium.model.lime
 
-class LimeBasicTypeRef(typeId: LimeBasicType.TypeId) : LimeTypeRef {
+class LimeBasicTypeRef(
+    typeId: LimeBasicType.TypeId,
+    override val isNullable: Boolean = false
+) : LimeTypeRef {
     override val elementFullName = typeId.name
     override val type = LimeBasicType(typeId)
+
+    override fun asNullable() = if (isNullable) this else LimeBasicTypeRef(type.typeId, true)
 
     companion object {
         val FLOAT = LimeBasicTypeRef(LimeBasicType.TypeId.FLOAT)

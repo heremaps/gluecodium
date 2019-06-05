@@ -342,7 +342,7 @@ class LimeModelBuilderTest {
         modelBuilder.finishBuilding(francaField)
 
         val result = modelBuilder.getFinalResult(LimeField::class.java)
-        assertHasAttribute(LimeAttributeType.NULLABLE, result)
+        assertTrue(result.typeRef.isNullable)
     }
 
     @Test

@@ -29,20 +29,18 @@ import com.here.genium.model.java.JavaReferenceType
 import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaType
 import com.here.genium.model.lime.LimeArray
-import com.here.genium.model.lime.LimeAttributeType
-import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimePath
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
-import com.here.genium.model.lime.LimeLazyTypeRef
-import com.here.genium.model.lime.LimeSet
 import com.here.genium.test.AssertHelpers.assertContains
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -74,8 +72,7 @@ class JavaTypeMapperTest {
     fun mapNullabilityAnnotationsNone() {
         val javaType = object : JavaType("") {}
 
-        val result =
-            typeMapper.applyNullability(javaType, LimeAttributes.Builder().build())
+        val result = typeMapper.applyNullability(javaType, false)
 
         assertEquals(javaType, result)
     }
@@ -84,12 +81,7 @@ class JavaTypeMapperTest {
     fun mapNullabilityAnnotationsNullable() {
         val javaType = object : JavaType("") {}
 
-        val result = typeMapper.applyNullability(
-            javaType,
-            LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.NULLABLE)
-                .build()
-        )
+        val result = typeMapper.applyNullability(javaType, true)
 
         assertEquals(javaType, result)
         assertContains(nullableAnnotation, result.annotations)
@@ -99,12 +91,7 @@ class JavaTypeMapperTest {
     fun mapNullabilityAnnotationsPrimitiveNullable() {
         val javaType = JavaPrimitiveType.BOOL
 
-        val result = typeMapper.applyNullability(
-            javaType,
-            LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.NULLABLE)
-                .build()
-        )
+        val result = typeMapper.applyNullability(javaType, true)
 
         assertTrue(result is JavaReferenceType)
         assertEquals(JavaReferenceType.Type.BOOL, (result as JavaReferenceType).type)
@@ -115,8 +102,7 @@ class JavaTypeMapperTest {
     fun mapNullabilityAnnotationsNotNull() {
         val javaType = JavaCustomType("", JavaPackage.DEFAULT)
 
-        val result =
-            typeMapper.applyNullability(javaType, LimeAttributes.Builder().build())
+        val result = typeMapper.applyNullability(javaType, false)
 
         assertEquals(javaType, result)
         assertContains(notNullAnnotation, result.annotations)

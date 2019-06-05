@@ -221,4 +221,16 @@ class CppTypeMapperTest {
             (result as CppTemplateTypeRef).templateParameters.last()
         )
     }
+
+    @Test
+    fun mapOptionalType() {
+        val limeTypeRef = LimeBasicTypeRef.DOUBLE.asNullable()
+
+        val result = typeMapper.mapType(limeTypeRef)
+
+        assertEquals(
+            CppTemplateTypeRef.TemplateClass.OPTIONAL,
+            (result as CppTemplateTypeRef).templateClass
+        )
+    }
 }

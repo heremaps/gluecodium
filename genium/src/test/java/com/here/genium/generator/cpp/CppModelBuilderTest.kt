@@ -31,7 +31,6 @@ import com.here.genium.model.cpp.CppMethod
 import com.here.genium.model.cpp.CppParameter
 import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppStruct
-import com.here.genium.model.cpp.CppTemplateTypeRef
 import com.here.genium.model.cpp.CppUsing
 import com.here.genium.model.cpp.CppValue
 import com.here.genium.model.lime.LimeArray
@@ -44,6 +43,7 @@ import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
@@ -51,7 +51,6 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
-import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.MockContextStack
@@ -88,8 +87,6 @@ class CppModelBuilderTest {
     private val cppStruct = CppStruct("")
     private val cppConstant = CppConstant("", "", CppPrimitiveTypeRef.BOOL, CppValue(""))
     private val cppTypeRef = CppComplexTypeRef("foobarbaz")
-    private val cppTemplateTypeRef =
-        CppTemplateTypeRef(CppTemplateTypeRef.TemplateClass.OPTIONAL, cppTypeRef, namespace = "foo")
 
     private val contextStack = MockContextStack<CppElement>()
 
@@ -244,22 +241,6 @@ class CppModelBuilderTest {
     }
 
     @Test
-    fun finishBuildingMethodReadsReturnTypeNullable() {
-        val limeReturnType = LimeReturnType(
-            LimeBasicTypeRef.DOUBLE,
-            attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.NULLABLE).build()
-        )
-        val limeElement = LimeMethod(EMPTY_PATH, returnType = limeReturnType)
-        every { typeMapper.mapType(any()) } returns cppTypeRef
-        every { typeMapper.createOptionalType(cppTypeRef) } returns cppTemplateTypeRef
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val result = modelBuilder.getFinalResult(CppMethod::class.java)
-        assertEquals(cppTemplateTypeRef, result.returnType)
-    }
-
-    @Test
     fun finishBuildingMethodReadsErrorType() {
         contextStack.injectResult(cppTypeRef)
         every { typeMapper.mapType(any()) } returns CppPrimitiveTypeRef.VOID
@@ -317,22 +298,6 @@ class CppModelBuilderTest {
         val result = modelBuilder.getFinalResult(CppParameter::class.java)
         assertEquals("Foo", result.name)
         assertEquals(cppTypeRef, result.type)
-    }
-
-    @Test
-    fun finishBuildingParameterReadsNullable() {
-        contextStack.injectResult(cppTypeRef)
-        val limeParameter = LimeParameter(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.DOUBLE,
-            attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.NULLABLE).build()
-        )
-        every { typeMapper.createOptionalType(cppTypeRef) } returns cppTemplateTypeRef
-
-        modelBuilder.finishBuilding(limeParameter)
-
-        val result = modelBuilder.getFinalResult(CppParameter::class.java)
-        assertEquals(cppTemplateTypeRef, result.type)
     }
 
     @Test
@@ -455,18 +420,12 @@ class CppModelBuilderTest {
     @Test
     fun finishBuildingFieldReadsNullable() {
         contextStack.injectResult(cppTypeRef)
-        val limeElement = LimeField(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.DOUBLE,
-            attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.NULLABLE).build()
-        )
-        every { typeMapper.createOptionalType(cppTypeRef) } returns cppTemplateTypeRef
+        val limeElement = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE.asNullable())
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(CppField::class.java)
         assertTrue(result.isNullable)
-        assertEquals(cppTemplateTypeRef, result.type)
     }
 
     @Test
@@ -631,40 +590,6 @@ class CppModelBuilderTest {
         assertEquals(2, results.size)
         assertContains(CppMethod.Specifier.STATIC, (results.first() as CppMethod).specifiers)
         assertContains(CppMethod.Specifier.STATIC, (results.last() as CppMethod).specifiers)
-    }
-
-    @Test
-    fun finishBuildingPropertyCreatesNullableGetter() {
-        contextStack.injectResult(cppTypeRef)
-        val limeElement = LimeProperty(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.DOUBLE,
-            attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.NULLABLE).build()
-        )
-        every { typeMapper.createOptionalType(cppTypeRef) } returns cppTemplateTypeRef
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val result = modelBuilder.getFinalResult(CppMethod::class.java)
-        assertEquals(cppTemplateTypeRef, result.returnType)
-    }
-
-    @Test
-    fun finishBuildingPropertyCreatesNullableSetter() {
-        contextStack.injectResult(cppTypeRef)
-        val limeElement = LimeProperty(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.DOUBLE,
-            attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.NULLABLE).build()
-        )
-        every { typeMapper.createOptionalType(cppTypeRef) } returns cppTemplateTypeRef
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val result = modelBuilder.finalResults.last()
-        val setterParameterType = (result as CppMethod).parameters.first().type
-
-        assertEquals(cppTemplateTypeRef, setterParameterType)
     }
 
     @Test

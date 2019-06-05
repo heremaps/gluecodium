@@ -167,12 +167,7 @@ class SwiftModelBuilderTest {
     @Test
     fun finishBuildingMethodReadsNullableReturnType() {
         val limeType = object : LimeType(EMPTY_PATH) {}
-        val limeReturnType = LimeReturnType(
-            LimeDirectTypeRef(limeType),
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.NULLABLE)
-                .build()
-        )
+        val limeReturnType = LimeReturnType(LimeDirectTypeRef(limeType, isNullable = true))
         val limeElement = LimeMethod(fooPath, returnType = limeReturnType)
         every { typeMapper.mapType(limeType) } returns swiftType
 
@@ -253,14 +248,7 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingParameterReadsNullable() {
-        val limeElement =
-            LimeParameter(
-                fooPath,
-                typeRef = LimeBasicTypeRef.FLOAT,
-                attributes = LimeAttributes.Builder()
-                    .addAttribute(LimeAttributeType.NULLABLE)
-                    .build()
-            )
+        val limeElement = LimeParameter(fooPath, typeRef = LimeBasicTypeRef.FLOAT.asNullable())
         contextStack.injectResult(swiftType)
 
         modelBuilder.finishBuilding(limeElement)
@@ -369,13 +357,7 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingFieldReadsNullable() {
-        val limeElement = LimeField(
-            fooPath,
-            typeRef = LimeBasicTypeRef.FLOAT,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.NULLABLE)
-                .build()
-        )
+        val limeElement = LimeField(fooPath, typeRef = LimeBasicTypeRef.FLOAT.asNullable())
         contextStack.injectResult(swiftType)
 
         modelBuilder.finishBuilding(limeElement)
@@ -704,13 +686,7 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingPropertyReadsNullable() {
-        val limeElement = LimeProperty(
-            fooPath,
-            typeRef = LimeBasicTypeRef.FLOAT,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.NULLABLE)
-                .build()
-        )
+        val limeElement = LimeProperty(fooPath, typeRef = LimeBasicTypeRef.FLOAT.asNullable())
         contextStack.injectResult(swiftType)
 
         modelBuilder.finishBuilding(limeElement)

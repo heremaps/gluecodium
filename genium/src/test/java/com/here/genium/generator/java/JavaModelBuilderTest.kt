@@ -483,11 +483,8 @@ class JavaModelBuilderTest {
     @Test
     fun finishBuildingFieldCreatesNullableValue() {
         contextStack.injectResult(javaType)
-        val limeElement = LimeField(
-            LimePath(emptyList(), listOf("Foo")),
-            typeRef = limeTypeRef,
-            attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.NULLABLE).build()
-        )
+        val limeElement =
+            LimeField(LimePath(emptyList(), listOf("Foo")), typeRef = limeTypeRef.asNullable())
         every { JavaValueMapper.mapNullValue(any()) } returns javaValue
 
         modelBuilder.finishBuilding(limeElement)

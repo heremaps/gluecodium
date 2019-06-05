@@ -353,7 +353,7 @@ class LimeModelBuilderInterfaceTest {
         modelBuilder.finishBuildingInputArgument(francaArgument)
 
         val result = modelBuilder.getFinalResult(LimeParameter::class.java)
-        assertHasAttribute(LimeAttributeType.NULLABLE, result)
+        assertTrue(result.typeRef.isNullable)
     }
 
     @Test
@@ -386,7 +386,7 @@ class LimeModelBuilderInterfaceTest {
         modelBuilder.finishBuildingOutputArgument(francaArgument)
 
         val result = modelBuilder.getFinalResult(LimeReturnType::class.java)
-        assertTrue(result.attributes.have(LimeAttributeType.NULLABLE))
+        assertTrue(result.typeRef.isNullable)
     }
 
     @Test
@@ -432,7 +432,7 @@ class LimeModelBuilderInterfaceTest {
         modelBuilder.finishBuilding(francaAttribute)
 
         val result = modelBuilder.getFinalResult(LimeProperty::class.java)
-        assertTrue(result.attributes.have(LimeAttributeType.NULLABLE))
+        assertTrue(result.typeRef.isNullable)
     }
 
     @Test

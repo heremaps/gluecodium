@@ -152,7 +152,7 @@ class CBridgeModelBuilder(
                 typeMapper.createCustomTypeInfo(limeParent, CppTypeInfo.TypeCategory.CLASS)
             else -> {
                 val cppTypeInfo = mapType(limeMethod.returnType.typeRef.type)
-                if (limeMethod.returnType.attributes.have(LimeAttributeType.NULLABLE)) {
+                if (limeMethod.returnType.typeRef.isNullable) {
                     CBridgeTypeMapper.createNullableTypeInfo(cppTypeInfo, cppMethod.returnType)
                 } else {
                     cppTypeInfo
@@ -187,7 +187,7 @@ class CBridgeModelBuilder(
 
     override fun finishBuilding(limeParameter: LimeParameter) {
         var cppTypeInfo = getPreviousResult(CppTypeInfo::class.java)
-        if (limeParameter.attributes.have(LimeAttributeType.NULLABLE)) {
+        if (limeParameter.typeRef.isNullable) {
             val cppParameter = cppBuilder.getFinalResult(CppParameter::class.java)
             cppTypeInfo = CBridgeTypeMapper.createNullableTypeInfo(cppTypeInfo, cppParameter.type)
         }
@@ -217,7 +217,7 @@ class CBridgeModelBuilder(
         val swiftField = swiftBuilder.getFinalResult(SwiftField::class.java)
 
         var cppTypeInfo = getPreviousResult(CppTypeInfo::class.java)
-        if (limeField.attributes.have(LimeAttributeType.NULLABLE)) {
+        if (limeField.typeRef.isNullable) {
             cppTypeInfo = CBridgeTypeMapper.createNullableTypeInfo(cppTypeInfo, cppField.type)
         }
 
@@ -255,7 +255,7 @@ class CBridgeModelBuilder(
 
         val cppGetterMethod = cppMethods.first()
         var attributeTypeInfo = getPreviousResult(CppTypeInfo::class.java)
-        if (limeProperty.attributes.have(LimeAttributeType.NULLABLE)) {
+        if (limeProperty.typeRef.isNullable) {
             attributeTypeInfo = CBridgeTypeMapper.createNullableTypeInfo(
                 attributeTypeInfo,
                 cppGetterMethod.returnType

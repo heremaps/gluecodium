@@ -39,12 +39,12 @@ struct _GENIUM_CPP_EXPORT StructWithDefaults {
     StructWithDefaults( const int32_t int_field, const uint32_t uint_field, const float float_field, const double double_field, const bool bool_field, const ::std::string& string_field, const ::smoke::DefaultValues::SomeEnum enum_field, const ::fire::SomeVeryExternalEnum external_enum_field );
 };
 struct _GENIUM_CPP_EXPORT NullableStructWithDefaults {
-    ::genium::optional< int32_t > int_field = genium::optional<int32_t>();
-    ::genium::optional< uint32_t > uint_field = genium::optional<uint32_t>();
-    ::genium::optional< float > float_field = genium::optional<float>();
-    ::genium::optional< bool > bool_field = genium::optional<bool>();
-    ::genium::optional< ::std::string > string_field = genium::optional<::std::string>();
-    ::genium::optional< ::smoke::DefaultValues::SomeEnum > enum_field = genium::optional<::smoke::DefaultValues::SomeEnum>();
+    ::genium::optional< int32_t > int_field = ::genium::optional< int32_t >();
+    ::genium::optional< uint32_t > uint_field = ::genium::optional< uint32_t >();
+    ::genium::optional< float > float_field = ::genium::optional< float >();
+    ::genium::optional< bool > bool_field = ::genium::optional< bool >();
+    ::genium::optional< ::std::string > string_field = ::genium::optional< ::std::string >();
+    ::genium::optional< ::smoke::DefaultValues::SomeEnum > enum_field = ::genium::optional< ::smoke::DefaultValues::SomeEnum >();
     NullableStructWithDefaults( );
     NullableStructWithDefaults( const ::genium::optional< int32_t >& int_field, const ::genium::optional< uint32_t >& uint_field, const ::genium::optional< float >& float_field, const ::genium::optional< bool >& bool_field, const ::genium::optional< ::std::string >& string_field, const ::genium::optional< ::smoke::DefaultValues::SomeEnum >& enum_field );
 };

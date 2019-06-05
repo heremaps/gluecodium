@@ -110,12 +110,9 @@ class CppModelBuilder(
             qualifiers.add(CppMethod.Qualifier.PURE_VIRTUAL)
         }
 
-        val isNullable = limeMethod.returnType.attributes.have(LimeAttributeType.NULLABLE)
+        val isNullable = limeMethod.returnType.typeRef.isNullable
         val isInstance = limeMethod.returnType.typeRef.type is LimeContainer
-        var cppReturnType = typeMapper.mapType(limeMethod.returnType.typeRef)
-        if (isNullable && !isInstance) {
-            cppReturnType = typeMapper.createOptionalType(cppReturnType)
-        }
+        val cppReturnType = typeMapper.mapType(limeMethod.returnType.typeRef)
         val errorEnum = getPreviousResultOrNull(CppTypeRef::class.java)
         val returnType = when {
             errorEnum != null && cppReturnType != CppPrimitiveTypeRef.VOID ->
@@ -145,16 +142,12 @@ class CppModelBuilder(
     }
 
     override fun finishBuilding(limeParameter: LimeParameter) {
-        val isNullable = limeParameter.attributes.have(LimeAttributeType.NULLABLE)
+        val isNullable = limeParameter.typeRef.isNullable
         val isInstance = limeParameter.typeRef.type is LimeContainer
-        var cppTypeRef = getPreviousResult(CppTypeRef::class.java)
-        if (isNullable && !isInstance) {
-            cppTypeRef = typeMapper.createOptionalType(cppTypeRef)
-        }
 
         val cppParameter = CppParameter(
             name = nameResolver.getName(limeParameter),
-            type = cppTypeRef,
+            type = getPreviousResult(CppTypeRef::class.java),
             isNotNull = isInstance && !isNullable
         )
         cppParameter.comment = limeParameter.comment
@@ -189,12 +182,8 @@ class CppModelBuilder(
     }
 
     override fun finishBuilding(limeField: LimeField) {
-        var cppTypeRef = getPreviousResult(CppTypeRef::class.java)
-        val isNullable = limeField.attributes.have(LimeAttributeType.NULLABLE)
+        val isNullable = limeField.typeRef.isNullable
         val isInstance = limeField.typeRef.type is LimeContainer
-        if (isNullable && !isInstance) {
-            cppTypeRef = typeMapper.createOptionalType(cppTypeRef)
-        }
 
         val allTypes = LimeTypeHelper.getAllFieldTypes(limeField.typeRef.type)
         val hasImmutableType = allTypes.any { it.attributes.have(LimeAttributeType.IMMUTABLE) }
@@ -202,7 +191,7 @@ class CppModelBuilder(
         val cppField = CppField(
             name = nameResolver.getName(limeField),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeField),
-            type = cppTypeRef,
+            type = getPreviousResult(CppTypeRef::class.java),
             initializer = getPreviousResultOrNull(CppValue::class.java),
             isNotNull = isInstance && !isNullable,
             isNullable = isNullable,
@@ -229,13 +218,10 @@ class CppModelBuilder(
     }
 
     override fun finishBuilding(limeProperty: LimeProperty) {
-        var cppTypeRef = getPreviousResult(CppTypeRef::class.java)
-        val isNullable = limeProperty.attributes.have(LimeAttributeType.NULLABLE)
+        val cppTypeRef = getPreviousResult(CppTypeRef::class.java)
+        val isNullable = limeProperty.typeRef.isNullable
         val isInstance = limeProperty.typeRef.type is LimeContainer
         val isNotNull = !isNullable && isInstance
-        if (isNullable && !isInstance) {
-            cppTypeRef = typeMapper.createOptionalType(cppTypeRef)
-        }
 
         val specifiers = when {
             limeProperty.isStatic -> EnumSet.of(CppMethod.Specifier.STATIC)
@@ -335,10 +321,7 @@ class CppModelBuilder(
             }
             is LimeValue.Null -> {
                 val cppType = getPreviousResult(CppTypeRef::class.java)
-                CppValue(
-                    "${typeMapper.optionalTypeName}<${cppType.name}>()",
-                    listOf(CppLibraryIncludes.OPTIONAL)
-                )
+                CppValue("${cppType.name}()", listOf(CppLibraryIncludes.OPTIONAL))
             }
             is LimeValue.InitializerList -> CppValue("{}")
         }

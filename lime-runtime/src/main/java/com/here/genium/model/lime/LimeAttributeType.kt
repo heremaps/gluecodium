@@ -29,7 +29,6 @@ enum class LimeAttributeType {
     SERIALIZABLE,
     EQUATABLE,
     IMMUTABLE,
-    NULLABLE,
     CONST,
     CONSTRUCTOR,
     BUILDER,

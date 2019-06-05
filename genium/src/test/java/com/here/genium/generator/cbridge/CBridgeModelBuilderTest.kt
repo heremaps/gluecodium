@@ -383,12 +383,7 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsNullable() {
-        val limeReturnType = LimeReturnType(
-            LimeBasicTypeRef.DOUBLE,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.NULLABLE)
-                .build()
-        )
+        val limeReturnType = LimeReturnType(LimeBasicTypeRef.DOUBLE.asNullable())
         val limeElement = LimeMethod(fooPath, returnType = limeReturnType)
         contextStack.injectParentCurrentResult(cppTypeInfo)
 
@@ -442,10 +437,7 @@ class CBridgeModelBuilderTest {
     fun finishBuildingParameterReadsNullable() {
         val limeElement = LimeParameter(
             LimePath(emptyList(), listOf("Foo")),
-            typeRef = LimeBasicTypeRef.DOUBLE,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.NULLABLE)
-                .build()
+            typeRef = LimeBasicTypeRef.DOUBLE.asNullable()
         )
         val cppParameter = CppParameter("", type = CppPrimitiveTypeRef.VOID)
         contextStack.injectResult(cppTypeInfo)
@@ -529,10 +521,7 @@ class CBridgeModelBuilderTest {
     fun finishBuildingFieldReadsNullable() {
         val limeElement = LimeField(
             EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.DOUBLE,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.NULLABLE)
-                .build()
+            typeRef = LimeBasicTypeRef.DOUBLE.asNullable()
         )
         contextStack.injectResult(cppTypeInfo)
 
@@ -662,13 +651,7 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingPropertyReadsNullable() {
-        val limeElement = LimeProperty(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.DOUBLE,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.NULLABLE)
-                .build()
-        )
+        val limeElement = LimeProperty(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE.asNullable())
         val swiftProperty = SwiftProperty("", null, null, SwiftMethod(""), SwiftMethod(""), false)
         every { cppModelBuilder.finalResults } returns listOf(CppMethod(""), CppMethod(""))
         every { swiftModelBuilder.getFinalResult(SwiftProperty::class.java) } returns swiftProperty

@@ -22,4 +22,7 @@ package com.here.genium.model.lime
 interface LimeTypeRef : LimeElement {
     val elementFullName: String
     val type: LimeType
+    val isNullable: Boolean
+
+    fun asNullable(): LimeTypeRef
 }

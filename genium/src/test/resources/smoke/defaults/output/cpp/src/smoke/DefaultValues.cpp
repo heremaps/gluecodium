@@ -18,7 +18,7 @@ DefaultValues::StructWithDefaults::StructWithDefaults( const int32_t int_field, 
 {
 }
 DefaultValues::NullableStructWithDefaults::NullableStructWithDefaults( )
-    : int_field( genium::optional<int32_t>() ), uint_field( genium::optional<uint32_t>() ), float_field( genium::optional<float>() ), bool_field( genium::optional<bool>() ), string_field( genium::optional<::std::string>() ), enum_field( genium::optional<::smoke::DefaultValues::SomeEnum>() )
+    : int_field( ::genium::optional< int32_t >() ), uint_field( ::genium::optional< uint32_t >() ), float_field( ::genium::optional< float >() ), bool_field( ::genium::optional< bool >() ), string_field( ::genium::optional< ::std::string >() ), enum_field( ::genium::optional< ::smoke::DefaultValues::SomeEnum >() )
 {
 }
 DefaultValues::NullableStructWithDefaults::NullableStructWithDefaults( const ::genium::optional< int32_t >& int_field, const ::genium::optional< uint32_t >& uint_field, const ::genium::optional< float >& float_field, const ::genium::optional< bool >& bool_field, const ::genium::optional< ::std::string >& string_field, const ::genium::optional< ::smoke::DefaultValues::SomeEnum >& enum_field )

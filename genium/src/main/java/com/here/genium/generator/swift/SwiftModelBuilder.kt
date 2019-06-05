@@ -183,7 +183,7 @@ class SwiftModelBuilder(
         val returnType = when {
             isConstructor -> SwiftType(CBridgeNameRules.BASE_REF_NAME, null)
             else -> {
-                val isNullable = limeMethod.returnType.attributes.have(LimeAttributeType.NULLABLE)
+                val isNullable = limeMethod.returnType.typeRef.isNullable
                 typeMapper.mapType(limeMethod.returnType.typeRef.type).withOptional(isNullable)
             }
         }
@@ -222,7 +222,7 @@ class SwiftModelBuilder(
 
     override fun finishBuilding(limeParameter: LimeParameter) {
         val swiftType = getPreviousResult(SwiftType::class.java)
-            .withOptional(limeParameter.attributes.have(LimeAttributeType.NULLABLE))
+            .withOptional(limeParameter.typeRef.isNullable)
 
         val swiftParameter =
             SwiftParameter(nameRules.getName(limeParameter), swiftType)
@@ -250,7 +250,7 @@ class SwiftModelBuilder(
     }
 
     override fun finishBuilding(limeField: LimeField) {
-        val isNullable = limeField.attributes.have(LimeAttributeType.NULLABLE)
+        val isNullable = limeField.typeRef.isNullable
         val swiftType = getPreviousResult(SwiftType::class.java).withOptional(isNullable)
 
         val swiftValue = getPreviousResultOrNull(SwiftValue::class.java)
@@ -348,7 +348,7 @@ class SwiftModelBuilder(
     override fun finishBuilding(limeProperty: LimeProperty) {
         val propertyVisibility = getVisibility(limeProperty)
         val swiftType = getPreviousResult(SwiftType::class.java)
-            .withOptional(limeProperty.attributes.have(LimeAttributeType.NULLABLE))
+            .withOptional(limeProperty.typeRef.isNullable)
 
         val nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(limeProperty)
         val getterMethod = SwiftMethod(

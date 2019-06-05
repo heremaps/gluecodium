@@ -88,7 +88,7 @@ class JavaModelBuilder(
             }
             else -> {
                 val cppType = typeMapper.mapType(limeMethod.returnType.typeRef)
-                typeMapper.applyNullability(cppType, limeMethod.returnType.attributes)
+                typeMapper.applyNullability(cppType, limeMethod.returnType.typeRef.isNullable)
             }
         }
 
@@ -115,7 +115,7 @@ class JavaModelBuilder(
     override fun finishBuilding(limeParameter: LimeParameter) {
         val javaType = typeMapper.applyNullability(
             getPreviousResult(JavaType::class.java),
-            limeParameter.attributes
+            limeParameter.typeRef.isNullable
         )
         val javaParameter =
             JavaParameter(nameRules.getName(limeParameter), javaType)
@@ -172,15 +172,14 @@ class JavaModelBuilder(
         val fieldName = nameRules.getName(limeField)
         val javaType = typeMapper.applyNullability(
             getPreviousResult(JavaType::class.java),
-            limeField.attributes
+            limeField.typeRef.isNullable
         )
 
         val defaultValue = limeField.defaultValue
         val initialValue: JavaValue
         initialValue = when {
             defaultValue != null -> valueMapper.mapValue(defaultValue, javaType)
-            limeField.attributes.have(LimeAttributeType.NULLABLE) ->
-                JavaValueMapper.mapNullValue(javaType)
+            limeField.typeRef.isNullable -> JavaValueMapper.mapNullValue(javaType)
             else -> JavaValueMapper.mapDefaultValue(javaType)
         }
 
@@ -233,7 +232,7 @@ class JavaModelBuilder(
     override fun finishBuilding(limeProperty: LimeProperty) {
         val javaType = typeMapper.applyNullability(
             getPreviousResult(JavaType::class.java),
-            limeProperty.attributes
+            limeProperty.typeRef.isNullable
         )
         val visibility = getVisibility(limeProperty)
 

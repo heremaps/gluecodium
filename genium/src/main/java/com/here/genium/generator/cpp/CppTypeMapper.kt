@@ -49,7 +49,6 @@ class CppTypeMapper(
             CppNameRules.joinFullyQualifiedName(internalNamespace + "EnumHash"),
             listOf(CppLibraryIncludes.ENUM_HASH)
         )
-    val optionalTypeName = internalNamespace.joinToString("::") + "::optional"
 
     fun getReturnWrapperType(outArgType: CppTypeRef, errorType: CppTypeRef): CppTypeRef =
         CppTemplateTypeRef(
@@ -59,7 +58,11 @@ class CppTypeMapper(
             namespace = CppNameRules.joinFullyQualifiedName(internalNamespace)
         )
 
-    fun mapType(limeTypeRef: LimeTypeRef): CppTypeRef = mapType(limeTypeRef.type)
+    fun mapType(limeTypeRef: LimeTypeRef): CppTypeRef {
+        val result = mapType(limeTypeRef.type)
+        val needsOptionalType = limeTypeRef.isNullable && limeTypeRef.type !is LimeContainer
+        return if (needsOptionalType) createOptionalType(result) else result
+    }
 
     fun mapInstanceType(
         limeContainer: LimeContainer,
@@ -70,7 +73,7 @@ class CppTypeMapper(
         needsForwardDeclaration = needsForwardDeclaration
     )
 
-    fun createOptionalType(cppTypeRef: CppTypeRef) =
+    private fun createOptionalType(cppTypeRef: CppTypeRef) =
         CppTemplateTypeRef(
             TemplateClass.OPTIONAL,
             cppTypeRef,

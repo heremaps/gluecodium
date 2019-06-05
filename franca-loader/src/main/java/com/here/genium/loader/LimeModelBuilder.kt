@@ -172,14 +172,14 @@ class LimeModelBuilder(
     override fun finishBuilding(francaField: FField) {
         val attributes = LimeAttributes.Builder()
         addExternalAccessorAttributes(attributes, francaField)
-        if (deploymentModel.isNullable(francaField)) {
-            attributes.addAttribute(LimeAttributeType.NULLABLE)
-        }
 
         var fieldType = getPreviousResult(LimeTypeRef::class.java)
         if (francaField.isArray) {
             val arrayKey = registerArrayType(fieldType.elementFullName)
             fieldType = LimeLazyTypeRef(arrayKey, referenceResolver.referenceMap)
+        }
+        if (deploymentModel.isNullable(francaField)) {
+            fieldType = fieldType.asNullable()
         }
 
         val limeField = LimeField(
@@ -368,16 +368,13 @@ class LimeModelBuilder(
             val arrayKey = registerArrayType(parameterType.elementFullName)
             parameterType = LimeLazyTypeRef(arrayKey, referenceResolver.referenceMap)
         }
-
-        val attributes = LimeAttributes.Builder()
         if (deploymentModel.isNullable(francaArgument)) {
-            attributes.addAttribute(LimeAttributeType.NULLABLE)
+            parameterType = parameterType.asNullable()
         }
 
         val limeParameter = LimeParameter(
             path = createElementPath(francaArgument),
             comment = CommentHelper.getDescription(francaArgument),
-            attributes = attributes.build(),
             typeRef = parameterType
         )
 
@@ -390,16 +387,13 @@ class LimeModelBuilder(
             val arrayKey = registerArrayType(parameterType.elementFullName)
             parameterType = LimeLazyTypeRef(arrayKey, referenceResolver.referenceMap)
         }
-
-        val attributes = LimeAttributes.Builder()
         if (deploymentModel.isNullable(francaArgument)) {
-            attributes.addAttribute(LimeAttributeType.NULLABLE)
+            parameterType = parameterType.asNullable()
         }
 
         val limeReturnType = LimeReturnType(
             typeRef = parameterType,
-            comment = CommentHelper.getDescription(francaArgument),
-            attributes = attributes.build()
+            comment = CommentHelper.getDescription(francaArgument)
         )
 
         storeResultAndCloseContext(limeReturnType)
@@ -408,9 +402,6 @@ class LimeModelBuilder(
     override fun finishBuilding(francaAttribute: FAttribute) {
         val attributes = LimeAttributes.Builder()
         addExternalAccessorAttributes(attributes, francaAttribute)
-        if (deploymentModel.isNullable(francaAttribute)) {
-            attributes.addAttribute(LimeAttributeType.NULLABLE)
-        }
         if (deploymentModel.hasInternalSetter(francaAttribute)) {
             attributes.addAttribute(LimeAttributeType.INTERNAL_SETTER)
         }
@@ -419,6 +410,9 @@ class LimeModelBuilder(
         if (francaAttribute.isArray) {
             val arrayKey = registerArrayType(attributeType.elementFullName)
             attributeType = LimeLazyTypeRef(arrayKey, referenceResolver.referenceMap)
+        }
+        if (deploymentModel.isNullable(francaAttribute)) {
+            attributeType = attributeType.asNullable()
         }
 
         val limeProperty = LimeProperty(

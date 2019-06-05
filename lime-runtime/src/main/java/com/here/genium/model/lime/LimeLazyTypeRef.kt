@@ -21,8 +21,12 @@ package com.here.genium.model.lime
 
 class LimeLazyTypeRef(
     override val elementFullName: String,
-    referenceMap: Map<String, LimeElement>
+    private val referenceMap: Map<String, LimeElement>,
+    override val isNullable: Boolean = false
 ) : LimeTypeRef {
 
     override val type by lazy { referenceMap.get(elementFullName) as LimeType }
+
+    override fun asNullable() =
+        if (isNullable) this else LimeLazyTypeRef(elementFullName, referenceMap, true)
 }
