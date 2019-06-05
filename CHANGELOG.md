@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features
+  + Members of internal structs are marked internal automatically
+
 ## 4.4.0
 - Release date: 2019-06-04
 - Features
