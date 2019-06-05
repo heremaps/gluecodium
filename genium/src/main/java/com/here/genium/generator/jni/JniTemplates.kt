@@ -272,10 +272,6 @@ class JniTemplates(
         jniContainers: List<JniContainer>,
         enumSets: Set<JniType>
     ): List<GeneratedFile> {
-        if (enumSets.isEmpty()) {
-            return emptyList()
-        }
-
         val includes = jniContainers.flatMap { it.includes }.toSet()
         val mustacheData = mutableMapOf(
             INCLUDES_NAME to includes,

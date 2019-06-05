@@ -3,6 +3,8 @@
 ## Unreleased
 - Features
   + Members of internal structs are marked internal automatically
+- Bug fixes:
+  + Fixed compilation issue for Java when no EnumSet was generated
 
 ## 4.4.0
 - Release date: 2019-06-04

@@ -129,6 +129,8 @@ class JniTemplatesTest {
         verify { TemplateEngine.render(eq("jni/ProxyGeneratorHeader"), any()) }
         verify { TemplateEngine.render(eq("jni/EnumConversionHeader"), any()) }
         verify { TemplateEngine.render(eq("jni/EnumConversionImplementation"), any()) }
+        verify { TemplateEngine.render(eq("jni/EnumSetConversionHeader"), any()) }
+        verify { TemplateEngine.render(eq("jni/EnumSetConversionImplementation"), any()) }
     }
 
     @After
@@ -136,7 +138,7 @@ class JniTemplatesTest {
 
     companion object {
         private const val MAIN_FILES_COUNT = 2
-        private const val MAIN_FILES_WITH_INSTANCES_COUNT = 9
+        private const val MAIN_FILES_WITH_INSTANCES_COUNT = 11
         private const val PROXY_HEADER_NAME = "_classyCppProxy.h"
         private const val PROXY_IMPLEMENTATION_NAME = "_classyCppProxy.cpp"
     }
