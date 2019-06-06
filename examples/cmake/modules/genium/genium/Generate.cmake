@@ -66,6 +66,7 @@ function(apigen_generate)
       COPYRIGHT_HEADER
       CPP_INTERNAL_NAMESPACE
       CPP_EXPORT
+      CPP_NAMERULES
       OUTPUT_DIR)
   set(multiValueArgs FRANCA_SOURCES)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
@@ -141,6 +142,12 @@ function(apigen_generate)
   endif()
   if(apigen_generate_CPP_INTERNAL_NAMESPACE)
     string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " --cpp-internal-namespace ${apigen_generate_CPP_INTERNAL_NAMESPACE}")
+  endif()
+  if(apigen_generate_CPP_NAMERULES)
+    if(NOT IS_ABSOLUTE ${apigen_generate_CPP_NAMERULES})
+      set(apigen_generate_CPP_NAMERULES "${CMAKE_CURRENT_SOURCE_DIR}/${apigen_generate_CPP_NAMERULES}")
+    endif()
+    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -cppnamerules ${apigen_generate_CPP_NAMERULES}")
   endif()
 
   if(apigen_generate_CPP_EXPORT)
