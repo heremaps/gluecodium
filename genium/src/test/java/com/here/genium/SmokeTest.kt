@@ -19,6 +19,8 @@
 
 package com.here.genium
 
+import com.natpryce.konfig.ConfigurationProperties
+import com.natpryce.konfig.overriding
 import java.io.File
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,7 +29,7 @@ import org.junit.runners.Parameterized.Parameters
 
 @RunWith(Parameterized::class)
 class SmokeTest(
-    featureDirectory: File,
+    private val featureDirectory: File,
     generatorName: String,
     featureName: String
 ) : AcceptanceTestBase(featureDirectory, generatorName) {
@@ -37,8 +39,18 @@ class SmokeTest(
         runTest()
     }
 
-    companion object {
+    override fun getGeniumOptions(): Genium.Options {
+        val options = Genium.defaultOptions()
+        val cppNameRulesConfig =
+            File(File(featureDirectory, FEATURE_INPUT_FOLDER), "namerules/cpp.properties")
+        if (cppNameRulesConfig.exists()) {
+            options.cppNameRules =
+                ConfigurationProperties.fromFile(cppNameRulesConfig) overriding options.cppNameRules
+        }
+        return options
+    }
 
+    companion object {
         private val RESOURCE_PREFIX = "smoke"
 
         @JvmStatic

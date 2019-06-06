@@ -51,6 +51,7 @@ open class JavaGeneratorSuite protected constructor(
     private val internalNamespace = options.cppInternalNamespace ?: listOf()
     private val rootNamespace = options.cppRootNamespace
     private val commentsProcessor = JavaDocProcessor()
+    private val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
 
     protected open val generatorName = GENERATOR_NAME
 
@@ -59,8 +60,6 @@ open class JavaGeneratorSuite protected constructor(
     override fun getName() = "com.here.JavaGeneratorSuite"
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
-        val cppNameRuleConfig = ConfigurationProperties.fromResource(javaClass, "/namerules/cpp.properties")
-        val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(cppNameRuleConfig))
         val javaNameRuleConfig = ConfigurationProperties.fromResource(javaClass, "/namerules/java.properties")
         val javaNameRules = JavaNameRules(nameRuleSetFromConfig(javaNameRuleConfig))
 

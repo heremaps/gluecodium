@@ -21,6 +21,8 @@ package com.here.genium.cli
 
 import com.here.genium.Genium
 import com.here.genium.platform.common.GeneratorSuite
+import com.natpryce.konfig.ConfigurationProperties
+import com.natpryce.konfig.overriding
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
@@ -91,6 +93,7 @@ class OptionReader {
         )
         addOption("cppnamespace", true, "C++ namespace for public (API) headers.")
         addOption("cppexport", true, "C++ export macro name for explicit symbol exporting.")
+        addOption("cppnamerules", true, "C++ name rules property file.")
     }
 
     @Throws(OptionReaderException::class)
@@ -146,6 +149,15 @@ class OptionReader {
             val cppExport = getSingleOptionValue(cmd, "cppexport")
             if (cppExport != null) {
                 options.cppExport = cppExport
+            }
+
+            val cppNameRules = getSingleOptionValue(cmd, "cppnamerules")
+            if (cppNameRules != null) {
+                if (!File(cppNameRules).exists()) {
+                    throw OptionReaderException("cppnamerules file $cppNameRules does not exit")
+                }
+                options.cppNameRules =
+                    ConfigurationProperties.fromFile(File(cppNameRules)) overriding options.cppNameRules
             }
 
             val copyrightHeader = cmd.getOptionValue("copyright")

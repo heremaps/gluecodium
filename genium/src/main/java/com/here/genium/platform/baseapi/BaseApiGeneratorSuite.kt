@@ -42,7 +42,6 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.platform.common.GeneratorSuite
-import com.natpryce.konfig.ConfigurationProperties
 import java.io.File
 import java.nio.file.Paths
 import java.util.stream.Collectors
@@ -61,13 +60,11 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
     private val rootNamespace = options.cppRootNamespace
     private val exportName = options.cppExport
     private val commentsProcessor = DoxygenCommentsProcessor()
+    private val nameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
 
     override fun getName() = "com.here.BaseApiGenerator"
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
-        val nameRuleConfig = ConfigurationProperties.fromResource(javaClass, "/namerules/cpp.properties")
-        val nameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(nameRuleConfig))
-
         val limeReferenceMap = limeModel.referenceMap
         val includeResolver =
             CppIncludeResolver(limeReferenceMap, nameRules)
@@ -99,12 +96,12 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
 
         cppModel.flatMap { it.members }.flatMap { it.streamRecursive().toList() }
             .filterIsInstance<CppElementWithComment>().forEach { element ->
-            val limeName = cppToLimeName[element]
-            if (limeName != null) {
-                element.comment =
-                    commentsProcessor.process(limeName, element.comment, limeToCppName)
+                val limeName = cppToLimeName[element]
+                if (limeName != null) {
+                    element.comment =
+                        commentsProcessor.process(limeName, element.comment, limeToCppName)
+                }
             }
-        }
 
         return cppModel.flatMap {
             generator.generateCode(it)

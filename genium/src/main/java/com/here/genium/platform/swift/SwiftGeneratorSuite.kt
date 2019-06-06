@@ -47,11 +47,9 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
     private val internalNamespace = options.cppInternalNamespace ?: emptyList()
     private val rootNamespace = options.cppRootNamespace
     private val commentsProcessor = SwiftCommentsProcessor()
+    private val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
-        val cppNameRuleConfig = ConfigurationProperties.fromResource(javaClass, "/namerules/cpp.properties")
-        val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(cppNameRuleConfig))
-
         val swiftNameRuleConfig = ConfigurationProperties.fromResource(javaClass, "/namerules/swift.properties")
         val swiftNameRules = SwiftNameRules(nameRuleSetFromConfig(swiftNameRuleConfig))
 

@@ -36,6 +36,8 @@ import com.here.genium.output.ConsoleOutput
 import com.here.genium.output.FileOutput
 import com.here.genium.platform.android.AndroidGeneratorSuite
 import com.here.genium.platform.common.GeneratorSuite
+import com.natpryce.konfig.Configuration
+import com.natpryce.konfig.ConfigurationProperties
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -172,13 +174,17 @@ class Genium(
         var copyrightHeaderContents: String? = null,
         var cppInternalNamespace: List<String>? = null,
         var cppRootNamespace: List<String> = listOf(),
-        var cppExport: String = "_GENIUM_CPP"
+        var cppExport: String = "_GENIUM_CPP",
+        var cppNameRules: Configuration = ConfigurationProperties.fromResource(
+            Genium::class.java,
+            "/namerules/cpp.properties"
+        )
     )
 
     companion object {
         private val LOGGER = Logger.getLogger(Genium::class.java.name)
         val DEFAULT_INTERNAL_NAMESPACE = listOf("genium")
-        val DEFAULT_OPTIONS = Options(cppInternalNamespace = DEFAULT_INTERNAL_NAMESPACE)
+        fun defaultOptions() = Options(cppInternalNamespace = DEFAULT_INTERNAL_NAMESPACE)
 
         private fun parseVersion(): Version {
             val prop = Properties()

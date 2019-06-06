@@ -45,14 +45,15 @@ abstract class AcceptanceTestBase protected constructor(
     @Rule
     val errorCollector = NiceErrorCollector()
 
-    private val genium = spyk(Genium(getGeniumOptions()))
+    private lateinit var genium: Genium
 
     private val results = mutableListOf<GeneratedFile>()
 
-    protected open fun getGeniumOptions() = Genium.DEFAULT_OPTIONS
+    protected open fun getGeniumOptions() = Genium.defaultOptions()
 
     @Before
     fun setUp() {
+        genium = spyk(Genium(getGeniumOptions()))
         every { genium.output(any(), any()) }.answers {
             @Suppress("UNCHECKED_CAST")
             results.addAll(it.invocation.args[1] as List<GeneratedFile>)
@@ -96,7 +97,7 @@ abstract class AcceptanceTestBase protected constructor(
     }
 
     companion object {
-        private const val FEATURE_INPUT_FOLDER = "input"
+        internal const val FEATURE_INPUT_FOLDER = "input"
         private const val FEATURE_OUTPUT_FOLDER = "output"
         private const val IGNORE_PREFIX = "ignore"
         private val GENERATOR_NAMES = listOf(
