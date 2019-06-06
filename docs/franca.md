@@ -706,7 +706,7 @@ FDEPL:
 
     define GeniumExtensions for typeCollection example.ExampleTypeCollection {
         struct ExampleStruct {
-            Companion = "example.ExampleInterface"
+            Companion = "example.ExampleTypeCollection_ExampleStruct_Companion"
         }
     }
 
