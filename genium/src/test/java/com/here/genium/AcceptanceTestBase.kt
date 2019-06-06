@@ -115,6 +115,7 @@ abstract class AcceptanceTestBase protected constructor(
                     listOf(SwiftGeneratorSuite.GENERATOR_NAME, "cbridge", "cbridge_internal")
         }
 
+        @JvmStatic
         protected fun getData(resourcePrefix: String): Collection<Array<Any>> {
             val testResourcesUrl = ClassLoader.getSystemClassLoader().getResource(resourcePrefix)
             if (testResourcesUrl == null) {

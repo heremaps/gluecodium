@@ -17,34 +17,34 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium;
+package com.here.genium
 
-import java.io.File;
-import java.util.Collection;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import java.io.File
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.junit.runners.Parameterized.Parameters
 
-@RunWith(Parameterized.class)
-public final class SmokeTest extends AcceptanceTestBase {
+@RunWith(Parameterized::class)
+class SmokeTest(
+    featureDirectory: File,
+    generatorName: String,
+    featureName: String
+) : AcceptanceTestBase(featureDirectory, generatorName) {
 
-  private static final String RESOURCE_PREFIX = "smoke";
+    @Test
+    fun smokeTest() {
+        runTest()
+    }
 
-  public SmokeTest(
-      final File featureDirectory,
-      final String generatorName,
-      @SuppressWarnings("unused") final String featureName) {
-    super(featureDirectory, generatorName);
-  }
+    companion object {
 
-  @Parameters(name = "{2}, {1}")
-  public static Collection<Object[]> data() {
-    return Companion.getData(RESOURCE_PREFIX);
-  }
+        private val RESOURCE_PREFIX = "smoke"
 
-  @Test
-  public void smokeTest() {
-    runTest();
-  }
+        @JvmStatic
+        @Parameters(name = "{2}, {1}")
+        fun data(): Collection<Array<Any>> {
+            return getData(RESOURCE_PREFIX)
+        }
+    }
 }
