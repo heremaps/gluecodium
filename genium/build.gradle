@@ -27,6 +27,7 @@ dependencies {
     compile 'com.android.tools.build:manifest-merger:25.3.0'
     compile 'com.android.tools:annotations:25.3.0'
     compile 'com.google.guava:guava:21.0'
+    compile 'com.natpryce:konfig:1.6.10.0'
     compile 'com.vladsch.flexmark:flexmark-formatter:0.42.6'
     compile 'com.vladsch.flexmark:flexmark-util:0.42.6'
     compile 'com.vladsch.flexmark:flexmark:0.42.6'
@@ -38,7 +39,6 @@ dependencies {
     compile 'org.jetbrains:annotations:13.0'
     compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'org.trimou:trimou-core:2.2.0.Final'
-    implementation 'com.natpryce:konfig:1.6.10.0'
 
     testCompile files({ project(":lime-runtime").sourceSets.test.output })
     testCompile 'io.mockk:mockk-dsl-jvm:1.8.13'

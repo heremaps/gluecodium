@@ -80,6 +80,7 @@ allprojects {
     gradleLint {
         alwaysRun = false
         rules = ['all-dependency']
+        reportFormat='text'
         // not using 'unused-dependency' rule because we state some transitive dependencies explicitly
         // for dependency locking
         excludedRules = ['unused-dependency']
