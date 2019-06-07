@@ -18,40 +18,14 @@
  */
 
 import "classpath:/GeniumExtensions.fdepl"
-import "./Listeners.fidl"
+import "./ListenerInternal.fidl"
 
-define GeniumExtensions for interface smoke.CalculatorListener
-{
-    IsInterface = true
-
-    method onCalculationResultConst {
-        Const = true
-    }
-}
-
-define GeniumExtensions for interface smoke.Calculator
-{
-    method registerListener {
-        Static = true
-    }
-
-    method unregisterListener {
-        Static = true
-    }
-}
-
-define GeniumExtensions for interface smoke.CalculationResult
+define GeniumExtensions for interface test.InternalListener
 {
     IsInterface = true
 }
 
-define GeniumExtensions for interface smoke.InternalListener
-{
-    IsInterface = true
-}
-
-define Visibility for interface smoke.InternalListener
+define Visibility for interface test.InternalListener
 {
     Internal = true
 }
-

@@ -84,3 +84,7 @@ interface CalculationResult {
 
     public typedef CalculationResult is undefined
 }
+
+interface InternalListener {
+    method onEvent { }
+}

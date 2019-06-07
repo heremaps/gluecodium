@@ -308,7 +308,10 @@ class JavaModelBuilder(
     ): JavaClass {
 
         val classMethods = getPreviousResults(JavaMethod::class.java).map { it.shallowCopy() }
-        classMethods.forEach { it.qualifiers.add(MethodQualifier.NATIVE) }
+        classMethods.forEach {
+            it.qualifiers.add(MethodQualifier.NATIVE)
+            it.visibility = JavaVisibility.PUBLIC
+        }
 
         val javaClass = JavaClass(
             name = nameRules.getImplementationClassName(limeContainer),

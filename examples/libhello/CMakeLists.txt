@@ -248,6 +248,8 @@ feature(ListenersWithReturnValues cpp android swift SOURCES
     fidl/test/ListenersReturnValues.fidl
     fidl/test/ListenerWithAttributes.fdepl
     fidl/test/ListenerWithAttributes.fidl
+    fidl/test/ListenerInternal.fdepl
+    fidl/test/ListenerInternal.fidl
 )
 
 feature(ListenersWithErrorTypes cpp android swift SOURCES
