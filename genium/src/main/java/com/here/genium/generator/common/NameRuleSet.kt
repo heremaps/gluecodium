@@ -31,6 +31,8 @@ class NameRuleSet(
     val getGetterName: (name: String, Boolean) -> String = ignore2(::illegal)
 ) {
     companion object {
+
+        @Suppress("UNUSED_PARAMETER")
         fun illegal(name: String): String {
             throw IllegalArgumentException()
         }

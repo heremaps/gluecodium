@@ -34,8 +34,8 @@ object NameHelper {
             input == null -> ""
             input.contains(UNDERSCORE) ->
                 CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, input)
-            CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input) &&
-                    CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input) ->
+            CharMatcher.javaLowerCase().matchesAnyOf(input) &&
+                    CharMatcher.javaUpperCase().matchesAnyOf(input) ->
                 CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, input)
             else -> input.toUpperCase()
         }
@@ -48,8 +48,8 @@ object NameHelper {
             input == null -> ""
             input.contains(UNDERSCORE) ->
                 CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, input)
-            CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input) &&
-                    CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input) ->
+            CharMatcher.javaLowerCase().matchesAnyOf(input) &&
+                    CharMatcher.javaUpperCase().matchesAnyOf(input) ->
                 CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, input)
             else -> input.toLowerCase()
         }
@@ -62,8 +62,8 @@ object NameHelper {
             input == null -> ""
             input.contains(UNDERSCORE) ->
                 CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, input)
-            CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input) &&
-                    CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input) ->
+            CharMatcher.javaLowerCase().matchesAnyOf(input) &&
+                    CharMatcher.javaUpperCase().matchesAnyOf(input) ->
                 CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, input)
             else -> capitalizeFully(input) // Capitalize the first character and lowercase the rest.
         }
@@ -76,8 +76,8 @@ object NameHelper {
             input == null -> ""
             input.contains(UNDERSCORE) ->
                 CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, input)
-            CharMatcher.JAVA_LOWER_CASE.matchesAnyOf(input) &&
-                    CharMatcher.JAVA_UPPER_CASE.matchesAnyOf(input) ->
+            CharMatcher.javaLowerCase().matchesAnyOf(input) &&
+                    CharMatcher.javaUpperCase().matchesAnyOf(input) ->
                 CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, input)
             else -> input.toLowerCase()
         }
