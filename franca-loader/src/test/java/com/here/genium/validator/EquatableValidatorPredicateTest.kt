@@ -26,6 +26,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.unmockkAll
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FField
 import org.franca.core.franca.FInterface
@@ -34,6 +35,7 @@ import org.franca.core.franca.FStructType
 import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FTypeRef
+import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
@@ -80,6 +82,11 @@ class EquatableValidatorPredicateTest {
         every { francaTypeRef.predefined } returns FBasicTypeId.UNDEFINED
 
         every { deploymentModel.isEquatable(francaStructType) } returns true
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test

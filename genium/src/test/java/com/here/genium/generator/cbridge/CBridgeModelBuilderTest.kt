@@ -73,6 +73,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkStatic
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -153,6 +155,11 @@ class CBridgeModelBuilderTest {
         every { swiftModelBuilder.getFinalResult(SwiftMethod::class.java) } returns swiftMethod
         every { cppModelBuilder.getFinalResult(CppField::class.java) } returns cppField
         every { swiftModelBuilder.getFinalResult(SwiftField::class.java) } returns swiftField
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test

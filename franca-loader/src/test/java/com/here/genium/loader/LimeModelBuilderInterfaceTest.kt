@@ -49,6 +49,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
+import io.mockk.unmockkAll
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FAttribute
 import org.franca.core.franca.FInterface
@@ -56,6 +57,7 @@ import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FTypeRef
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -119,6 +121,11 @@ class LimeModelBuilderInterfaceTest {
         every { francaStruct.eContainer() } returns francaInterface
 
         every { francaMethod.selector } returns null
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test

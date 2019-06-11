@@ -49,6 +49,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
+import io.mockk.unmockkAll
 import org.franca.core.franca.FArrayType
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FConstant
@@ -65,6 +66,7 @@ import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FUnaryOperation
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -137,6 +139,11 @@ class LimeModelBuilderTest {
         every { francaTypeDef.eContainer() } returns francaTypeCollection
         every { francaArray.eContainer() } returns francaTypeCollection
         every { francaMap.eContainer() } returns francaTypeCollection
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test
