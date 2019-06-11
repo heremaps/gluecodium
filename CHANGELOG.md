@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 4.4.2
+- Release date: 2019-06-11
 - Bug fixes:
   + Fixed compilation issue for Java interface with `Internal=true` and `IsInterface=true`
 
