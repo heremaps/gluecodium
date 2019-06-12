@@ -17,85 +17,84 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.jni;
+package com.here.genium.generator.jni
 
-import com.here.genium.model.java.JavaCustomType;
-import com.here.genium.model.jni.JniContainer;
-import com.here.genium.model.jni.JniStruct;
-import java.io.File;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import com.here.genium.model.java.JavaCustomType
+import com.here.genium.model.jni.JniContainer
+import com.here.genium.model.jni.JniStruct
+import java.io.File
+import java.util.Arrays
+import java.util.LinkedList
 
-public final class JniNameRules {
+class JniNameRules(private val generatorName: String) {
 
-  private static final String JNI_HEADER_FILE_SUFFIX = ".h";
-  private static final String JNI_IMPLEMENTATION_FILE_SUFFIX = ".cpp";
-  public static final String JNI_ENUM_CONVERSION_NAME = "EnumConversion";
-  public static final String JNI_STRUCT_CONVERSION_NAME = "StructConversion";
-  public static final String JNI_INSTANCE_CONVERSION_NAME = "InstanceConversion";
-  public static final String JNI_PROXY_CONVERSION_NAME = "ProxyConversion";
-  public static final String JNI_CPP_PROXY_SUFFIX = "CppProxy";
+    private val jniPathPrefix: String
+        get() = generatorName + File.separator + "jni" + File.separator
 
-  private final String generatorName;
-
-  public JniNameRules(final String generatorName) {
-    this.generatorName = generatorName;
-  }
-
-  public String getHeaderFilePath(final String fileName) {
-    return getJniPathPrefix() + getHeaderFileName(fileName);
-  }
-
-  public static String getHeaderFileName(final String fileName) {
-    return fileName + JNI_HEADER_FILE_SUFFIX;
-  }
-
-  public String getImplementationFilePath(final String fileName) {
-    return getJniPathPrefix() + fileName + JNI_IMPLEMENTATION_FILE_SUFFIX;
-  }
-
-  /**
-   * JNI name mangling. See
-   * https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/design.html#wp641
-   */
-  public static String getMangledName(final String name) {
-    return name.replace("_", "_1")
-        .replace(";", "_2")
-        .replace("[", "_3")
-        .replace("$", "_00024")
-        .replace("/", "_");
-  }
-
-  public static String getFullClassName(final JavaCustomType javaType) {
-    return String.join("/", javaType.packageNames) + "/" + String.join("$", javaType.classNames);
-  }
-
-  private static String formatPackageName(List<String> packageNames) {
-    return packageNames.isEmpty() ? "" : String.join("_", packageNames);
-  }
-
-  public static String getJniClassFileName(final JniContainer jniContainer) {
-    List<String> nameComponents =
-        Arrays.asList(
-            formatPackageName(jniContainer.getJavaPackages()), jniContainer.getJavaName());
-    return String.join("_", nameComponents);
-  }
-
-  public static String getJniStructFileName(
-      final JniContainer jniContainer, final JniStruct jniStruct) {
-
-    List<String> nameComponents = new LinkedList<>();
-    nameComponents.add(formatPackageName(jniContainer.getJavaPackages()));
-    if (jniContainer.getJavaName() != null) {
-      nameComponents.add(jniContainer.getJavaName());
+    fun getHeaderFilePath(fileName: String): String {
+        return jniPathPrefix + getHeaderFileName(fileName)
     }
-    nameComponents.add(jniStruct.getJavaClass().name);
 
-    return String.join("_", nameComponents);
-  }
+    fun getImplementationFilePath(fileName: String): String {
+        return jniPathPrefix + fileName + JNI_IMPLEMENTATION_FILE_SUFFIX
+    }
 
-  private String getJniPathPrefix() {
-    return generatorName + File.separator + "jni" + File.separator;
-  }
+    companion object {
+
+        private val JNI_HEADER_FILE_SUFFIX = ".h"
+        private val JNI_IMPLEMENTATION_FILE_SUFFIX = ".cpp"
+        val JNI_ENUM_CONVERSION_NAME = "EnumConversion"
+        val JNI_STRUCT_CONVERSION_NAME = "StructConversion"
+        val JNI_INSTANCE_CONVERSION_NAME = "InstanceConversion"
+        val JNI_PROXY_CONVERSION_NAME = "ProxyConversion"
+        val JNI_CPP_PROXY_SUFFIX = "CppProxy"
+
+        fun getHeaderFileName(fileName: String): String {
+            return fileName + JNI_HEADER_FILE_SUFFIX
+        }
+
+        /**
+         * JNI name mangling. See
+         * https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/design.html#wp641
+         */
+        fun getMangledName(name: String): String {
+            return name.replace("_", "_1")
+                .replace(";", "_2")
+                .replace("[", "_3")
+                .replace("$", "_00024")
+                .replace("/", "_")
+        }
+
+        fun getFullClassName(javaType: JavaCustomType): String {
+            return javaType.packageNames.joinToString("/") + "/" + javaType.classNames.joinToString(
+                "$"
+            )
+        }
+
+        private fun formatPackageName(packageNames: List<String>): String {
+            return if (packageNames.isEmpty()) "" else packageNames.joinToString("_")
+        }
+
+        fun getJniClassFileName(jniContainer: JniContainer): String {
+            val nameComponents = Arrays.asList<String>(
+                formatPackageName(jniContainer.javaPackages), jniContainer.javaName
+            )
+            return nameComponents.joinToString("_")
+        }
+
+        fun getJniStructFileName(
+            jniContainer: JniContainer,
+            jniStruct: JniStruct
+        ): String {
+
+            val nameComponents = LinkedList<String>()
+            nameComponents.add(formatPackageName(jniContainer.javaPackages))
+            if (jniContainer.javaName != null) {
+                nameComponents.add(jniContainer.javaName)
+            }
+            nameComponents.add(jniStruct.javaClass.name)
+
+            return nameComponents.joinToString("_")
+        }
+    }
 }

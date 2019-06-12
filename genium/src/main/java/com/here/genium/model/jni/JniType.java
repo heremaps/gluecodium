@@ -66,7 +66,7 @@ public class JniType implements JniElement {
 
   @SuppressWarnings("unused")
   public String getMangledSignature() {
-    return JniNameRules.getMangledName(jniTypeSignature);
+    return JniNameRules.Companion.getMangledName(jniTypeSignature);
   }
 
   private static String createJniSignature(JavaType type) {
