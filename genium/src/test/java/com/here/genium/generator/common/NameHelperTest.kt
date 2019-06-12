@@ -123,6 +123,54 @@ class NameHelperTest {
     fun fromLowerCaseToLowerSnakeCase() =
         assertEquals(LOWER_CASE, NameHelper.toLowerSnakeCase(LOWER_CASE))
 
+    @Test
+    fun `join lower camel case`() = assertEquals(
+        "$LOWER_CAMEL_CASE$UPPER_CAMEL_CASE",
+        NameHelper.joinToLowerCamelCase(listOf(LOWER_SNAKE_CASE, UPPER_CAMEL_CASE))
+    )
+
+    @Test
+    fun `join lower camel case with null`() = assertEquals(
+        "$LOWER_CAMEL_CASE$UPPER_CAMEL_CASE",
+        NameHelper.joinToLowerCamelCase(listOf(UPPER_SNAKE_CASE, null, UPPER_CAMEL_CASE, null))
+    )
+
+    @Test
+    fun `join lower snake case`() = assertEquals(
+        LOWER_SNAKE_CASE + "_$LOWER_SNAKE_CASE",
+        NameHelper.joinToLowerSnakeCase(listOf(UPPER_SNAKE_CASE, UPPER_CAMEL_CASE))
+    )
+
+    @Test
+    fun `join lower snake case with null`() = assertEquals(
+        LOWER_SNAKE_CASE + "_$LOWER_SNAKE_CASE",
+        NameHelper.joinToLowerSnakeCase(listOf(LOWER_CAMEL_CASE, null, UPPER_CAMEL_CASE, null))
+    )
+
+    @Test
+    fun `join upper camel case`() = assertEquals(
+        "$UPPER_CAMEL_CASE$UPPER_CAMEL_CASE",
+        NameHelper.joinToUpperCamelCase(listOf(LOWER_SNAKE_CASE, UPPER_CAMEL_CASE))
+    )
+
+    @Test
+    fun `join upper camel case with null`() = assertEquals(
+        "$UPPER_CAMEL_CASE$UPPER_CAMEL_CASE",
+        NameHelper.joinToUpperCamelCase(listOf(LOWER_SNAKE_CASE, null, UPPER_CAMEL_CASE, null))
+    )
+
+    @Test
+    fun `join upper snake case`() = assertEquals(
+        UPPER_SNAKE_CASE + "_$UPPER_SNAKE_CASE",
+        NameHelper.joinToUpperSnakeCase(listOf(LOWER_CAMEL_CASE, UPPER_CAMEL_CASE))
+    )
+
+    @Test
+    fun `join upper snake case with null`() = assertEquals(
+        UPPER_SNAKE_CASE + "_$UPPER_SNAKE_CASE",
+        NameHelper.joinToUpperSnakeCase(listOf(LOWER_SNAKE_CASE, null, UPPER_CAMEL_CASE, null))
+    )
+
     companion object {
         private const val LOWER_CAMEL_CASE = "someTestString"
         private const val UPPER_CAMEL_CASE = "SomeTestString"
