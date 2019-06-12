@@ -20,15 +20,11 @@
 package com.here.genium.model.jni
 
 import com.here.genium.model.cpp.CppField
-import com.here.genium.model.java.JavaCustomType
-import com.here.genium.model.java.JavaField
 
 class JniField(
-    val javaField: JavaField,
+    val javaName: String,
+    val javaCustomType: String?,
     val cppField: CppField,
     val cppGetterName: String? = null,
     val cppSetterName: String? = null
-) : JniElement {
-    @Suppress("unused")
-    val hasCustomType = javaField.type is JavaCustomType
-}
+) : JniElement

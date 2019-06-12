@@ -32,7 +32,7 @@ class JavaMethodNameResolver(
     fun getName(limeMethod: LimeMethod): String {
         val selector = when {
             hasSignatureClash(limeMethod) -> limeMethod.path.disambiguationSuffix
-            else -> ""
+            else -> null
         }
         return nameRules.getMethodName(limeMethod, selector)
     }

@@ -24,6 +24,7 @@ import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuild
 import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.java.JavaModelBuilder
+import com.here.genium.generator.jni.JniNameRules.Companion.getMangledName
 import com.here.genium.model.cpp.CppClass
 import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppEnumItem
@@ -33,6 +34,7 @@ import com.here.genium.model.cpp.CppParameter
 import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.cpp.CppTypeRef
 import com.here.genium.model.java.JavaClass
+import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaEnum
 import com.here.genium.model.java.JavaEnumItem
 import com.here.genium.model.java.JavaField
@@ -164,14 +166,13 @@ class JniModelBuilder(
         }
 
         val jniMethod = JniMethod(
-            javaMethodName = javaMethod.name,
+            javaMethodName = getMangledName(javaMethod.name),
             cppMethodName = cppMethod.name,
             returnType = JniType(javaMethod.returnType, cppMethod.returnType),
             isStatic = cppMethod.specifiers.contains(CppMethod.Specifier.STATIC),
             isConst = cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST),
             isOverloaded = limeMethod.path.disambiguationSuffix.isNotEmpty(),
-            returnsOpaqueHandle =
-                javaMethod.isConstructor && javaMethod.returnType == JavaPrimitiveType.LONG,
+            returnsOpaqueHandle = javaMethod.isConstructor && javaMethod.returnType == JavaPrimitiveType.LONG,
             exception = jniException
         )
         jniMethod.parameters.addAll(getPreviousResults(JniParameter::class.java))
@@ -193,10 +194,11 @@ class JniModelBuilder(
         val javaClass = javaBuilder.getFinalResult(JavaClass::class.java)
         val cppStruct = cppBuilder.getFinalResult(CppStruct::class.java)
         val jniStruct = JniStruct(
-            javaClass,
-            cppStruct,
-            getPreviousResults(JniField::class.java),
-            getPreviousResults(JniMethod::class.java)
+            javaStructName = javaClass.name,
+            javaPackage = javaClass.javaPackage,
+            cppStruct = cppStruct,
+            fields = getPreviousResults(JniField::class.java),
+            methods = getPreviousResults(JniMethod::class.java)
         )
 
         storeResult(jniStruct)
@@ -206,8 +208,12 @@ class JniModelBuilder(
     override fun finishBuilding(limeField: LimeField) {
         val javaField = javaBuilder.getFinalResult(JavaField::class.java)
         val cppField = cppBuilder.getFinalResult(CppField::class.java)
+
         val jniField = JniField(
-            javaField = javaField,
+            javaName = javaField.name,
+            javaCustomType = if (javaField.type is JavaCustomType) JniNameRules.getFullClassName(
+                javaField.type
+            ) else null,
             cppField = cppField,
             cppGetterName = limeField.attributes.get(
                 LimeAttributeType.EXTERNAL_GETTER,
@@ -253,7 +259,7 @@ class JniModelBuilder(
         val jniType = JniType(javaGetter.returnType, cppGetter.returnType)
         storeResult(
             JniMethod(
-                javaMethodName = javaGetter.name,
+                javaMethodName = getMangledName(javaGetter.name),
                 cppMethodName = cppGetter.name,
                 returnType = jniType,
                 isConst = true,
@@ -264,7 +270,7 @@ class JniModelBuilder(
             val javaSetter = javaMethods.last()
             val cppSetter = cppMethods.last()
             val jniSetter = JniMethod(
-                javaMethodName = javaSetter.name,
+                javaMethodName = getMangledName(javaSetter.name),
                 cppMethodName = cppSetter.name,
                 returnType = JniType.VOID,
                 isStatic = limeProperty.isStatic

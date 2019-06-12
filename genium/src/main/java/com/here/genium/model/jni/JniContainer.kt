@@ -19,6 +19,7 @@
 
 package com.here.genium.model.jni
 
+import com.here.genium.generator.jni.JniNameRules
 import com.here.genium.model.common.Include
 import java.util.LinkedList
 
@@ -48,6 +49,8 @@ class JniContainer(
     val includes: MutableSet<Include> = mutableSetOf()
     val hasNativeEquatable =
         containerType == ContainerType.CLASS && (isEquatable || isPointerEquatable)
+
+    val mangledName = javaName?.let { JniNameRules.getMangledName(it) }
 
     enum class ContainerType {
         TYPE_COLLECTION,

@@ -94,8 +94,10 @@ class JniModelBuilderTest {
     @MockK
     private lateinit var cppIncludeResolver: CppIncludeResolver
 
+    private val javaMethodName = "fancyMEthoD_integer"
+    private val mangledMethodName = "fancyMEthoD_1integer"
     private val javaMethod = JavaMethod(
-        name = "fancyMEthoD_integer",
+        name = javaMethodName,
         returnType = JavaPrimitiveType.INT,
         parameters = listOf(JavaParameter("theParam", JavaPrimitiveType.INT))
     )
@@ -105,7 +107,9 @@ class JniModelBuilderTest {
         returnType = CppPrimitiveTypeRef.INT8,
         parameters = listOf(CppParameter("", CppPrimitiveTypeRef.INT8))
     )
-    private val javaClass = JavaClass("jAvaClazz")
+    private val javaClassName = "jAvaClazz"
+    private val mangledClassName = "/jAvaClazz"
+    private val javaClass = JavaClass(javaClassName)
     private val cppClass = CppClass(
         "cPpClass",
         "::cPpClass",
@@ -197,7 +201,7 @@ class JniModelBuilderTest {
     fun finishBuildingTypeCollectionReadsStructs() {
         val limeElement =
             LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.TYPE_COLLECTION)
-        val jniStruct = JniStruct(javaClass, cppStruct, emptyList())
+        val jniStruct = JniStruct(javaClass.name, javaClass.javaPackage, cppStruct, emptyList())
         contextStack.injectResult(jniStruct)
 
         modelBuilder.finishBuilding(limeElement)
@@ -354,7 +358,7 @@ class JniModelBuilderTest {
         modelBuilder.finishBuilding(limeMethod)
 
         val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
-        assertEquals(javaMethod.name, jniMethod.javaMethodName)
+        assertEquals(mangledMethodName, jniMethod.javaMethodName)
         assertEquals(cppMethod.name, jniMethod.cppMethodName)
         assertNotNull(jniMethod.returnType)
         assertEquals(javaMethod.returnType.name, jniMethod.returnType.javaName)
@@ -488,14 +492,14 @@ class JniModelBuilderTest {
         modelBuilder.finishBuilding(limeStruct)
 
         val jniStruct = modelBuilder.getFinalResult(JniStruct::class.java)
-        assertEquals(javaClass, jniStruct.javaClass)
-        assertEquals(cppStruct, jniStruct.cppStruct)
+        assertEquals(javaClass.name, jniStruct.javaStructName)
         assertEquals(javaClass.javaPackage, jniStruct.javaPackage)
+        assertEquals(cppStruct, jniStruct.cppStruct)
     }
 
     @Test
     fun finishBuildingStructReadsFields() {
-        val jniField = JniField(javaField, cppField)
+        val jniField = JniField("javaName", null, cppField)
         contextStack.injectResult(jniField)
 
         modelBuilder.finishBuilding(limeStruct)
@@ -523,7 +527,8 @@ class JniModelBuilderTest {
 
         val jniField = modelBuilder.getFinalResult(JniField::class.java)
         assertNotNull(jniField)
-        assertEquals(javaField, jniField.javaField)
+        assertEquals(javaField.name, jniField.javaName)
+        assertEquals(mangledClassName, jniField.javaCustomType)
         assertEquals(cppField, jniField.cppField)
     }
 

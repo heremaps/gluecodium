@@ -92,7 +92,7 @@ class JniNameRules(private val generatorName: String) {
             if (jniContainer.javaName != null) {
                 nameComponents.add(jniContainer.javaName)
             }
-            nameComponents.add(jniStruct.javaClass.name)
+            nameComponents.add(jniStruct.javaStructName)
 
             return nameComponents.joinToString("_")
         }
