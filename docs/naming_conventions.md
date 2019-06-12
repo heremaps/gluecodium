@@ -24,8 +24,8 @@ get around this limitation, the first letter of the word should be capitalized (
 to naming conventions being applied for target languages, this change does not affect the generated
 code at all, but it allows the validation step to pass normally.
 
-C++ names
----------
+Default C++ names
+-----------------
 
 ### General naming conventions
 * Type names are in UpperCamelCase.
@@ -36,6 +36,31 @@ C++ names
 * Attribute getter names are prefixed with `get_`, unless it's a Boolean attribute.
 * Boolean attribute getter names are prefixed with `is_`.
 * Attribute setter names are prefixed with `set_`.
+
+Custom C++ names
+----------------
+
+Custom name rules can be described in a Java `.property` and passed to Genium via `-cppnamerules`
+command line parameter. The default is
+
+```
+field=lower_snake_case
+parameter=lower_snake_case
+constant=UPPER_SNAKE_CASE
+enumerator=UPPER_SNAKE_CASE
+method=lower_snake_case
+setter=lower_snake_case
+setter.prefix=set
+getter=lower_snake_case
+getter.prefix=get
+getter.prefix.boolean=is
+type=UpperCamelCase
+```
+
+Each of the specifiers accepts one of the basic formats `lower_snake_case`, `UPPER_SNAKE_CASE`,
+`lowerCamelCase` or `UpperCamelCase`. Except methods each of those can have a fixed `prefix`
+and/or `suffix`. Additionally for `getter` a special `prefix.boolean` for boolean attributes is
+possible. The prefixes and suffixes are added to the main name according to the specified format.
 
 Java names
 ----------

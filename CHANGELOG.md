@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features
+  + Support for custom name rules for C++
+
 ## 4.4.2
 - Release date: 2019-06-11
 - Bug fixes:
@@ -7,14 +11,14 @@
 
 ## 4.4.1
 - Release date: 2019-06-06
-- Features
+- Features:
   + Members of internal structs are marked internal automatically
 - Bug fixes:
   + Fixed compilation issue for Java when no EnumSet was generated
 
 ## 4.4.0
 - Release date: 2019-06-04
-- Features
+- Features:
   + Added support for equality and pointer equality comparisons for classes
   + Added hash support for all equatable types for Swift and Java
   + Added Set type support.
@@ -23,14 +27,14 @@
 
 ## 4.3.1
 - Release date: 2019-05-23
-- Features
+- Features:
   + Added support for explicit "empty" default value for struct-type fields in structs.
 
 ## 4.3.0
 - Release date: 2019-05-21
 - Bug fixes:
   + Constructors of generated exception types in Java are now public.
-- Features
+- Features:
   + Added support for structs with constants.
   + Added explicit support for Builder pattern in Java.
   + Added support for explicit "null" default value for nullable fields in structs.
