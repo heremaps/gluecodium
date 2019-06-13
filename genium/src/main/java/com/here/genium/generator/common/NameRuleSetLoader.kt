@@ -36,7 +36,8 @@ private object NameRuleSetLoader {
             getTypeName = getNameRule(config, NameTypes.Type),
             getPropertyName = getNameRuleBooleanPrefix(config, NameTypes.Property),
             getSetterName = getNameRule(config, NameTypes.Setter),
-            getGetterName = getNameRuleBooleanPrefix(config, NameTypes.Getter)
+            getGetterName = getNameRuleBooleanPrefix(config, NameTypes.Getter),
+            getErrorName = getNameRule(config, NameTypes.Error)
     )
 
     @Suppress("EnumEntryName")
@@ -56,7 +57,8 @@ private object NameRuleSetLoader {
         Type,
         Property,
         Setter,
-        Getter
+        Getter,
+        Error
     }
 
     private fun getMethodNameRule(config: Configuration): (String, String?) -> String {

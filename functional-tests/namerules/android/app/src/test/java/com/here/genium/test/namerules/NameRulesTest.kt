@@ -48,7 +48,7 @@ class NameRulesTest {
         assertEquals(someClass.loadStructAttribute().j_int_values[0], 7)
     }
 
-    @Test(expected = NAME_RULES_DROID.EXAMPLE_ERROR_DROIDException::class)
+    @Test(expected = NAME_RULES_DROID.example_error_x::class)
     fun `test errors`() {
         val someClass = NAME_RULES_DROID()
         val someStruct = NAME_RULES_DROID.EXAMPLE_STRUCT_DROID(3.14, listOf(7))

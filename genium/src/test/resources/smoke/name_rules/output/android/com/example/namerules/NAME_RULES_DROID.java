@@ -15,8 +15,8 @@ public class NAME_RULES_DROID extends NativeBase {
             this.value = value;
         }
     }
-    public static class EXAMPLE_ERROR_DROIDException extends Exception {
-        public EXAMPLE_ERROR_DROIDException(final NAME_RULES_DROID.EXAMPLE_ERROR_DROID error) {
+    public static class example_error_x extends Exception {
+        public example_error_x(final NAME_RULES_DROID.EXAMPLE_ERROR_DROID error) {
             super(Integer.toString(error.value));
             this.error = error;
         }
@@ -48,7 +48,7 @@ public class NAME_RULES_DROID extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     private static native long create();
-    public native double some_method(@NonNull final NAME_RULES_DROID.EXAMPLE_STRUCT_DROID some_argument) throws NAME_RULES_DROID.EXAMPLE_ERROR_DROIDException;
+    public native double some_method(@NonNull final NAME_RULES_DROID.EXAMPLE_STRUCT_DROID some_argument) throws NAME_RULES_DROID.example_error_x;
     public native long loadIntAttribute();
     public native void STORE_INT_ATTRIBUTE(final long value);
     public native boolean loadBooleanAttribute();

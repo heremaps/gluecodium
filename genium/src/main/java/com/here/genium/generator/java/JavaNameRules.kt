@@ -27,7 +27,7 @@ import com.here.genium.model.lime.LimeEnumeration
 class JavaNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
     fun getImplementationClassName(limeContainer: LimeContainer) = getName(limeContainer) + "Impl"
 
-    fun getExceptionName(limeEnum: LimeEnumeration) = getName(limeEnum) + "Exception"
+    fun getExceptionName(limeEnum: LimeEnumeration) = ruleSet.getErrorName(limeEnum.name)
 
     companion object {
         fun getPackageName(base: String) = base.replace("_", "")
