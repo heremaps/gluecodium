@@ -19,14 +19,12 @@
 
 package com.here.genium.generator.swift
 
-import com.here.genium.generator.common.NameHelper
 import com.here.genium.generator.common.NameRuleSet
-import com.here.genium.generator.common.NameRuleSet.Companion.ignore2
 import com.here.genium.generator.common.NameRules
 import com.here.genium.model.lime.LimeContainer
 import java.io.File
 
-class SwiftNameRules(nameRuleSet: NameRuleSet = defaultNameRuleSet) : NameRules(nameRuleSet) {
+class SwiftNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
     fun getImplementationFileName(limeContainer: LimeContainer) =
         (TARGET_DIRECTORY +
                 limeContainer.path.head.joinToString(File.separator) +
@@ -35,21 +33,6 @@ class SwiftNameRules(nameRuleSet: NameRuleSet = defaultNameRuleSet) : NameRules(
                 ".swift")
 
     companion object {
-        val defaultNameRuleSet = NameRuleSet(
-            getFieldName = NameHelper::toLowerCamelCase,
-            getParameterName = NameHelper::toLowerCamelCase,
-            getConstantName = NameHelper::toLowerCamelCase,
-            getEnumeratorName = NameHelper::toLowerCamelCase,
-            getMethodName = ignore2(NameHelper::toLowerCamelCase),
-            getPropertyName = { name: String, isBoolean: Boolean ->
-                when {
-                    isBoolean -> "is" + NameHelper.toUpperCamelCase(name)
-                    else -> NameHelper.toLowerCamelCase(name)
-                }
-            },
-            getTypeName = NameHelper::toUpperCamelCase
-        )
-
         val TARGET_DIRECTORY = "swift" + File.separator
     }
 }

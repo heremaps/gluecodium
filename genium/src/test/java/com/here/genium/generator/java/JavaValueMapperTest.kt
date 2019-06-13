@@ -19,6 +19,8 @@
 
 package com.here.genium.generator.java
 
+import com.here.genium.Genium
+import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaType
@@ -41,7 +43,8 @@ class JavaValueMapperTest {
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
     private val javaType = object : JavaType("") {}
 
-    private val valueMapper = JavaValueMapper(limeReferenceMap, JavaNameRules())
+    private val nameRuleSet = nameRuleSetFromConfig(Genium.defaultOptions().javaNameRules)
+    private val valueMapper = JavaValueMapper(limeReferenceMap, JavaNameRules(nameRuleSet))
 
     @Test
     fun mapEnumeratorInContainer() {

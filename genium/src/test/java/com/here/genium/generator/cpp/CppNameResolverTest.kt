@@ -19,6 +19,8 @@
 
 package com.here.genium.generator.cpp
 
+import com.here.genium.Genium
+import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeContainer
@@ -37,10 +39,11 @@ class CppNameResolverTest(
 ) {
     private val elementPath = (parentElement?.path ?: LIME_ROOT_PATH).child("an_Element")
     private val rootNamespace = listOf("ro", "ot")
+    private val nameRuleSet = nameRuleSetFromConfig(Genium.defaultOptions().cppNameRules)
     private var nameResolver = CppNameResolver(
         rootNamespace,
         parentElement?.let { mapOf(parentElement.fullName to parentElement) } ?: emptyMap(),
-        CppNameRules(rootNamespace)
+        CppNameRules(rootNamespace, nameRuleSet)
     )
 
     @Test

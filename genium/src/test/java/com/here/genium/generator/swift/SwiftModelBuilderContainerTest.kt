@@ -19,6 +19,8 @@
 
 package com.here.genium.generator.swift
 
+import com.here.genium.Genium
+import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeContainer
@@ -75,13 +77,14 @@ class SwiftModelBuilderContainerTest {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
+        val nameRuleSet = nameRuleSetFromConfig(Genium.defaultOptions().swiftNameRules)
         modelBuilder =
             SwiftModelBuilder(
                 limeReferenceMap = emptyMap(),
                 signatureResolver = signatureResolver,
                 nameResolver = nameResolver,
                 typeMapper = typeMapper,
-                nameRules = SwiftNameRules(),
+                nameRules = SwiftNameRules(nameRuleSet),
                 contextStack = contextStack
             )
 

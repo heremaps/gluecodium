@@ -19,6 +19,8 @@
 
 package com.here.genium.generator.java
 
+import com.here.genium.Genium
+import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.model.java.JavaClass
 import com.here.genium.model.java.JavaConstant
 import com.here.genium.model.java.JavaElement
@@ -76,7 +78,8 @@ class JavaModelBuilderContainersTest {
     private val contextStack = MockContextStack<JavaElement>()
     private val rootPackage = JavaPackage(listOf("pack", "age"))
 
-    private val nameRules = JavaNameRules()
+    private val nameRuleSet = nameRuleSetFromConfig(Genium.defaultOptions().javaNameRules)
+    private val nameRules = JavaNameRules(nameRuleSet)
 
     private lateinit var modelBuilder: JavaModelBuilder
 

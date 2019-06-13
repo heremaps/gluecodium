@@ -19,34 +19,17 @@
 
 package com.here.genium.generator.java
 
-import com.here.genium.generator.common.NameHelper
 import com.here.genium.generator.common.NameRuleSet
 import com.here.genium.generator.common.NameRules
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeEnumeration
 
-class JavaNameRules(nameRuleSet: NameRuleSet = defaultNameRuleSet) : NameRules(nameRuleSet) {
+class JavaNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
     fun getImplementationClassName(limeContainer: LimeContainer) = getName(limeContainer) + "Impl"
 
     fun getExceptionName(limeEnum: LimeEnumeration) = getName(limeEnum) + "Exception"
 
     companion object {
-        val defaultNameRuleSet = NameRuleSet(
-            getFieldName = NameHelper::toLowerCamelCase,
-            getParameterName = NameHelper::toLowerCamelCase,
-            getConstantName = NameHelper::toUpperSnakeCase,
-            getEnumeratorName = NameHelper::toUpperSnakeCase,
-            getMethodName = { name: String, selector: String? ->
-                NameHelper.joinToLowerCamelCase(listOf(name, selector))
-            },
-            getSetterName = { name: String -> "set" + NameHelper.toUpperCamelCase(name) },
-            getGetterName = { name: String, isBoolean: Boolean ->
-                val prefix = if (isBoolean) "is" else "get"
-                prefix + NameHelper.toUpperCamelCase(name)
-            },
-            getTypeName = NameHelper::toUpperCamelCase
-        )
-
         fun getPackageName(base: String) = base.replace("_", "")
     }
 }

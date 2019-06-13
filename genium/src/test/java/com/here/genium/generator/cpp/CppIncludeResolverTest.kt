@@ -19,6 +19,8 @@
 
 package com.here.genium.generator.cpp
 
+import com.here.genium.Genium
+import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeElement
@@ -34,7 +36,9 @@ class CppIncludeResolverTest {
     private val limeRootPath = LimePath(listOf("mo", "del"), listOf("foo"))
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
 
-    private var includeResolver = CppIncludeResolver(limeReferenceMap, CppNameRules(listOf("ro", "ot")))
+    private val nameRuleSet = nameRuleSetFromConfig(Genium.defaultOptions().cppNameRules)
+    private val includeResolver =
+        CppIncludeResolver(limeReferenceMap, CppNameRules(listOf("ro", "ot"), nameRuleSet))
 
     @Test
     fun resolveRegularInclude() {

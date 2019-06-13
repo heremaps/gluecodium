@@ -19,36 +19,19 @@
 
 package com.here.genium.generator.cpp
 
-import com.here.genium.generator.common.NameHelper
 import com.here.genium.generator.common.NameRuleSet
-import com.here.genium.generator.common.NameRuleSet.Companion.ignore2
 import com.here.genium.generator.common.NameRules
 import com.here.genium.model.lime.LimeNamedElement
 import java.io.File
 
-class CppNameRules(
-    val rootNamespace: List<String>,
-    nameRuleSet: NameRuleSet = defaultRuleSet
-) : NameRules(nameRuleSet) {
+class CppNameRules(val rootNamespace: List<String>, nameRuleSet: NameRuleSet) :
+    NameRules(nameRuleSet) {
     fun getOutputFilePath(limeNamedElement: LimeNamedElement) =
         (rootNamespace + limeNamedElement.path.head +
                 ruleSet.getTypeName(limeNamedElement.path.container)
                 ).joinToString(separator = File.separator)
 
     companion object {
-        val defaultRuleSet = NameRuleSet(
-            getFieldName = NameHelper::toLowerSnakeCase,
-            getParameterName = NameHelper::toLowerSnakeCase,
-            getConstantName = NameHelper::toUpperSnakeCase,
-            getEnumeratorName = NameHelper::toUpperSnakeCase,
-            getMethodName = ignore2(NameHelper::toLowerSnakeCase),
-            getSetterName = { name: String -> setterPrefix + NameHelper.toLowerSnakeCase(name) },
-            getGetterName = { name: String, isBoolean: Boolean ->
-                getGetterPrefix(isBoolean) + NameHelper.toLowerSnakeCase(name)
-            },
-            getTypeName = NameHelper::toUpperCamelCase
-        )
-
         fun joinFullyQualifiedName(nameList: List<String>) = "::" + nameList.joinToString("::")
 
         fun joinFullyQualifiedName(namespace: String?, name: String) =
@@ -57,9 +40,5 @@ class CppNameRules(
                 namespace.startsWith("::") -> "$namespace::$name"
                 else -> "::$namespace::$name"
             }
-
-        private fun getGetterPrefix(isBoolean: Boolean) = if (isBoolean) "is_" else "get_"
-
-        private const val setterPrefix = "set_"
     }
 }

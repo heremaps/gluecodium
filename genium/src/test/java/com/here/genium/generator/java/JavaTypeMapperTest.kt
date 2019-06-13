@@ -19,6 +19,8 @@
 
 package com.here.genium.generator.java
 
+import com.here.genium.Genium
+import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaEnumType
 import com.here.genium.model.java.JavaPackage
@@ -55,7 +57,8 @@ class JavaTypeMapperTest {
 
     private val notNullAnnotation = object : JavaType("Foo") {}
     private val nullableAnnotation = object : JavaType("Bar") {}
-    private val nameRules = JavaNameRules()
+    private val nameRuleSet = nameRuleSetFromConfig(Genium.defaultOptions().javaNameRules)
+    private val nameRules = JavaNameRules(nameRuleSet)
 
     private val typeMapper = JavaTypeMapper(
         limeReferenceMap,
