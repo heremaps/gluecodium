@@ -59,18 +59,3 @@ function publish_local {
 
     export GENIUM_VERSION
 }
-
-function transpilation_time_to_carbon() {
-    local cmake_log="$1"
-    local carbon_key="$2"
-    local output_file="$3"
-
-    set -o pipefail
-
-    run_time=$(grep -m1 -E '.+ ms[[:space:]]+:run' "$cmake_log" | grep -oE '[[:digit:]]+')
-    if [ -z "$run_time" ]; then
-        echo "WARNING: Genium run time was not found in $cmake_log"
-        return 1
-    fi
-    echo "$carbon_key $run_time $(date +'%s')" > "$output_file"
-}
