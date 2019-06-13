@@ -21,6 +21,7 @@ package com.here.genium.cli
 
 import com.here.genium.Genium
 import com.here.genium.platform.common.GeneratorSuite
+import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.ConfigurationProperties
 import com.natpryce.konfig.overriding
 import org.apache.commons.cli.CommandLine
@@ -94,6 +95,8 @@ class OptionReader {
         addOption("cppnamespace", true, "C++ namespace for public (API) headers.")
         addOption("cppexport", true, "C++ export macro name for explicit symbol exporting.")
         addOption("cppnamerules", true, "C++ name rules property file.")
+        addOption("javanamerules", true, "Java name rules property file.")
+        addOption("swiftnamerules", true, "Swift name rules property file.")
     }
 
     @Throws(OptionReaderException::class)
@@ -151,13 +154,19 @@ class OptionReader {
                 options.cppExport = cppExport
             }
 
-            val cppNameRules = getSingleOptionValue(cmd, "cppnamerules")
-            if (cppNameRules != null) {
-                if (!File(cppNameRules).exists()) {
-                    throw OptionReaderException("cppnamerules file $cppNameRules does not exit")
-                }
-                options.cppNameRules =
-                    ConfigurationProperties.fromFile(File(cppNameRules)) overriding options.cppNameRules
+            val cppNameRulesPath = getSingleOptionValue(cmd, "cppnamerules")
+            if (cppNameRulesPath != null) {
+                options.cppNameRules = readNameRulesConfig(cppNameRulesPath) overriding options.cppNameRules
+            }
+
+            val javaNameRulesPath = getSingleOptionValue(cmd, "javanamerules")
+            if (javaNameRulesPath != null) {
+                options.javaNameRules = readNameRulesConfig(javaNameRulesPath) overriding options.javaNameRules
+            }
+
+            val swiftNameRulesPath = getSingleOptionValue(cmd, "swiftnamerules")
+            if (swiftNameRulesPath != null) {
+                options.swiftNameRules = readNameRulesConfig(swiftNameRulesPath) overriding options.swiftNameRules
             }
 
             val copyrightHeader = cmd.getOptionValue("copyright")
@@ -182,6 +191,15 @@ class OptionReader {
         val footer = "\nPlease report issues at /dev/null"
 
         HelpFormatter().printHelp("generate [input]", header, options, footer, true)
+    }
+
+    @Throws(OptionReaderException::class)
+    private fun readNameRulesConfig(path: String): Configuration {
+        val nameRulesFile = File(path)
+        if (!nameRulesFile.exists()) {
+            throw OptionReaderException("Name rules file $path does not exit")
+        }
+        return ConfigurationProperties.fromFile(nameRulesFile)
     }
 
     @Throws(OptionReaderException::class)

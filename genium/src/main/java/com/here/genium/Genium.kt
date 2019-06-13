@@ -178,6 +178,14 @@ class Genium(
         var cppNameRules: Configuration = ConfigurationProperties.fromResource(
             Genium::class.java,
             "/namerules/cpp.properties"
+        ),
+        var javaNameRules: Configuration = ConfigurationProperties.fromResource(
+            Genium::class.java,
+            "/namerules/java.properties"
+        ),
+        var swiftNameRules: Configuration = ConfigurationProperties.fromResource(
+            Genium::class.java,
+            "/namerules/swift.properties"
         )
     )
 

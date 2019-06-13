@@ -35,7 +35,6 @@ import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftModelElement
 import com.here.genium.platform.common.GeneratorSuite
-import com.natpryce.konfig.ConfigurationProperties
 
 /**
  * Combines [SwiftGenerator] and [CBridgeGenerator] to generate Swift bindings on top of
@@ -48,11 +47,9 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
     private val rootNamespace = options.cppRootNamespace
     private val commentsProcessor = SwiftCommentsProcessor()
     private val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
+    private val swiftNameRules = SwiftNameRules(nameRuleSetFromConfig(options.swiftNameRules))
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
-        val swiftNameRuleConfig = ConfigurationProperties.fromResource(javaClass, "/namerules/swift.properties")
-        val swiftNameRules = SwiftNameRules(nameRuleSetFromConfig(swiftNameRuleConfig))
-
         val limeReferenceMap = limeModel.referenceMap
         val swiftGenerator = SwiftGenerator(limeReferenceMap, swiftNameRules)
         val cBridgeGenerator = CBridgeGenerator(

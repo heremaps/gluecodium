@@ -35,7 +35,6 @@ import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.java.JavaTopLevelElement
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.platform.common.GeneratorSuite
-import com.natpryce.konfig.ConfigurationProperties
 
 /**
  * Combines generators [JniGenerator], [JniTemplates] and [JavaTemplates] to generate Java code and
@@ -52,6 +51,7 @@ open class JavaGeneratorSuite protected constructor(
     private val rootNamespace = options.cppRootNamespace
     private val commentsProcessor = JavaDocProcessor()
     private val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
+    private val javaNameRules = JavaNameRules(nameRuleSetFromConfig(options.javaNameRules))
 
     protected open val generatorName = GENERATOR_NAME
 
@@ -60,9 +60,6 @@ open class JavaGeneratorSuite protected constructor(
     override fun getName() = "com.here.JavaGeneratorSuite"
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
-        val javaNameRuleConfig = ConfigurationProperties.fromResource(javaClass, "/namerules/java.properties")
-        val javaNameRules = JavaNameRules(nameRuleSetFromConfig(javaNameRuleConfig))
-
         val javaPackageList =
             if (!rootPackage.isEmpty()) rootPackage else JavaPackage.DEFAULT_PACKAGE_NAMES
         val internalPackageList = javaPackageList + internalPackage
