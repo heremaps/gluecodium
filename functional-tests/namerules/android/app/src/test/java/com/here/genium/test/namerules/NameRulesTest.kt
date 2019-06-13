@@ -17,7 +17,7 @@
 * License-Filename: LICENSE
 */
 
-import com.here.namerules.namerules.NameRules
+import com.here.namerules.namerules.NAME_RULES_DROID
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import org.junit.Test
@@ -38,20 +38,20 @@ class NameRulesTest {
 
     @Test
     fun `test attributes`() {
-        val someClass = NameRules()
-        someClass.isBooleanAttribute = true
-        someClass.intAttribute = 8
-        someClass.structAttribute = NameRules.ExampleStruct(3.14, listOf(7))
-        assertTrue(someClass.isBooleanAttribute)
-        assertEquals(someClass.intAttribute, 8)
-        assertEquals(someClass.structAttribute.intValues.size, 1)
-        assertEquals(someClass.structAttribute.intValues[0], 7)
+        val someClass = NAME_RULES_DROID()
+        someClass.STORE_BOOLEAN_ATTRIBUTE(true)
+        someClass.STORE_INT_ATTRIBUTE(8)
+        someClass.STORE_STRUCT_ATTRIBUTE(NAME_RULES_DROID.EXAMPLE_STRUCT_DROID(3.14, listOf(7)))
+        assertTrue(someClass.loadBooleanAttribute())
+        assertEquals(someClass.loadIntAttribute(), 8)
+        assertEquals(someClass.loadStructAttribute().j_int_values.size, 1)
+        assertEquals(someClass.loadStructAttribute().j_int_values[0], 7)
     }
 
-    @Test(expected = NameRules.ExampleErrorException::class)
+    @Test(expected = NAME_RULES_DROID.EXAMPLE_ERROR_DROIDException::class)
     fun `test errors`() {
-        val someClass = NameRules()
-        val someStruct = NameRules.ExampleStruct(3.14, listOf(7))
-        someClass.someMethod(someStruct)
+        val someClass = NAME_RULES_DROID()
+        val someStruct = NAME_RULES_DROID.EXAMPLE_STRUCT_DROID(3.14, listOf(7))
+        someClass.some_method(someStruct)
     }
 }

@@ -39,8 +39,10 @@ apigen_generate(TARGET namerules
         VERSION ${GENIUM_VERSION}
         JAVA_PACKAGE com.here.namerules
         JAVA_INTERNAL_PACKAGE lorem.ipsum
+        JAVA_NAMERULES input/namerules/java.properties
         CPP_INTERNAL_NAMESPACE lorem_ipsum.test
-        CPP_NAMERULES input/namerules/cpp.properties)
+        CPP_NAMERULES input/namerules/cpp.properties
+        SWIFT_NAMERULES input/namerules/swift.properties)
 apigen_target_include_directories(namerules)
 apigen_target_sources(namerules)
 

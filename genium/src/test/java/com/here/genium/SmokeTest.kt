@@ -47,6 +47,21 @@ class SmokeTest(
             options.cppNameRules =
                 ConfigurationProperties.fromFile(cppNameRulesConfig) overriding options.cppNameRules
         }
+
+        val javaNameRulesConfig =
+            File(File(featureDirectory, FEATURE_INPUT_FOLDER), "namerules/java.properties")
+        if (javaNameRulesConfig.exists()) {
+            options.javaNameRules =
+                ConfigurationProperties.fromFile(javaNameRulesConfig) overriding options.javaNameRules
+        }
+
+        val swiftNameRulesConfig =
+            File(File(featureDirectory, FEATURE_INPUT_FOLDER), "namerules/swift.properties")
+        if (swiftNameRulesConfig.exists()) {
+            options.swiftNameRules =
+                ConfigurationProperties.fromFile(swiftNameRulesConfig) overriding options.swiftNameRules
+        }
+
         return options
     }
 

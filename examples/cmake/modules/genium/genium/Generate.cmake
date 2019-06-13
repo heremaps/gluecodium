@@ -63,10 +63,12 @@ function(apigen_generate)
       ANDROID_MERGE_MANIFEST
       JAVA_PACKAGE
       JAVA_INTERNAL_PACKAGE
+      JAVA_NAMERULES
       COPYRIGHT_HEADER
       CPP_INTERNAL_NAMESPACE
       CPP_EXPORT
       CPP_NAMERULES
+      SWIFT_NAMERULES
       OUTPUT_DIR)
   set(multiValueArgs FRANCA_SOURCES)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
@@ -143,12 +145,9 @@ function(apigen_generate)
   if(apigen_generate_CPP_INTERNAL_NAMESPACE)
     string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " --cpp-internal-namespace ${apigen_generate_CPP_INTERNAL_NAMESPACE}")
   endif()
-  if(apigen_generate_CPP_NAMERULES)
-    if(NOT IS_ABSOLUTE ${apigen_generate_CPP_NAMERULES})
-      set(apigen_generate_CPP_NAMERULES "${CMAKE_CURRENT_SOURCE_DIR}/${apigen_generate_CPP_NAMERULES}")
-    endif()
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -cppnamerules ${apigen_generate_CPP_NAMERULES}")
-  endif()
+  apigen_name_rule(-cppnamerules CPP_NAMERULES)
+  apigen_name_rule(-javanamerules JAVA_NAMERULES)
+  apigen_name_rule(-swiftnamerules SWIFT_NAMERULES)
 
   if(apigen_generate_CPP_EXPORT)
     string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -cppexport ${apigen_generate_CPP_EXPORT}")
@@ -172,3 +171,12 @@ function(apigen_generate)
   endif()
 
 endfunction()
+
+macro(apigen_name_rule NAME_RULE_OPTION NAME_RULE_PATH)
+  if(apigen_generate_${NAME_RULE_PATH})
+    if(NOT IS_ABSOLUTE ${apigen_generate_${NAME_RULE_PATH}})
+      set(apigen_generate_${NAME_RULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/${apigen_generate_${NAME_RULE_PATH}}")
+    endif()
+    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " ${NAME_RULE_OPTION} ${apigen_generate_${NAME_RULE_PATH}}")
+  endif()
+endmacro()

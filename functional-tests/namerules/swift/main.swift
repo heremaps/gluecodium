@@ -23,22 +23,22 @@ import namerules
 
 class NameRulesTests: XCTestCase {
     func testAttributes() {
-        let someClass = NameRules()
-        someClass.isBooleanAttribute = true
-        someClass.intAttribute = UInt32(8)
-        someClass.structAttribute = NameRules.ExampleStruct(doubleValue: 3.14, intValues: [Int64(7)])
-        XCTAssertTrue(someClass.isBooleanAttribute)
-        XCTAssertEqual(someClass.intAttribute, UInt32(8))
-        XCTAssertEqual(someClass.structAttribute.intValues, [Int64(7)])
+        let someClass = INameRules()
+        someClass.isBooleanAttributePod = true
+        someClass.intAttributePod = UInt32(8)
+        someClass.structAttributePod = INameRules.IExampleStruct(iDoubleValue: 3.14, iIntValues: [Int64(7)])
+        XCTAssertTrue(someClass.isBooleanAttributePod)
+        XCTAssertEqual(someClass.intAttributePod, UInt32(8))
+        XCTAssertEqual(someClass.structAttributePod.iIntValues, [Int64(7)])
     }
 
     func testError() {
-        let someClass = NameRules()
-        let someStruct = NameRules.ExampleStruct(doubleValue: 3.14, intValues: [Int64(7)])
+        let someClass = INameRules()
+        let someStruct = INameRules.IExampleStruct(iDoubleValue: 3.14, iIntValues: [Int64(7)])
         do {
             let _ = try someClass.someMethod(someArgument: someStruct)
             XCTFail("No exception was thrown")
-        } catch NameRules.ExampleError.fatal {
+        } catch INameRules.IExampleError.fatal {
         } catch {
             XCTFail("Wrong exception was thrown")
         }
