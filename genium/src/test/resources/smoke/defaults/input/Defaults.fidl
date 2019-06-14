@@ -67,6 +67,18 @@ interface DefaultValues {
         StructWithDefaults structField
     }
 
+    typedef LongTypedef is Int64
+    typedef BooleanTypedef is Boolean
+    typedef StringTypedef is String
+    typedef EnumTypedef is SomeEnum
+
+    struct StructWithTypedefDefaults {
+        LongTypedef longField
+        BooleanTypedef boolField
+        StringTypedef stringField
+        EnumTypedef enumField
+    }
+
     array FloatArray of Float
     map IdToStringMap {UInt32 to String}
 

@@ -357,6 +357,44 @@ class LimeModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingFieldReadsDefaultValue() {
+        contextStack.injectResult(limeTypeRef)
+        every { deploymentModel.getDefaultValue(francaField) } returns "foo"
+        val stringTypeRef = mockk<FTypeRef>()
+        every { stringTypeRef.predefined } returns FBasicTypeId.STRING
+        every { stringTypeRef.derived } returns null
+        every { francaField.type } returns stringTypeRef
+
+        modelBuilder.finishBuilding(francaField)
+
+        val result = modelBuilder.getFinalResult(LimeField::class.java)
+        assertTrue(result.defaultValue is LimeValue.Literal)
+        assertEquals("\"foo\"", (result.defaultValue as LimeValue.Literal).value)
+    }
+
+    @Test
+    fun finishBuildingFieldReadsDefaultValueTypedef() {
+        contextStack.injectResult(limeTypeRef)
+        every { deploymentModel.getDefaultValue(francaField) } returns "foo"
+        val stringTypeRef = mockk<FTypeRef>()
+        every { stringTypeRef.predefined } returns FBasicTypeId.STRING
+        every { stringTypeRef.derived } returns null
+
+        val stringTypeDef = mockk<FTypeDef>()
+        every { stringTypeDef.actualType } returns stringTypeRef
+
+        val stringTypeDefRef = mockk<FTypeRef>()
+        every { stringTypeDefRef.derived } returns stringTypeDef
+        every { francaField.type } returns stringTypeDefRef
+
+        modelBuilder.finishBuilding(francaField)
+
+        val result = modelBuilder.getFinalResult(LimeField::class.java)
+        assertTrue(result.defaultValue is LimeValue.Literal)
+        assertEquals("\"foo\"", (result.defaultValue as LimeValue.Literal).value)
+    }
+
+    @Test
     fun finishBuildingTypeRefPredefined() {
         every { francaTypeRef.derived } returns null
         every { francaTypeRef.predefined } returns FBasicTypeId.DOUBLE

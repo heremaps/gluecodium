@@ -88,6 +88,18 @@ interface Defaults {
         StructWithSingleNullableField otherStructField
     }
 
+    typedef IntTypedef is Int32
+    typedef BooleanTypedef is Boolean
+    typedef StringTypedef is String
+    typedef EnumTypedef is SomeEnum
+
+    struct StructWithTypedefDefaults {
+        IntTypedef intField
+        BooleanTypedef boolField
+        StringTypedef stringField
+        EnumTypedef enumField
+    }
+
     array FloatArray of Float
     map IdToStringMap {UInt32 to String}
 

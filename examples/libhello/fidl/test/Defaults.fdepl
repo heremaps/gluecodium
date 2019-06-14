@@ -181,6 +181,21 @@ define Defaults for interface test.Defaults
             DefaultIsNull = true
         }
     }
+
+    struct StructWithTypedefDefaults {
+        intField {
+            DefaultValue = "42"
+        }
+        boolField {
+            DefaultValue = "true"
+        }
+        stringField {
+            DefaultValue = "\\Jonny \"Magic\" Smith\n"
+        }
+        enumField {
+            DefaultValue = "BarValue"
+        }
+    }
 }
 
 define ExternalTypes for interface test.Defaults

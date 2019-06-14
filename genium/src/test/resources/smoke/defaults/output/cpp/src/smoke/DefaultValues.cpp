@@ -29,4 +29,9 @@ DefaultValues::StructWithEmptyDefaults::StructWithEmptyDefaults( const ::std::ve
     : ints_field( ints_field ), floats_field( floats_field ), map_field( map_field ), struct_field( struct_field )
 {
 }
+DefaultValues::StructWithTypedefDefaults::StructWithTypedefDefaults( ) = default;
+DefaultValues::StructWithTypedefDefaults::StructWithTypedefDefaults( const ::smoke::DefaultValues::LongTypedef long_field, const ::smoke::DefaultValues::BooleanTypedef bool_field, const ::smoke::DefaultValues::StringTypedef& string_field, const ::smoke::DefaultValues::EnumTypedef enum_field )
+    : long_field( long_field ), bool_field( bool_field ), string_field( string_field ), enum_field( enum_field )
+{
+}
 }

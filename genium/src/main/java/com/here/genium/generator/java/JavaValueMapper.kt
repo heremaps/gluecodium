@@ -28,6 +28,7 @@ import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeValue
 
 class JavaValueMapper(
@@ -38,21 +39,21 @@ class JavaValueMapper(
     fun mapValue(limeValue: LimeValue, javaType: JavaType) =
         when (limeValue) {
             is LimeValue.Literal -> {
-                val limeType = limeValue.typeRef.type
+                val limeType = LimeTypeHelper.getActualType(limeValue.typeRef.type)
                 val suffix = when {
-                        limeType !is LimeBasicType -> ""
-                        limeType.typeId == TypeId.FLOAT -> "f"
-                        limeType.typeId == TypeId.UINT32 || limeType.typeId == TypeId.UINT64 ||
+                    limeType !is LimeBasicType -> ""
+                    limeType.typeId == TypeId.FLOAT -> "f"
+                    limeType.typeId == TypeId.UINT32 || limeType.typeId == TypeId.UINT64 ||
                             limeType.typeId == TypeId.INT64 -> "L"
-                        else -> ""
-                    }
+                    else -> ""
+                }
                 JavaValue(limeValue.value + suffix, true)
             }
             is LimeValue.Enumerator -> {
                 val limeEnumerator = limeValue.valueRef.enumerator
-                val limeEnumeration = limeValue.typeRef.type
+                val limeEnumeration = LimeTypeHelper.getActualType(limeValue.typeRef.type)
                 var names = listOf(nameRules.getName(limeEnumeration)) +
-                    nameRules.getName(limeEnumerator)
+                        nameRules.getName(limeEnumerator)
                 val parentContainer =
                     limeReferenceMap[limeEnumeration.path.parent.toString()] as LimeContainer
                 if (parentContainer.type != LimeContainer.ContainerType.TYPE_COLLECTION) {
@@ -67,7 +68,7 @@ class JavaValueMapper(
                     if (javaType is JavaTemplateType) javaType.implementationType else javaType
                 JavaValue(implementationType, true)
             }
-    }
+        }
 
     private fun mapSpecialValue(limeValue: LimeValue.Special): JavaValue {
         val prefix = if (limeValue.typeRef == LimeBasicTypeRef.FLOAT) "Float" else "Double"

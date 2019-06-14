@@ -12,6 +12,10 @@ internal func getRef(_ ref: DefaultValues?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 public class DefaultValues {
+    public typealias LongTypedef = Int64
+    public typealias BooleanTypedef = Bool
+    public typealias StringTypedef = String
+    public typealias EnumTypedef = DefaultValues.SomeEnum
     public typealias FloatArray = [Float]
     public typealias IdToStringMap = [UInt32: String]
     let c_instance : _baseRef
@@ -126,6 +130,24 @@ public class DefaultValues {
             floatsField = moveFromCType(smoke_DefaultValues_StructWithEmptyDefaults_floatsField_get(cHandle))
             mapField = moveFromCType(smoke_DefaultValues_StructWithEmptyDefaults_mapField_get(cHandle))
             structField = moveFromCType(smoke_DefaultValues_StructWithEmptyDefaults_structField_get(cHandle))
+        }
+    }
+    public struct StructWithTypedefDefaults {
+        public var longField: DefaultValues.LongTypedef
+        public var boolField: DefaultValues.BooleanTypedef
+        public var stringField: DefaultValues.StringTypedef
+        public var enumField: DefaultValues.EnumTypedef
+        public init(longField: DefaultValues.LongTypedef = 42, boolField: DefaultValues.BooleanTypedef = true, stringField: DefaultValues.StringTypedef = "\\Jonny \"Magic\" Smith\n", enumField: DefaultValues.EnumTypedef = DefaultValues.EnumTypedef.barValue) {
+            self.longField = longField
+            self.boolField = boolField
+            self.stringField = stringField
+            self.enumField = enumField
+        }
+        internal init(cHandle: _baseRef) {
+            longField = moveFromCType(smoke_DefaultValues_StructWithTypedefDefaults_longField_get(cHandle))
+            boolField = moveFromCType(smoke_DefaultValues_StructWithTypedefDefaults_boolField_get(cHandle))
+            stringField = moveFromCType(smoke_DefaultValues_StructWithTypedefDefaults_stringField_get(cHandle))
+            enumField = moveFromCType(smoke_DefaultValues_StructWithTypedefDefaults_enumField_get(cHandle))
         }
     }
     public static func processStructWithDefaults(input: DefaultValues.StructWithDefaults) -> DefaultValues.StructWithDefaults {
@@ -361,6 +383,51 @@ internal func copyToCType(_ swiftType: DefaultValues.StructWithEmptyDefaults?) -
 }
 internal func moveToCType(_ swiftType: DefaultValues.StructWithEmptyDefaults?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_StructWithEmptyDefaults_release_optional_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> DefaultValues.StructWithTypedefDefaults {
+    return DefaultValues.StructWithTypedefDefaults(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> DefaultValues.StructWithTypedefDefaults {
+    defer {
+        smoke_DefaultValues_StructWithTypedefDefaults_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: DefaultValues.StructWithTypedefDefaults) -> RefHolder {
+    let c_longField = moveToCType(swiftType.longField)
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    return RefHolder(smoke_DefaultValues_StructWithTypedefDefaults_create_handle(c_longField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref))
+}
+internal func moveToCType(_ swiftType: DefaultValues.StructWithTypedefDefaults) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_StructWithTypedefDefaults_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> DefaultValues.StructWithTypedefDefaults? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_DefaultValues_StructWithTypedefDefaults_unwrap_optional_handle(handle)
+    return DefaultValues.StructWithTypedefDefaults(cHandle: unwrappedHandle) as DefaultValues.StructWithTypedefDefaults
+}
+internal func moveFromCType(_ handle: _baseRef) -> DefaultValues.StructWithTypedefDefaults? {
+    defer {
+        smoke_DefaultValues_StructWithTypedefDefaults_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: DefaultValues.StructWithTypedefDefaults?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let c_longField = moveToCType(swiftType.longField)
+    let c_boolField = moveToCType(swiftType.boolField)
+    let c_stringField = moveToCType(swiftType.stringField)
+    let c_enumField = moveToCType(swiftType.enumField)
+    return RefHolder(smoke_DefaultValues_StructWithTypedefDefaults_create_optional_handle(c_longField.ref, c_boolField.ref, c_stringField.ref, c_enumField.ref))
+}
+internal func moveToCType(_ swiftType: DefaultValues.StructWithTypedefDefaults?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_StructWithTypedefDefaults_release_optional_handle)
 }
 internal func copyToCType(_ swiftEnum: DefaultValues.SomeEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)

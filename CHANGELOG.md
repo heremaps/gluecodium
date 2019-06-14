@@ -6,6 +6,7 @@
   + Java `@NonNull` and `@Nullable` annotations are now configurable
 - Bug fixes:
   + Fixed compilation issue for empty defaulted C++ struct members
+  + Fix default values for struct fields with typedef type
 - Breaking changes:
   + Default constructor for a C++ struct is not generated anymore if it has immutable non-defaulted fields
   + Android generator does not create `@NonNull` and `@Nullable` annotations by default anymore,

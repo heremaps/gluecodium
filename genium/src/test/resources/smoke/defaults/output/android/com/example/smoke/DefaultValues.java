@@ -135,6 +135,25 @@ public class DefaultValues extends NativeBase {
             this.structField = structField;
         }
     }
+    public static class StructWithTypedefDefaults {
+        public long longField;
+        public boolean boolField;
+        public String stringField;
+        @NonNull
+        public DefaultValues.SomeEnum enumField;
+        public StructWithTypedefDefaults() {
+            this.longField = 42L;
+            this.boolField = true;
+            this.stringField = "\\Jonny \"Magic\" Smith\n";
+            this.enumField = DefaultValues.SomeEnum.BAR_VALUE;
+        }
+        public StructWithTypedefDefaults(long longField, boolean boolField, String stringField, DefaultValues.SomeEnum enumField) {
+            this.longField = longField;
+            this.boolField = boolField;
+            this.stringField = stringField;
+            this.enumField = enumField;
+        }
+    }
     /**
      * For internal use only.
      * @exclude

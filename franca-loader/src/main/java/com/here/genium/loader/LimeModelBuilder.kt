@@ -466,7 +466,8 @@ class LimeModelBuilder(
         }
 
         val literalValue = deploymentModel.getDefaultValue(francaField) ?: return null
-        val francaTypeRef = francaField.type
+        val derivedType = francaField.type.derived
+        val francaTypeRef = if (derivedType is FTypeDef) derivedType.actualType else francaField.type
         return when {
             francaTypeRef.predefined == FBasicTypeId.STRING -> {
                 val escapedValue = StringEscapeUtils.escapeJava(literalValue)

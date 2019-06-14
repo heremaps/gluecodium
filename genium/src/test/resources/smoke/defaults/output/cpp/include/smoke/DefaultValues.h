@@ -24,6 +24,10 @@ enum class SomeEnum {
     FOO_VALUE,
     BAR_VALUE
 };
+using LongTypedef = int64_t;
+using BooleanTypedef = bool;
+using StringTypedef = ::std::string;
+using EnumTypedef = ::smoke::DefaultValues::SomeEnum;
 using FloatArray = ::std::vector< float >;
 using IdToStringMap = ::std::unordered_map< uint32_t, ::std::string >;
 struct _GENIUM_CPP_EXPORT StructWithDefaults {
@@ -65,6 +69,14 @@ struct _GENIUM_CPP_EXPORT StructWithEmptyDefaults {
     ::smoke::DefaultValues::StructWithDefaults struct_field = {};
     StructWithEmptyDefaults( );
     StructWithEmptyDefaults( const ::std::vector< int32_t >& ints_field, const ::smoke::DefaultValues::FloatArray& floats_field, const ::smoke::DefaultValues::IdToStringMap& map_field, const ::smoke::DefaultValues::StructWithDefaults& struct_field );
+};
+struct _GENIUM_CPP_EXPORT StructWithTypedefDefaults {
+    ::smoke::DefaultValues::LongTypedef long_field = 42;
+    ::smoke::DefaultValues::BooleanTypedef bool_field = true;
+    ::smoke::DefaultValues::StringTypedef string_field = "\\Jonny \"Magic\" Smith\n";
+    ::smoke::DefaultValues::EnumTypedef enum_field = ::smoke::DefaultValues::SomeEnum::BAR_VALUE;
+    StructWithTypedefDefaults( );
+    StructWithTypedefDefaults( const ::smoke::DefaultValues::LongTypedef long_field, const ::smoke::DefaultValues::BooleanTypedef bool_field, const ::smoke::DefaultValues::StringTypedef& string_field, const ::smoke::DefaultValues::EnumTypedef enum_field );
 };
 public:
 static ::smoke::DefaultValues::StructWithDefaults process_struct_with_defaults( const ::smoke::DefaultValues::StructWithDefaults& input );

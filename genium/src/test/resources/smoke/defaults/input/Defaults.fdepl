@@ -93,6 +93,21 @@ define Defaults for interface smoke.DefaultValues
             DefaultIsEmpty = true
         }
     }
+
+    struct StructWithTypedefDefaults {
+        longField {
+            DefaultValue = "42"
+        }
+        boolField {
+            DefaultValue = "true"
+        }
+        stringField {
+            DefaultValue = "\\Jonny \"Magic\" Smith\n"
+        }
+        enumField {
+            DefaultValue = "BarValue"
+        }
+    }
 }
 
 define GeniumExtensions for interface smoke.DefaultValues
