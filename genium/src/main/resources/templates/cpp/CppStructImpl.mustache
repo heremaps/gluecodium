@@ -24,20 +24,19 @@ const {{type.name}} {{#className}}{{.}}::{{/className}}{{structName}}::{{name}} 
 {{/constants}}{{/set}}{{!!
 }}{{#if fields}}
 {{#className}}{{.}}::{{/className}}{{name}}::{{name}}( )
-    : {{#parentStruct}}{{parent.name}}{ }, {{/parentStruct}}{{#fields}}{{name}}{{#initializer}}( {{name}} ){{/initializer}}{{!!
+    : {{#fields}}{{name}}{{#initializer}}( {{name}} ){{/initializer}}{{!!
     }}{{^initializer}}{ }{{/initializer}}{{#if iter.hasNext}}, {{/if}}{{/fields}}
 {
 }{{#if hasPartialDefaults}}
 
 {{#className}}{{.}}::{{/className}}{{name}}::{{name}}( {{joinPartial uninitializedFields "cpp/CppMethodParameter" ", "}} )
-    : {{#parentStruct}}{{parent.name}}{ }, {{/parentStruct}}{{!!
-}}{{#fields}}{{name}}{{#initializer}}( {{name}} ){{/initializer}}{{!!
+    : {{#fields}}{{name}}{{#initializer}}( {{name}} ){{/initializer}}{{!!
 }}{{^initializer}}( {{name}} ){{/initializer}}{{#if iter.hasNext}}, {{/if}}{{/fields}}
 {
 }{{/if}}
 
 {{#className}}{{.}}::{{/className}}{{name}}::{{name}}( {{joinPartial fields "cpp/CppMethodParameter" ", "}} )
-    : {{#parentStruct}}{{parent.name}}{ }, {{/parentStruct}}{{#fields}}{{name}}( {{name}} ){{#if iter.hasNext}}, {{/if}}{{/fields}}
+    : {{#fields}}{{name}}( {{name}} ){{#if iter.hasNext}}, {{/if}}{{/fields}}
 {
 }
 
