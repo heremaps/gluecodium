@@ -37,10 +37,15 @@ class CppStruct(
     val uninitializedFields = fields.filter { it.initializer == null }
 
     @Suppress("unused")
-    val hasPartialDefaults = uninitializedFields.isNotEmpty() && uninitializedFields.size < fields.size
+    val hasPartialDefaults =
+        uninitializedFields.isNotEmpty() && uninitializedFields.size < fields.size
 
     @Suppress("unused")
     val hasImmutableFields = isImmutable || fields.any { it.hasImmutableType }
+
+    @Suppress("unused")
+    val hasDefaultConstructor =
+        (!isImmutable || uninitializedFields.isEmpty()) && !uninitializedFields.any { it.hasImmutableType }
 
     override fun stream() = Stream.concat(fields.stream(), methods.stream())
 }

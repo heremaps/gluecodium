@@ -43,7 +43,7 @@ Defaults::check_default( const Defaults::StructWithDefaults& input )
 Defaults::ImmutableStructWithDefaults
 Defaults::get_immutable_default( )
 {
-    return {};
+    return {0, false};
 }
 
 bool

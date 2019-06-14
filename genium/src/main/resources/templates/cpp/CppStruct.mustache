@@ -28,7 +28,7 @@ struct {{>cpp/CppExportMacro}}{{name}} {
 {{/fields}}{{!!
 }}{{#if fields}}
 
-    {{name}}( );{{#if hasPartialDefaults}}
+    {{#if hasDefaultConstructor}}{{name}}( );{{/if}}{{#if hasPartialDefaults}}
     {{name}}( {{joinPartial uninitializedFields "cpp/CppMethodParameter" ", "}} );{{/if}}
     {{name}}( {{joinPartial fields "cpp/CppMethodParameter" ", "}} );
 

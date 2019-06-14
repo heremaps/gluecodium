@@ -39,6 +39,10 @@ define GeniumExtensions for interface test.Defaults
         Equatable = true
     }
 
+    struct StructWithSingleNullableField {
+        nullableField { Nullable = true }
+    }
+
     method getDefault {
         Static = true
     }
@@ -166,6 +170,15 @@ define Defaults for interface test.Defaults
         }
         structField {
             DefaultIsEmpty = true
+        }
+        otherStructField {
+            DefaultIsEmpty = true
+        }
+    }
+
+    struct StructWithSingleNullableField {
+        nullableField {
+            DefaultIsNull = true
         }
     }
 }

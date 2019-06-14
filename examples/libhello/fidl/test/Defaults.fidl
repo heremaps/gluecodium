@@ -76,11 +76,16 @@ interface Defaults {
         Double doubleNegativeInfinityField
     }
 
+    struct StructWithSingleNullableField {
+        Int32 nullableField
+    }
+
     struct StructWithEmptyDefaults {
         Int32[] intsField
         FloatArray floatsField
         IdToStringMap mapField
         StructWithDefaults structField
+        StructWithSingleNullableField otherStructField
     }
 
     array FloatArray of Float

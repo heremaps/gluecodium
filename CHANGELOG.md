@@ -4,7 +4,10 @@
 - Features:
   + Support custom name rules for Java and Swift
   + Java `@NonNull` and `@Nullable` annotations are now configurable
+- Bug fixes:
+  + Fixed compilation issue for empty defaulted C++ struct members
 - Breaking changes:
+  + Default constructor for a C++ struct is not generated anymore if it has immutable non-defaulted fields
   + Android generator does not create `@NonNull` and `@Nullable` annotations by default anymore,
     to get old behaviour pass command line options:
     `-javanonnullannotation android.support.annotation.NonNull -javanullableannotation android.support.annotation.Nullable`

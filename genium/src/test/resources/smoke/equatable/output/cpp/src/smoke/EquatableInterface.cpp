@@ -13,10 +13,7 @@ bool
 EquatableInterface::operator!=( const EquatableInterface& rhs ) {
     return !( *this == rhs );
 }
-EquatableInterface::EquatableStruct::EquatableStruct( )
-    : int_field{ }, string_field{ }, nested_equatable_instance{ }, nested_pointer_equatable_instance{ }
-{
-}
+EquatableInterface::EquatableStruct::EquatableStruct( ) = default;
 EquatableInterface::EquatableStruct::EquatableStruct( const int32_t int_field, const ::std::string& string_field, const ::std::shared_ptr< ::smoke::EquatableInterface >& nested_equatable_instance, const ::std::shared_ptr< ::smoke::PointerEquatableInterface >& nested_pointer_equatable_instance )
     : int_field( int_field ), string_field( string_field ), nested_equatable_instance( nested_equatable_instance ), nested_pointer_equatable_instance( nested_pointer_equatable_instance )
 {

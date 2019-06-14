@@ -8,10 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #include "smoke/Equatable.h"
 namespace smoke {
-EquatableStruct::EquatableStruct( )
-    : bool_field{ }, int_field{ }, long_field{ }, float_field{ }, double_field{ }, string_field{ }, struct_field{ }, enum_field{ }, array_field{ }, map_field{ }
-{
-}
+EquatableStruct::EquatableStruct( ) = default;
 EquatableStruct::EquatableStruct( const bool bool_field, const int32_t int_field, const int64_t long_field, const float float_field, const double double_field, const ::std::string& string_field, const ::smoke::NestedEquatableStruct& struct_field, const ::smoke::SomeEnum enum_field, const ::std::vector< ::std::string >& array_field, const ::smoke::ErrorCodeToMessageMap& map_field )
     : bool_field( bool_field ), int_field( int_field ), long_field( long_field ), float_field( float_field ), double_field( double_field ), string_field( string_field ), struct_field( struct_field ), enum_field( enum_field ), array_field( array_field ), map_field( map_field )
 {
@@ -33,10 +30,7 @@ bool EquatableStruct::operator!=( const EquatableStruct& rhs ) const
 {
     return !( *this == rhs );
 }
-EquatableNullableStruct::EquatableNullableStruct( )
-    : bool_field{ }, int_field{ }, uint_field{ }, float_field{ }, string_field{ }, struct_field{ }, enum_field{ }, array_field{ }, map_field{ }
-{
-}
+EquatableNullableStruct::EquatableNullableStruct( ) = default;
 EquatableNullableStruct::EquatableNullableStruct( const ::genium::optional< bool >& bool_field, const ::genium::optional< int32_t >& int_field, const ::genium::optional< uint16_t >& uint_field, const ::genium::optional< float >& float_field, const ::genium::optional< ::std::string >& string_field, const ::genium::optional< ::smoke::NestedEquatableStruct >& struct_field, const ::genium::optional< ::smoke::SomeEnum >& enum_field, const ::genium::optional< ::std::vector< ::std::string > >& array_field, const ::genium::optional< ::smoke::ErrorCodeToMessageMap >& map_field )
     : bool_field( bool_field ), int_field( int_field ), uint_field( uint_field ), float_field( float_field ), string_field( string_field ), struct_field( struct_field ), enum_field( enum_field ), array_field( array_field ), map_field( map_field )
 {
@@ -75,10 +69,7 @@ bool EquatableNullableStruct::operator!=( const EquatableNullableStruct& rhs ) c
 {
     return !( *this == rhs );
 }
-NestedEquatableStruct::NestedEquatableStruct( )
-    : foo_field{ }
-{
-}
+NestedEquatableStruct::NestedEquatableStruct( ) = default;
 NestedEquatableStruct::NestedEquatableStruct( const ::std::string& foo_field )
     : foo_field( foo_field )
 {

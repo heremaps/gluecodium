@@ -64,23 +64,19 @@ struct _GENIUM_CPP_EXPORT AllTypesStruct {
     const bool boolean_field;
     const ::std::shared_ptr< ::std::vector< uint8_t > > bytes_field;
     const ::smoke::Structs::Point point_field;
-    AllTypesStruct( );
     AllTypesStruct( const int8_t int8_field, const uint8_t uint8_field, const int16_t int16_field, const uint16_t uint16_field, const int32_t int32_field, const uint32_t uint32_field, const int64_t int64_field, const uint64_t uint64_field, const float float_field, const double double_field, const ::std::string& string_field, const bool boolean_field, const ::std::shared_ptr< ::std::vector< uint8_t > >& bytes_field, const ::smoke::Structs::Point& point_field );
 };
 using ArrayOfImmutable = ::std::vector< ::smoke::Structs::AllTypesStruct >;
 struct _GENIUM_CPP_EXPORT NestingImmutableStruct {
     ::smoke::Structs::AllTypesStruct struct_field;
-    NestingImmutableStruct( );
     NestingImmutableStruct( const ::smoke::Structs::AllTypesStruct& struct_field );
 };
 struct _GENIUM_CPP_EXPORT DoubleNestingImmutableStruct {
     ::smoke::Structs::NestingImmutableStruct nesting_struct_field;
-    DoubleNestingImmutableStruct( );
     DoubleNestingImmutableStruct( const ::smoke::Structs::NestingImmutableStruct& nesting_struct_field );
 };
 struct _GENIUM_CPP_EXPORT StructWithArrayOfImmutable {
     ::smoke::Structs::ArrayOfImmutable array_field;
-    StructWithArrayOfImmutable( );
     StructWithArrayOfImmutable( const ::smoke::Structs::ArrayOfImmutable& array_field );
 };
 public:
