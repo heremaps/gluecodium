@@ -32,6 +32,7 @@ $0 [options]
     --debug               Build with debug symbols
     --docs                Generate Javadoc of SDK
     --jemalloc            Run tests with jemalloc
+    --hostOnly            Only build host architecture
     --help                Print this message
 EOF
 )
@@ -39,6 +40,7 @@ EOF
 CMAKE_BUILD_TYPE=
 BUILD_LOCAL_GENIUM=false
 GENERATE_DOCS=false
+HOST_ONLY=false
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --publish)
@@ -64,6 +66,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --docs)
             GENERATE_DOCS=true
+            shift
+            ;;
+        --hostOnly)
+            HOST_ONLY=true
             shift
             ;;
         --help|*)
@@ -122,7 +128,14 @@ INSTALL_AAR_DIR="${ANDROID_DIR}/app/libs/"
 TMP_DIR=$(mktemp -d)
 
 # Do cross-compilation build for generating a proper Android Archive
-for arch in x86 armeabi-v7a ${HOST_ARCH} ; do
+
+if $HOST_ONLY; then
+    ARCHITECTURES=${HOST_ARCH}
+else
+    ARCHITECTURES="x86 armeabi-v7a ${HOST_ARCH}"
+fi
+
+for arch in ${ARCHITECTURES} ; do
     build_dir="${BUILD_DIR_PREFIX}${arch}"
     install_dir="${DIST_ANDROID_DIR}/${arch}"
 
@@ -161,7 +174,7 @@ done
 # At the moment we build one AAR per target architecture as it is not straightforward
 # to do a multi-arch build in one CMake build invocation. However, for simplicity we
 # want to include all architectures into one Android Archive. Hence do it in bash:
-find ${DIST_ANDROID_DIR} -name *.aar -not -path "*${HOST_ARCH}*" -exec unzip -n {} -d ${TMP_DIR} \;
+find ${DIST_ANDROID_DIR} -name *.aar -exec unzip -n {} -d ${TMP_DIR} \;
 jar cvf ${DIST_ANDROID_DIR}/hello.aar -C ${TMP_DIR} .
 cp ${DIST_ANDROID_DIR}/hello.aar ${INSTALL_AAR_DIR}
 
