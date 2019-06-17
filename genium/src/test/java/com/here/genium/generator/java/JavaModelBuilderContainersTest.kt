@@ -78,7 +78,7 @@ class JavaModelBuilderContainersTest {
     private val contextStack = MockContextStack<JavaElement>()
     private val rootPackage = JavaPackage(listOf("pack", "age"))
 
-    private val nameRuleSet = nameRuleSetFromConfig(Genium.defaultOptions().javaNameRules)
+    private val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().javaNameRules)
     private val nameRules = JavaNameRules(nameRuleSet)
 
     private lateinit var modelBuilder: JavaModelBuilder

@@ -40,7 +40,7 @@ class SmokeTest(
     }
 
     override fun getGeniumOptions(): Genium.Options {
-        val options = Genium.defaultOptions()
+        val options = Genium.testOptions()
         val cppNameRulesConfig =
             File(File(featureDirectory, FEATURE_INPUT_FOLDER), "namerules/cpp.properties")
         if (cppNameRulesConfig.exists()) {

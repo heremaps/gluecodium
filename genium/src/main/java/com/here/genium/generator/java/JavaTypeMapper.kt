@@ -59,11 +59,13 @@ class JavaTypeMapper(
 
     fun applyNullability(javaType: JavaType, isNullable: Boolean): JavaType {
         var resultType = javaType
-        if (nullableAnnotation != null && isNullable) {
+        if (isNullable) {
             if (javaType is JavaPrimitiveType) {
                 resultType = JavaReferenceType.boxPrimitiveType(javaType)
             }
-            resultType.annotations.add(nullableAnnotation)
+            if (nullableAnnotation != null) {
+                resultType.annotations.add(nullableAnnotation)
+            }
         }
         if (notNullAnnotation != null && !isNullable && needsNotNullAnnotation(javaType)) {
             resultType.annotations.add(notNullAnnotation)

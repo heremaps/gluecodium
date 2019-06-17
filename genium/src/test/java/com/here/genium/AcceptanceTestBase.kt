@@ -49,7 +49,7 @@ abstract class AcceptanceTestBase protected constructor(
 
     private val results = mutableListOf<GeneratedFile>()
 
-    protected open fun getGeniumOptions() = Genium.defaultOptions()
+    protected open fun getGeniumOptions() = Genium.testOptions()
 
     @Before
     fun setUp() {

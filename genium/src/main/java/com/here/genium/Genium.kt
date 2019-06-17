@@ -165,6 +165,8 @@ class Genium(
         var outputDir: String? = null,
         var javaPackages: List<String> = listOf(),
         var javaInternalPackages: List<String> = listOf(),
+        var javaNullableAnnotation: Pair<String, List<String>>? = null,
+        var javaNonNullAnnotation: Pair<String, List<String>>? = null,
         var isDumpingToStdout: Boolean = false,
         var isValidatingOnly: Boolean = false,
         var generators: Set<String> = setOf(),
@@ -192,7 +194,11 @@ class Genium(
     companion object {
         private val LOGGER = Logger.getLogger(Genium::class.java.name)
         val DEFAULT_INTERNAL_NAMESPACE = listOf("genium")
-        fun defaultOptions() = Options(cppInternalNamespace = DEFAULT_INTERNAL_NAMESPACE)
+        fun testOptions() = Options(
+            cppInternalNamespace = DEFAULT_INTERNAL_NAMESPACE,
+            javaNonNullAnnotation = Pair("NonNull", listOf("android", "support", "annotation")),
+            javaNullableAnnotation = Pair("Nullable", listOf("android", "support", "annotation"))
+        )
 
         private fun parseVersion(): Version {
             val prop = Properties()

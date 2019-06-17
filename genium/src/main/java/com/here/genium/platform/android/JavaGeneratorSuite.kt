@@ -30,6 +30,7 @@ import com.here.genium.generator.jni.JavaModel
 import com.here.genium.generator.jni.JniGenerator
 import com.here.genium.generator.jni.JniNameRules
 import com.here.genium.generator.jni.JniTemplates
+import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaElement
 import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.java.JavaTopLevelElement
@@ -50,8 +51,11 @@ open class JavaGeneratorSuite protected constructor(
     private val internalNamespace = options.cppInternalNamespace ?: listOf()
     private val rootNamespace = options.cppRootNamespace
     private val commentsProcessor = JavaDocProcessor()
-    private val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
+    private val cppNameRules =
+        CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
     private val javaNameRules = JavaNameRules(nameRuleSetFromConfig(options.javaNameRules))
+    private val nonNullAnnotation = annotationFromOption(options.javaNonNullAnnotation)
+    private val nullableAnnotation = annotationFromOption(options.javaNullableAnnotation)
 
     protected open val generatorName = GENERATOR_NAME
 
@@ -72,6 +76,8 @@ open class JavaGeneratorSuite protected constructor(
             enableAndroidFeatures = enableAndroidFeatures,
             internalNamespace = internalNamespace,
             rootNamespace = rootNamespace,
+            nonNullAnnotation = nonNullAnnotation,
+            nullableAnnotation = nullableAnnotation,
             cppNameRules = cppNameRules,
             javaNameRules = javaNameRules
         )
@@ -110,8 +116,8 @@ open class JavaGeneratorSuite protected constructor(
         }
 
         return headers + javaFiles +
-            combinedModel.jniContainers.flatMap { jniTemplates.generateFiles(it) } +
-            jniTemplates.generateConversionFiles(combinedModel)
+                combinedModel.jniContainers.flatMap { jniTemplates.generateFiles(it) } +
+                jniTemplates.generateConversionFiles(combinedModel)
     }
 
     private fun processCommentLinks(
@@ -187,5 +193,8 @@ open class JavaGeneratorSuite protected constructor(
             listOf(CPP_PROXY_BASE, FIELD_ACCESS_UTILS, JNI_BASE, JNI_CPP_CONVERSION_UTILS)
 
         private const val NATIVE_BASE_JAVA = "NativeBase.java"
+
+        private fun annotationFromOption(option: Pair<String, List<String>>?) =
+            option?.let { JavaCustomType(option.first, JavaPackage(option.second)) }
     }
 }

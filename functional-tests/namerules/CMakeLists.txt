@@ -64,8 +64,7 @@ elseif(GENIUM_GENERATOR STREQUAL android)
     endif()
     apigen_java_compile(TARGET namerules
         LOCAL_DEPENDENCIES "android"
-        LOCAL_DEPENDENCIES_DIRS "$ENV{ANDROID_HOME}/platforms/${ANDROID_PLATFORM}"
-        REMOTE_DEPENDENCIES "com.android.support:support-annotations:28.0.0")
+        LOCAL_DEPENDENCIES_DIRS "$ENV{ANDROID_HOME}/platforms/${ANDROID_PLATFORM}")
     apigen_java_jar(namerules)
     apigen_android_archive(TARGET namerules)
 elseif(GENIUM_GENERATOR STREQUAL swift)

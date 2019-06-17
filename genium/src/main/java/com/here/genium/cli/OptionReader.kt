@@ -31,12 +31,23 @@ import org.apache.commons.cli.Option
 import org.apache.commons.cli.Options
 import org.apache.commons.cli.ParseException
 import java.io.File
+import java.nio.file.Paths
 
 class OptionReader {
     private val options: Options = Options().run {
         addOption("input", true, "The path or the file to use for generation")
         addOption("output", true, "Generated files output destination")
         addOption("javapackage", true, "Java package name")
+        addOption(
+            "javanonnullannotation",
+            true,
+            "Java @NonNull annotation full name including package"
+        )
+        addOption(
+            "javanullableannotation",
+            true,
+            "Java @Nullable annotation full name including package"
+        )
         addOption(
             "intpackage",
             "java-internal-package",
@@ -120,6 +131,11 @@ class OptionReader {
             val javaPackage = getSingleOptionValue(cmd, "javapackage")
             options.javaPackages = javaPackage?.split(".") ?: emptyList()
 
+            options.javaNonNullAnnotation =
+                getAnnotation(getSingleOptionValue(cmd, "javanonnullannotation"))
+            options.javaNullableAnnotation =
+                getAnnotation(getSingleOptionValue(cmd, "javanullableannotation"))
+
             val javaInternalPackage = getSingleOptionValue(cmd, "intpackage")
             options.javaInternalPackages = javaInternalPackage?.split(".") ?: emptyList()
 
@@ -156,17 +172,20 @@ class OptionReader {
 
             val cppNameRulesPath = getSingleOptionValue(cmd, "cppnamerules")
             if (cppNameRulesPath != null) {
-                options.cppNameRules = readNameRulesConfig(cppNameRulesPath) overriding options.cppNameRules
+                options.cppNameRules =
+                    readNameRulesConfig(cppNameRulesPath) overriding options.cppNameRules
             }
 
             val javaNameRulesPath = getSingleOptionValue(cmd, "javanamerules")
             if (javaNameRulesPath != null) {
-                options.javaNameRules = readNameRulesConfig(javaNameRulesPath) overriding options.javaNameRules
+                options.javaNameRules =
+                    readNameRulesConfig(javaNameRulesPath) overriding options.javaNameRules
             }
 
             val swiftNameRulesPath = getSingleOptionValue(cmd, "swiftnamerules")
             if (swiftNameRulesPath != null) {
-                options.swiftNameRules = readNameRulesConfig(swiftNameRulesPath) overriding options.swiftNameRules
+                options.swiftNameRules =
+                    readNameRulesConfig(swiftNameRulesPath) overriding options.swiftNameRules
             }
 
             val copyrightHeader = cmd.getOptionValue("copyright")
@@ -197,7 +216,8 @@ class OptionReader {
     private fun readNameRulesConfig(path: String): Configuration {
         val nameRulesFile = File(path)
         if (!nameRulesFile.exists()) {
-            throw OptionReaderException("Name rules file $path does not exit")
+            val currentDir = Paths.get("").toAbsolutePath()
+            throw OptionReaderException("Name rules file $path does not exit in $currentDir")
         }
         return ConfigurationProperties.fromFile(nameRulesFile)
     }
@@ -210,5 +230,10 @@ class OptionReader {
             throw OptionReaderException("multiple values for option: $option")
         }
         return result[0]
+    }
+
+    private fun getAnnotation(argument: String?) = argument?.let {
+        val nameElements = argument.split('.')
+        Pair(nameElements.last(), nameElements.dropLast(1))
     }
 }

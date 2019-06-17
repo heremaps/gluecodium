@@ -39,7 +39,7 @@ class CppNameResolverTest(
 ) {
     private val elementPath = (parentElement?.path ?: LIME_ROOT_PATH).child("an_Element")
     private val rootNamespace = listOf("ro", "ot")
-    private val nameRuleSet = nameRuleSetFromConfig(Genium.defaultOptions().cppNameRules)
+    private val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().cppNameRules)
     private var nameResolver = CppNameResolver(
         rootNamespace,
         parentElement?.let { mapOf(parentElement.fullName to parentElement) } ?: emptyMap(),

@@ -55,7 +55,7 @@ class JavaTypeMapperTest {
 
     private val notNullAnnotation = object : JavaType("Foo") {}
     private val nullableAnnotation = object : JavaType("Bar") {}
-    private val nameRuleSet = nameRuleSetFromConfig(Genium.defaultOptions().javaNameRules)
+    private val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().javaNameRules)
     private val nameRules = JavaNameRules(nameRuleSet)
 
     private val typeMapper = JavaTypeMapper(
@@ -96,6 +96,25 @@ class JavaTypeMapperTest {
         assertTrue(result is JavaReferenceType)
         assertEquals(JavaReferenceType.Type.BOOL, (result as JavaReferenceType).type)
         assertContains(nullableAnnotation, result.annotations)
+    }
+
+    @Test
+    fun mapNullabilityWithoutAnnotationsPrimitiveNullable() {
+        val typeMapper = JavaTypeMapper(
+            limeReferenceMap,
+            JavaPackage.DEFAULT,
+            JavaPackage(listOf("foo", "bar", "baz")),
+            serializationBase = null,
+            notNullAnnotation = null,
+            nullableAnnotation = null,
+            nameRules = nameRules
+        )
+        val javaType = JavaPrimitiveType.BOOL
+
+        val result = typeMapper.applyNullability(javaType, true)
+
+        assertTrue(result is JavaReferenceType)
+        assertEquals(JavaReferenceType.Type.BOOL, (result as JavaReferenceType).type)
     }
 
     @Test

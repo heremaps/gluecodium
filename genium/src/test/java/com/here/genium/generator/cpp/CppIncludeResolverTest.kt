@@ -36,7 +36,7 @@ class CppIncludeResolverTest {
     private val limeRootPath = LimePath(listOf("mo", "del"), listOf("foo"))
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
 
-    private val nameRuleSet = nameRuleSetFromConfig(Genium.defaultOptions().cppNameRules)
+    private val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().cppNameRules)
     private val includeResolver =
         CppIncludeResolver(limeReferenceMap, CppNameRules(listOf("ro", "ot"), nameRuleSet))
 

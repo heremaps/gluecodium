@@ -98,7 +98,7 @@ class SwiftModelBuilderTest {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        val nameRuleSet = nameRuleSetFromConfig(Genium.defaultOptions().swiftNameRules)
+        val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().swiftNameRules)
         modelBuilder =
             SwiftModelBuilder(
                 limeReferenceMap = emptyMap(),

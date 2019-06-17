@@ -38,7 +38,7 @@ class BaseApiGeneratorSuiteTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        baseApiGeneratorSuite = BaseApiGeneratorSuite(Genium.defaultOptions())
+        baseApiGeneratorSuite = BaseApiGeneratorSuite(Genium.testOptions())
     }
 
     @Test

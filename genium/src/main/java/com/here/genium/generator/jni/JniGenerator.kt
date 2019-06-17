@@ -49,6 +49,8 @@ class JniGenerator(
     private val enableAndroidFeatures: Boolean,
     private val internalNamespace: List<String>,
     rootNamespace: List<String>,
+    private val nonNullAnnotation: JavaCustomType?,
+    private val nullableAnnotation: JavaCustomType?,
     private val cppNameRules: CppNameRules,
     private val javaNameRules: JavaNameRules
 ) : AbstractGenerator(packageList) {
@@ -67,8 +69,8 @@ class JniGenerator(
             basePackage = basePackage,
             internalPackage = internalPackage,
             serializationBase = if (enableAndroidFeatures) PARCELABLE else null,
-            notNullAnnotation = if (enableAndroidFeatures) NON_NULL else null,
-            nullableAnnotation = if (enableAndroidFeatures) NULLABLE else null,
+            notNullAnnotation = nonNullAnnotation,
+            nullableAnnotation = nullableAnnotation,
             nameRules = javaNameRules
         )
         val javaBuilder = JavaModelBuilder(
@@ -125,8 +127,6 @@ class JniGenerator(
 
     companion object {
         private val ANDROID_OS_PACKAGE = JavaPackage(listOf("android", "os"))
-        private val ANDROID_SUPPORT_ANNOTATION_PACKAGE =
-            JavaPackage(listOf("android", "support", "annotation"))
         private val PARCELABLE = JavaCustomType(
             "Parcelable", null,
             ANDROID_OS_PACKAGE.packageNames,
@@ -135,7 +135,5 @@ class JniGenerator(
                 JavaImport("Parcel", ANDROID_OS_PACKAGE)
             )
         )
-        private val NON_NULL = JavaCustomType("NonNull", ANDROID_SUPPORT_ANNOTATION_PACKAGE)
-        private val NULLABLE = JavaCustomType("Nullable", ANDROID_SUPPORT_ANNOTATION_PACKAGE)
     }
 }

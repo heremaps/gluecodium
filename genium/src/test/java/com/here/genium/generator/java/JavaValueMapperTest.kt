@@ -43,7 +43,7 @@ class JavaValueMapperTest {
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
     private val javaType = object : JavaType("") {}
 
-    private val nameRuleSet = nameRuleSetFromConfig(Genium.defaultOptions().javaNameRules)
+    private val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().javaNameRules)
     private val valueMapper = JavaValueMapper(limeReferenceMap, JavaNameRules(nameRuleSet))
 
     @Test

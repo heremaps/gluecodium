@@ -35,8 +35,7 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class SwiftGeneratorSuiteTest {
 
-  private final SwiftGeneratorSuite suite =
-      new SwiftGeneratorSuite(Genium.Companion.defaultOptions());
+  private final SwiftGeneratorSuite suite = new SwiftGeneratorSuite(Genium.Companion.testOptions());
 
   @Test
   public void generatedFilesContainStaticFiles() {
