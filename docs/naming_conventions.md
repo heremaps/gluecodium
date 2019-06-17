@@ -24,6 +24,45 @@ get around this limitation, the first letter of the word should be capitalized (
 to naming conventions being applied for target languages, this change does not affect the generated
 code at all, but it allows the validation step to pass normally.
 
+Custom name rules
+-----------------
+
+The default name rules for Java, Swift and C++ can be customized by providing the path to a name rules
+properties file. These can be passed via `-javanamerules`, `-swiftnamerules` or `-cppnamerules`
+command line parameters.
+
+Example custom `cpp.properties`:
+
+```
+field=lower_snake_case
+field.prefix=m
+parameter=lowerCamelCase
+constant=UPPER_SNAKE_CASE
+type=UpperCamelCase
+```
+
+Each of the name types accepts one of the basic formats `lower_snake_case`, `UPPER_SNAKE_CASE`,
+`lowerCamelCase` or `UpperCamelCase`. Each of those name types (except for `method`) can have a
+fixed `prefix` and/or `suffix`. Additionally for `getter` a special `prefix.boolean` for Boolean
+attributes is possible. The prefixes and suffixes are added to the main name according to the
+specified format.
+These are all supported name types in the name config file are:
+
+| Name Type     | Description
+| --------------|--------------
+| `field`       | Fields of structs
+| `parameter`   | Method parameters
+| `constant`    | Constants in interfaces and structs
+| `enumerator`  | Enum items
+| `method`      | Method names (no prefix or suffix supported)
+| `type`        | Struct, Interface and Enum names
+| `property`    | Attribute name (only Swift)
+| `setter`      | Setter name for an attribute (only Java, C++)
+| `getter`      | Getter name for an attribute (only Java, C++)
+| `error`       | Exception name for error enum (only Java)
+
+If one of the properties is not set in the custom rules, the default is applied.
+
 Default C++ names
 -----------------
 
@@ -37,12 +76,7 @@ Default C++ names
 * Boolean attribute getter names are prefixed with `is_`.
 * Attribute setter names are prefixed with `set_`.
 
-Custom C++ names
-----------------
-
-Custom name rules can be described in a Java `.property` and passed to Genium via `-cppnamerules`
-command line parameter. The default is
-
+### Default namerules/cpp.properties
 ```
 field=lower_snake_case
 parameter=lower_snake_case
@@ -57,12 +91,7 @@ getter.prefix.boolean=is
 type=UpperCamelCase
 ```
 
-Each of the specifiers accepts one of the basic formats `lower_snake_case`, `UPPER_SNAKE_CASE`,
-`lowerCamelCase` or `UpperCamelCase`. Except methods each of those can have a fixed `prefix`
-and/or `suffix`. Additionally for `getter` a special `prefix.boolean` for boolean attributes is
-possible. The prefixes and suffixes are added to the main name according to the specified format.
-
-Java names
+Default Java names
 ----------
 
 ### General naming conventions
@@ -83,7 +112,25 @@ to a compile-time error. Therefore Genium applies additional naming logic when g
 ambiguous method overloads. The ambiguity is resolved by appending the "selector" from the FIDL
 definition to the generated method name.
 
-Swift names
+### Default namerules/java.properties
+```
+field=lowerCamelCase
+parameter=lowerCamelCase
+constant=UPPER_SNAKE_CASE
+enumerator=UPPER_SNAKE_CASE
+method=lowerCamelCase
+setter=lowerCamelCase
+setter.prefix=set
+getter=lowerCamelCase
+getter.prefix=get
+getter.prefix.boolean=is
+type=UpperCamelCase
+error=UpperCamelCase
+error.suffix=Exception
+
+```
+
+Default Swift names
 -----------
 
 ### General naming conventions
@@ -95,3 +142,16 @@ Swift names
 Attributes are generated as properties in Swift:
 * Property names have no prefix, unless it's a Boolean attribute.
 * Boolean property names are prefixed with `is`.
+
+### Default namerules/swift.properties
+```
+field=lowerCamelCase
+parameter=lowerCamelCase
+constant=lowerCamelCase
+enumerator=lowerCamelCase
+method=lowerCamelCase
+property=lowerCamelCase
+property.prefix.boolean=is
+type=UpperCamelCase
+
+```

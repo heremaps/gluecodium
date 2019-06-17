@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features
+  + Support custom name rules for Java and Swift
+
 ## 4.5.0
 - Release date: 2019-06-12
 - Features
