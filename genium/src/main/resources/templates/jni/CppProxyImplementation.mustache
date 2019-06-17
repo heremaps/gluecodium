@@ -84,6 +84,13 @@ using namespace {{>common/InternalNamespace}}jni;
     else
     {
 {{/if}}{{!!
+}}{{#unless exception}}
+    if ( jniEnv->ExceptionCheck( ) )
+    {
+        jniEnv->ExceptionDescribe( );
+        jniEnv->FatalError( "Unhandled exception" );
+    }
+{{/unless}}{{!!
 }}{{#unless returnType.isJavaVoid}}
     return {{#if returnType.isComplex}}{{>common/InternalNamespace}}jni::convert_from_jni( jniEnv, result, ({{returnType.cppName}}{{#if exception}}::value_type{{/if}}*)nullptr ){{/if}}{{!!
     }}{{#unless returnType.isComplex}}result{{/unless}};
