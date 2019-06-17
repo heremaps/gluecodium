@@ -5,15 +5,13 @@
 #include "EnumConversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
-namespace genium
-{
 namespace jni
 {
 ::namerules::NameRules::ExampleStruct
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::namerules::NameRules::ExampleStruct* dummy)
 {
     ::namerules::NameRules::ExampleStruct _nout{};
-    double n_m_value = ::genium::jni::get_field_value(
+    double n_m_value = ::jni::get_field_value(
         _jenv,
         _jinput,
         "j_value",
@@ -21,7 +19,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::namerule
     _nout.m_value = n_m_value;
     ::std::vector< int64_t > n_m_int_value = convert_from_jni(
         _jenv,
-        ::genium::jni::get_object_field_value(
+        ::jni::get_object_field_value(
         _jenv,
         _jinput,
         "j_int_value",
@@ -30,30 +28,29 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::namerule
     _nout.m_int_value = n_m_int_value;
     return _nout;
 }
-::genium::optional<::namerules::NameRules::ExampleStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::namerules::NameRules::ExampleStruct>* dummy)
+::optional<::namerules::NameRules::ExampleStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::optional<::namerules::NameRules::ExampleStruct>* dummy)
 {
     return _jinput
-        ? ::genium::optional<::namerules::NameRules::ExampleStruct>(convert_from_jni(_jenv, _jinput, (::namerules::NameRules::ExampleStruct*)nullptr))
-        : ::genium::optional<::namerules::NameRules::ExampleStruct>{};
+        ? ::optional<::namerules::NameRules::ExampleStruct>(convert_from_jni(_jenv, _jinput, (::namerules::NameRules::ExampleStruct*)nullptr))
+        : ::optional<::namerules::NameRules::ExampleStruct>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/namerules/NAME_RULES_DROID$EXAMPLE_STRUCT_DROID", ::namerules::NameRules::ExampleStruct)
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::namerules::NameRules::ExampleStruct& _ninput)
 {
     auto& javaClass = CachedJavaClass<::namerules::NameRules::ExampleStruct>::java_class;
-    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
+    auto _jresult = ::jni::alloc_object(_jenv, javaClass);
     auto jm_value = _ninput.m_value;
-    ::genium::jni::set_field_value(_jenv, _jresult, "j_value", jm_value);
+    ::jni::set_field_value(_jenv, _jresult, "j_value", jm_value);
     auto jm_int_value = convert_to_jni(_jenv, _ninput.m_int_value);
-    ::genium::jni::set_object_field_value(_jenv, _jresult, "j_int_value",
+    ::jni::set_object_field_value(_jenv, _jresult, "j_int_value",
         "Ljava/util/List;", jm_int_value);
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::namerules::NameRules::ExampleStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::optional<::namerules::NameRules::ExampleStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
-}
 }
 }

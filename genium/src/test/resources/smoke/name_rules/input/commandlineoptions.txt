@@ -1,0 +1,4 @@
+-input $INPUT_FOLDER
+-cppnamerules $INPUT_FOLDER/namerules/cpp.properties
+-javanamerules $INPUT_FOLDER/namerules/java.properties
+-swiftnamerules $INPUT_FOLDER/namerules/swift.properties

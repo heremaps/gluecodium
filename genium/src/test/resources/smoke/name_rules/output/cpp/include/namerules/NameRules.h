@@ -7,8 +7,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "genium/Export.h"
-#include "genium/Return.h"
+#include "Export.h"
+#include "Return.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -39,7 +39,7 @@ public:
  * \return @NotNull
  */
 static ::std::shared_ptr< ::namerules::NameRules > create(  );
-virtual ::genium::Return< double, ::std::error_code > someMethod( const ::namerules::NameRules::ExampleStruct& some_argument ) = 0;
+virtual ::::Return< double, ::std::error_code > someMethod( const ::namerules::NameRules::ExampleStruct& some_argument ) = 0;
 virtual uint32_t retrieve_int_attribute(  ) const = 0;
 virtual void STORE_INT_ATTRIBUTE_NOW( const uint32_t value ) = 0;
 virtual bool really_boolean_attribute(  ) const = 0;

@@ -272,13 +272,13 @@ class Genium(
         fun main(args: Array<String>) {
             var status = 1
             try {
-                val options = OptionReader().read(args)
+                val options = OptionReader.read(args)
                 status = if (options == null || Genium(options).execute()) 0 else 1
             } catch (e: GeniumExecutionException) {
                 LOGGER.log(Level.SEVERE, "Running Genium failed!", e)
             } catch (e: OptionReaderException) {
                 LOGGER.severe("Failed reading options: ${e.message}")
-                OptionReader().printUsage()
+                OptionReader.printUsage()
             }
             System.exit(status)
         }

@@ -3,7 +3,6 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.namerules;
-import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
 public class NAME_RULES_DROID extends NativeBase {
@@ -24,7 +23,6 @@ public class NAME_RULES_DROID extends NativeBase {
     }
     public static class EXAMPLE_STRUCT_DROID {
         public double j_value;
-        @NonNull
         public List<Long> j_int_value;
         public EXAMPLE_STRUCT_DROID(double j_value, List<Long> j_int_value) {
             this.j_value = j_value;
@@ -48,12 +46,11 @@ public class NAME_RULES_DROID extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     private static native long create();
-    public native double some_method(@NonNull final NAME_RULES_DROID.EXAMPLE_STRUCT_DROID some_argument) throws NAME_RULES_DROID.example_error_x;
+    public native double some_method(final NAME_RULES_DROID.EXAMPLE_STRUCT_DROID some_argument) throws NAME_RULES_DROID.example_error_x;
     public native long loadIntAttribute();
     public native void STORE_INT_ATTRIBUTE(final long value);
     public native boolean loadBooleanAttribute();
     public native void STORE_BOOLEAN_ATTRIBUTE(final boolean value);
-    @NonNull
     public native NAME_RULES_DROID.EXAMPLE_STRUCT_DROID loadStructAttribute();
-    public native void STORE_STRUCT_ATTRIBUTE(@NonNull final NAME_RULES_DROID.EXAMPLE_STRUCT_DROID value);
+    public native void STORE_STRUCT_ATTRIBUTE(final NAME_RULES_DROID.EXAMPLE_STRUCT_DROID value);
 }

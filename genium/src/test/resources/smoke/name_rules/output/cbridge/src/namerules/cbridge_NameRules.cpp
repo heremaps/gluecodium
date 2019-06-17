@@ -1,9 +1,9 @@
 //
 //
 // Automatically generated. Do not modify. Your changes will be lost.
+#include "Optional.h"
 #include "cbridge/include/namerules/cbridge_NameRules.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
-#include "genium/Optional.h"
 #include "namerules/NameRules.h"
 #include <memory>
 #include <new>
@@ -32,7 +32,7 @@ namerules_NameRules_ExampleStruct_release_handle( _baseRef handle )
 _baseRef
 namerules_NameRules_ExampleStruct_create_optional_handle(double iValue, _baseRef iIntValue)
 {
-    auto _struct = new ( std::nothrow ) ::genium::optional<::namerules::NameRules::ExampleStruct>( ::namerules::NameRules::ExampleStruct( ) );
+    auto _struct = new ( std::nothrow ) ::optional<::namerules::NameRules::ExampleStruct>( ::namerules::NameRules::ExampleStruct( ) );
     (*_struct)->m_value = iValue;
     (*_struct)->m_int_value = Conversion<std::vector<int64_t>>::toCpp( iIntValue );
     return reinterpret_cast<_baseRef>( _struct );
@@ -40,10 +40,10 @@ namerules_NameRules_ExampleStruct_create_optional_handle(double iValue, _baseRef
 _baseRef
 namerules_NameRules_ExampleStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::namerules::NameRules::ExampleStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::optional<::namerules::NameRules::ExampleStruct>*>( handle ) );
 }
 void namerules_NameRules_ExampleStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<::namerules::NameRules::ExampleStruct>*>( handle );
+    delete reinterpret_cast<::optional<::namerules::NameRules::ExampleStruct>*>( handle );
 }
 double namerules_NameRules_ExampleStruct_iValue_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::namerules::NameRules::ExampleStruct>(handle);

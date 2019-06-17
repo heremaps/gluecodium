@@ -35,8 +35,6 @@ import java.io.PrintStream
 
 @RunWith(JUnit4::class)
 class OptionReaderTest {
-    private val optionReader = OptionReader()
-
     @JvmField
     @Rule
     val expectedException: ExpectedException = ExpectedException.none()
@@ -49,7 +47,7 @@ class OptionReaderTest {
     @Throws(OptionReaderException::class)
     fun helpOptionIsRecognised() {
         // Arrange, Act
-        val options = optionReader.read(arrayOf("-help"))
+        val options = OptionReader.read(arrayOf("-help"))
 
         // Assert
         assertNull(options)
@@ -63,7 +61,7 @@ class OptionReaderTest {
         System.setOut(PrintStream(bo))
 
         // Act
-        optionReader.read(arrayOf("-help"))
+        OptionReader.read(arrayOf("-help"))
         bo.flush()
         val consoleOutput = String(bo.toByteArray())
 
@@ -75,7 +73,7 @@ class OptionReaderTest {
     @Throws(OptionReaderException::class)
     fun inputOptionSingleFolder() {
         // Arrange, Act
-        val options = optionReader.read(arrayOf("-input", TEST_INPUT_SINGLE_FOLDER[0]))
+        val options = OptionReader.read(arrayOf("-input", TEST_INPUT_SINGLE_FOLDER[0]))
 
         // Assert
         assertNotNull(options!!.inputDirs)
@@ -87,7 +85,7 @@ class OptionReaderTest {
     @Throws(OptionReaderException::class)
     fun inputOptionTwoFolders() {
         // Arrange, Act
-        val options = optionReader.read(
+        val options = OptionReader.read(
             arrayOf("-input", TEST_INPUT_TWO_FOLDERS[0], "-input", TEST_INPUT_TWO_FOLDERS[1])
         )
 
@@ -105,7 +103,7 @@ class OptionReaderTest {
         val toRead = prepareToRead("-output", TEST_OUTPUT)
 
         // Act
-        val options = optionReader.read(toRead)
+        val options = OptionReader.read(toRead)
 
         // Assert
         assertEquals(TEST_OUTPUT, options!!.outputDir)
@@ -118,7 +116,7 @@ class OptionReaderTest {
         val toRead = prepareToRead("-generators", TEST_GENERATORS)
 
         // Act
-        val options = optionReader.read(toRead)
+        val options = OptionReader.read(toRead)
 
         // Assert
         val generators = options?.generators
@@ -133,7 +131,7 @@ class OptionReaderTest {
         val toRead = prepareToRead("-javapackage", TEST_JAVA_PACKAGE_LIST)
 
         // Act
-        val options = optionReader.read(toRead)
+        val options = OptionReader.read(toRead)
 
         // Assert
         assertEquals(listOf(TEST_JAVA_PACKAGE_LIST), options!!.javaPackages)
@@ -147,7 +145,7 @@ class OptionReaderTest {
 
         // Act, Assert
         expectedException.expect(OptionReaderException::class.java)
-        optionReader.read(toRead)
+        OptionReader.read(toRead)
     }
 
     @Test
@@ -157,7 +155,7 @@ class OptionReaderTest {
         val toRead = prepareToRead("-mergemanifest", TEST_ADDITIONAL_ANDROID_MANIFEST)
 
         // Act
-        val options = optionReader.read(toRead)
+        val options = OptionReader.read(toRead)
 
         // Assert
         assertEquals(TEST_ADDITIONAL_ANDROID_MANIFEST, options!!.androidMergeManifestPath)
@@ -171,7 +169,7 @@ class OptionReaderTest {
         val toRead = prepareToRead("-copyright", temporaryFolder.root.absolutePath + "/Foo.txt")
 
         // Act
-        val options = optionReader.read(toRead)
+        val options = OptionReader.read(toRead)
 
         // Assert
         assertEquals("", options!!.copyrightHeaderContents)

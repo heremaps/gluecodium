@@ -33,7 +33,7 @@ import org.apache.commons.cli.ParseException
 import java.io.File
 import java.nio.file.Paths
 
-class OptionReader {
+object OptionReader {
     private val options: Options = Options().run {
         addOption("input", true, "The path or the file to use for generation")
         addOption("output", true, "Generated files output destination")

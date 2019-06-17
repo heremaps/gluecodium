@@ -19,8 +19,8 @@
 
 package com.here.genium
 
-import com.natpryce.konfig.ConfigurationProperties
-import com.natpryce.konfig.overriding
+import com.here.genium.cli.OptionReader
+import junit.framework.TestCase.assertNotNull
 import java.io.File
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,29 +40,19 @@ class SmokeTest(
     }
 
     override fun getGeniumOptions(): Genium.Options {
-        val options = Genium.testOptions()
-        val cppNameRulesConfig =
-            File(File(featureDirectory, FEATURE_INPUT_FOLDER), "namerules/cpp.properties")
-        if (cppNameRulesConfig.exists()) {
-            options.cppNameRules =
-                ConfigurationProperties.fromFile(cppNameRulesConfig) overriding options.cppNameRules
+        val featureRoot = File(featureDirectory, FEATURE_INPUT_FOLDER)
+        val commandLineOptions = File(featureRoot, "commandlineoptions.txt")
+        if (commandLineOptions.exists()) {
+            // read command line options and replace INPUT_FOLDER with absolute input path from test
+            val commands =
+                commandLineOptions.readText().replace("\$INPUT_FOLDER", featureRoot.toString())
+                    .split("\\s".toRegex())
+            val options = OptionReader.read(commands.toTypedArray())
+            assertNotNull("Failed to read commandlineoptions.txt", options)
+            return options!!
         }
 
-        val javaNameRulesConfig =
-            File(File(featureDirectory, FEATURE_INPUT_FOLDER), "namerules/java.properties")
-        if (javaNameRulesConfig.exists()) {
-            options.javaNameRules =
-                ConfigurationProperties.fromFile(javaNameRulesConfig) overriding options.javaNameRules
-        }
-
-        val swiftNameRulesConfig =
-            File(File(featureDirectory, FEATURE_INPUT_FOLDER), "namerules/swift.properties")
-        if (swiftNameRulesConfig.exists()) {
-            options.swiftNameRules =
-                ConfigurationProperties.fromFile(swiftNameRulesConfig) overriding options.swiftNameRules
-        }
-
-        return options
+        return Genium.testOptions()
     }
 
     companion object {
