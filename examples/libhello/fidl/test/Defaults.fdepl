@@ -82,6 +82,8 @@ define GeniumExtensions for interface test.Defaults
     method getEmptyDefaults {
         Static = true
     }
+
+    array StringSet { IsSet = true }
 }
 
 define Defaults for interface test.Defaults
@@ -169,6 +171,9 @@ define Defaults for interface test.Defaults
             DefaultIsEmpty = true
         }
         structField {
+            DefaultIsEmpty = true
+        }
+        setTypeField {
             DefaultIsEmpty = true
         }
         otherStructField {

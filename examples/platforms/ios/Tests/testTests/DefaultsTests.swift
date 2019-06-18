@@ -126,6 +126,7 @@ class DefaultsTests: XCTestCase {
       XCTAssertTrue(result.floatsField.isEmpty)
       XCTAssertTrue(result.mapField.isEmpty)
       XCTAssertEqual(result.structField, Defaults.StructWithDefaults())
+      XCTAssertTrue(result.setTypeField.isEmpty)
     }
 
     func testCppEmptyDefaults() {
@@ -135,6 +136,7 @@ class DefaultsTests: XCTestCase {
       XCTAssertTrue(result.floatsField.isEmpty)
       XCTAssertTrue(result.mapField.isEmpty)
       XCTAssertEqual(result.structField, Defaults.StructWithDefaults())
+      XCTAssertTrue(result.setTypeField.isEmpty)
     }
 
     static var allTests = [

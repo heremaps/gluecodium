@@ -25,8 +25,8 @@ DefaultValues::StructWithSpecialDefaults::StructWithSpecialDefaults( const float
 {
 }
 DefaultValues::StructWithEmptyDefaults::StructWithEmptyDefaults( ) = default;
-DefaultValues::StructWithEmptyDefaults::StructWithEmptyDefaults( const ::std::vector< int32_t >& ints_field, const ::smoke::DefaultValues::FloatArray& floats_field, const ::smoke::DefaultValues::IdToStringMap& map_field, const ::smoke::DefaultValues::StructWithDefaults& struct_field )
-    : ints_field( ints_field ), floats_field( floats_field ), map_field( map_field ), struct_field( struct_field )
+DefaultValues::StructWithEmptyDefaults::StructWithEmptyDefaults( const ::std::vector< int32_t >& ints_field, const ::smoke::DefaultValues::FloatArray& floats_field, const ::smoke::DefaultValues::IdToStringMap& map_field, const ::smoke::DefaultValues::StructWithDefaults& struct_field, const ::smoke::DefaultValues::StringSet& set_type_field )
+    : ints_field( ints_field ), floats_field( floats_field ), map_field( map_field ), struct_field( struct_field ), set_type_field( set_type_field )
 {
 }
 DefaultValues::StructWithTypedefDefaults::StructWithTypedefDefaults( ) = default;

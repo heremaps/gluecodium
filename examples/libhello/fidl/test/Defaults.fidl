@@ -86,6 +86,7 @@ interface Defaults {
         IdToStringMap mapField
         StructWithDefaults structField
         StructWithSingleNullableField otherStructField
+        StringSet setTypeField
     }
 
     typedef IntTypedef is Int32
@@ -102,6 +103,7 @@ interface Defaults {
 
     array FloatArray of Float
     map IdToStringMap {UInt32 to String}
+    array StringSet of String
 
     <** @description: Get a default-initialized StructWithDefaults object. **>
     method getDefault {

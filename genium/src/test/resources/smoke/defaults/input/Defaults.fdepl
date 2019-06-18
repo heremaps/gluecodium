@@ -92,6 +92,9 @@ define Defaults for interface smoke.DefaultValues
         structField {
             DefaultIsEmpty = true
         }
+        setTypeField {
+            DefaultIsEmpty = true
+        }
     }
 
     struct StructWithTypedefDefaults {
@@ -124,6 +127,8 @@ define GeniumExtensions for interface smoke.DefaultValues
         stringField { Nullable = true }
         enumField { Nullable = true }
     }
+
+    array StringSet { IsSet = true }
 }
 
 define Defaults for typeCollection smoke.TypesWithDefaults

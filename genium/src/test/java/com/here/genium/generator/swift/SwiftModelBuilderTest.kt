@@ -619,6 +619,19 @@ class SwiftModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingValueEmptySet() {
+        val limeElement = LimeValue.InitializerList(
+            LimeDirectTypeRef(LimeSet(LimeBasicTypeRef.FLOAT)),
+            emptyList()
+        )
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(SwiftValue::class.java)
+        assertEquals("[]", result.name)
+    }
+
+    @Test
     fun finishBuildingProperty() {
         val limeElement =
             LimeProperty(fooPath, typeRef = LimeBasicTypeRef.FLOAT, comment = "some comment")

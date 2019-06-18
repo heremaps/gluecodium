@@ -18,6 +18,7 @@ public class DefaultValues {
     public typealias EnumTypedef = DefaultValues.SomeEnum
     public typealias FloatArray = [Float]
     public typealias IdToStringMap = [UInt32: String]
+    public typealias StringSet = Set<String>
     let c_instance : _baseRef
     init(cDefaultValues: _baseRef) {
         guard cDefaultValues != 0 else {
@@ -119,17 +120,20 @@ public class DefaultValues {
         public var floatsField: DefaultValues.FloatArray
         public var mapField: DefaultValues.IdToStringMap
         public var structField: DefaultValues.StructWithDefaults
-        public init(intsField: [Int32] = [], floatsField: DefaultValues.FloatArray = [], mapField: DefaultValues.IdToStringMap = [:], structField: DefaultValues.StructWithDefaults = DefaultValues.StructWithDefaults()) {
+        public var setTypeField: DefaultValues.StringSet
+        public init(intsField: [Int32] = [], floatsField: DefaultValues.FloatArray = [], mapField: DefaultValues.IdToStringMap = [:], structField: DefaultValues.StructWithDefaults = DefaultValues.StructWithDefaults(), setTypeField: DefaultValues.StringSet = []) {
             self.intsField = intsField
             self.floatsField = floatsField
             self.mapField = mapField
             self.structField = structField
+            self.setTypeField = setTypeField
         }
         internal init(cHandle: _baseRef) {
             intsField = moveFromCType(smoke_DefaultValues_StructWithEmptyDefaults_intsField_get(cHandle))
             floatsField = moveFromCType(smoke_DefaultValues_StructWithEmptyDefaults_floatsField_get(cHandle))
             mapField = moveFromCType(smoke_DefaultValues_StructWithEmptyDefaults_mapField_get(cHandle))
             structField = moveFromCType(smoke_DefaultValues_StructWithEmptyDefaults_structField_get(cHandle))
+            setTypeField = moveFromCType(smoke_DefaultValues_StructWithEmptyDefaults_setTypeField_get(cHandle))
         }
     }
     public struct StructWithTypedefDefaults {
@@ -353,7 +357,8 @@ internal func copyToCType(_ swiftType: DefaultValues.StructWithEmptyDefaults) ->
     let c_floatsField = moveToCType(swiftType.floatsField)
     let c_mapField = moveToCType(swiftType.mapField)
     let c_structField = moveToCType(swiftType.structField)
-    return RefHolder(smoke_DefaultValues_StructWithEmptyDefaults_create_handle(c_intsField.ref, c_floatsField.ref, c_mapField.ref, c_structField.ref))
+    let c_setTypeField = moveToCType(swiftType.setTypeField)
+    return RefHolder(smoke_DefaultValues_StructWithEmptyDefaults_create_handle(c_intsField.ref, c_floatsField.ref, c_mapField.ref, c_structField.ref, c_setTypeField.ref))
 }
 internal func moveToCType(_ swiftType: DefaultValues.StructWithEmptyDefaults) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_StructWithEmptyDefaults_release_handle)
@@ -379,7 +384,8 @@ internal func copyToCType(_ swiftType: DefaultValues.StructWithEmptyDefaults?) -
     let c_floatsField = moveToCType(swiftType.floatsField)
     let c_mapField = moveToCType(swiftType.mapField)
     let c_structField = moveToCType(swiftType.structField)
-    return RefHolder(smoke_DefaultValues_StructWithEmptyDefaults_create_optional_handle(c_intsField.ref, c_floatsField.ref, c_mapField.ref, c_structField.ref))
+    let c_setTypeField = moveToCType(swiftType.setTypeField)
+    return RefHolder(smoke_DefaultValues_StructWithEmptyDefaults_create_optional_handle(c_intsField.ref, c_floatsField.ref, c_mapField.ref, c_structField.ref, c_setTypeField.ref))
 }
 internal func moveToCType(_ swiftType: DefaultValues.StructWithEmptyDefaults?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_DefaultValues_StructWithEmptyDefaults_release_optional_handle)

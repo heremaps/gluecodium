@@ -167,4 +167,16 @@ class JavaValueMapperTest {
 
         assertEquals("1L", result.name)
     }
+
+    @Test
+    fun mapEmptySetValue() {
+        val limeValue = LimeValue.InitializerList(LimeLazyTypeRef("", emptyMap()), emptyList())
+        val javaTemplateType =
+            JavaTemplateType.create(JavaTemplateType.TemplateClass.SET, javaType)
+
+        val result = valueMapper.mapValue(limeValue, javaTemplateType)
+
+        assertTrue(result.isCustom)
+        assertEquals("HashSet<>", result.name)
+    }
 }

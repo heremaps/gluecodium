@@ -158,6 +158,7 @@ public final class DefaultsTest {
     assertTrue(result.floatsField.isEmpty());
     assertTrue(result.mapField.isEmpty());
     assertEquals(new Defaults.StructWithDefaults(), result.structField);
+    assertTrue(result.setTypeField.isEmpty());
   }
 
   @Test
@@ -168,5 +169,6 @@ public final class DefaultsTest {
     assertTrue(result.floatsField.isEmpty());
     assertTrue(result.mapField.isEmpty());
     assertEquals(new Defaults.StructWithDefaults(), result.structField);
+    assertTrue(result.setTypeField.isEmpty());
   }
 }

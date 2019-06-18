@@ -14,6 +14,7 @@
 #include <limits>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 namespace smoke {
 class _GENIUM_CPP_EXPORT DefaultValues {
@@ -30,6 +31,7 @@ using StringTypedef = ::std::string;
 using EnumTypedef = ::smoke::DefaultValues::SomeEnum;
 using FloatArray = ::std::vector< float >;
 using IdToStringMap = ::std::unordered_map< uint32_t, ::std::string >;
+using StringSet = ::std::unordered_set< ::std::string >;
 struct _GENIUM_CPP_EXPORT StructWithDefaults {
     int32_t int_field = 42;
     uint32_t uint_field = 4294967295;
@@ -67,8 +69,9 @@ struct _GENIUM_CPP_EXPORT StructWithEmptyDefaults {
     ::smoke::DefaultValues::FloatArray floats_field = {};
     ::smoke::DefaultValues::IdToStringMap map_field = {};
     ::smoke::DefaultValues::StructWithDefaults struct_field = {};
+    ::smoke::DefaultValues::StringSet set_type_field = {};
     StructWithEmptyDefaults( );
-    StructWithEmptyDefaults( const ::std::vector< int32_t >& ints_field, const ::smoke::DefaultValues::FloatArray& floats_field, const ::smoke::DefaultValues::IdToStringMap& map_field, const ::smoke::DefaultValues::StructWithDefaults& struct_field );
+    StructWithEmptyDefaults( const ::std::vector< int32_t >& ints_field, const ::smoke::DefaultValues::FloatArray& floats_field, const ::smoke::DefaultValues::IdToStringMap& map_field, const ::smoke::DefaultValues::StructWithDefaults& struct_field, const ::smoke::DefaultValues::StringSet& set_type_field );
 };
 struct _GENIUM_CPP_EXPORT StructWithTypedefDefaults {
     ::smoke::DefaultValues::LongTypedef long_field = 42;

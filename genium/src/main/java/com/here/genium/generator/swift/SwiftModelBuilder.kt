@@ -412,7 +412,7 @@ class SwiftModelBuilder(
             is LimeValue.InitializerList -> {
                 val initializer = when (LimeTypeHelper.getActualType(limeValue.typeRef.type)) {
                     is LimeMap -> "[:]"
-                    is LimeArray -> "[]"
+                    is LimeArray, is LimeSet -> "[]"
                     else -> nameResolver.getFullName(limeValue.typeRef.type) + "()"
                 }
                 SwiftValue(initializer)

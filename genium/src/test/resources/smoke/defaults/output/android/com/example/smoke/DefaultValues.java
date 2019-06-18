@@ -8,8 +8,10 @@ import android.support.annotation.Nullable;
 import com.example.NativeBase;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 public class DefaultValues extends NativeBase {
     public enum SomeEnum {
         FOO_VALUE(0),
@@ -122,17 +124,21 @@ public class DefaultValues extends NativeBase {
         public Map<Long, String> mapField;
         @NonNull
         public DefaultValues.StructWithDefaults structField;
+        @NonNull
+        public Set<String> setTypeField;
         public StructWithEmptyDefaults() {
             this.intsField = new ArrayList<>();
             this.floatsField = new ArrayList<>();
             this.mapField = new HashMap<>();
             this.structField = new DefaultValues.StructWithDefaults();
+            this.setTypeField = new HashSet<>();
         }
-        public StructWithEmptyDefaults(List<Integer> intsField, List<Float> floatsField, Map<Long, String> mapField, DefaultValues.StructWithDefaults structField) {
+        public StructWithEmptyDefaults(List<Integer> intsField, List<Float> floatsField, Map<Long, String> mapField, DefaultValues.StructWithDefaults structField, Set<String> setTypeField) {
             this.intsField = intsField;
             this.floatsField = floatsField;
             this.mapField = mapField;
             this.structField = structField;
+            this.setTypeField = setTypeField;
         }
     }
     public static class StructWithTypedefDefaults {

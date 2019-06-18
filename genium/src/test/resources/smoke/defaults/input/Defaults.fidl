@@ -65,6 +65,7 @@ interface DefaultValues {
         FloatArray floatsField
         IdToStringMap mapField
         StructWithDefaults structField
+        StringSet setTypeField
     }
 
     typedef LongTypedef is Int64
@@ -81,6 +82,7 @@ interface DefaultValues {
 
     array FloatArray of Float
     map IdToStringMap {UInt32 to String}
+    array StringSet of String
 
     method processStructWithDefaults {
         in {
