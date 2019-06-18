@@ -125,3 +125,80 @@ specification ExternalTypes {
         ExternalSetter: String (optional);
     }
 }
+
+specification Names {
+
+    for type_collections {
+        CppName: String (optional);
+        JavaName: String (optional);
+        SwiftName: String (optional);
+    }
+
+    for interfaces {
+        CppName: String (optional);
+        JavaName: String (optional);
+        SwiftName: String (optional);
+    }
+
+    for attributes {
+        CppGetterName: String (optional);
+        CppSetterName: String (optional);
+        JavaGetterName: String (optional);
+        JavaSetterName: String (optional);
+        SwiftName: String (optional);
+    }
+
+    for methods {
+        CppName: String (optional);
+        JavaName: String (optional);
+        SwiftName: String (optional);
+    }
+
+    for arguments {
+        CppName: String (optional);
+        JavaName: String (optional);
+        SwiftName: String (optional);
+    }
+
+    for structs {
+        CppName: String (optional);
+        JavaName: String (optional);
+        SwiftName: String (optional);
+    }
+
+    for struct_fields {
+        CppName: String (optional);
+        JavaName: String (optional);
+        SwiftName: String (optional);
+    }
+
+    for enumerations {
+        CppName: String (optional);
+        JavaName: String (optional);
+        SwiftName: String (optional);
+    }
+
+    for enumerators {
+        CppName: String (optional);
+        JavaName: String (optional);
+        SwiftName: String (optional);
+    }
+
+    for arrays {
+        CppName: String (optional);
+        JavaName: String (optional);
+        SwiftName: String (optional);
+    }
+
+    for maps {
+        CppName: String (optional);
+        JavaName: String (optional);
+        SwiftName: String (optional);
+    }
+
+    for typedefs {
+        CppName: String (optional);
+        JavaName: String (optional);
+        SwiftName: String (optional);
+    }
+}

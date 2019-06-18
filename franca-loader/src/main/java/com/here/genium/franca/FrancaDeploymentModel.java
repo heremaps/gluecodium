@@ -170,6 +170,34 @@ public class FrancaDeploymentModel {
     return getBoolean(francaArray, "IsSet");
   }
 
+  public String getCppName(final FModelElement francaElement) {
+    return getString(francaElement, "CppName");
+  }
+
+  public String getJavaName(final FModelElement francaElement) {
+    return getString(francaElement, "JavaName");
+  }
+
+  public String getSwiftName(final FModelElement francaElement) {
+    return getString(francaElement, "SwiftName");
+  }
+
+  public String getCppGetterName(final FAttribute francaElement) {
+    return getString(francaElement, "CppGetterName");
+  }
+
+  public String getCppSetterName(final FAttribute francaElement) {
+    return getString(francaElement, "CppSetterName");
+  }
+
+  public String getJavaGetterName(final FAttribute francaElement) {
+    return getString(francaElement, "JavaGetterName");
+  }
+
+  public String getJavaSetterName(final FAttribute francaElement) {
+    return getString(francaElement, "JavaSetterName");
+  }
+
   private boolean getBoolean(final FModelElement francaModelElement, final String valueName) {
 
     List<MappingGenericPropertyAccessor> propertyAccessorsForModelElement =

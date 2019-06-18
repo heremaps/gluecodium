@@ -31,5 +31,8 @@ enum class LimeAttributeType {
     CONST,
     CONSTRUCTOR,
     BUILDER,
-    POINTER_EQUATABLE
+    POINTER_EQUATABLE,
+    CPP_NAME,
+    JAVA_NAME,
+    SWIFT_NAME
 }

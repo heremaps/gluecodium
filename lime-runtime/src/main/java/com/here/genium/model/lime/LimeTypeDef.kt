@@ -23,5 +23,6 @@ class LimeTypeDef(
     path: LimePath,
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: String = "",
+    attributes: LimeAttributes? = null,
     val typeRef: LimeTypeRef
-) : LimeType(path, visibility, comment, null)
+) : LimeType(path, visibility, comment, attributes)

@@ -77,7 +77,7 @@ class LimeModelBuilderInterfaceTest {
     @MockK private lateinit var francaStruct: FStructType
 
     @MockK private lateinit var deploymentModel: FrancaDeploymentModel
-    @MockK private lateinit var referenceResolver: LimeReferenceResolver
+    private val referenceResolver = LimeReferenceResolver()
     @MockK private lateinit var companionHelper: FrancaCompanionHelper
 
     private val limeTypeRef = LimeBasicTypeRef.DOUBLE
@@ -105,7 +105,6 @@ class LimeModelBuilderInterfaceTest {
             LimeModelBuilder(contextStack, deploymentModel, referenceResolver, companionHelper)
 
         every { CommentHelper.getDescription(any()) } returns "some comment"
-        every { referenceResolver.referenceMap } returns emptyMap()
         every { companionHelper.getStructForCompanion(any()) } returns null
 
         every { francaModel.name } returns "the.model"
@@ -491,5 +490,24 @@ class LimeModelBuilderInterfaceTest {
 
         val result = modelBuilder.getFinalResult(LimeProperty::class.java)
         assertNull(result.setter)
+    }
+
+    @Test
+    fun finishBuildingAttributeReadsPlatformNames() {
+        contextStack.injectResult(limeTypeRef)
+        every { deploymentModel.getCppGetterName(francaAttribute) } returns "get_cpp_foo"
+        every { deploymentModel.getCppSetterName(francaAttribute) } returns "set_cpp_foo"
+        every { deploymentModel.getJavaGetterName(francaAttribute) } returns "get_java_foo"
+        every { deploymentModel.getJavaSetterName(francaAttribute) } returns "set_java_foo"
+        every { deploymentModel.getSwiftName(francaAttribute) } returns "foo_foo"
+
+        modelBuilder.finishBuilding(francaAttribute)
+
+        val result = modelBuilder.getFinalResult(LimeProperty::class.java)
+        assertAttributeEquals("get_cpp_foo", LimeAttributeType.CPP_NAME, result.getter)
+        assertAttributeEquals("set_cpp_foo", LimeAttributeType.CPP_NAME, result.setter!!)
+        assertAttributeEquals("get_java_foo", LimeAttributeType.JAVA_NAME, result.getter)
+        assertAttributeEquals("set_java_foo", LimeAttributeType.JAVA_NAME, result.setter!!)
+        assertAttributeEquals("foo_foo", LimeAttributeType.SWIFT_NAME, result)
     }
 }

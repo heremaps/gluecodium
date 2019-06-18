@@ -121,6 +121,8 @@ class LimeModelBuilder(
         attributes: LimeAttributes.Builder,
         parentRef: LimeTypeRef?
     ) {
+        addPlatformNameAttributes(attributes, francaTypeCollection)
+
         val limeContainer = LimeContainer(
             path = createElementPath(francaTypeCollection),
             visibility = getLimeVisibility(francaTypeCollection),
@@ -141,6 +143,7 @@ class LimeModelBuilder(
 
     override fun finishBuilding(francaStruct: FStructType) {
         val attributes = LimeAttributes.Builder()
+        addPlatformNameAttributes(attributes, francaStruct)
         addExternalTypeAttributes(attributes, francaStruct)
         if (deploymentModel.isSerializable(francaStruct)) {
             attributes.addAttribute(LimeAttributeType.SERIALIZABLE)
@@ -170,6 +173,7 @@ class LimeModelBuilder(
 
     override fun finishBuilding(francaField: FField) {
         val attributes = LimeAttributes.Builder()
+        addPlatformNameAttributes(attributes, francaField)
         attributes.addAttribute(
             LimeAttributeType.EXTERNAL_GETTER,
             deploymentModel.getExternalGetter(francaField)
@@ -213,6 +217,7 @@ class LimeModelBuilder(
 
     override fun finishBuilding(francaEnum: FEnumerationType) {
         val attributes = LimeAttributes.Builder()
+        addPlatformNameAttributes(attributes, francaEnum)
         addExternalTypeAttributes(attributes, francaEnum)
 
         val limeEnum = LimeEnumeration(
@@ -227,10 +232,14 @@ class LimeModelBuilder(
     }
 
     override fun finishBuilding(francaEnumerator: FEnumerator) {
+        val attributes = LimeAttributes.Builder()
+        addPlatformNameAttributes(attributes, francaEnumerator)
+
         val limeEnumerator = LimeEnumerator(
             path = createElementPath(francaEnumerator),
             comment = CommentHelper.getDescription(francaEnumerator),
-            value = getPreviousResultOrNull(LimeValue::class.java)
+            value = getPreviousResultOrNull(LimeValue::class.java),
+            attributes = attributes.build()
         )
 
         storeResultAndCloseContext(limeEnumerator)
@@ -257,8 +266,6 @@ class LimeModelBuilder(
     }
 
     override fun finishBuilding(francaConstant: FConstantDef) {
-        val attributes = LimeAttributes.Builder()
-
         var constantType = getPreviousResult(LimeTypeRef::class.java)
         if (francaConstant.isArray) {
             val arrayKey = registerArrayType(constantType.elementFullName)
@@ -269,7 +276,6 @@ class LimeModelBuilder(
             path = createElementPath(francaConstant),
             visibility = getLimeVisibility(francaConstant),
             comment = CommentHelper.getDescription(francaConstant),
-            attributes = attributes.build(),
             typeRef = constantType,
             value = getPreviousResult(LimeValue::class.java)
         )
@@ -279,11 +285,15 @@ class LimeModelBuilder(
 
     override fun finishBuilding(francaTypeDef: FTypeDef) {
         if (!SpecialTypeRules.isInstanceId(francaTypeDef)) {
+            val attributes = LimeAttributes.Builder()
+            addPlatformNameAttributes(attributes, francaTypeDef)
+
             val limeTypeDef = LimeTypeDef(
                 path = createElementPath(francaTypeDef),
                 visibility = getLimeVisibility(francaTypeDef),
                 comment = CommentHelper.getDescription(francaTypeDef),
-                typeRef = getPreviousResult(LimeTypeRef::class.java)
+                typeRef = getPreviousResult(LimeTypeRef::class.java),
+                attributes = attributes.build()
             )
             storeResultAndCloseContext(limeTypeDef)
         } else {
@@ -299,11 +309,15 @@ class LimeModelBuilder(
             else -> registerArrayType(elementTypeRef.elementFullName)
         }
 
+        val attributes = LimeAttributes.Builder()
+        addPlatformNameAttributes(attributes, francaArrayType)
+
         val limeTypeDef = LimeTypeDef(
             path = createElementPath(francaArrayType),
             visibility = getLimeVisibility(francaArrayType),
             comment = CommentHelper.getDescription(francaArrayType),
-            typeRef = LimeLazyTypeRef(arrayKey, referenceResolver.referenceMap)
+            typeRef = LimeLazyTypeRef(arrayKey, referenceResolver.referenceMap),
+            attributes = attributes.build()
         )
 
         storeResultAndCloseContext(limeTypeDef)
@@ -331,6 +345,7 @@ class LimeModelBuilder(
 
     override fun finishBuilding(francaMethod: FMethod) {
         val attributes = LimeAttributes.Builder()
+        addPlatformNameAttributes(attributes, francaMethod)
         if (deploymentModel.isConst(francaMethod)) {
             attributes.addAttribute(LimeAttributeType.CONST)
         }
@@ -369,6 +384,9 @@ class LimeModelBuilder(
     }
 
     override fun finishBuildingInputArgument(francaArgument: FArgument) {
+        val attributes = LimeAttributes.Builder()
+        addPlatformNameAttributes(attributes, francaArgument)
+
         var parameterType = getPreviousResult(LimeTypeRef::class.java)
         if (francaArgument.isArray) {
             val arrayKey = registerArrayType(parameterType.elementFullName)
@@ -381,7 +399,8 @@ class LimeModelBuilder(
         val limeParameter = LimeParameter(
             path = createElementPath(francaArgument),
             comment = CommentHelper.getDescription(francaArgument),
-            typeRef = parameterType
+            typeRef = parameterType,
+            attributes = attributes.build()
         )
 
         storeResultAndCloseContext(limeParameter)
@@ -406,13 +425,19 @@ class LimeModelBuilder(
     }
 
     override fun finishBuilding(francaAttribute: FAttribute) {
-        var attributeType = getPreviousResult(LimeTypeRef::class.java)
+        val propertyAttributes = LimeAttributes.Builder()
+        propertyAttributes.addAttribute(
+            LimeAttributeType.SWIFT_NAME,
+            deploymentModel.getSwiftName(francaAttribute)
+        )
+
+        var propertyType = getPreviousResult(LimeTypeRef::class.java)
         if (francaAttribute.isArray) {
-            val arrayKey = registerArrayType(attributeType.elementFullName)
-            attributeType = LimeLazyTypeRef(arrayKey, referenceResolver.referenceMap)
+            val arrayKey = registerArrayType(propertyType.elementFullName)
+            propertyType = LimeLazyTypeRef(arrayKey, referenceResolver.referenceMap)
         }
         if (deploymentModel.isNullable(francaAttribute)) {
-            attributeType = attributeType.asNullable()
+            propertyType = propertyType.asNullable()
         }
 
         val propertyPath = createElementPath(francaAttribute)
@@ -420,6 +445,14 @@ class LimeModelBuilder(
         val getter =
             run {
                 val attributes = LimeAttributes.Builder()
+                attributes.addAttribute(
+                    LimeAttributeType.CPP_NAME,
+                    deploymentModel.getCppGetterName(francaAttribute)
+                )
+                attributes.addAttribute(
+                    LimeAttributeType.JAVA_NAME,
+                    deploymentModel.getJavaGetterName(francaAttribute)
+                )
                 attributes.addAttribute(
                     LimeAttributeType.EXTERNAL_NAME,
                     deploymentModel.getExternalGetter(francaAttribute)
@@ -429,7 +462,7 @@ class LimeModelBuilder(
                     path = path,
                     visibility = propertyVisibility,
                     attributes = attributes.build(),
-                    parameters = listOf(LimeParameter(path.child("value"), typeRef = attributeType))
+                    parameters = listOf(LimeParameter(path.child("value"), typeRef = propertyType))
                 )
             }
         val setter =
@@ -443,6 +476,14 @@ class LimeModelBuilder(
                     }
                     val attributes = LimeAttributes.Builder()
                     attributes.addAttribute(
+                        LimeAttributeType.CPP_NAME,
+                        deploymentModel.getCppSetterName(francaAttribute)
+                    )
+                    attributes.addAttribute(
+                        LimeAttributeType.JAVA_NAME,
+                        deploymentModel.getJavaSetterName(francaAttribute)
+                    )
+                    attributes.addAttribute(
                         LimeAttributeType.EXTERNAL_NAME,
                         deploymentModel.getExternalSetter(francaAttribute)
                     )
@@ -450,7 +491,7 @@ class LimeModelBuilder(
                         path = propertyPath.withSuffix("set"),
                         visibility = visibility,
                         attributes = attributes.build(),
-                        returnType = LimeReturnType(attributeType)
+                        returnType = LimeReturnType(propertyType)
                     )
                 }
             }
@@ -459,7 +500,8 @@ class LimeModelBuilder(
             path = propertyPath,
             visibility = propertyVisibility,
             comment = CommentHelper.getDescription(francaAttribute),
-            typeRef = attributeType,
+            attributes = propertyAttributes.build(),
+            typeRef = propertyType,
             getter = getter,
             setter = setter,
             isStatic = deploymentModel.isStatic(francaAttribute)
@@ -572,6 +614,24 @@ class LimeModelBuilder(
         attributes.addAttribute(
             LimeAttributeType.EXTERNAL_NAME,
             deploymentModel.getExternalName(francaElement)
+        )
+    }
+
+    private fun addPlatformNameAttributes(
+        attributes: LimeAttributes.Builder,
+        francaElement: FModelElement
+    ) {
+        attributes.addAttribute(
+            LimeAttributeType.CPP_NAME,
+            deploymentModel.getCppName(francaElement)
+        )
+        attributes.addAttribute(
+            LimeAttributeType.JAVA_NAME,
+            deploymentModel.getJavaName(francaElement)
+        )
+        attributes.addAttribute(
+            LimeAttributeType.SWIFT_NAME,
+            deploymentModel.getSwiftName(francaElement)
         )
     }
 

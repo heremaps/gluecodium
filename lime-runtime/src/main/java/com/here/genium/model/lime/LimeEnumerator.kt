@@ -22,5 +22,6 @@ package com.here.genium.model.lime
 class LimeEnumerator(
     path: LimePath,
     comment: String = "",
+    attributes: LimeAttributes? = null,
     val value: LimeValue? = null
-) : LimeNamedElement(path = path, comment = comment)
+) : LimeNamedElement(path = path, comment = comment, attributes = attributes)
