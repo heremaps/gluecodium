@@ -1,12 +1,17 @@
 # Genium project Release Notes
 
 ## Unreleased
-- Features
+- Features:
   + Support custom name rules for Java and Swift
+  + Java `@NonNull` and `@Nullable` annotations are now configurable
+- Breaking changes:
+  + Android generator does not create `@NonNull` and `@Nullable` annotations by default anymore,
+    to get old behaviour pass command line options:
+    `-javanonnullannotation android.support.annotation.NonNull -javanullableannotation android.support.annotation.Nullable`
 
 ## 4.5.0
 - Release date: 2019-06-12
-- Features
+- Features:
   + Support for custom name rules for C++
 
 ## 4.4.2

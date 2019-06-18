@@ -64,6 +64,8 @@ function(apigen_generate)
       JAVA_PACKAGE
       JAVA_INTERNAL_PACKAGE
       JAVA_NAMERULES
+      JAVA_NONNULL_ANNOTATION
+      JAVA_NULLABLE_ANNOTATION
       COPYRIGHT_HEADER
       CPP_INTERNAL_NAMESPACE
       CPP_EXPORT
@@ -130,24 +132,16 @@ function(apigen_generate)
     endif()
     string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -input \"${input}\"")
   endforeach()
-  if(apigen_generate_ANDROID_MERGE_MANIFEST)
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " --android-merge-manifest ${apigen_generate_ANDROID_MERGE_MANIFEST}")
-  endif()
-  if(apigen_generate_JAVA_PACKAGE)
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -javapackage ${apigen_generate_JAVA_PACKAGE}")
-  endif()
-  if(apigen_generate_JAVA_INTERNAL_PACKAGE)
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " --java-internal-package ${apigen_generate_JAVA_INTERNAL_PACKAGE}")
-  endif()
-  if(apigen_generate_COPYRIGHT_HEADER)
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " --copyright-header ${apigen_generate_COPYRIGHT_HEADER}")
-  endif()
-  if(apigen_generate_CPP_INTERNAL_NAMESPACE)
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " --cpp-internal-namespace ${apigen_generate_CPP_INTERNAL_NAMESPACE}")
-  endif()
-  apigen_name_rule(-cppnamerules CPP_NAMERULES)
-  apigen_name_rule(-javanamerules JAVA_NAMERULES)
-  apigen_name_rule(-swiftnamerules SWIFT_NAMERULES)
+  apigen_parse_option(--android-merge-manifest ANDROID_MERGE_MANIFEST)
+  apigen_parse_option(-javapackage JAVA_PACKAGE)
+  apigen_parse_option(--java-internal-package JAVA_INTERNAL_PACKAGE)
+  apigen_parse_option(-javanonnullannotation JAVA_NONNULL_ANNOTATION)
+  apigen_parse_option(-javanullableannotation JAVA_NULLABLE_ANNOTATION)
+  apigen_parse_path_option(--copyright-header COPYRIGHT_HEADER)
+  apigen_parse_option(--cpp-internal-namespace CPP_INTERNAL_NAMESPACE)
+  apigen_parse_path_option(-cppnamerules CPP_NAMERULES)
+  apigen_parse_path_option(-javanamerules JAVA_NAMERULES)
+  apigen_parse_path_option(-swiftnamerules SWIFT_NAMERULES)
 
   if(apigen_generate_CPP_EXPORT)
     string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " -cppexport ${apigen_generate_CPP_EXPORT}")
@@ -161,6 +155,7 @@ function(apigen_generate)
       PRIVATE ${apigen_generate_CPP_EXPORT}_INTERNAL)
   endif()
 
+  message("Running `Genium ${APIGEN_GENIUM_ARGS}`")
   execute_process(
     COMMAND ${CMAKE_COMMAND} -E make_directory ${GENIUM_OUTPUT_DIR} # otherwise java.io.File won't have permissions to create files at configure time
     COMMAND ${APIGEN_GENIUM_GRADLE_WRAPPER} -Pversion=${apigen_generate_VERSION} run --args=${APIGEN_GENIUM_ARGS}
@@ -172,11 +167,17 @@ function(apigen_generate)
 
 endfunction()
 
-macro(apigen_name_rule NAME_RULE_OPTION NAME_RULE_PATH)
-  if(apigen_generate_${NAME_RULE_PATH})
-    if(NOT IS_ABSOLUTE ${apigen_generate_${NAME_RULE_PATH}})
-      set(apigen_generate_${NAME_RULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/${apigen_generate_${NAME_RULE_PATH}}")
+macro(apigen_parse_path_option GENIUM_OPTION CMAKE_OPTION)
+  if(apigen_generate_${CMAKE_OPTION})
+    if(NOT IS_ABSOLUTE ${apigen_generate_${CMAKE_OPTION}})
+      set(apigen_generate_${CMAKE_OPTION} "${CMAKE_CURRENT_SOURCE_DIR}/${apigen_generate_${CMAKE_OPTION}}")
     endif()
-    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " ${NAME_RULE_OPTION} ${apigen_generate_${NAME_RULE_PATH}}")
+    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " ${GENIUM_OPTION} ${apigen_generate_${CMAKE_OPTION}}")
+  endif()
+endmacro()
+
+macro(apigen_parse_option GENIUM_OPTION CMAKE_OPTION)
+  if(apigen_generate_${CMAKE_OPTION})
+    string(CONCAT APIGEN_GENIUM_ARGS ${APIGEN_GENIUM_ARGS} " ${GENIUM_OPTION} ${apigen_generate_${CMAKE_OPTION}}")
   endif()
 endmacro()

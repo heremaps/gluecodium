@@ -436,6 +436,8 @@ apigen_generate(TARGET hello
         VERSION ${HELLO_APIGEN_GENIUM_VERSION}
         JAVA_PACKAGE com.here.android
         JAVA_INTERNAL_PACKAGE lorem.ipsum
+        JAVA_NONNULL_ANNOTATION android.support.annotation.NonNull
+        JAVA_NULLABLE_ANNOTATION android.support.annotation.Nullable
         CPP_INTERNAL_NAMESPACE lorem_ipsum.test
         COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT")
 apigen_target_include_directories(hello)
