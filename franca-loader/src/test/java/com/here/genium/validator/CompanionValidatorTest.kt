@@ -27,11 +27,12 @@ import io.mockk.impl.annotations.MockK
 import org.franca.core.franca.FConstantDef
 import org.franca.core.franca.FField
 import org.franca.core.franca.FInterface
+import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FTypeCollection
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -45,6 +46,7 @@ class CompanionValidatorTest {
     @MockK private lateinit var francaStruct: FStructType
     @MockK private lateinit var francaField: FField
     @MockK private lateinit var francaConstant: FConstantDef
+    @MockK private lateinit var francaMethod: FMethod
 
     @MockK private lateinit var deploymentModel: FrancaDeploymentModel
 
@@ -59,6 +61,9 @@ class CompanionValidatorTest {
         every { francaInterface.eContainer() } returns francaModel
         every { francaStruct.eContainer() } returns francaTypeCollection
 
+        every { francaStruct.elements } returns ArrayEList(listOf(francaField))
+        every { francaInterface.methods } returns ArrayEList(listOf(francaMethod))
+
         every { deploymentModel.getCompanion(francaStruct) } returns "foo"
     }
 
@@ -69,7 +74,7 @@ class CompanionValidatorTest {
         val result =
             CompanionValidator.validateCompanion(francaStruct, deploymentModel, interfaces )
 
-        assertNull(result)
+        assertTrue(result.isEmpty())
     }
 
     @Test
@@ -77,7 +82,7 @@ class CompanionValidatorTest {
         val result =
             CompanionValidator.validateCompanion(francaStruct, deploymentModel, interfaces )
 
-        assertNull(result)
+        assertTrue(result.isEmpty())
     }
 
     @Test
@@ -87,12 +92,11 @@ class CompanionValidatorTest {
         val result =
             CompanionValidator.validateCompanion(francaStruct, deploymentModel, interfaces )
 
-        assertNotNull(result)
+        assertFalse(result.isEmpty())
     }
 
     @Test
     fun validateCompanionConstantsValid() {
-        every { francaStruct.elements } returns ArrayEList(listOf(francaField))
         every { francaInterface.constants } returns ArrayEList(listOf(francaConstant))
         every { francaField.name } returns "bar"
         every { francaConstant.name } returns "baz"
@@ -100,12 +104,11 @@ class CompanionValidatorTest {
         val result =
             CompanionValidator.validateCompanion(francaStruct, deploymentModel, interfaces )
 
-        assertNull(result)
+        assertTrue(result.isEmpty())
     }
 
     @Test
     fun validateCompanionConstantsInvalid() {
-        every { francaStruct.elements } returns ArrayEList(listOf(francaField))
         every { francaInterface.constants } returns ArrayEList(listOf(francaConstant))
         every { francaField.name } returns "bar"
         every { francaConstant.name } returns "bar"
@@ -113,6 +116,27 @@ class CompanionValidatorTest {
         val result =
             CompanionValidator.validateCompanion(francaStruct, deploymentModel, interfaces )
 
-        assertNotNull(result)
+        assertFalse(result.isEmpty())
+    }
+
+    @Test
+    fun validateCompanionWithJavaBuilderNoConstructor() {
+        every { deploymentModel.hasJavaBuilder(francaStruct) } returns true
+
+        val result =
+            CompanionValidator.validateCompanion(francaStruct, deploymentModel, interfaces )
+
+        assertTrue(result.isEmpty())
+    }
+
+    @Test
+    fun validateCompanionWithJavaBuilderAndConstructor() {
+        every { deploymentModel.hasJavaBuilder(francaStruct) } returns true
+        every { deploymentModel.isConstructor(francaMethod) } returns true
+
+        val result =
+            CompanionValidator.validateCompanion(francaStruct, deploymentModel, interfaces )
+
+        assertFalse(result.isEmpty())
     }
 }

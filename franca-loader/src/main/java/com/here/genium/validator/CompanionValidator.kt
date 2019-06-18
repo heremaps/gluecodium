@@ -27,7 +27,7 @@ import org.franca.core.franca.FTypeCollection
 import java.util.logging.Logger
 
 /**
- * Check for correctness of names in "Companion" deployment properties.
+ * Check for correctness of names and flags related to "Companion" deployment property.
  */
 object CompanionValidator {
 
@@ -44,7 +44,7 @@ object CompanionValidator {
         val errorMessages = typeCollections
             .flatMap { it.types }
             .filterIsInstance<FStructType>()
-            .mapNotNull { validateCompanion(it, deploymentModel, allInterfaces) }
+            .flatMap { validateCompanion(it, deploymentModel, allInterfaces) }
         errorMessages.forEach { LOGGER.severe(it) }
 
         return errorMessages.isEmpty()
@@ -54,13 +54,19 @@ object CompanionValidator {
         francaStruct: FStructType,
         deploymentModel: FrancaDeploymentModel,
         allInterfaces: Map<String, FInterface>
-    ): String? {
-        val companionKey = deploymentModel.getCompanion(francaStruct) ?: return null
-        val companion = allInterfaces[companionKey]
-        if (companion == null) {
-            val structName = FrancaTypeHelper.getFullName(francaStruct)
-            return "Companion interface '$companionKey' " +
-                "for struct type '$structName' does not exist."
+    ): List<String> {
+        val structName = FrancaTypeHelper.getFullName(francaStruct)
+        val companionKey = deploymentModel.getCompanion(francaStruct) ?: return emptyList()
+        val companion = allInterfaces[companionKey] ?: return listOf(
+            "Companion interface '$companionKey' for struct type '$structName' does not exist."
+        )
+
+        val errorMessages = mutableListOf<String>()
+
+        val hasConstructor = companion.methods.any { deploymentModel.isConstructor(it) }
+        if (hasConstructor && deploymentModel.hasJavaBuilder(francaStruct)) {
+            errorMessages += "'JavaBuilder' flag for struct type '$structName' is not " +
+                "compatible with having a custom constructor in the companion interface."
         }
 
         val structFieldNames = francaStruct.elements.map { it.name }.toSet()
@@ -68,11 +74,10 @@ object CompanionValidator {
         val clashingNames = structFieldNames intersect companionConstNames
         if (clashingNames.isNotEmpty()) {
             val namesString = clashingNames.joinToString("', '")
-            val structName = FrancaTypeHelper.getFullName(francaStruct)
-            return "Names of constants '$namesString' in companion interface '$companionKey' " +
-                "clash with names of fields in struct type '$structName'."
+            errorMessages += "Names of constants '$namesString' in companion interface" +
+                " '$companionKey' clash with names of fields in struct type '$structName'."
         }
 
-        return null
+        return errorMessages
     }
 }

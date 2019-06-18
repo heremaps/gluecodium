@@ -684,6 +684,11 @@ struct. All other definitions inside the interface are ignored.
 **Note:** Non-static methods on a struct are not allowed to modify the underlying data. Consequently
 these methods are generated with a `const` qualifier in C++.
 
+**Note:** A method in a `Companion` interface can be marked as `Constructor` (see above). This
+provides a custom constructor for the struct type. Please note that this also skips generation of
+the all-fields constructor (which is otherwise generated for all structs), thus disabling the
+`JavaBuilder` feature (see below) for this struct type.
+
 FIDL:
 
     package example
