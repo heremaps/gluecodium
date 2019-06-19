@@ -1,22 +1,24 @@
 # Genium project Release Notes
 
-## Unreleased
+## 4.6.0
+- Release date: 2019-06-19
 - Features:
-  + Support custom name rules for Java and Swift
-  + Java `@NonNull` and `@Nullable` annotations are now configurable
+  + Custom name rules are now supported for Java and Swift.
+  + Java `@NonNull` and `@Nullable` annotations are now configurable.
 - Bug fixes:
-  + Fixed compilation issue for empty defaulted C++ struct members
-  + Fix default values for struct fields with typedef type
+  + Fixed compilation issue for empty defaulted C++ struct members.
+  + Fixed default values for struct fields with typedef type.
 - Breaking changes:
-  + Default constructor for a C++ struct is not generated anymore if it has immutable non-defaulted fields
+  + Default constructor for a C++ struct is not generated if it has immutable non-defaulted fields.
   + Android generator does not create `@NonNull` and `@Nullable` annotations by default anymore,
     to get old behaviour pass command line options:
-    `-javanonnullannotation android.support.annotation.NonNull -javanullableannotation android.support.annotation.Nullable`
+    `-javanonnullannotation android.support.annotation.NonNull
+    -javanullableannotation android.support.annotation.Nullable`
 
 ## 4.5.0
 - Release date: 2019-06-12
 - Features:
-  + Support for custom name rules for C++
+  + Custom name rules are now supported for C++.
 
 ## 4.4.2
 - Release date: 2019-06-11
