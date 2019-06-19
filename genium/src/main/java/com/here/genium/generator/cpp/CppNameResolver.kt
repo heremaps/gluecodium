@@ -49,11 +49,17 @@ class CppNameResolver(
         limeProperty.getter.attributes.get(
             LimeAttributeType.EXTERNAL_NAME,
             String::class.java
+        ) ?: limeProperty.getter.attributes.get(
+            LimeAttributeType.CPP_NAME,
+            String::class.java
         ) ?: nameRules.getGetterName(limeProperty)
 
     fun getSetterName(limeProperty: LimeProperty) =
         limeProperty.setter?.attributes?.get(
             LimeAttributeType.EXTERNAL_NAME,
+            String::class.java
+        ) ?: limeProperty.setter?.attributes?.get(
+            LimeAttributeType.CPP_NAME,
             String::class.java
         ) ?: nameRules.getSetterName(limeProperty)
 
@@ -99,12 +105,20 @@ class CppNameResolver(
             parentIsExternal || limeElement.attributes.have(LimeAttributeType.EXTERNAL_TYPE)
         val externalName =
             limeElement.attributes.get(LimeAttributeType.EXTERNAL_NAME, String::class.java)
+        val platformName =
+            limeElement.attributes.get(LimeAttributeType.CPP_NAME, String::class.java)
 
-        return if (externalName != null) {
-            NamesCacheEntry(isExternal, externalName, externalName)
-        } else {
-            val name = if (isExternal) limeElement.name else nameRules.getName(limeElement)
-            NamesCacheEntry(isExternal, name, "$parentFullName::$name")
+        val name = when {
+            externalName != null -> externalName
+            platformName != null -> platformName
+            isExternal -> limeElement.name
+            else -> nameRules.getName(limeElement)
         }
+        val fullName = when {
+            externalName != null -> externalName
+            else -> "$parentFullName::$name"
+        }
+
+        return NamesCacheEntry(isExternal, name, fullName)
     }
 }

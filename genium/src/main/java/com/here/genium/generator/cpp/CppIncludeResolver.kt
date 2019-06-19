@@ -21,6 +21,7 @@ package com.here.genium.generator.cpp
 
 import com.here.genium.model.common.Include
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
 
@@ -30,20 +31,21 @@ class CppIncludeResolver(
 ) {
     private val resolvedIncludes = mutableMapOf<String, List<Include>>()
 
-    fun resolveIncludes(limeNamedElement: LimeNamedElement): List<Include> {
-        return resolvedIncludes.getOrPut(limeNamedElement.fullName) {
+    fun resolveIncludes(limeNamedElement: LimeNamedElement): List<Include> =
+        resolvedIncludes.getOrPut(limeNamedElement.fullName) {
             val externalType = inferExternalType(limeNamedElement)
-            if (externalType != null) {
-                externalType.split(',').map { Include.createInternalInclude(it.trim()) }
-            } else {
-                listOf(
-                    Include.createInternalInclude(
-                        nameRules.getOutputFilePath(limeNamedElement) + CppGenerator.HEADER_FILE_SUFFIX
-                    )
-                )
+            when {
+                externalType != null ->
+                    externalType.split(',').map { Include.createInternalInclude(it.trim()) }
+                limeNamedElement is LimeContainer -> listOf(Include.createInternalInclude(
+                    nameRules.getOutputFilePath(limeNamedElement) + CppGenerator.HEADER_FILE_SUFFIX
+                ))
+                else -> {
+                    val parentElementKey = limeNamedElement.path.parent.toString()
+                    resolveIncludes(limeReferenceMap[parentElementKey] as LimeNamedElement)
+                }
             }
         }
-    }
 
     private fun inferExternalType(limeNamedElement: LimeNamedElement): String? {
         val externalType =

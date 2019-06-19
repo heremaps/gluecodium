@@ -71,6 +71,8 @@ class ExternalElementsValidatorPredicateTest {
         every { deploymentModel.isExternalType(externalParent) } returns true
         every { deploymentModel.getExternalGetter(any()) } returns null
         every { deploymentModel.getExternalSetter(any()) } returns null
+        every { deploymentModel.getCppGetterName(any()) } returns null
+        every { deploymentModel.getCppSetterName(any()) } returns null
     }
 
     @Test
@@ -127,4 +129,22 @@ class ExternalElementsValidatorPredicateTest {
     @Test
     fun validateNonExternalAttributeInExternalType() =
         assertNotNull(validatorPredicate.validate(deploymentModel, francaAttribute))
+
+    @Test
+    fun validateWithExternalGetterAndSetterAndCppGetterName() {
+        every { deploymentModel.getExternalGetter(francaAttribute) } returns "Bar"
+        every { deploymentModel.getExternalSetter(francaAttribute) } returns "Baz"
+        every { deploymentModel.getCppGetterName(francaAttribute) } returns "Foo"
+
+        assertNotNull(validatorPredicate.validate(deploymentModel, francaAttribute))
+    }
+
+    @Test
+    fun validateWithExternalGetterAndSetterAndCppSetterName() {
+        every { deploymentModel.getExternalGetter(francaAttribute) } returns "Bar"
+        every { deploymentModel.getExternalSetter(francaAttribute) } returns "Baz"
+        every { deploymentModel.getCppSetterName(francaAttribute) } returns "Foo"
+
+        assertNotNull(validatorPredicate.validate(deploymentModel, francaAttribute))
+    }
 }

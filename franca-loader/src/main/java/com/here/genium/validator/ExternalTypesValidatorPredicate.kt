@@ -26,6 +26,7 @@ import org.franca.core.franca.FModelElement
 /**
  * Validate each type with "ExternalName" property set against the following conditions:
  *  * Should have "ExternalType" property set.
+ *  * Should not have "CppName" property set.
  */
 class ExternalTypesValidatorPredicate : ValidatorPredicate<FModelElement> {
 
@@ -34,16 +35,24 @@ class ExternalTypesValidatorPredicate : ValidatorPredicate<FModelElement> {
     override fun validate(
         deploymentModel: FrancaDeploymentModel,
         francaElement: FModelElement
-    ) = if (deploymentModel.getExternalName(francaElement) != null &&
-        !deploymentModel.isExternalType(francaElement)) {
+    ): String? {
+        if (deploymentModel.getExternalName(francaElement) == null) {
+            return null
+        }
 
-        String.format(NON_EXTERNAL_TYPE_MESSAGE, FrancaTypeHelper.getFullName(francaElement))
-    } else {
-        null
+        return when {
+            !deploymentModel.isExternalType(francaElement) ->
+                String.format(EXTERNAL_TYPE_MESSAGE, FrancaTypeHelper.getFullName(francaElement))
+            deploymentModel.getCppName(francaElement) != null ->
+                String.format(PLATFORM_NAME_MESSAGE, FrancaTypeHelper.getFullName(francaElement))
+            else -> null
+        }
     }
 
     companion object {
-        private const val NON_EXTERNAL_TYPE_MESSAGE =
+        private const val EXTERNAL_TYPE_MESSAGE =
             "The type with 'ExternalName' should have 'ExternalType' property set: type '%s'."
+        private const val PLATFORM_NAME_MESSAGE =
+            "The type with 'ExternalName' should not have 'CppName' property set: type '%s'."
     }
 }

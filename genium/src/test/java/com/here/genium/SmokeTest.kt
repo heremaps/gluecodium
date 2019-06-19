@@ -31,7 +31,7 @@ import org.junit.runners.Parameterized.Parameters
 class SmokeTest(
     private val featureDirectory: File,
     generatorName: String,
-    featureName: String
+    @Suppress("UNUSED_PARAMETER") featureName: String
 ) : AcceptanceTestBase(featureDirectory, generatorName) {
 
     @Test
@@ -56,7 +56,7 @@ class SmokeTest(
     }
 
     companion object {
-        private val RESOURCE_PREFIX = "smoke"
+        private const val RESOURCE_PREFIX = "smoke"
 
         @JvmStatic
         @Parameters(name = "{2}, {1}")

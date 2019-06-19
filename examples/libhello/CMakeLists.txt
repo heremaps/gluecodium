@@ -412,6 +412,13 @@ feature(SetType cpp android swift SOURCES
     fidl/test/SetType.fdepl
 )
 
+feature(PlatformNames cpp SOURCES
+    src/test/PlatformNames.cpp
+
+    fidl/test/PlatformNames.fidl
+    fidl/test/PlatformNames.fdepl
+)
+
 if(APPLE)
     #This feature is intended for Swift only. It also does not compile outside of Apple platforms.
     feature(ObjcInterface swift SOURCES

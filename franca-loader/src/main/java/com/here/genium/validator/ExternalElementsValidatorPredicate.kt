@@ -33,6 +33,7 @@ import org.franca.core.franca.FTypedElement
  *  * Should be in a struct or interface which has "ExternalType" property set.
  *  * Attribute in an interface which has "ExternalType" property set should have
  * "ExternalGetter" and "ExternalSetter" properties set, as appropriate to its "readonly" flag.
+ *  * Should not have "CppGetterName" or "CppSetterName" properties set.
  */
 class ExternalElementsValidatorPredicate : ValidatorPredicate<FTypedElement> {
 
@@ -43,8 +44,7 @@ class ExternalElementsValidatorPredicate : ValidatorPredicate<FTypedElement> {
         francaElement: FTypedElement
     ): String? {
 
-        val isAttribute = francaElement is FAttribute
-        val isReadonly = isAttribute && (francaElement as FAttribute).isReadonly
+        val isReadonly = francaElement is FAttribute && francaElement.isReadonly
 
         val hasExternalGetter = deploymentModel.getExternalGetter(francaElement) != null
         val hasExternalSetter = deploymentModel.getExternalSetter(francaElement) != null
@@ -53,18 +53,23 @@ class ExternalElementsValidatorPredicate : ValidatorPredicate<FTypedElement> {
 
         var messageFormat: String? = null
         if (deploymentModel.isExternalType(parentElement)) {
-            if (isAttribute && !hasExternalGetter) {
-                messageFormat = if (isReadonly)
-                    READONLY_EXTERNAL_ATTRIBUTES_MESSAGE
-                else
-                    EXTERNAL_ATTRIBUTES_MESSAGE
+            if (francaElement is FAttribute) {
+                if (!hasExternalGetter) {
+                    messageFormat = if (isReadonly)
+                        READONLY_EXTERNAL_ATTRIBUTES_MESSAGE
+                    else
+                        EXTERNAL_ATTRIBUTES_MESSAGE
+                } else if (hasExternalGetter != hasExternalSetter && !isReadonly) {
+                    messageFormat = BOTH_PROPERTIES_MESSAGE
+                } else if (deploymentModel.getCppGetterName(francaElement) != null ||
+                        deploymentModel.getCppSetterName(francaElement) != null) {
+                    messageFormat = PLATFORM_NAME
+                }
             } else if (hasExternalGetter != hasExternalSetter && !isReadonly) {
-                messageFormat =
-                    BOTH_PROPERTIES_MESSAGE
+                messageFormat = BOTH_PROPERTIES_MESSAGE
             }
         } else if (hasExternalGetter || hasExternalSetter) {
-            messageFormat =
-                NON_EXTERNAL_TYPE_MESSAGE
+            messageFormat = NON_EXTERNAL_TYPE_MESSAGE
         }
 
         return if (messageFormat != null)
@@ -88,5 +93,8 @@ class ExternalElementsValidatorPredicate : ValidatorPredicate<FTypedElement> {
         private const val READONLY_EXTERNAL_ATTRIBUTES_MESSAGE =
             "Readonly attributes in an external interface should have 'ExternalGetter' property " +
                     "set: attribute '%s' in interface '%s'."
+        private const val PLATFORM_NAME =
+            "Attributes in an external interface should not have 'CppGetterName' or " +
+                    "'CppSetterName' properties set: attribute '%s' in interface '%s'."
     }
 }

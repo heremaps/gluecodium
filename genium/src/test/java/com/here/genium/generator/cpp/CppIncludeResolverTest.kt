@@ -23,6 +23,7 @@ import com.here.genium.Genium
 import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
+import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimePath
@@ -42,6 +43,8 @@ class CppIncludeResolverTest {
 
     @Test
     fun resolveRegularInclude() {
+        limeReferenceMap[limeRootPath.toString()] =
+            LimeContainer(limeRootPath, type = LimeContainer.ContainerType.TYPE_COLLECTION)
         val limeElement = object : LimeNamedElement(limeRootPath.child("bar")) {}
 
         val result = includeResolver.resolveIncludes(limeElement)
@@ -51,7 +54,8 @@ class CppIncludeResolverTest {
 
     @Test
     fun getOutputFilePathForContainer() {
-        val limeElement = object : LimeNamedElement(limeRootPath) {}
+        val limeElement =
+            LimeContainer(limeRootPath, type = LimeContainer.ContainerType.TYPE_COLLECTION)
 
         val result = includeResolver.resolveIncludes(limeElement)
 

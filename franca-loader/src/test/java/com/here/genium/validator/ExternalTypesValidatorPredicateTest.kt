@@ -57,6 +57,9 @@ class ExternalTypesValidatorPredicateTest {
 
         every { francaTypeCollection.eContainer() } returns fModel
         every { francaElement.eContainer() } returns francaTypeCollection
+
+        every { deploymentModel.getExternalName(francaElement) } returns null
+        every { deploymentModel.getCppName(francaElement) } returns null
     }
 
     @Test
@@ -83,8 +86,15 @@ class ExternalTypesValidatorPredicateTest {
 
     @Test
     fun validateWithoutExternalNameAndWithoutExternalType() {
-        every { deploymentModel.getExternalName(francaElement) } returns null
-
         assertNull(validatorPredicate.validate(deploymentModel, francaElement))
+    }
+
+    @Test
+    fun validateWithExternalNameAndCppName() {
+        every { deploymentModel.getExternalName(francaElement) } returns "Bar"
+        every { deploymentModel.isExternalType(francaElement) } returns true
+        every { deploymentModel.getCppName(francaElement) } returns "Foo"
+
+        assertNotNull(validatorPredicate.validate(deploymentModel, francaElement))
     }
 }
