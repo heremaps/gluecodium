@@ -73,7 +73,6 @@ import org.franca.core.franca.FStructType
 import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FTypeRef
-import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FUnaryOperation
 
 class LimeModelBuilder(
@@ -171,7 +170,14 @@ class LimeModelBuilder(
 
     override fun finishBuilding(francaField: FField) {
         val attributes = LimeAttributes.Builder()
-        addExternalAccessorAttributes(attributes, francaField)
+        attributes.addAttribute(
+            LimeAttributeType.EXTERNAL_GETTER,
+            deploymentModel.getExternalGetter(francaField)
+        )
+        attributes.addAttribute(
+            LimeAttributeType.EXTERNAL_SETTER,
+            deploymentModel.getExternalSetter(francaField)
+        )
 
         var fieldType = getPreviousResult(LimeTypeRef::class.java)
         if (francaField.isArray) {
@@ -400,12 +406,6 @@ class LimeModelBuilder(
     }
 
     override fun finishBuilding(francaAttribute: FAttribute) {
-        val attributes = LimeAttributes.Builder()
-        addExternalAccessorAttributes(attributes, francaAttribute)
-        if (deploymentModel.hasInternalSetter(francaAttribute)) {
-            attributes.addAttribute(LimeAttributeType.INTERNAL_SETTER)
-        }
-
         var attributeType = getPreviousResult(LimeTypeRef::class.java)
         if (francaAttribute.isArray) {
             val arrayKey = registerArrayType(attributeType.elementFullName)
@@ -415,13 +415,53 @@ class LimeModelBuilder(
             attributeType = attributeType.asNullable()
         }
 
+        val propertyPath = createElementPath(francaAttribute)
+        val propertyVisibility = getLimeVisibility(francaAttribute)
+        val getter =
+            run {
+                val attributes = LimeAttributes.Builder()
+                attributes.addAttribute(
+                    LimeAttributeType.EXTERNAL_NAME,
+                    deploymentModel.getExternalGetter(francaAttribute)
+                )
+                val path = propertyPath.withSuffix("get")
+                LimeMethod(
+                    path = path,
+                    visibility = propertyVisibility,
+                    attributes = attributes.build(),
+                    parameters = listOf(LimeParameter(path.child("value"), typeRef = attributeType))
+                )
+            }
+        val setter =
+            when {
+                francaAttribute.isReadonly -> null
+                else -> {
+                    val visibility = when {
+                        deploymentModel.hasInternalSetter(francaAttribute) ->
+                            LimeVisibility.INTERNAL
+                        else -> propertyVisibility
+                    }
+                    val attributes = LimeAttributes.Builder()
+                    attributes.addAttribute(
+                        LimeAttributeType.EXTERNAL_NAME,
+                        deploymentModel.getExternalSetter(francaAttribute)
+                    )
+                    LimeMethod(
+                        path = propertyPath.withSuffix("set"),
+                        visibility = visibility,
+                        attributes = attributes.build(),
+                        returnType = LimeReturnType(attributeType)
+                    )
+                }
+            }
+
         val limeProperty = LimeProperty(
-            path = createElementPath(francaAttribute),
-            visibility = getLimeVisibility(francaAttribute),
+            path = propertyPath,
+            visibility = propertyVisibility,
             comment = CommentHelper.getDescription(francaAttribute),
-            attributes = attributes.build(),
             typeRef = attributeType,
-            isReadonly = francaAttribute.isReadonly,
+            getter = getter,
+            setter = setter,
             isStatic = deploymentModel.isStatic(francaAttribute)
         )
 
@@ -532,20 +572,6 @@ class LimeModelBuilder(
         attributes.addAttribute(
             LimeAttributeType.EXTERNAL_NAME,
             deploymentModel.getExternalName(francaElement)
-        )
-    }
-
-    private fun addExternalAccessorAttributes(
-        attributes: LimeAttributes.Builder,
-        francaTypedElement: FTypedElement
-    ) {
-        attributes.addAttribute(
-            LimeAttributeType.EXTERNAL_GETTER,
-            deploymentModel.getExternalGetter(francaTypedElement)
-        )
-        attributes.addAttribute(
-            LimeAttributeType.EXTERNAL_SETTER,
-            deploymentModel.getExternalSetter(francaTypedElement)
         )
     }
 

@@ -353,23 +353,19 @@ class SwiftModelBuilder(
         val nestedSpecifier = CBridgeNameRules.getNestedSpecifierString(limeProperty)
         val getterMethod = SwiftMethod(
             name = "",
-            visibility = propertyVisibility,
+            visibility = getVisibility(limeProperty.getter),
             returnType = swiftType,
             cNestedSpecifier = nestedSpecifier,
             cShortName = CBridgeNameRules.getPropertyGetterName(limeProperty.name),
             isStatic = limeProperty.isStatic
         )
 
-        val setterMethod =
-            if (!limeProperty.isReadonly) {
-                val setterVisibility = when {
-                    limeProperty.attributes.have(LimeAttributeType.INTERNAL_SETTER) ->
-                        SwiftVisibility.INTERNAL
-                    else -> propertyVisibility
-                }
+        val limeSetter = limeProperty.setter
+        val swiftSetter =
+            if (limeSetter != null) {
                 SwiftMethod(
                     name = "",
-                    visibility = setterVisibility,
+                    visibility = getVisibility(limeSetter),
                     cNestedSpecifier = nestedSpecifier,
                     cShortName = CBridgeNameRules.getPropertySetterName(limeProperty.name),
                     isStatic = limeProperty.isStatic,
@@ -382,7 +378,7 @@ class SwiftModelBuilder(
             propertyVisibility,
             swiftType,
             getterMethod,
-            setterMethod,
+            swiftSetter,
             limeProperty.isStatic
         )
         property.comment = limeProperty.comment

@@ -243,7 +243,7 @@ class CppModelBuilder(
         )
         storeNamedResult(limeProperty, getterMethod)
 
-        if (!limeProperty.isReadonly) {
+        if (limeProperty.setter != null) {
             val setterParameter = CppParameter("value", cppTypeRef, isNotNull)
             val setterQualifiers = when {
                 limeProperty.isStatic -> EnumSet.noneOf(CppMethod.Qualifier::class.java)

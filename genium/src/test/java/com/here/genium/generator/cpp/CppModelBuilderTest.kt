@@ -73,7 +73,12 @@ class CppModelBuilderTest {
 
     private val limeEnumerator = LimeEnumerator(EMPTY_PATH)
     private val limeEnumeration = LimeEnumeration(EMPTY_PATH)
-    private val limeProperty = LimeProperty(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
+    private val limeProperty = LimeProperty(
+        EMPTY_PATH,
+        typeRef = LimeBasicTypeRef.DOUBLE,
+        getter = LimeMethod(EMPTY_PATH),
+        setter = LimeMethod(EMPTY_PATH)
+    )
     private val limeField = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
     private val limeStruct = LimeStruct(EMPTY_PATH)
     private val limeMethod = LimeMethod(EMPTY_PATH)
@@ -566,7 +571,7 @@ class CppModelBuilderTest {
         val limeElement = LimeProperty(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            isReadonly = true
+            getter = LimeMethod(EMPTY_PATH)
         )
 
         modelBuilder.finishBuilding(limeElement)
@@ -581,6 +586,8 @@ class CppModelBuilderTest {
         val limeElement = LimeProperty(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
+            getter = LimeMethod(EMPTY_PATH),
+            setter = LimeMethod(EMPTY_PATH),
             isStatic = true
         )
 

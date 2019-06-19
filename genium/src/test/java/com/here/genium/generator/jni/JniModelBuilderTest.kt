@@ -162,7 +162,12 @@ class JniModelBuilderTest {
     private val limeTypeRef = LimeLazyTypeRef("", emptyMap())
     private val limeStruct = LimeStruct(EMPTY_PATH)
     private val limeEnum = LimeEnumeration(EMPTY_PATH)
-    private val limeProperty = LimeProperty(EMPTY_PATH, typeRef = limeTypeRef)
+    private val limeProperty = LimeProperty(
+        EMPTY_PATH,
+        typeRef = limeTypeRef,
+        getter = LimeMethod(EMPTY_PATH),
+        setter = LimeMethod(EMPTY_PATH)
+    )
 
     private val contextStack = MockContextStack<JniElement>()
 
@@ -624,7 +629,8 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingAttributeReadonly() {
-        val limeElement = LimeProperty(EMPTY_PATH, typeRef = limeTypeRef, isReadonly = true)
+        val limeElement =
+            LimeProperty(EMPTY_PATH, typeRef = limeTypeRef, getter = LimeMethod(EMPTY_PATH))
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -638,7 +644,13 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingAttributeStatic() {
-        val limeElement = LimeProperty(EMPTY_PATH, typeRef = limeTypeRef, isStatic = true)
+        val limeElement = LimeProperty(
+            EMPTY_PATH,
+            typeRef = limeTypeRef,
+            getter = LimeMethod(EMPTY_PATH),
+            setter = LimeMethod(EMPTY_PATH),
+            isStatic = true
+        )
 
         modelBuilder.finishBuilding(limeElement)
 

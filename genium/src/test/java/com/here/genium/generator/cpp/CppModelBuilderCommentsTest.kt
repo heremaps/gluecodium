@@ -252,7 +252,9 @@ class CppModelBuilderCommentsTest {
         val limeElement = LimeProperty(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            comment = "Foo"
+            comment = "Foo",
+            getter = LimeMethod(EMPTY_PATH),
+            setter = LimeMethod(EMPTY_PATH)
         )
 
         modelBuilder.finishBuilding(limeElement)
@@ -266,7 +268,12 @@ class CppModelBuilderCommentsTest {
     @Test
     fun finishBuildingPropertyReadsNotNull() {
         contextStack.injectResult(CppPrimitiveTypeRef.BOOL)
-        val limeElement = LimeProperty(EMPTY_PATH, typeRef = limeContainerTypeRef)
+        val limeElement = LimeProperty(
+            EMPTY_PATH,
+            typeRef = limeContainerTypeRef,
+            getter = LimeMethod(EMPTY_PATH),
+            setter = LimeMethod(EMPTY_PATH)
+        )
 
         modelBuilder.finishBuilding(limeElement)
 

@@ -36,6 +36,8 @@ class LimePath(
     fun child(childName: String, disambiguationSuffix: String = "") =
         LimePath(head, tail + childName, disambiguationSuffix)
 
+    fun withSuffix(disambiguationSuffix: String) = LimePath(head, tail, disambiguationSuffix)
+
     override fun toString() = (head + tail).joinToString(separator = ".") + disambiguationSuffix
 
     companion object {

@@ -20,14 +20,11 @@
 package com.here.genium.generator.cpp
 
 import com.here.genium.model.lime.LimeAttributeType
-import com.here.genium.model.lime.LimeBasicType
-import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeProperty
-import com.here.genium.model.lime.LimeTypeHelper
 import java.util.HashMap
 
 class CppNameResolver(
@@ -49,15 +46,16 @@ class CppNameResolver(
     fun getFullyQualifiedName(limeElement: LimeNamedElement) = getCachedEntry(limeElement).fullName
 
     fun getGetterName(limeProperty: LimeProperty) =
-        limeProperty.attributes.get(
-            LimeAttributeType.EXTERNAL_GETTER,
+        limeProperty.getter.attributes.get(
+            LimeAttributeType.EXTERNAL_NAME,
             String::class.java
         ) ?: nameRules.getGetterName(limeProperty)
 
-    fun getSetterName(limeProperty: LimeProperty): String {
-        return limeProperty.attributes.get(LimeAttributeType.EXTERNAL_SETTER, String::class.java)
-            ?: nameRules.getSetterName(limeProperty)
-    }
+    fun getSetterName(limeProperty: LimeProperty) =
+        limeProperty.setter?.attributes?.get(
+            LimeAttributeType.EXTERNAL_NAME,
+            String::class.java
+        ) ?: nameRules.getSetterName(limeProperty)
 
     fun getFullyQualifiedGetterName(limeProperty: LimeProperty) =
         getParentFullName(limeProperty) + "::" + getGetterName(limeProperty)
@@ -108,10 +106,5 @@ class CppNameResolver(
             val name = if (isExternal) limeElement.name else nameRules.getName(limeElement)
             NamesCacheEntry(isExternal, name, "$parentFullName::$name")
         }
-    }
-
-    private fun isBooleanProperty(limeProperty: LimeProperty): Boolean {
-        val type = LimeTypeHelper.getActualType(limeProperty.typeRef.type)
-        return type is LimeBasicType && type.typeId == TypeId.BOOLEAN
     }
 }

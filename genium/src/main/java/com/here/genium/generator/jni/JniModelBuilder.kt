@@ -266,7 +266,7 @@ class JniModelBuilder(
                 isStatic = limeProperty.isStatic
             )
         )
-        if (!limeProperty.isReadonly) {
+        if (limeProperty.setter != null) {
             val javaSetter = javaMethods.last()
             val cppSetter = cppMethods.last()
             val jniSetter = JniMethod(

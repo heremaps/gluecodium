@@ -615,7 +615,9 @@ class JavaModelBuilderTest {
         val limeElement = LimeProperty(
             LimePath(emptyList(), listOf("foo")),
             typeRef = limeTypeRef,
-            comment = "Some comment"
+            comment = "Some comment",
+            getter = LimeMethod(EMPTY_PATH),
+            setter = LimeMethod(EMPTY_PATH)
         )
         every { typeMapper.applyNullability(javaType, any()) } returns anotherJavaType
 
@@ -637,7 +639,7 @@ class JavaModelBuilderTest {
         val limeElement = LimeProperty(
             LimePath(emptyList(), listOf("foo")),
             typeRef = limeTypeRef,
-            isReadonly = true
+            getter = LimeMethod(EMPTY_PATH)
         )
 
         modelBuilder.finishBuilding(limeElement)
@@ -652,6 +654,8 @@ class JavaModelBuilderTest {
         val limeElement = LimeProperty(
             LimePath(emptyList(), listOf("foo")),
             typeRef = limeTypeRef,
+            getter = LimeMethod(EMPTY_PATH),
+            setter = LimeMethod(EMPTY_PATH),
             isStatic = true
         )
 
@@ -669,7 +673,8 @@ class JavaModelBuilderTest {
         val limeElement = LimeProperty(
             LimePath(emptyList(), listOf("foo")),
             typeRef = limeTypeRef,
-            visibility = LimeVisibility.INTERNAL
+            getter = LimeMethod(EMPTY_PATH, visibility = LimeVisibility.INTERNAL),
+            setter = LimeMethod(EMPTY_PATH, visibility = LimeVisibility.INTERNAL)
         )
 
         modelBuilder.finishBuilding(limeElement)
@@ -677,25 +682,6 @@ class JavaModelBuilderTest {
         val results = modelBuilder.finalResults.filterIsInstance<JavaMethod>()
         assertEquals(2, results.size)
         assertEquals(JavaVisibility.PACKAGE, results.first().visibility)
-        assertEquals(JavaVisibility.PACKAGE, results.last().visibility)
-    }
-
-    @Test
-    fun finishBuildingPropertyReadsInternalSetter() {
-        contextStack.injectResult(javaType)
-        val limeElement = LimeProperty(
-            LimePath(emptyList(), listOf("foo")),
-            typeRef = limeTypeRef,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.INTERNAL_SETTER)
-                .build()
-        )
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val results = modelBuilder.finalResults.filterIsInstance<JavaMethod>()
-        assertEquals(2, results.size)
-        assertEquals(JavaVisibility.PUBLIC, results.first().visibility)
         assertEquals(JavaVisibility.PACKAGE, results.last().visibility)
     }
 }

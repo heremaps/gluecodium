@@ -633,8 +633,13 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingProperty() {
-        val limeElement =
-            LimeProperty(fooPath, typeRef = LimeBasicTypeRef.FLOAT, comment = "some comment")
+        val limeElement = LimeProperty(
+            fooPath,
+            typeRef = LimeBasicTypeRef.FLOAT,
+            comment = "some comment",
+            getter = LimeMethod(EMPTY_PATH),
+            setter = LimeMethod(EMPTY_PATH)
+        )
         contextStack.injectResult(swiftType)
 
         modelBuilder.finishBuilding(limeElement)
@@ -655,7 +660,9 @@ class SwiftModelBuilderTest {
         val limeElement = LimeProperty(
             fooPath,
             typeRef = LimeBasicTypeRef.FLOAT,
-            visibility = LimeVisibility.INTERNAL
+            visibility = LimeVisibility.INTERNAL,
+            getter = LimeMethod(EMPTY_PATH, visibility = LimeVisibility.INTERNAL),
+            setter = LimeMethod(EMPTY_PATH, visibility = LimeVisibility.INTERNAL)
         )
         contextStack.injectResult(swiftType)
 
@@ -668,27 +675,9 @@ class SwiftModelBuilderTest {
     }
 
     @Test
-    fun finishBuildingPropertyReadsInternalSetter() {
-        val limeElement = LimeProperty(
-            fooPath,
-            typeRef = LimeBasicTypeRef.FLOAT,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.INTERNAL_SETTER)
-                .build()
-        )
-        contextStack.injectResult(swiftType)
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val result = modelBuilder.getFinalResult(SwiftProperty::class.java)
-        assertEquals(SwiftVisibility.PUBLIC, result.visibility)
-        assertEquals(SwiftVisibility.PUBLIC, result.getter.visibility)
-        assertEquals(SwiftVisibility.INTERNAL, result.setter.visibility)
-    }
-
-    @Test
     fun finishBuildingPropertyReadsReadonly() {
-        val limeElement = LimeProperty(fooPath, typeRef = LimeBasicTypeRef.FLOAT, isReadonly = true)
+        val limeElement =
+            LimeProperty(fooPath, typeRef = LimeBasicTypeRef.FLOAT, getter = LimeMethod(EMPTY_PATH))
         contextStack.injectResult(swiftType)
 
         modelBuilder.finishBuilding(limeElement)
@@ -699,7 +688,12 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingPropertyReadsNullable() {
-        val limeElement = LimeProperty(fooPath, typeRef = LimeBasicTypeRef.FLOAT.asNullable())
+        val limeElement = LimeProperty(
+            fooPath,
+            typeRef = LimeBasicTypeRef.FLOAT.asNullable(),
+            getter = LimeMethod(EMPTY_PATH),
+            setter = LimeMethod(EMPTY_PATH)
+        )
         contextStack.injectResult(swiftType)
 
         modelBuilder.finishBuilding(limeElement)
@@ -711,7 +705,13 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingPropertyReadsStatic() {
-        val limeElement = LimeProperty(fooPath, typeRef = LimeBasicTypeRef.FLOAT, isStatic = true)
+        val limeElement = LimeProperty(
+            fooPath,
+            typeRef = LimeBasicTypeRef.FLOAT,
+            getter = LimeMethod(EMPTY_PATH),
+            setter = LimeMethod(EMPTY_PATH),
+            isStatic = true
+        )
         contextStack.injectResult(swiftType)
 
         modelBuilder.finishBuilding(limeElement)

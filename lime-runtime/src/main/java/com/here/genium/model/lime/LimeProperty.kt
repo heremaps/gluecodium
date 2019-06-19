@@ -25,6 +25,7 @@ class LimeProperty(
     comment: String = "",
     attributes: LimeAttributes? = null,
     typeRef: LimeTypeRef,
-    val isReadonly: Boolean = false,
+    val getter: LimeMethod,
+    val setter: LimeMethod? = null,
     val isStatic: Boolean = false
 ) : LimeTypedElement(path, visibility, comment, attributes, typeRef)

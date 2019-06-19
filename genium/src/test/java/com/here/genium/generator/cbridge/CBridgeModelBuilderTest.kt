@@ -565,7 +565,12 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingPropertyCreatesGetter() {
-        val limeElement = LimeProperty(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
+        val limeElement = LimeProperty(
+            EMPTY_PATH,
+            typeRef = LimeBasicTypeRef.DOUBLE,
+            getter = LimeMethod(EMPTY_PATH),
+            setter = LimeMethod(EMPTY_PATH)
+        )
         val swiftProperty = SwiftProperty("", null, null, swiftMethod, SwiftMethod(""), false)
         every { cppModelBuilder.finalResults } returns listOf(cppMethod, CppMethod(""))
         every { swiftModelBuilder.getFinalResult(SwiftProperty::class.java) } returns swiftProperty
@@ -587,7 +592,12 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingPropertyCreatesSetter() {
-        val limeElement = LimeProperty(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
+        val limeElement = LimeProperty(
+            EMPTY_PATH,
+            typeRef = LimeBasicTypeRef.DOUBLE,
+            getter = LimeMethod(EMPTY_PATH),
+            setter = LimeMethod(EMPTY_PATH)
+        )
         val swiftProperty = SwiftProperty("", null, null, SwiftMethod(""), swiftMethod, false)
         every { cppModelBuilder.finalResults } returns listOf(CppMethod(""), cppMethod)
         every { swiftModelBuilder.getFinalResult(SwiftProperty::class.java) } returns swiftProperty
@@ -614,7 +624,7 @@ class CBridgeModelBuilderTest {
         val limeElement = LimeProperty(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            isReadonly = true
+            getter = LimeMethod(EMPTY_PATH)
         )
         val swiftProperty = SwiftProperty("", null, null, SwiftMethod(""), SwiftMethod(""), false)
         every { cppModelBuilder.finalResults } returns listOf(CppMethod(""), CppMethod(""))
@@ -633,6 +643,8 @@ class CBridgeModelBuilderTest {
         val limeElement = LimeProperty(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
+            getter = LimeMethod(EMPTY_PATH),
+            setter = LimeMethod(EMPTY_PATH),
             isStatic = true
         )
         val swiftProperty = SwiftProperty("", null, null, SwiftMethod(""), SwiftMethod(""), false)
@@ -651,7 +663,12 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingPropertyReadsNullable() {
-        val limeElement = LimeProperty(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE.asNullable())
+        val limeElement = LimeProperty(
+            EMPTY_PATH,
+            typeRef = LimeBasicTypeRef.DOUBLE.asNullable(),
+            getter = LimeMethod(EMPTY_PATH),
+            setter = LimeMethod(EMPTY_PATH)
+        )
         val swiftProperty = SwiftProperty("", null, null, SwiftMethod(""), SwiftMethod(""), false)
         every { cppModelBuilder.finalResults } returns listOf(CppMethod(""), CppMethod(""))
         every { swiftModelBuilder.getFinalResult(SwiftProperty::class.java) } returns swiftProperty

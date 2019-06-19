@@ -277,7 +277,7 @@ class CBridgeModelBuilder(
         )
         storeResult(getterFunction)
 
-        if (!limeProperty.isReadonly) {
+        if (limeProperty.setter != null) {
             val setterSwiftMethod = swiftProperty.setter
             val cppSetterMethod = cppMethods[1]
             val setterFunction = CFunction(

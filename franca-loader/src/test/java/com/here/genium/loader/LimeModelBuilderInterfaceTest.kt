@@ -59,6 +59,7 @@ import org.franca.core.franca.FStructType
 import org.franca.core.franca.FTypeRef
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -86,7 +87,7 @@ class LimeModelBuilderInterfaceTest {
     private val limeConstant = LimeConstant(EMPTY_PATH, typeRef = limeTypeRef, value = limeValue)
     private val limeTypeDef = LimeTypeDef(EMPTY_PATH, typeRef = limeTypeRef)
     private val limeMethod = LimeMethod(EMPTY_PATH)
-    private val limeProperty = LimeProperty(EMPTY_PATH, typeRef = limeTypeRef)
+    private val limeProperty = LimeProperty(EMPTY_PATH, typeRef = limeTypeRef, getter = limeMethod)
     private val limeReturnType = LimeReturnType(limeTypeRef, comment = "Foo comment")
     private val limeParameter = LimeParameter(EMPTY_PATH, typeRef = limeTypeRef)
 
@@ -443,7 +444,7 @@ class LimeModelBuilderInterfaceTest {
         modelBuilder.finishBuilding(francaAttribute)
 
         val result = modelBuilder.getFinalResult(LimeProperty::class.java)
-        assertTrue(result.attributes.have(LimeAttributeType.INTERNAL_SETTER))
+        assertEquals(LimeVisibility.INTERNAL, result.setter?.visibility)
     }
 
     @Test
@@ -466,8 +467,8 @@ class LimeModelBuilderInterfaceTest {
         modelBuilder.finishBuilding(francaAttribute)
 
         val result = modelBuilder.getFinalResult(LimeProperty::class.java)
-        assertAttributeEquals("get_foo", LimeAttributeType.EXTERNAL_GETTER, result)
-        assertAttributeEquals("set_foo", LimeAttributeType.EXTERNAL_SETTER, result)
+        assertAttributeEquals("get_foo", LimeAttributeType.EXTERNAL_NAME, result.getter)
+        assertAttributeEquals("set_foo", LimeAttributeType.EXTERNAL_NAME, result.setter!!)
     }
 
     @Test
@@ -489,6 +490,6 @@ class LimeModelBuilderInterfaceTest {
         modelBuilder.finishBuilding(francaAttribute)
 
         val result = modelBuilder.getFinalResult(LimeProperty::class.java)
-        assertTrue(result.isReadonly)
+        assertNull(result.setter)
     }
 }

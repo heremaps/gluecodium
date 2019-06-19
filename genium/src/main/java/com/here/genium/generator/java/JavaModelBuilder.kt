@@ -234,7 +234,6 @@ class JavaModelBuilder(
             getPreviousResult(JavaType::class.java),
             limeProperty.typeRef.isNullable
         )
-        val visibility = getVisibility(limeProperty)
 
         val qualifiers = if (limeProperty.isStatic)
             EnumSet.of(MethodQualifier.STATIC)
@@ -244,24 +243,19 @@ class JavaModelBuilder(
         val getterMethod = JavaMethod(
             name = nameRules.getGetterName(limeProperty),
             comment = CommentsPreprocessor.preprocessGetterComment(limeProperty.comment),
-            visibility = visibility,
+            visibility = getVisibility(limeProperty.getter),
             returnType = javaType,
             qualifiers = qualifiers
         )
 
         storeNamedResult(limeProperty, getterMethod)
 
-        if (!limeProperty.isReadonly) {
-            val setterVisibility =
-                when {
-                    limeProperty.attributes.have(LimeAttributeType.INTERNAL_SETTER) ->
-                        JavaVisibility.PACKAGE
-                    else -> visibility
-                }
+        val limeSetter = limeProperty.setter
+        if (limeSetter != null) {
             val setterMethod = JavaMethod(
                 name = nameRules.getSetterName(limeProperty),
                 comment = CommentsPreprocessor.preprocessSetterComment(limeProperty.comment),
-                visibility = setterVisibility,
+                visibility = getVisibility(limeSetter),
                 returnType = JavaPrimitiveType.VOID,
                 parameters = listOf(JavaParameter("value", javaType)),
                 qualifiers = qualifiers

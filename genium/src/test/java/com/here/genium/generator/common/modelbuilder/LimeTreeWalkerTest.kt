@@ -52,7 +52,8 @@ class LimeTreeWalkerTest {
     private val limeConstantTypeRef = LimeLazyTypeRef("bazfoo", emptyMap())
     private val limePropertyTypeRef = LimeLazyTypeRef("foobarbaz", emptyMap())
     private val limeValueTypeRef = LimeLazyTypeRef("nonsense", emptyMap())
-    private val limeProperty = LimeProperty(EMPTY_PATH, typeRef = limePropertyTypeRef)
+    private val limeProperty =
+        LimeProperty(EMPTY_PATH, typeRef = limePropertyTypeRef, getter = LimeMethod(EMPTY_PATH))
     private val limeConstantValue = LimeValue.Literal(LimeLazyTypeRef("", emptyMap()), "baz")
     private val limeConstant = LimeConstant(
         path = EMPTY_PATH,
