@@ -21,15 +21,28 @@ package com.here.genium.generator.java
 
 import com.here.genium.generator.common.NameRuleSet
 import com.here.genium.generator.common.NameRules
+import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeContainer
+import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeNamedElement
+import com.here.genium.model.lime.LimeProperty
 
 class JavaNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
+    override fun getName(limeElement: LimeElement) =
+        getPlatformName(limeElement as? LimeNamedElement) ?: super.getName(limeElement)
+
+    override fun getGetterName(limeProperty: LimeProperty) =
+        getPlatformName(limeProperty.getter) ?: super.getGetterName(limeProperty)
+
+    override fun getSetterName(limeProperty: LimeProperty) =
+        getPlatformName(limeProperty.setter) ?: super.getSetterName(limeProperty)
+
     fun getImplementationClassName(limeContainer: LimeContainer) = getName(limeContainer) + "Impl"
 
-    fun getExceptionName(limeEnum: LimeEnumeration) = ruleSet.getErrorName(limeEnum.name)
+    fun getExceptionName(limeEnum: LimeEnumeration) =
+        ruleSet.getErrorName(getPlatformName(limeEnum) ?: limeEnum.name)
 
-    companion object {
-        fun getPackageName(base: String) = base.replace("_", "")
-    }
+    private fun getPlatformName(limeElement: LimeNamedElement?) =
+        limeElement?.attributes?.get(LimeAttributeType.JAVA_NAME, String::class.java)
 }

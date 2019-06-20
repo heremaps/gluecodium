@@ -412,7 +412,7 @@ feature(SetType cpp android swift SOURCES
     fidl/test/SetType.fdepl
 )
 
-feature(PlatformNames cpp SOURCES
+feature(PlatformNames cpp android SOURCES
     src/test/PlatformNames.cpp
 
     fidl/test/PlatformNames.fidl

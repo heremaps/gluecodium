@@ -19,11 +19,10 @@
 
 package com.here.genium.model.java
 
-import com.here.genium.generator.java.JavaNameRules
 import java.util.LinkedList
 
 data class JavaPackage(private val packageList: List<String>) {
-    val packageNames = packageList.map { JavaNameRules.getPackageName(it) }
+    val packageNames = packageList.map { it.replace("_", "") }
 
     fun flatten() = packageNames.joinToString(".")
 

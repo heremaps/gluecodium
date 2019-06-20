@@ -26,15 +26,19 @@ define Names for typeCollection test.PlatformNames
 
     struct BasicStruct {
         CppName = "fooStruct"
+        JavaName = "barStruct"
         stringField {
             CppName = "FOO_FIELD"
+            JavaName = "BAR_FIELD"
         }
     }
 
     enumeration BasicEnum {
         CppName = "fooEnum"
+        JavaName = "barEnum"
         BASIC_ITEM {
             CppName = "foo_item"
+            JavaName = "bar_item"
         }
     }
 
@@ -44,18 +48,22 @@ define Names for typeCollection test.PlatformNames
 
     array BasicArray {
         CppName = "fooArray"
+        JavaName = "barArray"
     }
 }
 
 define Names for interface test.PlatformNamesInterface
 {
     CppName = "fooInterface"
+    JavaName = "barInterface"
 
     method basicMethod {
         CppName = "FooMethod"
+        JavaName = "BarMethod"
         in {
             basicParameter {
                 CppName = "FooParameter"
+                JavaName = "BarParameter"
             }
         }
     }
@@ -63,6 +71,8 @@ define Names for interface test.PlatformNamesInterface
     attribute basicAttribute {
         CppGetterName = "GET_FOO_ATTRIBUTE"
         CppSetterName = "SET_FOO_ATTRIBUTE"
+        JavaGetterName = "GET_BAR_ATTRIBUTE"
+        JavaSetterName = "SET_BAR_ATTRIBUTE"
     }
 }
 
