@@ -91,8 +91,22 @@ public:
     bool has_value( ) const noexcept;
     Error error( ) const noexcept;
 
-    constexpr Value safe_value( ) const &;
-    Value safe_value( ) &&;
+    constexpr Value unsafe_value( ) const &;
+    Value unsafe_value( ) &&;
+
+    template < class Dummy = Value >
+    constexpr typename std::enable_if< std::is_same<Dummy, Value>::value && std::is_constructible< Dummy >::value, Value >::type
+    safe_value( ) const &
+    {
+        return m_has_value ? m_value : Value( );
+    }
+
+    template < class Dummy = Value >
+    typename std::enable_if< std::is_same<Dummy, Value>::value && std::is_constructible< Dummy >::value, Value >::type
+    safe_value( ) &&
+    {
+        return m_has_value ? std::move(m_value) : Value( );
+    }
 
 private:
     void reset( ) noexcept;
@@ -198,16 +212,16 @@ Return< Value, Error >::error( ) const noexcept -> Error
 
 template < class Value, class Error >
 constexpr Value
-Return< Value, Error >::safe_value( ) const &
+Return< Value, Error >::unsafe_value( ) const &
 {
-    return m_has_value ? m_value : Value( );
+    return m_value;
 }
 
 template < class Value, class Error >
 Value
-Return< Value, Error >::safe_value( ) &&
+Return< Value, Error >::unsafe_value( ) &&
 {
-    return m_has_value ? std::move( m_value ) : Value( );
+    return std::move( m_value );
 }
 
 template < class Value, class Error >

@@ -79,7 +79,7 @@ _baseRef smoke_StructsWithMethodsInterface_Vector3_create_string(_baseRef input)
 smoke_StructsWithMethodsInterface_Vector3_create_copy_result smoke_StructsWithMethodsInterface_Vector3_create_copy(_baseRef other) {
     auto&& RESULT = ::smoke::StructsWithMethodsInterface::Vector3::create(Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toCpp(other));
     if (RESULT.has_value()) {
-        return {true, .returned_value = Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(RESULT.safe_value())
+        return {true, .returned_value = Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(RESULT.unsafe_value())
 };
     } else {
         return {false, .error_code = static_cast< smoke_ValidationUtils_ValidationError >(RESULT.error().value())};

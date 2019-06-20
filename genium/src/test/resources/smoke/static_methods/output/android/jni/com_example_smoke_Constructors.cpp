@@ -80,7 +80,7 @@ Java_com_example_smoke_Constructors_create__Ljava_lang_String_2(JNIEnv* _jenv, j
         _jenv->Throw(static_cast<jthrowable>(exception.release()));
         return 0;
     }
-    auto result = nativeCallResult.safe_value();
+    auto result = nativeCallResult.unsafe_value();
     auto nSharedPtr = new (::std::nothrow) ::genium::Return< ::std::shared_ptr< ::smoke::Constructors >, ::std::error_code >::value_type(result);
     if (nSharedPtr == nullptr)
     {

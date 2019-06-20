@@ -27,7 +27,7 @@
 }}{{#if isReturningVoid}}    return {{>callBaseApi}}.value();{{/if}}{{!!
 }}{{#unless isReturningVoid}}    auto&& RESULT = {{>callBaseApi}};
     if (RESULT.has_value()) {
-        return {true, .returned_value = {{#set delegateToCall="safe_value"}}{{>ReturnConversion}}{{/set}}};
+        return {true, .returned_value = {{#set delegateToCall="unsafe_value"}}{{>ReturnConversion}}{{/set}}};
     } else {
         return {false, .error_code = static_cast< {{error.functionReturnType}} >(RESULT.error().value())};
     }{{!!
@@ -45,7 +45,7 @@
 {{/ReturnConversion}}{{!!
 
 
-}}{{+safe_value}}RESULT.safe_value(){{/safe_value}}{{!!
+}}{{+unsafe_value}}RESULT.unsafe_value(){{/unsafe_value}}{{!!
 
 
 }}{{+callBaseApi}}{{!!

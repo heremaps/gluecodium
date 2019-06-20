@@ -22,6 +22,10 @@ import "./Errors.fidl"
 
 define GeniumExtensions for interface test.Errors
 {
+    struct NonDefaultConstructor {
+        Immutable = true
+    }
+
     method methodWithError {
         Static = true
     }
@@ -43,6 +47,10 @@ define GeniumExtensions for interface test.Errors
     }
 
     method getErrorCategoryMessage {
+        Static = true
+    }
+
+    method methodWithErrorAndNonDefaultStruct {
         Static = true
     }
 }

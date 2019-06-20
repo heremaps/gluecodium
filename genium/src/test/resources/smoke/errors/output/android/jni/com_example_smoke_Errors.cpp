@@ -62,7 +62,7 @@ Java_com_example_smoke_Errors_methodWithErrorsAndReturnValue(JNIEnv* _jenv, jobj
         _jenv->Throw(static_cast<jthrowable>(exception.release()));
         return nullptr;
     }
-    auto result = nativeCallResult.safe_value();
+    auto result = nativeCallResult.unsafe_value();
     return ::genium::jni::convert_to_jni(_jenv, result).release();
 }
 JNIEXPORT void JNICALL

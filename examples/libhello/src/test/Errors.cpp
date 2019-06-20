@@ -106,6 +106,19 @@ Errors::method_with_external_error( const bool error_flag )
     }
 }
 
+lorem_ipsum::test::Return< Errors::NonDefaultConstructor, std::error_code >
+Errors::method_with_error_and_non_default_struct( const bool error_flag )
+{
+    if ( error_flag )
+    {
+        return std::error_code( OtherErrors::InternalErrors::CRASHED );
+    }
+    else
+    {
+        return Errors::NonDefaultConstructor(1);
+    }
+}
+
 std::string
 Errors::get_error_category_message( const Errors::InternalErrors value )
 {

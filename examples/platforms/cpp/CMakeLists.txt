@@ -51,8 +51,8 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
                  EXCLUDE_FROM_ALL)
 
 set(SOURCES
-  src/dummy.cpp
-  tests/OptionalTest.cpp)
+  tests/OptionalTest.cpp
+  tests/ReturnTest.cpp)
 
 if(HELLO_TEST_CPP_VERSION LESS 17)
   list(APPEND SOURCES

@@ -51,9 +51,9 @@ Java_com_example_namerules_NAME_1RULES_1DROID_some_1method(JNIEnv* _jenv, jobjec
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/namerules/NAME_RULES_DROID$EXAMPLE_ERROR_DROID;)V");
         auto exception = ::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
         _jenv->Throw(static_cast<jthrowable>(exception.release()));
-        return nativeCallResult.safe_value();
+        return nativeCallResult.unsafe_value();
     }
-    auto result = nativeCallResult.safe_value();
+    auto result = nativeCallResult.unsafe_value();
     return result;
 }
 jlong

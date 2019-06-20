@@ -33,6 +33,10 @@ interface Errors {
         BOOM
     }
 
+    struct NonDefaultConstructor {
+        Int64 id
+    }
+
     <** @description:
     Example static method with an error enum that raises "CRASHED" error if errorFlag is true
     **>
@@ -104,6 +108,19 @@ interface Errors {
         out {
             String result
         }
+    }
+
+    <** @description:
+    Check whether Return works with structs without default constructor
+    **>
+    method methodWithErrorAndNonDefaultStruct {
+        in {
+            Boolean errorFlag
+        }
+        out {
+            NonDefaultConstructor value
+        }
+        error InternalErrors
     }
 }
 

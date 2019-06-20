@@ -60,7 +60,7 @@ _baseRef namerules_NameRules_create() {
 namerules_NameRules_someMethod_result namerules_NameRules_someMethod(_baseRef _instance, _baseRef someArgument) {
     auto&& RESULT = get_pointer<std::shared_ptr<::namerules::NameRules>>(_instance)->get()->someMethod(Conversion<::namerules::NameRules::ExampleStruct>::toCpp(someArgument));
     if (RESULT.has_value()) {
-        return {true, .returned_value = RESULT.safe_value()
+        return {true, .returned_value = RESULT.unsafe_value()
 };
     } else {
         return {false, .error_code = static_cast< namerules_NameRules_ExampleError >(RESULT.error().value())};

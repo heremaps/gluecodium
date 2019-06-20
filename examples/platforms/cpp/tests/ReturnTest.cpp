@@ -18,16 +18,35 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "gtest/gtest.h"
+#include "lorem_ipsum/test/Return.h"
+#include <gmock/gmock.h>
+
+namespace test
+{
+using namespace ::testing;
+using ::lorem_ipsum::test::Return;
 
 namespace {
-
-#define APPEND(A, B) APPEND_(A, B)
-#define APPEND_(A, B) A##B
-#define DummyTest APPEND(DummyTest, HELLO_TEST_CPP_VERSION)
-
-TEST(DummyTest, Owl) {
-    ASSERT_EQ(0, 0);
+    struct NonDefaultStruct {
+        const int id;
+    };
 }
 
+TEST( ReturnTest, safe_value_for_default_constructable_type )
+{
+    const Return<int> const_return(1);
+    EXPECT_EQ(const_return.safe_value(), 1);
+    EXPECT_EQ(const_return.unsafe_value(), 1);
+
+    EXPECT_EQ(Return<int>(1).safe_value(), 1);
+    EXPECT_EQ(Return<int>(1).unsafe_value(), 1);
 }
+
+TEST( ReturnTest, compiles_for_non_default_constructable_type )
+{
+    const Return<NonDefaultStruct> const_return({1});
+    EXPECT_EQ(const_return.unsafe_value().id, 1);
+    EXPECT_EQ(Return<NonDefaultStruct>({1}).unsafe_value().id, 1);
+}
+
+}  // test
