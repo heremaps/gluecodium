@@ -17,23 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.swift;
+package com.here.genium.model.swift
 
-import java.util.Objects;
+class SwiftParameter(
+    interfaceName: String,
+    type: SwiftType,
+    variableName: String? = null
+) : SwiftTypedModelElement(interfaceName, null, type) {
 
-public class SwiftParameter extends SwiftTypedModelElement {
-
-  public final String variableName;
-  public final boolean differentInterfaceAndVariableName;
-
-  public SwiftParameter(String interfaceName, SwiftType type) {
-    this(interfaceName, type, null);
-  }
-
-  public SwiftParameter(String interfaceName, SwiftType type, String variableName) {
-    super(interfaceName, null, type);
-    this.variableName = variableName != null ? variableName : interfaceName;
-    this.differentInterfaceAndVariableName =
-        variableName != null && !Objects.equals(interfaceName, variableName);
-  }
+    val variableName = variableName ?: interfaceName
+    val differentInterfaceAndVariableName = variableName != null && interfaceName != variableName
 }
