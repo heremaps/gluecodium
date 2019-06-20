@@ -20,6 +20,7 @@
 package com.here.genium.generator.cbridge
 
 import com.here.genium.generator.common.NameHelper
+import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeMethod
@@ -48,7 +49,8 @@ object CBridgeNameRules {
     val EXPORT_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "Export.h").toString()
     const val SRC_DIR = "src"
 
-    fun getName(limeElement: LimeNamedElement) = NameHelper.toUpperCamelCase(limeElement.name)
+    fun getName(limeElement: LimeNamedElement) =
+        getPlatformName(limeElement) ?: NameHelper.toUpperCamelCase(limeElement.name)
 
     fun getFunctionTableName(limeContainer: LimeContainer) =
         getInterfaceName(limeContainer) + "_FunctionTable"
@@ -80,7 +82,7 @@ object CBridgeNameRules {
     fun getTypeName(limeType: LimeType) =
         joinQualifiedName(
             getNestedNameSpecifier(limeType),
-            NameHelper.toUpperCamelCase(limeType.name)
+            getName(limeType)
         )
 
     fun getBaseApiCall(category: CppTypeInfo.TypeCategory, baseAPIName: String) =
@@ -92,4 +94,7 @@ object CBridgeNameRules {
     fun getPropertySetterName(name: String) = NameHelper.toLowerCamelCase(name) + "_set"
 
     fun getPropertyGetterName(name: String) = NameHelper.toLowerCamelCase(name) + "_get"
+
+    private fun getPlatformName(limeElement: LimeNamedElement?) =
+        limeElement?.attributes?.get(LimeAttributeType.SWIFT_NAME, String::class.java)
 }

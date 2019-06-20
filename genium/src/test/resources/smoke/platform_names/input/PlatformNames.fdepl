@@ -23,32 +23,39 @@ import "./PlatformNames.fidl"
 define Names for typeCollection smoke.PlatformNames
 {
     CppName = "fooTypes"
+    SwiftName = "bazTypes"
 
     struct BasicStruct {
         CppName = "fooStruct"
         JavaName = "barStruct"
+        SwiftName = "bazStruct"
         stringField {
             CppName = "FOO_FIELD"
             JavaName = "BAR_FIELD"
+            SwiftName = "BAZ_FIELD"
         }
     }
 
     enumeration BasicEnum {
         CppName = "fooEnum"
         JavaName = "barEnum"
+        SwiftName = "bazEnum"
         BASIC_ITEM {
             CppName = "foo_item"
             JavaName = "bar_item"
+            SwiftName = "BAZ_ITEM"
         }
     }
 
     typedef BasicTypedef {
         CppName = "fooTypedef"
+        SwiftName = "bazTypedef"
     }
 
     array BasicArray {
         CppName = "fooArray"
         JavaName = "barArray"
+        SwiftName = "bazArray"
     }
 }
 
@@ -56,14 +63,17 @@ define Names for interface smoke.PlatformNamesInterface
 {
     CppName = "fooInterface"
     JavaName = "barInterface"
+    SwiftName = "bazInterface"
 
     method basicMethod {
         CppName = "FooMethod"
         JavaName = "BarMethod"
+        SwiftName = "BazMethod"
         in {
             basicParameter {
                 CppName = "FooParameter"
                 JavaName = "BarParameter"
+                SwiftName = "BazParameter"
             }
         }
     }
@@ -73,5 +83,6 @@ define Names for interface smoke.PlatformNamesInterface
         CppSetterName = "SET_FOO_ATTRIBUTE"
         JavaGetterName = "GET_BAR_ATTRIBUTE"
         JavaSetterName = "SET_BAR_ATTRIBUTE"
+        SwiftName = "BAZ_ATTRIBUTE"
     }
 }

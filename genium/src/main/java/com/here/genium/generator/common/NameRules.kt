@@ -43,7 +43,7 @@ open class NameRules(val ruleSet: NameRuleSet) {
             else -> throw IllegalArgumentException()
         }
 
-    fun getPropertyName(limeProperty: LimeProperty): String {
+    open fun getPropertyName(limeProperty: LimeProperty): String {
         val type = LimeTypeHelper.getActualType(limeProperty.typeRef.type)
         return ruleSet.getPropertyName(
             limeProperty.name, type is LimeBasicType && type.typeId == LimeBasicType.TypeId.BOOLEAN
