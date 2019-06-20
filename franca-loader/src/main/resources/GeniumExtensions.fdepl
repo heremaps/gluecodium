@@ -190,12 +190,6 @@ specification Names {
         SwiftName: String (optional);
     }
 
-    for maps {
-        CppName: String (optional);
-        JavaName: String (optional);
-        SwiftName: String (optional);
-    }
-
     for typedefs {
         CppName: String (optional);
         JavaName: String (optional);

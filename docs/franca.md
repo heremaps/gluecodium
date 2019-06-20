@@ -766,5 +766,51 @@ FDEPL:
         }
     }
 
+### Most elements: platform-specific names (CppName, JavaName, SwiftName)
+
+These FDEPL properties controls the platform-specific names for the given element. Default value is
+`null`, i.e. by default the name for the element is derived from its FIDL-defined name for all
+platforms. The values of these properties are taken as names verbatim (i.e. without any naming
+convention being applied to the name).
+
+**Note:** These properties can be applied to any of the following Franca element types:
+* array
+* enumeration
+* enumerator
+* interface
+* method
+* method argument
+* struct
+* struct field
+* type collection
+* typedef
+
+**Note:** FIDL attributes have an extended set of properties for platform-specific names:
+`CppGetterName`, `CppSetterName`, `JavaGetterName`, `JavaSetterName`, `SwiftName`.
+
+FIDL:
+
+    package example
+
+    interface ExampleInterface {
+        struct ExampleStruct {
+            String stringField
+        }
+    }
+
+FDEPL:
+
+    define Names for interface example.ExampleInterface {
+        CppName = "SpecialInterface"
+
+        struct ExampleStruct {
+            JavaName = "SpecialStruct"
+
+            floatField {
+                SwiftName = "SPECIAL_FIELD"
+            }
+        }
+    }
+
 [franca]: http://franca.github.io/franca/
 [userguide]: https://drive.google.com/file/d/0B7JseVbR6jvhMXhNb1VMRWM0Z3M/view?usp=sharing
