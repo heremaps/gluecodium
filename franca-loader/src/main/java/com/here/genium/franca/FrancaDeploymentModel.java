@@ -182,6 +182,10 @@ public class FrancaDeploymentModel {
     return getString(francaElement, "SwiftName");
   }
 
+  public String getSwiftArgumentLabel(final FArgument francaElement) {
+    return getString(francaElement, "SwiftArgumentLabel");
+  }
+
   public String getCppGetterName(final FAttribute francaElement) {
     return getString(francaElement, "CppGetterName");
   }

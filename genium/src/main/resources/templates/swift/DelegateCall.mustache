@@ -20,4 +20,4 @@
   !}}
 {{cBaseName}}({{^isStatic}}{{#selfIsStruct}}c_self_handle.ref{{#if parameters}}, {{/if}}{{/selfIsStruct}}{{!!
 }}{{^selfIsStruct}}self.c_instance{{#if parameters}}, {{/if}}{{/selfIsStruct}}{{/isStatic}}{{!!
-}}{{#parameters}}c_{{variableName}}.ref{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+}}{{#parameters}}c_{{name}}.ref{{#if iter.hasNext}}, {{/if}}{{/parameters}})

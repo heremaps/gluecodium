@@ -74,6 +74,7 @@ define Names for interface smoke.PlatformNamesInterface
                 CppName = "FooParameter"
                 JavaName = "BarParameter"
                 SwiftName = "BazParameter"
+                SwiftArgumentLabel = "_"
             }
         }
     }
@@ -87,6 +88,7 @@ define Names for interface smoke.PlatformNamesInterface
                 CppName = "makeParameter"
                 JavaName = "makeParameter"
                 SwiftName = "makeParameter"
+                SwiftArgumentLabel = "_"
             }
         }
     }

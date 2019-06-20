@@ -35,5 +35,6 @@ enum class LimeAttributeType {
     CPP_NAME,
     JAVA_NAME,
     SWIFT_NAME,
+    SWIFT_ARGUMENT_LABEL,
     DEPRECATED
 }

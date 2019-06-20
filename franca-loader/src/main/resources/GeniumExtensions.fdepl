@@ -158,6 +158,7 @@ specification Names {
         CppName: String (optional);
         JavaName: String (optional);
         SwiftName: String (optional);
+        SwiftArgumentLabel: String (optional);
     }
 
     for structs {

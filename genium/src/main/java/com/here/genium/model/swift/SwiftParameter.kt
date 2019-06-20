@@ -20,11 +20,7 @@
 package com.here.genium.model.swift
 
 class SwiftParameter(
-    interfaceName: String,
+    parameterName: String,
     type: SwiftType,
-    variableName: String? = null
-) : SwiftTypedModelElement(interfaceName, null, type) {
-
-    val variableName = variableName ?: interfaceName
-    val differentInterfaceAndVariableName = variableName != null && interfaceName != variableName
-}
+    @Suppress("unused") val argumentLabel: String? = null
+) : SwiftTypedModelElement(parameterName, null, type)

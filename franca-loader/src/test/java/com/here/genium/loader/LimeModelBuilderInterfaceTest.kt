@@ -518,4 +518,15 @@ class LimeModelBuilderInterfaceTest {
         assertAttributeEquals("set_java_foo", LimeAttributeType.JAVA_NAME, result.setter!!)
         assertAttributeEquals("foo_foo", LimeAttributeType.SWIFT_NAME, result)
     }
+
+    @Test
+    fun finishBuildingInputArgumentReadsSwiftArgumentLabel() {
+        contextStack.injectResult(limeTypeRef)
+        every { deploymentModel.getSwiftArgumentLabel(francaArgument) } returns "foo_label"
+
+        modelBuilder.finishBuildingInputArgument(francaArgument)
+
+        val result = modelBuilder.getFinalResult(LimeParameter::class.java)
+        assertAttributeEquals("foo_label", LimeAttributeType.SWIFT_ARGUMENT_LABEL, result)
+    }
 }

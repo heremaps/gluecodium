@@ -18,8 +18,5 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#parameters}}{{name}}{{!!
-}}{{#if differentInterfaceAndVariableName}} {{!!
-    }}{{variableName}}{{!!
-    }}{{/if}}: {{type.publicName}}{{#if type.optional}}?{{/if}}{{#if iter.hasNext}}, {{/if}}{{!!
-}}{{/parameters}}
+{{#parameters}}{{#argumentLabel}}{{.}} {{/argumentLabel}}{{name}}: {{!!
+}}{{type.publicName}}{{#if type.optional}}?{{/if}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}

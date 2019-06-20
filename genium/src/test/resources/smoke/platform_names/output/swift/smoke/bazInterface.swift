@@ -12,8 +12,8 @@ internal func getRef(_ ref: bazInterface?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 public class bazInterface {
-    public init(makeParameter: String) {
-        let _result = bazInterface.make(makeParameter: makeParameter)
+    public init(_ makeParameter: String) {
+        let _result = bazInterface.make(makeParameter)
         guard _result != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
@@ -38,11 +38,11 @@ public class bazInterface {
     deinit {
         smoke_PlatformNamesInterface_release_handle(c_instance)
     }
-    public func BazMethod(BazParameter: String) -> bazStruct {
+    public func BazMethod(_ BazParameter: String) -> bazStruct {
         let c_BazParameter = moveToCType(BazParameter)
         return moveFromCType(smoke_PlatformNamesInterface_basicMethod(self.c_instance, c_BazParameter.ref))
     }
-    private static func make(makeParameter: String) -> _baseRef {
+    private static func make(_ makeParameter: String) -> _baseRef {
         let c_makeParameter = moveToCType(makeParameter)
         return moveFromCType(smoke_PlatformNamesInterface_create(c_makeParameter.ref))
     }

@@ -433,6 +433,10 @@ class LimeModelBuilder(
         val attributes = LimeAttributes.Builder()
         addPlatformNameAttributes(attributes, francaArgument)
         attributes.addAttribute(
+            LimeAttributeType.SWIFT_ARGUMENT_LABEL,
+            deploymentModel.getSwiftArgumentLabel(francaArgument)
+        )
+        attributes.addAttribute(
             LimeAttributeType.DEPRECATED,
             CommentHelper.getDeprecationMessage(francaArgument)
         )

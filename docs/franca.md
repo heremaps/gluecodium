@@ -806,11 +806,42 @@ FDEPL:
         struct ExampleStruct {
             JavaName = "SpecialStruct"
 
-            floatField {
+            stringField {
                 SwiftName = "SPECIAL_FIELD"
+            }
+        }
+    }
+
+### Method argument: SwiftArgumentLabel
+
+This FDEPL properties controls the Swift argument label of the given element. Default value is
+`null`, i.e. by default the argument label is the same as the parameter name and thus no argument
+label is generated. The value of this property is taken verbatim (i.e. without any naming convention
+being applied to the name).
+
+**Note:** Setting `SwiftArgumentLabel` to "_" leads to argument label being omitted (see
+[Swift documentation][swift_omit]).
+
+FIDL:
+
+    package example
+
+    interface ExampleInterface {
+        method exampleMethod {
+            String stringArgument
+        }
+    }
+
+FDEPL:
+
+    define Names for interface example.ExampleInterface {
+        method exampleMethod {
+            stringArgument {
+                SwiftArgumentLabel = "niceName"
             }
         }
     }
 
 [franca]: http://franca.github.io/franca/
 [userguide]: https://drive.google.com/file/d/0B7JseVbR6jvhMXhNb1VMRWM0Z3M/view?usp=sharing
+[swift_omit]: https://docs.swift.org/swift-book/LanguageGuide/Functions.html#ID526

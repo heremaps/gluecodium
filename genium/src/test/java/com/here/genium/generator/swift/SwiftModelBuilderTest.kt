@@ -258,6 +258,23 @@ class SwiftModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingParameterReadsArgumentLabel() {
+        val limeElement = LimeParameter(
+            fooPath,
+            typeRef = LimeBasicTypeRef.FLOAT,
+            attributes = LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.SWIFT_ARGUMENT_LABEL, "foo_label")
+                .build()
+        )
+        contextStack.injectResult(swiftType)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(SwiftParameter::class.java)
+        assertEquals("foo_label", result.argumentLabel)
+    }
+
+    @Test
     fun finishBuildingStruct() {
         val limeElement = LimeStruct(fooPath, comment = "some comment")
 

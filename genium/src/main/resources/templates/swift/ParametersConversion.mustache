@@ -20,7 +20,7 @@
   !}}
 {{#selfIsStruct}}{{^isStatic}}let c_self_handle = moveToCType(self){{/isStatic}}{{/selfIsStruct}}
 {{#parameters}}
-let c_{{variableName}} = moveToCType({{variableName}})
+let c_{{name}} = moveToCType({{name}})
 {{/parameters}}
 {{#if error}}{{!!
     }}{{#if isReturningVoid}}{{!!

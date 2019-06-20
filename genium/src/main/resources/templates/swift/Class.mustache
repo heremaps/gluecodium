@@ -61,7 +61,9 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
 {{/typedefs}}{{#set className=name}}{{#constructors}}
 {{prefixPartial "swift/MethodComment" "    "}}
     {{visibility}} {{#if overriding}}override {{/if}}init({{>swift/MethodParameterDeclaration}}){{#if error}} throws{{/if}} {
-        let _result = {{#if error}}try {{/if}}{{className}}.{{name}}({{#parameters}}{{name}}: {{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+        let _result = {{#if error}}try {{/if}}{{className}}.{{name}}({{#parameters}}{{!!
+}}{{#argumentLabel}}{{#isNotEq . "_"}}{{.}}: {{/isNotEq}}{{/argumentLabel}}{{^argumentLabel}}{{name}}: {{/argumentLabel}}{{!!
+}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
         {{#if useParentCInstance}}super.init(c{{parentClass}}: _result){{/if}}{{!!
         }}{{#unless useParentCInstance}}guard _result != 0 else {
             fatalError("Nullptr value is not supported for initializers")

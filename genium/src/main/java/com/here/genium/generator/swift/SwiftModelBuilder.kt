@@ -224,8 +224,11 @@ class SwiftModelBuilder(
         val swiftType = getPreviousResult(SwiftType::class.java)
             .withOptional(limeParameter.typeRef.isNullable)
 
-        val swiftParameter =
-            SwiftParameter(nameRules.getName(limeParameter), swiftType)
+        val swiftParameter = SwiftParameter(
+            nameRules.getName(limeParameter),
+            swiftType,
+            limeParameter.attributes.get(LimeAttributeType.SWIFT_ARGUMENT_LABEL, String::class.java)
+        )
         swiftParameter.comment = limeParameter.comment
 
         storeResult(swiftParameter)
