@@ -34,5 +34,6 @@ enum class LimeAttributeType {
     POINTER_EQUATABLE,
     CPP_NAME,
     JAVA_NAME,
-    SWIFT_NAME
+    SWIFT_NAME,
+    DEPRECATED
 }

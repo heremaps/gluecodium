@@ -105,6 +105,8 @@ class LimeModelBuilderInterfaceTest {
             LimeModelBuilder(contextStack, deploymentModel, referenceResolver, companionHelper)
 
         every { CommentHelper.getDescription(any()) } returns "some comment"
+        every { CommentHelper.getDeprecationMessage(any()) } returns "mostly deprecated"
+
         every { companionHelper.getStructForCompanion(any()) } returns null
 
         every { francaModel.name } returns "the.model"
@@ -137,6 +139,7 @@ class LimeModelBuilderInterfaceTest {
         assertEquals("SomeInterface", result.name)
         assertEquals("the.model.SomeInterface", result.fullName)
         assertEquals("some comment", result.comment)
+        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
     }
 
     @Test
@@ -236,6 +239,7 @@ class LimeModelBuilderInterfaceTest {
         assertEquals("SomeMethod", result.name)
         assertEquals("the.model.SomeInterface.SomeMethod", result.fullName)
         assertEquals("some comment", result.comment)
+        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
     }
 
     @Test
@@ -342,6 +346,7 @@ class LimeModelBuilderInterfaceTest {
         assertEquals("SomeArg", result.name)
         assertEquals("the.model.SomeInterface.SomeMethod.SomeArg", result.fullName)
         assertEquals("some comment", result.comment)
+        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
         assertEquals(limeTypeRef, result.typeRef)
     }
 
@@ -411,6 +416,9 @@ class LimeModelBuilderInterfaceTest {
         assertEquals("the.model.SomeInterface.SomeAttribute", result.fullName)
         assertEquals("some comment", result.comment)
         assertEquals(limeTypeRef, result.typeRef)
+        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
+        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result.getter)
+        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result.setter!!)
     }
 
     @Test

@@ -23,16 +23,27 @@ import org.franca.core.franca.FAnnotationType
 import org.franca.core.franca.FModelElement
 
 object CommentHelper {
+    fun getDescription(francaElement: FModelElement) =
+        getFrancaAnnotation(francaElement, FAnnotationType.DESCRIPTION) ?: ""
 
-    fun getDescription(francaElement: FModelElement): String {
-        val annotationBlock = francaElement.comment ?: return ""
+    fun getDeprecationMessage(francaElement: FModelElement) =
+        getFrancaAnnotation(francaElement, FAnnotationType.DEPRECATED)
 
+    private fun getFrancaAnnotation(
+        francaElement: FModelElement,
+        annotationType: FAnnotationType
+    ): String? {
+        val annotationBlock = francaElement.comment ?: return null
         val commentLines = annotationBlock
                 .elements
-                .filter { it.type == FAnnotationType.DESCRIPTION }
+                .filter { it.type == annotationType }
                 .flatMap { it.comment.lines() }
+        if (commentLines.isEmpty()) {
+            return null
+        }
 
         // Franca already trims first line so use only remaining lines to determine indent
-        return (commentLines.take(1) + commentLines.drop(1).joinToString("\n").trimIndent()).joinToString("\n").trimEnd()
+        return (commentLines.take(1) + commentLines.drop(1).joinToString("\n").trimIndent())
+            .joinToString("\n").trimEnd()
     }
 }
