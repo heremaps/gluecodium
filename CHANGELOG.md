@@ -1,8 +1,9 @@
 # Genium project Release Notes
 
-## Unreleased
+## 4.6.1
+- Release date: 2019-06-21
 - Bug fixes:
-  + Fixed compilation issue for Return for types without default constructor
+  + Fixed compilation issue for Return for types without default constructor.
 
 ## 4.6.0
 - Release date: 2019-06-19
