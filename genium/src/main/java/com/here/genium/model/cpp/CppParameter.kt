@@ -29,5 +29,5 @@ class CppParameter(
     override fun stream() = Stream.of(type)
 
     @Suppress("unused")
-    fun hasComment() = isNotNull || !comment.isNullOrEmpty()
+    fun hasComment() = isNotNull || !comment.isEmpty
 }

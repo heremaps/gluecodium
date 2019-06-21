@@ -25,9 +25,9 @@
 {{/if}}
 {{#specifiers}}{{.}} {{/specifiers}}{{returnType.name}} {{name}}( {{joinPartial parameters "cpp/CppMethodParameter" ", "}} ){{#qualifiers}} {{.}}{{/qualifiers}}{{!!
 
-}}{{+combinedComment}}{{comment}}{{!!
+}}{{+combinedComment}}{{comment.documentation}}{{!!
 }}{{#parameters}}{{#if hasComment}}
-\param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{prefix this.comment "    " skipFirstLine=true}}{{/if}}{{/parameters}}{{!!
+\param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{prefix this.comment.documentation "    " skipFirstLine=true}}{{/if}}{{/parameters}}{{!!
 }}{{#if hasReturnComment}}
 \return {{#if isNotNull}}@NotNull {{/if}}{{prefix returnComment "    " skipFirstLine=true}}{{/if}}{{!!
 }}{{#if errorEnumName}}

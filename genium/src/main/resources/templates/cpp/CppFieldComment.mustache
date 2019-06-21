@@ -18,15 +18,15 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if comment}}
+{{#if comment.documentation}}
 /**
-{{prefix comment " * "}}
+{{prefix comment.documentation " * "}}
 {{#if isNotNull}}
  * {{>notNullWarning}}
 {{/if}}
  */
 {{/if}}
-{{#unless comment}}{{#if isNotNull}}
+{{#unless comment.documentation}}{{#if isNotNull}}
 /// {{>notNullWarning}}
 {{/if}}{{/unless}}{{!!
 

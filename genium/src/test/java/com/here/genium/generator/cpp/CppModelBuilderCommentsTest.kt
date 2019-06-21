@@ -90,7 +90,7 @@ class CppModelBuilderCommentsTest {
         modelBuilder.finishBuilding(limeElement)
 
         val cppClass = modelBuilder.getFinalResult(CppClass::class.java)
-        assertEquals("Foo", cppClass.comment)
+        assertEquals("Foo", cppClass.comment.documentation)
     }
 
     @Test
@@ -100,7 +100,7 @@ class CppModelBuilderCommentsTest {
         modelBuilder.finishBuilding(limeElement)
 
         val cppMethod = modelBuilder.getFinalResult(CppMethod::class.java)
-        assertEquals("Foo", cppMethod.comment)
+        assertEquals("Foo", cppMethod.comment.documentation)
     }
 
     @Test
@@ -148,7 +148,7 @@ class CppModelBuilderCommentsTest {
         modelBuilder.finishBuilding(limeElement)
 
         val cppParameter = modelBuilder.getFinalResult(CppParameter::class.java)
-        assertEquals("Foo", cppParameter.comment)
+        assertEquals("Foo", cppParameter.comment.documentation)
     }
 
     @Test
@@ -176,7 +176,7 @@ class CppModelBuilderCommentsTest {
         modelBuilder.finishBuilding(limeElement)
 
         val cppConstant = modelBuilder.getFinalResult(CppConstant::class.java)
-        assertEquals("Foo", cppConstant.comment)
+        assertEquals("Foo", cppConstant.comment.documentation)
     }
 
     @Test
@@ -187,7 +187,7 @@ class CppModelBuilderCommentsTest {
         modelBuilder.finishBuilding(limeElement)
 
         val cppField = modelBuilder.getFinalResult(CppField::class.java)
-        assertEquals("Foo", cppField.comment)
+        assertEquals("Foo", cppField.comment.documentation)
     }
 
     @Test
@@ -208,7 +208,7 @@ class CppModelBuilderCommentsTest {
         modelBuilder.finishBuilding(limeElement)
 
         val cppStruct = modelBuilder.getFinalResult(CppStruct::class.java)
-        assertEquals("Foo", cppStruct.comment)
+        assertEquals("Foo", cppStruct.comment.documentation)
     }
 
     @Test
@@ -223,7 +223,7 @@ class CppModelBuilderCommentsTest {
         modelBuilder.finishBuilding(limeElement)
 
         val cppUsing = modelBuilder.getFinalResult(CppUsing::class.java)
-        assertEquals("Foo", cppUsing.comment)
+        assertEquals("Foo", cppUsing.comment.documentation)
     }
 
     @Test
@@ -233,7 +233,7 @@ class CppModelBuilderCommentsTest {
         modelBuilder.finishBuilding(limeElement)
 
         val cppEnum = modelBuilder.getFinalResult(CppEnum::class.java)
-        assertEquals("Foo", cppEnum.comment)
+        assertEquals("Foo", cppEnum.comment.documentation)
     }
 
     @Test
@@ -243,7 +243,7 @@ class CppModelBuilderCommentsTest {
         modelBuilder.finishBuilding(limeElement)
 
         val cppEnumItem = modelBuilder.getFinalResult(CppEnumItem::class.java)
-        assertEquals("Foo", cppEnumItem.comment)
+        assertEquals("Foo", cppEnumItem.comment.documentation)
     }
 
     @Test
@@ -261,8 +261,8 @@ class CppModelBuilderCommentsTest {
 
         val results = modelBuilder.finalResults
         assertEquals(2, results.size)
-        assertEquals("Gets foo", (results.first() as CppMethod).comment)
-        assertEquals("Sets foo", (results.last() as CppMethod).comment)
+        assertEquals("Gets foo", (results.first() as CppMethod).comment.documentation)
+        assertEquals("Sets foo", (results.last() as CppMethod).comment.documentation)
     }
 
     @Test

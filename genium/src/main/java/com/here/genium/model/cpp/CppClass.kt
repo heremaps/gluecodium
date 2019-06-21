@@ -20,12 +20,13 @@
 package com.here.genium.model.cpp
 
 import com.here.genium.generator.cpp.TopologicalSort
+import com.here.genium.model.common.Comments
 import java.util.stream.Stream
 
 class CppClass(
     name: String,
     fullyQualifiedName: String,
-    comment: String?,
+    comment: Comments,
     isExternal: Boolean,
     val members: List<CppElement>,
     val methods: List<CppMethod>,

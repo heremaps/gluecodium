@@ -36,7 +36,7 @@ class CppField(
     override fun stream() = Stream.of(type, initializer)
 
     @Suppress("unused")
-    fun hasComment() = !comment.isNullOrEmpty() || isNotNull
+    fun hasComment() = !comment.isEmpty || isNotNull
 
     @Suppress("unused")
     val needsPointerValueEqual = isNullable && !isClassPointerEquatable || isClassEquatable

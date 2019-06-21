@@ -19,12 +19,13 @@
 
 package com.here.genium.model.cpp
 
+import com.here.genium.model.common.Comments
 import java.util.stream.Stream
 
 class CppUsing(
     name: String,
     fullyQualifiedName: String,
-    comment: String? = null,
+    comment: Comments = Comments(),
     val definition: CppTypeRef
 ) : CppElementWithComment(name, fullyQualifiedName, comment) {
 

@@ -19,6 +19,7 @@
 
 package com.here.genium.generator.cpp
 
+import com.here.genium.model.common.Comments
 import com.here.genium.model.cpp.CppClass
 import com.here.genium.model.cpp.CppComplexTypeRef
 import com.here.genium.model.cpp.CppConstant
@@ -88,7 +89,7 @@ class CppModelBuilderTest {
     )
 
     private val cppEnum = CppEnum("", "", false, emptyList())
-    private val cppUsing = CppUsing("", "", null, CppPrimitiveTypeRef.BOOL)
+    private val cppUsing = CppUsing("", "", Comments(), CppPrimitiveTypeRef.BOOL)
     private val cppStruct = CppStruct("")
     private val cppConstant = CppConstant("", "", CppPrimitiveTypeRef.BOOL, CppValue(""))
     private val cppTypeRef = CppComplexTypeRef("foobarbaz")

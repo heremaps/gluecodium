@@ -22,6 +22,7 @@ package com.here.genium.generator.jni
 import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.java.JavaModelBuilder
+import com.here.genium.model.common.Comments
 import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppClass
 import com.here.genium.model.cpp.CppComplexTypeRef
@@ -113,7 +114,7 @@ class JniModelBuilderTest {
     private val cppClass = CppClass(
         "cPpClass",
         "::cPpClass",
-        null,
+        Comments(),
         false,
         emptyList(),
         emptyList(),
@@ -130,7 +131,8 @@ class JniModelBuilderTest {
     private val jniParameter = JniParameter("theParam", null)
     private val javaGetter =
         JavaMethod("getFoo", null, JavaVisibility.PUBLIC, JavaCustomType("FooType"))
-    private val cppGetter = CppMethod("shootFoot", "shootFoot", "", CppPrimitiveTypeRef.INT32)
+    private val cppGetter =
+        CppMethod("shootFoot", "shootFoot", Comments(), CppPrimitiveTypeRef.INT32)
     private val javaSetter = JavaMethod(
         "setFoo",
         null,
@@ -143,7 +145,7 @@ class JniModelBuilderTest {
     private val cppSetter = CppMethod(
         "shootBothFeet",
         "shootBothFeet",
-        "",
+        Comments(),
         CppPrimitiveTypeRef.VOID,
         "",
         null,

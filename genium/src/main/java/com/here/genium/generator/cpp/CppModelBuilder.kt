@@ -21,6 +21,7 @@ package com.here.genium.generator.cpp
 
 import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
+import com.here.genium.model.common.Comments
 import com.here.genium.model.common.CommentsPreprocessor
 import com.here.genium.model.cpp.CppClass
 import com.here.genium.model.cpp.CppConstant
@@ -84,7 +85,7 @@ class CppModelBuilder(
         val cppClass = CppClass(
             name = nameResolver.getName(limeContainer),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeContainer),
-            comment = limeContainer.comment,
+            comment = Comments(limeContainer.comment),
             isExternal = limeContainer.attributes.have(LimeAttributeType.EXTERNAL_TYPE),
             members = members,
             methods = getPreviousResults(CppMethod::class.java),
@@ -127,7 +128,7 @@ class CppModelBuilder(
         val cppMethod = CppMethod(
             nameResolver.getName(limeMethod),
             nameResolver.getFullyQualifiedName(limeMethod),
-            limeMethod.comment,
+            Comments(limeMethod.comment),
             returnType,
             limeMethod.returnType.comment,
             errorEnum?.fullyQualifiedName,
@@ -150,7 +151,7 @@ class CppModelBuilder(
             type = getPreviousResult(CppTypeRef::class.java),
             isNotNull = isInstance && !isNullable
         )
-        cppParameter.comment = limeParameter.comment
+        cppParameter.comment = Comments(limeParameter.comment)
 
         storeResult(cppParameter)
         closeContext()
@@ -168,7 +169,7 @@ class CppModelBuilder(
         val cppStruct = CppStruct(
             nameResolver.getName(limeStruct),
             nameResolver.getFullyQualifiedName(limeStruct),
-            limeStruct.comment,
+            Comments(limeStruct.comment),
             limeStruct.attributes.have(LimeAttributeType.EXTERNAL_TYPE),
             getPreviousResults(CppField::class.java),
             methods,
@@ -199,7 +200,7 @@ class CppModelBuilder(
             isClassEquatable = isInstance && limeField.typeRef.type.attributes.have(LimeAttributeType.EQUATABLE),
             isClassPointerEquatable = isInstance && limeField.typeRef.type.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
         )
-        cppField.comment = limeField.comment
+        cppField.comment = Comments(limeField.comment)
 
         storeNamedResult(limeField, cppField)
         closeContext()
@@ -209,7 +210,7 @@ class CppModelBuilder(
         val cppUsing = CppUsing(
             nameResolver.getName(limeTypeDef),
             nameResolver.getFullyQualifiedName(limeTypeDef),
-            limeTypeDef.comment,
+            Comments(limeTypeDef.comment),
             getPreviousResult(CppTypeRef::class.java)
         )
 
@@ -235,7 +236,7 @@ class CppModelBuilder(
         val getterMethod = CppMethod(
             name = nameResolver.getGetterName(limeProperty),
             fullyQualifiedName = nameResolver.getFullyQualifiedGetterName(limeProperty),
-            comment = CommentsPreprocessor.preprocessGetterComment(limeProperty.comment),
+            comment = Comments(CommentsPreprocessor.preprocessGetterComment(limeProperty.comment)),
             returnType = cppTypeRef,
             isNotNull = isNotNull,
             specifiers = specifiers,
@@ -252,7 +253,8 @@ class CppModelBuilder(
             val setterMethod = CppMethod(
                 name = nameResolver.getSetterName(limeProperty),
                 fullyQualifiedName = nameResolver.getFullyQualifiedSetterName(limeProperty),
-                comment = CommentsPreprocessor.preprocessSetterComment(limeProperty.comment),
+                comment =
+                    Comments(CommentsPreprocessor.preprocessSetterComment(limeProperty.comment)),
                 parameters = listOf(setterParameter),
                 specifiers = specifiers,
                 qualifiers = setterQualifiers
@@ -270,7 +272,7 @@ class CppModelBuilder(
             limeEnumeration.attributes.have(LimeAttributeType.EXTERNAL_TYPE),
             getPreviousResults(CppEnumItem::class.java)
         )
-        cppEnum.comment = limeEnumeration.comment
+        cppEnum.comment = Comments(limeEnumeration.comment)
 
         storeNamedResult(limeEnumeration, cppEnum)
         closeContext()
@@ -282,7 +284,7 @@ class CppModelBuilder(
             nameResolver.getFullyQualifiedName(limeEnumerator),
             getPreviousResultOrNull(CppValue::class.java)
         )
-        cppEnumItem.comment = limeEnumerator.comment
+        cppEnumItem.comment = Comments(limeEnumerator.comment)
 
         storeNamedResult(limeEnumerator, cppEnumItem)
         closeContext()
@@ -295,7 +297,7 @@ class CppModelBuilder(
             getPreviousResult(CppTypeRef::class.java),
             getPreviousResult(CppValue::class.java)
         )
-        cppConstant.comment = limeConstant.comment
+        cppConstant.comment = Comments(limeConstant.comment)
 
         storeNamedResult(limeConstant, cppConstant)
         closeContext()

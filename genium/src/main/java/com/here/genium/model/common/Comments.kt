@@ -17,13 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp
+package com.here.genium.model.common
 
-import com.here.genium.model.common.Comments
-
-abstract class CppExternableElement(
-    name: String,
-    fullyQualifiedName: String,
-    comment: Comments,
-    val isExternal: Boolean
-) : CppElementWithComment(name, fullyQualifiedName, comment)
+class Comments(
+    @Suppress("unused") val documentation: String? = null,
+    @Suppress("unused") val deprecated: String? = null
+) {
+    val isEmpty = documentation.isNullOrEmpty() && deprecated.isNullOrEmpty()
+}

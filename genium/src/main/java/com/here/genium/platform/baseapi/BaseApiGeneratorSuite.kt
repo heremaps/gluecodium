@@ -30,6 +30,7 @@ import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.cpp.CppNameResolver
 import com.here.genium.generator.cpp.CppNameRules
 import com.here.genium.generator.cpp.CppTypeMapper
+import com.here.genium.model.common.Comments
 import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppComplexTypeRef
 import com.here.genium.model.cpp.CppElement
@@ -97,10 +98,12 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
         cppModel.flatMap { it.members }.flatMap { it.streamRecursive().toList() }
             .filterIsInstance<CppElementWithComment>().forEach { element ->
                 val limeName = cppToLimeName[element]
-                if (limeName != null) {
-                    element.comment = element.comment?.let {
-                        commentsProcessor.process(limeName, it, limeToCppName)
-                    }
+                val docComment = element.comment.documentation
+                if (limeName != null && docComment != null) {
+                    element.comment = Comments(
+                        commentsProcessor.process(limeName, docComment, limeToCppName),
+                        element.comment.deprecated
+                    )
                 }
             }
 

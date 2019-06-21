@@ -19,13 +19,14 @@
 
 package com.here.genium.model.cpp
 
+import com.here.genium.model.common.Comments
 import java.util.EnumSet
 import java.util.stream.Stream
 
 class CppMethod(
     name: String,
     fullyQualifiedName: String = name,
-    comment: String? = null,
+    comment: Comments = Comments(),
     val returnType: CppTypeRef = CppPrimitiveTypeRef.VOID,
     val returnComment: String? = null,
     val errorEnumName: String? = null,
@@ -53,7 +54,7 @@ class CppMethod(
     }
 
     @Suppress("unused")
-    fun hasComment() = !comment.isNullOrEmpty() ||
+    fun hasComment() = !comment.isEmpty ||
         hasReturnComment() ||
         parameters.stream().anyMatch(CppParameter::hasComment)
 

@@ -19,12 +19,13 @@
 
 package com.here.genium.model.cpp
 
+import com.here.genium.model.common.Comments
 import java.util.stream.Stream
 
 class CppStruct(
     name: String,
     fullyQualifiedName: String = name,
-    comment: String? = null,
+    comment: Comments = Comments(),
     isExternal: Boolean = false,
     val fields: List<CppField> = emptyList(),
     val methods: List<CppMethod> = emptyList(),

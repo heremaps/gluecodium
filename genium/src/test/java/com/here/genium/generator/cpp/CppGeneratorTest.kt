@@ -19,26 +19,20 @@
 
 package com.here.genium.generator.cpp
 
+import com.here.genium.model.common.Comments
 import com.here.genium.model.cpp.CppConstant
 import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppExternableElement
-import org.junit.Assert.assertEquals
-import org.mockito.Mockito.mock
-
 import com.here.genium.model.cpp.CppFile
 import com.here.genium.model.cpp.CppTypeRef
 import com.here.genium.model.cpp.CppUsing
 import com.here.genium.model.cpp.CppValue
-import org.junit.Before
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.mockito.Mockito.withSettings
+import org.mockito.Mockito.mock
 
 class CppGeneratorTest {
     private val generator: CppGenerator = CppGenerator("", listOf())
-
-    @Before
-    fun setUp() {
-    }
 
     @Test
     fun emptyFileWillBeSkipped() {
@@ -50,7 +44,7 @@ class CppGeneratorTest {
     @Test
     fun fileWithTypedefWillBeGenerated() {
         val typeRef = mock(CppTypeRef::class.java)
-        val using = CppUsing("", "", "", typeRef)
+        val using = CppUsing("", "", Comments(), typeRef)
         val model = CppFile("", listOf(), listOf(using), listOf(), listOf(), listOf())
         val generatedFiles = generator.generateCode(model)
         assertEquals(2, generatedFiles.size)
@@ -76,8 +70,7 @@ class CppGeneratorTest {
 
     @Test
     fun fileWithInternalExternableElementWillBeGenerated() {
-        val externable =
-            mock(CppExternableElement::class.java, withSettings().useConstructor("", "", "", false))
+        val externable = object : CppExternableElement("", "", Comments(), false) {}
         val model = CppFile("", listOf(), listOf(externable), listOf(), listOf(), listOf())
         val generatedFiles = generator.generateCode(model)
         assertEquals(2, generatedFiles.size)
@@ -85,8 +78,7 @@ class CppGeneratorTest {
 
     @Test
     fun fileWithExternalElementWillBeSkipped() {
-        val externable =
-            mock(CppExternableElement::class.java, withSettings().useConstructor("", "", "", true))
+        val externable = object : CppExternableElement("", "", Comments(), true) {}
         val model = CppFile("", listOf(), listOf(externable), listOf(), listOf(), listOf())
         val generatedFiles = generator.generateCode(model)
         assertEquals(0, generatedFiles.size)
