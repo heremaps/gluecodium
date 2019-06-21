@@ -45,6 +45,7 @@ import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
@@ -85,7 +86,7 @@ class CppModelBuilder(
         val cppClass = CppClass(
             name = nameResolver.getName(limeContainer),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeContainer),
-            comment = Comments(limeContainer.comment),
+            comment = createComments(limeContainer),
             isExternal = limeContainer.attributes.have(LimeAttributeType.EXTERNAL_TYPE),
             members = members,
             methods = getPreviousResults(CppMethod::class.java),
@@ -128,7 +129,7 @@ class CppModelBuilder(
         val cppMethod = CppMethod(
             nameResolver.getName(limeMethod),
             nameResolver.getFullyQualifiedName(limeMethod),
-            Comments(limeMethod.comment),
+            createComments(limeMethod),
             returnType,
             limeMethod.returnType.comment,
             errorEnum?.fullyQualifiedName,
@@ -151,7 +152,7 @@ class CppModelBuilder(
             type = getPreviousResult(CppTypeRef::class.java),
             isNotNull = isInstance && !isNullable
         )
-        cppParameter.comment = Comments(limeParameter.comment)
+        cppParameter.comment = createComments(limeParameter)
 
         storeResult(cppParameter)
         closeContext()
@@ -169,7 +170,7 @@ class CppModelBuilder(
         val cppStruct = CppStruct(
             nameResolver.getName(limeStruct),
             nameResolver.getFullyQualifiedName(limeStruct),
-            Comments(limeStruct.comment),
+            createComments(limeStruct),
             limeStruct.attributes.have(LimeAttributeType.EXTERNAL_TYPE),
             getPreviousResults(CppField::class.java),
             methods,
@@ -200,7 +201,7 @@ class CppModelBuilder(
             isClassEquatable = isInstance && limeField.typeRef.type.attributes.have(LimeAttributeType.EQUATABLE),
             isClassPointerEquatable = isInstance && limeField.typeRef.type.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
         )
-        cppField.comment = Comments(limeField.comment)
+        cppField.comment = createComments(limeField)
 
         storeNamedResult(limeField, cppField)
         closeContext()
@@ -210,7 +211,7 @@ class CppModelBuilder(
         val cppUsing = CppUsing(
             nameResolver.getName(limeTypeDef),
             nameResolver.getFullyQualifiedName(limeTypeDef),
-            Comments(limeTypeDef.comment),
+            createComments(limeTypeDef),
             getPreviousResult(CppTypeRef::class.java)
         )
 
@@ -233,10 +234,14 @@ class CppModelBuilder(
             else -> EnumSet.of(CppMethod.Qualifier.CONST, CppMethod.Qualifier.PURE_VIRTUAL)
         }
 
+        val getterComments = Comments(
+            CommentsPreprocessor.preprocessGetterComment(limeProperty.comment),
+            limeProperty.getter.attributes.get(LimeAttributeType.DEPRECATED, String::class.java)
+        )
         val getterMethod = CppMethod(
             name = nameResolver.getGetterName(limeProperty),
             fullyQualifiedName = nameResolver.getFullyQualifiedGetterName(limeProperty),
-            comment = Comments(CommentsPreprocessor.preprocessGetterComment(limeProperty.comment)),
+            comment = getterComments,
             returnType = cppTypeRef,
             isNotNull = isNotNull,
             specifiers = specifiers,
@@ -250,11 +255,17 @@ class CppModelBuilder(
                 limeProperty.isStatic -> EnumSet.noneOf(CppMethod.Qualifier::class.java)
                 else -> EnumSet.of(CppMethod.Qualifier.PURE_VIRTUAL)
             }
+            val setterComments = Comments(
+                CommentsPreprocessor.preprocessSetterComment(limeProperty.comment),
+                limeProperty.setter?.attributes?.get(
+                    LimeAttributeType.DEPRECATED,
+                    String::class.java
+                )
+            )
             val setterMethod = CppMethod(
                 name = nameResolver.getSetterName(limeProperty),
                 fullyQualifiedName = nameResolver.getFullyQualifiedSetterName(limeProperty),
-                comment =
-                    Comments(CommentsPreprocessor.preprocessSetterComment(limeProperty.comment)),
+                comment = setterComments,
                 parameters = listOf(setterParameter),
                 specifiers = specifiers,
                 qualifiers = setterQualifiers
@@ -272,7 +283,7 @@ class CppModelBuilder(
             limeEnumeration.attributes.have(LimeAttributeType.EXTERNAL_TYPE),
             getPreviousResults(CppEnumItem::class.java)
         )
-        cppEnum.comment = Comments(limeEnumeration.comment)
+        cppEnum.comment = createComments(limeEnumeration)
 
         storeNamedResult(limeEnumeration, cppEnum)
         closeContext()
@@ -284,7 +295,7 @@ class CppModelBuilder(
             nameResolver.getFullyQualifiedName(limeEnumerator),
             getPreviousResultOrNull(CppValue::class.java)
         )
-        cppEnumItem.comment = Comments(limeEnumerator.comment)
+        cppEnumItem.comment = createComments(limeEnumerator)
 
         storeNamedResult(limeEnumerator, cppEnumItem)
         closeContext()
@@ -297,11 +308,17 @@ class CppModelBuilder(
             getPreviousResult(CppTypeRef::class.java),
             getPreviousResult(CppValue::class.java)
         )
-        cppConstant.comment = Comments(limeConstant.comment)
+        cppConstant.comment = createComments(limeConstant)
 
         storeNamedResult(limeConstant, cppConstant)
         closeContext()
     }
+
+    private fun createComments(limeElement: LimeNamedElement) =
+        Comments(
+            limeElement.comment,
+            limeElement.attributes.get(LimeAttributeType.DEPRECATED, String::class.java)
+        )
 
     override fun finishBuilding(limeValue: LimeValue) {
         val valueType = limeValue.typeRef.type

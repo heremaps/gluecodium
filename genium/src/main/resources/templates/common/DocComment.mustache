@@ -18,12 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if comment}}{{#instanceOf comment "String"}}
+{{#if comment}}
 /**
 {{prefix comment " * "}}
  */
-{{/instanceOf}}{{#notInstanceOf comment "String"}}{{#if comment.documentation}}
-/**
-{{prefix comment.documentation " * "}}
- */
-{{/if}}{{/notInstanceOf}}{{/if}}
+{{/if}}

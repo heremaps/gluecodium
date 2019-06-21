@@ -32,6 +32,8 @@ import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.cpp.CppUsing
 import com.here.genium.model.cpp.CppValue
+import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
@@ -67,6 +69,8 @@ class CppModelBuilderCommentsTest {
         type = LimeContainer.ContainerType.TYPE_COLLECTION
     )
     private val limeContainerTypeRef = LimeDirectTypeRef(limeContainer)
+    private val deprecatedAttributes =
+        LimeAttributes.Builder().addAttribute(LimeAttributeType.DEPRECATED, "Bar").build()
 
     private val contextStack = MockContextStack<CppElement>()
 
@@ -84,28 +88,35 @@ class CppModelBuilderCommentsTest {
         val limeElement = LimeContainer(
             EMPTY_PATH,
             type = LimeContainer.ContainerType.INTERFACE,
-            comment = "Foo"
+            comment = "Foo",
+            attributes = deprecatedAttributes
         )
 
         modelBuilder.finishBuilding(limeElement)
 
         val cppClass = modelBuilder.getFinalResult(CppClass::class.java)
         assertEquals("Foo", cppClass.comment.documentation)
+        assertEquals("Bar", cppClass.comment.deprecated)
     }
 
     @Test
     fun finishBuildingMethodReadsComment() {
-        val limeElement = LimeMethod(EMPTY_PATH, comment = "Foo")
+        val limeElement = LimeMethod(EMPTY_PATH, comment = "Foo", attributes = deprecatedAttributes)
 
         modelBuilder.finishBuilding(limeElement)
 
         val cppMethod = modelBuilder.getFinalResult(CppMethod::class.java)
         assertEquals("Foo", cppMethod.comment.documentation)
+        assertEquals("Bar", cppMethod.comment.deprecated)
     }
 
     @Test
     fun finishBuildingMethodReadsReturnTypeComment() {
-        val limeReturnType = LimeReturnType(LimeBasicTypeRef.DOUBLE, comment = "Foo")
+        val limeReturnType = LimeReturnType(
+            LimeBasicTypeRef.DOUBLE,
+            comment = "Foo",
+            attributes = deprecatedAttributes
+        )
         val limeElement = LimeMethod(EMPTY_PATH, returnType = limeReturnType)
 
         modelBuilder.finishBuilding(limeElement)
@@ -142,13 +153,15 @@ class CppModelBuilderCommentsTest {
         val limeElement = LimeParameter(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            comment = "Foo"
+            comment = "Foo",
+            attributes = deprecatedAttributes
         )
 
         modelBuilder.finishBuilding(limeElement)
 
         val cppParameter = modelBuilder.getFinalResult(CppParameter::class.java)
         assertEquals("Foo", cppParameter.comment.documentation)
+        assertEquals("Bar", cppParameter.comment.deprecated)
     }
 
     @Test
@@ -170,24 +183,32 @@ class CppModelBuilderCommentsTest {
             path = EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
             value = LimeValue.Literal(LimeBasicTypeRef.DOUBLE, ""),
-            comment = "Foo"
+            comment = "Foo",
+            attributes = deprecatedAttributes
         )
 
         modelBuilder.finishBuilding(limeElement)
 
         val cppConstant = modelBuilder.getFinalResult(CppConstant::class.java)
         assertEquals("Foo", cppConstant.comment.documentation)
+        assertEquals("Bar", cppConstant.comment.deprecated)
     }
 
     @Test
     fun finishBuildingFieldReadsComment() {
         contextStack.injectResult(CppPrimitiveTypeRef.BOOL)
-        val limeElement = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE, comment = "Foo")
+        val limeElement = LimeField(
+            EMPTY_PATH,
+            typeRef = LimeBasicTypeRef.DOUBLE,
+            comment = "Foo",
+            attributes = deprecatedAttributes
+        )
 
         modelBuilder.finishBuilding(limeElement)
 
         val cppField = modelBuilder.getFinalResult(CppField::class.java)
         assertEquals("Foo", cppField.comment.documentation)
+        assertEquals("Bar", cppField.comment.deprecated)
     }
 
     @Test
@@ -203,12 +224,13 @@ class CppModelBuilderCommentsTest {
 
     @Test
     fun finishBuildingStructReadsComment() {
-        val limeElement = LimeStruct(EMPTY_PATH, comment = "Foo")
+        val limeElement = LimeStruct(EMPTY_PATH, comment = "Foo", attributes = deprecatedAttributes)
 
         modelBuilder.finishBuilding(limeElement)
 
         val cppStruct = modelBuilder.getFinalResult(CppStruct::class.java)
         assertEquals("Foo", cppStruct.comment.documentation)
+        assertEquals("Bar", cppStruct.comment.deprecated)
     }
 
     @Test
@@ -217,33 +239,39 @@ class CppModelBuilderCommentsTest {
         val limeElement = LimeTypeDef(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            comment = "Foo"
+            comment = "Foo",
+            attributes = deprecatedAttributes
         )
 
         modelBuilder.finishBuilding(limeElement)
 
         val cppUsing = modelBuilder.getFinalResult(CppUsing::class.java)
         assertEquals("Foo", cppUsing.comment.documentation)
+        assertEquals("Bar", cppUsing.comment.deprecated)
     }
 
     @Test
     fun finishBuildingEnumerationTypeReadsComment() {
-        val limeElement = LimeEnumeration(EMPTY_PATH, comment = "Foo")
+        val limeElement =
+            LimeEnumeration(EMPTY_PATH, comment = "Foo", attributes = deprecatedAttributes)
 
         modelBuilder.finishBuilding(limeElement)
 
         val cppEnum = modelBuilder.getFinalResult(CppEnum::class.java)
         assertEquals("Foo", cppEnum.comment.documentation)
+        assertEquals("Bar", cppEnum.comment.deprecated)
     }
 
     @Test
     fun finishBuildingEnumeratorReadsComment() {
-        val limeElement = LimeEnumerator(EMPTY_PATH, comment = "Foo")
+        val limeElement =
+            LimeEnumerator(EMPTY_PATH, comment = "Foo", attributes = deprecatedAttributes)
 
         modelBuilder.finishBuilding(limeElement)
 
         val cppEnumItem = modelBuilder.getFinalResult(CppEnumItem::class.java)
         assertEquals("Foo", cppEnumItem.comment.documentation)
+        assertEquals("Bar", cppEnumItem.comment.deprecated)
     }
 
     @Test
@@ -253,8 +281,8 @@ class CppModelBuilderCommentsTest {
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
             comment = "Foo",
-            getter = LimeMethod(EMPTY_PATH),
-            setter = LimeMethod(EMPTY_PATH)
+            getter = LimeMethod(EMPTY_PATH, attributes = deprecatedAttributes),
+            setter = LimeMethod(EMPTY_PATH, attributes = deprecatedAttributes)
         )
 
         modelBuilder.finishBuilding(limeElement)
@@ -262,7 +290,9 @@ class CppModelBuilderCommentsTest {
         val results = modelBuilder.finalResults
         assertEquals(2, results.size)
         assertEquals("Gets foo", (results.first() as CppMethod).comment.documentation)
+        assertEquals("Bar", (results.first() as CppMethod).comment.deprecated)
         assertEquals("Sets foo", (results.last() as CppMethod).comment.documentation)
+        assertEquals("Bar", (results.last() as CppMethod).comment.deprecated)
     }
 
     @Test

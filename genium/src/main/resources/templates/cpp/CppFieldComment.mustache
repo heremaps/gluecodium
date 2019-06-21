@@ -18,16 +18,17 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if comment.documentation}}
+{{#unless comment.isEmpty}}
 /**
-{{prefix comment.documentation " * "}}
+{{#if comment.documentation}}{{prefix comment.documentation " * "}}{{/if}}{{#if comment.deprecated}}
+ * \deprecated {{prefix comment.deprecated " * " skipFirstLine=true}}{{/if}}
 {{#if isNotNull}}
  * {{>notNullWarning}}
 {{/if}}
  */
-{{/if}}
-{{#unless comment.documentation}}{{#if isNotNull}}
+{{/unless}}
+{{#if comment.isEmpty}}{{#if isNotNull}}
 /// {{>notNullWarning}}
-{{/if}}{{/unless}}{{!!
+{{/if}}{{/if}}{{!!
 
 }}{{+notNullWarning}}\warning @NotNull{{/notNullWarning}}

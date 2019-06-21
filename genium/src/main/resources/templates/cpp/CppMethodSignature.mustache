@@ -25,7 +25,8 @@
 {{/if}}
 {{#specifiers}}{{.}} {{/specifiers}}{{returnType.name}} {{name}}( {{joinPartial parameters "cpp/CppMethodParameter" ", "}} ){{#qualifiers}} {{.}}{{/qualifiers}}{{!!
 
-}}{{+combinedComment}}{{comment.documentation}}{{!!
+}}{{+combinedComment}}{{comment.documentation}}{{#if comment.deprecated}}
+\deprecated {{comment.deprecated}}{{/if}}{{!!
 }}{{#parameters}}{{#if hasComment}}
 \param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{prefix this.comment.documentation "    " skipFirstLine=true}}{{/if}}{{/parameters}}{{!!
 }}{{#if hasReturnComment}}

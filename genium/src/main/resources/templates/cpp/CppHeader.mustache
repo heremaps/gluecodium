@@ -50,7 +50,7 @@ namespace {{.}} {
 {{#instanceOf this "CppConstant"}}{{#set storageQualifier="extern"}}{{>cpp/CppConstant}}{{/set}}{{/instanceOf}}
 {{#instanceOf this "CppUsing"}}{{>cpp/CppUsing}}{{/instanceOf}}
 {{#instanceOf this "CppStruct"}}
-{{>common/DocComment}}
+{{>cpp/DocComment}}
 {{>cpp/CppStruct}}
 {{/instanceOf}}
 {{/sortedMembers}}

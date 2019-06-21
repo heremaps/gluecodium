@@ -96,15 +96,17 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
         val limeToCppName = cppReferenceMap.mapValues { it.value.fullyQualifiedName }
 
         cppModel.flatMap { it.members }.flatMap { it.streamRecursive().toList() }
-            .filterIsInstance<CppElementWithComment>().forEach { element ->
-                val limeName = cppToLimeName[element]
-                val docComment = element.comment.documentation
-                if (limeName != null && docComment != null) {
-                    element.comment = Comments(
-                        commentsProcessor.process(limeName, docComment, limeToCppName),
-                        element.comment.deprecated
-                    )
+            .filterIsInstance<CppElementWithComment>()
+            .filterNot { it.comment.isEmpty }
+            .forEach { element ->
+                val limeName = cppToLimeName[element] ?: return@forEach
+                val documentation = element.comment.documentation?.let {
+                    commentsProcessor.process(limeName, it, limeToCppName)
                 }
+                val deprecationMessage = element.comment.deprecated?.let {
+                    commentsProcessor.process(limeName, it, limeToCppName)
+                }
+                element.comment = Comments(documentation, deprecationMessage)
             }
 
         return cppModel.flatMap {
