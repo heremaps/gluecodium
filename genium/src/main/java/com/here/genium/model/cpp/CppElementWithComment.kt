@@ -17,23 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-public abstract class CppElementWithComment extends CppElement {
-
-  public String comment;
-
-  protected CppElementWithComment(final String name) {
-    this(name, name, null);
-  }
-
-  protected CppElementWithComment(final String name, final String fullyQualifiedName) {
-    this(name, fullyQualifiedName, null);
-  }
-
-  protected CppElementWithComment(
-      final String name, final String fullyQualifiedName, final String comment) {
-    super(name, fullyQualifiedName);
-    this.comment = comment;
-  }
-}
+abstract class CppElementWithComment(
+    name: String,
+    fullyQualifiedName: String = name,
+    var comment: String? = null
+) : CppElement(name, fullyQualifiedName)

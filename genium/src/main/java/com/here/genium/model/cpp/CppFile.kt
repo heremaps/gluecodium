@@ -28,9 +28,9 @@ class CppFile(
     val filename: String,
     val namespace: List<String>,
     val members: List<CppElement>,
-    includes: Collection<Include>,
-    forwardDeclarations: Collection<CppForwardDeclaration>,
-    @Suppress("unused") val errorEnums: Collection<CppEnum>,
+    includes: List<Include>,
+    forwardDeclarations: List<CppForwardDeclaration>,
+    @Suppress("unused") val errorEnums: List<CppEnum>,
     var headerInclude: Include? = null,
     @Suppress("unused") var exportName: String? = null,
     var internalNamespace: List<String>? = null

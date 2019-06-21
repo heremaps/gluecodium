@@ -38,5 +38,5 @@ class CppClass(
         get() = TopologicalSort(members).sort()
 
     override fun stream() =
-            Stream.of(methods, members, inheritances).flatMap(Collection<CppElement>::stream)
+        Stream.of(methods, members, inheritances).flatMap(List<CppElement>::stream)
 }

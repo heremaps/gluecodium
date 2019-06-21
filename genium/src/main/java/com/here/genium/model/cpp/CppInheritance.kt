@@ -21,9 +21,7 @@ package com.here.genium.model.cpp
 
 import java.util.stream.Stream
 
-class CppInheritance(val parent: CppTypeRef, val visibility: Type)
-    : CppElement(null, null) {
-
+class CppInheritance(val parent: CppTypeRef, val visibility: Type) : CppElement("", "") {
     enum class Type(private val value: String) {
         Public("public"),
         Protected("protected"),

@@ -25,7 +25,7 @@ import java.util.stream.Stream
 class CppMethod(
     name: String,
     fullyQualifiedName: String = name,
-    comment: String = "",
+    comment: String? = null,
     val returnType: CppTypeRef = CppPrimitiveTypeRef.VOID,
     val returnComment: String? = null,
     val errorEnumName: String? = null,
@@ -53,7 +53,7 @@ class CppMethod(
     }
 
     @Suppress("unused")
-    fun hasComment() = !comment.isEmpty() ||
+    fun hasComment() = !comment.isNullOrEmpty() ||
         hasReturnComment() ||
         parameters.stream().anyMatch(CppParameter::hasComment)
 

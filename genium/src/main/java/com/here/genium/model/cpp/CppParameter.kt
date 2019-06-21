@@ -23,9 +23,9 @@ import java.util.stream.Stream
 
 class CppParameter(
     name: String,
-    type: CppTypeRef?,
+    type: CppTypeRef,
     val isNotNull: Boolean = false
-) : CppTypedElement(name, type) {
+) : CppTypedElement(name, type = type) {
     override fun stream() = Stream.of(type)
 
     @Suppress("unused")

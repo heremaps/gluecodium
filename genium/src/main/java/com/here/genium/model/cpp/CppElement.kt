@@ -17,18 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import com.here.genium.model.common.Streamable;
+import com.here.genium.model.common.Streamable
 
-public abstract class CppElement extends Streamable<CppElement> {
-
-  public final String name;
-  public final String fullyQualifiedName;
-
-  protected CppElement(final String name, final String fullyQualifiedName) {
-    super();
-    this.name = name;
-    this.fullyQualifiedName = fullyQualifiedName;
-  }
-}
+abstract class CppElement(
+    val name: String,
+    val fullyQualifiedName: String
+) : Streamable<CppElement>()

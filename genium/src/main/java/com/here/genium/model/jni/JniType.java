@@ -53,7 +53,7 @@ public class JniType implements JniElement {
 
   public JniType(final JavaType javaType, final CppTypeRef cppType) {
     this.name = JniTypeNameMapper.map(javaType);
-    this.cppName = cppType.name;
+    this.cppName = cppType.getName();
     this.javaName = javaType.name;
     isComplex = !(javaType instanceof JavaPrimitiveType);
     isJavaArray = javaType instanceof JavaArrayType;
@@ -141,7 +141,7 @@ public class JniType implements JniElement {
 
   private static String getCppFullyQualifiedName(final CppTypeRef cppTypeRef) {
     return cppTypeRef instanceof CppComplexTypeRef
-        ? ((CppComplexTypeRef) cppTypeRef).fullyQualifiedName
+        ? ((CppComplexTypeRef) cppTypeRef).getFullyQualifiedName()
         : null;
   }
 

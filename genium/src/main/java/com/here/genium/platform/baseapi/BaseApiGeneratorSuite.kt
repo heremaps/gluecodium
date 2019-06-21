@@ -98,8 +98,9 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             .filterIsInstance<CppElementWithComment>().forEach { element ->
                 val limeName = cppToLimeName[element]
                 if (limeName != null) {
-                    element.comment =
-                        commentsProcessor.process(limeName, element.comment, limeToCppName)
+                    element.comment = element.comment?.let {
+                        commentsProcessor.process(limeName, it, limeToCppName)
+                    }
                 }
             }
 

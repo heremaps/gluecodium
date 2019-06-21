@@ -17,20 +17,10 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-public abstract class CppTypedElement extends CppElementWithComment {
-
-  public final CppTypeRef type;
-
-  protected CppTypedElement(final String name, final CppTypeRef type) {
-    super(name);
-    this.type = type;
-  }
-
-  protected CppTypedElement(
-      final String name, final String fullyQualifiedName, final CppTypeRef type) {
-    super(name, fullyQualifiedName);
-    this.type = type;
-  }
-}
+abstract class CppTypedElement(
+    name: String,
+    fullyQualifiedName: String = name,
+    val type: CppTypeRef
+) : CppElementWithComment(name, fullyQualifiedName)

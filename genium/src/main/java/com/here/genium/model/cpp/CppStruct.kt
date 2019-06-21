@@ -24,7 +24,7 @@ import java.util.stream.Stream
 class CppStruct(
     name: String,
     fullyQualifiedName: String = name,
-    comment: String = "",
+    comment: String? = null,
     isExternal: Boolean = false,
     val fields: List<CppField> = emptyList(),
     val methods: List<CppMethod> = emptyList(),

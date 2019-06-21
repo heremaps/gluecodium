@@ -17,22 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cpp;
+package com.here.genium.model.cpp
 
-import com.here.genium.model.common.Include;
-import java.util.*;
+import com.here.genium.model.common.Include
 
-public abstract class CppElementWithIncludes extends CppElement {
-
-  public final List<Include> includes;
-
-  protected CppElementWithIncludes(final String name, final Collection<Include> includes) {
-    this(name, name, includes);
-  }
-
-  private CppElementWithIncludes(
-      final String name, final String fullyQualifiedName, final Collection<Include> includes) {
-    super(name, fullyQualifiedName);
-    this.includes = includes != null ? new LinkedList<>(includes) : new LinkedList<>();
-  }
-}
+abstract class CppElementWithIncludes(
+    name: String,
+    val includes: List<Include>
+) : CppElement(name, name)

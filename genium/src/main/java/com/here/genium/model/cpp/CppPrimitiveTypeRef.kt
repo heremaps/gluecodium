@@ -21,7 +21,6 @@ package com.here.genium.model.cpp
 
 import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.model.common.Include
-import java.util.Collections.singletonList
 
 class CppPrimitiveTypeRef private constructor(
     name: String,
@@ -29,7 +28,7 @@ class CppPrimitiveTypeRef private constructor(
 ) : CppTypeRef(name, includes, refersToValueType = true) {
 
     companion object {
-        private val intIncludes = singletonList(CppLibraryIncludes.INT_TYPES)
+        private val intIncludes = listOf(CppLibraryIncludes.INT_TYPES)
 
         val VOID = CppPrimitiveTypeRef("void")
         val BOOL = CppPrimitiveTypeRef("bool")

@@ -21,6 +21,10 @@ package com.here.genium.model.cpp
 
 import java.util.stream.Stream
 
-class CppEnumItem(name: String, fullyQualifiedName: String, val value: CppValue?) : CppElementWithComment(name, fullyQualifiedName) {
+class CppEnumItem(
+    name: String,
+    fullyQualifiedName: String,
+    val value: CppValue?
+) : CppElementWithComment(name, fullyQualifiedName) {
     override fun stream() = Stream.of(value)
 }
