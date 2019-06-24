@@ -11,7 +11,6 @@ extern "C" {
 #include "cbridge/include/smoke/cbridge_MapsInstance.h"
 #include <stdbool.h>
 #include <stdint.h>
-#include <stdbool.h>
 _GENIUM_C_EXPORT _baseRef smoke_Maps_SomeStruct_create_handle(_baseRef value);
 _GENIUM_C_EXPORT void smoke_Maps_SomeStruct_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_Maps_SomeStruct_create_optional_handle(_baseRef value);

@@ -11,7 +11,6 @@ extern "C" {
 #include "cbridge/include/StringHandle.h"
 #include <stdbool.h>
 #include <stdint.h>
-#include <stdbool.h>
 typedef uint32_t smoke_Arrays_SomeEnum;
 typedef uint32_t smoke_Arrays_ExternalEnum;
 _GENIUM_C_EXPORT _baseRef smoke_Arrays_BasicStruct_create_handle(double value);
