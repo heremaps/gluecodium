@@ -6,6 +6,9 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public class barInterface extends NativeBase {
+    public barInterface(final String makeParameter) {
+        this(make(makeParameter));
+    }
     /**
      * For internal use only.
      * @exclude
@@ -20,7 +23,8 @@ public class barInterface extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     @NonNull
-    public native barStruct basicMethod(final String BarParameter);
+    public native barStruct BarMethod(final String BarParameter);
+    private static native long make(final String makeParameter);
     public native long GET_BAR_ATTRIBUTE();
     public native void SET_BAR_ATTRIBUTE(final long value);
 }

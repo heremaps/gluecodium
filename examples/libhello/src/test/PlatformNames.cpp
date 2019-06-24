@@ -28,4 +28,10 @@ fooInterface::FooMethod( const std::string& FooParameter )
     return {FooParameter};
 }
 
+std::shared_ptr< fooInterface >
+fooInterface::make( const std::string& makeParameter )
+{
+    return {};
+}
+
 }  // namespace test

@@ -12,6 +12,13 @@ internal func getRef(_ ref: bazInterface?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 public class bazInterface {
+    public init(makeParameter: String) {
+        let _result = bazInterface.make(makeParameter: makeParameter)
+        guard _result != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = _result
+    }
     public var BAZ_ATTRIBUTE: UInt32 {
         get {
             return moveFromCType(smoke_PlatformNamesInterface_basicAttribute_get(self.c_instance))
@@ -34,6 +41,10 @@ public class bazInterface {
     public func BazMethod(BazParameter: String) -> bazStruct {
         let c_BazParameter = moveToCType(BazParameter)
         return moveFromCType(smoke_PlatformNamesInterface_basicMethod(self.c_instance, c_BazParameter.ref))
+    }
+    private static func make(makeParameter: String) -> _baseRef {
+        let c_makeParameter = moveToCType(makeParameter)
+        return moveFromCType(smoke_PlatformNamesInterface_create(c_makeParameter.ref))
     }
 }
 extension bazInterface: NativeBase {

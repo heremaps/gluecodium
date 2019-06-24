@@ -60,6 +60,6 @@ open class NameRules(val ruleSet: NameRuleSet) {
     open fun getSetterName(limeProperty: LimeProperty) =
         ruleSet.getSetterName(limeProperty.name)
 
-    fun getMethodName(limeMethod: LimeMethod, suffix: String?) =
+    open fun getMethodName(limeMethod: LimeMethod, suffix: String?) =
         ruleSet.getMethodName(limeMethod.name, suffix)
 }

@@ -32,5 +32,9 @@ interface PlatformNamesInterface {
         out { PlatformNames.BasicStruct result }
     }
 
+    method create {
+        in { String basicParameter }
+    }
+
     attribute UInt32 basicAttribute
 }

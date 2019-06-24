@@ -8,7 +8,9 @@
 extern "C" {
 #endif
 JNIEXPORT jobject JNICALL
-Java_com_example_smoke_barInterface_basicMethod(JNIEnv* _jenv, jobject _jinstance, jstring jBarParameter);
+Java_com_example_smoke_barInterface_BarMethod(JNIEnv* _jenv, jobject _jinstance, jstring jBarParameter);
+JNIEXPORT jlong JNICALL
+Java_com_example_smoke_barInterface_make(JNIEnv* _jenv, jobject _jinstance, jstring jmakeParameter);
 JNIEXPORT jlong JNICALL
 Java_com_example_smoke_barInterface_GET_1BAR_1ATTRIBUTE(JNIEnv* _jenv, jobject _jinstance);
 JNIEXPORT void JNICALL

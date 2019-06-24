@@ -78,6 +78,19 @@ define Names for interface test.PlatformNamesInterface
         }
     }
 
+    method create {
+        CppName = "make"
+        JavaName = "make"
+        SwiftName = "make"
+        in {
+            basicParameter {
+                CppName = "makeParameter"
+                JavaName = "makeParameter"
+                SwiftName = "makeParameter"
+            }
+        }
+    }
+
     attribute basicAttribute {
         CppGetterName = "GET_FOO_ATTRIBUTE"
         CppSetterName = "SET_FOO_ATTRIBUTE"
@@ -90,4 +103,6 @@ define Names for interface test.PlatformNamesInterface
 define GeniumExtensions for interface test.PlatformNamesInterface
 {
     method basicMethod { Static = true }
+
+    method create { Constructor = true }
 }

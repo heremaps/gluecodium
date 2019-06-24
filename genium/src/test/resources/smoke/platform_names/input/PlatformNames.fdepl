@@ -78,6 +78,19 @@ define Names for interface smoke.PlatformNamesInterface
         }
     }
 
+    method create {
+        CppName = "make"
+        JavaName = "make"
+        SwiftName = "make"
+        in {
+            basicParameter {
+                CppName = "makeParameter"
+                JavaName = "makeParameter"
+                SwiftName = "makeParameter"
+            }
+        }
+    }
+
     attribute basicAttribute {
         CppGetterName = "GET_FOO_ATTRIBUTE"
         CppSetterName = "SET_FOO_ATTRIBUTE"
@@ -85,4 +98,9 @@ define Names for interface smoke.PlatformNamesInterface
         JavaSetterName = "SET_BAR_ATTRIBUTE"
         SwiftName = "BAZ_ATTRIBUTE"
     }
+}
+
+define GeniumExtensions for interface smoke.PlatformNamesInterface
+{
+    method create { Constructor = true }
 }

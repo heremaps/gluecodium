@@ -25,6 +25,7 @@ import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeProperty
 
@@ -37,6 +38,9 @@ class JavaNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
 
     override fun getSetterName(limeProperty: LimeProperty) =
         getPlatformName(limeProperty.setter) ?: super.getSetterName(limeProperty)
+
+    override fun getMethodName(limeMethod: LimeMethod, suffix: String?) =
+        getPlatformName(limeMethod) ?: super.getMethodName(limeMethod, suffix)
 
     fun getImplementationClassName(limeContainer: LimeContainer) = getName(limeContainer) + "Impl"
 
