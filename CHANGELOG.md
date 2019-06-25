@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 4.7.0
+- Release date: 2019-06-26
 - Features:
   + Platform-specific names are now supported for most elements.
 
