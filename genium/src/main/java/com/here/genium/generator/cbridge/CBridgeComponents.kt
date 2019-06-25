@@ -17,148 +17,127 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cbridge;
+package com.here.genium.generator.cbridge
 
-import com.here.genium.model.cbridge.CArray;
-import com.here.genium.model.cbridge.CEnum;
-import com.here.genium.model.cbridge.CField;
-import com.here.genium.model.cbridge.CFunction;
-import com.here.genium.model.cbridge.CInterface;
-import com.here.genium.model.cbridge.CMap;
-import com.here.genium.model.cbridge.CParameter;
-import com.here.genium.model.cbridge.CSet;
-import com.here.genium.model.cbridge.CStruct;
-import com.here.genium.model.cbridge.CType;
-import com.here.genium.model.common.Include;
-import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.here.genium.model.cbridge.CArray
+import com.here.genium.model.cbridge.CFunction
+import com.here.genium.model.cbridge.CInterface
+import com.here.genium.model.cbridge.CType
+import com.here.genium.model.common.Include
+import java.nio.file.Paths
 
-public final class CBridgeComponents {
+object CBridgeComponents {
+    val PROXY_CACHE_FILENAME = Paths.get(
+        CBridgeNameRules.CBRIDGE_INTERNAL, CBridgeNameRules.INCLUDE_DIR, "CachedProxyBase.h"
+    ).toString()
 
-  public static final String PROXY_CACHE_FILENAME =
-      Paths.get(
-              CBridgeNameRules.CBRIDGE_INTERNAL, CBridgeNameRules.INCLUDE_DIR, "CachedProxyBase.h")
-          .toString();
+    fun collectImplementationIncludes(cInterface: CInterface): List<Include> {
+        val includes = mutableListOf<Include>()
 
-  @SuppressWarnings("OperatorWrap")
-  public static Collection<Include> collectImplementationIncludes(CInterface cInterface) {
+        val functions = mutableListOf<CFunction>()
+        functions.addAll(cInterface.functions)
+        functions.addAll(cInterface.inheritedFunctions)
+        for (function in functions) {
+            includes.addAll(collectFunctionBodyIncludes(function))
+        }
+        for (struct in cInterface.structs) {
+            includes.addAll(struct.mappedType.includes)
+            for (field in struct.fields) {
+                includes.addAll(field.type.includes)
+            }
+            for (function in struct.methods) {
+                includes.addAll(collectFunctionBodyIncludes(function))
+            }
+        }
+        if (cInterface.selfType != null) {
+            includes.addAll(cInterface.selfType.includes)
+        }
+        for (map in cInterface.maps) {
+            includes.add(map.include)
+        }
+        for (set in cInterface.sets) {
+            includes.add(set.include)
+        }
+        for (enumeration in cInterface.enums) {
+            includes.addAll(enumeration.mappedType.includes)
+        }
 
-    Collection<Include> includes = new LinkedList<>();
-
-    List<CFunction> functions = new LinkedList<>();
-    functions.addAll(cInterface.getFunctions());
-    functions.addAll(cInterface.getInheritedFunctions());
-    for (CFunction function : functions) {
-      includes.addAll(collectFunctionBodyIncludes(function));
-    }
-    for (CStruct struct : cInterface.getStructs()) {
-      includes.addAll(struct.getMappedType().getIncludes());
-      for (CField field : struct.getFields()) {
-        includes.addAll(field.getType().getIncludes());
-      }
-      for (CFunction function : struct.getMethods()) {
-        includes.addAll(collectFunctionBodyIncludes(function));
-      }
-    }
-    if (cInterface.getSelfType() != null) {
-      includes.addAll(cInterface.getSelfType().getIncludes());
-    }
-    for (CMap map : cInterface.getMaps()) {
-      includes.add(map.include);
-    }
-    for (CSet set : cInterface.getSets()) {
-      includes.add(set.getInclude());
-    }
-    for (final CEnum enumeration : cInterface.getEnums()) {
-      includes.addAll(enumeration.mappedType.getIncludes());
+        return includes
     }
 
-    return includes;
-  }
-
-  public static Collection<Include> collectPrivateHeaderIncludes(CInterface cInterface) {
-    Collection<Include> includes = new LinkedList<>();
-    for (CStruct struct : cInterface.getStructs()) {
-      includes.addAll(struct.getMappedType().getIncludes());
-    }
-    if (cInterface.getSelfType() != null) {
-      includes.addAll(cInterface.getSelfType().getIncludes());
-    }
-    return includes;
-  }
-
-  public static Collection<Include> collectHeaderIncludes(CInterface cInterface) {
-
-    Collection<Include> includes = new LinkedList<>();
-
-    for (CFunction function : cInterface.getFunctions()) {
-      includes.addAll(collectFunctionSignatureIncludes(function));
-    }
-    for (CStruct struct : cInterface.getStructs()) {
-      for (CField field : struct.getFields()) {
-        includes.addAll(field.getType().getFunctionReturnType().includes);
-        includes.addAll(field.getType().getCType().includes);
-      }
-      for (CFunction function : struct.getMethods()) {
-        includes.addAll(collectFunctionSignatureIncludes(function));
-      }
-    }
-    for (CEnum enumType : cInterface.getEnums()) {
-      includes.addAll(enumType.includes);
-    }
-    for (final CMap map : cInterface.getMaps()) {
-      includes.addAll(map.keyType.getFunctionReturnType().includes);
-      includes.addAll(map.valueType.getFunctionReturnType().includes);
-    }
-    for (final CSet set : cInterface.getSets()) {
-      includes.addAll(set.getElementType().getFunctionReturnType().includes);
-    }
-    if (!cInterface.getMaps().isEmpty() || cInterface.getHasEquatableType()) {
-      includes.add(CType.BOOL_INCLUDE);
+    fun collectPrivateHeaderIncludes(cInterface: CInterface): List<Include> {
+        val includes = mutableListOf<Include>()
+        for (struct in cInterface.structs) {
+            includes.addAll(struct.mappedType.includes)
+        }
+        if (cInterface.selfType != null) {
+            includes.addAll(cInterface.selfType.includes)
+        }
+        return includes
     }
 
-    return includes;
-  }
+    fun collectHeaderIncludes(cInterface: CInterface): List<Include> {
+        val includes = mutableListOf<Include>()
 
-  public static Collection<Include> collectImplementationIncludes(final Collection<CArray> arrays) {
-    return arrays.stream().flatMap(array -> array.includes().stream()).collect(Collectors.toList());
-  }
+        for (function in cInterface.functions) {
+            includes.addAll(collectFunctionSignatureIncludes(function))
+        }
+        for (struct in cInterface.structs) {
+            for (field in struct.fields) {
+                includes.addAll(field.type.functionReturnType.includes)
+                includes.addAll(field.type.cType.includes)
+            }
+            for (function in struct.methods) {
+                includes.addAll(collectFunctionSignatureIncludes(function))
+            }
+        }
+        for (enumType in cInterface.enums) {
+            includes.addAll(enumType.includes)
+        }
+        for (map in cInterface.maps) {
+            includes.addAll(map.keyType.functionReturnType.includes)
+            includes.addAll(map.valueType.functionReturnType.includes)
+        }
+        for (set in cInterface.sets) {
+            includes.addAll(set.elementType.functionReturnType.includes)
+        }
+        if (cInterface.maps.isNotEmpty() || cInterface.hasEquatableType) {
+            includes.add(CType.BOOL_INCLUDE)
+        }
 
-  public static Collection<Include> collectHeaderIncludes(final Collection<CArray> arrays) {
-    return arrays
-        .stream()
-        .flatMap(array -> array.returnTypeIncludes().stream())
-        .collect(Collectors.toList());
-  }
+        return includes
+    }
 
-  private static Collection<Include> collectFunctionSignatureIncludes(CFunction function) {
-    Collection<Include> includes = new LinkedList<>();
-    for (CParameter parameter : function.getParameters()) {
-      includes.addAll(parameter.getSignatureIncludes());
-    }
-    includes.addAll(function.getReturnType().getFunctionReturnType().includes);
-    if (function.getError() != null) {
-      includes.addAll(function.getError().getFunctionReturnType().includes);
-    }
-    return includes;
-  }
+    fun collectImplementationIncludes(arrays: Collection<CArray>) = arrays.flatMap { it.includes() }
 
-  private static Collection<Include> collectFunctionBodyIncludes(CFunction function) {
-    Collection<Include> includes = new LinkedList<>();
-    for (CParameter parameter : function.getParameters()) {
-      includes.addAll(parameter.mappedType.getIncludes());
+    fun collectHeaderIncludes(arrays: Collection<CArray>) =
+        arrays.flatMap { it.returnTypeIncludes() }
+
+    private fun collectFunctionSignatureIncludes(function: CFunction): List<Include> {
+        val includes = mutableListOf<Include>()
+        for (parameter in function.parameters) {
+            includes.addAll(parameter.signatureIncludes)
+        }
+        includes.addAll(function.returnType.functionReturnType.includes)
+        if (function.error != null) {
+            includes.addAll(function.error.functionReturnType.includes)
+        }
+        return includes
     }
-    includes.addAll(function.getReturnType().getIncludes());
-    includes.addAll(function.getDelegateCallIncludes());
-    if (function.getSelfParameter() != null) {
-      includes.addAll(function.getSelfParameter().mappedType.getIncludes());
+
+    private fun collectFunctionBodyIncludes(function: CFunction): Collection<Include> {
+        val includes = mutableListOf<Include>()
+        for (parameter in function.parameters) {
+            includes.addAll(parameter.mappedType.includes)
+        }
+        includes.addAll(function.returnType.includes)
+        includes.addAll(function.delegateCallIncludes)
+        if (function.selfParameter != null) {
+            includes.addAll(function.selfParameter.mappedType.includes)
+        }
+        if (function.error != null) {
+            includes.addAll(function.error.includes)
+        }
+        return includes
     }
-    if (function.getError() != null) {
-      includes.addAll(function.getError().getIncludes());
-    }
-    return includes;
-  }
 }

@@ -54,7 +54,8 @@ public final class CArrayGenerator {
 
     Collection<CArray> arrays = arrayCollector.values();
 
-    Set<Include> headerIncludes = new TreeSet<>(CBridgeComponents.collectHeaderIncludes(arrays));
+    Set<Include> headerIncludes =
+        new TreeSet<>(CBridgeComponents.INSTANCE.collectHeaderIncludes(arrays));
     headerIncludes.add(FIXED_WIDTH_INTEGERS_INCLUDE);
 
     Map<String, Object> headerData = new HashMap<>();
@@ -67,7 +68,7 @@ public final class CArrayGenerator {
             CBRIDGE_ARRAY_HEADER);
 
     Set<Include> implementationIncludes =
-        new TreeSet<>(CBridgeComponents.collectImplementationIncludes(arrays));
+        new TreeSet<>(CBridgeComponents.INSTANCE.collectImplementationIncludes(arrays));
     implementationIncludes.add(Include.Companion.createInternalInclude(CBRIDGE_ARRAY_HEADER));
     CppLibraryIncludes.filterIncludes(implementationIncludes, internalNamespace);
 
