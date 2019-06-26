@@ -78,13 +78,13 @@ virtual ::smoke::DeprecationComments::Usefulness some_method_with_all_comments( 
 /**
  * Gets some very useful attribute.
  * \deprecated Unfortunately, this attribute is deprecated.
- * Use [comments.SomeEnum.SomeAttribute] instead.
+ * Use ::smoke::Comments::is_some_attribute instead.
  */
 virtual ::smoke::DeprecationComments::Usefulness is_some_attribute(  ) const = 0;
 /**
  * Sets some very useful attribute.
  * \deprecated Unfortunately, this attribute is deprecated.
- * Use [comments.SomeEnum.SomeAttribute] instead.
+ * Use [comments.SomeAttribute] instead.
  */
 virtual void set_some_attribute( const ::smoke::DeprecationComments::Usefulness value ) = 0;
 };

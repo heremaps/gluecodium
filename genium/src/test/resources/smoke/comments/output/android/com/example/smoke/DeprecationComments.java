@@ -55,13 +55,13 @@ public interface DeprecationComments {
     /**
      * <p>Gets some very useful attribute.</p>
      * @deprecated <p>Unfortunately, this attribute is deprecated.
-     * Use [comments.SomeEnum.SomeAttribute] instead.</p>
+     * Use {@link com.example.smoke.Comments#isSomeAttribute} instead.</p>
      */
     boolean isSomeAttribute();
     /**
      * Sets some very useful attribute.
      * @deprecated Unfortunately, this attribute is deprecated.
-     * Use [comments.SomeEnum.SomeAttribute] instead.
+     * Use [comments.SomeAttribute] instead.
      */
     void setSomeAttribute(final boolean value);
 }

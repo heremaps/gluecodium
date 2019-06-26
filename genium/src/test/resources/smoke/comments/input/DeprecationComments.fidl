@@ -83,7 +83,7 @@ interface DeprecationComments {
 
     <** @description: Some very useful attribute.
         @deprecated: Unfortunately, this attribute is deprecated.
-        Use [comments.SomeEnum.SomeAttribute] instead.
+        Use [comments.SomeAttribute] instead.
     **>
     attribute Usefulness SomeAttribute
 }
