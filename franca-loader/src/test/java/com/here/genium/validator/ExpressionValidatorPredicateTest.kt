@@ -23,6 +23,7 @@ import com.here.genium.franca.FrancaDeploymentModel
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import org.franca.core.franca.FCompoundInitializer
 import org.franca.core.franca.FConstant
 import org.franca.core.franca.FConstantDef
 import org.franca.core.franca.FEnumerationType
@@ -56,13 +57,15 @@ class ExpressionValidatorPredicateTest {
     @MockK
     private lateinit var francaConstantExpression: FConstant
     @MockK
-    private lateinit var francaCompoundExpression: FOperation
+    private lateinit var francaOperation: FOperation
     @MockK
     private lateinit var francaElementRef: FQualifiedElementRef
     @MockK
     private lateinit var francaUnaryOperation: FUnaryOperation
     @MockK
     private lateinit var francaEvaluableElement: FEvaluableElement
+    @MockK
+    private lateinit var francaCompoundInitializer: FCompoundInitializer
 
     @MockK
     private lateinit var deploymentModel: FrancaDeploymentModel
@@ -93,15 +96,15 @@ class ExpressionValidatorPredicateTest {
 
     @Test
     fun validateWithNonConstantExpressionInEnumerator() {
-        every { francaCompoundExpression.eContainer() } returns francaEnumerator
+        every { francaOperation.eContainer() } returns francaEnumerator
 
-        assertNotNull(validatorPredicate.validate(deploymentModel, francaCompoundExpression))
+        assertNotNull(validatorPredicate.validate(deploymentModel, francaOperation))
     }
 
     @Test
     fun validateWithNonConstantExpressionInConstant() {
-        every { francaCompoundExpression.eContainer() } returns francaConstantDef
-        assertNotNull(validatorPredicate.validate(deploymentModel, francaCompoundExpression))
+        every { francaOperation.eContainer() } returns francaConstantDef
+        assertNotNull(validatorPredicate.validate(deploymentModel, francaOperation))
     }
 
     @Test
@@ -121,5 +124,12 @@ class ExpressionValidatorPredicateTest {
     @Test
     fun validateWithUnaryOperationExpression() {
         assertNull(validatorPredicate.validate(deploymentModel, francaUnaryOperation))
+    }
+
+    @Test
+    fun validateWithCompoundInitializer() {
+        val result = validatorPredicate.validate(deploymentModel, francaCompoundInitializer)
+
+        assertNull(result)
     }
 }

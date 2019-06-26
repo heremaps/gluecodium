@@ -19,11 +19,11 @@
 
 package com.here.genium.loader
 
-import com.here.genium.franca.FrancaTypeHelper
 import com.here.genium.common.ModelBuilderContextStack
-import com.here.genium.franca.SpecialTypeRules
 import com.here.genium.franca.CommentHelper
 import com.here.genium.franca.FrancaDeploymentModel
+import com.here.genium.franca.FrancaTypeHelper
+import com.here.genium.franca.SpecialTypeRules
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributes
@@ -38,6 +38,7 @@ import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeEnumeratorRef
 import com.here.genium.model.lime.LimeField
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeNamedElement
@@ -45,10 +46,9 @@ import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
+import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
-import com.here.genium.model.lime.LimeLazyTypeRef
-import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
@@ -58,6 +58,7 @@ import org.franca.core.franca.FArgument
 import org.franca.core.franca.FArrayType
 import org.franca.core.franca.FAttribute
 import org.franca.core.franca.FBasicTypeId
+import org.franca.core.franca.FCompoundInitializer
 import org.franca.core.franca.FConstant
 import org.franca.core.franca.FConstantDef
 import org.franca.core.franca.FEnumerationType
@@ -217,14 +218,18 @@ class LimeModelBuilder(
     }
 
     override fun finishBuilding(francaTypeRef: FTypeRef) {
+        val limeTypeRef = mapType(francaTypeRef)
+
+        storeResultAndCloseContext(limeTypeRef)
+    }
+
+    private fun mapType(francaTypeRef: FTypeRef): LimeLazyTypeRef {
         val typeKey = when {
             SpecialTypeRules.isInstanceId(francaTypeRef) ->
                 FrancaTypeHelper.getFullName(francaTypeRef.derived.eContainer() as FTypeCollection)
             else -> LimeReferenceResolver.getTypeKey(francaTypeRef)
         }
-        val limeTypeRef = LimeLazyTypeRef(typeKey, referenceResolver.referenceMap)
-
-        storeResultAndCloseContext(limeTypeRef)
+        return LimeLazyTypeRef(typeKey, referenceResolver.referenceMap)
     }
 
     override fun finishBuilding(francaEnum: FEnumerationType) {
@@ -266,23 +271,37 @@ class LimeModelBuilder(
     }
 
     override fun finishBuilding(francaExpression: FInitializerExpression) {
-        val francaType = parentContext?.previousResults
+        val limeType = parentContext?.previousResults
             ?.filterIsInstance<LimeTypeRef>()
             ?.firstOrNull() ?: LimeBasicTypeRef(TypeId.INT32)
-        val limeValue = when (francaExpression) {
-            is FConstant, is FUnaryOperation -> {
-                val stringValue = StringValueMapper.map(francaExpression)
-                stringValue?.let { LimeValue.Literal(francaType, it) }
-            }
-            is FQualifiedElementRef -> {
-                val elementKey = FrancaTypeHelper.getFullName(francaExpression.element)
-                val valueRef = LimeEnumeratorRef(referenceResolver.referenceMap, elementKey)
-                LimeValue.Enumerator(francaType, valueRef)
-            }
-            else -> null
-        }
+        val limeValue = mapValue(limeType, francaExpression)
 
         storeResultAndCloseContext(limeValue)
+    }
+
+    private fun mapValue(
+        limeType: LimeTypeRef,
+        francaExpression: FInitializerExpression
+    ): LimeValue? = when (francaExpression) {
+        is FConstant, is FUnaryOperation -> {
+            val stringValue = StringValueMapper.map(francaExpression)
+            stringValue?.let { LimeValue.Literal(limeType, it) }
+        }
+        is FQualifiedElementRef -> {
+            val elementKey = FrancaTypeHelper.getFullName(francaExpression.element)
+            val valueRef = LimeEnumeratorRef(referenceResolver.referenceMap, elementKey)
+            LimeValue.Enumerator(limeType, valueRef)
+        }
+        is FCompoundInitializer -> {
+            val fieldNameToValueMap = francaExpression.elements.associateBy(
+                { it.element.name },
+                { mapValue(mapType(it.element.type), it.value) }
+            )
+            val francaStruct = francaExpression.elements.first().element.eContainer() as FStructType
+            val values = francaStruct.elements.mapNotNull { fieldNameToValueMap[it.name] }
+            LimeValue.InitializerList(limeType, values)
+        }
+        else -> null
     }
 
     override fun finishBuilding(francaConstant: FConstantDef) {

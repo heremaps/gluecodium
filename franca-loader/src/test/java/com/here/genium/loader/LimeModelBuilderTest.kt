@@ -39,6 +39,7 @@ import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
+import com.here.genium.test.ArrayEList
 import com.here.genium.test.AssertHelpers.assertAttributeEquals
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.AssertHelpers.assertHasAttribute
@@ -52,11 +53,13 @@ import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import org.franca.core.franca.FArrayType
 import org.franca.core.franca.FBasicTypeId
+import org.franca.core.franca.FCompoundInitializer
 import org.franca.core.franca.FConstant
 import org.franca.core.franca.FConstantDef
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FEnumerator
 import org.franca.core.franca.FField
+import org.franca.core.franca.FFieldInitializer
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMapType
 import org.franca.core.franca.FModel
@@ -90,7 +93,7 @@ class LimeModelBuilderTest {
     @MockK private lateinit var francaMap: FMapType
 
     @MockK private lateinit var deploymentModel: FrancaDeploymentModel
-    @MockK private lateinit var referenceResolver: LimeReferenceResolver
+    private val referenceResolver = LimeReferenceResolver()
     @MockK private lateinit var companionHelper: FrancaCompanionHelper
 
     private val limeTypeRef = LimeBasicTypeRef.DOUBLE
@@ -535,6 +538,47 @@ class LimeModelBuilderTest {
             "the.model.SomeTypeCollection.SomeConstant",
             (result as LimeValue.Enumerator).valueRef.elementFullName
         )
+    }
+
+    @Test
+    fun finishBuildingExpressionCompoundInitializer() {
+        every { francaField.type } returns francaTypeRef
+        val anotherFrancaField = mockk<FField>(relaxed = true)
+        every { anotherFrancaField.eContainer() } returns francaStruct
+        every { anotherFrancaField.name } returns "another field"
+        val anotherFrancaTypeRef = mockk<FTypeRef>()
+        every { anotherFrancaField.type } returns anotherFrancaTypeRef
+        every { francaStruct.elements } returns ArrayEList(listOf(francaField, anotherFrancaField))
+
+        val fieldInitializer1 = mockk<FFieldInitializer>(relaxed = true)
+        every { fieldInitializer1.element } returns francaField
+        every { fieldInitializer1.value } returns mockk<FConstant>()
+        val fieldInitializer2 = mockk<FFieldInitializer>(relaxed = true)
+        every { fieldInitializer2.element } returns anotherFrancaField
+        every { fieldInitializer2.value } returns mockk<FConstant>()
+        every { StringValueMapper.map(any()) }.returnsMany("foo", "bar", "baz")
+
+        every { SpecialTypeRules.isInstanceId(any<FTypeRef>()) } returns false
+        every { SpecialTypeRules.isDateType(any()) } returns false
+        every { francaTypeRef.derived } returns null
+        every { francaTypeRef.predefined } returns FBasicTypeId.BOOLEAN
+        every { anotherFrancaTypeRef.derived } returns null
+        every { anotherFrancaTypeRef.predefined } returns FBasicTypeId.DOUBLE
+
+        val francaCompoundInitializer = mockk<FCompoundInitializer>()
+        every {
+            francaCompoundInitializer.elements
+        } returns ArrayEList(listOf(fieldInitializer2, fieldInitializer1))
+        contextStack.injectParentResult(limeTypeRef)
+
+        modelBuilder.finishBuilding(francaCompoundInitializer)
+
+        val result = modelBuilder.getFinalResult(LimeValue::class.java)
+        assertEquals(limeTypeRef, result.typeRef)
+        val resultValues = (result as LimeValue.InitializerList).values
+        assertEquals(2, resultValues.size)
+        assertEquals("bar", (resultValues.first() as LimeValue.Literal).value)
+        assertEquals("foo", (resultValues.last() as LimeValue.Literal).value)
     }
 
     @Test

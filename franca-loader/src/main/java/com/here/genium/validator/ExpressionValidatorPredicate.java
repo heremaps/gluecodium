@@ -54,6 +54,7 @@ public final class ExpressionValidatorPredicate
   private boolean isSupportedExpression(final FInitializerExpression francaExpression) {
     return francaExpression instanceof FConstant
         || francaExpression instanceof FUnaryOperation
+        || francaExpression instanceof FCompoundInitializer
         || (francaExpression instanceof FQualifiedElementRef
             && ((FQualifiedElementRef) francaExpression).getElement() instanceof FEnumerator);
   }

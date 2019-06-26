@@ -33,6 +33,7 @@ import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FEnumerator
 import org.franca.core.franca.FExpression
 import org.franca.core.franca.FField
+import org.franca.core.franca.FInitializerExpression
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMapType
 import org.franca.core.franca.FMethod
@@ -69,6 +70,7 @@ class FrancaTreeWalkerTest {
     @MockK private lateinit var francaTypeDef: FTypeDef
     @MockK private lateinit var francaEnumerator: FEnumerator
     @MockK private lateinit var francaExpression: FExpression
+    @MockK private lateinit var francaInitializerExpression: FInitializerExpression
 
     private val methods = ArrayEList<FMethod>()
     private val arguments = ArrayEList<FArgument>()
@@ -527,10 +529,10 @@ class FrancaTreeWalkerTest {
 
     @Test
     fun walkWithExpressionInConstant() {
-        every { francaConstant.rhs } returns francaExpression
+        every { francaConstant.rhs } returns francaInitializerExpression
         treeWalker.walkTree(francaInterface)
 
-        verify { modelBuilder.startBuilding(francaExpression) }
-        verify { modelBuilder.finishBuilding(francaExpression) }
+        verify { modelBuilder.startBuilding(francaInitializerExpression) }
+        verify { modelBuilder.finishBuilding(francaInitializerExpression) }
     }
 }

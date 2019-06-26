@@ -27,8 +27,8 @@ import org.franca.core.franca.FAttribute
 import org.franca.core.franca.FConstantDef
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FEnumerator
-import org.franca.core.franca.FExpression
 import org.franca.core.franca.FField
+import org.franca.core.franca.FInitializerExpression
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMapType
 import org.franca.core.franca.FMethod
@@ -209,7 +209,7 @@ class FrancaTreeWalker(
 
             // Leaf nodes
             initTreeNode(
-                FExpression::class.java,
+                FInitializerExpression::class.java,
                 ModelBuilder::finishBuilding,
                 Companion::noChildNodes
             )
