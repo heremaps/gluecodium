@@ -18,6 +18,12 @@ fully reflected in the generated code. Some transformations are applied to these
 comments. Most transformations just add documentation comments markup appropriate for the target
 language, as described below.
 
+### Deprecation messages
+Comments included between `<** @deprecated:` and `**>` markup (can be combined with `@description`
+in a single `<** ... **>` block) are deprecation messages and are fully reflected as such in the
+generated code. Same transformations are applied to these messages as to documentation comments (see
+below).
+
 C++ documentation comments
 --------------------------
 
@@ -42,6 +48,9 @@ Method comment is collated from, in that order:
 * Method comment for attribute getter method is prefixed with `Gets `.
 * Method comment for attribute setter method is prefixed with `Sets `.
 
+### Deprecation message
+Deprecation message is added with `\deprecated` Doxygen tag.
+
 Java documentation comments
 ---------------------------
 
@@ -65,6 +74,10 @@ Method comment is collated from, in that order:
 * Method comment for attribute getter method is prefixed with `Gets `.
 * Method comment for attribute setter method is prefixed with `Sets `.
 
+### Deprecation message
+* Deprecation message is added with `@deprecated` JavaDoc tag.
+* `@Deprecated` annotation is also added to the elements with a deprecation message.
+
 Swift documentation comments
 ----------------------------
 
@@ -81,3 +94,6 @@ Method comment is collated from, in that order:
   the name of the argument.
 * Documentation comment for the method return value (if present), prefixed with `- Returns`.
 * Name of the error type (if present), prefixed with `- Throws` tag.
+
+### Deprecation message
+Deprecation message is added as `@available(*, deprecated, message)` attribute.

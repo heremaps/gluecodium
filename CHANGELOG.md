@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Features:
+  + Deprecation messages are now supported for most elements.
+
 ## 4.7.1
 - Release date: 2019-07-01
 - Bug fixes:
