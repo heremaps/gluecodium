@@ -21,13 +21,14 @@ package com.here.genium.model.swift
 
 import com.here.genium.generator.cbridge.CBridgeNameRules
 import com.here.genium.generator.common.NameHelper
+import com.here.genium.model.common.Comments
 import java.util.function.Function
 import java.util.stream.Stream
 
 class SwiftMethod(
     name: String,
     visibility: SwiftVisibility? = null,
-    comment: String? = null,
+    comment: Comments = Comments(),
     val returnType: SwiftType = SwiftType.VOID,
     @Suppress("unused") val returnComment: String? = null,
     val cNestedSpecifier: String? = null,

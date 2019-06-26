@@ -18,6 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if this.comment}}
-{{prefix this.comment '/// '}}
-{{/if}}
+{{#unless this.comment.isEmpty}}
+{{#if this.comment.documentation}}{{prefix this.comment.documentation '/// '}}{{/if}}{{#if comment.deprecated}}
+@available(*, deprecated, message: "{{comment.deprecated}}"){{/if}}
+{{/unless}}

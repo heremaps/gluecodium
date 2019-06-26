@@ -127,7 +127,7 @@ class SwiftModelBuilder(
                     limeContainer.attributes.have(LimeAttributeType.POINTER_EQUATABLE),
             isObjcInterface = isObjcInterface
         )
-        swiftClass.comment = limeContainer.comment
+        swiftClass.comment = createComments(limeContainer)
 
         val swiftFile = SwiftFile(nameRules.getImplementationFileName(limeContainer))
         addMembersAndParent(swiftFile, swiftClass)
@@ -149,7 +149,7 @@ class SwiftModelBuilder(
             functionTableName = CBridgeNameRules.getFunctionTableName(limeContainer),
             isObjcInterface = limeContainer.attributes.have(LimeAttributeType.LEGACY_COMPATIBLE)
         )
-        swiftClass.comment = limeContainer.comment
+        swiftClass.comment = createComments(limeContainer)
 
         val swiftFile = SwiftFile(nameRules.getImplementationFileName(limeContainer))
         addMembersAndParent(swiftFile, swiftClass)
@@ -202,18 +202,18 @@ class SwiftModelBuilder(
 
         val limeParent = limeReferenceMap[limeMethod.path.parent.toString()]
         val method = SwiftMethod(
-            nameRules.getName(limeMethod),
-            getVisibility(limeMethod),
-            limeMethod.comment,
-            returnType,
-            limeMethod.returnType.comment,
-            CBridgeNameRules.getNestedSpecifierString(limeMethod),
-            CBridgeNameRules.getShortMethodName(limeParent, limeMethod),
-            errorType,
-            limeMethod.isStatic,
-            isConstructor,
-            isConstructor && signatureResolver.hasSignatureClash(limeMethod),
-            getPreviousResults(SwiftParameter::class.java)
+            name = nameRules.getName(limeMethod),
+            visibility = getVisibility(limeMethod),
+            comment = createComments(limeMethod),
+            returnType = returnType,
+            returnComment = limeMethod.returnType.comment,
+            cNestedSpecifier = CBridgeNameRules.getNestedSpecifierString(limeMethod),
+            cShortName = CBridgeNameRules.getShortMethodName(limeParent, limeMethod),
+            error = errorType,
+            isStatic = limeMethod.isStatic,
+            isConstructor = isConstructor,
+            isOverriding = isConstructor && signatureResolver.hasSignatureClash(limeMethod),
+            parameters = getPreviousResults(SwiftParameter::class.java)
         )
 
         storeNamedResult(limeMethod, method)
@@ -229,7 +229,7 @@ class SwiftModelBuilder(
             swiftType,
             limeParameter.attributes.get(LimeAttributeType.SWIFT_ARGUMENT_LABEL, String::class.java)
         )
-        swiftParameter.comment = limeParameter.comment
+        swiftParameter.comment = createComments(limeParameter)
 
         storeResult(swiftParameter)
         closeContext()
@@ -246,7 +246,7 @@ class SwiftModelBuilder(
             constants = getPreviousResults(SwiftConstant::class.java),
             methods = getPreviousResults(SwiftMethod::class.java)
         )
-        swiftStruct.comment = limeStruct.comment
+        swiftStruct.comment = createComments(limeStruct)
 
         storeNamedResult(limeStruct, swiftStruct)
         closeContext()
@@ -265,7 +265,7 @@ class SwiftModelBuilder(
             swiftType,
             swiftValue
         )
-        swiftField.comment = limeField.comment
+        swiftField.comment = createComments(limeField)
 
         storeNamedResult(limeField, swiftField)
         closeContext()
@@ -277,7 +277,7 @@ class SwiftModelBuilder(
             getVisibility(limeEnumeration),
             getPreviousResults(SwiftEnumItem::class.java)
         )
-        swiftEnum.comment = limeEnumeration.comment
+        swiftEnum.comment = createComments(limeEnumeration)
 
         storeNamedResult(limeEnumeration, swiftEnum)
         closeContext()
@@ -288,7 +288,7 @@ class SwiftModelBuilder(
             nameRules.getName(limeEnumerator),
             getPreviousResultOrNull(SwiftValue::class.java)
         )
-        swiftEnumItem.comment = limeEnumerator.comment
+        swiftEnumItem.comment = createComments(limeEnumerator)
 
         storeNamedResult(limeEnumerator, swiftEnumItem)
         closeContext()
@@ -329,7 +329,7 @@ class SwiftModelBuilder(
         }
 
         val swiftTypeDef = SwiftTypeDef(typeDefName, getVisibility(limeTypeDef), swiftActualType)
-        swiftTypeDef.comment = limeTypeDef.comment
+        swiftTypeDef.comment = createComments(limeTypeDef)
 
         storeNamedResult(limeTypeDef, swiftTypeDef)
         closeContext()
@@ -342,7 +342,7 @@ class SwiftModelBuilder(
             getPreviousResult(SwiftType::class.java),
             getPreviousResult(SwiftValue::class.java)
         )
-        swiftConstant.comment = limeConstant.comment
+        swiftConstant.comment = createComments(limeConstant)
 
         storeNamedResult(limeConstant, swiftConstant)
         closeContext()
@@ -384,7 +384,7 @@ class SwiftModelBuilder(
             swiftSetter,
             limeProperty.isStatic
         )
-        property.comment = limeProperty.comment
+        property.comment = createComments(limeProperty)
 
         storeNamedResult(limeProperty, property)
         closeContext()

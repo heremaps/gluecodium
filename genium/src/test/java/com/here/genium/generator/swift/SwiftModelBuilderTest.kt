@@ -89,6 +89,8 @@ class SwiftModelBuilderTest {
 
     private val fooPath = LimePath(listOf("mo", "del"), listOf("foo"))
     private val limeStruct = LimeStruct(fooPath)
+    private val deprecatedAttributes =
+        LimeAttributes.Builder().addAttribute(LimeAttributeType.DEPRECATED, "Bar").build()
 
     private val contextStack = MockContextStack<SwiftModelElement>()
 
@@ -117,14 +119,20 @@ class SwiftModelBuilderTest {
         val limeType = object : LimeType(EMPTY_PATH) {}
         val limeReturnType =
             LimeReturnType(LimeDirectTypeRef(limeType), "returnComment")
-        val limeElement = LimeMethod(fooPath, comment = "some comment", returnType = limeReturnType)
+        val limeElement = LimeMethod(
+            fooPath,
+            comment = "some comment",
+            attributes = deprecatedAttributes,
+            returnType = limeReturnType
+        )
         every { typeMapper.mapType(limeType) } returns swiftType
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(SwiftMethod::class.java)
         assertEquals("foo", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
         assertEquals(swiftType, result.returnType)
         assertEquals("returnComment", result.returnComment)
         assertEquals("mo_del_Foo", result.cNestedSpecifier)
@@ -243,7 +251,7 @@ class SwiftModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(SwiftParameter::class.java)
         assertEquals("foo", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
         assertEquals(swiftType, result.type)
     }
 
@@ -277,13 +285,15 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingStruct() {
-        val limeElement = LimeStruct(fooPath, comment = "some comment")
+        val limeElement =
+            LimeStruct(fooPath, comment = "some comment", attributes = deprecatedAttributes)
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(SwiftStruct::class.java)
         assertEquals("nonsense", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
     }
 
     @Test
@@ -361,15 +371,20 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingField() {
-        val limeElement =
-            LimeField(fooPath, comment = "some comment", typeRef = LimeBasicTypeRef.FLOAT)
+        val limeElement = LimeField(
+            fooPath,
+            comment = "some comment",
+            attributes = deprecatedAttributes,
+            typeRef = LimeBasicTypeRef.FLOAT
+        )
         contextStack.injectResult(swiftType)
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(SwiftField::class.java)
         assertEquals("foo", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
         assertEquals(swiftType, result.type)
     }
 
@@ -414,13 +429,15 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingEnumeration() {
-        val limeElement = LimeEnumeration(fooPath, comment = "some comment")
+        val limeElement =
+            LimeEnumeration(fooPath, comment = "some comment", attributes = deprecatedAttributes)
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(SwiftEnum::class.java)
         assertEquals("nonsense", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
     }
 
     @Test
@@ -447,13 +464,15 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingEnumerator() {
-        val limeElement = LimeEnumerator(fooPath, comment = "some comment")
+        val limeElement =
+            LimeEnumerator(fooPath, comment = "some comment", attributes = deprecatedAttributes)
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(SwiftEnumItem::class.java)
         assertEquals("foo", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
     }
 
     @Test
@@ -469,15 +488,20 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingTypeDef() {
-        val limeElement =
-            LimeTypeDef(fooPath, comment = "some comment", typeRef = LimeBasicTypeRef.FLOAT)
+        val limeElement = LimeTypeDef(
+            fooPath,
+            comment = "some comment",
+            attributes = deprecatedAttributes,
+            typeRef = LimeBasicTypeRef.FLOAT
+        )
         contextStack.injectResult(swiftType)
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(SwiftTypeDef::class.java)
         assertEquals("nonsense", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
         assertEquals(swiftType, result.type)
     }
 
@@ -534,6 +558,7 @@ class SwiftModelBuilderTest {
         val limeElement = LimeConstant(
             fooPath,
             comment = "some comment",
+            attributes = deprecatedAttributes,
             typeRef = LimeBasicTypeRef.FLOAT,
             value = LimeValue.Special.FLOAT_NAN
         )
@@ -544,7 +569,8 @@ class SwiftModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(SwiftConstant::class.java)
         assertEquals("foo", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
         assertEquals(swiftType, result.type)
         assertEquals(swiftValue, result.value)
     }
@@ -655,6 +681,7 @@ class SwiftModelBuilderTest {
             fooPath,
             typeRef = LimeBasicTypeRef.FLOAT,
             comment = "some comment",
+            attributes = deprecatedAttributes,
             getter = LimeMethod(EMPTY_PATH),
             setter = LimeMethod(EMPTY_PATH)
         )
@@ -664,7 +691,8 @@ class SwiftModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(SwiftProperty::class.java)
         assertEquals("foo", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
         assertEquals(swiftType, result.getter.returnType)
         assertEquals("mo_del_Foo", result.getter.cNestedSpecifier)
         assertEquals("foo_get", result.getter.cShortName)

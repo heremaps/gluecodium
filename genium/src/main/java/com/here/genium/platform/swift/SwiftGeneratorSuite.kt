@@ -31,10 +31,12 @@ import com.here.genium.generator.swift.SwiftGenerator
 import com.here.genium.generator.swift.SwiftModel
 import com.here.genium.generator.swift.SwiftNameRules
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
+import com.here.genium.model.common.Comments
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftModelElement
 import com.here.genium.platform.common.GeneratorSuite
+import kotlin.streams.toList
 
 /**
  * Combines [SwiftGenerator] and [CBridgeGenerator] to generate Swift bindings on top of
@@ -83,20 +85,18 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             swiftModel.referenceMap.mapValues { elementToSwiftName[it.value] ?: "" }
         val elementToLimeName = swiftModel.referenceMap.entries.associate { it.value to it.key }
 
-        swiftModel.containers.forEach { topLevelElement ->
-            topLevelElement.streamRecursive().forEach { element ->
-                if (element is SwiftModelElement) {
-                    val fullLimeName = elementToLimeName[element]
-                    if (fullLimeName != null) {
-                        element.comment = commentsProcessor.process(
-                            fullLimeName,
-                            element.comment,
-                            limeToSwiftName
-                        )
-                    }
+        swiftModel.containers.flatMap { it.streamRecursive().toList() }
+            .filterIsInstance<SwiftModelElement>()
+            .forEach { element ->
+                val limeName = elementToLimeName[element] ?: return@forEach
+                val documentation = element.comment.documentation?.let {
+                    commentsProcessor.process(limeName, it, limeToSwiftName)
                 }
+                val deprecationMessage = element.comment.deprecated?.let {
+                    commentsProcessor.process(limeName, it, limeToSwiftName)
+                }
+                element.comment = Comments(documentation, deprecationMessage)
             }
-        }
 
         val result = swiftModel.containers.filter { !it.isEmpty }.map {
             GeneratedFile(

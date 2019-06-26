@@ -19,6 +19,7 @@
 
 package com.here.genium.model.swift;
 
+import com.here.genium.model.common.Comments;
 import com.here.genium.model.common.Streamable;
 import java.util.List;
 import java.util.stream.Stream;
@@ -28,7 +29,7 @@ public abstract class SwiftModelElement extends Streamable<SwiftModelElement> {
 
   public final String name;
   public final SwiftVisibility visibility;
-  public String comment = "";
+  public Comments comment = new Comments();
 
   public SwiftModelElement(final String name) {
     this(name, null);

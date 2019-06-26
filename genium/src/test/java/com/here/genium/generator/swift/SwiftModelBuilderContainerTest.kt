@@ -67,6 +67,8 @@ class SwiftModelBuilderContainerTest {
     private val swiftMethod = SwiftMethod("")
     private val swiftProperty =
         SwiftProperty("", null, SwiftType.VOID, swiftMethod, swiftMethod, false)
+    private val deprecatedAttributes =
+        LimeAttributes.Builder().addAttribute(LimeAttributeType.DEPRECATED, "Bar").build()
 
     private val fooPath = LimePath(listOf("mo", "del"), listOf("foo"))
     private val contextStack = MockContextStack<SwiftModelElement>()
@@ -140,7 +142,12 @@ class SwiftModelBuilderContainerTest {
     @Test
     fun finishBuildingClass() {
         val limeElement =
-            LimeContainer(fooPath, type = ContainerType.CLASS, comment = "some comment")
+            LimeContainer(
+                fooPath,
+                type = ContainerType.CLASS,
+                comment = "some comment",
+                attributes = deprecatedAttributes
+            )
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -150,7 +157,8 @@ class SwiftModelBuilderContainerTest {
         assertEquals("Foo", resultClass.name)
         assertEquals("mo_del", resultClass.nameSpace)
         assertEquals("mo_del_Foo", resultClass.getcInstance())
-        assertEquals("some comment", resultClass.comment)
+        assertEquals("some comment", resultClass.comment.documentation)
+        assertEquals("Bar", resultClass.comment.deprecated)
     }
 
     @Test
@@ -236,8 +244,12 @@ class SwiftModelBuilderContainerTest {
 
     @Test
     fun finishBuildingInterface() {
-        val limeElement =
-            LimeContainer(fooPath, type = ContainerType.INTERFACE, comment = "some comment")
+        val limeElement = LimeContainer(
+            fooPath,
+            type = ContainerType.INTERFACE,
+            comment = "some comment",
+            attributes = deprecatedAttributes
+        )
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -247,7 +259,8 @@ class SwiftModelBuilderContainerTest {
         assertEquals("Foo", resultClass.name)
         assertEquals("mo_del", resultClass.nameSpace)
         assertEquals("mo_del_Foo", resultClass.getcInstance())
-        assertEquals("some comment", resultClass.comment)
+        assertEquals("some comment", resultClass.comment.documentation)
+        assertEquals("Bar", resultClass.comment.deprecated)
         assertEquals("mo_del_Foo_FunctionTable", resultClass.functionTableName)
     }
 
