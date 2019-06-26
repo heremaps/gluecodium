@@ -22,7 +22,10 @@ import "./Comments.fidl"
 
 define GeniumExtensions for interface smoke.CommentsInstantiable
 {
-    method create {
-        Constructor = true
-    }
+    method create { Constructor = true }
+}
+
+define GeniumExtensions for interface smoke.comments
+{
+    struct SomeStruct { nullableField { Nullable = true } }
 }

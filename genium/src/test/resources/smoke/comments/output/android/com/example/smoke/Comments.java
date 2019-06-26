@@ -4,6 +4,7 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.example.NativeBase;
 /**
  * <p>This is some very useful interface.</p>
@@ -45,8 +46,14 @@ public class Comments extends NativeBase {
          * <p>How useful this struct is</p>
          */
         public boolean someField;
-        public SomeStruct(boolean someField) {
+        /**
+         * <p>Can be <code>null</code></p>
+         */
+        @Nullable
+        public String nullableField;
+        public SomeStruct(boolean someField, String nullableField) {
             this.someField = someField;
+            this.nullableField = nullableField;
         }
     }
     /**

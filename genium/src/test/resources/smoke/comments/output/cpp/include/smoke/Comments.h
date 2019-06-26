@@ -8,6 +8,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
+#include "genium/Optional.h"
 #include "genium/Return.h"
 #include "smoke/CommentsInstantiable.h"
 #include <memory>
@@ -59,8 +60,12 @@ struct _GENIUM_CPP_EXPORT SomeStruct {
      * How useful this struct is
      */
     ::smoke::Comments::Usefulness some_field;
+    /**
+     * Can be `null`
+     */
+    ::genium::optional< ::std::string > nullable_field;
     SomeStruct( );
-    SomeStruct( const ::smoke::Comments::Usefulness some_field );
+    SomeStruct( const ::smoke::Comments::Usefulness some_field, const ::genium::optional< ::std::string >& nullable_field );
 };
 /**
  * This is some very useful constant.

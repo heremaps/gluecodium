@@ -62,11 +62,15 @@ public class Comments {
     public struct SomeStruct {
         /// How useful this struct is
         public var someField: Comments.Usefulness
-        public init(someField: Comments.Usefulness) {
+        /// Can be `nil`
+        public var nullableField: String?
+        public init(someField: Comments.Usefulness, nullableField: String? = nil) {
             self.someField = someField
+            self.nullableField = nullableField
         }
         internal init(cHandle: _baseRef) {
             someField = moveFromCType(smoke_Comments_SomeStruct_someField_get(cHandle))
+            nullableField = moveFromCType(smoke_Comments_SomeStruct_nullableField_get(cHandle))
         }
     }
     /// This is some very useful method that measures the usefulness of its input.
@@ -178,7 +182,8 @@ internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeStruct {
 }
 internal func copyToCType(_ swiftType: Comments.SomeStruct) -> RefHolder {
     let c_someField = moveToCType(swiftType.someField)
-    return RefHolder(smoke_Comments_SomeStruct_create_handle(c_someField.ref))
+    let c_nullableField = moveToCType(swiftType.nullableField)
+    return RefHolder(smoke_Comments_SomeStruct_create_handle(c_someField.ref, c_nullableField.ref))
 }
 internal func moveToCType(_ swiftType: Comments.SomeStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Comments_SomeStruct_release_handle)
@@ -201,7 +206,8 @@ internal func copyToCType(_ swiftType: Comments.SomeStruct?) -> RefHolder {
         return RefHolder(0)
     }
     let c_someField = moveToCType(swiftType.someField)
-    return RefHolder(smoke_Comments_SomeStruct_create_optional_handle(c_someField.ref))
+    let c_nullableField = moveToCType(swiftType.nullableField)
+    return RefHolder(smoke_Comments_SomeStruct_create_optional_handle(c_someField.ref, c_nullableField.ref))
 }
 internal func moveToCType(_ swiftType: Comments.SomeStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Comments_SomeStruct_release_optional_handle)

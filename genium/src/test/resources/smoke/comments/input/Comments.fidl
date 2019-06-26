@@ -116,6 +116,8 @@ interface comments {
     struct SomeStruct {
         <** @description: How useful this struct is **>
         Usefulness someField
+        <** @description: Can be `null` **>
+        String nullableField
     }
 
     <** @description: This is some very useful typedef. **>

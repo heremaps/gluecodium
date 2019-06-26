@@ -86,6 +86,7 @@ Swift documentation comments
 * Each line of a multi-line comment is prefixed with `///`.
 * The text for the documentation comment is taken verbatim from its FIDL definition, with some
   exceptions outlined below.
+* An inline code block which is exactly `null` is replaced by `nil`.
 
 ### Method comment
 Method comment is collated from, in that order:

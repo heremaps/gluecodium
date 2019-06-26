@@ -34,4 +34,6 @@ class SwiftCommentsProcessor : CommentsProcessor(Formatter.builder().build()) {
         linkNode.referenceClosingMarker = BasedSequenceImpl.of("`")
         linkNode.firstChild.unlink()
     }
+
+    override val nullReference = "nil"
 }
