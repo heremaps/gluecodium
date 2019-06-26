@@ -81,6 +81,8 @@ class JavaModelBuilderTest {
     private val javaValue = JavaValue("")
 
     private val limeTypeRef = LimeBasicTypeRef.DOUBLE
+    private val deprecatedAttributes =
+        LimeAttributes.Builder().addAttribute(LimeAttributeType.DEPRECATED, "Bar").build()
 
     private val contextStack = MockContextStack<JavaElement>()
     private val rootPackage = JavaPackage(listOf("pack", "age"))
@@ -108,7 +110,11 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingMethod() {
-        val limeElement = LimeMethod(EMPTY_PATH, comment = "some comment")
+        val limeElement = LimeMethod(
+            EMPTY_PATH,
+            comment = "some comment",
+            attributes = deprecatedAttributes
+        )
         every { methodNameResolver.getName(limeElement) } returns "foo"
 
         modelBuilder.finishBuilding(limeElement)
@@ -116,6 +122,8 @@ class JavaModelBuilderTest {
         val result = modelBuilder.getFinalResult(JavaMethod::class.java)
         assertEquals("foo", result.name)
         assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
+        assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
     }
 
     @Test
@@ -142,7 +150,10 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsReturnTypeComment() {
-        val limeReturnType = LimeReturnType(LimeBasicTypeRef.FLOAT, comment = "some comment")
+        val limeReturnType = LimeReturnType(
+            LimeBasicTypeRef.FLOAT,
+            comment = "some comment"
+        )
         val limeElement = LimeMethod(EMPTY_PATH, returnType = limeReturnType)
 
         modelBuilder.finishBuilding(limeElement)
@@ -274,6 +285,7 @@ class JavaModelBuilderTest {
         val limeElement = LimeConstant(
             LimePath(emptyList(), listOf("foo")),
             comment = "some comment",
+            attributes = deprecatedAttributes,
             typeRef = limeTypeRef,
             value = LimeValue.Special.FLOAT_NAN
         )
@@ -283,6 +295,8 @@ class JavaModelBuilderTest {
         val result = modelBuilder.getFinalResult(JavaConstant::class.java)
         assertEquals("FOO", result.name)
         assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
+        assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
         assertEquals(javaType, result.type)
         assertEquals(javaValue, result.value)
     }
@@ -293,7 +307,6 @@ class JavaModelBuilderTest {
         contextStack.injectResult(javaValue)
         val limeElement = LimeConstant(
             LimePath(emptyList(), listOf("foo")),
-            comment = "some comment",
             typeRef = limeTypeRef,
             value = LimeValue.Special.FLOAT_NAN,
             visibility = LimeVisibility.INTERNAL
@@ -309,7 +322,8 @@ class JavaModelBuilderTest {
     fun finishBuildingStruct() {
         val limeElement = LimeStruct(
             LimePath(emptyList(), listOf("foo")),
-            comment = "some comment"
+            comment = "some comment",
+            attributes = deprecatedAttributes
         )
 
         modelBuilder.finishBuilding(limeElement)
@@ -317,6 +331,8 @@ class JavaModelBuilderTest {
         val result = modelBuilder.getFinalResult(JavaClass::class.java)
         assertEquals("Foo", result.name)
         assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
+        assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
         assertEquals(rootPackage, result.javaPackage)
     }
 
@@ -439,6 +455,7 @@ class JavaModelBuilderTest {
         val limeElement = LimeField(
             LimePath(emptyList(), listOf("Foo")),
             comment = "some comment",
+            attributes = deprecatedAttributes,
             typeRef = limeTypeRef
         )
         every { typeMapper.applyNullability(javaType, any()) } returns anotherJavaType
@@ -448,6 +465,8 @@ class JavaModelBuilderTest {
         val result = modelBuilder.getFinalResult(JavaField::class.java)
         assertEquals("foo", result.name)
         assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
+        assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
         assertEquals(anotherJavaType, result.type)
     }
 
@@ -513,13 +532,19 @@ class JavaModelBuilderTest {
     @Test
     fun finishBuildingEnumeration() {
         val limeElement =
-            LimeEnumeration(LimePath(emptyList(), listOf("foo")), comment = "some comment")
+            LimeEnumeration(
+                LimePath(emptyList(), listOf("foo")),
+                comment = "some comment",
+                attributes = deprecatedAttributes
+            )
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(JavaEnum::class.java)
         assertEquals("Foo", result.name)
         assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
+        assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
         assertEquals(rootPackage, result.javaPackage)
     }
 
@@ -591,13 +616,19 @@ class JavaModelBuilderTest {
     @Test
     fun finishBuildingEnumerator() {
         val limeElement =
-            LimeEnumerator(LimePath(emptyList(), listOf("foo")), comment = "some comment")
+            LimeEnumerator(
+                LimePath(emptyList(), listOf("foo")),
+                comment = "some comment",
+                attributes = deprecatedAttributes
+            )
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(JavaEnumItem::class.java)
         assertEquals("FOO", result.name)
         assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
+        assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
     }
 
     @Test
@@ -618,8 +649,8 @@ class JavaModelBuilderTest {
             LimePath(emptyList(), listOf("foo")),
             typeRef = limeTypeRef,
             comment = "Some comment",
-            getter = LimeMethod(EMPTY_PATH),
-            setter = LimeMethod(EMPTY_PATH)
+            getter = LimeMethod(EMPTY_PATH, attributes = deprecatedAttributes),
+            setter = LimeMethod(EMPTY_PATH, attributes = deprecatedAttributes)
         )
         every { typeMapper.applyNullability(javaType, any()) } returns anotherJavaType
 
@@ -629,9 +660,13 @@ class JavaModelBuilderTest {
         assertEquals(2, results.size)
         assertEquals("getFoo", results.first().name)
         assertEquals("Gets some comment", results.first().comment.documentation)
+        assertEquals("Bar", results.first().comment.deprecated)
+        assertContains(JavaModelBuilder.deprecatedAnnotation, results.first().annotations)
         assertEquals(anotherJavaType, results.first().returnType)
         assertEquals("setFoo", results.last().name)
         assertEquals("Sets some comment", results.last().comment.documentation)
+        assertEquals("Bar", results.last().comment.deprecated)
+        assertContains(JavaModelBuilder.deprecatedAnnotation, results.last().annotations)
         assertEquals(anotherJavaType, results.last().parameters.first().type)
     }
 

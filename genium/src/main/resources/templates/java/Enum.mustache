@@ -19,6 +19,9 @@
   !
   !}}
 {{>java/DocComment}}
+{{#annotations}}
+@{{name}}
+{{/annotations}}
 {{#if visibility.toString}}{{visibility}} {{/if}}enum {{name}} {
 {{joinPartial items "java/EnumItem" ",
 "}}{{#if items}};{{/if}}

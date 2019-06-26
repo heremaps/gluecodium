@@ -21,4 +21,7 @@
 {{#if comment}}
 {{prefixPartial "java/DocComment" "    "}}
 {{/if}}
+{{#annotations}}
+    @{{name}}
+{{/annotations}}
     {{name}}({{value.name}})

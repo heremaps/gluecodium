@@ -98,16 +98,17 @@ class JavaModelBuilder(
             else -> emptySet()
         }
         val javaMethod = JavaMethod(
-            methodNameResolver.getName(limeMethod),
-            createComments(limeMethod),
-            getVisibility(limeMethod),
-            returnType,
-            limeMethod.returnType.comment,
-            limeMethod.errorType?.type?.let { typeMapper.mapExceptionType(it) },
-            getPreviousResults(JavaParameter::class.java),
-            isConstructor,
-            qualifiers
+            name = methodNameResolver.getName(limeMethod),
+            comment = createComments(limeMethod),
+            visibility = getVisibility(limeMethod),
+            returnType = returnType,
+            returnComment = limeMethod.returnType.comment,
+            exception = limeMethod.errorType?.type?.let { typeMapper.mapExceptionType(it) },
+            parameters = getPreviousResults(JavaParameter::class.java),
+            isConstructor = isConstructor,
+            qualifiers = qualifiers
         )
+        addDeprecatedAnnotationIfNeeded(javaMethod)
 
         storeNamedResult(limeMethod, javaMethod)
         closeContext()
@@ -134,6 +135,7 @@ class JavaModelBuilder(
         )
         javaConstant.visibility = getVisibility(limeConstant)
         javaConstant.comment = createComments(limeConstant)
+        addDeprecatedAnnotationIfNeeded(javaConstant)
 
         storeNamedResult(limeConstant, javaConstant)
         closeContext()
@@ -160,6 +162,7 @@ class JavaModelBuilder(
         javaClass.visibility = getVisibility(limeStruct)
         javaClass.javaPackage = rootPackage
         javaClass.comment = createComments(limeStruct)
+        addDeprecatedAnnotationIfNeeded(javaClass)
 
         if (isSerializable) {
             javaClass.parentInterfaces.add(serializationBase)
@@ -187,6 +190,7 @@ class JavaModelBuilder(
         val javaField = JavaField(fieldName, javaType, initialValue)
         javaField.visibility = getVisibility(limeField)
         javaField.comment = createComments(limeField)
+        addDeprecatedAnnotationIfNeeded(javaField)
 
         storeNamedResult(limeField, javaField)
         closeContext()
@@ -197,6 +201,7 @@ class JavaModelBuilder(
         javaEnum.visibility = getVisibility(limeEnumeration)
         javaEnum.javaPackage = rootPackage
         javaEnum.comment = createComments(limeEnumeration)
+        addDeprecatedAnnotationIfNeeded(javaEnum)
         javaEnum.items.addAll(getPreviousResults(JavaEnumItem::class.java))
         storeNamedResult(limeEnumeration, javaEnum)
 
@@ -225,6 +230,7 @@ class JavaModelBuilder(
             javaValue
         )
         javaEnumItem.comment = createComments(limeEnumerator)
+        addDeprecatedAnnotationIfNeeded(javaEnumItem)
 
         storeNamedResult(limeEnumerator, javaEnumItem)
         closeContext()
@@ -252,6 +258,7 @@ class JavaModelBuilder(
             returnType = javaType,
             qualifiers = qualifiers
         )
+        addDeprecatedAnnotationIfNeeded(getterMethod)
 
         storeNamedResult(limeProperty, getterMethod)
 
@@ -269,6 +276,7 @@ class JavaModelBuilder(
                 parameters = listOf(JavaParameter("value", javaType)),
                 qualifiers = qualifiers
             )
+            addDeprecatedAnnotationIfNeeded(setterMethod)
 
             storeResult(setterMethod)
         }
@@ -293,6 +301,7 @@ class JavaModelBuilder(
         javaInterface.javaPackage = rootPackage
 
         javaInterface.comment = createComments(limeContainer)
+        addDeprecatedAnnotationIfNeeded(javaInterface)
         javaInterface.constants.addAll(getPreviousResults(JavaConstant::class.java))
         javaInterface.enums.addAll(getPreviousResults(JavaEnum::class.java))
         javaInterface.exceptions.addAll(getPreviousResults(JavaExceptionClass::class.java))
@@ -342,6 +351,7 @@ class JavaModelBuilder(
         javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
         javaClass.javaPackage = rootPackage
         javaClass.comment = createComments(limeContainer)
+        addDeprecatedAnnotationIfNeeded(javaClass)
         javaClass.constants.addAll(constants)
 
         storeNamedResult(limeContainer, javaClass)
@@ -371,6 +381,7 @@ class JavaModelBuilder(
         javaClass.visibility = getVisibility(limeContainer)
         javaClass.javaPackage = rootPackage
         javaClass.comment = createComments(limeContainer)
+        addDeprecatedAnnotationIfNeeded(javaClass)
 
         javaClass.constants.addAll(getPreviousResults(JavaConstant::class.java))
         javaClass.methods.addAll(getPreviousResults(JavaMethod::class.java))
@@ -415,4 +426,14 @@ class JavaModelBuilder(
             limeElement.visibility == LimeVisibility.INTERNAL -> JavaVisibility.PACKAGE
             else -> JavaVisibility.PUBLIC
         }
+
+    private fun addDeprecatedAnnotationIfNeeded(javaElement: JavaElement) {
+        if (javaElement.comment.deprecated != null) {
+            javaElement.annotations.add(deprecatedAnnotation)
+        }
+    }
+
+    companion object {
+        internal val deprecatedAnnotation = JavaCustomType("Deprecated")
+    }
 }

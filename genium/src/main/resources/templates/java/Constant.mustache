@@ -19,4 +19,7 @@
   !
   !}}
 {{>java/DocComment}}
+{{#annotations}}
+@{{name}}
+{{/annotations}}
 {{#if visibility.toString}}{{visibility}} {{/if}}static final {{type.name}} {{name}} = {{value.name}};

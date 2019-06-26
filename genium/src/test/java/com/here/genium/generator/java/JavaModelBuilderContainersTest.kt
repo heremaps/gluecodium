@@ -74,6 +74,8 @@ class JavaModelBuilderContainersTest {
         LimeContainer(LimePath(emptyList(), listOf("foo")), type = ContainerType.INTERFACE)
     private val limeClass =
         LimeContainer(LimePath(emptyList(), listOf("foo")), type = ContainerType.CLASS)
+    private val deprecatedAttributes =
+        LimeAttributes.Builder().addAttribute(LimeAttributeType.DEPRECATED, "Bar").build()
 
     private val contextStack = MockContextStack<JavaElement>()
     private val rootPackage = JavaPackage(listOf("pack", "age"))
@@ -116,7 +118,8 @@ class JavaModelBuilderContainersTest {
         val limeElement = LimeContainer(
             LimePath(emptyList(), listOf("foo")),
             type = ContainerType.TYPE_COLLECTION,
-            comment = "some comment"
+            comment = "some comment",
+            attributes = deprecatedAttributes
         )
 
         modelBuilder.finishBuilding(limeElement)
@@ -126,6 +129,8 @@ class JavaModelBuilderContainersTest {
         assertEquals(rootPackage, result.javaPackage)
         assertContains(JavaTopLevelElement.Qualifier.FINAL, result.qualifiers)
         assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
+        assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
         assertContains(javaConstant, result.constants)
     }
 
@@ -149,7 +154,8 @@ class JavaModelBuilderContainersTest {
         val javaElement = LimeContainer(
             LimePath(emptyList(), listOf("foo")),
             type = ContainerType.INTERFACE,
-            comment = "some comment"
+            comment = "some comment",
+            attributes = deprecatedAttributes
         )
 
         modelBuilder.finishBuilding(javaElement)
@@ -158,6 +164,8 @@ class JavaModelBuilderContainersTest {
         assertEquals("Foo", result.name)
         assertEquals(rootPackage, result.javaPackage)
         assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
+        assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
     }
 
     @Test
@@ -263,7 +271,8 @@ class JavaModelBuilderContainersTest {
         val javaElement = LimeContainer(
             LimePath(emptyList(), listOf("foo")),
             type = ContainerType.CLASS,
-            comment = "some comment"
+            comment = "some comment",
+            attributes = deprecatedAttributes
         )
 
         modelBuilder.finishBuilding(javaElement)
@@ -272,6 +281,8 @@ class JavaModelBuilderContainersTest {
         assertEquals("Foo", result.name)
         assertEquals(rootPackage, result.javaPackage)
         assertEquals("some comment", result.comment.documentation)
+        assertEquals("Bar", result.comment.deprecated)
+        assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
         assertTrue(result.needsDisposer)
     }
 
