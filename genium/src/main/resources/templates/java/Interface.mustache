@@ -30,7 +30,7 @@
 {{/imports}}
 
 {{/if}}
-{{>common/DocComment}}
+{{>java/DocComment}}
 {{#if visibility.toString}}{{visibility}} {{/if}}interface {{name}} {{#if parentInterfaces}}extends {{join parentInterfaces delimiter=", " }} {{/if}}{
 {{#constants}}{{prefixPartial "java/Constant" "    "}}
 {{/constants}}

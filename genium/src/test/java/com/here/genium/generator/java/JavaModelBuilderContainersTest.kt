@@ -125,7 +125,7 @@ class JavaModelBuilderContainersTest {
         assertEquals("Foo", result.name)
         assertEquals(rootPackage, result.javaPackage)
         assertContains(JavaTopLevelElement.Qualifier.FINAL, result.qualifiers)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
         assertContains(javaConstant, result.constants)
     }
 
@@ -157,7 +157,7 @@ class JavaModelBuilderContainersTest {
         val result = modelBuilder.getFinalResult(JavaInterface::class.java)
         assertEquals("Foo", result.name)
         assertEquals(rootPackage, result.javaPackage)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
     }
 
     @Test
@@ -271,7 +271,7 @@ class JavaModelBuilderContainersTest {
         val result = modelBuilder.getFinalResult(JavaClass::class.java)
         assertEquals("Foo", result.name)
         assertEquals(rootPackage, result.javaPackage)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
         assertTrue(result.needsDisposer)
     }
 

@@ -115,7 +115,7 @@ class JavaModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(JavaMethod::class.java)
         assertEquals("foo", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
     }
 
     @Test
@@ -239,7 +239,7 @@ class JavaModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(JavaParameter::class.java)
         assertEquals("foo", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
         assertEquals(anotherJavaType, result.type)
     }
 
@@ -280,7 +280,7 @@ class JavaModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(JavaConstant::class.java)
         assertEquals("FOO", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
         assertEquals(javaType, result.type)
         assertEquals(javaValue, result.value)
     }
@@ -314,7 +314,7 @@ class JavaModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(JavaClass::class.java)
         assertEquals("Foo", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
         assertEquals(rootPackage, result.javaPackage)
     }
 
@@ -445,7 +445,7 @@ class JavaModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(JavaField::class.java)
         assertEquals("foo", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
         assertEquals(anotherJavaType, result.type)
     }
 
@@ -517,7 +517,7 @@ class JavaModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(JavaEnum::class.java)
         assertEquals("Foo", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
         assertEquals(rootPackage, result.javaPackage)
     }
 
@@ -595,7 +595,7 @@ class JavaModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(JavaEnumItem::class.java)
         assertEquals("FOO", result.name)
-        assertEquals("some comment", result.comment)
+        assertEquals("some comment", result.comment.documentation)
     }
 
     @Test
@@ -626,10 +626,10 @@ class JavaModelBuilderTest {
         val results = modelBuilder.finalResults.filterIsInstance<JavaMethod>()
         assertEquals(2, results.size)
         assertEquals("getFoo", results.first().name)
-        assertEquals("Gets some comment", results.first().comment)
+        assertEquals("Gets some comment", results.first().comment.documentation)
         assertEquals(anotherJavaType, results.first().returnType)
         assertEquals("setFoo", results.last().name)
-        assertEquals("Sets some comment", results.last().comment)
+        assertEquals("Sets some comment", results.last().comment.documentation)
         assertEquals(anotherJavaType, results.last().parameters.first().type)
     }
 

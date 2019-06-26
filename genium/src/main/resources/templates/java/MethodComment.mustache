@@ -18,15 +18,16 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if comment}}
+{{#unless comment.isEmpty}}
 /**
 {{prefixPartial "combinedComment" " * "}}
  */
-{{/if}}{{!!
+{{/unless}}{{!!
 
-}}{{+combinedComment}}{{comment}}{{!!
-}}{{#parameters}}{{#if this.comment}}
-@param {{name}} {{prefix this.comment "    " skipFirstLine=true}}{{/if}}{{/parameters}}{{!!
+}}{{+combinedComment}}{{comment.documentation}}{{#if comment.deprecated}}
+@deprecated {{comment.deprecated}}{{/if}}{{!!
+}}{{#parameters}}{{#unless this.comment.isEmpty}}
+@param {{name}} {{prefix this.comment.documentation "    " skipFirstLine=true}}{{/unless}}{{/parameters}}{{!!
 }}{{#unless isConstructor}}{{#if returnComment}}
 @return {{prefix returnComment "    " skipFirstLine=true}}{{/if}}{{/unless}}{{!!
 }}{{#if exception}}

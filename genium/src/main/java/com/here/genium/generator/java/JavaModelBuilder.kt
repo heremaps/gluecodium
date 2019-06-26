@@ -21,6 +21,7 @@ package com.here.genium.generator.java
 
 import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
+import com.here.genium.model.common.Comments
 import com.here.genium.model.common.CommentsPreprocessor
 import com.here.genium.model.java.JavaClass
 import com.here.genium.model.java.JavaConstant
@@ -98,7 +99,7 @@ class JavaModelBuilder(
         }
         val javaMethod = JavaMethod(
             methodNameResolver.getName(limeMethod),
-            limeMethod.comment,
+            createComments(limeMethod),
             getVisibility(limeMethod),
             returnType,
             limeMethod.returnType.comment,
@@ -119,7 +120,7 @@ class JavaModelBuilder(
         )
         val javaParameter =
             JavaParameter(nameRules.getName(limeParameter), javaType)
-        javaParameter.comment = limeParameter.comment
+        javaParameter.comment = createComments(limeParameter)
 
         storeResult(javaParameter)
         closeContext()
@@ -132,7 +133,7 @@ class JavaModelBuilder(
             getPreviousResult(JavaValue::class.java)
         )
         javaConstant.visibility = getVisibility(limeConstant)
-        javaConstant.comment = limeConstant.comment
+        javaConstant.comment = createComments(limeConstant)
 
         storeNamedResult(limeConstant, javaConstant)
         closeContext()
@@ -158,7 +159,7 @@ class JavaModelBuilder(
         )
         javaClass.visibility = getVisibility(limeStruct)
         javaClass.javaPackage = rootPackage
-        javaClass.comment = limeStruct.comment
+        javaClass.comment = createComments(limeStruct)
 
         if (isSerializable) {
             javaClass.parentInterfaces.add(serializationBase)
@@ -185,7 +186,7 @@ class JavaModelBuilder(
 
         val javaField = JavaField(fieldName, javaType, initialValue)
         javaField.visibility = getVisibility(limeField)
-        javaField.comment = limeField.comment
+        javaField.comment = createComments(limeField)
 
         storeNamedResult(limeField, javaField)
         closeContext()
@@ -195,7 +196,7 @@ class JavaModelBuilder(
         val javaEnum = JavaEnum(nameRules.getName(limeEnumeration))
         javaEnum.visibility = getVisibility(limeEnumeration)
         javaEnum.javaPackage = rootPackage
-        javaEnum.comment = limeEnumeration.comment
+        javaEnum.comment = createComments(limeEnumeration)
         javaEnum.items.addAll(getPreviousResults(JavaEnumItem::class.java))
         storeNamedResult(limeEnumeration, javaEnum)
 
@@ -223,7 +224,7 @@ class JavaModelBuilder(
             nameRules.getName(limeEnumerator),
             javaValue
         )
-        javaEnumItem.comment = limeEnumerator.comment
+        javaEnumItem.comment = createComments(limeEnumerator)
 
         storeNamedResult(limeEnumerator, javaEnumItem)
         closeContext()
@@ -240,9 +241,13 @@ class JavaModelBuilder(
         else
             EnumSet.noneOf(MethodQualifier::class.java)
 
+        val getterComments = Comments(
+            CommentsPreprocessor.preprocessGetterComment(limeProperty.comment),
+            limeProperty.getter.attributes.get(LimeAttributeType.DEPRECATED, String::class.java)
+        )
         val getterMethod = JavaMethod(
             name = nameRules.getGetterName(limeProperty),
-            comment = CommentsPreprocessor.preprocessGetterComment(limeProperty.comment),
+            comment = getterComments,
             visibility = getVisibility(limeProperty.getter),
             returnType = javaType,
             qualifiers = qualifiers
@@ -252,9 +257,13 @@ class JavaModelBuilder(
 
         val limeSetter = limeProperty.setter
         if (limeSetter != null) {
+            val setterComments = Comments(
+                CommentsPreprocessor.preprocessSetterComment(limeProperty.comment),
+                limeSetter.attributes.get(LimeAttributeType.DEPRECATED, String::class.java)
+            )
             val setterMethod = JavaMethod(
                 name = nameRules.getSetterName(limeProperty),
-                comment = CommentsPreprocessor.preprocessSetterComment(limeProperty.comment),
+                comment = setterComments,
                 visibility = getVisibility(limeSetter),
                 returnType = JavaPrimitiveType.VOID,
                 parameters = listOf(JavaParameter("value", javaType)),
@@ -283,7 +292,7 @@ class JavaModelBuilder(
         javaInterface.visibility = getVisibility(limeContainer)
         javaInterface.javaPackage = rootPackage
 
-        javaInterface.comment = limeContainer.comment
+        javaInterface.comment = createComments(limeContainer)
         javaInterface.constants.addAll(getPreviousResults(JavaConstant::class.java))
         javaInterface.enums.addAll(getPreviousResults(JavaEnum::class.java))
         javaInterface.exceptions.addAll(getPreviousResults(JavaExceptionClass::class.java))
@@ -332,7 +341,7 @@ class JavaModelBuilder(
         javaClass.visibility = getVisibility(limeContainer)
         javaClass.qualifiers.add(JavaTopLevelElement.Qualifier.FINAL)
         javaClass.javaPackage = rootPackage
-        javaClass.comment = limeContainer.comment
+        javaClass.comment = createComments(limeContainer)
         javaClass.constants.addAll(constants)
 
         storeNamedResult(limeContainer, javaClass)
@@ -361,7 +370,7 @@ class JavaModelBuilder(
         )
         javaClass.visibility = getVisibility(limeContainer)
         javaClass.javaPackage = rootPackage
-        javaClass.comment = limeContainer.comment
+        javaClass.comment = createComments(limeContainer)
 
         javaClass.constants.addAll(getPreviousResults(JavaConstant::class.java))
         javaClass.methods.addAll(getPreviousResults(JavaMethod::class.java))

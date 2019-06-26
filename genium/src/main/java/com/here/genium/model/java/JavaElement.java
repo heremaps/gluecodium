@@ -19,6 +19,7 @@
 
 package com.here.genium.model.java;
 
+import com.here.genium.model.common.Comments;
 import com.here.genium.model.common.ModelElement;
 import com.here.genium.model.common.Streamable;
 import java.util.LinkedHashSet;
@@ -28,7 +29,7 @@ import java.util.stream.Stream;
 public abstract class JavaElement extends Streamable<JavaElement> implements ModelElement {
 
   public final String name;
-  public String comment = "";
+  public Comments comment = new Comments();
   public JavaVisibility visibility = JavaVisibility.PACKAGE;
   public final Set<JavaType> annotations = new LinkedHashSet<>();
 

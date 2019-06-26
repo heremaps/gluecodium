@@ -130,12 +130,12 @@ class JniModelBuilderTest {
     private val cppField = CppField("cPpClass", "neSTed::cPpClass", cppCustomType)
     private val jniParameter = JniParameter("theParam", null)
     private val javaGetter =
-        JavaMethod("getFoo", null, JavaVisibility.PUBLIC, JavaCustomType("FooType"))
+        JavaMethod("getFoo", Comments(), JavaVisibility.PUBLIC, JavaCustomType("FooType"))
     private val cppGetter =
         CppMethod("shootFoot", "shootFoot", Comments(), CppPrimitiveTypeRef.INT32)
     private val javaSetter = JavaMethod(
         "setFoo",
-        null,
+        Comments(),
         JavaVisibility.PUBLIC,
         JavaPrimitiveType.VOID,
         null,
@@ -446,7 +446,7 @@ class JniModelBuilderTest {
     fun finishBuildingMethodReadsExceptionName() {
         contextStack.injectResult(jniType)
         val javaThrowingMethod = JavaMethod(
-            "fancyMEthoD_integer", null,
+            "fancyMEthoD_integer", Comments(),
             JavaVisibility.PUBLIC,
             JavaPrimitiveType.INT, null,
             JavaCustomType("FooException", JavaPackage.DEFAULT),
@@ -464,7 +464,7 @@ class JniModelBuilderTest {
     fun finishBuildingMethodReadsExceptionEnum() {
         contextStack.injectResult(jniType)
         val javaThrowingMethod = JavaMethod(
-            "fancyMEthoD_integer", null,
+            "fancyMEthoD_integer", Comments(),
             JavaVisibility.PUBLIC,
             JavaPrimitiveType.INT, null,
             JavaCustomType("FooException", JavaPackage.DEFAULT),

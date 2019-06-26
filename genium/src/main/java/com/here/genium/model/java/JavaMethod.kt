@@ -19,12 +19,13 @@
 
 package com.here.genium.model.java
 
+import com.here.genium.model.common.Comments
 import java.util.EnumSet
 import java.util.stream.Stream
 
 class JavaMethod(
     name: String,
-    comment: String? = null,
+    comment: Comments = Comments(),
     visibility: JavaVisibility = JavaVisibility.PUBLIC,
     val returnType: JavaType = JavaPrimitiveType.VOID,
     val returnComment: String? = null,

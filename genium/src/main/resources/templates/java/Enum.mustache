@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>common/DocComment}}
+{{>java/DocComment}}
 {{#if visibility.toString}}{{visibility}} {{/if}}enum {{name}} {
 {{joinPartial items "java/EnumItem" ",
 "}}{{#if items}};{{/if}}

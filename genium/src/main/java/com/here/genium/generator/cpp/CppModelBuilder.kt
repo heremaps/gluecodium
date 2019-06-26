@@ -45,7 +45,6 @@ import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMethod
-import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
@@ -313,12 +312,6 @@ class CppModelBuilder(
         storeNamedResult(limeConstant, cppConstant)
         closeContext()
     }
-
-    private fun createComments(limeElement: LimeNamedElement) =
-        Comments(
-            limeElement.comment,
-            limeElement.attributes.get(LimeAttributeType.DEPRECATED, String::class.java)
-        )
 
     override fun finishBuilding(limeValue: LimeValue) {
         val valueType = limeValue.typeRef.type

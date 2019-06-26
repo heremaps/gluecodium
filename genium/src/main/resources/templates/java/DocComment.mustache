@@ -18,8 +18,9 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if comment}}
+{{#unless comment.isEmpty}}
 /**
-{{prefix comment " * "}}
+{{#if comment.documentation}}{{prefix comment.documentation " * "}}{{/if}}{{#if comment.deprecated}}
+ * @deprecated {{prefix comment.deprecated " * " skipFirstLine=true}}{{/if}}
  */
-{{/if}}
+{{/unless}}

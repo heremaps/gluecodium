@@ -30,12 +30,14 @@ import com.here.genium.generator.jni.JavaModel
 import com.here.genium.generator.jni.JniGenerator
 import com.here.genium.generator.jni.JniNameRules
 import com.here.genium.generator.jni.JniTemplates
+import com.here.genium.model.common.Comments
 import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaElement
 import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.java.JavaTopLevelElement
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.platform.common.GeneratorSuite
+import kotlin.streams.toList
 
 /**
  * Combines generators [JniGenerator], [JniTemplates] and [JavaTemplates] to generate Java code and
@@ -131,19 +133,19 @@ open class JavaGeneratorSuite protected constructor(
         val limeToJavaName = referenceMap.mapValues { elementToJavaName[it.value] ?: "" }
         val elementToLimeName = referenceMap.entries.associate { it.value to it.key }
 
-        javaModel.stream().flatMap { it.streamRecursive() }.forEach { element ->
-            if (element !is JavaElement) {
-                return@forEach
+        javaModel
+            .flatMap { it.streamRecursive().toList() }
+            .filterIsInstance<JavaElement>()
+            .forEach { element ->
+                val limeName = elementToLimeName[element] ?: return@forEach
+                val documentation = element.comment.documentation?.let {
+                    commentsProcessor.process(limeName, it, limeToJavaName)
+                }
+                val deprecationMessage = element.comment.deprecated?.let {
+                    commentsProcessor.process(limeName, it, limeToJavaName)
+                }
+                element.comment = Comments(documentation, deprecationMessage)
             }
-            val fullLimeName = elementToLimeName[element]
-            if (fullLimeName != null) {
-                element.comment = commentsProcessor.process(
-                    fullLimeName,
-                    element.comment,
-                    limeToJavaName
-                )
-            }
-        }
     }
 
     private fun resolveFullName(
