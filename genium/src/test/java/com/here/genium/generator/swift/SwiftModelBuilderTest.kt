@@ -667,6 +667,29 @@ class SwiftModelBuilderTest {
     }
 
     @Test
+    fun finishBuildingValueStructInitializer() {
+        val limeElement = LimeValue.InitializerList(
+            LimeDirectTypeRef(LimeStruct(fooPath, fields = listOf(
+                LimeField(LimePath(emptyList(), listOf("bar")), typeRef = LimeBasicTypeRef.DOUBLE),
+                LimeField(LimePath(emptyList(), listOf("baz")), typeRef = LimeBasicTypeRef.FLOAT)
+            ))),
+            listOf(
+                LimeValue.Null(LimeBasicTypeRef.DOUBLE),
+                LimeValue.InitializerList(
+                    LimeDirectTypeRef(LimeStruct(LimePath(emptyList(), listOf("fizz")))),
+                    emptyList()
+                )
+            )
+        )
+        every { nameResolver.getFullName(any()) }.returnsMany("nonsense", "moreNonsense")
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(SwiftValue::class.java)
+        assertEquals("moreNonsense(bar: nil, baz: nonsense())", result.name)
+    }
+
+    @Test
     fun finishBuildingProperty() {
         val limeElement = LimeProperty(
             fooPath,

@@ -49,6 +49,23 @@ interface ConstantsInterface {
     }
 }
 
+interface StructConstants {
+
+    const SomeStruct structConstant = { floatField: 1.41f, stringField: "bar Buzz" }
+    const NestingStruct nestingStructConstant = {
+        structField: { stringField: "nonsense", floatField: -2.82f }
+    }
+
+    public struct SomeStruct {
+        String stringField
+        Float floatField
+    }
+
+    public struct NestingStruct {
+        SomeStruct structField
+    }
+}
+
 interface UseTypeCollectionConstants {
 
     method getIntConstant {
@@ -124,5 +141,16 @@ interface UseInterfaceConstants {
         out {
             ConstantsInterface.StateEnum result
         }
+    }
+}
+
+interface UseStructConstants {
+
+    method getStructConstant {
+        out { StructConstants.SomeStruct result }
+    }
+
+    method getNestingStructConstant {
+        out { StructConstants.NestingStruct result }
     }
 }

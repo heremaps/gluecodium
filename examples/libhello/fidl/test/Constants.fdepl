@@ -20,6 +20,12 @@
 import "classpath:/GeniumExtensions.fdepl"
 import "./Constants.fidl"
 
+define GeniumExtensions for interface test.StructConstants
+{
+    struct SomeStruct { Equatable = true }
+    struct NestingStruct { Equatable = true }
+}
+
 define GeniumExtensions for interface test.UseTypeCollectionConstants
 {
     method getIntConstant {
@@ -72,4 +78,10 @@ define GeniumExtensions for interface test.UseInterfaceConstants
     method getEnumConstant {
         Static = true
     }
+}
+
+define GeniumExtensions for interface test.UseStructConstants
+{
+    method getStructConstant { Static = true }
+    method getNestingStructConstant { Static = true }
 }

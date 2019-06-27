@@ -390,7 +390,14 @@ class SwiftModelBuilder(
     }
 
     override fun finishBuilding(limeValue: LimeValue) {
-        val swiftValue = when (limeValue) {
+        val swiftValue = mapValue(limeValue)
+
+        storeResult(swiftValue)
+        closeContext()
+    }
+
+    private fun mapValue(limeValue: LimeValue): SwiftValue =
+        when (limeValue) {
             is LimeValue.Literal -> SwiftValue(limeValue.value)
             is LimeValue.Enumerator -> {
                 val typeName = nameResolver.getFullName(limeValue.typeRef.type)
@@ -411,15 +418,18 @@ class SwiftModelBuilder(
                 val initializer = when (LimeTypeHelper.getActualType(limeValue.typeRef.type)) {
                     is LimeMap -> "[:]"
                     is LimeArray, is LimeSet -> "[]"
-                    else -> nameResolver.getFullName(limeValue.typeRef.type) + "()"
+                    else -> {
+                        val limeType = limeValue.typeRef.type as LimeStruct
+                        val valuesString = limeValue.values
+                            .mapIndexed { i, value ->
+                                nameRules.getName(limeType.fields[i]) + ": " + mapValue(value).name
+                            }.joinToString(separator = ", ", prefix = "(", postfix = ")")
+                        nameResolver.getFullName(limeType) + valuesString
+                    }
                 }
                 SwiftValue(initializer)
             }
         }
-
-        storeResult(swiftValue)
-        closeContext()
-    }
 
     override fun finishBuilding(limeTypeRef: LimeTypeRef) {
         val swiftType = typeMapper.mapType(limeTypeRef.type)

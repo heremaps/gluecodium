@@ -18,9 +18,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/Constants.h"
-#include "test/ConstantsInterface.h"
 #include "test/UseInterfaceConstants.h"
+#include "test/UseStructConstants.h"
 #include "test/UseTypeCollectionConstants.h"
 
 namespace test
@@ -99,6 +98,20 @@ ConstantsInterface::StateEnum
 UseInterfaceConstants::get_enum_constant( )
 {
     return ConstantsInterface::ENUM_CONSTANT;
+}
+
+// UseStructConstants
+
+StructConstants::SomeStruct
+UseStructConstants::get_struct_constant( )
+{
+    return StructConstants::STRUCT_CONSTANT;
+}
+
+StructConstants::NestingStruct
+UseStructConstants::get_nesting_struct_constant( )
+{
+    return StructConstants::NESTING_STRUCT_CONSTANT;
 }
 
 }  // namespace test

@@ -4,6 +4,7 @@
 - Features:
   + Deprecation messages are now supported for most elements.
   + Documentation references to `null` value are now replaced with `nil` in Swift.
+  + Constants of struct types are now supported.
 
 ## 4.7.1
 - Release date: 2019-07-01

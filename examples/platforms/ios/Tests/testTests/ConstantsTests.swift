@@ -95,6 +95,18 @@ class ConstantsTests: XCTestCase {
         XCTAssertEqual(ConstantsInterface.enumConstant, result)
     }
 
+    func testStructConstant() {
+        let result = UseStructConstants.getStructConstant()
+
+        XCTAssertEqual(StructConstants.structConstant, result)
+    }
+
+    func testNestingStructConstant() {
+        let result = UseStructConstants.getNestingStructConstant()
+
+        XCTAssertEqual(StructConstants.nestingStructConstant, result)
+    }
+
     static var allTests = [
         ("testIntConstantFromTypeCollection", testIntConstantFromTypeCollection),
         ("testUintConstantFromTypeCollection", testUintConstantFromTypeCollection),
@@ -107,6 +119,8 @@ class ConstantsTests: XCTestCase {
         ("testFloatConstantFromInterface", testFloatConstantFromInterface),
         ("testDoubleConstantFromInterface", testDoubleConstantFromInterface),
         ("testStringConstantFromInterface", testStringConstantFromInterface),
-        ("testEnumConstantFromInterface", testEnumConstantFromInterface)
+        ("testEnumConstantFromInterface", testEnumConstantFromInterface),
+        ("testStructConstant", testStructConstant),
+        ("testNestingStructConstant", testNestingStructConstant)
     ]
 }
