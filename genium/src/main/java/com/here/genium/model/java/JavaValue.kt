@@ -17,31 +17,20 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.java;
+package com.here.genium.model.java
 
-public final class JavaValue extends JavaElementWithImports {
+class JavaValue : JavaElementWithImports {
+    val isNew: Boolean
+    val isCustom: Boolean
 
-  public final boolean isNew;
-  public final boolean isCustom;
+    constructor(value: String, isCustom: Boolean = false) : super(value) {
+        this.isNew = false
+        this.isCustom = isCustom
+    }
 
-  public JavaValue(final String value) {
-    this(value, false);
-  }
-
-  public JavaValue(final String value, final boolean isCustom) {
-    super(value);
-    this.isNew = false;
-    this.isCustom = isCustom;
-  }
-
-  public JavaValue(final JavaType type, final boolean isCustom) {
-    super(type.name);
-    isNew = true;
-    this.isCustom = isCustom;
-    imports.addAll(type.imports);
-  }
-
-  public JavaValue(final JavaType type) {
-    this(type, false);
-  }
+    constructor(type: JavaType) : super(type.name) {
+        isNew = true
+        isCustom = true
+        imports.addAll(type.imports)
+    }
 }

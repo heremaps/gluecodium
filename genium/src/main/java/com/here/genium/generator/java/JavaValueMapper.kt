@@ -66,7 +66,7 @@ class JavaValueMapper(
             is LimeValue.InitializerList -> {
                 val implementationType =
                     if (javaType is JavaTemplateType) javaType.implementationType else javaType
-                JavaValue(implementationType, true)
+                JavaValue(implementationType)
             }
         }
 
