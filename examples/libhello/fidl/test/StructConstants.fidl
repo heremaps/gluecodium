@@ -17,39 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package smoke
-
-typeCollection Constants {
-
-    const Boolean boolConstant = true
-    const Int32 intConstant = -11
-    const UInt32 uintConstant = 0xFFFFFFFF
-    const Float floatConstant = 2.71f
-    const Double doubleConstant = -3.14d
-    const String stringConstant = "Foo bar"
-    const StateEnum enumConstant = StateEnum.ON
-
-    enumeration StateEnum {
-        OFF
-        ON
-    }
-}
-
-interface ConstantsInterface {
-
-    const Boolean boolConstant = true
-    const Int32 intConstant = -11
-    const UInt32 uintConstant = 0xFFFFFFFF
-    const Float floatConstant = 2.71f
-    const Double doubleConstant = -3.14d
-    const String stringConstant = "Foo bar"
-    const StateEnum enumConstant = StateEnum.ON
-
-    enumeration StateEnum {
-        OFF
-        ON
-    }
-}
+package test
 
 interface StructConstants {
 

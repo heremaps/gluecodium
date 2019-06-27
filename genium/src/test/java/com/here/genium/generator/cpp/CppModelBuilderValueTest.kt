@@ -20,6 +20,7 @@
 package com.here.genium.generator.cpp
 
 import com.here.genium.model.cpp.CppElement
+import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppValue
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeEnumerator
@@ -160,5 +161,22 @@ class CppModelBuilderValueTest {
 
         val result = modelBuilder.getFinalResult(CppValue::class.java)
         assertEquals("{}", result.name)
+    }
+
+    @Test
+    fun finishBuildingInitializerListValue() {
+        contextStack.injectResult(CppPrimitiveTypeRef.BOOL)
+        val limeElement = LimeValue.InitializerList(
+            LimeBasicTypeRef.DOUBLE,
+            listOf(
+                LimeValue.Null(LimeBasicTypeRef.DOUBLE),
+                LimeValue.InitializerList(LimeBasicTypeRef.DOUBLE, emptyList())
+            )
+        )
+
+        modelBuilder.finishBuilding(limeElement)
+
+        val result = modelBuilder.getFinalResult(CppValue::class.java)
+        assertEquals("{bool(), {}}", result.name)
     }
 }

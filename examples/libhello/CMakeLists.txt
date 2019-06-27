@@ -353,6 +353,11 @@ feature(Constants cpp android swift SOURCES
     fidl/test/Constants.fdepl
 )
 
+# TODO: APIGEN-1649: merge with "Constants" above when Android and Swift are implemented
+feature(StructConstants cpp SOURCES
+    fidl/test/StructConstants.fidl
+)
+
 feature(Equatable cpp android swift SOURCES
     src/test/EquatableImpl.cpp
 

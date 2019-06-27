@@ -314,9 +314,16 @@ class CppModelBuilder(
     }
 
     override fun finishBuilding(limeValue: LimeValue) {
+        val cppValue = mapValue(limeValue)
+
+        storeResult(cppValue)
+        closeContext()
+    }
+
+    private fun mapValue(limeValue: LimeValue): CppValue {
         val valueType = limeValue.typeRef.type
         val isFloat = valueType is LimeBasicType && valueType.typeId == LimeBasicType.TypeId.FLOAT
-        val cppValue = when (limeValue) {
+        return when (limeValue) {
             is LimeValue.Literal -> {
                 val suffix = if (isFloat) "f" else ""
                 CppValue(limeValue.value + suffix)
@@ -329,17 +336,22 @@ class CppModelBuilder(
                 val valueString = if (limeValue.value == ValueId.NAN) "quiet_NaN" else "infinity"
                 CppValue(
                     "${signPrefix}std::numeric_limits<$typeString>::$valueString()",
-                    listOf(CppLibraryIncludes.LIMITS))
+                    listOf(CppLibraryIncludes.LIMITS)
+                )
             }
             is LimeValue.Null -> {
                 val cppType = getPreviousResult(CppTypeRef::class.java)
                 CppValue("${cppType.name}()", listOf(CppLibraryIncludes.OPTIONAL))
             }
-            is LimeValue.InitializerList -> CppValue("{}")
+            is LimeValue.InitializerList -> {
+                val valuesString = limeValue.values.joinToString(
+                    separator = ", ",
+                    prefix = "{",
+                    postfix = "}"
+                ) { mapValue(it).name }
+                CppValue(valuesString)
+            }
         }
-
-        storeResult(cppValue)
-        closeContext()
     }
 
     override fun finishBuilding(limeTypeRef: LimeTypeRef) {
