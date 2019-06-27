@@ -828,7 +828,9 @@ FIDL:
 
     interface ExampleInterface {
         method exampleMethod {
-            String stringArgument
+            in {
+                String stringArgument
+            }
         }
     }
 
@@ -836,8 +838,10 @@ FDEPL:
 
     define Names for interface example.ExampleInterface {
         method exampleMethod {
-            stringArgument {
-                SwiftArgumentLabel = "niceName"
+            in {
+                stringArgument {
+                    SwiftArgumentLabel = "niceName"
+                }
             }
         }
     }
