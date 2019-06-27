@@ -120,4 +120,18 @@ public final class ConstantsTest {
 
     assertEquals(ConstantsInterface.ENUM_CONSTANT, result);
   }
+
+  @Test
+  public void compareStructConstants() {
+    StructConstants.SomeStruct result = UseStructConstants.getStructConstant();
+
+    assertEquals(StructConstants.STRUCT_CONSTANT, result);
+  }
+
+  @Test
+  public void compareNestingStructConstants() {
+    StructConstants.NestingStruct result = UseStructConstants.getNestingStructConstant();
+
+    assertEquals(StructConstants.NESTING_STRUCT_CONSTANT, result);
+  }
 }

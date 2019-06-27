@@ -76,7 +76,7 @@ class JniGenerator(
         val javaBuilder = JavaModelBuilder(
             rootPackage = basePackage.createChildPackage(limeContainer.path.head),
             typeMapper = javaTypeMapper,
-            valueMapper = JavaValueMapper(limeReferenceMap, javaNameRules),
+            valueMapper = JavaValueMapper(limeReferenceMap, javaNameRules, javaTypeMapper),
             methodNameResolver = JavaMethodNameResolver(limeReferenceMap, javaNameRules),
             errorEnums = errorEnums,
             nameRules = javaNameRules

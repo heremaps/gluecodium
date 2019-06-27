@@ -17,32 +17,17 @@
  * License-Filename: LICENSE
  */
 
-package test
+import "classpath:/GeniumExtensions.fdepl"
+import "./StructConstants.fidl"
 
-interface StructConstants {
-
-    const SomeStruct structConstant = { floatField: 1.41f, stringField: "bar Buzz" }
-    const NestingStruct nestingStructConstant = {
-        structField: { stringField: "nonsense", floatField: -2.82f }
-    }
-
-    public struct SomeStruct {
-        String stringField
-        Float floatField
-    }
-
-    public struct NestingStruct {
-        SomeStruct structField
-    }
+define GeniumExtensions for interface test.StructConstants
+{
+    struct SomeStruct { Equatable = true }
+    struct NestingStruct { Equatable = true }
 }
 
-interface UseStructConstants {
-
-    method getStructConstant {
-        out { StructConstants.SomeStruct result }
-    }
-
-    method getNestingStructConstant {
-        out { StructConstants.NestingStruct result }
-    }
+define GeniumExtensions for interface test.UseStructConstants
+{
+    method getStructConstant { Static = true }
+    method getNestingStructConstant { Static = true }
 }

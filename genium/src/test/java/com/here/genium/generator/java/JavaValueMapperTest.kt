@@ -23,6 +23,7 @@ import com.here.genium.Genium
 import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaPrimitiveType
+import com.here.genium.model.java.JavaReferenceType
 import com.here.genium.model.java.JavaTemplateType
 import com.here.genium.model.java.JavaType
 import com.here.genium.model.lime.LimeBasicType
@@ -36,19 +37,31 @@ import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.lime.LimeValue
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class JavaValueMapperTest {
-    private val limeReferenceMap = mutableMapOf<String, LimeElement>()
     private val javaType = object : JavaType("") {}
 
+    private val limeReferenceMap = mutableMapOf<String, LimeElement>()
     private val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().javaNameRules)
-    private val valueMapper = JavaValueMapper(limeReferenceMap, JavaNameRules(nameRuleSet))
+    @MockK private lateinit var typeMapper: JavaTypeMapper
+
+    private lateinit var valueMapper: JavaValueMapper
+
+    @Before
+    fun setUp() {
+        MockKAnnotations.init(this, relaxed = true)
+        valueMapper = JavaValueMapper(limeReferenceMap, JavaNameRules(nameRuleSet), typeMapper)
+    }
 
     @Test
     fun mapEnumeratorInContainer() {
@@ -178,5 +191,26 @@ class JavaValueMapperTest {
 
         assertTrue(result.isCustom)
         assertEquals("new HashSet<>()", result.name)
+    }
+
+    @Test
+    fun mapStructInitializerValue() {
+        val limeElement = LimeValue.InitializerList(
+            LimeBasicTypeRef.DOUBLE,
+            listOf(
+                LimeValue.Null(LimeBasicTypeRef.DOUBLE),
+                LimeValue.InitializerList(LimeBasicTypeRef.FLOAT, emptyList())
+            )
+        )
+        val javaCustomType = JavaCustomType("Foo")
+        every { typeMapper.mapType(any()) }.returnsMany(
+            JavaPrimitiveType.DOUBLE,
+            JavaReferenceType.boxPrimitiveType(JavaPrimitiveType.FLOAT)
+        )
+
+        val result = valueMapper.mapValue(limeElement, javaCustomType)
+
+        assertTrue(result.isCustom)
+        assertEquals("new Foo(null, new Float())", result.name)
     }
 }

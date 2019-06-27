@@ -33,10 +33,10 @@ import com.here.genium.model.lime.LimeValue
 
 class JavaValueMapper(
     private val limeReferenceMap: Map<String, LimeElement>,
-    private val nameRules: JavaNameRules
+    private val nameRules: JavaNameRules,
+    private val typeMapper: JavaTypeMapper
 ) {
-
-    fun mapValue(limeValue: LimeValue, javaType: JavaType) =
+    fun mapValue(limeValue: LimeValue, javaType: JavaType): JavaValue =
         when (limeValue) {
             is LimeValue.Literal -> {
                 val limeType = LimeTypeHelper.getActualType(limeValue.typeRef.type)
@@ -66,7 +66,16 @@ class JavaValueMapper(
             is LimeValue.InitializerList -> {
                 val implementationType =
                     if (javaType is JavaTemplateType) javaType.implementationType else javaType
-                JavaValue("new ${implementationType.name}()", true, implementationType.imports)
+                val valuesString = limeValue.values.joinToString(
+                    separator = ", ",
+                    prefix = "(",
+                    postfix = ")"
+                ) { mapValue(it, typeMapper.mapType(it.typeRef)).name }
+                JavaValue(
+                    "new ${implementationType.name}$valuesString",
+                    true,
+                    implementationType.imports
+                )
             }
         }
 
