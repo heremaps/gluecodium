@@ -127,7 +127,7 @@ class JavaValueMapperTest {
         val result = valueMapper.mapValue(limeValue, javaTemplateType)
 
         assertTrue(result.isCustom)
-        assertEquals("ArrayList<>", result.name)
+        assertEquals("new ArrayList<>()", result.name)
     }
 
     @Test
@@ -139,7 +139,7 @@ class JavaValueMapperTest {
         val result = valueMapper.mapValue(limeValue, javaTemplateType)
 
         assertTrue(result.isCustom)
-        assertEquals("HashMap<>", result.name)
+        assertEquals("new HashMap<>()", result.name)
     }
 
     @Test
@@ -150,7 +150,7 @@ class JavaValueMapperTest {
         val result = valueMapper.mapValue(limeValue, javaCustomType)
 
         assertTrue(result.isCustom)
-        assertEquals("Foo", result.name)
+        assertEquals("new Foo()", result.name)
     }
 
     @Test
@@ -177,6 +177,6 @@ class JavaValueMapperTest {
         val result = valueMapper.mapValue(limeValue, javaTemplateType)
 
         assertTrue(result.isCustom)
-        assertEquals("HashSet<>", result.name)
+        assertEquals("new HashSet<>()", result.name)
     }
 }

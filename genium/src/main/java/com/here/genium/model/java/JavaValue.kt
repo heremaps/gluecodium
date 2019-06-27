@@ -19,18 +19,8 @@
 
 package com.here.genium.model.java
 
-class JavaValue : JavaElementWithImports {
-    val isNew: Boolean
-    val isCustom: Boolean
-
-    constructor(value: String, isCustom: Boolean = false) : super(value) {
-        this.isNew = false
-        this.isCustom = isCustom
-    }
-
-    constructor(type: JavaType) : super(type.name) {
-        isNew = true
-        isCustom = true
-        imports.addAll(type.imports)
-    }
-}
+class JavaValue(
+    value: String,
+    val isCustom: Boolean = false,
+    imports: Set<JavaImport> = emptySet()
+) : JavaElementWithImports(value, imports)

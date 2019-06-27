@@ -21,7 +21,7 @@
 
 {{#if visibility.toString}}{{visibility}} {{/if}}static class Builder {
 {{#fields}}
-    private {{type.name}} {{name}}{{#if initial}} = {{>java/FieldInitializer}}{{/if}};
+    private {{type.name}} {{name}}{{#if initial}} = {{initial.name}}{{/if}};
 {{/fields}}
 
     {{#if visibility.toString}}{{visibility}} {{/if}}Builder() {

@@ -124,8 +124,7 @@ class JniModelBuilderTest {
     private val javaEnum = JavaEnum("jAvaClazz")
     private val cppEnum = CppEnum("cPpClass", "::cPpClass", false, emptyList())
     private val javaCustomType = JavaCustomType("jAvaClazz")
-    private val javaField =
-        JavaField("theParam", javaCustomType, JavaValue(javaCustomType))
+    private val javaField = JavaField("theParam", javaCustomType, JavaValue(""))
     private val cppCustomType = CppComplexTypeRef("cPpClass")
     private val cppField = CppField("cPpClass", "neSTed::cPpClass", cppCustomType)
     private val jniParameter = JniParameter("theParam", null)
