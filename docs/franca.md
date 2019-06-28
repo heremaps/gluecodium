@@ -622,6 +622,10 @@ following Franca element types:
 if one of the types referenced by those is itself "internal" (it is not possible to mark these types
 explicitly due to FDEPL syntax restrictions).
 
+**Note:** Struct constructors that initialize "internal" fields are also automatically marked as
+"internal". This means that the only way to have a public constructor for such struct is to give
+each "internal" field an explicit default value (see `DefaultValue` above).
+
 FIDL:
 
     package example

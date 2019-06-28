@@ -62,6 +62,11 @@ interface PublicClass {
         InternalStruct internalField
     }
 
+    struct PublicStructWithInternalDefaults {
+        String internalField
+        Float publicField
+    }
+
     enumeration InternalEnum {
         FOO
         BAR

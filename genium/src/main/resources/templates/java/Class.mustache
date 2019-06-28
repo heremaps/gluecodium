@@ -52,12 +52,14 @@
 {{prefixPartial "java/NativeConstructor" "    "}}
 {{/if}}
 {{#if fields}}{{#unless constructors}}
-    {{#if visibility.toString}}{{visibility}} {{/if}}{{name}}({{#uninitializedFields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}) {
+    {{#if freeArgsConstructorVisibility.toString}}{{freeArgsConstructorVisibility}} {{/if}}{{name}}{{!!
+    }}({{#uninitializedFields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}) {
 {{#fields}}        this.{{name}} = {{#if initial.isCustom}}{{initial.name}}{{/if}}{{#unless initial.isCustom}}{{name}}{{/unless}};
 {{/fields}}
     }{{#if hasDefaults}}
 
-    {{#if visibility.toString}}{{visibility}} {{/if}}{{name}}({{#fields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
+    {{#if allArgsConstructorVisibility.toString}}{{allArgsConstructorVisibility}} {{/if}}{{name}}{{!!
+    }}({{#fields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
 {{#fields}}        this.{{name}} = {{name}};
 {{/fields}}
     }{{/if}}

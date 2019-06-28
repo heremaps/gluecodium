@@ -58,11 +58,27 @@ public class PublicClass {
     }
     public struct PublicStruct {
         internal var internalField: PublicClass.InternalStruct
-        public init(internalField: PublicClass.InternalStruct) {
+        internal init(internalField: PublicClass.InternalStruct) {
             self.internalField = internalField
         }
         internal init(cHandle: _baseRef) {
             internalField = moveFromCType(smoke_PublicClass_PublicStruct_internalField_get(cHandle))
+        }
+    }
+    public struct PublicStructWithInternalDefaults {
+        internal var internalField: String
+        public var publicField: Float
+        public init(publicField: Float) {
+            self.publicField = publicField
+            self.internalField = "foo"
+        }
+        internal init(internalField: String = "foo", publicField: Float) {
+            self.internalField = internalField
+            self.publicField = publicField
+        }
+        internal init(cHandle: _baseRef) {
+            internalField = moveFromCType(smoke_PublicClass_PublicStructWithInternalDefaults_internalField_get(cHandle))
+            publicField = moveFromCType(smoke_PublicClass_PublicStructWithInternalDefaults_publicField_get(cHandle))
         }
     }
     internal func internalMethod(input: PublicClass.InternalStruct) -> PublicClass.InternalStructTypeDef {
@@ -180,6 +196,47 @@ internal func copyToCType(_ swiftType: PublicClass.PublicStruct?) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: PublicClass.PublicStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicClass_PublicStruct_release_optional_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> PublicClass.PublicStructWithInternalDefaults {
+    return PublicClass.PublicStructWithInternalDefaults(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> PublicClass.PublicStructWithInternalDefaults {
+    defer {
+        smoke_PublicClass_PublicStructWithInternalDefaults_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: PublicClass.PublicStructWithInternalDefaults) -> RefHolder {
+    let c_internalField = moveToCType(swiftType.internalField)
+    let c_publicField = moveToCType(swiftType.publicField)
+    return RefHolder(smoke_PublicClass_PublicStructWithInternalDefaults_create_handle(c_internalField.ref, c_publicField.ref))
+}
+internal func moveToCType(_ swiftType: PublicClass.PublicStructWithInternalDefaults) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicClass_PublicStructWithInternalDefaults_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> PublicClass.PublicStructWithInternalDefaults? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_PublicClass_PublicStructWithInternalDefaults_unwrap_optional_handle(handle)
+    return PublicClass.PublicStructWithInternalDefaults(cHandle: unwrappedHandle) as PublicClass.PublicStructWithInternalDefaults
+}
+internal func moveFromCType(_ handle: _baseRef) -> PublicClass.PublicStructWithInternalDefaults? {
+    defer {
+        smoke_PublicClass_PublicStructWithInternalDefaults_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: PublicClass.PublicStructWithInternalDefaults?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let c_internalField = moveToCType(swiftType.internalField)
+    let c_publicField = moveToCType(swiftType.publicField)
+    return RefHolder(smoke_PublicClass_PublicStructWithInternalDefaults_create_optional_handle(c_internalField.ref, c_publicField.ref))
+}
+internal func moveToCType(_ swiftType: PublicClass.PublicStructWithInternalDefaults?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicClass_PublicStructWithInternalDefaults_release_optional_handle)
 }
 internal func copyToCType(_ swiftEnum: PublicClass.InternalEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)

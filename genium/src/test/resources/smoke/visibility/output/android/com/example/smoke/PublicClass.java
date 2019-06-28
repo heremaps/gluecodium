@@ -23,8 +23,20 @@ public class PublicClass extends NativeBase {
     public static class PublicStruct {
         @NonNull
         PublicClass.InternalStruct internalField;
-        public PublicStruct(PublicClass.InternalStruct internalField) {
+        PublicStruct(PublicClass.InternalStruct internalField) {
             this.internalField = internalField;
+        }
+    }
+    public static class PublicStructWithInternalDefaults {
+        String internalField;
+        public float publicField;
+        public PublicStructWithInternalDefaults(float publicField) {
+            this.internalField = "foo";
+            this.publicField = publicField;
+        }
+        PublicStructWithInternalDefaults(String internalField, float publicField) {
+            this.internalField = internalField;
+            this.publicField = publicField;
         }
     }
     /**

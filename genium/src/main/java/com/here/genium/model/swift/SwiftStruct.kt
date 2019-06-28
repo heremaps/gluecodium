@@ -41,6 +41,22 @@ class SwiftStruct(
     val constructors
         get() = methods.filter { it.isConstructor }
 
+    @Suppress("unused")
+    val publicFields
+        get() = fields.filterNot { it.visibility == SwiftVisibility.INTERNAL }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    val internalFields
+        get() = fields.filter { it.visibility == SwiftVisibility.INTERNAL }
+
+    @Suppress("unused")
+    val constructorVisibility =
+        if (internalFields.isNotEmpty()) SwiftVisibility.INTERNAL else visibility
+
+    @Suppress("unused")
+    val needsReducedConstructor =
+        internalFields.isNotEmpty() && internalFields.all { it.defaultValue != null }
+
     override fun withAlias(aliasName: String): SwiftType {
         val swiftStruct = SwiftStruct(
             name,

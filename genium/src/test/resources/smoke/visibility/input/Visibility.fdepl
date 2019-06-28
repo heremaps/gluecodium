@@ -81,6 +81,10 @@ define Visibility for interface smoke.PublicClass
         }
     }
 
+    struct PublicStructWithInternalDefaults {
+        internalField { Internal = true }
+    }
+
     enumeration InternalEnum {
         Internal = true
     }
@@ -88,6 +92,13 @@ define Visibility for interface smoke.PublicClass
     array InternalArray {
         Internal = true
     }
+}
+
+define Defaults for interface smoke.PublicClass
+{
+     struct PublicStructWithInternalDefaults {
+         internalField { DefaultValue = "foo" }
+     }
 }
 
 define Visibility for typeCollection smoke.PublicTypeCollection

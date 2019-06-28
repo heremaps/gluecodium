@@ -49,6 +49,21 @@ class JavaClass(
     val hasDefaults = uninitializedFields.size < fields.size
 
     @Suppress("unused")
+    val allArgsConstructorVisibility: JavaVisibility
+        get() = when {
+            fields.any { it.visibility == JavaVisibility.PACKAGE } -> JavaVisibility.PACKAGE
+            else -> visibility
+        }
+
+    @Suppress("unused")
+    val freeArgsConstructorVisibility: JavaVisibility
+        get() = when {
+            uninitializedFields.any { it.visibility == JavaVisibility.PACKAGE } ->
+                JavaVisibility.PACKAGE
+            else -> visibility
+        }
+
+    @Suppress("unused")
     val constructors
         get() = methods.filter { it.isConstructor }
 
