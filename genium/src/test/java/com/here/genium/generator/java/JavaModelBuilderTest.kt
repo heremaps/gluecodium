@@ -184,7 +184,8 @@ class JavaModelBuilderTest {
             EMPTY_PATH,
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.CONSTRUCTOR)
-                .build()
+                .build(),
+            isStatic = true
         )
         every {
             typeMapper.mapParentType(limeElement)
@@ -204,7 +205,8 @@ class JavaModelBuilderTest {
             EMPTY_PATH,
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.CONSTRUCTOR)
-                .build()
+                .build(),
+            isStatic = true
         )
         val parentType = JavaCustomType("")
         every { typeMapper.mapParentType(limeElement) } returns parentType

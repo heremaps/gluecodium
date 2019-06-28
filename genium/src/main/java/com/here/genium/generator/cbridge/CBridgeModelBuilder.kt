@@ -136,9 +136,8 @@ class CBridgeModelBuilder(
     }
 
     override fun finishBuilding(limeMethod: LimeMethod) {
-        val isConstructor = limeMethod.attributes.have(LimeAttributeType.CONSTRUCTOR)
         var parameterSelf: CParameter? = null
-        if (!isConstructor && !limeMethod.isStatic) {
+        if (!limeMethod.isStatic) {
             val cppTypeInfo = parentContext!!.currentResults.filterIsInstance<CppTypeInfo>().first()
             parameterSelf = CParameter("_instance", cppTypeInfo)
         }
@@ -148,7 +147,8 @@ class CBridgeModelBuilder(
         val limeParent =
             limeReferenceMap[limeMethod.path.parent.toString()] as LimeNamedElement
         val returnType = when {
-            isConstructor && limeParent !is LimeStruct ->
+            limeParent !is LimeStruct &&
+                    limeMethod.attributes.have(LimeAttributeType.CONSTRUCTOR) ->
                 typeMapper.createCustomTypeInfo(limeParent, CppTypeInfo.TypeCategory.CLASS)
             else -> {
                 val cppTypeInfo = mapType(limeMethod.returnType.typeRef.type)

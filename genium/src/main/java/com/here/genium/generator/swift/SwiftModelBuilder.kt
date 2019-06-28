@@ -210,7 +210,7 @@ class SwiftModelBuilder(
             CBridgeNameRules.getNestedSpecifierString(limeMethod),
             CBridgeNameRules.getShortMethodName(limeParent, limeMethod),
             errorType,
-            limeMethod.isStatic || isConstructor,
+            limeMethod.isStatic,
             isConstructor,
             isConstructor && signatureResolver.hasSignatureClash(limeMethod),
             getPreviousResults(SwiftParameter::class.java)

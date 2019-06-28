@@ -340,7 +340,8 @@ class CBridgeModelBuilderTest {
             LimePath(emptyList(), listOf("foo", "bar")),
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.CONSTRUCTOR)
-                .build()
+                .build(),
+            isStatic = true
         )
         limeReferenceMap["foo"] = limeContainer
         every {
@@ -360,7 +361,8 @@ class CBridgeModelBuilderTest {
             LimePath(emptyList(), listOf("foo", "bar")),
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.CONSTRUCTOR)
-                .build()
+                .build(),
+            isStatic = true
         )
         limeReferenceMap["foo"] = limeStruct
         every { typeMapper.mapType(any()) } returns cppTypeInfo

@@ -100,7 +100,7 @@ class CppModelBuilder(
     override fun finishBuilding(limeMethod: LimeMethod) {
         val specifiers = EnumSet.noneOf(CppMethod.Specifier::class.java)
         val qualifiers = EnumSet.noneOf(CppMethod.Qualifier::class.java)
-        if (limeMethod.isStatic || limeMethod.attributes.have(LimeAttributeType.CONSTRUCTOR)) {
+        if (limeMethod.isStatic) {
             specifiers.add(CppMethod.Specifier.STATIC)
         } else {
             if (limeMethod.attributes.have(LimeAttributeType.CONST)) {

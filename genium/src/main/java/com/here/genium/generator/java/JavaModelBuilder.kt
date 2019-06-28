@@ -94,7 +94,7 @@ class JavaModelBuilder(
         }
 
         val qualifiers = when {
-            isConstructor || limeMethod.isStatic -> setOf(MethodQualifier.STATIC)
+            limeMethod.isStatic -> setOf(MethodQualifier.STATIC)
             else -> emptySet()
         }
         val javaMethod = JavaMethod(

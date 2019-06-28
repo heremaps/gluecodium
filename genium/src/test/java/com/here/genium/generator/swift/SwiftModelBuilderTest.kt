@@ -137,7 +137,8 @@ class SwiftModelBuilderTest {
             fooPath,
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.CONSTRUCTOR)
-                .build()
+                .build(),
+            isStatic = true
         )
 
         modelBuilder.finishBuilding(limeElement)

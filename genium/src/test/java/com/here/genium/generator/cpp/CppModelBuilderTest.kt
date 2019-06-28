@@ -285,7 +285,8 @@ class CppModelBuilderTest {
             EMPTY_PATH,
             attributes = LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.CONSTRUCTOR)
-                .build()
+                .build(),
+            isStatic = true
         )
 
         modelBuilder.finishBuilding(limeElement)
