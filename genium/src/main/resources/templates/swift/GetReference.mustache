@@ -78,5 +78,6 @@ internal func getRef(_ ref: {{name}}?, owning: Bool = true) -> RefHolder {
 }}{{+callPropertyGetter}}swift_class.{{propertyName}}{{/callPropertyGetter}}{{!!
 }}{{+callPropertySetter}}swift_class.{{propertyName}} = {{#parameters.0}}{{>swiftParameterConversion}}{{/parameters.0}}{{/callPropertySetter}}{{!!
 }}{{+callResult}}call_result{{/callResult}}{{!!
-}}{{+swiftParameter2}}{{name}}: {{>swiftParameterConversion}}{{/swiftParameter2}}{{!!
+}}{{+swiftParameter2}}{{#argumentLabel}}{{#isNotEq . "_"}}{{.}}: {{/isNotEq}}{{/argumentLabel}}{{!!
+}}{{^argumentLabel}}{{name}}: {{/argumentLabel}}{{>swiftParameterConversion}}{{/swiftParameter2}}{{!!
 }}{{+swiftParameterConversion}}{{type.className}}moveFromCType({{name}}){{/swiftParameterConversion}}

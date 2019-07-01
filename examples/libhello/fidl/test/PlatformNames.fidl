@@ -38,3 +38,9 @@ interface PlatformNamesInterface {
 
     attribute UInt32 basicAttribute
 }
+
+interface PlatformNamesListener {
+    method basicMethod {
+        in { String basicParameter }
+    }
+}

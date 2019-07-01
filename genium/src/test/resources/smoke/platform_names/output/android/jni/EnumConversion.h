@@ -5,6 +5,8 @@
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
+#include "smoke/fooListener.h"
+#include "com_example_smoke_barListenerImpl.h"
 #include "smoke/fooTypes.h"
 #include <jni.h>
 #include <memory>

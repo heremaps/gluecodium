@@ -106,3 +106,29 @@ define GeniumExtensions for interface smoke.PlatformNamesInterface
 {
     method create { Constructor = true }
 }
+
+define Names for interface smoke.PlatformNamesListener
+{
+    CppName = "fooListener"
+    JavaName = "barListener"
+    SwiftName = "bazListener"
+
+    method basicMethod {
+        CppName = "FooMethod"
+        JavaName = "BarMethod"
+        SwiftName = "BazMethod"
+        in {
+            basicParameter {
+                CppName = "FooParameter"
+                JavaName = "BarParameter"
+                SwiftName = "BazParameter"
+                SwiftArgumentLabel = "_"
+            }
+        }
+    }
+}
+
+define GeniumExtensions for interface smoke.PlatformNamesListener
+{
+    IsInterface = true
+}
