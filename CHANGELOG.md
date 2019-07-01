@@ -1,8 +1,9 @@
 # Genium project Release Notes
 
-## Unreleased
+## 4.7.1
+- Release date: 2019-07-01
 - Bug fixes:
-  + Fixed compilation issue for Swift argument labels in protocols.
+  + Fixed compilation issues for Swift argument labels in protocols and structs.
 
 ## 4.7.0
 - Release date: 2019-06-26
