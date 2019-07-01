@@ -68,7 +68,7 @@ public class CType extends CElement {
     includes.add(include);
   }
 
-  protected CType(final String name, final Collection<Include> includes) {
+  public CType(final String name, final Collection<Include> includes) {
     super(name);
     this.includes = new LinkedHashSet<>(includes);
   }

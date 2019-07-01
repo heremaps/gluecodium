@@ -162,8 +162,7 @@ class CBridgeModelBuilder(
         var errorType: CppTypeInfo? = null
         val limeErrorType = limeMethod.exception?.errorEnum
         if (limeErrorType != null) {
-            errorType = typeMapper.createEnumTypeInfo(limeErrorType.type)
-            errorType.functionReturnType.includes.add(CType.BOOL_INCLUDE)
+            errorType = typeMapper.createEnumTypeInfo(limeErrorType.type, asErrorType = true)
         }
 
         val result = CFunction(

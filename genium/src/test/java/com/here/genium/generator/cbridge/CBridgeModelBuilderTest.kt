@@ -409,13 +409,12 @@ class CBridgeModelBuilderTest {
         val limeElement = LimeMethod(fooPath, exceptionRef = LimeDirectTypeRef(limeException))
         val enumTypeInfo = CppTypeInfo(CType.UINT32)
         contextStack.injectParentCurrentResult(cppTypeInfo)
-        every { typeMapper.createEnumTypeInfo(any()) } returns enumTypeInfo
+        every { typeMapper.createEnumTypeInfo(any(), true) } returns enumTypeInfo
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(CFunction::class.java)
         assertEquals(enumTypeInfo, result.error)
-        assertContains(CType.BOOL_INCLUDE, result.error!!.functionReturnType.includes)
     }
 
     @Test
