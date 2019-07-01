@@ -20,5 +20,6 @@ struct _GENIUM_CPP_EXPORT fooStruct {
     ::std::string FOO_FIELD;
     fooStruct( );
     fooStruct( const ::std::string& FOO_FIELD );
+    static ::smoke::fooStruct FooCreate( const ::std::string& FooParameter );
 };
 }

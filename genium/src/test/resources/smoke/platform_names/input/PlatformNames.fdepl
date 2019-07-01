@@ -59,6 +59,11 @@ define Names for typeCollection smoke.PlatformNames
     }
 }
 
+define GeniumExtensions for typeCollection smoke.PlatformNames
+{
+    struct BasicStruct { Companion = "smoke.BasicStructCompanion" }
+}
+
 define Names for interface smoke.PlatformNamesInterface
 {
     CppName = "fooInterface"
@@ -132,3 +137,27 @@ define GeniumExtensions for interface smoke.PlatformNamesListener
 {
     IsInterface = true
 }
+
+
+define Names for interface smoke.BasicStructCompanion
+{
+    method make {
+        CppName = "FooCreate"
+        JavaName = "BarCreate"
+        SwiftName = "BazCreate"
+        in {
+            basicParameter {
+                CppName = "FooParameter"
+                JavaName = "BarParameter"
+                SwiftName = "BazParameter"
+                SwiftArgumentLabel = "_"
+            }
+        }
+    }
+}
+
+define GeniumExtensions for interface smoke.BasicStructCompanion
+{
+    method make { Constructor = true }
+}
+

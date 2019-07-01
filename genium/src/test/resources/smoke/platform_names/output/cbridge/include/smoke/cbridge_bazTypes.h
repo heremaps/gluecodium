@@ -16,6 +16,7 @@ _GENIUM_C_EXPORT _baseRef smoke_PlatformNames_bazStruct_create_optional_handle(_
 _GENIUM_C_EXPORT _baseRef smoke_PlatformNames_bazStruct_unwrap_optional_handle(_baseRef handle);
 _GENIUM_C_EXPORT void smoke_PlatformNames_bazStruct_release_optional_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_PlatformNames_bazStruct_BAZ_FIELD_get(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_PlatformNames_bazStruct_make(_baseRef basicParameter);
 #ifdef __cplusplus
 }
 #endif

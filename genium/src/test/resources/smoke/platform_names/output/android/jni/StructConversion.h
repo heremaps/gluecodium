@@ -8,6 +8,7 @@
 #include "smoke/fooListener.h"
 #include "com_example_smoke_barListenerImpl.h"
 #include "smoke/fooTypes.h"
+#include "com_example_smoke_barStruct.h"
 #include <jni.h>
 #include <memory>
 #include "genium/Optional.h"

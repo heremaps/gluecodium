@@ -39,11 +39,20 @@ internal func moveFromCType(_ handle: _baseRef) -> bazEnum? {
 }
 public struct bazStruct {
     public var BAZ_FIELD: String
-    public init(BAZ_FIELD: String) {
-        self.BAZ_FIELD = BAZ_FIELD
-    }
     internal init(cHandle: _baseRef) {
         BAZ_FIELD = moveFromCType(smoke_PlatformNames_bazStruct_BAZ_FIELD_get(cHandle))
+    }
+    public init(_ BazParameter: String) {
+        let _result_handle = bazStruct.BazCreate(BazParameter)
+        guard _result_handle != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        let _result: bazStruct = moveFromCType(_result_handle)
+        self.BAZ_FIELD = _result.BAZ_FIELD
+    }
+    private static func BazCreate(_ BazParameter: String) -> _baseRef {
+        let c_BazParameter = moveToCType(BazParameter)
+        return moveFromCType(smoke_PlatformNames_bazStruct_make(c_BazParameter.ref))
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> bazStruct {

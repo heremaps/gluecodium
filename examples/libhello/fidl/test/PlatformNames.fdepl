@@ -59,6 +59,11 @@ define Names for typeCollection test.PlatformNames
     }
 }
 
+define GeniumExtensions for typeCollection test.PlatformNames
+{
+    struct BasicStruct { Companion = "test.BasicStructCompanion" }
+}
+
 define Names for interface test.PlatformNamesInterface
 {
     CppName = "fooInterface"
@@ -133,4 +138,24 @@ define Names for interface test.PlatformNamesListener
 define GeniumExtensions for interface test.PlatformNamesListener
 {
     IsInterface = true
+}
+
+define Names for interface test.BasicStructCompanion
+{
+    method make {
+        CppName = "create"
+        in {
+            basicParameter {
+                CppName = "FooParameter"
+                JavaName = "BarParameter"
+                SwiftName = "BazParameter"
+                SwiftArgumentLabel = "_"
+            }
+        }
+    }
+}
+
+define GeniumExtensions for interface test.BasicStructCompanion
+{
+    method make { Constructor = true }
 }

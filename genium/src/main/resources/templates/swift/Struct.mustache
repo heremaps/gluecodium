@@ -46,7 +46,9 @@
 }}{{#set className=name}}{{#constructors}}
 {{prefixPartial "swift/MethodComment" "    "}}
     {{visibility}} {{#if overriding}}override {{/if}}init({{>swift/MethodParameterDeclaration}}){{#if error}} throws{{/if}} {
-        let _result_handle = {{#if error}}try {{/if}}{{className}}.{{name}}({{#parameters}}{{name}}: {{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+        let _result_handle = {{#if error}}try {{/if}}{{className}}.{{name}}({{#parameters}}{{!!
+        }}{{#argumentLabel}}{{#isNotEq . "_"}}{{.}}: {{/isNotEq}}{{/argumentLabel}}{{^argumentLabel}}{{name}}: {{/argumentLabel}}{{!!
+        }}{{name}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
         guard _result_handle != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }

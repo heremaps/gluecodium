@@ -44,3 +44,9 @@ interface PlatformNamesListener {
         in { String basicParameter }
     }
 }
+
+interface BasicStructCompanion {
+    method make {
+        in { String basicParameter }
+    }
+}

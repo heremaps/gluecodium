@@ -34,4 +34,10 @@ fooInterface::make( const std::string& makeParameter )
     return {};
 }
 
+fooStruct
+fooStruct::create( const std::string& FooParameter )
+{
+    return {};
+}
+
 }  // namespace test
