@@ -20,6 +20,7 @@
 package com.here.genium
 
 import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.lime.LimeGeneratorSuite
 import com.here.genium.loader.getLoader
 import com.here.genium.model.lime.LimeModelLoader
 import com.here.genium.platform.android.AndroidGeneratorSuite
@@ -103,7 +104,8 @@ abstract class AcceptanceTestBase protected constructor(
         private val GENERATOR_NAMES = listOf(
             BaseApiGeneratorSuite.GENERATOR_NAME,
             AndroidGeneratorSuite.GENERATOR_NAME,
-            SwiftGeneratorSuite.GENERATOR_NAME
+            SwiftGeneratorSuite.GENERATOR_NAME,
+            LimeGeneratorSuite.GENERATOR_NAME
         )
         private val GENERATOR_DIRECTORIES = hashMapOf<String, List<String>>()
 
@@ -114,6 +116,8 @@ abstract class AcceptanceTestBase protected constructor(
                     listOf(AndroidGeneratorSuite.GENERATOR_NAME)
             GENERATOR_DIRECTORIES[SwiftGeneratorSuite.GENERATOR_NAME] =
                     listOf(SwiftGeneratorSuite.GENERATOR_NAME, "cbridge", "cbridge_internal")
+            GENERATOR_DIRECTORIES[LimeGeneratorSuite.GENERATOR_NAME] =
+                    listOf(LimeGeneratorSuite.GENERATOR_NAME)
         }
 
         @JvmStatic

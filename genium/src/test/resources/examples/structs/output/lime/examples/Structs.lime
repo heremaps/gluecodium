@@ -1,0 +1,27 @@
+package examples
+
+class Structs {
+    struct SyncResult {
+        lastUpdatedTimeStamp: ULong
+        numberOfChanges: UInt
+    }
+
+    struct IdentifiableSyncResult {
+        id: Int
+        syncResult: SyncResult
+    }
+
+    @Immutable
+    struct ImmutableSyncResult {
+        lastUpdatedTimeStamp: ULong
+        numberOfChanges: UInt
+    }
+
+    static fun methodWithNonNestedType(
+        input: SyncResult
+    ): SyncResult
+
+    static fun methodWithNestedType(
+        input: IdentifiableSyncResult
+    ): IdentifiableSyncResult
+}

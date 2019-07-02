@@ -1,0 +1,14 @@
+package examples
+
+class Errors {
+    enum InternalErrors {
+        NONE,
+        CRASHED,
+        EXPLODED
+    }
+
+    exception InternalErrorsException(InternalErrors)
+
+    static fun startSomethingOrFail() throws InternalErrorsException
+    static fun getSomethingOrFail(): String throws InternalErrorsException
+}

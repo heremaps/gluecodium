@@ -1,0 +1,16 @@
+package examples
+
+types Serialization {
+    @Serializable
+    struct SerializableStruct {
+        intField: Int
+        stringField: String
+        structField: NestedSerializableStruct
+        arrayField: List<String>
+    }
+
+    @Serializable
+    struct NestedSerializableStruct {
+        fooField: String
+    }
+}

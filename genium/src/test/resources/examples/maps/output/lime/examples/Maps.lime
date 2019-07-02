@@ -1,0 +1,9 @@
+package examples
+
+class Maps {
+    typealias NameMap = Map<ULong, String>
+
+    static fun mapMethod(
+        input: NameMap
+    ): NameMap
+}

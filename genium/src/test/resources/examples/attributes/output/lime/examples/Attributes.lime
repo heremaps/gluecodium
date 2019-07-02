@@ -1,0 +1,12 @@
+package examples
+
+interface Attributes {
+    property builtInTypeAttribute: UInt {
+        get
+        set
+    }
+
+    property readonlyAttribute: Float {
+        get
+    }
+}

@@ -1,0 +1,56 @@
+package examples
+
+class BuiltinTypes {
+    static fun methodWithInt8(
+        inputNumber: Byte
+    ): Byte
+
+    static fun methodWithUInt8(
+        inputNumber: UByte
+    ): UByte
+
+    static fun methodWithInt16(
+        inputNumber: Short
+    ): Short
+
+    static fun methodWithUInt16(
+        inputNumber: UShort
+    ): UShort
+
+    static fun methodWithInt32(
+        inputNumber: Int
+    ): Int
+
+    static fun methodWithUInt32(
+        inputNumber: UInt
+    ): UInt
+
+    static fun methodWithInt64(
+        inputNumber: Long
+    ): Long
+
+    static fun methodWithUInt64(
+        inputNumber: ULong
+    ): ULong
+
+    static fun methodWithBoolean(
+        inputCondition: Boolean
+    ): Boolean
+
+    static fun methodWithFloat(
+        inputNumber: Float
+    ): Float
+
+    static fun methodWithDouble(
+        inputNumber: Double
+    ): Double
+
+    static fun methodWithByteBuffer(
+        inputBuffer: Blob
+    ): Blob
+
+    static fun methodWithFloatAndInteger(
+        inputFloat: Float,
+        inputInteger: Int
+    ): Double
+}

@@ -1,0 +1,11 @@
+package examples
+
+internal class InternalClass {
+    internal struct InternalStruct {
+        internal stringField: String
+    }
+
+    internal fun internalMethod(
+        input: InternalStruct
+    )
+}

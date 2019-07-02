@@ -1,0 +1,9 @@
+package examples
+
+import examples.Enums.ShoeSizes
+
+class EnumMethods {
+    static fun methodWithEnumeration(
+        input: ShoeSizes
+    ): ShoeSizes
+}

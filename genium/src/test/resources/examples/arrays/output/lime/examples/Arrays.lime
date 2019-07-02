@@ -1,0 +1,18 @@
+package examples
+
+class Arrays {
+    typealias SyncResults = List<SyncResult>
+
+    struct SyncResult {
+        lastUpdatedTimeStamp: ULong
+        numberOfChanges: UInt
+    }
+
+    static fun explicitArrayMethod(
+        input: SyncResults
+    ): SyncResults
+
+    static fun implicitArrayMethod(
+        input: List<SyncResult>
+    ): List<SyncResult>
+}
