@@ -26,7 +26,10 @@ class LimeMethod(
     attributes: LimeAttributes? = null,
     val returnType: LimeReturnType = LimeReturnType.VOID,
     val parameters: List<LimeParameter> = emptyList(),
-    val errorType: LimeTypeRef? = null,
+    private val exceptionRef: LimeTypeRef? = null,
     val isStatic: Boolean = false,
     val isConstructor: Boolean = false
-) : LimeNamedElement(path, visibility, comment, attributes)
+) : LimeNamedElement(path, visibility, comment, attributes) {
+    val exception: LimeException?
+        get() = exceptionRef?.type as? LimeException
+}

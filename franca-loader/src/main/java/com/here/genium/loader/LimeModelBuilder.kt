@@ -37,6 +37,7 @@ import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeEnumeratorRef
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeMap
@@ -80,7 +81,8 @@ class LimeModelBuilder(
     contextStack: ModelBuilderContextStack<LimeElement> = ModelBuilderContextStack(),
     private val deploymentModel: FrancaDeploymentModel,
     private val referenceResolver: LimeReferenceResolver,
-    private val companionHelper: FrancaCompanionHelper
+    private val companionHelper: FrancaCompanionHelper,
+    private val errorEnums: Set<String>
 ) : AbstractModelBuilder<LimeElement>(contextStack) {
 
     override fun finishBuilding(francaInterface: FInterface) {
@@ -140,7 +142,8 @@ class LimeModelBuilder(
             constants = getPreviousResults(LimeConstant::class.java),
             typeDefs = getPreviousResults(LimeTypeDef::class.java),
             methods = getPreviousResults(LimeMethod::class.java),
-            properties = getPreviousResults(LimeProperty::class.java)
+            properties = getPreviousResults(LimeProperty::class.java),
+            exceptions = getPreviousResults(LimeException::class.java)
         )
 
         storeResultAndCloseContext(limeContainer)
@@ -248,6 +251,18 @@ class LimeModelBuilder(
             attributes = attributes.build(),
             enumerators = getPreviousResults(LimeEnumerator::class.java)
         )
+
+        if (errorEnums.contains(limeEnum.fullName)) {
+            val limeException = LimeException(
+                path = limeEnum.path.parent.child("${limeEnum.name}Exception"),
+                visibility = limeEnum.visibility,
+                comment = limeEnum.comment,
+                errorEnum = LimeDirectTypeRef(limeEnum)
+            )
+
+            referenceResolver.registerElement(limeException)
+            storeResult(limeException)
+        }
 
         storeResultAndCloseContext(limeEnum)
     }
@@ -415,9 +430,6 @@ class LimeModelBuilder(
             CommentHelper.getDeprecationMessage(francaMethod)
         )
 
-        val errorEnum = getPreviousResultOrNull(LimeEnumeration::class.java)
-        val errorType = errorEnum?.let { LimeDirectTypeRef(it) }
-
         val methodLimePath = createElementPath(francaMethod)
         val limeReturnType = getPreviousResultOrNull(LimeReturnType::class.java)
         val isConstructor = deploymentModel.isConstructor(francaMethod)
@@ -438,7 +450,8 @@ class LimeModelBuilder(
             attributes = attributes.build(),
             returnType = returnType,
             parameters = getPreviousResults(LimeParameter::class.java),
-            errorType = errorType,
+            exceptionRef =
+                getPreviousResultOrNull(LimeException::class.java)?.let { LimeDirectTypeRef(it) },
             isStatic = isConstructor || deploymentModel.isStatic(francaMethod),
             isConstructor = isConstructor
         )

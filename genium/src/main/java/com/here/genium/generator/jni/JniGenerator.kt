@@ -39,7 +39,7 @@ import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.jni.JniContainer
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeException
 
 class JniGenerator(
     private val limeReferenceMap: Map<String, LimeElement>,
@@ -57,8 +57,8 @@ class JniGenerator(
     private val cppNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, cppNameRules)
     private val errorEnums =
         limeReferenceMap.values
-            .filterIsInstance<LimeMethod>()
-            .mapNotNull { it.errorType?.elementFullName }
+            .filterIsInstance<LimeException>()
+            .map { it.errorEnum.elementFullName }
             .toSet()
 
     fun generateModel(limeContainer: LimeContainer): JavaModel {

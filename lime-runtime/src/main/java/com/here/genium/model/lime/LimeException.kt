@@ -19,25 +19,10 @@
 
 package com.here.genium.model.lime
 
-class LimeContainer(
+class LimeException(
     path: LimePath,
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: String = "",
     attributes: LimeAttributes? = null,
-    val type: ContainerType,
-    val parent: LimeTypeRef? = null,
-    val structs: List<LimeStruct> = emptyList(),
-    val enumerations: List<LimeEnumeration> = emptyList(),
-    val constants: List<LimeConstant> = emptyList(),
-    val typeDefs: List<LimeTypeDef> = emptyList(),
-    val methods: List<LimeMethod> = emptyList(),
-    val properties: List<LimeProperty> = emptyList(),
-    val exceptions: List<LimeException> = emptyList()
-) : LimeType(path, visibility, comment, attributes) {
-
-    enum class ContainerType {
-        TYPE_COLLECTION,
-        INTERFACE,
-        CLASS
-    }
-}
+    val errorEnum: LimeTypeRef
+) : LimeType(path, visibility, comment, attributes)

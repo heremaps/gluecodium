@@ -20,6 +20,7 @@
 package com.here.genium.loader
 
 import com.here.genium.franca.FrancaDeploymentModel
+import com.here.genium.franca.FrancaTypeHelper
 import com.here.genium.franca.ModelHelper
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeModel
@@ -54,6 +55,7 @@ import com.here.genium.validator.visibility.MethodVisibilityValidatorPredicate
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.xtext.linking.impl.ImportedNamesAdapter
+import org.franca.core.franca.FInterface
 import org.franca.core.franca.FTypeCollection
 import java.io.File
 
@@ -82,11 +84,17 @@ internal object FrancaBasedLimeModelLoader : LimeModelLoader {
         val limeReferenceResolver = LimeReferenceResolver()
         val companionHelper =
             FrancaCompanionHelper(francaModel.typeCollections, francaModel.deploymentModel)
+        val errorEnums = francaModel.typeCollections
+            .filterIsInstance<FInterface>()
+            .flatMap { it.methods }
+            .mapNotNull { it.errorEnum }
+            .map { FrancaTypeHelper.getFullName(it) }
         val limeModelBuilder =
             LimeModelBuilder(
                 deploymentModel = francaModel.deploymentModel,
                 referenceResolver = limeReferenceResolver,
-                companionHelper = companionHelper
+                companionHelper = companionHelper,
+                errorEnums = errorEnums.toSet()
             )
 
         val filteredTypeCollections =

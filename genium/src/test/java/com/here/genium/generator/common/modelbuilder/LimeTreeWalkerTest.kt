@@ -22,8 +22,10 @@ package com.here.genium.generator.common.modelbuilder
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
+import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeParameter
@@ -72,9 +74,10 @@ class LimeTreeWalkerTest {
     )
     private val limeStruct = LimeStruct(EMPTY_PATH, fields = listOf(limeField))
     private val limeParameter = LimeParameter(EMPTY_PATH, typeRef = limeParameterTypeRef)
+    private val limeException = LimeException(EMPTY_PATH, errorEnum = limeErrorTypeRef)
     private val limeMethod = LimeMethod(
         path = EMPTY_PATH,
-        errorType = limeErrorTypeRef,
+        exceptionRef = LimeDirectTypeRef(limeException),
         parameters = listOf(limeParameter)
     )
     private val limeContainer = LimeContainer(

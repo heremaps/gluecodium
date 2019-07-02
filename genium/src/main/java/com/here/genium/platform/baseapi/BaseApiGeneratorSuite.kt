@@ -40,7 +40,7 @@ import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppFile
 import com.here.genium.model.cpp.CppForwardDeclaration
 import com.here.genium.model.lime.LimeContainer
-import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.platform.common.GeneratorSuite
 import java.io.File
@@ -74,9 +74,9 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
         val cppModelBuilder = CppModelBuilder(typeMapper = typeMapper, nameResolver = nameResolver)
 
         val allErrorEnums = limeReferenceMap.values
-            .filterIsInstance(LimeMethod::class.java)
-            .mapNotNull { it.errorType?.type }
-            .map(nameResolver::getFullyQualifiedName)
+            .filterIsInstance<LimeException>()
+            .map { it.errorEnum.type }
+            .map { nameResolver.getFullyQualifiedName(it) }
             .toSet()
 
         val generator = CppGenerator(GENERATOR_NAME, internalNamespace)

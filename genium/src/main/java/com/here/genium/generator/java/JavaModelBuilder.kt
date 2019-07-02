@@ -92,6 +92,7 @@ class JavaModelBuilder(
             }
         }
 
+        val javaExceptionType = limeMethod.exception?.let { typeMapper.mapExceptionType(it) }
         val qualifiers = when {
             limeMethod.isStatic -> setOf(MethodQualifier.STATIC)
             else -> emptySet()
@@ -102,7 +103,7 @@ class JavaModelBuilder(
             visibility = getVisibility(limeMethod),
             returnType = returnType,
             returnComment = limeMethod.returnType.comment,
-            exception = limeMethod.errorType?.type?.let { typeMapper.mapExceptionType(it) },
+            exception = javaExceptionType,
             parameters = getPreviousResults(JavaParameter::class.java),
             isConstructor = limeMethod.isConstructor,
             qualifiers = qualifiers

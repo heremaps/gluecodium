@@ -37,6 +37,7 @@ import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeNamedElement
@@ -180,9 +181,10 @@ class JavaTypeMapper(
         }
     }
 
-    fun mapExceptionType(limeType: LimeType): JavaExceptionType {
-        val exceptionName = nameRules.getExceptionName(limeType as LimeEnumeration)
-        val parentContainer = limeReferenceMap[limeType.path.parent.toString()] as LimeContainer
+    fun mapExceptionType(limeException: LimeException): JavaExceptionType {
+        val limeEnum = limeException.errorEnum.type as LimeEnumeration
+        val exceptionName = nameRules.getExceptionName(limeEnum)
+        val parentContainer = limeReferenceMap[limeEnum.path.parent.toString()] as LimeContainer
         val javaPackage =
             JavaPackage(basePackage.createChildPackage(parentContainer.path.head).packageNames)
 

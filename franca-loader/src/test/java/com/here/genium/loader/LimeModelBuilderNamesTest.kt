@@ -57,11 +57,10 @@ class LimeModelBuilderNamesTest(
     @MockK private lateinit var parentContainer: FInterface
     @MockK private lateinit var francaAnnotation: FAnnotationBlock
 
+    private val contextStack = MockContextStack<LimeElement>()
     @MockK private lateinit var deploymentModel: FrancaDeploymentModel
     private val referenceResolver = LimeReferenceResolver()
     @MockK private lateinit var companionHelper: FrancaCompanionHelper
-
-    private val contextStack = MockContextStack<LimeElement>()
 
     private lateinit var modelBuilder: LimeModelBuilder
 
@@ -69,8 +68,13 @@ class LimeModelBuilderNamesTest(
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        modelBuilder =
-            LimeModelBuilder(contextStack, deploymentModel, referenceResolver, companionHelper)
+        modelBuilder = LimeModelBuilder(
+            contextStack,
+            deploymentModel,
+            referenceResolver,
+            companionHelper,
+            emptySet()
+        )
 
         every { parentContainer.name } returns "the.model"
         every { francaAnnotation.elements } returns ArrayEList<FAnnotation>()

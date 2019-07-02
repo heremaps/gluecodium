@@ -193,8 +193,8 @@ class SwiftModelBuilder(
             arraysCollector.putIfAbsent(elementTypeKey, returnType.withoutAlias())
         }
 
-        val errorType = limeMethod.errorType?.let {
-            val swiftEnumName = nameResolver.getFullName(it.type)
+        val errorType = limeMethod.exception?.let {
+            val swiftEnumName = nameResolver.getFullName(it.errorEnum.type)
             enumsAsErrors.add(swiftEnumName)
             SwiftEnum(swiftEnumName)
         }

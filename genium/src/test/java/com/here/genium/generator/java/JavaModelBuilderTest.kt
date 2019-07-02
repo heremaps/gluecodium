@@ -46,6 +46,7 @@ import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeParameter
@@ -164,12 +165,12 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsErrorType() {
-        val limeType = object : LimeType(EMPTY_PATH) {}
-        val limeTypeRef = LimeDirectTypeRef(limeType)
-        val limeElement = LimeMethod(EMPTY_PATH, errorType = limeTypeRef)
+        val limeErrorType = object : LimeType(EMPTY_PATH) {}
+        val limeException = LimeException(EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeErrorType))
+        val limeElement = LimeMethod(EMPTY_PATH, exceptionRef = LimeDirectTypeRef(limeException))
         val javaExceptionType =
             JavaExceptionType("", emptyList(), JavaImport("", JavaPackage.DEFAULT))
-        every { typeMapper.mapExceptionType(limeType) } returns javaExceptionType
+        every { typeMapper.mapExceptionType(any()) } returns javaExceptionType
 
         modelBuilder.finishBuilding(limeElement)
 

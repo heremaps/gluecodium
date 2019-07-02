@@ -29,6 +29,7 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
@@ -76,6 +77,7 @@ class LimeModelBuilderInterfaceTest {
     @MockK private lateinit var francaAttribute: FAttribute
     @MockK private lateinit var francaStruct: FStructType
 
+    private val contextStack = MockContextStack<LimeElement>()
     @MockK private lateinit var deploymentModel: FrancaDeploymentModel
     private val referenceResolver = LimeReferenceResolver()
     @MockK private lateinit var companionHelper: FrancaCompanionHelper
@@ -91,8 +93,6 @@ class LimeModelBuilderInterfaceTest {
     private val limeReturnType = LimeReturnType(limeTypeRef, comment = "Foo comment")
     private val limeParameter = LimeParameter(EMPTY_PATH, typeRef = limeTypeRef)
 
-    private val contextStack = MockContextStack<LimeElement>()
-
     private lateinit var modelBuilder: LimeModelBuilder
 
     @Before
@@ -101,8 +101,13 @@ class LimeModelBuilderInterfaceTest {
         mockkStatic(SpecialTypeRules::class, StringValueMapper::class)
         mockkObject(CommentHelper)
 
-        modelBuilder =
-            LimeModelBuilder(contextStack, deploymentModel, referenceResolver, companionHelper)
+        modelBuilder = LimeModelBuilder(
+            contextStack,
+            deploymentModel,
+            referenceResolver,
+            companionHelper,
+            emptySet()
+        )
 
         every { CommentHelper.getDescription(any()) } returns "some comment"
         every { CommentHelper.getDeprecationMessage(any()) } returns "mostly deprecated"
@@ -328,12 +333,13 @@ class LimeModelBuilderInterfaceTest {
 
     @Test
     fun finishBuildingMethodReadsErrorEnum() {
-        contextStack.injectResult(limeEnumeration)
+        val limeException = LimeException(EMPTY_PATH, errorEnum = limeTypeRef)
+        contextStack.injectResult(limeException)
 
         modelBuilder.finishBuilding(francaMethod)
 
         val result = modelBuilder.getFinalResult(LimeMethod::class.java)
-        assertEquals(limeEnumeration.fullName, result.errorType?.elementFullName)
+        assertEquals(limeException, result.exception)
     }
 
     @Test

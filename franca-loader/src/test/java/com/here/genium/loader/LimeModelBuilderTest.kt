@@ -31,6 +31,7 @@ import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
@@ -92,9 +93,11 @@ class LimeModelBuilderTest {
     @MockK private lateinit var francaArray: FArrayType
     @MockK private lateinit var francaMap: FMapType
 
+    private val contextStack = MockContextStack<LimeElement>()
     @MockK private lateinit var deploymentModel: FrancaDeploymentModel
     private val referenceResolver = LimeReferenceResolver()
     @MockK private lateinit var companionHelper: FrancaCompanionHelper
+    private val errorEnums = mutableSetOf<String>()
 
     private val limeTypeRef = LimeBasicTypeRef.DOUBLE
     private val limeValue = LimeValue.Literal(limeTypeRef, "")
@@ -106,8 +109,6 @@ class LimeModelBuilderTest {
     private val limeField = LimeField(EMPTY_PATH, typeRef = limeTypeRef)
     private val limeMethod = LimeMethod(EMPTY_PATH)
 
-    private val contextStack = MockContextStack<LimeElement>()
-
     private lateinit var modelBuilder: LimeModelBuilder
 
     @Before
@@ -116,8 +117,13 @@ class LimeModelBuilderTest {
         mockkStatic(SpecialTypeRules::class, StringValueMapper::class)
         mockkObject(CommentHelper)
 
-        modelBuilder =
-            LimeModelBuilder(contextStack, deploymentModel, referenceResolver, companionHelper)
+        modelBuilder = LimeModelBuilder(
+            contextStack,
+            deploymentModel,
+            referenceResolver,
+            companionHelper,
+            errorEnums
+        )
 
         every { CommentHelper.getDescription(any()) } returns "some comment"
         every { CommentHelper.getDeprecationMessage(any()) } returns "mostly deprecated"
@@ -441,6 +447,18 @@ class LimeModelBuilderTest {
         assertEquals("the.model.SomeTypeCollection.SomeEnum", result.fullName)
         assertEquals("some comment", result.comment)
         assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
+    }
+
+    @Test
+    fun finishBuildingEnumerationCreatesException() {
+        errorEnums.add("the.model.SomeTypeCollection.SomeEnum")
+
+        modelBuilder.finishBuilding(francaEnumeration)
+
+        val result = modelBuilder.getFinalResult(LimeException::class.java)
+        assertEquals("SomeEnumException", result.name)
+        assertEquals("the.model.SomeTypeCollection.SomeEnumException", result.fullName)
+        assertEquals("the.model.SomeTypeCollection.SomeEnum", result.errorEnum.elementFullName)
     }
 
     @Test
