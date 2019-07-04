@@ -147,8 +147,7 @@ class CBridgeModelBuilder(
         val limeParent =
             limeReferenceMap[limeMethod.path.parent.toString()] as LimeNamedElement
         val returnType = when {
-            limeParent !is LimeStruct &&
-                    limeMethod.attributes.have(LimeAttributeType.CONSTRUCTOR) ->
+            limeParent !is LimeStruct && limeMethod.isConstructor ->
                 typeMapper.createCustomTypeInfo(limeParent, CppTypeInfo.TypeCategory.CLASS)
             else -> {
                 val cppTypeInfo = mapType(limeMethod.returnType.typeRef.type)

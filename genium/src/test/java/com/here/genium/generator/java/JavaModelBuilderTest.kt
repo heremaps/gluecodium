@@ -191,13 +191,7 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsConstructor() {
-        val limeElement = LimeMethod(
-            EMPTY_PATH,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.CONSTRUCTOR)
-                .build(),
-            isStatic = true
-        )
+        val limeElement = LimeMethod(EMPTY_PATH, isConstructor = true, isStatic = true)
         every {
             typeMapper.mapParentType(limeElement)
         } returns JavaCustomType("", isInterface = true)
@@ -212,13 +206,7 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsStructConstructor() {
-        val limeElement = LimeMethod(
-            EMPTY_PATH,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.CONSTRUCTOR)
-                .build(),
-            isStatic = true
-        )
+        val limeElement = LimeMethod(EMPTY_PATH, isConstructor = true, isStatic = true)
         val parentType = JavaCustomType("")
         every { typeMapper.mapParentType(limeElement) } returns parentType
 

@@ -141,13 +141,7 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsConstructor() {
-        val limeElement = LimeMethod(
-            fooPath,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.CONSTRUCTOR)
-                .build(),
-            isStatic = true
-        )
+        val limeElement = LimeMethod(fooPath, isConstructor = true, isStatic = true)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -159,12 +153,7 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsConstructorSignatureClash() {
-        val limeElement = LimeMethod(
-            fooPath,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.CONSTRUCTOR)
-                .build()
-        )
+        val limeElement = LimeMethod(fooPath, isConstructor = true, isStatic = true)
         every { signatureResolver.hasSignatureClash(limeElement) } returns true
 
         modelBuilder.finishBuilding(limeElement)

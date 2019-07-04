@@ -310,7 +310,7 @@ class LimeModelBuilderInterfaceTest {
         modelBuilder.finishBuilding(francaMethod)
 
         val result = modelBuilder.getFinalResult(LimeMethod::class.java)
-        assertHasAttribute(LimeAttributeType.CONSTRUCTOR, result)
+        assertTrue(result.isConstructor)
         assertTrue(result.isStatic)
         assertEquals("the.model.SomeInterface", result.returnType.typeRef.elementFullName)
         assertEquals("Foo comment", result.returnType.comment)

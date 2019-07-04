@@ -179,9 +179,8 @@ class SwiftModelBuilder(
     }
 
     override fun finishBuilding(limeMethod: LimeMethod) {
-        val isConstructor = limeMethod.attributes.have(LimeAttributeType.CONSTRUCTOR)
         val returnType = when {
-            isConstructor -> SwiftType(CBridgeNameRules.BASE_REF_NAME, null)
+            limeMethod.isConstructor -> SwiftType(CBridgeNameRules.BASE_REF_NAME, null)
             else -> {
                 val isNullable = limeMethod.returnType.typeRef.isNullable
                 typeMapper.mapType(limeMethod.returnType.typeRef.type).withOptional(isNullable)
@@ -211,8 +210,8 @@ class SwiftModelBuilder(
             cShortName = CBridgeNameRules.getShortMethodName(limeParent, limeMethod),
             error = errorType,
             isStatic = limeMethod.isStatic,
-            isConstructor = isConstructor,
-            isOverriding = isConstructor && signatureResolver.hasSignatureClash(limeMethod),
+            isConstructor = limeMethod.isConstructor,
+            isOverriding = limeMethod.isConstructor && signatureResolver.hasSignatureClash(limeMethod),
             parameters = getPreviousResults(SwiftParameter::class.java)
         )
 

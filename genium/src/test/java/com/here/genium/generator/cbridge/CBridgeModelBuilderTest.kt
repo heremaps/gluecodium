@@ -338,9 +338,7 @@ class CBridgeModelBuilderTest {
     fun finishBuildingMethodReadsConstructor() {
         val limeElement = LimeMethod(
             LimePath(emptyList(), listOf("foo", "bar")),
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.CONSTRUCTOR)
-                .build(),
+            isConstructor = true,
             isStatic = true
         )
         limeReferenceMap["foo"] = limeContainer
@@ -359,9 +357,7 @@ class CBridgeModelBuilderTest {
     fun finishBuildingMethodReadsStructConstructor() {
         val limeElement = LimeMethod(
             LimePath(emptyList(), listOf("foo", "bar")),
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.CONSTRUCTOR)
-                .build(),
+            isConstructor = true,
             isStatic = true
         )
         limeReferenceMap["foo"] = limeStruct

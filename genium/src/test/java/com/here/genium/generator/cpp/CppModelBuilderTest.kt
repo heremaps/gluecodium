@@ -281,13 +281,7 @@ class CppModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsConstructorFlag() {
-        val limeElement = LimeMethod(
-            EMPTY_PATH,
-            attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.CONSTRUCTOR)
-                .build(),
-            isStatic = true
-        )
+        val limeElement = LimeMethod(EMPTY_PATH, isConstructor = true, isStatic = true)
 
         modelBuilder.finishBuilding(limeElement)
 

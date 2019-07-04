@@ -410,10 +410,6 @@ class LimeModelBuilder(
         if (deploymentModel.isConst(francaMethod)) {
             attributes.addAttribute(LimeAttributeType.CONST)
         }
-        val isConstructor = deploymentModel.isConstructor(francaMethod)
-        if (isConstructor) {
-            attributes.addAttribute(LimeAttributeType.CONSTRUCTOR)
-        }
         attributes.addAttribute(
             LimeAttributeType.DEPRECATED,
             CommentHelper.getDeprecationMessage(francaMethod)
@@ -424,6 +420,7 @@ class LimeModelBuilder(
 
         val methodLimePath = createElementPath(francaMethod)
         val limeReturnType = getPreviousResultOrNull(LimeReturnType::class.java)
+        val isConstructor = deploymentModel.isConstructor(francaMethod)
         val returnType = when {
             isConstructor -> {
                 val containerTypeRef = LimeLazyTypeRef(
@@ -442,7 +439,8 @@ class LimeModelBuilder(
             returnType = returnType,
             parameters = getPreviousResults(LimeParameter::class.java),
             errorType = errorType,
-            isStatic = isConstructor || deploymentModel.isStatic(francaMethod)
+            isStatic = isConstructor || deploymentModel.isStatic(francaMethod),
+            isConstructor = isConstructor
         )
 
         storeResultAndCloseContext(limeMethod)

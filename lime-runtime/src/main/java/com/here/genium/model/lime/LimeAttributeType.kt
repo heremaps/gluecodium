@@ -29,7 +29,6 @@ enum class LimeAttributeType {
     EQUATABLE,
     IMMUTABLE,
     CONST,
-    CONSTRUCTOR,
     BUILDER,
     POINTER_EQUATABLE,
     CPP_NAME,

@@ -81,9 +81,8 @@ class JavaModelBuilder(
     }
 
     override fun finishBuilding(limeMethod: LimeMethod) {
-        val isConstructor = limeMethod.attributes.have(LimeAttributeType.CONSTRUCTOR)
         val returnType = when {
-            isConstructor -> {
+            limeMethod.isConstructor -> {
                 val parentType = typeMapper.mapParentType(limeMethod) as JavaCustomType
                 if (parentType.isInterface) JavaPrimitiveType.LONG else parentType
             }
@@ -105,7 +104,7 @@ class JavaModelBuilder(
             returnComment = limeMethod.returnType.comment,
             exception = limeMethod.errorType?.type?.let { typeMapper.mapExceptionType(it) },
             parameters = getPreviousResults(JavaParameter::class.java),
-            isConstructor = isConstructor,
+            isConstructor = limeMethod.isConstructor,
             qualifiers = qualifiers
         )
         addDeprecatedAnnotationIfNeeded(javaMethod)
