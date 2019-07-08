@@ -3,11 +3,11 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 #include "namerules/NameRules.h"
-#include "com_example_namerules_NAME_RULES_DROID.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
+#include "com_example_namerules_NAME_RULES_DROID.h"
 #include "ArrayConversionUtils.h"
 #include "EnumConversion.h"
 #include "EnumSetConversion.h"

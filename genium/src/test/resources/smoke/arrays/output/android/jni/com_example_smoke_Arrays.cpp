@@ -2,14 +2,14 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-#include "smoke/Arrays.h"
-#include "alien/FooStruct.h"
 #include "alien/FooEnum.h"
-#include "com_example_smoke_Arrays.h"
+#include "alien/FooStruct.h"
+#include "smoke/Arrays.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
+#include "com_example_smoke_Arrays.h"
 #include "ArrayConversionUtils.h"
 #include "EnumConversion.h"
 #include "EnumSetConversion.h"

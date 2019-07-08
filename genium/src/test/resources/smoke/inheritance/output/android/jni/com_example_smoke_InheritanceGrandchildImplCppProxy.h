@@ -6,11 +6,11 @@
 #include <jni.h>
 #include "JniReference.h"
 #include "smoke/InheritanceGrandchild.h"
-#include "com_example_smoke_InheritanceGrandchildImpl.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
+#include "com_example_smoke_InheritanceGrandchildImpl.h"
 #ifdef __cplusplus
 extern "C" {
 #endif

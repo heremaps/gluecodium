@@ -3,11 +3,11 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 #include "root/space/smoke/Basic.h"
-#include "com_example_smoke_Basic.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
+#include "com_example_smoke_Basic.h"
 #include "ArrayConversionUtils.h"
 #include "EnumConversion.h"
 #include "EnumSetConversion.h"

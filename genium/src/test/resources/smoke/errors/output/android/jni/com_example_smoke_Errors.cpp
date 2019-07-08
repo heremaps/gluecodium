@@ -2,13 +2,13 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-#include "smoke/Errors.h"
 #include "foo/Bar.h"
-#include "com_example_smoke_Errors.h"
+#include "smoke/Errors.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
+#include "com_example_smoke_Errors.h"
 #include "ArrayConversionUtils.h"
 #include "EnumConversion.h"
 #include "EnumSetConversion.h"

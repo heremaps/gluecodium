@@ -3,11 +3,11 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 #include "foo/Bar.h"
-#include "com_example_smoke_ExternalInterface.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
+#include "com_example_smoke_ExternalInterface.h"
 #include "ArrayConversionUtils.h"
 #include "EnumConversion.h"
 #include "EnumSetConversion.h"

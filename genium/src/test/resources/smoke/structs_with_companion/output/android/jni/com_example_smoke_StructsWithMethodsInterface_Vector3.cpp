@@ -3,12 +3,12 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 #include "smoke/StructsWithMethodsInterface.h"
-#include "com_example_smoke_StructsWithMethodsInterface.h"
-#include "com_example_smoke_StructsWithMethodsInterface_Vector3.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
+#include "com_example_smoke_StructsWithMethodsInterface.h"
+#include "com_example_smoke_StructsWithMethodsInterface_Vector3.h"
 #include "ArrayConversionUtils.h"
 #include "EnumConversion.h"
 #include "EnumSetConversion.h"

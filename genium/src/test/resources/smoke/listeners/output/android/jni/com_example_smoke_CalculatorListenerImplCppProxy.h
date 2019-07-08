@@ -6,11 +6,11 @@
 #include <jni.h>
 #include "JniReference.h"
 #include "smoke/CalculatorListener.h"
-#include "com_example_smoke_CalculatorListenerImpl.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
+#include "com_example_smoke_CalculatorListenerImpl.h"
 #ifdef __cplusplus
 extern "C" {
 #endif

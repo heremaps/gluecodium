@@ -1,19 +1,19 @@
 #pragma once
-#include "smoke/Structs.h"
-#include "foo/Bar.h"
-#include "foo/Bazz.h"
-#include "non/Sense.h"
-#include "com_example_smoke_Structs.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
-#include "smoke/StructsFromTypeCollection.h"
+#include "com_example_fire_StructsQualifiedType.h"
+#include "com_example_smoke_Structs.h"
 #include "com_example_smoke_StructsFromTypeCollection.h"
-#include "smoke/StructsInstance.h"
 #include "com_example_smoke_StructsInstance.h"
 #include "fire/StructsQualifiedType.h"
-#include "com_example_fire_StructsQualifiedType.h"
+#include "foo/Bar.h"
+#include "foo/Bazz.h"
+#include "non/Sense.h"
+#include "smoke/Structs.h"
+#include "smoke/StructsFromTypeCollection.h"
+#include "smoke/StructsInstance.h"
 #include "smoke/TypeCollection.h"
 #include <jni.h>
 #include <memory>
@@ -22,6 +22,30 @@ namespace genium
 {
 namespace jni
 {
+::smoke::Point convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Point* dummy);
+::genium::optional<::smoke::Point> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Point>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Point& _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Point> _ninput);
+::smoke::Color convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Color* dummy);
+::genium::optional<::smoke::Color> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Color>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Color& _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Color> _ninput);
+::smoke::Line convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Line* dummy);
+::genium::optional<::smoke::Line> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Line>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Line& _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Line> _ninput);
+::smoke::ColoredLine convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::ColoredLine* dummy);
+::genium::optional<::smoke::ColoredLine> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::ColoredLine>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::ColoredLine& _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::ColoredLine> _ninput);
+::smoke::AllTypesStruct convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::AllTypesStruct* dummy);
+::genium::optional<::smoke::AllTypesStruct> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::AllTypesStruct>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::AllTypesStruct& _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::AllTypesStruct> _ninput);
+::fire::StructsQualifiedType::QualifiedType convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::StructsQualifiedType::QualifiedType* dummy);
+::genium::optional<::fire::StructsQualifiedType::QualifiedType> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::fire::StructsQualifiedType::QualifiedType>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::fire::StructsQualifiedType::QualifiedType& _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::fire::StructsQualifiedType::QualifiedType> _ninput);
 ::smoke::Structs::Point convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::Point* dummy);
 ::genium::optional<::smoke::Structs::Point> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Structs::Point>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Point& _ninput);
@@ -66,29 +90,5 @@ JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::s
 ::genium::optional<::smoke::Structs::StructWithArrayOfImmutable> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Structs::StructWithArrayOfImmutable>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::StructWithArrayOfImmutable& _ninput);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::StructWithArrayOfImmutable> _ninput);
-::fire::StructsQualifiedType::QualifiedType convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::StructsQualifiedType::QualifiedType* dummy);
-::genium::optional<::fire::StructsQualifiedType::QualifiedType> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::fire::StructsQualifiedType::QualifiedType>* dummy);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::fire::StructsQualifiedType::QualifiedType& _ninput);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::fire::StructsQualifiedType::QualifiedType> _ninput);
-::smoke::Point convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Point* dummy);
-::genium::optional<::smoke::Point> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Point>* dummy);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Point& _ninput);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Point> _ninput);
-::smoke::Color convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Color* dummy);
-::genium::optional<::smoke::Color> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Color>* dummy);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Color& _ninput);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Color> _ninput);
-::smoke::Line convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Line* dummy);
-::genium::optional<::smoke::Line> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Line>* dummy);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Line& _ninput);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Line> _ninput);
-::smoke::ColoredLine convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::ColoredLine* dummy);
-::genium::optional<::smoke::ColoredLine> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::ColoredLine>* dummy);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::ColoredLine& _ninput);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::ColoredLine> _ninput);
-::smoke::AllTypesStruct convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::AllTypesStruct* dummy);
-::genium::optional<::smoke::AllTypesStruct> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::AllTypesStruct>* dummy);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::AllTypesStruct& _ninput);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::AllTypesStruct> _ninput);
 }
 }

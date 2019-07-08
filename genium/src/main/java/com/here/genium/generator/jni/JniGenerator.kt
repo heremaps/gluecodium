@@ -107,7 +107,7 @@ class JniGenerator(
         )
     }
 
-    private fun getIncludes(jniContainer: JniContainer): Set<Include> {
+    private fun getIncludes(jniContainer: JniContainer): List<Include> {
         val includes = mutableListOf<String>()
         if (jniContainer.containerType != JniContainer.ContainerType.TYPE_COLLECTION) {
             includes +=
@@ -122,7 +122,7 @@ class JniGenerator(
 
         val includeSet = includes.map { Include.createInternalInclude(it) }.toSet()
         CppLibraryIncludes.filterIncludes(includeSet, internalNamespace)
-        return includeSet
+        return includeSet.sorted()
     }
 
     companion object {

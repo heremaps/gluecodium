@@ -105,8 +105,8 @@ class JniTemplates(
     ) {
         val includes = jniContainers.flatMap { it.includes }.toSet()
         val mustacheData = mutableMapOf(
-            INCLUDES_NAME to includes,
-            MODELS_NAME to jniContainers,
+            INCLUDES_NAME to includes.sorted(),
+            MODELS_NAME to jniContainers.sortedBy { it.cppFullyQualifiedName },
             INTERNAL_NAMESPACE_NAME to internalNamespace
         )
 
@@ -147,8 +147,8 @@ class JniTemplates(
     ) {
         val includes = jniContainers.flatMap { it.includes }.toSet()
         val mustacheData = mutableMapOf(
-            INCLUDES_NAME to includes,
-            MODELS_NAME to jniContainers,
+            INCLUDES_NAME to includes.sorted(),
+            MODELS_NAME to jniContainers.sortedBy { it.cppFullyQualifiedName },
             INTERNAL_NAMESPACE_NAME to internalNamespace
         )
 
@@ -179,15 +179,15 @@ class JniTemplates(
         jniContainers: List<JniContainer>,
         results: MutableList<GeneratedFile>
     ) {
-        val instanceContainers = jniContainers
-            .filter { it.containerType !== ContainerType.TYPE_COLLECTION }
+        val instanceContainers =
+            jniContainers.filter { it.containerType !== ContainerType.TYPE_COLLECTION }
 
         val instanceIncludes = (setOf(CppLibraryIncludes.MEMORY, CppLibraryIncludes.NEW) +
-            instanceContainers.flatMap { it.includes }).toMutableSet()
+            instanceContainers.flatMap { it.includes }).sorted().toMutableList()
 
         val instanceData = mapOf(
             INCLUDES_NAME to instanceIncludes,
-            MODELS_NAME to instanceContainers,
+            MODELS_NAME to instanceContainers.sortedBy { it.cppFullyQualifiedName },
             BASE_PACKAGES_NAME to basePackages,
             INTERNAL_PACKAGES_NAME to basePackages + internalPackages,
             INTERNAL_NAMESPACE_NAME to internalNamespace
@@ -254,8 +254,8 @@ class JniTemplates(
         }
 
         val mustacheData = mapOf(
-            INCLUDES_NAME to proxyIncludes,
-            MODELS_NAME to listeners,
+            INCLUDES_NAME to proxyIncludes.sorted(),
+            MODELS_NAME to listeners.sortedBy { it.cppFullyQualifiedName },
             INTERNAL_NAMESPACE_NAME to internalNamespace
         )
 
@@ -274,8 +274,8 @@ class JniTemplates(
     ): List<GeneratedFile> {
         val includes = jniContainers.flatMap { it.includes }.toSet()
         val mustacheData = mutableMapOf(
-            INCLUDES_NAME to includes,
-            MODELS_NAME to enumSets,
+            INCLUDES_NAME to includes.sorted(),
+            MODELS_NAME to enumSets.sortedBy { it.cppFullyQualifiedName },
             INTERNAL_NAMESPACE_NAME to internalNamespace
         )
 

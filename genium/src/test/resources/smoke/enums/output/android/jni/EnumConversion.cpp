@@ -4,6 +4,41 @@ namespace genium
 {
 namespace jni
 {
+::smoke::TCEnum
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::TCEnum* dummy)
+{
+    return ::smoke::TCEnum(
+        ::genium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
+}
+::genium::optional<::smoke::TCEnum>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::TCEnum>* dummy)
+{
+    return _jinput
+        ? ::genium::optional<::smoke::TCEnum>(convert_from_jni(_jenv, _jinput, (::smoke::TCEnum*)nullptr))
+        : ::genium::optional<::smoke::TCEnum>{};
+}
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/TCEnum", ::smoke::TCEnum)
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::smoke::TCEnum _ninput)
+{
+    auto& javaClass = CachedJavaClass<::smoke::TCEnum>::java_class;
+    const char* enumeratorName = nullptr;
+    switch(_ninput) {
+        case(::smoke::TCEnum::FIRST):
+            enumeratorName = "FIRST";
+            break;
+        case(::smoke::TCEnum::SECOND):
+            enumeratorName = "SECOND";
+            break;
+    }
+    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "Lcom/example/smoke/TCEnum;");
+    return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::TCEnum> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
 ::smoke::Enums::SimpleEnum
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::SimpleEnum* dummy)
 {
@@ -141,41 +176,6 @@ convert_to_jni(JNIEnv* _jenv, const ::fire::SomeVeryExternalEnum _ninput)
 }
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::fire::SomeVeryExternalEnum> _ninput)
-{
-    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
-}
-::smoke::TCEnum
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::TCEnum* dummy)
-{
-    return ::smoke::TCEnum(
-        ::genium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
-}
-::genium::optional<::smoke::TCEnum>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::TCEnum>* dummy)
-{
-    return _jinput
-        ? ::genium::optional<::smoke::TCEnum>(convert_from_jni(_jenv, _jinput, (::smoke::TCEnum*)nullptr))
-        : ::genium::optional<::smoke::TCEnum>{};
-}
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/TCEnum", ::smoke::TCEnum)
-JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::smoke::TCEnum _ninput)
-{
-    auto& javaClass = CachedJavaClass<::smoke::TCEnum>::java_class;
-    const char* enumeratorName = nullptr;
-    switch(_ninput) {
-        case(::smoke::TCEnum::FIRST):
-            enumeratorName = "FIRST";
-            break;
-        case(::smoke::TCEnum::SECOND):
-            enumeratorName = "SECOND";
-            break;
-    }
-    jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "Lcom/example/smoke/TCEnum;");
-    return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
-}
-JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::TCEnum> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

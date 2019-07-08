@@ -21,7 +21,6 @@ package com.here.genium.model.jni
 
 import com.here.genium.generator.jni.JniNameRules
 import com.here.genium.model.common.Include
-import java.util.LinkedList
 
 /**
  * JniContainer is a container for classes, fields and methods.
@@ -42,14 +41,15 @@ class JniContainer(
     val isEquatable: Boolean = false,
     val isPointerEquatable: Boolean = false
 ) : JniElement {
-    val methods: MutableList<JniMethod> = LinkedList()
-    val parentMethods: MutableList<JniMethod> = LinkedList()
-    val structs: MutableList<JniStruct> = LinkedList()
-    val enums: MutableList<JniEnum> = LinkedList()
-    val includes: MutableSet<Include> = mutableSetOf()
+    val methods: MutableList<JniMethod> = mutableListOf()
+    val parentMethods: MutableList<JniMethod> = mutableListOf()
+    val structs: MutableList<JniStruct> = mutableListOf()
+    val enums: MutableList<JniEnum> = mutableListOf()
+    val includes: MutableSet<Include> = LinkedHashSet()
+    @Suppress("unused")
     val hasNativeEquatable =
         containerType == ContainerType.CLASS && (isEquatable || isPointerEquatable)
-
+    @Suppress("unused")
     val mangledName = javaName?.let { JniNameRules.getMangledName(it) }
 
     enum class ContainerType {

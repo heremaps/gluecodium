@@ -117,7 +117,7 @@ class JniModelBuilder(
         getPreviousResults(JniEnum::class.java).forEach { jniContainer.add(it) }
 
         val types = limeContainer.structs + limeContainer.enumerations + limeContainer.typeDefs
-        jniContainer.includes += types.flatMap { cppIncludeResolver.resolveIncludes(it) }
+        jniContainer.includes += types.flatMap { cppIncludeResolver.resolveIncludes(it) }.sorted()
 
         return jniContainer
     }
@@ -152,7 +152,7 @@ class JniModelBuilder(
 
         val types = listOf(limeContainer) + limeContainer.structs + limeContainer.enumerations +
                 limeContainer.typeDefs
-        jniContainer.includes += types.flatMap { cppIncludeResolver.resolveIncludes(it) }
+        jniContainer.includes += types.flatMap { cppIncludeResolver.resolveIncludes(it) }.sorted()
 
         return jniContainer
     }

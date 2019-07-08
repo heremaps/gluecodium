@@ -1,14 +1,14 @@
 #pragma once
-#include "smoke/Enums.h"
-#include "foo/Bar.h"
-#include "com_example_smoke_Enums.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
-#include "smoke/EnumsInTypeCollectionInterface.h"
+#include "com_example_smoke_Enums.h"
 #include "com_example_smoke_EnumsInTypeCollectionInterface.h"
+#include "foo/Bar.h"
+#include "smoke/Enums.h"
 #include "smoke/EnumsInTypeCollection.h"
+#include "smoke/EnumsInTypeCollectionInterface.h"
 #include <jni.h>
 #include <memory>
 #include "genium/Optional.h"
@@ -16,6 +16,10 @@ namespace genium
 {
 namespace jni
 {
+::smoke::TCEnum convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::TCEnum* dummy);
+::genium::optional<::smoke::TCEnum> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::TCEnum>* dummy);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::TCEnum _ninput);
+JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::TCEnum> _ninput);
 ::smoke::Enums::SimpleEnum convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Enums::SimpleEnum* dummy);
 ::genium::optional<::smoke::Enums::SimpleEnum> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Enums::SimpleEnum>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::SimpleEnum _ninput);
@@ -32,9 +36,5 @@ JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::s
 ::genium::optional<::fire::SomeVeryExternalEnum> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::fire::SomeVeryExternalEnum>* dummy);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::fire::SomeVeryExternalEnum _ninput);
 JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::fire::SomeVeryExternalEnum> _ninput);
-::smoke::TCEnum convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::TCEnum* dummy);
-::genium::optional<::smoke::TCEnum> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::TCEnum>* dummy);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::smoke::TCEnum _ninput);
-JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::TCEnum> _ninput);
 }
 }
