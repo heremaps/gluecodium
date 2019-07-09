@@ -1,0 +1,10 @@
+package smoke
+
+class ChildConstructors : Constructors {
+    @Java("createNoArgsChild")
+    constructor create()
+    @Java("createCopyFromParent")
+    constructor create(
+        other: Constructors
+    )
+}

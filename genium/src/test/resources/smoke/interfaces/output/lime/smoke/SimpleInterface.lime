@@ -1,0 +1,8 @@
+package smoke
+
+interface SimpleInterface {
+    fun setStringValue(
+        stringValue: String
+    )
+    fun getStringValue(): String
+}

@@ -54,7 +54,6 @@ define Names for typeCollection smoke.PlatformNames
 
     array BasicArray {
         CppName = "fooArray"
-        JavaName = "barArray"
         SwiftName = "bazArray"
     }
 }

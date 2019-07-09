@@ -1,0 +1,16 @@
+package smoke
+
+types TypeCollection {
+    typealias PointTypeDef = Point
+    typealias StorageId = ULong
+
+    struct Point {
+        x: Double
+        y: Double
+    }
+    struct StructHavingAliasFieldDefinedBelow {
+        field: StorageId
+    }
+
+    const INVALID_STORAGE_ID: StorageId = 0
+}

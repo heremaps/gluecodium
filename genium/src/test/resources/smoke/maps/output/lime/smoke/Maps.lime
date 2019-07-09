@@ -1,0 +1,42 @@
+package smoke
+
+class Maps {
+    typealias ErrorCodeToMessageMap = Map<Int, String>
+    typealias NumberToStruct = Map<UByte, SomeStruct>
+    typealias NestedMap = Map<UByte, NumberToStruct>
+    typealias NumberToTypeDef = Map<UByte, SomeId>
+    typealias TypeDefToNumber = Map<SomeId, UByte>
+    typealias SomeId = String
+    typealias StringToArray = Map<String, ArrayOfInts>
+    typealias ArrayOfInts = List<Int>
+    typealias StringToArrayOfTypeDefs = Map<String, ArrayOfTypeDefs>
+    typealias SomeInt = Int
+    typealias ArrayOfTypeDefs = List<SomeInt>
+    typealias NumberToInstance = Map<UByte, MapsInstance>
+
+    struct SomeStruct {
+        value: String
+    }
+    struct StructWithMap {
+        errorMapping: ErrorCodeToMessageMap
+    }
+
+    static fun methodWithMap(
+        input: ErrorCodeToMessageMap
+    ): ErrorCodeToMessageMap
+    static fun methodWithMapToStruct(
+        input: NumberToStruct
+    ): NumberToStruct
+    static fun methodWithNestedMap(
+        input: NestedMap
+    ): NestedMap
+    static fun methodWithStructWithMap(
+        input: StructWithMap
+    ): StructWithMap
+    static fun methodWithMapOfArrays(
+        input: StringToArray
+    ): StringToArray
+    static fun methodWithMapOfInstances(
+        input: NumberToInstance
+    ): NumberToInstance
+}

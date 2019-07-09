@@ -1,0 +1,8 @@
+package smoke
+
+class SimpleInstantiable {
+    fun setStringValue(
+        stringValue: String
+    )
+    fun getStringValue(): String
+}

@@ -1,0 +1,101 @@
+package smoke
+
+class Structs {
+    typealias ArrayOfImmutable = List<AllTypesStruct>
+
+    enum FooBar {
+        FOO,
+        BAR
+    }
+
+    struct Point {
+        x: Double
+        y: Double
+    }
+    struct Color {
+        red: UByte
+        green: UByte
+        blue: UByte
+    }
+    struct Line {
+        a: Point
+        b: Point
+    }
+    struct ColoredLine {
+        line: Line
+        color: Color
+    }
+    @Java(Builder)
+    @Immutable
+    struct AllTypesStruct {
+        int8Field: Byte
+        uint8Field: UByte
+        int16Field: Short
+        uint16Field: UShort
+        int32Field: Int
+        uint32Field: UInt
+        int64Field: Long
+        uint64Field: ULong
+        floatField: Float
+        doubleField: Double
+        stringField: String
+        booleanField: Boolean
+        bytesField: Blob
+        pointField: Point
+    }
+    @Cpp(ExternalType = "foo/Bar.h")
+    struct ExternalStruct {
+        stringField: String
+        @Cpp(ExternalGetter = "get_some_string", ExternalSetter = "set_some_string")
+        externalStringField: String
+        @Cpp(ExternalGetter = "get_some_array", ExternalSetter = "set_some_array")
+        externalArrayField: List<Byte>
+        @Cpp(ExternalGetter = "get_some_struct", ExternalSetter = "set_some_struct")
+        externalStructField: AnotherExternalStruct
+    }
+    @Cpp(ExternalType = "foo/Bazz.h, non/Sense.h", ExternalName = "::fire::SomeVeryExternalStruct")
+    struct AnotherExternalStruct {
+        intField: Byte
+    }
+    @Cpp(ExternalType = "foo/Bazz.h")
+    struct Yet_Another_External_Struct {
+        string_Field: String
+    }
+    struct NestingImmutableStruct {
+        structField: AllTypesStruct
+    }
+    struct DoubleNestingImmutableStruct {
+        nestingStructField: NestingImmutableStruct
+    }
+    struct StructWithArrayOfImmutable {
+        arrayField: ArrayOfImmutable
+    }
+
+    static fun createPoint(
+        x: Double,
+        y: Double
+    ): Point
+    static fun swapPointCoordinates(
+        input: Point
+    ): Point
+    static fun createLine(
+        pointA: Point,
+        pointB: Point
+    ): Line
+    static fun createColoredLine(
+        line: Line,
+        color: Color
+    ): ColoredLine
+    static fun returnColoredLine(
+        input: ColoredLine
+    ): ColoredLine
+    static fun returnAllTypesStruct(
+        input: AllTypesStruct
+    ): AllTypesStruct
+    static fun modifyAllTypesStruct(
+        input: AllTypesStruct
+    ): AllTypesStruct
+    static fun getExternalStruct(): ExternalStruct
+    static fun getAnotherExternalStruct(): AnotherExternalStruct
+    static fun getYetAnotherExternalStruct(): Yet_Another_External_Struct
+}

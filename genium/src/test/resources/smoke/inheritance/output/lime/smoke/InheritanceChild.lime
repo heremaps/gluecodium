@@ -1,0 +1,5 @@
+package smoke
+
+interface InheritanceChild : InheritanceRoot {
+    fun childMethod()
+}

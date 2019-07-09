@@ -1,0 +1,7 @@
+package smoke
+
+types PublicTypeCollection {
+    internal struct InternalStruct {
+        internal stringField: String
+    }
+}

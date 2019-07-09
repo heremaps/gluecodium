@@ -1,0 +1,9 @@
+package smoke
+
+class SpecialNames {
+    fun create()
+    fun release()
+    fun createProxy()
+    fun Update()
+    fun _upperCase()
+}

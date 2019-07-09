@@ -1,0 +1,9 @@
+package smoke
+
+interface InheritanceRoot {
+    fun rootMethod()
+    property rootAttribute: String {
+        get
+        set
+    }
+}

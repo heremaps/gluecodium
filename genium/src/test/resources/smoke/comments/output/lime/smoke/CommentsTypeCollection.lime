@@ -1,0 +1,15 @@
+package smoke
+
+types CommentsTypeCollection {
+    typealias TypeCollectionTypedef = Boolean
+
+    enum TypeCollectionEnum {
+        item
+    }
+
+    struct TypeCollectionStruct {
+        field: Int
+    }
+
+    const TypeCollectionConstant: Boolean = true
+}

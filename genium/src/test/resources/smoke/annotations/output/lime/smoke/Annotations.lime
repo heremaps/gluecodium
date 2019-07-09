@@ -1,0 +1,7 @@
+package smoke
+
+class Annotations {
+    fun testOptional(
+        self: Annotations
+    ): Boolean?
+}

@@ -1,0 +1,11 @@
+package smoke
+
+interface InterfaceWithStruct {
+    struct InnerStruct {
+        value: Byte
+    }
+
+    fun innerStructMethod(
+        inputStruct: InnerStruct
+    ): InnerStruct
+}

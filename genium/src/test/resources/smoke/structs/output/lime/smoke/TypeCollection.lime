@@ -1,0 +1,39 @@
+package smoke
+
+types TypeCollection {
+    typealias PointTypedef = Point
+
+    struct Point {
+        x: Double
+        y: Double
+    }
+    struct Color {
+        red: UByte
+        green: UByte
+        blue: UByte
+    }
+    struct Line {
+        a: Point
+        b: Point
+    }
+    struct ColoredLine {
+        line: Line
+        color: Color
+    }
+    struct AllTypesStruct {
+        int8Field: Byte
+        uint8Field: UByte
+        int16Field: Short
+        uint16Field: UShort
+        int32Field: Int
+        uint32Field: UInt
+        int64Field: Long
+        uint64Field: ULong
+        floatField: Float
+        doubleField: Double
+        stringField: String
+        booleanField: Boolean
+        bytesField: Blob
+        pointField: Point
+    }
+}

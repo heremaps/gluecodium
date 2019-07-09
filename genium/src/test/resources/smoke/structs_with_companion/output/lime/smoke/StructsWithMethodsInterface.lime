@@ -1,0 +1,31 @@
+package smoke
+
+import smoke.ValidationUtils.ValidationErrorException
+
+class StructsWithMethodsInterface {
+    struct Vector3 {
+        x: Double
+        y: Double
+        z: Double
+
+        fun distanceTo(
+            other: Vector3
+        ): Double
+        fun add(
+            other: Vector3
+        ): Vector3
+
+        static fun validate(
+            x: Double,
+            y: Double,
+            z: Double
+        ): Boolean
+
+        constructor create(
+            input: String
+        )
+        constructor create(
+            other: Vector3
+        ) throws ValidationErrorException
+    }
+}

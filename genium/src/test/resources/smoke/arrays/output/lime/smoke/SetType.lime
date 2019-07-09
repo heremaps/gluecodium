@@ -1,0 +1,24 @@
+package smoke
+
+class SetType {
+    typealias IntSet = Set<Int>
+    typealias StringSet = Set<String>
+    typealias EnumSet = Set<SomeEnum>
+
+    enum SomeEnum {
+        OFF,
+        ON
+    }
+
+    static fun stringSetRoundTrip(
+        input: StringSet
+    ): StringSet
+
+    static fun enumSetRoundTrip(
+        input: EnumSet
+    ): EnumSet
+
+    static fun nullableIntSetRoundTrip(
+        input: IntSet?
+    ): IntSet?
+}

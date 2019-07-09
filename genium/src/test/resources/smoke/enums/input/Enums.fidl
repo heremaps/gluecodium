@@ -20,10 +20,6 @@
 package smoke
 
 interface Enums {
-    version {
-        major 0
-        minor 1
-    }
 
     enumeration SimpleEnum {
         // Check that lower case chars are handled correctly

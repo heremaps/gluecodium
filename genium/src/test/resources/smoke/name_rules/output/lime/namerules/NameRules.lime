@@ -1,0 +1,36 @@
+package namerules
+
+class NameRules {
+    typealias StringArray = List<String>
+
+    enum ExampleError {
+        None,
+        Fatal
+    }
+
+    exception ExampleErrorException(ExampleError)
+
+    struct ExampleStruct {
+        value: Double
+        intValue: List<Long>
+    }
+
+    constructor create()
+
+    fun someMethod(
+        someArgument: ExampleStruct
+    ): Double throws ExampleErrorException
+
+    property intAttribute: UInt {
+        get
+        set
+    }
+    property booleanAttribute: Boolean {
+        get
+        set
+    }
+    property structAttribute: ExampleStruct {
+        get
+        set
+    }
+}

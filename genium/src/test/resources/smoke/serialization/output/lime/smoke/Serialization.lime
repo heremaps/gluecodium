@@ -1,0 +1,33 @@
+package smoke
+
+types Serialization {
+    typealias NestedStructArray = List<NestedSerializableStruct>
+    typealias ErrorCodeToMessageMap = Map<Int, String>
+
+    enum SomeEnum {
+        FOO,
+        BAR = 7
+    }
+
+    @Serializable
+    struct SerializableStruct {
+        boolField: Boolean
+        byteField: Byte
+        shortField: Short
+        intField: Int
+        longField: UInt
+        floatField: Float
+        doubleField: Double
+        stringField: String
+        structField: NestedSerializableStruct
+        byteBufferField: Blob
+        arrayField: List<String>
+        structArrayField: NestedStructArray
+        mapField: ErrorCodeToMessageMap
+        enumField: SomeEnum
+    }
+    @Serializable
+    struct NestedSerializableStruct {
+        someField: String
+    }
+}

@@ -1,0 +1,25 @@
+package smoke
+
+class Constructors {
+    enum ErrorEnum {
+        NONE,
+        CRASHED
+    }
+
+    exception ErrorEnumException(ErrorEnum)
+
+    constructor create()
+    constructor create(
+        other: Constructors
+    )
+    constructor create(
+        foo: String,
+        bar: ULong
+    )
+    constructor create(
+        input: String
+    ) throws ErrorEnumException
+    constructor create(
+        input: List<Double>
+    )
+}

@@ -1,0 +1,9 @@
+package smoke
+
+types ExternalEquatable {
+    @Cpp(ExternalType = "foo/Bar.h")
+    @Equatable
+    struct ExternalEquatableStruct {
+        fooField: String
+    }
+}

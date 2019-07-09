@@ -1,0 +1,4 @@
+package smoke
+
+internal interface InternalInterface {
+}

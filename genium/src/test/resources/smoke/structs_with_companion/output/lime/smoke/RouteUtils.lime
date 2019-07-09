@@ -1,0 +1,10 @@
+package smoke
+
+types RouteUtils {
+    enum RouteType {
+        NONE,
+        CAR,
+        PEDESTRIAN,
+        EQUESTRIAN
+    }
+}

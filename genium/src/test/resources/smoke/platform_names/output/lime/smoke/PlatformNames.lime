@@ -1,0 +1,42 @@
+package smoke
+
+@Cpp("fooTypes")
+@Swift("bazTypes")
+types PlatformNames {
+    @Cpp("fooTypedef")
+    @Swift("bazTypedef")
+    typealias BasicTypedef = Double
+    @Cpp("fooArray")
+    @Swift("bazArray")
+    typealias BasicArray = List<Float>
+
+    @Cpp("fooEnum")
+    @Java("barEnum")
+    @Swift("bazEnum")
+    enum BasicEnum {
+        @Cpp("foo_item")
+        @Java("bar_item")
+        @Swift("BAZ_ITEM")
+        BASIC_ITEM
+    }
+
+    @Cpp("fooStruct")
+    @Java("barStruct")
+    @Swift("bazStruct")
+    struct BasicStruct {
+        @Cpp("FOO_FIELD")
+        @Java("BAR_FIELD")
+        @Swift("BAZ_FIELD")
+        stringField: String
+
+        @Cpp("FooCreate")
+        @Java("BarCreate")
+        @Swift("BazCreate")
+        constructor make(
+            @Cpp("FooParameter")
+            @Java("BarParameter")
+            @Swift("BazParameter", Label = "_")
+            basicParameter: String
+        )
+    }
+}

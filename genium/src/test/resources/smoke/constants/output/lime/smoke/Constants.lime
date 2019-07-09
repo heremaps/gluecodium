@@ -1,0 +1,15 @@
+package smoke
+
+types Constants {
+    enum StateEnum {
+        OFF,
+        ON
+    }
+    const boolConstant: Boolean = true
+    const intConstant: Int = -11
+    const uintConstant: UInt = 4294967295
+    const floatConstant: Float = 2.71
+    const doubleConstant: Double = -3.14
+    const stringConstant: String = "Foo bar"
+    const enumConstant: StateEnum = StateEnum.ON
+}

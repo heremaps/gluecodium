@@ -1,0 +1,29 @@
+package smoke
+
+interface ListenersWithReturnValues {
+    typealias StringToDouble = Map<String, Double>
+
+    enum ResultEnum {
+        NONE,
+        RESULT
+    }
+
+    struct ResultStruct {
+        result: Double
+    }
+
+    @Java("fetchDataDouble")
+    fun fetchData(): Double
+    @Java("fetchDataString")
+    fun fetchData(): String
+    @Java("fetchDataStruct")
+    fun fetchData(): ResultStruct
+    @Java("fetchDataEnum")
+    fun fetchData(): ResultEnum
+    @Java("fetchDataArray")
+    fun fetchData(): List<Double>
+    @Java("fetchDataMap")
+    fun fetchData(): StringToDouble
+    @Java("fetchDataInstance")
+    fun fetchData(): CalculationResult
+}

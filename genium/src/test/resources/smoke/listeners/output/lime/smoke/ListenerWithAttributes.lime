@@ -1,0 +1,43 @@
+package smoke
+
+interface ListenerWithAttributes {
+    typealias StringToDouble = Map<String, Double>
+
+    enum ResultEnum {
+        NONE,
+        RESULT
+    }
+
+    struct ResultStruct {
+        result: Double
+    }
+
+    property message: String {
+        get
+        set
+    }
+    property packedMessage: CalculationResult {
+        get
+        set
+    }
+    property structuredMessage: ResultStruct {
+        get
+        set
+    }
+    property enumeratedMessage: ResultEnum {
+        get
+        set
+    }
+    property arrayedMessage: List<String> {
+        get
+        set
+    }
+    property mappedMessage: StringToDouble {
+        get
+        set
+    }
+    property bufferedMessage: Blob {
+        get
+        set
+    }
+}

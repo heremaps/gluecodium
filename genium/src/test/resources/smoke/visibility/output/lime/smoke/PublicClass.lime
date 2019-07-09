@@ -1,0 +1,36 @@
+package smoke
+
+class PublicClass {
+    internal typealias InternalArray = List<InternalStruct>
+    internal typealias InternalStructTypeDef = InternalStruct
+    internal typealias StringToInternalStructMap = Map<String, InternalStruct>
+
+    internal enum InternalEnum {
+        FOO,
+        BAR
+    }
+
+    internal struct InternalStruct {
+        internal stringField: String
+    }
+    struct PublicStruct {
+        internal internalField: InternalStruct
+    }
+    struct PublicStructWithInternalDefaults {
+        internal internalField: String = "foo"
+        publicField: Float
+    }
+
+    internal fun internalMethod(
+        input: InternalStruct
+    ): InternalStructTypeDef
+    internal property internalStructAttribute: InternalStruct {
+        internal get
+        internal set
+    }
+
+    property internalSetterAttribute: String {
+        get
+        internal set
+    }
+}

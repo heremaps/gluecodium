@@ -1,0 +1,46 @@
+package smoke
+
+class MethodOverloads {
+    typealias StringArray = List<String>
+    typealias IntArray = List<Byte>
+
+    struct Point {
+        x: Double
+        y: Double
+    }
+
+    fun isBoolean(
+        input: Boolean
+    ): Boolean
+    fun isBoolean(
+        input: Byte
+    ): Boolean
+    fun isBoolean(
+        input: String
+    ): Boolean
+    fun isBoolean(
+        input: Point
+    ): Boolean
+    fun isBoolean(
+        input1: Boolean,
+        input2: Byte,
+        input3: String,
+        input4: Point
+    ): Boolean
+    @Java("isBooleanStringArrayOverload")
+    fun isBoolean(
+        input: StringArray
+    ): Boolean
+    @Java("isBooleanIntArrayOverload")
+    fun isBoolean(
+        input: IntArray
+    ): Boolean
+    @Cpp(Const)
+    fun isBoolean(): Boolean
+    fun isFloat(
+        input: String
+    ): Boolean
+    fun isFloat(
+        input: IntArray
+    ): Boolean
+}

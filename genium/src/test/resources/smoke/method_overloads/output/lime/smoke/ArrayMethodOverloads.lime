@@ -1,0 +1,51 @@
+package smoke
+
+class ArrayMethodOverloads {
+    typealias StringToIdMap = Map<String, ULong>
+    typealias IdToStringMap = Map<ULong, String>
+    typealias StringSet = Set<String>
+    typealias IntSet = Set<Byte>
+
+    fun doStuff()
+    fun doStuff(
+        input: Int
+    )
+    @Java("doStuffIntArrayOverload")
+    fun doStuff(
+        input: List<Int>
+    )
+    @Java("doStuffStringArrayOverload")
+    fun doStuff(
+        input: List<String>
+    )
+    @Java("doStuffStringToIdMapOverload")
+    fun doStuff(
+        input: StringToIdMap
+    )
+    @Java("doStuffIdToStringMapOverload")
+    fun doStuff(
+        input: IdToStringMap
+    )
+    fun doStuff(
+        arrayParam: List<Int>,
+        intParam: Int
+    )
+    fun doStuff(
+        intParam: Int,
+        arrayParam: List<Int>
+    )
+    fun doOtherStuff(
+        input: List<Int>
+    )
+    fun doMoreStuff(
+        input: StringToIdMap
+    )
+    @Java("doStuffStringSetOverload")
+    fun doStuff(
+        input: StringSet
+    )
+    @Java("doStuffIntSetOverload")
+    fun doStuff(
+        input: IntSet
+    )
+}

@@ -1,0 +1,46 @@
+package smoke
+
+class Enums {
+    typealias ExampleMap = Map<SimpleEnum, ULong>
+
+    enum SimpleEnum {
+        First,
+        SECOND
+    }
+    enum InternalError {
+        ERROR_NONE,
+        ERROR_FATAL = 999
+    }
+    @Cpp(ExternalType = "foo/Bar.h")
+    enum External_Enum {
+        Foo_Value,
+        Bar_Value
+    }
+    @Cpp(ExternalType = "foo/Bar.h", ExternalName = "::fire::SomeVeryExternalEnum")
+    enum VeryExternalEnum {
+        FOO,
+        BAR
+    }
+
+    struct ErrorStruct {
+        type: InternalError
+        message: String
+    }
+
+    static fun methodWithEnumeration(
+        input: SimpleEnum
+    ): SimpleEnum
+    static fun flipEnumValue(
+        input: InternalError
+    ): InternalError
+    static fun extractEnumFromStruct(
+        input: ErrorStruct
+    ): InternalError
+    static fun createStructWithEnumInside(
+        type: InternalError,
+        message: String
+    ): ErrorStruct
+    static fun methodWithExternalEnum(
+        input: External_Enum
+    )
+}

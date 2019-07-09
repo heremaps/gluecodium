@@ -1,0 +1,8 @@
+package smoke
+
+types EnumsInTypeCollection {
+    enum TCEnum {
+        FIRST,
+        SECOND
+    }
+}

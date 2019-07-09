@@ -1,0 +1,5 @@
+package smoke
+
+class InheritanceGrandchildClass : InheritanceChildClass {
+    fun grandchildClassMethod()
+}

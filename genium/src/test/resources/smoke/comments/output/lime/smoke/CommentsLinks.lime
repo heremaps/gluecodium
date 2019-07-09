@@ -1,0 +1,53 @@
+package smoke
+
+import smoke.comments.SomeEnum
+
+// The nested types like [random_method] don't need full name prefix, but it's
+// possible to references other interfaces like [smoke.CommentsInterface] or other members
+// [comments.someMethodWithAllComments].
+//
+// Weblinks are not modified like this [example] or [www.example.com].
+//
+// [example]: http://example.com
+class CommentsLinks {
+    enum TooUseful {
+        Twice,
+        ThreeTimes
+    }
+
+    exception TooUsefulException(TooUseful)
+
+    // Link types:
+    // * constant: [comments.VeryUseful]
+    // * struct: [comments.SomeStruct]
+    // * struct field: [comments.SomeStruct.someField]
+    // * enum: [comments.SomeEnum]
+    // * enum item: [comments.SomeEnum.Useful]
+    // * attribute: [comments.SomeAttribute]
+    // * attribute setter: [comments.SomeAttribute.set]
+    // * attribute getter: [comments.SomeAttribute.get]
+    // * method: [comments.instanceMethod]
+    // * top level constant: [CommentsTypeCollection.TypeCollectionConstant]
+    // * top level struct: [CommentsTypeCollection.TypeCollectionStruct]
+    // * top level struct field: [CommentsTypeCollection.TypeCollectionStruct.field]
+    // * top level enum: [CommentsTypeCollection.TypeCollectionEnum]
+    // * top level enum item: [CommentsTypeCollection.TypeCollectionEnum.item]
+    //
+    //
+    // Not working for Java:
+    // * typedef: [comments.Usefulness]
+    // * array: [comments.SomeArray]
+    // * map: [comments.SomeMap]
+    // * top level typedef: [CommentsTypeCollection.TypeCollectionTypedef]
+    //
+    // Not working for Swift:
+    // * named comment: [Alternative name for the link, stripped for Swift][comments.VeryUseful]
+    //
+    // Not working:
+    // * error: [TooUsefulException]
+    // * input parameter: [inputParameter]
+    // * output parameter: [outputParameter]
+    fun random_method(
+        inputParameter: SomeEnum
+    ): SomeEnum throws TooUsefulException
+}

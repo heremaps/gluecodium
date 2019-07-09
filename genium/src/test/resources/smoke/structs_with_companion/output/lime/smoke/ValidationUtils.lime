@@ -1,0 +1,10 @@
+package smoke
+
+types ValidationUtils {
+    enum ValidationError {
+        NONE,
+        VALIDATION_FAILED
+    }
+
+    exception ValidationErrorException(ValidationError)
+}

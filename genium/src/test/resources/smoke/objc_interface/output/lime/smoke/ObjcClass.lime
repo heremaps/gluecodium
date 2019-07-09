@@ -1,0 +1,5 @@
+package smoke
+
+@Swift(ObjC)
+class ObjcClass {
+}

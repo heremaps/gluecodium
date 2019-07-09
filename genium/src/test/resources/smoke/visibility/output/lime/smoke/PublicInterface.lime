@@ -1,0 +1,7 @@
+package smoke
+
+interface PublicInterface {
+    internal struct InternalStruct {
+        internal stringField: String
+    }
+}

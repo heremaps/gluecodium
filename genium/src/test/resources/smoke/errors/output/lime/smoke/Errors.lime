@@ -1,0 +1,21 @@
+package smoke
+
+class Errors {
+    enum InternalError {
+        ERROR_NONE,
+        ERROR_FATAL
+    }
+    @Cpp(ExternalType = "foo/Bar.h", ExternalName = "::fire::SomeEnum")
+    enum ExternalErrors {
+        NONE,
+        BOOM,
+        BUST
+    }
+
+    exception InternalErrorException(InternalError)
+    exception ExternalErrorsException(ExternalErrors)
+
+    static fun methodWithErrors() throws InternalErrorException
+    static fun methodWithExternalErrors() throws ExternalErrorsException
+    static fun methodWithErrorsAndReturnValue(): String throws InternalErrorException
+}

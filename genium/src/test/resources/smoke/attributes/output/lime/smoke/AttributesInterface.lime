@@ -1,0 +1,12 @@
+package smoke
+
+interface AttributesInterface {
+    struct ExampleStruct {
+        value: Double
+    }
+
+    property structAttribute: ExampleStruct {
+        get
+        set
+    }
+}

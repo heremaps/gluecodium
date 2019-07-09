@@ -1,0 +1,14 @@
+package smoke
+
+class StructConstants {
+    struct SomeStruct {
+        stringField: String
+        floatField: Float
+    }
+    struct NestingStruct {
+        structField: SomeStruct
+    }
+
+    const structConstant: SomeStruct = {"bar Buzz", 1.41}
+    const nestingStructConstant: NestingStruct = {{"nonsense", -2.82}}
+}

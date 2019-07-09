@@ -1,0 +1,31 @@
+package smoke
+
+import smoke.DefaultValues.ExternalEnum
+
+types TypesWithDefaults {
+    enum SomeEnum {
+        FooValue,
+        BarValue
+    }
+
+    struct StructWithDefaults {
+        intField: Int = 42
+        uintField: UInt = 4294967295
+        floatField: Float = 3.14
+        doubleField: Double = -1.4142
+        boolField: Boolean = true
+        stringField: String = "\\Jonny \"Magic\" Smith\n"
+        enumField: SomeEnum = SomeEnum.BarValue
+    }
+    @Immutable
+    struct ImmutableStructWithDefaults {
+        intField: Int = 42
+        uintField: UInt
+        floatField: Float = 3.14
+        doubleField: Double = -1.4142
+        boolField: Boolean
+        stringField: String = "\\Jonny \"Magic\" Smith\n"
+        enumField: SomeEnum = SomeEnum.BarValue
+        externalEnumField: ExternalEnum = ExternalEnum.Another_Value
+    }
+}

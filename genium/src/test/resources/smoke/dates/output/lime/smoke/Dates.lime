@@ -1,0 +1,20 @@
+package smoke
+
+class Dates {
+    typealias DateTypeDef = Date
+    typealias DateArray = List<Date>
+    typealias DateMap = Map<String, Date>
+
+    struct DateStruct {
+        dateField: Date
+    }
+
+    fun dateMethod(
+        input: Date
+    ): Date
+
+    property dateAttribute: Date {
+        get
+        set
+    }
+}

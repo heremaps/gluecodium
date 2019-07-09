@@ -1,0 +1,9 @@
+package example
+
+import smoke.Errors.InternalErrorException
+import smoke.SomeTypeCollection.SomeTypeCollectionErrorException
+
+class FooBar {
+    static fun methodWithInternalError() throws InternalErrorException
+    static fun methodWithTypeCollectionError() throws SomeTypeCollectionErrorException
+}

@@ -1,0 +1,16 @@
+package smoke
+
+@Cpp("fooListener")
+@Java("barListener")
+@Swift("bazListener")
+interface PlatformNamesListener {
+    @Cpp("FooMethod")
+    @Java("BarMethod")
+    @Swift("BazMethod")
+    fun basicMethod(
+        @Cpp("FooParameter")
+        @Java("BarParameter")
+        @Swift("BazParameter", Label = "_")
+        basicParameter: String
+    )
+}
