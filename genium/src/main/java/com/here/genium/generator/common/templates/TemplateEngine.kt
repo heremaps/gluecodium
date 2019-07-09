@@ -43,6 +43,7 @@ object TemplateEngine {
             .registerHelper("switch", NiceSwitchHelper())
             .registerHelper("case", SwitchHelper.CaseHelper(true))
             .registerHelper("default", SwitchHelper.DefaultHelper())
+            .registerHelper("contains", ContainsHelper())
             .registerHelpers(
                 HelpersBuilder.empty()
                     .addIsEqual()

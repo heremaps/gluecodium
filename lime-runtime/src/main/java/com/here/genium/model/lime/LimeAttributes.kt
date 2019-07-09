@@ -64,7 +64,7 @@ class LimeAttributes private constructor(
             is String -> StringHelper.escapeStringLiteral(literal)
             else -> literal.toString()
         }
-        val infix = if (prefix.isNotEmpty() || suffix.isNotEmpty()) " = " else ""
+        val infix = if (prefix.isNotEmpty() && suffix.isNotEmpty()) " = " else ""
         return "$prefix$infix$suffix"
     }
 

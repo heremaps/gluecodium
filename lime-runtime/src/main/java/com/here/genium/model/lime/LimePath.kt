@@ -19,7 +19,7 @@
 
 package com.here.genium.model.lime
 
-class LimePath(
+data class LimePath(
     val head: List<String>,
     private val tail: List<String>,
     val disambiguationSuffix: String = ""
@@ -30,8 +30,12 @@ class LimePath(
     val name
         get() = tail.last()
 
-    val parent: LimePath
+    val parent
         get() = LimePath(head, tail.take(tail.size - 1))
+
+    val allParents
+        get() = (1..tail.size).map { LimePath(head, tail.dropLast(it)) } +
+                (1..head.size).map { LimePath(head.dropLast(it), emptyList()) }
 
     fun child(childName: String, disambiguationSuffix: String = "") =
         LimePath(head, tail + childName, disambiguationSuffix)

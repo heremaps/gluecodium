@@ -22,6 +22,7 @@ package com.here.genium.platform.common;
 import com.here.genium.Genium;
 import com.here.genium.cli.GeniumExecutionException;
 import com.here.genium.generator.common.GeneratedFile;
+import com.here.genium.generator.lime.LimeGeneratorSuite;
 import com.here.genium.model.lime.LimeModel;
 import com.here.genium.platform.android.AndroidGeneratorSuite;
 import com.here.genium.platform.android.JavaGeneratorSuite;
@@ -61,6 +62,8 @@ public abstract class GeneratorSuite {
         return new BaseApiGeneratorSuite(options);
       case SwiftGeneratorSuite.GENERATOR_NAME:
         return new SwiftGeneratorSuite(options);
+      case LimeGeneratorSuite.GENERATOR_NAME:
+        return new LimeGeneratorSuite(options);
     }
 
     return null;

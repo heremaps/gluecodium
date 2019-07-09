@@ -499,6 +499,7 @@ class LimeModelBuilder(
 
         val propertyPath = createElementPath(francaAttribute)
         val propertyVisibility = getLimeVisibility(francaAttribute)
+        val propertyComment = CommentHelper.getDescription(francaAttribute)
         val getter =
             run {
                 val attributes = LimeAttributes.Builder()
@@ -522,6 +523,7 @@ class LimeModelBuilder(
                 LimeMethod(
                     path = path,
                     visibility = propertyVisibility,
+                    comment = propertyComment,
                     attributes = attributes.build(),
                     parameters = listOf(LimeParameter(path.child("value"), typeRef = propertyType))
                 )
@@ -555,6 +557,7 @@ class LimeModelBuilder(
                     LimeMethod(
                         path = propertyPath.withSuffix("set"),
                         visibility = visibility,
+                        comment = propertyComment,
                         attributes = attributes.build(),
                         returnType = LimeReturnType(propertyType)
                     )
@@ -564,7 +567,7 @@ class LimeModelBuilder(
         val limeProperty = LimeProperty(
             path = propertyPath,
             visibility = propertyVisibility,
-            comment = CommentHelper.getDescription(francaAttribute),
+            comment = propertyComment,
             attributes = propertyAttributes.build(),
             typeRef = propertyType,
             getter = getter,
