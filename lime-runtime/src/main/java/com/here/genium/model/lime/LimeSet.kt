@@ -19,4 +19,7 @@
 
 package com.here.genium.model.lime
 
-class LimeSet(val elementType: LimeTypeRef) : LimeType(path = LimePath.EMPTY_PATH)
+class LimeSet(val elementType: LimeTypeRef) : LimeType(LimePath.EMPTY_PATH) {
+    override val name
+        get() = "Set<$elementType>"
+}

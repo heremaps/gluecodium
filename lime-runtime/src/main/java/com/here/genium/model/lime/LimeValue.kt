@@ -20,16 +20,24 @@
 package com.here.genium.model.lime
 
 sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
-    class Literal(type: LimeTypeRef, val value: String) : LimeValue(type)
+    class Literal(type: LimeTypeRef, val value: String) : LimeValue(type) {
+        override fun toString() = value
+    }
 
-    class Enumerator(type: LimeTypeRef, val valueRef: LimeEnumeratorRef) : LimeValue(type)
+    class Enumerator(type: LimeTypeRef, val valueRef: LimeEnumeratorRef) : LimeValue(type) {
+        override fun toString() = valueRef.enumerator.path.let { "${it.parent.name}.${it.name}" }
+    }
 
     class Special private constructor(type: LimeTypeRef, val value: ValueId) : LimeValue(type) {
-        enum class ValueId {
-            NAN,
-            INFINITY,
-            NEGATIVE_INFINITY
+        enum class ValueId(private val tag: String) {
+            NAN("NaN"),
+            INFINITY("Infinity"),
+            NEGATIVE_INFINITY("-Infinity");
+
+            override fun toString() = tag
         }
+
+        override fun toString() = value.toString()
 
         companion object {
             val FLOAT_NAN = Special(LimeBasicTypeRef.FLOAT, ValueId.NAN)
@@ -42,7 +50,11 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
         }
     }
 
-    class Null(type: LimeTypeRef) : LimeValue(type)
+    class Null(type: LimeTypeRef) : LimeValue(type) {
+        override fun toString() = "null"
+    }
 
-    class InitializerList(type: LimeTypeRef, val values: List<LimeValue>) : LimeValue(type)
+    class InitializerList(type: LimeTypeRef, val values: List<LimeValue>) : LimeValue(type) {
+        override fun toString() = "{" + values.joinToString(separator = ", ") + "}"
+    }
 }

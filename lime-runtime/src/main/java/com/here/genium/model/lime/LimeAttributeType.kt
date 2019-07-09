@@ -19,13 +19,18 @@
 
 package com.here.genium.model.lime
 
-enum class LimeAttributeType {
-    CPP,
-    JAVA,
-    SWIFT,
-    DEPRECATED,
-    EQUATABLE,
-    IMMUTABLE,
-    POINTER_EQUATABLE,
-    SERIALIZABLE
+enum class LimeAttributeType(
+    private val tag: String,
+    val defaultValueType: LimeAttributeValueType? = null
+) {
+    CPP("Cpp", LimeAttributeValueType.NAME),
+    JAVA("Java", LimeAttributeValueType.NAME),
+    SWIFT("Swift", LimeAttributeValueType.NAME),
+    DEPRECATED("Deprecated", LimeAttributeValueType.MESSAGE),
+    EQUATABLE("Equatable"),
+    IMMUTABLE("Immutable"),
+    POINTER_EQUATABLE("PointerEquatable"),
+    SERIALIZABLE("Serializable");
+
+    override fun toString() = tag
 }

@@ -17,29 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package com.here.genium.common
 
-class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
-    enum class TypeId(private val tag: String) {
-        VOID("Void"),
-        INT8("Byte"),
-        UINT8("UByte"),
-        INT16("Short"),
-        UINT16("UShort"),
-        INT32("Int"),
-        UINT32("UInt"),
-        INT64("Long"),
-        UINT64("ULong"),
-        BOOLEAN("Boolean"),
-        STRING("String"),
-        FLOAT("Float"),
-        DOUBLE("Double"),
-        BLOB("Blob"),
-        DATE("Date");
+object StringHelper {
+    fun escapeString(value: String) = value.replace("\\", "\\\\").replace("\"", "\\\"")
+        .replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t").replace("\b", "\\b")
 
-        override fun toString() = tag
-    }
-
-    override val name
-        get() = typeId.toString()
+    fun escapeStringLiteral(literal: String) = "\"${escapeString(literal)}\""
 }

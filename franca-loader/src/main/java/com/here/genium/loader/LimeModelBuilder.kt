@@ -20,6 +20,7 @@
 package com.here.genium.loader
 
 import com.here.genium.common.ModelBuilderContextStack
+import com.here.genium.common.StringHelper
 import com.here.genium.franca.CommentHelper
 import com.here.genium.franca.FrancaDeploymentModel
 import com.here.genium.franca.FrancaTypeHelper
@@ -54,7 +55,6 @@ import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
-import org.apache.commons.text.StringEscapeUtils
 import org.franca.core.framework.FrancaHelpers
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FArrayType
@@ -617,8 +617,7 @@ class LimeModelBuilder(
         val francaTypeRef = if (derivedType is FTypeDef) derivedType.actualType else francaField.type
         return when {
             francaTypeRef.predefined == FBasicTypeId.STRING -> {
-                val escapedValue = StringEscapeUtils.escapeJava(literalValue)
-                LimeValue.Literal(fieldType, "\"$escapedValue\"")
+                LimeValue.Literal(fieldType, StringHelper.escapeStringLiteral(literalValue))
             }
             francaTypeRef.predefined == FBasicTypeId.FLOAT -> {
                 val parsedValue = literalValue.toFloat()

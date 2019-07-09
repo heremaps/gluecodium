@@ -19,15 +19,17 @@
 
 package com.here.genium.model.lime
 
-enum class LimeAttributeValueType {
-    NAME,
-    BUILDER,
-    CONST,
-    LABEL,
-    OBJC,
-    MESSAGE,
-    EXTERNAL_TYPE,
-    EXTERNAL_NAME,
-    EXTERNAL_GETTER,
-    EXTERNAL_SETTER
+enum class LimeAttributeValueType(private val tag: String) {
+    NAME("Name"),
+    BUILDER("Builder"),
+    CONST("Const"),
+    LABEL("Label"),
+    OBJC("ObjC"),
+    MESSAGE("Message"),
+    EXTERNAL_TYPE("ExternalType"),
+    EXTERNAL_NAME("ExternalName"),
+    EXTERNAL_GETTER("ExternalGetter"),
+    EXTERNAL_SETTER("ExternalSetter");
+
+    override fun toString() = tag
 }

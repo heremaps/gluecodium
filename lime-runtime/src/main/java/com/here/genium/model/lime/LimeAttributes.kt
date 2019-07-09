@@ -19,6 +19,8 @@
 
 package com.here.genium.model.lime
 
+import com.here.genium.common.StringHelper
+
 class LimeAttributes private constructor(
     private val attributes: Map<LimeAttributeType, Map<LimeAttributeValueType, Any>>
 ) {
@@ -38,6 +40,32 @@ class LimeAttributes private constructor(
     ): T? {
         val value = attributes[attributeType]?.get(valueType)
         return if (clazz.isInstance(value)) clazz.cast(value) else null
+    }
+
+    override fun toString() = attributes.entries.sortedBy { it.key }.joinToString("\n") {
+        val attributeType = it.key
+        if (it.value.isEmpty()) {
+            return@joinToString "@$attributeType"
+        }
+        val valuesString = it.value.entries.joinToString(", ") { nameValue ->
+            createValueString(attributeType, nameValue.key, nameValue.value)
+        }
+        "@$attributeType($valuesString)"
+    }
+
+    private fun createValueString(
+        attributeType: LimeAttributeType,
+        valueType: LimeAttributeValueType,
+        literal: Any
+    ): String {
+        val prefix = if (valueType != attributeType.defaultValueType) valueType.toString() else ""
+        val suffix = when (literal) {
+            true -> ""
+            is String -> StringHelper.escapeStringLiteral(literal)
+            else -> literal.toString()
+        }
+        val infix = if (prefix.isNotEmpty() || suffix.isNotEmpty()) " = " else ""
+        return "$prefix$infix$suffix"
     }
 
     class Builder {

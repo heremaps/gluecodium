@@ -35,9 +35,11 @@ class LimeContainer(
     val exceptions: List<LimeException> = emptyList()
 ) : LimeType(path, visibility, comment, attributes) {
 
-    enum class ContainerType {
-        TYPE_COLLECTION,
-        INTERFACE,
-        CLASS
+    enum class ContainerType(private val tag: String) {
+        TYPE_COLLECTION("types"),
+        INTERFACE("interface"),
+        CLASS("class");
+
+        override fun toString() = tag
     }
 }

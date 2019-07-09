@@ -19,8 +19,10 @@
 
 package com.here.genium.model.lime
 
-enum class LimeVisibility {
-    INTERNAL,
-    PUBLIC,
-    OPEN
+enum class LimeVisibility(private val tag: String) {
+    INTERNAL("internal "),
+    PUBLIC(""),
+    OPEN("open ");
+
+    override fun toString() = tag
 }

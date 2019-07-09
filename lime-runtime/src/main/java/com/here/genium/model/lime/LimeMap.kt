@@ -19,5 +19,10 @@
 
 package com.here.genium.model.lime
 
-class LimeMap(val keyType: LimeTypeRef, val valueType: LimeTypeRef)
-    : LimeType(path = LimePath.EMPTY_PATH)
+class LimeMap(
+    val keyType: LimeTypeRef,
+    val valueType: LimeTypeRef
+) : LimeType(LimePath.EMPTY_PATH) {
+    override val name
+        get() = "Map<$keyType, $valueType>"
+}
