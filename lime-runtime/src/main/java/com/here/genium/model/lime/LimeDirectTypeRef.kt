@@ -22,7 +22,7 @@ package com.here.genium.model.lime
 class LimeDirectTypeRef(
     override val type: LimeType,
     override val isNullable: Boolean = false
-) : LimeTypeRef {
+) : LimeTypeRef() {
     override val elementFullName = type.fullName
 
     override fun asNullable() = if (isNullable) this else LimeDirectTypeRef(type, true)

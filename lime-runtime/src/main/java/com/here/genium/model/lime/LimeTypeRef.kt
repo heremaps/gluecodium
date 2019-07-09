@@ -19,10 +19,12 @@
 
 package com.here.genium.model.lime
 
-interface LimeTypeRef : LimeElement {
-    val elementFullName: String
-    val type: LimeType
-    val isNullable: Boolean
+abstract class LimeTypeRef : LimeElement {
+    abstract val elementFullName: String
+    abstract val type: LimeType
+    abstract val isNullable: Boolean
 
-    fun asNullable(): LimeTypeRef
+    abstract fun asNullable(): LimeTypeRef
+
+    override fun toString() = if (isNullable) "${type.name}?" else type.name
 }

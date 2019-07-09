@@ -22,7 +22,7 @@ package com.here.genium.model.lime
 class LimeBasicTypeRef(
     typeId: LimeBasicType.TypeId,
     override val isNullable: Boolean = false
-) : LimeTypeRef {
+) : LimeTypeRef() {
     override val elementFullName = typeId.name
     override val type = LimeBasicType(typeId)
 

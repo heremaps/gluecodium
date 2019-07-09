@@ -23,7 +23,7 @@ class LimeLazyTypeRef(
     override val elementFullName: String,
     private val referenceMap: Map<String, LimeElement>,
     override val isNullable: Boolean = false
-) : LimeTypeRef {
+) : LimeTypeRef() {
 
     override val type by lazy { referenceMap.get(elementFullName) as LimeType }
 

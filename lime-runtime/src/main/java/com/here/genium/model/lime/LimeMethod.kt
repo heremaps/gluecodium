@@ -26,7 +26,7 @@ class LimeMethod(
     attributes: LimeAttributes? = null,
     val returnType: LimeReturnType = LimeReturnType.VOID,
     val parameters: List<LimeParameter> = emptyList(),
-    private val exceptionRef: LimeTypeRef? = null,
+    val exceptionRef: LimeTypeRef? = null,
     val isStatic: Boolean = false,
     val isConstructor: Boolean = false
 ) : LimeNamedElement(path, visibility, comment, attributes) {
