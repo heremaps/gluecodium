@@ -38,45 +38,45 @@ public class MethodOverloads {
     }
     public func isBoolean(input: Bool) -> Bool {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isBoolean_boolOverload(self.c_instance, c_input.ref))
+        return moveFromCType(smoke_MethodOverloads_isBoolean_0(self.c_instance, c_input.ref))
     }
     public func isBoolean(input: Int8) -> Bool {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isBoolean_intOverload(self.c_instance, c_input.ref))
+        return moveFromCType(smoke_MethodOverloads_isBoolean_1(self.c_instance, c_input.ref))
     }
     public func isBoolean(input: String) -> Bool {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isBoolean_stringOverload(self.c_instance, c_input.ref))
+        return moveFromCType(smoke_MethodOverloads_isBoolean_2(self.c_instance, c_input.ref))
     }
     public func isBoolean(input: MethodOverloads.Point) -> Bool {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isBoolean_structOverload(self.c_instance, c_input.ref))
+        return moveFromCType(smoke_MethodOverloads_isBoolean_3(self.c_instance, c_input.ref))
     }
     public func isBoolean(input1: Bool, input2: Int8, input3: String, input4: MethodOverloads.Point) -> Bool {
         let c_input1 = moveToCType(input1)
         let c_input2 = moveToCType(input2)
         let c_input3 = moveToCType(input3)
         let c_input4 = moveToCType(input4)
-        return moveFromCType(smoke_MethodOverloads_isBoolean_everythingOverload(self.c_instance, c_input1.ref, c_input2.ref, c_input3.ref, c_input4.ref))
+        return moveFromCType(smoke_MethodOverloads_isBoolean_4(self.c_instance, c_input1.ref, c_input2.ref, c_input3.ref, c_input4.ref))
     }
     public func isBoolean(input: MethodOverloads.StringArray) -> Bool {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isBoolean_stringArrayOverload(self.c_instance, c_input.ref))
+        return moveFromCType(smoke_MethodOverloads_isBoolean_5(self.c_instance, c_input.ref))
     }
     public func isBoolean(input: MethodOverloads.IntArray) -> Bool {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isBoolean_intArrayOverload(self.c_instance, c_input.ref))
+        return moveFromCType(smoke_MethodOverloads_isBoolean_6(self.c_instance, c_input.ref))
     }
     public func isBoolean() -> Bool {
-        return moveFromCType(smoke_MethodOverloads_isBoolean_constOverload(self.c_instance))
+        return moveFromCType(smoke_MethodOverloads_isBoolean_7(self.c_instance))
     }
     public func isFloat(input: String) -> Bool {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isFloat_stringOverload(self.c_instance, c_input.ref))
+        return moveFromCType(smoke_MethodOverloads_isFloat_8(self.c_instance, c_input.ref))
     }
     public func isFloat(input: MethodOverloads.IntArray) -> Bool {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isFloat_intArrayOverload(self.c_instance, c_input.ref))
+        return moveFromCType(smoke_MethodOverloads_isFloat_9(self.c_instance, c_input.ref))
     }
 }
 extension MethodOverloads: NativeBase {

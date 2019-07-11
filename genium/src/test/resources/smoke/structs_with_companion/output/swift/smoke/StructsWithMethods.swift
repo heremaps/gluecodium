@@ -45,11 +45,11 @@ public struct Vector {
     private static func create(x: Double, y: Double) -> _baseRef {
         let c_x = moveToCType(x)
         let c_y = moveToCType(y)
-        return moveFromCType(smoke_StructsWithMethods_Vector_create_xy(c_x.ref, c_y.ref))
+        return moveFromCType(smoke_StructsWithMethods_Vector_create_0(c_x.ref, c_y.ref))
     }
     private static func create(other: Vector) throws -> _baseRef {
         let c_other = moveToCType(other)
-        let RESULT = smoke_StructsWithMethods_Vector_create_copy(c_other.ref)
+        let RESULT = smoke_StructsWithMethods_Vector_create_1(c_other.ref)
         if (RESULT.has_value) {
             return moveFromCType(RESULT.returned_value)
         } else {

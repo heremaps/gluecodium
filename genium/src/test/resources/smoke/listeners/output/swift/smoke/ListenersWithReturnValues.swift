@@ -19,31 +19,31 @@ internal func getRef(_ ref: ListenersWithReturnValues?, owning: Bool = true) -> 
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-    functions.smoke_ListenersWithReturnValues_fetchData_double = {(swift_class_pointer) in
+    functions.smoke_ListenersWithReturnValues_fetchData_0 = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
         return copyToCType(swift_class.fetchData()).ref
     }
-    functions.smoke_ListenersWithReturnValues_fetchData_string = {(swift_class_pointer) in
+    functions.smoke_ListenersWithReturnValues_fetchData_1 = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
         return copyToCType(swift_class.fetchData()).ref
     }
-    functions.smoke_ListenersWithReturnValues_fetchData_Struct = {(swift_class_pointer) in
+    functions.smoke_ListenersWithReturnValues_fetchData_2 = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
         return copyToCType(swift_class.fetchData()).ref
     }
-    functions.smoke_ListenersWithReturnValues_fetchData_enum = {(swift_class_pointer) in
+    functions.smoke_ListenersWithReturnValues_fetchData_3 = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
         return copyToCType(swift_class.fetchData()).ref
     }
-    functions.smoke_ListenersWithReturnValues_fetchData_Array = {(swift_class_pointer) in
+    functions.smoke_ListenersWithReturnValues_fetchData_4 = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
         return copyToCType(swift_class.fetchData()).ref
     }
-    functions.smoke_ListenersWithReturnValues_fetchData_Map = {(swift_class_pointer) in
+    functions.smoke_ListenersWithReturnValues_fetchData_5 = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
         return copyToCType(swift_class.fetchData()).ref
     }
-    functions.smoke_ListenersWithReturnValues_fetchData_instance = {(swift_class_pointer) in
+    functions.smoke_ListenersWithReturnValues_fetchData_6 = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ListenersWithReturnValues
         return copyToCType(swift_class.fetchData()).ref
     }
@@ -72,25 +72,25 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
         smoke_ListenersWithReturnValues_release_handle(c_instance)
     }
     public func fetchData() -> Double {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_double(self.c_instance))
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_0(self.c_instance))
     }
     public func fetchData() -> String {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_string(self.c_instance))
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_1(self.c_instance))
     }
     public func fetchData() -> ResultStruct {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_Struct(self.c_instance))
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_2(self.c_instance))
     }
     public func fetchData() -> ResultEnum {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_enum(self.c_instance))
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_3(self.c_instance))
     }
     public func fetchData() -> [Double] {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_Array(self.c_instance))
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_4(self.c_instance))
     }
     public func fetchData() -> ListenersWithReturnValues.StringToDouble {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_Map(self.c_instance))
+        return moveFromCType(smoke_ListenersWithReturnValues_fetchData_5(self.c_instance))
     }
     public func fetchData() -> CalculationResult {
-        return CalculationResultmoveFromCType(smoke_ListenersWithReturnValues_fetchData_instance(self.c_instance))
+        return CalculationResultmoveFromCType(smoke_ListenersWithReturnValues_fetchData_6(self.c_instance))
     }
 }
 extension _ListenersWithReturnValues: NativeBase {

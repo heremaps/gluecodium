@@ -72,11 +72,11 @@ bool smoke_StructsWithMethodsInterface_Vector3_validate(double x, double y, doub
     return ::smoke::StructsWithMethodsInterface::Vector3::validate(x, y, z)
 ;
 }
-_baseRef smoke_StructsWithMethodsInterface_Vector3_create_string(_baseRef input) {
+_baseRef smoke_StructsWithMethodsInterface_Vector3_create_0(_baseRef input) {
     return Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(::smoke::StructsWithMethodsInterface::Vector3::create(Conversion<std::string>::toCpp(input)))
 ;
 }
-smoke_StructsWithMethodsInterface_Vector3_create_copy_result smoke_StructsWithMethodsInterface_Vector3_create_copy(_baseRef other) {
+smoke_StructsWithMethodsInterface_Vector3_create_1_result smoke_StructsWithMethodsInterface_Vector3_create_1(_baseRef other) {
     auto&& RESULT = ::smoke::StructsWithMethodsInterface::Vector3::create(Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toCpp(other));
     if (RESULT.has_value()) {
         return {true, .returned_value = Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(RESULT.unsafe_value())

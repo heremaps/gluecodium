@@ -22,12 +22,12 @@ typedef struct {
         smoke_ValidationUtils_ValidationError error_code;
         _baseRef returned_value;
     };
-} smoke_StructsWithMethods_Vector_create_copy_result;
+} smoke_StructsWithMethods_Vector_create_1_result;
 _GENIUM_C_EXPORT double smoke_StructsWithMethods_Vector_distanceTo(_baseRef _instance, _baseRef other);
 _GENIUM_C_EXPORT _baseRef smoke_StructsWithMethods_Vector_add(_baseRef _instance, _baseRef other);
 _GENIUM_C_EXPORT bool smoke_StructsWithMethods_Vector_validate(double x, double y);
-_GENIUM_C_EXPORT _baseRef smoke_StructsWithMethods_Vector_create_xy(double x, double y);
-_GENIUM_C_EXPORT smoke_StructsWithMethods_Vector_create_copy_result smoke_StructsWithMethods_Vector_create_copy(_baseRef other);
+_GENIUM_C_EXPORT _baseRef smoke_StructsWithMethods_Vector_create_0(double x, double y);
+_GENIUM_C_EXPORT smoke_StructsWithMethods_Vector_create_1_result smoke_StructsWithMethods_Vector_create_1(_baseRef other);
 #ifdef __cplusplus
 }
 #endif
