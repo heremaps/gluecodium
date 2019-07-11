@@ -26,6 +26,8 @@ import com.here.genium.generator.common.templates.TemplateEngine
 import com.here.genium.generator.java.JavaMethodNameResolver
 import com.here.genium.generator.java.JavaNameRules
 import com.here.genium.model.lime.LimeArray
+import com.here.genium.model.lime.LimeAttributeType.JAVA
+import com.here.genium.model.lime.LimeAttributeValueType.NAME
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeException
@@ -51,7 +53,9 @@ class LimeGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             val ambiguousMethods =
                 collectMethods(it)
                     .filter { method -> signatureResolver.hasSignatureClash(method) }
+                    .filterNot { method -> method.attributes.have(JAVA, NAME) }
                     .map { method -> method.fullName }
+                    .toSet()
             val imports = collectImports(it.path.parent, it).toSet()
             val content = TemplateEngine.render(
                 "lime/LimeFile",

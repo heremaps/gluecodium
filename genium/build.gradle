@@ -22,7 +22,7 @@ plugins {
 }
 dependencies {
     compile project(":lime-runtime")
-    compile project(":franca-loader")
+    compile project(":lime-loader")
 
     compile 'com.android.tools.build:manifest-merger:25.3.0'
     compile 'com.android.tools:annotations:25.3.0'
@@ -79,7 +79,7 @@ jacocoTestCoverageVerification {
         }
     }
 }
-def coverageProjects = [project, project(":franca-loader")]
+def coverageProjects = [project]
 jacocoTestReport {
     dependsOn = coverageProjects.test
     additionalSourceDirs = files(coverageProjects.sourceSets.main.allSource.srcDirs)
