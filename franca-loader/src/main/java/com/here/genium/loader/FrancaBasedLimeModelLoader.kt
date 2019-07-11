@@ -81,7 +81,7 @@ internal object FrancaBasedLimeModelLoader : LimeModelLoader {
     override fun loadModel(fileNames: List<String>): LimeModel {
         val francaModel = loadFrancaModel(fileNames)
 
-        val limeReferenceResolver = LimeReferenceResolver()
+        val limeReferenceResolver = FrancaLimeReferenceResolver()
         val companionHelper =
             FrancaCompanionHelper(francaModel.typeCollections, francaModel.deploymentModel)
         val errorEnums = francaModel.typeCollections

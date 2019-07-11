@@ -19,47 +19,29 @@
 
 package com.here.genium.loader
 
-import com.here.genium.franca.FrancaTypeHelper
-import com.here.genium.franca.SpecialTypeRules
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
-import org.franca.core.franca.FTypeRef
+import com.here.genium.model.lime.LimeReferenceResolver
 
-class LimeReferenceResolver {
+class FrancaLimeReferenceResolver : LimeReferenceResolver {
     private val referenceCache: MutableMap<String, LimeElement> =
         preCacheBasicTypes()
 
-    fun registerElement(element: LimeNamedElement) =
+    override fun registerElement(element: LimeNamedElement) =
         registerElement(element.path.toString(), element)
 
-    fun registerElement(key: String, element: LimeElement) {
+    override fun registerElement(key: String, element: LimeElement) {
         referenceCache[key] = element
     }
 
-    val referenceMap: Map<String, LimeElement> = referenceCache
+    override val referenceMap: Map<String, LimeElement> = referenceCache
 
     companion object {
-        fun getTypeKey(francaTypeRef: FTypeRef): String =
-            when {
-                SpecialTypeRules.isDateType(francaTypeRef) -> LimeBasicType.TypeId.DATE.name
-                francaTypeRef.derived != null -> FrancaTypeHelper.getFullName(francaTypeRef.derived)
-                else -> francaTypeRef.predefined.name
-            }
-
-        fun getArrayKey(elementTypeKey: String) = "[$elementTypeKey]"
-
-        fun getMapKey(keyTypeKey: String, valueTypeKey: String) = "[$keyTypeKey:$valueTypeKey]"
-
-        fun getSetKey(elementTypeKey: String) = getMapKey(elementTypeKey, "")
-
-        fun getChildKey(parentTypeRef: FTypeRef, childName: String) =
-            getTypeKey(parentTypeRef) + "." + childName
-
         private fun preCacheBasicTypes(): MutableMap<String, LimeElement> {
             val basicTypes: MutableMap<String, LimeElement> = TypeId.values()
-                .associateBy(TypeId::name, ::LimeBasicType)
+                .associateBy({ it.name }, { LimeBasicType(it) })
                 .toMutableMap()
             basicTypes["UNDEFINED"] = LimeBasicType(TypeId.VOID)
             basicTypes["BYTE_BUFFER"] = LimeBasicType(TypeId.BLOB)

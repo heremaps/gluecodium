@@ -88,7 +88,7 @@ class LimeModelBuilderInterfaceTest {
 
     private val contextStack = MockContextStack<LimeElement>()
     @MockK private lateinit var deploymentModel: FrancaDeploymentModel
-    private val referenceResolver = LimeReferenceResolver()
+    private val referenceResolver = FrancaLimeReferenceResolver()
     @MockK private lateinit var companionHelper: FrancaCompanionHelper
 
     private val limeTypeRef = LimeBasicTypeRef.DOUBLE

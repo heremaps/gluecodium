@@ -24,6 +24,7 @@ import com.here.genium.franca.FrancaDeploymentModel
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeField
+import com.here.genium.model.lime.LimeReferenceResolver
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.test.MockContextStack
 import io.mockk.MockKAnnotations

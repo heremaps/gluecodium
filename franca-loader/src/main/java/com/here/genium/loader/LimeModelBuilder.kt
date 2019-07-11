@@ -29,6 +29,7 @@ import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
+import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
@@ -48,6 +49,7 @@ import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeProperty
+import com.here.genium.model.lime.LimeReferenceResolver
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
@@ -224,7 +226,7 @@ class LimeModelBuilder(
         val typeKey = when {
             SpecialTypeRules.isInstanceId(francaTypeRef) ->
                 FrancaTypeHelper.getFullName(francaTypeRef.derived.eContainer() as FTypeCollection)
-            else -> LimeReferenceResolver.getTypeKey(francaTypeRef)
+            else -> getTypeKey(francaTypeRef)
         }
         return LimeLazyTypeRef(typeKey, referenceResolver.referenceMap)
     }
@@ -643,12 +645,10 @@ class LimeModelBuilder(
                 }
             }
             FrancaHelpers.isEnumeration(francaTypeRef) -> {
-                val childKey =
-                    LimeReferenceResolver.getChildKey(
-                        francaTypeRef,
-                        literalValue
-                    )
-                val enumeratorRef = LimeEnumeratorRef(referenceResolver.referenceMap, childKey)
+                val enumeratorRef = LimeEnumeratorRef(
+                    referenceResolver.referenceMap,
+                    getChildKey(francaTypeRef, literalValue)
+                )
                 LimeValue.Enumerator(fieldType, enumeratorRef)
             }
             else -> LimeValue.Literal(fieldType, literalValue)
@@ -722,5 +722,17 @@ class LimeModelBuilder(
             storeResult(limeElement)
         }
         closeContext()
+    }
+
+    companion object {
+        private fun getTypeKey(francaTypeRef: FTypeRef): String =
+            when {
+                SpecialTypeRules.isDateType(francaTypeRef) -> LimeBasicType.TypeId.DATE.name
+                francaTypeRef.derived != null -> FrancaTypeHelper.getFullName(francaTypeRef.derived)
+                else -> francaTypeRef.predefined.name
+            }
+
+        private fun getChildKey(parentTypeRef: FTypeRef, childName: String) =
+            getTypeKey(parentTypeRef) + "." + childName
     }
 }
