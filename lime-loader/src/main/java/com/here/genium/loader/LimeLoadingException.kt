@@ -17,17 +17,11 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.lime
+package com.here.genium.loader
 
-class LimeStruct(
-    path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
-    comment: String = "",
-    attributes: LimeAttributes? = null,
-    val fields: List<LimeField> = emptyList(),
-    val methods: List<LimeMethod> = emptyList(),
-    val constants: List<LimeConstant> = emptyList()
-) : LimeType(path, visibility, comment, attributes) {
-    override val childTypes
-        get() = fields.map { it.typeRef.type }
+import com.here.genium.model.lime.LimeModelLoaderException
+
+internal class LimeLoadingException : LimeModelLoaderException {
+    constructor(message: String) : super(message)
+    constructor(message: String, cause: Throwable) : super(message, cause)
 }

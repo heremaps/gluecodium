@@ -19,15 +19,17 @@
 
 package com.here.genium.model.lime
 
-class LimeStruct(
-    path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
-    comment: String = "",
-    attributes: LimeAttributes? = null,
-    val fields: List<LimeField> = emptyList(),
-    val methods: List<LimeMethod> = emptyList(),
-    val constants: List<LimeConstant> = emptyList()
-) : LimeType(path, visibility, comment, attributes) {
-    override val childTypes
-        get() = fields.map { it.typeRef.type }
+class LimePositionalTypeRef(
+    private val parentTypeRef: LimeTypeRef,
+    private val index: Int,
+    private val referenceMap: Map<String, LimeElement>,
+    override val isNullable: Boolean = false
+) : LimeTypeRef() {
+
+    override val elementFullName by lazy { type.path.toString() }
+
+    override val type by lazy { parentTypeRef.type.childTypes[index] }
+
+    override fun asNullable() =
+        if (isNullable) this else LimePositionalTypeRef(parentTypeRef, index, referenceMap, true)
 }

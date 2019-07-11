@@ -1,3 +1,4 @@
 include ':lime-runtime'
 include ':franca-loader'
+include ':lime-loader'
 include ':genium'

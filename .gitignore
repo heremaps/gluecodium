@@ -9,6 +9,7 @@
 .idea/misc.xml
 .idea/modules.xml
 .idea/vcs.xml
+*.tokens
 ### https://raw.github.com/github/gitignore/c68eb91e0a72ca1efba128c33de9caea41281f19/Android.gitignore
 
 # Built application files

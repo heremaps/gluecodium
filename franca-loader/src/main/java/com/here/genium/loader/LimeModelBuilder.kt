@@ -29,7 +29,6 @@ import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType
-import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
@@ -277,7 +276,7 @@ class LimeModelBuilder(
     override fun finishBuilding(francaExpression: FInitializerExpression) {
         val limeType = parentContext?.previousResults
             ?.filterIsInstance<LimeTypeRef>()
-            ?.firstOrNull() ?: LimeBasicTypeRef(TypeId.INT32)
+            ?.firstOrNull() ?: LimeBasicTypeRef.INT
         val limeValue = mapValue(limeType, francaExpression)
 
         storeResultAndCloseContext(limeValue)

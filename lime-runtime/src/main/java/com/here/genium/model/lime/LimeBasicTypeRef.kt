@@ -29,6 +29,7 @@ class LimeBasicTypeRef(
     override fun asNullable() = if (isNullable) this else LimeBasicTypeRef(type.typeId, true)
 
     companion object {
+        val INT = LimeBasicTypeRef(LimeBasicType.TypeId.INT32)
         val FLOAT = LimeBasicTypeRef(LimeBasicType.TypeId.FLOAT)
         val DOUBLE = LimeBasicTypeRef(LimeBasicType.TypeId.DOUBLE)
     }

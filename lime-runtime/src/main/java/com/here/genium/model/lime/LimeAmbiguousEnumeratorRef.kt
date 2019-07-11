@@ -19,15 +19,19 @@
 
 package com.here.genium.model.lime
 
-class LimeStruct(
-    path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
-    comment: String = "",
-    attributes: LimeAttributes? = null,
-    val fields: List<LimeField> = emptyList(),
-    val methods: List<LimeMethod> = emptyList(),
-    val constants: List<LimeConstant> = emptyList()
-) : LimeType(path, visibility, comment, attributes) {
-    override val childTypes
-        get() = fields.map { it.typeRef.type }
+class LimeAmbiguousEnumeratorRef(
+    relativePath: List<String>,
+    parentPaths: List<LimePath>,
+    referenceMap: Map<String, LimeElement>
+) : LimeEnumeratorRef {
+
+    override val elementFullName by lazy { enumerator.path.toString() }
+
+    override val enumerator by lazy {
+        for (limePath in parentPaths) {
+            val key = limePath.child(relativePath).toString()
+            return@lazy referenceMap[key] as? LimeEnumerator ?: continue
+        }
+        throw NullPointerException("Enumerator $relativePath was not found")
+    }
 }

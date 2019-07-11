@@ -37,7 +37,7 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
         override fun toString() = valueRef.enumerator.path.let { "${it.parent.name}.${it.name}" }
     }
 
-    class Special private constructor(type: LimeTypeRef, val value: ValueId) : LimeValue(type) {
+    class Special(type: LimeTypeRef, val value: ValueId) : LimeValue(type) {
         enum class ValueId(private val tag: String) {
             NAN("NaN"),
             INFINITY("Infinity"),

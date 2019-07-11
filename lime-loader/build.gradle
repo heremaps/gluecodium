@@ -1,0 +1,50 @@
+plugins {
+    id 'antlr'
+}
+
+dependencies {
+    antlr "org.antlr:antlr4:4.7.2"
+    compile project(":lime-runtime")
+    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    compile "org.antlr:antlr4-runtime:4.7.2"
+}
+
+generateGrammarSource {
+    maxHeapSize = "64m"
+    arguments += ['-package', 'com.here.genium.antlr']
+    outputDirectory = new File("$buildDir/generated-src/antlr/main/com/here/genium/antlr")
+}
+
+compileJava.dependsOn generateGrammarSource
+compileKotlin.dependsOn generateGrammarSource
+
+sourceSets {
+    antlrGenerated {
+        java {
+            srcDir "${buildDir}/generated-src/antlr/main"
+            compileClasspath = main.compileClasspath
+            runtimeClasspath = main.runtimeClasspath
+        }
+    }
+    main {
+        java {
+            compileClasspath += antlrGenerated.output
+            runtimeClasspath += antlrGenerated.output
+        }
+    }
+}
+
+apply from: "$rootDir/gradle/spotless.gradle"
+
+spotless {
+    format 'antlr', {
+        target '**/*.g4'
+
+        trimTrailingWhitespace()
+        indentWithSpaces(4)
+        endWithNewline()
+    }
+}
+
+project.ext.longName = 'Genium LIME loader'
+apply from: "$rootDir/gradle/publishing.gradle"
