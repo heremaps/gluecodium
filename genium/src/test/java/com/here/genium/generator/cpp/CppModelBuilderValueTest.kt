@@ -24,7 +24,7 @@ import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppValue
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeEnumerator
-import com.here.genium.model.lime.LimeEnumeratorRef
+import com.here.genium.model.lime.LimeLazyEnumeratorRef
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.test.AssertHelpers.assertContains
@@ -77,7 +77,7 @@ class CppModelBuilderValueTest {
     @Test
     fun finishBuildingEnumeratorValue() {
         val limeEnumerator = LimeEnumerator(EMPTY_PATH)
-        val limeEnumeratorRef = LimeEnumeratorRef(mapOf("foo" to limeEnumerator), "foo")
+        val limeEnumeratorRef = LimeLazyEnumeratorRef(mapOf("foo" to limeEnumerator), "foo")
         val limeElement = LimeValue.Enumerator(LimeBasicTypeRef.DOUBLE, limeEnumeratorRef)
         every { nameResolver.getFullyQualifiedName(limeEnumerator) } returns "FooBarBaz"
 

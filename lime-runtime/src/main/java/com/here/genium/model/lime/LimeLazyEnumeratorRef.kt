@@ -19,7 +19,9 @@
 
 package com.here.genium.model.lime
 
-interface LimeEnumeratorRef : LimeElement {
-    val elementFullName: String
-    val enumerator: LimeEnumerator
+class LimeLazyEnumeratorRef(
+    referenceMap: Map<String, LimeElement>,
+    override val elementFullName: String
+) : LimeEnumeratorRef {
+    override val enumerator by lazy { referenceMap[elementFullName] as LimeEnumerator }
 }

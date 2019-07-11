@@ -39,7 +39,7 @@ import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
-import com.here.genium.model.lime.LimeEnumeratorRef
+import com.here.genium.model.lime.LimeLazyEnumeratorRef
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeLazyTypeRef
@@ -294,7 +294,7 @@ class LimeModelBuilder(
         }
         is FQualifiedElementRef -> {
             val elementKey = FrancaTypeHelper.getFullName(francaExpression.element)
-            val valueRef = LimeEnumeratorRef(referenceResolver.referenceMap, elementKey)
+            val valueRef = LimeLazyEnumeratorRef(referenceResolver.referenceMap, elementKey)
             LimeValue.Enumerator(limeType, valueRef)
         }
         is FCompoundInitializer -> {
@@ -645,7 +645,7 @@ class LimeModelBuilder(
                 }
             }
             FrancaHelpers.isEnumeration(francaTypeRef) -> {
-                val enumeratorRef = LimeEnumeratorRef(
+                val enumeratorRef = LimeLazyEnumeratorRef(
                     referenceResolver.referenceMap,
                     getChildKey(francaTypeRef, literalValue)
                 )

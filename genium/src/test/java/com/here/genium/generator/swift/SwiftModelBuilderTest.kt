@@ -33,7 +33,7 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
-import com.here.genium.model.lime.LimeEnumeratorRef
+import com.here.genium.model.lime.LimeLazyEnumeratorRef
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMap
@@ -602,7 +602,7 @@ class SwiftModelBuilderTest {
     fun finishBuildingValueEnumerator() {
         val limeElement = LimeValue.Enumerator(
             LimeBasicTypeRef.FLOAT,
-            LimeEnumeratorRef(mapOf("bar" to LimeEnumerator(fooPath)), "bar")
+            LimeLazyEnumeratorRef(mapOf("bar" to LimeEnumerator(fooPath)), "bar")
         )
 
         modelBuilder.finishBuilding(limeElement)

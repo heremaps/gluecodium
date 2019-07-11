@@ -32,7 +32,7 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
-import com.here.genium.model.lime.LimeEnumeratorRef
+import com.here.genium.model.lime.LimeLazyEnumeratorRef
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeTypeDef
@@ -72,7 +72,7 @@ class JavaValueMapperTest {
         limeReferenceMap["bar"] = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
         limeReferenceMap["baz"] = LimeEnumerator(LimePath(emptyList(), listOf("baz")))
         val enumeratorRef = LimeLazyTypeRef("bar", limeReferenceMap)
-        val valueRef = LimeEnumeratorRef(limeReferenceMap, "baz")
+        val valueRef = LimeLazyEnumeratorRef(limeReferenceMap, "baz")
         val limeValue = LimeValue.Enumerator(enumeratorRef, valueRef)
 
         val result = valueMapper.mapValue(limeValue, javaType)
@@ -94,7 +94,7 @@ class JavaValueMapperTest {
             typeRef = LimeLazyTypeRef("bar", limeReferenceMap)
         )
         val enumeratorRef = LimeLazyTypeRef("barDef", limeReferenceMap)
-        val valueRef = LimeEnumeratorRef(limeReferenceMap, "baz")
+        val valueRef = LimeLazyEnumeratorRef(limeReferenceMap, "baz")
         val limeValue = LimeValue.Enumerator(enumeratorRef, valueRef)
 
         val result = valueMapper.mapValue(limeValue, javaType)
@@ -112,7 +112,7 @@ class JavaValueMapperTest {
         limeReferenceMap["bar"] = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
         limeReferenceMap["baz"] = LimeEnumerator(LimePath(emptyList(), listOf("baz")))
         val enumeratorRef = LimeLazyTypeRef("bar", limeReferenceMap)
-        val valueRef = LimeEnumeratorRef(limeReferenceMap, "baz")
+        val valueRef = LimeLazyEnumeratorRef(limeReferenceMap, "baz")
         val limeValue = LimeValue.Enumerator(enumeratorRef, valueRef)
 
         val result = valueMapper.mapValue(limeValue, javaType)
