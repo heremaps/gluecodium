@@ -25,8 +25,8 @@ import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuild
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeType.SWIFT
+import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeAttributeValueType
-import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
@@ -402,7 +402,7 @@ class SwiftModelBuilder(
 
     private fun mapValue(limeValue: LimeValue): SwiftValue =
         when (limeValue) {
-            is LimeValue.Literal -> SwiftValue(limeValue.value)
+            is LimeValue.Literal -> SwiftValue(limeValue.toString())
             is LimeValue.Enumerator -> {
                 val typeName = nameResolver.getFullName(limeValue.typeRef.type)
                 val valueName = nameRules.getName(limeValue.valueRef.enumerator)
@@ -411,8 +411,11 @@ class SwiftModelBuilder(
             is LimeValue.Special -> {
                 val signPrefix =
                     if (limeValue.value == LimeValue.Special.ValueId.NEGATIVE_INFINITY) "-" else ""
-                val typeName =
-                    if (limeValue.typeRef == LimeBasicTypeRef.FLOAT) "Float" else "Double"
+                val typeName = when {
+                    (limeValue.typeRef.type as LimeBasicType).typeId ==
+                            LimeBasicType.TypeId.FLOAT -> "Float"
+                    else -> "Double"
+                }
                 val valueName =
                     if (limeValue.value == LimeValue.Special.ValueId.NAN) "nan" else "infinity"
                 SwiftValue("$signPrefix$typeName.$valueName")

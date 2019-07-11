@@ -329,7 +329,7 @@ class CppModelBuilder(
         return when (limeValue) {
             is LimeValue.Literal -> {
                 val suffix = if (isFloat) "f" else ""
-                CppValue(limeValue.value + suffix)
+                CppValue(limeValue.toString() + suffix)
             }
             is LimeValue.Enumerator ->
                 CppValue(nameResolver.getFullyQualifiedName(limeValue.valueRef.enumerator))

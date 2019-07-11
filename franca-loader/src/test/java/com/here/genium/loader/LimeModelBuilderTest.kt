@@ -390,7 +390,7 @@ class LimeModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(LimeField::class.java)
         assertTrue(result.defaultValue is LimeValue.Literal)
-        assertEquals("\"foo\"", (result.defaultValue as LimeValue.Literal).value)
+        assertEquals("foo", (result.defaultValue as LimeValue.Literal).value)
     }
 
     @Test
@@ -412,7 +412,7 @@ class LimeModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(LimeField::class.java)
         assertTrue(result.defaultValue is LimeValue.Literal)
-        assertEquals("\"foo\"", (result.defaultValue as LimeValue.Literal).value)
+        assertEquals("foo", (result.defaultValue as LimeValue.Literal).value)
     }
 
     @Test

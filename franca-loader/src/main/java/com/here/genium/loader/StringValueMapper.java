@@ -30,7 +30,7 @@ public final class StringValueMapper {
     } else if (francaExpression instanceof FIntegerConstant) {
       return String.valueOf(((FIntegerConstant) francaExpression).getVal());
     } else if (francaExpression instanceof FStringConstant) {
-      return '"' + ((FStringConstant) francaExpression).getVal() + '"';
+      return ((FStringConstant) francaExpression).getVal();
     } else if (francaExpression instanceof FFloatConstant) {
       return String.valueOf(((FFloatConstant) francaExpression).getVal());
     } else if (francaExpression instanceof FDoubleConstant) {

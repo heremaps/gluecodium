@@ -19,9 +19,18 @@
 
 package com.here.genium.model.lime
 
+import com.here.genium.common.StringHelper
+
 sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
     class Literal(type: LimeTypeRef, val value: String) : LimeValue(type) {
-        override fun toString() = value
+        override fun toString(): String {
+            val limeType = LimeTypeHelper.getActualType(typeRef.type)
+            return when {
+                limeType is LimeBasicType && limeType.typeId == LimeBasicType.TypeId.STRING ->
+                    StringHelper.escapeStringLiteral(value)
+                else -> value
+            }
+        }
     }
 
     class Enumerator(type: LimeTypeRef, val valueRef: LimeEnumeratorRef) : LimeValue(type) {

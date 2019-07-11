@@ -25,7 +25,6 @@ import com.here.genium.model.java.JavaType
 import com.here.genium.model.java.JavaValue
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
-import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeTypeHelper
@@ -47,7 +46,7 @@ class JavaValueMapper(
                             limeType.typeId == TypeId.INT64 -> "L"
                     else -> ""
                 }
-                JavaValue(limeValue.value + suffix, true)
+                JavaValue(limeValue.toString() + suffix, true)
             }
             is LimeValue.Enumerator -> {
                 val limeEnumerator = limeValue.valueRef.enumerator
@@ -80,7 +79,10 @@ class JavaValueMapper(
         }
 
     private fun mapSpecialValue(limeValue: LimeValue.Special): JavaValue {
-        val prefix = if (limeValue.typeRef == LimeBasicTypeRef.FLOAT) "Float" else "Double"
+        val prefix = when {
+            (limeValue.typeRef.type as LimeBasicType).typeId == TypeId.FLOAT -> "Float"
+            else -> "Double"
+        }
         val value = when (limeValue.value) {
             LimeValue.Special.ValueId.NAN -> "NaN"
             LimeValue.Special.ValueId.INFINITY -> "POSITIVE_INFINITY"

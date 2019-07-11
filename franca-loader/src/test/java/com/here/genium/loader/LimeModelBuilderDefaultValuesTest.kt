@@ -101,7 +101,7 @@ class LimeModelBuilderDefaultValuesTest {
         modelBuilder.finishBuilding(francaField)
 
         val result = modelBuilder.getFinalResult(LimeField::class.java)
-        assertEquals("\"foo\"", (result.defaultValue as LimeValue.Literal).value)
+        assertEquals("foo", (result.defaultValue as LimeValue.Literal).value)
     }
 
     @Test
