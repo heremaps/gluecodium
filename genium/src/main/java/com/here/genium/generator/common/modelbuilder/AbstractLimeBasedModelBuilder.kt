@@ -37,7 +37,7 @@ abstract class AbstractLimeBasedModelBuilder<E>(
     contextStack: ModelBuilderContextStack<E>
 ) : ContextBasedModelBuilder<E>(contextStack), LimeBasedModelBuilder {
     /**
-     * Mapping of lime name to model element.
+     * Mapping of LIME full name to model full name.
      */
     val referenceMap = mutableMapOf<String, E>()
 
@@ -52,11 +52,14 @@ abstract class AbstractLimeBasedModelBuilder<E>(
 
     /**
      * Store a result which has a direct mapping to a lime model name. This is used to transform
-     * links in comments from lime to language model.
+     * links in comments from lime to language model. "Ambiguous" LIME references (i.e. when the
+     * disambiguation suffix is omitted) are also allowed.
      */
     protected fun storeNamedResult(limeElement: LimeNamedElement, element: E) {
         storeResult(element)
         referenceMap[limeElement.fullName] = element
+        val ambiguousKey = limeElement.path.withSuffix("").toString()
+        referenceMap[ambiguousKey] = element
     }
 
     protected fun createComments(limeElement: LimeNamedElement) =

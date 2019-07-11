@@ -435,9 +435,9 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsDisambiguationSuffix() {
-        val limeElement = LimeMethod(LimePath(emptyList(), emptyList(), "foo"))
+        every { javaBuilder.methodNameResolver.isOverloaded(limeMethod) } returns true
 
-        modelBuilder.finishBuilding(limeElement)
+        modelBuilder.finishBuilding(limeMethod)
 
         val jniMethod = modelBuilder.getFinalResult(JniMethod::class.java)
         assertTrue(jniMethod.isOverloaded)

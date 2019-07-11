@@ -26,6 +26,8 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
     open fun getSignature(limeMethod: LimeMethod): List<String> =
         signatureCache.getOrPut(limeMethod.path.toString()) { computeSignature(limeMethod) }
 
+    open fun isOverloaded(limeMethod: LimeMethod) = getAllOverloads(limeMethod).count() > 1
+
     open fun hasSignatureClash(limeMethod: LimeMethod): Boolean {
         val signature = getSignature(limeMethod)
         return getAllOverloads(limeMethod)

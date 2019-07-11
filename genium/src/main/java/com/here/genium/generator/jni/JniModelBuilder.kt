@@ -172,7 +172,7 @@ class JniModelBuilder(
             returnType = JniType(javaMethod.returnType, cppMethod.returnType),
             isStatic = cppMethod.specifiers.contains(CppMethod.Specifier.STATIC),
             isConst = cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST),
-            isOverloaded = limeMethod.path.disambiguationSuffix.isNotEmpty(),
+            isOverloaded = javaBuilder.methodNameResolver.isOverloaded(limeMethod),
             returnsOpaqueHandle = javaMethod.isConstructor && javaMethod.returnType == JavaPrimitiveType.LONG,
             exception = jniException
         )

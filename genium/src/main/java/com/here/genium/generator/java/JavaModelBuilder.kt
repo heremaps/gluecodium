@@ -68,7 +68,7 @@ class JavaModelBuilder(
     private val rootPackage: JavaPackage,
     private val typeMapper: JavaTypeMapper,
     private val valueMapper: JavaValueMapper,
-    private val methodNameResolver: JavaMethodNameResolver,
+    val methodNameResolver: JavaMethodNameResolver,
     private val errorEnums: Set<String>,
     private val nameRules: JavaNameRules
 ) : AbstractLimeBasedModelBuilder<JavaElement>(contextStack) {

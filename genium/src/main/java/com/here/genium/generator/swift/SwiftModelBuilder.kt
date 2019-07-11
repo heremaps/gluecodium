@@ -201,7 +201,11 @@ class SwiftModelBuilder(
             SwiftEnum(swiftEnumName)
         }
 
-        val limeParent = limeReferenceMap[limeMethod.path.parent.toString()]
+        val cShortName = CBridgeNameRules.getShortMethodName(
+            limeParent = limeReferenceMap[limeMethod.path.parent.toString()],
+            limeMethod = limeMethod,
+            isOverloaded = signatureResolver.isOverloaded(limeMethod)
+        )
         val method = SwiftMethod(
             name = nameRules.getName(limeMethod),
             visibility = getVisibility(limeMethod),
@@ -209,7 +213,7 @@ class SwiftModelBuilder(
             returnType = returnType,
             returnComment = limeMethod.returnType.comment,
             cNestedSpecifier = CBridgeNameRules.getNestedSpecifierString(limeMethod),
-            cShortName = CBridgeNameRules.getShortMethodName(limeParent, limeMethod),
+            cShortName = cShortName,
             error = errorType,
             isStatic = limeMethod.isStatic,
             isConstructor = limeMethod.isConstructor,

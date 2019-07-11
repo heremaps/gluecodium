@@ -58,14 +58,17 @@ object CBridgeNameRules {
 
     fun getInterfaceName(limeContainer: LimeContainer) = getNestedSpecifierString(limeContainer)
 
-    fun getShortMethodName(limeParent: LimeElement?, limeMethod: LimeMethod): String {
+    fun getShortMethodName(
+        limeParent: LimeElement?,
+        limeMethod: LimeMethod,
+        isOverloaded: Boolean
+    ): String {
         val prefix = when (limeParent) {
             is LimeStruct -> getName(limeParent) + UNDERSCORE_DELIMITER
             else -> ""
         }
         val suffix = when {
-            limeMethod.path.disambiguationSuffix.isNotEmpty() ->
-                UNDERSCORE_DELIMITER + limeMethod.path.disambiguationSuffix
+            isOverloaded -> UNDERSCORE_DELIMITER + limeMethod.path.disambiguationSuffix
             else -> ""
         }
         return prefix + NameHelper.toLowerCamelCase(limeMethod.name) + suffix
