@@ -23,5 +23,8 @@ class LimeLazyEnumeratorRef(
     referenceMap: Map<String, LimeElement>,
     override val elementFullName: String
 ) : LimeEnumeratorRef {
-    override val enumerator by lazy { referenceMap[elementFullName] as LimeEnumerator }
+    override val enumerator by lazy {
+        referenceMap[elementFullName] as? LimeEnumerator
+            ?: throw LimeModelLoaderException("Enumerator $elementFullName was not found")
+    }
 }

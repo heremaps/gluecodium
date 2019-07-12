@@ -29,5 +29,5 @@ class LimeStruct(
     val constants: List<LimeConstant> = emptyList()
 ) : LimeType(path, visibility, comment, attributes) {
     override val childTypes
-        get() = fields.map { it.typeRef.type }
+        get() = fields.map { it.typeRef }
 }

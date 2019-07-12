@@ -28,7 +28,16 @@ class LimePositionalTypeRef(
 
     override val elementFullName by lazy { type.path.toString() }
 
-    override val type by lazy { parentTypeRef.type.childTypes[index] }
+    override val type by lazy {
+        val limeType = parentTypeRef.type
+        if (index >= 0 && index < limeType.childTypes.size) {
+            limeType.childTypes[index].type
+        } else {
+            throw LimeModelLoaderException(
+                "Type ${parentTypeRef.elementFullName}[$index] was not found"
+            )
+        }
+    }
 
     override fun asNullable() =
         if (isNullable) this else LimePositionalTypeRef(parentTypeRef, index, referenceMap, true)

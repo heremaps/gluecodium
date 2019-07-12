@@ -19,10 +19,4 @@
 
 package com.here.genium.model.lime
 
-class LimeSet(val elementType: LimeTypeRef) : LimeGenericType() {
-    override val name
-        get() = "Set<$elementType>"
-
-    override val childTypes
-        get() = listOf(elementType)
-}
+abstract class LimeGenericType : LimeType(LimePath.EMPTY_PATH)

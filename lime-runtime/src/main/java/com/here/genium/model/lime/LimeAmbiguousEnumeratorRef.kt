@@ -32,6 +32,6 @@ class LimeAmbiguousEnumeratorRef(
             val key = limePath.child(relativePath).toString()
             return@lazy referenceMap[key] as? LimeEnumerator ?: continue
         }
-        throw NullPointerException("Enumerator $relativePath was not found")
+        throw LimeModelLoaderException("Enumerator $relativePath was not found")
     }
 }

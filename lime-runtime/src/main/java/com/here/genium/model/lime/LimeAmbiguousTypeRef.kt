@@ -38,7 +38,7 @@ class LimeAmbiguousTypeRef(
             val key = limePath.child(relativePath).toString()
             return@lazy referenceMap[key] as? LimeType ?: continue
         }
-        throw NullPointerException("Type $relativePath was not found")
+        throw LimeModelLoaderException("Type $relativePath was not found")
     }
 
     override fun asNullable() =

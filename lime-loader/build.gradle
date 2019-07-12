@@ -7,6 +7,11 @@ dependencies {
     compile project(":lime-runtime")
     compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     compile "org.antlr:antlr4-runtime:4.7.2"
+
+    testCompile files({ project(":lime-runtime").sourceSets.test.output })
+    testCompile 'io.mockk:mockk-dsl-jvm:1.8.13'
+    testCompile 'io.mockk:mockk:1.8.13'
+    testCompile 'junit:junit:4.12'
 }
 
 generateGrammarSource {

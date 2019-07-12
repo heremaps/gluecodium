@@ -21,7 +21,7 @@ package com.here.genium.model.lime
 
 import java.lang.RuntimeException
 
-abstract class LimeModelLoaderException : RuntimeException {
+open class LimeModelLoaderException : RuntimeException {
     constructor(message: String) : super(message)
     constructor(message: String, cause: Throwable) : super(message, cause)
 }

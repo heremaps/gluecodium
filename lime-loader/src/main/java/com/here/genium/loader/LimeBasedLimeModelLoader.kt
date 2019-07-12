@@ -25,6 +25,8 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeModelLoader
 import com.here.genium.model.lime.LimeReferenceResolver
+import com.here.genium.validator.LimeEnumeratorRefsValidator
+import com.here.genium.validator.LimeTypeRefsValidator
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.misc.ParseCancellationException
@@ -45,7 +47,17 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
             throw LimeLoadingException("Syntax errors found, see log for details.")
         }
 
-        return LimeModel(referenceResolver.referenceMap, containerLists.filterNotNull().flatten())
+        val limeModel =
+            LimeModel(referenceResolver.referenceMap, containerLists.filterNotNull().flatten())
+        val typeRefsValidationResult = LimeTypeRefsValidator(logger).validate(limeModel)
+        val enumeratorRefsValidationResult = LimeEnumeratorRefsValidator(
+            logger
+        ).validate(limeModel)
+        if (!typeRefsValidationResult || !enumeratorRefsValidationResult) {
+            throw LimeLoadingException("Validation errors found, see log for details.")
+        }
+
+        return limeModel
     }
 
     private fun loadFile(

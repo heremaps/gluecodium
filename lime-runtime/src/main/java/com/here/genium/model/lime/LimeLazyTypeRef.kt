@@ -25,7 +25,10 @@ class LimeLazyTypeRef(
     override val isNullable: Boolean = false
 ) : LimeTypeRef() {
 
-    override val type by lazy { referenceMap.get(elementFullName) as LimeType }
+    override val type by lazy {
+        referenceMap[elementFullName] as? LimeType
+            ?: throw LimeModelLoaderException("Type $elementFullName was not found")
+    }
 
     override fun asNullable() =
         if (isNullable) this else LimeLazyTypeRef(elementFullName, referenceMap, true)
