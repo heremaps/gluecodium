@@ -13,7 +13,7 @@ The project is structured as follows:
     ├── cmake
     │   └── modules         [Genium CMake modules subtree](https://github.com/heremaps/genium-cmake)
     ├── libhello            Example library that provides Genium-generated public API
-    │   ├── fidl            Franca interface definitions for the public API
+    │   ├── lime            LimeIDL interface definitions for the public API
     │   └── src             Example library implementation
     └── scripts             Usefule scripts
        ├── build-cpp        Builds the entire project for C++ users

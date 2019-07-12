@@ -1,0 +1,53 @@
+# Copyright (C) 2016-2019 HERE Europe B.V.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package hello
+
+class HelloWorldArrays {
+    // Basic struct type
+    struct ExampleStruct {
+        value: Double
+    }
+    typealias StringArray = List<String>
+    typealias StructArray = List<ExampleStruct>
+    typealias Int64Array = List<Long>
+    // Static method which takes an array and returns an array of same type in reversed order.
+    static fun methodWithArray(
+        // Input array
+        input: StringArray
+    ): /* Output array */ StringArray
+    // Static method which takes an array and returns an array of same type in reversed order.
+    static fun methodWithSimpleArray(
+        // Input array
+        input: Int64Array
+    ): /* Output array */ List<Long>
+    // Static method which takes an array and returns it in reversed order using inline declarations
+    static fun methodWithArrayInline(
+        // Input array
+        input: List<UInt>
+    ): /* Output array */ List<UInt>
+    // Static method which takes an inline array of structs and returns it in reversed order
+    static fun methodWithStructArray(
+        // Input array
+        input: List<ExampleStruct>
+    ): /* Output array */ StructArray
+    // Function takes inline array of int64 arrays and reverses elements in each dimension
+    static fun methodWithNestedArraysInline(
+        // Input array
+        input: List<Int64Array>
+    ): /* Output array */ List<Int64Array>
+}

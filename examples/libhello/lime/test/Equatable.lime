@@ -1,0 +1,113 @@
+# Copyright (C) 2016-2019 HERE Europe B.V.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package test
+
+types Equatable {
+    @Equatable
+    @Java(Builder)
+    struct EquatableStruct {
+        boolField: Boolean
+        intField: Int
+        longField: Long
+        floatField: Float
+        doubleField: Double
+        stringField: String
+        structField: NestedEquatableStruct
+        enumField: SomeSomeEnum
+        mapField: SomeMap
+        arrayField: List<String>
+    }
+    @Equatable
+    @Java(Builder)
+    struct EquatableNullableStruct {
+        boolField: Boolean? = null
+        intField: Int? = null
+        uintField: UShort? = null
+        floatField: Float? = null
+        stringField: String? = null
+        structField: NestedEquatableStruct? = null
+        enumField: SomeSomeEnum? = null
+        mapField: SomeMap? = null
+        arrayField: List<String>? = null
+    }
+    @Equatable
+    struct NestedEquatableStruct {
+        fooField: String
+    }
+    enum SomeSomeEnum {
+        FOO,
+        BAR
+    }
+    typealias SomeMap = Map<Int, String>
+    typealias EquatableArray = List<EquatableStruct>
+}
+
+@Equatable
+class EquatableInterface {
+    @Equatable
+    struct AnotherEquatableStruct {
+        intField: Int
+        stringField: String
+    }
+    constructor create(
+        name: String
+    )
+    static fun areEqual(
+        lhs: AnotherEquatableStruct,
+
+        rhs: AnotherEquatableStruct
+    ): Boolean
+    static fun areEqual(
+        lhs: Equatable.EquatableStruct,
+
+        rhs: Equatable.EquatableStruct
+    ): Boolean
+    static fun areEqual(
+        lhs: Equatable.EquatableNullableStruct,
+
+        rhs: Equatable.EquatableNullableStruct
+    ): Boolean
+    property name: String {
+        get
+    }
+}
+
+@PointerEquatable
+class PointerEquatableInterface {
+    @Equatable
+    struct EquatableStruct {
+        equatable: EquatableInterface
+        pointerEquatable: PointerEquatableInterface
+    }
+    @Equatable
+    struct OptionalEquatableStruct {
+        equatable: EquatableInterface?
+        pointerEquatable: PointerEquatableInterface?
+    }
+    static fun createNew(): PointerEquatableInterface
+    // Returns the last created instance again
+    static fun returnLast(): PointerEquatableInterface
+    static fun areEqual(
+        one: EquatableStruct,
+        other: EquatableStruct
+    ): Boolean
+    static fun areEqual(
+        one: OptionalEquatableStruct,
+        other: OptionalEquatableStruct
+    ): Boolean
+}

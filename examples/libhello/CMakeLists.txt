@@ -30,7 +30,7 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
 set(HELLO_SOURCES)
-set(HELLO_FRANCA_SOURCES)
+set(HELLO_LIME_SOURCES)
 
 function(feature feature_name)
     set(options)
@@ -40,7 +40,7 @@ function(feature feature_name)
         "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     set(sources)
-    set(franca_sources)
+    set(lime_sources)
 
     foreach(generator ${feature_GENERATORS} ${feature_UNPARSED_ARGUMENTS})
         if(HELLO_APIGEN_GENIUM_GENERATOR STREQUAL ${generator})
@@ -49,8 +49,8 @@ function(feature feature_name)
                 get_filename_component(extension "${source}" EXT)
                 if(extension MATCHES "cpp|h")
                     list(APPEND sources "${source}")
-                elseif(extension MATCHES "fidl|fdepl")
-                    list(APPEND franca_sources "${source}")
+                elseif(extension MATCHES "lime")
+                    list(APPEND lime_sources "${source}")
                 else()
                     message(SEND_ERROR "Unrecognized file format \"${extension}\" in \"${source}\"")
                 endif()
@@ -59,22 +59,20 @@ function(feature feature_name)
     endforeach()
 
     set(HELLO_SOURCES "${HELLO_SOURCES};${sources}" PARENT_SCOPE)
-    set(HELLO_FRANCA_SOURCES "${HELLO_FRANCA_SOURCES};${franca_sources}" PARENT_SCOPE)
+    set(HELLO_LIME_SOURCES "${HELLO_LIME_SOURCES};${lime_sources}" PARENT_SCOPE)
 endfunction()
 
 feature(Strings cpp android swift SOURCES
     src/hello/HelloWorld.cpp
     src/test/StaticStringMethods.cpp
 
-    fidl/hello/HelloWorld.fdepl
-    fidl/hello/HelloWorld.fidl
+    lime/hello/HelloWorld.lime
 )
 
 feature(MethodOverloading cpp android swift SOURCES
     src/test/MethodOverloads.cpp
 
-    fidl/test/MethodOverloads.fdepl
-    fidl/test/MethodOverloads.fidl
+    lime/test/MethodOverloads.lime
 )
 
 feature(BuiltinTypes cpp android swift SOURCES
@@ -85,18 +83,12 @@ feature(BuiltinTypes cpp android swift SOURCES
     src/test/StaticIntMethods.cpp
     src/test/StaticTypedef.cpp
 
-    fidl/hello/HelloWorldBuiltinTypes.fdepl
-    fidl/hello/HelloWorldBuiltinTypes.fidl
-    fidl/test/StaticBooleanMethods.fdepl
-    fidl/test/StaticBooleanMethods.fidl
-    fidl/test/StaticByteArrayMethods.fdepl
-    fidl/test/StaticByteArrayMethods.fidl
-    fidl/test/StaticFloatDoubleMethods.fdepl
-    fidl/test/StaticFloatDoubleMethods.fidl
-    fidl/test/StaticIntMethods.fdepl
-    fidl/test/StaticIntMethods.fidl
-    fidl/test/StaticStringMethods.fdepl
-    fidl/test/StaticStringMethods.fidl
+    lime/hello/HelloWorldBuiltinTypes.lime
+    lime/test/StaticBooleanMethods.lime
+    lime/test/StaticByteArrayMethods.lime
+    lime/test/StaticFloatDoubleMethods.lime
+    lime/test/StaticIntMethods.lime
+    lime/test/StaticStringMethods.lime
 )
 
 feature(Instances cpp android swift SOURCES
@@ -113,26 +105,20 @@ feature(Instances cpp android swift SOURCES
     src/test/Interfaces.cpp
     src/test/InstancesFactory.cpp
 
-    fidl/hello/HelloWorldInstances.fidl
-    fidl/hello/HelloWorldProfileManager.fidl
-    fidl/hello/HelloWorldProfileManagerFactory.fdepl
-    fidl/hello/HelloWorldFactory.fdepl
-    fidl/hello/HelloWorldFactory.fidl
-    fidl/hello/HelloWorldProfileManagerFactory.fidl
-    fidl/hello/HelloWorldStaticLogger.fdepl
-    fidl/hello/HelloWorldStaticLogger.fidl
-    fidl/test/Instances.fidl
-    fidl/test/Interfaces.fidl
-    fidl/test/Interfaces.fdepl
-    fidl/test/InstancesFactory.fdepl
-    fidl/test/InstancesFactory.fidl
+    lime/hello/HelloWorldInstances.lime
+    lime/hello/HelloWorldProfileManager.lime
+    lime/hello/HelloWorldProfileManagerFactory.lime
+    lime/hello/HelloWorldFactory.lime
+    lime/hello/HelloWorldStaticLogger.lime
+    lime/test/Instances.lime
+    lime/test/Interfaces.lime
+    lime/test/InstancesFactory.lime
 )
 
 feature(InstanceInStruct cpp android swift SOURCES
     src/test/InstanceInStruct.cpp
 
-    fidl/test/StructWithInstance.fdepl
-    fidl/test/StructWithInstance.fidl
+    lime/test/StructWithInstance.lime
 )
 
 feature(Structs cpp android swift SOURCES
@@ -140,23 +126,17 @@ feature(Structs cpp android swift SOURCES
     src/test/PlainDataStructuresFromTypeCollection.cpp
     src/test/PlainDataStructures.cpp
 
-    fidl/hello/HelloWorldPlainDataStructures.fdepl
-    fidl/hello/HelloWorldPlainDataStructures.fidl
-    fidl/test/PlainDataStructures.fdepl
-    fidl/test/PlainDataStructures.fidl
-    fidl/test/PlainDataStructuresFromTypeCollection.fdepl
-    fidl/test/PlainDataStructuresFromTypeCollection.fidl
-    fidl/test/TypeCollection.fdepl
-    fidl/test/TypeCollection.fidl
+    lime/hello/HelloWorldPlainDataStructures.lime
+    lime/test/PlainDataStructures.lime
+    lime/test/PlainDataStructuresFromTypeCollection.lime
+    lime/test/TypeCollection.lime
 )
 
 feature(TypeDefs cpp android swift SOURCES
     src/hello/HelloWorldTypedefs.cpp
 
-    fidl/hello/HelloWorldTypedefs.fdepl
-    fidl/hello/HelloWorldTypedefs.fidl
-    fidl/test/StaticTypedef.fdepl
-    fidl/test/StaticTypedef.fidl
+    lime/hello/HelloWorldTypedefs.lime
+    lime/test/StaticTypedef.lime
 )
 
 feature(Enums cpp android swift SOURCES
@@ -164,22 +144,17 @@ feature(Enums cpp android swift SOURCES
     src/test/Enums.cpp
     src/test/EnumsTypeCollection.cpp
 
-    fidl/hello/HelloWorldEnums.fdepl
-    fidl/hello/HelloWorldEnums.fidl
-    fidl/test/Enums.fdepl
-    fidl/test/Enums.fidl
-    fidl/test/EnumsTypeCollection.fdepl
-    fidl/test/EnumsTypeCollection.fidl
+    lime/hello/HelloWorldEnums.lime
+    lime/test/Enums.lime
+    lime/test/EnumsTypeCollection.lime
 )
 
 feature(Maps cpp android swift SOURCES
     src/hello/HelloWorldMaps.cpp
     src/test/Maps.cpp
 
-    fidl/hello/HelloWorldMaps.fdepl
-    fidl/hello/HelloWorldMaps.fidl
-    fidl/test/Maps.fdepl
-    fidl/test/Maps.fidl
+    lime/hello/HelloWorldMaps.lime
+    lime/test/Maps.lime
 )
 
 feature(Attributes cpp android swift SOURCES
@@ -191,13 +166,10 @@ feature(Attributes cpp android swift SOURCES
     src/test/AttributesImpl.h
     src/test/AttributesImpl.cpp
 
-    fidl/hello/HelloWorldAttributes.fidl
-    fidl/test/Attributes.fidl
-    fidl/test/Attributes.fdepl
-    fidl/test/AttributesInterface.fidl
-    fidl/test/AttributesInterface.fdepl
-    fidl/test/AttributesInterfaceFactory.fidl
-    fidl/test/AttributesInterfaceFactory.fdepl
+    lime/hello/HelloWorldAttributes.lime
+    lime/test/Attributes.lime
+    lime/test/AttributesInterface.lime
+    lime/test/AttributesInterfaceFactory.lime
 )
 
 #TODO: enable for android and swift (APIGEN-509, APIGEN-508)
@@ -205,7 +177,7 @@ feature(ComplexAttributes cpp SOURCES
     src/hello/HelloWorldAttributesComplexImpl.h
     src/hello/HelloWorldAttributesComplexImpl.cpp
 
-    fidl/hello/HelloWorldAttributesComplex.fidl
+    lime/hello/HelloWorldAttributesComplex.lime
 )
 
 feature(Listeners cpp android swift SOURCES
@@ -216,26 +188,19 @@ feature(Listeners cpp android swift SOURCES
     src/test/ListenerRoundtrip.cpp
     src/test/ListenerWithMaps.cpp
 
-    fidl/hello/HelloWorldCalculatorListenerFactory.fdepl
-    fidl/hello/HelloWorldCalculatorListenerFactory.fidl
-    fidl/hello/CalculatorListener.fidl
-    fidl/hello/CalculatorListener.fdepl
-    fidl/hello/HelloWorldListeners.fdepl
-    fidl/hello/HelloWorldListeners.fidl
-    fidl/test/StringListeners.fdepl
-    fidl/test/StringListeners.fidl
-    fidl/test/ListenerRoundtrip.fdepl
-    fidl/test/ListenerRoundtrip.fidl
-    fidl/test/ListenerWithMaps.fidl
-    fidl/test/ListenerWithMaps.fdepl
+    lime/hello/HelloWorldCalculatorListenerFactory.lime
+    lime/hello/CalculatorListener.lime
+    lime/hello/HelloWorldListeners.lime
+    lime/test/StringListeners.lime
+    lime/test/ListenerRoundtrip.lime
+    lime/test/ListenerWithMaps.lime
 )
 
 feature(ComplexListeners cpp android swift SOURCES
     src/test/ComplexListener.cpp
     src/test/ComplexListener.h
 
-    fidl/test/ComplexListeners.fdepl
-    fidl/test/ComplexListeners.fidl
+    lime/test/ComplexListeners.lime
 )
 
 feature(ListenersWithReturnValues cpp android swift SOURCES
@@ -244,20 +209,16 @@ feature(ListenersWithReturnValues cpp android swift SOURCES
     src/test/ListenerWithAttributes.cpp
     src/test/ListenerWithAttributes.h
 
-    fidl/test/ListenersReturnValues.fdepl
-    fidl/test/ListenersReturnValues.fidl
-    fidl/test/ListenerWithAttributes.fdepl
-    fidl/test/ListenerWithAttributes.fidl
-    fidl/test/ListenerInternal.fdepl
-    fidl/test/ListenerInternal.fidl
+    lime/test/ListenersReturnValues.lime
+    lime/test/ListenerWithAttributes.lime
+    lime/test/ListenerInternal.lime
 )
 
 feature(ListenersWithErrorTypes cpp android swift SOURCES
     src/test/ListenerWithErrors.cpp
     src/test/ListenerWithErrors.h
 
-    fidl/test/ListenerWithErrors.fdepl
-    fidl/test/ListenerWithErrors.fidl
+    lime/test/ListenerWithErrors.lime
 )
 
 feature(Arrays cpp android swift SOURCES
@@ -265,33 +226,26 @@ feature(Arrays cpp android swift SOURCES
     src/test/Arrays.cpp
     src/test/ArraysByteBuffer.cpp
 
-    fidl/hello/HelloWorldArrays.fdepl
-    fidl/hello/HelloWorldArrays.fidl
-    fidl/test/Arrays.fdepl
-    fidl/test/Arrays.fidl
-    fidl/test/ArraysByteBuffer.fdepl
-    fidl/test/ArraysByteBuffer.fidl
+    lime/hello/HelloWorldArrays.lime
+    lime/test/Arrays.lime
+    lime/test/ArraysByteBuffer.lime
 )
 
 feature(Errors cpp android swift SOURCES
     src/hello/HelloWorldErrors.cpp
     src/test/Errors.cpp
 
-    fidl/hello/HelloWorldErrors.fidl
-    fidl/hello/HelloWorldErrors.fdepl
-    fidl/test/Errors.fidl
-    fidl/test/Errors.fdepl
-    fidl/test/Errors2.fidl
+    lime/hello/HelloWorldErrors.lime
+    lime/test/Errors.lime
+    lime/test/Errors2.lime
 )
 
 feature(Defaults cpp android swift SOURCES
     src/hello/HelloWorldDefaults.cpp
     src/test/Defaults.cpp
 
-    fidl/hello/HelloWorldDefaults.fidl
-    fidl/hello/HelloWorldDefaults.fdepl
-    fidl/test/Defaults.fidl
-    fidl/test/Defaults.fdepl
+    lime/hello/HelloWorldDefaults.lime
+    lime/test/Defaults.lime
 )
 
 feature(Inheritance cpp android swift SOURCES
@@ -302,29 +256,21 @@ feature(Inheritance cpp android swift SOURCES
     src/test/GrandchildClassImpl.h
     src/test/Talker.cpp
     src/test/Teacher.cpp
-
     src/test/Inheritance.cpp
 
-    fidl/hello/HelloWorldInheritance.fdepl
-    fidl/hello/HelloWorldInheritance.fidl
-    fidl/test/Inheritance.fdepl
-    fidl/test/Inheritance.fidl
-    fidl/test/ListenerInheritance.fdepl
-    fidl/test/ListenerInheritance.fidl
-    fidl/test/ListenerInheritanceArrays.fdepl
-    fidl/test/ListenerInheritanceArrays.fidl
+    lime/hello/HelloWorldInheritance.lime
+    lime/test/Inheritance.lime
+    lime/test/ListenerInheritance.lime
+    lime/test/ListenerInheritanceArrays.lime
 )
 
 feature(Serialization android SOURCES
-    fidl/hello/HelloWorldParcelable.fidl
-    fidl/hello/HelloWorldParcelable.fdepl
-
-    fidl/test/Serialization.fidl
-    fidl/test/Serialization.fdepl
+    lime/hello/HelloWorldParcelable.lime
+    lime/test/Serialization.lime
 )
 
 feature(CircularDependencies cpp android swift SOURCES
-    fidl/test/Circular.fidl
+    lime/test/Circular.lime
 )
 
 feature(ExternalTypes cpp android swift SOURCES
@@ -332,103 +278,86 @@ feature(ExternalTypes cpp android swift SOURCES
     src/test/src/ExternalTypes.cpp
     src/test/UseExternalTypes.cpp
 
-    fidl/test/ExternalTypes.fidl
-    fidl/test/ExternalTypes.fdepl
-    fidl/test/UseExternalTypes.fidl
-    fidl/test/UseExternalTypes.fdepl
+    lime/test/ExternalTypes.lime
+    lime/test/UseExternalTypes.lime
 )
 
 feature(UnderscorePackage cpp android swift SOURCES
     src/test/UseUnderscorePackage.cpp
 
-    fidl/test/UnderscorePackage.fidl
-    fidl/test/UseUnderscorePackage.fidl
-    fidl/test/UseUnderscorePackage.fdepl
+    lime/test/UnderscorePackage.lime
+    lime/test/UseUnderscorePackage.lime
 )
 
 feature(Constants cpp android swift SOURCES
     src/test/Constants.cpp
 
-    fidl/test/Constants.fidl
-    fidl/test/Constants.fdepl
+    lime/test/Constants.lime
 )
 
 feature(Equatable cpp android swift SOURCES
     src/test/EquatableImpl.cpp
 
-    fidl/hello/HelloWorldEquatable.fidl
-    fidl/hello/HelloWorldEquatable.fdepl
-    fidl/test/Equatable.fidl
-    fidl/test/Equatable.fdepl
+    lime/hello/HelloWorldEquatable.lime
+    lime/test/Equatable.lime
 )
 
 feature(Nullable cpp android swift SOURCES
     src/test/NullableInstances.cpp
     src/test/NullableInterfaceImpl.cpp
 
-    fidl/test/NullableInstances.fidl
-    fidl/test/NullableInstances.fdepl
-    fidl/test/NullableInterface.fidl
-    fidl/test/NullableInterface.fdepl
+    lime/test/NullableInstances.lime
+    lime/test/NullableInterface.lime
 )
 
 feature(ListenersWithThreads cpp android SOURCES
     src/test/ListenersThreads.cpp
 
-    fidl/test/ListenersThreads.fidl
-    fidl/test/ListenersThreads.fdepl
+    lime/test/ListenersThreads.lime
 )
 
 feature(Dates cpp android swift SOURCES
     src/test/Dates.cpp
 
-    fidl/test/Dates.fidl
-    fidl/test/Dates.fdepl
+    lime/test/Dates.lime
 )
 
 feature(StructsWithCompanion cpp android swift SOURCES
     src/test/StructsWithMethods.cpp
     src/test/StructsWithConstants.cpp
 
-    fidl/test/StructsWithMethods.fidl
-    fidl/test/StructsWithMethods.fdepl
-    fidl/test/StructsWithConstants.fidl
-    fidl/test/StructsWithConstants.fdepl
+    lime/test/StructsWithMethods.lime
+    lime/test/StructsWithConstants.lime
 )
 
 feature(Comments cpp android swift SOURCES
     src/test/Comments.cpp
 
-    fidl/test/Comments.fidl
-    fidl/test/Comments.fdepl
-    fidl/test/CommentsInterface.fidl
-    fidl/test/CommentsInterface.fdepl
+    lime/test/Comments.lime
+    lime/test/CommentsInterface.lime
 )
 
 feature(SetType cpp android swift SOURCES
     src/test/SetType.cpp
 
-    fidl/test/SetType.fidl
-    fidl/test/SetType.fdepl
+    lime/test/SetType.lime
 )
 
 feature(PlatformNames cpp android swift SOURCES
     src/test/PlatformNames.cpp
 
-    fidl/test/PlatformNames.fidl
-    fidl/test/PlatformNames.fdepl
+    lime/test/PlatformNames.lime
 )
 
 if(APPLE)
     #This feature is intended for Swift only. It also does not compile outside of Apple platforms.
     feature(ObjcInterface swift SOURCES
-        fidl/test/ObjcInterface.fidl
-        fidl/test/ObjcInterface.fdepl
+        lime/test/ObjcInterface.lime
     )
 endif()
 
-add_library(hello ${HELLO_SOURCES} ${HELLO_FRANCA_SOURCES})
-source_group("Franca files" FILES ${HELLO_FRANCA_SOURCES})
+add_library(hello ${HELLO_SOURCES} ${HELLO_LIME_SOURCES})
+source_group("LimeIDL files" FILES ${HELLO_LIME_SOURCES})
 set_target_properties(hello PROPERTIES
         POSITION_INDEPENDENT_CODE ON
         SOVERSION ${HELLO_VERSION_MAJOR}
@@ -438,7 +367,7 @@ target_link_libraries(hello Threads::Threads)
 
 include(genium/Genium)
 apigen_generate(TARGET hello
-        FRANCA_SOURCES ${HELLO_FRANCA_SOURCES}
+        LIME_SOURCES ${HELLO_LIME_SOURCES}
         GENERATOR ${HELLO_APIGEN_GENIUM_GENERATOR}
         VERSION ${HELLO_APIGEN_GENIUM_VERSION}
         JAVA_PACKAGE com.here.android

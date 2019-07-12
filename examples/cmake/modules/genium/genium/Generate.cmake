@@ -27,7 +27,7 @@ cmake_minimum_required(VERSION 3.5)
 # ----------------------
 #
 # This module provides functions to generate API interfaces specified
-# in the Franca language into target source code as provided by the
+# in the LimeIDL language into target source code as provided by the
 # specified generator(s). Valid generators are:
 #
 #  * android
@@ -41,7 +41,7 @@ cmake_minimum_required(VERSION 3.5)
 #
 #   apigen_generate(target inputDir generator)
 #
-# This function invokes the Genium tool based on a set of of input *.fidl
+# This function invokes the Genium tool based on a set of of input *.lime
 # files with a specific target language generator.
 
 if(COMMAND find_host_package)
@@ -72,9 +72,12 @@ function(apigen_generate)
       CPP_NAMERULES
       SWIFT_NAMERULES
       OUTPUT_DIR)
-  set(multiValueArgs FRANCA_SOURCES)
+  set(multiValueArgs FRANCA_SOURCES LIME_SOURCES)
   cmake_parse_arguments(apigen_generate "${options}" "${oneValueArgs}"
                       "${multiValueArgs}" ${ARGN})
+
+  set(IDL_SOURCES)
+  list(APPEND IDL_SOURCES ${apigen_generate_LIME_SOURCES} ${apigen_generate_FRANCA_SOURCES})
 
   set(operationVerb "Generate")
   set(validateParam "")
@@ -89,7 +92,7 @@ function(apigen_generate)
   endif()
 
   message(STATUS "${operationVerb} '${apigen_generate_TARGET}' with '${apigen_generate_GENERATOR}' generator using Genium version '${apigen_generate_VERSION}'
-  Input: '${apigen_generate_FRANCA_SOURCES}'")
+  Input: '${IDL_SOURCES}'")
 
   # Genium invocations for different generators need different output directories
   # as Genium currently wipes the directory upon start.
@@ -118,13 +121,13 @@ function(apigen_generate)
     ${validateParam}\
     ${mergeManifest}\
     --enable-caching --time-logging")
-  foreach(input ${apigen_generate_FRANCA_SOURCES})
+  foreach(input ${IDL_SOURCES})
     # Attach sources to target for IDEs to display them properly in their projects
-    file(GLOB_RECURSE inputFrancaSources ${input}/*.fidl ${input}/*.fdepl)
-    if(inputFrancaSources)
-      target_sources(${apigen_generate_TARGET} PRIVATE ${inputFrancaSources})
-      # Trigger a re-configure if there are any changes to the franca sources.
-      set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${inputFrancaSources})
+    file(GLOB_RECURSE inputLimeSources ${input}/*.lime)
+    if(inputLimeSources)
+      target_sources(${apigen_generate_TARGET} PRIVATE ${inputLimeSources})
+      # Trigger a re-configure if there are any changes to the LimeIDL sources.
+      set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${inputLimeSources})
     endif()
 
     if(NOT IS_ABSOLUTE ${input})
@@ -162,7 +165,7 @@ function(apigen_generate)
     WORKING_DIRECTORY ${APIGEN_GENIUM_DIR}
     RESULT_VARIABLE GENERATE_RESULT)
   if(NOT "${GENERATE_RESULT}" STREQUAL "0")
-    message(FATAL_ERROR "Failed to generate from given FIDL files.")
+    message(FATAL_ERROR "Failed to generate from given LimeIDL files.")
   endif()
 
 endfunction()

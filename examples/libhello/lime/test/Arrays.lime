@@ -1,0 +1,209 @@
+# Copyright (C) 2016-2019 HERE Europe B.V.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package test
+
+import external.ExternalTypes.ExternalStruct
+import external.ExternalTypes.ExternalEnum
+class Arrays {
+    struct BasicStruct {
+        value: Double = 0.0
+    }
+    struct FancyStruct {
+        messages: StringArray
+        numbers: List<UByte>
+        instances: InstancesArray
+    }
+    struct StructWithEnumArray {
+        enumArrayField: List<ArrayEnum>
+    }
+    enum ArrayEnum {
+        ENUM_ONE = 0,
+        ENUM_TWO,
+        ENUM_THREE
+    }
+    enum SomeOtherEnum {
+        ON = 256,
+        OFF
+    }
+    typealias Int8Array = List<Byte>
+    typealias Int16Array = List<Short>
+    typealias Int32Array = List<Int>
+    typealias Int64Array = List<Long>
+    typealias UInt8Array = List<UByte>
+    typealias UInt16Array = List<UShort>
+    typealias UInt32Array = List<UInt>
+    typealias UInt64Array = List<ULong>
+    typealias StringArray = List<String>
+    typealias BoolArray = List<Boolean>
+    typealias FloatArray = List<Float>
+    typealias DoubleArray = List<Double>
+    typealias FancyArray = List<FancyStruct>
+    typealias StructArray = List<BasicStruct>
+    typealias ExternalStructArray = List<ExternalStruct>
+    typealias NestedPrimitiveArray = List<DoubleArray>
+    typealias NestedStructArray = List<StructArray>
+    typealias InstancesArray = List<SimpleInstantiableOne>
+    typealias ArrayEnumArray = List<ArrayEnum>
+    typealias SomeOtherEnumArray = List<SomeOtherEnum>
+    typealias ExternalEnumArray = List<ExternalEnum>
+    typealias ProfileId = String
+    typealias ProfileIdList = List<ProfileId>
+    typealias ArrayOfMaps = List<NumberToIdMap>
+    typealias NumberToIdMap = Map<UByte, ProfileId>
+    typealias ArrayOfMapsOfArray = List<NumberToStringListMap>
+    typealias NumberToStringListMap = Map<UByte, ProfileIdList>
+    // Static method which takes a string array and returns an array of same type in reversed order.
+    static fun reverseStringArray(
+        // Input array
+        input: StringArray
+    ): /* Output array */ StringArray
+    // Static method which takes an array and returns it in reversed order using inline declarations
+    static fun reverseArrayInline(
+        // Input array
+        input: List<Short>
+    ): /* Output array */ List<Short>
+    // Static method which takes an int8 array and returns an array of same type in reversed order.
+    static fun reverseInt8Array(
+        // Input array
+        input: Int8Array
+    ): /* Output array */ Int8Array
+    // Static method which takes an int16 array and returns an array of same type in reversed order.
+    static fun reverseInt16Array(
+        // Input array
+        input: Int16Array
+    ): /* Output array */ Int16Array
+    // Static method which takes an int32 array and returns an array of same type in reversed order.
+    static fun reverseInt32Array(
+        // Input array
+        input: Int32Array
+    ): /* Output array */ Int32Array
+    // Static method which takes an int64 array and returns an array of same type in reversed order.
+    static fun reverseInt64Array(
+        // Input array
+        input: Int64Array
+    ): /* Output array */ Int64Array
+    // Static method which takes an uint8 array and returns an array of same type in reversed order.
+    static fun reverseUint8Array(
+        // Input array
+        input: UInt8Array
+    ): /* Output array */ UInt8Array
+    // Static method which takes an uint16 array and returns an array of same type in reversed order.
+    static fun reverseUint16Array(
+        // Input array
+        input: UInt16Array
+    ): /* Output array */ UInt16Array
+    // Static method which takes an uint32 array and returns an array of same type in reversed order.
+    static fun reverseUint32Array(
+        // Input array
+        input: UInt32Array
+    ): /* Output array */ UInt32Array
+    // Static method which takes an uint64 array and returns an array of same type in reversed order.
+    static fun reverseUint64Array(
+        // Input array
+        input: UInt64Array
+    ): /* Output array */ UInt64Array
+    // Static method which takes a float array and returns an array of same type in reversed order.
+    static fun reverseFloatArray(
+        // Input array
+        input: FloatArray
+    ): /* Output array */ FloatArray
+    // Static method which takes a double array and returns an array of same type in reversed order.
+    static fun reverseDoubleArray(
+        // Input array
+        input: DoubleArray
+    ): /* Output array */ DoubleArray
+    // Static method which takes a bool array and returns an array of same type in reversed order.
+    static fun reverseBoolArray(
+        // Input array
+        input: BoolArray
+    ): /* Output array */ BoolArray
+    // Static method which takes an inline array of structs and returns it in reversed order
+    static fun reverseStructArray(
+        // Input array
+        input: List<BasicStruct>
+    ): /* Output array */ StructArray
+    // Static method which takes an array of instances and returns it in reversed order.
+    static fun reverseExplicitInstancesArray(
+        // Input array
+        input: InstancesArray
+    ): /* Output array */ InstancesArray
+    // Static method which takes an array of instances and returns it in reversed order.
+    static fun reverseImplicitInstancesArray(
+        input: List<SimpleInstantiableOne>
+    ): List<SimpleInstantiableOne>
+    // Function takes NestedPrimitiveArray and reverses elements in each dimension
+    static fun reverseNestedPrimitiveArray(
+        // Input array
+        input: NestedPrimitiveArray
+    ): /* Output array */ NestedPrimitiveArray
+    // Function takes NestedStructArray and reverses elements in each dimension
+    static fun reverseNestedStructArray(
+        // Input array
+        input: NestedStructArray
+    ): /* Output array */ NestedStructArray
+    // Function takes inline array of int64 arrays and reverses elements in each dimension
+    static fun reverseNestedArraysInline(
+        // Input array
+        input: List<Int64Array>
+    ): /* Output array */ List<Int64Array>
+    // Function takes arrays in two forms merge them and then reverse order of elements
+    // First element of inlineFancyArray will be last in result
+    // Last element of fancyArray will be first in result
+    static fun mergeArraysOfStructsWithArrays(
+        inlineFancyArray: List<FancyStruct>,
+    
+        fancyArray: FancyArray
+    ): FancyArray
+    // Static method which takes an array of aliases and returns it in reversed order.
+    static fun reverseArrayOfAliases(
+        input: ProfileIdList
+    ): ProfileIdList
+    // Static method which takes an array and returns an array of same type in reversed order.
+    static fun reverseEnumsArray(
+        // Input array
+        input: ArrayEnumArray
+    ): /* Output array */ ArrayEnumArray
+    // Static method which takes an array and returns an array of same type in reversed order.
+    static fun reverseOtherEnumsArray(
+        // Input array
+        input: SomeOtherEnumArray
+    ): /* Output array */ SomeOtherEnumArray
+    // Static method which takes an array and returns an array of same type in reversed order.
+    static fun reverseMapsArray(
+        // Input array
+        input: ArrayOfMaps
+    ): /* Output array */ ArrayOfMaps
+    // Static method which takes an array and returns an array of same type in reversed order.
+    static fun reverseArrayMapsArray(
+        // Input array
+        input: ArrayOfMapsOfArray
+    ): /* Output array */ ArrayOfMapsOfArray
+    // Return a struct containing arrays
+    static fun createFancyStruct(): FancyStruct
+}
+
+class ArrayNameClash {
+    struct StringArray {
+        theCakeIsLie: Boolean
+    }
+    typealias CakeArray = List<String>
+    // Static method that takes a matrix of cakes and returns a matrix of strings.
+    static fun doubleSpeak(
+        cakes: List<CakeArray>
+    ): List<StringArray>
+}

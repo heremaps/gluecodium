@@ -34,8 +34,8 @@ ArraysByteBuffer::method_with_implicit_array( const ::std::vector< uint8_t >& in
     return {input.rbegin( ), input.rend( )};
 }
 
-ArraysByteBuffer::Blob
-ArraysByteBuffer::method_with_explicit_array( const ArraysByteBuffer::Blob& input )
+ArraysByteBuffer::BlobArray
+ArraysByteBuffer::method_with_explicit_array( const ArraysByteBuffer::BlobArray& input )
 {
     return {input.rbegin( ), input.rend( )};
 }

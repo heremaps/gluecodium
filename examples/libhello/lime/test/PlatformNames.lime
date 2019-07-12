@@ -1,0 +1,103 @@
+# Copyright (C) 2016-2019 HERE Europe B.V.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package test
+
+@Cpp("fooTypes")
+@Swift("bazTypes")
+types PlatformNames {
+    @Cpp("fooStruct")
+    @Java("barStruct")
+    @Swift("bazStruct")
+    struct BasicStruct {
+        @Cpp("FOO_FIELD")
+        @Java("BAR_FIELD")
+        @Swift("BAZ_FIELD")
+        stringField: String
+        @Cpp("create")
+        constructor make(
+            @Cpp("FooParameter")
+            @Java("BarParameter")
+            @Swift("BazParameter", Label = "_")
+            basicParameter: String
+        )
+    }
+    @Cpp("fooEnum")
+    @Java("barEnum")
+    @Swift("bazEnum")
+    enum BasicEnum {
+        @Cpp("foo_item")
+        @Java("bar_item")
+        @Swift("BAZ_ITEM")
+        BASIC_ITEM
+    }
+    @Cpp("fooTypedef")
+    @Swift("bazTypedef")
+    typealias BasicTypedef = Double
+    @Cpp("fooArray")
+    @Java("barArray")
+    @Swift("bazArray")
+    typealias BasicArray = List<Float>
+}
+
+@Cpp("fooInterface")
+@Java("barInterface")
+@Swift("bazInterface")
+class PlatformNamesInterface {
+    @Cpp("FooMethod")
+    @Java("BarMethod")
+    @Swift("BazMethod")
+    static fun basicMethod(
+        @Cpp("FooParameter")
+        @Java("BarParameter")
+        @Swift("BazParameter", Label = "_")
+        basicParameter: String
+    ): PlatformNames.BasicStruct
+    @Cpp("make")
+    @Java("make")
+    @Swift("make")
+    constructor create(
+        @Cpp("makeParameter")
+        @Java("makeParameter")
+        @Swift("makeParameter", Label = "_")
+        basicParameter: String
+    )
+    @Swift("BAZ_ATTRIBUTE")
+    property basicAttribute: UInt {
+        @Cpp("GET_FOO_ATTRIBUTE")
+        @Java("GET_BAR_ATTRIBUTE")
+        get
+        @Cpp("SET_FOO_ATTRIBUTE")
+        @Java("SET_BAR_ATTRIBUTE")
+        set
+    }
+}
+
+@Cpp("fooListener")
+@Java("barListener")
+@Swift("bazListener")
+interface PlatformNamesListener {
+    @Cpp("FooMethod")
+    @Java("BarMethod")
+    @Swift("BazMethod")
+    fun basicMethod(
+        @Cpp("FooParameter")
+        @Java("BarParameter")
+        @Swift("BazParameter", Label = "_")
+        basicParameter: String
+    )
+}

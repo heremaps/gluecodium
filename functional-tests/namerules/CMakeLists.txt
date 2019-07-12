@@ -19,22 +19,21 @@ cmake_minimum_required(VERSION 3.6)
 
 project(namerules)
 
-set(FRANCA_SOURCES
-    input/fidl/NameRules.fidl
-    input/fidl/NameRules.fdepl
-    )
+set(LIME_SOURCES
+    input/lime/NameRules.lime
+)
 
 set(CPP_SOURCES
     cpp/NameRulesImpl.cpp
 )
 
-add_library(namerules ${CPP_SOURCES} ${FRANCA_SOURCES})
+add_library(namerules ${CPP_SOURCES} ${LIME_SOURCES})
 set_target_properties(namerules PROPERTIES
     POSITION_INDEPENDENT_CODE ON)
 
 include(genium/Genium)
 apigen_generate(TARGET namerules
-        FRANCA_SOURCES ${FRANCA_SOURCES}
+        LIME_SOURCES ${LIME_SOURCES}
         GENERATOR ${GENIUM_GENERATOR}
         VERSION ${GENIUM_VERSION}
         JAVA_PACKAGE com.here.namerules
