@@ -66,7 +66,7 @@ object OptionReader {
             "validate",
             "validate-only",
             false,
-            "Perform fidl and fdepl files validation without generating any code."
+            "Perform validation of input files without generating any code."
         )
         addOption(
             "cache",
@@ -89,7 +89,7 @@ object OptionReader {
             "time",
             "time-logging",
             false,
-            "Enables logging of elapsed time at INFO level. Time for Franca model loading step and for code generation step is logged separately."
+            "Enables logging of elapsed time at INFO level. Time for input model loading step and for code generation step is logged separately."
         )
         addOption(
             "copyright",
@@ -206,7 +206,7 @@ object OptionReader {
     }
 
     fun printUsage() {
-        val header = "Genium - Generate APIs from Franca IDL files\n\n"
+        val header = "Genium - Generate APIs from LimeIDL files\n\n"
         val footer = "\nPlease report issues at /dev/null"
 
         HelpFormatter().printHelp("generate [input]", header, options, footer, true)

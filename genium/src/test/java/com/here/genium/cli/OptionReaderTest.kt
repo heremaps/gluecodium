@@ -66,7 +66,7 @@ class OptionReaderTest {
         val consoleOutput = String(bo.toByteArray())
 
         // Assert
-        assertTrue(consoleOutput.contains("Genium - Generate APIs from Franca IDL files"))
+        assertTrue(consoleOutput.contains("Genium - Generate APIs from LimeIDL files"))
     }
 
     @Test
