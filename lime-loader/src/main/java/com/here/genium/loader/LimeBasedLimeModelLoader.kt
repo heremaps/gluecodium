@@ -26,7 +26,9 @@ import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeModelLoader
 import com.here.genium.model.lime.LimeReferenceResolver
 import com.here.genium.validator.LimeEnumeratorRefsValidator
+import com.here.genium.validator.LimeEquatableStructsValidator
 import com.here.genium.validator.LimeGenericTypesValidator
+import com.here.genium.validator.LimeSerializableStructsValidator
 import com.here.genium.validator.LimeTypeRefsValidator
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
@@ -50,8 +52,12 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
 
         val limeModel =
             LimeModel(referenceResolver.referenceMap, containerLists.filterNotNull().flatten())
-        val validationResults = getValidators().map { it.invoke(limeModel) }
-        if (validationResults.contains(false)) {
+
+        val typeRefsValidationResult = LimeTypeRefsValidator(logger).validate(limeModel)
+        val validators = getIndependentValidators() +
+            if (typeRefsValidationResult) getTypeRefDependentValidators() else emptyList()
+        val validationResults = validators.map { it.invoke(limeModel) }
+        if (!typeRefsValidationResult || validationResults.contains(false)) {
             throw LimeLoadingException("Validation errors found, see log for details.")
         }
 
@@ -97,11 +103,15 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
         }
     }
 
-    private fun getValidators() =
+    private fun getTypeRefDependentValidators() =
         listOf<(LimeModel) -> Boolean>(
-            { LimeTypeRefsValidator(logger).validate(it) &&
-                // Validate generics only if type refs validation passes.
-                LimeGenericTypesValidator(logger).validate(it) },
+            { LimeGenericTypesValidator(logger).validate(it) },
+            { LimeEquatableStructsValidator(logger).validate(it) },
+            { LimeSerializableStructsValidator(logger).validate(it) }
+        )
+
+    private fun getIndependentValidators() =
+        listOf<(LimeModel) -> Boolean>(
             { LimeEnumeratorRefsValidator(logger).validate(it) }
         )
 }
