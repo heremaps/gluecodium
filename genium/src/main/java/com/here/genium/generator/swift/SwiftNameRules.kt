@@ -21,7 +21,8 @@ package com.here.genium.generator.swift
 
 import com.here.genium.generator.common.NameRuleSet
 import com.here.genium.generator.common.NameRules
-import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.SWIFT
+import com.here.genium.model.lime.LimeAttributeValueType.NAME
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
@@ -43,7 +44,7 @@ class SwiftNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
                 ".swift")
 
     private fun getPlatformName(limeElement: LimeNamedElement?) =
-        limeElement?.attributes?.get(LimeAttributeType.SWIFT_NAME, String::class.java)
+        limeElement?.attributes?.get(SWIFT, NAME, String::class.java)
 
     companion object {
         val TARGET_DIRECTORY = "swift" + File.separator

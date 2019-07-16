@@ -24,6 +24,8 @@ import com.here.genium.generator.cbridge.CBridgeNameRules
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.SWIFT
+import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
@@ -109,7 +111,7 @@ class SwiftModelBuilder(
 
     private fun finishBuildingClass(limeContainer: LimeContainer) {
         val parentClass = getPreviousResultOrNull(SwiftClass::class.java)
-        val isObjcInterface = limeContainer.attributes.have(LimeAttributeType.LEGACY_COMPATIBLE)
+        val isObjcInterface = limeContainer.attributes.have(SWIFT, LimeAttributeValueType.OBJC)
         val parentClassName = when {
             parentClass != null && !parentClass.isInterface -> parentClass.name
             isObjcInterface -> SwiftTypeMapper.OBJC_PARENT_CLASS
@@ -147,7 +149,7 @@ class SwiftModelBuilder(
             nameSpace = limeContainer.path.head.joinToString("_"),
             cInstance = CBridgeNameRules.getInterfaceName(limeContainer),
             functionTableName = CBridgeNameRules.getFunctionTableName(limeContainer),
-            isObjcInterface = limeContainer.attributes.have(LimeAttributeType.LEGACY_COMPATIBLE)
+            isObjcInterface = limeContainer.attributes.have(SWIFT, LimeAttributeValueType.OBJC)
         )
         swiftClass.comment = createComments(limeContainer)
 
@@ -226,7 +228,7 @@ class SwiftModelBuilder(
         val swiftParameter = SwiftParameter(
             nameRules.getName(limeParameter),
             swiftType,
-            limeParameter.attributes.get(LimeAttributeType.SWIFT_ARGUMENT_LABEL, String::class.java)
+            limeParameter.attributes.get(SWIFT, LimeAttributeValueType.LABEL, String::class.java)
         )
         swiftParameter.comment = createComments(limeParameter)
 

@@ -43,6 +43,10 @@ import com.here.genium.model.cpp.CppMethod
 import com.here.genium.model.cpp.CppParameter
 import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.CPP
+import com.here.genium.model.lime.LimeAttributeValueType
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
@@ -175,7 +179,7 @@ class CBridgeModelBuilder(
             cppIncludeResolver.resolveIncludes(limeMethod).toSet(),
             cppMethod.name,
             cppMethod.returnType.fullyQualifiedName,
-            limeMethod.attributes.have(LimeAttributeType.CONST),
+            limeMethod.attributes.have(CPP, LimeAttributeValueType.CONST),
             errorType
         )
 
@@ -223,8 +227,8 @@ class CBridgeModelBuilder(
             swiftField.name,
             cppField.name,
             cppTypeInfo,
-            limeField.attributes.get(LimeAttributeType.EXTERNAL_GETTER, String::class.java),
-            limeField.attributes.get(LimeAttributeType.EXTERNAL_SETTER, String::class.java)
+            limeField.attributes.get(CPP, EXTERNAL_GETTER, String::class.java),
+            limeField.attributes.get(CPP, EXTERNAL_SETTER, String::class.java)
         )
 
         storeResult(cField)

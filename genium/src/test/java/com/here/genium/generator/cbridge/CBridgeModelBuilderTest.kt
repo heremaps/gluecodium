@@ -42,6 +42,8 @@ import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.cpp.CppTypeRef
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.CPP
+import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
@@ -537,8 +539,8 @@ class CBridgeModelBuilderTest {
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
             attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.EXTERNAL_GETTER, "getFooBar")
-                .addAttribute(LimeAttributeType.EXTERNAL_SETTER, "setBarBaz")
+                .addAttribute(CPP, LimeAttributeValueType.EXTERNAL_GETTER, "getFooBar")
+                .addAttribute(CPP, LimeAttributeValueType.EXTERNAL_SETTER, "setBarBaz")
                 .build()
         )
         contextStack.injectResult(cppTypeInfo)

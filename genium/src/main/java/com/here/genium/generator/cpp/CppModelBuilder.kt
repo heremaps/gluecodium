@@ -38,6 +38,10 @@ import com.here.genium.model.cpp.CppTypeRef
 import com.here.genium.model.cpp.CppUsing
 import com.here.genium.model.cpp.CppValue
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.CPP
+import com.here.genium.model.lime.LimeAttributeType.DEPRECATED
+import com.here.genium.model.lime.LimeAttributeValueType
+import com.here.genium.model.lime.LimeAttributeValueType.MESSAGE
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
@@ -86,7 +90,7 @@ class CppModelBuilder(
             name = nameResolver.getName(limeContainer),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeContainer),
             comment = createComments(limeContainer),
-            isExternal = limeContainer.attributes.have(LimeAttributeType.EXTERNAL_TYPE),
+            isExternal = limeContainer.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE),
             members = members,
             methods = getPreviousResults(CppMethod::class.java),
             inheritances = inheritances,
@@ -103,7 +107,7 @@ class CppModelBuilder(
         if (limeMethod.isStatic) {
             specifiers.add(CppMethod.Specifier.STATIC)
         } else {
-            if (limeMethod.attributes.have(LimeAttributeType.CONST)) {
+            if (limeMethod.attributes.have(CPP, LimeAttributeValueType.CONST)) {
                 // const needs to be before "= 0" pure virtual specifier
                 qualifiers.add(CppMethod.Qualifier.CONST)
             }
@@ -170,7 +174,7 @@ class CppModelBuilder(
             nameResolver.getName(limeStruct),
             nameResolver.getFullyQualifiedName(limeStruct),
             createComments(limeStruct),
-            limeStruct.attributes.have(LimeAttributeType.EXTERNAL_TYPE),
+            limeStruct.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE),
             getPreviousResults(CppField::class.java),
             methods,
             getPreviousResults(CppConstant::class.java),
@@ -235,7 +239,7 @@ class CppModelBuilder(
 
         val getterComments = Comments(
             CommentsPreprocessor.preprocessGetterComment(limeProperty.comment),
-            limeProperty.getter.attributes.get(LimeAttributeType.DEPRECATED, String::class.java)
+            limeProperty.getter.attributes.get(DEPRECATED, MESSAGE, String::class.java)
         )
         val getterMethod = CppMethod(
             name = nameResolver.getGetterName(limeProperty),
@@ -256,10 +260,7 @@ class CppModelBuilder(
             }
             val setterComments = Comments(
                 CommentsPreprocessor.preprocessSetterComment(limeProperty.comment),
-                limeProperty.setter?.attributes?.get(
-                    LimeAttributeType.DEPRECATED,
-                    String::class.java
-                )
+                limeProperty.setter?.attributes?.get(DEPRECATED, MESSAGE, String::class.java)
             )
             val setterMethod = CppMethod(
                 name = nameResolver.getSetterName(limeProperty),
@@ -279,7 +280,7 @@ class CppModelBuilder(
         val cppEnum = CppEnum(
             nameResolver.getName(limeEnumeration),
             nameResolver.getFullyQualifiedName(limeEnumeration),
-            limeEnumeration.attributes.have(LimeAttributeType.EXTERNAL_TYPE),
+            limeEnumeration.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE),
             getPreviousResults(CppEnumItem::class.java)
         )
         cppEnum.comment = createComments(limeEnumeration)

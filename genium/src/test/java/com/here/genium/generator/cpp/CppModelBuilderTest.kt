@@ -36,6 +36,8 @@ import com.here.genium.model.cpp.CppUsing
 import com.here.genium.model.cpp.CppValue
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.CPP
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
@@ -188,7 +190,7 @@ class CppModelBuilderTest {
             EMPTY_PATH,
             type = LimeContainer.ContainerType.INTERFACE,
             attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.EXTERNAL_TYPE)
+                .addAttribute(CPP, EXTERNAL_TYPE)
                 .build()
         )
 
@@ -355,7 +357,7 @@ class CppModelBuilderTest {
         val limeElement = LimeStruct(
             EMPTY_PATH,
             attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.EXTERNAL_TYPE)
+                .addAttribute(CPP, EXTERNAL_TYPE)
                 .build()
         )
 
@@ -620,7 +622,7 @@ class CppModelBuilderTest {
         val limeElement = LimeEnumeration(
             EMPTY_PATH,
             attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.EXTERNAL_TYPE)
+                .addAttribute(CPP, EXTERNAL_TYPE)
                 .build()
         )
 

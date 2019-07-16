@@ -24,6 +24,7 @@ import com.here.genium.generator.cbridge.CBridgeNameRules
 import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
@@ -91,7 +92,11 @@ class SwiftModelBuilderTest {
     private val fooPath = LimePath(listOf("mo", "del"), listOf("foo"))
     private val limeStruct = LimeStruct(fooPath)
     private val deprecatedAttributes =
-        LimeAttributes.Builder().addAttribute(LimeAttributeType.DEPRECATED, "Bar").build()
+        LimeAttributes.Builder().addAttribute(
+            LimeAttributeType.DEPRECATED,
+            LimeAttributeValueType.MESSAGE,
+            "Bar"
+        ).build()
 
     private val contextStack = MockContextStack<SwiftModelElement>()
 
@@ -263,7 +268,7 @@ class SwiftModelBuilderTest {
             fooPath,
             typeRef = LimeBasicTypeRef.FLOAT,
             attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.SWIFT_ARGUMENT_LABEL, "foo_label")
+                .addAttribute(LimeAttributeType.SWIFT, LimeAttributeValueType.LABEL, "foo_label")
                 .build()
         )
         contextStack.injectResult(swiftType)

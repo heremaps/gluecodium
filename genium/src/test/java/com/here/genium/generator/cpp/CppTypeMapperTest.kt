@@ -26,6 +26,7 @@ import com.here.genium.model.cpp.CppTemplateTypeRef
 import com.here.genium.model.cpp.CppTypeDefRef
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeBasicTypeRef
@@ -177,7 +178,7 @@ class CppTypeMapperTest {
             EMPTY_PATH,
             type = LimeContainer.ContainerType.TYPE_COLLECTION,
             attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.EXTERNAL_TYPE)
+                .addAttribute(LimeAttributeType.CPP, LimeAttributeValueType.EXTERNAL_TYPE)
                 .build()
         )
         val limeTypeRef = LimeDirectTypeRef(limeType)

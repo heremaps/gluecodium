@@ -22,6 +22,7 @@ package com.here.genium.generator.swift
 import com.here.genium.Genium
 import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
@@ -68,7 +69,11 @@ class SwiftModelBuilderContainerTest {
     private val swiftProperty =
         SwiftProperty("", null, SwiftType.VOID, swiftMethod, swiftMethod, false)
     private val deprecatedAttributes =
-        LimeAttributes.Builder().addAttribute(LimeAttributeType.DEPRECATED, "Bar").build()
+        LimeAttributes.Builder().addAttribute(
+            LimeAttributeType.DEPRECATED,
+            LimeAttributeValueType.MESSAGE,
+            "Bar"
+        ).build()
 
     private val fooPath = LimePath(listOf("mo", "del"), listOf("foo"))
     private val contextStack = MockContextStack<SwiftModelElement>()
@@ -167,7 +172,7 @@ class SwiftModelBuilderContainerTest {
             fooPath,
             type = ContainerType.CLASS,
             attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.LEGACY_COMPATIBLE)
+                .addAttribute(LimeAttributeType.SWIFT, LimeAttributeValueType.OBJC)
                 .build()
         )
 
@@ -270,7 +275,7 @@ class SwiftModelBuilderContainerTest {
             fooPath,
             type = ContainerType.INTERFACE,
             attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.LEGACY_COMPATIBLE)
+                .addAttribute(LimeAttributeType.SWIFT, LimeAttributeValueType.OBJC)
                 .build()
         )
 

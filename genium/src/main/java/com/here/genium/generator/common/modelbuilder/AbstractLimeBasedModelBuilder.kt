@@ -22,7 +22,8 @@ package com.here.genium.generator.common.modelbuilder
 import com.here.genium.common.ContextBasedModelBuilder
 import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.model.common.Comments
-import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.DEPRECATED
+import com.here.genium.model.lime.LimeAttributeValueType.MESSAGE
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
@@ -61,6 +62,6 @@ abstract class AbstractLimeBasedModelBuilder<E>(
     protected fun createComments(limeElement: LimeNamedElement) =
         Comments(
             limeElement.comment,
-            limeElement.attributes.get(LimeAttributeType.DEPRECATED, String::class.java)
+            limeElement.attributes.get(DEPRECATED, MESSAGE, String::class.java)
         )
 }

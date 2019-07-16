@@ -56,6 +56,8 @@ import com.here.genium.model.jni.JniParameter
 import com.here.genium.model.jni.JniStruct
 import com.here.genium.model.jni.JniType
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.CPP
+import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeContainer
@@ -63,14 +65,14 @@ import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeField
+import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
-import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeSet
+import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.MockContextStack
@@ -544,8 +546,8 @@ class JniModelBuilderTest {
             EMPTY_PATH,
             typeRef = limeTypeRef,
             attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.EXTERNAL_GETTER, "get_foo")
-                .addAttribute(LimeAttributeType.EXTERNAL_SETTER, "setFoo")
+                .addAttribute(CPP, LimeAttributeValueType.EXTERNAL_GETTER, "get_foo")
+                .addAttribute(CPP, LimeAttributeValueType.EXTERNAL_SETTER, "setFoo")
                 .build()
         )
 

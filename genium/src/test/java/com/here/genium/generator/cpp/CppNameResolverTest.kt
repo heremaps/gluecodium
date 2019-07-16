@@ -21,7 +21,9 @@ package com.here.genium.generator.cpp
 
 import com.here.genium.Genium
 import com.here.genium.generator.common.nameRuleSetFromConfig
-import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.CPP
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimePath
@@ -57,7 +59,7 @@ class CppNameResolverTest(
     @Test
     fun getNameForExternalElement() {
         val limeAttributes =
-            LimeAttributes.Builder().addAttribute(LimeAttributeType.EXTERNAL_TYPE).build()
+            LimeAttributes.Builder().addAttribute(CPP, EXTERNAL_TYPE).build()
         val limeElement = object : LimeType(elementPath, attributes = limeAttributes) { }
 
         val result = nameResolver.getFullyQualifiedName(limeElement)
@@ -68,8 +70,8 @@ class CppNameResolverTest(
     @Test
     fun getNameForExternalElementWithExternalName() {
         val limeAttributes = LimeAttributes.Builder()
-            .addAttribute(LimeAttributeType.EXTERNAL_TYPE)
-            .addAttribute(LimeAttributeType.EXTERNAL_NAME, "EXTERNAL_NAME")
+            .addAttribute(CPP, EXTERNAL_TYPE)
+            .addAttribute(CPP, EXTERNAL_NAME, "EXTERNAL_NAME")
             .build()
         val limeElement = object : LimeType(elementPath, attributes = limeAttributes) { }
 
@@ -85,13 +87,14 @@ class CppNameResolverTest(
         @Parameterized.Parameters
         fun testData(): Collection<Array<Any?>> {
             val limeExternalAttributes =
-                LimeAttributes.Builder().addAttribute(LimeAttributeType.EXTERNAL_TYPE).build()
+                LimeAttributes.Builder().addAttribute(CPP, EXTERNAL_TYPE).build()
             val limeExternalAttributesWithName =
                 LimeAttributes.Builder()
-                    .addAttribute(LimeAttributeType.EXTERNAL_TYPE)
-                    .addAttribute(LimeAttributeType.EXTERNAL_NAME, "ALIEN_PARENT")
+                    .addAttribute(CPP, EXTERNAL_TYPE)
+                    .addAttribute(CPP, EXTERNAL_NAME, "ALIEN_PARENT")
                     .build()
 
+            @Suppress("RemoveExplicitTypeArguments")
             return listOf(
                 arrayOf<Any?>(
                     null,

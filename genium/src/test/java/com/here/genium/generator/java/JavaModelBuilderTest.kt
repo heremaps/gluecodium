@@ -40,6 +40,7 @@ import com.here.genium.model.java.JavaType
 import com.here.genium.model.java.JavaValue
 import com.here.genium.model.java.JavaVisibility
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
@@ -83,7 +84,11 @@ class JavaModelBuilderTest {
 
     private val limeTypeRef = LimeBasicTypeRef.DOUBLE
     private val deprecatedAttributes =
-        LimeAttributes.Builder().addAttribute(LimeAttributeType.DEPRECATED, "Bar").build()
+        LimeAttributes.Builder().addAttribute(
+            LimeAttributeType.DEPRECATED,
+            LimeAttributeValueType.MESSAGE,
+            "Bar"
+        ).build()
 
     private val contextStack = MockContextStack<JavaElement>()
     private val rootPackage = JavaPackage(listOf("pack", "age"))
@@ -428,7 +433,7 @@ class JavaModelBuilderTest {
         val limeElement = LimeStruct(
             LimePath(emptyList(), listOf("foo")),
             attributes = LimeAttributes.Builder()
-                .addAttribute(LimeAttributeType.BUILDER)
+                .addAttribute(LimeAttributeType.JAVA, LimeAttributeValueType.BUILDER)
                 .build()
         )
 

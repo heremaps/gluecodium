@@ -21,6 +21,7 @@ package com.here.genium.generator.cpp
 
 import com.here.genium.model.common.Include
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
@@ -48,8 +49,11 @@ class CppIncludeResolver(
         }
 
     private fun inferExternalType(limeNamedElement: LimeNamedElement): String? {
-        val externalType =
-            limeNamedElement.attributes.get(LimeAttributeType.EXTERNAL_TYPE, String::class.java)
+        val externalType = limeNamedElement.attributes.get(
+            LimeAttributeType.CPP,
+            LimeAttributeValueType.EXTERNAL_TYPE,
+            String::class.java
+        )
         if (externalType != null) {
             return externalType
         }

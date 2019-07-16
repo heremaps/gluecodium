@@ -20,7 +20,8 @@
 package com.here.genium.generator.cbridge
 
 import com.here.genium.generator.common.NameHelper
-import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.SWIFT
+import com.here.genium.model.lime.LimeAttributeValueType.NAME
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeMethod
@@ -96,5 +97,5 @@ object CBridgeNameRules {
     fun getPropertyGetterName(name: String) = NameHelper.toLowerCamelCase(name) + "_get"
 
     private fun getPlatformName(limeElement: LimeNamedElement?) =
-        limeElement?.attributes?.get(LimeAttributeType.SWIFT_NAME, String::class.java)
+        limeElement?.attributes?.get(SWIFT, NAME, String::class.java)
 }

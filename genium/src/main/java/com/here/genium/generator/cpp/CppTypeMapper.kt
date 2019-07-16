@@ -27,7 +27,8 @@ import com.here.genium.model.cpp.CppTemplateTypeRef.TemplateClass
 import com.here.genium.model.cpp.CppTypeDefRef
 import com.here.genium.model.cpp.CppTypeRef
 import com.here.genium.model.lime.LimeArray
-import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.CPP
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainer
@@ -102,10 +103,8 @@ class CppTypeMapper(
                 CppTemplateTypeRef(TemplateClass.VECTOR, mapType(limeType.elementType))
             is LimeMap -> wrapMap(mapType(limeType.keyType), mapType(limeType.valueType))
             is LimeContainer -> {
-                val instanceType = mapInstanceType(
-                    limeType,
-                    !limeType.attributes.have(LimeAttributeType.EXTERNAL_TYPE)
-                )
+                val instanceType =
+                    mapInstanceType(limeType, !limeType.attributes.have(CPP, EXTERNAL_TYPE))
                 CppTemplateTypeRef(TemplateClass.SHARED_POINTER, instanceType)
             }
             is LimeSet -> wrapSet(mapType(limeType.elementType))

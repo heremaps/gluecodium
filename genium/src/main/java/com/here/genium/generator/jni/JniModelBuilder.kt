@@ -55,6 +55,7 @@ import com.here.genium.model.jni.JniStruct
 import com.here.genium.model.jni.JniTopLevelElement
 import com.here.genium.model.jni.JniType
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
@@ -216,11 +217,13 @@ class JniModelBuilder(
             ) else null,
             cppField = cppField,
             cppGetterName = limeField.attributes.get(
-                LimeAttributeType.EXTERNAL_GETTER,
+                LimeAttributeType.CPP,
+                LimeAttributeValueType.EXTERNAL_GETTER,
                 String::class.java
             ),
             cppSetterName = limeField.attributes.get(
-                LimeAttributeType.EXTERNAL_SETTER,
+                LimeAttributeType.CPP,
+                LimeAttributeValueType.EXTERNAL_SETTER,
                 String::class.java
             )
         )

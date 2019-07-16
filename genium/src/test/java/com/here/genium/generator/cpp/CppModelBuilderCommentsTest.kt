@@ -32,7 +32,8 @@ import com.here.genium.model.cpp.CppPrimitiveTypeRef
 import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.cpp.CppUsing
 import com.here.genium.model.cpp.CppValue
-import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.DEPRECATED
+import com.here.genium.model.lime.LimeAttributeValueType.MESSAGE
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
@@ -70,7 +71,7 @@ class CppModelBuilderCommentsTest {
     )
     private val limeContainerTypeRef = LimeDirectTypeRef(limeContainer)
     private val deprecatedAttributes =
-        LimeAttributes.Builder().addAttribute(LimeAttributeType.DEPRECATED, "Bar").build()
+        LimeAttributes.Builder().addAttribute(DEPRECATED, MESSAGE, "Bar").build()
 
     private val contextStack = MockContextStack<CppElement>()
 

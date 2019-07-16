@@ -43,6 +43,10 @@ import com.here.genium.model.java.JavaType
 import com.here.genium.model.java.JavaValue
 import com.here.genium.model.java.JavaVisibility
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.DEPRECATED
+import com.here.genium.model.lime.LimeAttributeType.JAVA
+import com.here.genium.model.lime.LimeAttributeValueType.BUILDER
+import com.here.genium.model.lime.LimeAttributeValueType.MESSAGE
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
@@ -157,7 +161,7 @@ class JavaModelBuilder(
             isParcelable = isSerializable,
             isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
-            needsBuilder = limeStruct.attributes.have(LimeAttributeType.BUILDER)
+            needsBuilder = limeStruct.attributes.have(JAVA, BUILDER)
         )
         javaClass.visibility = getVisibility(limeStruct)
         javaClass.javaPackage = rootPackage
@@ -249,7 +253,7 @@ class JavaModelBuilder(
 
         val getterComments = Comments(
             CommentsPreprocessor.preprocessGetterComment(limeProperty.comment),
-            limeProperty.getter.attributes.get(LimeAttributeType.DEPRECATED, String::class.java)
+            limeProperty.getter.attributes.get(DEPRECATED, MESSAGE, String::class.java)
         )
         val getterMethod = JavaMethod(
             name = nameRules.getGetterName(limeProperty),
@@ -266,7 +270,7 @@ class JavaModelBuilder(
         if (limeSetter != null) {
             val setterComments = Comments(
                 CommentsPreprocessor.preprocessSetterComment(limeProperty.comment),
-                limeSetter.attributes.get(LimeAttributeType.DEPRECATED, String::class.java)
+                limeSetter.attributes.get(DEPRECATED, MESSAGE, String::class.java)
             )
             val setterMethod = JavaMethod(
                 name = nameRules.getSetterName(limeProperty),

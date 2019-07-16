@@ -21,7 +21,8 @@ package com.here.genium.generator.cpp
 
 import com.here.genium.Genium
 import com.here.genium.generator.common.nameRuleSetFromConfig
-import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.CPP
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
@@ -65,7 +66,7 @@ class CppIncludeResolverTest {
     @Test
     fun resolveExternalType() {
         val limeAttributes = LimeAttributes.Builder()
-            .addAttribute(LimeAttributeType.EXTERNAL_TYPE, "bar/Baz.h")
+            .addAttribute(CPP, EXTERNAL_TYPE, "bar/Baz.h")
             .build()
         val limeElement = object : LimeNamedElement(limeRootPath, attributes = limeAttributes) {}
 
@@ -77,7 +78,7 @@ class CppIncludeResolverTest {
     @Test
     fun resolveExternalTypeMultipleIncludes() {
         val limeAttributes = LimeAttributes.Builder()
-            .addAttribute(LimeAttributeType.EXTERNAL_TYPE, "bar/Baz.h, non/Sense.h")
+            .addAttribute(CPP, EXTERNAL_TYPE, "bar/Baz.h, non/Sense.h")
             .build()
         val limeElement = object : LimeNamedElement(limeRootPath, attributes = limeAttributes) {}
 
@@ -91,7 +92,7 @@ class CppIncludeResolverTest {
     @Test
     fun resolveExternalParent() {
         val limeAttributes = LimeAttributes.Builder()
-            .addAttribute(LimeAttributeType.EXTERNAL_TYPE, "bar/Baz.h")
+            .addAttribute(CPP, EXTERNAL_TYPE, "bar/Baz.h")
             .build()
         val parentElement = object : LimeNamedElement(limeRootPath, attributes = limeAttributes) {}
         val limeElement = object : LimeNamedElement(limeRootPath.child("bar")) {}

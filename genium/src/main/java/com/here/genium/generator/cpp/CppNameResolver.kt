@@ -19,7 +19,10 @@
 
 package com.here.genium.generator.cpp
 
-import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.CPP
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
+import com.here.genium.model.lime.LimeAttributeValueType.NAME
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimeElement
@@ -46,22 +49,14 @@ class CppNameResolver(
     fun getFullyQualifiedName(limeElement: LimeNamedElement) = getCachedEntry(limeElement).fullName
 
     fun getGetterName(limeProperty: LimeProperty) =
-        limeProperty.getter.attributes.get(
-            LimeAttributeType.EXTERNAL_NAME,
-            String::class.java
-        ) ?: limeProperty.getter.attributes.get(
-            LimeAttributeType.CPP_NAME,
-            String::class.java
-        ) ?: nameRules.getGetterName(limeProperty)
+        limeProperty.getter.attributes.get(CPP, EXTERNAL_NAME, String::class.java)
+            ?: limeProperty.getter.attributes.get(CPP, NAME, String::class.java)
+            ?: nameRules.getGetterName(limeProperty)
 
     fun getSetterName(limeProperty: LimeProperty) =
-        limeProperty.setter?.attributes?.get(
-            LimeAttributeType.EXTERNAL_NAME,
-            String::class.java
-        ) ?: limeProperty.setter?.attributes?.get(
-            LimeAttributeType.CPP_NAME,
-            String::class.java
-        ) ?: nameRules.getSetterName(limeProperty)
+        limeProperty.setter?.attributes?.get(CPP, EXTERNAL_NAME, String::class.java)
+            ?: limeProperty.setter?.attributes?.get(CPP, NAME, String::class.java)
+            ?: nameRules.getSetterName(limeProperty)
 
     fun getFullyQualifiedGetterName(limeProperty: LimeProperty) =
         getParentFullName(limeProperty) + "::" + getGetterName(limeProperty)
@@ -101,12 +96,9 @@ class CppNameResolver(
             parentFullName = rootPrefix + parentPath.head.joinToString(separator = "::")
         }
 
-        val isExternal =
-            parentIsExternal || limeElement.attributes.have(LimeAttributeType.EXTERNAL_TYPE)
-        val externalName =
-            limeElement.attributes.get(LimeAttributeType.EXTERNAL_NAME, String::class.java)
-        val platformName =
-            limeElement.attributes.get(LimeAttributeType.CPP_NAME, String::class.java)
+        val isExternal = parentIsExternal || limeElement.attributes.have(CPP, EXTERNAL_TYPE)
+        val externalName = limeElement.attributes.get(CPP, EXTERNAL_NAME, String::class.java)
+        val platformName = limeElement.attributes.get(CPP, NAME, String::class.java)
 
         val name = when {
             externalName != null -> externalName

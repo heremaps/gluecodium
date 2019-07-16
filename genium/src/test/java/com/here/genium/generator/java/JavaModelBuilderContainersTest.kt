@@ -37,6 +37,7 @@ import com.here.genium.model.java.JavaType
 import com.here.genium.model.java.JavaValue
 import com.here.genium.model.java.JavaVisibility
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
@@ -75,7 +76,11 @@ class JavaModelBuilderContainersTest {
     private val limeClass =
         LimeContainer(LimePath(emptyList(), listOf("foo")), type = ContainerType.CLASS)
     private val deprecatedAttributes =
-        LimeAttributes.Builder().addAttribute(LimeAttributeType.DEPRECATED, "Bar").build()
+        LimeAttributes.Builder().addAttribute(
+            LimeAttributeType.DEPRECATED,
+            LimeAttributeValueType.MESSAGE,
+            "Bar"
+        ).build()
 
     private val contextStack = MockContextStack<JavaElement>()
     private val rootPackage = JavaPackage(listOf("pack", "age"))

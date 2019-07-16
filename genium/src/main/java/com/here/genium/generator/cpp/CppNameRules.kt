@@ -21,7 +21,8 @@ package com.here.genium.generator.cpp
 
 import com.here.genium.generator.common.NameRuleSet
 import com.here.genium.generator.common.NameRules
-import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.CPP
+import com.here.genium.model.lime.LimeAttributeValueType.NAME
 import com.here.genium.model.lime.LimeContainer
 import java.io.File
 
@@ -31,8 +32,7 @@ class CppNameRules(
 ) : NameRules(nameRuleSet) {
 
     fun getOutputFilePath(limeElement: LimeContainer): String {
-        val platformName =
-            limeElement.attributes.get(LimeAttributeType.CPP_NAME, String::class.java)
+        val platformName = limeElement.attributes.get(CPP, NAME, String::class.java)
         val fileName = platformName ?: ruleSet.getTypeName(limeElement.path.container)
         return (rootNamespace + limeElement.path.head + fileName)
             .joinToString(separator = File.separator)
