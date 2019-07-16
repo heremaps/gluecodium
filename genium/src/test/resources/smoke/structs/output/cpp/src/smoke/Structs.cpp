@@ -9,22 +9,34 @@
 #include "smoke/Structs.h"
 namespace smoke {
 Structs::~Structs() = default;
-Structs::Point::Point( ) = default;
+Structs::Point::Point( )
+    : x{ }, y{ }
+{
+}
 Structs::Point::Point( const double x, const double y )
     : x( x ), y( y )
 {
 }
-Structs::Color::Color( ) = default;
+Structs::Color::Color( )
+    : red{ }, green{ }, blue{ }
+{
+}
 Structs::Color::Color( const uint8_t red, const uint8_t green, const uint8_t blue )
     : red( red ), green( green ), blue( blue )
 {
 }
-Structs::Line::Line( ) = default;
+Structs::Line::Line( )
+    : a{ }, b{ }
+{
+}
 Structs::Line::Line( const ::smoke::Structs::Point& a, const ::smoke::Structs::Point& b )
     : a( a ), b( b )
 {
 }
-Structs::ColoredLine::ColoredLine( ) = default;
+Structs::ColoredLine::ColoredLine( )
+    : line{ }, color{ }
+{
+}
 Structs::ColoredLine::ColoredLine( const ::smoke::Structs::Line& line, const ::smoke::Structs::Color& color )
     : line( line ), color( color )
 {

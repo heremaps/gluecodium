@@ -8,7 +8,10 @@
 // -------------------------------------------------------------------------------------------------
 #include "examples/Equatable.h"
 namespace examples {
-EquatableStruct::EquatableStruct( ) = default;
+EquatableStruct::EquatableStruct( )
+    : int_field{ }, string_field{ }, struct_field{ }
+{
+}
 EquatableStruct::EquatableStruct( const int32_t int_field, const ::std::string& string_field, const ::examples::NestedEquatableStruct& struct_field )
     : int_field( int_field ), string_field( string_field ), struct_field( struct_field )
 {
@@ -23,7 +26,10 @@ bool EquatableStruct::operator!=( const EquatableStruct& rhs ) const
 {
     return !( *this == rhs );
 }
-NestedEquatableStruct::NestedEquatableStruct( ) = default;
+NestedEquatableStruct::NestedEquatableStruct( )
+    : foo_field{ }
+{
+}
 NestedEquatableStruct::NestedEquatableStruct( const ::std::string& foo_field )
     : foo_field( foo_field )
 {

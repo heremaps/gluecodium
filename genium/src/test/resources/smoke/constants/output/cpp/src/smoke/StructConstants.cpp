@@ -9,12 +9,18 @@
 #include "smoke/StructConstants.h"
 namespace smoke {
 StructConstants::~StructConstants() = default;
-StructConstants::SomeStruct::SomeStruct( ) = default;
+StructConstants::SomeStruct::SomeStruct( )
+    : string_field{ }, float_field{ }
+{
+}
 StructConstants::SomeStruct::SomeStruct( const ::std::string& string_field, const float float_field )
     : string_field( string_field ), float_field( float_field )
 {
 }
-StructConstants::NestingStruct::NestingStruct( ) = default;
+StructConstants::NestingStruct::NestingStruct( )
+    : struct_field{ }
+{
+}
 StructConstants::NestingStruct::NestingStruct( const ::smoke::StructConstants::SomeStruct& struct_field )
     : struct_field( struct_field )
 {

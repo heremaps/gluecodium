@@ -23,7 +23,10 @@
 const {{type.name}} {{#className}}{{.}}::{{/className}}{{structName}}::{{name}} = {{value.name}};
 {{/constants}}{{/set}}{{!!
 }}{{#if fields}}
-{{#if hasDefaultConstructor}}{{#className}}{{.}}::{{/className}}{{name}}::{{name}}( ) = default;{{/if}}
+{{#if hasDefaultConstructor}}{{#className}}{{.}}::{{/className}}{{name}}::{{name}}( ){{#if uninitializedFields}}
+    : {{#uninitializedFields}}{{name}}{ }{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}{{/if}}
+{
+}{{/if}}
 {{#if hasPartialDefaults}}
 
 {{#className}}{{.}}::{{/className}}{{name}}::{{name}}( {{joinPartial uninitializedFields "cpp/CppMethodParameter" ", "}} )

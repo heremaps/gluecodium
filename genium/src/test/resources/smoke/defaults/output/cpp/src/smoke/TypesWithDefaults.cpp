@@ -8,7 +8,9 @@
 // -------------------------------------------------------------------------------------------------
 #include "smoke/TypesWithDefaults.h"
 namespace smoke {
-StructWithDefaults::StructWithDefaults( ) = default;
+StructWithDefaults::StructWithDefaults( )
+{
+}
 StructWithDefaults::StructWithDefaults( const int32_t int_field, const uint32_t uint_field, const float float_field, const double double_field, const bool bool_field, const ::std::string& string_field, const ::smoke::SomeEnum enum_field )
     : int_field( int_field ), uint_field( uint_field ), float_field( float_field ), double_field( double_field ), bool_field( bool_field ), string_field( string_field ), enum_field( enum_field )
 {
