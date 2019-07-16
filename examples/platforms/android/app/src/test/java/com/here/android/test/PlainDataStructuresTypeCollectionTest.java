@@ -51,9 +51,7 @@ public class PlainDataStructuresTypeCollectionTest {
 
   @Test
   public void manipulateSimpleDataStructure() {
-    Point point = new Point();
-    point.x = 1.0;
-    point.y = 2.0;
+    Point point = new Point(1.0, 2.0);
 
     Point result = PlainDataStructuresFromTypeCollection.swapPointCoordinates(point);
 
@@ -65,9 +63,7 @@ public class PlainDataStructuresTypeCollectionTest {
   @Test
   public void createNestedDataStructureWithMultipleParams() {
     Point point1 = PlainDataStructuresFromTypeCollection.createPoint(1.0, 2.0);
-    Point point2 = new Point();
-    point2.x = 3.0;
-    point2.y = 4.0;
+    Point point2 = new Point(3.0, 4.0);
 
     Line line = PlainDataStructuresFromTypeCollection.createLine(point1, point2);
 

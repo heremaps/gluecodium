@@ -52,7 +52,8 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 
 set(SOURCES
   tests/OptionalTest.cpp
-  tests/ReturnTest.cpp)
+  tests/ReturnTest.cpp
+  tests/StructConstructorTest.cpp)
 
 if(HELLO_TEST_CPP_VERSION LESS 17)
   list(APPEND SOURCES

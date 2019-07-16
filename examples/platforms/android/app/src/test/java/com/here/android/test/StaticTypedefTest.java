@@ -82,9 +82,7 @@ public final class StaticTypedefTest {
 
   @Test
   public void returnTypedefPointFromTypeCollection() {
-    Point point = new Point();
-    point.x = VALUE_X;
-    point.y = VALUE_Y;
+    Point point = new Point(VALUE_X, VALUE_Y);
 
     Point result = StaticTypedef.returnTypedefPointFromTypeCollection(point);
 

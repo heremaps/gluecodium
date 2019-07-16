@@ -22,11 +22,6 @@ import "./TypeCollection.fidl"
 
 define Defaults for typeCollection test.TypeCollection
 {
-    struct Point {
-        x { DefaultValue = "0.0" }
-        y { DefaultValue = "0.0" }
-    }
-
     struct Color {
         red { DefaultValue = "0" }
         green { DefaultValue = "0" }
