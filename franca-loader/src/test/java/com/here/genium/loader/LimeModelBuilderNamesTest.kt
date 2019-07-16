@@ -20,12 +20,15 @@
 package com.here.genium.loader
 
 import com.here.genium.franca.FrancaDeploymentModel
-import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.CPP
+import com.here.genium.model.lime.LimeAttributeType.JAVA
+import com.here.genium.model.lime.LimeAttributeType.SWIFT
+import com.here.genium.model.lime.LimeAttributeValueType.NAME
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.test.ArrayEList
-import com.here.genium.test.AssertHelpers.assertAttributeEquals
+import com.here.genium.test.AssertHelpers.assertAttributeValueEquals
 import com.here.genium.test.MockContextStack
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -95,9 +98,9 @@ class LimeModelBuilderNamesTest(
         modelBuilder.finishBuilding(francaElement)
 
         val result = modelBuilder.getFinalResult(LimeNamedElement::class.java)
-        assertAttributeEquals("foo", LimeAttributeType.CPP_NAME, result)
-        assertAttributeEquals("bar", LimeAttributeType.JAVA_NAME, result)
-        assertAttributeEquals("baz", LimeAttributeType.SWIFT_NAME, result)
+        assertAttributeValueEquals("foo", CPP, NAME, result)
+        assertAttributeValueEquals("bar", JAVA, NAME, result)
+        assertAttributeValueEquals("baz", SWIFT, NAME, result)
     }
 
     companion object {

@@ -26,6 +26,7 @@ import com.here.genium.franca.FrancaTypeHelper
 import com.here.genium.franca.SpecialTypeRules
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeBasicTypeRef
@@ -89,7 +90,7 @@ class LimeModelBuilder(
         val attributes = LimeAttributes.Builder()
         addExternalTypeAttributes(attributes, francaInterface)
         if (deploymentModel.isObjcInterface(francaInterface)) {
-            attributes.addAttribute(LimeAttributeType.LEGACY_COMPATIBLE)
+            attributes.addAttribute(LimeAttributeType.SWIFT, LimeAttributeValueType.OBJC)
         }
         if (deploymentModel.isEquatable(francaInterface)) {
             attributes.addAttribute(LimeAttributeType.EQUATABLE)
@@ -125,10 +126,7 @@ class LimeModelBuilder(
         parentRef: LimeTypeRef?
     ) {
         addPlatformNameAttributes(attributes, francaTypeCollection)
-        attributes.addAttribute(
-            LimeAttributeType.DEPRECATED,
-            CommentHelper.getDeprecationMessage(francaTypeCollection)
-        )
+        addDeprecationMessageAttribute(attributes, francaTypeCollection)
 
         val limeContainer = LimeContainer(
             path = createElementPath(francaTypeCollection),
@@ -163,12 +161,9 @@ class LimeModelBuilder(
             attributes.addAttribute(LimeAttributeType.IMMUTABLE)
         }
         if (deploymentModel.hasJavaBuilder(francaStruct)) {
-            attributes.addAttribute(LimeAttributeType.BUILDER)
+            attributes.addAttribute(LimeAttributeType.JAVA, LimeAttributeValueType.BUILDER)
         }
-        attributes.addAttribute(
-            LimeAttributeType.DEPRECATED,
-            CommentHelper.getDeprecationMessage(francaStruct)
-        )
+        addDeprecationMessageAttribute(attributes, francaStruct)
 
         val limeStruct = LimeStruct(
             path = createElementPath(francaStruct),
@@ -187,17 +182,16 @@ class LimeModelBuilder(
         val attributes = LimeAttributes.Builder()
         addPlatformNameAttributes(attributes, francaField)
         attributes.addAttribute(
-            LimeAttributeType.EXTERNAL_GETTER,
+            LimeAttributeType.CPP,
+            LimeAttributeValueType.EXTERNAL_GETTER,
             deploymentModel.getExternalGetter(francaField)
         )
         attributes.addAttribute(
-            LimeAttributeType.EXTERNAL_SETTER,
+            LimeAttributeType.CPP,
+            LimeAttributeValueType.EXTERNAL_SETTER,
             deploymentModel.getExternalSetter(francaField)
         )
-        attributes.addAttribute(
-            LimeAttributeType.DEPRECATED,
-            CommentHelper.getDeprecationMessage(francaField)
-        )
+        addDeprecationMessageAttribute(attributes, francaField)
 
         var fieldType = getPreviousResult(LimeTypeRef::class.java)
         if (francaField.isArray) {
@@ -239,10 +233,7 @@ class LimeModelBuilder(
         val attributes = LimeAttributes.Builder()
         addPlatformNameAttributes(attributes, francaEnum)
         addExternalTypeAttributes(attributes, francaEnum)
-        attributes.addAttribute(
-            LimeAttributeType.DEPRECATED,
-            CommentHelper.getDeprecationMessage(francaEnum)
-        )
+        addDeprecationMessageAttribute(attributes, francaEnum)
 
         val limeEnum = LimeEnumeration(
             path = createElementPath(francaEnum),
@@ -270,10 +261,7 @@ class LimeModelBuilder(
     override fun finishBuilding(francaEnumerator: FEnumerator) {
         val attributes = LimeAttributes.Builder()
         addPlatformNameAttributes(attributes, francaEnumerator)
-        attributes.addAttribute(
-            LimeAttributeType.DEPRECATED,
-            CommentHelper.getDeprecationMessage(francaEnumerator)
-        )
+        addDeprecationMessageAttribute(attributes, francaEnumerator)
 
         val limeEnumerator = LimeEnumerator(
             path = createElementPath(francaEnumerator),
@@ -321,10 +309,7 @@ class LimeModelBuilder(
 
     override fun finishBuilding(francaConstant: FConstantDef) {
         val attributes = LimeAttributes.Builder()
-        attributes.addAttribute(
-            LimeAttributeType.DEPRECATED,
-            CommentHelper.getDeprecationMessage(francaConstant)
-        )
+        addDeprecationMessageAttribute(attributes, francaConstant)
 
         var constantType = getPreviousResult(LimeTypeRef::class.java)
         if (francaConstant.isArray) {
@@ -348,10 +333,7 @@ class LimeModelBuilder(
         if (!SpecialTypeRules.isInstanceId(francaTypeDef)) {
             val attributes = LimeAttributes.Builder()
             addPlatformNameAttributes(attributes, francaTypeDef)
-            attributes.addAttribute(
-                LimeAttributeType.DEPRECATED,
-                CommentHelper.getDeprecationMessage(francaTypeDef)
-            )
+            addDeprecationMessageAttribute(attributes, francaTypeDef)
 
             val limeTypeDef = LimeTypeDef(
                 path = createElementPath(francaTypeDef),
@@ -376,10 +358,7 @@ class LimeModelBuilder(
 
         val attributes = LimeAttributes.Builder()
         addPlatformNameAttributes(attributes, francaArrayType)
-        attributes.addAttribute(
-            LimeAttributeType.DEPRECATED,
-            CommentHelper.getDeprecationMessage(francaArrayType)
-        )
+        addDeprecationMessageAttribute(attributes, francaArrayType)
 
         val limeTypeDef = LimeTypeDef(
             path = createElementPath(francaArrayType),
@@ -403,10 +382,7 @@ class LimeModelBuilder(
         referenceResolver.registerElement(mapKey, LimeMap(keyTypeRef, valueTypeRef))
 
         val attributes = LimeAttributes.Builder()
-        attributes.addAttribute(
-            LimeAttributeType.DEPRECATED,
-            CommentHelper.getDeprecationMessage(francaMapType)
-        )
+        addDeprecationMessageAttribute(attributes, francaMapType)
 
         val limeTypeDef = LimeTypeDef(
             path = createElementPath(francaMapType),
@@ -423,12 +399,9 @@ class LimeModelBuilder(
         val attributes = LimeAttributes.Builder()
         addPlatformNameAttributes(attributes, francaMethod)
         if (deploymentModel.isConst(francaMethod)) {
-            attributes.addAttribute(LimeAttributeType.CONST)
+            attributes.addAttribute(LimeAttributeType.CPP, LimeAttributeValueType.CONST)
         }
-        attributes.addAttribute(
-            LimeAttributeType.DEPRECATED,
-            CommentHelper.getDeprecationMessage(francaMethod)
-        )
+        addDeprecationMessageAttribute(attributes, francaMethod)
 
         val methodLimePath = createElementPath(francaMethod)
         val limeReturnType = getPreviousResultOrNull(LimeReturnType::class.java)
@@ -463,13 +436,11 @@ class LimeModelBuilder(
         val attributes = LimeAttributes.Builder()
         addPlatformNameAttributes(attributes, francaArgument)
         attributes.addAttribute(
-            LimeAttributeType.SWIFT_ARGUMENT_LABEL,
+            LimeAttributeType.SWIFT,
+            LimeAttributeValueType.LABEL,
             deploymentModel.getSwiftArgumentLabel(francaArgument)
         )
-        attributes.addAttribute(
-            LimeAttributeType.DEPRECATED,
-            CommentHelper.getDeprecationMessage(francaArgument)
-        )
+        addDeprecationMessageAttribute(attributes, francaArgument)
 
         var parameterType = getPreviousResult(LimeTypeRef::class.java)
         if (francaArgument.isArray) {
@@ -511,11 +482,11 @@ class LimeModelBuilder(
     override fun finishBuilding(francaAttribute: FAttribute) {
         val propertyAttributes = LimeAttributes.Builder()
         propertyAttributes.addAttribute(
-            LimeAttributeType.SWIFT_NAME,
+            LimeAttributeType.SWIFT,
+            LimeAttributeValueType.NAME,
             deploymentModel.getSwiftName(francaAttribute)
         )
-        val deprecationMessage = CommentHelper.getDeprecationMessage(francaAttribute)
-        propertyAttributes.addAttribute(LimeAttributeType.DEPRECATED, deprecationMessage)
+        addDeprecationMessageAttribute(propertyAttributes, francaAttribute)
 
         var propertyType = getPreviousResult(LimeTypeRef::class.java)
         if (francaAttribute.isArray) {
@@ -532,18 +503,21 @@ class LimeModelBuilder(
             run {
                 val attributes = LimeAttributes.Builder()
                 attributes.addAttribute(
-                    LimeAttributeType.CPP_NAME,
+                    LimeAttributeType.CPP,
+                    LimeAttributeValueType.NAME,
                     deploymentModel.getCppGetterName(francaAttribute)
                 )
                 attributes.addAttribute(
-                    LimeAttributeType.JAVA_NAME,
+                    LimeAttributeType.JAVA,
+                    LimeAttributeValueType.NAME,
                     deploymentModel.getJavaGetterName(francaAttribute)
                 )
                 attributes.addAttribute(
-                    LimeAttributeType.EXTERNAL_NAME,
+                    LimeAttributeType.CPP,
+                    LimeAttributeValueType.EXTERNAL_NAME,
                     deploymentModel.getExternalGetter(francaAttribute)
                 )
-                attributes.addAttribute(LimeAttributeType.DEPRECATED, deprecationMessage)
+                addDeprecationMessageAttribute(attributes, francaAttribute)
                 val path = propertyPath.withSuffix("get")
                 LimeMethod(
                     path = path,
@@ -563,18 +537,21 @@ class LimeModelBuilder(
                     }
                     val attributes = LimeAttributes.Builder()
                     attributes.addAttribute(
-                        LimeAttributeType.CPP_NAME,
+                        LimeAttributeType.CPP,
+                        LimeAttributeValueType.NAME,
                         deploymentModel.getCppSetterName(francaAttribute)
                     )
                     attributes.addAttribute(
-                        LimeAttributeType.JAVA_NAME,
+                        LimeAttributeType.JAVA,
+                        LimeAttributeValueType.NAME,
                         deploymentModel.getJavaSetterName(francaAttribute)
                     )
                     attributes.addAttribute(
-                        LimeAttributeType.EXTERNAL_NAME,
+                        LimeAttributeType.CPP,
+                        LimeAttributeValueType.EXTERNAL_NAME,
                         deploymentModel.getExternalSetter(francaAttribute)
                     )
-                    attributes.addAttribute(LimeAttributeType.DEPRECATED, deprecationMessage)
+                    addDeprecationMessageAttribute(attributes, francaAttribute)
                     LimeMethod(
                         path = propertyPath.withSuffix("set"),
                         visibility = visibility,
@@ -691,16 +668,14 @@ class LimeModelBuilder(
         attributes: LimeAttributes.Builder,
         francaElement: FModelElement
     ) {
-        if (!deploymentModel.isExternalType(francaElement)) {
-            return
-        }
-
         attributes.addAttribute(
-            LimeAttributeType.EXTERNAL_TYPE,
+            LimeAttributeType.CPP,
+            LimeAttributeValueType.EXTERNAL_TYPE,
             deploymentModel.getExternalType(francaElement)
         )
         attributes.addAttribute(
-            LimeAttributeType.EXTERNAL_NAME,
+            LimeAttributeType.CPP,
+            LimeAttributeValueType.EXTERNAL_NAME,
             deploymentModel.getExternalName(francaElement)
         )
     }
@@ -710,16 +685,30 @@ class LimeModelBuilder(
         francaElement: FModelElement
     ) {
         attributes.addAttribute(
-            LimeAttributeType.CPP_NAME,
+            LimeAttributeType.CPP,
+            LimeAttributeValueType.NAME,
             deploymentModel.getCppName(francaElement)
         )
         attributes.addAttribute(
-            LimeAttributeType.JAVA_NAME,
+            LimeAttributeType.JAVA,
+            LimeAttributeValueType.NAME,
             deploymentModel.getJavaName(francaElement)
         )
         attributes.addAttribute(
-            LimeAttributeType.SWIFT_NAME,
+            LimeAttributeType.SWIFT,
+            LimeAttributeValueType.NAME,
             deploymentModel.getSwiftName(francaElement)
+        )
+    }
+
+    private fun addDeprecationMessageAttribute(
+        attributes: LimeAttributes.Builder,
+        francaElement: FModelElement
+    ) {
+        attributes.addAttribute(
+            LimeAttributeType.DEPRECATED,
+            LimeAttributeValueType.MESSAGE,
+            CommentHelper.getDeprecationMessage(francaElement)
         )
     }
 

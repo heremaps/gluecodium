@@ -19,10 +19,19 @@
 
 package com.here.genium.loader
 
-import com.here.genium.franca.SpecialTypeRules
 import com.here.genium.franca.CommentHelper
 import com.here.genium.franca.FrancaDeploymentModel
-import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.franca.SpecialTypeRules
+import com.here.genium.model.lime.LimeAttributeType.CPP
+import com.here.genium.model.lime.LimeAttributeType.DEPRECATED
+import com.here.genium.model.lime.LimeAttributeType.JAVA
+import com.here.genium.model.lime.LimeAttributeType.SWIFT
+import com.here.genium.model.lime.LimeAttributeValueType
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
+import com.here.genium.model.lime.LimeAttributeValueType.LABEL
+import com.here.genium.model.lime.LimeAttributeValueType.MESSAGE
+import com.here.genium.model.lime.LimeAttributeValueType.NAME
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
@@ -41,7 +50,7 @@ import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
-import com.here.genium.test.AssertHelpers.assertAttributeEquals
+import com.here.genium.test.AssertHelpers.assertAttributeValueEquals
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.AssertHelpers.assertHasAttribute
 import com.here.genium.test.MockContextStack
@@ -144,7 +153,7 @@ class LimeModelBuilderInterfaceTest {
         assertEquals("SomeInterface", result.name)
         assertEquals("the.model.SomeInterface", result.fullName)
         assertEquals("some comment", result.comment)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result)
     }
 
     @Test
@@ -186,8 +195,8 @@ class LimeModelBuilderInterfaceTest {
         modelBuilder.finishBuilding(francaInterface)
 
         val result = modelBuilder.getFinalResult(LimeContainer::class.java)
-        assertAttributeEquals("foo/Bar.h", LimeAttributeType.EXTERNAL_TYPE, result)
-        assertAttributeEquals("::foo::Bar", LimeAttributeType.EXTERNAL_NAME, result)
+        assertAttributeValueEquals("foo/Bar.h", CPP, EXTERNAL_TYPE, result)
+        assertAttributeValueEquals("::foo::Bar", CPP, EXTERNAL_NAME, result)
     }
 
     @Test
@@ -197,7 +206,7 @@ class LimeModelBuilderInterfaceTest {
         modelBuilder.finishBuilding(francaInterface)
 
         val result = modelBuilder.getFinalResult(LimeContainer::class.java)
-        assertHasAttribute(LimeAttributeType.LEGACY_COMPATIBLE, result)
+        assertHasAttribute(SWIFT, LimeAttributeValueType.OBJC, result)
     }
 
     @Test
@@ -244,7 +253,7 @@ class LimeModelBuilderInterfaceTest {
         assertEquals("SomeMethod", result.name)
         assertEquals("the.model.SomeInterface.SomeMethod", result.fullName)
         assertEquals("some comment", result.comment)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result)
     }
 
     @Test
@@ -304,7 +313,7 @@ class LimeModelBuilderInterfaceTest {
         modelBuilder.finishBuilding(francaMethod)
 
         val result = modelBuilder.getFinalResult(LimeMethod::class.java)
-        assertHasAttribute(LimeAttributeType.CONST, result)
+        assertHasAttribute(CPP, LimeAttributeValueType.CONST, result)
     }
 
     @Test
@@ -352,7 +361,7 @@ class LimeModelBuilderInterfaceTest {
         assertEquals("SomeArg", result.name)
         assertEquals("the.model.SomeInterface.SomeMethod.SomeArg", result.fullName)
         assertEquals("some comment", result.comment)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result)
         assertEquals(limeTypeRef, result.typeRef)
     }
 
@@ -422,9 +431,9 @@ class LimeModelBuilderInterfaceTest {
         assertEquals("the.model.SomeInterface.SomeAttribute", result.fullName)
         assertEquals("some comment", result.comment)
         assertEquals(limeTypeRef, result.typeRef)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result.getter)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result.setter!!)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result.getter)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result.setter!!)
     }
 
     @Test
@@ -480,8 +489,8 @@ class LimeModelBuilderInterfaceTest {
         modelBuilder.finishBuilding(francaAttribute)
 
         val result = modelBuilder.getFinalResult(LimeProperty::class.java)
-        assertAttributeEquals("get_foo", LimeAttributeType.EXTERNAL_NAME, result.getter)
-        assertAttributeEquals("set_foo", LimeAttributeType.EXTERNAL_NAME, result.setter!!)
+        assertAttributeValueEquals("get_foo", CPP, EXTERNAL_NAME, result.getter)
+        assertAttributeValueEquals("set_foo", CPP, EXTERNAL_NAME, result.setter!!)
     }
 
     @Test
@@ -518,11 +527,11 @@ class LimeModelBuilderInterfaceTest {
         modelBuilder.finishBuilding(francaAttribute)
 
         val result = modelBuilder.getFinalResult(LimeProperty::class.java)
-        assertAttributeEquals("get_cpp_foo", LimeAttributeType.CPP_NAME, result.getter)
-        assertAttributeEquals("set_cpp_foo", LimeAttributeType.CPP_NAME, result.setter!!)
-        assertAttributeEquals("get_java_foo", LimeAttributeType.JAVA_NAME, result.getter)
-        assertAttributeEquals("set_java_foo", LimeAttributeType.JAVA_NAME, result.setter!!)
-        assertAttributeEquals("foo_foo", LimeAttributeType.SWIFT_NAME, result)
+        assertAttributeValueEquals("get_cpp_foo", CPP, NAME, result.getter)
+        assertAttributeValueEquals("set_cpp_foo", CPP, NAME, result.setter!!)
+        assertAttributeValueEquals("get_java_foo", JAVA, NAME, result.getter)
+        assertAttributeValueEquals("set_java_foo", JAVA, NAME, result.setter!!)
+        assertAttributeValueEquals("foo_foo", SWIFT, NAME, result)
     }
 
     @Test
@@ -533,6 +542,6 @@ class LimeModelBuilderInterfaceTest {
         modelBuilder.finishBuildingInputArgument(francaArgument)
 
         val result = modelBuilder.getFinalResult(LimeParameter::class.java)
-        assertAttributeEquals("foo_label", LimeAttributeType.SWIFT_ARGUMENT_LABEL, result)
+        assertAttributeValueEquals("foo_label", SWIFT, LABEL, result)
     }
 }

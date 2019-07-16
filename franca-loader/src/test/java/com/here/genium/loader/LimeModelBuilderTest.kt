@@ -19,10 +19,18 @@
 
 package com.here.genium.loader
 
-import com.here.genium.franca.SpecialTypeRules
 import com.here.genium.franca.CommentHelper
 import com.here.genium.franca.FrancaDeploymentModel
+import com.here.genium.franca.SpecialTypeRules
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeType.CPP
+import com.here.genium.model.lime.LimeAttributeType.DEPRECATED
+import com.here.genium.model.lime.LimeAttributeValueType
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_GETTER
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_NAME
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
+import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_TYPE
+import com.here.genium.model.lime.LimeAttributeValueType.MESSAGE
 import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
@@ -41,7 +49,7 @@ import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
 import com.here.genium.test.ArrayEList
-import com.here.genium.test.AssertHelpers.assertAttributeEquals
+import com.here.genium.test.AssertHelpers.assertAttributeValueEquals
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.AssertHelpers.assertHasAttribute
 import com.here.genium.test.MockContextStack
@@ -165,7 +173,7 @@ class LimeModelBuilderTest {
         assertEquals("SomeTypeCollection", result.name)
         assertEquals("the.model.SomeTypeCollection", result.fullName)
         assertEquals("some comment", result.comment)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result)
     }
 
     @Test
@@ -202,7 +210,7 @@ class LimeModelBuilderTest {
         assertEquals("SomeStruct", result.name)
         assertEquals("the.model.SomeTypeCollection.SomeStruct", result.fullName)
         assertEquals("some comment", result.comment)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result)
     }
 
     @Test
@@ -254,8 +262,8 @@ class LimeModelBuilderTest {
         modelBuilder.finishBuilding(francaStruct)
 
         val result = modelBuilder.getFinalResult(LimeStruct::class.java)
-        assertAttributeEquals("foo/Bar.h", LimeAttributeType.EXTERNAL_TYPE, result)
-        assertAttributeEquals("::foo::Bar", LimeAttributeType.EXTERNAL_NAME, result)
+        assertAttributeValueEquals("foo/Bar.h", CPP, EXTERNAL_TYPE, result)
+        assertAttributeValueEquals("::foo::Bar", CPP, EXTERNAL_NAME, result)
     }
 
     @Test
@@ -295,7 +303,7 @@ class LimeModelBuilderTest {
         modelBuilder.finishBuilding(francaStruct)
 
         val result = modelBuilder.getFinalResult(LimeStruct::class.java)
-        assertHasAttribute(LimeAttributeType.BUILDER, result)
+        assertHasAttribute(LimeAttributeType.JAVA, LimeAttributeValueType.BUILDER, result)
     }
 
     @Test
@@ -308,7 +316,7 @@ class LimeModelBuilderTest {
         assertEquals("SomeField", result.name)
         assertEquals("the.model.SomeTypeCollection.SomeStruct.SomeField", result.fullName)
         assertEquals("some comment", result.comment)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result)
         assertEquals(limeTypeRef, result.typeRef)
     }
 
@@ -343,8 +351,8 @@ class LimeModelBuilderTest {
         modelBuilder.finishBuilding(francaField)
 
         val result = modelBuilder.getFinalResult(LimeField::class.java)
-        assertAttributeEquals("get_foo", LimeAttributeType.EXTERNAL_GETTER, result)
-        assertAttributeEquals("set_foo", LimeAttributeType.EXTERNAL_SETTER, result)
+        assertAttributeValueEquals("get_foo", CPP, EXTERNAL_GETTER, result)
+        assertAttributeValueEquals("set_foo", CPP, EXTERNAL_SETTER, result)
     }
 
     @Test
@@ -446,7 +454,7 @@ class LimeModelBuilderTest {
         assertEquals("SomeEnum", result.name)
         assertEquals("the.model.SomeTypeCollection.SomeEnum", result.fullName)
         assertEquals("some comment", result.comment)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result)
     }
 
     @Test
@@ -480,8 +488,8 @@ class LimeModelBuilderTest {
         modelBuilder.finishBuilding(francaEnumeration)
 
         val result = modelBuilder.getFinalResult(LimeEnumeration::class.java)
-        assertAttributeEquals("foo/Bar.h", LimeAttributeType.EXTERNAL_TYPE, result)
-        assertAttributeEquals("::foo::Bar", LimeAttributeType.EXTERNAL_NAME, result)
+        assertAttributeValueEquals("foo/Bar.h", CPP, EXTERNAL_TYPE, result)
+        assertAttributeValueEquals("::foo::Bar", CPP, EXTERNAL_NAME, result)
     }
 
     @Test
@@ -502,7 +510,7 @@ class LimeModelBuilderTest {
         assertEquals("SomeEnumItem", result.name)
         assertEquals("the.model.SomeTypeCollection.SomeEnum.SomeEnumItem", result.fullName)
         assertEquals("some comment", result.comment)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result)
     }
 
     @Test
@@ -610,7 +618,7 @@ class LimeModelBuilderTest {
         assertEquals("SomeConstant", result.name)
         assertEquals("the.model.SomeTypeCollection.SomeConstant", result.fullName)
         assertEquals("some comment", result.comment)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result)
         assertEquals(limeTypeRef, result.typeRef)
         assertEquals(limeValue, result.value)
     }
@@ -649,7 +657,7 @@ class LimeModelBuilderTest {
         assertEquals("SomeTypeDef", result.name)
         assertEquals("the.model.SomeTypeCollection.SomeTypeDef", result.fullName)
         assertEquals("some comment", result.comment)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result)
         assertEquals(limeTypeRef, result.typeRef)
     }
 
@@ -684,7 +692,7 @@ class LimeModelBuilderTest {
         assertEquals("SomeArray", result.name)
         assertEquals("the.model.SomeTypeCollection.SomeArray", result.fullName)
         assertEquals("some comment", result.comment)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result)
         assertEquals("[DOUBLE]", result.typeRef.elementFullName)
     }
 
@@ -721,7 +729,7 @@ class LimeModelBuilderTest {
         assertEquals("SomeMap", result.name)
         assertEquals("the.model.SomeTypeCollection.SomeMap", result.fullName)
         assertEquals("some comment", result.comment)
-        assertAttributeEquals("mostly deprecated", LimeAttributeType.DEPRECATED, result)
+        assertAttributeValueEquals("mostly deprecated", DEPRECATED, MESSAGE, result)
         assertEquals("[DOUBLE:STRING]", result.typeRef.elementFullName)
     }
 

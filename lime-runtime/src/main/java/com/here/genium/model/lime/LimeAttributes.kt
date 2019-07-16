@@ -20,23 +20,41 @@
 package com.here.genium.model.lime
 
 class LimeAttributes private constructor(
-    private val attributes: Map<LimeAttributeType, Any?>
+    private val attributes: Map<LimeAttributeType, Map<LimeAttributeValueType, Any>>
 ) {
-    fun have(type: LimeAttributeType): Boolean {
-        val value = attributes[type]
-        return (value is Boolean && value) || value != null
-    }
+    fun have(type: LimeAttributeType) = attributes[type] != null
 
-    fun <T> get(type: LimeAttributeType, clazz: Class<T>): T? {
-        val value = attributes[type]
+    fun have(attributeType: LimeAttributeType, valueType: LimeAttributeValueType) =
+        when (val value = attributes[attributeType]?.get(valueType)) {
+            is Boolean -> value
+            null -> false
+            else -> true
+        }
+
+    fun <T> get(
+        attributeType: LimeAttributeType,
+        valueType: LimeAttributeValueType,
+        clazz: Class<T>
+    ): T? {
+        val value = attributes[attributeType]?.get(valueType)
         return if (clazz.isInstance(value)) clazz.cast(value) else null
     }
 
     class Builder {
-        private val attributes = mutableMapOf<LimeAttributeType, Any?>()
+        private val attributes =
+            mutableMapOf<LimeAttributeType, MutableMap<LimeAttributeValueType, Any>>()
 
-        fun addAttribute(type: LimeAttributeType, value: Any? = true): Builder {
-            attributes[type] = value
+        fun addAttribute(type: LimeAttributeType): Builder {
+            attributes.putIfAbsent(type, mutableMapOf())
+            return this
+        }
+
+        fun addAttribute(
+            attributeType: LimeAttributeType,
+            valueType: LimeAttributeValueType,
+            value: Any? = true
+        ): Builder {
+            value?.let { attributes.getOrPut(attributeType, { mutableMapOf() })[valueType] = it }
             return this
         }
 

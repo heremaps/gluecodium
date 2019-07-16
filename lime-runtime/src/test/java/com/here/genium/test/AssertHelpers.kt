@@ -20,6 +20,7 @@
 package com.here.genium.test
 
 import com.here.genium.model.lime.LimeAttributeType
+import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeNamedElement
 import org.junit.Assert
 import org.junit.Assert.assertTrue
@@ -32,9 +33,19 @@ object AssertHelpers {
     fun assertHasAttribute(expected: LimeAttributeType, actual: LimeNamedElement) =
         assertTrue(actual.attributes.have(expected))
 
-    fun assertAttributeEquals(
+    fun assertHasAttribute(
+        expectedType: LimeAttributeType,
+        expectedValueType: LimeAttributeValueType,
+        actual: LimeNamedElement
+    ) = assertTrue(actual.attributes.have(expectedType, expectedValueType))
+
+    fun assertAttributeValueEquals(
         expectedValue: String,
         expectedType: LimeAttributeType,
+        expectedValueType: LimeAttributeValueType,
         actual: LimeNamedElement
-    ) = Assert.assertEquals(expectedValue, actual.attributes.get(expectedType, String::class.java))
+    ) = Assert.assertEquals(
+        expectedValue,
+        actual.attributes.get(expectedType, expectedValueType, String::class.java)
+    )
 }

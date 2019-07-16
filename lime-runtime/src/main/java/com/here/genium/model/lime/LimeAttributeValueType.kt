@@ -19,13 +19,15 @@
 
 package com.here.genium.model.lime
 
-enum class LimeAttributeType {
-    CPP,
-    JAVA,
-    SWIFT,
-    DEPRECATED,
-    EQUATABLE,
-    IMMUTABLE,
-    POINTER_EQUATABLE,
-    SERIALIZABLE
+enum class LimeAttributeValueType {
+    NAME,
+    BUILDER,
+    CONST,
+    LABEL,
+    OBJC,
+    MESSAGE,
+    EXTERNAL_TYPE,
+    EXTERNAL_NAME,
+    EXTERNAL_GETTER,
+    EXTERNAL_SETTER
 }
