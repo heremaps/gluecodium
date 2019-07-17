@@ -67,9 +67,9 @@ public interface DeprecationComments {
     @Deprecated
     boolean isSomeAttribute();
     /**
-     * Sets some very useful attribute.
-     * @deprecated Unfortunately, this attribute is deprecated.
-     * Use [comments.SomeAttribute] instead.
+     * <p>Sets some very useful attribute.</p>
+     * @deprecated <p>Unfortunately, this attribute is deprecated.
+     * Use {@link com.example.smoke.Comments#isSomeAttribute} instead.</p>
      */
     @Deprecated
     void setSomeAttribute(final boolean value);

@@ -84,7 +84,7 @@ virtual ::smoke::DeprecationComments::Usefulness is_some_attribute(  ) const = 0
 /**
  * Sets some very useful attribute.
  * \deprecated Unfortunately, this attribute is deprecated.
- * Use [comments.SomeAttribute] instead.
+ * Use ::smoke::Comments::is_some_attribute instead.
  */
 virtual void set_some_attribute( const ::smoke::DeprecationComments::Usefulness value ) = 0;
 };

@@ -388,6 +388,8 @@ class SwiftModelBuilder(
         property.comment = createComments(limeProperty)
 
         storeNamedResult(limeProperty, property)
+        referenceMap["${limeProperty.fullName}.get"] = property
+        referenceMap["${limeProperty.fullName}.set"] = property
         closeContext()
     }
 

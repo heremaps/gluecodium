@@ -14,9 +14,9 @@ generation.
 
 ### Documentation comments
 Comments included between `<** @description:` and `**>` markup are documentation comments and are
-fully reflected in the generated code. Some transformations are applied to these documentation
-comments. Most transformations just add documentation comments markup appropriate for the target
-language, as described below.
+fully reflected in the generated code. Markdown can be used for formatting. Some transformations are
+applied to these documentation comments. Most transformations just add documentation comments markup
+appropriate for the target language, as described below.
 
 ### Deprecation messages
 Comments included between `<** @deprecated:` and `**>` markup (can be combined with `@description`

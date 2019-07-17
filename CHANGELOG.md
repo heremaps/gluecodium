@@ -5,8 +5,10 @@
   + Deprecation messages are now supported for most elements.
   + Documentation references to `null` value are now replaced with `nil` in Swift.
   + Constants of struct types are now supported.
+  + Allow referencing getters/setters explicitly in comment links.
 - Bug fixes:
   + C++ default struct constructor zeros all non-defaulted elements now.
+  + Fix comment processing for setters.
 - Breaking changes:
   + Struct constructors that initialize "internal" fields are now also "internal" (Java, Swift).
 

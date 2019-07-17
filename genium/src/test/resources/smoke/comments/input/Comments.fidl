@@ -273,6 +273,8 @@ interface CommentsLinks {
     \* enum: [comments.SomeEnum]
     \* enum item: [comments.SomeEnum.Useful]
     \* attribute: [comments.SomeAttribute]
+    \* attribute setter: [comments.SomeAttribute.set]
+    \* attribute getter: [comments.SomeAttribute.get]
     \* method: [comments.instanceMethod]
     \* top level constant: [CommentsTypeCollection.TypeCollectionConstant]
     \* top level struct: [CommentsTypeCollection.TypeCollectionStruct]

@@ -88,7 +88,7 @@ public interface CommentsInterface {
      */
     boolean isSomeAttribute();
     /**
-     * Sets some very useful attribute.
+     * <p>Sets some very useful attribute.</p>
      */
     void setSomeAttribute(final boolean value);
 }

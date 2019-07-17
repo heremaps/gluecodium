@@ -265,6 +265,7 @@ class JavaModelBuilder(
         addDeprecatedAnnotationIfNeeded(getterMethod)
 
         storeNamedResult(limeProperty, getterMethod)
+        referenceMap["${limeProperty.fullName}.get"] = getterMethod
 
         val limeSetter = limeProperty.setter
         if (limeSetter != null) {
@@ -283,6 +284,7 @@ class JavaModelBuilder(
             addDeprecatedAnnotationIfNeeded(setterMethod)
 
             storeResult(setterMethod)
+            referenceMap["${limeProperty.fullName}.set"] = setterMethod
         }
 
         closeContext()

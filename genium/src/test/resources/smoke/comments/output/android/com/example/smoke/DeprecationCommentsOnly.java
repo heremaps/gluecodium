@@ -58,7 +58,7 @@ public interface DeprecationCommentsOnly {
     boolean isSomeAttribute();
     /**
      *
-     * @deprecated Unfortunately, this attribute is deprecated.
+     * @deprecated <p>Unfortunately, this attribute is deprecated.</p>
      */
     @Deprecated
     void setSomeAttribute(final boolean value);

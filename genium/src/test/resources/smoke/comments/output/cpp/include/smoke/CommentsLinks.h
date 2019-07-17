@@ -38,6 +38,8 @@ public:
  * * enum: ::smoke::Comments::SomeEnum
  * * enum item: ::smoke::Comments::SomeEnum::USEFUL
  * * attribute: ::smoke::Comments::is_some_attribute
+ * * attribute setter: ::smoke::Comments::set_some_attribute
+ * * attribute getter: ::smoke::Comments::is_some_attribute
  * * method: ::smoke::Comments::instance_method
  * * top level constant: ::smoke::TYPE_COLLECTION_CONSTANT
  * * top level struct: ::smoke::TypeCollectionStruct

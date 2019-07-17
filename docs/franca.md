@@ -72,8 +72,11 @@ FIDL:
 
 ### Comments
 
-Franca supports different kinds of comments, but Genium only processes `<** @description: ... **>` tag.
-The comment should be formatted in Markdown and links to other types can be added in the form `[package.Interface.method]`.
+Franca supports different kinds of comments, but Genium only processes `<** @description: ... **>`
+tag. The comment should be formatted in Markdown and links to other types can be added in the form
+`[package.Interface.method]`. For attributes the syntax `[AttributeName.set]` and
+`[AttributeName.get]` can be used to refer to setters/getters explicitly. Without suffix the
+reference will link to the getter in languages which have getters and setters.
 
 FIDL:
 
