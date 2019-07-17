@@ -52,7 +52,7 @@ class JavaTypeMapper(
     private val basePackage: JavaPackage,
     internalPackage: JavaPackage,
     val serializationBase: JavaType?,
-    private val notNullAnnotation: JavaType?,
+    private val nonNullAnnotation: JavaType?,
     private val nullableAnnotation: JavaType?,
     private val nameRules: JavaNameRules
 ) {
@@ -67,9 +67,8 @@ class JavaTypeMapper(
             if (nullableAnnotation != null) {
                 resultType.annotations.add(nullableAnnotation)
             }
-        }
-        if (notNullAnnotation != null && !isNullable && needsNotNullAnnotation(javaType)) {
-            resultType.annotations.add(notNullAnnotation)
+        } else if (nonNullAnnotation != null && javaType !is JavaPrimitiveType) {
+            resultType.annotations.add(nonNullAnnotation)
         }
 
         return resultType
@@ -218,9 +217,6 @@ class JavaTypeMapper(
             TypeId.DATE -> JavaReferenceType(JavaReferenceType.Type.DATE)
             TypeId.VOID -> JavaPrimitiveType.VOID
         }
-
-    private fun needsNotNullAnnotation(javaType: JavaType) =
-        javaType !is JavaPrimitiveType && javaType !is JavaArrayType
 
     companion object {
         private const val NATIVE_BASE_NAME = "NativeBase"

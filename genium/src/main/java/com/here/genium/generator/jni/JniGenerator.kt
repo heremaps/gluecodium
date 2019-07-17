@@ -69,7 +69,7 @@ class JniGenerator(
             basePackage = basePackage,
             internalPackage = internalPackage,
             serializationBase = if (enableAndroidFeatures) PARCELABLE else null,
-            notNullAnnotation = nonNullAnnotation,
+            nonNullAnnotation = nonNullAnnotation,
             nullableAnnotation = nullableAnnotation,
             nameRules = javaNameRules
         )

@@ -21,8 +21,6 @@ package com.here.genium.model.java;
 
 import static com.here.genium.model.java.JavaPrimitiveType.Type;
 
-import java.util.stream.Stream;
-
 public final class JavaArrayType extends JavaType {
 
   public static final JavaArrayType BYTE_ARRAY = new JavaArrayType(Type.BYTE);
@@ -39,10 +37,5 @@ public final class JavaArrayType extends JavaType {
   public JavaArrayType(final Type type) {
     super(type.getValue() + "[]");
     this.type = type;
-  }
-
-  @Override
-  public Stream<JavaElement> stream() {
-    return Stream.empty();
   }
 }

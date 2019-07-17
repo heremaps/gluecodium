@@ -54,7 +54,7 @@ class JavaTypeMapperTest {
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
     private val limeTypeRef = LimeLazyTypeRef("foo", limeReferenceMap)
 
-    private val notNullAnnotation = object : JavaType("Foo") {}
+    private val nonNullAnnotation = object : JavaType("Foo") {}
     private val nullableAnnotation = object : JavaType("Bar") {}
     private val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().javaNameRules)
     private val nameRules = JavaNameRules(nameRuleSet)
@@ -64,7 +64,7 @@ class JavaTypeMapperTest {
         JavaPackage.DEFAULT,
         JavaPackage(listOf("foo", "bar", "baz")),
         serializationBase = null,
-        notNullAnnotation = notNullAnnotation,
+        nonNullAnnotation = nonNullAnnotation,
         nullableAnnotation = nullableAnnotation,
         nameRules = nameRules
     )
@@ -106,7 +106,7 @@ class JavaTypeMapperTest {
             JavaPackage.DEFAULT,
             JavaPackage(listOf("foo", "bar", "baz")),
             serializationBase = null,
-            notNullAnnotation = null,
+            nonNullAnnotation = null,
             nullableAnnotation = null,
             nameRules = nameRules
         )
@@ -125,7 +125,7 @@ class JavaTypeMapperTest {
         val result = typeMapper.applyNullability(javaType, false)
 
         assertEquals(javaType, result)
-        assertContains(notNullAnnotation, result.annotations)
+        assertContains(nonNullAnnotation, result.annotations)
     }
 
     @Test

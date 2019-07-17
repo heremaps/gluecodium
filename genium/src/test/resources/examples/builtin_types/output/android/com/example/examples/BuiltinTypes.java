@@ -2,9 +2,8 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.examples;
-
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public class BuiltinTypes extends NativeBase {
     /**
@@ -31,6 +30,7 @@ public class BuiltinTypes extends NativeBase {
     public static native boolean methodWithBoolean(final boolean inputCondition);
     public static native float methodWithFloat(final float inputNumber);
     public static native double methodWithDouble(final double inputNumber);
-    public static native byte[] methodWithByteBuffer(final byte[] inputBuffer);
+    @NonNull
+    public static native byte[] methodWithByteBuffer(@NonNull final byte[] inputBuffer);
     public static native double methodWithFloatAndInteger(final float inputFloat, final int inputInteger);
 }

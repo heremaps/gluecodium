@@ -67,10 +67,11 @@ public class Structs extends NativeBase {
         @NonNull
         public final String stringField;
         public final boolean booleanField;
+        @NonNull
         public final byte[] bytesField;
         @NonNull
         public final Structs.Point pointField;
-        public AllTypesStruct(final byte int8Field, final short uint8Field, final short int16Field, final int uint16Field, final int int32Field, final long uint32Field, final long int64Field, final long uint64Field, final float floatField, final double doubleField, @NonNull final String stringField, final boolean booleanField, final byte[] bytesField, @NonNull final Structs.Point pointField) {
+        public AllTypesStruct(final byte int8Field, final short uint8Field, final short int16Field, final int uint16Field, final int int32Field, final long uint32Field, final long int64Field, final long uint64Field, final float floatField, final double doubleField, @NonNull final String stringField, final boolean booleanField, @NonNull final byte[] bytesField, @NonNull final Structs.Point pointField) {
             this.int8Field = int8Field;
             this.uint8Field = uint8Field;
             this.int16Field = int16Field;

@@ -42,8 +42,9 @@ public class Arrays extends NativeBase {
         public List<String> messages;
         @NonNull
         public List<Short> numbers;
+        @NonNull
         public byte[] image;
-        public FancyStruct(@NonNull final List<String> messages, @NonNull final List<Short> numbers, final byte[] image) {
+        public FancyStruct(@NonNull final List<String> messages, @NonNull final List<Short> numbers, @NonNull final byte[] image) {
             this.messages = messages;
             this.numbers = numbers;
             this.image = image;
@@ -78,7 +79,8 @@ public class Arrays extends NativeBase {
     public static native List<String> methodWithArrayOfAliases(@NonNull final List<String> input);
     @NonNull
     public static native List<Map<Integer, String>> methodWithArrayOfMaps(@NonNull final List<Map<Integer, String>> input);
-    public static native byte[] methodWithByteBuffer(final byte[] input);
+    @NonNull
+    public static native byte[] methodWithByteBuffer(@NonNull final byte[] input);
     @NonNull
     public static native List<Arrays.SomeEnum> methodWithEnumArray(@NonNull final List<Arrays.SomeEnum> input);
     @NonNull

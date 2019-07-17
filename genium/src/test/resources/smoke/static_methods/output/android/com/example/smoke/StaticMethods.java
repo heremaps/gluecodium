@@ -21,9 +21,12 @@ public class StaticMethods extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     public static native boolean returnInvertedBoolean(final boolean input);
     public static native boolean returnAndBoolean(final boolean input1, final boolean input2);
-    public static native byte[] returnInputByteBuffer(final byte[] inputBuffer);
-    public static native byte[] returnReverseByteBuffer(final byte[] inputBuffer);
-    public static native byte[] concatenateByteBuffers(final byte[] input1, final byte[] input2);
+    @NonNull
+    public static native byte[] returnInputByteBuffer(@NonNull final byte[] inputBuffer);
+    @NonNull
+    public static native byte[] returnReverseByteBuffer(@NonNull final byte[] inputBuffer);
+    @NonNull
+    public static native byte[] concatenateByteBuffers(@NonNull final byte[] input1, @NonNull final byte[] input2);
     public static native float returnFloat(final float inputNumber);
     public static native float returnIncrementedFloat(final float inputNumber);
     public static native float sumTwoFloats(final float inputNumber1, final float inputNumber2);
