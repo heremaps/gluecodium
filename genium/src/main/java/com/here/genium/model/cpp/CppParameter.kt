@@ -28,6 +28,5 @@ class CppParameter(
 ) : CppTypedElement(name, type = type) {
     override fun stream() = Stream.of(type)
 
-    @Suppress("unused")
     fun hasComment() = isNotNull || !comment.isEmpty
 }

@@ -75,6 +75,8 @@ public class CommentsLinks extends NativeBase {
      * <li>input parameter: [inputParameter]</li>
      * <li>output parameter: [outputParameter]</li>
      * </ul>
+     * @param inputParameter
+     * @return
      * @throws CommentsLinks.TooUsefulException
      */
     @NonNull

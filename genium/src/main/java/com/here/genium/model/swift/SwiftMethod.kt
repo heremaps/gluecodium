@@ -47,6 +47,10 @@ class SwiftMethod(
     @Suppress("unused")
     val isReturningVoid = returnType == SwiftType.VOID
 
+    @Suppress("unused")
+    val hasComment
+        get() = !comment.isEmpty || !returnComment.isNullOrBlank() || parameters.any { !it.comment.isEmpty }
+
     // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
     @Suppress("unused")
     fun getcBaseName() = NameHelper.joinNames(

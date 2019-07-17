@@ -88,17 +88,21 @@ public class Comments {
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
+    /// - Returns:
     public func someMethodWithInputComments(input: String) -> Comments.Usefulness {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Comments_someMethodWithInputComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that measures the usefulness of its input.
+    /// - Parameter input:
     /// - Returns: Usefulness of the input
     public func someMethodWithOutputComments(input: String) -> Comments.Usefulness {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Comments_someMethodWithOutputComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that measures the usefulness of its input.
+    /// - Parameter input:
+    /// - Returns:
     public func someMethodWithNoComments(input: String) -> Comments.Usefulness {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Comments_someMethodWithNoComments(self.c_instance, c_input.ref))
@@ -110,6 +114,7 @@ public class Comments {
         return moveFromCType(smoke_Comments_someMethodWithoutReturnTypeWithAllComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that does not measure the usefulness of its input.
+    /// - Parameter input:
     public func someMethodWithoutReturnTypeWithNoComments(input: String) -> Void {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Comments_someMethodWithoutReturnTypeWithNoComments(self.c_instance, c_input.ref))
@@ -120,6 +125,7 @@ public class Comments {
         return moveFromCType(smoke_Comments_someMethodWithoutInputParametersWithAllComments(self.c_instance))
     }
     /// This is some very useful method that measures the usefulness of something.
+    /// - Returns:
     public func someMethodWithoutInputParametersWithNoComments() -> Comments.Usefulness {
         return moveFromCType(smoke_Comments_someMethodWithoutInputParametersWithNoComments(self.c_instance))
     }
@@ -136,6 +142,23 @@ public class Comments {
     public func instanceMethod(input: CommentsInstantiable) -> CommentsInstantiable {
         let c_input = moveToCType(input)
         return CommentsInstantiablemoveFromCType(smoke_Comments_instanceMethod(self.c_instance, c_input.ref))
+    }
+    ///
+    /// - Parameters:
+    ///   - undocumented:
+    ///   - documented: nicely documented
+    /// - Returns:
+    public func oneParameterCommentOnly(undocumented: String, documented: String) -> String {
+        let c_undocumented = moveToCType(undocumented)
+        let c_documented = moveToCType(documented)
+        return moveFromCType(smoke_Comments_oneParameterCommentOnly(self.c_instance, c_undocumented.ref, c_documented.ref))
+    }
+    ///
+    /// - Parameter undocumented:
+    /// - Returns: nicely documented
+    public func returnCommentOnly(undocumented: String) -> String {
+        let c_undocumented = moveToCType(undocumented)
+        return moveFromCType(smoke_Comments_returnCommentOnly(self.c_instance, c_undocumented.ref))
     }
 }
 extension Comments: NativeBase {

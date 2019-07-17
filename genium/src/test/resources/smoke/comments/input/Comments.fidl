@@ -152,6 +152,27 @@ interface comments {
         }
     }
 
+    method oneParameterCommentOnly {
+        in {
+            String undocumented
+            <** @description: nicely documented **>
+            String documented
+        }
+        out {
+            String alsoUndocumented
+        }
+    }
+
+    method returnCommentOnly {
+        in {
+            String undocumented
+        }
+        out {
+            <** @description: nicely documented **>
+            String documented
+        }
+    }
+
     <** @description: Some very useful attribute. **>
     attribute CommentsInstantiable.CommentsInstantiable instanceAttribute
 }

@@ -49,15 +49,19 @@ public interface CommentsInterface {
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
      * @param input Very useful input parameter
+     * @return
      */
     boolean someMethodWithInputComments(final String input);
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
+     * @param input
      * @return Usefulness of the input
      */
     boolean someMethodWithOutputComments(final String input);
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
+     * @param input
+     * @return
      */
     boolean someMethodWithNoComments(final String input);
     /**
@@ -67,6 +71,7 @@ public interface CommentsInterface {
     void someMethodWithoutReturnTypeWithAllComments(final String input);
     /**
      * <p>This is some very useful method that does not measure the usefulness of its input.</p>
+     * @param input
      */
     void someMethodWithoutReturnTypeWithNoComments(final String input);
     /**
@@ -76,6 +81,7 @@ public interface CommentsInterface {
     boolean someMethodWithoutInputParametersWithAllComments();
     /**
      * <p>This is some very useful method that measures the usefulness of something.</p>
+     * @return
      */
     boolean someMethodWithoutInputParametersWithNoComments();
     void someMethodWithNothing();
@@ -85,10 +91,12 @@ public interface CommentsInterface {
     void someMethodWithoutReturnTypeOrInputParameters();
     /**
      * <p>Gets some very useful attribute.</p>
+     * @return
      */
     boolean isSomeAttribute();
     /**
      * <p>Sets some very useful attribute.</p>
+     * @param value
      */
     void setSomeAttribute(final boolean value);
 }

@@ -58,8 +58,10 @@ class CppMethod(
         hasReturnComment() ||
         parameters.stream().anyMatch(CppParameter::hasComment)
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun hasReturnComment() = !returnComment.isNullOrEmpty() || isNotNull
+    private fun hasReturnComment() = !returnComment.isNullOrEmpty() || isNotNull
+
+    @Suppress("unused")
+    val isReturningVoid = returnType == CppPrimitiveTypeRef.VOID
 
     override fun stream() = Stream.concat(Stream.of(returnType), parameters.stream())
 

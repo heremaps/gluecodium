@@ -62,6 +62,8 @@ public class CommentsLinks {
     /// * error: [TooUsefulException]
     /// * input parameter: [inputParameter]
     /// * output parameter: [outputParameter]
+    /// - Parameter inputParameter:
+    /// - Returns:
     /// - Throws: CommentsLinks.TooUseful
     public func randomMethod(inputParameter: Comments.SomeEnum) throws -> Comments.SomeEnum {
         let c_inputParameter = moveToCType(inputParameter)

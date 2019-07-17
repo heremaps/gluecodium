@@ -63,11 +63,13 @@ virtual ::smoke::DeprecationCommentsOnly::Usefulness some_method_with_all_commen
 /**
  *
  * \deprecated Unfortunately, this attribute is deprecated.
+ * \return
  */
 virtual ::smoke::DeprecationCommentsOnly::Usefulness is_some_attribute(  ) const = 0;
 /**
  *
  * \deprecated Unfortunately, this attribute is deprecated.
+ * \param[in] value
  */
 virtual void set_some_attribute( const ::smoke::DeprecationCommentsOnly::Usefulness value ) = 0;
 };

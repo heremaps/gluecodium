@@ -86,21 +86,27 @@ public protocol CommentsInterface : AnyObject {
     func someMethodWithAllComments(input: String) -> CommentsInterface.Usefulness
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
+    /// - Returns:
     func someMethodWithInputComments(input: String) -> CommentsInterface.Usefulness
     /// This is some very useful method that measures the usefulness of its input.
+    /// - Parameter input:
     /// - Returns: Usefulness of the input
     func someMethodWithOutputComments(input: String) -> CommentsInterface.Usefulness
     /// This is some very useful method that measures the usefulness of its input.
+    /// - Parameter input:
+    /// - Returns:
     func someMethodWithNoComments(input: String) -> CommentsInterface.Usefulness
     /// This is some very useful method that does not measure the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     func someMethodWithoutReturnTypeWithAllComments(input: String) -> Void
     /// This is some very useful method that does not measure the usefulness of its input.
+    /// - Parameter input:
     func someMethodWithoutReturnTypeWithNoComments(input: String) -> Void
     /// This is some very useful method that measures the usefulness of something.
     /// - Returns: Usefulness of the input
     func someMethodWithoutInputParametersWithAllComments() -> CommentsInterface.Usefulness
     /// This is some very useful method that measures the usefulness of something.
+    /// - Returns:
     func someMethodWithoutInputParametersWithNoComments() -> CommentsInterface.Usefulness
     func someMethodWithNothing() -> Void
     /// This is some very useful method that does nothing.
@@ -138,17 +144,21 @@ internal class _CommentsInterface: CommentsInterface {
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
+    /// - Returns:
     public func someMethodWithInputComments(input: String) -> CommentsInterface.Usefulness {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_CommentsInterface_someMethodWithInputComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that measures the usefulness of its input.
+    /// - Parameter input:
     /// - Returns: Usefulness of the input
     public func someMethodWithOutputComments(input: String) -> CommentsInterface.Usefulness {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_CommentsInterface_someMethodWithOutputComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that measures the usefulness of its input.
+    /// - Parameter input:
+    /// - Returns:
     public func someMethodWithNoComments(input: String) -> CommentsInterface.Usefulness {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_CommentsInterface_someMethodWithNoComments(self.c_instance, c_input.ref))
@@ -160,6 +170,7 @@ internal class _CommentsInterface: CommentsInterface {
         return moveFromCType(smoke_CommentsInterface_someMethodWithoutReturnTypeWithAllComments(self.c_instance, c_input.ref))
     }
     /// This is some very useful method that does not measure the usefulness of its input.
+    /// - Parameter input:
     public func someMethodWithoutReturnTypeWithNoComments(input: String) -> Void {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_CommentsInterface_someMethodWithoutReturnTypeWithNoComments(self.c_instance, c_input.ref))
@@ -170,6 +181,7 @@ internal class _CommentsInterface: CommentsInterface {
         return moveFromCType(smoke_CommentsInterface_someMethodWithoutInputParametersWithAllComments(self.c_instance))
     }
     /// This is some very useful method that measures the usefulness of something.
+    /// - Returns:
     public func someMethodWithoutInputParametersWithNoComments() -> CommentsInterface.Usefulness {
         return moveFromCType(smoke_CommentsInterface_someMethodWithoutInputParametersWithNoComments(self.c_instance))
     }

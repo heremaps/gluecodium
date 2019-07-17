@@ -23,6 +23,7 @@ public:
 virtual ::smoke::fooStruct FooMethod( const ::std::string& FooParameter ) = 0;
 /**
  *
+ * \param[in] makeParameter
  * \return @NotNull
  */
 static ::std::shared_ptr< ::smoke::fooInterface > make( const ::std::string& makeParameter );

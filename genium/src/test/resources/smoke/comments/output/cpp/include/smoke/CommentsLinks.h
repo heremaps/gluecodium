@@ -60,6 +60,8 @@ public:
  * * error: [TooUsefulException]
  * * input parameter: [inputParameter]
  * * output parameter: [outputParameter]
+ * \param[in] input_parameter
+ * \return
  * \retval ::smoke::CommentsLinks::TooUseful
  */
 virtual ::genium::Return< ::smoke::Comments::SomeEnum, ::std::error_code > random_method( const ::smoke::Comments::SomeEnum input_parameter ) = 0;

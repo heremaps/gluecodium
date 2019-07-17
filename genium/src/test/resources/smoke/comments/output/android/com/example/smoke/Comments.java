@@ -79,15 +79,19 @@ public class Comments extends NativeBase {
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
      * @param input Very useful input parameter
+     * @return
      */
     public native boolean someMethodWithInputComments(final String input);
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
+     * @param input
      * @return Usefulness of the input
      */
     public native boolean someMethodWithOutputComments(final String input);
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
+     * @param input
+     * @return
      */
     public native boolean someMethodWithNoComments(final String input);
     /**
@@ -97,6 +101,7 @@ public class Comments extends NativeBase {
     public native void someMethodWithoutReturnTypeWithAllComments(final String input);
     /**
      * <p>This is some very useful method that does not measure the usefulness of its input.</p>
+     * @param input
      */
     public native void someMethodWithoutReturnTypeWithNoComments(final String input);
     /**
@@ -106,6 +111,7 @@ public class Comments extends NativeBase {
     public native boolean someMethodWithoutInputParametersWithAllComments();
     /**
      * <p>This is some very useful method that measures the usefulness of something.</p>
+     * @return
      */
     public native boolean someMethodWithoutInputParametersWithNoComments();
     public native void someMethodWithNothing();
@@ -121,20 +127,37 @@ public class Comments extends NativeBase {
     @NonNull
     public native CommentsInstantiable instanceMethod(@NonNull final CommentsInstantiable input);
     /**
+     *
+     * @param undocumented
+     * @param documented nicely documented
+     * @return
+     */
+    public native String oneParameterCommentOnly(final String undocumented, final String documented);
+    /**
+     *
+     * @param undocumented
+     * @return nicely documented
+     */
+    public native String returnCommentOnly(final String undocumented);
+    /**
      * <p>Gets some very useful attribute.</p>
+     * @return
      */
     public native boolean isSomeAttribute();
     /**
      * <p>Sets some very useful attribute.</p>
+     * @param value
      */
     public native void setSomeAttribute(final boolean value);
     /**
      * <p>Gets some very useful attribute.</p>
+     * @return
      */
     @NonNull
     public native CommentsInstantiable getInstanceAttribute();
     /**
      * <p>Sets some very useful attribute.</p>
+     * @param value
      */
     public native void setInstanceAttribute(@NonNull final CommentsInstantiable value);
 }

@@ -63,6 +63,7 @@ public interface DeprecationComments {
      * <p>Gets some very useful attribute.</p>
      * @deprecated <p>Unfortunately, this attribute is deprecated.
      * Use {@link com.example.smoke.Comments#isSomeAttribute} instead.</p>
+     * @return
      */
     @Deprecated
     boolean isSomeAttribute();
@@ -70,6 +71,7 @@ public interface DeprecationComments {
      * <p>Sets some very useful attribute.</p>
      * @deprecated <p>Unfortunately, this attribute is deprecated.
      * Use {@link com.example.smoke.Comments#isSomeAttribute} instead.</p>
+     * @param value
      */
     @Deprecated
     void setSomeAttribute(final boolean value);

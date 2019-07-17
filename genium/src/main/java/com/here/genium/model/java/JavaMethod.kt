@@ -48,6 +48,13 @@ class JavaMethod(
     val allAnnotations
         get() = returnType.annotations + annotations
 
+    @Suppress("unused")
+    val isReturningVoid = returnType == JavaPrimitiveType.VOID
+
+    @Suppress("unused")
+    val hasComment: Boolean
+        get() = !comment.isEmpty || !returnComment.isNullOrBlank() || parameters.any { !it.comment.isEmpty }
+
     enum class MethodQualifier constructor(private val value: String) {
         STATIC("static"),
         NATIVE("native");

@@ -82,15 +82,19 @@ virtual ::genium::Return< ::smoke::Comments::Usefulness, ::std::error_code > som
 /**
  * This is some very useful method that measures the usefulness of its input.
  * \param[in] input Very useful input parameter
+ * \return
  */
 virtual ::smoke::Comments::Usefulness some_method_with_input_comments( const ::std::string& input ) = 0;
 /**
  * This is some very useful method that measures the usefulness of its input.
+ * \param[in] input
  * \return Usefulness of the input
  */
 virtual ::smoke::Comments::Usefulness some_method_with_output_comments( const ::std::string& input ) = 0;
 /**
  * This is some very useful method that measures the usefulness of its input.
+ * \param[in] input
+ * \return
  */
 virtual ::smoke::Comments::Usefulness some_method_with_no_comments( const ::std::string& input ) = 0;
 /**
@@ -100,6 +104,7 @@ virtual ::smoke::Comments::Usefulness some_method_with_no_comments( const ::std:
 virtual void some_method_without_return_type_with_all_comments( const ::std::string& input ) = 0;
 /**
  * This is some very useful method that does not measure the usefulness of its input.
+ * \param[in] input
  */
 virtual void some_method_without_return_type_with_no_comments( const ::std::string& input ) = 0;
 /**
@@ -109,6 +114,7 @@ virtual void some_method_without_return_type_with_no_comments( const ::std::stri
 virtual ::smoke::Comments::Usefulness some_method_without_input_parameters_with_all_comments(  ) = 0;
 /**
  * This is some very useful method that measures the usefulness of something.
+ * \return
  */
 virtual ::smoke::Comments::Usefulness some_method_without_input_parameters_with_no_comments(  ) = 0;
 virtual void some_method_with_nothing(  ) = 0;
@@ -123,11 +129,26 @@ virtual void some_method_without_return_type_or_input_parameters(  ) = 0;
  */
 virtual ::std::shared_ptr< ::smoke::CommentsInstantiable > instance_method( const ::std::shared_ptr< ::smoke::CommentsInstantiable >& input ) = 0;
 /**
+ *
+ * \param[in] undocumented
+ * \param[in] documented nicely documented
+ * \return
+ */
+virtual ::std::string one_parameter_comment_only( const ::std::string& undocumented, const ::std::string& documented ) = 0;
+/**
+ *
+ * \param[in] undocumented
+ * \return nicely documented
+ */
+virtual ::std::string return_comment_only( const ::std::string& undocumented ) = 0;
+/**
  * Gets some very useful attribute.
+ * \return
  */
 virtual ::smoke::Comments::Usefulness is_some_attribute(  ) const = 0;
 /**
  * Sets some very useful attribute.
+ * \param[in] value
  */
 virtual void set_some_attribute( const ::smoke::Comments::Usefulness value ) = 0;
 /**

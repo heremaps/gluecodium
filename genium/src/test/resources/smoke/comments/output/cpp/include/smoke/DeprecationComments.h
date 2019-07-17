@@ -79,12 +79,14 @@ virtual ::smoke::DeprecationComments::Usefulness some_method_with_all_comments( 
  * Gets some very useful attribute.
  * \deprecated Unfortunately, this attribute is deprecated.
  * Use ::smoke::Comments::is_some_attribute instead.
+ * \return
  */
 virtual ::smoke::DeprecationComments::Usefulness is_some_attribute(  ) const = 0;
 /**
  * Sets some very useful attribute.
  * \deprecated Unfortunately, this attribute is deprecated.
  * Use ::smoke::Comments::is_some_attribute instead.
+ * \param[in] value
  */
 virtual void set_some_attribute( const ::smoke::DeprecationComments::Usefulness value ) = 0;
 };

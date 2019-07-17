@@ -40,17 +40,21 @@ static ::std::shared_ptr< ::smoke::Constructors > create(  );
 static ::std::shared_ptr< ::smoke::Constructors > create( const ::std::shared_ptr< ::smoke::Constructors >& other );
 /**
  *
+ * \param[in] foo
+ * \param[in] bar
  * \return @NotNull
  */
 static ::std::shared_ptr< ::smoke::Constructors > create( const ::std::string& foo, const uint64_t bar );
 /**
  *
+ * \param[in] input
  * \return @NotNull
  * \retval ::smoke::Constructors::ErrorEnum
  */
 static ::genium::Return< ::std::shared_ptr< ::smoke::Constructors >, ::std::error_code > create( const ::std::string& input );
 /**
  *
+ * \param[in] input
  * \return @NotNull
  */
 static ::std::shared_ptr< ::smoke::Constructors > create( const ::std::vector< double >& input );

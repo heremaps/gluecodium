@@ -27,10 +27,10 @@
 
 }}{{+combinedComment}}{{comment.documentation}}{{#if comment.deprecated}}
 \deprecated {{comment.deprecated}}{{/if}}{{!!
-}}{{#parameters}}{{#if hasComment}}
-\param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{prefix this.comment.documentation "    " skipFirstLine=true}}{{/if}}{{/parameters}}{{!!
-}}{{#if hasReturnComment}}
-\return {{#if isNotNull}}@NotNull {{/if}}{{prefix returnComment "    " skipFirstLine=true}}{{/if}}{{!!
+}}{{#parameters}}
+\param[in] {{name}} {{#if isNotNull}}@NotNull {{/if}}{{prefix this.comment.documentation "    " skipFirstLine=true}}{{/parameters}}{{!!
+}}{{#unless isReturningVoid}}
+\return {{#if isNotNull}}@NotNull {{/if}}{{prefix returnComment "    " skipFirstLine=true}}{{/unless}}{{!!
 }}{{#if errorEnumName}}
 \retval {{errorEnumName}}{{/if}}{{!!
 }}{{/combinedComment}}
