@@ -10,14 +10,14 @@ import java.util.Map;
 public class Maps extends NativeBase {
     public static class SomeStruct {
         public String value;
-        public SomeStruct(String value) {
+        public SomeStruct(final String value) {
             this.value = value;
         }
     }
     public static class StructWithMap {
         @NonNull
         public Map<Integer, String> errorMapping;
-        public StructWithMap(Map<Integer, String> errorMapping) {
+        public StructWithMap(@NonNull final Map<Integer, String> errorMapping) {
             this.errorMapping = errorMapping;
         }
     }

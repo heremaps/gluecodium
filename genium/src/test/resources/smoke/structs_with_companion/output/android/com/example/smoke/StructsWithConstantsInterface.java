@@ -14,7 +14,7 @@ public class StructsWithConstantsInterface extends NativeBase {
         public List<String> descriptions;
         @NonNull
         public RouteType type;
-        public MultiRoute(List<String> descriptions, RouteType type) {
+        public MultiRoute(@NonNull final List<String> descriptions, @NonNull final RouteType type) {
             this.descriptions = descriptions;
             this.type = type;
         }

@@ -53,13 +53,13 @@
 {{/if}}
 {{#if fields}}{{#unless constructors}}
     {{#if freeArgsConstructorVisibility.toString}}{{freeArgsConstructorVisibility}} {{/if}}{{name}}{{!!
-    }}({{#uninitializedFields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}) {
+    }}({{joinPartial uninitializedFields "java/Parameter" ", "}}) {
 {{#fields}}        this.{{name}} = {{#if initial.isCustom}}{{initial.name}}{{/if}}{{#unless initial.isCustom}}{{name}}{{/unless}};
 {{/fields}}
     }{{#if hasDefaults}}
 
     {{#if allArgsConstructorVisibility.toString}}{{allArgsConstructorVisibility}} {{/if}}{{name}}{{!!
-    }}({{#fields}}{{type}} {{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
+    }}({{joinPartial fields "java/Parameter" ", "}}) {
 {{#fields}}        this.{{name}} = {{name}};
 {{/fields}}
     }{{/if}}

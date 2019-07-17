@@ -26,13 +26,13 @@ public class Arrays extends NativeBase {
     }
     public static class BasicStruct {
         public double value;
-        public BasicStruct(double value) {
+        public BasicStruct(final double value) {
             this.value = value;
         }
     }
     public static class ExternalStruct {
         public String string;
-        public ExternalStruct(String string) {
+        public ExternalStruct(final String string) {
             this.string = string;
         }
     }
@@ -42,7 +42,7 @@ public class Arrays extends NativeBase {
         @NonNull
         public List<Short> numbers;
         public byte[] image;
-        public FancyStruct(List<String> messages, List<Short> numbers, byte[] image) {
+        public FancyStruct(@NonNull final List<String> messages, @NonNull final List<Short> numbers, final byte[] image) {
             this.messages = messages;
             this.numbers = numbers;
             this.image = image;

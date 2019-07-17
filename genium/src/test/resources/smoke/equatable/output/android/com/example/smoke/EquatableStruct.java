@@ -21,7 +21,7 @@ public class EquatableStruct {
     public List<String> arrayField;
     @NonNull
     public Map<Integer, String> mapField;
-    public EquatableStruct(boolean boolField, int intField, long longField, float floatField, double doubleField, String stringField, NestedEquatableStruct structField, SomeEnum enumField, List<String> arrayField, Map<Integer, String> mapField) {
+    public EquatableStruct(final boolean boolField, final int intField, final long longField, final float floatField, final double doubleField, final String stringField, @NonNull final NestedEquatableStruct structField, @NonNull final SomeEnum enumField, @NonNull final List<String> arrayField, @NonNull final Map<Integer, String> mapField) {
         this.boolField = boolField;
         this.intField = intField;
         this.longField = longField;

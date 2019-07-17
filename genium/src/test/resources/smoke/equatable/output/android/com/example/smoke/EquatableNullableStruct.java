@@ -25,7 +25,7 @@ public class EquatableNullableStruct {
     public List<String> arrayField;
     @Nullable
     public Map<Integer, String> mapField;
-    public EquatableNullableStruct(Boolean boolField, Integer intField, Integer uintField, Float floatField, String stringField, NestedEquatableStruct structField, SomeEnum enumField, List<String> arrayField, Map<Integer, String> mapField) {
+    public EquatableNullableStruct(@Nullable final Boolean boolField, @Nullable final Integer intField, @Nullable final Integer uintField, @Nullable final Float floatField, @Nullable final String stringField, @Nullable final NestedEquatableStruct structField, @Nullable final SomeEnum enumField, @Nullable final List<String> arrayField, @Nullable final Map<Integer, String> mapField) {
         this.boolField = boolField;
         this.intField = intField;
         this.uintField = uintField;

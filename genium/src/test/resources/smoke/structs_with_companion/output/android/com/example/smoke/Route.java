@@ -10,7 +10,7 @@ public class Route {
     public String description;
     @NonNull
     public RouteType type;
-    public Route(String description, RouteType type) {
+    public Route(final String description, @NonNull final RouteType type) {
         this.description = description;
         this.type = type;
     }

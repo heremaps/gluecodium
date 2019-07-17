@@ -38,7 +38,7 @@ public interface DeprecationCommentsOnly {
          */
         @Deprecated
         public boolean someField;
-        public SomeStruct(boolean someField) {
+        public SomeStruct(@Deprecated final boolean someField) {
             this.someField = someField;
         }
     }

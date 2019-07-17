@@ -17,7 +17,7 @@ public class Attributes extends NativeBase {
     }
     public static class ExampleStruct {
         public double value;
-        public ExampleStruct(double value) {
+        public ExampleStruct(final double value) {
             this.value = value;
         }
     }

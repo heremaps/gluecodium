@@ -10,7 +10,7 @@ public class Arrays extends NativeBase {
     public static class SyncResult {
         public long lastUpdatedTimeStamp;
         public long numberOfChanges;
-        public SyncResult(long lastUpdatedTimeStamp, long numberOfChanges) {
+        public SyncResult(final long lastUpdatedTimeStamp, final long numberOfChanges) {
             this.lastUpdatedTimeStamp = lastUpdatedTimeStamp;
             this.numberOfChanges = numberOfChanges;
         }

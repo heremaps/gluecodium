@@ -9,7 +9,7 @@ public class Structs extends NativeBase {
     public static class SyncResult {
         public long lastUpdatedTimeStamp;
         public long numberOfChanges;
-        public SyncResult(long lastUpdatedTimeStamp, long numberOfChanges) {
+        public SyncResult(final long lastUpdatedTimeStamp, final long numberOfChanges) {
             this.lastUpdatedTimeStamp = lastUpdatedTimeStamp;
             this.numberOfChanges = numberOfChanges;
         }
@@ -18,7 +18,7 @@ public class Structs extends NativeBase {
         public int id;
         @NonNull
         public Structs.SyncResult syncResult;
-        public IdentifiableSyncResult(int id, Structs.SyncResult syncResult) {
+        public IdentifiableSyncResult(final int id, @NonNull final Structs.SyncResult syncResult) {
             this.id = id;
             this.syncResult = syncResult;
         }
@@ -26,7 +26,7 @@ public class Structs extends NativeBase {
     public static class ImmutableSyncResult {
         public final long lastUpdatedTimeStamp;
         public final long numberOfChanges;
-        public ImmutableSyncResult(long lastUpdatedTimeStamp, long numberOfChanges) {
+        public ImmutableSyncResult(final long lastUpdatedTimeStamp, final long numberOfChanges) {
             this.lastUpdatedTimeStamp = lastUpdatedTimeStamp;
             this.numberOfChanges = numberOfChanges;
         }

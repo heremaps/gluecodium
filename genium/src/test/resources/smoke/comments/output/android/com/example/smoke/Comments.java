@@ -51,7 +51,7 @@ public class Comments extends NativeBase {
          */
         @Nullable
         public String nullableField;
-        public SomeStruct(boolean someField, String nullableField) {
+        public SomeStruct(final boolean someField, @Nullable final String nullableField) {
             this.someField = someField;
             this.nullableField = nullableField;
         }

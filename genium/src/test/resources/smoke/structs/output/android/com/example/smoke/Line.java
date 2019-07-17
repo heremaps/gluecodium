@@ -9,7 +9,7 @@ public class Line {
     public Point a;
     @NonNull
     public Point b;
-    public Line(Point a, Point b) {
+    public Line(@NonNull final Point a, @NonNull final Point b) {
         this.a = a;
         this.b = b;
     }

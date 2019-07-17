@@ -5,7 +5,7 @@
 package com.example.smoke;
 class InternalStruct {
     String stringField;
-    InternalStruct(String stringField) {
+    InternalStruct(final String stringField) {
         this.stringField = stringField;
     }
 }

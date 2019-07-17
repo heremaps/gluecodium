@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 public interface InterfaceWithStruct {
     public static class InnerStruct {
         public byte value;
-        public InnerStruct(byte value) {
+        public InnerStruct(final byte value) {
             this.value = value;
         }
     }

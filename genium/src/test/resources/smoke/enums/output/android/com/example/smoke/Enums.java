@@ -42,7 +42,7 @@ public class Enums extends NativeBase {
         @NonNull
         public Enums.InternalError type;
         public String message;
-        public ErrorStruct(Enums.InternalError type, String message) {
+        public ErrorStruct(@NonNull final Enums.InternalError type, final String message) {
             this.type = type;
             this.message = message;
         }

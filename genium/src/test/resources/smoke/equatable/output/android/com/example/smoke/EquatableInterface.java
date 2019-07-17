@@ -13,7 +13,7 @@ public class EquatableInterface extends NativeBase {
         public EquatableInterface nestedEquatableInstance;
         @NonNull
         public PointerEquatableInterface nestedPointerEquatableInstance;
-        public EquatableStruct(int intField, String stringField, EquatableInterface nestedEquatableInstance, PointerEquatableInterface nestedPointerEquatableInstance) {
+        public EquatableStruct(final int intField, final String stringField, @NonNull final EquatableInterface nestedEquatableInstance, @NonNull final PointerEquatableInterface nestedPointerEquatableInstance) {
             this.intField = intField;
             this.stringField = stringField;
             this.nestedEquatableInstance = nestedEquatableInstance;

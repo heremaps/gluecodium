@@ -11,7 +11,7 @@ public class StructConstants extends NativeBase {
     public static class SomeStruct {
         public String stringField;
         public float floatField;
-        public SomeStruct(String stringField, float floatField) {
+        public SomeStruct(final String stringField, final float floatField) {
             this.stringField = stringField;
             this.floatField = floatField;
         }
@@ -19,7 +19,7 @@ public class StructConstants extends NativeBase {
     public static class NestingStruct {
         @NonNull
         public StructConstants.SomeStruct structField;
-        public NestingStruct(StructConstants.SomeStruct structField) {
+        public NestingStruct(@NonNull final StructConstants.SomeStruct structField) {
             this.structField = structField;
         }
     }

@@ -18,7 +18,7 @@ public class Nullable extends NativeBase {
     }
     public static class SomeStruct {
         public String stringField;
-        public SomeStruct(String stringField) {
+        public SomeStruct(final String stringField) {
             this.stringField = stringField;
         }
     }
@@ -41,7 +41,7 @@ public class Nullable extends NativeBase {
         public Map<Long, String> mapField;
         @Nullable
         public SomeInterface instanceField;
-        public NullableStruct(String stringField, Boolean boolField, Double doubleField, Nullable.SomeStruct structField, Nullable.SomeEnum enumField, List<String> arrayField, List<String> inlineArrayField, Map<Long, String> mapField, SomeInterface instanceField) {
+        public NullableStruct(@Nullable final String stringField, @Nullable final Boolean boolField, @Nullable final Double doubleField, @Nullable final Nullable.SomeStruct structField, @Nullable final Nullable.SomeEnum enumField, @Nullable final List<String> arrayField, @Nullable final List<String> inlineArrayField, @Nullable final Map<Long, String> mapField, @Nullable final SomeInterface instanceField) {
             this.stringField = stringField;
             this.boolField = boolField;
             this.doubleField = doubleField;
@@ -70,7 +70,7 @@ public class Nullable extends NativeBase {
         public Long uint32Field;
         @Nullable
         public Long uint64Field;
-        public NullableIntsStruct(Byte int8Field, Short int16Field, Integer int32Field, Long int64Field, Short uint8Field, Integer uint16Field, Long uint32Field, Long uint64Field) {
+        public NullableIntsStruct(@Nullable final Byte int8Field, @Nullable final Short int16Field, @Nullable final Integer int32Field, @Nullable final Long int64Field, @Nullable final Short uint8Field, @Nullable final Integer uint16Field, @Nullable final Long uint32Field, @Nullable final Long uint64Field) {
             this.int8Field = int8Field;
             this.int16Field = int16Field;
             this.int32Field = int32Field;

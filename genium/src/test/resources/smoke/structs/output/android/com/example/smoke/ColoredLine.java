@@ -9,7 +9,7 @@ public class ColoredLine {
     public Line line;
     @NonNull
     public Color color;
-    public ColoredLine(Line line, Color color) {
+    public ColoredLine(@NonNull final Line line, @NonNull final Color color) {
         this.line = line;
         this.color = color;
     }

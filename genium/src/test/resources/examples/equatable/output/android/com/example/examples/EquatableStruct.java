@@ -9,7 +9,7 @@ public class EquatableStruct {
     public String stringField;
     @NonNull
     public NestedEquatableStruct structField;
-    public EquatableStruct(int intField, String stringField, NestedEquatableStruct structField) {
+    public EquatableStruct(final int intField, final String stringField, @NonNull final NestedEquatableStruct structField) {
         this.intField = intField;
         this.stringField = stringField;
         this.structField = structField;

@@ -24,7 +24,7 @@ public class NAME_RULES_DROID extends NativeBase {
     public static class EXAMPLE_STRUCT_DROID {
         public double j_value;
         public List<Long> j_int_value;
-        public EXAMPLE_STRUCT_DROID(double j_value, List<Long> j_int_value) {
+        public EXAMPLE_STRUCT_DROID(final double j_value, final List<Long> j_int_value) {
             this.j_value = j_value;
             this.j_int_value = j_int_value;
         }

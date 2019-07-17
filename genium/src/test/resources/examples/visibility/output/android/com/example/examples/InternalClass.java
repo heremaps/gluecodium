@@ -8,7 +8,7 @@ import com.example.NativeBase;
 class InternalClass extends NativeBase {
     static class InternalStruct {
         String stringField;
-        InternalStruct(String stringField) {
+        InternalStruct(final String stringField) {
             this.stringField = stringField;
         }
     }

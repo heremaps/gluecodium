@@ -18,7 +18,7 @@ public class Structs extends NativeBase {
     public static class Point {
         public double x;
         public double y;
-        public Point(double x, double y) {
+        public Point(final double x, final double y) {
             this.x = x;
             this.y = y;
         }
@@ -27,7 +27,7 @@ public class Structs extends NativeBase {
         public short red;
         public short green;
         public short blue;
-        public Color(short red, short green, short blue) {
+        public Color(final short red, final short green, final short blue) {
             this.red = red;
             this.green = green;
             this.blue = blue;
@@ -38,7 +38,7 @@ public class Structs extends NativeBase {
         public Structs.Point a;
         @NonNull
         public Structs.Point b;
-        public Line(Structs.Point a, Structs.Point b) {
+        public Line(@NonNull final Structs.Point a, @NonNull final Structs.Point b) {
             this.a = a;
             this.b = b;
         }
@@ -48,7 +48,7 @@ public class Structs extends NativeBase {
         public Structs.Line line;
         @NonNull
         public Structs.Color color;
-        public ColoredLine(Structs.Line line, Structs.Color color) {
+        public ColoredLine(@NonNull final Structs.Line line, @NonNull final Structs.Color color) {
             this.line = line;
             this.color = color;
         }
@@ -69,7 +69,7 @@ public class Structs extends NativeBase {
         public final byte[] bytesField;
         @NonNull
         public final Structs.Point pointField;
-        public AllTypesStruct(byte int8Field, short uint8Field, short int16Field, int uint16Field, int int32Field, long uint32Field, long int64Field, long uint64Field, float floatField, double doubleField, String stringField, boolean booleanField, byte[] bytesField, Structs.Point pointField) {
+        public AllTypesStruct(final byte int8Field, final short uint8Field, final short int16Field, final int uint16Field, final int int32Field, final long uint32Field, final long int64Field, final long uint64Field, final float floatField, final double doubleField, final String stringField, final boolean booleanField, final byte[] bytesField, @NonNull final Structs.Point pointField) {
             this.int8Field = int8Field;
             this.uint8Field = uint8Field;
             this.int16Field = int16Field;
@@ -170,7 +170,7 @@ public class Structs extends NativeBase {
         public List<Byte> externalArrayField;
         @NonNull
         public Structs.AnotherExternalStruct externalStructField;
-        public ExternalStruct(String stringField, String externalStringField, List<Byte> externalArrayField, Structs.AnotherExternalStruct externalStructField) {
+        public ExternalStruct(final String stringField, final String externalStringField, @NonNull final List<Byte> externalArrayField, @NonNull final Structs.AnotherExternalStruct externalStructField) {
             this.stringField = stringField;
             this.externalStringField = externalStringField;
             this.externalArrayField = externalArrayField;
@@ -179,34 +179,34 @@ public class Structs extends NativeBase {
     }
     public static class AnotherExternalStruct {
         public byte intField;
-        public AnotherExternalStruct(byte intField) {
+        public AnotherExternalStruct(final byte intField) {
             this.intField = intField;
         }
     }
     public static class YetAnotherExternalStruct {
         public String stringField;
-        public YetAnotherExternalStruct(String stringField) {
+        public YetAnotherExternalStruct(final String stringField) {
             this.stringField = stringField;
         }
     }
     public static class NestingImmutableStruct {
         @NonNull
         public Structs.AllTypesStruct structField;
-        public NestingImmutableStruct(Structs.AllTypesStruct structField) {
+        public NestingImmutableStruct(@NonNull final Structs.AllTypesStruct structField) {
             this.structField = structField;
         }
     }
     public static class DoubleNestingImmutableStruct {
         @NonNull
         public Structs.NestingImmutableStruct nestingStructField;
-        public DoubleNestingImmutableStruct(Structs.NestingImmutableStruct nestingStructField) {
+        public DoubleNestingImmutableStruct(@NonNull final Structs.NestingImmutableStruct nestingStructField) {
             this.nestingStructField = nestingStructField;
         }
     }
     public static class StructWithArrayOfImmutable {
         @NonNull
         public List<Structs.AllTypesStruct> arrayField;
-        public StructWithArrayOfImmutable(List<Structs.AllTypesStruct> arrayField) {
+        public StructWithArrayOfImmutable(@NonNull final List<Structs.AllTypesStruct> arrayField) {
             this.arrayField = arrayField;
         }
     }
