@@ -7,6 +7,7 @@
   + Constants of struct types are now supported.
   + Allow referencing getters/setters explicitly in comment links.
   + Improved method documentation generation.
+  + String, byte[] are now marked @NonNull consistently in Java.
 - Bug fixes:
   + C++ default struct constructor zeros all non-defaulted elements now.
   + Fix comment processing for setters.
