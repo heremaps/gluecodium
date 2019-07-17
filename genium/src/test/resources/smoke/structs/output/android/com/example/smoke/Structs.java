@@ -64,12 +64,13 @@ public class Structs extends NativeBase {
         public final long uint64Field;
         public final float floatField;
         public final double doubleField;
+        @NonNull
         public final String stringField;
         public final boolean booleanField;
         public final byte[] bytesField;
         @NonNull
         public final Structs.Point pointField;
-        public AllTypesStruct(final byte int8Field, final short uint8Field, final short int16Field, final int uint16Field, final int int32Field, final long uint32Field, final long int64Field, final long uint64Field, final float floatField, final double doubleField, final String stringField, final boolean booleanField, final byte[] bytesField, @NonNull final Structs.Point pointField) {
+        public AllTypesStruct(final byte int8Field, final short uint8Field, final short int16Field, final int uint16Field, final int int32Field, final long uint32Field, final long int64Field, final long uint64Field, final float floatField, final double doubleField, @NonNull final String stringField, final boolean booleanField, final byte[] bytesField, @NonNull final Structs.Point pointField) {
             this.int8Field = int8Field;
             this.uint8Field = uint8Field;
             this.int16Field = int16Field;
@@ -164,13 +165,15 @@ public class Structs extends NativeBase {
         }
     }
     public static class ExternalStruct {
+        @NonNull
         public String stringField;
+        @NonNull
         public String externalStringField;
         @NonNull
         public List<Byte> externalArrayField;
         @NonNull
         public Structs.AnotherExternalStruct externalStructField;
-        public ExternalStruct(final String stringField, final String externalStringField, @NonNull final List<Byte> externalArrayField, @NonNull final Structs.AnotherExternalStruct externalStructField) {
+        public ExternalStruct(@NonNull final String stringField, @NonNull final String externalStringField, @NonNull final List<Byte> externalArrayField, @NonNull final Structs.AnotherExternalStruct externalStructField) {
             this.stringField = stringField;
             this.externalStringField = externalStringField;
             this.externalArrayField = externalArrayField;
@@ -184,8 +187,9 @@ public class Structs extends NativeBase {
         }
     }
     public static class YetAnotherExternalStruct {
+        @NonNull
         public String stringField;
-        public YetAnotherExternalStruct(final String stringField) {
+        public YetAnotherExternalStruct(@NonNull final String stringField) {
             this.stringField = stringField;
         }
     }

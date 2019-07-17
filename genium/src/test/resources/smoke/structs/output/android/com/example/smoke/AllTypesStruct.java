@@ -15,12 +15,13 @@ public class AllTypesStruct {
     public long uint64Field;
     public float floatField;
     public double doubleField;
+    @NonNull
     public String stringField;
     public boolean booleanField;
     public byte[] bytesField;
     @NonNull
     public Point pointField;
-    public AllTypesStruct(final byte int8Field, final short uint8Field, final short int16Field, final int uint16Field, final int int32Field, final long uint32Field, final long int64Field, final long uint64Field, final float floatField, final double doubleField, final String stringField, final boolean booleanField, final byte[] bytesField, @NonNull final Point pointField) {
+    public AllTypesStruct(final byte int8Field, final short uint8Field, final short int16Field, final int uint16Field, final int int32Field, final long uint32Field, final long int64Field, final long uint64Field, final float floatField, final double doubleField, @NonNull final String stringField, final boolean booleanField, final byte[] bytesField, @NonNull final Point pointField) {
         this.int8Field = int8Field;
         this.uint8Field = uint8Field;
         this.int16Field = int16Field;

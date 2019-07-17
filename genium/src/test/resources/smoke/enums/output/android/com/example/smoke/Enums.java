@@ -41,8 +41,9 @@ public class Enums extends NativeBase {
     public static class ErrorStruct {
         @NonNull
         public Enums.InternalError type;
+        @NonNull
         public String message;
-        public ErrorStruct(@NonNull final Enums.InternalError type, final String message) {
+        public ErrorStruct(@NonNull final Enums.InternalError type, @NonNull final String message) {
             this.type = type;
             this.message = message;
         }
@@ -67,6 +68,6 @@ public class Enums extends NativeBase {
     @NonNull
     public static native Enums.InternalError extractEnumFromStruct(@NonNull final Enums.ErrorStruct input);
     @NonNull
-    public static native Enums.ErrorStruct createStructWithEnumInside(@NonNull final Enums.InternalError type, final String message);
+    public static native Enums.ErrorStruct createStructWithEnumInside(@NonNull final Enums.InternalError type, @NonNull final String message);
     public static native void methodWithExternalEnum(@NonNull final Enums.ExternalEnum input);
 }

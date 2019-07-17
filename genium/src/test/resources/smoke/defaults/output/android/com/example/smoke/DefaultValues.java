@@ -35,6 +35,7 @@ public class DefaultValues extends NativeBase {
         public float floatField;
         public double doubleField;
         public boolean boolField;
+        @NonNull
         public String stringField;
         @NonNull
         public DefaultValues.SomeEnum enumField;
@@ -50,7 +51,7 @@ public class DefaultValues extends NativeBase {
             this.enumField = DefaultValues.SomeEnum.BAR_VALUE;
             this.externalEnumField = DefaultValues.ExternalEnum.ANOTHER_VALUE;
         }
-        public StructWithDefaults(final int intField, final long uintField, final float floatField, final double doubleField, final boolean boolField, final String stringField, @NonNull final DefaultValues.SomeEnum enumField, @NonNull final DefaultValues.ExternalEnum externalEnumField) {
+        public StructWithDefaults(final int intField, final long uintField, final float floatField, final double doubleField, final boolean boolField, @NonNull final String stringField, @NonNull final DefaultValues.SomeEnum enumField, @NonNull final DefaultValues.ExternalEnum externalEnumField) {
             this.intField = intField;
             this.uintField = uintField;
             this.floatField = floatField;
@@ -144,6 +145,7 @@ public class DefaultValues extends NativeBase {
     public static class StructWithTypedefDefaults {
         public long longField;
         public boolean boolField;
+        @NonNull
         public String stringField;
         @NonNull
         public DefaultValues.SomeEnum enumField;
@@ -153,7 +155,7 @@ public class DefaultValues extends NativeBase {
             this.stringField = "\\Jonny \"Magic\" Smith\n";
             this.enumField = DefaultValues.SomeEnum.BAR_VALUE;
         }
-        public StructWithTypedefDefaults(final long longField, final boolean boolField, final String stringField, @NonNull final DefaultValues.SomeEnum enumField) {
+        public StructWithTypedefDefaults(final long longField, final boolean boolField, @NonNull final String stringField, @NonNull final DefaultValues.SomeEnum enumField) {
             this.longField = longField;
             this.boolField = boolField;
             this.stringField = stringField;

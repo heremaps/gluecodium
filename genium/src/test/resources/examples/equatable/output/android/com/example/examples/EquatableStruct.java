@@ -6,10 +6,11 @@ package com.example.examples;
 import android.support.annotation.NonNull;
 public class EquatableStruct {
     public int intField;
+    @NonNull
     public String stringField;
     @NonNull
     public NestedEquatableStruct structField;
-    public EquatableStruct(final int intField, final String stringField, @NonNull final NestedEquatableStruct structField) {
+    public EquatableStruct(final int intField, @NonNull final String stringField, @NonNull final NestedEquatableStruct structField) {
         this.intField = intField;
         this.stringField = stringField;
         this.structField = structField;

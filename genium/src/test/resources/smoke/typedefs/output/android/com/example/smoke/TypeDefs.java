@@ -14,8 +14,9 @@ public class TypeDefs extends NativeBase {
         }
     }
     public static class TestStruct {
+        @NonNull
         public String something;
-        public TestStruct(final String something) {
+        public TestStruct(@NonNull final String something) {
             this.something = something;
         }
     }

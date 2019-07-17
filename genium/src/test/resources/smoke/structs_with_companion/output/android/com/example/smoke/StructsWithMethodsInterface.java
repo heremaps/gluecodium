@@ -10,7 +10,7 @@ public class StructsWithMethodsInterface extends NativeBase {
         public double x;
         public double y;
         public double z;
-        public Vector3(final String input) {
+        public Vector3(@NonNull final String input) {
             Vector3 _other = create(input);
             this.x = _other.x;
             this.y = _other.y;
@@ -26,7 +26,7 @@ public class StructsWithMethodsInterface extends NativeBase {
         @NonNull
         public native StructsWithMethodsInterface.Vector3 add(@NonNull final StructsWithMethodsInterface.Vector3 other);
         public static native boolean validate(final double x, final double y, final double z);
-        private static native StructsWithMethodsInterface.Vector3 create(final String input);
+        private static native StructsWithMethodsInterface.Vector3 create(@NonNull final String input);
         private static native StructsWithMethodsInterface.Vector3 create(@NonNull final StructsWithMethodsInterface.Vector3 other) throws ValidationErrorException;
     }
     /**

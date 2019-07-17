@@ -18,6 +18,7 @@ public class DefaultValues extends NativeBase {
         public int intField;
         public float floatField;
         public boolean boolField;
+        @NonNull
         public String stringField;
         @NonNull
         public DefaultValues.SomeEnum enumField;
@@ -28,7 +29,7 @@ public class DefaultValues extends NativeBase {
             this.stringField = "some string";
             this.enumField = DefaultValues.SomeEnum.BAR_VALUE;
         }
-        public StructWithDefaults(final int intField, final float floatField, final boolean boolField, final String stringField, @NonNull final DefaultValues.SomeEnum enumField) {
+        public StructWithDefaults(final int intField, final float floatField, final boolean boolField, @NonNull final String stringField, @NonNull final DefaultValues.SomeEnum enumField) {
             this.intField = intField;
             this.floatField = floatField;
             this.boolField = boolField;

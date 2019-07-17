@@ -220,8 +220,7 @@ class JavaTypeMapper(
         }
 
     private fun needsNotNullAnnotation(javaType: JavaType) =
-        javaType !is JavaPrimitiveType && javaType !is JavaArrayType &&
-            !(javaType is JavaReferenceType && javaType.type == JavaReferenceType.Type.STRING)
+        javaType !is JavaPrimitiveType && javaType !is JavaArrayType
 
     companion object {
         private const val NATIVE_BASE_NAME = "NativeBase"

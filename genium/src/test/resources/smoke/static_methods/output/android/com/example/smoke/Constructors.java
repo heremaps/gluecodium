@@ -28,10 +28,10 @@ public class Constructors extends NativeBase {
     public Constructors(@NonNull final Constructors other) {
         this(create(other));
     }
-    public Constructors(final String foo, final long bar) {
+    public Constructors(@NonNull final String foo, final long bar) {
         this(create(foo, bar));
     }
-    public Constructors(final String input) throws Constructors.ErrorEnumException {
+    public Constructors(@NonNull final String input) throws Constructors.ErrorEnumException {
         this(create(input));
     }
     public Constructors(@NonNull final List<Double> input) {
@@ -52,7 +52,7 @@ public class Constructors extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     private static native long create();
     private static native long create(@NonNull final Constructors other);
-    private static native long create(final String foo, final long bar);
-    private static native long create(final String input) throws Constructors.ErrorEnumException;
+    private static native long create(@NonNull final String foo, final long bar);
+    private static native long create(@NonNull final String input) throws Constructors.ErrorEnumException;
     private static native long create(@NonNull final List<Double> input);
 }

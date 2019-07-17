@@ -8,12 +8,13 @@ import com.example.NativeBase;
 public class EquatableInterface extends NativeBase {
     public static class EquatableStruct {
         public int intField;
+        @NonNull
         public String stringField;
         @NonNull
         public EquatableInterface nestedEquatableInstance;
         @NonNull
         public PointerEquatableInterface nestedPointerEquatableInstance;
-        public EquatableStruct(final int intField, final String stringField, @NonNull final EquatableInterface nestedEquatableInstance, @NonNull final PointerEquatableInterface nestedPointerEquatableInstance) {
+        public EquatableStruct(final int intField, @NonNull final String stringField, @NonNull final EquatableInterface nestedEquatableInstance, @NonNull final PointerEquatableInterface nestedPointerEquatableInstance) {
             this.intField = intField;
             this.stringField = stringField;
             this.nestedEquatableInstance = nestedEquatableInstance;

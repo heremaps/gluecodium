@@ -3,6 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 /**
  * <p>This is some very useful interface.
@@ -46,5 +47,5 @@ public class MultiLineComments extends NativeBase {
      *     Just kidding do not expect anything from a method until
      *     you see its body.
      */
-    public native float someMethodWithLongComment(final String input, final double ratio);
+    public native float someMethodWithLongComment(@NonNull final String input, final double ratio);
 }

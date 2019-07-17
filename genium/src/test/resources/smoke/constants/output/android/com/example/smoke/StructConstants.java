@@ -9,9 +9,10 @@ public class StructConstants extends NativeBase {
     public static final StructConstants.SomeStruct STRUCT_CONSTANT = new StructConstants.SomeStruct("bar Buzz", 1.41f);
     public static final StructConstants.NestingStruct NESTING_STRUCT_CONSTANT = new StructConstants.NestingStruct(new StructConstants.SomeStruct("nonsense", -2.82f));
     public static class SomeStruct {
+        @NonNull
         public String stringField;
         public float floatField;
-        public SomeStruct(final String stringField, final float floatField) {
+        public SomeStruct(@NonNull final String stringField, final float floatField) {
             this.stringField = stringField;
             this.floatField = floatField;
         }

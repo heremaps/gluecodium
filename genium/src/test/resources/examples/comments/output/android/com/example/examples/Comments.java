@@ -3,6 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.examples;
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 /**
  * <p>This is some very useful interface.</p>
@@ -59,7 +60,7 @@ public class Comments extends NativeBase {
      * @param input Very useful input parameter
      * @return Usefulness of the input
      */
-    public native boolean someMethod(final String input);
+    public native boolean someMethod(@NonNull final String input);
     /**
      * <p>Gets some very useful attribute.</p>
      * @return

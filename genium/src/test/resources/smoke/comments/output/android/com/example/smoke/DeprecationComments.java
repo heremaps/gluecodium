@@ -3,6 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
+import android.support.annotation.NonNull;
 /**
  * <p>This is some very useful interface.</p>
  * @deprecated <p>Unfortunately, this interface is deprecated. Use {@link com.example.smoke.Comments} instead.</p>
@@ -58,7 +59,7 @@ public interface DeprecationComments {
      * @return Usefulness of the input
      */
     @Deprecated
-    boolean someMethodWithAllComments(final String input);
+    boolean someMethodWithAllComments(@NonNull final String input);
     /**
      * <p>Gets some very useful attribute.</p>
      * @deprecated <p>Unfortunately, this attribute is deprecated.

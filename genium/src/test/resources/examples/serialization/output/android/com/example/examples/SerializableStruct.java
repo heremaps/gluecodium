@@ -18,12 +18,13 @@ public class SerializableStruct implements Parcelable {
         }
     };
     public int intField;
+    @NonNull
     public String stringField;
     @NonNull
     public NestedSerializableStruct structField;
     @NonNull
     public List<String> arrayField;
-    public SerializableStruct(final int intField, final String stringField, @NonNull final NestedSerializableStruct structField, @NonNull final List<String> arrayField) {
+    public SerializableStruct(final int intField, @NonNull final String stringField, @NonNull final NestedSerializableStruct structField, @NonNull final List<String> arrayField) {
         this.intField = intField;
         this.stringField = stringField;
         this.structField = structField;

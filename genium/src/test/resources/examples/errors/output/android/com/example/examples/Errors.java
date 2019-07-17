@@ -3,6 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.examples;
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public class Errors extends NativeBase {
     public enum InternalErrors {
@@ -35,5 +36,6 @@ public class Errors extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     public static native void startSomethingOrFail() throws Errors.InternalErrorsException;
+    @NonNull
     public static native String getSomethingOrFail() throws Errors.InternalErrorsException;
 }

@@ -3,6 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smokeoff;
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public class UnderscorePackage extends NativeBase {
     /**
@@ -18,6 +19,6 @@ public class UnderscorePackage extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-
-    public static native String basicMethod(final String inputString);
+    @NonNull
+    public static native String basicMethod(@NonNull final String inputString);
 }

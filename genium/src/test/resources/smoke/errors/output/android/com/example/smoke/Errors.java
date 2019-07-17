@@ -3,6 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public class Errors extends NativeBase {
     public enum InternalError {
@@ -51,5 +52,6 @@ public class Errors extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     public static native void methodWithErrors() throws Errors.InternalErrorException;
     public static native void methodWithExternalErrors() throws Errors.ExternalErrorsException;
+    @NonNull
     public static native String methodWithErrorsAndReturnValue() throws Errors.InternalErrorException;
 }

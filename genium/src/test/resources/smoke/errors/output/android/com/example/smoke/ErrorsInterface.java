@@ -3,6 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
+import android.support.annotation.NonNull;
 public interface ErrorsInterface {
     public enum InternalError {
         ERROR_NONE(0),
@@ -37,5 +38,6 @@ public interface ErrorsInterface {
     }
     void methodWithErrors() throws ErrorsInterface.InternalErrorException;
     void methodWithExternalErrors() throws ErrorsInterface.ExternalErrorsException;
+    @NonNull
     String methodWithErrorsAndReturnValue() throws ErrorsInterface.InternalErrorException;
 }

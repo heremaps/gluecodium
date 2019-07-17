@@ -31,8 +31,9 @@ public class Arrays extends NativeBase {
         }
     }
     public static class ExternalStruct {
+        @NonNull
         public String string;
-        public ExternalStruct(final String string) {
+        public ExternalStruct(@NonNull final String string) {
             this.string = string;
         }
     }

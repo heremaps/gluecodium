@@ -75,35 +75,35 @@ public class Comments extends NativeBase {
      * @return Usefulness of the input
      * @throws Comments.SomeEnumException
      */
-    public native boolean someMethodWithAllComments(final String input) throws Comments.SomeEnumException;
+    public native boolean someMethodWithAllComments(@NonNull final String input) throws Comments.SomeEnumException;
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
      * @param input Very useful input parameter
      * @return
      */
-    public native boolean someMethodWithInputComments(final String input);
+    public native boolean someMethodWithInputComments(@NonNull final String input);
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
      * @param input
      * @return Usefulness of the input
      */
-    public native boolean someMethodWithOutputComments(final String input);
+    public native boolean someMethodWithOutputComments(@NonNull final String input);
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
      * @param input
      * @return
      */
-    public native boolean someMethodWithNoComments(final String input);
+    public native boolean someMethodWithNoComments(@NonNull final String input);
     /**
      * <p>This is some very useful method that does not measure the usefulness of its input.</p>
      * @param input Very useful input parameter
      */
-    public native void someMethodWithoutReturnTypeWithAllComments(final String input);
+    public native void someMethodWithoutReturnTypeWithAllComments(@NonNull final String input);
     /**
      * <p>This is some very useful method that does not measure the usefulness of its input.</p>
      * @param input
      */
-    public native void someMethodWithoutReturnTypeWithNoComments(final String input);
+    public native void someMethodWithoutReturnTypeWithNoComments(@NonNull final String input);
     /**
      * <p>This is some very useful method that measures the usefulness of something.</p>
      * @return Usefulness of the input
@@ -132,13 +132,15 @@ public class Comments extends NativeBase {
      * @param documented nicely documented
      * @return
      */
-    public native String oneParameterCommentOnly(final String undocumented, final String documented);
+    @NonNull
+    public native String oneParameterCommentOnly(@NonNull final String undocumented, @NonNull final String documented);
     /**
      *
      * @param undocumented
      * @return nicely documented
      */
-    public native String returnCommentOnly(final String undocumented);
+    @NonNull
+    public native String returnCommentOnly(@NonNull final String undocumented);
     /**
      * <p>Gets some very useful attribute.</p>
      * @return

@@ -10,6 +10,7 @@ public class ImmutableStructWithDefaults {
     public final float floatField;
     public final double doubleField;
     public final boolean boolField;
+    @NonNull
     public final String stringField;
     @NonNull
     public final SomeEnum enumField;
@@ -25,7 +26,7 @@ public class ImmutableStructWithDefaults {
         this.enumField = SomeEnum.BAR_VALUE;
         this.externalEnumField = DefaultValues.ExternalEnum.ANOTHER_VALUE;
     }
-    public ImmutableStructWithDefaults(final int intField, final long uintField, final float floatField, final double doubleField, final boolean boolField, final String stringField, @NonNull final SomeEnum enumField, @NonNull final DefaultValues.ExternalEnum externalEnumField) {
+    public ImmutableStructWithDefaults(final int intField, final long uintField, final float floatField, final double doubleField, final boolean boolField, @NonNull final String stringField, @NonNull final SomeEnum enumField, @NonNull final DefaultValues.ExternalEnum externalEnumField) {
         this.intField = intField;
         this.uintField = uintField;
         this.floatField = floatField;

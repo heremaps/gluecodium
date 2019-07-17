@@ -53,8 +53,9 @@ public class Attributes extends NativeBase {
     public native void setInstanceAttribute(@NonNull final AttributesInterface value);
     public native boolean isBooleanAttribute();
     public native void setBooleanAttribute(final boolean value);
+    @NonNull
     public static native String getStaticAttribute();
-    public static native void setStaticAttribute(final String value);
+    public static native void setStaticAttribute(@NonNull final String value);
     @NonNull
     public static native Attributes.ExampleStruct getStaticReadonlyAttribute();
 }

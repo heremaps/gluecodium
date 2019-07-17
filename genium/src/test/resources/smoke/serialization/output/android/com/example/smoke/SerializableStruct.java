@@ -26,6 +26,7 @@ public class SerializableStruct implements Parcelable {
     public long longField;
     public float floatField;
     public double doubleField;
+    @NonNull
     public String stringField;
     @NonNull
     public NestedSerializableStruct structField;
@@ -38,7 +39,7 @@ public class SerializableStruct implements Parcelable {
     public Map<Integer, String> mapField;
     @NonNull
     public SomeEnum enumField;
-    public SerializableStruct(final boolean boolField, final byte byteField, final short shortField, final int intField, final long longField, final float floatField, final double doubleField, final String stringField, @NonNull final NestedSerializableStruct structField, final byte[] byteBufferField, @NonNull final List<String> arrayField, @NonNull final List<NestedSerializableStruct> structArrayField, @NonNull final Map<Integer, String> mapField, @NonNull final SomeEnum enumField) {
+    public SerializableStruct(final boolean boolField, final byte byteField, final short shortField, final int intField, final long longField, final float floatField, final double doubleField, @NonNull final String stringField, @NonNull final NestedSerializableStruct structField, final byte[] byteBufferField, @NonNull final List<String> arrayField, @NonNull final List<NestedSerializableStruct> structArrayField, @NonNull final Map<Integer, String> mapField, @NonNull final SomeEnum enumField) {
         this.boolField = boolField;
         this.byteField = byteField;
         this.shortField = shortField;

@@ -3,13 +3,14 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public class CommentsInstantiable extends NativeBase {
     /**
      * <p>This is some very useful constructor.</p>
      * @param input Very useful input parameter
      */
-    public CommentsInstantiable(final String input) {
+    public CommentsInstantiable(@NonNull final String input) {
         this(create(input));
     }
     /**
@@ -25,5 +26,5 @@ public class CommentsInstantiable extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    private static native long create(final String input);
+    private static native long create(@NonNull final String input);
 }

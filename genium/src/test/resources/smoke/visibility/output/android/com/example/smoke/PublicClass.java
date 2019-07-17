@@ -15,8 +15,9 @@ public class PublicClass extends NativeBase {
         }
     }
     static class InternalStruct {
+        @NonNull
         String stringField;
-        InternalStruct(final String stringField) {
+        InternalStruct(@NonNull final String stringField) {
             this.stringField = stringField;
         }
     }
@@ -28,13 +29,14 @@ public class PublicClass extends NativeBase {
         }
     }
     public static class PublicStructWithInternalDefaults {
+        @NonNull
         String internalField;
         public float publicField;
         public PublicStructWithInternalDefaults(final float publicField) {
             this.internalField = "foo";
             this.publicField = publicField;
         }
-        PublicStructWithInternalDefaults(final String internalField, final float publicField) {
+        PublicStructWithInternalDefaults(@NonNull final String internalField, final float publicField) {
             this.internalField = internalField;
             this.publicField = publicField;
         }
@@ -57,6 +59,7 @@ public class PublicClass extends NativeBase {
     @NonNull
     native PublicClass.InternalStruct getInternalStructAttribute();
     native void setInternalStructAttribute(@NonNull final PublicClass.InternalStruct value);
+    @NonNull
     public native String getInternalSetterAttribute();
-    native void setInternalSetterAttribute(final String value);
+    native void setInternalSetterAttribute(@NonNull final String value);
 }

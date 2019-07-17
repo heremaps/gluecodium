@@ -2,9 +2,8 @@
  *
  * Automatically generated. Do not modify. Your changes will be lost.
  */
-
 package com.example.smoke;
-
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public class StaticMethods extends NativeBase {
     /**
@@ -20,7 +19,6 @@ public class StaticMethods extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-
     public static native boolean returnInvertedBoolean(final boolean input);
     public static native boolean returnAndBoolean(final boolean input1, final boolean input2);
     public static native byte[] returnInputByteBuffer(final byte[] inputBuffer);
@@ -56,8 +54,12 @@ public class StaticMethods extends NativeBase {
     public static native long returnNextNumberUINT64(final long inputNumber);
     public static native long sumTwoNumbersUINT64(final long inputNumber1, final long inputNumber2);
     public static native long returnPrimeUINT64();
-    public static native String returnInputString(final String inputString);
-    public static native String concatenateStrings(final String inputString1, final String inputString2);
+    @NonNull
+    public static native String returnInputString(@NonNull final String inputString);
+    @NonNull
+    public static native String concatenateStrings(@NonNull final String inputString1, @NonNull final String inputString2);
+    @NonNull
     public static native String returnHelloString();
+    @NonNull
     public static native String returnEmpty();
 }

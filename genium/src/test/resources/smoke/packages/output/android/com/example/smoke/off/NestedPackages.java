@@ -7,8 +7,9 @@ import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public class NestedPackages extends NativeBase {
     public static class SomeStruct {
+        @NonNull
         public String someField;
-        public SomeStruct(final String someField) {
+        public SomeStruct(@NonNull final String someField) {
             this.someField = someField;
         }
     }

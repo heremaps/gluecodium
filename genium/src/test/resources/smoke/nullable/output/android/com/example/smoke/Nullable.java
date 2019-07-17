@@ -3,6 +3,7 @@
  * Automatically generated. Do not modify. Your changes will be lost.
  */
 package com.example.smoke;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.example.NativeBase;
 import java.util.List;
@@ -17,8 +18,9 @@ public class Nullable extends NativeBase {
         }
     }
     public static class SomeStruct {
+        @NonNull
         public String stringField;
-        public SomeStruct(final String stringField) {
+        public SomeStruct(@NonNull final String stringField) {
             this.stringField = stringField;
         }
     }

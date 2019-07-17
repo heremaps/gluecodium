@@ -9,8 +9,9 @@ import java.util.List;
 import java.util.Map;
 public class Maps extends NativeBase {
     public static class SomeStruct {
+        @NonNull
         public String value;
-        public SomeStruct(final String value) {
+        public SomeStruct(@NonNull final String value) {
             this.value = value;
         }
     }
