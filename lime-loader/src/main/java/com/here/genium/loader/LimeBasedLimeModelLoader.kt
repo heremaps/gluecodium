@@ -27,6 +27,7 @@ import com.here.genium.model.lime.LimeModelLoader
 import com.here.genium.model.lime.LimeReferenceResolver
 import com.here.genium.validator.LimeEnumeratorRefsValidator
 import com.here.genium.validator.LimeEquatableStructsValidator
+import com.here.genium.validator.LimeExternalTypesValidator
 import com.here.genium.validator.LimeGenericTypesValidator
 import com.here.genium.validator.LimeInheritanceValidator
 import com.here.genium.validator.LimeSerializableStructsValidator
@@ -114,7 +115,8 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
 
     private fun getIndependentValidators() =
         listOf<(LimeModel) -> Boolean>(
-            { LimeEnumeratorRefsValidator(logger).validate(it) }
+            { LimeEnumeratorRefsValidator(logger).validate(it) },
+            { LimeExternalTypesValidator(logger).validate(it) }
         )
 }
 
