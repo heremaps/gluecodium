@@ -8,7 +8,7 @@ This document proposes the design for the new input language for Genium: LimeIDL
 describes the following:
 * What is LimeIDL?
 * Why is it needed?
-* How is it going to work?
+* How to migrate from Franca to LimeIDL?
 
 When the stable version of Genium with full LimeIDL support is released, this document will be
 converted into LimeIDL documentation (probably by just removing the "why?" section and reducing
@@ -54,14 +54,30 @@ revealed that Franca library is rather slow (probably due to being built upon [X
 [Eclipse EMF][emf] libraries) and a prototype LimeIDL parser (built with modern [Antlr4][antlr]
 parser generator) is surprisingly fast in comparison.
 
-### How is it going to work?
+### How to migrate from Franca to LimeIDL?
 
-The proposal is to provide a semi-automated migration path from Franca-based Genium input to the new
-LimeIDL. A new Genium generator will be provided that will generate LimeIDL files from the Franca
-input. The new files will be usable immediately as the new input, producing the same C++/Java/Swift
-output as the old Franca files. The only manual step in the process is (potentially) rearranging the
-file structure (e.g. grouping files by directory or grouping several interface definitions within
-one file) and/or formatting the new files to one's liking.
+Genium version 4.9 provides a generator for the new LimeIDL which can be used to output LimeIDL
+generated from existing Franca definition files. The generated `*.lime` files should be manually
+checked and submitted to source control replacing `*.fidl` and `*.fdepl` files. Genium 5.0 will
+be able to use these files as input, so updating to Genium 5.0 should be done after conversion.
+
+#### Running the conversion
+
+For users of `external/genium-cmake` it is easiest to use the existing gradle files to perform
+the migration:
+
+```
+cd external/genium-cmake/upstream/modules/genium/genium/
+./gradlew -Pversion=4.9.0 run --args="-generators lime -output generated -input /absolute/path/to/existing/franca/idl"
+```
+
+This will fetch Genium 4.9 and generate the LimeIDL files in a subfolder `generated`.
+
+With checked out Genium repository on version 4.9 it would be
+
+```
+./generate -generators lime -output generated -input /full/path/to/existing/franca/idl"
+```
 
 LimeIDL syntax
 --------------
@@ -455,7 +471,6 @@ fun process(mode: Mode, input: String): GenericResult
 ```
 * Description: defines a multi-line documentation comment. All text after between `/*` and `*/`
 symbols is taken as the comment text, including the line breaks.
-
 
 [franca]: http://franca.github.io/franca/
 [xtext]: https://www.eclipse.org/Xtext/
