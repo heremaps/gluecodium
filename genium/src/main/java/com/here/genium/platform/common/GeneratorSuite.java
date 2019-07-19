@@ -76,7 +76,8 @@ public abstract class GeneratorSuite {
             AndroidGeneratorSuite.GENERATOR_NAME,
             JavaGeneratorSuite.GENERATOR_NAME,
             BaseApiGeneratorSuite.GENERATOR_NAME,
-            SwiftGeneratorSuite.GENERATOR_NAME));
+            SwiftGeneratorSuite.GENERATOR_NAME,
+            LimeGeneratorSuite.GENERATOR_NAME));
   }
 
   public static GeneratedFile copyTarget(String fileName, String targetDir) {
