@@ -63,7 +63,6 @@ public class Comments extends NativeBase {
     public native boolean someMethod(@NonNull final String input);
     /**
      * <p>Gets some very useful attribute.</p>
-     * @return
      */
     public native boolean isSomeAttribute();
     /**

@@ -54,7 +54,6 @@ public interface DeprecationCommentsOnly {
     /**
      *
      * @deprecated <p>Unfortunately, this attribute is deprecated.</p>
-     * @return
      */
     @Deprecated
     boolean isSomeAttribute();

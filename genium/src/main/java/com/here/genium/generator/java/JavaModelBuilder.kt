@@ -260,7 +260,8 @@ class JavaModelBuilder(
             comment = getterComments,
             visibility = getVisibility(limeProperty.getter),
             returnType = javaType,
-            qualifiers = qualifiers
+            qualifiers = qualifiers,
+            isGetter = true
         )
         addDeprecatedAnnotationIfNeeded(getterMethod)
 

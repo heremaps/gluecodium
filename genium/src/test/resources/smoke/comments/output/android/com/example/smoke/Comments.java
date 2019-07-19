@@ -143,7 +143,6 @@ public class Comments extends NativeBase {
     public native String returnCommentOnly(@NonNull final String undocumented);
     /**
      * <p>Gets some very useful attribute.</p>
-     * @return
      */
     public native boolean isSomeAttribute();
     /**
@@ -153,7 +152,6 @@ public class Comments extends NativeBase {
     public native void setSomeAttribute(final boolean value);
     /**
      * <p>Gets some very useful attribute.</p>
-     * @return
      */
     @NonNull
     public native CommentsInstantiable getInstanceAttribute();

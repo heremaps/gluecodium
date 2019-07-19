@@ -32,6 +32,7 @@ class JavaMethod(
     val exception: JavaCustomType? = null,
     val parameters: List<JavaParameter> = emptyList(),
     val isConstructor: Boolean = false,
+    val isGetter: Boolean = false,
     qualifiers: Set<MethodQualifier> = EnumSet.noneOf(MethodQualifier::class.java),
     annotations: Set<JavaType> = emptySet()
 ) : JavaElement(name) {
@@ -67,15 +68,16 @@ class JavaMethod(
         Stream.concat(parameters.stream(), super.stream()))
 
     fun shallowCopy() = JavaMethod(
-        name,
-        comment,
-        visibility,
-        returnType,
-        returnComment,
-        exception,
-        parameters,
-        isConstructor,
-        qualifiers,
-        annotations
+        name = name,
+        comment = comment,
+        visibility = visibility,
+        returnType = returnType,
+        returnComment = returnComment,
+        exception = exception,
+        parameters = parameters,
+        isConstructor = isConstructor,
+        isGetter = isGetter,
+        qualifiers = qualifiers,
+        annotations = annotations
     )
 }
