@@ -1,5 +1,12 @@
 # Genium project Release Notes
 
+## 4.9.0
+- Release date: 2019-07-22
+- Features:
+  + Added LimeIDL generator to support migration to the new LimeIDL input language.
+- Bug fixes:
+  + Fixed documentation generation for getters in Java.
+
 ## 4.8.0
 - Release date: 2019-07-18
 - Features:
