@@ -23,18 +23,21 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
 
     private val signatureCache = hashMapOf<String, List<String>>()
 
-    open fun getSignature(limeMethod: LimeMethod): List<String> =
+    fun getSignature(limeMethod: LimeMethod) =
         signatureCache.getOrPut(limeMethod.path.toString()) { computeSignature(limeMethod) }
 
-    open fun isOverloaded(limeMethod: LimeMethod) = getAllOverloads(limeMethod).count() > 1
+    fun isOverloaded(limeMethod: LimeMethod) = getAllOverloads(limeMethod).count() > 1
 
-    open fun hasSignatureClash(limeMethod: LimeMethod): Boolean {
+    fun hasSignatureClash(
+        limeMethod: LimeMethod,
+        methods: List<LimeMethod> = getAllOverloads(limeMethod)
+    ): Boolean {
         val signature = getSignature(limeMethod)
-        return getAllOverloads(limeMethod)
-            .map { getSignature(it) }
-            .filter { signature == it }
-            .count() > 1
+        return methods.map { getSignature(it) }.filter { it == signature }.count() > 1
     }
+
+    fun hasConstructorSignatureClash(limeMethod: LimeMethod) =
+        hasSignatureClash(limeMethod, getAllConstructorOverloads(limeMethod))
 
     private fun getAllOverloads(limeMethod: LimeMethod): List<LimeMethod> {
         val parentElement = referenceMap[limeMethod.path.parent.toString()]
@@ -43,6 +46,15 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
             is LimeContainer ->
                 getAllMethods(parentElement).filter { getMethodName(it) == methodName }
             is LimeStruct -> parentElement.methods.filter { getMethodName(it) == methodName }
+            else -> emptyList()
+        }
+    }
+
+    private fun getAllConstructorOverloads(limeMethod: LimeMethod): List<LimeMethod> {
+        val parentElement = referenceMap[limeMethod.path.parent.toString()]
+        return when (parentElement) {
+            is LimeContainer -> parentElement.methods.filter { it.isConstructor }
+            is LimeStruct -> parentElement.methods.filter { it.isConstructor }
             else -> emptyList()
         }
     }

@@ -30,6 +30,7 @@ import com.here.genium.validator.LimeEquatableStructsValidator
 import com.here.genium.validator.LimeExternalTypesValidator
 import com.here.genium.validator.LimeGenericTypesValidator
 import com.here.genium.validator.LimeInheritanceValidator
+import com.here.genium.validator.LimeMethodsSignatureValidator
 import com.here.genium.validator.LimeSerializableStructsValidator
 import com.here.genium.validator.LimeTypeRefsValidator
 import org.antlr.v4.runtime.CharStreams
@@ -110,7 +111,8 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
             { LimeGenericTypesValidator(logger).validate(it) },
             { LimeEquatableStructsValidator(logger).validate(it) },
             { LimeSerializableStructsValidator(logger).validate(it) },
-            { LimeInheritanceValidator(logger).validate(it) }
+            { LimeInheritanceValidator(logger).validate(it) },
+            { LimeMethodsSignatureValidator(logger).validate(it) }
         )
 
     private fun getIndependentValidators() =
