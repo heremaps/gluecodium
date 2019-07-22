@@ -10,6 +10,12 @@ extern "C" {
 #include "cbridge/include/StringHandle.h"
 #include <stdint.h>
 typedef uint32_t smoke_SetType_SomeEnum;
+_GENIUM_C_EXPORT _baseRef smoke_SetType_EquatableStruct_create_handle(_baseRef id);
+_GENIUM_C_EXPORT void smoke_SetType_EquatableStruct_release_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_SetType_EquatableStruct_create_optional_handle(_baseRef id);
+_GENIUM_C_EXPORT _baseRef smoke_SetType_EquatableStruct_unwrap_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT void smoke_SetType_EquatableStruct_release_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_SetType_EquatableStruct_id_get(_baseRef handle);
 _GENIUM_C_EXPORT void smoke_SetType_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_SetType_copy_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_SetType_stringSetRoundTrip(_baseRef input);
@@ -48,6 +54,17 @@ _GENIUM_C_EXPORT smoke_SetType_SomeEnum smoke_SetType_EnumSet_iterator_get(_base
 _GENIUM_C_EXPORT _baseRef smoke_SetType_EnumSet_create_optional_handle();
 _GENIUM_C_EXPORT void smoke_SetType_EnumSet_release_optional_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_SetType_EnumSet_unwrap_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_SetType_StructSet_create_handle();
+_GENIUM_C_EXPORT void smoke_SetType_StructSet_release_handle(_baseRef handle);
+_GENIUM_C_EXPORT void smoke_SetType_StructSet_insert(_baseRef handle, _baseRef value);
+_GENIUM_C_EXPORT _baseRef smoke_SetType_StructSet_iterator(_baseRef handle);
+_GENIUM_C_EXPORT void smoke_SetType_StructSet_iterator_release_handle(_baseRef iterator_handle);
+_GENIUM_C_EXPORT bool smoke_SetType_StructSet_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
+_GENIUM_C_EXPORT void smoke_SetType_StructSet_iterator_increment(_baseRef iterator_handle);
+_GENIUM_C_EXPORT _baseRef smoke_SetType_StructSet_iterator_get(_baseRef iterator_handle);
+_GENIUM_C_EXPORT _baseRef smoke_SetType_StructSet_create_optional_handle();
+_GENIUM_C_EXPORT void smoke_SetType_StructSet_release_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_SetType_StructSet_unwrap_optional_handle(_baseRef handle);
 #ifdef __cplusplus
 }
 #endif

@@ -118,7 +118,7 @@ struct Conversion< std::shared_ptr< T > >
     }
 
     static _baseRef
-    referenceBaseRef( std::shared_ptr< T >& t )
+    referenceBaseRef( const std::shared_ptr< T >& t )
     {
         return reinterpret_cast< _baseRef >( &t );
     }

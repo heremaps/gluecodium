@@ -15,6 +15,7 @@ public class SetType {
     public typealias IntSet = Set<Int32>
     public typealias StringSet = Set<String>
     public typealias EnumSet = Set<SetType.SomeEnum>
+    public typealias StructSet = Set<SetType.EquatableStruct>
     let c_instance : _baseRef
     init(cSetType: _baseRef) {
         guard cSetType != 0 else {
@@ -28,6 +29,15 @@ public class SetType {
     public enum SomeEnum : UInt32, CaseIterable {
         case off
         case on
+    }
+    public struct EquatableStruct: Hashable {
+        public var id: String
+        public init(id: String) {
+            self.id = id
+        }
+        internal init(cHandle: _baseRef) {
+            id = moveFromCType(smoke_SetType_EquatableStruct_id_get(cHandle))
+        }
     }
     public static func stringSetRoundTrip(input: SetType.StringSet) -> SetType.StringSet {
         let c_input = moveToCType(input)
@@ -74,6 +84,45 @@ internal func copyToCType(_ swiftClass: SetType?) -> RefHolder {
 }
 internal func moveToCType(_ swiftClass: SetType?) -> RefHolder {
     return getRef(swiftClass, owning: true)
+}
+internal func copyFromCType(_ handle: _baseRef) -> SetType.EquatableStruct {
+    return SetType.EquatableStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> SetType.EquatableStruct {
+    defer {
+        smoke_SetType_EquatableStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: SetType.EquatableStruct) -> RefHolder {
+    let c_id = moveToCType(swiftType.id)
+    return RefHolder(smoke_SetType_EquatableStruct_create_handle(c_id.ref))
+}
+internal func moveToCType(_ swiftType: SetType.EquatableStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_SetType_EquatableStruct_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> SetType.EquatableStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_SetType_EquatableStruct_unwrap_optional_handle(handle)
+    return SetType.EquatableStruct(cHandle: unwrappedHandle) as SetType.EquatableStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> SetType.EquatableStruct? {
+    defer {
+        smoke_SetType_EquatableStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: SetType.EquatableStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let c_id = moveToCType(swiftType.id)
+    return RefHolder(smoke_SetType_EquatableStruct_create_optional_handle(c_id.ref))
+}
+internal func moveToCType(_ swiftType: SetType.EquatableStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_SetType_EquatableStruct_release_optional_handle)
 }
 internal func copyToCType(_ swiftEnum: SetType.SomeEnum) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)

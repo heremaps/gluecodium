@@ -7,6 +7,7 @@
 #include "smoke/SetType.h"
 #include <memory>
 #include <new>
+#include <string>
 #include <unordered_set>
 void smoke_SetType_release_handle(_baseRef handle) {
     delete get_pointer<std::shared_ptr<::smoke::SetType>>(handle);
@@ -15,6 +16,37 @@ _baseRef smoke_SetType_copy_handle(_baseRef handle) {
     return handle
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<std::shared_ptr<::smoke::SetType>>(handle)))
         : 0;
+}
+_baseRef
+smoke_SetType_EquatableStruct_create_handle( _baseRef id )
+{
+    ::smoke::SetType::EquatableStruct* _struct = new ( std::nothrow ) ::smoke::SetType::EquatableStruct();
+    _struct->id = Conversion<std::string>::toCpp( id );
+    return reinterpret_cast<_baseRef>( _struct );
+}
+void
+smoke_SetType_EquatableStruct_release_handle( _baseRef handle )
+{
+    delete get_pointer<::smoke::SetType::EquatableStruct>( handle );
+}
+_baseRef
+smoke_SetType_EquatableStruct_create_optional_handle(_baseRef id)
+{
+    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::SetType::EquatableStruct>( ::smoke::SetType::EquatableStruct( ) );
+    (*_struct)->id = Conversion<std::string>::toCpp( id );
+    return reinterpret_cast<_baseRef>( _struct );
+}
+_baseRef
+smoke_SetType_EquatableStruct_unwrap_optional_handle( _baseRef handle )
+{
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::SetType::EquatableStruct>*>( handle ) );
+}
+void smoke_SetType_EquatableStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::genium::optional<::smoke::SetType::EquatableStruct>*>( handle );
+}
+_baseRef smoke_SetType_EquatableStruct_id_get(_baseRef handle) {
+    auto struct_pointer = get_pointer<::smoke::SetType::EquatableStruct>(handle);
+return Conversion<std::string>::toBaseRef(struct_pointer->id);
 }
 _baseRef smoke_SetType_stringSetRoundTrip(_baseRef input) {
     return Conversion<::smoke::SetType::StringSet>::toBaseRef(::smoke::SetType::string_set_round_trip(Conversion<::smoke::SetType::StringSet>::toCpp(input)))
@@ -129,4 +161,38 @@ void smoke_SetType_EnumSet_release_optional_handle(_baseRef handle) {
 }
 _baseRef smoke_SetType_EnumSet_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_set<::smoke::SetType::SomeEnum, ::genium::hash<::smoke::SetType::SomeEnum> >>*>( handle ) );
+}
+_baseRef smoke_SetType_StructSet_create_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_set<::smoke::SetType::EquatableStruct, ::genium::hash<::smoke::SetType::EquatableStruct> >() );
+}
+void smoke_SetType_StructSet_release_handle(_baseRef handle) {
+    delete get_pointer<std::unordered_set<::smoke::SetType::EquatableStruct, ::genium::hash<::smoke::SetType::EquatableStruct> >>(handle);
+}
+void smoke_SetType_StructSet_insert(_baseRef handle, _baseRef value) {
+    (*get_pointer<std::unordered_set<::smoke::SetType::EquatableStruct, ::genium::hash<::smoke::SetType::EquatableStruct> >>(handle)).insert(std::move(Conversion<::smoke::SetType::EquatableStruct>::toCpp(value)));
+}
+_baseRef smoke_SetType_StructSet_iterator(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_set<::smoke::SetType::EquatableStruct, ::genium::hash<::smoke::SetType::EquatableStruct> >::iterator( get_pointer<std::unordered_set<::smoke::SetType::EquatableStruct, ::genium::hash<::smoke::SetType::EquatableStruct> >>(handle)->begin() ) );
+}
+void smoke_SetType_StructSet_iterator_release_handle(_baseRef iterator_handle) {
+    delete reinterpret_cast<std::unordered_set<::smoke::SetType::EquatableStruct, ::genium::hash<::smoke::SetType::EquatableStruct> >::iterator*>( iterator_handle );
+}
+bool smoke_SetType_StructSet_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
+    return *reinterpret_cast<std::unordered_set<::smoke::SetType::EquatableStruct, ::genium::hash<::smoke::SetType::EquatableStruct> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_set<::smoke::SetType::EquatableStruct, ::genium::hash<::smoke::SetType::EquatableStruct> >>(handle)->end();
+}
+void smoke_SetType_StructSet_iterator_increment(_baseRef iterator_handle) {
+    ++*reinterpret_cast<std::unordered_set<::smoke::SetType::EquatableStruct, ::genium::hash<::smoke::SetType::EquatableStruct> >::iterator*>( iterator_handle );
+}
+_baseRef smoke_SetType_StructSet_iterator_get(_baseRef iterator_handle) {
+    auto& value = **reinterpret_cast<std::unordered_set<::smoke::SetType::EquatableStruct, ::genium::hash<::smoke::SetType::EquatableStruct> >::iterator*>( iterator_handle );
+    return Conversion<::smoke::SetType::EquatableStruct>::referenceBaseRef(value);
+}
+_baseRef smoke_SetType_StructSet_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::unordered_set<::smoke::SetType::EquatableStruct, ::genium::hash<::smoke::SetType::EquatableStruct> >>( std::unordered_set<::smoke::SetType::EquatableStruct, ::genium::hash<::smoke::SetType::EquatableStruct> >( ) ) );
+}
+void smoke_SetType_StructSet_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::genium::optional<std::unordered_set<::smoke::SetType::EquatableStruct, ::genium::hash<::smoke::SetType::EquatableStruct> >>*>( handle );
+}
+_baseRef smoke_SetType_StructSet_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_set<::smoke::SetType::EquatableStruct, ::genium::hash<::smoke::SetType::EquatableStruct> >>*>( handle ) );
 }

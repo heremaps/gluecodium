@@ -25,6 +25,15 @@ class SetType {
     typealias IntSet = Set<Int>
     typealias StringSet = Set<String>
     typealias EnumSet = Set<SomeEnum>
+
+    @Equatable
+    struct EquatableStruct {
+        id: String
+    }
+    typealias StructSet = Set<EquatableStruct>
+    typealias ClassSet = Set<EquatableClass>
+    typealias PointerEquatableSet = Set<PointerEquatableClass>
+
     static fun stringSetRoundTrip(
         input: StringSet
     ): StringSet
@@ -34,4 +43,29 @@ class SetType {
     static fun nullableIntSetRoundTrip(
         input: IntSet?
     ): IntSet?
+    static fun structSetRoundTrip(
+        input: StructSet
+    ): StructSet
+    static fun classSetRoundTrip(
+        input: ClassSet
+    ): ClassSet
+    static fun pointerEquatableSetRoundTrip(
+        input: PointerEquatableSet
+    ): PointerEquatableSet
+}
+
+@Equatable
+class EquatableClass {
+    constructor create(
+        id: String
+    )
+    property id: String { get }
+}
+
+@PointerEquatable
+class PointerEquatableClass {
+    constructor create(
+        id: String
+    )
+    property id: String { get }
 }

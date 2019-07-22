@@ -80,6 +80,30 @@ class SetTypeTests: XCTestCase {
         XCTAssertEqual(result, intSet)
     }
 
+    func testStructSetRoundTrip() {
+        let input: SetType.StructSet = [SetType.EquatableStruct(id: "foo")]
+
+        let result = SetType.structSetRoundTrip(input: input)
+
+        XCTAssertEqual(result, input)
+    }
+
+    func testClassSetRoundTrip() {
+        let input: SetType.ClassSet = [EquatableClass(id: "foo")]
+
+        let result = SetType.classSetRoundTrip(input: input)
+
+        XCTAssertEqual(result, input)
+    }
+
+    func testPointerEquatableSetRoundTrip() {
+        let input: SetType.PointerEquatableSet = [PointerEquatableClass(id: "foo")]
+
+        let result = SetType.pointerEquatableSetRoundTrip(input: input)
+
+        XCTAssertEqual(result, input)
+    }
+
     static var allTests = [
         ("testEmptyStringSetRoundTrip", testEmptyStringSetRoundTrip),
         ("testStringSetRoundTrip", testStringSetRoundTrip),
@@ -87,6 +111,9 @@ class SetTypeTests: XCTestCase {
         ("testEnumSetRoundTrip", testEnumSetRoundTrip),
         ("testNullNullableSetRoundTrip", testNullNullableSetRoundTrip),
         ("testEmptyNullableSetRoundTrip", testEmptyNullableSetRoundTrip),
-        ("testNullableSetRoundTrip", testNullableSetRoundTrip)
+        ("testNullableSetRoundTrip", testNullableSetRoundTrip),
+        ("testStructSetRoundTrip", testStructSetRoundTrip),
+        ("testClassSetRoundTrip", testClassSetRoundTrip),
+        ("testPointerEquatableSetRoundTrip", testPointerEquatableSetRoundTrip)
     ]
 }

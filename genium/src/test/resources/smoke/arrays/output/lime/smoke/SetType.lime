@@ -1,23 +1,23 @@
 package smoke
-
 class SetType {
     typealias IntSet = Set<Int>
     typealias StringSet = Set<String>
     typealias EnumSet = Set<SomeEnum>
-
+    typealias StructSet = Set<EquatableStruct>
     enum SomeEnum {
         OFF,
         ON
     }
-
+    @Equatable
+    struct EquatableStruct {
+        id: String
+    }
     static fun stringSetRoundTrip(
         input: StringSet
     ): StringSet
-
     static fun enumSetRoundTrip(
         input: EnumSet
     ): EnumSet
-
     static fun nullableIntSetRoundTrip(
         input: IntSet?
     ): IntSet?

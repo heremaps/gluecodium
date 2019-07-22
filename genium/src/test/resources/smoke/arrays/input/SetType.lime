@@ -27,6 +27,12 @@ class SetType {
     typealias StringSet = Set<String>
     typealias EnumSet = Set<SomeEnum>
 
+    @Equatable
+    struct EquatableStruct {
+        id: String
+    }
+    typealias StructSet = Set<EquatableStruct>
+
     static fun stringSetRoundTrip(input: StringSet): StringSet
     static fun enumSetRoundTrip(input: EnumSet): EnumSet
     static fun nullableIntSetRoundTrip(input: IntSet?): IntSet?

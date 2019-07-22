@@ -103,4 +103,31 @@ public class SetTypeTest {
 
     assertEquals(intSet, result);
   }
+
+  @Test
+  public void structSetRoundTrip() {
+    Set<SetType.EquatableStruct> input = Collections.singleton(new SetType.EquatableStruct("foo"));
+
+    Set<SetType.EquatableStruct> result = SetType.structSetRoundTrip(input);
+
+    assertEquals(input, result);
+  }
+
+  @Test
+  public void classSetRoundTrip() {
+    Set<EquatableClass> input = Collections.singleton(new EquatableClass("foo"));
+
+    Set<EquatableClass> result = SetType.classSetRoundTrip(input);
+
+    assertEquals(input, result);
+  }
+
+  @Test
+  public void pointerEquatableClassSetRoundTrip() {
+    Set<PointerEquatableClass> input = Collections.singleton(new PointerEquatableClass("foo"));
+
+    Set<PointerEquatableClass> result = SetType.pointerEquatableSetRoundTrip(input);
+
+    assertEquals(input, result);
+  }
 }

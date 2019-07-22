@@ -16,6 +16,26 @@ public class SetType extends NativeBase {
             this.value = value;
         }
     }
+    public static class EquatableStruct {
+        @NonNull
+        public String id;
+        public EquatableStruct(@NonNull final String id) {
+            this.id = id;
+        }
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this) return true;
+            if (!(obj instanceof EquatableStruct)) return false;
+            final EquatableStruct other = (EquatableStruct) obj;
+            return java.util.Objects.equals(this.id, other.id);
+        }
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            hash = 31 * hash + (this.id != null ? this.id.hashCode() : 0);
+            return hash;
+        }
+    }
     /**
      * For internal use only.
      * @exclude
