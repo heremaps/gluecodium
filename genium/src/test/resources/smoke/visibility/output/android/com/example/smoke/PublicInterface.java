@@ -7,9 +7,9 @@ import android.support.annotation.NonNull;
 public interface PublicInterface {
     static class InternalStruct {
         @NonNull
-        String stringField;
-        InternalStruct(@NonNull final String stringField) {
-            this.stringField = stringField;
+        PublicClass.InternalStruct fieldOfInternalType;
+        InternalStruct(@NonNull final PublicClass.InternalStruct fieldOfInternalType) {
+            this.fieldOfInternalType = fieldOfInternalType;
         }
     }
 }

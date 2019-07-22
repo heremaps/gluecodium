@@ -1,5 +1,9 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed validation for members of internal structs.
+
 ## 4.9.0
 - Release date: 2019-07-22
 - Features:

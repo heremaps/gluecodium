@@ -79,12 +79,12 @@ internal func moveToCType(_ swiftClass: PublicInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 internal struct InternalStruct {
-    internal var stringField: String
-    internal init(stringField: String) {
-        self.stringField = stringField
+    internal var fieldOfInternalType: PublicClass.InternalStruct
+    internal init(fieldOfInternalType: PublicClass.InternalStruct) {
+        self.fieldOfInternalType = fieldOfInternalType
     }
     internal init(cHandle: _baseRef) {
-        stringField = moveFromCType(smoke_PublicInterface_InternalStruct_stringField_get(cHandle))
+        fieldOfInternalType = moveFromCType(smoke_PublicInterface_InternalStruct_fieldOfInternalType_get(cHandle))
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> InternalStruct {
@@ -97,8 +97,8 @@ internal func moveFromCType(_ handle: _baseRef) -> InternalStruct {
     return copyFromCType(handle)
 }
 internal func copyToCType(_ swiftType: InternalStruct) -> RefHolder {
-    let c_stringField = moveToCType(swiftType.stringField)
-    return RefHolder(smoke_PublicInterface_InternalStruct_create_handle(c_stringField.ref))
+    let c_fieldOfInternalType = moveToCType(swiftType.fieldOfInternalType)
+    return RefHolder(smoke_PublicInterface_InternalStruct_create_handle(c_fieldOfInternalType.ref))
 }
 internal func moveToCType(_ swiftType: InternalStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicInterface_InternalStruct_release_handle)
@@ -120,8 +120,8 @@ internal func copyToCType(_ swiftType: InternalStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let c_stringField = moveToCType(swiftType.stringField)
-    return RefHolder(smoke_PublicInterface_InternalStruct_create_optional_handle(c_stringField.ref))
+    let c_fieldOfInternalType = moveToCType(swiftType.fieldOfInternalType)
+    return RefHolder(smoke_PublicInterface_InternalStruct_create_optional_handle(c_fieldOfInternalType.ref))
 }
 internal func moveToCType(_ swiftType: InternalStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_PublicInterface_InternalStruct_release_optional_handle)

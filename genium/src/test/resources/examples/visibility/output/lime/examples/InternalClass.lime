@@ -2,7 +2,7 @@ package examples
 
 internal class InternalClass {
     internal struct InternalStruct {
-        internal stringField: String
+        stringField: String
     }
 
     internal fun internalMethod(

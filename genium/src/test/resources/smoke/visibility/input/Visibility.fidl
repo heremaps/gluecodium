@@ -34,7 +34,7 @@ interface PublicInterface {
     public typedef PublicInterface is undefined
 
     struct InternalStruct {
-        String stringField
+        PublicClass.InternalStruct fieldOfInternalType
     }
 }
 
@@ -54,7 +54,7 @@ interface PublicClass {
         }
     }
 
-    struct InternalStruct {
+    public struct InternalStruct {
         String stringField
     }
 

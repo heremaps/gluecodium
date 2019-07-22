@@ -25,7 +25,7 @@ import com.here.genium.validator.ValidatorPredicate;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.franca.core.franca.*;
+import org.franca.core.franca.FModelElement;
 
 /**
  * Abstract base class for the family of Visibility predicates. Conditions checked against:
@@ -65,7 +65,9 @@ abstract class VisibilityValidatorPredicate<T extends FModelElement>
     Collection<FModelElement> validationChildElements;
     String errorMessageFormat;
 
-    if (deploymentModel.isInternal(francaElement)) {
+    boolean isInternal = deploymentModel.isInternal(francaElement);
+    boolean isParentInternal = deploymentModel.isInternal(francaElement.eContainer());
+    if (isInternal || isParentInternal) {
       validationChildElements =
           internalChildElements
               .filter(

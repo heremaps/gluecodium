@@ -20,9 +20,9 @@
   !}}
 {{>lime/LimeDocumentation}}
 {{visibility}}struct {{name}} {
-{{#fields}}
+{{#set parentVisibility=visibility}}{{#fields}}
 {{prefixPartial "lime/LimeField" "    "}}
-{{/fields}}
+{{/fields}}{{/set}}
 {{#constants}}
 {{prefixPartial "lime/LimeConstant" "    "}}
 {{/constants}}

@@ -11,7 +11,7 @@ class PublicClass {
     }
 
     internal struct InternalStruct {
-        internal stringField: String
+        stringField: String
     }
     struct PublicStruct {
         internal internalField: InternalStruct
