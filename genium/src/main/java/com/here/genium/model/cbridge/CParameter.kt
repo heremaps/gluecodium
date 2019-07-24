@@ -17,30 +17,13 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge;
+package com.here.genium.model.cbridge
 
-import com.here.genium.generator.cbridge.CppTypeInfo;
-import com.here.genium.model.common.Include;
-import java.util.ArrayList;
-import java.util.List;
+import com.here.genium.generator.cbridge.CppTypeInfo
 
-public class CParameter extends CElement {
+class CParameter(name: String, val mappedType: CppTypeInfo) : CElement(name) {
 
-  public final CppTypeInfo mappedType;
+    val signatureIncludes = mappedType.functionReturnType.includes + mappedType.cType.includes
 
-  public CParameter(final String name, final CppTypeInfo mappedType) {
-    super(name);
-    this.mappedType = mappedType;
-  }
-
-  public List<Include> getSignatureIncludes() {
-    List<Include> includes = new ArrayList<>(mappedType.getFunctionReturnType().includes);
-    includes.addAll(mappedType.getCType().includes);
-    return includes;
-  }
-
-  @Override
-  public String toString() {
-    return mappedType.getFunctionReturnType() + " " + name;
-  }
+    override fun toString() = mappedType.functionReturnType.toString() + " " + name
 }

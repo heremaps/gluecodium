@@ -41,7 +41,7 @@ class CFunction(
         nestedSpecifier,
         shortName,
         CBridgeNameRules.UNDERSCORE_DELIMITER
-    )
+    ) ?: ""
 ) {
     @Suppress("unused")
     val isReturningVoid = returnType.functionReturnType == CType.VOID

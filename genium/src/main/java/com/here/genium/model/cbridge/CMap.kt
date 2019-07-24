@@ -17,28 +17,15 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge;
+package com.here.genium.model.cbridge
 
-import com.here.genium.generator.cbridge.CppTypeInfo;
-import com.here.genium.model.common.Include;
+import com.here.genium.generator.cbridge.CppTypeInfo
+import com.here.genium.model.common.Include
 
-public final class CMap extends CElement {
-
-  public final CppTypeInfo keyType;
-  public final CppTypeInfo valueType;
-  public final String enumHashType;
-  public final Include include;
-
-  public CMap(
-      final String name,
-      final CppTypeInfo keyType,
-      final CppTypeInfo valueType,
-      final String enumHashType,
-      final Include include) {
-    super(name);
-    this.keyType = keyType;
-    this.valueType = valueType;
-    this.enumHashType = enumHashType;
-    this.include = include;
-  }
-}
+class CMap(
+    name: String,
+    val keyType: CppTypeInfo,
+    val valueType: CppTypeInfo,
+    val enumHashType: String?,
+    val include: Include
+) : CElement(name)

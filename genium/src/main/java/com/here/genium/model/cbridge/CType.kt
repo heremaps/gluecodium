@@ -17,68 +17,62 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge;
+package com.here.genium.model.cbridge
 
-import static java.util.Collections.emptyList;
+import com.here.genium.generator.cbridge.CBridgeNameRules
+import com.here.genium.model.common.Include
+import java.nio.file.Paths
 
-import com.here.genium.generator.cbridge.CBridgeNameRules;
-import com.here.genium.model.common.Include;
-import java.nio.file.Paths;
-import java.util.*;
+open class CType @JvmOverloads constructor(
+    name: String,
+    val includes: List<Include> = emptyList(),
+    val isConst: Boolean = false
+) : CElement(name) {
 
-public class CType extends CElement {
-  protected static final String CONST_SPECIFIER = "const";
-  public static final Include FIXED_WIDTH_INTEGERS_INCLUDE =
-      Include.Companion.createSystemInclude("stdint.h");
-  public static final Include BOOL_INCLUDE = Include.Companion.createSystemInclude("stdbool.h");
+    constructor(name: String, include: Include): this(name, listOf(include))
 
-  public static final CType VOID = new CType("void");
-  public static final CType INT8 = new CType("int8_t", FIXED_WIDTH_INTEGERS_INCLUDE);
-  public static final CType UINT8 = new CType("uint8_t", FIXED_WIDTH_INTEGERS_INCLUDE);
-  public static final CType INT16 = new CType("int16_t", FIXED_WIDTH_INTEGERS_INCLUDE);
-  public static final CType UINT16 = new CType("uint16_t", FIXED_WIDTH_INTEGERS_INCLUDE);
-  public static final CType INT32 = new CType("int32_t", FIXED_WIDTH_INTEGERS_INCLUDE);
-  public static final CType UINT32 = new CType("uint32_t", FIXED_WIDTH_INTEGERS_INCLUDE);
-  public static final CType INT64 = new CType("int64_t", FIXED_WIDTH_INTEGERS_INCLUDE);
-  public static final CType UINT64 = new CType("uint64_t", FIXED_WIDTH_INTEGERS_INCLUDE);
-  public static final CType BOOL = new CType("bool", BOOL_INCLUDE);
-  public static final CType FLOAT = new CType("float");
-  public static final CType DOUBLE = new CType("double");
-  public static final CType STRING_REF =
-      new CType(
-          CBridgeNameRules.BASE_REF_NAME,
-          Include.Companion.createInternalInclude(
-              Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "StringHandle.h").toString()));
-  public static final CType BYTE_ARRAY_REF =
-      new CType(
-          CBridgeNameRules.BASE_REF_NAME,
-          Include.Companion.createInternalInclude(
-              Paths.get(CBridgeNameRules.CBRIDGE_PUBLIC, "include", "ByteArrayHandle.h")
-                  .toString()));
+    override fun toString() = if (isConst) "$CONST_SPECIFIER $name" else name
 
-  public Boolean isConst = false;
-  public final Set<Include> includes;
+    companion object {
+        protected const val CONST_SPECIFIER = "const"
+        val FIXED_WIDTH_INTEGERS_INCLUDE = Include.createSystemInclude("stdint.h")
+        val BOOL_INCLUDE = Include.createSystemInclude("stdbool.h")
 
-  public CType(final String name) {
-    this(name, emptyList());
-  }
-
-  public CType(final String name, final Include include) {
-    this(name);
-    includes.add(include);
-  }
-
-  public CType(final String name, final Collection<Include> includes) {
-    super(name);
-    this.includes = new LinkedHashSet<>(includes);
-  }
-
-  @Override
-  public String toString() {
-    if (isConst) {
-      return CONST_SPECIFIER + " " + name;
-    } else {
-      return name;
+        val VOID = CType("void")
+        val INT8 = CType("int8_t", FIXED_WIDTH_INTEGERS_INCLUDE)
+        val UINT8 = CType("uint8_t", FIXED_WIDTH_INTEGERS_INCLUDE)
+        val INT16 = CType("int16_t", FIXED_WIDTH_INTEGERS_INCLUDE)
+        val UINT16 = CType("uint16_t", FIXED_WIDTH_INTEGERS_INCLUDE)
+        val INT32 = CType("int32_t", FIXED_WIDTH_INTEGERS_INCLUDE)
+        val UINT32 = CType("uint32_t", FIXED_WIDTH_INTEGERS_INCLUDE)
+        val INT64 = CType("int64_t", FIXED_WIDTH_INTEGERS_INCLUDE)
+        val UINT64 = CType("uint64_t", FIXED_WIDTH_INTEGERS_INCLUDE)
+        val BOOL = CType("bool", BOOL_INCLUDE)
+        val FLOAT = CType("float")
+        val DOUBLE = CType("double")
+        val STRING_REF = CType(
+            CBridgeNameRules.BASE_REF_NAME,
+            listOf(
+                Include.createInternalInclude(
+                    Paths.get(
+                        CBridgeNameRules.CBRIDGE_PUBLIC,
+                        "include",
+                        "StringHandle.h"
+                    ).toString()
+                )
+            )
+        )
+        val BYTE_ARRAY_REF = CType(
+            CBridgeNameRules.BASE_REF_NAME,
+            listOf(
+                Include.createInternalInclude(
+                    Paths.get(
+                        CBridgeNameRules.CBRIDGE_PUBLIC,
+                        "include",
+                        "ByteArrayHandle.h"
+                    ).toString()
+                )
+            )
+        )
     }
-  }
 }

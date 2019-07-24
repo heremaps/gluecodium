@@ -19,12 +19,11 @@
 
 package com.here.genium.generator.cbridge;
 
-import static com.here.genium.model.cbridge.CType.FIXED_WIDTH_INTEGERS_INCLUDE;
-
 import com.here.genium.generator.common.GeneratedFile;
 import com.here.genium.generator.common.templates.TemplateEngine;
 import com.here.genium.generator.cpp.CppLibraryIncludes;
 import com.here.genium.model.cbridge.CArray;
+import com.here.genium.model.cbridge.CType;
 import com.here.genium.model.common.Include;
 import java.nio.file.Paths;
 import java.util.*;
@@ -56,7 +55,7 @@ public final class CArrayGenerator {
 
     Set<Include> headerIncludes =
         new TreeSet<>(CBridgeComponents.INSTANCE.collectHeaderIncludes(arrays));
-    headerIncludes.add(FIXED_WIDTH_INTEGERS_INCLUDE);
+    headerIncludes.add(CType.Companion.getFIXED_WIDTH_INTEGERS_INCLUDE());
 
     Map<String, Object> headerData = new HashMap<>();
     headerData.put("arrays", arrays);

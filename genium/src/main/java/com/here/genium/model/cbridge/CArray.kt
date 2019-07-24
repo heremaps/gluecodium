@@ -17,65 +17,25 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge;
+package com.here.genium.model.cbridge
 
-import com.here.genium.generator.cbridge.CppArrayTypeInfo;
-import com.here.genium.generator.cbridge.CppTypeInfo;
-import com.here.genium.model.common.Include;
-import java.util.ArrayList;
-import java.util.List;
+import com.here.genium.generator.cbridge.CppArrayTypeInfo
+import com.here.genium.generator.cbridge.CppTypeInfo
 
-public final class CArray extends CElement {
+class CArray(name: String, typeInfo: CppArrayTypeInfo) : CElement(name) {
 
-  public final CppTypeInfo arrayType;
-  public final CppTypeInfo underlyingType;
+    val arrayType: CppTypeInfo = typeInfo
+    val underlyingType: CppTypeInfo = typeInfo.innerType
+    val type = arrayType.functionReturnType.toString()
+    val innerType = underlyingType.functionReturnType.toString()
+    val argument = underlyingType.cType.toString()
+    val innerBaseApi = underlyingType.name
 
-  public CArray(final String name, final CppArrayTypeInfo typeInfo) {
-    super(name);
-    this.arrayType = typeInfo;
-    this.underlyingType = typeInfo.getInnerType();
-  }
+    fun returnTypeIncludes() =
+        getLastType(underlyingType).functionReturnType.includes + arrayType.functionReturnType.includes
 
-  public String getType() {
-    return arrayType.getFunctionReturnType().toString();
-  }
+    fun includes() = getLastType(underlyingType).includes + arrayType.includes
 
-  public String getInnerType() {
-    return underlyingType.getFunctionReturnType().toString();
-  }
-
-  @SuppressWarnings("unused")
-  public String innerBaseApi() {
-    return underlyingType.name;
-  }
-
-  @SuppressWarnings("unused")
-  public String getArgument() {
-    return underlyingType.getCType().toString();
-  }
-
-  public List<Include> returnTypeIncludes() {
-    List<Include> includes = new ArrayList<>();
-    includes.addAll(getLastType(underlyingType).getFunctionReturnType().includes);
-    includes.addAll(arrayType.getFunctionReturnType().includes);
-    return includes;
-  }
-
-  public List<Include> includes() {
-    List<Include> includes = new ArrayList<>();
-    includes.addAll(getLastType(underlyingType).getIncludes());
-    includes.addAll(arrayType.getIncludes());
-    return includes;
-  }
-
-  private CppTypeInfo getLastType(final CppTypeInfo typeInfo) {
-    CppTypeInfo lastType = typeInfo;
-    if (typeInfo instanceof CppArrayTypeInfo) {
-      CppTypeInfo innerInnerType = ((CppArrayTypeInfo) typeInfo).getInnerType();
-      if (innerInnerType != null) {
-        lastType = getLastType(innerInnerType);
-      }
-    }
-    return lastType;
-  }
+    private fun getLastType(typeInfo: CppTypeInfo): CppTypeInfo =
+        if (typeInfo is CppArrayTypeInfo) getLastType(typeInfo.innerType) else typeInfo
 }

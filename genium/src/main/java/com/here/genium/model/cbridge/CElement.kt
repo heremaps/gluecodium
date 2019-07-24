@@ -17,17 +17,9 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.cbridge;
+package com.here.genium.model.cbridge
 
-public abstract class CElement {
-  public final String name;
+abstract class CElement(val name: String) {
 
-  public CElement(String name) {
-    this.name = name;
-  }
-
-  @Override
-  public String toString() {
-    return name;
-  }
+    override fun toString() = name
 }
