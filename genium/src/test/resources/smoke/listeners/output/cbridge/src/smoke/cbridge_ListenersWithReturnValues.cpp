@@ -51,32 +51,32 @@ double smoke_ListenersWithReturnValues_ResultStruct_result_get(_baseRef handle) 
     auto struct_pointer = get_pointer<::smoke::ListenersWithReturnValues::ResultStruct>(handle);
 return struct_pointer->result;
 }
-double smoke_ListenersWithReturnValues_fetchData_0(_baseRef _instance) {
-    return get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data()
+double smoke_ListenersWithReturnValues_fetchDataDouble(_baseRef _instance) {
+    return get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_double()
 ;
 }
-_baseRef smoke_ListenersWithReturnValues_fetchData_1(_baseRef _instance) {
-    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data())
+_baseRef smoke_ListenersWithReturnValues_fetchDataString(_baseRef _instance) {
+    return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_string())
 ;
 }
-_baseRef smoke_ListenersWithReturnValues_fetchData_2(_baseRef _instance) {
-    return Conversion<::smoke::ListenersWithReturnValues::ResultStruct>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data())
+_baseRef smoke_ListenersWithReturnValues_fetchDataStruct(_baseRef _instance) {
+    return Conversion<::smoke::ListenersWithReturnValues::ResultStruct>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_struct())
 ;
 }
-smoke_ListenersWithReturnValues_ResultEnum smoke_ListenersWithReturnValues_fetchData_3(_baseRef _instance) {
-    return static_cast<smoke_ListenersWithReturnValues_ResultEnum>(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data())
+smoke_ListenersWithReturnValues_ResultEnum smoke_ListenersWithReturnValues_fetchDataEnum(_baseRef _instance) {
+    return static_cast<smoke_ListenersWithReturnValues_ResultEnum>(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_enum())
 ;
 }
-_baseRef smoke_ListenersWithReturnValues_fetchData_4(_baseRef _instance) {
-    return Conversion<std::vector<double>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data())
+_baseRef smoke_ListenersWithReturnValues_fetchDataArray(_baseRef _instance) {
+    return Conversion<std::vector<double>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_array())
 ;
 }
-_baseRef smoke_ListenersWithReturnValues_fetchData_5(_baseRef _instance) {
-    return Conversion<::smoke::ListenersWithReturnValues::StringToDouble>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data())
+_baseRef smoke_ListenersWithReturnValues_fetchDataMap(_baseRef _instance) {
+    return Conversion<::smoke::ListenersWithReturnValues::StringToDouble>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_map())
 ;
 }
-_baseRef smoke_ListenersWithReturnValues_fetchData_6(_baseRef _instance) {
-    return Conversion<std::shared_ptr<::smoke::CalculationResult>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data())
+_baseRef smoke_ListenersWithReturnValues_fetchDataInstance(_baseRef _instance) {
+    return Conversion<std::shared_ptr<::smoke::CalculationResult>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_instance())
 ;
 }
 class smoke_ListenersWithReturnValuesProxy : public std::shared_ptr<::smoke::ListenersWithReturnValues>::element_type, public CachedProxyBase<smoke_ListenersWithReturnValuesProxy> {
@@ -88,32 +88,32 @@ public:
     virtual ~smoke_ListenersWithReturnValuesProxy() {
         mFunctions.release(mFunctions.swift_pointer);
     }
-    double fetch_data() override {
-        auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchData_0(mFunctions.swift_pointer);
+    double fetch_data_double() override {
+        auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataDouble(mFunctions.swift_pointer);
         return _call_result;
     }
-    ::std::string fetch_data() override {
-        auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchData_1(mFunctions.swift_pointer);
+    ::std::string fetch_data_string() override {
+        auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataString(mFunctions.swift_pointer);
         return Conversion<std::string>::toCppReturn(_call_result);
     }
-    ::smoke::ListenersWithReturnValues::ResultStruct fetch_data() override {
-        auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchData_2(mFunctions.swift_pointer);
+    ::smoke::ListenersWithReturnValues::ResultStruct fetch_data_struct() override {
+        auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataStruct(mFunctions.swift_pointer);
         return Conversion<::smoke::ListenersWithReturnValues::ResultStruct>::toCppReturn(_call_result);
     }
-    ::smoke::ListenersWithReturnValues::ResultEnum fetch_data() override {
-        auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchData_3(mFunctions.swift_pointer);
+    ::smoke::ListenersWithReturnValues::ResultEnum fetch_data_enum() override {
+        auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataEnum(mFunctions.swift_pointer);
         return static_cast<::smoke::ListenersWithReturnValues::ResultEnum>(_call_result);
     }
-    ::std::vector< double > fetch_data() override {
-        auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchData_4(mFunctions.swift_pointer);
+    ::std::vector< double > fetch_data_array() override {
+        auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataArray(mFunctions.swift_pointer);
         return Conversion<std::vector<double>>::toCppReturn(_call_result);
     }
-    ::smoke::ListenersWithReturnValues::StringToDouble fetch_data() override {
-        auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchData_5(mFunctions.swift_pointer);
+    ::smoke::ListenersWithReturnValues::StringToDouble fetch_data_map() override {
+        auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataMap(mFunctions.swift_pointer);
         return Conversion<::smoke::ListenersWithReturnValues::StringToDouble>::toCppReturn(_call_result);
     }
-    ::std::shared_ptr< ::smoke::CalculationResult > fetch_data() override {
-        auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchData_6(mFunctions.swift_pointer);
+    ::std::shared_ptr< ::smoke::CalculationResult > fetch_data_instance() override {
+        auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataInstance(mFunctions.swift_pointer);
         return Conversion<std::shared_ptr<::smoke::CalculationResult>>::toCppReturn(_call_result);
     }
 private:

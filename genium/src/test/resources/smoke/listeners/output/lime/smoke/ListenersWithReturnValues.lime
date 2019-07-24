@@ -12,18 +12,11 @@ interface ListenersWithReturnValues {
         result: Double
     }
 
-    @Java("fetchDataDouble")
-    fun fetchData(): Double
-    @Java("fetchDataString")
-    fun fetchData(): String
-    @Java("fetchDataStruct")
-    fun fetchData(): ResultStruct
-    @Java("fetchDataEnum")
-    fun fetchData(): ResultEnum
-    @Java("fetchDataArray")
-    fun fetchData(): List<Double>
-    @Java("fetchDataMap")
-    fun fetchData(): StringToDouble
-    @Java("fetchDataInstance")
-    fun fetchData(): CalculationResult
+    fun fetchDataDouble(): Double
+    fun fetchDataString(): String
+    fun fetchDataStruct(): ResultStruct
+    fun fetchDataEnum(): ResultEnum
+    fun fetchDataArray(): List<Double>
+    fun fetchDataMap(): StringToDouble
+    fun fetchDataInstance(): CalculationResult
 }

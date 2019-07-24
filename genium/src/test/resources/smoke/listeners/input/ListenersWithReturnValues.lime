@@ -29,18 +29,11 @@ interface ListenersWithReturnValues {
 
     typealias StringToDouble = Map<String, Double>
 
-    @Java(Name = "fetchDataDouble")
-    fun fetchData(): Double
-    @Java(Name = "fetchDataString")
-    fun fetchData(): String
-    @Java(Name = "fetchDataStruct")
-    fun fetchData(): ResultStruct
-    @Java(Name = "fetchDataEnum")
-    fun fetchData(): ResultEnum
-    @Java(Name = "fetchDataArray")
-    fun fetchData(): List<Double>
-    @Java(Name = "fetchDataMap")
-    fun fetchData(): StringToDouble
-    @Java(Name = "fetchDataInstance")
-    fun fetchData(): CalculationResult
+    fun fetchDataDouble(): Double
+    fun fetchDataString(): String
+    fun fetchDataStruct(): ResultStruct
+    fun fetchDataEnum(): ResultEnum
+    fun fetchDataArray(): List<Double>
+    fun fetchDataMap(): StringToDouble
+    fun fetchDataInstance(): CalculationResult
 }
