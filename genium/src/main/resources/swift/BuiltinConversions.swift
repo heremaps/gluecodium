@@ -98,8 +98,9 @@ internal func moveFromCType(_ handle: _baseRef) -> Data {
 
 internal func copyToCType(_ swiftType: Data) -> RefHolder {
     let handle = byteArray_create_handle()
-    swiftType.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) in
-        byteArray_assign(handle, ptr, swiftType.count)
+    swiftType.withUnsafeBytes { (ptr: UnsafeRawBufferPointer) in
+        let uint8ptr = ptr.baseAddress?.assumingMemoryBound(to: UInt8.self)
+        byteArray_assign(handle, uint8ptr, ptr.count)
     }
     return RefHolder(handle)
 }
@@ -128,8 +129,9 @@ internal func copyToCType(_ swiftType: Data?) -> RefHolder {
         return RefHolder(0)
     }
     let handle = byteArray_create_optional_handle()
-    swiftType.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) in
-        byteArray_assign_optional(handle, ptr, swiftType.count)
+    swiftType.withUnsafeBytes { (ptr: UnsafeRawBufferPointer) in
+        let uint8ptr = ptr.baseAddress?.assumingMemoryBound(to: UInt8.self)
+        byteArray_assign_optional(handle, uint8ptr, swiftType.count)
     }
     return RefHolder(handle)
 }

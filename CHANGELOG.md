@@ -1,5 +1,11 @@
 # Genium project Release Notes
 
+## Unreleased
+- Bug fixes:
+  + Fixed Swift 5 compilation warning.
+- Breaking changes:
+  + Generated Swift code requires Swift 5.
+
 ## 4.9.1
 - Release date: 2019-07-24
 - Bug fixes:

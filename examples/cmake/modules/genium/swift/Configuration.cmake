@@ -71,8 +71,8 @@ function(apigen_swift_configuration target)
   endif()
 
   if(NOT DEFINED CMAKE_Swift_LANGUAGE_VERSION)
-    message(STATUS "[Swift] Swift version not specified, will use 4.2")
-    set(CMAKE_Swift_LANGUAGE_VERSION "4.2" CACHE STRING "Swift version to use for compilation.")
+    message(STATUS "[Swift] Swift version not specified, will use 5.0")
+    set(CMAKE_Swift_LANGUAGE_VERSION "5.0" CACHE STRING "Swift version to use for compilation.")
   endif()
 
   if(NOT SWIFT_FRAMEWORK_NAME)
