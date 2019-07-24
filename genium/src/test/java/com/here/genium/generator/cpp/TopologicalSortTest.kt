@@ -67,7 +67,7 @@ class TopologicalSortTest(
         private const val ENUM_NAME = "Kind"
         private const val TYPE_DEF_NAME = "shortcut"
 
-        private val CPP_ENUM = CppEnum(ENUM_NAME, ENUM_NAME, false, emptyList())
+        private val CPP_ENUM = CppEnum(ENUM_NAME, ENUM_NAME, emptyList(), false, emptyList())
         private val CPP_USING = createUsing(TYPE_DEF_NAME, CppComplexTypeRef(TYPE_A))
 
         @JvmStatic

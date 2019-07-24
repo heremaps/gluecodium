@@ -34,7 +34,7 @@ class CppMethod(
     val parameters: List<CppParameter> = emptyList(),
     val specifiers: Set<Specifier> = EnumSet.noneOf(Specifier::class.java),
     val qualifiers: Set<Qualifier> = EnumSet.noneOf(Qualifier::class.java)
-) : CppElementWithComment(name, fullyQualifiedName, comment) {
+) : CppElementWithComment(name, fullyQualifiedName, comment = comment) {
 
     enum class Specifier(private val text: String) {
         EXPLICIT("explicit"),

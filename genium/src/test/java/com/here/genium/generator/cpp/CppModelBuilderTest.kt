@@ -90,7 +90,7 @@ class CppModelBuilderTest {
         type = LimeContainer.ContainerType.INTERFACE
     )
 
-    private val cppEnum = CppEnum("", "", false, emptyList())
+    private val cppEnum = CppEnum("", "", emptyList(), false, emptyList())
     private val cppUsing = CppUsing("", "", Comments(), CppPrimitiveTypeRef.BOOL)
     private val cppStruct = CppStruct("")
     private val cppConstant = CppConstant("", "", CppPrimitiveTypeRef.BOOL, CppValue(""))

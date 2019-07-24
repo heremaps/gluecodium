@@ -22,4 +22,4 @@ package com.here.genium.model.cpp
 import com.here.genium.model.common.Include
 
 class CppValue(value: String, includes: List<Include> = emptyList())
-    : CppElementWithIncludes(value, includes)
+    : CppElementWithIncludes(value, value, includes)

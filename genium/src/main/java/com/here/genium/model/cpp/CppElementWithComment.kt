@@ -20,9 +20,11 @@
 package com.here.genium.model.cpp
 
 import com.here.genium.model.common.Comments
+import com.here.genium.model.common.Include
 
 abstract class CppElementWithComment(
     name: String,
     fullyQualifiedName: String = name,
+    includes: List<Include> = emptyList(),
     var comment: Comments = Comments()
-) : CppElement(name, fullyQualifiedName)
+) : CppElementWithIncludes(name, fullyQualifiedName, includes)

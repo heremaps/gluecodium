@@ -52,7 +52,7 @@ class CppGeneratorTest {
 
     @Test
     fun fileWithErrorWillBeGenerated() {
-        val error = CppEnum("", "", false, listOf())
+        val error = CppEnum("", "", emptyList(), false, listOf())
         val model = CppFile("", listOf(), listOf(), listOf(), listOf(), listOf(error))
         val generatedFiles = generator.generateCode(model)
         assertEquals(2, generatedFiles.size)
@@ -70,7 +70,7 @@ class CppGeneratorTest {
 
     @Test
     fun fileWithInternalExternableElementWillBeGenerated() {
-        val externable = object : CppExternableElement("", "", Comments(), false) {}
+        val externable = object : CppExternableElement("", "", emptyList(), Comments(), false) {}
         val model = CppFile("", listOf(), listOf(externable), listOf(), listOf(), listOf())
         val generatedFiles = generator.generateCode(model)
         assertEquals(2, generatedFiles.size)
@@ -78,7 +78,7 @@ class CppGeneratorTest {
 
     @Test
     fun fileWithExternalElementWillBeSkipped() {
-        val externable = object : CppExternableElement("", "", Comments(), true) {}
+        val externable = object : CppExternableElement("", "", emptyList(), Comments(), true) {}
         val model = CppFile("", listOf(), listOf(externable), listOf(), listOf(), listOf())
         val generatedFiles = generator.generateCode(model)
         assertEquals(0, generatedFiles.size)

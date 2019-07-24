@@ -20,10 +20,12 @@
 package com.here.genium.model.cpp
 
 import com.here.genium.model.common.Comments
+import com.here.genium.model.common.Include
 
 abstract class CppExternableElement(
     name: String,
     fullyQualifiedName: String,
+    includes: List<Include>,
     comment: Comments,
     val isExternal: Boolean
-) : CppElementWithComment(name, fullyQualifiedName, comment)
+) : CppElementWithComment(name, fullyQualifiedName, includes, comment)

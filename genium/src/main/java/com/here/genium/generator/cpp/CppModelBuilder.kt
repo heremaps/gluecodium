@@ -89,6 +89,7 @@ class CppModelBuilder(
         val cppClass = CppClass(
             name = nameResolver.getName(limeContainer),
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeContainer),
+            includes = emptyList(),
             comment = createComments(limeContainer),
             isExternal = limeContainer.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE),
             members = members,
@@ -171,15 +172,16 @@ class CppModelBuilder(
             it.copy(specifiers, qualifiers)
         }
         val cppStruct = CppStruct(
-            nameResolver.getName(limeStruct),
-            nameResolver.getFullyQualifiedName(limeStruct),
-            createComments(limeStruct),
-            limeStruct.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE),
-            getPreviousResults(CppField::class.java),
-            methods,
-            getPreviousResults(CppConstant::class.java),
-            limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
-            limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)
+            name = nameResolver.getName(limeStruct),
+            fullyQualifiedName = nameResolver.getFullyQualifiedName(limeStruct),
+            includes = emptyList(),
+            comment = createComments(limeElement = limeStruct),
+            isExternal = limeStruct.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE),
+            fields = getPreviousResults(CppField::class.java),
+            methods = methods,
+            constants = getPreviousResults(CppConstant::class.java),
+            isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
+            isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)
         )
 
         storeNamedResult(limeStruct, cppStruct)
@@ -280,10 +282,11 @@ class CppModelBuilder(
 
     override fun finishBuilding(limeEnumeration: LimeEnumeration) {
         val cppEnum = CppEnum(
-            nameResolver.getName(limeEnumeration),
-            nameResolver.getFullyQualifiedName(limeEnumeration),
-            limeEnumeration.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE),
-            getPreviousResults(CppEnumItem::class.java)
+            name = nameResolver.getName(limeEnumeration),
+            fullyQualifiedName = nameResolver.getFullyQualifiedName(limeEnumeration),
+            includes = emptyList(),
+            isExternal = limeEnumeration.attributes.have(CPP, LimeAttributeValueType.EXTERNAL_TYPE),
+            items = getPreviousResults(CppEnumItem::class.java)
         )
         cppEnum.comment = createComments(limeEnumeration)
 

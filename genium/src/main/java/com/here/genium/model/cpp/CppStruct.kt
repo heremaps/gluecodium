@@ -20,11 +20,13 @@
 package com.here.genium.model.cpp
 
 import com.here.genium.model.common.Comments
+import com.here.genium.model.common.Include
 import java.util.stream.Stream
 
 class CppStruct(
     name: String,
     fullyQualifiedName: String = name,
+    includes: List<Include> = emptyList(),
     comment: Comments = Comments(),
     isExternal: Boolean = false,
     val fields: List<CppField> = emptyList(),
@@ -32,7 +34,7 @@ class CppStruct(
     val constants: List<CppConstant> = emptyList(),
     val isEquatable: Boolean = false,
     val isImmutable: Boolean = false
-) : CppExternableElement(name, fullyQualifiedName, comment, isExternal) {
+) : CppExternableElement(name, fullyQualifiedName, includes, comment, isExternal) {
 
     @Suppress("unused")
     val uninitializedFields = fields.filter { it.initializer == null }

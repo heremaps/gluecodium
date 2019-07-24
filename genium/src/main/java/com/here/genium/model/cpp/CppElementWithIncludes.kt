@@ -23,5 +23,6 @@ import com.here.genium.model.common.Include
 
 abstract class CppElementWithIncludes(
     name: String,
-    val includes: List<Include>
-) : CppElement(name, name)
+    fullyQualifiedName: String,
+    val includes: List<Include> = emptyList()
+) : CppElement(name, fullyQualifiedName)

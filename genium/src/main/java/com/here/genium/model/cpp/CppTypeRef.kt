@@ -26,7 +26,7 @@ abstract class CppTypeRef(
     includes: List<Include>,
     val hashType: CppTypeRef? = null,
     val refersToValueType: Boolean = false
-) : CppElementWithIncludes(typeName, includes) {
+) : CppElementWithIncludes(typeName, typeName, includes) {
 
     open val actualType: CppTypeRef
         get() = this

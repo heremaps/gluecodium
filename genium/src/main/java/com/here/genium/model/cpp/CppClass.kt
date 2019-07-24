@@ -21,18 +21,20 @@ package com.here.genium.model.cpp
 
 import com.here.genium.generator.cpp.TopologicalSort
 import com.here.genium.model.common.Comments
+import com.here.genium.model.common.Include
 import java.util.stream.Stream
 
 class CppClass(
     name: String,
     fullyQualifiedName: String,
+    includes: List<Include>,
     comment: Comments,
     isExternal: Boolean,
     val members: List<CppElement>,
     val methods: List<CppMethod>,
     val inheritances: List<CppInheritance>,
     val isEquatable: Boolean
-) : CppExternableElement(name, fullyQualifiedName, comment, isExternal) {
+) : CppExternableElement(name, fullyQualifiedName, includes, comment, isExternal) {
 
     @Suppress("unused")
     val sortedMembers

@@ -20,13 +20,15 @@
 package com.here.genium.model.cpp
 
 import com.here.genium.model.common.Comments
+import com.here.genium.model.common.Include
 
 class CppEnum(
     name: String,
     fullyQualifiedName: String,
+    includes: List<Include>,
     isExternal: Boolean,
     val items: List<CppEnumItem>
-) : CppExternableElement(name, fullyQualifiedName, Comments(), isExternal) {
+) : CppExternableElement(name, fullyQualifiedName, includes, Comments(), isExternal) {
 
     override fun stream() = items.stream()
 }

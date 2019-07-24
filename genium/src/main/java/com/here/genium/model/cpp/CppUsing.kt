@@ -27,7 +27,7 @@ class CppUsing(
     fullyQualifiedName: String,
     comment: Comments = Comments(),
     val definition: CppTypeRef
-) : CppElementWithComment(name, fullyQualifiedName, comment) {
+) : CppElementWithComment(name, fullyQualifiedName, comment = comment) {
 
     override fun stream() = Stream.of(definition)
 }
