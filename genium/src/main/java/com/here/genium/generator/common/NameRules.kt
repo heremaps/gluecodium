@@ -37,7 +37,7 @@ open class NameRules(val ruleSet: NameRuleSet) {
             is LimeParameter -> ruleSet.getParameterName(limeElement.name)
             is LimeConstant -> ruleSet.getConstantName(limeElement.name)
             is LimeEnumerator -> ruleSet.getEnumeratorName(limeElement.name)
-            is LimeMethod -> ruleSet.getMethodName(limeElement.name, null)
+            is LimeMethod -> ruleSet.getMethodName(limeElement.name)
             is LimeType -> ruleSet.getTypeName(limeElement.name)
             is LimeProperty -> getPropertyName(limeElement)
             else -> throw IllegalArgumentException()
@@ -59,7 +59,4 @@ open class NameRules(val ruleSet: NameRuleSet) {
 
     open fun getSetterName(limeProperty: LimeProperty) =
         ruleSet.getSetterName(limeProperty.name)
-
-    open fun getMethodName(limeMethod: LimeMethod, suffix: String?) =
-        ruleSet.getMethodName(limeMethod.name, suffix)
 }

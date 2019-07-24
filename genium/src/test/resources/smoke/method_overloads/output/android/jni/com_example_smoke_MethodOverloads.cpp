@@ -93,7 +93,7 @@ Java_com_example_smoke_MethodOverloads_isBoolean__ZBLjava_lang_String_2Lcom_exam
     return result;
 }
 jboolean
-Java_com_example_smoke_MethodOverloads_isBooleanStringArrayOverload__Ljava_util_List_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
+Java_com_example_smoke_MethodOverloads_isBooleanStringArrayOverload(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
 {
     ::smoke::MethodOverloads::StringArray input = ::genium::jni::convert_from_jni(_jenv,
             ::genium::jni::make_non_releasing_ref(jinput),
@@ -108,7 +108,7 @@ Java_com_example_smoke_MethodOverloads_isBooleanStringArrayOverload__Ljava_util_
     return result;
 }
 jboolean
-Java_com_example_smoke_MethodOverloads_isBooleanIntArrayOverload__Ljava_util_List_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
+Java_com_example_smoke_MethodOverloads_isBooleanIntArrayOverload(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
 {
     ::smoke::MethodOverloads::IntArray input = ::genium::jni::convert_from_jni(_jenv,
             ::genium::jni::make_non_releasing_ref(jinput),

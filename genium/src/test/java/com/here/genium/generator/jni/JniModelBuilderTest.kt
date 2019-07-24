@@ -22,6 +22,7 @@ package com.here.genium.generator.jni
 import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.java.JavaModelBuilder
+import com.here.genium.generator.java.JavaSignatureResolver
 import com.here.genium.model.common.Comments
 import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppClass
@@ -90,12 +91,10 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class JniModelBuilderTest {
-    @MockK
-    private lateinit var javaBuilder: JavaModelBuilder
-    @MockK
-    private lateinit var cppBuilder: CppModelBuilder
-    @MockK
-    private lateinit var cppIncludeResolver: CppIncludeResolver
+    @MockK private lateinit var javaBuilder: JavaModelBuilder
+    @MockK private lateinit var javaSignatureResolver: JavaSignatureResolver
+    @MockK private lateinit var cppBuilder: CppModelBuilder
+    @MockK private lateinit var cppIncludeResolver: CppIncludeResolver
 
     private val javaMethodName = "fancyMEthoD_integer"
     private val mangledMethodName = "fancyMEthoD_1integer"
@@ -182,11 +181,12 @@ class JniModelBuilderTest {
         MockKAnnotations.init(this, relaxed = true)
 
         modelBuilder = JniModelBuilder(
-            contextStack,
-            javaBuilder,
-            cppBuilder,
-            cppIncludeResolver,
-            INTERNAL_NAMESPACE
+            contextStack = contextStack,
+            javaBuilder = javaBuilder,
+            javaSignatureResolver = javaSignatureResolver,
+            cppBuilder = cppBuilder,
+            cppIncludeResolver = cppIncludeResolver,
+            internalNamespace = INTERNAL_NAMESPACE
         )
 
         javaClass.javaPackage = JavaPackage(listOf("my", "java", "test"))
@@ -436,7 +436,7 @@ class JniModelBuilderTest {
 
     @Test
     fun finishBuildingMethodReadsDisambiguationSuffix() {
-        every { javaBuilder.methodNameResolver.isOverloaded(limeMethod) } returns true
+        every { javaSignatureResolver.isOverloaded(limeMethod) } returns true
 
         modelBuilder.finishBuilding(limeMethod)
 

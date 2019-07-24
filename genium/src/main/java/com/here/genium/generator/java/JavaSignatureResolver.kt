@@ -19,23 +19,18 @@
 
 package com.here.genium.generator.java
 
+import com.here.genium.generator.common.NameRules
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeTypeRef
 
-class JavaMethodNameResolver(
+class JavaSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
-    private val nameRules: JavaNameRules
+    private val nameRules: NameRules
 ) : LimeSignatureResolver(limeReferenceMap) {
 
-    fun getName(limeMethod: LimeMethod): String {
-        val selector = when {
-            hasSignatureClash(limeMethod) -> limeMethod.path.disambiguationSuffix
-            else -> null
-        }
-        return nameRules.getMethodName(limeMethod, selector)
-    }
+    override fun getMethodName(limeMethod: LimeMethod) = nameRules.getName(limeMethod)
 
     override fun getArrayName(elementType: LimeTypeRef) = TYPE_ERASED_ARRAY
 

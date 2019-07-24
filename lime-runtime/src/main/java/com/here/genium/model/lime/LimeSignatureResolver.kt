@@ -38,9 +38,11 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
 
     private fun getAllOverloads(limeMethod: LimeMethod): List<LimeMethod> {
         val parentElement = referenceMap[limeMethod.path.parent.toString()]
+        val methodName = getMethodName(limeMethod)
         return when (parentElement) {
-            is LimeContainer -> getAllMethods(parentElement).filter { it.name == limeMethod.name }
-            is LimeStruct -> parentElement.methods.filter { it.name == limeMethod.name }
+            is LimeContainer ->
+                getAllMethods(parentElement).filter { getMethodName(it) == methodName }
+            is LimeStruct -> parentElement.methods.filter { getMethodName(it) == methodName }
             else -> emptyList()
         }
     }
@@ -50,6 +52,8 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
         val parentMethods = parentContainer?.let { getAllMethods(it) } ?: emptyList()
         return parentMethods + limeContainer.methods
     }
+
+    protected open fun getMethodName(limeMethod: LimeMethod) = limeMethod.name
 
     protected open fun getArrayName(elementType: LimeTypeRef) = "[${getTypeName(elementType)}]"
 

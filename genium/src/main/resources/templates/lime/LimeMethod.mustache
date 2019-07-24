@@ -18,10 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>lime/LimeDocumentation}}{{#contains ambiguousMethods fullName}}
-@Java("{{name}}{{capitalize path.disambiguationSuffix}}")
-{{/contains}}{{!!
-}}{{visibility}}{{#if isConstructor}}constructor {{name}}{{/if}}{{!!
+{{>lime/LimeDocumentation}}
+{{visibility}}{{#if isConstructor}}constructor {{name}}{{/if}}{{!!
 }}{{#unless isConstructor}}{{#if isStatic}}static {{/if}}fun {{name}}{{/unless}}({{#parameters}}
 {{prefixPartial "lime/LimeParameter" "    "}}
 {{/parameters}}){{!!

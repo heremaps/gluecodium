@@ -63,7 +63,7 @@ public abstract class GeneratorSuite {
       case SwiftGeneratorSuite.GENERATOR_NAME:
         return new SwiftGeneratorSuite(options);
       case LimeGeneratorSuite.GENERATOR_NAME:
-        return new LimeGeneratorSuite(options);
+        return new LimeGeneratorSuite();
     }
 
     return null;

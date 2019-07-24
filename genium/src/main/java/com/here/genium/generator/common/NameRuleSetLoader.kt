@@ -32,7 +32,7 @@ private object NameRuleSetLoader {
             getParameterName = getNameRule(config, NameTypes.Parameter),
             getConstantName = getNameRule(config, NameTypes.Constant),
             getEnumeratorName = getNameRule(config, NameTypes.Enumerator),
-            getMethodName = getMethodNameRule(config),
+            getMethodName = getNameRule(config, NameTypes.Method),
             getTypeName = getNameRule(config, NameTypes.Type),
             getPropertyName = getNameRuleBooleanPrefix(config, NameTypes.Property),
             getSetterName = getNameRule(config, NameTypes.Setter),
@@ -59,18 +59,6 @@ private object NameRuleSetLoader {
         Setter,
         Getter,
         Error
-    }
-
-    private fun getMethodNameRule(config: Configuration): (String, String?) -> String {
-        val formattingKey = Key("method", enumType<NameFormat>())
-
-        if (!config.contains(formattingKey)) {
-            return ignore2(::illegal)
-        }
-
-        return { name, selector ->
-            config[formattingKey].joinApply(listOf(name, selector))
-        }
     }
 
     private fun getNameRuleBooleanPrefix(config: Configuration, nameType: NameTypes): (String, Boolean) -> String {

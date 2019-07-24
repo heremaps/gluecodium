@@ -62,7 +62,6 @@ import org.junit.runners.JUnit4
 class JavaModelBuilderContainersTest {
     @MockK private lateinit var typeMapper: JavaTypeMapper
     @MockK private lateinit var valueMapper: JavaValueMapper
-    @MockK private lateinit var methodNameResolver: JavaMethodNameResolver
 
     private val javaConstant = JavaConstant("", JavaPrimitiveType.VOID, JavaValue(""))
     private val javaEnum = JavaEnum("")
@@ -98,7 +97,6 @@ class JavaModelBuilderContainersTest {
             rootPackage = rootPackage,
             typeMapper = typeMapper,
             valueMapper = valueMapper,
-            methodNameResolver = methodNameResolver,
             errorEnums = emptySet(),
             nameRules = nameRules,
             contextStack = contextStack

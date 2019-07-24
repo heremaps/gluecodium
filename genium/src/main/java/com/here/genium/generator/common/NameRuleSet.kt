@@ -24,7 +24,7 @@ class NameRuleSet(
     val getParameterName: (name: String) -> String,
     val getConstantName: (name: String) -> String,
     val getEnumeratorName: (name: String) -> String,
-    val getMethodName: (name: String, selector: String?) -> String,
+    val getMethodName: (name: String) -> String,
     val getTypeName: (name: String) -> String,
     val getPropertyName: (String, Boolean) -> String = ignore2(::illegal),
     val getSetterName: (name: String) -> String = ::illegal,

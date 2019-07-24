@@ -24,6 +24,7 @@ import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuild
 import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.java.JavaModelBuilder
+import com.here.genium.generator.java.JavaSignatureResolver
 import com.here.genium.generator.jni.JniNameRules.Companion.getMangledName
 import com.here.genium.model.cpp.CppClass
 import com.here.genium.model.cpp.CppEnum
@@ -85,6 +86,7 @@ import com.here.genium.model.lime.LimeTypeRef
 class JniModelBuilder(
     contextStack: ModelBuilderContextStack<JniElement> = ModelBuilderContextStack(),
     private val javaBuilder: JavaModelBuilder,
+    private val javaSignatureResolver: JavaSignatureResolver,
     private val cppBuilder: CppModelBuilder,
     private val cppIncludeResolver: CppIncludeResolver,
     private val internalNamespace: List<String>
@@ -172,7 +174,7 @@ class JniModelBuilder(
             returnType = JniType(javaMethod.returnType, cppMethod.returnType),
             isStatic = cppMethod.specifiers.contains(CppMethod.Specifier.STATIC),
             isConst = cppMethod.qualifiers.contains(CppMethod.Qualifier.CONST),
-            isOverloaded = javaBuilder.methodNameResolver.isOverloaded(limeMethod),
+            isOverloaded = javaSignatureResolver.isOverloaded(limeMethod),
             returnsOpaqueHandle = javaMethod.isConstructor && javaMethod.returnType == JavaPrimitiveType.LONG,
             exception = jniException
         )

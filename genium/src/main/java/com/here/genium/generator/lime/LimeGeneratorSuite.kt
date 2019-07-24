@@ -19,15 +19,9 @@
 
 package com.here.genium.generator.lime
 
-import com.here.genium.Genium
 import com.here.genium.generator.common.GeneratedFile
-import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.generator.java.JavaMethodNameResolver
-import com.here.genium.generator.java.JavaNameRules
 import com.here.genium.model.lime.LimeArray
-import com.here.genium.model.lime.LimeAttributeType.JAVA
-import com.here.genium.model.lime.LimeAttributeValueType.NAME
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeException
@@ -43,24 +37,13 @@ import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeTypedElement
 import com.here.genium.platform.common.GeneratorSuite
 
-class LimeGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
-    // Java-ambiguous method overloads need additional attributes, hence the direct dependency.
-    private val javaNameRules = JavaNameRules(nameRuleSetFromConfig(options.javaNameRules))
+class LimeGeneratorSuite : GeneratorSuite() {
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
-        val signatureResolver = JavaMethodNameResolver(limeModel.referenceMap, javaNameRules)
         return limeModel.containers.map {
-            val ambiguousMethods =
-                collectMethods(it)
-                    .filter { method -> signatureResolver.hasSignatureClash(method) }
-                    .filterNot { method -> method.attributes.have(JAVA, NAME) }
-                    .map { method -> method.fullName }
-                    .toSet()
             val imports = collectImports(it.path.parent, it).toSet()
-            val content = TemplateEngine.render(
-                "lime/LimeFile",
-                mapOf("ambiguousMethods" to ambiguousMethods, "imports" to imports, "model" to it)
-            )
+            val content =
+                TemplateEngine.render("lime/LimeFile", mapOf("imports" to imports, "model" to it))
             val packagePath = it.path.head.joinToString(separator = "/")
             val fileName = "$GENERATOR_NAME/$packagePath/${it.name}.lime"
             GeneratedFile(content, fileName)

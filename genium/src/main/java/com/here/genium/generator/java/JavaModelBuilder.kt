@@ -68,7 +68,6 @@ class JavaModelBuilder(
     private val rootPackage: JavaPackage,
     private val typeMapper: JavaTypeMapper,
     private val valueMapper: JavaValueMapper,
-    val methodNameResolver: JavaMethodNameResolver,
     private val errorEnums: Set<String>,
     private val nameRules: JavaNameRules
 ) : AbstractLimeBasedModelBuilder<JavaElement>(contextStack) {
@@ -102,7 +101,7 @@ class JavaModelBuilder(
             else -> emptySet()
         }
         val javaMethod = JavaMethod(
-            name = methodNameResolver.getName(limeMethod),
+            name = nameRules.getName(limeMethod),
             comment = createComments(limeMethod),
             visibility = getVisibility(limeMethod),
             returnType = returnType,

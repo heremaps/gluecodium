@@ -27,9 +27,9 @@ import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.cpp.CppNameResolver
 import com.here.genium.generator.cpp.CppNameRules
 import com.here.genium.generator.cpp.CppTypeMapper
-import com.here.genium.generator.java.JavaMethodNameResolver
 import com.here.genium.generator.java.JavaModelBuilder
 import com.here.genium.generator.java.JavaNameRules
+import com.here.genium.generator.java.JavaSignatureResolver
 import com.here.genium.generator.java.JavaTypeMapper
 import com.here.genium.generator.java.JavaValueMapper
 import com.here.genium.model.common.Include
@@ -77,7 +77,6 @@ class JniGenerator(
             rootPackage = basePackage.createChildPackage(limeContainer.path.head),
             typeMapper = javaTypeMapper,
             valueMapper = JavaValueMapper(limeReferenceMap, javaNameRules, javaTypeMapper),
-            methodNameResolver = JavaMethodNameResolver(limeReferenceMap, javaNameRules),
             errorEnums = errorEnums,
             nameRules = javaNameRules
         )
@@ -88,6 +87,7 @@ class JniGenerator(
 
         val jniBuilder = JniModelBuilder(
             javaBuilder = javaBuilder,
+            javaSignatureResolver = JavaSignatureResolver(limeReferenceMap, javaNameRules),
             cppBuilder = cppBuilder,
             cppIncludeResolver = includeResolver,
             internalNamespace = internalNamespace
