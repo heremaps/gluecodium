@@ -24,12 +24,12 @@ typedef struct {
         smoke_ValidationUtils_ValidationError error_code;
         _baseRef returned_value;
     };
-} smoke_StructsWithMethodsInterface_Vector3_create_1_result;
+} smoke_StructsWithMethodsInterface_Vector3_create_Vector3_result;
 _GENIUM_C_EXPORT double smoke_StructsWithMethodsInterface_Vector3_distanceTo(_baseRef _instance, _baseRef other);
 _GENIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_Vector3_add(_baseRef _instance, _baseRef other);
 _GENIUM_C_EXPORT bool smoke_StructsWithMethodsInterface_Vector3_validate(double x, double y, double z);
-_GENIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_Vector3_create_0(_baseRef input);
-_GENIUM_C_EXPORT smoke_StructsWithMethodsInterface_Vector3_create_1_result smoke_StructsWithMethodsInterface_Vector3_create_1(_baseRef other);
+_GENIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_Vector3_create_String(_baseRef input);
+_GENIUM_C_EXPORT smoke_StructsWithMethodsInterface_Vector3_create_Vector3_result smoke_StructsWithMethodsInterface_Vector3_create_Vector3(_baseRef other);
 _GENIUM_C_EXPORT void smoke_StructsWithMethodsInterface_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_copy_handle(_baseRef handle);
 #ifdef __cplusplus

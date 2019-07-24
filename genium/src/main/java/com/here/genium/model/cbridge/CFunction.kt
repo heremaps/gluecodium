@@ -40,7 +40,7 @@ class CFunction(
     NameHelper.joinNames(
         nestedSpecifier,
         shortName,
-        CBridgeNameRules.UNDERSCORE_DELIMITER
+        CBridgeNameRules.UNDERSCORE
     ) ?: ""
 ) {
     @Suppress("unused")

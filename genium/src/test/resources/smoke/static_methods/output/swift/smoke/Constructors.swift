@@ -62,20 +62,20 @@ public class Constructors {
         case crashed
     }
     private static func create() -> _baseRef {
-        return moveFromCType(smoke_Constructors_create_0())
+        return moveFromCType(smoke_Constructors_create_())
     }
     private static func create(other: Constructors) -> _baseRef {
         let c_other = moveToCType(other)
-        return moveFromCType(smoke_Constructors_create_1(c_other.ref))
+        return moveFromCType(smoke_Constructors_create_Constructors(c_other.ref))
     }
     private static func create(foo: String, bar: UInt64) -> _baseRef {
         let c_foo = moveToCType(foo)
         let c_bar = moveToCType(bar)
-        return moveFromCType(smoke_Constructors_create_2(c_foo.ref, c_bar.ref))
+        return moveFromCType(smoke_Constructors_create_String_ULong(c_foo.ref, c_bar.ref))
     }
     private static func create(input: String) throws -> _baseRef {
         let c_input = moveToCType(input)
-        let RESULT = smoke_Constructors_create_3(c_input.ref)
+        let RESULT = smoke_Constructors_create_String(c_input.ref)
         if (RESULT.has_value) {
             return moveFromCType(RESULT.returned_value)
         } else {
@@ -84,7 +84,7 @@ public class Constructors {
     }
     private static func create(input: [Double]) -> _baseRef {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Constructors_create_4(c_input.ref))
+        return moveFromCType(smoke_Constructors_create__3Double_4(c_input.ref))
     }
 }
 extension Constructors: NativeBase {

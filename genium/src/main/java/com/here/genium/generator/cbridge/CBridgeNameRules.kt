@@ -26,6 +26,7 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeNamedElement
+import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
 import java.nio.file.Paths
@@ -37,7 +38,7 @@ object CBridgeNameRules {
 
     const val BASE_REF_NAME = "_baseRef"
 
-    const val UNDERSCORE_DELIMITER = "_"
+    const val UNDERSCORE = "_"
     const val PUBLIC_HEADER_SUFFIX = ".h"
     const val IMPL_SUFFIX = ".cpp"
     const val CBRIDGE_PREFIX = "cbridge_"
@@ -59,35 +60,39 @@ object CBridgeNameRules {
     fun getInterfaceName(limeContainer: LimeContainer) = getNestedSpecifierString(limeContainer)
 
     fun getShortMethodName(
-        limeParent: LimeElement?,
+        limeReferenceMap: Map<String, LimeElement>,
         limeMethod: LimeMethod,
         isOverloaded: Boolean
     ): String {
+        val limeParent = limeReferenceMap[limeMethod.path.parent.toString()]
         val prefix = when (limeParent) {
-            is LimeStruct -> getName(limeParent) + UNDERSCORE_DELIMITER
+            is LimeStruct -> getName(limeParent) + UNDERSCORE
             else -> ""
         }
         val suffix = when {
-            isOverloaded -> UNDERSCORE_DELIMITER + limeMethod.path.disambiguationSuffix
+            isOverloaded -> {
+                val signature = LimeSignatureResolver(limeReferenceMap).getSignature(limeMethod)
+                UNDERSCORE + signature.joinToString(UNDERSCORE) { mangleSignature(it) }
+            }
             else -> ""
         }
         return prefix + NameHelper.toLowerCamelCase(limeMethod.name) + suffix
     }
 
+    private fun mangleSignature(name: String) =
+        name.replace("_", "_1").replace(":", "_2").replace("[", "_3").replace("]", "_4")
+
     private fun joinQualifiedName(nameSpecifier: List<String>, name: String) =
-        (nameSpecifier + name).joinToString(UNDERSCORE_DELIMITER)
+        (nameSpecifier + name).joinToString(UNDERSCORE)
 
     private fun getNestedNameSpecifier(limeElement: LimeNamedElement) =
         limeElement.path.head + NameHelper.toUpperCamelCase(limeElement.path.container)
 
     fun getNestedSpecifierString(limeElement: LimeNamedElement) =
-        getNestedNameSpecifier(limeElement).joinToString(UNDERSCORE_DELIMITER)
+        getNestedNameSpecifier(limeElement).joinToString(UNDERSCORE)
 
     fun getTypeName(limeType: LimeType) =
-        joinQualifiedName(
-            getNestedNameSpecifier(limeType),
-            getName(limeType)
-        )
+        joinQualifiedName(getNestedNameSpecifier(limeType), getName(limeType))
 
     fun getBaseApiCall(category: CppTypeInfo.TypeCategory, baseAPIName: String) =
         if (category === CppTypeInfo.TypeCategory.CLASS)

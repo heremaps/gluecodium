@@ -69,11 +69,11 @@ public class StructsWithMethodsInterface {
         }
         private static func create(input: String) -> _baseRef {
             let c_input = moveToCType(input)
-            return moveFromCType(smoke_StructsWithMethodsInterface_Vector3_create_0(c_input.ref))
+            return moveFromCType(smoke_StructsWithMethodsInterface_Vector3_create_String(c_input.ref))
         }
         private static func create(other: StructsWithMethodsInterface.Vector3) throws -> _baseRef {
             let c_other = moveToCType(other)
-            let RESULT = smoke_StructsWithMethodsInterface_Vector3_create_1(c_other.ref)
+            let RESULT = smoke_StructsWithMethodsInterface_Vector3_create_Vector3(c_other.ref)
             if (RESULT.has_value) {
                 return moveFromCType(RESULT.returned_value)
             } else {

@@ -25,8 +25,8 @@ import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuild
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeType.SWIFT
-import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeAttributeValueType
+import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
@@ -202,7 +202,7 @@ class SwiftModelBuilder(
         }
 
         val cShortName = CBridgeNameRules.getShortMethodName(
-            limeParent = limeReferenceMap[limeMethod.path.parent.toString()],
+            limeReferenceMap = limeReferenceMap,
             limeMethod = limeMethod,
             isOverloaded = signatureResolver.isOverloaded(limeMethod)
         )

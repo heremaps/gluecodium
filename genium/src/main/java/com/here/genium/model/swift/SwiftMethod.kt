@@ -54,7 +54,7 @@ class SwiftMethod(
     // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
     @Suppress("unused")
     fun getcBaseName() = NameHelper.joinNames(
-        cNestedSpecifier, cShortName, CBridgeNameRules.UNDERSCORE_DELIMITER
+        cNestedSpecifier, cShortName, CBridgeNameRules.UNDERSCORE
     )
 
     override fun stream(): Stream<SwiftModelElement>? =

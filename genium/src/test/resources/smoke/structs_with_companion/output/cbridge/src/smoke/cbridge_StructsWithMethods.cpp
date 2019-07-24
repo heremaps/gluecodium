@@ -57,11 +57,11 @@ bool smoke_StructsWithMethods_Vector_validate(double x, double y) {
     return ::smoke::Vector::validate(x, y)
 ;
 }
-_baseRef smoke_StructsWithMethods_Vector_create_0(double x, double y) {
+_baseRef smoke_StructsWithMethods_Vector_create_Double_Double(double x, double y) {
     return Conversion<::smoke::Vector>::toBaseRef(::smoke::Vector::create(x, y))
 ;
 }
-smoke_StructsWithMethods_Vector_create_1_result smoke_StructsWithMethods_Vector_create_1(_baseRef other) {
+smoke_StructsWithMethods_Vector_create_Vector_result smoke_StructsWithMethods_Vector_create_Vector(_baseRef other) {
     auto&& RESULT = ::smoke::Vector::create(Conversion<::smoke::Vector>::toCpp(other));
     if (RESULT.has_value()) {
         return {true, .returned_value = Conversion<::smoke::Vector>::toBaseRef(RESULT.unsafe_value())

@@ -24,11 +24,11 @@ public class ChildConstructors: Constructors {
         super.init(cConstructors: cChildConstructors)
     }
     private static func create() -> _baseRef {
-        return moveFromCType(smoke_ChildConstructors_create_0())
+        return moveFromCType(smoke_ChildConstructors_create_())
     }
     private static func create(other: Constructors) -> _baseRef {
         let c_other = moveToCType(other)
-        return moveFromCType(smoke_ChildConstructors_create_1(c_other.ref))
+        return moveFromCType(smoke_ChildConstructors_create_Constructors(c_other.ref))
     }
 }
 internal func ChildConstructorscopyFromCType(_ handle: _baseRef) -> ChildConstructors {
