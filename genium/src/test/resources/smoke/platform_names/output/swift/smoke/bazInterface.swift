@@ -40,11 +40,11 @@ public class bazInterface {
     }
     public func BazMethod(_ BazParameter: String) -> bazStruct {
         let c_BazParameter = moveToCType(BazParameter)
-        return moveFromCType(smoke_PlatformNamesInterface_basicMethod(self.c_instance, c_BazParameter.ref))
+        return moveFromCType(smoke_PlatformNamesInterface_BazMethod(self.c_instance, c_BazParameter.ref))
     }
     private static func make(_ makeParameter: String) -> _baseRef {
         let c_makeParameter = moveToCType(makeParameter)
-        return moveFromCType(smoke_PlatformNamesInterface_create(c_makeParameter.ref))
+        return moveFromCType(smoke_PlatformNamesInterface_make(c_makeParameter.ref))
     }
 }
 extension bazInterface: NativeBase {

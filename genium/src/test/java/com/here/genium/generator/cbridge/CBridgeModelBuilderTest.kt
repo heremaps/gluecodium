@@ -67,7 +67,9 @@ import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.swift.SwiftField
 import com.here.genium.model.swift.SwiftMethod
+import com.here.genium.model.swift.SwiftParameter
 import com.here.genium.model.swift.SwiftProperty
+import com.here.genium.model.swift.SwiftType
 import com.here.genium.test.AssertHelpers.assertContains
 import com.here.genium.test.MockContextStack
 import io.mockk.MockKAnnotations
@@ -426,11 +428,14 @@ class CBridgeModelBuilderTest {
             typeRef = LimeBasicTypeRef.DOUBLE
         )
         contextStack.injectResult(cppTypeInfo)
+        every {
+            swiftModelBuilder.getFinalResult(SwiftParameter::class.java)
+        } returns SwiftParameter("Bar", SwiftType.VOID)
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(CParameter::class.java)
-        assertEquals("Foo", result.name)
+        assertEquals("Bar", result.name)
         assertEquals(cppTypeInfo, result.mappedType)
     }
 
@@ -443,6 +448,9 @@ class CBridgeModelBuilderTest {
         val cppParameter = CppParameter("", type = CppPrimitiveTypeRef.VOID)
         contextStack.injectResult(cppTypeInfo)
         every { cppModelBuilder.getFinalResult(CppParameter::class.java) } returns cppParameter
+        every {
+            swiftModelBuilder.getFinalResult(SwiftParameter::class.java)
+        } returns SwiftParameter("Bar", SwiftType.VOID)
 
         modelBuilder.finishBuilding(limeElement)
 

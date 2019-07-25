@@ -19,7 +19,7 @@ internal func getRef(_ ref: bazListener?, owning: Bool = true) -> RefHolder {
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-    functions.smoke_PlatformNamesListener_basicMethod = {(swift_class_pointer, BazParameter) in
+    functions.smoke_PlatformNamesListener_BazMethod = {(swift_class_pointer, BazParameter) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! bazListener
         swift_class.BazMethod(moveFromCType(BazParameter))
     }
@@ -42,7 +42,7 @@ internal class _bazListener: bazListener {
     }
     public func BazMethod(_ BazParameter: String) -> Void {
         let c_BazParameter = moveToCType(BazParameter)
-        return moveFromCType(smoke_PlatformNamesListener_basicMethod(self.c_instance, c_BazParameter.ref))
+        return moveFromCType(smoke_PlatformNamesListener_BazMethod(self.c_instance, c_BazParameter.ref))
     }
 }
 extension _bazListener: NativeBase {

@@ -52,7 +52,7 @@ public struct bazStruct {
     }
     private static func BazCreate(_ BazParameter: String) -> _baseRef {
         let c_BazParameter = moveToCType(BazParameter)
-        return moveFromCType(smoke_PlatformNames_bazStruct_make(c_BazParameter.ref))
+        return moveFromCType(smoke_PlatformNames_bazStruct_BazCreate(c_BazParameter.ref))
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> bazStruct {

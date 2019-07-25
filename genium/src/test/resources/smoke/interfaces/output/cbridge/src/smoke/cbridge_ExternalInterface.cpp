@@ -47,8 +47,8 @@ _baseRef smoke_ExternalInterface_SomeStruct_someField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::ExternalInterface::some_Struct>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->some_Field);
 }
-void smoke_ExternalInterface_someMethod(_baseRef _instance, int8_t some_Parameter) {
-    return get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(_instance)->get()->some_Method(some_Parameter)
+void smoke_ExternalInterface_someMethod(_baseRef _instance, int8_t someParameter) {
+    return get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(_instance)->get()->some_Method(someParameter)
 ;
 }
 _baseRef smoke_ExternalInterface_someAttribute_get(_baseRef _instance) {

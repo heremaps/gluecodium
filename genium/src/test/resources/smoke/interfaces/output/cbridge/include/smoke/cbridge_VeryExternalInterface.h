@@ -18,7 +18,7 @@ _GENIUM_C_EXPORT void smoke_VeryExternalInterface_SomeStruct_release_optional_ha
 _GENIUM_C_EXPORT _baseRef smoke_VeryExternalInterface_SomeStruct_someField_get(_baseRef handle);
 _GENIUM_C_EXPORT void smoke_VeryExternalInterface_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_VeryExternalInterface_copy_handle(_baseRef handle);
-_GENIUM_C_EXPORT void smoke_VeryExternalInterface_someMethod(_baseRef _instance, int8_t some_Parameter);
+_GENIUM_C_EXPORT void smoke_VeryExternalInterface_someMethod(_baseRef _instance, int8_t someParameter);
 _GENIUM_C_EXPORT _baseRef smoke_VeryExternalInterface_someAttribute_get(_baseRef _instance);
 _GENIUM_C_EXPORT void smoke_VeryExternalInterface_someAttribute_set(_baseRef _instance, _baseRef newValue);
 #ifdef __cplusplus

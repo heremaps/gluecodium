@@ -65,6 +65,7 @@ import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.swift.SwiftField
 import com.here.genium.model.swift.SwiftMethod
+import com.here.genium.model.swift.SwiftParameter
 import com.here.genium.model.swift.SwiftProperty
 
 class CBridgeModelBuilder(
@@ -194,7 +195,8 @@ class CBridgeModelBuilder(
             val cppParameter = cppBuilder.getFinalResult(CppParameter::class.java)
             cppTypeInfo = CBridgeTypeMapper.createNullableTypeInfo(cppTypeInfo, cppParameter.type)
         }
-        val result = CParameter(limeParameter.name, cppTypeInfo)
+        val swiftParameter = swiftBuilder.getFinalResult(SwiftParameter::class.java)
+        val result = CParameter(swiftParameter.name, cppTypeInfo)
 
         storeResult(result)
         closeContext()

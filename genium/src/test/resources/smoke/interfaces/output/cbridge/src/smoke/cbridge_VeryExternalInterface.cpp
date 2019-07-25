@@ -47,8 +47,8 @@ _baseRef smoke_VeryExternalInterface_SomeStruct_someField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::fire::Baz::some_Struct>(handle);
 return Conversion<std::string>::toBaseRef(struct_pointer->some_Field);
 }
-void smoke_VeryExternalInterface_someMethod(_baseRef _instance, int8_t some_Parameter) {
-    return get_pointer<std::shared_ptr<::fire::Baz>>(_instance)->get()->some_Method(some_Parameter)
+void smoke_VeryExternalInterface_someMethod(_baseRef _instance, int8_t someParameter) {
+    return get_pointer<std::shared_ptr<::fire::Baz>>(_instance)->get()->some_Method(someParameter)
 ;
 }
 _baseRef smoke_VeryExternalInterface_someAttribute_get(_baseRef _instance) {

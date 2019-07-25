@@ -76,7 +76,8 @@ object CBridgeNameRules {
             }
             else -> ""
         }
-        return prefix + NameHelper.toLowerCamelCase(limeMethod.name) + suffix
+        val methodName = getPlatformName(limeMethod) ?: NameHelper.toLowerCamelCase(limeMethod.name)
+        return prefix + methodName + suffix
     }
 
     private fun mangleSignature(name: String) =
