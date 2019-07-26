@@ -1,6 +1,8 @@
 # Genium project Release Notes
 
 ## Unreleased
+- Features:
+  + Hash functions are generated for all Equatable and PointerEquatable types in C++.
 - Bug fixes:
   + Fixed Swift 5 compilation warning.
 - Breaking changes:
