@@ -256,4 +256,36 @@ public class MapsTest {
     assertNotNull(resultsMap.get("Two"));
     assertEquals("Hello Two", resultsMap.get("Two").getStringValue());
   }
+
+  @Test
+  public void structToStringMapRoundTrip() {
+    Map<Maps.EquatableStruct, String> input = new HashMap<>();
+    input.put(new Maps.EquatableStruct("foo"), "foo");
+    input.put(new Maps.EquatableStruct("bar"), "bar");
+
+    Map<Maps.EquatableStruct, String> result = Maps.structToStringRoundTrip(input);
+
+    assertEquals(input, result);
+  }
+
+  @Test
+  public void classToStringMapRoundTrip() {
+    Map<EquatableClass, String> input = new HashMap<>();
+    input.put(new EquatableClass("foo"), "foo");
+    input.put(new EquatableClass("bar"), "bar");
+
+    Map<EquatableClass, String> result = Maps.classToStringRoundTrip(input);
+
+    assertEquals(input, result);
+  }
+  @Test
+  public void pointerEquatableClassToStringMapRoundTrip() {
+    Map<PointerEquatableClass, String> input = new HashMap<>();
+    input.put(new PointerEquatableClass("foo"), "foo");
+    input.put(new PointerEquatableClass("bar"), "bar");
+
+    Map<PointerEquatableClass, String> result = Maps.pointerEquatableClassToStringRoundTrip(input);
+
+    assertEquals(input, result);
+  }
 }

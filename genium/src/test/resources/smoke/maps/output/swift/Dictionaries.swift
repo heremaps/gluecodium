@@ -57,6 +57,180 @@ internal func copyToCType(_ swiftDict: Maps.ErrorCodeToMessageMap?) -> RefHolder
 internal func moveToCType(_ swiftType: Maps.ErrorCodeToMessageMap?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_ErrorCodeToMessageMap_release_optional_handle)
 }
+internal func copyFromCType(_ handle: _baseRef) -> Maps.StructToString {
+    var swiftDict: Maps.StructToString = [:]
+    let iterator_handle = smoke_Maps_StructToString_iterator(handle)
+    while smoke_Maps_StructToString_iterator_is_valid(handle, iterator_handle) {
+        swiftDict[moveFromCType(smoke_Maps_StructToString_iterator_key(iterator_handle))] =
+            moveFromCType(smoke_Maps_StructToString_iterator_value(iterator_handle)) as String
+        smoke_Maps_StructToString_iterator_increment(iterator_handle)
+    }
+    smoke_Maps_StructToString_iterator_release_handle(iterator_handle)
+    return swiftDict
+}
+internal func moveFromCType(_ handle: _baseRef) -> Maps.StructToString {
+    defer {
+        smoke_Maps_StructToString_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftDict: Maps.StructToString) -> RefHolder {
+    let c_handle = smoke_Maps_StructToString_create_handle()
+    for (key, value) in swiftDict {
+        let c_key = moveToCType(key)
+        let c_value = moveToCType(value)
+        smoke_Maps_StructToString_put(c_handle, c_key.ref, c_value.ref)
+    }
+    return RefHolder(c_handle)
+}
+internal func moveToCType(_ swiftDict: Maps.StructToString) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftDict).ref, release: smoke_Maps_StructToString_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Maps.StructToString? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Maps_StructToString_unwrap_optional_handle(handle)
+    return copyFromCType(unwrappedHandle) as Maps.StructToString
+}
+internal func moveFromCType(_ handle: _baseRef) -> Maps.StructToString? {
+    defer {
+        smoke_Maps_StructToString_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftDict: Maps.StructToString?) -> RefHolder {
+    guard let swiftDict = swiftDict else {
+        return RefHolder(0)
+    }
+    let optionalHandle = smoke_Maps_StructToString_create_optional_handle()
+    let handle = smoke_Maps_StructToString_unwrap_optional_handle(optionalHandle)
+    for (key, value) in swiftDict {
+        let c_key = moveToCType(key)
+        let c_value = moveToCType(value)
+        smoke_Maps_StructToString_put(handle, c_key.ref, c_value.ref)
+    }
+    return RefHolder(optionalHandle)
+}
+internal func moveToCType(_ swiftType: Maps.StructToString?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_StructToString_release_optional_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Maps.EquatableClassToString {
+    var swiftDict: Maps.EquatableClassToString = [:]
+    let iterator_handle = smoke_Maps_EquatableClassToString_iterator(handle)
+    while smoke_Maps_EquatableClassToString_iterator_is_valid(handle, iterator_handle) {
+        swiftDict[MapsInstancemoveFromCType(smoke_Maps_EquatableClassToString_iterator_key(iterator_handle))] =
+            moveFromCType(smoke_Maps_EquatableClassToString_iterator_value(iterator_handle)) as String
+        smoke_Maps_EquatableClassToString_iterator_increment(iterator_handle)
+    }
+    smoke_Maps_EquatableClassToString_iterator_release_handle(iterator_handle)
+    return swiftDict
+}
+internal func moveFromCType(_ handle: _baseRef) -> Maps.EquatableClassToString {
+    defer {
+        smoke_Maps_EquatableClassToString_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftDict: Maps.EquatableClassToString) -> RefHolder {
+    let c_handle = smoke_Maps_EquatableClassToString_create_handle()
+    for (key, value) in swiftDict {
+        let c_key = moveToCType(key)
+        let c_value = moveToCType(value)
+        smoke_Maps_EquatableClassToString_put(c_handle, c_key.ref, c_value.ref)
+    }
+    return RefHolder(c_handle)
+}
+internal func moveToCType(_ swiftDict: Maps.EquatableClassToString) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftDict).ref, release: smoke_Maps_EquatableClassToString_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Maps.EquatableClassToString? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Maps_EquatableClassToString_unwrap_optional_handle(handle)
+    return copyFromCType(unwrappedHandle) as Maps.EquatableClassToString
+}
+internal func moveFromCType(_ handle: _baseRef) -> Maps.EquatableClassToString? {
+    defer {
+        smoke_Maps_EquatableClassToString_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftDict: Maps.EquatableClassToString?) -> RefHolder {
+    guard let swiftDict = swiftDict else {
+        return RefHolder(0)
+    }
+    let optionalHandle = smoke_Maps_EquatableClassToString_create_optional_handle()
+    let handle = smoke_Maps_EquatableClassToString_unwrap_optional_handle(optionalHandle)
+    for (key, value) in swiftDict {
+        let c_key = moveToCType(key)
+        let c_value = moveToCType(value)
+        smoke_Maps_EquatableClassToString_put(handle, c_key.ref, c_value.ref)
+    }
+    return RefHolder(optionalHandle)
+}
+internal func moveToCType(_ swiftType: Maps.EquatableClassToString?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_EquatableClassToString_release_optional_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Maps.PointerEquatableClassToString {
+    var swiftDict: Maps.PointerEquatableClassToString = [:]
+    let iterator_handle = smoke_Maps_PointerEquatableClassToString_iterator(handle)
+    while smoke_Maps_PointerEquatableClassToString_iterator_is_valid(handle, iterator_handle) {
+        swiftDict[PointerEquatableInstancemoveFromCType(smoke_Maps_PointerEquatableClassToString_iterator_key(iterator_handle))] =
+            moveFromCType(smoke_Maps_PointerEquatableClassToString_iterator_value(iterator_handle)) as String
+        smoke_Maps_PointerEquatableClassToString_iterator_increment(iterator_handle)
+    }
+    smoke_Maps_PointerEquatableClassToString_iterator_release_handle(iterator_handle)
+    return swiftDict
+}
+internal func moveFromCType(_ handle: _baseRef) -> Maps.PointerEquatableClassToString {
+    defer {
+        smoke_Maps_PointerEquatableClassToString_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftDict: Maps.PointerEquatableClassToString) -> RefHolder {
+    let c_handle = smoke_Maps_PointerEquatableClassToString_create_handle()
+    for (key, value) in swiftDict {
+        let c_key = moveToCType(key)
+        let c_value = moveToCType(value)
+        smoke_Maps_PointerEquatableClassToString_put(c_handle, c_key.ref, c_value.ref)
+    }
+    return RefHolder(c_handle)
+}
+internal func moveToCType(_ swiftDict: Maps.PointerEquatableClassToString) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftDict).ref, release: smoke_Maps_PointerEquatableClassToString_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> Maps.PointerEquatableClassToString? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_Maps_PointerEquatableClassToString_unwrap_optional_handle(handle)
+    return copyFromCType(unwrappedHandle) as Maps.PointerEquatableClassToString
+}
+internal func moveFromCType(_ handle: _baseRef) -> Maps.PointerEquatableClassToString? {
+    defer {
+        smoke_Maps_PointerEquatableClassToString_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftDict: Maps.PointerEquatableClassToString?) -> RefHolder {
+    guard let swiftDict = swiftDict else {
+        return RefHolder(0)
+    }
+    let optionalHandle = smoke_Maps_PointerEquatableClassToString_create_optional_handle()
+    let handle = smoke_Maps_PointerEquatableClassToString_unwrap_optional_handle(optionalHandle)
+    for (key, value) in swiftDict {
+        let c_key = moveToCType(key)
+        let c_value = moveToCType(value)
+        smoke_Maps_PointerEquatableClassToString_put(handle, c_key.ref, c_value.ref)
+    }
+    return RefHolder(optionalHandle)
+}
+internal func moveToCType(_ swiftType: Maps.PointerEquatableClassToString?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Maps_PointerEquatableClassToString_release_optional_handle)
+}
 internal func copyFromCType(_ handle: _baseRef) -> Maps.TypeDefToNumber {
     var swiftDict: Maps.TypeDefToNumber = [:]
     let iterator_handle = smoke_Maps_TypeDefToNumber_iterator(handle)

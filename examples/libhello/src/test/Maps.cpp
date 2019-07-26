@@ -124,4 +124,22 @@ Maps::method_with_map_of_instances( const Maps::StringToInstance& input )
               } );
     return result;
 }
+
+Maps::ClassToString
+Maps::class_to_string_round_trip(const ClassToString& input)
+{
+    return input;
+}
+
+Maps::StructToString
+Maps::struct_to_string_round_trip(const Maps::StructToString& input)
+{
+    return input;
+}
+
+Maps::PointerEquatableClassToString
+Maps::pointer_equatable_class_to_string_round_trip(const Maps::PointerEquatableClassToString& input)
+{
+    return input;
+}
 }  // namespace test

@@ -9,6 +9,7 @@ extern "C" {
 #include "cbridge/include/Export.h"
 #include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_MapsInstance.h"
+#include "cbridge/include/smoke/cbridge_PointerEquatableInstance.h"
 #include <stdbool.h>
 #include <stdint.h>
 _GENIUM_C_EXPORT _baseRef smoke_Maps_SomeStruct_create_handle(_baseRef value);
@@ -31,6 +32,9 @@ _GENIUM_C_EXPORT _baseRef smoke_Maps_methodWithNestedMap(_baseRef input);
 _GENIUM_C_EXPORT _baseRef smoke_Maps_methodWithStructWithMap(_baseRef input);
 _GENIUM_C_EXPORT _baseRef smoke_Maps_methodWithMapOfArrays(_baseRef input);
 _GENIUM_C_EXPORT _baseRef smoke_Maps_methodWithMapOfInstances(_baseRef input);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_methodWithStructToStringMap(_baseRef input);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_methodWithEquatableClassToStringMap(_baseRef input);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_methodWithPointerEquatableClassToString(_baseRef input);
 _GENIUM_C_EXPORT _baseRef smoke_Maps_ErrorCodeToMessageMap_create_handle();
 _GENIUM_C_EXPORT void smoke_Maps_ErrorCodeToMessageMap_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_Maps_ErrorCodeToMessageMap_iterator(_baseRef handle);
@@ -127,6 +131,42 @@ _GENIUM_C_EXPORT _baseRef smoke_Maps_NumberToInstance_iterator_value(_baseRef it
 _GENIUM_C_EXPORT _baseRef smoke_Maps_NumberToInstance_create_optional_handle();
 _GENIUM_C_EXPORT void smoke_Maps_NumberToInstance_release_optional_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_Maps_NumberToInstance_unwrap_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_StructToString_create_handle();
+_GENIUM_C_EXPORT void smoke_Maps_StructToString_release_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_StructToString_iterator(_baseRef handle);
+_GENIUM_C_EXPORT void smoke_Maps_StructToString_iterator_release_handle(_baseRef iterator_handle);
+_GENIUM_C_EXPORT void smoke_Maps_StructToString_put(_baseRef handle, _baseRef key, _baseRef value);
+_GENIUM_C_EXPORT bool smoke_Maps_StructToString_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
+_GENIUM_C_EXPORT void smoke_Maps_StructToString_iterator_increment(_baseRef iterator_handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_StructToString_iterator_key(_baseRef iterator_handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_StructToString_iterator_value(_baseRef iterator_handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_StructToString_create_optional_handle();
+_GENIUM_C_EXPORT void smoke_Maps_StructToString_release_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_StructToString_unwrap_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_EquatableClassToString_create_handle();
+_GENIUM_C_EXPORT void smoke_Maps_EquatableClassToString_release_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_EquatableClassToString_iterator(_baseRef handle);
+_GENIUM_C_EXPORT void smoke_Maps_EquatableClassToString_iterator_release_handle(_baseRef iterator_handle);
+_GENIUM_C_EXPORT void smoke_Maps_EquatableClassToString_put(_baseRef handle, _baseRef key, _baseRef value);
+_GENIUM_C_EXPORT bool smoke_Maps_EquatableClassToString_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
+_GENIUM_C_EXPORT void smoke_Maps_EquatableClassToString_iterator_increment(_baseRef iterator_handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_EquatableClassToString_iterator_key(_baseRef iterator_handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_EquatableClassToString_iterator_value(_baseRef iterator_handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_EquatableClassToString_create_optional_handle();
+_GENIUM_C_EXPORT void smoke_Maps_EquatableClassToString_release_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_EquatableClassToString_unwrap_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_PointerEquatableClassToString_create_handle();
+_GENIUM_C_EXPORT void smoke_Maps_PointerEquatableClassToString_release_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_PointerEquatableClassToString_iterator(_baseRef handle);
+_GENIUM_C_EXPORT void smoke_Maps_PointerEquatableClassToString_iterator_release_handle(_baseRef iterator_handle);
+_GENIUM_C_EXPORT void smoke_Maps_PointerEquatableClassToString_put(_baseRef handle, _baseRef key, _baseRef value);
+_GENIUM_C_EXPORT bool smoke_Maps_PointerEquatableClassToString_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
+_GENIUM_C_EXPORT void smoke_Maps_PointerEquatableClassToString_iterator_increment(_baseRef iterator_handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_PointerEquatableClassToString_iterator_key(_baseRef iterator_handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_PointerEquatableClassToString_iterator_value(_baseRef iterator_handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_PointerEquatableClassToString_create_optional_handle();
+_GENIUM_C_EXPORT void smoke_Maps_PointerEquatableClassToString_release_optional_handle(_baseRef handle);
+_GENIUM_C_EXPORT _baseRef smoke_Maps_PointerEquatableClassToString_unwrap_optional_handle(_baseRef handle);
 #ifdef __cplusplus
 }
 #endif

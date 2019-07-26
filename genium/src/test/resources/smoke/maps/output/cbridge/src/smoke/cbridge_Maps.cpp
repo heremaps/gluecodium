@@ -103,6 +103,18 @@ _baseRef smoke_Maps_methodWithMapOfInstances(_baseRef input) {
     return Conversion<::smoke::Maps::NumberToInstance>::toBaseRef(::smoke::Maps::method_with_map_of_instances(Conversion<::smoke::Maps::NumberToInstance>::toCpp(input)))
 ;
 }
+_baseRef smoke_Maps_methodWithStructToStringMap(_baseRef input) {
+    return Conversion<::smoke::Maps::StructToString>::toBaseRef(::smoke::Maps::method_with_struct_to_string_map(Conversion<::smoke::Maps::StructToString>::toCpp(input)))
+;
+}
+_baseRef smoke_Maps_methodWithEquatableClassToStringMap(_baseRef input) {
+    return Conversion<::smoke::Maps::EquatableClassToString>::toBaseRef(::smoke::Maps::method_with_equatable_class_to_string_map(Conversion<::smoke::Maps::EquatableClassToString>::toCpp(input)))
+;
+}
+_baseRef smoke_Maps_methodWithPointerEquatableClassToString(_baseRef input) {
+    return Conversion<::smoke::Maps::PointerEquatableClassToString>::toBaseRef(::smoke::Maps::method_with_pointer_equatable_class_to_string(Conversion<::smoke::Maps::PointerEquatableClassToString>::toCpp(input)))
+;
+}
 _baseRef smoke_Maps_ErrorCodeToMessageMap_create_handle() {
     return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<int32_t, std::string >() );
 }
@@ -406,4 +418,118 @@ void smoke_Maps_NumberToInstance_release_optional_handle(_baseRef handle) {
 }
 _baseRef smoke_Maps_NumberToInstance_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_map<uint8_t, std::shared_ptr<::smoke::MapsInstance> >>*>( handle ) );
+}
+_baseRef smoke_Maps_StructToString_create_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >() );
+}
+void smoke_Maps_StructToString_release_handle(_baseRef handle) {
+    delete get_pointer<std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >>(handle);
+}
+_baseRef smoke_Maps_StructToString_iterator(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >::iterator( get_pointer<std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >>(handle)->begin() ) );
+}
+void smoke_Maps_StructToString_iterator_release_handle(_baseRef iterator_handle) {
+    delete reinterpret_cast<std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >::iterator*>( iterator_handle );
+}
+void smoke_Maps_StructToString_put(_baseRef handle, _baseRef key, _baseRef value) {
+    (*get_pointer<std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >>(handle)).emplace(std::move(Conversion<::smoke::Maps::SomeStruct>::toCpp(key)), std::move(Conversion<std::string>::toCpp(value)));
+}
+bool smoke_Maps_StructToString_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
+    return *reinterpret_cast<std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >>(handle)->end();
+}
+void smoke_Maps_StructToString_iterator_increment(_baseRef iterator_handle) {
+    ++*reinterpret_cast<std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >::iterator*>( iterator_handle );
+}
+_baseRef smoke_Maps_StructToString_iterator_key(_baseRef iterator_handle) {
+    auto& key = (*reinterpret_cast<std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >::iterator*>( iterator_handle ))->first;
+    return Conversion<::smoke::Maps::SomeStruct>::toBaseRef(key);
+}
+_baseRef smoke_Maps_StructToString_iterator_value(_baseRef iterator_handle) {
+    auto& value = (*reinterpret_cast<std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >::iterator*>( iterator_handle ))->second;
+    return Conversion<std::string>::toBaseRef(value);
+}
+_baseRef smoke_Maps_StructToString_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >>( std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >( ) ) );
+}
+void smoke_Maps_StructToString_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::genium::optional<std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >>*>( handle );
+}
+_baseRef smoke_Maps_StructToString_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_map<::smoke::Maps::SomeStruct, std::string, ::genium::hash<::smoke::Maps::SomeStruct> >>*>( handle ) );
+}
+_baseRef smoke_Maps_EquatableClassToString_create_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >() );
+}
+void smoke_Maps_EquatableClassToString_release_handle(_baseRef handle) {
+    delete get_pointer<std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >>(handle);
+}
+_baseRef smoke_Maps_EquatableClassToString_iterator(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >::iterator( get_pointer<std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >>(handle)->begin() ) );
+}
+void smoke_Maps_EquatableClassToString_iterator_release_handle(_baseRef iterator_handle) {
+    delete reinterpret_cast<std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >::iterator*>( iterator_handle );
+}
+void smoke_Maps_EquatableClassToString_put(_baseRef handle, _baseRef key, _baseRef value) {
+    (*get_pointer<std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >>(handle)).emplace(std::move(Conversion<std::shared_ptr<::smoke::MapsInstance>>::toCpp(key)), std::move(Conversion<std::string>::toCpp(value)));
+}
+bool smoke_Maps_EquatableClassToString_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
+    return *reinterpret_cast<std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >>(handle)->end();
+}
+void smoke_Maps_EquatableClassToString_iterator_increment(_baseRef iterator_handle) {
+    ++*reinterpret_cast<std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >::iterator*>( iterator_handle );
+}
+_baseRef smoke_Maps_EquatableClassToString_iterator_key(_baseRef iterator_handle) {
+    auto& key = (*reinterpret_cast<std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >::iterator*>( iterator_handle ))->first;
+    return Conversion<std::shared_ptr<::smoke::MapsInstance>>::toBaseRef(key);
+}
+_baseRef smoke_Maps_EquatableClassToString_iterator_value(_baseRef iterator_handle) {
+    auto& value = (*reinterpret_cast<std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >::iterator*>( iterator_handle ))->second;
+    return Conversion<std::string>::toBaseRef(value);
+}
+_baseRef smoke_Maps_EquatableClassToString_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >>( std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >( ) ) );
+}
+void smoke_Maps_EquatableClassToString_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::genium::optional<std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >>*>( handle );
+}
+_baseRef smoke_Maps_EquatableClassToString_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_map<std::shared_ptr<::smoke::MapsInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::MapsInstance>> >>*>( handle ) );
+}
+_baseRef smoke_Maps_PointerEquatableClassToString_create_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >() );
+}
+void smoke_Maps_PointerEquatableClassToString_release_handle(_baseRef handle) {
+    delete get_pointer<std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >>(handle);
+}
+_baseRef smoke_Maps_PointerEquatableClassToString_iterator(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >::iterator( get_pointer<std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >>(handle)->begin() ) );
+}
+void smoke_Maps_PointerEquatableClassToString_iterator_release_handle(_baseRef iterator_handle) {
+    delete reinterpret_cast<std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >::iterator*>( iterator_handle );
+}
+void smoke_Maps_PointerEquatableClassToString_put(_baseRef handle, _baseRef key, _baseRef value) {
+    (*get_pointer<std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >>(handle)).emplace(std::move(Conversion<std::shared_ptr<::smoke::PointerEquatableInstance>>::toCpp(key)), std::move(Conversion<std::string>::toCpp(value)));
+}
+bool smoke_Maps_PointerEquatableClassToString_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
+    return *reinterpret_cast<std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >>(handle)->end();
+}
+void smoke_Maps_PointerEquatableClassToString_iterator_increment(_baseRef iterator_handle) {
+    ++*reinterpret_cast<std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >::iterator*>( iterator_handle );
+}
+_baseRef smoke_Maps_PointerEquatableClassToString_iterator_key(_baseRef iterator_handle) {
+    auto& key = (*reinterpret_cast<std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >::iterator*>( iterator_handle ))->first;
+    return Conversion<std::shared_ptr<::smoke::PointerEquatableInstance>>::toBaseRef(key);
+}
+_baseRef smoke_Maps_PointerEquatableClassToString_iterator_value(_baseRef iterator_handle) {
+    auto& value = (*reinterpret_cast<std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >::iterator*>( iterator_handle ))->second;
+    return Conversion<std::string>::toBaseRef(value);
+}
+_baseRef smoke_Maps_PointerEquatableClassToString_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >>( std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >( ) ) );
+}
+void smoke_Maps_PointerEquatableClassToString_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::genium::optional<std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >>*>( handle );
+}
+_baseRef smoke_Maps_PointerEquatableClassToString_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_map<std::shared_ptr<::smoke::PointerEquatableInstance>, std::string, ::genium::hash<std::shared_ptr<::smoke::PointerEquatableInstance>> >>*>( handle ) );
 }

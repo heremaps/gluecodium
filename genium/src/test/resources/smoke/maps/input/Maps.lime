@@ -18,6 +18,7 @@
 package smoke
 
 class Maps {
+    @Equatable
     struct SomeStruct {
         value: String
     }
@@ -37,6 +38,9 @@ class Maps {
     typealias SomeInt = Int
     typealias ArrayOfTypeDefs = List<SomeInt>
     typealias NumberToInstance = Map<UByte, MapsInstance>
+    typealias StructToString = Map<SomeStruct, String>
+    typealias EquatableClassToString = Map<MapsInstance, String>
+    typealias PointerEquatableClassToString = Map<PointerEquatableInstance, String>
 
     static fun methodWithMap(input: ErrorCodeToMessageMap): ErrorCodeToMessageMap
     static fun methodWithMapToStruct(input: NumberToStruct): NumberToStruct
@@ -44,6 +48,13 @@ class Maps {
     static fun methodWithStructWithMap(input: StructWithMap): StructWithMap
     static fun methodWithMapOfArrays(input: StringToArray): StringToArray
     static fun methodWithMapOfInstances(input: NumberToInstance): NumberToInstance
+    static fun methodWithStructToStringMap(input: StructToString): StructToString
+    static fun methodWithEquatableClassToStringMap(input: EquatableClassToString): EquatableClassToString
+    static fun methodWithPointerEquatableClassToString(input: PointerEquatableClassToString): PointerEquatableClassToString
 }
 
+@Equatable
 interface MapsInstance {}
+
+@PointerEquatable
+interface PointerEquatableInstance {}

@@ -24,6 +24,9 @@ public class Maps {
     public typealias SomeInt = Int32
     public typealias ArrayOfTypeDefs = [Maps.SomeInt]
     public typealias NumberToInstance = [UInt8: MapsInstance]
+    public typealias StructToString = [Maps.SomeStruct: String]
+    public typealias EquatableClassToString = [MapsInstance: String]
+    public typealias PointerEquatableClassToString = [PointerEquatableInstance: String]
     let c_instance : _baseRef
     init(cMaps: _baseRef) {
         guard cMaps != 0 else {
@@ -34,7 +37,7 @@ public class Maps {
     deinit {
         smoke_Maps_release_handle(c_instance)
     }
-    public struct SomeStruct {
+    public struct SomeStruct: Hashable {
         public var value: String
         public init(value: String) {
             self.value = value
@@ -75,6 +78,18 @@ public class Maps {
     public static func methodWithMapOfInstances(input: Maps.NumberToInstance) -> Maps.NumberToInstance {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Maps_methodWithMapOfInstances(c_input.ref))
+    }
+    public static func methodWithStructToStringMap(input: Maps.StructToString) -> Maps.StructToString {
+        let c_input = moveToCType(input)
+        return moveFromCType(smoke_Maps_methodWithStructToStringMap(c_input.ref))
+    }
+    public static func methodWithEquatableClassToStringMap(input: Maps.EquatableClassToString) -> Maps.EquatableClassToString {
+        let c_input = moveToCType(input)
+        return moveFromCType(smoke_Maps_methodWithEquatableClassToStringMap(c_input.ref))
+    }
+    public static func methodWithPointerEquatableClassToString(input: Maps.PointerEquatableClassToString) -> Maps.PointerEquatableClassToString {
+        let c_input = moveToCType(input)
+        return moveFromCType(smoke_Maps_methodWithPointerEquatableClassToString(c_input.ref))
     }
 }
 extension Maps: NativeBase {

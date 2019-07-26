@@ -1,5 +1,4 @@
 package smoke
-
 class Maps {
     typealias ErrorCodeToMessageMap = Map<Int, String>
     typealias NumberToStruct = Map<UByte, SomeStruct>
@@ -13,14 +12,16 @@ class Maps {
     typealias SomeInt = Int
     typealias ArrayOfTypeDefs = List<SomeInt>
     typealias NumberToInstance = Map<UByte, MapsInstance>
-
+    typealias StructToString = Map<SomeStruct, String>
+    typealias EquatableClassToString = Map<MapsInstance, String>
+    typealias PointerEquatableClassToString = Map<PointerEquatableInstance, String>
+    @Equatable
     struct SomeStruct {
         value: String
     }
     struct StructWithMap {
         errorMapping: ErrorCodeToMessageMap
     }
-
     static fun methodWithMap(
         input: ErrorCodeToMessageMap
     ): ErrorCodeToMessageMap
@@ -39,4 +40,13 @@ class Maps {
     static fun methodWithMapOfInstances(
         input: NumberToInstance
     ): NumberToInstance
+    static fun methodWithStructToStringMap(
+        input: StructToString
+    ): StructToString
+    static fun methodWithEquatableClassToStringMap(
+        input: EquatableClassToString
+    ): EquatableClassToString
+    static fun methodWithPointerEquatableClassToString(
+        input: PointerEquatableClassToString
+    ): PointerEquatableClassToString
 }

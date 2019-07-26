@@ -170,6 +170,36 @@ class MapsTests: XCTestCase {
         XCTAssertEqual(inputDict["Two"]?.getStringValue(), "Hello Two")
     }
 
+    func testStructMapRoundTrip() {
+        let input: [Maps.EquatableStruct: String] = [
+            Maps.EquatableStruct(id: "foo"): "foo",
+            Maps.EquatableStruct(id: "bar"): "bar"
+        ]
+
+        let result = Maps.structToStringRoundTrip(input: input)
+        XCTAssertEqual(input, result)
+    }
+
+    func testClassMapRoundTrip() {
+        let input: [EquatableClass: String] = [
+            EquatableClass(id: "foo"): "foo",
+            EquatableClass(id: "bar"): "bar"
+        ]
+
+        let result = Maps.classToStringRoundTrip(input: input)
+        XCTAssertEqual(input, result)
+    }
+
+    func testPointerEquatableClassMapRoundTrip() {
+        let input: [PointerEquatableClass: String] = [
+            PointerEquatableClass(id: "foo"): "foo",
+            PointerEquatableClass(id: "bar"): "bar"
+        ]
+
+        let result = Maps.pointerEquatableClassToStringRoundTrip(input: input)
+        XCTAssertEqual(input, result)
+    }
+
     static var allTests = [
         ("testMethodWithMapsEmpty", testMethodWithMapsEmpty),
         ("testMethodWithMapsMultipleItems", testMethodWithMapsMultipleItems),
@@ -183,6 +213,9 @@ class MapsTests: XCTestCase {
         ("testMethodWithEnumToStringMapMultipleItems", testMethodWithEnumToStringMapMultipleItems),
         ("testMethodWithMapToArrayEmpty", testMethodWithMapToArrayEmpty),
         ("testMethodWithMapToArrayMultipleItems", testMethodWithMapToArrayMultipleItems),
-        ("testMethodWithMapToInstance", testMethodWithMapToInstance)
+        ("testMethodWithMapToInstance", testMethodWithMapToInstance),
+        ("testStructMapRoundTrip", testStructMapRoundTrip),
+        ("testClassMapRoundTrip", testClassMapRoundTrip),
+        ("testPointerEquatableClassMapRoundTrip", testPointerEquatableClassMapRoundTrip)
     ]
 }
