@@ -1,0 +1,12 @@
+package `package`
+types `types` {
+    typealias `List` = List<`struct`>
+    enum `enum` {
+        `NaN`
+    }
+    exception `exception`(`enum`)
+    struct `struct` {
+        `null`: `enum` = `enum`.`NaN`
+    }
+    const `const`: `enum` = `enum`.`NaN`
+}
