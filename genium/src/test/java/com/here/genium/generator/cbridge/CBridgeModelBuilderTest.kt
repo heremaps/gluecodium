@@ -711,17 +711,6 @@ class CBridgeModelBuilderTest {
     }
 
     @Test
-    fun finishBuildingTypeDefToMapWithEnumKey() {
-        val cppKeyTypeInfo = CppTypeInfo(CType.BOOL, CppTypeInfo.TypeCategory.ENUM)
-        every { typeMapper.mapType(any()) }.returnsMany(cppKeyTypeInfo, cppTypeInfo)
-        every { cppIncludeResolver.resolveIncludes(limeTypeDefToMap) } returns listOf(fooInclude)
-
-        modelBuilder.finishBuilding(limeTypeDefToMap)
-
-        val result = modelBuilder.getFinalResult(CMap::class.java)
-    }
-
-    @Test
     fun finishBuildingTypeDefToMapWithArrayValue() {
         every { typeMapper.mapType(any()) }.returnsMany(cppTypeInfo, cppArrayTypeInfo)
         every { cppIncludeResolver.resolveIncludes(limeTypeDefToMap) } returns listOf(fooInclude)
@@ -747,22 +736,6 @@ class CBridgeModelBuilderTest {
         assertEquals("Foo_Bar", result.name)
         assertEquals(cppTypeInfo, result.elementType)
         assertEquals(fooInclude, result.include)
-    }
-
-    @Test
-    fun finishBuildingTypeDefToSetWithEnumKey() {
-        val cppEnumTypeInfo = CppTypeInfo(CType.BOOL, CppTypeInfo.TypeCategory.ENUM)
-        val limeSet = LimeSet(LimeBasicTypeRef.FLOAT)
-        val limeElement = LimeTypeDef(
-            LimePath(emptyList(), listOf("foo", "bar")),
-            typeRef = LimeDirectTypeRef(limeSet)
-        )
-        every { typeMapper.mapType(any()) } returns cppEnumTypeInfo
-        every { cppIncludeResolver.resolveIncludes(limeElement) } returns listOf(fooInclude)
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val result = modelBuilder.getFinalResult(CSet::class.java)
     }
 
     @Test
