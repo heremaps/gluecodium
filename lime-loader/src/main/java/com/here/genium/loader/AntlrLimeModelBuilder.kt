@@ -59,7 +59,8 @@ internal class AntlrLimeModelBuilder(
     private val pathStack = LinkedList<LimePath>()
     private val visibilityStack = LinkedList<LimeVisibility>()
     private val imports = mutableListOf<LimePath>()
-    private val typeMapper = AntlrTypeMapper(imports, referenceResolver.referenceMap)
+    private val typeMapper =
+        AntlrTypeMapper(imports, referenceResolver.referenceMap) { this.convertSimpleId(it) }
 
     private val currentPath
         get() = pathStack.peek()
@@ -73,11 +74,13 @@ internal class AntlrLimeModelBuilder(
     }
 
     override fun exitPackageHeader(ctx: LimeParser.PackageHeaderContext) {
-        pathStack.push(LimePath(ctx.identifier().simpleId().map { it.text }, emptyList()))
+        pathStack.push(
+            LimePath(ctx.identifier().simpleId().map { convertSimpleId(it) }, emptyList())
+        )
     }
 
     override fun exitImportHeader(ctx: LimeParser.ImportHeaderContext) {
-        val pathComponents = ctx.identifier().simpleId().map { it.text }
+        val pathComponents = ctx.identifier().simpleId().map { convertSimpleId(it) }
         imports += LimePath(pathComponents.dropLast(1), listOf(pathComponents.last()))
     }
 
@@ -88,7 +91,7 @@ internal class AntlrLimeModelBuilder(
     override fun exitContainer(ctx: LimeParser.ContainerContext) {
         val parentRef = ctx.identifier()?.let {
             LimeAmbiguousTypeRef(
-                relativePath = it.simpleId().map { simpleIdContext -> simpleIdContext.text },
+                relativePath = it.simpleId().map { simpleId -> convertSimpleId(simpleId) },
                 parentPaths = listOf(currentPath) + currentPath.allParents,
                 imports = imports,
                 referenceMap = referenceResolver.referenceMap
@@ -385,7 +388,7 @@ internal class AntlrLimeModelBuilder(
         visibility: LimeParser.VisibilityContext?,
         suffix: String = ""
     ) {
-        pathStack.push(currentPath.child(simpleId.text, suffix))
+        pathStack.push(currentPath.child(convertSimpleId(simpleId), suffix))
         visibilityStack.push(convertVisibility(visibility, visibilityStack.peek()))
     }
 
@@ -410,7 +413,9 @@ internal class AntlrLimeModelBuilder(
             else -> LimeVisibility.PUBLIC
         }
 
-    private fun convertAnnotations(annotations: List<LimeParser.AnnotationContext>): LimeAttributes {
+    private fun convertAnnotations(
+        annotations: List<LimeParser.AnnotationContext>
+    ): LimeAttributes {
         val attributes = LimeAttributes.Builder()
         annotations.forEach {
             val attributeType = convertAnnotationType(it)
@@ -509,7 +514,8 @@ internal class AntlrLimeModelBuilder(
         when {
             ctx.enumeratorRef() != null -> {
                 val enumeratorRef = LimeAmbiguousEnumeratorRef(
-                    relativePath = ctx.enumeratorRef().identifier().simpleId().map { it.text },
+                    relativePath =
+                        ctx.enumeratorRef().identifier().simpleId().map { convertSimpleId(it) },
                     parentPaths = listOf(currentPath) + currentPath.allParents + imports,
                     referenceMap = referenceResolver.referenceMap
                 )
@@ -546,5 +552,13 @@ internal class AntlrLimeModelBuilder(
             limeTypeRef,
             if (ctx.MINUS() != null) "-$literalString" else literalString
         )
+    }
+
+    private fun convertSimpleId(simpleId: LimeParser.SimpleIdContext): String {
+        val text = simpleId.text
+        return when (text.first()) {
+            '`' -> text.drop(1).dropLast(1)
+            else -> text
+        }
     }
 }

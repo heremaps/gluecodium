@@ -19,7 +19,7 @@
   !
   !}}
 {{>lime/LimeDocumentation}}
-{{visibility}}{{#if isStatic}}static {{/if}}property {{name}}: {{typeRef}} {
+{{visibility}}{{#if isStatic}}static {{/if}}property {{escapedName}}: {{typeRef.escapedName}} {
 {{#getter}}
 {{prefixPartial "lime/LimeGetter" "    "}}
 {{/getter}}

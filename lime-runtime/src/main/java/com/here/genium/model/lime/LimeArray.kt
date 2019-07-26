@@ -23,6 +23,9 @@ class LimeArray(val elementType: LimeTypeRef) : LimeGenericType() {
     override val name
         get() = "List<$elementType>"
 
+    override val escapedName
+        get() = "List<${elementType.escapedName}>"
+
     override val childTypes
         get() = listOf(elementType)
 }

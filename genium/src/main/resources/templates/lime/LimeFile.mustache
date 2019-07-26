@@ -20,7 +20,7 @@
   !}}
 {{#if copyrightHeader}}{{prefix copyrightHeader "# "}}{{/if}}
 
-package {{join model.path.head delimiter="."}}
+package {{model.packageName}}
 
 {{#if imports}}{{#imports}}
 import {{this}}
@@ -28,7 +28,7 @@ import {{this}}
 {{/if}}
 {{#model}}
 {{>lime/LimeDocumentation}}
-{{visibility}}{{type}} {{name}} {{#parent}}: {{type.name}} {{/parent}}{
+{{visibility}}{{type}} {{escapedName}} {{#parent}}: {{type.name}} {{/parent}}{
 {{#typeDefs}}
 {{prefixPartial "lime/LimeTypeAlias" "    "}}
 {{/typeDefs}}

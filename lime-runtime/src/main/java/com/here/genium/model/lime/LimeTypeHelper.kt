@@ -41,4 +41,22 @@ object LimeTypeHelper {
             is LimeMap -> getLeafType(limeType.valueType.type)
             else -> limeType
         }
+
+    /* Backtick-escape the given identifier if at least one of the following is true:
+     * * identifier exactly matches a LimeIDL keyword
+     * * identifier contains a non-alphanumeric character that is not underscore
+     * * identifier starts with a digit
+     */
+    fun escapeIdentifier(identifier: String) =
+        when {
+            limeKeywords.contains(identifier) || identifier.contains(Regex("\\W")) ||
+                identifier.first().isDigit() -> "`$identifier`"
+            else -> identifier
+        }
+
+    private val limeKeywords = setOf("class", "const", "constructor", "fun", "enum", "exception",
+        "get", "import", "interface", "internal", "open", "package", "property", "public", "set",
+        "static", "struct", "throws", "typealias", "types", "Void", "Boolean", "Float", "Double",
+        "Byte", "Short", "Int", "Long", "UByte", "UShort", "UInt", "ULong", "String", "Blob",
+        "Date", "List", "Map", "Set", "true", "false", "null", "NaN", "Infinity")
 }

@@ -32,5 +32,8 @@ abstract class LimeNamedElement protected constructor(
     open val fullName
         get() = path.toString()
 
+    open val escapedName
+        get() = LimeTypeHelper.escapeIdentifier(name)
+
     val attributes = attributes ?: LimeAttributes.Builder().build()
 }

@@ -349,6 +349,10 @@ feature(PlatformNames cpp android swift SOURCES
     lime/test/PlatformNames.lime
 )
 
+feature(EscapedNames cpp android swift SOURCES
+    lime/test/KeywordNames.lime
+)
+
 if(APPLE)
     #This feature is intended for Swift only. It also does not compile outside of Apple platforms.
     feature(ObjcInterface swift SOURCES

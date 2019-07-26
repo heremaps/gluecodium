@@ -133,6 +133,7 @@ fragment DecDigitNoZero: '1'..'9' ;
 
 Identifier
     : (Letter | '_') (Letter | '_' | DecimalDigit)*
+    | '`' ~('\r' | '\n' | '`')+ '`'
     ;
 
 fragment Letter

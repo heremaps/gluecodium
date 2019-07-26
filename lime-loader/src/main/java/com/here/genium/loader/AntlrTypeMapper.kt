@@ -34,7 +34,8 @@ import com.here.genium.model.lime.LimeTypeRef
 
 internal class AntlrTypeMapper(
     private val imports: List<LimePath>,
-    private val referenceMap: Map<String, LimeElement>
+    private val referenceMap: Map<String, LimeElement>,
+    private val identifierConverter: (LimeParser.SimpleIdContext) -> String
 ) {
 
     fun mapTypeRef(currentPath: LimePath, typeRef: LimeParser.TypeRefContext): LimeTypeRef {
@@ -53,7 +54,7 @@ internal class AntlrTypeMapper(
         identifierContext: LimeParser.IdentifierContext,
         isOptional: Boolean = false
     ) = LimeAmbiguousTypeRef(
-        relativePath = identifierContext.simpleId().map { it.text },
+        relativePath = identifierContext.simpleId().map { identifierConverter(it) },
         parentPaths = listOf(currentPath) + currentPath.allParents,
         imports = imports,
         referenceMap = referenceMap,

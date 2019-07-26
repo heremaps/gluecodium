@@ -42,4 +42,7 @@ class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
 
     override val name
         get() = typeId.toString()
+
+    override val escapedName
+        get() = name
 }

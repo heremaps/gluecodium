@@ -35,6 +35,13 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
 
     class Enumerator(type: LimeTypeRef, val valueRef: LimeEnumeratorRef) : LimeValue(type) {
         override fun toString() = valueRef.enumerator.path.let { "${it.parent.name}.${it.name}" }
+
+        override val escapedValue: String
+            get() {
+                val enumeratorPath = valueRef.enumerator.path
+                return LimeTypeHelper.escapeIdentifier(enumeratorPath.parent.name) + "." +
+                    LimeTypeHelper.escapeIdentifier(enumeratorPath.name)
+            }
     }
 
     class Special(type: LimeTypeRef, val value: ValueId) : LimeValue(type) {
@@ -66,4 +73,7 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement {
     class InitializerList(type: LimeTypeRef, val values: List<LimeValue>) : LimeValue(type) {
         override fun toString() = "{" + values.joinToString(separator = ", ") + "}"
     }
+
+    open val escapedValue
+        get() = toString()
 }

@@ -42,4 +42,8 @@ class LimeContainer(
 
         override fun toString() = tag
     }
+
+    @Suppress("unused")
+    val packageName
+        get() = path.head.joinToString(".") { LimeTypeHelper.escapeIdentifier(it) }
 }

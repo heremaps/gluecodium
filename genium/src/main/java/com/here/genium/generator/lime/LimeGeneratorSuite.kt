@@ -33,25 +33,29 @@ import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeTypedElement
 import com.here.genium.platform.common.GeneratorSuite
 
 class LimeGeneratorSuite : GeneratorSuite() {
 
-    override fun generate(limeModel: LimeModel): List<GeneratedFile> {
-        return limeModel.containers.map {
-            val imports = collectImports(it.path.parent, it).toSet()
-            val content =
-                TemplateEngine.render("lime/LimeFile", mapOf("imports" to imports, "model" to it))
-            val packagePath = it.path.head.joinToString(separator = "/")
-            val fileName = "$GENERATOR_NAME/$packagePath/${it.name}.lime"
-            GeneratedFile(content, fileName)
-        }
-    }
+    override fun generate(limeModel: LimeModel) = limeModel.containers.map { generate(it) }
 
-    private fun collectMethods(limeContainer: LimeContainer) =
-        limeContainer.methods + limeContainer.structs.flatMap { it.methods }
+    private fun generate(limeContainer: LimeContainer): GeneratedFile {
+        val imports =
+            collectImports(limeContainer.path.parent, limeContainer)
+                .toSet()
+                .map { escapeImport(it) }
+        val content =
+            TemplateEngine.render(
+                "lime/LimeFile",
+                mapOf("imports" to imports, "model" to limeContainer)
+            )
+        val packagePath = limeContainer.path.head.joinToString(separator = "/")
+        val fileName = "$GENERATOR_NAME/$packagePath/${limeContainer.name}.lime"
+        return GeneratedFile(content, fileName)
+    }
 
     private fun collectImports(context: LimePath, limeElement: LimeElement): List<LimePath> =
         when (limeElement) {
@@ -84,6 +88,9 @@ class LimeGeneratorSuite : GeneratorSuite() {
             }
             else -> emptyList()
         }
+
+    private fun escapeImport(import: LimePath) =
+        (import.head + import.tail).joinToString(".") { LimeTypeHelper.escapeIdentifier(it) }
 
     override fun getName() = "com.here.LimeGenerator"
 

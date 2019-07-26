@@ -23,6 +23,9 @@ class LimeSet(val elementType: LimeTypeRef) : LimeGenericType() {
     override val name
         get() = "Set<$elementType>"
 
+    override val escapedName
+        get() = "Set<${elementType.escapedName}>"
+
     override val childTypes
         get() = listOf(elementType)
 }

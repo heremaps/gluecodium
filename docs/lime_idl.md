@@ -136,13 +136,25 @@ appear in the language.
 * text in *italic* is a placeholder, usually for a user-defined name or some other user-defined
 sequence (in which case it will be explained specifically each time).
 * `(` and `)` enclose a set of alternatives, with each alternative separated with `|` symbol.
-* `[` and `]` enclose a sequence that is optional, i.e. can be omitted
+* `[` and `]` enclose a sequence that is optional, i.e. can be omitted.
 
 #### Identifiers
 
-All user-defined names should follow common rules for identifiers:
-* can contain only letters (Unicode), digits and underscores `_`.
+LimeIDL supports two kinds of identifiers (names): simple identifiers and escaped identifiers.
+
+Most of the identifiers are simple ones. They should follow common rules for identifiers:
+* can contain only Latin letters, digits and underscores `_`.
 * cannot begin with a digit.
+
+Escaped identifies are enclosed in '`' backticks. Escaped identifiers support the whole range of
+Unicode characters. The only characters that are not allowed are line breaks and backticks.
+
+**Note:** non-alphanumeric characters for elements whose names are reflected in file names (e.g.
+package names or names of classes, interfaces, structs, etc.) might lead to unexpected compilation
+issues in the generated code, depending on the file system and/or operating system.
+
+**Note:** Unicode characters in C++ identifiers are supported by C++ standard but the actual support
+might vary per compiler implementation.
 
 #### Visibility
 
