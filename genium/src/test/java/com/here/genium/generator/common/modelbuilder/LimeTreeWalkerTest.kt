@@ -26,6 +26,7 @@ import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
+import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeParameter
@@ -77,7 +78,7 @@ class LimeTreeWalkerTest {
     private val limeException = LimeException(EMPTY_PATH, errorEnum = limeErrorTypeRef)
     private val limeMethod = LimeMethod(
         path = EMPTY_PATH,
-        exceptionRef = LimeDirectTypeRef(limeException),
+        thrownType = LimeThrownType(LimeDirectTypeRef(limeException)),
         parameters = listOf(limeParameter)
     )
     private val limeContainer = LimeContainer(

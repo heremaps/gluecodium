@@ -34,6 +34,13 @@ public interface DeprecationComments {
             this.value = value;
         }
     }
+    public static class SomeEnumException extends Exception {
+        public SomeEnumException(final DeprecationComments.SomeEnum error) {
+            super(Integer.toString(error.value));
+            this.error = error;
+        }
+        public final DeprecationComments.SomeEnum error;
+    }
     /**
      * <p>This is some very useful struct.</p>
      * @deprecated <p>Unfortunately, this struct is deprecated. Use {@link com.example.smoke.Comments.SomeStruct} instead.</p>

@@ -1,7 +1,5 @@
 package smoke
-
 import smoke.comments.SomeEnum
-
 // The nested types like [random_method] don't need full name prefix, but it's
 // possible to references other interfaces like [smoke.CommentsInterface] or other members
 // [comments.someMethodWithAllComments].
@@ -14,9 +12,7 @@ class CommentsLinks {
         Twice,
         ThreeTimes
     }
-
     exception TooUsefulException(TooUseful)
-
     // Link types:
     // * constant: [comments.VeryUseful]
     // * struct: [comments.SomeStruct]
@@ -49,5 +45,5 @@ class CommentsLinks {
     // * output parameter: [outputParameter]
     fun random_method(
         inputParameter: SomeEnum
-    ): SomeEnum throws TooUsefulException
+    ): SomeEnum throws /* May or may not throw */ TooUsefulException
 }

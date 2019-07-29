@@ -53,6 +53,7 @@ import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeException
+import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeMethod
@@ -410,7 +411,7 @@ class CBridgeModelBuilderTest {
     @Test
     fun finishBuildingMethodReadsErrorType() {
         val limeException = LimeException(EMPTY_PATH, errorEnum = LimeBasicTypeRef.FLOAT)
-        val limeElement = LimeMethod(fooPath, exceptionRef = LimeDirectTypeRef(limeException))
+        val limeElement = LimeMethod(fooPath, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
         val enumTypeInfo = CppTypeInfo(CType.UINT32)
         contextStack.injectParentCurrentResult(cppTypeInfo)
         every { typeMapper.createEnumTypeInfo(any(), true) } returns enumTypeInfo

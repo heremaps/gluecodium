@@ -13,6 +13,7 @@
 #include "genium/VectorHash.h"
 #include <cstdint>
 #include <string>
+#include <system_error>
 #include <unordered_map>
 #include <vector>
 namespace smoke {
@@ -94,6 +95,12 @@ virtual ::smoke::DeprecationComments::Usefulness is_some_attribute(  ) const = 0
  */
 virtual void set_some_attribute( const ::smoke::DeprecationComments::Usefulness value ) = 0;
 };
+_GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::DeprecationComments::SomeEnum value ) noexcept;
+}
+namespace std
+{
+template <>
+struct is_error_code_enum< ::smoke::DeprecationComments::SomeEnum > : public std::true_type { };
 }
 namespace genium {
 template<>

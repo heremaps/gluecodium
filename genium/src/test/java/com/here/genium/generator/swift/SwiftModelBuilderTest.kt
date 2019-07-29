@@ -35,6 +35,7 @@ import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeLazyEnumeratorRef
 import com.here.genium.model.lime.LimeException
+import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeMethod
@@ -198,7 +199,7 @@ class SwiftModelBuilderTest {
     @Test
     fun finishBuildingMethodReadsErrorType() {
         val limeException = LimeException(EMPTY_PATH, errorEnum = LimeBasicTypeRef.FLOAT)
-        val limeElement = LimeMethod(fooPath, exceptionRef = LimeDirectTypeRef(limeException))
+        val limeElement = LimeMethod(fooPath, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
 
         modelBuilder.finishBuilding(limeElement)
 

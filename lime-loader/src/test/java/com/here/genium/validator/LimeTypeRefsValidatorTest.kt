@@ -23,6 +23,7 @@ import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeException
+import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeModelLoaderException
@@ -58,7 +59,9 @@ class LimeTypeRefsValidatorTest(private val createElement: (LimeTypeRef) -> Lime
         override fun asNullable() = this
     }
 
-    private val dummyLogger = object : Logger(null, null) { override fun severe(msg: String?) {} }
+    private val dummyLogger = object : Logger(null, null) {
+        override fun severe(msg: String?) {}
+    }
     private val validator = LimeTypeRefsValidator(dummyLogger)
 
     class DummyTypedElement(limeTypeRef: LimeTypeRef) : LimeTypedElement(
@@ -92,7 +95,12 @@ class LimeTypeRefsValidatorTest(private val createElement: (LimeTypeRef) -> Lime
             arrayOf<(LimeTypeRef) -> LimeElement>(
                 { LimeMethod(EMPTY_PATH, returnType = LimeReturnType(it)) }
             ),
-            arrayOf<(LimeTypeRef) -> LimeElement>({ LimeMethod(EMPTY_PATH, exceptionRef = it) }),
+            arrayOf<(LimeTypeRef) -> LimeElement>({
+                LimeMethod(
+                    EMPTY_PATH,
+                    thrownType = LimeThrownType(it)
+                )
+            }),
             arrayOf<(LimeTypeRef) -> LimeElement>(
                 { LimeContainer(EMPTY_PATH, type = LimeContainer.ContainerType.CLASS, parent = it) }
             ),

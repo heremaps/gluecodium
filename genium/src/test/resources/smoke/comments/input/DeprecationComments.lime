@@ -34,6 +34,8 @@ interface DeprecationComments {
         @Deprecated("Unfortunately, this item is deprecated.\nUse [comments.SomeEnum.Useless] instead.")
         Useless
     }
+    @Deprecated("Unfortunately, this exception is deprecated, please use [comments.SomeEnumException] instead.")
+    exception SomeEnumException(SomeEnum)
     // This is some very useful typedef.
     @Deprecated("Unfortunately, this typedef is deprecated. Use [comments.Usefulness] instead.")
     typealias Usefulness = Boolean

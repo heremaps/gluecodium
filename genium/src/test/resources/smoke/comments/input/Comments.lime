@@ -49,7 +49,7 @@ class comments {
     fun someMethodWithAllComments(
         // Very useful input parameter
         input: String
-    ): /* Usefulness of the input */ Usefulness throws /* This is some very useful enum. */ SomeEnumException
+    ): /* Usefulness of the input */ Usefulness throws /* Sometimes it happens. */ SomeEnumException
     // This is some very useful method that measures the usefulness of its input.
     fun someMethodWithInputComments(
         // Very useful input parameter
@@ -106,7 +106,7 @@ class comments {
         set
     }
 
-    // This is some very useful enum.
+    // This is some very useful exception.
     exception SomeEnumException(SomeEnum)
 }
 
@@ -219,7 +219,7 @@ class CommentsLinks {
     // * output parameter: [outputParameter]
     fun random_method(
         inputParameter: comments.SomeEnum
-    ): comments.SomeEnum throws TooUsefulException
+    ): comments.SomeEnum throws /*May or may not throw*/ TooUsefulException
 
     exception TooUsefulException(TooUseful)
 }

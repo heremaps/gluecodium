@@ -28,6 +28,7 @@ import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumerator
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeTypeDef
@@ -49,6 +50,7 @@ abstract class AbstractLimeBasedModelBuilder<E>(
     override fun finishBuilding(limeEnumerator: LimeEnumerator) = closeContext()
     override fun finishBuilding(limeConstant: LimeConstant) = closeContext()
     override fun finishBuilding(limeValue: LimeValue) = closeContext()
+    override fun finishBuilding(limeException: LimeException) = closeContext()
 
     /**
      * Store a result which has a direct mapping to a lime model name. This is used to transform

@@ -24,7 +24,7 @@
 {{prefixPartial "lime/LimeParameter" "    "}}
 {{/parameters}}){{!!
 }}{{#unless isConstructor}}{{>returnTypeDeclaration}}{{/unless}}{{!!
-}}{{#exception}} throws {{#if exception.comment}}/* {{exception.comment}} */ {{/if}}{{name}}{{/exception}}{{!!
+}}{{#thrownType}} throws {{#if thrownType.comment}}/* {{thrownType.comment}} */ {{/if}}{{thrownType.typeRef}}{{/thrownType}}{{!!
 
 }}{{+returnTypeDeclaration}}{{#returnType}}{{!!
 }}{{#isNotEq typeRef.toString "Void"}}: {{#if comment}}/* {{comment}} */ {{/if}}{{typeRef}}{{/isNotEq}}{{!!

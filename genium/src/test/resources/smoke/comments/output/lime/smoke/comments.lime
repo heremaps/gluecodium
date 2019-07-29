@@ -1,5 +1,4 @@
 package smoke
-
 // This is some very useful interface.
 class comments {
     // This is some very useful typedef.
@@ -8,7 +7,6 @@ class comments {
     typealias SomeArray = List<String>
     // This is some very useful map.
     typealias SomeMap = Map<String, Usefulness>
-
     // This is some very useful enum.
     enum SomeEnum {
         // Not quite useful
@@ -16,10 +14,8 @@ class comments {
         // Somewhat useful
         Useful
     }
-
-    // This is some very useful enum.
+    // This is some very useful exception.
     exception SomeEnumException(SomeEnum)
-
     // This is some very useful struct.
     struct SomeStruct {
         // How useful this struct is
@@ -27,15 +23,13 @@ class comments {
         // Can be `null`
         nullableField: String?
     }
-
     // This is some very useful constant.
     const VeryUseful: Usefulness = true
-
     // This is some very useful method that measures the usefulness of its input.
     fun someMethodWithAllComments(
         // Very useful input parameter
         input: String
-    ): /* Usefulness of the input */ Usefulness throws /* This is some very useful enum. */ SomeEnumException
+    ): /* Usefulness of the input */ Usefulness throws /* Sometimes it happens. */ SomeEnumException
     // This is some very useful method that measures the usefulness of its input.
     fun someMethodWithInputComments(
         // Very useful input parameter
@@ -78,7 +72,6 @@ class comments {
     fun returnCommentOnly(
         undocumented: String
     ): /* nicely documented */ String
-
     // Some very useful attribute.
     property SomeAttribute: Usefulness {
         // Some very useful attribute.

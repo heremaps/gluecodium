@@ -19,17 +19,7 @@
 
 package com.here.genium.model.lime
 
-class LimeMethod(
-    path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
-    comment: String = "",
-    attributes: LimeAttributes? = null,
-    val returnType: LimeReturnType = LimeReturnType.VOID,
-    val parameters: List<LimeParameter> = emptyList(),
-    val thrownType: LimeThrownType? = null,
-    val isStatic: Boolean = false,
-    val isConstructor: Boolean = false
-) : LimeNamedElement(path, visibility, comment, attributes) {
-    val exception: LimeException?
-        get() = thrownType?.typeRef?.type as? LimeException
-}
+class LimeThrownType(
+    val typeRef: LimeTypeRef,
+    val comment: String = ""
+)

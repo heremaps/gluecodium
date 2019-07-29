@@ -33,6 +33,7 @@ import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
+import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeMethod
@@ -85,12 +86,14 @@ internal class AntlrLimeModelBuilder(
     }
 
     override fun exitContainer(ctx: LimeParser.ContainerContext) {
-        val parentRef = ctx.identifier()?.let { LimeAmbiguousTypeRef(
-            relativePath = it.simpleId().map { simpleIdContext -> simpleIdContext.text },
-            parentPaths = listOf(currentPath) + currentPath.allParents,
-            imports = imports,
-            referenceMap = referenceResolver.referenceMap
-        ) }
+        val parentRef = ctx.identifier()?.let {
+            LimeAmbiguousTypeRef(
+                relativePath = it.simpleId().map { simpleIdContext -> simpleIdContext.text },
+                parentPaths = listOf(currentPath) + currentPath.allParents,
+                imports = imports,
+                referenceMap = referenceResolver.referenceMap
+            )
+        }
         val limeElement = LimeContainer(
             path = currentPath,
             visibility = currentVisibility,
@@ -142,12 +145,19 @@ internal class AntlrLimeModelBuilder(
 
     override fun exitFunction(ctx: LimeParser.FunctionContext) {
         val returnType = ctx.returnType()
-            ?.let { LimeReturnType(
-                typeMapper.mapTypeRef(currentPath, it.typeRef()),
-                convertDocComments(it.docComment())
-            ) } ?: LimeReturnType.VOID
-        val exceptionRef =
-            ctx.throwsClause()?.let { typeMapper.mapTypeRef(currentPath, it.typeRef()) }
+            ?.let {
+                LimeReturnType(
+                    typeMapper.mapTypeRef(currentPath, it.typeRef()),
+                    convertDocComments(it.docComment())
+                )
+            } ?: LimeReturnType.VOID
+        val exceptionType =
+            ctx.throwsClause()?.let {
+                LimeThrownType(
+                    typeMapper.mapTypeRef(currentPath, it.typeRef()),
+                    convertDocComments(it.docComment())
+                )
+            }
         val limeElement = LimeMethod(
             path = currentPath,
             visibility = currentVisibility,
@@ -155,7 +165,7 @@ internal class AntlrLimeModelBuilder(
             attributes = convertAnnotations(ctx.annotation()),
             returnType = returnType,
             parameters = getPreviousResults(LimeParameter::class.java),
-            exceptionRef = exceptionRef,
+            thrownType = exceptionType,
             isStatic = ctx.STATIC() != null
         )
 
@@ -174,8 +184,13 @@ internal class AntlrLimeModelBuilder(
     override fun exitConstructor(ctx: LimeParser.ConstructorContext) {
         val classTypeRef =
             LimeLazyTypeRef(currentPath.parent.toString(), referenceResolver.referenceMap)
-        val exceptionRef =
-            ctx.throwsClause()?.let { typeMapper.mapTypeRef(currentPath, it.typeRef()) }
+        val exceptionType =
+            ctx.throwsClause()?.let {
+                LimeThrownType(
+                    typeMapper.mapTypeRef(currentPath, it.typeRef()),
+                    convertDocComments(it.docComment())
+                )
+            }
         val limeElement = LimeMethod(
             path = currentPath,
             visibility = currentVisibility,
@@ -183,7 +198,7 @@ internal class AntlrLimeModelBuilder(
             attributes = convertAnnotations(ctx.annotation()),
             returnType = LimeReturnType(classTypeRef),
             parameters = getPreviousResults(LimeParameter::class.java),
-            exceptionRef = exceptionRef,
+            thrownType = exceptionType,
             isStatic = true,
             isConstructor = true
         )
@@ -442,7 +457,7 @@ internal class AntlrLimeModelBuilder(
     ): LimeAttributeValueType {
         val id = ctx.simpleId()?.text
             ?: return attributeType.defaultValueType
-            ?: throw LimeLoadingException("Annotation type $attributeType does not support values")
+                ?: throw LimeLoadingException("Annotation type $attributeType does not support values")
         return when (id) {
             "Name" -> LimeAttributeValueType.NAME
             "Builder" -> LimeAttributeValueType.BUILDER
@@ -501,12 +516,12 @@ internal class AntlrLimeModelBuilder(
                 return LimeValue.Enumerator(limeTypeRef, enumeratorRef)
             }
             ctx.initializerList() != null -> {
-                val values = ctx.initializerList().literalConstant().mapIndexed {
-                        idx: Int, childCtx: LimeParser.LiteralConstantContext ->
-                    val fieldTypeRef =
-                        LimePositionalTypeRef(limeTypeRef, idx, referenceResolver.referenceMap)
-                    convertLiteralConstant(fieldTypeRef, childCtx)
-                }
+                val values = ctx.initializerList().literalConstant()
+                    .mapIndexed { idx: Int, childCtx: LimeParser.LiteralConstantContext ->
+                        val fieldTypeRef =
+                            LimePositionalTypeRef(limeTypeRef, idx, referenceResolver.referenceMap)
+                        convertLiteralConstant(fieldTypeRef, childCtx)
+                    }
                 return LimeValue.InitializerList(limeTypeRef, values)
             }
             ctx.NullLiteral() != null -> return LimeValue.Null(limeTypeRef)

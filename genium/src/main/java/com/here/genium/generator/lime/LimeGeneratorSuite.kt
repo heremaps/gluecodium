@@ -63,7 +63,7 @@ class LimeGeneratorSuite : GeneratorSuite() {
                     limeElement.methods).flatMap { collectImports(limeElement.path, it) }
             is LimeMethod -> limeElement.parameters.flatMap { collectImports(context, it) } +
                     collectImports(context, limeElement.returnType) +
-                    (limeElement.exceptionRef?.let { collectImports(context, it) } ?: emptyList())
+                    (limeElement.thrownType?.let { collectImports(context, it.typeRef) } ?: emptyList())
             is LimeTypedElement -> collectImports(context, limeElement.typeRef)
             is LimeTypeDef -> collectImports(context, limeElement.typeRef)
             is LimeReturnType -> collectImports(context, limeElement.typeRef)

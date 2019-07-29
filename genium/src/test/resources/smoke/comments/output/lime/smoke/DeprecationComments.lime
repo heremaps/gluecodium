@@ -1,5 +1,4 @@
 package smoke
-
 // This is some very useful interface.
 @Deprecated("Unfortunately, this interface is deprecated. Use [comments] instead.")
 interface DeprecationComments {
@@ -12,7 +11,6 @@ interface DeprecationComments {
     // This is some very useful map.
     @Deprecated("Unfortunately, this map is deprecated. Use [comments.SomeMap] instead.")
     typealias SomeMap = Map<String, Usefulness>
-
     // This is some very useful enum.
     @Deprecated("Unfortunately, this enum is deprecated. Use [comments.SomeEnum] instead.")
     enum SomeEnum {
@@ -20,7 +18,8 @@ interface DeprecationComments {
         @Deprecated("Unfortunately, this item is deprecated.\nUse [comments.SomeEnum.Useless] instead.")
         Useless
     }
-
+    @Deprecated("Unfortunately, this exception is deprecated, please use [comments.SomeEnumException] instead.")
+    exception SomeEnumException(SomeEnum)
     // This is some very useful struct.
     @Deprecated("Unfortunately, this struct is deprecated. Use [comments.SomeStruct] instead.")
     struct SomeStruct {
@@ -28,18 +27,15 @@ interface DeprecationComments {
         @Deprecated("Unfortunately, this field is deprecated.\nUse [comments.SomeStruct.someField] instead.")
         someField: Usefulness
     }
-
     // This is some very useful constant.
     @Deprecated("Unfortunately, this constant is deprecated. Use [comments.VeryUseful] instead.")
     const VeryUseful: Usefulness = true
-
     // This is some very useful method that measures the usefulness of its input.
     @Deprecated("Unfortunately, this method is deprecated.\nUse [comments.someMethodWithAllComments] instead.")
     fun someMethodWithAllComments(
         // Very useful input parameter
         input: String
     ): /* Usefulness of the input */ Usefulness
-
     // Some very useful attribute.
     @Deprecated("Unfortunately, this attribute is deprecated.\nUse [comments.SomeAttribute] instead.")
     property SomeAttribute: Usefulness {
