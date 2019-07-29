@@ -39,9 +39,9 @@ import com.here.genium.model.cpp.CppElementWithIncludes
 import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppFile
 import com.here.genium.model.cpp.CppForwardDeclaration
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeModel
+import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.platform.common.GeneratorSuite
 import java.io.File
 import java.nio.file.Paths
@@ -82,7 +82,7 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
         val generator = CppGenerator(GENERATOR_NAME, internalNamespace)
 
         val cppReferenceMap = mutableMapOf<String, CppElement>()
-        val cppModel = limeModel.containers.map {
+        val cppModel = limeModel.topElements.map {
             mapLimeModelToCppModel(
                 it,
                 nameRules.getOutputFilePath(it),
@@ -118,7 +118,7 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
     }
 
     private fun mapLimeModelToCppModel(
-        limeModel: LimeContainer,
+        limeModel: LimeNamedElement,
         filename: String,
         cppModelBuilder: CppModelBuilder,
         allErrorEnums: Set<String>,

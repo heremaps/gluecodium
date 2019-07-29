@@ -28,6 +28,7 @@ import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
@@ -38,8 +39,8 @@ import com.here.genium.model.lime.LimeValue
 class LimeTreeWalker(builders: Collection<LimeBasedModelBuilder>) :
     GenericTreeWalker<LimeBasedModelBuilder>(builders, LIME_TREE_STRUCTURE) {
 
-    fun walkTree(limeContainer: LimeContainer) {
-        walk(limeContainer)
+    fun walkTree(rootElement: LimeNamedElement) {
+        walk(rootElement)
     }
 
     private fun walkChildNodes(limeContainer: LimeContainer) {

@@ -85,8 +85,8 @@ open class JavaGeneratorSuite protected constructor(
         )
 
         val combinedModel =
-            limeModel.containers.fold(JavaModel()) { model, limeContainer ->
-                model.merge(jniGenerator.generateModel(limeContainer))
+            limeModel.topElements.fold(JavaModel()) { model, rootElement ->
+                model.merge(jniGenerator.generateModel(rootElement))
             }
 
         processCommentLinks(combinedModel.javaElements, combinedModel.referenceMap)

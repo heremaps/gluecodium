@@ -270,7 +270,7 @@ struct Options {
     additionalOptions: List<String> = {}
 }
 ```
-* Can be placed in: class, interface, types
+* Can be a free-standing element at file level or can be placed in: class, interface, types
 * Description: declares a struct type (data type) in the parent type:
   * a struct can have any number of fields, but at least one field is required.
   * a struct field can have a default value associated with it (optionally). For more details on
@@ -284,7 +284,7 @@ struct Options {
 * where *enumerators-list* is a comma-separated list of enumerators, each enumerator declared as
 *EnumeratorName* \[**=** *EnumeratorValue*\]
 * Example: `enum Mode { SLOW, FAST, CHEAP }`
-* Can be placed in: class, interface, types
+* Can be a free-standing element at file level or can be placed in: class, interface, types
 * Description: declares an enumeration type in the parent type:
   * an enumeration can have any number of enumerators, but at least one enumerators is required.
   * an enumerator can have a default value associated with it (optionally). Only integer values are
@@ -294,7 +294,7 @@ struct Options {
 
 * Syntax: **exception** *ExceptionName*\[__(__*EnumName*__)__\]
 * Example: `exception SomethingWrongException(ErrorCodeEnum)`
-* Can be placed in: class, interface, types
+* Can be a free-standing element at file level or can be placed in: class, interface, types
 * Description: declares an exception (error) type in the parent type:
   * an exception can have a error-code enum associated with it (optionally).
 
@@ -310,7 +310,7 @@ struct Options {
 
 * Syntax: **typealias** *AliasName* **=** *AliasType*
 * Example: `typealias Timestamp = Date`
-* Can be placed in: class, interface
+* Can be a free-standing element at file level or can be placed in: class, interface
 * Description: declares a type alias (typedef) in the parent type.
 
 ### Type references

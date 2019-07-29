@@ -36,8 +36,8 @@ import com.here.genium.generator.swift.SwiftTypeMapper
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
 import com.here.genium.model.cbridge.CInterface
 import com.here.genium.model.common.Include
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.platform.common.GeneratorSuite
 import java.nio.file.Paths
@@ -56,16 +56,16 @@ class CBridgeGenerator(
 
     val arrayGenerator = CArrayGenerator(internalNamespace)
 
-    fun generate(limeContainer: LimeContainer): List<GeneratedFile> {
-        val cModel = buildCBridgeModel(limeContainer)
+    fun generate(rootElement: LimeNamedElement): List<GeneratedFile> {
+        val cModel = buildCBridgeModel(rootElement)
         return listOf(
             GeneratedFile(
                 generateHeaderContent(cModel),
-                includeResolver.getHeaderFileNameWithPath(limeContainer)
+                includeResolver.getHeaderFileNameWithPath(rootElement)
             ),
             GeneratedFile(
                 generateImplementationContent(cModel),
-                includeResolver.getImplementationFileNameWithPath(limeContainer)
+                includeResolver.getImplementationFileNameWithPath(rootElement)
             )
         ).filterNot { it.content.isEmpty() }
     }
@@ -97,7 +97,7 @@ class CBridgeGenerator(
         return GeneratedFile(content, path)
     }
 
-    private fun buildCBridgeModel(limeContainer: LimeContainer): CInterface {
+    private fun buildCBridgeModel(rootElement: LimeNamedElement): CInterface {
         val cppTypeMapper = CppTypeMapper(cppNameResolver, cppIncludeResolver, internalNamespace)
         val cppBuilder = CppModelBuilder(typeMapper = cppTypeMapper, nameResolver = cppNameResolver)
         val swiftBuilder =
@@ -125,19 +125,19 @@ class CBridgeGenerator(
         )
         val treeWalker = LimeTreeWalker(listOf(cppBuilder, swiftBuilder, modelBuilder))
 
-        treeWalker.walkTree(limeContainer)
+        treeWalker.walkTree(rootElement)
         val cModel = modelBuilder.getFinalResult(CInterface::class.java)
 
-        removeRedundantIncludes(limeContainer, cModel)
+        removeRedundantIncludes(rootElement, cModel)
         arrayGenerator.collect(modelBuilder.arraysCollector)
 
         return cModel
     }
 
-    private fun removeRedundantIncludes(limeContainer: LimeContainer, cModel: CInterface) {
+    private fun removeRedundantIncludes(rootElement: LimeNamedElement, cModel: CInterface) {
         cModel.headerIncludes.remove(
             Include.createInternalInclude(
-                includeResolver.getHeaderFileNameWithPath(limeContainer)
+                includeResolver.getHeaderFileNameWithPath(rootElement)
             )
         )
         cModel.implementationIncludes.removeAll(cModel.headerIncludes)

@@ -63,8 +63,8 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             swiftNameRules = swiftNameRules
         )
         val swiftModel =
-            limeModel.containers.fold(SwiftModel(emptyMap(), emptyList())) { model, limeContainer ->
-                model.merge(swiftGenerator.generateModel(limeContainer))
+            limeModel.topElements.fold(SwiftModel(emptyMap(), emptyList())) { model, rootElement ->
+                model.merge(swiftGenerator.generateModel(rootElement))
             }
 
         val elementToSwiftName = mutableMapOf<SwiftModelElement, String>()
@@ -104,7 +104,7 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
                 it.fileName
             )
         } +
-            limeModel.containers.flatMap { cBridgeGenerator.generate(it) } +
+            limeModel.topElements.flatMap { cBridgeGenerator.generate(it) } +
             CBridgeGenerator.STATIC_FILES + SwiftGenerator.STATIC_FILES +
             cBridgeGenerator.arrayGenerator.generate() + swiftGenerator.arrayGenerator.generate() +
             swiftGenerator.mapGenerator.generate() + swiftGenerator.generateSets(swiftModel.containers) +

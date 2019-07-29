@@ -28,6 +28,7 @@ import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeModel
+import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeSet
@@ -40,20 +41,20 @@ import com.here.genium.platform.common.GeneratorSuite
 
 class LimeGeneratorSuite : GeneratorSuite() {
 
-    override fun generate(limeModel: LimeModel) = limeModel.containers.map { generate(it) }
+    override fun generate(limeModel: LimeModel) = limeModel.topElements.map { generate(it) }
 
-    private fun generate(limeContainer: LimeContainer): GeneratedFile {
+    private fun generate(rootElement: LimeNamedElement): GeneratedFile {
         val imports =
-            collectImports(limeContainer.path.parent, limeContainer)
+            collectImports(rootElement.path.parent, rootElement)
                 .toSet()
                 .map { escapeImport(it) }
         val content =
             TemplateEngine.render(
                 "lime/LimeFile",
-                mapOf("imports" to imports, "model" to limeContainer)
+                mapOf("imports" to imports, "model" to rootElement)
             )
-        val packagePath = limeContainer.path.head.joinToString(separator = "/")
-        val fileName = "$GENERATOR_NAME/$packagePath/${limeContainer.name}.lime"
+        val packagePath = rootElement.path.head.joinToString(separator = "/")
+        val fileName = "$GENERATOR_NAME/$packagePath/${rootElement.name}.lime"
         return GeneratedFile(content, fileName)
     }
 

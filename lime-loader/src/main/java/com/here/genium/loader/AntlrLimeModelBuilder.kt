@@ -70,7 +70,7 @@ internal class AntlrLimeModelBuilder(
     // Overrides
 
     override fun exitLimeFile(ctx: LimeParser.LimeFileContext) {
-        getPreviousResults(LimeContainer::class.java).forEach { storeResult(it) }
+        getPreviousResults(LimeNamedElement::class.java).forEach { storeResult(it) }
     }
 
     override fun exitPackageHeader(ctx: LimeParser.PackageHeaderContext) {

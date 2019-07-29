@@ -37,8 +37,8 @@ import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaImport
 import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.jni.JniContainer
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeNamedElement
 
 class JniGenerator(
     private val limeReferenceMap: Map<String, LimeElement>,
@@ -55,7 +55,7 @@ class JniGenerator(
 ) : AbstractGenerator(packageList) {
     private val cppNameResolver = CppNameResolver(rootNamespace, limeReferenceMap, cppNameRules)
 
-    fun generateModel(limeContainer: LimeContainer): JavaModel {
+    fun generateModel(rootElement: LimeNamedElement): JavaModel {
         val basePackage = JavaPackage(basePackages)
         val internalPackage = JavaPackage(basePackages + internalPackageList)
         val javaTypeMapper = JavaTypeMapper(
@@ -68,7 +68,7 @@ class JniGenerator(
             nameRules = javaNameRules
         )
         val javaBuilder = JavaModelBuilder(
-            rootPackage = basePackage.createChildPackage(limeContainer.path.head),
+            rootPackage = basePackage.createChildPackage(rootElement.path.head),
             typeMapper = javaTypeMapper,
             valueMapper = JavaValueMapper(limeReferenceMap, javaNameRules, javaTypeMapper),
             nameRules = javaNameRules
@@ -87,7 +87,7 @@ class JniGenerator(
         )
 
         val treeWalker = LimeTreeWalker(listOf(javaBuilder, cppBuilder, jniBuilder))
-        treeWalker.walkTree(limeContainer)
+        treeWalker.walkTree(rootElement)
 
         val jniContainer = jniBuilder.getFinalResult(JniContainer::class.java)
         jniContainer.includes.addAll(getIncludes(jniContainer))

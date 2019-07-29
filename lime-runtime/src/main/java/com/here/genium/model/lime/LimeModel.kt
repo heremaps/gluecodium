@@ -19,4 +19,4 @@
 
 package com.here.genium.model.lime
 
-class LimeModel(val referenceMap: Map<String, LimeElement>, val containers: List<LimeContainer>)
+class LimeModel(val referenceMap: Map<String, LimeElement>, val topElements: List<LimeNamedElement>)

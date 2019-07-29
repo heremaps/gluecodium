@@ -22,8 +22,8 @@ package com.here.genium.generator.swift
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.genium.generator.common.templates.TemplateEngine
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.swift.SwiftFile
 import com.here.genium.model.swift.SwiftSet
@@ -40,7 +40,7 @@ class SwiftGenerator(
     private val nameResolver = SwiftNameResolver(limeReferenceMap, nameRules)
     private val typeMapper = SwiftTypeMapper(nameResolver)
 
-    fun generateModel(limeContainer: LimeContainer): SwiftModel {
+    fun generateModel(rootElement: LimeNamedElement): SwiftModel {
         val modelBuilder =
             SwiftModelBuilder(
                 limeReferenceMap = limeReferenceMap,
@@ -51,7 +51,7 @@ class SwiftGenerator(
             )
         val treeWalker = LimeTreeWalker(listOf(modelBuilder))
 
-        treeWalker.walkTree(limeContainer)
+        treeWalker.walkTree(rootElement)
 
         arrayGenerator.collect(modelBuilder.arraysCollector)
         mapGenerator.collect(modelBuilder.mapCollector)

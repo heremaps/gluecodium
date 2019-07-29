@@ -21,9 +21,9 @@ package com.here.genium.loader
 
 import com.here.genium.antlr.LimeLexer
 import com.here.genium.antlr.LimeParser
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeModelLoader
+import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeReferenceResolver
 import com.here.genium.validator.LimeEnumeratorRefsValidator
 import com.here.genium.validator.LimeEquatableStructsValidator
@@ -70,7 +70,7 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
     private fun loadFile(
         fileName: String,
         referenceResolver: LimeReferenceResolver
-    ): List<LimeContainer>? {
+    ): List<LimeNamedElement>? {
         val lexer = LimeLexer(CharStreams.fromFileName(fileName))
         val parser = LimeParser(CommonTokenStream(lexer))
         parser.removeErrorListeners()
@@ -84,7 +84,7 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
             return null
         }
 
-        return modelBuilder.finalResults.filterIsInstance<LimeContainer>()
+        return modelBuilder.finalResults
     }
 
     private fun listFilesRecursively(filePath: String): List<String> {

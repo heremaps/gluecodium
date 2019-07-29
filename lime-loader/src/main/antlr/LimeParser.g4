@@ -22,7 +22,8 @@ parser grammar LimeParser;
 options { tokenVocab = LimeLexer; }
 
 limeFile
-    : NL* packageHeader importHeader* (container | types)+ EOF
+    : NL* packageHeader importHeader*
+    (container | types | struct | enumeration | typealias | exception)+ EOF
     ;
 
 packageHeader
