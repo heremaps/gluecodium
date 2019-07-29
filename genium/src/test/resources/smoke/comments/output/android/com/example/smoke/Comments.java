@@ -31,6 +31,9 @@ public class Comments extends NativeBase {
             this.value = value;
         }
     }
+    /**
+     * <p>This is some very useful exception.</p>
+     */
     public static class SomeEnumException extends Exception {
         public SomeEnumException(final Comments.SomeEnum error) {
             super(Integer.toString(error.value));
@@ -73,7 +76,7 @@ public class Comments extends NativeBase {
      * <p>This is some very useful method that measures the usefulness of its input.</p>
      * @param input Very useful input parameter
      * @return Usefulness of the input
-     * @throws Comments.SomeEnumException
+     * @throws Comments.SomeEnumException Sometimes it happens.
      */
     public native boolean someMethodWithAllComments(@NonNull final String input) throws Comments.SomeEnumException;
     /**

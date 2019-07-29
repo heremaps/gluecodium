@@ -68,16 +68,16 @@ public class CommentsLinks extends NativeBase {
      * <p>Not working for Swift:</p>
      * <ul>
      * <li>named comment: {@link com.example.smoke.Comments#VERY_USEFUL}</li>
+     * <li>error: {@link com.example.smoke.CommentsLinks.TooUsefulException}</li>
      * </ul>
      * <p>Not working:</p>
      * <ul>
-     * <li>error: [TooUsefulException]</li>
      * <li>input parameter: [inputParameter]</li>
      * <li>output parameter: [outputParameter]</li>
      * </ul>
      * @param inputParameter
      * @return
-     * @throws CommentsLinks.TooUsefulException
+     * @throws CommentsLinks.TooUsefulException May or may not throw
      */
     @NonNull
     public native Comments.SomeEnum randomMethod(@NonNull final Comments.SomeEnum inputParameter) throws CommentsLinks.TooUsefulException;

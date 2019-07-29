@@ -92,7 +92,6 @@ class JavaModelBuilderTest {
 
     private val contextStack = MockContextStack<JavaElement>()
     private val rootPackage = JavaPackage(listOf("pack", "age"))
-    private val errorEnums = mutableSetOf<String>()
     private val nameRuleSet = nameRuleSetFromConfig(Genium.testOptions().javaNameRules)
     private val nameRules = JavaNameRules(nameRuleSet)
 
@@ -108,7 +107,6 @@ class JavaModelBuilderTest {
             rootPackage = rootPackage,
             typeMapper = typeMapper,
             valueMapper = valueMapper,
-            errorEnums = errorEnums,
             nameRules = nameRules
         )
     }
@@ -545,18 +543,18 @@ class JavaModelBuilderTest {
     }
 
     @Test
-    fun finishBuildingEnumerationCreatesJavaException() {
-        errorEnums.add("mo.del.foo")
-        val limeElement = LimeEnumeration(fooPath)
+    fun finishBuildingExceptionCreatesJavaException() {
+        val limeEnumeration = LimeEnumeration(fooPath)
+        val limeException = LimeException(fooPath, errorEnum = LimeDirectTypeRef(limeEnumeration))
         val javaEnumTypeRef = JavaEnumType(
             "",
             emptyList(),
             emptyList(),
             JavaImport("", JavaPackage.DEFAULT)
         )
-        every { typeMapper.mapCustomType(limeElement, any()) } returns javaEnumTypeRef
+        every { typeMapper.mapCustomType(limeEnumeration, any()) } returns javaEnumTypeRef
 
-        modelBuilder.finishBuilding(limeElement)
+        modelBuilder.finishBuilding(limeException)
 
         val result = modelBuilder.getFinalResult(JavaExceptionClass::class.java)
         assertEquals("FooException", result.name)
@@ -565,17 +563,17 @@ class JavaModelBuilderTest {
 
     @Test
     fun finishBuildingEnumerationCreatesJavaExceptionReadsVisibility() {
-        errorEnums.add("mo.del.foo")
-        val limeElement = LimeEnumeration(fooPath, visibility = LimeVisibility.INTERNAL)
+        val limeEnumeration = LimeEnumeration(fooPath, visibility = LimeVisibility.INTERNAL)
+        val limeException = LimeException(fooPath, errorEnum = LimeDirectTypeRef(limeEnumeration))
         val javaEnumTypeRef = JavaEnumType(
             "",
             emptyList(),
             emptyList(),
             JavaImport("", JavaPackage.DEFAULT)
         )
-        every { typeMapper.mapCustomType(limeElement, any()) } returns javaEnumTypeRef
+        every { typeMapper.mapCustomType(limeEnumeration, any()) } returns javaEnumTypeRef
 
-        modelBuilder.finishBuilding(limeElement)
+        modelBuilder.finishBuilding(limeException)
 
         val result = modelBuilder.getFinalResult(JavaExceptionClass::class.java)
         assertEquals(JavaVisibility.PACKAGE, result.visibility)

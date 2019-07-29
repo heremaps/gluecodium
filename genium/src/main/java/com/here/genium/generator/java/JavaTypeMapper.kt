@@ -20,6 +20,7 @@
 package com.here.genium.generator.java
 
 import com.here.genium.cli.GeniumExecutionException
+import com.here.genium.model.common.Comments
 import com.here.genium.model.java.JavaArrayType
 import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaEnumType
@@ -43,6 +44,7 @@ import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
+import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.lime.LimeTypeRef
@@ -180,7 +182,8 @@ class JavaTypeMapper(
         }
     }
 
-    fun mapExceptionType(limeException: LimeException): JavaExceptionType {
+    fun mapExceptionType(limeThrownType: LimeThrownType): JavaExceptionType {
+        val limeException = limeThrownType.typeRef.type as LimeException
         val limeEnum = limeException.errorEnum.type as LimeEnumeration
         val exceptionName = nameRules.getExceptionName(limeEnum)
         val parentContainer = limeReferenceMap[limeEnum.path.parent.toString()] as LimeContainer
@@ -196,11 +199,13 @@ class JavaTypeMapper(
             classNames.add(0, importClassName)
         }
 
-        return JavaExceptionType(
+        val javaExceptionType = JavaExceptionType(
             classNames.joinToString("."),
             classNames,
             JavaImport(importClassName, javaPackage)
         )
+        javaExceptionType.comment = Comments(limeThrownType.comment)
+        return javaExceptionType
     }
 
     private fun mapBasicType(limeBasicType: LimeBasicType) =

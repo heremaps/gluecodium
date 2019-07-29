@@ -57,9 +57,9 @@ public:
  *
  * Not working for Swift:
  * * named comment: [Alternative name for the link, stripped for Swift]::smoke::Comments::VERY_USEFUL
+ * * error: [TooUsefulException]
  *
  * Not working:
- * * error: [TooUsefulException]
  * * input parameter: [inputParameter]
  * * output parameter: [outputParameter]
  * \param[in] input_parameter

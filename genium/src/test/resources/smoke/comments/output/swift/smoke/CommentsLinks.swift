@@ -57,9 +57,9 @@ public class CommentsLinks {
     ///
     /// Not working for Swift:
     /// * named comment: []`Comments.veryUseful`
+    /// * error: [TooUsefulException]
     ///
     /// Not working:
-    /// * error: [TooUsefulException]
     /// * input parameter: [inputParameter]
     /// * output parameter: [outputParameter]
     /// - Parameter inputParameter:

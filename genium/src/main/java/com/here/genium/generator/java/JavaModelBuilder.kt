@@ -52,6 +52,7 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeNamedElement
@@ -68,7 +69,6 @@ class JavaModelBuilder(
     private val rootPackage: JavaPackage,
     private val typeMapper: JavaTypeMapper,
     private val valueMapper: JavaValueMapper,
-    private val errorEnums: Set<String>,
     private val nameRules: JavaNameRules
 ) : AbstractLimeBasedModelBuilder<JavaElement>(contextStack) {
     private val nativeBase: JavaType = typeMapper.nativeBase
@@ -95,7 +95,7 @@ class JavaModelBuilder(
             }
         }
 
-        val javaExceptionType = limeMethod.exception?.let { typeMapper.mapExceptionType(it) }
+        val javaExceptionType = limeMethod.thrownType?.let { typeMapper.mapExceptionType(it) }
         val qualifiers = when {
             limeMethod.isStatic -> setOf(MethodQualifier.STATIC)
             else -> emptySet()
@@ -207,17 +207,16 @@ class JavaModelBuilder(
         addDeprecatedAnnotationIfNeeded(javaEnum)
         javaEnum.items.addAll(getPreviousResults(JavaEnumItem::class.java))
         storeNamedResult(limeEnumeration, javaEnum)
+        closeContext()
+    }
 
-        if (errorEnums.contains(limeEnumeration.fullName)) {
-            // Exception definition & reference
-            val javaEnumType = typeMapper.mapCustomType(limeEnumeration) as JavaEnumType
-            val javaException =
-                JavaExceptionClass(nameRules.getExceptionName(limeEnumeration), javaEnumType)
-            javaException.visibility = getVisibility(limeEnumeration)
-
-            storeResult(javaException)
-        }
-
+    override fun finishBuilding(limeException: LimeException) {
+        val limeEnumeration = limeException.errorEnum.type as LimeEnumeration
+        val javaEnumType = typeMapper.mapCustomType(limeException.errorEnum.type) as JavaEnumType
+        val javaException = JavaExceptionClass(nameRules.getExceptionName(limeEnumeration), javaEnumType)
+        javaException.visibility = getVisibility(limeEnumeration)
+        javaException.comment = createComments(limeException)
+        storeNamedResult(limeException, javaException)
         closeContext()
     }
 

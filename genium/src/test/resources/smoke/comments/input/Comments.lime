@@ -212,9 +212,9 @@ class CommentsLinks {
     //
     // Not working for Swift:
     // * named comment: [Alternative name for the link, stripped for Swift][comments.VeryUseful]
+    // * error: [TooUsefulException]
     //
     // Not working:
-    // * error: [TooUsefulException]
     // * input parameter: [inputParameter]
     // * output parameter: [outputParameter]
     fun random_method(

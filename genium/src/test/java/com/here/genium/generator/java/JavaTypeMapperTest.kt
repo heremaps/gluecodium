@@ -41,6 +41,7 @@ import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
+import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.test.AssertHelpers.assertContains
 import org.junit.Assert.assertEquals
@@ -280,7 +281,8 @@ class JavaTypeMapperTest {
             type = LimeContainer.ContainerType.TYPE_COLLECTION
         )
         val limeEnum = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
-        val limeType = LimeException(LimePath.EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeEnum))
+        val limeException = LimeException(LimePath.EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeEnum))
+        val limeType = LimeThrownType(LimeDirectTypeRef(limeException))
 
         val result = typeMapper.mapExceptionType(limeType)
 
@@ -300,7 +302,8 @@ class JavaTypeMapperTest {
             type = LimeContainer.ContainerType.INTERFACE
         )
         val limeEnum = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
-        val limeType = LimeException(LimePath.EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeEnum))
+        val limeException = LimeException(LimePath.EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeEnum))
+        val limeType = LimeThrownType(LimeDirectTypeRef(limeException))
 
         val result = typeMapper.mapExceptionType(limeType)
 

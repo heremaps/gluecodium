@@ -97,7 +97,6 @@ class JavaModelBuilderContainersTest {
             rootPackage = rootPackage,
             typeMapper = typeMapper,
             valueMapper = valueMapper,
-            errorEnums = emptySet(),
             nameRules = nameRules,
             contextStack = contextStack
         )

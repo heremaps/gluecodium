@@ -34,6 +34,9 @@ public interface DeprecationComments {
             this.value = value;
         }
     }
+    /**
+     * @deprecated <p>Unfortunately, this exception is deprecated, please use {@link com.example.smoke.Comments.SomeEnumException} instead.</p>
+     */
     public static class SomeEnumException extends Exception {
         public SomeEnumException(final DeprecationComments.SomeEnum error) {
             super(Integer.toString(error.value));
