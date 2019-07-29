@@ -353,6 +353,12 @@ feature(EscapedNames cpp android swift SOURCES
     lime/test/KeywordNames.lime
 )
 
+feature(TopLevelTypes cpp android swift SOURCES
+    src/test/TopLevelTypes.cpp
+
+    lime/test/TopLevelTypes.lime
+)
+
 if(APPLE)
     #This feature is intended for Swift only. It also does not compile outside of Apple platforms.
     feature(ObjcInterface swift SOURCES

@@ -1,0 +1,3 @@
+package smoke
+
+typealias FreeTypeDef = Date

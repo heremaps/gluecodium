@@ -1,0 +1,8 @@
+package smoke
+
+class UseFreeTypes {
+    fun doStuff(
+        point: FreePoint,
+        mode: FreeEnum
+    ): FreeTypeDef throws FreeEnumException
+}
