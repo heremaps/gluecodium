@@ -25,8 +25,12 @@ import com.here.genium.generator.common.templates.TemplateEngine
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeSignatureResolver
+import com.here.genium.model.swift.SwiftEnum
 import com.here.genium.model.swift.SwiftFile
+import com.here.genium.model.swift.SwiftModelElement
 import com.here.genium.model.swift.SwiftSet
+import com.here.genium.model.swift.SwiftStruct
+import com.here.genium.model.swift.SwiftTypeDef
 import com.here.genium.platform.common.GeneratorSuite
 
 class SwiftGenerator(
@@ -58,9 +62,24 @@ class SwiftGenerator(
 
         return SwiftModel(
             modelBuilder.referenceMap,
-            listOf(modelBuilder.getFinalResult(SwiftFile::class.java))
+            modelBuilder.finalResults.mapNotNull { wrapInFile(it, rootElement) }
         )
     }
+
+    private fun wrapInFile(swiftElement: SwiftModelElement, limeElement: LimeNamedElement) =
+        when (swiftElement) {
+            is SwiftFile -> swiftElement
+            is SwiftStruct, is SwiftEnum, is SwiftTypeDef -> {
+                val result = SwiftFile(nameRules.getImplementationFileName(limeElement))
+                when (swiftElement) {
+                    is SwiftStruct -> result.structs += swiftElement
+                    is SwiftEnum -> result.enums += swiftElement
+                    is SwiftTypeDef -> result.typeDefs += swiftElement
+                }
+                result
+            }
+            else -> null
+        }
 
     fun generateSets(swiftModel: List<SwiftFile>): GeneratedFile? {
         val allSets = (swiftModel.flatMap { it.typeDefs } +

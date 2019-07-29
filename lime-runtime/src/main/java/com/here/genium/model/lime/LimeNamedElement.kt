@@ -35,5 +35,9 @@ abstract class LimeNamedElement protected constructor(
     open val escapedName
         get() = LimeTypeHelper.escapeIdentifier(name)
 
+    @Suppress("unused")
+    val packageName
+        get() = path.head.joinToString(".") { LimeTypeHelper.escapeIdentifier(it) }
+
     val attributes = attributes ?: LimeAttributes.Builder().build()
 }

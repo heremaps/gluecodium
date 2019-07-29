@@ -37,6 +37,9 @@ data class LimePath(
         get() = (1..tail.size).map { LimePath(head, tail.dropLast(it)) } +
                 (1..head.size).map { LimePath(head.dropLast(it), emptyList()) }
 
+    val hasParent
+        get() = tail.size > 1
+
     fun child(childName: String, disambiguationSuffix: String = "") =
         LimePath(head, tail + childName, disambiguationSuffix)
 

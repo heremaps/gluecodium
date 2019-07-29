@@ -32,10 +32,11 @@ class SwiftFile(val fileName: String) : SwiftModelElement("") {
     val dictionaries = mutableListOf<SwiftDictionary>()
     val errors = mutableListOf<SwiftError>()
 
-    val isEmpty: Boolean
+    val isEmpty
         get() = classes.isEmpty() &&
                 structs.isEmpty() &&
                 enums.isEmpty() &&
+                typeDefs.isEmpty() &&
                 arrays.isEmpty() &&
                 dictionaries.isEmpty() &&
                 errors.isEmpty()

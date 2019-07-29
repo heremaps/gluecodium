@@ -19,11 +19,13 @@
 
 package com.here.genium.generator.lime
 
+import com.here.genium.cli.GeniumExecutionException
 import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.templates.TemplateEngine
 import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
+import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeMethod
@@ -48,11 +50,14 @@ class LimeGeneratorSuite : GeneratorSuite() {
             collectImports(rootElement.path.parent, rootElement)
                 .toSet()
                 .map { escapeImport(it) }
-        val content =
-            TemplateEngine.render(
-                "lime/LimeFile",
-                mapOf("imports" to imports, "model" to rootElement)
+        val content = TemplateEngine.render(
+            "lime/LimeFile",
+            mapOf(
+                "imports" to imports,
+                "model" to rootElement,
+                "template" to selectTemplate(rootElement)
             )
+        )
         val packagePath = rootElement.path.head.joinToString(separator = "/")
         val fileName = "$GENERATOR_NAME/$packagePath/${rootElement.name}.lime"
         return GeneratedFile(content, fileName)
@@ -88,6 +93,17 @@ class LimeGeneratorSuite : GeneratorSuite() {
                 }
             }
             else -> emptyList()
+        }
+
+    private fun selectTemplate(limeElement: LimeNamedElement) =
+        when (limeElement) {
+            is LimeContainer -> "lime/LimeContainer"
+            is LimeStruct -> "lime/LimeStruct"
+            is LimeEnumeration -> "lime/LimeEnumeration"
+            is LimeTypeDef -> "lime/LimeTypeAlias"
+            is LimeException -> "lime/LimeException"
+            else -> throw GeniumExecutionException("Unsupported top-level element: " +
+                    limeElement::class.java.name)
         }
 
     private fun escapeImport(import: LimePath) =

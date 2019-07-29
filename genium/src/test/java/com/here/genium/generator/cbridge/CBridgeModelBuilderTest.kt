@@ -23,7 +23,6 @@ import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.swift.SwiftModelBuilder
-import com.here.genium.model.cbridge.CBridgeIncludeResolver
 import com.here.genium.model.cbridge.CElement
 import com.here.genium.model.cbridge.CEnum
 import com.here.genium.model.cbridge.CField
@@ -53,7 +52,6 @@ import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeMethod
@@ -65,6 +63,7 @@ import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
+import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.swift.SwiftField
 import com.here.genium.model.swift.SwiftMethod
@@ -91,8 +90,6 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class CBridgeModelBuilderTest {
-    @MockK
-    private lateinit var includeResolver: CBridgeIncludeResolver
     @MockK
     private lateinit var cppIncludeResolver: CppIncludeResolver
     @MockK
@@ -148,7 +145,6 @@ class CBridgeModelBuilderTest {
         modelBuilder = CBridgeModelBuilder(
             contextStack,
             limeReferenceMap,
-            includeResolver,
             cppIncludeResolver,
             cppModelBuilder,
             swiftModelBuilder,
@@ -204,13 +200,10 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingContainer() {
-        every { includeResolver.resolveInclude(limeContainer) } returns fooInclude
-
         modelBuilder.finishBuilding(limeContainer)
 
         val result = modelBuilder.getFinalResult(CInterface::class.java)
         assertEquals("Foo", result.name)
-        assertContains(fooInclude, result.implementationIncludes)
     }
 
     @Test
@@ -296,18 +289,12 @@ class CBridgeModelBuilderTest {
 
     @Test
     fun finishBuildingInterface() {
-        val limeElement =
-            LimeContainer(fooPath, type = ContainerType.INTERFACE)
-        every { includeResolver.resolveInclude(limeElement) } returns fooInclude
+        val limeElement = LimeContainer(fooPath, type = ContainerType.INTERFACE)
 
         modelBuilder.finishBuilding(limeElement)
 
         val result = modelBuilder.getFinalResult(CInterface::class.java)
         assertEquals("Foo_FunctionTable", result.functionTableName)
-        assertEquals(
-            CBridgeComponents.PROXY_CACHE_FILENAME,
-            result.implementationIncludes.last().fileName
-        )
     }
 
     @Test

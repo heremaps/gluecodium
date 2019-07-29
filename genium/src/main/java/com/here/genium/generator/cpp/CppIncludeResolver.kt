@@ -22,7 +22,6 @@ package com.here.genium.generator.cpp
 import com.here.genium.model.common.Include
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
 
@@ -38,7 +37,7 @@ class CppIncludeResolver(
             when {
                 externalType != null ->
                     externalType.split(',').map { Include.createInternalInclude(it.trim()) }
-                limeNamedElement is LimeContainer -> listOf(Include.createInternalInclude(
+                !limeNamedElement.path.hasParent -> listOf(Include.createInternalInclude(
                     nameRules.getOutputFilePath(limeNamedElement) + CppGenerator.HEADER_FILE_SUFFIX
                 ))
                 else -> {

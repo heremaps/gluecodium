@@ -23,7 +23,6 @@ import com.here.genium.generator.common.NameRuleSet
 import com.here.genium.generator.common.NameRules
 import com.here.genium.model.lime.LimeAttributeType.SWIFT
 import com.here.genium.model.lime.LimeAttributeValueType.NAME
-import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeProperty
@@ -36,11 +35,11 @@ class SwiftNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
     override fun getPropertyName(limeProperty: LimeProperty) =
         getPlatformName(limeProperty) ?: super.getPropertyName(limeProperty)
 
-    fun getImplementationFileName(limeContainer: LimeContainer) =
+    fun getImplementationFileName(limeElement: LimeNamedElement) =
         (TARGET_DIRECTORY +
-                limeContainer.path.head.joinToString(File.separator) +
+                limeElement.path.head.joinToString(File.separator) +
                 File.separator +
-                getName(limeContainer) +
+                getName(limeElement) +
                 ".swift")
 
     private fun getPlatformName(limeElement: LimeNamedElement?) =

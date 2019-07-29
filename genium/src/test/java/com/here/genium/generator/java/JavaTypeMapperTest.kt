@@ -223,11 +223,11 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapCustomTypeStructInTypeCollection() {
-        limeReferenceMap["foo"] = LimeContainer(
+        limeReferenceMap["baz.foo"] = LimeContainer(
             LimePath(listOf("baz"), emptyList()),
             type = LimeContainer.ContainerType.TYPE_COLLECTION
         )
-        val limeType = LimeStruct(LimePath(emptyList(), listOf("foo", "bar")))
+        val limeType = LimeStruct(LimePath(listOf("baz"), listOf("foo", "bar")))
 
         val result = typeMapper.mapCustomType(limeType, "SomeType")
 
@@ -256,11 +256,11 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapCustomTypeInInterface() {
-        limeReferenceMap["foo"] = LimeContainer(
+        limeReferenceMap["baz.foo"] = LimeContainer(
             LimePath(listOf("baz"), listOf("nonsense")),
             type = LimeContainer.ContainerType.INTERFACE
         )
-        val limeType = LimeStruct(LimePath(emptyList(), listOf("foo", "bar")))
+        val limeType = LimeStruct(LimePath(listOf("baz"), listOf("foo", "bar")))
 
         val result = typeMapper.mapCustomType(limeType, "SomeType")
 
@@ -276,11 +276,11 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapExceptionTypeInTypeCollection() {
-        limeReferenceMap["foo"] = LimeContainer(
+        limeReferenceMap["baz.foo"] = LimeContainer(
             LimePath(listOf("baz"), emptyList()),
             type = LimeContainer.ContainerType.TYPE_COLLECTION
         )
-        val limeEnum = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
+        val limeEnum = LimeEnumeration(LimePath(listOf("baz"), listOf("foo", "bar")))
         val limeException = LimeException(LimePath.EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeEnum))
         val limeType = LimeThrownType(LimeDirectTypeRef(limeException))
 
@@ -297,11 +297,11 @@ class JavaTypeMapperTest {
 
     @Test
     fun mapExceptionTypeInInterface() {
-        limeReferenceMap["foo"] = LimeContainer(
+        limeReferenceMap["baz.foo"] = LimeContainer(
             LimePath(listOf("baz"), listOf("nonsense")),
             type = LimeContainer.ContainerType.INTERFACE
         )
-        val limeEnum = LimeEnumeration(LimePath(emptyList(), listOf("foo", "bar")))
+        val limeEnum = LimeEnumeration(LimePath(listOf("baz"), listOf("foo", "bar")))
         val limeException = LimeException(LimePath.EMPTY_PATH, errorEnum = LimeDirectTypeRef(limeEnum))
         val limeType = LimeThrownType(LimeDirectTypeRef(limeException))
 

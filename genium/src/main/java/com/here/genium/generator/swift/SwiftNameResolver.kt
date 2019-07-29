@@ -39,14 +39,14 @@ class SwiftNameResolver(
             return ""
         }
 
-        val limeContainer = limeReferenceMap[limeType.path.parent.toString()] as LimeContainer
-        return when (limeContainer.type) {
+        val limeContainer = limeReferenceMap[limeType.path.parent.toString()] as? LimeContainer
+        return when (limeContainer?.type) {
             ContainerType.CLASS -> nameRules.getName(limeContainer) + "."
             ContainerType.INTERFACE -> when (limeType) {
                 is LimeTypeDef -> nameRules.getName(limeContainer) + "."
                 else -> ""
             }
-            ContainerType.TYPE_COLLECTION -> ""
+            else -> ""
         }
     }
 }

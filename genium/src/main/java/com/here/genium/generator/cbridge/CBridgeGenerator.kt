@@ -26,6 +26,7 @@ import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
 import com.here.genium.generator.common.templates.TemplateEngine
 import com.here.genium.generator.cpp.CppIncludeResolver
+import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.cpp.CppNameResolver
 import com.here.genium.generator.cpp.CppTypeMapper
@@ -34,7 +35,10 @@ import com.here.genium.generator.swift.SwiftNameResolver
 import com.here.genium.generator.swift.SwiftNameRules
 import com.here.genium.generator.swift.SwiftTypeMapper
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
+import com.here.genium.model.cbridge.CElement
+import com.here.genium.model.cbridge.CEnum
 import com.here.genium.model.cbridge.CInterface
+import com.here.genium.model.cbridge.CStruct
 import com.here.genium.model.common.Include
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
@@ -58,15 +62,15 @@ class CBridgeGenerator(
 
     fun generate(rootElement: LimeNamedElement): List<GeneratedFile> {
         val cModel = buildCBridgeModel(rootElement)
-        return listOf(
+        return (cModel.map {
             GeneratedFile(
-                generateHeaderContent(cModel),
+                generateHeaderContent(it),
                 includeResolver.getHeaderFileNameWithPath(rootElement)
-            ),
-            GeneratedFile(
-                generateImplementationContent(cModel),
+            ) } +
+            cModel.map { GeneratedFile(
+                generateImplementationContent(it),
                 includeResolver.getImplementationFileNameWithPath(rootElement)
-            )
+            ) }
         ).filterNot { it.content.isEmpty() }
     }
 
@@ -85,7 +89,7 @@ class CBridgeGenerator(
             ),
             generateHelperContent(
                 "BuiltinHandle",
-                Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "BuildintHandle.cpp").toString()
+                Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "BuiltinHandle.cpp").toString()
             )
         )
 
@@ -97,7 +101,7 @@ class CBridgeGenerator(
         return GeneratedFile(content, path)
     }
 
-    private fun buildCBridgeModel(rootElement: LimeNamedElement): CInterface {
+    private fun buildCBridgeModel(rootElement: LimeNamedElement): List<CInterface> {
         val cppTypeMapper = CppTypeMapper(cppNameResolver, cppIncludeResolver, internalNamespace)
         val cppBuilder = CppModelBuilder(typeMapper = cppTypeMapper, nameResolver = cppNameResolver)
         val swiftBuilder =
@@ -116,7 +120,6 @@ class CBridgeGenerator(
 
         val modelBuilder = CBridgeModelBuilder(
             limeReferenceMap = limeReferenceMap,
-            includeResolver = includeResolver,
             cppIncludeResolver = cppIncludeResolver,
             cppBuilder = cppBuilder,
             swiftBuilder = swiftBuilder,
@@ -126,12 +129,45 @@ class CBridgeGenerator(
         val treeWalker = LimeTreeWalker(listOf(cppBuilder, swiftBuilder, modelBuilder))
 
         treeWalker.walkTree(rootElement)
-        val cModel = modelBuilder.getFinalResult(CInterface::class.java)
-
-        removeRedundantIncludes(rootElement, cModel)
+        val cModel = modelBuilder.finalResults.mapNotNull { wrapInInterface(it, rootElement) }
+        cModel.forEach { removeRedundantIncludes(rootElement, it) }
         arrayGenerator.collect(modelBuilder.arraysCollector)
 
         return cModel
+    }
+
+    private fun wrapInInterface(cElement: CElement, limeElement: LimeNamedElement): CInterface? {
+        val result = when (cElement) {
+            is CInterface -> cElement
+            is CStruct -> CInterface(
+                name = cElement.name,
+                selfType = null,
+                internalNamespace = internalNamespace,
+                structs = listOf(cElement)
+            )
+            is CEnum -> CInterface(
+                name = cElement.name,
+                selfType = null,
+                internalNamespace = internalNamespace,
+                enums = listOf(cElement)
+            )
+            else -> return null
+        }
+        addInterfaceIncludes(result, limeElement)
+        return result
+    }
+
+    private fun addInterfaceIncludes(cInterface: CInterface, limeElement: LimeNamedElement) {
+
+        cInterface.headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(cInterface))
+        cInterface.implementationIncludes.addAll(
+            CBridgeComponents.collectImplementationIncludes(cInterface)
+        )
+        cInterface.implementationIncludes.add(includeResolver.resolveInclude(limeElement))
+        CppLibraryIncludes.filterIncludes(cInterface.implementationIncludes, internalNamespace)
+        cInterface.privateHeaderIncludes.addAll(
+            CBridgeComponents.collectPrivateHeaderIncludes(cInterface)
+        )
     }
 
     private fun removeRedundantIncludes(rootElement: LimeNamedElement, cModel: CInterface) {

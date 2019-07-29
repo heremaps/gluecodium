@@ -27,28 +27,5 @@ import {{this}}
 {{/imports}}
 {{/if}}
 {{#model}}
-{{>lime/LimeDocumentation}}
-{{visibility}}{{type}} {{escapedName}} {{#parent}}: {{type.name}} {{/parent}}{
-{{#typeDefs}}
-{{prefixPartial "lime/LimeTypeAlias" "    "}}
-{{/typeDefs}}
-{{#enumerations}}
-{{prefixPartial "lime/LimeEnumeration" "    "}}
-{{/enumerations}}
-{{#exceptions}}
-{{prefixPartial "lime/LimeException" "    "}}
-{{/exceptions}}
-{{#structs}}
-{{prefixPartial "lime/LimeStruct" "    "}}
-{{/structs}}
-{{#constants}}
-{{prefixPartial "lime/LimeConstant" "    "}}
-{{/constants}}
-{{#methods}}
-{{prefixPartial "lime/LimeMethod" "    "}}
-{{/methods}}
-{{#properties}}
-{{prefixPartial "lime/LimeProperty" "    "}}
-{{/properties}}
-}
+{{include template}}
 {{/model}}

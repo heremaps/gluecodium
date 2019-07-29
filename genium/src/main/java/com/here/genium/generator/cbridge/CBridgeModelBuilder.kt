@@ -22,12 +22,10 @@ package com.here.genium.generator.cbridge
 import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.generator.cpp.CppIncludeResolver
-import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppModelBuilder
 import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.generator.swift.SwiftModelBuilder
 import com.here.genium.model.cbridge.CArray
-import com.here.genium.model.cbridge.CBridgeIncludeResolver
 import com.here.genium.model.cbridge.CElement
 import com.here.genium.model.cbridge.CEnum
 import com.here.genium.model.cbridge.CField
@@ -71,7 +69,6 @@ import com.here.genium.model.swift.SwiftProperty
 class CBridgeModelBuilder(
     contextStack: ModelBuilderContextStack<CElement> = ModelBuilderContextStack(),
     private val limeReferenceMap: Map<String, LimeElement>,
-    private val includeResolver: CBridgeIncludeResolver,
     private val cppIncludeResolver: CppIncludeResolver,
     private val cppBuilder: CppModelBuilder,
     private val swiftBuilder: SwiftModelBuilder,
@@ -119,16 +116,6 @@ class CBridgeModelBuilder(
                 CBridgeNameRules.getFunctionTableName(limeContainer) else null,
             isEquatable = limeContainer.attributes.have(LimeAttributeType.EQUATABLE),
             isPointerEquatable = limeContainer.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
-        )
-
-        cInterface.headerIncludes.addAll(CBridgeComponents.collectHeaderIncludes(cInterface))
-        cInterface.implementationIncludes.addAll(
-            CBridgeComponents.collectImplementationIncludes(cInterface)
-        )
-        cInterface.implementationIncludes.add(includeResolver.resolveInclude(limeContainer))
-        CppLibraryIncludes.filterIncludes(cInterface.implementationIncludes, internalNamespace)
-        cInterface.privateHeaderIncludes.addAll(
-            CBridgeComponents.collectPrivateHeaderIncludes(cInterface)
         )
 
         if (limeContainer.type == LimeContainer.ContainerType.INTERFACE) {

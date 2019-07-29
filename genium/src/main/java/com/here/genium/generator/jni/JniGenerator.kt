@@ -37,6 +37,9 @@ import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaImport
 import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.jni.JniContainer
+import com.here.genium.model.jni.JniElement
+import com.here.genium.model.jni.JniEnum
+import com.here.genium.model.jni.JniStruct
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
 
@@ -89,16 +92,42 @@ class JniGenerator(
         val treeWalker = LimeTreeWalker(listOf(javaBuilder, cppBuilder, jniBuilder))
         treeWalker.walkTree(rootElement)
 
-        val jniContainer = jniBuilder.getFinalResult(JniContainer::class.java)
-        jniContainer.includes.addAll(getIncludes(jniContainer))
+        val jniResults = jniBuilder.finalResults.mapNotNull { wrapInContainer(it) }
+        jniResults.forEach { it.includes.addAll(getIncludes(it)) }
 
         return JavaModel(
             javaBuilder.referenceMap,
             javaBuilder.finalResults,
-            listOf(jniContainer),
+            jniResults,
             jniBuilder.setsCollector.values.toSet()
         )
     }
+
+    private fun wrapInContainer(jniElement: JniElement) =
+        when (jniElement) {
+            is JniContainer -> jniElement
+            is JniStruct -> {
+                val jniContainer = JniContainer(
+                    javaPackages = jniElement.javaPackage.packageNames,
+                    cppNameSpaces = jniElement.cppFullyQualifiedName.split("::").dropLast(1),
+                    containerType = JniContainer.ContainerType.TYPE_COLLECTION,
+                    internalNamespace = internalNamespace
+                )
+                jniContainer.add(jniElement)
+                jniContainer
+            }
+            is JniEnum -> {
+                val jniContainer = JniContainer(
+                    javaPackages = jniElement.javaPackage.packageNames,
+                    cppNameSpaces = jniElement.cppEnumName.split("::").dropLast(1),
+                    containerType = JniContainer.ContainerType.TYPE_COLLECTION,
+                    internalNamespace = internalNamespace
+                )
+                jniContainer.add(jniElement)
+                jniContainer
+            }
+            else -> null
+        }
 
     private fun getIncludes(jniContainer: JniContainer): List<Include> {
         val includes = mutableListOf<String>()

@@ -159,19 +159,21 @@ class JavaTypeMapper(
             )
         }
 
-        val parentContainer = limeReferenceMap[limeType.path.parent.toString()] as LimeContainer
-        val packageNames = basePackage.createChildPackage(parentContainer.path.head).packageNames
+        val parentContainer = limeReferenceMap[limeType.path.parent.toString()] as? LimeContainer
+        val packageNames = basePackage.createChildPackage(limeType.path.head).packageNames
 
         val importClassName: String
         val typeName: String
-        val classNames = mutableListOf(className)
-        if (parentContainer.type == LimeContainer.ContainerType.TYPE_COLLECTION) {
+        val classNames: List<String>
+        if (parentContainer == null ||
+                parentContainer.type == LimeContainer.ContainerType.TYPE_COLLECTION) {
             importClassName = className
             typeName = className
+            classNames = listOf(className)
         } else {
             importClassName = nameRules.getName(parentContainer)
             typeName = "$importClassName.$className"
-            classNames.add(0, importClassName)
+            classNames = listOf(importClassName, className)
         }
 
         val javaImport = JavaImport(importClassName, JavaPackage(packageNames))
@@ -186,17 +188,19 @@ class JavaTypeMapper(
         val limeException = limeThrownType.typeRef.type as LimeException
         val limeEnum = limeException.errorEnum.type as LimeEnumeration
         val exceptionName = nameRules.getExceptionName(limeEnum)
-        val parentContainer = limeReferenceMap[limeEnum.path.parent.toString()] as LimeContainer
+        val parentContainer = limeReferenceMap[limeEnum.path.parent.toString()] as? LimeContainer
         val javaPackage =
-            JavaPackage(basePackage.createChildPackage(parentContainer.path.head).packageNames)
+            JavaPackage(basePackage.createChildPackage(limeEnum.path.head).packageNames)
 
         val importClassName: String
-        val classNames = mutableListOf(exceptionName)
-        if (parentContainer.type == LimeContainer.ContainerType.TYPE_COLLECTION) {
+        val classNames: List<String>
+        if (parentContainer == null ||
+                parentContainer.type == LimeContainer.ContainerType.TYPE_COLLECTION) {
             importClassName = exceptionName
+            classNames = listOf(exceptionName)
         } else {
             importClassName = nameRules.getName(parentContainer)
-            classNames.add(0, importClassName)
+            classNames = listOf(importClassName, exceptionName)
         }
 
         val javaExceptionType = JavaExceptionType(
