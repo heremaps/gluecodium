@@ -42,6 +42,7 @@ class SwiftClass(
     val enums = mutableListOf<SwiftEnum>()
     val typedefs = mutableListOf<SwiftTypeDef>()
     val constants = mutableListOf<SwiftConstant>()
+    val errors = mutableListOf<SwiftError>()
 
     // Has to be a function. For a property Kotlin will generate a getter with "C" capitalized.
     @Suppress("unused")
@@ -63,7 +64,8 @@ class SwiftClass(
             structs.stream(),
             enums.stream(),
             typedefs.stream(),
-            constants.stream()
+            constants.stream(),
+            errors.stream()
         ).flatMap(
             Function.identity()
         )

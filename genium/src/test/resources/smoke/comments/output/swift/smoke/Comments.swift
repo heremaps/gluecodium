@@ -76,7 +76,7 @@ public class Comments {
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
-    /// - Throws: Comments.SomeEnum
+    /// - Throws: `Comments.SomeEnum` Sometimes it happens.
     public func someMethodWithAllComments(input: String) throws -> Comments.Usefulness {
         let c_input = moveToCType(input)
         let RESULT = smoke_Comments_someMethodWithAllComments(self.c_instance, c_input.ref)
@@ -264,4 +264,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeEnum? {
         uint32_t_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+/// This is some very useful exception.
+extension Comments.SomeEnum : Error {
 }

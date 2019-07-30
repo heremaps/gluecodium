@@ -135,6 +135,9 @@ internal func copyToCType(_ swiftClass: DeprecationComments?) -> RefHolder {
 internal func moveToCType(_ swiftClass: DeprecationComments?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
+@available(*, deprecated, message: "Unfortunately, this exception is deprecated, please use `Comments.SomeEnum` instead.")
+extension SomeEnum : Error {
+}
 /// This is some very useful enum.
 @available(*, deprecated, message: "Unfortunately, this enum is deprecated. Use `Comments.SomeEnum` instead.")
 public enum SomeEnum : UInt32, CaseIterable {

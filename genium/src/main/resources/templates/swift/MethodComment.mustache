@@ -35,5 +35,5 @@
 }}{{#unless isConstructor isReturningVoid logic="and"}}{{!! document the return value if it's neither a constructor nor returning void}}
 - Returns: {{prefix returnComment "    " skipFirstLine=true}}{{/unless}}{{!!
 }}{{#if error}}
-- Throws: {{error.name}}{{/if}}{{!!
+- Throws: `{{error.name}}` {{prefix error.comment "    " skipFirstLine=true}}{{/if}}{{!!
 }}{{/combinedComment}}

@@ -57,6 +57,7 @@ public class CommentsLinks extends NativeBase {
      * <li>top level struct field: {@link com.example.smoke.TypeCollectionStruct#field}</li>
      * <li>top level enum: {@link com.example.smoke.TypeCollectionEnum}</li>
      * <li>top level enum item: {@link com.example.smoke.TypeCollectionEnum#ITEM}</li>
+     * <li>error: {@link com.example.smoke.CommentsLinks.TooUsefulException}</li>
      * </ul>
      * <p>Not working for Java:</p>
      * <ul>
@@ -68,7 +69,6 @@ public class CommentsLinks extends NativeBase {
      * <p>Not working for Swift:</p>
      * <ul>
      * <li>named comment: {@link com.example.smoke.Comments#VERY_USEFUL}</li>
-     * <li>error: {@link com.example.smoke.CommentsLinks.TooUsefulException}</li>
      * </ul>
      * <p>Not working:</p>
      * <ul>

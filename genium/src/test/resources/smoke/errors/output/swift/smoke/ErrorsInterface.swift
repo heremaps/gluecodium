@@ -135,6 +135,10 @@ internal func copyToCType(_ swiftClass: ErrorsInterface?) -> RefHolder {
 internal func moveToCType(_ swiftClass: ErrorsInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
+extension InternalError : Error {
+}
+extension ExternalErrors : Error {
+}
 public enum InternalError : UInt32, CaseIterable {
     case errorNone
     case errorFatal

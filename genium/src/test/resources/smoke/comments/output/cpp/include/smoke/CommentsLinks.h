@@ -48,6 +48,7 @@ public:
  * * top level struct field: ::smoke::TypeCollectionStruct::field
  * * top level enum: ::smoke::TypeCollectionEnum
  * * top level enum item: ::smoke::TypeCollectionEnum::ITEM
+ * * error: [TooUsefulException]
  *
  * Not working for Java:
  * * typedef: ::smoke::Comments::Usefulness
@@ -57,7 +58,6 @@ public:
  *
  * Not working for Swift:
  * * named comment: [Alternative name for the link, stripped for Swift]::smoke::Comments::VERY_USEFUL
- * * error: [TooUsefulException]
  *
  * Not working:
  * * input parameter: [inputParameter]

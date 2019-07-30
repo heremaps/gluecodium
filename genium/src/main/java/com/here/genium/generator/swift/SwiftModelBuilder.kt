@@ -32,6 +32,7 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeMethod
@@ -52,6 +53,8 @@ import com.here.genium.model.swift.SwiftConstant
 import com.here.genium.model.swift.SwiftDictionary
 import com.here.genium.model.swift.SwiftEnum
 import com.here.genium.model.swift.SwiftEnumItem
+import com.here.genium.model.swift.SwiftError
+import com.here.genium.model.swift.SwiftThrownType
 import com.here.genium.model.swift.SwiftField
 import com.here.genium.model.swift.SwiftFile
 import com.here.genium.model.swift.SwiftMethod
@@ -76,7 +79,6 @@ class SwiftModelBuilder(
 
     val arraysCollector = mutableMapOf<String, SwiftArray>()
     val mapCollector = mutableMapOf<String, SwiftDictionary>()
-    val enumsAsErrors = mutableSetOf<String>()
 
     override fun finishBuilding(limeContainer: LimeContainer) {
         when (limeContainer.type) {
@@ -95,6 +97,7 @@ class SwiftModelBuilder(
         file.enums.addAll(getPreviousResults(SwiftEnum::class.java))
         file.typeDefs.addAll(getPreviousResults(SwiftTypeDef::class.java))
         file.dictionaries.addAll(getPreviousResults(SwiftDictionary::class.java))
+        file.errors.addAll(getPreviousResults(SwiftError::class.java))
 
         val constants = getPreviousResults(SwiftConstant::class.java)
         if (constants.isNotEmpty()) {
@@ -135,6 +138,7 @@ class SwiftModelBuilder(
         addMembersAndParent(swiftFile, swiftClass)
         swiftClass.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftClass.enums.addAll(getPreviousResults(SwiftEnum::class.java))
+        swiftClass.errors.addAll(getPreviousResults(SwiftError::class.java))
 
         storeNamedResult(limeContainer, swiftClass)
         storeResult(swiftFile)
@@ -157,6 +161,7 @@ class SwiftModelBuilder(
         addMembersAndParent(swiftFile, swiftClass)
         swiftFile.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         swiftFile.enums.addAll(getPreviousResults(SwiftEnum::class.java))
+        swiftClass.errors.addAll(getPreviousResults(SwiftError::class.java))
 
         storeNamedResult(limeContainer, swiftClass)
         storeResult(swiftFile)
@@ -195,10 +200,10 @@ class SwiftModelBuilder(
             arraysCollector.putIfAbsent(elementTypeKey, returnType.withoutAlias())
         }
 
-        val errorType = limeMethod.exception?.let {
-            val swiftEnumName = nameResolver.getFullName(it.errorEnum.type)
-            enumsAsErrors.add(swiftEnumName)
-            SwiftEnum(swiftEnumName)
+        val error = limeMethod.thrownType?.let {
+            val exception = it.typeRef.type as LimeException
+            val swiftEnumName = nameResolver.getFullName(exception.errorEnum.type)
+            SwiftThrownType(swiftEnumName, it.comment)
         }
 
         val cShortName = CBridgeNameRules.getShortMethodName(
@@ -214,10 +219,12 @@ class SwiftModelBuilder(
             returnComment = limeMethod.returnType.comment,
             cNestedSpecifier = CBridgeNameRules.getNestedSpecifierString(limeMethod),
             cShortName = cShortName,
-            error = errorType,
+            error = error,
             isStatic = limeMethod.isStatic,
             isConstructor = limeMethod.isConstructor,
-            isOverriding = limeMethod.isConstructor && signatureResolver.hasSignatureClash(limeMethod),
+            isOverriding = limeMethod.isConstructor && signatureResolver.hasSignatureClash(
+                limeMethod
+            ),
             parameters = getPreviousResults(SwiftParameter::class.java)
         )
 
@@ -296,6 +303,13 @@ class SwiftModelBuilder(
         swiftEnumItem.comment = createComments(limeEnumerator)
 
         storeNamedResult(limeEnumerator, swiftEnumItem)
+        closeContext()
+    }
+
+    override fun finishBuilding(limeException: LimeException) {
+        val swiftEnum = getPreviousResult(SwiftEnum::class.java)
+        val error = SwiftError(swiftEnum.name, createComments(limeException))
+        storeNamedResult(limeException, error)
         closeContext()
     }
 

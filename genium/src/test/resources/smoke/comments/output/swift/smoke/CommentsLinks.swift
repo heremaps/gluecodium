@@ -48,6 +48,7 @@ public class CommentsLinks {
     /// * top level struct field: `TypeCollectionStruct.field`
     /// * top level enum: `TypeCollectionEnum`
     /// * top level enum item: `TypeCollectionEnum.item`
+    /// * error: `CommentsLinks.TooUseful`
     ///
     /// Not working for Java:
     /// * typedef: `Comments.Usefulness`
@@ -57,14 +58,13 @@ public class CommentsLinks {
     ///
     /// Not working for Swift:
     /// * named comment: []`Comments.veryUseful`
-    /// * error: [TooUsefulException]
     ///
     /// Not working:
     /// * input parameter: [inputParameter]
     /// * output parameter: [outputParameter]
     /// - Parameter inputParameter:
     /// - Returns:
-    /// - Throws: CommentsLinks.TooUseful
+    /// - Throws: `CommentsLinks.TooUseful` May or may not throw
     public func randomMethod(inputParameter: Comments.SomeEnum) throws -> Comments.SomeEnum {
         let c_inputParameter = moveToCType(inputParameter)
         let RESULT = smoke_CommentsLinks_randomMethod(self.c_instance, c_inputParameter.ref)
@@ -137,4 +137,6 @@ internal func moveFromCType(_ handle: _baseRef) -> CommentsLinks.TooUseful? {
         uint32_t_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+extension CommentsLinks.TooUseful : Error {
 }

@@ -35,7 +35,6 @@ import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeLazyEnumeratorRef
 import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeMethod
@@ -57,6 +56,7 @@ import com.here.genium.model.swift.SwiftConstant
 import com.here.genium.model.swift.SwiftDictionary
 import com.here.genium.model.swift.SwiftEnum
 import com.here.genium.model.swift.SwiftEnumItem
+import com.here.genium.model.swift.SwiftError
 import com.here.genium.model.swift.SwiftField
 import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftModelElement
@@ -197,13 +197,15 @@ class SwiftModelBuilderTest {
     }
 
     @Test
-    fun finishBuildingMethodReadsErrorType() {
+    fun finishBuildingExceptionReadsErrorType() {
         val limeException = LimeException(EMPTY_PATH, errorEnum = LimeBasicTypeRef.FLOAT)
-        val limeElement = LimeMethod(fooPath, thrownType = LimeThrownType(LimeDirectTypeRef(limeException)))
+        val swiftEnum = SwiftEnum("EnumName")
+        contextStack.injectResult(swiftEnum)
 
-        modelBuilder.finishBuilding(limeElement)
+        modelBuilder.finishBuilding(limeException)
 
-        assertContains("nonsense", modelBuilder.enumsAsErrors)
+        val result = modelBuilder.getFinalResult(SwiftError::class.java)
+        assertEquals("EnumName", result.name)
     }
 
     @Test

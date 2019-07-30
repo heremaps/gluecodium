@@ -105,3 +105,5 @@ internal func moveFromCType(_ handle: _baseRef) -> Errors.InternalErrors? {
     }
     return copyFromCType(handle)
 }
+extension Errors.InternalErrors : Error {
+}

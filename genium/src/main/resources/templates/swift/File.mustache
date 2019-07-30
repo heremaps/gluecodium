@@ -33,6 +33,10 @@ import Foundation
 {{>swift/Typedefs}}
 {{/typeDefs}}{{!!
 
+}}{{#allErrors}}
+{{>swift/Error}}
+{{/allErrors}}{{!!
+
 }}{{#enums}}
 {{>swift/Enum}}
 {{>swift/EnumConversion}}
@@ -43,3 +47,4 @@ import Foundation
 {{>swift/Struct}}
 {{>swift/StructConversion}}
 {{/structs}}
+

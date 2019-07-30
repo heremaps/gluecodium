@@ -190,3 +190,5 @@ internal func moveFromCType(_ handle: _baseRef) -> INameRules.IExampleError? {
     }
     return copyFromCType(handle)
 }
+extension INameRules.IExampleError : Error {
+}

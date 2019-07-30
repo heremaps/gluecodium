@@ -21,6 +21,7 @@ package com.here.genium.model.swift
 
 import java.util.function.Function
 import java.util.stream.Stream
+import kotlin.streams.toList
 
 class SwiftFile(val fileName: String) : SwiftModelElement("") {
     val classes = mutableListOf<SwiftClass>()
@@ -29,13 +30,23 @@ class SwiftFile(val fileName: String) : SwiftModelElement("") {
     val typeDefs = mutableListOf<SwiftTypeDef>()
     val arrays = mutableListOf<SwiftArray>()
     val dictionaries = mutableListOf<SwiftDictionary>()
+    val errors = mutableListOf<SwiftError>()
 
     val isEmpty: Boolean
         get() = classes.isEmpty() &&
                 structs.isEmpty() &&
                 enums.isEmpty() &&
                 arrays.isEmpty() &&
-                dictionaries.isEmpty()
+                dictionaries.isEmpty() &&
+                errors.isEmpty()
+
+    /**
+     * SwiftErrors are implemented as extension on the enum. Extensions need to be declared
+     * at file level, so collect all nested errors here.
+     */
+    @Suppress("Unused")
+    val allErrors: List<SwiftError>
+        get() = streamRecursive().toList().filterIsInstance(SwiftError::class.java)
 
     override fun stream(): Stream<SwiftModelElement> =
         Stream.of(
@@ -45,6 +56,7 @@ class SwiftFile(val fileName: String) : SwiftModelElement("") {
             enums.stream(),
             typeDefs.stream(),
             arrays.stream(),
-            dictionaries.stream()
+            dictionaries.stream(),
+            errors.stream()
         ).flatMap(Function.identity())
 }

@@ -33,7 +33,7 @@ class SwiftMethod(
     @Suppress("unused") val returnComment: String? = null,
     val cNestedSpecifier: String? = null,
     val cShortName: String? = null,
-    val error: SwiftEnum? = null,
+    val error: SwiftThrownType? = null,
     val isStatic: Boolean = false,
     val isConstructor: Boolean = false,
     val isOverriding: Boolean = false,

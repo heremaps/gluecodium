@@ -36,7 +36,6 @@ class SwiftGenerator(
     val arrayGenerator = SwiftArrayGenerator()
     val mapGenerator = SwiftMapGenerator()
     val builtinOptionalsGenerator = SwiftBuiltinOptionalsGenerator()
-    private val enumsAsErrors = mutableSetOf<String>()
     private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
     private val nameResolver = SwiftNameResolver(limeReferenceMap, nameRules)
     private val typeMapper = SwiftTypeMapper(nameResolver)
@@ -56,22 +55,12 @@ class SwiftGenerator(
 
         arrayGenerator.collect(modelBuilder.arraysCollector)
         mapGenerator.collect(modelBuilder.mapCollector)
-        enumsAsErrors.addAll(modelBuilder.enumsAsErrors)
 
         return SwiftModel(
             modelBuilder.referenceMap,
             listOf(modelBuilder.getFinalResult(SwiftFile::class.java))
         )
     }
-
-    fun generateErrors() =
-        when {
-            enumsAsErrors.isEmpty() -> null
-            else -> GeneratedFile(
-                TemplateEngine.render("swift/Errors", enumsAsErrors.sorted()),
-                SwiftNameRules.TARGET_DIRECTORY + "ErrorsExtensions.swift"
-            )
-        }
 
     fun generateSets(swiftModel: List<SwiftFile>): GeneratedFile? {
         val allSets = (swiftModel.flatMap { it.typeDefs } +

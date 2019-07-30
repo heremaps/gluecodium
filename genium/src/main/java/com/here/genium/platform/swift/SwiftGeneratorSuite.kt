@@ -108,8 +108,7 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             CBridgeGenerator.STATIC_FILES + SwiftGenerator.STATIC_FILES +
             cBridgeGenerator.arrayGenerator.generate() + swiftGenerator.arrayGenerator.generate() +
             swiftGenerator.mapGenerator.generate() + swiftGenerator.generateSets(swiftModel.containers) +
-            swiftGenerator.builtinOptionalsGenerator.generate() + swiftGenerator.generateErrors() +
-            cBridgeGenerator.generateHelpers()
+            swiftGenerator.builtinOptionalsGenerator.generate() + cBridgeGenerator.generateHelpers()
 
         return result.filterNotNull()
     }

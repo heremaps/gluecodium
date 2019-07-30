@@ -202,7 +202,7 @@ class CommentsLinks {
     // * top level struct field: [CommentsTypeCollection.TypeCollectionStruct.field]
     // * top level enum: [CommentsTypeCollection.TypeCollectionEnum]
     // * top level enum item: [CommentsTypeCollection.TypeCollectionEnum.item]
-    //
+    // * error: [TooUsefulException]
     //
     // Not working for Java:
     // * typedef: [comments.Usefulness]
@@ -212,7 +212,6 @@ class CommentsLinks {
     //
     // Not working for Swift:
     // * named comment: [Alternative name for the link, stripped for Swift][comments.VeryUseful]
-    // * error: [TooUsefulException]
     //
     // Not working:
     // * input parameter: [inputParameter]

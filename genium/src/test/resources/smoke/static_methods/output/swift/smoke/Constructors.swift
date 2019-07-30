@@ -150,3 +150,5 @@ internal func moveFromCType(_ handle: _baseRef) -> Constructors.ErrorEnum? {
     }
     return copyFromCType(handle)
 }
+extension Constructors.ErrorEnum : Error {
+}
