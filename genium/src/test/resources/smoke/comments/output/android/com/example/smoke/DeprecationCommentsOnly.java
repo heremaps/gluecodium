@@ -53,13 +53,13 @@ public interface DeprecationCommentsOnly {
     boolean someMethodWithAllComments(@NonNull final String input);
     /**
      *
-     * @deprecated <p>Unfortunately, this attribute is deprecated.</p>
+     * @deprecated <p>Unfortunately, this attribute's getter is deprecated.</p>
      */
     @Deprecated
     boolean isSomeAttribute();
     /**
      *
-     * @deprecated <p>Unfortunately, this attribute is deprecated.</p>
+     * @deprecated <p>Unfortunately, this attribute's setter is deprecated.</p>
      * @param value
      */
     @Deprecated

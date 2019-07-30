@@ -33,9 +33,9 @@ interface DeprecationCommentsOnly {
 
     @Deprecated("Unfortunately, this attribute is deprecated.")
     property SomeAttribute: Usefulness {
-        @Deprecated("Unfortunately, this attribute is deprecated.")
+        @Deprecated("Unfortunately, this attribute's getter is deprecated.")
         get
-        @Deprecated("Unfortunately, this attribute is deprecated.")
+        @Deprecated("Unfortunately, this attribute's setter is deprecated.")
         set
     }
 }

@@ -66,13 +66,13 @@ public:
 virtual ::smoke::DeprecationCommentsOnly::Usefulness some_method_with_all_comments( const ::std::string& input ) = 0;
 /**
  *
- * \deprecated Unfortunately, this attribute is deprecated.
+ * \deprecated Unfortunately, this attribute's getter is deprecated.
  * \return
  */
 virtual ::smoke::DeprecationCommentsOnly::Usefulness is_some_attribute(  ) const = 0;
 /**
  *
- * \deprecated Unfortunately, this attribute is deprecated.
+ * \deprecated Unfortunately, this attribute's setter is deprecated.
  * \param[in] value
  */
 virtual void set_some_attribute( const ::smoke::DeprecationCommentsOnly::Usefulness value ) = 0;

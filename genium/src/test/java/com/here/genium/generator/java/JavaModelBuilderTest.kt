@@ -611,8 +611,16 @@ class JavaModelBuilderTest {
             fooPath,
             typeRef = limeTypeRef,
             comment = "Some comment",
-            getter = LimeMethod(fooPath, attributes = deprecatedAttributes),
-            setter = LimeMethod(fooPath, attributes = deprecatedAttributes)
+            getter = LimeMethod(
+                fooPath,
+                comment = "Gets some comment",
+                attributes = deprecatedAttributes
+            ),
+            setter = LimeMethod(
+                fooPath,
+                comment = "Sets some comment",
+                attributes = deprecatedAttributes
+            )
         )
         every { typeMapper.applyNullability(javaType, any()) } returns anotherJavaType
 

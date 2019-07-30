@@ -57,11 +57,11 @@ interface DeprecationComments {
     // Some very useful attribute.
     @Deprecated("Unfortunately, this attribute is deprecated.\nUse [comments.SomeAttribute] instead.")
     property SomeAttribute: Usefulness {
-        // Some very useful attribute.
-        @Deprecated("Unfortunately, this attribute is deprecated.\nUse [comments.SomeAttribute] instead.")
+        // Gets some very useful attribute.
+        @Deprecated("Unfortunately, this attribute's getter is deprecated.\nUse [comments.SomeAttribute.get] instead.")
         get
-        // Some very useful attribute.
-        @Deprecated("Unfortunately, this attribute is deprecated.\nUse [comments.SomeAttribute] instead.")
+        // Sets some very useful attribute.
+        @Deprecated("Unfortunately, this attribute's setter is deprecated.\nUse [comments.SomeAttribute.set] instead.")
         set
     }
 }
@@ -93,9 +93,9 @@ interface DeprecationCommentsOnly {
     ): /* Usefulness of the input */ Usefulness
     @Deprecated("Unfortunately, this attribute is deprecated.")
     property SomeAttribute: Usefulness {
-        @Deprecated("Unfortunately, this attribute is deprecated.")
+        @Deprecated("Unfortunately, this attribute's getter is deprecated.")
         get
-        @Deprecated("Unfortunately, this attribute is deprecated.")
+        @Deprecated("Unfortunately, this attribute's setter is deprecated.")
         set
     }
 }

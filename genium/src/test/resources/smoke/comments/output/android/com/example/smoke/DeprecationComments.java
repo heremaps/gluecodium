@@ -72,15 +72,15 @@ public interface DeprecationComments {
     boolean someMethodWithAllComments(@NonNull final String input);
     /**
      * <p>Gets some very useful attribute.</p>
-     * @deprecated <p>Unfortunately, this attribute is deprecated.
+     * @deprecated <p>Unfortunately, this attribute's getter is deprecated.
      * Use {@link com.example.smoke.Comments#isSomeAttribute} instead.</p>
      */
     @Deprecated
     boolean isSomeAttribute();
     /**
      * <p>Sets some very useful attribute.</p>
-     * @deprecated <p>Unfortunately, this attribute is deprecated.
-     * Use {@link com.example.smoke.Comments#isSomeAttribute} instead.</p>
+     * @deprecated <p>Unfortunately, this attribute's setter is deprecated.
+     * Use {@link com.example.smoke.Comments#setSomeAttribute} instead.</p>
      * @param value
      */
     @Deprecated

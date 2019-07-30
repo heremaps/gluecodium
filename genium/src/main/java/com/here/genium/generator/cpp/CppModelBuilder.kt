@@ -22,7 +22,6 @@ package com.here.genium.generator.cpp
 import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.model.common.Comments
-import com.here.genium.model.common.CommentsPreprocessor
 import com.here.genium.model.cpp.CppClass
 import com.here.genium.model.cpp.CppConstant
 import com.here.genium.model.cpp.CppElement
@@ -244,7 +243,7 @@ class CppModelBuilder(
         }
 
         val getterComments = Comments(
-            CommentsPreprocessor.preprocessGetterComment(limeProperty.comment),
+            limeProperty.getter.comment,
             limeProperty.getter.attributes.get(DEPRECATED, MESSAGE, String::class.java)
         )
         val getterMethod = CppMethod(
@@ -259,15 +258,16 @@ class CppModelBuilder(
         storeNamedResult(limeProperty, getterMethod)
         referenceMap["${limeProperty.fullName}.get"] = getterMethod
 
-        if (limeProperty.setter != null) {
+        val limeSetter = limeProperty.setter
+        if (limeSetter != null) {
             val setterParameter = CppParameter("value", cppTypeRef, isNotNull)
             val setterQualifiers = when {
                 limeProperty.isStatic -> EnumSet.noneOf(CppMethod.Qualifier::class.java)
                 else -> EnumSet.of(CppMethod.Qualifier.PURE_VIRTUAL)
             }
             val setterComments = Comments(
-                CommentsPreprocessor.preprocessSetterComment(limeProperty.comment),
-                limeProperty.setter?.attributes?.get(DEPRECATED, MESSAGE, String::class.java)
+                limeSetter.comment,
+                limeSetter.attributes.get(DEPRECATED, MESSAGE, String::class.java)
             )
             val setterMethod = CppMethod(
                 name = nameResolver.getSetterName(limeProperty),

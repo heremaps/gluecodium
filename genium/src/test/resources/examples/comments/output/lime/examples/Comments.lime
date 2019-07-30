@@ -34,9 +34,9 @@ class Comments {
 
     // Some very useful attribute.
     property SomeAttribute: Usefulness {
-        // Some very useful attribute.
+        // Gets some very useful attribute.
         get
-        // Some very useful attribute.
+        // Sets some very useful attribute.
         set
     }
 }

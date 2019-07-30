@@ -282,8 +282,8 @@ class CppModelBuilderCommentsTest {
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
             comment = "Foo",
-            getter = LimeMethod(EMPTY_PATH, attributes = deprecatedAttributes),
-            setter = LimeMethod(EMPTY_PATH, attributes = deprecatedAttributes)
+            getter = LimeMethod(EMPTY_PATH, comment = "Gets foo", attributes = deprecatedAttributes),
+            setter = LimeMethod(EMPTY_PATH, comment = "Sets foo", attributes = deprecatedAttributes)
         )
 
         modelBuilder.finishBuilding(limeElement)

@@ -22,7 +22,6 @@ package com.here.genium.generator.java
 import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.model.common.Comments
-import com.here.genium.model.common.CommentsPreprocessor
 import com.here.genium.model.java.JavaClass
 import com.here.genium.model.java.JavaConstant
 import com.here.genium.model.java.JavaCustomType
@@ -250,7 +249,7 @@ class JavaModelBuilder(
             EnumSet.noneOf(MethodQualifier::class.java)
 
         val getterComments = Comments(
-            CommentsPreprocessor.preprocessGetterComment(limeProperty.comment),
+            limeProperty.getter.comment,
             limeProperty.getter.attributes.get(DEPRECATED, MESSAGE, String::class.java)
         )
         val getterMethod = JavaMethod(
@@ -269,7 +268,7 @@ class JavaModelBuilder(
         val limeSetter = limeProperty.setter
         if (limeSetter != null) {
             val setterComments = Comments(
-                CommentsPreprocessor.preprocessSetterComment(limeProperty.comment),
+                limeSetter.comment,
                 limeSetter.attributes.get(DEPRECATED, MESSAGE, String::class.java)
             )
             val setterMethod = JavaMethod(
