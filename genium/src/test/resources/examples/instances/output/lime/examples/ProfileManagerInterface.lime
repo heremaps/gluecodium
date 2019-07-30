@@ -1,7 +1,0 @@
-package examples
-
-interface ProfileManagerInterface {
-    fun createProfile(
-        username: String
-    )
-}

@@ -1,11 +1,11 @@
 package examples
-
 class Calculator {
-    static fun registerListener(
+    constructor create()
+    fun registerListener(
         listener: CalculatorListener
     )
-    static fun unregisterListener(
+    fun unregisterListener(
         listener: CalculatorListener
     )
-    static fun calculate()
+    fun calculate()
 }

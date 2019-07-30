@@ -1,9 +1,0 @@
-package examples
-
-class Typedefs {
-    typealias ExampleAlias = UInt
-
-    static fun typedefMethod(
-        input: ExampleAlias
-    ): ExampleAlias
-}

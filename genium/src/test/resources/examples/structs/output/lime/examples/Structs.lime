@@ -1,6 +1,7 @@
 package examples
 
 class Structs {
+    @Immutable
     struct SyncResult {
         lastUpdatedTimeStamp: ULong
         numberOfChanges: UInt
@@ -9,12 +10,6 @@ class Structs {
     struct IdentifiableSyncResult {
         id: Int
         syncResult: SyncResult
-    }
-
-    @Immutable
-    struct ImmutableSyncResult {
-        lastUpdatedTimeStamp: ULong
-        numberOfChanges: UInt
     }
 
     static fun methodWithNonNestedType(

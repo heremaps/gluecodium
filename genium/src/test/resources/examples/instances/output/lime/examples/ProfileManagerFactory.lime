@@ -1,6 +1,0 @@
-package examples
-
-class ProfileManagerFactory {
-    static fun createProfileManager(): ProfileManager
-    static fun createProfileManagerInterface(): ProfileManagerInterface
-}

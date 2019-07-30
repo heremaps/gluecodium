@@ -22,33 +22,13 @@ public class BuiltinTypes {
     deinit {
         examples_BuiltinTypes_release_handle(c_instance)
     }
-    public static func methodWithInt8(inputNumber: Int8) -> Int8 {
-        let c_inputNumber = moveToCType(inputNumber)
-        return moveFromCType(examples_BuiltinTypes_methodWithInt8(c_inputNumber.ref))
-    }
     public static func methodWithUInt8(inputNumber: UInt8) -> UInt8 {
         let c_inputNumber = moveToCType(inputNumber)
         return moveFromCType(examples_BuiltinTypes_methodWithUInt8(c_inputNumber.ref))
     }
-    public static func methodWithInt16(inputNumber: Int16) -> Int16 {
-        let c_inputNumber = moveToCType(inputNumber)
-        return moveFromCType(examples_BuiltinTypes_methodWithInt16(c_inputNumber.ref))
-    }
-    public static func methodWithUInt16(inputNumber: UInt16) -> UInt16 {
-        let c_inputNumber = moveToCType(inputNumber)
-        return moveFromCType(examples_BuiltinTypes_methodWithUInt16(c_inputNumber.ref))
-    }
     public static func methodWithInt32(inputNumber: Int32) -> Int32 {
         let c_inputNumber = moveToCType(inputNumber)
         return moveFromCType(examples_BuiltinTypes_methodWithInt32(c_inputNumber.ref))
-    }
-    public static func methodWithUInt32(inputNumber: UInt32) -> UInt32 {
-        let c_inputNumber = moveToCType(inputNumber)
-        return moveFromCType(examples_BuiltinTypes_methodWithUInt32(c_inputNumber.ref))
-    }
-    public static func methodWithInt64(inputNumber: Int64) -> Int64 {
-        let c_inputNumber = moveToCType(inputNumber)
-        return moveFromCType(examples_BuiltinTypes_methodWithInt64(c_inputNumber.ref))
     }
     public static func methodWithUInt64(inputNumber: UInt64) -> UInt64 {
         let c_inputNumber = moveToCType(inputNumber)
@@ -58,22 +38,17 @@ public class BuiltinTypes {
         let c_inputCondition = moveToCType(inputCondition)
         return moveFromCType(examples_BuiltinTypes_methodWithBoolean(c_inputCondition.ref))
     }
-    public static func methodWithFloat(inputNumber: Float) -> Float {
-        let c_inputNumber = moveToCType(inputNumber)
-        return moveFromCType(examples_BuiltinTypes_methodWithFloat(c_inputNumber.ref))
-    }
     public static func methodWithDouble(inputNumber: Double) -> Double {
         let c_inputNumber = moveToCType(inputNumber)
         return moveFromCType(examples_BuiltinTypes_methodWithDouble(c_inputNumber.ref))
     }
+    public static func methodWithString(inputString: String) -> String {
+        let c_inputString = moveToCType(inputString)
+        return moveFromCType(examples_BuiltinTypes_methodWithString(c_inputString.ref))
+    }
     public static func methodWithByteBuffer(inputBuffer: Data) -> Data {
         let c_inputBuffer = moveToCType(inputBuffer)
         return moveFromCType(examples_BuiltinTypes_methodWithByteBuffer(c_inputBuffer.ref))
-    }
-    public static func methodWithFloatAndInteger(inputFloat: Float, inputInteger: Int32) -> Double {
-        let c_inputFloat = moveToCType(inputFloat)
-        let c_inputInteger = moveToCType(inputInteger)
-        return moveFromCType(examples_BuiltinTypes_methodWithFloatAndInteger(c_inputFloat.ref, c_inputInteger.ref))
     }
 }
 extension BuiltinTypes: NativeBase {

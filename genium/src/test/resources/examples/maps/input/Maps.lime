@@ -21,4 +21,5 @@ class Maps {
     typealias NameMap = Map<ULong, String>
 
     static fun mapMethod(input: NameMap): NameMap
+    static fun inlineMapMethod(input: Map<ULong, String>): Map<ULong, String>
 }

@@ -22,7 +22,8 @@ interface CalculatorListener {
 }
 
 class Calculator {
-    static fun registerListener(listener: CalculatorListener)
-    static fun unregisterListener(listener: CalculatorListener)
-    static fun calculate()
+    constructor create()
+    fun registerListener(listener: CalculatorListener)
+    fun unregisterListener(listener: CalculatorListener)
+    fun calculate()
 }

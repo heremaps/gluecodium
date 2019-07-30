@@ -6,6 +6,9 @@ package com.example.examples;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public class Calculator extends NativeBase {
+    public Calculator() {
+        this(create());
+    }
     /**
      * For internal use only.
      * @exclude
@@ -19,7 +22,8 @@ public class Calculator extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    public static native void registerListener(@NonNull final CalculatorListener listener);
-    public static native void unregisterListener(@NonNull final CalculatorListener listener);
-    public static native void calculate();
+    private static native long create();
+    public native void registerListener(@NonNull final CalculatorListener listener);
+    public native void unregisterListener(@NonNull final CalculatorListener listener);
+    public native void calculate();
 }

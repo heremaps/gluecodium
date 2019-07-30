@@ -11,6 +11,9 @@
 #include "genium/Export.h"
 #include <memory>
 namespace examples {
+    class Calculator;
+}
+namespace examples {
     class CalculatorListener;
 }
 namespace examples {
@@ -20,14 +23,19 @@ public:
 public:
 /**
  *
- * \param[in] listener @NotNull
+ * \return @NotNull
  */
-static void register_listener( const ::std::shared_ptr< ::examples::CalculatorListener >& listener );
+static ::std::shared_ptr< ::examples::Calculator > create(  );
 /**
  *
  * \param[in] listener @NotNull
  */
-static void unregister_listener( const ::std::shared_ptr< ::examples::CalculatorListener >& listener );
-static void calculate(  );
+virtual void register_listener( const ::std::shared_ptr< ::examples::CalculatorListener >& listener ) = 0;
+/**
+ *
+ * \param[in] listener @NotNull
+ */
+virtual void unregister_listener( const ::std::shared_ptr< ::examples::CalculatorListener >& listener ) = 0;
+virtual void calculate(  ) = 0;
 };
 }

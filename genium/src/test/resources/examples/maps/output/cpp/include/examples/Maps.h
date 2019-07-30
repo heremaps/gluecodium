@@ -20,5 +20,6 @@ public:
 using NameMap = ::std::unordered_map< uint64_t, ::std::string >;
 public:
 static ::examples::Maps::NameMap map_method( const ::examples::Maps::NameMap& input );
+static ::std::unordered_map< uint64_t, ::std::string > inline_map_method( const ::std::unordered_map< uint64_t, ::std::string >& input );
 };
 }

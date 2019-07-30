@@ -7,8 +7,8 @@ import android.support.annotation.NonNull;
 import com.example.NativeBase;
 public class Structs extends NativeBase {
     public static class SyncResult {
-        public long lastUpdatedTimeStamp;
-        public long numberOfChanges;
+        public final long lastUpdatedTimeStamp;
+        public final long numberOfChanges;
         public SyncResult(final long lastUpdatedTimeStamp, final long numberOfChanges) {
             this.lastUpdatedTimeStamp = lastUpdatedTimeStamp;
             this.numberOfChanges = numberOfChanges;
@@ -21,14 +21,6 @@ public class Structs extends NativeBase {
         public IdentifiableSyncResult(final int id, @NonNull final Structs.SyncResult syncResult) {
             this.id = id;
             this.syncResult = syncResult;
-        }
-    }
-    public static class ImmutableSyncResult {
-        public final long lastUpdatedTimeStamp;
-        public final long numberOfChanges;
-        public ImmutableSyncResult(final long lastUpdatedTimeStamp, final long numberOfChanges) {
-            this.lastUpdatedTimeStamp = lastUpdatedTimeStamp;
-            this.numberOfChanges = numberOfChanges;
         }
     }
     /**

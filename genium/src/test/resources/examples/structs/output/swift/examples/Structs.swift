@@ -23,8 +23,8 @@ public class Structs {
         examples_Structs_release_handle(c_instance)
     }
     public struct SyncResult {
-        public var lastUpdatedTimeStamp: UInt64
-        public var numberOfChanges: UInt32
+        public let lastUpdatedTimeStamp: UInt64
+        public let numberOfChanges: UInt32
         public init(lastUpdatedTimeStamp: UInt64, numberOfChanges: UInt32) {
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
             self.numberOfChanges = numberOfChanges
@@ -44,18 +44,6 @@ public class Structs {
         internal init(cHandle: _baseRef) {
             id = moveFromCType(examples_Structs_IdentifiableSyncResult_id_get(cHandle))
             syncResult = moveFromCType(examples_Structs_IdentifiableSyncResult_syncResult_get(cHandle))
-        }
-    }
-    public struct ImmutableSyncResult {
-        public let lastUpdatedTimeStamp: UInt64
-        public let numberOfChanges: UInt32
-        public init(lastUpdatedTimeStamp: UInt64, numberOfChanges: UInt32) {
-            self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
-            self.numberOfChanges = numberOfChanges
-        }
-        internal init(cHandle: _baseRef) {
-            lastUpdatedTimeStamp = moveFromCType(examples_Structs_ImmutableSyncResult_lastUpdatedTimeStamp_get(cHandle))
-            numberOfChanges = moveFromCType(examples_Structs_ImmutableSyncResult_numberOfChanges_get(cHandle))
         }
     }
     public static func methodWithNonNestedType(input: Structs.SyncResult) -> Structs.SyncResult {
@@ -181,45 +169,4 @@ internal func copyToCType(_ swiftType: Structs.IdentifiableSyncResult?) -> RefHo
 }
 internal func moveToCType(_ swiftType: Structs.IdentifiableSyncResult?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Structs_IdentifiableSyncResult_release_optional_handle)
-}
-internal func copyFromCType(_ handle: _baseRef) -> Structs.ImmutableSyncResult {
-    return Structs.ImmutableSyncResult(cHandle: handle)
-}
-internal func moveFromCType(_ handle: _baseRef) -> Structs.ImmutableSyncResult {
-    defer {
-        examples_Structs_ImmutableSyncResult_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftType: Structs.ImmutableSyncResult) -> RefHolder {
-    let c_lastUpdatedTimeStamp = moveToCType(swiftType.lastUpdatedTimeStamp)
-    let c_numberOfChanges = moveToCType(swiftType.numberOfChanges)
-    return RefHolder(examples_Structs_ImmutableSyncResult_create_handle(c_lastUpdatedTimeStamp.ref, c_numberOfChanges.ref))
-}
-internal func moveToCType(_ swiftType: Structs.ImmutableSyncResult) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Structs_ImmutableSyncResult_release_handle)
-}
-internal func copyFromCType(_ handle: _baseRef) -> Structs.ImmutableSyncResult? {
-    guard handle != 0 else {
-        return nil
-    }
-    let unwrappedHandle = examples_Structs_ImmutableSyncResult_unwrap_optional_handle(handle)
-    return Structs.ImmutableSyncResult(cHandle: unwrappedHandle) as Structs.ImmutableSyncResult
-}
-internal func moveFromCType(_ handle: _baseRef) -> Structs.ImmutableSyncResult? {
-    defer {
-        examples_Structs_ImmutableSyncResult_release_optional_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftType: Structs.ImmutableSyncResult?) -> RefHolder {
-    guard let swiftType = swiftType else {
-        return RefHolder(0)
-    }
-    let c_lastUpdatedTimeStamp = moveToCType(swiftType.lastUpdatedTimeStamp)
-    let c_numberOfChanges = moveToCType(swiftType.numberOfChanges)
-    return RefHolder(examples_Structs_ImmutableSyncResult_create_optional_handle(c_lastUpdatedTimeStamp.ref, c_numberOfChanges.ref))
-}
-internal func moveToCType(_ swiftType: Structs.ImmutableSyncResult?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: examples_Structs_ImmutableSyncResult_release_optional_handle)
 }

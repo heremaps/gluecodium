@@ -27,6 +27,10 @@ public class Maps {
         let c_input = moveToCType(input)
         return moveFromCType(examples_Maps_mapMethod(c_input.ref))
     }
+    public static func inlineMapMethod(input: Void) -> Void {
+        let c_input = moveToCType(input)
+        return moveFromCType(examples_Maps_inlineMapMethod(c_input.ref))
+    }
 }
 extension Maps: NativeBase {
     var c_handle: _baseRef { return c_instance }

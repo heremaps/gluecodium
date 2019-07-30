@@ -12,6 +12,13 @@ internal func getRef(_ ref: Calculator?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 public class Calculator {
+    public init() {
+        let _result = Calculator.create()
+        guard _result != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = _result
+    }
     let c_instance : _baseRef
     init(cCalculator: _baseRef) {
         guard cCalculator != 0 else {
@@ -22,16 +29,19 @@ public class Calculator {
     deinit {
         examples_Calculator_release_handle(c_instance)
     }
-    public static func registerListener(listener: CalculatorListener) -> Void {
-        let c_listener = moveToCType(listener)
-        return moveFromCType(examples_Calculator_registerListener(c_listener.ref))
+    private static func create() -> _baseRef {
+        return moveFromCType(examples_Calculator_create())
     }
-    public static func unregisterListener(listener: CalculatorListener) -> Void {
+    public func registerListener(listener: CalculatorListener) -> Void {
         let c_listener = moveToCType(listener)
-        return moveFromCType(examples_Calculator_unregisterListener(c_listener.ref))
+        return moveFromCType(examples_Calculator_registerListener(self.c_instance, c_listener.ref))
     }
-    public static func calculate() -> Void {
-        return moveFromCType(examples_Calculator_calculate())
+    public func unregisterListener(listener: CalculatorListener) -> Void {
+        let c_listener = moveToCType(listener)
+        return moveFromCType(examples_Calculator_unregisterListener(self.c_instance, c_listener.ref))
+    }
+    public func calculate() -> Void {
+        return moveFromCType(examples_Calculator_calculate(self.c_instance))
     }
 }
 extension Calculator: NativeBase {

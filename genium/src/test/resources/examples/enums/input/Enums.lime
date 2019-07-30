@@ -27,7 +27,5 @@ types Enums {
 }
 
 class EnumMethods {
-    static fun methodWithEnumeration(
-        input: Enums.ShoeSizes
-    ): Enums.ShoeSizes
+    static fun methodWithEnumeration(input: Enums.ShoeSizes): Enums.ShoeSizes
 }
