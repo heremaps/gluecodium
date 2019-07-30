@@ -135,23 +135,15 @@ class JniModelBuilderTest {
     private val cppGetter =
         CppMethod("shootFoot", "shootFoot", Comments(), CppPrimitiveTypeRef.INT32)
     private val javaSetter = JavaMethod(
-        "setFoo",
-        Comments(),
-        JavaVisibility.PUBLIC,
-        JavaPrimitiveType.VOID,
-        null,
-        null,
-        listOf(JavaParameter("value", JavaPrimitiveType.INT))
+        name = "setFoo",
+        visibility = JavaVisibility.PUBLIC,
+        returnType = JavaPrimitiveType.VOID,
+        parameters = listOf(JavaParameter("value", JavaPrimitiveType.INT))
     )
     private val cppSetter = CppMethod(
-        "shootBothFeet",
-        "shootBothFeet",
-        Comments(),
-        CppPrimitiveTypeRef.VOID,
-        "",
-        null,
-        false,
-        listOf(CppParameter("value", CppPrimitiveTypeRef.INT8))
+        name = "shootBothFeet",
+        fullyQualifiedName = "shootBothFeet",
+        parameters = listOf(CppParameter("value", CppPrimitiveTypeRef.INT8))
     )
     private val jniType = JniType(javaCustomType, cppCustomType)
     private val cppInclude = Include.createInternalInclude("Foo.h")

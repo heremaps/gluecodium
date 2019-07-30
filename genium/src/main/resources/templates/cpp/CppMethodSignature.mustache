@@ -32,5 +32,5 @@
 }}{{#unless isReturningVoid}}
 \return {{#if isNotNull}}@NotNull {{/if}}{{prefix returnComment "    " skipFirstLine=true}}{{/unless}}{{!!
 }}{{#if errorEnumName}}
-\retval {{errorEnumName}}{{/if}}{{!!
+\retval {{errorEnumName}} {{errorComment}}{{/if}}{{!!
 }}{{/combinedComment}}

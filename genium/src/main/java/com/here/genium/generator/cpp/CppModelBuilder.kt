@@ -132,16 +132,17 @@ class CppModelBuilder(
         }
 
         val cppMethod = CppMethod(
-            nameResolver.getName(limeMethod),
-            nameResolver.getFullyQualifiedName(limeMethod),
-            createComments(limeMethod),
-            returnType,
-            limeMethod.returnType.comment,
-            errorEnum?.fullyQualifiedName,
-            isInstance && !isNullable,
-            getPreviousResults(CppParameter::class.java),
-            specifiers,
-            qualifiers
+            name = nameResolver.getName(limeMethod),
+            fullyQualifiedName = nameResolver.getFullyQualifiedName(limeMethod),
+            comment = createComments(limeMethod),
+            returnType = returnType,
+            returnComment = limeMethod.returnType.comment,
+            errorEnumName = errorEnum?.fullyQualifiedName,
+            errorComment = limeMethod.thrownType?.comment,
+            isNotNull = isInstance && !isNullable,
+            parameters = getPreviousResults(CppParameter::class.java),
+            specifiers = specifiers,
+            qualifiers = qualifiers
         )
 
         storeNamedResult(limeMethod, cppMethod)
