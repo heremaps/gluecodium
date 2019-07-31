@@ -51,8 +51,10 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class CppTypeMapperTest {
-    @MockK private lateinit var includeResolver: CppIncludeResolver
-    @MockK private lateinit var nameResolver: CppNameResolver
+    @MockK
+    private lateinit var includeResolver: CppIncludeResolver
+    @MockK
+    private lateinit var nameResolver: CppNameResolver
 
     private lateinit var typeMapper: CppTypeMapper
 
@@ -224,5 +226,87 @@ class CppTypeMapperTest {
             CppTemplateTypeRef.TemplateClass.OPTIONAL,
             (result as CppTemplateTypeRef).templateClass
         )
+    }
+
+    @Test
+    fun `default hash in set is used for typedef to primitive type`() {
+        val limeElementType = LimeTypeDef(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
+        val limeElementTypeRef = LimeDirectTypeRef(limeElementType)
+        val limeType = LimeSet(limeElementTypeRef)
+        val limeTypeRef = LimeDirectTypeRef(limeType)
+
+        val result = typeMapper.mapType(limeTypeRef)
+
+        assertTrue(result is CppTemplateTypeRef)
+        assertEquals(
+            CppTemplateTypeRef.TemplateClass.SET,
+            (result as CppTemplateTypeRef).templateClass
+        )
+        assertEquals("default hash for primitive types", 1, result.templateParameters.size)
+        assertTrue(result.templateParameters.first() is CppTypeDefRef)
+    }
+
+    @Test
+    fun `genium hash in set is used for typedef to non-primitive type`() {
+        val limeElementType = LimeStruct(EMPTY_PATH)
+        val limeElementTypeRef = LimeDirectTypeRef(limeElementType)
+        val limeType = LimeSet(limeElementTypeRef)
+        val limeTypeRef = LimeDirectTypeRef(limeType)
+
+        val result = typeMapper.mapType(limeTypeRef)
+
+        assertTrue(result is CppTemplateTypeRef)
+        assertEquals(
+            CppTemplateTypeRef.TemplateClass.SET,
+            (result as CppTemplateTypeRef).templateClass
+        )
+        assertEquals(
+            "additional hash parameter for non-primitive types",
+            2,
+            result.templateParameters.size
+        )
+        assertTrue(result.templateParameters.last() is CppTemplateTypeRef)
+        assertEquals(CppTemplateTypeRef.TemplateClass.HASH, (result.templateParameters.last() as CppTemplateTypeRef).templateClass)
+    }
+
+    @Test
+    fun `default hash is used in map for typedef to primitive type`() {
+        val limeKeyType = LimeTypeDef(EMPTY_PATH, typeRef = LimeBasicTypeRef.DOUBLE)
+        val limeKeyTypeRef = LimeDirectTypeRef(limeKeyType)
+        val limeType = LimeMap(limeKeyTypeRef, LimeBasicTypeRef.INT)
+        val limeTypeRef = LimeDirectTypeRef(limeType)
+
+        val result = typeMapper.mapType(limeTypeRef)
+
+        assertTrue(result is CppTemplateTypeRef)
+        assertEquals(
+            CppTemplateTypeRef.TemplateClass.MAP,
+            (result as CppTemplateTypeRef).templateClass
+        )
+        assertEquals("default hash for primitive key types", 2, result.templateParameters.size)
+        assertTrue(result.templateParameters.first() is CppTypeDefRef)
+    }
+
+    @Test
+    fun `genium hash is used in set for typedef to non-primitive type`() {
+        val limeKeyType = LimeStruct(EMPTY_PATH)
+        val limeKeyTypeRef = LimeDirectTypeRef(limeKeyType)
+        val limeType = LimeMap(limeKeyTypeRef, LimeBasicTypeRef.INT)
+        val limeTypeRef = LimeDirectTypeRef(limeType)
+
+        val result = typeMapper.mapType(limeTypeRef)
+
+        assertTrue(result is CppTemplateTypeRef)
+        assertEquals(
+            CppTemplateTypeRef.TemplateClass.MAP,
+            (result as CppTemplateTypeRef).templateClass
+        )
+        assertEquals(
+            "additional hash parameter for non-primitive types",
+            3,
+            result.templateParameters.size
+        )
+        assertTrue(result.templateParameters.last() is CppTemplateTypeRef)
+        assertEquals(CppTemplateTypeRef.TemplateClass.HASH, (result.templateParameters.last() as CppTemplateTypeRef).templateClass)
     }
 }

@@ -268,42 +268,42 @@ _baseRef smoke_Maps_NumberToTypeDef_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_map<uint8_t, std::string >>*>( handle ) );
 }
 _baseRef smoke_Maps_TypeDefToNumber_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >() );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, uint8_t >() );
 }
 void smoke_Maps_TypeDefToNumber_release_handle(_baseRef handle) {
-    delete get_pointer<std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >>(handle);
+    delete get_pointer<std::unordered_map<std::string, uint8_t >>(handle);
 }
 _baseRef smoke_Maps_TypeDefToNumber_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >::iterator( get_pointer<std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >>(handle)->begin() ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, uint8_t >::iterator( get_pointer<std::unordered_map<std::string, uint8_t >>(handle)->begin() ) );
 }
 void smoke_Maps_TypeDefToNumber_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >::iterator*>( iterator_handle );
+    delete reinterpret_cast<std::unordered_map<std::string, uint8_t >::iterator*>( iterator_handle );
 }
 void smoke_Maps_TypeDefToNumber_put(_baseRef handle, _baseRef key, uint8_t value) {
-    (*get_pointer<std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >>(handle)).emplace(std::move(Conversion<std::string>::toCpp(key)), std::move(value));
+    (*get_pointer<std::unordered_map<std::string, uint8_t >>(handle)).emplace(std::move(Conversion<std::string>::toCpp(key)), std::move(value));
 }
 bool smoke_Maps_TypeDefToNumber_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >>(handle)->end();
+    return *reinterpret_cast<std::unordered_map<std::string, uint8_t >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, uint8_t >>(handle)->end();
 }
 void smoke_Maps_TypeDefToNumber_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >::iterator*>( iterator_handle );
+    ++*reinterpret_cast<std::unordered_map<std::string, uint8_t >::iterator*>( iterator_handle );
 }
 _baseRef smoke_Maps_TypeDefToNumber_iterator_key(_baseRef iterator_handle) {
-    auto& key = (*reinterpret_cast<std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >::iterator*>( iterator_handle ))->first;
+    auto& key = (*reinterpret_cast<std::unordered_map<std::string, uint8_t >::iterator*>( iterator_handle ))->first;
     return Conversion<std::string>::toBaseRef(key);
 }
 uint8_t smoke_Maps_TypeDefToNumber_iterator_value(_baseRef iterator_handle) {
-    auto& value = (*reinterpret_cast<std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >::iterator*>( iterator_handle ))->second;
+    auto& value = (*reinterpret_cast<std::unordered_map<std::string, uint8_t >::iterator*>( iterator_handle ))->second;
     return value;
 }
 _baseRef smoke_Maps_TypeDefToNumber_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >>( std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::unordered_map<std::string, uint8_t >>( std::unordered_map<std::string, uint8_t >( ) ) );
 }
 void smoke_Maps_TypeDefToNumber_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >>*>( handle );
+    delete reinterpret_cast<::genium::optional<std::unordered_map<std::string, uint8_t >>*>( handle );
 }
 _baseRef smoke_Maps_TypeDefToNumber_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_map<std::string, uint8_t, ::genium::hash<std::string> >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_map<std::string, uint8_t >>*>( handle ) );
 }
 _baseRef smoke_Maps_StringToArray_create_handle() {
     return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, std::vector<int32_t> >() );

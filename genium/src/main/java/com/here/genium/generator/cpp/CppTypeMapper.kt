@@ -38,6 +38,7 @@ import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 
 class CppTypeMapper(
@@ -174,7 +175,8 @@ class CppTypeMapper(
             )
 
         fun hasStdHash(limeType: LimeTypeRef): Boolean {
-            val actualType = limeType.type as? LimeBasicType ?: return false
+            val actualType =
+                LimeTypeHelper.getActualType(limeType.type) as? LimeBasicType ?: return false
             return actualType.typeId != TypeId.BLOB && actualType.typeId != TypeId.DATE
         }
     }
