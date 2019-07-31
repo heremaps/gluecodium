@@ -4,10 +4,13 @@
 - Features:
   + Structs, enumerations, exceptions and type aliases can now be declared at file level in LimeIDL.
   + `{ get set }` declaration is now optional for properties in LimeIDL.
+  + Java builders now enforce setting of all uninitialized fields by builder chaining.
 - Bug fixes:
   + `std::hash` is now also used for typedefs to primitive types.
   + Fixed compilation for immutable equatable structs.
   + Imports now work correctly for enumerator references in LimeIDL.
+- Breaking changes:
+  + Java builders fix the order of setting mandatory fields to the order in which they are defined.
 
 ## 5.0.0
 - Release date: 2019-07-31

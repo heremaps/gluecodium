@@ -172,6 +172,10 @@ feature(Attributes cpp android swift SOURCES
     lime/test/AttributesInterfaceFactory.lime
 )
 
+feature(JavaBuilder android SOURCES
+    lime/test/JavaBuilder.lime
+)
+
 #TODO: enable for android and swift (APIGEN-509, APIGEN-508)
 feature(ComplexAttributes cpp SOURCES
     src/hello/HelloWorldAttributesComplexImpl.h

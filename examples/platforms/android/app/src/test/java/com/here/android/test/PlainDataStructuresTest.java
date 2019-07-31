@@ -221,10 +221,6 @@ public final class PlainDataStructuresTest {
         new PlainDataStructures.AllTypesImmutableStruct.Builder();
 
     PlainDataStructures.AllTypesImmutableStruct result = builder
-        .setBooleanField(true)
-        .setBytesField("hello".getBytes())
-        .setDoubleField(1.0)
-        .setFloatField(2.0f)
         .setInt8Field((byte)3)
         .setUint8Field((short)4)
         .setInt16Field((short)5)
@@ -233,7 +229,11 @@ public final class PlainDataStructuresTest {
         .setUint32Field(8L)
         .setInt64Field(9L)
         .setUint64Field(10L)
+        .setFloatField(2.0f)
+        .setDoubleField(1.0)
         .setStringField("test string")
+        .setBooleanField(true)
+        .setBytesField("hello".getBytes())
         .setPointField(PlainDataStructures.createPoint(11.0, 12.0))
         .build();
 

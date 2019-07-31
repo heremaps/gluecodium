@@ -19,22 +19,64 @@
   !
   !}}
 
-{{#if visibility.toString}}{{visibility}} {{/if}}static class Builder {
+{{#set classVisibility=visibility}}
+{{>visible}}static class Builder {
 {{#fields}}
     private {{type.name}} {{name}}{{#if initial}} = {{initial.name}}{{/if}};
 {{/fields}}
 
-    {{#if visibility.toString}}{{visibility}} {{/if}}Builder() {
-    }
+    {{>visible}}Builder() { }
+{{#if uninitializedFields}}{{>mandatoryFieldsBuilder}}{{/if}}
+{{#unless uninitializedFields}}{{>allFieldSetters}}{{/unless}}
+}
+{{/set}}{{!!
 
-    {{#set classVisibility=visibility}}{{#fields}}
-    {{#if classVisibility.toString}}{{visibility}} {{/if}}Builder set{{capitalize name}}({{type}} {{name}}) {
-        this.{{name}} = {{name}};
+}}{{+mandatoryFieldsBuilder}}
+{{#uninitializedFields}}
+{{#if iter.isFirst}}
+{{>mandatoryFieldSetter}}
+{{/if}}{{!!
+}}{{#unless iter.isFirst}}
+    {{>visible}}class {{>currentBuilder}} {
+        {{>currentBuilder}}() { }
+        {{prefixPartial "mandatoryFieldSetter" "    "}}
+    }
+{{/unless}}
+{{/uninitializedFields}}
+    {{>visible}}class FinalBuilder {
+        FinalBuilder() { }
+        {{#set Prefix="Final"}}{{prefixPartial "allFieldSetters" "    "}}{{/set}}
+    }
+{{/mandatoryFieldsBuilder}}{{!!
+
+}}{{+mandatoryFieldSetter}}
+    {{>visible}}{{>nextBuilder}} set{{capitalize name}}({{type}} {{name}}) {
+        Builder.this.{{name}} = {{name}};
+        return new {{>nextBuilder}}();
+    }
+{{/mandatoryFieldSetter}}{{!!
+
+}}{{+allFieldSetters}}
+{{#fields}}
+    {{>visible}}{{Prefix}}Builder set{{capitalize name}}({{type}} {{name}}) {
+        Builder.this.{{name}} = {{name}};
         return this;
     }
-    {{/fields}}{{/set}}
+{{/fields}}
 
-    {{#if visibility.toString}}{{visibility}} {{/if}}{{name}} build() {
+    {{>visible}}{{name}} build() {
         return new {{name}}({{#fields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
     }
-}
+{{/allFieldSetters}}{{!!
+
+}}{{+currentBuilder}}{{!!
+}}{{#if iter.isFirst}}Builder{{/if}}{{!!
+}}{{#unless iter.isFirst}}Builder{{iter.position}}{{/unless}}{{!!
+}}{{/currentBuilder}}{{!!
+
+}}{{+nextBuilder}}{{!!
+}}{{#if iter.hasNext}}Builder{{iter.index}}{{/if}}{{!!
+}}{{#unless iter.hasNext}}FinalBuilder{{/unless}}{{!!
+}}{{/nextBuilder}}{{!!
+
+}}{{+visible}}{{#if classVisibility.toString}}{{classVisibility}} {{/if}}{{/visible}}
