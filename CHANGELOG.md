@@ -1,12 +1,16 @@
 # Genium project Release Notes
 
-## Unreleased
+## 5.0.0
+- Release date: 2019-07-31
 - Features:
+  + New input language: LimeIDL. See [LimeIDL documentation](docs/lime_idl.md) for details.
   + Hash functions are generated for all Equatable and PointerEquatable types in C++.
   + Added support for Equatable and PointerEquatable types in sets and map keys.
 - Bug fixes:
   + Fixed Swift 5 compilation warning.
 - Breaking changes:
+  + Franca FIDL/FDEPL input is no longer supported. See [LimeIDL documentation](docs/lime_idl.md)
+  for the migration guide.
   + Generated Swift code requires Swift 5.
   + EnumHash is renamed to hash in C++.
 
