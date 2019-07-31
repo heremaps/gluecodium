@@ -26,6 +26,11 @@ class CMap(
     name: String,
     val keyType: CppTypeInfo,
     val valueType: CppTypeInfo,
-    val include: Include,
-    val hasStdHash: Boolean
-) : CElement(name)
+    include: Include,
+    @Suppress("unused") val hasStdHash: Boolean
+) : CCollectionType(name) {
+    override val includes = keyType.includes + valueType.includes + include
+
+    override val returnTypeIncludes = keyType.functionReturnType.includes +
+            valueType.functionReturnType.includes
+}

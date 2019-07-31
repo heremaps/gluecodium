@@ -21,11 +21,15 @@ package com.here.genium.generator.cbridge
 
 import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_HANDLE_IMPL_FILE
 import com.here.genium.generator.cbridge.CBridgeNameRules.BASE_REF_NAME
-import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppIncludeResolver
+import com.here.genium.generator.cpp.CppLibraryIncludes
 import com.here.genium.generator.cpp.CppNameResolver
 import com.here.genium.generator.cpp.CppTypeMapper
+import com.here.genium.model.cbridge.CArray
 import com.here.genium.model.cbridge.CBridgeIncludeResolver
+import com.here.genium.model.cbridge.CCollectionType
+import com.here.genium.model.cbridge.CMap
+import com.here.genium.model.cbridge.CSet
 import com.here.genium.model.cbridge.CType
 import com.here.genium.model.common.Include
 import com.here.genium.model.cpp.CppTypeRef
@@ -45,8 +49,12 @@ import com.here.genium.model.lime.LimeTypeHelper
 class CBridgeTypeMapper(
     private val cppIncludeResolver: CppIncludeResolver,
     private val cppNameResolver: CppNameResolver,
-    private val includeResolver: CBridgeIncludeResolver
+    private val includeResolver: CBridgeIncludeResolver,
+    private val internalNamespace: List<String>
 ) {
+    private val genericsCollector = mutableMapOf<String, CCollectionType>()
+    val generics: Map<String, CCollectionType> = genericsCollector
+
     private val byteBufferTypeInfo = CppTypeInfo(
         CppTypeMapper.BYTE_BUFFER_POINTER_TYPE.name,
         CType(BASE_REF_NAME),
@@ -58,11 +66,37 @@ class CBridgeTypeMapper(
     fun mapType(limeType: LimeType): CppTypeInfo =
         when (limeType) {
             is LimeBasicType -> mapBasicType(limeType)
-            is LimeTypeDef -> mapTypeDef(limeType)
+            is LimeTypeDef -> mapType(LimeTypeHelper.getActualType(limeType))
             is LimeContainer -> createCustomTypeInfo(limeType, CppTypeInfo.TypeCategory.CLASS)
             is LimeStruct -> createCustomTypeInfo(limeType, CppTypeInfo.TypeCategory.STRUCT)
             is LimeEnumeration -> createEnumTypeInfo(limeType)
-            is LimeArray -> createArrayTypeInfo(mapType(limeType.elementType.type))
+            is LimeArray -> {
+                val result = createArrayTypeInfo(mapType(limeType.elementType.type))
+                val arrayName = CBridgeNameResolver.getCollectionName(limeType)
+                genericsCollector.putIfAbsent(arrayName, CArray(arrayName, result))
+                result
+            }
+            is LimeMap -> {
+                val keyType = mapType(limeType.keyType.type)
+                val valueType = mapType(limeType.valueType.type)
+                val hasStdHash = CppTypeMapper.hasStdHash(limeType.keyType)
+                val result = createMapTypeInfo(keyType, valueType, hasStdHash)
+
+                val mapName = CBridgeNameResolver.getCollectionName(limeType)
+                val cMap = CMap(mapName, keyType, valueType, CppLibraryIncludes.MAP, hasStdHash)
+                genericsCollector.putIfAbsent(mapName, cMap)
+                result
+            }
+            is LimeSet -> {
+                val elementType = mapType(limeType.elementType.type)
+                val hasStdHash = CppTypeMapper.hasStdHash(limeType.elementType)
+                val result = createSetTypeInfo(elementType, hasStdHash)
+
+                val setName = CBridgeNameResolver.getCollectionName(limeType)
+                val cSet = CSet(setName, elementType, CppLibraryIncludes.SET, hasStdHash)
+                genericsCollector.putIfAbsent(setName, cSet)
+                result
+            }
             else -> CppTypeInfo(CType.VOID)
         }
 
@@ -119,37 +153,46 @@ class CBridgeTypeMapper(
             TypeId.DATE -> CppTypeInfo.DATE
         }
 
-    private fun mapTypeDef(limeTypeDef: LimeTypeDef) =
-        when (val actualType = LimeTypeHelper.getActualType(limeTypeDef.typeRef.type)) {
-            is LimeMap -> mapMapType(actualType, cppNameResolver.getFullyQualifiedName(limeTypeDef))
-            is LimeSet -> CppSetTypeInfo(
-                cppNameResolver.getFullyQualifiedName(limeTypeDef),
-                CType(BASE_REF_NAME),
-                listOf(
-                    Include.createInternalInclude(BASE_HANDLE_IMPL_FILE),
-                    CppLibraryIncludes.SET
-                ),
-                mapType(actualType.elementType.type)
-            )
-            else -> mapType(actualType)
+    private fun createMapTypeInfo(
+        keyType: CppTypeInfo,
+        valueType: CppTypeInfo,
+        hasStdHash: Boolean
+    ): CppMapTypeInfo {
+        val keyTypeName = keyType.name
+        val cppName = if (hasStdHash) {
+            "std::unordered_map<$keyTypeName, ${valueType.name}>"
+        } else {
+            val namespace = internalNamespace.joinToString("::")
+            "std::unordered_map<$keyTypeName, ${valueType.name}, $namespace::hash<$keyTypeName>>"
         }
-
-    private fun mapMapType(limeMap: LimeMap, cppName: String): CppTypeInfo {
-        val keyType = mapType(limeMap.keyType.type)
-        val valueType = mapType(limeMap.valueType.type)
-
-        val includes = mutableListOf(
-            Include.createInternalInclude(BASE_HANDLE_IMPL_FILE),
-            CppLibraryIncludes.MAP
-        )
-
         return CppMapTypeInfo(
             cppName,
             CType(BASE_REF_NAME),
-            CType(BASE_REF_NAME),
-            includes,
+            listOf(
+                Include.createInternalInclude(BASE_HANDLE_IMPL_FILE),
+                CppLibraryIncludes.MAP
+            ),
             keyType,
             valueType
+        )
+    }
+
+    private fun createSetTypeInfo(elementType: CppTypeInfo, hasStdHash: Boolean): CppSetTypeInfo {
+        val keyTypeName = elementType.name
+        val cppName = if (hasStdHash) {
+            "std::unordered_set<$keyTypeName>"
+        } else {
+            val namespace = internalNamespace.joinToString("::")
+            "std::unordered_set<$keyTypeName, $namespace::hash<$keyTypeName>>"
+        }
+        return CppSetTypeInfo(
+            cppName,
+            CType(BASE_REF_NAME),
+            listOf(
+                Include.createInternalInclude(BASE_HANDLE_IMPL_FILE),
+                CppLibraryIncludes.SET
+            ),
+            elementType
         )
     }
 
@@ -158,7 +201,7 @@ class CBridgeTypeMapper(
 
         private fun createArrayTypeInfo(elementTypeInfo: CppTypeInfo) =
             CppArrayTypeInfo(
-                "std::vector<" + elementTypeInfo.name + ">",
+                "std::vector<${elementTypeInfo.name}>",
                 CType(BASE_REF_NAME),
                 CType(BASE_REF_NAME),
                 listOf(

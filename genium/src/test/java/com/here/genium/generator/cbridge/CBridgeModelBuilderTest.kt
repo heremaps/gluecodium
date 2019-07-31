@@ -28,9 +28,7 @@ import com.here.genium.model.cbridge.CEnum
 import com.here.genium.model.cbridge.CField
 import com.here.genium.model.cbridge.CFunction
 import com.here.genium.model.cbridge.CInterface
-import com.here.genium.model.cbridge.CMap
 import com.here.genium.model.cbridge.CParameter
-import com.here.genium.model.cbridge.CSet
 import com.here.genium.model.cbridge.CStruct
 import com.here.genium.model.cbridge.CType
 import com.here.genium.model.common.Include
@@ -44,7 +42,6 @@ import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeType.CPP
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
-import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
@@ -53,7 +50,6 @@ import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
@@ -61,10 +57,8 @@ import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
-import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeThrownType
-import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.swift.SwiftField
 import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftParameter
@@ -102,16 +96,7 @@ class CBridgeModelBuilderTest {
     private val fooPath = LimePath(emptyList(), listOf("foo"))
     private val limeContainer = LimeContainer(fooPath, type = ContainerType.TYPE_COLLECTION)
     private val limeMethod = LimeMethod(fooPath)
-    private val limeMap = LimeMap(
-        LimeBasicTypeRef(LimeBasicType.TypeId.STRING),
-        LimeBasicTypeRef.DOUBLE
-    )
     private val limeStruct = LimeStruct(fooPath)
-
-    private val limeTypeDefToMap = LimeTypeDef(
-        LimePath(emptyList(), listOf("foo", "bar")),
-        typeRef = LimeDirectTypeRef(limeMap)
-    )
 
     private val fooInclude = Include.createInternalInclude("")
     private val cppTypeInfo = CppTypeInfo(CType.DOUBLE)
@@ -241,13 +226,9 @@ class CBridgeModelBuilderTest {
         val cFunction = CFunction("")
         val cStruct = CStruct("", "", cppTypeInfo, false)
         val cEnum = CEnum("", cppTypeInfo)
-        val cMap = CMap("", cppTypeInfo, cppTypeInfo, fooInclude, true)
-        val cSet = CSet("", cppTypeInfo, fooInclude, true)
         contextStack.injectResult(cFunction)
         contextStack.injectResult(cStruct)
         contextStack.injectResult(cEnum)
-        contextStack.injectResult(cMap)
-        contextStack.injectResult(cSet)
 
         modelBuilder.finishBuilding(limeContainer)
 
@@ -255,8 +236,6 @@ class CBridgeModelBuilderTest {
         assertContains(cFunction, result.functions)
         assertContains(cStruct, result.structs)
         assertContains(cEnum, result.enums)
-        assertContains(cMap, result.maps)
-        assertContains(cSet, result.sets)
     }
 
     @Test
@@ -383,16 +362,6 @@ class CBridgeModelBuilderTest {
         val result = modelBuilder.getFinalResult(CFunction::class.java)
         assertEquals(CBridgeNameRules.BASE_REF_NAME, result.returnType.cType.name)
         assertEquals(CBridgeNameRules.BASE_REF_NAME, result.returnType.functionReturnType.name)
-    }
-
-    @Test
-    fun finishBuildingMethodReadsArrayReturnType() {
-        contextStack.injectParentCurrentResult(cppTypeInfo)
-        every { typeMapper.mapType(any()) } returns cppArrayTypeInfo
-
-        modelBuilder.finishBuilding(limeMethod)
-
-        assertEquals(cppArrayTypeInfo, modelBuilder.arraysCollector.values.first().arrayType)
     }
 
     @Test
@@ -692,49 +661,6 @@ class CBridgeModelBuilderTest {
     }
 
     @Test
-    fun finishBuildingTypeDefToMap() {
-        val cppValueTypeInfo = CppTypeInfo(CType.BOOL)
-        every { typeMapper.mapType(any()) }.returnsMany(cppTypeInfo, cppValueTypeInfo)
-        every { cppIncludeResolver.resolveIncludes(limeTypeDefToMap) } returns listOf(fooInclude)
-
-        modelBuilder.finishBuilding(limeTypeDefToMap)
-
-        val result = modelBuilder.getFinalResult(CMap::class.java)
-        assertEquals("Foo_Bar", result.name)
-        assertEquals(cppTypeInfo, result.keyType)
-        assertEquals(cppValueTypeInfo, result.valueType)
-        assertEquals(fooInclude, result.include)
-    }
-
-    @Test
-    fun finishBuildingTypeDefToMapWithArrayValue() {
-        every { typeMapper.mapType(any()) }.returnsMany(cppTypeInfo, cppArrayTypeInfo)
-        every { cppIncludeResolver.resolveIncludes(limeTypeDefToMap) } returns listOf(fooInclude)
-
-        modelBuilder.finishBuilding(limeTypeDefToMap)
-
-        assertEquals(cppArrayTypeInfo, modelBuilder.arraysCollector.values.first().arrayType)
-    }
-
-    @Test
-    fun finishBuildingTypeDefToSet() {
-        val limeSet = LimeSet(LimeBasicTypeRef.FLOAT)
-        val limeElement = LimeTypeDef(
-            LimePath(emptyList(), listOf("foo", "bar")),
-            typeRef = LimeDirectTypeRef(limeSet)
-        )
-        every { typeMapper.mapType(any()) } returns cppTypeInfo
-        every { cppIncludeResolver.resolveIncludes(limeElement) } returns listOf(fooInclude)
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val result = modelBuilder.getFinalResult(CSet::class.java)
-        assertEquals("Foo_Bar", result.name)
-        assertEquals(cppTypeInfo, result.elementType)
-        assertEquals(fooInclude, result.include)
-    }
-
-    @Test
     fun finishBuildingTypeRef() {
         val limeElement = LimeBasicTypeRef.DOUBLE
         every { typeMapper.mapType(any()) } returns cppTypeInfo
@@ -743,15 +669,5 @@ class CBridgeModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(CppTypeInfo::class.java)
         assertEquals(cppTypeInfo, result)
-    }
-
-    @Test
-    fun finishBuildingTypeRefToArray() {
-        val limeElement = LimeBasicTypeRef.DOUBLE
-        every { typeMapper.mapType(any()) } returns cppArrayTypeInfo
-
-        modelBuilder.finishBuilding(limeElement)
-
-        assertEquals(cppArrayTypeInfo, modelBuilder.arraysCollector.values.first().arrayType)
     }
 }

@@ -68,13 +68,3 @@ uint64_t {{name}}_hash(_baseRef handle) {
 {{#isInterface}}
 {{>cbridge/CppProxy}}
 {{/isInterface}}
-
-{{#maps}}
-{{>cbridge/MapFunctionImplementations}}
-
-{{/maps}}
-
-{{#sets}}
-{{>cbridge/SetFunctionImplementations}}
-
-{{/sets}}

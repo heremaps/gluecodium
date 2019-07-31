@@ -33,8 +33,6 @@ class CInterface(
     val functions: List<CFunction> = listOf(),
     val functionTableName: String? = null,
     val enums: List<CEnum> = listOf(),
-    val maps: List<CMap> = listOf(),
-    val sets: List<CSet> = emptyList(),
     val isEquatable: Boolean = false,
     val isPointerEquatable: Boolean = false
 ) : CElement(name) {

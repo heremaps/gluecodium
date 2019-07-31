@@ -25,8 +25,7 @@ import com.here.genium.model.common.Include
 class CppMapTypeInfo(
     name: String,
     cType: CType,
-    functionReturnType: CType,
     includes: List<Include>,
     val keyType: CppTypeInfo,
     val valueType: CppTypeInfo
-) : CppTypeInfo(name, cType, functionReturnType, TypeCategory.MAP, includes)
+) : CppTypeInfo(name, cType, cType, TypeCategory.MAP, includes)

@@ -60,7 +60,7 @@ class CBridgeTypeMapperTest {
         MockKAnnotations.init(this, relaxed = true)
 
         typeMapper =
-            CBridgeTypeMapper(cppIncludeResolver, cppNameResolver, includeResolver)
+            CBridgeTypeMapper(cppIncludeResolver, cppNameResolver, includeResolver, emptyList())
     }
 
     @Test
@@ -76,11 +76,10 @@ class CBridgeTypeMapperTest {
     fun mapTypeTypeDefToMapType() {
         val limeMap = LimeMap(LimeBasicTypeRef(TypeId.STRING), LimeBasicTypeRef.DOUBLE)
         val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeMap))
-        every { cppNameResolver.getFullyQualifiedName(limeElement) } returns "bar.Baz"
 
         val result = typeMapper.mapType(limeElement)
 
-        assertEquals("bar.Baz", result.name)
+        assertEquals("std::unordered_map<std::string, double>", result.name)
         assertEquals(BASE_REF_NAME, result.cType.name)
         assertEquals(BASE_REF_NAME, result.functionReturnType.name)
         assertEquals(2, result.includes.size)
@@ -109,11 +108,10 @@ class CBridgeTypeMapperTest {
     fun mapTypeTypeDefToSetType() {
         val limeSet = LimeSet(LimeBasicTypeRef.DOUBLE)
         val limeElement = LimeTypeDef(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeSet))
-        every { cppNameResolver.getFullyQualifiedName(limeElement) } returns "bar.Baz"
 
         val result = typeMapper.mapType(limeElement)
 
-        assertEquals("bar.Baz", result.name)
+        assertEquals("std::unordered_set<double>", result.name)
         assertEquals(BASE_REF_NAME, result.cType.name)
         assertEquals(BASE_REF_NAME, result.functionReturnType.name)
         assertEquals(2, result.includes.size)

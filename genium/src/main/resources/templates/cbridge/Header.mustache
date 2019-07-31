@@ -66,10 +66,6 @@ _GENIUM_C_EXPORT const void* {{name}}_get_swift_object_from_cache(_baseRef handl
 _GENIUM_C_EXPORT {{>cbridge/FunctionSignature}};
 {{/functions}}
 
-{{#maps}}{{>cbridge/MapFunctionSignatures}}{{/maps}}
-
-{{#sets}}{{>cbridge/SetFunctionSignatures}}{{/sets}}
-
 #ifdef __cplusplus
 }
 #endif

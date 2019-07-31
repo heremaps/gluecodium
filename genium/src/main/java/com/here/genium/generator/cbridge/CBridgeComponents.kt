@@ -52,12 +52,6 @@ object CBridgeComponents {
         if (cInterface.selfType != null) {
             includes.addAll(cInterface.selfType.includes)
         }
-        for (map in cInterface.maps) {
-            includes.add(map.include)
-        }
-        for (set in cInterface.sets) {
-            includes.add(set.include)
-        }
         for (enumeration in cInterface.enums) {
             includes.addAll(enumeration.mappedType.includes)
         }
@@ -94,24 +88,16 @@ object CBridgeComponents {
         for (enumType in cInterface.enums) {
             includes.addAll(enumType.includes)
         }
-        for (map in cInterface.maps) {
-            includes.addAll(map.keyType.functionReturnType.includes)
-            includes.addAll(map.valueType.functionReturnType.includes)
-        }
-        for (set in cInterface.sets) {
-            includes.addAll(set.elementType.functionReturnType.includes)
-        }
-        if (cInterface.maps.isNotEmpty() || cInterface.hasEquatableType) {
+        if (cInterface.hasEquatableType) {
             includes.add(CType.BOOL_INCLUDE)
         }
 
         return includes
     }
 
-    fun collectImplementationIncludes(arrays: Collection<CArray>) = arrays.flatMap { it.includes() }
+    fun collectImplementationIncludes(arrays: Collection<CArray>) = arrays.flatMap { it.includes }
 
-    fun collectHeaderIncludes(arrays: Collection<CArray>) =
-        arrays.flatMap { it.returnTypeIncludes() }
+    fun collectHeaderIncludes(arrays: Collection<CArray>) = arrays.flatMap { it.returnTypeIncludes }
 
     private fun collectFunctionSignatureIncludes(function: CFunction): List<Include> {
         val includes = mutableListOf<Include>()

@@ -22,19 +22,24 @@ package com.here.genium.model.cbridge
 import com.here.genium.generator.cbridge.CppArrayTypeInfo
 import com.here.genium.generator.cbridge.CppTypeInfo
 
-class CArray(name: String, typeInfo: CppArrayTypeInfo) : CElement(name) {
+class CArray(name: String, typeInfo: CppArrayTypeInfo) : CCollectionType(name) {
 
     val arrayType: CppTypeInfo = typeInfo
     val underlyingType: CppTypeInfo = typeInfo.innerType
     val type = arrayType.functionReturnType.toString()
+    @Suppress("unused")
     val innerType = underlyingType.functionReturnType.toString()
+    @Suppress("unused")
     val argument = underlyingType.cType.toString()
+    @Suppress("unused")
     val innerBaseApi = underlyingType.name
 
-    fun returnTypeIncludes() =
-        getLastType(underlyingType).functionReturnType.includes + arrayType.functionReturnType.includes
+    override val returnTypeIncludes
+        get() = getLastType(underlyingType).functionReturnType.includes +
+                arrayType.functionReturnType.includes
 
-    fun includes() = getLastType(underlyingType).includes + arrayType.includes
+    override val includes
+        get() = getLastType(underlyingType).includes + arrayType.includes
 
     private fun getLastType(typeInfo: CppTypeInfo): CppTypeInfo =
         if (typeInfo is CppArrayTypeInfo) getLastType(typeInfo.innerType) else typeInfo

@@ -23,17 +23,13 @@ import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.generator.common.modelbuilder.AbstractLimeBasedModelBuilder
 import com.here.genium.generator.cpp.CppIncludeResolver
 import com.here.genium.generator.cpp.CppModelBuilder
-import com.here.genium.generator.cpp.CppTypeMapper
 import com.here.genium.generator.swift.SwiftModelBuilder
-import com.here.genium.model.cbridge.CArray
 import com.here.genium.model.cbridge.CElement
 import com.here.genium.model.cbridge.CEnum
 import com.here.genium.model.cbridge.CField
 import com.here.genium.model.cbridge.CFunction
 import com.here.genium.model.cbridge.CInterface
-import com.here.genium.model.cbridge.CMap
 import com.here.genium.model.cbridge.CParameter
-import com.here.genium.model.cbridge.CSet
 import com.here.genium.model.cbridge.CStruct
 import com.here.genium.model.cbridge.CType
 import com.here.genium.model.common.Include
@@ -50,16 +46,11 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeField
-import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
-import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
-import com.here.genium.model.lime.LimeType
-import com.here.genium.model.lime.LimeTypeDef
-import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.swift.SwiftField
 import com.here.genium.model.swift.SwiftMethod
@@ -75,8 +66,6 @@ class CBridgeModelBuilder(
     private val typeMapper: CBridgeTypeMapper,
     private val internalNamespace: List<String>
 ) : AbstractLimeBasedModelBuilder<CElement>(contextStack) {
-
-    val arraysCollector = mutableMapOf<String, CArray>()
 
     override fun startBuilding(limeContainer: LimeContainer) {
         openContext()
@@ -108,8 +97,6 @@ class CBridgeModelBuilder(
             internalNamespace = internalNamespace,
             structs = getPreviousResults(CStruct::class.java),
             enums = getPreviousResults(CEnum::class.java),
-            maps = getPreviousResults(CMap::class.java),
-            sets = getPreviousResults(CSet::class.java),
             functions = getPreviousResults(CFunction::class.java),
             inheritedFunctions = inheritedFunctions,
             functionTableName = if (limeContainer.type == LimeContainer.ContainerType.INTERFACE)
@@ -143,7 +130,7 @@ class CBridgeModelBuilder(
             limeParent !is LimeStruct && limeMethod.isConstructor ->
                 typeMapper.createCustomTypeInfo(limeParent, CppTypeInfo.TypeCategory.CLASS)
             else -> {
-                val cppTypeInfo = mapType(limeMethod.returnType.typeRef.type)
+                val cppTypeInfo = typeMapper.mapType(limeMethod.returnType.typeRef.type)
                 if (limeMethod.returnType.typeRef.isNullable) {
                     CBridgeTypeMapper.createNullableTypeInfo(cppTypeInfo, cppMethod.returnType)
                 } else {
@@ -289,49 +276,10 @@ class CBridgeModelBuilder(
         closeContext()
     }
 
-    override fun finishBuilding(limeTypeDef: LimeTypeDef) {
-        val limeActualType = LimeTypeHelper.getActualType(limeTypeDef.typeRef.type)
-        if (limeActualType is LimeMap) {
-            val keyType = mapType(limeActualType.keyType.type)
-            val valueType = mapType(limeActualType.valueType.type)
-
-            val cMap = CMap(
-                CBridgeNameRules.getTypeName(limeTypeDef),
-                keyType,
-                valueType,
-                cppIncludeResolver.resolveIncludes(limeTypeDef).first(),
-                CppTypeMapper.hasStdHash(limeActualType.keyType)
-            )
-
-            storeResult(cMap)
-        } else if (limeActualType is LimeSet) {
-            val elementType = mapType(limeActualType.elementType.type)
-            val cSet = CSet(
-                CBridgeNameRules.getTypeName(limeTypeDef),
-                elementType,
-                cppIncludeResolver.resolveIncludes(limeTypeDef).first(),
-                CppTypeMapper.hasStdHash(limeActualType.elementType)
-            )
-            storeResult(cSet)
-        }
-
-        closeContext()
-    }
-
     override fun finishBuilding(limeTypeRef: LimeTypeRef) {
-        val cppTypeInfo = mapType(limeTypeRef.type)
+        val cppTypeInfo = typeMapper.mapType(limeTypeRef.type)
 
         storeResult(cppTypeInfo)
         closeContext()
-    }
-
-    private fun mapType(limeType: LimeType): CppTypeInfo {
-        val cppTypeInfo = typeMapper.mapType(limeType)
-        if (cppTypeInfo is CppArrayTypeInfo) {
-            val arrayName = CBridgeNameResolver.getArrayName(limeType)
-            arraysCollector.putIfAbsent(arrayName, CArray(arrayName, cppTypeInfo))
-        }
-
-        return cppTypeInfo
     }
 }

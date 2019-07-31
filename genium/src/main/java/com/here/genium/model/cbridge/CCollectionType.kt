@@ -19,16 +19,9 @@
 
 package com.here.genium.model.cbridge
 
-import com.here.genium.generator.cbridge.CppTypeInfo
 import com.here.genium.model.common.Include
 
-class CSet(
-    name: String,
-    val elementType: CppTypeInfo,
-    include: Include,
-    @Suppress("unused") val hasStdHash: Boolean
-) : CCollectionType(name) {
-    override val includes = elementType.includes + include
-
-    override val returnTypeIncludes = elementType.functionReturnType.includes
+abstract class CCollectionType(name: String) : CElement(name) {
+    abstract val includes: List<Include>
+    abstract val returnTypeIncludes: List<Include>
 }

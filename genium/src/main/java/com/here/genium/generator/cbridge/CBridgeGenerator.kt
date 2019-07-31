@@ -58,7 +58,7 @@ class CBridgeGenerator(
     private val nameResolver = SwiftNameResolver(limeReferenceMap, swiftNameRules)
     private val swiftTypeMapper = SwiftTypeMapper(nameResolver)
 
-    val arrayGenerator = CArrayGenerator(internalNamespace)
+    val collectionsGenerator = CCollectionsGenerator(internalNamespace)
 
     fun generate(rootElement: LimeNamedElement): List<GeneratedFile> {
         val cModel = buildCBridgeModel(rootElement)
@@ -115,7 +115,8 @@ class CBridgeGenerator(
         val typeMapper = CBridgeTypeMapper(
             cppIncludeResolver,
             cppNameResolver,
-            includeResolver
+            includeResolver,
+            internalNamespace
         )
 
         val modelBuilder = CBridgeModelBuilder(
@@ -131,7 +132,7 @@ class CBridgeGenerator(
         treeWalker.walkTree(rootElement)
         val cModel = modelBuilder.finalResults.mapNotNull { wrapInInterface(it, rootElement) }
         cModel.forEach { removeRedundantIncludes(rootElement, it) }
-        arrayGenerator.collect(modelBuilder.arraysCollector)
+        collectionsGenerator.collect(typeMapper.generics)
 
         return cModel
     }

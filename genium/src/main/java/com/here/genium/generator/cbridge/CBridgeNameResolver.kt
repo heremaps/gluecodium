@@ -26,14 +26,15 @@ import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
 
 object CBridgeNameResolver {
-    fun getArrayName(limeType: LimeType) = getTypeName(limeType)
-
-    private fun getTypeName(limeType: LimeType): String = when (limeType) {
-        is LimeTypeDef -> getTypeName(limeType.typeRef.type)
-        is LimeArray -> "ArrayOf_${getTypeName(limeType.elementType.type)}"
-        is LimeMap ->
-            "MapOf_${getTypeName(limeType.keyType.type)}_To_${getTypeName(limeType.valueType.type)}"
-        is LimeSet -> "SetOf_${getTypeName(limeType.elementType.type)}"
+    fun getCollectionName(limeType: LimeType): String = when (limeType) {
+        is LimeTypeDef -> getCollectionName(limeType.typeRef.type)
+        is LimeArray -> "ArrayOf_${getCollectionName(limeType.elementType.type)}"
+        is LimeMap -> {
+            val keyTypeName = getCollectionName(limeType.keyType.type)
+            val valueTypeName = getCollectionName(limeType.valueType.type)
+            "MapOf_${keyTypeName}_To_$valueTypeName"
+        }
+        is LimeSet -> "SetOf_${getCollectionName(limeType.elementType.type)}"
         else -> CBridgeNameRules.getName(limeType)
     }
 }
