@@ -32,8 +32,6 @@ class SwiftNameResolver(
     fun getFullName(limeType: LimeType) =
         getNamespacePrefix(limeType) + nameRules.getName(limeType)
 
-    fun getMapName(limeType: LimeType) = getFullName(limeType).replace('.', '_')
-
     private fun getNamespacePrefix(limeType: LimeType): String {
         if (limeType is LimeContainer) {
             return ""

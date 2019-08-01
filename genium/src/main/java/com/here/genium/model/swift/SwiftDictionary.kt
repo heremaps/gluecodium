@@ -22,14 +22,19 @@ package com.here.genium.model.swift
 import java.util.stream.Stream
 
 class SwiftDictionary(
-    name: String,
-    visibility: SwiftVisibility?,
-    publicName: String,
-    cPrefix: String?,
     val keyType: SwiftType,
-    val valueType: SwiftType
-) : SwiftType(name, cPrefix, visibility, SwiftType.TypeCategory.DICTIONARY, publicName, false) {
-    val dictionaryDefinition = "[" + keyType.publicName + ": " + valueType.publicName + "]"
+    val valueType: SwiftType,
+    cPrefix: String?,
+    publicName: String = composePublicName(keyType, valueType)
+) : SwiftType("", cPrefix, null, TypeCategory.DICTIONARY, publicName, false) {
 
-    override fun stream(): Stream<SwiftModelElement>? = Stream.concat(super.stream(), Stream.of(keyType, valueType))
+    override fun withAlias(aliasName: String) =
+        SwiftDictionary(keyType, valueType, cPrefix, aliasName)
+
+    override fun stream() = Stream.concat(super.stream(), Stream.of(keyType, valueType))
+
+    companion object {
+        private fun composePublicName(keyType: SwiftType, valueType: SwiftType) =
+            "[" + keyType.publicName + ": " + valueType.publicName + "]"
+    }
 }

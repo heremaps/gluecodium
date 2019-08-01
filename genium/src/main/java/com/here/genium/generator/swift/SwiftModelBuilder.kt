@@ -47,10 +47,8 @@ import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
-import com.here.genium.model.swift.SwiftArray
 import com.here.genium.model.swift.SwiftClass
 import com.here.genium.model.swift.SwiftConstant
-import com.here.genium.model.swift.SwiftDictionary
 import com.here.genium.model.swift.SwiftEnum
 import com.here.genium.model.swift.SwiftEnumItem
 import com.here.genium.model.swift.SwiftError
@@ -61,7 +59,6 @@ import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftModelElement
 import com.here.genium.model.swift.SwiftParameter
 import com.here.genium.model.swift.SwiftProperty
-import com.here.genium.model.swift.SwiftSet
 import com.here.genium.model.swift.SwiftStruct
 import com.here.genium.model.swift.SwiftType
 import com.here.genium.model.swift.SwiftTypeDef
@@ -76,9 +73,6 @@ class SwiftModelBuilder(
     private val typeMapper: SwiftTypeMapper,
     private val nameRules: SwiftNameRules
 ) : AbstractLimeBasedModelBuilder<SwiftModelElement>(contextStack) {
-
-    val arraysCollector = mutableMapOf<String, SwiftArray>()
-    val mapCollector = mutableMapOf<String, SwiftDictionary>()
 
     override fun finishBuilding(limeContainer: LimeContainer) {
         when (limeContainer.type) {
@@ -96,7 +90,6 @@ class SwiftModelBuilder(
         file.structs.addAll(getPreviousResults(SwiftStruct::class.java))
         file.enums.addAll(getPreviousResults(SwiftEnum::class.java))
         file.typeDefs.addAll(getPreviousResults(SwiftTypeDef::class.java))
-        file.dictionaries.addAll(getPreviousResults(SwiftDictionary::class.java))
         file.errors.addAll(getPreviousResults(SwiftError::class.java))
 
         val constants = getPreviousResults(SwiftConstant::class.java)
@@ -181,7 +174,6 @@ class SwiftModelBuilder(
         swiftClass.constants.addAll(getPreviousResults(SwiftConstant::class.java))
 
         swiftFile.classes.add(swiftClass)
-        swiftFile.dictionaries.addAll(getPreviousResults(SwiftDictionary::class.java))
         return swiftFile
     }
 
@@ -192,12 +184,6 @@ class SwiftModelBuilder(
                 val isNullable = limeMethod.returnType.typeRef.isNullable
                 typeMapper.mapType(limeMethod.returnType.typeRef.type).withOptional(isNullable)
             }
-        }
-        if (returnType is SwiftArray) {
-            val actualType = LimeTypeHelper.getActualType(limeMethod.returnType.typeRef.type)
-            val elementType = (actualType as LimeArray).elementType.type
-            val elementTypeKey = typeMapper.getActualTypeKey(elementType)
-            arraysCollector.putIfAbsent(elementTypeKey, returnType.withoutAlias())
         }
 
         val error = limeMethod.thrownType?.let {
@@ -314,40 +300,11 @@ class SwiftModelBuilder(
     }
 
     override fun finishBuilding(limeTypeDef: LimeTypeDef) {
-        val typeDefName = nameResolver.getFullName(limeTypeDef)
-        val limeActualType = LimeTypeHelper.getActualType(limeTypeDef.typeRef.type)
-        val swiftActualType: SwiftType
-        when (limeActualType) {
-            is LimeMap -> {
-                val mapName = nameResolver.getMapName(limeTypeDef)
-                val swiftDictionary = SwiftDictionary(
-                    mapName,
-                    null,
-                    typeDefName,
-                    CBridgeNameRules.getTypeName(limeTypeDef),
-                    typeMapper.mapType(limeActualType.keyType.type),
-                    typeMapper.mapType(limeActualType.valueType.type)
-                )
-
-                val keyTypeKey = typeMapper.getActualTypeKey(limeActualType.keyType.type)
-                val valueTypeKey = typeMapper.getActualTypeKey(limeActualType.valueType.type)
-                mapCollector.putIfAbsent("$keyTypeKey:$valueTypeKey", swiftDictionary)
-                storeNamedResult(limeTypeDef, swiftDictionary)
-
-                swiftActualType = SwiftType(swiftDictionary.dictionaryDefinition, null)
-            }
-            is LimeSet -> {
-                val swiftSet = SwiftSet(
-                    typeMapper.mapType(limeActualType.elementType.type),
-                    CBridgeNameRules.getTypeName(limeTypeDef)
-                )
-                storeNamedResult(limeTypeDef, swiftSet)
-                swiftActualType = swiftSet
-            }
-            else -> swiftActualType = getPreviousResult(SwiftType::class.java)
-        }
-
-        val swiftTypeDef = SwiftTypeDef(typeDefName, getVisibility(limeTypeDef), swiftActualType)
+        val swiftTypeDef = SwiftTypeDef(
+            nameResolver.getFullName(limeTypeDef),
+            getVisibility(limeTypeDef),
+            getPreviousResult(SwiftType::class.java)
+        )
         swiftTypeDef.comment = createComments(limeTypeDef)
 
         storeNamedResult(limeTypeDef, swiftTypeDef)
@@ -457,15 +414,7 @@ class SwiftModelBuilder(
         }
 
     override fun finishBuilding(limeTypeRef: LimeTypeRef) {
-        val swiftType = typeMapper.mapType(limeTypeRef.type)
-        if (swiftType is SwiftArray) {
-            val actualType = LimeTypeHelper.getActualType(limeTypeRef.type)
-            val elementType = (actualType as LimeArray).elementType
-            val elementTypeKey = typeMapper.getActualTypeKey(elementType.type)
-            arraysCollector.putIfAbsent(elementTypeKey, swiftType.withoutAlias())
-        }
-
-        storeResult(swiftType)
+        storeResult(typeMapper.mapType(limeTypeRef.type))
         closeContext()
     }
 

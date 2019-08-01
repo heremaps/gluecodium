@@ -26,16 +26,15 @@ import com.here.genium.model.lime.LimeArray
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
-import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicTypeRef
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
-import com.here.genium.model.lime.LimeLazyEnumeratorRef
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
+import com.here.genium.model.lime.LimeLazyEnumeratorRef
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeParameter
@@ -50,10 +49,8 @@ import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeVisibility
-import com.here.genium.model.swift.SwiftArray
 import com.here.genium.model.swift.SwiftClass
 import com.here.genium.model.swift.SwiftConstant
-import com.here.genium.model.swift.SwiftDictionary
 import com.here.genium.model.swift.SwiftEnum
 import com.here.genium.model.swift.SwiftEnumItem
 import com.here.genium.model.swift.SwiftError
@@ -62,7 +59,6 @@ import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftModelElement
 import com.here.genium.model.swift.SwiftParameter
 import com.here.genium.model.swift.SwiftProperty
-import com.here.genium.model.swift.SwiftSet
 import com.here.genium.model.swift.SwiftStruct
 import com.here.genium.model.swift.SwiftType
 import com.here.genium.model.swift.SwiftTypeDef
@@ -180,20 +176,6 @@ class SwiftModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(SwiftMethod::class.java)
         assertTrue(result.returnType.optional)
-    }
-
-    @Test
-    fun finishBuildingMethodReadsArrayReturnType() {
-        val limeArray = LimeArray(LimeBasicTypeRef.DOUBLE)
-        val limeReturnType = LimeReturnType(LimeDirectTypeRef(limeArray))
-        val swiftArray = SwiftArray(SwiftType.VOID, "")
-        val limeElement = LimeMethod(fooPath, returnType = limeReturnType)
-        every { typeMapper.mapType(limeArray) } returns swiftArray
-        every { typeMapper.getActualTypeKey(any()) } returns "bazKey"
-
-        modelBuilder.finishBuilding(limeElement)
-
-        assertEquals("[Void]", modelBuilder.arraysCollector["bazKey"]?.publicName)
     }
 
     @Test
@@ -517,39 +499,6 @@ class SwiftModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(SwiftTypeDef::class.java)
         assertEquals(SwiftVisibility.INTERNAL, result.visibility)
-    }
-
-    @Test
-    fun finishBuildingTypeDefReadsMap() {
-        val limeMap = LimeMap(LimeBasicTypeRef(LimeBasicType.TypeId.STRING), LimeBasicTypeRef.FLOAT)
-        val limeElement = LimeTypeDef(fooPath, typeRef = LimeDirectTypeRef(limeMap))
-        val swiftValueType = SwiftType("baz", "")
-        every { nameResolver.getMapName(limeElement) } returns "barMap"
-        every { typeMapper.mapType(any()) }.returnsMany(swiftType, swiftValueType)
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val result = modelBuilder.getFinalResult(SwiftDictionary::class.java)
-        assertContains(result, modelBuilder.mapCollector.values)
-        assertEquals("barMap", result.name)
-        assertEquals("nonsense", result.publicName)
-        assertEquals(swiftType, result.keyType)
-        assertEquals(swiftValueType, result.valueType)
-    }
-
-    @Test
-    fun finishBuildingTypeDefReadsSet() {
-        val limeSet = LimeSet(LimeBasicTypeRef.FLOAT)
-        val limeElement = LimeTypeDef(fooPath, typeRef = LimeDirectTypeRef(limeSet))
-        val swiftBazType = SwiftType("Baz", "")
-        every { typeMapper.mapType(any()) } returns swiftBazType
-
-        modelBuilder.finishBuilding(limeElement)
-
-        val result = modelBuilder.getFinalResult(SwiftSet::class.java)
-        assertEquals("Set<Baz>", result.name)
-        assertEquals("Set<Baz>", result.publicName)
-        assertEquals(swiftBazType, result.elementType)
     }
 
     @Test

@@ -106,8 +106,8 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
         } +
             limeModel.topElements.flatMap { cBridgeGenerator.generate(it) } +
             CBridgeGenerator.STATIC_FILES + SwiftGenerator.STATIC_FILES +
-            cBridgeGenerator.arrayGenerator.generate() + swiftGenerator.arrayGenerator.generate() +
-            swiftGenerator.mapGenerator.generate() + swiftGenerator.generateSets(swiftModel.containers) +
+            cBridgeGenerator.collectionsGenerator.generate() +
+            swiftGenerator.genericsGenerator.generate() +
             swiftGenerator.builtinOptionalsGenerator.generate() + cBridgeGenerator.generateHelpers()
 
         return result.filterNotNull()

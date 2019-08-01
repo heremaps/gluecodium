@@ -28,8 +28,6 @@ class SwiftFile(val fileName: String) : SwiftModelElement("") {
     val structs = mutableListOf<SwiftStruct>()
     val enums = mutableListOf<SwiftEnum>()
     val typeDefs = mutableListOf<SwiftTypeDef>()
-    val arrays = mutableListOf<SwiftArray>()
-    val dictionaries = mutableListOf<SwiftDictionary>()
     val errors = mutableListOf<SwiftError>()
 
     val isEmpty
@@ -37,8 +35,6 @@ class SwiftFile(val fileName: String) : SwiftModelElement("") {
                 structs.isEmpty() &&
                 enums.isEmpty() &&
                 typeDefs.isEmpty() &&
-                arrays.isEmpty() &&
-                dictionaries.isEmpty() &&
                 errors.isEmpty()
 
     /**
@@ -49,15 +45,13 @@ class SwiftFile(val fileName: String) : SwiftModelElement("") {
     val allErrors: List<SwiftError>
         get() = streamRecursive().toList().filterIsInstance(SwiftError::class.java)
 
-    override fun stream(): Stream<SwiftModelElement> =
+    override fun stream() =
         Stream.of(
             super.stream(),
             classes.stream(),
             structs.stream(),
             enums.stream(),
             typeDefs.stream(),
-            arrays.stream(),
-            dictionaries.stream(),
             errors.stream()
         ).flatMap(Function.identity())
 }

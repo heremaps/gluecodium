@@ -31,15 +31,21 @@ import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.swift.SwiftArray
+import com.here.genium.model.swift.SwiftDictionary
 import com.here.genium.model.swift.SwiftEnum
+import com.here.genium.model.swift.SwiftSet
 import com.here.genium.model.swift.SwiftStruct
 import com.here.genium.model.swift.SwiftType
 
 class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
 
-    fun mapType(limeType: LimeType): SwiftType =
-        when (limeType) {
+    private val genericsCollector = mutableMapOf<String, SwiftType>()
+    val generics: Map<String, SwiftType> = genericsCollector
+
+    fun mapType(limeType: LimeType): SwiftType {
+        return when (limeType) {
             is LimeBasicType -> mapBasicType(limeType)
             is LimeStruct -> SwiftStruct(
                 nameResolver.getFullName(limeType),
@@ -54,14 +60,14 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
                 category = SwiftType.TypeCategory.CLASS,
                 isInterface = limeType.type == LimeContainer.ContainerType.INTERFACE
             )
-            is LimeArray -> SwiftArray(
-                mapType(limeType.elementType.type),
-                CBridgeNameResolver.getArrayName(limeType)
-            )
+            is LimeArray -> mapArrayType(limeType)
+            is LimeMap -> mapMapType(limeType)
+            is LimeSet -> mapSetType(limeType)
             else -> SwiftType.VOID
         }
+    }
 
-    fun getActualTypeKey(limeType: LimeType): String =
+    private fun getActualTypeKey(limeType: LimeType): String =
         when (limeType) {
             is LimeTypeDef -> getActualTypeKey(limeType.typeRef.type)
             is LimeArray -> "[${getActualTypeKey(limeType.elementType.type)}]"
@@ -73,6 +79,44 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
             is LimeSet -> "[${getActualTypeKey(limeType.elementType.type)}:]"
             else -> mapType(limeType).name
         }
+
+    private fun mapArrayType(limeType: LimeArray): SwiftArray {
+        val result = SwiftArray(
+            mapType(limeType.elementType.type),
+            CBridgeNameResolver.getCollectionName(limeType)
+        )
+        val actualType = LimeTypeHelper.getActualType(limeType) as LimeArray
+        val elementTypeKey = getActualTypeKey(actualType.elementType.type)
+        genericsCollector.putIfAbsent(elementTypeKey, result.withoutAlias())
+
+        return result
+    }
+
+    private fun mapMapType(limeType: LimeMap): SwiftDictionary {
+        val result = SwiftDictionary(
+            mapType(limeType.keyType.type),
+            mapType(limeType.valueType.type),
+            CBridgeNameResolver.getCollectionName(limeType)
+        )
+        val actualType = LimeTypeHelper.getActualType(limeType) as LimeMap
+        val keyTypeKey = getActualTypeKey(actualType.keyType.type)
+        val valueTypeKey = getActualTypeKey(actualType.valueType.type)
+        genericsCollector.putIfAbsent("$keyTypeKey:$valueTypeKey", result)
+
+        return result
+    }
+
+    private fun mapSetType(limeType: LimeSet): SwiftSet {
+        val result = SwiftSet(
+            mapType(limeType.elementType.type),
+            CBridgeNameResolver.getCollectionName(limeType)
+        )
+        val actualType = LimeTypeHelper.getActualType(limeType) as LimeSet
+        val elementTypeKey = getActualTypeKey(actualType.elementType.type)
+        genericsCollector.putIfAbsent("$elementTypeKey:", result)
+
+        return result
+    }
 
     companion object {
         const val OBJC_PARENT_CLASS = "NSObject"

@@ -19,16 +19,13 @@
 
 package com.here.genium.generator.swift
 
-import com.here.genium.generator.common.GeneratedFile
 import com.here.genium.generator.common.modelbuilder.LimeTreeWalker
-import com.here.genium.generator.common.templates.TemplateEngine
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.swift.SwiftEnum
 import com.here.genium.model.swift.SwiftFile
 import com.here.genium.model.swift.SwiftModelElement
-import com.here.genium.model.swift.SwiftSet
 import com.here.genium.model.swift.SwiftStruct
 import com.here.genium.model.swift.SwiftTypeDef
 import com.here.genium.platform.common.GeneratorSuite
@@ -37,14 +34,13 @@ class SwiftGenerator(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val nameRules: SwiftNameRules
 ) {
-    val arrayGenerator = SwiftArrayGenerator()
-    val mapGenerator = SwiftMapGenerator()
+    val genericsGenerator = SwiftGenericsGenerator()
     val builtinOptionalsGenerator = SwiftBuiltinOptionalsGenerator()
     private val signatureResolver = LimeSignatureResolver(limeReferenceMap)
     private val nameResolver = SwiftNameResolver(limeReferenceMap, nameRules)
-    private val typeMapper = SwiftTypeMapper(nameResolver)
 
     fun generateModel(rootElement: LimeNamedElement): SwiftModel {
+        val typeMapper = SwiftTypeMapper(nameResolver)
         val modelBuilder =
             SwiftModelBuilder(
                 limeReferenceMap = limeReferenceMap,
@@ -57,8 +53,7 @@ class SwiftGenerator(
 
         treeWalker.walkTree(rootElement)
 
-        arrayGenerator.collect(modelBuilder.arraysCollector)
-        mapGenerator.collect(modelBuilder.mapCollector)
+        genericsGenerator.collect(typeMapper.generics)
 
         return SwiftModel(
             modelBuilder.referenceMap,
@@ -80,22 +75,6 @@ class SwiftGenerator(
             }
             else -> null
         }
-
-    fun generateSets(swiftModel: List<SwiftFile>): GeneratedFile? {
-        val allSets = (swiftModel.flatMap { it.typeDefs } +
-            swiftModel.flatMap { it.classes }.flatMap { it.typedefs })
-                .map { it.type }
-                .filterIsInstance<SwiftSet>()
-                .associateBy { it.elementType.name }
-                .values
-        if (allSets.isEmpty()) {
-            return null
-        }
-        return GeneratedFile(
-            TemplateEngine.render("swift/Set", mapOf("sets" to allSets)),
-            SwiftNameRules.TARGET_DIRECTORY + "Sets.swift"
-        )
-    }
 
     companion object {
         val STATIC_FILES = listOf(

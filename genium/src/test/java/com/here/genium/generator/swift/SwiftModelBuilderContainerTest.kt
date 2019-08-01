@@ -31,7 +31,6 @@ import com.here.genium.model.lime.LimeSignatureResolver
 import com.here.genium.model.lime.LimeVisibility
 import com.here.genium.model.swift.SwiftClass
 import com.here.genium.model.swift.SwiftConstant
-import com.here.genium.model.swift.SwiftDictionary
 import com.here.genium.model.swift.SwiftEnum
 import com.here.genium.model.swift.SwiftFile
 import com.here.genium.model.swift.SwiftMethod
@@ -64,7 +63,6 @@ class SwiftModelBuilderContainerTest {
     private val swiftStruct = SwiftStruct("")
     private val swiftEnum = SwiftEnum("")
     private val swiftTypeDef = SwiftTypeDef("", null, SwiftType.VOID)
-    private val swiftDictionary = SwiftDictionary("", null, "", "", SwiftType.VOID, SwiftType.VOID)
     private val swiftMethod = SwiftMethod("")
     private val swiftProperty =
         SwiftProperty("", null, SwiftType.VOID, swiftMethod, swiftMethod, false)
@@ -104,7 +102,6 @@ class SwiftModelBuilderContainerTest {
         contextStack.injectResult(swiftStruct)
         contextStack.injectResult(swiftEnum)
         contextStack.injectResult(swiftTypeDef)
-        contextStack.injectResult(swiftDictionary)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -112,7 +109,6 @@ class SwiftModelBuilderContainerTest {
         assertContains(swiftStruct, result.structs)
         assertContains(swiftEnum, result.enums)
         assertContains(swiftTypeDef, result.typeDefs)
-        assertContains(swiftDictionary, result.dictionaries)
     }
 
     @Test
@@ -229,14 +225,12 @@ class SwiftModelBuilderContainerTest {
         contextStack.injectResult(swiftStruct)
         contextStack.injectResult(swiftEnum)
         contextStack.injectResult(swiftTypeDef)
-        contextStack.injectResult(swiftDictionary)
         contextStack.injectResult(swiftMethod)
         contextStack.injectResult(swiftProperty)
         contextStack.injectResult(swiftConstant)
 
         modelBuilder.finishBuilding(limeElement)
 
-        val resultFile = modelBuilder.getFinalResult(SwiftFile::class.java)
         val resultClass = modelBuilder.getFinalResult(SwiftClass::class.java)
         assertContains(swiftStruct, resultClass.structs)
         assertContains(swiftEnum, resultClass.enums)
@@ -244,7 +238,6 @@ class SwiftModelBuilderContainerTest {
         assertContains(swiftMethod, resultClass.methods)
         assertContains(swiftProperty, resultClass.properties)
         assertContains(swiftConstant, resultClass.constants)
-        assertContains(swiftDictionary, resultFile.dictionaries)
     }
 
     @Test
@@ -322,7 +315,6 @@ class SwiftModelBuilderContainerTest {
         contextStack.injectResult(swiftStruct)
         contextStack.injectResult(swiftEnum)
         contextStack.injectResult(swiftTypeDef)
-        contextStack.injectResult(swiftDictionary)
         contextStack.injectResult(swiftMethod)
         contextStack.injectResult(swiftProperty)
         contextStack.injectResult(swiftConstant)
@@ -337,6 +329,5 @@ class SwiftModelBuilderContainerTest {
         assertContains(swiftMethod, resultClass.methods)
         assertContains(swiftProperty, resultClass.properties)
         assertContains(swiftConstant, resultClass.constants)
-        assertContains(swiftDictionary, resultFile.dictionaries)
     }
 }
