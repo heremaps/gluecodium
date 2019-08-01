@@ -29,7 +29,11 @@ class comments {
     fun someMethodWithAllComments(
         // Very useful input parameter
         input: String
-    ): /* Usefulness of the input */ Usefulness throws /* Sometimes it happens. */ SomeEnumException
+    ):
+    // Usefulness of the input
+    Usefulness throws
+    // Sometimes it happens.
+    SomeEnumException
     // This is some very useful method that measures the usefulness of its input.
     fun someMethodWithInputComments(
         // Very useful input parameter
@@ -38,7 +42,9 @@ class comments {
     // This is some very useful method that measures the usefulness of its input.
     fun someMethodWithOutputComments(
         input: String
-    ): /* Usefulness of the input */ Usefulness
+    ):
+    // Usefulness of the input
+    Usefulness
     // This is some very useful method that measures the usefulness of its input.
     fun someMethodWithNoComments(
         input: String
@@ -53,7 +59,9 @@ class comments {
         input: String
     )
     // This is some very useful method that measures the usefulness of something.
-    fun someMethodWithoutInputParametersWithAllComments(): /* Usefulness of the input */ Usefulness
+    fun someMethodWithoutInputParametersWithAllComments():
+    // Usefulness of the input
+    Usefulness
     // This is some very useful method that measures the usefulness of something.
     fun someMethodWithoutInputParametersWithNoComments(): Usefulness
     fun someMethodWithNothing()
@@ -63,7 +71,9 @@ class comments {
     fun instanceMethod(
         // This is some very useful instance method parameter.
         input: CommentsInstantiable
-    ): /* This is some very useful instance method result. */ CommentsInstantiable
+    ):
+    // This is some very useful instance method result.
+    CommentsInstantiable
     fun oneParameterCommentOnly(
         undocumented: String,
         // nicely documented
@@ -71,7 +81,9 @@ class comments {
     ): String
     fun returnCommentOnly(
         undocumented: String
-    ): /* nicely documented */ String
+    ):
+    // nicely documented
+    String
     // Some very useful attribute.
     property SomeAttribute: Usefulness {
         // Gets some very useful attribute.

@@ -7,5 +7,7 @@ class LongComments {
         input: String,
         // Not as useful as the first parameter. But still useful. use a positive value for more happiness.
         ratio: Double
-    ): /* If you provide a useful input and a useful ratio you can expect a useful output. Just kidding do not expect anything from a method until you see its body. */ Float
+    ):
+    // If you provide a useful input and a useful ratio you can expect a useful output. Just kidding do not expect anything from a method until you see its body.
+    Float
 }

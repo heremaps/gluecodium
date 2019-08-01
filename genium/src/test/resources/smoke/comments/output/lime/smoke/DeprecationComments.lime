@@ -35,7 +35,9 @@ interface DeprecationComments {
     fun someMethodWithAllComments(
         // Very useful input parameter
         input: String
-    ): /* Usefulness of the input */ Usefulness
+    ):
+    // Usefulness of the input
+    Usefulness
     // Some very useful attribute.
     @Deprecated("Unfortunately, this attribute is deprecated.\nUse [comments.SomeAttribute] instead.")
     property SomeAttribute: Usefulness {

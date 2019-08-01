@@ -1,5 +1,4 @@
 package smoke
-
 // This is some very useful interface.
 // There is a lot to say about this interface.
 // at least it has multiline comments.
@@ -26,8 +25,10 @@ class MultiLineComments {
         // But still useful.
         // use a positive value for more happiness.
         ratio: Double
-    ): /* If you provide a useful input,
-    and a useful ratio you can expect a useful output.
-    Just kidding do not expect anything from a method until
-    you see its body. */ Float
+    ):
+    // If you provide a useful input,
+    // and a useful ratio you can expect a useful output.
+    // Just kidding do not expect anything from a method until
+    // you see its body.
+    Float
 }

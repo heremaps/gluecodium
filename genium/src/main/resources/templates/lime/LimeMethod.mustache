@@ -24,8 +24,11 @@
 {{prefixPartial "lime/LimeParameter" "    "}}
 {{/parameters}}){{!!
 }}{{#unless isConstructor}}{{>returnTypeDeclaration}}{{/unless}}{{!!
-}}{{#thrownType}} throws {{#if comment}}/* {{comment}} */ {{/if}}{{typeRef.escapedName}}{{/thrownType}}{{!!
+}}{{#thrownType}} throws {{#if comment}}
+{{>lime/LimeDocumentation}}
+{{/if}}{{typeRef.escapedName}}{{/thrownType}}{{!!
 
 }}{{+returnTypeDeclaration}}{{#returnType}}{{!!
-}}{{#isNotEq typeRef.toString "Void"}}: {{#if comment}}/* {{comment}} */ {{/if}}{{typeRef.escapedName}}{{/isNotEq}}{{!!
+}}{{#isNotEq typeRef.toString "Void"}}: {{#if comment}}
+{{>lime/LimeDocumentation}}{{/if}}{{typeRef.escapedName}}{{/isNotEq}}{{!!
 }}{{/returnType}}{{/returnTypeDeclaration}}

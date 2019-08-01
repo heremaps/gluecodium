@@ -1,7 +1,5 @@
 package smoke
-
 @Deprecated("Unfortunately, this interface is deprecated.")
-
 interface DeprecationCommentsOnly {
     @Deprecated("Unfortunately, this typedef is deprecated.")
     typealias Usefulness = Boolean
@@ -9,28 +7,25 @@ interface DeprecationCommentsOnly {
     typealias SomeArray = List<String>
     @Deprecated("Unfortunately, this map is deprecated.")
     typealias SomeMap = Map<String, Usefulness>
-
     @Deprecated("Unfortunately, this enum is deprecated.")
     enum SomeEnum {
         @Deprecated("Unfortunately, this item is deprecated.")
         Useless
     }
-
     @Deprecated("Unfortunately, this struct is deprecated.")
     struct SomeStruct {
         @Deprecated("Unfortunately, this field is deprecated.")
         someField: Usefulness
     }
-
     @Deprecated("Unfortunately, this constant is deprecated.")
     const VeryUseful: Usefulness = true
-
     @Deprecated("Unfortunately, this method is deprecated.")
     fun someMethodWithAllComments(
         // Very useful input parameter
         input: String
-    ): /* Usefulness of the input */ Usefulness
-
+    ):
+    // Usefulness of the input
+    Usefulness
     @Deprecated("Unfortunately, this attribute is deprecated.")
     property SomeAttribute: Usefulness {
         @Deprecated("Unfortunately, this attribute's getter is deprecated.")

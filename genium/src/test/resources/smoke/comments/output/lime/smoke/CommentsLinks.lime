@@ -44,5 +44,7 @@ class CommentsLinks {
     // * output parameter: [outputParameter]
     fun random_method(
         inputParameter: SomeEnum
-    ): SomeEnum throws /* May or may not throw */ TooUsefulException
+    ): SomeEnum throws
+    // May or may not throw
+    TooUsefulException
 }

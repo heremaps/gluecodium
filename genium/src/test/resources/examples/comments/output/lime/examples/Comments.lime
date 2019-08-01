@@ -1,5 +1,4 @@
 package examples
-
 // This is some very useful interface.
 class Comments {
     // This is some very useful typedef.
@@ -8,7 +7,6 @@ class Comments {
     typealias SomeArray = List<String>
     // This is some very useful map.
     typealias SomeMap = Map<String, Usefulness>
-
     // This is some very useful enum.
     enum SomeEnum {
         // Not quite useful
@@ -16,22 +14,20 @@ class Comments {
         // Somewhat useful
         Useful
     }
-
     // This is some very useful struct.
     struct SomeStruct {
         // How useful this struct is
         someField: Usefulness
     }
-
     // This is some very useful constant.
     const VeryUseful: Usefulness = true
-
     // This is some very useful method that measures the usefulness of its input.
     fun someMethod(
         // Very useful input parameter
         input: String
-    ): /* Usefulness of the input */ Usefulness
-
+    ):
+    // Usefulness of the input
+    Usefulness
     // Some very useful attribute.
     property SomeAttribute: Usefulness {
         // Gets some very useful attribute.
