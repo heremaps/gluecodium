@@ -113,7 +113,7 @@ class PrefixPartialHelperTest {
         helper.execute(options)
 
         // Assert
-        verify(exactly = 1) { options.append("$PREFIX$FIRST_LINE\n$PREFIX\n$PREFIX$SECOND_LINE") }
+        verify(exactly = 1) { options.append("$PREFIX$FIRST_LINE\n$TRIMMED_PREFIX\n$PREFIX$SECOND_LINE") }
     }
 
     private fun mockPartial(returnValue: String) {
@@ -125,6 +125,7 @@ class PrefixPartialHelperTest {
     companion object {
         private const val TEMPLATE_NAME = "glorious"
         private const val PREFIX = " <!-- "
+        private const val TRIMMED_PREFIX = " <!--"
         private const val FIRST_LINE = "complete"
         private const val SECOND_LINE = "nonsense"
         private const val MULTI_LINE = "$FIRST_LINE\n$SECOND_LINE"

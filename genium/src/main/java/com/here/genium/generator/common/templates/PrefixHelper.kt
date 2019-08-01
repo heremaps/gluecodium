@@ -40,7 +40,7 @@ internal open class PrefixHelper : BasicHelper() {
                 skipFirstLine = false
                 it.trimEnd()
             } else {
-                prefix + it.trimEnd()
+                (prefix + it).trimEnd()
             } })
         }
     }

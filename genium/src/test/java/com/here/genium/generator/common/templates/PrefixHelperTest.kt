@@ -93,7 +93,7 @@ class PrefixHelperTest {
 
         helper.execute(options)
 
-        verify(exactly = 1) { options.append("$PREFIX$FIRST_LINE\n$PREFIX\n$PREFIX$SECOND_LINE") }
+        verify(exactly = 1) { options.append("$PREFIX$FIRST_LINE\n$TRIMMED_PREFIX\n$PREFIX$SECOND_LINE") }
     }
 
     @Test
@@ -104,11 +104,12 @@ class PrefixHelperTest {
 
         helper.execute(options)
 
-        verify(exactly = 1) { options.append("$FIRST_LINE\n$PREFIX\n$PREFIX$SECOND_LINE") }
+        verify(exactly = 1) { options.append("$FIRST_LINE\n$TRIMMED_PREFIX\n$PREFIX$SECOND_LINE") }
     }
 
     companion object {
         private const val PREFIX = " <!-- "
+        private const val TRIMMED_PREFIX = " <!--"
         private const val FIRST_LINE = "complete"
         private const val SECOND_LINE = "nonsense"
         private const val MULTI_LINE = "$FIRST_LINE\n$SECOND_LINE"
