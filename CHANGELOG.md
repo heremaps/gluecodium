@@ -9,6 +9,7 @@
   + `std::hash` is now also used for typedefs to primitive types.
   + Fixed compilation for immutable equatable structs.
   + Imports now work correctly for enumerator references in LimeIDL.
+  + Fixed Swift compilation for nested generic types (e.g. List<List<Int>>, etc.).
 - Breaking changes:
   + Java builders fix the order of setting mandatory fields to the order in which they are defined.
 

@@ -17,13 +17,14 @@
 
 package test
 
-class ArrayNameClash {
-    struct StringArray {
-        theCakeIsLie: Boolean
-    }
-    typealias CakeArray = List<String>
-    // Static method that takes a matrix of cakes and returns a matrix of strings.
-    static fun doubleSpeak(
-        cakes: List<CakeArray>
-    ): List<StringArray>
+class NestedGenericTypes {
+
+    static fun methodWithListOfLists(input: List<List<Int>>): List<List<Int>>
+    static fun methodWithMapOfMaps(input: Map<Int, Map<Int, Boolean>>): Map<Map<Int, Boolean>, Int>
+    static fun methodWithSetOfSets(input: Set<Set<Int>>): Set<Set<Int>>
+
+    static fun methodWithListAndMap(input: List<Map<Int, Boolean>>): Map<Int, List<Int>>
+    static fun methodWithListAndSet(input: List<Set<Int>>): Set<List<Int>>
+    static fun methodWithMapAndSet(input: Map<Int, Set<Int>>): Set<Map<Int, Boolean>>
+    static fun methodWithMapGenericKeys(input: Map<Set<Int>, Boolean>): Map<List<Int>, Boolean>
 }

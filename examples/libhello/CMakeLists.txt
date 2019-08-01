@@ -149,14 +149,6 @@ feature(Enums cpp android swift SOURCES
     lime/test/EnumsTypeCollection.lime
 )
 
-feature(Maps cpp android swift SOURCES
-    src/hello/HelloWorldMaps.cpp
-    src/test/Maps.cpp
-
-    lime/hello/HelloWorldMaps.lime
-    lime/test/Maps.lime
-)
-
 feature(Attributes cpp android swift SOURCES
     src/hello/HelloWorldAttributesImpl.h
     src/hello/HelloWorldAttributesImpl.cpp
@@ -225,14 +217,22 @@ feature(ListenersWithErrorTypes cpp android swift SOURCES
     lime/test/ListenerWithErrors.lime
 )
 
-feature(Arrays cpp android swift SOURCES
+feature(GenericTypes cpp android swift SOURCES
     src/hello/HelloWorldArrays.cpp
+    src/hello/HelloWorldMaps.cpp
     src/test/Arrays.cpp
     src/test/ArraysByteBuffer.cpp
+    src/test/SetType.cpp
+    src/test/Maps.cpp
+    src/test/NestedGenericTypes.cpp
 
     lime/hello/HelloWorldArrays.lime
+    lime/hello/HelloWorldMaps.lime
     lime/test/Arrays.lime
     lime/test/ArraysByteBuffer.lime
+    lime/test/SetType.lime
+    lime/test/Maps.lime
+    lime/test/NestedGenericTypes.lime
 )
 
 feature(Errors cpp android swift SOURCES
@@ -339,12 +339,6 @@ feature(Comments cpp android swift SOURCES
 
     lime/test/Comments.lime
     lime/test/CommentsInterface.lime
-)
-
-feature(SetType cpp android swift SOURCES
-    src/test/SetType.cpp
-
-    lime/test/SetType.lime
 )
 
 feature(PlatformNames cpp android swift SOURCES
