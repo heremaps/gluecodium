@@ -1,0 +1,46 @@
+package smoke
+
+class GenericTypesWithCompoundTypes {
+    enum SomeEnum {
+        FOO,
+        BAR
+    }
+    @Cpp(ExternalType = "alien/FooEnum.h", ExternalName = "::alien::FooEnum")
+    enum ExternalEnum {
+        ON,
+        OFF
+    }
+
+    struct BasicStruct {
+        value: Double
+    }
+    @Cpp(ExternalType = "alien/FooStruct.h", ExternalName = "::alien::FooStruct")
+    struct ExternalStruct {
+        string: String
+    }
+
+    fun methodWithStructList(
+        input: List<BasicStruct>
+    ): List<ExternalStruct>
+    fun methodWithStructMap(
+        input: Map<String, BasicStruct>
+    ): Map<String, ExternalStruct>
+    fun methodWithEnumList(
+        input: List<SomeEnum>
+    ): List<ExternalEnum>
+    fun methodWithEnumMapKey(
+        input: Map<SomeEnum, Boolean>
+    ): Map<ExternalEnum, Boolean>
+    fun methodWithEnumMapValue(
+        input: Map<Int, SomeEnum>
+    ): Map<Int, ExternalEnum>
+    fun methodWithEnumSet(
+        input: Set<SomeEnum>
+    ): Set<ExternalEnum>
+    fun methodWithInstancesList(
+        input: List<DummyClass>
+    ): List<DummyInterface>
+    fun methodWithInstancesMap(
+        input: Map<Int, DummyClass>
+    ): Map<Int, DummyInterface>
+}

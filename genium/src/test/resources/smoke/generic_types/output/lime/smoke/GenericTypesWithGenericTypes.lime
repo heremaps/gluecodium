@@ -1,0 +1,24 @@
+package smoke
+class GenericTypesWithGenericTypes {
+    fun methodWithListOfLists(
+        input: List<List<Int>>
+    ): List<List<Int>>
+    fun methodWithMapOfMaps(
+        input: Map<Int, Map<Int, Boolean>>
+    ): Map<Map<Int, Boolean>, Boolean>
+    fun methodWithSetOfSets(
+        input: Set<Set<Int>>
+    ): Set<Set<Int>>
+    fun methodWithListAndMap(
+        input: List<Map<Int, Boolean>>
+    ): Map<Int, List<Int>>
+    fun methodWithListAndSet(
+        input: List<Set<Int>>
+    ): Set<List<Int>>
+    fun methodWithMapAndSet(
+        input: Map<Int, Set<Int>>
+    ): Set<Map<Int, Boolean>>
+    fun methodWithMapGenericKeys(
+        input: Map<Set<Int>, Boolean>
+    ): Map<List<Int>, Boolean>
+}

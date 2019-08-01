@@ -72,7 +72,7 @@ _baseRef smoke_ListenersWithReturnValues_fetchDataArray(_baseRef _instance) {
 ;
 }
 _baseRef smoke_ListenersWithReturnValues_fetchDataMap(_baseRef _instance) {
-    return Conversion<::smoke::ListenersWithReturnValues::StringToDouble>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_map())
+    return Conversion<std::unordered_map<std::string, double>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(_instance)->get()->fetch_data_map())
 ;
 }
 _baseRef smoke_ListenersWithReturnValues_fetchDataInstance(_baseRef _instance) {
@@ -110,7 +110,7 @@ public:
     }
     ::smoke::ListenersWithReturnValues::StringToDouble fetch_data_map() override {
         auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataMap(mFunctions.swift_pointer);
-        return Conversion<::smoke::ListenersWithReturnValues::StringToDouble>::toCppReturn(_call_result);
+        return Conversion<std::unordered_map<std::string, double>>::toCppReturn(_call_result);
     }
     ::std::shared_ptr< ::smoke::CalculationResult > fetch_data_instance() override {
         auto _call_result = mFunctions.smoke_ListenersWithReturnValues_fetchDataInstance(mFunctions.swift_pointer);
@@ -125,42 +125,4 @@ _baseRef smoke_ListenersWithReturnValues_create_proxy(smoke_ListenersWithReturnV
 }
 const void* smoke_ListenersWithReturnValues_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_ListenersWithReturnValuesProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::ListenersWithReturnValues>>(handle)->get()) : nullptr;
-}
-_baseRef smoke_ListenersWithReturnValues_StringToDouble_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, double >() );
-}
-void smoke_ListenersWithReturnValues_StringToDouble_release_handle(_baseRef handle) {
-    delete get_pointer<std::unordered_map<std::string, double >>(handle);
-}
-_baseRef smoke_ListenersWithReturnValues_StringToDouble_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, double >::iterator( get_pointer<std::unordered_map<std::string, double >>(handle)->begin() ) );
-}
-void smoke_ListenersWithReturnValues_StringToDouble_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle );
-}
-void smoke_ListenersWithReturnValues_StringToDouble_put(_baseRef handle, _baseRef key, double value) {
-    (*get_pointer<std::unordered_map<std::string, double >>(handle)).emplace(std::move(Conversion<std::string>::toCpp(key)), std::move(value));
-}
-bool smoke_ListenersWithReturnValues_StringToDouble_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, double >>(handle)->end();
-}
-void smoke_ListenersWithReturnValues_StringToDouble_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle );
-}
-_baseRef smoke_ListenersWithReturnValues_StringToDouble_iterator_key(_baseRef iterator_handle) {
-    auto& key = (*reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle ))->first;
-    return Conversion<std::string>::toBaseRef(key);
-}
-double smoke_ListenersWithReturnValues_StringToDouble_iterator_value(_baseRef iterator_handle) {
-    auto& value = (*reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle ))->second;
-    return value;
-}
-_baseRef smoke_ListenersWithReturnValues_StringToDouble_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::unordered_map<std::string, double >>( std::unordered_map<std::string, double >( ) ) );
-}
-void smoke_ListenersWithReturnValues_StringToDouble_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<std::unordered_map<std::string, double >>*>( handle );
-}
-_baseRef smoke_ListenersWithReturnValues_StringToDouble_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_map<std::string, double >>*>( handle ) );
 }

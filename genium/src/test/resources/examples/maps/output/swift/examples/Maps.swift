@@ -27,7 +27,7 @@ public class Maps {
         let c_input = moveToCType(input)
         return moveFromCType(examples_Maps_mapMethod(c_input.ref))
     }
-    public static func inlineMapMethod(input: Void) -> Void {
+    public static func inlineMapMethod(input: [UInt64: String]) -> [UInt64: String] {
         let c_input = moveToCType(input)
         return moveFromCType(examples_Maps_inlineMapMethod(c_input.ref))
     }

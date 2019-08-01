@@ -92,11 +92,11 @@ void smoke_ListenerWithAttributes_arrayedMessage_set(_baseRef _instance, _baseRe
 ;
 }
 _baseRef smoke_ListenerWithAttributes_mappedMessage_get(_baseRef _instance) {
-    return Conversion<::smoke::ListenerWithAttributes::StringToDouble>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(_instance)->get()->get_mapped_message())
+    return Conversion<std::unordered_map<std::string, double>>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(_instance)->get()->get_mapped_message())
 ;
 }
 void smoke_ListenerWithAttributes_mappedMessage_set(_baseRef _instance, _baseRef newValue) {
-    return get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(_instance)->get()->set_mapped_message(Conversion<::smoke::ListenerWithAttributes::StringToDouble>::toCpp(newValue))
+    return get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(_instance)->get()->set_mapped_message(Conversion<std::unordered_map<std::string, double>>::toCpp(newValue))
 ;
 }
 _baseRef smoke_ListenerWithAttributes_bufferedMessage_get(_baseRef _instance) {
@@ -148,10 +148,10 @@ public:
         mFunctions.smoke_ListenerWithAttributes_arrayedMessage_set(mFunctions.swift_pointer, Conversion<std::vector<std::string>>::toBaseRef(newValue));    }
     ::smoke::ListenerWithAttributes::StringToDouble get_mapped_message() const override {
         auto _call_result = mFunctions.smoke_ListenerWithAttributes_mappedMessage_get(mFunctions.swift_pointer);
-        return Conversion<::smoke::ListenerWithAttributes::StringToDouble>::toCppReturn(_call_result);
+        return Conversion<std::unordered_map<std::string, double>>::toCppReturn(_call_result);
     }
-    void set_mapped_message(const ::smoke::ListenerWithAttributes::StringToDouble& newValue) override {
-        mFunctions.smoke_ListenerWithAttributes_mappedMessage_set(mFunctions.swift_pointer, Conversion<::smoke::ListenerWithAttributes::StringToDouble>::toBaseRef(newValue));    }
+    void set_mapped_message(const std::unordered_map<std::string, double>& newValue) override {
+        mFunctions.smoke_ListenerWithAttributes_mappedMessage_set(mFunctions.swift_pointer, Conversion<std::unordered_map<std::string, double>>::toBaseRef(newValue));    }
     ::std::shared_ptr< ::std::vector< uint8_t > > get_buffered_message() const override {
         auto _call_result = mFunctions.smoke_ListenerWithAttributes_bufferedMessage_get(mFunctions.swift_pointer);
         return Conversion<::std::shared_ptr< ::std::vector< uint8_t > >>::toCppReturn(_call_result);
@@ -167,42 +167,4 @@ _baseRef smoke_ListenerWithAttributes_create_proxy(smoke_ListenerWithAttributes_
 }
 const void* smoke_ListenerWithAttributes_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_ListenerWithAttributesProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::ListenerWithAttributes>>(handle)->get()) : nullptr;
-}
-_baseRef smoke_ListenerWithAttributes_StringToDouble_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, double >() );
-}
-void smoke_ListenerWithAttributes_StringToDouble_release_handle(_baseRef handle) {
-    delete get_pointer<std::unordered_map<std::string, double >>(handle);
-}
-_baseRef smoke_ListenerWithAttributes_StringToDouble_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, double >::iterator( get_pointer<std::unordered_map<std::string, double >>(handle)->begin() ) );
-}
-void smoke_ListenerWithAttributes_StringToDouble_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle );
-}
-void smoke_ListenerWithAttributes_StringToDouble_put(_baseRef handle, _baseRef key, double value) {
-    (*get_pointer<std::unordered_map<std::string, double >>(handle)).emplace(std::move(Conversion<std::string>::toCpp(key)), std::move(value));
-}
-bool smoke_ListenerWithAttributes_StringToDouble_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, double >>(handle)->end();
-}
-void smoke_ListenerWithAttributes_StringToDouble_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle );
-}
-_baseRef smoke_ListenerWithAttributes_StringToDouble_iterator_key(_baseRef iterator_handle) {
-    auto& key = (*reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle ))->first;
-    return Conversion<std::string>::toBaseRef(key);
-}
-double smoke_ListenerWithAttributes_StringToDouble_iterator_value(_baseRef iterator_handle) {
-    auto& value = (*reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle ))->second;
-    return value;
-}
-_baseRef smoke_ListenerWithAttributes_StringToDouble_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::unordered_map<std::string, double >>( std::unordered_map<std::string, double >( ) ) );
-}
-void smoke_ListenerWithAttributes_StringToDouble_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<std::unordered_map<std::string, double >>*>( handle );
-}
-_baseRef smoke_ListenerWithAttributes_StringToDouble_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_map<std::string, double >>*>( handle ) );
 }

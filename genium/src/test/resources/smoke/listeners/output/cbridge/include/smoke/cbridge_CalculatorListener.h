@@ -7,9 +7,7 @@ extern "C" {
 #endif
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
-#include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_CalculationResult.h"
-#include <stdbool.h>
 _GENIUM_C_EXPORT _baseRef smoke_CalculatorListener_ResultStruct_create_handle(double result);
 _GENIUM_C_EXPORT void smoke_CalculatorListener_ResultStruct_release_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_CalculatorListener_ResultStruct_create_optional_handle(double result);
@@ -36,18 +34,6 @@ _GENIUM_C_EXPORT void smoke_CalculatorListener_onCalculationResultStruct(_baseRe
 _GENIUM_C_EXPORT void smoke_CalculatorListener_onCalculationResultArray(_baseRef _instance, _baseRef calculationResult);
 _GENIUM_C_EXPORT void smoke_CalculatorListener_onCalculationResultMap(_baseRef _instance, _baseRef calculationResults);
 _GENIUM_C_EXPORT void smoke_CalculatorListener_onCalculationResultInstance(_baseRef _instance, _baseRef calculationResult);
-_GENIUM_C_EXPORT _baseRef smoke_CalculatorListener_NamedCalculationResults_create_handle();
-_GENIUM_C_EXPORT void smoke_CalculatorListener_NamedCalculationResults_release_handle(_baseRef handle);
-_GENIUM_C_EXPORT _baseRef smoke_CalculatorListener_NamedCalculationResults_iterator(_baseRef handle);
-_GENIUM_C_EXPORT void smoke_CalculatorListener_NamedCalculationResults_iterator_release_handle(_baseRef iterator_handle);
-_GENIUM_C_EXPORT void smoke_CalculatorListener_NamedCalculationResults_put(_baseRef handle, _baseRef key, double value);
-_GENIUM_C_EXPORT bool smoke_CalculatorListener_NamedCalculationResults_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
-_GENIUM_C_EXPORT void smoke_CalculatorListener_NamedCalculationResults_iterator_increment(_baseRef iterator_handle);
-_GENIUM_C_EXPORT _baseRef smoke_CalculatorListener_NamedCalculationResults_iterator_key(_baseRef iterator_handle);
-_GENIUM_C_EXPORT double smoke_CalculatorListener_NamedCalculationResults_iterator_value(_baseRef iterator_handle);
-_GENIUM_C_EXPORT _baseRef smoke_CalculatorListener_NamedCalculationResults_create_optional_handle();
-_GENIUM_C_EXPORT void smoke_CalculatorListener_NamedCalculationResults_release_optional_handle(_baseRef handle);
-_GENIUM_C_EXPORT _baseRef smoke_CalculatorListener_NamedCalculationResults_unwrap_optional_handle(_baseRef handle);
 #ifdef __cplusplus
 }
 #endif

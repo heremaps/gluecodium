@@ -67,7 +67,7 @@ void smoke_CalculatorListener_onCalculationResultArray(_baseRef _instance, _base
 ;
 }
 void smoke_CalculatorListener_onCalculationResultMap(_baseRef _instance, _baseRef calculationResults) {
-    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_map(Conversion<::smoke::CalculatorListener::NamedCalculationResults>::toCpp(calculationResults))
+    return get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(_instance)->get()->on_calculation_result_map(Conversion<std::unordered_map<std::string, double>>::toCpp(calculationResults))
 ;
 }
 void smoke_CalculatorListener_onCalculationResultInstance(_baseRef _instance, _baseRef calculationResult) {
@@ -91,8 +91,8 @@ public:
         mFunctions.smoke_CalculatorListener_onCalculationResultStruct(mFunctions.swift_pointer, Conversion<::smoke::CalculatorListener::ResultStruct>::toBaseRef(calculationResult));    }
     void on_calculation_result_array(const std::vector<double>& calculationResult) override {
         mFunctions.smoke_CalculatorListener_onCalculationResultArray(mFunctions.swift_pointer, Conversion<std::vector<double>>::toBaseRef(calculationResult));    }
-    void on_calculation_result_map(const ::smoke::CalculatorListener::NamedCalculationResults& calculationResults) override {
-        mFunctions.smoke_CalculatorListener_onCalculationResultMap(mFunctions.swift_pointer, Conversion<::smoke::CalculatorListener::NamedCalculationResults>::toBaseRef(calculationResults));    }
+    void on_calculation_result_map(const std::unordered_map<std::string, double>& calculationResults) override {
+        mFunctions.smoke_CalculatorListener_onCalculationResultMap(mFunctions.swift_pointer, Conversion<std::unordered_map<std::string, double>>::toBaseRef(calculationResults));    }
     void on_calculation_result_instance(const std::shared_ptr<::smoke::CalculationResult>& calculationResult) override {
         mFunctions.smoke_CalculatorListener_onCalculationResultInstance(mFunctions.swift_pointer, Conversion<std::shared_ptr<::smoke::CalculationResult>>::toBaseRef(calculationResult));    }
 private:
@@ -104,42 +104,4 @@ _baseRef smoke_CalculatorListener_create_proxy(smoke_CalculatorListener_Function
 }
 const void* smoke_CalculatorListener_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_CalculatorListenerProxy::get_swift_object(get_pointer<std::shared_ptr<::smoke::CalculatorListener>>(handle)->get()) : nullptr;
-}
-_baseRef smoke_CalculatorListener_NamedCalculationResults_create_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, double >() );
-}
-void smoke_CalculatorListener_NamedCalculationResults_release_handle(_baseRef handle) {
-    delete get_pointer<std::unordered_map<std::string, double >>(handle);
-}
-_baseRef smoke_CalculatorListener_NamedCalculationResults_iterator(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) std::unordered_map<std::string, double >::iterator( get_pointer<std::unordered_map<std::string, double >>(handle)->begin() ) );
-}
-void smoke_CalculatorListener_NamedCalculationResults_iterator_release_handle(_baseRef iterator_handle) {
-    delete reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle );
-}
-void smoke_CalculatorListener_NamedCalculationResults_put(_baseRef handle, _baseRef key, double value) {
-    (*get_pointer<std::unordered_map<std::string, double >>(handle)).emplace(std::move(Conversion<std::string>::toCpp(key)), std::move(value));
-}
-bool smoke_CalculatorListener_NamedCalculationResults_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
-    return *reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle ) != get_pointer<std::unordered_map<std::string, double >>(handle)->end();
-}
-void smoke_CalculatorListener_NamedCalculationResults_iterator_increment(_baseRef iterator_handle) {
-    ++*reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle );
-}
-_baseRef smoke_CalculatorListener_NamedCalculationResults_iterator_key(_baseRef iterator_handle) {
-    auto& key = (*reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle ))->first;
-    return Conversion<std::string>::toBaseRef(key);
-}
-double smoke_CalculatorListener_NamedCalculationResults_iterator_value(_baseRef iterator_handle) {
-    auto& value = (*reinterpret_cast<std::unordered_map<std::string, double >::iterator*>( iterator_handle ))->second;
-    return value;
-}
-_baseRef smoke_CalculatorListener_NamedCalculationResults_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( std::nothrow ) ::genium::optional<std::unordered_map<std::string, double >>( std::unordered_map<std::string, double >( ) ) );
-}
-void smoke_CalculatorListener_NamedCalculationResults_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<std::unordered_map<std::string, double >>*>( handle );
-}
-_baseRef smoke_CalculatorListener_NamedCalculationResults_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<std::unordered_map<std::string, double >>*>( handle ) );
 }
