@@ -24,25 +24,11 @@ class Attributes {
     }
     typealias StringArray = List<String>
     constructor create()
-    property builtInTypeAttribute: UInt {
-        get
-        set
-    }
-    property readonlyAttribute: Float {
-        get
-    }
-    property structAttribute: ExampleStruct {
-        get
-        set
-    }
-    property arrayAttribute: StringArray {
-        get
-        set
-    }
-    static property staticAttribute: String {
-        get
-        set
-    }
+    property builtInTypeAttribute: UInt { get set }
+    property readonlyAttribute: Float { get }
+    property structAttribute: ExampleStruct
+    property arrayAttribute: StringArray
+    static property staticAttribute: String { get set }
     property internalSetterAttribute: String {
         get
         internal set

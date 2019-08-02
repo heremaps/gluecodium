@@ -21,12 +21,6 @@ interface AttributesInterface {
     struct ExampleStruct {
         value: Double = 0.0
     }
-    property structAttribute: ExampleStruct {
-        get
-        set
-    }
-    property builtInTypeAttribute: UInt {
-        get
-        set
-    }
+    property structAttribute: ExampleStruct { get set }
+    property builtInTypeAttribute: UInt
 }

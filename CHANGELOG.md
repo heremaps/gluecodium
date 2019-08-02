@@ -3,6 +3,7 @@
 ## Unreleased
 - Features:
   + Structs, enumerations, exceptions and type aliases can now be declared at file level in LimeIDL.
+  + `{ get set }` declaration is now optional for properties in LimeIDL.
 - Bug fixes:
   + `std::hash` is now also used for typedefs to primitive types.
   + Fixed compilation for immutable equatable structs.

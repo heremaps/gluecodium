@@ -19,7 +19,7 @@ package smoke
 
 interface InheritanceRoot {
     fun rootMethod()
-    property rootAttribute: String { get set }
+    property rootAttribute: String
 }
 
 interface InheritanceChild : InheritanceRoot {

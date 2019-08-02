@@ -232,22 +232,40 @@ internal class AntlrLimeModelBuilder(
         val propertyType = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
         val propertyVisibility = currentVisibility
 
+        val getter: LimeMethod
+        val setter: LimeMethod?
         val getterPath = currentPath.child("get")
-        val getter = LimeMethod(
-            path = getterPath,
-            visibility = convertVisibility(ctx.getter().visibility(), propertyVisibility),
-            comment = convertDocComments(ctx.getter().docComment()),
-            attributes = convertAnnotations(ctx.getter().annotation()),
-            parameters = listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType))
-        )
-        val setter = ctx.setter()?.let {
-            LimeMethod(
+        val getterContext = ctx.getter()
+        if (getterContext == null) {
+            getter = LimeMethod(
+                path = getterPath,
+                visibility = propertyVisibility,
+                parameters =
+                    listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType))
+            )
+            setter = LimeMethod(
                 path = currentPath.child("set"),
-                visibility = convertVisibility(it.visibility(), propertyVisibility),
-                comment = convertDocComments(it.docComment()),
-                attributes = convertAnnotations(it.annotation()),
+                visibility = propertyVisibility,
                 returnType = LimeReturnType(propertyType)
             )
+        } else {
+            getter = LimeMethod(
+                path = getterPath,
+                visibility = convertVisibility(getterContext.visibility(), propertyVisibility),
+                comment = convertDocComments(getterContext.docComment()),
+                attributes = convertAnnotations(getterContext.annotation()),
+                parameters =
+                    listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType))
+            )
+            setter = ctx.setter()?.let {
+                LimeMethod(
+                    path = currentPath.child("set"),
+                    visibility = convertVisibility(it.visibility(), propertyVisibility),
+                    comment = convertDocComments(it.docComment()),
+                    attributes = convertAnnotations(it.annotation()),
+                    returnType = LimeReturnType(propertyType)
+                )
+            }
         }
 
         val limeElement = LimeProperty(

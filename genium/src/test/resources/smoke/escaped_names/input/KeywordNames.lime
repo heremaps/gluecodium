@@ -42,7 +42,7 @@ class `class`: `interface` {
         `Double`: `types`.`List`
     ): `types`.`struct` throws `types`.`exception`
 
-    property `property`: `types`.`enum` { get set }
+    property `property`: `types`.`enum`
 }
 
 interface `interface` {}

@@ -118,9 +118,7 @@ class EquatableInterface {
         lhs: Equatable.EquatableNullableStruct,
         rhs: Equatable.EquatableNullableStruct
     ): Boolean
-    property name: String {
-        get
-    }
+    property name: String { get }
 }
 
 @PointerEquatable

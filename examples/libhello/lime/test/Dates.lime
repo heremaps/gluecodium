@@ -33,8 +33,5 @@ class Dates {
     static fun increaseDateMaybe(
         input: Date?
     ): Date?
-    static property dateAttribute: Date {
-        get
-        set
-    }
+    static property dateAttribute: Date
 }

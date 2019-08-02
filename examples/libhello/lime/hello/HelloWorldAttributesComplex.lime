@@ -22,12 +22,6 @@ class HelloWorldAttributesComplex {
         ERROR_NONE,
         ERROR_FATAL = 999
     }
-    property arrayAttribute: List<String> {
-        get
-        set
-    }
-    property complexTypeAttribute: InternalError {
-        get
-        set
-    }
+    property arrayAttribute: List<String>
+    property complexTypeAttribute: InternalError
 }

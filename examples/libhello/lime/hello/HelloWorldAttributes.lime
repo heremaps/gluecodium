@@ -23,19 +23,8 @@ class HelloWorldAttributes {
         intValue: List<Long>
     }
     typealias StringArray = List<String>
-    property builtInTypeAttribute: UInt {
-        get
-        set
-    }
-    property readonlyAttribute: Float {
-        get
-    }
-    property structAttribute: ExampleStruct {
-        get
-        set
-    }
-    property arrayAttribute: StringArray {
-        get
-        set
-    }
+    property builtInTypeAttribute: UInt
+    property readonlyAttribute: Float { get }
+    property structAttribute: ExampleStruct
+    property arrayAttribute: StringArray
 }

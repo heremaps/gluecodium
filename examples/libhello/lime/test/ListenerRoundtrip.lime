@@ -33,8 +33,5 @@ class Nlp {
 }
 
 class RouteStorage {
-    static property route: Route {
-        get
-        set
-    }
+    static property route: Route
 }

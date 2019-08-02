@@ -34,9 +34,9 @@ class NameRules {
 
     fun someMethod(someArgument: ExampleStruct): Double throws ExampleErrorException
 
-    property intAttribute: UInt { get set }
-    property booleanAttribute: Boolean { get set }
-    property structAttribute: ExampleStruct { get set }
+    property intAttribute: UInt
+    property booleanAttribute: Boolean
+    property structAttribute: ExampleStruct
 
     exception ExampleErrorException(ExampleError)
 }

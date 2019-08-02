@@ -93,50 +93,20 @@ class NullableInterface {
     
         input: List<String>?
     ): List<String>?
-    property stringAttribute: String? {
-        get
-        set
-    }
-    property boolAttribute: Boolean? {
-        get
-        set
-    }
-    property doubleAttribute: Double? {
-        get
-        set
-    }
-    property intAttribute: Long? {
-        get
-        set
-    }
-    property structAttribute: SomeStruct? {
-        get
-        set
-    }
-    property enumAttribute: SomeEnum? {
-        get
-        set
-    }
-    property arrayAttribute: SomeArray? {
-        get
-        set
-    }
-    property inlineArrayAttribute: List<String>? {
-        get
-        set
-    }
-    property mapAttribute: SomeMap? {
-        get
-        set
-    }
+    property stringAttribute: String?
+    property boolAttribute: Boolean?
+    property doubleAttribute: Double?
+    property intAttribute: Long?
+    property structAttribute: SomeStruct?
+    property enumAttribute: SomeEnum?
+    property arrayAttribute: SomeArray?
+    property inlineArrayAttribute: List<String>?
+    property mapAttribute: SomeMap?
 }
 
 interface NullableListener {
     fun methodWithDouble(
         input: Double?
     ): Double?
-    property arrayAttribute: List<String>? {
-        get
-        set
-    }
+    property arrayAttribute: List<String>?
 }

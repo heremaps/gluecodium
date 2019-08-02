@@ -22,38 +22,14 @@ import test.ListenerWithReturn.MessageEnum
 import test.ListenerWithReturn.MessageMap
 
 interface ListenerWithAttributes {
-    property Message: String {
-        get
-        set
-    }
-    property packedMessage: MessagePackage? {
-        get
-        set
-    }
-    property boxedMessage: MessageBox? {
-        get
-        set
-    }
-    property structuredMessage: MessageStruct {
-        get
-        set
-    }
-    property enumeratedMessage: MessageEnum {
-        get
-        set
-    }
-    property arrayedMessage: List<String> {
-        get
-        set
-    }
-    property mappedMessage: MessageMap {
-        get
-        set
-    }
-    property bufferedMessage: Blob {
-        get
-        set
-    }
+    property Message: String
+    property packedMessage: MessagePackage?
+    property boxedMessage: MessageBox?
+    property structuredMessage: MessageStruct
+    property enumeratedMessage: MessageEnum
+    property arrayedMessage: List<String>
+    property mappedMessage: MessageMap
+    property bufferedMessage: Blob
 }
 
 class AttributedMessageDelivery {

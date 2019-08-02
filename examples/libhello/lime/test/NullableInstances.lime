@@ -42,10 +42,7 @@ interface NullableInstanceListener {
     fun nullableBottomUpRoundTrip(
         input: NullablePayload?
     ): NullablePayload?
-    property nullableAttribute: NullablePayload? {
-        get
-        set
-    }
+    property nullableAttribute: NullablePayload?
 }
 
 class NullablePayload {

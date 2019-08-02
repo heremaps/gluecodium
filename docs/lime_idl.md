@@ -96,7 +96,7 @@ class SomeImportantProcessor {
 
     property processingTime: ProcessorHelperTypes.Timestamp { get }
 
-    internal static property secretDelegate: ProcessorDelegate? { get set }
+    internal static property secretDelegate: ProcessorDelegate?
 
     enum Mode {
         SLOW,
@@ -247,7 +247,7 @@ some top-level element).
 #### Property
 
 * Syntax: \[**static**\] **property** *PropertyName*__:__ *PropertyType*
-**{** **get** \[**set**\] **}**
+\[**{** **get** \[**set**\] **}**\]
 * Example: `static property secretDelegate: ProcessorDelegate? { get set }`
 * Can be placed in: class, interface
 * Description: declares a property in the parent type:

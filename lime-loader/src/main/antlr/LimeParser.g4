@@ -70,7 +70,7 @@ throwsClause
 
 property
     : docComment* annotation* visibility? ('static' NL*)? 'property' NL* simpleId NL*
-      ':' NL* typeRef NL* '{' NL* getter (setter)? '}'
+      ':' NL* typeRef NL* ('{' NL* getter (setter)? '}')?
     ;
 
 getter

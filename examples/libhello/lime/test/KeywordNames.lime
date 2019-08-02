@@ -41,7 +41,7 @@ class `class`: `interface` {
     ): `types`.`struct` throws `types`.`exception`
 
     @Swift("prop")
-    property `property`: `types`.`enum` { get set }
+    property `property`: `types`.`enum`
 }
 
 interface `interface` {}
