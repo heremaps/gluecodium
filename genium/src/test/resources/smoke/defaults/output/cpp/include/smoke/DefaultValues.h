@@ -12,6 +12,7 @@
 #include "genium/Hash.h"
 #include "genium/Optional.h"
 #include "genium/UnorderedMapHash.h"
+#include "genium/UnorderedSetHash.h"
 #include "genium/VectorHash.h"
 #include <cstdint>
 #include <limits>

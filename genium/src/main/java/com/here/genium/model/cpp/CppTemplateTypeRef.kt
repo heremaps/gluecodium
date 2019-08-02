@@ -44,7 +44,7 @@ class CppTemplateTypeRef(
         BASIC_STRING("std", "basic_string", listOf(CppLibraryIncludes.STRING)),
         RETURN(null, "Return", listOf(CppLibraryIncludes.RETURN)),
         OPTIONAL(null, "optional", listOf(CppLibraryIncludes.OPTIONAL)),
-        SET("std", "unordered_set", listOf(CppLibraryIncludes.SET)),
+        SET("std", "unordered_set", listOf(CppLibraryIncludes.SET, CppLibraryIncludes.SET_HASH)),
         HASH(null, "hash", listOf(CppLibraryIncludes.HASH))
     }
 

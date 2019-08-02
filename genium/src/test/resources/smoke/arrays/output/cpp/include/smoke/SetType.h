@@ -10,6 +10,7 @@
 #include "genium/Export.h"
 #include "genium/Hash.h"
 #include "genium/Optional.h"
+#include "genium/UnorderedSetHash.h"
 #include <cstdint>
 #include <string>
 #include <unordered_set>

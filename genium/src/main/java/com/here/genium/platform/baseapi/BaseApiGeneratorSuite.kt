@@ -109,12 +109,9 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
                 element.comment = Comments(documentation, deprecationMessage)
             }
 
-        return cppModel.flatMap {
-            generator.generateCode(it)
-        } + ADDITIONAL_HEADERS.map(generator::generateHelperHeader) + generator.generateHelperHeader(
-            "Export",
-            exportName
-        )
+        return cppModel.flatMap { generator.generateCode(it) } +
+                ADDITIONAL_HEADERS.map(generator::generateHelperHeader) +
+                generator.generateHelperHeader("Export", exportName)
     }
 
     private fun mapLimeModelToCppModel(
@@ -168,6 +165,7 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             "Optional",
             "OptionalImpl",
             "UnorderedMapHash",
+            "UnorderedSetHash",
             "VectorHash"
         )
 
