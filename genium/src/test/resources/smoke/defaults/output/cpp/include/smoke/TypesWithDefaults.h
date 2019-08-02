@@ -10,6 +10,7 @@
 #include "foo/Bar.h"
 #include "genium/Export.h"
 #include "genium/Hash.h"
+#include "smoke/AnEnum.h"
 #include <cstdint>
 #include <string>
 namespace smoke {
@@ -39,6 +40,11 @@ struct _GENIUM_CPP_EXPORT ImmutableStructWithDefaults {
     const ::fire::SomeVeryExternalEnum external_enum_field = ::fire::SomeVeryExternalEnum::Another_Value;
     ImmutableStructWithDefaults( const uint32_t uint_field, const bool bool_field );
     ImmutableStructWithDefaults( const int32_t int_field, const uint32_t uint_field, const float float_field, const double double_field, const bool bool_field, const ::std::string& string_field, const ::smoke::SomeEnum enum_field, const ::fire::SomeVeryExternalEnum external_enum_field );
+};
+struct _GENIUM_CPP_EXPORT StructWithAnEnum {
+    ::smoke::AnEnum config = ::smoke::AnEnum::ENABLED;
+    StructWithAnEnum( );
+    StructWithAnEnum( const ::smoke::AnEnum config );
 };
 }
 namespace genium {

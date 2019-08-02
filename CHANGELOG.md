@@ -6,6 +6,7 @@
 - Bug fixes:
   + `std::hash` is now also used for typedefs to primitive types.
   + Fixed compilation for immutable equatable structs.
+  + Imports now work correctly for enumerator references in LimeIDL.
 
 ## 5.0.0
 - Release date: 2019-07-31

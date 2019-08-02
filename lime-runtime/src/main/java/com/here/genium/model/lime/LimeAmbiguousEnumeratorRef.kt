@@ -22,12 +22,17 @@ package com.here.genium.model.lime
 class LimeAmbiguousEnumeratorRef(
     relativePath: List<String>,
     parentPaths: List<LimePath>,
+    imports: List<LimePath>,
     referenceMap: Map<String, LimeElement>
 ) : LimeEnumeratorRef {
 
     override val elementFullName by lazy { enumerator.path.toString() }
 
     override val enumerator by lazy {
+        for (limePath in imports.filter { it.name == relativePath.first() }) {
+            val key = limePath.child(relativePath.drop(1)).toString()
+            return@lazy referenceMap[key] as? LimeEnumerator ?: continue
+        }
         for (limePath in parentPaths) {
             val key = limePath.child(relativePath).toString()
             return@lazy referenceMap[key] as? LimeEnumerator ?: continue

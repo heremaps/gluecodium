@@ -197,3 +197,51 @@ internal func copyToCType(_ swiftType: ImmutableStructWithDefaults?) -> RefHolde
 internal func moveToCType(_ swiftType: ImmutableStructWithDefaults?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_ImmutableStructWithDefaults_release_optional_handle)
 }
+public struct StructWithAnEnum {
+    public var config: AnEnum
+    public init(config: AnEnum = AnEnum.enabled) {
+        self.config = config
+    }
+    internal init(cHandle: _baseRef) {
+        config = moveFromCType(smoke_TypesWithDefaults_StructWithAnEnum_config_get(cHandle))
+    }
+}
+internal func copyFromCType(_ handle: _baseRef) -> StructWithAnEnum {
+    return StructWithAnEnum(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> StructWithAnEnum {
+    defer {
+        smoke_TypesWithDefaults_StructWithAnEnum_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: StructWithAnEnum) -> RefHolder {
+    let c_config = moveToCType(swiftType.config)
+    return RefHolder(smoke_TypesWithDefaults_StructWithAnEnum_create_handle(c_config.ref))
+}
+internal func moveToCType(_ swiftType: StructWithAnEnum) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_StructWithAnEnum_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> StructWithAnEnum? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_TypesWithDefaults_StructWithAnEnum_unwrap_optional_handle(handle)
+    return StructWithAnEnum(cHandle: unwrappedHandle) as StructWithAnEnum
+}
+internal func moveFromCType(_ handle: _baseRef) -> StructWithAnEnum? {
+    defer {
+        smoke_TypesWithDefaults_StructWithAnEnum_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+internal func copyToCType(_ swiftType: StructWithAnEnum?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let c_config = moveToCType(swiftType.config)
+    return RefHolder(smoke_TypesWithDefaults_StructWithAnEnum_create_optional_handle(c_config.ref))
+}
+internal func moveToCType(_ swiftType: StructWithAnEnum?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_StructWithAnEnum_release_optional_handle)
+}

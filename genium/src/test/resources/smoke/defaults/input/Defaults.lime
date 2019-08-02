@@ -17,6 +17,8 @@
 
 package smoke
 
+import smoke.AnEnum.AnEnum
+
 class DefaultValues {
     struct StructWithDefaults {
         intField: Int = 42
@@ -99,6 +101,9 @@ types TypesWithDefaults {
         stringField: String = "\\Jonny \"Magic\" Smith\n"
         enumField: SomeEnum = SomeEnum.BarValue
         externalEnumField: DefaultValues.ExternalEnum = DefaultValues.ExternalEnum.Another_Value
+    }
+    struct StructWithAnEnum {
+        config: AnEnum = AnEnum.ENABLED
     }
 
     enum SomeEnum {

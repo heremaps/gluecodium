@@ -23,6 +23,13 @@ ImmutableStructWithDefaults::ImmutableStructWithDefaults( const int32_t int_fiel
     : int_field( int_field ), uint_field( uint_field ), float_field( float_field ), double_field( double_field ), bool_field( bool_field ), string_field( string_field ), enum_field( enum_field ), external_enum_field( external_enum_field )
 {
 }
+StructWithAnEnum::StructWithAnEnum( )
+{
+}
+StructWithAnEnum::StructWithAnEnum( const ::smoke::AnEnum config )
+    : config( config )
+{
+}
 }
 namespace genium {
 std::size_t

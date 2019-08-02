@@ -517,6 +517,7 @@ internal class AntlrLimeModelBuilder(
                     relativePath =
                         ctx.enumeratorRef().identifier().simpleId().map { convertSimpleId(it) },
                     parentPaths = listOf(currentPath) + currentPath.allParents + imports,
+                    imports = imports,
                     referenceMap = referenceResolver.referenceMap
                 )
                 return LimeValue.Enumerator(limeTypeRef, enumeratorRef)
