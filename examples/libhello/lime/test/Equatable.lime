@@ -28,10 +28,12 @@ types Equatable {
         doubleField: Double
         stringField: String
         structField: NestedEquatableStruct
+        immutableStructField: NestedImmutableStruct = {}
         enumField: SomeSomeEnum
         mapField: SomeMap
         arrayField: List<String>
     }
+
     @Equatable
     @Java(Builder)
     struct EquatableNullableStruct {
@@ -45,10 +47,32 @@ types Equatable {
         mapField: SomeMap? = null
         arrayField: List<String>? = null
     }
+
+    @Equatable
+    @Immutable
+    struct ImmutableStruct {
+        boolField: Boolean? = null
+        intField: Int? = null
+        uintField: UShort? = null
+        floatField: Float? = null
+        stringField: String? = null
+        structField: NestedEquatableStruct? = null
+        enumField: SomeSomeEnum? = null
+        mapField: SomeMap? = null
+        arrayField: List<String>? = null
+    }
+
     @Equatable
     struct NestedEquatableStruct {
         fooField: String
     }
+
+    @Equatable
+    @Immutable
+    struct NestedImmutableStruct {
+        fooField: String = "Bar"
+    }
+
     enum SomeSomeEnum {
         FOO,
         BAR

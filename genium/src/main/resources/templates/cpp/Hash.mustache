@@ -70,13 +70,26 @@ struct SelectHash<T, typename std::enable_if<std::is_constructible<EqualityHash<
     using type = EqualityHash<T>;
 };
 
-// fallback, specialization for our own types somewhere else
+/*
+ * Generic hash functional, it uses EqualityHash for types for which it was defined
+ * and falls back to std::hash otherwise. Types for which hash is defined specialize
+ * this template.
+ */
 template<class T>
 struct hash
 {
     size_t operator( )( const T& t ) const noexcept
     {
         return typename SelectHash<T>::type( )( t );
+    }
+};
+
+template<class T>
+struct hash<const T>
+{
+    size_t operator( )( const T& t ) const noexcept
+    {
+        return hash<T>( )( t );
     }
 };
 
