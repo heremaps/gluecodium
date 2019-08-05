@@ -30,7 +30,7 @@ namespace {{.}}
 {{/internalNamespace}}
 namespace jni
 {
-{{#models}}{{#structs}}
+{{#structs}}
 {{cppStruct.fullyQualifiedName}}
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{cppStruct.fullyQualifiedName}}* dummy)
 {
@@ -89,7 +89,7 @@ convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{cppS
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
 
-{{/structs}}{{/models}}
+{{/structs}}
 }
 {{#internalNamespace}}
 }
