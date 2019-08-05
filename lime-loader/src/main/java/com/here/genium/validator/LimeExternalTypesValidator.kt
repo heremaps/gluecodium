@@ -27,7 +27,6 @@ import com.here.genium.model.lime.LimeAttributeValueType.EXTERNAL_SETTER
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeNamedElement
-import java.util.logging.Logger
 
 /**
  * Validate each element with "@Cpp(ExternalName)", "@Cpp(ExternalGetter)" or "@Cpp(ExternalSetter)"
@@ -35,7 +34,7 @@ import java.util.logging.Logger
  *  * Should have "@Cpp(ExternalType)" property set on itself or on one it enclosing elements.
  *  * Should not have "@Cpp(Name)" property set.
  */
-internal class LimeExternalTypesValidator(private val logger: Logger) {
+internal class LimeExternalTypesValidator(private val logger: LimeLogger) {
 
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values.filterIsInstance<LimeNamedElement>()
@@ -61,12 +60,12 @@ internal class LimeExternalTypesValidator(private val logger: Logger) {
         propertyName: String
     ) = when {
         !isInExternalType(limeElement, referenceMap) -> {
-            logger.severe("${limeElement.fullName}: an element with '$propertyName' also" +
+            logger.error(limeElement, "an element with '$propertyName' also" +
                     " needs to have 'ExternalType' set for itself or one of its enclosing elements")
             false
         }
         limeElement.attributes.have(CPP, LimeAttributeValueType.NAME) -> {
-            logger.severe("${limeElement.fullName}: an element with '@Cpp($propertyName)' cannot" +
+            logger.error(limeElement, "an element with '@Cpp($propertyName)' cannot" +
                     " have '@Cpp(Name)' set at the same time")
             false
         }

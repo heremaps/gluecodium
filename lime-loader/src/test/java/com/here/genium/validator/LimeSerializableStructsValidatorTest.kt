@@ -31,12 +31,12 @@ import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeStruct
+import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import java.util.logging.Logger
 
 @RunWith(JUnit4::class)
 class LimeSerializableStructsValidatorTest {
@@ -47,8 +47,7 @@ class LimeSerializableStructsValidatorTest {
     private val serializableAttributes =
         LimeAttributes.Builder().addAttribute(LimeAttributeType.SERIALIZABLE).build()
 
-    private val dummyLogger = object : Logger(null, null) { override fun severe(msg: String?) {} }
-    private val validator = LimeSerializableStructsValidator(dummyLogger)
+    private val validator = LimeSerializableStructsValidator(mockk(relaxed = true))
 
     @Test
     fun validateWithBasicType() {

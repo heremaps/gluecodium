@@ -23,22 +23,22 @@ import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeException
-import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeModelLoaderException
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeReturnType
+import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeTypeDef
 import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeTypedElement
 import com.here.genium.model.lime.LimeVisibility
+import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import java.util.logging.Logger
 
 @RunWith(Parameterized::class)
 class LimeTypeRefsValidatorTest(private val createElement: (LimeTypeRef) -> LimeElement) {
@@ -59,10 +59,7 @@ class LimeTypeRefsValidatorTest(private val createElement: (LimeTypeRef) -> Lime
         override fun asNullable() = this
     }
 
-    private val dummyLogger = object : Logger(null, null) {
-        override fun severe(msg: String?) {}
-    }
-    private val validator = LimeTypeRefsValidator(dummyLogger)
+    private val validator = LimeTypeRefsValidator(mockk(relaxed = true))
 
     class DummyTypedElement(limeTypeRef: LimeTypeRef) : LimeTypedElement(
         path = EMPTY_PATH,

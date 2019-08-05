@@ -22,12 +22,11 @@ package com.here.genium.validator
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimePath
-import java.util.logging.Logger
 
 /* Validate inheritance relationships for classes and interfaces. Classes can inherit from classes
  * and interfaces (but not from other types). Interfaces can inherit only from other interfaces.
  */
-internal class LimeInheritanceValidator(private val logger: Logger) {
+internal class LimeInheritanceValidator(private val logger: LimeLogger) {
 
     fun validate(limeModel: LimeModel): Boolean {
         val allContainers = limeModel.referenceMap.values.filterIsInstance<LimeContainer>()
@@ -45,15 +44,13 @@ internal class LimeInheritanceValidator(private val logger: Logger) {
         return when {
             parentType == null -> true
             hasInheritanceLoop(limeClass) -> {
-                logger.severe(limeClass.fullName +
-                        ": a class cannot inherit from itself or its own descendants")
+                logger.error(limeClass, "a class cannot inherit from itself or its own descendants")
                 false
             }
             parentType is LimeContainer &&
                 parentType.type != LimeContainer.ContainerType.TYPE_COLLECTION -> true
             else -> {
-                logger.severe(limeClass.fullName +
-                        ": a class can inherit only from a class or an interface")
+                logger.error(limeClass, "a class can inherit only from a class or an interface")
                 false
             }
         }
@@ -64,15 +61,16 @@ internal class LimeInheritanceValidator(private val logger: Logger) {
         return when {
             parentType == null -> true
             hasInheritanceLoop(limeInterface) -> {
-                logger.severe(limeInterface.fullName +
-                        ": an interface cannot inherit from itself or its own descendants")
+                logger.error(
+                    limeInterface,
+                    "an interface cannot inherit from itself or its own descendants"
+                )
                 false
             }
             parentType is LimeContainer &&
                 parentType.type == LimeContainer.ContainerType.INTERFACE -> true
             else -> {
-                logger.severe(limeInterface.fullName +
-                        ": an interface can inherit only from an interface")
+                logger.error(limeInterface, "an interface can inherit only from an interface")
                 false
             }
         }

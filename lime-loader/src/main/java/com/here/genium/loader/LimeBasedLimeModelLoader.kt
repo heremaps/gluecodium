@@ -30,6 +30,7 @@ import com.here.genium.validator.LimeEquatableStructsValidator
 import com.here.genium.validator.LimeExternalTypesValidator
 import com.here.genium.validator.LimeGenericTypesValidator
 import com.here.genium.validator.LimeInheritanceValidator
+import com.here.genium.validator.LimeLogger
 import com.here.genium.validator.LimeMethodsSignatureValidator
 import com.here.genium.validator.LimeSerializableStructsValidator
 import com.here.genium.validator.LimeTypeRefsValidator
@@ -45,20 +46,22 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
 
     override fun loadModel(fileNames: List<String>): LimeModel {
         val referenceResolver = AntlrLimeReferenceResolver()
-        val containerLists = fileNames
+        val elementNameToFileName = mutableMapOf<String, String>()
+        val loadedElements = fileNames
             .flatMap { listFilesRecursively(it) }
-            .map { loadFile(it, referenceResolver) }
+            .map { loadFile(it, referenceResolver, elementNameToFileName) }
 
-        if (containerLists.any { it == null }) {
+        if (loadedElements.any { it == null }) {
             throw LimeLoadingException("Syntax errors found, see log for details.")
         }
 
         val limeModel =
-            LimeModel(referenceResolver.referenceMap, containerLists.filterNotNull().flatten())
+            LimeModel(referenceResolver.referenceMap, loadedElements.filterNotNull().flatten())
 
-        val typeRefsValidationResult = LimeTypeRefsValidator(logger).validate(limeModel)
-        val validators = getIndependentValidators() +
-            if (typeRefsValidationResult) getTypeRefDependentValidators() else emptyList()
+        val limeLogger = LimeLogger(logger, elementNameToFileName)
+        val typeRefsValidationResult = LimeTypeRefsValidator(limeLogger).validate(limeModel)
+        val validators = getIndependentValidators(limeLogger) +
+            if (typeRefsValidationResult) getTypeRefDependentValidators(limeLogger) else emptyList()
         val validationResults = validators.map { it.invoke(limeModel) }
         if (!typeRefsValidationResult || validationResults.contains(false)) {
             throw LimeLoadingException("Validation errors found, see log for details.")
@@ -69,7 +72,8 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
 
     private fun loadFile(
         fileName: String,
-        referenceResolver: LimeReferenceResolver
+        referenceResolver: LimeReferenceResolver,
+        elementNameToFileName: MutableMap<String, String>
     ): List<LimeNamedElement>? {
         val lexer = LimeLexer(CharStreams.fromFileName(fileName))
         val parser = LimeParser(CommonTokenStream(lexer))
@@ -84,7 +88,10 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
             return null
         }
 
-        return modelBuilder.finalResults
+        val results = modelBuilder.finalResults
+        results.forEach { elementNameToFileName[it.fullName] = fileName }
+
+        return results
     }
 
     private fun listFilesRecursively(filePath: String): List<String> {
@@ -106,19 +113,19 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
         }
     }
 
-    private fun getTypeRefDependentValidators() =
+    private fun getTypeRefDependentValidators(limeLogger: LimeLogger) =
         listOf<(LimeModel) -> Boolean>(
-            { LimeGenericTypesValidator(logger).validate(it) },
-            { LimeEquatableStructsValidator(logger).validate(it) },
-            { LimeSerializableStructsValidator(logger).validate(it) },
-            { LimeInheritanceValidator(logger).validate(it) },
-            { LimeMethodsSignatureValidator(logger).validate(it) }
+            { LimeGenericTypesValidator(limeLogger).validate(it) },
+            { LimeEquatableStructsValidator(limeLogger).validate(it) },
+            { LimeSerializableStructsValidator(limeLogger).validate(it) },
+            { LimeInheritanceValidator(limeLogger).validate(it) },
+            { LimeMethodsSignatureValidator(limeLogger).validate(it) }
         )
 
-    private fun getIndependentValidators() =
+    private fun getIndependentValidators(limeLogger: LimeLogger) =
         listOf<(LimeModel) -> Boolean>(
-            { LimeEnumeratorRefsValidator(logger).validate(it) },
-            { LimeExternalTypesValidator(logger).validate(it) }
+            { LimeEnumeratorRefsValidator(limeLogger).validate(it) },
+            { LimeExternalTypesValidator(limeLogger).validate(it) }
         )
 }
 

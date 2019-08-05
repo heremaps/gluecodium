@@ -23,10 +23,9 @@ import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeStruct
-import java.util.logging.Logger
 
 // Validate equatable structs to ensure their fields have equatable types.
-internal class LimeEquatableStructsValidator(private val logger: Logger) {
+internal class LimeEquatableStructsValidator(private val logger: LimeLogger) {
 
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values
@@ -45,8 +44,10 @@ internal class LimeEquatableStructsValidator(private val logger: Logger) {
 
         return when {
             nonEquatableFieldTypes.any { it is LimeStruct || it is LimeContainer } -> {
-                logger.severe(limeStruct.fullName +
-                    ": fields of non-equatable types are not supported for equatable structs")
+                logger.error(
+                    limeStruct,
+                    "fields of non-equatable types are not supported for equatable structs"
+                )
                 false
             }
             else -> true

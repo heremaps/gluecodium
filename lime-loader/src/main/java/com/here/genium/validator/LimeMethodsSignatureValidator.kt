@@ -22,9 +22,8 @@ package com.here.genium.validator
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeSignatureResolver
-import java.util.logging.Logger
 
-class LimeMethodsSignatureValidator(private val logger: Logger) {
+internal class LimeMethodsSignatureValidator(private val logger: LimeLogger) {
 
     fun validate(limeModel: LimeModel): Boolean {
         val signatureResolver = LimeSignatureResolver(limeModel.referenceMap)
@@ -41,11 +40,12 @@ class LimeMethodsSignatureValidator(private val logger: Logger) {
     ) = when {
         limeMethod.isConstructor &&
                 signatureResolver.hasConstructorSignatureClash(limeMethod) -> {
-            logger.severe("${limeMethod.fullName} constructor has conflicting overloads")
+            logger.error(limeMethod, "constructor has conflicting overloads")
             false
         }
         !limeMethod.isConstructor && signatureResolver.hasSignatureClash(limeMethod) -> {
-            logger.severe("${limeMethod.fullName} method has conflicting overloads")
+            logger.error(limeMethod, "method has conflicting overloads")
+            logger.error(limeMethod, "method has conflicting overloads")
             false
         }
         else -> true

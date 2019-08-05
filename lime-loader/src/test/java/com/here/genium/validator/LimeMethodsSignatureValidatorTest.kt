@@ -28,11 +28,11 @@ import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeStruct
+import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import java.util.logging.Logger
 
 @RunWith(Parameterized::class)
 class LimeMethodsSignatureValidatorTest(
@@ -44,8 +44,7 @@ class LimeMethodsSignatureValidatorTest(
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 
-    private val dummyLogger = object : Logger(null, null) { override fun severe(msg: String?) {} }
-    private val validator = LimeMethodsSignatureValidator(dummyLogger)
+    private val validator = LimeMethodsSignatureValidator(mockk(relaxed = true))
 
     @Test
     fun validateInContainer() {

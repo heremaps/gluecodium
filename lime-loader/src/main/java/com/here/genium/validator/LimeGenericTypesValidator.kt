@@ -31,10 +31,9 @@ import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
-import java.util.logging.Logger
 
 // Validate set element types and map key types to ensure these are hashable types.
-internal class LimeGenericTypesValidator(private val logger: Logger)
+internal class LimeGenericTypesValidator(private val logger: LimeLogger)
     : LimeTypeRefsVisitor<Boolean>() {
 
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
@@ -64,8 +63,10 @@ internal class LimeGenericTypesValidator(private val logger: Logger)
         val limeType = elementTypeRef.type
         val result = isHashable(limeType)
         if (!result) {
-            logger.severe("${parentElement.fullName}: $elementDescription type " +
-                "${limeType.fullName} is not hashable")
+            logger.error(
+                parentElement,
+                "$elementDescription type ${limeType.fullName} is not hashable"
+            )
         }
         return result
     }

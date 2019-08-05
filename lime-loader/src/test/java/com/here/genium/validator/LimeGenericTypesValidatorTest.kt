@@ -36,11 +36,11 @@ import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
+import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import java.util.logging.Logger
 
 @RunWith(Parameterized::class)
 class LimeGenericTypesValidatorTest(
@@ -51,8 +51,7 @@ class LimeGenericTypesValidatorTest(
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 
-    private val dummyLogger = object : Logger(null, null) { override fun severe(msg: String?) {} }
-    private val validator = LimeGenericTypesValidator(dummyLogger)
+    private val validator = LimeGenericTypesValidator(mockk(relaxed = true))
 
     @Test
     fun validateSetElementType() {

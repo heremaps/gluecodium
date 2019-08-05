@@ -25,12 +25,11 @@ import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeModelLoaderException
 import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeTypeRef
-import java.util.logging.Logger
 
 /* Validates all type references by trying to resolve each one and reporting any resulting
  * exceptions as validation failures.
  */
-internal class LimeTypeRefsValidator(private val logger: Logger)
+internal class LimeTypeRefsValidator(private val logger: LimeLogger)
     : LimeTypeRefsVisitor<Boolean>() {
 
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
@@ -53,7 +52,7 @@ internal class LimeTypeRefsValidator(private val logger: Logger)
         try {
             limeTypeRef.type
         } catch (e: LimeModelLoaderException) {
-            logger.severe("${parentElement.fullName}: ${e.message}")
+            logger.error(parentElement, e.message ?: "")
             null
         }
 }

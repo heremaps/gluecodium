@@ -28,12 +28,12 @@ import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeType
+import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import java.util.logging.Logger
 
 @RunWith(Parameterized::class)
 class LimeExternalTypesValidatorTest(private val attributeValueType: LimeAttributeValueType) {
@@ -41,8 +41,7 @@ class LimeExternalTypesValidatorTest(private val attributeValueType: LimeAttribu
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 
-    private val dummyLogger = object : Logger(null, null) { override fun severe(msg: String?) {} }
-    private val validator = LimeExternalTypesValidator(dummyLogger)
+    private val validator = LimeExternalTypesValidator(mockk(relaxed = true))
 
     @Test
     fun validateAsExternalType() {

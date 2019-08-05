@@ -23,10 +23,9 @@ import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeStruct
-import java.util.logging.Logger
 
 // Validate serializable structs to ensure their fields have serializable types.
-internal class LimeSerializableStructsValidator(private val logger: Logger) {
+internal class LimeSerializableStructsValidator(private val logger: LimeLogger) {
 
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values
@@ -43,14 +42,14 @@ internal class LimeSerializableStructsValidator(private val logger: Logger) {
 
         return when {
             allFieldTypes.filterIsInstance<LimeContainer>().isNotEmpty() -> {
-                logger.severe(limeStruct.fullName + MESSAGE)
+                logger.error(limeStruct, MESSAGE)
                 false
             }
             allFieldTypes
                 .filterIsInstance<LimeStruct>()
                 .filterNot { it.attributes.have(LimeAttributeType.SERIALIZABLE) }
                 .isNotEmpty() -> {
-                logger.severe(limeStruct.fullName + MESSAGE)
+                logger.error(limeStruct, MESSAGE)
                 false
             }
             else -> true
@@ -59,6 +58,6 @@ internal class LimeSerializableStructsValidator(private val logger: Logger) {
 
     companion object {
         private const val MESSAGE =
-            ": fields of non-serializable types are not supported for serializable structs"
+            "fields of non-serializable types are not supported for serializable structs"
     }
 }
