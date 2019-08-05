@@ -38,10 +38,6 @@ class comments {
 
     // This is some very useful typedef.
     typealias Usefulness = Boolean
-    // This is some very useful array.
-    typealias SomeArray = List<String>
-    // This is some very useful map.
-    typealias SomeMap = Map<String, Usefulness>
 
     // This is some very useful constant.
     const VeryUseful: Usefulness = true
@@ -72,10 +68,6 @@ class comments {
     fun someMethodWithNothing()
     // This is some very useful method that does nothing.
     fun someMethodWithoutReturnTypeOrInputParameters()
-    // This is some very useful instance method.
-    // @param[input] This is some very useful instance method parameter.
-    // @return This is some very useful instance method result.
-    fun instanceMethod(input: CommentsInstantiable): CommentsInstantiable
     // @param[documented] nicely documented
     fun oneParameterCommentOnly(undocumented: String, documented: String): String
     // @return nicely documented
@@ -85,10 +77,6 @@ class comments {
     // @get Gets some very useful attribute.
     // @set Sets some very useful attribute.
     property SomeAttribute: Usefulness
-    // Some very useful attribute.
-    // @get Gets some very useful attribute.
-    // @set Sets some very useful attribute.
-    property instanceAttribute: CommentsInstantiable
 
     // This is some very useful exception.
     exception SomeEnumException(SomeEnum)
@@ -133,14 +121,6 @@ class LongComments {
     fun someMethodWithLongComment(input: String, ratio: Double): Float
 }
 
-class CommentsInstantiable {
-    // This is some very useful constructor.
-    constructor create(
-        // Very useful input parameter
-        input: String
-    )
-}
-
 types CommentsTypeCollection {
     struct TypeCollectionStruct {
         field: Int
@@ -173,7 +153,7 @@ class CommentsLinks {
     // * attribute: [comments.SomeAttribute]
     // * attribute setter: [comments.SomeAttribute.set]
     // * attribute getter: [comments.SomeAttribute.get]
-    // * method: [comments.instanceMethod]
+    // * method: [comments.someMethodWithAllComments]
     // * top level constant: [CommentsTypeCollection.TypeCollectionConstant]
     // * top level struct: [CommentsTypeCollection.TypeCollectionStruct]
     // * top level struct field: [CommentsTypeCollection.TypeCollectionStruct.field]
@@ -183,8 +163,6 @@ class CommentsLinks {
     //
     // Not working for Java:
     // * typedef: [comments.Usefulness]
-    // * array: [comments.SomeArray]
-    // * map: [comments.SomeMap]
     // * top level typedef: [CommentsTypeCollection.TypeCollectionTypedef]
     //
     // Not working for Swift:

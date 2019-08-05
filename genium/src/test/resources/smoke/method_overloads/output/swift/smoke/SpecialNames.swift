@@ -31,9 +31,6 @@ public class SpecialNames {
     public func createProxy() -> Void {
         return moveFromCType(smoke_SpecialNames_createProxy(self.c_instance))
     }
-    public func update() -> Void {
-        return moveFromCType(smoke_SpecialNames_update(self.c_instance))
-    }
     public func Uppercase() -> Void {
         return moveFromCType(smoke_SpecialNames_Uppercase(self.c_instance))
     }

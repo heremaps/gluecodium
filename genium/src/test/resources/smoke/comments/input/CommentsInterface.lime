@@ -24,6 +24,7 @@ interface CommentsInterface {
         // How useful this struct is
         someField: Usefulness
     }
+
     // This is some very useful enum.
     enum SomeEnum {
         // Not quite useful
@@ -31,12 +32,10 @@ interface CommentsInterface {
         // Somewhat useful
         Useful
     }
+
     // This is some very useful typedef.
     typealias Usefulness = Boolean
-    // This is some very useful array.
-    typealias SomeArray = List<String>
-    // This is some very useful map.
-    typealias SomeMap = Map<String, Usefulness>
+
     // This is some very useful constant.
     const VeryUseful: Usefulness = true
 

@@ -17,23 +17,23 @@
 
 package smoke
 
-interface InheritanceRoot {
+interface ParentInterface {
     fun rootMethod()
     property rootAttribute: String
 }
 
-interface InheritanceChild : InheritanceRoot {
+interface ChildInterface : ParentInterface {
     fun childMethod()
 }
 
-class InheritanceChildClass : InheritanceRoot {
+class ChildClassFromInterface : ParentInterface {
     fun childClassMethod()
 }
 
-interface InheritanceGrandchild : InheritanceChild {
-    fun grandchildMethod()
+class ParentClass {
+    fun rootMethod()
 }
 
-class InheritanceGrandchildClass : InheritanceChildClass {
-    fun grandchildClassMethod()
+class ChildClassFromClass : ParentClass {
+    fun childClassMethod()
 }

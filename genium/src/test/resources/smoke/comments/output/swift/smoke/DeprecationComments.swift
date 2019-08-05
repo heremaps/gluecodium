@@ -40,12 +40,6 @@ public protocol DeprecationComments : AnyObject {
     /// This is some very useful typedef.
     @available(*, deprecated, message: "Unfortunately, this typedef is deprecated. Use `Comments.Usefulness` instead.")
     typealias Usefulness = Bool
-    /// This is some very useful array.
-    @available(*, deprecated, message: "Unfortunately, this array is deprecated. Use `Comments.SomeArray` instead.")
-    typealias SomeArray = [String]
-    /// This is some very useful map.
-    @available(*, deprecated, message: "Unfortunately, this map is deprecated. Use `Comments.SomeMap` instead.")
-    typealias SomeMap = [String: DeprecationComments.Usefulness]
     /// Some very useful attribute.
     @available(*, deprecated, message: "Unfortunately, this attribute is deprecated.
     Use `Comments.isSomeAttribute` instead.")

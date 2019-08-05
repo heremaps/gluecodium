@@ -21,6 +21,5 @@ public class SpecialNames extends NativeBase {
     public native void create();
     public native void release();
     public native void createProxy();
-    public native void update();
     public native void Uppercase();
 }

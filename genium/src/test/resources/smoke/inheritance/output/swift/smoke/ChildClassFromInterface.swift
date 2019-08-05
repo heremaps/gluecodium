@@ -1,0 +1,73 @@
+//
+//
+// Automatically generated. Do not modify. Your changes will be lost.
+import Foundation
+internal func getRef(_ ref: ChildClassFromInterface?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_ChildClassFromInterface_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_ChildClassFromInterface_release_handle)
+        : RefHolder(handle_copy)
+}
+public class ChildClassFromInterface: ParentInterface {
+    public var rootAttribute: String {
+        get {
+            return moveFromCType(smoke_ParentInterface_rootAttribute_get(self.c_instance))
+        }
+        set {
+            let c_newValue = moveToCType(newValue)
+            return moveFromCType(smoke_ParentInterface_rootAttribute_set(self.c_instance, c_newValue.ref))
+        }
+    }
+    let c_instance : _baseRef
+    init(cChildClassFromInterface: _baseRef) {
+        guard cChildClassFromInterface != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = cChildClassFromInterface
+    }
+    deinit {
+        smoke_ChildClassFromInterface_release_handle(c_instance)
+    }
+    public func rootMethod() -> Void {
+        return moveFromCType(smoke_ParentInterface_rootMethod(self.c_instance))
+    }
+    public func childClassMethod() -> Void {
+        return moveFromCType(smoke_ChildClassFromInterface_childClassMethod(self.c_instance))
+    }
+}
+extension ChildClassFromInterface: NativeBase {
+    var c_handle: _baseRef { return c_instance }
+}
+internal func ChildClassFromInterfacecopyFromCType(_ handle: _baseRef) -> ChildClassFromInterface {
+    return ChildClassFromInterface(cChildClassFromInterface: smoke_ChildClassFromInterface_copy_handle(handle))
+}
+internal func ChildClassFromInterfacemoveFromCType(_ handle: _baseRef) -> ChildClassFromInterface {
+    return ChildClassFromInterface(cChildClassFromInterface: handle)
+}
+internal func ChildClassFromInterfacecopyFromCType(_ handle: _baseRef) -> ChildClassFromInterface? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ChildClassFromInterfacemoveFromCType(handle) as ChildClassFromInterface
+}
+internal func ChildClassFromInterfacemoveFromCType(_ handle: _baseRef) -> ChildClassFromInterface? {
+    guard handle != 0 else {
+        return nil
+    }
+    return ChildClassFromInterfacemoveFromCType(handle) as ChildClassFromInterface
+}
+internal func copyToCType(_ swiftClass: ChildClassFromInterface) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ChildClassFromInterface) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+internal func copyToCType(_ swiftClass: ChildClassFromInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+internal func moveToCType(_ swiftClass: ChildClassFromInterface?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}

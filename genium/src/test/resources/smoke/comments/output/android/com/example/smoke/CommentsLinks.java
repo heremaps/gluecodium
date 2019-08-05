@@ -53,7 +53,7 @@ public class CommentsLinks extends NativeBase {
      * <li>attribute: {@link com.example.smoke.Comments#isSomeAttribute}</li>
      * <li>attribute setter: {@link com.example.smoke.Comments#setSomeAttribute}</li>
      * <li>attribute getter: {@link com.example.smoke.Comments#isSomeAttribute}</li>
-     * <li>method: {@link com.example.smoke.Comments#instanceMethod}</li>
+     * <li>method: {@link com.example.smoke.Comments#someMethodWithAllComments}</li>
      * <li>top level constant: {@link com.example.smoke.CommentsTypeCollection#TYPE_COLLECTION_CONSTANT}</li>
      * <li>top level struct: {@link com.example.smoke.TypeCollectionStruct}</li>
      * <li>top level struct field: {@link com.example.smoke.TypeCollectionStruct#field}</li>
@@ -64,8 +64,6 @@ public class CommentsLinks extends NativeBase {
      * <p>Not working for Java:</p>
      * <ul>
      * <li>typedef: [comments.Usefulness]</li>
-     * <li>array: [comments.SomeArray]</li>
-     * <li>map: [comments.SomeMap]</li>
      * <li>top level typedef: [CommentsTypeCollection.TypeCollectionTypedef]</li>
      * </ul>
      * <p>Not working for Swift:</p>

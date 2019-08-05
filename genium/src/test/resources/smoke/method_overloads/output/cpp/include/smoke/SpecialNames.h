@@ -16,7 +16,6 @@ public:
 virtual void create(  ) = 0;
 virtual void release(  ) = 0;
 virtual void create_proxy(  ) = 0;
-virtual void update(  ) = 0;
 virtual void _uppercase(  ) = 0;
 };
 }

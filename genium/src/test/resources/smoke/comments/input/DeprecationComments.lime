@@ -39,12 +39,6 @@ interface DeprecationComments {
     // This is some very useful typedef.
     @Deprecated("Unfortunately, this typedef is deprecated. Use [comments.Usefulness] instead.")
     typealias Usefulness = Boolean
-    // This is some very useful array.
-    @Deprecated("Unfortunately, this array is deprecated. Use [comments.SomeArray] instead.")
-    typealias SomeArray = List<String>
-    // This is some very useful map.
-    @Deprecated("Unfortunately, this map is deprecated. Use [comments.SomeMap] instead.")
-    typealias SomeMap = Map<String, Usefulness>
     // This is some very useful constant.
     @Deprecated("Unfortunately, this constant is deprecated. Use [comments.VeryUseful] instead.")
     const VeryUseful: Usefulness = true
@@ -80,10 +74,6 @@ interface DeprecationCommentsOnly {
     }
     @Deprecated("Unfortunately, this typedef is deprecated.")
     typealias Usefulness = Boolean
-    @Deprecated("Unfortunately, this array is deprecated.")
-    typealias SomeArray = List<String>
-    @Deprecated("Unfortunately, this map is deprecated.")
-    typealias SomeMap = Map<String, Usefulness>
     @Deprecated("Unfortunately, this constant is deprecated.")
     const VeryUseful: Usefulness = true
     @Deprecated("Unfortunately, this method is deprecated.")

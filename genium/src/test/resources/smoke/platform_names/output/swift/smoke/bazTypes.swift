@@ -3,7 +3,6 @@
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
 public typealias bazTypedef = Double
-public typealias bazArray = [Float]
 public enum bazEnum : UInt32, CaseIterable {
     case BAZ_ITEM
 }

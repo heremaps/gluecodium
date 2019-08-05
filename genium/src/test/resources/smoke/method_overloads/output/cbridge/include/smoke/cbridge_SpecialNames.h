@@ -12,7 +12,6 @@ _GENIUM_C_EXPORT _baseRef smoke_SpecialNames_copy_handle(_baseRef handle);
 _GENIUM_C_EXPORT void smoke_SpecialNames_create(_baseRef _instance);
 _GENIUM_C_EXPORT void smoke_SpecialNames_release(_baseRef _instance);
 _GENIUM_C_EXPORT void smoke_SpecialNames_createProxy(_baseRef _instance);
-_GENIUM_C_EXPORT void smoke_SpecialNames_update(_baseRef _instance);
 _GENIUM_C_EXPORT void smoke_SpecialNames_Uppercase(_baseRef _instance);
 #ifdef __cplusplus
 }

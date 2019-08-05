@@ -38,10 +38,6 @@ internal func getRef(_ ref: DeprecationCommentsOnly?, owning: Bool = true) -> Re
 public protocol DeprecationCommentsOnly : AnyObject {
     @available(*, deprecated, message: "Unfortunately, this typedef is deprecated.")
     typealias Usefulness = Bool
-    @available(*, deprecated, message: "Unfortunately, this array is deprecated.")
-    typealias SomeArray = [String]
-    @available(*, deprecated, message: "Unfortunately, this map is deprecated.")
-    typealias SomeMap = [String: DeprecationCommentsOnly.Usefulness]
     @available(*, deprecated, message: "Unfortunately, this attribute is deprecated.")
     var isSomeAttribute: DeprecationCommentsOnly.Usefulness { get set }
     ///

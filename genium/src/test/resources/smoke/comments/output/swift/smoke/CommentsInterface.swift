@@ -74,10 +74,6 @@ internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolde
 public protocol CommentsInterface : AnyObject {
     /// This is some very useful typedef.
     typealias Usefulness = Bool
-    /// This is some very useful array.
-    typealias SomeArray = [String]
-    /// This is some very useful map.
-    typealias SomeMap = [String: CommentsInterface.Usefulness]
     /// Some very useful attribute.
     var isSomeAttribute: CommentsInterface.Usefulness { get set }
     /// This is some very useful method that measures the usefulness of its input.

@@ -57,10 +57,6 @@ types PlatformNames {
     @Cpp("fooTypedef")
     @Swift("bazTypedef")
     typealias BasicTypedef = Double
-
-    @Cpp("fooArray")
-    @Swift("bazArray")
-    typealias BasicArray = List<Float>
 }
 
 @Cpp("fooInterface")

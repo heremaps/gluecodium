@@ -3,10 +3,6 @@ package smoke
 class comments {
     // This is some very useful typedef.
     typealias Usefulness = Boolean
-    // This is some very useful array.
-    typealias SomeArray = List<String>
-    // This is some very useful map.
-    typealias SomeMap = Map<String, Usefulness>
     // This is some very useful enum.
     enum SomeEnum {
         // Not quite useful
@@ -64,12 +60,6 @@ class comments {
     fun someMethodWithNothing()
     // This is some very useful method that does nothing.
     fun someMethodWithoutReturnTypeOrInputParameters()
-    // This is some very useful instance method.
-    // @param[input] This is some very useful instance method parameter.
-    // @return This is some very useful instance method result.
-    fun instanceMethod(
-        input: CommentsInstantiable
-    ): CommentsInstantiable
     // @param[documented] nicely documented
     fun oneParameterCommentOnly(
         undocumented: String,
@@ -83,8 +73,4 @@ class comments {
     // @get Gets some very useful attribute.
     // @set Sets some very useful attribute.
     property SomeAttribute: Usefulness
-    // Some very useful attribute.
-    // @get Gets some very useful attribute.
-    // @set Sets some very useful attribute.
-    property instanceAttribute: CommentsInstantiable
 }

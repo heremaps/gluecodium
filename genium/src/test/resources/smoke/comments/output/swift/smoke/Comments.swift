@@ -15,10 +15,6 @@ internal func getRef(_ ref: Comments?, owning: Bool = true) -> RefHolder {
 public class Comments {
     /// This is some very useful typedef.
     public typealias Usefulness = Bool
-    /// This is some very useful array.
-    public typealias SomeArray = [String]
-    /// This is some very useful map.
-    public typealias SomeMap = [String: Comments.Usefulness]
     /// This is some very useful constant.
     public static let veryUseful: Comments.Usefulness = true
     /// Some very useful attribute.
@@ -29,16 +25,6 @@ public class Comments {
         set {
             let c_newValue = moveToCType(newValue)
             return moveFromCType(smoke_Comments_someAttribute_set(self.c_instance, c_newValue.ref))
-        }
-    }
-    /// Some very useful attribute.
-    public var instanceAttribute: CommentsInstantiable {
-        get {
-            return CommentsInstantiablemoveFromCType(smoke_Comments_instanceAttribute_get(self.c_instance))
-        }
-        set {
-            let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Comments_instanceAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef
@@ -139,13 +125,6 @@ public class Comments {
     /// This is some very useful method that does nothing.
     public func someMethodWithoutReturnTypeOrInputParameters() -> Void {
         return moveFromCType(smoke_Comments_someMethodWithoutReturnTypeOrInputParameters(self.c_instance))
-    }
-    /// This is some very useful instance method.
-    /// - Parameter input: This is some very useful instance method parameter.
-    /// - Returns: This is some very useful instance method result.
-    public func instanceMethod(input: CommentsInstantiable) -> CommentsInstantiable {
-        let c_input = moveToCType(input)
-        return CommentsInstantiablemoveFromCType(smoke_Comments_instanceMethod(self.c_instance, c_input.ref))
     }
     ///
     /// - Parameters:

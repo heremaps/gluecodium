@@ -9,13 +9,9 @@
 #pragma once
 #include "genium/Export.h"
 #include "genium/Hash.h"
-#include "genium/UnorderedMapHash.h"
-#include "genium/VectorHash.h"
 #include <cstdint>
 #include <string>
 #include <system_error>
-#include <unordered_map>
-#include <vector>
 namespace smoke {
 /**
  * This is some very useful interface.
@@ -42,16 +38,6 @@ enum class SomeEnum {
  * \deprecated Unfortunately, this typedef is deprecated. Use ::smoke::Comments::Usefulness instead.
  */
 using Usefulness = bool;
-/**
- * This is some very useful array.
- * \deprecated Unfortunately, this array is deprecated. Use ::smoke::Comments::SomeArray instead.
- */
-using SomeArray = ::std::vector< ::std::string >;
-/**
- * This is some very useful map.
- * \deprecated Unfortunately, this map is deprecated. Use ::smoke::Comments::SomeMap instead.
- */
-using SomeMap = ::std::unordered_map< ::std::string, ::smoke::DeprecationComments::Usefulness >;
 /**
  * This is some very useful struct.
  * \deprecated Unfortunately, this struct is deprecated. Use ::smoke::Comments::SomeStruct instead.

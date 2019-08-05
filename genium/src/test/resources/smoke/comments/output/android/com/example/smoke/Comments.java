@@ -128,13 +128,6 @@ public class Comments extends NativeBase {
      */
     public native void someMethodWithoutReturnTypeOrInputParameters();
     /**
-     * <p>This is some very useful instance method.</p>
-     * @param input <p>This is some very useful instance method parameter.</p>
-     * @return <p>This is some very useful instance method result.</p>
-     */
-    @NonNull
-    public native CommentsInstantiable instanceMethod(@NonNull final CommentsInstantiable input);
-    /**
      *
      * @param undocumented
      * @param documented <p>nicely documented</p>
@@ -158,14 +151,4 @@ public class Comments extends NativeBase {
      * @param value Some very useful attribute.
      */
     public native void setSomeAttribute(final boolean value);
-    /**
-     * <p>Gets some very useful attribute.</p>
-     */
-    @NonNull
-    public native CommentsInstantiable getInstanceAttribute();
-    /**
-     * <p>Sets some very useful attribute.</p>
-     * @param value Some very useful attribute.
-     */
-    public native void setInstanceAttribute(@NonNull final CommentsInstantiable value);
 }

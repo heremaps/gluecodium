@@ -25,7 +25,7 @@ class CommentsLinks {
     // * attribute: [comments.SomeAttribute]
     // * attribute setter: [comments.SomeAttribute.set]
     // * attribute getter: [comments.SomeAttribute.get]
-    // * method: [comments.instanceMethod]
+    // * method: [comments.someMethodWithAllComments]
     // * top level constant: [CommentsTypeCollection.TypeCollectionConstant]
     // * top level struct: [CommentsTypeCollection.TypeCollectionStruct]
     // * top level struct field: [CommentsTypeCollection.TypeCollectionStruct.field]
@@ -35,8 +35,6 @@ class CommentsLinks {
     //
     // Not working for Java:
     // * typedef: [comments.Usefulness]
-    // * array: [comments.SomeArray]
-    // * map: [comments.SomeMap]
     // * top level typedef: [CommentsTypeCollection.TypeCollectionTypedef]
     //
     // Not working for Swift:

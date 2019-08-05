@@ -54,7 +54,7 @@ public:
  * * attribute: ::smoke::Comments::is_some_attribute
  * * attribute setter: ::smoke::Comments::set_some_attribute
  * * attribute getter: ::smoke::Comments::is_some_attribute
- * * method: ::smoke::Comments::instance_method
+ * * method: ::smoke::Comments::some_method_with_all_comments
  * * top level constant: ::smoke::TYPE_COLLECTION_CONSTANT
  * * top level struct: ::smoke::TypeCollectionStruct
  * * top level struct field: ::smoke::TypeCollectionStruct::field
@@ -64,8 +64,6 @@ public:
  *
  * Not working for Java:
  * * typedef: ::smoke::Comments::Usefulness
- * * array: ::smoke::Comments::SomeArray
- * * map: ::smoke::Comments::SomeMap
  * * top level typedef: ::smoke::TypeCollectionTypedef
  *
  * Not working for Swift:

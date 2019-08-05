@@ -3,10 +3,6 @@ package smoke
 interface DeprecationCommentsOnly {
     @Deprecated("Unfortunately, this typedef is deprecated.")
     typealias Usefulness = Boolean
-    @Deprecated("Unfortunately, this array is deprecated.")
-    typealias SomeArray = List<String>
-    @Deprecated("Unfortunately, this map is deprecated.")
-    typealias SomeMap = Map<String, Usefulness>
     @Deprecated("Unfortunately, this enum is deprecated.")
     enum SomeEnum {
         @Deprecated("Unfortunately, this item is deprecated.")

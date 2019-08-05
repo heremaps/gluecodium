@@ -11,18 +11,9 @@
 #include "genium/Hash.h"
 #include "genium/Optional.h"
 #include "genium/Return.h"
-#include "genium/UnorderedMapHash.h"
-#include "genium/VectorHash.h"
-#include "smoke/CommentsInstantiable.h"
 #include <cstdint>
-#include <memory>
 #include <string>
 #include <system_error>
-#include <unordered_map>
-#include <vector>
-namespace smoke {
-    class CommentsInstantiable;
-}
 namespace smoke {
 /**
  * This is some very useful interface.
@@ -48,14 +39,6 @@ enum class SomeEnum {
  * This is some very useful typedef.
  */
 using Usefulness = bool;
-/**
- * This is some very useful array.
- */
-using SomeArray = ::std::vector< ::std::string >;
-/**
- * This is some very useful map.
- */
-using SomeMap = ::std::unordered_map< ::std::string, ::smoke::Comments::Usefulness >;
 /**
  * This is some very useful struct.
  */
@@ -135,12 +118,6 @@ virtual void some_method_with_nothing(  ) = 0;
  */
 virtual void some_method_without_return_type_or_input_parameters(  ) = 0;
 /**
- * This is some very useful instance method.
- * \param[in] input @NotNull This is some very useful instance method parameter.
- * \return @NotNull This is some very useful instance method result.
- */
-virtual ::std::shared_ptr< ::smoke::CommentsInstantiable > instance_method( const ::std::shared_ptr< ::smoke::CommentsInstantiable >& input ) = 0;
-/**
  *
  * \param[in] undocumented
  * \param[in] documented nicely documented
@@ -163,16 +140,6 @@ virtual ::smoke::Comments::Usefulness is_some_attribute(  ) const = 0;
  * \param[in] value Some very useful attribute.
  */
 virtual void set_some_attribute( const ::smoke::Comments::Usefulness value ) = 0;
-/**
- * Gets some very useful attribute.
- * \return @NotNull Some very useful attribute.
- */
-virtual ::std::shared_ptr< ::smoke::CommentsInstantiable > get_instance_attribute(  ) const = 0;
-/**
- * Sets some very useful attribute.
- * \param[in] value @NotNull Some very useful attribute.
- */
-virtual void set_instance_attribute( const ::std::shared_ptr< ::smoke::CommentsInstantiable >& value ) = 0;
 };
 _GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::Comments::SomeEnum value ) noexcept;
 }

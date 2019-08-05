@@ -5,12 +5,6 @@ interface DeprecationComments {
     // This is some very useful typedef.
     @Deprecated("Unfortunately, this typedef is deprecated. Use [comments.Usefulness] instead.")
     typealias Usefulness = Boolean
-    // This is some very useful array.
-    @Deprecated("Unfortunately, this array is deprecated. Use [comments.SomeArray] instead.")
-    typealias SomeArray = List<String>
-    // This is some very useful map.
-    @Deprecated("Unfortunately, this map is deprecated. Use [comments.SomeMap] instead.")
-    typealias SomeMap = Map<String, Usefulness>
     // This is some very useful enum.
     @Deprecated("Unfortunately, this enum is deprecated. Use [comments.SomeEnum] instead.")
     enum SomeEnum {
