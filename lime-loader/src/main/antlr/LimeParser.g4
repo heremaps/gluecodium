@@ -23,26 +23,26 @@ options { tokenVocab = LimeLexer; }
 
 limeFile
     : NL* packageHeader importHeader*
-    (container | types | struct | enumeration | typealias | exception)+ EOF
+      (container | types | struct | enumeration | typealias | exception)+ EOF
     ;
 
 packageHeader
-    : 'package' identifier NL*
+    : 'package' identifier NL+
     ;
 
 importHeader
-    : 'import' identifier NL*
+    : 'import' identifier NL+
     ;
 
 container
     : docComment* annotation* visibility? ('class' | 'interface') NL* simpleId NL*
       (':' NL* identifier NL*)? '{' NL* ((function | constructor | property |
-      struct | enumeration | constant | typealias | exception) NL*)* '}' NL*
+      struct | enumeration | constant | typealias | exception) NL*)* '}' NL+
     ;
 
 types
     : docComment* annotation* visibility? 'types' NL* simpleId NL*
-      '{' NL* ((struct | enumeration | constant | typealias | exception) NL*)* '}' NL*
+      '{' NL* ((struct | enumeration | constant | typealias | exception) NL*)* '}' NL+
     ;
 
 function
@@ -70,7 +70,7 @@ throwsClause
 
 property
     : docComment* annotation* visibility? ('static' NL*)? 'property' NL* simpleId NL*
-      ':' NL* typeRef NL* ('{' NL* getter (setter)? '}')?
+      ':' NL* typeRef NL* ('{' NL* getter (setter)? '}' )? NL+
     ;
 
 getter
@@ -83,7 +83,7 @@ setter
 
 struct
     : docComment* annotation* visibility? 'struct' NL* simpleId NL*
-      '{' NL* ((field | function | constructor | constant) NL*)+ '}' NL*
+      '{' NL* ((field | function | constructor | constant) NL*)+ '}' NL+
     ;
 
 field
@@ -93,7 +93,7 @@ field
 
 enumeration
     : docComment* annotation* visibility? 'enum' NL* simpleId NL*
-      '{' NL* enumerator NL* (',' NL* enumerator NL*)* '}' NL*
+      '{' NL* enumerator NL* (',' NL* enumerator NL*)* '}' NL+
     ;
 
 enumerator
@@ -111,11 +111,12 @@ typealias
 
 exception
     : docComment* annotation* visibility? 'exception' NL* simpleId NL*
-      '(' NL* identifier NL* ')' NL* NL+
+      '(' NL* identifier NL* ')' NL+
     ;
 
 docComment
-    : (DelimitedComment | LineComment) NL*
+    : DELIMITED_COMMENT_OPEN DelimitedCommentText NL*
+    | LINE_COMMENT_OPEN LineCommentText NL*
     ;
 
 annotation

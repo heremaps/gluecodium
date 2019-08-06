@@ -454,9 +454,9 @@ internal class AntlrLimeModelBuilder(
     private fun convertDocComments(comments: List<LimeParser.DocCommentContext>) =
         comments.joinToString(separator = "\n") {
             when {
-                it.DelimitedComment() != null -> it.DelimitedComment().text.drop(2).dropLast(2)
-                    .split('\n').joinToString("\n") { line -> line.trim() }
-                it.LineComment() != null -> it.LineComment().text.drop(2).trim()
+                it.DELIMITED_COMMENT_OPEN() != null -> it.DelimitedCommentText()?.text?.dropLast(2)
+                    ?.split('\n')?.joinToString("\n") { line -> line.trim() } ?: ""
+                it.LINE_COMMENT_OPEN() != null -> it.LineCommentText()?.text?.trim() ?: ""
                 else -> ""
             }
         }

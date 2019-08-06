@@ -30,16 +30,6 @@ WS  : [ \t]+
 
 NL  : '\n' | '\r' '\n' ;
 
-// Documentation comments
-
-DelimitedComment
-    : '/*' .*? '*/'
-    ;
-
-LineComment
-    : '//' ~[\r\n]*
-    ;
-
 // Separators and operators
 
 ASSIGNMENT: '=' ;
@@ -148,6 +138,8 @@ fragment DecimalDigit
 
 QUOTE_OPEN: '"' -> pushMode(LineString) ;
 TRIPLE_QUOTE_OPEN: '"""' -> pushMode(MultiLineString) ;
+LINE_COMMENT_OPEN: '//' -> pushMode(LineComment) ;
+DELIMITED_COMMENT_OPEN: '/*' -> pushMode(DelimitedComment) ;
 
 mode LineString ;
 LineStrText: ~('\\' | '"')+ ;
@@ -155,6 +147,12 @@ LineStrEscapedChar: '\\' ('t' | 'b' | 'r' | 'n' | '"' | '\\') ;
 QUOTE_CLOSE: '"' -> popMode ;
 
 mode MultiLineString ;
-TRIPLE_QUOTE_CLOSE : MultiLineStringQuote? '"""' -> popMode ;
 MultiLineStringQuote : '"'+ ;
 MultiLineStrText :  ~'"'+ ;
+TRIPLE_QUOTE_CLOSE : MultiLineStringQuote? '"""' -> popMode ;
+
+mode LineComment ;
+LineCommentText: .*? [\r\n] -> popMode ;
+
+mode DelimitedComment ;
+DelimitedCommentText: .*? '*/' -> popMode ;

@@ -169,6 +169,15 @@ type alias.
 * List of element kinds that cannot have a visibility prefix: package, import, function parameter,
 enumerator.
 
+#### Line breaks
+
+Most declarations are allowed to have an arbitrary (zero or more) number of line breaks between any
+parts of the declaration. Two notable exceptions are:
+* Each file-level declaration must have at least one line break at the end of the declaraion. This
+also means there must always be a trailing line break at the end of the file.
+* Attributes (see `Attributes` below) are not allowed to have any line breaks between `@` and the
+attribute name that follows.
+
 ### File-level declarations
 
 There are three kinds of file-level declarations: package, import or top-level element. All other
