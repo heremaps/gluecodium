@@ -17,144 +17,106 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.model.jni;
+package com.here.genium.model.jni
 
-import com.here.genium.cli.GeniumExecutionException;
-import com.here.genium.generator.jni.JniNameRules;
-import com.here.genium.generator.jni.JniTypeNameMapper;
-import com.here.genium.model.cpp.CppComplexTypeRef;
-import com.here.genium.model.cpp.CppPrimitiveTypeRef;
-import com.here.genium.model.cpp.CppTemplateTypeRef;
-import com.here.genium.model.cpp.CppTypeDefRef;
-import com.here.genium.model.cpp.CppTypeRef;
-import com.here.genium.model.java.JavaArrayType;
-import com.here.genium.model.java.JavaComplexType;
-import com.here.genium.model.java.JavaPrimitiveType;
-import com.here.genium.model.java.JavaTemplateType;
-import com.here.genium.model.java.JavaType;
+import com.here.genium.cli.GeniumExecutionException
+import com.here.genium.generator.jni.JniNameRules
+import com.here.genium.generator.jni.JniTypeNameMapper
+import com.here.genium.model.cpp.CppComplexTypeRef
+import com.here.genium.model.cpp.CppPrimitiveTypeRef
+import com.here.genium.model.cpp.CppTemplateTypeRef
+import com.here.genium.model.cpp.CppTypeDefRef
+import com.here.genium.model.cpp.CppTypeRef
+import com.here.genium.model.java.JavaArrayType
+import com.here.genium.model.java.JavaComplexType
+import com.here.genium.model.java.JavaPrimitiveType
+import com.here.genium.model.java.JavaTemplateType
+import com.here.genium.model.java.JavaType
 
-public class JniType implements JniElement {
+class JniType(javaType: JavaType, cppType: CppTypeRef) : JniElement {
 
-  public static final JniType VOID =
-      new JniType(JavaPrimitiveType.VOID, CppPrimitiveTypeRef.Companion.getVOID());
+    val name = JniTypeNameMapper.map(javaType)
+    val cppName = cppType.name
+    val javaName = javaType.name
+    val jniTypeSignature = createJniSignature(javaType)
+    val cppFullyQualifiedName = getCppFullyQualifiedName(cppType)
 
-  public final String name;
-  public final String cppName;
-  public final String javaName;
-  public final String jniTypeSignature;
-  public final String cppFullyQualifiedName;
+    @Suppress("unused")
+    val isJavaArray = javaType is JavaArrayType
+    @Suppress("unused")
+    val isComplex = javaType !is JavaPrimitiveType
+    @Suppress("unused")
+    val refersToValueType = cppType.refersToValueType
+    @Suppress( "unused")
+    val isJavaVoid = javaType === JavaPrimitiveType.VOID
 
-  public final boolean isJavaArray;
-  public final boolean isComplex;
-  public final boolean refersToValueType;
-  public final boolean isJavaVoid;
+    val elementType = inferElementType(javaType, cppType)
 
-  public final JniType elementType;
+    @Suppress("unused")
+    val mangledSignature: String
+        get() = JniNameRules.getMangledName(jniTypeSignature)
 
-  public JniType(final JavaType javaType, final CppTypeRef cppType) {
-    this.name = JniTypeNameMapper.map(javaType);
-    this.cppName = cppType.getName();
-    this.javaName = javaType.name;
-    isComplex = !(javaType instanceof JavaPrimitiveType);
-    isJavaArray = javaType instanceof JavaArrayType;
-    refersToValueType = cppType.getRefersToValueType();
-    isJavaVoid = javaType == JavaPrimitiveType.VOID;
-    jniTypeSignature = createJniSignature(javaType);
-    cppFullyQualifiedName = getCppFullyQualifiedName(cppType);
-    elementType = inferElementType(javaType, cppType);
-  }
+    companion object {
+        val VOID = JniType(JavaPrimitiveType.VOID, CppPrimitiveTypeRef.VOID)
 
-  @SuppressWarnings("unused")
-  public String getMangledSignature() {
-    return JniNameRules.Companion.getMangledName(jniTypeSignature);
-  }
+        private fun createJniSignature(type: JavaType) =
+            when (type) {
+                is JavaPrimitiveType -> createJniSignature(type)
+                is JavaArrayType -> createJniSignature(type)
+                is JavaComplexType -> createJniSignature(type)
+                else -> throw GeniumExecutionException("invalid java type: $type")
+            }
 
-  private static String createJniSignature(JavaType type) {
+        private fun createJniSignature(primitiveType: JavaPrimitiveType) =
+            when (primitiveType.type) {
+                JavaPrimitiveType.Type.INT -> "I"
+                JavaPrimitiveType.Type.BOOL -> "Z"
+                JavaPrimitiveType.Type.BYTE -> "B"
+                JavaPrimitiveType.Type.CHAR -> "C"
+                JavaPrimitiveType.Type.LONG -> "J"
+                JavaPrimitiveType.Type.VOID -> "V"
+                JavaPrimitiveType.Type.FLOAT -> "F"
+                JavaPrimitiveType.Type.SHORT -> "S"
+                JavaPrimitiveType.Type.DOUBLE -> "D"
+                else -> throw GeniumExecutionException("invalid java primitive type: " +
+                        primitiveType.type)
+            }
 
-    if (type instanceof JavaPrimitiveType) {
-      return createJniSignature((JavaPrimitiveType) type);
+        private fun createJniSignature(arrayType: JavaArrayType) =
+            when (arrayType.type) {
+                JavaPrimitiveType.Type.INT -> "[I"
+                JavaPrimitiveType.Type.BOOL -> "[Z"
+                JavaPrimitiveType.Type.BYTE -> "[B"
+                JavaPrimitiveType.Type.CHAR -> "[C"
+                JavaPrimitiveType.Type.LONG -> "[J"
+                JavaPrimitiveType.Type.FLOAT -> "[F"
+                JavaPrimitiveType.Type.SHORT -> "[S"
+                JavaPrimitiveType.Type.DOUBLE -> "[D"
+                else -> throw GeniumExecutionException("invalid java primitive type: " +
+                        arrayType.type)
+            }
+
+        private fun createJniSignature(complexType: JavaComplexType): String {
+            val packageNames = complexType.packageNames.joinToString("/")
+            val classNames = complexType.classNames.joinToString("$")
+            return "L$packageNames/$classNames;"
+        }
+
+        private fun getCppFullyQualifiedName(cppTypeRef: CppTypeRef) =
+            (cppTypeRef as? CppComplexTypeRef)?.fullyQualifiedName
+
+        private fun inferElementType(javaType: JavaType, cppType: CppTypeRef): JniType? {
+            if (javaType !is JavaTemplateType) {
+                return null
+            }
+            var actualCppType = cppType
+            while (actualCppType is CppTypeDefRef) {
+                actualCppType = actualCppType.actualType
+            }
+            return JniType(
+                javaType.templateParameters[0],
+                (actualCppType as CppTemplateTypeRef).templateParameters[0]
+            )
+        }
     }
-    if (type instanceof JavaArrayType) {
-      return createJniSignature((JavaArrayType) type);
-    }
-    if (type instanceof JavaComplexType) {
-      return createJniSignature((JavaComplexType) type);
-    }
-    throw new GeniumExecutionException("invalid java type: " + type);
-  }
-
-  private static String createJniSignature(JavaPrimitiveType primitiveType) {
-    switch (primitiveType.type) {
-      case INT:
-        return "I";
-      case BOOL:
-        return "Z";
-      case BYTE:
-        return "B";
-      case CHAR:
-        return "C";
-      case LONG:
-        return "J";
-      case VOID:
-        return "V";
-      case FLOAT:
-        return "F";
-      case SHORT:
-        return "S";
-      case DOUBLE:
-        return "D";
-      default:
-        throw new GeniumExecutionException("invalid java primitive type: " + primitiveType.type);
-    }
-  }
-
-  private static String createJniSignature(JavaArrayType arrayType) {
-    switch (arrayType.type) {
-      case INT:
-        return "[I";
-      case BOOL:
-        return "[Z";
-      case BYTE:
-        return "[B";
-      case CHAR:
-        return "[C";
-      case LONG:
-        return "[J";
-      case FLOAT:
-        return "[F";
-      case SHORT:
-        return "[S";
-      case DOUBLE:
-        return "[D";
-      default:
-        throw new GeniumExecutionException("invalid java primitive type: " + arrayType.type);
-    }
-  }
-
-  private static String createJniSignature(final JavaComplexType complexType) {
-    return "L"
-        + String.join("/", complexType.packageNames)
-        + "/"
-        + String.join("$", complexType.classNames)
-        + ";";
-  }
-
-  private static String getCppFullyQualifiedName(final CppTypeRef cppTypeRef) {
-    return cppTypeRef instanceof CppComplexTypeRef
-        ? ((CppComplexTypeRef) cppTypeRef).getFullyQualifiedName()
-        : null;
-  }
-
-  private static JniType inferElementType(final JavaType javaType, final CppTypeRef cppType) {
-    if (!(javaType instanceof JavaTemplateType)) {
-      return null;
-    }
-    CppTypeRef actualCppType = cppType;
-    while (actualCppType instanceof CppTypeDefRef) {
-      actualCppType = actualCppType.getActualType();
-    }
-    return new JniType(
-        ((JavaTemplateType) javaType).templateParameters.get(0),
-        ((CppTemplateTypeRef) actualCppType).getTemplateParameters().get(0));
-  }
 }
