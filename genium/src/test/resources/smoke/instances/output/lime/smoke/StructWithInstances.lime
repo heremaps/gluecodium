@@ -1,0 +1,11 @@
+package smoke
+struct StructWithInstances {
+    classInstance: SimpleClass
+    interfaceInstance: SimpleInterface
+    fun useSimpleClass(
+        input: SimpleClass
+    ): SimpleClass
+    fun useSimpleInterface(
+        input: SimpleInterface
+    ): SimpleInterface
+}

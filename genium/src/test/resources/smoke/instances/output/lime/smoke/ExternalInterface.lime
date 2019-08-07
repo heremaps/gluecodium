@@ -1,0 +1,17 @@
+package smoke
+@Cpp(ExternalType = "foo/Bar.h")
+interface ExternalInterface {
+    enum some_Enum {
+        some_Value
+    }
+    struct some_Struct {
+        some_Field: String
+    }
+    fun some_Method(
+        some_Parameter: Byte
+    )
+    property some_Attribute: String {
+        @Cpp(ExternalName = "get_Me")
+        get
+    }
+}

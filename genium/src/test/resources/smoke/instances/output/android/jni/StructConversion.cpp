@@ -9,87 +9,121 @@ namespace genium
 {
 namespace jni
 {
-::smoke::InstanceWithStruct::InnerStruct
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::InstanceWithStruct::InnerStruct* dummy)
+::fire::Baz::some_Struct
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::Baz::some_Struct* dummy)
 {
-    ::smoke::InstanceWithStruct::InnerStruct _nout{};
-    int8_t n_value = ::genium::jni::get_field_value(
+    ::fire::Baz::some_Struct _nout{};
+    ::std::string n_some_Field = ::genium::jni::get_field_value(
         _jenv,
         _jinput,
-        "value",
-        (int8_t*)nullptr );
-    _nout.value = n_value;
+        "someField",
+        (::std::string*)nullptr );
+    _nout.some_Field = n_some_Field;
     return _nout;
 }
-::genium::optional<::smoke::InstanceWithStruct::InnerStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::InstanceWithStruct::InnerStruct>* dummy)
+::genium::optional<::fire::Baz::some_Struct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::fire::Baz::some_Struct>* dummy)
 {
     return _jinput
-        ? ::genium::optional<::smoke::InstanceWithStruct::InnerStruct>(convert_from_jni(_jenv, _jinput, (::smoke::InstanceWithStruct::InnerStruct*)nullptr))
-        : ::genium::optional<::smoke::InstanceWithStruct::InnerStruct>{};
+        ? ::genium::optional<::fire::Baz::some_Struct>(convert_from_jni(_jenv, _jinput, (::fire::Baz::some_Struct*)nullptr))
+        : ::genium::optional<::fire::Baz::some_Struct>{};
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/InstanceWithStruct$InnerStruct", ::smoke::InstanceWithStruct::InnerStruct)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/ExternalClass$SomeStruct", ::fire::Baz::some_Struct)
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::InnerStruct& _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::fire::Baz::some_Struct& _ninput)
 {
-    auto& javaClass = CachedJavaClass<::smoke::InstanceWithStruct::InnerStruct>::java_class;
+    auto& javaClass = CachedJavaClass<::fire::Baz::some_Struct>::java_class;
     auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
-    auto jvalue = _ninput.value;
-    ::genium::jni::set_field_value(_jenv, _jresult, "value", jvalue);
+    auto jsome_Field = _ninput.some_Field;
+    ::genium::jni::set_field_value(_jenv, _jresult, "someField", jsome_Field);
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::InstanceWithStruct::InnerStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::fire::Baz::some_Struct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
-::smoke::InstanceWithStruct::StructWithInstance
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::InstanceWithStruct::StructWithInstance* dummy)
+::smoke::ExternalInterface::some_Struct
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::ExternalInterface::some_Struct* dummy)
 {
-    ::smoke::InstanceWithStruct::StructWithInstance _nout{};
-    ::std::shared_ptr< ::smoke::SimpleInstantiable > n_instance = convert_from_jni(
-        _jenv,
-        ::genium::jni::get_object_field_value(
+    ::smoke::ExternalInterface::some_Struct _nout{};
+    ::std::string n_some_Field = ::genium::jni::get_field_value(
         _jenv,
         _jinput,
-        "instance",
-        "Lcom/example/smoke/SimpleInstantiable;"),
-        (::std::shared_ptr< ::smoke::SimpleInstantiable >*)nullptr );
-    _nout.instance = n_instance;
-    ::std::shared_ptr< ::smoke::SimpleInstantiable > n_instance_with_comment = convert_from_jni(
-        _jenv,
-        ::genium::jni::get_object_field_value(
-        _jenv,
-        _jinput,
-        "instanceWithComment",
-        "Lcom/example/smoke/SimpleInstantiable;"),
-        (::std::shared_ptr< ::smoke::SimpleInstantiable >*)nullptr );
-    _nout.instance_with_comment = n_instance_with_comment;
+        "someField",
+        (::std::string*)nullptr );
+    _nout.some_Field = n_some_Field;
     return _nout;
 }
-::genium::optional<::smoke::InstanceWithStruct::StructWithInstance>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::InstanceWithStruct::StructWithInstance>* dummy)
+::genium::optional<::smoke::ExternalInterface::some_Struct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::ExternalInterface::some_Struct>* dummy)
 {
     return _jinput
-        ? ::genium::optional<::smoke::InstanceWithStruct::StructWithInstance>(convert_from_jni(_jenv, _jinput, (::smoke::InstanceWithStruct::StructWithInstance*)nullptr))
-        : ::genium::optional<::smoke::InstanceWithStruct::StructWithInstance>{};
+        ? ::genium::optional<::smoke::ExternalInterface::some_Struct>(convert_from_jni(_jenv, _jinput, (::smoke::ExternalInterface::some_Struct*)nullptr))
+        : ::genium::optional<::smoke::ExternalInterface::some_Struct>{};
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/InstanceWithStruct$StructWithInstance", ::smoke::InstanceWithStruct::StructWithInstance)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/ExternalInterface$SomeStruct", ::smoke::ExternalInterface::some_Struct)
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::smoke::InstanceWithStruct::StructWithInstance& _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::smoke::ExternalInterface::some_Struct& _ninput)
 {
-    auto& javaClass = CachedJavaClass<::smoke::InstanceWithStruct::StructWithInstance>::java_class;
+    auto& javaClass = CachedJavaClass<::smoke::ExternalInterface::some_Struct>::java_class;
     auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
-    auto jinstance = convert_to_jni(_jenv, _ninput.instance);
-    ::genium::jni::set_object_field_value(_jenv, _jresult, "instance",
-        "Lcom/example/smoke/SimpleInstantiable;", jinstance);
-    auto jinstance_with_comment = convert_to_jni(_jenv, _ninput.instance_with_comment);
-    ::genium::jni::set_object_field_value(_jenv, _jresult, "instanceWithComment",
-        "Lcom/example/smoke/SimpleInstantiable;", jinstance_with_comment);
+    auto jsome_Field = _ninput.some_Field;
+    ::genium::jni::set_field_value(_jenv, _jresult, "someField", jsome_Field);
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::InstanceWithStruct::StructWithInstance> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::ExternalInterface::some_Struct> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
+::smoke::StructWithInstances
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::StructWithInstances* dummy)
+{
+    ::smoke::StructWithInstances _nout{};
+    ::std::shared_ptr< ::smoke::SimpleClass > n_class_instance = convert_from_jni(
+        _jenv,
+        ::genium::jni::get_object_field_value(
+        _jenv,
+        _jinput,
+        "classInstance",
+        "Lcom/example/smoke/SimpleClass;"),
+        (::std::shared_ptr< ::smoke::SimpleClass >*)nullptr );
+    _nout.class_instance = n_class_instance;
+    ::std::shared_ptr< ::smoke::SimpleInterface > n_interface_instance = convert_from_jni(
+        _jenv,
+        ::genium::jni::get_object_field_value(
+        _jenv,
+        _jinput,
+        "interfaceInstance",
+        "Lcom/example/smoke/SimpleInterface;"),
+        (::std::shared_ptr< ::smoke::SimpleInterface >*)nullptr );
+    _nout.interface_instance = n_interface_instance;
+    return _nout;
+}
+::genium::optional<::smoke::StructWithInstances>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::StructWithInstances>* dummy)
+{
+    return _jinput
+        ? ::genium::optional<::smoke::StructWithInstances>(convert_from_jni(_jenv, _jinput, (::smoke::StructWithInstances*)nullptr))
+        : ::genium::optional<::smoke::StructWithInstances>{};
+}
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/StructWithInstances", ::smoke::StructWithInstances)
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::smoke::StructWithInstances& _ninput)
+{
+    auto& javaClass = CachedJavaClass<::smoke::StructWithInstances>::java_class;
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
+    auto jclass_instance = convert_to_jni(_jenv, _ninput.class_instance);
+    ::genium::jni::set_object_field_value(_jenv, _jresult, "classInstance",
+        "Lcom/example/smoke/SimpleClass;", jclass_instance);
+    auto jinterface_instance = convert_to_jni(_jenv, _ninput.interface_instance);
+    ::genium::jni::set_object_field_value(_jenv, _jresult, "interfaceInstance",
+        "Lcom/example/smoke/SimpleInterface;", jinterface_instance);
+    return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::StructWithInstances> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

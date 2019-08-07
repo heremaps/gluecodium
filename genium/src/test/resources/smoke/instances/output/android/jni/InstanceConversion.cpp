@@ -2,12 +2,13 @@
 #include "FieldAccessMethods.h"
 #include "JniBase.h"
 #include "JniCppConversionUtils.h"
-#include "com_example_smoke_InstanceWithStruct.h"
-#include "com_example_smoke_NestedInstantiable.h"
-#include "com_example_smoke_SimpleInstantiable.h"
-#include "smoke/InstanceWithStruct.h"
-#include "smoke/NestedInstantiable.h"
-#include "smoke/SimpleInstantiable.h"
+#include "com_example_smoke_ExternalClass.h"
+#include "com_example_smoke_ExternalInterfaceImpl.h"
+#include "com_example_smoke_SimpleClass.h"
+#include "com_example_smoke_SimpleInterfaceImpl.h"
+#include "foo/Bar.h"
+#include "smoke/SimpleClass.h"
+#include "smoke/SimpleInterface.h"
 #include <memory>
 #include <new>
 #include "InstanceConversion.h"
@@ -26,9 +27,9 @@ JniReference<jclass>& get_cached_native_base_class()
 {
     return CachedJavaClass<DummyNativeBaseType>::java_class;
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/InstanceWithStruct", ::smoke::InstanceWithStruct)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/ExternalClass", ::fire::Baz)
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceWithStruct> & _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::fire::Baz> & _ninput)
 {
     if ( !_ninput )
     {
@@ -39,9 +40,9 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceWithStruc
     {
         return jResult;
     }
-    auto &javaClass = CachedJavaClass<::smoke::InstanceWithStruct>::java_class;
+    auto &javaClass = CachedJavaClass<::fire::Baz>::java_class;
     auto pInstanceSharedPointer =
-        new (::std::nothrow) ::std::shared_ptr<::smoke::InstanceWithStruct>( _ninput );
+        new (::std::nothrow) ::std::shared_ptr<::fire::Baz>( _ninput );
     if ( pInstanceSharedPointer == nullptr )
     {
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
@@ -51,9 +52,9 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::InstanceWithStruc
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/NestedInstantiable", ::smoke::NestedInstantiable)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/ExternalInterfaceImpl", ::smoke::ExternalInterface)
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiable> & _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::ExternalInterface> & _ninput)
 {
     if ( !_ninput )
     {
@@ -64,9 +65,9 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiabl
     {
         return jResult;
     }
-    auto &javaClass = CachedJavaClass<::smoke::NestedInstantiable>::java_class;
+    auto &javaClass = CachedJavaClass<::smoke::ExternalInterface>::java_class;
     auto pInstanceSharedPointer =
-        new (::std::nothrow) ::std::shared_ptr<::smoke::NestedInstantiable>( _ninput );
+        new (::std::nothrow) ::std::shared_ptr<::smoke::ExternalInterface>( _ninput );
     if ( pInstanceSharedPointer == nullptr )
     {
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
@@ -76,9 +77,9 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::NestedInstantiabl
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     return jResult;
 }
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/SimpleInstantiable", ::smoke::SimpleInstantiable)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/SimpleClass", ::smoke::SimpleClass)
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiable> & _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleClass> & _ninput)
 {
     if ( !_ninput )
     {
@@ -89,9 +90,34 @@ convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInstantiabl
     {
         return jResult;
     }
-    auto &javaClass = CachedJavaClass<::smoke::SimpleInstantiable>::java_class;
+    auto &javaClass = CachedJavaClass<::smoke::SimpleClass>::java_class;
     auto pInstanceSharedPointer =
-        new (::std::nothrow) ::std::shared_ptr<::smoke::SimpleInstantiable>( _ninput );
+        new (::std::nothrow) ::std::shared_ptr<::smoke::SimpleClass>( _ninput );
+    if ( pInstanceSharedPointer == nullptr )
+    {
+        auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
+        _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
+    }
+    jResult = ::genium::jni::create_instance_object(
+        _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
+    return jResult;
+}
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/SimpleInterfaceImpl", ::smoke::SimpleInterface)
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::std::shared_ptr<::smoke::SimpleInterface> & _ninput)
+{
+    if ( !_ninput )
+    {
+        return {};
+    }
+    auto jResult = ::genium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    if ( jResult )
+    {
+        return jResult;
+    }
+    auto &javaClass = CachedJavaClass<::smoke::SimpleInterface>::java_class;
+    auto pInstanceSharedPointer =
+        new (::std::nothrow) ::std::shared_ptr<::smoke::SimpleInterface>( _ninput );
     if ( pInstanceSharedPointer == nullptr )
     {
         auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );

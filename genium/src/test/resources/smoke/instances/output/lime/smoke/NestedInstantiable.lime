@@ -1,9 +1,0 @@
-package smoke
-
-class NestedInstantiable {
-    fun setSameTypeInstances(
-        instanceOne: SimpleInstantiable,
-        instanceTwo: SimpleInstantiable
-    )
-    fun getInstanceOne(): SimpleInstantiable
-}

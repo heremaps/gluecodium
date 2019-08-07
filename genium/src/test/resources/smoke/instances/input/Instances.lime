@@ -17,29 +17,54 @@
 
 package smoke
 
-class SimpleInstantiable {
-    fun setStringValue(stringValue: String)
+class SimpleClass {
     fun getStringValue(): String
 }
 
-class NestedInstantiable {
-    fun setSameTypeInstances(
-        instanceOne: SimpleInstantiable,
-        instanceTwo: SimpleInstantiable
-    )
-    fun getInstanceOne(): SimpleInstantiable
+interface SimpleInterface {
+    fun getStringValue(): String
 }
 
-class InstanceWithStruct {
-    struct InnerStruct {
-        value: Byte
-    }
-    struct StructWithInstance {
-        instance: SimpleInstantiable
-        // This is some very useful field.
-        instanceWithComment: SimpleInstantiable
+struct StructWithInstances {
+    classInstance: SimpleClass
+    interfaceInstance: SimpleInterface
+
+    fun useSimpleClass(input: SimpleClass): SimpleClass
+    fun useSimpleInterface(input: SimpleInterface): SimpleInterface
+}
+
+@Cpp(ExternalType = "foo/Bar.h", ExternalName = "::fire::Baz")
+class ExternalClass {
+    struct some_Struct {
+        some_Field: String
     }
 
-    fun innerStructMethod(inputStruct: InnerStruct): InnerStruct
-    fun structWithInstanceMethod(input: StructWithInstance): StructWithInstance
+    enum some_Enum {
+        some_Value
+    }
+
+    fun some_Method(some_Parameter: Byte)
+
+    property some_Attribute: String {
+        @Cpp(ExternalName = "get_Me")
+        get
+    }
+}
+
+@Cpp(ExternalType = "foo/Bar.h")
+interface ExternalInterface {
+    struct some_Struct {
+        some_Field: String
+    }
+
+    enum some_Enum {
+        some_Value
+    }
+
+    fun some_Method(some_Parameter: Byte)
+
+    property some_Attribute: String {
+        @Cpp(ExternalName = "get_Me")
+        get
+    }
 }
