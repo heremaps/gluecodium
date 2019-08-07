@@ -1,6 +1,7 @@
 # Genium project Release Notes
 
-## Unreleased
+## 5.1.0
+- Release date: 2019-08-07
 - Features:
   + Structs, enumerations, exceptions and type aliases can now be declared at file level in LimeIDL.
   + `{ get set }` declaration is now optional for properties in LimeIDL.
@@ -10,6 +11,7 @@
   + Fixed compilation for immutable equatable structs.
   + Imports now work correctly for enumerator references in LimeIDL.
   + Fixed Swift compilation for nested generic types (e.g. List<List<Int>>, etc.).
+  + Exception type documentation is now properly reflected in the generated code.
 - Breaking changes:
   + Java builders fix the order of setting mandatory fields to the order in which they are defined.
 
