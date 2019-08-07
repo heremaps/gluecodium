@@ -36,14 +36,13 @@ the situation where some fields are initialized with some implicit default value
 unintended by the API designer or unexpected by the user of the API, or both.
 
 ### Builder pattern for structs
-Contrary to the one above, there are implicit defaults for the Builder pattern. The implicit
-defaults (zeroes and nulls) are applied to each field that **both** lacks an explicit default *and*
-was not set by a corresponding `set` call of the Builder class.
+To ensure that all fields without specified default are initialized by a builder, a pattern called
+builder chaining is applied. For each mandatory field, i.e. one without a default value, a separate
+builder is generated returning a different builder which allows the next field to be set. Only when
+all mandatory fields were set this way, a builder with an actual `build` method is returned.
 
-The rationale behind this is that Builder pattern is not generated automatically. It has to be
-specified explicitly and it occurs much less often than an unconditional default constructor would.
-Moreover, the Builder has to initialize the field with *something*. Generating a builder that fails
-on uninitialized fields would violate the common behavior of the Builder pattern in Java.
+Without this mechanism it was possible to initialize structs with invalid values, e.g. a null value
+in a non-null field which led to problems.
 
 Hash functions in C++
 ---------------------
