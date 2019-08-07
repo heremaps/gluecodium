@@ -68,10 +68,12 @@ the migration:
 
 ```
 cd external/genium-cmake/upstream/modules/genium/genium/
-./gradlew -Pversion=4.9.1 run --args="-generators lime -output generated -input /absolute/path/to/existing/franca/idl"
+./gradlew -Pversion=4.9.1 run --args="-generators lime -output /tmp/generated -input /absolute/path/to/existing/franca/idl"
+./gradlew -Pversion=5.1.0 run --args="-generators lime -output /tmp/generated -input /tmp/generated -copyright /path/to/your/copyright"
 ```
 
-This will fetch Genium 4.9 and generate the LimeIDL files in a subfolder `generated`.
+This will fetch Genium 4.9 and generate the LimeIDL files in `/tmp/generated`. It also runs a newer
+release of Genium to improve the formatting and apply some simplification of the LimeIDL files.
 
 With checked out Genium repository on version 4.9 it would be
 
