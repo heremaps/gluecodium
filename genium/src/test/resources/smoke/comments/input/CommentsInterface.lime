@@ -39,40 +39,33 @@ interface CommentsInterface {
     typealias SomeMap = Map<String, Usefulness>
     // This is some very useful constant.
     const VeryUseful: Usefulness = true
+
     // This is some very useful method that measures the usefulness of its input.
-    fun someMethodWithAllComments(
-        // Very useful input parameter
-        input: String
-    ): /* Usefulness of the input */ Usefulness
+    // @param[input] Very useful input parameter
+    // @return Usefulness of the input
+    fun someMethodWithAllComments(input: String): Usefulness
     // This is some very useful method that measures the usefulness of its input.
-    fun someMethodWithInputComments(
-        // Very useful input parameter
-        input: String
-    ): Usefulness
+    // @param[input] Very useful input parameter
+    fun someMethodWithInputComments(input: String): Usefulness
     // This is some very useful method that measures the usefulness of its input.
-    fun someMethodWithOutputComments(
-        input: String
-    ): /* Usefulness of the input */ Usefulness
+    // @return Usefulness of the input
+    fun someMethodWithOutputComments(input: String): Usefulness
     // This is some very useful method that measures the usefulness of its input.
-    fun someMethodWithNoComments(
-        input: String
-    ): Usefulness
+    fun someMethodWithNoComments(input: String): Usefulness
     // This is some very useful method that does not measure the usefulness of its input.
-    fun someMethodWithoutReturnTypeWithAllComments(
-        // Very useful input parameter
-        input: String
-    )
+    // @param[input] Very useful input parameter
+    fun someMethodWithoutReturnTypeWithAllComments(input: String)
     // This is some very useful method that does not measure the usefulness of its input.
-    fun someMethodWithoutReturnTypeWithNoComments(
-        input: String
-    )
+    fun someMethodWithoutReturnTypeWithNoComments(input: String)
     // This is some very useful method that measures the usefulness of something.
-    fun someMethodWithoutInputParametersWithAllComments(): /* Usefulness of the input */ Usefulness
+    // @return Usefulness of the input
+    fun someMethodWithoutInputParametersWithAllComments(): Usefulness
     // This is some very useful method that measures the usefulness of something.
     fun someMethodWithoutInputParametersWithNoComments(): Usefulness
     fun someMethodWithNothing()
     // This is some very useful method that does nothing.
     fun someMethodWithoutReturnTypeOrInputParameters()
+
     // Some very useful attribute.
     property SomeAttribute: Usefulness {
         // Gets some very useful attribute.

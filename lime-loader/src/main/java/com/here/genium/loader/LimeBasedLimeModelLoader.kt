@@ -78,7 +78,7 @@ internal object LimeBasedLimeModelLoader : LimeModelLoader {
         val lexer = LimeLexer(CharStreams.fromFileName(fileName))
         val parser = LimeParser(CommonTokenStream(lexer))
         parser.removeErrorListeners()
-        parser.addErrorListener(ThrowingErrorListener)
+        parser.addErrorListener(ThrowingErrorListener())
 
         val modelBuilder = AntlrLimeModelBuilder(referenceResolver)
         try {

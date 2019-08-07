@@ -1,9 +1,8 @@
 package smoke
-
 class CommentsInstantiable {
     // This is some very useful constructor.
+    // @param[input] Very useful input parameter
     constructor create(
-        // Very useful input parameter
         input: String
     )
 }

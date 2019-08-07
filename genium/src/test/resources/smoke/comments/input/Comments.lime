@@ -46,50 +46,39 @@ class comments {
     const VeryUseful: Usefulness = true
 
     // This is some very useful method that measures the usefulness of its input.
-    fun someMethodWithAllComments(
-        // Very useful input parameter
-        input: String
-    ): /* Usefulness of the input */ Usefulness throws /* Sometimes it happens. */ SomeEnumException
+    // @param[input] Very useful input parameter
+    // @return Usefulness of the input
+    // @throws Sometimes it happens.
+    fun someMethodWithAllComments(input: String): Usefulness throws SomeEnumException
     // This is some very useful method that measures the usefulness of its input.
-    fun someMethodWithInputComments(
-        // Very useful input parameter
-        input: String
-    ): Usefulness
+    // @param[input] Very useful input parameter
+    fun someMethodWithInputComments(input: String): Usefulness
     // This is some very useful method that measures the usefulness of its input.
-    fun someMethodWithOutputComments(
-        input: String
-    ): /* Usefulness of the input */ Usefulness
+    // @return Usefulness of the input
+    fun someMethodWithOutputComments(input: String): Usefulness
     // This is some very useful method that measures the usefulness of its input.
-    fun someMethodWithNoComments(
-        input: String
-    ): Usefulness
+    fun someMethodWithNoComments(input: String): Usefulness
     // This is some very useful method that does not measure the usefulness of its input.
-    fun someMethodWithoutReturnTypeWithAllComments(
-        // Very useful input parameter
-        input: String
-    )
+    // @param[input] Very useful input parameter
+    fun someMethodWithoutReturnTypeWithAllComments(input: String)
     // This is some very useful method that does not measure the usefulness of its input.
-    fun someMethodWithoutReturnTypeWithNoComments(
-        input: String
-    )
+    fun someMethodWithoutReturnTypeWithNoComments(input: String)
     // This is some very useful method that measures the usefulness of something.
-    fun someMethodWithoutInputParametersWithAllComments(): /* Usefulness of the input */ Usefulness
+    // @return Usefulness of the input
+    fun someMethodWithoutInputParametersWithAllComments(): Usefulness
     // This is some very useful method that measures the usefulness of something.
     fun someMethodWithoutInputParametersWithNoComments(): Usefulness
     fun someMethodWithNothing()
     // This is some very useful method that does nothing.
     fun someMethodWithoutReturnTypeOrInputParameters()
     // This is some very useful instance method.
-    fun instanceMethod(
-        // This is some very useful instance method parameter.
-        input: CommentsInstantiable
-    ): /* This is some very useful instance method result. */ CommentsInstantiable
-    fun oneParameterCommentOnly(
-        undocumented: String,
-        // nicely documented
-        documented: String
-    ): String
-    fun returnCommentOnly(undocumented: String): /* nicely documented */ String
+    // @param[input] This is some very useful instance method parameter.
+    // @return This is some very useful instance method result.
+    fun instanceMethod(input: CommentsInstantiable): CommentsInstantiable
+    // @param[documented] nicely documented
+    fun oneParameterCommentOnly(undocumented: String, documented: String): String
+    // @return nicely documented
+    fun returnCommentOnly(undocumented: String): String
 
     // Some very useful attribute.
     property SomeAttribute: Usefulness {
@@ -127,30 +116,26 @@ class MultiLineComments {
     // This is very important method.
     // It has very important parameters.
     // It has side effects.
-    fun someMethodWithLongComment(
-        // Very useful input parameter.
-        // You must not confuse it with the second parameter.
-        // But they are similar.
-        input: String,
-        // Not as useful as the first parameter.
-        // But still useful.
-        // use a positive value for more happiness.
-        ratio: Double
-    ): /* If you provide a useful input,
-    and a useful ratio you can expect a useful output.
-    Just kidding do not expect anything from a method until
-    you see its body. */ Float
+    // @param[input] Very useful input parameter.
+    // You must not confuse it with the second parameter.
+    // But they are similar.
+    // @param[ratio] Not as useful as the first parameter.
+    // But still useful.
+    // use a positive value for more happiness.
+    // @return If you provide a useful input,
+    // and a useful ratio you can expect a useful output.
+    // Just kidding do not expect anything from a method until
+    // you see its body.
+    fun someMethodWithLongComment(input: String, ratio: Double): Float
 }
 
 // This is some very useful interface. There is a lot to say about this interface. at least it has a long comment.
 class LongComments {
     // This is very important method. It has very important parameters. It has side effects.
-    fun someMethodWithLongComment(
-        // Very useful input parameter. You must not confuse it with the second parameter. But they are similar.
-        input: String,
-        // Not as useful as the first parameter. But still useful. use a positive value for more happiness.
-        ratio: Double
-    ): /* If you provide a useful input and a useful ratio you can expect a useful output. Just kidding do not expect anything from a method until you see its body. */ Float
+    // @param[input] Very useful input parameter. You must not confuse it with the second parameter. But they are similar.
+    // @param[ratio] Not as useful as the first parameter. But still useful. use a positive value for more happiness.
+    // @return If you provide a useful input and a useful ratio you can expect a useful output. Just kidding do not expect anything from a method until you see its body.
+    fun someMethodWithLongComment(input: String, ratio: Double): Float
 }
 
 class CommentsInstantiable {
@@ -213,9 +198,8 @@ class CommentsLinks {
     // Not working:
     // * input parameter: [inputParameter]
     // * output parameter: [outputParameter]
-    fun random_method(
-        // Sometimes takes [comments.SomeEnum.Useful]
-        inputParameter: comments.SomeEnum
-    ): /* Sometimes returns [comments.SomeEnum.Useful] */ comments.SomeEnum
-    throws /* May or may not throw [comments.SomeEnumException] */ comments.SomeEnumException
+    // @param[inputParameter] Sometimes takes [comments.SomeEnum.Useful]
+    // @return Sometimes returns [comments.SomeEnum.Useful]
+    // @throws May or may not throw [comments.SomeEnumException]
+    fun random_method(inputParameter: comments.SomeEnum): comments.SomeEnum throws comments.SomeEnumException
 }

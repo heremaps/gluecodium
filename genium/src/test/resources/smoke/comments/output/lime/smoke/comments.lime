@@ -26,32 +26,29 @@ class comments {
     // This is some very useful constant.
     const VeryUseful: Usefulness = true
     // This is some very useful method that measures the usefulness of its input.
+    // @param[input] Very useful input parameter
+    // @return Usefulness of the input
+    // @throws Sometimes it happens.
     fun someMethodWithAllComments(
-        // Very useful input parameter
         input: String
-    ):
-    // Usefulness of the input
-    Usefulness throws
-    // Sometimes it happens.
-    SomeEnumException
+    ): Usefulness throws SomeEnumException
     // This is some very useful method that measures the usefulness of its input.
+    // @param[input] Very useful input parameter
     fun someMethodWithInputComments(
-        // Very useful input parameter
         input: String
     ): Usefulness
     // This is some very useful method that measures the usefulness of its input.
+    // @return Usefulness of the input
     fun someMethodWithOutputComments(
         input: String
-    ):
-    // Usefulness of the input
-    Usefulness
+    ): Usefulness
     // This is some very useful method that measures the usefulness of its input.
     fun someMethodWithNoComments(
         input: String
     ): Usefulness
     // This is some very useful method that does not measure the usefulness of its input.
+    // @param[input] Very useful input parameter
     fun someMethodWithoutReturnTypeWithAllComments(
-        // Very useful input parameter
         input: String
     )
     // This is some very useful method that does not measure the usefulness of its input.
@@ -59,31 +56,28 @@ class comments {
         input: String
     )
     // This is some very useful method that measures the usefulness of something.
-    fun someMethodWithoutInputParametersWithAllComments():
-    // Usefulness of the input
-    Usefulness
+    // @return Usefulness of the input
+    fun someMethodWithoutInputParametersWithAllComments(): Usefulness
     // This is some very useful method that measures the usefulness of something.
     fun someMethodWithoutInputParametersWithNoComments(): Usefulness
     fun someMethodWithNothing()
     // This is some very useful method that does nothing.
     fun someMethodWithoutReturnTypeOrInputParameters()
     // This is some very useful instance method.
+    // @param[input] This is some very useful instance method parameter.
+    // @return This is some very useful instance method result.
     fun instanceMethod(
-        // This is some very useful instance method parameter.
         input: CommentsInstantiable
-    ):
-    // This is some very useful instance method result.
-    CommentsInstantiable
+    ): CommentsInstantiable
+    // @param[documented] nicely documented
     fun oneParameterCommentOnly(
         undocumented: String,
-        // nicely documented
         documented: String
     ): String
+    // @return nicely documented
     fun returnCommentOnly(
         undocumented: String
-    ):
-    // nicely documented
-    String
+    ): String
     // Some very useful attribute.
     property SomeAttribute: Usefulness {
         // Gets some very useful attribute.

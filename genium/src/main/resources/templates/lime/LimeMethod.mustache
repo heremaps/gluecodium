@@ -18,17 +18,19 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>lime/LimeDocumentation}}
+{{#if comment}}{{prefix comment "// "}}
+{{/if}}{{!!
+}}{{#parameters}}{{#if comment}}// @param[{{name}}] {{prefix comment "// " skipFirstLine=true}}
+{{/if}}{{/parameters}}{{!!
+}}{{#if returnType.comment}}// @return {{prefix returnType.comment "// " skipFirstLine=true}}
+{{/if}}{{!!
+}}{{#if thrownType.comment}}// @throws {{prefix thrownType.comment "// " skipFirstLine=true}}
+{{/if}}{{!!
+}}{{#if attributes.toString}}{{attributes}}
+{{/if}}
 {{visibility}}{{#if isConstructor}}constructor {{escapedName}}{{/if}}{{!!
 }}{{#unless isConstructor}}{{#if isStatic}}static {{/if}}fun {{escapedName}}{{/unless}}({{#parameters}}
 {{prefixPartial "lime/LimeParameter" "    "}}
 {{/parameters}}){{!!
-}}{{#unless isConstructor}}{{>returnTypeDeclaration}}{{/unless}}{{!!
-}}{{#thrownType}} throws {{#if comment}}
-{{>lime/LimeDocumentation}}
-{{/if}}{{typeRef.escapedName}}{{/thrownType}}{{!!
-
-}}{{+returnTypeDeclaration}}{{#returnType}}{{!!
-}}{{#isNotEq typeRef.toString "Void"}}: {{#if comment}}
-{{>lime/LimeDocumentation}}{{/if}}{{typeRef.escapedName}}{{/isNotEq}}{{!!
-}}{{/returnType}}{{/returnTypeDeclaration}}
+}}{{#unless isConstructor}}{{#returnType}}{{#isNotEq typeRef.toString "Void"}}: {{typeRef.escapedName}}{{/isNotEq}}{{/returnType}}{{/unless}}{{!!
+}}{{#thrownType}} throws {{typeRef.escapedName}}{{/thrownType}}

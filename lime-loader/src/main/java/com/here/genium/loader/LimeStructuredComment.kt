@@ -19,21 +19,9 @@
 
 package com.here.genium.loader
 
-import org.antlr.v4.runtime.BaseErrorListener
-import org.antlr.v4.runtime.RecognitionException
-import org.antlr.v4.runtime.Recognizer
-import org.antlr.v4.runtime.misc.ParseCancellationException
-
-internal class ThrowingErrorListener(private val lineOffset: Int = 0) : BaseErrorListener() {
-    @Throws(ParseCancellationException::class)
-    override fun syntaxError(
-        recognizer: Recognizer<*, *>,
-        offendingSymbol: Any,
-        line: Int,
-        charPositionInLine: Int,
-        msg: String,
-        e: RecognitionException?
-    ) {
-        throw ParseCancellationException("line ${line + lineOffset}:$charPositionInLine, $msg")
-    }
+internal class LimeStructuredComment(
+    val description: String,
+    private val tagBlocks: Map<Pair<String, String>, String>
+) {
+    fun getTagBlock(tag: String, parameter: String = "") = tagBlocks[Pair(tag, parameter)] ?: ""
 }

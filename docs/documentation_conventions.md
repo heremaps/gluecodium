@@ -4,26 +4,6 @@ Documentation conventions for the generated code
 This document discusses the transformations applied to documentation comments in the generated code
 and the conventions governing these transformations.
 
-Franca (FIDL) comments
-----------------------
-
-### Transient comments
-Comments prefixed with `//` in the FIDL files are meant to explain the FIDL declarations themselves,
-not the resulting generated code. These comments are transient, i.e. they are discarded at code
-generation.
-
-### Documentation comments
-Comments included between `<** @description:` and `**>` markup are documentation comments and are
-fully reflected in the generated code. Markdown can be used for formatting. Some transformations are
-applied to these documentation comments. Most transformations just add documentation comments markup
-appropriate for the target language, as described below.
-
-### Deprecation messages
-Comments included between `<** @deprecated:` and `**>` markup (can be combined with `@description`
-in a single `<** ... **>` block) are deprecation messages and are fully reflected as such in the
-generated code. Same transformations are applied to these messages as to documentation comments (see
-below).
-
 C++ documentation comments
 --------------------------
 

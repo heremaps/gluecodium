@@ -18,5 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>lime/LimeDocumentation}}
+{{#if attributes.toString}}{{attributes}}
+{{/if}}
 {{escapedName}}: {{typeRef.escapedName}}{{#if iter.hasNext}},{{/if}}

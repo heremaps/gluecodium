@@ -22,12 +22,11 @@ class Comments {
     // This is some very useful constant.
     const VeryUseful: Usefulness = true
     // This is some very useful method that measures the usefulness of its input.
+    // @param[input] Very useful input parameter
+    // @return Usefulness of the input
     fun someMethod(
-        // Very useful input parameter
         input: String
-    ):
-    // Usefulness of the input
-    Usefulness
+    ): Usefulness
     // Some very useful attribute.
     property SomeAttribute: Usefulness {
         // Gets some very useful attribute.

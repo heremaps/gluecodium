@@ -38,12 +38,10 @@ class CommentsLinks {
     // Not working:
     // * input parameter: [inputParameter]
     // * output parameter: [outputParameter]
+    // @param[inputParameter] Sometimes takes [comments.SomeEnum.Useful]
+    // @return Sometimes returns [comments.SomeEnum.Useful]
+    // @throws May or may not throw [comments.SomeEnumException]
     fun random_method(
-        // Sometimes takes [comments.SomeEnum.Useful]
         inputParameter: SomeEnum
-    ):
-    // Sometimes returns [comments.SomeEnum.Useful]
-    SomeEnum throws
-    // May or may not throw [comments.SomeEnumException]
-    SomeEnumException
+    ): SomeEnum throws SomeEnumException
 }

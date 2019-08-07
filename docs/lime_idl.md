@@ -463,18 +463,21 @@ deprecated, takes a string literal value as a deprecation message.
 ### Comments
 
 There are two kinds of comments in LimeIDL: local comments and documentation comments. Local
-comments are meant as comments to the LimeIDL text itself, but not the elements that it declared,
-and thus these are discarded without affecting the generated code in any way. Documentation comments,
-on the other hand, are meant to document the declared elements and thus are preserved in the
-generated code.
+comments are transient: they are meant as comments to the LimeIDL text itself, but not the elements
+that it declared, and thus these are discarded without affecting the generated code in any way.
+Documentation comments, on the other hand, are meant to document the declared elements and thus are
+preserved in the generated code (see [Documentation conventions](documentation_conventions.md) for
+more details).
 
-Local comments:
+#### Local comments
+
 * Syntax: __#__*text*
 * Example: `# Copyright (C) 2016-2019 HERE Europe B.V.`
 * Description: defines a single-line local comment. All text after the `#` symbol until the end of
 the line is taken as the comment text.
 
-Documentation comments, single-line:
+#### Documentation comments, single-line
+
 * Syntax: __//__*text*
 * Example:
 ```
@@ -484,7 +487,8 @@ fun process(mode: Mode, input: String): GenericResult
 * Description: defines a single-line documentation comment. All text after `//` symbols until the
 end of the line is taken as the comment text.
 
-Documentation comments, multi-line:
+#### Documentation comments, multi-line
+
 * Syntax: __/\*__*multi-line-text*__\*/__
 * Example:
 ```
@@ -496,6 +500,23 @@ fun process(mode: Mode, input: String): GenericResult
 ```
 * Description: defines a multi-line documentation comment. All text after between `/*` and `*/`
 symbols is taken as the comment text, including the line breaks.
+
+#### Structured documentation comments
+
+Documentation comments also support structured comments for some elements (i.e. specifying comments
+for child elements in the comment of the parent element). Structured comments can be specified in
+both `//` and `/*` style comments (or even in a combination of those).
+
+Currently structured comments are only supported for functions. Example:
+```
+// Process the input in the given mode.
+// A lot of multi-line text can be said about it.
+// @param[mode] operational mode
+// @param[input] data for processing
+// @return a generic result
+// @throws if something goes wrong
+fun process(mode: Mode, input: String): GenericResult throws SomethingWrongException
+```
 
 [franca]: http://franca.github.io/franca/
 [xtext]: https://www.eclipse.org/Xtext/

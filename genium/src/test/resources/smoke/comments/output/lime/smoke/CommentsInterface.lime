@@ -22,30 +22,28 @@ interface CommentsInterface {
     // This is some very useful constant.
     const VeryUseful: Usefulness = true
     // This is some very useful method that measures the usefulness of its input.
+    // @param[input] Very useful input parameter
+    // @return Usefulness of the input
     fun someMethodWithAllComments(
-        // Very useful input parameter
-        input: String
-    ):
-    // Usefulness of the input
-    Usefulness
-    // This is some very useful method that measures the usefulness of its input.
-    fun someMethodWithInputComments(
-        // Very useful input parameter
         input: String
     ): Usefulness
     // This is some very useful method that measures the usefulness of its input.
+    // @param[input] Very useful input parameter
+    fun someMethodWithInputComments(
+        input: String
+    ): Usefulness
+    // This is some very useful method that measures the usefulness of its input.
+    // @return Usefulness of the input
     fun someMethodWithOutputComments(
         input: String
-    ):
-    // Usefulness of the input
-    Usefulness
+    ): Usefulness
     // This is some very useful method that measures the usefulness of its input.
     fun someMethodWithNoComments(
         input: String
     ): Usefulness
     // This is some very useful method that does not measure the usefulness of its input.
+    // @param[input] Very useful input parameter
     fun someMethodWithoutReturnTypeWithAllComments(
-        // Very useful input parameter
         input: String
     )
     // This is some very useful method that does not measure the usefulness of its input.
@@ -53,9 +51,8 @@ interface CommentsInterface {
         input: String
     )
     // This is some very useful method that measures the usefulness of something.
-    fun someMethodWithoutInputParametersWithAllComments():
-    // Usefulness of the input
-    Usefulness
+    // @return Usefulness of the input
+    fun someMethodWithoutInputParametersWithAllComments(): Usefulness
     // This is some very useful method that measures the usefulness of something.
     fun someMethodWithoutInputParametersWithNoComments(): Usefulness
     fun someMethodWithNothing()

@@ -28,7 +28,10 @@ WS  : [ \t]+
       -> skip
     ;
 
-NL  : '\n' | '\r' '\n' ;
+NL  : '\n'
+    | '\r'
+    | '\r' '\n'
+    ;
 
 // Separators and operators
 

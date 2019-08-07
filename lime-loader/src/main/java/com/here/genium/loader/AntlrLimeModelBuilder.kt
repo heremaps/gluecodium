@@ -20,6 +20,8 @@
 package com.here.genium.loader
 
 import com.here.genium.antlr.LimeParser
+import com.here.genium.antlr.LimedocLexer
+import com.here.genium.antlr.LimedocParser
 import com.here.genium.common.ModelBuilderContextStack
 import com.here.genium.model.lime.LimeAmbiguousEnumeratorRef
 import com.here.genium.model.lime.LimeAmbiguousTypeRef
@@ -50,6 +52,11 @@ import com.here.genium.model.lime.LimeTypeRef
 import com.here.genium.model.lime.LimeValue
 import com.here.genium.model.lime.LimeValue.Special.ValueId
 import com.here.genium.model.lime.LimeVisibility
+import org.antlr.v4.runtime.CharStreams
+import org.antlr.v4.runtime.CommonTokenStream
+import org.antlr.v4.runtime.ParserRuleContext
+import org.antlr.v4.runtime.misc.ParseCancellationException
+import org.antlr.v4.runtime.tree.ParseTreeWalker
 import java.util.LinkedList
 
 internal class AntlrLimeModelBuilder(
@@ -58,6 +65,8 @@ internal class AntlrLimeModelBuilder(
 
     private val pathStack = LinkedList<LimePath>()
     private val visibilityStack = LinkedList<LimeVisibility>()
+    private val structuredCommentsStack = LinkedList<LimeStructuredComment>()
+
     private val imports = mutableListOf<LimePath>()
     private val typeMapper =
         AntlrTypeMapper(imports, referenceResolver.referenceMap) { this.convertSimpleId(it) }
@@ -144,6 +153,9 @@ internal class AntlrLimeModelBuilder(
             else -> throw LimeLoadingException("Invalid syntax context: '$ctx'")
         }
         pushPathAndVisibility(ctx.simpleId(), ctx.visibility(), idx.toString())
+
+        val commentText = convertDocComments(ctx.docComment())
+        structuredCommentsStack.push(parseStructuredComment(commentText, ctx.getStart().line))
     }
 
     override fun exitFunction(ctx: LimeParser.FunctionContext) {
@@ -151,20 +163,20 @@ internal class AntlrLimeModelBuilder(
             ?.let {
                 LimeReturnType(
                     typeMapper.mapTypeRef(currentPath, it.typeRef()),
-                    convertDocComments(it.docComment())
+                    getComment("return", it.docComment(), it)
                 )
             } ?: LimeReturnType.VOID
         val exceptionType =
             ctx.throwsClause()?.let {
                 LimeThrownType(
                     typeMapper.mapTypeRef(currentPath, it.typeRef()),
-                    convertDocComments(it.docComment())
+                    getComment("throws", it.docComment(), it)
                 )
             }
         val limeElement = LimeMethod(
             path = currentPath,
             visibility = currentVisibility,
-            comment = convertDocComments(ctx.docComment()),
+            comment = structuredCommentsStack.peek().description,
             attributes = convertAnnotations(ctx.annotation()),
             returnType = returnType,
             parameters = getPreviousResults(LimeParameter::class.java),
@@ -173,6 +185,7 @@ internal class AntlrLimeModelBuilder(
         )
 
         storeResultAndPopStacks(limeElement)
+        structuredCommentsStack.pop()
     }
 
     override fun enterConstructor(ctx: LimeParser.ConstructorContext) {
@@ -182,6 +195,9 @@ internal class AntlrLimeModelBuilder(
             else -> throw LimeLoadingException("Invalid syntax context: '$ctx'")
         }
         pushPathAndVisibility(ctx.simpleId(), ctx.visibility(), idx.toString())
+
+        val commentText = convertDocComments(ctx.docComment())
+        structuredCommentsStack.push(parseStructuredComment(commentText, ctx.getStart().line))
     }
 
     override fun exitConstructor(ctx: LimeParser.ConstructorContext) {
@@ -191,13 +207,13 @@ internal class AntlrLimeModelBuilder(
             ctx.throwsClause()?.let {
                 LimeThrownType(
                     typeMapper.mapTypeRef(currentPath, it.typeRef()),
-                    convertDocComments(it.docComment())
+                    getComment("throws", it.docComment(), it)
                 )
             }
         val limeElement = LimeMethod(
             path = currentPath,
             visibility = currentVisibility,
-            comment = convertDocComments(ctx.docComment()),
+            comment = structuredCommentsStack.peek().description,
             attributes = convertAnnotations(ctx.annotation()),
             returnType = LimeReturnType(classTypeRef),
             parameters = getPreviousResults(LimeParameter::class.java),
@@ -207,6 +223,7 @@ internal class AntlrLimeModelBuilder(
         )
 
         storeResultAndPopStacks(limeElement)
+        structuredCommentsStack.pop()
     }
 
     override fun enterParameter(ctx: LimeParser.ParameterContext) {
@@ -216,7 +233,7 @@ internal class AntlrLimeModelBuilder(
     override fun exitParameter(ctx: LimeParser.ParameterContext) {
         val limeElement = LimeParameter(
             path = currentPath,
-            comment = convertDocComments(ctx.docComment()),
+            comment = getComment("param", currentPath.name, ctx.docComment(), ctx),
             attributes = convertAnnotations(ctx.annotation()),
             typeRef = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
         )
@@ -578,6 +595,47 @@ internal class AntlrLimeModelBuilder(
         return when (text.first()) {
             '`' -> text.drop(1).dropLast(1)
             else -> text
+        }
+    }
+
+    private fun getComment(
+        commentTag: String,
+        commentContexts: List<LimeParser.DocCommentContext>,
+        currentContext: ParserRuleContext
+    ) = getComment(commentTag, "", commentContexts, currentContext)
+
+    private fun getComment(
+        commentTag: String,
+        elementName: String,
+        commentContexts: List<LimeParser.DocCommentContext>,
+        currentContext: ParserRuleContext
+    ): String {
+        val commentFromParent = structuredCommentsStack.peek().getTagBlock(commentTag, elementName)
+        val ownComment = convertDocComments(commentContexts)
+        return when {
+            commentFromParent.isEmpty() -> ownComment
+            ownComment.isEmpty() -> commentFromParent
+            else -> {
+                val position = currentContext.getStart()
+                throw ParseCancellationException(
+                    "line ${position.line}:${position.charPositionInLine}, " +
+                            "redundant documentation comment defined"
+                )
+            }
+        }
+    }
+
+    companion object {
+        private fun parseStructuredComment(comment: String, lineNumber: Int): LimeStructuredComment {
+            val lexer = LimedocLexer(CharStreams.fromString(comment))
+            val parser = LimedocParser(CommonTokenStream(lexer))
+            parser.removeErrorListeners()
+            parser.addErrorListener(ThrowingErrorListener(lineNumber - 1))
+
+            val builder = AntlrLimedocBuilder()
+            ParseTreeWalker.DEFAULT.walk(builder, parser.documentation())
+
+            return builder.result
         }
     }
 }

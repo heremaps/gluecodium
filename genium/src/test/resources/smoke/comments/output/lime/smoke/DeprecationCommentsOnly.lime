@@ -19,13 +19,12 @@ interface DeprecationCommentsOnly {
     }
     @Deprecated("Unfortunately, this constant is deprecated.")
     const VeryUseful: Usefulness = true
+    // @param[input] Very useful input parameter
+    // @return Usefulness of the input
     @Deprecated("Unfortunately, this method is deprecated.")
     fun someMethodWithAllComments(
-        // Very useful input parameter
         input: String
-    ):
-    // Usefulness of the input
-    Usefulness
+    ): Usefulness
     @Deprecated("Unfortunately, this attribute is deprecated.")
     property SomeAttribute: Usefulness {
         @Deprecated("Unfortunately, this attribute's getter is deprecated.")
