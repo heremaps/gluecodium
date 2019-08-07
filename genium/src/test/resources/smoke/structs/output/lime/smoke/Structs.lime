@@ -1,29 +1,19 @@
 package smoke
-
+import smoke.TypeCollection.Point
+import smoke.TypeCollection.AllTypesStruct
 class Structs {
     typealias ArrayOfImmutable = List<AllTypesStruct>
-
     enum FooBar {
         FOO,
         BAR
     }
-
     struct Point {
         x: Double
         y: Double
     }
-    struct Color {
-        red: UByte
-        green: UByte
-        blue: UByte
-    }
     struct Line {
         a: Point
         b: Point
-    }
-    struct ColoredLine {
-        line: Line
-        color: Color
     }
     @Java(Builder)
     @Immutable
@@ -70,32 +60,20 @@ class Structs {
     struct StructWithArrayOfImmutable {
         arrayField: ArrayOfImmutable
     }
-
-    static fun createPoint(
-        x: Double,
-        y: Double
-    ): Point
     static fun swapPointCoordinates(
         input: Point
     ): Point
-    static fun createLine(
-        pointA: Point,
-        pointB: Point
-    ): Line
-    static fun createColoredLine(
-        line: Line,
-        color: Color
-    ): ColoredLine
-    static fun returnColoredLine(
-        input: ColoredLine
-    ): ColoredLine
     static fun returnAllTypesStruct(
-        input: AllTypesStruct
-    ): AllTypesStruct
-    static fun modifyAllTypesStruct(
         input: AllTypesStruct
     ): AllTypesStruct
     static fun getExternalStruct(): ExternalStruct
     static fun getAnotherExternalStruct(): AnotherExternalStruct
     static fun getYetAnotherExternalStruct(): Yet_Another_External_Struct
+    static fun createPoint(
+        x: Double,
+        y: Double
+    ): Point
+    static fun modifyAllTypesStruct(
+        input: AllTypesStruct
+    ): AllTypesStruct
 }

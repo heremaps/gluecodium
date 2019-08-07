@@ -39,21 +39,6 @@ public class Structs {
             y = moveFromCType(smoke_Structs_Point_y_get(cHandle))
         }
     }
-    public struct Color {
-        public var red: UInt8
-        public var green: UInt8
-        public var blue: UInt8
-        public init(red: UInt8, green: UInt8, blue: UInt8) {
-            self.red = red
-            self.green = green
-            self.blue = blue
-        }
-        internal init(cHandle: _baseRef) {
-            red = moveFromCType(smoke_Structs_Color_red_get(cHandle))
-            green = moveFromCType(smoke_Structs_Color_green_get(cHandle))
-            blue = moveFromCType(smoke_Structs_Color_blue_get(cHandle))
-        }
-    }
     public struct Line {
         public var a: Structs.Point
         public var b: Structs.Point
@@ -64,18 +49,6 @@ public class Structs {
         internal init(cHandle: _baseRef) {
             a = moveFromCType(smoke_Structs_Line_a_get(cHandle))
             b = moveFromCType(smoke_Structs_Line_b_get(cHandle))
-        }
-    }
-    public struct ColoredLine {
-        public var line: Structs.Line
-        public var color: Structs.Color
-        public init(line: Structs.Line, color: Structs.Color) {
-            self.line = line
-            self.color = color
-        }
-        internal init(cHandle: _baseRef) {
-            line = moveFromCType(smoke_Structs_ColoredLine_line_get(cHandle))
-            color = moveFromCType(smoke_Structs_ColoredLine_color_get(cHandle))
         }
     }
     public struct AllTypesStruct {
@@ -189,36 +162,13 @@ public class Structs {
             arrayField = moveFromCType(smoke_Structs_StructWithArrayOfImmutable_arrayField_get(cHandle))
         }
     }
-    public static func createPoint(x: Double, y: Double) -> Structs.Point {
-        let c_x = moveToCType(x)
-        let c_y = moveToCType(y)
-        return moveFromCType(smoke_Structs_createPoint(c_x.ref, c_y.ref))
-    }
     public static func swapPointCoordinates(input: Structs.Point) -> Structs.Point {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Structs_swapPointCoordinates(c_input.ref))
     }
-    public static func createLine(pointA: Structs.Point, pointB: Structs.Point) -> Structs.Line {
-        let c_pointA = moveToCType(pointA)
-        let c_pointB = moveToCType(pointB)
-        return moveFromCType(smoke_Structs_createLine(c_pointA.ref, c_pointB.ref))
-    }
-    public static func createColoredLine(line: Structs.Line, color: Structs.Color) -> Structs.ColoredLine {
-        let c_line = moveToCType(line)
-        let c_color = moveToCType(color)
-        return moveFromCType(smoke_Structs_createColoredLine(c_line.ref, c_color.ref))
-    }
-    public static func returnColoredLine(input: Structs.ColoredLine) -> Structs.ColoredLine {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_Structs_returnColoredLine(c_input.ref))
-    }
     public static func returnAllTypesStruct(input: Structs.AllTypesStruct) -> Structs.AllTypesStruct {
         let c_input = moveToCType(input)
         return moveFromCType(smoke_Structs_returnAllTypesStruct(c_input.ref))
-    }
-    public static func modifyAllTypesStruct(input: Structs.AllTypesStruct) -> Structs.AllTypesStruct {
-        let c_input = moveToCType(input)
-        return moveFromCType(smoke_Structs_modifyAllTypesStruct(c_input.ref))
     }
     public static func getExternalStruct() -> Structs.ExternalStruct {
         return moveFromCType(smoke_Structs_getExternalStruct())
@@ -228,6 +178,15 @@ public class Structs {
     }
     public static func getYetAnotherExternalStruct() -> Structs.YetAnotherExternalStruct {
         return moveFromCType(smoke_Structs_getYetAnotherExternalStruct())
+    }
+    public static func createPoint(x: Double, y: Double) -> Point {
+        let c_x = moveToCType(x)
+        let c_y = moveToCType(y)
+        return moveFromCType(smoke_Structs_createPoint(c_x.ref, c_y.ref))
+    }
+    public static func modifyAllTypesStruct(input: AllTypesStruct) -> AllTypesStruct {
+        let c_input = moveToCType(input)
+        return moveFromCType(smoke_Structs_modifyAllTypesStruct(c_input.ref))
     }
 }
 extension Structs: NativeBase {
@@ -304,49 +263,6 @@ internal func copyToCType(_ swiftType: Structs.Point?) -> RefHolder {
 internal func moveToCType(_ swiftType: Structs.Point?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_Point_release_optional_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> Structs.Color {
-    return Structs.Color(cHandle: handle)
-}
-internal func moveFromCType(_ handle: _baseRef) -> Structs.Color {
-    defer {
-        smoke_Structs_Color_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftType: Structs.Color) -> RefHolder {
-    let c_red = moveToCType(swiftType.red)
-    let c_green = moveToCType(swiftType.green)
-    let c_blue = moveToCType(swiftType.blue)
-    return RefHolder(smoke_Structs_Color_create_handle(c_red.ref, c_green.ref, c_blue.ref))
-}
-internal func moveToCType(_ swiftType: Structs.Color) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_Color_release_handle)
-}
-internal func copyFromCType(_ handle: _baseRef) -> Structs.Color? {
-    guard handle != 0 else {
-        return nil
-    }
-    let unwrappedHandle = smoke_Structs_Color_unwrap_optional_handle(handle)
-    return Structs.Color(cHandle: unwrappedHandle) as Structs.Color
-}
-internal func moveFromCType(_ handle: _baseRef) -> Structs.Color? {
-    defer {
-        smoke_Structs_Color_release_optional_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftType: Structs.Color?) -> RefHolder {
-    guard let swiftType = swiftType else {
-        return RefHolder(0)
-    }
-    let c_red = moveToCType(swiftType.red)
-    let c_green = moveToCType(swiftType.green)
-    let c_blue = moveToCType(swiftType.blue)
-    return RefHolder(smoke_Structs_Color_create_optional_handle(c_red.ref, c_green.ref, c_blue.ref))
-}
-internal func moveToCType(_ swiftType: Structs.Color?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_Color_release_optional_handle)
-}
 internal func copyFromCType(_ handle: _baseRef) -> Structs.Line {
     return Structs.Line(cHandle: handle)
 }
@@ -387,47 +303,6 @@ internal func copyToCType(_ swiftType: Structs.Line?) -> RefHolder {
 }
 internal func moveToCType(_ swiftType: Structs.Line?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_Line_release_optional_handle)
-}
-internal func copyFromCType(_ handle: _baseRef) -> Structs.ColoredLine {
-    return Structs.ColoredLine(cHandle: handle)
-}
-internal func moveFromCType(_ handle: _baseRef) -> Structs.ColoredLine {
-    defer {
-        smoke_Structs_ColoredLine_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftType: Structs.ColoredLine) -> RefHolder {
-    let c_line = moveToCType(swiftType.line)
-    let c_color = moveToCType(swiftType.color)
-    return RefHolder(smoke_Structs_ColoredLine_create_handle(c_line.ref, c_color.ref))
-}
-internal func moveToCType(_ swiftType: Structs.ColoredLine) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_ColoredLine_release_handle)
-}
-internal func copyFromCType(_ handle: _baseRef) -> Structs.ColoredLine? {
-    guard handle != 0 else {
-        return nil
-    }
-    let unwrappedHandle = smoke_Structs_ColoredLine_unwrap_optional_handle(handle)
-    return Structs.ColoredLine(cHandle: unwrappedHandle) as Structs.ColoredLine
-}
-internal func moveFromCType(_ handle: _baseRef) -> Structs.ColoredLine? {
-    defer {
-        smoke_Structs_ColoredLine_release_optional_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-internal func copyToCType(_ swiftType: Structs.ColoredLine?) -> RefHolder {
-    guard let swiftType = swiftType else {
-        return RefHolder(0)
-    }
-    let c_line = moveToCType(swiftType.line)
-    let c_color = moveToCType(swiftType.color)
-    return RefHolder(smoke_Structs_ColoredLine_create_optional_handle(c_line.ref, c_color.ref))
-}
-internal func moveToCType(_ swiftType: Structs.ColoredLine?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_ColoredLine_release_optional_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> Structs.AllTypesStruct {
     return Structs.AllTypesStruct(cHandle: handle)

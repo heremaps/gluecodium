@@ -13,6 +13,7 @@
 #include "genium/Hash.h"
 #include "genium/VectorHash.h"
 #include "non/Sense.h"
+#include "smoke/TypeCollection.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -32,24 +33,11 @@ struct _GENIUM_CPP_EXPORT Point {
     Point( );
     Point( const double x, const double y );
 };
-struct _GENIUM_CPP_EXPORT Color {
-    uint8_t red;
-    uint8_t green;
-    uint8_t blue;
-    Color( );
-    Color( const uint8_t red, const uint8_t green, const uint8_t blue );
-};
 struct _GENIUM_CPP_EXPORT Line {
     ::smoke::Structs::Point a;
     ::smoke::Structs::Point b;
     Line( );
     Line( const ::smoke::Structs::Point& a, const ::smoke::Structs::Point& b );
-};
-struct _GENIUM_CPP_EXPORT ColoredLine {
-    ::smoke::Structs::Line line;
-    ::smoke::Structs::Color color;
-    ColoredLine( );
-    ColoredLine( const ::smoke::Structs::Line& line, const ::smoke::Structs::Color& color );
 };
 struct _GENIUM_CPP_EXPORT AllTypesStruct {
     const int8_t int8_field;
@@ -82,16 +70,13 @@ struct _GENIUM_CPP_EXPORT StructWithArrayOfImmutable {
     StructWithArrayOfImmutable( const ::smoke::Structs::ArrayOfImmutable& array_field );
 };
 public:
-static ::smoke::Structs::Point create_point( const double x, const double y );
 static ::smoke::Structs::Point swap_point_coordinates( const ::smoke::Structs::Point& input );
-static ::smoke::Structs::Line create_line( const ::smoke::Structs::Point& point_a, const ::smoke::Structs::Point& point_b );
-static ::smoke::Structs::ColoredLine create_colored_line( const ::smoke::Structs::Line& line, const ::smoke::Structs::Color& color );
-static ::smoke::Structs::ColoredLine return_colored_line( const ::smoke::Structs::ColoredLine& input );
 static ::smoke::Structs::AllTypesStruct return_all_types_struct( const ::smoke::Structs::AllTypesStruct& input );
-static ::smoke::Structs::AllTypesStruct modify_all_types_struct( const ::smoke::Structs::AllTypesStruct& input );
 static ::smoke::Structs::ExternalStruct get_external_struct(  );
 static ::fire::SomeVeryExternalStruct get_another_external_struct(  );
 static ::smoke::Structs::Yet_Another_External_Struct get_yet_another_external_struct(  );
+static ::smoke::Point create_point( const double x, const double y );
+static ::smoke::AllTypesStruct modify_all_types_struct( const ::smoke::AllTypesStruct& input );
 };
 }
 namespace genium {

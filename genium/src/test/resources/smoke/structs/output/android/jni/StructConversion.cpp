@@ -295,106 +295,6 @@ convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::AllTypesStruct> 
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
-::smoke::Color
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Color* dummy)
-{
-    ::smoke::Color _nout{};
-    uint8_t n_red = ::genium::jni::get_field_value(
-        _jenv,
-        _jinput,
-        "red",
-        (uint8_t*)nullptr );
-    _nout.red = n_red;
-    uint8_t n_green = ::genium::jni::get_field_value(
-        _jenv,
-        _jinput,
-        "green",
-        (uint8_t*)nullptr );
-    _nout.green = n_green;
-    uint8_t n_blue = ::genium::jni::get_field_value(
-        _jenv,
-        _jinput,
-        "blue",
-        (uint8_t*)nullptr );
-    _nout.blue = n_blue;
-    return _nout;
-}
-::genium::optional<::smoke::Color>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Color>* dummy)
-{
-    return _jinput
-        ? ::genium::optional<::smoke::Color>(convert_from_jni(_jenv, _jinput, (::smoke::Color*)nullptr))
-        : ::genium::optional<::smoke::Color>{};
-}
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/Color", ::smoke::Color)
-JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::smoke::Color& _ninput)
-{
-    auto& javaClass = CachedJavaClass<::smoke::Color>::java_class;
-    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
-    auto jred = _ninput.red;
-    ::genium::jni::set_field_value(_jenv, _jresult, "red", jred);
-    auto jgreen = _ninput.green;
-    ::genium::jni::set_field_value(_jenv, _jresult, "green", jgreen);
-    auto jblue = _ninput.blue;
-    ::genium::jni::set_field_value(_jenv, _jresult, "blue", jblue);
-    return _jresult;
-}
-JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Color> _ninput)
-{
-    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
-}
-::smoke::ColoredLine
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::ColoredLine* dummy)
-{
-    ::smoke::ColoredLine _nout{};
-    ::smoke::Line n_line = convert_from_jni(
-        _jenv,
-        ::genium::jni::get_object_field_value(
-        _jenv,
-        _jinput,
-        "line",
-        "Lcom/example/smoke/Line;"),
-        (::smoke::Line*)nullptr );
-    _nout.line = n_line;
-    ::smoke::Color n_color = convert_from_jni(
-        _jenv,
-        ::genium::jni::get_object_field_value(
-        _jenv,
-        _jinput,
-        "color",
-        "Lcom/example/smoke/Color;"),
-        (::smoke::Color*)nullptr );
-    _nout.color = n_color;
-    return _nout;
-}
-::genium::optional<::smoke::ColoredLine>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::ColoredLine>* dummy)
-{
-    return _jinput
-        ? ::genium::optional<::smoke::ColoredLine>(convert_from_jni(_jenv, _jinput, (::smoke::ColoredLine*)nullptr))
-        : ::genium::optional<::smoke::ColoredLine>{};
-}
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/ColoredLine", ::smoke::ColoredLine)
-JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::smoke::ColoredLine& _ninput)
-{
-    auto& javaClass = CachedJavaClass<::smoke::ColoredLine>::java_class;
-    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
-    auto jline = convert_to_jni(_jenv, _ninput.line);
-    ::genium::jni::set_object_field_value(_jenv, _jresult, "line",
-        "Lcom/example/smoke/Line;", jline);
-    auto jcolor = convert_to_jni(_jenv, _ninput.color);
-    ::genium::jni::set_object_field_value(_jenv, _jresult, "color",
-        "Lcom/example/smoke/Color;", jcolor);
-    return _jresult;
-}
-JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::ColoredLine> _ninput)
-{
-    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
-}
 ::smoke::Line
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Line* dummy)
 {
@@ -484,6 +384,52 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Point& _ninput)
 }
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Point> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
+::smoke::Route
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Route* dummy)
+{
+    ::smoke::Route _nout{};
+    ::std::string n_description = ::genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "description",
+        (::std::string*)nullptr );
+    _nout.description = n_description;
+    ::smoke::RouteType n_type = convert_from_jni(
+        _jenv,
+        ::genium::jni::get_object_field_value(
+        _jenv,
+        _jinput,
+        "type",
+        "Lcom/example/smoke/RouteType;"),
+        (::smoke::RouteType*)nullptr );
+    _nout.type = n_type;
+    return _nout;
+}
+::genium::optional<::smoke::Route>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Route>* dummy)
+{
+    return _jinput
+        ? ::genium::optional<::smoke::Route>(convert_from_jni(_jenv, _jinput, (::smoke::Route*)nullptr))
+        : ::genium::optional<::smoke::Route>{};
+}
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Route", ::smoke::Route)
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::smoke::Route& _ninput)
+{
+    auto& javaClass = CachedJavaClass<::smoke::Route>::java_class;
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
+    auto jdescription = _ninput.description;
+    ::genium::jni::set_field_value(_jenv, _jresult, "description", jdescription);
+    auto jtype = convert_to_jni(_jenv, _ninput.type);
+    ::genium::jni::set_object_field_value(_jenv, _jresult, "type",
+        "Lcom/example/smoke/RouteType;", jtype);
+    return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Route> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
@@ -611,106 +557,6 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AllTypesStruct& _ninput)
 }
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::AllTypesStruct> _ninput)
-{
-    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
-}
-::smoke::Structs::Color
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::Color* dummy)
-{
-    ::smoke::Structs::Color _nout{};
-    uint8_t n_red = ::genium::jni::get_field_value(
-        _jenv,
-        _jinput,
-        "red",
-        (uint8_t*)nullptr );
-    _nout.red = n_red;
-    uint8_t n_green = ::genium::jni::get_field_value(
-        _jenv,
-        _jinput,
-        "green",
-        (uint8_t*)nullptr );
-    _nout.green = n_green;
-    uint8_t n_blue = ::genium::jni::get_field_value(
-        _jenv,
-        _jinput,
-        "blue",
-        (uint8_t*)nullptr );
-    _nout.blue = n_blue;
-    return _nout;
-}
-::genium::optional<::smoke::Structs::Color>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Structs::Color>* dummy)
-{
-    return _jinput
-        ? ::genium::optional<::smoke::Structs::Color>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::Color*)nullptr))
-        : ::genium::optional<::smoke::Structs::Color>{};
-}
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$Color", ::smoke::Structs::Color)
-JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Color& _ninput)
-{
-    auto& javaClass = CachedJavaClass<::smoke::Structs::Color>::java_class;
-    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
-    auto jred = _ninput.red;
-    ::genium::jni::set_field_value(_jenv, _jresult, "red", jred);
-    auto jgreen = _ninput.green;
-    ::genium::jni::set_field_value(_jenv, _jresult, "green", jgreen);
-    auto jblue = _ninput.blue;
-    ::genium::jni::set_field_value(_jenv, _jresult, "blue", jblue);
-    return _jresult;
-}
-JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::Color> _ninput)
-{
-    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
-}
-::smoke::Structs::ColoredLine
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Structs::ColoredLine* dummy)
-{
-    ::smoke::Structs::ColoredLine _nout{};
-    ::smoke::Structs::Line n_line = convert_from_jni(
-        _jenv,
-        ::genium::jni::get_object_field_value(
-        _jenv,
-        _jinput,
-        "line",
-        "Lcom/example/smoke/Structs$Line;"),
-        (::smoke::Structs::Line*)nullptr );
-    _nout.line = n_line;
-    ::smoke::Structs::Color n_color = convert_from_jni(
-        _jenv,
-        ::genium::jni::get_object_field_value(
-        _jenv,
-        _jinput,
-        "color",
-        "Lcom/example/smoke/Structs$Color;"),
-        (::smoke::Structs::Color*)nullptr );
-    _nout.color = n_color;
-    return _nout;
-}
-::genium::optional<::smoke::Structs::ColoredLine>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Structs::ColoredLine>* dummy)
-{
-    return _jinput
-        ? ::genium::optional<::smoke::Structs::ColoredLine>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::ColoredLine*)nullptr))
-        : ::genium::optional<::smoke::Structs::ColoredLine>{};
-}
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$ColoredLine", ::smoke::Structs::ColoredLine)
-JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ColoredLine& _ninput)
-{
-    auto& javaClass = CachedJavaClass<::smoke::Structs::ColoredLine>::java_class;
-    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
-    auto jline = convert_to_jni(_jenv, _ninput.line);
-    ::genium::jni::set_object_field_value(_jenv, _jresult, "line",
-        "Lcom/example/smoke/Structs$Line;", jline);
-    auto jcolor = convert_to_jni(_jenv, _ninput.color);
-    ::genium::jni::set_object_field_value(_jenv, _jresult, "color",
-        "Lcom/example/smoke/Structs$Color;", jcolor);
-    return _jresult;
-}
-JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::ColoredLine> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
@@ -1011,6 +857,148 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::Yet_Another_External_Struc
 }
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Structs::Yet_Another_External_Struct> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
+::smoke::StructsWithConstantsInterface::MultiRoute
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::StructsWithConstantsInterface::MultiRoute* dummy)
+{
+    ::smoke::StructsWithConstantsInterface::MultiRoute _nout{};
+    ::std::vector< ::std::string > n_descriptions = convert_from_jni(
+        _jenv,
+        ::genium::jni::get_object_field_value(
+        _jenv,
+        _jinput,
+        "descriptions",
+        "Ljava/util/List;"),
+        (::std::vector< ::std::string >*)nullptr );
+    _nout.descriptions = n_descriptions;
+    ::smoke::RouteType n_type = convert_from_jni(
+        _jenv,
+        ::genium::jni::get_object_field_value(
+        _jenv,
+        _jinput,
+        "type",
+        "Lcom/example/smoke/RouteType;"),
+        (::smoke::RouteType*)nullptr );
+    _nout.type = n_type;
+    return _nout;
+}
+::genium::optional<::smoke::StructsWithConstantsInterface::MultiRoute>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::StructsWithConstantsInterface::MultiRoute>* dummy)
+{
+    return _jinput
+        ? ::genium::optional<::smoke::StructsWithConstantsInterface::MultiRoute>(convert_from_jni(_jenv, _jinput, (::smoke::StructsWithConstantsInterface::MultiRoute*)nullptr))
+        : ::genium::optional<::smoke::StructsWithConstantsInterface::MultiRoute>{};
+}
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/StructsWithConstantsInterface$MultiRoute", ::smoke::StructsWithConstantsInterface::MultiRoute)
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::smoke::StructsWithConstantsInterface::MultiRoute& _ninput)
+{
+    auto& javaClass = CachedJavaClass<::smoke::StructsWithConstantsInterface::MultiRoute>::java_class;
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
+    auto jdescriptions = convert_to_jni(_jenv, _ninput.descriptions);
+    ::genium::jni::set_object_field_value(_jenv, _jresult, "descriptions",
+        "Ljava/util/List;", jdescriptions);
+    auto jtype = convert_to_jni(_jenv, _ninput.type);
+    ::genium::jni::set_object_field_value(_jenv, _jresult, "type",
+        "Lcom/example/smoke/RouteType;", jtype);
+    return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::StructsWithConstantsInterface::MultiRoute> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
+::smoke::StructsWithMethodsInterface::Vector3
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::StructsWithMethodsInterface::Vector3* dummy)
+{
+    ::smoke::StructsWithMethodsInterface::Vector3 _nout{};
+    double n_x = ::genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "x",
+        (double*)nullptr );
+    _nout.x = n_x;
+    double n_y = ::genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "y",
+        (double*)nullptr );
+    _nout.y = n_y;
+    double n_z = ::genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "z",
+        (double*)nullptr );
+    _nout.z = n_z;
+    return _nout;
+}
+::genium::optional<::smoke::StructsWithMethodsInterface::Vector3>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::StructsWithMethodsInterface::Vector3>* dummy)
+{
+    return _jinput
+        ? ::genium::optional<::smoke::StructsWithMethodsInterface::Vector3>(convert_from_jni(_jenv, _jinput, (::smoke::StructsWithMethodsInterface::Vector3*)nullptr))
+        : ::genium::optional<::smoke::StructsWithMethodsInterface::Vector3>{};
+}
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/StructsWithMethodsInterface$Vector3", ::smoke::StructsWithMethodsInterface::Vector3)
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::smoke::StructsWithMethodsInterface::Vector3& _ninput)
+{
+    auto& javaClass = CachedJavaClass<::smoke::StructsWithMethodsInterface::Vector3>::java_class;
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
+    auto jx = _ninput.x;
+    ::genium::jni::set_field_value(_jenv, _jresult, "x", jx);
+    auto jy = _ninput.y;
+    ::genium::jni::set_field_value(_jenv, _jresult, "y", jy);
+    auto jz = _ninput.z;
+    ::genium::jni::set_field_value(_jenv, _jresult, "z", jz);
+    return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::StructsWithMethodsInterface::Vector3> _ninput)
+{
+    return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
+}
+::smoke::Vector
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Vector* dummy)
+{
+    ::smoke::Vector _nout{};
+    double n_x = ::genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "x",
+        (double*)nullptr );
+    _nout.x = n_x;
+    double n_y = ::genium::jni::get_field_value(
+        _jenv,
+        _jinput,
+        "y",
+        (double*)nullptr );
+    _nout.y = n_y;
+    return _nout;
+}
+::genium::optional<::smoke::Vector>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::genium::optional<::smoke::Vector>* dummy)
+{
+    return _jinput
+        ? ::genium::optional<::smoke::Vector>(convert_from_jni(_jenv, _jinput, (::smoke::Vector*)nullptr))
+        : ::genium::optional<::smoke::Vector>{};
+}
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Vector", ::smoke::Vector)
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::smoke::Vector& _ninput)
+{
+    auto& javaClass = CachedJavaClass<::smoke::Vector>::java_class;
+    auto _jresult = ::genium::jni::alloc_object(_jenv, javaClass);
+    auto jx = _ninput.x;
+    ::genium::jni::set_field_value(_jenv, _jresult, "x", jx);
+    auto jy = _ninput.y;
+    ::genium::jni::set_field_value(_jenv, _jresult, "y", jy);
+    return _jresult;
+}
+JniReference<jobject>
+convert_to_jni(JNIEnv* _jenv, const ::genium::optional<::smoke::Vector> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

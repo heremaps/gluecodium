@@ -23,16 +23,6 @@ public class Structs extends NativeBase {
             this.y = y;
         }
     }
-    public static class Color {
-        public short red;
-        public short green;
-        public short blue;
-        public Color(final short red, final short green, final short blue) {
-            this.red = red;
-            this.green = green;
-            this.blue = blue;
-        }
-    }
     public static class Line {
         @NonNull
         public Structs.Point a;
@@ -41,16 +31,6 @@ public class Structs extends NativeBase {
         public Line(@NonNull final Structs.Point a, @NonNull final Structs.Point b) {
             this.a = a;
             this.b = b;
-        }
-    }
-    public static class ColoredLine {
-        @NonNull
-        public Structs.Line line;
-        @NonNull
-        public Structs.Color color;
-        public ColoredLine(@NonNull final Structs.Line line, @NonNull final Structs.Color color) {
-            this.line = line;
-            this.color = color;
         }
     }
     public static class AllTypesStruct {
@@ -326,23 +306,17 @@ public class Structs extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     @NonNull
-    public static native Structs.Point createPoint(final double x, final double y);
-    @NonNull
     public static native Structs.Point swapPointCoordinates(@NonNull final Structs.Point input);
     @NonNull
-    public static native Structs.Line createLine(@NonNull final Structs.Point pointA, @NonNull final Structs.Point pointB);
-    @NonNull
-    public static native Structs.ColoredLine createColoredLine(@NonNull final Structs.Line line, @NonNull final Structs.Color color);
-    @NonNull
-    public static native Structs.ColoredLine returnColoredLine(@NonNull final Structs.ColoredLine input);
-    @NonNull
     public static native Structs.AllTypesStruct returnAllTypesStruct(@NonNull final Structs.AllTypesStruct input);
-    @NonNull
-    public static native Structs.AllTypesStruct modifyAllTypesStruct(@NonNull final Structs.AllTypesStruct input);
     @NonNull
     public static native Structs.ExternalStruct getExternalStruct();
     @NonNull
     public static native Structs.AnotherExternalStruct getAnotherExternalStruct();
     @NonNull
     public static native Structs.YetAnotherExternalStruct getYetAnotherExternalStruct();
+    @NonNull
+    public static native Point createPoint(final double x, final double y);
+    @NonNull
+    public static native AllTypesStruct modifyAllTypesStruct(@NonNull final AllTypesStruct input);
 }

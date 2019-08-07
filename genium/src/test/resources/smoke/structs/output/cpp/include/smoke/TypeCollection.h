@@ -21,24 +21,11 @@ struct _GENIUM_CPP_EXPORT Point {
     Point( const double x, const double y );
 };
 using PointTypedef = ::smoke::Point;
-struct _GENIUM_CPP_EXPORT Color {
-    uint8_t red;
-    uint8_t green;
-    uint8_t blue;
-    Color( );
-    Color( const uint8_t red, const uint8_t green, const uint8_t blue );
-};
 struct _GENIUM_CPP_EXPORT Line {
     ::smoke::Point a;
     ::smoke::Point b;
     Line( );
     Line( const ::smoke::Point& a, const ::smoke::Point& b );
-};
-struct _GENIUM_CPP_EXPORT ColoredLine {
-    ::smoke::Line line;
-    ::smoke::Color color;
-    ColoredLine( );
-    ColoredLine( const ::smoke::Line& line, const ::smoke::Color& color );
 };
 struct _GENIUM_CPP_EXPORT AllTypesStruct {
     int8_t int8_field;

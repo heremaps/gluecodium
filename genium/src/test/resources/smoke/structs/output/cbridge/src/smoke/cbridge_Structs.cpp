@@ -8,6 +8,7 @@
 #include "genium/Optional.h"
 #include "non/Sense.h"
 #include "smoke/Structs.h"
+#include "smoke/TypeCollection.h"
 #include <memory>
 #include <new>
 #include <string>
@@ -58,49 +59,6 @@ double smoke_Structs_Point_y_get(_baseRef handle) {
 return struct_pointer->y;
 }
 _baseRef
-smoke_Structs_Color_create_handle( uint8_t red, uint8_t green, uint8_t blue )
-{
-    ::smoke::Structs::Color* _struct = new ( std::nothrow ) ::smoke::Structs::Color();
-    _struct->red = red;
-    _struct->green = green;
-    _struct->blue = blue;
-    return reinterpret_cast<_baseRef>( _struct );
-}
-void
-smoke_Structs_Color_release_handle( _baseRef handle )
-{
-    delete get_pointer<::smoke::Structs::Color>( handle );
-}
-_baseRef
-smoke_Structs_Color_create_optional_handle(uint8_t red, uint8_t green, uint8_t blue)
-{
-    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Structs::Color>( ::smoke::Structs::Color( ) );
-    (*_struct)->red = red;
-    (*_struct)->green = green;
-    (*_struct)->blue = blue;
-    return reinterpret_cast<_baseRef>( _struct );
-}
-_baseRef
-smoke_Structs_Color_unwrap_optional_handle( _baseRef handle )
-{
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Structs::Color>*>( handle ) );
-}
-void smoke_Structs_Color_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<::smoke::Structs::Color>*>( handle );
-}
-uint8_t smoke_Structs_Color_red_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::Color>(handle);
-return struct_pointer->red;
-}
-uint8_t smoke_Structs_Color_green_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::Color>(handle);
-return struct_pointer->green;
-}
-uint8_t smoke_Structs_Color_blue_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::Color>(handle);
-return struct_pointer->blue;
-}
-_baseRef
 smoke_Structs_Line_create_handle( _baseRef a, _baseRef b )
 {
     ::smoke::Structs::Line* _struct = new ( std::nothrow ) ::smoke::Structs::Line();
@@ -136,43 +94,6 @@ return Conversion<::smoke::Structs::Point>::toBaseRef(struct_pointer->a);
 _baseRef smoke_Structs_Line_b_get(_baseRef handle) {
     auto struct_pointer = get_pointer<::smoke::Structs::Line>(handle);
 return Conversion<::smoke::Structs::Point>::toBaseRef(struct_pointer->b);
-}
-_baseRef
-smoke_Structs_ColoredLine_create_handle( _baseRef line, _baseRef color )
-{
-    ::smoke::Structs::ColoredLine* _struct = new ( std::nothrow ) ::smoke::Structs::ColoredLine();
-    _struct->line = Conversion<::smoke::Structs::Line>::toCpp( line );
-    _struct->color = Conversion<::smoke::Structs::Color>::toCpp( color );
-    return reinterpret_cast<_baseRef>( _struct );
-}
-void
-smoke_Structs_ColoredLine_release_handle( _baseRef handle )
-{
-    delete get_pointer<::smoke::Structs::ColoredLine>( handle );
-}
-_baseRef
-smoke_Structs_ColoredLine_create_optional_handle(_baseRef line, _baseRef color)
-{
-    auto _struct = new ( std::nothrow ) ::genium::optional<::smoke::Structs::ColoredLine>( ::smoke::Structs::ColoredLine( ) );
-    (*_struct)->line = Conversion<::smoke::Structs::Line>::toCpp( line );
-    (*_struct)->color = Conversion<::smoke::Structs::Color>::toCpp( color );
-    return reinterpret_cast<_baseRef>( _struct );
-}
-_baseRef
-smoke_Structs_ColoredLine_unwrap_optional_handle( _baseRef handle )
-{
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::genium::optional<::smoke::Structs::ColoredLine>*>( handle ) );
-}
-void smoke_Structs_ColoredLine_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::genium::optional<::smoke::Structs::ColoredLine>*>( handle );
-}
-_baseRef smoke_Structs_ColoredLine_line_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::ColoredLine>(handle);
-return Conversion<::smoke::Structs::Line>::toBaseRef(struct_pointer->line);
-}
-_baseRef smoke_Structs_ColoredLine_color_get(_baseRef handle) {
-    auto struct_pointer = get_pointer<::smoke::Structs::ColoredLine>(handle);
-return Conversion<::smoke::Structs::Color>::toBaseRef(struct_pointer->color);
 }
 _baseRef
 smoke_Structs_AllTypesStruct_create_handle( int8_t int8Field, uint8_t uint8Field, int16_t int16Field, uint16_t uint16Field, int32_t int32Field, uint32_t uint32Field, int64_t int64Field, uint64_t uint64Field, float floatField, double doubleField, _baseRef stringField, bool booleanField, _baseRef bytesField, _baseRef pointField )
@@ -487,32 +408,12 @@ _baseRef smoke_Structs_StructWithArrayOfImmutable_arrayField_get(_baseRef handle
     auto struct_pointer = get_pointer<::smoke::Structs::StructWithArrayOfImmutable>(handle);
 return Conversion<std::vector<::smoke::Structs::AllTypesStruct>>::toBaseRef(struct_pointer->array_field);
 }
-_baseRef smoke_Structs_createPoint(double x, double y) {
-    return Conversion<::smoke::Structs::Point>::toBaseRef(::smoke::Structs::create_point(x, y))
-;
-}
 _baseRef smoke_Structs_swapPointCoordinates(_baseRef input) {
     return Conversion<::smoke::Structs::Point>::toBaseRef(::smoke::Structs::swap_point_coordinates(Conversion<::smoke::Structs::Point>::toCpp(input)))
 ;
 }
-_baseRef smoke_Structs_createLine(_baseRef pointA, _baseRef pointB) {
-    return Conversion<::smoke::Structs::Line>::toBaseRef(::smoke::Structs::create_line(Conversion<::smoke::Structs::Point>::toCpp(pointA), Conversion<::smoke::Structs::Point>::toCpp(pointB)))
-;
-}
-_baseRef smoke_Structs_createColoredLine(_baseRef line, _baseRef color) {
-    return Conversion<::smoke::Structs::ColoredLine>::toBaseRef(::smoke::Structs::create_colored_line(Conversion<::smoke::Structs::Line>::toCpp(line), Conversion<::smoke::Structs::Color>::toCpp(color)))
-;
-}
-_baseRef smoke_Structs_returnColoredLine(_baseRef input) {
-    return Conversion<::smoke::Structs::ColoredLine>::toBaseRef(::smoke::Structs::return_colored_line(Conversion<::smoke::Structs::ColoredLine>::toCpp(input)))
-;
-}
 _baseRef smoke_Structs_returnAllTypesStruct(_baseRef input) {
     return Conversion<::smoke::Structs::AllTypesStruct>::toBaseRef(::smoke::Structs::return_all_types_struct(Conversion<::smoke::Structs::AllTypesStruct>::toCpp(input)))
-;
-}
-_baseRef smoke_Structs_modifyAllTypesStruct(_baseRef input) {
-    return Conversion<::smoke::Structs::AllTypesStruct>::toBaseRef(::smoke::Structs::modify_all_types_struct(Conversion<::smoke::Structs::AllTypesStruct>::toCpp(input)))
 ;
 }
 _baseRef smoke_Structs_getExternalStruct() {
@@ -525,5 +426,13 @@ _baseRef smoke_Structs_getAnotherExternalStruct() {
 }
 _baseRef smoke_Structs_getYetAnotherExternalStruct() {
     return Conversion<::smoke::Structs::Yet_Another_External_Struct>::toBaseRef(::smoke::Structs::get_yet_another_external_struct())
+;
+}
+_baseRef smoke_Structs_createPoint(double x, double y) {
+    return Conversion<::smoke::Point>::toBaseRef(::smoke::Structs::create_point(x, y))
+;
+}
+_baseRef smoke_Structs_modifyAllTypesStruct(_baseRef input) {
+    return Conversion<::smoke::AllTypesStruct>::toBaseRef(::smoke::Structs::modify_all_types_struct(Conversion<::smoke::AllTypesStruct>::toCpp(input)))
 ;
 }

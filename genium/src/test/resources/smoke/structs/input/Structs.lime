@@ -22,18 +22,9 @@ class Structs {
         x: Double
         y: Double
     }
-    struct Color {
-        red: UByte
-        green: UByte
-        blue: UByte
-    }
     struct Line {
         a: Point
         b: Point
-    }
-    struct ColoredLine {
-        line: Line
-        color: Color
     }
 
     @Immutable
@@ -75,6 +66,7 @@ class Structs {
     struct Yet_Another_External_Struct {
         string_Field: String
     }
+
     struct NestingImmutableStruct {
         structField: AllTypesStruct
     }
@@ -92,41 +84,16 @@ class Structs {
 
     typealias ArrayOfImmutable = List<AllTypesStruct>
 
-    static fun createPoint(
-        x: Double,
-        y: Double
-    ): Point
     static fun swapPointCoordinates(input: Point): Point
-    static fun createLine(
-        pointA: Point,
-        pointB: Point
-    ): Line
-    static fun createColoredLine(
-        line: Line,
-        color: Color
-    ): ColoredLine
-    static fun returnColoredLine(input: ColoredLine): ColoredLine
     static fun returnAllTypesStruct(input: AllTypesStruct): AllTypesStruct
-    static fun modifyAllTypesStruct(input: AllTypesStruct): AllTypesStruct
     static fun getExternalStruct(): ExternalStruct
     static fun getAnotherExternalStruct(): AnotherExternalStruct
     static fun getYetAnotherExternalStruct(): Yet_Another_External_Struct
-}
 
-class StructsFromTypeCollection {
     static fun createPoint(
         x: Double,
         y: Double
     ): TypeCollection.Point
-    static fun swapPointCoordinates(input: TypeCollection.Point): TypeCollection.Point
-    static fun createLine(
-        pointA: TypeCollection.Point,
-        pointB: TypeCollection.Point
-    ): TypeCollection.Line
-    static fun createColoredLine(
-        line: TypeCollection.Line,
-        color: TypeCollection.Color
-    ): TypeCollection.ColoredLine
     static fun modifyAllTypesStruct(
         input: TypeCollection.AllTypesStruct
     ): TypeCollection.AllTypesStruct
@@ -139,18 +106,9 @@ types TypeCollection {
         x: Double
         y: Double
     }
-    struct Color {
-        red: UByte
-        green: UByte
-        blue: UByte
-    }
     struct Line {
         a: Point
         b: Point
-    }
-    struct ColoredLine {
-        line: Line
-        color: Color
     }
     struct AllTypesStruct {
         int8Field: Byte
@@ -168,6 +126,5 @@ types TypeCollection {
         bytesField: Blob
         pointField: Point
     }
-
     typealias PointTypedef = Point
 }
