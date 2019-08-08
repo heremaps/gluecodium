@@ -34,7 +34,7 @@ class AndroidManifestTemplateTest {
     fun generate() {
         // Arrange
         val javaPackage = JavaPackage(listOf("com", "example", "android"))
-        val expected = TemplateEngine.render("xml/CopyrightHeader", null) +
+        val expected = TemplateEngine.render("xml/CopyrightHeader", "") +
                 "\n" +
                 "<manifest\n" +
                 "    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n" +

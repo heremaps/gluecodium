@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.generator.common.templates
 
+import com.here.gluecodium.generator.common.NameResolver
 import org.trimou.engine.MustacheEngine
 import org.trimou.engine.MustacheEngineBuilder
 import org.trimou.engine.locator.ClassPathTemplateLocator
@@ -29,6 +30,8 @@ object TemplateEngine {
     private val engine: MustacheEngine
     private val copyrightHeaderResolver = CopyrightHeaderResolver()
     private var copyrightHeaderInitialized = false
+
+    private val nameResolverHelper = NameResolverHelper()
 
     init {
         engine = MustacheEngineBuilder.newBuilder()
@@ -44,6 +47,8 @@ object TemplateEngine {
             .registerHelper("case", SwitchHelper.CaseHelper(true))
             .registerHelper("default", SwitchHelper.DefaultHelper())
             .registerHelper("setJoin", SetJoinHelper())
+            .registerHelper("resolveName", nameResolverHelper)
+            .registerHelper("ifHasAttribute", IfHasAttributeHelper())
             .registerHelpers(
                 HelpersBuilder.empty()
                     .addIsEqual()
@@ -66,6 +71,16 @@ object TemplateEngine {
         }
     }
 
-    fun render(templateName: String?, data: Any?): String =
-        engine.getMustache(templateName).render(data)
+    fun render(templateName: String, data: Any, nameResolver: NameResolver? = null): String {
+        val nameResolvers = nameResolver?.let { mapOf("" to it) } ?: emptyMap()
+        return render(templateName, data, nameResolvers)
+    }
+
+    fun render(templateName: String, data: Any, nameResolvers: Map<String, NameResolver>): String {
+        nameResolverHelper.nameResolvers += nameResolvers
+        val result = engine.getMustache(templateName).render(data)
+        nameResolverHelper.nameResolvers.clear()
+
+        return result
+    }
 }
