@@ -68,7 +68,15 @@ struct _GENIUM_CPP_EXPORT SomeStruct {
      * Can be `null`
      */
     ::genium::optional< ::std::string > nullable_field;
+    /**
+     * This is how easy it is to construct.
+     */
     SomeStruct( );
+    /**
+     * This is how easy it is to construct.
+     * @param some_field How useful this struct is
+     * @param nullable_field Can be `null`
+     */
     SomeStruct( const ::smoke::Comments::Usefulness some_field, const ::genium::optional< ::std::string >& nullable_field );
 };
 /**

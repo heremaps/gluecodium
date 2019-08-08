@@ -1,4 +1,5 @@
 package smoke
+import smoke.comments.SomeStruct
 import smoke.comments.SomeEnum
 import smoke.comments.SomeEnumException
 // The nested types like [random_method] don't need full name prefix, but it's
@@ -9,6 +10,12 @@ import smoke.comments.SomeEnumException
 //
 // [example]: http://example.com
 class CommentsLinks {
+    // Links also work in:
+    // @constructor constructor comments [comments.SomeStruct]
+    struct RandomStruct {
+        // Some random field [comments.SomeStruct]
+        random_field: SomeStruct
+    }
     // Link types:
     // * constant: [comments.VeryUseful]
     // * struct: [comments.SomeStruct]

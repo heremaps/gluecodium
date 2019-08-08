@@ -20,6 +20,7 @@ package smoke
 // This is some very useful interface.
 class comments {
     // This is some very useful struct.
+    // @constructor This is how easy it is to construct.
     struct SomeStruct {
         // How useful this struct is
         someField: Usefulness
@@ -202,4 +203,11 @@ class CommentsLinks {
     // @return Sometimes returns [comments.SomeEnum.Useful]
     // @throws May or may not throw [comments.SomeEnumException]
     fun random_method(inputParameter: comments.SomeEnum): comments.SomeEnum throws comments.SomeEnumException
+
+    // Links also work in:
+    // @constructor constructor comments [comments.SomeStruct]
+    struct RandomStruct {
+        // Some random field [comments.SomeStruct]
+        random_field: comments.SomeStruct
+    }
 }

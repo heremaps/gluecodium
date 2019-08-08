@@ -13,6 +13,23 @@ import com.example.NativeBase;
  */
 public class CommentsLinks extends NativeBase {
     /**
+     * <p>Links also work in:</p>
+     */
+    public static class RandomStruct {
+        /**
+         * <p>Some random field {@link com.example.smoke.Comments.SomeStruct}</p>
+         */
+        @NonNull
+        public Comments.SomeStruct randomField;
+        /**
+         * <p>constructor comments {@link com.example.smoke.Comments.SomeStruct}</p>
+         * @param randomField <p>Some random field {@link com.example.smoke.Comments.SomeStruct}</p>
+         */
+        public RandomStruct(@NonNull final Comments.SomeStruct randomField) {
+            this.randomField = randomField;
+        }
+    }
+    /**
      * For internal use only.
      * @exclude
      */

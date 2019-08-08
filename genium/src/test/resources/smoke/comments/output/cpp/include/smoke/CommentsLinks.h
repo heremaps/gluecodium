@@ -26,6 +26,25 @@ public:
     virtual ~CommentsLinks() = 0;
 public:
 /**
+ * Links also work in:
+ */
+struct _GENIUM_CPP_EXPORT RandomStruct {
+    /**
+     * Some random field ::smoke::Comments::SomeStruct
+     */
+    ::smoke::Comments::SomeStruct random_field;
+    /**
+     * constructor comments ::smoke::Comments::SomeStruct
+     */
+    RandomStruct( );
+    /**
+     * constructor comments ::smoke::Comments::SomeStruct
+     * @param random_field Some random field ::smoke::Comments::SomeStruct
+     */
+    RandomStruct( const ::smoke::Comments::SomeStruct& random_field );
+};
+public:
+/**
  * Link types:
  * * constant: ::smoke::Comments::VERY_USEFUL
  * * struct: ::smoke::Comments::SomeStruct

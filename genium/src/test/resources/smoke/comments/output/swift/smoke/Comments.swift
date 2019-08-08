@@ -64,6 +64,10 @@ public class Comments {
         public var someField: Comments.Usefulness
         /// Can be `nil`
         public var nullableField: String?
+        /// This is how easy it is to construct.
+        /// - Parameters
+        ///   - someField: How useful this struct is
+        ///   - nullableField: Can be `nil`
         public init(someField: Comments.Usefulness, nullableField: String? = nil) {
             self.someField = someField
             self.nullableField = nullableField
