@@ -26,10 +26,11 @@ The project is structured as follows:
 Invoke the following script to build the entire project for C++ users:
 
 ```bash
-./scripts/build-cpp
+./scripts/build-cpp --buildGenium
 ```
 
 Install artifacts end up in the dist/ folder and are ready for re-distribution.
+To see all available options, run `./scripts/build-cpp --help`.
 
 ## Run iOS example app
 
@@ -63,7 +64,7 @@ You might want to put these into your `.profile`.
 Build Android example application:
 ```
 cd genium/examples/
-./scripts/build-android
+./scripts/build-android --buildGenium
 ```
 
 Once you run successfully the step above, it's possible to run the example Android app.
