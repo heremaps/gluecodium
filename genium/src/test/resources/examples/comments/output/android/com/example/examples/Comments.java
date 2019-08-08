@@ -57,8 +57,8 @@ public class Comments extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
-     * @param input Very useful input parameter
-     * @return Usefulness of the input
+     * @param input <p>Very useful input parameter</p>
+     * @return <p>Usefulness of the input</p>
      */
     public native boolean someMethod(@NonNull final String input);
     /**

@@ -106,6 +106,7 @@ class JavaModelBuilder(
             returnType = returnType,
             returnComment = limeMethod.returnType.comment,
             exception = javaExceptionType,
+            throwsComment = limeMethod.thrownType?.comment,
             parameters = getPreviousResults(JavaParameter::class.java),
             isConstructor = limeMethod.isConstructor,
             qualifiers = qualifiers
@@ -125,7 +126,7 @@ class JavaModelBuilder(
             JavaParameter(nameRules.getName(limeParameter), javaType)
         javaParameter.comment = createComments(limeParameter)
 
-        storeResult(javaParameter)
+        storeNamedResult(limeParameter, javaParameter)
         closeContext()
     }
 

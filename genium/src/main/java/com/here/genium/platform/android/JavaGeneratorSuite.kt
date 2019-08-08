@@ -33,6 +33,7 @@ import com.here.genium.generator.jni.JniTemplates
 import com.here.genium.model.common.Comments
 import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaElement
+import com.here.genium.model.java.JavaMethod
 import com.here.genium.model.java.JavaPackage
 import com.here.genium.model.java.JavaTopLevelElement
 import com.here.genium.model.lime.LimeModel
@@ -136,16 +137,7 @@ open class JavaGeneratorSuite protected constructor(
         javaModel
             .flatMap { it.streamRecursive().toList() }
             .filterIsInstance<JavaElement>()
-            .forEach { element ->
-                val limeName = elementToLimeName[element] ?: return@forEach
-                val documentation = element.comment.documentation?.let {
-                    commentsProcessor.process(limeName, it, limeToJavaName)
-                }
-                val deprecationMessage = element.comment.deprecated?.let {
-                    commentsProcessor.process(limeName, it, limeToJavaName)
-                }
-                element.comment = Comments(documentation, deprecationMessage)
-            }
+            .forEach { processElementsComments(it, elementToLimeName, limeToJavaName) }
     }
 
     private fun resolveFullName(
@@ -164,6 +156,30 @@ open class JavaGeneratorSuite protected constructor(
 
         elementToJavaName[element] = fullName
         element.stream().forEach { resolveFullName(it, fullName, elementToJavaName) }
+    }
+
+    private fun processElementsComments(
+        element: JavaElement,
+        elementToLimeName: Map<JavaElement, String>,
+        limeToJavaName: Map<String, String>
+    ) {
+        val limeName = elementToLimeName[element] ?: return
+        val documentation = element.comment.documentation?.let {
+            commentsProcessor.process(limeName, it, limeToJavaName)
+        }
+        val deprecationMessage = element.comment.deprecated?.let {
+            commentsProcessor.process(limeName, it, limeToJavaName)
+        }
+        element.comment = Comments(documentation, deprecationMessage)
+
+        if (element is JavaMethod) {
+            element.returnComment = element.returnComment?.let {
+                commentsProcessor.process(limeName, it, limeToJavaName)
+            }
+            element.throwsComment = element.throwsComment?.let {
+                commentsProcessor.process(limeName, it, limeToJavaName)
+            }
+        }
     }
 
     companion object {

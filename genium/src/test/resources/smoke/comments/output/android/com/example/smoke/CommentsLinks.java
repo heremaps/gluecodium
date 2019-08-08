@@ -12,21 +12,6 @@ import com.example.NativeBase;
  * <p>Weblinks are not modified like this <a href="http://example.com">example</a> or [www.example.com].</p>
  */
 public class CommentsLinks extends NativeBase {
-    public enum TooUseful {
-        TWICE(0),
-        THREE_TIMES(1);
-        public final int value;
-        TooUseful(final int value) {
-            this.value = value;
-        }
-    }
-    public static class TooUsefulException extends Exception {
-        public TooUsefulException(final CommentsLinks.TooUseful error) {
-            super(Integer.toString(error.value));
-            this.error = error;
-        }
-        public final CommentsLinks.TooUseful error;
-    }
     /**
      * For internal use only.
      * @exclude
@@ -57,7 +42,7 @@ public class CommentsLinks extends NativeBase {
      * <li>top level struct field: {@link com.example.smoke.TypeCollectionStruct#field}</li>
      * <li>top level enum: {@link com.example.smoke.TypeCollectionEnum}</li>
      * <li>top level enum item: {@link com.example.smoke.TypeCollectionEnum#ITEM}</li>
-     * <li>error: {@link com.example.smoke.CommentsLinks.TooUsefulException}</li>
+     * <li>error: {@link com.example.smoke.Comments.SomeEnumException}</li>
      * </ul>
      * <p>Not working for Java:</p>
      * <ul>
@@ -72,13 +57,13 @@ public class CommentsLinks extends NativeBase {
      * </ul>
      * <p>Not working:</p>
      * <ul>
-     * <li>input parameter: [inputParameter]</li>
+     * <li>input parameter: {@link com.example.smoke.CommentsLinks#randomMethod#inputParameter}</li>
      * <li>output parameter: [outputParameter]</li>
      * </ul>
-     * @param inputParameter
-     * @return
-     * @throws CommentsLinks.TooUsefulException May or may not throw
+     * @param inputParameter <p>Sometimes takes {@link com.example.smoke.Comments.SomeEnum#USEFUL}</p>
+     * @return <p>Sometimes returns {@link com.example.smoke.Comments.SomeEnum#USEFUL}</p>
+     * @throws Comments.SomeEnumException <p>May or may not throw {@link com.example.smoke.Comments.SomeEnumException}</p>
      */
     @NonNull
-    public native Comments.SomeEnum randomMethod(@NonNull final Comments.SomeEnum inputParameter) throws CommentsLinks.TooUsefulException;
+    public native Comments.SomeEnum randomMethod(@NonNull final Comments.SomeEnum inputParameter) throws Comments.SomeEnumException;
 }

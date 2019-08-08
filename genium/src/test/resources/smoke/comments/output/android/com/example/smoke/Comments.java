@@ -74,21 +74,21 @@ public class Comments extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
-     * @param input Very useful input parameter
-     * @return Usefulness of the input
-     * @throws Comments.SomeEnumException Sometimes it happens.
+     * @param input <p>Very useful input parameter</p>
+     * @return <p>Usefulness of the input</p>
+     * @throws Comments.SomeEnumException <p>Sometimes it happens.</p>
      */
     public native boolean someMethodWithAllComments(@NonNull final String input) throws Comments.SomeEnumException;
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
-     * @param input Very useful input parameter
+     * @param input <p>Very useful input parameter</p>
      * @return
      */
     public native boolean someMethodWithInputComments(@NonNull final String input);
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
      * @param input
-     * @return Usefulness of the input
+     * @return <p>Usefulness of the input</p>
      */
     public native boolean someMethodWithOutputComments(@NonNull final String input);
     /**
@@ -99,7 +99,7 @@ public class Comments extends NativeBase {
     public native boolean someMethodWithNoComments(@NonNull final String input);
     /**
      * <p>This is some very useful method that does not measure the usefulness of its input.</p>
-     * @param input Very useful input parameter
+     * @param input <p>Very useful input parameter</p>
      */
     public native void someMethodWithoutReturnTypeWithAllComments(@NonNull final String input);
     /**
@@ -109,7 +109,7 @@ public class Comments extends NativeBase {
     public native void someMethodWithoutReturnTypeWithNoComments(@NonNull final String input);
     /**
      * <p>This is some very useful method that measures the usefulness of something.</p>
-     * @return Usefulness of the input
+     * @return <p>Usefulness of the input</p>
      */
     public native boolean someMethodWithoutInputParametersWithAllComments();
     /**
@@ -124,15 +124,15 @@ public class Comments extends NativeBase {
     public native void someMethodWithoutReturnTypeOrInputParameters();
     /**
      * <p>This is some very useful instance method.</p>
-     * @param input This is some very useful instance method parameter.
-     * @return This is some very useful instance method result.
+     * @param input <p>This is some very useful instance method parameter.</p>
+     * @return <p>This is some very useful instance method result.</p>
      */
     @NonNull
     public native CommentsInstantiable instanceMethod(@NonNull final CommentsInstantiable input);
     /**
      *
      * @param undocumented
-     * @param documented nicely documented
+     * @param documented <p>nicely documented</p>
      * @return
      */
     @NonNull
@@ -140,7 +140,7 @@ public class Comments extends NativeBase {
     /**
      *
      * @param undocumented
-     * @return nicely documented
+     * @return <p>nicely documented</p>
      */
     @NonNull
     public native String returnCommentOnly(@NonNull final String undocumented);

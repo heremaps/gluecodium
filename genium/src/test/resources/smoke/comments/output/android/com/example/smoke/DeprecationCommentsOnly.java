@@ -46,8 +46,8 @@ public interface DeprecationCommentsOnly {
     /**
      *
      * @deprecated <p>Unfortunately, this method is deprecated.</p>
-     * @param input Very useful input parameter
-     * @return Usefulness of the input
+     * @param input <p>Very useful input parameter</p>
+     * @return <p>Usefulness of the input</p>
      */
     @Deprecated
     boolean someMethodWithAllComments(@NonNull final String input);

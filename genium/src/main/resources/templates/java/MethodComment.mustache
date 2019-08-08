@@ -32,5 +32,5 @@
 it's neither a constructor nor returning void nor a getter}}
 @return {{prefix returnComment "    " skipFirstLine=true}}{{/unless}}{{!!
 }}{{#if exception}}
-@throws {{exception.name}} {{prefix exception.comment.documentation "    " skipFirstLine=true}}{{/if}}{{!!
+@throws {{exception.name}} {{prefix throwsComment "    " skipFirstLine=true}}{{/if}}{{!!
 }}{{/combinedComment}}

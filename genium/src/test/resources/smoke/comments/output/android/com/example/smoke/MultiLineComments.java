@@ -36,16 +36,16 @@ public class MultiLineComments extends NativeBase {
      * <p>This is very important method.
      * It has very important parameters.
      * It has side effects.</p>
-     * @param input Very useful input parameter.
+     * @param input <p>Very useful input parameter.
      *     You must not confuse it with the second parameter.
-     *     But they are similar.
-     * @param ratio Not as useful as the first parameter.
+     *     But they are similar.</p>
+     * @param ratio <p>Not as useful as the first parameter.
      *     But still useful.
-     *     use a positive value for more happiness.
-     * @return If you provide a useful input,
+     *     use a positive value for more happiness.</p>
+     * @return <p>If you provide a useful input,
      *     and a useful ratio you can expect a useful output.
      *     Just kidding do not expect anything from a method until
-     *     you see its body.
+     *     you see its body.</p>
      */
     public native float someMethodWithLongComment(@NonNull final String input, final double ratio);
 }

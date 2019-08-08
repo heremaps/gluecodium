@@ -440,11 +440,11 @@ class JniModelBuilderTest {
     fun finishBuildingMethodReadsExceptionName() {
         contextStack.injectResult(jniType)
         val javaThrowingMethod = JavaMethod(
-            "fancyMEthoD_integer", Comments(),
-            JavaVisibility.PUBLIC,
-            JavaPrimitiveType.INT, null,
-            JavaCustomType("FooException", JavaPackage.DEFAULT),
-            listOf(JavaParameter("theParam", JavaPrimitiveType.INT))
+            name = "fancyMEthoD_integer",
+            visibility = JavaVisibility.PUBLIC,
+            returnType = JavaPrimitiveType.INT,
+            exception = JavaCustomType("FooException", JavaPackage.DEFAULT),
+            parameters = listOf(JavaParameter("theParam", JavaPrimitiveType.INT))
         )
         every { javaBuilder.getFinalResult(JavaMethod::class.java) } returns javaThrowingMethod
 
@@ -458,11 +458,11 @@ class JniModelBuilderTest {
     fun finishBuildingMethodReadsExceptionEnum() {
         contextStack.injectResult(jniType)
         val javaThrowingMethod = JavaMethod(
-            "fancyMEthoD_integer", Comments(),
-            JavaVisibility.PUBLIC,
-            JavaPrimitiveType.INT, null,
-            JavaCustomType("FooException", JavaPackage.DEFAULT),
-            listOf(JavaParameter("theParam", JavaPrimitiveType.INT))
+            name = "fancyMEthoD_integer",
+            visibility = JavaVisibility.PUBLIC,
+            returnType = JavaPrimitiveType.INT,
+            exception = JavaCustomType("FooException", JavaPackage.DEFAULT),
+            parameters = listOf(JavaParameter("theParam", JavaPrimitiveType.INT))
         )
         every { javaBuilder.getFinalResult(JavaMethod::class.java) } returns javaThrowingMethod
 

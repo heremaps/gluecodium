@@ -65,8 +65,8 @@ public interface DeprecationComments {
      * <p>This is some very useful method that measures the usefulness of its input.</p>
      * @deprecated <p>Unfortunately, this method is deprecated.
      * Use {@link com.example.smoke.Comments#someMethodWithAllComments} instead.</p>
-     * @param input Very useful input parameter
-     * @return Usefulness of the input
+     * @param input <p>Very useful input parameter</p>
+     * @return <p>Usefulness of the input</p>
      */
     @Deprecated
     boolean someMethodWithAllComments(@NonNull final String input);

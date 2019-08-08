@@ -8,7 +8,7 @@ import com.example.NativeBase;
 public class CommentsInstantiable extends NativeBase {
     /**
      * <p>This is some very useful constructor.</p>
-     * @param input Very useful input parameter
+     * @param input <p>Very useful input parameter</p>
      */
     public CommentsInstantiable(@NonNull final String input) {
         this(create(input));
