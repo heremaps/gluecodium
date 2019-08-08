@@ -229,7 +229,7 @@ class SwiftModelBuilder(
         )
         swiftParameter.comment = createComments(limeParameter)
 
-        storeResult(swiftParameter)
+        storeNamedResult(limeParameter, swiftParameter)
         closeContext()
     }
 

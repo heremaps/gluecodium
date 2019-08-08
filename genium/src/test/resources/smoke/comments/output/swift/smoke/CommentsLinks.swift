@@ -29,10 +29,6 @@ public class CommentsLinks {
     deinit {
         smoke_CommentsLinks_release_handle(c_instance)
     }
-    public enum TooUseful : UInt32, CaseIterable {
-        case twice
-        case threeTimes
-    }
     /// Link types:
     /// * constant: `Comments.veryUseful`
     /// * struct: `Comments.SomeStruct`
@@ -48,7 +44,7 @@ public class CommentsLinks {
     /// * top level struct field: `TypeCollectionStruct.field`
     /// * top level enum: `TypeCollectionEnum`
     /// * top level enum item: `TypeCollectionEnum.item`
-    /// * error: `CommentsLinks.TooUseful`
+    /// * error: `Comments.SomeEnum`
     ///
     /// Not working for Java:
     /// * typedef: `Comments.Usefulness`
@@ -60,18 +56,18 @@ public class CommentsLinks {
     /// * named comment: []`Comments.veryUseful`
     ///
     /// Not working:
-    /// * input parameter: [inputParameter]
+    /// * input parameter: `CommentsLinks.randomMethod(...).inputParameter`
     /// * output parameter: [outputParameter]
-    /// - Parameter inputParameter:
-    /// - Returns:
-    /// - Throws: `CommentsLinks.TooUseful` May or may not throw
+    /// - Parameter inputParameter: Sometimes takes `Comments.SomeEnum.useful`
+    /// - Returns: Sometimes returns `Comments.SomeEnum.useful`
+    /// - Throws: `Comments.SomeEnum` May or may not throw `Comments.SomeEnum`
     public func randomMethod(inputParameter: Comments.SomeEnum) throws -> Comments.SomeEnum {
         let c_inputParameter = moveToCType(inputParameter)
         let RESULT = smoke_CommentsLinks_randomMethod(self.c_instance, c_inputParameter.ref)
         if (RESULT.has_value) {
             return moveFromCType(RESULT.returned_value)
         } else {
-            throw CommentsLinks.TooUseful(rawValue: RESULT.error_code)!
+            throw Comments.SomeEnum(rawValue: RESULT.error_code)!
         }
     }
 }
@@ -107,36 +103,4 @@ internal func copyToCType(_ swiftClass: CommentsLinks?) -> RefHolder {
 }
 internal func moveToCType(_ swiftClass: CommentsLinks?) -> RefHolder {
     return getRef(swiftClass, owning: true)
-}
-internal func copyToCType(_ swiftEnum: CommentsLinks.TooUseful) -> PrimitiveHolder<UInt32> {
-    return PrimitiveHolder(swiftEnum.rawValue)
-}
-internal func moveToCType(_ swiftEnum: CommentsLinks.TooUseful) -> PrimitiveHolder<UInt32> {
-    return copyToCType(swiftEnum)
-}
-internal func copyToCType(_ swiftEnum: CommentsLinks.TooUseful?) -> RefHolder {
-    return copyToCType(swiftEnum?.rawValue)
-}
-internal func moveToCType(_ swiftEnum: CommentsLinks.TooUseful?) -> RefHolder {
-    return moveToCType(swiftEnum?.rawValue)
-}
-internal func copyFromCType(_ cValue: UInt32) -> CommentsLinks.TooUseful {
-    return CommentsLinks.TooUseful(rawValue: cValue)!
-}
-internal func moveFromCType(_ cValue: UInt32) -> CommentsLinks.TooUseful {
-    return copyFromCType(cValue)
-}
-internal func copyFromCType(_ handle: _baseRef) -> CommentsLinks.TooUseful? {
-    guard handle != 0 else {
-        return nil
-    }
-    return CommentsLinks.TooUseful(rawValue: uint32_t_value_get(handle))!
-}
-internal func moveFromCType(_ handle: _baseRef) -> CommentsLinks.TooUseful? {
-    defer {
-        uint32_t_release_handle(handle)
-    }
-    return copyFromCType(handle)
-}
-extension CommentsLinks.TooUseful : Error {
 }

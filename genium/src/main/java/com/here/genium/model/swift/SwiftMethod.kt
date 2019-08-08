@@ -30,7 +30,7 @@ class SwiftMethod(
     visibility: SwiftVisibility? = null,
     comment: Comments = Comments(),
     val returnType: SwiftType = SwiftType.VOID,
-    @Suppress("unused") val returnComment: String? = null,
+    var returnComment: String? = null,
     val cNestedSpecifier: String? = null,
     val cShortName: String? = null,
     val error: SwiftThrownType? = null,

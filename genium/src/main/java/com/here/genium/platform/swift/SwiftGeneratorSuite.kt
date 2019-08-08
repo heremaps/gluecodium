@@ -87,16 +87,7 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
 
         swiftModel.containers.flatMap { it.streamRecursive().toList() }
             .filterIsInstance<SwiftModelElement>()
-            .forEach { element ->
-                val limeName = elementToLimeName[element] ?: return@forEach
-                val documentation = element.comment.documentation?.let {
-                    commentsProcessor.process(limeName, it, limeToSwiftName)
-                }
-                val deprecationMessage = element.comment.deprecated?.let {
-                    commentsProcessor.process(limeName, it, limeToSwiftName)
-                }
-                element.comment = Comments(documentation, deprecationMessage)
-            }
+            .forEach { processElementComments(it, elementToLimeName, limeToSwiftName) }
 
         val result = swiftModel.containers.filter { !it.isEmpty }.map {
             GeneratedFile(
@@ -111,6 +102,30 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             swiftGenerator.builtinOptionalsGenerator.generate() + cBridgeGenerator.generateHelpers()
 
         return result.filterNotNull()
+    }
+
+    private fun processElementComments(
+        element: SwiftModelElement,
+        elementToLimeName: Map<SwiftModelElement, String>,
+        limeToSwiftName: Map<String, String>
+    ) {
+        val limeName = elementToLimeName[element] ?: return
+        val documentation = element.comment.documentation?.let {
+            commentsProcessor.process(limeName, it, limeToSwiftName)
+        }
+        val deprecationMessage = element.comment.deprecated?.let {
+            commentsProcessor.process(limeName, it, limeToSwiftName)
+        }
+        element.comment = Comments(documentation, deprecationMessage)
+
+        if (element is SwiftMethod) {
+            element.returnComment = element.returnComment?.let {
+                commentsProcessor.process(limeName, it, limeToSwiftName)
+            }
+            element.error?.let {
+                it.comment = commentsProcessor.process(limeName, it.comment, limeToSwiftName)
+            }
+        }
     }
 
     override fun getName() = "com.here.SwiftGenerator"

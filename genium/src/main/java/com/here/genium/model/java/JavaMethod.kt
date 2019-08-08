@@ -30,7 +30,7 @@ class JavaMethod(
     val returnType: JavaType = JavaPrimitiveType.VOID,
     var returnComment: String? = null,
     val exception: JavaCustomType? = null,
-    var throwsComment:  String? = null,
+    var throwsComment: String? = null,
     val parameters: List<JavaParameter> = emptyList(),
     val isConstructor: Boolean = false,
     val isGetter: Boolean = false,

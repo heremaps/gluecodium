@@ -19,6 +19,6 @@
 
 package com.here.genium.model.swift
 
-class SwiftThrownType(val name: String, val comment: String) {
+class SwiftThrownType(val name: String, var comment: String) {
     override fun toString() = name
 }
