@@ -28,8 +28,36 @@ struct {{>cpp/CppExportMacro}}{{name}} {
 {{/fields}}{{!!
 }}{{#if fields}}
 
-    {{#if hasDefaultConstructor}}{{name}}( );{{/if}}{{#if hasPartialDefaults}}
+{{#if hasDefaultConstructor}}
+{{#if constructorComment}}
+    /**
+{{prefix constructorComment "     * "}}
+     */
+{{/if}}
+    {{name}}( );{{/if}}{{#if hasPartialDefaults}}
+{{#if constructorComment}}
+    /**
+{{prefix constructorComment "     * "}}
+{{#uninitializedFields}}
+     * @param {{name}} {{prefix comment.documentation "     * " skipFirstLine=true}}
+{{#if isNotNull}}
+     * \warning @NotNull
+{{/if}}
+{{/uninitializedFields}}
+     */
+{{/if}}
     {{name}}( {{joinPartial uninitializedFields "cpp/CppMethodParameter" ", "}} );{{/if}}
+{{#if constructorComment}}
+    /**
+{{prefix constructorComment "     * "}}
+{{#fields}}
+     * @param {{name}} {{prefix comment.documentation "     * " skipFirstLine=true}}
+{{#if isNotNull}}
+     * \warning @NotNull
+{{/if}}
+{{/fields}}
+     */
+{{/if}}
     {{name}}( {{joinPartial fields "cpp/CppMethodParameter" ", "}} );
 
 {{/if}}{{!!

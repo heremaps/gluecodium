@@ -26,7 +26,8 @@ class LimeStruct(
     attributes: LimeAttributes? = null,
     val fields: List<LimeField> = emptyList(),
     val methods: List<LimeMethod> = emptyList(),
-    val constants: List<LimeConstant> = emptyList()
+    val constants: List<LimeConstant> = emptyList(),
+    val constructorComment: String = ""
 ) : LimeType(path, visibility, comment, attributes) {
     override val childTypes
         get() = fields.map { it.typeRef }

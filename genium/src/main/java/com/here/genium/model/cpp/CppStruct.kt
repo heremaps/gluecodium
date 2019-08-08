@@ -33,7 +33,8 @@ class CppStruct(
     val methods: List<CppMethod> = emptyList(),
     val constants: List<CppConstant> = emptyList(),
     val isEquatable: Boolean = false,
-    val isImmutable: Boolean = false
+    val isImmutable: Boolean = false,
+    var constructorComment: String? = null
 ) : CppExternableElement(name, fullyQualifiedName, includes, comment, isExternal) {
 
     @Suppress("unused")

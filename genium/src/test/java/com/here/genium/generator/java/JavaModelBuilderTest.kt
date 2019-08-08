@@ -309,7 +309,8 @@ class JavaModelBuilderTest {
         val limeElement = LimeStruct(
             path = fooPath,
             comment = "some comment",
-            attributes = deprecatedAttributes
+            attributes = deprecatedAttributes,
+            constructorComment = "other comment"
         )
 
         modelBuilder.finishBuilding(limeElement)
@@ -320,6 +321,7 @@ class JavaModelBuilderTest {
         assertEquals("Bar", result.comment.deprecated)
         assertContains(JavaModelBuilder.deprecatedAnnotation, result.annotations)
         assertEquals(rootPackage, result.javaPackage)
+        assertEquals("other comment", result.generatedConstructorComment)
     }
 
     @Test

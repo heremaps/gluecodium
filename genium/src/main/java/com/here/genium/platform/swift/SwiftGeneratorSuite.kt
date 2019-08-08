@@ -35,6 +35,7 @@ import com.here.genium.model.common.Comments
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.swift.SwiftMethod
 import com.here.genium.model.swift.SwiftModelElement
+import com.here.genium.model.swift.SwiftStruct
 import com.here.genium.platform.common.GeneratorSuite
 import kotlin.streams.toList
 
@@ -124,6 +125,12 @@ class SwiftGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             }
             element.error?.let {
                 it.comment = commentsProcessor.process(limeName, it.comment, limeToSwiftName)
+            }
+        }
+
+        if (element is SwiftStruct) {
+            element.generatedConstructorComment = element.generatedConstructorComment?.let {
+                commentsProcessor.process(limeName, it, limeToSwiftName)
             }
         }
     }

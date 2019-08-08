@@ -266,8 +266,12 @@ class SwiftModelBuilderTest {
 
     @Test
     fun finishBuildingStruct() {
-        val limeElement =
-            LimeStruct(fooPath, comment = "some comment", attributes = deprecatedAttributes)
+        val limeElement = LimeStruct(
+            fooPath,
+            comment = "some comment",
+            attributes = deprecatedAttributes,
+            constructorComment = "other comment"
+        )
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -275,6 +279,7 @@ class SwiftModelBuilderTest {
         assertEquals("nonsense", result.name)
         assertEquals("some comment", result.comment.documentation)
         assertEquals("Bar", result.comment.deprecated)
+        assertEquals("other comment", result.generatedConstructorComment)
     }
 
     @Test

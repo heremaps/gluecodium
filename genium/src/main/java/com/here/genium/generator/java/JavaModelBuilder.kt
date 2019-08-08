@@ -160,7 +160,8 @@ class JavaModelBuilder(
             isParcelable = isSerializable,
             isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
-            needsBuilder = limeStruct.attributes.have(JAVA, BUILDER)
+            needsBuilder = limeStruct.attributes.have(JAVA, BUILDER),
+            generatedConstructorComment = limeStruct.constructorComment
         )
         javaClass.visibility = getVisibility(limeStruct)
         javaClass.javaPackage = rootPackage

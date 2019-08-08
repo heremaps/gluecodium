@@ -507,7 +507,7 @@ Documentation comments also support structured comments for some elements (i.e. 
 for child elements in the comment of the parent element). Structured comments can be specified in
 both `//` and `/*` style comments (or even in a combination of those).
 
-Currently structured comments are only supported for functions. Example:
+Structured comments are supported for functions. Example:
 ```
 // Process the input in the given mode.
 // A lot of multi-line text can be said about it.
@@ -516,6 +516,18 @@ Currently structured comments are only supported for functions. Example:
 // @return a generic result
 // @throws if something goes wrong
 fun process(mode: Mode, input: String): GenericResult throws SomethingWrongException
+```
+
+Structured comments for structs allow specifying documentation for the struct's auto-generated
+constructor. Example:
+```
+// Stores various important options.
+// @constructor Creates a nice storage for your various very important options.
+struct Options {
+    flagOption: Boolean
+    uintOption: UShort
+    additionalOptions: List<String> = {}
+}
 ```
 
 [franca]: http://franca.github.io/franca/

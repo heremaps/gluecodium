@@ -186,7 +186,8 @@ class CppModelBuilder(
             methods = methods,
             constants = getPreviousResults(CppConstant::class.java),
             isEquatable = isEquatable,
-            isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)
+            isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
+            constructorComment = limeStruct.constructorComment
         )
 
         storeNamedResult(limeStruct, cppStruct)

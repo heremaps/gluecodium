@@ -30,6 +30,15 @@
     {{visibility}} {{#if isImmutable}}let{{/if}}{{#unless isImmutable}}var{{/unless}} {{name}}: {{type.publicName}}{{#type.optional}}?{{/type.optional}}
 {{/fields}}{{#unless constructors}}{{#if needsReducedConstructor}}
 
+{{#if generatedConstructorComment}}
+{{prefix generatedConstructorComment '    /// '}}
+{{#if publicFields}}
+    /// - Parameters
+{{#publicFields}}
+    ///   - {{name}}: {{prefix comment.documentation "      " skipFirstLine=true}}
+{{/publicFields}}
+{{/if}}
+{{/if}}
     public init({{joinPartial publicFields "initParameter" ", "}}) {
 {{#publicFields}}
         self.{{name}} = {{name}}
@@ -40,6 +49,15 @@
     }
 {{/if}}
 
+{{#if generatedConstructorComment}}
+{{prefix generatedConstructorComment '    /// '}}
+{{#if publicFields}}
+    /// - Parameters
+{{#fields}}
+    ///   - {{name}}: {{prefix comment.documentation "      " skipFirstLine=true}}
+{{/fields}}
+{{/if}}
+{{/if}}
     {{constructorVisibility}} init({{joinPartial fields "initParameter" ", "}}) {
 {{#fields}}
         self.{{name}} = {{name}}

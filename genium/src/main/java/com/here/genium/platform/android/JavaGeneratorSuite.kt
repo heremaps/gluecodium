@@ -31,6 +31,7 @@ import com.here.genium.generator.jni.JniGenerator
 import com.here.genium.generator.jni.JniNameRules
 import com.here.genium.generator.jni.JniTemplates
 import com.here.genium.model.common.Comments
+import com.here.genium.model.java.JavaClass
 import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaElement
 import com.here.genium.model.java.JavaMethod
@@ -177,6 +178,12 @@ open class JavaGeneratorSuite protected constructor(
                 commentsProcessor.process(limeName, it, limeToJavaName)
             }
             element.throwsComment = element.throwsComment?.let {
+                commentsProcessor.process(limeName, it, limeToJavaName)
+            }
+        }
+
+        if (element is JavaClass) {
+            element.generatedConstructorComment = element.generatedConstructorComment?.let {
                 commentsProcessor.process(limeName, it, limeToJavaName)
             }
         }

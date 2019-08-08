@@ -301,20 +301,25 @@ internal class AntlrLimeModelBuilder(
 
     override fun enterStruct(ctx: LimeParser.StructContext) {
         pushPathAndVisibility(ctx.simpleId(), ctx.visibility())
+
+        val commentText = convertDocComments(ctx.docComment())
+        structuredCommentsStack.push(parseStructuredComment(commentText, ctx.getStart().line))
     }
 
     override fun exitStruct(ctx: LimeParser.StructContext) {
         val limeElement = LimeStruct(
             path = currentPath,
             visibility = currentVisibility,
-            comment = convertDocComments(ctx.docComment()),
+            comment = structuredCommentsStack.peek().description,
             attributes = convertAnnotations(ctx.annotation()),
             fields = getPreviousResults(LimeField::class.java),
             methods = getPreviousResults(LimeMethod::class.java),
-            constants = getPreviousResults(LimeConstant::class.java)
+            constants = getPreviousResults(LimeConstant::class.java),
+            constructorComment = structuredCommentsStack.peek().getTagBlock("constructor")
         )
 
         storeResultAndPopStacks(limeElement)
+        structuredCommentsStack.pop()
     }
 
     override fun enterField(ctx: LimeParser.FieldContext) {

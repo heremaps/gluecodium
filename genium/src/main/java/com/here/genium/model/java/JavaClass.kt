@@ -34,7 +34,8 @@ class JavaClass(
     val isEquatable: Boolean = false,
     val hasNativeEquatable: Boolean = false,
     val isImmutable: Boolean = false,
-    val needsBuilder: Boolean = false
+    val needsBuilder: Boolean = false,
+    var generatedConstructorComment: String? = null
 ) : JavaTopLevelElement(name) {
 
     init {

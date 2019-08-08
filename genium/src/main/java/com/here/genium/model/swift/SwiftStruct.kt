@@ -34,7 +34,8 @@ class SwiftStruct(
     val isImmutable: Boolean = false,
     val fields: List<SwiftField> = emptyList(),
     val constants: List<SwiftConstant> = emptyList(),
-    val methods: List<SwiftMethod> = emptyList()
+    val methods: List<SwiftMethod> = emptyList(),
+    var generatedConstructorComment: String? = null
 ) : SwiftType(name, cPrefix, visibility, category, publicName ?: name, optional) {
 
     @Suppress("unused")

@@ -242,7 +242,8 @@ class SwiftModelBuilder(
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
             fields = getPreviousResults(SwiftField::class.java),
             constants = getPreviousResults(SwiftConstant::class.java),
-            methods = getPreviousResults(SwiftMethod::class.java)
+            methods = getPreviousResults(SwiftMethod::class.java),
+            generatedConstructorComment = limeStruct.constructorComment
         )
         swiftStruct.comment = createComments(limeStruct)
 

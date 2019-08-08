@@ -225,13 +225,19 @@ class CppModelBuilderCommentsTest {
 
     @Test
     fun finishBuildingStructReadsComment() {
-        val limeElement = LimeStruct(EMPTY_PATH, comment = "Foo", attributes = deprecatedAttributes)
+        val limeElement = LimeStruct(
+            EMPTY_PATH,
+            comment = "Foo",
+            attributes = deprecatedAttributes,
+            constructorComment = "Baz"
+        )
 
         modelBuilder.finishBuilding(limeElement)
 
         val cppStruct = modelBuilder.getFinalResult(CppStruct::class.java)
         assertEquals("Foo", cppStruct.comment.documentation)
         assertEquals("Bar", cppStruct.comment.deprecated)
+        assertEquals("Baz", cppStruct.constructorComment)
     }
 
     @Test

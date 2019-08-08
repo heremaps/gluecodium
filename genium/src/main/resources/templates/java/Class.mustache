@@ -52,12 +52,29 @@
 {{prefixPartial "java/NativeConstructor" "    "}}
 {{/if}}
 {{#if fields}}{{#unless constructors}}
+
+{{#if generatedConstructorComment}}
+    /**
+{{prefix generatedConstructorComment "     * "}}
+{{#uninitializedFields}}
+     * @param {{name}} {{prefix comment.documentation "     * " skipFirstLine=true}}
+{{/uninitializedFields}}
+     */
+{{/if}}
     {{#if freeArgsConstructorVisibility.toString}}{{freeArgsConstructorVisibility}} {{/if}}{{name}}{{!!
     }}({{joinPartial uninitializedFields "java/Parameter" ", "}}) {
 {{#fields}}        this.{{name}} = {{#if initial.isCustom}}{{initial.name}}{{/if}}{{#unless initial.isCustom}}{{name}}{{/unless}};
 {{/fields}}
     }{{#if hasDefaults}}
 
+{{#if generatedConstructorComment}}
+    /**
+{{prefix generatedConstructorComment "     * "}}
+{{#fields}}
+     * @param {{name}} {{prefix comment.documentation "     * " skipFirstLine=true}}
+{{/fields}}
+     */
+{{/if}}
     {{#if allArgsConstructorVisibility.toString}}{{allArgsConstructorVisibility}} {{/if}}{{name}}{{!!
     }}({{joinPartial fields "java/Parameter" ", "}}) {
 {{#fields}}        this.{{name}} = {{name}};

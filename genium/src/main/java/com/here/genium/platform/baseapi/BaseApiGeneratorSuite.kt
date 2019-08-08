@@ -40,6 +40,7 @@ import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppFile
 import com.here.genium.model.cpp.CppForwardDeclaration
 import com.here.genium.model.cpp.CppMethod
+import com.here.genium.model.cpp.CppStruct
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeNamedElement
@@ -166,6 +167,12 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
                 commentsProcessor.process(limeName, it, limeToCppName)
             }
             element.errorComment = element.errorComment?.let {
+                commentsProcessor.process(limeName, it, limeToCppName)
+            }
+        }
+
+        if (element is CppStruct) {
+            element.constructorComment = element.constructorComment?.let {
                 commentsProcessor.process(limeName, it, limeToCppName)
             }
         }
