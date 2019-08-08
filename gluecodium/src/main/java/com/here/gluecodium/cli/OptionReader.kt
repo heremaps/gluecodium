@@ -109,9 +109,11 @@ object OptionReader {
         )
         addOption("cppnamespace", true, "C++ namespace for public (API) headers.")
         addOption("cppexport", true, "C++ export macro name for explicit symbol exporting.")
+        addOption("libraryname", true, "Name of the generated library for some generators (i.e. Dart).")
         addOption("cppnamerules", true, "C++ name rules property file.")
         addOption("javanamerules", true, "Java name rules property file.")
         addOption("swiftnamerules", true, "Swift name rules property file.")
+        addOption("dartnamerules", true, "Dart name rules property file.")
     }
 
     @Throws(OptionReaderException::class)
@@ -161,14 +163,17 @@ object OptionReader {
         options.isLoggingTimes = getFlagValue("time")
 
         options.cppRootNamespace = getStringValue("cppnamespace")?.split(".") ?: emptyList()
-        options.cppInternalNamespace = getStringValue("intnamespace")?.split(".")
+        options.cppInternalNamespace = getStringValue("intnamespace")?.split(".") ?: emptyList()
         getStringValue("cppexport")?.let { options.cppExport = it }
+        getStringValue("libraryname")?.let { options.libraryName = it }
 
         options.cppNameRules = readConfigFile(getStringValue("cppnamerules"), options.cppNameRules)
         options.javaNameRules =
             readConfigFile(getStringValue("javanamerules"), options.javaNameRules)
         options.swiftNameRules =
             readConfigFile(getStringValue("swiftnamerules"), options.swiftNameRules)
+        options.dartNameRules =
+            readConfigFile(getStringValue("dartnamerules"), options.dartNameRules)
 
         options.copyrightHeaderContents = getStringValue("copyright")?.let { File(it).readText() }
 

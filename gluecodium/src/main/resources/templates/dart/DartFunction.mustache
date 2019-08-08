@@ -1,0 +1,53 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{#unless comment.isEmpty}}{{prefix comment "/// "}}
+{{/unless}}{{!!
+}}{{#parameters}}{{#unless comment.isEmpty}}/// @param[{{name}}] {{prefix comment "/// " skipFirstLine=true}}
+{{/unless}}{{/parameters}}{{!!
+}}{{#unless returnType.comment.isEmpty}}/// @return {{prefix returnType.comment "/// " skipFirstLine=true}}
+{{/unless}}{{!!
+}}{{#if thrownType}}{{#unless thrownType.comment.isEmpty}}/// @throws {{prefix thrownType.comment "/// " skipFirstLine=true}}
+{{/unless}}{{/if}}
+{{#if isConstructor}}{{resolveName visibility}}{{resolveName parent}}({{>parameterList}});{{/if}}{{!!
+}}{{#unless isConstructor}}{{#if isStatic}}static {{/if}}{{!!
+}}{{#returnType}}{{#isNotEq typeRef.toString "Void"}}{{resolveName typeRef}} {{/isNotEq}}{{/returnType}}{{!!
+}}{{resolveName visibility}}{{resolveName}}({{>parameterList}}) {
+  final _{{resolveName}}_ffi = __lib.nativeLibrary.lookupFunction<{{>ffiApi}}, {{>ffiDart}}>('{{resolveName "Ffi"}}');
+  {{!! TODO: APIGEN-1773: use String<->Pointer<Void> conversion functions below }}
+{{#parameters}}
+  final _{{resolveName}}_handle = __lib.std_string_create_handle(Utf8.toUtf8({{resolveName}}));
+{{/parameters}}
+  final _result_handle = _{{resolveName}}_ffi({{#parameters}}_{{resolveName}}_handle{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+  final _result = Utf8.fromUtf8(__lib.std_string_get_value(_result_handle));
+  __lib.std_string_release_handle(_result_handle);
+{{#parameters}}
+  __lib.std_string_release_handle(_{{resolveName}}_handle);
+{{/parameters}}
+  return _result;
+}{{/unless}}{{!!
+
+}}{{+parameterList}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/parameterList}}{{!!
+
+}}{{+ffiApi}}{{resolveName returnType.typeRef "FfiApiTypes"}} Function({{!!
+}}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiApi}}{{!!
+
+}}{{+ffiDart}}{{resolveName returnType.typeRef "FfiDartTypes"}} Function({{!!
+}}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiDart}}

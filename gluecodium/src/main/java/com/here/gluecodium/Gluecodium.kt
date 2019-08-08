@@ -185,9 +185,10 @@ class Gluecodium(
         var androidMergeManifestPath: String? = null,
         var isLoggingTimes: Boolean = false,
         var copyrightHeaderContents: String? = null,
-        var cppInternalNamespace: List<String>? = null,
+        var cppInternalNamespace: List<String> = emptyList(),
         var cppRootNamespace: List<String> = listOf(),
         var cppExport: String = DEFAULT_CPP_EXPORT_MACRO_NAME,
+        var libraryName: String = "library",
         var cppNameRules: Configuration = ConfigurationProperties.fromResource(
             Gluecodium::class.java,
             "/namerules/cpp.properties"
@@ -199,6 +200,10 @@ class Gluecodium(
         var swiftNameRules: Configuration = ConfigurationProperties.fromResource(
             Gluecodium::class.java,
             "/namerules/swift.properties"
+        ),
+        var dartNameRules: Configuration = ConfigurationProperties.fromResource(
+            Gluecodium::class.java,
+            "/namerules/dart.properties"
         )
     )
 

@@ -22,6 +22,7 @@ package com.here.gluecodium.platform.common
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.dart.DartGeneratorSuite
 import com.here.gluecodium.generator.lime.LimeGeneratorSuite
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.platform.android.AndroidGeneratorSuite
@@ -57,6 +58,7 @@ abstract class GeneratorSuite {
                 BaseApiGeneratorSuite.GENERATOR_NAME -> return BaseApiGeneratorSuite(options)
                 SwiftGeneratorSuite.GENERATOR_NAME -> return SwiftGeneratorSuite(options)
                 LimeGeneratorSuite.GENERATOR_NAME -> return LimeGeneratorSuite()
+                DartGeneratorSuite.GENERATOR_NAME -> return DartGeneratorSuite(options)
             }
 
             return null
@@ -68,7 +70,8 @@ abstract class GeneratorSuite {
                 JavaGeneratorSuite.GENERATOR_NAME,
                 BaseApiGeneratorSuite.GENERATOR_NAME,
                 SwiftGeneratorSuite.GENERATOR_NAME,
-                LimeGeneratorSuite.GENERATOR_NAME
+                LimeGeneratorSuite.GENERATOR_NAME,
+                DartGeneratorSuite.GENERATOR_NAME
         )
 
         fun copyCommonFile(fileName: String, targetDir: String): GeneratedFile {
