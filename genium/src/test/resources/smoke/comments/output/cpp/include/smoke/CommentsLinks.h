@@ -8,10 +8,8 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "genium/Export.h"
-#include "genium/Hash.h"
 #include "genium/Return.h"
 #include "smoke/Comments.h"
-#include <cstdint>
 #include <system_error>
 namespace smoke {
 /**
@@ -26,11 +24,6 @@ namespace smoke {
 class _GENIUM_CPP_EXPORT CommentsLinks {
 public:
     virtual ~CommentsLinks() = 0;
-public:
-enum class TooUseful {
-    TWICE,
-    THREE_TIMES
-};
 public:
 /**
  * Link types:
@@ -48,7 +41,7 @@ public:
  * * top level struct field: ::smoke::TypeCollectionStruct::field
  * * top level enum: ::smoke::TypeCollectionEnum
  * * top level enum item: ::smoke::TypeCollectionEnum::ITEM
- * * error: [TooUsefulException]
+ * * error: ::smoke::Comments::SomeEnum
  *
  * Not working for Java:
  * * typedef: ::smoke::Comments::Usefulness
@@ -60,24 +53,12 @@ public:
  * * named comment: [Alternative name for the link, stripped for Swift]::smoke::Comments::VERY_USEFUL
  *
  * Not working:
- * * input parameter: [inputParameter]
+ * * input parameter: input_parameter
  * * output parameter: [outputParameter]
- * \param[in] input_parameter
- * \return
- * \retval ::smoke::CommentsLinks::TooUseful May or may not throw
+ * \param[in] input_parameter Sometimes takes ::smoke::Comments::SomeEnum::USEFUL
+ * \return Sometimes returns ::smoke::Comments::SomeEnum::USEFUL
+ * \retval ::smoke::Comments::SomeEnum May or may not throw ::smoke::Comments::SomeEnum
  */
 virtual ::genium::Return< ::smoke::Comments::SomeEnum, ::std::error_code > random_method( const ::smoke::Comments::SomeEnum input_parameter ) = 0;
-};
-_GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::CommentsLinks::TooUseful value ) noexcept;
-}
-namespace std
-{
-template <>
-struct is_error_code_enum< ::smoke::CommentsLinks::TooUseful > : public std::true_type { };
-}
-namespace genium {
-template<>
-struct hash< ::smoke::CommentsLinks::TooUseful > {
-    std::size_t operator( )( const ::smoke::CommentsLinks::TooUseful& t ) const;
 };
 }

@@ -45,10 +45,12 @@ import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeLazyTypeRef
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeParameter
+import com.here.genium.model.lime.LimePath
 import com.here.genium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeReturnType
@@ -680,5 +682,18 @@ class CppModelBuilderTest {
 
         val result = modelBuilder.getFinalResult(CppComplexTypeRef::class.java)
         assertEquals(cppTypeRef, result)
+    }
+
+    @Test
+    fun finishBuildingException() {
+        val limeElement = LimeException(
+            LimePath(emptyList(), listOf("foo", "bar")),
+            errorEnum = LimeBasicTypeRef.DOUBLE
+        )
+        contextStack.injectResult(cppTypeRef)
+
+        modelBuilder.finishBuilding(limeElement)
+
+        assertEquals(cppTypeRef, modelBuilder.referenceMap["foo.bar"])
     }
 }

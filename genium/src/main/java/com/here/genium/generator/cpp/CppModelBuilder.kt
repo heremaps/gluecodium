@@ -46,6 +46,7 @@ import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeEnumeration
 import com.here.genium.model.lime.LimeEnumerator
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMethod
 import com.here.genium.model.lime.LimeParameter
@@ -160,7 +161,7 @@ class CppModelBuilder(
         )
         cppParameter.comment = createComments(limeParameter)
 
-        storeResult(cppParameter)
+        storeNamedResult(limeParameter, cppParameter)
         closeContext()
     }
 
@@ -328,6 +329,11 @@ class CppModelBuilder(
         val cppValue = mapValue(limeValue)
 
         storeResult(cppValue)
+        closeContext()
+    }
+
+    override fun finishBuilding(limeException: LimeException) {
+        referenceMap[limeException.fullName] = getPreviousResult(CppTypeRef::class.java)
         closeContext()
     }
 

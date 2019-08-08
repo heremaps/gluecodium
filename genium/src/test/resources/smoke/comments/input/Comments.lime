@@ -183,10 +183,7 @@ types CommentsTypeCollection {
 //
 // [example]: http://example.com
 class CommentsLinks {
-    enum TooUseful {
-        Twice,
-        ThreeTimes
-    }
+
     // Link types:
     // * constant: [comments.VeryUseful]
     // * struct: [comments.SomeStruct]
@@ -202,7 +199,7 @@ class CommentsLinks {
     // * top level struct field: [CommentsTypeCollection.TypeCollectionStruct.field]
     // * top level enum: [CommentsTypeCollection.TypeCollectionEnum]
     // * top level enum item: [CommentsTypeCollection.TypeCollectionEnum.item]
-    // * error: [TooUsefulException]
+    // * error: [comments.SomeEnumException]
     //
     // Not working for Java:
     // * typedef: [comments.Usefulness]
@@ -217,8 +214,8 @@ class CommentsLinks {
     // * input parameter: [inputParameter]
     // * output parameter: [outputParameter]
     fun random_method(
+        // Sometimes takes [comments.SomeEnum.Useful]
         inputParameter: comments.SomeEnum
-    ): comments.SomeEnum throws /*May or may not throw*/ TooUsefulException
-
-    exception TooUsefulException(TooUseful)
+    ): /* Sometimes returns [comments.SomeEnum.Useful] */ comments.SomeEnum
+    throws /* May or may not throw [comments.SomeEnumException] */ comments.SomeEnumException
 }

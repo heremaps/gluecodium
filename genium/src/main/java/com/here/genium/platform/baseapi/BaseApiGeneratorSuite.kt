@@ -39,6 +39,7 @@ import com.here.genium.model.cpp.CppElementWithIncludes
 import com.here.genium.model.cpp.CppEnum
 import com.here.genium.model.cpp.CppFile
 import com.here.genium.model.cpp.CppForwardDeclaration
+import com.here.genium.model.cpp.CppMethod
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeModel
 import com.here.genium.model.lime.LimeNamedElement
@@ -97,17 +98,7 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
 
         cppModel.flatMap { it.members }.flatMap { it.streamRecursive().toList() }
             .filterIsInstance<CppElementWithComment>()
-            .filterNot { it.comment.isEmpty }
-            .forEach { element ->
-                val limeName = cppToLimeName[element] ?: return@forEach
-                val documentation = element.comment.documentation?.let {
-                    commentsProcessor.process(limeName, it, limeToCppName)
-                }
-                val deprecationMessage = element.comment.deprecated?.let {
-                    commentsProcessor.process(limeName, it, limeToCppName)
-                }
-                element.comment = Comments(documentation, deprecationMessage)
-            }
+            .forEach { processElementComments(it, cppToLimeName, limeToCppName) }
 
         return cppModel.flatMap { generator.generateCode(it) } +
                 ADDITIONAL_HEADERS.map(generator::generateHelperHeader) +
@@ -154,6 +145,30 @@ class BaseApiGeneratorSuite(options: Genium.Options) : GeneratorSuite() {
             exportName = exportName,
             internalNamespace = internalNamespace
         )
+    }
+
+    private fun processElementComments(
+        element: CppElementWithComment,
+        cppToLimeName: Map<CppElement, String>,
+        limeToCppName: Map<String, String>
+    ) {
+        val limeName = cppToLimeName[element] ?: return
+        val documentation = element.comment.documentation?.let {
+            commentsProcessor.process(limeName, it, limeToCppName)
+        }
+        val deprecationMessage = element.comment.deprecated?.let {
+            commentsProcessor.process(limeName, it, limeToCppName)
+        }
+        element.comment = Comments(documentation, deprecationMessage)
+
+        if (element is CppMethod) {
+            element.returnComment = element.returnComment?.let {
+                commentsProcessor.process(limeName, it, limeToCppName)
+            }
+            element.errorComment = element.errorComment?.let {
+                commentsProcessor.process(limeName, it, limeToCppName)
+            }
+        }
     }
 
     companion object {
