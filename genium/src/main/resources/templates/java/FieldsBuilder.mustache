@@ -20,6 +20,18 @@
   !}}
 
 {{#set classVisibility=visibility}}
+/**
+ * Allows to construct a new {{name}} instance by setting fields one after the other.
+{{#if uninitializedFields}}
+ *
+ * All fields without defaults must be set in order before {@link FinalBuilder#build build} can be called:
+ * <pre>
+ * {{name}} instance = new {{name}}.Builder(){{#uninitializedFields}}
+ *     .set{{capitalize name}}({{name}}){{/uninitializedFields}}
+ *     .build();
+ * </pre>
+{{/if}}
+ */
 {{>visible}}static class Builder {
 {{#fields}}
     private {{type.name}} {{name}}{{#if initial}} = {{initial.name}}{{/if}};
@@ -37,12 +49,17 @@
 {{>mandatoryFieldSetter}}
 {{/if}}{{!!
 }}{{#unless iter.isFirst}}
+    /** @exclude */
     {{>visible}}class {{>currentBuilder}} {
         {{>currentBuilder}}() { }
         {{prefixPartial "mandatoryFieldSetter" "    "}}
     }
 {{/unless}}
 {{/uninitializedFields}}
+    /**
+     * After all mandatory fields are set, this builder is returned which allows
+     * setting all fields and constructing a new {{name}} instance by calling {@link #build build}.
+     */
     {{>visible}}class FinalBuilder {
         FinalBuilder() { }
         {{#set Prefix="Final"}}{{prefixPartial "allFieldSetters" "    "}}{{/set}}
@@ -50,6 +67,7 @@
 {{/mandatoryFieldsBuilder}}{{!!
 
 }}{{+mandatoryFieldSetter}}
+    {{>setterComment}}
     {{>visible}}{{>nextBuilder}} set{{capitalize name}}({{type}} {{name}}) {
         Builder.this.{{name}} = {{name}};
         return new {{>nextBuilder}}();
@@ -58,12 +76,16 @@
 
 }}{{+allFieldSetters}}
 {{#fields}}
+    {{>setterComment}}
     {{>visible}}{{Prefix}}Builder set{{capitalize name}}({{type}} {{name}}) {
         Builder.this.{{name}} = {{name}};
         return this;
     }
 {{/fields}}
-
+{{#if generatedConstructorComment}}
+    /**
+{{prefix generatedConstructorComment "     * "}}
+     */{{/if}}
     {{>visible}}{{name}} build() {
         return new {{name}}({{#fields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
     }
@@ -71,12 +93,18 @@
 
 }}{{+currentBuilder}}{{!!
 }}{{#if iter.isFirst}}Builder{{/if}}{{!!
-}}{{#unless iter.isFirst}}Builder{{iter.position}}{{/unless}}{{!!
+}}{{#unless iter.isFirst}}PartialBuilder{{iter.position}}{{/unless}}{{!!
 }}{{/currentBuilder}}{{!!
 
 }}{{+nextBuilder}}{{!!
-}}{{#if iter.hasNext}}Builder{{iter.index}}{{/if}}{{!!
+}}{{#if iter.hasNext}}PartialBuilder{{iter.index}}{{/if}}{{!!
 }}{{#unless iter.hasNext}}FinalBuilder{{/unless}}{{!!
 }}{{/nextBuilder}}{{!!
 
-}}{{+visible}}{{#if classVisibility.toString}}{{classVisibility}} {{/if}}{{/visible}}
+}}{{+visible}}{{#if classVisibility.toString}}{{classVisibility}} {{/if}}{{/visible}}{{!!
+}}{{+setterComment}}
+    /**
+     * Sets {{name}}.{{#if comment.documentation}}
+     * @param {{name}} {{prefix comment.documentation "     * " skipFirstLine=true}}{{/if}}
+     */
+{{/setterComment}}

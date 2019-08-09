@@ -67,6 +67,29 @@ public class Structs extends NativeBase {
             this.bytesField = bytesField;
             this.pointField = pointField;
         }
+        /**
+         * Allows to construct a new AllTypesStruct instance by setting fields one after the other.
+         *
+         * All fields without defaults must be set in order before {@link FinalBuilder#build build} can be called:
+         * <pre>
+         * AllTypesStruct instance = new AllTypesStruct.Builder()
+         *     .setInt8Field(int8Field)
+         *     .setUint8Field(uint8Field)
+         *     .setInt16Field(int16Field)
+         *     .setUint16Field(uint16Field)
+         *     .setInt32Field(int32Field)
+         *     .setUint32Field(uint32Field)
+         *     .setInt64Field(int64Field)
+         *     .setUint64Field(uint64Field)
+         *     .setFloatField(floatField)
+         *     .setDoubleField(doubleField)
+         *     .setStringField(stringField)
+         *     .setBooleanField(booleanField)
+         *     .setBytesField(bytesField)
+         *     .setPointField(pointField)
+         *     .build();
+         * </pre>
+         */
         public static class Builder {
             private byte int8Field = (byte)0;
             private short uint8Field = (short)0;
@@ -83,155 +106,256 @@ public class Structs extends NativeBase {
             private byte[] bytesField = (byte[])null;
             private Structs.Point pointField = (Structs.Point)null;
             public Builder() { }
-            public Builder1 setInt8Field(byte int8Field) {
+            /**
+             * Sets int8Field.
+             */
+            public PartialBuilder1 setInt8Field(byte int8Field) {
                 Builder.this.int8Field = int8Field;
-                return new Builder1();
+                return new PartialBuilder1();
             }
-            public class Builder1 {
-                Builder1() { }
-                public Builder2 setUint8Field(short uint8Field) {
+            /** @exclude */
+            public class PartialBuilder1 {
+                PartialBuilder1() { }
+                /**
+                 * Sets uint8Field.
+                 */
+                public PartialBuilder2 setUint8Field(short uint8Field) {
                     Builder.this.uint8Field = uint8Field;
-                    return new Builder2();
+                    return new PartialBuilder2();
                 }
             }
-            public class Builder2 {
-                Builder2() { }
-                public Builder3 setInt16Field(short int16Field) {
+            /** @exclude */
+            public class PartialBuilder2 {
+                PartialBuilder2() { }
+                /**
+                 * Sets int16Field.
+                 */
+                public PartialBuilder3 setInt16Field(short int16Field) {
                     Builder.this.int16Field = int16Field;
-                    return new Builder3();
+                    return new PartialBuilder3();
                 }
             }
-            public class Builder3 {
-                Builder3() { }
-                public Builder4 setUint16Field(int uint16Field) {
+            /** @exclude */
+            public class PartialBuilder3 {
+                PartialBuilder3() { }
+                /**
+                 * Sets uint16Field.
+                 */
+                public PartialBuilder4 setUint16Field(int uint16Field) {
                     Builder.this.uint16Field = uint16Field;
-                    return new Builder4();
+                    return new PartialBuilder4();
                 }
             }
-            public class Builder4 {
-                Builder4() { }
-                public Builder5 setInt32Field(int int32Field) {
+            /** @exclude */
+            public class PartialBuilder4 {
+                PartialBuilder4() { }
+                /**
+                 * Sets int32Field.
+                 */
+                public PartialBuilder5 setInt32Field(int int32Field) {
                     Builder.this.int32Field = int32Field;
-                    return new Builder5();
+                    return new PartialBuilder5();
                 }
             }
-            public class Builder5 {
-                Builder5() { }
-                public Builder6 setUint32Field(long uint32Field) {
+            /** @exclude */
+            public class PartialBuilder5 {
+                PartialBuilder5() { }
+                /**
+                 * Sets uint32Field.
+                 */
+                public PartialBuilder6 setUint32Field(long uint32Field) {
                     Builder.this.uint32Field = uint32Field;
-                    return new Builder6();
+                    return new PartialBuilder6();
                 }
             }
-            public class Builder6 {
-                Builder6() { }
-                public Builder7 setInt64Field(long int64Field) {
+            /** @exclude */
+            public class PartialBuilder6 {
+                PartialBuilder6() { }
+                /**
+                 * Sets int64Field.
+                 */
+                public PartialBuilder7 setInt64Field(long int64Field) {
                     Builder.this.int64Field = int64Field;
-                    return new Builder7();
+                    return new PartialBuilder7();
                 }
             }
-            public class Builder7 {
-                Builder7() { }
-                public Builder8 setUint64Field(long uint64Field) {
+            /** @exclude */
+            public class PartialBuilder7 {
+                PartialBuilder7() { }
+                /**
+                 * Sets uint64Field.
+                 */
+                public PartialBuilder8 setUint64Field(long uint64Field) {
                     Builder.this.uint64Field = uint64Field;
-                    return new Builder8();
+                    return new PartialBuilder8();
                 }
             }
-            public class Builder8 {
-                Builder8() { }
-                public Builder9 setFloatField(float floatField) {
+            /** @exclude */
+            public class PartialBuilder8 {
+                PartialBuilder8() { }
+                /**
+                 * Sets floatField.
+                 */
+                public PartialBuilder9 setFloatField(float floatField) {
                     Builder.this.floatField = floatField;
-                    return new Builder9();
+                    return new PartialBuilder9();
                 }
             }
-            public class Builder9 {
-                Builder9() { }
-                public Builder10 setDoubleField(double doubleField) {
+            /** @exclude */
+            public class PartialBuilder9 {
+                PartialBuilder9() { }
+                /**
+                 * Sets doubleField.
+                 */
+                public PartialBuilder10 setDoubleField(double doubleField) {
                     Builder.this.doubleField = doubleField;
-                    return new Builder10();
+                    return new PartialBuilder10();
                 }
             }
-            public class Builder10 {
-                Builder10() { }
-                public Builder11 setStringField(String stringField) {
+            /** @exclude */
+            public class PartialBuilder10 {
+                PartialBuilder10() { }
+                /**
+                 * Sets stringField.
+                 */
+                public PartialBuilder11 setStringField(String stringField) {
                     Builder.this.stringField = stringField;
-                    return new Builder11();
+                    return new PartialBuilder11();
                 }
             }
-            public class Builder11 {
-                Builder11() { }
-                public Builder12 setBooleanField(boolean booleanField) {
+            /** @exclude */
+            public class PartialBuilder11 {
+                PartialBuilder11() { }
+                /**
+                 * Sets booleanField.
+                 */
+                public PartialBuilder12 setBooleanField(boolean booleanField) {
                     Builder.this.booleanField = booleanField;
-                    return new Builder12();
+                    return new PartialBuilder12();
                 }
             }
-            public class Builder12 {
-                Builder12() { }
-                public Builder13 setBytesField(byte[] bytesField) {
+            /** @exclude */
+            public class PartialBuilder12 {
+                PartialBuilder12() { }
+                /**
+                 * Sets bytesField.
+                 */
+                public PartialBuilder13 setBytesField(byte[] bytesField) {
                     Builder.this.bytesField = bytesField;
-                    return new Builder13();
+                    return new PartialBuilder13();
                 }
             }
-            public class Builder13 {
-                Builder13() { }
+            /** @exclude */
+            public class PartialBuilder13 {
+                PartialBuilder13() { }
+                /**
+                 * Sets pointField.
+                 */
                 public FinalBuilder setPointField(Structs.Point pointField) {
                     Builder.this.pointField = pointField;
                     return new FinalBuilder();
                 }
             }
+            /**
+             * After all mandatory fields are set, this builder is returned which allows
+             * setting all fields and constructing a new AllTypesStruct instance by calling {@link #build build}.
+             */
             public class FinalBuilder {
                 FinalBuilder() { }
+                /**
+                 * Sets int8Field.
+                 */
                 public FinalBuilder setInt8Field(byte int8Field) {
                     Builder.this.int8Field = int8Field;
                     return this;
                 }
+                /**
+                 * Sets uint8Field.
+                 */
                 public FinalBuilder setUint8Field(short uint8Field) {
                     Builder.this.uint8Field = uint8Field;
                     return this;
                 }
+                /**
+                 * Sets int16Field.
+                 */
                 public FinalBuilder setInt16Field(short int16Field) {
                     Builder.this.int16Field = int16Field;
                     return this;
                 }
+                /**
+                 * Sets uint16Field.
+                 */
                 public FinalBuilder setUint16Field(int uint16Field) {
                     Builder.this.uint16Field = uint16Field;
                     return this;
                 }
+                /**
+                 * Sets int32Field.
+                 */
                 public FinalBuilder setInt32Field(int int32Field) {
                     Builder.this.int32Field = int32Field;
                     return this;
                 }
+                /**
+                 * Sets uint32Field.
+                 */
                 public FinalBuilder setUint32Field(long uint32Field) {
                     Builder.this.uint32Field = uint32Field;
                     return this;
                 }
+                /**
+                 * Sets int64Field.
+                 */
                 public FinalBuilder setInt64Field(long int64Field) {
                     Builder.this.int64Field = int64Field;
                     return this;
                 }
+                /**
+                 * Sets uint64Field.
+                 */
                 public FinalBuilder setUint64Field(long uint64Field) {
                     Builder.this.uint64Field = uint64Field;
                     return this;
                 }
+                /**
+                 * Sets floatField.
+                 */
                 public FinalBuilder setFloatField(float floatField) {
                     Builder.this.floatField = floatField;
                     return this;
                 }
+                /**
+                 * Sets doubleField.
+                 */
                 public FinalBuilder setDoubleField(double doubleField) {
                     Builder.this.doubleField = doubleField;
                     return this;
                 }
+                /**
+                 * Sets stringField.
+                 */
                 public FinalBuilder setStringField(String stringField) {
                     Builder.this.stringField = stringField;
                     return this;
                 }
+                /**
+                 * Sets booleanField.
+                 */
                 public FinalBuilder setBooleanField(boolean booleanField) {
                     Builder.this.booleanField = booleanField;
                     return this;
                 }
+                /**
+                 * Sets bytesField.
+                 */
                 public FinalBuilder setBytesField(byte[] bytesField) {
                     Builder.this.bytesField = bytesField;
                     return this;
                 }
+                /**
+                 * Sets pointField.
+                 */
                 public FinalBuilder setPointField(Structs.Point pointField) {
                     Builder.this.pointField = pointField;
                     return this;

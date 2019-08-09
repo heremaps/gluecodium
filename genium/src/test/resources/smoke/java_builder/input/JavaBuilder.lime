@@ -1,0 +1,64 @@
+# Copyright (C) 2016-2019 HERE Europe B.V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package smoke
+
+types JavaBuilderTypes {
+    @Java(Builder)
+    struct OneMandatoryField {
+        mandatory: Int
+    }
+
+    // Nicely documented struct
+    // @constructor Create this struct
+    @Java(Builder)
+    struct TwoMandatoryTwoOptional {
+        // This field is important
+        mandatory: Boolean
+        // This field is not so important
+        optional: Boolean = true
+        // This field is very important
+        alsoMandatory: Int
+        // This field is not at all important
+        alsoOptional: Int = 8
+    }
+
+    @Java(Builder)
+    struct ManyMandatoryAndOptionalFields {
+        mandatory: Int
+        alsoMandatory: Int
+        moreMandatory: Int
+        evenMoreMandatory: Int
+        optional: Int = 1
+        alsoOptional: Int = 2
+        stillOptional: Int = 3
+    }
+
+    // This is also nicely documented
+    // @constructor Create this all optional struct
+    @Java(Builder)
+    struct AllOptional {
+        // This field may or may not be set
+        field0: Int = 0
+        // This field is also optional
+        field1: Int = 1
+        // This field is not mandatory
+        field2: Int = 2
+        // This field has a default
+        field3: Int = 3
+    }
+}
