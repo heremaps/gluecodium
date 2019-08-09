@@ -74,6 +74,8 @@ cd external/genium-cmake/upstream/modules/genium/genium/
 
 This will fetch Genium 4.9 and generate the LimeIDL files in `/tmp/generated`. It also runs a newer
 release of Genium to improve the formatting and apply some simplification of the LimeIDL files.
+Please note that the input path should point to a "complete" set of Franca files (i.e. no file in
+the input set should import a file from outside of the set).
 
 With checked out Genium repository on version 4.9 it would be
 
