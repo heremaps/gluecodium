@@ -38,12 +38,12 @@ interface DeprecationComments {
         input: String
     ): Usefulness
     // Some very useful attribute.
+    // @get Gets some very useful attribute.
+    // @set Sets some very useful attribute.
     @Deprecated("Unfortunately, this attribute is deprecated.\nUse [comments.SomeAttribute] instead.")
     property SomeAttribute: Usefulness {
-        // Gets some very useful attribute.
         @Deprecated("Unfortunately, this attribute's getter is deprecated.\nUse [comments.SomeAttribute.get] instead.")
         get
-        // Sets some very useful attribute.
         @Deprecated("Unfortunately, this attribute's setter is deprecated.\nUse [comments.SomeAttribute.set] instead.")
         set
     }

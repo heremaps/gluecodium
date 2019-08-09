@@ -59,10 +59,10 @@ interface CommentsInterface {
     // This is some very useful method that does nothing.
     fun someMethodWithoutReturnTypeOrInputParameters()
     // Some very useful attribute.
+    // @get Gets some very useful attribute.
+    // @set Sets some very useful attribute.
     property SomeAttribute: Usefulness {
-        // Gets some very useful attribute.
         get
-        // Sets some very useful attribute.
         set
     }
 }

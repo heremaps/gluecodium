@@ -28,10 +28,10 @@ class Comments {
         input: String
     ): Usefulness
     // Some very useful attribute.
+    // @get Gets some very useful attribute.
+    // @set Sets some very useful attribute.
     property SomeAttribute: Usefulness {
-        // Gets some very useful attribute.
         get
-        // Sets some very useful attribute.
         set
     }
 }

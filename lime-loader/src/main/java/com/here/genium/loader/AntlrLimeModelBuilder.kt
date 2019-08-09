@@ -243,6 +243,9 @@ internal class AntlrLimeModelBuilder(
 
     override fun enterProperty(ctx: LimeParser.PropertyContext) {
         pushPathAndVisibility(ctx.simpleId(), ctx.visibility())
+
+        val commentText = convertDocComments(ctx.docComment())
+        structuredCommentsStack.push(parseStructuredComment(commentText, ctx.getStart().line))
     }
 
     override fun exitProperty(ctx: LimeParser.PropertyContext) {
@@ -256,12 +259,14 @@ internal class AntlrLimeModelBuilder(
         if (getterContext == null) {
             getter = LimeMethod(
                 path = getterPath,
+                comment = getComment("get", emptyList(), ctx),
                 visibility = propertyVisibility,
                 parameters =
                     listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType))
             )
             setter = LimeMethod(
                 path = currentPath.child("set"),
+                comment = getComment("set", emptyList(), ctx),
                 visibility = propertyVisibility,
                 returnType = LimeReturnType(propertyType)
             )
@@ -269,7 +274,7 @@ internal class AntlrLimeModelBuilder(
             getter = LimeMethod(
                 path = getterPath,
                 visibility = convertVisibility(getterContext.visibility(), propertyVisibility),
-                comment = convertDocComments(getterContext.docComment()),
+                comment = getComment("get", getterContext.docComment(), getterContext),
                 attributes = convertAnnotations(getterContext.annotation()),
                 parameters =
                     listOf(LimeParameter(getterPath.child("value"), typeRef = propertyType))
@@ -278,7 +283,7 @@ internal class AntlrLimeModelBuilder(
                 LimeMethod(
                     path = currentPath.child("set"),
                     visibility = convertVisibility(it.visibility(), propertyVisibility),
-                    comment = convertDocComments(it.docComment()),
+                    comment = getComment("set", it.docComment(), it),
                     attributes = convertAnnotations(it.annotation()),
                     returnType = LimeReturnType(propertyType)
                 )
@@ -288,7 +293,7 @@ internal class AntlrLimeModelBuilder(
         val limeElement = LimeProperty(
             path = currentPath,
             visibility = propertyVisibility,
-            comment = convertDocComments(ctx.docComment()),
+            comment = structuredCommentsStack.peek().description,
             attributes = convertAnnotations(ctx.annotation()),
             typeRef = propertyType,
             getter = getter,

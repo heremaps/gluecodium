@@ -518,6 +518,14 @@ Structured comments are supported for functions. Example:
 fun process(mode: Mode, input: String): GenericResult throws SomethingWrongException
 ```
 
+Structured comments are supported for properties. Example:
+```
+// Time interval taken by the processing.
+// @get Gets the time interval taken by the processing.
+// @set Sets the time interval taken by the processing.
+property processingTime: ProcessorHelperTypes.Timestamp
+```
+
 Structured comments for structs allow specifying documentation for the struct's auto-generated
 constructor. Example:
 ```

@@ -2,7 +2,7 @@
 
 ## Unreleased
 - Features:
-  + Structured documentation comments for are now supported for function definitions.
+  + Structured documentation comments for are now supported for function and property definitions.
   + Auto-generated struct constructors can now be documented.
 - Bug fixes:
   + Links to members from documentation comments of function parameters, return type, and throws
