@@ -22,7 +22,7 @@ package com.here.genium.model.lime
 class LimeMethod(
     path: LimePath,
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
-    comment: String = "",
+    comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val returnType: LimeReturnType = LimeReturnType.VOID,
     val parameters: List<LimeParameter> = emptyList(),

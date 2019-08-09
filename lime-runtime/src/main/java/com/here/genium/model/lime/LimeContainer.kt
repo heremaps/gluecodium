@@ -22,7 +22,7 @@ package com.here.genium.model.lime
 class LimeContainer(
     path: LimePath,
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
-    comment: String = "",
+    comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val type: ContainerType,
     val parent: LimeTypeRef? = null,

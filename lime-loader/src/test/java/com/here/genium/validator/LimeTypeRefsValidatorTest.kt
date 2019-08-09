@@ -20,6 +20,7 @@
 package com.here.genium.validator
 
 import com.here.genium.model.lime.LimeBasicType
+import com.here.genium.model.lime.LimeComment
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeElement
 import com.here.genium.model.lime.LimeException
@@ -64,7 +65,7 @@ class LimeTypeRefsValidatorTest(private val createElement: (LimeTypeRef) -> Lime
     class DummyTypedElement(limeTypeRef: LimeTypeRef) : LimeTypedElement(
         path = EMPTY_PATH,
         visibility = LimeVisibility.PUBLIC,
-        comment = "",
+        comment = LimeComment(),
         attributes = null,
         typeRef = limeTypeRef
     )

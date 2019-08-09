@@ -19,12 +19,22 @@
 
 package com.here.genium.model.lime
 
-class LimeReturnType(
-    val typeRef: LimeTypeRef,
-    val comment: LimeComment = LimeComment(),
-    val attributes: LimeAttributes = LimeAttributes.Builder().build()
-) : LimeElement {
-    companion object {
-        val VOID = LimeReturnType(LimeBasicTypeRef(LimeBasicType.TypeId.VOID))
-    }
+class LimeComment(private val taggedSections: List<Pair<String, String>> = emptyList()) {
+
+    constructor(comment: String): this(listOf("" to comment))
+
+    fun isEmpty() = taggedSections.all { it.second.isEmpty() }
+
+    fun getFor(platform: String) =
+        taggedSections
+            .filter { it.first == "" || it.first == platform }
+            .joinToString("") { it.second }
+            .trim()
+
+    override fun toString() = taggedSections.joinToString("") {
+        when (it.first) {
+            "" -> it.second
+            else -> "{@${it.first} ${it.second}}"
+        }
+    }.trim()
 }

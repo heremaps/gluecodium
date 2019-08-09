@@ -22,7 +22,7 @@ package com.here.genium.model.lime
 class LimeEnumeration(
     path: LimePath,
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
-    comment: String = "",
+    comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val enumerators: List<LimeEnumerator> = emptyList()
 ) : LimeType(path, visibility, comment, attributes)

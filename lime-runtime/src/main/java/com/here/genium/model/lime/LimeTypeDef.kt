@@ -22,7 +22,7 @@ package com.here.genium.model.lime
 class LimeTypeDef(
     path: LimePath,
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
-    comment: String = "",
+    comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val typeRef: LimeTypeRef
 ) : LimeType(path, visibility, comment, attributes)

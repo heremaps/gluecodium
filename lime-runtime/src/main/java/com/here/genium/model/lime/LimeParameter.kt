@@ -21,7 +21,7 @@ package com.here.genium.model.lime
 
 class LimeParameter(
     path: LimePath,
-    comment: String = "",
+    comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     typeRef: LimeTypeRef
 ) : LimeTypedElement(path, LimeVisibility.PUBLIC, comment, attributes, typeRef)

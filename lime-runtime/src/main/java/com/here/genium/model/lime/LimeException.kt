@@ -22,7 +22,7 @@ package com.here.genium.model.lime
 class LimeException(
     path: LimePath,
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
-    comment: String = "",
+    comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val errorEnum: LimeTypeRef
 ) : LimeType(path, visibility, comment, attributes)

@@ -21,5 +21,5 @@ package com.here.genium.model.lime
 
 class LimeThrownType(
     val typeRef: LimeTypeRef,
-    val comment: String = ""
+    val comment: LimeComment = LimeComment()
 )

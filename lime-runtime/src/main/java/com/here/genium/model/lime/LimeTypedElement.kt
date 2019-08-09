@@ -22,7 +22,7 @@ package com.here.genium.model.lime
 abstract class LimeTypedElement protected constructor(
     path: LimePath,
     visibility: LimeVisibility,
-    comment: String,
+    comment: LimeComment,
     attributes: LimeAttributes?,
     val typeRef: LimeTypeRef
 ) : LimeNamedElement(path, visibility, comment, attributes)

@@ -22,12 +22,12 @@ package com.here.genium.model.lime
 class LimeStruct(
     path: LimePath,
     visibility: LimeVisibility = LimeVisibility.PUBLIC,
-    comment: String = "",
+    comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val fields: List<LimeField> = emptyList(),
     val methods: List<LimeMethod> = emptyList(),
     val constants: List<LimeConstant> = emptyList(),
-    val constructorComment: String = ""
+    val constructorComment: LimeComment = LimeComment()
 ) : LimeType(path, visibility, comment, attributes) {
     override val childTypes
         get() = fields.map { it.typeRef }
