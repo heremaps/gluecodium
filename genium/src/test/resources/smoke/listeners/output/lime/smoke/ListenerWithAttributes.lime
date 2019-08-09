@@ -12,32 +12,11 @@ interface ListenerWithAttributes {
         result: Double
     }
 
-    property message: String {
-        get
-        set
-    }
-    property packedMessage: CalculationResult {
-        get
-        set
-    }
-    property structuredMessage: ResultStruct {
-        get
-        set
-    }
-    property enumeratedMessage: ResultEnum {
-        get
-        set
-    }
-    property arrayedMessage: List<String> {
-        get
-        set
-    }
-    property mappedMessage: StringToDouble {
-        get
-        set
-    }
-    property bufferedMessage: Blob {
-        get
-        set
-    }
+    property message: String
+    property packedMessage: CalculationResult
+    property structuredMessage: ResultStruct
+    property enumeratedMessage: ResultEnum
+    property arrayedMessage: List<String>
+    property mappedMessage: StringToDouble
+    property bufferedMessage: Blob
 }

@@ -35,8 +35,5 @@ class TypeDefs {
         input: PointTypeDef
     ): PointTypeDef
 
-    property primitiveTypeAttribute: List<PrimitiveTypeDef> {
-        get
-        set
-    }
+    property primitiveTypeAttribute: List<PrimitiveTypeDef>
 }

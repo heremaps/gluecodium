@@ -26,16 +26,7 @@ class GenericTypesWithBasicTypes {
     fun methodWithSetTypeAlias(
         input: BasicSet
     ): BasicSet
-    property listProperty: List<Float> {
-        get
-        set
-    }
-    property mapProperty: Map<Float, Double> {
-        get
-        set
-    }
-    property setProperty: Set<Float> {
-        get
-        set
-    }
+    property listProperty: List<Float>
+    property mapProperty: Map<Float, Double>
+    property setProperty: Set<Float>
 }

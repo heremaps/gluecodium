@@ -13,8 +13,5 @@ class Dates {
         input: Date
     ): Date
 
-    property dateAttribute: Date {
-        get
-        set
-    }
+    property dateAttribute: Date
 }

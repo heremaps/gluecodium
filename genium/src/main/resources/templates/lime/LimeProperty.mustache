@@ -26,11 +26,11 @@
 {{/if}}{{!!
 }}{{#if attributes.toString}}{{attributes}}
 {{/if}}
-{{visibility}}{{#if isStatic}}static {{/if}}property {{escapedName}}: {{typeRef.escapedName}} {
+{{visibility}}{{#if isStatic}}static {{/if}}property {{escapedName}}: {{typeRef.escapedName}}{{#if needsAccessorsSection}} {
 {{#getter}}
 {{prefixPartial "lime/LimeGetter" "    "}}
 {{/getter}}
 {{#setter}}
 {{prefixPartial "lime/LimeSetter" "    "}}
 {{/setter}}
-}
+}{{/if}}

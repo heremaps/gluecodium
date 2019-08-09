@@ -5,8 +5,5 @@ interface AttributesInterface {
         value: Double
     }
 
-    property structAttribute: ExampleStruct {
-        get
-        set
-    }
+    property structAttribute: ExampleStruct
 }

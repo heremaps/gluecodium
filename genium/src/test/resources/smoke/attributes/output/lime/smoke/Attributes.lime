@@ -10,41 +10,17 @@ class Attributes {
         value: Double
     }
 
-    property builtInTypeAttribute: UInt {
-        get
-        set
-    }
+    property builtInTypeAttribute: UInt
     property readonlyAttribute: Float {
         get
     }
-    property structAttribute: ExampleStruct {
-        get
-        set
-    }
-    property arrayAttribute: List<String> {
-        get
-        set
-    }
-    property complexTypeAttribute: InternalError {
-        get
-        set
-    }
-    property byteBufferAttribute: Blob {
-        get
-        set
-    }
-    property instanceAttribute: AttributesInterface {
-        get
-        set
-    }
-    property booleanAttribute: Boolean {
-        get
-        set
-    }
-    static property staticAttribute: String {
-        get
-        set
-    }
+    property structAttribute: ExampleStruct
+    property arrayAttribute: List<String>
+    property complexTypeAttribute: InternalError
+    property byteBufferAttribute: Blob
+    property instanceAttribute: AttributesInterface
+    property booleanAttribute: Boolean
+    static property staticAttribute: String
     static property staticReadonlyAttribute: ExampleStruct {
         get
     }

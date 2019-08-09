@@ -24,11 +24,8 @@ class PublicClass {
     internal fun internalMethod(
         input: InternalStruct
     ): InternalStructTypeDef
-    internal property internalStructAttribute: InternalStruct {
-        internal get
-        internal set
-    }
 
+    internal property internalStructAttribute: InternalStruct
     property internalSetterAttribute: String {
         get
         internal set
