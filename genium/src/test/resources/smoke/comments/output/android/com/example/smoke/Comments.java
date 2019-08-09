@@ -155,7 +155,7 @@ public class Comments extends NativeBase {
     public native boolean isSomeAttribute();
     /**
      * <p>Sets some very useful attribute.</p>
-     * @param value
+     * @param value Some very useful attribute.
      */
     public native void setSomeAttribute(final boolean value);
     /**
@@ -165,7 +165,7 @@ public class Comments extends NativeBase {
     public native CommentsInstantiable getInstanceAttribute();
     /**
      * <p>Sets some very useful attribute.</p>
-     * @param value
+     * @param value Some very useful attribute.
      */
     public native void setInstanceAttribute(@NonNull final CommentsInstantiable value);
 }

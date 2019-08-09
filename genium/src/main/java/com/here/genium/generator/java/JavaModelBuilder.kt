@@ -259,6 +259,7 @@ class JavaModelBuilder(
             comment = getterComments,
             visibility = getVisibility(limeProperty.getter),
             returnType = javaType,
+            returnComment = limeProperty.comment,
             qualifiers = qualifiers,
             isGetter = true
         )
@@ -269,6 +270,8 @@ class JavaModelBuilder(
 
         val limeSetter = limeProperty.setter
         if (limeSetter != null) {
+            val setterParameter = JavaParameter("value", javaType)
+            setterParameter.comment = Comments(limeProperty.comment)
             val setterComments = Comments(
                 limeSetter.comment,
                 limeSetter.attributes.get(DEPRECATED, MESSAGE, String::class.java)
@@ -278,7 +281,7 @@ class JavaModelBuilder(
                 comment = setterComments,
                 visibility = getVisibility(limeSetter),
                 returnType = JavaPrimitiveType.VOID,
-                parameters = listOf(JavaParameter("value", javaType)),
+                parameters = listOf(setterParameter),
                 qualifiers = qualifiers
             )
             addDeprecatedAnnotationIfNeeded(setterMethod)

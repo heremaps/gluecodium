@@ -296,10 +296,14 @@ class CppModelBuilderCommentsTest {
 
         val results = modelBuilder.finalResults
         assertEquals(2, results.size)
-        assertEquals("Gets foo", (results.first() as CppMethod).comment.documentation)
-        assertEquals("Bar", (results.first() as CppMethod).comment.deprecated)
-        assertEquals("Sets foo", (results.last() as CppMethod).comment.documentation)
-        assertEquals("Bar", (results.last() as CppMethod).comment.deprecated)
+        val cppGetter = results.first() as CppMethod
+        assertEquals("Gets foo", cppGetter.comment.documentation)
+        assertEquals("Bar", cppGetter.comment.deprecated)
+        assertEquals("Foo", cppGetter.returnComment)
+        val cppSetter = results.last() as CppMethod
+        assertEquals("Sets foo", cppSetter.comment.documentation)
+        assertEquals("Bar", cppSetter.comment.deprecated)
+        assertEquals("Foo", cppSetter.parameters.first().comment.documentation)
     }
 
     @Test

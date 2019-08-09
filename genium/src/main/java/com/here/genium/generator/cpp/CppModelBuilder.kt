@@ -254,6 +254,7 @@ class CppModelBuilder(
             fullyQualifiedName = nameResolver.getFullyQualifiedGetterName(limeProperty),
             comment = getterComments,
             returnType = cppTypeRef,
+            returnComment = limeProperty.comment,
             isNotNull = isNotNull,
             specifiers = specifiers,
             qualifiers = getterQualifiers
@@ -264,6 +265,7 @@ class CppModelBuilder(
         val limeSetter = limeProperty.setter
         if (limeSetter != null) {
             val setterParameter = CppParameter("value", cppTypeRef, isNotNull)
+            setterParameter.comment = Comments(limeProperty.comment)
             val setterQualifiers = when {
                 limeProperty.isStatic -> EnumSet.noneOf(CppMethod.Qualifier::class.java)
                 else -> EnumSet.of(CppMethod.Qualifier.PURE_VIRTUAL)

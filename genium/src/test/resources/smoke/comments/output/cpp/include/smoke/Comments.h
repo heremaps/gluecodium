@@ -155,22 +155,22 @@ virtual ::std::string one_parameter_comment_only( const ::std::string& undocumen
 virtual ::std::string return_comment_only( const ::std::string& undocumented ) = 0;
 /**
  * Gets some very useful attribute.
- * \return
+ * \return Some very useful attribute.
  */
 virtual ::smoke::Comments::Usefulness is_some_attribute(  ) const = 0;
 /**
  * Sets some very useful attribute.
- * \param[in] value
+ * \param[in] value Some very useful attribute.
  */
 virtual void set_some_attribute( const ::smoke::Comments::Usefulness value ) = 0;
 /**
  * Gets some very useful attribute.
- * \return @NotNull
+ * \return @NotNull Some very useful attribute.
  */
 virtual ::std::shared_ptr< ::smoke::CommentsInstantiable > get_instance_attribute(  ) const = 0;
 /**
  * Sets some very useful attribute.
- * \param[in] value @NotNull
+ * \param[in] value @NotNull Some very useful attribute.
  */
 virtual void set_instance_attribute( const ::std::shared_ptr< ::smoke::CommentsInstantiable >& value ) = 0;
 };

@@ -81,7 +81,7 @@ public interface DeprecationComments {
      * <p>Sets some very useful attribute.</p>
      * @deprecated <p>Unfortunately, this attribute's setter is deprecated.
      * Use {@link com.example.smoke.Comments#setSomeAttribute} instead.</p>
-     * @param value
+     * @param value Some very useful attribute.
      */
     @Deprecated
     void setSomeAttribute(final boolean value);

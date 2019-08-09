@@ -72,12 +72,12 @@ public:
 virtual ::examples::Comments::Usefulness some_method( const ::std::string& input ) = 0;
 /**
  * Gets some very useful attribute.
- * \return
+ * \return Some very useful attribute.
  */
 virtual ::examples::Comments::Usefulness is_some_attribute(  ) const = 0;
 /**
  * Sets some very useful attribute.
- * \param[in] value
+ * \param[in] value Some very useful attribute.
  */
 virtual void set_some_attribute( const ::examples::Comments::Usefulness value ) = 0;
 };
