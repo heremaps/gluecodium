@@ -33,6 +33,7 @@ import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
@@ -135,6 +136,7 @@ class CppTypeMapper(
                     CppTemplateTypeRef(TemplateClass.SET, elementType, hashType)
                 }
             }
+            is LimeException -> STD_ERROR_CODE_TYPE
             else -> throw GeniumExecutionException("Unmapped type: " + limeType.name)
         }
 

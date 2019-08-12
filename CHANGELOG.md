@@ -8,6 +8,7 @@
 - Bug fixes:
   + Links to members from documentation comments of function parameters, return type, and throws
     clause now work correctly in C++, Java, and Swift.
+  + Type aliases to exception types now work correctly in C++, Java, and Swift.
 
 ## 5.1.0
 - Release date: 2019-08-07

@@ -187,7 +187,7 @@ class SwiftModelBuilder(
         }
 
         val error = limeMethod.thrownType?.let {
-            val exception = it.typeRef.type as LimeException
+            val exception = LimeTypeHelper.getActualType(it.typeRef.type) as LimeException
             val swiftEnumName = nameResolver.getFullName(exception.errorEnum.type)
             SwiftThrownType(swiftEnumName, it.comment)
         }

@@ -19,6 +19,7 @@
 
 package com.here.genium.generator.swift
 
+import com.here.genium.cli.GeniumExecutionException
 import com.here.genium.generator.cbridge.CBridgeNameResolver
 import com.here.genium.generator.cbridge.CBridgeNameRules
 import com.here.genium.model.lime.LimeArray
@@ -26,6 +27,7 @@ import com.here.genium.model.lime.LimeBasicType
 import com.here.genium.model.lime.LimeBasicType.TypeId
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeEnumeration
+import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeMap
 import com.here.genium.model.lime.LimeSet
 import com.here.genium.model.lime.LimeStruct
@@ -63,7 +65,8 @@ class SwiftTypeMapper(private val nameResolver: SwiftNameResolver) {
             is LimeArray -> mapArrayType(limeType)
             is LimeMap -> mapMapType(limeType)
             is LimeSet -> mapSetType(limeType)
-            else -> SwiftType.VOID
+            is LimeException -> SwiftEnum(nameResolver.getFullName(limeType.errorEnum.type))
+            else -> throw GeniumExecutionException("Unmapped type: " + limeType.name)
         }
     }
 

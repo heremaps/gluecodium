@@ -47,6 +47,7 @@ import com.here.genium.model.lime.LimeStruct
 import com.here.genium.model.lime.LimeThrownType
 import com.here.genium.model.lime.LimeType
 import com.here.genium.model.lime.LimeTypeDef
+import com.here.genium.model.lime.LimeTypeHelper
 import com.here.genium.model.lime.LimeTypeRef
 
 class JavaTypeMapper(
@@ -76,14 +77,13 @@ class JavaTypeMapper(
         return resultType
     }
 
-    fun mapType(limeTypeRef: LimeTypeRef): JavaType {
-        val limeType = limeTypeRef.type
-        return when (limeType) {
+    fun mapType(limeTypeRef: LimeTypeRef): JavaType =
+        when (val limeType = limeTypeRef.type) {
             is LimeBasicType -> mapBasicType(limeType)
             is LimeTypeDef -> mapType(limeType.typeRef)
             is LimeArray -> mapTemplateType(TemplateClass.LIST, limeType.elementType)
             is LimeMap -> mapMapType(limeType)
-            is LimeStruct, is LimeEnumeration -> mapCustomType(limeType)
+            is LimeStruct, is LimeEnumeration, is LimeException -> mapCustomType(limeType)
             is LimeContainer -> {
                 val packageNames =
                     basePackage.createChildPackage(limeType.path.head).packageNames
@@ -105,7 +105,6 @@ class JavaTypeMapper(
             }
             else -> throw GeniumExecutionException("Unmapped type: " + limeType.name)
         }
-    }
 
     fun mapParentType(limeElement: LimeNamedElement): JavaType? {
         val parentKey = limeElement.path.parent.toString()
@@ -185,7 +184,8 @@ class JavaTypeMapper(
     }
 
     fun mapExceptionType(limeThrownType: LimeThrownType): JavaExceptionType {
-        val limeException = limeThrownType.typeRef.type as LimeException
+        val limeException =
+            LimeTypeHelper.getActualType(limeThrownType.typeRef.type) as LimeException
         val limeEnum = limeException.errorEnum.type as LimeEnumeration
         val exceptionName = nameRules.getExceptionName(limeEnum)
         val parentContainer = limeReferenceMap[limeEnum.path.parent.toString()] as? LimeContainer

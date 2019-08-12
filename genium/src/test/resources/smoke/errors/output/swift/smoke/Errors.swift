@@ -12,6 +12,7 @@ internal func getRef(_ ref: Errors?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 public class Errors {
+    public typealias Boom = Errors.InternalError
     let c_instance : _baseRef
     init(cErrors: _baseRef) {
         guard cErrors != 0 else {
@@ -49,6 +50,12 @@ public class Errors {
             return moveFromCType(RESULT.returned_value)
         } else {
             throw Errors.InternalError(rawValue: RESULT.error_code)!
+        }
+    }
+    public static func methodWithAliasedError() throws -> Void {
+        let ERROR_CODE = smoke_Errors_methodWithAliasedError()
+        if (ERROR_CODE != 0) {
+            throw Errors.InternalError(rawValue: ERROR_CODE)!
         }
     }
 }

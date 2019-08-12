@@ -32,9 +32,12 @@ class Errors {
     static fun methodWithErrors() throws InternalErrorException
     static fun methodWithExternalErrors() throws ExternalErrorsException
     static fun methodWithErrorsAndReturnValue(): String throws InternalErrorException
+    static fun methodWithAliasedError() throws BOOM
 
     exception InternalErrorException(InternalError)
     exception ExternalErrorsException(ExternalErrors)
+
+    typealias BOOM = InternalErrorException
 }
 
 interface ErrorsInterface {

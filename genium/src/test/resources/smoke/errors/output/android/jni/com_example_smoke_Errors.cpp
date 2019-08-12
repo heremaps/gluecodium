@@ -65,6 +65,21 @@ Java_com_example_smoke_Errors_methodWithErrorsAndReturnValue(JNIEnv* _jenv, jobj
     auto result = nativeCallResult.unsafe_value();
     return ::genium::jni::convert_to_jni(_jenv, result).release();
 }
+void
+Java_com_example_smoke_Errors_methodWithAliasedError(JNIEnv* _jenv, jobject _jinstance)
+{
+    auto nativeCallResult = ::smoke::Errors::method_with_aliased_error();
+    auto errorCode = nativeCallResult;
+    if (errorCode)
+    {
+        auto nEnumValue = static_cast<::smoke::Errors::InternalError>(errorCode.value());
+        auto jEnumValue = ::genium::jni::convert_to_jni(_jenv, nEnumValue);
+        auto exceptionClass = ::genium::jni::find_class(_jenv, "com/example/smoke/Errors$InternalErrorException");
+        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/Errors$InternalError;)V");
+        auto exception = ::genium::jni::new_object(_jenv, exceptionClass, theConstructor, jEnumValue);
+        _jenv->Throw(static_cast<jthrowable>(exception.release()));
+    }
+}
 JNIEXPORT void JNICALL
 Java_com_example_smoke_Errors_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {

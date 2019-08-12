@@ -31,5 +31,5 @@ class LimeMethod(
     val isConstructor: Boolean = false
 ) : LimeNamedElement(path, visibility, comment, attributes) {
     val exception: LimeException?
-        get() = thrownType?.typeRef?.type as? LimeException
+        get() = thrownType?.typeRef?.type?.let { LimeTypeHelper.getActualType(it) as? LimeException }
 }
