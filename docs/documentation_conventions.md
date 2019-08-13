@@ -23,11 +23,6 @@ Method comment is collated from, in that order:
   applicable) `@NotNull` tag.
 * Name of the error enum type (if present), prefixed with `\retval`.
 
-### Attribute comment
-* Method comments for attribute accessors have their first character in lowercase.
-* Method comment for attribute getter method is prefixed with `Gets `.
-* Method comment for attribute setter method is prefixed with `Sets `.
-
 ### Deprecation message
 Deprecation message is added with `\deprecated` Doxygen tag.
 
@@ -48,11 +43,6 @@ Method comment is collated from, in that order:
   name of the argument.
 * Documentation comment for the method return value (if present), prefixed with `@return`.
 * Name of the exception type (if present), prefixed with `@throws` tag.
-
-### Attribute comment
-* Method comments for attribute accessors have their first character in lowercase.
-* Method comment for attribute getter method is prefixed with `Gets `.
-* Method comment for attribute setter method is prefixed with `Sets `.
 
 ### Deprecation message
 * Deprecation message is added with `@deprecated` JavaDoc tag.

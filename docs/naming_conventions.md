@@ -44,7 +44,7 @@ type=UpperCamelCase
 Each of the name types accepts one of the basic formats `lower_snake_case`, `UPPER_SNAKE_CASE`,
 `lowerCamelCase` or `UpperCamelCase`. Each of those name types (except for `method`) can have a
 fixed `prefix` and/or `suffix`. Additionally for `getter` a special `prefix.boolean` for Boolean
-attributes is possible. The prefixes and suffixes are added to the main name according to the
+properties is possible. The prefixes and suffixes are added to the main name according to the
 specified format.
 These are all supported name types in the name config file are:
 
@@ -56,9 +56,9 @@ These are all supported name types in the name config file are:
 | `enumerator`  | Enum items
 | `method`      | Method names (no prefix or suffix supported)
 | `type`        | Struct, Interface and Enum names
-| `property`    | Attribute name (only Swift)
-| `setter`      | Setter name for an attribute (only Java, C++)
-| `getter`      | Getter name for an attribute (only Java, C++)
+| `property`    | Property name (only Swift)
+| `setter`      | Setter name for an property (only Java, C++)
+| `getter`      | Getter name for an property (only Java, C++)
 | `error`       | Exception name for error enum (only Java)
 
 If one of the properties is not set in the custom rules, the default is applied.
@@ -71,10 +71,10 @@ Default C++ names
 * Method and variable names are in lower_snake_case.
 * Constant and enumerator names are in UPPER_SNAKE_CASE.
 
-### Attribute names
-* Attribute getter names are prefixed with `get_`, unless it's a Boolean attribute.
-* Boolean attribute getter names are prefixed with `is_`.
-* Attribute setter names are prefixed with `set_`.
+### Property names
+* Property getter names are prefixed with `get_`, unless it's a Boolean property.
+* Boolean property getter names are prefixed with `is_`.
+* Property setter names are prefixed with `set_`.
 
 ### Default namerules/cpp.properties
 ```
@@ -99,10 +99,10 @@ Default Java names
 * Method and variable names are in lowerCamelCase.
 * Constant and enumerator names are in UPPER_SNAKE_CASE.
 
-### Attribute names
-* Attribute getter names are prefixed with `get`, unless it's a Boolean attribute.
-* Boolean attribute getter names are prefixed with `is`.
-* Attribute setter names are prefixed with `set`.
+### Property names
+* Property getter names are prefixed with `get`, unless it's a Boolean property.
+* Boolean property getter names are prefixed with `is`.
+* Property setter names are prefixed with `set`.
 
 ### Method overloads ambiguity resolution
 Arrays and Maps defined in FIDL definition are generated as List<> and Map<> generics in Java
@@ -138,9 +138,9 @@ Default Swift names
 * Method and variable names are in lowerCamelCase.
 * Constant and enumerator names are in lowerCamelCase.
 
-### Attribute names
-Attributes are generated as properties in Swift:
-* Property names have no prefix, unless it's a Boolean attribute.
+### Property names
+Properties are generated as properties in Swift:
+* Property names have no prefix, unless it's a Boolean property.
 * Boolean property names are prefixed with `is`.
 
 ### Default namerules/swift.properties
