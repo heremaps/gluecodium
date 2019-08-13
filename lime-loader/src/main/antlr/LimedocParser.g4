@@ -36,15 +36,23 @@ documentationContent
     ;
 
 description
-    : descriptionLine (NL+ descriptionLine)*
+    : descriptionLine descriptionMoreLines*
+    ;
+
+descriptionMoreLines
+    : NL+ descriptionLine
     ;
 
 descriptionLine
-    : WS* descriptionText+ (descriptionText | WS | '@')*
+    : WS* decriptionFirstWord+ descriptionContent*
     ;
 
-descriptionText
-    : TEXT_CONTENT | NAME | IDENTIFIER | '[' | ']'
+decriptionFirstWord
+    : textContent | inlineTag
+    ;
+
+descriptionContent
+    : (textContent | '{' | '}' | '@' | WS+) | inlineTag
     ;
 
 tagSection
@@ -52,10 +60,10 @@ tagSection
     ;
 
 blockTag
-    : WS* '@' blockTagName ('[' blockTagParameter ']')? WS* blockTagContent*
+    : WS* '@' tagName ('[' blockTagParameter ']')? WS blockTagContent*
     ;
 
-blockTagName
+tagName
     : NAME
     ;
 
@@ -64,5 +72,18 @@ blockTagParameter
     ;
 
 blockTagContent
-    : TEXT_CONTENT | NAME | IDENTIFIER | '[' | ']' | WS | NL
+    : (textContent | '{' | '}' | WS+ | NL+) | inlineTag
+    ;
+
+inlineTag
+      : '{@' tagName WS inlineTagContent* '}'
+      ;
+
+inlineTagContent
+    // TODO: escaping
+    : textContent | WS+ | NL+
+    ;
+
+textContent
+    : TEXT_CONTENT | NAME | IDENTIFIER | '[' | ']'
     ;

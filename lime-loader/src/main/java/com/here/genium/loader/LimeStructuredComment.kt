@@ -19,9 +19,12 @@
 
 package com.here.genium.loader
 
+import com.here.genium.model.lime.LimeComment
+
 internal class LimeStructuredComment(
-    val description: String,
-    private val tagBlocks: Map<Pair<String, String>, String>
+    val description: LimeComment,
+    private val tagBlocks: Map<Pair<String, String>, LimeComment>
 ) {
-    fun getTagBlock(tag: String, parameter: String = "") = tagBlocks[Pair(tag, parameter)] ?: ""
+    fun getTagBlock(tag: String, parameter: String = "") =
+        tagBlocks[Pair(tag, parameter)] ?: LimeComment()
 }

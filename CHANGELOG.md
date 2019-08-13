@@ -5,6 +5,7 @@
   + Structured documentation comments for are now supported for function and property definitions.
   + Auto-generated struct constructors can now be documented.
   + Generate documentation for Java builders.
+  + Platform-specific documentation comments are now supported.
 - Bug fixes:
   + Links to members from documentation comments of function parameters, return type, and throws
     clause now work correctly in C++, Java, and Swift.

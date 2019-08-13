@@ -19,7 +19,7 @@
 
 lexer grammar LimedocLexer;
 
-WS  : [ \t]+
+WS  : ' ' | '\t'
     ;
 
 NL  : '\n'
@@ -28,6 +28,7 @@ NL  : '\n'
     ;
 
 AT  : '@' ;
+LCURL_AT : '{@' ;
 
 NAME
     : LETTER+
@@ -38,11 +39,13 @@ IDENTIFIER
     ;
 
 TEXT_CONTENT
-    : ~([\n\r\t a-zA-Z] | '[' | ']')+
+    : ~([\n\r\t @{}a-zA-Z] | '[' | ']')+
     ;
 
 LSQUARE : '[' ;
 RSQUARE : ']' ;
+LCURL : '{' ;
+RCURL : '}' ;
 
 fragment LETTER
     : [a-zA-Z]

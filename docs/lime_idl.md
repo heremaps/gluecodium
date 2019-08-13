@@ -538,6 +538,20 @@ struct Options {
 }
 ```
 
+#### Platform-specific comments
+
+Parts of documentation comments can be varied per platform (i.e. per output language). Example:
+```
+// Process something{@Java , maybe}. Returns a {@Cpp generic} result
+// and throws if something goes wrong{@Swift  but not on iOS}.
+fun process(): GenericResult throws SomethingWrongException
+```
+
+The resulting documentation will look like this, per language:
+* *C++*: `Process something. Returns a generic result and throws if something goes wrong.`
+* *Java*: `Process something, maybe. Returns a result and throws if something goes wrong.`
+* *Swift*: `Process something. Returns a result and throws if something goes wrong but not on iOS.`
+
 [franca]: http://franca.github.io/franca/
 [xtext]: https://www.eclipse.org/Xtext/
 [emf]: https://www.eclipse.org/modeling/emf/
