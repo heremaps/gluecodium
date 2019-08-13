@@ -39,6 +39,7 @@ import com.here.genium.model.java.JavaVisibility
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
+import com.here.genium.model.lime.LimeComment
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimeDirectTypeRef
@@ -120,7 +121,7 @@ class JavaModelBuilderContainersTest {
         val limeElement = LimeContainer(
             LimePath(emptyList(), listOf("foo")),
             type = ContainerType.TYPE_COLLECTION,
-            comment = "some comment",
+            comment = LimeComment("some comment"),
             attributes = deprecatedAttributes
         )
 
@@ -156,7 +157,7 @@ class JavaModelBuilderContainersTest {
         val javaElement = LimeContainer(
             LimePath(emptyList(), listOf("foo")),
             type = ContainerType.INTERFACE,
-            comment = "some comment",
+            comment = LimeComment("some comment"),
             attributes = deprecatedAttributes
         )
 
@@ -273,7 +274,7 @@ class JavaModelBuilderContainersTest {
         val javaElement = LimeContainer(
             LimePath(emptyList(), listOf("foo")),
             type = ContainerType.CLASS,
-            comment = "some comment",
+            comment = LimeComment("some comment"),
             attributes = deprecatedAttributes
         )
 

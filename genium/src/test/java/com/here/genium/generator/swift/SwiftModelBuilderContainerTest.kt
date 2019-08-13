@@ -24,6 +24,7 @@ import com.here.genium.generator.common.nameRuleSetFromConfig
 import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
+import com.here.genium.model.lime.LimeComment
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeContainer.ContainerType
 import com.here.genium.model.lime.LimePath
@@ -146,7 +147,7 @@ class SwiftModelBuilderContainerTest {
             LimeContainer(
                 fooPath,
                 type = ContainerType.CLASS,
-                comment = "some comment",
+                comment = LimeComment("some comment"),
                 attributes = deprecatedAttributes
             )
 
@@ -245,7 +246,7 @@ class SwiftModelBuilderContainerTest {
         val limeElement = LimeContainer(
             fooPath,
             type = ContainerType.INTERFACE,
-            comment = "some comment",
+            comment = LimeComment("some comment"),
             attributes = deprecatedAttributes
         )
 

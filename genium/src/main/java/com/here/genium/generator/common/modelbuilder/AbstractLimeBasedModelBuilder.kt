@@ -64,9 +64,9 @@ abstract class AbstractLimeBasedModelBuilder<E>(
         referenceMap[ambiguousKey] = element
     }
 
-    protected fun createComments(limeElement: LimeNamedElement) =
+    protected fun createComments(limeElement: LimeNamedElement, platform: String) =
         Comments(
-            limeElement.comment,
+            limeElement.comment.getFor(platform),
             limeElement.attributes.get(DEPRECATED, MESSAGE, String::class.java)
         )
 }

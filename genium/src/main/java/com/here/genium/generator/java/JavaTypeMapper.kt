@@ -20,7 +20,6 @@
 package com.here.genium.generator.java
 
 import com.here.genium.cli.GeniumExecutionException
-import com.here.genium.model.common.Comments
 import com.here.genium.model.java.JavaArrayType
 import com.here.genium.model.java.JavaCustomType
 import com.here.genium.model.java.JavaEnumType
@@ -203,13 +202,11 @@ class JavaTypeMapper(
             classNames = listOf(importClassName, exceptionName)
         }
 
-        val javaExceptionType = JavaExceptionType(
+        return JavaExceptionType(
             classNames.joinToString("."),
             classNames,
             JavaImport(importClassName, javaPackage)
         )
-        javaExceptionType.comment = Comments(limeThrownType.comment)
-        return javaExceptionType
     }
 
     private fun mapBasicType(limeBasicType: LimeBasicType) =

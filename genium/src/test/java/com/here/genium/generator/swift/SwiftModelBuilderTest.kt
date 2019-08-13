@@ -27,6 +27,7 @@ import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
+import com.here.genium.model.lime.LimeComment
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeDirectTypeRef
@@ -121,10 +122,10 @@ class SwiftModelBuilderTest {
     fun finishBuildingMethod() {
         val limeType = object : LimeType(EMPTY_PATH) {}
         val limeReturnType =
-            LimeReturnType(LimeDirectTypeRef(limeType), "returnComment")
+            LimeReturnType(LimeDirectTypeRef(limeType), LimeComment("returnComment"))
         val limeElement = LimeMethod(
             fooPath,
-            comment = "some comment",
+            comment = LimeComment("some comment"),
             attributes = deprecatedAttributes,
             returnType = limeReturnType
         )
@@ -225,7 +226,7 @@ class SwiftModelBuilderTest {
     @Test
     fun finishBuildingParameter() {
         val limeElement =
-            LimeParameter(fooPath, comment = "some comment", typeRef = LimeBasicTypeRef.FLOAT)
+            LimeParameter(fooPath, comment = LimeComment("some comment"), typeRef = LimeBasicTypeRef.FLOAT)
         contextStack.injectResult(swiftType)
 
         modelBuilder.finishBuilding(limeElement)
@@ -268,9 +269,9 @@ class SwiftModelBuilderTest {
     fun finishBuildingStruct() {
         val limeElement = LimeStruct(
             fooPath,
-            comment = "some comment",
+            comment = LimeComment("some comment"),
             attributes = deprecatedAttributes,
-            constructorComment = "other comment"
+            constructorComment = LimeComment("other comment")
         )
 
         modelBuilder.finishBuilding(limeElement)
@@ -359,7 +360,7 @@ class SwiftModelBuilderTest {
     fun finishBuildingField() {
         val limeElement = LimeField(
             fooPath,
-            comment = "some comment",
+            comment = LimeComment("some comment"),
             attributes = deprecatedAttributes,
             typeRef = LimeBasicTypeRef.FLOAT
         )
@@ -416,7 +417,7 @@ class SwiftModelBuilderTest {
     @Test
     fun finishBuildingEnumeration() {
         val limeElement =
-            LimeEnumeration(fooPath, comment = "some comment", attributes = deprecatedAttributes)
+            LimeEnumeration(fooPath, comment = LimeComment("some comment"), attributes = deprecatedAttributes)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -451,7 +452,7 @@ class SwiftModelBuilderTest {
     @Test
     fun finishBuildingEnumerator() {
         val limeElement =
-            LimeEnumerator(fooPath, comment = "some comment", attributes = deprecatedAttributes)
+            LimeEnumerator(fooPath, comment = LimeComment("some comment"), attributes = deprecatedAttributes)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -476,7 +477,7 @@ class SwiftModelBuilderTest {
     fun finishBuildingTypeDef() {
         val limeElement = LimeTypeDef(
             fooPath,
-            comment = "some comment",
+            comment = LimeComment("some comment"),
             attributes = deprecatedAttributes,
             typeRef = LimeBasicTypeRef.FLOAT
         )
@@ -510,7 +511,7 @@ class SwiftModelBuilderTest {
     fun finishBuildingConstant() {
         val limeElement = LimeConstant(
             fooPath,
-            comment = "some comment",
+            comment = LimeComment("some comment"),
             attributes = deprecatedAttributes,
             typeRef = LimeBasicTypeRef.FLOAT,
             value = LimeValue.Special.FLOAT_NAN
@@ -656,7 +657,7 @@ class SwiftModelBuilderTest {
         val limeElement = LimeProperty(
             fooPath,
             typeRef = LimeBasicTypeRef.FLOAT,
-            comment = "some comment",
+            comment = LimeComment("some comment"),
             attributes = deprecatedAttributes,
             getter = LimeMethod(EMPTY_PATH),
             setter = LimeMethod(EMPTY_PATH)

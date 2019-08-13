@@ -104,9 +104,9 @@ class JavaModelBuilder(
             comment = createComments(limeMethod),
             visibility = getVisibility(limeMethod),
             returnType = returnType,
-            returnComment = limeMethod.returnType.comment,
+            returnComment = limeMethod.returnType.comment.getFor(PLATFORM_TAG),
             exception = javaExceptionType,
-            throwsComment = limeMethod.thrownType?.comment,
+            throwsComment = limeMethod.thrownType?.comment?.getFor(PLATFORM_TAG),
             parameters = getPreviousResults(JavaParameter::class.java),
             isConstructor = limeMethod.isConstructor,
             qualifiers = qualifiers
@@ -161,7 +161,7 @@ class JavaModelBuilder(
             isEquatable = limeStruct.attributes.have(LimeAttributeType.EQUATABLE),
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
             needsBuilder = limeStruct.attributes.have(JAVA, BUILDER),
-            generatedConstructorComment = limeStruct.constructorComment
+            generatedConstructorComment = limeStruct.constructorComment.getFor(PLATFORM_TAG)
         )
         javaClass.visibility = getVisibility(limeStruct)
         javaClass.javaPackage = rootPackage
@@ -244,14 +244,14 @@ class JavaModelBuilder(
             getPreviousResult(JavaType::class.java),
             limeProperty.typeRef.isNullable
         )
-
-        val qualifiers = if (limeProperty.isStatic)
-            EnumSet.of(MethodQualifier.STATIC)
-        else
-            EnumSet.noneOf(MethodQualifier::class.java)
+        val qualifiers = when {
+            limeProperty.isStatic -> EnumSet.of(MethodQualifier.STATIC)
+            else -> EnumSet.noneOf(MethodQualifier::class.java)
+        }
+        val propertyComment = limeProperty.comment.getFor(PLATFORM_TAG)
 
         val getterComments = Comments(
-            limeProperty.getter.comment,
+            limeProperty.getter.comment.getFor(PLATFORM_TAG),
             limeProperty.getter.attributes.get(DEPRECATED, MESSAGE, String::class.java)
         )
         val getterMethod = JavaMethod(
@@ -259,7 +259,7 @@ class JavaModelBuilder(
             comment = getterComments,
             visibility = getVisibility(limeProperty.getter),
             returnType = javaType,
-            returnComment = limeProperty.comment,
+            returnComment = propertyComment,
             qualifiers = qualifiers,
             isGetter = true
         )
@@ -271,9 +271,9 @@ class JavaModelBuilder(
         val limeSetter = limeProperty.setter
         if (limeSetter != null) {
             val setterParameter = JavaParameter("value", javaType)
-            setterParameter.comment = Comments(limeProperty.comment)
+            setterParameter.comment = Comments(propertyComment)
             val setterComments = Comments(
-                limeSetter.comment,
+                limeSetter.comment.getFor(PLATFORM_TAG),
                 limeSetter.attributes.get(DEPRECATED, MESSAGE, String::class.java)
             )
             val setterMethod = JavaMethod(
@@ -442,7 +442,12 @@ class JavaModelBuilder(
         }
     }
 
+    private fun createComments(limeElement: LimeNamedElement) =
+        createComments(limeElement, PLATFORM_TAG)
+
     companion object {
+        const val PLATFORM_TAG = "Java"
+
         internal val deprecatedAnnotation = JavaCustomType("Deprecated")
     }
 }

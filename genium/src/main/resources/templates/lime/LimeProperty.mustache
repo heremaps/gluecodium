@@ -18,12 +18,12 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if comment}}{{prefix comment "// "}}
-{{/if}}{{!!
-}}{{#if getter.comment}}// @get {{prefix getter.comment "// " skipFirstLine=true}}
-{{/if}}{{!!
-}}{{#if setter.comment}}// @set {{prefix setter.comment "// " skipFirstLine=true}}
-{{/if}}{{!!
+{{#unless comment.isEmpty}}{{prefix comment "// "}}
+{{/unless}}{{!!
+}}{{#unless getter.comment.isEmpty}}// @get {{prefix getter.comment "// " skipFirstLine=true}}
+{{/unless}}{{!!
+}}{{#if setter}}{{#unless setter.comment.isEmpty}}// @set {{prefix setter.comment "// " skipFirstLine=true}}
+{{/unless}}{{/if}}{{!!
 }}{{#if attributes.toString}}{{attributes}}
 {{/if}}
 {{visibility}}{{#if isStatic}}static {{/if}}property {{escapedName}}: {{typeRef.escapedName}}{{#if needsAccessorsSection}} {

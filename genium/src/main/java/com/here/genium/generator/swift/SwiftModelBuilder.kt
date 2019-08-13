@@ -189,7 +189,7 @@ class SwiftModelBuilder(
         val error = limeMethod.thrownType?.let {
             val exception = LimeTypeHelper.getActualType(it.typeRef.type) as LimeException
             val swiftEnumName = nameResolver.getFullName(exception.errorEnum.type)
-            SwiftThrownType(swiftEnumName, it.comment)
+            SwiftThrownType(swiftEnumName, it.comment.getFor(PLATFORM_TAG))
         }
 
         val cShortName = CBridgeNameRules.getShortMethodName(
@@ -202,7 +202,7 @@ class SwiftModelBuilder(
             visibility = getVisibility(limeMethod),
             comment = createComments(limeMethod),
             returnType = returnType,
-            returnComment = limeMethod.returnType.comment,
+            returnComment = limeMethod.returnType.comment.getFor(PLATFORM_TAG),
             cNestedSpecifier = CBridgeNameRules.getNestedSpecifierString(limeMethod),
             cShortName = cShortName,
             error = error,
@@ -243,7 +243,7 @@ class SwiftModelBuilder(
             fields = getPreviousResults(SwiftField::class.java),
             constants = getPreviousResults(SwiftConstant::class.java),
             methods = getPreviousResults(SwiftMethod::class.java),
-            generatedConstructorComment = limeStruct.constructorComment
+            generatedConstructorComment = limeStruct.constructorComment.getFor(PLATFORM_TAG)
         )
         swiftStruct.comment = createComments(limeStruct)
 
@@ -425,4 +425,11 @@ class SwiftModelBuilder(
             LimeVisibility.PUBLIC -> SwiftVisibility.PUBLIC
             LimeVisibility.OPEN -> SwiftVisibility.OPEN
         }
+
+    private fun createComments(limeElement: LimeNamedElement) =
+        createComments(limeElement, PLATFORM_TAG)
+
+    companion object {
+        const val PLATFORM_TAG = "Swift"
+    }
 }

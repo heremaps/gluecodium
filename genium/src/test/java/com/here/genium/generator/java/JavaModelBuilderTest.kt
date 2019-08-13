@@ -43,6 +43,7 @@ import com.here.genium.model.lime.LimeAttributeType
 import com.here.genium.model.lime.LimeAttributeValueType
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
+import com.here.genium.model.lime.LimeComment
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeDirectTypeRef
 import com.here.genium.model.lime.LimeEnumeration
@@ -115,7 +116,7 @@ class JavaModelBuilderTest {
     fun finishBuildingMethod() {
         val limeElement = LimeMethod(
             fooPath,
-            comment = "some comment",
+            comment = LimeComment("some comment"),
             attributes = deprecatedAttributes
         )
 
@@ -154,7 +155,7 @@ class JavaModelBuilderTest {
     fun finishBuildingMethodReadsReturnTypeComment() {
         val limeReturnType = LimeReturnType(
             LimeBasicTypeRef.FLOAT,
-            comment = "some comment"
+            comment = LimeComment("some comment")
         )
         val limeElement = LimeMethod(fooPath, returnType = limeReturnType)
 
@@ -231,7 +232,7 @@ class JavaModelBuilderTest {
     @Test
     fun finishBuildingParameter() {
         contextStack.injectResult(javaType)
-        val limeElement = LimeParameter(fooPath, comment = "some comment", typeRef = limeTypeRef)
+        val limeElement = LimeParameter(fooPath, comment = LimeComment("some comment"), typeRef = limeTypeRef)
         every { typeMapper.applyNullability(javaType, any()) } returns anotherJavaType
 
         modelBuilder.finishBuilding(limeElement)
@@ -270,7 +271,7 @@ class JavaModelBuilderTest {
         contextStack.injectResult(javaValue)
         val limeElement = LimeConstant(
             path = fooPath,
-            comment = "some comment",
+            comment = LimeComment("some comment"),
             attributes = deprecatedAttributes,
             typeRef = limeTypeRef,
             value = LimeValue.Special.FLOAT_NAN
@@ -308,9 +309,9 @@ class JavaModelBuilderTest {
     fun finishBuildingStruct() {
         val limeElement = LimeStruct(
             path = fooPath,
-            comment = "some comment",
+            comment = LimeComment("some comment"),
             attributes = deprecatedAttributes,
-            constructorComment = "other comment"
+            constructorComment = LimeComment("other comment")
         )
 
         modelBuilder.finishBuilding(limeElement)
@@ -439,7 +440,7 @@ class JavaModelBuilderTest {
         contextStack.injectResult(javaType)
         val limeElement = LimeField(
             fooPath,
-            comment = "some comment",
+            comment = LimeComment("some comment"),
             attributes = deprecatedAttributes,
             typeRef = limeTypeRef
         )
@@ -510,7 +511,7 @@ class JavaModelBuilderTest {
     @Test
     fun finishBuildingEnumeration() {
         val limeElement =
-            LimeEnumeration(fooPath, comment = "some comment", attributes = deprecatedAttributes)
+            LimeEnumeration(fooPath, comment = LimeComment("some comment"), attributes = deprecatedAttributes)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -584,7 +585,7 @@ class JavaModelBuilderTest {
     @Test
     fun finishBuildingEnumerator() {
         val limeElement =
-            LimeEnumerator(fooPath, comment = "some comment", attributes = deprecatedAttributes)
+            LimeEnumerator(fooPath, comment = LimeComment("some comment"), attributes = deprecatedAttributes)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -612,15 +613,15 @@ class JavaModelBuilderTest {
         val limeElement = LimeProperty(
             fooPath,
             typeRef = limeTypeRef,
-            comment = "Some comment",
+            comment = LimeComment("Some comment"),
             getter = LimeMethod(
                 fooPath,
-                comment = "Gets some comment",
+                comment = LimeComment("Gets some comment"),
                 attributes = deprecatedAttributes
             ),
             setter = LimeMethod(
                 fooPath,
-                comment = "Sets some comment",
+                comment = LimeComment("Sets some comment"),
                 attributes = deprecatedAttributes
             )
         )

@@ -18,10 +18,10 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if comment}}{{prefix comment "// "}}
-{{/if}}{{!!
-}}{{#if constructorComment}}// @constructor {{prefix constructorComment "// " skipFirstLine=true}}
-{{/if}}{{!!
+{{#unless comment.isEmpty}}{{prefix comment "// "}}
+{{/unless}}{{!!
+}}{{#unless constructorComment.isEmpty}}// @constructor {{prefix constructorComment "// " skipFirstLine=true}}
+{{/unless}}{{!!
 }}{{#if attributes.toString}}{{attributes}}
 {{/if}}
 {{visibility}}struct {{escapedName}} {

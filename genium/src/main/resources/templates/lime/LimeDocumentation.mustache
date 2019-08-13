@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if comment}}{{prefix comment "// "}}
-{{/if}}{{!!
+{{#unless comment.isEmpty}}{{prefix comment "// "}}
+{{/unless}}{{!!
 }}{{#if attributes.toString}}{{attributes}}
 {{/if}}

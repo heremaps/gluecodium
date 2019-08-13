@@ -49,6 +49,7 @@ import com.here.genium.model.lime.LimeEnumerator
 import com.here.genium.model.lime.LimeException
 import com.here.genium.model.lime.LimeField
 import com.here.genium.model.lime.LimeMethod
+import com.here.genium.model.lime.LimeNamedElement
 import com.here.genium.model.lime.LimeParameter
 import com.here.genium.model.lime.LimeProperty
 import com.here.genium.model.lime.LimeStruct
@@ -137,9 +138,9 @@ class CppModelBuilder(
             fullyQualifiedName = nameResolver.getFullyQualifiedName(limeMethod),
             comment = createComments(limeMethod),
             returnType = returnType,
-            returnComment = limeMethod.returnType.comment,
+            returnComment = limeMethod.returnType.comment.getFor(PLATFORM_TAG),
             errorEnumName = errorEnum?.fullyQualifiedName,
-            errorComment = limeMethod.thrownType?.comment,
+            errorComment = limeMethod.thrownType?.comment?.getFor(PLATFORM_TAG),
             isNotNull = isInstance && !isNullable,
             parameters = getPreviousResults(CppParameter::class.java),
             specifiers = specifiers,
@@ -187,7 +188,7 @@ class CppModelBuilder(
             constants = getPreviousResults(CppConstant::class.java),
             isEquatable = isEquatable,
             isImmutable = limeStruct.attributes.have(LimeAttributeType.IMMUTABLE),
-            constructorComment = limeStruct.constructorComment
+            constructorComment = limeStruct.constructorComment.getFor(PLATFORM_TAG)
         )
 
         storeNamedResult(limeStruct, cppStruct)
@@ -235,6 +236,7 @@ class CppModelBuilder(
         val isNullable = limeProperty.typeRef.isNullable
         val isInstance = limeProperty.typeRef.type is LimeContainer
         val isNotNull = !isNullable && isInstance
+        val propertyComment = limeProperty.comment.getFor(PLATFORM_TAG)
 
         val specifiers = when {
             limeProperty.isStatic -> EnumSet.of(CppMethod.Specifier.STATIC)
@@ -246,7 +248,7 @@ class CppModelBuilder(
         }
 
         val getterComments = Comments(
-            limeProperty.getter.comment,
+            limeProperty.getter.comment.getFor(PLATFORM_TAG),
             limeProperty.getter.attributes.get(DEPRECATED, MESSAGE, String::class.java)
         )
         val getterMethod = CppMethod(
@@ -254,7 +256,7 @@ class CppModelBuilder(
             fullyQualifiedName = nameResolver.getFullyQualifiedGetterName(limeProperty),
             comment = getterComments,
             returnType = cppTypeRef,
-            returnComment = limeProperty.comment,
+            returnComment = propertyComment,
             isNotNull = isNotNull,
             specifiers = specifiers,
             qualifiers = getterQualifiers
@@ -265,13 +267,13 @@ class CppModelBuilder(
         val limeSetter = limeProperty.setter
         if (limeSetter != null) {
             val setterParameter = CppParameter("value", cppTypeRef, isNotNull)
-            setterParameter.comment = Comments(limeProperty.comment)
+            setterParameter.comment = Comments(propertyComment)
             val setterQualifiers = when {
                 limeProperty.isStatic -> EnumSet.noneOf(CppMethod.Qualifier::class.java)
                 else -> EnumSet.of(CppMethod.Qualifier.PURE_VIRTUAL)
             }
             val setterComments = Comments(
-                limeSetter.comment,
+                limeSetter.comment.getFor(PLATFORM_TAG),
                 limeSetter.attributes.get(DEPRECATED, MESSAGE, String::class.java)
             )
             val setterMethod = CppMethod(
@@ -377,5 +379,12 @@ class CppModelBuilder(
     override fun finishBuilding(limeTypeRef: LimeTypeRef) {
         storeResult(typeMapper.mapType(limeTypeRef))
         closeContext()
+    }
+
+    private fun createComments(limeElement: LimeNamedElement) =
+        createComments(limeElement, PLATFORM_TAG)
+
+    companion object {
+        const val PLATFORM_TAG = "Cpp"
     }
 }

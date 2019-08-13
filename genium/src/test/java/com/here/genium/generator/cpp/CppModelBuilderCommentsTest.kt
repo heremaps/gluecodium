@@ -36,6 +36,7 @@ import com.here.genium.model.lime.LimeAttributeType.DEPRECATED
 import com.here.genium.model.lime.LimeAttributeValueType.MESSAGE
 import com.here.genium.model.lime.LimeAttributes
 import com.here.genium.model.lime.LimeBasicTypeRef
+import com.here.genium.model.lime.LimeComment
 import com.here.genium.model.lime.LimeConstant
 import com.here.genium.model.lime.LimeContainer
 import com.here.genium.model.lime.LimeDirectTypeRef
@@ -89,7 +90,7 @@ class CppModelBuilderCommentsTest {
         val limeElement = LimeContainer(
             EMPTY_PATH,
             type = LimeContainer.ContainerType.INTERFACE,
-            comment = "Foo",
+            comment = LimeComment("Foo"),
             attributes = deprecatedAttributes
         )
 
@@ -102,7 +103,7 @@ class CppModelBuilderCommentsTest {
 
     @Test
     fun finishBuildingMethodReadsComment() {
-        val limeElement = LimeMethod(EMPTY_PATH, comment = "Foo", attributes = deprecatedAttributes)
+        val limeElement = LimeMethod(EMPTY_PATH, comment = LimeComment("Foo"), attributes = deprecatedAttributes)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -115,7 +116,7 @@ class CppModelBuilderCommentsTest {
     fun finishBuildingMethodReadsReturnTypeComment() {
         val limeReturnType = LimeReturnType(
             LimeBasicTypeRef.DOUBLE,
-            comment = "Foo",
+            comment = LimeComment("Foo"),
             attributes = deprecatedAttributes
         )
         val limeElement = LimeMethod(EMPTY_PATH, returnType = limeReturnType)
@@ -154,7 +155,7 @@ class CppModelBuilderCommentsTest {
         val limeElement = LimeParameter(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            comment = "Foo",
+            comment = LimeComment("Foo"),
             attributes = deprecatedAttributes
         )
 
@@ -184,7 +185,7 @@ class CppModelBuilderCommentsTest {
             path = EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
             value = LimeValue.Literal(LimeBasicTypeRef.DOUBLE, ""),
-            comment = "Foo",
+            comment = LimeComment("Foo"),
             attributes = deprecatedAttributes
         )
 
@@ -201,7 +202,7 @@ class CppModelBuilderCommentsTest {
         val limeElement = LimeField(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            comment = "Foo",
+            comment = LimeComment("Foo"),
             attributes = deprecatedAttributes
         )
 
@@ -227,9 +228,9 @@ class CppModelBuilderCommentsTest {
     fun finishBuildingStructReadsComment() {
         val limeElement = LimeStruct(
             EMPTY_PATH,
-            comment = "Foo",
+            comment = LimeComment("Foo"),
             attributes = deprecatedAttributes,
-            constructorComment = "Baz"
+            constructorComment = LimeComment("Baz")
         )
 
         modelBuilder.finishBuilding(limeElement)
@@ -246,7 +247,7 @@ class CppModelBuilderCommentsTest {
         val limeElement = LimeTypeDef(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            comment = "Foo",
+            comment = LimeComment("Foo"),
             attributes = deprecatedAttributes
         )
 
@@ -260,7 +261,7 @@ class CppModelBuilderCommentsTest {
     @Test
     fun finishBuildingEnumerationTypeReadsComment() {
         val limeElement =
-            LimeEnumeration(EMPTY_PATH, comment = "Foo", attributes = deprecatedAttributes)
+            LimeEnumeration(EMPTY_PATH, comment = LimeComment("Foo"), attributes = deprecatedAttributes)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -272,7 +273,7 @@ class CppModelBuilderCommentsTest {
     @Test
     fun finishBuildingEnumeratorReadsComment() {
         val limeElement =
-            LimeEnumerator(EMPTY_PATH, comment = "Foo", attributes = deprecatedAttributes)
+            LimeEnumerator(EMPTY_PATH, comment = LimeComment("Foo"), attributes = deprecatedAttributes)
 
         modelBuilder.finishBuilding(limeElement)
 
@@ -287,9 +288,9 @@ class CppModelBuilderCommentsTest {
         val limeElement = LimeProperty(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.DOUBLE,
-            comment = "Foo",
-            getter = LimeMethod(EMPTY_PATH, comment = "Gets foo", attributes = deprecatedAttributes),
-            setter = LimeMethod(EMPTY_PATH, comment = "Sets foo", attributes = deprecatedAttributes)
+            comment = LimeComment("Foo"),
+            getter = LimeMethod(EMPTY_PATH, comment = LimeComment("Gets foo"), attributes = deprecatedAttributes),
+            setter = LimeMethod(EMPTY_PATH, comment = LimeComment("Sets foo"), attributes = deprecatedAttributes)
         )
 
         modelBuilder.finishBuilding(limeElement)

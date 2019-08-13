@@ -18,14 +18,14 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if comment}}{{prefix comment "// "}}
-{{/if}}{{!!
-}}{{#parameters}}{{#if comment}}// @param[{{name}}] {{prefix comment "// " skipFirstLine=true}}
-{{/if}}{{/parameters}}{{!!
-}}{{#if returnType.comment}}// @return {{prefix returnType.comment "// " skipFirstLine=true}}
-{{/if}}{{!!
-}}{{#if thrownType.comment}}// @throws {{prefix thrownType.comment "// " skipFirstLine=true}}
-{{/if}}{{!!
+{{#unless comment.isEmpty}}{{prefix comment "// "}}
+{{/unless}}{{!!
+}}{{#parameters}}{{#unless comment.isEmpty}}// @param[{{name}}] {{prefix comment "// " skipFirstLine=true}}
+{{/unless}}{{/parameters}}{{!!
+}}{{#unless returnType.comment.isEmpty}}// @return {{prefix returnType.comment "// " skipFirstLine=true}}
+{{/unless}}{{!!
+}}{{#if thrownType}}{{#unless thrownType.comment.isEmpty}}// @throws {{prefix thrownType.comment "// " skipFirstLine=true}}
+{{/unless}}{{/if}}{{!!
 }}{{#if attributes.toString}}{{attributes}}
 {{/if}}
 {{visibility}}{{#if isConstructor}}constructor {{escapedName}}{{/if}}{{!!
