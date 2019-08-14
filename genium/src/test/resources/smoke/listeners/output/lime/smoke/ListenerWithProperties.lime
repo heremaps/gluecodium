@@ -1,6 +1,6 @@
 package smoke
 
-interface ListenerWithAttributes {
+interface ListenerWithProperties {
     typealias StringToDouble = Map<String, Double>
 
     enum ResultEnum {

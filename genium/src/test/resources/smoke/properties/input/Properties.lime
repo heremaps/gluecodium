@@ -17,7 +17,7 @@
 
 package smoke
 
-class Attributes {
+class Properties {
     struct ExampleStruct {
         value: Double
     }
@@ -33,13 +33,13 @@ class Attributes {
     property arrayAttribute: List<String>
     property complexTypeAttribute: InternalError
     property byteBufferAttribute: Blob
-    property instanceAttribute: AttributesInterface
+    property instanceAttribute: PropertiesInterface
     property booleanAttribute: Boolean
     static property staticAttribute: String { get set }
     static property staticReadonlyAttribute: ExampleStruct { get }
 }
 
-interface AttributesInterface {
+interface PropertiesInterface {
     struct ExampleStruct {
         value: Double
     }

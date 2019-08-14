@@ -5,7 +5,7 @@
 
 package com.example.examples;
 
-public interface Attributes {
+public interface Properties {
     long getBuiltInTypeAttribute();
     void setBuiltInTypeAttribute(final long value);
     float getReadonlyAttribute();

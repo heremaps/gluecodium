@@ -2,107 +2,107 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-internal func getRef(_ ref: Attributes?, owning: Bool = true) -> RefHolder {
+internal func getRef(_ ref: Properties?, owning: Bool = true) -> RefHolder {
     guard let reference = ref else {
         return RefHolder(0)
     }
     if let instanceReference = reference as? NativeBase {
-        let handle_copy = examples_Attributes_copy_handle(instanceReference.c_handle)
+        let handle_copy = examples_Properties_copy_handle(instanceReference.c_handle)
         return owning
-            ? RefHolder(ref: handle_copy, release: examples_Attributes_release_handle)
+            ? RefHolder(ref: handle_copy, release: examples_Properties_release_handle)
             : RefHolder(handle_copy)
     }
-    var functions = examples_Attributes_FunctionTable()
+    var functions = examples_Properties_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
     functions.release = {swift_class_pointer in
         if let swift_class = swift_class_pointer {
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-    functions.examples_Attributes_builtInTypeAttribute_get = {(swift_class_pointer) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Attributes
+    functions.examples_Properties_builtInTypeAttribute_get = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Properties
         return copyToCType(swift_class.builtInTypeAttribute).ref
     }
-    functions.examples_Attributes_builtInTypeAttribute_set = {(swift_class_pointer, newValue) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Attributes
+    functions.examples_Properties_builtInTypeAttribute_set = {(swift_class_pointer, newValue) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Properties
         swift_class.builtInTypeAttribute = moveFromCType(newValue)
     }
-    functions.examples_Attributes_readonlyAttribute_get = {(swift_class_pointer) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Attributes
+    functions.examples_Properties_readonlyAttribute_get = {(swift_class_pointer) in
+        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Properties
         return copyToCType(swift_class.readonlyAttribute).ref
     }
-    let proxy = examples_Attributes_create_proxy(functions)
-    return owning ? RefHolder(ref: proxy, release: examples_Attributes_release_handle) : RefHolder(proxy)
+    let proxy = examples_Properties_create_proxy(functions)
+    return owning ? RefHolder(ref: proxy, release: examples_Properties_release_handle) : RefHolder(proxy)
 }
-public protocol Attributes : AnyObject {
+public protocol Properties : AnyObject {
     var builtInTypeAttribute: UInt32 { get set }
     var readonlyAttribute: Float { get }
 }
-internal class _Attributes: Attributes {
+internal class _Properties: Properties {
     var builtInTypeAttribute: UInt32 {
         get {
-            return moveFromCType(examples_Attributes_builtInTypeAttribute_get(self.c_instance))
+            return moveFromCType(examples_Properties_builtInTypeAttribute_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(examples_Attributes_builtInTypeAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(examples_Properties_builtInTypeAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
     var readonlyAttribute: Float {
         get {
-            return moveFromCType(examples_Attributes_readonlyAttribute_get(self.c_instance))
+            return moveFromCType(examples_Properties_readonlyAttribute_get(self.c_instance))
         }
     }
     let c_instance : _baseRef
-    init(cAttributes: _baseRef) {
-        guard cAttributes != 0 else {
+    init(cProperties: _baseRef) {
+        guard cProperties != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
-        c_instance = cAttributes
+        c_instance = cProperties
     }
     deinit {
-        examples_Attributes_release_handle(c_instance)
+        examples_Properties_release_handle(c_instance)
     }
 }
-extension _Attributes: NativeBase {
+extension _Properties: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes {
-    if let swift_pointer = examples_Attributes_get_swift_object_from_cache(handle),
-        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Attributes {
+internal func PropertiescopyFromCType(_ handle: _baseRef) -> Properties {
+    if let swift_pointer = examples_Properties_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Properties {
         return re_constructed
     }
-    return _Attributes(cAttributes: examples_Attributes_copy_handle(handle))
+    return _Properties(cProperties: examples_Properties_copy_handle(handle))
 }
-internal func AttributesmoveFromCType(_ handle: _baseRef) -> Attributes {
-    if let swift_pointer = examples_Attributes_get_swift_object_from_cache(handle),
-        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Attributes {
-        examples_Attributes_release_handle(handle)
+internal func PropertiesmoveFromCType(_ handle: _baseRef) -> Properties {
+    if let swift_pointer = examples_Properties_get_swift_object_from_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Properties {
+        examples_Properties_release_handle(handle)
         return re_constructed
     }
-    return _Attributes(cAttributes: handle)
+    return _Properties(cProperties: handle)
 }
-internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes? {
+internal func PropertiescopyFromCType(_ handle: _baseRef) -> Properties? {
     guard handle != 0 else {
         return nil
     }
-    return AttributesmoveFromCType(handle) as Attributes
+    return PropertiesmoveFromCType(handle) as Properties
 }
-internal func AttributesmoveFromCType(_ handle: _baseRef) -> Attributes? {
+internal func PropertiesmoveFromCType(_ handle: _baseRef) -> Properties? {
     guard handle != 0 else {
         return nil
     }
-    return AttributesmoveFromCType(handle) as Attributes
+    return PropertiesmoveFromCType(handle) as Properties
 }
-internal func copyToCType(_ swiftClass: Attributes) -> RefHolder {
+internal func copyToCType(_ swiftClass: Properties) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: Attributes) -> RefHolder {
+internal func moveToCType(_ swiftClass: Properties) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: Attributes?) -> RefHolder {
+internal func copyToCType(_ swiftClass: Properties?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: Attributes?) -> RefHolder {
+internal func moveToCType(_ swiftClass: Properties?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }

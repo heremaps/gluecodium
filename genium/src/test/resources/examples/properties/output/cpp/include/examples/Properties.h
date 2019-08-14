@@ -14,9 +14,9 @@
 
 namespace examples {
 
-class _GENIUM_CPP_EXPORT Attributes {
+class _GENIUM_CPP_EXPORT Properties {
 public:
-    virtual ~Attributes() = 0;
+    virtual ~Properties() = 0;
 
 public:
 virtual uint32_t get_built_in_type_attribute(  ) const = 0;

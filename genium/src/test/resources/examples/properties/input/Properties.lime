@@ -17,7 +17,7 @@
 
 package examples
 
-interface Attributes {
+interface Properties {
     property builtInTypeAttribute: UInt
     property readonlyAttribute: Float { get }
 }

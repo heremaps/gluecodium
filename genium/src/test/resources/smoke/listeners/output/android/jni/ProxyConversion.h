@@ -2,7 +2,7 @@
 #include "com_example_smoke_CalculationResultImplCppProxy.h"
 #include "com_example_smoke_CalculatorListenerImplCppProxy.h"
 #include "com_example_smoke_InternalListenerImplCppProxy.h"
-#include "com_example_smoke_ListenerWithAttributesImplCppProxy.h"
+#include "com_example_smoke_ListenerWithPropertiesImplCppProxy.h"
 #include "com_example_smoke_ListenersWithReturnValuesImplCppProxy.h"
 template<class T>
 inline void createCppProxy(JNIEnv* env, const ::genium::jni::JniReference<jobject>& obj, ::std::shared_ptr<T>& result) {
@@ -20,8 +20,8 @@ inline void createCppProxy(JNIEnv* env, const ::genium::jni::JniReference<jobjec
     ::genium::jni::CppProxyBase::createProxy<::smoke::InternalListener, ::smoke::InternalListenerCppProxy>(env, obj, result);
 }
 template<>
-inline void createCppProxy(JNIEnv* env, const ::genium::jni::JniReference<jobject>& obj, ::std::shared_ptr<::smoke::ListenerWithAttributes>& result) {
-    ::genium::jni::CppProxyBase::createProxy<::smoke::ListenerWithAttributes, ::smoke::ListenerWithAttributesCppProxy>(env, obj, result);
+inline void createCppProxy(JNIEnv* env, const ::genium::jni::JniReference<jobject>& obj, ::std::shared_ptr<::smoke::ListenerWithProperties>& result) {
+    ::genium::jni::CppProxyBase::createProxy<::smoke::ListenerWithProperties, ::smoke::ListenerWithPropertiesCppProxy>(env, obj, result);
 }
 template<>
 inline void createCppProxy(JNIEnv* env, const ::genium::jni::JniReference<jobject>& obj, ::std::shared_ptr<::smoke::ListenersWithReturnValues>& result) {

@@ -2,107 +2,107 @@
 //
 // Automatically generated. Do not modify. Your changes will be lost.
 import Foundation
-internal func getRef(_ ref: Attributes?, owning: Bool = true) -> RefHolder {
+internal func getRef(_ ref: Properties?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
     }
-    let handle_copy = smoke_Attributes_copy_handle(c_handle)
+    let handle_copy = smoke_Properties_copy_handle(c_handle)
     return owning
-        ? RefHolder(ref: handle_copy, release: smoke_Attributes_release_handle)
+        ? RefHolder(ref: handle_copy, release: smoke_Properties_release_handle)
         : RefHolder(handle_copy)
 }
-public class Attributes {
+public class Properties {
     public var builtInTypeAttribute: UInt32 {
         get {
-            return moveFromCType(smoke_Attributes_builtInTypeAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Properties_builtInTypeAttribute_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Attributes_builtInTypeAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Properties_builtInTypeAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
     public var readonlyAttribute: Float {
         get {
-            return moveFromCType(smoke_Attributes_readonlyAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Properties_readonlyAttribute_get(self.c_instance))
         }
     }
-    public var structAttribute: Attributes.ExampleStruct {
+    public var structAttribute: Properties.ExampleStruct {
         get {
-            return moveFromCType(smoke_Attributes_structAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Properties_structAttribute_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Attributes_structAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Properties_structAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
     public var arrayAttribute: [String] {
         get {
-            return moveFromCType(smoke_Attributes_arrayAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Properties_arrayAttribute_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Attributes_arrayAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Properties_arrayAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var complexTypeAttribute: Attributes.InternalError {
+    public var complexTypeAttribute: Properties.InternalError {
         get {
-            return moveFromCType(smoke_Attributes_complexTypeAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Properties_complexTypeAttribute_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Attributes_complexTypeAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Properties_complexTypeAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
     public var byteBufferAttribute: Data {
         get {
-            return moveFromCType(smoke_Attributes_byteBufferAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Properties_byteBufferAttribute_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Attributes_byteBufferAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Properties_byteBufferAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var instanceAttribute: AttributesInterface {
+    public var instanceAttribute: PropertiesInterface {
         get {
-            return AttributesInterfacemoveFromCType(smoke_Attributes_instanceAttribute_get(self.c_instance))
+            return PropertiesInterfacemoveFromCType(smoke_Properties_instanceAttribute_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Attributes_instanceAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Properties_instanceAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
     public var isBooleanAttribute: Bool {
         get {
-            return moveFromCType(smoke_Attributes_booleanAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Properties_booleanAttribute_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Attributes_booleanAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Properties_booleanAttribute_set(self.c_instance, c_newValue.ref))
         }
     }
     public static var staticAttribute: String {
         get {
-            return moveFromCType(smoke_Attributes_staticAttribute_get())
+            return moveFromCType(smoke_Properties_staticAttribute_get())
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Attributes_staticAttribute_set(c_newValue.ref))
+            return moveFromCType(smoke_Properties_staticAttribute_set(c_newValue.ref))
         }
     }
-    public static var staticReadonlyAttribute: Attributes.ExampleStruct {
+    public static var staticReadonlyAttribute: Properties.ExampleStruct {
         get {
-            return moveFromCType(smoke_Attributes_staticReadonlyAttribute_get())
+            return moveFromCType(smoke_Properties_staticReadonlyAttribute_get())
         }
     }
     let c_instance : _baseRef
-    init(cAttributes: _baseRef) {
-        guard cAttributes != 0 else {
+    init(cProperties: _baseRef) {
+        guard cProperties != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
-        c_instance = cAttributes
+        c_instance = cProperties
     }
     deinit {
-        smoke_Attributes_release_handle(c_instance)
+        smoke_Properties_release_handle(c_instance)
     }
     public enum InternalError : UInt32, CaseIterable {
         case errorNone
@@ -114,107 +114,107 @@ public class Attributes {
             self.value = value
         }
         internal init(cHandle: _baseRef) {
-            value = moveFromCType(smoke_Attributes_ExampleStruct_value_get(cHandle))
+            value = moveFromCType(smoke_Properties_ExampleStruct_value_get(cHandle))
         }
     }
 }
-extension Attributes: NativeBase {
+extension Properties: NativeBase {
     var c_handle: _baseRef { return c_instance }
 }
-internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes {
-    return Attributes(cAttributes: smoke_Attributes_copy_handle(handle))
+internal func PropertiescopyFromCType(_ handle: _baseRef) -> Properties {
+    return Properties(cProperties: smoke_Properties_copy_handle(handle))
 }
-internal func AttributesmoveFromCType(_ handle: _baseRef) -> Attributes {
-    return Attributes(cAttributes: handle)
+internal func PropertiesmoveFromCType(_ handle: _baseRef) -> Properties {
+    return Properties(cProperties: handle)
 }
-internal func AttributescopyFromCType(_ handle: _baseRef) -> Attributes? {
+internal func PropertiescopyFromCType(_ handle: _baseRef) -> Properties? {
     guard handle != 0 else {
         return nil
     }
-    return AttributesmoveFromCType(handle) as Attributes
+    return PropertiesmoveFromCType(handle) as Properties
 }
-internal func AttributesmoveFromCType(_ handle: _baseRef) -> Attributes? {
+internal func PropertiesmoveFromCType(_ handle: _baseRef) -> Properties? {
     guard handle != 0 else {
         return nil
     }
-    return AttributesmoveFromCType(handle) as Attributes
+    return PropertiesmoveFromCType(handle) as Properties
 }
-internal func copyToCType(_ swiftClass: Attributes) -> RefHolder {
+internal func copyToCType(_ swiftClass: Properties) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: Attributes) -> RefHolder {
+internal func moveToCType(_ swiftClass: Properties) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyToCType(_ swiftClass: Attributes?) -> RefHolder {
+internal func copyToCType(_ swiftClass: Properties?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
-internal func moveToCType(_ swiftClass: Attributes?) -> RefHolder {
+internal func moveToCType(_ swiftClass: Properties?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> Attributes.ExampleStruct {
-    return Attributes.ExampleStruct(cHandle: handle)
+internal func copyFromCType(_ handle: _baseRef) -> Properties.ExampleStruct {
+    return Properties.ExampleStruct(cHandle: handle)
 }
-internal func moveFromCType(_ handle: _baseRef) -> Attributes.ExampleStruct {
+internal func moveFromCType(_ handle: _baseRef) -> Properties.ExampleStruct {
     defer {
-        smoke_Attributes_ExampleStruct_release_handle(handle)
+        smoke_Properties_ExampleStruct_release_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: Attributes.ExampleStruct) -> RefHolder {
+internal func copyToCType(_ swiftType: Properties.ExampleStruct) -> RefHolder {
     let c_value = moveToCType(swiftType.value)
-    return RefHolder(smoke_Attributes_ExampleStruct_create_handle(c_value.ref))
+    return RefHolder(smoke_Properties_ExampleStruct_create_handle(c_value.ref))
 }
-internal func moveToCType(_ swiftType: Attributes.ExampleStruct) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Attributes_ExampleStruct_release_handle)
+internal func moveToCType(_ swiftType: Properties.ExampleStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Properties_ExampleStruct_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> Attributes.ExampleStruct? {
+internal func copyFromCType(_ handle: _baseRef) -> Properties.ExampleStruct? {
     guard handle != 0 else {
         return nil
     }
-    let unwrappedHandle = smoke_Attributes_ExampleStruct_unwrap_optional_handle(handle)
-    return Attributes.ExampleStruct(cHandle: unwrappedHandle) as Attributes.ExampleStruct
+    let unwrappedHandle = smoke_Properties_ExampleStruct_unwrap_optional_handle(handle)
+    return Properties.ExampleStruct(cHandle: unwrappedHandle) as Properties.ExampleStruct
 }
-internal func moveFromCType(_ handle: _baseRef) -> Attributes.ExampleStruct? {
+internal func moveFromCType(_ handle: _baseRef) -> Properties.ExampleStruct? {
     defer {
-        smoke_Attributes_ExampleStruct_release_optional_handle(handle)
+        smoke_Properties_ExampleStruct_release_optional_handle(handle)
     }
     return copyFromCType(handle)
 }
-internal func copyToCType(_ swiftType: Attributes.ExampleStruct?) -> RefHolder {
+internal func copyToCType(_ swiftType: Properties.ExampleStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
     let c_value = moveToCType(swiftType.value)
-    return RefHolder(smoke_Attributes_ExampleStruct_create_optional_handle(c_value.ref))
+    return RefHolder(smoke_Properties_ExampleStruct_create_optional_handle(c_value.ref))
 }
-internal func moveToCType(_ swiftType: Attributes.ExampleStruct?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Attributes_ExampleStruct_release_optional_handle)
+internal func moveToCType(_ swiftType: Properties.ExampleStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Properties_ExampleStruct_release_optional_handle)
 }
-internal func copyToCType(_ swiftEnum: Attributes.InternalError) -> PrimitiveHolder<UInt32> {
+internal func copyToCType(_ swiftEnum: Properties.InternalError) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
-internal func moveToCType(_ swiftEnum: Attributes.InternalError) -> PrimitiveHolder<UInt32> {
+internal func moveToCType(_ swiftEnum: Properties.InternalError) -> PrimitiveHolder<UInt32> {
     return copyToCType(swiftEnum)
 }
-internal func copyToCType(_ swiftEnum: Attributes.InternalError?) -> RefHolder {
+internal func copyToCType(_ swiftEnum: Properties.InternalError?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
-internal func moveToCType(_ swiftEnum: Attributes.InternalError?) -> RefHolder {
+internal func moveToCType(_ swiftEnum: Properties.InternalError?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
-internal func copyFromCType(_ cValue: UInt32) -> Attributes.InternalError {
-    return Attributes.InternalError(rawValue: cValue)!
+internal func copyFromCType(_ cValue: UInt32) -> Properties.InternalError {
+    return Properties.InternalError(rawValue: cValue)!
 }
-internal func moveFromCType(_ cValue: UInt32) -> Attributes.InternalError {
+internal func moveFromCType(_ cValue: UInt32) -> Properties.InternalError {
     return copyFromCType(cValue)
 }
-internal func copyFromCType(_ handle: _baseRef) -> Attributes.InternalError? {
+internal func copyFromCType(_ handle: _baseRef) -> Properties.InternalError? {
     guard handle != 0 else {
         return nil
     }
-    return Attributes.InternalError(rawValue: uint32_t_value_get(handle))!
+    return Properties.InternalError(rawValue: uint32_t_value_get(handle))!
 }
-internal func moveFromCType(_ handle: _baseRef) -> Attributes.InternalError? {
+internal func moveFromCType(_ handle: _baseRef) -> Properties.InternalError? {
     defer {
         uint32_t_release_handle(handle)
     }
