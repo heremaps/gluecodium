@@ -35,6 +35,13 @@ types ExternalTypes {
     struct AnotherExternalStruct {
         int_field: Int
     }
+    @Cpp(
+        ExternalType = "include/ExternalTypes.h",
+        ExternalName = "::external::even_more_external::AlienStructure"
+    )
+    struct ExternalStructWithNameClash {
+        int_field: Int
+    }
     @Cpp(ExternalType = "include/ExternalTypes.h")
     struct Yet_Another_External_Struct {
         string_Field: String
@@ -47,11 +54,20 @@ types ExternalTypes {
         first: String
         second: String
     }
+
     @Cpp(
         ExternalType = "include/ExternalTypes.h",
         ExternalName = "::external::even_more_external::AlienEnum"
     )
     enum ExternalEnum {
+        Foo,
+        Bar
+    }
+    @Cpp(
+        ExternalType = "include/ExternalTypes.h",
+        ExternalName = "::external::even_more_external::AlienEnum"
+    )
+    enum ExternalEnumWithNameClash {
         Foo,
         Bar
     }
