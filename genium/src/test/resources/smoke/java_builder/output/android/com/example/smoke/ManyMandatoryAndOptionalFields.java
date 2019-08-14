@@ -30,10 +30,10 @@ public class ManyMandatoryAndOptionalFields {
         this.stillOptional = stillOptional;
     }
     /**
-     * Allows to construct a new ManyMandatoryAndOptionalFields instance by setting fields one after the other.
-     *
-     * All fields without defaults must be set in order before {@link FinalBuilder#build build} can be called:
+     * Allows to construct a new ManyMandatoryAndOptionalFields instance by calling the following setters for mandatory fields in the
+     * following order before {@link FinalBuilder#build build} can be called:
      * <pre>
+     *
      * ManyMandatoryAndOptionalFields instance = new ManyMandatoryAndOptionalFields.Builder()
      *     .setMandatory(mandatory)
      *     .setAlsoMandatory(alsoMandatory)
@@ -41,6 +41,12 @@ public class ManyMandatoryAndOptionalFields {
      *     .setEvenMoreMandatory(evenMoreMandatory)
      *     .build();
      * </pre>
+     * Setters for optional fields that already have a default value assigned can be chained in any desired order. The following setters are optional:
+     * <ul>
+     *     <li>{@link FinalBuilder#setOptional setOptional(optional)}</li>
+     *     <li>{@link FinalBuilder#setAlsoOptional setAlsoOptional(alsoOptional)}</li>
+     *     <li>{@link FinalBuilder#setStillOptional setStillOptional(stillOptional)}</li>
+     * </ul>
      */
     public static class Builder {
         private int mandatory = 0;

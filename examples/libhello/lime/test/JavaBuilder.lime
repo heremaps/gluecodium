@@ -35,11 +35,17 @@ types JavaBuilderTypes {
         optional: Boolean = true
     }
 
+    // Average half optional struct.
+    // @constructor Create a new half optional struct instance.
     @Java(Builder)
     struct TwoMandatoryTwoOptional {
+        // This field is necessary.
         mandatory: Boolean
+        // This is not very important.
         optional: Boolean = true
+        // This is a very important field.
         alsoMandatory: Int
+        // This is actually not even used.
         alsoOptional: Int = 8
     }
 

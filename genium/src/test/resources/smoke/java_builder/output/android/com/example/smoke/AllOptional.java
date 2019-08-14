@@ -46,7 +46,7 @@ public class AllOptional {
         this.field3 = field3;
     }
     /**
-     * Allows to construct a new AllOptional instance by setting fields one after the other.
+     * Allows to construct a new AllOptional instance by calling the desired setters one after the other in any order.
      */
     public static class Builder {
         private int field0 = 0;

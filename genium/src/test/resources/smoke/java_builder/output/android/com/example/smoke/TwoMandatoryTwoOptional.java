@@ -48,15 +48,20 @@ public class TwoMandatoryTwoOptional {
         this.alsoOptional = alsoOptional;
     }
     /**
-     * Allows to construct a new TwoMandatoryTwoOptional instance by setting fields one after the other.
-     *
-     * All fields without defaults must be set in order before {@link FinalBuilder#build build} can be called:
+     * Allows to construct a new TwoMandatoryTwoOptional instance by calling the following setters for mandatory fields in the
+     * following order before {@link FinalBuilder#build build} can be called:
      * <pre>
+     *
      * TwoMandatoryTwoOptional instance = new TwoMandatoryTwoOptional.Builder()
      *     .setMandatory(mandatory)
      *     .setAlsoMandatory(alsoMandatory)
      *     .build();
      * </pre>
+     * Setters for optional fields that already have a default value assigned can be chained in any desired order. The following setters are optional:
+     * <ul>
+     *     <li>{@link FinalBuilder#setOptional setOptional(optional)}</li>
+     *     <li>{@link FinalBuilder#setAlsoOptional setAlsoOptional(alsoOptional)}</li>
+     * </ul>
      */
     public static class Builder {
         private boolean mandatory = false;

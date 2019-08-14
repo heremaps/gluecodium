@@ -47,6 +47,9 @@ class JavaClass(
     val uninitializedFields = fields.filter { !it.initial.isCustom }
 
     @Suppress("unused")
+    val defaultedFields = fields.filter { it.initial.isCustom }
+
+    @Suppress("unused")
     val hasDefaults = uninitializedFields.size < fields.size
 
     @Suppress("unused")

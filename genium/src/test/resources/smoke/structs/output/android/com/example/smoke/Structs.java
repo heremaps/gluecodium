@@ -68,10 +68,10 @@ public class Structs extends NativeBase {
             this.pointField = pointField;
         }
         /**
-         * Allows to construct a new AllTypesStruct instance by setting fields one after the other.
-         *
-         * All fields without defaults must be set in order before {@link FinalBuilder#build build} can be called:
+         * Allows to construct a new AllTypesStruct instance by calling the following setters for mandatory fields in the
+         * following order before {@link FinalBuilder#build build} can be called:
          * <pre>
+         *
          * AllTypesStruct instance = new AllTypesStruct.Builder()
          *     .setInt8Field(int8Field)
          *     .setUint8Field(uint8Field)

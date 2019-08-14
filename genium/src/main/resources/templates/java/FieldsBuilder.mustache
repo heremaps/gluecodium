@@ -21,15 +21,26 @@
 
 {{#set classVisibility=visibility}}
 /**
- * Allows to construct a new {{name}} instance by setting fields one after the other.
+{{#unless uninitializedFields}}
+ * Allows to construct a new {{name}} instance by calling the desired setters one after the other in any order.
+{{/unless}}
 {{#if uninitializedFields}}
- *
- * All fields without defaults must be set in order before {@link FinalBuilder#build build} can be called:
+ * Allows to construct a new {{name}} instance by calling the following setters for mandatory fields in the
+ * following order before {@link FinalBuilder#build build} can be called:
  * <pre>
+ *
  * {{name}} instance = new {{name}}.Builder(){{#uninitializedFields}}
  *     .set{{capitalize name}}({{name}}){{/uninitializedFields}}
  *     .build();
  * </pre>
+{{#if defaultedFields}}
+ * Setters for optional fields that already have a default value assigned can be chained in any desired order. The following setters are optional:
+ * <ul>
+{{#defaultedFields}}
+ *     <li>{@link FinalBuilder#set{{capitalize name}} set{{capitalize name}}({{name}})}</li>
+{{/defaultedFields}}
+ * </ul>
+{{/if}}
 {{/if}}
  */
 {{>visible}}static class Builder {
