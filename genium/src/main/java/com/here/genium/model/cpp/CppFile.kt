@@ -19,7 +19,6 @@
 
 package com.here.genium.model.cpp
 
-import com.here.genium.common.CollectionsHelper
 import com.here.genium.generator.cpp.TopologicalSort
 import com.here.genium.model.common.Include
 import java.util.TreeSet
@@ -46,7 +45,7 @@ class CppFile(
         get() = TopologicalSort(members).sort()
 
     val classes: List<CppClass>
-        get() = CollectionsHelper.getAllOfType(members.toMutableList(), CppClass::class.java)
+        get() = members.filterIsInstance<CppClass>()
 
     @Suppress("unused")
     val equatables: List<CppElement>

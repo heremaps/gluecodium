@@ -19,7 +19,6 @@
 
 package com.here.genium.model.java;
 
-import com.here.genium.common.CollectionsHelper;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -69,7 +68,9 @@ public abstract class JavaTopLevelElement extends JavaElement {
 
   public Set<JavaImport> getImports() {
     Set<JavaImport> imports =
-        CollectionsHelper.getStreamOfType(streamRecursive(), JavaElementWithImports.class)
+        streamRecursive()
+            .filter(JavaElementWithImports.class::isInstance)
+            .map(JavaElementWithImports.class::cast)
             .map(element -> element.imports)
             .flatMap(Set::stream)
             .collect(Collectors.toCollection(TreeSet::new));
