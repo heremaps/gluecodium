@@ -17,92 +17,80 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.cpp;
+package com.here.genium.generator.cpp
 
-import com.here.genium.common.CollectionsHelper;
-import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.templates.TemplateEngine;
-import com.here.genium.model.common.Include;
-import com.here.genium.model.cpp.CppConstant;
-import com.here.genium.model.cpp.CppExternableElement;
-import com.here.genium.model.cpp.CppFile;
-import com.here.genium.model.cpp.CppUsing;
-import java.nio.file.Paths;
-import java.util.*;
+import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.common.templates.TemplateEngine
+import com.here.genium.model.common.Include
+import com.here.genium.model.cpp.CppConstant
+import com.here.genium.model.cpp.CppExternableElement
+import com.here.genium.model.cpp.CppFile
+import com.here.genium.model.cpp.CppUsing
+import java.nio.file.Paths
 
-public final class CppGenerator {
+class CppGenerator(private val pathPrefix: String, private val internalNamespace: List<String>) {
 
-  public static final String HEADER_FILE_SUFFIX = ".h";
-  private static final String IMPLEMENTATION_FILE_SUFFIX = ".cpp";
-  private static final String PACKAGE_NAME_SPECIFIER_INCLUDE = "include";
-  private static final String PACKAGE_NAME_SPECIFIER_SRC = "src";
+    fun generateCode(cppModel: CppFile): List<GeneratedFile> {
 
-  private final String pathPrefix;
-  private final List<String> internalNamespace;
+        val hasConstants = cppModel.members.any { it is CppConstant }
+        val hasTypedefs = cppModel.members.any { it is CppUsing }
+        val hasNonExternalElements =
+            cppModel.members.filterIsInstance<CppExternableElement>().any { !it.isExternal }
+        val hasErrorEnums = cppModel.errorEnums.isNotEmpty()
+        val hasCode = hasConstants || hasNonExternalElements || hasErrorEnums || hasTypedefs
+        if (!hasCode) {
+            return emptyList()
+        }
 
-  public CppGenerator(final String pathPrefix, final List<String> internalNamespace) {
-    this.pathPrefix = pathPrefix;
-    this.internalNamespace = internalNamespace;
-  }
+        val relativeFilePath = cppModel.filename
+        val absoluteHeaderPath = Paths.get(
+            pathPrefix,
+            PACKAGE_NAME_SPECIFIER_INCLUDE,
+            relativeFilePath
+        ).toString() + HEADER_FILE_SUFFIX
+        val absoluteImplPath = Paths.get(
+            pathPrefix,
+            PACKAGE_NAME_SPECIFIER_SRC,
+            relativeFilePath
+        ).toString() + IMPLEMENTATION_FILE_SUFFIX
 
-  public List<GeneratedFile> generateCode(final CppFile cppModel) {
-    List<GeneratedFile> result = new LinkedList<>();
+        // Filter out self-includes
+        val includes = cppModel.includes
+        includes.removeIf { it.fileName == relativeFilePath + HEADER_FILE_SUFFIX }
+        CppLibraryIncludes.filterIncludes(includes, internalNamespace)
 
-    boolean hasConstants = cppModel.getMembers().stream().anyMatch(CppConstant.class::isInstance);
-    boolean hasTypedefs =
-        !CollectionsHelper.getAllOfType(cppModel.getMembers(), CppUsing.class).isEmpty();
-    boolean hasNonExternalElements =
-        !CollectionsHelper.getStreamOfType(cppModel.getMembers(), CppExternableElement.class)
-            .allMatch(CppExternableElement::isExternal);
-    boolean hasErrorEnums = !cppModel.getErrorEnums().isEmpty();
-    boolean hasCode = hasConstants || hasNonExternalElements || hasErrorEnums || hasTypedefs;
-    if (!hasCode) {
-      return result;
+        val result = mutableListOf<GeneratedFile>()
+
+        val headerContent = TemplateEngine.render("cpp/CppHeader", cppModel)
+        result.add(GeneratedFile(headerContent, absoluteHeaderPath))
+
+        cppModel.headerInclude =
+            Include.createInternalInclude(relativeFilePath + HEADER_FILE_SUFFIX)
+
+        val implementationContent = TemplateEngine.render("cpp/CppImplementation", cppModel)
+        result.add(GeneratedFile(implementationContent, absoluteImplPath))
+
+        return result
     }
 
-    String relativeFilePath = cppModel.getFilename();
-    String absoluteHeaderPath =
-        Paths.get(pathPrefix, PACKAGE_NAME_SPECIFIER_INCLUDE, relativeFilePath).toString()
-            + HEADER_FILE_SUFFIX;
-    String absoluteImplPath =
-        Paths.get(pathPrefix, PACKAGE_NAME_SPECIFIER_SRC, relativeFilePath).toString()
-            + IMPLEMENTATION_FILE_SUFFIX;
+    fun generateHelperHeader(headerName: String) =
+        generateHelperHeader(headerName, mapOf("internalNamespace" to internalNamespace))
 
-    // Filter out self-includes
-    TreeSet<Include> includes = cppModel.getIncludes();
-    includes.removeIf(
-        include -> include.getFileName().equals(relativeFilePath + HEADER_FILE_SUFFIX));
+    fun generateHelperHeader(headerName: String, extraInfo: Any): GeneratedFile {
+        val content = TemplateEngine.render("cpp/$headerName", extraInfo)
+        val resultFileName = Paths.get(
+            pathPrefix,
+            PACKAGE_NAME_SPECIFIER_INCLUDE,
+            internalNamespace.joinToString("/"),
+            headerName
+        ).toString() + HEADER_FILE_SUFFIX
+        return GeneratedFile(content, resultFileName)
+    }
 
-    CppLibraryIncludes.filterIncludes(includes, internalNamespace);
-
-    String headerContent = TemplateEngine.INSTANCE.render("cpp/CppHeader", cppModel);
-    result.add(new GeneratedFile(headerContent, absoluteHeaderPath));
-
-    cppModel.setHeaderInclude(
-        Include.Companion.createInternalInclude(relativeFilePath + HEADER_FILE_SUFFIX));
-
-    String implementationContent =
-        TemplateEngine.INSTANCE.render("cpp/CppImplementation", cppModel);
-    result.add(new GeneratedFile(implementationContent, absoluteImplPath));
-
-    return result;
-  }
-
-  public GeneratedFile generateHelperHeader(final String headerName) {
-    Map<String, Object> values = new HashMap<>();
-    values.put("internalNamespace", internalNamespace);
-    return generateHelperHeader(headerName, values);
-  }
-
-  public GeneratedFile generateHelperHeader(final String headerName, final Object extraInfo) {
-    String content = TemplateEngine.INSTANCE.render("cpp/" + headerName, extraInfo);
-    String resultFileName =
-        Paths.get(
-                pathPrefix,
-                PACKAGE_NAME_SPECIFIER_INCLUDE,
-                String.join("/", internalNamespace),
-                headerName)
-            + HEADER_FILE_SUFFIX;
-    return new GeneratedFile(content, resultFileName);
-  }
+    companion object {
+        const val HEADER_FILE_SUFFIX = ".h"
+        private const val IMPLEMENTATION_FILE_SUFFIX = ".cpp"
+        private const val PACKAGE_NAME_SPECIFIER_INCLUDE = "include"
+        private const val PACKAGE_NAME_SPECIFIER_SRC = "src"
+    }
 }

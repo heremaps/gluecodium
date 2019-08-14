@@ -94,7 +94,7 @@ open class JavaGeneratorSuite protected constructor(
         processCommentLinks(combinedModel.javaElements, combinedModel.referenceMap)
 
         val javaTemplates = JavaTemplates(generatorName)
-        val javaFiles = javaTemplates.generateFiles(combinedModel.javaElements)
+        val javaFiles = javaTemplates.generateFiles(combinedModel.javaElements).toMutableList()
 
         val nativeBasePath = listOf(generatorName) + internalPackageList + NATIVE_BASE_JAVA
         javaFiles.add(

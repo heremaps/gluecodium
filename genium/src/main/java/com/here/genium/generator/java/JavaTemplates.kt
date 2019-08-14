@@ -17,57 +17,42 @@
  * License-Filename: LICENSE
  */
 
-package com.here.genium.generator.java;
+package com.here.genium.generator.java
 
-import com.here.genium.common.CollectionsHelper;
-import com.here.genium.generator.common.GeneratedFile;
-import com.here.genium.generator.common.templates.TemplateEngine;
-import com.here.genium.model.java.*;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import com.here.genium.generator.common.GeneratedFile
+import com.here.genium.generator.common.templates.TemplateEngine
+import com.here.genium.model.java.JavaClass
+import com.here.genium.model.java.JavaElement
+import com.here.genium.model.java.JavaEnum
+import com.here.genium.model.java.JavaExceptionClass
+import com.here.genium.model.java.JavaInterface
+import com.here.genium.model.java.JavaTopLevelElement
 
-public final class JavaTemplates {
+class JavaTemplates(generatorName: String) {
 
-  private final JavaFileMapper javaFileMapper;
+    private val javaFileMapper: JavaFileMapper = JavaFileMapper(generatorName)
 
-  public JavaTemplates(final String generatorName) {
-    this.javaFileMapper = new JavaFileMapper(generatorName);
-  }
+    fun generateFiles(javaModel: List<JavaElement>): List<GeneratedFile> {
+        val classFiles = javaModel.filterIsInstance<JavaClass>()
+            .map { generateFileForElement("java/ClassHeader", it) }
+        val interfaceFiles = javaModel.filterIsInstance<JavaInterface>()
+            .map { generateFileForElement("java/Interface", it) }
+        val enumFiles = javaModel.filterIsInstance<JavaEnum>()
+            .map { generateFileForElement("java/EnumHeader", it) }
+        val exceptionFiles = javaModel.filterIsInstance<JavaExceptionClass>()
+            .map { generateFileForElement("java/ExceptionFile", it) }
 
-  public List<GeneratedFile> generateFiles(final List<JavaElement> javaModel) {
+        return classFiles + interfaceFiles + enumFiles + exceptionFiles
+    }
 
-    Stream<GeneratedFile> classFiles =
-        CollectionsHelper.getStreamOfType(javaModel, JavaClass.class)
-            .map(javaClass -> generateFileForElement("java/ClassHeader", javaClass));
-    Stream<GeneratedFile> interfaceFiles =
-        CollectionsHelper.getStreamOfType(javaModel, JavaInterface.class)
-            .map(javaInterface -> generateFileForElement("java/Interface", javaInterface));
-    Stream<GeneratedFile> enumFiles =
-        CollectionsHelper.getStreamOfType(javaModel, JavaEnum.class)
-            .map(javaEnum -> generateFileForElement("java/EnumHeader", javaEnum));
-    Stream<GeneratedFile> exceptionFiles =
-        CollectionsHelper.getStreamOfType(javaModel, JavaExceptionClass.class)
-            .map(javaException -> generateFileForElement("java/ExceptionFile", javaException));
+    private fun generateFileForElement(templateName: String, javaElement: JavaTopLevelElement) =
+        GeneratedFile(
+            TemplateEngine.render(templateName, javaElement),
+            javaFileMapper.getFileName(javaElement)
+        )
 
-    return Stream.of(classFiles, interfaceFiles, enumFiles, exceptionFiles)
-        .flatMap(Function.identity())
-        .collect(Collectors.toList());
-  }
-
-  public static GeneratedFile generateNativeBase(
-      final String fileName, final List<String> packageList) {
-    String fileContent = TemplateEngine.INSTANCE.render("java/NativeBase", packageList);
-    return new GeneratedFile(fileContent, fileName);
-  }
-
-  private GeneratedFile generateFileForElement(
-      final String templateName, final JavaTopLevelElement javaElement) {
-
-    String fileContent = TemplateEngine.INSTANCE.render(templateName, javaElement);
-    String fileName = javaFileMapper.getFileName(javaElement);
-
-    return new GeneratedFile(fileContent, fileName);
-  }
+    companion object {
+        fun generateNativeBase(fileName: String, packageList: List<String>) =
+            GeneratedFile(TemplateEngine.render("java/NativeBase", packageList), fileName)
+    }
 }
