@@ -59,13 +59,13 @@ internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolde
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
         swift_class.someMethodWithoutReturnTypeOrInputParameters()
     }
-    functions.smoke_CommentsInterface_someAttribute_get = {(swift_class_pointer) in
+    functions.smoke_CommentsInterface_someProperty_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        return copyToCType(swift_class.isSomeAttribute).ref
+        return copyToCType(swift_class.isSomeProperty).ref
     }
-    functions.smoke_CommentsInterface_someAttribute_set = {(swift_class_pointer, newValue) in
+    functions.smoke_CommentsInterface_someProperty_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! CommentsInterface
-        swift_class.isSomeAttribute = moveFromCType(newValue)
+        swift_class.isSomeProperty = moveFromCType(newValue)
     }
     let proxy = smoke_CommentsInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_CommentsInterface_release_handle) : RefHolder(proxy)
@@ -74,8 +74,8 @@ internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolde
 public protocol CommentsInterface : AnyObject {
     /// This is some very useful typedef.
     typealias Usefulness = Bool
-    /// Some very useful attribute.
-    var isSomeAttribute: CommentsInterface.Usefulness { get set }
+    /// Some very useful property.
+    var isSomeProperty: CommentsInterface.Usefulness { get set }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
@@ -111,14 +111,14 @@ public protocol CommentsInterface : AnyObject {
 internal class _CommentsInterface: CommentsInterface {
     /// This is some very useful constant.
     public static let veryUseful: CommentsInterface.Usefulness = true
-    /// Some very useful attribute.
-    var isSomeAttribute: CommentsInterface.Usefulness {
+    /// Some very useful property.
+    var isSomeProperty: CommentsInterface.Usefulness {
         get {
-            return moveFromCType(smoke_CommentsInterface_someAttribute_get(self.c_instance))
+            return moveFromCType(smoke_CommentsInterface_someProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_CommentsInterface_someAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_CommentsInterface_someProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef

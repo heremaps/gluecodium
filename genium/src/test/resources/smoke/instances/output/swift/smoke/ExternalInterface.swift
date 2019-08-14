@@ -23,21 +23,21 @@ internal func getRef(_ ref: ExternalInterface?, owning: Bool = true) -> RefHolde
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ExternalInterface
         swift_class.someMethod(someParameter: moveFromCType(someParameter))
     }
-    functions.smoke_ExternalInterface_someAttribute_get = {(swift_class_pointer) in
+    functions.smoke_ExternalInterface_someProperty_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ExternalInterface
-        return copyToCType(swift_class.someAttribute).ref
+        return copyToCType(swift_class.someProperty).ref
     }
     let proxy = smoke_ExternalInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_ExternalInterface_release_handle) : RefHolder(proxy)
 }
 public protocol ExternalInterface : AnyObject {
-    var someAttribute: String { get }
+    var someProperty: String { get }
     func someMethod(someParameter: Int8) -> Void
 }
 internal class _ExternalInterface: ExternalInterface {
-    var someAttribute: String {
+    var someProperty: String {
         get {
-            return moveFromCType(smoke_ExternalInterface_someAttribute_get(self.c_instance))
+            return moveFromCType(smoke_ExternalInterface_someProperty_get(self.c_instance))
         }
     }
     let c_instance : _baseRef

@@ -19,38 +19,38 @@ internal func getRef(_ ref: Properties?, owning: Bool = true) -> RefHolder {
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-    functions.examples_Properties_builtInTypeAttribute_get = {(swift_class_pointer) in
+    functions.examples_Properties_builtInTypeProperty_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Properties
-        return copyToCType(swift_class.builtInTypeAttribute).ref
+        return copyToCType(swift_class.builtInTypeProperty).ref
     }
-    functions.examples_Properties_builtInTypeAttribute_set = {(swift_class_pointer, newValue) in
+    functions.examples_Properties_builtInTypeProperty_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Properties
-        swift_class.builtInTypeAttribute = moveFromCType(newValue)
+        swift_class.builtInTypeProperty = moveFromCType(newValue)
     }
-    functions.examples_Properties_readonlyAttribute_get = {(swift_class_pointer) in
+    functions.examples_Properties_readonlyProperty_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! Properties
-        return copyToCType(swift_class.readonlyAttribute).ref
+        return copyToCType(swift_class.readonlyProperty).ref
     }
     let proxy = examples_Properties_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: examples_Properties_release_handle) : RefHolder(proxy)
 }
 public protocol Properties : AnyObject {
-    var builtInTypeAttribute: UInt32 { get set }
-    var readonlyAttribute: Float { get }
+    var builtInTypeProperty: UInt32 { get set }
+    var readonlyProperty: Float { get }
 }
 internal class _Properties: Properties {
-    var builtInTypeAttribute: UInt32 {
+    var builtInTypeProperty: UInt32 {
         get {
-            return moveFromCType(examples_Properties_builtInTypeAttribute_get(self.c_instance))
+            return moveFromCType(examples_Properties_builtInTypeProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(examples_Properties_builtInTypeAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(examples_Properties_builtInTypeProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    var readonlyAttribute: Float {
+    var readonlyProperty: Float {
         get {
-            return moveFromCType(examples_Properties_readonlyAttribute_get(self.c_instance))
+            return moveFromCType(examples_Properties_readonlyProperty_get(self.c_instance))
         }
     }
     let c_instance : _baseRef

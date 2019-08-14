@@ -10,7 +10,7 @@ interface ExternalInterface {
     fun some_Method(
         some_Parameter: Byte
     )
-    property some_Attribute: String {
+    property some_Property: String {
         @Cpp(ExternalName = "get_Me")
         get
     }

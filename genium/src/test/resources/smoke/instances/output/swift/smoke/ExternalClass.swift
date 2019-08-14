@@ -12,9 +12,9 @@ internal func getRef(_ ref: ExternalClass?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 public class ExternalClass {
-    public var someAttribute: String {
+    public var someProperty: String {
         get {
-            return moveFromCType(smoke_ExternalClass_someAttribute_get(self.c_instance))
+            return moveFromCType(smoke_ExternalClass_someProperty_get(self.c_instance))
         }
     }
     let c_instance : _baseRef

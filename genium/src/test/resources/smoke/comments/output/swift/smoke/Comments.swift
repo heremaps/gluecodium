@@ -17,14 +17,14 @@ public class Comments {
     public typealias Usefulness = Bool
     /// This is some very useful constant.
     public static let veryUseful: Comments.Usefulness = true
-    /// Some very useful attribute.
-    public var isSomeAttribute: Comments.Usefulness {
+    /// Some very useful property.
+    public var isSomeProperty: Comments.Usefulness {
         get {
-            return moveFromCType(smoke_Comments_someAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Comments_someProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Comments_someAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Comments_someProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef

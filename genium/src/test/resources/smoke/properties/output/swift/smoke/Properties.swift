@@ -12,86 +12,86 @@ internal func getRef(_ ref: Properties?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 public class Properties {
-    public var builtInTypeAttribute: UInt32 {
+    public var builtInTypeProperty: UInt32 {
         get {
-            return moveFromCType(smoke_Properties_builtInTypeAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Properties_builtInTypeProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Properties_builtInTypeAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Properties_builtInTypeProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var readonlyAttribute: Float {
+    public var readonlyProperty: Float {
         get {
-            return moveFromCType(smoke_Properties_readonlyAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Properties_readonlyProperty_get(self.c_instance))
         }
     }
-    public var structAttribute: Properties.ExampleStruct {
+    public var structProperty: Properties.ExampleStruct {
         get {
-            return moveFromCType(smoke_Properties_structAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Properties_structProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Properties_structAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Properties_structProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var arrayAttribute: [String] {
+    public var arrayProperty: [String] {
         get {
-            return moveFromCType(smoke_Properties_arrayAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Properties_arrayProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Properties_arrayAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Properties_arrayProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var complexTypeAttribute: Properties.InternalError {
+    public var complexTypeProperty: Properties.InternalError {
         get {
-            return moveFromCType(smoke_Properties_complexTypeAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Properties_complexTypeProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Properties_complexTypeAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Properties_complexTypeProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var byteBufferAttribute: Data {
+    public var byteBufferProperty: Data {
         get {
-            return moveFromCType(smoke_Properties_byteBufferAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Properties_byteBufferProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Properties_byteBufferAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Properties_byteBufferProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var instanceAttribute: PropertiesInterface {
+    public var instanceProperty: PropertiesInterface {
         get {
-            return PropertiesInterfacemoveFromCType(smoke_Properties_instanceAttribute_get(self.c_instance))
+            return PropertiesInterfacemoveFromCType(smoke_Properties_instanceProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Properties_instanceAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Properties_instanceProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var isBooleanAttribute: Bool {
+    public var isBooleanProperty: Bool {
         get {
-            return moveFromCType(smoke_Properties_booleanAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Properties_booleanProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Properties_booleanAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Properties_booleanProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public static var staticAttribute: String {
+    public static var staticProperty: String {
         get {
-            return moveFromCType(smoke_Properties_staticAttribute_get())
+            return moveFromCType(smoke_Properties_staticProperty_get())
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Properties_staticAttribute_set(c_newValue.ref))
+            return moveFromCType(smoke_Properties_staticProperty_set(c_newValue.ref))
         }
     }
-    public static var staticReadonlyAttribute: Properties.ExampleStruct {
+    public static var staticReadonlyProperty: Properties.ExampleStruct {
         get {
-            return moveFromCType(smoke_Properties_staticReadonlyAttribute_get())
+            return moveFromCType(smoke_Properties_staticReadonlyProperty_get())
         }
     }
     let c_instance : _baseRef

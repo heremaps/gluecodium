@@ -15,22 +15,22 @@ public class PublicClass {
     internal typealias InternalArray = [PublicClass.InternalStruct]
     internal typealias InternalStructTypeDef = PublicClass.InternalStruct
     internal typealias StringToInternalStructMap = [String: PublicClass.InternalStruct]
-    internal var internalStructAttribute: PublicClass.InternalStruct {
+    internal var internalStructProperty: PublicClass.InternalStruct {
         get {
-            return moveFromCType(smoke_PublicClass_internalStructAttribute_get(self.c_instance))
+            return moveFromCType(smoke_PublicClass_internalStructProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_PublicClass_internalStructAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_PublicClass_internalStructProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public internal(set) var internalSetterAttribute: String {
+    public internal(set) var internalSetterProperty: String {
         get {
-            return moveFromCType(smoke_PublicClass_internalSetterAttribute_get(self.c_instance))
+            return moveFromCType(smoke_PublicClass_internalSetterProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_PublicClass_internalSetterAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_PublicClass_internalSetterProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef

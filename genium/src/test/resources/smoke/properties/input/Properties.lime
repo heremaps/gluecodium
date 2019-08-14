@@ -27,16 +27,16 @@ class Properties {
         ERROR_FATAL = 999
     }
 
-    property builtInTypeAttribute: UInt { get set }
-    property readonlyAttribute: Float { get }
-    property structAttribute: ExampleStruct
-    property arrayAttribute: List<String>
-    property complexTypeAttribute: InternalError
-    property byteBufferAttribute: Blob
-    property instanceAttribute: PropertiesInterface
-    property booleanAttribute: Boolean
-    static property staticAttribute: String { get set }
-    static property staticReadonlyAttribute: ExampleStruct { get }
+    property builtInTypeProperty: UInt { get set }
+    property readonlyProperty: Float { get }
+    property structProperty: ExampleStruct
+    property arrayProperty: List<String>
+    property complexTypeProperty: InternalError
+    property byteBufferProperty: Blob
+    property instanceProperty: PropertiesInterface
+    property booleanProperty: Boolean
+    static property staticProperty: String { get set }
+    static property staticReadonlyProperty: ExampleStruct { get }
 }
 
 interface PropertiesInterface {
@@ -44,5 +44,5 @@ interface PropertiesInterface {
         value: Double
     }
 
-    property structAttribute: ExampleStruct { get set }
+    property structProperty: ExampleStruct { get set }
 }

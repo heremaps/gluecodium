@@ -52,7 +52,7 @@ void smoke_ExternalInterface_someMethod(_baseRef _instance, int8_t someParameter
     return get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(_instance)->get()->some_Method(someParameter)
 ;
 }
-_baseRef smoke_ExternalInterface_someAttribute_get(_baseRef _instance) {
+_baseRef smoke_ExternalInterface_someProperty_get(_baseRef _instance) {
     return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::smoke::ExternalInterface>>(_instance)->get()->get_Me())
 ;
 }
@@ -68,7 +68,7 @@ public:
     void some_Method(int8_t someParameter) override {
         mFunctions.smoke_ExternalInterface_someMethod(mFunctions.swift_pointer, someParameter);    }
     ::std::string get_Me() const override {
-        auto _call_result = mFunctions.smoke_ExternalInterface_someAttribute_get(mFunctions.swift_pointer);
+        auto _call_result = mFunctions.smoke_ExternalInterface_someProperty_get(mFunctions.swift_pointer);
         return Conversion<std::string>::toCppReturn(_call_result);
     }
 private:

@@ -27,30 +27,30 @@ internal func getRef(_ ref: ChildInterface?, owning: Bool = true) -> RefHolder {
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ChildInterface
         swift_class.childMethod()
     }
-    functions.smoke_ParentInterface_rootAttribute_get = {(swift_class_pointer) in
+    functions.smoke_ParentInterface_rootProperty_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ChildInterface
-        return copyToCType(swift_class.rootAttribute).ref
+        return copyToCType(swift_class.rootProperty).ref
     }
-    functions.smoke_ParentInterface_rootAttribute_set = {(swift_class_pointer, newValue) in
+    functions.smoke_ParentInterface_rootProperty_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ChildInterface
-        swift_class.rootAttribute = moveFromCType(newValue)
+        swift_class.rootProperty = moveFromCType(newValue)
     }
     let proxy = smoke_ChildInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_ChildInterface_release_handle) : RefHolder(proxy)
 }
 public protocol ChildInterface : ParentInterface {
-    var rootAttribute: String { get set }
+    var rootProperty: String { get set }
     func rootMethod() -> Void
     func childMethod() -> Void
 }
 internal class _ChildInterface: ChildInterface {
-    var rootAttribute: String {
+    var rootProperty: String {
         get {
-            return moveFromCType(smoke_ParentInterface_rootAttribute_get(self.c_instance))
+            return moveFromCType(smoke_ParentInterface_rootProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_ParentInterface_rootAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_ParentInterface_rootProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef

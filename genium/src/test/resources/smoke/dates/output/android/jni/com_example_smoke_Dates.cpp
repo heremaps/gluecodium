@@ -32,7 +32,7 @@ Java_com_example_smoke_Dates_dateMethod(JNIEnv* _jenv, jobject _jinstance, jobje
     return ::genium::jni::convert_to_jni(_jenv, result).release();
 }
 jobject
-Java_com_example_smoke_Dates_getDateAttribute(JNIEnv* _jenv, jobject _jinstance)
+Java_com_example_smoke_Dates_getDateProperty(JNIEnv* _jenv, jobject _jinstance)
 {
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Dates>*> (
         ::genium::jni::get_field_value(
@@ -40,11 +40,11 @@ Java_com_example_smoke_Dates_getDateAttribute(JNIEnv* _jenv, jobject _jinstance)
             ::genium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_date_attribute();
+    auto result = (*pInstanceSharedPointer)->get_date_property();
     return ::genium::jni::convert_to_jni(_jenv, result).release();
 }
 void
-Java_com_example_smoke_Dates_setDateAttribute(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
+Java_com_example_smoke_Dates_setDateProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
 {
     ::std::chrono::system_clock::time_point value = ::genium::jni::convert_from_jni(_jenv,
             ::genium::jni::make_non_releasing_ref(jvalue),
@@ -55,7 +55,7 @@ Java_com_example_smoke_Dates_setDateAttribute(JNIEnv* _jenv, jobject _jinstance,
             ::genium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    (*pInstanceSharedPointer)->set_date_attribute(value);
+    (*pInstanceSharedPointer)->set_date_property(value);
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_Dates_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

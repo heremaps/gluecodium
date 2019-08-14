@@ -49,11 +49,11 @@ class Comments {
         input: String
     ): /* Usefulness of the input */ Usefulness
 
-    // Some very useful attribute.
-    property SomeAttribute: Usefulness {
-        // Gets some very useful attribute.
+    // Some very useful property.
+    property SomeProperty: Usefulness {
+        // Gets some very useful property.
         get
-        // Sets some very useful attribute.
+        // Sets some very useful property.
         set
     }
 }

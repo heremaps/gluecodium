@@ -47,10 +47,10 @@ public class NAME_RULES_DROID extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     private static native long create();
     public native double some_method(final NAME_RULES_DROID.EXAMPLE_STRUCT_DROID some_argument) throws NAME_RULES_DROID.example_error_x;
-    public native long loadIntAttribute();
-    public native void STORE_INT_ATTRIBUTE(final long value);
-    public native boolean loadBooleanAttribute();
-    public native void STORE_BOOLEAN_ATTRIBUTE(final boolean value);
-    public native NAME_RULES_DROID.EXAMPLE_STRUCT_DROID loadStructAttribute();
-    public native void STORE_STRUCT_ATTRIBUTE(final NAME_RULES_DROID.EXAMPLE_STRUCT_DROID value);
+    public native long loadIntProperty();
+    public native void STORE_INT_PROPERTY(final long value);
+    public native boolean loadBooleanProperty();
+    public native void STORE_BOOLEAN_PROPERTY(final boolean value);
+    public native NAME_RULES_DROID.EXAMPLE_STRUCT_DROID loadStructProperty();
+    public native void STORE_STRUCT_PROPERTY(final NAME_RULES_DROID.EXAMPLE_STRUCT_DROID value);
 }

@@ -66,27 +66,27 @@ namerules_NameRules_someMethod_result namerules_NameRules_someMethod(_baseRef _i
         return {false, .error_code = static_cast< namerules_NameRules_ExampleError >(RESULT.error().value())};
     }
 }
-uint32_t namerules_NameRules_intAttribute_get(_baseRef _instance) {
-    return get_pointer<std::shared_ptr<::namerules::NameRules>>(_instance)->get()->retrieve_int_attribute()
+uint32_t namerules_NameRules_intProperty_get(_baseRef _instance) {
+    return get_pointer<std::shared_ptr<::namerules::NameRules>>(_instance)->get()->retrieve_int_property()
 ;
 }
-void namerules_NameRules_intAttribute_set(_baseRef _instance, uint32_t newValue) {
-    return get_pointer<std::shared_ptr<::namerules::NameRules>>(_instance)->get()->STORE_INT_ATTRIBUTE_NOW(newValue)
+void namerules_NameRules_intProperty_set(_baseRef _instance, uint32_t newValue) {
+    return get_pointer<std::shared_ptr<::namerules::NameRules>>(_instance)->get()->STORE_INT_PROPERTY_NOW(newValue)
 ;
 }
-bool namerules_NameRules_booleanAttribute_get(_baseRef _instance) {
-    return get_pointer<std::shared_ptr<::namerules::NameRules>>(_instance)->get()->really_boolean_attribute()
+bool namerules_NameRules_booleanProperty_get(_baseRef _instance) {
+    return get_pointer<std::shared_ptr<::namerules::NameRules>>(_instance)->get()->really_boolean_property()
 ;
 }
-void namerules_NameRules_booleanAttribute_set(_baseRef _instance, bool newValue) {
-    return get_pointer<std::shared_ptr<::namerules::NameRules>>(_instance)->get()->STORE_BOOLEAN_ATTRIBUTE_NOW(newValue)
+void namerules_NameRules_booleanProperty_set(_baseRef _instance, bool newValue) {
+    return get_pointer<std::shared_ptr<::namerules::NameRules>>(_instance)->get()->STORE_BOOLEAN_PROPERTY_NOW(newValue)
 ;
 }
-_baseRef namerules_NameRules_structAttribute_get(_baseRef _instance) {
-    return Conversion<::namerules::NameRules::ExampleStruct>::toBaseRef(get_pointer<std::shared_ptr<::namerules::NameRules>>(_instance)->get()->retrieve_struct_attribute())
+_baseRef namerules_NameRules_structProperty_get(_baseRef _instance) {
+    return Conversion<::namerules::NameRules::ExampleStruct>::toBaseRef(get_pointer<std::shared_ptr<::namerules::NameRules>>(_instance)->get()->retrieve_struct_property())
 ;
 }
-void namerules_NameRules_structAttribute_set(_baseRef _instance, _baseRef newValue) {
-    return get_pointer<std::shared_ptr<::namerules::NameRules>>(_instance)->get()->STORE_STRUCT_ATTRIBUTE_NOW(Conversion<::namerules::NameRules::ExampleStruct>::toCpp(newValue))
+void namerules_NameRules_structProperty_set(_baseRef _instance, _baseRef newValue) {
+    return get_pointer<std::shared_ptr<::namerules::NameRules>>(_instance)->get()->STORE_STRUCT_PROPERTY_NOW(Conversion<::namerules::NameRules::ExampleStruct>::toCpp(newValue))
 ;
 }

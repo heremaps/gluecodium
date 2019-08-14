@@ -44,6 +44,6 @@ public class TypeDefs extends NativeBase {
     @NonNull
     public static native Point returnTypeDefPointFromTypeCollection(@NonNull final Point input);
     @NonNull
-    public native List<Double> getPrimitiveTypeAttribute();
-    public native void setPrimitiveTypeAttribute(@NonNull final List<Double> value);
+    public native List<Double> getPrimitiveTypeProperty();
+    public native void setPrimitiveTypeProperty(@NonNull final List<Double> value);
 }

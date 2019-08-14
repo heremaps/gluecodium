@@ -21,7 +21,7 @@ class NameRules {
         someArgument: ExampleStruct
     ): Double throws ExampleErrorException
 
-    property intAttribute: UInt
-    property booleanAttribute: Boolean
-    property structAttribute: ExampleStruct
+    property intProperty: UInt
+    property booleanProperty: Boolean
+    property structProperty: ExampleStruct
 }

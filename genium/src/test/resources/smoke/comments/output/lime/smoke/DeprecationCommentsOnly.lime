@@ -21,11 +21,11 @@ interface DeprecationCommentsOnly {
     fun someMethodWithAllComments(
         input: String
     ): Usefulness
-    @Deprecated("Unfortunately, this attribute is deprecated.")
-    property SomeAttribute: Usefulness {
-        @Deprecated("Unfortunately, this attribute's getter is deprecated.")
+    @Deprecated("Unfortunately, this property is deprecated.")
+    property SomeProperty: Usefulness {
+        @Deprecated("Unfortunately, this property's getter is deprecated.")
         get
-        @Deprecated("Unfortunately, this attribute's setter is deprecated.")
+        @Deprecated("Unfortunately, this property's setter is deprecated.")
         set
     }
 }

@@ -91,12 +91,12 @@ public interface CommentsInterface {
      */
     void someMethodWithoutReturnTypeOrInputParameters();
     /**
-     * <p>Gets some very useful attribute.</p>
+     * <p>Gets some very useful property.</p>
      */
-    boolean isSomeAttribute();
+    boolean isSomeProperty();
     /**
-     * <p>Sets some very useful attribute.</p>
-     * @param value Some very useful attribute.
+     * <p>Sets some very useful property.</p>
+     * @param value Some very useful property.
      */
-    void setSomeAttribute(final boolean value);
+    void setSomeProperty(final boolean value);
 }

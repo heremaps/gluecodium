@@ -69,8 +69,8 @@ class comments {
     fun returnCommentOnly(
         undocumented: String
     ): String
-    // Some very useful attribute.
-    // @get Gets some very useful attribute.
-    // @set Sets some very useful attribute.
-    property SomeAttribute: Usefulness
+    // Some very useful property.
+    // @get Gets some very useful property.
+    // @set Sets some very useful property.
+    property SomeProperty: Usefulness
 }

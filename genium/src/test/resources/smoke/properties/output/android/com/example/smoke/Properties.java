@@ -34,29 +34,29 @@ public class Properties extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    public native long getBuiltInTypeAttribute();
-    public native void setBuiltInTypeAttribute(final long value);
-    public native float getReadonlyAttribute();
+    public native long getBuiltInTypeProperty();
+    public native void setBuiltInTypeProperty(final long value);
+    public native float getReadonlyProperty();
     @NonNull
-    public native Properties.ExampleStruct getStructAttribute();
-    public native void setStructAttribute(@NonNull final Properties.ExampleStruct value);
+    public native Properties.ExampleStruct getStructProperty();
+    public native void setStructProperty(@NonNull final Properties.ExampleStruct value);
     @NonNull
-    public native List<String> getArrayAttribute();
-    public native void setArrayAttribute(@NonNull final List<String> value);
+    public native List<String> getArrayProperty();
+    public native void setArrayProperty(@NonNull final List<String> value);
     @NonNull
-    public native Properties.InternalError getComplexTypeAttribute();
-    public native void setComplexTypeAttribute(@NonNull final Properties.InternalError value);
+    public native Properties.InternalError getComplexTypeProperty();
+    public native void setComplexTypeProperty(@NonNull final Properties.InternalError value);
     @NonNull
-    public native byte[] getByteBufferAttribute();
-    public native void setByteBufferAttribute(@NonNull final byte[] value);
+    public native byte[] getByteBufferProperty();
+    public native void setByteBufferProperty(@NonNull final byte[] value);
     @NonNull
-    public native PropertiesInterface getInstanceAttribute();
-    public native void setInstanceAttribute(@NonNull final PropertiesInterface value);
-    public native boolean isBooleanAttribute();
-    public native void setBooleanAttribute(final boolean value);
+    public native PropertiesInterface getInstanceProperty();
+    public native void setInstanceProperty(@NonNull final PropertiesInterface value);
+    public native boolean isBooleanProperty();
+    public native void setBooleanProperty(final boolean value);
     @NonNull
-    public static native String getStaticAttribute();
-    public static native void setStaticAttribute(@NonNull final String value);
+    public static native String getStaticProperty();
+    public static native void setStaticProperty(@NonNull final String value);
     @NonNull
-    public static native Properties.ExampleStruct getStaticReadonlyAttribute();
+    public static native Properties.ExampleStruct getStaticReadonlyProperty();
 }

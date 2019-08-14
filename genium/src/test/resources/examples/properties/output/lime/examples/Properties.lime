@@ -1,9 +1,9 @@
 package examples
 
 interface Properties {
-    property builtInTypeAttribute: UInt
+    property builtInTypeProperty: UInt
 
-    property readonlyAttribute: Float {
+    property readonlyProperty: Float {
         get
     }
 }

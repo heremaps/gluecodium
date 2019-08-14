@@ -67,19 +67,19 @@ public:
  */
 virtual ::smoke::DeprecationComments::Usefulness some_method_with_all_comments( const ::std::string& input ) = 0;
 /**
- * Gets some very useful attribute.
- * \deprecated Unfortunately, this attribute's getter is deprecated.
- * Use ::smoke::Comments::is_some_attribute instead.
- * \return Some very useful attribute.
+ * Gets some very useful property.
+ * \deprecated Unfortunately, this property's getter is deprecated.
+ * Use ::smoke::Comments::is_some_property instead.
+ * \return Some very useful property.
  */
-virtual ::smoke::DeprecationComments::Usefulness is_some_attribute(  ) const = 0;
+virtual ::smoke::DeprecationComments::Usefulness is_some_property(  ) const = 0;
 /**
- * Sets some very useful attribute.
- * \deprecated Unfortunately, this attribute's setter is deprecated.
- * Use ::smoke::Comments::set_some_attribute instead.
- * \param[in] value Some very useful attribute.
+ * Sets some very useful property.
+ * \deprecated Unfortunately, this property's setter is deprecated.
+ * Use ::smoke::Comments::set_some_property instead.
+ * \param[in] value Some very useful property.
  */
-virtual void set_some_attribute( const ::smoke::DeprecationComments::Usefulness value ) = 0;
+virtual void set_some_property( const ::smoke::DeprecationComments::Usefulness value ) = 0;
 };
 _GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::DeprecationComments::SomeEnum value ) noexcept;
 }

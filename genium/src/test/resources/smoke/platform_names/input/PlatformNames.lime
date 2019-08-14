@@ -86,13 +86,13 @@ class PlatformNamesInterface {
         basicParameter: String
     )
 
-    @Swift("BAZ_ATTRIBUTE")
-    property basicAttribute: UInt {
-        @Cpp("GET_FOO_ATTRIBUTE")
-        @Java("GET_BAR_ATTRIBUTE")
+    @Swift("BAZ_PROPERTY")
+    property basicProperty: UInt {
+        @Cpp("GET_FOO_PROPERTY")
+        @Java("GET_BAR_PROPERTY")
         get
-        @Cpp("SET_FOO_ATTRIBUTE")
-        @Java("SET_BAR_ATTRIBUTE")
+        @Cpp("SET_FOO_PROPERTY")
+        @Java("SET_BAR_PROPERTY")
         set
     }
 }

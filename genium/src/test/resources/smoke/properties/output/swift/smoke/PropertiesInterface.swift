@@ -19,28 +19,28 @@ internal func getRef(_ ref: PropertiesInterface?, owning: Bool = true) -> RefHol
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
         }
     }
-    functions.smoke_PropertiesInterface_structAttribute_get = {(swift_class_pointer) in
+    functions.smoke_PropertiesInterface_structProperty_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! PropertiesInterface
-        return copyToCType(swift_class.structAttribute).ref
+        return copyToCType(swift_class.structProperty).ref
     }
-    functions.smoke_PropertiesInterface_structAttribute_set = {(swift_class_pointer, newValue) in
+    functions.smoke_PropertiesInterface_structProperty_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! PropertiesInterface
-        swift_class.structAttribute = moveFromCType(newValue)
+        swift_class.structProperty = moveFromCType(newValue)
     }
     let proxy = smoke_PropertiesInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_PropertiesInterface_release_handle) : RefHolder(proxy)
 }
 public protocol PropertiesInterface : AnyObject {
-    var structAttribute: ExampleStruct { get set }
+    var structProperty: ExampleStruct { get set }
 }
 internal class _PropertiesInterface: PropertiesInterface {
-    var structAttribute: ExampleStruct {
+    var structProperty: ExampleStruct {
         get {
-            return moveFromCType(smoke_PropertiesInterface_structAttribute_get(self.c_instance))
+            return moveFromCType(smoke_PropertiesInterface_structProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_PropertiesInterface_structAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_PropertiesInterface_structProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef

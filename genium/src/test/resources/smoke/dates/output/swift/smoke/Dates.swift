@@ -15,13 +15,13 @@ public class Dates {
     public typealias DateTypeDef = Date
     public typealias DateArray = [Date]
     public typealias DateMap = [String: Date]
-    public var dateAttribute: Date {
+    public var dateProperty: Date {
         get {
-            return moveFromCType(smoke_Dates_dateAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Dates_dateProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Dates_dateAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Dates_dateProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef

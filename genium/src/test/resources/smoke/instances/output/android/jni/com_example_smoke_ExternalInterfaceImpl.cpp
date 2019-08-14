@@ -29,7 +29,7 @@ Java_com_example_smoke_ExternalInterfaceImpl_someMethod(JNIEnv* _jenv, jobject _
     (*pInstanceSharedPointer)->some_Method(someParameter);
 }
 jstring
-Java_com_example_smoke_ExternalInterfaceImpl_getSomeAttribute(JNIEnv* _jenv, jobject _jinstance)
+Java_com_example_smoke_ExternalInterfaceImpl_getSomeProperty(JNIEnv* _jenv, jobject _jinstance)
 {
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::ExternalInterface>*> (
         ::genium::jni::get_field_value(

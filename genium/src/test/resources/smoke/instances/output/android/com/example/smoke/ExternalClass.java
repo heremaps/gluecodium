@@ -35,5 +35,5 @@ public class ExternalClass extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     public native void someMethod(final byte someParameter);
     @NonNull
-    public native String getSomeAttribute();
+    public native String getSomeProperty();
 }

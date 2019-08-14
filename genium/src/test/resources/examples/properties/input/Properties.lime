@@ -18,6 +18,6 @@
 package examples
 
 interface Properties {
-    property builtInTypeAttribute: UInt
-    property readonlyAttribute: Float { get }
+    property builtInTypeProperty: UInt
+    property readonlyProperty: Float { get }
 }

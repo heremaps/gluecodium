@@ -30,6 +30,6 @@ public class Dates extends NativeBase {
     @NonNull
     public native Date dateMethod(@NonNull final Date input);
     @NonNull
-    public native Date getDateAttribute();
-    public native void setDateAttribute(@NonNull final Date value);
+    public native Date getDateProperty();
+    public native void setDateProperty(@NonNull final Date value);
 }

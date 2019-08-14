@@ -42,12 +42,12 @@ public:
  */
 static ::std::shared_ptr< ::namerules::NameRules > create(  );
 virtual ::::Return< double, ::std::error_code > someMethod( const ::namerules::NameRules::ExampleStruct& some_argument ) = 0;
-virtual uint32_t retrieve_int_attribute(  ) const = 0;
-virtual void STORE_INT_ATTRIBUTE_NOW( const uint32_t value ) = 0;
-virtual bool really_boolean_attribute(  ) const = 0;
-virtual void STORE_BOOLEAN_ATTRIBUTE_NOW( const bool value ) = 0;
-virtual ::namerules::NameRules::ExampleStruct retrieve_struct_attribute(  ) const = 0;
-virtual void STORE_STRUCT_ATTRIBUTE_NOW( const ::namerules::NameRules::ExampleStruct& value ) = 0;
+virtual uint32_t retrieve_int_property(  ) const = 0;
+virtual void STORE_INT_PROPERTY_NOW( const uint32_t value ) = 0;
+virtual bool really_boolean_property(  ) const = 0;
+virtual void STORE_BOOLEAN_PROPERTY_NOW( const bool value ) = 0;
+virtual ::namerules::NameRules::ExampleStruct retrieve_struct_property(  ) const = 0;
+virtual void STORE_STRUCT_PROPERTY_NOW( const ::namerules::NameRules::ExampleStruct& value ) = 0;
 };
 _GENIUM_CPP_EXPORT ::std::error_code make_error_code( ::namerules::NameRules::ExampleError value ) noexcept;
 }

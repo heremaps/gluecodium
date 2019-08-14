@@ -20,31 +20,31 @@ public class INameRules {
         }
         c_instance = _result
     }
-    public var intAttributePod: UInt32 {
+    public var intPropertyPod: UInt32 {
         get {
-            return moveFromCType(namerules_NameRules_intAttribute_get(self.c_instance))
+            return moveFromCType(namerules_NameRules_intProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(namerules_NameRules_intAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(namerules_NameRules_intProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var isBooleanAttributePod: Bool {
+    public var isBooleanPropertyPod: Bool {
         get {
-            return moveFromCType(namerules_NameRules_booleanAttribute_get(self.c_instance))
+            return moveFromCType(namerules_NameRules_booleanProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(namerules_NameRules_booleanAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(namerules_NameRules_booleanProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var structAttributePod: INameRules.IExampleStruct {
+    public var structPropertyPod: INameRules.IExampleStruct {
         get {
-            return moveFromCType(namerules_NameRules_structAttribute_get(self.c_instance))
+            return moveFromCType(namerules_NameRules_structProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(namerules_NameRules_structAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(namerules_NameRules_structProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef

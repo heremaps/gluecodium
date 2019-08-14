@@ -51,9 +51,9 @@ public:
  * * struct field: ::smoke::Comments::SomeStruct::some_field
  * * enum: ::smoke::Comments::SomeEnum
  * * enum item: ::smoke::Comments::SomeEnum::USEFUL
- * * attribute: ::smoke::Comments::is_some_attribute
- * * attribute setter: ::smoke::Comments::set_some_attribute
- * * attribute getter: ::smoke::Comments::is_some_attribute
+ * * property: ::smoke::Comments::is_some_property
+ * * property setter: ::smoke::Comments::set_some_property
+ * * property getter: ::smoke::Comments::is_some_property
  * * method: ::smoke::Comments::some_method_with_all_comments
  * * top level constant: ::smoke::TYPE_COLLECTION_CONSTANT
  * * top level struct: ::smoke::TypeCollectionStruct

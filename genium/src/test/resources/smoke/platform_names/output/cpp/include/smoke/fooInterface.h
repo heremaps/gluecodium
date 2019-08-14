@@ -27,7 +27,7 @@ virtual ::smoke::fooStruct FooMethod( const ::std::string& FooParameter ) = 0;
  * \return @NotNull
  */
 static ::std::shared_ptr< ::smoke::fooInterface > make( const ::std::string& makeParameter );
-virtual uint32_t GET_FOO_ATTRIBUTE(  ) const = 0;
-virtual void SET_FOO_ATTRIBUTE( const uint32_t value ) = 0;
+virtual uint32_t GET_FOO_PROPERTY(  ) const = 0;
+virtual void SET_FOO_PROPERTY( const uint32_t value ) = 0;
 };
 }

@@ -49,9 +49,9 @@ public class CommentsLinks {
     /// * struct field: `Comments.SomeStruct.someField`
     /// * enum: `Comments.SomeEnum`
     /// * enum item: `Comments.SomeEnum.useful`
-    /// * attribute: `Comments.isSomeAttribute`
-    /// * attribute setter: `Comments.isSomeAttribute`
-    /// * attribute getter: `Comments.isSomeAttribute`
+    /// * property: `Comments.isSomeProperty`
+    /// * property setter: `Comments.isSomeProperty`
+    /// * property getter: `Comments.isSomeProperty`
     /// * method: `Comments.someMethodWithAllComments(...)`
     /// * top level constant: `CommentsTypeCollection.typeCollectionConstant`
     /// * top level struct: `TypeCollectionStruct`

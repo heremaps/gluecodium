@@ -19,7 +19,7 @@ package smoke
 
 interface ParentInterface {
     fun rootMethod()
-    property rootAttribute: String
+    property rootProperty: String
 }
 
 interface ChildInterface : ParentInterface {

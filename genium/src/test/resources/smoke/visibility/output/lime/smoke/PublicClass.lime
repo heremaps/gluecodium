@@ -25,8 +25,8 @@ class PublicClass {
         input: InternalStruct
     ): InternalStructTypeDef
 
-    internal property internalStructAttribute: InternalStruct
-    property internalSetterAttribute: String {
+    internal property internalStructProperty: InternalStruct
+    property internalSetterProperty: String {
         get
         internal set
     }

@@ -51,7 +51,7 @@ class TypeDefs {
         input: TypeCollection.PointTypeDef
     ): TypeCollection.PointTypeDef
 
-    property primitiveTypeAttribute: List<PrimitiveTypeDef>
+    property primitiveTypeProperty: List<PrimitiveTypeDef>
 }
 
 types TypeCollection {

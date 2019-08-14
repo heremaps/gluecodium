@@ -23,13 +23,13 @@ internal func getRef(_ ref: DeprecationComments?, owning: Bool = true) -> RefHol
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationComments
         return copyToCType(swift_class.someMethodWithAllComments(input: moveFromCType(input))).ref
     }
-    functions.smoke_DeprecationComments_someAttribute_get = {(swift_class_pointer) in
+    functions.smoke_DeprecationComments_someProperty_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationComments
-        return copyToCType(swift_class.isSomeAttribute).ref
+        return copyToCType(swift_class.isSomeProperty).ref
     }
-    functions.smoke_DeprecationComments_someAttribute_set = {(swift_class_pointer, newValue) in
+    functions.smoke_DeprecationComments_someProperty_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationComments
-        swift_class.isSomeAttribute = moveFromCType(newValue)
+        swift_class.isSomeProperty = moveFromCType(newValue)
     }
     let proxy = smoke_DeprecationComments_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_DeprecationComments_release_handle) : RefHolder(proxy)
@@ -40,10 +40,10 @@ public protocol DeprecationComments : AnyObject {
     /// This is some very useful typedef.
     @available(*, deprecated, message: "Unfortunately, this typedef is deprecated. Use `Comments.Usefulness` instead.")
     typealias Usefulness = Bool
-    /// Some very useful attribute.
-    @available(*, deprecated, message: "Unfortunately, this attribute is deprecated.
-    Use `Comments.isSomeAttribute` instead.")
-    var isSomeAttribute: DeprecationComments.Usefulness { get set }
+    /// Some very useful property.
+    @available(*, deprecated, message: "Unfortunately, this property is deprecated.
+    Use `Comments.isSomeProperty` instead.")
+    var isSomeProperty: DeprecationComments.Usefulness { get set }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
@@ -55,16 +55,16 @@ internal class _DeprecationComments: DeprecationComments {
     /// This is some very useful constant.
     @available(*, deprecated, message: "Unfortunately, this constant is deprecated. Use `Comments.veryUseful` instead.")
     public static let veryUseful: DeprecationComments.Usefulness = true
-    /// Some very useful attribute.
-    @available(*, deprecated, message: "Unfortunately, this attribute is deprecated.
-    Use `Comments.isSomeAttribute` instead.")
-    var isSomeAttribute: DeprecationComments.Usefulness {
+    /// Some very useful property.
+    @available(*, deprecated, message: "Unfortunately, this property is deprecated.
+    Use `Comments.isSomeProperty` instead.")
+    var isSomeProperty: DeprecationComments.Usefulness {
         get {
-            return moveFromCType(smoke_DeprecationComments_someAttribute_get(self.c_instance))
+            return moveFromCType(smoke_DeprecationComments_someProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_DeprecationComments_someAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_DeprecationComments_someProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef

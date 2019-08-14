@@ -62,12 +62,12 @@ public class Comments extends NativeBase {
      */
     public native boolean someMethod(@NonNull final String input);
     /**
-     * <p>Gets some very useful attribute.</p>
+     * <p>Gets some very useful property.</p>
      */
-    public native boolean isSomeAttribute();
+    public native boolean isSomeProperty();
     /**
-     * <p>Sets some very useful attribute.</p>
-     * @param value Some very useful attribute.
+     * <p>Sets some very useful property.</p>
+     * @param value Some very useful property.
      */
-    public native void setSomeAttribute(final boolean value);
+    public native void setSomeProperty(final boolean value);
 }

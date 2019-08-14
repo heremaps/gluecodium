@@ -6,7 +6,7 @@
 package com.example.examples;
 
 public interface Properties {
-    long getBuiltInTypeAttribute();
-    void setBuiltInTypeAttribute(final long value);
-    float getReadonlyAttribute();
+    long getBuiltInTypeProperty();
+    void setBuiltInTypeProperty(final long value);
+    float getReadonlyProperty();
 }

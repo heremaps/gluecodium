@@ -117,33 +117,33 @@ public class Nullable extends NativeBase {
     @Nullable
     public native SomeInterface methodWithInstance(@Nullable final SomeInterface input);
     @Nullable
-    public native String getStringAttribute();
-    public native void setStringAttribute(@Nullable final String value);
+    public native String getStringProperty();
+    public native void setStringProperty(@Nullable final String value);
     @Nullable
-    public native Boolean isBoolAttribute();
-    public native void setBoolAttribute(@Nullable final Boolean value);
+    public native Boolean isBoolProperty();
+    public native void setBoolProperty(@Nullable final Boolean value);
     @Nullable
-    public native Double getDoubleAttribute();
-    public native void setDoubleAttribute(@Nullable final Double value);
+    public native Double getDoubleProperty();
+    public native void setDoubleProperty(@Nullable final Double value);
     @Nullable
-    public native Long getIntAttribute();
-    public native void setIntAttribute(@Nullable final Long value);
+    public native Long getIntProperty();
+    public native void setIntProperty(@Nullable final Long value);
     @Nullable
-    public native Nullable.SomeStruct getStructAttribute();
-    public native void setStructAttribute(@Nullable final Nullable.SomeStruct value);
+    public native Nullable.SomeStruct getStructProperty();
+    public native void setStructProperty(@Nullable final Nullable.SomeStruct value);
     @Nullable
-    public native Nullable.SomeEnum getEnumAttribute();
-    public native void setEnumAttribute(@Nullable final Nullable.SomeEnum value);
+    public native Nullable.SomeEnum getEnumProperty();
+    public native void setEnumProperty(@Nullable final Nullable.SomeEnum value);
     @Nullable
-    public native List<String> getArrayAttribute();
-    public native void setArrayAttribute(@Nullable final List<String> value);
+    public native List<String> getArrayProperty();
+    public native void setArrayProperty(@Nullable final List<String> value);
     @Nullable
-    public native List<String> getInlineArrayAttribute();
-    public native void setInlineArrayAttribute(@Nullable final List<String> value);
+    public native List<String> getInlineArrayProperty();
+    public native void setInlineArrayProperty(@Nullable final List<String> value);
     @Nullable
-    public native Map<Long, String> getMapAttribute();
-    public native void setMapAttribute(@Nullable final Map<Long, String> value);
+    public native Map<Long, String> getMapProperty();
+    public native void setMapProperty(@Nullable final Map<Long, String> value);
     @Nullable
-    public native SomeInterface getInstanceAttribute();
-    public native void setInstanceAttribute(@Nullable final SomeInterface value);
+    public native SomeInterface getInstanceProperty();
+    public native void setInstanceProperty(@Nullable final SomeInterface value);
 }

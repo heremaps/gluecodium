@@ -21,5 +21,5 @@ public interface ExternalInterface {
     }
     void someMethod(final byte someParameter);
     @NonNull
-    String getSomeAttribute();
+    String getSomeProperty();
 }

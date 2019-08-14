@@ -18,9 +18,9 @@ void ChildInterfaceCppProxy::root_method(  ) {
         jniEnv->FatalError( "Unhandled exception" );
     }
 }
-::std::string ChildInterfaceCppProxy::get_root_attribute(  ) const {
+::std::string ChildInterfaceCppProxy::get_root_property(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jstring>( "getRootAttribute", "()Ljava/lang/String;", jniEnv  );
+    auto result = callJavaMethod<jstring>( "getRootProperty", "()Ljava/lang/String;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -28,10 +28,10 @@ void ChildInterfaceCppProxy::root_method(  ) {
     }
     return ::genium::jni::convert_from_jni( jniEnv, result, (::std::string*)nullptr );
 }
-void ChildInterfaceCppProxy::set_root_attribute( const ::std::string& nvalue ) {
+void ChildInterfaceCppProxy::set_root_property( const ::std::string& nvalue ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jvalue = convert_to_jni( jniEnv, nvalue );
-    callJavaMethod<void>( "setRootAttribute", "(Ljava/lang/String;)V", jniEnv , jvalue);
+    callJavaMethod<void>( "setRootProperty", "(Ljava/lang/String;)V", jniEnv , jvalue);
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );

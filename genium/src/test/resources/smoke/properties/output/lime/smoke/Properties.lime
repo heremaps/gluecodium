@@ -10,18 +10,18 @@ class Properties {
         value: Double
     }
 
-    property builtInTypeAttribute: UInt
-    property readonlyAttribute: Float {
+    property builtInTypeProperty: UInt
+    property readonlyProperty: Float {
         get
     }
-    property structAttribute: ExampleStruct
-    property arrayAttribute: List<String>
-    property complexTypeAttribute: InternalError
-    property byteBufferAttribute: Blob
-    property instanceAttribute: PropertiesInterface
-    property booleanAttribute: Boolean
-    static property staticAttribute: String
-    static property staticReadonlyAttribute: ExampleStruct {
+    property structProperty: ExampleStruct
+    property arrayProperty: List<String>
+    property complexTypeProperty: InternalError
+    property byteBufferProperty: Blob
+    property instanceProperty: PropertiesInterface
+    property booleanProperty: Boolean
+    static property staticProperty: String
+    static property staticReadonlyProperty: ExampleStruct {
         get
     }
 }

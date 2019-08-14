@@ -5,5 +5,5 @@ interface PropertiesInterface {
         value: Double
     }
 
-    property structAttribute: ExampleStruct
+    property structProperty: ExampleStruct
 }

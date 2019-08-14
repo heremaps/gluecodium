@@ -23,13 +23,13 @@ internal func getRef(_ ref: DeprecationCommentsOnly?, owning: Bool = true) -> Re
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationCommentsOnly
         return copyToCType(swift_class.someMethodWithAllComments(input: moveFromCType(input))).ref
     }
-    functions.smoke_DeprecationCommentsOnly_someAttribute_get = {(swift_class_pointer) in
+    functions.smoke_DeprecationCommentsOnly_someProperty_get = {(swift_class_pointer) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationCommentsOnly
-        return copyToCType(swift_class.isSomeAttribute).ref
+        return copyToCType(swift_class.isSomeProperty).ref
     }
-    functions.smoke_DeprecationCommentsOnly_someAttribute_set = {(swift_class_pointer, newValue) in
+    functions.smoke_DeprecationCommentsOnly_someProperty_set = {(swift_class_pointer, newValue) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! DeprecationCommentsOnly
-        swift_class.isSomeAttribute = moveFromCType(newValue)
+        swift_class.isSomeProperty = moveFromCType(newValue)
     }
     let proxy = smoke_DeprecationCommentsOnly_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_DeprecationCommentsOnly_release_handle) : RefHolder(proxy)
@@ -38,8 +38,8 @@ internal func getRef(_ ref: DeprecationCommentsOnly?, owning: Bool = true) -> Re
 public protocol DeprecationCommentsOnly : AnyObject {
     @available(*, deprecated, message: "Unfortunately, this typedef is deprecated.")
     typealias Usefulness = Bool
-    @available(*, deprecated, message: "Unfortunately, this attribute is deprecated.")
-    var isSomeAttribute: DeprecationCommentsOnly.Usefulness { get set }
+    @available(*, deprecated, message: "Unfortunately, this property is deprecated.")
+    var isSomeProperty: DeprecationCommentsOnly.Usefulness { get set }
     ///
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
@@ -49,14 +49,14 @@ public protocol DeprecationCommentsOnly : AnyObject {
 internal class _DeprecationCommentsOnly: DeprecationCommentsOnly {
     @available(*, deprecated, message: "Unfortunately, this constant is deprecated.")
     public static let veryUseful: DeprecationCommentsOnly.Usefulness = true
-    @available(*, deprecated, message: "Unfortunately, this attribute is deprecated.")
-    var isSomeAttribute: DeprecationCommentsOnly.Usefulness {
+    @available(*, deprecated, message: "Unfortunately, this property is deprecated.")
+    var isSomeProperty: DeprecationCommentsOnly.Usefulness {
         get {
-            return moveFromCType(smoke_DeprecationCommentsOnly_someAttribute_get(self.c_instance))
+            return moveFromCType(smoke_DeprecationCommentsOnly_someProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_DeprecationCommentsOnly_someAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_DeprecationCommentsOnly_someProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef

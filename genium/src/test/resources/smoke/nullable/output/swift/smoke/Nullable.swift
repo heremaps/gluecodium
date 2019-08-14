@@ -14,94 +14,94 @@ internal func getRef(_ ref: Nullable?, owning: Bool = true) -> RefHolder {
 public class Nullable {
     public typealias SomeArray = [String]
     public typealias SomeMap = [Int64: String]
-    public var stringAttribute: String? {
+    public var stringProperty: String? {
         get {
-            return moveFromCType(smoke_Nullable_stringAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Nullable_stringProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_stringAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Nullable_stringProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var isBoolAttribute: Bool? {
+    public var isBoolProperty: Bool? {
         get {
-            return moveFromCType(smoke_Nullable_boolAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Nullable_boolProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_boolAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Nullable_boolProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var doubleAttribute: Double? {
+    public var doubleProperty: Double? {
         get {
-            return moveFromCType(smoke_Nullable_doubleAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Nullable_doubleProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_doubleAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Nullable_doubleProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var intAttribute: Int64? {
+    public var intProperty: Int64? {
         get {
-            return moveFromCType(smoke_Nullable_intAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Nullable_intProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_intAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Nullable_intProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var structAttribute: Nullable.SomeStruct? {
+    public var structProperty: Nullable.SomeStruct? {
         get {
-            return moveFromCType(smoke_Nullable_structAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Nullable_structProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_structAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Nullable_structProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var enumAttribute: Nullable.SomeEnum? {
+    public var enumProperty: Nullable.SomeEnum? {
         get {
-            return moveFromCType(smoke_Nullable_enumAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Nullable_enumProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_enumAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Nullable_enumProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var arrayAttribute: Nullable.SomeArray? {
+    public var arrayProperty: Nullable.SomeArray? {
         get {
-            return moveFromCType(smoke_Nullable_arrayAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Nullable_arrayProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_arrayAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Nullable_arrayProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var inlineArrayAttribute: [String]? {
+    public var inlineArrayProperty: [String]? {
         get {
-            return moveFromCType(smoke_Nullable_inlineArrayAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Nullable_inlineArrayProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_inlineArrayAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Nullable_inlineArrayProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var mapAttribute: Nullable.SomeMap? {
+    public var mapProperty: Nullable.SomeMap? {
         get {
-            return moveFromCType(smoke_Nullable_mapAttribute_get(self.c_instance))
+            return moveFromCType(smoke_Nullable_mapProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_mapAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Nullable_mapProperty_set(self.c_instance, c_newValue.ref))
         }
     }
-    public var instanceAttribute: SomeInterface? {
+    public var instanceProperty: SomeInterface? {
         get {
-            return SomeInterfacemoveFromCType(smoke_Nullable_instanceAttribute_get(self.c_instance))
+            return SomeInterfacemoveFromCType(smoke_Nullable_instanceProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_instanceAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_Nullable_instanceProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef

@@ -19,8 +19,8 @@ class ChildInterfaceCppProxy : public ::genium::jni::CppProxyBase, public ChildI
 public:
     ChildInterfaceCppProxy( JNIEnv* _jenv, ::genium::jni::JniReference<jobject> globalRef, jint _jHashCode );
     void root_method(  ) override;
-    ::std::string get_root_attribute(  ) const override;
-    void set_root_attribute( const ::std::string& nvalue ) override;
+    ::std::string get_root_property(  ) const override;
+    void set_root_property( const ::std::string& nvalue ) override;
     void child_method(  ) override;
 };
 }

@@ -18,13 +18,13 @@ public class TypeDefs {
     public typealias ComplexTypeDef = TypeDefs.StructArray
     public typealias TestStructTypeDef = TypeDefs.TestStruct
     public typealias NestedStructTypeDef = TypeDefs.TestStructTypeDef
-    public var primitiveTypeAttribute: [TypeDefs.PrimitiveTypeDef] {
+    public var primitiveTypeProperty: [TypeDefs.PrimitiveTypeDef] {
         get {
-            return moveFromCType(smoke_TypeDefs_primitiveTypeAttribute_get(self.c_instance))
+            return moveFromCType(smoke_TypeDefs_primitiveTypeProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_TypeDefs_primitiveTypeAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_TypeDefs_primitiveTypeProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef

@@ -31,14 +31,14 @@ interface DeprecationComments {
     fun someMethodWithAllComments(
         input: String
     ): Usefulness
-    // Some very useful attribute.
-    // @get Gets some very useful attribute.
-    // @set Sets some very useful attribute.
-    @Deprecated("Unfortunately, this attribute is deprecated.\nUse [comments.SomeAttribute] instead.")
-    property SomeAttribute: Usefulness {
-        @Deprecated("Unfortunately, this attribute's getter is deprecated.\nUse [comments.SomeAttribute.get] instead.")
+    // Some very useful property.
+    // @get Gets some very useful property.
+    // @set Sets some very useful property.
+    @Deprecated("Unfortunately, this property is deprecated.\nUse [comments.SomeProperty] instead.")
+    property SomeProperty: Usefulness {
+        @Deprecated("Unfortunately, this property's getter is deprecated.\nUse [comments.SomeProperty.get] instead.")
         get
-        @Deprecated("Unfortunately, this attribute's setter is deprecated.\nUse [comments.SomeAttribute.set] instead.")
+        @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [comments.SomeProperty.set] instead.")
         set
     }
 }

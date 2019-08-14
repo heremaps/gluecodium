@@ -57,7 +57,7 @@ Java_com_example_namerules_NAME_1RULES_1DROID_some_1method(JNIEnv* _jenv, jobjec
     return result;
 }
 jlong
-Java_com_example_namerules_NAME_1RULES_1DROID_loadIntAttribute(JNIEnv* _jenv, jobject _jinstance)
+Java_com_example_namerules_NAME_1RULES_1DROID_loadIntProperty(JNIEnv* _jenv, jobject _jinstance)
 {
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::namerules::NameRules>*> (
         ::jni::get_field_value(
@@ -65,11 +65,11 @@ Java_com_example_namerules_NAME_1RULES_1DROID_loadIntAttribute(JNIEnv* _jenv, jo
             ::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->retrieve_int_attribute();
+    auto result = (*pInstanceSharedPointer)->retrieve_int_property();
     return result;
 }
 void
-Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1INT_1ATTRIBUTE(JNIEnv* _jenv, jobject _jinstance, jlong jvalue)
+Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1INT_1PROPERTY(JNIEnv* _jenv, jobject _jinstance, jlong jvalue)
 {
     uint32_t value = jvalue;
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::namerules::NameRules>*> (
@@ -78,10 +78,10 @@ Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1INT_1ATTRIBUTE(JNIEnv* _jen
             ::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    (*pInstanceSharedPointer)->STORE_INT_ATTRIBUTE_NOW(value);
+    (*pInstanceSharedPointer)->STORE_INT_PROPERTY_NOW(value);
 }
 jboolean
-Java_com_example_namerules_NAME_1RULES_1DROID_loadBooleanAttribute(JNIEnv* _jenv, jobject _jinstance)
+Java_com_example_namerules_NAME_1RULES_1DROID_loadBooleanProperty(JNIEnv* _jenv, jobject _jinstance)
 {
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::namerules::NameRules>*> (
         ::jni::get_field_value(
@@ -89,11 +89,11 @@ Java_com_example_namerules_NAME_1RULES_1DROID_loadBooleanAttribute(JNIEnv* _jenv
             ::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->really_boolean_attribute();
+    auto result = (*pInstanceSharedPointer)->really_boolean_property();
     return result;
 }
 void
-Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1BOOLEAN_1ATTRIBUTE(JNIEnv* _jenv, jobject _jinstance, jboolean jvalue)
+Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1BOOLEAN_1PROPERTY(JNIEnv* _jenv, jobject _jinstance, jboolean jvalue)
 {
     bool value = jvalue;
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::namerules::NameRules>*> (
@@ -102,10 +102,10 @@ Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1BOOLEAN_1ATTRIBUTE(JNIEnv* 
             ::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    (*pInstanceSharedPointer)->STORE_BOOLEAN_ATTRIBUTE_NOW(value);
+    (*pInstanceSharedPointer)->STORE_BOOLEAN_PROPERTY_NOW(value);
 }
 jobject
-Java_com_example_namerules_NAME_1RULES_1DROID_loadStructAttribute(JNIEnv* _jenv, jobject _jinstance)
+Java_com_example_namerules_NAME_1RULES_1DROID_loadStructProperty(JNIEnv* _jenv, jobject _jinstance)
 {
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::namerules::NameRules>*> (
         ::jni::get_field_value(
@@ -113,11 +113,11 @@ Java_com_example_namerules_NAME_1RULES_1DROID_loadStructAttribute(JNIEnv* _jenv,
             ::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->retrieve_struct_attribute();
+    auto result = (*pInstanceSharedPointer)->retrieve_struct_property();
     return ::jni::convert_to_jni(_jenv, result).release();
 }
 void
-Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1STRUCT_1ATTRIBUTE(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
+Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1STRUCT_1PROPERTY(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
 {
     ::namerules::NameRules::ExampleStruct value = ::jni::convert_from_jni(_jenv,
             ::jni::make_non_releasing_ref(jvalue),
@@ -128,7 +128,7 @@ Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1STRUCT_1ATTRIBUTE(JNIEnv* _
             ::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    (*pInstanceSharedPointer)->STORE_STRUCT_ATTRIBUTE_NOW(value);
+    (*pInstanceSharedPointer)->STORE_STRUCT_PROPERTY_NOW(value);
 }
 JNIEXPORT void JNICALL
 Java_com_example_namerules_NAME_1RULES_1DROID_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

@@ -51,7 +51,7 @@ void smoke_ExternalClass_someMethod(_baseRef _instance, int8_t someParameter) {
     return get_pointer<std::shared_ptr<::fire::Baz>>(_instance)->get()->some_Method(someParameter)
 ;
 }
-_baseRef smoke_ExternalClass_someAttribute_get(_baseRef _instance) {
+_baseRef smoke_ExternalClass_someProperty_get(_baseRef _instance) {
     return Conversion<std::string>::toBaseRef(get_pointer<std::shared_ptr<::fire::Baz>>(_instance)->get()->get_Me())
 ;
 }

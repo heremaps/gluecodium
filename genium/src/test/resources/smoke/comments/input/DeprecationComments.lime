@@ -48,14 +48,14 @@ interface DeprecationComments {
         // Very useful input parameter
         input: String
     ): /* Usefulness of the input */ Usefulness
-    // Some very useful attribute.
-    @Deprecated("Unfortunately, this attribute is deprecated.\nUse [comments.SomeAttribute] instead.")
-    property SomeAttribute: Usefulness {
-        // Gets some very useful attribute.
-        @Deprecated("Unfortunately, this attribute's getter is deprecated.\nUse [comments.SomeAttribute.get] instead.")
+    // Some very useful property.
+    @Deprecated("Unfortunately, this property is deprecated.\nUse [comments.SomeProperty] instead.")
+    property SomeProperty: Usefulness {
+        // Gets some very useful property.
+        @Deprecated("Unfortunately, this property's getter is deprecated.\nUse [comments.SomeProperty.get] instead.")
         get
-        // Sets some very useful attribute.
-        @Deprecated("Unfortunately, this attribute's setter is deprecated.\nUse [comments.SomeAttribute.set] instead.")
+        // Sets some very useful property.
+        @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [comments.SomeProperty.set] instead.")
         set
     }
 }
@@ -81,11 +81,11 @@ interface DeprecationCommentsOnly {
         // Very useful input parameter
         input: String
     ): /* Usefulness of the input */ Usefulness
-    @Deprecated("Unfortunately, this attribute is deprecated.")
-    property SomeAttribute: Usefulness {
-        @Deprecated("Unfortunately, this attribute's getter is deprecated.")
+    @Deprecated("Unfortunately, this property is deprecated.")
+    property SomeProperty: Usefulness {
+        @Deprecated("Unfortunately, this property's getter is deprecated.")
         get
-        @Deprecated("Unfortunately, this attribute's setter is deprecated.")
+        @Deprecated("Unfortunately, this property's setter is deprecated.")
         set
     }
 }

@@ -21,14 +21,14 @@ public class Comments {
     public typealias SomeMap = [String: Comments.Usefulness]
     /// This is some very useful constant.
     public static let veryUseful: Comments.Usefulness = true
-    /// Some very useful attribute.
-    public var isSomeAttribute: Comments.Usefulness {
+    /// Some very useful property.
+    public var isSomeProperty: Comments.Usefulness {
         get {
-            return moveFromCType(examples_Comments_someAttribute_get(self.c_instance))
+            return moveFromCType(examples_Comments_someProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(examples_Comments_someAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(examples_Comments_someProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef

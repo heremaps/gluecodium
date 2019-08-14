@@ -14,8 +14,8 @@ _GENIUM_C_EXPORT void smoke_PlatformNamesInterface_release_handle(_baseRef handl
 _GENIUM_C_EXPORT _baseRef smoke_PlatformNamesInterface_copy_handle(_baseRef handle);
 _GENIUM_C_EXPORT _baseRef smoke_PlatformNamesInterface_BazMethod(_baseRef _instance, _baseRef BazParameter);
 _GENIUM_C_EXPORT _baseRef smoke_PlatformNamesInterface_make(_baseRef makeParameter);
-_GENIUM_C_EXPORT uint32_t smoke_PlatformNamesInterface_basicAttribute_get(_baseRef _instance);
-_GENIUM_C_EXPORT void smoke_PlatformNamesInterface_basicAttribute_set(_baseRef _instance, uint32_t newValue);
+_GENIUM_C_EXPORT uint32_t smoke_PlatformNamesInterface_basicProperty_get(_baseRef _instance);
+_GENIUM_C_EXPORT void smoke_PlatformNamesInterface_basicProperty_set(_baseRef _instance, uint32_t newValue);
 #ifdef __cplusplus
 }
 #endif

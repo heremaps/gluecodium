@@ -50,9 +50,9 @@ public class CommentsLinks extends NativeBase {
      * <li>struct field: {@link com.example.smoke.Comments.SomeStruct#someField}</li>
      * <li>enum: {@link com.example.smoke.Comments.SomeEnum}</li>
      * <li>enum item: {@link com.example.smoke.Comments.SomeEnum#USEFUL}</li>
-     * <li>attribute: {@link com.example.smoke.Comments#isSomeAttribute}</li>
-     * <li>attribute setter: {@link com.example.smoke.Comments#setSomeAttribute}</li>
-     * <li>attribute getter: {@link com.example.smoke.Comments#isSomeAttribute}</li>
+     * <li>property: {@link com.example.smoke.Comments#isSomeProperty}</li>
+     * <li>property setter: {@link com.example.smoke.Comments#setSomeProperty}</li>
+     * <li>property getter: {@link com.example.smoke.Comments#isSomeProperty}</li>
      * <li>method: {@link com.example.smoke.Comments#someMethodWithAllComments}</li>
      * <li>top level constant: {@link com.example.smoke.CommentsTypeCollection#TYPE_COLLECTION_CONSTANT}</li>
      * <li>top level struct: {@link com.example.smoke.TypeCollectionStruct}</li>

@@ -52,11 +52,11 @@ double smoke_Dates_dateMethod(_baseRef _instance, double input) {
     return Conversion<std::chrono::system_clock::time_point>::toBaseRef(get_pointer<std::shared_ptr<::smoke::Dates>>(_instance)->get()->date_method(Conversion<std::chrono::system_clock::time_point>::toCpp(input)))
 ;
 }
-double smoke_Dates_dateAttribute_get(_baseRef _instance) {
-    return Conversion<std::chrono::system_clock::time_point>::toBaseRef(get_pointer<std::shared_ptr<::smoke::Dates>>(_instance)->get()->get_date_attribute())
+double smoke_Dates_dateProperty_get(_baseRef _instance) {
+    return Conversion<std::chrono::system_clock::time_point>::toBaseRef(get_pointer<std::shared_ptr<::smoke::Dates>>(_instance)->get()->get_date_property())
 ;
 }
-void smoke_Dates_dateAttribute_set(_baseRef _instance, double newValue) {
-    return get_pointer<std::shared_ptr<::smoke::Dates>>(_instance)->get()->set_date_attribute(Conversion<std::chrono::system_clock::time_point>::toCpp(newValue))
+void smoke_Dates_dateProperty_set(_baseRef _instance, double newValue) {
+    return get_pointer<std::shared_ptr<::smoke::Dates>>(_instance)->get()->set_date_property(Conversion<std::chrono::system_clock::time_point>::toCpp(newValue))
 ;
 }

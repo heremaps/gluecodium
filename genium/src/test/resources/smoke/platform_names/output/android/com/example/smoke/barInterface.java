@@ -25,6 +25,6 @@ public class barInterface extends NativeBase {
     @NonNull
     public native barStruct BarMethod(@NonNull final String BarParameter);
     private static native long make(@NonNull final String makeParameter);
-    public native long GET_BAR_ATTRIBUTE();
-    public native void SET_BAR_ATTRIBUTE(final long value);
+    public native long GET_BAR_PROPERTY();
+    public native void SET_BAR_PROPERTY(final long value);
 }

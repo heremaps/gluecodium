@@ -19,13 +19,13 @@ public class bazInterface {
         }
         c_instance = _result
     }
-    public var BAZ_ATTRIBUTE: UInt32 {
+    public var BAZ_PROPERTY: UInt32 {
         get {
-            return moveFromCType(smoke_PlatformNamesInterface_basicAttribute_get(self.c_instance))
+            return moveFromCType(smoke_PlatformNamesInterface_basicProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_PlatformNamesInterface_basicAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_PlatformNamesInterface_basicProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef

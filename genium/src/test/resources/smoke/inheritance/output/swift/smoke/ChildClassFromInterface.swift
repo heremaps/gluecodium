@@ -12,13 +12,13 @@ internal func getRef(_ ref: ChildClassFromInterface?, owning: Bool = true) -> Re
         : RefHolder(handle_copy)
 }
 public class ChildClassFromInterface: ParentInterface {
-    public var rootAttribute: String {
+    public var rootProperty: String {
         get {
-            return moveFromCType(smoke_ParentInterface_rootAttribute_get(self.c_instance))
+            return moveFromCType(smoke_ParentInterface_rootProperty_get(self.c_instance))
         }
         set {
             let c_newValue = moveToCType(newValue)
-            return moveFromCType(smoke_ParentInterface_rootAttribute_set(self.c_instance, c_newValue.ref))
+            return moveFromCType(smoke_ParentInterface_rootProperty_set(self.c_instance, c_newValue.ref))
         }
     }
     let c_instance : _baseRef

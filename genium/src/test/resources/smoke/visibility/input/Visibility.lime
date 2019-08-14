@@ -49,11 +49,11 @@ class PublicClass {
     internal typealias StringToInternalStructMap = Map<String, InternalStruct>
 
     internal fun internalMethod(input: InternalStruct): InternalStructTypeDef
-    internal property internalStructAttribute: InternalStruct {
+    internal property internalStructProperty: InternalStruct {
         internal get
         internal set
     }
-    property internalSetterAttribute: String {
+    property internalSetterProperty: String {
         get
         internal set
     }

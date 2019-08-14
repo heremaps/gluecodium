@@ -71,15 +71,15 @@ public:
  */
 virtual ::examples::Comments::Usefulness some_method( const ::std::string& input ) = 0;
 /**
- * Gets some very useful attribute.
- * \return Some very useful attribute.
+ * Gets some very useful property.
+ * \return Some very useful property.
  */
-virtual ::examples::Comments::Usefulness is_some_attribute(  ) const = 0;
+virtual ::examples::Comments::Usefulness is_some_property(  ) const = 0;
 /**
- * Sets some very useful attribute.
- * \param[in] value Some very useful attribute.
+ * Sets some very useful property.
+ * \param[in] value Some very useful property.
  */
-virtual void set_some_attribute( const ::examples::Comments::Usefulness value ) = 0;
+virtual void set_some_property( const ::examples::Comments::Usefulness value ) = 0;
 };
 }
 namespace genium {
